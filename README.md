@@ -13,6 +13,7 @@
 ### Sections
 
 * `/challenges` – what challenges we face
+* `/memos` – quick notes and idea backlog to revisit later
 * `/proposals` – proposals to be considered and implemented
 * `/requirements` – requirement specifications for certain components
 * `/stories` – user stories to be used as scenarios to create requirements
@@ -37,5 +38,5 @@
 
 | Challenge | Proposal |
 |---|---|
-| `/challenges/001-licensing-a.md` | `/proposals/001-licensing-proposal.md` |
-| `/challenges/sybil.md` | _(pending)_ |
+| `/challenges/001-licensing.md` | `/proposals/001-licensing-proposal.md` |
+| `/challenges/002-sybil.md` | `/proposals/002-comm-protocol.md` |
