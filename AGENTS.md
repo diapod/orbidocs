@@ -66,9 +66,15 @@ Do not remove superseded decisions; mark them as replaced and link forward.
 Until a different structure is approved, use:
 
 - `README.md` for project entry point.
-- `docs/` for all long-form documentation.
+- `docs/` for long-form architecture and strategy documentation.
 - `docs/adr/` for architectural decision records.
 - `docs/glossary.md` for core terms.
+- `stories/` for scenario narratives (step-by-step user/node flows).
+- `requirements/` for requirement specifications derived from stories.
+
+When both exist for the same topic, keep traceability explicit:
+- each requirements file should reference its source story in the header (for example: `Based on: stories/story-001.md`);
+- use aligned numbering where practical (for example: `story-001.md` -> `requirements-001.md`).
 
 When adding new top-level folders, justify them in the relevant ADR or README update.
 
