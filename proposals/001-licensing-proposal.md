@@ -1,6 +1,6 @@
 # Licensing Baseline for Orbiplex Swarm Components
 
-Based on: `challenges/001-licensing.md`
+Based on: `challenges/001-licensing-a.md`
 
 ## Status
 Proposed
@@ -22,7 +22,7 @@ The project needs a license baseline that:
 3. supports adoption without losing governance control.
 
 Input analysis is documented in:
-- `challenges/licensing.md`
+- `challenges/001-licensing-a.md`
 - `stories/story-001.md`
 - `requirements/requirements-001.md`
 
