@@ -1,9 +1,16 @@
 # AGENTS.md
 
 ## 1. Purpose
-This repository contains foundational, strategic, and architectural documentation for **Orbiplex**.
+This repository contains foundational, strategic, and architectural documentation for the **Orbiplex** system and protocols, under the **Distributed Intelligence Agency** umbrella.
 
 Orbiplex explores a federated swarm of AI nodes and orchestrators that can cooperate across organizations, domains, and infrastructures to support open access to knowledge.
+
+Identity baseline:
+1. Umbrella project / organization: **Distributed Intelligence Agency**
+2. System and protocol brand: **Orbiplex**
+3. Public website: `https://distributed-intelligence.agency/`
+4. Contact email: `team@distributed-intelligence.agency`
+5. GitHub organization: `https://github.com/orgs/diapod/`
 
 ## 2. Core Intent
 When writing or updating docs, optimize for:
@@ -66,11 +73,14 @@ Do not remove superseded decisions; mark them as replaced and link forward.
 Until a different structure is approved, use:
 
 - `README.md` for project entry point.
-- `docs/` for long-form architecture and strategy documentation.
-- `docs/adr/` for architectural decision records.
-- `docs/glossary.md` for core terms.
+- `challenges/` for challenge analyses and risk/problem framing.
+- `proposals/` for ADR-style strategic and architectural proposals.
 - `stories/` for scenario narratives (step-by-step user/node flows).
 - `requirements/` for requirement specifications derived from stories.
+
+For challenge/proposal linkage, keep traceability explicit:
+- each proposal file should reference its source challenge(s) in the header (for example: `Based on: challenges/001-licensing-a.md`);
+- use aligned numbering where practical (for example: `challenges/001-*.md` -> `proposals/001-*.md`).
 
 When both exist for the same topic, keep traceability explicit:
 - each requirements file should reference its source story in the header (for example: `Based on: stories/story-001.md`);

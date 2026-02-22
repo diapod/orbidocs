@@ -1,4 +1,4 @@
-# Orbiplex Collaboration Card
+# Distributed Intelligence Agency Collaboration Card (Orbiplex Program)
 
 Version: 0.2 (2026-02-21)
 Parties: Sebastian + Paweł
@@ -104,7 +104,9 @@ If the other party declines:
 ## 8) Brand and communications
 
 - "Official" announcements require joint approval.
-- The project brand is not used for selling without both parties' consent.
+- The umbrella brand (**Distributed Intelligence Agency**) is not used for selling without both parties' consent.
+- The system/protocol brand (**Orbiplex**) must not be represented as a separate organization.
+- Official organization channel on GitHub: `https://github.com/orgs/diapod/`.
 - Sponsors/partners: disclosed, including any influence if applicable.
 
 ## 9) Exit and hygiene

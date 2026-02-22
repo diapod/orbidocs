@@ -1,4 +1,12 @@
-# Orbiplex Fundamental Documentation
+# Distributed Intelligence Agency Documentation
+
+## Brand Identity
+
+- Umbrella project / organization: **Distributed Intelligence Agency**
+- System and protocol family: **Orbiplex**
+- Website: https://distributed-intelligence.agency/
+- Contact: team@distributed-intelligence.agency
+- GitHub organization: https://github.com/orgs/diapod/
 
 ## Documentation structure
 
