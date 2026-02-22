@@ -37,6 +37,19 @@ The problem is to preserve openness while making manipulation economically, oper
 
 Adopt a **layered Sybil-resistance model** where each layer contributes partial protection and failure in one layer does not fully compromise the system.
 
+### 0. Baseline Direction (PoS-first with Tor-inspired advisory support)
+
+Decision direction:
+- Make the anti-Sybil core **PoS-first**: influence is weighted by stake-backed identity tiers, not raw node count.
+- Keep Tor-inspired mechanisms as a **future advisory layer**: topology/family/anomaly heuristics can down-rank suspicious behavior but do not replace stake-backed settlement evidence.
+
+Practical rule:
+- Nodes without stake can participate in low-trust discovery, but cannot accumulate high-impact reputation weight until stake and independent settled interactions are present.
+
+Classification:
+- Fact: Story 001 already uses Avax contracts and signed receipts as core trust evidence.
+- Inference: PoS-first weighting is the most natural extension of that economic trust plane.
+
 ### 1. Threat Surfaces (mapped to Story 001)
 
 | Surface | Story/Req Reference | Sybil Risk | Classification |
@@ -54,12 +67,13 @@ Adopt a **layered Sybil-resistance model** where each layer contributes partial 
 |---|---|---|---|
 | **Reputation from first-hand settled receipts only** | Reputation engine accepts only signed `SettlementReceipt` evidence tied to `contract_id`. No gossip-only score updates. | Removes most low-cost fake reputation narratives. | Slower bootstrapping for honest new nodes. |
 | **Progressive trust cap for new identities** | New node score is capped until it completes a minimum number of independent interactions over time. | Limits instant reputation jumps from identity swarms. | Friction for legitimate newcomers. |
-| **Economic identity anchor** | Require refundable stake/deposit per active node identity (or per offer stream). | Makes mass-identity attacks materially costly. | Capital lock-up; participation barrier. |
+| **PoS identity anchor (primary)** | Require refundable stake/deposit per active node identity (or per offer stream), with explicit trust tiers (`unbonded`, `bonded-low`, `bonded-full`). | Makes mass-identity attacks materially costly and ties influence to economic commitment. | Capital lock-up; participation barrier; governance needed for tier thresholds. |
 | **Counterparty diversity requirement** | Reputation gain is discounted when interactions repeat within the same trust cluster. | Reduces collusive farming rings. | Requires graph analytics and cluster heuristics. |
 | **Arbiter independence constraints** | Arbiter cannot share trust cluster or frequent-collusion history with selected responder. | Lowers chance of single-operator capture. | More complex matching and occasional latency. |
 | **Offer admission throttling** | Per-identity and per-cluster rate limits at discovery channels. | Mitigates flood/spam and ranking pressure. | Possible false positives during bursts. |
 | **Minimum evidence fields in offers** | Enforce structured offer schema plus signed node key and timestamp windows. | Rejects malformed/bot noise early. | Additional validation overhead. |
 | **Reputation decay + anti-whitewash hysteresis** | Decay stale trust, but require stronger evidence to regain trust after identity reset patterns. | Makes throwaway identity rotation less effective. | Harder tuning; potential fairness concerns. |
+| **Tor-style advisory heuristics (secondary)** | Add non-binding heuristics inspired by Tor operations (family detection, path/topology correlation, synchronized behavior flags) as risk signals in scoring. | Improves detection of coordinated clusters that pass pure stake gates. | Heuristic false positives; requires transparent tuning and appeals workflow. |
 
 ### 3. Runtime Countermeasures (operational layer)
 
@@ -112,18 +126,20 @@ Classification: Inference (derived from Story 001 step 19-20 and requirement tra
 ## Open Questions
 
 1. What minimum deposit/stake level balances Sybil resistance with accessibility?
-2. What trust-cluster signal should be canonical for independence checks (graph overlap, shared counterparties, timing correlation)?
-3. Should arbiter selection be deterministic, random, or hybrid per contract value/risk class?
-4. What is the exact formula for diminishing returns on repeated interactions with the same counterparties?
-5. Which anomaly features are required for MVP, and which can be deferred without material risk?
-6. How should privacy-preserving telemetry be designed to support Sybil detection without exposing query content?
+2. What trust-tier policy should be canonical (`unbonded` limits, `bonded-low` limits, `bonded-full` privileges)?
+3. What trust-cluster signal should be canonical for independence checks (graph overlap, shared counterparties, timing correlation)?
+4. Should arbiter selection be deterministic, random, or hybrid per contract value/risk class?
+5. What is the exact formula for diminishing returns on repeated interactions with the same counterparties?
+6. Which Tor-inspired advisory signals should be included first without overfitting or unfairly penalizing honest nodes?
+7. How should privacy-preserving telemetry be designed to support Sybil detection without exposing query content?
 
 ## Next Actions
 
 1. Define a `ReputationEvidence` schema anchored to `SettlementReceipt` and contract provenance.
-2. Add formal scoring rules for counterparty diversity and correlated-identity penalties.
-3. Specify trust-tier gates: newcomer cap, promotion conditions, and anti-whitewash cooldown.
+2. Define PoS trust tiers (`unbonded`, `bonded-low`, `bonded-full`) and map them to offer rights, arbiter rights, and reputation weight.
+3. Add formal scoring rules for counterparty diversity and correlated-identity penalties.
 4. Define arbiter independence policy and disjoint-pool selection algorithm.
 5. Add protocol-level rate limits for offer admission in discovery channels.
-6. Define ingestion policy gates for vector memory and training queue (`confirmed/corrected/unresolved`).
-7. Create adversarial test scenarios for Sybil swarms, collusion rings, and arbiter capture.
+6. Specify Tor-inspired advisory signals and integrate them as non-binding risk multipliers in scoring.
+7. Define ingestion policy gates for vector memory and training queue (`confirmed/corrected/unresolved`).
+8. Create adversarial test scenarios for Sybil swarms, collusion rings, arbiter capture, and stake-funded coordinated clusters.
