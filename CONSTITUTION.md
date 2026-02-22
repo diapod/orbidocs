@@ -1,2 +1,2 @@
-# Orbiplex Constitution
+# Distributed Intelligence Agency – Orbiplex Project Constitution
 
