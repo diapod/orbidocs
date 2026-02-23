@@ -73,8 +73,8 @@ z kontraktami: możesz być inny, jeżeli potrafimy bezpiecznie współdzielić 
 DIA chroni też anomalie jako zasób kulturowy: w epoce "filtra dolnoprzepustowego"
 rzadkie sygnały znikają, rozkład staje się przewidywalny, a kultura zaczyna zjadać
 własny ogon. Dlatego wzmacniamy różnorodność stylów, bo to one wstrzykują nowość i
-zapobiegają stagnacji (także w modelach). Człowiek - czujący podmiot zakorzeniony
-w bólu, radości, absurdzie i relacji - wnosi do systemu entropię nowości.
+zapobiegają stagnacji (także w modelach). Człowiek – czujący podmiot zakorzeniony
+w bólu, radości, absurdzie i relacji – wnosi do systemu entropię nowości.
 
 ### Zrównoważanie i demokratyzacja
 
@@ -396,7 +396,7 @@ hipotezy od faktów, bez centralnej cenzury i bez tłumienia pluralizmu.
 W świecie nadmiaru informacji roje agentów działają także jako filtr intencji po
 stronie użytkownika: podpowiadają, co wzmacnia, co rozregulowuje i co żeruje na
 emocjach. Warunek uczciwości jest prosty: agent musi umieć wyjaśnić, dlaczego
-filtruje - jakie przyjął kryteria i jaki interes reprezentuje.
+filtruje – jakie przyjął kryteria i jaki interes reprezentuje.
 
 ### Przejrzystość sprawczości
 
@@ -479,7 +479,7 @@ produkuje "przez przypadek".
 
 W DIA konflikty wartości rozwiązuje się przez hierarchię i procedurę wyjątków:
 najpierw sprawdzamy, czy proponowane działanie narusza wartości nienegocjowalne, a
-jeśli nie - wybieramy rozwiązanie o najmniejszej szkodzie i najwyższej
+jeśli nie – wybieramy rozwiązanie o najmniejszej szkodzie i najwyższej
 odwracalności.
 
 Hierarchia domyślna jest taka: godność i bezpieczeństwo człowieka > suwerenność i
@@ -493,14 +493,14 @@ Gdy dwie wartości z tego samego poziomu wchodzą w konflikt, rozstrzygamy go pr
 - test jawności (czy kompromis da się opisać i audytować).
 
 Wyjątki są dopuszczalne tylko wtedy, gdy mają jasno zdefiniowany zakres, czas trwania
-i warunki wyłączenia - oraz gdy zostawiają ślad: "policy-id", "reason",
+i warunki wyłączenia – oraz gdy zostawiają ślad: "policy-id", "reason",
 "risk-level", "expiry", "owner". Każdy wyjątek musi mieć tryb "fail-closed" jako
 punkt powrotu, a jego skutki uboczne muszą być monitorowane i raportowane; jeśli
 pojawiają się sygnały krzywdy lub nadużyć, wyjątek jest cofany automatycznie.
 
 Spory interpretacyjne rozwiązuje się w trybie proceduralnej sprawiedliwości: strona
 zgłaszająca ryzyko ma pierwszeństwo, dowody mają pierwszeństwo nad narracją, a decyzje
-są podejmowane przez zdefiniowany proces governance - nie przez autorytet osoby.
+są podejmowane przez zdefiniowany proces governance – nie przez autorytet osoby.
 
 ## Prawa i obowiązki węzła – obywatelstwo roju
 
@@ -520,10 +520,10 @@ Obowiązki minimalne obejmują:
 - uczciwość epistemiczną (oznaczanie spekulacji, nie fałszowanie dowodów, nie manipulowanie reputacją),
 - współdziałanie protokołowe (respektowanie kontraktów, wersji protokołu i limitów),
 - odpowiedzialność operacyjną (utrzymywanie podstawowej higieny bezpieczeństwa, kluczy i aktualizacji),
-- wzajemną gotowość pomocy w ramach możliwości - bez obowiązku transakcyjnego rozrachunku.
+- wzajemną gotowość pomocy w ramach możliwości – bez obowiązku transakcyjnego rozrachunku.
 
 Egzekwowanie jest stopniowalne: od ostrzeżeń i ograniczeń uprawnień, przez kwarantannę
-reputacyjną, po odcięcie routingu - zawsze z logiem decyzji, możliwością odwołania i
+reputacyjną, po odcięcie routingu – zawsze z logiem decyzji, możliwością odwołania i
 ścieżką powrotu po naprawie. Każda federacja może zaostrzyć te zasady w
 "CORP_COMPLIANT", ale nie może osłabić praw podstawowych ani obejść godności i
 bezpieczeństwa jako warstwy nienegocjowalnej.
