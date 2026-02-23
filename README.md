@@ -26,6 +26,7 @@
 * `/DATA-ETHICS.md` – data ethics policy and principles
 * `/AGENTS.md` – information for agents
 * `/core-values/CORE-VALUES.pl.md` – core values document (Polish)
+* `/core-values/CORE-VALUES.en.md` – core values document (English)
 
 ## Traceability Matrix
 
@@ -43,3 +44,7 @@
 |---|---|
 | `/challenges/001-licensing.md` | `/proposals/001-licensing-proposal.md` |
 | `/challenges/002-sybil.md` | `/proposals/002-comm-protocol.md` |
+
+
+### Values -> Constitution
+

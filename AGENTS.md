@@ -119,3 +119,69 @@ A change is done when:
 3. Terminology is consistent with glossary.
 4. Trade-offs and risks are explicit.
 5. Next actions are concrete.
+
+## 12. Values → Constitution: what gets reduced, what gets added, what gets synthesized
+
+Moving from "values" to a "constitution" does two things at once:
+it reduces poetry and adds machinery.
+
+Values can be broad and inspirational; a constitution must be unambiguous, enforceable,
+and robust against interpretation "to fit a desired outcome" – so some meanings
+get compressed into a few "constitutional laws".
+
+### What gets reduced (examples)
+
+1. "Rhetoric and emotional bandwidth"  
+   Values may carry an inspiring tone; a constitution keeps the semantic core and removes ornament.
+
+2. "Ambiguity and multi-meaning"  
+   A value can be intentionally layered; a constitution forces definitions: what it means operationally, what counts as a violation, and where the boundaries are.
+
+3. "Aspirations without obligations"  
+   Values say "we want"; a constitution says "must / must not" and adds a way to verify compliance.
+
+### What gets added (examples)
+
+1. "Hierarchy and conflict resolution"  
+   A constitution adds priorities, tests (e.g., reversibility, proportionality, transparency), an exception procedure, and decision traces.
+
+2. "Rights, duties, and processes"  
+   "Swarm citizenship" appears: minimal rights and duties of a node, sanctions, appeals, and federation rules.
+
+3. "Enforcement and audit mechanisms"  
+   The constitution translates values into operations: an event log, policy-id, reason, expiry, modes, reputation, oracles, and auditability.
+
+4. "Definitions and interfaces"  
+   A constitution names the entities and contracts: node, oracle, prediction, federation, compliance mode, and privilege boundaries.
+
+### Do values get synthesized? (examples)
+
+A constitution acts like a compressor: it turns 20-30 values into 5–7 "articles",
+while the rest becomes commentary, rationale, and examples.
+
+In current shape, the natural syntheses may look like this:
+
+1. "Dignity and safety" as a super-value  
+   Combines: dignity, privacy-by-default, sovereignty, non-violence, representation of harmed parties, responsible autonomy.
+
+2. "Trust through evidence"  
+   Combines: verifiability, transparent agent behavior, contracts, explicit tradeoffs, anti-sectarian epistemic hygiene, ground truth via oracles.
+
+3. "Pluralism with contracts"  
+   Combines: multi-paradigm thinking, protected diversity within boundaries, dispute procedures, the right to exit, federation.
+
+4. "Swarm intelligence as a process"  
+   Combines: collaborative sensemaking, reflective adaptation, predictive accountability, trend and early-signal sensing, living/open systems, productive imagination.
+
+5. "Gift economy resilient to abuse"  
+   Combines: reciprocity without bookkeeping, reputation as safety, anti-gaming and Sybil resistance, token governance, token/credit classes.
+
+### How to do it in practice without losing the richness of values?
+
+- "Values" remain the meta-layer: why we do this and what we intend.
+
+- The "constitution" is the law-layer: what is allowed, what is forbidden,
+  how conflicts and exceptions are resolved.
+
+- Between them, it helps to add a bridge: "Interpretations and examples" – constitutional commentary
+  that shows typical cases and maps them to articles.
