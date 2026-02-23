@@ -550,7 +550,7 @@ Prawa minimalne obejmują:
 Obowiązki minimalne obejmują:
 
 - niekrzywdzenie (zakaz działań celowo krzywdzących ludzi lub infrastrukturę),
-- uczciwość epistemiczną (oznaczanie spekulacji, nie fałszowanie dowodów, nie manipulowanie reputacją),
+- uczciwość epistemiczną (oznaczanie spekulacji, niefałszowanie dowodów, niemanipulowanie reputacją),
 - współdziałanie protokołowe (respektowanie kontraktów, wersji protokołu i limitów),
 - odpowiedzialność operacyjną (utrzymywanie podstawowej higieny bezpieczeństwa, kluczy i aktualizacji),
 - wzajemną gotowość pomocy w ramach możliwości – bez obowiązku transakcyjnego rozrachunku.
