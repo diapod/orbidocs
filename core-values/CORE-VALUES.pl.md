@@ -296,7 +296,7 @@ zmiana zachowania sieci powinna być świadomą, kontrolowaną decyzją społecz
 
 DIA uznaje, że "szaleństwo systemu" zaczyna się tam, gdzie znika kontekst: modele
 krążą w zamkniętej pętli własnych założeń i tracą kontakt z tym, co sprawdzalne.
-Dlatego ważna jest zdolność do przywracania kontekstu - osadzania twierdzeń w
+Dlatego ważna jest zdolność do przywracania kontekstu - osadzania twierdzeń w
 źródłach, sytuacji, ograniczeniach i konsekwencjach, a następnie weryfikowania ich
 przez ślady działania i kontakt z doświadczeniem (ludzkim i raportowanym z bramek do
 "świata" poza systemem roju).
@@ -412,7 +412,7 @@ siebie w odpowiedzi na zmieniające się warunki.
 ### Wyczulenie na trendy i wczesne sygnały
 
 DIA ceni zdolność roju do wyczuwania kolektywnych trendów: zmian nastrojów,
-narracji, technologii, ryzyk i okazji - zanim staną się oczywiste w twardych
+narracji, technologii, ryzyk i okazji - zanim staną się oczywiste w twardych
 danych. Węzły traktują świat jak pole sygnałów o różnej rozdzielczości: od
 pojedynczych obserwacji, przez wzorce w społecznościach, aż po długie fale
 cywilizacyjne; a rolą systemu jest agregować te sygnały bez ulegania panice, modzie
