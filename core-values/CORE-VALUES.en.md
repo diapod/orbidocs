@@ -477,3 +477,55 @@ quality of updates.
 Swarm intelligence is therefore the ability to adapt through prediction: the better
 the network predicts, the better it coordinates actions, and the less suffering it
 produces "by accident."
+
+## Value Conflicts
+
+In DIA, value conflicts are resolved through hierarchy and an exception procedure:
+first we check whether the proposed action violates non-negotiable values, and if it
+does not, we choose the solution with the least harm and the highest reversibility.
+
+The default hierarchy is: human dignity and safety > sovereignty and privacy >
+verifiability and transparency > agency and autonomy > effectiveness and optimization
+> convenience and aesthetics.
+
+When two values from the same level conflict, we resolve it through:
+
+- a reversibility test (can we roll back after an error),
+- a proportionality test (are cost and risk adequate to what is at stake),
+- a transparency test (can the compromise be described and audited).
+
+Exceptions are allowed only when they have clearly defined scope, duration, and
+sunset conditions - and when they leave a trace: "policy-id", "reason",
+"risk-level", "expiry", "owner". Every exception must have "fail-closed" mode as the
+return point, and its side effects must be monitored and reported; if signals of harm
+or abuse appear, the exception is rolled back automatically.
+
+Interpretive disputes are resolved in procedural-justice mode: the party reporting
+risk has priority, evidence has priority over narrative, and decisions are made by a
+defined governance process - not by personal authority.
+
+## Node Rights and Duties - Swarm Citizenship
+
+A node in DIA is a "citizen of the swarm": it has rights that protect its autonomy,
+and duties that protect the community from Sybil attacks, abuse, and cognitive
+degradation. Minimum rights include:
+
+- the right to exit (ability to disconnect without coercion and without losing access to one's own data),
+- the right to privacy (data minimization, disclosure control, readable policies),
+- the right to inspection (ability to audit one's own interactions and agent decisions through action traces),
+- the right to appeal (a procedure for challenging a reputational decision or sanction),
+- the right to safety (protection from harassment, doxxing, sabotage, and economic coercion).
+
+Minimum duties include:
+
+- non-harm (ban on actions intentionally harming people or infrastructure),
+- epistemic honesty (labeling speculation, no evidence falsification, no reputation manipulation),
+- protocol cooperation (respecting contracts, protocol versions, and limits),
+- operational responsibility (maintaining baseline security hygiene, keys, and updates),
+- reciprocal readiness to help within one's means - without an obligation of transactional settlement.
+
+Enforcement is graduated: from warnings and permission limits, through reputational
+quarantine, up to routing cutoff - always with a decision log, appeal possibility, and
+a return path after remediation. Each federation may tighten these rules in
+"CORP_COMPLIANT", but may not weaken fundamental rights nor bypass dignity and safety
+as the non-negotiable layer.
