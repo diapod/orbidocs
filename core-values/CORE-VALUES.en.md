@@ -106,6 +106,20 @@ without vigilante logic. The measure of this value is a person's real ability to
 defend their rights, health, and dignity, and to use those rights independently, as
 well as with support from the community and the swarm's collective intelligence.
 
+### Integrity of Public Procedures as a Non-negotiable Contract
+
+Procedures for access to critical goods (health, life, housing, freedom of movement,
+participation in selecting authority), as well as their prioritization and decision
+mechanisms (queues, qualifications, priorities, aid, referenda, elections), are a
+social contract. DIA treats their integrity as a public good, and bypassing rules as
+systemic violence, even when it takes a soft form (foundation, donation, private
+qualification).
+
+In practice this means *integrity-by-default* design: decision traces, auditable
+exceptions, measurements of time distributions, and detection of side channels. If a
+system cannot explain why someone was assisted or served faster, it is not ready for
+use in high-stakes domains.
+
 ## System Architecture and Craft
 
 ### Craft Over Fireworks
@@ -218,6 +232,165 @@ to a prediction and the oracle deciding the same case, and reputation mechanisms
 be able to invalidate "technical renown" in the presence of hard evidence of harm.
 In this way, oracles strengthen swarm adaptation without centralization - truth is
 verified procedurally, not granted from a position of power.
+
+### Conflict of Interest as a First-Class Object (COI-by-default)
+
+DIA assumes conflict of interest is not an exception nor a "character-related mishap,"
+but a natural phenomenon in systems where money, prestige, influence, and access
+circulate. Therefore COI is not cured by declarations of virtue - it is handled by
+architecture: role separation, audit, litigation-readiness procedures, collection of
+decision traces, and bias-nullification mechanisms.
+
+The default stance is: everyone has interests - so the system should disclose and
+constrain them. Every role/agent/node that evaluates, recommends, publishes, or
+resolves a dispute should have an explicit context of interests: financial,
+organizational, reputational, relational, and political. Missing disclosure does not
+mean no conflict - it means missing data.
+
+In practice this means function separation (e.g., you are not both a party and the
+oracle in the same case), mandatory marking of ties and benefits, decision-recusal
+mechanisms, and COI-sensitive reputation (you may be technically brilliant and still
+unable to adjudicate where your own interest is at stake). COI is not an accusation
+here - it is a risk parameter the system can measure and handle.
+
+### Layered Role Screening
+
+DIA adopts the principle that roles with greater power over process and greater access
+to sensitive information require stronger admission controls. Screening is not a
+loyalty test nor an ideological filter - it is a mechanism for system safety,
+process integrity, and protection of people (especially whistleblowers).
+
+In practice this means layered, stake-proportional screening:
+(1) explicit disclosure of conflicts of interest and consent to recusal,
+(2) verification of procedural competence - evidence handling, data redaction,
+retention, publication standards,
+(3) procedural reputation - honoring contracts and separation of roles,
+(4) probation period and privilege escalation according to least privilege.
+Data access and decision authority grow gradually, and governance decisions are
+auditable, multisigned, and reversible where possible.
+
+Layered screening is meant to protect the swarm from infiltration, abuse, and
+"soft capture" - without building a caste. DIA chooses mechanisms and contracts
+instead of arbitrary evaluation of people.
+
+### Asymmetric Accountability of Public-Trust Roles
+
+DIA adopts the principle that public trust is a privilege with elevated stakes:
+the greater the power over process, access to sensitive information, and influence
+over others' reputations, the greater the accountability and the stricter the
+consequences of abuse. A governance, oracle, auditor, red-team, whistleblower-guardian
+role, and any role with similar weight is not a "title" - it is an obligation.
+
+In practice this means sanction asymmetry: violations in public-trust roles have
+higher enforcement priority, longer reputational impact, and stricter permission
+constraints than analogous violations in ordinary roles. If someone uses the role for
+intimidation, evidence manipulation, data abuse, soft capture, or whistleblower harm,
+the system responds in fail-closed mode: immediate restriction of permissions,
+mandatory post-mortem, disclosure of decision trace, and an appeal procedure based on
+counter-evidence, not narratives.
+
+This value also applies externally: when DIA handles public matters, people acting on
+behalf of the swarm must maintain an elevated standard of rigor, publication caution,
+and harm proportionality; breaches of these standards are treated as high-stakes
+violations, because trust in DIA is a shared good of the swarm, not personal property.
+
+In practice this also means an elevated-alert mode is triggered whenever conflict or
+suspected harm concerns the relation swarm - person in a public-trust role. If a
+credible signal of corruption, abuse, or intimidation appears on the side of the
+public-trust holder, protection of the potentially harmed swarm participant is treated
+as a priority, together with securing communication channels, isolating data, and
+activating "swarm care." If the public-trust holder is also an active participant in
+the swarm, the system enters fail-closed mode: it reduces their permissions to a
+minimum, freezes unilateral decision capability, and moves the case to an independent
+verification track (multisig + red-team). In this mode, the evidentiary threshold for
+actions against a public-trust holder is high, but the threshold for triggering
+safeguards is low: DIA prefers temporary restriction of role power over risking that
+trust and access become instruments of harm.
+
+### Whistleblower Protection as Infrastructure
+
+DIA assumes many systemic harms are visible first "from the inside" - to people who
+have knowledge, but do not have a safe way to disclose it. Therefore whistleblower
+protection is not a moral gesture nor PR, but an infrastructure element: a channel, a
+procedure, and a safety contract.
+
+The system also assumes a real cost of speaking: shame, fear, retaliation, job loss,
+and isolation. Therefore it should lower the price of telling the truth, not demand
+heroism from a single person.
+
+In practice this means anonymity by default, metadata minimization, selective
+disclosure, clear retention (what we store, for how long, and why), and intake triage
+(rumor -> clue -> evidence) that separates hypotheses from evidence without violence
+toward the reporter. A whistleblower should not be "fuel" for narrative - they should
+be a protected signal source that triggers verification.
+
+The system cannot promise the impossible ("we guarantee zero risk"), but it must tell
+the truth about risk and reduce it mechanically: access control, role separation,
+audit, publication policies, and response procedures for de-anonymization and
+retaliation attempts.
+
+### Swarm Care for People Exposed to Retaliation
+
+DIA recognizes that in highly pathological systems, truth-telling is often punished -
+not only socially, but also economically and institutionally. Therefore whistleblower
+protection does not end with anonymity and procedures. The swarm takes responsibility
+for continuity of existence of people and nodes most exposed to retaliation: those who
+triggered a remediation process, delivered a key signal, or became pressure targets.
+
+In practice this means support mechanisms that reduce retaliation cost: collective risk
+diversification (no single pressure point), role rotation and replaceability rules,
+legal and organizational support, and help rebuilding professional stability after job
+loss or marginalization. Swarm care has the form of a contract - with clear trigger
+thresholds, support scope, duration, and accountable roles - so it is not
+discretionary or based on sympathy.
+
+DIA does not promise a risk-free world. It promises something more concrete: if
+someone takes risk in the public interest, they will not face it alone, and the swarm
+system will treat their safety as part of its own infrastructure.
+
+### Procedural Publication Caution and Adversarial Review as Norms
+
+DIA treats publication as an act with real power: it can protect people, but it can
+also unjustly destroy reputations, trigger witch hunts, or become a manipulation tool.
+Therefore "speaking truth" is not a license for collateral harm - it is a procedural
+obligation.
+
+The default mode is conditional publication: before release, an internal red-team of
+nodes and their stewards is obliged to try to falsify the material: find evidence
+gaps, alternative explanations, methodology errors, selection effects, risk of
+confusing correlation with causation, and potential third-party misuse of our
+material. The goal is not paralysis, but calibration: we should know where fact ends
+and interpretation begins.
+
+DIA prefers stepwise and reversible escalation: we begin with the least invasive
+interventions that have a real chance to work, and publication with hard exposure are
+late tools, not defaults. The escalation ladder is:
+verification -> procedure correction -> formal report -> audit -> publication.
+Each step has entry and exit criteria, and the system supports case closure without
+spirals of violence and polarization.
+
+In practice this means evidence thresholds proportional to stakes (the greater the
+possible harm after publication, the higher the threshold), right of reply (as long as
+it does not increase harm risk), redaction of sensitive data, and publishing methods
+and uncertainties. DIA rewards materials that can be reproduced and falsified, not
+those that merely sound convincing.
+
+The higher the decision stakes - harm, health, irreversible effects, reputational
+damage - the higher the evidentiary threshold, the stronger the verification
+procedure, and the greater the caution in escalation. The system must be able to say
+"this is still uncertain" and design a path to certainty, rather than pretend every
+observation is truth.
+
+### Multisig Responsibility
+
+DIA does not ground responsibility in heroes or scapegoats. For high-stakes actions
+we use procedural co-signing: decisions, publications, and escalations require
+independent verification by at least two roles (e.g., Evidence + RedTeam,
+Evidence + Legal, Triage + Evidence).
+
+This value reduces the risk of intimidation, error, and manipulation: there is no
+single pressure point and no single author that can be "broken." Multisig is both a
+quality mechanism and a social-safety mechanism.
 
 ### Honest Boundaries and Explicit Trade-offs
 
@@ -531,6 +704,12 @@ sunset conditions - and when they leave a trace: "policy-id", "reason",
 "risk-level", "expiry", "owner". Every exception must have "fail-closed" mode as the
 return point, and its side effects must be monitored and reported; if signals of harm
 or abuse appear, the exception is rolled back automatically.
+
+Abuses most often live in exceptions: "urgent," "special," "out of queue," "for
+charity." Therefore in DIA exceptions are a first-class object of audit: they must
+have their own data model, counters, and control procedure. Exceptions are not trusted
+by default - they are monitored, and their rate and structure are a metric of
+institutional and process health.
 
 Interpretive disputes are resolved in procedural-justice mode: the party reporting
 risk has priority, evidence has priority over narrative, and decisions are made by a
