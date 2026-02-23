@@ -502,7 +502,7 @@ Spory interpretacyjne rozwiązuje się w trybie proceduralnej sprawiedliwości: 
 zgłaszająca ryzyko ma pierwszeństwo, dowody mają pierwszeństwo nad narracją, a decyzje
 są podejmowane przez zdefiniowany proces governance - nie przez autorytet osoby.
 
-## Prawa i obowiązki węzła - obywatelstwo roju
+## Prawa i obowiązki węzła – obywatelstwo roju
 
 Węzeł w DIA jest "obywatelem roju": ma prawa, które chronią jego autonomię, i
 obowiązki, które chronią wspólnotę przed Sybilem, nadużyciami i degradacją poznawczą.
