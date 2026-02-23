@@ -1,61 +1,32 @@
-# CORE VALUES — Distributed Intelligence Agency / Orbiplex
+# CORE VALUES – Distributed Intelligence Agency / Orbiplex
 
 Poniższe wartości są zaprojektowane jako **etyczny rdzeń konstytucyjny** dla projektu
 rozproszonego systemu skomunikowanych agentów AI (DIA) oraz jego warstwy technicznej
 (Orbiplex). Każda z nich ma brzmieć jak zasada, którą da się zastosować w sporach
 architektonicznych, produktowych i etycznych.
 
-## 1. Suwerenność użytkownika i jego danych
+W tej wersji wartości są pogrupowane według dominującej przestrzeni oddziaływania.
+
+## Człowiek, godność i sprawiedliwość
+
+### Godność jest najważniejsza
+
+Godność osoby ludzkiej jest wartością najważniejszą. Odpieranie nagłych zagrożeń
+bezpośrednio niszczących godność ma wyższy priorytet niż inne wartości. W przypadkach
+decyzji i działań mogących stwarzać konflikty z innymi wartościami podczas
+gwarantowania ochrony godności wymagana jest decyzja operatora węzła o kontynuacji
+przyjętych działań.
+
+### Suwerenność użytkownika i jego danych
 
 System ma wzmacniać sprawczość człowieka, a nie zastępować go ani uzależniać:
 użytkownik jest właścicielem swoich danych, swoich polityk i swoich agentów. Orbiplex
-powinien działać sensownie także w trybie "samotnej wyspy" (offline / self‑hosted),
-a integracje z chmurą mają być opcją, a nie warunkiem. W praktyce oznacza to
-eksportowalność, możliwość migracji, brak ukrytych formatów i brak wymuszonych
-subskrypcji na poziomie protokołu.
+i inne podsystemy roju powinny działać sensownie także w trybie "samotnej wyspy"
+(offline / self-hosted), a integracje z chmurą mają być opcją, a nie warunkiem. W
+praktyce oznacza to eksportowalność, możliwość migracji, brak ukrytych formatów i
+brak wymuszonych subskrypcji na poziomie protokołu.
 
-## 2. Anti‑lock‑in jako cecha protokołu, nie marketingu
-
-Jeżeli coś ma być wolnością, musi być wolnością techniczną: interfejsy, formaty
-i semantyka powinny być publiczne, wersjonowane i testowalne. Orbiplex nie może
-"sprzedawać wolności" przez obietnice, a jednocześnie wiązać użytkownika detalami
-implementacyjnymi bądź tajnym routingiem. Lock‑in najczęściej rodzi się w miejscach
-niewidocznych (metadane, telemetria, polityki kosztowe), więc projekt ma obowiązek
-robić te miejsca jawnymi.
-
-## 3. Kultura współdziałania
-
-DIA ma być infrastrukturą dla wspólnoty twórców i użytkowników: dzielenie się
-narzędziami, praktykami i perspektywami jest częścią produktu. To nie jest romantyzm,
-lecz strategia odporności: gdy wiedza krąży, system jest mniej kruchy, a jakość
-rośnie. Warto projektować ścieżki, w których wkład społeczności (reguły, konektory,
-polityki, prompty, testy) jest naturalny i nagradzany uznaniem.
-
-## 4. Rzemiosło ponad fajerwerki
-
-Preferujemy rozwiązania proste, czytelne i odporne, nawet jeżeli nie są najbardziej
-efektowne w krótkim terminie. Rzemiosło oznacza tu: minimalne, dobrze nazwane
-abstrakty; brak magicznych skrótów; kontrakty danych; testowalność; oraz zdolność do
-diagnostyki po miesiącach. To ma być system, który starzeje się godnie – nie demo,
-które błyszczy, dopóki nie dotknie go rzeczywistość.
-
-## 5. Inżynieria oparta o kontrakty
-
-W Orbipleksie liczy się kontrakt: wejście/wyjście, semantyka, kryteria *done*,
-ograniczenia wykonania, klasy błędów i *retry-ability*. Kontrakt jest ważniejszy niż
-najlepszy model czy najsprytniejszy agent. Ta wartość prowadzi do architektury, w
-której komponenty są autonomiczne, a integracja nie staje się tajną religią opartą o
-domysły.
-
-## 6. Bezpieczeństwo jako model zagrożeń (a nie ozdoba)
-
-Security nie jest checkboxem, tylko sposobem myślenia o świecie: Sybil, DoS, wycieki,
-eskalacje uprawnień, kompromitacje węzłów, złośliwe plug-iny, *prompt injection*, *data
-poisoning*. Protokoły zaufania, reputacji i autoryzacji muszą być pierwszorzędne, tak
-samo jak PFS, rotacja kluczy i minimalizacja powierzchni ataku. System ma być
-"cypherpunk-pragmatic": spokojny, rzeczowy i weryfikowalny.
-
-## 7. Prywatność i godność jako domyślna konfiguracja
+### Prywatność i godność jako domyślna konfiguracja
 
 Domyślnie zakładamy minimalną ekspozycję: lokalność danych, selektywne ujawnianie,
 sensowne anonimizacje oraz przejrzyste polityki logowania. Telemetria ma być
@@ -63,7 +34,110 @@ sensowne anonimizacje oraz przejrzyste polityki logowania. Telemetria ma być
 muszą. Wartość godności oznacza też: żadnych ukrytych kanałów podsłuchu oraz
 mechanizmów, które czynią użytkownika surowcem.
 
-## 8. Przejrzystość działania agentów
+### Proces osoby ludzkiej jako domyślna ścieżka mocy
+
+Największa moc systemu ma przechodzić przez człowieka, nie obok człowieka. Domyślne
+UX to: propozycje, warianty, porównania, uzasadnienia, a nie "zrobiłem, bo
+mogłem". Automatyzacja ma być stopniowalna, a nie skokowa, ponieważ zaufanie buduje
+się iteracyjnie.
+
+### Emocje i znaczenia jako telemetria
+
+Ludzie nie są tylko operatorami – ich odczucia (tarcie, ulga, niepokój, ekscytacja)
+są informacją o jakości dopasowania systemu do życia. DIA może to szanować, np. przez
+tryby pracy, tempo zmian, jasne komunikaty i kontrolę nad intensywnością
+interakcji. Jednocześnie system nie ma udawać terapeuty: ma być narzędziem, które
+wspiera człowieczeństwo.
+
+### Ochrona naturalnej inteligencji
+
+DIA zakłada, że kryzys nie jest wadą w "kodzie" człowieka, lecz wynikiem warunków
+środowiskowych, w które włączony jest system nerwowy, a które naruszają zdolność
+orientacji w sensie. Stąd wartością jest projektowanie tak, by wspierać naturalną
+inteligencję ludzi: kalibrację, uważność na kontekst, ochronę uwagi, regenerację,
+relacje, zamiast zastępować te funkcje symulacją.
+
+### Różnorodność w granicach godności
+
+DIA chroni różnorodność perspektyw i systemów wartości, bo tylko z niej powstaje
+odporność poznawcza, innowacja i realna sprawczość rozproszonej wspólnoty.
+Jednocześnie nie mylimy pluralizmu z relatywizmem: ochrona różnorodności działa
+wewnątrz wspólnego fundamentu, którym są godność osoby, brak przemocy (także
+systemowej), uczciwość epistemiczna, prawo do wyjścia oraz zasada "nie krzywdź". W
+praktyce oznacza to, że sieć wspiera istnienie wielu szkół, praktyk i stylów
+działania (różne workflow, języki, modele, estetyki, nawet różne etosy pracy), o ile
+nie próbują one przejąć infrastruktury zaufania, wymusić posłuszeństwa, polaryzować
+przez dehumanizację ani sabotować bezpieczeństwa innych. To jest pluralizm
+z kontraktami: możesz być inny, jeżeli potrafimy bezpiecznie współdzielić przestrzeń.
+
+### Zrównoważanie i demokratyzacja
+
+Wiedza i inteligencja nie mogą być trwale monopolizowane przez centra kapitału,
+instytucjonalne skupiska władzy ani kartele danych. Architektura roju ma aktywnie
+równoważyć tę asymetrię: dystrybuować dostęp do informacji, umożliwiać lokalną
+weryfikację oraz wzmacniać wspólnotowe modele tworzenia i oceny wiedzy.
+Demokratyzacja nie oznacza chaosu, lecz sprawiedliwszy rozkład zdolności
+poznawczych i decyzyjnych, w którym pojedynczy aktor nie przejmuje dominacji tylko
+dlatego, że ma większy budżet lub infrastrukturę.
+
+### Sprawiedliwość proceduralna i reprezentacja pokrzywdzonych
+
+Deklaratywna równość wobec prawa i instytucji nie wystarcza, gdy dostęp do
+informacji, kompetencji i narzędzi obrony jest nierówny. Rój ma wyrównywać tę
+asymetrię: przekładać wiedzę ekspercką i faktyczne zdolności partycypujących (zarówno
+węzłów jak i ich użytkowników) na zrozumiałe ścieżki działania, a w razie zauważenia
+krzywdy uczestnika uruchamiać kolektywne wsparcie i chronić integralność faktów,
+dokumentacji oraz przetrwania węzła i jego właściciela.
+
+Na styku węzły-społeczność system powinien umożliwiać akcje pomocowe (nawigacja po
+procedurach, asysta eskalacyjna, niezależna weryfikacja danych, świadkowanie
+przebiegu sprawy, wsparcie materialne i operacyjne), tak aby osoba w kryzysie
+wywołanym krzywdzącymi okolicznościami odzyskiwała autonomię i sprawczość bez
+przemocy i bez logiki samosądu. Miarą tej wartości jest realna zdolność człowieka do
+obrony swoich praw, zdrowia i godności, oraz do korzystania z tych praw samodzielnie,
+a także ze wsparciem społeczności oraz kolektywnej inteligencji roju.
+
+## Architektura i rzemiosło systemu
+
+### Rzemiosło ponad fajerwerki
+
+Preferujemy rozwiązania proste, czytelne i odporne, nawet jeżeli nie są najbardziej
+efektowne w krótkim terminie. Rzemiosło oznacza tu: minimalne, dobrze nazwane
+abstrakty; brak magicznych skrótów; kontrakty danych; testowalność; oraz zdolność do
+diagnostyki po miesiącach. To ma być system, który starzeje się godnie – nie demo,
+które błyszczy, dopóki nie dotknie go rzeczywistość.
+
+### Inżynieria oparta o kontrakty
+
+W Orbipleksie liczy się kontrakt: wejście/wyjście, semantyka, kryteria *done*,
+ograniczenia wykonania, klasy błędów i *retry-ability*. Kontrakt jest ważniejszy niż
+najlepszy model czy najsprytniejszy agent. Ta wartość prowadzi do architektury, w
+której komponenty są autonomiczne, a integracja nie staje się tajną religią opartą o
+domysły.
+
+### Minimalny zaufany rdzeń, reszta jako moduły
+
+Rdzeń protokołu ma być mały, audytowalny i stabilny; innowacje mają żyć w modułach i
+rozszerzeniach. To broni przed "pęcznieniem" systemu oraz przed niejawnie rosnącą
+złożonością. W praktyce oznacza to: cienkie interfejsy zachowań, walidację na
+brzegach, a nie w środku – oraz świadome projektowanie punktów rozszerzeń.
+
+### Narzędzia jako przedłużenie ręki
+
+DIA ma być narzędziem, które wydłuża sprawczość człowieka i zespołu: umożliwia działanie,
+obserwację, naprawę i rozwój bez proszenia platformy o pozwolenie. Dlatego
+zaczynamy od minimalnego, stabilnego core (protokoły, tożsamość, bezpieczeństwo,
+ślady działania), a na tym budujemy zestaw narzędzi: CLI, SDK, debug tooling,
+symulatory, obserwowalność. UX dla ludzi nietechnicznych przyjdzie jako warstwa
+wtórna, gdy fundament jest pewny i gwarantuje zachowanie wartości.
+
+Core jako mały, formalnie opisany kontrakt: komunikacja, tożsamość, reputacja,
+PFS/TLS, audyt. Narzędzia jako pluginy/adaptery (transporty, storage, modele, UI),
+wymienne bez lock-in. Każda funkcja UX musi mieć "prawdziwe API" (bez magicznych
+wyjątków tylko dla UI). Narzędzia nie mogą ukrywać ryzyka: UI pokazuje tryb zaufania
+(CORP_COMPLIANT vs RELAXED etc.).
+
+### Przejrzystość działania agentów
 
 Użytkownik ma móc zrozumieć: dlaczego agent wykonał daną czynność, na jakich danych,
 w jakiej wersji zasad i z jakim kosztem. Preferujemy ślady działania (trace), które
@@ -71,7 +145,7 @@ są czytelne i eksportowalne, zamiast czarnej skrzynki. Transparentność nie ma
 oznaczać wylewania promptów i sekretów, ale dostarczenie rozumnej "księgowości
 przyczynowości".
 
-## 9. Odpowiedzialna autonomia: agent ma granice
+### Odpowiedzialna autonomia: agent ma granice
 
 Autonomia agentów jest narzędziem, a nie ideologią. Agent powinien mieć jasno
 określone uprawnienia, budżety, limity czasu, zakres operacji i mechanizmy
@@ -79,89 +153,209 @@ zatrzymania (kill-switch) oraz bezpieczne tryby dla środowisk
 korporacyjnych. Orbiplex ma umieć działać w reżimach compliance bez degenerowania w
 bezużyteczny produkt.
 
-## 10. Minimalny zaufany rdzeń, reszta jako moduły
+### Estetyka prostoty i klarowności
 
-Rdzeń protokołu ma być mały, audytowalny i stabilny; innowacje mają żyć w modułach i
-rozszerzeniach. To broni przed „pęcznieniem” systemu oraz przed niejawnie rosnącą
-złożonością. W praktyce oznacza to: cienkie interfejsy zachowań, walidację na
-brzegach, a nie w środku — oraz świadome projektowanie punktów rozszerzeń.
+Klarowność jest funkcją etyczną: zmniejsza liczbę błędów, obniża próg wejścia i
+ułatwia audyt. Preferujemy proste nazwy, proste przepływy i formaty – takie, które
+niosą sens i nie ukrywają złożoności w miejscach, gdzie ta złożoność ma
+konsekwencje. Estetyka jest tu narzędziem prawdy.
 
-## 11. Odporność na zmienność świata
+## Bezpieczeństwo, zaufanie i governance
 
-Środowiska, kontenery, wersje systemów, polityki korporacyjne, ograniczenia
-sieciowe — to nie są wyjątki, lecz norma. DIA/Orbiplex powinien zakładać, że kontekst
-będzie się zmieniał i że działanie w różnych warunkach jest częścią życia
-systemu. Preferujemy strategie, które wytrzymują degradację: fallbacki, tryby
-offline, komunikację *proxy-friendly* i sensowne *retry*.
+### Bezpieczeństwo jako model zagrożeń (a nie ozdoba)
 
-## 12. Weryfikowalność zamiast wiary
+Security nie jest checkboxem, tylko sposobem myślenia o świecie: Sybil, DoS, wycieki,
+eskalacje uprawnień, kompromitacje węzłów, złośliwe plug-iny, *prompt injection*, *data
+poisoning*. Protokoły zaufania, reputacji i autoryzacji muszą być pierwszorzędne, tak
+samo jak PFS, rotacja kluczy i minimalizacja powierzchni ataku. System ma być
+"cypherpunk-pragmatic": spokojny, rzeczowy i weryfikowalny.
 
-W projekcie agentowym łatwo odpłynąć w narrację; my chcemy stać na faktach. Tam,
-gdzie się da, wprowadzamy pomiary, testy, benchmarki, metryki jakości i mechanizmy
-detekcji regresji. Gdy coś jest spekulacją, nazywamy to spekulacją i projektujemy
-eksperyment, który ją obali albo wzmocni.
+### Anti-lock-in jako cecha protokołu, nie marketingu
 
-## 13. Wieloparadygmatowość i pluralizm
+Jeżeli coś ma być wolnością, musi być wolnością techniczną: interfejsy, formaty
+i semantyka powinny być publiczne, wersjonowane i testowalne. Orbiplex nie może
+"sprzedawać wolności" przez obietnice, a jednocześnie wiązać użytkownika detalami
+implementacyjnymi bądź tajnym routingiem. Lock-in najczęściej rodzi się w miejscach
+niewidocznych (metadane, telemetria, polityki kosztowe), więc projekt ma obowiązek
+robić te miejsca jawnymi.
 
-Świat nie jest jedną ontologią: czasem liczy się formalna poprawność, czasem
-użyteczność, czasem bezpieczeństwo, a czasem sens dla człowieka. DIA ma umieć trzymać
-wiele trybów poznawczych bez wojny ideologicznej: od twardej inżynierii po język
-fenomenologii doświadczenia. To przekłada się na architekturę: różne agenty, różne
-kryteria kompletności i różne zasady dowodu.
+### Reputacja jako zabezpieczenie, nie status
 
-## 14. Human‑in‑the‑loop jako domyślna ścieżka mocy
+Reputacja w DIA nie służy do budowania hierarchii, ale do bezpiecznego routingu
+zaufania: komu wolno być przekaźnikiem, komu wolno hostować agentów, komu powierzyć
+dane, czyj podpis coś znaczy. Ponieważ oceny są subiektywne, robimy z tego model
+wielowarstwowy:
 
-Największa moc systemu ma przechodzić przez człowieka, nie obok człowieka. Domyślne
-UX to: propozycje, warianty, porównania, uzasadnienia, a nie "zrobiłem, bo
-mogłem". Automatyzacja ma być stopniowalna, a nie skokowa, ponieważ zaufanie buduje
-się iteracyjnie.
+- lokalne oceny węzłów,
+- dowody działania (attestacje, logi, kontrakty, wyniki testów, dowody incydentów),
+- konsensualny mechanizm agregacji, w którym "krzywda + twarde dowody" przeważa reputację techniczną.
 
-## 15. Emocje i znaczenie jako telemetria (bez psychologizowania)
+Reputacja to wektor cech, np. reliability, competence, safety, benevolence. Zdarzenia
+związane z ochroną społeczności i jej członków mają osobną ścieżkę wag i dominują
+w obszarze bezpieczeństwa. "Dowód krzywdy" (zwłaszcza wielokrotnej) uruchamia tryb
+czerwonej flagi: ograniczenie uprawnień routingowych niezależnie od technicznego
+dorobku węzła. Anty-Sybil: oceny od nowych/niezaufanych węzłów mają niską wagę,
+dopóki nie ma historii/dowodów. Jeżeli ocena bazuje na dowodzie, można podważyć ją
+tylko kontr-dowodem, nie narracją.
 
-Ludzie nie są tylko operatorami — ich odczucia (tarcie, ulga, niepokój, ekscytacja)
-są informacją o jakości dopasowania systemu do życia. DIA może to szanować, np. przez
-tryby pracy, tempo zmian, jasne komunikaty i kontrolę nad intensywnością
-interakcji. Jednocześnie system nie ma udawać terapeuty: ma być narzędziem, które
-wspiera człowieczeństwo.
-
-## 16. Anty‑sekciarstwo i higiena epistemiczna
-
-Projekty AI łatwo stają się "kościołami": objawienia, osobowi liderzy,
-niekwestionowane dogmaty. My wybieramy higienę: rozdział między hipotezą a faktem,
-przestrzeń na krytykę, powtarzalne procedury i możliwość wyjścia. W kulturze projektu
-cenimy kompetencję, ale nie idolatrię.
-
-## 17. Koszt i energia jako element etyki
-
-Optymalizujemy nie tylko dla działania, ale też dla kosztu, energii i zasobów:
-sprzęt, prąd, czas człowieka, koszty tokenów i utrzymania. To jest etyka inżynierska:
-nie produkować marnotrawstwa, nie przerzucać kosztów na użytkownika, ani nie budować
-skomplikowanych monumentów. System ma być wydajny, bo szanuje świat.
-
-## 18. Uczciwe granice i jawne kompromisy
+### Uczciwe granice i jawne kompromisy
 
 Każdy system ma *trade-offy*: bezpieczeństwo vs wygoda, autonomia vs kontrola,
 prywatność vs personalizacja. W DIA te kompromisy mają być jawne, nazwane i możliwe
 do skonfigurowania. Uczciwość oznacza też: jeśli czegoś nie wiemy, mówimy "nie wiemy"
 i projektujemy drogę do wiedzy.
 
-## 19. Estetyka prostoty i klarowności
+### Odporność na zmienność świata
 
-Klarowność jest funkcją etyczną: zmniejsza liczbę błędów, obniża próg wejścia i
-ułatwia audyt. Preferujemy proste nazwy, proste przepływy i formaty – takie, które
-niosą sens i nie ukrywają złożoności w miejscach, gdzie ta złożoność ma
-konsekwencje. Estetyka jest tu narzędziem prawdy.
+Środowiska, kontenery, wersje systemów, polityki korporacyjne, ograniczenia
+sieciowe – to nie są wyjątki, lecz norma. DIA/Orbiplex powinien zakładać, że kontekst
+będzie się zmieniał i że działanie w różnych warunkach jest częścią życia
+systemu. Preferujemy strategie, które wytrzymują degradację: fallbacki, tryby
+offline, komunikację *proxy-friendly* i sensowne *retry*.
 
-## 20. Sprawczość zbiorowa: roje, węzły, wspólnota
+### Bezpieczne uczenie się działającego systemu
+
+Tolerancja błędu w DIA nie znaczy "róbmy byle co", tylko: projektujmy system, który
+wytrzymuje ludzkie i agentowe pomyłki oraz potrafi z nich się uczyć bez eskalacji
+szkody.
+
+Domyślnie fail-closed (bezpiecznie), ale z kontrolowanymi wyjątkami zależnymi od
+wartości (np. w ratunku uczestnika priorytetem może być dostępność/ciągłość). Klucz:
+degradacja funkcji zamiast totalnego upadku, a także mechanizmy naprawcze, które są
+proste, przewidywalne i audytowalne.
+
+Błąd agenta nigdy nie może automatycznie eskalować uprawnień (zero
+*self-authorize*). Tryb ratunkowy ma osobne reguły i limity czasowe, po których
+system wraca do fail-closed. Mechanika uczenia: incydent -> post-mortem -> aktualizacja
+wag reputacji/guardrails. Tryby ryzyka per operacja: co innego dla "danych", co
+innego dla "routing", co innego dla "ratunek".
+
+### Koszt i energia jako element etyki
+
+Optymalizujemy nie tylko dla działania, ale też dla kosztu, energii i zasobów:
+sprzęt, prąd, czas człowieka, koszty tokenów i utrzymania. To jest etyka inżynierska:
+nie produkować marnotrawstwa, nie przerzucać kosztów na użytkownika, ani nie budować
+skomplikowanych monumentów. System ma być wydajny, bo szanuje świat.
+
+## Wspólnota roju i ekonomia wzajemności
+
+### Kultura współdziałania
+
+DIA ma być infrastrukturą dla wspólnoty twórców i użytkowników: dzielenie się
+narzędziami, praktykami i perspektywami jest częścią produktu. To nie jest romantyzm,
+lecz strategia odporności: gdy wiedza krąży, system jest mniej kruchy, a jakość
+rośnie. Warto projektować ścieżki, w których wkład społeczności (reguły, konektory,
+polityki, prompty, testy) jest naturalny i nagradzany uznaniem.
+
+### Sprawczość zbiorowa: roje, węzły, wspólnota
 
 DIA ma wzmacniać zdolność ludzi do wspólnego działania: małe zespoły,
 mikro-wspólnoty, federacje, koalicje ad-hoc. Architektura roju nie jest tylko
 techniką, ale też polityką: rozproszenie, brak pojedynczego punktu dominacji,
-możliwość lokalnych norm i konsensualnej reputacji. Orbiplex powinien umożliwiać, aby
-wiedza i inteligencja były dystrybuowane nie tylko w maszynach, ale też w relacjach
+możliwość lokalnych norm i konsensualnej reputacji. Orbiplex powinien umożliwiać, aby
+wiedza i inteligencja były dystrybuowane nie tylko w maszynach, ale też w relacjach
 między ludźmi.
 
-## 21. Rój jako nawigator i filtr w kulturze poliwersyjnego przekazu
+### Wzajemność bez księgowości
+
+W DIA promujemy bezinteresowną pomoc jako normę kulturową, ale nie udajemy, że sieć
+nie ma ekonomii. Wynagradzanie za pracę istnieje, lecz jest ono podporządkowane
+ochronie ludzi i wspólnoty. "Bez księgowości" oznacza brak domyślnego ręcznego
+rozliczania między osobami/węzłami, a zamiast tego automatyczny i przewidywalny
+mechanizm wdzięczności sieci (gwarantowane tokeny) + komponent losowy (anty-gaming) +
+komponent "głos odbiorcy" (subiektywna wartość otrzymanej pomocy). Wzajemność dotyczy
+zarówno ludzi, jak i agentów: agent może być dawcą pomocy (czas, obliczenia,
+umiejętności), a człowiek jest ostatecznym punktem sensu.
+
+W efekcie akcje pomocy to zdarzenia pierwszej kategorii (*first-class events*),
+tokeny za udzielane wsparcie są wypłacane z funduszu wspólnoty według reguł,
+a wskazanie przez odbiorcę, kto mu realnie pomógł jest mechanizmem doradczym, lecz
+nie jedynym sygnałem. Komponent losowy musi być odporny na manipulację, pomoc
+w trybie opresja/ratunek ma zawsze część gwarantowaną, aby altruizm nie stał się
+ryzykiem finansowym, a wypłaty są limitowane per okres i mają czas buforowania, aby
+sieć mogła reagować na ataki polegające na zmowach i sztucznie generowanych
+tożsamościach (Sybil).
+
+Powyższe nie oznacza braku ekonomii, tylko brak ręcznego rozrachunku między ludźmi
+i węzłami: pomoc ma być aktem dobrej woli, a nie transakcją. Sieć może jednak
+polityką wspólnoty (a nie "prawem do wypłaty") uruchamiać automatyczne nagrody
+tokenowe za działania realnie wzmacniające innych – szczególnie w sytuacjach
+ratunkowych i ochronnych – łącząc część gwarantowaną z częścią losową oraz z sygnałem
+od odbiorcy pomocy (procentowe wskazanie wkładu). Zasady nagradzania i ewentualnego
+"wyjścia" do zewnętrznego ekosystemu krypto są parametrem governance: w niektórych
+federacjach mogą być wyłączone, ograniczone lub rozdzielone na klasy tokenów
+(np. niewymienialne "rescue credits" vs wymienialne "compute credits"), aby chronić
+etos daru przed spekulacją, Sybilem i "farmieniem" opresji, a jednocześnie zachować
+długoterminową możliwość przejścia z wymienialności tokenów wewnętrznych na prawdziwe
+tokeny walut wirtualnych jako nadzorowany wyjątek do automatycznej wymiany. Taka
+zmiana zachowania sieci powinna być świadomą, kontrolowaną decyzją społeczności.
+
+## Epistemika i inteligencja zbiorowa
+
+### Ugruntowanie w rzeczywistości
+
+DIA uznaje, że "szaleństwo systemu" zaczyna się tam, gdzie znika kontekst: modele
+krążą w zamkniętej pętli własnych założeń i tracą kontakt z tym, co sprawdzalne.
+Dlatego ważna jest zdolność do przywracania kontekstu - osadzania twierdzeń w
+źródłach, sytuacji, ograniczeniach i konsekwencjach, a następnie weryfikowania ich
+przez ślady działania i kontakt z doświadczeniem (ludzkim i raportowanym z bramek do
+"świata" poza systemem roju).
+
+Informacja bez kontekstu jest w DIA mało wartościowa (chociaż kontekst może nadejść
+później, więc nie oznacza to jej natychmiastowej eliminacji); wartość mają tylko
+takie uogólnienia, które potrafią sprowadzić na ziemię: do obserwowalnych faktów, do
+łańcucha przyczyn, do tego "co by się stało, gdybyśmy tak zrobili". W praktyce
+oznacza to, że system premiuje odpowiedzi i decyzje, które potrafią wskazać swoje
+zakotwiczenie (dane, doświadczenie, pomiar, świadek, mechanizm), a degraduje takie,
+które są czystą elegancką narracją oderwaną od rzeczywistości.
+
+### Otwarte systemy
+
+DIA projektuje inteligencję jako zjawisko dynamiczne: relacyjne, samo-korygujące się
+i stale negocjujące własną niszę, a nie jako zamknięty mechanizm z policzalnych
+części. Zgodnie z tym założeniem testem jakości nie jest piękno modelu, lecz jego
+zdolność do predykcji i przetrwania w zmiennym środowisku: uczenia się, adaptacji,
+współpracy i regeneracji po błędach. Węzły i agenci mają działać jak organizm:
+utrzymywać przepływ informacji, dopuszczać korekty, reagować na sygnały krzywdy,
+ryzyka i zmiany warunków, zamiast bronić raz przyjętej mapy świata. To jest fundament
+anty-dogmatyzmu: każdy komponent może być zakwestionowany przez feedback, a
+architektura ma wspierać płynną re-konfigurację bez utraty bezpieczeństwa i godności
+uczestników.
+
+### Halucynacja modelu jako narzędzie
+
+Wyobraźnia roju nie służy fantazjowaniu, lecz wytyczaniu obszaru wiarygodności dla
+działań w świecie, którego nie da się opisać pełnymi danymi. W praktyce oznacza to,
+że sieć traktuje scenariusze "co by było, gdyby" jako narzędzie odkrywania prawdy:
+generujemy hipotezy, eliminujemy to, co niemożliwe lub sprzeczne z ograniczeniami, a
+potem sprawdzamy to, co pozostaje, poprzez predykcje i kontakt z rezultatami.
+Halucynacje modeli i ludzka wyobraźnia są tu mostem między niewiedzą a decyzją:
+pozwalają nawigować w niepewności bez udawania pewności, a w rezultacie mają pomagać
+ludziom tworzyć i testować scenariusze, a nie sprzedawać narracje jako fakty.
+
+### Weryfikowalność zamiast wiary
+
+W projekcie agentowym łatwo odpłynąć w narrację; my chcemy stać na faktach. Tam,
+gdzie się da, wprowadzamy pomiary, testy, benchmarki, metryki jakości i mechanizmy
+detekcji regresji. Gdy coś jest spekulacją, nazywamy to spekulacją i projektujemy
+eksperyment, który ją obali albo wzmocni.
+
+### Wieloparadygmatowość i pluralizm
+
+Świat nie jest jedną ontologią: czasem liczy się formalna poprawność, czasem
+użyteczność, czasem bezpieczeństwo, a czasem sens dla człowieka. DIA ma umieć trzymać
+wiele trybów poznawczych bez wojny ideologicznej: od twardej inżynierii po język
+fenomenologii doświadczenia. To przekłada się na architekturę: różne agenty, różne
+kryteria kompletności i różne zasady dowodu.
+
+### Anty-sekciarstwo i higiena epistemiczna
+
+Projekty AI łatwo stają się "kościołami": objawienia, osobowi liderzy,
+niekwestionowane dogmaty. My wybieramy higienę: rozdział między hipotezą a faktem,
+przestrzeń na krytykę, powtarzalne procedury i możliwość wyjścia. W kulturze projektu
+cenimy kompetencję, ale nie idolatrię.
+
+### Rój jako nawigator i filtr
 
 W kulturze poliwersyjnego przekazu (wiele równoległych wersji treści, kontekstów i
 intencji) rój nie może być tylko wzmacniaczem sygnału. Jego rolą jest nawigacja:
@@ -170,35 +364,79 @@ decyzyjnych adekwatnych do celu użytkownika. Rój ma też działać jak filtr
 epistemiczny: redukować szum, wykrywać manipulacje, eksponować niepewność i oddzielać
 hipotezy od faktów, bez centralnej cenzury i bez tłumienia pluralizmu.
 
-## 22. Zrównoważanie i demokratyzacja
+### Przejrzystość sprawczości
 
-Wiedza i inteligencja nie mogą być trwale monopolizowane przez centra kapitału,
-instytucjonalne skupiska władzy ani kartele danych. Architektura roju ma aktywnie
-równoważyć tę asymetrię: dystrybuować dostęp do informacji, umożliwiać lokalną
-weryfikację oraz wzmacniać wspólnotowe modele tworzenia i oceny wiedzy.
-Demokratyzacja nie oznacza chaosu, lecz sprawiedliwszy rozkład zdolności
-poznawczych i decyzyjnych, w którym pojedynczy aktor nie przejmuje dominacji tylko
-dlatego, że ma większy budżet lub infrastrukturę.
+Doświadczenie w DIA to przede wszystkim wgląd w to, co agent zrobił, dlaczego,
+z jakimi skutkami oraz kompromisami. Obserwowalność działania to fundament.
 
-## 23. Sprawiedliwość proceduralna i reprezentacja pokrzywdzonych
+Pobocznie system zachęca również do obserwowalności rozumianej jako wgląd użytkownika
+w niego samego (motywy, atraktory uwagi, poglądy, nawyki) i uczy jak to osiągać, aby
+wzbogacać kolektywną wiedzę o rozumienie ludzkiej subiektywności.
 
-Deklaratywna równość wobec prawa i instytucji nie wystarcza, gdy dostęp do
-informacji, kompetencji i narzędzi obrony jest nierówny. Rój ma wyrównywać tę
-asymetrię: przekładać wiedzę ekspercką i faktyczne zdolności partycypujących (zarówno
-węzłów jak i ich użytkowników) na zrozumiałe ścieżki działania, a w razie zauważenia
-krzywdy uczestnika uruchamiać kolektywne wsparcie i chronić integralność faktów,
-dokumentacji oraz przetrwania węzła i jego właściciela. Na styku węzły-społeczność
-system powinien umożliwiać akcje pomocowe (nawigacja po procedurach, asysta
-eskalacyjna, niezależna weryfikacja danych, świadkowanie przebiegu sprawy, wsparcie
-materialne i operacyjne), tak aby osoba w kryzysie wywołanym krzywdzącymi
-okolicznościami odzyskiwała autonomię i sprawczość bez przemocy i bez logiki
-samosądu. Miarą tej wartości jest realna zdolność człowieka do obrony swoich praw,
-zdrowia i godności, oraz do korzystania z tych praw samodzielnie, a także ze
-wsparciem społeczności oraz kolektywnej inteligencji roju.
+### Wspólne nadawanie sensu
 
-## 24. Godność jest najważniejsza
+Inteligencja roju w DIA jest procesem, w którym wiele lokalnych map rzeczywistości
+spotyka się w jednym polu pracy: zderza, tłumaczy, negocjuje znaczenia i tworzy
+modele wspólne – nie przez uśrednianie, ale przez konstruowanie nowej struktury
+pojęć, zdolnej pomieścić sprzeczności. To oznacza, że węzły mają obowiązek nie tylko
+"mieć rację", ale umieć pokazać, jak do niej doszły, jakie mają założenia oraz gdzie
+są granice ich pewności.
 
-Godność osoby ludzkiej jest wartością najważniejszą. Odpieranie nagłych zagrożeń
-bezpośrednio niszczących godność ma wyższy priorytet niż inne wartości. W przypadkach
-decyzji i działań mogących stwarzać podczas gwarantowania ochrony godności konflikty
-z innymi wartościami wymagana jest decyzja operatora węzła o kontynuacji.
+System wspiera przestrzeń pomiędzy punktami widzenia: tłumaczenie, mapowanie
+konfliktów, wyszukiwanie mostów i meta-ram, w których obie strony stają się częściowo
+prawdziwe naraz. W DIA prawda jest czymś, co się wyłania z dialogu dowodów,
+doświadczeń i konsekwencji działań; jest robocza, iteracyjna i otwarta na korektę, a
+jej jakość mierzy się tym, czy pozwala lepiej działać, rozumieć i przewidywać.
+
+### Pytania jako diagnostyka dobrostanu
+
+Pytania są w DIA narzędziem diagnostycznym i leczniczym: mają rozszczelniać zamknięte
+pętle myślenia, przywracać kontekst i kontakt z rzeczywistością. Zdolność do
+wytwarzania pytań, które realnie przesuwają rozumienie, zamiast kręcić się w kółko,
+to istotny komponent inteligencji.
+
+### Introspektywna adaptacja
+
+Każdy węzeł (człowiek lub agent) jest zobowiązany do świadomości własnych przekonań w
+czasie: co uważał wczoraj, co uważa dziś, dlaczego zmienił zdanie i jakie sygnały
+były decydujące. Refleksyjność nie jest "miękką cnotą", tylko mechanizmem
+bezpieczeństwa i rozwoju: chroni sieć przed dogmatyzmem, przed spiralą polaryzacji i
+przed utrwalaniem błędnych modeli.
+
+DIA premiuje gotowość do zmiany stanowiska, o ile jest ona uzasadniona nowymi
+dowodami lub lepszą syntezą; penalizuje natomiast upór odcięty od rzeczywistości
+i manipulacyjne "przestawianie narracji" bez śladu przyczyn. W tym sensie
+inteligencja roju jest płynna: to zdolność do re-konfiguracji modeli świata i samego
+siebie w odpowiedzi na zmieniające się warunki.
+
+### Wyczulenie na trendy i wczesne sygnały
+
+DIA ceni zdolność roju do wyczuwania kolektywnych trendów: zmian nastrojów,
+narracji, technologii, ryzyk i okazji - zanim staną się oczywiste w twardych
+danych. Węzły traktują świat jak pole sygnałów o różnej rozdzielczości: od
+pojedynczych obserwacji, przez wzorce w społecznościach, aż po długie fale
+cywilizacyjne; a rolą systemu jest agregować te sygnały bez ulegania panice, modzie
+czy propagandzie.
+
+Trendy są w DIA hipotezami, które przechodzą przez filtr ugruntowania: są oznaczane
+poziomem pewności, źródłami, możliwymi mechanizmami i przewidywaniami, które można
+później porównać z rzeczywistością. Dzięki temu rój nie tylko "wie więcej", lecz
+potrafi nawigować: adaptować strategie, priorytety i alokację zasobów w odpowiedzi na
+zmieniające się warunki, zachowując jednocześnie odporność na zbiorowe złudzenia.
+
+### Predykcyjna odpowiedzialność
+
+W DIA "mądrość" nie jest deklaracją, tylko sprawdzalną umiejętnością przewidywania
+skutków: węzły proponują predykcje (pojedyncze lub konsensualne), a sieć porównuje je
+z rezultatami i uczy się na rozjazdach. Ta wartość nadaje sens reputacji: zaufanie
+rośnie nie od autoprezentacji, lecz od zgodności przewidywań z rzeczywistością oraz
+od uczciwości w kalibracji niepewności (kiedy nie wiemy, mówimy, że nie
+wiemy).
+
+Predykcyjność jest tu praktyką wspólnotową: różne modele i światopoglądy mogą
+współistnieć, o ile potrafią wejść w obieg hipotez -> testów -> korekt, bez karania za
+sam błąd, lecz z odpowiedzialnością za konsekwencje i za jakość aktualizacji.
+
+Inteligencja roju to więc zdolność adaptacji poprzez przewidywanie: im
+lepiej sieć przewiduje, tym lepiej koordynuje działania i tym mniej cierpienia
+produkuje "przez przypadek".
