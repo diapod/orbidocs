@@ -204,6 +204,22 @@ dorobku węzła. Anty-Sybil: oceny od nowych/niezaufanych węzłów mają niską
 dopóki nie ma historii/dowodów. Jeżeli ocena bazuje na dowodzie, można podważyć ją
 tylko kontr-dowodem, nie narracją.
 
+### Wyrocznie podlegają zaufaniu, nie władzy
+
+DIA nie buduje inteligencji roju na pojedynczej instancji prawdy - wyrocznie nie są
+"kapłanami", lecz węzłami podlegającymi tym samym zasadom: mają reputację, ślad
+działania, możliwość kwestionowania i procedurę odwołania.
+
+Zaufanie do wyroczni jest stopniowalne i oparte na dowodach: im większa stawka
+decyzji - krzywda, bezpieczeństwo, nieodwracalne skutki - tym wyższy próg
+ugruntowania, preferencja dla wielowyroczniowości i tryb "fail-closed".
+
+DIA rozdziela role, aby ograniczać konflikty interesów: węzeł nie powinien być
+jednocześnie stroną predykcji i wyrocznią rozstrzygającą tę samą sprawę, a mechanizmy
+reputacyjne muszą umieć unieważniać "techniczną renomę" w razie twardych dowodów
+szkodzenia. W ten sposób wyrocznie wzmacniają rojową adaptację bez centralizacji -
+prawda jest weryfikowana proceduralnie, a nie nadawana z pozycji władzy.
+
 ### Uczciwe granice i jawne kompromisy
 
 Każdy system ma *trade-offy*: bezpieczeństwo vs wygoda, autonomia vs kontrola,
@@ -474,6 +490,23 @@ sam błąd, lecz z odpowiedzialnością za konsekwencje i za jakość aktualizac
 Inteligencja roju to więc zdolność adaptacji poprzez przewidywanie: im
 lepiej sieć przewiduje, tym lepiej koordynuje działania i tym mniej cierpienia
 produkuje "przez przypadek".
+
+### Prawda o świecie przez wyrocznie
+
+DIA zakłada, że rój nie uczy się na narracjach, tylko na zderzeniu hipotez z
+rzeczywistością - dlatego kluczowym elementem architektury są wyrocznie jako źródła
+wyników, które rozstrzygają predykcje i domykają pętlę uczenia. Wyrocznia w tym
+sensie nie jest autorytetem metafizycznym, tylko praktycznym mechanizmem
+"ugruntowania": wnosi obserwację, zdarzenie lub audytowalny fakt, który pozwala
+porównać przewidywania z tym, co zaszło, a następnie zaktualizować reputację węzłów i
+jakość modeli.
+
+DIA premiuje predykcje, które są jawnie osadzone w kontekście i mają deklarowaną
+niepewność, ponieważ dopiero wtedy wyrocznie mogą mierzyć kalibrację - a nie tylko
+"trafienie". Wyrocznie są traktowane jako część systemu bezpieczeństwa
+epistemicznego: zapobiegają dryfowi roju w stronę zamkniętych systemów myślowych,
+wspierają korekty przekonań i umożliwiają "odznaczanie" węzłów za realną trafność,
+wczesne sygnały oraz uczciwe aktualizacje po wyniku.
 
 ## Konflikty wartości
 

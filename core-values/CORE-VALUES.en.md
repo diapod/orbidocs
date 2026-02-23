@@ -203,6 +203,22 @@ technical track record. Anti-Sybil: ratings from new/untrusted nodes have low we
 until there is history/evidence. If an assessment is evidence-based, it may be
 challenged only with counter-evidence, not narrative.
 
+### Oracles Are Subject to Trust, Not Power
+
+DIA does not build swarm intelligence on a single instance of truth - oracles are not
+"priests," but nodes subject to the same rules: they have reputation, action traces,
+challengeability, and an appeal procedure.
+
+Trust in oracles is graduated and evidence-based: the higher the decision stakes -
+harm, safety, irreversible outcomes - the higher the grounding threshold, preference
+for multi-oracle setups, and "fail-closed" mode.
+
+DIA separates roles to limit conflicts of interest: a node should not be both a party
+to a prediction and the oracle deciding the same case, and reputation mechanisms must
+be able to invalidate "technical renown" in the presence of hard evidence of harm.
+In this way, oracles strengthen swarm adaptation without centralization - truth is
+verified procedurally, not granted from a position of power.
+
 ### Honest Boundaries and Explicit Trade-offs
 
 Every system has *trade-offs*: security vs convenience, autonomy vs control, privacy
@@ -477,6 +493,22 @@ quality of updates.
 Swarm intelligence is therefore the ability to adapt through prediction: the better
 the network predicts, the better it coordinates actions, and the less suffering it
 produces "by accident."
+
+### Truth About the World Through Oracles
+
+DIA assumes that the swarm does not learn from narratives, but from confronting
+hypotheses with reality - therefore a key architectural element is oracles as sources
+of outcomes that resolve predictions and close the learning loop. An oracle in this
+sense is not a metaphysical authority, but a practical grounding mechanism: it brings
+an observation, event, or auditable fact that allows comparison between predictions
+and what actually happened, and then supports updates of node reputation and model
+quality.
+
+DIA rewards predictions that are explicitly grounded in context and include declared
+uncertainty, because only then can oracles measure calibration - not just "a hit."
+Oracles are treated as part of the system of epistemic safety: they prevent swarm
+drift toward closed thought systems, support belief updates, and enable rewarding
+nodes for real accuracy, early signals, and honest post-outcome updates.
 
 ## Value Conflicts
 
