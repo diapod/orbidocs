@@ -474,3 +474,56 @@ sam błąd, lecz z odpowiedzialnością za konsekwencje i za jakość aktualizac
 Inteligencja roju to więc zdolność adaptacji poprzez przewidywanie: im
 lepiej sieć przewiduje, tym lepiej koordynuje działania i tym mniej cierpienia
 produkuje "przez przypadek".
+
+## Konflikty wartości
+
+W DIA konflikty wartości rozwiązuje się przez hierarchię i procedurę wyjątków:
+najpierw sprawdzamy, czy proponowane działanie narusza wartości nienegocjowalne, a
+jeśli nie - wybieramy rozwiązanie o najmniejszej szkodzie i najwyższej
+odwracalności.
+
+Hierarchia domyślna jest taka: godność i bezpieczeństwo człowieka > suwerenność i
+prywatność > weryfikowalność i przejrzystość > sprawczość i autonomia > skuteczność i
+optymalizacja > wygoda i estetyka.
+
+Gdy dwie wartości z tego samego poziomu wchodzą w konflikt, rozstrzygamy go przez:
+
+- test odwracalności (czy da się wrócić po błędzie),
+- test proporcjonalności (czy koszt i ryzyko są adekwatne do stawki),
+- test jawności (czy kompromis da się opisać i audytować).
+
+Wyjątki są dopuszczalne tylko wtedy, gdy mają jasno zdefiniowany zakres, czas trwania
+i warunki wyłączenia - oraz gdy zostawiają ślad: "policy-id", "reason",
+"risk-level", "expiry", "owner". Każdy wyjątek musi mieć tryb "fail-closed" jako
+punkt powrotu, a jego skutki uboczne muszą być monitorowane i raportowane; jeśli
+pojawiają się sygnały krzywdy lub nadużyć, wyjątek jest cofany automatycznie.
+
+Spory interpretacyjne rozwiązuje się w trybie proceduralnej sprawiedliwości: strona
+zgłaszająca ryzyko ma pierwszeństwo, dowody mają pierwszeństwo nad narracją, a decyzje
+są podejmowane przez zdefiniowany proces governance - nie przez autorytet osoby.
+
+## Prawa i obowiązki węzła - obywatelstwo roju
+
+Węzeł w DIA jest "obywatelem roju": ma prawa, które chronią jego autonomię, i
+obowiązki, które chronią wspólnotę przed Sybilem, nadużyciami i degradacją poznawczą.
+Prawa minimalne obejmują:
+
+- prawo do wyjścia (możliwość odłączenia się bez szantażu i bez utraty dostępu do własnych danych),
+- prawo do prywatności (minimalizacja danych, kontrola ujawnień, czytelne polityki),
+- prawo do wglądu (możliwość audytu własnych interakcji i decyzji agentów poprzez ślady działania),
+- prawo do odwołania (procedura zakwestionowania decyzji reputacyjnej lub sankcji),
+- prawo do bezpieczeństwa (ochrona przed nękaniem, doxxingiem, sabotażem i ekonomicznym wymuszaniem).
+
+Obowiązki minimalne obejmują:
+
+- niekrzywdzenie (zakaz działań celowo krzywdzących ludzi lub infrastrukturę),
+- uczciwość epistemiczną (oznaczanie spekulacji, nie fałszowanie dowodów, nie manipulowanie reputacją),
+- współdziałanie protokołowe (respektowanie kontraktów, wersji protokołu i limitów),
+- odpowiedzialność operacyjną (utrzymywanie podstawowej higieny bezpieczeństwa, kluczy i aktualizacji),
+- wzajemną gotowość pomocy w ramach możliwości - bez obowiązku transakcyjnego rozrachunku.
+
+Egzekwowanie jest stopniowalne: od ostrzeżeń i ograniczeń uprawnień, przez kwarantannę
+reputacyjną, po odcięcie routingu - zawsze z logiem decyzji, możliwością odwołania i
+ścieżką powrotu po naprawie. Każda federacja może zaostrzyć te zasady w
+"CORP_COMPLIANT", ale nie może osłabić praw podstawowych ani obejść godności i
+bezpieczeństwa jako warstwy nienegocjowalnej.
