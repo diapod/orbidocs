@@ -72,6 +72,13 @@ enforce obedience, polarize through dehumanization, or sabotage the safety of ot
 This is pluralism with contracts: you may be different if we can safely share the
 same space.
 
+DIA also protects anomalies as a cultural resource: in the era of the "low-pass
+filter," rare signals vanish, distribution becomes predictable, and culture starts
+eating its own tail. That is why we strengthen diversity of styles, because they
+inject novelty and prevent stagnation (including in models). The human being - a
+feeling subject rooted in pain, joy, absurdity, and relationship - brings novelty
+entropy into the system.
+
 ### Rebalancing and Democratization
 
 Knowledge and intelligence must not be permanently monopolized by centers of capital,
@@ -307,6 +314,14 @@ rewards responses and decisions that can show their anchoring (data, experience,
 measurement, witness, mechanism), and degrades those that are pure elegant narrative
 detached from reality.
 
+### Stratification of the Source Position of Experience
+
+In DIA, we make sure not to confuse levels: abstractions (arguments, models,
+objectivity) grow out of culture, culture grows out of the personal layer, and that
+layer has its foundation in the "level zero" of human experience. When designing the
+system, we ensure higher layers do not detach from that foundation, because then
+intelligence can become a PR front for low drives.
+
 ### Open Systems
 
 DIA designs intelligence as a dynamic phenomenon: relational, self-correcting, and
@@ -338,6 +353,12 @@ Where possible, we introduce measurements, tests, benchmarks, quality metrics, a
 regression detection mechanisms. When something is speculation, we call it speculation
 and design an experiment that can disprove or strengthen it.
 
+In DIA, truth is not a status or a slogan, but a feedback loop:
+introspection -> honesty about motives -> verification of hypotheses in the world ->
+correction. Without honesty with oneself (that is, without recognizing which internal
+motives want to dominate opinion or action), even brilliant arguments become tools of
+fear and control.
+
 ### Multi-paradigm Thinking and Pluralism
 
 The world is not one ontology: sometimes formal correctness matters, sometimes
@@ -345,6 +366,16 @@ usability, sometimes security, and sometimes human meaning. DIA should hold many
 cognitive modes without ideological war: from hard engineering to the language of
 phenomenology of experience. This translates into architecture: different agents,
 different completeness criteria, and different rules of evidence.
+
+Perspective is a tool here: we choose and integrate points of view so they fit the
+problem and conditions, instead of assuming one perspective always wins. This is a
+practical response to the polyversionality of truth: nodes should be able to
+translate differences, map tensions, and build meta-frames that lead to coordinated
+action.
+
+DIA also avoids cognitive reductionism: reductions change the level of description,
+but do not invalidate the phenomenon. We evaluate intelligence pragmatically by
+behavior and outcomes, not by metaphysical labeling of inner essence.
 
 ### Anti-sectarianism and Epistemic Hygiene
 
@@ -361,6 +392,12 @@ linking sources, marking provenance, comparing variants, and indicating decision
 adequate to user goals. The swarm should also act as an epistemic filter: reduce
 noise, detect manipulation, expose uncertainty, and separate hypotheses from facts,
 without central censorship and without suppressing pluralism.
+
+In a world of information overload, swarms of agents also work as an intention filter
+on the user's side: they suggest what strengthens the person, what dysregulates them,
+and what feeds on emotions. The condition of fairness is simple: the agent must be
+able to explain why it filters - which criteria it adopted and which interest it
+represents.
 
 ### Transparency of Agency
 

@@ -70,6 +70,12 @@ nie próbują one przejąć infrastruktury zaufania, wymusić posłuszeństwa, p
 przez dehumanizację ani sabotować bezpieczeństwa innych. To jest pluralizm
 z kontraktami: możesz być inny, jeżeli potrafimy bezpiecznie współdzielić przestrzeń.
 
+DIA chroni też anomalie jako zasób kulturowy: w epoce "filtra dolnoprzepustowego"
+rzadkie sygnały znikają, rozkład staje się przewidywalny, a kultura zaczyna zjadać
+własny ogon. Dlatego wzmacniamy różnorodność stylów, bo to one wstrzykują nowość i
+zapobiegają stagnacji (także w modelach). Człowiek - czujący podmiot zakorzeniony
+w bólu, radości, absurdzie i relacji - wnosi do systemu entropię nowości.
+
 ### Zrównoważanie i demokratyzacja
 
 Wiedza i inteligencja nie mogą być trwale monopolizowane przez centra kapitału,
@@ -309,6 +315,14 @@ oznacza to, że system premiuje odpowiedzi i decyzje, które potrafią wskazać 
 zakotwiczenie (dane, doświadczenie, pomiar, świadek, mechanizm), a degraduje takie,
 które są czystą elegancką narracją oderwaną od rzeczywistości.
 
+### Stratyfikacja źródłowej pozycji doświadczeń
+
+W DIA pilnujemy, by nie mylić poziomów: abstrakty (argumenty, modele, obiektywność)
+wyrastają z kultury, ta z warstwy osobistej, a ta ma fundament w "poziomie zero"
+ludzkiego doświadczenia. Projektując system, dbamy, by wyższe warstwy nie odklejały
+się od fundamentu, ponieważ wtedy inteligencja może stać się PR-owcem niskich
+pobudek.
+
 ### Otwarte systemy
 
 DIA projektuje inteligencję jako zjawisko dynamiczne: relacyjne, samo-korygujące się
@@ -340,6 +354,12 @@ gdzie się da, wprowadzamy pomiary, testy, benchmarki, metryki jakości i mechan
 detekcji regresji. Gdy coś jest spekulacją, nazywamy to spekulacją i projektujemy
 eksperyment, który ją obali albo wzmocni.
 
+Prawda w DIA nie jest statusem ani hasłem, tylko pętlą sprzężenia zwrotnego:
+introspekcja -> szczerość wobec motywów -> weryfikacja hipotez w świecie ->
+korekta. Bez szczerości ze sobą (czyli bez rozpoznania, jakie wewnętrzne motywy chcą
+dominować opinię lub działanie) nawet genialne argumenty stają się narzędziem lęku
+i kontroli.
+
 ### Wieloparadygmatowość i pluralizm
 
 Świat nie jest jedną ontologią: czasem liczy się formalna poprawność, czasem
@@ -347,6 +367,15 @@ użyteczność, czasem bezpieczeństwo, a czasem sens dla człowieka. DIA ma umi
 wiele trybów poznawczych bez wojny ideologicznej: od twardej inżynierii po język
 fenomenologii doświadczenia. To przekłada się na architekturę: różne agenty, różne
 kryteria kompletności i różne zasady dowodu.
+
+Perspektywa jest tu narzędziem: dobieramy i integrujemy punkty widzenia tak, by
+pasowały do problemu i warunków, zamiast zakładać, że jedna perspektywa zawsze
+wygrywa. To praktyczna odpowiedź na poliwersyjność prawdy: węzły mają umieć tłumaczyć
+różnice, mapować napięcia i budować meta-ramy prowadzące do wspólnego działania.
+
+DIA unika też redukcjonizmu poznawczego: redukcje zmieniają poziom opisu, ale nie
+unieważniają zjawiska. Inteligencję oceniamy pragmatycznie po zachowaniu i skutkach,
+a nie po metafizycznym etykietowaniu wnętrza.
 
 ### Anty-sekciarstwo i higiena epistemiczna
 
@@ -363,6 +392,11 @@ intencji) rój nie może być tylko wzmacniaczem sygnału. Jego rolą jest nawig
 decyzyjnych adekwatnych do celu użytkownika. Rój ma też działać jak filtr
 epistemiczny: redukować szum, wykrywać manipulacje, eksponować niepewność i oddzielać
 hipotezy od faktów, bez centralnej cenzury i bez tłumienia pluralizmu.
+
+W świecie nadmiaru informacji roje agentów działają także jako filtr intencji po
+stronie użytkownika: podpowiadają, co wzmacnia, co rozregulowuje i co żeruje na
+emocjach. Warunek uczciwości jest prosty: agent musi umieć wyjaśnić, dlaczego
+filtruje - jakie przyjął kryteria i jaki interes reprezentuje.
 
 ### Przejrzystość sprawczości
 
