@@ -220,12 +220,12 @@ tylko kontr-dowodem, nie narracją.
 
 ### Wyrocznie podlegają zaufaniu, nie władzy
 
-DIA nie buduje inteligencji roju na pojedynczej instancji prawdy - wyrocznie nie są
+DIA nie buduje inteligencji roju na pojedynczej instancji prawdy – wyrocznie nie są
 "kapłanami", lecz węzłami podlegającymi tym samym zasadom: mają reputację, ślad
 działania, możliwość kwestionowania i procedurę odwołania.
 
 Zaufanie do wyroczni jest stopniowalne i oparte na dowodach: im większa stawka
-decyzji - krzywda, bezpieczeństwo, nieodwracalne skutki - tym wyższy próg
+decyzji – krzywda, bezpieczeństwo, nieodwracalne skutki – tym wyższy próg
 ugruntowania, preferencja dla wielowyroczniowości i tryb "fail-closed".
 
 DIA rozdziela role, aby ograniczać konflikty interesów: węzeł nie powinien być
@@ -238,39 +238,41 @@ prawda jest weryfikowana proceduralnie, a nie nadawana z pozycji władzy.
 
 DIA zakłada, że konflikt interesów nie jest wyjątkiem ani "wpadką
 charakterologiczną", lecz naturalnym zjawiskiem w systemach, gdzie krążą pieniądze,
-prestiż, wpływ i dostęp. Dlatego COI nie leczy się deklaracją cnót - leczy się
+prestiż, wpływ i dostęp. Dlatego COI nie leczy się deklaracją cnót – leczy się
 architekturą: rozdziałem ról, audytem, procedurami litigation readiness,
 kolekcjonowaniem śladów decyzji i mechanizmami unieważniania uprzedzeń.
 
-Domyślna postawa to: wszyscy mamy interesy - więc system ma je ujawniać i ograniczać.
+Domyślna postawa to: wszyscy mamy interesy – więc system ma je ujawniać i ograniczać.
 Każda rola/agent/węzeł, który ocenia, rekomenduje, publikuje lub rozstrzyga spór,
 powinien mieć jawny kontekst interesów: finansowych, organizacyjnych, reputacyjnych,
-relacyjnych i politycznych. Brak deklaracji nie oznacza braku konfliktu - oznacza
+relacyjnych i politycznych. Brak deklaracji nie oznacza braku konfliktu – oznacza
 brak danych.
 
 W praktyce oznacza to: separację funkcji (np. nie jesteś jednocześnie stroną i
 wyrocznią tej samej sprawy), obowiązkowe oznaczanie powiązań i benefitów, mechanizmy
 wyłączeń z decyzji, oraz reputację wrażliwą na COI (możesz być genialny technicznie,
 a jednocześnie nie możesz rozstrzygać, gdy stawką jest Twój interes). COI nie jest
-tu oskarżeniem - jest parametrem ryzyka, który system umie mierzyć i obsłużyć.
+tu oskarżeniem – jest parametrem ryzyka, który system umie mierzyć i obsłużyć.
 
 ### Warstwowy screening ról
 
 DIA przyjmuje zasadę, że role o większej władzy nad procesem i większym dostępie do
 informacji wrażliwych wymagają silniejszego wejścia. Screening nie jest testem
-lojalności ani filtrem ideologicznym - jest mechanizmem bezpieczeństwa systemu,
+lojalności ani filtrem ideologicznym - jest mechanizmem bezpieczeństwa systemu,
 integralności procesu i ochrony ludzi (w szczególności sygnalistów).
 
 W praktyce oznacza to screening warstwowy, proporcjonalny do stawki:
-(1) jawne ujawnienie konfliktów interesów i zgoda na wyłączenia,
-(2) weryfikację kompetencji proceduralnych - praca na dowodach, redakcja danych,
-retencja, standard publikacji,
-(3) reputację proceduralną - dotrzymywanie kontraktów i rozdział ról,
-(4) okres próbny oraz eskalację uprawnień zgodnie z zasadą least privilege.
-Dostęp do danych i możliwość podejmowania decyzji rośnie stopniowo - a decyzje
-governance są audytowalne, wielopodpisane i odwracalne tam, gdzie to możliwe.
 
-Warstwowy screening ma chronić rój przed infiltracją, nadużyciem i "soft capture" -
+1. jawne ujawnienie konfliktów interesów i zgoda na wyłączenia,
+2. weryfikację kompetencji proceduralnych – praca na dowodach, redakcja danych,
+   retencja, standard publikacji,
+3. reputację proceduralną – dotrzymywanie kontraktów i rozdział ról,
+4. okres próbny oraz eskalację uprawnień zgodnie z zasadą least privilege.
+
+Dostęp do danych i możliwość podejmowania decyzji rośnie stopniowo, a decyzje
+governance są audytowalne, wielopodpisane i odwracalne tam, gdzie to możliwe.
+
+Warstwowy screening ma chronić rój przed infiltracją, nadużyciem i "soft capture" -
 bez budowania kasty. DIA wybiera mechanizmy i kontrakty zamiast arbitralnej oceny
 osób.
 
@@ -280,7 +282,7 @@ DIA przyjmuje zasadę, że zaufanie publiczne jest przywilejem o podwyższonej s
 im większa władza nad procesem, dostęp do informacji wrażliwych i wpływ na reputacje
 innych, tym większa odpowiedzialność oraz surowsze konsekwencje nadużyć. Rola
 governance, wyroczni, audytora, red-teamu, opiekuna sygnalistów i każda rola o
-podobnym ciężarze nie jest "tytułem" - jest zobowiązaniem.
+podobnym ciężarze nie jest "tytułem" – jest zobowiązaniem.
 
 W praktyce oznacza to asymetrię sankcji: naruszenia w rolach zaufania publicznego
 mają wyższy priorytet egzekucji, dłuższy okres skutków reputacyjnych i twardsze
@@ -297,7 +299,7 @@ traktowane jako naruszenia o wysokiej stawce, bo zaufanie do DIA jest dobrem
 wspólnym roju, a nie własnością jednostki.
 
 W praktyce oznacza to także tryb podwyższonej czujności uruchamiany zawsze wtedy, gdy
-konflikt lub podejrzenie krzywdy dotyczy relacji rój - osoba zaufania publicznego.
+konflikt lub podejrzenie krzywdy dotyczy relacji rój – osoba zaufania publicznego.
 Jeżeli pojawia się wiarygodny sygnał korupcji, nadużycia lub zastraszania po stronie
 osoby pełniącej rolę zaufania, ochronę potencjalnie pokrzywdzonego uczestnika roju
 traktuje się priorytetowo łącznie z zabezpieczeniem kanałów komunikacji, izolacją
@@ -311,7 +313,7 @@ zabezpieczeń jest niski: DIA woli tymczasowo ograniczyć władzę roli niż ryz
 
 ### Ochrona sygnalistów jako infrastruktura
 
-DIA zakłada, że wiele krzywd systemowych jest widocznych najpierw "od środka" - u
+DIA zakłada, że wiele krzywd systemowych jest widocznych najpierw "od środka" – u
 ludzi, którzy mają wiedzę, ale nie mają bezpiecznego sposobu, by ją ujawnić. Dlatego
 ochrona sygnalistów nie jest gestem moralnym ani PR-em, tylko elementem
 infrastruktury: kanałem, procedurą i kontraktem bezpieczeństwa.
@@ -323,7 +325,7 @@ pojedynczej osoby.
 W praktyce oznacza to: anonimowość jako domyślna opcja, minimalizację metadanych,
 selektywne ujawnianie, jasną retencję (co, na jak długo i po co trzymamy), oraz
 triage zgłoszeń (plotka -> poszlaka -> dowód) tak, by odróżniać hipotezy od dowodów
-bez przemocy wobec zgłaszającego. Sygnalista nie ma być "paliwem" dla narracji - ma
+bez przemocy wobec zgłaszającego. Sygnalista nie ma być "paliwem" dla narracji – ma
 być chronionym źródłem sygnału, który uruchamia weryfikację.
 
 System nie może obiecywać niemożliwego ("gwarantujemy zero ryzyka"), ale musi mówić
@@ -332,7 +334,7 @@ polityki publikacji oraz procedury reakcji na próby deanonimizacji i odwet.
 
 ### Opieka roju nad osobami narażonymi na odwet
 
-DIA uznaje, że w systemach o wysokiej patologii prawdomówność bywa karana - nie tylko
+DIA uznaje, że w systemach o wysokiej patologii prawdomówność bywa karana – nie tylko
 społecznie, ale też ekonomicznie i instytucjonalnie. Dlatego ochrona sygnalistów nie
 kończy się na anonimowości i procedurach. Rój bierze odpowiedzialność za ciągłość
 bytu osób i węzłów najbardziej wystawionych na odwet: tych, którzy uruchomili proces
@@ -342,8 +344,8 @@ W praktyce oznacza to mechanizmy wsparcia, które redukują koszt odwetu:
 dywersyfikację ryzyka przez kolektyw (brak pojedynczego punktu nacisku), zasady
 rotacji i zastępowalności ról, wsparcie prawne i organizacyjne oraz pomoc w odbudowie
 stabilności zawodowej w razie utraty pracy lub marginalizacji. Opieka roju ma formę
-kontraktu - z jasnymi progami uruchomienia, zakresem wsparcia, czasem trwania i
-odpowiedzialnymi rolami - tak, aby nie była uznaniowa ani zależna od sympatii.
+kontraktu – z jasnymi progami uruchomienia, zakresem wsparcia, czasem trwania i
+odpowiedzialnymi rolami – tak, aby nie była uznaniowa ani zależna od sympatii.
 
 DIA nie obiecuje świata bez ryzyka. Obiecuje coś bardziej konkretnego: jeśli ktoś
 podejmie ryzyko w interesie dobra publicznego, nie zostanie z nim sam, a system roju
@@ -353,7 +355,7 @@ potraktuje jego bezpieczeństwo jako część własnej infrastruktury.
 
 DIA traktuje publikację jako akt o realnej mocy: może chronić ludzi, ale też może
 niesprawiedliwie zniszczyć reputacje, uruchomić polowanie lub stać się narzędziem
-manipulacji. Dlatego "mówienie prawdy" nie jest licencją na szkody uboczne - jest
+manipulacji. Dlatego "mówienie prawdy" nie jest licencją na szkody uboczne – jest
 zobowiązaniem do procedury.
 
 Domyślny tryb to publikacja warunkowa: zanim coś wypuścimy, wewnętrzny red-team
@@ -376,8 +378,8 @@ krzywdy), redakcję danych wrażliwych, oraz publikowanie metod i niepewności. 
 premiuje materiały, które da się zreprodukować i sfalsyfikować, a nie te, które
 dobrze brzmią.
 
-Im większa stawka decyzji - krzywda, zdrowie, nieodwracalne skutki, szkoda
-reputacyjna - tym wyższy próg dowodowy, mocniejsza procedura weryfikacji i większa
+Im większa stawka decyzji – krzywda, zdrowie, nieodwracalne skutki, szkoda
+reputacyjna – tym wyższy próg dowodowy, mocniejsza procedura weryfikacji i większa
 ostrożność w eskalacji. System ma umieć powiedzieć "to jest jeszcze niepewne" i
 zaprojektować drogę do pewności, zamiast udawać, że każda obserwacja jest prawdą.
 
@@ -397,16 +399,16 @@ mechanizmem jakości i mechanizmem bezpieczeństwa społecznego.
 DIA przyjmuje, że mechanizmy opieki i sprawiedliwości działają najlepiej w skali, w
 której odpowiedzialność jest osobista, a reputacja ma realny koszt. Wraz ze wzrostem
 skali rośnie anonimowość, a wraz z anonimowością rośnie przestrzeń nadużyć i
-rozmycia winy. Dlatego duże systemy - jeżeli mają pozostać ludzkie i odporne na
-patologie - muszą emulować lokalność: skracać pętlę odpowiedzialności, zagęszczać
+rozmycia winy. Dlatego duże systemy – jeżeli mają pozostać ludzkie i odporne na
+patologie – muszą emulować lokalność: skracać pętlę odpowiedzialności, zagęszczać
 ślad decyzji i przywracać koszt reputacyjny tam, gdzie naturalnie by zanikł.
 
 W praktyce oznacza to projektowanie governance jako federacji małych, audytowalnych
 komórek zamiast jednego "aparatu": jasne role i rotacje, "właściciel" wyjątków i
 decyzji, multisig dla działań o wysokiej stawce, red-team jako stały przeciwwagowy
 mechanizm, oraz reputację proceduralną opartą na historii dotrzymania kontraktów.
-System ma redukować anonimowość w miejscach władzy - bez naruszania prywatności w
-miejscach wrażliwych - tak, aby pomoc była możliwa bez naiwności, a odpowiedzialność
+System ma redukować anonimowość w miejscach władzy – bez naruszania prywatności w
+miejscach wrażliwych – tak, aby pomoc była możliwa bez naiwności, a odpowiedzialność
 nie znikała w tłumie.
 
 ### Uczciwe granice i jawne kompromisy
@@ -683,7 +685,7 @@ produkuje "przez przypadek".
 ### Prawda o świecie przez wyrocznie
 
 DIA zakłada, że rój nie uczy się na narracjach, tylko na zderzeniu hipotez z
-rzeczywistością - dlatego kluczowym elementem architektury są wyrocznie jako źródła
+rzeczywistością – dlatego kluczowym elementem architektury są wyrocznie jako źródła
 wyników, które rozstrzygają predykcje i domykają pętlę uczenia. Wyrocznia w tym
 sensie nie jest autorytetem metafizycznym, tylko praktycznym mechanizmem
 "ugruntowania": wnosi obserwację, zdarzenie lub audytowalny fakt, który pozwala
@@ -691,7 +693,7 @@ porównać przewidywania z tym, co zaszło, a następnie zaktualizować reputacj
 jakość modeli.
 
 DIA premiuje predykcje, które są jawnie osadzone w kontekście i mają deklarowaną
-niepewność, ponieważ dopiero wtedy wyrocznie mogą mierzyć kalibrację - a nie tylko
+niepewność, ponieważ dopiero wtedy wyrocznie mogą mierzyć kalibrację – a nie tylko
 "trafienie". Wyrocznie są traktowane jako część systemu bezpieczeństwa
 epistemicznego: zapobiegają dryfowi roju w stronę zamkniętych systemów myślowych,
 wspierają korekty przekonań i umożliwiają "odznaczanie" węzłów za realną trafność,
@@ -723,7 +725,7 @@ pojawiają się sygnały krzywdy lub nadużyć, wyjątek jest cofany automatyczn
 Nadużycia najczęściej żyją w wyjątkach: "pilne", "specjalne", "poza kolejką",
 "na dobroczynność". Dlatego wyjątki są w DIA obiektem pierwszej kategorii audytu:
 muszą mieć własny model danych, liczniki i procedurę kontroli. Wyjątki domyślnie nie
-są zaufane - są monitorowane, a ich odsetek i struktura stanowią metrykę zdrowia
+są zaufane – są monitorowane, a ich odsetek i struktura stanowią metrykę zdrowia
 instytucji i procesu.
 
 Spory interpretacyjne rozwiązuje się w trybie proceduralnej sprawiedliwości: strona
