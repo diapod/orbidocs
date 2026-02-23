@@ -13,6 +13,7 @@
 ### Sections
 
 * `/challenges` – what challenges we face
+* `/core-values` – foundational values and ethical orientation
 * `/memos` – quick notes and idea backlog to revisit later
 * `/proposals` – proposals to be considered and implemented
 * `/requirements` – requirement specifications for certain components
@@ -22,7 +23,9 @@
 
 * `/CONSTITUTION.md` – project's constitution
 * `/COLLABORATION.md` – basic collaboration guidelines
+* `/DATA-ETHICS.md` – data ethics policy and principles
 * `/AGENTS.md` – information for agents
+* `/core-values/CORE-VALUES.pl.md` – core values document (Polish)
 
 ## Traceability Matrix
 
