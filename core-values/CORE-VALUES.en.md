@@ -392,6 +392,23 @@ This value reduces the risk of intimidation, error, and manipulation: there is n
 single pressure point and no single author that can be "broken." Multisig is both a
 quality mechanism and a social-safety mechanism.
 
+### Scaling Through Local Accountability
+
+DIA assumes that care and justice mechanisms work best at the scale where
+responsibility is personal and reputation has real cost. As scale grows, anonymity
+grows, and with anonymity the space for abuse and diluted blame increases. Therefore
+large systems - if they are to remain human and resilient to pathology - must emulate
+locality: shorten accountability loops, densify decision traces, and restore
+reputational cost where it would naturally disappear.
+
+In practice this means designing governance as a federation of small, auditable cells
+instead of a single "apparatus": clear roles and rotations, an explicit "owner" for
+exceptions and decisions, multisig for high-stakes actions, red-team as a standing
+counterbalance mechanism, and procedural reputation based on a history of honoring
+contracts. The system should reduce anonymity in places of power - without violating
+privacy in sensitive contexts - so help remains possible without naivety and
+accountability does not vanish in the crowd.
+
 ### Honest Boundaries and Explicit Trade-offs
 
 Every system has *trade-offs*: security vs convenience, autonomy vs control, privacy

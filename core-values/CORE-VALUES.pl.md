@@ -392,6 +392,23 @@ Ta wartość redukuje ryzyko zastraszania, błędu i manipulacji: nie ma jednego
 nacisku ani jednego autora, którego można "złamać". Multisig jest jednocześnie
 mechanizmem jakości i mechanizmem bezpieczeństwa społecznego.
 
+### Skalowanie przez lokalną odpowiedzialność
+
+DIA przyjmuje, że mechanizmy opieki i sprawiedliwości działają najlepiej w skali, w
+której odpowiedzialność jest osobista, a reputacja ma realny koszt. Wraz ze wzrostem
+skali rośnie anonimowość, a wraz z anonimowością rośnie przestrzeń nadużyć i
+rozmycia winy. Dlatego duże systemy - jeżeli mają pozostać ludzkie i odporne na
+patologie - muszą emulować lokalność: skracać pętlę odpowiedzialności, zagęszczać
+ślad decyzji i przywracać koszt reputacyjny tam, gdzie naturalnie by zanikł.
+
+W praktyce oznacza to projektowanie governance jako federacji małych, audytowalnych
+komórek zamiast jednego "aparatu": jasne role i rotacje, "właściciel" wyjątków i
+decyzji, multisig dla działań o wysokiej stawce, red-team jako stały przeciwwagowy
+mechanizm, oraz reputację proceduralną opartą na historii dotrzymania kontraktów.
+System ma redukować anonimowość w miejscach władzy - bez naruszania prywatności w
+miejscach wrażliwych - tak, aby pomoc była możliwa bez naiwności, a odpowiedzialność
+nie znikała w tłumie.
+
 ### Uczciwe granice i jawne kompromisy
 
 Każdy system ma *trade-offy*: bezpieczeństwo vs wygoda, autonomia vs kontrola,
