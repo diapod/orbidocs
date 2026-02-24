@@ -33,6 +33,8 @@ reasonable anonymization, and transparent logging policies. Telemetry should be
 *opt-in*, and logs should be designed not to reveal what they do not need to reveal.
 The value of dignity also means: no hidden eavesdropping channels and no mechanisms
 that turn the user into raw material.
+Where auditability is required, we use layered traces: a full local trace and a
+redacted audit trace disclosed under least-disclosure principles.
 
 ### Human Process as the Default Path of Power
 
@@ -204,6 +206,8 @@ telemetry, cost policies), so the project has a duty to make those places explic
 In DIA, reputation is not for building hierarchy, but for safe trust routing: who may
 act as relay, who may host agents, who may be entrusted with data, whose signature
 has meaning. Because ratings are subjective, we treat this as a multi-layer model:
+Reputation-derived permissions are functional, time-bounded, and revocable; they do
+not create class status or governance immunity.
 
 - local node assessments,
 - evidence of operation (attestations, logs, contracts, test results, incident evidence),
@@ -467,6 +471,9 @@ network treats attribution as part of trust infrastructure: ideas, knowledge
 fragments, implementations, and artifacts should have the most unambiguous provenance
 trail possible, and creators should be identified automatically in ways resistant to
 distortion.
+By default this means pseudonymous attribution (key-based signatures), not disclosure
+of civil identity; de-anonymization is allowed only through procedure, at high stakes,
+with a full audit trail.
 
 DIA rewards the practice of "cite your source" and transparent chains of inspiration,
 including correct citation and explicit marking of co-author contribution, because
@@ -501,6 +508,9 @@ persons/nodes, and instead an automatic, predictable network-gratitude mechanism
 component (subjective value of received help). Reciprocity concerns both humans and
 agents: an agent can be a helper (time, compute, skills), and the human is the final
 point of meaning.
+This phrase refers to the absence of manual bilateral debt between participants;
+protocol-level accounting of the community fund and anti-abuse counters remains
+mandatory.
 
 As a result, help actions are *first-class events*, support tokens are paid from the
 community fund according to rules, and recipient indication of who truly helped is an
@@ -621,6 +631,8 @@ linking sources, marking provenance, comparing variants, and indicating decision
 adequate to user goals. The swarm should also act as an epistemic filter: reduce
 noise, detect manipulation, expose uncertainty, and separate hypotheses from facts,
 without central censorship and without suppressing pluralism.
+The filter is not a central gate of truth: it should be local or federated,
+configurable by user/federation policy, with right-to-exit and auditable criteria.
 
 In a world of information overload, swarms of agents also work as an intention filter
 on the user's side: they suggest what strengthens the person, what dysregulates them,

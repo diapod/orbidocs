@@ -33,6 +33,9 @@ sensowne anonimizacje oraz przejrzyste polityki logowania. Telemetria ma być
 *opt-in*, a logi projektowane tak, by nie zdradzały tego, czego zdradzać nie
 muszą. Wartość godności oznacza też: żadnych ukrytych kanałów podsłuchu oraz
 mechanizmów, które czynią użytkownika surowcem.
+Tam, gdzie wymagana jest audytowalność, stosujemy ślady warstwowe: pełny ślad
+lokalny i redagowany ślad audytowy, ujawniany zgodnie z zasadą minimalnego
+ujawnienia.
 
 ### Proces osoby ludzkiej jako domyślna ścieżka mocy
 
@@ -205,6 +208,8 @@ Reputacja w DIA nie służy do budowania hierarchii, ale do bezpiecznego routing
 zaufania: komu wolno być przekaźnikiem, komu wolno hostować agentów, komu powierzyć
 dane, czyj podpis coś znaczy. Ponieważ oceny są subiektywne, robimy z tego model
 wielowarstwowy:
+Uprawnienia wynikające z reputacji są funkcjonalne, czasowe i odwoływalne; nie
+tworzą statusu klasowego ani immunitetu governance.
 
 - lokalne oceny węzłów,
 - dowody działania (attestacje, logi, kontrakty, wyniki testów, dowody incydentów),
@@ -467,6 +472,9 @@ gdzie wkład jest darem, uznanie jest nośnikiem reputacji. Dlatego sieć traktu
 atrybucję jako element infrastruktury zaufania: pomysły, fragmenty wiedzy,
 implementacje i artefakty muszą mieć możliwie jednoznaczny ślad pochodzenia, a twórcy
 powinni być wskazywani w sposób automatyczny i odporny na zniekształcenia.
+Domyślnie oznacza to atrybucję pseudonimową (podpisy kluczami), a nie ujawnianie
+tożsamości cywilnej; deanonimizacja może następować wyłącznie proceduralnie, przy
+wysokiej stawce i z pełnym śladem audytu.
 
 DIA premiuje praktykę "podaj źródło" oraz transparentne łańcuchy inspiracji – w tym
 poprawne cytowanie i zaznaczanie wkładu współautorów – ponieważ to podtrzymuje
@@ -500,6 +508,9 @@ mechanizm wdzięczności sieci (gwarantowane tokeny) + komponent losowy (anty-ga
 komponent "głos odbiorcy" (subiektywna wartość otrzymanej pomocy). Wzajemność dotyczy
 zarówno ludzi, jak i agentów: agent może być dawcą pomocy (czas, obliczenia,
 umiejętności), a człowiek jest ostatecznym punktem sensu.
+To sformułowanie dotyczy braku ręcznego, bilateralnego długu między uczestnikami;
+księgowość protokołowa funduszu wspólnoty i antynadużyciowe liczniki pozostają
+obowiązkowe.
 
 W efekcie akcje pomocy to zdarzenia pierwszej kategorii (*first-class events*),
 tokeny za udzielane wsparcie są wypłacane z funduszu wspólnoty według reguł,
@@ -620,6 +631,9 @@ intencji) rój nie może być tylko wzmacniaczem sygnału. Jego rolą jest nawig
 decyzyjnych adekwatnych do celu użytkownika. Rój ma też działać jak filtr
 epistemiczny: redukować szum, wykrywać manipulacje, eksponować niepewność i oddzielać
 hipotezy od faktów, bez centralnej cenzury i bez tłumienia pluralizmu.
+Filtr nie jest centralną bramką prawdy: powinien być lokalny lub federacyjny,
+konfigurowalny przez politykę użytkownika/federacji, z prawem wyjścia i audytem
+kryteriów.
 
 W świecie nadmiaru informacji roje agentów działają także jako filtr intencji po
 stronie użytkownika: podpowiadają, co wzmacnia, co rozregulowuje i co żeruje na
