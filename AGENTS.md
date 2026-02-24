@@ -87,7 +87,7 @@ Until a different structure is approved, use:
 - `requirements/` for requirement specifications derived from stories.
 
 For challenge/proposal linkage, keep traceability explicit:
-- each proposal file should reference its source challenge(s) in the header (for example: `Based on: challenges/001-licensing-a.md`);
+- each proposal file should reference its source challenge(s) in the header (for example: `Based on: challenges/001-licensing.md`);
 - use aligned numbering where practical (for example: `challenges/001-*.md` -> `proposals/001-*.md`).
 
 When both exist for the same topic, keep traceability explicit:
