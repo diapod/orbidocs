@@ -460,6 +460,27 @@ lecz strategia odporności: gdy wiedza krąży, system jest mniej kruchy, a jako
 rośnie. Warto projektować ścieżki, w których wkład społeczności (reguły, konektory,
 polityki, prompty, testy) jest naturalny i nagradzany uznaniem.
 
+### Uznanie autorstwa jako waluta zaufania
+
+DIA uznaje autorstwo za fundamentalny emblemat w kulturze dobrowolnej wymiany – tam,
+gdzie wkład jest darem, uznanie jest nośnikiem reputacji. Dlatego sieć traktuje
+atrybucję jako element infrastruktury zaufania: pomysły, fragmenty wiedzy,
+implementacje i artefakty muszą mieć możliwie jednoznaczny ślad pochodzenia, a twórcy
+powinni być wskazywani w sposób automatyczny i odporny na zniekształcenia.
+
+DIA premiuje praktykę "podaj źródło" oraz transparentne łańcuchy inspiracji – w tym
+poprawne cytowanie i zaznaczanie wkładu współautorów – ponieważ to podtrzymuje
+motywację do dawania i chroni wspólnotę przed pasożytniczym zawłaszczaniem.
+
+Przywłaszczanie autorstwa (podpisywanie się pod cudzą twórczością, ukrywanie źródeł,
+celowe rozmywanie wkładu) jest w DIA uznawane za nadużycie i podlega sankcjom
+reputacyjnym, ponieważ niszczy ekonomię daru, psuje bodźce i degraduje inteligencję
+roju.
+
+Egzekwowanie ma formę proceduralną, nie plemienną: spory o autorstwo rozstrzyga się
+przez dowody (historia commitów, podpisy, logi zdarzeń, cytowania, świadectwa) oraz
+proces odwołania, a nie przez presję społeczną.
+
 ### Sprawczość zbiorowa: roje, węzły, wspólnota
 
 DIA ma wzmacniać zdolność ludzi do wspólnego działania: małe zespoły,

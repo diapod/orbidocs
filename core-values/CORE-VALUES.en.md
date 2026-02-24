@@ -459,6 +459,29 @@ resilience strategy: when knowledge circulates, the system is less fragile and
 quality improves. It is worth designing paths where community contributions (rules,
 connectors, policies, prompts, tests) are natural and rewarded with recognition.
 
+### Attribution as the Currency of Trust
+
+DIA recognizes authorship as a foundational emblem in a culture of voluntary exchange:
+where contribution is a gift, recognition is a carrier of reputation. Therefore the
+network treats attribution as part of trust infrastructure: ideas, knowledge
+fragments, implementations, and artifacts should have the most unambiguous provenance
+trail possible, and creators should be identified automatically in ways resistant to
+distortion.
+
+DIA rewards the practice of "cite your source" and transparent chains of inspiration,
+including correct citation and explicit marking of co-author contribution, because
+this sustains the motivation to give and protects the community from parasitic
+appropriation.
+
+Authorship appropriation (claiming someone else's work, hiding sources, intentionally
+blurring contribution) is treated in DIA as abuse and is subject to reputational
+sanctions, because it destroys the gift economy, corrupts incentives, and degrades
+swarm intelligence.
+
+Enforcement is procedural, not tribal: authorship disputes are resolved through
+evidence (commit history, signatures, event logs, citations, witness records) and an
+appeal process, not through social pressure.
+
 ### Collective Agency: Swarms, Nodes, Community
 
 DIA should strengthen people's ability to act together: small teams,
