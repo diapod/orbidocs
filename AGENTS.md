@@ -120,7 +120,7 @@ A change is done when:
 4. Trade-offs and risks are explicit.
 5. Next actions are concrete.
 
-## 12. Values
+## 12. Core Values
 
 There is a directory called `core-values`. It contains files with infixes communicating
 document's language, e.g., `CORE-VALUES.pl.md` is in Polish and `CORE-VALUES.en.md` is
@@ -131,6 +131,13 @@ a document's structure. Then, after a value is added, you should synchronize con
 of document contents across different language versions. When editing or generating text
 use "machine quotation marks" (e.g., "" for opening and closing double-quote,
 ' for ampersand and so on). Dash-set parentheticals should use en-dash characters (–).
+
+You are free to correct any obvious syntactical, grammatical and stylistical mistakes in text.
+
+If a core value proposed by user is actually a core value we already have defined but
+formulated in a different way or seen from a sifferent angle (or extended with details),
+you should ask user whether they really want to add a new value or integrate the given
+description into existing one.
 
 ## 13. Values → Constitution: what gets reduced, what gets added, what gets synthesized
 
