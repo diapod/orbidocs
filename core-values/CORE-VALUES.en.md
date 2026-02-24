@@ -489,6 +489,33 @@ Enforcement is procedural, not tribal: authorship disputes are resolved through
 evidence (commit history, signatures, event logs, citations, witness records) and an
 appeal process, not through social pressure.
 
+### Creator Credits – royalties without licenses, distribution based on impact and contribution
+
+DIA rewards creators for the real impact of their work on a living ecosystem not by
+selling licenses, but through *royalty-free distribution*: when a component is used by
+nodes, its authors may receive exchangeable tokens ("creator credits"). Distribution is
+not based on narrative or self-promotion, but on auditable usage signals and
+contribution metrics that reward quality and value maintenance rather than raw volume
+of changes. The model applies natural brakes against domination and farming –
+diminishing returns, activation thresholds, concentration caps, and quality gates – so
+that both a single highly popular component and distributed contribution across many
+components can compete fairly for a share of the pool.
+
+The system includes an "attribution graph": part of influence flows down dependency and
+derivative-work paths in a dampened and bounded way, so the ecosystem rewards
+composability and foundational work without creating infinite "taxes" across the whole
+chain.
+
+To reduce noise and manipulation, DIA may activate rewards only after adoption
+thresholds are crossed – for example, when a creator's cumulative contribution in
+components used by the network exceeds a defined node-share threshold – while
+"contribution" is understood cumulatively across time and ecosystem scope. Usage
+signals are aggregated with privacy protections, weighted with anti-Sybil mechanisms,
+and verified by oracles, while disputes about authorship and dependency paths are
+resolved procedurally on evidence – commits, signatures, event logs, and citations –
+with right of appeal and reputational sanctions for authorship appropriation and
+deliberate distortion of settlement data.
+
 ### Collective Agency: Swarms, Nodes, Community
 
 DIA should strengthen people's ability to act together: small teams,

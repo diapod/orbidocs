@@ -489,6 +489,32 @@ Egzekwowanie ma formę proceduralną, nie plemienną: spory o autorstwo rozstrzy
 przez dowody (historia commitów, podpisy, logi zdarzeń, cytowania, świadectwa) oraz
 proces odwołania, a nie przez presję społeczną.
 
+### Creator Credits – tantiemy bez licencji, dystrybucja oparta o wpływ i wkład
+
+DIA nagradza twórców za realny wpływ ich pracy na żywy ekosystem nie przez sprzedaż
+licencji, lecz przez *royalty-free distribution*: jeżeli komponent jest używany przez
+węzły, jego autorzy mogą otrzymywać wymienialne tokeny ("creator credits"). Dystrybucja
+nie opiera się na narracji ani autopromocji, lecz na audytowalnych sygnałach użycia
+oraz na miarach wkładu, które premiują jakość i utrzymanie wartości, a nie czystą
+ilość zmian. Model stosuje naturalne hamulce przed dominacją i farmieniem – malejące
+przyrosty, progi aktywacji, limity koncentracji oraz bramki jakości – tak aby zarówno
+pojedynczy, bardzo popularny komponent, jak i rozproszony wkład w wiele komponentów
+mogły uczciwie konkurować o udział w puli.
+
+System uwzględnia "attribution graph": część wpływu przepływa w dół zależności i prac
+pochodnych w sposób tłumiony i ograniczony, dzięki czemu ekosystem premiuje
+komponowalność oraz budowanie solidnych fundamentów, nie tworząc nieskończonych
+"podatków" na cały łańcuch.
+
+Aby ograniczać szum i manipulacje, DIA może uruchamiać nagradzanie dopiero po
+przekroczeniu progów adopcji – na przykład, gdy skumulowany wkład twórcy w komponenty
+używane w sieci przekroczy ustalony udział węzłów – przy czym "wkład" rozumiany jest
+kumulatywnie w czasie i przestrzeni ekosystemu. Sygnały użycia są agregowane
+prywatnościowo, ważone anty-Sybilowo i weryfikowane przez wyrocznie, a spory o
+autorstwo i zależności rozstrzyga się proceduralnie na podstawie dowodów – commitów,
+podpisów, logów zdarzeń i cytowań – z prawem do odwołania oraz sankcjami
+reputacyjnymi za przywłaszczanie autorstwa i celowe zniekształcanie rozliczeń.
+
 ### Sprawczość zbiorowa: roje, węzły, wspólnota
 
 DIA ma wzmacniać zdolność ludzi do wspólnego działania: małe zespoły,
