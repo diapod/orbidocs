@@ -120,7 +120,19 @@ A change is done when:
 4. Trade-offs and risks are explicit.
 5. Next actions are concrete.
 
-## 12. Values → Constitution: what gets reduced, what gets added, what gets synthesized
+## 12. Values
+
+There is a directory called `core-values`. It contains files with infixes communicating
+document's language, e.g., `CORE-VALUES.pl.md` is in Polish and `CORE-VALUES.en.md` is
+in English.
+
+When user asks to add a value you should find a best spot to place it within
+a document's structure. Then, after a value is added, you should synchronize contents
+of document contents across different language versions. When editing or generating text
+use "machine quotation marks" (e.g., "" for opening and closing double-quote,
+' for ampersand and so on). Dash-set parentheticals should use en-dash characters (–).
+
+## 13. Values → Constitution: what gets reduced, what gets added, what gets synthesized
 
 Moving from "values" to a "constitution" does two things at once:
 it reduces poetry and adds machinery.
