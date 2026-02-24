@@ -82,6 +82,7 @@ Until a different structure is approved, use:
 
 - `README.md` for project entry point.
 - `challenges/` for challenge analyses and risk/problem framing.
+- `memos/` for quick notes, idea seeds, and backlog items to revisit later.
 - `proposals/` for ADR-style strategic and architectural proposals.
 - `stories/` for scenario narratives (step-by-step user/node flows).
 - `requirements/` for requirement specifications derived from stories.
@@ -93,6 +94,12 @@ For challenge/proposal linkage, keep traceability explicit:
 When both exist for the same topic, keep traceability explicit:
 - each requirements file should reference its source story in the header (for example: `Based on: stories/story-001.md`);
 - use aligned numbering where practical (for example: `story-001.md` -> `requirements-001.md`).
+
+Memos (`memos/`) are informal, short-lived notes (idea seeds, observations, backlog items).
+They do not need to follow the full document quality contract (section 4), but should:
+- have a title heading,
+- contain at least one actionable sentence,
+- be promoted into a challenge, story, or proposal when they mature.
 
 When adding new top-level folders, justify them in the relevant ADR or README update.
 
