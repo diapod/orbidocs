@@ -147,6 +147,19 @@ modules and extensions. This protects against system bloat and against silently
 growing complexity. In practice this means thin behavior interfaces, edge validation
 instead of central validation, and conscious design of extension points.
 
+### Protocol Implementations Agnostic to Platform
+
+DIA treats the protocol as a semantic contract independent of operating system, CPU
+architecture, accelerator type, and hardware class. A node should be able to run on
+laptops, servers, SBCs, phones, and edge infrastructure, as long as it satisfies an
+explicit minimal contract for security and interoperability. Transport, data-format,
+and cryptography specifications must not assume a single runtime or vendor; a
+reference implementation does not define a monopoly.
+
+In practice this means cross-implementation conformance tests, hardware capability
+profiles, and function degradation instead of exclusion: a weaker node may handle a
+subset of roles, while remaining a full federation participant.
+
 ### Tools as an Extension of the Hand
 
 DIA should be a tool that extends human and team agency: it enables action,
@@ -452,6 +465,17 @@ hardware, electricity, human time, token costs, and maintenance. This is enginee
 ethics: do not produce waste, do not shift costs onto the user, and do not build
 overcomplicated monuments. The system should be efficient because it respects the
 world.
+
+### Energy Efficiency as a Promotion Signal
+
+DIA treats energy efficiency as an operational-quality criterion: for comparable output
+quality and response time, the network may prefer nodes that execute tasks with lower
+energy consumption. Promotion should operate through reputation, routing, and reward
+policies, not through administrative bans on higher-power nodes.
+
+In practice, metrics must be normalized by task class, result quality, latency, and
+reliability, and they must be manipulation-resistant. Measurements should be auditable,
+and preference rules configurable at federation level.
 
 ## Swarm Community and Reciprocity Economics
 
