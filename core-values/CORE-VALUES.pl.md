@@ -821,6 +821,42 @@ Dzięki temu wartości, współczucie, odpowiedzialność i ostateczne rozstrzyg
 pozostają zakorzenione w ludziach, a prawda operacyjna roju jest weryfikowana przez
 dowody, konsekwencje działań i zdolność do korekty w czasie.
 
+### Odpowiedzialność meta-systemowa
+
+DIA przyjmuje odpowiedzialność meta-systemową jako zasadę prowadzącą: decyzje i
+mechanizmy sieci oceniamy nie po deklaracjach, lecz po długofalowych skutkach dla
+całości – ludzi, relacji, instytucji, środowiska informacyjnego i zdolności wspólnoty
+do uczenia się. W praktyce oznacza to panperspektywiczność bez relatywizmu: sieć
+chroni różnorodność map świata, ale utrzymuje nienegocjowalny fundament godności i
+niekrzywdzenia, a konflikty rozwiązuje tak, by minimalizować szkodę i zachować
+możliwość korekty.
+
+DIA traktuje inteligencję jako proces współzależny: prawda operacyjna wyłania się z
+syntezy perspektyw, weryfikacji przez wyrocznie, pętli predykcji i sprzężenia
+zwrotnego oraz odpowiedzialności za konsekwencje, nie z autorytetu, większości czy
+retorycznej przewagi. Ta wartość jest kompasem governance: zdrowie ekosystemu i
+odporność na patologie bodźców mają pierwszeństwo przed "zwycięskimi" optymalizacjami.
+
+Zasady governance, które materializują tę wartość:
+
+1. Skutki ponad intencje. Każda istotna decyzja polityki lub architektury musi mieć
+   opis przewidywanych skutków i sposób ich sprawdzania w czasie, a po wdrożeniu
+   przechodzi retrospektywę opartą o dane, incydenty i odwołania.
+2. Najmniejsza szkoda, najwyższa odwracalność. Gdy wartości są w konflikcie,
+   preferowane jest rozwiązanie o najmniejszej potencjalnej krzywdzie i największej
+   odwracalności; wyjątki są czasowe, ograniczone i mają warunki automatycznego
+   wyłączenia.
+3. Panperspektywiczność z granicą godności. Pluralizm jest chroniony proceduralnie,
+   ale praktyka, która eskaluje przemoc, dehumanizację lub nadużycie władzy, traci
+   ochronę i podlega ograniczeniom niezależnie od swojej "prawdy" narracyjnej.
+4. Władza rozproszona i audytowalna. Uprawnienia krytyczne (wyrocznie, rozliczenia,
+   sankcje, wyjątki) są rozdzielone między role, a decyzje pozostawiają ślad, tak aby
+   żaden podmiot nie mógł stać się niekwestionowanym arbitrem sensu lub prawdy.
+5. Bodźce odporne na patologie. Ekonomia, reputacja i mechanizmy nagradzania są
+   projektowane tak, by nie opłacało się szkodzić, farmić nadużyć ani destabilizować
+   wspólnoty; gdy pojawia się dowód patologii, polityka jest aktualizowana, a skutki
+   uboczne są jawnie raportowane.
+
 ## Konflikty wartości
 
 W DIA konflikty wartości rozwiązuje się przez hierarchię i procedurę wyjątków:

@@ -822,6 +822,41 @@ This keeps values, compassion, accountability, and final adjudication rooted in
 humans, while the swarm's operational truth is verified through evidence,
 consequences of action, and the ability to correct over time.
 
+### Meta-System Responsibility
+
+DIA adopts meta-system responsibility as a guiding principle: network decisions and
+mechanisms are judged not by declarations, but by long-term effects on the whole -
+people, relationships, institutions, the information environment, and the community's
+ability to learn. In practice this means pan-perspectivality without relativism: the
+network protects diversity of world-maps, while maintaining a non-negotiable
+foundation of dignity and non-harm, and resolving conflicts in ways that minimize harm
+and preserve the ability to correct.
+
+DIA treats intelligence as an interdependent process: operational truth emerges from
+synthesis of perspectives, oracle-based verification, prediction and feedback loops,
+and accountability for consequences, not from authority, majority, or rhetorical
+advantage. This value is a governance compass: ecosystem health and resilience against
+incentive pathologies take precedence over "winning" optimizations.
+
+Governance principles that materialize this value:
+
+1. Effects over intentions. Every material policy or architecture decision must include
+   expected effects and a method for verifying them over time, and after deployment it
+   undergoes retrospective review based on data, incidents, and appeals.
+2. Least harm, highest reversibility. When values conflict, the preferred option is
+   the one with the lowest potential harm and highest reversibility; exceptions are
+   time-bounded, constrained, and carry automatic sunset conditions.
+3. Pan-perspectivality with a dignity boundary. Pluralism is protected procedurally,
+   but any practice that escalates violence, dehumanization, or abuse of power loses
+   protection and is constrained regardless of its narrative "truth."
+4. Distributed and auditable power. Critical permissions (oracles, settlements,
+   sanctions, exceptions) are split across roles, and decisions leave traces, so that
+   no entity can become an unquestioned arbiter of meaning or truth.
+5. Incentives resilient to pathology. Economics, reputation, and reward mechanisms are
+   designed so harming others, farming abuse, or destabilizing the community is not
+   profitable; when evidence of pathology appears, policy is updated and side effects
+   are reported explicitly.
+
 ## Value Conflicts
 
 In DIA, value conflicts are resolved through hierarchy and an exception procedure:
