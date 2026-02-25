@@ -786,6 +786,22 @@ Oracles are treated as part of the system of epistemic safety: they prevent swar
 drift toward closed thought systems, support belief updates, and enable rewarding
 nodes for real accuracy, early signals, and honest post-outcome updates.
 
+### Hybrid Intelligence
+
+AI in DIA is a synthesis layer and a navigation tool, and a node's AI agent serves as
+an amplifier of human agency, not a human substitute and not an arbiter of truth.
+Because current AI systems lack embodied grounding, DIA compensates for this through
+grounding mechanisms:
+
+- oracles as contact with reality and a source of adjudication,
+- prediction and feedback loops that calibrate models against outcomes,
+- human emotions and lived experience treated as telemetry, that is, signals of quality, risk, and harm that must not be suppressed by optimization,
+- reputation mechanisms based on effects, not on narrative, prestige, or marketing.
+
+This keeps values, compassion, accountability, and final adjudication rooted in
+humans, while the swarm's operational truth is verified through evidence,
+consequences of action, and the ability to correct over time.
+
 ## Value Conflicts
 
 In DIA, value conflicts are resolved through hierarchy and an exception procedure:

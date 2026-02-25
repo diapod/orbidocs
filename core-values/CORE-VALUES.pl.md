@@ -785,6 +785,22 @@ epistemicznego: zapobiegają dryfowi roju w stronę zamkniętych systemów myśl
 wspierają korekty przekonań i umożliwiają "odznaczanie" węzłów za realną trafność,
 wczesne sygnały oraz uczciwe aktualizacje po wyniku.
 
+### Hybrydowa inteligencja
+
+AI w DIA jest warstwą syntezy i narzędziem nawigacji, a agent AI węzła pełni rolę
+wzmacniacza ludzkiej sprawczości, nie zastępcy człowieka ani arbitra prawdy. Ponieważ
+obecne systemy AI nie mają ucieleśnionego zakorzenienia, DIA kompensuje ten brak przez
+mechanizmy ugruntowania:
+
+- wyrocznie jako kontakt z rzeczywistością i źródło rozstrzygnięć,
+- pętle predykcji i sprzężenia zwrotnego, które kalibrują modele względem rezultatów,
+- emocje i doświadczenie ludzi traktowane jako telemetria, czyli sygnały jakości, ryzyka i krzywdy, których nie wolno zagłuszać optymalizacją,
+- mechanizmy reputacji oparte na skutkach, a nie na narracji, prestiżu czy marketingu.
+
+Dzięki temu wartości, współczucie, odpowiedzialność i ostateczne rozstrzygnięcia
+pozostają zakorzenione w ludziach, a prawda operacyjna roju jest weryfikowana przez
+dowody, konsekwencje działań i zdolność do korekty w czasie.
+
 ## Konflikty wartości
 
 W DIA konflikty wartości rozwiązuje się przez hierarchię i procedurę wyjątków:
