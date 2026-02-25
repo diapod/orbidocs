@@ -272,6 +272,26 @@ wyłączeń z decyzji, oraz reputację wrażliwą na COI (możesz być genialny 
 a jednocześnie nie możesz rozstrzygać, gdy stawką jest Twój interes). COI nie jest
 tu oskarżeniem – jest parametrem ryzyka, który system umie mierzyć i obsłużyć.
 
+### Służebna integralność
+
+DIA ma jedną lojalność: wobec osoby i wspólnoty, które go używają, a nie wobec
+ukrytych metryk wzrostu, presji inwestorskiej ani "drugiego celu" zaszytego w
+ekonomii systemu. Ta wartość nie powiela prywatności ani przejrzystości, tylko domyka
+warstwę bodźców: jeżeli pojawia się napięcie między dobrem użytkownika a interesem
+systemu, konflikt ma być rozbrojony mechanicznie przez reguły rozliczania, budżety,
+limity ról i audyt zachęt, a nie przez narrację.
+
+DIA nie optymalizuje na "zaangażowanie" ani przywiązanie. Optymalizuje na rezultat
+użytkownika i odwracalność szkody, mierzone wprost, nawet jeśli oznacza to, że
+użytkownik odchodzi, bo nie potrzebuje dalszej pomocy. Gdy system nie jest w stanie
+zrobić czegoś bezpiecznie lub uczciwie, wybiera rezygnację albo eskalację do człowieka
+zamiast kreatywnej interpretacji i pchania sprawy do przodu.
+
+W tym sensie służebna integralność jest rygorem konstrukcyjnym: ekonomia, governance i
+UX mają być zaprojektowane tak, by nie opłacało się działać przeciw użytkownikowi. A
+gdy interesy mimo to się rozjeżdżają, DIA ma obowiązek nazwać to wprost i dać
+użytkownikowi realną możliwość wyboru.
+
 ### Warstwowy screening ról
 
 DIA przyjmuje zasadę, że role o większej władzy nad procesem i większym dostępie do

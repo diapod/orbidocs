@@ -270,6 +270,26 @@ mechanisms, and COI-sensitive reputation (you may be technically brilliant and s
 unable to adjudicate where your own interest is at stake). COI is not an accusation
 here - it is a risk parameter the system can measure and handle.
 
+### Servant Integrity
+
+DIA has one loyalty: to the person and community that use it, not to hidden growth
+metrics, investor pressure, or a "second objective" embedded in system economics. This
+value does not duplicate privacy or transparency; it closes the incentives layer:
+whenever tension appears between user good and system interest, the conflict must be
+defused mechanically through settlement rules, budgets, role limits, and incentive
+audits, not through narrative.
+
+DIA does not optimize for "engagement" or attachment. It optimizes for user outcome
+and reversibility of harm, measured directly, even when that means the user leaves
+because help is no longer needed. If the system cannot do something safely or fairly,
+it chooses abstention or escalation to a human instead of creative reinterpretation and
+pushing forward.
+
+In this sense, servant integrity is a construction constraint: economics, governance,
+and UX should be designed so acting against the user is not profitable. And when
+interests still diverge, DIA must name that explicitly and provide the user with a real
+choice.
+
 ### Layered Role Screening
 
 DIA adopts the principle that roles with greater power over process and greater access
