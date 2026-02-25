@@ -456,6 +456,26 @@ prywatność vs personalizacja. W DIA te kompromisy mają być jawne, nazwane i 
 do skonfigurowania. Uczciwość oznacza też: jeśli czegoś nie wiemy, mówimy "nie wiemy"
 i projektujemy drogę do wiedzy.
 
+### Odwaga epistemiczna
+
+DIA uznaje, że strach jest użytecznym sygnałem ryzyka, ale fatalnym doradcą władzy.
+Dlatego sieć ma aktywnie łagodzić decyzje podejmowane w trybie lękowym i zamieniać je
+w decyzje oparte na dowodach, proporcjonalności, odwracalności i ciekawości.
+
+W praktyce, gdy pojawia się presja paniki – moralnej, politycznej, ekonomicznej lub
+technologicznej – system uruchamia hamulce proceduralne:
+
+- nazywa źródło lęku,
+- rozdziela fakty od interpretacji,
+- wskazuje alternatywy działania,
+- określa koszt fałszywego alarmu oraz koszt zaniechania.
+
+DIA premiuje kalibrację niepewności i pętlę korekty: decyzje mają być tymczasowe,
+mierzalne i gotowe do cofnięcia, zamiast stawać się trwałymi prawami wpisanymi pod
+wpływem chwili. Ta wartość chroni wspólnotę przed autorytaryzmem rodzącym się ze
+strachu i przed paranoją systemową: bezpieczeństwo nie jest pretekstem do przemocy,
+lecz rzemiosłem ograniczania szkody przy zachowaniu godności.
+
 ### Odporność na zmienność świata
 
 Środowiska, kontenery, wersje systemów, polityki korporacyjne, ograniczenia

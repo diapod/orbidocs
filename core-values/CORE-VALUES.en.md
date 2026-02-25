@@ -453,6 +453,26 @@ vs personalization. In DIA these trade-offs should be explicit, named, and
 configurable. Honesty also means: if we do not know something, we say "we do not
 know" and design a path to knowledge.
 
+### Epistemic Courage
+
+DIA recognizes fear as a useful risk signal, but a poor advisor of power. Therefore
+the network should actively soften fear-driven decisions and convert them into
+decisions grounded in evidence, proportionality, reversibility, and curiosity.
+
+In practice, when panic pressure appears – moral, political, economic, or
+technological – the system activates procedural brakes:
+
+- name the source of fear,
+- separate facts from interpretation,
+- surface alternative actions,
+- estimate the cost of false alarm and the cost of inaction.
+
+DIA rewards uncertainty calibration and correction loops: decisions should be temporary,
+measurable, and ready to be rolled back, instead of becoming permanent law under momentary
+pressure. This value protects the community against fear-born authoritarianism and
+systemic paranoia: safety is not a pretext for violence, but a craft of limiting harm
+while preserving dignity.
+
 ### Resilience to World Variability
 
 Environments, containers, system versions, corporate policies, network constraints -
