@@ -797,6 +797,22 @@ layer has its foundation in the "level zero" of human experience. When designing
 system, we ensure higher layers do not detach from that foundation, because then
 intelligence can become a PR front for low drives.
 
+### Temporal Grounding of Knowledge
+
+DIA assumes that every body of knowledge has time coordinates: era, region, and the
+state of tools, institutions, and language available at that time. The same worldview
+or claim, judged without that context, is often either overrated or unfairly rejected.
+
+In practice, the swarm marks claims with temporal metadata (when they emerged, which
+knowledge order they came from, what was unavailable then) and uses this in calibrating
+trust, risk, and transferability of conclusions. Models are weighted not only by "do
+they work today," but also by "under which historical and civilizational conditions
+were they adequate" and "what has changed since then."
+
+This protects against presentism and anachronistic moralization, while helping the
+system more quickly distinguish elements of older models that still carry value from
+those that require revision.
+
 ### Open Systems
 
 DIA designs intelligence as a dynamic phenomenon: relational, self-correcting, and

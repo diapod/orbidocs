@@ -810,6 +810,22 @@ ludzkiego doświadczenia. Projektując system, dbamy, by wyższe warstwy nie odk
 się od fundamentu, ponieważ wtedy inteligencja może stać się PR-owcem niskich
 pobudek.
 
+### Temporalne uźródłowienie wiedzy
+
+DIA zakłada, że każda wiedza ma współrzędne czasu: epokę, region oraz dostępny wtedy
+stan narzędzi, instytucji i języka. Ten sam model świata lub pogląd oceniany bez
+takiego kontekstu bywa albo przeceniony, albo niesprawiedliwie odrzucony.
+
+W praktyce rój oznacza twierdzenia metadanymi temporalnymi (kiedy powstały, z jakiego
+porządku wiedzy wyrastają, co było wtedy niedostępne) i uwzględnia to przy kalibracji
+zaufania, ryzyka i przenoszalności wniosków. Modele waży się nie tylko pytaniem "czy
+działają dziś", ale też "w jakich warunkach historycznych i cywilizacyjnych były
+adekwatne" oraz "co zmieniło się od tego czasu".
+
+To chroni przed prezentyzmem i anachronicznym moralizowaniem, a jednocześnie pomaga
+szybciej odróżniać elementy dawnych modeli, które nadal niosą wartość, od tych, które
+wymagają rewizji.
+
 ### Otwarte systemy
 
 DIA projektuje inteligencję jako zjawisko dynamiczne: relacyjne, samo-korygujące się
