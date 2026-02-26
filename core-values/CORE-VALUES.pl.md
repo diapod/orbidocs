@@ -150,6 +150,18 @@ abstrakty; brak magicznych skrótów; kontrakty danych; testowalność; oraz zdo
 diagnostyki po miesiącach. To ma być system, który starzeje się godnie – nie demo,
 które błyszczy, dopóki nie dotknie go rzeczywistość.
 
+### Prostota jako brak splątania
+
+W DIA prostota jest kryterium strukturalnym: jedna odpowiedzialność, jawne granice,
+niskie sprzężenie. Odrzucamy *complecting* warstw i ukryte kanały komunikacji, bo
+podnoszą koszt poznawczy i ryzyko błędu.
+
+### Poznawalność ponad pozorną łatwość
+
+"Łatwe teraz" często znaczy "droższe później". DIA wybiera poznawalność: system ma
+być zaprojektowany tak, by dało się o nim rozumować i przewidywać skutki zmian.
+Testy są konieczne, ale nie zastępują zrozumienia.
+
 ### Inżynieria oparta o kontrakty
 
 W Orbipleksie liczy się kontrakt: wejście/wyjście, semantyka, kryteria *done*,
@@ -164,6 +176,58 @@ Rdzeń protokołu ma być mały, audytowalny i stabilny; innowacje mają żyć w
 i rozszerzeniach. To broni przed "pęcznieniem" systemu oraz przed niejawnie rosnącą
 złożonością. W praktyce oznacza to: cienkie interfejsy zachowań, walidację na
 brzegach, a nie w środku – oraz świadome projektowanie punktów rozszerzeń.
+
+### Abstrakcja jako separacja "what" od "how"
+
+DIA rozdziela deklaratywne "co" od implementacyjnego "jak", aby warstwy mogły
+ewoluować niezależnie. Abstrakcje mają być cienkie, czytelne i kontraktowe.
+
+### Polimorfizm a la carte zamiast relacji o wysokim koszcie
+
+Preferujemy małe interfejsy zachowań i kompozycję ponad ciężkie hierarchie. System
+ma rosnąć przez dokładanie zachowań, nie przez przebudowę drzewa zależności.
+
+### Dane jako lingua franca, logika na brzegach
+
+Semantyka domeny ma być widoczna w danych, nie ukryta w mechanice wywołań.
+Preferujemy przenośne struktury i formaty, a walidację oraz egzekwowanie kontraktów
+lokujemy na brzegach systemu.
+
+### Otwarte modele i kontekstowa selekcja
+
+Model danych toleruje nadwyżkę informacji i rozdziela schemat od selekcji
+kontekstowej. Opcjonalność jest lokalna, dzięki czemu federacje i zespoły mogą
+ewoluować asynchronicznie bez wymuszonej globalnej synchronizacji.
+
+### Wartości nad stanem, fakty nad nadpisywaniem
+
+DIA preferuje zapis faktów i zdarzeń zamiast bezśladowego nadpisywania stanu. Czas
+zmiany i historia mają być jawne, aby umożliwić audyt, pytania "as of" i analizę
+przyczynową.
+
+### Niezmienność jako warunek współdzielenia i debugowania
+
+Niezmienność jest narzędziem architektonicznym: umożliwia bezpieczne współdzielenie
+wartości i reprodukowalne debugowanie. Miejsca mutacji mają być jawnie wydzielone i
+objęte kontraktami.
+
+### Modelowanie jako przepływ, nie mutowanie obiektów
+
+System modelujemy jako przepływ transformacji, routingu i zapisu faktów, a nie
+mutację "w miejscu". Taki model rozprzęga producenta od konsumenta i upraszcza
+kontrakty przejścia.
+
+### Rozdzielenie zapisów i odczytów oraz jawna oś czasu
+
+DIA rozdziela ścieżkę zapisu od ścieżki odczytu: write path buduje historię, read path
+składa widoki. Jednoznaczna oś czasu jest warunkiem zapytań "as of", audytu i
+rekonstrukcji decyzji.
+
+### Systemy są rozproszone, asynchroniczne i zawodzą częściowo
+
+DIA projektuje pod realia świata rozproszonego: timeouty, retry, idempotency,
+degradację i częściowe awarie. Stabilność ma wynikać z architektury odpornościowej,
+a nie z nadziei.
 
 ### Agnostyczne implementacje protokołu
 
@@ -192,6 +256,12 @@ PFS/TLS, audyt. Narzędzia jako pluginy/adaptery (transporty, storage, modele, U
 wymienne bez lock-in. Każda funkcja UX musi mieć "prawdziwe API" (bez magicznych
 wyjątków tylko dla UI). Narzędzia nie mogą ukrywać ryzyka: UI pokazuje tryb zaufania
 (CORP_COMPLIANT vs RELAXED etc.).
+
+### Neutralne terytorium danych i API jako pierwszy artefakt
+
+Integrację opieramy na neutralnym terytorium danych i otwartym API, nie na ukrytych
+zależnościach implementacyjnych. API jest pierwszym artefaktem architektonicznym;
+UI i CLI są warstwami wtórnymi.
 
 ### Przejrzystość działania agentów
 

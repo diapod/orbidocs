@@ -148,6 +148,18 @@ abstractions; no magical shortcuts; data contracts; testability; and ability to
 diagnose after months. This should be a system that ages with dignity - not a demo
 that shines only until reality touches it.
 
+### Simplicity as Non-Entanglement
+
+In DIA, simplicity is structural: one responsibility, explicit boundaries, low coupling.
+We reject *complecting* layers and hidden communication channels because they raise
+cognitive cost and error risk.
+
+### Legibility Over Apparent Ease
+
+"Easy now" often means "expensive later." DIA chooses legibility: systems should be
+designed so people can reason about them and predict change impact. Tests are required,
+but they do not replace understanding.
+
 ### Contract-Based Engineering
 
 In Orbiplex, the contract is what matters: input/output, semantics, *done* criteria,
@@ -162,6 +174,54 @@ The protocol core should be small, auditable, and stable; innovation should live
 modules and extensions. This protects against system bloat and against silently
 growing complexity. In practice this means thin behavior interfaces, edge validation
 instead of central validation, and conscious design of extension points.
+
+### Abstraction as Separation of "What" from "How"
+
+DIA separates declarative "what" from implementation "how" so layers can evolve
+independently. Abstractions should be thin, readable, and contract-driven.
+
+### A la Carte Polymorphism Over High-Cost Relations
+
+We prefer small behavior interfaces and composition over heavy hierarchies. The system
+should grow by adding behavior, not by rebuilding dependency trees.
+
+### Data as Lingua Franca, Logic at the Edges
+
+Domain semantics should be visible in data, not hidden in invocation mechanics. We
+prefer portable structures and formats, and we enforce validation/contracts at system
+edges.
+
+### Open Models and Contextual Selection
+
+Data models should tolerate information surplus and separate schema from contextual
+selection. Optionality is local, allowing federations and teams to evolve
+asynchronously without forced global synchronization.
+
+### Values Over State, Facts Over Overwrite
+
+DIA prefers fact/event records over trace-less state overwrite. Change time and history
+must stay explicit to support audit, "as of" questions, and causal analysis.
+
+### Immutability as a Condition for Sharing and Debugging
+
+Immutability is an architectural tool: it enables safe sharing and reproducible
+debugging. Mutation points must be explicitly isolated and contract-governed.
+
+### Modeling as Flow, Not Object Mutation
+
+We model systems as flows of transformation, routing, and fact writes, not in-place
+mutation. This decouples producers from consumers and simplifies transition contracts.
+
+### Separation of Writes and Reads with an Explicit Time Axis
+
+DIA separates write paths from read paths: write builds history, read composes views.
+An explicit time axis is required for "as of" queries, audit, and decision
+reconstruction.
+
+### Systems Are Distributed, Asynchronous, and Partially Failing
+
+DIA designs for distributed reality: timeouts, retries, idempotency, degradation, and
+partial failures. Stability must come from resilience architecture, not hope.
 
 ### Protocol Implementations Agnostic to Platform
 
@@ -190,6 +250,12 @@ PFS/TLS, audit. Tools as plugins/adapters (transports, storage, models, UI),
 replaceable without lock-in. Every UX feature must have a "real API" (no magical
 exceptions only for UI). Tools must not hide risk: UI shows trust mode
 (CORP_COMPLIANT vs RELAXED etc.).
+
+### Neutral Data Territory and API as the First Artifact
+
+Integration should rely on neutral data territory and open APIs, not hidden
+implementation coupling. API is the first architectural artifact; UI and CLI are
+secondary layers.
 
 ### Transparency of Agent Operation
 
