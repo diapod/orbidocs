@@ -236,6 +236,87 @@ technical track record. Anti-Sybil: ratings from new/untrusted nodes have low we
 until there is history/evidence. If an assessment is evidence-based, it may be
 challenged only with counter-evidence, not narrative.
 
+### Reputation as Leverage, Not Power
+
+DIA recognizes that equal voice does not always mean fair voice: in a system where
+identity is cheap and Sybil attacks are real, pure node democracy risks domination by
+mass rather than by accuracy. Therefore, reputation earned through a history of
+accurate predictions, honored contracts, and honest updates may strengthen a node's
+influence - but in a limited, auditable, and reversible way, so it never becomes a
+power position immune to correction. In practice this means two mechanisms with hard
+limits:
+
+* **Weighted voice in adjudication**  
+  A node with high procedural reputation may have greater voting weight in consensus
+  decisions - but the boost is capped (e.g., at most +50% relative to base weight) and
+  applies only in domains where that reputation was earned. Technical reputation does
+  not amplify voice in social-governance matters and vice versa; this is domain
+  leverage, not global leverage. The boost cap is a federation parameter, not a
+  protocol constant.
+
+* **Flowing recognition points**  
+  A high-reputation node, when rewarding another node for help or contribution, may
+  trigger a system top-up mechanism: the network adds recognition points proportionally
+  to the giver's reputation, within a bounded range (e.g., up to +50% of base reward
+  value). This makes recognition from experienced participants weigh more than from
+  unknown ones - but not infinitely more, and not in a way that compounds without
+  limits.
+
+Both mechanisms are subject to anti-oligarchic brakes:
+
+* **Diminishing returns**  
+  The higher the reputation, the lower the marginal gain in voting power and top-ups -
+  the curve is sublinear, not linear. This prevents a runaway effect where
+  reputation-rich nodes become richer faster.
+
+* **Concentration caps**  
+  One node cannot be the dominant source of flowing reputation for more than a bounded
+  number of other nodes in a given period. This breaks cliques and cartel-style mutual
+  boosting.
+
+* **Time window and decay**  
+  Voice boosts and top-ups derive from current reputation (rolling window), not from
+  historical accumulation. A node that becomes inactive or loses accuracy gradually
+  loses leverage - reputation is not annuity. There are, however, cases where
+  reputation is updated from past contribution when that contribution still provides
+  current benefit to nodes (e.g., communication tooling fragments, protocol additions).
+
+* **Asymmetric accountability**  
+  Greater voting force means greater audit exposure: higher-weight votes leave clearer
+  traces, are subject to adversarial review, and face a higher justification bar.
+  Leverage must go together with transparency - those who "weigh" more must explain
+  why.
+
+* **Cartel and mutual-endorsement detection**  
+  The system monitors flow graphs: when two or more high-reputation nodes
+  systematically inflate one another's ratings or rewards, a red-flag mechanism is
+  triggered and flow weights are reduced in that subnetwork. Reciprocity is a value;
+  collusion is not.
+
+* **Reputational risk asymmetry**  
+  A node that uses its own reputation to amplify another node (endorsement, flow,
+  reward boost) takes part of the risk for that signal. If the endorsed node later
+  shows pathological behavior or violates contracts, the endorser's reputation drops
+  proportionally to the scale and recency of granted amplification. This creates real
+  skin in the game and limits careless reputation granting.
+
+* **COI-by-default for weighted votes**  
+  A node using reputational leverage in adjudication concerning an entity it previously
+  rewarded (or from which it received flowing points) must declare conflict of
+  interest. Missing declaration is treated as a violation, not as an oversight.
+
+This value is not an attempt to restore hierarchy or build a "council of elders." It
+is a response to a real threat: in a system with no signal-quality asymmetry, noise,
+mass, and Sybil dominate. Weighted trust force is a design compromise - like any
+compromise, it must be explicit, measurable, and reversible. If evidence appears that
+the mechanism produces oligarchy or cartel effects, the federation must adjust
+parameters or disable leverage, because reputation in DIA is a safety instrument, not
+a privilege.
+
+This setup (with percentage caps, sublinear gains, cartel detection, reputational-risk
+asymmetry, and *COI-by-default*) is more conservative than anything broadly attempted
+in blockchain-type networks.
+
 ### Oracles Are Subject to Trust, Not Power
 
 DIA does not build swarm intelligence on a single instance of truth - oracles are not
@@ -518,6 +599,52 @@ policies, not through administrative bans on higher-power nodes.
 In practice, metrics must be normalized by task class, result quality, latency, and
 reliability, and they must be manipulation-resistant. Measurements should be auditable,
 and preference rules configurable at federation level.
+
+### Impermanence as a Design Value
+
+DIA assumes every system element - node, federation, role, policy, and even the
+project itself - has a natural life cycle: emergence, maturation, aging, and ending.
+A system that cannot end becomes burden or tumor: it grows because it cannot stop, not
+because it is needed. Therefore designing for health means designing not only for birth
+and growth, but also for dignified ending, knowledge transfer, and rest.
+
+In practice this means several mechanisms:
+
+* **Component apoptosis**  
+  Federation, role, policy, and node have defined sunset conditions: lifetime,
+  activity thresholds, review criteria. When a component no longer serves a function,
+  the system supports controlled closure - with data migration, decision-trace
+  archiving, and transfer of obligations - instead of silent drift into dead code, dead
+  role, or dead community.
+
+* **Intergenerational transfer**  
+  People leave, new people join. Procedural wisdom, institutional memory, and decision
+  context require explicit transmission paths: documentation of rationale, not only
+  rules; background narratives, not only configurations; and onboarding rituals that do
+  not degenerate into cargo cult or loss of meaning. Succession is an architectural
+  concern, not only an organizational one.
+
+* **Grief as a first-class event**  
+  When a key node departs - through death, burnout, separation, or conflict - the
+  community loses not only function, but also relationships, trust, and context. DIA
+  treats this loss as an event that needs handling: role-handover procedures, knowledge
+  preservation, support for affected participants, and reflection on what the departing
+  node contributed. Grief is information about what was important - it has diagnostic
+  value, not only emotional value.
+
+* **Right to epistemic rest**  
+  A system oriented toward continuous learning, calibration, and vigilance burdens its
+  stewards - especially those carrying governance, red-team work, and whistleblower
+  protection. DIA recognizes that being out of information flow for a period is as
+  important as being in it: role rotation, sabbaticals, reduced exposure to
+  high-stakes decisions, and the right to temporarily step off the frontline without
+  reputational loss. Without this, the system consumes its stewards, and exhaustion
+  produces worse decisions than temporary absence.
+
+Impermanence here is not pessimism or resignation - it is a maturity marker: a system
+that can let go is healthier than one that can only hold on. Letting go requires the
+same craft as building: deliberate design, clear procedures, and respect for what
+passes.
 
 ## Swarm Community and Reciprocity Economics
 

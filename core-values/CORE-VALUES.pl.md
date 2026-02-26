@@ -238,6 +238,90 @@ dorobku węzła. Anty-Sybil: oceny od nowych/niezaufanych węzłów mają niską
 dopóki nie ma historii/dowodów. Jeżeli ocena bazuje na dowodzie, można podważyć ją
 tylko kontr-dowodem, nie narracją.
 
+### Reputacja jako dźwignia, nie władza
+
+DIA uznaje, że równy głos nie oznacza sprawiedliwego głosu: w systemie, w którym
+tożsamość jest tania, a Sybil realny, czysta demokracja węzłów naraża wspólnotę na
+dominację przez masę, nie przez trafność. Dlatego reputacja zdobyta przez historię
+trafnych predykcji, dotrzymanych kontraktów i uczciwych aktualizacji może wzmacniać
+siłę oddziaływania węzła – ale w sposób ograniczony, audytowalny i odwracalny, tak
+aby nigdy nie stawała się pozycją władzy odporną na korektę. W praktyce oznacza to
+dwa mechanizmy z twardymi limitami:
+
+* **Ważony głos w rozstrzygnięciach**  
+  Węzeł o wysokiej reputacji proceduralnej może mieć większą wagę głosu w decyzjach
+  konsensusu – jednak wzmocnienie jest ograniczone progiem (np. maksymalnie +50%
+  względem wagi bazowej) i dotyczy wyłącznie domen, w których reputacja została
+  zdobyta. Reputacja techniczna nie wzmacnia głosu w sprawach governance społecznego
+  i odwrotnie; to jest dźwignia domenowa, nie globalna. Próg wzmocnienia jest
+  parametrem federacji, nie stałą protokołu.
+
+* **Spływające punkty uznania**  
+  Węzeł o wysokiej reputacji, nagradzając inny węzeł za pomoc lub wkład, może
+  uruchomić mechanizm dopłaty systemowej: sieć dopłaca do punktów uznania
+  proporcjonalnie do reputacji dającego, w ograniczonym zakresie (np. do +50%
+  wartości bazowej nagrody). To sprawia, że uznanie od doświadczonego uczestnika waży
+  więcej niż od nieznanego – ale nie nieskończenie więcej, i nie w sposób kumulujący
+  się bez limitu.
+
+Oba mechanizmy podlegają hamulcom anty-oligarchicznym:
+
+* **Malejące przyrosty**  
+  Im wyższa reputacja, tym mniejszy marginalny zysk siły głosu i dopłat – krzywa jest
+  sublinearna, nie liniowa. To zapobiega *runaway effect*, w którym bogaci
+  w reputację bogacą się szybciej.
+
+* **Limity koncentracji**  
+  Jeden węzeł nie może być dominującym źródłem spływającej reputacji dla więcej niż
+  ograniczonej liczby innych węzłów w danym okresie. To rozbija kliki i kartele
+  wzajemnego podbijania.
+
+* **Okno czasowe i zanikanie**  
+  Wzmocnienie głosu i dopłaty wynikają z reputacji bieżącej (okno kroczące), a nie
+  z akumulacji historycznej. Węzeł, który przestał być aktywny lub którego trafność
+  spadła, z czasem traci dźwignię – reputacja nie jest rentą. Będą natomiast
+  sytuacje, w których reputacja jest aktualizowana przeszłym wkładem, jeżeli wkład
+  ten przynosi bieżącą korzyść węzłom (np. fragmenty narzędzi komunikacyjnych,
+  uzupełnianie protokołów itp.).
+
+* **Asymetryczna odpowiedzialność**  
+  Większa siła głosu oznacza większą ekspozycję na audyt: głosy ważone wyżej
+  zostawiają ślad, podlegają adversarial review i mają wyższy próg
+  uzasadnienia. Dźwignia idzie w parze z przejrzystością – kto "waży" więcej, musi
+  umieć wyjaśnić dlaczego.
+
+* **Detekcja karteli i wzajemnych obdarowań**  
+  System monitoruje grafy spływania: gdy dwa lub więcej węzłów o wysokiej reputacji
+  systematycznie podbijają sobie nawzajem oceny lub nagrody, uruchamia się mechanizm
+  czerwonej flagi i redukcja wag spływania w tej podsieci. Wzajemność jest
+  wartością – zmowa nią nie jest.
+
+* **Asymetria ryzyka reputacyjnego**  
+  Węzeł, który używa własnej reputacji do wzmacniania innego węzła (endorsement,
+  spływanie, podbicie punktów), bierze część ryzyka za ten sygnał. Jeżeli
+  endorse'owany węzeł wykazuje później zachowania patologiczne lub narusza kontrakty,
+  reputacja endorse'ującego spada proporcjonalnie do skali i świeżości udzielonego
+  wzmocnienia. To tworzy realny *skin in the game* i ogranicza pochopne obdarowywanie
+  reputacją.
+
+* **COI-by-default dla głosów ważonych**  
+  Węzeł korzystający z dźwigni reputacyjnej w rozstrzygnięciu dotyczącym podmiotu,
+  którego sam nagradzał (lub od którego sam otrzymał spływające punkty), ma obowiązek
+  deklaracji konfliktu interesów. Brak deklaracji jest traktowany jak naruszenie,
+  a nie jak niedopatrzenie.
+
+Ta wartość nie jest próbą przywrócenia hierarchii ani budowy "rady starszych". Jest
+odpowiedzią na realne zagrożenie: w systemie bez żadnej asymetrii sygnału jakości
+dominuje szum, masa i Sybil. Ważona siła zaufania to kompromis projektowy – jak każdy
+kompromis, musi być jawny, mierzalny i odwracalny. Jeżeli pojawi się dowód, że
+mechanizm produkuje oligarchię lub kartel, federacja ma obowiązek skorygować
+parametry lub wyłączyć dźwignię, ponieważ reputacja w DIA jest narzędziem
+bezpieczeństwa, a nie przywilejem.
+
+Układ ten (z procentowym limitem, sublinearnymi przyrostami, detektorem karteli
+i *COI-by-default*) jest ostrożniejszy niż cokolwiek, co próbowano w sieciach typu
+*blockchain*.
+
 ### Wyrocznie podlegają zaufaniu, nie władzy
 
 DIA nie buduje inteligencji roju na pojedynczej instancji prawdy – wyrocznie nie są
@@ -521,6 +605,53 @@ energii.
 W praktyce metryki muszą być normalizowane względem klasy zadania, jakości wyniku,
 opóźnienia i niezawodności oraz odporne na manipulację. Pomiary mają być audytowalne,
 a reguły preferencji konfigurowalne na poziomie federacji.
+
+### Nietrwałość jako wartość projektowa
+
+DIA zakłada, że każdy element systemu – węzeł, federacja, rola, polityka, a nawet sam
+projekt – ma naturalny cykl życia: narodziny, dojrzewanie, starzenie się
+i zamieranie. System, który nie umie się kończyć, staje się ciężarem lub nowotworem:
+rośnie, bo nie potrafi przestać, a nie dlatego, że jest potrzebny. Dlatego
+projektowanie dla zdrowia oznacza projektowanie nie tylko narodzin i wzrostu, ale też
+godnego zamierania, transferu wiedzy i spoczynku.
+
+W praktyce oznacza to kilka mechanizmów:
+
+* **Apoptoza komponentów**  
+  Federacja, rola, polityka i węzeł mają zdefiniowane warunki wygaszenia: czas życia,
+  progi aktywności, kryteria przeglądu. Gdy komponent przestaje pełnić funkcję,
+  system wspiera jego kontrolowane zamknięcie – z migracją danych, archiwizacją
+  śladów decyzji i przekazaniem zobowiązań – zamiast cichego dryfu w stronę martwego
+  kodu, martwej roli lub martwej wspólnoty.
+
+* **Transfer międzypokoleniowy**  
+  Ludzie odchodzą, dołączają nowi. Mądrość proceduralna, pamięć instytucjonalna i
+  kontekst decyzji muszą mieć jawną ścieżkę transmisji: dokumentację powodów
+  (*rationale*), nie tylko reguł; narracje tła, a nie tylko konfiguracje; oraz rytuały
+  onboardingu, które nie degenerują w kult cargo ani w utratę sensu. Sukcesja jest
+  problemem architektonicznym, a nie tylko organizacyjnym.
+
+* **Żałoba jako zdarzenie pierwszej kategorii**  
+  Gdy kluczowy węzeł odchodzi – przez śmierć, wypalenie, rozstanie lub konflikt –
+  wspólnota traci nie tylko funkcję, ale też relacje, zaufanie i kontekst. DIA
+  traktuje tę stratę jako zdarzenie wymagające obsługi: procedurę przekazania ról,
+  zabezpieczenie wiedzy, wsparcie dla dotkniętych uczestników oraz refleksję nad tym,
+  co odchodzący wniósł do systemu. Żałoba jest informacją o tym, co było ważne – ma
+  wartość diagnostyczną, nie tylko emocjonalną.
+
+* **Prawo do spoczynku epistemicznego**  
+  System zorientowany na ciągłe uczenie się, kalibrację i czujność obciąża swoich
+  opiekunów – szczególnie tych, którzy dźwigają governance, red-team i ochronę
+  sygnalistów. DIA uznaje, że niebycie w przepływie informacji przez określony czas
+  jest równie ważne jak bycie w nim: rotacja ról, sabatykale, ograniczenie ekspozycji
+  na wysokostawkowe decyzje i prawo do tymczasowego zejścia z linii frontu bez utraty
+  reputacji. Bez tego system pożera swoich opiekunów, a wyczerpanie produkuje gorsze
+  decyzje niż nieobecność.
+
+Nietrwałość nie jest tu pesymizmem ani rezygnacją – jest miarą dojrzałości: system,
+który umie puszczać, jest zdrowszy od systemu, który umie tylko trzymać. Puszczanie
+wymaga tego samego rzemiosła, co budowanie: świadomego projektowania, klarownych
+procedur i szacunku wobec tego, co odchodzi.
 
 ## Wspólnota roju i ekonomia wzajemności
 
