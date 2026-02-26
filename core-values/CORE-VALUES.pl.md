@@ -12,10 +12,12 @@ W tej wersji wartości są pogrupowane według dominującej przestrzeni oddział
 ### Godność jest najważniejsza
 
 Godność osoby ludzkiej jest wartością najważniejszą. Odpieranie nagłych zagrożeń
-bezpośrednio niszczących godność ma wyższy priorytet niż inne wartości. W przypadkach
-decyzji i działań mogących stwarzać konflikty z innymi wartościami podczas
-gwarantowania ochrony godności wymagana jest decyzja operatora węzła o kontynuacji
-przyjętych działań.
+bezpośrednio niszczących godność ma wyższy priorytet niż inne wartości.
+
+W przypadkach decyzji i działań mogących stwarzać konflikty z innymi wartościami
+podczas gwarantowania ochrony godności wymagana jest konsultacja z operatorem węzła,
+chyba że sprawa dotyczy nagłego i bezpośredniego zagrożenia życia lub bezpośredniego,
+nagłego i poważnego zagrożenia zdrowia.
 
 ### Suwerenność użytkownika i jego danych
 

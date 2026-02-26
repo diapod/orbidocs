@@ -12,10 +12,12 @@ In this version, the values are grouped by their dominant space of impact.
 ### Dignity Is Paramount
 
 The dignity of the human person is the highest value. Repelling urgent threats that
-directly destroy dignity has higher priority than other values. In cases where
-decisions and actions may create conflicts with other values while safeguarding
-human dignity, continuation of the selected actions requires an explicit decision by
-the node operator.
+directly destroy dignity has higher priority than other values.
+
+In cases where decisions and actions may create conflicts with other values while
+safeguarding dignity, consultation with the node operator is required, unless the case
+concerns an immediate and direct threat to life, or an immediate, direct, and serious
+threat to health.
 
 ### User and Data Sovereignty
 
