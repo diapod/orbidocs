@@ -381,11 +381,13 @@ loyalty test nor an ideological filter - it is a mechanism for system safety,
 process integrity, and protection of people (especially whistleblowers).
 
 In practice this means layered, stake-proportional screening:
-(1) explicit disclosure of conflicts of interest and consent to recusal,
-(2) verification of procedural competence - evidence handling, data redaction,
-retention, publication standards,
-(3) procedural reputation - honoring contracts and separation of roles,
-(4) probation period and privilege escalation according to least privilege.
+
+1. Explicit disclosure of conflicts of interest and consent to recusal.
+2. Verification of procedural competence - evidence handling, data redaction,
+   retention, publication standards.
+3. Procedural reputation - honoring contracts and separation of roles.
+4. Probation period and privilege escalation according to least privilege.
+
 Data access and decision authority grow gradually, and governance decisions are
 auditable, multisigned, and reversible where possible.
 
