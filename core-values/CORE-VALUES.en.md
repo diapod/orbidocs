@@ -291,6 +291,10 @@ Integration should rely on neutral data territory and open APIs, not hidden
 implementation coupling. API is the first architectural artifact; UI and CLI are
 secondary layers.
 
+Where feasible and appropriate for the use case, we prefer HATEOAS: hypermedia should
+guide the client through allowed state transitions and operations, instead of requiring
+hard-coded flow knowledge.
+
 ### Transparency of Agent Operation
 
 The user should be able to understand why an agent performed a given action, on which

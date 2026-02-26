@@ -296,6 +296,10 @@ Integrację opieramy na neutralnym terytorium danych i otwartym API, nie na ukry
 zależnościach implementacyjnych. API jest pierwszym artefaktem architektonicznym;
 UI i CLI są warstwami wtórnymi.
 
+Tam, gdzie to możliwe i adekwatne dla danego zastosowania, preferujemy HATEOAS:
+hipermedia ma prowadzić klienta przez dozwolone przejścia stanu i operacje, zamiast
+wymagać twardo zakodowanej wiedzy o przepływach.
+
 ### Przejrzystość działania agentów
 
 Użytkownik ma móc zrozumieć: dlaczego agent wykonał daną czynność, na jakich danych,
