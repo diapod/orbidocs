@@ -182,12 +182,12 @@ brzegach, a nie w środku – oraz świadome projektowanie punktów rozszerzeń
 DIA rozdziela deklaratywne "co" od implementacyjnego "jak", aby warstwy mogły
 ewoluować niezależnie. Abstrakcje mają być cienkie, czytelne i kontraktowe.
 
-### Polimorfizm a la carte zamiast relacji o wysokim koszcie
+### Polimorficzne operacje zamiast statycznych przyporządkowań
 
 Preferujemy małe interfejsy zachowań i kompozycję ponad ciężkie hierarchie. System
 ma rosnąć przez dokładanie zachowań, nie przez przebudowę drzewa zależności.
 
-### Dane jako lingua franca, logika na brzegach
+### Dane jako wspólny język, logika na brzegach
 
 Semantyka domeny ma być widoczna w danych, nie ukryta w mechanice wywołań.
 Preferujemy przenośne struktury i formaty, a walidację oraz egzekwowanie kontraktów

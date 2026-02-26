@@ -180,12 +180,12 @@ instead of central validation, and conscious design of extension points.
 DIA separates declarative "what" from implementation "how" so layers can evolve
 independently. Abstractions should be thin, readable, and contract-driven.
 
-### A la Carte Polymorphism Over High-Cost Relations
+### Polymorphic Operations Instead of Static Assignments
 
 We prefer small behavior interfaces and composition over heavy hierarchies. The system
 should grow by adding behavior, not by rebuilding dependency trees.
 
-### Data as Lingua Franca, Logic at the Edges
+### Data as a Common Language, Logic at the Edges
 
 Domain semantics should be visible in data, not hidden in invocation mechanics. We
 prefer portable structures and formats, and we enforce validation/contracts at system
