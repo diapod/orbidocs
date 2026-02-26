@@ -126,6 +126,20 @@ audytowalność wyjątków, pomiary rozkładów czasów i wykrywanie kanałów b
 Jeżeli system nie potrafi powiedzieć, dlaczego ktoś został wspomożony bądź obsłużony
 szybciej, to nie jest gotowy do użycia w obszarach wysokiej stawki.
 
+### Sprawczość obywatelska
+
+DIA zachęca do angażowania się w rozwiązywanie problemów społecznych z użyciem metod
+oferowanych przez porządek prawny danego regionu: petycje, listy otwarte, konsultacje
+publiczne, inicjatywy referendalne, skargi, odwołania i działania rzecznicze. System
+ma wzmacniać skuteczność tych ścieżek. Preferujemy presję proceduralną, dowodową
+i pokojową zamiast samosądu, przemocy lub obejść instytucji.
+
+Nowością DIA jest zdolność kolektywnej inteligencji do korelowania wielu sygnałów
+społecznych i precyzyjnego naświetlania źródeł problemów – zarówno systemowych, jak
+i jednostkowych. Ta synteza musi rozdzielać fakty od interpretacji, ujawniać poziom
+niepewności i mapować konkretne, legalne opcje działania wraz z ich kosztami,
+ryzykiem oraz odwracalnością skutków.
+
 ## Architektura i rzemiosło systemu
 
 ### Rzemiosło ponad fajerwerki

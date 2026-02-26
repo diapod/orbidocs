@@ -124,6 +124,20 @@ exceptions, measurements of time distributions, and detection of side channels. 
 system cannot explain why someone was assisted or served faster, it is not ready for
 use in high-stakes domains.
 
+### Civic Agency
+
+DIA encourages engagement in solving social problems through methods available within
+the legal framework of a given region: petitions, open letters, public consultations,
+referendum initiatives, complaints, appeals, and advocacy actions. The system should
+strengthen the effectiveness of these paths. We prefer procedural, evidence-based,
+and peaceful pressure over vigilantism, violence, or institutional workarounds.
+
+A novelty in DIA is the collective intelligence capability to correlate multiple
+social signals and precisely illuminate the sources of problems – both systemic and
+individual. This synthesis must separate facts from interpretation, disclose
+uncertainty levels, and map concrete lawful options for action together with their
+costs, risks, and reversibility of outcomes.
+
 ## System Architecture and Craft
 
 ### Craft Over Fireworks
