@@ -154,6 +154,22 @@ In DIA, simplicity is structural: one responsibility, explicit boundaries, low c
 We reject *complecting* layers and hidden communication channels because they raise
 cognitive cost and error risk.
 
+Below is a working mapping of common entangling constructs and simpler alternatives
+(in the spirit of Rich Hickey's distinctions):
+
+| Entangling construct | What does it complect? | Simpler alternative |
+| :--- | :--- | :--- |
+| **State** | **value** and **time** | **values** (preferably immutable) |
+| **Object** | **state**, **identity**, and **value** | **values** |
+| **Methods** | **function** and **state** (often namespace too) | independent **functions** and **namespaces** |
+| **Variables** | **value** and **time** | **References** with access control and **values** |
+| **Inheritance** | **data type** and **implementation** | **ad-hoc polymorphism** (protocols, type classes, extensible interfaces) |
+| **`switch`** / *pattern matching* | "**who** executes" and "**what** executes" | **open systems** + **ad-hoc polymorphism** |
+| **Imperative syntax** | **meaning** and **execution order** | **data** (e.g., maps, sets) |
+| **Loops** | "**what** to do" and "**how** to do it" | declarative **collection operations** |
+| **Actors** | "**what** to execute" and "**who** executes it" | **queues** and explicit work routing |
+| **`if` / `else`** | **business logic** and **program shape** | external **rule systems** / decision tables |
+
 ### Legibility Over Apparent Ease
 
 "Easy now" often means "expensive later." DIA chooses legibility: systems should be
@@ -179,6 +195,24 @@ instead of central validation, and conscious design of extension points.
 
 DIA separates declarative "what" from implementation "how" so layers can evolve
 independently. Abstractions should be thin, readable, and contract-driven.
+
+### Stratification as Layered Design
+
+DIA treats stratification as a craft foundation: each layer operates on its own
+concepts, has its own correctness criteria, and communicates through thin, explicit,
+and stable interfaces. Base concretes are used to build abstractions, and those
+abstractions become new concretes for subsequent layers.
+
+Layer boundaries are non-negotiable: declarative "what" must not leak implementation
+"how," and incidental implementation properties must not become domain semantics. We
+realize this through function composition, higher-order functions, and ad-hoc
+polymorphism (protocols, multimethods), so the system grows by adding layers rather
+than exceptions.
+
+Stratification is our antidote to entanglement: lower-level mechanism changes propagate
+through abstractions without rewriting many places at once. In practice, design starts
+from data and boundary contracts, and debugging starts by locating the layer where the
+defect originated.
 
 ### Polymorphic Operations Instead of Static Assignments
 

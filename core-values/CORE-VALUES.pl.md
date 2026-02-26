@@ -156,6 +156,22 @@ W DIA prostota jest kryterium strukturalnym: jedna odpowiedzialność, jawne gra
 niskie sprzężenie. Odrzucamy *complecting* warstw i ukryte kanały komunikacji, bo
 podnoszą koszt poznawczy i ryzyko błędu.
 
+Poniżej robocze zestawienie najczęstszych form splątania i prostszych alternatyw
+(w duchu rozróżnień Richa Hickeya):
+
+| Konstrukt skomplikowany | Co komplikuje? | Prosta alternatywa |
+| :--- | :--- | :--- |
+| **Stan** | **wartość** i **czas** | **wartości (values)**, najlepiej niezmienne |
+| **Obiekt** | **stan**, **tożsamość** i **wartość** | **wartości** |
+| **Metody** | **funkcję** i **stan** (a często też przestrzeń nazw) | niezależne **funkcje** i **przestrzenie nazw** |
+| **Zmienne** | **wartość** i **czas** | **Referencje** z kontrolą dostępu i **wartości** |
+| **Dziedziczenie** | **typ danych** i **implementację** | **polimorfizm doraźny** (protokoły, type classes, rozszerzalne interfejsy) |
+| **`switch`** / ***pattern matching*** | "**kto** wykona" i "**co** wykona" | **otwarte systemy** + **polimorfizm doraźny** |
+| **Składnia imperatywna** | **znaczenie** i **porządek wykonania** | **dane** (np. mapy, zbiory) |
+| **Pętle** | "**co** zrobić" i "**jak** zrobić" | deklaratywne **operacje na kolekcjach** |
+| **Aktory** | "**co** wykonać" i "**kto** ma wykonać" | **kolejki** i jawny routing pracy |
+| **`if` / `else`** | **logikę biznesową** i **strukturę programu** | zewnętrzne **systemy reguł** / tabele decyzji |
+
 ### Poznawalność ponad pozorną łatwość
 
 "Łatwe teraz" często znaczy "droższe później". DIA wybiera poznawalność: system ma
@@ -181,6 +197,23 @@ brzegach, a nie w środku – oraz świadome projektowanie punktów rozszerzeń
 
 DIA rozdziela deklaratywne "co" od implementacyjnego "jak", aby warstwy mogły
 ewoluować niezależnie. Abstrakcje mają być cienkie, czytelne i kontraktowe.
+
+### Stratyfikacja – projektowanie warstwowe
+
+DIA traktuje stratyfikację jako fundament rzemiosła: każda warstwa operuje własnymi
+pojęciami, ma własne kryteria poprawności i komunikuje się przez chude, jawne oraz
+stabilne interfejsy. Bazowe konkrety służą do budowy abstraktów, a te stają się nowymi
+konkretami dla kolejnych warstw.
+
+Granice warstw są nienaruszalne: "co" nie przecieka detalami "jak", a przypadkowe
+własności implementacji nie stają się semantyką domeny. Realizujemy to przez kompozycję
+funkcji, funkcje wyższego rzędu i polimorfizm doraźny (protokoły, multimetody), aby
+rozwijać system przez dokładanie warstw zamiast wyjątków.
+
+Stratyfikacja jest antidotum na splątanie: zmiany w mechanizmach dolnych warstw
+propagują się przez abstrakcje bez przepisywania wielu miejsc naraz. W praktyce
+projektowanie zaczyna się od danych i kontraktów na brzegach, a debugowanie od
+wskazania warstwy, na której powstał błąd.
 
 ### Polimorficzne operacje zamiast statycznych przyporządkowań
 
