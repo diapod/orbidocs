@@ -13,6 +13,7 @@
 ### Sections
 
 * `/challenges` – what challenges we face
+* `/constitutional-ops` – constitutional supplements, onboarding aids, and executable policy drafts
 * `/core-values` – foundational values and ethical orientation
 * `/memos` – quick notes and idea backlog to revisit later
 * `/proposals` – proposals to be considered and implemented
@@ -21,12 +22,29 @@
 
 ### Files
 
-* `/CONSTITUTION.md` – project's constitution
+* `/CONSTITUTION.pl.md` – project's constitution (Polish)
+* `/CONSTITUTION.en.md` – project's constitution (English)
+* `/VISION.pl.md` – project vision (Polish)
 * `/COLLABORATION.md` – basic collaboration guidelines
-* `/DATA-ETHICS.md` – data ethics policy and principles
 * `/AGENTS.md` – information for agents
 * `/core-values/CORE-VALUES.pl.md` – core values document (Polish)
 * `/core-values/CORE-VALUES.en.md` – core values document (English)
+* `/constitutional-ops/NORMATIVE-HIERARCHY.pl.md` – proposed normative hierarchy of constitutional documents
+* `/constitutional-ops/NODE-RIGHTS-CARD.pl.md` – onboarding card and decision index for node operators
+* `/constitutional-ops/AUTONOMY-LEVELS.pl.md` – autonomy gradient for agents
+* `/constitutional-ops/EXCEPTION-POLICY.pl.md` – exception procedure and data model
+* `/constitutional-ops/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md` – federation eligibility, liveness, quorum and veto rules
+* `/constitutional-ops/ENTRENCHMENT-CLAUSE.pl.md` – entrenchment clause and constitutional defense procedure
+* `/constitutional-ops/REPUTATION-VALIDATION-PROTOCOL.pl.md` – validation protocol for reputation mechanisms
+* `/constitutional-ops/IMPLEMENTATION-GAPS.pl.md` – backlog of remaining constitutional implementation gaps
+* `/constitutional-ops/NORMATIVE-HIERARCHY.en.md` – proposed normative hierarchy of constitutional documents (English)
+* `/constitutional-ops/NODE-RIGHTS-CARD.en.md` – onboarding card and decision index for node operators (English)
+* `/constitutional-ops/AUTONOMY-LEVELS.en.md` – autonomy gradient for agents (English)
+* `/constitutional-ops/EXCEPTION-POLICY.en.md` – exception procedure and data model (English)
+* `/constitutional-ops/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md` – federation eligibility, liveness, quorum and veto rules (English)
+* `/constitutional-ops/ENTRENCHMENT-CLAUSE.en.md` – entrenchment clause and constitutional defense procedure (English)
+* `/constitutional-ops/REPUTATION-VALIDATION-PROTOCOL.en.md` – validation protocol for reputation mechanisms (English)
+* `/constitutional-ops/IMPLEMENTATION-GAPS.en.md` – backlog of remaining constitutional implementation gaps (English)
 
 ## Traceability Matrix
 
@@ -47,4 +65,3 @@
 
 
 ### Values -> Constitution
-
