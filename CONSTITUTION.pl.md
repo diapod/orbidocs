@@ -49,9 +49,10 @@ kryzysu, sukcesu i degeneracji.
    konstytucyjną i miejsce w hierarchii normatywnej.
 
 8. Do pierwszej warstwy takich dokumentów należą w szczególności:
-  `NORMATIVE-HIERARCHY.pl.md`, `NODE-RIGHTS-CARD.pl.md`, `AUTONOMY-LEVELS.pl.md`,
-  `EXCEPTION-POLICY.pl.md`, `FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`,
-  `ENTRENCHMENT-CLAUSE.pl.md` oraz `REPUTATION-VALIDATION-PROTOCOL.pl.md`.
+  `pl/NORMATIVE-HIERARCHY.pl.md`, `pl/NODE-RIGHTS-CARD.pl.md`,
+  `pl/AUTONOMY-LEVELS.pl.md`, `pl/EXCEPTION-POLICY.pl.md`,
+  `pl/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`, `pl/ENTRENCHMENT-CLAUSE.pl.md`
+  oraz `pl/REPUTATION-VALIDATION-PROTOCOL.pl.md`.
 
 ## Główne definicje
 

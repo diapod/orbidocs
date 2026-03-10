@@ -49,9 +49,10 @@ conditions of pressure, crisis, success, and degeneration.
    constitutional basis, and place in the normative hierarchy.
 
 8. The first layer of such documents includes, in particular:
-   `NORMATIVE-HIERARCHY.en.md`, `NODE-RIGHTS-CARD.en.md`, `AUTONOMY-LEVELS.en.md`,
-   `EXCEPTION-POLICY.en.md`, `FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`,
-   `ENTRENCHMENT-CLAUSE.en.md`, and `REPUTATION-VALIDATION-PROTOCOL.en.md`.
+   `en/NORMATIVE-HIERARCHY.en.md`, `en/NODE-RIGHTS-CARD.en.md`,
+   `en/AUTONOMY-LEVELS.en.md`, `en/EXCEPTION-POLICY.en.md`,
+   `en/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`, `en/ENTRENCHMENT-CLAUSE.en.md`,
+   and `en/REPUTATION-VALIDATION-PROTOCOL.en.md`.
 
 ## Main Definitions
 

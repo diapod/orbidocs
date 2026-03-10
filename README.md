@@ -30,22 +30,22 @@
 * `/AGENTS.md` – information for agents
 * `/core-values/CORE-VALUES.pl.md` – core values document (Polish)
 * `/core-values/CORE-VALUES.en.md` – core values document (English)
-* `/constitutional-ops/NORMATIVE-HIERARCHY.pl.md` – proposed normative hierarchy of constitutional documents
-* `/constitutional-ops/NODE-RIGHTS-CARD.pl.md` – onboarding card and decision index for node operators
-* `/constitutional-ops/AUTONOMY-LEVELS.pl.md` – autonomy gradient for agents
-* `/constitutional-ops/EXCEPTION-POLICY.pl.md` – exception procedure and data model
-* `/constitutional-ops/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md` – federation eligibility, liveness, quorum and veto rules
-* `/constitutional-ops/ENTRENCHMENT-CLAUSE.pl.md` – entrenchment clause and constitutional defense procedure
-* `/constitutional-ops/REPUTATION-VALIDATION-PROTOCOL.pl.md` – validation protocol for reputation mechanisms
-* `/constitutional-ops/IMPLEMENTATION-GAPS.pl.md` – backlog of remaining constitutional implementation gaps
-* `/constitutional-ops/NORMATIVE-HIERARCHY.en.md` – proposed normative hierarchy of constitutional documents (English)
-* `/constitutional-ops/NODE-RIGHTS-CARD.en.md` – onboarding card and decision index for node operators (English)
-* `/constitutional-ops/AUTONOMY-LEVELS.en.md` – autonomy gradient for agents (English)
-* `/constitutional-ops/EXCEPTION-POLICY.en.md` – exception procedure and data model (English)
-* `/constitutional-ops/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md` – federation eligibility, liveness, quorum and veto rules (English)
-* `/constitutional-ops/ENTRENCHMENT-CLAUSE.en.md` – entrenchment clause and constitutional defense procedure (English)
-* `/constitutional-ops/REPUTATION-VALIDATION-PROTOCOL.en.md` – validation protocol for reputation mechanisms (English)
-* `/constitutional-ops/IMPLEMENTATION-GAPS.en.md` – backlog of remaining constitutional implementation gaps (English)
+* `/constitutional-ops/pl/NORMATIVE-HIERARCHY.pl.md` – proposed normative hierarchy of constitutional documents
+* `/constitutional-ops/pl/NODE-RIGHTS-CARD.pl.md` – onboarding card and decision index for node operators
+* `/constitutional-ops/pl/AUTONOMY-LEVELS.pl.md` – autonomy gradient for agents
+* `/constitutional-ops/pl/EXCEPTION-POLICY.pl.md` – exception procedure and data model
+* `/constitutional-ops/pl/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md` – federation eligibility, liveness, quorum and veto rules
+* `/constitutional-ops/pl/ENTRENCHMENT-CLAUSE.pl.md` – entrenchment clause and constitutional defense procedure
+* `/constitutional-ops/pl/REPUTATION-VALIDATION-PROTOCOL.pl.md` – validation protocol for reputation mechanisms
+* `/constitutional-ops/pl/IMPLEMENTATION-GAPS.pl.md` – backlog of remaining constitutional implementation gaps
+* `/constitutional-ops/en/NORMATIVE-HIERARCHY.en.md` – proposed normative hierarchy of constitutional documents (English)
+* `/constitutional-ops/en/NODE-RIGHTS-CARD.en.md` – onboarding card and decision index for node operators (English)
+* `/constitutional-ops/en/AUTONOMY-LEVELS.en.md` – autonomy gradient for agents (English)
+* `/constitutional-ops/en/EXCEPTION-POLICY.en.md` – exception procedure and data model (English)
+* `/constitutional-ops/en/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md` – federation eligibility, liveness, quorum and veto rules (English)
+* `/constitutional-ops/en/ENTRENCHMENT-CLAUSE.en.md` – entrenchment clause and constitutional defense procedure (English)
+* `/constitutional-ops/en/REPUTATION-VALIDATION-PROTOCOL.en.md` – validation protocol for reputation mechanisms (English)
+* `/constitutional-ops/en/IMPLEMENTATION-GAPS.en.md` – backlog of remaining constitutional implementation gaps (English)
 
 ## Traceability Matrix
 
