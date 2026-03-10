@@ -14,7 +14,8 @@
 ## 1. Cel dokumentu
 
 Konstytucja wymaga, aby każdy wyjątek miał identyfikator, uzasadnienie, poziom
-ryzyka, właściciela, czas wygaśnięcia i punkt powrotu fail-closed. Niniejszy
+ryzyka, właściciela, czas wygaśnięcia i punkt powrotu do stanu bezpiecznego
+domknięcia (ang. fail-closed). Niniejszy
 dokument zamienia tę zasadę w procedurę operacyjną: definiuje model danych wyjątku,
 typy wyjątków, minimalną ścieżkę zatwierdzania oraz monitoring skutków ubocznych.
 
@@ -30,7 +31,7 @@ wyjątku **obiektem pierwszej kategorii audytu**.
    - jest ograniczony zakresem i czasem,
    - ma właściciela odpowiedzialnego za jego skutki,
    - ma jawny warunek wyłączenia,
-   - prowadzi do zdefiniowanego stanu fail-closed.
+   - prowadzi do zdefiniowanego stanu bezpiecznego domknięcia (ang. fail-closed).
 2. Wyjątek nie może być trybem domyślnym ani stałą cechą architektury.
 3. Często powtarzający się wyjątek jest sygnałem, że brakuje reguły, kontraktu albo
    nowej ścieżki operacyjnej.
@@ -78,7 +79,7 @@ czasowego odejścia od domyślnej reguły.
 Przykłady:
 
 - czasowe podniesienie limitu kosztowego agenta,
-- czasowe rozszerzenie zakresu routingu,
+- czasowe rozszerzenie zakresu trasowania (ang. routingu),
 - ręczne utrzymanie starszej wersji komponentu z przyczyn kompatybilności.
 
 ### 4.2. Wyjątek awaryjny (`emergency`)
@@ -89,7 +90,8 @@ uniemożliwić ochronę człowieka.
 Przykłady:
 
 - aktywacja trybu A3,
-- czasowe ominięcie części workflow w blackoucie,
+- czasowe ominięcie części przepływu działań (ang. workflow) w awarii zasilania
+  lub łączności (ang. blackout),
 - awaryjne zabezpieczenie kanału komunikacji sygnalisty.
 
 ### 4.3. Wyjątek ochronny / konstytucyjny (`injunction`)
@@ -112,17 +114,19 @@ Przykłady:
 1. Inicjator tworzy rekord wyjątku z pełnym modelem danych.
 2. Wyjątek musi być zatwierdzony przez co najmniej dwie role, z których jedna nie
    jest bezpośrednim beneficjentem wyjątku.
-3. Dla wyjątków `high` i `critical` obowiązuje multisig oraz jawne wskazanie metryk
-   monitorowania.
+3. Dla wyjątków `high` i `critical` obowiązuje współpodpis (ang. multisig) oraz
+   jawne wskazanie metryk monitorowania.
 4. Po zatwierdzeniu wyjątek uzyskuje status `active`.
 
 ### 5.2. Wyjątek awaryjny
 
-1. Może być aktywowany przez operatora albo automatycznie przez zdefiniowany trigger.
+1. Może być aktywowany przez operatora albo automatycznie przez zdefiniowany
+   wyzwalacz (ang. trigger).
 2. Aktywacja tworzy rekord wyjątku natychmiast albo najpóźniej razem z pierwszym
    śladem działania.
 3. Maksymalny czas życia wyjątku awaryjnego jest parametrem federacji, ale po
-   wygaśnięciu system MUSI wrócić do stanu fail-closed.
+   wygaśnięciu system MUSI wrócić do stanu bezpiecznego domknięcia (ang.
+   fail-closed).
 4. Rewizja post-hoc jest obowiązkowa i musi się rozpocząć nie później niż 72 godziny
    po aktywacji, chyba że federacja jest nadal w trybie kryzysowym.
 
@@ -143,7 +147,7 @@ Każdy wyjątek MUSI mieć:
 - wskaźniki skutków ubocznych,
 - termin przeglądu,
 - warunki automatycznego zawieszenia,
-- warunki automatycznego rollbacku.
+- warunki automatycznego cofnięcia (ang. rollbacku).
 
 Wyjątek MUSI zostać automatycznie zawieszony albo cofnięty, jeżeli:
 
@@ -162,7 +166,7 @@ Każda federacja powinna mierzyć co najmniej:
 - liczbę aktywnych wyjątków per okres,
 - średni czas życia wyjątku,
 - odsetek wyjątków przedłużanych,
-- odsetek wyjątków, które zakończyły się rollbackiem,
+- odsetek wyjątków, które zakończyły się cofnięciem (ang. rollbackiem),
 - udział wyjątków `emergency` i `injunction`,
 - udział wyjątków powiązanych z krzywdą, incydentem lub odwołaniem.
 

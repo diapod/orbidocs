@@ -26,7 +26,7 @@ procedurę obronną - bez tworzenia stałego organu centralnego.
 
 ---
 
-## 2. Klauzula wieczności (Entrenchment Clause)
+## 2. Klauzula wieczności (ang. entrenchment clause)
 
 ### 2.1. Rdzeń nienegocjowalny
 
@@ -39,10 +39,10 @@ Następujące artykuły Konstytucji stanowią **rdzeń nienegocjowalny**:
 | **II.2** | Ochrona życia oraz obrona przed bezpośrednią, nagłą i poważną krzywdą zdrowotną mają najwyższy priorytet operacyjny. |
 | **II.3** | Największa moc systemu MUSI przechodzić przez człowieka, nie obok człowieka. |
 | **III.1** | Użytkownik pozostaje właścicielem swoich danych, polityk, agentów i lokalnych przestrzeni pamięci. |
-| **III.2** | System MUSI działać sensownie w trybach local-first, offline i self-hosted. |
+| **III.2** | System MUSI działać sensownie w trybach lokalnych jako domyślnych (ang. local-first), bez połączenia z siecią (offline) i samodzielnie hostowanych (ang. self-hosted). |
 | **III.3** | Eksport danych, polityk i historii MUSI być możliwy w otwartych formatach. |
 | **III.4** | Prawo do wyjścia bez szantażu, bez utraty dostępu do danych, bez ukrytych kar. |
-| **III.5** | Prawo do forka. |
+| **III.5** | Prawo do odgałęzienia (ang. fork). |
 | **XIV.1** | Domyślna hierarchia wartości: godność > suwerenność > weryfikowalność > sprawczość > skuteczność > wygoda. |
 
 ### 2.2. Warunki zmiany rdzenia nienegocjowalnego
@@ -54,8 +54,9 @@ warunków:
 1. **Jednomyślność federacji** - zgoda wszystkich federacji uczestniczących w procesie
    zmiany. Jedna federacja = jedno veto. Brak głosu nie jest traktowany jako zgoda.
 
-2. **Niezależny adversarial review** - panel red-team złożony z co najmniej trzech
-   węzłów o wysokiej reputacji proceduralnej, niebędących inicjatorami zmiany i
+2. **Niezależny kontradyktoryjny przegląd (ang. adversarial review)** - panel
+   zespołu kontrtestującego (ang. red-team) złożony z co najmniej trzech węzłów o
+   wysokiej reputacji proceduralnej, niebędących inicjatorami zmiany i
    nieposiadających konfliktu interesów z przedmiotem zmiany. Panel publikuje jawne
    uzasadnienie poparcia lub sprzeciwu.
 
@@ -102,7 +103,7 @@ Każda federacja, każdy węzeł o statusie obywatela roju (Art. XV) oraz każda
 zaufania publicznego może zgłosić **zarzut niekonstytucyjności** wobec:
 
 - polityki federacyjnej,
-- decyzji governance,
+- decyzji dotyczącej ładu organizacyjnego (ang. governance),
 - ustawy wykonawczej,
 - działania węzła, agenta lub roli,
 - propozycji zmiany Konstytucji.
@@ -130,7 +131,8 @@ z Art. VII. Zamiast tego:
 1. Po przyjęciu zgłoszenia system losuje **3 lub więcej węzłów** z puli węzłów
    spełniających kryteria:
    - wysoka reputacja proceduralna (nie techniczna - Art. VII.4),
-   - brak konfliktu interesów z przedmiotem sprawy (COI-by-default, Art. VII.6),
+   - brak konfliktu interesów z przedmiotem sprawy (domniemanie konfliktu
+     interesów przy braku danych, COI-by-default, Art. VII.6),
    - brak powiązań ze stronami sporu.
 
 2. Strony sporu mogą zgłosić **po jednym veto** wobec wylosowanych węzłów
@@ -156,7 +158,7 @@ z Art. VII. Zamiast tego:
 - Jeśli panel stwierdzi niekonstytucyjność, target jest **zawieszony** w zakresie
   naruszenia do czasu naprawy lub formalnej zmiany Konstytucji.
 
-### 3.3. Środek tymczasowy (injunction)
+### 3.3. Środek tymczasowy (ang. injunction)
 
 W sprawach oznaczonych jako `critical` - gdy opóźnienie może spowodować nieodwracalną
 szkodę - zgłaszający może wnioskować o **środek tymczasowy**:
@@ -181,9 +183,9 @@ członków). Rozstrzygnięcie drugiego panelu jest ostateczne.
 
 | Scenariusz | Odpowiedź systemu |
 | :--- | :--- |
-| Większość federacji głosuje za usunięciem prawa do wyjścia | Klauzula wieczności: wymaga jednomyślności + adversarial review + 90 dni refleksji. Jedna federacja blokuje. |
+| Większość federacji głosuje za usunięciem prawa do wyjścia | Klauzula wieczności: wymaga jednomyślności + kontradyktoryjnego przeglądu (ang. adversarial review) + 90 dni refleksji. Jedna federacja blokuje. |
 | Sponsor wymusza reinterpretację Art. VIII przez politykę federacyjną | Zarzut niekonstytucyjności -> panel ad-hoc -> zawieszenie polityki. |
-| Grupa węzłów próbuje zdominować pulę losowania paneli | Kryteria COI-by-default + veto stron + reputacja proceduralna (nie techniczna) ograniczają capture. |
+| Grupa węzłów próbuje zdominować pulę losowania paneli | Kryteria domniemania konfliktu interesów przy braku danych (COI-by-default) + veto stron + reputacja proceduralna (nie techniczna) ograniczają przejęcie sterowania (ang. capture). |
 | Panel wydaje rozstrzygnięcie stronnicze | Odwołanie do nowego panelu. Brak precedensu wiążącego -> stronnicze rozstrzygnięcie nie trwale kształtuje wykładni. |
 | Tryb kryzysowy (Art. IX) wykorzystywany do obejścia Konstytucji | Tryb kryzysowy nie zawiesza rdzenia nienegocjowalnego. Obowiązkowa rewizja post-hoc. |
 
@@ -199,5 +201,5 @@ członków). Rozstrzygnięcie drugiego panelu jest ostateczne.
 - **NORMATIVE-HIERARCHY.pl.md**: Klauzula wieczności definiuje Poziom 0 hierarchii.
 - **Konstytucja Art. XIV**: Środki tymczasowe są traktowane jako wyjątki podlegające
   minimalnym wymogom identyfikacji i wygaszenia.
-- **Konstytucja Art. VII**: Panel ad-hoc jest spójny z zasadą governance
-  proceduralnego (nie charyzmatycznego) i rozdziału ról.
+- **Konstytucja Art. VII**: Panel ad-hoc jest spójny z zasadą proceduralnego ładu
+  organizacyjnego (ang. governance), a nie ładu charyzmatycznego, oraz z rozdziałem ról.

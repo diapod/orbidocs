@@ -31,15 +31,15 @@ bez formalnej procedury zmiany odpowiedniego poziomu.
 Artykuły Konstytucji wymienione w klauzuli wieczności (patrz:
 `ENTRENCHMENT-CLAUSE.pl.md`). Ich zmiana, zawieszenie lub reinterpretacja zawężająca
 wymaga jednomyślności wszystkich federacji uczestniczących w procesie zmiany oraz
-niezależnego adversarial review.
+niezależnego kontradyktoryjnego przeglądu (ang. adversarial review).
 
 Rdzeń nienegocjowalny obejmuje co najmniej:
 
 - Art. I.5 - żaden cel operacyjny ani finansowy nie unieważnia godności,
   bezpieczeństwa i prawa do wyjścia.
 - Art. II.1-3 - godność, ochrona życia, moc systemu przechodzi przez człowieka.
-- Art. III.1-5 - suwerenność danych, local-first, eksport, prawo do wyjścia, prawo
-  do forka.
+- Art. III.1-5 - suwerenność danych, lokalny tryb domyślny (ang. local-first),
+  eksport, prawo do wyjścia, prawo do odgałęzienia (ang. fork).
 - Art. XIV.1 - domyślna hierarchia wartości.
 
 ### Poziom 1 - Konstytucja
@@ -76,8 +76,9 @@ Dokumenty operacyjne o mocy wiążącej w ramach federacji:
   statusów aktywności oraz reguł quorum i veta
 - `REPUTATION-VALIDATION-PROTOCOL.pl.md` - protokół walidacji mechanizmów reputacyjnych
 - `ENTRENCHMENT-CLAUSE.pl.md` - procedura obrony konstytucyjnej i klauzula wieczności
-- inne dokumenty `policy-as-code` lub dokumenty wykonawcze z katalogu
-  `constitutional-ops/`, które jawnie wskazują swój typ i podstawę konstytucyjną
+- inne dokumenty polityk zapisanych w kodzie (ang. `policy-as-code`) lub dokumenty
+  wykonawcze z katalogu `constitutional-ops/`, które jawnie wskazują swój typ i
+  podstawę konstytucyjną
 
 Ustawy wykonawcze konkretyzują Konstytucję i Źródła wykładni. Mogą **zaostrzać**
 wymogi (np. w trybie `CORP_COMPLIANT`), ale **nie mogą osłabiać** żadnego wyższego
@@ -95,13 +96,13 @@ Parametry, konfiguracje i reguły lokalne poszczególnych federacji. Obejmują:
 Polityki federacyjne są autonomiczne w zakresie niepokrywającym się z wyższymi
 poziomami. Federacja może je swobodnie kształtować, o ile nie naruszają Poziomów 0-3.
 
-### Poziom 5 - Materiały pochodne i onboardingowe
+### Poziom 5 - Materiały pochodne i wdrożeniowe (ang. onboarding)
 
 Dokumenty pomocnicze, które **nie mają własnej mocy normatywnej**, lecz streszczają,
 mapują albo ułatwiają korzystanie z dokumentów wyższych poziomów. Obejmują:
 
 - `NODE-RIGHTS-CARD.pl.md` - wyciąg z praw i obowiązków węzła wraz z indeksem decyzyjnym,
-- checklisty onboardingowe,
+- listy kontrolne wdrożeniowe (ang. onboarding),
 - mapy procesów,
 - skróty operacyjne i materiały szkoleniowe.
 

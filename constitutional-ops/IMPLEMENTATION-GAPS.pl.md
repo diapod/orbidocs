@@ -32,11 +32,12 @@ Domknięto dnia `2026-03-10` przez dokument `DIA-FED-001`, który definiuje:
 
 ---
 
-## Priorytet A - wymagane przed wejściem w realny governance
+## Priorytet A - wymagane przed wejściem w realny ład organizacyjny (ang. governance)
 
 ### 1. `PROCEDURAL-REPUTATION-SPEC.pl.md`
 
-**Dlaczego brakuje:** panel ad-hoc i screening ról zakładają istnienie "wysokiej
+**Dlaczego brakuje:** panel ad-hoc i warstwowe sprawdzanie ról (ang. screening)
+zakładają istnienie "wysokiej
 reputacji proceduralnej", ale nie definiują jej składowych ani sposobu wyliczenia.
 
 **Co musi zdefiniować:**
@@ -49,15 +50,16 @@ reputacji proceduralnej", ale nie definiują jej składowych ani sposobu wylicze
 ### 2. `PANEL-SELECTION-PROTOCOL.pl.md`
 
 **Dlaczego brakuje:** procedura obrony konstytucyjnej zakłada losowanie panelu, ale
-nie określa źródła losowości, anty-manipulacyjnego seedowania ani sposobu rozstrzygania
-sporów o veto i eligibility.
+nie określa źródła losowości, antymanipulacyjnego ustalania ziarna losowania
+(ang. seedowania) ani sposobu rozstrzygania sporów o veto i kwalifikowalność
+(ang. eligibility).
 
 **Co musi zdefiniować:**
 
 - źródło entropii i jego audyt,
-- eligibility panelistów,
+- kwalifikowalność (ang. eligibility) panelistów,
 - procedurę wyłączeń i vet,
-- logikę retry przy konflikcie interesów.
+- logikę ponawiania (ang. retry) przy konflikcie interesów.
 
 ---
 
@@ -77,7 +79,8 @@ triggerów, minimalnych progów pewności ani zasad dopuszczania automatycznej a
 
 ### 5. `SENSITIVE-DATA-REDUCTION.pl.md`
 
-**Dlaczego brakuje:** publikacja, sygnaliści, wyjątki i onboarding odwołują się do
+**Dlaczego brakuje:** publikacja, sygnaliści, wyjątki i materiały wdrożeniowe
+(ang. onboarding) odwołują się do
 redakcji danych wrażliwych, ale nie ma wspólnego standardu redakcji i ujawnień.
 
 **Co musi zdefiniować:**
@@ -94,13 +97,14 @@ redakcji danych wrażliwych, ale nie ma wspólnego standardu redakcji i ujawnie�
 ### 6. `ROLE-REGISTRY.pl.md`
 
 **Dlaczego brakuje:** konstytucja i suplementy używają pojęć "rola zaufania
-publicznego", "operator", "red-team", "panel", ale nie mają wspólnego rejestru ról.
+publicznego", "operator", "zespół kontrtestujący (ang. red-team)", "panel", ale nie
+mają wspólnego rejestru ról.
 
 **Co musi zdefiniować:**
 
 - katalog ról bazowych,
 - minimalne uprawnienia i zakazy łączenia ról,
-- wymagania screeningowe,
+- wymagania dotyczące warstwowego sprawdzania ról (ang. screeningu),
 - ścieżki rotacji i zastępowalności.
 
 ### 7. `TRACE-MINIMUM.pl.md`
@@ -110,8 +114,8 @@ wymagają śladów działania, ale nie mają wspólnego minimalnego schematu.
 
 **Co musi zdefiniować:**
 
-- obowiązkowe pola trace,
-- relację trace -> audit -> appeal,
+- obowiązkowe pola śladu działania (ang. trace),
+- relację ślad działania (trace) -> audyt -> odwołanie (ang. appeal),
 - klasy retencji,
 - wersjonowanie śladów i podpisy.
 
@@ -122,5 +126,6 @@ wymagają śladów działania, ale nie mają wspólnego minimalnego schematu.
 Najbardziej krytyczne luki zostały częściowo domknięte przez `EXCEPTION-POLICY.pl.md`
 oraz `FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`. Następny logiczny krok to
 doprecyzowanie **jak liczy się reputację proceduralną** i **jak losuje się panel
-ad-hoc**, bo bez tego governance pozostaje poprawny filozoficznie, ale nadal zbyt
+ad-hoc**, bo bez tego ład organizacyjny (ang. governance) pozostaje poprawny
+filozoficznie, ale nadal zbyt
 miękki operacyjnie w sprawach spornych.

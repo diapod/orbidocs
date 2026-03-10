@@ -14,10 +14,11 @@
 ## 1. Cel dokumentu
 
 Konstytucja (Art. II.3) wymaga, aby "największa moc systemu przechodziła przez
-człowieka". Jednocześnie Art. V.10 wymaga od agenta kill-switcha, limitów i jawnego
-trybu zaufania. Niniejszy dokument definiuje **cztery poziomy autonomii agenta**,
-które operacjonalizują te zasady bez tworzenia wąskiego gardła human-in-the-loop
-na każdej operacji.
+człowieka". Jednocześnie Art. V.10 wymaga od agenta wyłącznika awaryjnego (ang.
+kill-switch), limitów i jawnego trybu zaufania. Niniejszy dokument definiuje
+**cztery poziomy autonomii agenta**, które operacjonalizują te zasady bez tworzenia
+wąskiego gardła wymagającego człowieka w pętli decyzyjnej (ang.
+human-in-the-loop) na każdej operacji.
 
 Gradient autonomii pozwala człowiekowi **ustawić ramy**, a nie klikać "OK" na każdym
 kroku. Moc przechodzi przez człowieka, bo to człowiek definiuje gradient.
@@ -44,7 +45,7 @@ kroku. Moc przechodzi przez człowieka, bo to człowiek definiuje gradient.
 | **Kiedy domyślny** | Akcje o niskim ryzyku i wysokiej odwracalności, które wymagają szybkości, ale nie są rutynowe. |
 | **Raportowanie** | Natychmiastowe powiadomienie z opisem akcji, uzasadnieniem i instrukcją cofnięcia. |
 | **Cofanie** | Możliwe w zdefiniowanym oknie (domyślnie: parametr federacji, np. 15 minut). Po upływie okna akcja jest traktowana jako zatwierdzona. |
-| **Przykłady** | Routing zadania do innego węzła; aktualizacja cache memarium; odpowiedź na zapytanie sieciowe o niskiej stawce; logowanie zdarzenia sensorium. |
+| **Przykłady** | Trasowanie (ang. routing) zadania do innego węzła; aktualizacja pamięci podręcznej (ang. cache) memarium; odpowiedź na zapytanie sieciowe o niskiej stawce; logowanie zdarzenia sensorium. |
 
 ### A2 - Działaj w ramach budżetu (Act Within Budget)
 
@@ -57,17 +58,17 @@ kroku. Moc przechodzi przez człowieka, bo to człowiek definiuje gradient.
 | **Limity budżetu** | Definiowane w kontrakcie agenta: `max_cost`, `max_time`, `max_actions`, `scope_whitelist`, `scope_blacklist`. Przekroczenie dowolnego limitu -> automatyczny stop i powiadomienie operatora. |
 | **Przykłady** | Odpowiadanie na rutynowe zapytania; agregacja danych sensorium; utrzymanie indeksu memarium; monitorowanie metryk zdrowia węzła. |
 
-### A3 - Tryb kryzysowy (Emergency Mode)
+### A3 - Tryb kryzysowy (ang. Emergency Mode)
 
 | Parametr | Wartość |
 | :--- | :--- |
 | **Opis** | Agent działa z maksymalną szybkością w sytuacji bezpośredniego zagrożenia życia lub nagłej poważnej krzywdy. Zostawia pełny ślad. Rewizja post-hoc jest obligatoryjna. |
 | **Kiedy aktywowany** | Wyłącznie gdy spełnione są warunki Art. II.8: bezpośrednie zagrożenie życia lub nagła, bezpośrednia i poważna krzywda zdrowotna. |
-| **Raportowanie** | Pełny, neredagowany ślad wszystkich akcji (trace), zapisywany lokalnie i (jeśli możliwe) replikowany. |
+| **Raportowanie** | Pełny, neredagowany ślad wszystkich akcji (ang. trace), zapisywany lokalnie i (jeśli możliwe) replikowany. |
 | **Cofanie** | Nie jest priorytetem w trakcie kryzysu. Po zakończeniu kryzysu -> obligatoryjna rewizja i ewentualna korekta. |
-| **Limity czasowe** | Tryb A3 ma zdefiniowany maksymalny czas trwania (parametr federacji). Po jego upływie agent automatycznie wraca do poziomu A0 (fail-closed). |
+| **Limity czasowe** | Tryb A3 ma zdefiniowany maksymalny czas trwania (parametr federacji). Po jego upływie agent automatycznie wraca do poziomu A0 w trybie bezpiecznego domknięcia (ang. fail-closed). |
 | **Aktywacja** | Automatyczna (na podstawie sygnałów sensorium lub detekcji wzorca kryzysowego) lub ręczna (operator). Aktywacja automatyczna wymaga oddzielnego potwierdzenia w logu. |
-| **Przykłady** | Koordynacja pomocy w blackoucie; alert o zagrożeniu życia; triage medyczny pierwszego kontaktu; zabezpieczenie kanału komunikacji sygnalisty pod bezpośrednim zagrożeniem. |
+| **Przykłady** | Koordynacja pomocy w awarii zasilania lub łączności (ang. blackout); alert o zagrożeniu życia; wstępna kategoryzacja (ang. triage) medyczna pierwszego kontaktu; zabezpieczenie kanału komunikacji sygnalisty pod bezpośrednim zagrożeniem. |
 
 ---
 
@@ -112,13 +113,14 @@ Federacja może narzucić `max_level` niższy niż kontrakt agenta (np. w trybie
 
 ### 3.4. Eskalacja poziomu w górę
 
-Agent nie może sam eskalować swojego poziomu autonomii (**zero self-authorize**,
-zgodnie z Art. V.13). Eskalacja wymaga:
+Agent nie może sam eskalować swojego poziomu autonomii (**zakaz samonadawania
+uprawnień**, ang. zero self-authorize, zgodnie z Art. V.13). Eskalacja wymaga:
 
 - **A0 -> A1 lub A2**: decyzja operatora.
 - **Dowolny -> A3**: operator lub automatyczna detekcja kryzysu z jawnym wpisem w logu
   i obowiązkową rewizją post-hoc.
-- **A3 -> powrót**: automatyczny po upływie limitu czasowego (fail-closed do A0).
+- **A3 -> powrót**: automatyczny po upływie limitu czasowego (bezpieczne domknięcie,
+  ang. fail-closed, do A0).
 
 ---
 
@@ -129,21 +131,21 @@ nie mogą rozluźniać (przesuwać w prawo).
 
 | Kategoria operacji | Minimalny poziom | Uzasadnienie |
 | :--- | :--- | :--- |
-| Zmiana polityki / kontraktu | A0 | Nieodwracalne, wpływ na governance |
+| Zmiana polityki / kontraktu | A0 | Nieodwracalne, wpływ na ład organizacyjny (ang. governance) |
 | Publikacja / komunikat zewnętrzny | A0 | Wysoka stawka reputacyjna |
-| Głosowanie reputacyjne | A0 | Wpływ na trust routing |
+| Głosowanie reputacyjne | A0 | Wpływ na kierowanie zaufaniem (ang. trust routing) |
 | Modyfikacja danych wrażliwych | A0 | Prywatność, godność |
-| Routing zadania do innego węzła | A1 | Odwracalne, ale wymaga świadomości |
-| Aktualizacja cache / indeksu | A2 | Rutynowe, budżetowalne |
+| Trasowanie (ang. routing) zadania do innego węzła | A1 | Odwracalne, ale wymaga świadomości |
+| Aktualizacja pamięci podręcznej (ang. cache) / indeksu | A2 | Rutynowe, budżetowalne |
 | Odpowiedź na zapytanie rutynowe | A2 | Rutynowe, budżetowalne |
 | Agregacja sensorium | A2 | Rutynowe, budżetowalne |
-| Ochrona życia / triage kryzysowy | A3 | Art. II.8 |
+| Ochrona życia / kryzysowa wstępna kategoryzacja (ang. triage) | A3 | Art. II.8 |
 
 ---
 
 ## 5. Audyt i monitoring
 
-### 5.1. Ślady decyzji (trace)
+### 5.1. Ślady decyzji (ang. trace)
 
 Każda akcja agenta, niezależnie od poziomu, generuje wpis w logu z co najmniej:
 

@@ -5,7 +5,7 @@
 | Pole | Wartość |
 | :--- | :--- |
 | `policy-id` | `DIA-NODE-CARD-001` |
-| `typ` | Wyciąg z Konstytucji - materiał onboardingowy |
+| `typ` | Wyciąg z Konstytucji - materiał wdrożeniowy (ang. onboarding) |
 | `wersja` | 0.1.0-draft |
 | `źródło` | Art. II, III, XV, XVI Konstytucji DIA |
 
@@ -19,9 +19,9 @@
 | **Prawo do prywatności** | Telemetria jest domyślnie wyłączona. Twoje dane są lokalne. Ujawnianie jest selektywne i wymaga Twojej zgody. | Art. III.7, III.8 |
 | **Prawo do wglądu** | Możesz audytować interakcje swoich agentów, ślady decyzji i historię działań. | Art. XV.2 |
 | **Prawo do odwołania** | Każdą decyzję reputacyjną lub sankcję możesz zakwestionować procedurą odwoławczą. | Art. XV.2, XVI.2 |
-| **Prawo do bezpieczeństwa** | System chroni Cię przed nękaniem, doxxingiem, sabotażem i ekonomicznym wymuszaniem. | Art. XV.2 |
+| **Prawo do bezpieczeństwa** | System chroni Cię przed nękaniem, ujawnianiem danych tożsamościowych (ang. doxxingiem), sabotażem i ekonomicznym wymuszaniem. | Art. XV.2 |
 | **Prawo do lokalnej autonomii** | Możesz prowadzić węzeł "w ciszy": prywatnie, lokalnie, bez uczestnictwa w przestrzeniach publicznych. | Art. III.6 |
-| **Prawo do forka** | Możesz skopiować specyfikacje, polityki i otwarte komponenty bez proszenia o zgodę centrum. | Art. III.5 |
+| **Prawo do odgałęzienia (ang. fork)** | Możesz skopiować specyfikacje, polityki i otwarte komponenty bez proszenia o zgodę centrum. | Art. III.5 |
 | **Prawo do suwerenności danych** | Jesteś właścicielem swoich danych, polityk, agentów i lokalnych przestrzeni pamięci. Eksport w otwartych formatach jest gwarantowany. | Art. III.1, III.3 |
 
 ## Twoje obowiązki jako węzła
@@ -51,7 +51,7 @@ odwracalności, proporcjonalności i jawności (Art. XIV.2).
 ## Egzekwowanie jest stopniowalne
 
 ```text
-Ostrzeżenie -> Ograniczenie uprawnień -> Kwarantanna reputacyjna -> Odcięcie routingu
+Ostrzeżenie -> Ograniczenie uprawnień -> Kwarantanna reputacyjna -> Odcięcie trasowania (ang. routingu)
 ```
 
 Każda sankcja zostawia ślad, daje możliwość odwołania i otwiera ścieżkę powrotu po
@@ -70,7 +70,7 @@ naprawie (Art. XVI.1-2).
 # Indeks decyzyjny - od sytuacji do artykułu
 
 Poniższa tabela mapuje najczęstsze sytuacje operacyjne na odpowiednie artykuły
-Konstytucji i kluczowe zasady. Służy jako "router" - nie zastępuje lektury
+Konstytucji i kluczowe zasady. Służy jako mapa nawigacyjna - nie zastępuje lektury
 Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 
 ## Prawa i suwerenność użytkownika
@@ -78,8 +78,8 @@ Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 | # | Sytuacja | Artykuły | Zasada / Działanie |
 | :--- | :--- | :--- | :--- |
 | 1 | Użytkownik chce zabrać swoje dane i odejść | III.3, III.4 | Eksport w otwartych formatach, bez szantażu i ukrytych kar |
-| 2 | Użytkownik chce uruchomić węzeł offline | III.2, III.6 | System MUSI działać sensownie local-first i self-hosted |
-| 3 | Użytkownik chce sforkować projekt | III.5 | Prawo do forka: specyfikacje, polityki, otwarte komponenty |
+| 2 | Użytkownik chce uruchomić węzeł offline | III.2, III.6 | System MUSI działać sensownie w trybie lokalnym jako domyślnym (ang. local-first) i samodzielnie hostowanym (ang. self-hosted) |
+| 3 | Użytkownik chce utworzyć odgałęzienie projektu | III.5 | Prawo do odgałęzienia (ang. fork): specyfikacje, polityki, otwarte komponenty |
 | 4 | Ktoś włączył telemetrię bez zgody użytkownika | III.7 | Telemetria domyślnie wyłączona; wymaga jasnej, odwoływalnej zgody |
 
 ## Agenty i autonomia
@@ -87,51 +87,51 @@ Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 | # | Sytuacja | Artykuły | Zasada / Działanie |
 | :--- | :--- | :--- | :--- |
 | 5 | Agent podjął decyzję bez wiedzy użytkownika | II.3, II.4, V.10 | Moc przechodzi przez człowieka; domyślnie propozycje i warianty |
-| 6 | Agent przekroczył budżet / czas / zakres | V.10, AUTONOMY-LEVELS.pl.md | Agent MUSI mieć kill-switch, limity uprawnień, czasu i kosztu |
-| 7 | Agent eskalował sobie uprawnienia | V.13, AUTONOMY-LEVELS.pl.md | Zero self-authorize; błąd agenta nie może automatycznie eskalować uprawnień |
+| 6 | Agent przekroczył budżet / czas / zakres | V.10, AUTONOMY-LEVELS.pl.md | Agent MUSI mieć wyłącznik awaryjny (ang. kill-switch), limity uprawnień, czasu i kosztu |
+| 7 | Agent eskalował sobie uprawnienia | V.13, AUTONOMY-LEVELS.pl.md | Zakaz samonadawania uprawnień (ang. zero self-authorize); błąd agenta nie może automatycznie eskalować uprawnień |
 | 8 | Agent działa w sytuacji zagrożenia życia | II.8, IX.3, AUTONOMY-LEVELS.pl.md | MOŻE działać szybciej, ale zostawia ślad i podlega rewizji |
 
-## Finansowanie i capture
+## Finansowanie i przejęcie sterowania (ang. capture)
 
 | # | Sytuacja | Artykuły | Zasada / Działanie |
 | :--- | :--- | :--- | :--- |
-| 9 | Sponsor żąda uprzywilejowanego dostępu do danych | VIII.2 | Zakaz - finansowanie nie kupuje dostępu do danych, routingu, governance |
+| 9 | Sponsor żąda uprzywilejowanego dostępu do danych | VIII.2 | Zakaz - finansowanie nie kupuje dostępu do danych, trasowania ani ładu organizacyjnego (ang. governance) |
 | 10 | Jedna zależność stała się krytyczna (model, infra, funding) | VIII.5 | Obowiązkowy plan dywersyfikacji |
 | 11 | Napięcie między finansowaniem a integralnością konstytucyjną | VIII.7 | Integralność konstytucyjna ma pierwszeństwo |
 | 12 | Model przychodowy oparty na uzależnianiu użytkownika | VIII.3, II.7 | Zakaz dopaminowego UX i ekonomii opartej na przytrzymywaniu |
 
-## Reputacja i governance
+## Reputacja i ład organizacyjny (ang. governance)
 
 | # | Sytuacja | Artykuły | Zasada / Działanie |
 | :--- | :--- | :--- | :--- |
 | 13 | Węzeł kwestionuje decyzję reputacyjną | XV.5, XVI.2 | Kontr-dowód lub wykazanie błędu proceduralnego; prawo do odwołania |
-| 14 | Brak ujawnienia konfliktu interesów | VII.6 | COI-by-default: brak deklaracji = brak danych, nie brak konfliktu |
+| 14 | Brak ujawnienia konfliktu interesów | VII.6 | Domniemanie konfliktu interesów przy braku danych (COI-by-default): brak deklaracji = brak danych, nie brak konfliktu |
 | 15 | Osoba pełni jednocześnie rolę strony i arbitra | VII.3 | Uprawnienia krytyczne MUSZĄ być rozdzielone między role |
-| 16 | Decyzja o wysokiej stawce | VII.9 | Multisig + niezależny red-team |
+| 16 | Decyzja o wysokiej stawce | VII.9 | Współpodpis (ang. multisig) + niezależny zespół kontrtestujący (ang. red-team) |
 
 ## Bezpieczeństwo i kryzys
 
 | # | Sytuacja | Artykuły | Zasada / Działanie |
 | :--- | :--- | :--- | :--- |
-| 17 | Podejrzenie Sybil / DoS / prompt injection | IX.1, IX.2 | Model zagrożeń jest częścią architektury, nie ozdobą |
-| 18 | Sytuacja kryzysowa (blackout, konflikt) | IX.3, IX.4 | Tryb kryzysowy: wyższy rygor, redundancja, lokalność, jakość śladów |
+| 17 | Podejrzenie Sybil / DoS / wstrzyknięcia poleceń | IX.1, IX.2 | Model zagrożeń jest częścią architektury, nie ozdobą |
+| 18 | Sytuacja kryzysowa (awaria zasilania lub łączności, konflikt) | IX.3, IX.4 | Tryb kryzysowy: wyższy rygor, redundancja, lokalność, jakość śladów |
 | 19 | Węzeł częściowo odcięty od sieci | IX.5 | Węzeł POWINIEN zachowywać zdolność działania w częściowej izolacji |
-| 20 | Potrzeba emergency cache (schronienie, żywność, triage) | IX.6, IX.7 | Memarium może utrzymywać przestrzenie kryzysowe |
+| 20 | Potrzeba awaryjnej pamięci podręcznej (schronienie, żywność, wstępna kategoryzacja (ang. triage)) | IX.6, IX.7 | Memarium może utrzymywać przestrzenie kryzysowe |
 
 ## Sygnaliści i publikacja
 
 | # | Sytuacja | Artykuły | Zasada / Działanie |
 | :--- | :--- | :--- | :--- |
-| 21 | Ktoś chce zgłosić nadużycie anonimowo | X.1, X.2 | Anonimowość domyślna, minimalizacja metadanych, triage sygnałów |
+| 21 | Ktoś chce zgłosić nadużycie anonimowo | X.1, X.2 | Anonimowość domyślna, minimalizacja metadanych, wstępna kategoryzacja (ang. triage) sygnałów |
 | 22 | Sygnalista narażony na odwet | X.3 | Opieka roju jest częścią infrastruktury, nie gestem moralnym |
-| 23 | Rozważana publikacja materiału o wysokiej stawce | X.5 | Adversarial review, progi dowodowe, redakcja danych wrażliwych |
+| 23 | Rozważana publikacja materiału o wysokiej stawce | X.5 | Kontradyktoryjny przegląd (ang. adversarial review), progi dowodowe, redakcja danych wrażliwych |
 | 24 | Eskalacja działań naprawczych | X.4 | Schodkowo: weryfikacja -> korekta -> zgłoszenie -> audyt -> publikacja |
 
 ## Zmiany i wyjątki
 
 | # | Sytuacja | Artykuły | Zasada / Działanie |
 | :--- | :--- | :--- | :--- |
-| 25 | Ktoś proponuje wyjątek od reguły | XIV.3, XIV.4 | Wyjątek wymaga: policy-id, reason, risk-level, expiry, owner, fail-closed |
+| 25 | Ktoś proponuje wyjątek od reguły | XIV.3, XIV.4 | Wyjątek wymaga: policy-id, reason, risk-level, expiry, owner, stanu bezpiecznego domknięcia (ang. fail-closed) |
 | 26 | Wyjątek generuje sygnały krzywdy lub nadużycia | XIV.5 | Automatyczne zawieszenie wyjątku do wyjaśnienia |
 | 27 | Propozycja zmiany Konstytucji | XIII.7-XIII.11, XVI.5, XVI.6, XVI.10 | Jawne uzasadnienie, analiza skutków, odwracalność; w okresie założycielskim decyzja założycieli ma moc rozstrzygającą |
 | 28 | Polityka lokalna próbuje obejść Konstytucję | XVI.7 | Niedopuszczalne bez formalnej zmiany konstytucyjnej |

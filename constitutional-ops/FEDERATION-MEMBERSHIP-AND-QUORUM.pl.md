@@ -18,8 +18,8 @@ operacyjnej definicji statusu federacji, prawa głosu i reguł quorum system poz
 podatny na dwie patologie:
 
 - **deadlock przez martwe federacje** - brak odpowiedzi jest mylony z realnym vetem,
-- **capture przez mnożenie fasadowych federacji** - jeden ośrodek kontroli próbuje
-  sztucznie zwiększyć liczbę głosów.
+- **przejęcie sterowania (ang. capture) przez mnożenie fasadowych federacji** -
+  jeden ośrodek kontroli próbuje sztucznie zwiększyć liczbę głosów.
 
 Niniejszy dokument definiuje minimalny model członkostwa federacyjnego, statusy
 federacji, kryteria aktywności, zasady liczenia quorum oraz reguły utraty prawa głosu
@@ -29,8 +29,8 @@ i veta.
 
 ## 2. Zasady ogólne
 
-1. W governance międzyfederacyjnym liczą się wyłącznie **federacje uprawnione do
-   głosu**.
+1. W ładzie międzyfederacyjnym (ang. governance) liczą się wyłącznie **federacje
+   uprawnione do głosu**.
 2. **Jedna aktywna federacja uprawniona do głosu = jeden głos**. Kapitał, liczba
    węzłów, ruch, przychód, moc obliczeniowa ani pozycja infrastrukturalna nie
    zwiększają wagi głosu.
@@ -48,8 +48,8 @@ i veta.
 
 ## 3. Minimalny rekord federacji
 
-Każda federacja uczestnicząca w governance międzyfederacyjnym MUSI publikować
-co najmniej następujący rekord:
+Każda federacja uczestnicząca w ładzie międzyfederacyjnym (ang. governance) MUSI
+publikować co najmniej następujący rekord:
 
 ```yaml
 federation_record:
@@ -78,10 +78,10 @@ podstaw do utrzymania statusu `active`.
 | Status | Znaczenie | Prawo głosu | Prawo veta |
 | :--- | :--- | :--- | :--- |
 | `candidate` | Federacja zarejestrowana, interoperacyjna, w okresie wejścia lub próbnego działania | nie | nie |
-| `active` | Federacja żywa proceduralnie i uprawniona do udziału w governance międzyfederacyjnym | tak | tak, jeśli dana procedura je przewiduje |
+| `active` | Federacja żywa proceduralnie i uprawniona do udziału w ładzie międzyfederacyjnym (ang. governance) | tak | tak, jeśli dana procedura je przewiduje |
 | `dormant` | Federacja czasowo nieaktywna, nieodpowiadająca albo niespełniająca kryteriów aktywności | nie | nie |
-| `suspended` | Federacja czasowo wyłączona z głosowań z powodu incydentu, injunction albo innej decyzji proceduralnej | nie | nie |
-| `retired` | Federacja wygaszona lub taka, która jawnie opuściła proces governance | nie | nie |
+| `suspended` | Federacja czasowo wyłączona z głosowań z powodu incydentu, środka tymczasowego (`injunction`) albo innej decyzji proceduralnej | nie | nie |
+| `retired` | Federacja wygaszona lub taka, która jawnie opuściła proces ładu międzyfederacyjnego (ang. governance) | nie | nie |
 
 Status `candidate`, `dormant`, `suspended` i `retired` nie są karą ontologiczną:
 federacja może nadal istnieć, routować ruch lub świadczyć usługi lokalne, ale nie
@@ -97,7 +97,8 @@ Federacja uzyskuje albo utrzymuje status `active` wyłącznie wtedy, gdy łączn
 2. posiada działający `governance_endpoint` oraz `fallback_contact`,
 3. wysłała ważny heartbeat w oknie `heartbeat_ttl`,
 4. potwierdziła odbiór co najmniej jednego formalnego zawiadomienia lub wykonała
-   co najmniej jedną audytowalną czynność governance w oknie `activity_ttl`,
+   co najmniej jedną audytowalną czynność dotyczącą ładu organizacyjnego (ang.
+   governance) w oknie `activity_ttl`,
 5. nie jest objęta aktywnym zawieszeniem proceduralnym,
 6. nie pozostaje w nierozstrzygniętym sporze o wspólną kontrolę, który wymaga
    agregacji głosu z inną federacją.
@@ -135,9 +136,9 @@ warunków:
 
 Przejście następuje, gdy:
 
-1. istnieje aktywny środek tymczasowy lub injunction,
-2. zachodzi incydent bezpieczeństwa dotyczący kluczy governance,
-3. występuje twardy sygnał capture, fałszywego przedstawienia tożsamości lub
+1. istnieje aktywny środek tymczasowy lub `injunction`,
+2. zachodzi incydent bezpieczeństwa dotyczący kluczy `governance`,
+3. występuje twardy sygnał przejęcia sterowania (ang. capture), fałszywego przedstawienia tożsamości lub
    manipulacji procesem głosowania.
 
 ### 6.4. `dormant` lub `suspended` -> `active`
@@ -153,7 +154,7 @@ Reaktywacja wymaga:
 ### 6.5. `dormant` -> `retired`
 
 Przejście następuje po przekroczeniu `retired_after` albo przez jawne oświadczenie o
-wyjściu z governance międzyfederacyjnego.
+wyjściu z ładu międzyfederacyjnego (ang. governance).
 
 ---
 
@@ -242,8 +243,8 @@ heartbeat przez pół roku ani skracać okresu wejścia do zera.
 3. Federacja, która milczy w procesie wymagającym jednomyślności, może zablokować
    **ten konkretny proces**, jeśli była `active` w migawce, ale po przekroczeniu
    `missed_notice_limit` przechodzi do `dormant` i traci veto w procesach kolejnych.
-4. Jawne wyjście z governance międzyfederacyjnego działa natychmiast na przyszłość:
-   federacja przechodzi do `retired` i nie jest już liczona do quorum.
+4. Jawne wyjście z ładu międzyfederacyjnego (ang. governance) działa natychmiast na
+   przyszłość: federacja przechodzi do `retired` i nie jest już liczona do quorum.
 
 Zasada jest prosta: **veto przysługuje żywej odpowiedzialności, nie cieniowi po niej**.
 
@@ -253,7 +254,7 @@ Zasada jest prosta: **veto przysługuje żywej odpowiedzialności, nie cieniowi 
 
 Za sygnały wspólnej kontroli uważa się co najmniej:
 
-- wspólny klucz governance,
+- wspólny klucz `governance`,
 - tę samą dominującą rolę decyzyjną,
 - to samo źródło finansowania lub ten sam podmiot zdolny jednostronnie wymuszać
   decyzje,
@@ -263,7 +264,8 @@ Jeżeli istnieje wiarygodny spór o wspólną kontrolę:
 
 1. federacje są tymczasowo grupowane do jednego bloku głosującego w sprawach
    `high_stake` i `entrenched_core`,
-2. spór jest śledzony jako problem COI-by-default,
+2. spór jest śledzony jako problem domniemania konfliktu interesów przy braku
+   danych (COI-by-default),
 3. przywrócenie osobnych głosów wymaga wykazania odrębności proceduralnej.
 
 Ta reguła nie służy budowie centrum. Służy temu, by kapitał lub aparat organizacyjny
