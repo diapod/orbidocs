@@ -79,6 +79,52 @@ Domknięto dnia `2026-03-12` przez dokument `DIA-ID-REC-001`, który definiuje:
 - odtwarzanie `anchor-identity` bez ponownego pełnego poświadczenia,
 - procedurę aktualizacji danych tożsamościowych i odwołania.
 
+### `ATTESTATION-PROVIDERS.pl.md`
+
+Domknięto dnia `2026-03-12` przez dokument `DIA-ATTEST-PROVIDERS-001`, który definiuje:
+
+- klasy siły poświadczenia `weak` / `strong`,
+- domyślne mapowanie metod na maksymalne `IAL`,
+- ograniczenia dla numeru telefonu i innych źródeł niskiej mocy dowodowej,
+- zasady upgrade `weak -> strong` bez utraty kotwicy.
+
+### `IDENTITY-UNSEALING-BOARD.pl.md`
+
+Domknięto dnia `2026-03-12` przez dokument `DIA-SEAL-BOARD-001`, który definiuje:
+
+- Federację Izb Pieczęciowych jako redundantny organ IRL,
+- progi `U1-U3` dla zejścia `nym -> node-id -> root-identity`,
+- wieloizbowe i międzyjurysdykcyjne quorum,
+- split-knowledge dla mapowania `node-id -> root-identity`,
+- odwołanie od decyzji pełnego odpieczętowania.
+
+### `UNSEAL-CASE-MODEL.pl.md`
+
+Domknięto dnia `2026-03-12` przez dokument `DIA-UNSEAL-CASE-001`, który definiuje:
+
+- wspólny model `unseal_case` dla progów `U1-U3`,
+- osobny rekord decyzji z zakresem, skutkami i oknem odwoławczym,
+- minimalne pola dla retencji, COI, panelu i notyfikacji,
+- zasadę, że eskalacja zakresu nie nadpisuje historii sprawy.
+
+### `ROLE-TO-IAL-MATRIX.pl.md`
+
+Domknięto dnia `2026-03-12` przez dokument `DIA-ROLE-IAL-001`, który definiuje:
+
+- minimalną mapę klas ról do `IAL0-IAL4`,
+- zasadę, że `IAL` jest głównie bramką, a nie mnożnikiem wpływu,
+- ograniczenie `fixed_power_bonus` do `<= 1%`,
+- domyślne minima dla paneli, izb pieczęciowych i ról wysokiej stawki.
+
+### `FIP-MEMBERSHIP-AND-QUORUM.pl.md`
+
+Domknięto dnia `2026-03-12` przez dokument `DIA-FIP-QUORUM-001`, który definiuje:
+
+- statusy izb `candidate`-`retired`,
+- minimalne warunki statusu `active`,
+- domyślne quorum `2 z 3` dla `U2` i `3 z 5` dla `U3`,
+- tryb awaryjny, migawkę składu i reguły różnorodności jurysdykcyjnej.
+
 ---
 
 ## Priorytet A - wymagane przed wejściem w realny ład organizacyjny (ang. governance)

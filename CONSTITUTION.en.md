@@ -54,6 +54,11 @@ conditions of pressure, crisis, success, and degeneration.
    `en/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`, `en/ENTRENCHMENT-CLAUSE.en.md`,
    `en/ROOT-IDENTITY-AND-NYMS.en.md`,
    `en/IDENTITY-ATTESTATION-AND-RECOVERY.en.md`,
+   `en/ATTESTATION-PROVIDERS.en.md`,
+   `en/IDENTITY-UNSEALING-BOARD.en.md`,
+   `en/UNSEAL-CASE-MODEL.en.md`,
+   `en/ROLE-TO-IAL-MATRIX.en.md`,
+   `en/FIP-MEMBERSHIP-AND-QUORUM.en.md`,
    `en/PROCEDURAL-REPUTATION-SPEC.en.md`,
    `en/PANEL-SELECTION-PROTOCOL.en.md`,
    `en/REPUTATION-VALIDATION-PROTOCOL.en.md`,
@@ -194,9 +199,17 @@ conditions of pressure, crisis, success, and degeneration.
 5. The swarm protocol is the organ of cooperation; its function is to ensure
    interoperability without centralizing control.
 
-6. No organ may take over the full function of the others.
+6. The Federation of Sealed Chambers is an exceptional constitutional IRL organ
+   whose exclusive function is to procedurally decide descent from pseudonymous
+   layers to `custodian_ref` or `root-identity`.
 
-7. Constitutional organs MUST have explicit contracts, responsibility boundaries,
+7. The Federation of Sealed Chambers MUST be redundant, cross-jurisdictional,
+   and free of a single point of failure; full unsealing of root identity must
+   not depend on one chamber, one federation, or one state.
+
+8. No organ may take over the full function of the others.
+
+9. Constitutional organs MUST have explicit contracts, responsibility boundaries,
    and degradation modes instead of total collapse.
 
 ## Article V. Principles of Architecture and Craft
@@ -387,19 +400,27 @@ conditions of pressure, crisis, success, and degeneration.
    scope of disclosure MUST be case-related and limited to the minimum necessary to
    protect people, infrastructure, or procedural integrity.
 
-8. Consequences of disclosure may include infrastructure sanctions, including warning,
+8. Infrastructure sanctions may be imposed already after procedural descent from
+   `nym` to `node-id`, without any need to know `root-identity`, provided that
+   the triggering threshold and disclosure scope are defined by an implementing act.
+
+9. Full unsealing of `root-identity` requires a decision by the Federation of
+   Sealed Chambers acting in a multi-chamber and cross-jurisdictional mode; no
+   single chamber or federation may unseal primary identity on its own.
+
+10. Consequences of disclosure may include infrastructure sanctions, including warning,
    restriction of permissions, reputational quarantine, suspension of role, routing
    cut-off, or blocking. If the case concerns an act violating the applicable legal
    order and meets the threshold defined in an implementing act, the system MAY start
    a legal notification procedure.
 
-9. Escalation of action proceeds stepwise and reversibly: verification,
+11. Escalation of action proceeds stepwise and reversibly: verification,
    procedure correction, formal notice, audit, publication.
 
-10. Publication is an act of high power and requires adversarial review,
+12. Publication is an act of high power and requires adversarial review,
    evidence thresholds proportional to the stakes, and redaction of sensitive data.
 
-11. When two values collide, the preferred actions are the least invasive and most
+13. When two values collide, the preferred actions are the least invasive and most
    reversible ones that still offer a real chance of protecting the person.
 
 ## Article XI. Epistemic Regime

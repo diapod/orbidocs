@@ -111,6 +111,9 @@ reputation but too low an `IAL` level does not qualify for a high-stakes panel.
 4. Parties do not automatically receive panelists' root identities. `IAL` is an
    eligibility gate, not a mode of full disclosure.
 
+5. `ROLE-TO-IAL-MATRIX.en.md` is the default matrix for minimum `IAL` thresholds;
+   a federation may only tighten it.
+
 ---
 
 ## 4. Entropy Source and Draw Mechanism `[hypothesis]`

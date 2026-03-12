@@ -84,6 +84,16 @@ Operational documents with binding force within federations:
   levels, and delegation across devices
 - `IDENTITY-ATTESTATION-AND-RECOVERY.en.md` - first attestation, memory of
   prior attestation, recovery phrase, and reconstruction of `anchor-identity`
+- `ATTESTATION-PROVIDERS.en.md` - mapping of attestation methods to `weak` /
+  `strong` classes and maximum `IAL` levels
+- `IDENTITY-UNSEALING-BOARD.en.md` - Federation of Sealed Chambers, thresholds
+  `nym -> node-id` and `node-id -> root-identity`, quorum, and split knowledge
+- `UNSEAL-CASE-MODEL.en.md` - the shared data model of an unsealing case for
+  thresholds `U1-U3`
+- `ROLE-TO-IAL-MATRIX.en.md` - the minimum map of role classes to `IAL`
+  thresholds and `fixed_power_bonus` rules
+- `FIP-MEMBERSHIP-AND-QUORUM.en.md` - membership, activity, and quorum of the
+  Federation of Sealed Chambers
 - `PROCEDURAL-REPUTATION-SPEC.en.md` - specification of domains, signals, and
   calculation of procedural reputation
 - `PANEL-SELECTION-PROTOCOL.en.md` - procedure for eligibility, draw, veto, and

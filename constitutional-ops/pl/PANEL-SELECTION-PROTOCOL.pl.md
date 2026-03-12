@@ -118,6 +118,10 @@ do panelu wysokiej stawki.
    federacja POWINNA wymagać `IAL4`.
 
 4. Strony nie otrzymują automatycznie root-identity panelistów. Poziom `IAL`
+   jest bramką kwalifikacyjną, nie trybem pełnego ujawnienia.
+
+5. Macierzą domyślną dla minimów `IAL` jest `ROLE-TO-IAL-MATRIX.pl.md`; federacja
+   może ją jedynie zaostrzać.
    jest warunkiem kwalifikowalności, a nie trybem pełnej jawności.
 
 ---

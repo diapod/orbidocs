@@ -26,6 +26,7 @@ Dokument konkretyzuje:
 - role i wymóg współpodpisu,
 - zakres dopuszczalnego ujawnienia,
 - klasy sankcji infrastrukturalnych,
+- relację między sankcjami infrastrukturalnymi a progami `nym -> node-id`,
 - tryb odwołania,
 - warunki notyfikacji prawnej.
 
@@ -113,6 +114,10 @@ Dokument konkretyzuje:
 
 4. Brak dostępnej roli `Legal` nie blokuje sprawy, ale blokuje notyfikację prawną,
    chyba że federacja ma ustawowy obowiązek zawiadomienia.
+
+5. Zejście `nym -> node-id` dla sankcji infrastrukturalnych jest dopuszczalne przy
+   progu `U1` określonym w `IDENTITY-UNSEALING-BOARD.pl.md` i nie stanowi jeszcze
+   odpieczętowania `root-identity`.
 
 ---
 

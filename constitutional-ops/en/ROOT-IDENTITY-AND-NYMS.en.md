@@ -29,6 +29,11 @@ What is still missing is a shared model that separates:
 - the **cryptographic pseudonyms** used in communication and governance,
 - the **identity-assurance level** from which admissible influence is derived.
 
+In this model, weakness or strength is not a property of `root-identity`
+itself, but of the attestation of the identity source. The same subject may
+therefore move from `weak` to `strong` attestation without losing
+`anchor-identity`, `node-id`, or durable nyms.
+
 This document defines that model.
 
 ---
@@ -90,7 +95,18 @@ Reputational influence, role eligibility, and anti-Sybil limits default to the *
 
 `root-identity` means the source, extra-protocol identity of a natural person, legal person, or another recognized subject of accountability.
 
+`root-identity` may be attested through sources with different evidentiary
+strength:
+
+- `weak` - low-friction sources with limited evidentiary power, such as a
+  verified phone number,
+
+- `strong` - sources with stronger evidentiary power and legal or organizational
+  anchoring, such as eID, a qualified signature, or a formal registry.
+
 It may be attested through:
+
+- a verified phone number or an equivalent telecom channel,
 
 - a state or supranational eID system,
 - a qualified signature,
@@ -104,6 +120,9 @@ It may be attested through:
 - issue attestations for `anchor-identity`,
 - enable limited unsealing when the stakes are high,
 - limit multiplication of influence through cheap identity creation.
+
+The mapping of concrete methods to `weak` / `strong` classes and to maximum
+`IAL` is defined by `ATTESTATION-PROVIDERS.en.md`.
 
 ---
 
@@ -134,6 +153,12 @@ The detailed method of first attestation, recovery-phrase use, the role of
 - has a **custodian**, identified procedurally by a persistent nym, an anchor record, or, when the stakes are high, through the unsealing track to `root-identity`.
 
 `node-id` should be derived from a key or certificate controlled by `anchor-identity`, but it does not need to reveal `anchor-identity` itself.
+
+`custodian_ref` should be understood as a durable procedural identifier of the
+custodian of `node-id`: more stable than an ordinary ephemeral nym, yet weaker
+and more shielding than `root-identity`. By default, it is not equal to
+`anchor-identity`, although the audit track may link it to an anchor record or,
+when the stakes are highest, to `root-identity`.
 
 ### 5.3. Nyms
 
@@ -232,6 +257,22 @@ In practice, `IAL3` and `IAL4` may be achieved through different means:
   - organizational or professional attestations.
 
 A federation MUST document which mechanisms map to which `IAL` level.
+
+### 7.2.a. `IAL` ceiling by attestation strength
+
+1. A `weak` attestation SHOULD normally top out at `IAL1`, and only
+   exceptionally at `IAL2` if the federation adds safeguards against takeover
+   and influence multiplication.
+
+2. A `strong` attestation may unlock `IAL3` and `IAL4`, according to federation
+   policy and role requirements.
+
+3. A `weak -> strong` upgrade SHOULD NOT create a new `anchor-identity` if the
+   user can simultaneously:
+
+   - prove control over the existing anchor,
+
+   - provide a new strong attestation.
 
 ### 7.3. IAL as Gate, Not Multiplier
 
@@ -334,6 +375,8 @@ Root identity may be disclosed only:
 root_identity_attestation:
   root_attestation_id: "[unique identifier]"
   subject_type: "human"          # human | organization
+  attestation_strength: "strong" # weak | strong
+  source_class: "qualified_signature"  # phone | eid | qualified_signature | registry | multisig | other
   assurance_level: "IAL3"
   method: "qualified_signature"  # eidas | mobywatel | epuap | multisig | other
   issuer: "[entity or procedure]"
@@ -364,7 +407,7 @@ node_record:
   node_pubkey: "[node public key]"
   anchor_identity_ref: "[reference]"
   assurance_level: "IAL2"
-  custodian_ref: "[persistent_nym | anchor_identity | procedural_ref]"
+  custodian_ref: "[persistent_nym | procedural_ref]"
   valid_from: "[ISO 8601]"
   valid_until: "[ISO 8601]"
   revoke_at: null
@@ -428,3 +471,6 @@ station_delegation:
 - **`IDENTITY-ATTESTATION-AND-RECOVERY.en.md`**: this document defines first
   attestation, memory of prior attestation, the recovery phrase, and rules for
   reconstructing `anchor-identity`.
+- **`IDENTITY-UNSEALING-BOARD.en.md`**: this document defines the Federation of
+  Sealed Chambers, thresholds `nym -> node-id` and `node-id -> root-identity`,
+  and the multi-chamber quorum for full unsealing.

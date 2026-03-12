@@ -32,6 +32,10 @@ Its purpose is to combine three properties:
 - the ability to recover derived identity without repeating full onboarding,
 - minimization of stored civil data within swarm infrastructure.
 
+This document assumes that one `anchor-identity` may have many successive or
+coexisting attestation records over time, with different strengths (`weak` /
+`strong`), without breaking identity continuity.
+
 ---
 
 ## 2. Core Principles
@@ -70,6 +74,11 @@ Its purpose is to combine three properties:
    - KDF parameters,
 
    - validity status and `IAL`.
+
+6. A `weak -> strong` attestation upgrade SHOULD raise the strength and maximum
+   `IAL` of an existing `anchor-identity`, rather than create a new anchor,
+   provided the user proves control over the current anchor and supplies a new
+   strong attestation.
 
 ---
 
@@ -168,6 +177,8 @@ identity_attestation_memory:
   lookup_tag: "[lookup marker]"
   lookup_domain: "person:v1"
   pepper_id: "[identifier or null]"
+  attestation_strength: "strong" # weak | strong
+  source_class: "mobywatel"      # phone | eid | qualified_signature | registry | multisig | other
   assurance_level: "IAL3"
   method: "mobywatel"        # mobywatel | epuap | qualified_signature | multisig | other
   status: "valid"            # valid | expired | revoked | superseded
@@ -313,6 +324,18 @@ recovery_bundle:
 Changes in civil data, such as surname, organization name, or registry number,
 should not automatically destroy identity continuity.
 
+### 8.0. Attestation-strength upgrade
+
+The system SHOULD allow transition from `weak` to `strong` attestation without
+rotating `anchor-identity`, `node-id`, or `persistent_nym`, if all of the
+following hold:
+
+- control over the existing anchor or over the `node-id` derived from it,
+
+- a new `strong` attestation,
+
+- no hard signals of compromise or identity dispute.
+
 ### 8.1. Procedure
 
 1. The user initiates `identity_update`.
@@ -329,6 +352,8 @@ should not automatically destroy identity continuity.
 
    - a new attestation memory record,
 
+   - possible marking of the prior attestation as `superseded`,
+
    - a migration trace,
 
    - continuity of accountability and reputation.
@@ -337,6 +362,17 @@ should not automatically destroy identity continuity.
 
 A change in civil data must not be treated either as an automatic reset of
 reputation or as sufficient grounds to create a new, unrelated `anchor-identity`.
+
+### 8.3. Effect of a `weak -> strong` upgrade
+
+1. `anchor-identity` remains the same.
+
+2. `node-id` and `persistent_nym` may remain unchanged.
+
+3. Ephemeral nyms, station certificates, and session material MAY be refreshed so
+   that further communication points to the stronger anchoring.
+
+4. The history of the earlier `weak` attestation remains in the audit chain.
 
 ---
 
@@ -506,6 +542,21 @@ identity_recovery_record:
   last_recovery_channel: null
 ```
 
+### 10.7. Attestation Chain Record
+
+```yaml
+attestation_chain_record:
+  chain_id: "[identifier]"
+  anchor_identity_ref: "[reference]"
+  current_attestation_id: "[reference]"
+  prior_attestation_ids:
+    - "[reference]"
+  strongest_attestation_strength: "strong" # weak | strong
+  current_max_ial: "IAL3"
+  continuity_proof_ref: "[proof of control over the prior anchor]"
+  updated_at: "[ISO 8601]"
+```
+
 ---
 
 ## 11. Relation to Other Documents
@@ -514,3 +565,5 @@ identity_recovery_record:
 - **`PANEL-SELECTION-PROTOCOL.en.md`**: audits and panels may use `custodian_ref`, while going down to `root-identity` requires the unsealing track.
 - **`ABUSE-DISCLOSURE-PROTOCOL.en.md`**: disclosure of root identity must respect minimal disclosure and high-stakes thresholds.
 - **`PROCEDURAL-REPUTATION-SPEC.en.md`**: high-stakes eligibility depends on the validity of attestation memory and current `IAL`.
+- **`ATTESTATION-PROVIDERS.en.md`**: this document maps attestation methods to
+  `weak` / `strong` classes, maximum `IAL`, and operational limits.

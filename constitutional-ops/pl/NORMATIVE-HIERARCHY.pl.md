@@ -81,6 +81,16 @@ Dokumenty operacyjne o mocy wiążącej w ramach federacji:
 - `IDENTITY-ATTESTATION-AND-RECOVERY.pl.md` - pierwsze poświadczenie,
   pamięć wcześniejszego poświadczenia, fraza odzyskiwania i rekonstrukcja
   `anchor-identity`
+- `ATTESTATION-PROVIDERS.pl.md` - mapowanie metod poświadczenia na klasy
+  `weak` / `strong` i maksymalne poziomy `IAL`
+- `IDENTITY-UNSEALING-BOARD.pl.md` - Federacja Izb Pieczęciowych, progi
+  `nym -> node-id` i `node-id -> root-identity`, quorum oraz split-knowledge
+- `UNSEAL-CASE-MODEL.pl.md` - wspólny model danych sprawy odpieczętowania
+  dla progów `U1-U3`
+- `ROLE-TO-IAL-MATRIX.pl.md` - minimalna mapa klas ról do poziomów `IAL`
+  i reguł `fixed_power_bonus`
+- `FIP-MEMBERSHIP-AND-QUORUM.pl.md` - członkostwo, aktywność i quorum
+  Federacji Izb Pieczęciowych
 - `PROCEDURAL-REPUTATION-SPEC.pl.md` - specyfikacja domen, sygnałów i przeliczania
   reputacji proceduralnej
 - `PANEL-SELECTION-PROTOCOL.pl.md` - procedura kwalifikacji, losowania, veta i

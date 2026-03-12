@@ -79,6 +79,52 @@ Closed on `2026-03-12` by document `DIA-ID-REC-001`, which defines:
 - reconstruction of `anchor-identity` without repeated full attestation,
 - the procedure for identity-data update and revocation.
 
+### `ATTESTATION-PROVIDERS.en.md`
+
+Closed on `2026-03-12` by document `DIA-ATTEST-PROVIDERS-001`, which defines:
+
+- the attestation-strength classes `weak` / `strong`,
+- the default mapping from methods to maximum `IAL`,
+- restrictions for phone numbers and other low-evidence sources,
+- `weak -> strong` upgrade rules without loss of anchor continuity.
+
+### `IDENTITY-UNSEALING-BOARD.en.md`
+
+Closed on `2026-03-12` by document `DIA-SEAL-BOARD-001`, which defines:
+
+- the Federation of Sealed Chambers as a redundant IRL organ,
+- thresholds `U1-U3` for descent `nym -> node-id -> root-identity`,
+- multi-chamber and cross-jurisdictional quorum,
+- split knowledge for mapping `node-id -> root-identity`,
+- appeal from full-unsealing decisions.
+
+### `UNSEAL-CASE-MODEL.en.md`
+
+Closed on `2026-03-12` by document `DIA-UNSEAL-CASE-001`, which defines:
+
+- a shared `unseal_case` model for thresholds `U1-U3`,
+- a separate decision record with scope, side effects, and appeal window,
+- minimal fields for retention, COI, panel, and notifications,
+- the rule that scope escalation does not overwrite case history.
+
+### `ROLE-TO-IAL-MATRIX.en.md`
+
+Closed on `2026-03-12` by document `DIA-ROLE-IAL-001`, which defines:
+
+- the minimum map from role classes to `IAL0-IAL4`,
+- the rule that `IAL` is mainly a gate, not an influence multiplier,
+- the `fixed_power_bonus` cap of `<= 1%`,
+- default minimums for panels, sealed chambers, and high-stake roles.
+
+### `FIP-MEMBERSHIP-AND-QUORUM.en.md`
+
+Closed on `2026-03-12` by document `DIA-FIP-QUORUM-001`, which defines:
+
+- chamber statuses from `candidate` to `retired`,
+- minimum conditions for `active` status,
+- default quorum `2 of 3` for `U2` and `3 of 5` for `U3`,
+- emergency mode, composition snapshot, and jurisdictional diversity rules.
+
 ---
 
 ## Priority A - Required Before Real Governance Goes Live

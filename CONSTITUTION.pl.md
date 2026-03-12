@@ -54,6 +54,11 @@ kryzysu, sukcesu i degeneracji.
   `pl/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`, `pl/ENTRENCHMENT-CLAUSE.pl.md`,
   `pl/ROOT-IDENTITY-AND-NYMS.pl.md`,
   `pl/IDENTITY-ATTESTATION-AND-RECOVERY.pl.md`,
+  `pl/ATTESTATION-PROVIDERS.pl.md`,
+  `pl/IDENTITY-UNSEALING-BOARD.pl.md`,
+  `pl/UNSEAL-CASE-MODEL.pl.md`,
+  `pl/ROLE-TO-IAL-MATRIX.pl.md`,
+  `pl/FIP-MEMBERSHIP-AND-QUORUM.pl.md`,
   `pl/PROCEDURAL-REPUTATION-SPEC.pl.md`,
   `pl/PANEL-SELECTION-PROTOCOL.pl.md`,
   `pl/REPUTATION-VALIDATION-PROTOCOL.pl.md`
@@ -191,9 +196,17 @@ kryzysu, sukcesu i degeneracji.
 5. Protokół roju jest organem kooperacji; jego funkcją jest zapewnić interoperacyjność
    bez centralizacji sterowania.
 
-6. Żaden organ nie może przejąć pełni funkcji pozostałych.
+6. Federacja Izb Pieczęciowych jest konstytucyjnym organem wyjątkowym świata
+   rzeczywistego (IRL), którego wyłączną funkcją jest proceduralne rozstrzyganie
+   zejścia z warstw pseudonimowych do `custodian_ref` albo `root-identity`.
 
-7. Organy konstytucyjne MUSZĄ mieć jawne kontrakty, granice odpowiedzialności oraz
+7. Federacja Izb Pieczęciowych MUSI być redundantna, międzyjurysdykcyjna i pozbawiona
+   pojedynczego punktu awarii; pełne odpieczętowanie tożsamości pierwotnej nie może
+   zależeć od jednej izby, jednej federacji ani jednego państwa.
+
+8. Żaden organ nie może przejąć pełni funkcji pozostałych.
+
+9. Organy konstytucyjne MUSZĄ mieć jawne kontrakty, granice odpowiedzialności oraz
    tryby degradacji zamiast totalnego upadku.
 
 ## Artykuł V. Zasady architektury i rzemiosła
@@ -386,20 +399,29 @@ kryzysu, sukcesu i degeneracji.
    odwołania. Zakres ujawnienia MUSI być związany ze sprawą i ograniczony do minimum
    koniecznego do ochrony ludzi, infrastruktury lub integralności procedur.
 
-8. Konsekwencją ujawnienia mogą być sankcje infrastrukturalne, w tym ostrzeżenie,
+8. Sankcje infrastrukturalne mogą być nakładane już po proceduralnym zejściu z
+   `nymu` do `node-id`, bez konieczności poznania `root-identity`, o ile próg
+   wyzwolenia i zakres ujawnienia określa ustawa wykonawcza.
+
+9. Pełne odpieczętowanie `root-identity` wymaga rozstrzygnięcia przez Federację Izb
+   Pieczęciowych działającą w trybie wieloizbowym i międzyjurysdykcyjnym; żadna
+   pojedyncza izba ani pojedyncza federacja nie może samodzielnie ujawniać
+   tożsamości pierwotnej.
+
+10. Konsekwencją ujawnienia mogą być sankcje infrastrukturalne, w tym ostrzeżenie,
    ograniczenie uprawnień, kwarantanna reputacyjna, zawieszenie roli, odcięcie
    trasowania albo blokada. Jeżeli sprawa dotyczy czynu naruszającego właściwy
    porządek prawny i spełnia próg określony w ustawie wykonawczej, system MOŻE
    uruchomić procedurę notyfikacji prawnej.
 
-9. Eskalacja działań przebiega schodkowo i odwracalnie: weryfikacja, korekta
+11. Eskalacja działań przebiega schodkowo i odwracalnie: weryfikacja, korekta
    procedury, formalne zgłoszenie, audyt, publikacja.
 
-10. Publikacja jest aktem wysokiej mocy i wymaga kontradyktoryjnego przeglądu
+12. Publikacja jest aktem wysokiej mocy i wymaga kontradyktoryjnego przeglądu
    (ang. adversarial review), progów dowodowych proporcjonalnych do stawki oraz
    redakcji danych wrażliwych.
 
-11. Gdy dwie wartości kolidują, preferowane są działania najmniej inwazyjne
+13. Gdy dwie wartości kolidują, preferowane są działania najmniej inwazyjne
    i najbardziej odwracalne, które nadal dają realną szansę ochrony człowieka.
 
 ## Artykuł XI. Reżim epistemiczny

@@ -26,6 +26,7 @@ The document specifies:
 - roles and co-signing requirement,
 - scope of permissible disclosure,
 - classes of infrastructure sanctions,
+- the relation between infrastructure sanctions and `nym -> node-id` thresholds,
 - mode of appeal,
 - conditions for legal notification.
 
@@ -114,6 +115,10 @@ The document specifies:
 
 4. Absence of the `Legal` role does not block the case, but it does block legal
    notification, unless the federation is under a statutory duty to notify.
+
+5. Descent `nym -> node-id` for infrastructure sanctions is permitted at the
+   `U1` threshold defined in `IDENTITY-UNSEALING-BOARD.en.md` and does not yet
+   constitute unsealing of `root-identity`.
 
 ---
 

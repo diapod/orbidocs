@@ -40,6 +40,11 @@
 * `/constitutional-ops/pl/ENTRENCHMENT-CLAUSE.pl.md` – entrenchment clause and constitutional defense procedure
 * `/constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md` – root identity, cryptographic nyms, and identity assurance levels
 * `/constitutional-ops/pl/IDENTITY-ATTESTATION-AND-RECOVERY.pl.md` – first attestation, attestation memory, recovery phrase, and anchor-identity reconstruction
+* `/constitutional-ops/pl/ATTESTATION-PROVIDERS.pl.md` – mapping of identity-attestation methods to `weak` / `strong` classes and maximum `IAL`
+* `/constitutional-ops/pl/IDENTITY-UNSEALING-BOARD.pl.md` – Federation of Sealed Chambers, thresholds for unmasking, and multi-chamber root-identity unsealing
+* `/constitutional-ops/pl/UNSEAL-CASE-MODEL.pl.md` – shared case model for `U1-U3` unsealing procedures
+* `/constitutional-ops/pl/ROLE-TO-IAL-MATRIX.pl.md` – minimum mapping of role classes to identity assurance levels
+* `/constitutional-ops/pl/FIP-MEMBERSHIP-AND-QUORUM.pl.md` – membership, activity, and quorum rules for the Federation of Sealed Chambers
 * `/constitutional-ops/pl/PROCEDURAL-REPUTATION-SPEC.pl.md` – procedural reputation specification
 * `/constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md` – ad-hoc panel selection protocol
 * `/constitutional-ops/pl/REPUTATION-VALIDATION-PROTOCOL.pl.md` – validation protocol for reputation mechanisms
@@ -53,6 +58,11 @@
 * `/constitutional-ops/en/ENTRENCHMENT-CLAUSE.en.md` – entrenchment clause and constitutional defense procedure (English)
 * `/constitutional-ops/en/ROOT-IDENTITY-AND-NYMS.en.md` – root identity, cryptographic nyms, and identity assurance levels (English)
 * `/constitutional-ops/en/IDENTITY-ATTESTATION-AND-RECOVERY.en.md` – first attestation, attestation memory, recovery phrase, and anchor-identity reconstruction (English)
+* `/constitutional-ops/en/ATTESTATION-PROVIDERS.en.md` – mapping of identity-attestation methods to `weak` / `strong` classes and maximum `IAL` (English)
+* `/constitutional-ops/en/IDENTITY-UNSEALING-BOARD.en.md` – Federation of Sealed Chambers, thresholds for unmasking, and multi-chamber root-identity unsealing (English)
+* `/constitutional-ops/en/UNSEAL-CASE-MODEL.en.md` – shared case model for `U1-U3` unsealing procedures (English)
+* `/constitutional-ops/en/ROLE-TO-IAL-MATRIX.en.md` – minimum mapping of role classes to identity assurance levels (English)
+* `/constitutional-ops/en/FIP-MEMBERSHIP-AND-QUORUM.en.md` – membership, activity, and quorum rules for the Federation of Sealed Chambers (English)
 * `/constitutional-ops/en/PROCEDURAL-REPUTATION-SPEC.en.md` – procedural reputation specification (English)
 * `/constitutional-ops/en/PANEL-SELECTION-PROTOCOL.en.md` – ad-hoc panel selection protocol (English)
 * `/constitutional-ops/en/REPUTATION-VALIDATION-PROTOCOL.en.md` – validation protocol for reputation mechanisms (English)

@@ -33,6 +33,10 @@ Celem jest połączenie trzech własności:
   onboardingu,
 - minimalizacji przechowywania danych cywilnych w infrastrukturze roju.
 
+Dokument zakłada, że jedna `anchor-identity` może mieć wiele następujących po
+sobie albo współistniejących rekordów poświadczenia, o różnej sile (`weak` /
+`strong`), bez zrywania ciągłości tożsamości.
+
 ---
 
 ## 2. Zasady podstawowe
@@ -71,6 +75,11 @@ Celem jest połączenie trzech własności:
    - parametry KDF,
 
    - status ważności i poziom `IAL`.
+
+6. Upgrade `weak -> strong` POWINIEN podnosić siłę i maksymalny `IAL`
+   istniejącej `anchor-identity`, a nie tworzyć nową kotwicę, o ile użytkownik
+   udowodni kontrolę nad dotychczasową kotwicą i dostarczy nowe poświadczenie
+   mocne.
 
 ---
 
@@ -170,6 +179,8 @@ identity_attestation_memory:
   lookup_tag: "[znacznik wyszukiwania]"
   lookup_domain: "person:v1"
   pepper_id: "[identyfikator lub null]"
+  attestation_strength: "strong" # weak | strong
+  source_class: "mobywatel"      # phone | eid | qualified_signature | registry | multisig | other
   assurance_level: "IAL3"
   method: "mobywatel"        # mobywatel | epuap | qualified_signature | multisig | other
   status: "valid"            # valid | expired | revoked | superseded
@@ -318,6 +329,18 @@ recovery_bundle:
 Zmiana danych cywilnych, takich jak nazwisko, nazwa organizacji albo numer
 rejestrowy, nie powinna automatycznie niszczyć ciągłości tożsamości.
 
+### 8.0. Upgrade siły poświadczenia
+
+System POWINIEN dopuszczać przejście z poświadczenia `weak` do `strong` bez
+rotacji `anchor-identity`, `node-id` i `persistent_nym`, jeśli spełnione są
+jednocześnie:
+
+- kontrola nad istniejącą kotwicą albo nad `node-id` wywiedzionym z tej kotwicy,
+
+- nowe poświadczenie `strong`,
+
+- brak twardych sygnałów przejęcia lub sporu co do tożsamości.
+
 ### 8.1. Procedura
 
 1. Użytkownik inicjuje `identity_update`.
@@ -334,6 +357,8 @@ rejestrowy, nie powinna automatycznie niszczyć ciągłości tożsamości.
 
    - nowy rekord pamięci poświadczenia,
 
+   - ewentualne oznaczenie poprzedniego poświadczenia jako `superseded`,
+
    - ślad migracji,
 
    - zachowanie ciągłości odpowiedzialności i reputacji.
@@ -343,6 +368,18 @@ rejestrowy, nie powinna automatycznie niszczyć ciągłości tożsamości.
 Zmiana danych cywilnych nie może być traktowana ani jako automatyczne wyzerowanie
 reputacji, ani jako wystarczająca podstawa do utworzenia nowego, niespowiązanego
 `anchor-identity`.
+
+### 8.3. Skutek upgrade `weak -> strong`
+
+1. `anchor-identity` pozostaje ta sama.
+
+2. `node-id` i `persistent_nym` mogą pozostać bez zmian.
+
+3. Efemeryczne nymy, certyfikaty stacji i materiały sesyjne MOGĄ zostać
+   odświeżone tak, aby dalsza komunikacja odwoływała się już do mocniejszego
+   zakotwiczenia.
+
+4. Historia wcześniejszego poświadczenia `weak` pozostaje w łańcuchu audytowym.
 
 ---
 
@@ -512,6 +549,21 @@ identity_recovery_record:
   last_recovery_channel: null
 ```
 
+### 10.7. Rekord łańcucha poświadczeń
+
+```yaml
+attestation_chain_record:
+  chain_id: "[identyfikator]"
+  anchor_identity_ref: "[referencja]"
+  current_attestation_id: "[referencja]"
+  prior_attestation_ids:
+    - "[referencja]"
+  strongest_attestation_strength: "strong" # weak | strong
+  current_max_ial: "IAL3"
+  continuity_proof_ref: "[dowód kontroli nad dotychczasową kotwicą]"
+  updated_at: "[ISO 8601]"
+```
+
 ---
 
 ## 11. Relacja do innych dokumentów
@@ -524,3 +576,5 @@ identity_recovery_record:
   respektować zasadę minimalnego ujawniania i wysokiej stawki.
 - **`PROCEDURAL-REPUTATION-SPEC.pl.md`**: kwalifikowalność wysokiej stawki zależy
   od ważności pamięci poświadczenia i bieżącego `IAL`.
+- **`ATTESTATION-PROVIDERS.pl.md`**: dokument mapuje metody poświadczenia na
+  klasy `weak` / `strong`, maksymalne `IAL` i ograniczenia operacyjne.

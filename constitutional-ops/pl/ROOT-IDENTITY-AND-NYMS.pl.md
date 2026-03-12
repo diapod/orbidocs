@@ -29,6 +29,11 @@ Brakuje jednak wspólnego modelu, który rozdzielałby:
 - **pseudonimy kryptograficzne** używane w komunikacji i governance,
 - **poziom pewności tożsamości**, od którego zależy dopuszczalny wpływ.
 
+W tym modelu słabość lub siła nie jest własnością samej `root-identity`, lecz
+własnością poświadczenia źródła tożsamości. Ten sam podmiot może więc przejść od
+poświadczenia `weak` do `strong` bez utraty `anchor-identity`, `node-id` i
+trwałych nymów.
+
 Niniejszy dokument definiuje taki model.
 
 ---
@@ -105,7 +110,17 @@ liczby nymów, stacji ani procesów.
 `root-identity` oznacza źródłową, pozaprotokołową tożsamość osoby fizycznej,
 osoby prawnej albo innego uznawanego podmiotu odpowiedzialności.
 
+`root-identity` może być poświadczana przez źródła o różnej sile dowodowej:
+
+- `weak` - źródła o niskim koszcie wejścia i ograniczonej mocy dowodowej,
+  np. potwierdzony numer telefonu,
+
+- `strong` - źródła o wysokiej mocy dowodowej i silniejszym zakotwiczeniu
+  prawnym lub organizacyjnym, np. eID, podpis kwalifikowany albo formalny rejestr.
+
 Może być poświadczona przez:
+
+- potwierdzony numer telefonu albo równoważny kanał telekomunikacyjny,
 
 - państwowy lub ponadpaństwowy system eID,
 - podpis kwalifikowany,
@@ -120,6 +135,9 @@ Może być poświadczona przez:
 - wystawianie poświadczeń dla `anchor-identity`,
 - umożliwienie ograniczonego odpieczętowania przy wysokiej stawce,
 - ograniczanie mnożenia wpływu przez tanie tworzenie tożsamości.
+
+Mapowanie konkretnych metod do klas `weak` / `strong` oraz do maksymalnego
+poziomu `IAL` definiuje `ATTESTATION-PROVIDERS.pl.md`.
 
 ---
 
@@ -159,6 +177,12 @@ odpowiedzialności w roju. To `node-id`:
 
 `node-id` powinien być wyprowadzany z klucza lub certyfikatu kontrolowanego przez
 `anchor-identity`, ale nie musi zdradzać samej `anchor-identity`.
+
+`custodian_ref` należy rozumieć jako trwały identyfikator proceduralny dysponenta
+`node-id`: stabilniejszy niż zwykły efemeryczny nym, ale słabszy i bardziej
+osłonowy niż `root-identity`. Domyślnie nie jest on równy `anchor-identity`, choć
+tor audytowy może powiązać go z rekordem zakotwiczenia albo - przy najwyższej
+stawce - z `root-identity`.
 
 ### 5.3. Nymy
 
@@ -276,6 +300,22 @@ W praktyce `IAL3` i `IAL4` mogą być osiągane różnymi drogami:
 
 Federacja MUSI dokumentować, jakie mechanizmy mapują się na który poziom `IAL`.
 
+### 7.2.a. Sufit `IAL` zależny od siły poświadczenia
+
+1. Poświadczenie `weak` POWINNO domyślnie kończyć się na `IAL1`, a wyjątkowo na
+   `IAL2`, jeśli federacja wprowadzi dodatkowe zabezpieczenia przeciw przejęciu i
+   mnożeniu wpływu.
+
+2. Poświadczenie `strong` może odblokowywać `IAL3` i `IAL4`, zgodnie z polityką
+   federacyjną i wymogami roli.
+
+3. Upgrade `weak -> strong` NIE POWINIEN tworzyć nowej `anchor-identity`, jeżeli
+   użytkownik potrafi jednocześnie:
+
+   - udowodnić kontrolę nad istniejącą kotwicą,
+
+   - dostarczyć nowe mocne poświadczenie.
+
 ### 7.3. IAL jako bramka, nie mnożnik
 
 1. `IAL` służy do odblokowywania klas ról, decyzji i uprawnień, a nie do
@@ -389,6 +429,8 @@ Tożsamość pierwotna może zostać ujawniona wyłącznie:
 root_identity_attestation:
   root_attestation_id: "[unikalny identyfikator]"
   subject_type: "human"          # human | organization
+  attestation_strength: "strong" # weak | strong
+  source_class: "qualified_signature"  # phone | eid | qualified_signature | registry | multisig | other
   assurance_level: "IAL3"
   method: "qualified_signature"  # eidas | mobywatel | epuap | multisig | other
   issuer: "[podmiot lub procedura]"
@@ -419,7 +461,7 @@ node_record:
   node_pubkey: "[klucz publiczny węzła]"
   anchor_identity_ref: "[referencja]"
   assurance_level: "IAL2"
-  custodian_ref: "[persistent_nym | anchor_identity | procedural_ref]"
+  custodian_ref: "[persistent_nym | procedural_ref]"
   valid_from: "[ISO 8601]"
   valid_until: "[ISO 8601]"
   revoke_at: null
@@ -491,3 +533,6 @@ station_delegation:
 - **`IDENTITY-ATTESTATION-AND-RECOVERY.pl.md`**: dokument określa pierwsze
   poświadczenie, pamięć wcześniejszego poświadczenia, frazę odzyskiwania oraz
   zasady rekonstrukcji `anchor-identity`.
+- **`IDENTITY-UNSEALING-BOARD.pl.md`**: dokument definiuje Federację Izb
+  Pieczęciowych, progi `nym -> node-id` i `node-id -> root-identity` oraz
+  wieloizbowe quorum dla pełnego odpieczętowania.
