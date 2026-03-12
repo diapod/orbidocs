@@ -112,6 +112,22 @@ IRC/Matrix may serve as bootstrap hints or "apocalypse fallback" for presence/en
   - `identity-key` signs a "session certificate" binding `session-pubkey` + validity window.
 - Reputation attaches to the long-term identity; session keys reduce the blast radius of compromise.
 
+#### Multi-station continuity under one node identity
+- **`node-id` is the public identity and the reputation anchor**, not a single host.
+- One human or one operating entity MAY run **multiple stations / devices** under the same `node-id`.
+- Each concrete device SHOULD have its own **`station-key`** and derived **`station-id = H(station-pubkey)`**.
+- `identity-key` signs a **station certificate** binding `station-pubkey` + allowed scopes + validity window.
+- One station MAY host many local agents, but agents do not become separate node identities only by running on separate processes or hosts.
+- Reputation, governance weight, and anti-Sybil accounting attach to `node-id`; operational traces and incident handling MAY be refined per `station-id`.
+- Compromise of one station SHOULD, by default, trigger revocation of that station certificate, not forced rotation of the whole `node-id`, unless the long-term `identity-key` is also suspected compromised.
+
+#### Identity stratification
+- `operator-id` (optional, often private) = human or organization operating the node.
+- `node-id` (public) = stable swarm identity used for reputation, routing, and governance.
+- `station-id` (public or selectively disclosed) = concrete device or host acting under delegated authority from the node identity.
+
+This means that "one person, many devices" is modeled as **one node identity with multiple delegated stations**, not as many unrelated node identities.
+
 ### 3. Trust, Sybil, and DoS protections
 
 #### Sybil resistance (pragmatic)
@@ -163,6 +179,7 @@ A minimal signed envelope (serialization: EDN/JSON; canonicalization required fo
 Envelope {
   v:            int
   from:         node-id
+  station:      station-id | null
   to:           node-id | group-id | null
   ts:           unix-ms
   ttl_s:        int
@@ -176,6 +193,7 @@ Envelope {
 ```
 
 - `nonce + ttl + seq` provide replay protection.
+- `from` identifies the stable node identity; `station` identifies the concrete delegated device when the node operates in multi-station mode.
 - If `e2e` is present, `body` may be empty and all payload moves into `ciphertext` (with `aad` carrying the signed metadata).
 
 ### 7. Example handshake (proxy-friendly transport + optional E2E)
@@ -191,6 +209,7 @@ This handshake assumes the transport channel is already established:
 {
   "v": 1,
   "from": "nodeA",
+  "station": "stationA",
   "to": "nodeB",
   "ts": 1700000000000,
   "ttl_s": 30,
@@ -199,6 +218,8 @@ This handshake assumes the transport channel is already established:
   "intent": "swarm/hello",
   "body": {
     "identity_pub": "ed25519:...",
+    "station_pub": "ed25519:...",
+    "station_cert": "ed25519sig(identity over station binding)",
     "session_pub": "x25519:...",
     "session_valid_until": 1700003600000,
     "capabilities": {
@@ -214,6 +235,7 @@ This handshake assumes the transport channel is already established:
 Notes:
 - `session_pub` is ephemeral for E2E key agreement.
 - `sig` authenticates identity and binds the ephemeral key to the long-term identity.
+- `station_pub` and `station_cert` allow the peer to verify that the concrete device is acting under delegated authority from the long-term node identity.
 
 #### Step 2 — `HELLO_ACK` (peer agrees + returns its ephemeral key)
 **B -> Edge -> A**
@@ -222,6 +244,7 @@ Notes:
 {
   "v": 1,
   "from": "nodeB",
+  "station": "stationB",
   "to": "nodeA",
   "ts": 1700000000500,
   "ttl_s": 30,
@@ -230,6 +253,8 @@ Notes:
   "intent": "swarm/hello-ack",
   "body": {
     "identity_pub": "ed25519:...",
+    "station_pub": "ed25519:...",
+    "station_cert": "ed25519sig(identity over station binding)",
     "session_pub": "x25519:...",
     "session_valid_until": 1700003600500,
     "e2e_mode": "preferred"
