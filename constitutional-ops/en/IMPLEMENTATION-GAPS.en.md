@@ -30,42 +30,49 @@ Closed on `2026-03-10` by document `DIA-FED-001`, which defines:
 - electorate snapshot, quorum, and decision classes,
 - the rules for losing veto rights by a dead federation.
 
+### `PROCEDURAL-REPUTATION-SPEC.en.md`
+
+Closed on `2026-03-12` by document `DIA-PROC-REP-001`, which defines:
+
+- reputation domains and signal types,
+- the definition of an active node for reputation purposes,
+- bootstrap and bootstrap restrictions,
+- a portable evidence package instead of naked score transfer,
+- cartel-detection hooks and connection to health metrics M1-M5.
+
+### `PANEL-SELECTION-PROTOCOL.en.md`
+
+Closed on `2026-03-12` by document `DIA-PANEL-SEL-001`, which defines:
+
+- panelist eligibility,
+- entropy source and auditable panel draw,
+- COI, veto, and composition-replacement procedure,
+- escalation to an inter-federation pool,
+- panelist identity-disclosure levels and relation to appeal.
+
+### `ABUSE-DISCLOSURE-PROTOCOL.en.md`
+
+Closed on `2026-03-12` by document `DIA-ABUSE-DISC-001`, which defines:
+
+- prohibition on general investigation without a credible present-day signal,
+- conditions for entering the full case history,
+- `stake-level` and `evidence-level` thresholds,
+- multisig roles, disclosure scope, retention, appeal, and jurisdictional notifications.
+
 ---
 
 ## Priority A - Required Before Real Governance Goes Live
 
-### 1. `PROCEDURAL-REPUTATION-SPEC.en.md`
-
-**Why it is missing:** the ad-hoc panel and role screening assume the existence
-of "high procedural reputation," but do not define its components or the method
-of calculation.
-
-**What it must define:**
-
-- sources of procedural reputation signals,
-- weight of contracts, incidents, appeals, and corrections,
-- conditions for lowering and regaining reputation,
-- definition of an "active node" for reputation purposes.
-
-### 2. `PANEL-SELECTION-PROTOCOL.en.md`
-
-**Why it is missing:** the constitutional defense procedure assumes panel
-selection by drawing, but does not specify the randomness source,
-anti-manipulation seeding, or the method for resolving disputes about veto and
-eligibility.
-
-**What it must define:**
-
-- source of entropy and its audit,
-- eligibility of panelists,
-- procedure for exclusions and vetoes,
-- retry logic under conflict of interest.
+After closing `PROCEDURAL-REPUTATION-SPEC.en.md`,
+`PANEL-SELECTION-PROTOCOL.en.md`, and `ABUSE-DISCLOSURE-PROTOCOL.en.md`,
+there is currently no open Class A gap. The minimum governance layer now has the
+three implementing acts that were previously missing.
 
 ---
 
 ## Priority B - Required Before Higher-Stakes Autonomy and Sensorium
 
-### 4. `EMERGENCY-ACTIVATION-CRITERIA.en.md`
+### 1. `EMERGENCY-ACTIVATION-CRITERIA.en.md`
 
 **Why it is missing:** the autonomy gradient defines A3, but does not define the
 catalog of triggers, minimum confidence thresholds, or rules for allowing
@@ -78,7 +85,7 @@ automatic activation.
 - relation sensorium -> trigger -> operator,
 - default TTLs and mandatory review.
 
-### 5. `SENSITIVE-DATA-REDUCTION.en.md`
+### 2. `SENSITIVE-DATA-REDUCTION.en.md`
 
 **Why it is missing:** publication, whistleblowers, exceptions, and onboarding
 refer to redaction of sensitive data, but there is no shared standard of
@@ -95,7 +102,7 @@ redaction and disclosure.
 
 ## Priority C - Required Before Federation-Scale Expansion
 
-### 6. `ROLE-REGISTRY.en.md`
+### 3. `ROLE-REGISTRY.en.md`
 
 **Why it is missing:** the Constitution and supplements use notions such as
 "public-trust role," "operator," "red team," and "panel," but they do not have a
@@ -108,7 +115,7 @@ shared role registry.
 - screening requirements,
 - paths of rotation and substitutability.
 
-### 7. `TRACE-MINIMUM.en.md`
+### 4. `TRACE-MINIMUM.en.md`
 
 **Why it is missing:** agent autonomy, exceptions, reputation, and constitutional
 defense require action traces, but they do not yet have a shared minimum schema.
@@ -124,8 +131,10 @@ defense require action traces, but they do not yet have a shared minimum schema.
 
 ## Final Note
 
-The most critical gaps have been partially closed by `EXCEPTION-POLICY.en.md`
-and `FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`. The next logical step is to
-specify **how procedural reputation is calculated** and **how the ad-hoc panel is
-drawn**, because without that the governance layer remains philosophically sound
-but still too soft operationally in disputed matters.
+The most critical gaps of the governance layer have been closed by
+`EXCEPTION-POLICY.en.md`, `FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`,
+`PROCEDURAL-REPUTATION-SPEC.en.md`, `PANEL-SELECTION-PROTOCOL.en.md`, and
+`ABUSE-DISCLOSURE-PROTOCOL.en.md`. The next logical step is to specify
+**emergency activation criteria**, **sensitive-data redaction**, and the
+**minimum action-trace schema**, so the implementing layer is equally coherent
+outside disputes and governance.
