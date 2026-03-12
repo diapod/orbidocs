@@ -52,6 +52,7 @@ kryzysu, sukcesu i degeneracji.
   `pl/NORMATIVE-HIERARCHY.pl.md`, `pl/NODE-RIGHTS-CARD.pl.md`,
   `pl/AUTONOMY-LEVELS.pl.md`, `pl/EXCEPTION-POLICY.pl.md`,
   `pl/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`, `pl/ENTRENCHMENT-CLAUSE.pl.md`,
+  `pl/ROOT-IDENTITY-AND-NYMS.pl.md`,
   `pl/PROCEDURAL-REPUTATION-SPEC.pl.md`,
   `pl/PANEL-SELECTION-PROTOCOL.pl.md`,
   `pl/REPUTATION-VALIDATION-PROTOCOL.pl.md`

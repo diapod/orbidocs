@@ -59,6 +59,16 @@ Domknięto dnia `2026-03-12` przez dokument `DIA-ABUSE-DISC-001`, który definiu
 - progi `stake-level` i `evidence-level`,
 - role multisig, zakres ujawnienia, retencję, odwołanie i notyfikacje jurysdykcyjne.
 
+### `ROOT-IDENTITY-AND-NYMS.pl.md`
+
+Domknięto dnia `2026-03-12` przez dokument `DIA-ROOT-ID-001`, który definiuje:
+
+- rozdział `root-identity`, `nym`, `station-id` i `agent-id`,
+- poziomy pewności tożsamości (`IAL0`-`IAL4`),
+- regułę "większy wpływ -> większe wymagania ujawnienia i potwierdzenia",
+- model multisig poręczeń dla jurysdykcji bez silnego eID,
+- ograniczenie mnożenia wpływu przez wiele nymów jednego źródła zakotwiczenia.
+
 ---
 
 ## Priorytet A - wymagane przed wejściem w realny ład organizacyjny (ang. governance)

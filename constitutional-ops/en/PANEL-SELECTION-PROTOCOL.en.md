@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-PANEL-SEL-001` |
 | `type` | Implementing act (Level 3 of the normative hierarchy) |
 | `version` | 0.1.0-draft |
-| `basis` | Art. VII.1-3, VII.6, XVI.3 of the DIA Constitution; `ENTRENCHMENT-CLAUSE.en.md` section 3.2; `PROCEDURAL-REPUTATION-SPEC.en.md` |
+| `basis` | Art. VII.1-3, VII.6, XVI.3 of the DIA Constitution; `ENTRENCHMENT-CLAUSE.en.md` section 3.2; `PROCEDURAL-REPUTATION-SPEC.en.md`; `ROOT-IDENTITY-AND-NYMS.en.md` |
 | `mechanism status` | `[mechanism - hypothesis]` for VRF entropy; eligibility and procedural rules are normative |
 
 ---
@@ -22,6 +22,7 @@ selected** from the eligible pool.
 This document defines:
 
 - the eligibility criteria for panel service,
+- the minimum identity-assurance level for panelists,
 - the entropy source and draw mechanism,
 - the veto procedure,
 - escalation when the eligible pool is insufficient,
@@ -61,12 +62,16 @@ A node is eligible for panel selection if **all** of the following hold:
 | Criterion | Requirement | Source |
 | :--- | :--- | :--- |
 | Procedural reputation | `procedural.score >= panel_procedural_threshold` (default: 0.6) | `PROCEDURAL-REPUTATION-SPEC` section 13 |
+| Identity assurance level | `assurance_level >= panel_identity_assurance_threshold` (default: `IAL3`) | `ROOT-IDENTITY-AND-NYMS` sections 7 and 8 |
 | Active status | `status = active` (not `bootstrapping`, `inactive`, or `suspended`) | `PROCEDURAL-REPUTATION-SPEC` section 5 |
 | Bootstrap complete | `bootstrap_remaining_days = 0` | `PROCEDURAL-REPUTATION-SPEC` section 7.3 |
 | No COI | Passes the COI check for the specific case (section 4) | Art. VII.6 |
 | No role conflict | Not a party, requester, target, or oracle in the same matter | Art. VII.3 |
 | No prior service | Has not served on a panel in the same case (including appeal) | Section 11 |
 | Federation membership | Is a member of the adjudicating federation (or the inter-federation pool, see section 8) | `FEDERATION-MEMBERSHIP-AND-QUORUM` |
+
+Procedural reputation is therefore necessary but not sufficient. A node with high
+reputation but too low an `IAL` level does not qualify for a high-stakes panel.
 
 ### 3.1. COI Check Procedure
 
@@ -85,6 +90,26 @@ A node is eligible for panel selection if **all** of the following hold:
 
 4. A post-selection COI discovery triggers panel dissolution for the affected
    member (section 10).
+
+### 3.2. Identity-Assurance Gate
+
+1. Before selection, every panel candidate MUST disclose to the system its current
+   `assurance_level` and a reference to its anchoring attestation.
+
+2. For ordinary high-stakes panels, the default minimum level is `IAL3`.
+
+3. For panels that may:
+
+   - decide on identifying disclosure,
+
+   - enter a legal-notification track,
+
+   - adjudicate the highest-stakes cases involving public-trust roles,
+
+   the federation SHOULD require `IAL4`.
+
+4. Parties do not automatically receive panelists' root identities. `IAL` is an
+   eligibility gate, not a mode of full disclosure.
 
 ---
 
@@ -405,6 +430,7 @@ identically.
 | `panel_size` | 3 | 3-7, odd only | More cautious yes, more permissive no |
 | `reserve_count` | 2 | >= 2 | " |
 | `panel_procedural_threshold` | 0.6 | >= 0.5 | " (shared with `PROCEDURAL-REPUTATION-SPEC`) |
+| `panel_identity_assurance_threshold` | `IAL3` | `IAL2`-`IAL4` | " (shared with `ROOT-IDENTITY-AND-NYMS`) |
 | `coi_declaration_window` | 24h | >= 12h | " |
 | `coi_declaration_window_critical` | 4h | >= 2h | " |
 | `commit_window` | 24h | >= 12h | " |
@@ -469,6 +495,9 @@ identically.
 - **`PROCEDURAL-REPUTATION-SPEC.en.md`**: Provides the `procedural.score` and
   `panel_procedural_threshold` used for eligibility. Panel service generates
   `procedural` domain signals.
+- **`ROOT-IDENTITY-AND-NYMS.en.md`**: Provides the `IAL` levels and the rule that
+  higher influence requires stronger identity anchoring; a high-stakes panel may
+  not rely on reputation alone.
 - **`EXCEPTION-POLICY.en.md`**: Interim measures (section 7, `critical`
   timeline) are constitutional exceptions of type `injunction`.
 - **`ABUSE-DISCLOSURE-PROTOCOL.en.md`**: Cases adjudicated under Art. X use

@@ -59,6 +59,16 @@ Closed on `2026-03-12` by document `DIA-ABUSE-DISC-001`, which defines:
 - `stake-level` and `evidence-level` thresholds,
 - multisig roles, disclosure scope, retention, appeal, and jurisdictional notifications.
 
+### `ROOT-IDENTITY-AND-NYMS.en.md`
+
+Closed on `2026-03-12` by document `DIA-ROOT-ID-001`, which defines:
+
+- the separation of `root-identity`, `nym`, `station-id`, and `agent-id`,
+- identity assurance levels (`IAL0`-`IAL4`),
+- the rule "greater influence -> greater disclosure and stronger confirmation",
+- a multisig attestation model for jurisdictions without strong eID,
+- limits on multiplying influence through many nyms from one anchor source.
+
 ---
 
 ## Priority A - Required Before Real Governance Goes Live

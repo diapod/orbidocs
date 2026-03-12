@@ -80,6 +80,8 @@ Operational documents with binding force within federations:
 - `EXCEPTION-POLICY.en.md` - exception procedure, data model, and monitoring
 - `FEDERATION-MEMBERSHIP-AND-QUORUM.en.md` - definition of a voting-eligible
   federation, activity statuses, and the rules of quorum and veto
+- `ROOT-IDENTITY-AND-NYMS.en.md` - model of root identity, nyms, assurance
+  levels, and delegation across devices
 - `PROCEDURAL-REPUTATION-SPEC.en.md` - specification of domains, signals, and
   calculation of procedural reputation
 - `PANEL-SELECTION-PROTOCOL.en.md` - procedure for eligibility, draw, veto, and

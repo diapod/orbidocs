@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-PANEL-SEL-001` |
 | `typ` | Ustawa wykonawcza (Poziom 3 hierarchii normatywnej) |
 | `wersja` | 0.1.0-draft |
-| `podstawa` | Art. VII.1-3, VII.6, XVI.3 Konstytucji DIA; `ENTRENCHMENT-CLAUSE.pl.md` sekcja 3.2; `PROCEDURAL-REPUTATION-SPEC.pl.md` |
+| `podstawa` | Art. VII.1-3, VII.6, XVI.3 Konstytucji DIA; `ENTRENCHMENT-CLAUSE.pl.md` sekcja 3.2; `PROCEDURAL-REPUTATION-SPEC.pl.md`; `ROOT-IDENTITY-AND-NYMS.pl.md` |
 | `status mechanizmów` | `[mechanizm - hipoteza]` dla entropii VRF; reguły kwalifikowalności i procedury mają charakter normatywny |
 
 ---
@@ -23,6 +23,7 @@ węzłów.
 Niniejszy dokument definiuje:
 
 - kryteria kwalifikowalności do służby panelowej,
+- minimalny poziom pewności tożsamości dla panelistów,
 - źródło entropii i mechanizm losowania,
 - procedurę veta,
 - eskalację, gdy pula kwalifikowalnych węzłów jest zbyt mała,
@@ -65,12 +66,17 @@ poniższe warunki:
 | Kryterium | Wymóg | Źródło |
 | :--- | :--- | :--- |
 | Reputacja proceduralna | `procedural.score >= panel_procedural_threshold` (domyślnie: 0.6) | `PROCEDURAL-REPUTATION-SPEC` sekcja 13 |
+| Poziom pewności tożsamości | `assurance_level >= panel_identity_assurance_threshold` (domyślnie: `IAL3`) | `ROOT-IDENTITY-AND-NYMS` sekcja 7 i 8 |
 | Status aktywny | `status = active` (nie: `bootstrapping`, `inactive`, `suspended`) | `PROCEDURAL-REPUTATION-SPEC` sekcja 5 |
 | Rozruch zakończony | `bootstrap_remaining_days = 0` | `PROCEDURAL-REPUTATION-SPEC` sekcja 7.3 |
 | Brak COI | Pozytywnie przechodzi kontrolę COI dla konkretnej sprawy (sekcja 4) | Art. VII.6 |
 | Brak konfliktu ról | Nie jest stroną, wnioskodawcą, celem ani wyrocznią w tej samej sprawie | Art. VII.3 |
 | Brak wcześniejszej służby | Nie służył już w panelu tej samej sprawy (w tym apelacji) | Sekcja 11 |
 | Członkostwo federacyjne | Jest członkiem federacji rozstrzygającej sprawę (lub puli międzyfederacyjnej, patrz sekcja 8) | `FEDERATION-MEMBERSHIP-AND-QUORUM` |
+
+Reputacja proceduralna jest więc warunkiem koniecznym, ale niewystarczającym.
+Węzeł o wysokiej reputacji, lecz zbyt niskim poziomie `IAL`, nie kwalifikuje się
+do panelu wysokiej stawki.
 
 ### 3.1. Procedura kontroli COI
 
@@ -93,6 +99,26 @@ poniższe warunki:
    (`governance_inaction`) w `PROCEDURAL-REPUTATION-SPEC`.
 
 4. Odkrycie COI po selekcji wyzwala wyłączenie danego członka panelu (sekcja 10).
+
+### 3.2. Bramka pewności tożsamości
+
+1. Każdy kandydat do panelu MUSI przed selekcją ujawnić systemowi swój bieżący
+   `assurance_level` oraz referencję do poświadczenia zakotwiczenia.
+
+2. Dla zwykłych paneli wysokiej stawki minimalny poziom domyślny to `IAL3`.
+
+3. Dla paneli, które mogą:
+
+   - decydować o ujawnieniu identyfikującym,
+
+   - wchodzić w tor notyfikacji prawnej,
+
+   - rozstrzygać sprawy publicznych ról zaufania o najwyższej stawce,
+
+   federacja POWINNA wymagać `IAL4`.
+
+4. Strony nie otrzymują automatycznie root-identity panelistów. Poziom `IAL`
+   jest warunkiem kwalifikowalności, a nie trybem pełnej jawności.
 
 ---
 
@@ -423,6 +449,7 @@ stosuje się identycznie.
 | `panel_size` | 3 | 3-7, tylko nieparzyste | Ostrożniej tak, luźniej nie |
 | `reserve_count` | 2 | >= 2 | " |
 | `panel_procedural_threshold` | 0.6 | >= 0.5 | " (współdzielone z `PROCEDURAL-REPUTATION-SPEC`) |
+| `panel_identity_assurance_threshold` | `IAL3` | `IAL2`-`IAL4` | " (współdzielone z `ROOT-IDENTITY-AND-NYMS`) |
 | `coi_declaration_window` | 24h | >= 12h | " |
 | `coi_declaration_window_critical` | 4h | >= 2h | " |
 | `commit_window` | 24h | >= 12h | " |
@@ -486,6 +513,9 @@ stosuje się identycznie.
 - **`PROCEDURAL-REPUTATION-SPEC.pl.md`**: Dostarcza `procedural.score` i
   `panel_procedural_threshold` używane do kwalifikowalności. Służba panelowa
   generuje sygnały domeny `procedural`.
+- **`ROOT-IDENTITY-AND-NYMS.pl.md`**: Dostarcza poziomy `IAL` i regułę, że
+  wyższy wpływ wymaga silniejszego zakotwiczenia tożsamości; panel wysokiej stawki
+  nie może opierać się wyłącznie na reputacji.
 - **`EXCEPTION-POLICY.pl.md`**: Środki tymczasowe (sekcja 7, harmonogram
   `critical`) są wyjątkami konstytucyjnymi typu `injunction`.
 - **`ABUSE-DISCLOSURE-PROTOCOL.pl.md`**: Sprawy rozstrzygane pod Art. X używają

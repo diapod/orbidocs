@@ -76,6 +76,8 @@ Dokumenty operacyjne o mocy wiążącej w ramach federacji:
 - `EXCEPTION-POLICY.pl.md` - procedura, model danych i monitoring wyjątków
 - `FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md` - definicja federacji uprawnionej do głosu,
   statusów aktywności oraz reguł quorum i veta
+- `ROOT-IDENTITY-AND-NYMS.pl.md` - model tożsamości pierwotnej, nymów,
+  poziomów pewności i delegacji między urządzeniami
 - `PROCEDURAL-REPUTATION-SPEC.pl.md` - specyfikacja domen, sygnałów i przeliczania
   reputacji proceduralnej
 - `PANEL-SELECTION-PROTOCOL.pl.md` - procedura kwalifikacji, losowania, veta i

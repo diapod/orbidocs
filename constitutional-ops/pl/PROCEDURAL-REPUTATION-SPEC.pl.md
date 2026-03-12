@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-PROC-REP-001` |
 | `typ` | Ustawa wykonawcza (Poziom 3 hierarchii normatywnej) |
 | `wersja` | 0.1.0-draft |
-| `podstawa` | Art. VII.4-5, VII.6, VII.8, XI Konstytucji DIA; `REPUTATION-VALIDATION-PROTOCOL.pl.md`; `../core-values/CORE-VALUES.pl.md` sekcja "Reputacja jako dźwignia, nie władza" |
+| `podstawa` | Art. VII.4-5, VII.6, VII.8, XI Konstytucji DIA; `REPUTATION-VALIDATION-PROTOCOL.pl.md`; `ROOT-IDENTITY-AND-NYMS.pl.md`; `../core-values/CORE-VALUES.pl.md` sekcja "Reputacja jako dźwignia, nie władza" |
 | `status mechanizmów` | `[mechanizm - hipoteza]` dla funkcji scoringowych; model danych jest normatywny |
 
 ---
@@ -25,6 +25,7 @@ Niniejszy dokument definiuje:
 - model scoringowy (oznaczony `[hipoteza]` tam, gdzie niewalidowany),
 - definicję węzła aktywnego do celów reputacyjnych,
 - procedurę rozruchu dla nowych węzłów (ang. cold start),
+- relację między reputacją proceduralną a poziomami pewności tożsamości,
 - asymetryczną odpowiedzialność dla ról zaufania publicznego,
 - przenośny pakiet dowodów do mobilności międzyfederacyjnej,
 - haki detekcji karteli,
@@ -50,6 +51,10 @@ federacji.
 **Tylko domena `procedural` kwalifikuje węzeł do selekcji panelu ad-hoc**
 (ENTRENCHMENT-CLAUSE 3.2: "wysoka reputacja proceduralna, nie techniczna"). Inne
 domeny informują trasowanie zaufania, ale nie dają dźwigni w governance.
+
+Jednocześnie reputacja proceduralna **nie zastępuje pewności tożsamości**.
+W rolach o wysokiej stawce kwalifikowalność wymaga łącznie progu reputacyjnego
+oraz odpowiedniego poziomu `IAL` zgodnie z `ROOT-IDENTITY-AND-NYMS.pl.md`.
 
 ---
 
@@ -240,6 +245,21 @@ Węzeł w okresie rozruchowym (`bootstrap_remaining > 0`) **nie może**:
 Ograniczenia te zapewniają, że dźwignia w governance wymaga faktycznej, zdobytej
 reputacji proceduralnej.
 
+### 7.4. Bramka poziomu pewności tożsamości
+
+1. Wysoka reputacja proceduralna nie daje sama z siebie dostępu do ról wysokiego
+   zaufania.
+
+2. Federacja MUSI sprawdzać kwalifikowalność jako iloczyn dwóch warunków:
+
+   - próg reputacyjny,
+
+   - minimalny poziom `IAL` dla danej roli lub procedury.
+
+3. Dla paneli ad-hoc, operatorów federacji, wyroczni i podobnych ról system
+   POWINIEN przechowywać w rekordzie reputacji migawkę bieżącego poziomu
+   `assurance_level`.
+
 ---
 
 ## 8. Przenośny pakiet dowodów
@@ -333,6 +353,8 @@ reputation_record:
   federation_id: "[federacja]"
   snapshot_at: "[ISO 8601]"
   status: "active"             # active | inactive | bootstrapping | suspended
+  identity_assurance_level: "IAL0"
+  identity_anchor_ref: null
   domains:
     contract:
       score: 0.0               # [0.0, 1.0]
@@ -387,6 +409,7 @@ z `REPUTATION-VALIDATION-PROTOCOL`:
 | :--- | :--- |
 | Gaming wolumenu trywialnych sygnałów | Minimalne progi znaczności per typ sygnału; malejące zwroty przez krzywą podliniową; limity koncentracji (sekcja 4.4) |
 | Atak Sybila wzajemnymi sygnałami | Haki detekcji karteli (sekcja 9); wymóg dywersyfikacji źródeł |
+| Tania reputacja bez silnego zakotwiczenia tożsamości | Wspólny próg: reputacja + `IAL`; role wysokiej stawki wymagają obu warunków |
 | Eksploatacja rozruchu | Ograniczenie `bootstrap_min_age`; domena proceduralna wymaga faktycznej służby panelowej |
 | Zanik karzący długoterminowych kontrybutorów | Wyjątek `continuing_benefit`; domena `community` ma najwolniejszy zanik |
 | Weaponizacja asymetrii przeciw rolom zaufania publicznego | Asymetria dotyczy tylko sygnałów negatywnych; procedura odwoławcza bez zmian |
@@ -454,6 +477,9 @@ z `REPUTATION-VALIDATION-PROTOCOL`:
   scoringowe oznaczone `[hipoteza]` podlegają przebiegowi walidacji tamże.
 - **`ENTRENCHMENT-CLAUSE.pl.md`**: Wynik domeny `procedural` jest kryterium
   kwalifikowalności do selekcji panelu ad-hoc.
+- **`ROOT-IDENTITY-AND-NYMS.pl.md`**: Reputacja proceduralna jest liczona osobno,
+  ale dla ról wysokiej stawki działa wspólnie z poziomem `IAL`; wiele nymów
+  jednego źródła nie może mnożyć wpływu bez dodatkowej procedury.
 - **`PANEL-SELECTION-PROTOCOL.pl.md`**: Używa `panel_procedural_threshold`
   z niniejszej specyfikacji.
 - **`EXCEPTION-POLICY.pl.md`**: Sygnały związane z wyjątkami (zarówno tworzenie,

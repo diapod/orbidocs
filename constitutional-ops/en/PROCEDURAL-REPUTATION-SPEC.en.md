@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-PROC-REP-001` |
 | `type` | Implementing act (Level 3 of the normative hierarchy) |
 | `version` | 0.1.0-draft |
-| `basis` | Art. VII.4-5, VII.6, VII.8, XI of the DIA Constitution; `REPUTATION-VALIDATION-PROTOCOL.en.md`; `../core-values/CORE-VALUES.en.md` section "Reputation as Leverage, Not Power" |
+| `basis` | Art. VII.4-5, VII.6, VII.8, XI of the DIA Constitution; `REPUTATION-VALIDATION-PROTOCOL.en.md`; `ROOT-IDENTITY-AND-NYMS.en.md`; `../core-values/CORE-VALUES.en.md` section "Reputation as Leverage, Not Power" |
 | `mechanism status` | `[mechanism - hypothesis]` for scoring functions; data model is normative |
 
 ---
@@ -25,6 +25,7 @@ This document defines:
 - the scoring model (marked `[hypothesis]` where unvalidated),
 - the definition of an active node for reputation purposes,
 - the cold-start procedure for new nodes,
+- the relation between procedural reputation and identity-assurance levels,
 - asymmetric accountability for public-trust roles,
 - the portable evidence package for cross-federation mobility,
 - cartel detection hooks,
@@ -49,6 +50,10 @@ Each domain produces a score in `[0.0, 1.0]`, normalized within the federation.
 **Only the `procedural` domain qualifies a node for ad-hoc panel selection**
 (ENTRENCHMENT-CLAUSE 3.2: "high procedural reputation, not technical"). Other
 domains inform trust routing but do not grant governance leverage.
+
+At the same time, procedural reputation **does not replace identity assurance**.
+For higher-stakes roles, eligibility requires both the reputation threshold and
+the appropriate `IAL` level in accordance with `ROOT-IDENTITY-AND-NYMS.en.md`.
 
 ---
 
@@ -236,6 +241,21 @@ A node in the bootstrap period (`bootstrap_remaining > 0`) **cannot**:
 These restrictions ensure that governance leverage requires actual earned
 procedural reputation.
 
+### 7.4. Identity-Assurance Gate
+
+1. High procedural reputation does not, by itself, grant access to high-trust
+   roles.
+
+2. A federation MUST evaluate eligibility as the conjunction of two conditions:
+
+   - reputation threshold,
+
+   - minimum `IAL` level for the given role or procedure.
+
+3. For ad-hoc panels, federation operators, oracles, and similar roles, the
+   system SHOULD store a snapshot of the current `assurance_level` in the
+   reputation record.
+
 ---
 
 ## 8. Portable Evidence Package
@@ -328,6 +348,8 @@ reputation_record:
   federation_id: "[federation]"
   snapshot_at: "[ISO 8601]"
   status: "active"             # active | inactive | bootstrapping | suspended
+  identity_assurance_level: "IAL0"
+  identity_anchor_ref: null
   domains:
     contract:
       score: 0.0               # [0.0, 1.0]
@@ -382,6 +404,7 @@ consume:
 | :--- | :--- |
 | Gaming via volume of trivial signals | Minimum significance threshold per signal type; diminishing returns via sublinear curve; concentration limits (section 4.4) |
 | Sybil attack via mutual signals | Cartel detection hooks (section 9); source diversity requirement |
+| Cheap reputation without strong identity anchoring | Shared gate: reputation + `IAL`; high-stakes roles require both conditions |
 | Bootstrap exploitation | `bootstrap_min_age` restriction; procedural domain requires actual panel service |
 | Decay punishes long-term contributors | `continuing_benefit` exception; `community` domain has slowest decay |
 | Asymmetry weaponized against public-trust holders | Asymmetry applies only to negative signals; appeals process unchanged |
@@ -448,6 +471,10 @@ consume:
   there.
 - **`ENTRENCHMENT-CLAUSE.en.md`**: The `procedural` domain score is the
   eligibility criterion for ad-hoc panel selection.
+- **`ROOT-IDENTITY-AND-NYMS.en.md`**: Procedural reputation is calculated
+  separately, but for high-stakes roles it works together with the `IAL` level;
+  many nyms from one anchor source may not multiply influence without an
+  additional procedure.
 - **`PANEL-SELECTION-PROTOCOL.en.md`**: Uses `panel_procedural_threshold` from
   this specification.
 - **`EXCEPTION-POLICY.en.md`**: Exception-related signals (both creating and
