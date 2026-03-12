@@ -22,7 +22,9 @@ This document defines:
 - the role of `salt` and KDF parameters,
 - memory of prior attestation,
 - recovery and reconstruction of `anchor-identity`,
-- identity-data update and revocation.
+- identity-data update,
+- compromise classes, revocation, and rotation,
+- minimum KDF profiles and parameter-migration policy.
 
 Its purpose is to combine three properties:
 
@@ -164,6 +166,8 @@ identity_attestation_memory:
   attestation_id: "[unique identifier]"
   anchor_identity_ref: "[reference]"
   lookup_tag: "[lookup marker]"
+  lookup_domain: "person:v1"
+  pepper_id: "[identifier or null]"
   assurance_level: "IAL3"
   method: "mobywatel"        # mobywatel | epuap | qualified_signature | multisig | other
   status: "valid"            # valid | expired | revoked | superseded
@@ -186,6 +190,49 @@ It should be computed from:
 - an explicit hashing algorithm.
 
 `lookup_tag` should not, by itself, enable easy cross-federation correlation.
+
+### 5.3. `lookup_tag` Contract
+
+`lookup_tag` SHOULD be computed according to:
+
+```text
+lookup_tag = H(
+  lookup_domain
+  || canonical(normalized_lookup_claims)
+  || pepper_or_empty
+)
+```
+
+Where:
+
+- `lookup_domain` distinguishes record classes and uses,
+- `normalized_lookup_claims` is only the minimal subset of claims needed to find
+  the record,
+- `pepper_or_empty` is a federation or domain `pepper`, if one is used.
+
+`normalized_lookup_claims` SHOULD NOT contain excess civil data. In particular:
+
+- for a natural person, it should contain only the minimal stable set of claims
+  used during first attestation,
+- for an organization, it should contain the minimal set of registry or
+  organizational data.
+
+### 5.4. `pepper`
+
+A federation MAY use a `pepper` to limit correlation of `lookup_tag` across
+federations or domains. If `pepper` is used:
+
+1. It MUST be stored as a system secret outside the user record.
+
+2. It MUST have its own `pepper_id` and validity window.
+
+3. It MUST NOT be exported with the recovery bundle.
+
+4. Changing `pepper` MUST trigger either reindexing of `lookup_tag` or a grace
+   period during which at least two `pepper` versions are accepted.
+
+5. Raw `lookup_tag` SHOULD NOT be transferred across federations as an
+   interoperability artifact.
 
 ---
 
@@ -242,7 +289,7 @@ recovery_bundle:
   salt: "[salt]"
   kdf_params:
     algorithm: "argon2id"
-    memory_cost: 65536
+    memory_cost: 262144
     time_cost: 3
     parallelism: 1
   attestation_id: "[reference]"
@@ -314,24 +361,125 @@ Revocation may cause:
 - rotation of nyms and stations,
 - activation of the incident procedure.
 
+### 9.3. Compromise Classes
+
+| Class | Description | Minimum response |
+| :--- | :--- | :--- |
+| `C1` | Suspected loss of secrecy of the recovery phrase without hard proof | suspend the recovery track, increase monitoring, require additional verification |
+| `C2` | Hard proof of theft of the recovery phrase or `recovery_secret` | revoke the recovery track, rotate `anchor-identity`, review related `node-id` values |
+| `C3` | Compromise only of `node-key` or the main `node-id` key | rotate `node-id`, nyms, and stations; `anchor-identity` may remain |
+| `C4` | Compromise of one or more stations without signs of higher-layer compromise | revoke `station_delegation`, analyze harm, no automatic `anchor-identity` rotation |
+| `C5` | False `root-identity` attestation or failure in the attestation channel | revoke attestation, lower `IAL`, possibly invalidate `anchor-identity` |
+| `C6` | Abuse of the recovery procedure or bypass of unsealing thresholds | suspend the recovery track, audit, possible procedural and legal sanctions |
+
+### 9.4. Rotation Matrix
+
+1. Station compromise (`C4`) should not by itself force rotation of `node-id` or
+   `anchor-identity`.
+
+2. `node-key` compromise (`C3`) SHOULD lead to:
+
+   - a new `node-id`,
+
+   - rotation of active nyms,
+
+   - renewal of station certificates,
+
+   - preserved continuity of accountability through the common `anchor-identity`.
+
+3. Recovery-phrase compromise (`C2`) SHOULD lead to:
+
+   - revocation of the old recovery track,
+
+   - generation of a new phrase,
+
+   - a new `salt`,
+
+   - a new `anchor-identity`,
+
+   - controlled rebinding of active `node-id` values or their rotation according
+     to federation policy.
+
+4. False attestation or compromise of the attestation channel (`C5`) SHOULD be
+   treated as a breach of the anchoring layer and may require:
+
+   - full re-attestation,
+
+   - freezing of high-stakes roles,
+
+   - invalidation of derived `node-id` values.
+
+5. Every rotation MUST leave an audit-track trace linking the old and new
+   identity layers, but NEED NOT create a public correlation between old and new
+   operational masks.
+
 ---
 
 ## 10. Data Model
 
-### 10.1. KDF Parameters
+### 10.1. Minimum KDF Profiles
+
+The default algorithm SHOULD be `argon2id`.
+
+| Profile | Minimum use case | `memory_cost` | `time_cost` | `parallelism` |
+| :--- | :--- | :--- | :--- | :--- |
+| `KDF-S` | low cost, constrained devices, no high-stakes roles | `65536` | `3` | `1` |
+| `KDF-M` | default profile for most users and `IAL2-IAL3` | `262144` | `3` | `1` |
+| `KDF-H` | high-stakes roles, `IAL4`, privileged recovery | `524288` | `4` | `1` |
+
+Federations MAY raise these minima, but may not go below them for a given
+profile.
+
+### 10.2. KDF Parameter Migration Policy
+
+1. The KDF record MUST be versioned.
+
+2. The system MUST be able to verify an older profile during a migration window.
+
+3. Upgrading the KDF profile SHOULD happen:
+
+   - on successful recovery,
+
+   - on a significant change of role or `IAL`,
+
+   - during planned federation security migration.
+
+4. The system MUST NOT automatically downgrade the KDF profile for an existing
+   identity.
+
+5. If the record uses a weaker profile than required for the current role, the
+   federation SHOULD require migration before allowing that role.
+
+6. KDF migration SHOULD NOT by itself change `anchor-identity`, unless
+   `normalized_claims`, the recovery phrase, or `salt` also change.
+
+### 10.3. KDF Parameters
 
 ```yaml
 kdf_params_record:
   kdf_params_id: "[identifier]"
+  profile: "KDF-M"
+  version: 1
   algorithm: "argon2id"
-  memory_cost: 65536
+  memory_cost: 262144
   time_cost: 3
   parallelism: 1
   output_length: 32
   created_at: "[ISO 8601]"
 ```
 
-### 10.2. `salt` Record
+### 10.4. `pepper` Record
+
+```yaml
+pepper_record:
+  pepper_id: "[identifier]"
+  scope: "federation"        # federation | domain
+  status: "active"           # active | grace | retired
+  valid_from: "[ISO 8601]"
+  valid_until: null
+```
+
+### 10.5. `salt` Record
 
 ```yaml
 salt_record:
@@ -341,13 +489,15 @@ salt_record:
   rotate_at: null
 ```
 
-### 10.3. Recovery Record
+### 10.6. Recovery Record
 
 ```yaml
 identity_recovery_record:
   recovery_record_id: "[identifier]"
   anchor_identity_ref: "[reference]"
   lookup_tag: "[lookup marker]"
+  lookup_domain: "person:v1"
+  pepper_id: "[identifier or null]"
   salt_ref: "[reference]"
   kdf_params_ref: "[reference]"
   attestation_id: "[reference]"

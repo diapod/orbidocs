@@ -22,7 +22,9 @@ Dokument definiuje:
 - rolę `salt` i parametrów KDF,
 - pamięć wcześniejszego poświadczenia,
 - odzyskiwanie i odtwarzanie `anchor-identity`,
-- aktualizację danych tożsamościowych i odwoływanie.
+- aktualizację danych tożsamościowych,
+- klasy kompromitacji, odwoływanie i rotację,
+- minimalne profile KDF i politykę migracji parametrów.
 
 Celem jest połączenie trzech własności:
 
@@ -166,6 +168,8 @@ identity_attestation_memory:
   attestation_id: "[unikalny identyfikator]"
   anchor_identity_ref: "[referencja]"
   lookup_tag: "[znacznik wyszukiwania]"
+  lookup_domain: "person:v1"
+  pepper_id: "[identyfikator lub null]"
   assurance_level: "IAL3"
   method: "mobywatel"        # mobywatel | epuap | qualified_signature | multisig | other
   status: "valid"            # valid | expired | revoked | superseded
@@ -189,6 +193,50 @@ Powinien być wyliczany z:
 
 `lookup_tag` nie powinien sam z siebie umożliwiać łatwej korelacji między
 federacjami.
+
+### 5.3. Kontrakt `lookup_tag`
+
+`lookup_tag` POWINIEN być liczony według kontraktu:
+
+```text
+lookup_tag = H(
+  lookup_domain
+  || canonical(normalized_lookup_claims)
+  || pepper_or_empty
+)
+```
+
+Gdzie:
+
+- `lookup_domain` odróżnia klasy rekordów i zastosowania,
+- `normalized_lookup_claims` to tylko minimalny podzbiór claimów potrzebnych do
+  odnalezienia rekordu,
+- `pepper_or_empty` to federacyjny lub domenowy `pepper`, jeśli jest używany.
+
+`normalized_lookup_claims` NIE POWINNY obejmować nadmiarowych danych
+cywilnych. W szczególności:
+
+- dla osoby fizycznej powinny obejmować wyłącznie minimalny stabilny zestaw
+  claimów użyty przy pierwszym poświadczeniu,
+- dla organizacji powinny obejmować minimalny zestaw danych rejestrowych lub
+  organizacyjnych.
+
+### 5.4. `pepper`
+
+Federacja MOŻE stosować `pepper`, aby ograniczyć korelację `lookup_tag` między
+federacjami albo domenami. Jeżeli `pepper` jest stosowany:
+
+1. MUSI być przechowywany jako sekret systemowy poza rekordem użytkownika.
+
+2. MUSI mieć własny `pepper_id` i okres ważności.
+
+3. NIE MOŻE być eksportowany razem z pakietem odzyskiwania.
+
+4. Zmiana `pepper` MUSI uruchamiać reindeksację `lookup_tag` albo okres
+   przejściowy, w którym uznawane są co najmniej dwie wersje `pepper`.
+
+5. Surowy `lookup_tag` NIE POWINIEN być przenoszony między federacjami jako
+   artefakt interoperacyjny.
 
 ---
 
@@ -246,7 +294,7 @@ recovery_bundle:
   salt: "[salt]"
   kdf_params:
     algorithm: "argon2id"
-    memory_cost: 65536
+    memory_cost: 262144
     time_cost: 3
     parallelism: 1
   attestation_id: "[referencja]"
@@ -319,24 +367,125 @@ Odwołanie może powodować:
 - rotację nymów i stacji,
 - uruchomienie procedury incydentowej.
 
+### 9.3. Klasy kompromitacji
+
+| Klasa | Opis | Minimalna reakcja |
+| :--- | :--- | :--- |
+| `C1` | Podejrzenie utraty poufności frazy odzyskiwania bez twardego dowodu | zawieszenie toru odzyskiwania, wzmożony monitoring, dodatkowa weryfikacja |
+| `C2` | Twardy dowód przejęcia frazy odzyskiwania lub `recovery_secret` | odwołanie toru odzyskiwania, rotacja `anchor-identity`, przegląd powiązanych `node-id` |
+| `C3` | Kompromitacja tylko `node-key` lub głównego klucza `node-id` | rotacja `node-id`, nymów i stacji; `anchor-identity` może pozostać |
+| `C4` | Kompromitacja jednej lub wielu stacji bez oznak naruszenia wyżej | odwołanie `station_delegation`, analiza szkody, brak automatycznej rotacji `anchor-identity` |
+| `C5` | Fałszywe poświadczenie `root-identity` albo błąd w kanale poświadczającym | odwołanie poświadczenia, obniżenie `IAL`, możliwe unieważnienie `anchor-identity` |
+| `C6` | Nadużycie procedury odzyskiwania albo obejście progów odpieczętowania | zawieszenie toru odzyskiwania, audyt, możliwe sankcje proceduralne i prawne |
+
+### 9.4. Macierz rotacji
+
+1. Kompromitacja stacji (`C4`) nie powinna sama z siebie wymuszać rotacji
+   `node-id` ani `anchor-identity`.
+
+2. Kompromitacja `node-key` (`C3`) POWINNA prowadzić do:
+
+   - nowego `node-id`,
+
+   - rotacji aktywnych nymów,
+
+   - odnowienia certyfikatów stacji,
+
+   - zachowania ciągłości odpowiedzialności przez wspólną `anchor-identity`.
+
+3. Kompromitacja frazy odzyskiwania (`C2`) POWINNA prowadzić do:
+
+   - odwołania starego toru odzyskiwania,
+
+   - wygenerowania nowej frazy,
+
+   - nowego `salt`,
+
+   - nowej `anchor-identity`,
+
+   - kontrolowanego przepięcia aktywnych `node-id` albo ich rotacji zgodnie z
+     polityką federacji.
+
+4. Fałszywe poświadczenie albo kompromitacja kanału poświadczającego (`C5`)
+   POWINNY być traktowane jak naruszenie warstwy zakotwiczenia i mogą wymagać:
+
+   - pełnego ponownego poświadczenia,
+
+   - zamrożenia ról wysokiej stawki,
+
+   - unieważnienia pochodnych `node-id`.
+
+5. Każda rotacja MUSI zostawić ślad łączący starą i nową warstwę tożsamości na
+   torze audytowym, ale NIE MUSI tworzyć publicznej korelacji między starą i nową
+   maską operacyjną.
+
 ---
 
 ## 10. Model danych
 
-### 10.1. Parametry KDF
+### 10.1. Minimalne profile KDF
+
+Domyślnym algorytmem POWINIEN być `argon2id`.
+
+| Profil | Zastosowanie minimalne | `memory_cost` | `time_cost` | `parallelism` |
+| :--- | :--- | :--- | :--- | :--- |
+| `KDF-S` | niski koszt, urządzenia ograniczone, brak ról wysokiej stawki | `65536` | `3` | `1` |
+| `KDF-M` | profil domyślny dla większości użytkowników i `IAL2-IAL3` | `262144` | `3` | `1` |
+| `KDF-H` | role wysokiej stawki, `IAL4`, odzyskiwanie uprzywilejowane | `524288` | `4` | `1` |
+
+Federacja MOŻE podnosić te minima, ale nie może schodzić poniżej nich dla
+danego profilu.
+
+### 10.2. Polityka migracji parametrów KDF
+
+1. Rekord KDF MUSI być wersjonowany.
+
+2. System MUSI umieć zweryfikować starszy profil przez okres migracyjny.
+
+3. Podniesienie profilu KDF POWINNO następować:
+
+   - przy udanym odzyskaniu,
+
+   - przy istotnej zmianie roli lub poziomu `IAL`,
+
+   - przy planowej migracji bezpieczeństwa federacji.
+
+4. System NIE MOŻE automatycznie obniżać profilu KDF dla już istniejącej
+   tożsamości.
+
+5. Jeżeli rekord ma profil słabszy niż wymagany dla aktualnej roli, federacja
+   POWINNA wymusić migrację przed dopuszczeniem do tej roli.
+
+6. Migracja KDF NIE POWINNA sama z siebie zmieniać `anchor-identity`, o ile nie
+   zmieniają się `normalized_claims`, fraza odzyskiwania albo `salt`.
+
+### 10.3. Parametry KDF
 
 ```yaml
 kdf_params_record:
   kdf_params_id: "[identyfikator]"
+  profile: "KDF-M"
+  version: 1
   algorithm: "argon2id"
-  memory_cost: 65536
+  memory_cost: 262144
   time_cost: 3
   parallelism: 1
   output_length: 32
   created_at: "[ISO 8601]"
 ```
 
-### 10.2. Rekord `salt`
+### 10.4. Rekord `pepper`
+
+```yaml
+pepper_record:
+  pepper_id: "[identyfikator]"
+  scope: "federation"        # federation | domain
+  status: "active"           # active | grace | retired
+  valid_from: "[ISO 8601]"
+  valid_until: null
+```
+
+### 10.5. Rekord `salt`
 
 ```yaml
 salt_record:
@@ -346,13 +495,15 @@ salt_record:
   rotate_at: null
 ```
 
-### 10.3. Rekord odzyskiwania
+### 10.6. Rekord odzyskiwania
 
 ```yaml
 identity_recovery_record:
   recovery_record_id: "[identyfikator]"
   anchor_identity_ref: "[referencja]"
   lookup_tag: "[znacznik wyszukiwania]"
+  lookup_domain: "person:v1"
+  pepper_id: "[identyfikator lub null]"
   salt_ref: "[referencja]"
   kdf_params_ref: "[referencja]"
   attestation_id: "[referencja]"

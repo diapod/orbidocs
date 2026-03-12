@@ -172,6 +172,12 @@ sporu, akcji albo innego działania. To nym:
 - podlega sankcjom proceduralnym,
 - jest widoczny dla innych uczestników.
 
+Emitentem kryptograficznym nymu jest `node-id`, a emitentem odpowiedzialnościowym
+jest dysponent (`custodian`) tego `node-id`. Oznacza to, że protokół widzi nym
+jako maskę wystawioną przez `node-id`, a tor audytowy może - jeśli wymaga tego
+stawka sprawy - powiązać ten akt emisji z `custodian_ref`, a wyjątkowo także z
+`root-identity`.
+
 `nym` nie jest domyślnie główną jednostką wpływu w systemie. Wpływ trwały,
 anti-Sybil i główna odpowiedzialność pozostają przypisane do `node-id` oraz,
 pośrednio, do wspólnego źródła zakotwiczenia.

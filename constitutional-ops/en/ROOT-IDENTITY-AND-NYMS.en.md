@@ -145,6 +145,12 @@ A `nym` is an ephemeral or contextual cryptographic pseudonym delegated by a `no
 - is subject to procedural sanctions,
 - is visible to other participants.
 
+The cryptographic issuer of a nym is the `node-id`, while the accountability
+issuer is the custodian of that `node-id`. This means the protocol sees the nym
+as a mask issued by `node-id`, while the audit track may, if the stakes require
+it, link that act of issuance to `custodian_ref`, and exceptionally also to
+`root-identity`.
+
 By default, a `nym` is not the main unit of influence in the system. Durable influence, anti-Sybil logic, and primary accountability remain attached to `node-id` and, indirectly, to the common anchor source.
 
 ### 5.4. Types of Nyms
