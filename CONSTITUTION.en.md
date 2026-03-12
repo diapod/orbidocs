@@ -55,6 +55,7 @@ conditions of pressure, crisis, success, and degeneration.
    `en/ROOT-IDENTITY-AND-NYMS.en.md`,
    `en/IDENTITY-ATTESTATION-AND-RECOVERY.en.md`,
    `en/ATTESTATION-PROVIDERS.en.md`,
+   `en/IDENTITY-UPGRADE-ANOMALY-SIGNALS.en.md`,
    `en/IDENTITY-UNSEALING-BOARD.en.md`,
    `en/UNSEAL-CASE-MODEL.en.md`,
    `en/ROLE-TO-IAL-MATRIX.en.md`,
@@ -422,6 +423,26 @@ conditions of pressure, crisis, success, and degeneration.
 
 13. When two values collide, the preferred actions are the least invasive and most
    reversible ones that still offer a real chance of protecting the person.
+
+## Article X.A. Identity, Attestation, and Upgrade
+
+1. The strength of identity attestation is a property of the attestation method,
+   not of the ontology of the person or of `anchor-identity` itself.
+
+2. `weak -> strong` should preserve the continuity of `anchor-identity`, `node-id`,
+   and durable pseudonyms, provided that proof of continuity of control exists and
+   there is no hard identity dispute.
+
+3. Low-evidentiary-power sources, including `phone`, do not by default unlock
+   high-stakes roles or thresholds `U2` and `U3`.
+
+4. Allowing `phone -> IAL2` requires an explicit opt-in federation policy,
+   longer maturation, anomaly detection, influence limits, and the possibility
+   of fast downgrade after a compromise signal.
+
+5. Attestation upgrade, especially `phone -> strong`, is a risky operation and
+   must be subject to a minimum catalog of anomaly signals, a waiting period,
+   and review proportional to the stakes of the permissions being unlocked.
 
 ## Article XI. Epistemic Regime
 

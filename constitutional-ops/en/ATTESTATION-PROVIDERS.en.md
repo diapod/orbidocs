@@ -43,7 +43,7 @@ attestation of the identity source.
 
 | `source_class` | Example | Strength | Default max `IAL` | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| `phone` | phone number with OTP confirmation | `weak` | `IAL1` | may reach `IAL2` only with added federation safeguards |
+| `phone` | phone number with OTP confirmation | `weak` | `IAL1` | `IAL2` only through an explicit opt-in federation policy and added safeguards |
 | `multisig-basic` | `k-of-n` vouching without deeper attester audit | `weak` | `IAL2` | fallback for jurisdictions without strong eID |
 | `multisig-audited` | `k-of-n` vouching with audit, diversity, and attester accountability | `strong` | `IAL3` | does not unlock `IAL4` without a separate unsealing track |
 | `eid` | state or supranational eID | `strong` | `IAL3` | to `IAL4` only when paired with an unsealing track |
@@ -67,7 +67,8 @@ attestation of the identity source.
 - high-stakes oracle roles,
 - operations requiring `U2` or `U3`.
 
-3. A federation MAY allow `phone -> IAL2` only when there are additionally:
+3. A federation MAY allow `phone -> IAL2` only through an explicit opt-in
+   policy and only when there are additionally:
 
 - a longer reputational maturation period,
 - takeover-anomaly detection,
@@ -75,7 +76,8 @@ attestation of the identity source.
 - the ability to downgrade quickly after a compromise signal.
 
 4. A `phone -> strong` upgrade SHOULD pass through a waiting period
-   (`phone_upgrade_cooldown`) and anomaly checks.
+   (`phone_upgrade_cooldown`) and anomaly checks consistent with
+   `IDENTITY-UPGRADE-ANOMALY-SIGNALS.en.md`.
 
 Default safe profile:
 
@@ -122,3 +124,5 @@ Default safe profile:
 - `ROOT-IDENTITY-AND-NYMS.en.md` defines identity layers and `IAL` levels.
 - `IDENTITY-ATTESTATION-AND-RECOVERY.en.md` defines attestation memory and upgrade.
 - `ROLE-TO-IAL-MATRIX.en.md` defines which roles can be unlocked at a given `IAL`.
+- `IDENTITY-UPGRADE-ANOMALY-SIGNALS.en.md` defines the minimum catalog of signals,
+  responses, and review for attestation upgrade.

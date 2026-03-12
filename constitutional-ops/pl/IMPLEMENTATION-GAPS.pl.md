@@ -88,6 +88,16 @@ Domknięto dnia `2026-03-12` przez dokument `DIA-ATTEST-PROVIDERS-001`, który d
 - ograniczenia dla numeru telefonu i innych źródeł niskiej mocy dowodowej,
 - zasady upgrade `weak -> strong` bez utraty kotwicy.
 
+### `IDENTITY-UPGRADE-ANOMALY-SIGNALS.pl.md`
+
+Domknięto dnia `2026-03-12` przez dokument `DIA-ID-UPGRADE-ANOM-001`, który definiuje:
+
+- klasy sygnałów `A1-A8` dla upgrade poświadczenia,
+- minimalne poziomy reakcji `monitor`, `soft_hold`, `manual_review`, `hard_block`,
+- profil domyślny dla `phone -> strong`,
+- relację między upgradem poświadczenia a sporem proceduralnym.
+
+
 ### `IDENTITY-UNSEALING-BOARD.pl.md`
 
 Domknięto dnia `2026-03-12` przez dokument `DIA-SEAL-BOARD-001`, który definiuje:

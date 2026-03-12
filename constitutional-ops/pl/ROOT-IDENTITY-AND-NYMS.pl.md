@@ -455,9 +455,9 @@ root_identity_attestation:
   root_attestation_id: "[unikalny identyfikator]"
   subject_type: "human"          # human | organization
   attestation_strength: "strong" # weak | strong
-  source_class: "qualified_signature"  # phone | eid | qualified_signature | registry | multisig | other
+  source_class: "qualified_signature"  # phone | multisig-basic | multisig-audited | eid | mobywatel | epuap | qualified_signature | registry | other
   assurance_level: "IAL3"
-  method: "qualified_signature"  # eidas | mobywatel | epuap | multisig | other
+  method: "qualified_signature"  # eidas | mobywatel | epuap | multisig-basic | multisig-audited | other
   issuer: "[podmiot lub procedura]"
   issued_at: "[ISO 8601]"
   valid_until: "[ISO 8601]"

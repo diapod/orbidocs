@@ -86,6 +86,8 @@ Operational documents with binding force within federations:
   prior attestation, recovery phrase, and reconstruction of `anchor-identity`
 - `ATTESTATION-PROVIDERS.en.md` - mapping of attestation methods to `weak` /
   `strong` classes and maximum `IAL` levels
+- `IDENTITY-UPGRADE-ANOMALY-SIGNALS.en.md` - minimum catalog of anomaly
+  signals, responses, and review for attestation upgrade, especially `phone -> strong`
 - `IDENTITY-UNSEALING-BOARD.en.md` - Federation of Sealed Chambers, thresholds
   `nym -> node-id` and `node-id -> root-identity`, quorum, and split knowledge
 - `UNSEAL-CASE-MODEL.en.md` - the shared data model of an unsealing case for

@@ -43,7 +43,7 @@ poświadczenia źródła tożsamości.
 
 | `source_class` | Przykład | Siła | Domyślny max `IAL` | Uwagi |
 | :--- | :--- | :--- | :--- | :--- |
-| `phone` | numer telefonu z potwierdzeniem OTP | `weak` | `IAL1` | może dojść do `IAL2` tylko z dodatkowymi zabezpieczeniami federacji |
+| `phone` | numer telefonu z potwierdzeniem OTP | `weak` | `IAL1` | `IAL2` tylko przez jawną politykę federacyjną typu opt-in i dodatkowe zabezpieczenia |
 | `multisig-basic` | poręczenie `k-of-n` bez pogłębionego audytu poręczycieli | `weak` | `IAL2` | fallback dla jurysdykcji bez mocnego eID |
 | `multisig-audited` | poręczenie `k-of-n` z audytem, różnorodnością i śladem odpowiedzialności poręczycieli | `strong` | `IAL3` | nie odblokowuje `IAL4` bez osobnego toru odpieczętowania |
 | `eid` | państwowy lub ponadpaństwowy eID | `strong` | `IAL3` | do `IAL4` po dołączeniu toru odpieczętowania |
@@ -67,7 +67,8 @@ poświadczenia źródła tożsamości.
 - role wyroczni wysokiej stawki,
 - operacje wymagające `U2` lub `U3`.
 
-3. Federacja MOŻE dopuścić `phone -> IAL2` tylko wtedy, gdy istnieją dodatkowo:
+3. Federacja MOŻE dopuścić `phone -> IAL2` wyłącznie przez jawną politykę opt-in
+   i tylko wtedy, gdy istnieją dodatkowo:
 
 - dłuższy okres dojrzewania reputacyjnego,
 - detekcja anomalii przejęcia,
@@ -75,7 +76,8 @@ poświadczenia źródła tożsamości.
 - możliwość szybkiego downgrade po sygnale kompromitacji.
 
 4. Upgrade `phone -> strong` POWINIEN przechodzić przez okres wyczekiwania
-   (`phone_upgrade_cooldown`) oraz kontrolę anomalii.
+   (`phone_upgrade_cooldown`) oraz kontrolę anomalii zgodną z
+   `IDENTITY-UPGRADE-ANOMALY-SIGNALS.pl.md`.
 
 Domyślny profil bezpieczny:
 
@@ -122,3 +124,5 @@ Domyślny profil bezpieczny:
 - `ROOT-IDENTITY-AND-NYMS.pl.md` definiuje warstwy tożsamości i poziomy `IAL`.
 - `IDENTITY-ATTESTATION-AND-RECOVERY.pl.md` definiuje pamięć poświadczeń i upgrade.
 - `ROLE-TO-IAL-MATRIX.pl.md` określa, jakie role mogą być odblokowane przy danym `IAL`.
+- `IDENTITY-UPGRADE-ANOMALY-SIGNALS.pl.md` definiuje minimalny katalog sygnałów,
+  reakcji i review dla upgrade poświadczenia.

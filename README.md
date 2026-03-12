@@ -41,6 +41,7 @@
 * `/constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md` – root identity, cryptographic nyms, and identity assurance levels
 * `/constitutional-ops/pl/IDENTITY-ATTESTATION-AND-RECOVERY.pl.md` – first attestation, attestation memory, recovery phrase, and anchor-identity reconstruction
 * `/constitutional-ops/pl/ATTESTATION-PROVIDERS.pl.md` – mapping of identity-attestation methods to `weak` / `strong` classes and maximum `IAL`
+* `/constitutional-ops/pl/IDENTITY-UPGRADE-ANOMALY-SIGNALS.pl.md` – anomaly signals and review thresholds for identity-attestation upgrades, especially `phone -> strong`
 * `/constitutional-ops/pl/IDENTITY-UNSEALING-BOARD.pl.md` – Federation of Sealed Chambers, thresholds for unmasking, and multi-chamber root-identity unsealing
 * `/constitutional-ops/pl/UNSEAL-CASE-MODEL.pl.md` – shared case model for `U1-U3` unsealing procedures
 * `/constitutional-ops/pl/ROLE-TO-IAL-MATRIX.pl.md` – minimum mapping of role classes to identity assurance levels
@@ -59,6 +60,7 @@
 * `/constitutional-ops/en/ROOT-IDENTITY-AND-NYMS.en.md` – root identity, cryptographic nyms, and identity assurance levels (English)
 * `/constitutional-ops/en/IDENTITY-ATTESTATION-AND-RECOVERY.en.md` – first attestation, attestation memory, recovery phrase, and anchor-identity reconstruction (English)
 * `/constitutional-ops/en/ATTESTATION-PROVIDERS.en.md` – mapping of identity-attestation methods to `weak` / `strong` classes and maximum `IAL` (English)
+* `/constitutional-ops/en/IDENTITY-UPGRADE-ANOMALY-SIGNALS.en.md` – anomaly signals and review thresholds for identity-attestation upgrades, especially `phone -> strong` (English)
 * `/constitutional-ops/en/IDENTITY-UNSEALING-BOARD.en.md` – Federation of Sealed Chambers, thresholds for unmasking, and multi-chamber root-identity unsealing (English)
 * `/constitutional-ops/en/UNSEAL-CASE-MODEL.en.md` – shared case model for `U1-U3` unsealing procedures (English)
 * `/constitutional-ops/en/ROLE-TO-IAL-MATRIX.en.md` – minimum mapping of role classes to identity assurance levels (English)

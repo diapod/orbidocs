@@ -180,9 +180,9 @@ identity_attestation_memory:
   lookup_domain: "person:v1"
   pepper_id: "[identyfikator lub null]"
   attestation_strength: "strong" # weak | strong
-  source_class: "mobywatel"      # phone | eid | qualified_signature | registry | multisig | other
+  source_class: "mobywatel"      # phone | multisig-basic | multisig-audited | eid | mobywatel | epuap | qualified_signature | registry | other
   assurance_level: "IAL3"
-  method: "mobywatel"        # mobywatel | epuap | qualified_signature | multisig | other
+  method: "mobywatel"        # mobywatel | epuap | qualified_signature | multisig-basic | multisig-audited | other
   status: "valid"            # valid | expired | revoked | superseded
   issued_at: "[ISO 8601]"
   valid_until: "[ISO 8601]"

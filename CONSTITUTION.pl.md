@@ -55,6 +55,7 @@ kryzysu, sukcesu i degeneracji.
   `pl/ROOT-IDENTITY-AND-NYMS.pl.md`,
   `pl/IDENTITY-ATTESTATION-AND-RECOVERY.pl.md`,
   `pl/ATTESTATION-PROVIDERS.pl.md`,
+  `pl/IDENTITY-UPGRADE-ANOMALY-SIGNALS.pl.md`,
   `pl/IDENTITY-UNSEALING-BOARD.pl.md`,
   `pl/UNSEAL-CASE-MODEL.pl.md`,
   `pl/ROLE-TO-IAL-MATRIX.pl.md`,
@@ -423,6 +424,26 @@ kryzysu, sukcesu i degeneracji.
 
 13. Gdy dwie wartości kolidują, preferowane są działania najmniej inwazyjne
    i najbardziej odwracalne, które nadal dają realną szansę ochrony człowieka.
+
+## Artykuł X.A. Tożsamość, poświadczenie i upgrade
+
+1. Siła poświadczenia tożsamości jest własnością metody poświadczenia, nie ontologii
+   osoby ani samej `anchor-identity`.
+
+2. `weak -> strong` powinno zachowywać ciągłość `anchor-identity`, `node-id`
+   i trwałych pseudonimów, o ile istnieje dowód ciągłości kontroli i brak twardego
+   sporu co do tożsamości.
+
+3. Źródła niskiej mocy dowodowej, w tym `phone`, nie odblokowują domyślnie ról
+   wysokiej stawki ani progów `U2` i `U3`.
+
+4. Dopuszczenie `phone -> IAL2` wymaga jawnej polityki federacyjnej typu opt-in,
+   dłuższego dojrzewania, detekcji anomalii, ograniczeń wpływu oraz możliwości
+   szybkiego downgrade po sygnale kompromitacji.
+
+5. Upgrade poświadczenia, w szczególności `phone -> strong`, jest operacją
+   ryzykowną i musi podlegać minimalnemu katalogowi sygnałów anomalii, okresowi
+   wyczekiwania oraz review proporcjonalnemu do stawki odblokowywanych uprawnień.
 
 ## Artykuł XI. Reżim epistemiczny
 

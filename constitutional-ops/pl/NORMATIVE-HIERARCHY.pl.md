@@ -83,6 +83,8 @@ Dokumenty operacyjne o mocy wiążącej w ramach federacji:
   `anchor-identity`
 - `ATTESTATION-PROVIDERS.pl.md` - mapowanie metod poświadczenia na klasy
   `weak` / `strong` i maksymalne poziomy `IAL`
+- `IDENTITY-UPGRADE-ANOMALY-SIGNALS.pl.md` - minimalny katalog sygnałów
+  anomalii, reakcji i review dla upgrade poświadczenia, zwłaszcza `phone -> strong`
 - `IDENTITY-UNSEALING-BOARD.pl.md` - Federacja Izb Pieczęciowych, progi
   `nym -> node-id` i `node-id -> root-identity`, quorum oraz split-knowledge
 - `UNSEAL-CASE-MODEL.pl.md` - wspólny model danych sprawy odpieczętowania

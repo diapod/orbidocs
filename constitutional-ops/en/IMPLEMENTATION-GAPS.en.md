@@ -88,6 +88,16 @@ Closed on `2026-03-12` by document `DIA-ATTEST-PROVIDERS-001`, which defines:
 - restrictions for phone numbers and other low-evidence sources,
 - `weak -> strong` upgrade rules without loss of anchor continuity.
 
+### `IDENTITY-UPGRADE-ANOMALY-SIGNALS.en.md`
+
+Closed on `2026-03-12` by document `DIA-ID-UPGRADE-ANOM-001`, which defines:
+
+- signal classes `A1-A8` for attestation upgrade,
+- minimum response levels `monitor`, `soft_hold`, `manual_review`, `hard_block`,
+- the default profile for `phone -> strong`,
+- the relation between attestation upgrade and procedural dispute.
+
+
 ### `IDENTITY-UNSEALING-BOARD.en.md`
 
 Closed on `2026-03-12` by document `DIA-SEAL-BOARD-001`, which defines:
