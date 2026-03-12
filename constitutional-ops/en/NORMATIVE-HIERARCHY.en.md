@@ -82,6 +82,8 @@ Operational documents with binding force within federations:
   federation, activity statuses, and the rules of quorum and veto
 - `ROOT-IDENTITY-AND-NYMS.en.md` - model of root identity, nyms, assurance
   levels, and delegation across devices
+- `IDENTITY-ATTESTATION-AND-RECOVERY.en.md` - first attestation, memory of
+  prior attestation, recovery phrase, and reconstruction of `anchor-identity`
 - `PROCEDURAL-REPUTATION-SPEC.en.md` - specification of domains, signals, and
   calculation of procedural reputation
 - `PANEL-SELECTION-PROTOCOL.en.md` - procedure for eligibility, draw, veto, and

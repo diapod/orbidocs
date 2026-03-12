@@ -326,10 +326,14 @@ wymagane - postępowań prawnych.
 
 Zawartość:
 
-- pełny `node_id` i tożsamość operatora,
+- pełny `node_id` oraz `custodian_ref`,
 - deklaracja COI i poświadczenie,
 - dowód VRF i dane do weryfikacji losowania,
 - podpis kryptograficzny pod orzeczeniem.
+
+`custodian_ref` nie musi oznaczać automatycznego ujawnienia `root-identity`.
+Jeżeli integralność procedury wymaga zejścia poniżej poziomu `node-id`, panel
+korzysta z toru odpieczętowania zdefiniowanego w `ROOT-IDENTITY-AND-NYMS.pl.md`.
 
 ### 9.2. Poziom stron (pseudonimy proceduralne)
 

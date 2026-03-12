@@ -103,30 +103,46 @@ IRC/Matrix may serve as bootstrap hints or "apocalypse fallback" for presence/en
 ### 2. Identity model
 
 #### Base identity
-- Each node has a long-term **`identity-key`** (Ed25519).
-- **`node-id = H(pubkey)`** (or compatible stable derivation).
+- Each accountable subject has a long-term **root / anchor identity**, which is
+  not public by default.
+- Each node has a long-term **`node-key`** (Ed25519 or compatible), controlled by
+  that anchor identity.
+- **`node-id = H(node-pubkey)`** (or compatible stable derivation), unless a
+  stricter federation profile derives it directly from the anchor identity.
 - All control-plane messages are **signed**.
 
 #### Session keys and continuity
 - Nodes may use short-lived **session keys**:
-  - `identity-key` signs a "session certificate" binding `session-pubkey` + validity window.
-- Reputation attaches to the long-term identity; session keys reduce the blast radius of compromise.
+  - `node-key` signs a "session certificate" binding `session-pubkey` + validity window.
+- Reputation attaches primarily to `node-id`; session keys reduce the blast
+  radius of compromise.
 
 #### Multi-station continuity under one node identity
 - **`node-id` is the public identity and the reputation anchor**, not a single host.
 - One human or one operating entity MAY run **multiple stations / devices** under the same `node-id`.
 - Each concrete device SHOULD have its own **`station-key`** and derived **`station-id = H(station-pubkey)`**.
-- `identity-key` signs a **station certificate** binding `station-pubkey` + allowed scopes + validity window.
+- `node-key` signs a **station certificate** binding `station-pubkey` + allowed scopes + validity window.
 - One station MAY host many local agents, but agents do not become separate node identities only by running on separate processes or hosts.
 - Reputation, governance weight, and anti-Sybil accounting attach to `node-id`; operational traces and incident handling MAY be refined per `station-id`.
-- Compromise of one station SHOULD, by default, trigger revocation of that station certificate, not forced rotation of the whole `node-id`, unless the long-term `identity-key` is also suspected compromised.
+- Compromise of one station SHOULD, by default, trigger revocation of that station certificate, not forced rotation of the whole `node-id`, unless the long-term `node-key` or its anchor is also suspected compromised.
+
+#### Contextual nyms under one node identity
+- A `node-id` MAY issue **contextual nyms** for transactions, disputes,
+  payments, actions, or bounded communication relationships.
+- A contextual nym is **ephemeral and deniable** relative to the public `node-id`,
+  but remains attributable to that `node-id` on the audit track.
+- Anti-Sybil accounting and durable governance weight attach to `node-id` and its
+  common anchor source, not to the raw number of contextual nyms.
 
 #### Identity stratification
-- `operator-id` (optional, often private) = human or organization operating the node.
+- `root-identity` (private) = civil or registry identity of the accountable subject.
+- `anchor-identity` (private / selectively disclosable) = stable derived identity or attestation binding the subject to one or more node identities.
 - `node-id` (public) = stable swarm identity used for reputation, routing, and governance.
+- `custodian-ref` (audit-only or selectively disclosed) = the procedural reference to the human or organization responsible for the node.
 - `station-id` (public or selectively disclosed) = concrete device or host acting under delegated authority from the node identity.
+- `nym` (public, contextual) = temporary pseudonym created by `node-id` for bounded interactions.
 
-This means that "one person, many devices" is modeled as **one node identity with multiple delegated stations**, not as many unrelated node identities.
+This means that "one person, many devices" is modeled as **one node identity with multiple delegated stations**, not as many unrelated node identities, while "one node, many contextual masks" is modeled as **one durable `node-id` issuing many bounded nyms**.
 
 ### 3. Trust, Sybil, and DoS protections
 
@@ -217,9 +233,9 @@ This handshake assumes the transport channel is already established:
   "seq": 1,
   "intent": "swarm/hello",
   "body": {
-    "identity_pub": "ed25519:...",
+    "node_pub": "ed25519:...",
     "station_pub": "ed25519:...",
-    "station_cert": "ed25519sig(identity over station binding)",
+    "station_cert": "ed25519sig(node over station binding)",
     "session_pub": "x25519:...",
     "session_valid_until": 1700003600000,
     "capabilities": {
@@ -228,13 +244,13 @@ This handshake assumes the transport channel is already established:
       "rekey": {"messages": 2048, "minutes": 30}
     }
   },
-  "sig": "ed25519sig(identity over envelope)"
+  "sig": "ed25519sig(node over envelope)"
 }
 ```
 
 Notes:
 - `session_pub` is ephemeral for E2E key agreement.
-- `sig` authenticates identity and binds the ephemeral key to the long-term identity.
+- `sig` authenticates the public node identity and binds the ephemeral key to the long-term node identity.
 - `station_pub` and `station_cert` allow the peer to verify that the concrete device is acting under delegated authority from the long-term node identity.
 
 #### Step 2 — `HELLO_ACK` (peer agrees + returns its ephemeral key)
@@ -252,14 +268,14 @@ Notes:
   "seq": 1,
   "intent": "swarm/hello-ack",
   "body": {
-    "identity_pub": "ed25519:...",
+    "node_pub": "ed25519:...",
     "station_pub": "ed25519:...",
-    "station_cert": "ed25519sig(identity over station binding)",
+    "station_cert": "ed25519sig(node over station binding)",
     "session_pub": "x25519:...",
     "session_valid_until": 1700003600500,
     "e2e_mode": "preferred"
   },
-  "sig": "ed25519sig(identity over envelope)"
+  "sig": "ed25519sig(node over envelope)"
 }
 ```
 

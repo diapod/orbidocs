@@ -39,6 +39,7 @@
 * `/constitutional-ops/pl/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md` – federation eligibility, liveness, quorum and veto rules
 * `/constitutional-ops/pl/ENTRENCHMENT-CLAUSE.pl.md` – entrenchment clause and constitutional defense procedure
 * `/constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md` – root identity, cryptographic nyms, and identity assurance levels
+* `/constitutional-ops/pl/IDENTITY-ATTESTATION-AND-RECOVERY.pl.md` – first attestation, attestation memory, recovery phrase, and anchor-identity reconstruction
 * `/constitutional-ops/pl/PROCEDURAL-REPUTATION-SPEC.pl.md` – procedural reputation specification
 * `/constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md` – ad-hoc panel selection protocol
 * `/constitutional-ops/pl/REPUTATION-VALIDATION-PROTOCOL.pl.md` – validation protocol for reputation mechanisms
@@ -51,6 +52,7 @@
 * `/constitutional-ops/en/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md` – federation eligibility, liveness, quorum and veto rules (English)
 * `/constitutional-ops/en/ENTRENCHMENT-CLAUSE.en.md` – entrenchment clause and constitutional defense procedure (English)
 * `/constitutional-ops/en/ROOT-IDENTITY-AND-NYMS.en.md` – root identity, cryptographic nyms, and identity assurance levels (English)
+* `/constitutional-ops/en/IDENTITY-ATTESTATION-AND-RECOVERY.en.md` – first attestation, attestation memory, recovery phrase, and anchor-identity reconstruction (English)
 * `/constitutional-ops/en/PROCEDURAL-REPUTATION-SPEC.en.md` – procedural reputation specification (English)
 * `/constitutional-ops/en/PANEL-SELECTION-PROTOCOL.en.md` – ad-hoc panel selection protocol (English)
 * `/constitutional-ops/en/REPUTATION-VALIDATION-PROTOCOL.en.md` – validation protocol for reputation mechanisms (English)

@@ -63,11 +63,21 @@ Closed on `2026-03-12` by document `DIA-ABUSE-DISC-001`, which defines:
 
 Closed on `2026-03-12` by document `DIA-ROOT-ID-001`, which defines:
 
-- the separation of `root-identity`, `nym`, `station-id`, and `agent-id`,
+- the separation of `root-identity`, `anchor-identity`, `node-id`, `nym`, `station-id`, and `agent-id`,
 - identity assurance levels (`IAL0`-`IAL4`),
 - the rule "greater influence -> greater disclosure and stronger confirmation",
 - a multisig attestation model for jurisdictions without strong eID,
 - limits on multiplying influence through many nyms from one anchor source.
+
+### `IDENTITY-ATTESTATION-AND-RECOVERY.en.md`
+
+Closed on `2026-03-12` by document `DIA-ID-REC-001`, which defines:
+
+- first attestation of `root-identity`,
+- memory of prior attestation for `anchor-identity`,
+- the role of the recovery phrase, `salt`, and KDF parameters,
+- reconstruction of `anchor-identity` without repeated full attestation,
+- the procedure for identity-data update and revocation.
 
 ---
 

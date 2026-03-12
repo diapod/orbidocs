@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-ROOT-ID-001` |
 | `typ` | Ustawa wykonawcza (Poziom 3 hierarchii normatywnej) |
 | `wersja` | 0.1.0-draft |
-| `podstawa` | Art. III.1-9, VII.4-8, XV, XVI Konstytucji DIA; `PROCEDURAL-REPUTATION-SPEC.pl.md`; `FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md` |
+| `podstawa` | Art. III.1-9, VII.4-8, XV, XVI Konstytucji DIA; `PROCEDURAL-REPUTATION-SPEC.pl.md`; `FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`; `IDENTITY-ATTESTATION-AND-RECOVERY.pl.md` |
 | `status mechanizmów` | model danych i poziomy pewności są normatywne; konkretne integracje eID pozostają parametrami wdrożeniowymi |
 
 ---
@@ -24,6 +24,8 @@ Konstytucja wymaga jednocześnie:
 Brakuje jednak wspólnego modelu, który rozdzielałby:
 
 - **tożsamość pierwotną** osoby lub podmiotu,
+- **główną tożsamość pochodną** zakotwiczoną w tożsamości pierwotnej,
+- **trwałą tożsamość węzła** jako publiczny pseudonim odpowiedzialności,
 - **pseudonimy kryptograficzne** używane w komunikacji i governance,
 - **poziom pewności tożsamości**, od którego zależy dopuszczalny wpływ.
 
@@ -36,14 +38,15 @@ Niniejszy dokument definiuje taki model.
 1. W komunikacji roju **uczestniczą nymy**, nie cywilna tożsamość pierwotna.
 
 2. Tożsamość pierwotna służy do **zakotwiczenia, poświadczenia i ewentualnego
-   odpieczętowania** nymów, a nie do ciągłej ekspozycji w protokole.
+   odpieczętowania** tożsamości pochodnych, a nie do ciągłej ekspozycji w protokole.
 
 3. **Im większy wpływ na innych, dane wrażliwe, reputację lub decyzje
    governance, tym wyższy wymagany poziom pewności tożsamości i tym większy
    zakres ujawnienia proceduralnego.**
 
-4. Wiele nymów wywiedzionych z jednej tożsamości pierwotnej **nie może samo w sobie
-   mnożyć wpływu**. Anty-Sybil liczy źródło zakotwiczenia, nie liczbę masek.
+4. Wiele `node-id` lub nymów wywiedzionych z jednej tożsamości pierwotnej **nie
+   może samo w sobie mnożyć wpływu**. Anty-Sybil liczy źródło zakotwiczenia, nie
+   liczbę masek.
 
 5. Jeden człowiek lub jeden podmiot może działać przez wiele urządzeń i wiele
    agentów, ale nie oznacza to automatycznie wielu niezależnych tożsamości
@@ -51,6 +54,12 @@ Niniejszy dokument definiuje taki model.
 
 6. System preferuje **pseudonimowość operacyjną i jawność proceduralną**, a nie
    anonimowość bez odpowiedzialności ani pełną jawność cywilną jako tryb domyślny.
+
+7. `IAL` służy przede wszystkim jako **bramka kwalifikacyjna** do klas ról,
+   decyzji i zakresów działania. Federacja MOŻE przyznać silniej zweryfikowanej
+   tożsamości niewielką, stałą dźwignię proceduralną, ale nigdy w formie
+   mnożnika reputacji i nigdy powyżej `1%` całkowitej mocy decyzyjnej danego
+   mechanizmu.
 
 ---
 
@@ -61,7 +70,9 @@ Niniejszy dokument definiuje taki model.
 | Warstwa | Znaczenie | Domyślna widoczność |
 | :--- | :--- | :--- |
 | `root-identity` | Tożsamość pierwotna osoby lub podmiotu | prywatna / ujawnialna tylko proceduralnie |
-| `nym` | Pseudonim kryptograficzny uczestniczący w komunikacji, reputacji i rolach | publiczny lub federacyjny |
+| `anchor-identity` | Główna tożsamość pochodna: stabilny odcisk kryptograficzny zakotwiczony w `root-identity` | prywatna / selektywnie ujawnialna |
+| `node-id` | Trwała, publiczna tożsamość węzła i główny pseudonim odpowiedzialności | publiczny |
+| `nym` | Efemeryczny lub kontekstowy pseudonim kryptograficzny używany przez `node-id` | publiczny lub federacyjny |
 | `station-id` | Konkretne urządzenie / host działający pod delegacją nymu lub węzła | publiczny lub selektywnie ujawniany |
 | `agent-id` | Proces lub instancja wykonawcza działająca w ramach uprawnień stacji | lokalny / techniczny |
 
@@ -69,7 +80,12 @@ Niniejszy dokument definiuje taki model.
 
 ```text
 root-identity
-  -> poświadcza jeden lub wiele nymów
+  -> poświadcza jedną lub wiele anchor-identity
+anchor-identity
+  -> wyprowadza lub poświadcza jeden lub wiele node-id
+node-id
+  -> może wystawiać jeden lub wiele nymów
+  -> może delegować jeden lub wiele station-id
 nym
   -> może delegować jeden lub wiele station-id
 station-id
@@ -79,8 +95,8 @@ station-id
 ### 3.3. Zasada źródła wpływu
 
 Wpływ reputacyjny, kwalifikowalność do ról i ograniczenia anty-Sybil odnoszą się
-domyślnie do **nymu zakotwiczonego w root-identity**, a nie do samej liczby stacji
-ani procesów.
+domyślnie do **`node-id` zakotwiczonego w `anchor-identity`**, a nie do samej
+liczby nymów, stacji ani procesów.
 
 ---
 
@@ -101,50 +117,101 @@ Może być poświadczona przez:
 
 `root-identity` nie jest domyślnie publikowana. Jej rola to:
 
-- wystawianie poświadczeń dla nymów,
+- wystawianie poświadczeń dla `anchor-identity`,
 - umożliwienie ograniczonego odpieczętowania przy wysokiej stawce,
 - ograniczanie mnożenia wpływu przez tanie tworzenie tożsamości.
 
 ---
 
-## 5. Nymy
+## 5. Tożsamość kotwicząca, tożsamość węzła i nymy
 
-`nym` jest kryptograficznym pseudonimem uczestniczącym w systemie. To nym:
+### 5.1. Tożsamość kotwicząca (`anchor-identity`)
+
+`anchor-identity` jest główną tożsamością pochodną wywiedzioną z
+`root-identity`. Ma charakter stabilnego odcisku kryptograficznego albo
+poświadczenia, które:
+
+- nie jest domyślnie ujawniane innym uczestnikom,
+- pozwala rozpoznać wspólne źródło zakotwiczenia wielu `node-id` lub nymów,
+- umożliwia utrzymanie ciągłości odpowiedzialności mimo rotacji publicznych masek,
+- stanowi podstawę do wyliczania `IAL` i kontroli anty-Sybil.
+
+Jeżeli implementacja techniczna pozwala bezpiecznie wywodzić `node-id`
+bezpośrednio z `root-identity`, federacja MOŻE pominąć osobny artefakt
+`anchor-identity`, ale semantycznie nadal musi zachować tę warstwę jako
+rozróżnienie między tożsamością pierwotną a publicznym identyfikatorem węzła.
+
+Szczegółowy sposób pierwszego poświadczenia, użycia frazy odzyskiwania, roli
+`salt` oraz pamięci wcześniejszego poświadczenia definiuje
+`IDENTITY-ATTESTATION-AND-RECOVERY.pl.md`.
+
+### 5.2. Tożsamość węzła (`node-id`)
+
+`node-id` jest trwałą, publiczną tożsamością węzła i głównym pseudonimem
+odpowiedzialności w roju. To `node-id`:
+
+- gromadzi główną reputację proceduralną i operacyjną,
+- jest podstawową jednostką trasowania zaufania i kontroli anty-Sybil,
+- może delegować stacje i wystawiać nymy kontekstowe,
+- ma swojego **dysponenta** (`custodian`), identyfikowanego proceduralnie przez
+  trwały nym, rekord zakotwiczenia albo - przy wysokiej stawce - przez tor
+  odpieczętowania do `root-identity`.
+
+`node-id` powinien być wyprowadzany z klucza lub certyfikatu kontrolowanego przez
+`anchor-identity`, ale nie musi zdradzać samej `anchor-identity`.
+
+### 5.3. Nymy
+
+`nym` jest efemerycznym lub kontekstowym pseudonimem kryptograficznym
+delegowanym przez `node-id` na potrzeby komunikacji, transakcji, płatności,
+sporu, akcji albo innego działania. To nym:
 
 - podpisuje komunikację lub wskazuje klucz podpisujący,
-- gromadzi reputację,
-- pełni role,
+- może gromadzić reputację lokalną lub czasową,
+- pełni role kontekstowe,
 - podlega sankcjom proceduralnym,
 - jest widoczny dla innych uczestników.
 
-### 5.1. Typy nymów
+`nym` nie jest domyślnie główną jednostką wpływu w systemie. Wpływ trwały,
+anti-Sybil i główna odpowiedzialność pozostają przypisane do `node-id` oraz,
+pośrednio, do wspólnego źródła zakotwiczenia.
+
+### 5.4. Typy nymów
 
 | Typ | Zastosowanie | Własność |
 | :--- | :--- | :--- |
-| `persistent_nym` | trwałe uczestnictwo w federacji | długowieczny |
+| `persistent_nym` | dłuższa relacja komunikacyjna lub operacyjna | długowieczny, ale wtórny wobec `node-id` |
 | `federation_nym` | działanie w konkretnej federacji | ograniczony kontekstem federacji |
 | `role_nym` | rola o specjalnym ciężarze (np. panel, wyrocznia) | ograniczony do roli |
 | `case_nym` | sprawa, zgłoszenie, panel ad-hoc | jednorazowy / krótkowieczny |
+| `transaction_nym` | transakcja, płatność, krótki akt wymiany | efemeryczny |
 
-### 5.2. Reguły
+### 5.5. Reguły
 
-1. Nym MUSI mieć jawny rekord pochodzenia: czy jest zakotwiczony bezpośrednio,
+1. `node-id` MUSI mieć jawny rekord pochodzenia: czy jest wywiedziony z
+   `anchor-identity`, poświadczony federacyjnie, czy delegowany z innego
+   podmiotu odpowiedzialności.
+
+2. Nym MUSI mieć jawny rekord pochodzenia: czy jest wystawiony przez `node-id`,
    delegowany z innego nymu, czy poświadczony federacyjnie.
 
-2. Federacja MOŻE ograniczyć liczbę aktywnych nymów jednego źródła zakotwiczenia
-   w danych klasach ról.
+3. Federacja MOŻE ograniczyć liczbę aktywnych `node-id` lub nymów jednego źródła
+   zakotwiczenia w danych klasach ról.
 
-3. Nym używany do ról o podwyższonej stawce MUSI mieć poziom pewności odpowiedni
-   dla tej roli (sekcja 7).
+4. `node-id` używany do ról o podwyższonej stawce MUSI mieć poziom pewności
+   odpowiedni dla tej roli (sekcja 7).
 
-4. Reset nymu nie resetuje automatycznie historii odpowiedzialności, jeśli
+5. Nym używany do roli o podwyższonej stawce MUSI być delegowany z `node-id`,
+   który spełnia próg `IAL` odpowiedni dla tej roli.
+
+6. Reset nymu nie resetuje automatycznie historii odpowiedzialności, jeśli
    zachodzą przesłanki wspólnego źródła zakotwiczenia lub obejścia sankcji.
 
 ---
 
 ## 6. Stacje, urządzenia i delegacja
 
-Jeden nym lub jedna publiczna tożsamość węzła może działać przez wiele stacji
+Jeden `node-id` może działać przez wiele stacji
 sieciowych.
 
 ### 6.1. Delegacja stacji
@@ -153,23 +220,24 @@ Każda stacja POWINNA mieć:
 
 - własny `station-key`,
 - własny `station-id`,
-- certyfikat delegacji podpisany przez klucz nymu lub klucz tożsamości węzła,
+- certyfikat delegacji podpisany przez klucz `node-id` albo uprawniony nym
+  delegowany przez `node-id`,
 - zakres uprawnień (`scope`),
 - czas ważności (`valid_from`, `valid_until`),
 - możliwość odwołania.
 
 ### 6.2. Zasady
 
-1. Wiele stacji pod jednym nymem **nie tworzy wielu niezależnych głosów ani wielu
+1. Wiele stacji pod jednym `node-id` **nie tworzy wielu niezależnych głosów ani wielu
    niezależnych reputacji**, chyba że odrębna procedura nada im rozdzielną
    podmiotowość.
 
 2. Kompromitacja jednej stacji POWINNA domyślnie prowadzić do odwołania certyfikatu
-   tej stacji, a nie do rotacji całego nymu lub root-identity, chyba że istnieją
-   przesłanki szerszego naruszenia.
+   tej stacji, a nie do rotacji całego `node-id`, `anchor-identity` ani
+   `root-identity`, chyba że istnieją przesłanki szerszego naruszenia.
 
 3. Ślady operacyjne i analiza incydentów MOGĄ być prowadzone na poziomie
-   `station-id`, nawet jeśli reputacja główna liczona jest na poziomie nymu.
+   `station-id`, nawet jeśli reputacja główna liczona jest na poziomie `node-id`.
 
 ---
 
@@ -202,13 +270,32 @@ W praktyce `IAL3` i `IAL4` mogą być osiągane różnymi drogami:
 
 Federacja MUSI dokumentować, jakie mechanizmy mapują się na który poziom `IAL`.
 
+### 7.3. IAL jako bramka, nie mnożnik
+
+1. `IAL` służy do odblokowywania klas ról, decyzji i uprawnień, a nie do
+   liniowego wzmacniania reputacji.
+
+2. Federacja NIE MOŻE używać `IAL` jako mnożnika wyniku reputacyjnego ani jako
+   otwartego wzmacniacza siły głosu.
+
+3. Federacja MOŻE przyznać tożsamościom o wyższym `IAL` niewielką, stałą premię
+   proceduralną (`fixed_power_bonus`), ale tylko wtedy, gdy:
+
+   - premia jest jawnie opisana,
+
+   - nie przekracza `0.01` (`1%`) całkowitej mocy danego mechanizmu,
+
+   - nie omija progów reputacyjnych ani progów domenowych,
+
+   - może być audytowana i cofnięta.
+
 ---
 
 ## 8. Zasada: większy wpływ -> większe wymagania
 
 ### 8.1. Reguła ogólna
 
-Im większy wpływ danego nymu na:
+Im większy wpływ danego `node-id` lub nymu na:
 
 - bezpieczeństwo ludzi,
 - dane wrażliwe,
@@ -305,13 +392,41 @@ root_identity_attestation:
   evidence_ref: "[referencja do dowodu lub procedury]"
 ```
 
-### 11.2. Nym
+### 11.2. Anchor identity
+
+```yaml
+anchor_identity_record:
+  anchor_identity_id: "[stabilny identyfikator pochodny]"
+  root_attestation_ref: "[referencja]"
+  derivation_method: "hash_binding"   # hash_binding | certificate | other
+  recovery_record_ref: "[referencja]"
+  valid_from: "[ISO 8601]"
+  valid_until: "[ISO 8601]"
+  revoke_at: null
+```
+
+### 11.3. Node identity
+
+```yaml
+node_record:
+  node_id: "[publiczny identyfikator węzła]"
+  node_pubkey: "[klucz publiczny węzła]"
+  anchor_identity_ref: "[referencja]"
+  assurance_level: "IAL2"
+  custodian_ref: "[persistent_nym | anchor_identity | procedural_ref]"
+  valid_from: "[ISO 8601]"
+  valid_until: "[ISO 8601]"
+  revoke_at: null
+```
+
+### 11.4. Nym
 
 ```yaml
 nym_record:
   nym_id: "[publiczny identyfikator]"
   nym_pubkey: "[klucz publiczny]"
-  root_attestation_ref: "[referencja lub null]"
+  node_ref: "[node_id]"
+  anchor_identity_ref: "[referencja lub null]"
   assurance_level: "IAL2"
   nym_type: "persistent_nym"
   federation_scope: null
@@ -321,13 +436,14 @@ nym_record:
   revoke_at: null
 ```
 
-### 11.3. Station delegation
+### 11.5. Station delegation
 
 ```yaml
 station_delegation:
   station_id: "[identyfikator stacji]"
   station_pubkey: "[klucz publiczny]"
-  delegated_from_nym: "[nym_id]"
+  delegated_from_node: "[node_id]"
+  delegated_from_nym: "[nym_id | null]"
   scope: []
   valid_from: "[ISO 8601]"
   valid_until: "[ISO 8601]"
@@ -341,12 +457,12 @@ station_delegation:
 
 | Tryb awarii | Środek zaradczy |
 | :--- | :--- |
-| Mnożenie nymów z jednego źródła dla zwiększenia wpływu | wpływ i progi liczone względem źródła zakotwiczenia; limity aktywnych nymów dla ról wrażliwych |
+| Mnożenie `node-id` lub nymów z jednego źródła dla zwiększenia wpływu | wpływ i progi liczone względem źródła zakotwiczenia; limity aktywnych `node-id` i nymów dla ról wrażliwych |
 | Kradzież jednego urządzenia | odwołanie `station_delegation`; analiza szkody na poziomie `station-id` |
 | Fałszywe poręczenia multisig | negatywne sygnały proceduralne dla poręczycieli; cofnięcie poświadczenia |
 | Nadużycie żądania ujawnienia | osobny ślad odpieczętowania, wymóg multisig i podstawa prawna / konstytucyjna |
 | Brak interoperacyjnego eID | fallback do modelu multisig i federacyjnych poziomów `IAL` |
-| Whitewashing przez rotację nymu | powiązanie przez root-identity lub wspólne źródło zakotwiczenia; utrzymanie ciągłości odpowiedzialności |
+| Whitewashing przez rotację `node-id` lub nymu | powiązanie przez `anchor-identity` lub wspólne źródło zakotwiczenia; utrzymanie ciągłości odpowiedzialności |
 
 ---
 
@@ -356,8 +472,8 @@ station_delegation:
   minimalne ujawnianie i warunki proceduralnego odpieczętowania.
 - **Konstytucja Art. VII.4-8**: dokument doprecyzowuje, jak poziom pewności
   tożsamości ogranicza dopuszczalny wpływ i role wysokiej stawki.
-- **`PROCEDURAL-REPUTATION-SPEC.pl.md`**: reputacja jest przypisywana do nymu lub
-  publicznej tożsamości węzła, ale anty-Sybil może agregować wpływ do poziomu
+- **`PROCEDURAL-REPUTATION-SPEC.pl.md`**: reputacja jest przypisywana głównie do
+  `node-id`, lokalnie także do nymów; anty-Sybil może agregować wpływ do poziomu
   wspólnego zakotwiczenia.
 - **`FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`**: wspólna kontrola federacji jest
   analogiczna do wspólnego źródła zakotwiczenia wielu nymów - oba mechanizmy
@@ -366,4 +482,6 @@ station_delegation:
   podwyższonej stawce POWINNA opierać się na poziomie `IAL` odpowiednim dla panelu.
 - **`ABUSE-DISCLOSURE-PROTOCOL.pl.md`**: procedury ujawnienia i odpieczętowania
   root-identity muszą być zgodne z progami i zasadą minimalnego ujawniania.
-
+- **`IDENTITY-ATTESTATION-AND-RECOVERY.pl.md`**: dokument określa pierwsze
+  poświadczenie, pamięć wcześniejszego poświadczenia, frazę odzyskiwania oraz
+  zasady rekonstrukcji `anchor-identity`.

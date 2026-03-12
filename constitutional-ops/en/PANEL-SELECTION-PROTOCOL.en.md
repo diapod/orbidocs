@@ -311,10 +311,14 @@ proceedings.
 
 Contents:
 
-- full `node_id` and operator identity,
+- full `node_id` and `custodian_ref`,
 - COI declaration and attestation,
 - VRF proof and draw verification data,
 - cryptographic signature on the ruling.
+
+`custodian_ref` does not automatically mean disclosure of `root-identity`. If
+procedural integrity requires going below the `node-id` layer, the panel uses
+the unsealing track defined in `ROOT-IDENTITY-AND-NYMS.en.md`.
 
 ### 9.2. Parties Level (Procedural Pseudonyms)
 

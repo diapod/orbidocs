@@ -78,6 +78,9 @@ Dokumenty operacyjne o mocy wiążącej w ramach federacji:
   statusów aktywności oraz reguł quorum i veta
 - `ROOT-IDENTITY-AND-NYMS.pl.md` - model tożsamości pierwotnej, nymów,
   poziomów pewności i delegacji między urządzeniami
+- `IDENTITY-ATTESTATION-AND-RECOVERY.pl.md` - pierwsze poświadczenie,
+  pamięć wcześniejszego poświadczenia, fraza odzyskiwania i rekonstrukcja
+  `anchor-identity`
 - `PROCEDURAL-REPUTATION-SPEC.pl.md` - specyfikacja domen, sygnałów i przeliczania
   reputacji proceduralnej
 - `PANEL-SELECTION-PROTOCOL.pl.md` - procedura kwalifikacji, losowania, veta i

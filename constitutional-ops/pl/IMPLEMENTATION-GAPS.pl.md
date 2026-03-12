@@ -63,11 +63,21 @@ Domknięto dnia `2026-03-12` przez dokument `DIA-ABUSE-DISC-001`, który definiu
 
 Domknięto dnia `2026-03-12` przez dokument `DIA-ROOT-ID-001`, który definiuje:
 
-- rozdział `root-identity`, `nym`, `station-id` i `agent-id`,
+- rozdział `root-identity`, `anchor-identity`, `node-id`, `nym`, `station-id` i `agent-id`,
 - poziomy pewności tożsamości (`IAL0`-`IAL4`),
 - regułę "większy wpływ -> większe wymagania ujawnienia i potwierdzenia",
 - model multisig poręczeń dla jurysdykcji bez silnego eID,
 - ograniczenie mnożenia wpływu przez wiele nymów jednego źródła zakotwiczenia.
+
+### `IDENTITY-ATTESTATION-AND-RECOVERY.pl.md`
+
+Domknięto dnia `2026-03-12` przez dokument `DIA-ID-REC-001`, który definiuje:
+
+- pierwsze poświadczenie `root-identity`,
+- pamięć wcześniejszego poświadczenia dla `anchor-identity`,
+- rolę frazy odzyskiwania, `salt` i parametrów KDF,
+- odtwarzanie `anchor-identity` bez ponownego pełnego poświadczenia,
+- procedurę aktualizacji danych tożsamościowych i odwołania.
 
 ---
 

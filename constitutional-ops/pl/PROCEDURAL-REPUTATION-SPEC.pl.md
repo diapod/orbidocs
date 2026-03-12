@@ -55,6 +55,7 @@ domeny informują trasowanie zaufania, ale nie dają dźwigni w governance.
 Jednocześnie reputacja proceduralna **nie zastępuje pewności tożsamości**.
 W rolach o wysokiej stawce kwalifikowalność wymaga łącznie progu reputacyjnego
 oraz odpowiedniego poziomu `IAL` zgodnie z `ROOT-IDENTITY-AND-NYMS.pl.md`.
+`IAL` działa tu jako bramka kwalifikacyjna, a nie jako mnożnik wyniku.
 
 ---
 
@@ -260,6 +261,21 @@ reputacji proceduralnej.
    POWINIEN przechowywać w rekordzie reputacji migawkę bieżącego poziomu
    `assurance_level`.
 
+### 7.5. Delikatna dźwignia stała dla wyższych poziomów IAL
+
+1. Federacja NIE MOŻE mnożyć wyniku reputacyjnego przez poziom `IAL`.
+
+2. Federacja MOŻE przyznać węzłowi o wyższym `IAL` niewielką, stałą premię
+   proceduralną (`fixed_power_bonus`), ale tylko wtedy, gdy:
+
+   - premia jest jawnie opisana w polityce federacji,
+
+   - nie przekracza `0.01` (`1%`) całkowitej mocy danego mechanizmu,
+
+   - nie zastępuje progu reputacyjnego ani progów domenowych,
+
+   - jest audytowalna i cofana wraz z utratą kwalifikacji `IAL`.
+
 ---
 
 ## 8. Przenośny pakiet dowodów
@@ -355,6 +371,7 @@ reputation_record:
   status: "active"             # active | inactive | bootstrapping | suspended
   identity_assurance_level: "IAL0"
   identity_anchor_ref: null
+  fixed_power_bonus: 0.0
   domains:
     contract:
       score: 0.0               # [0.0, 1.0]

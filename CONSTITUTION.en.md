@@ -53,6 +53,7 @@ conditions of pressure, crisis, success, and degeneration.
    `en/AUTONOMY-LEVELS.en.md`, `en/EXCEPTION-POLICY.en.md`,
    `en/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`, `en/ENTRENCHMENT-CLAUSE.en.md`,
    `en/ROOT-IDENTITY-AND-NYMS.en.md`,
+   `en/IDENTITY-ATTESTATION-AND-RECOVERY.en.md`,
    `en/PROCEDURAL-REPUTATION-SPEC.en.md`,
    `en/PANEL-SELECTION-PROTOCOL.en.md`,
    `en/REPUTATION-VALIDATION-PROTOCOL.en.md`,

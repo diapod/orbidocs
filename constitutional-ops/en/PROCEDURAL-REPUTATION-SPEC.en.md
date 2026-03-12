@@ -54,6 +54,7 @@ domains inform trust routing but do not grant governance leverage.
 At the same time, procedural reputation **does not replace identity assurance**.
 For higher-stakes roles, eligibility requires both the reputation threshold and
 the appropriate `IAL` level in accordance with `ROOT-IDENTITY-AND-NYMS.en.md`.
+Here, `IAL` acts as an eligibility gate, not as a score multiplier.
 
 ---
 
@@ -256,6 +257,22 @@ procedural reputation.
    system SHOULD store a snapshot of the current `assurance_level` in the
    reputation record.
 
+### 7.5. Slight Fixed Leverage for Higher IAL Levels
+
+1. A federation MUST NOT multiply a reputation score by the `IAL` level.
+
+2. A federation MAY grant a node with a higher `IAL` a small fixed procedural
+   bonus (`fixed_power_bonus`), but only when:
+
+   - the bonus is explicitly described in federation policy,
+
+   - it does not exceed `0.01` (`1%`) of the total power of the given
+     mechanism,
+
+   - it does not replace the reputation threshold or domain thresholds,
+
+   - it is auditable and revoked together with the loss of `IAL` eligibility.
+
 ---
 
 ## 8. Portable Evidence Package
@@ -350,6 +367,7 @@ reputation_record:
   status: "active"             # active | inactive | bootstrapping | suspended
   identity_assurance_level: "IAL0"
   identity_anchor_ref: null
+  fixed_power_bonus: 0.0
   domains:
     contract:
       score: 0.0               # [0.0, 1.0]
