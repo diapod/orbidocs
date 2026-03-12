@@ -16,7 +16,7 @@
 | Prawo | Co oznacza | Konstytucja |
 | :--- | :--- | :--- |
 | **Prawo do wyjścia** | Możesz opuścić federację w dowolnym momencie, bez szantażu, bez utraty dostępu do własnych danych, bez ukrytych kar. | Art. III.4 |
-| **Prawo do prywatności** | Telemetria jest domyślnie wyłączona. Twoje dane są lokalne. Ujawnianie jest selektywne i wymaga Twojej zgody. | Art. III.7, III.8 |
+| **Prawo do prywatności** | Telemetria jest domyślnie wyłączona. Twoje dane są lokalne. Ujawnianie jest selektywne i co do zasady wymaga Twojej zgody, z wyjątkiem proceduralnym dla trwających lub ciężkich nadużyć zgodnie z Art. III.9 i Art. X. | Art. III.7, III.8, III.9, Art. X |
 | **Prawo do wglądu** | Możesz audytować interakcje swoich agentów, ślady decyzji i historię działań. | Art. XV.2 |
 | **Prawo do odwołania** | Każdą decyzję reputacyjną lub sankcję możesz zakwestionować procedurą odwoławczą. | Art. XV.2, XVI.2 |
 | **Prawo do bezpieczeństwa** | System chroni Cię przed nękaniem, ujawnianiem danych tożsamościowych (ang. doxxingiem), sabotażem i ekonomicznym wymuszaniem. | Art. XV.2 |
@@ -124,14 +124,15 @@ Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 | :--- | :--- | :--- | :--- |
 | 21 | Ktoś chce zgłosić nadużycie anonimowo | X.1, X.2 | Anonimowość domyślna, minimalizacja metadanych, wstępna kategoryzacja (ang. triage) sygnałów |
 | 22 | Sygnalista narażony na odwet | X.3 | Opieka roju jest częścią infrastruktury, nie gestem moralnym |
-| 23 | Rozważana publikacja materiału o wysokiej stawce | X.5 | Kontradyktoryjny przegląd (ang. adversarial review), progi dowodowe, redakcja danych wrażliwych |
-| 24 | Eskalacja działań naprawczych | X.4 | Schodkowo: weryfikacja -> korekta -> zgłoszenie -> audyt -> publikacja |
+| 23 | Pojawia się wiarygodny sygnał trwającego lub ukrywanego ciężkiego nadużycia | III.9, X.4-X.8 | Brak ogólnej lustracji bez sygnału teraźniejszego; po spełnieniu progu możliwe badanie pełnej historii sprawy, sankcje infrastrukturalne i procedura odwoławcza |
+| 24 | Rozważana publikacja materiału o wysokiej stawce | X.10 | Kontradyktoryjny przegląd (ang. adversarial review), progi dowodowe, redakcja danych wrażliwych |
+| 25 | Eskalacja działań naprawczych | X.9 | Schodkowo: weryfikacja -> korekta -> zgłoszenie -> audyt -> publikacja |
 
 ## Zmiany i wyjątki
 
 | # | Sytuacja | Artykuły | Zasada / Działanie |
 | :--- | :--- | :--- | :--- |
-| 25 | Ktoś proponuje wyjątek od reguły | XIV.3, XIV.4 | Wyjątek wymaga: policy-id, reason, risk-level, expiry, owner, stanu bezpiecznego domknięcia (ang. fail-closed) |
-| 26 | Wyjątek generuje sygnały krzywdy lub nadużycia | XIV.5 | Automatyczne zawieszenie wyjątku do wyjaśnienia |
-| 27 | Propozycja zmiany Konstytucji | XIII.7-XIII.11, XVI.5, XVI.6, XVI.10 | Jawne uzasadnienie, analiza skutków, odwracalność; w okresie założycielskim decyzja założycieli ma moc rozstrzygającą |
-| 28 | Polityka lokalna próbuje obejść Konstytucję | XVI.7 | Niedopuszczalne bez formalnej zmiany konstytucyjnej |
+| 26 | Ktoś proponuje wyjątek od reguły | XIV.3, XIV.4 | Wyjątek wymaga: policy-id, reason, risk-level, expiry, owner, stanu bezpiecznego domknięcia (ang. fail-closed) |
+| 27 | Wyjątek generuje sygnały krzywdy lub nadużycia | XIV.5 | Automatyczne zawieszenie wyjątku do wyjaśnienia |
+| 28 | Propozycja zmiany Konstytucji | XIII.7-XIII.11, XVI.5, XVI.6, XVI.10 | Jawne uzasadnienie, analiza skutków, odwracalność; w okresie założycielskim decyzja założycieli ma moc rozstrzygającą |
+| 29 | Polityka lokalna próbuje obejść Konstytucję | XVI.7 | Niedopuszczalne bez formalnej zmiany konstytucyjnej |

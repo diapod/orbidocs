@@ -16,7 +16,7 @@
 | Right | What it means | Constitution |
 | :--- | :--- | :--- |
 | **Right to exit** | You may leave the federation at any time, without coercion, without losing access to your own data, and without hidden penalties. | Art. III.4 |
-| **Right to privacy** | Telemetry is off by default. Your data is local. Disclosure is selective and requires your consent. | Art. III.7, III.8 |
+| **Right to privacy** | Telemetry is off by default. Your data is local. Disclosure is selective and as a rule requires your consent, with a procedural exception for ongoing or severe abuse under Art. III.9 and Art. X. | Art. III.7, III.8, III.9, Art. X |
 | **Right to inspect** | You can audit your agents' interactions, decision traces, and action histories. | Art. XV.2 |
 | **Right to appeal** | You may challenge any reputation decision or sanction through an appeals procedure. | Art. XV.2, XVI.2 |
 | **Right to safety** | The system protects you against harassment, doxxing, sabotage, and economic coercion. | Art. XV.2 |
@@ -124,14 +124,15 @@ not replace reading the Constitution, but it helps locate the right norm quickly
 | :--- | :--- | :--- | :--- |
 | 21 | Someone wants to report abuse anonymously | X.1, X.2 | Default anonymity, metadata minimization, signal triage |
 | 22 | A whistleblower is exposed to retaliation | X.3 | Swarm care is part of the infrastructure, not a moral gesture |
-| 23 | Publication of high-stakes material is under consideration | X.5 | Adversarial review, evidence thresholds, redaction of sensitive data |
-| 24 | Escalation of corrective actions | X.4 | Stepwise: verification -> correction -> notice -> audit -> publication |
+| 23 | A credible signal of ongoing or concealed severe abuse appears | III.9, X.4-X.8 | No general investigation without a present-day signal; once the threshold is met, full case history, infrastructure sanctions, and appeal procedure become possible |
+| 24 | Publication of high-stakes material is under consideration | X.10 | Adversarial review, evidence thresholds, redaction of sensitive data |
+| 25 | Escalation of corrective actions | X.9 | Stepwise: verification -> correction -> notice -> audit -> publication |
 
 ## Changes and Exceptions
 
 | # | Situation | Articles | Principle / Action |
 | :--- | :--- | :--- | :--- |
-| 25 | Someone proposes an exception to a rule | XIV.3, XIV.4 | An exception requires: policy-id, reason, risk-level, expiry, owner, fail-closed |
-| 26 | An exception generates signals of harm or abuse | XIV.5 | Automatic suspension of the exception until clarification |
-| 27 | A proposal to amend the Constitution | XIII.7-XIII.11, XVI.5, XVI.6, XVI.10 | Explicit rationale, impact analysis, reversibility; during the founding period, the founders' decision has decisive force |
-| 28 | A local policy tries to bypass the Constitution | XVI.7 | Impermissible without a formal constitutional amendment |
+| 26 | Someone proposes an exception to a rule | XIV.3, XIV.4 | An exception requires: policy-id, reason, risk-level, expiry, owner, fail-closed |
+| 27 | An exception generates signals of harm or abuse | XIV.5 | Automatic suspension of the exception until clarification |
+| 28 | A proposal to amend the Constitution | XIII.7-XIII.11, XVI.5, XVI.6, XVI.10 | Explicit rationale, impact analysis, reversibility; during the founding period, the founders' decision has decisive force |
+| 29 | A local policy tries to bypass the Constitution | XVI.7 | Impermissible without a formal constitutional amendment |
