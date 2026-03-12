@@ -6,32 +6,36 @@ niebezpieczeństwami.
 
 ## Esencja
 
-Budujemy globalną sieć **węzłów** uruchamianych przez wolontariuszy. Na tych węzłach
-działają agenty AI i lokalne modele (LLM, dyfuzyjne i inne wyspecjalizowane), które
-współpracują jak **rój**: bez jednego centrum, bez jednego ośrodka władzy, bez
-jednego właściciela kapitału. Jej rdzeniem jest odporny protokół komunikacyjny, który
-poza bazową funkcją zbiorowej inteligencji może włączać dodatkowe organy zdolności,
-m.in.: **memarium** (pamięć, która nie znika) i **sensorium** (konektory do świata).
+1. Budujemy globalną sieć **węzłów** uruchamianych przez wolontariuszy.
 
-To nie jest "alternatywny *chatbot*" ani kolejny rozproszony agent, ale **publiczna
-infrastruktura sensu i sprawczości** – budowana w duchu wolnego oprogramowania
-i wzajemnej pomocy.
+2. Na węzłach działają agenty AI i lokalne modele (LLM, dyfuzyjne i inne
+   wyspecjalizowane), które współpracują jak **rój**: bez jednego centrum, jednego
+   ośrodka władzy i bez jednego właściciela kapitału.
 
-Nie walczymy tu z AI. **Oddzielamy poziomy**: przywracamy ludziom sterowność i
-projektujemy warstwy oraz kontrakty tak, by powstało narzędzie, które nie przejmuje
-podmiotu, lecz go wzmacnia i chroni.
+3. Rdzeniem roju jest odporny protokół komunikacyjny, który poza bazową funkcją
+   zbiorowej inteligencji może włączać dodatkowe organy zdolności, m.in.:
+   **memarium** (pamięć, która nie znika) i **sensorium** (konektory do świata).
+
+4. Nie jest to "alternatywny *chatbot*" czy kolejny rozproszony agent, ale
+  **publiczna infrastruktura sensu i sprawczości** – budowana w duchu wolnego
+  oprogramowania i wzajemnej pomocy.
+
+5. Nie walczymy z AI. **Oddzielamy poziomy**: przywracamy ludziom sterowność
+   i projektujemy warstwy oraz kontrakty tak, aby powstało narzędzie, które **nie
+   przejmuje podmiotu, lecz go wzmacnia**.
 
 ## Problem, na który odpowiadamy
 
 ### Nierównowaga władzy
 
 "Tania inteligencja" ma dziś tendencję do koncentracji: wielkie modele, wielkie
-budżety, duże zbiory danych, pojedyncze podmioty decyzyjne. Tam, gdzie pojawia się
-koncentracja, pojawia się też władza ukryta w narzędziu.
+budżety, duże zbiory danych, pojedyncze podmioty decyzyjne i agregujące wspólne
+dane. Tam, gdzie pojawia się koncentracja, pojawia się też władza ukryta w narzędziu.
 
 Nie chodzi tylko o cenzurę czy złe intencje, lecz o coś głębszego: **wagi modelu są
-zamrożonym wyborem tego, co typowe, normalne, eleganckie i profesjonalne**. To wbudowana
-norma. Wystarczy, że jest wygodna i "ładnie wygląda", a konformizm dopełnia reszty.
+zamrożonym wyborem tego, co typowe, normalne, eleganckie i profesjonalne**. To jest
+wbudowana norma. Wystarczy, że jest wygodna i "ładnie wygląda", a konformizm dopełnia
+reszty.
 
 ### Kultura jako filtr dolnoprzepustowy
 
@@ -39,7 +43,7 @@ Gdy modele karmią modele, a treści syntetyczne wypierają ludzkie, kultura tr
 detale: anomalie, odstępstwa, lokalne niuanse. To "kserokopia kserokopii". Z czasem
 zostaje estetyka, a zanika **żywe paliwo innowacji**.
 
-Odpowiedzią nie jest nostalgiczny powrót do starego porządku, ale infrastruktura,
+Odpowiedzią nie jest nostalgiczny powrót do starego porządku, lecz infrastruktura,
 która **chroni różnorodność i źródła nowości**, zamiast je homogenizować.
 
 ### Sprawczość i przetrwanie
@@ -57,14 +61,28 @@ rozwoju – bez uzależniania ich od czyjejś łaski.
 
 ## Założenia (wartości jako protokół)
 
-To jest projekt techniczny, lecz wartości nie są tu PR-em. Są **kontraktem zachowań**.
+To jest projekt techniczny, lecz wartości nie są tu PR-em. Są **kontraktem
+zachowań**.
 
-1. **Suwerenność** – użytkownik może odejść z danymi w 5 minut (formaty otwarte, eksport, migracja).  
-2. **Lokalność jako domyślny tryb (ang. local-first)** – preferujemy obliczenia i pamięć lokalnie; sieć jest dodatkiem, nie warunkiem.  
-3. **Minimalizm bodźców** – żadnych mechanizmów uzależniających, żadnego "dopaminowego UX".  
-4. **Prywatność jako godność** – model zagrożeń jest częścią architektury, nie dodatkiem.  
-5. **Wzajemna pomoc** – sieć wzmacnia najsłabszych, nie tylko najszybszych.  
-6. **Higiena epistemiczna** – oddzielamy poziomy: opis, redukcję, wyjaśnienie, doświadczenie, kulturę.
+1. **Suwerenność** – użytkownik może odejść z danymi w 5 minut (formaty otwarte,
+   eksport, migracja).
+
+2. **Lokalność jako domyślny tryb (ang. local-first)** – preferujemy obliczenia i
+   pamięć lokalnie; sieć jest dodatkiem, nie warunkiem.
+
+3. **Minimalizm bodźców** – żadnych mechanizmów uzależniających, żadnego
+   "dopaminowego UX".
+
+4. **Prywatność jako godność** – model zagrożeń jest częścią architektury, nie
+   dodatkiem.
+
+5. **Wzajemna pomoc** – sieć wzmacnia najsłabszych, nie tylko najszybszych.
+
+6. **Higiena epistemiczna** – oddzielamy poziomy: opis, redukcję, wyjaśnienie,
+   doświadczenie, kulturę.
+
+Operacyjnie traktujemy inteligencję przede wszystkim jako zdolność do formułowania
+trafnych predykcji i aktualizacji ich po kontakcie z wynikiem.
 
 ## Słownik: rój, memarium, sensorium
 
@@ -76,7 +94,7 @@ To jest projekt techniczny, lecz wartości nie są tu PR-em. Są **kontraktem za
 - potrafią współpracować przez protokoły,
 - nie mają pojedynczego punktu awarii ani pojedynczego punktu kontroli.
 
-Rój nie jest państwem ani korporacją. To infrastruktura zdolna do koordynacji bez
+Rój nie jest państwem ani korporacją. Jest infrastrukturą zdolną do koordynacji bez
 centrum.
 
 ### Memarium
@@ -107,7 +125,7 @@ Sensorium ma jeden cel: **zakotwiczyć inteligencję w rzeczywistości**, aby n
 się czystą retoryką.
 
 Jego użycie musi pozostawać podporządkowane zgodzie, minimalizacji danych, separacji
-kontekstów i celowi ochronnemu; sensorium nie jest pretekstem do budowy infrastruktury
+kontekstów i celowi ochronnemu; sensorium nie jest pretekstem do budowy infrastruktury
 nadzoru.
 
 ## Architektura: warstwy i kontrakty (stratyfikacja w praktyce)
@@ -206,6 +224,11 @@ Guardrails nie są cenzurą. Są **modelem zagrożeń**.
 - separacja kontekstów (osobiste ≠ publiczne),
 - domyślnie brak telemetrii.
 
+### Kultura uczciwości
+
+Rój przyjmuje kulturę uczciwości: uczestnictwo oznacza gotowość do poddania się
+procedurze dowodowej i odpowiedzialności za trwające lub ciężkie nadużycia.
+
 ### Odpowiedzialność w czasie kryzysu
 
 Rój ma tryby reagowania. Na poziomie wizji są to przykładowe klasy pracy, a nie
@@ -268,16 +291,23 @@ wynikać z jakości pracy, trafności decyzji i zaufania wspólnoty, a nie z kul
 
 ## Kamienie milowe (droga od wizji do rzeczy)
 
-1. **Minimalny węzeł**: środowisko uruchomieniowe agentów + 1 lub więcej modeli + opcjonalnie lokalne memarium.  
-2. **Protokół wymiany**: zadania, wyniki, tożsamości, a w późniejszych fazach także walidowana reputacja proceduralna.  
-3. **Sensorium starter kit**: temperatura + mikrofon alarmowy + kamera (opcjonalnie).  
-4. **Tryb kryzysowy**: podręczna pamięć wiedzy, procedury, walidacja informacji.  
-5. **Federacja wspólnot**: małe roje łączą się w większe – bez utraty autonomii.
+1. **Minimalny węzeł**: środowisko uruchomieniowe agentów + 1 lub więcej
+   modeli + opcjonalnie lokalne memarium.
+
+2. **Protokół wymiany**: zadania, wyniki, tożsamości, a w późniejszych fazach także
+   walidowana reputacja proceduralna.
+
+3. **Sensorium starter kit**: temperatura + mikrofon alarmowy + kamera (opcjonalnie).
+
+4. **Tryb kryzysowy**: podręczna pamięć wiedzy, procedury, walidacja informacji.
+
+5. **Federacja wspólnot**: małe roje łączą się w większe – bez utraty autonomii.
 
 ## Zakończenie
 
 To jest wizja świata, w którym inteligencja jest zbyt ważna, by oddać ją plemiennym
-tworom: korporacjom, państwom albo "kapłanom bezpieczeństwa". Proponujemy porządek,
-w którym narzędzia są wolne, pamięć nie zależy od medium, a człowiek pozostaje
-źródłem nowości – nie przez heroizm, lecz przez współpracę oraz pielęgnowanie tego,
-co niepasujące. Wspólnie możemy być źródłem dobrej entropii.
+tworom: agencjom, korporacjom, pojedynczym państwom czy "kapłanom bezpieczeństwa".
+
+Proponujemy porządek, w którym narzędzia są wolne, pamięć nie zależy od medium,
+a człowiek pozostaje źródłem nowości – nie przez heroizm, lecz przez współpracę oraz
+pielęgnowanie tego, co niepasujące. Wspólnie możemy być źródłem dobrej entropii.
