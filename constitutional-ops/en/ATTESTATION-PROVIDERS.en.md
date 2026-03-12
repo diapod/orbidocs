@@ -44,7 +44,8 @@ attestation of the identity source.
 | `source_class` | Example | Strength | Default max `IAL` | Notes |
 | :--- | :--- | :--- | :--- | :--- |
 | `phone` | phone number with OTP confirmation | `weak` | `IAL1` | may reach `IAL2` only with added federation safeguards |
-| `multisig` | `k-of-n` vouching | `weak` or `strong` | `IAL2` by default | to `IAL3` only with a very strong attestation and audit model |
+| `multisig-basic` | `k-of-n` vouching without deeper attester audit | `weak` | `IAL2` | fallback for jurisdictions without strong eID |
+| `multisig-audited` | `k-of-n` vouching with audit, diversity, and attester accountability | `strong` | `IAL3` | does not unlock `IAL4` without a separate unsealing track |
 | `eid` | state or supranational eID | `strong` | `IAL3` | to `IAL4` only when paired with an unsealing track |
 | `mobywatel` | official QR / state app channel | `strong` | `IAL3` | locally jurisdiction-dependent |
 | `epuap` | trusted profile / official channel | `strong` | `IAL3` | depends on integration quality |
@@ -73,6 +74,21 @@ attestation of the identity source.
 - influence-multiplication limits,
 - the ability to downgrade quickly after a compromise signal.
 
+4. A `phone -> strong` upgrade SHOULD pass through a waiting period
+   (`phone_upgrade_cooldown`) and anomaly checks.
+
+Default safe profile:
+
+- `phone_upgrade_cooldown = 14 days`,
+
+- no active recovery in the short window preceding the upgrade,
+
+- no abrupt rotation of stations, nyms, or node keys,
+
+- no active identity dispute, takeover signal, or open incident,
+
+- no fresh phone-number or attestation-source change without additional review.
+
 ---
 
 ## 5. Upgrade Rules
@@ -89,6 +105,15 @@ attestation of the identity source.
 - `node-id` may remain the same,
 - ephemeral nyms and station certificates may be refreshed,
 - the prior attestation remains in the audit chain as `superseded` or `expired`.
+
+3. If the upgrade starts from `source_class = phone`, a federation SHOULD at
+   minimum trigger:
+
+- age check of the phone attestation,
+- device and station churn check,
+- geographic or network anomaly check when such signals are available,
+- review of recent recovery attempts, key resets, and revocations,
+- manual review for roles that would enter `IAL3+` after the upgrade.
 
 ---
 

@@ -279,8 +279,8 @@ Każda stacja POWINNA mieć:
 | :--- | :--- | :--- | :--- |
 | `IAL0` | pseudonim niezakotwiczony | brak zewnętrznego poświadczenia | niski; brak ról wysokiego zaufania |
 | `IAL1` | pseudonim wspólnotowo zakotwiczony | sponsor / zaproszenie / podstawowe poręczenie | ograniczony udział operacyjny |
-| `IAL2` | pseudonim multisig | poręczenie progu `k-of-n` przez węzły z reputacją proceduralną | średni wpływ, role niższego ryzyka |
-| `IAL3` | pseudonim silnie zakotwiczony | eID, podpis kwalifikowany, ePUAP, mObywatel lub odpowiednik | wysoki wpływ, większość ról zaufania |
+| `IAL2` | pseudonim multisig podstawowy | `multisig-basic` albo równoważne poręczenie progu `k-of-n` | średni wpływ, role niższego ryzyka |
+| `IAL3` | pseudonim silnie zakotwiczony | eID, podpis kwalifikowany, ePUAP, mObywatel, `multisig-audited` lub odpowiednik | wysoki wpływ, większość ról zaufania |
 | `IAL4` | pseudonim odpieczętowalny prawnie / konstytucyjnie | silne zakotwiczenie + procedura kontrolowanego ujawnienia | najwyższe role i sprawy najwyższej stawki |
 
 ### 7.2. Jurysdykcje i przykłady
@@ -294,7 +294,8 @@ W praktyce `IAL3` i `IAL4` mogą być osiągane różnymi drogami:
   - w przyszłości również europejski Digital ID.
 
 - **Jurysdykcje bez dojrzałej infrastruktury eID**:
-  - multisig poświadczeń,
+  - `multisig-basic`,
+  - `multisig-audited`,
   - federacyjne ceremonie identyfikacyjne,
   - poświadczenia organizacyjne lub zawodowe.
 
@@ -377,7 +378,16 @@ stawce.
 W środowiskach, gdzie silne państwowe eID nie istnieje albo nie jest bezpieczne,
 system MOŻE używać modelu poręczeń.
 
-### 9.1. Minimalny model
+### 9.1. Profile multisig
+
+System rozróżnia dwa profile:
+
+- `multisig-basic` - fallback wspólnotowy o niższej mocy dowodowej,
+
+- `multisig-audited` - profil silniejszy, z audytem poręczycieli i ostrzejszą
+  odpowiedzialnością proceduralną.
+
+### 9.2. `multisig-basic`
 
 Pseudonim osiąga `IAL2`, gdy:
 
@@ -387,7 +397,22 @@ Pseudonim osiąga `IAL2`, gdy:
 - poręczyciele nie są w oczywistym konflikcie interesów ani w jednej zwartej
   grupie kontrolnej.
 
-### 9.2. Skutek dla poręczycieli
+### 9.3. `multisig-audited`
+
+Pseudonim może osiągać `IAL3`, gdy poza warunkami `multisig-basic` istnieją
+dodatkowo:
+
+- jawny rejestr poręczycieli i ich odpowiedzialności,
+
+- wymóg różnorodności federacyjnej albo jurysdykcyjnej,
+
+- audytowalny ślad procesu poręczenia,
+
+- procedura wyłączeń i odwołań,
+
+- możliwość degradacji do `IAL2` przy utracie tych warunków.
+
+### 9.4. Skutek dla poręczycieli
 
 Fałszywe lub rażąco niedbałe poręczenie jest sygnałem proceduralnym obciążającym
 poręczycieli. System nie traktuje poręczenia jako gestu symbolicznego, lecz jako

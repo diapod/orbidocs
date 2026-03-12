@@ -237,8 +237,8 @@ Each station SHOULD have:
 | :--- | :--- | :--- | :--- |
 | `IAL0` | unanchored pseudonym | no external attestation | low; no high-trust roles |
 | `IAL1` | community-anchored pseudonym | sponsor / invite / basic attestation | limited operational participation |
-| `IAL2` | multisig pseudonym | `k-of-n` attestation by nodes with procedural reputation | medium influence, lower-risk roles |
-| `IAL3` | strongly anchored pseudonym | eID, qualified signature, ePUAP, mObywatel, or equivalent | high influence, most public-trust roles |
+| `IAL2` | basic multisig pseudonym | `multisig-basic` or equivalent `k-of-n` attestation | medium influence, lower-risk roles |
+| `IAL3` | strongly anchored pseudonym | eID, qualified signature, ePUAP, mObywatel, `multisig-audited`, or equivalent | high influence, most public-trust roles |
 | `IAL4` | legally / constitutionally unsealable pseudonym | strong anchoring + controlled disclosure procedure | highest-stakes roles and cases |
 
 ### 7.2. Jurisdictions and Examples
@@ -252,7 +252,8 @@ In practice, `IAL3` and `IAL4` may be achieved through different means:
   - and, in the future, the European Digital ID.
 
 - **Jurisdictions without mature eID infrastructure**:
-  - multisig attestations,
+  - `multisig-basic`,
+  - `multisig-audited`,
   - federation identity ceremonies,
   - organizational or professional attestations.
 
@@ -330,7 +331,16 @@ Federations may tighten this matrix but may not loosen it for high-stakes roles.
 
 In environments where strong state-backed eID does not exist or is not safe, the system MAY use an attestation model.
 
-### 9.1. Minimum Model
+### 9.1. Multisig Profiles
+
+The system distinguishes two profiles:
+
+- `multisig-basic` - community fallback with lower evidentiary power,
+
+- `multisig-audited` - stronger profile with attester audit and stricter
+  procedural accountability.
+
+### 9.2. `multisig-basic`
 
 A pseudonym reaches `IAL2` when:
 
@@ -339,7 +349,21 @@ A pseudonym reaches `IAL2` when:
 - the attestations leave a trace, validity period, and scope,
 - the attesters are not in an obvious conflict of interest or one tightly controlled cluster.
 
-### 9.2. Consequence for Attesters
+### 9.3. `multisig-audited`
+
+A pseudonym may reach `IAL3` when, in addition to `multisig-basic`, there are:
+
+- a visible registry of attesters and their accountability,
+
+- a federation or jurisdiction diversity requirement,
+
+- an auditable trace of the attestation process,
+
+- a recusals and appeals procedure,
+
+- the ability to degrade to `IAL2` if these conditions are lost.
+
+### 9.4. Consequence for Attesters
 
 False or grossly negligent attestation is a procedural signal against the attesters. The system does not treat attestation as symbolic virtue-signaling but as delegation of trust with consequences.
 

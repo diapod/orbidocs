@@ -341,6 +341,21 @@ jednocześnie:
 
 - brak twardych sygnałów przejęcia lub sporu co do tożsamości.
 
+Jeżeli upgrade zaczyna się z `source_class = phone`, federacja POWINNA dodatkowo
+wymagać:
+
+- upływu `phone_upgrade_cooldown` od pierwszego poświadczenia albo ostatniej
+  istotnej zmiany tożsamościowej,
+
+- braku aktywnego recovery albo świeżego resetu kluczy,
+
+- kontroli churnu stacji, nymów i urządzeń,
+
+- kontroli anomalii geograficznych, sieciowych albo behawioralnych, jeśli takie
+  sygnały są dostępne,
+
+- manualnego review, gdy wynik upgrade miałby odblokować role `IAL3+`.
+
 ### 8.1. Procedura
 
 1. Użytkownik inicjuje `identity_update`.
@@ -561,6 +576,8 @@ attestation_chain_record:
   strongest_attestation_strength: "strong" # weak | strong
   current_max_ial: "IAL3"
   continuity_proof_ref: "[dowód kontroli nad dotychczasową kotwicą]"
+  upgrade_cooldown_profile: "phone-default-14d"
+  anomaly_check_ref: "[referencja lub null]"
   updated_at: "[ISO 8601]"
 ```
 

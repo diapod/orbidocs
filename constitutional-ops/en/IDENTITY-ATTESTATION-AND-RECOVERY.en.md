@@ -336,6 +336,20 @@ following hold:
 
 - no hard signals of compromise or identity dispute.
 
+If the upgrade starts from `source_class = phone`, a federation SHOULD also
+require:
+
+- expiry of `phone_upgrade_cooldown` since the first attestation or the latest
+  material identity change,
+
+- no active recovery or fresh key reset,
+
+- station, nym, and device churn checks,
+
+- geographic, network, or behavioral anomaly checks when such signals are available,
+
+- manual review when the upgrade result would unlock `IAL3+` roles.
+
 ### 8.1. Procedure
 
 1. The user initiates `identity_update`.
@@ -554,6 +568,8 @@ attestation_chain_record:
   strongest_attestation_strength: "strong" # weak | strong
   current_max_ial: "IAL3"
   continuity_proof_ref: "[proof of control over the prior anchor]"
+  upgrade_cooldown_profile: "phone-default-14d"
+  anomaly_check_ref: "[reference or null]"
   updated_at: "[ISO 8601]"
 ```
 

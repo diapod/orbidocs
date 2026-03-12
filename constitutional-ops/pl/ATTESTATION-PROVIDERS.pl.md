@@ -44,7 +44,8 @@ poświadczenia źródła tożsamości.
 | `source_class` | Przykład | Siła | Domyślny max `IAL` | Uwagi |
 | :--- | :--- | :--- | :--- | :--- |
 | `phone` | numer telefonu z potwierdzeniem OTP | `weak` | `IAL1` | może dojść do `IAL2` tylko z dodatkowymi zabezpieczeniami federacji |
-| `multisig` | poręczenie `k-of-n` | `weak` lub `strong` | `IAL2` domyślnie | do `IAL3` tylko przy bardzo silnym modelu poręczeń i audycie |
+| `multisig-basic` | poręczenie `k-of-n` bez pogłębionego audytu poręczycieli | `weak` | `IAL2` | fallback dla jurysdykcji bez mocnego eID |
+| `multisig-audited` | poręczenie `k-of-n` z audytem, różnorodnością i śladem odpowiedzialności poręczycieli | `strong` | `IAL3` | nie odblokowuje `IAL4` bez osobnego toru odpieczętowania |
 | `eid` | państwowy lub ponadpaństwowy eID | `strong` | `IAL3` | do `IAL4` po dołączeniu toru odpieczętowania |
 | `mobywatel` | kanał urzędowy QR / aplikacja państwowa | `strong` | `IAL3` | lokalna zależność jurysdykcyjna |
 | `epuap` | profil zaufany / urząd | `strong` | `IAL3` | zależne od jakości integracji |
@@ -73,6 +74,21 @@ poświadczenia źródła tożsamości.
 - limity mnożenia wpływu,
 - możliwość szybkiego downgrade po sygnale kompromitacji.
 
+4. Upgrade `phone -> strong` POWINIEN przechodzić przez okres wyczekiwania
+   (`phone_upgrade_cooldown`) oraz kontrolę anomalii.
+
+Domyślny profil bezpieczny:
+
+- `phone_upgrade_cooldown = 14 dni`,
+
+- brak aktywnego recovery w krótkim oknie poprzedzającym upgrade,
+
+- brak gwałtownej rotacji stacji, nymów albo kluczy węzła,
+
+- brak aktywnego sporu tożsamościowego, sygnału przejęcia albo otwartego incydentu,
+
+- brak świeżej zmiany numeru telefonu lub źródła poświadczenia bez dodatkowego review.
+
 ---
 
 ## 5. Reguły upgrade
@@ -89,6 +105,15 @@ poświadczenia źródła tożsamości.
 - `node-id` może pozostać ten sam,
 - efemeryczne nymy i certyfikaty stacji mogą zostać odświeżone,
 - poprzednie poświadczenie pozostaje w łańcuchu audytowym jako `superseded` albo `expired`.
+
+3. Jeżeli upgrade rozpoczyna się z `source_class = phone`, federacja POWINNA
+   uruchomić co najmniej:
+
+- kontrolę wieku poświadczenia telefonu,
+- kontrolę churnu urządzeń i stacji,
+- kontrolę anomalii geograficznych lub sieciowych, jeśli takie sygnały są dostępne,
+- kontrolę niedawnych prób odzyskiwania, resetów kluczy i odwołań,
+- manualny review dla ról, które po upgrade miałyby wejść w zakres `IAL3+`.
 
 ---
 

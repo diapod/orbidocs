@@ -24,6 +24,27 @@
 | **Right to fork** | You may copy specifications, policies, and open components without asking a center for permission. | Art. III.5 |
 | **Right to data sovereignty** | You are the owner of your data, policies, agents, and local memory spaces. Export in open formats is guaranteed. | Art. III.1, III.3 |
 
+## If You Start with `phone` Attestation
+
+Phone-number attestation is allowed as a convenient entry threshold, but it is
+treated as a `weak` source rather than full high-stakes anchoring.
+
+Default operational restrictions:
+
+- no access to governance roles,
+
+- no access to panels or sealed chambers,
+
+- no access to high-stakes oracle roles,
+
+- no operations that require the `U2` or `U3` track,
+
+- possible limits on influence, action rate, or reputation maturation until a
+  `strong` attestation is added.
+
+The `phone -> strong` transition should not destroy your anchor or durable nyms,
+but it may require a waiting period and anomaly checks.
+
 ## Your Duties as a Node
 
 | Duty | What it means | Constitution |

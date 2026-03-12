@@ -24,6 +24,27 @@
 | **Prawo do odgałęzienia (ang. fork)** | Możesz skopiować specyfikacje, polityki i otwarte komponenty bez proszenia o zgodę centrum. | Art. III.5 |
 | **Prawo do suwerenności danych** | Jesteś właścicielem swoich danych, polityk, agentów i lokalnych przestrzeni pamięci. Eksport w otwartych formatach jest gwarantowany. | Art. III.1, III.3 |
 
+## Jeśli zaczynasz od poświadczenia `phone`
+
+Poświadczenie numerem telefonu jest dopuszczalne jako wygodny próg wejścia, ale
+traktowane jest jako źródło `weak`, a nie pełne zakotwiczenie wysokiej stawki.
+
+Domyślne ograniczenia operacyjne:
+
+- brak dostępu do ról governance,
+
+- brak dostępu do paneli i izb pieczęciowych,
+
+- brak dostępu do wyroczni wysokiej stawki,
+
+- brak operacji wymagających toru `U2` albo `U3`,
+
+- możliwe limity wpływu, tempa działań lub dojrzewania reputacyjnego do czasu
+  przejścia na poświadczenie `strong`.
+
+Przejście `phone -> strong` nie powinno niszczyć Twojej kotwicy ani trwałych
+nymów, ale może wymagać okresu wyczekiwania i kontroli anomalii.
+
 ## Twoje obowiązki jako węzła
 
 | Obowiązek | Co oznacza | Konstytucja |
