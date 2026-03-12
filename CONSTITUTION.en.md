@@ -52,7 +52,10 @@ conditions of pressure, crisis, success, and degeneration.
    `en/NORMATIVE-HIERARCHY.en.md`, `en/NODE-RIGHTS-CARD.en.md`,
    `en/AUTONOMY-LEVELS.en.md`, `en/EXCEPTION-POLICY.en.md`,
    `en/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`, `en/ENTRENCHMENT-CLAUSE.en.md`,
-   and `en/REPUTATION-VALIDATION-PROTOCOL.en.md`.
+   `en/PROCEDURAL-REPUTATION-SPEC.en.md`,
+   `en/PANEL-SELECTION-PROTOCOL.en.md`,
+   `en/REPUTATION-VALIDATION-PROTOCOL.en.md`,
+   and `en/ABUSE-DISCLOSURE-PROTOCOL.en.md`.
 
 ## Main Definitions
 
@@ -166,6 +169,12 @@ conditions of pressure, crisis, success, and degeneration.
 
 8. Auditability is achieved through layered traces: a full local trace and a
    redacted trace disclosed according to the principle of minimal disclosure.
+
+9. The right to privacy, locality, and minimal disclosure does not shield severe,
+   ongoing, or concealed abuse from the procedure in Article X, but every intrusion
+   MUST remain case-related, proportional to the stakes, limited to necessary data,
+   and controlled across multiple roles. Exploration of the past without a credible
+   present-day signal is prohibited.
 
 ## Article IV. Constitutional Organs of the System
 
@@ -354,13 +363,41 @@ conditions of pressure, crisis, success, and degeneration.
 3. The swarm's care for people exposed to retaliation is part of the
    infrastructure, not a moral gesture.
 
-4. Escalation of action proceeds stepwise and reversibly: verification,
+4. Participation in DIA means entry consent to conditional disclosure of
+   accountability for ongoing or severe abuse against people, the community, or swarm
+   infrastructure, with preservation of evidentiary threshold, conflict-of-interest
+   control, path of appeal, and the principle of minimal disclosure.
+
+5. DIA does not conduct a general investigation of the past without a credible
+   present-day signal. If, however, a signal of continuation, concealment,
+   retaliation, a pattern of violence, corruption, sabotage, or continuing effects of
+   severe abuse appears, the system MAY examine the full genesis of the case and the
+   entire chain of actions, including historical ones.
+
+6. Case assessment MUST take into account the nature of the act, the time that has
+   passed, the persistence of effects, and the relation of the abuse to the role in
+   the system. The greater the power over others, access to sensitive data, or impact
+   on participants' reputation and safety, the longer the permissible assessment
+   horizon and the stricter the standard of accountability.
+
+7. Disclosure may occur only at high stakes, with hard evidence, independent
+   multi-role verification, conflict-of-interest control, and a right to appeal. The
+   scope of disclosure MUST be case-related and limited to the minimum necessary to
+   protect people, infrastructure, or procedural integrity.
+
+8. Consequences of disclosure may include infrastructure sanctions, including warning,
+   restriction of permissions, reputational quarantine, suspension of role, routing
+   cut-off, or blocking. If the case concerns an act violating the applicable legal
+   order and meets the threshold defined in an implementing act, the system MAY start
+   a legal notification procedure.
+
+9. Escalation of action proceeds stepwise and reversibly: verification,
    procedure correction, formal notice, audit, publication.
 
-5. Publication is an act of high power and requires adversarial review,
+10. Publication is an act of high power and requires adversarial review,
    evidence thresholds proportional to the stakes, and redaction of sensitive data.
 
-6. When two values collide, the preferred actions are the least invasive and most
+11. When two values collide, the preferred actions are the least invasive and most
    reversible ones that still offer a real chance of protecting the person.
 
 ## Article XI. Epistemic Regime

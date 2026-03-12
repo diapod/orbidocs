@@ -51,8 +51,11 @@ kryzysu, sukcesu i degeneracji.
 8. Do pierwszej warstwy takich dokumentów należą w szczególności:
   `pl/NORMATIVE-HIERARCHY.pl.md`, `pl/NODE-RIGHTS-CARD.pl.md`,
   `pl/AUTONOMY-LEVELS.pl.md`, `pl/EXCEPTION-POLICY.pl.md`,
-  `pl/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`, `pl/ENTRENCHMENT-CLAUSE.pl.md`
-  oraz `pl/REPUTATION-VALIDATION-PROTOCOL.pl.md`.
+  `pl/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`, `pl/ENTRENCHMENT-CLAUSE.pl.md`,
+  `pl/PROCEDURAL-REPUTATION-SPEC.pl.md`,
+  `pl/PANEL-SELECTION-PROTOCOL.pl.md`,
+  `pl/REPUTATION-VALIDATION-PROTOCOL.pl.md`
+  oraz `pl/ABUSE-DISCLOSURE-PROTOCOL.pl.md`.
 
 ## Główne definicje
 
@@ -163,6 +166,12 @@ kryzysu, sukcesu i degeneracji.
 
 8. Audytowalność realizuje się przez ślady warstwowe: pełny ślad lokalny oraz
    redagowany ślad ujawniany zgodnie z zasadą minimalnego ujawniania.
+
+9. Prawo do prywatności, lokalności i minimalnego ujawniania nie chroni ciężkich,
+   trwających lub ukrywanych nadużyć przed procedurą z Art. X, ale każda ingerencja
+   MUSI pozostawać związana ze sprawą, proporcjonalna do stawki, ograniczona do danych
+   koniecznych oraz kontrolowana wielo-rolowo. Zakazana jest eksploracja przeszłości
+   bez wiarygodnego sygnału teraźniejszego.
 
 ## Artykuł IV. Organy konstytucyjne systemu
 
@@ -355,14 +364,40 @@ kryzysu, sukcesu i degeneracji.
 3. Opieka roju nad osobami narażonymi na odwet jest częścią infrastruktury, nie
    gestem moralnym.
 
-4. Eskalacja działań przebiega schodkowo i odwracalnie: weryfikacja, korekta
+4. Uczestnictwo w DIA oznacza zgodę wejściową na warunkową jawność odpowiedzialności
+   za trwające lub ciężkie nadużycia wobec ludzi, wspólnoty albo infrastruktury roju,
+   z zachowaniem progu dowodowego, kontroli konfliktu interesów, ścieżki odwoławczej
+   i zasady minimalnego ujawniania.
+
+5. W DIA nie prowadzi się ogólnej lustracji przeszłości bez wiarygodnego sygnału
+   teraźniejszego. Jeżeli jednak pojawia się sygnał kontynuacji, ukrywania, odwetu,
+   wzorca przemocy, korupcji, sabotażu albo trwania skutków ciężkiego nadużycia,
+   system MOŻE badać pełną genezę sprawy i cały łańcuch działań, także historycznych.
+
+6. Ocena sprawy MUSI uwzględniać naturę czynu, czas, który upłynął, trwałość skutków
+   oraz związek nadużycia z rolą w systemie. Im większa władza nad innymi, dostęp do
+   danych wrażliwych lub wpływ na reputację i bezpieczeństwo uczestników, tym dłuższy
+   dopuszczalny horyzont oceny i surowszy standard odpowiedzialności.
+
+7. Ujawnienie może nastąpić wyłącznie przy wysokiej stawce, twardych dowodach,
+   niezależnej weryfikacji wielo-rolowej, kontroli konfliktu interesów i prawie do
+   odwołania. Zakres ujawnienia MUSI być związany ze sprawą i ograniczony do minimum
+   koniecznego do ochrony ludzi, infrastruktury lub integralności procedur.
+
+8. Konsekwencją ujawnienia mogą być sankcje infrastrukturalne, w tym ostrzeżenie,
+   ograniczenie uprawnień, kwarantanna reputacyjna, zawieszenie roli, odcięcie
+   trasowania albo blokada. Jeżeli sprawa dotyczy czynu naruszającego właściwy
+   porządek prawny i spełnia próg określony w ustawie wykonawczej, system MOŻE
+   uruchomić procedurę notyfikacji prawnej.
+
+9. Eskalacja działań przebiega schodkowo i odwracalnie: weryfikacja, korekta
    procedury, formalne zgłoszenie, audyt, publikacja.
 
-5. Publikacja jest aktem wysokiej mocy i wymaga kontradyktoryjnego przeglądu
+10. Publikacja jest aktem wysokiej mocy i wymaga kontradyktoryjnego przeglądu
    (ang. adversarial review), progów dowodowych proporcjonalnych do stawki oraz
    redakcji danych wrażliwych.
 
-6. Gdy dwie wartości kolidują, preferowane są działania najmniej inwazyjne
+11. Gdy dwie wartości kolidują, preferowane są działania najmniej inwazyjne
    i najbardziej odwracalne, które nadal dają realną szansę ochrony człowieka.
 
 ## Artykuł XI. Reżim epistemiczny
