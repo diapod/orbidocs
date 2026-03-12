@@ -605,6 +605,26 @@ DIA nie obiecuje świata bez ryzyka. Obiecuje coś bardziej konkretnego: jeśli 
 podejmie ryzyko w interesie dobra publicznego, nie zostanie z nim sam, a system roju
 potraktuje jego bezpieczeństwo jako część własnej infrastruktury.
 
+### Warunkowa jawność odpowiedzialności za nadużycia
+
+W DIA nie prowadzi się ogólnej lustracji przeszłości bez sygnału teraźniejszego.
+Jeżeli jednak pojawia się wiarygodny sygnał kontynuacji, ukrywania, odwetu, wzorca
+przemocy, korupcji albo sabotażu, rój dostaje prawo do wejścia w pełną historię
+sprawy, niezależnie od momentu jej początku. Jeżeli ktoś kontynuuje występek, tuszuje
+go, czerpie z niego korzyści albo jego skutki trwają, rój może badać całą genezę i
+pełny łańcuch działań, także sprzed wielu lat.
+
+Pseudonimowość chroni prywatność, ale nie chroni sprawcy przed odpowiedzialnością.
+Rój ocenia m.in. naturę czynu, czas, który upłynął, i związek z rolą w systemie
+(czy daje władzę nad innymi). Im większy wpływ na innych, tym dłuższy dopuszczalny
+horyzont oceny i surowszy obowiązek ujawnienia konfliktów oraz ciężkich naruszeń.
+
+Rój przyjmuje kulturę uczciwości. Uczestnictwo oznacza gotowość do poddania się
+procedurze dowodowej i odpowiedzialności za trwające lub ciężkie nadużycia.
+
+Celem nie jest kara symboliczna, lecz ochrona ludzi, ograniczenie szkody i utrzymanie
+integralności roju oraz jego składników.
+
 ### Proceduralna ostrożność publikacji i adversarial review jako normy
 
 DIA traktuje publikację jako akt o realnej mocy: może chronić ludzi, ale też może

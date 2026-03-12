@@ -588,6 +588,29 @@ DIA does not promise a risk-free world. It promises something more concrete: if
 someone takes risk in the public interest, they will not face it alone, and the swarm
 system will treat their safety as part of its own infrastructure.
 
+### Conditional Disclosure of Accountability for Abuse
+
+DIA does not conduct a general investigation of the past without a present-day
+signal. If, however, a credible signal of continuation, concealment, retaliation, a
+pattern of violence, corruption, or sabotage appears, the swarm gains the right to
+enter the full history of the case, regardless of when it began. If someone continues
+an offense, covers it up, benefits from it, or its effects persist, the swarm may
+examine the entire genesis and full chain of actions, including actions from many
+years ago.
+
+Pseudonymity protects privacy, but it does not protect a perpetrator from
+accountability. The swarm evaluates, among other things, the nature of the act, the
+time that has passed, and the relation of the act to the role in the system (whether
+it gives power over others). The greater the influence on others, the longer the
+permissible assessment horizon and the stricter the duty to disclose conflicts and
+serious violations.
+
+The swarm adopts a culture of honesty. Participation means readiness to submit to
+evidentiary procedure and accountability for ongoing or severe abuse.
+
+The goal is not symbolic punishment, but protection of people, harm reduction, and
+maintenance of the integrity of the swarm and its components.
+
 ### Procedural Publication Caution and Adversarial Review as Norms
 
 DIA treats publication as an act with real power: it can protect people, but it can
