@@ -71,9 +71,15 @@ z Konstytucją, ale **nie wymaga pełnej procedury zmiany konstytucyjnej**.
 Dokumenty operacyjne o mocy wiążącej w ramach federacji:
 
 - `AUTONOMY-LEVELS.pl.md` - gradient autonomii agentów
+- `ABUSE-DISCLOSURE-PROTOCOL.pl.md` - próg, zakres i procedura warunkowej jawności
+  odpowiedzialności za nadużycia
 - `EXCEPTION-POLICY.pl.md` - procedura, model danych i monitoring wyjątków
 - `FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md` - definicja federacji uprawnionej do głosu,
   statusów aktywności oraz reguł quorum i veta
+- `PROCEDURAL-REPUTATION-SPEC.pl.md` - specyfikacja domen, sygnałów i przeliczania
+  reputacji proceduralnej
+- `PANEL-SELECTION-PROTOCOL.pl.md` - procedura kwalifikacji, losowania, veta i
+  uzupełniania składu panelu ad-hoc
 - `REPUTATION-VALIDATION-PROTOCOL.pl.md` - protokół walidacji mechanizmów reputacyjnych
 - `ENTRENCHMENT-CLAUSE.pl.md` - procedura obrony konstytucyjnej i klauzula wieczności
 - inne dokumenty polityk zapisanych w kodzie (ang. `policy-as-code`) lub dokumenty

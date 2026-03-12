@@ -75,9 +75,15 @@ amendment procedure**.
 Operational documents with binding force within federations:
 
 - `AUTONOMY-LEVELS.en.md` - agent autonomy gradient
+- `ABUSE-DISCLOSURE-PROTOCOL.en.md` - threshold, scope, and procedure of
+  conditional disclosure of accountability for abuse
 - `EXCEPTION-POLICY.en.md` - exception procedure, data model, and monitoring
 - `FEDERATION-MEMBERSHIP-AND-QUORUM.en.md` - definition of a voting-eligible
   federation, activity statuses, and the rules of quorum and veto
+- `PROCEDURAL-REPUTATION-SPEC.en.md` - specification of domains, signals, and
+  calculation of procedural reputation
+- `PANEL-SELECTION-PROTOCOL.en.md` - procedure for eligibility, draw, veto, and
+  replenishment of ad-hoc panel composition
 - `REPUTATION-VALIDATION-PROTOCOL.en.md` - validation protocol for reputation
   mechanisms
 - `ENTRENCHMENT-CLAUSE.en.md` - constitutional defense procedure and entrenchment
