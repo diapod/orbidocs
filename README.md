@@ -26,6 +26,8 @@
 * `/CONSTITUTION.en.md` – project's constitution (English)
 * `/VISION.pl.md` – project vision (Polish)
 * `/VISION.en.md` – project vision (English)
+* `/AI-MANIFESTO.pl.md` – AI manifesto (Polish)
+* `/AI-MANIFESTO.en.md` – AI manifesto (English)
 * `/COLLABORATION.md` – basic collaboration guidelines
 * `/AGENTS.md` – information for agents
 * `/core-values/CORE-VALUES.pl.md` – core values document (Polish)
