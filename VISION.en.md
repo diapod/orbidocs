@@ -25,6 +25,20 @@ protect them from danger.
    steerability and designing layers and contracts so that the resulting tool
    **does not take over the subject, but strengthens it**.
 
+## Pragmatic Advantage
+
+Our pragmatic differentiator is not merely the ability to chat with a model, but a
+closed swarm learning loop: nodes jointly resolve real issues, valuable debates are
+preserved as source transcripts, those transcripts move through curation into public or
+federated vaults, and then become material for safe model specialization.
+
+In practice, the loop is:
+
+`question -> debate -> transcript -> curation -> vault -> LoRA/QLoRA -> better future answers`
+
+This creates cumulative advantage over time: the swarm does not only answer, it learns
+from its own work without losing sovereignty over memory, sources, and training rules.
+
 ## The Problem We Address
 
 ### Imbalance of Power

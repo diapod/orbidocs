@@ -95,5 +95,11 @@
 | `/memos/swarm-broadcast-assistance.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
 | `/memos/swarm-question-channel-transports.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
 
+### Proposals -> Requirements
+
+| Proposal | Requirement |
+|---|---|
+| `/proposals/003-question-envelope-and-answer-channel.md` | `/requirements/requirements-004.md` |
+
 
 ### Values -> Constitution

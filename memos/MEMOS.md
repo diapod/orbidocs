@@ -7,6 +7,7 @@ This directory holds short idea notes, seeds, and design prompts that are not ye
 - `swarm-broadcast-assistance.md` - a user opens a communication window to the swarm as a whole and asks for help with an important issue.
 - `swarm-communication-exposure-modes.md` - three exposure modes for user requests: `private-to-swarm`, `federation-local`, and `public-call-for-help`.
 - `swarm-question-channel-transports.md` - candidate transport classes for question envelopes and large answer-channel conversations with redundant servers.
+- `transcription-monitors-and-public-vaults.md` - transcription-monitor nodes preserve valuable discussions as source transcripts and archivist nodes publish them into durable vaults for later synthesis and training.
 - `human-expertise-escalation.md` - the swarm asks a human specialist behind a node for help when it reaches the edge of its own certainty or competence.
 
 ## User Orientation and Filtering

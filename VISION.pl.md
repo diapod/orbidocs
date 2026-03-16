@@ -24,6 +24,21 @@ niebezpieczeństwami.
    i projektujemy warstwy oraz kontrakty tak, aby powstało narzędzie, które **nie
    przejmuje podmiotu, lecz go wzmacnia**.
 
+## Pragmatyczna przewaga
+
+Naszym pragmatycznym wyróżnikiem nie jest sama możliwość rozmowy z modelem, lecz
+zamknięta pętla uczenia roju: węzły wspólnie rozwiązują realne kwestie, wartościowe
+debaty są zachowywane jako transkrypty źródłowe, te trafiają do kuracji i publicznych
+lub federacyjnych vaultów, a następnie stają się materiałem do bezpiecznej
+specjalizacji modeli.
+
+W praktyce oznacza to ciąg:
+
+`pytanie -> debata -> transkrypt -> kuracja -> vault -> LoRA/QLoRA -> lepsze przyszłe odpowiedzi`
+
+To daje przewagę narastającą w czasie: rój nie tylko odpowiada, ale uczy się z
+własnej pracy bez utraty suwerenności nad pamięcią, źródłami i zasadami treningu.
+
 ## Problem, na który odpowiadamy
 
 ### Nierównowaga władzy
