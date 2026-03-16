@@ -88,5 +88,12 @@
 | `/challenges/001-licensing.md` | `/proposals/001-licensing-proposal.md` |
 | `/challenges/002-sybil.md` | `/proposals/002-comm-protocol.md` |
 
+### Memos -> Proposals
+
+| Memo | Proposal |
+|---|---|
+| `/memos/swarm-broadcast-assistance.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
+| `/memos/swarm-question-channel-transports.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
+
 
 ### Values -> Constitution
