@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:transcript-segment:v1",
+  "title": "TranscriptSegment v1",
+  "description": "Machine-readable schema for transcript segments that preserve room/message provenance and human-origin semantics.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema/v",
+    "segment_id",
+    "question_id",
+    "channel_id",
+    "message_id",
+    "speaker_ref",
+    "gateway_node_ref",
+    "origin_class",
+    "operator_presence_mode",
+    "human_origin",
+    "ts",
+    "content",
+    "visibility_scope",
+    "consent_basis",
+    "provenance_refs"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "segment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "question_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "channel_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "message_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "speaker_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Semantic speaker at the room boundary."
+    },
+    "gateway_node_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node that injected the message into the room or relay path."
+    },
+    "origin_class": {
+      "type": "string",
+      "enum": [
+        "node-generated",
+        "node-mediated-human",
+        "human-live"
+      ]
+    },
+    "operator_presence_mode": {
+      "type": "string",
+      "enum": [
+        "none",
+        "mediated",
+        "direct-live"
+      ]
+    },
+    "human_origin": {
+      "type": "boolean"
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp."
+    },
+    "content": {
+      "description": "Either plain text or a structured content object. Structured objects should expose a stable textual projection.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": true
+        }
+      ]
+    },
+    "visibility_scope": {
+      "type": "string",
+      "enum": [
+        "private-to-swarm",
+        "federation-local",
+        "cross-federation",
+        "global"
+      ]
+    },
+    "consent_basis": {
+      "type": "string",
+      "enum": [
+        "not-required",
+        "operator-consultation",
+        "explicit-consent",
+        "federation-policy",
+        "public-scope",
+        "emergency-exception"
+      ]
+    },
+    "provenance_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "redaction_markers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "minProperties": 1,
+        "additionalProperties": true
+      },
+      "description": "Describes removals or transformations rather than silently rewriting content history."
+    },
+    "content_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reply_to": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "minProperties": 1,
+        "additionalProperties": true
+      }
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "origin_class": {
+            "const": "node-generated"
+          }
+        },
+        "required": [
+          "origin_class"
+        ]
+      },
+      "then": {
+        "properties": {
+          "human_origin": {
+            "const": false
+          },
+          "operator_presence_mode": {
+            "const": "none"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "origin_class": {
+            "const": "node-mediated-human"
+          }
+        },
+        "required": [
+          "origin_class"
+        ]
+      },
+      "then": {
+        "properties": {
+          "human_origin": {
+            "const": true
+          },
+          "operator_presence_mode": {
+            "const": "mediated"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "origin_class": {
+            "const": "human-live"
+          }
+        },
+        "required": [
+          "origin_class"
+        ]
+      },
+      "then": {
+        "properties": {
+          "human_origin": {
+            "const": true
+          },
+          "operator_presence_mode": {
+            "const": "direct-live"
+          }
+        }
+      }
+    }
+  ]
+}

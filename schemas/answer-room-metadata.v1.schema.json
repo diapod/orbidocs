@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:answer-room-metadata:v1",
+  "title": "AnswerRoomMetadata v1",
+  "description": "Machine-readable schema for answer-channel room metadata, including operator participation policy profile and provenance-preservation expectations.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema/v",
+    "room/id",
+    "question/id",
+    "delivery/scope",
+    "room-policy/profile",
+    "operator-consultation/allowed",
+    "operator-direct-live/allowed",
+    "summary/human-provenance-required",
+    "transcript/human-origin-preserved"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "room/id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "question/id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "delivery/scope": {
+      "type": "string",
+      "enum": [
+        "private-to-swarm",
+        "federation-local",
+        "cross-federation",
+        "global"
+      ]
+    },
+    "room-policy/profile": {
+      "type": "string",
+      "enum": [
+        "none",
+        "mediated-only",
+        "direct-live-allowed"
+      ]
+    },
+    "operator-consultation/allowed": {
+      "type": "boolean"
+    },
+    "operator-direct-live/allowed": {
+      "type": "boolean"
+    },
+    "human-live/origin-flag-required": {
+      "type": "boolean"
+    },
+    "summary/human-provenance-required": {
+      "type": "boolean"
+    },
+    "transcript/human-origin-preserved": {
+      "type": "boolean"
+    },
+    "room-policy/effective-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "room-policy/changed-by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "moderation/approval-required": {
+      "type": "boolean"
+    },
+    "secretary/required-for-direct-live": {
+      "type": "boolean"
+    },
+    "retention/profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "room-policy/profile": {
+            "const": "none"
+          }
+        },
+        "required": [
+          "room-policy/profile"
+        ]
+      },
+      "then": {
+        "properties": {
+          "operator-consultation/allowed": {
+            "const": false
+          },
+          "operator-direct-live/allowed": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "room-policy/profile": {
+            "const": "mediated-only"
+          }
+        },
+        "required": [
+          "room-policy/profile"
+        ]
+      },
+      "then": {
+        "properties": {
+          "operator-consultation/allowed": {
+            "const": true
+          },
+          "operator-direct-live/allowed": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "room-policy/profile": {
+            "const": "direct-live-allowed"
+          }
+        },
+        "required": [
+          "room-policy/profile"
+        ]
+      },
+      "then": {
+        "properties": {
+          "operator-consultation/allowed": {
+            "const": true
+          },
+          "operator-direct-live/allowed": {
+            "const": true
+          },
+          "human-live/origin-flag-required": {
+            "const": true
+          }
+        },
+        "required": [
+          "human-live/origin-flag-required"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "delivery/scope": {
+            "const": "global"
+          }
+        },
+        "required": [
+          "delivery/scope"
+        ]
+      },
+      "then": {
+        "properties": {
+          "room-policy/profile": {
+            "not": {
+              "const": "direct-live-allowed"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

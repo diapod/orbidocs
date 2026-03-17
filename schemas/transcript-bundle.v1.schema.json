@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:transcript-bundle:v1",
+  "title": "TranscriptBundle v1",
+  "description": "Machine-readable schema for transcript bundles that preserve archival scope, integrity, and human-origin aggregate flags.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema/v",
+    "bundle_id",
+    "question_id",
+    "channel_id",
+    "source_scope",
+    "created_at",
+    "source_nodes",
+    "segments",
+    "contains_human_origin",
+    "contains_direct_human_live",
+    "consent_basis",
+    "redaction_status",
+    "integrity_proof"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "bundle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "question_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "channel_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_scope": {
+      "type": "string",
+      "enum": [
+        "private-to-swarm",
+        "federation-local",
+        "cross-federation",
+        "global"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "transcript-segment.v1.schema.json"
+          },
+          {
+            "$ref": "#/$defs/transcriptSegmentRef"
+          }
+        ]
+      }
+    },
+    "contains_human_origin": {
+      "type": "boolean"
+    },
+    "contains_direct_human_live": {
+      "type": "boolean"
+    },
+    "consent_basis": {
+      "type": "string",
+      "enum": [
+        "not-required",
+        "operator-consultation",
+        "explicit-consent",
+        "federation-policy",
+        "public-scope",
+        "emergency-exception"
+      ],
+      "description": "Archival/publication basis for the bundle as a whole."
+    },
+    "redaction_status": {
+      "type": "string",
+      "enum": [
+        "none",
+        "partial",
+        "full-derived"
+      ]
+    },
+    "integrity_proof": {
+      "$ref": "#/$defs/integrityProof"
+    },
+    "room_policy_profile": {
+      "type": "string",
+      "enum": [
+        "none",
+        "mediated-only",
+        "direct-live-allowed"
+      ]
+    },
+    "summary_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source_transport": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retention_profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "transcriptSegmentRef": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "segment_ref"
+      ],
+      "properties": {
+        "segment_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Content-addressed or otherwise stable reference to a TranscriptSegment record."
+        },
+        "content_hash": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "integrityProof": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manifest_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signature": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verification_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "manifest_hash",
+            "signer",
+            "signature"
+          ]
+        },
+        {
+          "required": [
+            "verification_ref"
+          ]
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "contains_direct_human_live": {
+            "const": true
+          }
+        },
+        "required": [
+          "contains_direct_human_live"
+        ]
+      },
+      "then": {
+        "properties": {
+          "contains_human_origin": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "room_policy_profile": {
+            "const": "none"
+          }
+        },
+        "required": [
+          "room_policy_profile"
+        ]
+      },
+      "then": {
+        "properties": {
+          "contains_human_origin": {
+            "const": false
+          },
+          "contains_direct_human_live": {
+            "const": false
+          }
+        }
+      }
+    }
+  ]
+}

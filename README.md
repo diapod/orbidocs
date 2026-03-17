@@ -18,6 +18,7 @@
 * `/memos` – quick notes and idea backlog to revisit later
 * `/proposals` – proposals to be considered and implemented
 * `/requirements` – requirement specifications for certain components
+* `/schemas` – machine-readable protocol and artifact schemas
 * `/stories` – user stories to be used as scenarios to create requirements
 
 ### Files
@@ -30,6 +31,9 @@
 * `/AI-MANIFESTO.en.md` – AI manifesto (English)
 * `/COLLABORATION.md` – basic collaboration guidelines
 * `/AGENTS.md` – information for agents
+* `/schemas/transcript-segment.v1.schema.json` – JSON Schema for transcript segment artifacts
+* `/schemas/transcript-bundle.v1.schema.json` – JSON Schema for transcript bundle artifacts
+* `/schemas/answer-room-metadata.v1.schema.json` – JSON Schema for answer-channel room metadata and operator participation policy
 * `/core-values/CORE-VALUES.pl.md` – core values document (Polish)
 * `/core-values/CORE-VALUES.en.md` – core values document (English)
 * `/constitutional-ops/pl/NORMATIVE-HIERARCHY.pl.md` – proposed normative hierarchy of constitutional documents
@@ -96,12 +100,33 @@
 | `/memos/swarm-question-channel-transports.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
 | `/memos/operator-participation-in-answer-channel.md` | `/proposals/004-human-origin-flags-and-operator-participation.md` |
 
+### Proposals -> Proposals
+
+| Proposal | Proposal |
+|---|---|
+| `/proposals/004-human-origin-flags-and-operator-participation.md` | `/proposals/005-operator-participation-room-policy-profiles.md` |
+
 ### Proposals -> Requirements
 
 | Proposal | Requirement |
 |---|---|
 | `/proposals/003-question-envelope-and-answer-channel.md` | `/requirements/requirements-004.md` |
 | `/proposals/004-human-origin-flags-and-operator-participation.md` | `/requirements/requirements-004.md` |
+| `/proposals/004-human-origin-flags-and-operator-participation.md` | `/requirements/requirements-005.md` |
+| `/proposals/005-operator-participation-room-policy-profiles.md` | `/requirements/requirements-005.md` |
+
+### Requirements -> Schemas
+
+| Requirement | Schema |
+|---|---|
+| `/requirements/requirements-005.md` | `/schemas/transcript-segment.v1.schema.json` |
+| `/requirements/requirements-005.md` | `/schemas/transcript-bundle.v1.schema.json` |
+
+### Proposals -> Schemas
+
+| Proposal | Schema |
+|---|---|
+| `/proposals/005-operator-participation-room-policy-profiles.md` | `/schemas/answer-room-metadata.v1.schema.json` |
 
 
 ### Values -> Constitution
