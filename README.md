@@ -31,9 +31,13 @@
 * `/AI-MANIFESTO.en.md` – AI manifesto (English)
 * `/COLLABORATION.md` – basic collaboration guidelines
 * `/AGENTS.md` – information for agents
+* `/Makefile` – convenience target for schema validation
 * `/schemas/transcript-segment.v1.schema.json` – JSON Schema for transcript segment artifacts
 * `/schemas/transcript-bundle.v1.schema.json` – JSON Schema for transcript bundle artifacts
 * `/schemas/answer-room-metadata.v1.schema.json` – JSON Schema for answer-channel room metadata and operator participation policy
+* `/schemas/examples/` – coherent example artifacts for room metadata, transcript segments, and transcript bundles
+* `/schemas/examples/invalid/` – negative validation vectors for room metadata, transcript segments, and transcript bundles
+* `/scripts/validate-json-schemas.sh` – CLI validator wrapper for schemas and example artifacts
 * `/core-values/CORE-VALUES.pl.md` – core values document (Polish)
 * `/core-values/CORE-VALUES.en.md` – core values document (English)
 * `/constitutional-ops/pl/NORMATIVE-HIERARCHY.pl.md` – proposed normative hierarchy of constitutional documents

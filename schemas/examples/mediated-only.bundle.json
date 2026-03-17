@@ -1,0 +1,46 @@
+{
+  "schema/v": 1,
+  "bundle_id": "bundle:01JNZCB6B8M1N3P5R7T9V2W4X6",
+  "question_id": "question:01JNZC6D6N4P8R1T2V3W5X7Y9Z",
+  "channel_id": "question:01JNZC6D6N4P8R1T2V3W5X7Y9Z",
+  "source_scope": "federation-local",
+  "created_at": "2026-03-17T22:28:41Z",
+  "source_nodes": [
+    "node:pl-wro-7f3c",
+    "node:pl-wro-secretary-2"
+  ],
+  "segments": [
+    {
+      "schema/v": 1,
+      "segment_id": "segment:01JNZC8M91K3L5N7P2Q4R6S8T0",
+      "question_id": "question:01JNZC6D6N4P8R1T2V3W5X7Y9Z",
+      "channel_id": "question:01JNZC6D6N4P8R1T2V3W5X7Y9Z",
+      "message_id": "matrix:$mediated-example-1",
+      "speaker_ref": "node:pl-wro-7f3c",
+      "gateway_node_ref": "node:pl-wro-7f3c",
+      "origin_class": "node-mediated-human",
+      "operator_presence_mode": "mediated",
+      "human_origin": true,
+      "ts": "2026-03-17T22:23:14Z",
+      "content": "Operator consultation suggests the outage was caused by a stale federation trust cache on older nodes.",
+      "visibility_scope": "federation-local",
+      "consent_basis": "operator-consultation",
+      "provenance_refs": [
+        "room:fed-pl:question:01JNZC6D6N4P8R1T2V3W5X7Y9Z",
+        "event:matrix:$mediated-example-1"
+      ],
+      "language": "en"
+    }
+  ],
+  "contains_human_origin": true,
+  "contains_direct_human_live": false,
+  "consent_basis": "federation-policy",
+  "redaction_status": "partial",
+  "room_policy_profile": "mediated-only",
+  "integrity_proof": {
+    "alg": "sha256+ed25519",
+    "manifest_hash": "sha256:mediatedbundleexample001",
+    "signer": "node:pl-wro-secretary-2",
+    "signature": "base64url:mediatedbundleexample001sig"
+  }
+}

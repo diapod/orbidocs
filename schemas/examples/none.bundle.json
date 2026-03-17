@@ -1,0 +1,46 @@
+{
+  "schema/v": 1,
+  "bundle_id": "bundle:01JNZBAX5R0C2V7M9N4P6Q8S1D",
+  "question_id": "question:01JNZB9V1J5Q8W3M7E2R4T6Y8U",
+  "channel_id": "question:01JNZB9V1J5Q8W3M7E2R4T6Y8U",
+  "source_scope": "global",
+  "created_at": "2026-03-17T22:18:44Z",
+  "source_nodes": [
+    "node:eu-de-2ac4",
+    "node:fed-global-secretary-1"
+  ],
+  "segments": [
+    {
+      "schema/v": 1,
+      "segment_id": "segment:01JNZBA2J1J1M9C1Q3D8F7H6K5",
+      "question_id": "question:01JNZB9V1J5Q8W3M7E2R4T6Y8U",
+      "channel_id": "question:01JNZB9V1J5Q8W3M7E2R4T6Y8U",
+      "message_id": "matrix:$none-example-1",
+      "speaker_ref": "node:eu-de-2ac4",
+      "gateway_node_ref": "node:eu-de-2ac4",
+      "origin_class": "node-generated",
+      "operator_presence_mode": "none",
+      "human_origin": false,
+      "ts": "2026-03-17T22:12:11Z",
+      "content": "We should verify whether the trust-root overlap window is at least one epoch.",
+      "visibility_scope": "global",
+      "consent_basis": "public-scope",
+      "provenance_refs": [
+        "room:global:question:01JNZB9V1J5Q8W3M7E2R4T6Y8U",
+        "event:matrix:$none-example-1"
+      ],
+      "language": "en"
+    }
+  ],
+  "contains_human_origin": false,
+  "contains_direct_human_live": false,
+  "consent_basis": "public-scope",
+  "redaction_status": "none",
+  "room_policy_profile": "none",
+  "integrity_proof": {
+    "alg": "sha256+ed25519",
+    "manifest_hash": "sha256:nonebundleexample001",
+    "signer": "node:fed-global-secretary-1",
+    "signature": "base64url:nonebundleexample001sig"
+  }
+}

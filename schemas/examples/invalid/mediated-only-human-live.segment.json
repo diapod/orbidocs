@@ -1,0 +1,20 @@
+{
+  "schema/v": 1,
+  "segment_id": "segment:01JNZF4H6J8L1N3Q5S7V9X2Z4B",
+  "question_id": "question:01JNZF2C5E7G9J1L3N5Q7S9V2X",
+  "channel_id": "question:01JNZF2C5E7G9J1L3N5Q7S9V2X",
+  "message_id": "matrix:$invalid-mediated-human-live",
+  "speaker_ref": "node:pl-wro-7f3c",
+  "gateway_node_ref": "node:pl-wro-7f3c",
+  "origin_class": "human-live",
+  "operator_presence_mode": "mediated",
+  "human_origin": true,
+  "ts": "2026-03-17T22:51:14Z",
+  "content": "This is intentionally inconsistent: human-live with mediated presence.",
+  "visibility_scope": "federation-local",
+  "consent_basis": "operator-consultation",
+  "provenance_refs": [
+    "room:fed-pl:question:01JNZF2C5E7G9J1L3N5Q7S9V2X",
+    "event:matrix:$invalid-mediated-human-live"
+  ]
+}

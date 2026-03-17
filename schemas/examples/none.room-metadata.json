@@ -1,0 +1,13 @@
+{
+  "schema/v": 1,
+  "room/id": "question:01JNZB9V1J5Q8W3M7E2R4T6Y8U",
+  "question/id": "question:01JNZB9V1J5Q8W3M7E2R4T6Y8U",
+  "delivery/scope": "global",
+  "room-policy/profile": "none",
+  "operator-consultation/allowed": false,
+  "operator-direct-live/allowed": false,
+  "summary/human-provenance-required": true,
+  "transcript/human-origin-preserved": true,
+  "room-policy/effective-at": "2026-03-17T22:10:00Z",
+  "room-policy/changed-by": "node:fed-global-secretary-1"
+}

@@ -1,0 +1,11 @@
+{
+  "schema/v": 1,
+  "room/id": "question:01JNZF0Y4B6D8F1H3K5M7P9R2T",
+  "question/id": "question:01JNZF0Y4B6D8F1H3K5M7P9R2T",
+  "delivery/scope": "global",
+  "room-policy/profile": "none",
+  "operator-consultation/allowed": false,
+  "operator-direct-live/allowed": true,
+  "summary/human-provenance-required": true,
+  "transcript/human-origin-preserved": true
+}

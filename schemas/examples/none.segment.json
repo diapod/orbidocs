@@ -1,0 +1,21 @@
+{
+  "schema/v": 1,
+  "segment_id": "segment:01JNZBA2J1J1M9C1Q3D8F7H6K5",
+  "question_id": "question:01JNZB9V1J5Q8W3M7E2R4T6Y8U",
+  "channel_id": "question:01JNZB9V1J5Q8W3M7E2R4T6Y8U",
+  "message_id": "matrix:$none-example-1",
+  "speaker_ref": "node:eu-de-2ac4",
+  "gateway_node_ref": "node:eu-de-2ac4",
+  "origin_class": "node-generated",
+  "operator_presence_mode": "none",
+  "human_origin": false,
+  "ts": "2026-03-17T22:12:11Z",
+  "content": "We should verify whether the trust-root overlap window is at least one epoch.",
+  "visibility_scope": "global",
+  "consent_basis": "public-scope",
+  "provenance_refs": [
+    "room:global:question:01JNZB9V1J5Q8W3M7E2R4T6Y8U",
+    "event:matrix:$none-example-1"
+  ],
+  "language": "en"
+}

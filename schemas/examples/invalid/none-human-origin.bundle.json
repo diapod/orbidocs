@@ -1,0 +1,44 @@
+{
+  "schema/v": 1,
+  "bundle_id": "bundle:01JNZF8M7P9R2T4V6X8Z1B3D5F",
+  "question_id": "question:01JNZF6K6M8P1R3T5V7X9Z2B4D",
+  "channel_id": "question:01JNZF6K6M8P1R3T5V7X9Z2B4D",
+  "source_scope": "global",
+  "created_at": "2026-03-17T22:55:44Z",
+  "source_nodes": [
+    "node:eu-de-2ac4"
+  ],
+  "segments": [
+    {
+      "schema/v": 1,
+      "segment_id": "segment:01JNZF7Q8S1V3X5Z7B9D2F4H6J",
+      "question_id": "question:01JNZF6K6M8P1R3T5V7X9Z2B4D",
+      "channel_id": "question:01JNZF6K6M8P1R3T5V7X9Z2B4D",
+      "message_id": "matrix:$invalid-none-human-origin",
+      "speaker_ref": "nym:fed-pl:operator-7f3c",
+      "gateway_node_ref": "node:pl-wro-7f3c",
+      "origin_class": "human-live",
+      "operator_presence_mode": "direct-live",
+      "human_origin": true,
+      "ts": "2026-03-17T22:54:03Z",
+      "content": "This bundle should fail because profile none cannot contain human-origin material.",
+      "visibility_scope": "global",
+      "consent_basis": "public-scope",
+      "provenance_refs": [
+        "room:global:question:01JNZF6K6M8P1R3T5V7X9Z2B4D",
+        "event:matrix:$invalid-none-human-origin"
+      ]
+    }
+  ],
+  "contains_human_origin": true,
+  "contains_direct_human_live": true,
+  "consent_basis": "public-scope",
+  "redaction_status": "none",
+  "room_policy_profile": "none",
+  "integrity_proof": {
+    "alg": "sha256+ed25519",
+    "manifest_hash": "sha256:invalidnonehumanoriginbundle",
+    "signer": "node:eu-de-2ac4",
+    "signature": "base64url:invalidnonehumanoriginbundlesig"
+  }
+}

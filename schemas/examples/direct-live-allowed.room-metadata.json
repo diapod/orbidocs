@@ -1,0 +1,15 @@
+{
+  "schema/v": 1,
+  "room/id": "question:01JNZD2Y4F6H8J1K3M5P7Q9R2S",
+  "question/id": "question:01JNZD2Y4F6H8J1K3M5P7Q9R2S",
+  "delivery/scope": "federation-local",
+  "room-policy/profile": "direct-live-allowed",
+  "operator-consultation/allowed": true,
+  "operator-direct-live/allowed": true,
+  "human-live/origin-flag-required": true,
+  "summary/human-provenance-required": true,
+  "transcript/human-origin-preserved": true,
+  "room-policy/effective-at": "2026-03-17T22:31:00Z",
+  "room-policy/changed-by": "node:pl-wro-secretary-2",
+  "secretary/required-for-direct-live": true
+}

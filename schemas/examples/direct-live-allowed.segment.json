@@ -1,0 +1,21 @@
+{
+  "schema/v": 1,
+  "segment_id": "segment:01JNZD58T2V4X6Z8B1C3D5E7F9",
+  "question_id": "question:01JNZD2Y4F6H8J1K3M5P7Q9R2S",
+  "channel_id": "question:01JNZD2Y4F6H8J1K3M5P7Q9R2S",
+  "message_id": "matrix:$direct-live-example-1",
+  "speaker_ref": "nym:fed-pl:operator-7f3c",
+  "gateway_node_ref": "node:pl-wro-7f3c",
+  "origin_class": "human-live",
+  "operator_presence_mode": "direct-live",
+  "human_origin": true,
+  "ts": "2026-03-17T22:34:27Z",
+  "content": "I saw this fail in production when cache invalidation lagged behind key rotation.",
+  "visibility_scope": "federation-local",
+  "consent_basis": "federation-policy",
+  "provenance_refs": [
+    "room:fed-pl:question:01JNZD2Y4F6H8J1K3M5P7Q9R2S",
+    "event:matrix:$direct-live-example-1"
+  ],
+  "language": "en"
+}
