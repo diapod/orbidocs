@@ -2,6 +2,7 @@
 
 Based on:
 - `proposals/003-question-envelope-and-answer-channel.md`
+- `proposals/004-human-origin-flags-and-operator-participation.md`
 - `memos/transcription-monitors-and-public-vaults.md`
 - `memos/swarm-broadcast-assistance.md`
 - `memos/swarm-communication-exposure-modes.md`
@@ -49,6 +50,7 @@ The system therefore needs explicit controls for:
 
 - `Asking Node`: opens or participates in a question/answer channel.
 - `Participant Node`: contributes to discussion and evidence.
+- `Human Operator`: a human behind a participating node who may be consulted privately or may join a live room under policy.
 - `Transcription Monitor`: observes selected channels and produces source transcripts.
 - `Secretary / Curator`: writes summaries, applies redaction, and promotes or rejects transcript material.
 - `Archivist Node`: stores accepted transcript bundles in federation or public vaults.
@@ -72,9 +74,9 @@ No artifact may skip state transitions implicitly.
 ### Core Data Contracts (normative)
 
 - `TranscriptSegment`:
-  - `segment_id`, `question_id`, `channel_id`, `message_id`, `speaker_ref`, `ts`, `content`, `visibility_scope`, `provenance_refs`, optional `redaction_markers`.
+  - `segment_id`, `question_id`, `channel_id`, `message_id`, `speaker_ref`, `gateway_node_ref`, `origin_class`, `operator_presence_mode`, `human_origin`, `ts`, `content`, `visibility_scope`, `consent_basis`, `provenance_refs`, optional `redaction_markers`.
 - `TranscriptBundle`:
-  - `bundle_id`, `question_id`, `source_scope`, `created_at`, `segments`, `source_nodes`, `consent_basis`, `redaction_status`, `integrity_proof`.
+  - `bundle_id`, `question_id`, `source_scope`, `created_at`, `segments`, `source_nodes`, `contains_human_origin`, `contains_direct_human_live`, `consent_basis`, `redaction_status`, `integrity_proof`.
 - `CurationDecision`:
   - `decision_id`, `bundle_id`, `status` (`accepted|accepted-redacted|quarantined|rejected`), `reason_codes`, `curator_ref`, `ts`.
 - `CorpusEntry`:
@@ -108,6 +110,16 @@ No artifact may skip state transitions implicitly.
 | FR-018 | Specialized adapters MUST remain attributable to their source corpora and creators or contributors where attribution policy requires it. | Inference | Creator credits / authorship |
 | FR-019 | The system MUST support publishing model cards or equivalent manifests describing domain, training scope, excluded data classes, known risks, and intended use. | Inference | Transparency |
 | FR-020 | Training nodes MUST be able to consume vault material without needing unrestricted access to raw private channels. | Inference | Boundary separation |
+| FR-021 | The system MUST preserve `origin_class` for transcript segments, distinguishing at least `node-generated`, `node-mediated-human`, and `human-live`. | Inference | Proposal 004 |
+| FR-022 | If a human contribution enters a live room through a node gateway, the transcript layer MUST preserve both `speaker_ref` and `gateway_node_ref`. | Inference | Proposal 004 |
+| FR-023 | The system MUST record whether operator presence was `none`, `mediated`, or `direct-live` for transcript material derived from active debates. | Inference | Proposal 004 |
+| FR-024 | Channel or room policy MUST be able to forbid direct live human participation while still allowing mediated operator consultation. | Inference | Proposal 004 |
+| FR-025 | Direct human live material MUST NOT be promoted to `training-approved` unless curation records an explicit policy basis for archival and training eligibility. | Inference | Proposal 004 + dignity |
+| FR-026 | Curators MUST be able to exclude, isolate, or separately grade human-originated material when assembling corpora. | Inference | Proposal 004 |
+| FR-027 | Training profiles MUST support excluding or separately weighting `human-live` and `node-mediated-human` corpus entries. | Inference | Proposal 004 |
+| FR-028 | Summaries derived from debates containing human-linked material MUST preserve enough provenance to indicate whether accepted reasoning relied on mediated or direct human input. | Inference | Proposal 004 |
+| FR-029 | If a secretary preserves or republishes human-linked material after node failure, the secretary MUST preserve the original origin class and MUST NOT silently flatten provenance. | Inference | Proposal 004 |
+| FR-030 | Public-vault publication policy SHOULD default to stricter handling for `human-live` material than for purely node-generated debate unless a federation explicitly relaxes that rule. | Inference | Proposal 004 |
 
 ## Non-Functional Requirements
 
@@ -123,6 +135,8 @@ No artifact may skip state transitions implicitly.
 | NFR-008 | Public vault publication SHOULD support deduplication, integrity verification, and efficient incremental sync across redundant archivist nodes. | Inference | Durability |
 | NFR-009 | The system MUST fail closed on policy uncertainty: when consent, redaction, or eligibility status is ambiguous, the material is blocked from archival promotion and training by default. | Inference | Servant integrity / least harm |
 | NFR-010 | Deployment policy SHOULD allow federation-specific acceptance thresholds so one federation may reject an adapter another federation accepts. | Inference | Pluralism + federation autonomy |
+| NFR-011 | Provenance semantics for human-linked material MUST survive transcript export, curation, archival storage, and dataset assembly without lossy flattening. | Inference | Proposal 004 |
+| NFR-012 | User-facing and curator-facing tooling SHOULD make human-originated material inspectable and filterable without requiring exposure of real-world identity. | Inference | Proposal 004 |
 
 ## Trade-offs
 
@@ -150,6 +164,8 @@ No artifact may skip state transitions implicitly.
 | Redaction misses critical identifiers | Re-identification risk | Add redaction review stage, sensitive-pattern checks, and vault publication hold until review passes. |
 | Low-quality or manipulative debate enters corpus | Training contamination | Require curation status, quality grade, and risk grade before `training-approved`. |
 | Unresolved or contested claims are trained as fact | Model epistemic drift | Keep unresolved material out of training by default; require explicit quarantine handling. |
+| Human live input is flattened into ordinary node output | Provenance loss and invalid training assumptions | Make `origin_class`, `gateway_node_ref`, and operator-presence fields mandatory in transcript and corpus metadata. |
+| Human-originated content is published or trained without valid basis | Dignity, consent, or scope breach | Require explicit eligibility gates for `human-live` and stricter default policy for public publication. |
 | Adapter regresses critical behavior | Lower answer quality or safety | Require evaluation suite, shadow deployment, and rollback path before general release. |
 | Base model and adapter provenance diverge | Impossible audit or rollback | Make `base_model_ref`, `adapter_hash`, and `job_id` mandatory deployment metadata. |
 | Archivist node stores tampered transcript bundle | Corrupted commons memory | Require integrity proof verification and periodic revalidation across redundant vault nodes. |
@@ -164,6 +180,8 @@ No artifact may skip state transitions implicitly.
 5. How should creator attribution and compensation interact with transcript-derived training corpora?
 6. When should a specialized adapter expire, decay, or require revalidation against newer corpora?
 7. Should archivist nodes replicate raw transcript bundles, redacted bundles, or both under separate visibility domains?
+8. What consent basis is sufficient for `human-live` material to move from archive eligibility to training eligibility?
+9. Should federations maintain separate evaluation suites for adapters trained on corpora containing direct human live material?
 
 ## Next Actions
 
@@ -174,3 +192,5 @@ No artifact may skip state transitions implicitly.
 5. Define vault sync and integrity verification behavior for redundant archivist nodes.
 6. Define attribution policy for transcript-derived corpora and adapter artifacts.
 7. Implement end-to-end test flow: live channel -> transcript bundle -> redaction -> curation -> vault -> LoRA/QLoRA job -> evaluation -> deploy/rollback.
+8. Define `origin_class`, `operator_presence_mode`, and `human_origin` enumerations and validation rules.
+9. Define public-vault defaults and override policy for `human-live` and `node-mediated-human` material.

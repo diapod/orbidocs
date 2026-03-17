@@ -94,12 +94,14 @@
 |---|---|
 | `/memos/swarm-broadcast-assistance.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
 | `/memos/swarm-question-channel-transports.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
+| `/memos/operator-participation-in-answer-channel.md` | `/proposals/004-human-origin-flags-and-operator-participation.md` |
 
 ### Proposals -> Requirements
 
 | Proposal | Requirement |
 |---|---|
 | `/proposals/003-question-envelope-and-answer-channel.md` | `/requirements/requirements-004.md` |
+| `/proposals/004-human-origin-flags-and-operator-participation.md` | `/requirements/requirements-004.md` |
 
 
 ### Values -> Constitution
