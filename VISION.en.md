@@ -8,38 +8,43 @@ them from threats.
 
 ## Essence
 
-1. We are building a global network of **nodes** run by volunteers.
+We are building a global network of **nodes** run by volunteers.
 
-2. AI agents and local models operate on nodes (LLMs, diffusion, other specialized
-   systems), cooperating as a **swarm**: without a single center, seat of power, or
-   capital owner.
+AI agents and local models operate on nodes (LLMs, diffusion, other specialized
+systems), cooperating as a **swarm**: without a single center, seat of power, or
+capital owner.
 
-3. At the core of the swarm is a resilient communication protocol which, beyond
-   baseline collective intelligence, can activate additional capability organs, such
-   as **memarium** (memory that does not disappear) and **sensorium** (connectors to
-   the world).
+At the core of the swarm is a resilient communication protocol which, beyond the
+baseline function of collective intelligence, can activate additional capability
+organs, including **memarium** (memory that does not disappear) and **sensorium**
+(connectors to the world).
 
-4. This is not an "alternative *chatbot*" nor just another distributed agent, but a
-   **public infrastructure of meaning and agency**, built in the spirit of free
-   software and mutual aid.
+This is not an "alternative *chatbot*" nor just another distributed agent, but a
+**public infrastructure of meaning and agency**, built in the spirit of free software
+and mutual support.
 
-5. We do not fight AI. We **separate levels**: we restore human steerability and
-   design layers and contracts so that tools **do not take over the subject, but
-   strengthen it**.
+We do not fight AI. We **separate levels**: we restore human steerability and design
+layers and contracts so that tools **do not take over the subject, but strengthen
+it**.
 
-6. The swarm operates in at least two complementary baseline relational modes:
-   **care** (co-regulation, de-escalation, mediation, restoration of agency - at the
-   personal and relational level) and **justice** (procedural accountability,
-   sanctions, and rewards for outcomes - at the systemic and relational level).
+The swarm operates in at least two complementary baseline relational modes:
+**care** (co-regulation, de-escalation, mediation, restoration of agency - at the
+personal and relational level) and **justice** (procedural accountability,
+sanctions, and rewards for outcomes - at the systemic and relational level).
 
-The baseline relational modes mentioned in the previous point are also a response to
-the crisis of authority and of public-trust roles. Media pluralization, the
-pragmatization of social communication, the shortening of distance, and the erosion of
-trust in superior instances - both institutional and personal - weaken the practical
-exercise of caring and ordering roles. The swarm's collective intelligence does not
-recreate the old hierarchy; it provides a distributed, auditable, and procedural layer
-of support that is less susceptible to personal sentiment, prestige, and local
-arrangements than singular human arbiters.
+The baseline relational modes mentioned above are also a response to the crisis of
+authority and of public-trust roles. Media pluralization, the pragmatization of
+social communication, the shortening of distance, and the erosion of trust in superior
+instances - both institutional and personal - weaken the practical execution of caring
+and ordering roles. The realization that, in existing mechanisms of social care and
+justice, the weakest links are people like any others - vulnerable to coercion, driven
+by personal motives, dependent on sympathies and current personal conditions - erodes
+the points of support that guarantee a safe space for the growth of societies as a
+whole.
+
+The swarm's collective intelligence does not recreate the old hierarchy; it provides
+a distributed and procedural layer of support that is auditable and less susceptible
+to personal sentiment, prestige, and local arrangements than singular human arbiters.
 
 ## Pragmatic Advantage
 

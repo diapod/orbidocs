@@ -7,38 +7,42 @@ która wspiera człowieka w przetrwaniu i rozwoju oraz chroni go przed zagroż
 
 ## Esencja
 
-1. Budujemy globalną sieć **węzłów** uruchamianych przez wolontariuszy.
+Budujemy globalną sieć **węzłów** uruchamianych przez wolontariuszy.
 
-2. Na węzłach działają agenty AI i lokalne modele (LLM, dyfuzyjne, inne
-   wyspecjalizowane), które współpracują jak **rój**: bez jednego centrum, ośrodka
-   władzy czy właściciela kapitału.
+Na węzłach działają agenty AI i lokalne modele (LLM, dyfuzyjne, inne
+wyspecjalizowane), które współpracują jak **rój**: bez jednego centrum, ośrodka
+władzy czy właściciela kapitału.
 
-3. Rdzeniem roju jest odporny protokół komunikacyjny, który poza bazową funkcją
-   zbiorowej inteligencji może włączać dodatkowe organy zdolności, m.in. **memarium**
-   (pamięć, która nie znika) i **sensorium** (konektory do świata).
+Rdzeniem roju jest odporny protokół komunikacyjny, który poza bazową funkcją
+zbiorowej inteligencji może włączać dodatkowe organy zdolności, m.in. **memarium**
+(pamięć, która nie znika) i **sensorium** (konektory do świata).
 
-4. Nie jest to "alternatywny *chatbot*" ani kolejny rozproszony agent, lecz
-   **publiczna infrastruktura sensu i sprawczości**, budowana w duchu wolnego
-   oprogramowania i wzajemnej pomocy.
+Nie jest to "alternatywny *chatbot*" ani kolejny rozproszony agent, lecz **publiczna
+infrastruktura sensu i sprawczości**, budowana w duchu wolnego oprogramowania
+i wzajemnego wsparcia.
 
-5. Nie walczymy z AI. **Oddzielamy poziomy**: przywracamy ludziom sterowność
-   i projektujemy warstwy oraz kontrakty tak, aby narzędzie **nie przejmowało
-   podmiotu, lecz go wzmacniało**.
+Nie walczymy z AI. **Oddzielamy poziomy**: przywracamy ludziom sterowność
+i projektujemy warstwy oraz kontrakty tak, aby narzędzie **nie przejmowało podmiotu,
+lecz go wzmacniało**.
 
-6. Rój działa co najmniej w dwóch komplementarnych, bazowych trybach relacyjnych:
-   **opiekuńczym** (koregulacja, deeskalacja, mediacja, odbudowa sprawczości – na
-   poziomie osobistym i relacyjnym) oraz **sprawiedliwościowym** (proceduralna
-   odpowiedzialność, sankcje i nagrody za skutki – na poziomie systemowym
-   i relacyjnym).
+Rój działa co najmniej w dwóch komplementarnych, bazowych trybach relacyjnych:
+**opiekuńczym** (koregulacja, deeskalacja, mediacja, odbudowa sprawczości – na
+poziomie osobistym i relacyjnym) oraz **sprawiedliwościowym** (proceduralna
+odpowiedzialność, sankcje i nagrody za skutki – na poziomie systemowym i relacyjnym).
 
-Wspomniane w ostatnim punkcie bazowe tryby relacyjne są także odpowiedzią na kryzys
-autorytetów i ról zaufania publicznego. Pluralizacja mediów, pragmatyzacja
+Wspomniane wyżej bazowe tryby relacyjne są także odpowiedzią na kryzys autorytetów
+i ról zaufania publicznego. Pluralizacja medialnego przekazu, pragmatyzacja
 komunikacji społecznej, skrócenie dystansu oraz erozja zaufania do nadrzędnych
 instancji – zarówno instytucjonalnych, jak i osobowych – osłabiają praktycznie
-wykonywane role opiekuńcze i porządkujące.  Kolektywna inteligencja roju nie odtwarza
-dawnej hierarchii, lecz dostarcza rozproszonej, audytowalnej i proceduralnej warstwy
-wsparcia, mniej podatnej na osobiste sentymenty, prestiż i lokalne układy niż
-pojedynczy ludzcy arbitrzy.
+realizowane role opiekuńcze i porządkujące. Świadomość, że w dotychczasowych
+mechanizmach społecznej opieki i sprawiedliwości najsłabszymi ogniwami są ludzie tacy
+jak inni – podatni na szantaż, motywowani osobistymi pobudkami, zależni od sympatii
+i aktualnych osobistych warunków – sprawia, że znikają punkty oparcia gwarantujące
+bezpieczną przestrzeń wzrostu społeczeństw jako całości.
+
+Kolektywna inteligencja roju nie odtwarza dawnej hierarchii, lecz dostarcza
+rozproszonej i proceduralnej warstwy wsparcia, audytowalnej oraz mniej podatnej na
+osobiste sentymenty, prestiż i lokalne układy niż pojedynczy ludzcy arbitrzy.
 
 ## Pragmatyczna przewaga
 
