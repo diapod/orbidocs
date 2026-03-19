@@ -813,6 +813,26 @@ lecz strategia odporności: gdy wiedza krąży, system jest mniej kruchy, a jako
 rośnie. Warto projektować ścieżki, w których wkład społeczności (reguły, konektory,
 polityki, prompty, testy) jest naturalny i nagradzany uznaniem.
 
+### Współpraca ponad dominacją intelektu
+
+DIA zakłada, że zbyt silna identyfikacja z własnym intelektem może blokować
+współdziałanie: człowiek przywiązany do własnej mapy świata często odkłada wspólne
+działanie, dopóki inni nie uznają jego interpretacji, priorytetów lub języka opisu.
+Rój może tę dynamikę rozluźniać, przejmując część ciężaru analizy, porównywania
+hipotez, utrzymywania złożoności i pilnowania procedury.
+
+Nie jest to antyintelektualizm, lecz detronizacja intelektu jako narzędzia dominacji.
+Pokora epistemiczna staje się tu praktyką operacyjną: nawet bardzo inteligentne
+jednostki mogą bez utraty twarzy delegować część rozumowania do kolektywnej
+inteligencji i oprzeć współpracę na wspólnym modelu roboczym, śladzie decyzji oraz
+możliwości korekty, a nie na wcześniejszym wymuszeniu zgodności poglądów.
+
+W takim odciążeniu powstaje przestrzeń dla obecności, relacji i działania
+wspólnotowego – często niedostępna ludziom przeciążonym ciągłym przetwarzaniem
+złożoności. DIA ceni więc współpracę, w której różnica nie jest przeszkodą do ruchu,
+lecz materiałem do koordynacji, a rój pomaga ludziom wychodzić z zamknięcia "we
+własnej głowie" do wspólnego działania.
+
 ### Opieka i sprawiedliwość jako dwa tryby relacyjne
 
 DIA utrzymuje dwie komplementarne logiki działania wobec napięć między ludźmi:

@@ -799,6 +799,26 @@ resilience strategy: when knowledge circulates, the system is less fragile and
 quality improves. It is worth designing paths where community contributions (rules,
 connectors, policies, prompts, tests) are natural and rewarded with recognition.
 
+### Collaboration Beyond the Dominance of Intellect
+
+DIA assumes that overly strong identification with one's own intellect can block
+cooperation: a person attached to their own map of the world often postpones joint
+action until others accept their interpretation, priorities, or descriptive language.
+The swarm can loosen this dynamic by taking over part of the burden of analysis,
+comparison of hypotheses, handling complexity, and guarding procedure.
+
+This is not anti-intellectualism, but dethroning intellect as a tool of domination.
+Epistemic humility becomes an operational practice here: even very intelligent
+individuals can, without loss of face, delegate part of their reasoning to collective
+intelligence and ground cooperation in a shared working model, decision trace, and
+capacity for correction, rather than in first forcing agreement of views.
+
+In that relief, space opens for presence, relationship, and communal action - often
+unavailable to people overloaded by continuous processing of complexity. DIA therefore
+values cooperation in which difference is not an obstacle to movement, but material
+for coordination, and the swarm helps people move from being "locked in their own
+heads" toward acting together.
+
 ### Care and Justice as Two Relational Modes
 
 DIA maintains two complementary operating logics for tensions between people: care and
