@@ -31,13 +31,14 @@ która wspiera człowieka w przetrwaniu i rozwoju oraz chroni go przed zagroż
    odpowiedzialność, sankcje i nagrody za skutki – na poziomie systemowym
    i relacyjnym).
 
-Te bazowe tryby relacyjne są także odpowiedzią na kryzys autorytetów i ról zaufania
-publicznego. Pluralizacja mediów, pragmatyzacja komunikacji społecznej, skrócenie
-dystansu oraz erozja zaufania do nadrzędnych instancji – zarówno instytucjonalnych,
-jak i osobowych – osłabiają praktycznie wykonywane role opiekuńcze i porządkujące.
-Kolektywna inteligencja roju nie odtwarza dawnej hierarchii, lecz dostarcza
-rozproszonej, audytowalnej i proceduralnej warstwy wsparcia, mniej podatnej na
-osobiste sentymenty, prestiż i lokalne układy niż pojedynczy ludzcy arbitrzy.
+Wspomniane w ostatnim punkcie bazowe tryby relacyjne są także odpowiedzią na kryzys
+autorytetów i ról zaufania publicznego. Pluralizacja mediów, pragmatyzacja
+komunikacji społecznej, skrócenie dystansu oraz erozja zaufania do nadrzędnych
+instancji – zarówno instytucjonalnych, jak i osobowych – osłabiają praktycznie
+wykonywane role opiekuńcze i porządkujące.  Kolektywna inteligencja roju nie odtwarza
+dawnej hierarchii, lecz dostarcza rozproszonej, audytowalnej i proceduralnej warstwy
+wsparcia, mniej podatnej na osobiste sentymenty, prestiż i lokalne układy niż
+pojedynczy ludzcy arbitrzy.
 
 ## Pragmatyczna przewaga
 
@@ -65,9 +66,9 @@ chronione precyzyjniej, ponieważ:
 
 - kontekst rozumowania sieci sztucznej inteligencji może pomieścić istotne szczegóły
   wielu łańcuchów przyczynowo-skutkowych zdarzeń i ludzkich interakcji, a na tej
-  podstawie diagnozować przyczyny konfliktów i szukać rozwiązań –coś, czego nie można
-  osiągnąć posługując się ogólnymi zasadami kodeksów i fragmentarycznymi wnioskami
-  kotwiczonymi w ocenach sytuacji przez uczestników.
+  podstawie diagnozować przyczyny konfliktów i szukać rozwiązań – coś, czego nie
+  można osiągnąć posługując się ogólnymi zasadami kodeksów i fragmentarycznymi
+  wnioskami kotwiczonymi w ocenach sytuacji przez uczestników.
 
 Mechanizm ten jest analogiczny do przejścia od przybliżonych rozliczeń w odchodzących
 do lamusa modelach wynagradzania za twórczość do precyzyjnych podziałów zysków

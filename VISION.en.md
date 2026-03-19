@@ -32,14 +32,14 @@ them from threats.
    personal and relational level) and **justice** (procedural accountability,
    sanctions, and rewards for outcomes - at the systemic and relational level).
 
-These baseline relational modes are also a response to the crisis of authority and of
-public-trust roles. Media pluralization, the pragmatization of social communication,
-the shortening of distance, and the erosion of trust in superior instances - both
-institutional and personal - weaken the practical exercise of caring and ordering
-roles. The swarm's collective intelligence does not recreate the old hierarchy; it
-provides a distributed, auditable, and procedural layer of support that is less
-susceptible to personal sentiment, prestige, and local arrangements than singular
-human arbiters.
+The baseline relational modes mentioned in the previous point are also a response to
+the crisis of authority and of public-trust roles. Media pluralization, the
+pragmatization of social communication, the shortening of distance, and the erosion of
+trust in superior instances - both institutional and personal - weaken the practical
+exercise of caring and ordering roles. The swarm's collective intelligence does not
+recreate the old hierarchy; it provides a distributed, auditable, and procedural layer
+of support that is less susceptible to personal sentiment, prestige, and local
+arrangements than singular human arbiters.
 
 ## Pragmatic Advantage
 
