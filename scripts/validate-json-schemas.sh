@@ -6,6 +6,12 @@ ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 SCHEMAS_DIR="$ROOT/schemas"
 VALID_EXAMPLES_DIR="$SCHEMAS_DIR/examples"
 INVALID_EXAMPLES_DIR="$VALID_EXAMPLES_DIR/invalid"
+MODE=${1:-all}
+
+if [ "$MODE" != "all" ] && [ "$MODE" != "--syntax-only" ]; then
+  echo "Usage: $0 [--syntax-only]" >&2
+  exit 1
+fi
 
 choose_validator() {
   if command -v check-jsonschema >/dev/null 2>&1; then
@@ -109,6 +115,10 @@ find "$SCHEMAS_DIR" -type f -name '*.json' -print | sort | while IFS= read -r fi
   jq empty "$file"
 done
 echo "JSON syntax OK"
+
+if [ "$MODE" = "--syntax-only" ]; then
+  exit 0
+fi
 
 VALIDATOR=$(choose_validator)
 

@@ -1,5 +1,7 @@
 # Distributed Intelligence Agency Documentation
 
+[![Orbidocs Schema Validation](https://github.com/diapod/orbidocs/actions/workflows/orbidocs-schema-validation.yml/badge.svg?branch=main)](https://github.com/diapod/orbidocs/actions/workflows/orbidocs-schema-validation.yml)
+
 ## Brand Identity
 
 - Umbrella project / organization: **Distributed Intelligence Agency**
