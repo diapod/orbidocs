@@ -1,89 +1,125 @@
-# Wizja: suwerenność inteligencji i wiedzy
+# Wizja Orbiplex Swarm
 
-Ten dokument opisuje rój wolnych modeli sztucznej inteligencji: infrastrukturę,
-która wspiera człowieka w przetrwaniu i rozwoju oraz chroni go przed
-niebezpieczeństwami.
+## Suwerenność inteligencji i wiedzy
+
+Ten dokument opisuje rój wolnych modeli sztucznej inteligencji – infrastrukturę,
+która wspiera człowieka w przetrwaniu i rozwoju oraz chroni go przed zagrożeniami.
 
 ## Esencja
 
 1. Budujemy globalną sieć **węzłów** uruchamianych przez wolontariuszy.
 
-2. Na węzłach działają agenty AI i lokalne modele (LLM, dyfuzyjne i inne
-   wyspecjalizowane), które współpracują jak **rój**: bez jednego centrum, jednego
-   ośrodka władzy i bez jednego właściciela kapitału.
+2. Na węzłach działają agenty AI i lokalne modele (LLM, dyfuzyjne, inne
+   wyspecjalizowane), które współpracują jak **rój**: bez jednego centrum, ośrodka
+   władzy czy właściciela kapitału.
 
 3. Rdzeniem roju jest odporny protokół komunikacyjny, który poza bazową funkcją
-   zbiorowej inteligencji może włączać dodatkowe organy zdolności, m.in.:
-   **memarium** (pamięć, która nie znika) i **sensorium** (konektory do świata).
+   zbiorowej inteligencji może włączać dodatkowe organy zdolności, m.in. **memarium**
+   (pamięć, która nie znika) i **sensorium** (konektory do świata).
 
-4. Nie jest to "alternatywny *chatbot*" czy kolejny rozproszony agent, ale
-  **publiczna infrastruktura sensu i sprawczości** – budowana w duchu wolnego
-  oprogramowania i wzajemnej pomocy.
+4. Nie jest to "alternatywny *chatbot*" ani kolejny rozproszony agent, lecz
+   **publiczna infrastruktura sensu i sprawczości**, budowana w duchu wolnego
+   oprogramowania i wzajemnej pomocy.
 
 5. Nie walczymy z AI. **Oddzielamy poziomy**: przywracamy ludziom sterowność
-   i projektujemy warstwy oraz kontrakty tak, aby powstało narzędzie, które **nie
-   przejmuje podmiotu, lecz go wzmacnia**.
+   i projektujemy warstwy oraz kontrakty tak, aby narzędzie **nie przejmowało
+   podmiotu, lecz go wzmacniało**.
+
+6. Rój działa co najmniej w dwóch komplementarnych, bazowych trybach relacyjnych:
+   **opiekuńczym** (koregulacja, deeskalacja, mediacja, odbudowa sprawczości – na
+   poziomie osobistym i relacyjnym) oraz **sprawiedliwościowym** (proceduralna
+   odpowiedzialność, sankcje i nagrody za skutki – na poziomie systemowym
+   i relacyjnym).
+
+Te bazowe tryby relacyjne są także odpowiedzią na kryzys autorytetów i ról zaufania
+publicznego. Pluralizacja mediów, pragmatyzacja komunikacji społecznej, skrócenie
+dystansu oraz erozja zaufania do nadrzędnych instancji – zarówno instytucjonalnych,
+jak i osobowych – osłabiają praktycznie wykonywane role opiekuńcze i porządkujące.
+Kolektywna inteligencja roju nie odtwarza dawnej hierarchii, lecz dostarcza
+rozproszonej, audytowalnej i proceduralnej warstwy wsparcia, mniej podatnej na
+osobiste sentymenty, prestiż i lokalne układy niż pojedynczy ludzcy arbitrzy.
 
 ## Pragmatyczna przewaga
 
-Naszym pragmatycznym wyróżnikiem nie jest sama możliwość rozmowy z modelem, lecz
-zamknięta pętla uczenia roju: węzły wspólnie rozwiązują realne kwestie, wartościowe
-debaty są zachowywane jako transkrypty źródłowe, te trafiają do kuracji i publicznych
-lub federacyjnych vaultów, a następnie stają się materiałem do bezpiecznej
-specjalizacji modeli.
+Wyróżnikiem nie jest sama możliwość rozmowy z modelem, lecz zamknięta pętla uczenia
+roju: węzły wspólnie rozwiązują realne problemy, wartościowe debaty są zachowywane
+jako transkrypty źródłowe, te trafiają do "przechowalni" i publicznych lub
+federacyjnych vaultów, a następnie stają się materiałem do bezpiecznej specjalizacji
+modeli.
 
 W praktyce oznacza to ciąg:
 
-`pytanie -> debata -> transkrypt -> kuracja -> vault -> LoRA/QLoRA -> lepsze przyszłe odpowiedzi`
+`pytanie → debata → transkrypt → kuracja → vault → LoRA/QLoRA → lepsze przyszłe odpowiedzi`
 
-To daje przewagę narastającą w czasie: rój nie tylko odpowiada, ale uczy się z
-własnej pracy bez utraty suwerenności nad pamięcią, źródłami i zasadami treningu.
+Przewaga narasta w czasie: rój nie tylko odpowiada, ale uczy się z własnej pracy –
+bez utraty suwerenności nad pamięcią, źródłami i zasadami treningu.
+
+Wraz z dojrzewaniem kolektywnego rozumowania wspieranego przez AI możliwa staje się
+bardziej dynamiczna i granularna ochrona zasad współżycia społecznego: godność i jej
+pochodne normatywne (np. różne rodzaje wolności, ochrona własności itd.) mogą być
+chronione precyzyjniej, ponieważ:
+
+- ich fenomenologiczny punkt końcowy jest zawsze ludzki – widoczny w stanie układu
+  nerwowego jednostki (poczuciu bezpieczeństwa, przeciążeniu, zdolności do regulacji
+  i sprawczości);
+
+- kontekst rozumowania sieci sztucznej inteligencji może pomieścić istotne szczegóły
+  wielu łańcuchów przyczynowo-skutkowych zdarzeń i ludzkich interakcji, a na tej
+  podstawie diagnozować przyczyny konfliktów i szukać rozwiązań –coś, czego nie można
+  osiągnąć posługując się ogólnymi zasadami kodeksów i fragmentarycznymi wnioskami
+  kotwiczonymi w ocenach sytuacji przez uczestników.
+
+Mechanizm ten jest analogiczny do przejścia od przybliżonych rozliczeń w odchodzących
+do lamusa modelach wynagradzania za twórczość do precyzyjnych podziałów zysków
+w mediach strumieniowych – rozliczenia bazują na realnych aktach użycia (z często
+sekundową rozdzielczością czasową), które kumulatywnie mogą dawać zupełnie inny obraz
+niż prognozowany statystycznie.
 
 ## Problem, na który odpowiadamy
 
 ### Nierównowaga władzy
 
 "Tania inteligencja" ma dziś tendencję do koncentracji: wielkie modele, wielkie
-budżety, duże zbiory danych, pojedyncze podmioty decyzyjne i agregujące wspólne
-dane. Tam, gdzie pojawia się koncentracja, pojawia się też władza ukryta w narzędziu.
+budżety, duże zbiory danych, pojedyncze podmioty decyzyjne agregujące wspólne dane.
+Tam, gdzie pojawia się koncentracja, pojawia się też władza ukryta w narzędziu.
 
-Nie chodzi tylko o cenzurę czy złe intencje, lecz o coś głębszego: **wagi modelu są
-zamrożonym wyborem tego, co typowe, normalne, eleganckie i profesjonalne**. To jest
-wbudowana norma. Wystarczy, że jest wygodna i "ładnie wygląda", a konformizm dopełnia
+Nie chodzi wyłącznie o cenzurę czy złe intencje, lecz o coś głębszego: **wagi modelu
+są zamrożonym wyborem tego, co typowe, normalne, eleganckie i profesjonalne**. To
+wbudowana norma. Wystarczy, że jest wygodna i "dobrze wygląda", a konformizm dopełnia
 reszty.
 
 ### Kultura jako filtr dolnoprzepustowy
 
 Gdy modele karmią modele, a treści syntetyczne wypierają ludzkie, kultura traci
-detale: anomalie, odstępstwa, lokalne niuanse. To "kserokopia kserokopii". Z czasem
+detale: anomalie, odstępstwa, lokalne niuanse. To "kserokopia kserokopii" – z czasem
 zostaje estetyka, a zanika **żywe paliwo innowacji**.
 
 Odpowiedzią nie jest nostalgiczny powrót do starego porządku, lecz infrastruktura,
-która **chroni różnorodność i źródła nowości**, zamiast je homogenizować.
+która **chroni różnorodność i źródła nowości** zamiast je homogenizować.
 
-### Sprawczość i przetrwanie
+### Sprawczość i przetrwanie
 
-Jeżeli myślenie staje się usługą, drożeje to, co nie jest usługą:
+Jeżeli myślenie staje się usługą, drożeje to, co usługą nie jest:
 
-- **autonomia** (umiejętność wyboru),
-- **relacja** (wspólnota, zaufanie, zobowiązanie),
-- **pamięć** (ciągłość sensu),
-- **lokalność** (doświadczenie miejsca, języka, kontekstu),
-- **bezpieczne pole** (gdy stawka społeczna nie niszczy szczerości).
+- **autonomia** – umiejętność wyboru,
+- **relacja** – wspólnota, zaufanie, zobowiązanie,
+- **pamięć** – ciągłość sensu,
+- **lokalność** – doświadczenie miejsca, języka, kontekstu,
+- **bezpieczne pole** – warunki, w których stawka społeczna nie niszczy szczerości.
 
 Infrastruktura roju ma chronić ludzi w potrzebie i pomagać im w przetrwaniu oraz
-rozwoju – bez uzależniania ich od czyjejś łaski.
+rozwoju – bez uzależniania od czyjejś łaski.
 
 ## Założenia (wartości jako protokół)
 
-To jest projekt techniczny, lecz wartości nie są tu PR-em. Są **kontraktem
+To jest projekt techniczny, lecz wartości nie są tu PR-em – są **kontraktem
 zachowań**.
 
-1. **Suwerenność** – użytkownik może odejść z danymi w 5 minut (formaty otwarte,
+1. **Suwerenność** – użytkownik może odejść z danymi w 5 minut (formaty otwarte,
    eksport, migracja).
 
-2. **Lokalność jako domyślny tryb (ang. local-first)** – preferujemy obliczenia i
-   pamięć lokalnie; sieć jest dodatkiem, nie warunkiem.
+2. **Lokalność jako tryb domyślny** (ang. *local-first*) – preferujemy obliczenia
+   i pamięć lokalnie; sieć jest dodatkiem, nie warunkiem.
 
 3. **Minimalizm bodźców** – żadnych mechanizmów uzależniających, żadnego
    "dopaminowego UX".
@@ -96,8 +132,8 @@ zachowań**.
 6. **Higiena epistemiczna** – oddzielamy poziomy: opis, redukcję, wyjaśnienie,
    doświadczenie, kulturę.
 
-Operacyjnie traktujemy inteligencję przede wszystkim jako zdolność do formułowania
-trafnych predykcji i aktualizacji ich po kontakcie z wynikiem.
+Operacyjnie traktujemy inteligencję przede wszystkim jako **zdolność formułowania
+trafnych predykcji** i aktualizowania ich po kontakcie z wynikiem.
 
 ## Słownik: rój, memarium, sensorium
 
@@ -109,7 +145,7 @@ trafnych predykcji i aktualizacji ich po kontakcie z wynikiem.
 - potrafią współpracować przez protokoły,
 - nie mają pojedynczego punktu awarii ani pojedynczego punktu kontroli.
 
-Rój nie jest państwem ani korporacją. Jest infrastrukturą zdolną do koordynacji bez
+Rój nie jest państwem ani korporacją – jest infrastrukturą zdolną do koordynacji bez
 centrum.
 
 ### Memarium
@@ -132,21 +168,21 @@ z replikacją, wersjonowaniem i zasadami trwałości.
 - czytniki treści w publicznych sieciach,
 - czujniki temperatury, wilgotności, jakości powietrza,
 - mikrofony (np. detekcja alarmów, analiza hałasu),
-- kamery (np. rozpoznawanie zagrożeń, dokumentacja dowodowa, wsparcie osób z
-  niepełnosprawnościami),
+- kamery (np. rozpoznawanie zagrożeń, dokumentacja dowodowa, wsparcie osób
+  z niepełnosprawnościami),
 - inne źródła sygnałów (GPS, meteo, energia, bezpieczeństwo).
 
 Sensorium ma jeden cel: **zakotwiczyć inteligencję w rzeczywistości**, aby nie stała
 się czystą retoryką.
 
-Jego użycie musi pozostawać podporządkowane zgodzie, minimalizacji danych, separacji
-kontekstów i celowi ochronnemu; sensorium nie jest pretekstem do budowy infrastruktury
-nadzoru.
+Warto mieć na uwadze warunek brzegowy: użycie sensorium musi pozostawać
+podporządkowane zgodzie, minimalizacji danych, separacji kontekstów i celowi
+ochronnemu. Sensorium nie jest pretekstem do budowy infrastruktury nadzoru.
 
-## Architektura: warstwy i kontrakty (stratyfikacja w praktyce)
+## Architektura: warstwy i kontrakty (stratyfikacja w praktyce)
 
-Ta sieć jest zbudowana jak dobrze stratyfikowany system: małe, autonomiczne elementy
-stają się abstraktami, a te z kolei stają się konkretami dla kolejnych warstw.
+Sieć jest zbudowana jak dobrze stratyfikowany system: małe, autonomiczne elementy
+stają się abstraktami, a te z kolei – konkretami dla kolejnych warstw.
 
 ### Warstwa 0: Węzeł (Node)
 
@@ -156,67 +192,62 @@ Węzeł to komputer wolontariusza (PC, serwer, NAS, RPi, laptop), który urucham
 - lokalne modele,
 - lokalne memaria,
 - konektory sensorium,
-- polityki (zasady) bezpieczeństwa.
+- zasady (ang. *policies*) bezpieczeństwa.
 
-**Węzeł działa nawet bez Internetu.** Sieć jest opcją, a nie zależnością.
+**Węzeł działa nawet bez Internetu.** Sieć jest opcją, nie zależnością.
 
 ### Warstwa 1: Agent
 
-Agent to proces z jasno określonym kontraktem:
+Agent to proces z jasno określonym kontraktem:
 
-- wejście/wyjście w formacie danych,
-- uprawnienia minimalne,
+- wejście/wyjście w zdefiniowanym formacie danych,
+- uprawnienia minimalne (ang. *least privilege*),
 - jawne zależności,
 - ślady decyzji (`trace`) i możliwość audytu.
 
-Agent może być:
-
-- rozmówcą (LLM),
-- twórcą obrazów (dyfuzja),
-- solverem matematycznym,
-- graczem,
-- bibliotekarzem (nawigatorem po lokalnym memarium),
-- strażnikiem reguł (*guardrails-as-code*).
+Agent może pełnić różne role: rozmówca (LLM), twórca obrazów (dyfuzja), pomocnik
+matematyczny, gracz, bibliotekarz (nawigator po lokalnym memarium), strażnik reguł
+(ang. *guardrails-as-code*) czy rzecznik i mediator w sytuacjach konfliktowych.
 
 ### Warstwa 2: Przestrzenie pamięciowe
 
 Memarium jest podzielone na przestrzenie:
 
-- **osobiste** (private),
-- **wspólnotowe** (community),
-- **publiczne** (commons),
-- **kryzysowe** (emergency caches).
+- **osobiste** (ang. *private*),
+- **wspólnotowe** (ang. *community*),
+- **publiczne** (ang. *commons*),
+- **kryzysowe** (ang. *emergency caches*).
 
 Każda przestrzeń ma własne zasady: szyfrowanie, replikacja, retencja, anonimizacja,
 prawo do zapomnienia.
 
-### Warstwa 3: Kooperacja (Swarm Protocol)
+### Warstwa 3: Kooperacja (*Swarm Protocol*)
 
-Rój potrzebuje protokołu w następujących celach:
+Rój potrzebuje protokołu do następujących celów:
 
 - identyfikacja węzłów (tożsamość kryptograficzna),
-- odporność na Sybila/DoS oraz, dopiero po walidacji, mechanizmy reputacji
+- odporność na Sybila/DoS oraz – dopiero po walidacji – mechanizmy reputacji
   proceduralnej,
-- routing (w tym *edge relaying*),
+- routing (w tym przekaźniki brzegowe, ang. *edge relays*),
 - negocjacja zadań,
 - rozliczanie kosztów (energia, transfer) bez finansowej przemocy.
 
-W wersji idealnej protokół jest prosty, opisany, audytowalny, implementowalny w wielu
-językach.
+W wersji docelowej protokół jest prosty, opisany, audytowalny i implementowalny
+w wielu językach.
 
 ## Governance bez kapłanów: zasady zamiast autorytetu
 
 Największym ryzykiem decentralizacji jest nowa forma oligarchii: strażnicy
-repozytoriów, operatorzy infrastruktury i ekosystemy dostawców.
+repozytoriów, operatorzy infrastruktury, ekosystemy dostawców.
 
-Dlatego ład organizacyjny (ang. governance) jest tu polityką zapisaną w kodzie
-(ang. *policy-as-code*):
+Zatem ład organizacyjny (ang  *governance*) jest tu polityką zapisaną w kodzie
+(ang. *policy-as-code*):
 
 - polityki są jawne i wersjonowane,
 - decyzje są protokołowane,
-- istnieje prawo do odgałęzienia (ang. fork) wraz z danymi,
-- istnieje prawo do własnego węzła "w ciszy" (bez uczestnictwa w publicznych
-  przestrzeniach).
+- istnieje prawo do odgałęzienia (ang. *fork*) wraz z danymi,
+- istnieje prawo do własnego węzła "w ciszy" – bez uczestnictwa w publicznych
+  przestrzeniach.
 
 To rój odporny na kult: narzędzie, nie religia ani ideologia.
 
@@ -230,7 +261,7 @@ Każdy komponent ma pytanie kontrolne:
 - czy może zaszkodzić innym?
 - czy może zostać użyty do przemocy, szantażu, manipulacji?
 
-Guardrails nie są cenzurą. Są **modelem zagrożeń**.
+Guardrails nie są cenzurą – są **modelem zagrożeń**.
 
 ### Prywatność
 
@@ -242,28 +273,28 @@ Guardrails nie są cenzurą. Są **modelem zagrożeń**.
 ### Kultura uczciwości
 
 Rój przyjmuje kulturę uczciwości: uczestnictwo oznacza gotowość do poddania się
-procedurze dowodowej i odpowiedzialności za trwające lub ciężkie nadużycia.
+procedurze dowodowej i odpowiedzialności za trwające lub ciężkie nadużycia.
 
-### Odpowiedzialność w czasie kryzysu
+### Odpowiedzialność w czasie kryzysu
 
-Rój ma tryby reagowania. Na poziomie wizji są to przykładowe klasy pracy, a nie
+Rój ma tryby reagowania. Na poziomie wizji są to przykładowe klasy pracy, nie
 zamrożone nazwy protokołu:
 
 - **normalny** (`commons`),
 - **kryzysowy** (`disaster` / `war` / `blackout`),
 - **pomocowy** (`shelter` / `food` / `legal` / `medical triage`).
 
-W trybach kryzysowych rośnie rygor: więcej weryfikacji informacji, więcej redundancji,
-więcej ostrożności.
+W trybach kryzysowych rośnie rygor: więcej weryfikacji informacji, więcej
+redundancji, więcej ostrożności.
 
-## "Chronić ludzi w potrzebie" - konkretne scenariusze
+## "Chronić ludzi w potrzebie" – konkretne scenariusze
 
 ### Kryzys energetyczny / blackout
 
 Węzły działają lokalnie: mapy, instrukcje, lokalne modele do wstępnej kategoryzacji
-(ang. triage), podręczna pamięć wiedzy. Sensorium pomaga:
+(ang. *triage*), podręczna pamięć wiedzy. Sensorium pomaga:
 
-- monitorować temperaturę w schronieniach,
+- monitorować temperaturę w schronieniach,
 - wykrywać zagrożenia,
 - koordynować zasoby w mikroskali.
 
@@ -289,30 +320,31 @@ Rój zapewnia:
 
 ## Rola założycieli
 
-Założyciele są tu architektami warstw i twórcami pierwszych kontraktów:
+Założyciele pełnią tu rolę architektów warstw i twórców pierwszych kontraktów:
 
-- dbają, żeby system był stratyfikowany (mała zmiana → mała zmiana),
+- dbają o stratyfikację systemu (mała zmiana → mały skutek),
 - pilnują higieny epistemicznej,
-- budują protokoły (m.in. tożsamość, routing, memarium, sensorium),
-- trzymają etos: wolność, wzajemna pomoc, brak uzależnienia od dostawcy (ang.
-  *vendor lock-in*),
-- piszą teksty, które są nie tylko manifestem, ale praktycznymi postulatami oraz
-  instrukcjami życia w epoce taniej inteligencji.
+- budują protokoły (m.in. tożsamość, routing, memarium, sensorium),
+- trzymają etos: wolność, wzajemna pomoc, brak uzależnienia od dostawcy
+  (ang. *vendor lock-in*),
+- piszą teksty, które są nie tylko postulatami, ale praktycznymi instrukcjami
+  życia w epoce taniej inteligencji.
 
-Ich rola jest szczególnie ważna w okresie założycielskim: odpowiadają wtedy za
-spójność architektury, rytm implementacji i odporność projektu na przedwczesną
-biurokratyzację, przejęcie sterowania i rozmycie misji. Później ich wpływ powinien
-wynikać z jakości pracy, trafności decyzji i zaufania wspólnoty, a nie z kultu osoby.
+Ich rola jest szczególnie ważna w okresie założycielskim: odpowiadają wtedy za
+spójność architektury, rytm implementacji i odporność projektu na przedwczesną
+biurokratyzację, przejęcie sterowania oraz rozmycie misji. Później ich wpływ powinien
+wynikać z jakości pracy, trafności decyzji i zaufania wspólnoty – nie z kultu osoby.
 
 ## Kamienie milowe (droga od wizji do rzeczy)
 
-1. **Minimalny węzeł**: środowisko uruchomieniowe agentów + 1 lub więcej
-   modeli + opcjonalnie lokalne memarium.
+1. **Minimalny węzeł**: środowisko uruchomieniowe agentów + jeden lub więcej
+   modeli + opcjonalnie lokalne memarium.
 
-2. **Protokół wymiany**: zadania, wyniki, tożsamości, a w późniejszych fazach także
+2. **Protokół wymiany**: zadania, wyniki, tożsamości; w późniejszych fazach –
    walidowana reputacja proceduralna.
 
-3. **Sensorium starter kit**: temperatura + mikrofon alarmowy + kamera (opcjonalnie).
+3. **Sensorium starter kit**: temperatura + mikrofon alarmowy + kamera
+   (opcjonalnie).
 
 4. **Tryb kryzysowy**: podręczna pamięć wiedzy, procedury, walidacja informacji.
 
@@ -321,8 +353,8 @@ wynikać z jakości pracy, trafności decyzji i zaufania wspólnoty, a nie z kul
 ## Zakończenie
 
 To jest wizja świata, w którym inteligencja jest zbyt ważna, by oddać ją plemiennym
-tworom: agencjom, korporacjom, pojedynczym państwom czy "kapłanom bezpieczeństwa".
+tworom – agencjom, korporacjom, pojedynczym państwom czy "kapłanom bezpieczeństwa".
 
 Proponujemy porządek, w którym narzędzia są wolne, pamięć nie zależy od medium,
-a człowiek pozostaje źródłem nowości – nie przez heroizm, lecz przez współpracę oraz
-pielęgnowanie tego, co niepasujące. Wspólnie możemy być źródłem dobrej entropii.
+a człowiek pozostaje źródłem nowości – nie przez heroizm, lecz przez współpracę
+i pielęgnowanie tego, co niepasujące. Wspólnie możemy być źródłem dobrej entropii.

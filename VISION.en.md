@@ -1,107 +1,138 @@
-# Vision: Sovereignty of Intelligence and Knowledge
+# Orbiplex Swarm Vision
 
-This document describes a swarm of free artificial-intelligence models: an
-infrastructure that supports human beings in survival and development and helps
-protect them from danger.
+## Sovereignty of Intelligence and Knowledge
+
+This document describes a swarm of free artificial-intelligence models - an
+infrastructure that supports people in survival and development and helps protect
+them from threats.
 
 ## Essence
 
 1. We are building a global network of **nodes** run by volunteers.
 
-2. AI agents and local models operate on those nodes (LLMs, diffusion models,
-   and other specialized systems), cooperating as a **swarm**: without a single
-   center, a single seat of power, or a single owner of capital.
+2. AI agents and local models operate on nodes (LLMs, diffusion, other specialized
+   systems), cooperating as a **swarm**: without a single center, seat of power, or
+   capital owner.
 
 3. At the core of the swarm is a resilient communication protocol which, beyond
-   its basic function of collective intelligence, can activate additional organs
-   of capability, including **memarium** (memory that does not vanish) and
-   **sensorium** (connectors to the world).
+   baseline collective intelligence, can activate additional capability organs, such
+   as **memarium** (memory that does not disappear) and **sensorium** (connectors to
+   the world).
 
-4. This is not an "alternative *chatbot*" or just another distributed agent,
-   but a **public infrastructure of meaning and agency** built in the spirit of
-   free software and mutual aid.
+4. This is not an "alternative *chatbot*" nor just another distributed agent, but a
+   **public infrastructure of meaning and agency**, built in the spirit of free
+   software and mutual aid.
 
-5. We are not fighting AI. We are **separating levels**: restoring human
-   steerability and designing layers and contracts so that the resulting tool
-   **does not take over the subject, but strengthens it**.
+5. We do not fight AI. We **separate levels**: we restore human steerability and
+   design layers and contracts so that tools **do not take over the subject, but
+   strengthen it**.
+
+6. The swarm operates in at least two complementary baseline relational modes:
+   **care** (co-regulation, de-escalation, mediation, restoration of agency - at the
+   personal and relational level) and **justice** (procedural accountability,
+   sanctions, and rewards for outcomes - at the systemic and relational level).
+
+These baseline relational modes are also a response to the crisis of authority and of
+public-trust roles. Media pluralization, the pragmatization of social communication,
+the shortening of distance, and the erosion of trust in superior instances - both
+institutional and personal - weaken the practical exercise of caring and ordering
+roles. The swarm's collective intelligence does not recreate the old hierarchy; it
+provides a distributed, auditable, and procedural layer of support that is less
+susceptible to personal sentiment, prestige, and local arrangements than singular
+human arbiters.
 
 ## Pragmatic Advantage
 
-Our pragmatic differentiator is not merely the ability to chat with a model, but a
-closed swarm learning loop: nodes jointly resolve real issues, valuable debates are
-preserved as source transcripts, those transcripts move through curation into public or
-federated vaults, and then become material for safe model specialization.
+The differentiator is not merely the ability to chat with a model, but a closed swarm
+learning loop: nodes jointly solve real problems, valuable debates are preserved as
+source transcripts, those transcripts move into "storage" and public or federated
+vaults, and then become material for safe model specialization.
 
 In practice, the loop is:
 
 `question -> debate -> transcript -> curation -> vault -> LoRA/QLoRA -> better future answers`
 
-This creates cumulative advantage over time: the swarm does not only answer, it learns
-from its own work without losing sovereignty over memory, sources, and training rules.
+The advantage compounds over time: the swarm does not only answer, it learns from its
+own work - without losing sovereignty over memory, sources, and training rules.
+
+As AI-assisted collective reasoning matures, more dynamic and granular protection of
+social-coexistence norms becomes possible: dignity and its normative derivatives
+(e.g., different kinds of freedom, protection of property, and so on) can be
+protected with greater precision because:
+
+- their phenomenological endpoint is always human - visible in the state of an
+  individual's nervous system (felt safety, overload, capacity for regulation,
+  and agency);
+
+- the reasoning context of an artificial-intelligence network can hold relevant
+  detail from many causal chains of events and human interactions, and on that
+  basis diagnose the causes of conflicts and search for solutions - something
+  that cannot be achieved by relying on general legal codes and fragmentary
+  inferences anchored in the participants' own situation assessments.
+
+The mechanism is analogous to the shift from approximate settlement in fading
+legacy compensation models for creators to precise profit splits in streaming
+media - settlements are based on real acts of use (often with second-level time
+resolution), which cumulatively can produce a completely different picture than
+one forecast statistically.
 
 ## The Problem We Address
 
 ### Imbalance of Power
 
-"Cheap intelligence" today tends toward concentration: giant models, giant
-budgets, large datasets, and singular actors that make decisions and aggregate
-shared data. Wherever concentration appears, power hidden inside the tool
-appears as well.
+"Cheap intelligence" today tends toward concentration: giant models, giant budgets,
+large datasets, and singular decision actors aggregating shared data. Wherever
+concentration appears, power hidden in the tool appears as well.
 
-This is not only about censorship or bad intentions, but about something
-deeper: **model weights are a frozen choice of what is typical, normal,
-elegant, and professional**. That is an embedded norm. It only needs to be
-convenient and to "look right," and conformity does the rest.
+This is not only about censorship or bad intent, but about something deeper: **model
+weights are a frozen choice of what is typical, normal, elegant, and professional**.
+That is an embedded norm. It only has to be convenient and "look right," and
+conformism completes the rest.
 
 ### Culture as a Low-Pass Filter
 
-When models feed models and synthetic content displaces human content, culture
-loses detail: anomalies, deviations, local nuances. It becomes a "copy of a
-copy." Over time, the aesthetic remains while the **living fuel of innovation**
-disappears.
+When models feed models and synthetic content displaces human content, culture loses
+detail: anomalies, deviations, local nuance. It becomes a "copy of a copy" - over
+time, the aesthetic remains while the **living fuel of innovation** disappears.
 
-The answer is not a nostalgic return to the old order, but an infrastructure
-that **protects diversity and the sources of novelty** instead of homogenizing
-them.
+The answer is not nostalgic return to an old order, but an infrastructure that
+**protects diversity and sources of novelty** instead of homogenizing them.
 
 ### Agency and Survival
 
-If thinking becomes a service, what becomes expensive is everything that is not
-a service:
+If thinking becomes a service, what becomes expensive is what is not a service:
 
-- **autonomy** (the ability to choose),
-- **relationship** (community, trust, commitment),
-- **memory** (continuity of meaning),
-- **locality** (experience of place, language, and context),
-- **safe space** (where social stakes do not destroy honesty).
+- **autonomy** - ability to choose,
+- **relationship** - community, trust, commitment,
+- **memory** - continuity of meaning,
+- **locality** - experience of place, language, context,
+- **safe field** - conditions where social stakes do not destroy honesty.
 
-The swarm infrastructure is meant to protect people in need and help them
-survive and develop without making them dependent on someone else's grace.
+Swarm infrastructure should protect people in need and help them survive and develop -
+without making them dependent on someone else's grace.
 
 ## Assumptions (Values as Protocol)
 
-This is a technical project, but values here are not PR. They are a
-**behavioral contract**.
+This is a technical project, but values here are not PR - they are a **behavioral
+contract**.
 
-1. **Sovereignty** - the user can leave with their data in 5 minutes (open
-   formats, export, migration).
+1. **Sovereignty** - a user can leave with data in 5 minutes (open formats, export,
+   migration).
 
-2. **Locality as the default mode (`local-first`)** - we prefer local
-   computation and memory; the network is an addition, not a precondition.
+2. **Locality as the default mode** (*local-first*) - we prefer local compute and
+   local memory; the network is an addition, not a condition.
 
-3. **Minimal stimulus** - no addictive mechanisms, no "dopamine-driven UX."
+3. **Minimal stimulus** - no addictive mechanisms, no "dopamine UX."
 
-4. **Privacy as dignity** - the threat model is part of the architecture, not
-   an add-on.
+4. **Privacy as dignity** - the threat model is part of architecture, not an add-on.
 
-5. **Mutual aid** - the network strengthens the most vulnerable, not only the
-   fastest.
+5. **Mutual aid** - the network strengthens the most vulnerable, not only the fastest.
 
-6. **Epistemic hygiene** - we separate levels: description, reduction,
-   explanation, experience, culture.
+6. **Epistemic hygiene** - we separate levels: description, reduction, explanation,
+   experience, culture.
 
-Operationally, we treat intelligence primarily as the ability to form accurate
-predictions and update them after contact with outcomes.
+Operationally, we treat intelligence primarily as the **ability to formulate accurate
+predictions** and update them after contact with outcomes.
 
 ## Glossary: Swarm, Memarium, Sensorium
 
@@ -110,176 +141,165 @@ predictions and update them after contact with outcomes.
 A **swarm** is a set of nodes that:
 
 - can act autonomously,
-- can cooperate through protocols,
-- have neither a single point of failure nor a single point of control.
+- can cooperate via protocols,
+- have no single point of failure or control.
 
-A swarm is not a state and not a corporation. It is an infrastructure capable of
-coordination without a center.
+A swarm is not a state or corporation - it is infrastructure capable of coordination
+without a center.
 
 ### Memarium
 
-**Memarium** is the layer of memory and knowledge whose purpose is to preserve
-what should not disappear:
+**Memarium** is the memory-and-knowledge layer whose purpose is to preserve what should
+not disappear:
 
 - personal archives (notes, world models, private language, idiolect),
-- community resources (survival guides, legal knowledge, first-contact medical
-  knowledge, shelter),
+- community resources (survival guides, legal knowledge, first-contact medicine,
+  shelter),
 - cultural artifacts (texts, recordings, maps, instructions, libraries).
 
-Memarium does not need to be global in order to be valuable. It can be
-**federated**, with replication, versioning, and rules of durability.
+Memarium does not have to be global to be valuable. It can be **federated**, with
+replication, versioning, and durability rules.
 
 ### Sensorium
 
 **Sensorium** is the layer of adapters to the world:
 
-- readers of content in public networks,
-- sensors for temperature, humidity, and air quality,
-- microphones (for example alarm detection, noise analysis),
-- cameras (for example threat recognition, evidentiary documentation, support
-  for people with disabilities),
-- other sources of signal (GPS, weather, energy, safety).
+- public-network content readers,
+- temperature, humidity, and air-quality sensors,
+- microphones (e.g., alarm detection, noise analysis),
+- cameras (e.g., threat recognition, evidentiary documentation, support for people
+  with disabilities),
+- other signal sources (GPS, weather, energy, safety).
 
-Sensorium has one purpose: **to anchor intelligence in reality**, so that it
-does not become pure rhetoric.
+Sensorium has one purpose: **to anchor intelligence in reality**, so it does not become
+pure rhetoric.
 
-Its use must remain subordinate to consent, data minimization, separation of
-contexts, and a protective purpose; sensorium is not a pretext for building a
-surveillance infrastructure.
+A boundary condition is important: sensorium use must remain subordinate to consent,
+data minimization, context separation, and protective purpose. Sensorium is not a
+pretext for surveillance infrastructure.
 
 ## Architecture: Layers and Contracts (Stratification in Practice)
 
-This network is built like a well-stratified system: small, autonomous elements
-become abstractions, and those abstractions in turn become concrete building
-blocks for the next layers.
+The network is built as a well-stratified system: small, autonomous elements become
+abstractions, and those abstractions become concrete building blocks for next layers.
 
 ### Layer 0: Node
 
-A node is a volunteer's machine (PC, server, NAS, RPi, laptop) that runs:
+A node is a volunteer machine (PC, server, NAS, RPi, laptop) that runs:
 
-- the runtime environment for agents,
+- runtime environment for agents,
 - local models,
 - local memaria,
 - sensorium connectors,
-- security policies.
+- security **policies**.
 
-**A node works even without the Internet.** The network is an option, not a
-dependency.
+**A node works even without the Internet.** The network is optional, not a dependency.
 
 ### Layer 1: Agent
 
 An agent is a process with a clearly defined contract:
 
-- input/output in a data format,
-- minimal permissions,
+- input/output in a defined data format,
+- minimal privileges (*least privilege*),
 - explicit dependencies,
-- decision traces (`trace`) and the possibility of audit.
+- decision traces (`trace`) and auditability.
 
-An agent can be:
-
-- a conversational partner (LLM),
-- an image creator (diffusion),
-- a mathematical solver,
-- a game-playing system,
-- a librarian (navigator of local memarium),
-- a guardian of rules (*guardrails-as-code*).
+An agent may play different roles: conversational partner (LLM), image generator
+(diffusion), math assistant, game player, librarian (navigator over local memarium),
+rule guard (*guardrails-as-code*), or spokesperson/mediator in conflict situations.
 
 ### Layer 2: Memory Spaces
 
 Memarium is divided into spaces:
 
-- **personal** (`private`),
-- **community** (`community`),
-- **public** (`commons`),
-- **crisis** (`emergency caches`).
+- **personal** (*private*),
+- **community** (*community*),
+- **public** (*commons*),
+- **crisis** (*emergency caches*).
 
-Each space has its own rules: encryption, replication, retention,
-anonymization, and the right to be forgotten.
+Each space has its own rules: encryption, replication, retention, anonymization, right
+to be forgotten.
 
-### Layer 3: Cooperation (Swarm Protocol)
+### Layer 3: Cooperation (*Swarm Protocol*)
 
-The swarm needs a protocol for the following purposes:
+The swarm needs a protocol for:
 
-- identification of nodes (cryptographic identity),
-- resilience against Sybil attacks and DoS and, only after validation,
-  mechanisms of procedural reputation,
-- routing (including *edge relaying*),
-- negotiation of tasks,
-- accounting for costs (energy, transfer) without financial violence.
+- node identification (cryptographic identity),
+- Sybil/DoS resilience and, only after validation, procedural-reputation mechanisms,
+- routing (including edge relays),
+- task negotiation,
+- cost accounting (energy, transfer) without financial violence.
 
-In the ideal version, the protocol is simple, described, auditable, and
-implementable in many languages.
+In the target form, the protocol is simple, documented, auditable, and implementable
+in many languages.
 
 ## Governance Without Priests: Rules Instead of Authority
 
-The greatest risk of decentralization is a new form of oligarchy: repository
-guardians, infrastructure operators, and vendor ecosystems.
+The biggest decentralization risk is a new oligarchy: repository gatekeepers,
+infrastructure operators, vendor ecosystems.
 
-That is why governance here takes the form of policies written in code
-(*policy-as-code*):
+Therefore governance is policy encoded as code (*policy-as-code*):
 
 - policies are explicit and versioned,
 - decisions are logged,
-- there is a right to fork together with one's data,
-- there is a right to one's own "quiet" node (without participation in public
-  spaces).
+- there is a right to fork with data,
+- there is a right to a private "quiet node" without participation in public spaces.
 
-This is a swarm resistant to cult formation: a tool, not a religion or an
-ideology.
+This is a swarm resistant to cult dynamics: a tool, not a religion or ideology.
 
 ## Security and Ethics as Part of the Data Layer
 
 ### "Do No Harm" as an Architectural Test
 
-Each component must face a control question:
+Each component gets control questions:
 
 - can it harm the user?
 - can it harm others?
-- can it be used for violence, coercion, or manipulation?
+- can it be used for violence, blackmail, manipulation?
 
-Guardrails are not censorship. They are a **threat model**.
+Guardrails are not censorship - they are a **threat model**.
 
 ### Privacy
 
 - encryption at rest and in transit,
 - data minimization,
-- separation of contexts (personal != public),
-- no telemetry by default.
+- context separation (personal != public),
+- telemetry off by default.
 
 ### Culture of Honesty
 
 The swarm adopts a culture of honesty: participation means readiness to submit to
-evidentiary procedure and accountability for ongoing or severe abuse.
+evidence-based procedure and accountability for ongoing or severe abuse.
 
-### Responsibility in Times of Crisis
+### Responsibility in Crisis
 
-The swarm has response modes. At the level of vision, these are example classes
-of work, not frozen protocol names:
+The swarm has response modes. At vision level these are example work classes, not
+frozen protocol names:
 
 - **normal** (`commons`),
 - **crisis** (`disaster` / `war` / `blackout`),
 - **support** (`shelter` / `food` / `legal` / `medical triage`).
 
-In crisis modes, rigor increases: more verification of information, more
-redundancy, more caution.
+In crisis modes rigor increases: more information verification, more redundancy, more
+caution.
 
 ## "Protect People in Need" - Concrete Scenarios
 
 ### Energy Crisis / Blackout
 
-Nodes operate locally: maps, instructions, local models for initial triage,
-portable caches of knowledge. Sensorium helps:
+Nodes operate locally: maps, instructions, local models for initial categorization
+(*triage*), portable knowledge cache. Sensorium helps:
 
-- monitor temperatures in shelters,
+- monitor shelter temperatures,
 - detect threats,
-- coordinate resources at a micro-scale.
+- coordinate resources at micro-scale.
 
 ### Escape from Violence
 
-Memarium may contain a working space tentatively called an *escape kit*:
+Memarium may include a working space called an *escape kit*:
 
 - how to pack without raising suspicion,
-- contacts for help,
+- help contacts,
 - local law (procedures),
 - safe communication channels,
 - first-contact psychological support (without pretending to be therapy).
@@ -288,54 +308,48 @@ Memarium may contain a working space tentatively called an *escape kit*:
 
 The swarm provides:
 
-- a teacher without a *feed*,
-- a laboratory for experiments,
-- a repository of proven craft practices,
+- a teacher without a feed,
+- an experimentation lab,
+- a repository of proven craftsmanship practices,
 - translations and explanations,
-- tools for building one's own tools.
+- tools for building your own tools.
 
-## The Role of Founders
+## Role of Founders
 
-Founders are architects of layers and creators of the first contracts:
+Founders play the role of layer architects and creators of first contracts:
 
-- they make sure the system is stratified (small change -> small change),
-- they maintain epistemic hygiene,
-- they build protocols (including identity, routing, memarium, and sensorium),
-- they keep the ethos: freedom, mutual aid, and no vendor lock-in,
-- they write texts that are not only manifestos, but practical demands and
-  instructions for living in the age of cheap intelligence.
+- keep system stratification (small change -> small effect),
+- protect epistemic hygiene,
+- build protocols (identity, routing, memarium, sensorium),
+- hold the ethos: freedom, mutual aid, no vendor lock-in,
+- write texts that are not only postulates but practical instructions for living in
+  the age of cheap intelligence.
 
-Their role is especially important during the founding period: they are then
-responsible for architectural coherence, implementation rhythm, and the
-project's resilience against premature bureaucratization, capture, and mission
-drift. Later, their influence should derive from the quality of their work, the
-soundness of their decisions, and the trust of the community, not from a cult
-of personality.
+Their role is especially important in the founding phase: architectural coherence,
+implementation rhythm, and resilience against premature bureaucracy, capture, and
+mission drift. Later, their influence should come from work quality, decision quality,
+and community trust - not personality cult.
 
-## Milestones (The Path from Vision to Reality)
+## Milestones (From Vision to Reality)
 
-1. **Minimal node**: runtime environment for agents + 1 or more models +
-   optional local memarium.
+1. **Minimal node**: agent runtime + one or more models + optional local memarium.
 
-2. **Exchange protocol**: tasks, results, identities, and, at later stages,
-   validated procedural reputation.
+2. **Exchange protocol**: tasks, results, identities; later phases add validated
+   procedural reputation.
 
-3. **Sensorium starter kit**: temperature + alarm microphone + camera
-   (optional).
+3. **Sensorium starter kit**: temperature + alarm microphone + camera (optional).
 
-4. **Crisis mode**: portable knowledge cache, procedures, validation of
-   information.
+4. **Crisis mode**: portable knowledge cache, procedures, information validation.
 
 5. **Federation of communities**: small swarms connect into larger ones without
    losing autonomy.
 
 ## Closing
 
-This is a vision of a world in which intelligence is too important to be handed
-over to tribal formations: agencies, corporations, individual states, or
-"priests of security."
+This is a vision of a world where intelligence is too important to be handed over to
+tribal formations - agencies, corporations, individual states, or "priests of
+security."
 
-We propose an order in which tools are free, memory does not depend on a medium,
-and the human being remains a source of novelty - not through heroism, but
-through cooperation and the cultivation of what does not fit. Together, we can
-become a source of good entropy.
+We propose an order where tools are free, memory is not medium-dependent, and humans
+remain a source of novelty - not through heroism, but through cooperation and
+cultivation of what does not fit. Together, we can become a source of good entropy.
