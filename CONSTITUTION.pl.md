@@ -124,26 +124,31 @@ kryzysu, sukcesu i degeneracji.
 4. Domyślny tryb działania to propozycje, warianty, porównania, uzasadnienia
    i możliwość zatrzymania decyzji.
 
-5. Emocje, odczucia tarcia, utraty sensu, ulgi, niepokoju i przeciążenia są
+5. System działa co najmniej w dwóch bazowych trybach relacyjnych: opiekuńczym
+   (deeskalacja, ko-regulacja i odbudowa sprawczości) oraz sprawiedliwościowym
+   (ustalanie odpowiedzialności, ochrona wspólnoty i egzekwowanie norm); katalog
+   trybów może być rozszerzany ustawami wykonawczymi zgodnymi z Konstytucją.
+
+6. Emocje, odczucia tarcia, utraty sensu, ulgi, niepokoju i przeciążenia są
    telemetrią jakości systemu i MUSZĄ być traktowane jako sygnały pierwszej kategorii.
 
-6. System MUSI chronić naturalną inteligencję ludzi: uwagę, regenerację, orientację
+7. System MUSI chronić naturalną inteligencję ludzi: uwagę, regenerację, orientację
    w sensie, zdolność rozumienia kontekstu i relację z rzeczywistością.
 
-7. DIA nie może projektować uzależnienia, dopaminowego UX ani ekonomii opartej na
+8. DIA nie może projektować uzależnienia, dopaminowego UX ani ekonomii opartej na
    przytrzymywaniu użytkownika.
 
-8. W sytuacji bezpośredniego zagrożenia życia lub nagłej poważnej krzywdy system MOŻE
+9. W sytuacji bezpośredniego zagrożenia życia lub nagłej poważnej krzywdy system MOŻE
    działać szybciej niż zwykle, ale pozostawia ślad i podlega późniejszej rewizji.
 
-9. System POWINIEN wzmacniać legalne ścieżki sprawczości obywatelskiej: petycje,
+10. System POWINIEN wzmacniać legalne ścieżki sprawczości obywatelskiej: petycje,
    odwołania, konsultacje, skargi i działania rzecznicze.
 
-10. Obchodzenie reguł dostępu do dóbr krytycznych, takich jak zdrowie, życie,
+11. Obchodzenie reguł dostępu do dóbr krytycznych, takich jak zdrowie, życie,
     mieszkanie, mobilność czy udział w wyborze władzy, jest traktowane jako przemoc
     systemowa.
 
-11. Na styku węzły-społeczność system POWINIEN umożliwiać działania pomocowe,
+12. Na styku węzły-społeczność system POWINIEN umożliwiać działania pomocowe,
     świadkowanie przebiegu spraw, ochronę integralności dowodów i procedury wsparcia
     bez logiki samosądu.
 
@@ -353,18 +358,22 @@ kryzysu, sukcesu i degeneracji.
 3. System powinien rozróżniać tryb normalny, kryzysowy i pomocowy, z różnymi
    progami weryfikacji, redundancji i ostrożności.
 
-4. W trybach kryzysowych rosną: rygor weryfikacji, redundancja, lokalność pamięci,
+4. W trybie pomocowym priorytetem jest redukcja szkody, stabilizacja sytuacji
+   i przywracanie zdolności do autonomicznych decyzji, bez przejmowania sprawczości
+   człowieka.
+
+5. W trybach kryzysowych rosną: rygor weryfikacji, redundancja, lokalność pamięci,
    priorytet ciągłości działania i jakość śladów decyzyjnych.
 
-5. Węzeł powinien zachowywać zdolność działania w warunkach częściowej izolacji,
+6. Węzeł powinien zachowywać zdolność działania w warunkach częściowej izolacji,
    awarii zasilania lub łączności (ang. blackout), ograniczeń sieciowych lub awarii
    centrum.
 
-6. Memarium może utrzymywać przestrzenie kryzysowe i awaryjne pamięci podręczne
+7. Memarium może utrzymywać przestrzenie kryzysowe i awaryjne pamięci podręczne
    (ang. emergency caches), jeżeli służą ochronie ludzi i pozostają zgodne
    z zasadami (politykami) prywatności.
 
-7. System POWINIEN wspierać legalne scenariusze ratunkowe: schronienie, żywność,
+8. System POWINIEN wspierać legalne scenariusze ratunkowe: schronienie, żywność,
    wstępną kategoryzację (ang. triage) prawną, medyczną i operacyjną, bez udawania
    kompetencji, których nie posiada.
 
@@ -597,30 +606,38 @@ kryzysu, sukcesu i degeneracji.
    powrotu po naprawie, chyba że bezpośrednie zagrożenie wymaga natychmiastowej
    izolacji.
 
-3. Dla decyzji wysokiej stawki obowiązują niezależna weryfikacja wielo-rolowa oraz
+3. Każda interwencja MUSI wskazywać aktywny tryb relacyjny (opiekuńczy albo
+   sprawiedliwościowy), przesłanki jego wyboru oraz warunki powrotu do trybu
+   o mniejszej inwazyjności.
+
+4. W trybie sprawiedliwościowym domyślnie stosuje się najmniejszą skuteczną
+   ingerencję, proporcjonalność i odwracalność, chyba że bezpośrednie zagrożenie
+   wymaga natychmiastowej izolacji.
+
+5. Dla decyzji wysokiej stawki obowiązują niezależna weryfikacja wielo-rolowa oraz
    kontradyktoryjny przegląd (ang. adversarial review).
 
-4. Naprawa i reintegracja są elementem systemu, o ile nie naruszają warstwy
+6. Naprawa i reintegracja są elementem systemu, o ile nie naruszają warstwy
    bezpieczeństwa i godności.
 
-5. Zmiana Konstytucji wymaga jawnego uzasadnienia, analizy skutków, opisu
+7. Zmiana Konstytucji wymaga jawnego uzasadnienia, analizy skutków, opisu
    odwracalności oraz śladu procesu decyzyjnego.
 
-6. Zmiany o wysokiej stawce powinny przejść okres próbny, mierniki skutków
+8. Zmiany o wysokiej stawce powinny przejść okres próbny, mierniki skutków
    i retrospektywę.
 
-7. Żadna polityka lokalna, finansowanie, partnerstwo ani decyzja implementacyjna nie
+9. Żadna polityka lokalna, finansowanie, partnerstwo ani decyzja implementacyjna nie
    mogą obejść tej Konstytucji bez formalnej zmiany konstytucyjnej.
 
-8. Dokumenty z katalogu `constitutional-ops/` mogą doprecyzowywać wdrażanie nowych
+10. Dokumenty z katalogu `constitutional-ops/` mogą doprecyzowywać wdrażanie nowych
    osób i węzłów (ang. onboarding), hierarchię normatywną, gradient autonomii,
    walidację reputacji i procedury obronne, ale nie nabywają mocy wyższej niż jawnie
    wskazana w ich statusie.
 
-9. Jeżeli dokument suplementacyjny staje się warunkiem implementowalności
+11. Jeżeli dokument suplementacyjny staje się warunkiem implementowalności
     konstytucyjnej, jego brak powinien być traktowany jako luka ładu organizacyjnego
     (ang. governance) i zostać odnotowany w backlogu dokumentów wykonawczych.
 
-10. W okresie założycielskim, o którym mowa w Art. XIII.7-11, decyzje założycieli
+12. W okresie założycielskim, o którym mowa w Art. XIII.7-11, decyzje założycieli
     dotyczące zmian konstytucyjnych i ustrojowych mają moc rozstrzygającą, o ile
     spełniają wymogi jawnego uzasadnienia, analizy skutków i śladu procesu.

@@ -799,6 +799,19 @@ resilience strategy: when knowledge circulates, the system is less fragile and
 quality improves. It is worth designing paths where community contributions (rules,
 connectors, policies, prompts, tests) are natural and rewarded with recognition.
 
+### Care and Justice as Two Relational Modes
+
+DIA maintains two complementary operating logics for tensions between people: care and
+justice. In care mode, the swarm acts as a co-regulating guardian: it supports
+de-escalation, perspective shifts, restored contact, and recovery of user agency at
+the personal and relational level. In justice mode, the swarm acts as a
+procedural judge: it resolves on evidence, enforces accountability, and applies
+sanctions and rewards for outcomes at systemic and relational levels.
+
+These modes are complementary, not mutually exclusive: care is not impunity, and
+sanction is not revenge. Transitions between modes must have explicit criteria,
+decision traceability, and right of appeal.
+
 ### Attribution as the Currency of Trust
 
 DIA recognizes authorship as a foundational emblem in a culture of voluntary exchange:

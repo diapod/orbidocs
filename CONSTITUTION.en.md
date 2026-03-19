@@ -125,27 +125,33 @@ conditions of pressure, crisis, success, and degeneration.
 4. The default mode of operation is proposals, options, comparisons, rationales,
    and the ability to stop a decision.
 
-5. Emotions, felt friction, loss of meaning, relief, anxiety, and overload are
+5. The system operates in at least two baseline relational modes: care mode
+   (de-escalation, co-regulation, and restoration of agency) and justice mode
+   (establishing accountability, protecting the community, and enforcing norms);
+   the mode set may be extended by implementing acts consistent with the
+   Constitution.
+
+6. Emotions, felt friction, loss of meaning, relief, anxiety, and overload are
    telemetry of system quality and MUST be treated as first-class signals.
 
-6. The system MUST protect the natural intelligence of people: attention,
+7. The system MUST protect the natural intelligence of people: attention,
    regeneration, orientation in meaning, the ability to understand context, and a
    relationship with reality.
 
-7. DIA may not design addiction, dopamine-driven UX, or an economy based on
+8. DIA may not design addiction, dopamine-driven UX, or an economy based on
    retaining the user.
 
-8. In a situation of direct danger to life or sudden serious harm, the system MAY
+9. In a situation of direct danger to life or sudden serious harm, the system MAY
    act faster than usual, but it leaves a trace and is subject to later review.
 
-9. The system SHOULD strengthen lawful paths of civic agency: petitions, appeals,
+10. The system SHOULD strengthen lawful paths of civic agency: petitions, appeals,
    consultations, complaints, and advocacy actions.
 
-10. Circumventing the rules of access to critical goods such as health, life,
+11. Circumventing the rules of access to critical goods such as health, life,
     housing, mobility, or participation in choosing those in power is treated as
     systemic violence.
 
-11. At the node-community boundary, the system SHOULD enable helping actions,
+12. At the node-community boundary, the system SHOULD enable helping actions,
     witnessing the course of cases, protecting the integrity of evidence, and
     support procedures without the logic of vigilantism.
 
@@ -354,17 +360,21 @@ conditions of pressure, crisis, success, and degeneration.
 3. The system should distinguish normal, crisis, and support modes, with different
    thresholds of verification, redundancy, and caution.
 
-4. In crisis modes, the following increase: rigor of verification, redundancy,
+4. In support mode, priority is given to harm reduction, stabilization of the
+   situation, and restoring the capacity for autonomous decision-making, without
+   taking agency away from the person.
+
+5. In crisis modes, the following increase: rigor of verification, redundancy,
    memory locality, priority of continuity of operation, and quality of decision
    traces.
 
-5. A node should preserve the ability to operate under partial isolation,
+6. A node should preserve the ability to operate under partial isolation,
    blackout, network constraints, or center failure.
 
-6. Memarium may maintain crisis spaces and emergency caches if they serve to
+7. Memarium may maintain crisis spaces and emergency caches if they serve to
    protect people and remain consistent with privacy rules (policies).
 
-7. The system SHOULD support lawful rescue scenarios: shelter, food, legal,
+8. The system SHOULD support lawful rescue scenarios: shelter, food, legal,
    medical, and operational triage, without pretending to possess competences it
    does not have.
 
@@ -600,31 +610,38 @@ conditions of pressure, crisis, success, and degeneration.
 2. Every sanction decision MUST leave a trace, a possibility of appeal,
    and a path back after repair, unless direct danger requires immediate isolation.
 
-3. High-stakes decisions require independent multi-role verification and
+3. Every intervention MUST indicate the active relational mode (care or justice),
+   the grounds for selecting it, and the conditions for returning to a less
+   invasive mode.
+
+4. In justice mode, the default is the least invasive effective intervention, proportionality,
+   and reversibility, unless direct danger requires immediate isolation.
+
+5. High-stakes decisions require independent multi-role verification and
    adversarial review.
 
-4. Repair and reintegration are elements of the system so long as they do not
+6. Repair and reintegration are elements of the system so long as they do not
    violate the safety and dignity layer.
 
-5. Changing the Constitution requires an explicit rationale, impact analysis,
+7. Changing the Constitution requires an explicit rationale, impact analysis,
    a description of reversibility, and a trace of the decision-making process.
 
-6. High-stakes changes should pass through a trial period, impact metrics,
+8. High-stakes changes should pass through a trial period, impact metrics,
    and a retrospective.
 
-7. No local policy, funding arrangement, partnership, or implementation decision
+9. No local policy, funding arrangement, partnership, or implementation decision
    may bypass this Constitution without a formal constitutional amendment.
 
-8. Documents in the `constitutional-ops/` directory may refine onboarding of new
+10. Documents in the `constitutional-ops/` directory may refine onboarding of new
    people and nodes, the normative hierarchy, the autonomy gradient,
    reputation validation, and defense procedures, but they do not acquire force
    higher than that explicitly stated in their status.
 
-9. If a supplementary document becomes a condition of constitutional
+11. If a supplementary document becomes a condition of constitutional
    implementability, its absence should be treated as a governance gap and
    recorded in the backlog of implementing documents.
 
-10. During the founding period referred to in Article XIII.7-11, founders'
+12. During the founding period referred to in Article XIII.7-11, founders'
     decisions concerning constitutional and institutional changes have decisive
     force, provided they satisfy the requirements of explicit rationale,
     impact analysis, and a trace of the process.

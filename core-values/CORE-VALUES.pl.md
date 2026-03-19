@@ -813,6 +813,20 @@ lecz strategia odporności: gdy wiedza krąży, system jest mniej kruchy, a jako
 rośnie. Warto projektować ścieżki, w których wkład społeczności (reguły, konektory,
 polityki, prompty, testy) jest naturalny i nagradzany uznaniem.
 
+### Opieka i sprawiedliwość jako dwa tryby relacyjne
+
+DIA utrzymuje dwie komplementarne logiki działania wobec napięć między ludźmi:
+opiekuńczą i sprawiedliwościową. W trybie opiekuńczym rój działa jako ko-regulujący
+opiekun: wspiera deeskalację, zmianę perspektywy, odbudowę kontaktu i przywracanie
+sprawczości uczestników na poziomie osobistym i relacyjnym. W trybie
+sprawiedliwościowym rój działa jako sędzia proceduralny: rozstrzyga na podstawie
+dowodów, egzekwuje odpowiedzialność, uruchamia sankcje oraz nagrody za skutki na
+poziomie systemowym i relacyjnym.
+
+Te tryby nie znoszą się, tylko domykają: opieka nie oznacza bezkarności, a sankcja
+nie jest odwetem. Przejścia między trybami muszą mieć jawne kryteria, ślad decyzji i
+prawo do odwołania.
+
 ### Uznanie autorstwa jako waluta zaufania
 
 DIA uznaje autorstwo za fundamentalny emblemat w kulturze dobrowolnej wymiany – tam,
