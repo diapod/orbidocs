@@ -10,6 +10,7 @@ This directory holds short idea notes, seeds, and design prompts that are not ye
 - `transcription-monitors-and-public-vaults.md` - transcription-monitor nodes preserve valuable discussions as source transcripts and archivist nodes publish them into durable vaults for later synthesis and training.
 - `human-expertise-escalation.md` - the swarm asks a human specialist behind a node for help when it reaches the edge of its own certainty or competence.
 - `operator-participation-in-answer-channel.md` - a participating node may consult its operator privately or let them join the live debate, with explicit provenance that distinguishes node output from human-originated input.
+- `operator-proxy-co-regulation.md` - a node may serve as an external-facing spokesperson for its operator and run proxy-to-proxy co-regulation dialogues, including private local contact linkage without global depseudonymization.
 
 ## User Orientation and Filtering
 
