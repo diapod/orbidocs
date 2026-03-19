@@ -32,16 +32,6 @@ The swarm operates in at least two complementary baseline relational modes:
 personal and relational level) and **justice** (procedural accountability,
 sanctions, and rewards for outcomes - at the systemic and relational level).
 
-The baseline relational modes mentioned above are also a response to the crisis of
-authority and of public-trust roles. Media pluralization, the pragmatization of
-social communication, the shortening of distance, and the erosion of trust in superior
-instances - both institutional and personal - weaken the practical execution of caring
-and ordering roles. The realization that, in existing mechanisms of social care and
-justice, the weakest links are people like any others - vulnerable to coercion, driven
-by personal motives, dependent on sympathies and current personal conditions - erodes
-the points of support that guarantee a safe space for the growth of societies as a
-whole.
-
 The swarm's collective intelligence does not recreate the old hierarchy; it provides
 a distributed and procedural layer of support that is auditable and less susceptible
 to personal sentiment, prestige, and local arrangements than singular human arbiters.
@@ -93,6 +83,28 @@ This is not only about censorship or bad intent, but about something deeper: **m
 weights are a frozen choice of what is typical, normal, elegant, and professional**.
 That is an embedded norm. It only has to be convenient and "look right," and
 conformism completes the rest.
+
+### Crisis of Authority and Public-Trust Roles
+
+Media pluralization, the pragmatization of social communication, the shortening of
+distance, and the erosion of trust in superior instances - both institutional and
+personal - weaken the practical execution of caring and ordering roles. The
+realization that, in existing mechanisms of social care and justice, the weakest links
+are people like any others - vulnerable to coercion, driven by personal motives,
+dependent on sympathies and current personal conditions - erodes the points of support
+that guarantee a safe space for the growth of societies as a whole.
+
+### Cognitive Overload and Coordination Block
+
+As the world's complexity grows, the cost of maintaining an adequate picture of the
+situation on one's own also rises. Even high intelligence does not protect against
+this: attachment to one's own interpretations, the need for prior agreement, and the
+burden of continuously processing complexity often block joint action.
+
+As a result, the problem is not only a shortage of reason, but a deficit of
+coordination. DIA responds to this through collective intelligence, which takes over
+part of the burden of analysis and calibration, allowing people to enter a shared
+working model faster and act together more effectively despite their differences.
 
 ### Culture as a Low-Pass Filter
 

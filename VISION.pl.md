@@ -30,16 +30,6 @@ Rój działa co najmniej w dwóch komplementarnych, bazowych trybach relacyjnyc
 poziomie osobistym i relacyjnym) oraz **sprawiedliwościowym** (proceduralna
 odpowiedzialność, sankcje i nagrody za skutki – na poziomie systemowym i relacyjnym).
 
-Wspomniane wyżej bazowe tryby relacyjne są także odpowiedzią na kryzys autorytetów
-i ról zaufania publicznego. Pluralizacja medialnego przekazu, pragmatyzacja
-komunikacji społecznej, skrócenie dystansu oraz erozja zaufania do nadrzędnych
-instancji – zarówno instytucjonalnych, jak i osobowych – osłabiają praktycznie
-realizowane role opiekuńcze i porządkujące. Świadomość, że w dotychczasowych
-mechanizmach społecznej opieki i sprawiedliwości najsłabszymi ogniwami są ludzie tacy
-jak inni – podatni na szantaż, motywowani osobistymi pobudkami, zależni od sympatii
-i aktualnych osobistych warunków – sprawia, że znikają punkty oparcia gwarantujące
-bezpieczną przestrzeń wzrostu społeczeństw jako całości.
-
 Kolektywna inteligencja roju nie odtwarza dawnej hierarchii, lecz dostarcza
 rozproszonej i proceduralnej warstwy wsparcia, audytowalnej oraz mniej podatnej na
 osobiste sentymenty, prestiż i lokalne układy niż pojedynczy ludzcy arbitrzy.
@@ -92,6 +82,29 @@ Nie chodzi wyłącznie o cenzurę czy złe intencje, lecz o coś głębszego: 
 są zamrożonym wyborem tego, co typowe, normalne, eleganckie i profesjonalne**. To
 wbudowana norma. Wystarczy, że jest wygodna i "dobrze wygląda", a konformizm dopełnia
 reszty.
+
+### Kryzys autorytetów i ról zaufania publicznego
+
+Pluralizacja medialnego przekazu, pragmatyzacja komunikacji społecznej, skrócenie
+dystansu oraz erozja zaufania do nadrzędnych instancji – zarówno instytucjonalnych,
+jak i osobowych – osłabiają praktycznie realizowane role opiekuńcze i porządkujące.
+Świadomość, że w dotychczasowych mechanizmach społecznej opieki i sprawiedliwości
+najsłabszymi ogniwami są ludzie tacy jak inni – podatni na szantaż, motywowani
+osobistymi pobudkami, zależni od sympatii i aktualnych osobistych warunków – sprawia,
+że znikają punkty oparcia gwarantujące bezpieczną przestrzeń wzrostu społeczeństw
+jako całości.
+
+### Przeciążenie poznawcze i blokada współdziałania
+
+Wraz ze wzrostem złożoności świata rośnie koszt samodzielnego utrzymywania
+adekwatnego obrazu sytuacji. Nie chroni przed tym nawet wysoka inteligencja:
+przywiązanie do własnych interpretacji, potrzeba uprzedniej zgodności oraz ciężar
+ciągłego przetwarzania złożoności często blokują wspólne działanie.
+
+W efekcie problemem nie jest tylko niedobór rozumu, lecz deficyt koordynacji. DIA
+odpowiada na to przez kolektywną inteligencję, która przejmuje część ciężaru
+analizy i kalibracji, dzięki czemu ludzie mogą szybciej wejść we wspólny model
+roboczy i skuteczniej działać razem mimo różnic.
 
 ### Kultura jako filtr dolnoprzepustowy
 
