@@ -5,11 +5,14 @@ PANDOC ?= pandoc
 PDF_ENGINE ?= weasyprint
 PDF_CSS ?= styles/pdf.css
 PANDOC_FLAGS ?= --standalone --from=gfm+smart --pdf-engine=$(PDF_ENGINE) --css=$(PDF_CSS)
+PANDOC_LANG ?= en-US
+PANDOC_FILTERS ?=
 
 # Space-separated Markdown source patterns to render into PDF.
 PDF_SOURCE_PATTERNS ?= \
 	AI-MANIFESTO*.md \
 	CONSTITUTION*.md \
+	VISION*.md \
 	core-values/CORE-VALUES*.md \
 	constitutional-ops/pl/*.md \
 	constitutional-ops/en/*.md \
@@ -48,4 +51,8 @@ output-clean:
 
 $(OUTPUT_DIR)/%.pdf: %.md $(PDF_CSS)
 	@mkdir -p "$(dir $@)"
-	$(PANDOC) $(PANDOC_FLAGS) -o "$@" "$<"
+	$(PANDOC) $(PANDOC_FLAGS) $(PANDOC_FILTERS) --metadata=lang:$(PANDOC_LANG) -o "$@" "$<"
+
+$(OUTPUT_DIR)/%.pl.pdf: PANDOC_LANG = pl-PL
+$(OUTPUT_DIR)/%.en.pdf: PANDOC_LANG = en-US
+$(OUTPUT_DIR)/%.pl.pdf: PANDOC_FILTERS = --lua-filter=styles/polish-typography.lua
