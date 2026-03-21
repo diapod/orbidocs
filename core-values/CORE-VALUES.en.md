@@ -930,6 +930,31 @@ internal token exchangeability to actual virtual-currency tokens as a supervised
 exception to automatic exchange. Such change in network behavior should be a
 conscious, controlled community decision.
 
+### Sufficiency Over Accumulation
+
+DIA holds that the goal of internal economics is not endless multiplication of
+resources, but durable maintenance of the capacity to act. A node should be able to
+reach the safety and stability needed for reliable work and to provide cognitive
+comfort to its operator, but it should not be able to turn that advantage into
+lasting dominance over the rest of the ecosystem.
+
+The system rejects growth for growth's sake, as well as mechanisms resembling asset
+pyramids, in which earlier participants are rewarded mainly through the inflow of new
+ones. Such an arrangement destroys community, distorts incentives, and turns a
+cooperative network into a race for position.
+
+In node compensation DIA adopts the principle of a sufficiency cap. Once a level is
+reached that is enough for the safe and comfortable upkeep of the node and its
+operator, the system gradually slows the pace of further rewards. This is not a
+penalty for effectiveness, but protection of the swarm against concentration of
+resources and influence. Surpluses do not disappear - they are automatically routed
+back into the common circulation: new nodes, weaker links, temporarily harmed nodes,
+or those that perform important infrastructural functions even if they do not produce
+high reputational returns.
+
+Wealth in the swarm is not a right to endless accumulation, but a temporary
+responsibility.
+
 ## Epistemics and Collective Intelligence
 
 ### Grounding in Reality

@@ -155,7 +155,11 @@ zachowań**.
 
 5. **Wzajemna pomoc** – sieć wzmacnia najsłabszych, nie tylko najszybszych.
 
-6. **Higiena epistemiczna** – oddzielamy poziomy: opis, redukcję, wyjaśnienie,
+6. **Dostatek ponad akumulację** – ekonomia roju ma podtrzymywać zdolność do
+   działania; nadwyżki nie służą trwałej dominacji, lecz wracają do wspólnego
+   obiegu i wzmacniają słabsze lub infrastrukturalne ogniwa.
+
+7. **Higiena epistemiczna** – oddzielamy poziomy: opis, redukcję, wyjaśnienie,
    doświadczenie, kulturę.
 
 Operacyjnie traktujemy inteligencję przede wszystkim jako **zdolność formułowania

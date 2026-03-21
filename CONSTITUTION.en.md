@@ -340,17 +340,22 @@ conditions of pressure, crisis, success, and degeneration.
 3. The revenue model may not depend primarily on addicting the user,
    surveillance, artificial scarcity, or holding data hostage.
 
-4. Financial agreements and partnerships MUST be consistent with the right to
+4. The system may not design an economy in which earlier participants are rewarded
+   mainly through the inflow of new participants, nor allow economic advantage to be
+   converted into privileged access to governance, routing, exceptions, oracles, or
+   reputational force.
+
+5. Financial agreements and partnerships MUST be consistent with the right to
    exit, the right to fork, openness of the specifications, and this
    Constitution's non-negotiable layer.
 
-5. If a single source of funding, infrastructure, model, or competence becomes a
+6. If a single source of funding, infrastructure, model, or competence becomes a
    point of critical dependency, the federation MUST activate a diversification plan.
 
-6. Corporate-compliance modes, including `CORP_COMPLIANT`, may tighten local
+7. Corporate-compliance modes, including `CORP_COMPLIANT`, may tighten local
    requirements but may not weaken basic rights.
 
-7. In case of conflict between preserving funding and preserving constitutional
+8. In case of conflict between preserving funding and preserving constitutional
    integrity, constitutional integrity takes precedence.
 
 ## Article IX. Safety, Crisis, and Protection of People in Need
@@ -517,7 +522,22 @@ conditions of pressure, crisis, success, and degeneration.
 6. Mechanisms for rewarding contribution may operate through auditable signals of
    use, impact, and maintenance of value, with anti-Sybil and anti-cartel brakes.
 
-7. Rare signals, anomalies, and outlier styles are a cultural resource that the
+7. The purpose of internal economics is durable maintenance of the capacity to act
+   for people, nodes, and the community, not infinite accumulation of resources.
+
+8. Reward mechanisms MUST include concentration brakes: diminishing gains,
+   a sufficiency cap, or other functionally equivalent limits once the threshold
+   of safe and stable upkeep of the node and its operator has been exceeded.
+
+9. Surpluses above the sufficiency threshold MUST return to common circulation
+   according to federation rules, in particular for new nodes, weaker links,
+   temporarily harmed nodes, and infrastructural functions of high communal value.
+
+10. Economic reward may not by itself grant lasting constitutional advantage:
+    it may not automatically increase procedural power, privileged routing,
+    adjudicative force, or access to exceptions.
+
+11. Rare signals, anomalies, and outlier styles are a cultural resource that the
    system should protect against homogenization.
 
 ## Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation

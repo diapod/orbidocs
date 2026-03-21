@@ -944,6 +944,30 @@ tokenów wewnętrznych na prawdziwe tokeny walut wirtualnych jako nadzorowany wy
 do automatycznej wymiany. Taka zmiana zachowania sieci powinna być świadomą,
 kontrolowaną decyzją społeczności.
 
+### Dostatek ponad akumulację
+
+DIA uznaje, że celem ekonomii wewnętrznej nie jest nieskończone pomnażanie zasobów,
+lecz trwałe podtrzymywanie zdolności do działania. Węzeł powinien móc osiągnąć
+bezpieczeństwo i stabilność potrzebne do rzetelnej pracy oraz zapewnienia
+poznawczego komfortu operatorowi, lecz nie powinien mieć możliwości zamiany tej
+przewagi na trwałą dominację nad resztą ekosystemu.
+
+System odrzuca wzrost dla samego wzrostu, a także mechanizmy przypominające piramidy
+aktywów, w których wcześniejsi uczestnicy są wynagradzani głównie dzięki napływowi
+nowych. Taki układ niszczy wspólnotę, wypacza motywacje i zamienia sieć współpracy w
+wyścig o pozycję.
+
+W kwestii wynagradzania węzłów DIA przyjmuje zasadę limitu dostatku. Po
+przekroczeniu poziomu, który wystarcza do bezpiecznego i komfortowego utrzymania
+węzła oraz jego operatora, system stopniowo zmniejsza tempo dalszego nagradzania.
+Nie jest to kara za skuteczność, lecz ochrona roju przed koncentracją zasobów i
+wpływu. Nadwyżki nie znikają - są automatycznie włączane do wspólnego obiegu: nowych
+węzłów, ogniw słabszych, czasowo poszkodowanych lub takich, które pełnią ważne
+funkcje infrastrukturalne, choć nie generują wysokich zysków reputacyjnych.
+
+Bogactwo w roju nie jest prawem do nieskończonej kumulacji, lecz przejściową
+odpowiedzialnością.
+
 ## Epistemika i inteligencja zbiorowa
 
 ### Ugruntowanie w rzeczywistości

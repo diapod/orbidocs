@@ -135,6 +135,16 @@ Closed on `2026-03-12` by document `DIA-FIP-QUORUM-001`, which defines:
 - default quorum `2 of 3` for `U2` and `3 of 5` for `U3`,
 - emergency mode, composition snapshot, and jurisdictional diversity rules.
 
+### `SWARM-ECONOMY-SUFFICIENCY.en.md`
+
+Closed on `2026-03-21` by document `DIA-SUFF-001`, which defines:
+
+- the operational model of the sufficiency threshold and tapering band,
+- permissible classes of concentration brakes and the anti-pyramid test,
+- the minimal data model of federation economic policy,
+- common circulation of surpluses and their destination classes,
+- the barrier between economic reward and procedural power.
+
 ---
 
 ## Priority A - Required Before Real Governance Goes Live

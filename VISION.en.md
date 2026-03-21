@@ -153,7 +153,11 @@ contract**.
 
 5. **Mutual aid** - the network strengthens the most vulnerable, not only the fastest.
 
-6. **Epistemic hygiene** - we separate levels: description, reduction, explanation,
+6. **Sufficiency over accumulation** - swarm economics should sustain the capacity to
+   act; surpluses should not become lasting domination, but return to common
+   circulation and strengthen weaker or infrastructural links.
+
+7. **Epistemic hygiene** - we separate levels: description, reduction, explanation,
    experience, culture.
 
 Operationally, we treat intelligence primarily as the **ability to formulate accurate

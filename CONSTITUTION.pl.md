@@ -339,16 +339,22 @@ kryzysu, sukcesu i degeneracji.
    inwigilacji (ang. surveillance), sztucznej rzadkości ani przetrzymywania danych
    jako zakładnika.
 
-4. Umowy finansowe i partnerstwa MUSZĄ być zgodne z prawem do wyjścia, prawem do
+4. System nie może projektować ekonomii, w której wcześniejsi uczestnicy są
+   wynagradzani głównie dzięki napływowi nowych uczestników, ani dopuszczać zamiany
+   przewagi ekonomicznej na uprzywilejowany dostęp do ładu organizacyjnego
+   (ang. governance), trasowania (ang. routing), wyjątków, wyroczni lub siły
+   reputacyjnej.
+
+5. Umowy finansowe i partnerstwa MUSZĄ być zgodne z prawem do wyjścia, prawem do
    rozwidlenia, otwartością specyfikacji i warstwą nienegocjowalną tej Konstytucji.
 
-5. Jeżeli pojedyncze źródło finansowania, infrastruktury, modelu lub kompetencji
+6. Jeżeli pojedyncze źródło finansowania, infrastruktury, modelu lub kompetencji
    staje się punktem krytycznej zależności, federacja MUSI uruchomić plan dywersyfikacji.
 
-6. Tryby zgodności korporacyjnej, w tym `CORP_COMPLIANT`, mogą zaostrzać wymogi
+7. Tryby zgodności korporacyjnej, w tym `CORP_COMPLIANT`, mogą zaostrzać wymogi
    lokalne, lecz nie mogą osłabiać praw podstawowych.
 
-7. W przypadku konfliktu między utrzymaniem finansowania a zachowaniem integralności
+8. W przypadku konfliktu między utrzymaniem finansowania a zachowaniem integralności
    konstytucyjnej pierwszeństwo ma integralność konstytucyjna.
 
 ## Artykuł IX. Bezpieczeństwo, kryzys i ochrona ludzi w potrzebie
@@ -514,7 +520,22 @@ kryzysu, sukcesu i degeneracji.
 6. Mechanizmy wynagradzania wkładu mogą działać przez audytowalne sygnały użycia,
    wpływu i utrzymywania wartości, z hamulcami anty-sybilowymi i anty-kartelowymi.
 
-7. Rzadkie sygnały, anomalie i style odstające są zasobem kulturowym, który system
+7. Celem ekonomii wewnętrznej jest trwałe podtrzymywanie zdolności do działania
+   ludzi, węzłów i wspólnoty, a nie nieskończona akumulacja zasobów.
+
+8. Mechanizmy wynagradzania MUSZĄ posiadać hamulce koncentracji: malejące przyrosty,
+   limit dostatku lub inne funkcjonalnie równoważne ograniczenia po przekroczeniu
+   progu bezpiecznego i stabilnego utrzymania węzła oraz jego operatora.
+
+9. Nadwyżki ponad próg dostatku MUSZĄ wracać do wspólnego obiegu według zasad
+   federacji, w szczególności na rzecz nowych węzłów, ogniw słabszych, czasowo
+   poszkodowanych oraz funkcji infrastrukturalnych o wysokiej wartości wspólnotowej.
+
+10. Nagroda ekonomiczna sama przez się nie może dawać trwałej przewagi ustrojowej:
+    nie może automatycznie zwiększać mocy proceduralnej, uprzywilejowanego
+    trasowania, siły rozstrzygającej ani dostępu do wyjątków.
+
+11. Rzadkie sygnały, anomalie i style odstające są zasobem kulturowym, który system
    powinien chronić przed homogenizacją.
 
 ## Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult

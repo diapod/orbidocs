@@ -135,6 +135,16 @@ Domknięto dnia `2026-03-12` przez dokument `DIA-FIP-QUORUM-001`, który definiu
 - domyślne quorum `2 z 3` dla `U2` i `3 z 5` dla `U3`,
 - tryb awaryjny, migawkę składu i reguły różnorodności jurysdykcyjnej.
 
+### `SWARM-ECONOMY-SUFFICIENCY.pl.md`
+
+Domknięto dnia `2026-03-21` przez dokument `DIA-SUFF-001`, który definiuje:
+
+- operacyjny model progu dostatku i pasma wygaszania,
+- dopuszczalne klasy hamulców koncentracji i test anty-piramidowy,
+- minimalny model danych polityki ekonomicznej federacji,
+- wspólny obieg nadwyżek i klasy ich przeznaczenia,
+- barierę między nagrodą ekonomiczną a władzą proceduralną.
+
 ---
 
 ## Priorytet A - wymagane przed wejściem w realny ład organizacyjny (ang. governance)
