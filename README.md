@@ -125,12 +125,18 @@ Normative material follows a stricter path. When a proposal starts governing aut
 | `/memos/swarm-broadcast-assistance.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
 | `/memos/swarm-question-channel-transports.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
 | `/memos/operator-participation-in-answer-channel.md` | `/proposals/004-human-origin-flags-and-operator-participation.md` |
+| `/memos/client-simplicity.md` | `/proposals/006-pod-access-layer-for-thin-clients.md` |
+| `/memos/pod-backed-thin-clients.md` | `/proposals/006-pod-access-layer-for-thin-clients.md` |
+| `/memos/transcription-monitors-and-public-vaults.md` | `/proposals/008-transcription-monitors-and-public-vaults.md` |
+| `/memos/swarm-communication-exposure-modes.md` | `/proposals/009-communication-exposure-modes.md` |
+| `/memos/operator-proxy-co-regulation.md` | `/proposals/010-operator-proxy-co-regulation.md` |
 
 ### Proposals -> Proposals
 
 | Proposal | Proposal |
 |---|---|
 | `/proposals/004-human-origin-flags-and-operator-participation.md` | `/proposals/005-operator-participation-room-policy-profiles.md` |
+| `/proposals/006-pod-access-layer-for-thin-clients.md` | `/proposals/007-pod-identity-and-tenancy-model.md` |
 
 ### Proposals -> Requirements
 
@@ -140,6 +146,9 @@ Normative material follows a stricter path. When a proposal starts governing aut
 | `/proposals/004-human-origin-flags-and-operator-participation.md` | `/requirements/requirements-004.md` |
 | `/proposals/004-human-origin-flags-and-operator-participation.md` | `/requirements/requirements-005.md` |
 | `/proposals/005-operator-participation-room-policy-profiles.md` | `/requirements/requirements-005.md` |
+| `/proposals/008-transcription-monitors-and-public-vaults.md` | `/requirements/requirements-004.md` |
+| `/proposals/009-communication-exposure-modes.md` | `/requirements/requirements-004.md` |
+| `/proposals/009-communication-exposure-modes.md` | `/requirements/requirements-005.md` |
 
 ### Requirements -> Schemas
 
