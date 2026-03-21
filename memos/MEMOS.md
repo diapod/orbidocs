@@ -19,6 +19,7 @@ This directory holds short idea notes, seeds, and design prompts that are not ye
 ## Node UX and Discovery
 
 - `client-simplicity.md` - node client should stay simple to install, configure, and run.
+- `pod-backed-thin-clients.md` - mobile and desktop clients may act as thin interfaces to nodes exposing a `pod` module, without running their own local language model.
 - `wide-caps.md` - hierarchical capability advertisement and lightweight semantic matching between node capabilities.
 
 ## Trust, Safety, and Control
