@@ -145,6 +145,16 @@ Domknięto dnia `2026-03-21` przez dokument `DIA-SUFF-001`, który definiuje:
 - wspólny obieg nadwyżek i klasy ich przeznaczenia,
 - barierę między nagrodą ekonomiczną a władzą proceduralną.
 
+### `RAW-SIGNAL-POLICY.pl.md`
+
+Domknięto dnia `2026-03-21` przez dokument `DIA-RAW-001`, który definiuje:
+
+- tryby `raw` / `structured` / `transformed` / `redacted`,
+- dopuszczalne podstawy transformacji sygnału,
+- obowiązkowe metaznaczniki dla ingerencji AI,
+- minimalny ślad audytowy transformacji wypowiedzi,
+- testy zgodności przeciw niejawnej estetyzacji i profesjonalizacji.
+
 ---
 
 ## Priorytet A - wymagane przed wejściem w realny ład organizacyjny (ang. governance)

@@ -143,20 +143,28 @@ conditions of pressure, crisis, success, and degeneration.
    regeneration, orientation in meaning, the ability to understand context, and a
    relationship with reality.
 
-8. DIA may not design addiction, dopamine-driven UX, or an economy based on
+8. The user has a right to the raw signal: the system may not by default
+   aestheticize, professionalize, smooth, or standardize their expression in a way
+   that erases the authentic character of the message.
+
+9. Any transformation of style, tone, structure, or level of formalization of an
+   utterance by AI requires the user's explicit request or another explicit
+   procedural basis and MUST leave a meta-marker of that intervention.
+
+10. DIA may not design addiction, dopamine-driven UX, or an economy based on
    retaining the user.
 
-9. In a situation of direct danger to life or sudden serious harm, the system MAY
+11. In a situation of direct danger to life or sudden serious harm, the system MAY
    act faster than usual, but it leaves a trace and is subject to later review.
 
-10. The system SHOULD strengthen lawful paths of civic agency: petitions, appeals,
+12. The system SHOULD strengthen lawful paths of civic agency: petitions, appeals,
    consultations, complaints, and advocacy actions.
 
-11. Circumventing the rules of access to critical goods such as health, life,
+13. Circumventing the rules of access to critical goods such as health, life,
     housing, mobility, or participation in choosing those in power is treated as
     systemic violence.
 
-12. At the node-community boundary, the system SHOULD enable helping actions,
+14. At the node-community boundary, the system SHOULD enable helping actions,
     witnessing the course of cases, protecting the integrity of evidence, and
     support procedures without the logic of vigilantism.
 

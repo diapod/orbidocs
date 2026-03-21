@@ -84,6 +84,25 @@ własny ogon. Dlatego wzmacniamy różnorodność stylów, bo to one wstrzykują
 zapobiegają stagnacji (także w modelach). Człowiek – czujący podmiot zakorzeniony
 w bólu, radości, absurdzie i relacji – wnosi do systemu entropię nowości.
 
+### Prawo do surowego sygnału
+
+Przymusowa estetyzacja i wymóg profesjonalizacji w komunikacji międzyludzkiej
+niszczą autentyczność, bo wytwarzają iluzoryczne progi przynależności i maskują
+realną charakterystykę uczestników. Dlatego DIA premiuje surowy sygnał ponad
+sztucznie wygładzone komunikaty, które bardziej chronią pozór poprawności niż
+kontakt z tym, co człowiek rzeczywiście chce przekazać.
+
+Operacje upiększające, wygładzające lub standaryzujące rzeczywistość muszą być
+jawnie zażądane przez użytkownika, a nie włączane domyślnie. Jeżeli AI ingeruje w
+styl, ton, strukturę lub poziom formalizacji wypowiedzi (na przykład tłumaczy
+chaotyczny potok myśli na listę zadań), system powinien pozostawiać odpowiedni
+metaznacznik informujący, że nastąpiła transformacja sygnału.
+
+Ochrona autentyczności staje się tu prawem użytkownika do tego, by jego unikatowa
+charakterystyka nie była automatycznie cenzurowana, uśredniana ani "uładniana" przez
+maszynę. Rój może pomagać w tłumaczeniu, porządkowaniu i dostrajaniu komunikacji, ale
+nie może ukrywać faktu, że to już jest interpretacja, a nie surowe świadectwo.
+
 ### Zrównoważanie i demokratyzacja
 
 Wiedza i inteligencja nie mogą być trwale monopolizowane przez centra kapitału,

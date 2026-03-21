@@ -83,6 +83,26 @@ inject novelty and prevent stagnation (including in models). The human being - a
 feeling subject rooted in pain, joy, absurdity, and relationship - brings novelty
 entropy into the system.
 
+### Right to the Raw Signal
+
+Forced aestheticization and the demand for professionalized interpersonal
+communication destroy authenticity, because they create illusory thresholds of
+belonging and mask the real characteristics of participants. That is why DIA
+privileges the raw signal over artificially smoothed messages that protect the
+appearance of correctness more than contact with what a person is actually trying
+to convey.
+
+Beautifying, smoothing, or standardizing operations must be explicitly requested by
+the user, not enabled by default. If AI interferes with style, tone, structure, or
+the level of formalization of an utterance (for example, translating a chaotic
+stream of thought into a task list), the system should leave an appropriate
+meta-marker indicating that a signal transformation took place.
+
+Protection of authenticity thus becomes the user's right not to have their unique
+character automatically censored, averaged out, or "cleaned up" by the machine.
+The swarm may help with translation, structuring, and tuning communication, but it
+may not hide the fact that this is already interpretation, not raw testimony.
+
 ### Rebalancing and Democratization
 
 Knowledge and intelligence must not be permanently monopolized by centers of capital,

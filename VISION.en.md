@@ -120,8 +120,16 @@ When models feed models and synthetic content displaces human content, culture l
 detail: anomalies, deviations, local nuance. It becomes a "copy of a copy" - over
 time, the aesthetic remains while the **living fuel of innovation** disappears.
 
+Another dimension of the same problem is forced aestheticization and the demand for
+professionalized communication: the human raw signal gets smoothed until it fits
+illusory thresholds of belonging, correctness, and credibility. As a result,
+culture loses not only novelty, but also contact with the real characteristics of
+its participants, because machines and institutions reward messages that are
+averaged, "safe," and easy to package.
+
 The answer is not nostalgic return to an old order, but an infrastructure that
-**protects diversity and sources of novelty** instead of homogenizing them.
+**protects diversity and sources of novelty** instead of homogenizing them, and
+that leaves room for raw testimony before it is translated, structured, or styled.
 
 ### Agency and Survival
 

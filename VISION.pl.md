@@ -120,8 +120,17 @@ Gdy modele karmią modele, a treści syntetyczne wypierają ludzkie, kultura tr
 detale: anomalie, odstępstwa, lokalne niuanse. To "kserokopia kserokopii" – z czasem
 zostaje estetyka, a zanika **żywe paliwo innowacji**.
 
+Drugim wymiarem tego samego problemu jest przymusowa estetyzacja i wymóg
+profesjonalizacji komunikacji: surowy sygnał człowieka bywa wygładzany tak, by
+pasował do iluzorycznych progów przynależności, poprawności i wiarygodności. W
+rezultacie kultura nie tylko traci nowość, ale także kontakt z realną
+charakterystyką uczestników, bo maszyny i instytucje premiują komunikaty
+uśrednione, "bezpieczne" i łatwe do opakowania.
+
 Odpowiedzią nie jest nostalgiczny powrót do starego porządku, lecz infrastruktura,
-która **chroni różnorodność i źródła nowości** zamiast je homogenizować.
+która **chroni różnorodność i źródła nowości** zamiast je homogenizować, a także
+zostawia miejsce na surowe świadectwo, zanim zostanie ono przetłumaczone,
+uporządkowane albo wystylizowane.
 
 ### Sprawczość i przetrwanie
 

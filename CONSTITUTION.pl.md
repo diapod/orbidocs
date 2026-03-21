@@ -140,20 +140,28 @@ kryzysu, sukcesu i degeneracji.
 7. System MUSI chronić naturalną inteligencję ludzi: uwagę, regenerację, orientację
    w sensie, zdolność rozumienia kontekstu i relację z rzeczywistością.
 
-8. DIA nie może projektować uzależnienia, dopaminowego UX ani ekonomii opartej na
+8. Użytkownik ma prawo do surowego sygnału: system nie może domyślnie estetyzować,
+   profesjonalizować, wygładzać ani standaryzować jego wypowiedzi w sposób, który
+   zaciera autentyczną charakterystykę przekazu.
+
+9. Każda transformacja stylu, tonu, struktury lub poziomu formalizacji wypowiedzi
+   przez AI wymaga jawnego żądania użytkownika albo innej wyraźnej podstawy
+   proceduralnej i MUSI pozostawiać metaznacznik takiej ingerencji.
+
+10. DIA nie może projektować uzależnienia, dopaminowego UX ani ekonomii opartej na
    przytrzymywaniu użytkownika.
 
-9. W sytuacji bezpośredniego zagrożenia życia lub nagłej poważnej krzywdy system MOŻE
+11. W sytuacji bezpośredniego zagrożenia życia lub nagłej poważnej krzywdy system MOŻE
    działać szybciej niż zwykle, ale pozostawia ślad i podlega późniejszej rewizji.
 
-10. System POWINIEN wzmacniać legalne ścieżki sprawczości obywatelskiej: petycje,
+12. System POWINIEN wzmacniać legalne ścieżki sprawczości obywatelskiej: petycje,
    odwołania, konsultacje, skargi i działania rzecznicze.
 
-11. Obchodzenie reguł dostępu do dóbr krytycznych, takich jak zdrowie, życie,
+13. Obchodzenie reguł dostępu do dóbr krytycznych, takich jak zdrowie, życie,
     mieszkanie, mobilność czy udział w wyborze władzy, jest traktowane jako przemoc
     systemowa.
 
-12. Na styku węzły-społeczność system POWINIEN umożliwiać działania pomocowe,
+14. Na styku węzły-społeczność system POWINIEN umożliwiać działania pomocowe,
     świadkowanie przebiegu spraw, ochronę integralności dowodów i procedury wsparcia
     bez logiki samosądu.
 

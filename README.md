@@ -77,6 +77,7 @@ Normative material follows a stricter path. When a proposal starts governing aut
 * `/constitutional-ops/pl/ROLE-TO-IAL-MATRIX.pl.md` – minimum mapping of role classes to identity assurance levels
 * `/constitutional-ops/pl/FIP-MEMBERSHIP-AND-QUORUM.pl.md` – membership, activity, and quorum rules for the Federation of Sealed Chambers
 * `/constitutional-ops/pl/PROCEDURAL-REPUTATION-SPEC.pl.md` – procedural reputation specification
+* `/constitutional-ops/pl/RAW-SIGNAL-POLICY.pl.md` – raw-signal protection, style-transformation modes, meta-markers, and audit trace
 * `/constitutional-ops/pl/SWARM-ECONOMY-SUFFICIENCY.pl.md` – sufficiency threshold, concentration brakes, surplus circulation, and barrier between reward and governance
 * `/constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md` – ad-hoc panel selection protocol
 * `/constitutional-ops/pl/REPUTATION-VALIDATION-PROTOCOL.pl.md` – validation protocol for reputation mechanisms
@@ -97,6 +98,7 @@ Normative material follows a stricter path. When a proposal starts governing aut
 * `/constitutional-ops/en/ROLE-TO-IAL-MATRIX.en.md` – minimum mapping of role classes to identity assurance levels (English)
 * `/constitutional-ops/en/FIP-MEMBERSHIP-AND-QUORUM.en.md` – membership, activity, and quorum rules for the Federation of Sealed Chambers (English)
 * `/constitutional-ops/en/PROCEDURAL-REPUTATION-SPEC.en.md` – procedural reputation specification (English)
+* `/constitutional-ops/en/RAW-SIGNAL-POLICY.en.md` – raw-signal protection, style-transformation modes, meta-markers, and audit trace (English)
 * `/constitutional-ops/en/SWARM-ECONOMY-SUFFICIENCY.en.md` – sufficiency threshold, concentration brakes, surplus circulation, and barrier between reward and governance (English)
 * `/constitutional-ops/en/PANEL-SELECTION-PROTOCOL.en.md` – ad-hoc panel selection protocol (English)
 * `/constitutional-ops/en/REPUTATION-VALIDATION-PROTOCOL.en.md` – validation protocol for reputation mechanisms (English)

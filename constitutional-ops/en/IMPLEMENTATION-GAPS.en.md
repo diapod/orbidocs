@@ -145,6 +145,16 @@ Closed on `2026-03-21` by document `DIA-SUFF-001`, which defines:
 - common circulation of surpluses and their destination classes,
 - the barrier between economic reward and procedural power.
 
+### `RAW-SIGNAL-POLICY.en.md`
+
+Closed on `2026-03-21` by document `DIA-RAW-001`, which defines:
+
+- the modes `raw` / `structured` / `transformed` / `redacted`,
+- permissible bases for signal transformation,
+- mandatory meta-markers for AI intervention,
+- the minimal audit trace for utterance transformation,
+- compliance tests against hidden aestheticization and professionalization.
+
 ---
 
 ## Priority A - Required Before Real Governance Goes Live
