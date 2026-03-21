@@ -4,7 +4,7 @@ OUTPUT_DIR ?= output
 PANDOC ?= pandoc
 PDF_ENGINE ?= weasyprint
 PDF_CSS ?= styles/pdf.css
-PANDOC_FLAGS ?= --standalone --from=gfm+smart --pdf-engine=$(PDF_ENGINE) --css=$(PDF_CSS)
+PANDOC_FLAGS ?= --standalone --from=gfm+smart --pdf-engine=$(PDF_ENGINE) --pdf-engine-opt=--presentational-hints --css=$(PDF_CSS)
 PANDOC_LANG ?= en-US
 PANDOC_FILTERS ?=
 

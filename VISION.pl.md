@@ -1,5 +1,9 @@
 # Wizja Orbiplex Swarm
 
+<p align="center">
+  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiples Logo" width="240">
+</p>
+
 ## Suwerenność inteligencji i wiedzy
 
 Ten dokument opisuje rój wolnych modeli sztucznej inteligencji – infrastrukturę,
