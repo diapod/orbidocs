@@ -23,6 +23,26 @@
 * `/schemas` – machine-readable protocol and artifact schemas
 * `/stories` – user stories to be used as scenarios to create requirements
 
+## Document Lifecycle
+
+The default document flow in this repository is:
+
+`memo -> proposal -> requirements -> schemas`
+
+In practice, each stage serves a different purpose:
+
+* `memos/` capture short idea seeds, rough intuitions, and design prompts before the model is stable.
+* `proposals/` turn those ideas into architectural decisions or candidate operating models: problem statement, goals, decision, trade-offs, and open questions.
+* `requirements/` translate stable proposal decisions into explicit behavioral and data contracts.
+* `schemas/` encode the machine-readable parts of those contracts.
+
+There are also two important side paths:
+
+* `proposal -> proposal` when a broad architectural decision must be split into narrower sub-decisions before requirements can be written.
+* `story -> requirements` when a user scenario is the best source of concrete system obligations.
+
+Normative material follows a stricter path. When a proposal starts governing authority, identity, sanctions, disclosure, constitutional exceptions, or other high-stakes social rules, it should be promoted into `constitutional-ops/` rather than left only as an implementation proposal.
+
 ### Files
 
 * `/CONSTITUTION.pl.md` – project's constitution (Polish)
