@@ -95,10 +95,15 @@ kryzysu, sukcesu i degeneracji.
 2. Celem DIA jest wzmacnianie zdolności ludzi i wspólnot do rozumienia, pamiętania,
    koordynacji, przetrwania i działania bez zależności od jednej władzy.
 
-3. System istnieje po to, aby chronić autonomię, relację, pamięć, lokalność
+3. System służy także wzmacnianiu emergencji wspólnot zdolnych do współpracy ponad
+   przywiązaniem do własnych interpretacji, do samoorganizacji wokół spraw
+   publicznych i pomocowych oraz do meta-komunikacji tłumaczącej perspektywy na
+   wspólny język działania.
+
+4. System istnieje po to, aby chronić autonomię, relację, pamięć, lokalność
    i bezpieczne pole dla szczerości oraz korekty.
 
-4. Wzrost, adopcja, przychód, prestiż i skala są środkami, a nie źródłem sensu
+5. Wzrost, adopcja, przychód, prestiż i skala są środkami, a nie źródłem sensu
    projektu.
 
 5. Żaden cel operacyjny ani finansowy nie może unieważnić prymatu godności,

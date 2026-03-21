@@ -96,13 +96,18 @@ conditions of pressure, crisis, success, and degeneration.
    understand, remember, coordinate, survive, and act without dependence on a
    single power.
 
-3. The system exists to protect autonomy, relationship, memory, locality,
+3. The system also serves to strengthen the emergence of communities capable of
+   cooperation beyond attachment to their own interpretations, of self-organization
+   around public and mutual-aid matters, and of meta-communication that translates
+   perspectives into a shared language of action.
+
+4. The system exists to protect autonomy, relationship, memory, locality,
    and a safe field for honesty and correction.
 
-4. Growth, adoption, revenue, prestige, and scale are means, not the source of the
+5. Growth, adoption, revenue, prestige, and scale are means, not the source of the
    project's meaning.
 
-5. No operational or financial goal may override the primacy of dignity, human
+6. No operational or financial goal may override the primacy of dignity, human
    safety, and the right to exit.
 
 6. DIA has the right to protect its own continuity against sabotage, colonization,

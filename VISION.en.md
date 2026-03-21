@@ -106,6 +106,14 @@ coordination. DIA responds to this through collective intelligence, which takes 
 part of the burden of analysis and calibration, allowing people to enter a shared
 working model faster and act together more effectively despite their differences.
 
+This also concerns the quality of joint action: DIA is meant to help people organize
+and act together despite differences in views, interpretations, and languages of
+description. This requires both loosening rigid identification with one's own
+intellect as the only seat of truth, and building mechanisms for self-organization
+around common, public, and mutual-aid matters, as well as meta-communication that
+translates convergent truths between different personal and cultural languages so as
+to enable consensus without enforcing homogenization.
+
 ### Culture as a Low-Pass Filter
 
 When models feed models and synthetic content displaces human content, culture loses
