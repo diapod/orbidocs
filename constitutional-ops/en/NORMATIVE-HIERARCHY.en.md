@@ -98,6 +98,14 @@ Operational documents with binding force within federations:
   Federation of Sealed Chambers
 - `PROCEDURAL-REPUTATION-SPEC.en.md` - specification of domains, signals, and
   calculation of procedural reputation
+- `RAW-SIGNAL-POLICY.en.md` - raw-signal protection, style-transformation modes,
+  meta-markers, and audit trace
+- `UNIVERSAL-BASIC-COMPUTE.en.md` - minimal Proof-of-Personhood model,
+  non-withdrawable minimum compute, limited cross-federation portability, and UBC settlement
+- `UBC-LIMIT-PROFILES.en.md` - canonical UBC limit profiles, portability
+  profiles, and the minimal FIP bridge/registry for cross-federation PoP
+- `SWARM-ECONOMY-SUFFICIENCY.en.md` - sufficiency threshold, concentration brakes,
+  surplus circulation, and barrier between reward and governance
 - `PANEL-SELECTION-PROTOCOL.en.md` - procedure for eligibility, draw, veto, and
   replenishment of ad-hoc panel composition
 - `REPUTATION-VALIDATION-PROTOCOL.en.md` - validation protocol for reputation

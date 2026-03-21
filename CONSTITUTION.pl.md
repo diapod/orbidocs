@@ -539,11 +539,21 @@ kryzysu, sukcesu i degeneracji.
    federacji, w szczególności na rzecz nowych węzłów, ogniw słabszych, czasowo
    poszkodowanych oraz funkcji infrastrukturalnych o wysokiej wartości wspólnotowej.
 
-10. Nagroda ekonomiczna sama przez się nie może dawać trwałej przewagi ustrojowej:
+10. Zweryfikowana obecność człowieka w sieci, oparta na konstytucyjnie dopuszczalnym
+    mechanizmie Proof-of-Personhood, MUSI dawać nieodbieralne minimum zasobów
+    obliczeniowych potrzebnych do komunikacji, orientacji oraz dostępu do trybów
+    ratunkowych i opiekuńczych.
+
+11. Mechanizm tego minimum MUSI być finansowany przez jawny model składkowy,
+    obejmujący co najmniej węzły biznesowe, instancje wysokomarżowe oraz nadwyżki
+    wracające do wspólnego obiegu po osiągnięciu dostatku, bez przekształcania tego
+    minimum w ukrytą ścieżkę trwałej przewagi ekonomicznej lub ustrojowej.
+
+12. Nagroda ekonomiczna sama przez się nie może dawać trwałej przewagi ustrojowej:
     nie może automatycznie zwiększać mocy proceduralnej, uprzywilejowanego
     trasowania, siły rozstrzygającej ani dostępu do wyjątków.
 
-11. Rzadkie sygnały, anomalie i style odstające są zasobem kulturowym, który system
+13. Rzadkie sygnały, anomalie i style odstające są zasobem kulturowym, który system
    powinien chronić przed homogenizacją.
 
 ## Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult

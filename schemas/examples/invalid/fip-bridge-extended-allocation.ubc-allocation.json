@@ -1,0 +1,33 @@
+{
+  "schema/v": 1,
+  "allocation_id": "ubc-allocation-invalid-001",
+  "subject_ref": "nym:person:4c0f8e93",
+  "federation_id": "fed:pl-wro-001",
+  "attestation_ref": "pop-attest-001",
+  "recognition_source": "fip_bridge",
+  "recognition_ref": "fip-bridge:global-minimum",
+  "measurement_period": "P30D",
+  "valid_from": "2026-03-21T12:00:00Z",
+  "valid_until": "2026-04-20T12:00:00Z",
+  "compute_unit": "compute_credit",
+  "portability_scope": "trans_federation_extended",
+  "guaranteed_modes": {
+    "emergency": {
+      "access": true,
+      "limit_profile": "unlimited"
+    },
+    "communication": {
+      "access": true,
+      "limit_profile": "extended",
+      "limit_ref": "communication_extended"
+    },
+    "care": {
+      "access": true,
+      "limit_profile": "extended",
+      "limit_ref": "care_extended"
+    }
+  },
+  "funding_policy_ref": "DIA-UBC-001",
+  "limit_policy_ref": "DIA-UBC-LIMITS-001",
+  "created_at": "2026-03-21T12:00:00Z"
+}

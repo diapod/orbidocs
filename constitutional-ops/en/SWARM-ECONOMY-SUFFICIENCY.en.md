@@ -43,6 +43,9 @@ This document defines:
    protective/helpful action.
 4. Economic reward is not a path for bypassing rules of procedural reputation,
    routing, quorum, exceptions, or eligibility for high-stakes roles.
+5. Verified personhood in the network may by itself be a sufficient basis for a
+   non-withdrawable minimum of compute resources for communication, orientation, and
+   emergency/care modes, regardless of temporary reputation or economic contribution.
 
 ---
 
@@ -56,6 +59,7 @@ This document defines:
 | `common_circulation` | common circulation of surpluses according to explicit federation rules |
 | `infrastructural_function` | a function of high communal value that need not generate high reputational or market return |
 | `conversion_barrier` | a rule forbidding translation of economic reward into procedural or constitutional advantage |
+| `universal_basic_compute` | a non-withdrawable minimum of compute guaranteed to a verified person for communication, orientation, and protective modes |
 
 The sufficiency threshold may be defined as:
 
@@ -91,8 +95,21 @@ swarm_economy_policy:
   reward_curve:
     type: "piecewise_sublinear"
     parameters: {}
+  universal_basic_compute:
+    enabled: true
+    eligibility_basis: "proof_of_personhood"
+    non_withdrawable: true
+    guaranteed_modes:
+      - "emergency"
+      - "care"
+    funding_sources:
+      - "business_nodes"
+      - "high_margin_instances"
+      - "surplus_recirculation"
+      - "voluntary_operator_surplus"
   surplus_policy:
     destination_classes:
+      - "basic_survival_floor"
       - "bootstrap"
       - "weaker_links"
       - "temporary_harm"
@@ -179,10 +196,12 @@ holds:
 
 At least the following classes MUST be served by `surplus_policy`:
 
-1. `bootstrap` - new nodes and entry into the ecosystem,
-2. `weaker_links` - nodes with lower operational capacity,
-3. `temporary_harm` - nodes or operators temporarily harmed,
-4. `infrastructure` - functions of high communal value.
+1. `basic_survival_floor` - the minimum allocation for verified persons without
+   sufficient current reputational or economic contribution,
+2. `bootstrap` - new nodes and entry into the ecosystem,
+3. `weaker_links` - nodes with lower operational capacity,
+4. `temporary_harm` - nodes or operators temporarily harmed,
+5. `infrastructure` - functions of high communal value.
 
 A federation may add other classes, but it may not remove all protective and
 infrastructural classes at once.

@@ -1,0 +1,23 @@
+{
+  "schema/v": 1,
+  "attestation_id": "pop-attest-invalid-002",
+  "subject_ref": "nym:person:invalid-bridge-minimum",
+  "issuer_scope": "fip_bridge",
+  "issuer_ref": "fip-bridge:global-minimum",
+  "bridge_ref": "fip-bridge:global-minimum",
+  "attestation_method": "fip_bridge_recognition",
+  "assurance_scope": "proof_of_personhood",
+  "deanon_not_required": true,
+  "uniqueness_scope": "trans_federation_limited",
+  "valid_from": "2026-03-21T12:00:00Z",
+  "valid_until": "2027-03-21T12:00:00Z",
+  "portability_profile": {
+    "trans_federation_default": {
+      "emergency": "unlimited",
+      "communication": "limited",
+      "care": "limited"
+    },
+    "bridge_minimum_supported": false,
+    "federation_extension_allowed": true
+  }
+}

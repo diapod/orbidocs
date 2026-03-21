@@ -42,6 +42,10 @@ Niniejszy dokument definiuje:
    wartości lub realnego działania pomocowego.
 4. Nagroda ekonomiczna nie jest ścieżką obejścia zasad reputacji proceduralnej,
    routingu, quorum, wyjątków ani kwalifikowalności ról wysokiej stawki.
+5. Zweryfikowana obecność człowieka w sieci może stanowić samodzielną podstawę do
+   przyznania nieodbieralnego minimum zasobów obliczeniowych dla komunikacji,
+   orientacji oraz trybów ratunkowych i opiekuńczych, niezależnie od chwilowego
+   poziomu reputacji lub wkładu ekonomicznego.
 
 ---
 
@@ -55,6 +59,7 @@ Niniejszy dokument definiuje:
 | `common_circulation` | wspólny obieg nadwyżek według jawnych zasad federacyjnych |
 | `infrastructural_function` | funkcja o wysokiej wartości wspólnotowej, która nie musi generować wysokiego zwrotu reputacyjnego ani rynkowego |
 | `conversion_barrier` | reguła zabraniająca przekładania nagrody ekonomicznej na przewagę proceduralną lub ustrojową |
+| `universal_basic_compute` | nieodbieralne minimum zasobów obliczeniowych gwarantowane zweryfikowanej osobie dla komunikacji, orientacji i trybów ochronnych |
 
 Próg dostatku może być definiowany jako:
 
@@ -91,8 +96,21 @@ swarm_economy_policy:
   reward_curve:
     type: "piecewise_sublinear"
     parameters: {}
+  universal_basic_compute:
+    enabled: true
+    eligibility_basis: "proof_of_personhood"
+    non_withdrawable: true
+    guaranteed_modes:
+      - "emergency"
+      - "care"
+    funding_sources:
+      - "business_nodes"
+      - "high_margin_instances"
+      - "surplus_recirculation"
+      - "voluntary_operator_surplus"
   surplus_policy:
     destination_classes:
+      - "basic_survival_floor"
       - "bootstrap"
       - "weaker_links"
       - "temporary_harm"
@@ -180,10 +198,12 @@ którykolwiek z warunków:
 
 Co najmniej następujące klasy MUSZĄ być obsługiwane przez `surplus_policy`:
 
-1. `bootstrap` - nowe węzły i wejście do ekosystemu,
-2. `weaker_links` - węzły o niższej zdolności operacyjnej,
-3. `temporary_harm` - węzły lub operatorzy czasowo poszkodowani,
-4. `infrastructure` - funkcje o wysokiej wartości wspólnotowej.
+1. `basic_survival_floor` - minimalny przydział dla zweryfikowanych osób bez
+   wystarczającego bieżącego wkładu reputacyjnego lub ekonomicznego,
+2. `bootstrap` - nowe węzły i wejście do ekosystemu,
+3. `weaker_links` - węzły o niższej zdolności operacyjnej,
+4. `temporary_harm` - węzły lub operatorzy czasowo poszkodowani,
+5. `infrastructure` - funkcje o wysokiej wartości wspólnotowej.
 
 Federacja może dodać inne klasy, ale nie może usunąć wszystkich klas ochronnych i
 infrastrukturalnych jednocześnie.

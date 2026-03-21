@@ -155,6 +155,26 @@ Domknięto dnia `2026-03-21` przez dokument `DIA-RAW-001`, który definiuje:
 - minimalny ślad audytowy transformacji wypowiedzi,
 - testy zgodności przeciw niejawnej estetyzacji i profesjonalizacji.
 
+### `UNIVERSAL-BASIC-COMPUTE.pl.md`
+
+Domknięto dnia `2026-03-21` przez dokument `DIA-UBC-001`, który definiuje:
+
+- minimalny model `Proof-of-Personhood` bez domyślnej deanonimizacji,
+- nieodbieralne minimum compute dla komunikacji, orientacji i trybów ochronnych,
+- ograniczoną trans-federacyjność: ratunek bez limitu oraz limitowaną komunikację i pomoc,
+- modele danych `proof_of_personhood_attestation`, `ubc_allocation` i `ubc_settlement`,
+- jawne źródła finansowania `UBC` i testy zgodności przeciw ukrytemu wykluczeniu.
+
+### `UBC-LIMIT-PROFILES.pl.md`
+
+Domknięto dnia `2026-03-21` przez dokument `DIA-UBC-LIMITS-001`, który definiuje:
+
+- kanoniczne profile `emergency_unlimited`, `communication_limited` i `care_limited`,
+- minimalny profil `bridge_minimum` dla uznawania PoP przez most/rejestr `FIP`,
+- profile przenośności `local_only`, `trans_federation_limited` i `trans_federation_extended`,
+- jawny model rekordu mostu `FIP` i regułę, że federacje mogą tylko rozszerzać limity,
+- testy zgodności przeciw pozornemu uznawaniu trans-federacyjnego PoP bez realnego dostępu.
+
 ---
 
 ## Priorytet A - wymagane przed wejściem w realny ład organizacyjny (ang. governance)

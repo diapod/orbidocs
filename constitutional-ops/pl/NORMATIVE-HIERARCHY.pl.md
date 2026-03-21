@@ -95,6 +95,14 @@ Dokumenty operacyjne o mocy wiążącej w ramach federacji:
   Federacji Izb Pieczęciowych
 - `PROCEDURAL-REPUTATION-SPEC.pl.md` - specyfikacja domen, sygnałów i przeliczania
   reputacji proceduralnej
+- `RAW-SIGNAL-POLICY.pl.md` - ochrona surowego sygnału, tryby transformacji stylu,
+  metaznaczniki i ślad audytowy
+- `UNIVERSAL-BASIC-COMPUTE.pl.md` - minimalny model Proof-of-Personhood,
+  nieodbieralne minimum compute, ograniczona trans-federacyjność i rozliczenia UBC
+- `UBC-LIMIT-PROFILES.pl.md` - kanoniczne profile limitów UBC, profile
+  przenośności i minimalny most/rejestr FIP dla trans-federacyjnego PoP
+- `SWARM-ECONOMY-SUFFICIENCY.pl.md` - próg dostatku, hamulce koncentracji,
+  wspólny obieg nadwyżek i bariera między nagrodą a władzą proceduralną
 - `PANEL-SELECTION-PROTOCOL.pl.md` - procedura kwalifikacji, losowania, veta i
   uzupełniania składu panelu ad-hoc
 - `REPUTATION-VALIDATION-PROTOCOL.pl.md` - protokół walidacji mechanizmów reputacyjnych

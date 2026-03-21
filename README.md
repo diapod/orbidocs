@@ -53,12 +53,17 @@ Normative material follows a stricter path. When a proposal starts governing aut
 * `/AI-MANIFESTO.en.md` – AI manifesto (English)
 * `/COLLABORATION.md` – basic collaboration guidelines
 * `/AGENTS.md` – information for agents
-* `/Makefile` – convenience target for schema validation
+* `/Makefile` – convenience targets for schema validation and PDF rendering
 * `/schemas/transcript-segment.v1.schema.json` – JSON Schema for transcript segment artifacts
 * `/schemas/transcript-bundle.v1.schema.json` – JSON Schema for transcript bundle artifacts
 * `/schemas/answer-room-metadata.v1.schema.json` – JSON Schema for answer-channel room metadata and operator participation policy
-* `/schemas/examples/` – coherent example artifacts for room metadata, transcript segments, and transcript bundles
-* `/schemas/examples/invalid/` – negative validation vectors for room metadata, transcript segments, and transcript bundles
+* `/schemas/signal-marker.v1.schema.json` – JSON Schema for visible markers disclosing raw vs transformed signal mode
+* `/schemas/signal-transform-event.v1.schema.json` – JSON Schema for auditable signal-transformation trace events
+* `/schemas/proof-of-personhood-attestation.v1.schema.json` – JSON Schema for minimal Proof-of-Personhood attestations and portability metadata
+* `/schemas/ubc-allocation.v1.schema.json` – JSON Schema for Universal Basic Compute allocations and guaranteed access modes
+* `/schemas/ubc-settlement.v1.schema.json` – JSON Schema for UBC funding and settlement records
+* `/schemas/examples/` – coherent example artifacts for room metadata, transcript segments, transcript bundles, and PoP/UBC records
+* `/schemas/examples/invalid/` – negative validation vectors for room metadata, transcript segments, transcript bundles, and PoP/UBC records
 * `/scripts/validate-json-schemas.sh` – CLI validator wrapper for schemas and example artifacts
 * `/core-values/CORE-VALUES.pl.md` – core values document (Polish)
 * `/core-values/CORE-VALUES.en.md` – core values document (English)
@@ -78,6 +83,8 @@ Normative material follows a stricter path. When a proposal starts governing aut
 * `/constitutional-ops/pl/FIP-MEMBERSHIP-AND-QUORUM.pl.md` – membership, activity, and quorum rules for the Federation of Sealed Chambers
 * `/constitutional-ops/pl/PROCEDURAL-REPUTATION-SPEC.pl.md` – procedural reputation specification
 * `/constitutional-ops/pl/RAW-SIGNAL-POLICY.pl.md` – raw-signal protection, style-transformation modes, meta-markers, and audit trace
+* `/constitutional-ops/pl/UNIVERSAL-BASIC-COMPUTE.pl.md` – Proof-of-Personhood floor, non-withdrawable compute minimum, limited cross-federation portability, and UBC settlement
+* `/constitutional-ops/pl/UBC-LIMIT-PROFILES.pl.md` – canonical UBC limit profiles, portability profiles, and minimal FIP bridge semantics
 * `/constitutional-ops/pl/SWARM-ECONOMY-SUFFICIENCY.pl.md` – sufficiency threshold, concentration brakes, surplus circulation, and barrier between reward and governance
 * `/constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md` – ad-hoc panel selection protocol
 * `/constitutional-ops/pl/REPUTATION-VALIDATION-PROTOCOL.pl.md` – validation protocol for reputation mechanisms
@@ -99,6 +106,8 @@ Normative material follows a stricter path. When a proposal starts governing aut
 * `/constitutional-ops/en/FIP-MEMBERSHIP-AND-QUORUM.en.md` – membership, activity, and quorum rules for the Federation of Sealed Chambers (English)
 * `/constitutional-ops/en/PROCEDURAL-REPUTATION-SPEC.en.md` – procedural reputation specification (English)
 * `/constitutional-ops/en/RAW-SIGNAL-POLICY.en.md` – raw-signal protection, style-transformation modes, meta-markers, and audit trace (English)
+* `/constitutional-ops/en/UNIVERSAL-BASIC-COMPUTE.en.md` – Proof-of-Personhood floor, non-withdrawable compute minimum, limited cross-federation portability, and UBC settlement (English)
+* `/constitutional-ops/en/UBC-LIMIT-PROFILES.en.md` – canonical UBC limit profiles, portability profiles, and minimal FIP bridge semantics (English)
 * `/constitutional-ops/en/SWARM-ECONOMY-SUFFICIENCY.en.md` – sufficiency threshold, concentration brakes, surplus circulation, and barrier between reward and governance (English)
 * `/constitutional-ops/en/PANEL-SELECTION-PROTOCOL.en.md` – ad-hoc panel selection protocol (English)
 * `/constitutional-ops/en/REPUTATION-VALIDATION-PROTOCOL.en.md` – validation protocol for reputation mechanisms (English)

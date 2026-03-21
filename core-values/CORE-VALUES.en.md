@@ -975,6 +975,21 @@ high reputational returns.
 Wealth in the swarm is not a right to endless accumulation, but a temporary
 responsibility.
 
+### Universal Minimum of Survival
+
+DIA holds that the temporary absence of resources, reputation, or exchangeable
+contribution must not cut a person off from the basic ability to remain in relation
+with the swarm and access protective modes. Therefore, verified personhood in the
+network - for example through cryptographic attestations without de-anonymization -
+should grant a non-withdrawable minimum of compute resources required for
+communication, orientation, and activation of emergency and care modes.
+
+This minimum is not a reward for status nor a speculative entitlement, but a
+civilizational floor of participation. Compute allocated for that purpose should come
+from an embedded contribution mechanism: from business nodes, high-margin corporate
+instances, and also from surpluses returning to common circulation after sufficiency
+is reached or by voluntary operator choice.
+
 ## Epistemics and Collective Intelligence
 
 ### Grounding in Reality

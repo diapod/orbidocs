@@ -1,0 +1,21 @@
+{
+  "schema/v": 1,
+  "settlement_id": "ubc-settlement-invalid-001",
+  "federation_id": "fed:pl-wro-001",
+  "period_start": "2026-03-01T00:00:00Z",
+  "period_end": "2026-03-31T23:59:59Z",
+  "compute_unit": "compute_credit",
+  "beneficiary_count": 12,
+  "total_allocated_compute": 1000,
+  "funding_sources": [
+    {
+      "source_class": "business_nodes",
+      "amount": -50
+    }
+  ],
+  "emergency_usage": 100,
+  "communication_usage": 400,
+  "care_usage": 500,
+  "policy_ref": "DIA-UBC-001",
+  "created_at": "2026-04-01T08:00:00Z"
+}

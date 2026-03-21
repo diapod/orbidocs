@@ -1,0 +1,29 @@
+{
+  "schema/v": 1,
+  "attestation_id": "pop-attest-001",
+  "subject_ref": "nym:person:4c0f8e93",
+  "issuer_scope": "fip_bridge",
+  "issuer_ref": "fip-bridge:global-minimum",
+  "bridge_ref": "fip-bridge:global-minimum",
+  "attestation_method": "fip_bridge_recognition",
+  "assurance_scope": "proof_of_personhood",
+  "deanon_not_required": true,
+  "uniqueness_scope": "trans_federation_limited",
+  "valid_from": "2026-03-21T12:00:00Z",
+  "valid_until": "2027-03-21T12:00:00Z",
+  "recognition_basis_ref": "DIA-UBC-001",
+  "evidence_ref": "evidence:sealed-chambers:pop-001",
+  "revocation_status": "active",
+  "portability_profile": {
+    "trans_federation_default": {
+      "emergency": "unlimited",
+      "communication": "limited",
+      "care": "limited"
+    },
+    "bridge_minimum_supported": true,
+    "federation_extension_allowed": true
+  },
+  "policy_annotations": {
+    "note": "Minimal bridge-recognized Proof-of-Personhood attestation."
+  }
+}

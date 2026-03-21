@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:proof-of-personhood-attestation:v1",
+  "title": "ProofOfPersonhoodAttestation v1",
+  "description": "Machine-readable schema for minimal Proof-of-Personhood attestations that support non-withdrawable UBC and limited cross-federation portability, including recognition through the minimal FIP bridge/registry.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema/v",
+    "attestation_id",
+    "subject_ref",
+    "issuer_scope",
+    "issuer_ref",
+    "attestation_method",
+    "assurance_scope",
+    "deanon_not_required",
+    "uniqueness_scope",
+    "valid_from",
+    "portability_profile"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "attestation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable anonymous handle for the verified person."
+    },
+    "issuer_scope": {
+      "type": "string",
+      "enum": [
+        "federation",
+        "fip_bridge",
+        "hybrid"
+      ]
+    },
+    "issuer_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable reference to the issuing federation, the FIP bridge, or a hybrid issuing path."
+    },
+    "issuer_federation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "bridge_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional reference to the FIP bridge/registry that recognizes the attestation cross-federation."
+    },
+    "attestation_method": {
+      "type": "string",
+      "enum": [
+        "cryptographic_vouching",
+        "federation_attestation",
+        "sealed_chambers_recognition",
+        "fip_bridge_recognition",
+        "hybrid"
+      ]
+    },
+    "assurance_scope": {
+      "const": "proof_of_personhood"
+    },
+    "deanon_not_required": {
+      "type": "boolean"
+    },
+    "uniqueness_scope": {
+      "type": "string",
+      "enum": [
+        "federation",
+        "trans_federation_limited",
+        "trans_federation_extended"
+      ]
+    },
+    "valid_from": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recognition_basis_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revocation_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revocation_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "revoked",
+        "expired",
+        "superseded"
+      ]
+    },
+    "portability_profile": {
+      "$ref": "#/$defs/portabilityProfile"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "portabilityModeMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "emergency",
+        "communication",
+        "care"
+      ],
+      "properties": {
+        "emergency": {
+          "const": "unlimited"
+        },
+        "communication": {
+          "type": "string",
+          "enum": [
+            "limited",
+            "extended"
+          ]
+        },
+        "care": {
+          "type": "string",
+          "enum": [
+            "limited",
+            "extended"
+          ]
+        }
+      }
+    },
+    "portabilityProfile": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "trans_federation_default",
+        "bridge_minimum_supported",
+        "federation_extension_allowed"
+      ],
+      "properties": {
+        "trans_federation_default": {
+          "$ref": "#/$defs/portabilityModeMap"
+        },
+        "bridge_minimum_supported": {
+          "type": "boolean"
+        },
+        "federation_extension_allowed": {
+          "type": "boolean"
+        },
+        "extension_profile_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "issuer_scope": {
+            "const": "federation"
+          }
+        },
+        "required": [
+          "issuer_scope"
+        ]
+      },
+      "then": {
+        "required": [
+          "issuer_federation_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "issuer_scope": {
+            "const": "fip_bridge"
+          }
+        },
+        "required": [
+          "issuer_scope"
+        ]
+      },
+      "then": {
+        "required": [
+          "bridge_ref"
+        ],
+        "properties": {
+          "attestation_method": {
+            "enum": [
+              "sealed_chambers_recognition",
+              "fip_bridge_recognition",
+              "hybrid"
+            ]
+          },
+          "portability_profile": {
+            "properties": {
+              "bridge_minimum_supported": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "issuer_scope": {
+            "const": "hybrid"
+          }
+        },
+        "required": [
+          "issuer_scope"
+        ]
+      },
+      "then": {
+        "required": [
+          "issuer_federation_id",
+          "bridge_ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "uniqueness_scope": {
+            "const": "trans_federation_extended"
+          }
+        },
+        "required": [
+          "uniqueness_scope"
+        ]
+      },
+      "then": {
+        "properties": {
+          "portability_profile": {
+            "properties": {
+              "extension_profile_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

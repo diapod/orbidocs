@@ -29,6 +29,15 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.proof-of-personhood-attestation.json)
+      echo "$SCHEMAS_DIR/proof-of-personhood-attestation.v1.schema.json"
+      ;;
+    *.ubc-allocation.json)
+      echo "$SCHEMAS_DIR/ubc-allocation.v1.schema.json"
+      ;;
+    *.ubc-settlement.json)
+      echo "$SCHEMAS_DIR/ubc-settlement.v1.schema.json"
+      ;;
     *.room-metadata.json)
       echo "$SCHEMAS_DIR/answer-room-metadata.v1.schema.json"
       ;;

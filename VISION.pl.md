@@ -168,7 +168,12 @@ zachowań**.
    działania; nadwyżki nie służą trwałej dominacji, lecz wracają do wspólnego
    obiegu i wzmacniają słabsze lub infrastrukturalne ogniwa.
 
-7. **Higiena epistemiczna** – oddzielamy poziomy: opis, redukcję, wyjaśnienie,
+7. **Uniwersalne minimum przetrwania** – zweryfikowana obecność człowieka w sieci
+   powinna gwarantować nieodbieralne minimum mocy obliczeniowej dla komunikacji,
+   orientacji oraz trybów ratunkowych i opiekuńczych, niezależnie od chwilowego
+   wkładu reputacyjnego lub ekonomicznego.
+
+8. **Higiena epistemiczna** – oddzielamy poziomy: opis, redukcję, wyjaśnienie,
    doświadczenie, kulturę.
 
 Operacyjnie traktujemy inteligencję przede wszystkim jako **zdolność formułowania

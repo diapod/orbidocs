@@ -987,6 +987,21 @@ funkcje infrastrukturalne, choć nie generują wysokich zysków reputacyjnych.
 Bogactwo w roju nie jest prawem do nieskończonej kumulacji, lecz przejściową
 odpowiedzialnością.
 
+### Uniwersalne minimum przetrwania
+
+DIA uznaje, że sam brak chwilowego zasobu, reputacji lub wymienialnego wkładu nie
+może odcinać człowieka od podstawowej zdolności do pozostawania w relacji z rojem i
+korzystania z trybów ochronnych. Dlatego zweryfikowana obecność osoby w sieci - na
+przykład przez kryptograficzne poręczenia bez deanonimizacji - powinna dawać
+nieodbieralne minimum zasobów obliczeniowych potrzebnych do komunikacji, orientacji
+i uruchamiania trybów ratunkowych oraz opiekuńczych.
+
+To minimum nie jest nagrodą za status ani inwestycją spekulacyjną, lecz progiem
+cywilizacyjnym uczestnictwa. Moc obliczeniowa przeznaczona na ten cel powinna
+pochodzić z wbudowanego mechanizmu składkowego: od węzłów biznesowych, instancji
+wysokomarżowych, a także z nadwyżek wracających do wspólnego obiegu po osiągnięciu
+dostatku lub wskutek dobrowolnej decyzji operatorów.
+
 ## Epistemika i inteligencja zbiorowa
 
 ### Ugruntowanie w rzeczywistości

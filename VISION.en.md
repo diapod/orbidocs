@@ -165,7 +165,12 @@ contract**.
    act; surpluses should not become lasting domination, but return to common
    circulation and strengthen weaker or infrastructural links.
 
-7. **Epistemic hygiene** - we separate levels: description, reduction, explanation,
+7. **Universal minimum of survival** - verified personhood in the network should
+   guarantee a non-withdrawable minimum of compute for communication, orientation,
+   and emergency/care modes, regardless of temporary reputational or economic
+   contribution.
+
+8. **Epistemic hygiene** - we separate levels: description, reduction, explanation,
    experience, culture.
 
 Operationally, we treat intelligence primarily as the **ability to formulate accurate

@@ -541,11 +541,21 @@ conditions of pressure, crisis, success, and degeneration.
    according to federation rules, in particular for new nodes, weaker links,
    temporarily harmed nodes, and infrastructural functions of high communal value.
 
-10. Economic reward may not by itself grant lasting constitutional advantage:
+10. Verified personhood in the network, based on a constitutionally admissible
+    Proof-of-Personhood mechanism, MUST provide a non-withdrawable minimum of compute
+    resources needed for communication, orientation, and access to emergency and care
+    modes.
+
+11. The mechanism for that minimum MUST be funded by a public contribution model
+    covering at least business nodes, high-margin instances, and surpluses returning
+    to common circulation after sufficiency is reached, without turning this minimum
+    into a hidden path to lasting economic or constitutional advantage.
+
+12. Economic reward may not by itself grant lasting constitutional advantage:
     it may not automatically increase procedural power, privileged routing,
     adjudicative force, or access to exceptions.
 
-11. Rare signals, anomalies, and outlier styles are a cultural resource that the
+13. Rare signals, anomalies, and outlier styles are a cultural resource that the
    system should protect against homogenization.
 
 ## Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation

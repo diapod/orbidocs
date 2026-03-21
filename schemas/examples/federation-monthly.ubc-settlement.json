@@ -1,0 +1,45 @@
+{
+  "schema/v": 1,
+  "settlement_id": "ubc-settlement-2026-03-fed-pl-wro-001",
+  "federation_id": "fed:pl-wro-001",
+  "period_start": "2026-03-01T00:00:00Z",
+  "period_end": "2026-03-31T23:59:59Z",
+  "compute_unit": "compute_credit",
+  "beneficiary_count": 124,
+  "total_allocated_compute": 88420,
+  "funding_sources": [
+    {
+      "source_class": "business_nodes",
+      "amount": 42000
+    },
+    {
+      "source_class": "high_margin_instances",
+      "amount": 18000
+    },
+    {
+      "source_class": "surplus_recirculation",
+      "amount": 22000
+    },
+    {
+      "source_class": "voluntary_operator_surplus",
+      "amount": 6420
+    }
+  ],
+  "emergency_usage": 19320,
+  "communication_usage": 41200,
+  "care_usage": 27900,
+  "bridge_usage": [
+    {
+      "bridge_ref": "fip-bridge:global-minimum",
+      "beneficiary_count": 11,
+      "emergency_usage": 2010,
+      "communication_usage": 3380,
+      "care_usage": 1675
+    }
+  ],
+  "policy_ref": "DIA-UBC-001",
+  "created_at": "2026-04-01T08:00:00Z",
+  "policy_annotations": {
+    "limit_policy_ref": "DIA-UBC-LIMITS-001"
+  }
+}

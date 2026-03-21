@@ -1,0 +1,23 @@
+{
+  "schema/v": 1,
+  "attestation_id": "pop-attest-invalid-hybrid-002",
+  "subject_ref": "nym:person:hybrid-missing-federation",
+  "issuer_scope": "hybrid",
+  "issuer_ref": "fed:pl-wro-001+fip-bridge:global-minimum",
+  "bridge_ref": "fip-bridge:global-minimum",
+  "attestation_method": "hybrid",
+  "assurance_scope": "proof_of_personhood",
+  "deanon_not_required": true,
+  "uniqueness_scope": "trans_federation_limited",
+  "valid_from": "2026-03-21T12:00:00Z",
+  "valid_until": "2027-03-21T12:00:00Z",
+  "portability_profile": {
+    "trans_federation_default": {
+      "emergency": "unlimited",
+      "communication": "limited",
+      "care": "limited"
+    },
+    "bridge_minimum_supported": true,
+    "federation_extension_allowed": true
+  }
+}

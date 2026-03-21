@@ -155,6 +155,26 @@ Closed on `2026-03-21` by document `DIA-RAW-001`, which defines:
 - the minimal audit trace for utterance transformation,
 - compliance tests against hidden aestheticization and professionalization.
 
+### `UNIVERSAL-BASIC-COMPUTE.en.md`
+
+Closed on `2026-03-21` by document `DIA-UBC-001`, which defines:
+
+- the minimal `Proof-of-Personhood` model without default de-anonymization,
+- the non-withdrawable minimum of compute for communication, orientation, and protective modes,
+- limited cross-federation portability: unlimited emergency plus limited communication and care,
+- the data models `proof_of_personhood_attestation`, `ubc_allocation`, and `ubc_settlement`,
+- public funding sources for `UBC` and compliance tests against hidden exclusion.
+
+### `UBC-LIMIT-PROFILES.en.md`
+
+Closed on `2026-03-21` by document `DIA-UBC-LIMITS-001`, which defines:
+
+- the canonical profiles `emergency_unlimited`, `communication_limited`, and `care_limited`,
+- the minimal `bridge_minimum` profile for PoP recognition through the `FIP` bridge/registry,
+- the portability profiles `local_only`, `trans_federation_limited`, and `trans_federation_extended`,
+- the explicit `FIP` bridge record model and the rule that federations may only extend limits,
+- compliance tests against nominal cross-federation PoP recognition without real access.
+
 ---
 
 ## Priority A - Required Before Real Governance Goes Live
