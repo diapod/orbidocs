@@ -3,6 +3,7 @@
 Based on:
 - `memos/pod-backed-thin-clients.md`
 - `memos/client-simplicity.md`
+- `constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md`
 
 ## Status
 
@@ -63,6 +64,8 @@ The missing middle is a formal `pod` model:
 - Preserve user sovereignty despite delegated execution.
 - Keep migration to a fuller node profile possible.
 - Define explicit trust boundaries between user, thin client, and serving node.
+- Define the minimum identity layers required so hosted users are not confused with
+  node operators or individual client devices.
 - Support degraded and partial-offline operation where feasible.
 
 ## Non-Goals
@@ -147,6 +150,42 @@ The serving node may authenticate the user in different ways, but the architectu
 rule is that tenancy must not collapse into opaque operator ownership. The user is not
 "just another local account" with no export or continuity rights.
 
+### 4.1. Identity layers
+
+The `pod` model introduces a third participation identity beyond node identity and
+operator identity. At minimum, the architecture should distinguish:
+
+- `node-id` - the serving node as the operational host and accountable infrastructure
+  actor,
+- `pod-user-id` - the hosted user as a distinct participant whose continuity,
+  exportability, and participation rights must not collapse into operator ownership,
+- `client-instance-id` - a concrete device or install instance used by that hosted
+  user,
+- optional public `nym` or scoped pseudonym - the presentation layer visible to other
+  participants where policy allows it.
+
+Where stronger identity continuity exists, `pod-user-id` may also point toward a
+portable `anchor-identity` or another stable identity root. Where it does not, it
+must still remain distinct from both `node-id` and `client-instance-id`.
+
+This mirrors the existing `station-id` pattern in the root/nym model: many devices may
+exist under one higher-order participant without automatically creating many
+independent voices or reputations.
+
+### 4.2. Separation of responsibility
+
+These layers must not be collapsed because they answer different questions:
+
+- `node-id` answers who hosted, routed, retained, and enforced policy,
+- `pod-user-id` answers who participated, accumulated user-level history, and carries
+  user-scoped rights or sanctions,
+- `client-instance-id` answers which device/session was used and which concrete
+  endpoint may have been compromised.
+
+Compromise of one client instance should normally first affect that client instance or
+session, not automatically the whole hosted user identity, and not automatically the
+entire serving node.
+
 ### 5. Trust boundaries
 
 The trust model should distinguish at least:
@@ -220,7 +259,8 @@ semantics equivalent to:
   "profile/type": "pod-client",
   "pod/id": "pod:pl-wro-node-7f3c:user-42",
   "serving-node/id": "node:pl-wro-7f3c",
-  "device/id": "device:ios-a13-82d1",
+  "pod-user/id": "pod-user:pl-wro-node-7f3c:42",
+  "client-instance/id": "client:ios-a13-82d1",
   "models/local?": false,
   "session/state": "attached",
   "export/capable?": true,
@@ -295,6 +335,8 @@ Mitigation:
    device?
 4. How much user history should a `pod` host retain by default?
 5. Should `pod` hosting reputation be separate from general node reputation?
+6. Should `pod-user-id` be a strictly host-local identity, or should federations allow
+   portable cross-host continuity by default?
 
 ## Next Actions
 
@@ -304,3 +346,5 @@ Mitigation:
 3. Define trust-boundary UX requirements so delegated execution is always explicit.
 4. Define migration stories: `pod-client -> another pod`, `pod-client -> hybrid`,
    `pod-client -> full-node`.
+5. Define a dedicated identity and responsibility model for `pod-user-id` and
+   `client-instance-id`.
