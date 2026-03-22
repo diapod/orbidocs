@@ -25,6 +25,7 @@ SHARED_ROOT_MARKDOWN = (
 def rewrite_markdown_links(text: str, target: Path, locale_root: Path) -> str:
     text = re.sub(r"([A-Za-z0-9_./-]+)/(pl|en)/([^/]+)\.(pl|en)\.md\b", r"\1/\3.md", text)
     text = re.sub(r"([A-Za-z0-9_./-]+)\.(pl|en)\.md\b", r"\1.md", text)
+<<<<<<< Updated upstream
     styles_prefix = os.path.relpath(locale_root / "styles", target.parent).replace(os.sep, "/")
     replacements = {
         'src="styles/': f'src="{styles_prefix}/',
@@ -32,6 +33,14 @@ def rewrite_markdown_links(text: str, target: Path, locale_root: Path) -> str:
         'href="styles/': f'href="{styles_prefix}/',
         "href='styles/": f"href='{styles_prefix}/",
         '](styles/': f']({styles_prefix}/',
+=======
+    replacements = {
+        'src="styles/': 'src="/styles/',
+        "src='styles/": "src='/styles/",
+        'href="styles/': 'href="/styles/',
+        "href='styles/": "href='/styles/",
+        '](styles/': '](/styles/',
+>>>>>>> Stashed changes
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
@@ -74,11 +83,14 @@ def normalized_relative_path(path: Path) -> Path:
     return normalized
 
 
+<<<<<<< Updated upstream
 def write_transformed_markdown(source: Path, target: Path, locale_root: Path) -> None:
+=======
+def write_transformed_markdown(source: Path, target: Path) -> None:
+>>>>>>> Stashed changes
     target.parent.mkdir(parents=True, exist_ok=True)
     text = source.read_text(encoding="utf-8")
     target.write_text(rewrite_markdown_links(text, target, locale_root), encoding="utf-8")
-
 
 def copy_root_markdown(locale: str) -> None:
     locale_root = BUILD_DIR / locale
@@ -86,7 +98,6 @@ def copy_root_markdown(locale: str) -> None:
         source = ROOT / rel
         target = locale_root / rel
         write_transformed_markdown(source, target, locale_root)
-
 
 def copy_doc_tree(locale: str) -> None:
     locale_root = BUILD_DIR / locale
@@ -106,8 +117,13 @@ def copy_doc_tree(locale: str) -> None:
             shutil.copy2(source, target)
 
 
+<<<<<<< Updated upstream
 def copy_styles(locale: str) -> None:
     shutil.copytree(STYLES_DIR, BUILD_DIR / locale / "styles", dirs_exist_ok=True)
+=======
+def copy_styles() -> None:
+    shutil.copytree(STYLES_DIR, BUILD_DIR / "styles", dirs_exist_ok=True)
+>>>>>>> Stashed changes
 
 
 def main() -> int:
@@ -117,7 +133,11 @@ def main() -> int:
     for locale in LOCALES:
         copy_root_markdown(locale)
         copy_doc_tree(locale)
+<<<<<<< Updated upstream
         copy_styles(locale)
+=======
+    copy_styles()
+>>>>>>> Stashed changes
 
     return 0
 

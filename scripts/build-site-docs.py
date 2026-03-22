@@ -19,6 +19,7 @@ ROOT_MARKDOWN = (
 )
 
 
+<<<<<<< Updated upstream
 def rewrite_asset_links(text: str, target: Path, site_root: Path) -> str:
     styles_prefix = os.path.relpath(site_root / "styles", target.parent).replace(os.sep, "/")
     replacements = {
@@ -27,6 +28,15 @@ def rewrite_asset_links(text: str, target: Path, site_root: Path) -> str:
         'href="styles/': f'href="{styles_prefix}/',
         "href='styles/": f"href='{styles_prefix}/",
         '](styles/': f']({styles_prefix}/',
+=======
+def rewrite_asset_links(text: str) -> str:
+    replacements = {
+        'src="styles/': 'src="/styles/',
+        "src='styles/": "src='/styles/",
+        'href="styles/': 'href="/styles/',
+        "href='styles/": "href='/styles/",
+        '](styles/': '](/styles/',
+>>>>>>> Stashed changes
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
@@ -36,7 +46,11 @@ def rewrite_asset_links(text: str, target: Path, site_root: Path) -> str:
 def write_transformed_markdown(source: Path, target: Path) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     text = source.read_text(encoding="utf-8")
+<<<<<<< Updated upstream
     target.write_text(rewrite_asset_links(text, target, BUILD_DIR), encoding="utf-8")
+=======
+    target.write_text(rewrite_asset_links(text), encoding="utf-8")
+>>>>>>> Stashed changes
 
 
 def copy_root_markdown() -> None:
