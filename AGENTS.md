@@ -78,30 +78,44 @@ Do not remove superseded decisions; mark them as replaced and link forward.
 
 ## 8. Repository Conventions
 
-Until a different structure is approved, use:
+Use the stratified `doc/` tree as the canonical source:
 
-- `README.md` for project entry point.
-- `challenges/` for challenge analyses and risk/problem framing.
-- `memos/` for quick notes, idea seeds, and backlog items to revisit later.
-- `proposals/` for ADR-style strategic and architectural proposals.
-- `stories/` for scenario narratives (step-by-step user/node flows).
-- `requirements/` for requirement specifications derived from stories.
+- `doc/normative/` for the normative workflow.
+- `doc/project/` for the project workflow.
+- `doc/schemas/` for canonical machine-readable contracts.
+- `doc/schemas-gen/` for generated human-facing schema pages.
+
+Normative workflow positions:
+- `doc/normative/10-ideas/`
+- `doc/normative/20-vision/`
+- `doc/normative/25-ai-manifesto/`
+- `doc/normative/30-core-values/`
+- `doc/normative/40-constitution/`
+- `doc/normative/50-constitutional-ops/`
+
+Project workflow positions:
+- `doc/project/10-challenges/`
+- `doc/project/20-memos/`
+- `doc/project/30-stories/`
+- `doc/project/40-proposals/`
+- `doc/project/50-requirements/`
+- `doc/project/60-solutions/`
 
 For challenge/proposal linkage, keep traceability explicit:
-- each proposal file should reference its source challenge(s) in the header (for example: `Based on: challenges/001-licensing.md`);
-- use aligned numbering where practical (for example: `challenges/001-*.md` -> `proposals/001-*.md`).
+- each proposal file should reference its source challenge(s) in the header (for example: `Based on: doc/project/10-challenges/001-licensing.md`);
+- use aligned numbering where practical (for example: `doc/project/10-challenges/001-*.md` -> `doc/project/40-proposals/001-*.md`).
 
 When both exist for the same topic, keep traceability explicit:
-- each requirements file should reference its source story in the header (for example: `Based on: stories/story-001.md`);
+- each requirements file should reference its source story in the header (for example: `Based on: doc/project/30-stories/story-001.md`);
 - use aligned numbering where practical (for example: `story-001.md` -> `requirements-001.md`).
 
-Memos (`memos/`) are informal, short-lived notes (idea seeds, observations, backlog items).
+Memos under `doc/project/20-memos/` are informal, short-lived notes (idea seeds, observations, backlog items).
 They do not need to follow the full document quality contract (section 4), but should:
 - have a title heading,
 - contain at least one actionable sentence,
 - be promoted into a challenge, story, or proposal when they mature.
 
-When adding new top-level folders, justify them in the relevant ADR or README update.
+Do not add new top-level workflow folders casually. If a new workflow position or domain is needed, justify it in the relevant ADR or README update.
 
 ## 9. Collaboration Rules for Agents
 
@@ -129,9 +143,9 @@ A change is done when:
 
 ## 12. Core Values
 
-There is a directory called `core-values`. It contains files with infixes communicating
-document's language, e.g., `CORE-VALUES.pl.md` is in Polish and `CORE-VALUES.en.md` is
-in English.
+Core values live under `doc/normative/30-core-values/`, with locale subdirectories and
+locale infixes in filenames, e.g., `doc/normative/30-core-values/pl/CORE-VALUES.pl.md`
+and `doc/normative/30-core-values/en/CORE-VALUES.en.md`.
 
 When user asks to add a value you should find a best spot to place it within
 a document's structure. Then, after a value is added, you should synchronize contents

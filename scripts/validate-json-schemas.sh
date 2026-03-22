@@ -3,7 +3,7 @@
 set -eu
 
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-SCHEMAS_DIR="$ROOT/schemas"
+SCHEMAS_DIR="$ROOT/doc/schemas"
 VALID_EXAMPLES_DIR="$SCHEMAS_DIR/examples"
 INVALID_EXAMPLES_DIR="$VALID_EXAMPLES_DIR/invalid"
 MODE=${1:-all}

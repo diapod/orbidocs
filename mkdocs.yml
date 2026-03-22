@@ -1,0 +1,66 @@
+site_name: Orbiplex Documentation
+site_description: Stratified documentation for normative, project, and schema workflows.
+repo_url: https://github.com/diapod/orbidocs
+docs_dir: build/site-docs
+site_dir: output/html
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
+
+nav:
+  - Overview:
+      - Home: README.md
+      - Docs I18N: DOCS-I18N.md
+      - Traceability: TRACEABILITY.md
+      - Workflow Coverage: doc/COVERAGE.md
+      - Agent Notes: AGENTS.md
+  - Normative:
+      - Collaboration: doc/normative/10-ideas/COLLABORATION.md
+      - Vision:
+          - PL: doc/normative/20-vision/pl/VISION.pl.md
+          - EN: doc/normative/20-vision/en/VISION.en.md
+      - AI Manifesto:
+          - PL: doc/normative/25-ai-manifesto/pl/AI-MANIFESTO.pl.md
+          - EN: doc/normative/25-ai-manifesto/en/AI-MANIFESTO.en.md
+      - Core Values:
+          - PL: doc/normative/30-core-values/pl/CORE-VALUES.pl.md
+          - EN: doc/normative/30-core-values/en/CORE-VALUES.en.md
+      - Constitution:
+          - PL: doc/normative/40-constitution/pl/CONSTITUTION.pl.md
+          - EN: doc/normative/40-constitution/en/CONSTITUTION.en.md
+      - Constitutional Ops:
+          - PL Index: doc/normative/50-constitutional-ops/pl/README.pl.md
+          - EN Index: doc/normative/50-constitutional-ops/en/README.en.md
+  - Project:
+      - Workflow Index: doc/project/PROJECTS.md
+      - Challenges: doc/project/10-challenges/README.md
+      - Memos: doc/project/20-memos/MEMOS.md
+      - Stories: doc/project/30-stories/README.md
+      - Proposals: doc/project/40-proposals/README.md
+      - Requirements: doc/project/50-requirements/README.md
+  - Schemas:
+      - Metadata Convention: doc/schemas/README.md
+      - Generated Index: doc/schemas-gen/schema-index.md

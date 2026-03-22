@@ -2,3 +2,6 @@
 /.claude
 /output/*
 !/output/.gitkeep
+/site/
+/build/
+__pycache__

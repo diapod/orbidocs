@@ -1,0 +1,99 @@
+# Traceability and Linking Convention
+
+This repository follows two intersecting traceability paths.
+
+- Normative: `core-values -> constitution -> constitutional-ops -> schema docs -> field semantics`
+- Project: `challenges/memos/stories -> proposals -> requirements -> schemas`
+
+The goal is simple: a reader should be able to move from idea or value, to norm or
+proposal, to operating rule, to data contract, and finally to the exact field that
+carries the semantics.
+
+## Linking rule
+
+### In normative prose
+
+Prefer links that go one layer down:
+
+- `doc/normative/30-core-values/*` should link to `doc/normative/40-constitution/*`,
+- `doc/normative/40-constitution/*` should link to `doc/normative/50-constitutional-ops/*`,
+- `doc/normative/50-constitutional-ops/*` should link to schema docs,
+- schema docs should link back to governing documents and to source JSON Schema.
+
+### In project prose
+
+Prefer links that follow the workflow order:
+
+- `doc/project/10-challenges/*` and `doc/project/20-memos/*` should link forward to proposals,
+- `doc/project/30-stories/*` should link forward to requirements,
+- `doc/project/40-proposals/*` should link to requirements or to normative acts when a topic becomes constitutional,
+- `doc/project/50-requirements/*` should link to schemas.
+
+## Schema-oriented links
+
+Do not link readers directly to raw `.schema.json` files from constitutional prose
+unless the machine-readable artifact itself is the subject.
+
+Prefer links to generated schema pages under:
+
+- `doc/schemas-gen/schemas/<schema-name>.md`
+
+and, where needed, to a specific field anchor:
+
+- `doc/schemas-gen/schemas/<schema-name>.md#field-<field-name>`
+
+Example:
+
+```md
+[Proof-of-Personhood attestation schema](doc/schemas-gen/schemas/proof-of-personhood-attestation.v1.md)
+[bridge_ref field](doc/schemas-gen/schemas/proof-of-personhood-attestation.v1.md#field-bridge-ref)
+```
+
+## Field anchor convention
+
+Generated schema docs expose stable anchors:
+
+- schema overview page:
+  - `doc/schemas-gen/schemas/<schema-name>.md`
+- field anchors:
+  - `#field-<field-name>`
+- `$defs` anchors:
+  - `#def-<def-name>`
+
+Field and definition names are normalized to lowercase kebab-case for link stability.
+
+Examples:
+
+- `subject_ref` -> `#field-subject-ref`
+- `limit_policy_ref` -> `#field-limit-policy-ref`
+- `portabilityProfile` -> `#def-portability-profile`
+
+## Why schema docs exist
+
+JSON Schema remains the canonical machine-readable contract, but schema docs are the
+canonical human-facing navigation layer for schema semantics.
+
+They should expose:
+
+- schema title and description,
+- governing basis documents,
+- required fields,
+- field descriptions,
+- field-level `x-dia-basis`,
+- reusable definitions,
+- conditional rules where present.
+
+## Locale normalization
+
+Traceability links must survive multilingual builds.
+
+For that reason, source files may use either locale suffixes such as `*.pl.md` /
+`*.en.md` or locale subdirectories such as `/pl/` and `/en/`, but the normalized
+build tree must always expose one canonical locale form:
+
+- `pl/...`
+- `en/...`
+
+See:
+
+- [`DOCS-I18N.md`](DOCS-I18N.md)

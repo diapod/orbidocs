@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:signal-marker:v1",
+  "title": "SignalMarker v1",
+  "description": "Machine-readable schema for visible signal markers that disclose whether a user-facing artifact preserves raw signal or presents a transformed variant.",
+  "x-dia-basis": [
+    "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+    "doc/normative/50-constitutional-ops/pl/RAW-SIGNAL-POLICY.pl.md"
+  ],
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema/v",
+    "marker_id",
+    "applies_to_ref",
+    "mode",
+    "actor",
+    "visible_to_user"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "marker_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this visible signal marker."
+    },
+    "applies_to_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable reference to the message, segment, bundle, or other artifact annotated by this marker."
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "raw",
+        "structured",
+        "transformed",
+        "redacted"
+      ],
+      "description": "User-visible signal mode presented at the interface boundary."
+    },
+    "actor": {
+      "type": "string",
+      "enum": [
+        "ai",
+        "human",
+        "hybrid"
+      ],
+      "description": "Who materially shaped the visible output variant."
+    },
+    "requested_by": {
+      "type": "string",
+      "enum": [
+        "user",
+        "user_policy",
+        "safety_policy",
+        "exception"
+      ]
+    },
+    "basis_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the prompt, policy, rule, exception, or other basis authorizing the visible signal mode."
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/operation"
+      },
+      "uniqueItems": true
+    },
+    "visible_to_user": {
+      "type": "boolean",
+      "description": "Whether the marker is intentionally surfaced in the same interface as the annotated artifact."
+    },
+    "transform_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional reference to a SignalTransformEvent that explains how the output variant was produced."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "operation": {
+      "type": "string",
+      "enum": [
+        "structure_extraction",
+        "summarization",
+        "translation",
+        "tone_shift",
+        "formality_shift",
+        "style_polish",
+        "safety_redaction",
+        "privacy_redaction"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "raw"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "operations": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "enum": [
+              "structured",
+              "transformed",
+              "redacted"
+            ]
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "requested_by",
+          "basis_ref",
+          "operations"
+        ],
+        "properties": {
+          "operations": {
+            "minItems": 1
+          },
+          "visible_to_user": {
+            "const": true
+          }
+        }
+      }
+    }
+  ]
+}

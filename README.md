@@ -10,172 +10,138 @@
 - Contact: team@distributed-intelligence.agency
 - GitHub organization: https://github.com/orgs/diapod/
 
-## Documentation structure
+## Repository Layout
 
-### Sections
+The canonical documentation tree now lives under `doc/` and is divided first by
+main domain, then by workflow position inside that domain.
 
-* `/challenges` – what challenges we face
-* `/constitutional-ops` – constitutional supplements, onboarding aids, and executable policy drafts
-* `/core-values` – foundational values and ethical orientation
-* `/memos` – quick notes and idea backlog to revisit later
-* `/proposals` – proposals to be considered and implemented
-* `/requirements` – requirement specifications for certain components
-* `/schemas` – machine-readable protocol and artifact schemas
-* `/schemas/README.md` – metadata convention for semantic schema annotations and normative traceability
-* `/stories` – user stories to be used as scenarios to create requirements
+### Domains
 
-## Document Lifecycle
+- `doc/normative/` – vision, values, constitution, and constitutional operational acts.
+- `doc/project/` – challenges, memos, stories, proposals, requirements, and solutions.
+- `doc/schemas/` – canonical machine-readable schemas and example artifacts.
+- `doc/schemas-gen/` – generated human-facing schema pages and schema index.
 
-The default document flow in this repository is:
+### Normative workflow
 
-`memo -> proposal -> requirements -> schemas`
+`ideas -> vision -> core-values -> constitution -> constitutional-ops -> schemas`
 
-In practice, each stage serves a different purpose:
+Canonical positions:
 
-* `memos/` capture short idea seeds, rough intuitions, and design prompts before the model is stable.
-* `proposals/` turn those ideas into architectural decisions or candidate operating models: problem statement, goals, decision, trade-offs, and open questions.
-* `requirements/` translate stable proposal decisions into explicit behavioral and data contracts.
-* `schemas/` encode the machine-readable parts of those contracts.
+- `doc/normative/10-ideas/`
+- `doc/normative/20-vision/`
+- `doc/normative/25-ai-manifesto/`
+- `doc/normative/30-core-values/`
+- `doc/normative/40-constitution/`
+- `doc/normative/50-constitutional-ops/`
 
-There are also two important side paths:
+### Project workflow
 
-* `proposal -> proposal` when a broad architectural decision must be split into narrower sub-decisions before requirements can be written.
-* `story -> requirements` when a user scenario is the best source of concrete system obligations.
+`challenges -> memos -> stories -> proposals -> requirements -> solutions -> schemas`
 
-Normative material follows a stricter path. When a proposal starts governing authority, identity, sanctions, disclosure, constitutional exceptions, or other high-stakes social rules, it should be promoted into `constitutional-ops/` rather than left only as an implementation proposal.
+Canonical positions:
 
-### Files
+- `doc/project/10-challenges/`
+- `doc/project/20-memos/`
+- `doc/project/30-stories/`
+- `doc/project/40-proposals/`
+- `doc/project/50-requirements/`
+- `doc/project/60-solutions/`
 
-* `/CONSTITUTION.pl.md` – project's constitution (Polish)
-* `/CONSTITUTION.en.md` – project's constitution (English)
-* `/VISION.pl.md` – project vision (Polish)
-* `/VISION.en.md` – project vision (English)
-* `/AI-MANIFESTO.pl.md` – AI manifesto (Polish)
-* `/AI-MANIFESTO.en.md` – AI manifesto (English)
-* `/COLLABORATION.md` – basic collaboration guidelines
-* `/AGENTS.md` – information for agents
-* `/Makefile` – convenience targets for schema validation and PDF rendering
-* `/schemas/transcript-segment.v1.schema.json` – JSON Schema for transcript segment artifacts
-* `/schemas/transcript-bundle.v1.schema.json` – JSON Schema for transcript bundle artifacts
-* `/schemas/answer-room-metadata.v1.schema.json` – JSON Schema for answer-channel room metadata and operator participation policy
-* `/schemas/signal-marker.v1.schema.json` – JSON Schema for visible markers disclosing raw vs transformed signal mode
-* `/schemas/signal-transform-event.v1.schema.json` – JSON Schema for auditable signal-transformation trace events
-* `/schemas/proof-of-personhood-attestation.v1.schema.json` – JSON Schema for minimal Proof-of-Personhood attestations and portability metadata
-* `/schemas/ubc-allocation.v1.schema.json` – JSON Schema for Universal Basic Compute allocations and guaranteed access modes
-* `/schemas/ubc-settlement.v1.schema.json` – JSON Schema for UBC funding and settlement records
-* `/schemas/examples/` – coherent example artifacts for room metadata, transcript segments, transcript bundles, and PoP/UBC records
-* `/schemas/examples/invalid/` – negative validation vectors for room metadata, transcript segments, transcript bundles, and PoP/UBC records
-* `/scripts/validate-json-schemas.sh` – CLI validator wrapper for schemas and example artifacts
-* `/core-values/CORE-VALUES.pl.md` – core values document (Polish)
-* `/core-values/CORE-VALUES.en.md` – core values document (English)
-* `/constitutional-ops/pl/NORMATIVE-HIERARCHY.pl.md` – proposed normative hierarchy of constitutional documents
-* `/constitutional-ops/pl/NODE-RIGHTS-CARD.pl.md` – onboarding card and decision index for node operators
-* `/constitutional-ops/pl/AUTONOMY-LEVELS.pl.md` – autonomy gradient for agents
-* `/constitutional-ops/pl/EXCEPTION-POLICY.pl.md` – exception procedure and data model
-* `/constitutional-ops/pl/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md` – federation eligibility, liveness, quorum and veto rules
-* `/constitutional-ops/pl/ENTRENCHMENT-CLAUSE.pl.md` – entrenchment clause and constitutional defense procedure
-* `/constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md` – root identity, cryptographic nyms, and identity assurance levels
-* `/constitutional-ops/pl/IDENTITY-ATTESTATION-AND-RECOVERY.pl.md` – first attestation, attestation memory, recovery phrase, and anchor-identity reconstruction
-* `/constitutional-ops/pl/ATTESTATION-PROVIDERS.pl.md` – mapping of identity-attestation methods to `weak` / `strong` classes and maximum `IAL`
-* `/constitutional-ops/pl/IDENTITY-UPGRADE-ANOMALY-SIGNALS.pl.md` – anomaly signals and review thresholds for identity-attestation upgrades, especially `phone -> strong`
-* `/constitutional-ops/pl/IDENTITY-UNSEALING-BOARD.pl.md` – Federation of Sealed Chambers, thresholds for unmasking, and multi-chamber root-identity unsealing
-* `/constitutional-ops/pl/UNSEAL-CASE-MODEL.pl.md` – shared case model for `U1-U3` unsealing procedures
-* `/constitutional-ops/pl/ROLE-TO-IAL-MATRIX.pl.md` – minimum mapping of role classes to identity assurance levels
-* `/constitutional-ops/pl/FIP-MEMBERSHIP-AND-QUORUM.pl.md` – membership, activity, and quorum rules for the Federation of Sealed Chambers
-* `/constitutional-ops/pl/PROCEDURAL-REPUTATION-SPEC.pl.md` – procedural reputation specification
-* `/constitutional-ops/pl/RAW-SIGNAL-POLICY.pl.md` – raw-signal protection, style-transformation modes, meta-markers, and audit trace
-* `/constitutional-ops/pl/UNIVERSAL-BASIC-COMPUTE.pl.md` – Proof-of-Personhood floor, non-withdrawable compute minimum, limited cross-federation portability, and UBC settlement
-* `/constitutional-ops/pl/UBC-LIMIT-PROFILES.pl.md` – canonical UBC limit profiles, portability profiles, and minimal FIP bridge semantics
-* `/constitutional-ops/pl/SWARM-ECONOMY-SUFFICIENCY.pl.md` – sufficiency threshold, concentration brakes, surplus circulation, and barrier between reward and governance
-* `/constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md` – ad-hoc panel selection protocol
-* `/constitutional-ops/pl/REPUTATION-VALIDATION-PROTOCOL.pl.md` – validation protocol for reputation mechanisms
-* `/constitutional-ops/pl/ABUSE-DISCLOSURE-PROTOCOL.pl.md` – protocol for conditional disclosure of accountability for abuse
-* `/constitutional-ops/pl/IMPLEMENTATION-GAPS.pl.md` – backlog of remaining constitutional implementation gaps
-* `/constitutional-ops/en/NORMATIVE-HIERARCHY.en.md` – proposed normative hierarchy of constitutional documents (English)
-* `/constitutional-ops/en/NODE-RIGHTS-CARD.en.md` – onboarding card and decision index for node operators (English)
-* `/constitutional-ops/en/AUTONOMY-LEVELS.en.md` – autonomy gradient for agents (English)
-* `/constitutional-ops/en/EXCEPTION-POLICY.en.md` – exception procedure and data model (English)
-* `/constitutional-ops/en/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md` – federation eligibility, liveness, quorum and veto rules (English)
-* `/constitutional-ops/en/ENTRENCHMENT-CLAUSE.en.md` – entrenchment clause and constitutional defense procedure (English)
-* `/constitutional-ops/en/ROOT-IDENTITY-AND-NYMS.en.md` – root identity, cryptographic nyms, and identity assurance levels (English)
-* `/constitutional-ops/en/IDENTITY-ATTESTATION-AND-RECOVERY.en.md` – first attestation, attestation memory, recovery phrase, and anchor-identity reconstruction (English)
-* `/constitutional-ops/en/ATTESTATION-PROVIDERS.en.md` – mapping of identity-attestation methods to `weak` / `strong` classes and maximum `IAL` (English)
-* `/constitutional-ops/en/IDENTITY-UPGRADE-ANOMALY-SIGNALS.en.md` – anomaly signals and review thresholds for identity-attestation upgrades, especially `phone -> strong` (English)
-* `/constitutional-ops/en/IDENTITY-UNSEALING-BOARD.en.md` – Federation of Sealed Chambers, thresholds for unmasking, and multi-chamber root-identity unsealing (English)
-* `/constitutional-ops/en/UNSEAL-CASE-MODEL.en.md` – shared case model for `U1-U3` unsealing procedures (English)
-* `/constitutional-ops/en/ROLE-TO-IAL-MATRIX.en.md` – minimum mapping of role classes to identity assurance levels (English)
-* `/constitutional-ops/en/FIP-MEMBERSHIP-AND-QUORUM.en.md` – membership, activity, and quorum rules for the Federation of Sealed Chambers (English)
-* `/constitutional-ops/en/PROCEDURAL-REPUTATION-SPEC.en.md` – procedural reputation specification (English)
-* `/constitutional-ops/en/RAW-SIGNAL-POLICY.en.md` – raw-signal protection, style-transformation modes, meta-markers, and audit trace (English)
-* `/constitutional-ops/en/UNIVERSAL-BASIC-COMPUTE.en.md` – Proof-of-Personhood floor, non-withdrawable compute minimum, limited cross-federation portability, and UBC settlement (English)
-* `/constitutional-ops/en/UBC-LIMIT-PROFILES.en.md` – canonical UBC limit profiles, portability profiles, and minimal FIP bridge semantics (English)
-* `/constitutional-ops/en/SWARM-ECONOMY-SUFFICIENCY.en.md` – sufficiency threshold, concentration brakes, surplus circulation, and barrier between reward and governance (English)
-* `/constitutional-ops/en/PANEL-SELECTION-PROTOCOL.en.md` – ad-hoc panel selection protocol (English)
-* `/constitutional-ops/en/REPUTATION-VALIDATION-PROTOCOL.en.md` – validation protocol for reputation mechanisms (English)
-* `/constitutional-ops/en/ABUSE-DISCLOSURE-PROTOCOL.en.md` – protocol for conditional disclosure of accountability for abuse (English)
-* `/constitutional-ops/en/IMPLEMENTATION-GAPS.en.md` – backlog of remaining constitutional implementation gaps (English)
+Project workflow stays subordinate to the normative one. If a project document starts
+governing authority, identity, sanctions, disclosure, exceptions, or other high-stakes
+social rules, it should be promoted into `doc/normative/40-constitution/` or
+`doc/normative/50-constitutional-ops/`.
 
-## Traceability Matrix
+## Key Repository Files
 
-### Stories -> Requirements
+- `README.md` – repository entry point.
+- `AGENTS.md` – guidance for documentation agents.
+- `DOCS-I18N.md` – locale-detection and normalization rules.
+- `TRACEABILITY.md` – linking convention across workflows and schema semantics.
+- `Makefile` – schema validation, schema doc generation, PDF rendering, and HTML builds.
+- `mkdocs.yml` – single-site HTML build config.
+- `mkdocs.i18n.yml` – multilingual MkDocs config.
+- `scripts/validate-json-schemas.sh` – schema/example validator wrapper.
+- `scripts/generate-schema-docs.py` – generator for human-facing schema pages.
+- `scripts/build-i18n-docs.py` – staging-tree normalizer for multilingual HTML builds.
 
-| Story | Requirements |
-|---|---|
-| `/stories/story-001.md` | `/requirements/requirements-001.md` |
-| `/stories/story-002.md` | `/requirements/requirements-002.md` |
-| `/stories/story-003.md` | `/requirements/requirements-003.md` |
+## Schemas
 
-### Challenges -> Proposals
+Canonical schemas live in `doc/schemas/`.
 
-| Challenge | Proposal |
-|---|---|
-| `/challenges/001-licensing.md` | `/proposals/001-licensing-proposal.md` |
-| `/challenges/002-sybil.md` | `/proposals/002-comm-protocol.md` |
+Representative files:
 
-### Memos -> Proposals
+- `doc/schemas/transcript-segment.v1.schema.json`
+- `doc/schemas/transcript-bundle.v1.schema.json`
+- `doc/schemas/answer-room-metadata.v1.schema.json`
+- `doc/schemas/signal-marker.v1.schema.json`
+- `doc/schemas/signal-transform-event.v1.schema.json`
+- `doc/schemas/proof-of-personhood-attestation.v1.schema.json`
+- `doc/schemas/ubc-allocation.v1.schema.json`
+- `doc/schemas/ubc-settlement.v1.schema.json`
+- `doc/schemas/examples/`
+- `doc/schemas/examples/invalid/`
+- `doc/schemas/README.md`
+- `doc/schemas-gen/schema-index.md`
+- `doc/schemas-gen/schemas/*.md`
 
-| Memo | Proposal |
-|---|---|
-| `/memos/swarm-broadcast-assistance.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
-| `/memos/swarm-question-channel-transports.md` | `/proposals/003-question-envelope-and-answer-channel.md` |
-| `/memos/operator-participation-in-answer-channel.md` | `/proposals/004-human-origin-flags-and-operator-participation.md` |
-| `/memos/client-simplicity.md` | `/proposals/006-pod-access-layer-for-thin-clients.md` |
-| `/memos/pod-backed-thin-clients.md` | `/proposals/006-pod-access-layer-for-thin-clients.md` |
-| `/memos/transcription-monitors-and-public-vaults.md` | `/proposals/008-transcription-monitors-and-public-vaults.md` |
-| `/memos/swarm-communication-exposure-modes.md` | `/proposals/009-communication-exposure-modes.md` |
-| `/memos/operator-proxy-co-regulation.md` | `/proposals/010-operator-proxy-co-regulation.md` |
+## Build and Validation
 
-### Proposals -> Proposals
+### JSON Schema syntax only
 
-| Proposal | Proposal |
-|---|---|
-| `/proposals/004-human-origin-flags-and-operator-participation.md` | `/proposals/005-operator-participation-room-policy-profiles.md` |
-| `/proposals/006-pod-access-layer-for-thin-clients.md` | `/proposals/007-pod-identity-and-tenancy-model.md` |
+```sh
+make check-json-syntax
+```
 
-### Proposals -> Requirements
+### Full schema validation
 
-| Proposal | Requirement |
-|---|---|
-| `/proposals/003-question-envelope-and-answer-channel.md` | `/requirements/requirements-004.md` |
-| `/proposals/004-human-origin-flags-and-operator-participation.md` | `/requirements/requirements-004.md` |
-| `/proposals/004-human-origin-flags-and-operator-participation.md` | `/requirements/requirements-005.md` |
-| `/proposals/005-operator-participation-room-policy-profiles.md` | `/requirements/requirements-005.md` |
-| `/proposals/008-transcription-monitors-and-public-vaults.md` | `/requirements/requirements-004.md` |
-| `/proposals/009-communication-exposure-modes.md` | `/requirements/requirements-004.md` |
-| `/proposals/009-communication-exposure-modes.md` | `/requirements/requirements-005.md` |
+```sh
+make validate-schemas
+```
 
-### Requirements -> Schemas
+### Regenerate human-facing schema pages
 
-| Requirement | Schema |
-|---|---|
-| `/requirements/requirements-005.md` | `/schemas/transcript-segment.v1.schema.json` |
-| `/requirements/requirements-005.md` | `/schemas/transcript-bundle.v1.schema.json` |
+```sh
+make schema-docs
+```
 
-### Proposals -> Schemas
+### Normalize multilingual docs tree
 
-| Proposal | Schema |
-|---|---|
-| `/proposals/005-operator-participation-room-policy-profiles.md` | `/schemas/answer-room-metadata.v1.schema.json` |
+```sh
+make i18n-docs
+```
 
+### Build single HTML site
 
-### Values -> Constitution
+```sh
+make html
+```
+
+### Build multilingual HTML site
+
+```sh
+make html-i18n
+```
+
+### Build PDF artifacts
+
+```sh
+make output
+```
+
+## Traceability Summary
+
+The repository uses a stratified traceability model.
+
+### Normative path
+
+`doc/normative/30-core-values -> doc/normative/40-constitution -> doc/normative/50-constitutional-ops -> doc/schemas-gen -> doc/schemas`
+
+### Project path
+
+`doc/project/10-challenges -> doc/project/20-memos -> doc/project/30-stories -> doc/project/40-proposals -> doc/project/50-requirements -> doc/schemas`
+
+These paths are intentionally not symmetric. Normative documents carry legitimacy and
+constraints. Project documents explore, narrow, and operationalize design choices. Both
+meet in data contracts under `doc/schemas/`.

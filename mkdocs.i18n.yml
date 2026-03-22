@@ -1,0 +1,97 @@
+site_name: Orbiplex Documentation
+site_description: Stratified documentation for normative, project, and schema workflows.
+repo_url: https://github.com/diapod/orbidocs
+docs_dir: build/i18n-docs
+site_dir: output/html-i18n
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: folder
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: pl
+          default: true
+          name: Polski
+          build: true
+          site_name: Dokumentacja Orbiplex
+          theme:
+            language: pl
+          nav:
+            - Przegląd:
+                - Start: README.md
+                - Reguły i18n: DOCS-I18N.md
+                - Śledzenie normatywne: TRACEABILITY.md
+                - Pokrycie workflowów: doc/COVERAGE.md
+            - Normatywne:
+                - Współpraca: doc/normative/10-ideas/COLLABORATION.md
+                - Wizja: doc/normative/20-vision/VISION.md
+                - Manifest AI: doc/normative/25-ai-manifesto/AI-MANIFESTO.md
+                - Wartości podstawowe: doc/normative/30-core-values/CORE-VALUES.md
+                - Konstytucja: doc/normative/40-constitution/CONSTITUTION.md
+                - Akty wykonawcze: doc/normative/50-constitutional-ops/README.md
+            - Projektowe:
+                - Indeks workflow: doc/project/PROJECTS.md
+                - Wyzwania: doc/project/10-challenges/README.md
+                - Mema i notatki: doc/project/20-memos/MEMOS.md
+                - Stories: doc/project/30-stories/README.md
+                - Propozycje: doc/project/40-proposals/README.md
+                - Wymagania: doc/project/50-requirements/README.md
+            - Schematy:
+                - Konwencja metadanych: doc/schemas/README.md
+                - Indeks schematów: doc/schemas-gen/schema-index.md
+        - locale: en
+          name: English
+          build: true
+          site_name: Orbiplex Orbidocs
+          theme:
+            language: en
+          nav:
+            - Overview:
+                - Home: README.md
+                - Docs I18N: DOCS-I18N.md
+                - Traceability: TRACEABILITY.md
+                - Workflow Coverage: doc/COVERAGE.md
+            - Normative:
+                - Collaboration: doc/normative/10-ideas/COLLABORATION.md
+                - Vision: doc/normative/20-vision/VISION.md
+                - AI Manifesto: doc/normative/25-ai-manifesto/AI-MANIFESTO.md
+                - Core Values: doc/normative/30-core-values/CORE-VALUES.md
+                - Constitution: doc/normative/40-constitution/CONSTITUTION.md
+                - Constitutional Ops: doc/normative/50-constitutional-ops/README.md
+            - Project:
+                - Workflow Index: doc/project/PROJECTS.md
+                - Challenges: doc/project/10-challenges/README.md
+                - Memos: doc/project/20-memos/MEMOS.md
+                - Stories: doc/project/30-stories/README.md
+                - Proposals: doc/project/40-proposals/README.md
+                - Requirements: doc/project/50-requirements/README.md
+            - Schemas:
+                - Schema Metadata Convention: doc/schemas/README.md
+                - Generated Index: doc/schemas-gen/schema-index.md
