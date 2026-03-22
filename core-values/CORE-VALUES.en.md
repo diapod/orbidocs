@@ -39,6 +39,7 @@ reasonable anonymization, and transparent logging policies. Telemetry should be
 *opt-in*, and logs should be designed not to reveal what they do not need to reveal.
 The value of dignity also means: no hidden eavesdropping channels and no mechanisms
 that turn the user into raw material.
+
 Where auditability is required, we use layered traces: a full local trace and a
 redacted audit trace disclosed under least-disclosure principles.
 
@@ -73,12 +74,13 @@ emerge cognitive resilience, innovation, and real agency of a distributed commun
 At the same time, we do not confuse pluralism with relativism: protection of
 diversity operates inside a shared foundation of human dignity, non-violence
 (including systemic violence), epistemic honesty, the right to exit, and the "do no
-harm" principle. In practice this means the network supports many schools, practices,
-and styles of operation (different workflows, languages, models, aesthetics, even
-different work ethics), as long as they do not try to capture trust infrastructure,
-enforce obedience, polarize through dehumanization, or sabotage the safety of others.
-This is pluralism with contracts: you may be different if we can safely share the
-same space.
+harm" principle.
+
+In practice this means the network supports many schools, practices, and styles of
+operation (different workflows, languages, models, aesthetics, even different work
+ethics), as long as they do not try to capture trust infrastructure, enforce
+obedience, polarize through dehumanization, or sabotage the safety of others. This is
+pluralism with contracts: you may be different if we can safely share the same space.
 
 DIA also protects anomalies as a cultural resource: in the era of the "low-pass
 filter," rare signals vanish, distribution becomes predictable, and culture starts
@@ -113,6 +115,7 @@ Knowledge and intelligence must not be permanently monopolized by centers of cap
 institutional concentrations of power, or data cartels. Swarm architecture should
 actively rebalance this asymmetry: distribute access to information, enable local
 verification, and strengthen community models for creating and evaluating knowledge.
+
 Democratization does not mean chaos, but a fairer distribution of cognitive and
 decision capacity, where a single actor does not gain dominance only because it has a
 larger budget or infrastructure.
@@ -185,20 +188,24 @@ telemetry, cost policies), so the project has a duty to make those places explic
 In DIA, reputation is not for building hierarchy, but for safe trust routing: who may
 act as relay, who may host agents, who may be entrusted with data, whose signature
 has meaning. Because ratings are subjective, we treat this as a multi-layer model:
+
 Reputation-derived permissions are functional, time-bounded, and revocable; they do
 not create class status or governance immunity.
 
 - local node assessments,
 - evidence of operation (attestations, logs, contracts, test results, incident evidence),
-- a consensual aggregation mechanism where "harm + hard evidence" outweighs technical reputation.
+- a consensual aggregation mechanism where "harm + hard evidence" outweighs technical
+  reputation.
 
 Reputation is a feature vector, e.g. reliability, competence, safety, benevolence.
 Events related to protecting the community and its members have a separate weighting
-path and dominate in the safety domain. "Evidence of harm" (especially repeated)
-triggers red-flag mode: restriction of routing permissions regardless of a node's
-technical track record. Anti-Sybil: ratings from new/untrusted nodes have low weight
-until there is history/evidence. If an assessment is evidence-based, it may be
-challenged only with counter-evidence, not narrative.
+path and dominate in the safety domain.
+
+"Evidence of harm" (especially repeated) triggers red-flag mode: restriction of
+routing permissions regardless of a node's technical track record. Anti-Sybil:
+ratings from new/untrusted nodes have low weight until there is history/evidence. If
+an assessment is evidence-based, it may be challenged only with counter-evidence, not
+narrative.
 
 ### Reputation as Leverage, Not Power
 
@@ -361,11 +368,11 @@ instead of arbitrary evaluation of people.
 
 ### Asymmetric Accountability of Public-Trust Roles
 
-DIA adopts the principle that public trust is a privilege with elevated stakes:
-the greater the power over process, access to sensitive information, and influence
-over others' reputations, the greater the accountability and the stricter the
-consequences of abuse. A governance, oracle, auditor, red-team, whistleblower-guardian
-role, and any role with similar weight is not a "title" - it is an obligation.
+DIA adopts the principle that public trust is a privilege with elevated stakes: the
+greater the power over process, access to sensitive information, and influence over
+others' reputations, the greater the accountability and the stricter the consequences
+of abuse. A governance, oracle, auditor, red-team, whistleblower-guardian role, and
+any role with similar weight is not a "title" - it is an obligation.
 
 In practice this means sanction asymmetry: violations in public-trust roles have
 higher enforcement priority, longer reputational impact, and stricter permission
@@ -378,20 +385,23 @@ counter-evidence, not narratives.
 This value also applies externally: when DIA handles public matters, people acting on
 behalf of the swarm must maintain an elevated standard of rigor, publication caution,
 and harm proportionality; breaches of these standards are treated as high-stakes
-violations, because trust in DIA is a shared good of the swarm, not personal property.
+violations, because trust in DIA is a shared good of the swarm, not personal
+property.
 
 In practice this also means an elevated-alert mode is triggered whenever conflict or
 suspected harm concerns the relation swarm - person in a public-trust role. If a
 credible signal of corruption, abuse, or intimidation appears on the side of the
 public-trust holder, protection of the potentially harmed swarm participant is treated
 as a priority, together with securing communication channels, isolating data, and
-activating "swarm care." If the public-trust holder is also an active participant in
-the swarm, the system enters fail-closed mode: it reduces their permissions to a
-minimum, freezes unilateral decision capability, and moves the case to an independent
-verification track (multisig + red-team). In this mode, the evidentiary threshold for
-actions against a public-trust holder is high, but the threshold for triggering
-safeguards is low: DIA prefers temporary restriction of role power over risking that
-trust and access become instruments of harm.
+activating "swarm care."
+
+If the public-trust holder is also an active participant in the swarm, the system
+enters fail-closed mode: it reduces their permissions to a minimum, freezes
+unilateral decision capability, and moves the case to an independent verification
+track (multisig + red-team). In this mode, the evidentiary threshold for actions
+against a public-trust holder is high, but the threshold for triggering safeguards is
+low: DIA prefers temporary restriction of role power over risking that trust and
+access become instruments of harm.
 
 ### Whistleblower Protection as Infrastructure
 
@@ -460,9 +470,9 @@ maintenance of the integrity of the swarm and its components.
 ### Procedural Publication Caution and Adversarial Review as Norms
 
 DIA treats publication as an act with real power: it can protect people, but it can
-also unjustly destroy reputations, trigger witch hunts, or become a manipulation tool.
-Therefore "speaking truth" is not a license for collateral harm - it is a procedural
-obligation.
+also unjustly destroy reputations, trigger witch hunts, or become a manipulation
+tool. Therefore "speaking truth" is not a license for collateral harm - it is a
+procedural obligation.
 
 The default mode is conditional publication: before release, an internal red-team of
 nodes and their stewards is obliged to try to falsify the material: find evidence
@@ -473,8 +483,16 @@ and interpretation begins.
 
 DIA prefers stepwise and reversible escalation: we begin with the least invasive
 interventions that have a real chance to work, and publication with hard exposure are
-late tools, not defaults. The escalation ladder is:
-verification -> procedure correction -> formal report -> audit -> publication.
+late tools, not defaults.
+
+The escalation ladder is:
+
+- verification,
+- procedure correction,
+- formal report,
+- audit,
+- publication.
+
 Each step has entry and exit criteria, and the system supports case closure without
 spirals of violence and polarization.
 
@@ -566,9 +584,16 @@ simple, predictable, and auditable.
 
 An agent's error must never automatically escalate privileges (zero *self-authorize*).
 Rescue mode has separate rules and time limits, after which the system returns to
-fail-closed. Learning mechanics: incident -> post-mortem -> reputation/guardrail
-weight updates. Risk modes per operation: one for "data," another for "routing," and
-another for "rescue."
+fail-closed.
+
+Learning mechanics:
+
+- incident,
+- post-mortem,
+- reputation/guardrail weight updates.
+
+Risk modes per operation: one for "data," another for "routing," and another for
+"rescue."
 
 ### Cost and Energy as an Ethical Dimension
 
@@ -749,10 +774,9 @@ persons/nodes, and instead an automatic, predictable network-gratitude mechanism
 (guaranteed tokens) + a random component (anti-gaming) + a "recipient voice"
 component (subjective value of received help). Reciprocity concerns both humans and
 agents: an agent can be a helper (time, compute, skills), and the human is the final
-point of meaning.
-This phrase refers to the absence of manual bilateral debt between participants;
-protocol-level accounting of the community fund and anti-abuse counters remains
-mandatory.
+point of meaning. This phrase refers to the absence of manual bilateral debt between
+participants; protocol-level accounting of the community fund and anti-abuse counters
+remains mandatory.
 
 As a result, help actions are *first-class events*, support tokens are paid from the
 community fund according to rules, and recipient indication of who truly helped is an
@@ -767,14 +791,15 @@ people and nodes: help should be an act of goodwill, not a transaction. The netw
 may still, through community policy (not a "right to payout"), trigger automatic token
 rewards for actions that genuinely strengthen others - especially in rescue and
 protective situations - combining a guaranteed part, a random part, and recipient
-signal (percentage attribution of contribution). Reward rules and potential "exit" to
-an external crypto ecosystem are governance parameters: in some federations they may
-be disabled, constrained, or split into token classes (e.g. non-exchangeable "rescue
-credits" vs exchangeable "compute credits") to protect the gift ethos from
-speculation, Sybil, and "oppression farming," while preserving a long-term path from
-internal token exchangeability to actual virtual-currency tokens as a supervised
-exception to automatic exchange. Such change in network behavior should be a
-conscious, controlled community decision.
+signal (percentage attribution of contribution).
+
+Reward rules and potential "exit" to an external crypto ecosystem are governance
+parameters: in some federations they may be disabled, constrained, or split into
+token classes (e.g. non-exchangeable "rescue credits" vs exchangeable "compute
+credits") to protect the gift ethos from speculation, Sybil, and "oppression
+farming," while preserving a long-term path from internal token exchangeability to
+actual virtual-currency tokens as a supervised exception to automatic exchange. Such
+change in network behavior should be a conscious, controlled community decision.
 
 ### Sufficiency Over Accumulation
 
@@ -865,12 +890,13 @@ DIA designs intelligence as a dynamic phenomenon: relational, self-correcting, a
 constantly negotiating its niche, not as a closed mechanism made of countable parts.
 Under this assumption, the quality test is not model elegance but its ability to
 predict and survive in a changing environment: learning, adaptation, cooperation, and
-recovery after errors. Nodes and agents should function like an organism: maintain
-information flow, allow correction, react to signals of harm, risk, and changing
-conditions, instead of defending a once-adopted map of the world. This is the
-foundation of anti-dogmatism: every component can be challenged by feedback, and
-architecture should support fluid reconfiguration without losing safety and dignity of
-participants.
+recovery after errors.
+
+Nodes and agents should function like an organism: maintain information flow, allow
+correction, react to signals of harm, risk, and changing conditions, instead of
+defending a once-adopted map of the world. This is the foundation of anti-dogmatism:
+every component can be challenged by feedback, and architecture should support fluid
+reconfiguration without losing safety and dignity of participants.
 
 ### Model Hallucination as a Tool
 
@@ -878,10 +904,12 @@ Swarm imagination is not for fantasizing, but for mapping a credibility area for
 action in a world that cannot be described with complete data. In practice this means
 the network treats "what if" scenarios as a tool for discovering truth: we generate
 hypotheses, eliminate what is impossible or contradictory to constraints, then test
-what remains through predictions and contact with outcomes. Model hallucinations and
-human imagination are a bridge between ignorance and decision: they allow navigation
-through uncertainty without pretending certainty, and should ultimately help people
-create and test scenarios, not sell narratives as facts.
+what remains through predictions and contact with outcomes.
+
+Model hallucinations and human imagination are a bridge between ignorance and
+decision: they allow navigation through uncertainty without pretending certainty, and
+should ultimately help people create and test scenarios, not sell narratives as
+facts.
 
 ### Verifiability Over Belief
 
@@ -891,10 +919,15 @@ regression detection mechanisms. When something is speculation, we call it specu
 and design an experiment that can disprove or strengthen it.
 
 In DIA, truth is not a status or a slogan, but a feedback loop:
-introspection -> honesty about motives -> verification of hypotheses in the world ->
-correction. Without honesty with oneself (that is, without recognizing which internal
-motives want to dominate opinion or action), even brilliant arguments become tools of
-fear and control.
+
+- introspection,
+- honesty about motives,
+- verification of hypotheses in the world,
+- correction.
+
+Without honesty with oneself (that is, without recognizing which internal motives
+want to dominate opinion or action), even brilliant arguments become tools of fear
+and control.
 
 ### Multi-paradigm Thinking and Pluralism
 
@@ -929,6 +962,7 @@ linking sources, marking provenance, comparing variants, and indicating decision
 adequate to user goals. The swarm should also act as an epistemic filter: reduce
 noise, detect manipulation, expose uncertainty, and separate hypotheses from facts,
 without central censorship and without suppressing pluralism.
+
 The filter is not a central gate of truth: it should be local or federated,
 configurable by user/federation policy, with right-to-exit and auditable criteria.
 
@@ -1029,6 +1063,7 @@ quality.
 
 DIA rewards predictions that are explicitly grounded in context and include declared
 uncertainty, because only then can oracles measure calibration - not just "a hit."
+
 Oracles are treated as part of the system of epistemic safety: they prevent swarm
 drift toward closed thought systems, support belief updates, and enable rewarding
 nodes for real accuracy, early signals, and honest post-outcome updates.
@@ -1071,22 +1106,22 @@ Governance principles that materialize this value:
    Every material policy or architecture decision must include expected effects and a
    method for verifying them over time, and after deployment it undergoes retrospective
    review based on data, incidents, and appeals.
-
+   
 2. **Least harm, highest reversibility**  
    When values conflict, the preferred option is the one with the lowest potential harm
    and highest reversibility; exceptions are time-bounded, constrained, and carry
    automatic sunset conditions.
-
+   
 3. **Pan-perspectivality with a dignity boundary**  
    Pluralism is protected procedurally, but any practice that escalates violence,
    dehumanization, or abuse of power loses protection and is constrained regardless of
    its narrative "truth."
-
+   
 4. **Distributed and auditable power**  
    Critical permissions (oracles, settlements, sanctions, exceptions) are split across
    roles, and decisions leave traces, so that no entity can become an unquestioned
    arbiter of meaning or truth.
-
+   
 5. **Incentives resilient to pathology**  
    Economics, reputation, and reward mechanisms are designed so harming others, farming
    abuse, or destabilizing the community is not profitable; when evidence of pathology
