@@ -16,6 +16,9 @@ theme:
     - search.suggest
     - content.code.copy
 
+extra_css:
+  - styles/extra.css
+
 markdown_extensions:
   - admonition
   - attr_list
