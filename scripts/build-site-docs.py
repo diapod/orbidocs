@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import shutil
 from pathlib import Path
 
@@ -12,21 +11,20 @@ BUILD_DIR = ROOT / "build" / "site-docs"
 SOURCE_DOC_DIR = ROOT / "doc"
 STYLES_DIR = ROOT / "styles"
 ROOT_MARKDOWN = (
-    "README.md",
-    "DOCS-I18N.md",
-    "TRACEABILITY.md",
     "AGENTS.md",
 )
+EXCLUDED_DOCS = {
+    Path("normative/10-ideas/COLLABORATION.md"),
+}
 
 
-def rewrite_asset_links(text: str, target: Path, site_root: Path) -> str:
-    styles_prefix = os.path.relpath(site_root / "styles", target.parent).replace(os.sep, "/")
+def rewrite_asset_links(text: str) -> str:
     replacements = {
-        'src="styles/': f'src="{styles_prefix}/',
-        "src='styles/": f"src='{styles_prefix}/",
-        'href="styles/': f'href="{styles_prefix}/',
-        "href='styles/": f"href='{styles_prefix}/",
-        '](styles/': f']({styles_prefix}/',
+        'src="styles/': 'src="/styles/',
+        "src='styles/": "src='/styles/",
+        'href="styles/': 'href="/styles/',
+        "href='styles/": "href='/styles/",
+        '](styles/': '](/styles/',
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
@@ -36,12 +34,14 @@ def rewrite_asset_links(text: str, target: Path, site_root: Path) -> str:
 def write_transformed_markdown(source: Path, target: Path) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     text = source.read_text(encoding="utf-8")
-    target.write_text(rewrite_asset_links(text, target, BUILD_DIR), encoding="utf-8")
+    target.write_text(rewrite_asset_links(text), encoding="utf-8")
 
 
 def copy_root_markdown() -> None:
     for rel in ROOT_MARKDOWN:
         source = ROOT / rel
+        if not source.exists():
+            continue
         target = BUILD_DIR / rel
         write_transformed_markdown(source, target)
 
@@ -51,7 +51,11 @@ def copy_doc_tree() -> None:
         if source.is_dir() or source.name == ".DS_Store":
             continue
 
-        target = BUILD_DIR / source.relative_to(ROOT)
+        rel = source.relative_to(SOURCE_DOC_DIR)
+        if rel in EXCLUDED_DOCS:
+            continue
+
+        target = BUILD_DIR / "doc" / rel
         if source.suffix == ".md":
             write_transformed_markdown(source, target)
         else:

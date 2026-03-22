@@ -22,7 +22,6 @@ PDF_SOURCE_PATTERNS ?= \
 	doc/normative/40-constitution/en/*.md \
 	doc/normative/50-constitutional-ops/pl/*.md \
 	doc/normative/50-constitutional-ops/en/*.md \
-	README.md
 
 PDF_SOURCES := $(sort $(foreach pattern,$(PDF_SOURCE_PATTERNS),$(wildcard $(pattern))))
 PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/%.pdf,$(PDF_SOURCES))

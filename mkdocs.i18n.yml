@@ -36,37 +36,8 @@ plugins:
       reconfigure_material: true
       reconfigure_search: true
       languages:
-        - locale: pl
-          default: true
-          name: Polski
-          build: true
-          site_name: Dokumentacja Orbiplex
-          theme:
-            language: pl
-          nav:
-            - Przegląd:
-                - Start: README.md
-                - Reguły i18n: DOCS-I18N.md
-                - Śledzenie normatywne: TRACEABILITY.md
-                - Pokrycie workflowów: doc/COVERAGE.md
-            - Normatywne:
-                - Współpraca: doc/normative/10-ideas/COLLABORATION.md
-                - Wizja: doc/normative/20-vision/VISION.md
-                - Manifest AI: doc/normative/25-ai-manifesto/AI-MANIFESTO.md
-                - Wartości podstawowe: doc/normative/30-core-values/CORE-VALUES.md
-                - Konstytucja: doc/normative/40-constitution/CONSTITUTION.md
-                - Akty wykonawcze: doc/normative/50-constitutional-ops/README.md
-            - Projektowe:
-                - Indeks workflow: doc/project/PROJECTS.md
-                - Wyzwania: doc/project/10-challenges/README.md
-                - Mema i notatki: doc/project/20-memos/MEMOS.md
-                - Stories: doc/project/30-stories/README.md
-                - Propozycje: doc/project/40-proposals/README.md
-                - Wymagania: doc/project/50-requirements/README.md
-            - Schematy:
-                - Konwencja metadanych: doc/schemas/README.md
-                - Indeks schematów: doc/schemas-gen/schema-index.md
         - locale: en
+          default: true
           name: English
           build: true
           site_name: Orbiplex Orbidocs
@@ -74,24 +45,189 @@ plugins:
             language: en
           nav:
             - Overview:
-                - Home: README.md
-                - Docs I18N: DOCS-I18N.md
-                - Traceability: TRACEABILITY.md
+                - Home: index.md
                 - Workflow Coverage: doc/COVERAGE.md
             - Normative:
-                - Collaboration: doc/normative/10-ideas/COLLABORATION.md
                 - Vision: doc/normative/20-vision/VISION.md
                 - AI Manifesto: doc/normative/25-ai-manifesto/AI-MANIFESTO.md
                 - Core Values: doc/normative/30-core-values/CORE-VALUES.md
                 - Constitution: doc/normative/40-constitution/CONSTITUTION.md
-                - Constitutional Ops: doc/normative/50-constitutional-ops/README.md
+                - Constitutional Ops:
+                    - Index: doc/normative/50-constitutional-ops/README.md
+                    - Abuse Disclosure Protocol: doc/normative/50-constitutional-ops/ABUSE-DISCLOSURE-PROTOCOL.md
+                    - Attestation Providers: doc/normative/50-constitutional-ops/ATTESTATION-PROVIDERS.md
+                    - Autonomy Levels: doc/normative/50-constitutional-ops/AUTONOMY-LEVELS.md
+                    - Entrenchment Clause: doc/normative/50-constitutional-ops/ENTRENCHMENT-CLAUSE.md
+                    - Exception Policy: doc/normative/50-constitutional-ops/EXCEPTION-POLICY.md
+                    - Federation Membership and Quorum: doc/normative/50-constitutional-ops/FEDERATION-MEMBERSHIP-AND-QUORUM.md
+                    - FIP Membership and Quorum: doc/normative/50-constitutional-ops/FIP-MEMBERSHIP-AND-QUORUM.md
+                    - Identity Attestation and Recovery: doc/normative/50-constitutional-ops/IDENTITY-ATTESTATION-AND-RECOVERY.md
+                    - Identity Unsealing Board: doc/normative/50-constitutional-ops/IDENTITY-UNSEALING-BOARD.md
+                    - Identity Upgrade Anomaly Signals: doc/normative/50-constitutional-ops/IDENTITY-UPGRADE-ANOMALY-SIGNALS.md
+                    - Implementation Gaps: doc/normative/50-constitutional-ops/IMPLEMENTATION-GAPS.md
+                    - Node Rights Card: doc/normative/50-constitutional-ops/NODE-RIGHTS-CARD.md
+                    - Normative Hierarchy: doc/normative/50-constitutional-ops/NORMATIVE-HIERARCHY.md
+                    - Panel Selection Protocol: doc/normative/50-constitutional-ops/PANEL-SELECTION-PROTOCOL.md
+                    - Procedural Reputation Spec: doc/normative/50-constitutional-ops/PROCEDURAL-REPUTATION-SPEC.md
+                    - Raw Signal Policy: doc/normative/50-constitutional-ops/RAW-SIGNAL-POLICY.md
+                    - Reputation Validation Protocol: doc/normative/50-constitutional-ops/REPUTATION-VALIDATION-PROTOCOL.md
+                    - Role to IAL Matrix: doc/normative/50-constitutional-ops/ROLE-TO-IAL-MATRIX.md
+                    - Root Identity and Nyms: doc/normative/50-constitutional-ops/ROOT-IDENTITY-AND-NYMS.md
+                    - Swarm Economy Sufficiency: doc/normative/50-constitutional-ops/SWARM-ECONOMY-SUFFICIENCY.md
+                    - UBC Limit Profiles: doc/normative/50-constitutional-ops/UBC-LIMIT-PROFILES.md
+                    - Universal Basic Compute: doc/normative/50-constitutional-ops/UNIVERSAL-BASIC-COMPUTE.md
+                    - Unseal Case Model: doc/normative/50-constitutional-ops/UNSEAL-CASE-MODEL.md
             - Project:
                 - Workflow Index: doc/project/PROJECTS.md
-                - Challenges: doc/project/10-challenges/README.md
-                - Memos: doc/project/20-memos/MEMOS.md
-                - Stories: doc/project/30-stories/README.md
-                - Proposals: doc/project/40-proposals/README.md
-                - Requirements: doc/project/50-requirements/README.md
+                - Challenges:
+                    - Index: doc/project/10-challenges/CHALLENGES.md
+                    - 001 Licensing: doc/project/10-challenges/001-licensing.md
+                    - 002 Sybil: doc/project/10-challenges/002-sybil.md
+                - Memos:
+                    - Index: doc/project/20-memos/MEMOS.md
+                    - Bad Actors: doc/project/20-memos/bad-actors.md
+                    - Client Simplicity: doc/project/20-memos/client-simplicity.md
+                    - Filtrum: doc/project/20-memos/filtrum.md
+                    - Human Expertise Escalation: doc/project/20-memos/human-expertise-escalation.md
+                    - Model Requests: doc/project/20-memos/model-requests.md
+                    - Operator Participation in Answer Channel: doc/project/20-memos/operator-participation-in-answer-channel.md
+                    - Operator Proxy Co-Regulation: doc/project/20-memos/operator-proxy-co-regulation.md
+                    - Pod-Backed Thin Clients: doc/project/20-memos/pod-backed-thin-clients.md
+                    - Swarm Broadcast Assistance: doc/project/20-memos/swarm-broadcast-assistance.md
+                    - Swarm Communication Exposure Modes: doc/project/20-memos/swarm-communication-exposure-modes.md
+                    - Swarm Question Channel Transports: doc/project/20-memos/swarm-question-channel-transports.md
+                    - Transcription Monitors and Public Vaults: doc/project/20-memos/transcription-monitors-and-public-vaults.md
+                    - Wide Caps: doc/project/20-memos/wide-caps.md
+                - Stories:
+                    - Index: doc/project/30-stories/STORIES.md
+                    - Story 001: doc/project/30-stories/story-001.md
+                    - Story 002: doc/project/30-stories/story-002.md
+                    - Story 003: doc/project/30-stories/story-003.md
+                - Proposals:
+                    - Index: doc/project/40-proposals/PROPOSALS.md
+                    - 001 Licensing Proposal: doc/project/40-proposals/001-licensing-proposal.md
+                    - 002 Comm Protocol: doc/project/40-proposals/002-comm-protocol.md
+                    - 003 Question Envelope and Answer Channel: doc/project/40-proposals/003-question-envelope-and-answer-channel.md
+                    - 004 Human Origin Flags and Operator Participation: doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md
+                    - 005 Operator Participation Room Policy Profiles: doc/project/40-proposals/005-operator-participation-room-policy-profiles.md
+                    - 006 Pod Access Layer for Thin Clients: doc/project/40-proposals/006-pod-access-layer-for-thin-clients.md
+                    - 007 Pod Identity and Tenancy Model: doc/project/40-proposals/007-pod-identity-and-tenancy-model.md
+                    - 008 Transcription Monitors and Public Vaults: doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md
+                    - 009 Communication Exposure Modes: doc/project/40-proposals/009-communication-exposure-modes.md
+                    - 010 Operator Proxy Co-Regulation: doc/project/40-proposals/010-operator-proxy-co-regulation.md
+                - Requirements:
+                    - Index: doc/project/50-requirements/REQUIREMENTS.md
+                    - Requirements 001: doc/project/50-requirements/requirements-001.md
+                    - Requirements 002: doc/project/50-requirements/requirements-002.md
+                    - Requirements 003: doc/project/50-requirements/requirements-003.md
+                    - Requirements 004: doc/project/50-requirements/requirements-004.md
+                    - Requirements 005: doc/project/50-requirements/requirements-005.md
             - Schemas:
                 - Schema Metadata Convention: doc/schemas/README.md
                 - Generated Index: doc/schemas-gen/schema-index.md
+                - Schema Docs:
+                    - Answer Room Metadata v1: doc/schemas-gen/schemas/answer-room-metadata.v1.md
+                    - Proof of Personhood Attestation v1: doc/schemas-gen/schemas/proof-of-personhood-attestation.v1.md
+                    - Signal Marker v1: doc/schemas-gen/schemas/signal-marker.v1.md
+                    - Signal Transform Event v1: doc/schemas-gen/schemas/signal-transform-event.v1.md
+                    - Transcript Bundle v1: doc/schemas-gen/schemas/transcript-bundle.v1.md
+                    - Transcript Segment v1: doc/schemas-gen/schemas/transcript-segment.v1.md
+                    - UBC Allocation v1: doc/schemas-gen/schemas/ubc-allocation.v1.md
+                    - UBC Settlement v1: doc/schemas-gen/schemas/ubc-settlement.v1.md
+        - locale: pl
+          name: Polski
+          build: true
+          site_name: Dokumentacja Orbiplex
+          theme:
+            language: pl
+          nav:
+            - Przegląd:
+                - Start: index.md
+                - Pokrycie workflowów: doc/COVERAGE.md
+            - Normatywne:
+                - Wizja: doc/normative/20-vision/VISION.md
+                - Manifest AI: doc/normative/25-ai-manifesto/AI-MANIFESTO.md
+                - Wartości podstawowe: doc/normative/30-core-values/CORE-VALUES.md
+                - Konstytucja: doc/normative/40-constitution/CONSTITUTION.md
+                - Akty wykonawcze:
+                    - Indeks: doc/normative/50-constitutional-ops/README.md
+                    - Abuse Disclosure Protocol: doc/normative/50-constitutional-ops/ABUSE-DISCLOSURE-PROTOCOL.md
+                    - Attestation Providers: doc/normative/50-constitutional-ops/ATTESTATION-PROVIDERS.md
+                    - Autonomy Levels: doc/normative/50-constitutional-ops/AUTONOMY-LEVELS.md
+                    - Entrenchment Clause: doc/normative/50-constitutional-ops/ENTRENCHMENT-CLAUSE.md
+                    - Exception Policy: doc/normative/50-constitutional-ops/EXCEPTION-POLICY.md
+                    - Federation Membership and Quorum: doc/normative/50-constitutional-ops/FEDERATION-MEMBERSHIP-AND-QUORUM.md
+                    - FIP Membership and Quorum: doc/normative/50-constitutional-ops/FIP-MEMBERSHIP-AND-QUORUM.md
+                    - Identity Attestation and Recovery: doc/normative/50-constitutional-ops/IDENTITY-ATTESTATION-AND-RECOVERY.md
+                    - Identity Unsealing Board: doc/normative/50-constitutional-ops/IDENTITY-UNSEALING-BOARD.md
+                    - Identity Upgrade Anomaly Signals: doc/normative/50-constitutional-ops/IDENTITY-UPGRADE-ANOMALY-SIGNALS.md
+                    - Implementation Gaps: doc/normative/50-constitutional-ops/IMPLEMENTATION-GAPS.md
+                    - Node Rights Card: doc/normative/50-constitutional-ops/NODE-RIGHTS-CARD.md
+                    - Normative Hierarchy: doc/normative/50-constitutional-ops/NORMATIVE-HIERARCHY.md
+                    - Panel Selection Protocol: doc/normative/50-constitutional-ops/PANEL-SELECTION-PROTOCOL.md
+                    - Procedural Reputation Spec: doc/normative/50-constitutional-ops/PROCEDURAL-REPUTATION-SPEC.md
+                    - Raw Signal Policy: doc/normative/50-constitutional-ops/RAW-SIGNAL-POLICY.md
+                    - Reputation Validation Protocol: doc/normative/50-constitutional-ops/REPUTATION-VALIDATION-PROTOCOL.md
+                    - Role to IAL Matrix: doc/normative/50-constitutional-ops/ROLE-TO-IAL-MATRIX.md
+                    - Root Identity and Nyms: doc/normative/50-constitutional-ops/ROOT-IDENTITY-AND-NYMS.md
+                    - Swarm Economy Sufficiency: doc/normative/50-constitutional-ops/SWARM-ECONOMY-SUFFICIENCY.md
+                    - UBC Limit Profiles: doc/normative/50-constitutional-ops/UBC-LIMIT-PROFILES.md
+                    - Universal Basic Compute: doc/normative/50-constitutional-ops/UNIVERSAL-BASIC-COMPUTE.md
+                    - Unseal Case Model: doc/normative/50-constitutional-ops/UNSEAL-CASE-MODEL.md
+            - Projektowe:
+                - Indeks workflow: doc/project/PROJECTS.md
+                - Wyzwania:
+                    - Indeks: doc/project/10-challenges/CHALLENGES.md
+                    - 001 Licensing: doc/project/10-challenges/001-licensing.md
+                    - 002 Sybil: doc/project/10-challenges/002-sybil.md
+                - Mema i notatki:
+                    - Indeks: doc/project/20-memos/MEMOS.md
+                    - Bad Actors: doc/project/20-memos/bad-actors.md
+                    - Client Simplicity: doc/project/20-memos/client-simplicity.md
+                    - Filtrum: doc/project/20-memos/filtrum.md
+                    - Human Expertise Escalation: doc/project/20-memos/human-expertise-escalation.md
+                    - Model Requests: doc/project/20-memos/model-requests.md
+                    - Operator Participation in Answer Channel: doc/project/20-memos/operator-participation-in-answer-channel.md
+                    - Operator Proxy Co-Regulation: doc/project/20-memos/operator-proxy-co-regulation.md
+                    - Pod-Backed Thin Clients: doc/project/20-memos/pod-backed-thin-clients.md
+                    - Swarm Broadcast Assistance: doc/project/20-memos/swarm-broadcast-assistance.md
+                    - Swarm Communication Exposure Modes: doc/project/20-memos/swarm-communication-exposure-modes.md
+                    - Swarm Question Channel Transports: doc/project/20-memos/swarm-question-channel-transports.md
+                    - Transcription Monitors and Public Vaults: doc/project/20-memos/transcription-monitors-and-public-vaults.md
+                    - Wide Caps: doc/project/20-memos/wide-caps.md
+                - Stories:
+                    - Indeks: doc/project/30-stories/STORIES.md
+                    - Story 001: doc/project/30-stories/story-001.md
+                    - Story 002: doc/project/30-stories/story-002.md
+                    - Story 003: doc/project/30-stories/story-003.md
+                - Propozycje:
+                    - Indeks: doc/project/40-proposals/PROPOSALS.md
+                    - 001 Licensing Proposal: doc/project/40-proposals/001-licensing-proposal.md
+                    - 002 Comm Protocol: doc/project/40-proposals/002-comm-protocol.md
+                    - 003 Question Envelope and Answer Channel: doc/project/40-proposals/003-question-envelope-and-answer-channel.md
+                    - 004 Human Origin Flags and Operator Participation: doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md
+                    - 005 Operator Participation Room Policy Profiles: doc/project/40-proposals/005-operator-participation-room-policy-profiles.md
+                    - 006 Pod Access Layer for Thin Clients: doc/project/40-proposals/006-pod-access-layer-for-thin-clients.md
+                    - 007 Pod Identity and Tenancy Model: doc/project/40-proposals/007-pod-identity-and-tenancy-model.md
+                    - 008 Transcription Monitors and Public Vaults: doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md
+                    - 009 Communication Exposure Modes: doc/project/40-proposals/009-communication-exposure-modes.md
+                    - 010 Operator Proxy Co-Regulation: doc/project/40-proposals/010-operator-proxy-co-regulation.md
+                - Wymagania:
+                    - Indeks: doc/project/50-requirements/REQUIREMENTS.md
+                    - Requirements 001: doc/project/50-requirements/requirements-001.md
+                    - Requirements 002: doc/project/50-requirements/requirements-002.md
+                    - Requirements 003: doc/project/50-requirements/requirements-003.md
+                    - Requirements 004: doc/project/50-requirements/requirements-004.md
+                    - Requirements 005: doc/project/50-requirements/requirements-005.md
+            - Schematy:
+                - Konwencja metadanych schematów: doc/schemas/README.md
+                - Wygenerowany indeks: doc/schemas-gen/schema-index.md
+                - Dokumentacja schematów:
+                    - Answer Room Metadata v1: doc/schemas-gen/schemas/answer-room-metadata.v1.md
+                    - Proof of Personhood Attestation v1: doc/schemas-gen/schemas/proof-of-personhood-attestation.v1.md
+                    - Signal Marker v1: doc/schemas-gen/schemas/signal-marker.v1.md
+                    - Signal Transform Event v1: doc/schemas-gen/schemas/signal-transform-event.v1.md
+                    - Transcript Bundle v1: doc/schemas-gen/schemas/transcript-bundle.v1.md
+                    - Transcript Segment v1: doc/schemas-gen/schemas/transcript-segment.v1.md
+                    - UBC Allocation v1: doc/schemas-gen/schemas/ubc-allocation.v1.md
+                    - UBC Settlement v1: doc/schemas-gen/schemas/ubc-settlement.v1.md
