@@ -1,0 +1,10 @@
+{
+  "schema/v": 1,
+  "request/id": "retrieval-request:01JP0QSV0W9Q70V3VJ7ZB4ENH0",
+  "responded-at": "2026-03-22T22:29:16Z",
+  "responder/node-id": "node:pl-wro-archivist-1",
+  "status": "found",
+  "package/id": "archival-package:01JP0P0XYJ4X2FAEZ62R9M2S7K",
+  "artifact/id": "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+  "publication/scope": "federation-vault"
+}

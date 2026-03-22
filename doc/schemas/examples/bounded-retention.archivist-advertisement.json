@@ -1,0 +1,28 @@
+{
+  "schema/v": 1,
+  "advertisement/id": "archivist-advertisement:01JP0Q6F9B4R47AK9A8R8Q2HKS",
+  "created-at": "2026-03-22T22:22:33Z",
+  "archivist/node-id": "node:pl-wro-archivist-1",
+  "accepted/scopes": [
+    "private-retained",
+    "federation-vault"
+  ],
+  "accepted/artifact-types": [
+    "transcript-bundle",
+    "knowledge-artifact",
+    "corpus-entry"
+  ],
+  "retrieval/mode": "federation-discovery",
+  "retention/default-max-duration-sec": 7776000,
+  "retention/default-max-idle-ttl-sec": 2592000,
+  "replication/max-copies": 3,
+  "publication/timing-profiles": [
+    "delayed-bundle",
+    "curator-gated"
+  ],
+  "settlement/required": true,
+  "settlement/rail-hints": [
+    "external-invoice",
+    "host-ledger"
+  ]
+}

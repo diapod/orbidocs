@@ -1,0 +1,14 @@
+{
+  "schema/v": 1,
+  "advertisement/id": "archivist-advertisement:01JP0TDKXH0K7J4JZWK65F0JVT",
+  "created-at": "2026-03-22T22:28:04Z",
+  "archivist/node-id": "node:pl-wro-archivist-2",
+  "accepted/scopes": [
+    "federation-vault"
+  ],
+  "accepted/artifact-types": [
+    "transcript-bundle"
+  ],
+  "retrieval/mode": "federation-discovery",
+  "settlement/required": true
+}

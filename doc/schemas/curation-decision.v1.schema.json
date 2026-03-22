@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:curation-decision:v1",
+  "title": "CurationDecision v1",
+  "description": "Machine-readable schema for curator decisions applied to transcript bundles or other archive-eligible source artifacts.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/50-requirements/requirements-004.md",
+    "doc/project/50-requirements/requirements-003.md",
+    "doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md"
+  ],
+  "required": [
+    "schema/v",
+    "decision/id",
+    "subject/type",
+    "subject/id",
+    "status",
+    "decided-at",
+    "curator/ref",
+    "reason/codes"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "decision/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the curation decision."
+    },
+    "subject/type": {
+      "type": "string",
+      "enum": [
+        "transcript-bundle",
+        "archival-package",
+        "knowledge-artifact"
+      ],
+      "description": "Semantic class of the curated subject."
+    },
+    "subject/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the subject under review."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "accepted-redacted",
+        "quarantined",
+        "rejected"
+      ],
+      "description": "Result of curation review."
+    },
+    "decided-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp at which the decision was taken."
+    },
+    "curator/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Curator or policy actor responsible for the decision."
+    },
+    "reason/codes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Short machine-readable reason codes that justify the decision."
+    },
+    "redaction/status": {
+      "type": "string",
+      "enum": [
+        "none",
+        "partial",
+        "full-derived"
+      ],
+      "description": "Export posture approved or required by the decision."
+    },
+    "consent/basis": {
+      "type": "string",
+      "enum": [
+        "not-required",
+        "operator-consultation",
+        "explicit-consent",
+        "federation-policy",
+        "public-scope",
+        "emergency-exception"
+      ],
+      "description": "Policy or consent basis that permits curation or later publication."
+    },
+    "training/eligibility": {
+      "type": "string",
+      "enum": [
+        "blocked",
+        "needs-review",
+        "approved"
+      ],
+      "description": "Training eligibility state resulting from curation."
+    },
+    "provenance/refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Supporting references used during review."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core curation semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "accepted-redacted"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "redaction/status"
+        ],
+        "properties": {
+          "redaction/status": {
+            "enum": [
+              "partial",
+              "full-derived"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "quarantined",
+              "rejected"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "training/eligibility": {
+            "const": "blocked"
+          }
+        },
+        "required": [
+          "training/eligibility"
+        ]
+      }
+    }
+  ]
+}

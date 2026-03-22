@@ -29,6 +29,57 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.learning-outcome.json)
+      echo "$SCHEMAS_DIR/learning-outcome.v1.schema.json"
+      ;;
+    *.curation-decision.json)
+      echo "$SCHEMAS_DIR/curation-decision.v1.schema.json"
+      ;;
+    *.corpus-entry.json)
+      echo "$SCHEMAS_DIR/corpus-entry.v1.schema.json"
+      ;;
+    *.training-job.json)
+      echo "$SCHEMAS_DIR/training-job.v1.schema.json"
+      ;;
+    *.eval-report.json)
+      echo "$SCHEMAS_DIR/eval-report.v1.schema.json"
+      ;;
+    *.adapter-artifact.json)
+      echo "$SCHEMAS_DIR/adapter-artifact.v1.schema.json"
+      ;;
+    *.model-card.json)
+      echo "$SCHEMAS_DIR/model-card.v1.schema.json"
+      ;;
+    *.knowledge-artifact.json)
+      echo "$SCHEMAS_DIR/knowledge-artifact.v1.schema.json"
+      ;;
+    *.archival-package.json)
+      echo "$SCHEMAS_DIR/archival-package.v1.schema.json"
+      ;;
+    *.archivist-advertisement.json)
+      echo "$SCHEMAS_DIR/archivist-advertisement.v1.schema.json"
+      ;;
+    *.retrieval-request.json)
+      echo "$SCHEMAS_DIR/retrieval-request.v1.schema.json"
+      ;;
+    *.retrieval-response.json)
+      echo "$SCHEMAS_DIR/retrieval-response.v1.schema.json"
+      ;;
+    *.question-envelope.json)
+      echo "$SCHEMAS_DIR/question-envelope.v1.schema.json"
+      ;;
+    *.procurement-offer.json)
+      echo "$SCHEMAS_DIR/procurement-offer.v1.schema.json"
+      ;;
+    *.procurement-contract.json)
+      echo "$SCHEMAS_DIR/procurement-contract.v1.schema.json"
+      ;;
+    *.procurement-receipt.json)
+      echo "$SCHEMAS_DIR/procurement-receipt.v1.schema.json"
+      ;;
+    *.response-envelope.json)
+      echo "$SCHEMAS_DIR/response-envelope.v1.schema.json"
+      ;;
     *.proof-of-personhood-attestation.json)
       echo "$SCHEMAS_DIR/proof-of-personhood-attestation.v1.schema.json"
       ;;

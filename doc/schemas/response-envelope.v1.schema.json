@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:response-envelope:v1",
+  "title": "ResponseEnvelope v1",
+  "description": "Machine-readable schema for the final answer returned from swarm procurement or collaborative answer flow.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-001.md",
+    "doc/project/30-stories/story-004.md",
+    "doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md",
+    "doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md",
+    "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
+  ],
+  "required": [
+    "schema/v",
+    "response/id",
+    "question/id",
+    "created-at",
+    "source/node-id",
+    "answer/content",
+    "answer/format",
+    "confidence/signal",
+    "human-linked-participation",
+    "provenance/origin-classes"
+  ],
+  "properties": {
+    "schema/v": { "const": 1, "description": "Schema version." },
+    "response/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the returned response boundary object."
+    },
+    "question/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Question lifecycle identifier from which the response originated."
+    },
+    "room/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Room or execution path that produced the final answer or accepted summary."
+    },
+    "contract/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Linked procurement contract when payment or narrowed execution applied."
+    },
+    "receipt/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Linked procurement receipt when settlement or explicit rejection was recorded."
+    },
+    "accepted-summary/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Accepted summary identifier when the final answer is derived from room convergence."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Response publication timestamp."
+    },
+    "source/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Primary remote responder or answer-authoring node at the protocol boundary."
+    },
+    "gateway/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Gateway node when the result was delivered through a delegated host or other relay role."
+    },
+    "answer/content": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "object", "minProperties": 1, "additionalProperties": true }
+      ],
+      "description": "Returned answer payload in textual or structured form."
+    },
+    "answer/format": {
+      "type": "string",
+      "enum": ["plain-text", "markdown", "json", "edn", "mixed"],
+      "description": "Representation format of the returned answer payload."
+    },
+    "confidence/signal": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Composite confidence signal shown to the consumer of the response."
+    },
+    "uncertainty/signal": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Optional uncertainty signal paired with or derived from confidence."
+    },
+    "human-linked-participation": {
+      "type": "boolean",
+      "description": "Whether human-linked input materially influenced the final result."
+    },
+    "provenance/origin-classes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": ["node-generated", "node-mediated-human", "human-live"]
+      },
+      "description": "Origin classes materially present in the answer path."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["contract/id"]
+      },
+      "then": {
+        "required": ["receipt/id"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "human-linked-participation": {
+            "const": true
+          }
+        },
+        "required": [
+          "human-linked-participation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "provenance/origin-classes": {
+            "contains": {
+              "enum": ["node-mediated-human", "human-live"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "human-linked-participation": {
+            "const": false
+          }
+        },
+        "required": [
+          "human-linked-participation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "provenance/origin-classes": {
+            "items": {
+              "const": "node-generated"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

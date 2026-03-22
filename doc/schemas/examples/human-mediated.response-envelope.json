@@ -1,0 +1,17 @@
+{
+  "schema/v": 1,
+  "response/id": "response:01K0FEDPROC1:A",
+  "question/id": "question:01K0FEDPROC1",
+  "room/id": "question:01K0FEDPROC1/execution/A",
+  "contract/id": "contract:01K0FEDPROC1:A",
+  "receipt/id": "receipt:01K0FEDPROC1:A",
+  "created-at": "2026-03-22T18:59:00Z",
+  "source/node-id": "node:ch-gva-ml-22",
+  "gateway/node-id": "node:pl-wro-full-7f3c",
+  "answer/content": "Run a two-root overlap window, publish the transition as a federation event, and keep older nodes on the previous root until the compatibility epoch expires.",
+  "answer/format": "markdown",
+  "confidence/signal": 0.81,
+  "uncertainty/signal": 0.19,
+  "human-linked-participation": true,
+  "provenance/origin-classes": ["node-generated", "node-mediated-human"]
+}

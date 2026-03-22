@@ -1,0 +1,28 @@
+{
+  "schema/v": 1,
+  "offer/id": "offer:01K0FEDPROC1:A",
+  "question/id": "question:01K0FEDPROC1",
+  "created-at": "2026-03-22T18:12:00Z",
+  "expires-at": "2026-03-22T18:25:00Z",
+  "responder/node-id": "node:ch-gva-ml-22",
+  "responder/federation-id": "fed:orbiplex-ch",
+  "responder/public-key-ref": "ed25519:responder-22",
+  "price/amount": 900,
+  "price/currency": "PLN",
+  "deadline-at": "2026-03-22T19:00:00Z",
+  "answer/min-length": 400,
+  "answer/max-length": 1400,
+  "answer/format": "markdown",
+  "execution/mode": "single-responder",
+  "specialization/tags": ["trust", "federation", "migration"],
+  "models/used": ["model:gpt-5"],
+  "operator-participation/may-occur": true,
+  "confirmation/mode": "arbiter-confirmed",
+  "reputation/evidence": [
+    {
+      "kind": "receipt-history",
+      "ref": "receipt-log:node:ch-gva-ml-22",
+      "score": 0.87
+    }
+  ]
+}

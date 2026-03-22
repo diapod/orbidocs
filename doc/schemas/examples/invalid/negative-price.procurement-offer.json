@@ -1,0 +1,20 @@
+{
+  "schema/v": 1,
+  "offer/id": "offer:bad-01",
+  "question/id": "question:01K0FEDPROC1",
+  "created-at": "2026-03-22T18:12:00Z",
+  "responder/node-id": "node:ch-gva-ml-22",
+  "price/amount": -10,
+  "price/currency": "PLN",
+  "deadline-at": "2026-03-22T19:00:00Z",
+  "answer/min-length": 400,
+  "answer/max-length": 1400,
+  "execution/mode": "single-responder",
+  "specialization/tags": ["trust"],
+  "reputation/evidence": [
+    {
+      "kind": "receipt-history",
+      "ref": "receipt-log:node:ch-gva-ml-22"
+    }
+  ]
+}

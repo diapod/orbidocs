@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:archivist-advertisement:v1",
+  "title": "ArchivistAdvertisement v1",
+  "description": "Machine-readable schema for archivist capability advertisements covering archival scope, retention posture, and optional settlement requirements.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-003.md",
+    "doc/project/50-requirements/requirements-003.md",
+    "doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md",
+    "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"
+  ],
+  "required": [
+    "schema/v",
+    "advertisement/id",
+    "created-at",
+    "archivist/node-id",
+    "accepted/scopes",
+    "accepted/artifact-types",
+    "retrieval/mode",
+    "settlement/required"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "advertisement/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the archivist capability advertisement."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Advertisement publication timestamp."
+    },
+    "archivist/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Archivist node or durable storage actor."
+    },
+    "accepted/scopes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "private-retained",
+          "federation-vault",
+          "public-vault"
+        ]
+      },
+      "description": "Publication scopes this archivist is willing to accept."
+    },
+    "accepted/artifact-types": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "transcript-bundle",
+          "room-summary",
+          "response-envelope",
+          "knowledge-artifact",
+          "corpus-entry"
+        ]
+      },
+      "description": "Artifact classes this archivist accepts."
+    },
+    "retrieval/mode": {
+      "type": "string",
+      "enum": [
+        "direct-only",
+        "federation-discovery",
+        "public-discovery"
+      ],
+      "description": "Primary discovery or retrieval mode exposed by the archivist."
+    },
+    "retention/default-max-duration-sec": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Default maximum storage duration when no explicit contract overrides it."
+    },
+    "retention/default-max-idle-ttl-sec": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Default maximum idle TTL when no explicit contract overrides it."
+    },
+    "replication/max-copies": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum replication copies this archivist is willing to coordinate."
+    },
+    "publication/timing-profiles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "live-mirror",
+          "delayed-bundle",
+          "curator-gated"
+        ]
+      },
+      "description": "Publication timing profiles the archivist supports."
+    },
+    "settlement/required": {
+      "type": "boolean",
+      "description": "Whether this archivist requires explicit negotiated settlement for storage."
+    },
+    "settlement/rail-hints": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional settlement rail hints when negotiated storage is required."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core advertisement semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "settlement/required": {
+            "const": true
+          }
+        },
+        "required": [
+          "settlement/required"
+        ]
+      },
+      "then": {
+        "required": [
+          "settlement/rail-hints"
+        ]
+      }
+    }
+  ]
+}

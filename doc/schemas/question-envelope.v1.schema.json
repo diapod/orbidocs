@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:question-envelope:v1",
+  "title": "QuestionEnvelope v1",
+  "description": "Machine-readable schema for signed question publication on the procurement event layer.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-001.md",
+    "doc/project/30-stories/story-004.md",
+    "doc/project/40-proposals/003-question-envelope-and-answer-channel.md",
+    "doc/project/40-proposals/009-communication-exposure-modes.md",
+    "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
+  ],
+  "required": [
+    "schema/v",
+    "question/id",
+    "created-at",
+    "sender/node-id",
+    "delivery/scope",
+    "delivery/response-channel-id",
+    "request/exposure-mode",
+    "question/text",
+    "question/tags",
+    "ttl-sec",
+    "reward/mode"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "question/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable lifecycle identifier that links the event layer, room layer, and later procurement artifacts."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Publication timestamp of the question envelope."
+    },
+    "sender/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Swarm-facing infrastructure actor that published the envelope."
+    },
+    "sender/federation-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Federation scope of the sender when publication is federation-bound."
+    },
+    "sender/pod-user-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hosted-user identity when publication is delegated through a pod-backed client flow."
+    },
+    "sender/public-nym": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional public-facing pseudonym shown at protocol boundaries where policy allows it."
+    },
+    "ttl-sec": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Time-to-live of the open request on the event layer."
+    },
+    "question/text": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Full textual question content published at the envelope layer in the current split architecture."
+    },
+    "question/tags": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Semantic tags used for routing and responder matching."
+    },
+    "question/urgency": {
+      "type": "string",
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "critical"
+      ],
+      "description": "Advisory urgency classification visible to eligible responders."
+    },
+    "delivery/scope": {
+      "type": "string",
+      "enum": [
+        "private-to-swarm",
+        "federation-local",
+        "cross-federation",
+        "global"
+      ],
+      "description": "Transport-level dissemination scope derived from the chosen exposure policy."
+    },
+    "delivery/response-channel-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Room or channel identifier bound to the same question lifecycle."
+    },
+    "follow-ups/allowed": {
+      "type": "boolean",
+      "description": "Whether responders may expect iterative clarification or debate after initial publication."
+    },
+    "request/exposure-mode": {
+      "type": "string",
+      "enum": [
+        "private-to-swarm",
+        "federation-local",
+        "public-call-for-help"
+      ],
+      "description": "User-facing exposure policy chosen before submission."
+    },
+    "room-policy/profile": {
+      "type": "string",
+      "enum": [
+        "none",
+        "mediated-only",
+        "direct-live-allowed"
+      ],
+      "description": "Requested room policy profile for the answer room created from this envelope."
+    },
+    "responder/min-reputation": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Minimum reputation threshold for eligible responders."
+    },
+    "models/require": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Required model or capability labels."
+    },
+    "models/exclude": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Disallowed model or capability labels."
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 2
+      },
+      "description": "Preferred answer languages."
+    },
+    "reward/mode": {
+      "type": "string",
+      "enum": [
+        "none",
+        "collaborative",
+        "procurement"
+      ],
+      "description": "Whether the request seeks open collaboration only or explicit responder procurement."
+    },
+    "procurement/max-price-amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum acceptable price in minor units when procurement is enabled."
+    },
+    "procurement/price-currency": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 16,
+      "description": "Currency or settlement unit symbol associated with procurement ceiling and offers."
+    },
+    "procurement/max-wait-sec": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum wait time acceptable to the asker when procurement is enabled."
+    },
+    "signature": {
+      "type": "object",
+      "description": "Detached or embedded signature container for the published envelope.",
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional federation- or implementation-local policy annotations that do not change the core lifecycle semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "request/exposure-mode": {
+            "const": "private-to-swarm"
+          }
+        },
+        "required": [
+          "request/exposure-mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "delivery/scope": {
+            "const": "private-to-swarm"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request/exposure-mode": {
+            "const": "federation-local"
+          }
+        },
+        "required": [
+          "request/exposure-mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "delivery/scope": {
+            "const": "federation-local"
+          }
+        },
+        "required": [
+          "sender/federation-id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request/exposure-mode": {
+            "const": "public-call-for-help"
+          }
+        },
+        "required": [
+          "request/exposure-mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "delivery/scope": {
+            "enum": [
+              "cross-federation",
+              "global"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reward/mode": {
+            "const": "procurement"
+          }
+        },
+        "required": [
+          "reward/mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "procurement/max-price-amount",
+          "procurement/price-currency",
+          "procurement/max-wait-sec"
+        ]
+      }
+    }
+  ]
+}

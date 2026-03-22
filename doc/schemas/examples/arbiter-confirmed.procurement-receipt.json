@@ -1,0 +1,16 @@
+{
+  "schema/v": 1,
+  "receipt/id": "receipt:01K0FEDPROC1:A",
+  "contract/id": "contract:01K0FEDPROC1:A",
+  "question/id": "question:01K0FEDPROC1",
+  "created-at": "2026-03-22T18:58:00Z",
+  "settled-at": "2026-03-22T18:58:30Z",
+  "outcome": "settled",
+  "confirmation/mode": "arbiter-confirmed",
+  "answer/accepted": true,
+  "payer/signature": "base64url:payer-sig",
+  "payee/signature": "base64url:payee-sig",
+  "arbiter/signatures": ["base64url:arbiter-sig"],
+  "settlement/rail": "external-invoice",
+  "settlement/ref": "invoice:2026-03-22/001"
+}

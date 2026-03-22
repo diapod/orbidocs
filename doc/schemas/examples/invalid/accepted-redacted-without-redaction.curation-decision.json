@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "decision/id": "curation-decision:01JP112VYQ0SW2A1YAXKQVGQBV",
+  "subject/type": "transcript-bundle",
+  "subject/id": "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+  "status": "accepted-redacted",
+  "decided-at": "2026-03-22T23:27:12Z",
+  "curator/ref": "node:pl-wro-curator-4",
+  "reason/codes": [
+    "valuable-debate"
+  ]
+}

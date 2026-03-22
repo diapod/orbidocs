@@ -1,0 +1,22 @@
+{
+  "schema/v": 1,
+  "knowledge-artifact/id": "knowledge-artifact:01JP0N1EWFSV6PN4YBPH8T67D6",
+  "question/id": "question:01JNY6M2X6Y8M1G5R4Z3K7Q2P9",
+  "source/learning-outcome-id": "learning-outcome:01JP0M2F6RDX4S5QJ8G7W9T3A1",
+  "artifact/class": "trusted-local-retrieval",
+  "target/kind": "vector-memory",
+  "created-at": "2026-03-22T22:19:43Z",
+  "content/ref": "vectordb:orbiplex-local:entry:01JP0N1JV68V5Q53Q8BDEHPMR0",
+  "provenance/refs": [
+    "learning-outcome:01JP0M2F6RDX4S5QJ8G7W9T3A1",
+    "summary:01JP0M1W2BG31EM7GX05PZ5K1J"
+  ],
+  "trust/status": "corrected",
+  "training/eligible": false,
+  "human-linked/input": false,
+  "domain/tags": [
+    "clojure",
+    "stm",
+    "concurrency"
+  ]
+}

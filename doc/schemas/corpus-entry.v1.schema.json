@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-entry:v1",
+  "title": "CorpusEntry v1",
+  "description": "Machine-readable schema for curated corpus entries derived from accepted bundles or promoted knowledge artifacts.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/50-requirements/requirements-004.md",
+    "doc/project/50-requirements/requirements-002.md",
+    "doc/project/50-requirements/requirements-003.md"
+  ],
+  "required": [
+    "schema/v",
+    "entry/id",
+    "source/type",
+    "source/id",
+    "content/ref",
+    "domain/tags",
+    "quality/grade",
+    "risk/grade",
+    "training/eligibility",
+    "provenance/manifest"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "entry/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the curated corpus entry."
+    },
+    "source/type": {
+      "type": "string",
+      "enum": [
+        "transcript-bundle",
+        "knowledge-artifact",
+        "archival-package"
+      ],
+      "description": "Primary source class from which the corpus entry was assembled."
+    },
+    "source/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the primary source artifact."
+    },
+    "content/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable reference to the curated content body."
+    },
+    "domain/tags": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Domain and topic tags assigned by curation."
+    },
+    "quality/grade": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Curation quality assessment of the entry."
+    },
+    "risk/grade": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high"
+      ],
+      "description": "Risk classification relevant to later publication or training use."
+    },
+    "training/eligibility": {
+      "type": "string",
+      "enum": [
+        "blocked",
+        "needs-review",
+        "approved"
+      ],
+      "description": "Training eligibility state assigned to the corpus entry."
+    },
+    "provenance/manifest": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to provenance manifest sufficient to reconstruct source lineage."
+    },
+    "contains-human-origin": {
+      "type": "boolean",
+      "description": "Whether the curated entry preserves human-originated source material."
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Primary language of the curated content."
+    },
+    "creator/refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Curator, secretary, or contributor references that should survive attribution-sensitive flows."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core corpus-entry semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "risk/grade": {
+            "const": "high"
+          }
+        },
+        "required": [
+          "risk/grade"
+        ]
+      },
+      "then": {
+        "properties": {
+          "training/eligibility": {
+            "enum": [
+              "blocked",
+              "needs-review"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

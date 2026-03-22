@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:training-job:v1",
+  "title": "TrainingJob v1",
+  "description": "Machine-readable schema for adapter-first specialization jobs built from approved corpus entries.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/50-requirements/requirements-004.md"
+  ],
+  "required": [
+    "schema/v",
+    "job/id",
+    "base-model/ref",
+    "method",
+    "dataset/refs",
+    "policy/profile",
+    "started-at",
+    "operator/ref"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "job/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the specialization job."
+    },
+    "base-model/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the immutable base model on which specialization is built."
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "lora",
+        "qlora"
+      ],
+      "description": "Adapter-first specialization method."
+    },
+    "dataset/refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Corpus or dataset references used by the job."
+    },
+    "policy/profile": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Training policy profile applied to this job."
+    },
+    "started-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Job start timestamp."
+    },
+    "ended-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Job completion timestamp."
+    },
+    "operator/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human or policy actor responsible for starting the job."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "completed",
+        "failed",
+        "canceled"
+      ],
+      "description": "Current or terminal job status."
+    },
+    "eval-report/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to evaluation output when the job completes."
+    },
+    "creator/refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Creator or contributor references that should survive into attribution-sensitive adapter artifacts."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core training-job semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "ended-at",
+          "eval-report/ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ended-at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ended-at"
+        ]
+      },
+      "then": {
+        "required": [
+          "status"
+        ]
+      }
+    }
+  ]
+}

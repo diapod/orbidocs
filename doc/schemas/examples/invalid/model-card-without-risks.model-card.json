@@ -1,0 +1,22 @@
+{
+  "schema/v": 1,
+  "model-card/id": "model-card:01JP14KQ3MA6M2C9KRHSQ8AET0",
+  "adapter/id": "adapter:01JP10DHJ9JAVDMTW1VQ52XH6N",
+  "base-model/ref": "model:gpt-oss-20b:2026-03",
+  "created-at": "2026-03-22T23:28:44Z",
+  "deployment/scope": "federation-local",
+  "intended-use": "Federation-local software migration and operations assistance for bounded engineering rooms.",
+  "out-of-scope": "Legal advice, medical advice, and questions requiring unrestricted public-web synthesis.",
+  "limitations": "The adapter is tuned on federation-bounded corpus material and may underperform outside engineering migration scenarios.",
+  "excluded-data-classes": [
+    "human-live raw transcript",
+    "unredacted federation-private incidents",
+    "quarantined corpus entries"
+  ],
+  "evaluation/ref": "eval-report:01JP13T82V7T74S18RQ9B3A4DK",
+  "provenance/refs": [
+    "training-job:01JP0XK0QVB9WKRAX9A5TQ22CH",
+    "corpus-entry:01JP0X0VQCGT1Y38WYA6QF2EFW"
+  ],
+  "status": "validated"
+}

@@ -1,0 +1,14 @@
+{
+  "schema/v": 1,
+  "knowledge-artifact/id": "knowledge-artifact:01JP0SMVW4TBGEJ18HEJYQ06PW",
+  "question/id": "question:01JNY6M2X6Y8M1G5R4Z3K7Q2P9",
+  "source/learning-outcome-id": "learning-outcome:01JP0S5QGZ5QW4N7CF5TW5H440",
+  "artifact/class": "trusted-local-retrieval",
+  "target/kind": "vector-memory",
+  "created-at": "2026-03-22T22:26:30Z",
+  "content/ref": "vectordb:orbiplex-local:entry:01JP0SN27NQSY6769DYE53MDS0",
+  "provenance/refs": [
+    "learning-outcome:01JP0S5QGZ5QW4N7CF5TW5H440"
+  ],
+  "trust/status": "unresolved"
+}

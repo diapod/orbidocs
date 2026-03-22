@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "receipt/id": "receipt:bad-01",
+  "contract/id": "contract:01K0FEDPROC1:A",
+  "question/id": "question:01K0FEDPROC1",
+  "created-at": "2026-03-22T18:58:00Z",
+  "settled-at": "2026-03-22T18:58:30Z",
+  "outcome": "settled",
+  "confirmation/mode": "self-confirmed",
+  "answer/accepted": true,
+  "payer/signature": "base64url:payer-sig"
+}

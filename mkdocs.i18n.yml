@@ -108,6 +108,7 @@ plugins:
                     - Story 001: doc/project/30-stories/story-001.md
                     - Story 002: doc/project/30-stories/story-002.md
                     - Story 003: doc/project/30-stories/story-003.md
+                    - Story 004: doc/project/30-stories/story-004.md
                 - Proposals:
                     - doc/project/40-proposals/PROPOSALS.md
                     - 001 Licensing Proposal: doc/project/40-proposals/001-licensing-proposal.md
@@ -120,6 +121,8 @@ plugins:
                     - 008 Transcription Monitors and Public Vaults: doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md
                     - 009 Communication Exposure Modes: doc/project/40-proposals/009-communication-exposure-modes.md
                     - 010 Operator Proxy Co-Regulation: doc/project/40-proposals/010-operator-proxy-co-regulation.md
+                    - 011 Federated Answer Procurement Lifecycle: doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md
+                    - 012 Learning Outcomes and Archival Contracts: doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md
                 - Requirements:
                     - doc/project/50-requirements/REQUIREMENTS.md
                     - Requirements 001: doc/project/50-requirements/requirements-001.md
@@ -131,12 +134,29 @@ plugins:
                 - Schema Metadata Convention: doc/schemas/README.md
                 - Generated Index: doc/schemas-gen/schema-index.md
                 - Schema Docs:
+                    - Adapter Artifact v1: doc/schemas-gen/schemas/adapter-artifact.v1.md
+                    - Archival Package v1: doc/schemas-gen/schemas/archival-package.v1.md
+                    - Archivist Advertisement v1: doc/schemas-gen/schemas/archivist-advertisement.v1.md
                     - Answer Room Metadata v1: doc/schemas-gen/schemas/answer-room-metadata.v1.md
+                    - Corpus Entry v1: doc/schemas-gen/schemas/corpus-entry.v1.md
+                    - Curation Decision v1: doc/schemas-gen/schemas/curation-decision.v1.md
+                    - Eval Report v1: doc/schemas-gen/schemas/eval-report.v1.md
+                    - Knowledge Artifact v1: doc/schemas-gen/schemas/knowledge-artifact.v1.md
+                    - Learning Outcome v1: doc/schemas-gen/schemas/learning-outcome.v1.md
+                    - Model Card v1: doc/schemas-gen/schemas/model-card.v1.md
+                    - Procurement Contract v1: doc/schemas-gen/schemas/procurement-contract.v1.md
+                    - Procurement Offer v1: doc/schemas-gen/schemas/procurement-offer.v1.md
+                    - Procurement Receipt v1: doc/schemas-gen/schemas/procurement-receipt.v1.md
                     - Proof of Personhood Attestation v1: doc/schemas-gen/schemas/proof-of-personhood-attestation.v1.md
+                    - Question Envelope v1: doc/schemas-gen/schemas/question-envelope.v1.md
+                    - Retrieval Request v1: doc/schemas-gen/schemas/retrieval-request.v1.md
+                    - Retrieval Response v1: doc/schemas-gen/schemas/retrieval-response.v1.md
+                    - Response Envelope v1: doc/schemas-gen/schemas/response-envelope.v1.md
                     - Signal Marker v1: doc/schemas-gen/schemas/signal-marker.v1.md
                     - Signal Transform Event v1: doc/schemas-gen/schemas/signal-transform-event.v1.md
                     - Transcript Bundle v1: doc/schemas-gen/schemas/transcript-bundle.v1.md
                     - Transcript Segment v1: doc/schemas-gen/schemas/transcript-segment.v1.md
+                    - Training Job v1: doc/schemas-gen/schemas/training-job.v1.md
                     - UBC Allocation v1: doc/schemas-gen/schemas/ubc-allocation.v1.md
                     - UBC Settlement v1: doc/schemas-gen/schemas/ubc-settlement.v1.md
         - locale: pl
@@ -205,6 +225,7 @@ plugins:
                     - Story 001: doc/project/30-stories/story-001.md
                     - Story 002: doc/project/30-stories/story-002.md
                     - Story 003: doc/project/30-stories/story-003.md
+                    - Story 004: doc/project/30-stories/story-004.md
                 - Propozycje:
                     - doc/project/40-proposals/PROPOSALS.md
                     - 001 Licensing Proposal: doc/project/40-proposals/001-licensing-proposal.md
@@ -217,6 +238,8 @@ plugins:
                     - 008 Transcription Monitors and Public Vaults: doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md
                     - 009 Communication Exposure Modes: doc/project/40-proposals/009-communication-exposure-modes.md
                     - 010 Operator Proxy Co-Regulation: doc/project/40-proposals/010-operator-proxy-co-regulation.md
+                    - 011 Federated Answer Procurement Lifecycle: doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md
+                    - 012 Learning Outcomes and Archival Contracts: doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md
                 - Wymagania:
                     - doc/project/50-requirements/REQUIREMENTS.md
                     - Requirements 001: doc/project/50-requirements/requirements-001.md
@@ -228,11 +251,28 @@ plugins:
                 - Konwencja metadanych schematów: doc/schemas/README.md
                 - Wygenerowany indeks: doc/schemas-gen/schema-index.md
                 - Dokumentacja schematów:
+                    - Adapter Artifact v1: doc/schemas-gen/schemas/adapter-artifact.v1.md
+                    - Archival Package v1: doc/schemas-gen/schemas/archival-package.v1.md
+                    - Archivist Advertisement v1: doc/schemas-gen/schemas/archivist-advertisement.v1.md
                     - Answer Room Metadata v1: doc/schemas-gen/schemas/answer-room-metadata.v1.md
+                    - Corpus Entry v1: doc/schemas-gen/schemas/corpus-entry.v1.md
+                    - Curation Decision v1: doc/schemas-gen/schemas/curation-decision.v1.md
+                    - Eval Report v1: doc/schemas-gen/schemas/eval-report.v1.md
+                    - Knowledge Artifact v1: doc/schemas-gen/schemas/knowledge-artifact.v1.md
+                    - Learning Outcome v1: doc/schemas-gen/schemas/learning-outcome.v1.md
+                    - Model Card v1: doc/schemas-gen/schemas/model-card.v1.md
+                    - Procurement Contract v1: doc/schemas-gen/schemas/procurement-contract.v1.md
+                    - Procurement Offer v1: doc/schemas-gen/schemas/procurement-offer.v1.md
+                    - Procurement Receipt v1: doc/schemas-gen/schemas/procurement-receipt.v1.md
                     - Proof of Personhood Attestation v1: doc/schemas-gen/schemas/proof-of-personhood-attestation.v1.md
+                    - Question Envelope v1: doc/schemas-gen/schemas/question-envelope.v1.md
+                    - Retrieval Request v1: doc/schemas-gen/schemas/retrieval-request.v1.md
+                    - Retrieval Response v1: doc/schemas-gen/schemas/retrieval-response.v1.md
+                    - Response Envelope v1: doc/schemas-gen/schemas/response-envelope.v1.md
                     - Signal Marker v1: doc/schemas-gen/schemas/signal-marker.v1.md
                     - Signal Transform Event v1: doc/schemas-gen/schemas/signal-transform-event.v1.md
                     - Transcript Bundle v1: doc/schemas-gen/schemas/transcript-bundle.v1.md
                     - Transcript Segment v1: doc/schemas-gen/schemas/transcript-segment.v1.md
+                    - Training Job v1: doc/schemas-gen/schemas/training-job.v1.md
                     - UBC Allocation v1: doc/schemas-gen/schemas/ubc-allocation.v1.md
                     - UBC Settlement v1: doc/schemas-gen/schemas/ubc-settlement.v1.md

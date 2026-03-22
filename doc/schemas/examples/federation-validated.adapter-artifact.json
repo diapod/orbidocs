@@ -1,0 +1,17 @@
+{
+  "schema/v": 1,
+  "adapter/id": "adapter:01JP10DHJ9JAVDMTW1VQ52XH6N",
+  "job/id": "training-job:01JP0XK0QVB9WKRAX9A5TQ22CH",
+  "base-model/ref": "model:gpt-oss-20b:2026-03",
+  "adapter/hash": "sha256:021a4f621c5d2a7d636bd3dd8b76fdfd55ddae1f179dd0ed7fbec75d0ab5f5da",
+  "eval-report/ref": "eval-report:01JP0ZSMK2R6E3A5B4X18WGVTK",
+  "deployment/scope": "federation-local",
+  "rollback/ref": "adapter:none",
+  "creator/refs": [
+    "node:pl-wro-curator-4",
+    "node:pl-wro-trainer-1"
+  ],
+  "status": "validated",
+  "model-card/ref": "model-card:01JP10Q9VAFS1AQ3BEXSVMJ6D2",
+  "created-at": "2026-03-22T23:25:41Z"
+}

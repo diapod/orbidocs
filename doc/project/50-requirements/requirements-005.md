@@ -1,6 +1,8 @@
 # Requirements 005: Transcript Segment and Bundle Schemas v1
 
 Based on:
+- `doc/project/50-requirements/requirements-002.md`
+- `doc/project/50-requirements/requirements-003.md`
 - `doc/project/50-requirements/requirements-004.md`
 - `doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md`
 - `doc/project/40-proposals/005-operator-participation-room-policy-profiles.md`
@@ -30,6 +32,16 @@ Without a concrete v1 schema:
 - archivists may lose provenance on ingest,
 - curators may flatten `human-live` and `node-mediated-human`,
 - training nodes may receive under-specified corpus metadata.
+
+These schema contracts also sit in the middle of two upstream flows:
+
+- `requirements-002.md` defines how correction and accepted learning outcomes arise
+  in answer rooms,
+- `requirements-003.md` defines how approved artifacts later move into archivist and
+  vault storage.
+
+The transcript schemas therefore need to be compatible both with correction outcomes
+and with later archival packaging.
 
 ## Design Principles
 

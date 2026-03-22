@@ -1,0 +1,20 @@
+{
+  "schema/v": 1,
+  "decision/id": "curation-decision:01JP0WF5RJMBPA3AQFHDJ0G5EE",
+  "subject/type": "transcript-bundle",
+  "subject/id": "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+  "status": "accepted-redacted",
+  "decided-at": "2026-03-22T22:38:11Z",
+  "curator/ref": "node:pl-wro-curator-4",
+  "reason/codes": [
+    "valuable-debate",
+    "sensitive-identifiers-redacted"
+  ],
+  "redaction/status": "partial",
+  "consent/basis": "federation-policy",
+  "training/eligibility": "needs-review",
+  "provenance/refs": [
+    "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+    "summary:01JP0M1W2BG31EM7GX05PZ5K1J"
+  ]
+}

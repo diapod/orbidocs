@@ -6,7 +6,9 @@ Status: Draft
 
 ## Executive Summary
 
-In the Story 001 protocol, Sybil attacks can target discovery, offer selection, arbitration, settlement, and reputation updates. The core risk is that one adversary controls many pseudonymous nodes and biases outcomes while appearing decentralized.
+In the Story 001 protocol, Sybil attacks can target discovery, offer selection,
+arbitration, settlement, and reputation updates. The core risk is that one adversary
+controls many pseudonymous nodes and biases outcomes while appearing decentralized.
 
 A realistic defense requires layered controls:
 - identity-cost controls (make identity creation non-trivial),
@@ -20,9 +22,9 @@ No single mechanism is sufficient on its own.
 ## Context and Problem Statement
 
 Story 001 defines a flow where nodes:
-- exchange offers in IRC-like channels,
-- execute selected interactions in private channels,
-- settle outcomes via Avax contracts,
+- publish question envelopes and discover offers on the event layer,
+- execute selected interactions in bounded room or execution paths,
+- settle outcomes through explicit procurement contracts and receipts,
 - update reputation based on interaction quality.
 
 This architecture is open and pseudonymous by design, which improves participation but also enables Sybil behavior:
@@ -37,18 +39,28 @@ The problem is to preserve openness while making manipulation economically, oper
 
 Adopt a **layered Sybil-resistance model** where each layer contributes partial protection and failure in one layer does not fully compromise the system.
 
-### 0. Baseline Direction (PoS-first with Tor-inspired advisory support)
+### 0. Baseline Direction (Evidence-first with optional economic anchors)
 
 Decision direction:
-- Make the anti-Sybil core **PoS-first**: influence is weighted by stake-backed identity tiers, not raw node count.
-- Keep Tor-inspired mechanisms as a **future advisory layer**: topology/family/anomaly heuristics can down-rank suspicious behavior but do not replace stake-backed settlement evidence.
+- Make the anti-Sybil core **evidence-first**: influence is weighted by independent
+  completed interactions, counterparty diversity, and bounded identity-cost controls,
+  not raw node count.
+- Treat stake, bonds, deposits, or similar scarcity mechanisms as **optional future
+  trust tiers**, not as the required starting point of the protocol.
+- Keep Tor-inspired mechanisms as a **future advisory layer**: topology/family/anomaly
+  heuristics can down-rank suspicious behavior but do not replace receipt-backed
+  reputation evidence.
 
 Practical rule:
-- Nodes without stake can participate in low-trust discovery, but cannot accumulate high-impact reputation weight until stake and independent settled interactions are present.
+- New or low-evidence nodes can participate in low-trust discovery, but cannot
+  accumulate high-impact reputation weight until independent completed interactions
+  and diversity checks are present.
 
 Classification:
-- Fact: Story 001 already uses Avax contracts and signed receipts as core trust evidence.
-- Inference: PoS-first weighting is the most natural extension of that economic trust plane.
+- Fact: Story 001 now uses explicit contracts and signed receipts as core trust
+  evidence.
+- Inference: evidence-first weighting is the most natural extension of that trust
+  plane before introducing stronger economic anchors.
 
 ### 1. Threat Surfaces (mapped to Story 001)
 
@@ -57,9 +69,9 @@ Classification:
 | Public discovery request/offer stage | Story steps 14-15, FR-010/FR-011 | One actor spawns many nodes and floods fake offers to steer selection. | Inference |
 | Offer scoring and selection | Story step 16, FR-012 | Colluding identities create synthetic diversity and manipulate score ranking. | Inference |
 | Private execution channel | Story step 16, FR-013/FR-014 | Adversary controls both responder and "independent" observers. | Inference |
-| Contract and confirmation mode | Story step 17, FR-016 | Attackers exploit no-confirmation/self-confirmation modes to farm trust cheaply. | Inference |
-| Settlement and receipts | Story step 18, FR-018 | Self-dealing transactions are used as fake quality signals. | Inference |
-| Reputation update | Story step 19, FR-019, NFR-008 | Reputation inflation through collusive loops and whitewashing. | Fact (risk is explicitly called out), Inference (attack method) |
+| Contract and confirmation mode | Story step 19, FR-016 | Attackers exploit no-confirmation/self-confirmation modes to farm trust cheaply. | Inference |
+| Settlement and receipts | Story step 21, FR-018 | Self-dealing or collusive receipts are used as fake quality signals. | Inference |
+| Reputation update | Story step 22, FR-019, NFR-008 | Reputation inflation through collusive loops and whitewashing. | Fact (risk is explicitly called out), Inference (attack method) |
 
 ### 2. System-Shaping Countermeasures (protocol and governance design)
 
@@ -67,7 +79,7 @@ Classification:
 |---|---|---|---|
 | **Reputation from first-hand settled receipts only** | Reputation engine accepts only signed `SettlementReceipt` evidence tied to `contract_id`. No gossip-only score updates. | Removes most low-cost fake reputation narratives. | Slower bootstrapping for honest new nodes. |
 | **Progressive trust cap for new identities** | New node score is capped until it completes a minimum number of independent interactions over time. | Limits instant reputation jumps from identity swarms. | Friction for legitimate newcomers. |
-| **PoS identity anchor (primary)** | Require refundable stake/deposit per active node identity (or per offer stream), with explicit trust tiers (`unbonded`, `bonded-low`, `bonded-full`). | Makes mass-identity attacks materially costly and ties influence to economic commitment. | Capital lock-up; participation barrier; governance needed for tier thresholds. |
+| **Identity-cost anchor (optional / future)** | Introduce refundable stake, bond, deposit, or other scarcity mechanism per active node identity or offer stream, with explicit trust tiers if later adopted. | Makes mass-identity attacks materially costly without forcing the early product to become a crypto-native operator. | Participation barrier; governance needed for thresholds; product and regulatory complexity if done too early. |
 | **Counterparty diversity requirement** | Reputation gain is discounted when interactions repeat within the same trust cluster. | Reduces collusive farming rings. | Requires graph analytics and cluster heuristics. |
 | **Arbiter independence constraints** | Arbiter cannot share trust cluster or frequent-collusion history with selected responder. | Lowers chance of single-operator capture. | More complex matching and occasional latency. |
 | **Offer admission throttling** | Per-identity and per-cluster rate limits at discovery channels. | Mitigates flood/spam and ranking pressure. | Possible false positives during bursts. |
@@ -92,7 +104,7 @@ Classification:
 - Training queue ingestion must require provenance completeness (`source_node`, `contract_id`, outcome status).
 - High-impact updates should require either arbiter confirmation or repeated independent agreement.
 
-Classification: Inference (derived from Story 001 step 19-20 and requirement traceability needs).
+Classification: Inference (derived from Story 001 steps 22-24 and requirement traceability needs).
 
 ## Trade-offs
 
@@ -105,9 +117,9 @@ Classification: Inference (derived from Story 001 step 19-20 and requirement tra
 3. Privacy vs anti-abuse observability:
    - private channels protect content,
    - but reduce available signals for anomaly analysis.
-4. Economic anchoring vs inclusiveness:
-   - stake/deposit discourages attack swarms,
-   - but can exclude low-resource honest participants.
+4. Optional economic anchors vs inclusiveness:
+   - stake/deposit can discourage attack swarms if later adopted,
+   - but can exclude low-resource honest participants and add operator/regulatory scope.
 5. Local autonomy vs protocol rigidity:
    - local policy freedom supports experimentation,
    - but can fragment trust semantics across the federation.
@@ -125,8 +137,8 @@ Classification: Inference (derived from Story 001 step 19-20 and requirement tra
 
 ## Open Questions
 
-1. What minimum deposit/stake level balances Sybil resistance with accessibility?
-2. What trust-tier policy should be canonical (`unbonded` limits, `bonded-low` limits, `bonded-full` privileges)?
+1. Do we need any economic identity-cost layer in the early product at all, or should independent receipt history carry the first trust tier?
+2. If we later add deposits or bonds, what trust-tier policy should be canonical (`unbonded` limits, `bonded-low` limits, `bonded-full` privileges)?
 3. What trust-cluster signal should be canonical for independence checks (graph overlap, shared counterparties, timing correlation)?
 4. Should arbiter selection be deterministic, random, or hybrid per contract value/risk class?
 5. What is the exact formula for diminishing returns on repeated interactions with the same counterparties?
@@ -135,11 +147,11 @@ Classification: Inference (derived from Story 001 step 19-20 and requirement tra
 
 ## Next Actions
 
-1. Define a `ReputationEvidence` schema anchored to `SettlementReceipt` and contract provenance.
-2. Define PoS trust tiers (`unbonded`, `bonded-low`, `bonded-full`) and map them to offer rights, arbiter rights, and reputation weight.
+1. Define a `ReputationEvidence` schema anchored to procurement receipts and contract provenance.
+2. Define the minimal evidence-first trust tiers for early product scope, and describe optional future economic anchors separately.
 3. Add formal scoring rules for counterparty diversity and correlated-identity penalties.
 4. Define arbiter independence policy and disjoint-pool selection algorithm.
 5. Add protocol-level rate limits for offer admission in discovery channels.
 6. Specify Tor-inspired advisory signals and integrate them as non-binding risk multipliers in scoring.
 7. Define ingestion policy gates for vector memory and training queue (`confirmed/corrected/unresolved`).
-8. Create adversarial test scenarios for Sybil swarms, collusion rings, arbiter capture, and stake-funded coordinated clusters.
+8. Create adversarial test scenarios for Sybil swarms, collusion rings, arbiter capture, and later optional deposit-funded coordinated clusters.

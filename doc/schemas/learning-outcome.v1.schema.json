@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:learning-outcome:v1",
+  "title": "LearningOutcome v1",
+  "description": "Machine-readable schema for durable correction outcomes produced inside a question-bound answer-room flow.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-002.md",
+    "doc/project/50-requirements/requirements-002.md",
+    "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"
+  ],
+  "required": [
+    "schema/v",
+    "learning-outcome/id",
+    "question/id",
+    "room/id",
+    "subject/ref",
+    "outcome/status",
+    "decided-at",
+    "decider/ref",
+    "supporting/refs",
+    "provenance/refs",
+    "human-linked/input"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "learning-outcome/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the correction or confirmation outcome."
+    },
+    "question/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Question lifecycle identifier that roots the learning event."
+    },
+    "room/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Answer-room or tightly linked review path where the outcome emerged."
+    },
+    "subject/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the disputed or reviewed answer artifact."
+    },
+    "outcome/status": {
+      "type": "string",
+      "enum": [
+        "confirmed",
+        "corrected",
+        "unresolved"
+      ],
+      "description": "Epistemic result of the correction path."
+    },
+    "decided-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp at which the outcome was frozen."
+    },
+    "decider/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node, secretary, or policy actor that froze the outcome."
+    },
+    "supporting/refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Evidence, summary, transcript, or response references that support the outcome."
+    },
+    "provenance/refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Trace references sufficient to rebuild the causal chain of the outcome."
+    },
+    "summary/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Accepted room summary reference when the outcome is expressed through a summary artifact."
+    },
+    "response-envelope/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Corrected or accepted response-envelope reference when a final answer artifact exists."
+    },
+    "reason/codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Short machine-readable reason tags used by local policy and later audit."
+    },
+    "human-linked/input": {
+      "type": "boolean",
+      "description": "Whether the accepted or unresolved outcome depended on human-originated input."
+    },
+    "policy/profile": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional local or federation policy profile that governed the correction path."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core outcome semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome/status": {
+            "const": "corrected"
+          }
+        },
+        "required": [
+          "outcome/status"
+        ]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": [
+              "summary/ref"
+            ]
+          },
+          {
+            "required": [
+              "response-envelope/ref"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

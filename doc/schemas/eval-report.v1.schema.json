@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:eval-report:v1",
+  "title": "EvalReport v1",
+  "description": "Machine-readable schema for adapter evaluation outputs that gate validation, deployment, or rejection.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/50-requirements/requirements-004.md"
+  ],
+  "required": [
+    "schema/v",
+    "eval-report/id",
+    "subject/kind",
+    "subject/ref",
+    "base-model/ref",
+    "generated-at",
+    "verdict",
+    "summary",
+    "evaluator/refs",
+    "suites"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "eval-report/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the evaluation report."
+    },
+    "subject/kind": {
+      "type": "string",
+      "enum": [
+        "training-job",
+        "adapter-artifact"
+      ],
+      "description": "Evaluated subject class."
+    },
+    "subject/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the evaluated job or adapter."
+    },
+    "base-model/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Immutable base model against which the evaluated artifact must remain interpretable."
+    },
+    "adapter/hash": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Immutable adapter hash when the evaluated subject is an adapter artifact."
+    },
+    "generated-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Evaluation completion timestamp."
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "conditional-pass",
+        "fail"
+      ],
+      "description": "High-level evaluation verdict."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable summary of the evaluation outcome."
+    },
+    "evaluator/refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "People, nodes, or policy engines that produced or signed the report."
+    },
+    "policy/profile": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Evaluation policy profile used for this report."
+    },
+    "known-issues": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Residual issues kept visible even when the verdict is not a hard fail."
+    },
+    "suites": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "suite/id",
+          "suite/class",
+          "status"
+        ],
+        "properties": {
+          "suite/id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable identifier of the evaluation suite."
+          },
+          "suite/class": {
+            "type": "string",
+            "enum": [
+              "quality",
+              "regression",
+              "risk",
+              "policy",
+              "domain"
+            ],
+            "description": "Semantic class of the suite."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "warning",
+              "fail",
+              "not-applicable"
+            ],
+            "description": "Outcome of the suite."
+          },
+          "metrics/refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Optional references to metric outputs or benchmark details."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Optional free-form notes for the suite."
+          }
+        }
+      },
+      "description": "Evaluation suites covering quality, regression, and risk gates."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core evaluation semantics."
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "suites": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "suite/class": {
+                "const": "quality"
+              }
+            },
+            "required": [
+              "suite/class"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "suites": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "suite/class": {
+                "const": "regression"
+              }
+            },
+            "required": [
+              "suite/class"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "suites": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "suite/class": {
+                "const": "risk"
+              }
+            },
+            "required": [
+              "suite/class"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "subject/kind": {
+            "const": "adapter-artifact"
+          }
+        },
+        "required": [
+          "subject/kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "adapter/hash"
+        ]
+      }
+    }
+  ]
+}

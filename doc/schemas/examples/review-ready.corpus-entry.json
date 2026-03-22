@@ -1,0 +1,22 @@
+{
+  "schema/v": 1,
+  "entry/id": "corpus-entry:01JP0X0VQCGT1Y38WYA6QF2EFW",
+  "source/type": "transcript-bundle",
+  "source/id": "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+  "content/ref": "vault:fed-pl:curated-entry:01JP0X2Q5ECFMW6RF8NKY2Y36C",
+  "domain/tags": [
+    "clojure",
+    "stm",
+    "migration"
+  ],
+  "quality/grade": "high",
+  "risk/grade": "moderate",
+  "training/eligibility": "needs-review",
+  "provenance/manifest": "manifest:01JP0X4A9X6CTM4C83K10R4T24",
+  "contains-human-origin": true,
+  "language": "en",
+  "creator/refs": [
+    "node:pl-wro-curator-4",
+    "node:pl-wro-secretary-2"
+  ]
+}

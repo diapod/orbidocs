@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:retrieval-response:v1",
+  "title": "RetrievalResponse v1",
+  "description": "Machine-readable schema for archivist or vault responses to retrieval requests.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-003.md",
+    "doc/project/50-requirements/requirements-003.md",
+    "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"
+  ],
+  "required": [
+    "schema/v",
+    "request/id",
+    "responded-at",
+    "responder/node-id",
+    "status"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "request/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Retrieval request identifier being answered."
+    },
+    "responded-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Response timestamp."
+    },
+    "responder/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Archivist or gateway node that answered the retrieval request."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "found",
+        "denied",
+        "unavailable",
+        "tombstoned"
+      ],
+      "description": "Top-level retrieval result."
+    },
+    "package/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Archival package identifier returned on successful retrieval."
+    },
+    "artifact/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Artifact identifier returned on successful retrieval."
+    },
+    "publication/scope": {
+      "type": "string",
+      "enum": [
+        "private-retained",
+        "federation-vault",
+        "public-vault"
+      ],
+      "description": "Scope under which the returned artifact is exposed."
+    },
+    "payload/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable content or blob reference returned to the requester."
+    },
+    "integrity/proof": {
+      "$ref": "#/$defs/integrityProof"
+    },
+    "reason/code": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short machine-readable reason for non-successful retrieval."
+    },
+    "reason/text": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional human-readable explanation of denial or unavailability."
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional expiry timestamp of the returned retrieval grant or link."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core retrieval semantics."
+    }
+  },
+  "$defs": {
+    "integrityProof": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manifest_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signature": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verification_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "manifest_hash",
+            "signer",
+            "signature"
+          ]
+        },
+        {
+          "required": [
+            "verification_ref"
+          ]
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "found"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "package/id",
+          "artifact/id",
+          "publication/scope",
+          "payload/ref",
+          "integrity/proof"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "denied",
+              "unavailable",
+              "tombstoned"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "reason/code"
+        ]
+      }
+    }
+  ]
+}

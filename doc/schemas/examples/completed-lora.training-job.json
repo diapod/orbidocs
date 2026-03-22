@@ -1,0 +1,19 @@
+{
+  "schema/v": 1,
+  "job/id": "training-job:01JP0XK0QVB9WKRAX9A5TQ22CH",
+  "base-model/ref": "model:gpt-oss-20b:2026-03",
+  "method": "lora",
+  "dataset/refs": [
+    "corpus-entry:01JP0X0VQCGT1Y38WYA6QF2EFW"
+  ],
+  "policy/profile": "federation-safe-specialization",
+  "started-at": "2026-03-22T22:42:08Z",
+  "ended-at": "2026-03-22T23:19:50Z",
+  "operator/ref": "node:pl-wro-trainer-1",
+  "status": "completed",
+  "eval-report/ref": "eval-report:01JP0ZSMK2R6E3A5B4X18WGVTK",
+  "creator/refs": [
+    "node:pl-wro-curator-4",
+    "node:pl-wro-trainer-1"
+  ]
+}

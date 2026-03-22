@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:procurement-offer:v1",
+  "title": "ProcurementOffer v1",
+  "description": "Machine-readable schema for responder offers attached to a published procurement-capable question.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-001.md",
+    "doc/project/30-stories/story-004.md",
+    "doc/project/50-requirements/requirements-001.md",
+    "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
+  ],
+  "required": [
+    "schema/v",
+    "offer/id",
+    "question/id",
+    "created-at",
+    "responder/node-id",
+    "price/amount",
+    "price/currency",
+    "deadline-at",
+    "answer/min-length",
+    "answer/max-length",
+    "execution/mode",
+    "specialization/tags",
+    "reputation/evidence"
+  ],
+  "properties": {
+    "schema/v": { "const": 1, "description": "Schema version." },
+    "offer/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the offer instance."
+    },
+    "question/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Question lifecycle identifier to which the offer responds."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Offer creation timestamp."
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional offer-expiry timestamp before which the asker must decide."
+    },
+    "responder/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Responding node that would execute or lead the answer path."
+    },
+    "responder/federation-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Federation identity of the responder when relevant to routing or trust."
+    },
+    "responder/public-key-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the responder's encryption or signature key material."
+    },
+    "price/amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Proposed price in minor units."
+    },
+    "price/currency": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 16,
+      "description": "Currency or settlement unit symbol for the proposed price."
+    },
+    "deadline-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Latest timestamp by which the responder expects to deliver or conclude."
+    },
+    "answer/min-length": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Lower answer-length bound the responder is willing to contract against."
+    },
+    "answer/max-length": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Upper answer-length bound the responder is willing to contract against."
+    },
+    "answer/format": {
+      "type": "string",
+      "enum": ["plain-text", "markdown", "json", "edn", "mixed"],
+      "description": "Preferred answer representation."
+    },
+    "execution/mode": {
+      "type": "string",
+      "enum": ["room-collaboration", "single-responder"],
+      "description": "Whether the responder expects collaborative discussion or a narrowed single-responder path."
+    },
+    "specialization/tags": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Tags used to justify topical fit of the offer."
+    },
+    "models/used": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Models or capability labels the responder expects to use."
+    },
+    "operator-participation/may-occur": {
+      "type": "boolean",
+      "description": "Whether the responder expects possible operator consultation or live human presence under allowed room policy."
+    },
+    "confirmation/mode": {
+      "type": "string",
+      "enum": ["arbiter-confirmed", "self-confirmed", "no-confirmation"],
+      "description": "Confirmation model proposed by the responder for later contract formation."
+    },
+    "reputation/evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["kind", "ref"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": true
+      },
+      "description": "Evidence references advertised to justify responder trust."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "price/amount": {
+            "const": 0
+          }
+        },
+        "required": [
+          "price/amount"
+        ]
+      },
+      "then": {
+        "properties": {
+          "confirmation/mode": {
+            "enum": ["self-confirmed", "no-confirmation"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["answer/min-length", "answer/max-length"]
+      },
+      "then": {
+        "properties": {
+          "answer/max-length": {
+            "minimum": 1
+          }
+        }
+      }
+    }
+  ]
+}

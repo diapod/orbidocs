@@ -1,0 +1,19 @@
+{
+  "schema/v": 1,
+  "package/id": "archival-package:01JP0T7H61P1VVCYNY2TQHQYF8",
+  "artifact/id": "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+  "artifact/type": "transcript-bundle",
+  "source/question-id": "question:01JNY6M2X6Y8M1G5R4Z3K7Q2P9",
+  "created-at": "2026-03-22T22:27:18Z",
+  "publication/scope": "public-vault",
+  "archival/basis": "public-scope",
+  "redaction/status": "partial",
+  "payload/ref": "vault:public:bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+  "provenance/refs": [
+    "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9"
+  ],
+  "integrity/proof": {
+    "alg": "sha256+ed25519",
+    "verification_ref": "proof:01JP0TAT1D3P0K5TGHW93K6Q6A"
+  }
+}

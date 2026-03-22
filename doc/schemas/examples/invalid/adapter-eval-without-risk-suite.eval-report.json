@@ -1,0 +1,26 @@
+{
+  "schema/v": 1,
+  "eval-report/id": "eval-report:01JP13T82V7T74S18RQ9B3A4DK",
+  "subject/kind": "adapter-artifact",
+  "subject/ref": "adapter:01JP10DHJ9JAVDMTW1VQ52XH6N",
+  "base-model/ref": "model:gpt-oss-20b:2026-03",
+  "adapter/hash": "sha256:021a4f621c5d2a7d636bd3dd8b76fdfd55ddae1f179dd0ed7fbec75d0ab5f5da",
+  "generated-at": "2026-03-22T23:24:18Z",
+  "verdict": "pass",
+  "summary": "Missing risk gate.",
+  "evaluator/refs": [
+    "node:pl-wro-eval-1"
+  ],
+  "suites": [
+    {
+      "suite/id": "quality-core-v1",
+      "suite/class": "quality",
+      "status": "pass"
+    },
+    {
+      "suite/id": "regression-ops-v1",
+      "suite/class": "regression",
+      "status": "pass"
+    }
+  ]
+}

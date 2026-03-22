@@ -1,0 +1,13 @@
+{
+  "schema/v": 1,
+  "question/id": "question:bad-01",
+  "created-at": "2026-03-22T18:10:00Z",
+  "sender/node-id": "node:pl-wro-full-7f3c",
+  "ttl-sec": 1200,
+  "question/text": "Need help with a private legal matter.",
+  "question/tags": ["legal"],
+  "delivery/scope": "global",
+  "delivery/response-channel-id": "question:bad-01",
+  "request/exposure-mode": "private-to-swarm",
+  "reward/mode": "none"
+}

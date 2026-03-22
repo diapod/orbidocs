@@ -92,6 +92,85 @@ def basis_lines(basis: Any, from_dir: Path) -> str:
     return "\n".join(links)
 
 
+BASED_ON_RE = re.compile(r"^- `([^`]+)`\s*$")
+
+
+PROJECT_GROUPS = [
+    ("50-requirements", "Requirements"),
+    ("40-proposals", "Proposals"),
+    ("30-stories", "Stories"),
+    ("20-memos", "Memos"),
+    ("10-challenges", "Challenges"),
+    ("60-solutions", "Solutions"),
+]
+
+DISPLAY_PROJECT_GROUPS = ["Requirements", "Stories"]
+
+
+def parse_based_on(path: Path) -> list[Path]:
+    refs: list[Path] = []
+    in_block = False
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip() == "Based on:":
+            in_block = True
+            continue
+        if in_block and not line.strip():
+            break
+        if in_block:
+            match = BASED_ON_RE.match(line)
+            if match:
+                refs.append(ROOT / match.group(1))
+    return refs
+
+
+def project_doc_group(path: Path) -> str | None:
+    rel_path = path.relative_to(ROOT).as_posix()
+    if not rel_path.startswith("doc/project/"):
+        return None
+    for step_dir, label in PROJECT_GROUPS:
+        if f"/project/{step_dir}/" in rel_path:
+            return label
+    return None
+
+
+def project_lineage(seeds: list[Path]) -> dict[str, list[Path]]:
+    grouped: dict[str, set[Path]] = {label: set() for _, label in PROJECT_GROUPS}
+    stack = [seed for seed in seeds if project_doc_group(seed)]
+    visited: set[Path] = set()
+
+    while stack:
+        current = stack.pop()
+        if current in visited or not current.exists():
+            continue
+        visited.add(current)
+        group = project_doc_group(current)
+        if group:
+            grouped[group].add(current)
+        for ref in parse_based_on(current):
+            if project_doc_group(ref):
+                stack.append(ref)
+
+    return {group: sorted(paths) for group, paths in grouped.items() if paths}
+
+
+def project_lineage_lines(seeds: list[Path], from_dir: Path) -> str:
+    lineage = project_lineage(seeds)
+    if not lineage:
+        return ""
+    lines = ["## Project Lineage", ""]
+    for label in DISPLAY_PROJECT_GROUPS:
+        docs = lineage.get(label, [])
+        if not docs:
+            continue
+        lines.append(f"### {label}")
+        lines.append("")
+        for doc in docs:
+            href = rel_link(from_dir, doc)
+            lines.append(f"- [`{doc.relative_to(ROOT).as_posix()}`]({href})")
+        lines.append("")
+    return "\n".join(lines).rstrip()
+
+
 
 def render_field_section(name: str, spec: dict[str, Any], required: bool, from_dir: Path) -> str:
     anchor = slugify(name)
@@ -161,6 +240,7 @@ def generate_schema_doc(schema_path: Path) -> tuple[str, str]:
     defs = data.get("$defs", {})
     all_of = data.get("allOf", [])
     basis = data.get("x-dia-basis", [])
+    lineage = project_lineage_lines([ROOT / item for item in basis], from_dir)
 
     lines = [
         f"# {title}",
@@ -172,6 +252,8 @@ def generate_schema_doc(schema_path: Path) -> tuple[str, str]:
         lines.extend([description, ""])
     if basis:
         lines.extend(["## Governing Basis", "", basis_lines(basis, from_dir), ""])
+    if lineage:
+        lines.extend([lineage, ""])
 
     lines.extend(["## Fields", "", "| Field | Required | Shape | Description |", "|---|---|---|---|"])
     for name, spec in properties.items():
@@ -214,12 +296,21 @@ def generate_index(rows: list[tuple[str, str]]) -> None:
         "",
         "This page is generated from canonical JSON Schema files under `/doc/schemas`.",
         "",
-        "| Schema | Generated Doc |",
-        "|---|---|",
+        "| Schema | Generated Doc | Governing Basis |",
+        "|---|---|---|",
     ]
     for schema_name, doc_name in sorted(rows):
+        schema_path = SCHEMAS_DIR / schema_name
+        data = json.loads(schema_path.read_text(encoding="utf-8"))
+        basis = data.get("x-dia-basis", [])
+        if basis:
+          basis_links = ", ".join(
+              f"[`{Path(item).name}`]({rel_link(out_path.parent, ROOT / item)})" for item in basis
+          )
+        else:
+          basis_links = ""
         lines.append(
-            f"| [`{schema_name}`](../schemas/{schema_name}) | [`{doc_name}`](schemas/{doc_name}) |"
+            f"| [`{schema_name}`](../schemas/{schema_name}) | [`{doc_name}`](schemas/{doc_name}) | {basis_links} |"
         )
     out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 

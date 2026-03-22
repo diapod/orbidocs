@@ -1,0 +1,14 @@
+{
+  "schema/v": 1,
+  "entry/id": "corpus-entry:01JP11G70THGZ5K1TG9W7A0D6Q",
+  "source/type": "transcript-bundle",
+  "source/id": "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+  "content/ref": "vault:fed-pl:curated-entry:01JP11J1PV7V9HNRPX8CMMGRW0",
+  "domain/tags": [
+    "clojure"
+  ],
+  "quality/grade": "high",
+  "risk/grade": "high",
+  "training/eligibility": "approved",
+  "provenance/manifest": "manifest:01JP11M8EY3R7H3JYEV9F0K5SY"
+}

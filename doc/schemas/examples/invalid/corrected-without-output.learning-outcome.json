@@ -1,0 +1,17 @@
+{
+  "schema/v": 1,
+  "learning-outcome/id": "learning-outcome:01JP0S5QGZ5QW4N7CF5TW5H440",
+  "question/id": "question:01JNY6M2X6Y8M1G5R4Z3K7Q2P9",
+  "room/id": "question:01JNY6M2X6Y8M1G5R4Z3K7Q2P9",
+  "subject/ref": "response-envelope:01JP0KZR9R6X1Q0TFC8B71N4D2",
+  "outcome/status": "corrected",
+  "decided-at": "2026-03-22T22:25:54Z",
+  "decider/ref": "node:pl-wro-secretary-2",
+  "supporting/refs": [
+    "event:matrix:$corrective-thread-02"
+  ],
+  "provenance/refs": [
+    "question:01JNY6M2X6Y8M1G5R4Z3K7Q2P9"
+  ],
+  "human-linked/input": false
+}

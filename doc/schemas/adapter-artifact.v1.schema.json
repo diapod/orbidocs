@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:adapter-artifact:v1",
+  "title": "AdapterArtifact v1",
+  "description": "Machine-readable schema for adapter-first specialization artifacts and their deployment-facing provenance.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/50-requirements/requirements-004.md"
+  ],
+  "required": [
+    "schema/v",
+    "adapter/id",
+    "job/id",
+    "base-model/ref",
+    "adapter/hash",
+    "eval-report/ref",
+    "deployment/scope",
+    "rollback/ref",
+    "creator/refs"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "adapter/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the adapter artifact."
+    },
+    "job/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "TrainingJob identifier that produced the adapter."
+    },
+    "base-model/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Immutable base model on top of which the adapter applies."
+    },
+    "adapter/hash": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hash or equivalent immutable content identifier of the adapter payload."
+    },
+    "eval-report/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to evaluation results that justify deployment or rejection."
+    },
+    "deployment/scope": {
+      "type": "string",
+      "enum": [
+        "private",
+        "federation-local",
+        "public"
+      ],
+      "description": "Intended deployment visibility of the adapter artifact."
+    },
+    "rollback/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to rollback path, previous adapter, or disable artifact."
+    },
+    "creator/refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Creators or contributors that should remain attributable in downstream use."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "validated",
+        "deployed",
+        "rejected",
+        "revoked"
+      ],
+      "description": "Current artifact lifecycle status."
+    },
+    "model-card/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to model card or equivalent manifest describing intended use and risks."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Artifact creation timestamp."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core adapter semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "deployed",
+              "validated"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "model-card/ref",
+          "created-at"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema/v": 1,
+  "contract/id": "contract:01K0FEDPROC1:A",
+  "question/id": "question:01K0FEDPROC1",
+  "room/id": "question:01K0FEDPROC1/execution/A",
+  "selected-offer/id": "offer:01K0FEDPROC1:A",
+  "created-at": "2026-03-22T18:16:00Z",
+  "asker/node-id": "node:pl-wro-full-7f3c",
+  "responder/node-id": "node:ch-gva-ml-22",
+  "payment/amount": 900,
+  "payment/currency": "PLN",
+  "settlement/rail": "external-invoice",
+  "deadline-at": "2026-03-22T19:00:00Z",
+  "acceptance/answer-format": "markdown",
+  "acceptance/min-length": 400,
+  "acceptance/max-length": 1400,
+  "acceptance/arbiter-set": ["node:arbiter-fed-01"],
+  "confirmation/mode": "arbiter-confirmed",
+  "status": "pending",
+  "transport/encryption-mode": "recipient-key"
+}

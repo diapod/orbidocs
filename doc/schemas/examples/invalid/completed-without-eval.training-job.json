@@ -1,0 +1,14 @@
+{
+  "schema/v": 1,
+  "job/id": "training-job:01JP11WG2YRKPTNMJ6TR3H8NAF",
+  "base-model/ref": "model:gpt-oss-20b:2026-03",
+  "method": "qlora",
+  "dataset/refs": [
+    "corpus-entry:01JP0X0VQCGT1Y38WYA6QF2EFW"
+  ],
+  "policy/profile": "federation-safe-specialization",
+  "started-at": "2026-03-22T23:30:22Z",
+  "ended-at": "2026-03-22T23:59:59Z",
+  "operator/ref": "node:pl-wro-trainer-1",
+  "status": "completed"
+}

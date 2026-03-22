@@ -1,0 +1,18 @@
+{
+  "schema/v": 1,
+  "request/id": "retrieval-request:01JP0QSV0W9Q70V3VJ7ZB4ENH0",
+  "responded-at": "2026-03-22T22:24:31Z",
+  "responder/node-id": "node:pl-wro-archivist-1",
+  "status": "found",
+  "package/id": "archival-package:01JP0P0XYJ4X2FAEZ62R9M2S7K",
+  "artifact/id": "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+  "publication/scope": "federation-vault",
+  "payload/ref": "vault:fed-pl:bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+  "integrity/proof": {
+    "alg": "sha256+ed25519",
+    "manifest_hash": "sha256:3d6f61e8d2e4cb7ce2d2487fb5274aa36c7d7b8bcedff15579328d85f1fb6f7d",
+    "signer": "node:pl-wro-archivist-1",
+    "signature": "base64url:MEUCIQDv5i4lu..."
+  },
+  "expires-at": "2026-03-29T22:24:31Z"
+}

@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:retrieval-request:v1",
+  "title": "RetrievalRequest v1",
+  "description": "Machine-readable schema for scope-aware retrieval of archived artifacts.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-003.md",
+    "doc/project/50-requirements/requirements-003.md",
+    "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"
+  ],
+  "required": [
+    "schema/v",
+    "request/id",
+    "requested-at",
+    "requester/node-id",
+    "access/scope",
+    "authorization/basis",
+    "retrieval/purpose"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "request/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable retrieval request identifier."
+    },
+    "requested-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the retrieval attempt."
+    },
+    "requester/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node or gateway actor requesting access."
+    },
+    "package/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Requested archival package identifier."
+    },
+    "artifact/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Requested artifact identifier when package id is not known."
+    },
+    "access/scope": {
+      "type": "string",
+      "enum": [
+        "private-retained",
+        "federation-vault",
+        "public-vault"
+      ],
+      "description": "Scope under which the requester expects the retrieval to be authorized."
+    },
+    "authorization/basis": {
+      "type": "string",
+      "enum": [
+        "local-owner",
+        "federation-policy",
+        "public-access",
+        "curator-review",
+        "audit"
+      ],
+      "description": "Reason why the requester believes access is allowed."
+    },
+    "retrieval/purpose": {
+      "type": "string",
+      "enum": [
+        "local-recovery",
+        "serving",
+        "curation",
+        "training",
+        "audit",
+        "replay"
+      ],
+      "description": "Declared purpose of retrieval."
+    },
+    "proof/context-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional external proof or audit context reference."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core retrieval semantics."
+    }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "package/id"
+      ]
+    },
+    {
+      "required": [
+        "artifact/id"
+      ]
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "access/scope": {
+            "const": "private-retained"
+          }
+        },
+        "required": [
+          "access/scope"
+        ]
+      },
+      "then": {
+        "properties": {
+          "authorization/basis": {
+            "enum": [
+              "local-owner",
+              "curator-review",
+              "audit"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

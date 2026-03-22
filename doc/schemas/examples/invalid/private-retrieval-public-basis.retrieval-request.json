@@ -1,0 +1,10 @@
+{
+  "schema/v": 1,
+  "request/id": "retrieval-request:01JP0TVZ2KQV2VZ8PN5M7P3PDR",
+  "requested-at": "2026-03-22T22:28:41Z",
+  "requester/node-id": "node:pl-wro-curator-4",
+  "artifact/id": "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
+  "access/scope": "private-retained",
+  "authorization/basis": "public-access",
+  "retrieval/purpose": "audit"
+}

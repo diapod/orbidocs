@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "response/id": "response:bad-01",
+  "question/id": "question:01K0FEDPROC1",
+  "created-at": "2026-03-22T18:59:00Z",
+  "source/node-id": "node:ch-gva-ml-22",
+  "answer/content": "This answer claims no human help.",
+  "answer/format": "markdown",
+  "confidence/signal": 0.62,
+  "human-linked-participation": true,
+  "provenance/origin-classes": ["node-generated"]
+}

@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:model-card:v1",
+  "title": "ModelCard v1",
+  "description": "Machine-readable schema for deployment-facing manifests describing intended use, exclusions, risks, and provenance of specialized adapters.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/50-requirements/requirements-004.md"
+  ],
+  "required": [
+    "schema/v",
+    "model-card/id",
+    "adapter/id",
+    "base-model/ref",
+    "created-at",
+    "deployment/scope",
+    "intended-use",
+    "out-of-scope",
+    "limitations",
+    "excluded-data-classes",
+    "known-risks",
+    "evaluation/ref",
+    "provenance/refs"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "model-card/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the model card."
+    },
+    "adapter/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Adapter artifact described by this model card."
+    },
+    "base-model/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Immutable base model on top of which the adapter operates."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp of the model card."
+    },
+    "deployment/scope": {
+      "type": "string",
+      "enum": [
+        "private",
+        "federation-local",
+        "public"
+      ],
+      "description": "Deployment visibility for which this card is valid."
+    },
+    "intended-use": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Intended use domain or task family."
+    },
+    "out-of-scope": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Use classes that are explicitly out of scope."
+    },
+    "limitations": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Known operational or epistemic limitations."
+    },
+    "excluded-data-classes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Data classes explicitly excluded from the training corpus or deployment use."
+    },
+    "known-risks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Known risks that operators and federations should keep visible."
+    },
+    "evaluation/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the evaluation report that justifies publication or deployment."
+    },
+    "provenance/refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "References to source corpora, jobs, or governance decisions that justify the adapter."
+    },
+    "maintainer/refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Maintainers or governors responsible for ongoing publication and revocation handling."
+    },
+    "policy/profile": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Deployment or governance profile associated with the model card."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "validated",
+        "published",
+        "deprecated"
+      ],
+      "description": "Lifecycle state of the model card."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core model-card semantics."
+    }
+  }
+}

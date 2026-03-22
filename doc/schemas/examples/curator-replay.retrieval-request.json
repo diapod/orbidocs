@@ -1,0 +1,11 @@
+{
+  "schema/v": 1,
+  "request/id": "retrieval-request:01JP0QSV0W9Q70V3VJ7ZB4ENH0",
+  "requested-at": "2026-03-22T22:23:59Z",
+  "requester/node-id": "node:pl-wro-curator-4",
+  "package/id": "archival-package:01JP0P0XYJ4X2FAEZ62R9M2S7K",
+  "access/scope": "federation-vault",
+  "authorization/basis": "curator-review",
+  "retrieval/purpose": "replay",
+  "proof/context-ref": "review:fed-pl:01JP0R0B5PBWMRBMX03TR6JQ2R"
+}

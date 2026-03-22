@@ -1,6 +1,8 @@
 # Requirements 004: Transcript Curation and Safe Model Specialization
 
 Based on:
+- `doc/project/50-requirements/requirements-002.md`
+- `doc/project/50-requirements/requirements-003.md`
 - `doc/project/40-proposals/003-question-envelope-and-answer-channel.md`
 - `doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md`
 - `doc/project/20-memos/transcription-monitors-and-public-vaults.md`
@@ -35,6 +37,12 @@ Orbiplex aims to create a practical learning flywheel:
 The challenge is to do this without violating privacy, collapsing governance
 boundaries, poisoning future models with unresolved or harmful material, or turning
 swarm communication into indiscriminate surveillance.
+
+`requirements-002.md` now defines how correction and accepted learning outcomes
+emerge inside the answer-room flow, while `requirements-003.md` defines how valuable
+artifacts move into archivist and vault preservation paths. This document starts one
+layer later: it specifies what must happen once transcript-worthy or archive-worthy
+material is eligible for curation and later specialization.
 
 The system therefore needs explicit controls for:
 
@@ -85,6 +93,10 @@ No artifact may skip state transitions implicitly.
   - `job_id`, `base_model_ref`, `method` (`lora|qlora`), `dataset_refs`, `policy_profile`, `started_at`, `ended_at`, `operator_ref`.
 - `AdapterArtifact`:
   - `adapter_id`, `job_id`, `base_model_ref`, `adapter_hash`, `eval_report_ref`, `deployment_scope`, `rollback_ref`, `creator_refs`.
+- `EvalReport`:
+  - `eval_report_id`, `subject_ref`, `subject_kind`, `base_model_ref`, `generated_at`, `verdict`, `evaluator_refs`, `suites`, `summary`.
+- `ModelCard`:
+  - `model_card_id`, `adapter_id`, `base_model_ref`, `created_at`, `deployment_scope`, `intended_use`, `out_of_scope`, `limitations`, `excluded_data_classes`, `known_risks`, `evaluation_ref`, `provenance_refs`.
 
 ## Functional Requirements
 
@@ -185,12 +197,14 @@ No artifact may skip state transitions implicitly.
 
 ## Next Actions
 
-1. Define v1 schemas for `TranscriptSegment`, `TranscriptBundle`, `CurationDecision`, `CorpusEntry`, `TrainingJob`, and `AdapterArtifact`.
-2. Define `consent_basis`, `redaction_status`, `quality_grade`, and `risk_grade` enumerations.
-3. Define federation policy profiles for archival export and training eligibility.
-4. Define evaluation gates for adapter promotion, including rollback and shadow-deployment rules.
-5. Define vault sync and integrity verification behavior for redundant archivist nodes.
-6. Define attribution policy for transcript-derived corpora and adapter artifacts.
-7. Implement end-to-end test flow: live channel -> transcript bundle -> redaction -> curation -> vault -> LoRA/QLoRA job -> evaluation -> deploy/rollback.
-8. Define `origin_class`, `operator_presence_mode`, and `human_origin` enumerations and validation rules.
-9. Define public-vault defaults and override policy for `human-live` and `node-mediated-human` material.
+1. Keep `TranscriptSegment`, `TranscriptBundle`, `CurationDecision`, `CorpusEntry`, `TrainingJob`, `EvalReport`, `AdapterArtifact`, and `ModelCard` aligned as one versioned contract family.
+2. Align curation entry conditions with `requirements-002.md` outcome states (`confirmed`, `corrected`, `unresolved`).
+3. Align archivist and vault handoff semantics with `requirements-003.md` archival package and publication-scope model.
+4. Define `consent_basis`, `redaction_status`, `quality_grade`, and `risk_grade` enumerations and registries.
+5. Define federation policy profiles for archival export, training eligibility, and deployment acceptance.
+6. Formalize evaluation gates for adapter promotion, including rollback and shadow-deployment rules.
+7. Define vault sync and integrity verification behavior for redundant archivist nodes.
+8. Define attribution policy for transcript-derived corpora, evaluation reports, and adapter artifacts.
+9. Implement end-to-end test flow: live channel -> transcript bundle -> redaction -> curation -> vault -> LoRA/QLoRA job -> evaluation -> deploy/rollback.
+10. Define `origin_class`, `operator_presence_mode`, and `human_origin` enumerations and validation rules.
+11. Define public-vault defaults and override policy for `human-live` and `node-mediated-human` material.

@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:archival-package:v1",
+  "title": "ArchivalPackage v1",
+  "description": "Machine-readable schema for packaging durable artifacts for archivist or vault handoff.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-003.md",
+    "doc/project/50-requirements/requirements-003.md",
+    "doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md",
+    "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"
+  ],
+  "required": [
+    "schema/v",
+    "package/id",
+    "artifact/id",
+    "artifact/type",
+    "source/question-id",
+    "created-at",
+    "publication/scope",
+    "archival/basis",
+    "redaction/status",
+    "payload/ref",
+    "provenance/refs",
+    "integrity/proof"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "package/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable package identifier used at archival handoff boundaries."
+    },
+    "artifact/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the packaged artifact."
+    },
+    "artifact/type": {
+      "type": "string",
+      "enum": [
+        "transcript-bundle",
+        "room-summary",
+        "response-envelope",
+        "knowledge-artifact",
+        "corpus-entry"
+      ],
+      "description": "Primary semantic class of the packaged artifact."
+    },
+    "source/question-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Question lifecycle identifier that roots the packaged artifact."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of archival package creation."
+    },
+    "publication/scope": {
+      "type": "string",
+      "enum": [
+        "private-retained",
+        "federation-vault",
+        "public-vault"
+      ],
+      "description": "Declared publication class of the archival handoff."
+    },
+    "archival/basis": {
+      "type": "string",
+      "enum": [
+        "not-required",
+        "operator-consultation",
+        "explicit-consent",
+        "federation-policy",
+        "public-scope",
+        "emergency-exception"
+      ],
+      "description": "Policy or consent basis for archival export."
+    },
+    "redaction/status": {
+      "type": "string",
+      "enum": [
+        "none",
+        "partial",
+        "full-derived"
+      ],
+      "description": "Redaction posture of the exported artifact."
+    },
+    "payload/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable content, blob, or manifest reference for the packaged payload."
+    },
+    "provenance/refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Trace references that bind the package to its source discussion or promotion history."
+    },
+    "publication/timing-profile": {
+      "type": "string",
+      "enum": [
+        "live-mirror",
+        "delayed-bundle",
+        "curator-gated"
+      ],
+      "description": "Timing profile for publication beyond storage success."
+    },
+    "retention/max-duration-sec": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum intended storage duration in seconds when retention is bounded."
+    },
+    "retention/max-idle-ttl-sec": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum idle time without retrieval before the package may expire."
+    },
+    "integrity/proof": {
+      "$ref": "#/$defs/integrityProof"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation-local annotations that do not change the core archival semantics."
+    }
+  },
+  "$defs": {
+    "integrityProof": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manifest_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signature": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verification_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "manifest_hash",
+            "signer",
+            "signature"
+          ]
+        },
+        {
+          "required": [
+            "verification_ref"
+          ]
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "publication/scope": {
+            "const": "public-vault"
+          }
+        },
+        "required": [
+          "publication/scope"
+        ]
+      },
+      "then": {
+        "required": [
+          "publication/timing-profile"
+        ]
+      }
+    }
+  ]
+}

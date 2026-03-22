@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:procurement-contract:v1",
+  "title": "ProcurementContract v1",
+  "description": "Machine-readable schema for a selected responder contract linked to a procurement question lifecycle.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-001.md",
+    "doc/project/30-stories/story-004.md",
+    "doc/project/50-requirements/requirements-001.md",
+    "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
+  ],
+  "required": [
+    "schema/v",
+    "contract/id",
+    "question/id",
+    "room/id",
+    "selected-offer/id",
+    "created-at",
+    "asker/node-id",
+    "responder/node-id",
+    "payment/amount",
+    "payment/currency",
+    "deadline-at",
+    "acceptance/answer-format",
+    "acceptance/min-length",
+    "acceptance/max-length",
+    "confirmation/mode",
+    "status"
+  ],
+  "properties": {
+    "schema/v": { "const": 1, "description": "Schema version." },
+    "contract/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the procurement contract."
+    },
+    "question/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Question lifecycle identifier to which the contract belongs."
+    },
+    "room/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Room or execution channel bound to the selected responder path."
+    },
+    "selected-offer/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the offer chosen for contract formation."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Contract creation timestamp."
+    },
+    "asker/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node acting for the asking side of the contract."
+    },
+    "asker/pod-user-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hosted-user identity when the contract was created on behalf of a pod-backed client."
+    },
+    "responder/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node selected to fulfill the answer contract."
+    },
+    "payment/amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Agreed payment amount in minor units."
+    },
+    "payment/currency": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 16,
+      "description": "Currency or settlement unit symbol for the contract payment."
+    },
+    "settlement/rail": {
+      "type": "string",
+      "enum": [
+        "external-invoice",
+        "host-ledger",
+        "manual-transfer",
+        "none"
+      ],
+      "description": "Settlement rail chosen outside the protocol core."
+    },
+    "deadline-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Deadline by which the responder must deliver or the contract expires."
+    },
+    "acceptance/answer-format": {
+      "type": "string",
+      "enum": ["plain-text", "markdown", "json", "edn", "mixed"],
+      "description": "Expected answer format used for acceptance checks."
+    },
+    "acceptance/min-length": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Minimum accepted answer length."
+    },
+    "acceptance/max-length": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum accepted answer length."
+    },
+    "acceptance/arbiter-set": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "description": "Arbiter identities required when arbiter confirmation is part of the contract."
+    },
+    "confirmation/mode": {
+      "type": "string",
+      "enum": ["arbiter-confirmed", "self-confirmed", "no-confirmation"],
+      "description": "Confirmation mode required before settlement."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "settled", "rejected", "expired", "canceled"],
+      "description": "Current lifecycle status of the contract."
+    },
+    "transport/encryption-mode": {
+      "type": "string",
+      "enum": ["none", "recipient-key", "federation-policy"],
+      "description": "Expected transport-level privacy mode for the narrowed execution path."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "confirmation/mode": {
+            "const": "arbiter-confirmed"
+          }
+        },
+        "required": [
+          "confirmation/mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "acceptance/arbiter-set"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "confirmation/mode": {
+            "const": "no-confirmation"
+          }
+        },
+        "required": [
+          "confirmation/mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payment/amount": {
+            "const": 0
+          }
+        }
+      }
+    }
+  ]
+}

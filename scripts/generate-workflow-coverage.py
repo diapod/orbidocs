@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Iterable
 
@@ -99,6 +100,71 @@ def schema_row(schema_path: Path) -> str:
     )
 
 
+def schema_basis_index(schema_paths: list[Path]) -> dict[str, list[tuple[str, Path]]]:
+    index: dict[str, list[tuple[str, Path]]] = {}
+    for schema_path in schema_paths:
+        data = json.loads(schema_path.read_text(encoding='utf-8'))
+        generated_doc = schema_doc_name(schema_path)
+        for basis in data.get('x-dia-basis', []):
+            index.setdefault(basis, []).append((schema_path.name, generated_doc))
+    return index
+
+
+BASED_ON_RE = re.compile(r"^- `([^`]+)`\s*$")
+
+
+def project_doc_group(path: Path) -> str | None:
+    rel_path = rel(path)
+    if not rel_path.startswith('doc/project/'):
+        return None
+    for step_dir, label in PROJECT_STEPS:
+        if f'/project/{step_dir}/' in rel_path:
+            return label
+    return None
+
+
+def parse_based_on(path: Path) -> list[Path]:
+    refs: list[Path] = []
+    in_block = False
+    for line in path.read_text(encoding='utf-8').splitlines():
+        if line.strip() == 'Based on:':
+            in_block = True
+            continue
+        if in_block and not line.strip():
+            break
+        if in_block:
+            match = BASED_ON_RE.match(line)
+            if match:
+                refs.append(ROOT / match.group(1))
+    return refs
+
+
+def project_lineage(seeds: Iterable[Path]) -> dict[str, list[Path]]:
+    grouped: dict[str, set[Path]] = {label: set() for _, label in PROJECT_STEPS}
+    stack = [seed for seed in seeds if project_doc_group(seed)]
+    visited: set[Path] = set()
+
+    while stack:
+        current = stack.pop()
+        if current in visited or not current.exists():
+            continue
+        visited.add(current)
+        group = project_doc_group(current)
+        if group:
+            grouped[group].add(current)
+        for ref in parse_based_on(current):
+            if project_doc_group(ref):
+                stack.append(ref)
+
+    return {group: sorted(paths) for group, paths in grouped.items() if paths}
+
+
+def schema_project_lineage(schema_path: Path) -> dict[str, list[Path]]:
+    data = json.loads(schema_path.read_text(encoding='utf-8'))
+    seeds = [ROOT / item for item in data.get('x-dia-basis', [])]
+    return project_lineage(seeds)
+
+
 normative_files = md_files(DOC / 'normative')
 project_files = md_files(DOC / 'project')
 schema_files = sorted((DOC / 'schemas').glob('*.schema.json'))
@@ -147,6 +213,48 @@ lines.extend([
 
 for schema_path in schema_files:
     lines.append(schema_row(schema_path))
+
+lines.extend([
+    '',
+    '## Schema Project Lineage',
+    '',
+    '| Schema | Requirements | Stories |',
+    '|---|---|---|',
+])
+
+for schema_path in schema_files:
+    lineage = schema_project_lineage(schema_path)
+
+    def format_group(group: str) -> str:
+        docs = lineage.get(group, [])
+        if not docs:
+            return ''
+        return ', '.join(f'[`{p.name}`]({rel_from_output(p)})' for p in docs)
+
+    generated_doc = schema_doc_name(schema_path)
+    lines.append(
+        f"| [`{schema_path.name}`]({rel_from_output(generated_doc)}) | "
+        f"{format_group('Requirements')} | "
+        f"{format_group('Stories')} |"
+    )
+
+basis_index = schema_basis_index(schema_files)
+if basis_index:
+    lines.extend([
+        '',
+        '## Schema Traceability',
+        '',
+        '| Governing Doc | Schemas |',
+        '|---|---|',
+    ])
+    for basis in sorted(basis_index):
+        schema_links = ', '.join(
+            f'[`{schema_name}`]({rel_from_output(generated_doc)})'
+            for schema_name, generated_doc in sorted(basis_index[basis])
+        )
+        lines.append(
+            f"| [`{basis}`]({rel_from_output(ROOT / basis)}) | {schema_links} |"
+        )
 
 lines.extend([
     '',

@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:knowledge-artifact:v1",
+  "title": "KnowledgeArtifact v1",
+  "description": "Machine-readable schema for local or portable knowledge artifacts promoted from learning outcomes.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-002.md",
+    "doc/project/50-requirements/requirements-002.md",
+    "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"
+  ],
+  "required": [
+    "schema/v",
+    "knowledge-artifact/id",
+    "question/id",
+    "source/learning-outcome-id",
+    "artifact/class",
+    "target/kind",
+    "created-at",
+    "content/ref",
+    "provenance/refs",
+    "trust/status"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "knowledge-artifact/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the promoted artifact."
+    },
+    "question/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Question lifecycle identifier from which the artifact ultimately derives."
+    },
+    "source/learning-outcome-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "LearningOutcome identifier that justified the promotion."
+    },
+    "artifact/class": {
+      "type": "string",
+      "enum": [
+        "trusted-local-retrieval",
+        "review-only",
+        "corpus-candidate",
+        "training-candidate"
+      ],
+      "description": "Semantic class of the promoted artifact."
+    },
+    "target/kind": {
+      "type": "string",
+      "enum": [
+        "vector-memory",
+        "indexed-file",
+        "corpus-entry",
+        "training-queue"
+      ],
+      "description": "Primary downstream target represented by the artifact."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of promotion into the target layer."
+    },
+    "content/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable content or storage reference used by the target layer."
+    },
+    "provenance/refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "References that link the artifact back to room outputs, summaries, or other source material."
+    },
+    "trust/status": {
+      "type": "string",
+      "enum": [
+        "confirmed",
+        "corrected",
+        "unresolved"
+      ],
+      "description": "Inherited trust class from the source learning outcome."
+    },
+    "training/eligible": {
+      "type": "boolean",
+      "description": "Whether this artifact is currently eligible for later training jobs."
+    },
+    "human-linked/input": {
+      "type": "boolean",
+      "description": "Whether the artifact preserves accepted human-linked influence in its provenance."
+    },
+    "domain/tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional local or federation domain tags assigned during promotion."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional policy metadata that does not change the core promotion semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "trust/status": {
+            "const": "unresolved"
+          }
+        },
+        "required": [
+          "trust/status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "artifact/class": {
+            "const": "review-only"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "artifact/class": {
+            "const": "training-candidate"
+          }
+        },
+        "required": [
+          "artifact/class"
+        ]
+      },
+      "then": {
+        "properties": {
+          "target/kind": {
+            "const": "training-queue"
+          },
+          "training/eligible": {
+            "const": true
+          }
+        },
+        "required": [
+          "training/eligible"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "artifact/class": {
+            "const": "trusted-local-retrieval"
+          }
+        },
+        "required": [
+          "artifact/class"
+        ]
+      },
+      "then": {
+        "properties": {
+          "target/kind": {
+            "enum": [
+              "vector-memory",
+              "indexed-file"
+            ]
+          },
+          "trust/status": {
+            "enum": [
+              "confirmed",
+              "corrected"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

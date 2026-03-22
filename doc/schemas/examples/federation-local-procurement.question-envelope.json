@@ -1,0 +1,27 @@
+{
+  "schema/v": 1,
+  "question/id": "question:01K0FEDPROC1",
+  "created-at": "2026-03-22T18:10:00Z",
+  "sender/node-id": "node:pl-wro-full-7f3c",
+  "sender/federation-id": "fed:orbiplex-pl",
+  "ttl-sec": 1800,
+  "question/text": "How should we rotate a federation trust root without partitioning older nodes?",
+  "question/tags": ["trust", "rotation", "federation"],
+  "question/urgency": "normal",
+  "delivery/scope": "federation-local",
+  "delivery/response-channel-id": "question:01K0FEDPROC1",
+  "follow-ups/allowed": true,
+  "request/exposure-mode": "federation-local",
+  "room-policy/profile": "mediated-only",
+  "responder/min-reputation": 0.72,
+  "models/require": ["model:gpt-5"],
+  "languages": ["en", "pl"],
+  "reward/mode": "procurement",
+  "procurement/max-price-amount": 1500,
+  "procurement/price-currency": "PLN",
+  "procurement/max-wait-sec": 3600,
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:MEUCIFexample"
+  }
+}

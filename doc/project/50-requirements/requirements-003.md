@@ -1,138 +1,177 @@
-# Requirements 003: Remote Memory Preservation via Memory Nodes
+# Requirements 003: Remote Memory Preservation, Archivists, and Vault Publication
 
-Based on: `doc/project/30-stories/story-003.md`  
-Date: `2026-02-22`  
+Based on:
+- `doc/project/30-stories/story-003.md`
+- `doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md`
+- `doc/project/40-proposals/009-communication-exposure-modes.md`
+- `doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`
+- `doc/project/50-requirements/requirements-004.md`
+- `doc/project/50-requirements/requirements-005.md`
+
+Date: `2026-03-22`
 Status: Draft (MVP scope)
 
 ## Executive Summary
 
-This document defines MVP requirements for preserving knowledge artifacts beyond a node runtime lifetime by using remote memory nodes in a federated network.
+This document defines MVP requirements for preserving valuable knowledge artifacts
+beyond the lifetime of a single node runtime by using explicit archivist and vault
+flows instead of an underspecified `memory node` concept.
 
 The requirements prioritize:
-- explicit storage offer/selection contracts,
-- privacy-aware storage flows (`public` vs `private`),
-- verifiable storage confirmation and retrieval validation,
-- durable provenance for later retrieval and settlement.
+- explicit publication scope (`private-retained`, `federation-vault`,
+  `public-vault`),
+- fail-closed archival export rules,
+- provenance-rich storage contracts and confirmations,
+- integrity-preserving retrieval,
+- clear separation between durable storage, publication, and later training
+  eligibility.
 
 ## Context and Problem Statement
 
-A node may need durable memory that outlives its own process, host, or lifecycle. In a federated environment, this requires:
-- discovery of storage providers,
-- negotiation of retention and pricing terms,
-- secure transfer and confirmation of stored artifacts,
-- reliable retrieval paths over time.
+`story-003.md` no longer models remote memory as a public storage request on a
+knowledge-classification channel followed by opaque transfer to a provider.
 
-The key challenge is to make this operationally simple while preserving privacy, auditability, and interoperability.
+The current corpus assumes:
+
+- archivists and vaults as explicit roles and preservation targets,
+- curator-gated or policy-gated promotion before broader publication,
+- transcript bundles and other knowledge artifacts that preserve provenance,
+  redaction state, and integrity metadata,
+- publication scope that may remain private, federation-bounded, or public,
+- storage/procurement terms that may exist but do not force a crypto-native
+  settlement model.
+
+The system therefore needs an operational contract for taking a valuable artifact and
+making it durably retrievable without flattening policy, provenance, or later
+publication semantics.
 
 ## Proposed Model / Decision
 
 ### Actors and Boundaries
 
-- `Node A` (requesting node): requests remote storage and retrieves stored knowledge later.
-- `Node B` (memory provider): offers storage capacity and retention terms, stores and serves memory objects.
-- `Arbiter` (optional): validates contractual behavior when payment/settlement requires it.
-- `Local Orchestrator`: manages offer selection, transfer, tracking identifiers, and retrieval workflows.
+- `Preserving Node`: wants an artifact to outlive its current runtime or host.
+- `Secretary / Curator`: verifies whether the artifact is eligible for archival export
+  and may redact or quarantine it.
+- `Archivist Node`: receives eligible artifacts, stores them durably, and exposes
+  retrieval capability within the allowed scope.
+- `Vault`: the durable publication surface for accepted retained or published
+  artifacts.
+- `Local Orchestrator`: prepares archival packages, selects archivists, tracks
+  confirmations, and later retrieves material.
+- `Settlement / Procurement Layer` (optional): negotiates retention or payment terms
+  when storage is not free.
+
+### Preservation States
+
+Artifacts SHOULD move through explicit states such as:
+
+1. `locally-retained`
+2. `export-eligible`
+3. `curator-accepted` or `quarantined`
+4. `archived-private`
+5. `archived-federation`
+6. `archived-public`
+
+Promotion between these states MUST be explicit and traceable.
 
 ### Core Data Contracts (normative)
 
-- `StorageRequest`:
-  - `request_id`, `required_capacity`, `subject`, `visibility_mode` (`public|private`), optional `preferred_retention`.
-- `StorageOffer`:
-  - `offer_id`, `node_id`, `price`, optional `max_storage_duration`, optional `max_idle_ttl`, `privacy_terms`.
-- `MemoryObject`:
-  - `metadata`, `payload_base64`, optional `encryption_metadata`, `content_hash`.
-- `StorageConfirmation`:
-  - `knowledge_ids`, `provider_node_id`, `stored_at`, optional `expires_at`, `validation_mode`.
-- `RetrievalRequest`:
-  - `knowledge_id`, `requester_node_id`, optional `proof_context`.
-- `RetrievalResponse`:
-  - `knowledge_id`, `metadata`, `payload_base64`, optional `integrity_proof`.
-
-### Concrete Scenario (MVP happy path)
-
-1. Node A publishes a `StorageRequest` in a thematic channel.
-2. Multiple nodes return `StorageOffer` objects.
-3. Node A selects Node B and moves to a private execution channel.
-4. Node A transfers `MemoryObject`; Node B stores it and returns `StorageConfirmation`.
-5. Node A records identifiers and later retrieves the artifact directly (or via distributed/public channel when applicable).
+- `KnowledgeArtifact` or source artifact:
+  - accepted summary, transcript bundle, corpus candidate, or another provenance-rich
+    knowledge object.
+- `TranscriptBundle`:
+  - transcript-specific durable source package where relevant.
+- `ArchivalPackage` (not yet frozen as schema):
+  - artifact id, provenance refs, publication scope, redaction status, integrity
+    proof, retention hints.
+- `ArchivistAdvertisement` (not yet frozen as schema):
+  - willingness to accept bounded classes of artifacts under declared scope and
+    retention policy.
+- `StorageOffer` / `ProcurementOffer`:
+  - optional retention, price, access, and replication terms when archival storage is
+    negotiated.
+- `StorageConfirmation` / `ProcurementReceipt`:
+  - stable retrieval identifiers and accepted storage terms.
+- `RetrievalRequest` / `RetrievalResponse` (not yet frozen as schema):
+  - later scope-aware retrieval contract.
 
 ## Functional Requirements
 
 | ID | Requirement | Type | Source |
 |---|---|---|---|
-| FR-001 | The system MUST allow Node A to initiate remote memory preservation for artifacts that should outlive local runtime. | Fact | Story step 1 |
-| FR-002 | The system MUST support joining thematic discovery channels to advertise storage requests. | Fact | Story step 2 |
-| FR-003 | Storage requests MUST include required capacity, short subject description, and visibility mode (`public` or `private`). | Fact | Story step 3 |
-| FR-004 | The system MUST ingest multiple storage offers from peer nodes. | Fact | Story step 4 |
-| FR-005 | Offers MAY include paid terms and MUST support private-storage constraints for non-public artifacts. | Fact | Story step 4 |
-| FR-006 | Offers SHOULD support optional retention constraints: maximum storage duration and maximum idle TTL. | Fact | Story step 5 |
-| FR-007 | Node A MUST be able to select one offer for execution. | Fact | Story step 6 |
-| FR-008 | Execution between Node A and Node B MUST occur in a private channel. | Fact | Story step 7 |
-| FR-009 | If payment applies, arbitration flow MUST be compatible with `story-001.md` settlement behavior. | Fact | Story step 8 |
-| FR-010 | Memory transfer MUST support JSON with metadata plus Base64 payload. | Fact | Story step 9 |
-| FR-011 | Node B MUST confirm successful storage and provide validation retrieval access for Node A and arbiters when present. | Fact | Story step 10 |
-| FR-012 | Node A MUST persist returned knowledge identifier(s) and provider node identifier for later access. | Fact | Story step 11 |
-| FR-013 | Retrieval MUST support direct Node A -> Node B requests and public/distributed retrieval path when memory is distributed/public. | Fact | Story step 12 |
-| FR-014 | For private memory, retrieval access MUST be restricted to authorized parties according to privacy terms. | Inference | Story steps 3-4, 12 |
-| FR-015 | The system MUST retain provenance linking request, offer, stored artifact, and retrieval events. | Inference | Story steps 9-12 |
+| FR-001 | The system MUST support preserving valuable knowledge artifacts beyond the lifetime of the originating runtime instance. | Fact | Story step 1 |
+| FR-002 | Before export, the system MUST classify intended preservation scope as `private-retained`, `federation-vault`, or `public-vault`. | Fact | Story step 2 |
+| FR-003 | If the artifact originates from a live room, archival export MUST be blocked unless room policy, exposure mode, and consent or policy basis allow it. | Fact | Story step 3 |
+| FR-004 | Ambiguous archival basis MUST fail closed to local retention or quarantine. | Fact | Story step 3 |
+| FR-005 | The system MUST prepare a durable archival package containing artifact identity, provenance refs, publication scope, redaction status, integrity metadata, and retention hints where relevant. | Fact | Story step 4 |
+| FR-006 | The system MUST support curator-gated review where artifacts may be accepted, accepted-redacted, quarantined, or rejected for publication. | Fact | Story step 5 |
+| FR-007 | The system MUST support selecting an archivist or vault target according to federation policy and artifact scope. | Fact | Story step 6 |
+| FR-008 | The system MAY use explicit storage or procurement terms when retention, replication, or cost constraints require negotiation. | Fact | Story steps 6-7 |
+| FR-009 | Negotiated archival terms SHOULD support maximum duration, idle TTL, replication level, and publication timing profile. | Fact | Story step 7 |
+| FR-010 | Transfer of private or federation-bounded artifacts MUST occur over an execution path appropriate to the artifact sensitivity and scope. | Fact | Story step 8 |
+| FR-011 | The archivist MUST validate integrity metadata and return stable retrieval identifiers and scope metadata on successful storage. | Fact | Story step 9 |
+| FR-012 | The preserving node MUST record archival result provenance including archivist identity, publication scope, retention policy, and optional contract or receipt references. | Fact | Story step 10 |
+| FR-013 | Retrieval capability MUST respect stored scope: retained, federation-bounded, and public artifacts MUST NOT be treated as equivalent discovery surfaces. | Fact | Story steps 11-12 |
+| FR-014 | Promotion from one publication scope to another MUST be an explicit later transition, not an automatic side effect of storage. | Fact | Story step 11 |
+| FR-015 | Durable storage MUST NOT by itself imply training eligibility for the stored material. | Fact | Story step 13 |
+| FR-016 | Later curation, synthesis, or training layers MUST consume archived material through provenance-carrying contracts rather than opaque blob fetches. | Fact | Story step 13 |
 
 ## Non-Functional Requirements
 
 | ID | Requirement | Type | Source |
 |---|---|---|---|
-| NFR-001 | Storage and retrieval contracts MUST be explicit and versioned for interoperability across heterogeneous nodes. | Inference | Core intent: interoperability |
-| NFR-002 | Private memory flow MUST prevent unauthorized payload disclosure in public channels. | Fact | Story steps 3-4, 7 |
-| NFR-003 | Stored artifact integrity SHOULD be verifiable via stable content hash and retrieval validation flow. | Inference | Story steps 9-10 |
-| NFR-004 | Retrieval metadata MUST be auditable (who stored, where, when, and under which terms). | Inference | Story steps 10-11 |
-| NFR-005 | Offer selection SHOULD be deterministic for identical offer sets under identical policy configuration. | Inference | Story step 6 |
-| NFR-006 | Expiration and idle-TTL behavior SHOULD be policy-driven and explicit to avoid silent data loss. | Inference | Story step 5 |
-| NFR-007 | The system SHOULD degrade gracefully if selected storage provider becomes unreachable (clear error + alternative retrieval path where possible). | Inference | Story step 12 |
+| NFR-001 | Archival and retrieval contracts MUST be explicit and versionable for interoperable federated implementations. | Inference | Interoperability |
+| NFR-002 | The system MUST preserve provenance, redaction state, and integrity semantics across archival export and retrieval. | Inference | Story steps 4, 9-13 |
+| NFR-003 | Scope and consent uncertainty MUST fail closed rather than widen publication implicitly. | Inference | Story step 3 |
+| NFR-004 | Retrieval identifiers and integrity proofs SHOULD be stable enough for later audit, replay, and verification. | Inference | Story steps 9-12 |
+| NFR-005 | Storage terms SHOULD remain settlement-neutral so the archival subsystem does not require crypto-specific payment semantics. | Inference | Story step 7 + Proposal 011 |
+| NFR-006 | High-value artifact storage SHOULD support explicit replication and failover policy rather than assume a single durable archivist. | Inference | Story step 7 |
+| NFR-007 | Publication timing and broader vault promotion SHOULD remain independently configurable from mere storage success. | Inference | Story steps 7, 11 |
 
 ## Trade-offs
 
-1. Durability vs cost:
-   - longer retention and replication improve availability,
-   - but increase storage and settlement cost.
-2. Privacy vs operability:
-   - stronger privacy controls protect sensitive memory,
-   - but can reduce retrieval flexibility in federated channels.
-3. Simple payload format vs efficiency:
-   - JSON + Base64 improves interoperability and debugging,
-   - but adds payload overhead versus binary-native transport.
-4. Single-provider simplicity vs resilience:
-   - one provider is easier to coordinate,
-   - but raises availability risk if provider disappears.
-5. Flexible retention terms vs predictability:
-   - customizable TTL and duration fit diverse use cases,
-   - but increase policy and user-comprehension complexity.
+1. Explicit archivist/vault roles vs simpler "just store it somewhere":
+   - Benefit: clearer provenance, policy, and publication semantics.
+   - Risk: more contracts and operational steps.
+2. Fail-closed archival export vs convenience:
+   - Benefit: lower privacy and dignity risk.
+   - Risk: some artifacts remain stranded locally until policy is clarified.
+3. Rich archival package vs minimal blob storage:
+   - Benefit: later audit, retrieval, and curation stay tractable.
+   - Risk: more metadata discipline is required.
+4. Settlement-neutral storage terms vs one concrete payment rail:
+   - Benefit: avoids overcommitting the protocol core to one regulatory or technical model.
+   - Risk: external settlement integration remains underspecified in MVP.
+5. Explicit publication scopes vs one generic memory pool:
+   - Benefit: predictable disclosure semantics.
+   - Risk: more state transitions and client UX complexity.
 
 ## Failure Modes and Mitigations
 
 | Failure Mode | Impact | Mitigation |
 |---|---|---|
-| Provider confirms storage but cannot later retrieve | Data durability failure | Require validation retrieval after confirmation and periodic health checks for high-value artifacts. |
-| Private memory leaked through misrouted channel | Confidentiality breach | Enforce channel-type checks and private-mode policy gating before payload transmission. |
-| Missing/invalid knowledge identifiers | Artifact cannot be located | Make confirmation schema mandatory and reject incomplete confirmations. |
-| Offer omits retention constraints | Unexpected expiration semantics | Apply explicit defaults and surface them before offer acceptance. |
-| Provider disappears after selection | Retrieval outage | Support fallback request path and optional multi-provider replication policy. |
-| Payload corruption at rest or in transit | Incorrect retrieval content | Require content hash verification on store and retrieval operations. |
-| Arbitration mismatch with payment flow | Settlement disputes | Reuse `story-001` contract criteria and receipt model for paid storage interactions. |
+| Artifact exported without valid archival basis | Privacy or governance breach | Fail closed and require curator or policy review before export. |
+| Stored artifact loses provenance or redaction semantics | Later misuse or invalid publication | Reject archival package when mandatory metadata is incomplete. |
+| Archivist accepts artifact but returns unstable or unusable identifiers | Retrieval failure | Make storage confirmation contract mandatory and validated. |
+| Public promotion happens implicitly after private retention | Scope breach | Keep promotion as a separate explicit state transition with trace. |
+| Single archivist disappears | Loss of availability | Define replication or fallback retrieval policy for high-value artifacts. |
+| Stored artifact is later treated as training-safe by default | Unsafe model contamination | Keep training eligibility outside archival success and require later approval. |
+| Payment or retention terms leak into protocol core assumptions | Architecture lock-in and regulatory drag | Keep settlement rail neutral and external to core archival semantics. |
 
 ## Open Questions
 
-1. Should high-value memory support mandatory multi-provider replication in MVP, or only optional replication?
-2. What is the canonical integrity proof format (simple hash, signed hash, or merkle-based proof)?
-3. Should idle TTL refresh on any retrieval, or only on successful paid retrieval?
-4. For private memory, what key-management model is primary (provider-sees-ciphertext only vs shared decryption roles)?
-5. What retrieval timeout and retry policy should be standard before failover behavior triggers?
-6. Should public/distributed retrieval require provenance score thresholds before accepting returned content?
+1. What exact v1 schema set should freeze `ArchivalPackage`, `ArchivistAdvertisement`, and retrieval contracts?
+2. Which artifact classes require curator review before `federation-vault` or `public-vault` promotion?
+3. What minimum integrity proof should archivists return in MVP?
+4. When should high-value artifacts require multi-archivist replication by default?
+5. Should transcript bundles and generic knowledge artifacts share one archival package contract or separate specializations?
+6. What federation-level approval, if any, should be required before `public-vault` promotion of sensitive-but-redacted material?
 
 ## Next Actions
 
-1. Define v1 schemas for `StorageRequest`, `StorageOffer`, `MemoryObject`, `StorageConfirmation`, `RetrievalRequest`, and `RetrievalResponse`.
-2. Define selection policy for storage offers (cost, retention, privacy terms, reliability, and deterministic tie-break rules).
-3. Define private-memory key and access policy, including retrieval authorization checks.
-4. Define retention semantics (`max_storage_duration`, `max_idle_ttl`) and default values when omitted.
-5. Implement end-to-end test: request -> offers -> private transfer -> confirmation -> validation retrieval -> later retrieval.
-6. Add integrity verification tests for content hash roundtrip and corrupted payload detection.
-7. Add outage scenarios for provider unavailability and validate fallback behavior.
+1. Define v1 schema for `ArchivalPackage`.
+2. Define v1 schema for `ArchivistAdvertisement` and retrieval contracts.
+3. Align archival confirmations with existing procurement contract and receipt semantics where paid retention applies.
+4. Define replication and failover policy for high-value artifacts.
+5. Add end-to-end test: eligible artifact -> curator gate -> archivist transfer -> storage confirmation -> later retrieval.
+6. Add negative test: ambiguous archival basis MUST block export and keep artifact local or quarantined.
