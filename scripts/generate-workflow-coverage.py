@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Iterable
 
-ROOT = Path('/Users/siefca/kody/FREE/AI/orbiplex/orbidocs')
+ROOT = Path(__file__).resolve().parents[1]
 DOC = ROOT / 'doc'
 OUTPUT = DOC / 'COVERAGE.md'
 
