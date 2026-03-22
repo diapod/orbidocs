@@ -27,7 +27,7 @@ PDF_SOURCE_PATTERNS ?= \
 PDF_SOURCES := $(sort $(foreach pattern,$(PDF_SOURCE_PATTERNS),$(wildcard $(pattern))))
 PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/%.pdf,$(PDF_SOURCES))
 
-.PHONY: check-json-syntax validate-schemas output output-list output-clean output-one schema-docs coverage-docs docs-gen site-docs i18n-docs html html-serve html-i18n html-i18n-serve
+.PHONY: check-json-syntax validate-schemas output output-list output-clean output-one schema-docs coverage-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
 
 check-json-syntax:
 	./scripts/validate-json-schemas.sh --syntax-only
@@ -49,14 +49,18 @@ site-docs: docs-gen
 i18n-docs: docs-gen
 	$(PYTHON) ./scripts/build-i18n-docs.py
 
-html: site-docs
+html: html-dev
+
+html-dev: site-docs
 	@command -v "$(MKDOCS)" >/dev/null 2>&1 || { \
 		echo "Missing mkdocs. Install mkdocs and mkdocs-material to build HTML." >&2; \
 		exit 1; \
 	}
 	$(MKDOCS) build -f mkdocs.yml
 
-html-serve: site-docs
+html-serve: html-dev-serve
+
+html-dev-serve: site-docs
 	@command -v "$(MKDOCS)" >/dev/null 2>&1 || { \
 		echo "Missing mkdocs. Install mkdocs and mkdocs-material to serve HTML." >&2; \
 		exit 1; \

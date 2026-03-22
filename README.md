@@ -62,8 +62,12 @@ social rules, it should be promoted into `doc/normative/40-constitution/` or
 - `Makefile` – schema validation, schema doc generation, PDF rendering, and HTML builds.
 - `mkdocs.yml` – single-site HTML build config.
 - `mkdocs.i18n.yml` – multilingual MkDocs config.
+- `.github/workflows/orbidocs-pages.yml` – GitHub Pages build/deploy workflow for the `public` branch.
+- `requirements-docs.txt` – Python dependencies for schema validation and MkDocs builds in CI.
 - `scripts/validate-json-schemas.sh` – schema/example validator wrapper.
 - `scripts/generate-schema-docs.py` – generator for human-facing schema pages.
+- `scripts/generate-workflow-coverage.py` – generator for workflow coverage overview.
+- `scripts/build-site-docs.py` – staging-tree normalizer for the developer HTML build.
 - `scripts/build-i18n-docs.py` – staging-tree normalizer for multilingual HTML builds.
 
 ## Schemas
@@ -112,10 +116,10 @@ make schema-docs
 make i18n-docs
 ```
 
-### Build single HTML site
+### Build developer HTML site
 
 ```sh
-make html
+make html-dev
 ```
 
 ### Build multilingual HTML site
@@ -124,11 +128,50 @@ make html
 make html-i18n
 ```
 
+### Compatibility alias
+
+```sh
+make html
+```
+
+`html` remains as a compatibility alias for `html-dev`. The canonical user-facing
+site is `html-i18n`.
+
+## GitHub Pages
+
+The repository includes a GitHub Actions workflow that:
+
+- triggers on pushes to the `public` branch,
+- validates schemas,
+- regenerates schema docs,
+- builds the multilingual site with `make html-i18n`,
+- deploys `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/output/html-i18n` to GitHub Pages.
+
+For the custom domain:
+
+- set **Pages -> Source** to `GitHub Actions`,
+- set **Pages -> Custom domain** to `docs.orbiplex.ai`,
+- create a DNS `CNAME` record:
+  - `docs.orbiplex.ai -> diapod.github.io`
+- verify the parent domain `orbiplex.ai` in GitHub to reduce takeover risk.
+
 ### Build PDF artifacts
 
 ```sh
 make output
 ```
+
+## Outputs
+
+- `make html-dev`
+  - developer single-site build
+  - output: `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/output/html`
+- `make html-i18n`
+  - canonical multilingual build
+  - output: `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/output/html-i18n`
+- `make output`
+  - PDF artifact build
+  - output: `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/output/pdf`
 
 ## Traceability Summary
 
