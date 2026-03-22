@@ -1,5 +1,9 @@
 # Orbiplex Swarm Vision
 
+<p align="center">
+  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiples Logo" width="240">
+</p>
+
 ## Sovereignty of Intelligence and Knowledge
 
 This document describes a swarm of free artificial-intelligence models - an
