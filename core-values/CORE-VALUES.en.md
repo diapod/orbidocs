@@ -1,4 +1,8 @@
-# CORE VALUES - Distributed Intelligence Agency / Orbiplex
+# DIA / Orbiplex Core Values
+
+<p align="center">
+  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiples Logo" width="240">
+</p>
 
 The values below are designed as an **ethical constitutional core** for the project
 of a distributed system of interconnected AI agents (DIA) and its technical layer
@@ -157,184 +161,6 @@ social signals and precisely illuminate the sources of problems – both system
 individual. This synthesis must separate facts from interpretation, disclose
 uncertainty levels, and map concrete lawful options for action together with their
 costs, risks, and reversibility of outcomes.
-
-## System Architecture and Craft
-
-### Craft Over Fireworks
-
-We prefer solutions that are simple, readable, and resilient, even if they are not
-the most spectacular in the short term. Craft here means minimal, well-named
-abstractions; no magical shortcuts; data contracts; testability; and ability to
-diagnose after months. This should be a system that ages with dignity - not a demo
-that shines only until reality touches it.
-
-### Simplicity as Non-Entanglement
-
-In DIA, simplicity is structural: one responsibility, explicit boundaries, low coupling.
-We reject *complecting* layers and hidden communication channels because they raise
-cognitive cost and error risk.
-
-Below is a working mapping of common entangling constructs and simpler alternatives
-(in the spirit of Rich Hickey's distinctions):
-
-| Entangling construct | What does it complect? | Simpler alternative |
-| :--- | :--- | :--- |
-| **State** | **value** and **time** | **values** (preferably immutable) |
-| **Object** | **state**, **identity**, and **value** | **values** |
-| **Methods** | **function** and **state** (often namespace too) | independent **functions** and **namespaces** |
-| **Variables** | **value** and **time** | **References** with access control and **values** |
-| **Inheritance** | **data type** and **implementation** | **ad-hoc polymorphism** (protocols, type classes, extensible interfaces) |
-| **`switch`** / *pattern matching* | "**who** executes" and "**what** executes" | **open systems** + **ad-hoc polymorphism** |
-| **Imperative syntax** | **meaning** and **execution order** | **data** (e.g., maps, sets) |
-| **Loops** | "**what** to do" and "**how** to do it" | declarative **collection operations** |
-| **Actors** | "**what** to execute" and "**who** executes it" | **queues** and explicit work routing |
-| **`if` / `else`** | **business logic** and **program shape** | external **rule systems** / decision tables |
-
-### Legibility Over Apparent Ease
-
-"Easy now" often means "expensive later." DIA chooses legibility: systems should be
-designed so people can reason about them and predict change impact. Tests are required,
-but they do not replace understanding.
-
-### Contract-Based Engineering
-
-In Orbiplex, the contract is what matters: input/output, semantics, *done* criteria,
-execution constraints, error classes, and *retry-ability*. The contract is more
-important than the best model or the cleverest agent. This value leads to an
-architecture in which components are autonomous, and integration does not become a
-secret religion based on guesswork.
-
-### Minimal Trusted Core, Everything Else as Modules
-
-The protocol core should be small, auditable, and stable; innovation should live in
-modules and extensions. This protects against system bloat and against silently
-growing complexity. In practice this means thin behavior interfaces, edge validation
-instead of central validation, and conscious design of extension points.
-
-### Abstraction as Separation of "What" from "How"
-
-DIA separates declarative "what" from implementation "how" so layers can evolve
-independently. Abstractions should be thin, readable, and contract-driven.
-
-### Stratification as Layered Design
-
-DIA treats stratification as a craft foundation: each layer operates on its own
-concepts, has its own correctness criteria, and communicates through thin, explicit,
-and stable interfaces. Base concretes are used to build abstractions, and those
-abstractions become new concretes for subsequent layers.
-
-Layer boundaries are non-negotiable: declarative "what" must not leak implementation
-"how," and incidental implementation properties must not become domain semantics. We
-realize this through function composition, higher-order functions, and ad-hoc
-polymorphism (protocols, multimethods), so the system grows by adding layers rather
-than exceptions.
-
-Stratification is our antidote to entanglement: lower-level mechanism changes propagate
-through abstractions without rewriting many places at once. In practice, design starts
-from data and boundary contracts, and debugging starts by locating the layer where the
-defect originated.
-
-### Polymorphic Operations Instead of Static Assignments
-
-We prefer small behavior interfaces and composition over heavy hierarchies. The system
-should grow by adding behavior, not by rebuilding dependency trees.
-
-### Data as a Common Language, Logic at the Edges
-
-Domain semantics should be visible in data, not hidden in invocation mechanics. We
-prefer portable structures and formats, and we enforce validation/contracts at system
-edges.
-
-### Open Models and Contextual Selection
-
-Data models should tolerate information surplus and separate schema from contextual
-selection. Optionality is local, allowing federations and teams to evolve
-asynchronously without forced global synchronization.
-
-### Values Over State, Facts Over Overwrite
-
-DIA prefers fact/event records over trace-less state overwrite. Change time and history
-must stay explicit to support audit, "as of" questions, and causal analysis.
-
-### Immutability as a Condition for Sharing and Debugging
-
-Immutability is an architectural tool: it enables safe sharing and reproducible
-debugging. Mutation points must be explicitly isolated and contract-governed.
-
-### Modeling as Flow, Not Object Mutation
-
-We model systems as flows of transformation, routing, and fact writes, not in-place
-mutation. This decouples producers from consumers and simplifies transition contracts.
-
-### Separation of Writes and Reads with an Explicit Time Axis
-
-DIA separates write paths from read paths: write builds history, read composes views.
-An explicit time axis is required for "as of" queries, audit, and decision
-reconstruction.
-
-### Systems Are Distributed, Asynchronous, and Partially Failing
-
-DIA designs for distributed reality: timeouts, retries, idempotency, degradation, and
-partial failures. Stability must come from resilience architecture, not hope.
-
-### Protocol Implementations Agnostic to Platform
-
-DIA treats the protocol as a semantic contract independent of operating system, CPU
-architecture, accelerator type, and hardware class. A node should be able to run on
-laptops, servers, SBCs, phones, and edge infrastructure, as long as it satisfies an
-explicit minimal contract for security and interoperability. Transport, data-format,
-and cryptography specifications must not assume a single runtime or vendor; a
-reference implementation does not define a monopoly.
-
-In practice this means cross-implementation conformance tests, hardware capability
-profiles, and function degradation instead of exclusion: a weaker node may handle a
-subset of roles, while remaining a full federation participant.
-
-### Tools as an Extension of the Hand
-
-DIA should be a tool that extends human and team agency: it enables action,
-observation, repair, and growth without asking a platform for permission. That is why
-we start from a minimal, stable core (protocols, identity, security, action traces),
-and build a toolset on top: CLI, SDK, debug tooling, simulators, observability. UX
-for non-technical people should arrive as a secondary layer once the foundation is
-solid and guarantees value preservation.
-
-Core as a small, formally described contract: communication, identity, reputation,
-PFS/TLS, audit. Tools as plugins/adapters (transports, storage, models, UI),
-replaceable without lock-in. Every UX feature must have a "real API" (no magical
-exceptions only for UI). Tools must not hide risk: UI shows trust mode
-(CORP_COMPLIANT vs RELAXED etc.).
-
-### Neutral Data Territory and API as the First Artifact
-
-Integration should rely on neutral data territory and open APIs, not hidden
-implementation coupling. API is the first architectural artifact; UI and CLI are
-secondary layers.
-
-Where feasible and appropriate for the use case, we prefer HATEOAS: hypermedia should
-guide the client through allowed state transitions and operations, instead of requiring
-hard-coded flow knowledge.
-
-### Transparency of Agent Operation
-
-The user should be able to understand why an agent performed a given action, on which
-data, under which rules version, and at what cost. We prefer action traces that are
-readable and exportable, instead of a black box. Transparency should not mean dumping
-prompts and secrets, but providing a reasonable "causality ledger."
-
-### Responsible Autonomy: Agents Have Boundaries
-
-Agent autonomy is a tool, not an ideology. An agent should have clearly defined
-permissions, budgets, time limits, operation scope, and stop mechanisms
-(kill-switches), as well as safe modes for corporate environments. Orbiplex must be
-able to operate under compliance regimes without degenerating into a useless product.
-
-### Aesthetics of Simplicity and Clarity
-
-Clarity has an ethical function: it reduces errors, lowers the entry barrier, and
-makes auditing easier. We prefer simple names, simple flows, and formats that carry
-meaning and do not hide complexity in places where that complexity has consequences.
-Aesthetics is a tool of truth here.
 
 ## Security, Trust, and Governance
 
@@ -1323,3 +1149,182 @@ quarantine, up to routing cutoff - always with a decision log, appeal possibilit
 a return path after remediation. Each federation may tighten these rules in
 "CORP_COMPLIANT", but may not weaken fundamental rights nor bypass dignity and safety
 as the non-negotiable layer.
+
+## System Architecture and Craft
+
+### Craft Over Fireworks
+
+We prefer solutions that are simple, readable, and resilient, even if they are not
+the most spectacular in the short term. Craft here means minimal, well-named
+abstractions; no magical shortcuts; data contracts; testability; and ability to
+diagnose after months. This should be a system that ages with dignity - not a demo
+that shines only until reality touches it.
+
+### Simplicity as Non-Entanglement
+
+In DIA, simplicity is structural: one responsibility, explicit boundaries, low coupling.
+We reject *complecting* layers and hidden communication channels because they raise
+cognitive cost and error risk.
+
+Below is a working mapping of common entangling constructs and simpler alternatives
+(in the spirit of Rich Hickey's distinctions):
+
+| Entangling construct | What does it complect? | Simpler alternative |
+| :--- | :--- | :--- |
+| **State** | **value** and **time** | **values** (preferably immutable) |
+| **Object** | **state**, **identity**, and **value** | **values** |
+| **Methods** | **function** and **state** (often namespace too) | independent **functions** and **namespaces** |
+| **Variables** | **value** and **time** | **References** with access control and **values** |
+| **Inheritance** | **data type** and **implementation** | **ad-hoc polymorphism** (protocols, type classes, extensible interfaces) |
+| **`switch`** / *pattern matching* | "**who** executes" and "**what** executes" | **open systems** + **ad-hoc polymorphism** |
+| **Imperative syntax** | **meaning** and **execution order** | **data** (e.g., maps, sets) |
+| **Loops** | "**what** to do" and "**how** to do it" | declarative **collection operations** |
+| **Actors** | "**what** to execute" and "**who** executes it" | **queues** and explicit work routing |
+| **`if` / `else`** | **business logic** and **program shape** | external **rule systems** / decision tables |
+
+### Legibility Over Apparent Ease
+
+"Easy now" often means "expensive later." DIA chooses legibility: systems should be
+designed so people can reason about them and predict change impact. Tests are required,
+but they do not replace understanding.
+
+### Contract-Based Engineering
+
+In Orbiplex, the contract is what matters: input/output, semantics, *done* criteria,
+execution constraints, error classes, and *retry-ability*. The contract is more
+important than the best model or the cleverest agent. This value leads to an
+architecture in which components are autonomous, and integration does not become a
+secret religion based on guesswork.
+
+### Minimal Trusted Core, Everything Else as Modules
+
+The protocol core should be small, auditable, and stable; innovation should live in
+modules and extensions. This protects against system bloat and against silently
+growing complexity. In practice this means thin behavior interfaces, edge validation
+instead of central validation, and conscious design of extension points.
+
+### Abstraction as Separation of "What" from "How"
+
+DIA separates declarative "what" from implementation "how" so layers can evolve
+independently. Abstractions should be thin, readable, and contract-driven.
+
+### Stratification as Layered Design
+
+DIA treats stratification as a craft foundation: each layer operates on its own
+concepts, has its own correctness criteria, and communicates through thin, explicit,
+and stable interfaces. Base concretes are used to build abstractions, and those
+abstractions become new concretes for subsequent layers.
+
+Layer boundaries are non-negotiable: declarative "what" must not leak implementation
+"how," and incidental implementation properties must not become domain semantics. We
+realize this through function composition, higher-order functions, and ad-hoc
+polymorphism (protocols, multimethods), so the system grows by adding layers rather
+than exceptions.
+
+Stratification is our antidote to entanglement: lower-level mechanism changes propagate
+through abstractions without rewriting many places at once. In practice, design starts
+from data and boundary contracts, and debugging starts by locating the layer where the
+defect originated.
+
+### Polymorphic Operations Instead of Static Assignments
+
+We prefer small behavior interfaces and composition over heavy hierarchies. The system
+should grow by adding behavior, not by rebuilding dependency trees.
+
+### Data as a Common Language, Logic at the Edges
+
+Domain semantics should be visible in data, not hidden in invocation mechanics. We
+prefer portable structures and formats, and we enforce validation/contracts at system
+edges.
+
+### Open Models and Contextual Selection
+
+Data models should tolerate information surplus and separate schema from contextual
+selection. Optionality is local, allowing federations and teams to evolve
+asynchronously without forced global synchronization.
+
+### Values Over State, Facts Over Overwrite
+
+DIA prefers fact/event records over trace-less state overwrite. Change time and history
+must stay explicit to support audit, "as of" questions, and causal analysis.
+
+### Immutability as a Condition for Sharing and Debugging
+
+Immutability is an architectural tool: it enables safe sharing and reproducible
+debugging. Mutation points must be explicitly isolated and contract-governed.
+
+### Modeling as Flow, Not Object Mutation
+
+We model systems as flows of transformation, routing, and fact writes, not in-place
+mutation. This decouples producers from consumers and simplifies transition contracts.
+
+### Separation of Writes and Reads with an Explicit Time Axis
+
+DIA separates write paths from read paths: write builds history, read composes views.
+An explicit time axis is required for "as of" queries, audit, and decision
+reconstruction.
+
+### Systems Are Distributed, Asynchronous, and Partially Failing
+
+DIA designs for distributed reality: timeouts, retries, idempotency, degradation, and
+partial failures. Stability must come from resilience architecture, not hope.
+
+### Protocol Implementations Agnostic to Platform
+
+DIA treats the protocol as a semantic contract independent of operating system, CPU
+architecture, accelerator type, and hardware class. A node should be able to run on
+laptops, servers, SBCs, phones, and edge infrastructure, as long as it satisfies an
+explicit minimal contract for security and interoperability. Transport, data-format,
+and cryptography specifications must not assume a single runtime or vendor; a
+reference implementation does not define a monopoly.
+
+In practice this means cross-implementation conformance tests, hardware capability
+profiles, and function degradation instead of exclusion: a weaker node may handle a
+subset of roles, while remaining a full federation participant.
+
+### Tools as an Extension of the Hand
+
+DIA should be a tool that extends human and team agency: it enables action,
+observation, repair, and growth without asking a platform for permission. That is why
+we start from a minimal, stable core (protocols, identity, security, action traces),
+and build a toolset on top: CLI, SDK, debug tooling, simulators, observability. UX
+for non-technical people should arrive as a secondary layer once the foundation is
+solid and guarantees value preservation.
+
+Core as a small, formally described contract: communication, identity, reputation,
+PFS/TLS, audit. Tools as plugins/adapters (transports, storage, models, UI),
+replaceable without lock-in. Every UX feature must have a "real API" (no magical
+exceptions only for UI). Tools must not hide risk: UI shows trust mode
+(CORP_COMPLIANT vs RELAXED etc.).
+
+### Neutral Data Territory and API as the First Artifact
+
+Integration should rely on neutral data territory and open APIs, not hidden
+implementation coupling. API is the first architectural artifact; UI and CLI are
+secondary layers.
+
+Where feasible and appropriate for the use case, we prefer HATEOAS: hypermedia should
+guide the client through allowed state transitions and operations, instead of requiring
+hard-coded flow knowledge.
+
+### Transparency of Agent Operation
+
+The user should be able to understand why an agent performed a given action, on which
+data, under which rules version, and at what cost. We prefer action traces that are
+readable and exportable, instead of a black box. Transparency should not mean dumping
+prompts and secrets, but providing a reasonable "causality ledger."
+
+### Responsible Autonomy: Agents Have Boundaries
+
+Agent autonomy is a tool, not an ideology. An agent should have clearly defined
+permissions, budgets, time limits, operation scope, and stop mechanisms
+(kill-switches), as well as safe modes for corporate environments. Orbiplex must be
+able to operate under compliance regimes without degenerating into a useless product.
+
+### Aesthetics of Simplicity and Clarity
+
+Clarity has an ethical function: it reduces errors, lowers the entry barrier, and
+makes auditing easier. We prefer simple names, simple flows, and formats that carry
+meaning and do not hide complexity in places where that complexity has consequences.
+Aesthetics is a tool of truth here.
+
