@@ -23,6 +23,16 @@ LOCALE_INDEX = {
 }
 
 
+def iter_source_files(root: Path):
+    seen: set[Path] = set()
+    for pattern in ("*", ".*"):
+        for path in root.rglob(pattern):
+            if path in seen:
+                continue
+            seen.add(path)
+            yield path
+
+
 def rewrite_markdown_links(text: str) -> str:
     text = re.sub(r"([A-Za-z0-9_./-]+)/(pl|en)/([^/]+)\.(pl|en)\.md\b", r"\1/\3.md", text)
     text = re.sub(r"([A-Za-z0-9_./-]+)\.(pl|en)\.md\b", r"\1.md", text)
@@ -98,7 +108,7 @@ def copy_root_markdown(locale: str) -> None:
 
 def copy_doc_tree(locale: str) -> None:
     locale_root = BUILD_DIR / locale
-    for source in sorted(SOURCE_DOC_DIR.rglob("*")):
+    for source in sorted(iter_source_files(SOURCE_DOC_DIR)):
         if source.is_dir() or source.name == ".DS_Store":
             continue
 

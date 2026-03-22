@@ -1,0 +1,60 @@
+{# Set to "rough" to enable the distressed line variant. #}
+{% set logo_variant = "rough" %}
+
+{% set logo_path %}
+  M 441 271
+  A 185 185 0 1 1 71 271
+  A 185 185 0 1 1 441 271
+
+  M 374 154
+  A 63 63 0 1 1 248 154
+  A 63 63 0 1 1 374 154
+
+  M 428 208
+  A 24 24 0 1 1 380 208
+  A 24 24 0 1 1 428 208
+{% endset %}
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="60 75 392 392"
+  data-md-component="logo"
+  aria-label="Orbiplex"
+>
+  {% if logo_variant == "rough" %}
+    <defs>
+      <filter
+        id="orbiplex-logo-rough"
+        x="-8%"
+        y="-8%"
+        width="116%"
+        height="116%"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.035"
+          numOctaves="2"
+          seed="7"
+          result="noise"
+        />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="noise"
+          scale="3"
+          xChannelSelector="R"
+          yChannelSelector="G"
+        />
+      </filter>
+    </defs>
+  {% endif %}
+
+  <path
+    d="{{ logo_path | trim }}"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="5.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    {% if logo_variant == "rough" %}filter="url(#orbiplex-logo-rough)"{% endif %}
+  />
+</svg>

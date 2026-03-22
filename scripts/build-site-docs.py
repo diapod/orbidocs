@@ -10,12 +10,23 @@ ROOT = Path(__file__).resolve().parents[1]
 BUILD_DIR = ROOT / "build" / "site-docs"
 SOURCE_DOC_DIR = ROOT / "doc"
 STYLES_DIR = ROOT / "styles"
-ROOT_MARKDOWN = (
+ROOT_FILES = (
     "AGENTS.md",
+    ".nav.yml",
 )
 EXCLUDED_DOCS = {
     Path("normative/10-ideas/COLLABORATION.md"),
 }
+
+
+def iter_source_files(root: Path):
+    seen: set[Path] = set()
+    for pattern in ("*", ".*"):
+        for path in root.rglob(pattern):
+            if path in seen:
+                continue
+            seen.add(path)
+            yield path
 
 
 def rewrite_asset_links(text: str) -> str:
@@ -37,17 +48,21 @@ def write_transformed_markdown(source: Path, target: Path) -> None:
     target.write_text(rewrite_asset_links(text), encoding="utf-8")
 
 
-def copy_root_markdown() -> None:
-    for rel in ROOT_MARKDOWN:
+def copy_root_files() -> None:
+    for rel in ROOT_FILES:
         source = ROOT / rel
         if not source.exists():
             continue
         target = BUILD_DIR / rel
-        write_transformed_markdown(source, target)
+        if source.suffix == ".md":
+            write_transformed_markdown(source, target)
+        else:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
 
 
 def copy_doc_tree() -> None:
-    for source in sorted(SOURCE_DOC_DIR.rglob("*")):
+    for source in sorted(iter_source_files(SOURCE_DOC_DIR)):
         if source.is_dir() or source.name == ".DS_Store":
             continue
 
@@ -71,7 +86,7 @@ def main() -> int:
     if BUILD_DIR.exists():
         shutil.rmtree(BUILD_DIR)
 
-    copy_root_markdown()
+    copy_root_files()
     copy_doc_tree()
     copy_styles()
     return 0

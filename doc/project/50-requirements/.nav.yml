@@ -1,0 +1,6 @@
+ignore:
+  - "*.pl.md"
+
+nav:
+  - "REQUIREMENTS*.md"
+  - "requirements-*.md"

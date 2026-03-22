@@ -6,6 +6,7 @@ site_dir: output/html-i18n
 
 theme:
   name: material
+  custom_dir: overrides
   language: en
   features:
     - navigation.sections
