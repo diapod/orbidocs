@@ -3,6 +3,10 @@
   "$id": "urn:orbiplex:schema:signal-marker:v1",
   "title": "SignalMarker v1",
   "description": "Machine-readable schema for visible signal markers that disclose whether a user-facing artifact preserves raw signal or presents a transformed variant.",
+  "x-dia-basis": [
+    "CONSTITUTION.pl.md",
+    "constitutional-ops/pl/RAW-SIGNAL-POLICY.pl.md"
+  ],
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -20,7 +24,8 @@
     },
     "marker_id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Stable identifier of this visible signal marker."
     },
     "applies_to_ref": {
       "type": "string",
@@ -34,7 +39,8 @@
         "structured",
         "transformed",
         "redacted"
-      ]
+      ],
+      "description": "User-visible signal mode presented at the interface boundary."
     },
     "actor": {
       "type": "string",
@@ -42,7 +48,8 @@
         "ai",
         "human",
         "hybrid"
-      ]
+      ],
+      "description": "Who materially shaped the visible output variant."
     },
     "requested_by": {
       "type": "string",
@@ -66,7 +73,8 @@
       "uniqueItems": true
     },
     "visible_to_user": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Whether the marker is intentionally surfaced in the same interface as the annotated artifact."
     },
     "transform_ref": {
       "type": "string",

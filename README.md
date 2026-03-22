@@ -21,6 +21,7 @@
 * `/proposals` – proposals to be considered and implemented
 * `/requirements` – requirement specifications for certain components
 * `/schemas` – machine-readable protocol and artifact schemas
+* `/schemas/README.md` – metadata convention for semantic schema annotations and normative traceability
 * `/stories` – user stories to be used as scenarios to create requirements
 
 ## Document Lifecycle

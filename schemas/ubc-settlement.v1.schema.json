@@ -3,6 +3,11 @@
   "$id": "urn:orbiplex:schema:ubc-settlement:v1",
   "title": "UbcSettlement v1",
   "description": "Machine-readable schema for periodic settlement records of Universal Basic Compute funding, allocation, and optional FIP bridge usage.",
+  "x-dia-basis": [
+    "CONSTITUTION.pl.md",
+    "constitutional-ops/pl/UNIVERSAL-BASIC-COMPUTE.pl.md",
+    "constitutional-ops/pl/SWARM-ECONOMY-SUFFICIENCY.pl.md"
+  ],
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -28,11 +33,13 @@
     },
     "settlement_id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Stable identifier of this settlement record."
     },
     "federation_id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Federation whose funding floor and usage are being settled."
     },
     "period_start": {
       "type": "string",
@@ -44,15 +51,18 @@
     },
     "compute_unit": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Unit of account used for compute funding and usage in this settlement window."
     },
     "beneficiary_count": {
       "type": "integer",
-      "minimum": 0
+      "minimum": 0,
+      "description": "Number of persons whose UBC floor was funded in the settlement period."
     },
     "total_allocated_compute": {
       "type": "number",
-      "minimum": 0
+      "minimum": 0,
+      "description": "Total compute budget allocated to the UBC floor in the settlement period."
     },
     "funding_sources": {
       "type": "array",
@@ -81,7 +91,8 @@
     },
     "policy_ref": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Reference to the governing funding or sufficiency policy used for this settlement."
     },
     "created_at": {
       "type": "string",
@@ -109,11 +120,13 @@
             "surplus_recirculation",
             "voluntary_operator_surplus",
             "federation_reserve"
-          ]
+          ],
+          "description": "Which contribution stream financed part of the compute floor."
         },
         "amount": {
           "type": "number",
-          "minimum": 0
+          "minimum": 0,
+          "description": "Amount contributed by the funding source in the declared compute unit."
         }
       }
     },
@@ -127,7 +140,8 @@
       "properties": {
         "bridge_ref": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "description": "Reference to the FIP bridge whose minimum profile usage is being accounted for."
         },
         "beneficiary_count": {
           "type": "integer",

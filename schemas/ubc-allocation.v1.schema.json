@@ -3,6 +3,11 @@
   "$id": "urn:orbiplex:schema:ubc-allocation:v1",
   "title": "UbcAllocation v1",
   "description": "Machine-readable schema for Universal Basic Compute allocations, including guaranteed access modes and recognition through federation or FIP bridge paths.",
+  "x-dia-basis": [
+    "CONSTITUTION.pl.md",
+    "constitutional-ops/pl/UNIVERSAL-BASIC-COMPUTE.pl.md",
+    "constitutional-ops/pl/UBC-LIMIT-PROFILES.pl.md"
+  ],
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -29,11 +34,13 @@
     },
     "allocation_id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Stable identifier of this allocation record."
     },
     "subject_ref": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Stable anonymous handle of the person receiving the compute floor."
     },
     "federation_id": {
       "type": "string",
@@ -41,7 +48,8 @@
     },
     "attestation_ref": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Reference to the Proof-of-Personhood attestation that justifies the allocation."
     },
     "recognition_source": {
       "type": "string",
@@ -49,7 +57,8 @@
         "federation_local",
         "federation_cross_recognition",
         "fip_bridge"
-      ]
+      ],
+      "description": "Which recognition path made this allocation valid in the current federation."
     },
     "recognition_ref": {
       "type": "string",
@@ -58,7 +67,8 @@
     },
     "measurement_period": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Named accounting window used to measure and settle the allocation."
     },
     "valid_from": {
       "type": "string",
@@ -70,7 +80,8 @@
     },
     "compute_unit": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Declared unit of account for the allocated compute floor."
     },
     "portability_scope": {
       "type": "string",
@@ -78,18 +89,26 @@
         "local",
         "trans_federation_limited",
         "trans_federation_extended"
-      ]
+      ],
+      "description": "How far this concrete allocation may travel beyond the issuing federation."
     },
     "guaranteed_modes": {
-      "$ref": "#/$defs/guaranteedModes"
+      "$ref": "#/$defs/guaranteedModes",
+      "description": "Guaranteed access contract for emergency, communication, and care paths.",
+      "x-dia-basis": [
+        "constitutional-ops/pl/UNIVERSAL-BASIC-COMPUTE.pl.md",
+        "constitutional-ops/pl/UBC-LIMIT-PROFILES.pl.md"
+      ]
     },
     "funding_policy_ref": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Reference to the policy defining who funds the allocation floor."
     },
     "limit_policy_ref": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Reference to the profile that defines communication and care limits."
     },
     "policy_annotations": {
       "type": "object",
@@ -110,7 +129,8 @@
       ],
       "properties": {
         "access": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Whether the given mode is guaranteed to be available."
         },
         "limit_profile": {
           "type": "string",
@@ -118,11 +138,13 @@
             "unlimited",
             "limited",
             "extended"
-          ]
+          ],
+          "description": "Strength of the limit profile for the given mode."
         },
         "limit_ref": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "description": "Reference to the concrete quantitative profile when the mode is not unlimited."
         }
       }
     },

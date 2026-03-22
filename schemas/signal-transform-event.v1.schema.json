@@ -3,6 +3,10 @@
   "$id": "urn:orbiplex:schema:signal-transform-event:v1",
   "title": "SignalTransformEvent v1",
   "description": "Machine-readable schema for auditable records of transformations applied to user signal when the output is no longer raw.",
+  "x-dia-basis": [
+    "CONSTITUTION.pl.md",
+    "constitutional-ops/pl/RAW-SIGNAL-POLICY.pl.md"
+  ],
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -24,7 +28,8 @@
     },
     "transform_id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Stable identifier of this transformation event."
     },
     "source_ref": {
       "type": "string",
@@ -48,7 +53,8 @@
         "structured",
         "transformed",
         "redacted"
-      ]
+      ],
+      "description": "Signal mode of the source artifact before the transformation step."
     },
     "output_mode": {
       "type": "string",
@@ -56,7 +62,8 @@
         "structured",
         "transformed",
         "redacted"
-      ]
+      ],
+      "description": "Signal mode of the produced artifact after the transformation step."
     },
     "actor_type": {
       "type": "string",
@@ -64,7 +71,8 @@
         "ai",
         "human",
         "hybrid"
-      ]
+      ],
+      "description": "Who materially performed the transformation."
     },
     "requested_by": {
       "type": "string",
