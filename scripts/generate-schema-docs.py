@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 
@@ -54,6 +55,29 @@ def json_type(schema: dict[str, Any]) -> str:
 
 def md_escape(value: str) -> str:
     return value.replace("|", "\\|").replace("\n", " ")
+
+
+def humanize_compound_token(token: str) -> str:
+    token = re.sub(r"(?<=[A-Z])(?=[A-Z][a-z])", " ", token)
+    token = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", token)
+    return token
+
+
+def humanize_title(title: str) -> str:
+    stopwords = {"a", "an", "and", "for", "in", "of", "on", "or", "the", "to"}
+    words: list[str] = []
+    for part in title.split():
+        for idx, word in enumerate(humanize_compound_token(part).split()):
+            overall_idx = len(words)
+            if word.isupper():
+                words.append(word)
+            elif re.fullmatch(r"v\d+", word, re.IGNORECASE):
+                words.append(word.lower())
+            elif overall_idx > 0 and word.lower() in stopwords:
+                words.append(word.lower())
+            else:
+                words.append(word[:1].upper() + word[1:].lower())
+    return " ".join(words)
 
 
 
@@ -129,7 +153,7 @@ def generate_schema_doc(schema_path: Path) -> tuple[str, str]:
     out_path = GENERATED_SCHEMAS_DIR / f"{doc_stem}.md"
     from_dir = out_path.parent
 
-    title = data.get("title", schema_path.name)
+    title = humanize_title(data.get("title", schema_path.name))
     description = data.get("description", "")
     schema_rel = rel_link(from_dir, schema_path)
     required = set(data.get("required", []))

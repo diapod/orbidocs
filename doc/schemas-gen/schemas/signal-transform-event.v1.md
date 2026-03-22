@@ -1,4 +1,4 @@
-# SignalTransformEvent v1
+# Signal Transform Event v1
 
 Source schema: [`doc/schemas/signal-transform-event.v1.schema.json`](../../schemas/signal-transform-event.v1.schema.json)
 

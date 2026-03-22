@@ -1,0 +1,6 @@
+ignore:
+  - "*.pl.md"
+
+nav:
+  - "CHALLENGES*.md"
+  - "[0-9][0-9][0-9]-*.md"

@@ -19,6 +19,17 @@ EXCLUDED_DOCS = {
 }
 
 
+def is_excluded_single_site_doc(rel: Path) -> bool:
+    if rel in EXCLUDED_DOCS:
+        return True
+
+    # The single-site build is intentionally English-first for project workflow docs.
+    if rel.parts and rel.parts[0] == "project" and rel.name.endswith(".pl.md"):
+        return True
+
+    return False
+
+
 def iter_source_files(root: Path):
     seen: set[Path] = set()
     for pattern in ("*", ".*"):
@@ -67,7 +78,7 @@ def copy_doc_tree() -> None:
             continue
 
         rel = source.relative_to(SOURCE_DOC_DIR)
-        if rel in EXCLUDED_DOCS:
+        if is_excluded_single_site_doc(rel):
             continue
 
         target = BUILD_DIR / "doc" / rel

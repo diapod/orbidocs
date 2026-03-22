@@ -1,0 +1,6 @@
+ignore:
+  - "*.pl.md"
+
+nav:
+  - "MEMOS*.md"
+  - "[a-z]*.md"

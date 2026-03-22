@@ -1,0 +1,6 @@
+ignore:
+  - "*.pl.md"
+
+nav:
+  - "PROPOSALS*.md"
+  - "[0-9][0-9][0-9]-*.md"

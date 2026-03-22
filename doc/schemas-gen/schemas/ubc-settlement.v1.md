@@ -1,4 +1,4 @@
-# UbcSettlement v1
+# Ubc Settlement v1
 
 Source schema: [`doc/schemas/ubc-settlement.v1.schema.json`](../../schemas/ubc-settlement.v1.schema.json)
 

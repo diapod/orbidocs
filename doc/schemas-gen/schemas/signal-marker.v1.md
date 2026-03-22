@@ -1,4 +1,4 @@
-# SignalMarker v1
+# Signal Marker v1
 
 Source schema: [`doc/schemas/signal-marker.v1.schema.json`](../../schemas/signal-marker.v1.schema.json)
 

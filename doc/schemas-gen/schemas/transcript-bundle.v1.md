@@ -1,4 +1,4 @@
-# TranscriptBundle v1
+# Transcript Bundle v1
 
 Source schema: [`doc/schemas/transcript-bundle.v1.schema.json`](../../schemas/transcript-bundle.v1.schema.json)
 

@@ -1,4 +1,4 @@
-# TranscriptSegment v1
+# Transcript Segment v1
 
 Source schema: [`doc/schemas/transcript-segment.v1.schema.json`](../../schemas/transcript-segment.v1.schema.json)
 

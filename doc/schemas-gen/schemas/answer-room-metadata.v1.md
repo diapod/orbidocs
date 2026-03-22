@@ -1,4 +1,4 @@
-# AnswerRoomMetadata v1
+# Answer Room Metadata v1
 
 Source schema: [`doc/schemas/answer-room-metadata.v1.schema.json`](../../schemas/answer-room-metadata.v1.schema.json)
 

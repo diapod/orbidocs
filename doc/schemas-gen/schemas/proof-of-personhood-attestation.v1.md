@@ -1,4 +1,4 @@
-# ProofOfPersonhoodAttestation v1
+# Proof of Personhood Attestation v1
 
 Source schema: [`doc/schemas/proof-of-personhood-attestation.v1.schema.json`](../../schemas/proof-of-personhood-attestation.v1.schema.json)
 

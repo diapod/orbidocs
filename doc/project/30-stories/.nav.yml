@@ -1,0 +1,6 @@
+ignore:
+  - "*.pl.md"
+
+nav:
+  - "STORIES*.md"
+  - "story-*.md"
