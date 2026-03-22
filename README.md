@@ -145,7 +145,7 @@ The repository includes a GitHub Actions workflow that:
 - validates schemas,
 - regenerates schema docs,
 - builds the multilingual site with `make html-i18n`,
-- deploys `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/output/html-i18n` to GitHub Pages.
+- deploys `output/html-i18n` to GitHub Pages.
 
 For the custom domain:
 
@@ -165,13 +165,13 @@ make output
 
 - `make html-dev`
   - developer single-site build
-  - output: `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/output/html`
+  - output: `output/html`
 - `make html-i18n`
   - canonical multilingual build
-  - output: `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/output/html-i18n`
+  - output: `output/html-i18n`
 - `make output`
   - PDF artifact build
-  - output: `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/output/pdf`
+  - output: `output/pdf`
 
 ## Traceability Summary
 

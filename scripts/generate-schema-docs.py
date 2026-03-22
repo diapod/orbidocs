@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 
-ROOT = Path("/Users/siefca/kody/FREE/AI/orbiplex/orbidocs")
+ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS_DIR = ROOT / "doc" / "schemas"
 GENERATED_DIR = ROOT / "doc" / "schemas-gen"
 GENERATED_SCHEMAS_DIR = GENERATED_DIR / "schemas"
