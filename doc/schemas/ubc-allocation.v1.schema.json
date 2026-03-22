@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:ubc-allocation:v1",
-  "title": "UbcAllocation v1",
+  "title": "UBCAllocation v1",
   "description": "Machine-readable schema for Universal Basic Compute allocations, including guaranteed access modes and recognition through federation or FIP bridge paths.",
   "x-dia-basis": [
     "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",

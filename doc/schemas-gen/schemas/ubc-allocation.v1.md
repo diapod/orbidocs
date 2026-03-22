@@ -1,4 +1,4 @@
-# Ubc Allocation v1
+# UBC Allocation v1
 
 Source schema: [`doc/schemas/ubc-allocation.v1.schema.json`](../../schemas/ubc-allocation.v1.schema.json)
 

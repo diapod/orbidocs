@@ -75,7 +75,7 @@
         {% if first and first.is_page and first.title %}
           {% set first_title = first.title | lower %}
           {% set first_src = first.file.src_uri | lower %}
-          {% if first_title.endswith(" index") or first_title == "index" or first_title.endswith(" indeks") or first_title == "indeks" or "/readme." in first_src or first_src.startswith("readme.") %}
+          {% if first_title.endswith(" index") or first_title == "index" or first_title.startswith("index ") or first_title.endswith(" indeks") or first_title == "indeks" or first_title.startswith("indeks ") or "/readme." in first_src or first_src.startswith("readme.") %}
             {% set _.index = first %}
           {% endif %}
         {% endif %}
