@@ -1,11 +1,14 @@
+---
+render_macros: true
+---
+
 # Challenges Index
 
 This directory contains problem statements that motivate later memos, proposals, requirements, or normative acts.
 
 ## Current Challenges
 
-- [001: Licensing](001-licensing.md)
-- [002: Sybil](002-sybil.md)
+{{ list_matching_pages("[0-9][0-9][0-9]-*.md", page=page) }}
 
 ## Promotion Rule
 

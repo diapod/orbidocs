@@ -1,12 +1,14 @@
+---
+render_macros: true
+---
+
 # Indeks stories
 
 Ten katalog zawiera dokumenty scenariuszowe opisujące przepływy z perspektywy użytkownika albo operatora w konkretnej, narracyjnej formie.
 
 ## Bieżące stories
 
-- [Story 001](story-001.md)
-- [Story 002](story-002.md)
-- [Story 003](story-003.md)
+{{ list_matching_pages("story-*.md", page=page) }}
 
 ## Reguła promocji
 

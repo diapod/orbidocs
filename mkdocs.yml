@@ -29,6 +29,8 @@ markdown_extensions:
 
 plugins:
   - search
+  - macros:
+      render_by_default: false
 
 nav:
   - Overview:

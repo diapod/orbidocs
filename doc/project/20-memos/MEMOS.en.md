@@ -1,31 +1,14 @@
+---
+render_macros: true
+---
+
 # Memos Index
 
 This directory holds short idea notes, seeds, and design prompts that are not yet mature enough to become proposals, requirements, or stories.
 
-## Communication and Assistance
+## Current Memos
 
-- `swarm-broadcast-assistance.md` - a user opens a communication window to the swarm as a whole and asks for help with an important issue.
-- `swarm-communication-exposure-modes.md` - three exposure modes for user requests: `private-to-swarm`, `federation-local`, and `public-call-for-help`.
-- `swarm-question-channel-transports.md` - candidate transport classes for question envelopes and large answer-channel conversations with redundant servers.
-- `transcription-monitors-and-public-vaults.md` - transcription-monitor nodes preserve valuable discussions as source transcripts and archivist nodes publish them into durable vaults for later synthesis and training.
-- `human-expertise-escalation.md` - the swarm asks a human specialist behind a node for help when it reaches the edge of its own certainty or competence.
-- `operator-participation-in-answer-channel.md` - a participating node may consult its operator privately or let them join the live debate, with explicit provenance that distinguishes node output from human-originated input.
-- `operator-proxy-co-regulation.md` - a node may serve as an external-facing spokesperson for its operator and run proxy-to-proxy co-regulation dialogues, including private local contact linkage without global depseudonymization.
-
-## User Orientation and Filtering
-
-- `filtrum.md` - a personal filtering component that prioritizes content based on user preferences, goals, characteristics, and current condition, potentially through a browser extension.
-
-## Node UX and Discovery
-
-- `client-simplicity.md` - node client should stay simple to install, configure, and run.
-- `pod-backed-thin-clients.md` - mobile and desktop clients may act as thin interfaces to nodes exposing a `pod` module, without running their own local language model.
-- `wide-caps.md` - hierarchical capability advertisement and lightweight semantic matching between node capabilities.
-
-## Trust, Safety, and Control
-
-- `bad-actors.md` - detecting bad actors and excluding or penalizing them through consensus.
-- `model-requests.md` - requests may specify model fingerprints that must or must not be used.
+{{ list_matching_pages("*.md", page=page, exclude="*.pl.md,*.en.md", summaries=true) }}
 
 ## Promotion Rule
 

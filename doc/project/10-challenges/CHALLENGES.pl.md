@@ -1,11 +1,14 @@
+---
+render_macros: true
+---
+
 # Indeks wyzwań
 
 Ten katalog zawiera opisy problemów, które motywują późniejsze mema, propozycje, wymagania albo akty normatywne.
 
 ## Bieżące wyzwania
 
-- [001: Licencjonowanie](001-licensing.md)
-- [002: Sybil](002-sybil.md)
+{{ list_matching_pages("[0-9][0-9][0-9]-*.md", page=page) }}
 
 ## Reguła promocji
 

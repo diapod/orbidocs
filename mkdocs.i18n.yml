@@ -30,6 +30,8 @@ markdown_extensions:
 
 plugins:
   - search
+  - macros:
+      render_by_default: false
   - i18n:
       docs_structure: folder
       fallback_to_default: true
