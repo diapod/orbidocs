@@ -1,0 +1,18 @@
+{
+  "schema/v": 1,
+  "proposal/id": "assoc-room-invalid-001",
+  "cluster/id": "cluster://workplace-retaliation-01",
+  "created-at": "2026-03-23T19:15:00Z",
+  "proposal/node-id": "node://witness-03",
+  "room/id": "room://assoc/workplace-retaliation-01",
+  "room-policy/profile": "witness-mediated",
+  "disclosure/profile": "room-opt-in",
+  "bootstrap/node-ids": [
+    "node://wroclaw-01",
+    "node://zurich-02"
+  ],
+  "bootstrap/expires-at": "2026-03-30T19:15:00Z",
+  "human-opt-in/required": false,
+  "moderation/mode": "bootstrap-witness-set",
+  "participants/min-opt-in-count": 2
+}

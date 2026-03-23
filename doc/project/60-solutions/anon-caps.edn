@@ -1,0 +1,62 @@
+{:component/id :orbiplex/anon
+ :component/title "Orbiplex Anon"
+ :component/type :node-attached-module
+ :component/status :planned
+
+ :summary
+ "Node-attached outbound privacy component for relay indirection, derived
+ forwarding nyms, and onion-like transport profiles."
+
+ :must-implement
+ [{:cap/id :outbound-privacy-profile-realization
+   :title "Outbound Privacy Profile Realization"
+   :kind :transport
+   :based-on ["doc/project/20-memos/orbiplex-anon.md"
+              "doc/project/30-stories/story-005.md"
+              "doc/project/40-proposals/013-whisper-social-signal-exchange.md"]
+   :schemas ["whisper-signal.v1"]
+   :responsibilities
+   ["Inspect outbound routing/privacy intent on protocol artifacts"
+    "Realize allowed profiles such as `relayed` and `onion-relayed`"
+    "Refuse silent downgrade when the caller marked privacy posture as `hard-fail`"
+    "Expose a clear success, degrade, or reject result back to Node egress"]
+   :status :todo}
+
+  {:cap/id :derived-nym-and-hop-policy-enforcement
+   :title "Derived Nym and Hop Policy Enforcement"
+   :kind :transport
+   :based-on ["doc/project/20-memos/orbiplex-anon.md"
+              "doc/project/30-stories/story-005.md"
+              "doc/project/40-proposals/013-whisper-social-signal-exchange.md"]
+   :schemas ["whisper-signal.v1"]
+   :responsibilities
+   ["Derive forwarding nyms without exposing stable origin identity"
+    "Enforce maximum hop count and forwarding limits"
+    "Preserve bounded auditability of routing policy without exposing the full route"]
+   :status :todo}]
+
+ :may-implement
+ [{:cap/id :general-protected-egress
+   :title "General Protected Egress"
+   :kind :optional
+   :based-on ["doc/project/20-memos/orbiplex-anon.md"]
+   :schemas []
+   :responsibilities
+   ["Provide the same outbound privacy surface to non-Whisper artifacts"
+    "Remain reusable by future sensitive relay paths such as witness requests or protected archival handoff"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Rumor semantics and threshold policy"
+  "Final disclosure decisions"
+  "Mandatory deployment in every Node"]
+
+ :consumes
+ ["whisper-signal.v1"]
+
+ :produces
+ ["delivery outcomes for Node egress under direct, relayed, or onion-relayed posture"]
+
+ :notes
+ ["Callers should depend on declared outbound privacy capability rather than the module name."
+  "Anon is reusable beyond Whisper traffic."]}

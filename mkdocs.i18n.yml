@@ -95,6 +95,7 @@ plugins:
                     - Filtrum: doc/project/20-memos/filtrum.md
                     - Human Expertise Escalation: doc/project/20-memos/human-expertise-escalation.md
                     - Model Requests: doc/project/20-memos/model-requests.md
+                    - Orbiplex Monus: doc/project/20-memos/orbiplex-monus.md
                     - Orbiplex Anon: doc/project/20-memos/orbiplex-anon.md
                     - Orbiplex Whisper: doc/project/20-memos/orbiplex-whisper.md
                     - Operator Participation in Answer Channel: doc/project/20-memos/operator-participation-in-answer-channel.md
@@ -140,10 +141,13 @@ plugins:
                     - Orbiplex Node: doc/project/60-solutions/node.md
                     - Orbiplex Node UI: doc/project/60-solutions/node-ui.md
                     - Ferment: doc/project/60-solutions/ferment.md
+                    - Orbiplex Whisper: doc/project/60-solutions/whisper.md
+                    - Orbiplex Anon: doc/project/60-solutions/anon.md
             - Schemas:
                 - Schema Metadata Convention: doc/schemas/README.md
                 - Generated Index: doc/schemas-gen/schema-index.md
                 - Schema Docs:
+                    - Association Room Proposal v1: doc/schemas-gen/schemas/association-room-proposal.v1.md
                     - Adapter Artifact v1: doc/schemas-gen/schemas/adapter-artifact.v1.md
                     - Archival Package v1: doc/schemas-gen/schemas/archival-package.v1.md
                     - Archivist Advertisement v1: doc/schemas-gen/schemas/archivist-advertisement.v1.md
@@ -169,6 +173,9 @@ plugins:
                     - Training Job v1: doc/schemas-gen/schemas/training-job.v1.md
                     - UBC Allocation v1: doc/schemas-gen/schemas/ubc-allocation.v1.md
                     - UBC Settlement v1: doc/schemas-gen/schemas/ubc-settlement.v1.md
+                    - Whisper Interest v1: doc/schemas-gen/schemas/whisper-interest.v1.md
+                    - Whisper Signal v1: doc/schemas-gen/schemas/whisper-signal.v1.md
+                    - Whisper Threshold Reached v1: doc/schemas-gen/schemas/whisper-threshold-reached.v1.md
         - locale: pl
           name: Polski
           build: true
@@ -222,6 +229,7 @@ plugins:
                     - Filtrum: doc/project/20-memos/filtrum.md
                     - Human Expertise Escalation: doc/project/20-memos/human-expertise-escalation.md
                     - Model Requests: doc/project/20-memos/model-requests.md
+                    - Orbiplex Monus: doc/project/20-memos/orbiplex-monus.md
                     - Orbiplex Anon: doc/project/20-memos/orbiplex-anon.md
                     - Orbiplex Whisper: doc/project/20-memos/orbiplex-whisper.md
                     - Operator Participation in Answer Channel: doc/project/20-memos/operator-participation-in-answer-channel.md
@@ -267,10 +275,13 @@ plugins:
                     - Orbiplex Node: doc/project/60-solutions/node.md
                     - Orbiplex Node UI: doc/project/60-solutions/node-ui.md
                     - Ferment: doc/project/60-solutions/ferment.md
+                    - Orbiplex Whisper: doc/project/60-solutions/whisper.md
+                    - Orbiplex Anon: doc/project/60-solutions/anon.md
             - Schematy:
                 - Konwencja metadanych schematów: doc/schemas/README.md
                 - Wygenerowany indeks: doc/schemas-gen/schema-index.md
                 - Dokumentacja schematów:
+                    - Association Room Proposal v1: doc/schemas-gen/schemas/association-room-proposal.v1.md
                     - Adapter Artifact v1: doc/schemas-gen/schemas/adapter-artifact.v1.md
                     - Archival Package v1: doc/schemas-gen/schemas/archival-package.v1.md
                     - Archivist Advertisement v1: doc/schemas-gen/schemas/archivist-advertisement.v1.md
@@ -296,3 +307,6 @@ plugins:
                     - Training Job v1: doc/schemas-gen/schemas/training-job.v1.md
                     - UBC Allocation v1: doc/schemas-gen/schemas/ubc-allocation.v1.md
                     - UBC Settlement v1: doc/schemas-gen/schemas/ubc-settlement.v1.md
+                    - Whisper Interest v1: doc/schemas-gen/schemas/whisper-interest.v1.md
+                    - Whisper Signal v1: doc/schemas-gen/schemas/whisper-signal.v1.md
+                    - Whisper Threshold Reached v1: doc/schemas-gen/schemas/whisper-threshold-reached.v1.md

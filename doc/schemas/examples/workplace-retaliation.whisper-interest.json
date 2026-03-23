@@ -1,0 +1,16 @@
+{
+  "schema/v": 1,
+  "interest/id": "wsp-int-2026-03-23-001",
+  "signal/id": "wsp-sig-2026-03-23-001",
+  "created-at": "2026-03-23T18:21:00Z",
+  "interested/node-id": "node://zurich-02",
+  "interest/kind": "correlation-willing",
+  "disclosure/readiness": "conditional",
+  "local/user-notified": true,
+  "matching/facets": [
+    "global-company",
+    "post-escalation-retaliation"
+  ],
+  "trust/tier": "validated",
+  "expires-at": "2026-03-30T18:21:00Z"
+}

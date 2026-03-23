@@ -1,0 +1,28 @@
+{
+  "schema/v": 1,
+  "signal/id": "wsp-sig-2026-03-23-001",
+  "created-at": "2026-03-23T18:10:00Z",
+  "sender/node-id": "node://wroclaw-01",
+  "sender/federation-id": "federation://workers-eu",
+  "rumor/nym": "nym:rumor:73f6a8",
+  "epistemic/class": "rumor",
+  "signal/text": "Several workers report a similar retaliation pattern after raising workload and safety concerns.",
+  "topic/class": "workplace-retaliation-pattern",
+  "context/facets": [
+    "global-company",
+    "workload-escalation",
+    "post-escalation-retaliation"
+  ],
+  "confidence": 0.63,
+  "disclosure/scope": "federation-scoped",
+  "source/class": "pod-user",
+  "risk/grade": "high",
+  "routing/profile": "relayed",
+  "routing/failure-mode": "soft-fail",
+  "relay/acceptable-classes": [
+    "trusted-federation-peer",
+    "whisper-witness"
+  ],
+  "forwarding/max-hops": 2,
+  "forwarding/budget": 2
+}

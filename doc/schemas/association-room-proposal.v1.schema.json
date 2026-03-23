@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:association-room-proposal:v1",
+  "title": "AssociationRoomProposal v1",
+  "description": "Machine-readable schema for a deterministic bootstrap proposal of an opt-in association room.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/orbiplex-whisper.md",
+    "doc/project/30-stories/story-005.md",
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md"
+  ],
+  "required": [
+    "schema/v",
+    "proposal/id",
+    "cluster/id",
+    "created-at",
+    "proposal/node-id",
+    "room/id",
+    "room-policy/profile",
+    "disclosure/profile",
+    "bootstrap/node-ids",
+    "bootstrap/expires-at",
+    "human-opt-in/required",
+    "moderation/mode",
+    "participants/min-opt-in-count"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "proposal/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the room bootstrap proposal."
+    },
+    "cluster/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Correlation cluster identifier that justified the proposal."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of proposal publication."
+    },
+    "proposal/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node that published the proposal artifact."
+    },
+    "room/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the proposed association room or process."
+    },
+    "room-policy/profile": {
+      "type": "string",
+      "enum": [
+        "mediated-only",
+        "witness-mediated",
+        "direct-live-allowed"
+      ],
+      "description": "Initial room policy profile for the next-stage space."
+    },
+    "disclosure/profile": {
+      "type": "string",
+      "enum": [
+        "minimal-disclosure",
+        "room-opt-in",
+        "witness-reviewed"
+      ],
+      "description": "Disclosure posture to be applied before and during enrollment."
+    },
+    "bootstrap/node-ids": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Nodes that form the bootstrap witness or proposal set."
+    },
+    "bootstrap/expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time after which the proposal must be reconsidered or discarded."
+    },
+    "human-opt-in/required": {
+      "const": true,
+      "description": "Human enrollment must remain opt-in."
+    },
+    "moderation/mode": {
+      "type": "string",
+      "enum": [
+        "bootstrap-witness-set",
+        "mediated",
+        "federated-review"
+      ],
+      "description": "Initial moderation or witness posture of the proposed room."
+    },
+    "participants/min-opt-in-count": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Minimum number of human opt-ins required before the room is considered active."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

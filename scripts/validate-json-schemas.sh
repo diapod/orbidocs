@@ -80,6 +80,18 @@ schema_for_file() {
     *.response-envelope.json)
       echo "$SCHEMAS_DIR/response-envelope.v1.schema.json"
       ;;
+    *.whisper-signal.json)
+      echo "$SCHEMAS_DIR/whisper-signal.v1.schema.json"
+      ;;
+    *.whisper-interest.json)
+      echo "$SCHEMAS_DIR/whisper-interest.v1.schema.json"
+      ;;
+    *.whisper-threshold-reached.json)
+      echo "$SCHEMAS_DIR/whisper-threshold-reached.v1.schema.json"
+      ;;
+    *.association-room-proposal.json)
+      echo "$SCHEMAS_DIR/association-room-proposal.v1.schema.json"
+      ;;
     *.proof-of-personhood-attestation.json)
       echo "$SCHEMAS_DIR/proof-of-personhood-attestation.v1.schema.json"
       ;;

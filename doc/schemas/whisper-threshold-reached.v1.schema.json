@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-threshold-reached:v1",
+  "title": "WhisperThresholdReached v1",
+  "description": "Machine-readable schema for a threshold event indicating sufficient aligned whisper interest for association bootstrap.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/orbiplex-whisper.md",
+    "doc/project/30-stories/story-005.md",
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md"
+  ],
+  "required": [
+    "schema/v",
+    "threshold/id",
+    "cluster/id",
+    "created-at",
+    "detector/node-id",
+    "topic/class",
+    "threshold/policy-ref",
+    "participants/distinct-node-count",
+    "participants/interest-count",
+    "bootstrap/candidate-node-ids",
+    "disclosure/profile"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "threshold/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the recognized threshold event."
+    },
+    "cluster/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Correlation cluster identifier shared with later association proposals."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of threshold recognition."
+    },
+    "detector/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node that emitted the threshold event."
+    },
+    "topic/class": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Issue class for which critical mass was detected."
+    },
+    "threshold/policy-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the threshold policy used for recognition."
+    },
+    "participants/distinct-node-count": {
+      "type": "integer",
+      "minimum": 2,
+      "description": "Number of distinct nodes that contributed sufficient aligned signals or interest."
+    },
+    "participants/interest-count": {
+      "type": "integer",
+      "minimum": 2,
+      "description": "Number of counted interest registrations in the cluster."
+    },
+    "participants/trust-summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional aggregate trust-tier or diversity summary."
+    },
+    "bootstrap/candidate-node-ids": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Candidate nodes from which a deterministic bootstrap subset may be derived."
+    },
+    "disclosure/profile": {
+      "type": "string",
+      "enum": [
+        "aggregate-notice-only",
+        "room-opt-in",
+        "witness-reviewed"
+      ],
+      "description": "Disclosure posture allowed at threshold crossing."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

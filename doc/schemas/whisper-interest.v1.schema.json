@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-interest:v1",
+  "title": "WhisperInterest v1",
+  "description": "Machine-readable schema for bounded local-interest registration in response to a whisper signal.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/orbiplex-whisper.md",
+    "doc/project/30-stories/story-005.md",
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md"
+  ],
+  "required": [
+    "schema/v",
+    "interest/id",
+    "signal/id",
+    "created-at",
+    "interested/node-id",
+    "interest/kind",
+    "disclosure/readiness",
+    "local/user-notified"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "interest/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the local interest registration."
+    },
+    "signal/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Whisper signal that triggered local interest."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of interest registration."
+    },
+    "interested/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node registering local relevance."
+    },
+    "interest/kind": {
+      "type": "string",
+      "enum": [
+        "local-relevance",
+        "correlation-willing",
+        "bootstrap-willing"
+      ],
+      "description": "Level of willingness to participate in further correlation."
+    },
+    "disclosure/readiness": {
+      "type": "string",
+      "enum": [
+        "none",
+        "conditional",
+        "room-only"
+      ],
+      "description": "Maximum disclosure willingness at the current stage."
+    },
+    "local/user-notified": {
+      "type": "boolean",
+      "description": "Whether the local user or operator has already been notified of the relevant rumor."
+    },
+    "matching/facets": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional local facets that justify relevance without forcing case disclosure."
+    },
+    "trust/tier": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "member",
+        "validated",
+        "high-trust"
+      ],
+      "description": "Trust tier visible at thresholding time."
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional expiry after which this interest should no longer be counted."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "interest/kind": {
+            "const": "bootstrap-willing"
+          }
+        },
+        "required": [
+          "interest/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "disclosure/readiness": {
+            "enum": [
+              "conditional",
+              "room-only"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
