@@ -95,6 +95,8 @@ plugins:
                     - Filtrum: doc/project/20-memos/filtrum.md
                     - Human Expertise Escalation: doc/project/20-memos/human-expertise-escalation.md
                     - Model Requests: doc/project/20-memos/model-requests.md
+                    - Orbiplex Anon: doc/project/20-memos/orbiplex-anon.md
+                    - Orbiplex Whisper: doc/project/20-memos/orbiplex-whisper.md
                     - Operator Participation in Answer Channel: doc/project/20-memos/operator-participation-in-answer-channel.md
                     - Operator Proxy Co-Regulation: doc/project/20-memos/operator-proxy-co-regulation.md
                     - Pod-Backed Thin Clients: doc/project/20-memos/pod-backed-thin-clients.md
@@ -109,6 +111,7 @@ plugins:
                     - Story 002: doc/project/30-stories/story-002.md
                     - Story 003: doc/project/30-stories/story-003.md
                     - Story 004: doc/project/30-stories/story-004.md
+                    - Story 005: doc/project/30-stories/story-005.md
                 - Proposals:
                     - doc/project/40-proposals/PROPOSALS.md
                     - 001 Licensing Proposal: doc/project/40-proposals/001-licensing-proposal.md
@@ -123,6 +126,7 @@ plugins:
                     - 010 Operator Proxy Co-Regulation: doc/project/40-proposals/010-operator-proxy-co-regulation.md
                     - 011 Federated Answer Procurement Lifecycle: doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md
                     - 012 Learning Outcomes and Archival Contracts: doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md
+                    - 013 Whisper Social-Signal Exchange and Threshold Bootstrap: doc/project/40-proposals/013-whisper-social-signal-exchange.md
                 - Requirements:
                     - doc/project/50-requirements/REQUIREMENTS.md
                     - Requirements 001: doc/project/50-requirements/requirements-001.md
@@ -218,6 +222,8 @@ plugins:
                     - Filtrum: doc/project/20-memos/filtrum.md
                     - Human Expertise Escalation: doc/project/20-memos/human-expertise-escalation.md
                     - Model Requests: doc/project/20-memos/model-requests.md
+                    - Orbiplex Anon: doc/project/20-memos/orbiplex-anon.md
+                    - Orbiplex Whisper: doc/project/20-memos/orbiplex-whisper.md
                     - Operator Participation in Answer Channel: doc/project/20-memos/operator-participation-in-answer-channel.md
                     - Operator Proxy Co-Regulation: doc/project/20-memos/operator-proxy-co-regulation.md
                     - Pod-Backed Thin Clients: doc/project/20-memos/pod-backed-thin-clients.md
@@ -232,6 +238,7 @@ plugins:
                     - Story 002: doc/project/30-stories/story-002.md
                     - Story 003: doc/project/30-stories/story-003.md
                     - Story 004: doc/project/30-stories/story-004.md
+                    - Story 005: doc/project/30-stories/story-005.md
                 - Propozycje:
                     - doc/project/40-proposals/PROPOSALS.md
                     - 001 Licensing Proposal: doc/project/40-proposals/001-licensing-proposal.md
@@ -246,6 +253,7 @@ plugins:
                     - 010 Operator Proxy Co-Regulation: doc/project/40-proposals/010-operator-proxy-co-regulation.md
                     - 011 Federated Answer Procurement Lifecycle: doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md
                     - 012 Learning Outcomes and Archival Contracts: doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md
+                    - 013 Whisper Social-Signal Exchange and Threshold Bootstrap: doc/project/40-proposals/013-whisper-social-signal-exchange.md
                 - Wymagania:
                     - doc/project/50-requirements/REQUIREMENTS.md
                     - Requirements 001: doc/project/50-requirements/requirements-001.md
