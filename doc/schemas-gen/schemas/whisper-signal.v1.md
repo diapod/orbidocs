@@ -33,7 +33,7 @@ Machine-readable schema for bounded rumor-style social-signal exchange.
 | [`context/facets`](#field-context-facets) | `yes` | array | Normalized, low-resolution facets that help correlation without forcing raw disclosure. |
 | [`confidence`](#field-confidence) | `yes` | number | Local confidence in the quality and relevance of the prepared signal. |
 | [`disclosure/scope`](#field-disclosure-scope) | `yes` | enum: `private-correlation`, `federation-scoped`, `cross-federation`, `public-aggregate-only` | Maximum disclosure posture allowed for this signal. |
-| [`source/class`](#field-source-class) | `no` | enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local` | High-level origin class of the signal. |
+| [`source/class`](#field-source-class) | `no` | enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived` | High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. |
 | [`risk/grade`](#field-risk-grade) | `yes` | enum: `low`, `moderate`, `high`, `critical` | Risk grade used to constrain later routing and disclosure. |
 | [`routing/profile`](#field-routing-profile) | `yes` | enum: `direct`, `relayed`, `onion-relayed` | Requested outbound transport posture. |
 | [`routing/failure-mode`](#field-routing-failure-mode) | `yes` | enum: `soft-fail`, `hard-fail` | Whether the sender allows downgrade if the requested transport posture cannot be satisfied. |
@@ -207,9 +207,9 @@ Maximum disclosure posture allowed for this signal.
 ## `source/class`
 
 - Required: `no`
-- Shape: enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`
+- Shape: enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived`
 
-High-level origin class of the signal.
+High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication.
 
 <a id="field-risk-grade"></a>
 ## `risk/grade`

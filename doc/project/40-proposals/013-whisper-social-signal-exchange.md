@@ -40,7 +40,8 @@ is a bounded way for nodes to share socially meaningful weak signals such as:
 
 - "people in different places may be experiencing the same organizational abuse",
 - "users may be hitting the same harmful moderation pattern",
-- "a dignity or safety issue may be distributed rather than isolated."
+- "a dignity or safety issue may be distributed rather than isolated.",
+- "ambulance refusal followed by severe complications may be repeating as a systemic emergency-care failure rather than as isolated bad luck."
 
 Without an explicit social-signal layer, nodes either:
 
@@ -124,6 +125,8 @@ Before publication, Whisper should run a bounded local workflow for:
 
 The output of that workflow should be user-reviewed and user-accepted before any
 network-facing artifact is emitted.
+
+Protective anonymization in this workflow is aimed at people and protected local contexts. It should not blindly erase names of companies, hospitals, ambulance operators, or other institutions when those entities are plausibly part of the harmful pattern and do not require protection.
 
 ### 3. Bounded anti-Sybil controls in v1
 
@@ -217,6 +220,11 @@ Later additions may include:
 - `whisper-disclosure-decision.v1`
 - `whisper-forward.v1`
 
+At least one of those early contracts should also preserve whether the signal was
+directly user-authored, operator-observed, or prepared by a local helper such as
+`Monus`, so that downstream policy can distinguish user-authored rumors from
+monitor-derived ones.
+
 ## Trade-offs
 
 1. Whisper vs generic messaging:
@@ -259,3 +267,6 @@ Later additions may include:
 4. Define the local Node service contract for model-assisted redaction and user
    approval workflows.
 5. Revisit threshold policy and derived-nym rules once the first schema set exists.
+6. Decide whether a future local module such as `Orbiplex Monus` should be allowed
+   to prepare semi-automatic or automatic Whisper drafts from wellbeing-weighted
+   local signals.

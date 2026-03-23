@@ -109,9 +109,10 @@
         "direct-user",
         "pod-user",
         "operator-observed",
-        "derived-local"
+        "derived-local",
+        "monus-derived"
       ],
-      "description": "High-level origin class of the signal."
+      "description": "High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication."
     },
     "risk/grade": {
       "type": "string",

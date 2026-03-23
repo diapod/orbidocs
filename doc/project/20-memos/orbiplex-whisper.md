@@ -8,7 +8,8 @@ Examples include:
 
 - workers in a large global company seeing similar retaliation or organizational abuse patterns,
 - users of a Pod ecosystem experiencing the same harmful moderation or service failure pattern,
-- geographically distributed communities reporting the same emerging safety or dignity risk.
+- geographically distributed communities reporting the same emerging safety or dignity risk,
+- repeated emergency-health failures where an ambulance team refuses transport for severe abdominal pain and the affected person later experiences intestinal bleeding, suggesting a systemic triage or refusal problem rather than an isolated accident.
 
 `Whisper` should therefore operate on the level of:
 
@@ -60,6 +61,8 @@ The signal should be normalized and redacted. It should prefer:
 - risk grade.
 
 It should avoid raw personally identifying material by default.
+
+It should not blindly anonymize names of companies, organizations, hospitals, ambulance operators, or other institutions when those entities are plausibly part of the harmful pattern itself and do not need protection. The protective default is for users and affected people, not for potential sources, carriers, or transmitters of systemic harm.
 
 ### 2. `whisper-interest`
 
@@ -154,6 +157,8 @@ On the sending side, a likely v1 intake path is:
 - Whisper creates a bounded outgoing signal with a rumor nym and routing/privacy intent,
 - Node egress satisfies that intent directly or through any installed outbound privacy or relay capability,
 - Node validates the final outgoing artifact and only then emits it onto the network.
+
+A future adjacent module such as `Orbiplex Monus` may also prepare Whisper drafts from locally aggregated wellbeing signals. In a semi-automatic mode the draft waits in UI for approval and optional editing. In a stricter automatic mode the Node may publish it without interactive approval only under explicit policy, budget, and audit constraints.
 
 ## Likely future contracts
 

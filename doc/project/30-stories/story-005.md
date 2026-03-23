@@ -11,6 +11,8 @@ This story assumes the current Orbiplex corpus where:
 - the Node may expose model-backed helper services to attached modules,
 - some outbound privacy or relay capability may exist for relayed or onion-like
   forwarding, but is not required for all Whisper traffic,
+- a separate local module such as `Orbiplex Monus` may prepare candidate rumors
+  from accumulated user or Sensorium-adjacent signals before they reach Whisper,
 - Node-attached roles may live in separate processes and communicate through
   explicit contracts rather than one in-process monolith.
 
@@ -24,9 +26,11 @@ v1 is simpler:
 
 ## Sequence of Steps
 
-1. A user or operator writes a sensitive social signal into the Node UI or Pod UI.
-   The input is explicitly marked as a rumor-style submission rather than as a
-   confirmed report, attestation, or governance complaint.
+1. A user or operator writes a sensitive social signal into the Node UI or Pod UI,
+   or a local module such as `Orbiplex Monus` prepares a candidate rumor draft from
+   accumulated wellbeing or Sensorium-adjacent signals. The input is explicitly
+   marked as a rumor-style submission rather than as a confirmed report,
+   attestation, or governance complaint.
 2. The UI sends the content to the serving Node with an input classification such as:
    - `input-kind = rumor`
    - optional privacy preference
@@ -47,6 +51,9 @@ v1 is simpler:
    a version that:
    - preserves the core social signal,
    - removes avoidable personally identifying material,
+   - preserves names of companies, organizations, hospitals, ambulance operators,
+     or similar institutions when they are plausibly part of the harmful pattern
+     and do not require protective anonymization,
    - weakens recognizable idiolect,
    - and makes the rumor safer to exchange.
 7. The original raw text remains local to the Node or Pod context. It is not placed
@@ -55,6 +62,9 @@ v1 is simpler:
    - accepts it,
    - asks for another redaction/paraphrase pass,
    - or cancels publication.
+   In a stricter Monus-assisted automatic mode, local policy may allow publication
+   without interactive approval, but only under explicit opt-in, budget, and audit
+   constraints.
 9. If the user accepts, Whisper creates a local reviewed rumor artifact containing at
    least:
    - the accepted sanitized text,
@@ -81,6 +91,8 @@ v1 is simpler:
     - disclosure scope,
     - routing intent,
     - and forwarding limits such as hop TTL.
+    If the draft came from `Orbiplex Monus`, the source class should say so
+    explicitly instead of collapsing it into a generic local-derived category.
 14. If the user or policy requested stronger sender privacy, Whisper sets routing and
     privacy intent on the outgoing artifact, such as:
     - `direct`
@@ -124,6 +136,17 @@ v1 is simpler:
 26. If enough humans opt in under the room policy, the dedicated room appears and the
     previously isolated users can discover that their problem may be shared rather
     than purely individual.
+
+## Example Signal Classes
+
+- Workers in the same large company reporting similar retaliation or organizational
+  abuse patterns.
+- Users in a Pod ecosystem hitting the same harmful moderation or service-failure
+  pattern.
+- A repeated emergency-health pattern where an ambulance team refuses transport for
+  severe abdominal pain and, hours later, the affected person experiences intestinal
+  bleeding. If several nodes observe similarly structured signals, the value lies in
+  recognizing that the failure may be systemic rather than accidental.
 
 ## Open Continuation
 
