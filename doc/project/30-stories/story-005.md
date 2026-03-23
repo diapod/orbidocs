@@ -9,8 +9,8 @@ This story assumes the current Orbiplex corpus where:
 - rumors are weaker than evidence and must remain marked as such throughout the
   exchange path,
 - the Node may expose model-backed helper services to attached modules,
-- `Orbiplex Anon` may exist as a separate transport/privacy module for relayed or
-  onion-like forwarding, but is not required for all Whisper traffic,
+- some outbound privacy or relay capability may exist for relayed or onion-like
+  forwarding, but is not required for all Whisper traffic,
 - Node-attached roles may live in separate processes and communicate through
   explicit contracts rather than one in-process monolith.
 
@@ -81,18 +81,18 @@ v1 is simpler:
     - disclosure scope,
     - routing intent,
     - and forwarding limits such as hop TTL.
-14. If the user or policy requested stronger sender privacy, Whisper asks the Node to
-    satisfy a routing profile such as:
+14. If the user or policy requested stronger sender privacy, Whisper sets routing and
+    privacy intent on the outgoing artifact, such as:
     - `direct`
     - `relayed`
     - `onion-relayed`
-15. If `Orbiplex Anon` is installed, the Node may use it to realize that routing
-    profile, including:
+15. If a suitable outbound privacy or relay capability is installed, Node egress may
+    use it to realize that routing profile, including:
     - relay-capability discovery,
     - derived forwarding nyms,
     - bounded onion-like wrapping,
     - and relay selection under local policy.
-16. If `Orbiplex Anon` is not installed, the Node follows the requested failure mode:
+16. If no suitable capability is available, the Node follows the requested failure mode:
     - `soft-fail`: continue with allowed non-anonymous transport,
     - `hard-fail`: refuse publication and tell the user the requested privacy posture
       could not be satisfied.

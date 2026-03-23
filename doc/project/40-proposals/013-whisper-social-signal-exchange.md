@@ -28,9 +28,9 @@ The key decisions are:
    duplicate detection.
 5. Threshold crossing should lead to a deterministic bootstrap proposal rather than
    automatic human enrollment.
-6. Onion-like or relay-based anonymity should live in a separate module,
-   `Orbiplex Anon`, and be requested by Whisper through routing intent rather than
-   embedded into Whisper itself.
+6. Onion-like or relay-based anonymity should live behind a separate outbound
+   privacy capability and be requested by Whisper through routing intent rather
+   than embedded into Whisper itself.
 
 ## Context and Problem Statement
 
@@ -62,7 +62,7 @@ The system needs a middle layer:
 - Make local redaction and user approval part of the publication path.
 - Support interest registration and threshold detection without premature disclosure.
 - Support deterministic association bootstrap after critical mass is reached.
-- Keep transport-level anonymity modular through `Orbiplex Anon`.
+- Keep transport-level anonymity modular through an outbound privacy capability.
 
 ## Non-Goals
 
@@ -70,8 +70,8 @@ The system needs a middle layer:
 - This proposal does not define final governance or adjudication procedures.
 - This proposal does not define semantic duplicate detection for rumors in v1.
 - This proposal does not require onion-style transport for every Whisper message.
-- This proposal does not define the full `Anon` relay contract beyond its boundary
-  with Whisper.
+- This proposal does not define the full relay/privacy provider contract beyond its
+  boundary with Whisper.
 
 ## Decision
 
@@ -90,7 +90,8 @@ following v1 lifecycle:
 Transport anonymity remains a separate concern:
 
 - `Whisper` expresses routing intent and privacy posture,
-- `Orbiplex Anon` realizes relay or onion-like forwarding when installed,
+- Node egress resolves that posture through any installed outbound privacy or relay
+  capability,
 - Node decides whether the requested posture can be satisfied, degraded, or must
   fail.
 
@@ -177,7 +178,7 @@ Humans must remain opt-in at the point where:
 - identities are correlated more directly,
 - or a dedicated room is joined.
 
-## Transport Boundary with Orbiplex Anon
+## Transport Boundary with Outbound Privacy Capabilities
 
 `Whisper` should not own onion routing or relay topology.
 
@@ -188,7 +189,9 @@ Instead, a `whisper-signal` may carry routing intent such as:
 - maximum hop count,
 - acceptable relay classes.
 
-Node then resolves that intent through `Anon` if available.
+Node then resolves that intent through some outbound privacy capability if
+available. `Orbiplex Anon` is one possible provider of that capability, but
+Whisper should not need to know that module by name.
 
 The v1 behavior should support at least:
 
@@ -241,8 +244,8 @@ Later additions may include:
 2. What exact structure should a rumor nym and derived forwarding nym have?
 3. Should `whisper-threshold-reached` include aggregate statistics only, or also
    bounded witness references?
-4. Should some classes of rumor be forbidden from any rebroadcast without `Anon`
-   present?
+4. Should some classes of rumor be forbidden from any rebroadcast without a
+   suitable outbound privacy capability present?
 5. Which parts of association bootstrap belong to Whisper and which should later
    move into a more specialized association module?
 
@@ -251,7 +254,8 @@ Later additions may include:
 1. Add v1 schemas for `whisper-signal`, `whisper-interest`,
    `whisper-threshold-reached`, and `association-room-proposal`.
 2. Add one implementation-facing solution component for `Whisper`.
-3. Add one implementation-facing solution component for `Anon`.
+3. Add one implementation-facing solution component for an outbound privacy
+   provider such as `Anon`.
 4. Define the local Node service contract for model-assisted redaction and user
    approval workflows.
 5. Revisit threshold policy and derived-nym rules once the first schema set exists.

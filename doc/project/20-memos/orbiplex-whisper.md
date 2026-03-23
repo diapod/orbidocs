@@ -19,7 +19,7 @@ Examples include:
 
 It should not start as a raw fact bus.
 
-For onion-style relay, forwarding nyms, or transport-level anonymity, keep a separate module in mind: `Orbiplex Anon` in `doc/project/20-memos/orbiplex-anon.md`. `Whisper` should express privacy intent and routing posture, while `Anon` should realize optional anonymous relay at the transport layer.
+For onion-style relay, forwarding nyms, or transport-level anonymity, keep a separate outbound privacy capability in mind. `Whisper` should express privacy intent and routing posture on the outgoing artifact, while some egress-side module or relay capability may realize optional anonymous forwarding at the transport layer. `Orbiplex Anon` in `doc/project/20-memos/orbiplex-anon.md` is one possible provider of that capability, not a semantic dependency of `Whisper`.
 
 For v1, keep anti-Sybil controls simpler than full semantic duplicate detection. The healthier near-term baseline is:
 
@@ -151,8 +151,8 @@ On the sending side, a likely v1 intake path is:
 - Node classifies it as Whisper input,
 - Whisper runs a local redaction and idiolect-flattening workflow,
 - the user accepts or rejects the sanitized result,
-- Whisper creates a bounded outgoing signal with a rumor nym and routing intent,
-- Node satisfies that routing intent directly or through `Orbiplex Anon`,
+- Whisper creates a bounded outgoing signal with a rumor nym and routing/privacy intent,
+- Node egress satisfies that intent directly or through any installed outbound privacy or relay capability,
 - Node validates the final outgoing artifact and only then emits it onto the network.
 
 ## Likely future contracts

@@ -34,7 +34,7 @@ A future `Whisper` signal may carry transport intent like:
 - acceptable relay classes,
 - forwarding budget.
 
-`Whisper` would not implement onion routing itself. Instead it would expose routing intent or routing policy, and the Node would satisfy that policy through `Anon` if the module is installed and suitable relay peers are available.
+`Whisper` would not implement onion routing itself. Instead it would expose routing intent or routing policy on the outgoing artifact, and Node egress would try to satisfy that policy through some installed outbound privacy capability if suitable relay peers are available.
 
 One likely use from Whisper is:
 
@@ -44,8 +44,10 @@ One likely use from Whisper is:
 This keeps layers cleaner:
 
 - `Whisper` decides what privacy posture is desired for a rumor,
-- `Anon` decides how to realize that posture at the transport level,
+- some outbound privacy capability decides how to realize that posture at the transport level,
 - Node decides whether the requested routing profile is satisfiable and whether to send, degrade, or reject.
+
+`Orbiplex Anon` is one possible provider of that capability. The important boundary is that callers such as `Whisper` should not need to name or know the concrete module. They should only declare the requested privacy posture and failure policy.
 
 ## Candidate constraints
 
