@@ -2,16 +2,17 @@
 
 ## Oficjalna tożsamość
 
-- Projekt parasolowy / organizacja: **Distributed Intelligence Agency**
-- Rodzina systemowa i protokolarna: **Orbiplex**
-- Strona WWW: `https://distributed-intelligence.agency/`
-- E-mail kontaktowy: `team@distributed-intelligence.agency`
-- Organizacja na GitHubie: `https://github.com/orgs/diapod/`
+- Organizacja parasolowa: **Distributed Intelligence Agency**
+- Rodzina systemowa i protokolarna: **Orbiplex**
+- Strona WWW: `https://docs.orbiplex.ai/`
+- GitHub: `https://github.com/orgs/diapod/`
 
 ## Konwencja nazewnicza
 
-- `Distributed Intelligence Agency` identyfikuje organizację parasolową i kontekst projektowy.
-- `Orbiplex` identyfikuje protokół komunikacyjny i system narzędzi.
+- Distributed Intelligence Agency identyfikuje organizację parasolową.
+
+- Orbiplex identyfikuje kontekst projektowy – protokół komunikacyjny i system
+  narzędzi.
 
 ## Preambuła
 
