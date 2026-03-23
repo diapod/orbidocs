@@ -33,7 +33,8 @@ Machine-readable schema for bounded rumor-style social-signal exchange.
 | [`context/facets`](#field-context-facets) | `yes` | array | Normalized, low-resolution facets that help correlation without forcing raw disclosure. |
 | [`confidence`](#field-confidence) | `yes` | number | Local confidence in the quality and relevance of the prepared signal. |
 | [`disclosure/scope`](#field-disclosure-scope) | `yes` | enum: `private-correlation`, `federation-scoped`, `cross-federation`, `public-aggregate-only` | Maximum disclosure posture allowed for this signal. |
-| [`source/class`](#field-source-class) | `no` | enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived` | High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. |
+| [`source/class`](#field-source-class) | `no` | enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived`, `monus-sensorium-derived` | High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. `monus-sensorium-derived` is used when Monus relied materially on Sensorium-originated local signals. |
+| [`source/signal-kinds`](#field-source-signal-kinds) | `no` | array | Optional high-level local signal classes that materially informed a derived or sensorium-assisted rumor draft. |
 | [`risk/grade`](#field-risk-grade) | `yes` | enum: `low`, `moderate`, `high`, `critical` | Risk grade used to constrain later routing and disclosure. |
 | [`routing/profile`](#field-routing-profile) | `yes` | enum: `direct`, `relayed`, `onion-relayed` | Requested outbound transport posture. |
 | [`routing/failure-mode`](#field-routing-failure-mode) | `yes` | enum: `soft-fail`, `hard-fail` | Whether the sender allows downgrade if the requested transport posture cannot be satisfied. |
@@ -207,9 +208,17 @@ Maximum disclosure posture allowed for this signal.
 ## `source/class`
 
 - Required: `no`
-- Shape: enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived`
+- Shape: enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived`, `monus-sensorium-derived`
 
-High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication.
+High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. `monus-sensorium-derived` is used when Monus relied materially on Sensorium-originated local signals.
+
+<a id="field-source-signal-kinds"></a>
+## `source/signal-kinds`
+
+- Required: `no`
+- Shape: array
+
+Optional high-level local signal classes that materially informed a derived or sensorium-assisted rumor draft.
 
 <a id="field-risk-grade"></a>
 ## `risk/grade`

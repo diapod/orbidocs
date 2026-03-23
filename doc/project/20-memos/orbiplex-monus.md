@@ -13,6 +13,11 @@ The point is not diagnosis, hidden behavioral scoring, or paternalistic automati
 - Sensorium-originated signals relevant to wellbeing when a Node has an attached `Orbiplex Sensorium`,
 - temporal patterns where multiple weak concerns align into something that no longer looks accidental or isolated.
 
+Examples include:
+
+- a Whisper draft prepared from accelerated speech, stress markers, and repeated mention of the same institution and event class, where a wearable or voice-oriented Sensorium contributes part of the local signal basis,
+- a local emergency-help trigger when personal Sensorium reports cardiac arrest or comparable collapse and the user remains inactive across available communication channels.
+
 ## Relationship to Whisper
 
 `Monus` should not replace `Whisper`.
@@ -24,6 +29,28 @@ One healthy boundary is:
 
 - `Monus` produces a local draft or recommendation,
 - `Whisper` turns that into a bounded outgoing artifact if policy allows it.
+- when publication happens, `whisper-signal/source/class` should be able to say
+  that the signal was `monus-derived`, instead of collapsing it into a generic
+  local derivation bucket.
+
+When Sensorium materially shaped the draft, a more explicit source class such as
+`monus-sensorium-derived` is healthier than erasing that distinction.
+
+## Boundary with local help mode
+
+Not every serious Sensorium-originated signal should become a Whisper rumor.
+
+Acute personal emergencies should prefer local help or escalation flows first. For
+example:
+
+- if personal Sensorium reports likely cardiac arrest,
+- and the user remains inactive across available communication channels,
+
+then the immediate default should be a local help-mode or emergency-assistance path,
+not public or federated Whisper publication.
+
+Whisper becomes relevant only when the problem is plausibly systemic, distributed,
+or correlation-worthy across multiple nodes.
 
 ## Candidate operating modes
 

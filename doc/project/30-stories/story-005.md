@@ -13,6 +13,8 @@ This story assumes the current Orbiplex corpus where:
   forwarding, but is not required for all Whisper traffic,
 - a separate local module such as `Orbiplex Monus` may prepare candidate rumors
   from accumulated user or Sensorium-adjacent signals before they reach Whisper,
+- acute Sensorium-detected emergencies should still prefer local help-mode or
+  emergency escalation rather than default Whisper publication,
 - Node-attached roles may live in separate processes and communicate through
   explicit contracts rather than one in-process monolith.
 
@@ -93,6 +95,8 @@ v1 is simpler:
     - and forwarding limits such as hop TTL.
     If the draft came from `Orbiplex Monus`, the source class should say so
     explicitly instead of collapsing it into a generic local-derived category.
+    If Sensorium materially informed the Monus draft, the artifact should preserve
+    that distinction as well.
 14. If the user or policy requested stronger sender privacy, Whisper sets routing and
     privacy intent on the outgoing artifact, such as:
     - `direct`
@@ -143,10 +147,19 @@ v1 is simpler:
   abuse patterns.
 - Users in a Pod ecosystem hitting the same harmful moderation or service-failure
   pattern.
+- A Monus-prepared weak signal built from accelerated speech, stress markers, and
+  repeated mention of the same institution and event class in local Sensorium data.
 - A repeated emergency-health pattern where an ambulance team refuses transport for
   severe abdominal pain and, hours later, the affected person experiences intestinal
   bleeding. If several nodes observe similarly structured signals, the value lies in
   recognizing that the failure may be systemic rather than accidental.
+
+The last two examples should still be separated carefully:
+
+- the institution-linked stress pattern is plausibly correlation-worthy and may fit
+  Whisper,
+- but a likely cardiac arrest with user inactivity should default to a local
+  help-mode path rather than rumor publication.
 
 ## Open Continuation
 

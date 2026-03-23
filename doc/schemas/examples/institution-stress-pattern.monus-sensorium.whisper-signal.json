@@ -1,0 +1,34 @@
+{
+  "schema/v": 1,
+  "signal/id": "wsp-sig-2026-03-23-sens-001",
+  "created-at": "2026-03-23T20:32:00Z",
+  "sender/node-id": "node://wroclaw-personal-01",
+  "sender/federation-id": "federation://care-safety-pl",
+  "rumor/nym": "nym:rumor:sens-4d82ab",
+  "epistemic/class": "weak-signal",
+  "signal/text": "A recurring stress pattern may be associated with mention of the same institution and event class, suggesting a broader harm context rather than a one-off reaction.",
+  "topic/class": "institution-linked-stress-pattern",
+  "context/facets": [
+    "accelerated-speech",
+    "stress-markers",
+    "institution-mention",
+    "event-mention"
+  ],
+  "confidence": 0.66,
+  "disclosure/scope": "private-correlation",
+  "source/class": "monus-sensorium-derived",
+  "source/signal-kinds": [
+    "speech-rate-anomaly",
+    "stress-voice-markers",
+    "institution-mention",
+    "event-mention"
+  ],
+  "risk/grade": "moderate",
+  "routing/profile": "relayed",
+  "routing/failure-mode": "soft-fail",
+  "relay/acceptable-classes": [
+    "trusted-federation-peer"
+  ],
+  "forwarding/max-hops": 1,
+  "forwarding/budget": 1
+}

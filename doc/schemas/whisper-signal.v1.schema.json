@@ -110,9 +110,18 @@
         "pod-user",
         "operator-observed",
         "derived-local",
-        "monus-derived"
+        "monus-derived",
+        "monus-sensorium-derived"
       ],
-      "description": "High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication."
+      "description": "High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. `monus-sensorium-derived` is used when Monus relied materially on Sensorium-originated local signals."
+    },
+    "source/signal-kinds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional high-level local signal classes that materially informed a derived or sensorium-assisted rumor draft."
     },
     "risk/grade": {
       "type": "string",

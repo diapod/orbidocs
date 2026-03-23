@@ -61,7 +61,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md) | `17` | `12` | `yes` | `yes` | `1` | `2` |
 | [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) | `16` | `7` | `yes` | `yes` | `1` | `1` |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
-| [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) | `20` | `20` | `yes` | `yes` | `1` | `1` |
+| [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) | `21` | `21` | `yes` | `yes` | `3` | `1` |
 | [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `1` |
 
 ## Schema Project Lineage
@@ -128,5 +128,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `29`
 - Generated schema docs: `29`
-- Positive examples: `33`
+- Positive examples: `35`
 - Negative examples: `31`

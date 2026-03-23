@@ -160,6 +160,11 @@ On the sending side, a likely v1 intake path is:
 
 A future adjacent module such as `Orbiplex Monus` may also prepare Whisper drafts from locally aggregated wellbeing signals. In a semi-automatic mode the draft waits in UI for approval and optional editing. In a stricter automatic mode the Node may publish it without interactive approval only under explicit policy, budget, and audit constraints.
 
+Not every Monus or Sensorium-originated concern should become a Whisper signal. If
+the dominant need is immediate local help, emergency escalation, or welfare
+intervention for one person, the healthier default is a local help-mode path rather
+than network publication.
+
 ## Likely future contracts
 
 If promoted, this probably needs at least:

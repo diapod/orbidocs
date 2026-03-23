@@ -128,6 +128,10 @@ network-facing artifact is emitted.
 
 Protective anonymization in this workflow is aimed at people and protected local contexts. It should not blindly erase names of companies, hospitals, ambulance operators, or other institutions when those entities are plausibly part of the harmful pattern and do not require protection.
 
+When a local helper such as `Monus` prepared the draft, downstream policy should
+still be able to distinguish user-authored, operator-observed, Monus-derived, and
+Monus-plus-Sensorium-derived signals.
+
 ### 3. Bounded anti-Sybil controls in v1
 
 The v1 baseline should use simpler controls instead of semantic dedup:
@@ -205,6 +209,11 @@ The v1 behavior should support at least:
 
 This keeps protocol meaning separate from transport realization.
 
+Acute personal emergencies detected through local Sensorium should still prefer a
+local help-mode or emergency-assistance path. Whisper is for correlation-worthy
+distributed patterns, not as the default first response to a likely cardiac arrest
+or comparable collapse.
+
 ## Candidate Artifacts
 
 The likely first contract family is:
@@ -223,7 +232,8 @@ Later additions may include:
 At least one of those early contracts should also preserve whether the signal was
 directly user-authored, operator-observed, or prepared by a local helper such as
 `Monus`, so that downstream policy can distinguish user-authored rumors from
-monitor-derived ones.
+monitor-derived ones. If Sensorium materially informed the draft through `Monus`,
+that should remain visible as well.
 
 ## Trade-offs
 
