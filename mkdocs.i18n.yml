@@ -130,6 +130,12 @@ plugins:
                     - Requirements 003: doc/project/50-requirements/requirements-003.md
                     - Requirements 004: doc/project/50-requirements/requirements-004.md
                     - Requirements 005: doc/project/50-requirements/requirements-005.md
+                - Solutions:
+                    - doc/project/60-solutions/SOLUTIONS.md
+                    - Capability Matrix: doc/project/60-solutions/CAPABILITY-MATRIX.md
+                    - Orbiplex Node: doc/project/60-solutions/node.md
+                    - Orbiplex Node UI: doc/project/60-solutions/node-ui.md
+                    - Ferment: doc/project/60-solutions/ferment.md
             - Schemas:
                 - Schema Metadata Convention: doc/schemas/README.md
                 - Generated Index: doc/schemas-gen/schema-index.md
@@ -247,6 +253,12 @@ plugins:
                     - Requirements 003: doc/project/50-requirements/requirements-003.md
                     - Requirements 004: doc/project/50-requirements/requirements-004.md
                     - Requirements 005: doc/project/50-requirements/requirements-005.md
+                - Rozwiązania:
+                    - doc/project/60-solutions/SOLUTIONS.md
+                    - Macierz zdolności: doc/project/60-solutions/CAPABILITY-MATRIX.md
+                    - Orbiplex Node: doc/project/60-solutions/node.md
+                    - Orbiplex Node UI: doc/project/60-solutions/node-ui.md
+                    - Ferment: doc/project/60-solutions/ferment.md
             - Schematy:
                 - Konwencja metadanych schematów: doc/schemas/README.md
                 - Wygenerowany indeks: doc/schemas-gen/schema-index.md

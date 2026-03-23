@@ -23,6 +23,9 @@ def is_excluded_single_site_doc(rel: Path) -> bool:
     if rel in EXCLUDED_DOCS:
         return True
 
+    if rel.parts[:3] == ("project", "60-solutions", "_templates"):
+        return True
+
     # The single-site build is intentionally English-first for project workflow docs.
     if rel.parts and rel.parts[0] == "project" and rel.name.endswith(".pl.md"):
         return True

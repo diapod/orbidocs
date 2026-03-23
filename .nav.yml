@@ -26,6 +26,7 @@ nav:
       - Stories: doc/project/30-stories
       - Proposals: doc/project/40-proposals
       - Requirements: doc/project/50-requirements
+      - Solutions: doc/project/60-solutions
   - Schemas:
       - Metadata Convention: doc/schemas
       - Generated Index: doc/schemas-gen/schema-index.md

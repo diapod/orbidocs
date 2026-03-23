@@ -1,0 +1,70 @@
+{:component/id :orbiplex/node-ui
+ :component/title "Orbiplex Node UI"
+ :component/type :client
+ :component/status :planned
+
+ :summary
+ "Thin control and inspection client for Node behavior, policy context, and provenance-aware operator flows."
+
+ :must-implement
+ [{:cap/id :node-control-surface
+   :title "Node Control Surface"
+   :kind :client-surface
+   :based-on ["doc/project/30-stories/story-001.md"
+              "doc/project/30-stories/story-004.md"
+              "doc/project/20-memos/pod-backed-thin-clients.md"]
+   :schemas ["answer-room-metadata.v1"
+             "response-envelope.v1"]
+   :responsibilities
+   ["Expose bounded controls for room participation and answer review"
+    "Show enough room metadata for scope and policy understanding"
+    "Avoid becoming a second protocol authority beside the Node"]
+   :status :todo}
+
+  {:cap/id :provenance-policy-inspection
+   :title "Provenance and Policy Inspection"
+   :kind :inspection
+   :based-on ["doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md"
+              "doc/project/50-requirements/requirements-004.md"
+              "doc/project/50-requirements/requirements-005.md"]
+   :schemas ["transcript-segment.v1"
+             "transcript-bundle.v1"
+             "learning-outcome.v1"]
+   :responsibilities
+   ["Render provenance and human-origin markers"
+    "Expose policy and scope information without flattening semantics"
+    "Make unresolved and quarantined states clearly distinguishable"]
+   :status :todo}]
+
+ :may-implement
+ [{:cap/id :archivist-retrieval-views
+   :title "Archivist and Retrieval Views"
+   :kind :inspection
+   :based-on ["doc/project/30-stories/story-003.md"
+              "doc/project/50-requirements/requirements-003.md"]
+   :schemas ["archival-package.v1"
+             "retrieval-request.v1"
+             "retrieval-response.v1"]
+   :responsibilities
+   ["Show archival status and retrieval metadata"
+    "Provide bounded operator affordances for archival handoff and retrieval inspection"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Canonical protocol persistence"
+  "Network protocol semantics"
+  "Standalone training or archival execution"]
+
+ :consumes
+ ["answer-room-metadata.v1"
+  "response-envelope.v1"
+  "learning-outcome.v1"
+  "archival-package.v1"
+  "retrieval-response.v1"]
+
+ :produces
+ []
+
+ :notes
+ ["Different host-specific clients may exist for desktop, browser, terminal, or thin-client settings."
+  "The UI stays thin and subordinate to Node behavior."]}

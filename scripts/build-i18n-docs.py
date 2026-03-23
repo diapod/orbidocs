@@ -116,6 +116,9 @@ def copy_doc_tree(locale: str) -> None:
         if rel in EXCLUDED_DOCS:
             continue
 
+        if rel.parts[:3] == ("project", "60-solutions", "_templates"):
+            continue
+
         detected = detect_locale(source)
         if detected and detected != locale:
             continue

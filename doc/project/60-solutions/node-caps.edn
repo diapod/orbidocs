@@ -1,0 +1,103 @@
+{:component/id :orbiplex/node
+ :component/title "Orbiplex Node"
+ :component/type :runtime
+ :component/status :planned
+
+ :summary
+ "Primary Orbiplex runtime responsible for room lifecycle, protocol enforcement,
+ procurement flow, archival handoff, retrieval, and policy-gated local knowledge operations."
+
+ :must-implement
+ [{:cap/id :room-lifecycle
+   :title "Question Room Lifecycle"
+   :kind :protocol
+   :based-on ["doc/project/30-stories/story-001.md"
+              "doc/project/30-stories/story-004.md"
+              "doc/project/50-requirements/requirements-001.md"]
+   :schemas ["question-envelope.v1"
+             "answer-room-metadata.v1"
+             "response-envelope.v1"]
+   :responsibilities
+   ["Open or bind a room to `question/id`"
+    "Enforce exposure mode and room policy profile"
+    "Preserve provenance for room messages and outputs"]
+   :status :todo}
+
+  {:cap/id :answer-procurement
+   :title "Federated Answer Procurement"
+   :kind :protocol
+   :based-on ["doc/project/30-stories/story-001.md"
+              "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
+              "doc/project/50-requirements/requirements-001.md"]
+   :schemas ["procurement-offer.v1"
+             "procurement-contract.v1"
+             "procurement-receipt.v1"]
+   :responsibilities
+   ["Collect and compare offers"
+    "Select responder under policy"
+    "Record contract and receipt without coupling to crypto rails"]
+   :status :todo}
+
+  {:cap/id :local-learning
+   :title "Local Learning and Knowledge Promotion"
+   :kind :policy-enforcement
+   :based-on ["doc/project/30-stories/story-002.md"
+              "doc/project/50-requirements/requirements-002.md"]
+   :schemas ["learning-outcome.v1"
+             "knowledge-artifact.v1"]
+   :responsibilities
+   ["Classify outcomes as confirmed/corrected/unresolved"
+    "Promote only policy-accepted outcomes to trusted local retrieval"
+    "Keep unresolved material out of trusted retrieval by default"]
+   :status :todo}
+
+  {:cap/id :archival-handoff
+   :title "Archivist and Vault Handoff"
+   :kind :storage
+   :based-on ["doc/project/30-stories/story-003.md"
+              "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"
+              "doc/project/50-requirements/requirements-003.md"]
+   :schemas ["archival-package.v1"
+             "archivist-advertisement.v1"
+             "retrieval-request.v1"
+             "retrieval-response.v1"]
+   :responsibilities
+   ["Prepare archival package with scope, redaction, and integrity metadata"
+    "Select archivist under policy"
+    "Record retrieval and storage provenance"]
+   :status :todo}]
+
+ :may-implement
+ [{:cap/id :transcript-monitoring
+   :title "Transcript Monitoring"
+   :kind :observation
+   :based-on ["doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md"
+              "doc/project/50-requirements/requirements-004.md"
+              "doc/project/50-requirements/requirements-005.md"]
+   :schemas ["transcript-segment.v1"
+             "transcript-bundle.v1"]
+   :responsibilities
+   ["Observe only policy-allowed traffic"
+    "Preserve human-origin semantics and consent basis"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Rich end-user UI"
+  "Protocol-external payment processing"
+  "Direct base-model mutation as default specialization path"]
+
+ :consumes
+ ["question-envelope.v1"
+  "retrieval-response.v1"
+  "archivist-advertisement.v1"]
+
+ :produces
+ ["answer-room-metadata.v1"
+  "response-envelope.v1"
+  "learning-outcome.v1"
+  "knowledge-artifact.v1"
+  "archival-package.v1"]
+
+ :notes
+ ["Statuses here are architecture-level, not repo-implementation status."
+  "Concrete module/file ownership belongs in the node repository, not in orbidocs."]}

@@ -3,6 +3,7 @@ name: Orbidocs Schema Validation
 on:
   pull_request:
     paths:
+      - "doc/project/60-solutions/**"
       - "doc/schemas/**"
       - "doc/schemas-gen/**"
       - "doc/COVERAGE.md"
@@ -21,6 +22,7 @@ on:
     branches:
       - main
     paths:
+      - "doc/project/60-solutions/**"
       - "doc/schemas/**"
       - "doc/schemas-gen/**"
       - "doc/COVERAGE.md"
@@ -54,6 +56,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements-docs.txt
+
+      - name: Verify generated documentation artifacts
+        run: |
+          make docs-gen
+          git diff --exit-code -- \
+            doc/COVERAGE.md \
+            doc/schemas-gen \
+            doc/project/60-solutions/CAPABILITY-MATRIX.en.md \
+            doc/project/60-solutions/CAPABILITY-MATRIX.pl.md
 
       - name: Validate schemas and examples
         run: make validate-schemas

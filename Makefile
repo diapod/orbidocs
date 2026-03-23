@@ -1,14 +1,14 @@
 SHELL := /bin/sh
 
-OUTPUT_DIR ?= output
-PANDOC ?= pandoc
-PDF_ENGINE ?= weasyprint
-PDF_CSS ?= styles/pdf.css
-PANDOC_FLAGS ?= --standalone --from=gfm+smart --pdf-engine=$(PDF_ENGINE) --pdf-engine-opt=--presentational-hints --css=$(PDF_CSS)
-PANDOC_LANG ?= en-US
+OUTPUT_DIR     ?= output
+PANDOC         ?= pandoc
+PDF_ENGINE     ?= weasyprint
+PDF_CSS        ?= styles/pdf.css
+PANDOC_FLAGS   ?= --standalone --from=gfm+smart --pdf-engine=$(PDF_ENGINE) --pdf-engine-opt=--presentational-hints --css=$(PDF_CSS)
+PANDOC_LANG    ?= en-US
 PANDOC_FILTERS ?=
-PYTHON ?= python3
-MKDOCS ?= mkdocs
+PYTHON         ?= python3
+MKDOCS         ?= mkdocs
 
 # Space-separated Markdown source patterns to render into PDF.
 PDF_SOURCE_PATTERNS ?= \
@@ -26,7 +26,7 @@ PDF_SOURCE_PATTERNS ?= \
 PDF_SOURCES := $(sort $(foreach pattern,$(PDF_SOURCE_PATTERNS),$(wildcard $(pattern))))
 PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/%.pdf,$(PDF_SOURCES))
 
-.PHONY: check-json-syntax validate-schemas output output-list output-clean output-one schema-docs coverage-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
+.PHONY: check-json-syntax validate-schemas pdf one-pdf pdf-list output-clean pdf-clean schema-docs coverage-docs solutions-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
 
 check-json-syntax:
 	./scripts/validate-json-schemas.sh --syntax-only
@@ -40,7 +40,10 @@ schema-docs:
 coverage-docs:
 	$(PYTHON) ./scripts/generate-workflow-coverage.py
 
-docs-gen: schema-docs coverage-docs
+solutions-docs:
+	$(PYTHON) ./scripts/generate-solution-caps.py
+
+docs-gen: schema-docs coverage-docs solutions-docs
 
 site-docs: docs-gen
 	$(PYTHON) ./scripts/build-site-docs.py
@@ -80,13 +83,13 @@ html-i18n-serve: i18n-docs
 	}
 	$(MKDOCS) serve -f mkdocs.i18n.yml
 
-output: $(PDF_OUTPUTS)
+pdf: $(PDF_OUTPUTS)
 
-output-list:
+pdf-list:
 	@printf '%s\n' $(PDF_OUTPUTS)
 
-output-one:
-	@test -n "$(FILE)" || { echo "Usage: make output-one FILE=path/to/file.md" >&2; exit 1; }
+one-pdf:
+	@test -n "$(FILE)" || { echo "Usage: make one-pdf FILE=path/to/file.md" >&2; exit 1; }
 	@test -f "$(FILE)" || { echo "Missing source file: $(FILE)" >&2; exit 1; }
 	@case "$(FILE)" in \
 		*.md) ;; \
@@ -98,6 +101,12 @@ output-clean:
 	@if [ -d "$(OUTPUT_DIR)" ]; then \
 		find "$(OUTPUT_DIR)" -type f ! -name '.gitkeep' -delete; \
 		find "$(OUTPUT_DIR)" -depth -type d ! -path "$(OUTPUT_DIR)" -empty -delete; \
+	fi
+
+pdf-clean:
+	@if [ -d "$(OUTPUT_DIR)/pdf" ]; then \
+		find "$(OUTPUT_DIR)/pdf" -type f ! -name '.gitkeep' -delete; \
+		find "$(OUTPUT_DIR)/pdf" -depth -type d ! -path "$(OUTPUT_DIR)/pdf" -empty -delete; \
 	fi
 
 $(OUTPUT_DIR)/%.pdf: %.md $(PDF_CSS)

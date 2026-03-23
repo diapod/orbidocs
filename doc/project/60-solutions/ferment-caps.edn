@@ -1,0 +1,59 @@
+{:component/id :orbiplex/ferment
+ :component/title "Ferment"
+ :component/type :dev-tool
+ :component/status :optional
+
+ :summary
+ "Optional development and experimentation tool for scenario replay, evaluation support, and model-adjacent workflows around Orbiplex."
+
+ :may-implement
+ [{:cap/id :scenario-runner
+   :title "Scenario Runner"
+   :kind :simulation
+   :based-on ["doc/project/30-stories/story-001.md"
+              "doc/project/30-stories/story-002.md"
+              "doc/project/30-stories/story-003.md"]
+   :schemas ["question-envelope.v1"
+             "response-envelope.v1"
+             "learning-outcome.v1"
+             "archival-package.v1"]
+   :responsibilities
+   ["Replay realistic protocol scenarios"
+    "Generate deterministic test fixtures"
+    "Support smoke flows without coupling them to a production UI"]
+   :status :todo}
+
+  {:cap/id :evaluation-training-support
+   :title "Evaluation and Training Support"
+   :kind :dev-workflow
+   :based-on ["doc/project/50-requirements/requirements-004.md"
+              "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"]
+   :schemas ["eval-report.v1"
+             "model-card.v1"
+             "training-job.v1"
+             "adapter-artifact.v1"]
+   :responsibilities
+   ["Orchestrate evaluation support workflows"
+    "Help prepare training and validation runs"
+    "Emit reproducible artifacts for review without becoming the only execution path"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Required protocol conformance"
+  "Mandatory federation runtime duties"
+  "Canonical operator UI"]
+
+ :consumes
+ ["training-job.v1"
+  "adapter-artifact.v1"
+  "eval-report.v1"
+  "model-card.v1"]
+
+ :produces
+ ["test fixtures"
+  "scenario traces"
+  "development-side evaluation outputs"]
+
+ :notes
+ ["Ferment remains modular and optional."
+  "Production Node behavior must not depend on it."]}

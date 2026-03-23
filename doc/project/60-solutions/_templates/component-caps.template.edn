@@ -1,0 +1,42 @@
+{:component/id :orbiplex/component-name
+ :component/title "Component Name"
+ :component/type :runtime
+ :component/status :planned
+
+ :summary
+ "Short solution-level summary of the component."
+
+ :must-implement
+ [{:cap/id :capability-name
+   :title "Capability Name"
+   :kind :protocol
+   :based-on ["doc/project/30-stories/story-001.md"
+              "doc/project/50-requirements/requirements-001.md"]
+   :schemas ["example-schema.v1"]
+   :responsibilities
+   ["Describe the first required responsibility"
+    "Describe the second required responsibility"]
+   :status :todo}]
+
+ :may-implement
+ [{:cap/id :optional-capability-name
+   :title "Optional Capability Name"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/example-proposal.md"]
+   :schemas ["optional-schema.v1"]
+   :responsibilities
+   ["Describe optional responsibility"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Explicitly name what this component should not own"]
+
+ :consumes
+ ["input-schema.v1"]
+
+ :produces
+ ["output-schema.v1"]
+
+ :notes
+ ["This file is an authoring template for solution capability catalogs."
+  "Concrete implementation ownership belongs in implementation repositories."]}

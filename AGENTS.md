@@ -101,6 +101,15 @@ Project workflow positions:
 - `doc/project/50-requirements/`
 - `doc/project/60-solutions/`
 
+Under `doc/project/60-solutions/`, keep human-facing component pages in Markdown
+(for example `node.md`, `node-ui.md`, `ferment.md`) and structured capability
+catalogs in sidecar `*-caps.edn` files.
+
+Node-attached roles such as archivist, memarium provider, or sensorium provider
+may be documented there as separate solution components even if they are
+operationally attached to the Node. Do not assume that such roles must live
+inside one in-process monolith.
+
 For challenge/proposal linkage, keep traceability explicit:
 - each proposal file should reference its source challenge(s) in the header (for example: `Based on: doc/project/10-challenges/001-licensing.md`);
 - use aligned numbering where practical (for example: `doc/project/10-challenges/001-*.md` -> `doc/project/40-proposals/001-*.md`).
@@ -116,6 +125,15 @@ They do not need to follow the full document quality contract (section 4), but s
 - be promoted into a challenge, story, or proposal when they mature.
 
 Do not add new top-level workflow folders casually. If a new workflow position or domain is needed, justify it in the relevant ADR or README update.
+
+Treat the following as generated artifacts rather than hand-edited source:
+- `doc/schemas-gen/**`
+- `doc/COVERAGE.md`
+- `doc/project/60-solutions/CAPABILITY-MATRIX.en.md`
+- `doc/project/60-solutions/CAPABILITY-MATRIX.pl.md`
+
+When changing their source inputs or generators, regenerate them before
+considering the change done.
 
 ## 9. Collaboration Rules for Agents
 

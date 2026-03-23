@@ -1,0 +1,9 @@
+ignore:
+  - "*.pl.md"
+
+nav:
+  - "SOLUTIONS*.md"
+  - "CAPABILITY-MATRIX*.md"
+  - "node.md"
+  - "node-ui.md"
+  - "ferment.md"
