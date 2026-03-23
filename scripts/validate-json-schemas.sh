@@ -47,6 +47,18 @@ schema_for_file() {
     *.adapter-artifact.json)
       echo "$SCHEMAS_DIR/adapter-artifact.v1.schema.json"
       ;;
+    *.node-identity.json)
+      echo "$SCHEMAS_DIR/node-identity.v1.schema.json"
+      ;;
+    *.node-advertisement.json)
+      echo "$SCHEMAS_DIR/node-advertisement.v1.schema.json"
+      ;;
+    *.peer-handshake.json)
+      echo "$SCHEMAS_DIR/peer-handshake.v1.schema.json"
+      ;;
+    *.capability-advertisement.json)
+      echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
+      ;;
     *.model-card.json)
       echo "$SCHEMAS_DIR/model-card.v1.schema.json"
       ;;

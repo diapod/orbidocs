@@ -95,6 +95,7 @@ plugins:
                     - Filtrum: doc/project/20-memos/filtrum.md
                     - Human Expertise Escalation: doc/project/20-memos/human-expertise-escalation.md
                     - Model Requests: doc/project/20-memos/model-requests.md
+                    - Node Middleware Init and Capability Reporting: doc/project/20-memos/node-middleware-init-and-capability-reporting.md
                     - Orbiplex Monus: doc/project/20-memos/orbiplex-monus.md
                     - Orbiplex Anon: doc/project/20-memos/orbiplex-anon.md
                     - Orbiplex Whisper: doc/project/20-memos/orbiplex-whisper.md
@@ -128,6 +129,7 @@ plugins:
                     - 011 Federated Answer Procurement Lifecycle: doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md
                     - 012 Learning Outcomes and Archival Contracts: doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md
                     - 013 Whisper Social-Signal Exchange and Threshold Bootstrap: doc/project/40-proposals/013-whisper-social-signal-exchange.md
+                    - 014 Node Transport and Discovery MVP: doc/project/40-proposals/014-node-transport-and-discovery-mvp.md
                 - Requirements:
                     - doc/project/50-requirements/REQUIREMENTS.md
                     - Requirements 001: doc/project/50-requirements/requirements-001.md
@@ -135,6 +137,7 @@ plugins:
                     - Requirements 003: doc/project/50-requirements/requirements-003.md
                     - Requirements 004: doc/project/50-requirements/requirements-004.md
                     - Requirements 005: doc/project/50-requirements/requirements-005.md
+                    - Requirements 006: doc/project/50-requirements/requirements-006.md
                 - Solutions:
                     - doc/project/60-solutions/SOLUTIONS.md
                     - Capability Matrix: doc/project/60-solutions/CAPABILITY-MATRIX.md
@@ -158,6 +161,9 @@ plugins:
                     - Knowledge Artifact v1: doc/schemas-gen/schemas/knowledge-artifact.v1.md
                     - Learning Outcome v1: doc/schemas-gen/schemas/learning-outcome.v1.md
                     - Model Card v1: doc/schemas-gen/schemas/model-card.v1.md
+                    - Node Identity v1: doc/schemas-gen/schemas/node-identity.v1.md
+                    - Node Advertisement v1: doc/schemas-gen/schemas/node-advertisement.v1.md
+                    - Peer Handshake v1: doc/schemas-gen/schemas/peer-handshake.v1.md
                     - Procurement Contract v1: doc/schemas-gen/schemas/procurement-contract.v1.md
                     - Procurement Offer v1: doc/schemas-gen/schemas/procurement-offer.v1.md
                     - Procurement Receipt v1: doc/schemas-gen/schemas/procurement-receipt.v1.md
@@ -173,6 +179,7 @@ plugins:
                     - Training Job v1: doc/schemas-gen/schemas/training-job.v1.md
                     - UBC Allocation v1: doc/schemas-gen/schemas/ubc-allocation.v1.md
                     - UBC Settlement v1: doc/schemas-gen/schemas/ubc-settlement.v1.md
+                    - Capability Advertisement v1: doc/schemas-gen/schemas/capability-advertisement.v1.md
                     - Whisper Interest v1: doc/schemas-gen/schemas/whisper-interest.v1.md
                     - Whisper Signal v1: doc/schemas-gen/schemas/whisper-signal.v1.md
                     - Whisper Threshold Reached v1: doc/schemas-gen/schemas/whisper-threshold-reached.v1.md
@@ -229,6 +236,7 @@ plugins:
                     - Filtrum: doc/project/20-memos/filtrum.md
                     - Human Expertise Escalation: doc/project/20-memos/human-expertise-escalation.md
                     - Model Requests: doc/project/20-memos/model-requests.md
+                    - Node Middleware Init and Capability Reporting: doc/project/20-memos/node-middleware-init-and-capability-reporting.md
                     - Orbiplex Monus: doc/project/20-memos/orbiplex-monus.md
                     - Orbiplex Anon: doc/project/20-memos/orbiplex-anon.md
                     - Orbiplex Whisper: doc/project/20-memos/orbiplex-whisper.md
@@ -262,6 +270,7 @@ plugins:
                     - 011 Federated Answer Procurement Lifecycle: doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md
                     - 012 Learning Outcomes and Archival Contracts: doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md
                     - 013 Whisper Social-Signal Exchange and Threshold Bootstrap: doc/project/40-proposals/013-whisper-social-signal-exchange.md
+                    - 014 Node Transport and Discovery MVP: doc/project/40-proposals/014-node-transport-and-discovery-mvp.md
                 - Wymagania:
                     - doc/project/50-requirements/REQUIREMENTS.md
                     - Requirements 001: doc/project/50-requirements/requirements-001.md
@@ -269,6 +278,7 @@ plugins:
                     - Requirements 003: doc/project/50-requirements/requirements-003.md
                     - Requirements 004: doc/project/50-requirements/requirements-004.md
                     - Requirements 005: doc/project/50-requirements/requirements-005.md
+                    - Requirements 006: doc/project/50-requirements/requirements-006.md
                 - Rozwiązania:
                     - doc/project/60-solutions/SOLUTIONS.md
                     - Macierz zdolności: doc/project/60-solutions/CAPABILITY-MATRIX.md
@@ -292,6 +302,9 @@ plugins:
                     - Knowledge Artifact v1: doc/schemas-gen/schemas/knowledge-artifact.v1.md
                     - Learning Outcome v1: doc/schemas-gen/schemas/learning-outcome.v1.md
                     - Model Card v1: doc/schemas-gen/schemas/model-card.v1.md
+                    - Node Identity v1: doc/schemas-gen/schemas/node-identity.v1.md
+                    - Node Advertisement v1: doc/schemas-gen/schemas/node-advertisement.v1.md
+                    - Peer Handshake v1: doc/schemas-gen/schemas/peer-handshake.v1.md
                     - Procurement Contract v1: doc/schemas-gen/schemas/procurement-contract.v1.md
                     - Procurement Offer v1: doc/schemas-gen/schemas/procurement-offer.v1.md
                     - Procurement Receipt v1: doc/schemas-gen/schemas/procurement-receipt.v1.md
@@ -307,6 +320,7 @@ plugins:
                     - Training Job v1: doc/schemas-gen/schemas/training-job.v1.md
                     - UBC Allocation v1: doc/schemas-gen/schemas/ubc-allocation.v1.md
                     - UBC Settlement v1: doc/schemas-gen/schemas/ubc-settlement.v1.md
+                    - Capability Advertisement v1: doc/schemas-gen/schemas/capability-advertisement.v1.md
                     - Whisper Interest v1: doc/schemas-gen/schemas/whisper-interest.v1.md
                     - Whisper Signal v1: doc/schemas-gen/schemas/whisper-signal.v1.md
                     - Whisper Threshold Reached v1: doc/schemas-gen/schemas/whisper-threshold-reached.v1.md

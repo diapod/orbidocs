@@ -1,0 +1,17 @@
+{
+  "schema/v": 1,
+  "handshake/id": "hs:01JQNODEHS002",
+  "handshake/mode": "ack",
+  "ts": "2026-03-23T18:10:01Z",
+  "sender/node-id": "node:ed25519:z6MksvHk3P8abNodeBootstrap02",
+  "key/alg": "ed25519",
+  "key/public": "base64url:z6MksvHk3P8abNodeBootstrap02",
+  "protocol/version": "0.1.0-mvp",
+  "transport/profile": "wss",
+  "session/intent": "peer-connect",
+  "nonce": "nonce:01JQNODEHS002",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:peer-handshake-signature"
+  }
+}

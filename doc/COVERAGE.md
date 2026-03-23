@@ -22,13 +22,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `18` | `0` |
 | `30-stories` (Stories) | `7` | `0` |
-| `40-proposals` (Proposals) | `15` | `13` |
-| `50-requirements` (Requirements) | `7` | `5` |
+| `40-proposals` (Proposals) | `16` | `14` |
+| `50-requirements` (Requirements) | `8` | `6` |
 | `60-solutions` (Solutions) | `10` | `6` |
 
-- Total project markdown files: `63`
-- Proposals referencing source material: `13` / `15`
-- Requirements referencing source material: `5` / `7`
+- Total project markdown files: `65`
+- Proposals referencing source material: `14` / `16`
+- Requirements referencing source material: `6` / `8`
 
 ## Schema Workflow
 
@@ -39,12 +39,16 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md) | `16` | `15` | `yes` | `yes` | `1` | `1` |
 | [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
+| [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`eval-report.v1.schema.json`](schemas-gen/schemas/eval-report.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) | `16` | `16` | `yes` | `yes` | `1` | `1` |
 | [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md) | `17` | `17` | `yes` | `yes` | `1` | `1` |
+| [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
+| [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `1` |
+| [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `21` | `20` | `yes` | `yes` | `1` | `1` |
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | `21` | `20` | `yes` | `yes` | `1` | `1` |
 | [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) | `16` | `15` | `yes` | `yes` | `1` | `1` |
@@ -73,12 +77,16 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) |  | [`story-005.md`](project/30-stories/story-005.md) |
+| [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`eval-report.v1.schema.json`](schemas-gen/schemas/eval-report.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
+| [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
+| [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
+| [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | [`requirements-001.md`](project/50-requirements/requirements-001.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | [`requirements-001.md`](project/50-requirements/requirements-001.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) | [`requirements-001.md`](project/50-requirements/requirements-001.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
@@ -121,12 +129,15 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`](project/40-proposals/011-federated-answer-procurement-lifecycle.md) | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md), [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md), [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) |
 | [`doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md`](project/40-proposals/012-learning-outcomes-and-archival-contracts.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md), [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md), [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) |
 | [`doc/project/40-proposals/013-whisper-social-signal-exchange.md`](project/40-proposals/013-whisper-social-signal-exchange.md) | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md), [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md), [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md), [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) |
+| [`doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`](project/40-proposals/014-node-transport-and-discovery-mvp.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
 | [`doc/project/50-requirements/requirements-001.md`](project/50-requirements/requirements-001.md) | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) |
 | [`doc/project/50-requirements/requirements-002.md`](project/50-requirements/requirements-002.md) | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) |
 | [`doc/project/50-requirements/requirements-003.md`](project/50-requirements/requirements-003.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md), [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md), [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) |
 | [`doc/project/50-requirements/requirements-004.md`](project/50-requirements/requirements-004.md) | [`adapter-artifact.v1.schema.json`](schemas-gen/schemas/adapter-artifact.v1.md), [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md), [`eval-report.v1.schema.json`](schemas-gen/schemas/eval-report.v1.md), [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md), [`training-job.v1.schema.json`](schemas-gen/schemas/training-job.v1.md) |
+| [`doc/project/50-requirements/requirements-006.md`](project/50-requirements/requirements-006.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
+| [`doc/project/60-solutions/node.md`](project/60-solutions/node.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
 
-- Canonical schemas: `29`
-- Generated schema docs: `29`
-- Positive examples: `35`
-- Negative examples: `31`
+- Canonical schemas: `33`
+- Generated schema docs: `33`
+- Positive examples: `39`
+- Negative examples: `35`

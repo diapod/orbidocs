@@ -1,0 +1,9 @@
+{
+  "schema/v": 1,
+  "node/id": "node:ed25519:z6MksvHk3P8abNodeBootstrap01",
+  "created-at": "2026-03-23T18:05:00Z",
+  "identity/status": "active",
+  "key/alg": "ed25519",
+  "key/public": "base64url:z6MksvHk3P8abNodeBootstrap01",
+  "key/storage-ref": "keychain://orbiplex/node/primary"
+}

@@ -1,0 +1,21 @@
+{
+  "schema/v": 1,
+  "advertisement/id": "caps:01JQNODECAP001",
+  "node/id": "node:ed25519:z6MksvHk3P8abNodeBootstrap01",
+  "published-at": "2026-03-23T18:11:00Z",
+  "protocol/version": "0.1.0-mvp",
+  "transport/profiles": [
+    "wss"
+  ],
+  "capabilities/core": [
+    "core/discovery"
+  ],
+  "roles/attached": [],
+  "messages/supported": [
+    "peer-handshake.v1"
+  ],
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:capability-advertisement-signature"
+  }
+}

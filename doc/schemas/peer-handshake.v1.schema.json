@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:peer-handshake:v1",
+  "title": "PeerHandshake v1",
+  "description": "Machine-readable schema for signed peer session establishment over the Node networking baseline.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/project/50-requirements/requirements-006.md",
+    "doc/project/60-solutions/node.md"
+  ],
+  "required": [
+    "schema/v",
+    "handshake/id",
+    "handshake/mode",
+    "ts",
+    "sender/node-id",
+    "key/alg",
+    "key/public",
+    "protocol/version",
+    "transport/profile",
+    "nonce",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "handshake/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this handshake attempt."
+    },
+    "handshake/mode": {
+      "type": "string",
+      "enum": [
+        "hello",
+        "ack"
+      ],
+      "description": "Whether this artifact initiates or acknowledges a session attempt."
+    },
+    "ack/of-handshake-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the original handshake when `handshake/mode = ack`."
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the handshake artifact."
+    },
+    "sender/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node sending this handshake artifact."
+    },
+    "key/alg": {
+      "type": "string",
+      "enum": [
+        "ed25519"
+      ],
+      "description": "Algorithm of the sender key."
+    },
+    "key/public": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Public key corresponding to `sender/node-id`."
+    },
+    "protocol/version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Protocol version requested or accepted for this session."
+    },
+    "transport/profile": {
+      "type": "string",
+      "enum": [
+        "wss"
+      ],
+      "description": "Baseline transport profile of the current session."
+    },
+    "session/intent": {
+      "type": "string",
+      "enum": [
+        "bootstrap",
+        "peer-connect",
+        "reconnect"
+      ],
+      "description": "High-level intent of this session attempt."
+    },
+    "nonce": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Fresh nonce used to bind this session attempt and reduce replay risk."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local or federation-local annotations that do not change core session semantics."
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "handshake/mode": {
+            "const": "ack"
+          }
+        },
+        "required": [
+          "handshake/mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "ack/of-handshake-id"
+        ]
+      }
+    }
+  ]
+}

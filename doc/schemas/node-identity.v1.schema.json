@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:node-identity:v1",
+  "title": "NodeIdentity v1",
+  "description": "Machine-readable schema for the persisted local identity of a network-participating Orbiplex Node.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/project/50-requirements/requirements-006.md",
+    "doc/project/60-solutions/node.md"
+  ],
+  "required": [
+    "schema/v",
+    "node/id",
+    "created-at",
+    "key/alg",
+    "key/public",
+    "key/storage-ref"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "node/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable Node identifier derived from the public key and persisted across restarts until explicit rotation."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the local identity was first created."
+    },
+    "identity/status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "rotating"
+      ],
+      "description": "Local lifecycle state of the identity material."
+    },
+    "key/alg": {
+      "type": "string",
+      "enum": [
+        "ed25519"
+      ],
+      "description": "Public-key algorithm used to derive `node/id` and sign networking artifacts."
+    },
+    "key/public": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Public key material used by peers to validate signed advertisements and handshakes."
+    },
+    "key/storage-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Local secure-storage or keystore reference to the corresponding private key material."
+    },
+    "federation/default-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional default federation binding used by higher layers."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local annotations that do not change networking semantics."
+    }
+  }
+}

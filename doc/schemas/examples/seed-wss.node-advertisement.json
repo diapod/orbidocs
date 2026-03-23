@@ -1,0 +1,25 @@
+{
+  "schema/v": 1,
+  "advertisement/id": "adv:01JQNODEADV001",
+  "node/id": "node:ed25519:z6MksvHk3P8abNodeBootstrap01",
+  "advertised-at": "2026-03-23T18:08:00Z",
+  "expires-at": "2026-03-23T18:18:00Z",
+  "key/alg": "ed25519",
+  "key/public": "base64url:z6MksvHk3P8abNodeBootstrap01",
+  "federation/id": "fed:orbiplex-pl",
+  "endpoints": [
+    {
+      "endpoint/url": "wss://node-01.docs.orbiplex.ai/peer",
+      "endpoint/transport": "wss",
+      "endpoint/role": "listener",
+      "endpoint/priority": 0
+    }
+  ],
+  "transports/supported": [
+    "wss"
+  ],
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:node-advertisement-signature"
+  }
+}

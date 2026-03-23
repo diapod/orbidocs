@@ -7,6 +7,7 @@ Node-scoped roles such as archivist, memarium provider, or sensorium provider ar
 ## Purpose
 
 The Node is responsible for the solution-level execution path of:
+- peer identity, handshake, and endpoint discovery,
 - question room lifecycle,
 - federated answer procurement,
 - local learning and knowledge promotion,
@@ -25,6 +26,29 @@ It does not define:
 - default direct mutation of base models.
 
 ## Must Implement
+
+### Peer Identity, Discovery, and Session Baseline
+
+Based on:
+- `doc/project/40-proposals/002-comm-protocol.md`
+- `doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`
+- `doc/project/50-requirements/requirements-006.md`
+
+Related schemas:
+- `node-identity.v1`
+- `node-advertisement.v1`
+- `peer-handshake.v1`
+- `capability-advertisement.v1`
+
+Responsibilities:
+- generate or load a stable local node identity,
+- derive and expose a stable `node-id`,
+- publish or consume signed endpoint advertisements,
+- establish signed peer handshakes and capability exchange over the baseline transport,
+- maintain keepalive and reconnect behavior for the first networked Node baseline.
+
+Status:
+- `todo`
 
 ### Question Room Lifecycle
 
