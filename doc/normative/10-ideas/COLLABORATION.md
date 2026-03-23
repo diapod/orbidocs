@@ -1,9 +1,9 @@
 # Distributed Intelligence Agency Collaboration Card (Orbiplex Program)
 
 Version: 0.2 (2026-02-21)
-Parties: Sebastian + Paweł
 
-Goal: build distributed AI + community + a prompt marketplace (without lock-in and without attention/upside asymmetry).
+Goal: build distributed AI + community + a prompt marketplace
+(without lock-in and without attention/upside asymmetry).
 
 ## 0) Top-level principles
 
@@ -26,7 +26,7 @@ Goal: build distributed AI + community + a prompt marketplace (without lock-in a
 - Community contributions: clear `AUTHORS.md` + attribution (metadata).
 - Prompts: authors keep authorship; the marketplace stores content/metadata under agreed terms (see 6).
 
-## 3) Roles and responsibilities (simple)
+## 3) Example roles and responsibilities (simple)
 
 ### Paweł (siefca)
 
@@ -47,7 +47,7 @@ Goal: build distributed AI + community + a prompt marketplace (without lock-in a
 - hotfixing,
 - obtaining man/AI power.
 
-## 4) Work cadence (anti-asymmetry)
+## Work cadence (anti-asymmetry)
 
 - **Weekly**: at least 1 "ship" in Core **and** at least 1 "ship" in Marketplace
   (small is fine, but real: PR, release, deploy, fix, test).
@@ -55,7 +55,7 @@ Goal: build distributed AI + community + a prompt marketplace (without lock-in a
 - Paweł keeps a fixed slot for marketplace work: 2-4 hours/week (non-architecture).
 - Weekly 30-min review: what shipped, where debt grows, what blocks us.
 
-## 5) Governance and decisions
+## Governance and decisions
 
 Strategic decisions require approval from both parties:
 
@@ -67,7 +67,7 @@ Strategic decisions require approval from both parties:
 
 Dispute path: 48h written clarification → 60-min call → if still stuck: 7-day cooldown.
 
-## 6) Prompt marketplace: ethical + technical guardrails
+## Prompt marketplace: ethical + technical guardrails
 
 1. **Portability**: authors can export their prompts + metadata (in a standard format).
 2. **Transparency**: clear fees/commission and settlement; no hidden charges.
@@ -76,16 +76,16 @@ Dispute path: 48h written clarification → 60-min call → if still stuck: 7-da
 5. **Attribution**: visible author + version history.
 6. **No exclusivity by default**: authors are not blocked from publishing elsewhere (unless they explicitly opt in).
 
-## 7) Side-ventures / wrappers: the hard guardrail (red line)
+## Side-ventures / wrappers: the hard guardrail (red line)
 
-### 7.1 No competing wrappers
+### No competing wrappers
 
 For the first 17 months after collaboration starts:
 
 - neither party launches a wrapper/side-venture based on the core/marketplace/brand
   without the other party's consent.
 
-### 7.2 ROFR — Right of First Refusal (fixed 50/50)
+### ROFR — Right of First Refusal (fixed 50/50)
 
 If one party wants to launch a wrapper:
 
@@ -101,7 +101,7 @@ If the other party declines:
   3) without exclusivity over the commons,
   4) without capturing community channels as sales channels.
 
-## 8) Brand and communications
+## Brand and communications
 
 - "Official" announcements require joint approval.
 - The umbrella brand (**Distributed Intelligence Agency**) is not used for selling without both parties' consent.
@@ -109,13 +109,13 @@ If the other party declines:
 - Official organization channel on GitHub: `https://github.com/orgs/diapod/`.
 - Sponsors/partners: disclosed, including any influence if applicable.
 
-## 9) Exit and hygiene
+## Exit and hygiene
 
 - Either party may exit with a 31-day handover period (access, docs,
   obligations).
 - Forking is allowed (Apache-2.0), with no impersonation of official accounts/brand.
 
-## 10) Success after 120 days (a concrete test)
+## Success after 120 days (a concrete test)
 
 - A vertical slice works: core + prompt marketplace  
   (publish → discover → version/ID → settlement/commission, even if MVP).
