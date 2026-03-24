@@ -12,7 +12,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | `40-constitution` (Constitution) | `2` | `1` | `1` | `0` |
 | `50-constitutional-ops` (Constitutional Ops) | `48` | `24` | `24` | `0` |
 
-- Total normative markdown files: `57`
+- Total normative markdown files: `59`
 
 ## Project Workflow
 

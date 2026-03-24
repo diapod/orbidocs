@@ -54,7 +54,6 @@ plugins:
                 - Workflow Coverage: doc/COVERAGE.md
             - Normative:
                 - Vision: doc/normative/20-vision/VISION.md
-                - AI Manifesto: doc/normative/90-supplementary/AI-MANIFESTO.md
                 - Core Values: doc/normative/30-core-values/CORE-VALUES.md
                 - Constitution: doc/normative/40-constitution/CONSTITUTION.md
                 - Constitutional Ops:
@@ -85,6 +84,9 @@ plugins:
           # BEGIN GENERATED PROJECT NAV EN
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV EN
+            - Supplementary:
+                - doc/normative/90-supplementary/SUPPLEMENTARY.md
+                - AI Manifesto: doc/normative/90-supplementary/AI-MANIFESTO.md
             - Schemas:
                 - Schema Metadata Convention: doc/schemas/README.md
                 - Generated Index: doc/schemas-gen/schema-index.md
@@ -134,7 +136,6 @@ plugins:
                 - Pokrycie workflowów: doc/COVERAGE.md
             - Normatywne:
                 - Wizja: doc/normative/20-vision/VISION.md
-                - Manifest AI: doc/normative/90-supplementary/AI-MANIFESTO.md
                 - Wartości podstawowe: doc/normative/30-core-values/CORE-VALUES.md
                 - Konstytucja: doc/normative/40-constitution/CONSTITUTION.md
                 - Akty wykonawcze:
@@ -165,6 +166,9 @@ plugins:
           # BEGIN GENERATED PROJECT NAV PL
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV PL
+            - Dodatkowe:
+                - doc/normative/90-supplementary/SUPPLEMENTARY.md
+                - Manifest AI: doc/normative/90-supplementary/AI-MANIFESTO.md
             - Schematy:
                 - Konwencja metadanych schematów: doc/schemas/README.md
                 - Wygenerowany indeks: doc/schemas-gen/schema-index.md

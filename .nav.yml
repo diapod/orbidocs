@@ -7,9 +7,6 @@ nav:
       - Vision:
           - PL: doc/normative/20-vision/pl/VISION.pl.md
           - EN: doc/normative/20-vision/en/VISION.en.md
-      - AI Manifesto:
-          - PL: doc/normative/90-supplementary/pl/AI-MANIFESTO.pl.md
-          - EN: doc/normative/90-supplementary/en/AI-MANIFESTO.en.md
       - Core Values:
           - PL: doc/normative/30-core-values/pl/CORE-VALUES.pl.md
           - EN: doc/normative/30-core-values/en/CORE-VALUES.en.md
@@ -27,6 +24,12 @@ nav:
       - Proposals: doc/project/40-proposals
       - Requirements: doc/project/50-requirements
       - Solutions: doc/project/60-solutions
+  - Supplementary:
+      - PL: doc/normative/90-supplementary/pl/SUPPLEMENTARY.pl.md
+      - EN: doc/normative/90-supplementary/en/SUPPLEMENTARY.en.md
+      - AI Manifesto:
+          - PL: doc/normative/90-supplementary/pl/AI-MANIFESTO.pl.md
+          - EN: doc/normative/90-supplementary/en/AI-MANIFESTO.en.md
   - Schemas:
       - Metadata Convention: doc/schemas
       - Generated Index: doc/schemas-gen/schema-index.md
