@@ -74,14 +74,14 @@ html-i18n: i18n-docs
 		echo "Missing mkdocs. Install mkdocs, mkdocs-material, and mkdocs-static-i18n to build multilingual HTML." >&2; \
 		exit 1; \
 	}
-	$(MKDOCS) build -f mkdocs.i18n.yml
+	$(MKDOCS) build -f mkdocs.i18n.generated.yml
 
 html-i18n-serve: i18n-docs
 	@command -v "$(MKDOCS)" >/dev/null 2>&1 || { \
 		echo "Missing mkdocs. Install mkdocs, mkdocs-material, and mkdocs-static-i18n to serve multilingual HTML." >&2; \
 		exit 1; \
 	}
-	$(MKDOCS) serve -f mkdocs.i18n.yml
+	$(MKDOCS) serve -f mkdocs.i18n.generated.yml
 
 pdf: $(PDF_OUTPUTS)
 

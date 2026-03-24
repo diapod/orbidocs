@@ -61,14 +61,15 @@ social rules, it should be promoted into `doc/normative/40-constitution/` or
 - `TRACEABILITY.md` – linking convention across workflows and schema semantics.
 - `Makefile` – schema validation, schema doc generation, PDF rendering, and HTML builds.
 - `mkdocs.yml` – single-site HTML build config.
-- `mkdocs.i18n.yml` – multilingual MkDocs config.
+- `mkdocs.i18n.yml` – multilingual MkDocs config template.
+- `mkdocs.i18n.generated.yml` – generated multilingual MkDocs config with project nav expanded from local `.nav.yml` files.
 - `.github/workflows/orbidocs-pages.yml` – GitHub Pages build/deploy workflow for the `public` branch.
 - `requirements-docs.txt` – Python dependencies for schema validation and MkDocs builds in CI.
 - `scripts/validate-json-schemas.sh` – schema/example validator wrapper.
 - `scripts/generate-schema-docs.py` – generator for human-facing schema pages.
 - `scripts/generate-workflow-coverage.py` – generator for workflow coverage overview.
 - `scripts/build-site-docs.py` – staging-tree normalizer for the developer HTML build.
-- `scripts/build-i18n-docs.py` – staging-tree normalizer for multilingual HTML builds.
+- `scripts/build-i18n-docs.py` – staging-tree normalizer for multilingual HTML builds and generator of `mkdocs.i18n.generated.yml`.
 
 ## Schemas
 
