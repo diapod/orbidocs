@@ -55,7 +55,7 @@ higher-layer identity, room, or federation semantics.
 ### Core Data Contracts (normative)
 
 - `NodeIdentity`:
-  - `node/id`, `created-at`, `key/alg`, `key/public`, `key/storage-ref`, optional `identity/status`.
+  - `node/id`, `created-at`, `key/alg`, `key/public`, and either `private_key_base64` or `key/storage-ref`, optional `identity/status`.
 - `NodeAdvertisement`:
   - `advertisement/id`, `node/id`, `advertised-at`, `expires-at`, `key/alg`, `key/public`, `endpoints`, `transports/supported`, `signature`.
 - `PeerHandshake`:
@@ -68,6 +68,7 @@ higher-layer identity, room, or federation semantics.
 | ID | Requirement | Type | Source |
 |---|---|---|---|
 | FR-001 | Every network-participating Node MUST have a stable locally persisted identity with a long-lived keypair. | Fact | Proposal 014 |
+| FR-001a | The persisted `NodeIdentity` record MUST expose public identity material and MUST include either inline bootstrap private key material (`private_key_base64`) or a resolver-friendly private key reference (`key/storage-ref`). | Fact | Proposal 014 |
 | FR-002 | `node-id` MUST be derived from the Node public key and MUST be stable across restarts until explicit rotation occurs. | Inference | Proposal 014 |
 | FR-003 | The baseline network identity of a Node MUST be distinct from any user, pod-user, or contextual nym identity. | Inference | Proposal 014 |
 | FR-004 | A Node MUST support signed endpoint advertisements with TTL-bounded freshness. | Fact | Proposal 014 |

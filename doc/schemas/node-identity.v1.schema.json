@@ -17,8 +17,19 @@
     "node/id",
     "created-at",
     "key/alg",
-    "key/public",
-    "key/storage-ref"
+    "key/public"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "private_key_base64"
+      ]
+    },
+    {
+      "required": [
+        "key/storage-ref"
+      ]
+    }
   ],
   "properties": {
     "schema/v": {
@@ -58,7 +69,12 @@
     "key/storage-ref": {
       "type": "string",
       "minLength": 1,
-      "description": "Local secure-storage or keystore reference to the corresponding private key material."
+      "description": "Local secure-storage or keystore reference to the corresponding private key material. This is the preferred target shape once key resolution is split from the identity record."
+    },
+    "private_key_base64": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Inline base64url-encoded private key material. This is allowed as a bootstrap-compatible shape for early Node implementations, but should later give way to `key/storage-ref`."
     },
     "federation/default-id": {
       "type": "string",

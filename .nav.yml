@@ -8,8 +8,8 @@ nav:
           - PL: doc/normative/20-vision/pl/VISION.pl.md
           - EN: doc/normative/20-vision/en/VISION.en.md
       - AI Manifesto:
-          - PL: doc/normative/25-ai-manifesto/pl/AI-MANIFESTO.pl.md
-          - EN: doc/normative/25-ai-manifesto/en/AI-MANIFESTO.en.md
+          - PL: doc/normative/90-supplementary/pl/AI-MANIFESTO.pl.md
+          - EN: doc/normative/90-supplementary/en/AI-MANIFESTO.en.md
       - Core Values:
           - PL: doc/normative/30-core-values/pl/CORE-VALUES.pl.md
           - EN: doc/normative/30-core-values/en/CORE-VALUES.en.md

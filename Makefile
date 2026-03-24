@@ -9,30 +9,34 @@ PANDOC_LANG    ?= en-US
 PANDOC_FILTERS ?=
 PYTHON         ?= python3
 MKDOCS         ?= mkdocs
+NODE_SRC       ?= ../node
 
 # Space-separated Markdown source patterns to render into PDF.
 PDF_SOURCE_PATTERNS ?= \
 	doc/normative/20-vision/pl/*.md \
 	doc/normative/20-vision/en/*.md \
-	doc/normative/25-ai-manifesto/pl/*.md \
-	doc/normative/25-ai-manifesto/en/*.md \
 	doc/normative/30-core-values/pl/*.md \
 	doc/normative/30-core-values/en/*.md \
 	doc/normative/40-constitution/pl/*.md \
 	doc/normative/40-constitution/en/*.md \
 	doc/normative/50-constitutional-ops/pl/*.md \
 	doc/normative/50-constitutional-ops/en/*.md \
+	doc/normative/90-supplementary/pl/*.md \
+	doc/normative/90-supplementary/en/*.md \
 
 PDF_SOURCES := $(sort $(foreach pattern,$(PDF_SOURCE_PATTERNS),$(wildcard $(pattern))))
 PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/%.pdf,$(PDF_SOURCES))
 
-.PHONY: check-json-syntax validate-schemas pdf one-pdf pdf-list output-clean pdf-clean schema-docs coverage-docs solutions-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
+.PHONY: check-json-syntax validate-schemas sync-schemas pdf one-pdf pdf-list output-clean pdf-clean schema-docs coverage-docs solutions-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
 
 check-json-syntax:
 	./scripts/validate-json-schemas.sh --syntax-only
 
 validate-schemas:
 	./scripts/validate-json-schemas.sh
+
+sync-schemas:
+	$(PYTHON) ./scripts/sync-node-schemas.py --node-src "$(NODE_SRC)"
 
 schema-docs:
 	$(PYTHON) ./scripts/generate-schema-docs.py

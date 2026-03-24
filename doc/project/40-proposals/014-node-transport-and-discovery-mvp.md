@@ -109,6 +109,17 @@ Each Node should have:
 - a stable `node-id` derived from the public key,
 - and a persisted local identity file.
 
+That persisted identity record may, in early implementations, use one of two
+secret-bearing shapes:
+
+- inline `private_key_base64`,
+- or `key/storage-ref` pointing at a local keystore or secret resolver.
+
+The preferred longer-term direction is `key/storage-ref`, because it keeps the
+identity record separate from the secret backend. However, bootstrap-compatible
+implementations may begin with inline private key material without violating the
+MVP networking seed.
+
 This is enough for:
 
 - peer addressing,
@@ -202,6 +213,12 @@ The point is that Node can:
 
 Higher-layer publication such as reduced `question-envelope` may follow later, once
 the seed transport and session slice is already proven end to end.
+
+At this stage the proposal freezes the **semantic** `signal-marker` decision, not
+yet a final publication-envelope schema for that marker. A concrete
+`signal-marker-envelope.v1` may first live as a repo-local Node contract and only
+later be promoted into canonical `orbidocs` schemas once the publish/receive flow
+and signed wire shape have stabilized.
 
 ## MVP Seed Checklist
 

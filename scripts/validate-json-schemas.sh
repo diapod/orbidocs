@@ -59,6 +59,9 @@ schema_for_file() {
     *.capability-advertisement.json)
       echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
       ;;
+    *.signal-marker.json)
+      echo "$SCHEMAS_DIR/signal-marker.v1.schema.json"
+      ;;
     *.model-card.json)
       echo "$SCHEMAS_DIR/model-card.v1.schema.json"
       ;;

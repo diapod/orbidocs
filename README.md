@@ -30,10 +30,13 @@ Canonical positions:
 
 - `doc/normative/10-ideas/`
 - `doc/normative/20-vision/`
-- `doc/normative/25-ai-manifesto/`
 - `doc/normative/30-core-values/`
 - `doc/normative/40-constitution/`
 - `doc/normative/50-constitutional-ops/`
+
+Supplementary normative material lives outside that main workflow:
+
+- `doc/normative/90-supplementary/`
 
 ### Project workflow
 

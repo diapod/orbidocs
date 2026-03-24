@@ -14,7 +14,6 @@ OUTPUT = DOC / 'COVERAGE.md'
 NORMATIVE_STEPS = [
     ('10-ideas', 'Ideas'),
     ('20-vision', 'Vision'),
-    ('25-ai-manifesto', 'AI Manifesto'),
     ('30-core-values', 'Core Values'),
     ('40-constitution', 'Constitution'),
     ('50-constitutional-ops', 'Constitutional Ops'),

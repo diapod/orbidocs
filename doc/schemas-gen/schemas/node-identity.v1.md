@@ -30,7 +30,8 @@ Machine-readable schema for the persisted local identity of a network-participat
 | [`identity/status`](#field-identity-status) | `no` | enum: `active`, `rotating` | Local lifecycle state of the identity material. |
 | [`key/alg`](#field-key-alg) | `yes` | enum: `ed25519` | Public-key algorithm used to derive `node/id` and sign networking artifacts. |
 | [`key/public`](#field-key-public) | `yes` | string | Public key material used by peers to validate signed advertisements and handshakes. |
-| [`key/storage-ref`](#field-key-storage-ref) | `yes` | string | Local secure-storage or keystore reference to the corresponding private key material. |
+| [`key/storage-ref`](#field-key-storage-ref) | `no` | string | Local secure-storage or keystore reference to the corresponding private key material. This is the preferred target shape once key resolution is split from the identity record. |
+| [`private_key_base64`](#field-private-key-base64) | `no` | string | Inline base64url-encoded private key material. This is allowed as a bootstrap-compatible shape for early Node implementations, but should later give way to `key/storage-ref`. |
 | [`federation/default-id`](#field-federation-default-id) | `no` | string | Optional default federation binding used by higher layers. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object | Optional local annotations that do not change networking semantics. |
 ## Field Semantics
@@ -86,10 +87,18 @@ Public key material used by peers to validate signed advertisements and handshak
 <a id="field-key-storage-ref"></a>
 ## `key/storage-ref`
 
-- Required: `yes`
+- Required: `no`
 - Shape: string
 
-Local secure-storage or keystore reference to the corresponding private key material.
+Local secure-storage or keystore reference to the corresponding private key material. This is the preferred target shape once key resolution is split from the identity record.
+
+<a id="field-private-key-base64"></a>
+## `private_key_base64`
+
+- Required: `no`
+- Shape: string
+
+Inline base64url-encoded private key material. This is allowed as a bootstrap-compatible shape for early Node implementations, but should later give way to `key/storage-ref`.
 
 <a id="field-federation-default-id"></a>
 ## `federation/default-id`

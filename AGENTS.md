@@ -88,10 +88,12 @@ Use the stratified `doc/` tree as the canonical source:
 Normative workflow positions:
 - `doc/normative/10-ideas/`
 - `doc/normative/20-vision/`
-- `doc/normative/25-ai-manifesto/`
 - `doc/normative/30-core-values/`
 - `doc/normative/40-constitution/`
 - `doc/normative/50-constitutional-ops/`
+
+Supplementary normative material outside the main workflow:
+- `doc/normative/90-supplementary/`
 
 Project workflow positions:
 - `doc/project/10-challenges/`
