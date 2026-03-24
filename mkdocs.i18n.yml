@@ -132,12 +132,12 @@ plugins:
                     - 014 Node Transport and Discovery MVP: doc/project/40-proposals/014-node-transport-and-discovery-mvp.md
                 - Requirements:
                     - doc/project/50-requirements/REQUIREMENTS.md
-                    - Requirements 001: doc/project/50-requirements/requirements-001.md
-                    - Requirements 002: doc/project/50-requirements/requirements-002.md
-                    - Requirements 003: doc/project/50-requirements/requirements-003.md
-                    - Requirements 004: doc/project/50-requirements/requirements-004.md
-                    - Requirements 005: doc/project/50-requirements/requirements-005.md
-                    - Requirements 006: doc/project/50-requirements/requirements-006.md
+                    - 001 Node Onboarding and Procurement: doc/project/50-requirements/requirements-001.md
+                    - 002 Peer Learning and Consensus Correction: doc/project/50-requirements/requirements-002.md
+                    - 003 Archivists and Vault Publication: doc/project/50-requirements/requirements-003.md
+                    - 004 Transcript Curation and Safe Specialization: doc/project/50-requirements/requirements-004.md
+                    - 005 Transcript Segment and Bundle Schemas: doc/project/50-requirements/requirements-005.md
+                    - 006 Node Networking Baseline MVP: doc/project/50-requirements/requirements-006.md
                 - Solutions:
                     - doc/project/60-solutions/SOLUTIONS.md
                     - Capability Matrix: doc/project/60-solutions/CAPABILITY-MATRIX.md
@@ -273,12 +273,12 @@ plugins:
                     - 014 Node Transport and Discovery MVP: doc/project/40-proposals/014-node-transport-and-discovery-mvp.md
                 - Wymagania:
                     - doc/project/50-requirements/REQUIREMENTS.md
-                    - Requirements 001: doc/project/50-requirements/requirements-001.md
-                    - Requirements 002: doc/project/50-requirements/requirements-002.md
-                    - Requirements 003: doc/project/50-requirements/requirements-003.md
-                    - Requirements 004: doc/project/50-requirements/requirements-004.md
-                    - Requirements 005: doc/project/50-requirements/requirements-005.md
-                    - Requirements 006: doc/project/50-requirements/requirements-006.md
+                    - 001 Node Onboarding and Procurement: doc/project/50-requirements/requirements-001.md
+                    - 002 Peer Learning and Consensus Correction: doc/project/50-requirements/requirements-002.md
+                    - 003 Archivists and Vault Publication: doc/project/50-requirements/requirements-003.md
+                    - 004 Transcript Curation and Safe Specialization: doc/project/50-requirements/requirements-004.md
+                    - 005 Transcript Segment and Bundle Schemas: doc/project/50-requirements/requirements-005.md
+                    - 006 Node Networking Baseline MVP: doc/project/50-requirements/requirements-006.md
                 - Rozwiązania:
                     - doc/project/60-solutions/SOLUTIONS.md
                     - Macierz zdolności: doc/project/60-solutions/CAPABILITY-MATRIX.md
