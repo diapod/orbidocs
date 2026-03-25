@@ -25,7 +25,7 @@ PDF_SOURCE_PATTERNS ?= \
 	doc/normative/90-supplementary/en/*.md \
 
 PDF_SOURCES := $(sort $(foreach pattern,$(PDF_SOURCE_PATTERNS),$(wildcard $(pattern))))
-PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/%.pdf,$(PDF_SOURCES))
+PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/pdf/%.pdf,$(PDF_SOURCES))
 
 .PHONY: check-json-syntax validate-schemas sync-schemas pdf one-pdf pdf-list output-clean pdf-clean schema-docs coverage-docs solutions-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
 
@@ -99,7 +99,7 @@ one-pdf:
 		*.md) ;; \
 		*) echo "FILE must point to a Markdown source (*.md): $(FILE)" >&2; exit 1 ;; \
 	esac
-	@$(MAKE) "$(patsubst %.md,$(OUTPUT_DIR)/%.pdf,$(FILE))"
+	@$(MAKE) "$(patsubst %.md,$(OUTPUT_DIR)/pdf/%.pdf,$(FILE))"
 
 output-clean:
 	@if [ -d "$(OUTPUT_DIR)" ]; then \
@@ -113,10 +113,10 @@ pdf-clean:
 		find "$(OUTPUT_DIR)/pdf" -depth -type d ! -path "$(OUTPUT_DIR)/pdf" -empty -delete; \
 	fi
 
-$(OUTPUT_DIR)/%.pdf: %.md $(PDF_CSS)
+$(OUTPUT_DIR)/pdf/%.pdf: %.md $(PDF_CSS)
 	@mkdir -p "$(dir $@)"
 	$(PANDOC) $(PANDOC_FLAGS) $(PANDOC_FILTERS) --metadata=lang:$(PANDOC_LANG) -o "$@" "$<"
 
-$(OUTPUT_DIR)/%.pl.pdf: PANDOC_LANG = pl-PL
-$(OUTPUT_DIR)/%.en.pdf: PANDOC_LANG = en-US
-$(OUTPUT_DIR)/%.pl.pdf: PANDOC_FILTERS = --lua-filter=styles/polish-typography.lua
+$(OUTPUT_DIR)/pdf/%.pl.pdf: PANDOC_LANG = pl-PL
+$(OUTPUT_DIR)/pdf/%.en.pdf: PANDOC_LANG = en-US
+$(OUTPUT_DIR)/pdf/%.pl.pdf: PANDOC_FILTERS = --lua-filter=styles/polish-typography.lua

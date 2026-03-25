@@ -19,6 +19,7 @@ nav:
       - Supplementary:
           - doc/normative/90-supplementary/SUPPLEMENTARY.md
           - AI Manifesto: doc/normative/90-supplementary/AI-MANIFESTO.md
+          - Ontological Basis of DIA / Orbiplex: doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md
   - Project:
       - doc/project/PROJECTS.en.md
       - Challenges: doc/project/10-challenges

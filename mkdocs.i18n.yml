@@ -84,6 +84,7 @@ plugins:
                 - Supplementary:
                     - doc/normative/90-supplementary/SUPPLEMENTARY.md
                     - AI Manifesto: doc/normative/90-supplementary/AI-MANIFESTO.md
+                    - Ontological Basis of DIA / Orbiplex: doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md
           # BEGIN GENERATED PROJECT NAV EN
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV EN
@@ -166,6 +167,7 @@ plugins:
                 - Dodatkowe:
                     - doc/normative/90-supplementary/SUPPLEMENTARY.md
                     - Manifest AI: doc/normative/90-supplementary/AI-MANIFESTO.md
+                    - Podstawa ontologiczna DIA / Orbiplex: doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md
           # BEGIN GENERATED PROJECT NAV PL
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV PL
