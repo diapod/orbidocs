@@ -81,6 +81,9 @@ plugins:
                     - UBC Limit Profiles: doc/normative/50-constitutional-ops/UBC-LIMIT-PROFILES.md
                     - Universal Basic Compute: doc/normative/50-constitutional-ops/UNIVERSAL-BASIC-COMPUTE.md
                     - Unseal Case Model: doc/normative/50-constitutional-ops/UNSEAL-CASE-MODEL.md
+                - Supplementary:
+                    - doc/normative/90-supplementary/SUPPLEMENTARY.md
+                    - AI Manifesto: doc/normative/90-supplementary/AI-MANIFESTO.md
           # BEGIN GENERATED PROJECT NAV EN
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV EN
@@ -160,6 +163,9 @@ plugins:
                     - UBC Limit Profiles: doc/normative/50-constitutional-ops/UBC-LIMIT-PROFILES.md
                     - Universal Basic Compute: doc/normative/50-constitutional-ops/UNIVERSAL-BASIC-COMPUTE.md
                     - Unseal Case Model: doc/normative/50-constitutional-ops/UNSEAL-CASE-MODEL.md
+                - Dodatkowe:
+                    - doc/normative/90-supplementary/SUPPLEMENTARY.md
+                    - Manifest AI: doc/normative/90-supplementary/AI-MANIFESTO.md
           # BEGIN GENERATED PROJECT NAV PL
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV PL

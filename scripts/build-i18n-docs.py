@@ -42,10 +42,6 @@ PROJECT_LABELS = {
             "50-requirements": "Requirements",
             "60-solutions": "Solutions",
         },
-        "supplementary": "Supplementary",
-        "supplementary_children": {
-            "ai_manifesto": "AI Manifesto",
-        },
     },
     "pl": {
         "root": "Projektowe",
@@ -56,10 +52,6 @@ PROJECT_LABELS = {
             "40-proposals": "Propozycje",
             "50-requirements": "Wymagania",
             "60-solutions": "Rozwiązania",
-        },
-        "supplementary": "Dodatkowe",
-        "supplementary_children": {
-            "ai_manifesto": "Manifest AI",
         },
     },
 }
@@ -285,17 +277,6 @@ def render_project_nav(locale: str) -> str:
 
             title = read_markdown_title(path)
             lines.append(f"{item_indent}- {yaml_string(title)}: {rel}")
-
-    lines.extend(
-        [
-            f"{section_indent}- {labels['supplementary']}:",
-            f"{item_indent}- doc/normative/90-supplementary/SUPPLEMENTARY.md",
-            (
-                f"{item_indent}- {yaml_string(labels['supplementary_children']['ai_manifesto'])}: "
-                "doc/normative/90-supplementary/AI-MANIFESTO.md"
-            ),
-        ]
-    )
 
     return "\n".join(lines)
 
