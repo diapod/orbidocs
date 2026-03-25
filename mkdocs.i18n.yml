@@ -84,9 +84,6 @@ plugins:
           # BEGIN GENERATED PROJECT NAV EN
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV EN
-            - Supplementary:
-                - doc/normative/90-supplementary/SUPPLEMENTARY.md
-                - AI Manifesto: doc/normative/90-supplementary/AI-MANIFESTO.md
             - Schemas:
                 - Schema Metadata Convention: doc/schemas/README.md
                 - Generated Index: doc/schemas-gen/schema-index.md
@@ -166,9 +163,6 @@ plugins:
           # BEGIN GENERATED PROJECT NAV PL
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV PL
-            - Dodatkowe:
-                - doc/normative/90-supplementary/SUPPLEMENTARY.md
-                - Manifest AI: doc/normative/90-supplementary/AI-MANIFESTO.md
             - Schematy:
                 - Konwencja metadanych schematów: doc/schemas/README.md
                 - Wygenerowany indeks: doc/schemas-gen/schema-index.md

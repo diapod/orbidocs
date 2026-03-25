@@ -1,5 +1,3 @@
 nav:
-  - "pl/SUPPLEMENTARY*.md"
-  - "en/SUPPLEMENTARY*.md"
-  - "pl/AI-MANIFESTO*.md"
-  - "en/AI-MANIFESTO*.md"
+  - "SUPPLEMENTARY.md"
+  - "AI-MANIFESTO.md"
