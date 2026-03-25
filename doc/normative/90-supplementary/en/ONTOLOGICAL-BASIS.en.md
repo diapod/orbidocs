@@ -1,4 +1,4 @@
-# Ontological Basis of DIA / Orbiplex
+# Ontological Basis
 
 <p align="center">
   <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiplex Logo" width="240">
@@ -7,12 +7,11 @@
 ## Apophatic enactivism
 
 This document describes the philosophical ground from which the
-[vision](/doc/normative/20-vision/VISION.md) and [core
-values](/doc/normative/30-core-values/CORE-VALUES.md) of the Orbiplex project arise.
-It is neither a manifesto of belief nor a metaphysical declaration, but a set of
-postulates explaining **why** the swarm architecture has this shape rather than
-another, and why certain values are treated as infrastructural rather than
-optional.
+[vision](/doc/normative/20-vision/en/VISION.en.md) and [core
+values](/doc/normative/30-core-values/en/CORE-VALUES.en.md) of the Orbiplex project
+arise. It is neither a manifesto of belief nor a metaphysical declaration, but a set
+of postulates explaining **why** the swarm architecture has this shape rather than
+another, and why certain values are treated as infrastructural rather than optional.
 
 We provisionally call this ground **apophatic enactivism**.
 

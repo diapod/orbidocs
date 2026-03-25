@@ -1,4 +1,4 @@
-# Podstawa ontologiczna DIA / Orbiplex
+# Podstawa ontologiczna
 
 <p align="center">
   <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiples Logo" width="240">
@@ -7,8 +7,8 @@
 ## Apofatyczny enaktywizm
 
 Ten dokument opisuje filozoficzne podłoże, z którego wyrastają
-[wizja](/doc/normative/20-vision/VISION.md) i [wartości
-podstawowe](/doc/normative/30-core-values/CORE-VALUES.md) projektu Orbiplex. Nie jest
+[wizja](/doc/normative/20-vision/pl/VISION.pl.md) i [wartości
+podstawowe](/doc/normative/30-core-values/pl/CORE-VALUES.pl.md) projektu Orbiplex. Nie jest
 manifestem wiary ani deklaracją metafizyczną, lecz zbiorem postulatów, które
 wyjaśniają **dlaczego** architektura roju ma taką, a nie inną postać, i dlaczego
 pewne wartości traktujemy jako infrastrukturalne, a nie opcjonalne.
