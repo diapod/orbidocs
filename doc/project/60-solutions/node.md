@@ -47,6 +47,9 @@ Responsibilities:
 - establish signed peer handshakes and capability exchange over the baseline transport,
 - maintain keepalive and reconnect behavior for the first networked Node baseline.
 
+Note:
+- The v1 `node-id` is Node-local and intentionally uses a `did:key`-compatible Ed25519/base58btc fingerprint shape rather than claiming full support for the generic `did:key` method, DID Document expansion, or generic DID resolution.
+
 Status:
 - `todo`
 
