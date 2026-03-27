@@ -20,6 +20,7 @@
     "sender/node-id",
     "key/alg",
     "key/public",
+    "session/pub",
     "nonce",
     "signature"
   ],
@@ -39,7 +40,7 @@
         "hello",
         "ack"
       ],
-      "description": "Whether this artifact initiates or acknowledges a session attempt."
+      "description": "Explicit discriminator for the symmetric handshake family. In v1 both `hello` and `ack` remain artifacts of the same schema family, while `ack/of-handshake-id` provides the cryptographic response binding."
     },
     "ack/of-handshake-id": {
       "type": "string",
@@ -76,6 +77,13 @@
       "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
       "description": "Canonical did:key fingerprint payload corresponding to `sender/node-id`."
     },
+    "session/pub": {
+      "type": "string",
+      "minLength": 43,
+      "maxLength": 43,
+      "pattern": "^[A-Za-z0-9_-]{43}$",
+      "description": "Fresh per-handshake X25519 public key encoded as raw unpadded base64url for the 32-byte public key. This field is ephemeral session material, not identity material, so it MUST NOT be wrapped as `did:key` or prefixed with multicodec bytes."
+    },
     "protocol/version": {
       "type": "string",
       "minLength": 1,
@@ -100,7 +108,7 @@
     "nonce": {
       "type": "string",
       "minLength": 1,
-      "description": "Fresh nonce used to bind this session attempt and reduce replay risk."
+      "description": "Fresh nonce used to bind this session attempt and reduce replay risk. v1 replay protection assumes a roughly `+-30s` clock-skew window and per-peer nonce retention of about `120s`."
     },
     "capabilities/offered": {
       "type": "array",

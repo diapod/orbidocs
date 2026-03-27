@@ -69,7 +69,7 @@
         "type": "string",
         "pattern": "^(core|role|plugin)/[a-z0-9-]+(?:/[a-z0-9-]+)*$"
       },
-      "description": "Schematic capability identifiers supported by the Node. MVP capability advertisement is intentionally limited to a narrow core and MUST at least include `core/node-participant`."
+      "description": "Schematic capability identifiers supported by the Node. MVP capability advertisement is intentionally limited to a narrow core and MUST at least include `core/messaging`."
     },
     "roles/attached": {
       "type": "array",
@@ -133,7 +133,7 @@
       "properties": {
         "capabilities/core": {
           "contains": {
-            "const": "core/node-participant"
+            "const": "core/messaging"
           }
         }
       },

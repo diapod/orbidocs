@@ -412,7 +412,7 @@ Use this as a policy checklist for corporate governance / security review.
 
 ## Open Questions
 
-1. **Canonicalization format**: EDN or JSON as the canonical signing format? EDN is natural for Clojure; JSON has wider tooling. Needs a decision before implementation.
+1. **Canonicalization family alignment**: the networking MVP now freezes deterministic CBOR for signed Node identity, advertisement, and handshake artifacts. A remaining question is whether broader envelope families should converge on the same canonicalization strategy or deliberately allow more than one family-specific canonical form.
 2. **Metadata privacy**: Should a metadata-wrapping layer be specified for `E2E_REQUIRED` mode, or is metadata exposure to Edge acceptable?
 3. **Group messaging**: Current envelope supports `group-id` in `to`, but group key management (e.g., sender keys, MLS-style) is unspecified.
 4. **Large payload transfer**: Data-plane for large payloads is mentioned (content-hash references) but not specified. Needs a separate proposal or extension.

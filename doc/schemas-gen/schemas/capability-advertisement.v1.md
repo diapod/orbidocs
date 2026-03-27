@@ -30,7 +30,7 @@ Machine-readable schema for baseline capability exchange after peer session esta
 | [`published-at`](#field-published-at) | `yes` | string | Timestamp when the capability set was published. |
 | [`protocol/version`](#field-protocol-version) | `yes` | string | Protocol version for which the capability advertisement is valid. |
 | [`transport/profiles`](#field-transport-profiles) | `yes` | array | Transport profiles currently exposed by the Node. |
-| [`capabilities/core`](#field-capabilities-core) | `yes` | array | Schematic capability identifiers supported by the Node. MVP capability advertisement is intentionally limited to a narrow core and MUST at least include `core/node-participant`. |
+| [`capabilities/core`](#field-capabilities-core) | `yes` | array | Schematic capability identifiers supported by the Node. MVP capability advertisement is intentionally limited to a narrow core and MUST at least include `core/messaging`. |
 | [`roles/attached`](#field-roles-attached) | `no` | array | Optional attached roles or plugin-process capabilities visible at the Node boundary. Not required in MVP. |
 | [`surfaces/exposed`](#field-surfaces-exposed) | `no` | array | Exposed APIs, channels, or queues that can be used by peers or attached roles. |
 | [`messages/supported`](#field-messages-supported) | `yes` | array | Protocol message families currently supported by the Node. |
@@ -54,7 +54,7 @@ Constraint:
   "properties": {
     "capabilities/core": {
       "contains": {
-        "const": "core/node-participant"
+        "const": "core/messaging"
       }
     }
   },
@@ -120,7 +120,7 @@ Transport profiles currently exposed by the Node.
 - Required: `yes`
 - Shape: array
 
-Schematic capability identifiers supported by the Node. MVP capability advertisement is intentionally limited to a narrow core and MUST at least include `core/node-participant`.
+Schematic capability identifiers supported by the Node. MVP capability advertisement is intentionally limited to a narrow core and MUST at least include `core/messaging`.
 
 <a id="field-roles-attached"></a>
 ## `roles/attached`

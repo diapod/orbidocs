@@ -42,7 +42,7 @@ The key decisions are:
    attached roles or plugin-process surfaces as required semantics.
 10. MVP capability IDs should be **schematic**, with at least one required core
     placeholder:
-    - `core/node-participant`
+    - `core/messaging`
 
 ## Context and Problem Statement
 
@@ -225,6 +225,17 @@ The first session lifecycle should be:
 5. maintain liveness with `ping/pong`,
 6. reconnect and refresh advertisement when needed.
 
+This baseline should use a two-message handshake:
+
+- `hello -> ack`
+
+not:
+
+- `hello -> challenge -> ack`
+
+The `ack` is sufficient as the response-binding step in v1, provided that it
+cryptographically binds to the original initiation attempt.
+
 For `peer-handshake.v1`, the signed surface should also use sign-then-attach:
 
 - sign the semantic handshake payload,
@@ -247,19 +258,79 @@ The signing input for v1 should be:
 
 - `peer-handshake.v1\x00 || deterministic_cbor(payload_without_signature)`
 
+For v1 session establishment, the long-lived Node identity remains the
+`node:did:key:...` Ed25519 signing identity. The corresponding static X25519
+key-agreement public key may be deterministically derived from that identity key
+for the DH terms that bind long-lived identity to the session attempt.
+
+This means MVP does not need any additional static X25519 field in
+`node-identity.v1` or `node-advertisement.v1`.
+
+`peer-handshake.v1` SHOULD instead carry:
+
+- a fresh per-handshake ephemeral X25519 public key in `session/pub`,
+- encoded as raw unpadded base64url for the 32-byte X25519 public key,
+- without `did:key`, multicodec prefixes, or identity wrappers.
+
+This keeps the layers distinct:
+
+- identity layer:
+  - `node:did:key:...` -> Ed25519 signing identity, with static X25519 derivable for DH,
+- session layer:
+  - `session/pub` -> fresh ephemeral X25519 public key for the current handshake.
+
+For the Noise-IK-like v1 baseline, the intended session derivation uses:
+
+- `DH1 = X25519(EK_initiator, IK_responder_derived_x25519)`
+- `DH2 = X25519(IK_initiator_derived_x25519, EK_responder)`
+- `DH3 = X25519(EK_initiator, EK_responder)`
+
+Forward secrecy in v1 relies primarily on fresh ephemeral keys and the `DH3`
+term, not on the long-lived identity-derived DH terms alone.
+
+This is accepted as a pragmatic MVP compromise. It does not provide ideal key
+separation between signing and key agreement, and may later evolve into a richer
+continuity or rotation model.
+
 `ack/of-handshake-id` must be signed, because it cryptographically binds the
 response to one concrete initiation attempt. Protocol version belongs in the
 interpretation context and domain separator, not in the core semantic payload.
 Per-hop transport profile should remain framing metadata unless it is being
 asserted as a capability claim.
 
+In v1 the handshake family should stay symmetric at schema level:
+
+- the same `peer-handshake.v1` family covers both `hello` and `ack`,
+- `ack/of-handshake-id` is the binding field that turns the second message into
+  the acknowledgment of the first,
+- and the existing `handshake/mode` field may remain as an explicit discriminator
+  for clarity and easier interoperability, even though the semantic asymmetry is
+  already visible through `ack/of-handshake-id`.
+
+Replay resistance for the baseline handshake should be defined by:
+
+- a clock-skew window of `+-30s`,
+- a per-peer nonce cache with retention of roughly `120s`,
+- and a local pending-handshake timeout of `30s` for outstanding `hello`
+  attempts.
+
+This baseline is aligned with a Noise-IK-style two-message authenticated
+exchange, but the current MVP still treats transport framing and later session
+crypto details as separable from the semantic handshake contract.
+
 The capability advertisement should not try to describe the whole implementation.
 It should publish a small set of schematic core capability identifiers, such as:
 
-- `core/node-participant`
-- `core/discovery`
-- `core/signed-handshake`
-- `core/keepalive`
+- required minimum:
+  - `core/messaging`
+- optional additions:
+  - `core/discovery`
+  - `core/relay`
+  - `core/keepalive`
+
+Capabilities that are already implicit in the successful execution of the
+handshake, such as "can sign the handshake" or "is a protocol participant",
+should not be modeled as mandatory advertised core capabilities in v1.
 
 ### 5. First useful message slice
 
@@ -336,9 +407,10 @@ Optionally later:
    - Benefit: one working slice sooner.
    - Cost: more protocol surface still pending.
 
-## Remaining Open Question
+## Remaining Open Questions
 
-1. How much session metadata should be signed in the first handshake?
+1. Should MVP implementation stop at static seed peers first, or also include a minimal read-write seed directory?
+2. Should the next implementation stage still accept only inline bootstrap private key material, or should resolver-backed `key/storage-ref` become active runtime behavior?
 
 ## Next Actions
 

@@ -8,10 +8,8 @@
     "wss"
   ],
   "capabilities/core": [
-    "core/node-participant",
+    "core/messaging",
     "core/discovery",
-    "core/signed-handshake",
-    "core/capability-advertisement",
     "core/keepalive"
   ],
   "roles/attached": [],

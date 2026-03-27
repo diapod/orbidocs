@@ -26,17 +26,18 @@ Machine-readable schema for signed peer session establishment over the Node netw
 |---|---|---|---|
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`handshake/id`](#field-handshake-id) | `yes` | string | Stable identifier of this handshake attempt. |
-| [`handshake/mode`](#field-handshake-mode) | `yes` | enum: `hello`, `ack` | Whether this artifact initiates or acknowledges a session attempt. |
+| [`handshake/mode`](#field-handshake-mode) | `yes` | enum: `hello`, `ack` | Explicit discriminator for the symmetric handshake family. In v1 both `hello` and `ack` remain artifacts of the same schema family, while `ack/of-handshake-id` provides the cryptographic response binding. |
 | [`ack/of-handshake-id`](#field-ack-of-handshake-id) | `no` | string | Reference to the original handshake when `handshake/mode = ack`. This MUST be part of the signed payload. |
 | [`ts`](#field-ts) | `yes` | string | Timestamp of the handshake artifact. |
 | [`sender/node-id`](#field-sender-node-id) | `yes` | string | Node sending this handshake artifact. In v1 this MUST use the canonical `node:did:key:z...` format. |
 | [`recipient/node-id`](#field-recipient-node-id) | `no` | string | Optional directed handshake recipient. If present, it is part of the signed payload. |
 | [`key/alg`](#field-key-alg) | `yes` | enum: `ed25519` | Algorithm of the sender key. |
 | [`key/public`](#field-key-public) | `yes` | string | Canonical did:key fingerprint payload corresponding to `sender/node-id`. |
+| [`session/pub`](#field-session-pub) | `yes` | string | Fresh per-handshake X25519 public key encoded as raw unpadded base64url for the 32-byte public key. This field is ephemeral session material, not identity material, so it MUST NOT be wrapped as `did:key` or prefixed with multicodec bytes. |
 | [`protocol/version`](#field-protocol-version) | `no` | string | Protocol version for interpreting this handshake family. In v1 this is primarily interpretation context and domain-separation input, not mutable handshake business data. |
 | [`transport/profile`](#field-transport-profile) | `no` | enum: `wss` | Framing-level or per-hop transport profile of the current session. This is not part of the signed semantic payload unless asserted as a capability claim. |
 | [`session/intent`](#field-session-intent) | `no` | enum: `bootstrap`, `peer-connect`, `reconnect` | High-level intent of this session attempt. |
-| [`nonce`](#field-nonce) | `yes` | string | Fresh nonce used to bind this session attempt and reduce replay risk. |
+| [`nonce`](#field-nonce) | `yes` | string | Fresh nonce used to bind this session attempt and reduce replay risk. v1 replay protection assumes a roughly `+-30s` clock-skew window and per-peer nonce retention of about `120s`. |
 | [`capabilities/offered`](#field-capabilities-offered) | `no` | array | Optional capability claims offered as part of the signed handshake payload. |
 | [`terms/negotiated`](#field-terms-negotiated) | `no` | object | Optional negotiated handshake terms carried inside the signed payload. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` |  |
@@ -101,7 +102,7 @@ Stable identifier of this handshake attempt.
 - Required: `yes`
 - Shape: enum: `hello`, `ack`
 
-Whether this artifact initiates or acknowledges a session attempt.
+Explicit discriminator for the symmetric handshake family. In v1 both `hello` and `ack` remain artifacts of the same schema family, while `ack/of-handshake-id` provides the cryptographic response binding.
 
 <a id="field-ack-of-handshake-id"></a>
 ## `ack/of-handshake-id`
@@ -151,6 +152,14 @@ Algorithm of the sender key.
 
 Canonical did:key fingerprint payload corresponding to `sender/node-id`.
 
+<a id="field-session-pub"></a>
+## `session/pub`
+
+- Required: `yes`
+- Shape: string
+
+Fresh per-handshake X25519 public key encoded as raw unpadded base64url for the 32-byte public key. This field is ephemeral session material, not identity material, so it MUST NOT be wrapped as `did:key` or prefixed with multicodec bytes.
+
 <a id="field-protocol-version"></a>
 ## `protocol/version`
 
@@ -181,7 +190,7 @@ High-level intent of this session attempt.
 - Required: `yes`
 - Shape: string
 
-Fresh nonce used to bind this session attempt and reduce replay risk.
+Fresh nonce used to bind this session attempt and reduce replay risk. v1 replay protection assumes a roughly `+-30s` clock-skew window and per-peer nonce retention of about `120s`.
 
 <a id="field-capabilities-offered"></a>
 ## `capabilities/offered`

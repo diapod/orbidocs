@@ -59,7 +59,7 @@ higher-layer identity, room, or federation semantics.
 - `NodeAdvertisement`:
   - `advertisement/id`, `node/id`, `sequence/no`, `advertised-at`, `expires-at`, `key/alg`, `key/public`, `endpoints`, `transports/supported`, `signature`.
 - `PeerHandshake`:
-  - `handshake/id`, `handshake/mode`, `ts`, `sender/node-id`, optional `recipient/node-id`, `key/alg`, `key/public`, optional `protocol/version`, optional `transport/profile`, `nonce`, optional `ack/of-handshake-id`, optional `capabilities/offered`, optional `terms/negotiated`, `signature`.
+  - `handshake/id`, `handshake/mode`, `ts`, `sender/node-id`, optional `recipient/node-id`, `key/alg`, `key/public`, `session/pub`, optional `protocol/version`, optional `transport/profile`, `nonce`, optional `ack/of-handshake-id`, optional `capabilities/offered`, optional `terms/negotiated`, `signature`.
 - `CapabilityAdvertisement`:
   - `advertisement/id`, `node/id`, `published-at`, `protocol/version`, `transport/profiles`, `capabilities/core`, optional `roles/attached`, optional `surfaces/exposed`, `messages/supported`, `signature`.
 
@@ -86,12 +86,18 @@ higher-layer identity, room, or federation semantics.
 | FR-010b | `ack/of-handshake-id`, when present, MUST be part of the signed handshake payload. | Fact | Freeze note |
 | FR-010c | `protocol/version` SHOULD be treated as interpretation context and domain-separation input rather than as mutable handshake business data. | Inference | Freeze note |
 | FR-010d | Per-hop `transport/profile` metadata MUST NOT be part of the signed payload unless it is being asserted as a capability claim rather than carried as framing. | Inference | Freeze note |
+| FR-010e | `peer-handshake.v1` MUST carry a fresh per-handshake ephemeral X25519 public key in `session/pub`, encoded as raw unpadded base64url for the 32-byte public key, without `did:key` wrapping or multicodec prefixes. | Fact | Freeze note |
+| FR-010f | The long-lived static key-agreement contribution for the handshake MAY be deterministically derived from the Ed25519 `node:did:key` identity, so no extra static X25519 advertisement field is required in `node-identity.v1` or `node-advertisement.v1` for MVP. | Inference | Freeze note |
 | FR-011 | The handshake MUST include enough information to validate peer identity, protocol version, and transport profile. | Inference | Proposed model |
-| FR-012 | The handshake flow MUST support an acknowledgment step that binds the remote peer to the same session attempt. | Inference | Session integrity |
+| FR-012 | The baseline v1 handshake flow MUST be `hello -> ack`; a third explicit challenge message MUST NOT be required for the first interoperable Node. | Fact | Freeze note |
+| FR-012a | The handshake family MUST remain symmetric at schema level: `hello` and `ack` are artifacts of the same `peer-handshake.v1` family, while `ack/of-handshake-id` binds the acknowledgment to one prior initiation attempt. | Inference | Freeze note |
+| FR-012b | v1 replay protection MUST include a clock-skew window of `+-30s`, a per-peer nonce retention window of roughly `120s`, and a pending-handshake timeout of `30s` for unanswered local `hello` attempts. | Fact | Freeze note |
+| FR-012c | Forward secrecy in the v1 baseline SHOULD rely primarily on fresh ephemeral X25519 keys and the ephemeral-ephemeral DH term, not solely on identity-derived static DH terms. | Inference | Freeze note |
 | FR-013 | After handshake, a Node MUST support capability advertisement exchange. | Fact | Proposal 014 |
 | FR-014 | Capability advertisement MUST include at least transport profiles and narrow core protocol capabilities. Attached roles and plugin-process surfaces MUST remain optional in MVP. | Inference | Proposal 014 |
 | FR-014a | `capabilities/core` MUST be interpreted as a schematic set of capability identifiers, not a free-form implementation description. | Inference | Proposal 014 |
-| FR-014b | Every MVP Node MUST advertise `core/node-participant` as the minimal placeholder proving baseline participation in the Node protocol. | Fact | Proposal 014 |
+| FR-014b | Every MVP Node MUST advertise `core/messaging` as the minimal explicit core capability proving that the established session is usable for post-handshake message exchange. | Fact | Freeze note |
+| FR-014c | Capabilities that are already implicit in a successful signed handshake, such as baseline protocol participation or the ability to sign the handshake itself, SHOULD NOT be modeled as separate mandatory advertised core capabilities in v1. | Inference | Freeze note |
 | FR-015 | A Node MUST support liveness maintenance through `ping/pong` or an equivalent keepalive flow. | Fact | Proposal 014 |
 | FR-016 | A Node MUST support reconnect behavior after transient peer or transport failure. | Fact | Proposal 014 |
 | FR-017 | The first supported application-level slice MUST include `signal-marker` as a signed application message that can be sent, validated, and traced end to end. | Fact | Proposal 014 |
@@ -139,9 +145,10 @@ higher-layer identity, room, or federation semantics.
 | Keepalive is missing or too weak | Peers appear alive long after disconnect | Require explicit liveness flow and reconnect behavior. |
 | Network seed depends on one runtime-specific artifact | Cross-language interoperability failure | Keep contracts JSON-friendly, signed, and runtime-neutral. |
 
-## Remaining Open Question
+## Remaining Open Questions
 
-1. How much handshake metadata should be included in the signed surface in v1?
+1. Is the minimal seed directory part of MVP implementation, or only an optional extension after static seed peers?
+2. Should the near-term implementation target remain inline `private_key_base64` only, or should resolver-backed `key/storage-ref` enter the next implementation stage?
 
 ## Next Actions
 
