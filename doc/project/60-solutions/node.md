@@ -42,7 +42,7 @@ Related schemas:
 
 Responsibilities:
 - generate or load a stable local node identity,
-- derive and expose a stable `node-id`,
+- derive and expose a stable `node:did:key`-shaped `node-id`,
 - publish or consume signed endpoint advertisements,
 - establish signed peer handshakes and capability exchange over the baseline transport,
 - maintain keepalive and reconnect behavior for the first networked Node baseline.

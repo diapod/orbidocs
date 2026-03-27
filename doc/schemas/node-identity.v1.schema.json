@@ -39,7 +39,8 @@
     "node/id": {
       "type": "string",
       "minLength": 1,
-      "description": "Stable Node identifier derived from the public key and persisted across restarts until explicit rotation."
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Stable Node identifier derived from the public key and persisted across restarts until explicit rotation. In v1 this MUST be `node:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`."
     },
     "created-at": {
       "type": "string",
@@ -64,7 +65,8 @@
     "key/public": {
       "type": "string",
       "minLength": 1,
-      "description": "Public key material used by peers to validate signed advertisements and handshakes."
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical did:key fingerprint payload used by peers to validate signed advertisements and handshakes. In v1 this is the base58btc multibase Ed25519 public-key fingerprint without the `node:did:key:` prefix."
     },
     "key/storage-ref": {
       "type": "string",

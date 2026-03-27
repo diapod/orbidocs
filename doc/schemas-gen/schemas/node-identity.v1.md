@@ -25,11 +25,11 @@ Machine-readable schema for the persisted local identity of a network-participat
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
-| [`node/id`](#field-node-id) | `yes` | string | Stable Node identifier derived from the public key and persisted across restarts until explicit rotation. |
+| [`node/id`](#field-node-id) | `yes` | string | Stable Node identifier derived from the public key and persisted across restarts until explicit rotation. In v1 this MUST be `node:did:key:z<base58btc(0xed01 \|\| raw_ed25519_public_key)>`. |
 | [`created-at`](#field-created-at) | `yes` | string | Timestamp when the local identity was first created. |
 | [`identity/status`](#field-identity-status) | `no` | enum: `active`, `rotating` | Local lifecycle state of the identity material. |
 | [`key/alg`](#field-key-alg) | `yes` | enum: `ed25519` | Public-key algorithm used to derive `node/id` and sign networking artifacts. |
-| [`key/public`](#field-key-public) | `yes` | string | Public key material used by peers to validate signed advertisements and handshakes. |
+| [`key/public`](#field-key-public) | `yes` | string | Canonical did:key fingerprint payload used by peers to validate signed advertisements and handshakes. In v1 this is the base58btc multibase Ed25519 public-key fingerprint without the `node:did:key:` prefix. |
 | [`key/storage-ref`](#field-key-storage-ref) | `no` | string | Local secure-storage or keystore reference to the corresponding private key material. This is the preferred target shape once key resolution is split from the identity record. |
 | [`private_key_base64`](#field-private-key-base64) | `no` | string | Inline base64url-encoded private key material. This is allowed as a bootstrap-compatible shape for early Node implementations, but should later give way to `key/storage-ref`. |
 | [`federation/default-id`](#field-federation-default-id) | `no` | string | Optional default federation binding used by higher layers. |
@@ -50,7 +50,7 @@ Schema version.
 - Required: `yes`
 - Shape: string
 
-Stable Node identifier derived from the public key and persisted across restarts until explicit rotation.
+Stable Node identifier derived from the public key and persisted across restarts until explicit rotation. In v1 this MUST be `node:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`.
 
 <a id="field-created-at"></a>
 ## `created-at`
@@ -82,7 +82,7 @@ Public-key algorithm used to derive `node/id` and sign networking artifacts.
 - Required: `yes`
 - Shape: string
 
-Public key material used by peers to validate signed advertisements and handshakes.
+Canonical did:key fingerprint payload used by peers to validate signed advertisements and handshakes. In v1 this is the base58btc multibase Ed25519 public-key fingerprint without the `node:did:key:` prefix.
 
 <a id="field-key-storage-ref"></a>
 ## `key/storage-ref`

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:peer-handshake:v1",
   "title": "PeerHandshake v1",
-  "description": "Machine-readable schema for signed peer session establishment over the Node networking baseline.",
+  "description": "Machine-readable schema for signed peer session establishment over the Node networking baseline. In v1 the signed surface is the deterministic CBOR image of the semantic handshake payload excluding only the `signature` field itself. Framing-only transport metadata may remain outside that signed payload.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -20,8 +20,6 @@
     "sender/node-id",
     "key/alg",
     "key/public",
-    "protocol/version",
-    "transport/profile",
     "nonce",
     "signature"
   ],
@@ -46,7 +44,7 @@
     "ack/of-handshake-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Reference to the original handshake when `handshake/mode = ack`."
+      "description": "Reference to the original handshake when `handshake/mode = ack`. This MUST be part of the signed payload."
     },
     "ts": {
       "type": "string",
@@ -56,7 +54,14 @@
     "sender/node-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Node sending this handshake artifact."
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Node sending this handshake artifact. In v1 this MUST use the canonical `node:did:key:z...` format."
+    },
+    "recipient/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Optional directed handshake recipient. If present, it is part of the signed payload."
     },
     "key/alg": {
       "type": "string",
@@ -68,19 +73,20 @@
     "key/public": {
       "type": "string",
       "minLength": 1,
-      "description": "Public key corresponding to `sender/node-id`."
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical did:key fingerprint payload corresponding to `sender/node-id`."
     },
     "protocol/version": {
       "type": "string",
       "minLength": 1,
-      "description": "Protocol version requested or accepted for this session."
+      "description": "Protocol version for interpreting this handshake family. In v1 this is primarily interpretation context and domain-separation input, not mutable handshake business data."
     },
     "transport/profile": {
       "type": "string",
       "enum": [
         "wss"
       ],
-      "description": "Baseline transport profile of the current session."
+      "description": "Framing-level or per-hop transport profile of the current session. This is not part of the signed semantic payload unless asserted as a capability claim."
     },
     "session/intent": {
       "type": "string",
@@ -95,6 +101,20 @@
       "type": "string",
       "minLength": 1,
       "description": "Fresh nonce used to bind this session attempt and reduce replay risk."
+    },
+    "capabilities/offered": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(core|role|plugin)/[a-z0-9-]+(?:/[a-z0-9-]+)*$"
+      },
+      "description": "Optional capability claims offered as part of the signed handshake payload."
+    },
+    "terms/negotiated": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional negotiated handshake terms carried inside the signed payload."
     },
     "signature": {
       "$ref": "#/$defs/signature"
@@ -116,7 +136,9 @@
       "properties": {
         "alg": {
           "type": "string",
-          "minLength": 1
+          "enum": [
+            "ed25519"
+          ]
         },
         "value": {
           "type": "string",

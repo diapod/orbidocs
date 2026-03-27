@@ -36,7 +36,8 @@
     "node/id": {
       "type": "string",
       "minLength": 1,
-      "description": "Node advertising its baseline capability surface."
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Node advertising its baseline capability surface. In v1 this MUST use the canonical `node:did:key:z...` format."
     },
     "published-at": {
       "type": "string",

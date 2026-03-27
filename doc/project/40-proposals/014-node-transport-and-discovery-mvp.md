@@ -87,7 +87,7 @@ Without that seed, Node implementation stays trapped in architecture talk.
 Orbiplex should adopt the following networking MVP baseline:
 
 1. each Node has a locally generated long-lived keypair,
-2. `node-id` is derived from the node public key,
+2. `node-id` is derived from the node public key as a strict `node:did:key` identifier,
 3. transport baseline is `WSS/443`,
 4. bootstrap uses:
    - static seed peers,
@@ -108,6 +108,18 @@ Each Node should have:
 - a local long-lived keypair,
 - a stable `node-id` derived from the public key,
 - and a persisted local identity file.
+
+For Ed25519 in v1, the canonical `node-id` format should be:
+
+- `node:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`
+
+This means:
+
+- the underlying public-key fingerprint uses the `did:key` Ed25519 shape,
+- `z...` is the base58btc multibase fingerprint,
+- `node:` is the Orbiplex-specific technical identity prefix,
+- parsers should be strict,
+- and alternative textual forms should not be accepted in v1.
 
 That persisted identity record may, in early implementations, use one of two
 secret-bearing shapes:
@@ -153,6 +165,33 @@ The healthier MVP is:
 - peers publish to and fetch from signed endpoint advertisements,
 - advertisements expire through TTL and must be refreshed.
 
+For `node-advertisement.v1`, the signed surface should use a sign-then-attach
+pattern:
+
+- sign the whole semantic advertisement payload,
+- exclude only the `signature` field itself,
+- and exclude only transport-mutable per-hop metadata if a later wire wrapper
+  carries such fields outside the semantic payload.
+
+That payload should include at least:
+
+- `advertisement/id`,
+- `node/id`,
+- `sequence/no`,
+- `advertised-at`,
+- `expires-at`,
+- key material,
+- endpoint set,
+- and transport support claims.
+
+The signing input for v1 should be:
+
+- `node-advertisement.v1\x00 || deterministic_cbor(payload_without_signature)`
+
+This gives domain separation, deterministic verification, and malleability
+resistance. If a later wire framing carries raw advertisement bytes, receivers
+should verify those exact bytes rather than re-canonicalizing them.
+
 ### 3. Transport baseline
 
 The default transport should be:
@@ -185,6 +224,34 @@ The first session lifecycle should be:
 4. exchange `capability-advertisement`,
 5. maintain liveness with `ping/pong`,
 6. reconnect and refresh advertisement when needed.
+
+For `peer-handshake.v1`, the signed surface should also use sign-then-attach:
+
+- sign the semantic handshake payload,
+- exclude only the `signature` field itself,
+- and keep framing-only transport metadata outside the signed payload.
+
+The signed payload should bind at least:
+
+- `handshake/id`,
+- `handshake/mode`,
+- `sender/node-id`,
+- optional `recipient/node-id` when directed,
+- `ts`,
+- `nonce`,
+- `ack/of-handshake-id` when present,
+- any offered capability claims,
+- and any negotiated terms.
+
+The signing input for v1 should be:
+
+- `peer-handshake.v1\x00 || deterministic_cbor(payload_without_signature)`
+
+`ack/of-handshake-id` must be signed, because it cryptographically binds the
+response to one concrete initiation attempt. Protocol version belongs in the
+interpretation context and domain separator, not in the core semantic payload.
+Per-hop transport profile should remain framing metadata unless it is being
+asserted as a capability claim.
 
 The capability advertisement should not try to describe the whole implementation.
 It should publish a small set of schematic core capability identifiers, such as:
@@ -223,7 +290,7 @@ and signed wire shape have stabilized.
 ## MVP Seed Checklist
 
 1. Define local Node identity file format.
-2. Define `node-id` derivation rule.
+2. Freeze `node-id` derivation rule as strict `node:did:key`.
 3. Define signed endpoint advertisement shape.
 4. Define peer handshake shape.
 5. Define capability advertisement shape.

@@ -57,9 +57,9 @@ higher-layer identity, room, or federation semantics.
 - `NodeIdentity`:
   - `node/id`, `created-at`, `key/alg`, `key/public`, and either `private_key_base64` or `key/storage-ref`, optional `identity/status`.
 - `NodeAdvertisement`:
-  - `advertisement/id`, `node/id`, `advertised-at`, `expires-at`, `key/alg`, `key/public`, `endpoints`, `transports/supported`, `signature`.
+  - `advertisement/id`, `node/id`, `sequence/no`, `advertised-at`, `expires-at`, `key/alg`, `key/public`, `endpoints`, `transports/supported`, `signature`.
 - `PeerHandshake`:
-  - `handshake/id`, `handshake/mode`, `ts`, `sender/node-id`, `key/alg`, `key/public`, `protocol/version`, `transport/profile`, `nonce`, optional `ack/of-handshake-id`, `signature`.
+  - `handshake/id`, `handshake/mode`, `ts`, `sender/node-id`, optional `recipient/node-id`, `key/alg`, `key/public`, optional `protocol/version`, optional `transport/profile`, `nonce`, optional `ack/of-handshake-id`, optional `capabilities/offered`, optional `terms/negotiated`, `signature`.
 - `CapabilityAdvertisement`:
   - `advertisement/id`, `node/id`, `published-at`, `protocol/version`, `transport/profiles`, `capabilities/core`, optional `roles/attached`, optional `surfaces/exposed`, `messages/supported`, `signature`.
 
@@ -70,14 +70,22 @@ higher-layer identity, room, or federation semantics.
 | FR-001 | Every network-participating Node MUST have a stable locally persisted identity with a long-lived keypair. | Fact | Proposal 014 |
 | FR-001a | The persisted `NodeIdentity` record MUST expose public identity material and MUST include either inline bootstrap private key material (`private_key_base64`) or a resolver-friendly private key reference (`key/storage-ref`). | Fact | Proposal 014 |
 | FR-002 | `node-id` MUST be derived from the Node public key and MUST be stable across restarts until explicit rotation occurs. | Inference | Proposal 014 |
+| FR-002a | The canonical v1 `node-id` string MUST be `node:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`. Parsers MUST be strict, and alternative textual variants MUST be rejected for v1. | Fact | Freeze note |
 | FR-003 | The baseline network identity of a Node MUST be distinct from any user, pod-user, or contextual nym identity. | Inference | Proposal 014 |
 | FR-004 | A Node MUST support signed endpoint advertisements with TTL-bounded freshness. | Fact | Proposal 014 |
+| FR-004a | A signed `node-advertisement.v1` payload MUST include both `advertised-at` and a monotonic `sequence/no`. | Fact | Freeze note |
+| FR-004b | The signing input for `node-advertisement.v1` MUST be domain-separated as `node-advertisement.v1\\x00 || deterministic_cbor(payload_without_signature)`. | Fact | Freeze note |
+| FR-004c | Transport-mutable per-hop metadata MUST NOT be part of the `node-advertisement.v1` signed surface; if such metadata exists later, it MUST live outside the semantic advertisement payload. | Inference | Freeze note |
 | FR-005 | Endpoint discovery for MVP MUST target `node-id -> current endpoint advertisement`, not `nym -> IP:port`. | Fact | Proposal 014 |
 | FR-006 | Every Node MUST support bootstrap from one or more statically configured seed peers. | Fact | Proposal 014 |
 | FR-007 | A Node MAY support a minimal seed directory in addition to static seed peers. If present, the first seed directory SHOULD support both advertisement fetch and advertisement publication. | Fact | Proposal 014 |
 | FR-008 | The MVP baseline transport MUST support `WSS` over TCP `443`. | Fact | Proposal 014 |
 | FR-009 | Direct TCP, UDP traversal, and richer relay topologies MAY be added later but MUST NOT be prerequisites for the first interoperable Node. | Inference | Proposal 014 |
 | FR-010 | A Node MUST support a signed peer handshake before application-level message exchange begins. | Fact | Proposal 014 |
+| FR-010a | The signing input for `peer-handshake.v1` MUST be domain-separated as `peer-handshake.v1\\x00 || deterministic_cbor(payload_without_signature)`. | Fact | Freeze note |
+| FR-010b | `ack/of-handshake-id`, when present, MUST be part of the signed handshake payload. | Fact | Freeze note |
+| FR-010c | `protocol/version` SHOULD be treated as interpretation context and domain-separation input rather than as mutable handshake business data. | Inference | Freeze note |
+| FR-010d | Per-hop `transport/profile` metadata MUST NOT be part of the signed payload unless it is being asserted as a capability claim rather than carried as framing. | Inference | Freeze note |
 | FR-011 | The handshake MUST include enough information to validate peer identity, protocol version, and transport profile. | Inference | Proposed model |
 | FR-012 | The handshake flow MUST support an acknowledgment step that binds the remote peer to the same session attempt. | Inference | Session integrity |
 | FR-013 | After handshake, a Node MUST support capability advertisement exchange. | Fact | Proposal 014 |

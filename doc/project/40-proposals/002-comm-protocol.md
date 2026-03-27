@@ -107,8 +107,9 @@ IRC/Matrix may serve as bootstrap hints or "apocalypse fallback" for presence/en
   not public by default.
 - Each node has a long-term **`node-key`** (Ed25519 or compatible), controlled by
   that anchor identity.
-- **`node-id = H(node-pubkey)`** (or compatible stable derivation), unless a
-  stricter federation profile derives it directly from the anchor identity.
+- For Ed25519 in v1, **`node-id = node:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`**.
+- Parsers for that v1 `node-id` shape SHOULD be strict; alternative textual forms
+  should be treated as different versions, not as equivalent aliases.
 - All control-plane messages are **signed**.
 
 #### Session keys and continuity
@@ -211,6 +212,12 @@ Envelope {
 - `nonce + ttl + seq` provide replay protection.
 - `from` identifies the stable node identity; `station` identifies the concrete delegated device when the node operates in multi-station mode.
 - If `e2e` is present, `body` may be empty and all payload moves into `ciphertext` (with `aad` carrying the signed metadata).
+
+Note: the networking MVP may freeze narrower artifact-specific signing rules
+earlier than this general envelope section. In particular, `node-advertisement.v1`
+and `peer-handshake.v1` may use deterministic CBOR with explicit domain
+separation before a generic control-plane envelope canonicalization is fully
+settled.
 
 ### 7. Example handshake (proxy-friendly transport + optional E2E)
 

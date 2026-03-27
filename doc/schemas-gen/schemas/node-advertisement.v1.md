@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/node-advertisement.v1.schema.json`](../../schemas/node-advertisement.v1.schema.json)
 
-Machine-readable schema for signed endpoint advertisements exchanged during Node discovery.
+Machine-readable schema for signed endpoint advertisements exchanged during Node discovery. In v1 the signed surface is the deterministic CBOR image of the whole advertisement payload excluding only the `signature` field itself. Transport-mutable per-hop metadata, if introduced later, must remain outside this semantic payload.
 
 ## Governing Basis
 
@@ -26,11 +26,12 @@ Machine-readable schema for signed endpoint advertisements exchanged during Node
 |---|---|---|---|
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`advertisement/id`](#field-advertisement-id) | `yes` | string | Stable identifier of this signed endpoint advertisement. |
-| [`node/id`](#field-node-id) | `yes` | string | Node addressed by this advertisement. |
-| [`advertised-at`](#field-advertised-at) | `yes` | string | Timestamp when the advertisement was published. |
-| [`expires-at`](#field-expires-at) | `yes` | string | Timestamp after which this advertisement must be treated as stale. |
+| [`node/id`](#field-node-id) | `yes` | string | Node addressed by this advertisement. In v1 this MUST use the canonical `node:did:key:z...` format. |
+| [`sequence/no`](#field-sequence-no) | `yes` | integer | Monotonic per-node advertisement sequence number inside the signed payload. |
+| [`advertised-at`](#field-advertised-at) | `yes` | string | Timestamp when the advertisement was published. This is part of the signed payload. |
+| [`expires-at`](#field-expires-at) | `yes` | string | Timestamp after which this advertisement must be treated as stale. This is part of the signed payload. |
 | [`key/alg`](#field-key-alg) | `yes` | enum: `ed25519` | Algorithm of the key used to sign this advertisement. |
-| [`key/public`](#field-key-public) | `yes` | string | Public key corresponding to `node/id`. |
+| [`key/public`](#field-key-public) | `yes` | string | Canonical did:key fingerprint payload corresponding to `node/id`. |
 | [`federation/id`](#field-federation-id) | `no` | string | Optional federation scope advertised for bootstrap policy decisions. |
 | [`endpoints`](#field-endpoints) | `yes` | array | Currently valid live endpoints exposed by the Node. |
 | [`transports/supported`](#field-transports-supported) | `yes` | array | Baseline transport profiles currently supported by the Node. |
@@ -67,7 +68,15 @@ Stable identifier of this signed endpoint advertisement.
 - Required: `yes`
 - Shape: string
 
-Node addressed by this advertisement.
+Node addressed by this advertisement. In v1 this MUST use the canonical `node:did:key:z...` format.
+
+<a id="field-sequence-no"></a>
+## `sequence/no`
+
+- Required: `yes`
+- Shape: integer
+
+Monotonic per-node advertisement sequence number inside the signed payload.
 
 <a id="field-advertised-at"></a>
 ## `advertised-at`
@@ -75,7 +84,7 @@ Node addressed by this advertisement.
 - Required: `yes`
 - Shape: string
 
-Timestamp when the advertisement was published.
+Timestamp when the advertisement was published. This is part of the signed payload.
 
 <a id="field-expires-at"></a>
 ## `expires-at`
@@ -83,7 +92,7 @@ Timestamp when the advertisement was published.
 - Required: `yes`
 - Shape: string
 
-Timestamp after which this advertisement must be treated as stale.
+Timestamp after which this advertisement must be treated as stale. This is part of the signed payload.
 
 <a id="field-key-alg"></a>
 ## `key/alg`
@@ -99,7 +108,7 @@ Algorithm of the key used to sign this advertisement.
 - Required: `yes`
 - Shape: string
 
-Public key corresponding to `node/id`.
+Canonical did:key fingerprint payload corresponding to `node/id`.
 
 <a id="field-federation-id"></a>
 ## `federation/id`

@@ -3,13 +3,22 @@
   "handshake/id": "hs:01JQNODEHS001",
   "handshake/mode": "hello",
   "ts": "2026-03-23T18:10:00Z",
-  "sender/node-id": "node:ed25519:z6MksvHk3P8abNodeBootstrap01",
+  "sender/node-id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "recipient/node-id": "node:did:key:z6MkrLQkJr2YQ6L8eYw6Qk8f9P8GmJm7a3x6P1v1Q2w3E4r5",
   "key/alg": "ed25519",
-  "key/public": "base64url:z6MksvHk3P8abNodeBootstrap01",
+  "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "protocol/version": "0.1.0-mvp",
   "transport/profile": "wss",
   "session/intent": "bootstrap",
   "nonce": "nonce:01JQNODEHS001",
+  "capabilities/offered": [
+    "core/node-participant",
+    "core/discovery",
+    "core/signed-handshake"
+  ],
+  "terms/negotiated": {
+    "session/ttl-s": 30
+  },
   "signature": {
     "alg": "ed25519",
     "value": "base64url:peer-handshake-signature"

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:node-advertisement:v1",
   "title": "NodeAdvertisement v1",
-  "description": "Machine-readable schema for signed endpoint advertisements exchanged during Node discovery.",
+  "description": "Machine-readable schema for signed endpoint advertisements exchanged during Node discovery. In v1 the signed surface is the deterministic CBOR image of the whole advertisement payload excluding only the `signature` field itself. Transport-mutable per-hop metadata, if introduced later, must remain outside this semantic payload.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -16,6 +16,7 @@
     "schema/v",
     "advertisement/id",
     "node/id",
+    "sequence/no",
     "advertised-at",
     "expires-at",
     "key/alg",
@@ -37,17 +38,23 @@
     "node/id": {
       "type": "string",
       "minLength": 1,
-      "description": "Node addressed by this advertisement."
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Node addressed by this advertisement. In v1 this MUST use the canonical `node:did:key:z...` format."
+    },
+    "sequence/no": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Monotonic per-node advertisement sequence number inside the signed payload."
     },
     "advertised-at": {
       "type": "string",
       "format": "date-time",
-      "description": "Timestamp when the advertisement was published."
+      "description": "Timestamp when the advertisement was published. This is part of the signed payload."
     },
     "expires-at": {
       "type": "string",
       "format": "date-time",
-      "description": "Timestamp after which this advertisement must be treated as stale."
+      "description": "Timestamp after which this advertisement must be treated as stale. This is part of the signed payload."
     },
     "key/alg": {
       "type": "string",
@@ -59,7 +66,8 @@
     "key/public": {
       "type": "string",
       "minLength": 1,
-      "description": "Public key corresponding to `node/id`."
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical did:key fingerprint payload corresponding to `node/id`."
     },
     "federation/id": {
       "type": "string",
@@ -144,7 +152,9 @@
       "properties": {
         "alg": {
           "type": "string",
-          "minLength": 1
+          "enum": [
+            "ed25519"
+          ]
         },
         "value": {
           "type": "string",

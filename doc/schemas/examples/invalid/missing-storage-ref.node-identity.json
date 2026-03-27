@@ -1,7 +1,7 @@
 {
   "schema/v": 1,
-  "node/id": "node:ed25519:z6MksvHk3P8abNodeBootstrap01",
+  "node/id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "created-at": "2026-03-23T18:05:00Z",
   "key/alg": "ed25519",
-  "key/public": "base64url:z6MksvHk3P8abNodeBootstrap01"
+  "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
 }

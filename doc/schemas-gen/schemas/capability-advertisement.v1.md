@@ -26,7 +26,7 @@ Machine-readable schema for baseline capability exchange after peer session esta
 |---|---|---|---|
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`advertisement/id`](#field-advertisement-id) | `yes` | string | Stable identifier of this capability advertisement. |
-| [`node/id`](#field-node-id) | `yes` | string | Node advertising its baseline capability surface. |
+| [`node/id`](#field-node-id) | `yes` | string | Node advertising its baseline capability surface. In v1 this MUST use the canonical `node:did:key:z...` format. |
 | [`published-at`](#field-published-at) | `yes` | string | Timestamp when the capability set was published. |
 | [`protocol/version`](#field-protocol-version) | `yes` | string | Protocol version for which the capability advertisement is valid. |
 | [`transport/profiles`](#field-transport-profiles) | `yes` | array | Transport profiles currently exposed by the Node. |
@@ -88,7 +88,7 @@ Stable identifier of this capability advertisement.
 - Required: `yes`
 - Shape: string
 
-Node advertising its baseline capability surface.
+Node advertising its baseline capability surface. In v1 this MUST use the canonical `node:did:key:z...` format.
 
 <a id="field-published-at"></a>
 ## `published-at`
