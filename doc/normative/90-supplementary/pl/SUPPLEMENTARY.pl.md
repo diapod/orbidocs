@@ -7,4 +7,4 @@ render_macros: true
 
 Dokumenty uzupełniające korpus Orbiplex, które nie są traktowane jako kroki workflowu normatywnego.
 
-{{ list_matching_pages("*.pl.md", page=page, exclude=page.file.src_path) }}
+{{ list_matching_pages("*.md", page=page, exclude=page.file.src_path) }}
