@@ -27,12 +27,10 @@ Machine-readable schema for the persisted local identity of a network-participat
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`node/id`](#field-node-id) | `yes` | string | Stable Node identifier derived from the public key and persisted across restarts until explicit rotation. In v1 this MUST be `node:did:key:z<base58btc(0xed01 \|\| raw_ed25519_public_key)>`. |
 | [`created-at`](#field-created-at) | `yes` | string | Timestamp when the local identity was first created. |
-| [`identity/status`](#field-identity-status) | `no` | enum: `active`, `rotating` | Local lifecycle state of the identity material. |
+| [`identity/status`](#field-identity-status) | `no` | enum: `active` | Local lifecycle state of the identity material. In the MVP runtime only `active` has semantics; future states such as rotation or retirement are deferred. |
 | [`key/alg`](#field-key-alg) | `yes` | enum: `ed25519` | Public-key algorithm used to derive `node/id` and sign networking artifacts. |
 | [`key/public`](#field-key-public) | `yes` | string | Canonical did:key fingerprint payload used by peers to validate signed advertisements and handshakes. In v1 this is the base58btc multibase Ed25519 public-key fingerprint without the `node:did:key:` prefix. |
-| [`key/storage-ref`](#field-key-storage-ref) | `no` | string | Local secure-storage or keystore reference to the corresponding private key material. This is the preferred target shape once key resolution is split from the identity record. |
-| [`private_key_base64`](#field-private-key-base64) | `no` | string | Inline base64url-encoded private key material. This is allowed as a bootstrap-compatible shape for early Node implementations, but should later give way to `key/storage-ref`. |
-| [`federation/default-id`](#field-federation-default-id) | `no` | string | Optional default federation binding used by higher layers. |
+| [`key/storage-ref`](#field-key-storage-ref) | `yes` | string | Local secret-storage reference to the corresponding private key material. In the MVP baseline this MUST use the `local-file:` scheme, for example `local-file:identity/node-signing-key.v1.json`. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object | Optional local annotations that do not change networking semantics. |
 ## Field Semantics
 
@@ -64,9 +62,9 @@ Timestamp when the local identity was first created.
 ## `identity/status`
 
 - Required: `no`
-- Shape: enum: `active`, `rotating`
+- Shape: enum: `active`
 
-Local lifecycle state of the identity material.
+Local lifecycle state of the identity material. In the MVP runtime only `active` has semantics; future states such as rotation or retirement are deferred.
 
 <a id="field-key-alg"></a>
 ## `key/alg`
@@ -87,26 +85,10 @@ Canonical did:key fingerprint payload used by peers to validate signed advertise
 <a id="field-key-storage-ref"></a>
 ## `key/storage-ref`
 
-- Required: `no`
+- Required: `yes`
 - Shape: string
 
-Local secure-storage or keystore reference to the corresponding private key material. This is the preferred target shape once key resolution is split from the identity record.
-
-<a id="field-private-key-base64"></a>
-## `private_key_base64`
-
-- Required: `no`
-- Shape: string
-
-Inline base64url-encoded private key material. This is allowed as a bootstrap-compatible shape for early Node implementations, but should later give way to `key/storage-ref`.
-
-<a id="field-federation-default-id"></a>
-## `federation/default-id`
-
-- Required: `no`
-- Shape: string
-
-Optional default federation binding used by higher layers.
+Local secret-storage reference to the corresponding private key material. In the MVP baseline this MUST use the `local-file:` scheme, for example `local-file:identity/node-signing-key.v1.json`.
 
 <a id="field-policy-annotations"></a>
 ## `policy_annotations`

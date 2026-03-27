@@ -55,7 +55,7 @@ higher-layer identity, room, or federation semantics.
 ### Core Data Contracts (normative)
 
 - `NodeIdentity`:
-  - `node/id`, `created-at`, `key/alg`, `key/public`, and either `private_key_base64` or `key/storage-ref`, optional `identity/status`.
+  - `node/id`, `created-at`, `key/alg`, `key/public`, required `key/storage-ref`, optional `identity/status`.
 - `NodeAdvertisement`:
   - `advertisement/id`, `node/id`, `sequence/no`, `advertised-at`, `expires-at`, `key/alg`, `key/public`, `endpoints`, `transports/supported`, `signature`.
 - `PeerHandshake`:
@@ -68,18 +68,26 @@ higher-layer identity, room, or federation semantics.
 | ID | Requirement | Type | Source |
 |---|---|---|---|
 | FR-001 | Every network-participating Node MUST have a stable locally persisted identity with a long-lived keypair. | Fact | Proposal 014 |
-| FR-001a | The persisted `NodeIdentity` record MUST expose public identity material and MUST include either inline bootstrap private key material (`private_key_base64`) or a resolver-friendly private key reference (`key/storage-ref`). | Fact | Proposal 014 |
+| FR-001a | The persisted `NodeIdentity` record MUST expose public identity material and MUST include a resolver-friendly private key reference (`key/storage-ref`) instead of inline private key material. | Fact | Proposal 014 |
+| FR-001b | The MVP baseline MUST support `local-file:` as the first concrete `key/storage-ref` resolver scheme, with the secret record stored locally under the node data directory. | Fact | Freeze note |
 | FR-002 | `node-id` MUST be derived from the Node public key and MUST be stable across restarts until explicit rotation occurs. | Inference | Proposal 014 |
 | FR-002a | The canonical v1 `node-id` string MUST be `node:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`. Parsers MUST be strict, and alternative textual variants MUST be rejected for v1. | Fact | Freeze note |
+| FR-002b | Rotating the Ed25519 node keypair MUST produce a new `node-id`; v1 does not attempt continuity by reusing the old `node-id` across keys. | Fact | Freeze note |
 | FR-003 | The baseline network identity of a Node MUST be distinct from any user, pod-user, or contextual nym identity. | Inference | Proposal 014 |
 | FR-004 | A Node MUST support signed endpoint advertisements with TTL-bounded freshness. | Fact | Proposal 014 |
 | FR-004a | A signed `node-advertisement.v1` payload MUST include both `advertised-at` and a monotonic `sequence/no`. | Fact | Freeze note |
 | FR-004b | The signing input for `node-advertisement.v1` MUST be domain-separated as `node-advertisement.v1\\x00 || deterministic_cbor(payload_without_signature)`. | Fact | Freeze note |
 | FR-004c | Transport-mutable per-hop metadata MUST NOT be part of the `node-advertisement.v1` signed surface; if such metadata exists later, it MUST live outside the semantic advertisement payload. | Inference | Freeze note |
+| FR-004d | Discovery state in v1 MUST treat `node-advertisement.v1` as one current advertisement per `node-id`; a newer `sequence/no` replaces the previous one, while stale or equal sequence numbers MUST be rejected as non-current. | Fact | Freeze note |
 | FR-005 | Endpoint discovery for MVP MUST target `node-id -> current endpoint advertisement`, not `nym -> IP:port`. | Fact | Proposal 014 |
 | FR-006 | Every Node MUST support bootstrap from one or more statically configured seed peers. | Fact | Proposal 014 |
-| FR-007 | A Node MAY support a minimal seed directory in addition to static seed peers. If present, the first seed directory SHOULD support both advertisement fetch and advertisement publication. | Fact | Proposal 014 |
+| FR-006a | Static seed-peer configuration MAY carry operator-facing local labels or names in addition to `node-id` and bootstrap address, but such labels MUST remain non-identifying operational metadata outside signed network identity. | Inference | Freeze note |
+| FR-007 | A Node MAY support a minimal seed directory in addition to static seed peers, but the MVP implementation baseline does not require a seed directory before static seed bootstrap is working. | Fact | Freeze note |
+| FR-007a | If a minimal seed directory is present, it SHOULD support `PUT /adv/{node-id}` for publish-or-update, `GET /adv/{node-id}` for fetch-by-node, and incremental `GET /adv?since={cursor}` batch synchronization. | Fact | Freeze note |
+| FR-007b | A minimal seed directory SHOULD remain open for reads, and open for signed writes from any node, while enforcing freshness checks and per-publisher rate limits. | Inference | Freeze note |
+| FR-007c | A minimal seed directory MUST NOT require an explicit delete operation for advertisements; expiry and removal SHOULD be driven by advertisement freshness and TTL sweep. | Fact | Freeze note |
 | FR-008 | The MVP baseline transport MUST support `WSS` over TCP `443`. | Fact | Proposal 014 |
+| FR-008a | When multiple endpoints are advertised, a Node SHOULD first filter unsupported transports and then respect sender-advertised endpoint priority among the remaining compatible endpoints, unless stronger local constraints override that hint. | Inference | Freeze note |
 | FR-009 | Direct TCP, UDP traversal, and richer relay topologies MAY be added later but MUST NOT be prerequisites for the first interoperable Node. | Inference | Proposal 014 |
 | FR-010 | A Node MUST support a signed peer handshake before application-level message exchange begins. | Fact | Proposal 014 |
 | FR-010a | The signing input for `peer-handshake.v1` MUST be domain-separated as `peer-handshake.v1\\x00 || deterministic_cbor(payload_without_signature)`. | Fact | Freeze note |
@@ -93,6 +101,7 @@ higher-layer identity, room, or federation semantics.
 | FR-012a | The handshake family MUST remain symmetric at schema level: `hello` and `ack` are artifacts of the same `peer-handshake.v1` family, while `ack/of-handshake-id` binds the acknowledgment to one prior initiation attempt. | Inference | Freeze note |
 | FR-012b | v1 replay protection MUST include a clock-skew window of `+-30s`, a per-peer nonce retention window of roughly `120s`, and a pending-handshake timeout of `30s` for unanswered local `hello` attempts. | Fact | Freeze note |
 | FR-012c | Forward secrecy in the v1 baseline SHOULD rely primarily on fresh ephemeral X25519 keys and the ephemeral-ephemeral DH term, not solely on identity-derived static DH terms. | Inference | Freeze note |
+| FR-012d | Local identity records with `identity/status` other than `active` MUST be rejected by the MVP runtime; richer status handling such as `rotating` or `retired` is deferred. | Fact | Freeze note |
 | FR-013 | After handshake, a Node MUST support capability advertisement exchange. | Fact | Proposal 014 |
 | FR-014 | Capability advertisement MUST include at least transport profiles and narrow core protocol capabilities. Attached roles and plugin-process surfaces MUST remain optional in MVP. | Inference | Proposal 014 |
 | FR-014a | `capabilities/core` MUST be interpreted as a schematic set of capability identifiers, not a free-form implementation description. | Inference | Proposal 014 |
@@ -115,6 +124,7 @@ higher-layer identity, room, or federation semantics.
 | NFR-005 | The Node SHOULD emit traces for identity load, advertisement publish/fetch, handshake success/failure, keepalive, and reconnect. | Inference | Transparency of operation |
 | NFR-006 | Discovery and session establishment SHOULD tolerate partial failures without forcing full local identity regeneration. | Inference | Resilience |
 | NFR-007 | The baseline MUST avoid introducing a mandatory global public registry or federation-wide trust fabric before the first Node can operate. | Fact | Proposal 014 |
+| NFR-008 | The first seed-directory synchronization surface SHOULD prefer incremental cursor-based advertisement fetch over full topology dump to reduce scraping and unnecessary bandwidth. | Inference | Freeze note |
 
 ## Trade-offs
 
@@ -147,8 +157,8 @@ higher-layer identity, room, or federation semantics.
 
 ## Remaining Open Questions
 
-1. Is the minimal seed directory part of MVP implementation, or only an optional extension after static seed peers?
-2. Should the near-term implementation target remain inline `private_key_base64` only, or should resolver-backed `key/storage-ref` enter the next implementation stage?
+None for the baseline identity storage shape. `key/storage-ref` with a
+`local-file:` resolver is now part of the MVP baseline.
 
 ## Next Actions
 

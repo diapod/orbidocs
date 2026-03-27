@@ -44,7 +44,7 @@
     "sequence/no": {
       "type": "integer",
       "minimum": 0,
-      "description": "Monotonic per-node advertisement sequence number inside the signed payload."
+      "description": "Monotonic per-node advertisement sequence number inside the signed payload. In v1 discovery state keeps only the latest advertisement per `node/id`, so higher sequence numbers supersede older ones."
     },
     "advertised-at": {
       "type": "string",
@@ -80,7 +80,7 @@
       "items": {
         "$ref": "#/$defs/endpoint"
       },
-      "description": "Currently valid live endpoints exposed by the Node."
+      "description": "Currently valid live endpoints exposed by the Node. Receivers first filter unsupported transports and then use endpoint priority as the sender-side preference hint among compatible endpoints."
     },
     "transports/supported": {
       "type": "array",
@@ -138,7 +138,7 @@
         "endpoint/priority": {
           "type": "integer",
           "minimum": 0,
-          "description": "Relative preference among multiple advertised endpoints."
+          "description": "Relative sender-side preference among multiple advertised endpoints. Lower values mean stronger preference."
         }
       }
     },

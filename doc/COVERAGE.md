@@ -46,7 +46,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) | `16` | `16` | `yes` | `yes` | `1` | `1` |
 | [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md) | `17` | `17` | `yes` | `yes` | `1` | `1` |
 | [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `1` |
-| [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | `10` | `10` | `yes` | `yes` | `2` | `1` |
+| [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | `8` | `8` | `yes` | `yes` | `1` | `2` |
 | [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `21` | `20` | `yes` | `yes` | `1` | `1` |
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | `21` | `20` | `yes` | `yes` | `1` | `1` |
@@ -138,5 +138,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `33`
 - Generated schema docs: `33`
-- Positive examples: `41`
-- Negative examples: `36`
+- Positive examples: `40`
+- Negative examples: `37`

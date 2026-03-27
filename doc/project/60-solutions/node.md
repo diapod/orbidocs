@@ -43,14 +43,17 @@ Related schemas:
 Responsibilities:
 - generate or load a stable local node identity,
 - derive and expose a stable `node:did:key`-shaped `node-id`,
+- resolve the signing key through `key/storage-ref` rather than inline secret material,
 - publish or consume signed endpoint advertisements,
 - establish signed peer handshakes and capability exchange over the baseline transport,
 - maintain keepalive and reconnect behavior for the first networked Node baseline.
 
 Note:
 - The v1 `node-id` is Node-local and intentionally uses a `did:key`-compatible Ed25519/base58btc fingerprint shape rather than claiming full support for the generic `did:key` method, DID Document expansion, or generic DID resolution.
+- The persisted v1 identity contract should carry `key/storage-ref` only; the MVP resolver baseline is `local-file:identity/node-signing-key.v1.json`.
 - The v1 handshake uses fresh ephemeral X25519 session keys in `session/pub`; the static key-agreement contribution is derived from the Ed25519 `node:did:key` identity for the MVP baseline rather than being re-advertised as separate long-lived X25519 state.
 - The minimal explicit advertised core capability in v1 is `core/messaging`; successful baseline participation and signed-handshake ability are treated as protocol-native facts rather than mandatory advertised capabilities.
+- Key rotation is not a live runtime feature in the MVP baseline; a new Ed25519 key means a new `node-id`, with overlap and succession left to a later operational layer.
 
 Status:
 - `todo`

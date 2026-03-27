@@ -17,19 +17,8 @@
     "node/id",
     "created-at",
     "key/alg",
-    "key/public"
-  ],
-  "anyOf": [
-    {
-      "required": [
-        "private_key_base64"
-      ]
-    },
-    {
-      "required": [
-        "key/storage-ref"
-      ]
-    }
+    "key/public",
+    "key/storage-ref"
   ],
   "properties": {
     "schema/v": {
@@ -50,10 +39,9 @@
     "identity/status": {
       "type": "string",
       "enum": [
-        "active",
-        "rotating"
+        "active"
       ],
-      "description": "Local lifecycle state of the identity material."
+      "description": "Local lifecycle state of the identity material. In the MVP runtime only `active` has semantics; future states such as rotation or retirement are deferred."
     },
     "key/alg": {
       "type": "string",
@@ -71,17 +59,8 @@
     "key/storage-ref": {
       "type": "string",
       "minLength": 1,
-      "description": "Local secure-storage or keystore reference to the corresponding private key material. This is the preferred target shape once key resolution is split from the identity record."
-    },
-    "private_key_base64": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Inline base64url-encoded private key material. This is allowed as a bootstrap-compatible shape for early Node implementations, but should later give way to `key/storage-ref`."
-    },
-    "federation/default-id": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Optional default federation binding used by higher layers."
+      "pattern": "^local-file:[^\\s]+$",
+      "description": "Local secret-storage reference to the corresponding private key material. In the MVP baseline this MUST use the `local-file:` scheme, for example `local-file:identity/node-signing-key.v1.json`."
     },
     "policy_annotations": {
       "type": "object",

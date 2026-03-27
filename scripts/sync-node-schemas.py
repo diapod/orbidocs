@@ -21,7 +21,6 @@ SCHEMA_WHITELIST = (
 
 EXAMPLE_WHITELIST = (
     "bootstrap.node-identity.json",
-    "bootstrap-inline-secret.node-identity.json",
     "seed-wss.node-advertisement.json",
     "bootstrap.hello.peer-handshake.json",
     "base-node.capability-advertisement.json",
@@ -30,6 +29,7 @@ EXAMPLE_WHITELIST = (
 
 INVALID_EXAMPLE_WHITELIST = (
     "missing-storage-ref.node-identity.json",
+    "inline-secret.node-identity.json",
     "no-endpoints.node-advertisement.json",
     "ack-without-reference.peer-handshake.json",
     "no-core-caps.capability-advertisement.json",

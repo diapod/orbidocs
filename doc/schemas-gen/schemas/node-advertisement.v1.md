@@ -27,13 +27,13 @@ Machine-readable schema for signed endpoint advertisements exchanged during Node
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`advertisement/id`](#field-advertisement-id) | `yes` | string | Stable identifier of this signed endpoint advertisement. |
 | [`node/id`](#field-node-id) | `yes` | string | Node addressed by this advertisement. In v1 this MUST use the canonical `node:did:key:z...` format. |
-| [`sequence/no`](#field-sequence-no) | `yes` | integer | Monotonic per-node advertisement sequence number inside the signed payload. |
+| [`sequence/no`](#field-sequence-no) | `yes` | integer | Monotonic per-node advertisement sequence number inside the signed payload. In v1 discovery state keeps only the latest advertisement per `node/id`, so higher sequence numbers supersede older ones. |
 | [`advertised-at`](#field-advertised-at) | `yes` | string | Timestamp when the advertisement was published. This is part of the signed payload. |
 | [`expires-at`](#field-expires-at) | `yes` | string | Timestamp after which this advertisement must be treated as stale. This is part of the signed payload. |
 | [`key/alg`](#field-key-alg) | `yes` | enum: `ed25519` | Algorithm of the key used to sign this advertisement. |
 | [`key/public`](#field-key-public) | `yes` | string | Canonical did:key fingerprint payload corresponding to `node/id`. |
 | [`federation/id`](#field-federation-id) | `no` | string | Optional federation scope advertised for bootstrap policy decisions. |
-| [`endpoints`](#field-endpoints) | `yes` | array | Currently valid live endpoints exposed by the Node. |
+| [`endpoints`](#field-endpoints) | `yes` | array | Currently valid live endpoints exposed by the Node. Receivers first filter unsupported transports and then use endpoint priority as the sender-side preference hint among compatible endpoints. |
 | [`transports/supported`](#field-transports-supported) | `yes` | array | Baseline transport profiles currently supported by the Node. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` |  |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object | Optional local or federation-local annotations that do not change core discovery semantics. |
@@ -76,7 +76,7 @@ Node addressed by this advertisement. In v1 this MUST use the canonical `node:di
 - Required: `yes`
 - Shape: integer
 
-Monotonic per-node advertisement sequence number inside the signed payload.
+Monotonic per-node advertisement sequence number inside the signed payload. In v1 discovery state keeps only the latest advertisement per `node/id`, so higher sequence numbers supersede older ones.
 
 <a id="field-advertised-at"></a>
 ## `advertised-at`
@@ -124,7 +124,7 @@ Optional federation scope advertised for bootstrap policy decisions.
 - Required: `yes`
 - Shape: array
 
-Currently valid live endpoints exposed by the Node.
+Currently valid live endpoints exposed by the Node. Receivers first filter unsupported transports and then use endpoint priority as the sender-side preference hint among compatible endpoints.
 
 <a id="field-transports-supported"></a>
 ## `transports/supported`

@@ -5,5 +5,5 @@
   "identity/status": "active",
   "key/alg": "ed25519",
   "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
-  "key/storage-ref": "keychain://orbiplex/node/primary"
+  "key/storage-ref": "local-file:identity/node-signing-key.v1.json"
 }

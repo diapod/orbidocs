@@ -90,8 +90,8 @@ Orbiplex should adopt the following networking MVP baseline:
 2. `node-id` is derived from the node public key as a strict `node:did:key` identifier,
 3. transport baseline is `WSS/443`,
 4. bootstrap uses:
-   - static seed peers,
-   - or a minimal seed directory,
+   - statically configured seed peers as the mandatory first bootstrap layer,
+   - with a minimal seed directory only as an optional extension after that,
 5. discovery exchanges signed endpoint advertisements,
 6. peers establish a signed handshake and exchange capability advertisements,
 7. the first always-supported maintenance flow is `ping/pong` and reconnect.
@@ -121,16 +121,17 @@ This means:
 - parsers should be strict,
 - and alternative textual forms should not be accepted in v1.
 
-That persisted identity record may, in early implementations, use one of two
-secret-bearing shapes:
+That persisted identity record should expose only public identity material plus
+one local secret reference:
 
-- inline `private_key_base64`,
-- or `key/storage-ref` pointing at a local keystore or secret resolver.
+- `key/storage-ref`
 
-The preferred longer-term direction is `key/storage-ref`, because it keeps the
-identity record separate from the secret backend. However, bootstrap-compatible
-implementations may begin with inline private key material without violating the
-MVP networking seed.
+For the MVP baseline, that reference should use:
+
+- `local-file:identity/node-signing-key.v1.json`
+
+This keeps the identity record separate from the secret backend from day one and
+avoids a later migration away from inline private-key material.
 
 This is enough for:
 
@@ -148,6 +149,13 @@ This MVP identity is **not** the same thing as:
 
 Those are higher-layer concerns.
 
+Rotation is also deferred as a richer operational layer. In v1:
+
+- a new Ed25519 key means a new `node:did:key` and therefore a new `node-id`,
+- overlap and succession proofs are an operational procedure rather than a live
+  runtime feature,
+- and persisted identities used by the MVP runtime should remain `active`.
+
 ### 2. Discovery baseline
 
 The first discovery target should be:
@@ -164,6 +172,18 @@ The healthier MVP is:
 - or the Node knows one minimal seed directory endpoint,
 - peers publish to and fetch from signed endpoint advertisements,
 - advertisements expire through TTL and must be refreshed.
+
+The implementation baseline should therefore begin with a local static seed list,
+not with a mandatory remote directory.
+
+That seed list may carry, for local operator convenience:
+
+- stable `node-id`,
+- bootstrap address,
+- and an optional human-friendly local label or self-chosen name.
+
+Such labels are operational hints only. They are not part of `node-id`, are not
+signed network identity, and may change without affecting protocol semantics.
 
 For `node-advertisement.v1`, the signed surface should use a sign-then-attach
 pattern:
@@ -192,6 +212,34 @@ This gives domain separation, deterministic verification, and malleability
 resistance. If a later wire framing carries raw advertisement bytes, receivers
 should verify those exact bytes rather than re-canonicalizing them.
 
+For discovery state, v1 should treat advertisements as:
+
+- one current active advertisement per `node-id`,
+- with the highest seen `sequence/no` replacing older advertisements,
+- and stale or equal sequence numbers rejected as non-current.
+
+This keeps one coherent transport view per node identity and avoids conflicting
+capability or endpoint state for the same `node-id`.
+
+If a minimal seed directory is deployed, its first useful API should remain
+narrow:
+
+- `PUT /adv/{node-id}`:
+  - publish or replace one signed advertisement if `sequence/no` is newer,
+- `GET /adv/{node-id}`:
+  - fetch the current signed advertisement for one node,
+- `GET /adv?since={cursor}`:
+  - fetch advertisements incrementally in small batches,
+- no explicit delete endpoint:
+  - expiry is TTL-driven.
+
+This keeps the directory as a signed cache rather than a trust gate. Read access
+should remain open, and write access should remain open to any correctly signed
+publisher, but rate-limited and freshness-checked.
+
+Explicit full-dump directory listing should be avoided in the first design,
+because it turns the seed directory into a trivial topology-scraping endpoint.
+
 ### 3. Transport baseline
 
 The default transport should be:
@@ -213,6 +261,16 @@ Later transport layers may add:
 - or more specialized transports.
 
 But those should not block MVP.
+
+When multiple endpoints are present in one advertisement, the receiver should:
+
+1. filter out unsupported transports,
+2. prefer the sender-advertised endpoint priority among compatible endpoints,
+3. still allow local runtime constraints to override that hint.
+
+In v1 this mostly reduces to ordered preference among `wss` endpoints. Wider
+transport ranking can be added later when more than one transport family is
+actually standardized.
 
 ### 4. Session baseline
 
@@ -410,7 +468,6 @@ Optionally later:
 ## Remaining Open Questions
 
 1. Should MVP implementation stop at static seed peers first, or also include a minimal read-write seed directory?
-2. Should the next implementation stage still accept only inline bootstrap private key material, or should resolver-backed `key/storage-ref` become active runtime behavior?
 
 ## Next Actions
 
