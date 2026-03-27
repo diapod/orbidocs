@@ -45,7 +45,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) | `16` | `16` | `yes` | `yes` | `1` | `1` |
 | [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md) | `17` | `17` | `yes` | `yes` | `1` | `1` |
-| [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `1` |
+| [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | `8` | `8` | `yes` | `yes` | `1` | `2` |
 | [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `21` | `20` | `yes` | `yes` | `1` | `1` |

@@ -79,6 +79,7 @@ higher-layer identity, room, or federation semantics.
 | FR-004b | The signing input for `node-advertisement.v1` MUST be domain-separated as `node-advertisement.v1\\x00 || deterministic_cbor(payload_without_signature)`. | Fact | Freeze note |
 | FR-004c | Transport-mutable per-hop metadata MUST NOT be part of the `node-advertisement.v1` signed surface; if such metadata exists later, it MUST live outside the semantic advertisement payload. | Inference | Freeze note |
 | FR-004d | Discovery state in v1 MUST treat `node-advertisement.v1` as one current advertisement per `node-id`; a newer `sequence/no` replaces the previous one, while stale or equal sequence numbers MUST be rejected as non-current. | Fact | Freeze note |
+| FR-004e | `node-advertisement.v1` MAY carry an optional future-facing `succession` object naming a successor `node-id` and later proof slots, but the MVP runtime MUST treat it only as non-authoritative seed data for a later rotation layer. | Fact | Freeze note |
 | FR-005 | Endpoint discovery for MVP MUST target `node-id -> current endpoint advertisement`, not `nym -> IP:port`. | Fact | Proposal 014 |
 | FR-006 | Every Node MUST support bootstrap from one or more statically configured seed peers. | Fact | Proposal 014 |
 | FR-006a | Static seed-peer configuration MAY carry operator-facing local labels or names in addition to `node-id` and bootstrap address, but such labels MUST remain non-identifying operational metadata outside signed network identity. | Inference | Freeze note |
@@ -87,6 +88,9 @@ higher-layer identity, room, or federation semantics.
 | FR-007b | A minimal seed directory SHOULD remain open for reads, and open for signed writes from any node, while enforcing freshness checks and per-publisher rate limits. | Inference | Freeze note |
 | FR-007c | A minimal seed directory MUST NOT require an explicit delete operation for advertisements; expiry and removal SHOULD be driven by advertisement freshness and TTL sweep. | Fact | Freeze note |
 | FR-008 | The MVP baseline transport MUST support `WSS` over TCP `443`. | Fact | Proposal 014 |
+| FR-008b | In the MVP baseline, `WSS/TLS` MUST be treated as a carrier layer: TLS server authentication protects endpoint reachability and channel confidentiality/integrity, while peer identity authentication still happens through signed `peer-handshake.v1` artifacts rather than client-certificate semantics. | Fact | Freeze note |
+| FR-008c | For public `wss://` endpoints, a Node SHOULD validate the presented server certificate against the advertised endpoint hostname using normal WebPKI rules. | Inference | Freeze note |
+| FR-008d | Controlled or private deployments MAY configure additional local trust roots out of band, but such trust anchors MUST remain deployment-local and MUST NOT be encoded as protocol semantics or carried inside `node-advertisement.v1` in the MVP baseline. | Fact | Freeze note |
 | FR-008a | When multiple endpoints are advertised, a Node SHOULD first filter unsupported transports and then respect sender-advertised endpoint priority among the remaining compatible endpoints, unless stronger local constraints override that hint. | Inference | Freeze note |
 | FR-009 | Direct TCP, UDP traversal, and richer relay topologies MAY be added later but MUST NOT be prerequisites for the first interoperable Node. | Inference | Proposal 014 |
 | FR-010 | A Node MUST support a signed peer handshake before application-level message exchange begins. | Fact | Proposal 014 |
@@ -109,6 +113,7 @@ higher-layer identity, room, or federation semantics.
 | FR-014c | Capabilities that are already implicit in a successful signed handshake, such as baseline protocol participation or the ability to sign the handshake itself, SHOULD NOT be modeled as separate mandatory advertised core capabilities in v1. | Inference | Freeze note |
 | FR-015 | A Node MUST support liveness maintenance through `ping/pong` or an equivalent keepalive flow. | Fact | Proposal 014 |
 | FR-016 | A Node MUST support reconnect behavior after transient peer or transport failure. | Fact | Proposal 014 |
+| FR-016a | Reconnect after transient transport failure SHOULD establish a fresh carrier connection and repeat the signed `peer-handshake.v1` flow rather than assuming protocol continuity from TLS session resumption alone. | Inference | Freeze note |
 | FR-017 | The first supported application-level slice MUST include `signal-marker` as a signed application message that can be sent, validated, and traced end to end. | Fact | Proposal 014 |
 | FR-018 | Nodes MUST reject or quarantine malformed, expired, or signature-invalid advertisements and handshakes. | Inference | Contract integrity |
 | FR-019 | The baseline capability surface SHOULD be small enough that heterogeneous Node implementations can interoperate without sharing one runtime or language stack. | Inference | Architecture principles |

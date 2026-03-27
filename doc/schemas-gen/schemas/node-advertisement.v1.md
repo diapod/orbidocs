@@ -33,6 +33,7 @@ Machine-readable schema for signed endpoint advertisements exchanged during Node
 | [`key/alg`](#field-key-alg) | `yes` | enum: `ed25519` | Algorithm of the key used to sign this advertisement. |
 | [`key/public`](#field-key-public) | `yes` | string | Canonical did:key fingerprint payload corresponding to `node/id`. |
 | [`federation/id`](#field-federation-id) | `no` | string | Optional federation scope advertised for bootstrap policy decisions. |
+| [`succession`](#field-succession) | `no` | ref: `#/$defs/succession` | Optional future-facing identity succession hint. In the MVP baseline this field has no runtime semantics yet and should be treated as an informational contract seed for later rotation procedures. |
 | [`endpoints`](#field-endpoints) | `yes` | array | Currently valid live endpoints exposed by the Node. Receivers first filter unsupported transports and then use endpoint priority as the sender-side preference hint among compatible endpoints. |
 | [`transports/supported`](#field-transports-supported) | `yes` | array | Baseline transport profiles currently supported by the Node. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` |  |
@@ -44,6 +45,7 @@ Machine-readable schema for signed endpoint advertisements exchanged during Node
 |---|---|---|
 | [`endpoint`](#def-endpoint) | object |  |
 | [`signature`](#def-signature) | object |  |
+| [`succession`](#def-succession) | object |  |
 ## Field Semantics
 
 <a id="field-schema-v"></a>
@@ -118,6 +120,14 @@ Canonical did:key fingerprint payload corresponding to `node/id`.
 
 Optional federation scope advertised for bootstrap policy decisions.
 
+<a id="field-succession"></a>
+## `succession`
+
+- Required: `no`
+- Shape: ref: `#/$defs/succession`
+
+Optional future-facing identity succession hint. In the MVP baseline this field has no runtime semantics yet and should be treated as an informational contract seed for later rotation procedures.
+
 <a id="field-endpoints"></a>
 ## `endpoints`
 
@@ -157,5 +167,10 @@ Optional local or federation-local annotations that do not change core discovery
 
 <a id="def-signature"></a>
 ## `$defs.signature`
+
+- Shape: object
+
+<a id="def-succession"></a>
+## `$defs.succession`
 
 - Shape: object

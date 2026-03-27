@@ -221,6 +221,19 @@ For discovery state, v1 should treat advertisements as:
 This keeps one coherent transport view per node identity and avoids conflicting
 capability or endpoint state for the same `node-id`.
 
+To prepare the later rotation layer without turning it into a live MVP feature,
+`node-advertisement.v1` may also carry an optional `succession` object:
+
+- `successor/node-id`
+- optional proof slots for the current and successor identities
+
+In the MVP baseline this remains a future-facing contract seed only:
+
+- peers do not yet treat it as authoritative runtime continuity,
+- it does not change advertisement freshness or replacement rules,
+- and it exists mainly to stabilize field names before operational overlap and
+  succession flows are implemented.
+
 If a minimal seed directory is deployed, its first useful API should remain
 narrow:
 
@@ -261,6 +274,32 @@ Later transport layers may add:
 - or more specialized transports.
 
 But those should not block MVP.
+
+For the MVP baseline, `WSS` should be treated as a carrier transport layer, not
+as the primary identity protocol.
+
+This means:
+
+- TLS server authentication proves control of the advertised endpoint and gives
+  baseline confidentiality and integrity for the carrier connection,
+- Node-to-Node identity authentication still happens at the signed
+  `peer-handshake.v1` layer,
+- mutual TLS and client-certificate identity are not required for the MVP
+  networking baseline,
+- and reconnect should assume a fresh transport plus a fresh signed handshake,
+  not protocol continuity derived from TLS session resumption.
+
+For public `wss://` endpoints, the client should validate the presented server
+certificate against the hostname carried in the advertised endpoint URL using
+normal WebPKI rules.
+
+For controlled or private deployments, additional local trust roots may be
+configured out of band by the operator, but this trust configuration should stay
+deployment-local:
+
+- it should not become protocol semantics,
+- and `node-advertisement.v1` should not carry TLS certificate blobs, pinsets,
+  or custom trust material in the MVP baseline.
 
 When multiple endpoints are present in one advertisement, the receiver should:
 

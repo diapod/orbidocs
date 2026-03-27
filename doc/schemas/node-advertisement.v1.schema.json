@@ -74,6 +74,10 @@
       "minLength": 1,
       "description": "Optional federation scope advertised for bootstrap policy decisions."
     },
+    "succession": {
+      "$ref": "#/$defs/succession",
+      "description": "Optional future-facing identity succession hint. In the MVP baseline this field has no runtime semantics yet and should be treated as an informational contract seed for later rotation procedures."
+    },
     "endpoints": {
       "type": "array",
       "minItems": 1,
@@ -159,6 +163,31 @@
         "value": {
           "type": "string",
           "minLength": 1
+        }
+      }
+    },
+    "succession": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "successor/node-id"
+      ],
+      "properties": {
+        "successor/node-id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Node identifier proposed as the successor of the currently advertised identity."
+        },
+        "proof/current": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Future-facing proof slot for the current identity asserting the successor binding."
+        },
+        "proof/successor": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Future-facing proof slot for the successor identity asserting continuity from the current identity."
         }
       }
     }

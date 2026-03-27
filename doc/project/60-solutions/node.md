@@ -53,7 +53,9 @@ Note:
 - The persisted v1 identity contract should carry `key/storage-ref` only; the MVP resolver baseline is `local-file:identity/node-signing-key.v1.json`.
 - The v1 handshake uses fresh ephemeral X25519 session keys in `session/pub`; the static key-agreement contribution is derived from the Ed25519 `node:did:key` identity for the MVP baseline rather than being re-advertised as separate long-lived X25519 state.
 - The minimal explicit advertised core capability in v1 is `core/messaging`; successful baseline participation and signed-handshake ability are treated as protocol-native facts rather than mandatory advertised capabilities.
+- `WSS/TLS` in v1 is only the carrier transport: TLS server authentication protects the endpoint and the channel, while peer identity still binds at the signed `peer-handshake.v1` layer; public endpoints should follow normal WebPKI hostname validation, and private trust roots remain deployment-local rather than protocol-visible.
 - Key rotation is not a live runtime feature in the MVP baseline; a new Ed25519 key means a new `node-id`, with overlap and succession left to a later operational layer.
+- `node-advertisement.v1` may already carry a future-facing `succession` object, but the Node does not yet assign it active runtime continuity semantics in the MVP baseline.
 
 Status:
 - `todo`
