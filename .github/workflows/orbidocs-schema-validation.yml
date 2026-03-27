@@ -57,6 +57,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-docs.txt
 
+      - name: Verify documentation and source files do not contain local absolute paths
+        run: make check-no-absolute-local-paths
+
       - name: Verify generated documentation artifacts
         run: |
           make docs-gen

@@ -281,6 +281,6 @@ Optionally later:
    - `node-advertisement.v1`
    - `peer-handshake.v1`
    - `capability-advertisement.v1`
-3. Extend `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/doc/project/60-solutions/node.md`
+3. Extend `doc/project/60-solutions/node.md`
    with the networking baseline as a first-class Node capability.
 4. Extend the Node implementation ledger with the same baseline capability.

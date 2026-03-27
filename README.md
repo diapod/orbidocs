@@ -192,3 +192,23 @@ The repository uses a stratified traceability model.
 These paths are intentionally not symmetric. Normative documents carry legitimacy and
 constraints. Project documents explore, narrow, and operationalize design choices. Both
 meet in data contracts under `doc/schemas/`.
+
+## Node Implementation Bridge
+
+The closest implementation-side counterpart of the `orbidocs` solutions layer lives in:
+
+- `../node/docs/implementation-ledger.toml`
+- `../node/docs/IMPLEMENTATION-LEDGER.md`
+
+This ledger is not generated from `orbidocs`. It is maintained manually in the
+`node` repository and should be reconciled there against:
+
+- `doc/project/60-solutions/*`
+- `doc/schemas/*`
+- and, where they introduce implementation-relevant decisions, selected project
+  `proposals`, `requirements`, `stories`, and `memos`
+
+That split is intentional:
+
+- `orbidocs` remains the semantic and architectural source
+- `node` keeps the repository-local implementation mapping, ownership, and coarse status

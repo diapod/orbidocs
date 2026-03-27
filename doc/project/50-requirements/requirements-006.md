@@ -138,6 +138,6 @@ higher-layer identity, room, or federation semantics.
 ## Next Actions
 
 1. Keep `NodeIdentity`, `NodeAdvertisement`, `PeerHandshake`, and `CapabilityAdvertisement` aligned as one versioned networking family.
-2. Extend `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/doc/project/60-solutions/node.md` and `node-caps.edn` to point directly at the first networking schema quartet.
-3. Add matching implementation-ledger rows in `/Users/siefca/kody/FREE/AI/orbiplex/node`.
+2. Extend `doc/project/60-solutions/node.md` and `node-caps.edn` to point directly at the first networking schema quartet.
+3. Add matching implementation-ledger rows in the sibling `node` repository.
 4. Implement load-or-generate local identity, WSS seed bootstrap, signed handshake, capability exchange, and keepalive as the first Node networking slice.

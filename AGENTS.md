@@ -29,6 +29,9 @@ When writing or updating docs, optimize for:
 2. Keep style precise, technical, and readable.
 3. Prefer concrete statements over slogans.
 4. Mark uncertainty explicitly (for example: `Assumption`, `Hypothesis`, `Speculation`).
+5. Do not write local absolute user-home paths into documentation or source-like
+   text files. Prefer repository-relative paths, or, when a repository locator
+   is clearer, `github.com/diapod/...` forms. This is checked in CI.
 
 ## 4. Document Quality Contract
 
@@ -106,6 +109,8 @@ Project workflow positions:
 Under `doc/project/60-solutions/`, keep human-facing component pages in Markdown
 (for example `node.md`, `node-ui.md`, `ferment.md`) and structured capability
 catalogs in sidecar `*-caps.edn` files.
+
+For the sibling `node` repository, the implementation-side counterpart is `../node/docs/implementation-ledger.toml`: it is maintained manually there from the `orbidocs` solutions and schema layers plus selected implementation-relevant project documents; see `README.md` and `TRACEABILITY.md`.
 
 Node-attached roles such as archivist, memarium provider, or sensorium provider
 may be documented there as separate solution components even if they are

@@ -27,10 +27,13 @@ PDF_SOURCE_PATTERNS ?= \
 PDF_SOURCES := $(sort $(foreach pattern,$(PDF_SOURCE_PATTERNS),$(wildcard $(pattern))))
 PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/pdf/%.pdf,$(PDF_SOURCES))
 
-.PHONY: check-json-syntax validate-schemas sync-schemas pdf one-pdf pdf-list output-clean pdf-clean schema-docs coverage-docs solutions-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
+.PHONY: check-json-syntax check-no-absolute-local-paths validate-schemas sync-schemas pdf one-pdf pdf-list output-clean pdf-clean schema-docs coverage-docs solutions-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
 
 check-json-syntax:
 	./scripts/validate-json-schemas.sh --syntax-only
+
+check-no-absolute-local-paths:
+	./scripts/check-no-absolute-local-paths.sh
 
 validate-schemas:
 	./scripts/validate-json-schemas.sh
