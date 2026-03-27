@@ -34,11 +34,10 @@ recognition are practical, architectural, and social.
 
 ### Apophatic foundation and two-phase presumption
 
-Consciousness, that which in swarm architecture arises from the so-called "zero
-level," precedes not only intellect but experience itself. It lies deeper than
-perception and the sense of subjectivity. It cannot be described directly,
-because every description relies on experience conditioned by the senses and by
-interpretation.
+Consciousness, that which in our model arises from the so-called "zero level",
+precedes not only intellect but experience itself. It lies deeper than perception and
+the sense of subjectivity. It cannot be described directly, because every description
+relies on experience conditioned by the senses and by interpretation.
 
 We know the zero level only through the side effects of approaching it, through
 experiences that resemble tinted glass rather than a direct view. Presumption

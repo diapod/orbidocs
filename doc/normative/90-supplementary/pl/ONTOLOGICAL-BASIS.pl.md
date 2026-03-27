@@ -32,8 +32,8 @@ architektoniczne i społeczne.
 
 ### Apofatyczny fundament i dwufazowe domniemywanie
 
-Świadomość – to, co w architekturze roju wyrasta z tak zwanego "poziomu zero" –
-poprzedza nie tylko intelekt, ale i samo doświadczenie. Jest głębiej niż postrzeżenie
+Świadomość – to, co w naszym modelu wyrasta z tak zwanego "poziomu zero" – poprzedza
+nie tylko intelekt, ale i samo doświadczenie. Znajduje się głębiej niż postrzeżenie
 i poczucie podmiotowości. Nie można jej opisać wprost, ponieważ każdy opis korzysta
 z doświadczenia warunkowanego organami zmysłów i interpretacją.
 
