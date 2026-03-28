@@ -8,7 +8,25 @@
  procurement flow, archival handoff, retrieval, and policy-gated local knowledge operations."
 
  :must-implement
- [{:cap/id :room-lifecycle
+ [{:cap/id :peer-identity-discovery-and-session-baseline
+   :title "Peer Identity, Discovery, and Session Baseline"
+   :kind :transport
+   :based-on ["doc/project/40-proposals/002-comm-protocol.md"
+              "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md"
+              "doc/project/50-requirements/requirements-006.md"]
+   :schemas ["node-identity.v1"
+             "node-advertisement.v1"
+             "peer-handshake.v1"
+             "capability-advertisement.v1"]
+   :responsibilities
+   ["Generate or load a stable local node identity"
+    "Derive and expose a stable `node-id`"
+    "Publish or consume signed endpoint advertisements"
+    "Establish signed peer handshakes and capability exchange over the baseline transport"
+    "Maintain keepalive and reconnect behavior for the first networked Node baseline"]
+   :status :todo}
+
+  {:cap/id :room-lifecycle
    :title "Question Room Lifecycle"
    :kind :protocol
    :based-on ["doc/project/30-stories/story-001.md"

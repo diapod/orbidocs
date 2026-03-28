@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-advertisement:v1",
+  "title": "CapabilityAdvertisement v1",
+  "description": "Machine-readable schema for baseline capability exchange after peer session establishment.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/project/50-requirements/requirements-006.md",
+    "doc/project/60-solutions/node.md"
+  ],
+  "required": [
+    "schema/v",
+    "advertisement/id",
+    "node/id",
+    "published-at",
+    "protocol/version",
+    "transport/profiles",
+    "capabilities/core",
+    "messages/supported",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "advertisement/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this capability advertisement."
+    },
+    "node/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Node advertising its baseline capability surface. In v1 this MUST use the canonical `node:did:key:z...` format."
+    },
+    "published-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the capability set was published."
+    },
+    "protocol/version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Protocol version for which the capability advertisement is valid."
+    },
+    "transport/profiles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "wss"
+        ]
+      },
+      "description": "Transport profiles currently exposed by the Node."
+    },
+    "capabilities/core": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(core|role|plugin)/[a-z0-9-]+(?:/[a-z0-9-]+)*$"
+      },
+      "description": "Schematic capability identifiers supported by the Node. MVP capability advertisement is intentionally limited to a narrow core and MUST at least include `core/messaging`."
+    },
+    "roles/attached": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional attached roles or plugin-process capabilities visible at the Node boundary. Not required in MVP."
+    },
+    "surfaces/exposed": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Exposed APIs, channels, or queues that can be used by peers or attached roles."
+    },
+    "messages/supported": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Protocol message families currently supported by the Node."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional annotations that do not change the core advertised capability semantics."
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "capabilities/core": {
+          "contains": {
+            "const": "core/messaging"
+          }
+        }
+      },
+      "required": [
+        "capabilities/core"
+      ]
+    }
+  ]
+}

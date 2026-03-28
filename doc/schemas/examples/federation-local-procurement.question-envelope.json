@@ -3,6 +3,7 @@
   "question/id": "question:01K0FEDPROC1",
   "created-at": "2026-03-22T18:10:00Z",
   "sender/node-id": "node:pl-wro-full-7f3c",
+  "sender/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "sender/federation-id": "fed:orbiplex-pl",
   "ttl-sec": 1800,
   "question/text": "How should we rotate a federation trust root without partitioning older nodes?",

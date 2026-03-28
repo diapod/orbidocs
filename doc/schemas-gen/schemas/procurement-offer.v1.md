@@ -31,7 +31,8 @@ Machine-readable schema for responder offers attached to a published procurement
 | [`question/id`](#field-question-id) | `yes` | string | Question lifecycle identifier to which the offer responds. |
 | [`created-at`](#field-created-at) | `yes` | string | Offer creation timestamp. |
 | [`expires-at`](#field-expires-at) | `no` | string | Optional offer-expiry timestamp before which the asker must decide. |
-| [`responder/node-id`](#field-responder-node-id) | `yes` | string | Responding node that would execute or lead the answer path. |
+| [`responder/node-id`](#field-responder-node-id) | `yes` | string | Responding node that would host, route, or execute the answer path. |
+| [`responder/participant-id`](#field-responder-participant-id) | `yes` | string | Participation-role identity that stands behind the offer and would own the responder-side participation semantics. |
 | [`responder/federation-id`](#field-responder-federation-id) | `no` | string | Federation identity of the responder when relevant to routing or trust. |
 | [`responder/public-key-ref`](#field-responder-public-key-ref) | `no` | string | Reference to the responder's encryption or signature key material. |
 | [`price/amount`](#field-price-amount) | `yes` | integer | Proposed price in minor units. |
@@ -155,7 +156,15 @@ Optional offer-expiry timestamp before which the asker must decide.
 - Required: `yes`
 - Shape: string
 
-Responding node that would execute or lead the answer path.
+Responding node that would host, route, or execute the answer path.
+
+<a id="field-responder-participant-id"></a>
+## `responder/participant-id`
+
+- Required: `yes`
+- Shape: string
+
+Participation-role identity that stands behind the offer and would own the responder-side participation semantics.
 
 <a id="field-responder-federation-id"></a>
 ## `responder/federation-id`

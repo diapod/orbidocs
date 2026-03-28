@@ -19,6 +19,8 @@
     "contract/id",
     "question/id",
     "created-at",
+    "payer/participant-id",
+    "payee/participant-id",
     "outcome",
     "confirmation/mode"
   ],
@@ -43,6 +45,16 @@
       "type": "string",
       "format": "date-time",
       "description": "Receipt creation timestamp."
+    },
+    "payer/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Participation-role identity on the payer/asker side whose acceptance or refusal is being recorded."
+    },
+    "payee/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Participation-role identity on the payee/responder side whose acknowledgement or outcome is being recorded."
     },
     "settled-at": {
       "type": "string",

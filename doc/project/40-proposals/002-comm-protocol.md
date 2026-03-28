@@ -107,8 +107,9 @@ IRC/Matrix may serve as bootstrap hints or "apocalypse fallback" for presence/en
   not public by default.
 - Each node has a long-term **`node-key`** (Ed25519 or compatible), controlled by
   that anchor identity.
-- **`node-id = H(node-pubkey)`** (or compatible stable derivation), unless a
-  stricter federation profile derives it directly from the anchor identity.
+- For Ed25519 in v1, **`node-id = node:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`**.
+- Parsers for that v1 `node-id` shape SHOULD be strict; alternative textual forms
+  should be treated as different versions, not as equivalent aliases.
 - All control-plane messages are **signed**.
 
 #### Session keys and continuity
@@ -211,6 +212,12 @@ Envelope {
 - `nonce + ttl + seq` provide replay protection.
 - `from` identifies the stable node identity; `station` identifies the concrete delegated device when the node operates in multi-station mode.
 - If `e2e` is present, `body` may be empty and all payload moves into `ciphertext` (with `aad` carrying the signed metadata).
+
+Note: the networking MVP may freeze narrower artifact-specific signing rules
+earlier than this general envelope section. In particular, `node-advertisement.v1`
+and `peer-handshake.v1` may use deterministic CBOR with explicit domain
+separation before a generic control-plane envelope canonicalization is fully
+settled.
 
 ### 7. Example handshake (proxy-friendly transport + optional E2E)
 
@@ -342,6 +349,22 @@ on frame(envelope):
 - Nodes can ask Edge for "who is currently present in namespace X?" (subject to policy).
 - Edge responses are treated as **hints**; endpoints still authenticate peers via signatures.
 
+For a later post-MVP gossip layer, Orbiplex may also carry limited propagation-path
+metadata alongside the advertised or relayed artifact itself. The point would not be
+to centralize discovery, but to let receivers observe a small causal or propagation
+trace of how the artifact reached them.
+
+That future layer could help with:
+
+- detecting suspiciously coordinated propagation patterns relevant to anti-Sybil review,
+- building local transport reputation from observed delivery speed and consistency,
+- and reasoning about dissemination quality without turning discovery into a fully
+  trusted registry.
+
+This is intentionally deferred. The MVP should not require propagation-path metadata
+before the basic seed, advertisement, handshake, keepalive, and reconnect slice is
+already proven end to end.
+
 ### 9. `CORP_COMPLIANT` governance checklist
 
 Use this as a policy checklist for corporate governance / security review.
@@ -405,7 +428,7 @@ Use this as a policy checklist for corporate governance / security review.
 
 ## Open Questions
 
-1. **Canonicalization format**: EDN or JSON as the canonical signing format? EDN is natural for Clojure; JSON has wider tooling. Needs a decision before implementation.
+1. **Canonicalization family alignment**: the networking MVP now freezes deterministic CBOR for signed Node identity, advertisement, and handshake artifacts. A remaining question is whether broader envelope families should converge on the same canonicalization strategy or deliberately allow more than one family-specific canonical form.
 2. **Metadata privacy**: Should a metadata-wrapping layer be specified for `E2E_REQUIRED` mode, or is metadata exposure to Edge acceptable?
 3. **Group messaging**: Current envelope supports `group-id` in `to`, but group key management (e.g., sender keys, MLS-style) is unspecified.
 4. **Large payload transfer**: Data-plane for large payloads is mentioned (content-hash references) but not specified. Needs a separate proposal or extension.

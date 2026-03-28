@@ -1,0 +1,70 @@
+{:component/id :orbiplex/whisper
+ :component/title "Orbiplex Whisper"
+ :component/type :node-attached-module
+ :component/status :planned
+
+ :summary
+ "Node-attached social-signal exchange component for rumor intake, redaction,
+ thresholding, and opt-in association bootstrap."
+
+ :must-implement
+ [{:cap/id :rumor-intake-and-publication
+   :title "Rumor Intake and Publication"
+   :kind :protocol
+   :based-on ["doc/project/20-memos/orbiplex-whisper.md"
+              "doc/project/30-stories/story-005.md"
+              "doc/project/40-proposals/013-whisper-social-signal-exchange.md"]
+   :schemas ["whisper-signal.v1"]
+   :responsibilities
+   ["Capture rumor-style input without flattening it into evidence"
+    "Run bounded local redaction, paraphrase, and idiolect reduction"
+    "Require user approval before publication"
+    "Emit `whisper-signal` artifacts with explicit epistemic class and routing/privacy intent"]
+   :status :todo}
+
+  {:cap/id :interest-and-threshold-coordination
+   :title "Interest and Threshold Coordination"
+   :kind :protocol
+   :based-on ["doc/project/20-memos/orbiplex-whisper.md"
+              "doc/project/30-stories/story-005.md"
+              "doc/project/40-proposals/013-whisper-social-signal-exchange.md"]
+   :schemas ["whisper-interest.v1"
+             "whisper-threshold-reached.v1"
+             "association-room-proposal.v1"]
+   :responsibilities
+   ["Register local relevance without premature disclosure"
+    "Recognize threshold crossings under policy"
+    "Derive deterministic bootstrap sets"
+    "Publish association proposals that preserve opt-in enrollment"]
+   :status :todo}]
+
+ :may-implement
+ [{:cap/id :aggregate-topic-notices
+   :title "Aggregate Topic Notices"
+   :kind :optional
+   :based-on ["doc/project/20-memos/orbiplex-whisper.md"
+              "doc/project/40-proposals/013-whisper-social-signal-exchange.md"]
+   :schemas ["whisper-threshold-reached.v1"]
+   :responsibilities
+   ["Emit coarse aggregate notices after threshold crossing"
+    "Keep aggregate discovery hints weaker than case disclosure"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Transport-layer anonymity and relay topology"
+  "Automatic exposure of identities to one another"
+  "Hard semantic duplicate suppression in v1"]
+
+ :consumes
+ ["whisper-signal.v1"
+  "whisper-interest.v1"]
+
+ :produces
+ ["whisper-signal.v1"
+  "whisper-interest.v1"
+  "whisper-threshold-reached.v1"
+  "association-room-proposal.v1"]
+
+ :notes
+ ["Whisper may be implemented in-process or as a separate attached program."
+  "Callers of outbound privacy should declare intent, not name a concrete relay module."]}

@@ -19,6 +19,7 @@
     "question/id",
     "created-at",
     "sender/node-id",
+    "sender/participant-id",
     "delivery/scope",
     "delivery/response-channel-id",
     "request/exposure-mode",
@@ -45,7 +46,12 @@
     "sender/node-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Swarm-facing infrastructure actor that published the envelope."
+      "description": "Swarm-facing routing and hosting identity of the Node that published the envelope."
+    },
+    "sender/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Participation-role identity that authored or initiated the question publication. In the MVP baseline this may be role-distinct but key-equal to the local `node-id`. This is the authored participation identity, not the network routing identity."
     },
     "sender/federation-id": {
       "type": "string",
@@ -55,12 +61,12 @@
     "sender/pod-user-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Hosted-user identity when publication is delegated through a pod-backed client flow."
+      "description": "Hosted-user identity when publication is delegated through a later pod-backed client flow. This is additive to, not a replacement for, `sender/participant-id`, and it is not part of the networking routing contract."
     },
     "sender/public-nym": {
       "type": "string",
       "minLength": 1,
-      "description": "Optional public-facing pseudonym shown at protocol boundaries where policy allows it."
+      "description": "Optional public-facing pseudonym shown at protocol boundaries where policy allows it. This is optional presentation metadata, not a routing identity."
     },
     "ttl-sec": {
       "type": "integer",

@@ -1,0 +1,11 @@
+{
+  "schema/v": 1,
+  "marker_id": "signal-marker:01JQNODEMARK002",
+  "applies_to_ref": "response-envelope:01JQNODERESP002",
+  "mode": "raw",
+  "actor": "human",
+  "operations": [
+    "privacy_redaction"
+  ],
+  "visible_to_user": true
+}

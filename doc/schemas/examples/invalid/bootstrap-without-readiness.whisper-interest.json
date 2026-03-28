@@ -1,0 +1,10 @@
+{
+  "schema/v": 1,
+  "interest/id": "wsp-int-invalid-001",
+  "signal/id": "wsp-sig-2026-03-23-001",
+  "created-at": "2026-03-23T18:21:00Z",
+  "interested/node-id": "node://zurich-02",
+  "interest/kind": "bootstrap-willing",
+  "disclosure/readiness": "none",
+  "local/user-notified": true
+}

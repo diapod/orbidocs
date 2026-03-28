@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:node-advertisement:v1",
+  "title": "NodeAdvertisement v1",
+  "description": "Machine-readable schema for signed endpoint advertisements exchanged during Node discovery. In v1 the signed surface is the deterministic CBOR image of the whole advertisement payload excluding only the `signature` field itself. Transport-mutable per-hop metadata, if introduced later, must remain outside this semantic payload.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/project/50-requirements/requirements-006.md",
+    "doc/project/60-solutions/node.md"
+  ],
+  "required": [
+    "schema/v",
+    "advertisement/id",
+    "node/id",
+    "sequence/no",
+    "advertised-at",
+    "expires-at",
+    "key/alg",
+    "key/public",
+    "endpoints",
+    "transports/supported",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "advertisement/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this signed endpoint advertisement."
+    },
+    "node/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Node addressed by this advertisement. In v1 this MUST use the canonical `node:did:key:z...` format."
+    },
+    "sequence/no": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Monotonic per-node advertisement sequence number inside the signed payload. In v1 discovery state keeps only the latest advertisement per `node/id`, so higher sequence numbers supersede older ones."
+    },
+    "advertised-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the advertisement was published. This is part of the signed payload."
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp after which this advertisement must be treated as stale. This is part of the signed payload."
+    },
+    "key/alg": {
+      "type": "string",
+      "enum": [
+        "ed25519"
+      ],
+      "description": "Algorithm of the key used to sign this advertisement."
+    },
+    "key/public": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical did:key fingerprint payload corresponding to `node/id`."
+    },
+    "federation/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional federation scope advertised for bootstrap policy decisions."
+    },
+    "succession": {
+      "$ref": "#/$defs/succession",
+      "description": "Optional future-facing identity succession hint. In the MVP baseline this field has no runtime semantics yet and should be treated as an informational contract seed for later rotation procedures."
+    },
+    "endpoints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/endpoint"
+      },
+      "description": "Currently valid live endpoints exposed by the Node. Receivers first filter unsupported transports and then use endpoint priority as the sender-side preference hint among compatible endpoints."
+    },
+    "transports/supported": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "wss"
+        ]
+      },
+      "description": "Baseline transport profiles currently supported by the Node."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local or federation-local annotations that do not change core discovery semantics."
+    }
+  },
+  "$defs": {
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "endpoint/url",
+        "endpoint/transport",
+        "endpoint/role",
+        "endpoint/priority"
+      ],
+      "properties": {
+        "endpoint/url": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "description": "Live endpoint URL suitable for bootstrap connection."
+        },
+        "endpoint/transport": {
+          "type": "string",
+          "enum": [
+            "wss"
+          ],
+          "description": "Transport required by this endpoint."
+        },
+        "endpoint/role": {
+          "type": "string",
+          "enum": [
+            "listener",
+            "relay"
+          ],
+          "description": "Whether the endpoint is a direct listener or a relay-style ingress."
+        },
+        "endpoint/priority": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Relative sender-side preference among multiple advertised endpoints. Lower values mean stronger preference."
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "succession": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "successor/node-id"
+      ],
+      "properties": {
+        "successor/node-id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Node identifier proposed as the successor of the currently advertised identity."
+        },
+        "proof/current": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Future-facing proof slot for the current identity asserting the successor binding."
+        },
+        "proof/successor": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Future-facing proof slot for the successor identity asserting continuity from the current identity."
+        }
+      }
+    }
+  }
+}

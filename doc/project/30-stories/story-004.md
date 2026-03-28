@@ -2,7 +2,8 @@
 
 ## Current Baseline Used by This Story
 
-This story is the `pod-client` counterpart of `story-001.md`. It assumes the current
+This story is the post-MVP `pod-client` counterpart of `story-001.md`. It no longer
+describes the baseline needed to ship proposal `014`; instead it assumes the later
 Orbiplex corpus where:
 
 - a thin client is a first-class participation mode served by a node-side `pod`

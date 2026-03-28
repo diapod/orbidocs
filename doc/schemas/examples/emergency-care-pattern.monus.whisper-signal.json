@@ -1,0 +1,29 @@
+{
+  "schema/v": 1,
+  "signal/id": "wsp-sig-2026-03-23-ems-001",
+  "created-at": "2026-03-23T20:10:00Z",
+  "sender/node-id": "node://wroclaw-health-01",
+  "sender/participant-id": "participant:did:key:z6MkCarePatternSignal7f31c2",
+  "sender/federation-id": "federation://care-safety-pl",
+  "rumor/nym": "nym:rumor:ems-7f31c2",
+  "epistemic/class": "weak-signal",
+  "signal/text": "A recurring emergency-care pattern may be emerging: severe abdominal pain is reported, ambulance transport is refused, and serious bleeding complications appear hours later.",
+  "topic/class": "emergency-care-refusal-pattern",
+  "context/facets": [
+    "ambulance-refusal",
+    "severe-abdominal-pain",
+    "later-intestinal-bleeding"
+  ],
+  "confidence": 0.71,
+  "disclosure/scope": "federation-scoped",
+  "source/class": "monus-derived",
+  "risk/grade": "critical",
+  "routing/profile": "relayed",
+  "routing/failure-mode": "soft-fail",
+  "relay/acceptable-classes": [
+    "care-safety-peer",
+    "whisper-witness"
+  ],
+  "forwarding/max-hops": 2,
+  "forwarding/budget": 1
+}

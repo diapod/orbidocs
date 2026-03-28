@@ -20,6 +20,7 @@
     "question/id",
     "created-at",
     "source/node-id",
+    "source/participant-id",
     "answer/content",
     "answer/format",
     "confidence/signal",
@@ -66,7 +67,12 @@
     "source/node-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Primary remote responder or answer-authoring node at the protocol boundary."
+      "description": "Primary remote responder or gateway node at the protocol boundary. This is the routing or hosting identity, not the authored participation identity."
+    },
+    "source/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Participation-role identity that authored, endorsed, or stood behind the returned answer payload."
     },
     "gateway/node-id": {
       "type": "string",

@@ -15,9 +15,15 @@ Proposed (Draft)
 
 ## Executive Summary
 
-This proposal defines `pod` as a first-class node module that serves human users
+This proposal defines `pod` as a later node module that serves human users
 through thin mobile or desktop clients which do not need to run a local language model
 or a fully capable communication-participating node.
+
+This is no longer treated as a prerequisite of the networking MVP. The baseline
+defined by proposal `014` assumes one operator-participant per Node, while any
+thin client in that MVP remains only a delegated session or remote screen of the
+same operator. `pod` begins where Orbiplex wants to go beyond that one-user-per-node
+baseline.
 
 The key decision is simple:
 
@@ -78,7 +84,8 @@ The missing middle is a formal `pod` model:
 
 ## Decision
 
-Orbiplex should adopt a **pod-backed access layer** as a baseline participation model.
+Orbiplex should adopt a **pod-backed access layer** as a post-MVP participation
+extension, not as the baseline required to ship the first useful networking Node.
 
 The baseline model is:
 
@@ -259,7 +266,7 @@ semantics equivalent to:
   "profile/type": "pod-client",
   "pod/id": "pod:pl-wro-node-7f3c:user-42",
   "serving-node/id": "node:pl-wro-7f3c",
-  "pod-user/id": "pod-user:pl-wro-node-7f3c:42",
+  "pod-user/id": "pod-user:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "client-instance/id": "client:ios-a13-82d1",
   "models/local?": false,
   "session/state": "attached",

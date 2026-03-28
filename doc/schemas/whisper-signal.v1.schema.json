@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-signal:v1",
+  "title": "WhisperSignal v1",
+  "description": "Machine-readable schema for bounded rumor-style social-signal exchange.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/orbiplex-whisper.md",
+    "doc/project/20-memos/orbiplex-anon.md",
+    "doc/project/30-stories/story-005.md",
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md"
+  ],
+  "required": [
+    "schema/v",
+    "signal/id",
+    "created-at",
+    "sender/node-id",
+    "sender/participant-id",
+    "rumor/nym",
+    "epistemic/class",
+    "signal/text",
+    "topic/class",
+    "context/facets",
+    "confidence",
+    "disclosure/scope",
+    "risk/grade",
+    "routing/profile",
+    "routing/failure-mode",
+    "forwarding/max-hops"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "signal/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the published rumor-style signal."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Publication timestamp of the outgoing signal."
+    },
+    "sender/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Infrastructure node that emitted or hosted the outgoing signal."
+    },
+    "sender/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Participation-role identity that approved or stood behind the outgoing signal."
+    },
+    "sender/federation-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Federation scope of the sender when relevant to routing or threshold policy."
+    },
+    "rumor/nym": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Bounded outgoing pseudonym that is not a stable long-lived author identity."
+    },
+    "epistemic/class": {
+      "type": "string",
+      "enum": [
+        "rumor",
+        "weak-signal"
+      ],
+      "description": "Explicit epistemic class that prevents the artifact from being treated as evidence."
+    },
+    "signal/text": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Sanitized text accepted by the local user before publication."
+    },
+    "topic/class": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Normalized issue class used for bounded correlation."
+    },
+    "context/facets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Normalized, low-resolution facets that help correlation without forcing raw disclosure."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Local confidence in the quality and relevance of the prepared signal."
+    },
+    "disclosure/scope": {
+      "type": "string",
+      "enum": [
+        "private-correlation",
+        "federation-scoped",
+        "cross-federation",
+        "public-aggregate-only"
+      ],
+      "description": "Maximum disclosure posture allowed for this signal."
+    },
+    "source/class": {
+      "type": "string",
+      "enum": [
+        "direct-user",
+        "pod-user",
+        "operator-observed",
+        "derived-local",
+        "monus-derived",
+        "monus-sensorium-derived"
+      ],
+      "description": "High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. `monus-sensorium-derived` is used when Monus relied materially on Sensorium-originated local signals."
+    },
+    "source/signal-kinds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional high-level local signal classes that materially informed a derived or sensorium-assisted rumor draft."
+    },
+    "risk/grade": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "critical"
+      ],
+      "description": "Risk grade used to constrain later routing and disclosure."
+    },
+    "routing/profile": {
+      "type": "string",
+      "enum": [
+        "direct",
+        "relayed",
+        "onion-relayed"
+      ],
+      "description": "Requested outbound transport posture."
+    },
+    "routing/failure-mode": {
+      "type": "string",
+      "enum": [
+        "soft-fail",
+        "hard-fail"
+      ],
+      "description": "Whether the sender allows downgrade if the requested transport posture cannot be satisfied."
+    },
+    "relay/acceptable-classes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional relay classes acceptable for outbound privacy realization."
+    },
+    "forwarding/max-hops": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3,
+      "description": "Maximum number of relay hops allowed for the signal."
+    },
+    "forwarding/budget": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of bounded forwards allowed under local policy."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional implementation- or federation-local annotations that do not change the core semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "routing/profile": {
+            "const": "direct"
+          }
+        },
+        "required": [
+          "routing/profile"
+        ]
+      },
+      "then": {
+        "properties": {
+          "forwarding/max-hops": {
+            "const": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "routing/failure-mode": {
+            "const": "hard-fail"
+          }
+        },
+        "required": [
+          "routing/failure-mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "routing/profile": {
+            "enum": [
+              "relayed",
+              "onion-relayed"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

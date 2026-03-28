@@ -28,9 +28,9 @@ The key decisions are:
    duplicate detection.
 5. Threshold crossing should lead to a deterministic bootstrap proposal rather than
    automatic human enrollment.
-6. Onion-like or relay-based anonymity should live in a separate module,
-   `Orbiplex Anon`, and be requested by Whisper through routing intent rather than
-   embedded into Whisper itself.
+6. Onion-like or relay-based anonymity should live behind a separate outbound
+   privacy capability and be requested by Whisper through routing intent rather
+   than embedded into Whisper itself.
 
 ## Context and Problem Statement
 
@@ -40,7 +40,8 @@ is a bounded way for nodes to share socially meaningful weak signals such as:
 
 - "people in different places may be experiencing the same organizational abuse",
 - "users may be hitting the same harmful moderation pattern",
-- "a dignity or safety issue may be distributed rather than isolated."
+- "a dignity or safety issue may be distributed rather than isolated.",
+- "ambulance refusal followed by severe complications may be repeating as a systemic emergency-care failure rather than as isolated bad luck."
 
 Without an explicit social-signal layer, nodes either:
 
@@ -62,7 +63,7 @@ The system needs a middle layer:
 - Make local redaction and user approval part of the publication path.
 - Support interest registration and threshold detection without premature disclosure.
 - Support deterministic association bootstrap after critical mass is reached.
-- Keep transport-level anonymity modular through `Orbiplex Anon`.
+- Keep transport-level anonymity modular through an outbound privacy capability.
 
 ## Non-Goals
 
@@ -70,8 +71,8 @@ The system needs a middle layer:
 - This proposal does not define final governance or adjudication procedures.
 - This proposal does not define semantic duplicate detection for rumors in v1.
 - This proposal does not require onion-style transport for every Whisper message.
-- This proposal does not define the full `Anon` relay contract beyond its boundary
-  with Whisper.
+- This proposal does not define the full relay/privacy provider contract beyond its
+  boundary with Whisper.
 
 ## Decision
 
@@ -90,7 +91,8 @@ following v1 lifecycle:
 Transport anonymity remains a separate concern:
 
 - `Whisper` expresses routing intent and privacy posture,
-- `Orbiplex Anon` realizes relay or onion-like forwarding when installed,
+- Node egress resolves that posture through any installed outbound privacy or relay
+  capability,
 - Node decides whether the requested posture can be satisfied, degraded, or must
   fail.
 
@@ -123,6 +125,21 @@ Before publication, Whisper should run a bounded local workflow for:
 
 The output of that workflow should be user-reviewed and user-accepted before any
 network-facing artifact is emitted.
+
+Protective anonymization in this workflow is aimed at people and protected local contexts. It should not blindly erase names of companies, hospitals, ambulance operators, or other institutions when those entities are plausibly part of the harmful pattern and do not require protection.
+
+When a local helper such as `Monus` prepared the draft, downstream policy should
+still be able to distinguish user-authored, operator-observed, Monus-derived, and
+Monus-plus-Sensorium-derived signals.
+
+For role semantics, the outgoing `whisper-signal` should preserve both:
+
+- `sender/node-id` for the infrastructure actor carrying the publication, and
+- `sender/participant-id` for the participation role that approved or stands behind
+  the outgoing signal.
+
+This keeps authored participation explicit without forcing participant identity
+material into the transport handshake itself.
 
 ### 3. Bounded anti-Sybil controls in v1
 
@@ -177,7 +194,7 @@ Humans must remain opt-in at the point where:
 - identities are correlated more directly,
 - or a dedicated room is joined.
 
-## Transport Boundary with Orbiplex Anon
+## Transport Boundary with Outbound Privacy Capabilities
 
 `Whisper` should not own onion routing or relay topology.
 
@@ -188,7 +205,9 @@ Instead, a `whisper-signal` may carry routing intent such as:
 - maximum hop count,
 - acceptable relay classes.
 
-Node then resolves that intent through `Anon` if available.
+Node then resolves that intent through some outbound privacy capability if
+available. `Orbiplex Anon` is one possible provider of that capability, but
+Whisper should not need to know that module by name.
 
 The v1 behavior should support at least:
 
@@ -198,6 +217,11 @@ The v1 behavior should support at least:
   requested posture cannot be satisfied.
 
 This keeps protocol meaning separate from transport realization.
+
+Acute personal emergencies detected through local Sensorium should still prefer a
+local help-mode or emergency-assistance path. Whisper is for correlation-worthy
+distributed patterns, not as the default first response to a likely cardiac arrest
+or comparable collapse.
 
 ## Candidate Artifacts
 
@@ -213,6 +237,12 @@ Later additions may include:
 - `whisper-disclosure-request.v1`
 - `whisper-disclosure-decision.v1`
 - `whisper-forward.v1`
+
+At least one of those early contracts should also preserve whether the signal was
+directly user-authored, operator-observed, or prepared by a local helper such as
+`Monus`, so that downstream policy can distinguish user-authored rumors from
+monitor-derived ones. If Sensorium materially informed the draft through `Monus`,
+that should remain visible as well.
 
 ## Trade-offs
 
@@ -241,8 +271,8 @@ Later additions may include:
 2. What exact structure should a rumor nym and derived forwarding nym have?
 3. Should `whisper-threshold-reached` include aggregate statistics only, or also
    bounded witness references?
-4. Should some classes of rumor be forbidden from any rebroadcast without `Anon`
-   present?
+4. Should some classes of rumor be forbidden from any rebroadcast without a
+   suitable outbound privacy capability present?
 5. Which parts of association bootstrap belong to Whisper and which should later
    move into a more specialized association module?
 
@@ -251,7 +281,11 @@ Later additions may include:
 1. Add v1 schemas for `whisper-signal`, `whisper-interest`,
    `whisper-threshold-reached`, and `association-room-proposal`.
 2. Add one implementation-facing solution component for `Whisper`.
-3. Add one implementation-facing solution component for `Anon`.
+3. Add one implementation-facing solution component for an outbound privacy
+   provider such as `Anon`.
 4. Define the local Node service contract for model-assisted redaction and user
    approval workflows.
 5. Revisit threshold policy and derived-nym rules once the first schema set exists.
+6. Decide whether a future local module such as `Orbiplex Monus` should be allowed
+   to prepare semi-automatic or automatic Whisper drafts from wellbeing-weighted
+   local signals.

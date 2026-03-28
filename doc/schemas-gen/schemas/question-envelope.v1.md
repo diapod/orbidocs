@@ -26,10 +26,11 @@ Machine-readable schema for signed question publication on the procurement event
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`question/id`](#field-question-id) | `yes` | string | Stable lifecycle identifier that links the event layer, room layer, and later procurement artifacts. |
 | [`created-at`](#field-created-at) | `yes` | string | Publication timestamp of the question envelope. |
-| [`sender/node-id`](#field-sender-node-id) | `yes` | string | Swarm-facing infrastructure actor that published the envelope. |
+| [`sender/node-id`](#field-sender-node-id) | `yes` | string | Swarm-facing routing and hosting identity of the Node that published the envelope. |
+| [`sender/participant-id`](#field-sender-participant-id) | `yes` | string | Participation-role identity that authored or initiated the question publication. In the MVP baseline this may be role-distinct but key-equal to the local `node-id`. This is the authored participation identity, not the network routing identity. |
 | [`sender/federation-id`](#field-sender-federation-id) | `no` | string | Federation scope of the sender when publication is federation-bound. |
-| [`sender/pod-user-id`](#field-sender-pod-user-id) | `no` | string | Hosted-user identity when publication is delegated through a pod-backed client flow. |
-| [`sender/public-nym`](#field-sender-public-nym) | `no` | string | Optional public-facing pseudonym shown at protocol boundaries where policy allows it. |
+| [`sender/pod-user-id`](#field-sender-pod-user-id) | `no` | string | Hosted-user identity when publication is delegated through a later pod-backed client flow. This is additive to, not a replacement for, `sender/participant-id`, and it is not part of the networking routing contract. |
+| [`sender/public-nym`](#field-sender-public-nym) | `no` | string | Optional public-facing pseudonym shown at protocol boundaries where policy allows it. This is optional presentation metadata, not a routing identity. |
 | [`ttl-sec`](#field-ttl-sec) | `yes` | integer | Time-to-live of the open request on the event layer. |
 | [`question/text`](#field-question-text) | `yes` | string | Full textual question content published at the envelope layer in the current split architecture. |
 | [`question/tags`](#field-question-tags) | `yes` | array | Semantic tags used for routing and responder matching. |
@@ -206,7 +207,15 @@ Publication timestamp of the question envelope.
 - Required: `yes`
 - Shape: string
 
-Swarm-facing infrastructure actor that published the envelope.
+Swarm-facing routing and hosting identity of the Node that published the envelope.
+
+<a id="field-sender-participant-id"></a>
+## `sender/participant-id`
+
+- Required: `yes`
+- Shape: string
+
+Participation-role identity that authored or initiated the question publication. In the MVP baseline this may be role-distinct but key-equal to the local `node-id`. This is the authored participation identity, not the network routing identity.
 
 <a id="field-sender-federation-id"></a>
 ## `sender/federation-id`
@@ -222,7 +231,7 @@ Federation scope of the sender when publication is federation-bound.
 - Required: `no`
 - Shape: string
 
-Hosted-user identity when publication is delegated through a pod-backed client flow.
+Hosted-user identity when publication is delegated through a later pod-backed client flow. This is additive to, not a replacement for, `sender/participant-id`, and it is not part of the networking routing contract.
 
 <a id="field-sender-public-nym"></a>
 ## `sender/public-nym`
@@ -230,7 +239,7 @@ Hosted-user identity when publication is delegated through a pod-backed client f
 - Required: `no`
 - Shape: string
 
-Optional public-facing pseudonym shown at protocol boundaries where policy allows it.
+Optional public-facing pseudonym shown at protocol boundaries where policy allows it. This is optional presentation metadata, not a routing identity.
 
 <a id="field-ttl-sec"></a>
 ## `ttl-sec`

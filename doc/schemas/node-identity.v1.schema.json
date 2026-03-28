@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:node-identity:v1",
+  "title": "NodeIdentity v1",
+  "description": "Machine-readable schema for the persisted local identity of a network-participating Orbiplex Node.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/project/50-requirements/requirements-006.md",
+    "doc/project/60-solutions/node.md"
+  ],
+  "required": [
+    "schema/v",
+    "node/id",
+    "participant/id",
+    "created-at",
+    "key/alg",
+    "key/public",
+    "key/storage-ref"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "node/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Stable Node identifier derived from the public key and persisted across restarts until explicit rotation. In v1 this MUST be `node:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`."
+    },
+    "participant/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Stable participation-role identifier for the Node operator. In v1 this MUST be `participant:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`. MVP may share the same underlying Ed25519 fingerprint as `node/id`, but protocol semantics MUST still treat the two identifiers as distinct roles."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the local identity was first created."
+    },
+    "identity/status": {
+      "type": "string",
+      "enum": [
+        "active"
+      ],
+      "description": "Local lifecycle state of the identity material. In the MVP runtime only `active` has semantics; future states such as rotation or retirement are deferred."
+    },
+    "key/alg": {
+      "type": "string",
+      "enum": [
+        "ed25519"
+      ],
+      "description": "Public-key algorithm used to derive `node/id`, `participant/id`, and sign role-bound artifacts in the MVP baseline."
+    },
+    "key/public": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical did:key fingerprint payload used by peers to validate signed advertisements and handshakes. In v1 this is the base58btc multibase Ed25519 public-key fingerprint without the `node:did:key:` prefix."
+    },
+    "key/storage-ref": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^local-file:[^\\s]+$",
+      "description": "Local secret-storage reference to the corresponding private key material. In the MVP baseline this MUST use the `local-file:` scheme, for example `local-file:identity/node-signing-key.v1.json`."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local annotations that do not change networking semantics."
+    }
+  }
+}

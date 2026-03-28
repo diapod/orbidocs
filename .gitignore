@@ -4,5 +4,6 @@
 !/output/.gitkeep
 /site/
 /build/
+/mkdocs.i18n.generated.yml
 __pycache__
 /local/

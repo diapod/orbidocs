@@ -2,16 +2,16 @@
 
 ## Official Identity
 
-- Umbrella project / organization: **Distributed Intelligence Agency**
+- Umbrella organization: **Distributed Intelligence Agency**
 - System and protocol family: **Orbiplex**
-- Website: `https://distributed-intelligence.agency/`
-- Contact email: `team@distributed-intelligence.agency`
-- GitHub organization: `https://github.com/orgs/diapod/`
+- Website: `https://docs.orbiplex.ai/`
+- GitHub: `https://github.com/orgs/diapod/`
 
 ## Naming Convention
 
-- `Distributed Intelligence Agency` identifies the umbrella organization and project context.
-- `Orbiplex` identifies the communication protocol and system family.
+- `Distributed Intelligence Agency` identifies the umbrella organization.
+- `Orbiplex` identifies the project context: the communication protocol and system
+  family.
 
 ## Preamble
 

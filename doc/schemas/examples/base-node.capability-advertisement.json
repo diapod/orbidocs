@@ -1,0 +1,30 @@
+{
+  "schema/v": 1,
+  "advertisement/id": "caps:01JQNODECAP001",
+  "node/id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "published-at": "2026-03-23T18:11:00Z",
+  "protocol/version": "0.1.0-mvp",
+  "transport/profiles": [
+    "wss"
+  ],
+  "capabilities/core": [
+    "core/messaging",
+    "core/discovery",
+    "core/keepalive"
+  ],
+  "roles/attached": [],
+  "surfaces/exposed": [
+    "peer-session"
+  ],
+  "messages/supported": [
+    "peer-handshake.v1",
+    "capability-advertisement.v1",
+    "signal-marker.v1",
+    "ping",
+    "pong"
+  ],
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:capability-advertisement-signature"
+  }
+}

@@ -15,8 +15,14 @@ Proposed (Draft)
 
 ## Executive Summary
 
-This proposal defines the minimum identity model needed once Orbiplex supports
-`pod`-backed users who participate through thin clients hosted by a serving node.
+This proposal defines the minimum identity model needed once Orbiplex extends
+beyond the MVP and supports `pod`-backed users who participate through thin
+clients hosted by a serving node.
+
+It is not a prerequisite of the networking MVP. Proposal `014` now treats the
+first useful Node as a one-operator-participant system with explicit role split
+between `node-id` and `participant-id`, while `pod-user-id` remains an additive
+later identity layer rather than a day-one baseline requirement.
 
 The key decision is simple:
 
@@ -69,7 +75,8 @@ system does not name that layer explicitly, several pathologies follow:
 
 ## Decision
 
-Orbiplex should adopt a layered identity model for `pod` participation with at least
+Once Orbiplex introduces hosted multi-user participation, it should adopt a layered
+identity model for `pod` participation with at least
 the following distinct identities:
 
 1. `node-id` - the serving infrastructure actor,
@@ -115,6 +122,22 @@ At minimum, `pod-user-id` should have:
 - exportability,
 - revocation / suspension state,
 - optional linkage to stronger identity roots.
+
+Device authorization for a hosted user MUST require the hosted user's own key
+material, not only the serving node's key. Otherwise `pod-user-id` collapses into
+a host-owned sub-identity of the operator instead of remaining a distinct
+participant layer.
+
+That requirement does not imply widening the transport handshake. The healthier
+layering is:
+
+- node-scoped session establishment first,
+- hosted-user or participant authorization later over that encrypted channel.
+
+In other words, a future `pod` implementation should prefer a participant-scoped
+bind artifact such as `participant-session.v1` or `participant-bind.v1`, carried
+over the live `node↔node` session, instead of embedding hosted-user identity into
+`peer-handshake.v1`.
 
 ### 3. `client-instance-id`
 
@@ -221,7 +244,7 @@ collapse.
 ```json
 {
   "serving-node/id": "node:pl-wro-7f3c",
-  "pod-user/id": "pod-user:pl-wro-7f3c:42",
+  "pod-user/id": "pod-user:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "client-instance/id": "client:ios-a13-82d1",
   "public-nym/id": "nym:amber-river",
   "anchor-identity/ref": null,
@@ -300,8 +323,10 @@ Mitigation:
 
 ## Next Actions
 
-1. Update `006` implementation requirements so `pod-user-id` and `client-instance-id`
-   are explicit.
-2. Define requirements for hosted-user export and migration bundles.
-3. Define how `pod-user-id` interacts with public `nym` issuance and role thresholds.
-4. Define federation policies for anti-Sybil aggregation of hosted users.
+1. Keep `014` and `requirements-006` centered on the one-operator-per-node MVP while
+   preserving explicit `node-id` vs `participant-id` role split.
+2. Update `006` implementation requirements so `pod-user-id` and `client-instance-id`
+   are explicit once `pod` moves from extension to active delivery track.
+3. Define requirements for hosted-user export and migration bundles.
+4. Define how `pod-user-id` interacts with public `nym` issuance and role thresholds.
+5. Define federation policies for anti-Sybil aggregation of hosted users.

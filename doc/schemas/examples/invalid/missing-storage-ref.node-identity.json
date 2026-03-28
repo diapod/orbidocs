@@ -1,0 +1,9 @@
+{
+  "schema/v": 1,
+  "node/id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "participant/id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "created-at": "2026-03-23T18:05:00Z",
+  "identity/status": "active",
+  "key/alg": "ed25519",
+  "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+}

@@ -1,0 +1,21 @@
+{
+  "schema/v": 1,
+  "threshold/id": "wsp-thr-2026-03-23-001",
+  "cluster/id": "cluster://workplace-retaliation-01",
+  "created-at": "2026-03-23T19:05:00Z",
+  "detector/node-id": "node://witness-03",
+  "topic/class": "workplace-retaliation-pattern",
+  "threshold/policy-ref": "policy://whisper-threshold/v1/default",
+  "participants/distinct-node-count": 4,
+  "participants/interest-count": 5,
+  "participants/trust-summary": {
+    "validated": 3,
+    "high-trust": 1
+  },
+  "bootstrap/candidate-node-ids": [
+    "node://wroclaw-01",
+    "node://zurich-02",
+    "node://witness-03"
+  ],
+  "disclosure/profile": "room-opt-in"
+}

@@ -9,30 +9,37 @@ PANDOC_LANG    ?= en-US
 PANDOC_FILTERS ?=
 PYTHON         ?= python3
 MKDOCS         ?= mkdocs
+NODE_SRC       ?= ../node
 
 # Space-separated Markdown source patterns to render into PDF.
 PDF_SOURCE_PATTERNS ?= \
 	doc/normative/20-vision/pl/*.md \
 	doc/normative/20-vision/en/*.md \
-	doc/normative/25-ai-manifesto/pl/*.md \
-	doc/normative/25-ai-manifesto/en/*.md \
 	doc/normative/30-core-values/pl/*.md \
 	doc/normative/30-core-values/en/*.md \
 	doc/normative/40-constitution/pl/*.md \
 	doc/normative/40-constitution/en/*.md \
 	doc/normative/50-constitutional-ops/pl/*.md \
 	doc/normative/50-constitutional-ops/en/*.md \
+	doc/normative/90-supplementary/pl/*.md \
+	doc/normative/90-supplementary/en/*.md \
 
 PDF_SOURCES := $(sort $(foreach pattern,$(PDF_SOURCE_PATTERNS),$(wildcard $(pattern))))
-PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/%.pdf,$(PDF_SOURCES))
+PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/pdf/%.pdf,$(PDF_SOURCES))
 
-.PHONY: check-json-syntax validate-schemas pdf one-pdf pdf-list output-clean pdf-clean schema-docs coverage-docs solutions-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
+.PHONY: check-json-syntax check-no-absolute-local-paths validate-schemas sync-schemas pdf one-pdf pdf-list output-clean pdf-clean schema-docs coverage-docs solutions-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
 
 check-json-syntax:
 	./scripts/validate-json-schemas.sh --syntax-only
 
+check-no-absolute-local-paths:
+	./scripts/check-no-absolute-local-paths.sh
+
 validate-schemas:
 	./scripts/validate-json-schemas.sh
+
+sync-schemas:
+	$(PYTHON) ./scripts/sync-node-schemas.py --node-src "$(NODE_SRC)"
 
 schema-docs:
 	$(PYTHON) ./scripts/generate-schema-docs.py
@@ -74,14 +81,14 @@ html-i18n: i18n-docs
 		echo "Missing mkdocs. Install mkdocs, mkdocs-material, and mkdocs-static-i18n to build multilingual HTML." >&2; \
 		exit 1; \
 	}
-	$(MKDOCS) build -f mkdocs.i18n.yml
+	$(MKDOCS) build -f mkdocs.i18n.generated.yml
 
 html-i18n-serve: i18n-docs
 	@command -v "$(MKDOCS)" >/dev/null 2>&1 || { \
 		echo "Missing mkdocs. Install mkdocs, mkdocs-material, and mkdocs-static-i18n to serve multilingual HTML." >&2; \
 		exit 1; \
 	}
-	$(MKDOCS) serve -f mkdocs.i18n.yml
+	$(MKDOCS) serve -f mkdocs.i18n.generated.yml
 
 pdf: $(PDF_OUTPUTS)
 
@@ -95,7 +102,7 @@ one-pdf:
 		*.md) ;; \
 		*) echo "FILE must point to a Markdown source (*.md): $(FILE)" >&2; exit 1 ;; \
 	esac
-	@$(MAKE) "$(patsubst %.md,$(OUTPUT_DIR)/%.pdf,$(FILE))"
+	@$(MAKE) "$(patsubst %.md,$(OUTPUT_DIR)/pdf/%.pdf,$(FILE))"
 
 output-clean:
 	@if [ -d "$(OUTPUT_DIR)" ]; then \
@@ -109,10 +116,10 @@ pdf-clean:
 		find "$(OUTPUT_DIR)/pdf" -depth -type d ! -path "$(OUTPUT_DIR)/pdf" -empty -delete; \
 	fi
 
-$(OUTPUT_DIR)/%.pdf: %.md $(PDF_CSS)
+$(OUTPUT_DIR)/pdf/%.pdf: %.md $(PDF_CSS)
 	@mkdir -p "$(dir $@)"
 	$(PANDOC) $(PANDOC_FLAGS) $(PANDOC_FILTERS) --metadata=lang:$(PANDOC_LANG) -o "$@" "$<"
 
-$(OUTPUT_DIR)/%.pl.pdf: PANDOC_LANG = pl-PL
-$(OUTPUT_DIR)/%.en.pdf: PANDOC_LANG = en-US
-$(OUTPUT_DIR)/%.pl.pdf: PANDOC_FILTERS = --lua-filter=styles/polish-typography.lua
+$(OUTPUT_DIR)/pdf/%.pl.pdf: PANDOC_LANG = pl-PL
+$(OUTPUT_DIR)/pdf/%.en.pdf: PANDOC_LANG = en-US
+$(OUTPUT_DIR)/pdf/%.pl.pdf: PANDOC_FILTERS = --lua-filter=styles/polish-typography.lua

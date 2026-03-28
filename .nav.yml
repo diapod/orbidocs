@@ -7,9 +7,6 @@ nav:
       - Vision:
           - PL: doc/normative/20-vision/pl/VISION.pl.md
           - EN: doc/normative/20-vision/en/VISION.en.md
-      - AI Manifesto:
-          - PL: doc/normative/25-ai-manifesto/pl/AI-MANIFESTO.pl.md
-          - EN: doc/normative/25-ai-manifesto/en/AI-MANIFESTO.en.md
       - Core Values:
           - PL: doc/normative/30-core-values/pl/CORE-VALUES.pl.md
           - EN: doc/normative/30-core-values/en/CORE-VALUES.en.md
@@ -19,6 +16,10 @@ nav:
       - Constitutional Ops:
           - PL Acts: doc/normative/50-constitutional-ops/pl
           - EN Acts: doc/normative/50-constitutional-ops/en
+      - Supplementary:
+          - doc/normative/90-supplementary/SUPPLEMENTARY.md
+          - AI Manifesto: doc/normative/90-supplementary/AI-MANIFESTO.md
+          - Ontological Basis of DIA / Orbiplex: doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md
   - Project:
       - doc/project/PROJECTS.en.md
       - Challenges: doc/project/10-challenges

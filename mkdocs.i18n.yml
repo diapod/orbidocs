@@ -54,7 +54,6 @@ plugins:
                 - Workflow Coverage: doc/COVERAGE.md
             - Normative:
                 - Vision: doc/normative/20-vision/VISION.md
-                - AI Manifesto: doc/normative/25-ai-manifesto/AI-MANIFESTO.md
                 - Core Values: doc/normative/30-core-values/CORE-VALUES.md
                 - Constitution: doc/normative/40-constitution/CONSTITUTION.md
                 - Constitutional Ops:
@@ -82,68 +81,18 @@ plugins:
                     - UBC Limit Profiles: doc/normative/50-constitutional-ops/UBC-LIMIT-PROFILES.md
                     - Universal Basic Compute: doc/normative/50-constitutional-ops/UNIVERSAL-BASIC-COMPUTE.md
                     - Unseal Case Model: doc/normative/50-constitutional-ops/UNSEAL-CASE-MODEL.md
-            - Project:
-                - doc/project/PROJECTS.md
-                - Challenges:
-                    - doc/project/10-challenges/CHALLENGES.md
-                    - 001 Licensing: doc/project/10-challenges/001-licensing.md
-                    - 002 Sybil: doc/project/10-challenges/002-sybil.md
-                - Memos:
-                    - doc/project/20-memos/MEMOS.md
-                    - Bad Actors: doc/project/20-memos/bad-actors.md
-                    - Client Simplicity: doc/project/20-memos/client-simplicity.md
-                    - Filtrum: doc/project/20-memos/filtrum.md
-                    - Human Expertise Escalation: doc/project/20-memos/human-expertise-escalation.md
-                    - Model Requests: doc/project/20-memos/model-requests.md
-                    - Orbiplex Anon: doc/project/20-memos/orbiplex-anon.md
-                    - Orbiplex Whisper: doc/project/20-memos/orbiplex-whisper.md
-                    - Operator Participation in Answer Channel: doc/project/20-memos/operator-participation-in-answer-channel.md
-                    - Operator Proxy Co-Regulation: doc/project/20-memos/operator-proxy-co-regulation.md
-                    - Pod-Backed Thin Clients: doc/project/20-memos/pod-backed-thin-clients.md
-                    - Swarm Broadcast Assistance: doc/project/20-memos/swarm-broadcast-assistance.md
-                    - Swarm Communication Exposure Modes: doc/project/20-memos/swarm-communication-exposure-modes.md
-                    - Swarm Question Channel Transports: doc/project/20-memos/swarm-question-channel-transports.md
-                    - Transcription Monitors and Public Vaults: doc/project/20-memos/transcription-monitors-and-public-vaults.md
-                    - Wide Caps: doc/project/20-memos/wide-caps.md
-                - Stories:
-                    - doc/project/30-stories/STORIES.md
-                    - Story 001: doc/project/30-stories/story-001.md
-                    - Story 002: doc/project/30-stories/story-002.md
-                    - Story 003: doc/project/30-stories/story-003.md
-                    - Story 004: doc/project/30-stories/story-004.md
-                    - Story 005: doc/project/30-stories/story-005.md
-                - Proposals:
-                    - doc/project/40-proposals/PROPOSALS.md
-                    - 001 Licensing Proposal: doc/project/40-proposals/001-licensing-proposal.md
-                    - 002 Comm Protocol: doc/project/40-proposals/002-comm-protocol.md
-                    - 003 Question Envelope and Answer Channel: doc/project/40-proposals/003-question-envelope-and-answer-channel.md
-                    - 004 Human Origin Flags and Operator Participation: doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md
-                    - 005 Operator Participation Room Policy Profiles: doc/project/40-proposals/005-operator-participation-room-policy-profiles.md
-                    - 006 Pod Access Layer for Thin Clients: doc/project/40-proposals/006-pod-access-layer-for-thin-clients.md
-                    - 007 Pod Identity and Tenancy Model: doc/project/40-proposals/007-pod-identity-and-tenancy-model.md
-                    - 008 Transcription Monitors and Public Vaults: doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md
-                    - 009 Communication Exposure Modes: doc/project/40-proposals/009-communication-exposure-modes.md
-                    - 010 Operator Proxy Co-Regulation: doc/project/40-proposals/010-operator-proxy-co-regulation.md
-                    - 011 Federated Answer Procurement Lifecycle: doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md
-                    - 012 Learning Outcomes and Archival Contracts: doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md
-                    - 013 Whisper Social-Signal Exchange and Threshold Bootstrap: doc/project/40-proposals/013-whisper-social-signal-exchange.md
-                - Requirements:
-                    - doc/project/50-requirements/REQUIREMENTS.md
-                    - Requirements 001: doc/project/50-requirements/requirements-001.md
-                    - Requirements 002: doc/project/50-requirements/requirements-002.md
-                    - Requirements 003: doc/project/50-requirements/requirements-003.md
-                    - Requirements 004: doc/project/50-requirements/requirements-004.md
-                    - Requirements 005: doc/project/50-requirements/requirements-005.md
-                - Solutions:
-                    - doc/project/60-solutions/SOLUTIONS.md
-                    - Capability Matrix: doc/project/60-solutions/CAPABILITY-MATRIX.md
-                    - Orbiplex Node: doc/project/60-solutions/node.md
-                    - Orbiplex Node UI: doc/project/60-solutions/node-ui.md
-                    - Ferment: doc/project/60-solutions/ferment.md
+                - Supplementary:
+                    - doc/normative/90-supplementary/SUPPLEMENTARY.md
+                    - AI Manifesto: doc/normative/90-supplementary/AI-MANIFESTO.md
+                    - Ontological Basis of DIA / Orbiplex: doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md
+          # BEGIN GENERATED PROJECT NAV EN
+          # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
+          # END GENERATED PROJECT NAV EN
             - Schemas:
                 - Schema Metadata Convention: doc/schemas/README.md
                 - Generated Index: doc/schemas-gen/schema-index.md
                 - Schema Docs:
+                    - Association Room Proposal v1: doc/schemas-gen/schemas/association-room-proposal.v1.md
                     - Adapter Artifact v1: doc/schemas-gen/schemas/adapter-artifact.v1.md
                     - Archival Package v1: doc/schemas-gen/schemas/archival-package.v1.md
                     - Archivist Advertisement v1: doc/schemas-gen/schemas/archivist-advertisement.v1.md
@@ -154,6 +103,9 @@ plugins:
                     - Knowledge Artifact v1: doc/schemas-gen/schemas/knowledge-artifact.v1.md
                     - Learning Outcome v1: doc/schemas-gen/schemas/learning-outcome.v1.md
                     - Model Card v1: doc/schemas-gen/schemas/model-card.v1.md
+                    - Node Identity v1: doc/schemas-gen/schemas/node-identity.v1.md
+                    - Node Advertisement v1: doc/schemas-gen/schemas/node-advertisement.v1.md
+                    - Peer Handshake v1: doc/schemas-gen/schemas/peer-handshake.v1.md
                     - Procurement Contract v1: doc/schemas-gen/schemas/procurement-contract.v1.md
                     - Procurement Offer v1: doc/schemas-gen/schemas/procurement-offer.v1.md
                     - Procurement Receipt v1: doc/schemas-gen/schemas/procurement-receipt.v1.md
@@ -169,6 +121,10 @@ plugins:
                     - Training Job v1: doc/schemas-gen/schemas/training-job.v1.md
                     - UBC Allocation v1: doc/schemas-gen/schemas/ubc-allocation.v1.md
                     - UBC Settlement v1: doc/schemas-gen/schemas/ubc-settlement.v1.md
+                    - Capability Advertisement v1: doc/schemas-gen/schemas/capability-advertisement.v1.md
+                    - Whisper Interest v1: doc/schemas-gen/schemas/whisper-interest.v1.md
+                    - Whisper Signal v1: doc/schemas-gen/schemas/whisper-signal.v1.md
+                    - Whisper Threshold Reached v1: doc/schemas-gen/schemas/whisper-threshold-reached.v1.md
         - locale: pl
           name: Polski
           build: true
@@ -181,7 +137,6 @@ plugins:
                 - Pokrycie workflowów: doc/COVERAGE.md
             - Normatywne:
                 - Wizja: doc/normative/20-vision/VISION.md
-                - Manifest AI: doc/normative/25-ai-manifesto/AI-MANIFESTO.md
                 - Wartości podstawowe: doc/normative/30-core-values/CORE-VALUES.md
                 - Konstytucja: doc/normative/40-constitution/CONSTITUTION.md
                 - Akty wykonawcze:
@@ -209,68 +164,18 @@ plugins:
                     - UBC Limit Profiles: doc/normative/50-constitutional-ops/UBC-LIMIT-PROFILES.md
                     - Universal Basic Compute: doc/normative/50-constitutional-ops/UNIVERSAL-BASIC-COMPUTE.md
                     - Unseal Case Model: doc/normative/50-constitutional-ops/UNSEAL-CASE-MODEL.md
-            - Projektowe:
-                - doc/project/PROJECTS.md
-                - Wyzwania:
-                    - doc/project/10-challenges/CHALLENGES.md
-                    - 001 Licensing: doc/project/10-challenges/001-licensing.md
-                    - 002 Sybil: doc/project/10-challenges/002-sybil.md
-                - Mema i notatki:
-                    - doc/project/20-memos/MEMOS.md
-                    - Bad Actors: doc/project/20-memos/bad-actors.md
-                    - Client Simplicity: doc/project/20-memos/client-simplicity.md
-                    - Filtrum: doc/project/20-memos/filtrum.md
-                    - Human Expertise Escalation: doc/project/20-memos/human-expertise-escalation.md
-                    - Model Requests: doc/project/20-memos/model-requests.md
-                    - Orbiplex Anon: doc/project/20-memos/orbiplex-anon.md
-                    - Orbiplex Whisper: doc/project/20-memos/orbiplex-whisper.md
-                    - Operator Participation in Answer Channel: doc/project/20-memos/operator-participation-in-answer-channel.md
-                    - Operator Proxy Co-Regulation: doc/project/20-memos/operator-proxy-co-regulation.md
-                    - Pod-Backed Thin Clients: doc/project/20-memos/pod-backed-thin-clients.md
-                    - Swarm Broadcast Assistance: doc/project/20-memos/swarm-broadcast-assistance.md
-                    - Swarm Communication Exposure Modes: doc/project/20-memos/swarm-communication-exposure-modes.md
-                    - Swarm Question Channel Transports: doc/project/20-memos/swarm-question-channel-transports.md
-                    - Transcription Monitors and Public Vaults: doc/project/20-memos/transcription-monitors-and-public-vaults.md
-                    - Wide Caps: doc/project/20-memos/wide-caps.md
-                - Stories:
-                    - doc/project/30-stories/STORIES.md
-                    - Story 001: doc/project/30-stories/story-001.md
-                    - Story 002: doc/project/30-stories/story-002.md
-                    - Story 003: doc/project/30-stories/story-003.md
-                    - Story 004: doc/project/30-stories/story-004.md
-                    - Story 005: doc/project/30-stories/story-005.md
-                - Propozycje:
-                    - doc/project/40-proposals/PROPOSALS.md
-                    - 001 Licensing Proposal: doc/project/40-proposals/001-licensing-proposal.md
-                    - 002 Comm Protocol: doc/project/40-proposals/002-comm-protocol.md
-                    - 003 Question Envelope and Answer Channel: doc/project/40-proposals/003-question-envelope-and-answer-channel.md
-                    - 004 Human Origin Flags and Operator Participation: doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md
-                    - 005 Operator Participation Room Policy Profiles: doc/project/40-proposals/005-operator-participation-room-policy-profiles.md
-                    - 006 Pod Access Layer for Thin Clients: doc/project/40-proposals/006-pod-access-layer-for-thin-clients.md
-                    - 007 Pod Identity and Tenancy Model: doc/project/40-proposals/007-pod-identity-and-tenancy-model.md
-                    - 008 Transcription Monitors and Public Vaults: doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md
-                    - 009 Communication Exposure Modes: doc/project/40-proposals/009-communication-exposure-modes.md
-                    - 010 Operator Proxy Co-Regulation: doc/project/40-proposals/010-operator-proxy-co-regulation.md
-                    - 011 Federated Answer Procurement Lifecycle: doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md
-                    - 012 Learning Outcomes and Archival Contracts: doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md
-                    - 013 Whisper Social-Signal Exchange and Threshold Bootstrap: doc/project/40-proposals/013-whisper-social-signal-exchange.md
-                - Wymagania:
-                    - doc/project/50-requirements/REQUIREMENTS.md
-                    - Requirements 001: doc/project/50-requirements/requirements-001.md
-                    - Requirements 002: doc/project/50-requirements/requirements-002.md
-                    - Requirements 003: doc/project/50-requirements/requirements-003.md
-                    - Requirements 004: doc/project/50-requirements/requirements-004.md
-                    - Requirements 005: doc/project/50-requirements/requirements-005.md
-                - Rozwiązania:
-                    - doc/project/60-solutions/SOLUTIONS.md
-                    - Macierz zdolności: doc/project/60-solutions/CAPABILITY-MATRIX.md
-                    - Orbiplex Node: doc/project/60-solutions/node.md
-                    - Orbiplex Node UI: doc/project/60-solutions/node-ui.md
-                    - Ferment: doc/project/60-solutions/ferment.md
+                - Dodatkowe:
+                    - doc/normative/90-supplementary/SUPPLEMENTARY.md
+                    - Manifest AI: doc/normative/90-supplementary/AI-MANIFESTO.md
+                    - Podstawa ontologiczna DIA / Orbiplex: doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md
+          # BEGIN GENERATED PROJECT NAV PL
+          # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
+          # END GENERATED PROJECT NAV PL
             - Schematy:
                 - Konwencja metadanych schematów: doc/schemas/README.md
                 - Wygenerowany indeks: doc/schemas-gen/schema-index.md
                 - Dokumentacja schematów:
+                    - Association Room Proposal v1: doc/schemas-gen/schemas/association-room-proposal.v1.md
                     - Adapter Artifact v1: doc/schemas-gen/schemas/adapter-artifact.v1.md
                     - Archival Package v1: doc/schemas-gen/schemas/archival-package.v1.md
                     - Archivist Advertisement v1: doc/schemas-gen/schemas/archivist-advertisement.v1.md
@@ -281,6 +186,9 @@ plugins:
                     - Knowledge Artifact v1: doc/schemas-gen/schemas/knowledge-artifact.v1.md
                     - Learning Outcome v1: doc/schemas-gen/schemas/learning-outcome.v1.md
                     - Model Card v1: doc/schemas-gen/schemas/model-card.v1.md
+                    - Node Identity v1: doc/schemas-gen/schemas/node-identity.v1.md
+                    - Node Advertisement v1: doc/schemas-gen/schemas/node-advertisement.v1.md
+                    - Peer Handshake v1: doc/schemas-gen/schemas/peer-handshake.v1.md
                     - Procurement Contract v1: doc/schemas-gen/schemas/procurement-contract.v1.md
                     - Procurement Offer v1: doc/schemas-gen/schemas/procurement-offer.v1.md
                     - Procurement Receipt v1: doc/schemas-gen/schemas/procurement-receipt.v1.md
@@ -296,3 +204,7 @@ plugins:
                     - Training Job v1: doc/schemas-gen/schemas/training-job.v1.md
                     - UBC Allocation v1: doc/schemas-gen/schemas/ubc-allocation.v1.md
                     - UBC Settlement v1: doc/schemas-gen/schemas/ubc-settlement.v1.md
+                    - Capability Advertisement v1: doc/schemas-gen/schemas/capability-advertisement.v1.md
+                    - Whisper Interest v1: doc/schemas-gen/schemas/whisper-interest.v1.md
+                    - Whisper Signal v1: doc/schemas-gen/schemas/whisper-signal.v1.md
+                    - Whisper Threshold Reached v1: doc/schemas-gen/schemas/whisper-threshold-reached.v1.md

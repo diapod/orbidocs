@@ -47,6 +47,21 @@ schema_for_file() {
     *.adapter-artifact.json)
       echo "$SCHEMAS_DIR/adapter-artifact.v1.schema.json"
       ;;
+    *.node-identity.json)
+      echo "$SCHEMAS_DIR/node-identity.v1.schema.json"
+      ;;
+    *.node-advertisement.json)
+      echo "$SCHEMAS_DIR/node-advertisement.v1.schema.json"
+      ;;
+    *.peer-handshake.json)
+      echo "$SCHEMAS_DIR/peer-handshake.v1.schema.json"
+      ;;
+    *.capability-advertisement.json)
+      echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
+      ;;
+    *.signal-marker.json)
+      echo "$SCHEMAS_DIR/signal-marker.v1.schema.json"
+      ;;
     *.model-card.json)
       echo "$SCHEMAS_DIR/model-card.v1.schema.json"
       ;;
@@ -79,6 +94,18 @@ schema_for_file() {
       ;;
     *.response-envelope.json)
       echo "$SCHEMAS_DIR/response-envelope.v1.schema.json"
+      ;;
+    *.whisper-signal.json)
+      echo "$SCHEMAS_DIR/whisper-signal.v1.schema.json"
+      ;;
+    *.whisper-interest.json)
+      echo "$SCHEMAS_DIR/whisper-interest.v1.schema.json"
+      ;;
+    *.whisper-threshold-reached.json)
+      echo "$SCHEMAS_DIR/whisper-threshold-reached.v1.schema.json"
+      ;;
+    *.association-room-proposal.json)
+      echo "$SCHEMAS_DIR/association-room-proposal.v1.schema.json"
       ;;
     *.proof-of-personhood-attestation.json)
       echo "$SCHEMAS_DIR/proof-of-personhood-attestation.v1.schema.json"

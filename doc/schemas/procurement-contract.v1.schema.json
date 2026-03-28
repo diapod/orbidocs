@@ -21,7 +21,9 @@
     "selected-offer/id",
     "created-at",
     "asker/node-id",
+    "asker/participant-id",
     "responder/node-id",
+    "responder/participant-id",
     "payment/amount",
     "payment/currency",
     "deadline-at",
@@ -61,17 +63,27 @@
     "asker/node-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Node acting for the asking side of the contract."
+      "description": "Node acting for the asking side of the contract as the routing or hosting identity."
+    },
+    "asker/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Participation-role identity on whose behalf the asking side entered the contract."
     },
     "asker/pod-user-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Hosted-user identity when the contract was created on behalf of a pod-backed client."
+      "description": "Hosted-user identity when the contract was created on behalf of a later pod-backed client flow. This is additive to, not a replacement for, `asker/participant-id`."
     },
     "responder/node-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Node selected to fulfill the answer contract."
+      "description": "Node selected to fulfill the answer contract as the routing or hosting identity."
+    },
+    "responder/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Participation-role identity selected to fulfill or lead the responder side of the contract."
     },
     "payment/amount": {
       "type": "integer",
