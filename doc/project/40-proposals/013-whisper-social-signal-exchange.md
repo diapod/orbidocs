@@ -132,6 +132,15 @@ When a local helper such as `Monus` prepared the draft, downstream policy should
 still be able to distinguish user-authored, operator-observed, Monus-derived, and
 Monus-plus-Sensorium-derived signals.
 
+For role semantics, the outgoing `whisper-signal` should preserve both:
+
+- `sender/node-id` for the infrastructure actor carrying the publication, and
+- `sender/participant-id` for the participation role that approved or stands behind
+  the outgoing signal.
+
+This keeps authored participation explicit without forcing participant identity
+material into the transport handshake itself.
+
 ### 3. Bounded anti-Sybil controls in v1
 
 The v1 baseline should use simpler controls instead of semantic dedup:

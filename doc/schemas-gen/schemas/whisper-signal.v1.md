@@ -24,7 +24,8 @@ Machine-readable schema for bounded rumor-style social-signal exchange.
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`signal/id`](#field-signal-id) | `yes` | string | Stable identifier of the published rumor-style signal. |
 | [`created-at`](#field-created-at) | `yes` | string | Publication timestamp of the outgoing signal. |
-| [`sender/node-id`](#field-sender-node-id) | `yes` | string | Node that emitted the outgoing signal. |
+| [`sender/node-id`](#field-sender-node-id) | `yes` | string | Infrastructure node that emitted or hosted the outgoing signal. |
+| [`sender/participant-id`](#field-sender-participant-id) | `yes` | string | Participation-role identity that approved or stood behind the outgoing signal. |
 | [`sender/federation-id`](#field-sender-federation-id) | `no` | string | Federation scope of the sender when relevant to routing or threshold policy. |
 | [`rumor/nym`](#field-rumor-nym) | `yes` | string | Bounded outgoing pseudonym that is not a stable long-lived author identity. |
 | [`epistemic/class`](#field-epistemic-class) | `yes` | enum: `rumor`, `weak-signal` | Explicit epistemic class that prevents the artifact from being treated as evidence. |
@@ -138,7 +139,15 @@ Publication timestamp of the outgoing signal.
 - Required: `yes`
 - Shape: string
 
-Node that emitted the outgoing signal.
+Infrastructure node that emitted or hosted the outgoing signal.
+
+<a id="field-sender-participant-id"></a>
+## `sender/participant-id`
+
+- Required: `yes`
+- Shape: string
+
+Participation-role identity that approved or stood behind the outgoing signal.
 
 <a id="field-sender-federation-id"></a>
 ## `sender/federation-id`

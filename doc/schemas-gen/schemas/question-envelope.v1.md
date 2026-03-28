@@ -27,8 +27,9 @@ Machine-readable schema for signed question publication on the procurement event
 | [`question/id`](#field-question-id) | `yes` | string | Stable lifecycle identifier that links the event layer, room layer, and later procurement artifacts. |
 | [`created-at`](#field-created-at) | `yes` | string | Publication timestamp of the question envelope. |
 | [`sender/node-id`](#field-sender-node-id) | `yes` | string | Swarm-facing infrastructure actor that published the envelope. |
+| [`sender/participant-id`](#field-sender-participant-id) | `yes` | string | Participation-role identity that authored or initiated the question publication. In the MVP baseline this may be role-distinct but key-equal to the local `node-id`. |
 | [`sender/federation-id`](#field-sender-federation-id) | `no` | string | Federation scope of the sender when publication is federation-bound. |
-| [`sender/pod-user-id`](#field-sender-pod-user-id) | `no` | string | Hosted-user identity when publication is delegated through a pod-backed client flow. |
+| [`sender/pod-user-id`](#field-sender-pod-user-id) | `no` | string | Hosted-user identity when publication is delegated through a later pod-backed client flow. This is additive to, not a replacement for, `sender/participant-id`. |
 | [`sender/public-nym`](#field-sender-public-nym) | `no` | string | Optional public-facing pseudonym shown at protocol boundaries where policy allows it. |
 | [`ttl-sec`](#field-ttl-sec) | `yes` | integer | Time-to-live of the open request on the event layer. |
 | [`question/text`](#field-question-text) | `yes` | string | Full textual question content published at the envelope layer in the current split architecture. |
@@ -208,6 +209,14 @@ Publication timestamp of the question envelope.
 
 Swarm-facing infrastructure actor that published the envelope.
 
+<a id="field-sender-participant-id"></a>
+## `sender/participant-id`
+
+- Required: `yes`
+- Shape: string
+
+Participation-role identity that authored or initiated the question publication. In the MVP baseline this may be role-distinct but key-equal to the local `node-id`.
+
 <a id="field-sender-federation-id"></a>
 ## `sender/federation-id`
 
@@ -222,7 +231,7 @@ Federation scope of the sender when publication is federation-bound.
 - Required: `no`
 - Shape: string
 
-Hosted-user identity when publication is delegated through a pod-backed client flow.
+Hosted-user identity when publication is delegated through a later pod-backed client flow. This is additive to, not a replacement for, `sender/participant-id`.
 
 <a id="field-sender-public-nym"></a>
 ## `sender/public-nym`

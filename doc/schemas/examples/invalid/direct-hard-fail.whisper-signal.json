@@ -3,6 +3,7 @@
   "signal/id": "wsp-sig-invalid-001",
   "created-at": "2026-03-23T18:10:00Z",
   "sender/node-id": "node://wroclaw-01",
+  "sender/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "rumor/nym": "nym:rumor:73f6a8",
   "epistemic/class": "rumor",
   "signal/text": "Rumor text",

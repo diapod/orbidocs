@@ -7,6 +7,7 @@
   "receipt/id": "receipt:01K0FEDPROC1:A",
   "created-at": "2026-03-22T18:59:00Z",
   "source/node-id": "node:ch-gva-ml-22",
+  "source/participant-id": "participant:did:key:z6MkResponderAuthor22",
   "gateway/node-id": "node:pl-wro-full-7f3c",
   "answer/content": "Run a two-root overlap window, publish the transition as a federation event, and keep older nodes on the previous root until the compatibility epoch expires.",
   "answer/format": "markdown",

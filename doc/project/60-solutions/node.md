@@ -43,6 +43,7 @@ Related schemas:
 Responsibilities:
 - generate or load a stable local node identity,
 - derive and expose a stable `node:did:key`-shaped `node-id`,
+- derive and expose a stable `participant:did:key`-shaped `participant-id`,
 - resolve the signing key through `key/storage-ref` rather than inline secret material,
 - publish or consume signed endpoint advertisements,
 - establish signed peer handshakes and capability exchange over the baseline transport,
@@ -51,11 +52,14 @@ Responsibilities:
 Note:
 - The v1 `node-id` is Node-local and intentionally uses a `did:key`-compatible Ed25519/base58btc fingerprint shape rather than claiming full support for the generic `did:key` method, DID Document expansion, or generic DID resolution.
 - The persisted v1 identity contract should carry `key/storage-ref` only; the MVP resolver baseline is `local-file:identity/node-signing-key.v1.json`.
-- The v1 handshake uses fresh ephemeral X25519 session keys in `session/pub`; the static key-agreement contribution is derived from the Ed25519 `node:did:key` identity for the MVP baseline rather than being re-advertised as separate long-lived X25519 state.
+- The MVP baseline assumes one operator-participant per Node by default. `node-id` names the infrastructure role, while `participant-id` names the participation role; the two identifiers may share the same underlying `did:key` fingerprint in v1 without collapsing their protocol semantics.
+- The v1 handshake stays node-scoped and uses fresh ephemeral X25519 session keys in `session/pub`; the static key-agreement contribution is derived from the Ed25519 `node:did:key` identity for the MVP baseline rather than being re-advertised as separate long-lived X25519 state.
+- Participant authentication belongs to participant-scoped application artifacts carried over that encrypted node-to-node session, not to the handshake itself.
 - The minimal explicit advertised core capability in v1 is `core/messaging`; successful baseline participation and signed-handshake ability are treated as protocol-native facts rather than mandatory advertised capabilities.
 - `WSS/TLS` in v1 is only the carrier transport: TLS server authentication protects the endpoint and the channel, while peer identity still binds at the signed `peer-handshake.v1` layer; public endpoints should follow normal WebPKI hostname validation, and private trust roots remain deployment-local rather than protocol-visible.
 - Key rotation is not a live runtime feature in the MVP baseline; a new Ed25519 key means a new `node-id`, with overlap and succession left to a later operational layer.
 - `node-advertisement.v1` may already carry a future-facing `succession` object, but the Node does not yet assign it active runtime continuity semantics in the MVP baseline.
+- In the MVP baseline, thin clients or remote UI sessions are delegated operator sessions of that same participant role, not independent hosted users with their own continuity layer.
 
 Status:
 - `todo`

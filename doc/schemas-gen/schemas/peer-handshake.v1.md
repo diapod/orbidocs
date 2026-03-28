@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/peer-handshake.v1.schema.json`](../../schemas/peer-handshake.v1.schema.json)
 
-Machine-readable schema for signed peer session establishment over the Node networking baseline. In v1 the signed surface is the deterministic CBOR image of the semantic handshake payload excluding only the `signature` field itself. Framing-only transport metadata may remain outside that signed payload.
+Machine-readable schema for signed peer session establishment over the Node networking baseline. In v1 the signed surface is the deterministic CBOR image of the semantic handshake payload excluding only the `signature` field itself. Framing-only transport metadata may remain outside that signed payload. This contract remains node-scoped in the MVP baseline: it authenticates infrastructure and establishes an encrypted node-to-node session, while participant authentication happens later at the application-message layer over that established channel.
 
 ## Governing Basis
 
@@ -29,7 +29,7 @@ Machine-readable schema for signed peer session establishment over the Node netw
 | [`handshake/mode`](#field-handshake-mode) | `yes` | enum: `hello`, `ack` | Explicit discriminator for the symmetric handshake family. In v1 both `hello` and `ack` remain artifacts of the same schema family, while `ack/of-handshake-id` provides the cryptographic response binding. |
 | [`ack/of-handshake-id`](#field-ack-of-handshake-id) | `no` | string | Reference to the original handshake when `handshake/mode = ack`. This MUST be part of the signed payload. |
 | [`ts`](#field-ts) | `yes` | string | Timestamp of the handshake artifact. |
-| [`sender/node-id`](#field-sender-node-id) | `yes` | string | Node sending this handshake artifact. In v1 this MUST use the canonical `node:did:key:z...` format. |
+| [`sender/node-id`](#field-sender-node-id) | `yes` | string | Stable infrastructure identity of the Node sending this handshake artifact. In v1 this MUST use the canonical `node:did:key:z...` format, and it MUST NOT be replaced with participant-scoped identity material. |
 | [`recipient/node-id`](#field-recipient-node-id) | `no` | string | Optional directed handshake recipient. If present, it is part of the signed payload. |
 | [`key/alg`](#field-key-alg) | `yes` | enum: `ed25519` | Algorithm of the sender key. |
 | [`key/public`](#field-key-public) | `yes` | string | Canonical did:key fingerprint payload corresponding to `sender/node-id`. |
@@ -126,7 +126,7 @@ Timestamp of the handshake artifact.
 - Required: `yes`
 - Shape: string
 
-Node sending this handshake artifact. In v1 this MUST use the canonical `node:did:key:z...` format.
+Stable infrastructure identity of the Node sending this handshake artifact. In v1 this MUST use the canonical `node:did:key:z...` format, and it MUST NOT be replaced with participant-scoped identity material.
 
 <a id="field-recipient-node-id"></a>
 ## `recipient/node-id`

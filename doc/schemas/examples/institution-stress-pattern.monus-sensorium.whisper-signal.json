@@ -3,6 +3,7 @@
   "signal/id": "wsp-sig-2026-03-23-sens-001",
   "created-at": "2026-03-23T20:32:00Z",
   "sender/node-id": "node://wroclaw-personal-01",
+  "sender/participant-id": "participant:did:key:z6MkStressPatternSignal4d82ab",
   "sender/federation-id": "federation://care-safety-pl",
   "rumor/nym": "nym:rumor:sens-4d82ab",
   "epistemic/class": "weak-signal",

@@ -33,8 +33,10 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 | [`selected-offer/id`](#field-selected-offer-id) | `yes` | string | Identifier of the offer chosen for contract formation. |
 | [`created-at`](#field-created-at) | `yes` | string | Contract creation timestamp. |
 | [`asker/node-id`](#field-asker-node-id) | `yes` | string | Node acting for the asking side of the contract. |
-| [`asker/pod-user-id`](#field-asker-pod-user-id) | `no` | string | Hosted-user identity when the contract was created on behalf of a pod-backed client. |
+| [`asker/participant-id`](#field-asker-participant-id) | `yes` | string | Participation-role identity on whose behalf the asking side entered the contract. |
+| [`asker/pod-user-id`](#field-asker-pod-user-id) | `no` | string | Hosted-user identity when the contract was created on behalf of a later pod-backed client flow. This is additive to, not a replacement for, `asker/participant-id`. |
 | [`responder/node-id`](#field-responder-node-id) | `yes` | string | Node selected to fulfill the answer contract. |
+| [`responder/participant-id`](#field-responder-participant-id) | `yes` | string | Participation-role identity selected to fulfill or lead the responder side of the contract. |
 | [`payment/amount`](#field-payment-amount) | `yes` | integer | Agreed payment amount in minor units. |
 | [`payment/currency`](#field-payment-currency) | `yes` | string | Currency or settlement unit symbol for the contract payment. |
 | [`settlement/rail`](#field-settlement-rail) | `no` | enum: `external-invoice`, `host-ledger`, `manual-transfer`, `none` | Settlement rail chosen outside the protocol core. |
@@ -164,13 +166,21 @@ Contract creation timestamp.
 
 Node acting for the asking side of the contract.
 
+<a id="field-asker-participant-id"></a>
+## `asker/participant-id`
+
+- Required: `yes`
+- Shape: string
+
+Participation-role identity on whose behalf the asking side entered the contract.
+
 <a id="field-asker-pod-user-id"></a>
 ## `asker/pod-user-id`
 
 - Required: `no`
 - Shape: string
 
-Hosted-user identity when the contract was created on behalf of a pod-backed client.
+Hosted-user identity when the contract was created on behalf of a later pod-backed client flow. This is additive to, not a replacement for, `asker/participant-id`.
 
 <a id="field-responder-node-id"></a>
 ## `responder/node-id`
@@ -179,6 +189,14 @@ Hosted-user identity when the contract was created on behalf of a pod-backed cli
 - Shape: string
 
 Node selected to fulfill the answer contract.
+
+<a id="field-responder-participant-id"></a>
+## `responder/participant-id`
+
+- Required: `yes`
+- Shape: string
+
+Participation-role identity selected to fulfill or lead the responder side of the contract.
 
 <a id="field-payment-amount"></a>
 ## `payment/amount`

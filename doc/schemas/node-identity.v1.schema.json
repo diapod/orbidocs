@@ -15,6 +15,7 @@
   "required": [
     "schema/v",
     "node/id",
+    "participant/id",
     "created-at",
     "key/alg",
     "key/public",
@@ -30,6 +31,12 @@
       "minLength": 1,
       "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
       "description": "Stable Node identifier derived from the public key and persisted across restarts until explicit rotation. In v1 this MUST be `node:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`."
+    },
+    "participant/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Stable participation-role identifier for the Node operator. In v1 this MUST be `participant:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`. MVP may share the same underlying Ed25519 fingerprint as `node/id`, but protocol semantics MUST still treat the two identifiers as distinct roles."
     },
     "created-at": {
       "type": "string",
@@ -48,7 +55,7 @@
       "enum": [
         "ed25519"
       ],
-      "description": "Public-key algorithm used to derive `node/id` and sign networking artifacts."
+      "description": "Public-key algorithm used to derive `node/id`, `participant/id`, and sign role-bound artifacts in the MVP baseline."
     },
     "key/public": {
       "type": "string",

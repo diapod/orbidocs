@@ -19,6 +19,7 @@
     "question/id",
     "created-at",
     "sender/node-id",
+    "sender/participant-id",
     "delivery/scope",
     "delivery/response-channel-id",
     "request/exposure-mode",
@@ -47,6 +48,11 @@
       "minLength": 1,
       "description": "Swarm-facing infrastructure actor that published the envelope."
     },
+    "sender/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Participation-role identity that authored or initiated the question publication. In the MVP baseline this may be role-distinct but key-equal to the local `node-id`."
+    },
     "sender/federation-id": {
       "type": "string",
       "minLength": 1,
@@ -55,7 +61,7 @@
     "sender/pod-user-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Hosted-user identity when publication is delegated through a pod-backed client flow."
+      "description": "Hosted-user identity when publication is delegated through a later pod-backed client flow. This is additive to, not a replacement for, `sender/participant-id`."
     },
     "sender/public-nym": {
       "type": "string",

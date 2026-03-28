@@ -31,6 +31,8 @@ Machine-readable schema for the auditable outcome of a procurement contract.
 | [`contract/id`](#field-contract-id) | `yes` | string | Procurement contract to which this receipt belongs. |
 | [`question/id`](#field-question-id) | `yes` | string | Question lifecycle identifier for audit joins. |
 | [`created-at`](#field-created-at) | `yes` | string | Receipt creation timestamp. |
+| [`payer/participant-id`](#field-payer-participant-id) | `yes` | string | Participation-role identity on the payer/asker side whose acceptance or refusal is being recorded. |
+| [`payee/participant-id`](#field-payee-participant-id) | `yes` | string | Participation-role identity on the payee/responder side whose acknowledgement or outcome is being recorded. |
 | [`settled-at`](#field-settled-at) | `no` | string | Timestamp at which settlement or equivalent terminal confirmation completed. |
 | [`outcome`](#field-outcome) | `yes` | enum: `settled`, `rejected`, `expired`, `canceled` | Terminal contract outcome recorded by the local node. |
 | [`confirmation/mode`](#field-confirmation-mode) | `yes` | enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation` | Confirmation mode actually used for the recorded outcome. |
@@ -179,6 +181,22 @@ Question lifecycle identifier for audit joins.
 - Shape: string
 
 Receipt creation timestamp.
+
+<a id="field-payer-participant-id"></a>
+## `payer/participant-id`
+
+- Required: `yes`
+- Shape: string
+
+Participation-role identity on the payer/asker side whose acceptance or refusal is being recorded.
+
+<a id="field-payee-participant-id"></a>
+## `payee/participant-id`
+
+- Required: `yes`
+- Shape: string
+
+Participation-role identity on the payee/responder side whose acknowledgement or outcome is being recorded.
 
 <a id="field-settled-at"></a>
 ## `settled-at`

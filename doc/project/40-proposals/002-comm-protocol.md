@@ -349,6 +349,22 @@ on frame(envelope):
 - Nodes can ask Edge for "who is currently present in namespace X?" (subject to policy).
 - Edge responses are treated as **hints**; endpoints still authenticate peers via signatures.
 
+For a later post-MVP gossip layer, Orbiplex may also carry limited propagation-path
+metadata alongside the advertised or relayed artifact itself. The point would not be
+to centralize discovery, but to let receivers observe a small causal or propagation
+trace of how the artifact reached them.
+
+That future layer could help with:
+
+- detecting suspiciously coordinated propagation patterns relevant to anti-Sybil review,
+- building local transport reputation from observed delivery speed and consistency,
+- and reasoning about dissemination quality without turning discovery into a fully
+  trusted registry.
+
+This is intentionally deferred. The MVP should not require propagation-path metadata
+before the basic seed, advertisement, handshake, keepalive, and reconnect slice is
+already proven end to end.
+
 ### 9. `CORP_COMPLIANT` governance checklist
 
 Use this as a policy checklist for corporate governance / security review.

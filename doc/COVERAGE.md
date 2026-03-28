@@ -46,14 +46,14 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) | `16` | `16` | `yes` | `yes` | `1` | `1` |
 | [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md) | `17` | `17` | `yes` | `yes` | `1` | `1` |
 | [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
-| [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | `8` | `8` | `yes` | `yes` | `1` | `2` |
+| [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `2` |
 | [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
-| [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `21` | `20` | `yes` | `yes` | `1` | `1` |
-| [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | `21` | `20` | `yes` | `yes` | `1` | `1` |
-| [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) | `16` | `15` | `yes` | `yes` | `1` | `1` |
+| [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `23` | `22` | `yes` | `yes` | `1` | `1` |
+| [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | `22` | `21` | `yes` | `yes` | `1` | `1` |
+| [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
 | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md) | `19` | `10` | `yes` | `yes` | `1` | `4` |
-| [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) | `26` | `26` | `yes` | `yes` | `1` | `1` |
-| [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) | `17` | `16` | `yes` | `yes` | `1` | `1` |
+| [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) | `27` | `27` | `yes` | `yes` | `1` | `1` |
+| [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`signal-marker.v1.schema.json`](schemas-gen/schemas/signal-marker.v1.md) | `12` | `8` | `yes` | `yes` | `1` | `1` |
@@ -64,7 +64,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md) | `17` | `12` | `yes` | `yes` | `1` | `2` |
 | [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) | `16` | `7` | `yes` | `yes` | `1` | `1` |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
-| [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) | `21` | `21` | `yes` | `yes` | `3` | `1` |
+| [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) | `22` | `22` | `yes` | `yes` | `3` | `1` |
 | [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `1` |
 
 ## Schema Project Lineage

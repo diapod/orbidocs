@@ -85,6 +85,8 @@ v1 is simpler:
     the user's stable identity and is not reused as a general-purpose long-lived
     author identifier.
 13. Whisper packages a network-facing `whisper-signal` artifact that may include:
+    - infrastructure `sender/node-id`,
+    - authored `sender/participant-id`,
     - sanitized rumor text,
     - rumor nym,
     - topic or issue class,
@@ -116,6 +118,8 @@ v1 is simpler:
     result plus routing intent to the Node.
 18. The Node validates the final outgoing artifact against the relevant data contract
     and moves it to the outbound communication queue.
+    The authored participation role remains explicit in the artifact instead of
+    collapsing the publication into a purely node-scoped signal.
 19. One or more receiving nodes obtain the `whisper-signal`. Each receiving node
     evaluates it locally against its own operator or Pod context.
 20. A receiving node may then:
