@@ -4,7 +4,7 @@
   "request/id": "nym-renew-02",
   "request/type": "nym/renew-rejected",
   "nym/id": "nym:did:key:z6Mkr8Yv5Qp2Tb7Nc4Wd9Hs3Uf6Va2Re8Xm5Pk7Qa1Bc",
-  "issuer/id": "council:swarm:foundation-1",
+  "issuer/id": "council:did:key:z6MkqCauNc1Lk9Va4Tb8Yw2Pr7Hs5Qe3Xm2Rf6Nd1Aa",
   "created-at": "2026-04-04T12:00:05Z",
   "reason/class": "policy",
   "signature": {

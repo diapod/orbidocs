@@ -28,7 +28,7 @@ Machine-readable schema for a coarse council-issued rejection of a nym renewal r
 | [`request/id`](#field-request-id) | `yes` | string | Identifier of the rejected renewal request. |
 | [`request/type`](#field-request-type) | `yes` | const: `nym/renew-rejected` | Application-level response discriminator. |
 | [`nym/id`](#field-nym-id) | `yes` | string | Nym line whose renewal was rejected. |
-| [`issuer/id`](#field-issuer-id) | `yes` | string | Issuing council or equivalent authority identity. |
+| [`issuer/id`](#field-issuer-id) | `yes` | string | Issuing council identity in canonical `council:did:key:z...` form. |
 | [`created-at`](#field-created-at) | `yes` | string | Creation timestamp of the rejection artifact. |
 | [`reason/class`](#field-reason-class) | `yes` | string | Coarse rejection class. Implementations should prefer opaque values such as `policy` rather than disclosing hidden participant-level causes. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` |  |
@@ -87,7 +87,7 @@ Nym line whose renewal was rejected.
 - Required: `yes`
 - Shape: string
 
-Issuing council or equivalent authority identity.
+Issuing council identity in canonical `council:did:key:z...` form.
 
 <a id="field-created-at"></a>
 ## `created-at`

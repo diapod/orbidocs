@@ -29,7 +29,7 @@ Machine-readable schema for a council-issued application-layer pseudonym certifi
 | [`issued-at`](#field-issued-at) | `yes` | string | Issue timestamp of the certificate. |
 | [`expires-at`](#field-expires-at) | `yes` | string | End of ordinary validity for application-message signing. |
 | [`leniency-until`](#field-leniency-until) | `yes` | string | End of grace semantics for continuity work. After this moment the old line is dead. |
-| [`issuer/id`](#field-issuer-id) | `yes` | string | Issuing council or equivalent authority identity. |
+| [`issuer/id`](#field-issuer-id) | `yes` | string | Issuing council identity in canonical `council:did:key:z...` form. |
 | [`line/predecessor-nym-id`](#field-line-predecessor-nym-id) | `no` | string | Optional public predecessor line when the nym continues an earlier visible pseudonymous history. |
 | [`line/succession`](#field-line-succession) | `no` | ref: `nym-succession.v1.schema.json` | Optional public continuity proof signed by the predecessor nym. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` |  |
@@ -143,7 +143,7 @@ End of grace semantics for continuity work. After this moment the old line is de
 - Required: `yes`
 - Shape: string
 
-Issuing council or equivalent authority identity.
+Issuing council identity in canonical `council:did:key:z...` form.
 
 <a id="field-line-predecessor-nym-id"></a>
 ## `line/predecessor-nym-id`

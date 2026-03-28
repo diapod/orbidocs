@@ -5,7 +5,7 @@
   "issued-at": "2026-04-04T12:00:10Z",
   "expires-at": "2026-04-11T12:00:10Z",
   "leniency-until": "2026-04-25T12:00:10Z",
-  "issuer/id": "council:swarm:foundation-1",
+  "issuer/id": "council:did:key:z6MkqCauNc1Lk9Va4Tb8Yw2Pr7Hs5Qe3Xm2Rf6Nd1Aa",
   "line/predecessor-nym-id": "nym:did:key:z6Mkr8Yv5Qp2Tb7Nc4Wd9Hs3Uf6Va2Re8Xm5Pk7Qa1Bc",
   "line/succession": {
     "schema/v": 1,

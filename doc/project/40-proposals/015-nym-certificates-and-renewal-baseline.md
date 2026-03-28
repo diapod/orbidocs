@@ -102,15 +102,39 @@ The certificate carries:
 - epoch number,
 - issue and expiry timestamps,
 - optional leniency window for late continuity handoff,
-- issuer identity,
+- issuer identity in canonical `council:did:key:...` form,
 - optional predecessor and succession proof for public continuity,
 - council signature.
 
 Receivers verify:
 
-1. council signature over the certificate,
-2. expiry or leniency semantics,
-3. application-message signature by the `nym` key itself.
+1. canonical council identity and whether it is present in the local trusted
+   council list,
+2. council signature over the certificate,
+3. expiry or leniency semantics,
+4. application-message signature by the `nym` key itself.
+
+The canonical issuer form for Phase 1 is:
+
+- `council:did:key:z...`
+
+This keeps verification mechanical:
+
+- parse the role-prefixed `did:key`,
+- check local trust policy,
+- verify the signature with the derived Ed25519 key.
+
+The MVP trust model may start as a singleton in practice, but the configuration
+shape should already admit a list so later council pluralism does not require a
+format break.
+
+Example direction:
+
+```yaml
+trust:
+  councils:
+    - "council:did:key:z6Mk..."
+```
 
 ### 3. `nym-succession.v1`
 
@@ -147,7 +171,7 @@ The council can reject renewal through a coarse rejection artifact.
 The rejection should be:
 
 - correlated to the original request,
-- attributable to the issuer,
+- attributable to a canonical `council:did:key:...` issuer,
 - signed,
 - and intentionally low-detail.
 

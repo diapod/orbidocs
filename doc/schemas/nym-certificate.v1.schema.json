@@ -53,8 +53,8 @@
     },
     "issuer/id": {
       "type": "string",
-      "minLength": 1,
-      "description": "Issuing council or equivalent authority identity."
+      "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Issuing council identity in canonical `council:did:key:z...` form."
     },
     "line/predecessor-nym-id": {
       "type": "string",
