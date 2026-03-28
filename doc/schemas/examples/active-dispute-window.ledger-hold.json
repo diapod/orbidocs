@@ -1,0 +1,17 @@
+{
+  "schema/v": 1,
+  "hold/id": "hold:01K1SETTLE001",
+  "contract/id": "contract:01K1SETTLE001",
+  "question/id": "question:01K1SETTLE001",
+  "payer/account-id": "account:fed-pl-main:participant:z6MkhaXg",
+  "payee/account-id": "account:fed-pl-main:participant:z6MkQ4kq",
+  "escrow/node-id": "node:pl-main-escrow-01",
+  "amount": 900,
+  "unit": "ORC",
+  "status": "active",
+  "created-at": "2026-03-28T09:15:00Z",
+  "work-by": "2026-03-29T12:00:00Z",
+  "accept-by": "2026-03-30T12:00:00Z",
+  "dispute-by": "2026-03-31T12:00:00Z",
+  "auto-release-after": "2026-04-01T12:00:00Z"
+}

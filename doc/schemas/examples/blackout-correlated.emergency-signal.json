@@ -1,0 +1,20 @@
+{
+  "schema/v": 1,
+  "signal/id": "sig:emergency-fed-pl-20260328-001",
+  "source/node-id": "node:did:key:z6Mkz4Yx2Qn7L8v1R5s9T3k6M2p8D4f7H1j5N6b7C8",
+  "source/type": "sensorium",
+  "observed/at": "2026-03-28T17:02:00Z",
+  "trigger/class": "TC2",
+  "description": "Regional blackout disrupted the primary relay corridor serving a protected reporting path.",
+  "evidence/ref": "evidence:blackout-grid-report-20260328-17h",
+  "confidence/class": "C3",
+  "corroborating/signal-refs": [
+    "sig:emergency-fed-pl-20260328-002",
+    "sig:emergency-fed-pl-20260328-003"
+  ],
+  "tc5/active": false,
+  "metadata/geo-hint": "Lower Silesia",
+  "metadata/affected-scope": "federation",
+  "metadata/urgency": "immediate",
+  "notes": "Candidate input for emergency failover evaluation."
+}

@@ -11,7 +11,9 @@
     "doc/project/30-stories/story-001.md",
     "doc/project/30-stories/story-004.md",
     "doc/project/50-requirements/requirements-001.md",
-    "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
+    "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md",
+    "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
+    "doc/project/50-requirements/requirements-007.md"
   ],
   "required": [
     "schema/v",
@@ -109,6 +111,21 @@
       "minLength": 1,
       "description": "External settlement reference such as an invoice id, ledger entry id, or transfer reference."
     },
+    "settlement/hold-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Host-ledger hold reference from which release or refund was resolved."
+    },
+    "settlement/transfer-refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "One or more host-ledger transfer references that completed release, partial release, refund, or payout bookkeeping for the contract."
+    },
     "rejection/reason": {
       "type": "string",
       "minLength": 1,
@@ -176,6 +193,25 @@
       "then": {
         "required": [
           "rejection/reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "settlement/rail": {
+            "const": "host-ledger"
+          }
+        },
+        "required": [
+          "settlement/rail"
+        ]
+      },
+      "then": {
+        "required": [
+          "settlement/ref",
+          "settlement/hold-ref",
+          "settlement/transfer-refs"
         ]
       }
     }

@@ -1,0 +1,36 @@
+{
+  "schema/v": 1,
+  "exception/id": "EXC-fed-pl-20260328T194000Z-07",
+  "exception/type": "emergency",
+  "trigger/class": "TC5",
+  "trigger/signal-refs": [
+    "sig:emergency-fed-pl-20260328-010"
+  ],
+  "credibility/class": "C2",
+  "activation/path": "manual",
+  "activated-by/kind": "node",
+  "activated-by/id": "node:did:key:z6Mkf8Wq3L2n7T4s5R9p1D6k8M3v4H2j7N5b6C1x9",
+  "activated/at": "2026-03-28T19:45:00Z",
+  "ttl/expires-at": "2026-03-29T19:45:00Z",
+  "max-extension/until": "2026-03-31T19:45:00Z",
+  "extensions": [
+    {
+      "extended-by/kind": "node",
+      "extended-by/id": "node:did:key:z6Mkf8Wq3L2n7T4s5R9p1D6k8M3v4H2j7N5b6C1x9",
+      "extended/at": "2026-03-29T18:30:00Z",
+      "new-expires-at": "2026-03-29T19:45:00Z",
+      "justification": "Independent corroboration arrived from a second federation operator.",
+      "evidence/refs": [
+        "trace:independent-corroboration-20260329"
+      ]
+    }
+  ],
+  "agents/elevated": [],
+  "scope/summary": "Degraded-trust emergency governance posture without A3 elevation.",
+  "fail-closed/target": "A0",
+  "deactivated/at": "2026-03-29T19:45:00Z",
+  "deactivation/reason": "ttl_expired",
+  "review/due-at": "2026-04-01T19:45:00Z",
+  "review/status": "pending",
+  "notes": "TC5 activation stayed alert-only and entered mandatory post-crisis review."
+}

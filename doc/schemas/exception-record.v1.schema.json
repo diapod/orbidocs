@@ -1,0 +1,488 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:exception-record:v1",
+  "title": "ExceptionRecord v1",
+  "description": "Machine-readable schema for a first-class audit record describing one bounded operational or constitutional exception. This contract follows the minimum exception data model from `EXCEPTION-POLICY` and stays general enough for ordinary, emergency, and injunction cases. Emergency-specific activation fields belong in a later extension artifact rather than in this base record.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/normative/50-constitutional-ops/en/EXCEPTION-POLICY.en.md",
+    "doc/normative/50-constitutional-ops/en/EMERGENCY-ACTIVATION-CRITERIA.en.md",
+    "doc/project/20-memos/exception-record-v1-invariants.md"
+  ],
+  "required": [
+    "schema/v",
+    "policy/id",
+    "exception/id",
+    "exception/type",
+    "owner/kind",
+    "owner/id",
+    "requester/kind",
+    "requester/id",
+    "scope/summary",
+    "reason/summary",
+    "risk/level",
+    "constitutional/basis",
+    "created/at",
+    "expires/at",
+    "fail-closed/target",
+    "approvals",
+    "monitoring/metrics",
+    "monitoring/review-at",
+    "rollback/conditions",
+    "status"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "policy/id": {
+      "const": "DIA-EXC-001",
+      "description": "Normative policy anchor for this exception record family."
+    },
+    "exception/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable exception identifier, e.g. `EXC-[federation]-[timestamp]-[nonce]`."
+    },
+    "exception/type": {
+      "type": "string",
+      "enum": [
+        "ordinary",
+        "emergency",
+        "injunction"
+      ],
+      "description": "Exception family as defined by `EXCEPTION-POLICY`."
+    },
+    "owner/kind": {
+      "type": "string",
+      "enum": [
+        "node",
+        "participant",
+        "council",
+        "panel",
+        "system",
+        "role"
+      ],
+      "description": "Actor class that owns responsibility for the exception effects."
+    },
+    "owner/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the responsible owner. Canonical DID forms are used where available."
+    },
+    "requester/kind": {
+      "type": "string",
+      "enum": [
+        "node",
+        "participant",
+        "council",
+        "panel",
+        "system",
+        "role"
+      ],
+      "description": "Actor class that requested or initiated the exception."
+    },
+    "requester/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the initiator. Canonical DID forms are used where available."
+    },
+    "scope/summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What roles, resources, procedures, or data are covered by the exception."
+    },
+    "reason/summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Business, ethical, safety, or constitutional rationale for the exception."
+    },
+    "risk/level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Risk class of the exception. High and critical records require non-empty approvals, monitoring metrics, and rollback conditions."
+    },
+    "constitutional/basis": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "References to constitutional or normative clauses justifying the exception."
+    },
+    "created/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the exception record was created."
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Expiry timestamp. Consumers SHOULD enforce `expires/at > created/at`."
+    },
+    "fail-closed/target": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Return state the system must enter when the exception ends or is revoked."
+    },
+    "trigger/refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "Optional references to triggering signals, incidents, or cases that caused the exception to be opened."
+    },
+    "approvals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/approval"
+      },
+      "description": "Approval entries for the exception. High and critical records require at least one approval entry."
+    },
+    "monitoring/metrics": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "Side-effect indicators or health metrics to watch while the exception remains active."
+    },
+    "monitoring/review-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Next mandatory review checkpoint. Consumers SHOULD enforce `monitoring/review-at >= created/at`."
+    },
+    "rollback/conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Conditions under which the exception must be suspended or rolled back."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "active",
+        "suspended",
+        "expired",
+        "rolled_back"
+      ],
+      "description": "Lifecycle state of the exception record."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable notes."
+    }
+  },
+  "$defs": {
+    "approval": {
+      "type": "object",
+      "required": [
+        "approver/kind",
+        "approver/id",
+        "approved-at"
+      ],
+      "properties": {
+        "approver/kind": {
+          "type": "string",
+          "enum": [
+            "node",
+            "participant",
+            "council",
+            "panel",
+            "system",
+            "role"
+          ]
+        },
+        "approver/id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved-at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "approver/kind": {
+                "const": "node"
+              }
+            },
+            "required": [
+              "approver/kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "approver/id": {
+                "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "approver/kind": {
+                "const": "participant"
+              }
+            },
+            "required": [
+              "approver/kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "approver/id": {
+                "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "approver/kind": {
+                "const": "council"
+              }
+            },
+            "required": [
+              "approver/kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "approver/id": {
+                "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "approver/kind": {
+                "const": "system"
+              }
+            },
+            "required": [
+              "approver/kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "approver/id": {
+                "const": "system"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "owner/kind": {
+            "const": "node"
+          }
+        },
+        "required": [
+          "owner/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "owner/id": {
+            "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "owner/kind": {
+            "const": "participant"
+          }
+        },
+        "required": [
+          "owner/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "owner/id": {
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "owner/kind": {
+            "const": "council"
+          }
+        },
+        "required": [
+          "owner/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "owner/id": {
+            "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "owner/kind": {
+            "const": "system"
+          }
+        },
+        "required": [
+          "owner/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "owner/id": {
+            "const": "system"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "requester/kind": {
+            "const": "node"
+          }
+        },
+        "required": [
+          "requester/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requester/id": {
+            "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "requester/kind": {
+            "const": "participant"
+          }
+        },
+        "required": [
+          "requester/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requester/id": {
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "requester/kind": {
+            "const": "council"
+          }
+        },
+        "required": [
+          "requester/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requester/id": {
+            "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "requester/kind": {
+            "const": "system"
+          }
+        },
+        "required": [
+          "requester/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requester/id": {
+            "const": "system"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "risk/level": {
+            "enum": [
+              "high",
+              "critical"
+            ]
+          }
+        },
+        "required": [
+          "risk/level"
+        ]
+      },
+      "then": {
+        "properties": {
+          "approvals": {
+            "minItems": 1
+          },
+          "monitoring/metrics": {
+            "minItems": 1
+          },
+          "rollback/conditions": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

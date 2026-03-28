@@ -10,12 +10,16 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 - [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
 - [`doc/project/50-requirements/requirements-001.md`](../../project/50-requirements/requirements-001.md)
 - [`doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`](../../project/40-proposals/011-federated-answer-procurement-lifecycle.md)
+- [`doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`](../../project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md)
+- [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
 
 ## Project Lineage
 
 ### Requirements
 
 - [`doc/project/50-requirements/requirements-001.md`](../../project/50-requirements/requirements-001.md)
+- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
+- [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
 
 ### Stories
 
@@ -39,8 +43,16 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 | [`responder/participant-id`](#field-responder-participant-id) | `yes` | string | Participation-role identity selected to fulfill or lead the responder side of the contract. |
 | [`payment/amount`](#field-payment-amount) | `yes` | integer | Agreed payment amount in minor units. |
 | [`payment/currency`](#field-payment-currency) | `yes` | string | Currency or settlement unit symbol for the contract payment. |
+| [`payer/account-ref`](#field-payer-account-ref) | `no` | string | Optional payer-side supervised ledger account reference. This becomes required for the `host-ledger` rail. |
+| [`payee/account-ref`](#field-payee-account-ref) | `no` | string | Optional payee-side supervised ledger account reference. This becomes required for the `host-ledger` rail. |
 | [`settlement/rail`](#field-settlement-rail) | `no` | enum: `external-invoice`, `host-ledger`, `manual-transfer`, `none` | Settlement rail chosen outside the protocol core. |
 | [`deadline-at`](#field-deadline-at) | `yes` | string | Deadline by which the responder must deliver or the contract expires. |
+| [`escrow/node-id`](#field-escrow-node-id) | `no` | string | Supervisory node responsible for the host-ledger escrow path. |
+| [`escrow/hold-ref`](#field-escrow-hold-ref) | `no` | string | Reference to the host-ledger hold created for this contract. |
+| [`deadlines/work-by`](#field-deadlines-work-by) | `no` | string | Responder delivery deadline in the host-ledger timeout cascade. This SHOULD align with `deadline-at`. |
+| [`deadlines/accept-by`](#field-deadlines-accept-by) | `no` | string | Deadline by which the payer should acknowledge delivered work. |
+| [`deadlines/dispute-by`](#field-deadlines-dispute-by) | `no` | string | Last moment for opening a formal dispute under the contract policy. |
+| [`deadlines/auto-release`](#field-deadlines-auto-release) | `no` | string | Moment when escrow may auto-release if contract conditions are satisfied and no dispute is open. |
 | [`acceptance/answer-format`](#field-acceptance-answer-format) | `yes` | enum: `plain-text`, `markdown`, `json`, `edn`, `mixed` | Expected answer format used for acceptance checks. |
 | [`acceptance/min-length`](#field-acceptance-min-length) | `yes` | integer | Minimum accepted answer length. |
 | [`acceptance/max-length`](#field-acceptance-max-length) | `yes` | integer | Maximum accepted answer length. |
@@ -105,6 +117,89 @@ Then:
       "const": 0
     }
   }
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "settlement/rail": {
+      "const": "host-ledger"
+    }
+  },
+  "required": [
+    "settlement/rail"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "payer/account-ref",
+    "payee/account-ref",
+    "escrow/node-id",
+    "escrow/hold-ref",
+    "deadlines/work-by",
+    "deadlines/accept-by",
+    "deadlines/dispute-by",
+    "deadlines/auto-release"
+  ],
+  "properties": {
+    "payment/currency": {
+      "const": "ORC"
+    }
+  }
+}
+```
+
+### Rule 4
+
+When:
+
+```json
+{
+  "anyOf": [
+    {
+      "required": [
+        "deadlines/work-by"
+      ]
+    },
+    {
+      "required": [
+        "deadlines/accept-by"
+      ]
+    },
+    {
+      "required": [
+        "deadlines/dispute-by"
+      ]
+    },
+    {
+      "required": [
+        "deadlines/auto-release"
+      ]
+    }
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "deadlines/work-by",
+    "deadlines/accept-by",
+    "deadlines/dispute-by",
+    "deadlines/auto-release"
+  ]
 }
 ```
 
@@ -214,6 +309,22 @@ Agreed payment amount in minor units.
 
 Currency or settlement unit symbol for the contract payment.
 
+<a id="field-payer-account-ref"></a>
+## `payer/account-ref`
+
+- Required: `no`
+- Shape: string
+
+Optional payer-side supervised ledger account reference. This becomes required for the `host-ledger` rail.
+
+<a id="field-payee-account-ref"></a>
+## `payee/account-ref`
+
+- Required: `no`
+- Shape: string
+
+Optional payee-side supervised ledger account reference. This becomes required for the `host-ledger` rail.
+
 <a id="field-settlement-rail"></a>
 ## `settlement/rail`
 
@@ -229,6 +340,54 @@ Settlement rail chosen outside the protocol core.
 - Shape: string
 
 Deadline by which the responder must deliver or the contract expires.
+
+<a id="field-escrow-node-id"></a>
+## `escrow/node-id`
+
+- Required: `no`
+- Shape: string
+
+Supervisory node responsible for the host-ledger escrow path.
+
+<a id="field-escrow-hold-ref"></a>
+## `escrow/hold-ref`
+
+- Required: `no`
+- Shape: string
+
+Reference to the host-ledger hold created for this contract.
+
+<a id="field-deadlines-work-by"></a>
+## `deadlines/work-by`
+
+- Required: `no`
+- Shape: string
+
+Responder delivery deadline in the host-ledger timeout cascade. This SHOULD align with `deadline-at`.
+
+<a id="field-deadlines-accept-by"></a>
+## `deadlines/accept-by`
+
+- Required: `no`
+- Shape: string
+
+Deadline by which the payer should acknowledge delivered work.
+
+<a id="field-deadlines-dispute-by"></a>
+## `deadlines/dispute-by`
+
+- Required: `no`
+- Shape: string
+
+Last moment for opening a formal dispute under the contract policy.
+
+<a id="field-deadlines-auto-release"></a>
+## `deadlines/auto-release`
+
+- Required: `no`
+- Shape: string
+
+Moment when escrow may auto-release if contract conditions are satisfied and no dispute is open.
 
 <a id="field-acceptance-answer-format"></a>
 ## `acceptance/answer-format`

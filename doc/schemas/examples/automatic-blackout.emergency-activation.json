@@ -1,0 +1,26 @@
+{
+  "schema/v": 1,
+  "exception/id": "EXC-fed-pl-20260328T170500Z-02",
+  "exception/type": "emergency",
+  "trigger/class": "TC2",
+  "trigger/signal-refs": [
+    "sig:emergency-fed-pl-20260328-001",
+    "sig:emergency-fed-pl-20260328-002"
+  ],
+  "credibility/class": "C3",
+  "activation/path": "automatic",
+  "activated-by/kind": "system",
+  "activated-by/id": "system",
+  "activated/at": "2026-03-28T17:05:00Z",
+  "ttl/expires-at": "2026-03-29T05:05:00Z",
+  "max-extension/until": "2026-03-30T17:05:00Z",
+  "extensions": [],
+  "agents/elevated": [
+    "agent:relay-failover:A3",
+    "agent:protected-corridor:A3"
+  ],
+  "scope/summary": "Regional emergency failover for protected reporting routes during blackout conditions.",
+  "fail-closed/target": "A0",
+  "review/status": "pending",
+  "notes": "Automatic activation under blackout conditions with immediate protected-corridor failover."
+}

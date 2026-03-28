@@ -1,0 +1,24 @@
+{
+  "schema/v": 1,
+  "policy/id": "DIA-EXC-999",
+  "exception/id": "EXC-fed-pl-20260328T173000Z-06",
+  "exception/type": "ordinary",
+  "owner/kind": "participant",
+  "owner/id": "participant:did:key:z6Mkq2Tt9Qv7C4h1N8p3L5s7D2k8M4r1V6w9X3y2Z7",
+  "requester/kind": "participant",
+  "requester/id": "participant:did:key:z6Mkq2Tt9Qv7C4h1N8p3L5s7D2k8M4r1V6w9X3y2Z7",
+  "scope/summary": "Short-lived compatibility override.",
+  "reason/summary": "Temporary bridge cutover.",
+  "risk/level": "low",
+  "constitutional/basis": [
+    "XIV.3"
+  ],
+  "created/at": "2026-03-28T17:30:00Z",
+  "expires/at": "2026-03-28T20:30:00Z",
+  "fail-closed/target": "default-routing-scope",
+  "approvals": [],
+  "monitoring/metrics": [],
+  "monitoring/review-at": "2026-03-28T18:30:00Z",
+  "rollback/conditions": [],
+  "status": "proposed"
+}

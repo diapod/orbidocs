@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:emergency-activation:v1",
+  "title": "EmergencyActivation v1",
+  "description": "Machine-readable schema for one emergency activation decision layered over an existing `exception-record.v1`. This artifact carries trigger selection, credibility, activation path, TTL ceilings, agent elevation, deactivation, and post-crisis review state.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/normative/50-constitutional-ops/en/EMERGENCY-ACTIVATION-CRITERIA.en.md",
+    "doc/normative/50-constitutional-ops/en/EXCEPTION-POLICY.en.md",
+    "doc/project/20-memos/emergency-activation-v1-invariants.md"
+  ],
+  "required": [
+    "schema/v",
+    "exception/id",
+    "exception/type",
+    "trigger/class",
+    "trigger/signal-refs",
+    "credibility/class",
+    "activation/path",
+    "activated-by/kind",
+    "activated-by/id",
+    "activated/at",
+    "ttl/expires-at",
+    "max-extension/until",
+    "extensions",
+    "agents/elevated",
+    "scope/summary",
+    "fail-closed/target",
+    "review/status"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "exception/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the already-created `exception-record.v1` associated with this activation cycle."
+    },
+    "exception/type": {
+      "const": "emergency",
+      "description": "Emergency activations always extend an emergency exception."
+    },
+    "trigger/class": {
+      "type": "string",
+      "enum": ["TC1", "TC2", "TC3", "TC4", "TC5"],
+      "description": "Trigger class that justified activation."
+    },
+    "trigger/signal-refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "Emergency signal ids that justified the activation."
+    },
+    "credibility/class": {
+      "type": "string",
+      "enum": ["C0", "C1", "C2", "C3", "C4"],
+      "description": "Credibility class used at the moment of activation."
+    },
+    "activation/path": {
+      "type": "string",
+      "enum": ["automatic", "manual", "escalation_auto"],
+      "description": "How the activation entered force."
+    },
+    "activated-by/kind": {
+      "type": "string",
+      "enum": ["node", "system"],
+      "description": "Activator identity class."
+    },
+    "activated-by/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Activator identifier. `node` uses canonical `node:did:key:...`; `system` uses literal `system`."
+    },
+    "activated/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the activation entered force."
+    },
+    "ttl/expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Current TTL deadline of the activation. Consumers SHOULD enforce `ttl/expires-at > activated/at`."
+    },
+    "max-extension/until": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Absolute extension ceiling for the activation. Consumers SHOULD enforce `max-extension/until >= ttl/expires-at`."
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/extension"
+      },
+      "description": "Recorded TTL extensions for this activation cycle."
+    },
+    "agents/elevated": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "Identifiers of agents elevated to A3 or equivalent emergency mode. TC5 may keep this empty."
+    },
+    "scope/summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Operational scope covered by this activation."
+    },
+    "fail-closed/target": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Return state after TTL expiry or manual deactivation."
+    },
+    "deactivated/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the activation was deactivated."
+    },
+    "deactivation/reason": {
+      "type": "string",
+      "enum": ["ttl_expired", "operator_deactivated", "threat_resolved", "superseded"],
+      "description": "Reason why the activation stopped being active."
+    },
+    "review/due-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Mandatory post-crisis review deadline. Consumers SHOULD enforce `review/due-at >= deactivated/at` when deactivation exists."
+    },
+    "review/status": {
+      "type": "string",
+      "enum": ["pending", "in_progress", "completed"],
+      "description": "Status of the post-crisis review."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable notes."
+    }
+  },
+  "$defs": {
+    "extension": {
+      "type": "object",
+      "required": [
+        "extended-by/kind",
+        "extended-by/id",
+        "extended/at",
+        "new-expires-at",
+        "justification",
+        "evidence/refs"
+      ],
+      "properties": {
+        "extended-by/kind": {
+          "type": "string",
+          "enum": ["node"]
+        },
+        "extended-by/id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "extended/at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "new-expires-at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "justification": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence/refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "activated-by/kind": { "const": "node" }
+        },
+        "required": ["activated-by/kind"]
+      },
+      "then": {
+        "properties": {
+          "activated-by/id": {
+            "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "activated-by/kind": { "const": "system" }
+        },
+        "required": ["activated-by/kind"]
+      },
+      "then": {
+        "properties": {
+          "activated-by/id": { "const": "system" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "trigger/class": {
+            "enum": ["TC1", "TC2", "TC3", "TC4"]
+          }
+        },
+        "required": ["trigger/class"]
+      },
+      "then": {
+        "properties": {
+          "agents/elevated": { "minItems": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "trigger/class": { "const": "TC5" }
+        },
+        "required": ["trigger/class"]
+      },
+      "then": {
+        "properties": {
+          "agents/elevated": { "maxItems": 0 }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["deactivated/at"]
+      },
+      "then": {
+        "required": ["deactivation/reason", "review/due-at"],
+        "properties": {
+          "review/status": {
+            "enum": ["pending", "in_progress", "completed"]
+          }
+        }
+      }
+    }
+  ]
+}

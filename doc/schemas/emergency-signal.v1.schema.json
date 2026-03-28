@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:emergency-signal:v1",
+  "title": "EmergencySignal v1",
+  "description": "Machine-readable schema for one emergency-ingest fact entering the crisis evaluation pipeline. This contract models a reporting signal, not an activation decision. It stays below `emergency-activation.v1` and above raw connector telemetry.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/normative/50-constitutional-ops/en/EMERGENCY-ACTIVATION-CRITERIA.en.md",
+    "doc/project/20-memos/emergency-signal-v1-invariants.md"
+  ],
+  "required": [
+    "schema/v",
+    "signal/id",
+    "source/node-id",
+    "source/type",
+    "observed/at",
+    "trigger/class",
+    "description",
+    "evidence/ref",
+    "confidence/class",
+    "corroborating/signal-refs",
+    "tc5/active",
+    "metadata/affected-scope",
+    "metadata/urgency"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "signal/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the emergency signal."
+    },
+    "source/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical identity of the reporting node."
+    },
+    "source/type": {
+      "type": "string",
+      "enum": [
+        "sensorium",
+        "operator",
+        "peer_report",
+        "oracle"
+      ],
+      "description": "Source class of the emergency signal."
+    },
+    "observed/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the signal was observed or emitted."
+    },
+    "trigger/class": {
+      "type": "string",
+      "enum": [
+        "TC1",
+        "TC2",
+        "TC3",
+        "TC4",
+        "TC5"
+      ],
+      "description": "Emergency trigger class from `EMERGENCY-ACTIVATION-CRITERIA`."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable summary of the observed condition."
+    },
+    "evidence/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to auditable evidence backing the signal."
+    },
+    "confidence/class": {
+      "type": "string",
+      "enum": [
+        "C0",
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ],
+      "description": "Credibility class of the observed signal."
+    },
+    "corroborating/signal-refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "References to other signals that corroborate the current one."
+    },
+    "tc5/active": {
+      "type": "boolean",
+      "description": "Whether degraded-trust mode is active for this signal."
+    },
+    "metadata/geo-hint": {
+      "type": "string",
+      "description": "Optional coarse location hint."
+    },
+    "metadata/affected-scope": {
+      "type": "string",
+      "enum": [
+        "node",
+        "federation",
+        "inter-federation"
+      ],
+      "description": "Operational scope affected by the reported condition."
+    },
+    "metadata/urgency": {
+      "type": "string",
+      "enum": [
+        "immediate",
+        "hours",
+        "days"
+      ],
+      "description": "Expected time pressure of the condition."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable notes."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "trigger/class": {
+            "const": "TC5"
+          }
+        },
+        "required": [
+          "trigger/class"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tc5/active": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "tc5/active": {
+            "const": true
+          }
+        },
+        "required": [
+          "tc5/active"
+        ]
+      },
+      "then": {
+        "properties": {
+          "trigger/class": {
+            "const": "TC5"
+          }
+        }
+      }
+    }
+  ]
+}

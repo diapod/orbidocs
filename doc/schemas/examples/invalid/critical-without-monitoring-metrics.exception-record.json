@@ -1,0 +1,33 @@
+{
+  "schema/v": 1,
+  "policy/id": "DIA-EXC-001",
+  "exception/id": "EXC-fed-pl-20260328T172000Z-04",
+  "exception/type": "injunction",
+  "owner/kind": "panel",
+  "owner/id": "panel:ad-hoc-constitutional-20260328",
+  "requester/kind": "panel",
+  "requester/id": "panel:ad-hoc-constitutional-20260328",
+  "scope/summary": "Freeze publication of a potentially irreversible disclosure artifact pending constitutional review.",
+  "reason/summary": "Immediate publication may create irreversible harm.",
+  "risk/level": "critical",
+  "constitutional/basis": [
+    "XIV.4",
+    "XVI.5"
+  ],
+  "created/at": "2026-03-28T17:20:00Z",
+  "expires/at": "2026-03-29T17:20:00Z",
+  "fail-closed/target": "publication-blocked",
+  "approvals": [
+    {
+      "approver/kind": "panel",
+      "approver/id": "panel:ad-hoc-constitutional-20260328",
+      "approved-at": "2026-03-28T17:22:00Z"
+    }
+  ],
+  "monitoring/metrics": [],
+  "monitoring/review-at": "2026-03-28T23:20:00Z",
+  "rollback/conditions": [
+    "full ruling issued"
+  ],
+  "status": "active"
+}

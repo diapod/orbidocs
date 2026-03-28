@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:ledger-hold:v1",
+  "title": "LedgerHold v1",
+  "description": "Machine-readable schema for one supervised escrow hold on the host-ledger settlement rail.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
+    "doc/project/50-requirements/requirements-007.md"
+  ],
+  "required": [
+    "schema/v",
+    "hold/id",
+    "contract/id",
+    "payer/account-id",
+    "payee/account-id",
+    "escrow/node-id",
+    "amount",
+    "unit",
+    "status",
+    "created-at",
+    "work-by",
+    "accept-by",
+    "dispute-by",
+    "auto-release-after"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "hold/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the escrow hold."
+    },
+    "contract/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Procurement contract whose settlement path is anchored by this hold."
+    },
+    "question/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional question lifecycle identifier for audit joins."
+    },
+    "payer/account-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Ledger account from which value is reserved."
+    },
+    "payee/account-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Ledger account eligible to receive release transfers from this hold."
+    },
+    "escrow/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Supervisory node responsible for maintaining the hold state machine."
+    },
+    "amount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Reserved amount in internal minor units."
+    },
+    "unit": {
+      "const": "ORC",
+      "description": "Internal settlement unit carried by the hold in MVP."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "disputed",
+        "released",
+        "partially-released",
+        "refunded",
+        "expired"
+      ],
+      "description": "Operational state of the hold."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the hold was created."
+    },
+    "work-by": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Deadline by which the responder is expected to deliver the work."
+    },
+    "accept-by": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Deadline by which the payer should acknowledge the delivered work."
+    },
+    "dispute-by": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last moment for opening a valid dispute under the contract policy."
+    },
+    "auto-release-after": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Moment when the hold may be released automatically if prior conditions are satisfied and no dispute is open."
+    },
+    "resolved-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the hold reached a terminal or review-complete state."
+    },
+    "released/amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Amount already released from the hold."
+    },
+    "refunded/amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Amount already refunded from the hold."
+    },
+    "dispute/case-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Formal dispute or arbiter case opened against the hold, if any."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable notes."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "disputed"
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["dispute/case-ref"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": ["released", "partially-released", "refunded", "expired"]
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["resolved-at"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": ["released", "partially-released"]
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["released/amount"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "refunded"
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["refunded/amount"]
+      }
+    }
+  ]
+}

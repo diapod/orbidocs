@@ -1,0 +1,43 @@
+{
+  "schema/v": 1,
+  "policy/id": "DIA-EXC-001",
+  "exception/id": "EXC-fed-pl-20260328T170500Z-02",
+  "exception/type": "emergency",
+  "owner/kind": "node",
+  "owner/id": "node:did:key:z6Mkz4Yx2Qn7L8v1R5s9T3k6M2p8D4f7H1j5N6b7C8",
+  "requester/kind": "system",
+  "requester/id": "system",
+  "scope/summary": "Temporary failover to the emergency relay path while the primary regional segment is in blackout mode.",
+  "reason/summary": "Delay would increase harm by breaking the emergency communication corridor for a protected reporting path.",
+  "risk/level": "high",
+  "constitutional/basis": [
+    "XIV.4",
+    "XVI.2"
+  ],
+  "created/at": "2026-03-28T17:05:00Z",
+  "expires/at": "2026-03-29T05:05:00Z",
+  "fail-closed/target": "A0",
+  "trigger/refs": [
+    "sig:tc2-blackout-20260328-001",
+    "sig:tc2-blackout-20260328-002"
+  ],
+  "approvals": [
+    {
+      "approver/kind": "node",
+      "approver/id": "node:did:key:z6Mkf8Wq3L2n7T4s5R9p1D6k8M3v4H2j7N5b6C1x9",
+      "approved-at": "2026-03-28T17:08:00Z",
+      "notes": "Federation emergency operator acknowledged failover activation."
+    }
+  ],
+  "monitoring/metrics": [
+    "message-delivery-success-rate",
+    "relay-path-saturation"
+  ],
+  "monitoring/review-at": "2026-03-28T20:05:00Z",
+  "rollback/conditions": [
+    "primary segment restored",
+    "relay-path saturation exceeds safe threshold"
+  ],
+  "status": "active",
+  "notes": "Emergency exception opened under blackout conditions; activation details belong in the later emergency-activation record."
+}

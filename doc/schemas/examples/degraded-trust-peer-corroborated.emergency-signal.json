@@ -1,0 +1,18 @@
+{
+  "schema/v": 1,
+  "signal/id": "sig:emergency-fed-pl-20260328-010",
+  "source/node-id": "node:did:key:z6Mkf8Wq3L2n7T4s5R9p1D6k8M3v4H2j7N5b6C1x9",
+  "source/type": "peer_report",
+  "observed/at": "2026-03-28T19:40:00Z",
+  "trigger/class": "TC5",
+  "description": "Multiple peers report possible manipulation of emergency ingress and degraded trust in corroboration paths.",
+  "evidence/ref": "trace:emergency-ingress-anomaly-20260328",
+  "confidence/class": "C2",
+  "corroborating/signal-refs": [
+    "sig:emergency-fed-pl-20260328-011"
+  ],
+  "tc5/active": true,
+  "metadata/affected-scope": "inter-federation",
+  "metadata/urgency": "hours",
+  "notes": "Degraded-trust mode active pending independent corroboration."
+}

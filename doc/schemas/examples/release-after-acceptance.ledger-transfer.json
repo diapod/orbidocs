@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "transfer/id": "transfer:01K1SETTLE001:R",
+  "kind": "release",
+  "from/account-id": "account:fed-pl-main:participant:z6MkhaXg",
+  "to/account-id": "account:fed-pl-main:participant:z6MkQ4kq",
+  "amount": 900,
+  "unit": "ORC",
+  "created-at": "2026-03-30T11:58:30Z",
+  "hold/id": "hold:01K1SETTLE001",
+  "contract/id": "contract:01K1SETTLE001"
+}

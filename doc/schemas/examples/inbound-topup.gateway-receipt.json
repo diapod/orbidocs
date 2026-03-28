@@ -1,0 +1,15 @@
+{
+  "schema/v": 1,
+  "receipt/id": "gw:01K1TOPUP001",
+  "gateway/node-id": "node:pl-main-gateway-01",
+  "direction": "inbound",
+  "external/amount": 50.0,
+  "external/currency": "PLN",
+  "internal/amount": 5000,
+  "internal/currency": "ORC",
+  "account/id": "account:fed-pl-main:participant:z6MkhaXg",
+  "ts": "2026-03-28T08:55:00Z",
+  "external/payment-ref": "stripe:pi_3ORBIPLEX001",
+  "external/provider": "stripe",
+  "exchange-policy/ref": "gateway-policy:pl-main-prepaid-v1"
+}

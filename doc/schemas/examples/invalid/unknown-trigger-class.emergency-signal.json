@@ -1,0 +1,15 @@
+{
+  "schema/v": 1,
+  "signal/id": "sig:emergency-fed-pl-20260328-021",
+  "source/node-id": "node:did:key:z6Mkf8Wq3L2n7T4s5R9p1D6k8M3v4H2j7N5b6C1x9",
+  "source/type": "oracle",
+  "observed/at": "2026-03-28T20:10:00Z",
+  "trigger/class": "TC6",
+  "description": "Unknown trigger class should be rejected.",
+  "evidence/ref": "oracle:edge-case-20260328",
+  "confidence/class": "C1",
+  "corroborating/signal-refs": [],
+  "tc5/active": false,
+  "metadata/affected-scope": "federation",
+  "metadata/urgency": "hours"
+}

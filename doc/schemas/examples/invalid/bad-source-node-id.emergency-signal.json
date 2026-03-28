@@ -1,0 +1,15 @@
+{
+  "schema/v": 1,
+  "signal/id": "sig:emergency-fed-pl-20260328-020",
+  "source/node-id": "participant:did:key:z6Mkq2Tt9Qv7C4h1N8p3L5s7D2k8M4r1V6w9X3y2Z7",
+  "source/type": "operator",
+  "observed/at": "2026-03-28T20:00:00Z",
+  "trigger/class": "TC1",
+  "description": "Operator reports immediate danger to a protected person.",
+  "evidence/ref": "case:urgent-human-safety-001",
+  "confidence/class": "C2",
+  "corroborating/signal-refs": [],
+  "tc5/active": false,
+  "metadata/affected-scope": "node",
+  "metadata/urgency": "immediate"
+}

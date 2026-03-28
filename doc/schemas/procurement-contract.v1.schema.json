@@ -11,7 +11,9 @@
     "doc/project/30-stories/story-001.md",
     "doc/project/30-stories/story-004.md",
     "doc/project/50-requirements/requirements-001.md",
-    "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
+    "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md",
+    "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
+    "doc/project/50-requirements/requirements-007.md"
   ],
   "required": [
     "schema/v",
@@ -96,6 +98,16 @@
       "maxLength": 16,
       "description": "Currency or settlement unit symbol for the contract payment."
     },
+    "payer/account-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional payer-side supervised ledger account reference. This becomes required for the `host-ledger` rail."
+    },
+    "payee/account-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional payee-side supervised ledger account reference. This becomes required for the `host-ledger` rail."
+    },
     "settlement/rail": {
       "type": "string",
       "enum": [
@@ -110,6 +122,36 @@
       "type": "string",
       "format": "date-time",
       "description": "Deadline by which the responder must deliver or the contract expires."
+    },
+    "escrow/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Supervisory node responsible for the host-ledger escrow path."
+    },
+    "escrow/hold-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the host-ledger hold created for this contract."
+    },
+    "deadlines/work-by": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Responder delivery deadline in the host-ledger timeout cascade. This SHOULD align with `deadline-at`."
+    },
+    "deadlines/accept-by": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Deadline by which the payer should acknowledge delivered work."
+    },
+    "deadlines/dispute-by": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last moment for opening a formal dispute under the contract policy."
+    },
+    "deadlines/auto-release": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Moment when escrow may auto-release if contract conditions are satisfied and no dispute is open."
     },
     "acceptance/answer-format": {
       "type": "string",
@@ -190,6 +232,69 @@
             "const": 0
           }
         }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "settlement/rail": {
+            "const": "host-ledger"
+          }
+        },
+        "required": [
+          "settlement/rail"
+        ]
+      },
+      "then": {
+        "required": [
+          "payer/account-ref",
+          "payee/account-ref",
+          "escrow/node-id",
+          "escrow/hold-ref",
+          "deadlines/work-by",
+          "deadlines/accept-by",
+          "deadlines/dispute-by",
+          "deadlines/auto-release"
+        ],
+        "properties": {
+          "payment/currency": {
+            "const": "ORC"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "required": [
+              "deadlines/work-by"
+            ]
+          },
+          {
+            "required": [
+              "deadlines/accept-by"
+            ]
+          },
+          {
+            "required": [
+              "deadlines/dispute-by"
+            ]
+          },
+          {
+            "required": [
+              "deadlines/auto-release"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "required": [
+          "deadlines/work-by",
+          "deadlines/accept-by",
+          "deadlines/dispute-by",
+          "deadlines/auto-release"
+        ]
       }
     }
   ]

@@ -1,0 +1,15 @@
+{
+  "schema/v": 1,
+  "signal/id": "sig:emergency-fed-pl-20260328-024",
+  "source/node-id": "node:did:key:z6Mkf8Wq3L2n7T4s5R9p1D6k8M3v4H2j7N5b6C1x9",
+  "source/type": "sensorium",
+  "observed/at": "2026-03-28T20:30:00Z",
+  "trigger/class": "TC2",
+  "description": "Non-TC5 signal cannot set degraded-trust mode.",
+  "evidence/ref": "evidence:blackout-grid-report-20260328-20h",
+  "confidence/class": "C2",
+  "corroborating/signal-refs": [],
+  "tc5/active": true,
+  "metadata/affected-scope": "federation",
+  "metadata/urgency": "immediate"
+}

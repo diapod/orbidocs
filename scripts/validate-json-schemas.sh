@@ -77,6 +77,15 @@ schema_for_file() {
     *.coi-declaration.json)
       echo "$SCHEMAS_DIR/coi-declaration.v1.schema.json"
       ;;
+    *.exception-record.json)
+      echo "$SCHEMAS_DIR/exception-record.v1.schema.json"
+      ;;
+    *.emergency-signal.json)
+      echo "$SCHEMAS_DIR/emergency-signal.v1.schema.json"
+      ;;
+    *.emergency-activation.json)
+      echo "$SCHEMAS_DIR/emergency-activation.v1.schema.json"
+      ;;
     *.reputation-signal.json)
       echo "$SCHEMAS_DIR/reputation-signal.v1.schema.json"
       ;;
@@ -124,6 +133,18 @@ schema_for_file() {
       ;;
     *.procurement-receipt.json)
       echo "$SCHEMAS_DIR/procurement-receipt.v1.schema.json"
+      ;;
+    *.ledger-account.json)
+      echo "$SCHEMAS_DIR/ledger-account.v1.schema.json"
+      ;;
+    *.ledger-hold.json)
+      echo "$SCHEMAS_DIR/ledger-hold.v1.schema.json"
+      ;;
+    *.ledger-transfer.json)
+      echo "$SCHEMAS_DIR/ledger-transfer.v1.schema.json"
+      ;;
+    *.gateway-receipt.json)
+      echo "$SCHEMAS_DIR/gateway-receipt.v1.schema.json"
       ;;
     *.response-envelope.json)
       echo "$SCHEMAS_DIR/response-envelope.v1.schema.json"

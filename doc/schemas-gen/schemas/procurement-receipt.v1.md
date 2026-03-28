@@ -10,12 +10,16 @@ Machine-readable schema for the auditable outcome of a procurement contract.
 - [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
 - [`doc/project/50-requirements/requirements-001.md`](../../project/50-requirements/requirements-001.md)
 - [`doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`](../../project/40-proposals/011-federated-answer-procurement-lifecycle.md)
+- [`doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`](../../project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md)
+- [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
 
 ## Project Lineage
 
 ### Requirements
 
 - [`doc/project/50-requirements/requirements-001.md`](../../project/50-requirements/requirements-001.md)
+- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
+- [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
 
 ### Stories
 
@@ -42,6 +46,8 @@ Machine-readable schema for the auditable outcome of a procurement contract.
 | [`arbiter/signatures`](#field-arbiter-signatures) | `no` | array | Arbiter confirmations when the contract required arbiter approval. |
 | [`settlement/rail`](#field-settlement-rail) | `no` | enum: `external-invoice`, `host-ledger`, `manual-transfer`, `none` | Settlement rail used outside the protocol core. |
 | [`settlement/ref`](#field-settlement-ref) | `no` | string | External settlement reference such as an invoice id, ledger entry id, or transfer reference. |
+| [`settlement/hold-ref`](#field-settlement-hold-ref) | `no` | string | Host-ledger hold reference from which release or refund was resolved. |
+| [`settlement/transfer-refs`](#field-settlement-transfer-refs) | `no` | array | One or more host-ledger transfer references that completed release, partial release, refund, or payout bookkeeping for the contract. |
 | [`rejection/reason`](#field-rejection-reason) | `no` | string | Human- or machine-readable reason when the answer or contract outcome was not accepted. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
 
@@ -136,6 +142,35 @@ Then:
 {
   "required": [
     "rejection/reason"
+  ]
+}
+```
+
+### Rule 4
+
+When:
+
+```json
+{
+  "properties": {
+    "settlement/rail": {
+      "const": "host-ledger"
+    }
+  },
+  "required": [
+    "settlement/rail"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "settlement/ref",
+    "settlement/hold-ref",
+    "settlement/transfer-refs"
   ]
 }
 ```
@@ -269,6 +304,22 @@ Settlement rail used outside the protocol core.
 - Shape: string
 
 External settlement reference such as an invoice id, ledger entry id, or transfer reference.
+
+<a id="field-settlement-hold-ref"></a>
+## `settlement/hold-ref`
+
+- Required: `no`
+- Shape: string
+
+Host-ledger hold reference from which release or refund was resolved.
+
+<a id="field-settlement-transfer-refs"></a>
+## `settlement/transfer-refs`
+
+- Required: `no`
+- Shape: array
+
+One or more host-ledger transfer references that completed release, partial release, refund, or payout bookkeeping for the contract.
 
 <a id="field-rejection-reason"></a>
 ## `rejection/reason`

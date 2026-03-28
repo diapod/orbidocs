@@ -1,0 +1,28 @@
+{
+  "schema/v": 1,
+  "policy/id": "DIA-EXC-001",
+  "exception/id": "EXC-fed-pl-20260328T172500Z-05",
+  "exception/type": "emergency",
+  "owner/kind": "node",
+  "owner/id": "node:did:key:z6Mkz4Yx2Qn7L8v1R5s9T3k6M2p8D4f7H1j5N6b7C8",
+  "requester/kind": "system",
+  "requester/id": "node:did:key:z6Mkf8Wq3L2n7T4s5R9p1D6k8M3v4H2j7N5b6C1x9",
+  "scope/summary": "Emergency reroute during outage.",
+  "reason/summary": "Protected corridor would go dark otherwise.",
+  "risk/level": "medium",
+  "constitutional/basis": [
+    "XIV.4"
+  ],
+  "created/at": "2026-03-28T17:25:00Z",
+  "expires/at": "2026-03-28T23:25:00Z",
+  "fail-closed/target": "A0",
+  "approvals": [],
+  "monitoring/metrics": [
+    "message-delivery-success-rate"
+  ],
+  "monitoring/review-at": "2026-03-28T19:25:00Z",
+  "rollback/conditions": [
+    "primary route restored"
+  ],
+  "status": "active"
+}

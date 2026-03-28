@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:gateway-receipt:v1",
+  "title": "GatewayReceipt v1",
+  "description": "Machine-readable schema for a fiat-to-credit or credit-to-fiat crossing performed by a trusted prepaid gateway node.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
+    "doc/project/50-requirements/requirements-007.md"
+  ],
+  "required": [
+    "schema/v",
+    "receipt/id",
+    "gateway/node-id",
+    "direction",
+    "external/amount",
+    "external/currency",
+    "internal/amount",
+    "internal/currency",
+    "account/id",
+    "ts",
+    "external/payment-ref"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "receipt/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the gateway receipt."
+    },
+    "gateway/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Trusted gateway node that performed the external settlement crossing."
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["inbound", "outbound"],
+      "description": "Direction of value crossing the protocol boundary. `inbound` credits a local account, `outbound` debits it for payout."
+    },
+    "external/amount": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Amount observed on the external payment rail."
+    },
+    "external/currency": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 16,
+      "description": "External settlement currency or tender symbol."
+    },
+    "internal/amount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Credited or debited amount in internal minor units."
+    },
+    "internal/currency": {
+      "const": "ORC",
+      "description": "Internal settlement unit used by the supervised ledger in MVP."
+    },
+    "account/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Local supervised account affected by the gateway event."
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the gateway event was committed for audit."
+    },
+    "external/payment-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Gateway-side payment reference such as a PSP transaction id or bank transfer reference."
+    },
+    "external/provider": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Payment service provider or banking rail label used by the gateway."
+    },
+    "exchange-policy/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional reference to the gateway-side pricing or exchange policy in force for this event."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable notes."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}
