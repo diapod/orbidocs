@@ -41,7 +41,9 @@ Responsibilities:
 - capture rumor-style input without flattening it into evidence,
 - run bounded local redaction and idiolect-reduction workflows,
 - require user approval before publication,
-- emit `whisper-signal` artifacts with explicit epistemic class, participant-scoped authorship, and routing/privacy intent.
+- emit `whisper-signal` artifacts with explicit epistemic class, node-scoped
+  routing, nym-authored pseudonymous participation, attached `nym-certificate`,
+  and routing/privacy intent.
 
 Status:
 - `todo`

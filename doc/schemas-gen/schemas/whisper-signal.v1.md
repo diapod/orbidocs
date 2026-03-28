@@ -10,11 +10,17 @@ Machine-readable schema for bounded rumor-style social-signal exchange.
 - [`doc/project/20-memos/orbiplex-anon.md`](../../project/20-memos/orbiplex-anon.md)
 - [`doc/project/30-stories/story-005.md`](../../project/30-stories/story-005.md)
 - [`doc/project/40-proposals/013-whisper-social-signal-exchange.md`](../../project/40-proposals/013-whisper-social-signal-exchange.md)
+- [`doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md`](../../project/40-proposals/015-nym-certificates-and-renewal-baseline.md)
 
 ## Project Lineage
 
+### Requirements
+
+- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
+
 ### Stories
 
+- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
 - [`doc/project/30-stories/story-005.md`](../../project/30-stories/story-005.md)
 
 ## Fields
@@ -24,10 +30,11 @@ Machine-readable schema for bounded rumor-style social-signal exchange.
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`signal/id`](#field-signal-id) | `yes` | string | Stable identifier of the published rumor-style signal. |
 | [`created-at`](#field-created-at) | `yes` | string | Publication timestamp of the outgoing signal. |
-| [`sender/node-id`](#field-sender-node-id) | `yes` | string | Infrastructure node that emitted or hosted the outgoing signal. |
-| [`sender/participant-id`](#field-sender-participant-id) | `yes` | string | Participation-role identity that approved or stood behind the outgoing signal. |
+| [`sender/node-id`](#field-sender-node-id) | `yes` | string | Infrastructure node that emitted or hosted the outgoing signal. This remains the routing and transport-facing identity even when authored participation is expressed through a pseudonymous nym. |
 | [`sender/federation-id`](#field-sender-federation-id) | `no` | string | Federation scope of the sender when relevant to routing or threshold policy. |
-| [`rumor/nym`](#field-rumor-nym) | `yes` | string | Bounded outgoing pseudonym that is not a stable long-lived author identity. |
+| [`rumor/nym`](#field-rumor-nym) | `yes` | string | Pseudonymous author identity of the outgoing signal. This remains application-layer identity material and MUST NOT leak into the transport handshake. |
+| [`auth/nym-certificate`](#field-auth-nym-certificate) | `yes` | ref: `nym-certificate.v1.schema.json` | Attached council-issued certificate proving bounded validity of the outgoing rumor nym. Its `nym/id` should match `rumor/nym`. |
+| [`auth/nym-signature`](#field-auth-nym-signature) | `yes` | ref: `#/$defs/signature` | Signature over the outgoing `whisper-signal` body made with the private key corresponding to `rumor/nym`. |
 | [`epistemic/class`](#field-epistemic-class) | `yes` | enum: `rumor`, `weak-signal` | Explicit epistemic class that prevents the artifact from being treated as evidence. |
 | [`signal/text`](#field-signal-text) | `yes` | string | Sanitized text accepted by the local user before publication. |
 | [`topic/class`](#field-topic-class) | `yes` | string | Normalized issue class used for bounded correlation. |
@@ -43,6 +50,12 @@ Machine-readable schema for bounded rumor-style social-signal exchange.
 | [`forwarding/max-hops`](#field-forwarding-max-hops) | `yes` | integer | Maximum number of relay hops allowed for the signal. |
 | [`forwarding/budget`](#field-forwarding-budget) | `no` | integer | Maximum number of bounded forwards allowed under local policy. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object | Optional implementation- or federation-local annotations that do not change the core semantics. |
+
+## Definitions
+
+| Definition | Shape | Description |
+|---|---|---|
+| [`signature`](#def-signature) | object |  |
 
 ## Conditional Rules
 
@@ -139,15 +152,7 @@ Publication timestamp of the outgoing signal.
 - Required: `yes`
 - Shape: string
 
-Infrastructure node that emitted or hosted the outgoing signal.
-
-<a id="field-sender-participant-id"></a>
-## `sender/participant-id`
-
-- Required: `yes`
-- Shape: string
-
-Participation-role identity that approved or stood behind the outgoing signal.
+Infrastructure node that emitted or hosted the outgoing signal. This remains the routing and transport-facing identity even when authored participation is expressed through a pseudonymous nym.
 
 <a id="field-sender-federation-id"></a>
 ## `sender/federation-id`
@@ -163,7 +168,23 @@ Federation scope of the sender when relevant to routing or threshold policy.
 - Required: `yes`
 - Shape: string
 
-Bounded outgoing pseudonym that is not a stable long-lived author identity.
+Pseudonymous author identity of the outgoing signal. This remains application-layer identity material and MUST NOT leak into the transport handshake.
+
+<a id="field-auth-nym-certificate"></a>
+## `auth/nym-certificate`
+
+- Required: `yes`
+- Shape: ref: `nym-certificate.v1.schema.json`
+
+Attached council-issued certificate proving bounded validity of the outgoing rumor nym. Its `nym/id` should match `rumor/nym`.
+
+<a id="field-auth-nym-signature"></a>
+## `auth/nym-signature`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/signature`
+
+Signature over the outgoing `whisper-signal` body made with the private key corresponding to `rumor/nym`.
 
 <a id="field-epistemic-class"></a>
 ## `epistemic/class`
@@ -284,3 +305,10 @@ Maximum number of bounded forwards allowed under local policy.
 - Shape: object
 
 Optional implementation- or federation-local annotations that do not change the core semantics.
+
+## Definition Semantics
+
+<a id="def-signature"></a>
+## `$defs.signature`
+
+- Shape: object

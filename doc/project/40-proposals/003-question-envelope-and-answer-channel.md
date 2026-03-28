@@ -107,6 +107,17 @@ but linked layers:
 5. IRC-like access MAY exist through bridges, but IRC is not the normative baseline for
    durable protocol events.
 
+For authored identity at the envelope layer:
+
+- routing remains node-scoped through `sender/node-id`,
+- the ordinary authored path may remain `sender/participant-id`,
+- but some question publications may instead use an application-layer pseudonymous
+  authored path through `author/nym`, attached `nym-certificate`, and `nym`
+  signature.
+
+This pseudonymous path remains above the transport boundary and does not change
+the node-scoped session model.
+
 ## Proposed Model
 
 ### 1. Layer split

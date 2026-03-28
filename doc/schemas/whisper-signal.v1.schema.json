@@ -11,15 +11,17 @@
     "doc/project/20-memos/orbiplex-whisper.md",
     "doc/project/20-memos/orbiplex-anon.md",
     "doc/project/30-stories/story-005.md",
-    "doc/project/40-proposals/013-whisper-social-signal-exchange.md"
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md",
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md"
   ],
   "required": [
     "schema/v",
     "signal/id",
     "created-at",
     "sender/node-id",
-    "sender/participant-id",
     "rumor/nym",
+    "auth/nym-certificate",
+    "auth/nym-signature",
     "epistemic/class",
     "signal/text",
     "topic/class",
@@ -49,12 +51,7 @@
     "sender/node-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Infrastructure node that emitted or hosted the outgoing signal."
-    },
-    "sender/participant-id": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Participation-role identity that approved or stood behind the outgoing signal."
+      "description": "Infrastructure node that emitted or hosted the outgoing signal. This remains the routing and transport-facing identity even when authored participation is expressed through a pseudonymous nym."
     },
     "sender/federation-id": {
       "type": "string",
@@ -63,8 +60,16 @@
     },
     "rumor/nym": {
       "type": "string",
-      "minLength": 1,
-      "description": "Bounded outgoing pseudonym that is not a stable long-lived author identity."
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Pseudonymous author identity of the outgoing signal. This remains application-layer identity material and MUST NOT leak into the transport handshake."
+    },
+    "auth/nym-certificate": {
+      "$ref": "nym-certificate.v1.schema.json",
+      "description": "Attached council-issued certificate proving bounded validity of the outgoing rumor nym. Its `nym/id` should match `rumor/nym`."
+    },
+    "auth/nym-signature": {
+      "$ref": "#/$defs/signature",
+      "description": "Signature over the outgoing `whisper-signal` body made with the private key corresponding to `rumor/nym`."
     },
     "epistemic/class": {
       "type": "string",
@@ -179,6 +184,28 @@
       "type": "object",
       "additionalProperties": true,
       "description": "Optional implementation- or federation-local annotations that do not change the core semantics."
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
     }
   },
   "allOf": [

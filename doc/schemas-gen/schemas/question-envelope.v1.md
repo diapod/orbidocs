@@ -8,11 +8,17 @@ Machine-readable schema for signed question publication on the procurement event
 
 - [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
 - [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
+- [`doc/project/20-memos/nym-authored-payload-verification.md`](../../project/20-memos/nym-authored-payload-verification.md)
 - [`doc/project/40-proposals/003-question-envelope-and-answer-channel.md`](../../project/40-proposals/003-question-envelope-and-answer-channel.md)
+- [`doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md`](../../project/40-proposals/015-nym-certificates-and-renewal-baseline.md)
 - [`doc/project/40-proposals/009-communication-exposure-modes.md`](../../project/40-proposals/009-communication-exposure-modes.md)
 - [`doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`](../../project/40-proposals/011-federated-answer-procurement-lifecycle.md)
 
 ## Project Lineage
+
+### Requirements
+
+- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
 
 ### Stories
 
@@ -27,10 +33,13 @@ Machine-readable schema for signed question publication on the procurement event
 | [`question/id`](#field-question-id) | `yes` | string | Stable lifecycle identifier that links the event layer, room layer, and later procurement artifacts. |
 | [`created-at`](#field-created-at) | `yes` | string | Publication timestamp of the question envelope. |
 | [`sender/node-id`](#field-sender-node-id) | `yes` | string | Swarm-facing routing and hosting identity of the Node that published the envelope. |
-| [`sender/participant-id`](#field-sender-participant-id) | `yes` | string | Participation-role identity that authored or initiated the question publication. In the MVP baseline this may be role-distinct but key-equal to the local `node-id`. This is the authored participation identity, not the network routing identity. |
+| [`sender/participant-id`](#field-sender-participant-id) | `no` | string | Participation-role identity that authored or initiated the question publication. In the MVP baseline this may be role-distinct but key-equal to the local `node-id`. This is the authored participation identity, not the network routing identity. |
 | [`sender/federation-id`](#field-sender-federation-id) | `no` | string | Federation scope of the sender when publication is federation-bound. |
 | [`sender/pod-user-id`](#field-sender-pod-user-id) | `no` | string | Hosted-user identity when publication is delegated through a later pod-backed client flow. This is additive to, not a replacement for, `sender/participant-id`, and it is not part of the networking routing contract. |
 | [`sender/public-nym`](#field-sender-public-nym) | `no` | string | Optional public-facing pseudonym shown at protocol boundaries where policy allows it. This is optional presentation metadata, not a routing identity. |
+| [`author/nym`](#field-author-nym) | `no` | string | Visible authored pseudonym when the envelope uses a nym-authored path instead of disclosing `sender/participant-id`. |
+| [`auth/nym-certificate`](#field-auth-nym-certificate) | `no` | ref: `nym-certificate.v1.schema.json` | Attached council-issued nym certificate for the pseudonymous authored path. Its `nym/id` should match `author/nym`. |
+| [`auth/nym-signature`](#field-auth-nym-signature) | `no` | ref: `#/$defs/signature` | Nym signature over the envelope body when the question uses the pseudonymous authored path. |
 | [`ttl-sec`](#field-ttl-sec) | `yes` | integer | Time-to-live of the open request on the event layer. |
 | [`question/text`](#field-question-text) | `yes` | string | Full textual question content published at the envelope layer in the current split architecture. |
 | [`question/tags`](#field-question-tags) | `yes` | array | Semantic tags used for routing and responder matching. |
@@ -48,12 +57,66 @@ Machine-readable schema for signed question publication on the procurement event
 | [`procurement/max-price-amount`](#field-procurement-max-price-amount) | `no` | integer | Maximum acceptable price in minor units when procurement is enabled. |
 | [`procurement/price-currency`](#field-procurement-price-currency) | `no` | string | Currency or settlement unit symbol associated with procurement ceiling and offers. |
 | [`procurement/max-wait-sec`](#field-procurement-max-wait-sec) | `no` | integer | Maximum wait time acceptable to the asker when procurement is enabled. |
-| [`signature`](#field-signature) | `no` | object | Detached or embedded signature container for the published envelope. |
+| [`signature`](#field-signature) | `no` | ref: `#/$defs/signature` | Detached or embedded signature container for the participant-authored publication path. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object | Optional federation- or implementation-local policy annotations that do not change the core lifecycle semantics. |
+
+## Definitions
+
+| Definition | Shape | Description |
+|---|---|---|
+| [`signature`](#def-signature) | object |  |
 
 ## Conditional Rules
 
 ### Rule 1
+
+Constraint:
+
+```json
+{
+  "oneOf": [
+    {
+      "required": [
+        "sender/participant-id",
+        "signature"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "author/nym"
+            ]
+          },
+          {
+            "required": [
+              "auth/nym-certificate"
+            ]
+          },
+          {
+            "required": [
+              "auth/nym-signature"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "author/nym",
+        "auth/nym-certificate",
+        "auth/nym-signature"
+      ],
+      "not": {
+        "required": [
+          "sender/participant-id"
+        ]
+      }
+    }
+  ]
+}
+```
+
+### Rule 2
 
 When:
 
@@ -82,7 +145,7 @@ Then:
 }
 ```
 
-### Rule 2
+### Rule 3
 
 When:
 
@@ -114,7 +177,7 @@ Then:
 }
 ```
 
-### Rule 3
+### Rule 4
 
 When:
 
@@ -146,7 +209,7 @@ Then:
 }
 ```
 
-### Rule 4
+### Rule 5
 
 When:
 
@@ -212,7 +275,7 @@ Swarm-facing routing and hosting identity of the Node that published the envelop
 <a id="field-sender-participant-id"></a>
 ## `sender/participant-id`
 
-- Required: `yes`
+- Required: `no`
 - Shape: string
 
 Participation-role identity that authored or initiated the question publication. In the MVP baseline this may be role-distinct but key-equal to the local `node-id`. This is the authored participation identity, not the network routing identity.
@@ -240,6 +303,30 @@ Hosted-user identity when publication is delegated through a later pod-backed cl
 - Shape: string
 
 Optional public-facing pseudonym shown at protocol boundaries where policy allows it. This is optional presentation metadata, not a routing identity.
+
+<a id="field-author-nym"></a>
+## `author/nym`
+
+- Required: `no`
+- Shape: string
+
+Visible authored pseudonym when the envelope uses a nym-authored path instead of disclosing `sender/participant-id`.
+
+<a id="field-auth-nym-certificate"></a>
+## `auth/nym-certificate`
+
+- Required: `no`
+- Shape: ref: `nym-certificate.v1.schema.json`
+
+Attached council-issued nym certificate for the pseudonymous authored path. Its `nym/id` should match `author/nym`.
+
+<a id="field-auth-nym-signature"></a>
+## `auth/nym-signature`
+
+- Required: `no`
+- Shape: ref: `#/$defs/signature`
+
+Nym signature over the envelope body when the question uses the pseudonymous authored path.
 
 <a id="field-ttl-sec"></a>
 ## `ttl-sec`
@@ -381,9 +468,9 @@ Maximum wait time acceptable to the asker when procurement is enabled.
 ## `signature`
 
 - Required: `no`
-- Shape: object
+- Shape: ref: `#/$defs/signature`
 
-Detached or embedded signature container for the published envelope.
+Detached or embedded signature container for the participant-authored publication path.
 
 <a id="field-policy-annotations"></a>
 ## `policy_annotations`
@@ -392,3 +479,10 @@ Detached or embedded signature container for the published envelope.
 - Shape: object
 
 Optional federation- or implementation-local policy annotations that do not change the core lifecycle semantics.
+
+## Definition Semantics
+
+<a id="def-signature"></a>
+## `$defs.signature`
+
+- Shape: object

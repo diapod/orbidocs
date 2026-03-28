@@ -111,6 +111,15 @@ Purpose:
 
 This artifact belongs to the asking side and is the canonical opening move.
 
+The baseline authored path may remain participant-scoped, but the lifecycle
+should also tolerate a pseudonymous question publication path where:
+
+- `sender/node-id` still routes the envelope,
+- `author/nym` identifies the visible author,
+- the envelope carries attached `nym-certificate`,
+- and the envelope body is signed by the `nym` key rather than by a directly
+  disclosed participant identity.
+
 ### 2. `procurement-offer`
 
 Purpose:

@@ -10,7 +10,9 @@
   "x-dia-basis": [
     "doc/project/30-stories/story-001.md",
     "doc/project/30-stories/story-004.md",
+    "doc/project/20-memos/nym-authored-payload-verification.md",
     "doc/project/40-proposals/003-question-envelope-and-answer-channel.md",
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md",
     "doc/project/40-proposals/009-communication-exposure-modes.md",
     "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
   ],
@@ -19,7 +21,6 @@
     "question/id",
     "created-at",
     "sender/node-id",
-    "sender/participant-id",
     "delivery/scope",
     "delivery/response-channel-id",
     "request/exposure-mode",
@@ -67,6 +68,19 @@
       "type": "string",
       "minLength": 1,
       "description": "Optional public-facing pseudonym shown at protocol boundaries where policy allows it. This is optional presentation metadata, not a routing identity."
+    },
+    "author/nym": {
+      "type": "string",
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Visible authored pseudonym when the envelope uses a nym-authored path instead of disclosing `sender/participant-id`."
+    },
+    "auth/nym-certificate": {
+      "$ref": "nym-certificate.v1.schema.json",
+      "description": "Attached council-issued nym certificate for the pseudonymous authored path. Its `nym/id` should match `author/nym`."
+    },
+    "auth/nym-signature": {
+      "$ref": "#/$defs/signature",
+      "description": "Nym signature over the envelope body when the question uses the pseudonymous authored path."
     },
     "ttl-sec": {
       "type": "integer",
@@ -190,8 +204,18 @@
       "description": "Maximum wait time acceptable to the asker when procurement is enabled."
     },
     "signature": {
+      "$ref": "#/$defs/signature",
+      "description": "Detached or embedded signature container for the participant-authored publication path."
+    },
+    "policy_annotations": {
       "type": "object",
-      "description": "Detached or embedded signature container for the published envelope.",
+      "additionalProperties": true,
+      "description": "Optional federation- or implementation-local policy annotations that do not change the core lifecycle semantics."
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
       "required": [
         "alg",
         "value"
@@ -207,14 +231,38 @@
         }
       },
       "additionalProperties": true
-    },
-    "policy_annotations": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "Optional federation- or implementation-local policy annotations that do not change the core lifecycle semantics."
     }
   },
   "allOf": [
+    {
+      "oneOf": [
+        {
+          "required": [
+            "sender/participant-id",
+            "signature"
+          ],
+          "not": {
+            "anyOf": [
+              { "required": ["author/nym"] },
+              { "required": ["auth/nym-certificate"] },
+              { "required": ["auth/nym-signature"] }
+            ]
+          }
+        },
+        {
+          "required": [
+            "author/nym",
+            "auth/nym-certificate",
+            "auth/nym-signature"
+          ],
+          "not": {
+            "required": [
+              "sender/participant-id"
+            ]
+          }
+        }
+      ]
+    },
     {
       "if": {
         "properties": {

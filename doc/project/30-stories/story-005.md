@@ -86,15 +86,19 @@ v1 is simpler:
     author identifier.
 13. Whisper packages a network-facing `whisper-signal` artifact that may include:
     - infrastructure `sender/node-id`,
-    - authored `sender/participant-id`,
     - sanitized rumor text,
     - rumor nym,
+    - attached `nym-certificate`,
+    - `nym` signature over the artifact body,
     - topic or issue class,
     - context facets,
     - confidence,
     - disclosure scope,
     - routing intent,
     - and forwarding limits such as hop TTL.
+    The backing `participant-id` remains local to the issuing or hosting side and
+    is not required on the wire for peer-side validation of the pseudonymous
+    artifact.
     If the draft came from `Orbiplex Monus`, the source class should say so
     explicitly instead of collapsing it into a generic local-derived category.
     If Sensorium materially informed the Monus draft, the artifact should preserve
@@ -118,8 +122,9 @@ v1 is simpler:
     result plus routing intent to the Node.
 18. The Node validates the final outgoing artifact against the relevant data contract
     and moves it to the outbound communication queue.
-    The authored participation role remains explicit in the artifact instead of
-    collapsing the publication into a purely node-scoped signal.
+    The authored pseudonymous role remains explicit through the nym certificate and
+    nym signature instead of collapsing publication into either a purely node-scoped
+    signal or a participant-disclosing artifact.
 19. One or more receiving nodes obtain the `whisper-signal`. Each receiving node
     evaluates it locally against its own operator or Pod context.
 20. A receiving node may then:

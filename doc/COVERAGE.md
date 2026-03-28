@@ -19,13 +19,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | Step | Markdown Files | With `Based on:` |
 |---|---:|---:|
 | `10-challenges` (Challenges) | `4` | `2` |
-| `20-memos` (Memos) | `21` | `0` |
+| `20-memos` (Memos) | `22` | `0` |
 | `30-stories` (Stories) | `7` | `0` |
 | `40-proposals` (Proposals) | `17` | `15` |
 | `50-requirements` (Requirements) | `8` | `6` |
 | `60-solutions` (Solutions) | `10` | `6` |
 
-- Total project markdown files: `69`
+- Total project markdown files: `70`
 - Proposals referencing source material: `15` / `17`
 - Requirements referencing source material: `6` / `8`
 
@@ -57,7 +57,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | `22` | `21` | `yes` | `yes` | `1` | `1` |
 | [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
 | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md) | `19` | `10` | `yes` | `yes` | `1` | `4` |
-| [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) | `27` | `27` | `yes` | `yes` | `1` | `1` |
+| [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) | `30` | `30` | `yes` | `yes` | `2` | `2` |
 | [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
@@ -69,7 +69,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md) | `17` | `12` | `yes` | `yes` | `1` | `2` |
 | [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) | `16` | `7` | `yes` | `yes` | `1` | `1` |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
-| [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) | `22` | `22` | `yes` | `yes` | `3` | `1` |
+| [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) | `23` | `23` | `yes` | `yes` | `3` | `2` |
 | [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `1` |
 
 ## Schema Project Lineage
@@ -100,7 +100,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | [`requirements-001.md`](project/50-requirements/requirements-001.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) | [`requirements-001.md`](project/50-requirements/requirements-001.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md) |  |  |
-| [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) |  | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
+| [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) |  | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
@@ -112,7 +112,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md) |  |  |
 | [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) |  |  |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) |  | [`story-005.md`](project/30-stories/story-005.md) |
-| [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) |  | [`story-005.md`](project/30-stories/story-005.md) |
+| [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-005.md`](project/30-stories/story-005.md) |
 | [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) |  | [`story-005.md`](project/30-stories/story-005.md) |
 
 ## Schema Traceability
@@ -124,6 +124,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/normative/50-constitutional-ops/pl/SWARM-ECONOMY-SUFFICIENCY.pl.md`](normative/50-constitutional-ops/pl/SWARM-ECONOMY-SUFFICIENCY.pl.md) | [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) |
 | [`doc/normative/50-constitutional-ops/pl/UBC-LIMIT-PROFILES.pl.md`](normative/50-constitutional-ops/pl/UBC-LIMIT-PROFILES.pl.md) | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md), [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md) |
 | [`doc/normative/50-constitutional-ops/pl/UNIVERSAL-BASIC-COMPUTE.pl.md`](normative/50-constitutional-ops/pl/UNIVERSAL-BASIC-COMPUTE.pl.md) | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md), [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md), [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) |
+| [`doc/project/20-memos/nym-authored-payload-verification.md`](project/20-memos/nym-authored-payload-verification.md) | [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) |
 | [`doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md`](project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md) | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md), [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md), [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md), [`nym-renew-request.v1.schema.json`](schemas-gen/schemas/nym-renew-request.v1.md), [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md) |
 | [`doc/project/20-memos/orbiplex-anon.md`](project/20-memos/orbiplex-anon.md) | [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) |
 | [`doc/project/20-memos/orbiplex-whisper.md`](project/20-memos/orbiplex-whisper.md) | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md), [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md), [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md), [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) |
@@ -140,7 +141,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md`](project/40-proposals/012-learning-outcomes-and-archival-contracts.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md), [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md), [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) |
 | [`doc/project/40-proposals/013-whisper-social-signal-exchange.md`](project/40-proposals/013-whisper-social-signal-exchange.md) | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md), [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md), [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md), [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) |
 | [`doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`](project/40-proposals/014-node-transport-and-discovery-mvp.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
-| [`doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md`](project/40-proposals/015-nym-certificates-and-renewal-baseline.md) | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md), [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md), [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md), [`nym-renew-request.v1.schema.json`](schemas-gen/schemas/nym-renew-request.v1.md), [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md) |
+| [`doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md`](project/40-proposals/015-nym-certificates-and-renewal-baseline.md) | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md), [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md), [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md), [`nym-renew-request.v1.schema.json`](schemas-gen/schemas/nym-renew-request.v1.md), [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md), [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md), [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) |
 | [`doc/project/50-requirements/requirements-001.md`](project/50-requirements/requirements-001.md) | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) |
 | [`doc/project/50-requirements/requirements-002.md`](project/50-requirements/requirements-002.md) | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) |
 | [`doc/project/50-requirements/requirements-003.md`](project/50-requirements/requirements-003.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md), [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md), [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) |
@@ -150,5 +151,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `38`
 - Generated schema docs: `38`
-- Positive examples: `46`
-- Negative examples: `40`
+- Positive examples: `47`
+- Negative examples: `42`

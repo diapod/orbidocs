@@ -1,0 +1,36 @@
+{
+  "schema/v": 1,
+  "question/id": "question:bad-nym-mix-01",
+  "created-at": "2026-03-28T15:58:00Z",
+  "sender/node-id": "node:pl-wro-full-7f3c",
+  "sender/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "author/nym": "nym:did:key:z6Mkr8Yv5Qp2Tb7Nc4Wd9Hs3Uf6Va2Re8Xm5Pk7Qa1Bc",
+  "auth/nym-certificate": {
+    "schema/v": 1,
+    "nym/id": "nym:did:key:z6Mkr8Yv5Qp2Tb7Nc4Wd9Hs3Uf6Va2Re8Xm5Pk7Qa1Bc",
+    "epoch": 1,
+    "issued-at": "2026-03-28T15:40:00Z",
+    "expires-at": "2026-04-04T15:40:00Z",
+    "leniency-until": "2026-04-18T15:40:00Z",
+    "issuer/id": "council:did:key:z6MkqCauNc1Lk9Va4Tb8Yw2Pr7Hs5Qe3Xm2Rf6Nd1Aa",
+    "signature": {
+      "alg": "ed25519",
+      "value": "sig_council_question_nym_001"
+    }
+  },
+  "auth/nym-signature": {
+    "alg": "ed25519",
+    "value": "sig_nym_question_001"
+  },
+  "ttl-sec": 1800,
+  "question/text": "This should fail because both identity paths are present.",
+  "question/tags": ["privacy"],
+  "delivery/scope": "private-to-swarm",
+  "delivery/response-channel-id": "question:bad-nym-mix-01",
+  "request/exposure-mode": "private-to-swarm",
+  "reward/mode": "none",
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_participant_question_mixed"
+  }
+}

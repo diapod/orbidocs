@@ -2,6 +2,7 @@
 
 Based on:
 - `doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md`
+- `doc/project/20-memos/nym-authored-payload-verification.md`
 - `doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`
 - `doc/project/40-proposals/007-pod-identity-and-tenancy-model.md`
 
@@ -224,6 +225,23 @@ The stable invariant should remain:
 - transport does not route on `nym`,
 - and upgrading anonymity must not contaminate the networking boundary.
 
+## First Concrete Embedding
+
+The first concrete nym-authored artifact should be:
+
+- `whisper-signal.v1`
+
+In that first artifact:
+
+- routing and infrastructure attribution remain node-scoped,
+- authored pseudonymous participation is expressed through `rumor/nym`,
+- the artifact carries an attached `nym-certificate`,
+- and the artifact body is signed by the `nym` key itself.
+
+The backing `participant-id` stays on the local or issuing side of the trust
+boundary and is not required on the wire for the receiving peer to validate the
+rumor artifact.
+
 ## Candidate Embedding Pattern
 
 Application artifacts that want `nym`-level authorship may later carry:
@@ -233,9 +251,13 @@ Application artifacts that want `nym`-level authorship may later carry:
 - attached or referenced `nym-certificate`,
 - and a `nym` signature over the payload.
 
-This proposal does not yet freeze a generic shared envelope for that embedding,
-because different application families may want different provenance and replay
-semantics.
+The first frozen path should use artifact-local embedding in
+`whisper-signal.v1`, not a generic shared nym envelope. Different application
+families may still want different provenance and replay semantics later.
+
+Reusable receiver-side verification guidance now lives in:
+
+- `doc/project/20-memos/nym-authored-payload-verification.md`
 
 ## Open Questions
 
@@ -243,5 +265,5 @@ semantics.
    continuation and private reset become two separate contract families?
 2. Should Phase 1 certificates always carry `leniency-until`, or should that
    field become optional when no grace semantics are granted?
-3. When the first nym-authored application artifact is frozen, do we want a
-   reusable envelope or artifact-local embedding?
+3. Which later application families, besides Whisper, should inherit the same
+   nym-certificate embedding pattern?

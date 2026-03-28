@@ -135,11 +135,12 @@ Monus-plus-Sensorium-derived signals.
 For role semantics, the outgoing `whisper-signal` should preserve both:
 
 - `sender/node-id` for the infrastructure actor carrying the publication, and
-- `sender/participant-id` for the participation role that approved or stands behind
-  the outgoing signal.
+- a pseudonymous authored role through `rumor/nym`, attached `nym-certificate`,
+  and `nym` signature over the outgoing artifact body.
 
-This keeps authored participation explicit without forcing participant identity
-material into the transport handshake itself.
+When Whisper uses the nym path, the backing `participant-id` should remain on the
+local or issuing side of the boundary rather than being disclosed in the
+wire-level `whisper-signal` artifact itself.
 
 ### 3. Bounded anti-Sybil controls in v1
 
@@ -231,6 +232,12 @@ The likely first contract family is:
 2. `whisper-interest.v1`
 3. `whisper-threshold-reached.v1`
 4. `association-room-proposal.v1`
+
+`whisper-signal.v1` should be the first concrete artifact that embeds:
+
+- `rumor/nym`,
+- attached `nym-certificate`,
+- and a `nym` signature over the artifact body.
 
 Later additions may include:
 

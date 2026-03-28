@@ -1,0 +1,23 @@
+{
+  "schema/v": 1,
+  "signal/id": "wsp-sig-invalid-002",
+  "created-at": "2026-03-23T18:10:00Z",
+  "sender/node-id": "node://wroclaw-01",
+  "rumor/nym": "nym:did:key:z6Mkr8Yv5Qp2Tb7Nc4Wd9Hs3Uf6Va2Re8Xm5Pk7Qa1Bc",
+  "auth/nym-signature": {
+    "alg": "ed25519",
+    "value": "sig_nym_whisper_001"
+  },
+  "epistemic/class": "rumor",
+  "signal/text": "Rumor text",
+  "topic/class": "workplace-retaliation-pattern",
+  "context/facets": [
+    "global-company"
+  ],
+  "confidence": 0.63,
+  "disclosure/scope": "federation-scoped",
+  "risk/grade": "high",
+  "routing/profile": "relayed",
+  "routing/failure-mode": "soft-fail",
+  "forwarding/max-hops": 1
+}
