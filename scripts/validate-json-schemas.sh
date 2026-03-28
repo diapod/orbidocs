@@ -74,6 +74,9 @@ schema_for_file() {
     *.participant-bind.json)
       echo "$SCHEMAS_DIR/participant-bind.v1.schema.json"
       ;;
+    *.coi-declaration.json)
+      echo "$SCHEMAS_DIR/coi-declaration.v1.schema.json"
+      ;;
     *.client-instance-attachment.json)
       echo "$SCHEMAS_DIR/client-instance-attachment.v1.schema.json"
       ;;

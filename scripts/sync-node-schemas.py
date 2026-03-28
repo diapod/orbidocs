@@ -17,6 +17,11 @@ SCHEMA_WHITELIST = (
     "peer-handshake.v1.schema.json",
     "capability-advertisement.v1.schema.json",
     "signal-marker.v1.schema.json",
+    "coi-declaration.v1.schema.json",
+    "participant-bind.v1.schema.json",
+    "client-instance-attachment.v1.schema.json",
+    "client-instance-detachment.v1.schema.json",
+    "client-instance-recovery.v1.schema.json",
 )
 
 EXAMPLE_WHITELIST = (
@@ -27,6 +32,11 @@ EXAMPLE_WHITELIST = (
     "bootstrap.ack.peer-handshake.json",
     "base-node.capability-advertisement.json",
     "privacy-redacted.signal-marker.json",
+    "no-conflict.coi-declaration.json",
+    "bound-over-live-session.participant-bind.json",
+    "operator-remote-screen.client-instance-attachment.json",
+    "user-requested.client-instance-detachment.json",
+    "replace-device.client-instance-recovery.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
@@ -36,6 +46,11 @@ INVALID_EXAMPLE_WHITELIST = (
     "ack-without-reference.peer-handshake.json",
     "no-core-caps.capability-advertisement.json",
     "raw-with-operations.signal-marker.json",
+    "conflict-without-category.coi-declaration.json",
+    "missing-via-node.participant-bind.json",
+    "missing-participant-bind.client-instance-attachment.json",
+    "missing-participant-bind.client-instance-detachment.json",
+    "missing-detachment-ref.client-instance-recovery.json",
 )
 
 

@@ -57,6 +57,21 @@ W rolach o wysokiej stawce kwalifikowalność wymaga łącznie progu reputacyjne
 oraz odpowiedniego poziomu `IAL` zgodnie z `ROOT-IDENTITY-AND-NYMS.pl.md`.
 `IAL` działa tu jako bramka kwalifikacyjna, a nie jako mnożnik wyniku.
 
+### 2.1. Podmiot domeny reputacyjnej
+
+Każda domena MUSI mieć jawnie określony podmiot odpowiedzialności:
+
+| Domena | Podmiot domyślny |
+| :--- | :--- |
+| `contract` | `participant:did:key` |
+| `procedural` | `participant:did:key` |
+| `community` | `participant:did:key` |
+| `incident` | `participant:did:key` dla incydentów behawioralnych, `node:did:key` dla incydentów infrastrukturalnych |
+
+W MVP, gdy `node-id` i `participant-id` są kluczowo tożsame, rozróżnienie to
+pozostaje semantyczne, ale kontrakt MUSI je zachować. Post-MVP hosted
+participants nie mogą automatycznie dziedziczyć reputacji operatora ani odwrotnie.
+
 ---
 
 ## 3. Źródła sygnałów i ich typy
@@ -70,7 +85,9 @@ fakt, nie opinia. Wynika to z konstytucyjnej preferencji faktów nad narracją
 ```yaml
 reputation_signal:
   signal_id: "[unikalny identyfikator]"
-  node_id: "[identyfikator węzła]"
+  subject_kind: "participant" # participant | node
+  subject_id: "[identyfikator podmiotu reputacyjnego]"
+  observed_via_node_id: "[node-id, jeśli sygnał był obserwowany przez infrastrukturę]"
   federation_id: "[federacja]"
   domain: "contract"         # contract | procedural | incident | community
   signal_type: "[konkretny typ]"
@@ -365,7 +382,8 @@ proporcjonalnie.
 
 ```yaml
 reputation_record:
-  node_id: "[identyfikator węzła]"
+  subject_kind: "participant" # participant | node
+  subject_id: "[identyfikator podmiotu reputacyjnego]"
   federation_id: "[federacja]"
   snapshot_at: "[ISO 8601]"
   status: "active"             # active | inactive | bootstrapping | suspended
@@ -432,6 +450,7 @@ z `REPUTATION-VALIDATION-PROTOCOL`:
 | Weaponizacja asymetrii przeciw rolom zaufania publicznego | Asymetria dotyczy tylko sygnałów negatywnych; procedura odwoławcza bez zmian |
 | Nieprzejrzystość wyniku eroduje zaufanie | Każdy wynik jest dekompozowalny: węzeł może zażądać pełnej historii sygnałów i rozkładu wag |
 | "Zakupy reputacyjne" między federacjami | Przenośny pakiet dowodów, nie przenośny wynik; federacja przyjmująca przelicza lokalnie |
+| Zlanie reputacji operatora i hosted participanta | Jawny `subject_kind` oraz osobne rekordy dla `node:did:key` i `participant:did:key` |
 
 ---
 
@@ -496,9 +515,12 @@ z `REPUTATION-VALIDATION-PROTOCOL`:
   kwalifikowalności do selekcji panelu ad-hoc.
 - **`ROOT-IDENTITY-AND-NYMS.pl.md`**: Reputacja proceduralna jest liczona osobno,
   ale dla ról wysokiej stawki działa wspólnie z poziomem `IAL`; wiele nymów
-  jednego źródła nie może mnożyć wpływu bez dodatkowej procedury.
+  jednego źródła nie może mnożyć wpływu bez dodatkowej procedury. Domeny
+  `contract`, `community` i `procedural` pozostają przypisane do
+  `participant:did:key`, a nie do nymu.
 - **`PANEL-SELECTION-PROTOCOL.pl.md`**: Używa `panel_procedural_threshold`
-  z niniejszej specyfikacji.
+  z niniejszej specyfikacji i interpretuje go na `participant:did:key`, nie na
+  warstwie nymów.
 - **`EXCEPTION-POLICY.pl.md`**: Sygnały związane z wyjątkami (zarówno tworzenie,
   jak i prawidłowa obsługa wyjątków) zasilają domeny `procedural` i `incident`.
 - **`FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`**: Definicja statusu `active` jest
@@ -506,6 +528,7 @@ z `REPUTATION-VALIDATION-PROTOCOL`:
 - **`AUTONOMY-LEVELS.pl.md`**: Wyniki przeglądu post-kryzysu A3 zasilają domeny
   `procedural` i `incident`.
 - **`ABUSE-DISCLOSURE-PROTOCOL.pl.md`**: Wyniki ujawnienia zasilają domenę
-  `incident`.
+  `incident`, przy czym incydenty infrastrukturalne obciążają `node:did:key`, a
+  behawioralne `participant:did:key`.
 - **`NORMATIVE-HIERARCHY.pl.md`**: Niniejszy dokument jest ustawą wykonawczą
   Poziomu 3.

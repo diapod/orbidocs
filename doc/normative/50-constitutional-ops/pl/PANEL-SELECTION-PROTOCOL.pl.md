@@ -56,6 +56,16 @@ Niniejszy dokument definiuje:
 5. **Proporcjonalne ujawnianie**. Ekspozycja tożsamości rośnie wraz z potrzebą:
    pełna dla audytu, pseudonimowa dla stron, niejawna dla opinii publicznej.
 
+6. **Jedna rodzina kryptograficzna**. Mechanizmy commit-reveal, VRF oraz podpisy
+   artefaktów panelowych POWINNY używać tego samego stosu co reszta protokołu:
+   Ed25519 lub bezpośrednio zgodna rodzina Edwards25519, separatory domen
+   `"<type>-v1\\x00" || deterministic_cbor(payload)` oraz identyfikatory zgodne z
+   `did:key`.
+
+7. **Panelista służy jako `participant:did:key`, nie jako nym**. Prywatność
+   panelowa jest realizowana przez proceduralny pseudonim per-sprawa, a nie przez
+   łańcuch nymów. Nym layer nie uczestniczy w pipeline governance.
+
 ---
 
 ## 3. Kryteria kwalifikowalności
@@ -78,6 +88,12 @@ Reputacja proceduralna jest więc warunkiem koniecznym, ale niewystarczającym.
 Węzeł o wysokiej reputacji, lecz zbyt niskim poziomie `IAL`, nie kwalifikuje się
 do panelu wysokiej stawki.
 
+Operacyjnie kwalifikowalna pula może być indeksowana po `node-id`, bo to węzeł
+utrzymuje aktywność, członkostwo federacyjne i zdolność komunikacyjną. Samą
+służbę panelową pełni jednak `participant:did:key` powiązany z tym węzłem.
+Tożsamość infrastrukturalna i tożsamość proceduralna MUSZĄ pozostać rozdzielone
+semantycznie, nawet jeśli w MVP oba identyfikatory są oparte o ten sam klucz.
+
 ### 3.1. Procedura kontroli COI
 
 1. Przed losowaniem każdy węzeł z kwalifikowalnej puli otrzymuje **zaślepione
@@ -87,9 +103,10 @@ do panelu wysokiej stawki.
 2. Każdy węzeł MUSI zadeklarować w ciągu `coi_declaration_window` (domyślnie: 24
    godziny; 4 godziny dla spraw `critical`):
 
-   - `brak konfliktu` (z poświadczeniem kryptograficznym), albo
+   - `brak konfliktu` (w postaci podpisanego `coi-declaration.v1`), albo
 
-   - `konflikt istnieje` (z kategorią, ale bez szczegółów), albo
+   - `konflikt istnieje` (w postaci podpisanego `coi-declaration.v1` z kategorią,
+     ale bez szczegółów), albo
 
    - brak odpowiedzi (traktowany jako niezadeklarowany COI -- węzeł jest
      wykluczony).
@@ -99,6 +116,30 @@ do panelu wysokiej stawki.
    (`governance_inaction`) w `PROCEDURAL-REPUTATION-SPEC`.
 
 4. Odkrycie COI po selekcji wyzwala wyłączenie danego członka panelu (sekcja 10).
+
+### 3.1.a. Artefakt deklaracji COI
+
+Deklaracja COI MUSI być podpisywanym artefaktem protokołowym:
+
+- `doc/schemas/coi-declaration.v1.schema.json`
+
+Jej signed surface powinna używać tej samej rodziny co reszta protokołu:
+
+```text
+sign_input = "orbiplex-coi-declaration-v1\x00" || deterministic_cbor(payload_without_signature)
+```
+
+Minimalny payload powinien wiązać:
+
+- `case/hash`,
+- `participant/id`,
+- `declaration`,
+- `ts`,
+- `nonce`.
+
+Brak odpowiedzi oznacza brak artefaktu i pozostaje traktowany jako negatywny
+sygnał `governance_inaction`. Fałszywa deklaracja `no-conflict`, wykazana
+post-hoc, generuje sygnał `coi_undeclared` o wyższej wadze niż zwykłe milczenie.
 
 ### 3.2. Bramka pewności tożsamości
 
@@ -132,13 +173,26 @@ Losowanie wykorzystuje weryfikowalną funkcję losową (ang. Verifiable Random
 Function, VRF) wraz ze schematem commit-reveal, aby ograniczyć możliwość
 manipulacji ziarnem losowania.
 
+Stos kryptograficzny dla tej warstwy MUSI pozostać zgodny z bazowym stosem
+protokolarnym Orbipleksa. Dla VRF oznacza to zawężenie do:
+
+- `ECVRF-EDWARDS25519-SHA512-ELL2` (RFC 9381)
+
+czyli rodziny Edwards25519 zgodnej z Ed25519 używanym w reszcie stosu.
+
 ### 4.1. Faza commit
 
 1. Po ustaleniu kwalifikowalnej puli wszystkie kwalifikowalne węzły są
    zapraszane do udziału w generowaniu ziarna.
 
 2. Każdy uczestniczący węzeł generuje losowy nonce i wysyła zobowiązanie:
-   `H(nonce || node_id)`.
+
+```text
+commit = H("panel-commit-v1\x00" || deterministic_cbor({
+  "nonce":   <nonce>,
+  "node/id": <node-id>
+}))
+```
 
 3. Okno commit: `commit_window` (domyślnie: 24 godziny; 4 godziny dla spraw
    `critical`).
@@ -167,9 +221,15 @@ manipulacji ziarnem losowania.
 Ziarno losowania wylicza się następująco:
 
 ```text
-seed = VRF_prove(
+seed_input = "panel-seed-v1\x00" || deterministic_cbor({
+  "case/hash":       <challenge_hash>,
+  "heartbeat/hash":  <heartbeat_hash>,
+  "reveals":         <revealed_nonces_sorted_lexicographically>
+})
+
+seed = ECVRF_prove(
   sk_draw_coordinator,
-  H(challenge_hash || heartbeat_hash || sort(revealed_nonces))
+  seed_input
 )
 ```
 
@@ -350,6 +410,10 @@ Zawartość:
 - podstawa wykluczenia COI (kategoria, bez szczegółu),
 - przedział wyniku reputacji domenowej (np. `powyżej progu`), nie dokładny wynik.
 
+Ten proceduralny pseudonim NIE jest nymem w sensie warstwy pseudonimizacji
+komunikacyjnej. Jest lokalnym aliasem proceduralnym generowanym per-sprawa dla
+uczestnika służącego w panelu.
+
 ### 9.3. Poziom publiczny (niejawny)
 
 Dostępny dla: każdego obserwatora.
@@ -439,13 +503,13 @@ stosuje się identycznie.
 
 | Tryb awarii | Środek zaradczy |
 | :--- | :--- |
-| Manipulacja entropią | Commit-reveal z dowodem VRF; brak reveal jest karany; ziarno wymaga wkładu kolektywnego |
+| Manipulacja entropią | Commit-reveal z dowodem `ECVRF-EDWARDS25519-SHA512-ELL2`; brak reveal jest karany; ziarno wymaga wkładu kolektywnego |
 | Ukryty COI | Odkrycie COI po selekcji uruchamia wymianę + ciężki negatywny sygnał `procedural`; Art. III.9 gwarantuje, że prywatność nie osłania nadużycia |
 | Nadużywanie veta dla opóźnień | Maksymalnie jedno veto na stronę; natychmiastowa podmiana z rezerwowych |
 | Przejęcie małej federacji | Awaryjna pula międzyfederacyjna (poziom 2-3); lokalny obserwator dla kontekstu bez prawa głosu |
 | Zamilknięcie panelisty | Limit bezczynności z automatyczną podmianą; wydłużenie harmonogramu dla zapoznania się zastępcy |
 | Zmowa panelistów | Sygnały monitoringu; dowód zmowy wyzwala wymianę i sankcję `procedural` |
-| Manipulacja koordynatorem losowania | Dowód VRF jest publicznie weryfikowalny; koordynator jest rolą rotacyjną |
+| Manipulacja koordynatorem losowania | Dowód VRF jest publicznie weryfikowalny; koordynator jest rolą rotacyjną; wejście do VRF używa jawnych separatorów domen i deterministycznego CBOR |
 | Globalnie zbyt mało kwalifikowalnych węzłów | Eskalacja do poziomu 4; rejestracja jako sygnał luki governance |
 
 ---
@@ -479,24 +543,20 @@ stosuje się identycznie.
 
 ## 14. Otwarte pytania
 
-1. **Implementacja VRF**: Jaki schemat VRF wybrać? Kandydatem jest ECVRF
-   (RFC 9381), ale wybór zależy od stosu kryptograficznego. Na razie to parametr
-   projektowy, nieustalony w specyfikacji.
-
-2. **Wybór koordynatora losowania**: Koordynator jest opisany jako rola rotacyjna.
+1. **Wybór koordynatora losowania**: Koordynator jest opisany jako rola rotacyjna.
    Mechanizm rotacji (round-robin, reputacyjny, losowy) nie został jeszcze
    zdefiniowany.
 
-3. **Zaufanie międzyfederacyjne przy służbie panelowej**: Gdy węzeł służy w panelu
+2. **Zaufanie międzyfederacyjne przy służbie panelowej**: Gdy węzeł służy w panelu
    innej federacji, jakie obowiązują założenia zaufania? Przenośny pakiet
    dowodów (`PROCEDURAL-REPUTATION-SPEC` sekcja 8) dostarcza materiału, ale model
    zaufania dla adjudykacji międzyfederacyjnej wymaga dalszej specyfikacji.
 
-4. **Protokół deliberacji**: Ten dokument określa skład, ale nie format
+3. **Protokół deliberacji**: Ten dokument określa skład, ale nie format
    deliberacji (synchroniczny / asynchroniczny, debata ustrukturyzowana, zasady
    składania dowodów). Może być potrzebny osobny `PANEL-DELIBERATION-PROTOCOL`.
 
-5. **Wynagrodzenie za służbę panelową**: Czy paneliści powinni otrzymywać
+4. **Wynagrodzenie za służbę panelową**: Czy paneliści powinni otrzymywać
    wynagrodzenie (token, bonus reputacyjny albo inne)? Obecny projekt:
    zakończenie służby generuje pozytywny sygnał `procedural`
    (`panel_completed`), który jest jedyną zachętą.
@@ -520,10 +580,12 @@ stosuje się identycznie.
   budowy paneli ad-hoc.
 - **`PROCEDURAL-REPUTATION-SPEC.pl.md`**: Dostarcza `procedural.score` i
   `panel_procedural_threshold` używane do kwalifikowalności. Służba panelowa
-  generuje sygnały domeny `procedural`.
+  generuje sygnały domeny `procedural`, przypisywane do `participant:did:key`,
+  nie do nymu.
 - **`ROOT-IDENTITY-AND-NYMS.pl.md`**: Dostarcza poziomy `IAL` i regułę, że
   wyższy wpływ wymaga silniejszego zakotwiczenia tożsamości; panel wysokiej stawki
-  nie może opierać się wyłącznie na reputacji.
+  nie może opierać się wyłącznie na reputacji, a nym layer nie wchodzi do
+  pipeline governance.
 - **`EXCEPTION-POLICY.pl.md`**: Środki tymczasowe (sekcja 7, harmonogram
   `critical`) są wyjątkami konstytucyjnymi typu `injunction`.
 - **`ABUSE-DISCLOSURE-PROTOCOL.pl.md`**: Sprawy rozstrzygane pod Art. X używają

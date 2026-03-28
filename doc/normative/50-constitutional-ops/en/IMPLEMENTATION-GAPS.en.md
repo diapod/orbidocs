@@ -190,16 +190,14 @@ three implementing acts that were previously missing.
 
 ### 1. `EMERGENCY-ACTIVATION-CRITERIA.en.md`
 
-**Why it is missing:** the autonomy gradient defines A3, but does not define the
-catalog of triggers, minimum confidence thresholds, or rules for allowing
-automatic activation.
+Closed on `2026-03-28` by `DIA-EMRG-ACT-001`, which defines:
 
-**What it must define:**
-
-- classes of triggers for A3,
-- minimum thresholds of signal credibility,
-- relation sensorium -> trigger -> operator,
-- default TTLs and mandatory review.
+- trigger classes `TC1-TC5`,
+- credibility thresholds `C0-C4`,
+- the sensorium -> evaluation -> activation pipeline,
+- default TTLs, extension rules, and mandatory review,
+- and a TC2 subclass for `council:did:key` compromise with trapdoor freeze,
+  emergency key rotation, and ad-hoc audit panel requirements.
 
 ### 2. `SENSITIVE-DATA-REDUCTION.en.md`
 

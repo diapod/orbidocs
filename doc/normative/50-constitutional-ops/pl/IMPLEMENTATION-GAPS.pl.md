@@ -190,15 +190,16 @@ ma już trzy brakujące wcześniej akty wykonawcze.
 
 ### 1. `EMERGENCY-ACTIVATION-CRITERIA.pl.md`
 
-**Dlaczego brakuje:** gradient autonomii definiuje A3, ale nie określa katalogu
-triggerów, minimalnych progów pewności ani zasad dopuszczania automatycznej aktywacji.
+Domknięto dnia `2026-03-28` przez akt `DIA-EMRG-ACT-001`, obecnie dodany jako
+`EMERGENCY-ACTIVATION-CRITERIA.pl.md` oraz `EMERGENCY-ACTIVATION-CRITERIA.en.md`.
+Dokument ten definiuje:
 
-**Co musi zdefiniować:**
-
-- klasy triggerów dla A3,
-- minimalne progi wiarygodności sygnału,
-- relację sensorium -> trigger -> operator,
-- domyślne TTL i obowiązkową rewizję.
+- klasy triggerów `TC1-TC5`,
+- progi wiarygodności `C0-C4`,
+- relację `sensorium -> ewaluacja -> aktywacja`,
+- domyślne TTL, zasady przedłużania i obowiązkową rewizję,
+- oraz podklasę `TC2` dla kompromitacji `council:did:key`, obejmującą
+  zamrożenie trapdooru, awaryjną rotację klucza oraz panel audytowy ad-hoc.
 
 ### 2. `SENSITIVE-DATA-REDUCTION.pl.md`
 

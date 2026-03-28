@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "case/hash": "case-blind:01JQCOICASE001",
+  "participant/id": "participant:did:key:z6MkrLQkJr2YQ6L8eYw6Qk8f9P8GmJm7a3x6P1v1Q2w3E4r5",
+  "declaration": "no-conflict",
+  "ts": "2026-03-28T21:10:00Z",
+  "nonce": "nonce:01JQCOI001",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:coi-declaration-signature"
+  }
+}

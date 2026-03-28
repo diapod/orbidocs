@@ -43,7 +43,9 @@ Dokument konkretyzuje:
    - odwet, zastraszanie lub próbę deanonimizacji,
    - wzorzec przemocy, korupcji albo sabotażu,
    - trwanie skutków ciężkiego nadużycia,
-   - dalsze czerpanie korzyści z wcześniejszego nadużycia.
+   - dalsze czerpanie korzyści z wcześniejszego nadużycia,
+   - albo kompromitację zaufanego toru odpieczętowania lub emisji nymów, jeżeli
+     zagraża ona ochronie ludzi, integralności dowodów lub prawu do wyjścia.
 
 3. Po spełnieniu warunku z pkt 2 system MOŻE badać pełną genezę sprawy i cały łańcuch
    działań, także historycznych, o ile pozostaje to związane ze sprawą.
@@ -118,6 +120,14 @@ Dokument konkretyzuje:
 5. Zejście `nym -> node-id` dla sankcji infrastrukturalnych jest dopuszczalne przy
    progu `U1` określonym w `IDENTITY-UNSEALING-BOARD.pl.md` i nie stanowi jeszcze
    odpieczętowania `root-identity`.
+
+6. Jeżeli sprawa dotyczy kompromitacji zaufanego anchoru council dla nymów,
+   federacja POWINNA traktować ją jako incydent infrastrukturalny wysokiej stawki:
+
+   - możliwe jest natychmiastowe zamrożenie trapdooru lub ścieżki odnowień,
+   - rotacja klucza council staje się środkiem ochronnym, nie zwykłą operacją,
+   - a audyt powinien zostać przekazany do panelu ad-hoc z zachowaniem zasady
+     minimalnego ujawniania.
 
 ---
 

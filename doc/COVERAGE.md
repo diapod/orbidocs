@@ -10,9 +10,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | `20-vision` (Vision) | `2` | `1` | `1` | `0` |
 | `30-core-values` (Core Values) | `2` | `1` | `1` | `0` |
 | `40-constitution` (Constitution) | `2` | `1` | `1` | `0` |
-| `50-constitutional-ops` (Constitutional Ops) | `48` | `24` | `24` | `0` |
+| `50-constitutional-ops` (Constitutional Ops) | `50` | `25` | `25` | `0` |
 
-- Total normative markdown files: `61`
+- Total normative markdown files: `63`
 
 ## Project Workflow
 
@@ -42,6 +42,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
+| [`coi-declaration.v1.schema.json`](schemas-gen/schemas/coi-declaration.v1.md) | `8` | `8` | `yes` | `yes` | `1` | `1` |
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`eval-report.v1.schema.json`](schemas-gen/schemas/eval-report.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
@@ -89,6 +90,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md) |  |  |
 | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |  |  |
+| [`coi-declaration.v1.schema.json`](schemas-gen/schemas/coi-declaration.v1.md) |  |  |
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`eval-report.v1.schema.json`](schemas-gen/schemas/eval-report.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
@@ -128,6 +130,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | Governing Doc | Schemas |
 |---|---|
 | [`doc/normative/40-constitution/pl/CONSTITUTION.pl.md`](normative/40-constitution/pl/CONSTITUTION.pl.md) | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md), [`signal-marker.v1.schema.json`](schemas-gen/schemas/signal-marker.v1.md), [`signal-transform-event.v1.schema.json`](schemas-gen/schemas/signal-transform-event.v1.md), [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md), [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) |
+| [`doc/normative/50-constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md`](normative/50-constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md) | [`coi-declaration.v1.schema.json`](schemas-gen/schemas/coi-declaration.v1.md) |
+| [`doc/normative/50-constitutional-ops/pl/PROCEDURAL-REPUTATION-SPEC.pl.md`](normative/50-constitutional-ops/pl/PROCEDURAL-REPUTATION-SPEC.pl.md) | [`coi-declaration.v1.schema.json`](schemas-gen/schemas/coi-declaration.v1.md) |
 | [`doc/normative/50-constitutional-ops/pl/RAW-SIGNAL-POLICY.pl.md`](normative/50-constitutional-ops/pl/RAW-SIGNAL-POLICY.pl.md) | [`signal-marker.v1.schema.json`](schemas-gen/schemas/signal-marker.v1.md), [`signal-transform-event.v1.schema.json`](schemas-gen/schemas/signal-transform-event.v1.md) |
 | [`doc/normative/50-constitutional-ops/pl/SWARM-ECONOMY-SUFFICIENCY.pl.md`](normative/50-constitutional-ops/pl/SWARM-ECONOMY-SUFFICIENCY.pl.md) | [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) |
 | [`doc/normative/50-constitutional-ops/pl/UBC-LIMIT-PROFILES.pl.md`](normative/50-constitutional-ops/pl/UBC-LIMIT-PROFILES.pl.md) | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md), [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md) |
@@ -162,7 +166,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/schemas/client-instance-detachment.v1.schema.json`](schemas/client-instance-detachment.v1.schema.json) | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 | [`doc/schemas/participant-bind.v1.schema.json`](schemas/participant-bind.v1.schema.json) | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md), [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md), [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 
-- Canonical schemas: `42`
-- Generated schema docs: `42`
-- Positive examples: `53`
-- Negative examples: `46`
+- Canonical schemas: `43`
+- Generated schema docs: `43`
+- Positive examples: `54`
+- Negative examples: `47`

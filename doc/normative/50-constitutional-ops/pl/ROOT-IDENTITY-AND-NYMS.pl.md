@@ -206,14 +206,19 @@ stawka sprawy - powiązać ten akt emisji z `custodian_ref`, a wyjątkowo także
 anti-Sybil i główna odpowiedzialność pozostają przypisane do `node-id` oraz,
 pośrednio, do wspólnego źródła zakotwiczenia.
 
+Nym layer NIE POWINIEN wchodzić do pipeline governance wysokiej stawki. Służba
+panelowa, deklaracje COI i kwalifikowalność proceduralna mają opierać się na
+stabilnym `participant:did:key` lub równoważnej warstwie odpowiedzialności, a
+nie na łańcuchu nymów o ograniczonej linkowalności.
+
 ### 5.4. Typy nymów
 
 | Typ | Zastosowanie | Własność |
 | :--- | :--- | :--- |
 | `persistent_nym` | dłuższa relacja komunikacyjna lub operacyjna | długowieczny, ale wtórny wobec `node-id` |
 | `federation_nym` | działanie w konkretnej federacji | ograniczony kontekstem federacji |
-| `role_nym` | rola o specjalnym ciężarze (np. panel, wyrocznia) | ograniczony do roli |
-| `case_nym` | sprawa, zgłoszenie, panel ad-hoc | jednorazowy / krótkowieczny |
+| `role_nym` | rola komunikacyjna lub ekspozycyjna niewymagająca proceduralnej ciągłości; nie obejmuje ról panelowych ani governance | ograniczony do roli |
+| `case_nym` | sprawa, zgłoszenie albo akcja komunikacyjna poza pipeline governance; nie obejmuje spraw panelowych ani konstytucyjnych | jednorazowy / krótkowieczny |
 | `transaction_nym` | transakcja, płatność, krótki akt wymiany | efemeryczny |
 
 ### 5.5. Reguły
@@ -231,10 +236,15 @@ pośrednio, do wspólnego źródła zakotwiczenia.
 4. `node-id` używany do ról o podwyższonej stawce MUSI mieć poziom pewności
    odpowiedni dla tej roli (sekcja 7).
 
-5. Nym używany do roli o podwyższonej stawce MUSI być delegowany z `node-id`,
-   który spełnia próg `IAL` odpowiedni dla tej roli.
+5. Nym używany do roli o podwyższonej stawce komunikacyjnej MUSI być delegowany z
+   `node-id`, który spełnia próg `IAL` odpowiedni dla tej roli.
 
-6. Reset nymu nie resetuje automatycznie historii odpowiedzialności, jeśli
+6. Panelista, członek governance albo inna rola proceduralna wysokiej stawki NIE
+   MOŻE opierać swojej służby wyłącznie na nymie. Prywatność proceduralna takich
+   ról ma być realizowana przez proceduralny pseudonim per-sprawa, a nie przez
+   nym chain.
+
+7. Reset nymu nie resetuje automatycznie historii odpowiedzialności, jeśli
    zachodzą przesłanki wspólnego źródła zakotwiczenia lub obejścia sankcji.
 
 ---
@@ -545,14 +555,17 @@ station_delegation:
   minimalne ujawnianie i warunki proceduralnego odpieczętowania.
 - **Konstytucja Art. VII.4-8**: dokument doprecyzowuje, jak poziom pewności
   tożsamości ogranicza dopuszczalny wpływ i role wysokiej stawki.
-- **`PROCEDURAL-REPUTATION-SPEC.pl.md`**: reputacja jest przypisywana głównie do
-  `node-id`, lokalnie także do nymów; anty-Sybil może agregować wpływ do poziomu
-  wspólnego zakotwiczenia.
+- **`PROCEDURAL-REPUTATION-SPEC.pl.md`**: reputacja proceduralna, kontraktowa i
+  wspólnotowa jest przypisywana głównie do `participant:did:key`, reputacja
+  infrastrukturalna do `node:did:key`, a nym nie jest domyślną jednostką wpływu
+  w governance; anty-Sybil może agregować wpływ do poziomu wspólnego
+  zakotwiczenia.
 - **`FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`**: wspólna kontrola federacji jest
   analogiczna do wspólnego źródła zakotwiczenia wielu nymów - oba mechanizmy
   ograniczają mnożenie wpływu przez rozszczepienie formalne.
 - **`PANEL-SELECTION-PROTOCOL.pl.md`**: kwalifikowalność panelowa dla ról o
-  podwyższonej stawce POWINNA opierać się na poziomie `IAL` odpowiednim dla panelu.
+  podwyższonej stawce POWINNA opierać się na poziomie `IAL` odpowiednim dla
+  panelu oraz na `participant:did:key`, nie na nymie.
 - **`ABUSE-DISCLOSURE-PROTOCOL.pl.md`**: procedury ujawnienia i odpieczętowania
   root-identity muszą być zgodne z progami i zasadą minimalnego ujawniania.
 - **`IDENTITY-ATTESTATION-AND-RECOVERY.pl.md`**: dokument określa pierwsze
