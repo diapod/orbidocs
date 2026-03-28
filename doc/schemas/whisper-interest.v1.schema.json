@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:whisper-interest:v1",
   "title": "WhisperInterest v1",
-  "description": "Machine-readable schema for bounded local-interest registration in response to a whisper signal.",
+  "description": "Machine-readable schema for bounded local-interest registration in response to a whisper signal. This artifact remains node-scoped in v1 and does not define participant-authored or nym-authored alternatives.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -45,7 +45,7 @@
     "interested/node-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Node registering local relevance."
+      "description": "Node registering local relevance. Thresholding and local readiness stay node-scoped here rather than being expressed through participant or nym authorship."
     },
     "interest/kind": {
       "type": "string",

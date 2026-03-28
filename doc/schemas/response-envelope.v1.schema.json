@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:response-envelope:v1",
   "title": "ResponseEnvelope v1",
-  "description": "Machine-readable schema for the final answer returned from swarm procurement or collaborative answer flow.",
+  "description": "Machine-readable schema for the final answer returned from swarm procurement or collaborative answer flow. This artifact remains participant-scoped in v1 and does not define a nym-authored alternative path.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -72,7 +72,7 @@
     "source/participant-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Participation-role identity that authored, endorsed, or stood behind the returned answer payload."
+      "description": "Participation-role identity that authored, endorsed, or stood behind the returned answer payload. In v1 this remains the accountable authored identity rather than being replaced by a pseudonymous nym path."
     },
     "gateway/node-id": {
       "type": "string",

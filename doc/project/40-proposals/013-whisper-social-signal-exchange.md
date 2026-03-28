@@ -239,6 +239,14 @@ The likely first contract family is:
 - attached `nym-certificate`,
 - and a `nym` signature over the artifact body.
 
+`whisper-interest.v1` should not mirror that pattern. It remains a node-scoped
+local-interest declaration:
+
+- counted and evaluated per participating node,
+- carrying `interested/node-id` rather than a participant or nym author,
+- and suitable for threshold coordination without turning local readiness into a
+  pseudonymous transport-facing identity.
+
 Later additions may include:
 
 - `whisper-disclosure-request.v1`

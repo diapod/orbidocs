@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/response-envelope.v1.schema.json`](../../schemas/response-envelope.v1.schema.json)
 
-Machine-readable schema for the final answer returned from swarm procurement or collaborative answer flow.
+Machine-readable schema for the final answer returned from swarm procurement or collaborative answer flow. This artifact remains participant-scoped in v1 and does not define a nym-authored alternative path.
 
 ## Governing Basis
 
@@ -32,7 +32,7 @@ Machine-readable schema for the final answer returned from swarm procurement or 
 | [`accepted-summary/id`](#field-accepted-summary-id) | `no` | string | Accepted summary identifier when the final answer is derived from room convergence. |
 | [`created-at`](#field-created-at) | `yes` | string | Response publication timestamp. |
 | [`source/node-id`](#field-source-node-id) | `yes` | string | Primary remote responder or gateway node at the protocol boundary. This is the routing or hosting identity, not the authored participation identity. |
-| [`source/participant-id`](#field-source-participant-id) | `yes` | string | Participation-role identity that authored, endorsed, or stood behind the returned answer payload. |
+| [`source/participant-id`](#field-source-participant-id) | `yes` | string | Participation-role identity that authored, endorsed, or stood behind the returned answer payload. In v1 this remains the accountable authored identity rather than being replaced by a pseudonymous nym path. |
 | [`gateway/node-id`](#field-gateway-node-id) | `no` | string | Gateway node when the result was delivered through a delegated host or other relay role. |
 | [`answer/content`](#field-answer-content) | `yes` | unspecified | Returned answer payload in textual or structured form. |
 | [`answer/format`](#field-answer-format) | `yes` | enum: `plain-text`, `markdown`, `json`, `edn`, `mixed` | Representation format of the returned answer payload. |
@@ -211,7 +211,7 @@ Primary remote responder or gateway node at the protocol boundary. This is the r
 - Required: `yes`
 - Shape: string
 
-Participation-role identity that authored, endorsed, or stood behind the returned answer payload.
+Participation-role identity that authored, endorsed, or stood behind the returned answer payload. In v1 this remains the accountable authored identity rather than being replaced by a pseudonymous nym path.
 
 <a id="field-gateway-node-id"></a>
 ## `gateway/node-id`

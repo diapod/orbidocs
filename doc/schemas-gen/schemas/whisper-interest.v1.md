@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/whisper-interest.v1.schema.json`](../../schemas/whisper-interest.v1.schema.json)
 
-Machine-readable schema for bounded local-interest registration in response to a whisper signal.
+Machine-readable schema for bounded local-interest registration in response to a whisper signal. This artifact remains node-scoped in v1 and does not define participant-authored or nym-authored alternatives.
 
 ## Governing Basis
 
@@ -24,7 +24,7 @@ Machine-readable schema for bounded local-interest registration in response to a
 | [`interest/id`](#field-interest-id) | `yes` | string | Stable identifier of the local interest registration. |
 | [`signal/id`](#field-signal-id) | `yes` | string | Whisper signal that triggered local interest. |
 | [`created-at`](#field-created-at) | `yes` | string | Timestamp of interest registration. |
-| [`interested/node-id`](#field-interested-node-id) | `yes` | string | Node registering local relevance. |
+| [`interested/node-id`](#field-interested-node-id) | `yes` | string | Node registering local relevance. Thresholding and local readiness stay node-scoped here rather than being expressed through participant or nym authorship. |
 | [`interest/kind`](#field-interest-kind) | `yes` | enum: `local-relevance`, `correlation-willing`, `bootstrap-willing` | Level of willingness to participate in further correlation. |
 | [`disclosure/readiness`](#field-disclosure-readiness) | `yes` | enum: `none`, `conditional`, `room-only` | Maximum disclosure willingness at the current stage. |
 | [`local/user-notified`](#field-local-user-notified) | `yes` | boolean | Whether the local user or operator has already been notified of the relevant rumor. |
@@ -107,7 +107,7 @@ Timestamp of interest registration.
 - Required: `yes`
 - Shape: string
 
-Node registering local relevance.
+Node registering local relevance. Thresholding and local readiness stay node-scoped here rather than being expressed through participant or nym authorship.
 
 <a id="field-interest-kind"></a>
 ## `interest/kind`

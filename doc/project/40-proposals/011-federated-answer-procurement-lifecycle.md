@@ -156,6 +156,15 @@ Purpose:
 
 This artifact is the user-facing machine-readable result boundary.
 
+For v1, `response-envelope` should remain participant-scoped rather than
+nym-authored:
+
+- routing remains `source/node-id`,
+- accountable authorship remains `source/participant-id`,
+- and public pseudonymous presentation, if later needed, should stay additive
+  rather than replacing participant accountability inside the settlement and audit
+  boundary.
+
 ## Identity and Participation Compatibility
 
 The lifecycle must work across participation profiles.
