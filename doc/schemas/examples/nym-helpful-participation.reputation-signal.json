@@ -1,0 +1,20 @@
+{
+  "schema/v": 1,
+  "signal/id": "rep:01JVEXAMPLE003",
+  "observed/at": "2026-03-28T16:20:00Z",
+  "recorded/at": "2026-03-28T16:20:15Z",
+  "signal/type": "community/helpful-participation",
+  "polarity": "positive",
+  "weight": 0.35,
+  "subject/kind": "nym",
+  "subject/id": "nym:did:key:z6MkwP2Y1L5f9gQhQx1D6xVz9aY2rG7uW8nL3mK4pT5uV6w7",
+  "observed-via/node-id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "emitted-by/kind": "council",
+  "emitted-by/id": "council:did:key:z6MkcV7hQ5L2nA4tP9sR8uW3xY6bC1dE7fG2hJ5kL8mN9pQ",
+  "basis/refs": [
+    "room:care-circle-17",
+    "artifact:01JVCOMMUNITY004"
+  ],
+  "retention/hint": "epoch-scoped",
+  "notes": "Consistent constructive contribution under a pseudonymous social role."
+}

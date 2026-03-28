@@ -1,0 +1,254 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:reputation-signal:v1",
+  "title": "ReputationSignal v1",
+  "description": "Machine-readable schema for a small append-only reputation fact record. This contract carries one reputation-affecting signal about a `node`, `participant`, or `nym` subject. It is intentionally unsigned in the core shape so local write-path storage and later transport envelopes stay decoupled.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/normative/50-constitutional-ops/pl/PROCEDURAL-REPUTATION-SPEC.pl.md",
+    "doc/normative/50-constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md",
+    "doc/normative/50-constitutional-ops/pl/EMERGENCY-ACTIVATION-CRITERIA.pl.md",
+    "doc/normative/50-constitutional-ops/pl/ABUSE-DISCLOSURE-PROTOCOL.pl.md",
+    "doc/project/20-memos/reputation-signal-v1-invariants.md"
+  ],
+  "required": [
+    "schema/v",
+    "signal/id",
+    "observed/at",
+    "recorded/at",
+    "signal/type",
+    "polarity",
+    "weight",
+    "subject/kind",
+    "subject/id",
+    "emitted-by/kind",
+    "emitted-by/id",
+    "retention/hint"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "signal/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the emitted reputation signal record."
+    },
+    "observed/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time when the underlying behavior, incident, or review outcome was observed."
+    },
+    "recorded/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time when the reputation signal was written as a fact record. Consumers SHOULD enforce `recorded/at >= observed/at`."
+    },
+    "signal/type": {
+      "type": "string",
+      "pattern": "^(procedural|contract|community|incident)/[a-z0-9][a-z0-9-]*(/[a-z0-9][a-z0-9-]*)*$",
+      "description": "Open signal namespace. The first path segment is the reputation domain and MUST stay consistent with subject constraints."
+    },
+    "polarity": {
+      "type": "string",
+      "enum": [
+        "positive",
+        "negative"
+      ],
+      "description": "Reputation direction of the signal. Neutral observations do not belong in this contract."
+    },
+    "weight": {
+      "type": "number",
+      "exclusiveMinimum": 0.0,
+      "maximum": 1.0,
+      "description": "Relative strength of the signal, normalized to `(0.0, 1.0]`."
+    },
+    "subject/kind": {
+      "type": "string",
+      "enum": [
+        "node",
+        "participant",
+        "nym"
+      ],
+      "description": "Identity layer on which the signal lands."
+    },
+    "subject/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Canonical identifier of the reputation subject. The allowed format depends on `subject/kind`."
+    },
+    "observed-via/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Optional node through which the behavior was observed when the subject is a participant or nym."
+    },
+    "emitted-by/kind": {
+      "type": "string",
+      "enum": [
+        "local-runtime",
+        "operator",
+        "peer",
+        "panel",
+        "federation-review",
+        "council"
+      ],
+      "description": "Emitter class of the signal."
+    },
+    "emitted-by/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the emitter. The format may depend on `emitted-by/kind`; `council` uses canonical `council:did:key:...`."
+    },
+    "case/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional case or review reference when the signal originates in a formal case pipeline."
+    },
+    "basis/refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "Optional references to supporting artifacts, reviews, exceptions, or evidence. Negative signals without basis may be downranked by consumers."
+    },
+    "retention/hint": {
+      "type": "string",
+      "enum": [
+        "ephemeral",
+        "persistent",
+        "epoch-scoped"
+      ],
+      "description": "Emitter-side hint about how long this signal should naturally matter."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable explanation."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "subject/kind": {
+            "const": "node"
+          }
+        },
+        "required": [
+          "subject/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "subject/id": {
+            "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "subject/kind": {
+            "const": "participant"
+          }
+        },
+        "required": [
+          "subject/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "subject/id": {
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "subject/kind": {
+            "const": "nym"
+          }
+        },
+        "required": [
+          "subject/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "subject/id": {
+            "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "signal/type": {
+            "pattern": "^procedural/"
+          }
+        },
+        "required": [
+          "signal/type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "subject/kind": {
+            "not": {
+              "const": "nym"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "signal/type": {
+            "pattern": "^contract/"
+          }
+        },
+        "required": [
+          "signal/type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "subject/kind": {
+            "not": {
+              "const": "nym"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "emitted-by/kind": {
+            "const": "council"
+          }
+        },
+        "required": [
+          "emitted-by/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "emitted-by/id": {
+            "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    }
+  ]
+}

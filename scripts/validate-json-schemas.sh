@@ -77,6 +77,9 @@ schema_for_file() {
     *.coi-declaration.json)
       echo "$SCHEMAS_DIR/coi-declaration.v1.schema.json"
       ;;
+    *.reputation-signal.json)
+      echo "$SCHEMAS_DIR/reputation-signal.v1.schema.json"
+      ;;
     *.client-instance-attachment.json)
       echo "$SCHEMAS_DIR/client-instance-attachment.v1.schema.json"
       ;;

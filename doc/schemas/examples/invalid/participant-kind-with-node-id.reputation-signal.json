@@ -1,0 +1,14 @@
+{
+  "schema/v": 1,
+  "signal/id": "rep:01JVINVALID004",
+  "observed/at": "2026-03-28T14:12:00Z",
+  "recorded/at": "2026-03-28T14:13:02Z",
+  "signal/type": "procedural/governance-inaction",
+  "polarity": "negative",
+  "weight": 0.6,
+  "subject/kind": "participant",
+  "subject/id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "emitted-by/kind": "federation-review",
+  "emitted-by/id": "fed:orbiplex-pl",
+  "retention/hint": "persistent"
+}
