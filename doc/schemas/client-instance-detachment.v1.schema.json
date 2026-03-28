@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:client-instance-detachment:v1",
+  "title": "ClientInstanceDetachment v1",
+  "description": "Machine-readable schema for a pod-layer artifact that detaches a concrete client instance from a serving-node session using the same participant-over-channel boundary as `client-instance-attachment.v1`.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/006-pod-access-layer-for-thin-clients.md",
+    "doc/project/40-proposals/007-pod-identity-and-tenancy-model.md",
+    "doc/schemas/client-instance-attachment.v1.schema.json",
+    "doc/schemas/participant-bind.v1.schema.json"
+  ],
+  "required": [
+    "schema/v",
+    "detachment/id",
+    "detached-at",
+    "attachment/id",
+    "serving-node/id",
+    "client-instance/id",
+    "detach/reason",
+    "participant-bind"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "detachment/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this client-instance detachment artifact."
+    },
+    "detached-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the client instance was detached or invalidated."
+    },
+    "attachment/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the earlier attachment artifact being terminated."
+    },
+    "serving-node/id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Serving node that hosted the attached client session."
+    },
+    "client-instance/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Concrete client, device, or install instance being detached."
+    },
+    "detach/reason": {
+      "type": "string",
+      "enum": [
+        "user-request",
+        "device-loss",
+        "session-expired",
+        "policy",
+        "migration",
+        "operator-action"
+      ],
+      "description": "Coarse detachment reason. It is intentionally bounded and does not require disclosure of detailed operational internals."
+    },
+    "detach/notes": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional operator- or client-facing note describing the detachment in more detail."
+    },
+    "participant-bind": {
+      "$ref": "participant-bind.v1.schema.json",
+      "description": "Participant-scoped bind reused to prove whose session context is being detached."
+    },
+    "proof/node-attestation": {
+      "$ref": "#/$defs/signature",
+      "description": "Optional future-facing serving-node attestation over the detachment artifact."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local or federation policy annotations that do not change the core detachment semantics."
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

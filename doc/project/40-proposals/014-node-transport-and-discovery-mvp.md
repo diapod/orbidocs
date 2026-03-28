@@ -264,6 +264,20 @@ The first concrete schema seed for that later layer now lives in:
 
 - `doc/schemas/participant-bind.v1.schema.json`
 
+The first concrete post-MVP consumer of that bind is expected to be the thin-client
+or hosted-user attachment artifact:
+
+- `doc/schemas/client-instance-attachment.v1.schema.json`
+
+Its smallest lifecycle companion should be the matching detach artifact:
+
+- `doc/schemas/client-instance-detachment.v1.schema.json`
+
+The next post-MVP lifecycle companion may recover client access after loss or
+migration through:
+
+- `doc/schemas/client-instance-recovery.v1.schema.json`
+
 Rotation is also deferred as a richer operational layer. In v1:
 
 - a new Ed25519 key means a new `node:did:key` and therefore a new `node-id`,

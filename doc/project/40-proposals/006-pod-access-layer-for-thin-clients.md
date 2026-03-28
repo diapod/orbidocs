@@ -275,6 +275,35 @@ semantics equivalent to:
 }
 ```
 
+The first concrete artifact seed for this later access layer should be:
+
+- `doc/schemas/client-instance-attachment.v1.schema.json`
+
+That artifact intentionally embeds:
+
+- a concrete `client-instance/id`,
+- serving-node attachment state,
+- and a `participant-bind`
+
+so the first post-MVP thin-client attachment can reuse the already frozen
+participant-over-channel boundary instead of inventing a second identity path.
+
+The second minimal lifecycle artifact in the same family should be:
+
+- `doc/schemas/client-instance-detachment.v1.schema.json`
+
+This keeps the first access-layer lifecycle intentionally small:
+
+- attach a client instance,
+- detach or invalidate that client instance,
+- recover client access after loss, suspension, or migration through a separate
+  recovery artifact,
+- and defer richer rebind flows to later compositions over the same primitives.
+
+The third minimal companion in that family should therefore be:
+
+- `doc/schemas/client-instance-recovery.v1.schema.json`
+
 These fields may be implemented directly or deterministically derived from richer
 state, but their semantics must exist.
 

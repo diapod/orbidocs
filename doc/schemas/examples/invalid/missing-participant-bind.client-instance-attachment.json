@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "attachment/id": "attach:01JQCLIATT002",
+  "attached-at": "2026-03-28T19:43:00Z",
+  "profile/type": "pod-client",
+  "serving-node/id": "node:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+  "client-instance/id": "client:ios-a13-82d1",
+  "models/local?": false,
+  "session/state": "attached",
+  "export/capable?": true,
+  "migration/allowed?": true
+}

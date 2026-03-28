@@ -74,6 +74,15 @@ schema_for_file() {
     *.participant-bind.json)
       echo "$SCHEMAS_DIR/participant-bind.v1.schema.json"
       ;;
+    *.client-instance-attachment.json)
+      echo "$SCHEMAS_DIR/client-instance-attachment.v1.schema.json"
+      ;;
+    *.client-instance-detachment.json)
+      echo "$SCHEMAS_DIR/client-instance-detachment.v1.schema.json"
+      ;;
+    *.client-instance-recovery.json)
+      echo "$SCHEMAS_DIR/client-instance-recovery.v1.schema.json"
+      ;;
     *.capability-advertisement.json)
       echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
       ;;
@@ -177,6 +186,30 @@ validate_with_ajv() {
         --strict=false \
         -s "$schema_file" \
         -r "$SCHEMAS_DIR/nym-succession.v1.schema.json" \
+        -d "$data_file" >/dev/null
+      ;;
+    *client-instance-attachment.v1.schema.json)
+      ajv validate \
+        --spec=draft2020 \
+        --strict=false \
+        -s "$schema_file" \
+        -r "$SCHEMAS_DIR/participant-bind.v1.schema.json" \
+        -d "$data_file" >/dev/null
+      ;;
+    *client-instance-detachment.v1.schema.json)
+      ajv validate \
+        --spec=draft2020 \
+        --strict=false \
+        -s "$schema_file" \
+        -r "$SCHEMAS_DIR/participant-bind.v1.schema.json" \
+        -d "$data_file" >/dev/null
+      ;;
+    *client-instance-recovery.v1.schema.json)
+      ajv validate \
+        --spec=draft2020 \
+        --strict=false \
+        -s "$schema_file" \
+        -r "$SCHEMAS_DIR/participant-bind.v1.schema.json" \
         -d "$data_file" >/dev/null
       ;;
     *)

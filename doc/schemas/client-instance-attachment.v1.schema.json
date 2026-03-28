@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:client-instance-attachment:v1",
+  "title": "ClientInstanceAttachment v1",
+  "description": "Machine-readable schema for the first pod-layer artifact that attaches a concrete client instance to a live serving-node session using an embedded participant bind. This remains above `peer-handshake.v1` and is intended for post-MVP thin-client or hosted-user flows.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/006-pod-access-layer-for-thin-clients.md",
+    "doc/project/40-proposals/007-pod-identity-and-tenancy-model.md",
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/schemas/participant-bind.v1.schema.json"
+  ],
+  "required": [
+    "schema/v",
+    "attachment/id",
+    "attached-at",
+    "profile/type",
+    "serving-node/id",
+    "client-instance/id",
+    "session/state",
+    "export/capable?",
+    "migration/allowed?",
+    "participant-bind"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "attachment/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this client-instance attachment artifact."
+    },
+    "attached-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the client instance was attached to the serving node."
+    },
+    "profile/type": {
+      "type": "string",
+      "enum": [
+        "pod-client",
+        "hybrid"
+      ],
+      "description": "Participation profile used by this attached client surface."
+    },
+    "serving-node/id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Serving node that hosts the attachment."
+    },
+    "pod-user/id": {
+      "type": "string",
+      "pattern": "^(pod-user|participant):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Hosted-user identity when the attachment belongs to a later pod tenancy. In early post-MVP deployments this may still coincide with a participant-style role."
+    },
+    "client-instance/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Concrete client, device, or install instance being attached."
+    },
+    "models/local?": {
+      "type": "boolean",
+      "description": "Whether the attached client keeps substantive local execution responsibilities."
+    },
+    "session/state": {
+      "type": "string",
+      "enum": [
+        "attaching",
+        "attached",
+        "degraded",
+        "suspended"
+      ],
+      "description": "Operational state of the attached client session."
+    },
+    "export/capable?": {
+      "type": "boolean",
+      "description": "Whether the attachment contract claims user export capability."
+    },
+    "migration/allowed?": {
+      "type": "boolean",
+      "description": "Whether the attachment contract claims that migration away from the serving node is allowed."
+    },
+    "participant-bind": {
+      "$ref": "participant-bind.v1.schema.json",
+      "description": "Participant-scoped bind proving who is speaking over the already established node-to-node session."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional hosting or federation policy annotations that do not change the core attachment semantics."
+    }
+  }
+}

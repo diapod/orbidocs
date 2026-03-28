@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:client-instance-recovery:v1",
+  "title": "ClientInstanceRecovery v1",
+  "description": "Machine-readable schema for a pod-layer artifact that recovers client access after a detachment, device loss, migration, or other interruption, while reusing the same participant-over-channel boundary as the attachment and detachment artifacts.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/006-pod-access-layer-for-thin-clients.md",
+    "doc/project/40-proposals/007-pod-identity-and-tenancy-model.md",
+    "doc/schemas/client-instance-attachment.v1.schema.json",
+    "doc/schemas/client-instance-detachment.v1.schema.json",
+    "doc/schemas/participant-bind.v1.schema.json"
+  ],
+  "required": [
+    "schema/v",
+    "recovery/id",
+    "recovered-at",
+    "serving-node/id",
+    "client-instance/id",
+    "recovery/mode",
+    "recovery/from-detachment-id",
+    "participant-bind"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "recovery/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this client-instance recovery artifact."
+    },
+    "recovered-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the recovery path was accepted."
+    },
+    "serving-node/id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Serving node that accepts the recovered client access."
+    },
+    "client-instance/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Concrete client, device, or install instance being recovered or re-established."
+    },
+    "recovery/mode": {
+      "type": "string",
+      "enum": [
+        "reattach-existing-device",
+        "replace-device",
+        "migrate-to-new-host",
+        "resume-after-suspension"
+      ],
+      "description": "Coarse recovery mode used for the resumed client path."
+    },
+    "recovery/from-detachment-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the detachment artifact or equivalent termination event being recovered from."
+    },
+    "recovery/token-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional reference to a migration bundle, export token, or recovery token used in the process."
+    },
+    "participant-bind": {
+      "$ref": "participant-bind.v1.schema.json",
+      "description": "Participant-scoped bind proving who is resuming access over the already established channel."
+    },
+    "proof/node-attestation": {
+      "$ref": "#/$defs/signature",
+      "description": "Optional future-facing serving-node attestation over the recovery artifact."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local or federation policy annotations that do not change the core recovery semantics."
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

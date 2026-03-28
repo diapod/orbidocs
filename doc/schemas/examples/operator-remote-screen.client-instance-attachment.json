@@ -1,0 +1,26 @@
+{
+  "schema/v": 1,
+  "attachment/id": "attach:01JQCLIATT001",
+  "attached-at": "2026-03-28T19:42:00Z",
+  "profile/type": "pod-client",
+  "serving-node/id": "node:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+  "client-instance/id": "client:ios-a13-82d1",
+  "models/local?": false,
+  "session/state": "attached",
+  "export/capable?": true,
+  "migration/allowed?": true,
+  "participant-bind": {
+    "schema/v": 1,
+    "bind/id": "pb:01JQPARTBIND001",
+    "bound-at": "2026-03-28T19:20:00Z",
+    "participant/id": "participant:did:key:z6MkrLQkJr2YQ6L8eYw6Qk8f9P8GmJm7a3x6P1v1Q2w3E4r5",
+    "via/node-id": "node:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+    "session/id": "sess:01JQPARTSESS001",
+    "participant/key/alg": "ed25519",
+    "participant/key/public": "z6MkrLQkJr2YQ6L8eYw6Qk8f9P8GmJm7a3x6P1v1Q2w3E4r5",
+    "proof/participant-signature": {
+      "alg": "ed25519",
+      "value": "base64url:participant-bind-signature"
+    }
+  }
+}

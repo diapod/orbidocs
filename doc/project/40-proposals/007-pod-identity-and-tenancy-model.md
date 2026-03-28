@@ -143,6 +143,18 @@ The first schema seed for that later bind layer now lives in:
 
 - `doc/schemas/participant-bind.v1.schema.json`
 
+The first concrete consumer of that bind should live in the pod access layer as:
+
+- `doc/schemas/client-instance-attachment.v1.schema.json`
+
+The next minimal lifecycle companion should be:
+
+- `doc/schemas/client-instance-detachment.v1.schema.json`
+
+The first recovery-oriented companion should then be:
+
+- `doc/schemas/client-instance-recovery.v1.schema.json`
+
 ### 3. `client-instance-id`
 
 `client-instance-id` identifies the concrete endpoint used by a hosted user.
@@ -161,6 +173,12 @@ Default rule:
   many reputations, or many independent persons.
 
 This follows the same structural logic as `station-id` under an existing `node-id`.
+
+The first detach artifact should therefore terminate or invalidate one concrete
+`client-instance-id` without automatically escalating to `pod-user-id` or `node-id`.
+
+The first recovery artifact should likewise restore one concrete client path
+without silently rewriting the higher responsibility layers.
 
 ### 4. Responsibility boundaries
 

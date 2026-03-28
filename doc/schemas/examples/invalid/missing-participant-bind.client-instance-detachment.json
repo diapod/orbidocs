@@ -1,0 +1,9 @@
+{
+  "schema/v": 1,
+  "detachment/id": "detach:01JQCLIDET002",
+  "detached-at": "2026-03-28T20:07:00Z",
+  "attachment/id": "attach:01JQCLIATT001",
+  "serving-node/id": "node:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+  "client-instance/id": "client:ios-a13-82d1",
+  "detach/reason": "policy"
+}
