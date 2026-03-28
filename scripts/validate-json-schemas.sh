@@ -71,6 +71,9 @@ schema_for_file() {
     *.nym-renew-rejected.json)
       echo "$SCHEMAS_DIR/nym-renew-rejected.v1.schema.json"
       ;;
+    *.participant-bind.json)
+      echo "$SCHEMAS_DIR/participant-bind.v1.schema.json"
+      ;;
     *.capability-advertisement.json)
       echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
       ;;

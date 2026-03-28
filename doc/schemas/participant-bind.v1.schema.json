@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:participant-bind:v1",
+  "title": "ParticipantBind v1",
+  "description": "Schema seed for a participant-scoped authorization artifact carried over an already established encrypted node-to-node session. This artifact remains above `peer-handshake.v1` and is intended for later hosted-user or multi-participant flows.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/007-pod-identity-and-tenancy-model.md",
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md"
+  ],
+  "required": [
+    "schema/v",
+    "bind/id",
+    "bound-at",
+    "participant/id",
+    "via/node-id",
+    "session/id",
+    "participant/key/alg",
+    "participant/key/public",
+    "proof/participant-signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "bind/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of the bind artifact."
+    },
+    "bound-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the participant asserted this bind over the active channel."
+    },
+    "participant/id": {
+      "type": "string",
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Participation-role identity that is being authorized over the already established node-to-node session."
+    },
+    "via/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Hosting or serving node through which the participant speaks."
+    },
+    "session/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the live encrypted node-to-node session or equivalent channel context."
+    },
+    "participant/key/alg": {
+      "type": "string",
+      "enum": [
+        "ed25519"
+      ],
+      "description": "Verification algorithm for the participant proof material."
+    },
+    "participant/key/public": {
+      "type": "string",
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Public verification key backing the participant role in the bound context."
+    },
+    "proof/participant-signature": {
+      "$ref": "#/$defs/signature",
+      "description": "Participant-side proof over the bind payload."
+    },
+    "proof/node-attestation": {
+      "$ref": "#/$defs/signature",
+      "description": "Optional future-facing node-side hosting attestation over the same bind context."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local or federation policy annotations that do not change the core bind semantics."
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

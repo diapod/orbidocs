@@ -139,6 +139,10 @@ bind artifact such as `participant-session.v1` or `participant-bind.v1`, carried
 over the live `node↔node` session, instead of embedding hosted-user identity into
 `peer-handshake.v1`.
 
+The first schema seed for that later bind layer now lives in:
+
+- `doc/schemas/participant-bind.v1.schema.json`
+
 ### 3. `client-instance-id`
 
 `client-instance-id` identifies the concrete endpoint used by a hosted user.

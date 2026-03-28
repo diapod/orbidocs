@@ -19,13 +19,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | Step | Markdown Files | With `Based on:` |
 |---|---:|---:|
 | `10-challenges` (Challenges) | `4` | `2` |
-| `20-memos` (Memos) | `23` | `0` |
+| `20-memos` (Memos) | `24` | `1` |
 | `30-stories` (Stories) | `7` | `0` |
 | `40-proposals` (Proposals) | `17` | `15` |
 | `50-requirements` (Requirements) | `8` | `6` |
 | `60-solutions` (Solutions) | `10` | `6` |
 
-- Total project markdown files: `71`
+- Total project markdown files: `72`
 - Proposals referencing source material: `15` / `17`
 - Requirements referencing source material: `6` / `8`
 
@@ -52,6 +52,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md) | `10` | `8` | `yes` | `yes` | `1` | `0` |
 | [`nym-renew-request.v1.schema.json`](schemas-gen/schemas/nym-renew-request.v1.md) | `8` | `6` | `yes` | `yes` | `1` | `1` |
 | [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md) | `6` | `4` | `yes` | `yes` | `1` | `0` |
+| [`participant-bind.v1.schema.json`](schemas-gen/schemas/participant-bind.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | `18` | `17` | `yes` | `yes` | `2` | `1` |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `23` | `22` | `yes` | `yes` | `1` | `1` |
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | `22` | `21` | `yes` | `yes` | `1` | `1` |
@@ -95,6 +96,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`nym-renew-request.v1.schema.json`](schemas-gen/schemas/nym-renew-request.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
+| [`participant-bind.v1.schema.json`](schemas-gen/schemas/participant-bind.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | [`requirements-001.md`](project/50-requirements/requirements-001.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | [`requirements-001.md`](project/50-requirements/requirements-001.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
@@ -135,12 +137,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/30-stories/story-005.md`](project/30-stories/story-005.md) | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md), [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md), [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md), [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) |
 | [`doc/project/40-proposals/003-question-envelope-and-answer-channel.md`](project/40-proposals/003-question-envelope-and-answer-channel.md) | [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) |
 | [`doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md`](project/40-proposals/004-human-origin-flags-and-operator-participation.md) | [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) |
+| [`doc/project/40-proposals/007-pod-identity-and-tenancy-model.md`](project/40-proposals/007-pod-identity-and-tenancy-model.md) | [`participant-bind.v1.schema.json`](schemas-gen/schemas/participant-bind.v1.md) |
 | [`doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md`](project/40-proposals/008-transcription-monitors-and-public-vaults.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md), [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) |
 | [`doc/project/40-proposals/009-communication-exposure-modes.md`](project/40-proposals/009-communication-exposure-modes.md) | [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) |
 | [`doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`](project/40-proposals/011-federated-answer-procurement-lifecycle.md) | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md), [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md), [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) |
 | [`doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md`](project/40-proposals/012-learning-outcomes-and-archival-contracts.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md), [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md), [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) |
 | [`doc/project/40-proposals/013-whisper-social-signal-exchange.md`](project/40-proposals/013-whisper-social-signal-exchange.md) | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md), [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md), [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md), [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) |
-| [`doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`](project/40-proposals/014-node-transport-and-discovery-mvp.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
+| [`doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`](project/40-proposals/014-node-transport-and-discovery-mvp.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`participant-bind.v1.schema.json`](schemas-gen/schemas/participant-bind.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
 | [`doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md`](project/40-proposals/015-nym-certificates-and-renewal-baseline.md) | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md), [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md), [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md), [`nym-renew-request.v1.schema.json`](schemas-gen/schemas/nym-renew-request.v1.md), [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md), [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md), [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) |
 | [`doc/project/50-requirements/requirements-001.md`](project/50-requirements/requirements-001.md) | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) |
 | [`doc/project/50-requirements/requirements-002.md`](project/50-requirements/requirements-002.md) | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) |
@@ -149,7 +152,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/50-requirements/requirements-006.md`](project/50-requirements/requirements-006.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
 | [`doc/project/60-solutions/node.md`](project/60-solutions/node.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
 
-- Canonical schemas: `38`
-- Generated schema docs: `38`
-- Positive examples: `49`
-- Negative examples: `42`
+- Canonical schemas: `39`
+- Generated schema docs: `39`
+- Positive examples: `50`
+- Negative examples: `43`

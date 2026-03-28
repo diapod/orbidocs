@@ -260,6 +260,10 @@ In the MVP baseline this layer is implicit because `participant-id` and `node-id
 may share the same base `did:key`, and participant-scoped application messages can
 therefore be verified directly without an extra bind artifact.
 
+The first concrete schema seed for that later layer now lives in:
+
+- `doc/schemas/participant-bind.v1.schema.json`
+
 Rotation is also deferred as a richer operational layer. In v1:
 
 - a new Ed25519 key means a new `node:did:key` and therefore a new `node-id`,
@@ -367,6 +371,10 @@ publisher, but rate-limited and freshness-checked.
 
 Explicit full-dump directory listing should be avoided in the first design,
 because it turns the seed directory into a trivial topology-scraping endpoint.
+
+Minimal request and response examples for that HTTP surface now live in:
+
+- `doc/project/20-memos/seed-directory-http-examples.md`
 
 ### 3. Transport baseline
 
