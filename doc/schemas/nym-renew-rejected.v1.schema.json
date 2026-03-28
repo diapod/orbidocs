@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-renew-rejected:v1",
+  "title": "NymRenewRejected v1",
+  "description": "Machine-readable schema for a coarse council-issued rejection of a nym renewal request. The rejection is intentionally low-detail so that non-renewal does not disclose the hidden participant-level cause.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md",
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md"
+  ],
+  "required": [
+    "schema/v",
+    "rejection/id",
+    "request/id",
+    "request/type",
+    "nym/id",
+    "issuer/id",
+    "created-at",
+    "reason/class",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "rejection/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this rejection artifact."
+    },
+    "request/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the rejected renewal request."
+    },
+    "request/type": {
+      "const": "nym/renew-rejected",
+      "description": "Application-level response discriminator."
+    },
+    "nym/id": {
+      "type": "string",
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Nym line whose renewal was rejected."
+    },
+    "issuer/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Issuing council or equivalent authority identity."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp of the rejection artifact."
+    },
+    "reason/class": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Coarse rejection class. Implementations should prefer opaque values such as `policy` rather than disclosing hidden participant-level causes."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

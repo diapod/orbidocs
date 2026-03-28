@@ -1,0 +1,10 @@
+{
+  "schema/v": 1,
+  "old-nym/id": "nym:did:key:z6Mkr8Yv5Qp2Tb7Nc4Wd9Hs3Uf6Va2Re8Xm5Pk7Qa1Bc",
+  "new-nym/id": "nym:did:key:z6Mkv7Rb4Nc2Qa8Yh5Tf3Wp9Xs6Ud1Ve7Pm4Kc2Lr8Na",
+  "epoch": 2,
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_old_nym_to_new_epoch_2"
+  }
+}

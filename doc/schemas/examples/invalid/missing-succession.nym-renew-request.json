@@ -1,0 +1,11 @@
+{
+  "schema/v": 1,
+  "request/id": "nym-renew-invalid-02",
+  "request/type": "nym/renew",
+  "participant/id": "participant:did:key:z6MkpQ4n8T2rW7Yb5Hd3Kf9Ls2Vc8Na7Ru4Xc5Pm2Qa",
+  "created-at": "2026-04-04T11:58:00Z",
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_missing_succession"
+  }
+}

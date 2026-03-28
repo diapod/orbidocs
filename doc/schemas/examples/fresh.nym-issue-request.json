@@ -1,0 +1,14 @@
+{
+  "schema/v": 1,
+  "request/id": "nym-issue-01",
+  "request/type": "nym/issue",
+  "participant/id": "participant:did:key:z6MkpQ4n8T2rW7Yb5Hd3Kf9Ls2Vc8Na7Ru4Xc5Pm2Qa",
+  "nym/id": "nym:did:key:z6Mkr8Yv5Qp2Tb7Nc4Wd9Hs3Uf6Va2Re8Xm5Pk7Qa1Bc",
+  "requested-ttl-seconds": 604800,
+  "created-at": "2026-03-28T12:00:00Z",
+  "nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_participant_issue_01"
+  }
+}

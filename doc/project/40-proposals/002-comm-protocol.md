@@ -134,6 +134,9 @@ IRC/Matrix may serve as bootstrap hints or "apocalypse fallback" for presence/en
   but remains attributable to that `node-id` on the audit track.
 - Anti-Sybil accounting and durable governance weight attach to `node-id` and its
   common anchor source, not to the raw number of contextual nyms.
+- Networking and transport SHOULD NOT require `nym` resolution. Contextual nym
+  verification belongs above the session layer, while the transport boundary
+  continues to see only node and station or participant infrastructure artifacts.
 
 #### Identity stratification
 - `root-identity` (private) = civil or registry identity of the accountable subject.
@@ -160,6 +163,9 @@ Use at least one "cost of identity" mechanism:
 - **Pre-auth gate**: minimal parsing, tiny first-message limits, connection rate limits.
 - **Before costly work**: require puzzle/PoW or invite token before allocating heavy resources.
 - **Peer scoring and eviction**: hot/warm/cold pools; degrade/evict misbehaving peers.
+- If application traffic later carries `nym` signatures, transport-layer
+  throttling and peer scoring should still operate primarily per `node-id`, not
+  per resolved pseudonym.
 
 ### 4. Transport vs. end-to-end crypto
 

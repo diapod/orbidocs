@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-certificate:v1",
+  "title": "NymCertificate v1",
+  "description": "Machine-readable schema for a council-issued application-layer pseudonym certificate. This artifact remains above the transport boundary and can be attached to nym-authored application messages.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md",
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md"
+  ],
+  "required": [
+    "schema/v",
+    "nym/id",
+    "epoch",
+    "issued-at",
+    "expires-at",
+    "leniency-until",
+    "issuer/id",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "nym/id": {
+      "type": "string",
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Certified nym identity."
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Epoch number of this pseudonym line."
+    },
+    "issued-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Issue timestamp of the certificate."
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "End of ordinary validity for application-message signing."
+    },
+    "leniency-until": {
+      "type": "string",
+      "format": "date-time",
+      "description": "End of grace semantics for continuity work. After this moment the old line is dead."
+    },
+    "issuer/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Issuing council or equivalent authority identity."
+    },
+    "line/predecessor-nym-id": {
+      "type": "string",
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Optional public predecessor line when the nym continues an earlier visible pseudonymous history."
+    },
+    "line/succession": {
+      "$ref": "nym-succession.v1.schema.json",
+      "description": "Optional public continuity proof signed by the predecessor nym."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "line/predecessor-nym-id"
+        ]
+      },
+      "then": {
+        "required": [
+          "line/succession"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "line/succession"
+        ]
+      },
+      "then": {
+        "required": [
+          "line/predecessor-nym-id"
+        ]
+      }
+    }
+  ]
+}

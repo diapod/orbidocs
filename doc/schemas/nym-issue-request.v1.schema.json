@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issue-request:v1",
+  "title": "NymIssueRequest v1",
+  "description": "Machine-readable schema for a participant-signed request to issue a fresh application-layer pseudonym certificate.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md",
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md"
+  ],
+  "required": [
+    "schema/v",
+    "request/id",
+    "request/type",
+    "participant/id",
+    "nym/id",
+    "requested-ttl-seconds",
+    "created-at",
+    "nonce",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "request/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this nym issuance request."
+    },
+    "request/type": {
+      "const": "nym/issue",
+      "description": "Application-level request discriminator."
+    },
+    "participant/id": {
+      "type": "string",
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Participant identity asking the council to issue the pseudonym."
+    },
+    "nym/id": {
+      "type": "string",
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Fresh requested pseudonym identity. In Phase 1 this remains an application-layer identity and MUST NOT leak into the transport boundary."
+    },
+    "requested-ttl-seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Requested validity window in seconds. The issuer may clamp this value according to local policy."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp of the issuance request."
+    },
+    "nonce": {
+      "type": "string",
+      "minLength": 43,
+      "maxLength": 43,
+      "pattern": "^[A-Za-z0-9_-]{43}$",
+      "description": "Fresh base64url-encoded 32-byte nonce used to reduce replay risk on the request path."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

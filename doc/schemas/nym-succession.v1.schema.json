@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-succession:v1",
+  "title": "NymSuccession v1",
+  "description": "Machine-readable schema for a public continuity proof from an old pseudonym line to the next nym epoch.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md",
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md"
+  ],
+  "required": [
+    "schema/v",
+    "old-nym/id",
+    "new-nym/id",
+    "epoch",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "old-nym/id": {
+      "type": "string",
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Public predecessor nym line."
+    },
+    "new-nym/id": {
+      "type": "string",
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Public successor nym line."
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "New epoch number claimed by the succession proof."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-renew-request:v1",
+  "title": "NymRenewRequest v1",
+  "description": "Machine-readable schema for a participant-signed renewal request carrying public nym continuity proof for the next epoch.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md",
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md"
+  ],
+  "required": [
+    "schema/v",
+    "request/id",
+    "request/type",
+    "participant/id",
+    "succession",
+    "created-at",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "request/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this renewal request."
+    },
+    "request/type": {
+      "const": "nym/renew",
+      "description": "Application-level request discriminator."
+    },
+    "participant/id": {
+      "type": "string",
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Participant identity asking for renewal."
+    },
+    "succession": {
+      "$ref": "nym-succession.v1.schema.json",
+      "description": "Public continuity proof already signed by the old nym."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp of the renewal request."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

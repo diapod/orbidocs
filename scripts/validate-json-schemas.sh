@@ -56,6 +56,21 @@ schema_for_file() {
     *.peer-handshake.json)
       echo "$SCHEMAS_DIR/peer-handshake.v1.schema.json"
       ;;
+    *.nym-issue-request.json)
+      echo "$SCHEMAS_DIR/nym-issue-request.v1.schema.json"
+      ;;
+    *.nym-succession.json)
+      echo "$SCHEMAS_DIR/nym-succession.v1.schema.json"
+      ;;
+    *.nym-certificate.json)
+      echo "$SCHEMAS_DIR/nym-certificate.v1.schema.json"
+      ;;
+    *.nym-renew-request.json)
+      echo "$SCHEMAS_DIR/nym-renew-request.v1.schema.json"
+      ;;
+    *.nym-renew-rejected.json)
+      echo "$SCHEMAS_DIR/nym-renew-rejected.v1.schema.json"
+      ;;
     *.capability-advertisement.json)
       echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
       ;;
@@ -151,6 +166,14 @@ validate_with_ajv() {
         --strict=false \
         -s "$schema_file" \
         -r "$SCHEMAS_DIR/transcript-segment.v1.schema.json" \
+        -d "$data_file" >/dev/null
+      ;;
+    *nym-certificate.v1.schema.json|*nym-renew-request.v1.schema.json)
+      ajv validate \
+        --spec=draft2020 \
+        --strict=false \
+        -s "$schema_file" \
+        -r "$SCHEMAS_DIR/nym-succession.v1.schema.json" \
         -d "$data_file" >/dev/null
       ;;
     *)

@@ -1,0 +1,14 @@
+{
+  "schema/v": 1,
+  "rejection/id": "nym-renew-rejected-02",
+  "request/id": "nym-renew-02",
+  "request/type": "nym/renew-rejected",
+  "nym/id": "nym:did:key:z6Mkr8Yv5Qp2Tb7Nc4Wd9Hs3Uf6Va2Re8Xm5Pk7Qa1Bc",
+  "issuer/id": "council:swarm:foundation-1",
+  "created-at": "2026-04-04T12:00:05Z",
+  "reason/class": "policy",
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_council_reject_02"
+  }
+}

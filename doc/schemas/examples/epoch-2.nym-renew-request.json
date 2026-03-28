@@ -1,0 +1,21 @@
+{
+  "schema/v": 1,
+  "request/id": "nym-renew-02",
+  "request/type": "nym/renew",
+  "participant/id": "participant:did:key:z6MkpQ4n8T2rW7Yb5Hd3Kf9Ls2Vc8Na7Ru4Xc5Pm2Qa",
+  "succession": {
+    "schema/v": 1,
+    "old-nym/id": "nym:did:key:z6Mkr8Yv5Qp2Tb7Nc4Wd9Hs3Uf6Va2Re8Xm5Pk7Qa1Bc",
+    "new-nym/id": "nym:did:key:z6Mkv7Rb4Nc2Qa8Yh5Tf3Wp9Xs6Ud1Ve7Pm4Kc2Lr8Na",
+    "epoch": 2,
+    "signature": {
+      "alg": "ed25519",
+      "value": "sig_old_nym_to_new_epoch_2"
+    }
+  },
+  "created-at": "2026-04-04T11:58:00Z",
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_participant_renew_02"
+  }
+}

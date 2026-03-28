@@ -215,6 +215,13 @@ Those remain application-layer concerns. If a later networking implementation
 starts importing those concepts as hard dependencies, the abstraction boundary is
 leaking rather than improving.
 
+The same is true for `nym` handling:
+
+- networking MUST NOT require `nym` resolution,
+- `nym` verification belongs to the application layer,
+- transport sees only `node:did:key:...` and `participant:did:key:...`,
+- and `nym` signatures are verified above the established encrypted session.
+
 ### 1.2. Thin clients in MVP
 
 MVP does not require a multi-user `pod` model.
@@ -442,6 +449,12 @@ The MVP does not yet standardize a full peer-health or peer-governor policy,
 but it should leave room for one. A later runtime layer may classify peers as
 `cold`, `warm`, `hot`, or `blocked` based on observed session quality,
 repeated failures, explicit local policy, and operator decisions.
+
+For abuse control at this layer, rate limiting and backpressure should remain
+per-node rather than per-participant or per-nym. If one node emits too much
+traffic through many participant-scoped or nym-scoped application artifacts,
+peers should degrade the node-level relationship instead of forcing nym
+resolution into the transport boundary.
 
 This baseline should use a two-message handshake:
 
