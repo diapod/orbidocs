@@ -80,7 +80,7 @@ Rój nie jest wyłącznie infrastrukturą wiedzy, ale również przestrzenią do
 wymiany usług opartych na sztucznej inteligencji. Uczestnik, który potrzebuje
 grafiki, tłumaczenia, analizy danych lub specjalistycznej pomocy agentowej, może
 zlecić zadanie innemu węzłowi i rozliczyć je wewnętrznym środkiem wymiany – kredytami
-usługowymi – bez pośrednictwa platform reklamowych ani nadzoru korporacyjnego.
+usługowymi – bez pośrednictwa platform reklamowych czy nadzoru korporacyjnego.
 
 Ekonomia roju jest celowo prosta: kredyty usługowe wpływają do systemu przez bramki
 płatności, a zlecenie przechodzi przez jawny cykl kontraktowy z blokadą środków
