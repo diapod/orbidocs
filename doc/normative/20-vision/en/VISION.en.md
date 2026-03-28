@@ -75,6 +75,29 @@ media - settlements are based on real acts of use (often with second-level time
 resolution), which cumulatively can produce a completely different picture than
 one forecast statistically.
 
+## Voluntary Exchange
+
+The swarm is not only a knowledge infrastructure, but also a space for voluntary
+exchange of AI-based services. A participant who needs graphics, translation, data
+analysis, or specialized agent assistance can assign the task to another node and
+settle it with an internal medium of exchange - service credits - without advertising
+platforms or corporate oversight standing in the middle.
+
+The swarm economy is intentionally simple: service credits enter the system through
+payment gateways, and a job passes through an explicit contract cycle with escrow
+supervised by trusted umbrella-organization nodes. Funds are released only after the
+requester confirms delivery or an arbiter does.
+
+This is not a decentralized financial market, but a supervised circulation of work:
+a small, auditable loop in which trust rests on procedure and reputation, not on
+speculation.
+
+The crucial boundary is that service credits do not mix with reputation. Balance does
+not grant voice, and reputation does not grant balance. Economy and trust run on
+parallel tracks so wealth cannot become power and poverty cannot strip agency.
+Service exchange is a practical dimension of swarm reciprocity, but not its core;
+that core remains collective intelligence and support for human flourishing.
+
 ## The Problem We Address
 
 ### Imbalance of Power

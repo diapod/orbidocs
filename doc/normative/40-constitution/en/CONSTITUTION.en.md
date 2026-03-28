@@ -527,35 +527,41 @@ conditions of pressure, crisis, success, and degeneration.
    between people and nodes while preserving mandatory protocol-level bookkeeping
    of the fund.
 
-6. Mechanisms for rewarding contribution may operate through auditable signals of
+6. Voluntary contractual exchange among participants is an admissible mode of
+   reciprocity alongside gift, provided that it remains auditable, procedurally
+   reversible, consistent with the right to exit, and does not violate the
+   non-negotiable layer of this Constitution.
+
+7. Mechanisms for rewarding contribution may operate through auditable signals of
    use, impact, and maintenance of value, with anti-Sybil and anti-cartel brakes.
 
-7. The purpose of internal economics is durable maintenance of the capacity to act
+8. The purpose of internal economics is durable maintenance of the capacity to act
    for people, nodes, and the community, not infinite accumulation of resources.
 
-8. Reward mechanisms MUST include concentration brakes: diminishing gains,
+9. Reward mechanisms MUST include concentration brakes: diminishing gains,
    a sufficiency cap, or other functionally equivalent limits once the threshold
    of safe and stable upkeep of the node and its operator has been exceeded.
 
-9. Surpluses above the sufficiency threshold MUST return to common circulation
+10. Surpluses above the sufficiency threshold MUST return to common circulation
    according to federation rules, in particular for new nodes, weaker links,
    temporarily harmed nodes, and infrastructural functions of high communal value.
 
-10. Verified personhood in the network, based on a constitutionally admissible
+11. Verified personhood in the network, based on a constitutionally admissible
     Proof-of-Personhood mechanism, MUST provide a non-withdrawable minimum of compute
     resources needed for communication, orientation, and access to emergency and care
     modes.
 
-11. The mechanism for that minimum MUST be funded by a public contribution model
+12. The mechanism for that minimum MUST be funded by a public contribution model
     covering at least business nodes, high-margin instances, and surpluses returning
     to common circulation after sufficiency is reached, without turning this minimum
     into a hidden path to lasting economic or constitutional advantage.
 
-12. Economic reward may not by itself grant lasting constitutional advantage:
-    it may not automatically increase procedural power, privileged routing,
-    adjudicative force, or access to exceptions.
+13. Economic reward, balance, exchange history, and the mere fact of entering into
+    or performing a contract may not by themselves grant lasting constitutional
+    advantage: they may not automatically increase procedural power, privileged
+    routing, adjudicative force, reputational force, or access to exceptions.
 
-13. Rare signals, anomalies, and outlier styles are a cultural resource that the
+14. Rare signals, anomalies, and outlier styles are a cultural resource that the
    system should protect against homogenization.
 
 ## Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation

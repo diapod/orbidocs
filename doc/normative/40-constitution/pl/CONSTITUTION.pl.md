@@ -526,36 +526,41 @@ kryzysu, sukcesu i degeneracji.
 5. Wzajemność bez księgowości oznacza brak ręcznego bilateralnego długu między
    ludźmi i węzłami przy zachowaniu obowiązkowej księgowości protokołowej funduszu.
 
-6. Mechanizmy wynagradzania wkładu mogą działać przez audytowalne sygnały użycia,
+6. Dobrowolna wymiana kontraktowa między uczestnikami jest dopuszczalnym trybem
+   wzajemności obok daru, o ile pozostaje audytowalna, odwracalna proceduralnie,
+   zgodna z prawem do wyjścia i nie narusza warstwy nienegocjowalnej Konstytucji.
+
+7. Mechanizmy wynagradzania wkładu mogą działać przez audytowalne sygnały użycia,
    wpływu i utrzymywania wartości, z hamulcami anty-sybilowymi i anty-kartelowymi.
 
-7. Celem ekonomii wewnętrznej jest trwałe podtrzymywanie zdolności do działania
+8. Celem ekonomii wewnętrznej jest trwałe podtrzymywanie zdolności do działania
    ludzi, węzłów i wspólnoty, a nie nieskończona akumulacja zasobów.
 
-8. Mechanizmy wynagradzania MUSZĄ posiadać hamulce koncentracji: malejące przyrosty,
+9. Mechanizmy wynagradzania MUSZĄ posiadać hamulce koncentracji: malejące przyrosty,
    limit dostatku lub inne funkcjonalnie równoważne ograniczenia po przekroczeniu
    progu bezpiecznego i stabilnego utrzymania węzła oraz jego operatora.
 
-9. Nadwyżki ponad próg dostatku MUSZĄ wracać do wspólnego obiegu według zasad
+10. Nadwyżki ponad próg dostatku MUSZĄ wracać do wspólnego obiegu według zasad
    federacji, w szczególności na rzecz nowych węzłów, ogniw słabszych, czasowo
    poszkodowanych oraz funkcji infrastrukturalnych o wysokiej wartości wspólnotowej.
 
-10. Zweryfikowana obecność człowieka w sieci, oparta na konstytucyjnie dopuszczalnym
+11. Zweryfikowana obecność człowieka w sieci, oparta na konstytucyjnie dopuszczalnym
     mechanizmie Proof-of-Personhood, MUSI dawać nieodbieralne minimum zasobów
     obliczeniowych potrzebnych do komunikacji, orientacji oraz dostępu do trybów
     ratunkowych i opiekuńczych.
 
-11. Mechanizm tego minimum MUSI być finansowany przez jawny model składkowy,
+12. Mechanizm tego minimum MUSI być finansowany przez jawny model składkowy,
     obejmujący co najmniej węzły biznesowe, instancje wysokomarżowe oraz nadwyżki
     wracające do wspólnego obiegu po osiągnięciu dostatku, bez przekształcania tego
     minimum w ukrytą ścieżkę trwałej przewagi ekonomicznej lub ustrojowej.
 
-12. Nagroda ekonomiczna sama przez się nie może dawać trwałej przewagi ustrojowej:
-    nie może automatycznie zwiększać mocy proceduralnej, uprzywilejowanego
-    trasowania, siły rozstrzygającej ani dostępu do wyjątków.
+13. Nagroda ekonomiczna, saldo, historia wymiany ani sam fakt zawarcia lub
+    wykonania kontraktu nie mogą same przez się dawać trwałej przewagi ustrojowej:
+    nie mogą automatycznie zwiększać mocy proceduralnej, uprzywilejowanego
+    trasowania, siły rozstrzygającej, siły reputacyjnej ani dostępu do wyjątków.
 
-13. Rzadkie sygnały, anomalie i style odstające są zasobem kulturowym, który system
-   powinien chronić przed homogenizacją.
+14. Rzadkie sygnały, anomalie i style odstające są zasobem kulturowym, który system
+    powinien chronić przed homogenizacją.
 
 ## Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult
 

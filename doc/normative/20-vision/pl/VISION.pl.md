@@ -74,6 +74,30 @@ w mediach strumieniowych – rozliczenia bazują na realnych aktach użycia (z
 sekundową rozdzielczością czasową), które kumulatywnie mogą dawać zupełnie inny obraz
 niż prognozowany statystycznie.
 
+## Dobrowolna wymiana
+
+Rój nie jest wyłącznie infrastrukturą wiedzy, ale również przestrzenią dobrowolnej
+wymiany usług opartych na sztucznej inteligencji. Uczestnik, który potrzebuje
+grafiki, tłumaczenia, analizy danych lub specjalistycznej pomocy agentowej, może
+zlecić zadanie innemu węzłowi i rozliczyć je wewnętrznym środkiem wymiany – kredytami
+usługowymi – bez pośrednictwa platform reklamowych ani nadzoru korporacyjnego.
+
+Ekonomia roju jest celowo prosta: kredyty usługowe wpływają do systemu przez bramki
+płatności, a zlecenie przechodzi przez jawny cykl kontraktowy z blokadą środków
+(ang. escrow) nadzorowaną przez zaufane węzły organizacji parasolowej. Środki są
+zwalniane dopiero po potwierdzeniu realizacji zadania przez zleceniodawcę lub przez
+arbitra.
+
+To nie jest zdecentralizowany rynek finansowy, lecz nadzorowany obieg pracy: mała,
+audytowalna pętla, w której zaufanie opiera się na procedurze i reputacji, nie na
+spekulacji.
+
+Kluczowa granica: kredyty usługowe nie mieszają się z reputacją. Saldo nie daje
+głosu, a reputacja nie daje salda. Ekonomia i zaufanie biegną równoległymi torami,
+aby bogactwo nie stawało się władzą, a ubóstwo nie odbierało sprawczości. Wymiana
+usług jest praktycznym wymiarem wzajemności roju, ale nie jego rdzeniem; ten stanowi
+kolektywna inteligencja i wspieranie człowieczeństwa.
+
 ## Problem, na który odpowiadamy
 
 ### Nierównowaga władzy
@@ -288,7 +312,7 @@ w wielu językach.
 Największym ryzykiem decentralizacji jest nowa forma oligarchii: strażnicy
 repozytoriów, operatorzy infrastruktury, ekosystemy dostawców.
 
-Zatem ład organizacyjny (ang  *governance*) jest tu polityką zapisaną w kodzie
+Zatem ład organizacyjny (ang.  *governance*) jest tu polityką zapisaną w kodzie
 (ang. *policy-as-code*):
 
 - polityki są jawne i wersjonowane,

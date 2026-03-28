@@ -801,6 +801,54 @@ farming," while preserving a long-term path from internal token exchangeability 
 actual virtual-currency tokens as a supervised exception to automatic exchange. Such
 change in network behavior should be a conscious, controlled community decision.
 
+### Exchange as the Completion of Gift
+
+DIA distinguishes two complementary economic modes: gift and voluntary exchange.
+
+Gift is the default mode of help: someone asks, someone answers, and the network
+rewards automatically. Exchange is the mode of explicit, contractual service: the
+requester and the provider agree on scope, price, and conditions before work starts,
+and settlement happens through a supervised mechanism of escrow and fund release.
+
+Neither mode is more important. Gift builds community and protects people in need.
+Exchange enables specialization and sustains those who provide professional services
+requiring time, skill, and resources beyond the natural reflexes of reciprocity.
+
+Trying to reduce the whole swarm economy to gift leads to exploitation of altruism;
+trying to reduce it to market destroys the ethos of community.
+
+The two modes must coexist, but on separate tracks: means of exchange do not feed
+reputation, and reputation does not turn into balance.
+
+### Contractual Trust Without Prior Familiarity
+
+The swarm enables service exchange between participants who do not know each other
+and do not need to know each other for a transaction to be safe. Trust in the
+exchange layer does not require prior relationship or high reputation: it is enough
+that both sides submit to an explicit contract procedure with escrow, arbitration,
+and an auditable trace.
+
+This is procedural trust - the protocol becomes the guarantor where social bonds do
+not yet exist. This principle has a boundary: contractual trust does not replace
+social trust. Good exchange experiences may build reputation and lead to deeper
+cooperation, but the mere fact of transacting does not grant vote, influence, or
+privileged standing in the community. Exchange is one gateway into the swarm, but
+not a passport to power.
+
+### Introspection as the Foundation of Exchange
+
+Durable exchange requires trust. Trust requires authenticity, that is, readiness to
+show up as one truly is. Authenticity, in turn, is rooted in inner honesty, which
+does not arise without introspection: the capacity to see one's own motives, fears,
+and automatisms before they become action toward another.
+
+No protocol can force honesty, but it can support it: through stimulus minimalism
+that does not reward haste and self-presentation; through a care mode that gives safe
+space for reflection; and through separating reputation from balance, which lets a
+participant say "I don't know" or "I was wrong" without economic punishment. The
+swarm designs conditions in which inner honesty is easier - not because it is
+mandatory, but because the infrastructure does not obstruct it.
+
 ### Sufficiency Over Accumulation
 
 DIA holds that the goal of internal economics is not endless multiplication of
@@ -1362,4 +1410,3 @@ Clarity has an ethical function: it reduces errors, lowers the entry barrier, an
 makes auditing easier. We prefer simple names, simple flows, and formats that carry
 meaning and do not hide complexity in places where that complexity has consequences.
 Aesthetics is a tool of truth here.
-
