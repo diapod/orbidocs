@@ -2,16 +2,20 @@
 
 ## 1. Purpose
 
-This repository contains foundational, strategic, and architectural documentation for the **Orbiplex** system and protocols, under the **Distributed Intelligence Agency** umbrella.
+This repository contains foundational, strategic, and architectural documentation for
+the **Orbiplex** system and protocols, under the **Distributed Intelligence Agency**
+umbrella.
 
-Orbiplex explores a federated swarm of AI nodes and orchestrators that can cooperate across organizations, domains, and infrastructures to support open access to knowledge.
+Orbiplex explores a federated swarm of AI nodes and orchestrators that can cooperate
+across organizations, domains, and infrastructures to support open access to
+knowledge.
 
 Identity baseline:
-1. Umbrella project / organization: **Distributed Intelligence Agency**
+
+1. Organization: **Distributed Intelligence Agency**
 2. System and protocol brand: **Orbiplex**
-3. Public website: `https://distributed-intelligence.agency/`
-4. Contact email: `team@distributed-intelligence.agency`
-5. GitHub organization: `https://github.com/orgs/diapod/`
+3. Public website: `https://docs.orbiplex.ai/`
+4. GitHub organization: `https://github.com/orgs/diapod/`
 
 ## 2. Core Intent
 
@@ -31,7 +35,9 @@ When writing or updating docs, optimize for:
 4. Mark uncertainty explicitly (for example: `Assumption`, `Hypothesis`, `Speculation`).
 5. Do not write local absolute user-home paths into documentation or source-like
    text files. Prefer repository-relative paths, or, when a repository locator
-   is clearer, `github.com/diapod/...` forms. This is checked in CI.
+   is clearer, `github.com/diapod/...` forms or optionally in short-forms like:
+   `orbidocs:...` (when referring orbidocs) or `node:...` (when referring node
+   component). This is checked in CI.
 
 ## 4. Document Quality Contract
 
@@ -110,28 +116,38 @@ Under `doc/project/60-solutions/`, keep human-facing component pages in Markdown
 (for example `node.md`, `node-ui.md`, `ferment.md`) and structured capability
 catalogs in sidecar `*-caps.edn` files.
 
-For the sibling `node` repository, the implementation-side counterpart is `../node/docs/implementation-ledger.toml`: it is maintained manually there from the `orbidocs` solutions and schema layers plus selected implementation-relevant project documents; see `README.md` and `TRACEABILITY.md`.
+For the sibling `node` repository, the implementation-side counterpart is
+`../node/docs/implementation-ledger.toml` (assuming that node repository is cloned
+into a sibling directory): it is maintained manually there from the `orbidocs`
+solutions and schema layers plus selected implementation-relevant project documents;
+see `README.md` and `TRACEABILITY.md`.
 
-Node-attached roles such as archivist, memarium provider, or sensorium provider
-may be documented there as separate solution components even if they are
-operationally attached to the Node. Do not assume that such roles must live
-inside one in-process monolith.
+Node-attached roles such as archivist, memarium provider, or sensorium provider may
+be documented there as separate solution components even if they are operationally
+attached to the Node. Do not assume that such roles must live inside one in-process
+monolith.
 
 For challenge/proposal linkage, keep traceability explicit:
-- each proposal file should reference its source challenge(s) in the header (for example: `Based on: doc/project/10-challenges/001-licensing.md`);
-- use aligned numbering where practical (for example: `doc/project/10-challenges/001-*.md` -> `doc/project/40-proposals/001-*.md`).
+- each proposal file should reference its source challenge(s) in the header (for
+  example: `Based on: doc/project/10-challenges/001-licensing.md`);
+- use aligned numbering where practical (for example:
+  `doc/project/10-challenges/001-*.md` -> `doc/project/40-proposals/001-*.md`).
 
 When both exist for the same topic, keep traceability explicit:
-- each requirements file should reference its source story in the header (for example: `Based on: doc/project/30-stories/story-001.md`);
-- use aligned numbering where practical (for example: `story-001.md` -> `requirements-001.md`).
+- each requirements file should reference its source story in the header (for
+  example: `Based on: doc/project/30-stories/story-001.md`);
+- use aligned numbering where practical (for example: `story-001.md` ->
+  `requirements-001.md`).
 
-Memos under `doc/project/20-memos/` are informal, short-lived notes (idea seeds, observations, backlog items).
+Memos under `doc/project/20-memos/` are informal, short-lived notes (idea seeds,
+observations, backlog items).
 They do not need to follow the full document quality contract (section 4), but should:
 - have a title heading,
 - contain at least one actionable sentence,
 - be promoted into a challenge, story, or proposal when they mature.
 
-Do not add new top-level workflow folders casually. If a new workflow position or domain is needed, justify it in the relevant ADR or README update.
+Do not add new top-level workflow folders casually. If a new workflow position or
+domain is needed, justify it in the relevant ADR or README update.
 
 Treat the following as generated artifacts rather than hand-edited source:
 - `doc/schemas-gen/**`
@@ -168,56 +184,65 @@ A change is done when:
 
 ## 12. Core Values
 
-Core values live under `doc/normative/30-core-values/`, with locale subdirectories and
-locale infixes in filenames, e.g., `doc/normative/30-core-values/pl/CORE-VALUES.pl.md`
-and `doc/normative/30-core-values/en/CORE-VALUES.en.md`.
+Core values live under `doc/normative/30-core-values/`, with locale subdirectories
+and locale infixes in filenames, e.g.,
+`doc/normative/30-core-values/pl/CORE-VALUES.pl.md` and
+`doc/normative/30-core-values/en/CORE-VALUES.en.md`.
 
-When user asks to add a value you should find a best spot to place it within
-a document's structure. Then, after a value is added, you should synchronize contents
-of document contents across different language versions. When editing or generating text
-use "machine quotation marks" (e.g., "" for opening and closing double-quote,
-' for ampersand and so on). Dash-set parentheticals should use en-dash characters (–).
+When user asks to add a value you should find a best spot to place it within a
+document's structure. Then, after a value is added, you should synchronize contents
+of document contents across different language versions. When editing or generating
+text use "machine quotation marks" (e.g., "" for opening and closing double-quote, '
+for ampersand and so on). Dash-set parentheticals should use en-dash characters (–).
 
-You are free to correct any obvious syntactical, grammatical and stylistical mistakes in text.
+You are free to correct any obvious syntactical, grammatical and stylistical mistakes
+in text.
 
 If a core value proposed by user is actually a core value we already have defined but
-formulated in a different way or seen from a sifferent angle (or extended with details),
-you should ask user whether they really want to add a new value or integrate the given
-description into existing one.
+formulated in a different way or seen from a sifferent angle (or extended with
+details), you should ask user whether they really want to add a new value or
+integrate the given description into existing one.
 
 ## 13. Values → Constitution: what gets reduced, what gets added, what gets synthesized
 
-Moving from "values" to a "constitution" does two things at once:
-it reduces poetry and adds machinery.
+Moving from "values" to a "constitution" does two things at once: it reduces poetry
+and adds machinery.
 
-Values can be broad and inspirational; a constitution must be unambiguous, enforceable,
-and robust against interpretation "to fit a desired outcome" – so some meanings
-get compressed into a few "constitutional laws".
+Values can be broad and inspirational; a constitution must be unambiguous,
+enforceable, and robust against interpretation "to fit a desired outcome" – so some
+meanings get compressed into a few "constitutional laws".
 
 ### What gets reduced (examples)
 
 1. "Rhetoric and emotional bandwidth"  
-   Values may carry an inspiring tone; a constitution keeps the semantic core and removes ornament.
+   Values may carry an inspiring tone; a constitution keeps the semantic core and
+   removes ornament.
 
 2. "Ambiguity and multi-meaning"  
-   A value can be intentionally layered; a constitution forces definitions: what it means operationally, what counts as a violation, and where the boundaries are.
+   A value can be intentionally layered; a constitution forces definitions: what it
+   means operationally, what counts as a violation, and where the boundaries are.
 
 3. "Aspirations without obligations"  
-   Values say "we want"; a constitution says "must / must not" and adds a way to verify compliance.
+   Values say "we want"; a constitution says "must / must not" and adds a way to
+   verify compliance.
 
 ### What gets added (examples)
 
 1. "Hierarchy and conflict resolution"  
-   A constitution adds priorities, tests (e.g., reversibility, proportionality, transparency), an exception procedure, and decision traces.
+   A constitution adds priorities, tests (e.g., reversibility, proportionality,
+   transparency), an exception procedure, and decision traces.
 
 2. "Rights, duties, and processes"  
-   "Swarm citizenship" appears: minimal rights and duties of a node, sanctions, appeals, and federation rules.
+   "Swarm citizenship" appears: minimal rights and duties of a node, sanctions,
+   appeals, and federation rules.
 
 3. "Enforcement and audit mechanisms"  
-   The constitution translates values into operations: an event log, policy-id, reason, expiry, modes, reputation, oracles, and auditability.
+   The constitution translates values into operations: an event log, policy-id,
+   reason, expiry, modes, reputation, oracles, and auditability.
 
 4. "Definitions and interfaces"  
-   A constitution names the entities and contracts: node, oracle, prediction, federation, compliance mode, and privilege boundaries.
+   A constitution names the entities and contracts: node, oracle, prediction,
+   federation, compliance mode, and privilege boundaries.
 
 ### Do values get synthesized? (examples)
 
@@ -227,19 +252,25 @@ while the rest becomes commentary, rationale, and examples.
 In current shape, the natural syntheses may look like this:
 
 1. "Dignity and safety" as a super-value  
-   Combines: dignity, privacy-by-default, sovereignty, non-violence, representation of harmed parties, responsible autonomy.
+   Combines: dignity, privacy-by-default, sovereignty, non-violence, representation
+   of harmed parties, responsible autonomy.
 
 2. "Trust through evidence"  
-   Combines: verifiability, transparent agent behavior, contracts, explicit tradeoffs, anti-sectarian epistemic hygiene, ground truth via oracles.
+   Combines: verifiability, transparent agent behavior, contracts, explicit
+   tradeoffs, anti-sectarian epistemic hygiene, ground truth via oracles.
 
 3. "Pluralism with contracts"  
-   Combines: multi-paradigm thinking, protected diversity within boundaries, dispute procedures, the right to exit, federation.
+   Combines: multi-paradigm thinking, protected diversity within boundaries, dispute
+   procedures, the right to exit, federation.
 
 4. "Swarm intelligence as a process"  
-   Combines: collaborative sensemaking, reflective adaptation, predictive accountability, trend and early-signal sensing, living/open systems, productive imagination.
+   Combines: collaborative sensemaking, reflective adaptation, predictive
+   accountability, trend and early-signal sensing, living/open systems, productive
+   imagination.
 
 5. "Gift economy resilient to abuse"  
-   Combines: reciprocity without bookkeeping, reputation as safety, anti-gaming and Sybil resistance, token governance, token/credit classes.
+   Combines: reciprocity without bookkeeping, reputation as safety, anti-gaming and
+   Sybil resistance, token governance, token/credit classes.
 
 ### How to do it in practice without losing the richness of values?
 
