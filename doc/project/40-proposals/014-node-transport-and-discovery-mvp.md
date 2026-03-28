@@ -160,6 +160,7 @@ This MVP identity is **not** the same thing as:
 
 - multi-user `pod-user` identity,
 - root identity,
+- anchor identity,
 - `custodian_ref`,
 - or a public contextual nym.
 
@@ -194,6 +195,25 @@ questions and should remain in different protocol layers.
 
 This role split is normative even when both identifiers are backed by the same
 keypair in MVP.
+
+For boundary discipline, the networking MVP should know exactly two protocol-level
+identity handles:
+
+- `node-id` for infrastructure trust, addressing, advertisements, handshake, and
+  keepalive,
+- `participant-id` for participant-scoped message authorship and participation
+  reputation carried over the established channel.
+
+It should not depend on higher identity layers such as:
+
+- `anchor-identity`,
+- `pod-user-id`,
+- public or contextual `nym`,
+- or federation-local continuity bindings.
+
+Those remain application-layer concerns. If a later networking implementation
+starts importing those concepts as hard dependencies, the abstraction boundary is
+leaking rather than improving.
 
 ### 1.2. Thin clients in MVP
 
@@ -472,6 +492,15 @@ It also means `peer-handshake.v1` does not need to carry `participant-id`.
 Participant authentication belongs at the application-message layer over the
 already established node-to-node session, not inside the transport-session
 handshake itself.
+
+The same boundary applies to higher identity layers:
+
+- `peer-handshake.v1` should not depend on `anchor-identity`,
+- it should not depend on `pod-user-id`,
+- and it should not route or negotiate on `nym`.
+
+Those concepts may later appear in application payloads or participant-bound
+artifacts, but they are outside the MVP transport-session contract.
 
 `peer-handshake.v1` SHOULD instead carry:
 

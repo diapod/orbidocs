@@ -31,7 +31,7 @@ Machine-readable schema for the final answer returned from swarm procurement or 
 | [`receipt/id`](#field-receipt-id) | `no` | string | Linked procurement receipt when settlement or explicit rejection was recorded. |
 | [`accepted-summary/id`](#field-accepted-summary-id) | `no` | string | Accepted summary identifier when the final answer is derived from room convergence. |
 | [`created-at`](#field-created-at) | `yes` | string | Response publication timestamp. |
-| [`source/node-id`](#field-source-node-id) | `yes` | string | Primary remote responder or answer-authoring node at the protocol boundary. |
+| [`source/node-id`](#field-source-node-id) | `yes` | string | Primary remote responder or gateway node at the protocol boundary. This is the routing or hosting identity, not the authored participation identity. |
 | [`source/participant-id`](#field-source-participant-id) | `yes` | string | Participation-role identity that authored, endorsed, or stood behind the returned answer payload. |
 | [`gateway/node-id`](#field-gateway-node-id) | `no` | string | Gateway node when the result was delivered through a delegated host or other relay role. |
 | [`answer/content`](#field-answer-content) | `yes` | unspecified | Returned answer payload in textual or structured form. |
@@ -203,7 +203,7 @@ Response publication timestamp.
 - Required: `yes`
 - Shape: string
 
-Primary remote responder or answer-authoring node at the protocol boundary.
+Primary remote responder or gateway node at the protocol boundary. This is the routing or hosting identity, not the authored participation identity.
 
 <a id="field-source-participant-id"></a>
 ## `source/participant-id`

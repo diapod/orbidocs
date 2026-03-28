@@ -32,10 +32,10 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 | [`room/id`](#field-room-id) | `yes` | string | Room or execution channel bound to the selected responder path. |
 | [`selected-offer/id`](#field-selected-offer-id) | `yes` | string | Identifier of the offer chosen for contract formation. |
 | [`created-at`](#field-created-at) | `yes` | string | Contract creation timestamp. |
-| [`asker/node-id`](#field-asker-node-id) | `yes` | string | Node acting for the asking side of the contract. |
+| [`asker/node-id`](#field-asker-node-id) | `yes` | string | Node acting for the asking side of the contract as the routing or hosting identity. |
 | [`asker/participant-id`](#field-asker-participant-id) | `yes` | string | Participation-role identity on whose behalf the asking side entered the contract. |
 | [`asker/pod-user-id`](#field-asker-pod-user-id) | `no` | string | Hosted-user identity when the contract was created on behalf of a later pod-backed client flow. This is additive to, not a replacement for, `asker/participant-id`. |
-| [`responder/node-id`](#field-responder-node-id) | `yes` | string | Node selected to fulfill the answer contract. |
+| [`responder/node-id`](#field-responder-node-id) | `yes` | string | Node selected to fulfill the answer contract as the routing or hosting identity. |
 | [`responder/participant-id`](#field-responder-participant-id) | `yes` | string | Participation-role identity selected to fulfill or lead the responder side of the contract. |
 | [`payment/amount`](#field-payment-amount) | `yes` | integer | Agreed payment amount in minor units. |
 | [`payment/currency`](#field-payment-currency) | `yes` | string | Currency or settlement unit symbol for the contract payment. |
@@ -164,7 +164,7 @@ Contract creation timestamp.
 - Required: `yes`
 - Shape: string
 
-Node acting for the asking side of the contract.
+Node acting for the asking side of the contract as the routing or hosting identity.
 
 <a id="field-asker-participant-id"></a>
 ## `asker/participant-id`
@@ -188,7 +188,7 @@ Hosted-user identity when the contract was created on behalf of a later pod-back
 - Required: `yes`
 - Shape: string
 
-Node selected to fulfill the answer contract.
+Node selected to fulfill the answer contract as the routing or hosting identity.
 
 <a id="field-responder-participant-id"></a>
 ## `responder/participant-id`

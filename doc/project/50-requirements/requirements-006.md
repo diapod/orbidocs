@@ -77,6 +77,7 @@ higher-layer identity, room, or federation semantics.
 | FR-003 | The baseline protocol semantics MUST distinguish Node infrastructure identity from participant identity, and both MUST remain distinct from later pod-user or contextual nym layers. | Inference | Proposal 014 |
 | FR-003a | The canonical v1 `participant-id` string MUST be `participant:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`. Parsers MUST be strict, and alternative textual variants MUST be rejected for v1. | Fact | Freeze note |
 | FR-003b | In the MVP baseline, `node-id` and `participant-id` MAY share the same underlying Ed25519 `did:key` fingerprint and signing material, but protocol implementations MUST NOT assume that role equality follows from shared key material. | Fact | Freeze note |
+| FR-003c | Networking-layer implementations for the MVP baseline MUST depend only on `node-id`, `participant-id`, and the signing or verification material needed for those roles. They MUST NOT require `anchor-identity`, `pod-user-id`, `nym`, or federation continuity bindings as part of the networking contract. | Inference | Freeze note |
 | FR-004 | A Node MUST support signed endpoint advertisements with TTL-bounded freshness. | Fact | Proposal 014 |
 | FR-004a | A signed `node-advertisement.v1` payload MUST include both `advertised-at` and a monotonic `sequence/no`. | Fact | Freeze note |
 | FR-004b | The signing input for `node-advertisement.v1` MUST be domain-separated as `node-advertisement.v1\\x00 || deterministic_cbor(payload_without_signature)`. | Fact | Freeze note |
@@ -104,6 +105,7 @@ higher-layer identity, room, or federation semantics.
 | FR-010e | `peer-handshake.v1` MUST carry a fresh per-handshake ephemeral X25519 public key in `session/pub`, encoded as raw unpadded base64url for the 32-byte public key, without `did:key` wrapping or multicodec prefixes. | Fact | Freeze note |
 | FR-010f | The long-lived static key-agreement contribution for the handshake MAY be deterministically derived from the Ed25519 `node:did:key` identity, so no extra static X25519 advertisement field is required in `node-identity.v1` or `node-advertisement.v1` for MVP. | Inference | Freeze note |
 | FR-010g | `peer-handshake.v1` MUST remain node-scoped in the MVP baseline and MUST NOT require `participant-id`; participant authentication belongs to application messages sent over the established encrypted channel rather than to the transport-session handshake itself. | Fact | Freeze note |
+| FR-010h | `peer-handshake.v1` MUST NOT require or interpret higher identity-layer concepts such as `anchor-identity`, `pod-user-id`, or `nym`. | Inference | Freeze note |
 | FR-011 | The handshake MUST include enough information to validate peer identity, protocol version, and transport profile. | Inference | Proposed model |
 | FR-012 | The baseline v1 handshake flow MUST be `hello -> ack`; a third explicit challenge message MUST NOT be required for the first interoperable Node. | Fact | Freeze note |
 | FR-012a | The handshake family MUST remain symmetric at schema level: `hello` and `ack` are artifacts of the same `peer-handshake.v1` family, while `ack/of-handshake-id` binds the acknowledgment to one prior initiation attempt. | Inference | Freeze note |
@@ -121,6 +123,7 @@ higher-layer identity, room, or federation semantics.
 | FR-017 | The first supported application-level slice MUST include `signal-marker` as a signed application message that can be sent, validated, and traced end to end. | Fact | Proposal 014 |
 | FR-017a | The first application-level slice SHOULD already be modeled as participant-scoped rather than infrastructure-scoped, even when MVP currently uses one operator-participant per Node. | Inference | Freeze note |
 | FR-017b | Participant authentication in the MVP baseline SHOULD therefore occur through participant-scoped application artifacts over an already established node-scoped session, not by extending the handshake to enumerate or reveal participant identities. | Inference | Freeze note |
+| FR-017c | For application-level message families such as `question-envelope`, `procurement-*`, and `response-envelope`, `node-id` SHOULD remain the routing or hosting identity while `participant-id` remains the authored participation identity. Higher identity layers MAY appear only as optional payload metadata. | Inference | Freeze note |
 | FR-018 | Nodes MUST reject or quarantine malformed, expired, or signature-invalid advertisements and handshakes. | Inference | Contract integrity |
 | FR-019 | The baseline capability surface SHOULD be small enough that heterogeneous Node implementations can interoperate without sharing one runtime or language stack. | Inference | Architecture principles |
 

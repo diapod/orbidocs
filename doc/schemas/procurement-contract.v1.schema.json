@@ -63,7 +63,7 @@
     "asker/node-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Node acting for the asking side of the contract."
+      "description": "Node acting for the asking side of the contract as the routing or hosting identity."
     },
     "asker/participant-id": {
       "type": "string",
@@ -78,7 +78,7 @@
     "responder/node-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Node selected to fulfill the answer contract."
+      "description": "Node selected to fulfill the answer contract as the routing or hosting identity."
     },
     "responder/participant-id": {
       "type": "string",

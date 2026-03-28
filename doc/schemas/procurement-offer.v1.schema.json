@@ -54,7 +54,7 @@
     "responder/node-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Responding node that would execute or lead the answer path."
+      "description": "Responding node that would host, route, or execute the answer path."
     },
     "responder/participant-id": {
       "type": "string",
