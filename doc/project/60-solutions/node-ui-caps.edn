@@ -4,7 +4,7 @@
  :component/status :planned
 
  :summary
- "Thin control and inspection client for Node behavior, policy context, and provenance-aware operator flows."
+ "Thin control and inspection client for Node behavior, policy context, provenance-aware operator flows, and paid-path settlement visibility."
 
  :must-implement
  [{:cap/id :node-control-surface
@@ -33,7 +33,26 @@
    :responsibilities
    ["Render provenance and human-origin markers"
     "Expose policy and scope information without flattening semantics"
-    "Make unresolved and quarantined states clearly distinguishable"]
+    "Make unresolved and quarantined states clearly distinguishable"
+    "Render settlement policy degradation, suspension, and manual-review conditions before paid commitment"]
+   :status :todo}
+
+  {:cap/id :settlement-policy-inspection
+   :title "Settlement Policy Inspection"
+   :kind :inspection
+   :based-on ["doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md"
+              "doc/project/50-requirements/requirements-007.md"
+              "doc/project/50-requirements/requirements-008.md"]
+   :schemas ["gateway-policy.v1"
+             "escrow-policy.v1"
+             "settlement-policy-disclosure.v1"
+             "procurement-contract.v1"
+             "procurement-receipt.v1"]
+   :responsibilities
+   ["Show active settlement policies attached to a paid procurement path"
+    "Surface recent settlement disclosure events with their scope and impact mode"
+    "Explain why a paid path is blocked, degraded, or forced into manual review"
+    "Preserve audit joins from procurement artifacts back to governing settlement policies"]
    :status :todo}]
 
  :may-implement
@@ -60,7 +79,10 @@
   "response-envelope.v1"
   "learning-outcome.v1"
   "archival-package.v1"
-  "retrieval-response.v1"]
+  "retrieval-response.v1"
+  "gateway-policy.v1"
+  "escrow-policy.v1"
+  "settlement-policy-disclosure.v1"]
 
  :produces
  []

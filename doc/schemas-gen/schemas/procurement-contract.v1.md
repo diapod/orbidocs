@@ -12,6 +12,8 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 - [`doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`](../../project/40-proposals/011-federated-answer-procurement-lifecycle.md)
 - [`doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`](../../project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md)
 - [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
+- [`doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`](../../project/40-proposals/017-organization-subjects-and-org-did-key.md)
+- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
 
 ## Project Lineage
 
@@ -20,6 +22,7 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 - [`doc/project/50-requirements/requirements-001.md`](../../project/50-requirements/requirements-001.md)
 - [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
 - [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
+- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
 
 ### Stories
 
@@ -43,12 +46,13 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 | [`responder/participant-id`](#field-responder-participant-id) | `yes` | string | Participation-role identity selected to fulfill or lead the responder side of the contract. |
 | [`payment/amount`](#field-payment-amount) | `yes` | integer | Agreed payment amount in minor units. |
 | [`payment/currency`](#field-payment-currency) | `yes` | string | Currency or settlement unit symbol for the contract payment. |
-| [`payer/account-ref`](#field-payer-account-ref) | `no` | string | Optional payer-side supervised ledger account reference. This becomes required for the `host-ledger` rail. |
-| [`payee/account-ref`](#field-payee-account-ref) | `no` | string | Optional payee-side supervised ledger account reference. This becomes required for the `host-ledger` rail. |
+| [`payer/account-ref`](#field-payer-account-ref) | `no` | string | Optional payer-side canonical settlement owner reference. The role lives in the identifier prefix, so no separate `payer/kind` field is used. This becomes required for the `host-ledger` rail. |
+| [`payee/account-ref`](#field-payee-account-ref) | `no` | string | Optional payee-side canonical settlement owner reference. The role lives in the identifier prefix, so no separate `payee/kind` field is used. This becomes required for the `host-ledger` rail. |
 | [`settlement/rail`](#field-settlement-rail) | `no` | enum: `external-invoice`, `host-ledger`, `manual-transfer`, `none` | Settlement rail chosen outside the protocol core. |
 | [`deadline-at`](#field-deadline-at) | `yes` | string | Deadline by which the responder must deliver or the contract expires. |
 | [`escrow/node-id`](#field-escrow-node-id) | `no` | string | Supervisory node responsible for the host-ledger escrow path. |
 | [`escrow/hold-ref`](#field-escrow-hold-ref) | `no` | string | Reference to the host-ledger hold created for this contract. |
+| [`escrow-policy/ref`](#field-escrow-policy-ref) | `no` | string | Escrow policy in force for this host-ledger contract. |
 | [`deadlines/work-by`](#field-deadlines-work-by) | `no` | string | Responder delivery deadline in the host-ledger timeout cascade. This SHOULD align with `deadline-at`. |
 | [`deadlines/accept-by`](#field-deadlines-accept-by) | `no` | string | Deadline by which the payer should acknowledge delivered work. |
 | [`deadlines/dispute-by`](#field-deadlines-dispute-by) | `no` | string | Last moment for opening a formal dispute under the contract policy. |
@@ -146,6 +150,7 @@ Then:
     "payee/account-ref",
     "escrow/node-id",
     "escrow/hold-ref",
+    "escrow-policy/ref",
     "deadlines/work-by",
     "deadlines/accept-by",
     "deadlines/dispute-by",
@@ -315,7 +320,7 @@ Currency or settlement unit symbol for the contract payment.
 - Required: `no`
 - Shape: string
 
-Optional payer-side supervised ledger account reference. This becomes required for the `host-ledger` rail.
+Optional payer-side canonical settlement owner reference. The role lives in the identifier prefix, so no separate `payer/kind` field is used. This becomes required for the `host-ledger` rail.
 
 <a id="field-payee-account-ref"></a>
 ## `payee/account-ref`
@@ -323,7 +328,7 @@ Optional payer-side supervised ledger account reference. This becomes required f
 - Required: `no`
 - Shape: string
 
-Optional payee-side supervised ledger account reference. This becomes required for the `host-ledger` rail.
+Optional payee-side canonical settlement owner reference. The role lives in the identifier prefix, so no separate `payee/kind` field is used. This becomes required for the `host-ledger` rail.
 
 <a id="field-settlement-rail"></a>
 ## `settlement/rail`
@@ -356,6 +361,14 @@ Supervisory node responsible for the host-ledger escrow path.
 - Shape: string
 
 Reference to the host-ledger hold created for this contract.
+
+<a id="field-escrow-policy-ref"></a>
+## `escrow-policy/ref`
+
+- Required: `no`
+- Shape: string
+
+Escrow policy in force for this host-ledger contract.
 
 <a id="field-deadlines-work-by"></a>
 ## `deadlines/work-by`

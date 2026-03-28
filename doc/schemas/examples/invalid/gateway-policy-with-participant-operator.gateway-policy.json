@@ -1,0 +1,11 @@
+{
+  "schema/v": 1,
+  "policy/id": "gateway-policy:pl-main-prepaid-v1",
+  "created-at": "2026-03-28T08:30:00Z",
+  "federation/id": "fed:pl-main",
+  "gateway/node-id": "node:pl-main-gateway-01",
+  "operator/org-ref": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "settlement/unit": "ORC",
+  "supported/directions": ["inbound"],
+  "status": "active"
+}

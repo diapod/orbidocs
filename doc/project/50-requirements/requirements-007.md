@@ -47,7 +47,7 @@ Without these requirements, `host-ledger` remains nominal rather than actionable
 ### Actors and Boundaries
 
 - `Payer`: participant or hosted user funding a paid task.
-- `Payee`: participant receiving payment after successful delivery.
+- `Payee`: participant or organization receiving payment after successful delivery.
 - `Gateway Node`: trusted node that turns external money into internal credits and
   optionally internal credits back into external money.
 - `Escrow Supervisor`: trusted node that creates holds, resolves release/refund, and
@@ -60,8 +60,9 @@ Without these requirements, `host-ledger` remains nominal rather than actionable
   - `account/id`, `owner/kind`, `owner/id`, `federation/id`, `unit`, `status`,
     `created-at`.
 - `LedgerHold`:
-  - `hold/id`, `account/id`, `contract/id`, `amount`, `unit`, `status`,
-    `created-at`, `work-by`, `accept-by`, `dispute-by`, `auto-release-after`.
+  - `hold/id`, `contract/id`, `payer/account-id`, `payee/account-id`,
+    `escrow/node-id`, `amount`, `unit`, `status`, `created-at`, `work-by`,
+    `accept-by`, `dispute-by`, `auto-release-after`.
 - `LedgerTransfer`:
   - `transfer/id`, `kind`, `from/account-id`, `to/account-id`, `amount`, `unit`,
     `created-at`, optional `hold/id`, optional `contract/id`,
@@ -69,13 +70,29 @@ Without these requirements, `host-ledger` remains nominal rather than actionable
 - `GatewayReceipt`:
   - `receipt/id`, `gateway/node-id`, `direction`, `external/amount`,
     `external/currency`, `internal/amount`, `internal/currency`, `account/id`, `ts`,
-    `external/payment-ref`, optional `exchange-policy/ref`.
+    `external/payment-ref`, `gateway-policy/ref`, optional `exchange-policy/ref`.
+- `GatewayPolicy`:
+  - `policy/id`, `federation/id`, `gateway/node-id`, `operator/org-ref`,
+    `settlement/unit`, `supported/directions`, `status`, `created-at`.
+- `EscrowPolicy`:
+  - `policy/id`, `federation/id`, `escrow/node-id`, `operator/org-ref`,
+    `settlement/unit`, `confirmation/modes`, `dispute/default-window-sec`,
+    `auto-release/default-sec`, `partial-release/allowed`, `status`, `created-at`.
+- `SettlementPolicyDisclosure`:
+  - `disclosure/id`, `recorded-at`, `effective/from`, optional `effective/until`,
+    `federation/id`, `policy/ref`, `operator/org-ref`, `serving/node-id`,
+    `event/type`, `disclosure/scope`, `impact/mode`, `reason/summary`,
+    optional `case/ref`, optional `exception/ref`, optional `basis/refs`.
 - Extensions to `ProcurementContract`:
   - `payer/account-ref`, `payee/account-ref`, `escrow/node-id`,
-    `escrow/hold-ref`, `deadlines/work-by`, `deadlines/accept-by`,
+    `escrow/hold-ref`, `escrow-policy/ref`, `deadlines/work-by`, `deadlines/accept-by`,
     `deadlines/dispute-by`, `deadlines/auto-release`.
+  - `payer/account-ref` and `payee/account-ref` are canonical role-prefixed
+    settlement subject references, so separate `payer/kind` and `payee/kind`
+    fields are intentionally excluded.
 - Extension to `ProcurementReceipt`:
-  - explicit link from `settlement/ref` to final ledger outcome.
+  - explicit links from `settlement/ref`, `settlement/hold-ref`, and optional
+    `settlement/transfer-refs` to final ledger outcome facts.
 
 ### Explicit MVP Assumption
 
@@ -96,12 +113,13 @@ This assumption is normative for MVP behavior of:
 | FR-002 | The system MUST keep economic balance and reputation as separate artifact families and MUST NOT derive governance weight from balance. | Fact | Proposal 016 |
 | FR-003 | A federation operating paid procurement MUST run one authoritative supervised settlement ledger for MVP. | Fact | Proposal 016 |
 | FR-004 | The system MUST support a `ledger-account` artifact that binds an account to an accountable owner and settlement unit. | Fact | Proposal 016 |
-| FR-005 | `ledger-account` ownership MUST support at least `participant` and `pod-user` as owner kinds. | Fact | Story 004 + Proposal 016 |
+| FR-005 | `ledger-account` ownership MUST support at least `participant`, `pod-user`, and `org` as owner kinds. | Fact | Story 004 + Proposal 016 + Proposal 017 |
 | FR-006 | The system MUST perform an available-balance precheck before creating a paid procurement contract. | Fact | Requirements 001 FR-015 + Proposal 016 |
 | FR-007 | When balance is sufficient, the escrow supervisor MUST create a `ledger-hold` before remote paid execution begins. | Fact | Proposal 016 |
 | FR-008 | `ledger-hold` MUST include explicit status and timeout fields for work, acceptance, dispute, and auto-release. | Fact | Proposal 016 |
 | FR-009 | `ledger-hold.status` MUST support at least `active`, `disputed`, `released`, `partially-released`, `refunded`, and `expired`. | Fact | Proposal 016 |
 | FR-010 | `procurement-contract.v1` MUST gain explicit settlement bindings: `payer/account-ref`, `payee/account-ref`, `escrow/node-id`, and `escrow/hold-ref`. | Fact | Proposal 016 |
+| FR-010a | `payer/account-ref` and `payee/account-ref` MUST be canonical role-prefixed settlement subject references, and `procurement-contract.v1` MUST NOT duplicate that role through separate `payer/kind` or `payee/kind` fields. | Fact | Proposal 016 + Proposal 017 |
 | FR-011 | `procurement-contract.v1` MUST carry a timeout cascade rather than only one coarse responder deadline. | Fact | Proposal 016 |
 | FR-012 | The timeout cascade MUST include at least `deadlines/work-by`, `deadlines/accept-by`, `deadlines/dispute-by`, and `deadlines/auto-release`. | Fact | Proposal 016 |
 | FR-013 | When the responder delivers work, the system MUST open an acceptance window before final release unless the contract was canceled or expired earlier. | Inference | Proposal 016 |
@@ -112,12 +130,18 @@ This assumption is normative for MVP behavior of:
 | FR-018 | Partial release MAY be hidden from the first user-facing UI, but the artifact family MUST reserve a machine-readable representation for it. | Fact | Proposal 016 |
 | FR-019 | Every internal movement of funds MUST be recorded as a `ledger-transfer` artifact. | Fact | Proposal 016 |
 | FR-020 | Fiat-to-credit ingress and credit-to-fiat egress MUST each emit a `gateway-receipt` artifact. | Fact | Proposal 016 |
-| FR-021 | `gateway-receipt` MUST identify the gateway node, direction, external amount/currency, internal amount/currency, the credited or debited account, and an external payment reference. | Fact | Proposal 016 |
+| FR-021 | `gateway-receipt` MUST identify the gateway node, direction, external amount/currency, internal amount/currency, the credited or debited account, an external payment reference, and the governing `gateway-policy/ref`. | Fact | Proposal 016 |
+| FR-021a | The system MUST support a `gateway-policy` artifact that binds a serving gateway node to an accountable `operator/org-ref` and the admitted settlement directions. | Fact | Proposal 016 + Proposal 017 |
+| FR-021b | The system MUST support an `escrow-policy` artifact that binds a serving escrow node to an accountable `operator/org-ref` and the default dispute and release semantics. | Fact | Proposal 016 + Proposal 017 |
+| FR-021c | The system MUST support a `settlement-policy-disclosure` artifact for auditable policy-facing events such as suspension, reinstatement, limit changes, manual-review enforcement, or settlement incidents affecting a `gateway-policy` or `escrow-policy`. | Fact | Proposal 016 + ABUSE-DISCLOSURE-PROTOCOL |
+| FR-021d | `settlement-policy-disclosure` MUST snapshot the affected `policy/ref`, the accountable `operator/org-ref`, the observed `serving/node-id`, the disclosure scope, and the practical impact mode at event time. | Fact | Proposal 016 + Proposal 017 |
+| FR-021e | `incident/*` settlement-policy disclosures MUST carry at least one formal audit anchor through `case/ref`, `exception/ref`, or non-empty `basis/refs`. | Fact | Proposal 016 + ABUSE-DISCLOSURE-PROTOCOL |
 | FR-022 | `procurement-receipt.v1` MUST continue to represent the contract-terminal outcome and MUST reference final settlement through `settlement/ref` rather than absorb all ledger detail. | Fact | Proposal 016 |
 | FR-023 | A successful settlement MAY trigger a separate `reputation-signal.v1`, but the settlement path MUST NOT require such a signal to complete. | Fact | Proposal 016 |
 | FR-024 | `UBC` allocations and `ubc_settlement` records MUST remain non-spendable for ordinary market procurement. | Fact | UBC policy |
 | FR-025 | The system MUST reject paid procurement if the payer attempts to fund it from a protected floor or another non-spendable economic class. | Inference | UBC + separation rule |
 | FR-026 | For `pod-client` flows, the serving node MAY act as gateway or settlement delegate, but the artifacts MUST preserve the split between host infrastructure actor and hosted economic owner. | Fact | Story 004 + Proposal 016 |
+| FR-027 | `ledger-hold` and `procurement-contract.v1` on the `host-ledger` rail MUST reference the governing `escrow-policy/ref`. | Fact | Proposal 016 + Proposal 017 |
 
 ## Non-Functional Requirements
 
@@ -131,6 +155,8 @@ This assumption is normative for MVP behavior of:
 | NFR-006 | Timeout handling MUST eliminate indefinite fund blocking caused by silence of the payer, responder, or arbiter. | Fact | Proposal 016 |
 | NFR-007 | Reputation and economic accounting MUST be auditable as separate accrual paths. | Fact | Sufficiency policy |
 | NFR-008 | The settlement design MUST not require smart contracts, public-chain finality, or crypto-native custody in order to ship the first useful procurement MVP. | Fact | Proposal 016 |
+| NFR-009 | Settlement-policy disclosures MUST remain append-only audit facts and MUST NOT replace the underlying gateway or escrow policy artifact. | Fact | Proposal 016 + project values |
+| NFR-010 | Public or federation-scoped settlement disclosures MUST stay bounded by minimal necessary disclosure and SHOULD prefer redacted scopes unless stronger exposure is operationally required. | Fact | ABUSE-DISCLOSURE-PROTOCOL |
 
 ## Failure Modes and Mitigations
 
@@ -144,28 +170,18 @@ This assumption is normative for MVP behavior of:
 | Economic balance becomes a hidden shortcut to influence | Constitutional drift | Enforce explicit conversion barriers and separate artifact families. |
 | Protected compute floor is spent on market work | Exclusion of weaker participants | Treat protected floors such as `UBC` as non-spendable for procurement. |
 | Split-brain supervisors appear in one federation MVP | Conflicting holds and balances | Make single authoritative ledger an explicit MVP deployment assumption. |
+| Gateway or escrow policy is suspended without a durable disclosure trail | Operators and counterparties cannot reconstruct why settlement degraded or stopped | Require append-only `settlement-policy-disclosure` events with scope, impact, and audit anchors. |
 
 ## Open Questions
 
 1. Should `ledger-account` expose a spend-class or funds-class field in MVP, or is it enough to express spendability through account policy and gateway policy references?
 2. Should the first MVP support outbound payout immediately, or only inbound top-up with manual off-ramp later?
 3. What is the minimum arbiter policy when `confirmation/mode = arbiter-confirmed` and a dispute remains unresolved near `auto-release`?
-4. Should `owner/kind = org` be reserved now in schema text, or deferred until the organization-identity proposal lands?
+4. When `pod-user:did:key:...` is enabled for direct paid procurement, should policy admit it immediately as a first-class `account-ref`, or only through a hosting participant or organization?
 
 ## Next Actions
 
-1. Add the new settlement schema quartet:
-   - `ledger-account.v1`
-   - `ledger-hold.v1`
-   - `ledger-transfer.v1`
-   - `gateway-receipt.v1`
-2. Extend `procurement-contract.v1` with escrow bindings and timeout cascade fields.
-3. Extend `procurement-receipt.v1` with clearer settlement-reference guidance.
-4. Add schema examples for:
-   - funded account,
-   - active hold,
-   - settled release,
-   - disputed hold,
-   - refunded hold,
-   - gateway top-up receipt.
-5. Update solution-layer documents after the schemas land, especially the settlement-capable counterpart of `node.md`.
+1. Roll `org` into the highest-value accountability schemas beyond settlement, starting with `reputation-signal.v1`.
+2. Add a dedicated organization subject artifact or schema fragment that carries `org/custodian-ref`.
+3. Decide when `pod-user:did:key:...` becomes an operationally supported `account-ref` in paid procurement rather than only a forward-compatible identifier family.
+4. Update solution-layer documents after the schemas land, especially the settlement-capable counterpart of `node.md`.

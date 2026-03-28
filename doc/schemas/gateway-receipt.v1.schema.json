@@ -9,7 +9,8 @@
   "x-dia-status": "draft",
   "x-dia-basis": [
     "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
-    "doc/project/50-requirements/requirements-007.md"
+    "doc/project/50-requirements/requirements-007.md",
+    "doc/project/50-requirements/requirements-008.md"
   ],
   "required": [
     "schema/v",
@@ -79,6 +80,11 @@
       "minLength": 1,
       "description": "Gateway-side payment reference such as a PSP transaction id or bank transfer reference."
     },
+    "gateway-policy/ref": {
+      "type": "string",
+      "pattern": "^gateway-policy:[a-z0-9][a-z0-9:-]*$",
+      "description": "Gateway policy under which this boundary crossing was executed."
+    },
     "external/provider": {
       "type": "string",
       "minLength": 1,
@@ -97,5 +103,20 @@
       "type": "object",
       "additionalProperties": true
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "direction": {
+            "const": "outbound"
+          }
+        },
+        "required": ["direction"]
+      },
+      "then": {
+        "required": ["gateway-policy/ref"]
+      }
+    }
+  ]
 }

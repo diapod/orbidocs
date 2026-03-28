@@ -1,0 +1,19 @@
+{
+  "schema/v": 1,
+  "signal/id": "sig:01K1ORGREP001",
+  "observed/at": "2026-03-28T10:05:00Z",
+  "recorded/at": "2026-03-28T10:06:00Z",
+  "signal/type": "contract/delivery-confirmed",
+  "polarity": "positive",
+  "weight": 0.8,
+  "subject/kind": "org",
+  "subject/id": "org:did:key:z6Mkr9Qv7C4h1N8p3K5s7D2k8M4r1V6w9X3y2Z7T4b6H8N",
+  "observed-via/node-id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "emitted-by/kind": "panel",
+  "emitted-by/id": "panel:fed-pl-main:procurement-01",
+  "basis/refs": [
+    "receipt:01K1SETTLE001"
+  ],
+  "retention/hint": "persistent",
+  "notes": "Responder organization delivered contracted work without dispute."
+}

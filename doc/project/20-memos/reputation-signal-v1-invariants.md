@@ -8,24 +8,25 @@ should enforce on ingest.
 
 1. `subject/kind = node` -> `subject/id` MUST be `node:did:key:...`
 2. `subject/kind = participant` -> `subject/id` MUST be `participant:did:key:...`
-3. `subject/kind = nym` -> `subject/id` MUST be `nym:did:key:...`
-4. `signal/type` prefix = `procedural/*` -> `subject/kind` MUST NOT be `nym`
-5. `signal/type` prefix = `contract/*` -> `subject/kind` MUST NOT be `nym`
-6. `signal/type` prefix = `community/*` -> `subject/kind` MAY be `nym`
-7. `signal/type` prefix = `incident/*` -> `subject/kind` MAY be `node`, `participant`, or `nym`
-8. `recorded/at >= observed/at`
-9. `weight ∈ (0.0, 1.0]`
-10. `polarity ∈ { positive, negative }`
+3. `subject/kind = org` -> `subject/id` MUST be `org:did:key:...`
+4. `subject/kind = nym` -> `subject/id` MUST be `nym:did:key:...`
+5. `signal/type` prefix = `procedural/*` -> `subject/kind` MUST NOT be `nym`
+6. `signal/type` prefix = `contract/*` -> `subject/kind` MUST NOT be `nym`
+7. `signal/type` prefix = `community/*` -> `subject/kind` MAY be `nym`, but MUST NOT be `org` in MVP
+8. `signal/type` prefix = `incident/*` -> `subject/kind` MAY be `node`, `participant`, `org`, or `nym`
+9. `recorded/at >= observed/at`
+10. `weight ∈ (0.0, 1.0]`
+11. `polarity ∈ { positive, negative }`
 
 ## Enforcement note
 
 Standard JSON Schema can directly enforce:
 
-- rules `1-7`,
-- rule `9`,
-- rule `10`.
+- rules `1-8`,
+- rule `10`,
+- rule `11`.
 
-Rule `8` is still mechanically verifiable, but not by vanilla draft-2020-12
+Rule `9` is still mechanically verifiable, but not by vanilla draft-2020-12
 schema alone, because it requires comparison of two timestamps. Consumers that
 want strict ingest SHOULD enforce it in boundary tests or runtime validation.
 
@@ -52,6 +53,20 @@ This keeps the contract aligned with the governance boundary:
 
 - governance and panel service run on stable `participant:did:key`
 - pseudonymous reputation may still exist in the social layer
+
+## Organization note
+
+`org` is an accountable institutional subject, not a presentation alias.
+
+Therefore in MVP:
+
+- `procedural/*` MAY target `org:did:key:...`,
+- `contract/*` MAY target `org:did:key:...`,
+- `incident/*` MAY target `org:did:key:...`,
+- `community/*` MUST NOT target `org:did:key:...` by default.
+
+This preserves the asymmetry between organizational accountability and
+social-layer rumor or acclaim.
 
 ## Retention note
 

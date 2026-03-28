@@ -9,8 +9,20 @@ Machine-readable schema for a first-class audit record describing one bounded op
 - [`doc/normative/50-constitutional-ops/en/EXCEPTION-POLICY.en.md`](../../normative/50-constitutional-ops/en/EXCEPTION-POLICY.en.md)
 - [`doc/normative/50-constitutional-ops/en/EMERGENCY-ACTIVATION-CRITERIA.en.md`](../../normative/50-constitutional-ops/en/EMERGENCY-ACTIVATION-CRITERIA.en.md)
 - [`doc/project/20-memos/exception-record-v1-invariants.md`](../../project/20-memos/exception-record-v1-invariants.md)
+- [`doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`](../../project/40-proposals/017-organization-subjects-and-org-did-key.md)
+- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
 
 ## Project Lineage
+
+### Requirements
+
+- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
+- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
+
+### Stories
+
+- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
+- [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
 
 ## Fields
 
@@ -20,9 +32,9 @@ Machine-readable schema for a first-class audit record describing one bounded op
 | [`policy/id`](#field-policy-id) | `yes` | const: `DIA-EXC-001` | Normative policy anchor for this exception record family. |
 | [`exception/id`](#field-exception-id) | `yes` | string | Stable exception identifier, e.g. `EXC-[federation]-[timestamp]-[nonce]`. |
 | [`exception/type`](#field-exception-type) | `yes` | enum: `ordinary`, `emergency`, `injunction` | Exception family as defined by `EXCEPTION-POLICY`. |
-| [`owner/kind`](#field-owner-kind) | `yes` | enum: `node`, `participant`, `council`, `panel`, `system`, `role` | Actor class that owns responsibility for the exception effects. |
+| [`owner/kind`](#field-owner-kind) | `yes` | enum: `node`, `participant`, `org`, `council`, `panel`, `system`, `role` | Actor class that owns responsibility for the exception effects. |
 | [`owner/id`](#field-owner-id) | `yes` | string | Identifier of the responsible owner. Canonical DID forms are used where available. |
-| [`requester/kind`](#field-requester-kind) | `yes` | enum: `node`, `participant`, `council`, `panel`, `system`, `role` | Actor class that requested or initiated the exception. |
+| [`requester/kind`](#field-requester-kind) | `yes` | enum: `node`, `participant`, `org`, `council`, `panel`, `system`, `role` | Actor class that requested or initiated the exception. |
 | [`requester/id`](#field-requester-id) | `yes` | string | Identifier of the initiator. Canonical DID forms are used where available. |
 | [`scope/summary`](#field-scope-summary) | `yes` | string | What roles, resources, procedures, or data are covered by the exception. |
 | [`reason/summary`](#field-reason-summary) | `yes` | string | Business, ethical, safety, or constitutional rationale for the exception. |
@@ -113,6 +125,35 @@ When:
 {
   "properties": {
     "owner/kind": {
+      "const": "org"
+    }
+  },
+  "required": [
+    "owner/kind"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "owner/id": {
+      "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    }
+  }
+}
+```
+
+### Rule 4
+
+When:
+
+```json
+{
+  "properties": {
+    "owner/kind": {
       "const": "council"
     }
   },
@@ -134,7 +175,7 @@ Then:
 }
 ```
 
-### Rule 4
+### Rule 5
 
 When:
 
@@ -163,7 +204,7 @@ Then:
 }
 ```
 
-### Rule 5
+### Rule 6
 
 When:
 
@@ -192,7 +233,7 @@ Then:
 }
 ```
 
-### Rule 6
+### Rule 7
 
 When:
 
@@ -221,7 +262,36 @@ Then:
 }
 ```
 
-### Rule 7
+### Rule 8
+
+When:
+
+```json
+{
+  "properties": {
+    "requester/kind": {
+      "const": "org"
+    }
+  },
+  "required": [
+    "requester/kind"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "requester/id": {
+      "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    }
+  }
+}
+```
+
+### Rule 9
 
 When:
 
@@ -250,7 +320,7 @@ Then:
 }
 ```
 
-### Rule 8
+### Rule 10
 
 When:
 
@@ -279,7 +349,7 @@ Then:
 }
 ```
 
-### Rule 9
+### Rule 11
 
 When:
 
@@ -355,7 +425,7 @@ Exception family as defined by `EXCEPTION-POLICY`.
 ## `owner/kind`
 
 - Required: `yes`
-- Shape: enum: `node`, `participant`, `council`, `panel`, `system`, `role`
+- Shape: enum: `node`, `participant`, `org`, `council`, `panel`, `system`, `role`
 
 Actor class that owns responsibility for the exception effects.
 
@@ -371,7 +441,7 @@ Identifier of the responsible owner. Canonical DID forms are used where availabl
 ## `requester/kind`
 
 - Required: `yes`
-- Shape: enum: `node`, `participant`, `council`, `panel`, `system`, `role`
+- Shape: enum: `node`, `participant`, `org`, `council`, `panel`, `system`, `role`
 
 Actor class that requested or initiated the exception.
 

@@ -10,7 +10,9 @@
   "x-dia-basis": [
     "doc/normative/50-constitutional-ops/en/EXCEPTION-POLICY.en.md",
     "doc/normative/50-constitutional-ops/en/EMERGENCY-ACTIVATION-CRITERIA.en.md",
-    "doc/project/20-memos/exception-record-v1-invariants.md"
+    "doc/project/20-memos/exception-record-v1-invariants.md",
+    "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md",
+    "doc/project/50-requirements/requirements-008.md"
   ],
   "required": [
     "schema/v",
@@ -62,6 +64,7 @@
       "enum": [
         "node",
         "participant",
+        "org",
         "council",
         "panel",
         "system",
@@ -79,6 +82,7 @@
       "enum": [
         "node",
         "participant",
+        "org",
         "council",
         "panel",
         "system",
@@ -204,6 +208,7 @@
           "enum": [
             "node",
             "participant",
+            "org",
             "council",
             "panel",
             "system",
@@ -258,6 +263,25 @@
             "properties": {
               "approver/id": {
                 "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "approver/kind": {
+                "const": "org"
+              }
+            },
+            "required": [
+              "approver/kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "approver/id": {
+                "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
               }
             }
           }
@@ -346,6 +370,25 @@
       "if": {
         "properties": {
           "owner/kind": {
+            "const": "org"
+          }
+        },
+        "required": [
+          "owner/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "owner/id": {
+            "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "owner/kind": {
             "const": "council"
           }
         },
@@ -414,6 +457,25 @@
         "properties": {
           "requester/id": {
             "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "requester/kind": {
+            "const": "org"
+          }
+        },
+        "required": [
+          "requester/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requester/id": {
+            "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
           }
         }
       }

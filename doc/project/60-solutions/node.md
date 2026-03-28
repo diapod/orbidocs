@@ -10,6 +10,7 @@ The Node is responsible for the solution-level execution path of:
 - peer identity, handshake, and endpoint discovery,
 - question room lifecycle,
 - federated answer procurement,
+- settlement policy coordination and disclosure trail exposure for paid procurement,
 - local learning and knowledge promotion,
 - archival handoff and retrieval,
 - optional transcript observation and later curation/training handoff.
@@ -96,14 +97,68 @@ Related schemas:
 - `procurement-offer.v1`
 - `procurement-contract.v1`
 - `procurement-receipt.v1`
+- `gateway-policy.v1`
+- `escrow-policy.v1`
+- `settlement-policy-disclosure.v1`
 
 Responsibilities:
 - collect and evaluate offers,
 - select responders under policy,
-- record contracts and receipts without coupling protocol semantics to crypto rails.
+- record contracts and receipts without coupling protocol semantics to crypto rails,
+- expose the effective `gateway-policy` and `escrow-policy` context for paid procurement,
+- suppress or degrade paid procurement paths when settlement disclosures mark a blocking or degraded state.
 
 Status:
 - `todo`
+
+### Settlement Policy Coordination and Disclosure Trail
+
+Based on:
+- `doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`
+- `doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`
+- `doc/project/50-requirements/requirements-007.md`
+- `doc/project/50-requirements/requirements-008.md`
+
+Related schemas:
+- `gateway-policy.v1`
+- `escrow-policy.v1`
+- `settlement-policy-disclosure.v1`
+- `gateway-receipt.v1`
+- `ledger-hold.v1`
+
+Responsibilities:
+- ingest and expose the active settlement policy references relevant to paid procurement,
+- retain auditable joins from procurement artifacts to settlement policies and later disclosure events,
+- expose degraded, blocked, or manual-review-only settlement states as first-class operational facts,
+- keep this visibility separate from protocol-external payment execution and fiat rail mechanics.
+
+Status:
+- `todo`
+
+### Settlement-Capable Node Profile
+
+The baseline Node does not automatically become a payment processor or escrow
+authority just because it supports paid procurement.
+
+Two deployment profiles are expected:
+
+- `policy-consuming Node`:
+  - consumes `gateway-policy.v1`, `escrow-policy.v1`, and
+    `settlement-policy-disclosure.v1`,
+  - gates paid procurement according to those artifacts,
+  - preserves audit joins from procurement contracts and receipts,
+  - does not itself execute fiat rail operations or supervise holds.
+- `settlement-capable Node`:
+  - does everything above,
+  - additionally hosts or attaches trusted gateway and/or escrow services,
+  - emits or serves settlement-facing artifacts such as `gateway-policy.v1`,
+    `escrow-policy.v1`, `settlement-policy-disclosure.v1`,
+    `gateway-receipt.v1`, and `ledger-hold.v1` through explicit contracts,
+  - remains accountable through policy-bound roles rather than by collapsing the
+    whole Node into one opaque settlement monolith.
+
+In other words, settlement capability is a deployment profile layered onto the
+Node, not the default meaning of `Orbiplex Node`.
 
 ### Local Learning and Knowledge Promotion
 
@@ -170,6 +225,9 @@ Status:
 - `question-envelope.v1`
 - `retrieval-response.v1`
 - `archivist-advertisement.v1`
+- `gateway-policy.v1`
+- `escrow-policy.v1`
+- `settlement-policy-disclosure.v1`
 
 ## Produces
 
@@ -188,3 +246,7 @@ Status:
 Implementation-specific decomposition, file ownership, and delivery status belong in the concrete Node repository.
 
 Role components attached to the Node may live in separate repositories, runtimes, or processes. This document defines what the Node must coordinate and expose, not that every role must be compiled into one binary.
+
+Settlement-capable deployments may attach gateway or escrow roles as separate
+services. The Node still remains the operator-facing coordination point for
+policy context, disclosure trail visibility, and procurement gating.

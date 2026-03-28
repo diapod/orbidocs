@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:organization-subject:v1",
+  "title": "OrganizationSubject v1",
+  "description": "Machine-readable schema for a canonical organization-scoped accountability subject and its MVP custody anchor.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md",
+    "doc/project/50-requirements/requirements-008.md"
+  ],
+  "required": [
+    "schema/v",
+    "org/id",
+    "created-at",
+    "org/status",
+    "org/key/alg",
+    "org/key/public",
+    "org/custodian-ref"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "org/id": {
+      "type": "string",
+      "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical organization subject identifier."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the organization subject was first provisioned."
+    },
+    "org/status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "suspended",
+        "retired"
+      ],
+      "description": "Administrative status of the organization subject."
+    },
+    "org/display-name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional human-facing display name."
+    },
+    "org/legal-name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional legal or registry name when the federation tracks it."
+    },
+    "org/key/alg": {
+      "type": "string",
+      "enum": [
+        "ed25519"
+      ],
+      "description": "Verification algorithm backing the canonical organization identifier."
+    },
+    "org/key/public": {
+      "type": "string",
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical did:key fingerprint payload for the organization subject without the `org:did:key:` prefix."
+    },
+    "org/custodian-ref": {
+      "type": "string",
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "MVP human-side custodian responsible for administering this organization subject."
+    },
+    "org/custody-mode": {
+      "type": "string",
+      "enum": [
+        "single-custodian"
+      ],
+      "description": "Custody mode of the organization subject. MVP freezes `single-custodian` only."
+    },
+    "suspended-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the organization subject was suspended, if applicable."
+    },
+    "retired-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the organization subject was retired, if applicable."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "org/custody-mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "org/custody-mode": {
+            "const": "single-custodian"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "org/status": {
+            "const": "suspended"
+          }
+        },
+        "required": [
+          "org/status"
+        ]
+      },
+      "then": {
+        "required": [
+          "suspended-at"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "org/status": {
+            "const": "retired"
+          }
+        },
+        "required": [
+          "org/status"
+        ]
+      },
+      "then": {
+        "required": [
+          "retired-at"
+        ]
+      }
+    }
+  ]
+}

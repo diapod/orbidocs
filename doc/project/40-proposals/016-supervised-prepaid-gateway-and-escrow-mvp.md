@@ -281,6 +281,16 @@ should gain explicit settlement bindings:
 
 The current single `deadline-at` is too coarse for a hold-based procurement flow.
 
+`payer/account-ref` and `payee/account-ref` should be canonical role-prefixed
+settlement subject references such as:
+
+- `participant:did:key:...`
+- `org:did:key:...`
+
+The role is already carried by the identifier prefix, so dedicated
+`payer/kind` or `payee/kind` fields would only duplicate information and create
+drift risk.
+
 ### `procurement-receipt.v1`
 
 The current receipt should remain the auditable procurement outcome, but it should be

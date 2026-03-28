@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:gateway-policy:v1",
+  "title": "GatewayPolicy v1",
+  "description": "Machine-readable schema for one trusted gateway policy binding a servicing node to an accountable organization in the host-ledger settlement rail.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
+    "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md",
+    "doc/project/50-requirements/requirements-007.md",
+    "doc/project/50-requirements/requirements-008.md"
+  ],
+  "required": [
+    "schema/v",
+    "policy/id",
+    "created-at",
+    "federation/id",
+    "gateway/node-id",
+    "operator/org-ref",
+    "settlement/unit",
+    "supported/directions",
+    "status"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "policy/id": {
+      "type": "string",
+      "pattern": "^gateway-policy:[a-z0-9][a-z0-9:-]*$",
+      "description": "Stable identifier of the gateway policy."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the gateway policy became auditable."
+    },
+    "federation/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Federation scope in which the gateway policy applies."
+    },
+    "gateway/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node currently serving the trusted gateway role under this policy."
+    },
+    "operator/org-ref": {
+      "type": "string",
+      "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Accountable organization operating the gateway policy."
+    },
+    "settlement/unit": {
+      "const": "ORC",
+      "description": "Internal settlement unit handled by this gateway policy in MVP."
+    },
+    "supported/directions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["inbound", "outbound"]
+      },
+      "description": "Permitted directions for fiat-to-credit or credit-to-fiat boundary crossings."
+    },
+    "kyc/mode": {
+      "type": "string",
+      "enum": ["none", "provider-managed", "manual-review"],
+      "description": "High-level compliance posture applied to payout or top-up flows."
+    },
+    "payout/manual-review": {
+      "type": "boolean",
+      "description": "Whether outbound settlement may require manual review under this policy."
+    },
+    "external/providers": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Named external payment providers or rails admitted under this policy."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended", "retired"],
+      "description": "Administrative lifecycle state of the gateway policy."
+    },
+    "suspended-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the gateway policy was suspended, if applicable."
+    },
+    "retired-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the gateway policy was retired, if applicable."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable notes."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "suspended"
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["suspended-at"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "retired"
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["retired-at"]
+      }
+    }
+  ]
+}

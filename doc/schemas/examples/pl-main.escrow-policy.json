@@ -1,0 +1,16 @@
+{
+  "schema/v": 1,
+  "policy/id": "escrow-policy:pl-main-standard-v1",
+  "created-at": "2026-03-28T08:35:00Z",
+  "federation/id": "fed:pl-main",
+  "escrow/node-id": "node:pl-main-escrow-01",
+  "operator/org-ref": "org:did:key:z6Mkr9Qv7C4h1N8p3K5s7D2k8M4r1V6w9X3y2Z7T4b6H8N",
+  "settlement/unit": "ORC",
+  "confirmation/modes": ["self-confirmed", "arbiter-confirmed"],
+  "dispute/default-window-sec": 172800,
+  "auto-release/default-sec": 86400,
+  "partial-release/allowed": true,
+  "arbiter/required-above-risk": "high",
+  "status": "active",
+  "notes": "Default escrow policy for standard paid procurement in the main federation."
+}

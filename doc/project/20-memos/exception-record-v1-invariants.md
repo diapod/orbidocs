@@ -11,10 +11,12 @@ exception record required by `EXCEPTION-POLICY`.
 4. `status ∈ { proposed, active, suspended, expired, rolled_back }`.
 5. `owner/kind = node        → owner/id MUST be node:did:key:...`.
 6. `owner/kind = participant → owner/id MUST be participant:did:key:...`.
-7. `owner/kind = council     → owner/id MUST be council:did:key:...`.
-8. `requester/kind = node|participant|council|system` constrains `requester/id` to the corresponding canonical form.
-9. `risk/level ∈ { high, critical } → approvals, monitoring/metrics, and rollback/conditions MUST all be non-empty`.
-10. `expires/at > created/at` and `monitoring/review-at >= created/at` SHOULD be enforced by consumers at ingest time.
+7. `owner/kind = org         → owner/id MUST be org:did:key:...`.
+8. `owner/kind = council     → owner/id MUST be council:did:key:...`.
+9. `requester/kind = node|participant|org|council|system` constrains `requester/id` to the corresponding canonical form.
+10. `approver/kind = node|participant|org|council|system` constrains `approver/id` to the corresponding canonical form.
+11. `risk/level ∈ { high, critical } → approvals, monitoring/metrics, and rollback/conditions MUST all be non-empty`.
+12. `expires/at > created/at` and `monitoring/review-at >= created/at` SHOULD be enforced by consumers at ingest time.
 
 ## Scope note
 

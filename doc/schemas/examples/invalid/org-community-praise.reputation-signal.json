@@ -1,0 +1,14 @@
+{
+  "schema/v": 1,
+  "signal/id": "sig:01K1ORGREP002",
+  "observed/at": "2026-03-28T10:07:00Z",
+  "recorded/at": "2026-03-28T10:08:00Z",
+  "signal/type": "community/helpful-participation",
+  "polarity": "positive",
+  "weight": 0.5,
+  "subject/kind": "org",
+  "subject/id": "org:did:key:z6Mkr9Qv7C4h1N8p3K5s7D2k8M4r1V6w9X3y2Z7T4b6H8N",
+  "emitted-by/kind": "peer",
+  "emitted-by/id": "participant:did:key:z6MkPeer7LQkJr2YQ6L8eYw6Qk8f9P8GmJm7a3x6P1v1Q2w3",
+  "retention/hint": "ephemeral"
+}

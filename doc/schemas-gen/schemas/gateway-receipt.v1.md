@@ -8,6 +8,7 @@ Machine-readable schema for a fiat-to-credit or credit-to-fiat crossing performe
 
 - [`doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`](../../project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md)
 - [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
+- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
 
 ## Project Lineage
 
@@ -15,6 +16,7 @@ Machine-readable schema for a fiat-to-credit or credit-to-fiat crossing performe
 
 - [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
 - [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
+- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
 
 ### Stories
 
@@ -36,10 +38,41 @@ Machine-readable schema for a fiat-to-credit or credit-to-fiat crossing performe
 | [`account/id`](#field-account-id) | `yes` | string | Local supervised account affected by the gateway event. |
 | [`ts`](#field-ts) | `yes` | string | Timestamp when the gateway event was committed for audit. |
 | [`external/payment-ref`](#field-external-payment-ref) | `yes` | string | Gateway-side payment reference such as a PSP transaction id or bank transfer reference. |
+| [`gateway-policy/ref`](#field-gateway-policy-ref) | `no` | string | Gateway policy under which this boundary crossing was executed. |
 | [`external/provider`](#field-external-provider) | `no` | string | Payment service provider or banking rail label used by the gateway. |
 | [`exchange-policy/ref`](#field-exchange-policy-ref) | `no` | string | Optional reference to the gateway-side pricing or exchange policy in force for this event. |
 | [`notes`](#field-notes) | `no` | string | Optional human-readable notes. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "direction": {
+      "const": "outbound"
+    }
+  },
+  "required": [
+    "direction"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "gateway-policy/ref"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema-v"></a>
@@ -129,6 +162,14 @@ Timestamp when the gateway event was committed for audit.
 - Shape: string
 
 Gateway-side payment reference such as a PSP transaction id or bank transfer reference.
+
+<a id="field-gateway-policy-ref"></a>
+## `gateway-policy/ref`
+
+- Required: `no`
+- Shape: string
+
+Gateway policy under which this boundary crossing was executed.
 
 <a id="field-external-provider"></a>
 ## `external/provider`

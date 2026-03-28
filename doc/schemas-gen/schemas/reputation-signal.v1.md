@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/reputation-signal.v1.schema.json`](../../schemas/reputation-signal.v1.schema.json)
 
-Machine-readable schema for a small append-only reputation fact record. This contract carries one reputation-affecting signal about a `node`, `participant`, or `nym` subject. It is intentionally unsigned in the core shape so local write-path storage and later transport envelopes stay decoupled.
+Machine-readable schema for a small append-only reputation fact record. This contract carries one reputation-affecting signal about a `node`, `participant`, `org`, or `nym` subject. It is intentionally unsigned in the core shape so local write-path storage and later transport envelopes stay decoupled.
 
 ## Governing Basis
 
@@ -11,8 +11,20 @@ Machine-readable schema for a small append-only reputation fact record. This con
 - [`doc/normative/50-constitutional-ops/pl/EMERGENCY-ACTIVATION-CRITERIA.pl.md`](../../normative/50-constitutional-ops/pl/EMERGENCY-ACTIVATION-CRITERIA.pl.md)
 - [`doc/normative/50-constitutional-ops/pl/ABUSE-DISCLOSURE-PROTOCOL.pl.md`](../../normative/50-constitutional-ops/pl/ABUSE-DISCLOSURE-PROTOCOL.pl.md)
 - [`doc/project/20-memos/reputation-signal-v1-invariants.md`](../../project/20-memos/reputation-signal-v1-invariants.md)
+- [`doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`](../../project/40-proposals/017-organization-subjects-and-org-did-key.md)
+- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
 
 ## Project Lineage
+
+### Requirements
+
+- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
+- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
+
+### Stories
+
+- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
+- [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
 
 ## Fields
 
@@ -25,7 +37,7 @@ Machine-readable schema for a small append-only reputation fact record. This con
 | [`signal/type`](#field-signal-type) | `yes` | string | Open signal namespace. The first path segment is the reputation domain and MUST stay consistent with subject constraints. |
 | [`polarity`](#field-polarity) | `yes` | enum: `positive`, `negative` | Reputation direction of the signal. Neutral observations do not belong in this contract. |
 | [`weight`](#field-weight) | `yes` | number | Relative strength of the signal, normalized to `(0.0, 1.0]`. |
-| [`subject/kind`](#field-subject-kind) | `yes` | enum: `node`, `participant`, `nym` | Identity layer on which the signal lands. |
+| [`subject/kind`](#field-subject-kind) | `yes` | enum: `node`, `participant`, `org`, `nym` | Identity layer on which the signal lands. |
 | [`subject/id`](#field-subject-id) | `yes` | string | Canonical identifier of the reputation subject. The allowed format depends on `subject/kind`. |
 | [`observed-via/node-id`](#field-observed-via-node-id) | `no` | string | Optional node through which the behavior was observed when the subject is a participant or nym. |
 | [`emitted-by/kind`](#field-emitted-by-kind) | `yes` | enum: `local-runtime`, `operator`, `peer`, `panel`, `federation-review`, `council` | Emitter class of the signal. |
@@ -103,6 +115,35 @@ When:
 {
   "properties": {
     "subject/kind": {
+      "const": "org"
+    }
+  },
+  "required": [
+    "subject/kind"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "subject/id": {
+      "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    }
+  }
+}
+```
+
+### Rule 4
+
+When:
+
+```json
+{
+  "properties": {
+    "subject/kind": {
       "const": "nym"
     }
   },
@@ -124,7 +165,7 @@ Then:
 }
 ```
 
-### Rule 4
+### Rule 5
 
 When:
 
@@ -155,7 +196,38 @@ Then:
 }
 ```
 
-### Rule 5
+### Rule 6
+
+When:
+
+```json
+{
+  "properties": {
+    "signal/type": {
+      "pattern": "^community/"
+    }
+  },
+  "required": [
+    "signal/type"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "subject/kind": {
+      "not": {
+        "const": "org"
+      }
+    }
+  }
+}
+```
+
+### Rule 7
 
 When:
 
@@ -186,7 +258,7 @@ Then:
 }
 ```
 
-### Rule 6
+### Rule 8
 
 When:
 
@@ -277,7 +349,7 @@ Relative strength of the signal, normalized to `(0.0, 1.0]`.
 ## `subject/kind`
 
 - Required: `yes`
-- Shape: enum: `node`, `participant`, `nym`
+- Shape: enum: `node`, `participant`, `org`, `nym`
 
 Identity layer on which the signal lands.
 

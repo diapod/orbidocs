@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:escrow-policy:v1",
+  "title": "EscrowPolicy v1",
+  "description": "Machine-readable schema for one trusted escrow policy binding a supervisory settlement node to an accountable organization in the host-ledger rail.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
+    "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md",
+    "doc/project/50-requirements/requirements-007.md",
+    "doc/project/50-requirements/requirements-008.md"
+  ],
+  "required": [
+    "schema/v",
+    "policy/id",
+    "created-at",
+    "federation/id",
+    "escrow/node-id",
+    "operator/org-ref",
+    "settlement/unit",
+    "confirmation/modes",
+    "dispute/default-window-sec",
+    "auto-release/default-sec",
+    "partial-release/allowed",
+    "status"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "policy/id": {
+      "type": "string",
+      "pattern": "^escrow-policy:[a-z0-9][a-z0-9:-]*$",
+      "description": "Stable identifier of the escrow policy."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the escrow policy became auditable."
+    },
+    "federation/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Federation scope in which the escrow policy applies."
+    },
+    "escrow/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node currently serving the escrow supervisor role under this policy."
+    },
+    "operator/org-ref": {
+      "type": "string",
+      "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Accountable organization operating the escrow policy."
+    },
+    "settlement/unit": {
+      "const": "ORC",
+      "description": "Internal settlement unit governed by this escrow policy in MVP."
+    },
+    "confirmation/modes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["arbiter-confirmed", "self-confirmed", "no-confirmation"]
+      },
+      "description": "Confirmation modes admitted by the escrow policy."
+    },
+    "dispute/default-window-sec": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Default dispute window applied when a contract does not override it."
+    },
+    "auto-release/default-sec": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Default auto-release delay applied after the relevant acceptance stage when a contract does not override it."
+    },
+    "partial-release/allowed": {
+      "type": "boolean",
+      "description": "Whether partial release is permitted under this escrow policy."
+    },
+    "arbiter/required-above-risk": {
+      "type": "string",
+      "enum": ["none", "medium", "high", "critical"],
+      "description": "Minimum risk tier above which arbiter confirmation becomes mandatory under local policy."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended", "retired"],
+      "description": "Administrative lifecycle state of the escrow policy."
+    },
+    "suspended-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the escrow policy was suspended, if applicable."
+    },
+    "retired-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the escrow policy was retired, if applicable."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable notes."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "suspended"
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["suspended-at"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "retired"
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["retired-at"]
+      }
+    }
+  ]
+}

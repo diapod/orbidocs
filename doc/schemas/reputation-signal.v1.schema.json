@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:reputation-signal:v1",
   "title": "ReputationSignal v1",
-  "description": "Machine-readable schema for a small append-only reputation fact record. This contract carries one reputation-affecting signal about a `node`, `participant`, or `nym` subject. It is intentionally unsigned in the core shape so local write-path storage and later transport envelopes stay decoupled.",
+  "description": "Machine-readable schema for a small append-only reputation fact record. This contract carries one reputation-affecting signal about a `node`, `participant`, `org`, or `nym` subject. It is intentionally unsigned in the core shape so local write-path storage and later transport envelopes stay decoupled.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -12,7 +12,9 @@
     "doc/normative/50-constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md",
     "doc/normative/50-constitutional-ops/pl/EMERGENCY-ACTIVATION-CRITERIA.pl.md",
     "doc/normative/50-constitutional-ops/pl/ABUSE-DISCLOSURE-PROTOCOL.pl.md",
-    "doc/project/20-memos/reputation-signal-v1-invariants.md"
+    "doc/project/20-memos/reputation-signal-v1-invariants.md",
+    "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md",
+    "doc/project/50-requirements/requirements-008.md"
   ],
   "required": [
     "schema/v",
@@ -72,6 +74,7 @@
       "enum": [
         "node",
         "participant",
+        "org",
         "nym"
       ],
       "description": "Identity layer on which the signal lands."
@@ -174,6 +177,25 @@
       "if": {
         "properties": {
           "subject/kind": {
+            "const": "org"
+          }
+        },
+        "required": [
+          "subject/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "subject/id": {
+            "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "subject/kind": {
             "const": "nym"
           }
         },
@@ -205,6 +227,27 @@
           "subject/kind": {
             "not": {
               "const": "nym"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "signal/type": {
+            "pattern": "^community/"
+          }
+        },
+        "required": [
+          "signal/type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "subject/kind": {
+            "not": {
+              "const": "org"
             }
           }
         }

@@ -13,7 +13,9 @@
     "doc/project/50-requirements/requirements-001.md",
     "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md",
     "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
-    "doc/project/50-requirements/requirements-007.md"
+    "doc/project/50-requirements/requirements-007.md",
+    "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md",
+    "doc/project/50-requirements/requirements-008.md"
   ],
   "required": [
     "schema/v",
@@ -100,13 +102,13 @@
     },
     "payer/account-ref": {
       "type": "string",
-      "minLength": 1,
-      "description": "Optional payer-side supervised ledger account reference. This becomes required for the `host-ledger` rail."
+      "pattern": "^(participant|org|pod-user):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Optional payer-side canonical settlement owner reference. The role lives in the identifier prefix, so no separate `payer/kind` field is used. This becomes required for the `host-ledger` rail."
     },
     "payee/account-ref": {
       "type": "string",
-      "minLength": 1,
-      "description": "Optional payee-side supervised ledger account reference. This becomes required for the `host-ledger` rail."
+      "pattern": "^(participant|org|pod-user):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Optional payee-side canonical settlement owner reference. The role lives in the identifier prefix, so no separate `payee/kind` field is used. This becomes required for the `host-ledger` rail."
     },
     "settlement/rail": {
       "type": "string",
@@ -132,6 +134,11 @@
       "type": "string",
       "minLength": 1,
       "description": "Reference to the host-ledger hold created for this contract."
+    },
+    "escrow-policy/ref": {
+      "type": "string",
+      "pattern": "^escrow-policy:[a-z0-9][a-z0-9:-]*$",
+      "description": "Escrow policy in force for this host-ledger contract."
     },
     "deadlines/work-by": {
       "type": "string",
@@ -251,6 +258,7 @@
           "payee/account-ref",
           "escrow/node-id",
           "escrow/hold-ref",
+          "escrow-policy/ref",
           "deadlines/work-by",
           "deadlines/accept-by",
           "deadlines/dispute-by",

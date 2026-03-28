@@ -1,0 +1,24 @@
+{
+  "schema/v": 1,
+  "disclosure/id": "settlement-disclosure:pl-main-gateway-payout-freeze-2026-03-28",
+  "recorded-at": "2026-03-28T22:45:00Z",
+  "effective/from": "2026-03-28T22:40:00Z",
+  "federation/id": "pl-main",
+  "policy/ref": "gateway-policy:pl-main",
+  "operator/org-ref": "org:did:key:z6Mkr9QGqA7r9D6MZ3u2CqA4n6p5R8t2LmYx9KqT1Vw4",
+  "serving/node-id": "node:did:key:z6Mkf7N2pQv4z9T1u8Wr5Yc3Lh6Ks2Bq4Md8Pn7Jr5Xa",
+  "event/type": "incident/opened",
+  "disclosure/scope": "federation-redacted",
+  "impact/mode": "blocked",
+  "reason/summary": "Outbound payouts are temporarily frozen pending reconciliation with the payment provider and internal review.",
+  "changed/fields": [
+    "supported/directions",
+    "payout/manual-review"
+  ],
+  "exception/ref": "exception:gateway-payout-freeze-2026-03-28",
+  "basis/refs": [
+    "receipt:gw-20260328-001",
+    "gateway-policy:pl-main"
+  ],
+  "notes": "Inbound top-ups remain active under the same policy."
+}

@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "org/id": "org:did:key:z6Mkr9Qv7C4h1N8p3K5s7D2k8M4r1V6w9X3y2Z7T4b6H8N",
+  "created-at": "2026-03-28T11:15:00Z",
+  "org/status": "active",
+  "org/display-name": "Orbiplex Studio Collective",
+  "org/legal-name": "Orbiplex Studio Collective Foundation",
+  "org/key/alg": "ed25519",
+  "org/key/public": "z6Mkr9Qv7C4h1N8p3K5s7D2k8M4r1V6w9X3y2Z7T4b6H8N",
+  "org/custodian-ref": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "org/custody-mode": "single-custodian"
+}

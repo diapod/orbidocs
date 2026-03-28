@@ -1,0 +1,42 @@
+{
+  "schema/v": 1,
+  "policy/id": "DIA-EXC-001",
+  "exception/id": "EXC-fed-pl-20260328T181500Z-03",
+  "exception/type": "ordinary",
+  "owner/kind": "org",
+  "owner/id": "org:did:key:z6Mkr9Qv7C4h1N8p3K5s7D2k8M4r1V6w9X3y2Z7T4b6H8N",
+  "requester/kind": "org",
+  "requester/id": "org:did:key:z6Mkr9Qv7C4h1N8p3K5s7D2k8M4r1V6w9X3y2Z7T4b6H8N",
+  "scope/summary": "Temporarily widen payout review limits for one supervised gateway while a banking provider completes manual KYC backlog processing.",
+  "reason/summary": "A bounded exception prevents payout starvation for already settled creators while preserving audit checkpoints and rollback conditions.",
+  "risk/level": "medium",
+  "constitutional/basis": [
+    "XIV.3",
+    "XIV.4"
+  ],
+  "created/at": "2026-03-28T18:15:00Z",
+  "expires/at": "2026-03-29T18:15:00Z",
+  "fail-closed/target": "default-gateway-payout-limits",
+  "trigger/refs": [
+    "gateway-review-window:pl-main-20260328"
+  ],
+  "approvals": [
+    {
+      "approver/kind": "participant",
+      "approver/id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+      "approved-at": "2026-03-28T18:18:00Z",
+      "notes": "Custodian acknowledged the bounded organizational exception."
+    }
+  ],
+  "monitoring/metrics": [
+    "pending-payout-count",
+    "manual-review-latency"
+  ],
+  "monitoring/review-at": "2026-03-29T08:00:00Z",
+  "rollback/conditions": [
+    "manual review queue returns below baseline",
+    "unexpected payout anomaly is detected"
+  ],
+  "status": "active",
+  "notes": "Organization-scoped exception for a supervised payout backlog."
+}

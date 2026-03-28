@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:settlement-policy-disclosure:v1",
+  "title": "SettlementPolicyDisclosure v1",
+  "description": "Machine-readable schema for one append-only disclosure or audit event affecting a trusted gateway or escrow policy in the host-ledger settlement rail.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/settlement-policy-disclosure-v1-invariants.md",
+    "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
+    "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md",
+    "doc/project/50-requirements/requirements-007.md",
+    "doc/project/50-requirements/requirements-008.md",
+    "doc/normative/50-constitutional-ops/pl/ABUSE-DISCLOSURE-PROTOCOL.pl.md"
+  ],
+  "required": [
+    "schema/v",
+    "disclosure/id",
+    "recorded-at",
+    "effective/from",
+    "federation/id",
+    "policy/ref",
+    "operator/org-ref",
+    "serving/node-id",
+    "event/type",
+    "disclosure/scope",
+    "impact/mode",
+    "reason/summary"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "disclosure/id": {
+      "type": "string",
+      "pattern": "^settlement-disclosure:[a-z0-9][a-z0-9:-]*$",
+      "description": "Stable identifier of this settlement policy disclosure event."
+    },
+    "recorded-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the disclosure event was committed as an auditable fact."
+    },
+    "effective/from": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp from which the disclosed impact becomes effective."
+    },
+    "effective/until": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional timestamp until which the disclosed impact remains effective."
+    },
+    "federation/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Federation scope in which the disclosed settlement policy event applies."
+    },
+    "policy/ref": {
+      "type": "string",
+      "pattern": "^(gateway-policy|escrow-policy):[a-z0-9][a-z0-9:-]*$",
+      "description": "Referenced settlement policy affected by this disclosure event."
+    },
+    "operator/org-ref": {
+      "type": "string",
+      "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Accountable organization operating the affected settlement policy at event time."
+    },
+    "serving/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Serving node observed under the affected settlement policy at event time."
+    },
+    "event/type": {
+      "type": "string",
+      "pattern": "^(lifecycle|limits|incident|review|providers)/[a-z0-9][a-z0-9-]*(/[a-z0-9][a-z0-9-]*)*$",
+      "description": "Open event namespace for settlement-policy disclosures. Example families: `lifecycle/suspended`, `limits/tightened`, `incident/opened`."
+    },
+    "disclosure/scope": {
+      "type": "string",
+      "enum": [
+        "internal-only",
+        "federation-redacted",
+        "federation-scoped",
+        "public-redacted"
+      ],
+      "description": "Maximum disclosure scope admitted for this event."
+    },
+    "impact/mode": {
+      "type": "string",
+      "enum": [
+        "informational",
+        "degraded",
+        "blocked",
+        "manual-review-only"
+      ],
+      "description": "Practical operator impact implied by the disclosed event."
+    },
+    "reason/summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short human-readable summary explaining why the disclosure event exists."
+    },
+    "changed/fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional policy fields or operational dimensions materially affected by this disclosure event."
+    },
+    "case/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional review or incident case reference."
+    },
+    "exception/ref": {
+      "type": "string",
+      "pattern": "^exception:[a-z0-9][a-z0-9:-]*$",
+      "description": "Optional bounded exception record authorizing or constraining the disclosed event."
+    },
+    "basis/refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional references to receipts, holds, incident materials, or other audit artifacts that justify the disclosure event."
+    },
+    "supersedes/ref": {
+      "type": "string",
+      "pattern": "^settlement-disclosure:[a-z0-9][a-z0-9:-]*$",
+      "description": "Optional earlier disclosure event superseded by this one."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable notes."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "event/type": {
+            "pattern": "^incident/"
+          }
+        },
+        "required": [
+          "event/type"
+        ]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": [
+              "case/ref"
+            ]
+          },
+          {
+            "required": [
+              "exception/ref"
+            ]
+          },
+          {
+            "properties": {
+              "basis/refs": {
+                "minItems": 1
+              }
+            },
+            "required": [
+              "basis/refs"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

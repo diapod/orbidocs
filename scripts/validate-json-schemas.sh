@@ -146,6 +146,18 @@ schema_for_file() {
     *.gateway-receipt.json)
       echo "$SCHEMAS_DIR/gateway-receipt.v1.schema.json"
       ;;
+    *.gateway-policy.json)
+      echo "$SCHEMAS_DIR/gateway-policy.v1.schema.json"
+      ;;
+    *.escrow-policy.json)
+      echo "$SCHEMAS_DIR/escrow-policy.v1.schema.json"
+      ;;
+    *.settlement-policy-disclosure.json)
+      echo "$SCHEMAS_DIR/settlement-policy-disclosure.v1.schema.json"
+      ;;
+    *.organization-subject.json)
+      echo "$SCHEMAS_DIR/organization-subject.v1.schema.json"
+      ;;
     *.response-envelope.json)
       echo "$SCHEMAS_DIR/response-envelope.v1.schema.json"
       ;;

@@ -10,6 +10,7 @@
   "account/id": "account:fed-pl-main:participant:z6MkhaXg",
   "ts": "2026-03-28T08:55:00Z",
   "external/payment-ref": "stripe:pi_3ORBIPLEX001",
+  "gateway-policy/ref": "gateway-policy:pl-main-prepaid-v1",
   "external/provider": "stripe",
   "exchange-policy/ref": "gateway-policy:pl-main-prepaid-v1"
 }

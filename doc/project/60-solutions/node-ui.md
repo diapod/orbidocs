@@ -8,6 +8,7 @@ The Node UI exists to:
 - inspect Node state and protocol flows,
 - expose safe operator controls,
 - present provenance and policy context without re-implementing protocol semantics,
+- present settlement policy health and disclosure trail context for paid flows,
 - adapt to different host environments as thin clients.
 
 ## Scope
@@ -52,11 +53,38 @@ Related schemas:
 - `transcript-segment.v1`
 - `transcript-bundle.v1`
 - `learning-outcome.v1`
+- `gateway-policy.v1`
+- `escrow-policy.v1`
+- `settlement-policy-disclosure.v1`
 
 Responsibilities:
 - render provenance and human-origin markers in operator-visible views,
 - expose policy and scope information without flattening semantics,
-- make unresolved and quarantined states clearly distinguishable.
+- make unresolved and quarantined states clearly distinguishable,
+- render settlement policy degradation, suspension, and manual-review conditions before an operator commits to a paid path.
+
+Status:
+- `todo`
+
+### Settlement Policy Inspection
+
+Based on:
+- `doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`
+- `doc/project/50-requirements/requirements-007.md`
+- `doc/project/50-requirements/requirements-008.md`
+
+Related schemas:
+- `gateway-policy.v1`
+- `escrow-policy.v1`
+- `settlement-policy-disclosure.v1`
+- `procurement-contract.v1`
+- `procurement-receipt.v1`
+
+Responsibilities:
+- show the active settlement policies attached to a paid procurement path,
+- surface recent settlement disclosure events with their scope and impact mode,
+- let the operator inspect why a paid path is blocked, degraded, or forced into manual review,
+- preserve audit joins from procurement contracts and receipts back to their governing settlement policies.
 
 Status:
 - `todo`
@@ -88,6 +116,9 @@ Status:
 - `learning-outcome.v1`
 - `archival-package.v1`
 - `retrieval-response.v1`
+- `gateway-policy.v1`
+- `escrow-policy.v1`
+- `settlement-policy-disclosure.v1`
 
 ## Produces
 
@@ -100,3 +131,7 @@ Status:
 ## Notes
 
 Different host-specific clients may exist for desktop, browser, terminal, or pod-backed thin-client contexts, but they should remain thin surfaces over Node behavior.
+
+Settlement inspection belongs in the UI because operators need a bounded view of
+why paid actions are available, delayed, or suspended. The UI still must not
+become an independent settlement authority.

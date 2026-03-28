@@ -8,6 +8,7 @@ Machine-readable schema for one supervised escrow hold on the host-ledger settle
 
 - [`doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`](../../project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md)
 - [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
+- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
 
 ## Project Lineage
 
@@ -15,6 +16,7 @@ Machine-readable schema for one supervised escrow hold on the host-ledger settle
 
 - [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
 - [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
+- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
 
 ### Stories
 
@@ -32,6 +34,7 @@ Machine-readable schema for one supervised escrow hold on the host-ledger settle
 | [`payer/account-id`](#field-payer-account-id) | `yes` | string | Ledger account from which value is reserved. |
 | [`payee/account-id`](#field-payee-account-id) | `yes` | string | Ledger account eligible to receive release transfers from this hold. |
 | [`escrow/node-id`](#field-escrow-node-id) | `yes` | string | Supervisory node responsible for maintaining the hold state machine. |
+| [`escrow-policy/ref`](#field-escrow-policy-ref) | `no` | string | Escrow policy governing dispute, confirmation, and release behavior for this hold. |
 | [`amount`](#field-amount) | `yes` | integer | Reserved amount in internal minor units. |
 | [`unit`](#field-unit) | `yes` | const: `ORC` | Internal settlement unit carried by the hold in MVP. |
 | [`status`](#field-status) | `yes` | enum: `active`, `disputed`, `released`, `partially-released`, `refunded`, `expired` | Operational state of the hold. |
@@ -165,6 +168,28 @@ Then:
 }
 ```
 
+### Rule 5
+
+When:
+
+```json
+{
+  "required": [
+    "escrow/node-id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "escrow-policy/ref"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema-v"></a>
@@ -222,6 +247,14 @@ Ledger account eligible to receive release transfers from this hold.
 - Shape: string
 
 Supervisory node responsible for maintaining the hold state machine.
+
+<a id="field-escrow-policy-ref"></a>
+## `escrow-policy/ref`
+
+- Required: `no`
+- Shape: string
+
+Escrow policy governing dispute, confirmation, and release behavior for this hold.
 
 <a id="field-amount"></a>
 ## `amount`
