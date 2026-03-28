@@ -19,13 +19,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | Step | Markdown Files | With `Based on:` |
 |---|---:|---:|
 | `10-challenges` (Challenges) | `4` | `2` |
-| `20-memos` (Memos) | `22` | `0` |
+| `20-memos` (Memos) | `23` | `0` |
 | `30-stories` (Stories) | `7` | `0` |
 | `40-proposals` (Proposals) | `17` | `15` |
 | `50-requirements` (Requirements) | `8` | `6` |
 | `60-solutions` (Solutions) | `10` | `6` |
 
-- Total project markdown files: `70`
+- Total project markdown files: `71`
 - Proposals referencing source material: `15` / `17`
 - Requirements referencing source material: `6` / `8`
 
@@ -45,14 +45,14 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) | `16` | `16` | `yes` | `yes` | `1` | `1` |
 | [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md) | `17` | `17` | `yes` | `yes` | `1` | `1` |
-| [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
+| [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `2` | `1` |
 | [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `2` |
 | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md) | `11` | `9` | `yes` | `yes` | `2` | `1` |
 | [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md) | `10` | `8` | `yes` | `yes` | `1` | `1` |
 | [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md) | `10` | `8` | `yes` | `yes` | `1` | `0` |
 | [`nym-renew-request.v1.schema.json`](schemas-gen/schemas/nym-renew-request.v1.md) | `8` | `6` | `yes` | `yes` | `1` | `1` |
 | [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md) | `6` | `4` | `yes` | `yes` | `1` | `0` |
-| [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
+| [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | `18` | `17` | `yes` | `yes` | `2` | `1` |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `23` | `22` | `yes` | `yes` | `1` | `1` |
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | `22` | `21` | `yes` | `yes` | `1` | `1` |
 | [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
@@ -151,5 +151,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `38`
 - Generated schema docs: `38`
-- Positive examples: `47`
+- Positive examples: `49`
 - Negative examples: `42`

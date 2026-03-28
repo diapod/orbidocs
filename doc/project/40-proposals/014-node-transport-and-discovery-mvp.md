@@ -323,6 +323,10 @@ This gives domain separation, deterministic verification, and malleability
 resistance. If a later wire framing carries raw advertisement bytes, receivers
 should verify those exact bytes rather than re-canonicalizing them.
 
+The first byte-exact advertisement conformance vector now lives in:
+
+- `doc/project/20-memos/networking-signing-conformance-vectors.md`
+
 For discovery state, v1 should treat advertisements as:
 
 - one current active advertisement per `node-id`,
@@ -555,6 +559,12 @@ In v1 the handshake family should stay symmetric at schema level:
 - and the existing `handshake/mode` field may remain as an explicit discriminator
   for clarity and easier interoperability, even though the semantic asymmetry is
   already visible through `ack/of-handshake-id`.
+
+The first positive `ack` fixture and byte-exact handshake signing vector now live
+close to the schema layer:
+
+- `doc/schemas/examples/bootstrap.ack.peer-handshake.json`
+- `doc/project/20-memos/networking-signing-conformance-vectors.md`
 
 Replay resistance for the baseline handshake should be defined by:
 

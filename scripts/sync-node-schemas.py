@@ -22,7 +22,9 @@ SCHEMA_WHITELIST = (
 EXAMPLE_WHITELIST = (
     "bootstrap.node-identity.json",
     "seed-wss.node-advertisement.json",
+    "vector-signed.node-advertisement.json",
     "bootstrap.hello.peer-handshake.json",
+    "bootstrap.ack.peer-handshake.json",
     "base-node.capability-advertisement.json",
     "privacy-redacted.signal-marker.json",
 )
