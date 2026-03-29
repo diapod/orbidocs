@@ -121,7 +121,22 @@
    :responsibilities
    ["Observe only policy-allowed traffic"
     "Preserve human-origin semantics and consent basis"]
-   :status :optional}]
+   :status :optional}
+
+  {:cap/id :supervised-local-http-middleware-services
+   :title "Supervised Local HTTP Middleware Services"
+   :kind :extension
+   :based-on ["doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
+              "doc/project/50-requirements/requirements-010.md"
+              "doc/project/30-stories/story-006.md"
+              "doc/project/20-memos/node-middleware-init-and-capability-reporting.md"]
+   :schemas []
+   :responsibilities
+   ["Host long-lived local HTTP middleware services under daemon-owned lifecycle semantics"
+    "Keep middleware startup, readiness, restart budget, and shutdown under Node authority"
+    "Run `middleware-init` and retain module capability reports for operator inspection"
+    "Provide the deployment surface for Dator-like and Arca-like attached modules without overloading unmanaged adapters"]
+   :status :todo}]
 
  :out-of-scope
  ["Rich end-user UI"
