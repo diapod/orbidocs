@@ -77,7 +77,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
-| [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) | `20` | `19` | `yes` | `yes` | `1` | `1` |
+| [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) | `21` | `20` | `yes` | `yes` | `2` | `2` |
 | [`signal-marker.v1.schema.json`](schemas-gen/schemas/signal-marker.v1.md) | `12` | `8` | `yes` | `yes` | `1` | `1` |
 | [`signal-transform-event.v1.schema.json`](schemas-gen/schemas/signal-transform-event.v1.md) | `15` | `11` | `yes` | `yes` | `0` | `0` |
 | [`training-job.v1.schema.json`](schemas-gen/schemas/training-job.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
@@ -206,5 +206,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `55`
 - Generated schema docs: `55`
-- Positive examples: `75`
-- Negative examples: `70`
+- Positive examples: `76`
+- Negative examples: `71`

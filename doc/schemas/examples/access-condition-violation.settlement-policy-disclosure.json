@@ -1,0 +1,24 @@
+{
+  "schema/v": 1,
+  "disclosure/id": "settlement-disclosure:pl-main-gateway-access-condition-violation-2026-03-29",
+  "recorded-at": "2026-03-29T09:20:00Z",
+  "effective/from": "2026-03-29T09:10:00Z",
+  "federation/id": "pl-main",
+  "policy/ref": "gateway-policy:pl-main",
+  "operator/org-ref": "org:did:key:z6Mkr9QGqA7r9D6MZ3u2CqA4n6p5R8t2LmYx9KqT1Vw4",
+  "serving/node-id": "node:did:key:z6Mkf7N2pQv4z9T1u8Wr5Yc3Lh6Ks2Bq4Md8Pn7Jr5Xa",
+  "event/type": "incident/access-condition-violation",
+  "disclosure/scope": "federation-redacted",
+  "impact/mode": "blocked",
+  "decision/basis": "case-bounded",
+  "reason/summary": "Gateway access was blocked after a report that payout approval had been conditioned on degrading personal submission rather than on policy-visible criteria.",
+  "changed/fields": [
+    "payout/manual-review"
+  ],
+  "case/ref": "case:2026-03-gateway-access-review-01",
+  "basis/refs": [
+    "review:2026-03-gateway-access-review-01",
+    "gateway-policy:pl-main"
+  ],
+  "notes": "This disclosure records the incident and the temporary block; it does not imply any obligation to transact."
+}

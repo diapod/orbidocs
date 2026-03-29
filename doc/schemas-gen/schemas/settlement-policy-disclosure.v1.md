@@ -42,6 +42,7 @@ Machine-readable schema for one append-only disclosure or audit event affecting 
 | [`event/type`](#field-event-type) | `yes` | string | Open event namespace for settlement-policy disclosures. Example families: `lifecycle/suspended`, `limits/tightened`, `incident/opened`. |
 | [`disclosure/scope`](#field-disclosure-scope) | `yes` | enum: `internal-only`, `federation-redacted`, `federation-scoped`, `public-redacted` | Maximum disclosure scope admitted for this event. |
 | [`impact/mode`](#field-impact-mode) | `yes` | enum: `informational`, `degraded`, `blocked`, `manual-review-only` | Practical operator impact implied by the disclosed event. |
+| [`decision/basis`](#field-decision-basis) | `no` | enum: `policy-bounded`, `case-bounded`, `exception-bounded`, `not-applicable` | Why a practical gate such as `manual-review-only` or `blocked` is allowed to exist. This keeps refusal semantics auditable without forcing every refusal to become a transaction. |
 | [`reason/summary`](#field-reason-summary) | `yes` | string | Short human-readable summary explaining why the disclosure event exists. |
 | [`changed/fields`](#field-changed-fields) | `no` | array | Optional policy fields or operational dimensions materially affected by this disclosure event. |
 | [`case/ref`](#field-case-ref) | `no` | string | Optional review or incident case reference. |
@@ -54,6 +55,90 @@ Machine-readable schema for one append-only disclosure or audit event affecting 
 ## Conditional Rules
 
 ### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "impact/mode": {
+      "enum": [
+        "manual-review-only",
+        "blocked"
+      ]
+    }
+  },
+  "required": [
+    "impact/mode"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "decision/basis"
+  ]
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "properties": {
+    "decision/basis": {
+      "const": "case-bounded"
+    }
+  },
+  "required": [
+    "decision/basis"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "case/ref"
+  ]
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "decision/basis": {
+      "const": "exception-bounded"
+    }
+  },
+  "required": [
+    "decision/basis"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "exception/ref"
+  ]
+}
+```
+
+### Rule 4
 
 When:
 
@@ -196,6 +281,14 @@ Maximum disclosure scope admitted for this event.
 - Shape: enum: `informational`, `degraded`, `blocked`, `manual-review-only`
 
 Practical operator impact implied by the disclosed event.
+
+<a id="field-decision-basis"></a>
+## `decision/basis`
+
+- Required: `no`
+- Shape: enum: `policy-bounded`, `case-bounded`, `exception-bounded`, `not-applicable`
+
+Why a practical gate such as `manual-review-only` or `blocked` is allowed to exist. This keeps refusal semantics auditable without forcing every refusal to become a transaction.
 
 <a id="field-reason-summary"></a>
 ## `reason/summary`

@@ -10,6 +10,7 @@
   "event/type": "incident/opened",
   "disclosure/scope": "federation-redacted",
   "impact/mode": "blocked",
+  "decision/basis": "exception-bounded",
   "reason/summary": "Outbound payouts are temporarily frozen pending reconciliation with the payment provider and internal review.",
   "changed/fields": [
     "supported/directions",

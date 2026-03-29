@@ -136,6 +136,8 @@ This assumption is normative for MVP behavior of:
 | FR-021c | The system MUST support a `settlement-policy-disclosure` artifact for auditable policy-facing events such as suspension, reinstatement, limit changes, manual-review enforcement, or settlement incidents affecting a `gateway-policy` or `escrow-policy`. | Fact | Proposal 016 + ABUSE-DISCLOSURE-PROTOCOL |
 | FR-021d | `settlement-policy-disclosure` MUST snapshot the affected `policy/ref`, the accountable `operator/org-ref`, the observed `serving/node-id`, the disclosure scope, and the practical impact mode at event time. | Fact | Proposal 016 + Proposal 017 |
 | FR-021e | `incident/*` settlement-policy disclosures MUST carry at least one formal audit anchor through `case/ref`, `exception/ref`, or non-empty `basis/refs`. | Fact | Proposal 016 + ABUSE-DISCLOSURE-PROTOCOL |
+| FR-021f | Gateway or escrow policy MAY refuse a paid path, restrict regions, restrict account classes, or disable one rail, but any policy-facing `manual-review-only` or `blocked` path MUST disclose whether it is bounded by policy, case, or exception rather than leaving the gate as implicit operator grace. | Fact | Proposal 016 + Constitution Art. II |
+| FR-021g | Settlement policy artifacts and disclosures MUST NOT model humiliation, self-abasement, emotional dependency, or other non-policy personal submission as an admissible access condition. Such behavior MUST be represented as a settlement incident rather than as a valid review mode. | Fact | Constitution Art. II + UBC policy + EXCEPTION-POLICY |
 | FR-022 | `procurement-receipt.v1` MUST continue to represent the contract-terminal outcome and MUST reference final settlement through `settlement/ref` rather than absorb all ledger detail. | Fact | Proposal 016 |
 | FR-023 | A successful settlement MAY trigger a separate `reputation-signal.v1`, but the settlement path MUST NOT require such a signal to complete. | Fact | Proposal 016 |
 | FR-024 | `UBC` allocations and `ubc_settlement` records MUST remain non-spendable for ordinary market procurement. | Fact | UBC policy |
@@ -157,6 +159,7 @@ This assumption is normative for MVP behavior of:
 | NFR-008 | The settlement design MUST not require smart contracts, public-chain finality, or crypto-native custody in order to ship the first useful procurement MVP. | Fact | Proposal 016 |
 | NFR-009 | Settlement-policy disclosures MUST remain append-only audit facts and MUST NOT replace the underlying gateway or escrow policy artifact. | Fact | Proposal 016 + project values |
 | NFR-010 | Public or federation-scoped settlement disclosures MUST stay bounded by minimal necessary disclosure and SHOULD prefer redacted scopes unless stronger exposure is operationally required. | Fact | ABUSE-DISCLOSURE-PROTOCOL |
+| NFR-011 | Settlement review paths MUST stay auditable enough to distinguish bounded refusal from arbitrary discretionary gatekeeping. | Inference | Constitution Art. II + Proposal 016 |
 
 ## Failure Modes and Mitigations
 
@@ -171,6 +174,7 @@ This assumption is normative for MVP behavior of:
 | Protected compute floor is spent on market work | Exclusion of weaker participants | Treat protected floors such as `UBC` as non-spendable for procurement. |
 | Split-brain supervisors appear in one federation MVP | Conflicting holds and balances | Make single authoritative ledger an explicit MVP deployment assumption. |
 | Gateway or escrow policy is suspended without a durable disclosure trail | Operators and counterparties cannot reconstruct why settlement degraded or stopped | Require append-only `settlement-policy-disclosure` events with scope, impact, and audit anchors. |
+| Manual review degrades into opaque operator favor or abusive access conditions | Voluntary exchange mutates into dignity-unsafe gatekeeping | Require bounded review basis in disclosure artifacts and classify abusive access conditions as settlement incidents. |
 
 ## Open Questions
 

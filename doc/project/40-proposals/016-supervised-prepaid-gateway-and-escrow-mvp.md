@@ -127,6 +127,13 @@ The protocol should treat `payment/currency = ORC` as the only unit it needs to
 understand. Fiat pricing, spreads, and exchange policies remain gateway-local and are
 audited through gateway artifacts rather than pushed into the procurement core.
 
+Voluntary exchange still means that a gateway, escrow operator, or provider MAY
+refuse a priced path, restrict regions, restrict account classes, or disable one
+rail altogether. The protocol should not force a sale. What it must force is the
+boundary shape of that refusal: policy-facing `manual-review-only` or `blocked`
+paths must remain bounded, auditable, and discloseable rather than collapsing into
+opaque operator grace.
+
 ### 2. Account Ownership
 
 The settlement ledger should attach balances to accountable participation subjects,
@@ -397,6 +404,12 @@ The settlement rail defined here is therefore:
 - separate from `UBC`,
 - separate from `creator credits`,
 - and suitable for priced procurement rather than constitutional protection floors.
+
+This separation does not suspend dignity-safe access constraints. The settlement rail
+may refuse a transaction, but it must not condition access on humiliation,
+self-abasement, emotional dependency, or other non-policy personal submission.
+Manual review remains admissible only when bounded by policy, case, or exception and
+when its practical impact is auditable through settlement-facing disclosures.
 
 ## Trade-offs
 

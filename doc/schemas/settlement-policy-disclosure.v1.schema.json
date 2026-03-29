@@ -99,6 +99,16 @@
       ],
       "description": "Practical operator impact implied by the disclosed event."
     },
+    "decision/basis": {
+      "type": "string",
+      "enum": [
+        "policy-bounded",
+        "case-bounded",
+        "exception-bounded",
+        "not-applicable"
+      ],
+      "description": "Why a practical gate such as `manual-review-only` or `blocked` is allowed to exist. This keeps refusal semantics auditable without forcing every refusal to become a transaction."
+    },
     "reason/summary": {
       "type": "string",
       "minLength": 1,
@@ -147,6 +157,57 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "impact/mode": {
+            "enum": ["manual-review-only", "blocked"]
+          }
+        },
+        "required": [
+          "impact/mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "decision/basis"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision/basis": {
+            "const": "case-bounded"
+          }
+        },
+        "required": [
+          "decision/basis"
+        ]
+      },
+      "then": {
+        "required": [
+          "case/ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision/basis": {
+            "const": "exception-bounded"
+          }
+        },
+        "required": [
+          "decision/basis"
+        ]
+      },
+      "then": {
+        "required": [
+          "exception/ref"
+        ]
+      }
+    },
     {
       "if": {
         "properties": {

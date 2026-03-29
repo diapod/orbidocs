@@ -10,5 +10,6 @@
   "event/type": "incident/opened",
   "disclosure/scope": "internal-only",
   "impact/mode": "manual-review-only",
+  "decision/basis": "policy-bounded",
   "reason/summary": "Incident opened without any formal audit anchor."
 }
