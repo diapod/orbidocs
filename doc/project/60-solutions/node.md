@@ -10,6 +10,7 @@ The Node is responsible for the solution-level execution path of:
 - peer identity, handshake, and endpoint discovery,
 - question room lifecycle,
 - federated answer procurement,
+- supervised local HTTP middleware services for bundled exchange and workflow modules,
 - settlement policy coordination and disclosure trail exposure for paid procurement,
 - local learning and knowledge promotion,
 - archival handoff and retrieval,
@@ -159,6 +160,28 @@ Two deployment profiles are expected:
 
 In other words, settlement capability is a deployment profile layered onto the
 Node, not the default meaning of `Orbiplex Node`.
+
+### Supervised Local HTTP Middleware Services
+
+Based on:
+- `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
+- `doc/project/50-requirements/requirements-010.md`
+- `doc/project/30-stories/story-006.md`
+
+Responsibilities:
+- host the supervised `http_local_json` executor as a first-class daemon-owned
+  middleware runtime,
+- distribute `Orbiplex Dator` and `Orbiplex Arca` with the hard-MVP Node release,
+- run both bundled modules as supervised Python middleware services rather than as
+  unmanaged sidecars,
+- attach those modules through the host-owned `http_local_json` connector/executor,
+- expose `middleware.dator` and `middleware.arca` as operator-visible components
+  with lifecycle, readiness, and restart state,
+- keep bundled middleware under the same host-owned envelope and policy contracts
+  as any future replaceable external module.
+
+Status:
+- `todo`
 
 ### Local Learning and Knowledge Promotion
 

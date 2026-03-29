@@ -11,6 +11,9 @@ This story assumes the current Orbiplex corpus where:
 - attached workflow middleware such as `Orbiplex Arca` may compose local and remote
   steps into repeatable orchestration pipelines without becoming the semantic source
   of payment, identity, or transport truth,
+- in the hard MVP, `Orbiplex Dator` and `Orbiplex Arca` are bundled with the Node
+  distribution as Python middleware modules and are attached through the supervised
+  `http_local_json` connector/executor,
 - a Node may act both as an individual participant and as an organization-bound
   operator when it holds the right key material or delegated signing authority,
 - service advertisements can be propagated over a dedicated commercial or exchange
@@ -59,8 +62,10 @@ For this story:
 
 ## Middleware Execution Model
 
-`Dator` and `Arca` are hosted middleware extensions, not autonomous agents. They
-execute within the Node's runtime under host supervision:
+`Dator` and `Arca` are hosted middleware extensions, not autonomous agents. In the
+hard MVP they are bundled Python modules distributed together with Node and
+executed within the Node's runtime under host supervision through
+`http_local_json`:
 
 1. The Node daemon builds a `WorkflowEnvelope`.
 2. The daemon invokes `run_hook(...)` in the host's runtime.
@@ -175,7 +180,8 @@ are signed, sequenced, and TTL-expiring — following the same patterns as
    - a stable persisted `node:did:key:...` (infrastructure identity),
    - a stable `participant:did:key:...` (participant identity, same key in MVP),
    - a settlement-capable ORC account bound to `participant:did:key`,
-   - the `Dator` middleware registered in the host's middleware chain.
+   - the bundled Python `Dator` middleware registered in the host's middleware
+     chain through `http_local_json`.
 
 2. Roman runs his own Orbiplex Node and acts on behalf of the organization
    `CasualFeeders`, which holds:
@@ -184,8 +190,8 @@ are signed, sequenced, and TTL-expiring — following the same patterns as
      identity),
    - a settlement-capable ORC account bound to `org:did:key:z6MkCF...`.
 
-   Roman's Node also has the `Orbiplex Arca` middleware attached for workflow
-   orchestration.
+   Roman's Node also has the bundled Python `Orbiplex Arca` middleware attached
+   through `http_local_json` for workflow orchestration.
 
 ### Service Configuration and Publication
 

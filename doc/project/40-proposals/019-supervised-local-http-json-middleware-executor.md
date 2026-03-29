@@ -43,6 +43,10 @@ This gives Orbiplex a practical deployment model for Dator-like and Arca-like
 middleware without forcing every externally implemented module into one-shot
 `command_stdio` execution or requiring a separate service manager outside the Node.
 
+For the hard MVP baseline, `Orbiplex Dator` and `Orbiplex Arca` should be shipped
+with Node as bundled Python middleware services attached through the supervised
+`http_local_json` connector/executor.
+
 ## Context and Problem Statement
 
 The current middleware runtime already has three execution surfaces:
@@ -105,6 +109,8 @@ Neither option fits Orbiplex's preferred architecture of:
 
 - Define a supervision-aware middleware executor for long-lived local HTTP JSON
   modules.
+- Include `Orbiplex Dator` and `Orbiplex Arca` in the hard MVP as bundled
+  middleware modules attached through `http_local_json`.
 - Keep `local_http_json` as the unmanaged adapter and avoid overloading it with
   lifecycle semantics.
 - Make module startup, readiness, shutdown, and restart policy host-owned.
@@ -146,6 +152,16 @@ The existing `local_http_json` executor remains valid and intentionally simpler:
 
 - it is an adapter to an already-running local service,
 - it is not responsible for service lifecycle.
+
+For the hard MVP:
+
+- `Orbiplex Dator` MUST be distributed with Node as a supervised Python middleware
+  service,
+- `Orbiplex Arca` MUST be distributed with Node as a supervised Python middleware
+  service,
+- both MUST be attached through `http_local_json`,
+- both remain host-supervised extensions rather than privileged in-process
+  subsystems.
 
 ## Proposed Model
 
@@ -193,6 +209,12 @@ least:
 - bounded restart policy,
 - owning daemon component id.
 
+The hard MVP should assume at least two bundled supervised middleware component
+profiles:
+
+- `middleware.dator`
+- `middleware.arca`
+
 Recommended MVP JSON shape:
 
 ```json
@@ -230,6 +252,13 @@ Recommended MVP JSON shape:
 ```
 
 The exact field names may still evolve, but the MVP semantics should stay stable.
+
+For packaging, the Node distribution should contain:
+
+- the host-side `http_local_json` runtime,
+- a bundled Python distribution for `Orbiplex Dator`,
+- a bundled Python distribution for `Orbiplex Arca`,
+- default component configuration wiring those modules into supervised startup.
 
 ### 3. Lifecycle Ownership
 
@@ -325,6 +354,11 @@ The host should publish at least:
 - last error summary.
 
 This state should appear in the daemon component map, not only in hidden logs.
+
+In the hard MVP, those operator-visible components should include at least:
+
+- `middleware.dator`
+- `middleware.arca`
 
 ### 8. Middleware Init and Module Reporting
 
@@ -531,12 +565,15 @@ Mitigation:
 2. Add a typed runtime contract in the Node middleware-runtime crate for
    `http_local_json`.
 3. Add daemon-owned supervised component lifecycle for that executor kind.
-4. Bind middleware init and module report into the supervised startup path.
-5. Expose the new component state in existing control-plane component listings and
+4. Package `Orbiplex Dator` and `Orbiplex Arca` as bundled Python middleware
+   modules distributed with Node.
+5. Bind middleware init and module report into the supervised startup path.
+6. Expose the new component state in existing control-plane component listings and
    health surfaces.
-6. Add integration tests for:
+7. Add integration tests for:
    - startup success,
    - readiness timeout,
    - restart budget exhaustion,
    - clean shutdown,
-   - invalid module decision responses.
+   - invalid module decision responses,
+   - bundled Dator and Arca startup under supervised `http_local_json`.

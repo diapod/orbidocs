@@ -18,6 +18,8 @@ The hard MVP goal is narrow:
 
 - keep `local_http_json` as the unmanaged adapter,
 - add a distinct supervised executor kind `http_local_json`,
+- include `Orbiplex Dator` and `Orbiplex Arca` as bundled Python middleware modules
+  attached through that supervised executor,
 - make the Node host own process lifecycle, readiness, restart, and shutdown,
 - bind middleware init and module reporting into startup,
 - and expose supervised middleware services as first-class daemon components.
@@ -136,6 +138,20 @@ contracts:
 The addition of supervision MUST NOT create a second semantic invocation
 protocol.
 
+### Bundled Hard-MVP Modules
+
+The hard MVP MUST include at least two bundled middleware modules:
+
+- `Orbiplex Dator`
+- `Orbiplex Arca`
+
+Both modules MUST:
+
+- be distributed together with the Node release,
+- be implemented in Python,
+- be attached through `http_local_json`,
+- remain host-supervised modules rather than privileged in-process components.
+
 ## Functional Requirements
 
 | ID | Requirement | Type | Source |
@@ -162,6 +178,9 @@ protocol.
 | FR-020 | The host SHOULD distinguish middleware invocation trace from middleware service lifecycle facts so startup failures are not conflated with ordinary hook rejections. | Inference | Proposal 019 + project values |
 | FR-021 | `http_local_json` MUST admit an optional sandbox-profile reference reusing the Node's host-owned sandbox policy surface for child process launch. | Fact | Proposal 019 |
 | FR-022 | The supervised executor MUST NOT receive host private signing keys or ambient settlement authority as part of its launch contract. | Fact | Proposal 019 + project values |
+| FR-023 | The hard MVP Node distribution MUST bundle `Orbiplex Dator` as a Python middleware module attached through `http_local_json`. | Fact | Proposal 019 |
+| FR-024 | The hard MVP Node distribution MUST bundle `Orbiplex Arca` as a Python middleware module attached through `http_local_json`. | Fact | Proposal 019 |
+| FR-025 | The daemon MUST expose bundled `middleware.dator` and `middleware.arca` as first-class supervised components rather than opaque side effects of startup. | Fact | Proposal 019 |
 
 ## Non-Functional Requirements
 
@@ -172,6 +191,7 @@ protocol.
 | NFR-003 | The same module implementation SHOULD remain replaceable behind another transport or executor kind as long as it preserves `WorkflowEnvelope` and `MiddlewareDecision` compatibility. | Inference | Contract-first architecture |
 | NFR-004 | Supervised middleware services MUST remain diagnosable through stable operator-visible state rather than only through child-process logs. | Fact | Proposal 019 + project values |
 | NFR-005 | The supervised local-HTTP contract SHOULD stay close enough to the model-runtime `http_local` pattern that later extraction of shared supervision primitives remains possible. | Inference | Proposal 019 + existing Node design |
+| NFR-006 | Bundling `Dator` and `Arca` with Node MUST NOT collapse their authority into the host process; they remain replaceable modules behind the same host-owned contract. | Fact | Proposal 019 + project values |
 
 ## Failure Modes and Mitigations
 
@@ -194,6 +214,7 @@ protocol.
 
 1. Add typed `http_local_json` runtime contracts to the Node middleware-runtime crate.
 2. Add daemon-owned supervision for that executor kind.
-3. Wire middleware init and module reporting into the supervised startup path.
-4. Expose supervised middleware component state through existing control-plane inspection.
-5. Add integration tests for startup success, readiness timeout, restart exhaustion, and shutdown behavior.
+3. Package `Orbiplex Dator` and `Orbiplex Arca` as bundled Python middleware modules distributed with Node.
+4. Wire middleware init and module reporting into the supervised startup path.
+5. Expose supervised middleware component state through existing control-plane inspection.
+6. Add integration tests for startup success, readiness timeout, restart exhaustion, and shutdown behavior of the bundled modules.
