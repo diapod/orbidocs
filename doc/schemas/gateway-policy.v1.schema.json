@@ -22,6 +22,10 @@
     "operator/org-ref",
     "settlement/unit",
     "supported/directions",
+    "fee/ingress-rate",
+    "fee/ingress-destination-account-id",
+    "fee/ingress-min-internal-amount",
+    "fee/egress-rate",
     "status"
   ],
   "properties": {
@@ -85,6 +89,28 @@
         "minLength": 1
       },
       "description": "Named external payment providers or rails admitted under this policy."
+    },
+    "fee/ingress-rate": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1,
+      "description": "Fixed ingress fee rate applied on gross external top-up amount in MVP."
+    },
+    "fee/ingress-destination-account-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Ledger account that receives ingress fee credits, typically the `community-pool`."
+    },
+    "fee/ingress-min-internal-amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Minimum internal-equivalent amount below which ingress fee is not applied."
+    },
+    "fee/egress-rate": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Optional payout-side fee rate. MVP keeps this `null` until outbound payout stabilizes."
     },
     "status": {
       "type": "string",

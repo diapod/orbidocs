@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/gateway-receipt.v1.schema.json`](../../schemas/gateway-receipt.v1.schema.json)
 
-Machine-readable schema for a fiat-to-credit or credit-to-fiat crossing performed by a trusted prepaid gateway node.
+Machine-readable schema for a signed fiat-to-credit or credit-to-fiat crossing performed by a trusted prepaid gateway node. The signed surface uses `orbiplex-gateway-receipt-v1\x00 || deterministic_cbor(payload_without_signature)`.
 
 ## Governing Basis
 
@@ -31,22 +31,67 @@ Machine-readable schema for a fiat-to-credit or credit-to-fiat crossing performe
 | [`receipt/id`](#field-receipt-id) | `yes` | string | Stable identifier of the gateway receipt. |
 | [`gateway/node-id`](#field-gateway-node-id) | `yes` | string | Trusted gateway node that performed the external settlement crossing. |
 | [`direction`](#field-direction) | `yes` | enum: `inbound`, `outbound` | Direction of value crossing the protocol boundary. `inbound` credits a local account, `outbound` debits it for payout. |
-| [`external/amount`](#field-external-amount) | `yes` | number | Amount observed on the external payment rail. |
+| [`external/amount`](#field-external-amount) | `yes` | number | Gross amount observed on the external payment rail before any explicit ingress fee is applied. |
 | [`external/currency`](#field-external-currency) | `yes` | string | External settlement currency or tender symbol. |
-| [`internal/amount`](#field-internal-amount) | `yes` | integer | Credited or debited amount in internal minor units. |
+| [`internal/amount`](#field-internal-amount) | `yes` | integer | Net amount credited or debited to `account/id` in internal minor units. |
 | [`internal/currency`](#field-internal-currency) | `yes` | const: `ORC` | Internal settlement unit used by the supervised ledger in MVP. |
 | [`account/id`](#field-account-id) | `yes` | string | Local supervised account affected by the gateway event. |
 | [`ts`](#field-ts) | `yes` | string | Timestamp when the gateway event was committed for audit. |
 | [`external/payment-ref`](#field-external-payment-ref) | `yes` | string | Gateway-side payment reference such as a PSP transaction id or bank transfer reference. |
-| [`gateway-policy/ref`](#field-gateway-policy-ref) | `no` | string | Gateway policy under which this boundary crossing was executed. |
+| [`gateway-policy/ref`](#field-gateway-policy-ref) | `yes` | string | Gateway policy under which this boundary crossing was executed. |
+| [`fee/external-amount`](#field-fee-external-amount) | `no` | number | Explicit fee amount deducted from the gross external amount. |
+| [`fee/rate`](#field-fee-rate) | `no` | number | Fee rate applied to the gross external amount. |
+| [`fee/destination-account-id`](#field-fee-destination-account-id) | `no` | string | Ledger account that received the internal fee portion, typically the `community-pool`. |
+| [`net/external-amount`](#field-net-external-amount) | `no` | number | External amount remaining after explicit fee deduction. |
+| [`rate/applied`](#field-rate-applied) | `no` | number | Applied conversion rate from one external unit into internal minor units. |
+| [`internal/fee-amount`](#field-internal-fee-amount) | `no` | integer | Internal minor-unit amount credited to the fee destination account. |
 | [`external/provider`](#field-external-provider) | `no` | string | Payment service provider or banking rail label used by the gateway. |
 | [`exchange-policy/ref`](#field-exchange-policy-ref) | `no` | string | Optional reference to the gateway-side pricing or exchange policy in force for this event. |
 | [`notes`](#field-notes) | `no` | string | Optional human-readable notes. |
+| [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` | Gateway node signature over the receipt payload. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
+
+## Definitions
+
+| Definition | Shape | Description |
+|---|---|---|
+| [`signature`](#def-signature) | object |  |
 
 ## Conditional Rules
 
 ### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "direction": {
+      "const": "inbound"
+    }
+  },
+  "required": [
+    "direction"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "fee/external-amount",
+    "fee/rate",
+    "fee/destination-account-id",
+    "net/external-amount",
+    "rate/applied",
+    "internal/fee-amount"
+  ]
+}
+```
+
+### Rule 2
 
 When:
 
@@ -113,7 +158,7 @@ Direction of value crossing the protocol boundary. `inbound` credits a local acc
 - Required: `yes`
 - Shape: number
 
-Amount observed on the external payment rail.
+Gross amount observed on the external payment rail before any explicit ingress fee is applied.
 
 <a id="field-external-currency"></a>
 ## `external/currency`
@@ -129,7 +174,7 @@ External settlement currency or tender symbol.
 - Required: `yes`
 - Shape: integer
 
-Credited or debited amount in internal minor units.
+Net amount credited or debited to `account/id` in internal minor units.
 
 <a id="field-internal-currency"></a>
 ## `internal/currency`
@@ -166,10 +211,58 @@ Gateway-side payment reference such as a PSP transaction id or bank transfer ref
 <a id="field-gateway-policy-ref"></a>
 ## `gateway-policy/ref`
 
-- Required: `no`
+- Required: `yes`
 - Shape: string
 
 Gateway policy under which this boundary crossing was executed.
+
+<a id="field-fee-external-amount"></a>
+## `fee/external-amount`
+
+- Required: `no`
+- Shape: number
+
+Explicit fee amount deducted from the gross external amount.
+
+<a id="field-fee-rate"></a>
+## `fee/rate`
+
+- Required: `no`
+- Shape: number
+
+Fee rate applied to the gross external amount.
+
+<a id="field-fee-destination-account-id"></a>
+## `fee/destination-account-id`
+
+- Required: `no`
+- Shape: string
+
+Ledger account that received the internal fee portion, typically the `community-pool`.
+
+<a id="field-net-external-amount"></a>
+## `net/external-amount`
+
+- Required: `no`
+- Shape: number
+
+External amount remaining after explicit fee deduction.
+
+<a id="field-rate-applied"></a>
+## `rate/applied`
+
+- Required: `no`
+- Shape: number
+
+Applied conversion rate from one external unit into internal minor units.
+
+<a id="field-internal-fee-amount"></a>
+## `internal/fee-amount`
+
+- Required: `no`
+- Shape: integer
+
+Internal minor-unit amount credited to the fee destination account.
 
 <a id="field-external-provider"></a>
 ## `external/provider`
@@ -195,8 +288,23 @@ Optional reference to the gateway-side pricing or exchange policy in force for t
 
 Optional human-readable notes.
 
+<a id="field-signature"></a>
+## `signature`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/signature`
+
+Gateway node signature over the receipt payload.
+
 <a id="field-policy-annotations"></a>
 ## `policy_annotations`
 
 - Required: `no`
+- Shape: object
+
+## Definition Semantics
+
+<a id="def-signature"></a>
+## `$defs.signature`
+
 - Shape: object

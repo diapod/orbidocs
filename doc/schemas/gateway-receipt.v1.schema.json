@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:gateway-receipt:v1",
   "title": "GatewayReceipt v1",
-  "description": "Machine-readable schema for a fiat-to-credit or credit-to-fiat crossing performed by a trusted prepaid gateway node.",
+  "description": "Machine-readable schema for a signed fiat-to-credit or credit-to-fiat crossing performed by a trusted prepaid gateway node. The signed surface uses `orbiplex-gateway-receipt-v1\\x00 || deterministic_cbor(payload_without_signature)`.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -23,7 +23,9 @@
     "internal/currency",
     "account/id",
     "ts",
-    "external/payment-ref"
+    "external/payment-ref",
+    "gateway-policy/ref",
+    "signature"
   ],
   "properties": {
     "schema/v": {
@@ -48,7 +50,7 @@
     "external/amount": {
       "type": "number",
       "exclusiveMinimum": 0,
-      "description": "Amount observed on the external payment rail."
+      "description": "Gross amount observed on the external payment rail before any explicit ingress fee is applied."
     },
     "external/currency": {
       "type": "string",
@@ -59,7 +61,7 @@
     "internal/amount": {
       "type": "integer",
       "minimum": 1,
-      "description": "Credited or debited amount in internal minor units."
+      "description": "Net amount credited or debited to `account/id` in internal minor units."
     },
     "internal/currency": {
       "const": "ORC",
@@ -85,6 +87,37 @@
       "pattern": "^gateway-policy:[a-z0-9][a-z0-9:-]*$",
       "description": "Gateway policy under which this boundary crossing was executed."
     },
+    "fee/external-amount": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Explicit fee amount deducted from the gross external amount."
+    },
+    "fee/rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Fee rate applied to the gross external amount."
+    },
+    "fee/destination-account-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Ledger account that received the internal fee portion, typically the `community-pool`."
+    },
+    "net/external-amount": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "External amount remaining after explicit fee deduction."
+    },
+    "rate/applied": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Applied conversion rate from one external unit into internal minor units."
+    },
+    "internal/fee-amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Internal minor-unit amount credited to the fee destination account."
+    },
     "external/provider": {
       "type": "string",
       "minLength": 1,
@@ -99,12 +132,53 @@
       "type": "string",
       "description": "Optional human-readable notes."
     },
+    "signature": {
+      "$ref": "#/$defs/signature",
+      "description": "Gateway node signature over the receipt payload."
+    },
     "policy_annotations": {
       "type": "object",
       "additionalProperties": true
     }
   },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": ["ed25519"]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    }
+  },
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "direction": {
+            "const": "inbound"
+          }
+        },
+        "required": ["direction"]
+      },
+      "then": {
+        "required": [
+          "fee/external-amount",
+          "fee/rate",
+          "fee/destination-account-id",
+          "net/external-amount",
+          "rate/applied",
+          "internal/fee-amount"
+        ]
+      }
+    },
     {
       "if": {
         "properties": {

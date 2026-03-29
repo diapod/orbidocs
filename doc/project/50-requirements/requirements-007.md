@@ -112,8 +112,9 @@ This assumption is normative for MVP behavior of:
 | FR-001 | The MVP settlement unit MUST be an internal ledger unit independent from fiat pricing; the reference symbol is `ORC`. | Fact | Proposal 016 |
 | FR-002 | The system MUST keep economic balance and reputation as separate artifact families and MUST NOT derive governance weight from balance. | Fact | Proposal 016 |
 | FR-003 | A federation operating paid procurement MUST run one authoritative supervised settlement ledger for MVP. | Fact | Proposal 016 |
-| FR-004 | The system MUST support a `ledger-account` artifact that binds an account to an accountable owner and settlement unit. | Fact | Proposal 016 |
+| FR-004 | The system MUST support a `ledger-account` artifact that binds an account to an accountable owner, settlement unit, and account purpose. | Fact | Proposal 016 |
 | FR-005 | `ledger-account` ownership MUST support at least `participant`, `pod-user`, and `org` as owner kinds. | Fact | Story 004 + Proposal 016 + Proposal 017 |
+| FR-005a | `ledger-account` MUST admit `account/purpose = community-pool` as a first-class host-ledger account owned by an accountable `org` subject and controlled for disbursement by a canonical `council:did:key:...` in MVP. | Fact | Proposal 016 + nym/council baseline |
 | FR-006 | The system MUST perform an available-balance precheck before creating a paid procurement contract. | Fact | Requirements 001 FR-015 + Proposal 016 |
 | FR-007 | When balance is sufficient, the escrow supervisor MUST create a `ledger-hold` before remote paid execution begins. | Fact | Proposal 016 |
 | FR-008 | `ledger-hold` MUST include explicit status and timeout fields for work, acceptance, dispute, and auto-release. | Fact | Proposal 016 |
@@ -130,9 +131,14 @@ This assumption is normative for MVP behavior of:
 | FR-018 | Partial release MAY be hidden from the first user-facing UI, but the artifact family MUST reserve a machine-readable representation for it. | Fact | Proposal 016 |
 | FR-019 | Every internal movement of funds MUST be recorded as a `ledger-transfer` artifact. | Fact | Proposal 016 |
 | FR-020 | Fiat-to-credit ingress and credit-to-fiat egress MUST each emit a `gateway-receipt` artifact. | Fact | Proposal 016 |
+| FR-020a | Inbound `gateway-receipt` artifacts MUST disclose gross external amount, explicit external fee amount, fee rate, fee destination account, net external amount, applied conversion rate, net internal credited amount, and internal fee amount rather than hiding the community contribution inside the rate. | Fact | Proposal 016 |
+| FR-020b | Inbound top-up settlement MUST atomically record both the net credit to the payer account and the fee credit to the `community-pool` account from one gateway event. | Fact | Proposal 016 |
+| FR-020c | `gateway-receipt.v1` MUST be signed by the serving gateway node over a stable deterministic payload excluding only the `signature` field itself. | Fact | Proposal 016 |
 | FR-021 | `gateway-receipt` MUST identify the gateway node, direction, external amount/currency, internal amount/currency, the credited or debited account, an external payment reference, and the governing `gateway-policy/ref`. | Fact | Proposal 016 |
 | FR-021a | The system MUST support a `gateway-policy` artifact that binds a serving gateway node to an accountable `operator/org-ref` and the admitted settlement directions. | Fact | Proposal 016 + Proposal 017 |
 | FR-021b | The system MUST support an `escrow-policy` artifact that binds a serving escrow node to an accountable `operator/org-ref` and the default dispute and release semantics. | Fact | Proposal 016 + Proposal 017 |
+| FR-021ba | `gateway-policy.v1` MUST publish a fixed MVP ingress fee rate, an ingress fee destination account id, and a minimum internal amount below which ingress fee is not applied. | Fact | Proposal 016 |
+| FR-021bb | `gateway-policy.v1` MAY expose `fee/egress-rate`, but the first MVP SHOULD keep it `null` until the outbound payout path stabilizes. | Fact | Proposal 016 |
 | FR-021c | The system MUST support a `settlement-policy-disclosure` artifact for auditable policy-facing events such as suspension, reinstatement, limit changes, manual-review enforcement, or settlement incidents affecting a `gateway-policy` or `escrow-policy`. | Fact | Proposal 016 + ABUSE-DISCLOSURE-PROTOCOL |
 | FR-021d | `settlement-policy-disclosure` MUST snapshot the affected `policy/ref`, the accountable `operator/org-ref`, the observed `serving/node-id`, the disclosure scope, and the practical impact mode at event time. | Fact | Proposal 016 + Proposal 017 |
 | FR-021e | `incident/*` settlement-policy disclosures MUST carry at least one formal audit anchor through `case/ref`, `exception/ref`, or non-empty `basis/refs`. | Fact | Proposal 016 + ABUSE-DISCLOSURE-PROTOCOL |
@@ -144,6 +150,9 @@ This assumption is normative for MVP behavior of:
 | FR-025 | The system MUST reject paid procurement if the payer attempts to fund it from a protected floor or another non-spendable economic class. | Inference | UBC + separation rule |
 | FR-026 | For `pod-client` flows, the serving node MAY act as gateway or settlement delegate, but the artifacts MUST preserve the split between host infrastructure actor and hosted economic owner. | Fact | Story 004 + Proposal 016 |
 | FR-027 | `ledger-hold` and `procurement-contract.v1` on the `host-ledger` rail MUST reference the governing `escrow-policy/ref`. | Fact | Proposal 016 + Proposal 017 |
+| FR-028 | Community-pool disbursements in MVP MUST remain basis-anchored ledger facts and MUST NOT target governance rewards, creator credits, or reputation accrual. | Fact | Constitution Art. XII + Proposal 016 |
+| FR-028a | The system MUST support a `community-pool-disbursement.v1` artifact that binds one `community-pool` outflow to a destination account, one admitted purpose, non-empty `basis/refs`, a resulting `ledger-transfer/id`, and a canonical `council:did:key:...` approver. | Fact | Proposal 016 |
+| FR-028b | `community-pool-disbursement.v1` MUST support only `ubc-subsidy`, `infrastructure-support`, and `emergency-relief` as first MVP purposes. | Fact | Proposal 016 |
 
 ## Non-Functional Requirements
 
@@ -160,6 +169,7 @@ This assumption is normative for MVP behavior of:
 | NFR-009 | Settlement-policy disclosures MUST remain append-only audit facts and MUST NOT replace the underlying gateway or escrow policy artifact. | Fact | Proposal 016 + project values |
 | NFR-010 | Public or federation-scoped settlement disclosures MUST stay bounded by minimal necessary disclosure and SHOULD prefer redacted scopes unless stronger exposure is operationally required. | Fact | ABUSE-DISCLOSURE-PROTOCOL |
 | NFR-011 | Settlement review paths MUST stay auditable enough to distinguish bounded refusal from arbitrary discretionary gatekeeping. | Inference | Constitution Art. II + Proposal 016 |
+| NFR-012 | Gateway fee collection and community-pool disbursement MUST remain auditable as separate signed or basis-anchored fact paths rather than as implicit balance mutations. | Inference | Proposal 016 + project values |
 
 ## Failure Modes and Mitigations
 
@@ -167,6 +177,7 @@ This assumption is normative for MVP behavior of:
 |---|---|---|
 | Payer opens two contracts against the same balance | Double-spend and broken escrow | Enforce one authoritative ledger with atomic hold creation and available-balance checks. |
 | Gateway credits balance without auditable fiat reference | Unreconcilable money boundary | Require `gateway-receipt` with external payment reference for every ingress or egress. |
+| Community fee is hidden inside spread or disappears into operator revenue | Extraction becomes opaque and unauditable | Require explicit fee fields, applied rate, and atomic split to the `community-pool` account. |
 | Responder delivers work but payer remains silent | Funds stay blocked forever | Enforce `accept-by`, `dispute-by`, and `auto-release` deadlines. |
 | Payer confirms too quickly then finds a defect | Unfair release and weak recourse | Require a dispute-aware acceptance window and policy-defined cutoff semantics. |
 | Partial work is delivered but only binary release exists | Manual ad hoc bookkeeping | Reserve `partial-release` in the transfer family from day one. |

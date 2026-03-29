@@ -29,6 +29,7 @@ Machine-readable schema for one supervised prepaid ledger account used by the ho
 |---|---|---|---|
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`account/id`](#field-account-id) | `yes` | string | Stable identifier of the supervised ledger account. |
+| [`account/purpose`](#field-account-purpose) | `yes` | enum: `participant-settlement`, `pod-user-settlement`, `org-settlement`, `community-pool` | Operational purpose of the account within the host-ledger rail. |
 | [`owner/kind`](#field-owner-kind) | `yes` | enum: `participant`, `pod-user`, `org` | Identity layer that owns the account. |
 | [`owner/id`](#field-owner-id) | `yes` | string | Canonical identifier of the account owner. The allowed format depends on `owner/kind`. |
 | [`federation/id`](#field-federation-id) | `yes` | string | Authoritative federation ledger scope for this account. |
@@ -39,11 +40,52 @@ Machine-readable schema for one supervised prepaid ledger account used by the ho
 | [`created-at`](#field-created-at) | `yes` | string | Timestamp when the account was opened. |
 | [`closed-at`](#field-closed-at) | `no` | string | Timestamp when the account was closed, if applicable. |
 | [`gateway/ref`](#field-gateway-ref) | `no` | string | Optional reference to the gateway or onboarding policy under which the account was provisioned. |
+| [`disbursement/controller-kind`](#field-disbursement-controller-kind) | `no` | enum: `owner`, `council` | Who is allowed to authorize outbound disbursement from this account. |
+| [`disbursement/controller-id`](#field-disbursement-controller-id) | `no` | string | Canonical identifier of the disbursement controller when it differs from the owner. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
 
 ## Conditional Rules
 
 ### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "account/purpose": {
+      "const": "community-pool"
+    }
+  },
+  "required": [
+    "account/purpose"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "owner/kind": {
+      "const": "org"
+    },
+    "disbursement/controller-kind": {
+      "const": "council"
+    },
+    "disbursement/controller-id": {
+      "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    }
+  },
+  "required": [
+    "disbursement/controller-kind",
+    "disbursement/controller-id"
+  ]
+}
+```
+
+### Rule 2
 
 When:
 
@@ -72,7 +114,7 @@ Then:
 }
 ```
 
-### Rule 2
+### Rule 3
 
 When:
 
@@ -101,7 +143,7 @@ Then:
 }
 ```
 
-### Rule 3
+### Rule 4
 
 When:
 
@@ -130,7 +172,7 @@ Then:
 }
 ```
 
-### Rule 4
+### Rule 5
 
 When:
 
@@ -174,6 +216,14 @@ Schema version.
 - Shape: string
 
 Stable identifier of the supervised ledger account.
+
+<a id="field-account-purpose"></a>
+## `account/purpose`
+
+- Required: `yes`
+- Shape: enum: `participant-settlement`, `pod-user-settlement`, `org-settlement`, `community-pool`
+
+Operational purpose of the account within the host-ledger rail.
 
 <a id="field-owner-kind"></a>
 ## `owner/kind`
@@ -254,6 +304,22 @@ Timestamp when the account was closed, if applicable.
 - Shape: string
 
 Optional reference to the gateway or onboarding policy under which the account was provisioned.
+
+<a id="field-disbursement-controller-kind"></a>
+## `disbursement/controller-kind`
+
+- Required: `no`
+- Shape: enum: `owner`, `council`
+
+Who is allowed to authorize outbound disbursement from this account.
+
+<a id="field-disbursement-controller-id"></a>
+## `disbursement/controller-id`
+
+- Required: `no`
+- Shape: string
+
+Canonical identifier of the disbursement controller when it differs from the owner.
 
 <a id="field-policy-annotations"></a>
 ## `policy_annotations`

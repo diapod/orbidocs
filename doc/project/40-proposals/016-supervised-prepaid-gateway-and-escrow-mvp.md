@@ -167,6 +167,7 @@ The recommended new artifact family is:
 2. `ledger-hold.v1`
 3. `ledger-transfer.v1`
 4. `gateway-receipt.v1`
+5. `community-pool-disbursement.v1`
 
 ### 1. `ledger-account.v1`
 
@@ -174,17 +175,24 @@ Purpose:
 
 - identify the settlement account,
 - bind it to a participant or hosted-user owner,
-- declare ledger scope, unit, and status.
+- declare ledger scope, unit, purpose, and status.
 
 Semantic minimum:
 
 - `account/id`
+- `account/purpose`
 - `owner/kind`
 - `owner/id`
 - `federation/id`
 - `unit`
 - `status`
 - `created-at`
+
+The first MVP should explicitly admit a `community-pool` account purpose. That
+pool remains an ordinary ledger account owned by an accountable federation or
+organization subject rather than a magical balance class. What differs is its
+disbursement control: in MVP the community-pool should be spendable only through
+a council-controlled path with explicit audit basis on every outflow.
 
 ### 2. `ledger-hold.v1`
 
@@ -254,21 +262,77 @@ Purpose:
 
 - audit the crossing between external money and internal credits,
 - record which gateway node performed that crossing,
-- preserve the rate or policy reference used by the gateway.
+- preserve the rate or policy reference used by the gateway,
+- make any ingress fee explicit rather than hiding it inside the rate.
 
 Semantic minimum:
 
 - `receipt/id`
 - `gateway/node-id`
 - `direction` (`inbound` or `outbound`)
-- `external/amount`
+- `external/amount` (gross)
 - `external/currency`
-- `internal/amount`
+- `fee/external-amount`
+- `fee/rate`
+- `fee/destination-account-id`
+- `net/external-amount`
+- `rate/applied`
+- `internal/amount` (net credited to `account/id`)
+- `internal/fee-amount`
 - `internal/currency`
 - `account/id`
 - `ts`
 - `external/payment-ref`
+- `gateway-policy/ref`
 - optional `exchange-policy/ref`
+
+For MVP this fee should remain ingress-only and fixed by `gateway-policy.v1`,
+while payout-side fees stay deferred. The first useful top-up path is therefore:
+
+1. receive one gross external payment,
+2. emit one `gateway-receipt.v1` carrying gross, fee, net, and applied rate,
+3. atomically record two internal transfers:
+   - net credit to the participant or hosted-user account,
+   - fee credit to the `community-pool` account.
+
+This keeps the procurement path and escrow hold logic net-based while making the
+community contribution explicit and immediately separated from operator revenue.
+
+`gateway-receipt.v1` should also be signed by the serving gateway node using the
+same stack as the rest of the protocol family:
+
+- `orbiplex-gateway-receipt-v1\x00 || deterministic_cbor(payload_without_signature)`
+
+This keeps gateway fee and rate disclosures auditable as first-class signed facts
+rather than as mutable gateway-local hints.
+
+### 5. `community-pool-disbursement.v1`
+
+Purpose:
+
+- record one council-approved outflow from the `community-pool`,
+- name the destination account and allowed public purpose,
+- preserve explicit basis and the resulting `ledger-transfer.v1` anchor.
+
+Semantic minimum:
+
+- `disbursement/id`
+- `pool/account-id`
+- `destination/account-id`
+- `amount`
+- `unit`
+- `purpose`
+- `basis/refs`
+- `approved-by/id`
+- `approved-at`
+- `ledger-transfer/id`
+- `signature`
+
+In MVP this artifact should remain narrow:
+
+- approved only by canonical `council:did:key:...`,
+- limited to `ubc-subsidy`, `infrastructure-support`, and `emergency-relief`,
+- explicitly not used for governance rewards, creator credits, or reputation.
 
 ## Extensions to Existing Procurement Artifacts
 
@@ -314,7 +378,9 @@ The recommended happy path is:
 
 1. the payer tops up `ORC` through a gateway node,
 2. the gateway emits `gateway-receipt.v1`,
-3. the supervised ledger records account credit,
+3. the supervised ledger atomically records:
+   - net account credit for the payer,
+   - fee credit for the `community-pool`,
 4. the payer selects an offer,
 5. settlement precheck confirms sufficient available balance,
 6. the escrow supervisor creates `ledger-hold.v1`,
@@ -327,6 +393,14 @@ The recommended happy path is:
     - payer is silent until timeout -> auto-release,
 11. the ledger records release or refund through `ledger-transfer.v1`,
 12. `procurement-receipt.v1` records the terminal contract outcome.
+
+Community-pool outflows remain outside this procurement happy path. When needed,
+they should form a separate council-approved flow:
+
+1. a council-approved basis is established,
+2. `community-pool-disbursement.v1` is signed,
+3. one `ledger-transfer.v1` records the actual outflow,
+4. the disbursement artifact points back to that transfer.
 
 ## Dispute Window and Timeout Cascade
 
@@ -431,11 +505,13 @@ when its practical impact is auditable through settlement-facing disclosures.
 
 1. Should payout to external money be permitted from day one, or only top-up into
    the system with later payout enabled after compliance review?
-2. Should the first MVP permit zero-fee gateway conversion, or should gateway fees be
-   modeled from the beginning?
-3. Should `ledger-account.v1` reserve `owner/kind = org` now, or should that wait for
-   the organization-identity proposal?
-4. What is the smallest acceptable arbiter policy for disputes under `host-ledger`
+2. Should egress fee remain explicitly `null` through the first MVP, or should a
+   separate later patch define payout-side fees after the inbound path stabilizes?
+3. Should the first community-pool remain council-controlled only, or should the
+   next phase introduce a multi-approver treasury path?
+4. Should `community-pool-disbursement.v1` stay council-signed only, or should a
+   later phase admit federation treasury co-signing?
+5. What is the smallest acceptable arbiter policy for disputes under `host-ledger`
    settlement?
 
 ## Next Actions

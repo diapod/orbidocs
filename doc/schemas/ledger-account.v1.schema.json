@@ -16,6 +16,7 @@
   "required": [
     "schema/v",
     "account/id",
+    "account/purpose",
     "owner/kind",
     "owner/id",
     "federation/id",
@@ -32,6 +33,16 @@
       "type": "string",
       "minLength": 1,
       "description": "Stable identifier of the supervised ledger account."
+    },
+    "account/purpose": {
+      "type": "string",
+      "enum": [
+        "participant-settlement",
+        "pod-user-settlement",
+        "org-settlement",
+        "community-pool"
+      ],
+      "description": "Operational purpose of the account within the host-ledger rail."
     },
     "owner/kind": {
       "type": "string",
@@ -82,12 +93,49 @@
       "minLength": 1,
       "description": "Optional reference to the gateway or onboarding policy under which the account was provisioned."
     },
+    "disbursement/controller-kind": {
+      "type": "string",
+      "enum": ["owner", "council"],
+      "description": "Who is allowed to authorize outbound disbursement from this account."
+    },
+    "disbursement/controller-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Canonical identifier of the disbursement controller when it differs from the owner."
+    },
     "policy_annotations": {
       "type": "object",
       "additionalProperties": true
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "account/purpose": {
+            "const": "community-pool"
+          }
+        },
+        "required": ["account/purpose"]
+      },
+      "then": {
+        "properties": {
+          "owner/kind": {
+            "const": "org"
+          },
+          "disbursement/controller-kind": {
+            "const": "council"
+          },
+          "disbursement/controller-id": {
+            "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
+        },
+        "required": [
+          "disbursement/controller-kind",
+          "disbursement/controller-id"
+        ]
+      }
+    },
     {
       "if": {
         "properties": {

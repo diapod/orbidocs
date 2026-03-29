@@ -143,6 +143,9 @@ schema_for_file() {
     *.ledger-transfer.json)
       echo "$SCHEMAS_DIR/ledger-transfer.v1.schema.json"
       ;;
+    *.community-pool-disbursement.json)
+      echo "$SCHEMAS_DIR/community-pool-disbursement.v1.schema.json"
+      ;;
     *.gateway-receipt.json)
       echo "$SCHEMAS_DIR/gateway-receipt.v1.schema.json"
       ;;

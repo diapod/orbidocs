@@ -1,0 +1,17 @@
+{
+  "schema/v": 1,
+  "disbursement/id": "community-pool-disbursement:fed-pl-main-2026-03-29-02",
+  "pool/account-id": "account:fed-pl-main:community-pool",
+  "destination/account-id": "account:fed-pl-main:org:infra-support",
+  "amount": 1200,
+  "unit": "ORC",
+  "purpose": "infrastructure-support",
+  "basis/refs": [],
+  "approved-by/id": "council:did:key:z6MkC7v4Q8u2N5p9R1s3T6y8U2w4X7z9K3m5P8q1R4s6",
+  "approved-at": "2026-03-29T10:22:00Z",
+  "ledger-transfer/id": "transfer:fed-pl-main:community-pool-infra-20260329-01",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:community-pool-disbursement-sig-002"
+  }
+}

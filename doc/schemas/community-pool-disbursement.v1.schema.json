@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:community-pool-disbursement:v1",
+  "title": "CommunityPoolDisbursement v1",
+  "description": "Machine-readable schema for one council-approved community-pool outflow. The signed surface uses `orbiplex-community-pool-disbursement-v1\\x00 || deterministic_cbor(payload_without_signature)`.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
+    "doc/project/50-requirements/requirements-007.md"
+  ],
+  "required": [
+    "schema/v",
+    "disbursement/id",
+    "pool/account-id",
+    "destination/account-id",
+    "amount",
+    "unit",
+    "purpose",
+    "basis/refs",
+    "approved-by/id",
+    "approved-at",
+    "ledger-transfer/id",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1
+    },
+    "disbursement/id": {
+      "type": "string",
+      "pattern": "^community-pool-disbursement:[a-z0-9][a-z0-9:-]*$"
+    },
+    "pool/account-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Ledger account id of the source community-pool."
+    },
+    "destination/account-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Ledger account id receiving the disbursement."
+    },
+    "amount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Transferred amount in internal minor units."
+    },
+    "unit": {
+      "const": "ORC"
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "ubc-subsidy",
+        "infrastructure-support",
+        "emergency-relief"
+      ]
+    },
+    "basis/refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "approved-by/id": {
+      "type": "string",
+      "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "approved-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ledger-transfer/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The append-only internal transfer that executed the outflow."
+    },
+    "notes": {
+      "type": "string"
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": ["ed25519"]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema/v": 1,
+  "account/id": "account:fed-pl-main:community-pool",
+  "account/purpose": "community-pool",
+  "owner/kind": "org",
+  "owner/id": "org:did:key:z6Mkr9Qv7C4h1N8p3K5s7D2k8M4r1V6w9X3y2Z7T4b6H8N",
+  "federation/id": "fed:pl-main",
+  "unit": "ORC",
+  "status": "active",
+  "created-at": "2026-03-28T08:20:00Z"
+}

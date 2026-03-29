@@ -1,6 +1,7 @@
 {
   "schema/v": 1,
   "account/id": "account:fed-pl-main:participant:z6MkhaXg",
+  "account/purpose": "participant-settlement",
   "owner/kind": "participant",
   "owner/id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "federation/id": "fed:pl-main",

@@ -39,6 +39,10 @@ Machine-readable schema for one trusted gateway policy binding a servicing node 
 | [`kyc/mode`](#field-kyc-mode) | `no` | enum: `none`, `provider-managed`, `manual-review` | High-level compliance posture applied to payout or top-up flows. |
 | [`payout/manual-review`](#field-payout-manual-review) | `no` | boolean | Whether outbound settlement may require manual review under this policy. |
 | [`external/providers`](#field-external-providers) | `no` | array | Named external payment providers or rails admitted under this policy. |
+| [`fee/ingress-rate`](#field-fee-ingress-rate) | `yes` | number | Fixed ingress fee rate applied on gross external top-up amount in MVP. |
+| [`fee/ingress-destination-account-id`](#field-fee-ingress-destination-account-id) | `yes` | string | Ledger account that receives ingress fee credits, typically the `community-pool`. |
+| [`fee/ingress-min-internal-amount`](#field-fee-ingress-min-internal-amount) | `yes` | integer | Minimum internal-equivalent amount below which ingress fee is not applied. |
+| [`fee/egress-rate`](#field-fee-egress-rate) | `yes` | number \| null | Optional payout-side fee rate. MVP keeps this `null` until outbound payout stabilizes. |
 | [`status`](#field-status) | `yes` | enum: `active`, `suspended`, `retired` | Administrative lifecycle state of the gateway policy. |
 | [`suspended-at`](#field-suspended-at) | `no` | string | Timestamp when the gateway policy was suspended, if applicable. |
 | [`retired-at`](#field-retired-at) | `no` | string | Timestamp when the gateway policy was retired, if applicable. |
@@ -190,6 +194,38 @@ Whether outbound settlement may require manual review under this policy.
 - Shape: array
 
 Named external payment providers or rails admitted under this policy.
+
+<a id="field-fee-ingress-rate"></a>
+## `fee/ingress-rate`
+
+- Required: `yes`
+- Shape: number
+
+Fixed ingress fee rate applied on gross external top-up amount in MVP.
+
+<a id="field-fee-ingress-destination-account-id"></a>
+## `fee/ingress-destination-account-id`
+
+- Required: `yes`
+- Shape: string
+
+Ledger account that receives ingress fee credits, typically the `community-pool`.
+
+<a id="field-fee-ingress-min-internal-amount"></a>
+## `fee/ingress-min-internal-amount`
+
+- Required: `yes`
+- Shape: integer
+
+Minimum internal-equivalent amount below which ingress fee is not applied.
+
+<a id="field-fee-egress-rate"></a>
+## `fee/egress-rate`
+
+- Required: `yes`
+- Shape: number | null
+
+Optional payout-side fee rate. MVP keeps this `null` until outbound payout stabilizes.
 
 <a id="field-status"></a>
 ## `status`

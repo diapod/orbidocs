@@ -1,0 +1,21 @@
+{
+  "schema/v": 1,
+  "disbursement/id": "community-pool-disbursement:fed-pl-main-2026-03-29-01",
+  "pool/account-id": "account:fed-pl-main:community-pool",
+  "destination/account-id": "account:fed-pl-main:org:ubc-subsidy",
+  "amount": 2500,
+  "unit": "ORC",
+  "purpose": "ubc-subsidy",
+  "basis/refs": [
+    "exception:EXC-fed-pl-20260329-ubc-support",
+    "review:fed-pl-main-ubc-relief-01"
+  ],
+  "approved-by/id": "council:did:key:z6MkC7v4Q8u2N5p9R1s3T6y8U2w4X7z9K3m5P8q1R4s6",
+  "approved-at": "2026-03-29T10:20:00Z",
+  "ledger-transfer/id": "transfer:fed-pl-main:community-pool-ubc-20260329-01",
+  "notes": "Council-approved subsidy transfer to the UBC relief account.",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:community-pool-disbursement-sig-001"
+  }
+}

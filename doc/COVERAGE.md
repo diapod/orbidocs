@@ -7,25 +7,25 @@ Generated coverage snapshot for the current `doc/` structure.
 | Step | Markdown Files | PL | EN | Shared |
 |---|---:|---:|---:|---:|
 | `10-ideas` (Ideas) | `1` | `0` | `0` | `1` |
-| `20-vision` (Vision) | `2` | `1` | `1` | `0` |
+| `20-vision` (Vision) | `3` | `1` | `1` | `1` |
 | `30-core-values` (Core Values) | `2` | `1` | `1` | `0` |
 | `40-constitution` (Constitution) | `2` | `1` | `1` | `0` |
 | `50-constitutional-ops` (Constitutional Ops) | `50` | `25` | `25` | `0` |
 
-- Total normative markdown files: `63`
+- Total normative markdown files: `65`
 
 ## Project Workflow
 
 | Step | Markdown Files | With `Based on:` |
 |---|---:|---:|
 | `10-challenges` (Challenges) | `4` | `2` |
-| `20-memos` (Memos) | `29` | `1` |
+| `20-memos` (Memos) | `30` | `1` |
 | `30-stories` (Stories) | `8` | `0` |
 | `40-proposals` (Proposals) | `19` | `16` |
 | `50-requirements` (Requirements) | `10` | `8` |
 | `60-solutions` (Solutions) | `10` | `6` |
 
-- Total project markdown files: `82`
+- Total project markdown files: `83`
 - Proposals referencing source material: `16` / `19`
 - Requirements referencing source material: `8` / `10`
 
@@ -43,6 +43,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`coi-declaration.v1.schema.json`](schemas-gen/schemas/coi-declaration.v1.md) | `8` | `8` | `yes` | `yes` | `1` | `1` |
+| [`community-pool-disbursement.v1.schema.json`](schemas-gen/schemas/community-pool-disbursement.v1.md) | `13` | `4` | `yes` | `yes` | `1` | `1` |
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`emergency-activation.v1.schema.json`](schemas-gen/schemas/emergency-activation.v1.md) | `21` | `21` | `yes` | `yes` | `2` | `4` |
@@ -50,11 +51,11 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md) | `17` | `16` | `yes` | `yes` | `1` | `1` |
 | [`eval-report.v1.schema.json`](schemas-gen/schemas/eval-report.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md) | `22` | `22` | `yes` | `yes` | `3` | `5` |
-| [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md) | `16` | `15` | `yes` | `yes` | `1` | `1` |
-| [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md) | `16` | `15` | `yes` | `yes` | `1` | `0` |
+| [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md) | `20` | `19` | `yes` | `yes` | `1` | `1` |
+| [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md) | `23` | `22` | `yes` | `yes` | `1` | `1` |
 | [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) | `16` | `16` | `yes` | `yes` | `1` | `1` |
-| [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `0` |
+| [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md) | `16` | `15` | `yes` | `yes` | `2` | `1` |
 | [`ledger-hold.v1.schema.json`](schemas-gen/schemas/ledger-hold.v1.md) | `22` | `21` | `yes` | `yes` | `1` | `0` |
 | [`ledger-transfer.v1.schema.json`](schemas-gen/schemas/ledger-transfer.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `0` |
 | [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md) | `17` | `17` | `yes` | `yes` | `1` | `1` |
@@ -103,6 +104,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md) |  |  |
 | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |  |  |
 | [`coi-declaration.v1.schema.json`](schemas-gen/schemas/coi-declaration.v1.md) |  |  |
+| [`community-pool-disbursement.v1.schema.json`](schemas-gen/schemas/community-pool-disbursement.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md), [`requirements-007.md`](project/50-requirements/requirements-007.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`emergency-activation.v1.schema.json`](schemas-gen/schemas/emergency-activation.v1.md) |  |  |
@@ -190,21 +192,21 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/013-whisper-social-signal-exchange.md`](project/40-proposals/013-whisper-social-signal-exchange.md) | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md), [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md), [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md), [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) |
 | [`doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`](project/40-proposals/014-node-transport-and-discovery-mvp.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`participant-bind.v1.schema.json`](schemas-gen/schemas/participant-bind.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
 | [`doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md`](project/40-proposals/015-nym-certificates-and-renewal-baseline.md) | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md), [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md), [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md), [`nym-renew-request.v1.schema.json`](schemas-gen/schemas/nym-renew-request.v1.md), [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md), [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md), [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) |
-| [`doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`](project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md) | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md), [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md), [`ledger-hold.v1.schema.json`](schemas-gen/schemas/ledger-hold.v1.md), [`ledger-transfer.v1.schema.json`](schemas-gen/schemas/ledger-transfer.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
+| [`doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`](project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md) | [`community-pool-disbursement.v1.schema.json`](schemas-gen/schemas/community-pool-disbursement.v1.md), [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md), [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md), [`ledger-hold.v1.schema.json`](schemas-gen/schemas/ledger-hold.v1.md), [`ledger-transfer.v1.schema.json`](schemas-gen/schemas/ledger-transfer.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
 | [`doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`](project/40-proposals/017-organization-subjects-and-org-did-key.md) | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md), [`organization-subject.v1.schema.json`](schemas-gen/schemas/organization-subject.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
 | [`doc/project/50-requirements/requirements-001.md`](project/50-requirements/requirements-001.md) | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) |
 | [`doc/project/50-requirements/requirements-002.md`](project/50-requirements/requirements-002.md) | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) |
 | [`doc/project/50-requirements/requirements-003.md`](project/50-requirements/requirements-003.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md), [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md), [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) |
 | [`doc/project/50-requirements/requirements-004.md`](project/50-requirements/requirements-004.md) | [`adapter-artifact.v1.schema.json`](schemas-gen/schemas/adapter-artifact.v1.md), [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md), [`eval-report.v1.schema.json`](schemas-gen/schemas/eval-report.v1.md), [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md), [`training-job.v1.schema.json`](schemas-gen/schemas/training-job.v1.md) |
 | [`doc/project/50-requirements/requirements-006.md`](project/50-requirements/requirements-006.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
-| [`doc/project/50-requirements/requirements-007.md`](project/50-requirements/requirements-007.md) | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md), [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md), [`ledger-hold.v1.schema.json`](schemas-gen/schemas/ledger-hold.v1.md), [`ledger-transfer.v1.schema.json`](schemas-gen/schemas/ledger-transfer.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
+| [`doc/project/50-requirements/requirements-007.md`](project/50-requirements/requirements-007.md) | [`community-pool-disbursement.v1.schema.json`](schemas-gen/schemas/community-pool-disbursement.v1.md), [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md), [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md), [`ledger-hold.v1.schema.json`](schemas-gen/schemas/ledger-hold.v1.md), [`ledger-transfer.v1.schema.json`](schemas-gen/schemas/ledger-transfer.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
 | [`doc/project/50-requirements/requirements-008.md`](project/50-requirements/requirements-008.md) | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md), [`ledger-hold.v1.schema.json`](schemas-gen/schemas/ledger-hold.v1.md), [`organization-subject.v1.schema.json`](schemas-gen/schemas/organization-subject.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
 | [`doc/project/60-solutions/node.md`](project/60-solutions/node.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
 | [`doc/schemas/client-instance-attachment.v1.schema.json`](schemas/client-instance-attachment.v1.schema.json) | [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md), [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 | [`doc/schemas/client-instance-detachment.v1.schema.json`](schemas/client-instance-detachment.v1.schema.json) | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 | [`doc/schemas/participant-bind.v1.schema.json`](schemas/participant-bind.v1.schema.json) | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md), [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md), [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 
-- Canonical schemas: `55`
-- Generated schema docs: `55`
-- Positive examples: `76`
-- Negative examples: `71`
+- Canonical schemas: `56`
+- Generated schema docs: `56`
+- Positive examples: `78`
+- Negative examples: `74`

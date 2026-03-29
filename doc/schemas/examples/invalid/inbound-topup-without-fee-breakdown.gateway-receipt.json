@@ -1,0 +1,18 @@
+{
+  "schema/v": 1,
+  "receipt/id": "gw:01K1TOPUP002",
+  "gateway/node-id": "node:pl-main-gateway-01",
+  "direction": "inbound",
+  "external/amount": 50.0,
+  "external/currency": "PLN",
+  "internal/amount": 4500,
+  "internal/currency": "ORC",
+  "account/id": "account:fed-pl-main:participant:z6MkhaXg",
+  "ts": "2026-03-28T08:56:00Z",
+  "external/payment-ref": "stripe:pi_3ORBIPLEX002",
+  "gateway-policy/ref": "gateway-policy:pl-main-prepaid-v1",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:gateway-receipt-inbound-topup-sig-002"
+  }
+}
