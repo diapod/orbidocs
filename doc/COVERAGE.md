@@ -8,11 +8,11 @@ Generated coverage snapshot for the current `doc/` structure.
 |---|---:|---:|---:|---:|
 | `10-ideas` (Ideas) | `1` | `0` | `0` | `1` |
 | `20-vision` (Vision) | `3` | `1` | `1` | `1` |
-| `30-core-values` (Core Values) | `2` | `1` | `1` | `0` |
+| `30-core-values` (Core Values) | `3` | `1` | `1` | `1` |
 | `40-constitution` (Constitution) | `2` | `1` | `1` | `0` |
 | `50-constitutional-ops` (Constitutional Ops) | `50` | `25` | `25` | `0` |
 
-- Total normative markdown files: `65`
+- Total normative markdown files: `66`
 
 ## Project Workflow
 
