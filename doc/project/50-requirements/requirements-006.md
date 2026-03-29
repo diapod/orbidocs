@@ -84,6 +84,7 @@ higher-layer identity, room, or federation semantics.
 | FR-004b | The signing input for `node-advertisement.v1` MUST be domain-separated as `node-advertisement.v1\\x00 || deterministic_cbor(payload_without_signature)`. | Fact | Freeze note |
 | FR-004c | Transport-mutable per-hop metadata MUST NOT be part of the `node-advertisement.v1` signed surface; if such metadata exists later, it MUST live outside the semantic advertisement payload. | Inference | Freeze note |
 | FR-004d | Discovery state in v1 MUST treat `node-advertisement.v1` as one current advertisement per `node-id`; a newer `sequence/no` replaces the previous one, while stale or equal sequence numbers MUST be rejected as non-current. | Fact | Freeze note |
+| FR-004f | Required done state for the networking MVP MUST include a durable current-advertisement cache keyed by `node-id`; interoperable `WSS` client/server behavior alone is insufficient. | Fact | Freeze note |
 | FR-004e | `node-advertisement.v1` MAY carry an optional future-facing `succession` object naming a successor `node-id` and later proof slots, but the MVP runtime MUST treat it only as non-authoritative seed data for a later rotation layer. | Fact | Freeze note |
 | FR-005 | Endpoint discovery for MVP MUST target `node-id -> current endpoint advertisement`, not `nym -> IP:port`. | Fact | Proposal 014 |
 | FR-006 | Every Node MUST support bootstrap from one or more statically configured seed peers. | Fact | Proposal 014 |
@@ -129,6 +130,11 @@ higher-layer identity, room, or federation semantics.
 | FR-017d | Some application-level message families, beginning with `whisper-signal` and optionally `question-envelope`, MAY use a nym-authored path instead of disclosing `participant-id` on the wire. In those cases `node-id` still routes the artifact, while authored participation is expressed through a `nym`, attached `nym-certificate`, and `nym` signature verified above the session layer. | Inference | Freeze note |
 | FR-018 | Nodes MUST reject or quarantine malformed, expired, or signature-invalid advertisements and handshakes. | Inference | Contract integrity |
 | FR-019 | The baseline capability surface SHOULD be small enough that heterogeneous Node implementations can interoperate without sharing one runtime or language stack. | Inference | Architecture principles |
+| FR-020 | The MVP runtime MUST emit trace events for identity load/generation, advertisement publish/fetch/reject, peer discovered/connect/disconnect, handshake start/accept/reject, session establishment, capability exchange, keepalive lost/restored, signal-marker sent/received, and `error/occurred`. | Fact | Freeze note |
+| FR-021 | Every networking trace event MUST carry at least `trace/id`, `event/type`, `ts`, and `node/self`; `peer` and `detail` SHOULD be present whenever the event is peer-scoped or diagnostically relevant. | Fact | Freeze note |
+| FR-022 | The MVP runtime MUST freeze and use the following machine-readable boundary error codes: `E_TRANSPORT_UNAVAILABLE`, `E_TRANSPORT_REJECTED`, `E_ADV_EXPIRED`, `E_ADV_STALE_SEQ`, `E_SIG_INVALID`, `E_SIG_UNKNOWN_SIGNER`, `E_HS_REPLAY`, `E_HS_UNKNOWN_REF`, `E_PROTO_VERSION`, `E_PROTO_INVALID`, and `E_PROTO_CAP_MISSING`. | Fact | Freeze note |
+| FR-023 | `error/occurred` trace events MUST classify failures through one of the frozen boundary error classes: `transport/unavailable`, `transport/rejected`, `advertisement/expired`, `advertisement/stale-sequence`, `signature/invalid`, `signature/unknown-signer`, `handshake/replay-suspected`, `handshake/unknown-ref`, `protocol/version-mismatch`, `protocol/invalid-contract`, or `protocol/capability-missing`. | Fact | Freeze note |
+| FR-024 | `schema-gate` in the MVP runtime MUST validate both network ingress/egress payloads and local `node-identity.v1` import/export payloads as required edge boundaries. | Fact | Freeze note |
 
 ## Non-Functional Requirements
 
@@ -138,10 +144,11 @@ higher-layer identity, room, or federation semantics.
 | NFR-002 | All baseline networking artifacts MUST be versioned and suitable for validation at the edge. | Inference | Contract-first design |
 | NFR-003 | The baseline MUST prefer real-world reachability over protocol purity; `WSS/443` is chosen primarily for practical network traversal. | Fact | Proposal 014 |
 | NFR-004 | The baseline MUST fail closed on signature mismatch, unsupported protocol version, or expired advertisement freshness. | Inference | Security + interoperability |
-| NFR-005 | The Node SHOULD emit traces for identity load, advertisement publish/fetch, handshake success/failure, keepalive, and reconnect. | Inference | Transparency of operation |
+| NFR-005 | Networking traces MUST remain small, machine-matchable, and operator-useful: the stable event label and error code are for automation, while contextual detail remains bounded and human-readable. | Fact | Freeze note |
 | NFR-006 | Discovery and session establishment SHOULD tolerate partial failures without forcing full local identity regeneration. | Inference | Resilience |
 | NFR-007 | The baseline MUST avoid introducing a mandatory global public registry or federation-wide trust fabric before the first Node can operate. | Fact | Proposal 014 |
 | NFR-008 | The first seed-directory synchronization surface SHOULD prefer incremental cursor-based advertisement fetch over full topology dump to reduce scraping and unnecessary bandwidth. | Inference | Freeze note |
+| NFR-009 | A single malformed advertisement, capability message, or handshake SHOULD NOT necessarily destroy an otherwise healthy peer session unless the failure falls into a hard-rejection class such as invalid signature or unsupported protocol version. | Fact | Freeze note |
 
 ## Trade-offs
 
@@ -167,9 +174,11 @@ higher-layer identity, room, or federation semantics.
 |---|---|---|
 | Node regenerates identity implicitly after restart | Broken addressing and trust discontinuity | Persist identity file and require explicit rotation workflow. |
 | Advertisement points to stale endpoint | Failed connection attempts and noisy bootstrap | TTL-bounded advertisements plus refresh and expiry checks. |
+| No durable advertisement cache exists | Node can only operate while rediscovering peers live and loses continuity after restart | Treat advertisement persistence cache as required done state rather than optional optimization. |
 | Peer impersonates another node | Identity confusion and possible routing abuse | Require signed advertisements and signed handshake material tied to `node-id`. |
 | Unsupported protocol versions connect silently | Undefined session behavior | Fail closed on version mismatch during handshake. |
 | Keepalive is missing or too weak | Peers appear alive long after disconnect | Require explicit liveness flow and reconnect behavior. |
+| Positive events exist but failure causes stay invisible | Operators cannot distinguish handshake silence from replay, bad signature, or stale advertisement | Emit `error/occurred` with frozen classes and stable codes. |
 | Network seed depends on one runtime-specific artifact | Cross-language interoperability failure | Keep contracts JSON-friendly, signed, and runtime-neutral. |
 
 ## Remaining Open Questions

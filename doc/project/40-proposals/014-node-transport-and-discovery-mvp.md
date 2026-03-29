@@ -351,6 +351,15 @@ For discovery state, v1 should treat advertisements as:
 - with the highest seen `sequence/no` replacing older advertisements,
 - and stale or equal sequence numbers rejected as non-current.
 
+That current-advertisement view is not just an optimization. For the MVP done
+state it should already exist as a local persistence cache:
+
+- `WSS` client/server alone is not enough,
+- the Node should durably remember the freshest known advertisement per
+  `node-id`,
+- and outbound dialing or reconnect should reuse that cache rather than depend
+  on live rediscovery every time.
+
 This keeps one coherent transport view per node identity and avoids conflicting
 capability or endpoint state for the same `node-id`.
 
@@ -604,6 +613,16 @@ MVP it remains only a liveness primitive, but it is already the seed of a later
 peer governor: the same signals can later feed health tracking, degradation,
 promotion, reconnect policy, and eventual `cold/warm/hot/blocked` transitions.
 
+Even though full peer-governor semantics remain deferred, the MVP should
+already expose the smallest peer-state transition traces:
+
+- `peer/discovered`
+- `peer/connected`
+- `peer/disconnected`
+
+Without those, an operator cannot tell whether the node is isolated, flapping,
+or gradually building a live peer set.
+
 The capability advertisement should not try to describe the whole implementation.
 It should publish a small set of schematic core capability identifiers, such as:
 
@@ -644,6 +663,112 @@ yet a final publication-envelope schema for that marker. A concrete
 later be promoted into canonical `orbidocs` schemas once the publish/receive flow
 and signed wire shape have stabilized.
 
+## Operational and Implementation Boundaries
+
+### Required done state
+
+For the networking MVP, required done state is broader than "a WSS client and
+server can talk".
+
+It already includes:
+
+- persisted local identity with import/export validation,
+- advertisement persistence cache with monotonic replacement,
+- signed advertisement publish/fetch,
+- signed handshake plus encrypted session establishment,
+- capability exchange,
+- keepalive and reconnect,
+- and the first participant-scoped `signal-marker` send/receive slice.
+
+### Minimal trace surface
+
+The MVP should freeze one small but explicit network trace vocabulary.
+
+Required event families:
+
+- `identity/loaded`
+- `identity/generated`
+- `advertisement/published`
+- `advertisement/fetched`
+- `advertisement/rejected`
+- `peer/discovered`
+- `peer/connected`
+- `peer/disconnected`
+- `handshake/started`
+- `handshake/accepted`
+- `handshake/rejected`
+- `session/established`
+- `capability/exchanged`
+- `keepalive/lost`
+- `keepalive/restored`
+- `signal-marker/sent`
+- `signal-marker/received`
+- `error/occurred`
+
+Each event should share at least one bounded skeleton:
+
+```json
+{
+  "trace/id": "tr:01JV...",
+  "event/type": "handshake/rejected",
+  "ts": "2026-03-28T14:12:00Z",
+  "node/self": "node:did:key:z6MkA...",
+  "peer": "node:did:key:z6MkB...",
+  "detail": {
+    "code": "E_HS_REPLAY"
+  }
+}
+```
+
+`node/self` is part of the contract because operators may aggregate traces from
+many nodes.
+
+### Frozen MVP boundary error classes
+
+The networking MVP should freeze eleven stable machine-readable boundary codes:
+
+- `E_TRANSPORT_UNAVAILABLE`
+- `E_TRANSPORT_REJECTED`
+- `E_ADV_EXPIRED`
+- `E_ADV_STALE_SEQ`
+- `E_SIG_INVALID`
+- `E_SIG_UNKNOWN_SIGNER`
+- `E_HS_REPLAY`
+- `E_HS_UNKNOWN_REF`
+- `E_PROTO_VERSION`
+- `E_PROTO_INVALID`
+- `E_PROTO_CAP_MISSING`
+
+Those codes group into the following classes:
+
+- `transport/unavailable`
+- `transport/rejected`
+- `advertisement/expired`
+- `advertisement/stale-sequence`
+- `signature/invalid`
+- `signature/unknown-signer`
+- `handshake/replay-suspected`
+- `handshake/unknown-ref`
+- `protocol/version-mismatch`
+- `protocol/invalid-contract`
+- `protocol/capability-missing`
+
+The class and code are for machines; context and peer details are for
+operators. Those concerns should stay separate.
+
+### Schema-gate boundary
+
+`schema-gate` should validate not only JSON ingress/egress received from the
+network, but also identity-file import/export as a required runtime boundary.
+
+That means:
+
+- `node-identity.v1` import and export already belong in the required MVP gate,
+- network ingress/egress still covers `node-advertisement.v1`,
+  `peer-handshake.v1`, and `capability-advertisement.v1`,
+- and post-networking participant binding may widen that gate later without
+  collapsing transport and application layers.
+
 ## MVP Seed Checklist
 
 1. Define local Node identity file format.
@@ -659,11 +784,18 @@ and signed wire shape have stabilized.
 11. Implement capability advertisement exchange.
 12. Implement `ping/pong`.
 13. Implement `signal-marker` end to end as the first signed application message.
-14. Add traces and diagnostics for:
-    - identity load,
-    - advertisement publish/fetch,
-    - handshake success/failure,
-    - reconnect.
+14. Add required network traces and diagnostics for:
+    - identity load/generation,
+    - advertisement publish/fetch/reject,
+    - peer discovered/connect/disconnect,
+    - handshake start/accept/reject,
+    - session established,
+    - capability exchange,
+    - keepalive lost/restored,
+    - signal-marker send/receive,
+    - and `error/occurred`.
+15. Freeze the eleven MVP boundary error classes and their stable wire-visible codes.
+16. Treat advertisement persistence cache and identity import/export schema validation as part of required done state, not later polish.
 
 ## Document Seed Needed Next
 
@@ -712,3 +844,4 @@ intentionally deferred beyond the MVP baseline.
 3. Extend `doc/project/60-solutions/node.md`
    with the networking baseline as a first-class Node capability.
 4. Extend the Node implementation ledger with the same baseline capability.
+5. Add the frozen trace-event and boundary-error contract to the first implementation slice.
