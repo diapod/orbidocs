@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-UBC-001` |
 | `typ` | Ustawa wykonawcza (Poziom 3 hierarchii normatywnej) |
 | `wersja` | `0.1.0-draft` |
-| `podstawa` | Art. XII.11-13 Konstytucji DIA; `SWARM-ECONOMY-SUFFICIENCY.pl.md`; `ROOT-IDENTITY-AND-NYMS.pl.md`; `IDENTITY-UNSEALING-BOARD.pl.md`; `FIP-MEMBERSHIP-AND-QUORUM.pl.md` |
+| `podstawa` | Art. XII.12-14 Konstytucji DIA; `SWARM-ECONOMY-SUFFICIENCY.pl.md`; `ROOT-IDENTITY-AND-NYMS.pl.md`; `IDENTITY-UNSEALING-BOARD.pl.md`; `FIP-MEMBERSHIP-AND-QUORUM.pl.md` |
 | `status mechanizmów` | minimalny model PoP, alokacji UBC i rozliczeń jest normatywny; profile limitów konkretyzuje `UBC-LIMIT-PROFILES.pl.md`; uznawanie trans-federacyjne może przebiegać przez federacje albo minimalny most/rejestr `FIP` |
 
 ---
@@ -249,7 +249,7 @@ System nie spełnia tej polityki, jeżeli:
 
 ## 9. Relacja do innych dokumentów
 
-- **Konstytucja Art. XII.11-13**: PoP, nieodbieralne minimum compute i zakaz ukrytej przewagi.
+- **Konstytucja Art. XII.12-14**: PoP, nieodbieralne minimum compute i zakaz ukrytej przewagi.
 - **`SWARM-ECONOMY-SUFFICIENCY.pl.md`**: wspólny model finansowania, nadwyżek i hamulców koncentracji.
 - **`ROOT-IDENTITY-AND-NYMS.pl.md`**: warstwa zakotwiczenia tożsamości bez domyślnej jawności.
 - **`IDENTITY-UNSEALING-BOARD.pl.md`**: federacyjnie uznawane mechanizmy silnego potwierdzenia bez pełnej publikacji tożsamości.

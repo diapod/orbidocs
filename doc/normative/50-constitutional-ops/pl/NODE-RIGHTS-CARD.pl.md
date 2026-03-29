@@ -17,7 +17,8 @@
 | :--- | :--- | :--- |
 | **Prawo do wyjścia** | Możesz opuścić federację w dowolnym momencie, bez szantażu, bez utraty dostępu do własnych danych, bez ukrytych kar. | Art. III.4 |
 | **Prawo do prywatności** | Telemetria jest domyślnie wyłączona. Twoje dane są lokalne. Ujawnianie jest selektywne i co do zasady wymaga Twojej zgody, z wyjątkiem proceduralnym dla trwających lub ciężkich nadużyć zgodnie z Art. III.9 i Art. X. | Art. III.7, III.8, III.9, Art. X |
-| **Prawo do wglądu** | Możesz audytować interakcje swoich agentów, ślady decyzji i historię działań. | Art. XV.2 |
+| **Prawo do wglądu** | Możesz audytować interakcje swoich agentów, ślady decyzji, historię działań i inne przyczyny zmian stanu przypisanych do Twojego węzła albo nymu. | Art. XV.2, XV.3 |
+| **Prawo do podstawy rozliczenia** | Możesz poznać przyczynę istotnego zasilenia, obciążenia, korekty, wstrzymania lub wygaśnięcia środków, kredytów, uznań i podobnych instrumentów przypisanych do Twojego węzła albo nymu: typ zdarzenia, zastosowaną regułę, status wyniku i ścieżkę odwołania. Prawo to nie oznacza automatycznego ujawnienia cudzej tożsamości ani danych wrażliwych. | Art. XV.3 |
 | **Prawo do odwołania** | Każdą decyzję reputacyjną lub sankcję możesz zakwestionować procedurą odwoławczą. | Art. XV.2, XVI.2 |
 | **Prawo do bezpieczeństwa** | System chroni Cię przed nękaniem, ujawnianiem danych tożsamościowych (ang. doxxingiem), sabotażem i ekonomicznym wymuszaniem. | Art. XV.2 |
 | **Prawo do lokalnej autonomii** | Możesz prowadzić węzeł "w ciszy": prywatnie, lokalnie, bez uczestnictwa w przestrzeniach publicznych. | Art. III.6 |
@@ -49,11 +50,11 @@ nymów, ale może wymagać okresu wyczekiwania i kontroli anomalii.
 
 | Obowiązek | Co oznacza | Konstytucja |
 | :--- | :--- | :--- |
-| **Nie krzywdź** | Nie podejmuj działań celowo szkodzących ludziom, infrastrukturze ani integralności pamięci i dowodów. | Art. XV.4 |
-| **Bądź uczciwy epistemicznie** | Oznaczaj spekulacje. Nie fałszuj dowodów. Nie manipuluj reputacją. | Art. XV.3 |
-| **Współdziałaj protokołowo** | Respektuj kontrakty, wersje protokołu i limity. | Art. XV.3 |
-| **Utrzymuj higienę operacyjną** | Dbaj o klucze, aktualizacje i podstawowe bezpieczeństwo węzła. | Art. XV.3 |
-| **Bądź gotowy do pomocy** | W ramach swoich możliwości - bez obowiązku transakcyjnego rozrachunku. | Art. XV.3 |
+| **Nie krzywdź** | Nie podejmuj działań celowo szkodzących ludziom, infrastrukturze ani integralności pamięci i dowodów. | Art. XV.5 |
+| **Bądź uczciwy epistemicznie** | Oznaczaj spekulacje. Nie fałszuj dowodów. Nie manipuluj reputacją. | Art. XV.4 |
+| **Współdziałaj protokołowo** | Respektuj kontrakty, wersje protokołu i limity. | Art. XV.4 |
+| **Utrzymuj higienę operacyjną** | Dbaj o klucze, aktualizacje i podstawowe bezpieczeństwo węzła. | Art. XV.4 |
+| **Bądź gotowy do pomocy** | W ramach swoich możliwości - bez obowiązku transakcyjnego rozrachunku. | Art. XV.4 |
 
 ## Hierarchia wartości (gdy wartości wchodzą w konflikt)
 
@@ -112,6 +113,12 @@ Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 | 7 | Agent eskalował sobie uprawnienia | V.13, AUTONOMY-LEVELS.pl.md | Zakaz samonadawania uprawnień (ang. zero self-authorize); błąd agenta nie może automatycznie eskalować uprawnień |
 | 8 | Agent działa w sytuacji zagrożenia życia | II.8, IX.3, AUTONOMY-LEVELS.pl.md | MOŻE działać szybciej, ale zostawia ślad i podlega rewizji |
 
+## Rozliczenia i instrumenty wpływu
+
+| # | Sytuacja | Artykuły | Zasada / Działanie |
+| :--- | :--- | :--- | :--- |
+| 30 | Węzeł nie wie, skąd wzięło się zasilenie, obciążenie albo korekta środków, kredytów lub uznań | XV.3, XVI.2 | Prawo do poznania podstawy rozliczenia: typ zdarzenia, zastosowana reguła, status wyniku i ścieżka odwołania; bez automatycznej deanonymizacji innych uczestników |
+
 ## Finansowanie i przejęcie sterowania (ang. capture)
 
 | # | Sytuacja | Artykuły | Zasada / Działanie |
@@ -125,7 +132,7 @@ Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 
 | # | Sytuacja | Artykuły | Zasada / Działanie |
 | :--- | :--- | :--- | :--- |
-| 13 | Węzeł kwestionuje decyzję reputacyjną | XV.5, XVI.2 | Kontr-dowód lub wykazanie błędu proceduralnego; prawo do odwołania |
+| 13 | Węzeł kwestionuje decyzję reputacyjną | XV.6, XVI.2 | Kontr-dowód lub wykazanie błędu proceduralnego; prawo do odwołania |
 | 14 | Brak ujawnienia konfliktu interesów | VII.6 | Domniemanie konfliktu interesów przy braku danych (COI-by-default): brak deklaracji = brak danych, nie brak konfliktu |
 | 15 | Osoba pełni jednocześnie rolę strony i arbitra | VII.3 | Uprawnienia krytyczne MUSZĄ być rozdzielone między role |
 | 16 | Decyzja o wysokiej stawce | VII.9 | Współpodpis (ang. multisig) + niezależny zespół kontrtestujący (ang. red-team) |
@@ -155,5 +162,5 @@ Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 | :--- | :--- | :--- | :--- |
 | 26 | Ktoś proponuje wyjątek od reguły | XIV.3, XIV.4 | Wyjątek wymaga: policy-id, reason, risk-level, expiry, owner, stanu bezpiecznego domknięcia (ang. fail-closed) |
 | 27 | Wyjątek generuje sygnały krzywdy lub nadużycia | XIV.5 | Automatyczne zawieszenie wyjątku do wyjaśnienia |
-| 28 | Propozycja zmiany Konstytucji | XIII.7-XIII.11, XVI.5, XVI.6, XVI.10 | Jawne uzasadnienie, analiza skutków, odwracalność; w okresie założycielskim decyzja założycieli ma moc rozstrzygającą |
-| 29 | Polityka lokalna próbuje obejść Konstytucję | XVI.7 | Niedopuszczalne bez formalnej zmiany konstytucyjnej |
+| 28 | Propozycja zmiany Konstytucji | XIII.7-XIII.11, XVI.8, XVI.9, XVI.13 | Jawne uzasadnienie, analiza skutków, odwracalność; w okresie założycielskim decyzja założycieli ma moc rozstrzygającą |
+| 29 | Polityka lokalna próbuje obejść Konstytucję | XVI.10 | Niedopuszczalne bez formalnej zmiany konstytucyjnej |

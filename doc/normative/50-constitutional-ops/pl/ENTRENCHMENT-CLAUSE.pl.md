@@ -85,7 +85,7 @@ Klauzula wieczności nie uniemożliwia:
 ### 2.4. Okres założycielski
 
 W okresie założycielskim, o którym mowa w Konstytucji Art. XIII.7-11 oraz Art.
-XVI.10, mechanizm jednomyślności federacji i zwykłe ścieżki blokowania nie mogą
+XVI.13, mechanizm jednomyślności federacji i zwykłe ścieżki blokowania nie mogą
 paraliżować decyzji założycielskich dotyczących kształtu systemu, jego architektury,
 zasad rozruchowych i tekstu Konstytucji.
 
@@ -195,7 +195,7 @@ członków). Rozstrzygnięcie drugiego panelu jest ostateczne.
 
 - **Konstytucja Art. XVI**: Niniejszy dokument jest propozycją uzupełnienia Art. XVI
   o punkty dotyczące rdzenia nienegocjowalnego i procedury obronnej.
-- **Konstytucja Art. XIII.7-11 oraz Art. XVI.10**: okres założycielski ma
+- **Konstytucja Art. XIII.7-11 oraz Art. XVI.13**: okres założycielski ma
   pierwszeństwo proceduralne wobec pełnej ścieżki międzyfederacyjnej do czasu
   upływu swojej klauzuli czasowej.
 - **NORMATIVE-HIERARCHY.pl.md**: Klauzula wieczności definiuje Poziom 0 hierarchii.

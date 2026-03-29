@@ -534,36 +534,41 @@ kryzysu, sukcesu i degeneracji.
    wzajemności obok daru, o ile pozostaje audytowalna, odwracalna proceduralnie,
    zgodna z prawem do wyjścia i nie narusza warstwy nienegocjowalnej Konstytucji.
 
-7. Mechanizmy wynagradzania wkładu mogą działać przez audytowalne sygnały użycia,
+7. Dar i wymiana są dwoma trybami jednego obiegu wzajemności: dar podtrzymuje
+   więź, bezpośrednią troskę i pomoc, a wymiana kontraktowa skaluje współdziałanie
+   między obcymi bez znoszenia odpowiedzialności ani obowiązku powrotu części
+   nadwyżek do wspólnego obiegu.
+
+8. Mechanizmy wynagradzania wkładu mogą działać przez audytowalne sygnały użycia,
    wpływu i utrzymywania wartości, z hamulcami anty-sybilowymi i anty-kartelowymi.
 
-8. Celem ekonomii wewnętrznej jest trwałe podtrzymywanie zdolności do działania
+9. Celem ekonomii wewnętrznej jest trwałe podtrzymywanie zdolności do działania
    ludzi, węzłów i wspólnoty, a nie nieskończona akumulacja zasobów.
 
-9. Mechanizmy wynagradzania MUSZĄ posiadać hamulce koncentracji: malejące przyrosty,
+10. Mechanizmy wynagradzania MUSZĄ posiadać hamulce koncentracji: malejące przyrosty,
    limit dostatku lub inne funkcjonalnie równoważne ograniczenia po przekroczeniu
    progu bezpiecznego i stabilnego utrzymania węzła oraz jego operatora.
 
-10. Nadwyżki ponad próg dostatku MUSZĄ wracać do wspólnego obiegu według zasad
+11. Nadwyżki ponad próg dostatku MUSZĄ wracać do wspólnego obiegu według zasad
    federacji, w szczególności na rzecz nowych węzłów, ogniw słabszych, czasowo
    poszkodowanych oraz funkcji infrastrukturalnych o wysokiej wartości wspólnotowej.
 
-11. Zweryfikowana obecność człowieka w sieci, oparta na konstytucyjnie dopuszczalnym
+12. Zweryfikowana obecność człowieka w sieci, oparta na konstytucyjnie dopuszczalnym
     mechanizmie Proof-of-Personhood, MUSI dawać nieodbieralne minimum zasobów
     obliczeniowych potrzebnych do komunikacji, orientacji oraz dostępu do trybów
     ratunkowych i opiekuńczych.
 
-12. Mechanizm tego minimum MUSI być finansowany przez jawny model składkowy,
+13. Mechanizm tego minimum MUSI być finansowany przez jawny model składkowy,
     obejmujący co najmniej węzły biznesowe, instancje wysokomarżowe oraz nadwyżki
     wracające do wspólnego obiegu po osiągnięciu dostatku, bez przekształcania tego
     minimum w ukrytą ścieżkę trwałej przewagi ekonomicznej lub ustrojowej.
 
-13. Nagroda ekonomiczna, saldo, historia wymiany ani sam fakt zawarcia lub
+14. Nagroda ekonomiczna, saldo, historia wymiany ani sam fakt zawarcia lub
     wykonania kontraktu nie mogą same przez się dawać trwałej przewagi ustrojowej:
     nie mogą automatycznie zwiększać mocy proceduralnej, uprzywilejowanego
     trasowania, siły rozstrzygającej, siły reputacyjnej ani dostępu do wyjątków.
 
-14. Rzadkie sygnały, anomalie i style odstające są zasobem kulturowym, który system
+15. Rzadkie sygnały, anomalie i style odstające są zasobem kulturowym, który system
     powinien chronić przed homogenizacją.
 
 ## Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult
@@ -641,14 +646,21 @@ kryzysu, sukcesu i degeneracji.
 2. Prawa podstawowe obejmują: prawo do wyjścia, prawo do prywatności, prawo do
    wglądu, prawo do odwołania, prawo do bezpieczeństwa oraz prawo do lokalnej autonomii.
 
-3. Obowiązki podstawowe obejmują: niekrzywdzenie, uczciwość epistemiczną,
+3. Prawo do wglądu obejmuje również prawo do poznania podstawy każdego istotnego
+   zasilenia, obciążenia, wstrzymania, korekty lub wygaśnięcia środków, kredytów,
+   uznań i innych instrumentów ekonomicznych lub reputacyjnych przypisanych do węzła
+   albo pseudonimu, w zakresie wystarczającym do zrozumienia przyczyny zmiany
+   i skutecznego jej zakwestionowania. Prawo to nie oznacza automatycznego ujawnienia
+   tożsamości innych osób, tajemnic operacyjnych ani danych wrażliwych.
+
+4. Obowiązki podstawowe obejmują: niekrzywdzenie, uczciwość epistemiczną,
    współdziałanie protokołowe, odpowiedzialność operacyjną i gotowość wzajemnej
    pomocy w granicach możliwości.
 
-4. Węzeł nie może celowo szkodzić ludziom, infrastrukturze ani integralności pamięci,
+5. Węzeł nie może celowo szkodzić ludziom, infrastrukturze ani integralności pamięci,
    dowodów i procedur.
 
-5. Ocena reputacyjna bazująca na dowodzie może być podważona wyłącznie kontr-dowodem
+6. Ocena reputacyjna bazująca na dowodzie może być podważona wyłącznie kontr-dowodem
    lub wykazaniem błędu proceduralnego.
 
 ## Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji
@@ -671,27 +683,33 @@ kryzysu, sukcesu i degeneracji.
 5. Dla decyzji wysokiej stawki obowiązują niezależna weryfikacja wielo-rolowa oraz
    kontradyktoryjny przegląd (ang. adversarial review).
 
-6. Naprawa i reintegracja są elementem systemu, o ile nie naruszają warstwy
+6. Każda decyzja wysokiej stawki lub sankcyjna MUSI wskazywać autora
+   rozstrzygnięcia albo jawny rozkład współodpowiedzialności, także gdy jest
+   podejmowana przez wielopodpis, wyrocznię albo automatyzację; procedura, quorum
+   ani system nie znoszą odpowiedzialności ludzi, którzy zaprojektowali,
+   zatwierdzili lub uruchomili dany mechanizm.
+
+7. Naprawa i reintegracja są elementem systemu, o ile nie naruszają warstwy
    bezpieczeństwa i godności.
 
-7. Zmiana Konstytucji wymaga jawnego uzasadnienia, analizy skutków, opisu
+8. Zmiana Konstytucji wymaga jawnego uzasadnienia, analizy skutków, opisu
    odwracalności oraz śladu procesu decyzyjnego.
 
-8. Zmiany o wysokiej stawce powinny przejść okres próbny, mierniki skutków
+9. Zmiany o wysokiej stawce powinny przejść okres próbny, mierniki skutków
    i retrospektywę.
 
-9. Żadna polityka lokalna, finansowanie, partnerstwo ani decyzja implementacyjna nie
+10. Żadna polityka lokalna, finansowanie, partnerstwo ani decyzja implementacyjna nie
    mogą obejść tej Konstytucji bez formalnej zmiany konstytucyjnej.
 
-10. Dokumenty z katalogu `doc/normative/50-constitutional-ops/` mogą doprecyzowywać wdrażanie nowych
+11. Dokumenty z katalogu `doc/normative/50-constitutional-ops/` mogą doprecyzowywać wdrażanie nowych
    osób i węzłów (ang. onboarding), hierarchię normatywną, gradient autonomii,
    walidację reputacji i procedury obronne, ale nie nabywają mocy wyższej niż jawnie
    wskazana w ich statusie.
 
-11. Jeżeli dokument suplementacyjny staje się warunkiem implementowalności
+12. Jeżeli dokument suplementacyjny staje się warunkiem implementowalności
     konstytucyjnej, jego brak powinien być traktowany jako luka ładu organizacyjnego
     (ang. governance) i zostać odnotowany w backlogu dokumentów wykonawczych.
 
-12. W okresie założycielskim, o którym mowa w Art. XIII.7-11, decyzje założycieli
+13. W okresie założycielskim, o którym mowa w Art. XIII.7-11, decyzje założycieli
     dotyczące zmian konstytucyjnych i ustrojowych mają moc rozstrzygającą, o ile
     spełniają wymogi jawnego uzasadnienia, analizy skutków i śladu procesu.

@@ -835,6 +835,47 @@ cooperation, but the mere fact of transacting does not grant vote, influence, or
 privileged standing in the community. Exchange is one gateway into the swarm, but
 not a passport to power.
 
+### Gift and Exchange as One Circulation
+
+Gift economies work best in small communities: giver and recipient know each other
+personally, gratitude has a face, and the cost of abuse is high because reputation is
+visible and local. As the system grows, that mechanism weakens: accountability stops
+being personal, the giver does not see the recipient, the recipient does not feel an
+obligation, and abuse becomes a statistic rather than shame or guilt.
+
+That is why large social systems historically move toward exchange economies:
+accountability is converted into a means of payment, contract replaces relationship,
+and personal trust becomes procedure. This makes cooperation between strangers
+easier, but it creates pathologies of its own: alienation, reduction of the human
+being to a transaction party, and the disappearance of the sense that a concrete
+person stands behind the consequences of a decision. The means of payment thus
+becomes a moral buffer between intention and effect.
+
+DIA holds that both orders, gift and exchange, have limits of effectiveness defined
+by scale, and that neither of them alone solves the problem of accountability in a
+large system. Gift degenerates into clientelism when it reaches people who are not
+in a position to reciprocate or to hold the giver accountable for intent. Exchange,
+in turn, degenerates into bureaucracy when procedure replaces judgment and no one is
+at fault because "the system works that way."
+
+In addition, transactional economics has a more brutal effect when it produces what
+may be called an "agency laundromat." This happens when a means of payment or its
+equivalent anonymizes groups of influence, allowing harmful actions to be directed by
+other hands without personal accountability. For example, a shareholder may finance
+ventures whose consequences they do not bear, and which they would never undertake
+if they had to participate in them personally or even know about them directly.
+
+DIA advances the thesis that these two economic orders can be synthesized, provided
+that the technical infrastructure can prevent the dysfunctions of both at once:
+maintaining the personal trace of accountability characteristic of a small gift
+community while simultaneously scaling the openness and auditability of exchange
+contracts to sizes where personal familiarity is no longer possible. A practical
+expression of that synthesis may be, for example, that revenues from exchange feed
+gift mechanisms: an infrastructural contribution collected at the point of exchange
+flows into common circulation and funds the minimum of survival, crisis support, and
+infrastructure, while gift does not become indebted to exchange because the flow is
+automatic, transparent, and irreversible.
+
 ### Introspection as the Foundation of Exchange
 
 Durable exchange requires trust. Trust requires authenticity, that is, readiness to
@@ -918,6 +959,48 @@ limited to informing, documenting, and supporting the affected people - not coer
 change in systems for which the swarm has no mandate. When the problem directly
 affects a swarm participant, the response may become more active, but remains within
 the bounds of helping the participant.
+
+## Accountability Without Dissolving into Procedure
+
+One of the gravest risks of an extended procedural system is diffusion of
+accountability (also known as moral disengagement): the more layers, roles, and
+automatic processes mediate between a decision and its effect, the easier it becomes
+for each participant in the chain to say "it wasn't me."
+
+This mechanism does not require bad intent - it is enough that the system allows
+anonymous participation in decisions with real consequences for people. In large
+economic systems this translates into alienation and the disappearance of felt
+responsibility for the consequences of one's own decisions, but the conditions under
+which that happens are primarily procedural and architectural rather than economic,
+which is why they are described in this value.
+
+The swarm adopts the principle of named determinations: every procedural decision
+that changes another participant's state (sanction, refusal, block, escalation,
+arbitration, issuance or revocation of a pseudonym) must have an identifiable author
+(even if pseudonymous) and an explicit trace of justification. Collective voting does
+not abolish individual responsibility: the record includes not only the outcome but
+also the distribution of votes, and each voter bears partial reputational
+responsibility for the consequences, proportionate to their contribution to the
+decision.
+
+The system does not allow three forms of escape from accountability:
+
+* "The procedure required it."  
+  Procedure is a tool, not a subject. Someone triggered it, someone approved it, and
+  someone could have filed an appeal and did not. Each of those points has an author.
+
+* "The algorithm did it."  
+  An automatic decision has a designer who set thresholds and rules, and an operator
+  who decided to deploy it. Both bear responsibility.
+
+* "Everyone agreed."  
+  Unanimity is not an alibi. If the outcome of a collective decision turns out to be
+  harmful, each voter bears a fraction of responsibility, and that fraction is
+  recorded rather than dispersed in an anonymous report.
+
+The goal is not to intimidate participants, but to maintain a living contact between
+action and consequence. That contact naturally vanishes in complex systems when the
+architecture permits it.
 
 ## Epistemics and Collective Intelligence
 

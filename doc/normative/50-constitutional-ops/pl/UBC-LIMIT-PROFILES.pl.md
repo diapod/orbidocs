@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-UBC-LIMITS-001` |
 | `typ` | Ustawa wykonawcza / profile limitów i przenośności |
 | `wersja` | `0.1.0-draft` |
-| `podstawa` | Art. XII.11-13 Konstytucji DIA; `UNIVERSAL-BASIC-COMPUTE.pl.md`; `FIP-MEMBERSHIP-AND-QUORUM.pl.md` |
+| `podstawa` | Art. XII.12-14 Konstytucji DIA; `UNIVERSAL-BASIC-COMPUTE.pl.md`; `FIP-MEMBERSHIP-AND-QUORUM.pl.md` |
 | `status mechanizmów` | profile `bridge_minimum`, `trans_federation_limited` i katalog limitów są normatywne; federacje mogą je rozszerzać, ale nie osłabiać |
 
 ---
@@ -177,5 +177,5 @@ System nie spełnia tej polityki, jeżeli:
   alokacji i finansowania.
 - **`FIP-MEMBERSHIP-AND-QUORUM.pl.md`**: definiuje minimalną strukturę i
   odpowiedzialność `FIP`.
-- **Konstytucja Art. XII.11-13**: wyznacza granice nieodbieralnego minimum i
+- **Konstytucja Art. XII.12-14**: wyznacza granice nieodbieralnego minimum i
   zakaz ukrytej przewagi.

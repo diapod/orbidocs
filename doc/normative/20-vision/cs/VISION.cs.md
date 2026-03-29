@@ -94,6 +94,12 @@ Nejde o decentralizovaný finanční trh, ale o dohlížený oběh práce: malou
 auditovatelnou smyčku, v níž se důvěra opírá o proceduru a reputaci, nikoli
 o spekulaci.
 
+Výměna zde není opakem daru, ale jeho škálovatelným doplněním. Tam, kde už osobní
+známost a vděčnost malé komunity nestačí, umožňují kontrakt a explicitní zúčtování
+spolupráci mezi cizími lidmi bez ztráty odpovědnosti, a část toků ekonomiky výměny
+může napájet společný ochranný oběh: minimum přežití, krizovou podporu a
+infrastrukturu roje.
+
 Klíčová hranice: servisní kredity se nemísí s reputací. Zůstatek nedává hlas
 a reputace nedává zůstatek. Ekonomika a důvěra běží po rovnoběžných kolejích,
 aby se bohatství nestávalo mocí a chudoba neodnímala schopnost jednat. Výměna
@@ -331,6 +337,11 @@ Proto je zde správa (*governance*) politikou zapsanou v kódu (*policy-as-code*
 - existuje právo na odštěpení (*fork*) spolu s daty,
 - existuje právo na vlastní uzel „v tichu“ – bez účasti ve veřejných
   prostorech.
+
+Procedura se nesmí stát úkrytem před odpovědností. Každé rozhodnutí, které mění stav
+jiného účastníka, MUSÍ mít autora, stopu odůvodnění a cestu odvolání; „tak rozhodl
+algoritmus“ ani „všichni tak hlasovali“ neruší odpovědnost lidí, kteří dané
+rozhodnutí navrhli, spustili nebo schválili.
 
 Je to roj odolný vůči kultu: nástroj, nikoli náboženství ani ideologie.
 

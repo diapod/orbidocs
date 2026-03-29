@@ -837,6 +837,46 @@ do głębszej współpracy, ale sam fakt transakcji nie daje głosu, wpływu ani
 uprzywilejowania w społeczności. Wymiana jest jedną z bram wejścia do roju, ale nie
 przepustką do władzy.
 
+### Dar i wymiana jako jeden obieg
+
+Ekonomie daru działają najlepiej w małych społecznościach: dawca i odbiorca
+znają się osobiście, wdzięczność ma twarz, a koszt nadużycia jest wysoki, bo
+reputacja jest widoczna i lokalna. Wraz ze wzrostem systemu ten mechanizm
+słabnie: odpowiedzialność przestaje być osobista, dawca nie widzi odbiorcy,
+odbiorca nie czuje zobowiązania, a nadużycia stają się statystyką, a nie
+wstydem czy winą.
+
+Dlatego duże systemy społeczne historycznie przechodzą na ekonomię wymiany:
+odpowiedzialność zostaje zamieniona w środek płatniczy, kontrakt zastępuje relację,
+a osobiste zaufanie zmienia się w procedurę. To ułatwia współdziałanie między obcymi,
+lecz rodzi własne patologie: alienację, redukcję człowieka do strony transakcji
+i zanik poczucia, że za skutkami decyzji stoi konkretna osoba. Środek płatniczy staje
+się wtedy buforem moralnym między intencją a skutkiem.
+
+DIA uznaje, że oba porządki, daru i wymiany, mają granice skuteczności wyznaczone
+przez skalę, i że żaden z nich sam nie rozwiązuje problemu odpowiedzialności w dużym
+systemie. Dar degeneruje się do klientelizmu, gdy trafia do ludzi, którzy nie są
+w stanie odwzajemnić się ani rozliczyć dawcy z intencji. Z kolei wymiana degeneruje
+się do biurokracji, gdy procedura zastępuje osąd, a nikt nie jest winien, bo "system
+tak działa".
+
+Dodatkowo, transakcyjna ekonomia ma również bardziej brutalny skutek, gdy powstaje
+w niej zjawisko "pralni sprawczości". Dzieje się tak, gdy środek płatniczy bądź jego
+odpowiednik anonimizuje grupy wpływu, pozwalając cudzymi rękami kierować działaniami
+o zgubnych skutkach bez osobistej odpowiedzialności. Na przykład akcjonariusz może
+finansować przedsięwzięcia, których konsekwencji nie ponosi, a których nigdy by nie
+podjął, gdyby brał w nich udział osobiście bądź o nich wiedział.
+
+DIA stawia tezę, że te dwa ekonomiczne porządki można syntetyzować, pod warunkiem, że
+infrastruktura techniczna potrafi zapobiegać dysfunkcjom obu jednocześnie: utrzymywać
+osobisty ślad odpowiedzialności charakterystyczny dla małej wspólnoty daru,
+jednocześnie skalując jawność i audytowalność kontraktu wymiany do rozmiarów,
+w których osobista znajomość nie jest już możliwa. Praktycznym wyrazem tej syntezy
+może być na przykład to, aby przychody z wymiany zasilały mechanizmy daru: składka
+infrastrukturalna pobierana przy wymianie trafia do wspólnego obiegu i zasila minimum
+przetrwania, wsparcie kryzysowe i infrastrukturę, a dar nie staje się dłużny
+wymianie, bo zasilanie jest automatyczne, jawne i nieodwracalne.
+
 ### Introspekcja jako fundament wymiany
 
 Trwała wymiana wymaga zaufania. Zaufanie wymaga autentyczności, czyli gotowości do
@@ -920,6 +960,47 @@ przemocy systemowej. Reakcja roju na sygnały zewnętrzne ogranicza się do
 informowania, dokumentowania i wspierania osób dotkniętych — nie do wymuszania zmian
 w systemach, w których rój nie ma mandatu. Gdy problem bezpośrednio dotyka uczestnika
 roju, reakcja może być bardziej aktywna, lecz pozostaje w granicach pomocy uczestnikowi.
+
+## Odpowiedzialność bez rozmywania w procedurze
+
+Jednym z najpoważniejszych ryzyk rozbudowanego systemu proceduralnego jest rozmywanie
+odpowiedzialności (znane też jako moralne wyłączanie się): im więcej warstw, ról
+i automatycznych procesów pośredniczy między decyzją a jej skutkiem, tym łatwiej
+każdemu uczestnikowi łańcucha powiedzieć "to nie ja".
+
+Mechanizm ten nie wymaga złej woli – wystarczy, że system pozwala na anonimowe
+uczestnictwo w decyzjach o realnych konsekwencjach dla ludzi. W dużych systemach
+ekonomicznych zjawisko to przekłada się na alienację i zanik poczucia
+odpowiedzialności za skutki własnych decyzji, ale warunki, w których do tego
+dochodzi, są przede wszystkim proceduralne i architektoniczne, nie ekonomiczne,
+dlatego są opisane w tej wartości.
+
+Rój przyjmuje zasadę nazwanych rozstrzygnięć: każda decyzja proceduralna, która
+zmienia stan innego uczestnika (sankcja, odmowa, blokada, eskalacja, arbitraż,
+wydanie lub cofnięcie pseudonimu) musi mieć identyfikowalnego autora (choćby
+pseudonimowego) i jawny ślad uzasadnienia. Głosowania kolektywne nie znoszą
+odpowiedzialności indywidualnej: zapis obejmuje nie tylko wynik, ale również rozkład
+głosów, a każdy głosujący ponosi cząstkową odpowiedzialność reputacyjną za skutki,
+proporcjonalnie do swojego wkładu w decyzję.
+
+System nie pozwala na trzy formy ucieczki od odpowiedzialności:
+
+* "Procedura tak kazała".  
+  Procedura jest narzędziem, nie podmiotem. Ktoś ją uruchomił, ktoś zatwierdził,
+  a ktoś mógł zgłosić odwołanie i tego nie zrobił. Każdy z tych punktów ma autora.
+
+* "Algorytm to zrobił".  
+  Automatyczna decyzja ma projektanta, który ustalił progi i reguły, oraz operatora,
+  który zdecydował o jej wdrożeniu. Obaj ponoszą odpowiedzialność.
+
+* "Wszyscy się zgodzili".  
+  Jednomyślność nie jest alibi. Jeżeli wynik decyzji kolektywnej okazał się
+  szkodliwy, każdy głosujący ponosi ułamek odpowiedzialności, a ten ułamek jest
+  zapisany, nie rozproszony w anonimowym sprawozdaniu.
+
+Celem nie jest zastraszanie uczestników, lecz utrzymanie żywego kontaktu między
+działaniem a jego skutkiem. Kontaktu, który w złożonych systemach naturalnie zanika,
+gdy architektura na to pozwala.
 
 ## Epistemika i inteligencja zbiorowa
 
