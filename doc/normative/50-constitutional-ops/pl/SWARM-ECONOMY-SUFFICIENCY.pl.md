@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-SUFF-001` |
 | `typ` | Ustawa wykonawcza (Poziom 3 hierarchii normatywnej) |
 | `wersja` | `0.1.0-draft` |
-| `podstawa` | Art. VIII.4-8, XII.5-10, XIV Konstytucji DIA; `doc/normative/30-core-values/pl/CORE-VALUES.pl.md` sekcja "Dostatek ponad akumulację" |
+| `podstawa` | Art. VIII.4-8, XII.5-13, XIV Konstytucji DIA; `doc/normative/30-core-values/pl/CORE-VALUES.pl.md` sekcja "Dostatek ponad akumulację" |
 | `status mechanizmów` | model danych i testy zgodności są normatywne; funkcje naliczania mogą być federacyjnie parametryzowane w granicach tego dokumentu |
 
 ---
@@ -35,14 +35,19 @@ Niniejszy dokument definiuje:
 
 1. Ekonomia roju służy utrzymaniu zdolności do działania ludzi, węzłów i wspólnoty,
    a nie nieskończonej akumulacji.
-2. Federacja MUSI projektować nagrody tak, aby po osiągnięciu dostatku dalszy
+2. Dobrowolna wymiana kontraktowa między uczestnikami jest dopuszczalnym trybem
+   wzajemności obok daru, ale jej ślady ekonomiczne nie mogą same przez się działać
+   jako skrót do siły reputacyjnej, proceduralnej ani ustrojowej.
+3. Federacja MUSI projektować nagrody tak, aby po osiągnięciu dostatku dalszy
    przyrost korzyści był malejący albo automatycznie kierowany do wspólnego obiegu.
-3. Żaden mechanizm ekonomiczny nie może uzależniać wynagrodzenia przede wszystkim od
+4. Żaden mechanizm ekonomiczny nie może uzależniać wynagrodzenia przede wszystkim od
    napływu nowych uczestników zamiast od audytowalnego użycia, wpływu, utrzymania
    wartości lub realnego działania pomocowego.
-4. Nagroda ekonomiczna nie jest ścieżką obejścia zasad reputacji proceduralnej,
-   routingu, quorum, wyjątków ani kwalifikowalności ról wysokiej stawki.
-5. Zweryfikowana obecność człowieka w sieci może stanowić samodzielną podstawę do
+5. Nagroda ekonomiczna nie jest ścieżką obejścia zasad reputacji proceduralnej,
+   routingu, quorum, wyjątków ani kwalifikowalności ról wysokiej stawki; dotyczy to
+   również salda, historii wymiany oraz samego faktu zawarcia lub wykonania
+   kontraktu.
+6. Zweryfikowana obecność człowieka w sieci może stanowić samodzielną podstawę do
    przyznania nieodbieralnego minimum zasobów obliczeniowych dla komunikacji,
    orientacji oraz trybów ratunkowych i opiekuńczych, niezależnie od chwilowego
    poziomu reputacji lub wkładu ekonomicznego.
@@ -282,8 +287,9 @@ Relacje dokumentowe:
 
 - **Konstytucja Art. VIII.4**: zakaz ekonomii typu piramidalnego i zakaz zamiany
   przewagi ekonomicznej na władzę.
-- **Konstytucja Art. XII.7-10**: cel ekonomii, hamulce koncentracji, wspólny obieg
-  nadwyżek i bariera konwersji.
+- **Konstytucja Art. XII.6-13**: wymiana kontraktowa jako dopuszczalny tryb
+  wzajemności, cel ekonomii, hamulce koncentracji, wspólny obieg nadwyżek i
+  bariera konwersji.
 - **`EXCEPTION-POLICY.pl.md`**: procedura wyjątków dla odstępstw czasowych.
 - **`PROCEDURAL-REPUTATION-SPEC.pl.md`**: rozdział reputacji proceduralnej od nagrody
   ekonomicznej.

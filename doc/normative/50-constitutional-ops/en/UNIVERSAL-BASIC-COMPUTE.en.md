@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-UBC-001` |
 | `type` | Implementing act (Level 3 of the normative hierarchy) |
 | `version` | `0.1.0-draft` |
-| `basis` | Art. XII.10-13 of the DIA Constitution; `SWARM-ECONOMY-SUFFICIENCY.en.md`; `ROOT-IDENTITY-AND-NYMS.en.md`; `IDENTITY-UNSEALING-BOARD.en.md`; `FIP-MEMBERSHIP-AND-QUORUM.en.md` |
+| `basis` | Art. XII.11-13 of the DIA Constitution; `SWARM-ECONOMY-SUFFICIENCY.en.md`; `ROOT-IDENTITY-AND-NYMS.en.md`; `IDENTITY-UNSEALING-BOARD.en.md`; `FIP-MEMBERSHIP-AND-QUORUM.en.md` |
 | `mechanism status` | the minimal model of PoP, UBC allocation, and settlement is normative; limit profiles are concretized by `UBC-LIMIT-PROFILES.en.md`; cross-federation recognition may run through federations or the minimal `FIP` bridge/registry |
 
 ---
@@ -35,19 +35,22 @@ This document operationalizes those obligations.
 2. The lack of current reputational or economic contribution MUST NOT by itself
    cut a person off from the basic ability to communicate with the swarm, orient
    themselves in their situation, and use emergency and care modes.
-3. Eligibility for `UBC` is grounded in a constitutionally admissible
+3. Access to `UBC` and its protective modes MUST NOT be conditioned on humiliation,
+   self-abasement, emotional dependency, or arbitrary personal favor from an
+   operator.
+4. Eligibility for `UBC` is grounded in a constitutionally admissible
    `Proof-of-Personhood`, by default without full de-anonymization.
-4. A local federation MAY grant a broader `UBC` profile, but it may not go below
+5. A local federation MAY grant a broader `UBC` profile, but it may not go below
    the minimum defined in this document.
-5. Cross-federation recognition of `Proof-of-Personhood` is limited by default and
+6. Cross-federation recognition of `Proof-of-Personhood` is limited by default and
    may run through federations or the minimal `FIP` bridge/registry:
    - emergency modes MUST be available without limit,
    - communication MUST be available under a limited profile,
    - care modes MUST be available under a limited profile.
-6. Federations MAY broaden cross-federation recognition and raise limits, and the
+7. Federations MAY broaden cross-federation recognition and raise limits, and the
    `FIP` bridge MAY guarantee only the minimum portability profile; neither path may
    narrow recognition below the above minimum.
-7. `UBC` may not be used as a hidden path to constitutional advantage,
+8. `UBC` may not be used as a hidden path to constitutional advantage,
    privileged high-stakes routing, or bypass of reputation requirements.
 
 ---
@@ -170,7 +173,10 @@ ubc_settlement:
 3. A federation MAY require periodic refresh of the attestation, but may not use
    that process as a covert tool for excluding poor, weaker, or temporarily inactive
    operators.
-4. `UBC` does not depend on reward balance, reputational standing, or commercial
+4. The entry, refresh, or review procedure MUST NOT require humiliation,
+   self-abasement, emotional dependency, or a gatekeeper's personal satisfaction as
+   a condition of access.
+5. `UBC` does not depend on reward balance, reputational standing, or commercial
    activity, although a federation may condition expanded limits on additional
    criteria.
 
@@ -234,16 +240,18 @@ The system does not satisfy this policy if it:
 1. requires full de-anonymization as the ordinary condition of entry into `UBC`,
 2. cuts a person with a valid `Proof-of-Personhood` off from emergency modes,
 3. leaves no `ubc_allocation` or `ubc_settlement` trace,
-4. makes the basic allocation depend on reputation, balance, or capital position,
-5. uses `UBC` as a hidden channel for buying constitutional advantage,
-6. recognizes cross-federation PoP only nominally, without a real minimum of
+4. conditions access on humiliation, self-abasement, emotional dependency, or
+   arbitrary operator favor,
+5. makes the basic allocation depend on reputation, balance, or capital position,
+6. uses `UBC` as a hidden channel for buying constitutional advantage,
+7. recognizes cross-federation PoP only nominally, without a real minimum of
    communication and care/support.
 
 ---
 
 ## 9. Relation to Other Documents
 
-- **Constitution Art. XII.10-13**: PoP, non-withdrawable minimum compute, and the ban on hidden advantage.
+- **Constitution Art. XII.11-13**: PoP, non-withdrawable minimum compute, and the ban on hidden advantage.
 - **`SWARM-ECONOMY-SUFFICIENCY.en.md`**: shared model of funding, surpluses, and concentration brakes.
 - **`ROOT-IDENTITY-AND-NYMS.en.md`**: identity-anchoring layer without default publicity.
 - **`IDENTITY-UNSEALING-BOARD.en.md`**: federationally recognized strong confirmation mechanisms without full identity publication.

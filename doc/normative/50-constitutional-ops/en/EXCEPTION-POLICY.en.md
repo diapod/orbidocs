@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-EXC-001` |
 | `type` | Implementing act (Level 3 of the normative hierarchy) |
 | `version` | 0.1.0-draft |
-| `basis` | Art. IX, X, XIV, XVI of the DIA Constitution; `AUTONOMY-LEVELS.en.md`; `ENTRENCHMENT-CLAUSE.en.md` |
+| `basis` | Art. II, IX, X, XIV, XVI of the DIA Constitution; `AUTONOMY-LEVELS.en.md`; `ENTRENCHMENT-CLAUSE.en.md` |
 
 ---
 
@@ -33,7 +33,10 @@ make the exception a **first-class audit object**.
    - leads to a defined fail-closed state.
 2. An exception may not become the default mode or a permanent feature of the
    architecture.
-3. A frequently repeated exception is a signal that a rule, contract, or new
+3. An exception MUST NOT suspend the ban on demanding humiliation, self-abasement,
+   or emotional dependency as a condition of access to critical goods, help,
+   protective procedures, or basic system resources.
+4. A frequently repeated exception is a signal that a rule, contract, or new
    operational path is missing.
 
 ---
@@ -152,7 +155,9 @@ An exception MUST be automatically suspended or rolled back if:
 2. the exception exceeds `expiry`,
 3. the mandatory review has not been performed,
 4. the condition that justified activation has disappeared,
-5. the exception begins to function as a permanent architectural backdoor.
+5. the exception begins to function as a permanent architectural backdoor,
+6. the exception begins to condition access to help, protective procedures, or
+   critical goods on humiliation, self-abasement, or emotional dependency.
 
 ---
 

@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-UBC-LIMITS-001` |
 | `type` | Implementing act / limit and portability profiles |
 | `version` | `0.1.0-draft` |
-| `basis` | Art. XII.10-13 of the DIA Constitution; `UNIVERSAL-BASIC-COMPUTE.en.md`; `FIP-MEMBERSHIP-AND-QUORUM.en.md` |
+| `basis` | Art. XII.11-13 of the DIA Constitution; `UNIVERSAL-BASIC-COMPUTE.en.md`; `FIP-MEMBERSHIP-AND-QUORUM.en.md` |
 | `mechanism status` | the `bridge_minimum`, `trans_federation_limited`, and canonical limit profiles are normative; federations may extend them but not weaken them |
 
 ---
@@ -175,5 +175,5 @@ The system does not satisfy this policy if:
   allocation/funding models.
 - **`FIP-MEMBERSHIP-AND-QUORUM.en.md`**: defines the minimum structure and
   accountability of `FIP`.
-- **Constitution Art. XII.10-13**: sets the bounds of the non-withdrawable floor
+- **Constitution Art. XII.11-13**: sets the bounds of the non-withdrawable floor
   and the ban on hidden advantage.

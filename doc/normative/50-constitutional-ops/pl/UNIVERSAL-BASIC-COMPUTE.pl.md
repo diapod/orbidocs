@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-UBC-001` |
 | `typ` | Ustawa wykonawcza (Poziom 3 hierarchii normatywnej) |
 | `wersja` | `0.1.0-draft` |
-| `podstawa` | Art. XII.10-13 Konstytucji DIA; `SWARM-ECONOMY-SUFFICIENCY.pl.md`; `ROOT-IDENTITY-AND-NYMS.pl.md`; `IDENTITY-UNSEALING-BOARD.pl.md`; `FIP-MEMBERSHIP-AND-QUORUM.pl.md` |
+| `podstawa` | Art. XII.11-13 Konstytucji DIA; `SWARM-ECONOMY-SUFFICIENCY.pl.md`; `ROOT-IDENTITY-AND-NYMS.pl.md`; `IDENTITY-UNSEALING-BOARD.pl.md`; `FIP-MEMBERSHIP-AND-QUORUM.pl.md` |
 | `status mechanizmów` | minimalny model PoP, alokacji UBC i rozliczeń jest normatywny; profile limitów konkretyzuje `UBC-LIMIT-PROFILES.pl.md`; uznawanie trans-federacyjne może przebiegać przez federacje albo minimalny most/rejestr `FIP` |
 
 ---
@@ -35,19 +35,21 @@ Niniejszy dokument operacjonalizuje te obowiązki.
 2. Brak bieżącego wkładu reputacyjnego lub ekonomicznego NIE MOŻE sam przez się
    odcinać człowieka od podstawowej zdolności do komunikacji z rojem, orientacji
    w sytuacji oraz korzystania z trybów ratunkowych i opiekuńczych.
-3. Kwalifikacja do `UBC` opiera się na konstytucyjnie dopuszczalnym
+3. Dostęp do `UBC` i jego trybów ochronnych NIE MOŻE być warunkowany upokorzeniem,
+   uniżeniem, zależnością emocjonalną ani arbitralną łaską operatora.
+4. Kwalifikacja do `UBC` opiera się na konstytucyjnie dopuszczalnym
    `Proof-of-Personhood`, domyślnie bez pełnej deanonimizacji.
-4. Federacja lokalna MOŻE przyznawać szerszy zakres `UBC`, ale nie może zejść
+5. Federacja lokalna MOŻE przyznawać szerszy zakres `UBC`, ale nie może zejść
    poniżej minimum określonego w tym dokumencie.
-5. Uznawanie `Proof-of-Personhood` między federacjami jest domyślnie ograniczone i
+6. Uznawanie `Proof-of-Personhood` między federacjami jest domyślnie ograniczone i
    może odbywać się przez federacje albo minimalny most/rejestr `FIP`:
    - tryby ratunkowe MUSZĄ być dostępne bez limitu,
    - komunikacja MUSI być dostępna w profilu limitowanym,
    - tryby pomocowe MUSZĄ być dostępne w profilu limitowanym.
-6. Federacje MOGĄ rozszerzać uznawanie trans-federacyjne i podnosić limity, a most
+7. Federacje MOGĄ rozszerzać uznawanie trans-federacyjne i podnosić limity, a most
    `FIP` MOŻE gwarantować wyłącznie minimalny profil przenośności; żadna z tych
    ścieżek nie może zejść poniżej powyższego minimum.
-7. `UBC` nie może być używane jako ukryta ścieżka do przewagi ustrojowej,
+8. `UBC` nie może być używane jako ukryta ścieżka do przewagi ustrojowej,
    priorytetowego routingu wysokiej stawki ani obejścia wymagań reputacyjnych.
 
 ---
@@ -169,7 +171,10 @@ ubc_settlement:
 3. Federacja MOŻE wymagać okresowego odświeżania poświadczenia, ale nie może używać
    tej procedury jako ukrytego narzędzia wykluczania ubogich, słabszych lub
    czasowo nieaktywnych operatorów.
-4. `UBC` nie zależy od salda nagród, pozycji reputacyjnej ani aktywności
+4. Procedura wejścia, odświeżania lub review NIE MOŻE wymagać upokorzenia,
+   uniżenia, zależności emocjonalnej ani osobistego zadowolenia gatekeepera jako
+   warunku dostępu.
+5. `UBC` nie zależy od salda nagród, pozycji reputacyjnej ani aktywności
    komercyjnej, choć federacja może warunkować rozszerzone limity dodatkowymi
    kryteriami.
 
@@ -233,16 +238,18 @@ System nie spełnia tej polityki, jeżeli:
 1. wymaga pełnej deanonimizacji jako zwykłego warunku wejścia do `UBC`,
 2. odcina osobę z ważnym `Proof-of-Personhood` od trybów ratunkowych,
 3. nie pozostawia śladu `ubc_allocation` albo `ubc_settlement`,
-4. uzależnia podstawowy przydział od reputacji, salda lub pozycji kapitałowej,
-5. używa `UBC` jako ukrytego kanału kupowania przewagi proceduralnej,
-6. uznaje trans-federacyjne PoP tylko deklaratywnie, bez realnego minimum
+4. warunkuje dostęp upokorzeniem, uniżeniem, zależnością emocjonalną albo
+   arbitralną łaską operatora,
+5. uzależnia podstawowy przydział od reputacji, salda lub pozycji kapitałowej,
+6. używa `UBC` jako ukrytego kanału kupowania przewagi proceduralnej,
+7. uznaje trans-federacyjne PoP tylko deklaratywnie, bez realnego minimum
    komunikacyjnego i pomocowego.
 
 ---
 
 ## 9. Relacja do innych dokumentów
 
-- **Konstytucja Art. XII.10-13**: PoP, nieodbieralne minimum compute i zakaz ukrytej przewagi.
+- **Konstytucja Art. XII.11-13**: PoP, nieodbieralne minimum compute i zakaz ukrytej przewagi.
 - **`SWARM-ECONOMY-SUFFICIENCY.pl.md`**: wspólny model finansowania, nadwyżek i hamulców koncentracji.
 - **`ROOT-IDENTITY-AND-NYMS.pl.md`**: warstwa zakotwiczenia tożsamości bez domyślnej jawności.
 - **`IDENTITY-UNSEALING-BOARD.pl.md`**: federacyjnie uznawane mechanizmy silnego potwierdzenia bez pełnej publikacji tożsamości.

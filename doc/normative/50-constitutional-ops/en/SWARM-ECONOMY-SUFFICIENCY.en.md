@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-SUFF-001` |
 | `type` | Implementing act (Level 3 of the normative hierarchy) |
 | `version` | `0.1.0-draft` |
-| `basis` | Art. VIII.4-8, XII.5-10, XIV of the DIA Constitution; `doc/normative/30-core-values/en/CORE-VALUES.en.md` section "Sufficiency Over Accumulation" |
+| `basis` | Art. VIII.4-8, XII.5-13, XIV of the DIA Constitution; `doc/normative/30-core-values/en/CORE-VALUES.en.md` section "Sufficiency Over Accumulation" |
 | `mechanism status` | data model and compliance tests are normative; reward functions may be parameterized by federations within this document's limits |
 
 ---
@@ -36,14 +36,19 @@ This document defines:
 
 1. Swarm economics serves the maintenance of the capacity to act of people, nodes,
    and the community, not endless accumulation.
-2. A federation MUST design rewards so that, once sufficiency is reached, further
+2. Voluntary contractual exchange among participants is an admissible mode of
+   reciprocity alongside gift, but its economic traces may not by themselves act as
+   a shortcut to reputational, procedural, or constitutional force.
+3. A federation MUST design rewards so that, once sufficiency is reached, further
    gain is diminishing or automatically redirected into common circulation.
-3. No economic mechanism may make compensation depend primarily on the inflow of
+4. No economic mechanism may make compensation depend primarily on the inflow of
    new participants instead of auditable use, impact, maintenance of value, or real
    protective/helpful action.
-4. Economic reward is not a path for bypassing rules of procedural reputation,
-   routing, quorum, exceptions, or eligibility for high-stakes roles.
-5. Verified personhood in the network may by itself be a sufficient basis for a
+5. Economic reward is not a path for bypassing rules of procedural reputation,
+   routing, quorum, exceptions, or eligibility for high-stakes roles; this also
+   applies to balance, exchange history, and the mere fact of entering into or
+   performing a contract.
+6. Verified personhood in the network may by itself be a sufficient basis for a
    non-withdrawable minimum of compute resources for communication, orientation, and
    emergency/care modes, regardless of temporary reputation or economic contribution.
 
@@ -279,8 +284,9 @@ Document relations:
 
 - **Constitution Art. VIII.4**: prohibition of pyramid-type economics and of
   converting economic advantage into power.
-- **Constitution Art. XII.7-10**: purpose of economics, concentration brakes,
-  common circulation of surpluses, and the conversion barrier.
+- **Constitution Art. XII.6-13**: contractual exchange as an admissible mode of
+  reciprocity, the purpose of economics, concentration brakes, common circulation
+  of surpluses, and the conversion barrier.
 - **`EXCEPTION-POLICY.en.md`**: exception procedure for temporary departures.
 - **`PROCEDURAL-REPUTATION-SPEC.en.md`**: separation of procedural reputation from
   economic reward.

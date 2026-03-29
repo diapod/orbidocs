@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-EXC-001` |
 | `typ` | Ustawa wykonawcza (Poziom 3 hierarchii normatywnej) |
 | `wersja` | 0.1.0-draft |
-| `podstawa` | Art. IX, X, XIV, XVI Konstytucji DIA; `AUTONOMY-LEVELS.pl.md`; `ENTRENCHMENT-CLAUSE.pl.md` |
+| `podstawa` | Art. II, IX, X, XIV, XVI Konstytucji DIA; `AUTONOMY-LEVELS.pl.md`; `ENTRENCHMENT-CLAUSE.pl.md` |
 
 ---
 
@@ -33,7 +33,10 @@ wyjątku **obiektem pierwszej kategorii audytu**.
    - ma jawny warunek wyłączenia,
    - prowadzi do zdefiniowanego stanu bezpiecznego domknięcia (ang. fail-closed).
 2. Wyjątek nie może być trybem domyślnym ani stałą cechą architektury.
-3. Często powtarzający się wyjątek jest sygnałem, że brakuje reguły, kontraktu albo
+3. Wyjątek NIE MOŻE zawieszać zakazu wymuszania upokorzenia, uniżenia lub
+   zależności emocjonalnej jako warunku dostępu do dóbr krytycznych, pomocy,
+   procedur ochronnych lub podstawowych zasobów systemu.
+4. Często powtarzający się wyjątek jest sygnałem, że brakuje reguły, kontraktu albo
    nowej ścieżki operacyjnej.
 
 ---
@@ -155,7 +158,9 @@ Wyjątek MUSI zostać automatycznie zawieszony albo cofnięty, jeżeli:
 2. wyjątek przekracza `expiry`,
 3. nie wykonano obowiązkowego przeglądu,
 4. zniknął warunek, który uzasadniał jego uruchomienie,
-5. wyjątek zaczyna działać jak trwała furtka architektoniczna.
+5. wyjątek zaczyna działać jak trwała furtka architektoniczna,
+6. wyjątek zaczyna uzależniać dostęp do pomocy, procedur ochronnych albo dóbr
+   krytycznych od upokorzenia, uniżenia lub zależności emocjonalnej.
 
 ---
 
