@@ -162,7 +162,11 @@ kryzysu, sukcesu i degeneracji.
     mieszkanie, mobilność czy udział w wyborze władzy, jest traktowane jako przemoc
     systemowa.
 
-14. Na styku węzły-społeczność system POWINIEN umożliwiać działania pomocowe,
+14. Wymuszanie upokorzenia, uniżenia lub zależności emocjonalnej jako warunku dostępu
+    do dóbr krytycznych, pomocy, procedur ochronnych lub podstawowych zasobów systemu
+    jest traktowane jako przemoc systemowa.
+
+15. Na styku węzły-społeczność system POWINIEN umożliwiać działania pomocowe,
     świadkowanie przebiegu spraw, ochronę integralności dowodów i procedury wsparcia
     bez logiki samosądu.
 

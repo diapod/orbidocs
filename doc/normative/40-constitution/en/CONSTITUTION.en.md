@@ -164,7 +164,11 @@ conditions of pressure, crisis, success, and degeneration.
     housing, mobility, or participation in choosing those in power is treated as
     systemic violence.
 
-14. At the node-community boundary, the system SHOULD enable helping actions,
+14. Demanding humiliation, self-abasement, or emotional dependency as a condition
+    of access to critical goods, help, protective procedures, or basic system
+    resources is treated as systemic violence.
+
+15. At the node-community boundary, the system SHOULD enable helping actions,
     witnessing the course of cases, protecting the integrity of evidence, and
     support procedures without the logic of vigilantism.
 
