@@ -74,6 +74,9 @@ schema_for_file() {
     *.participant-bind.json)
       echo "$SCHEMAS_DIR/participant-bind.v1.schema.json"
       ;;
+    *.participant-capability-limits.json)
+      echo "$SCHEMAS_DIR/participant-capability-limits.v1.schema.json"
+      ;;
     *.coi-declaration.json)
       echo "$SCHEMAS_DIR/coi-declaration.v1.schema.json"
       ;;

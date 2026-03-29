@@ -21,13 +21,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `30` | `1` |
 | `30-stories` (Stories) | `8` | `0` |
-| `40-proposals` (Proposals) | `19` | `16` |
-| `50-requirements` (Requirements) | `10` | `8` |
+| `40-proposals` (Proposals) | `20` | `16` |
+| `50-requirements` (Requirements) | `11` | `9` |
 | `60-solutions` (Solutions) | `10` | `6` |
 
-- Total project markdown files: `83`
-- Proposals referencing source material: `16` / `19`
-- Requirements referencing source material: `8` / `10`
+- Total project markdown files: `85`
+- Proposals referencing source material: `16` / `20`
+- Requirements referencing source material: `9` / `11`
 
 ## Schema Workflow
 
@@ -68,6 +68,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md) | `6` | `4` | `yes` | `yes` | `1` | `0` |
 | [`organization-subject.v1.schema.json`](schemas-gen/schemas/organization-subject.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `1` |
 | [`participant-bind.v1.schema.json`](schemas-gen/schemas/participant-bind.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
+| [`participant-capability-limits.v1.schema.json`](schemas-gen/schemas/participant-capability-limits.v1.md) | `7` | `5` | `yes` | `yes` | `1` | `1` |
 | [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | `18` | `17` | `yes` | `yes` | `2` | `1` |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `32` | `31` | `yes` | `yes` | `2` | `1` |
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | `22` | `21` | `yes` | `yes` | `1` | `1` |
@@ -129,6 +130,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`organization-subject.v1.schema.json`](schemas-gen/schemas/organization-subject.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md), [`requirements-008.md`](project/50-requirements/requirements-008.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`participant-bind.v1.schema.json`](schemas-gen/schemas/participant-bind.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
+| [`participant-capability-limits.v1.schema.json`](schemas-gen/schemas/participant-capability-limits.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md), [`requirements-009.md`](project/50-requirements/requirements-009.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | [`requirements-001.md`](project/50-requirements/requirements-001.md), [`requirements-006.md`](project/50-requirements/requirements-006.md), [`requirements-007.md`](project/50-requirements/requirements-007.md), [`requirements-008.md`](project/50-requirements/requirements-008.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | [`requirements-001.md`](project/50-requirements/requirements-001.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md) |
@@ -194,6 +196,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md`](project/40-proposals/015-nym-certificates-and-renewal-baseline.md) | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md), [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md), [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md), [`nym-renew-request.v1.schema.json`](schemas-gen/schemas/nym-renew-request.v1.md), [`nym-succession.v1.schema.json`](schemas-gen/schemas/nym-succession.v1.md), [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md), [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) |
 | [`doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`](project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md) | [`community-pool-disbursement.v1.schema.json`](schemas-gen/schemas/community-pool-disbursement.v1.md), [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md), [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md), [`ledger-hold.v1.schema.json`](schemas-gen/schemas/ledger-hold.v1.md), [`ledger-transfer.v1.schema.json`](schemas-gen/schemas/ledger-transfer.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
 | [`doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`](project/40-proposals/017-organization-subjects-and-org-did-key.md) | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md), [`organization-subject.v1.schema.json`](schemas-gen/schemas/organization-subject.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
+| [`doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md`](project/40-proposals/018-layered-capability-limited-participant-restrictions.md) | [`participant-capability-limits.v1.schema.json`](schemas-gen/schemas/participant-capability-limits.v1.md) |
 | [`doc/project/50-requirements/requirements-001.md`](project/50-requirements/requirements-001.md) | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) |
 | [`doc/project/50-requirements/requirements-002.md`](project/50-requirements/requirements-002.md) | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) |
 | [`doc/project/50-requirements/requirements-003.md`](project/50-requirements/requirements-003.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md), [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md), [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) |
@@ -201,12 +204,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/50-requirements/requirements-006.md`](project/50-requirements/requirements-006.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
 | [`doc/project/50-requirements/requirements-007.md`](project/50-requirements/requirements-007.md) | [`community-pool-disbursement.v1.schema.json`](schemas-gen/schemas/community-pool-disbursement.v1.md), [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md), [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md), [`ledger-hold.v1.schema.json`](schemas-gen/schemas/ledger-hold.v1.md), [`ledger-transfer.v1.schema.json`](schemas-gen/schemas/ledger-transfer.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
 | [`doc/project/50-requirements/requirements-008.md`](project/50-requirements/requirements-008.md) | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md), [`ledger-hold.v1.schema.json`](schemas-gen/schemas/ledger-hold.v1.md), [`organization-subject.v1.schema.json`](schemas-gen/schemas/organization-subject.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
+| [`doc/project/50-requirements/requirements-009.md`](project/50-requirements/requirements-009.md) | [`participant-capability-limits.v1.schema.json`](schemas-gen/schemas/participant-capability-limits.v1.md) |
 | [`doc/project/60-solutions/node.md`](project/60-solutions/node.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) |
 | [`doc/schemas/client-instance-attachment.v1.schema.json`](schemas/client-instance-attachment.v1.schema.json) | [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md), [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 | [`doc/schemas/client-instance-detachment.v1.schema.json`](schemas/client-instance-detachment.v1.schema.json) | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 | [`doc/schemas/participant-bind.v1.schema.json`](schemas/participant-bind.v1.schema.json) | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md), [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md), [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 
-- Canonical schemas: `56`
-- Generated schema docs: `56`
-- Positive examples: `78`
-- Negative examples: `74`
+- Canonical schemas: `57`
+- Generated schema docs: `57`
+- Positive examples: `79`
+- Negative examples: `75`
