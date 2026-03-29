@@ -889,6 +889,36 @@ from an embedded contribution mechanism: from business nodes, high-margin corpor
 instances, and also from surpluses returning to common circulation after sufficiency
 is reached or by voluntary operator choice.
 
+### Access Without Tribute
+
+DIA recognizes that one of the most durable mechanisms of structural violence is
+charging a fee in the currency of dignity: forcing self-humiliation as a condition of
+access to services, resources, or procedures on which a person's survival depends.
+
+This mechanism does not require bad intent. It is enough for a decision-maker or
+gatekeeper to become accustomed to regulating their own mood at the expense of the
+person seeking access, while that person internalizes the dysfunction as a normal cost
+of getting things done.
+
+Orbiplex designs access layers so this mechanism has nowhere to take root: criteria
+for access to services, arbitration, nym issuance, and balance top-ups must be
+explicit, machine-verifiable, and independent of the emotional disposition of the
+person deciding on access. Wherever a human participates in the process, the
+procedure must leave an audit trace, provide a right of appeal, and rotate roles so a
+dependency relation does not become fixed between specific people.
+
+The participant's dignity is not an upfront contribution to a transaction. It is a
+boundary condition that no mode - care, justice, or economic - may violate.
+
+In addition, within the space of social-signal detection, the swarm detects attempts
+to violate dignity in decision processes outside its own system through information
+coming from gateways to the world or the rumor system, and treats them on a par with
+other symptoms of systemic violence. The swarm's response to such external signals is
+limited to informing, documenting, and supporting the affected people - not coercing
+change in systems for which the swarm has no mandate. When the problem directly
+affects a swarm participant, the response may become more active, but remains within
+the bounds of helping the participant.
+
 ## Epistemics and Collective Intelligence
 
 ### Grounding in Reality

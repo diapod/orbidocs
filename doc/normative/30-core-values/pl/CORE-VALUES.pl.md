@@ -891,9 +891,39 @@ pochodzić z wbudowanego mechanizmu składkowego: od węzłów biznesowych, inst
 wysokomarżowych, a także z nadwyżek wracających do wspólnego obiegu po osiągnięciu
 dostatku lub wskutek dobrowolnej decyzji operatorów.
 
-## Epistemika i inteligencja zbiorowa
+### Dostęp bez trybutu
 
-### Ugruntowanie w rzeczywistości
+DIA uznaje, że jednym z najtrwalszych mechanizmów przemocy strukturalnej jest
+pobieranie opłaty w walucie godności: wymuszanie samoponiżenia jako warunku
+dostępu do usług, zasobów lub procedur, od których zależy przetrwanie
+jednostki.
+
+Mechanizm ten nie wymaga złych intencji. Wystarczy, że decydent lub strażnik dostępu
+do zasobu przyzwyczai się do regulowania własnego nastroju kosztem interesanta, a ten
+zinternalizuje taką dysfunkcję jako normalny koszt załatwienia sprawy.
+
+Orbiplex projektuje warstwy dostępowe tak, aby ten mechanizm nie miał gdzie się
+zakorzenić: kryteria dostępu do usług, arbitrażu, wydawania pseudonimów
+i doładowywania salda muszą być jawne, maszynowo weryfikowalne i niezależne od
+dyspozycji emocjonalnej osoby decydującej o dostępie. Tam, gdzie w procesie
+uczestniczy człowiek, procedura musi mieć ślad audytowy, prawo do odwołania i rotację
+ról, aby relacja zależności nie utrwalała się między konkretnymi osobami.
+
+Godność uczestnika nie jest wkładem wstępnym do transakcji. Jest warunkiem brzegowym,
+którego żaden tryb – opiekuńczy, sprawiedliwościowy ani ekonomiczny – nie może
+naruszać.
+
+Ponadto w przestrzeni detekcji społecznych sygnałów rój wykrywa próby naruszania
+godności w procesach decyzyjnych poza własnym systemem (przez informacje pochodzące
+z bramek do świata czy systemu plotek) i traktuje je na równi z innymi symptomami
+przemocy systemowej. Reakcja roju na sygnały zewnętrzne ogranicza się do
+informowania, dokumentowania i wspierania osób dotkniętych — nie do wymuszania zmian
+w systemach, w których rój nie ma mandatu. Gdy problem bezpośrednio dotyka uczestnika
+roju, reakcja może być bardziej aktywna, lecz pozostaje w granicach pomocy uczestnikowi.
+
+## Epistemika i inteligencja zbiorowa
+
+### Ugruntowanie w rzeczywistości
 
 DIA uznaje, że "szaleństwo systemu" zaczyna się tam, gdzie znika kontekst: modele
 krążą w zamkniętej pętli własnych założeń i tracą kontakt z tym, co sprawdzalne.

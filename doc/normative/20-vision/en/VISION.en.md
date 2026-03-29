@@ -47,9 +47,15 @@ learning loop: nodes jointly solve real problems, valuable debates are preserved
 source transcripts, those transcripts move into "storage" and public or federated
 vaults, and then become material for safe model specialization.
 
-In practice, the loop is:
+In practice, this means the sequence:
 
-`question -> debate -> transcript -> curation -> vault -> LoRA/QLoRA -> better future answers`
+1. question
+2. debate
+3. transcript
+4. curation
+5. memory / *vault*
+6. model fine-tuning
+7. better future answers
 
 The advantage compounds over time: the swarm does not only answer, it learns from its
 own work - without losing sovereignty over memory, sources, and training rules.
@@ -103,13 +109,17 @@ that core remains collective intelligence and support for human flourishing.
 ### Imbalance of Power
 
 "Cheap intelligence" today tends toward concentration: giant models, giant budgets,
-large datasets, and singular decision actors aggregating shared data. Wherever
-concentration appears, power hidden in the tool appears as well.
+large datasets, and singular entities aggregating shared data. Wherever concentration
+appears, power hidden in the tool appears as well.
 
-This is not only about censorship or bad intent, but about something deeper: **model
-weights are a frozen choice of what is typical, normal, elegant, and professional**.
+This is not only about censorship or bad intent, but about something deeper: model
+weights are a frozen choice of what is typical, normal, elegant, and professional.
 That is an embedded norm. It only has to be convenient and "look right," and
 conformism completes the rest.
+
+In the long run, we cannot avoid correlating information in large datasets built from
+our preferences and behavior, but together we can become stewards of such information
+and use it directly so it serves us rather than singular centers of power.
 
 ### Crisis of Authority and Public-Trust Roles
 
@@ -120,6 +130,10 @@ realization that, in existing mechanisms of social care and justice, the weakest
 are people like any others - vulnerable to coercion, driven by personal motives,
 dependent on sympathies and current personal conditions - erodes the points of support
 that guarantee a safe space for the growth of societies as a whole.
+
+Thanks to the swarm's capacity to aggregate social signals from many sources and to
+ethics embedded in its procedural protocols, we have a chance at arbitration that is
+more resistant to the opaque intentions of appointed institutions.
 
 ### Cognitive Overload and Coordination Block
 
@@ -168,6 +182,11 @@ If thinking becomes a service, what becomes expensive is what is not a service:
 - **locality** - experience of place, language, context,
 - **safe field** - conditions where social stakes do not destroy honesty.
 
+For that reason, DIA should protect access to survival conditions and help also
+against a subtler form of structural violence: demanding payment in the currency of
+dignity, that is, humiliation, self-abasement, or emotional dependency as the price
+of access to a resource.
+
 Swarm infrastructure should protect people in need and help them survive and develop -
 without making them dependent on someone else's grace.
 
@@ -195,7 +214,8 @@ contract**.
 7. **Universal minimum of survival** - verified personhood in the network should
    guarantee a non-withdrawable minimum of compute for communication, orientation,
    and emergency/care modes, regardless of temporary reputational or economic
-   contribution.
+   contribution, and without structural violence in the form of charging fees in the
+   currency of dignity.
 
 8. **Epistemic hygiene** - we separate levels: description, reduction, explanation,
    experience, culture.

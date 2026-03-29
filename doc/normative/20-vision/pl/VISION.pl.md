@@ -46,9 +46,15 @@ jako transkrypty źródłowe, te trafiają do "przechowalni" i publicznych lub
 federacyjnych vaultów, a następnie stają się materiałem do bezpiecznej specjalizacji
 modeli.
 
-W praktyce oznacza to ciąg:
+W praktyce oznacza to sekwencję:
 
-`pytanie → debata → transkrypt → kuracja → vault → LoRA/QLoRA → lepsze przyszłe odpowiedzi`
+1. pytanie
+2. debata
+3. transkrypt
+4. kuracja
+5. pamięć / *vault*
+6. dotrenowanie modelu
+7. lepsze przyszłe odpowiedzi
 
 Przewaga narasta w czasie: rój nie tylko odpowiada, ale uczy się z własnej pracy –
 bez utraty suwerenności nad pamięcią, źródłami i zasadami treningu.
@@ -103,24 +109,34 @@ kolektywna inteligencja i wspieranie człowieczeństwa.
 ### Nierównowaga władzy
 
 "Tania inteligencja" ma dziś tendencję do koncentracji: wielkie modele, wielkie
-budżety, duże zbiory danych, pojedyncze podmioty decyzyjne agregujące wspólne dane.
-Tam, gdzie pojawia się koncentracja, pojawia się też władza ukryta w narzędziu.
+budżety, duże zbiory danych, pojedyncze podmioty agregujące wspólne dane. Tam, gdzie
+pojawia się koncentracja, pojawia się też władza ukryta w narzędziu.
 
-Nie chodzi wyłącznie o cenzurę czy złe intencje, lecz o coś głębszego: **wagi modelu
-są zamrożonym wyborem tego, co typowe, normalne, eleganckie i profesjonalne**. To
+Nie chodzi wyłącznie o cenzurę czy złe intencje, lecz o coś głębszego: wagi modelu są
+zamrożonym wyborem tego, co typowe, normalne, eleganckie i profesjonalne. To
 wbudowana norma. Wystarczy, że jest wygodna i "dobrze wygląda", a konformizm dopełnia
 reszty.
+
+Nie możemy na dłuższą metę uniknąć korelowania informacji w dużych zbiorach danych
+tworzonych na podstawie naszych preferencji i zachowań, lecz wspólnie możemy stać się
+dysponentami takich informacji i korzystać z nich bezpośrednio, aby służyły nam,
+a nie pojedynczym ośrodkom.
 
 ### Kryzys autorytetów i ról zaufania publicznego
 
 Pluralizacja medialnego przekazu, pragmatyzacja komunikacji społecznej, skrócenie
 dystansu oraz erozja zaufania do nadrzędnych instancji – zarówno instytucjonalnych,
 jak i osobowych – osłabiają praktycznie realizowane role opiekuńcze i porządkujące.
+
 Świadomość, że w dotychczasowych mechanizmach społecznej opieki i sprawiedliwości
 najsłabszymi ogniwami są ludzie tacy jak inni – podatni na szantaż, motywowani
 osobistymi pobudkami, zależni od sympatii i aktualnych osobistych warunków – sprawia,
 że znikają punkty oparcia gwarantujące bezpieczną przestrzeń wzrostu społeczeństw
 jako całości.
+
+Dzięki zdolności roju do agregowania społecznych sygnałów z wielu źródeł i etyce
+zaszytej w protokołach postępowania, mamy szansę na arbitraże bardziej odporne na
+niejasne intencje mianowanych instytucji.
 
 ### Przeciążenie poznawcze i blokada współdziałania
 
@@ -131,14 +147,14 @@ ciągłego przetwarzania złożoności często blokują wspólne działanie.
 
 W efekcie problemem nie jest tylko niedobór rozumu, lecz deficyt koordynacji. DIA
 odpowiada na to przez kolektywną inteligencję, która przejmuje część ciężaru
-analizy i kalibracji, dzięki czemu ludzie mogą szybciej wejść we wspólny model
-roboczy i skuteczniej działać razem mimo różnic.
+analizy i kalibracji, dzięki czemu ludzie mogą szybciej wejść we wspólny model
+roboczy i skuteczniej działać razem mimo różnic.
 
 Dotyczy to także jakości wspólnego działania: DIA ma pomagać ludziom organizować
-się i działać razem mimo różnic poglądów, interpretacji i języków opisu. Służy
+się i działać razem mimo różnic poglądów, interpretacji i języków opisu. Służy
 temu zarówno osłabianie sztywnego utożsamienia z własnym intelektem jako jedynym
-miejscem prawdy, jak i mechanizmy samoorganizacji wokół spraw wspólnych,
-publicznych i pomocowych oraz meta-komunikacja, która tłumaczy zbieżne prawdy
+miejscem prawdy, jak i mechanizmy samoorganizacji wokół spraw wspólnych,
+publicznych i pomocowych oraz meta-komunikacja, która tłumaczy zbieżne prawdy
 między różnymi językami osobistymi i kulturowymi, aby ułatwiać konsensus bez
 wymuszania homogenizacji.
 
@@ -148,15 +164,15 @@ Gdy modele karmią modele, a treści syntetyczne wypierają ludzkie, kultura tr
 detale: anomalie, odstępstwa, lokalne niuanse. To "kserokopia kserokopii" – z czasem
 zostaje estetyka, a zanika **żywe paliwo innowacji**.
 
-Drugim wymiarem tego samego problemu jest przymusowa estetyzacja i wymóg
+Drugim wymiarem tego samego problemu jest przymusowa estetyzacja i wymóg
 profesjonalizacji komunikacji: surowy sygnał człowieka bywa wygładzany tak, by
-pasował do iluzorycznych progów przynależności, poprawności i wiarygodności. W
-rezultacie kultura nie tylko traci nowość, ale także kontakt z realną
-charakterystyką uczestników, bo maszyny i instytucje premiują komunikaty
-uśrednione, "bezpieczne" i łatwe do opakowania.
+pasował do iluzorycznych progów przynależności, poprawności
+i wiarygodności. W rezultacie kultura nie tylko traci nowość, ale także kontakt
+z realną charakterystyką uczestników, bo maszyny i instytucje premiują komunikaty
+uśrednione, "bezpieczne" i łatwe do "opakowania".
 
 Odpowiedzią nie jest nostalgiczny powrót do starego porządku, lecz infrastruktura,
-która **chroni różnorodność i źródła nowości** zamiast je homogenizować, a także
+która **chroni różnorodność i źródła nowości** zamiast je homogenizować, a także
 zostawia miejsce na surowe świadectwo, zanim zostanie ono przetłumaczone,
 uporządkowane albo wystylizowane.
 
@@ -169,6 +185,10 @@ Jeżeli myślenie staje się usługą, drożeje to, co usługą nie jest:
 - **pamięć** – ciągłość sensu,
 - **lokalność** – doświadczenie miejsca, języka, kontekstu,
 - **bezpieczne pole** – warunki, w których stawka społeczna nie niszczy szczerości.
+
+Dlatego DIA ma chronić dostęp do warunków przetrwania i pomocy także przed
+subtelniejszą formą przemocy strukturalnej: wymuszaniem opłaty w walucie godności,
+czyli upokorzenia, uniżenia lub zależności emocjonalnej jako ceny dostępu do zasobu.
 
 Infrastruktura roju ma chronić ludzi w potrzebie i pomagać im w przetrwaniu oraz
 rozwoju – bez uzależniania od czyjejś łaski.
@@ -199,7 +219,8 @@ zachowań**.
 7. **Uniwersalne minimum przetrwania** – zweryfikowana obecność człowieka w sieci
    powinna gwarantować nieodbieralne minimum mocy obliczeniowej dla komunikacji,
    orientacji oraz trybów ratunkowych i opiekuńczych, niezależnie od chwilowego
-   wkładu reputacyjnego lub ekonomicznego.
+   wkładu reputacyjnego lub ekonomicznego, a także bez strukturalnej przemocy
+   polegającej na pobieraniu opłat w walucie godności.
 
 8. **Higiena epistemiczna** – oddzielamy poziomy: opis, redukcję, wyjaśnienie,
    doświadczenie, kulturę.
