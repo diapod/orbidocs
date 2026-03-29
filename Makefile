@@ -15,14 +15,17 @@ NODE_SRC       ?= ../node
 PDF_SOURCE_PATTERNS ?= \
 	doc/normative/20-vision/pl/*.md \
 	doc/normative/20-vision/en/*.md \
+	doc/normative/20-vision/cs/*.md \
 	doc/normative/30-core-values/pl/*.md \
 	doc/normative/30-core-values/en/*.md \
+	doc/normative/30-core-values/cs/*.md \
 	doc/normative/40-constitution/pl/*.md \
 	doc/normative/40-constitution/en/*.md \
 	doc/normative/50-constitutional-ops/pl/*.md \
 	doc/normative/50-constitutional-ops/en/*.md \
 	doc/normative/90-supplementary/pl/*.md \
 	doc/normative/90-supplementary/en/*.md \
+	doc/normative/90-supplementary/cs/*.md \
 
 PDF_SOURCES := $(sort $(foreach pattern,$(PDF_SOURCE_PATTERNS),$(wildcard $(pattern))))
 PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/pdf/%.pdf,$(PDF_SOURCES))
