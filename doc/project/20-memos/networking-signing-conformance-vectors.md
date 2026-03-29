@@ -50,7 +50,7 @@ This key is a deterministic test fixture only.
 
 Fixture:
 
-- `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/doc/schemas/examples/bootstrap.ack.peer-handshake.json`
+- `doc/schemas/examples/bootstrap.ack.peer-handshake.json`
 
 Expected domain-separated signing-input hex:
 
@@ -68,7 +68,7 @@ kh-QM5zHwOMbIaoL8SXbQMfGJX826D7B5rM-8mZtu6KaCS6drQPSXICfJOED-iRDQOoadOcTszgeZWDy
 
 Fixture:
 
-- `/Users/siefca/kody/FREE/AI/orbiplex/orbidocs/doc/schemas/examples/vector-signed.node-advertisement.json`
+- `doc/schemas/examples/vector-signed.node-advertisement.json`
 
 Expected domain-separated signing-input hex:
 
@@ -86,8 +86,8 @@ GGxfc1fHLYqoUhSygpyHSl_yKuilR2YsCx1peziDLhGLXfO2YQz9IXGU4VMDWnh-Zwltk0D-JXnO1IeF
 
 These vectors were emitted from the current sibling Node implementation through:
 
-- `/Users/siefca/kody/FREE/AI/orbiplex/node/protocol/src/lib.rs`
-- `/Users/siefca/kody/FREE/AI/orbiplex/node/crypto/src/lib.rs`
+- `github.com/diapod/orbiplex/node/protocol/src/lib.rs`
+- `github.com/diapod/orbiplex/node/crypto/src/lib.rs`
 
 The intention is not to make the implementation authoritative, but to freeze one
 concrete interoperable byte-level baseline for future independent runtimes.
