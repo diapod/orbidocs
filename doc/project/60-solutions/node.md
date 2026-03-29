@@ -165,7 +165,9 @@ Node, not the default meaning of `Orbiplex Node`.
 
 Based on:
 - `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
+- `doc/project/40-proposals/020-bundled-python-middleware-modules.md`
 - `doc/project/50-requirements/requirements-010.md`
+- `doc/project/50-requirements/requirements-011.md`
 - `doc/project/30-stories/story-006.md`
 
 Responsibilities:

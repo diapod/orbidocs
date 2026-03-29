@@ -113,7 +113,9 @@
    :title "Supervised Local HTTP Middleware Services"
    :kind :extension
    :based-on ["doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
+              "doc/project/40-proposals/020-bundled-python-middleware-modules.md"
               "doc/project/50-requirements/requirements-010.md"
+              "doc/project/50-requirements/requirements-011.md"
               "doc/project/30-stories/story-006.md"
               "doc/project/20-memos/node-middleware-init-and-capability-reporting.md"]
    :schemas []
