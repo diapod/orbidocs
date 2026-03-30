@@ -594,6 +594,18 @@ Mechanika uczenia:
 Tryby ryzyka per operacja: co innego dla "danych", co innego dla "routingu", co
 innego dla "ratunku".
 
+Jeżeli węzeł korzysta z LLM do specjalizacji, dotrenowywania, destylacji, selekcji
+materiału treningowego albo oceny jakości korpusu, powinien traktować Konstytucję DIA
+oraz wartości podstawowe jako jawny, doradczy głos sterujący. Nie jest to substytut
+dowodu ani ukryty kanał władzy nad faktami, lecz warstwa aksjologiczna pomagająca
+oceniać dopuszczalność źródeł, granice ryzyka, kierunek korekty i klasy materiału
+wyłączonego z uczenia.
+
+W szczególności materiał pochodzący z trybów wspólnotowych, pomocowych oraz ekonomii
+daru nie powinien trafiać do pętli uczenia bez sprawdzenia zgodności z godnością,
+minimalnym ujawnianiem, prawem do wyjścia, atrybucją oraz ochroną wspólnoty przed
+wyzyskiem i cichym przechwyceniem sensu przez optymalizację modelową.
+
 ### Koszt i energia jako element etyki
 
 Optymalizujemy nie tylko dla działania, ale też dla kosztu, energii i zasobów:
@@ -793,6 +805,14 @@ polityką wspólnoty (a nie "prawem do wypłaty") uruchamiać automatyczne nagro
 tokenowe za działania realnie wzmacniające innych – szczególnie w sytuacjach
 ratunkowych i ochronnych – łącząc część gwarantowaną z częścią losową oraz z sygnałem
 od odbiorcy pomocy (procentowe wskazanie wkładu).
+
+Gdy wymiana informacji, podsumowania, rekomendacje albo sygnały wdzięczności w tym
+obszarze są współkształtowane przez LLM, węzeł powinien uwzględniać Konstytucję oraz
+wartości podstawowe jako doradczy głos sterujący także na etapie komunikacji, nie
+tylko późniejszego treningu. Oznacza to, że optymalizacja pod płynność, zaangażowanie,
+zysk lub łatwość klasyfikacji nie może wypierać ochrony surowego sygnału, atrybucji,
+sprawiedliwości proceduralnej i rozdziału między darem, reputacją oraz władzą
+ustrojową.
 
 Zasady nagradzania i ewentualnego "wyjścia" do zewnętrznego ekosystemu krypto są
 parametrem ładu organizacyjnego: w niektórych federacjach mogą być wyłączone,
@@ -1548,4 +1568,3 @@ Klarowność jest funkcją etyczną: zmniejsza liczbę błędów, obniża próg 
 i ułatwia audyt. Preferujemy proste nazwy, proste przepływy i formaty – takie, które
 niosą sens i nie ukrywają złożoności w miejscach, gdzie ta złożoność ma
 konsekwencje. Estetyka jest tu narzędziem prawdy.
-

@@ -578,6 +578,18 @@ Mechanika učení:
 Rizikové režimy po operaci: něco jiného pro „data“, něco jiného pro „routing“,
 něco jiného pro „záchranu“.
 
+Pokud uzel používá LLM pro specializaci, dotrénování, destilaci, výběr tréninkového
+materiálu nebo hodnocení kvality korpusu, měl by chápat Konstituci DIA a základní
+hodnoty jako explicitní, poradní řídicí hlas. Nejde o náhradu důkazu ani o skrytý
+kanál moci nad fakty, ale o axiologickou vrstvu, která pomáhá posuzovat přípustnost
+zdrojů, hranice rizika, směr korekce a třídy materiálu, které mají zůstat z učení
+vyloučeny.
+
+Zejména materiál pocházející z komunitních, pečujících a darových režimů by neměl
+vstupovat do učící smyčky bez kontroly souladu s důstojností, minimálním
+zveřejňováním, právem na odchod, atribucí a ochranou komunity před vykořisťováním
+a tichým zachycením smyslu modelovou optimalizací.
+
 ### Náklad a energie jako součást etiky
 
 Optimalizujeme nejen pro fungování, ale i pro náklad, energii a zdroje: hardware,
@@ -764,6 +776,13 @@ komunity (ne „právem na výplatu“) spouštět automatické tokenové odměn
 které skutečně posilují druhé – zejména v záchranných a ochranných situacích –
 a spojovat garantovanou část s náhodnou částí i se signálem od příjemce pomoci
 (procentuální určení podílu).
+
+Jsou-li výměna informací, shrnutí, doporučení nebo signály vděčnosti v této oblasti
+spoluutvářeny LLM, měl by uzel uplatňovat Konstituci a základní hodnoty jako poradní
+řídicí hlas už na komunikační vrstvě, nejen při pozdějším tréninku. To znamená, že
+optimalizace na plynulost, angažovanost, zisk nebo snadnost klasifikace nesmí
+vytlačit ochranu surového signálu, atribuce, procedurální spravedlnosti a oddělení
+mezi darem, reputací a ústavní mocí.
 
 Pravidla odměňování a případného „výstupu“ do vnějšího kryptoměnového ekosystému
 jsou parametrem správy: v některých federacích mohou být vypnuta, omezena nebo
