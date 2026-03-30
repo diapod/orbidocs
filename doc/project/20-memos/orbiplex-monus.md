@@ -2,6 +2,11 @@
 
 `Orbiplex Monus` could be a Node-attached wellbeing and tension-observation module whose job is to notice signals important to a given user, weigh them over time, and optionally formulate candidate Whisper rumors from them.
 
+At this stage, the healthiest implementation shape is a supervised Node-attached
+middleware rather than a separate protocol authority. `Monus` should consume
+host-granted capabilities and contracts exposed by `Orbiplex Node` instead of
+opening side channels to memory, transport, or publication.
+
 The point is not diagnosis, hidden behavioral scoring, or paternalistic automation. The point is to help the user notice meaningful patterns early enough that they can decide whether a bounded social signal should be published through `Whisper`.
 
 ## Candidate role
@@ -17,6 +22,39 @@ Examples include:
 
 - a Whisper draft prepared from accelerated speech, stress markers, and repeated mention of the same institution and event class, where a wearable or voice-oriented Sensorium contributes part of the local signal basis,
 - a local emergency-help trigger when personal Sensorium reports cardiac arrest or comparable collapse and the user remains inactive across available communication channels.
+
+## Preferred implementation shape
+
+`Monus` should be treated as:
+
+- a supervised middleware module attached through the Node middleware surface,
+- local-first and policy-bound,
+- capability-limited by the host,
+- and separate from the protocol authority that publishes outgoing artifacts.
+
+This means:
+
+- `Monus` may inspect host-granted memory or read-model surfaces,
+- `Monus` may consume host-granted local signal feeds or Sensorium-derived
+  summaries,
+- `Monus` may ask the host to shape a draft through model-backed or
+  rule-backed local help,
+- but `Monus` should not directly author or publish network artifacts without
+  Node approval and Node-owned egress.
+
+## Candidate host-granted capabilities
+
+The host may later grant `Monus` a bounded subset of capabilities such as:
+
+- local memory/query access over admitted scopes,
+- local signal or Sensorium summary intake,
+- local model-assisted draft shaping,
+- local audit-log emission,
+- and a request surface for bounded outgoing `Whisper` publication.
+
+The host should remain free to deny some of those capabilities per deployment or
+policy profile. `Monus` therefore depends on explicit contracts granted by the
+Node rather than on ambient access to all local state.
 
 ## Relationship to Whisper
 
@@ -85,6 +123,8 @@ This mode should be treated as stricter and more exceptional than the semi-autom
 - It should keep an audit trace of why a candidate rumor was formed.
 - It should preserve user override and opt-out.
 - It should not hide the difference between user-authored rumor and monitor-derived rumor.
+- It should not bypass Node-owned capability contracts for memory, model help,
+  or outbound publication.
 
 ## Why this may matter
 
@@ -98,4 +138,6 @@ Some harms do not first appear as one clear event. They appear as repeated weak 
 
 `Monus` could help surface those patterns early enough that `Whisper` can correlate them with similar signals from elsewhere.
 
-Promote to: proposal when local signal weighting, user consent modes, Monus-to-Whisper handoff, and Sensorium-assisted inputs are specified.
+Promote to: proposal when local signal weighting, user consent modes,
+Monus-to-Whisper handoff, Sensorium-assisted inputs, and host-granted capability
+contracts are specified.
