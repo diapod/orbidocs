@@ -63,10 +63,14 @@ new runtime dependency is introduced.
 
 - **Web server**: Rust + Axum, as a separate `node-ui` crate and binary within
   the node workspace.
-- **Templates**: Askama — compile-time typed templates. Template errors surface
-  at compile time, not in production.
-- **Frontend**: HTMX loaded from CDN or bundled statically. No build toolchain,
-  no bundler, no JS framework.
+- **Templates**: MiniJinja with runtime file loading. This keeps Jinja-style
+  templates on disk and removes the "edit template -> recompile the whole UI
+  binary" loop that would otherwise slow down HTMX-oriented operator UI work.
+- **Template reload**: `minijinja-autoreload` in the `node-ui` process. In
+  development, template edits should become visible on refresh without a Rust
+  rebuild.
+- **Frontend**: vendored HTMX plus the `response-targets` extension served from
+  local static files. No build toolchain, no bundler, no JS framework.
 - **Deployment**: separate binary started by the launcher alongside the daemon,
   bound to loopback only.
 
@@ -83,12 +87,13 @@ construction, not by convention.
 
 ## Real-Time Updates
 
-The daemon does not yet have an SSE event stream. For hard MVP, HTMX polling
-covers operator-visible liveness:
+The daemon already exposes `/v1/events` as a local SSE stream, but the first
+hard-MVP `node-ui` slice can still rely on simple HTMX polling for execution
+detail fragments:
 
 ```html
-<div hx-get="/executions/{{id}}"
-     hx-trigger="every 3s [status == 'in_progress']"
+<div hx-get="/executions/{{id}}/fragment"
+     hx-trigger="every 3s"
      hx-swap="outerHTML">
 ```
 
@@ -96,8 +101,9 @@ Polling should be conditional: active only when the execution is in a
 non-terminal state. Once a terminal state is reached the trigger should not
 fire.
 
-When the daemon gains a `/v1/events` SSE endpoint, the template switches to
-`hx-ext="sse"` without changes to the rest of the UI structure.
+The existence of `/v1/events` means later migration to SSE is now an integration
+step rather than a daemon prerequisite. The UI structure should stay compatible
+with that later swap.
 
 ## What the Web Server Must Not Do
 
@@ -125,16 +131,21 @@ browser can detect staleness.
 reload it from disk before the next daemon call fails. A simple retry-on-401
 with a fresh file read is sufficient.
 
+**Slow template iteration**: compile-time templates would make frequent HTMX UI
+tweaks unnecessarily expensive because every markup change would require a Rust
+rebuild. Runtime-loaded MiniJinja templates avoid that failure mode for this
+component.
+
 ## Next Actions
 
-1. Add `node-ui` crate to the node workspace with Axum and Askama dependencies.
-2. Implement daemon proxy client reusing the authtok file read pattern from
-   `launcher/src/daemon_control.rs`.
-3. Implement initial template set covering: daemon status, execution list,
-   execution detail with state-conditional action forms, offer catalog,
-   account and hold summary.
+1. Keep the `node-ui` crate on Axum plus MiniJinja rather than reverting to
+   compile-time templates.
+2. Preserve the authtok boundary strictly server-side in every handler and
+   rendered template.
+3. Keep execution polling conditional on non-terminal execution state.
 4. Add `node-ui` startup to the launcher alongside the daemon.
-5. Replace polling with SSE once the daemon exposes `/v1/events`.
+5. Integrate `/v1/events` into the UI once the initial polling-backed operator
+   flow stabilizes.
 
 Promote to: proposal when the template surface and the operator control
 affordances are stable enough to freeze as a Node-side local contract.
