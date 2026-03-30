@@ -35,6 +35,10 @@ This story is not about speculative high-frequency automation or adversarial mar
 behavior. It is about a cooperative voluntary exchange where priced services,
 workflow composition, provenance, and bounded automation all remain visible.
 
+Related follow-up planning note:
+
+- `doc/project/30-stories/story-006-buyer-node-components.md`
+
 ## Identity Model
 
 This story relies on the layered identity model established in the Orbiplex
@@ -192,6 +196,57 @@ are signed, sequenced, and TTL-expiring — following the same patterns as
 
    Roman's Node also has the bundled Python `Orbiplex Arca` middleware attached
    through `http_local_json` for workflow orchestration.
+
+### Required Infrastructure Roles
+
+The scenario assumes a small but explicit infrastructure shape around those
+participants. These are logical roles first; hard MVP may co-locate some of them
+in one deployment.
+
+1. `buyer-orchestrator node`
+
+   Roman's Node acts as the buyer-side host and workflow orchestrator. It is
+   responsible for:
+
+   - holding workflow state for `CasualFeeders`,
+   - selecting or referencing published service offers,
+   - projecting remote paid steps into host procurement,
+   - preserving local audit joins,
+   - performing local packaging and final notification.
+
+2. `provider nodes`
+
+   The Nodes of Ola, Adam, and Marcin publish standing service offers and execute
+   accepted work through host-owned runtime adapters.
+
+3. `gateway node`
+
+   A trusted gateway node converts external money into internal `ORC` balances and
+   emits signed `gateway-receipt.v1` artifacts.
+
+4. `escrow supervisor node`
+
+   A trusted escrow-capable node creates and releases `ledger-hold.v1` facts,
+   enforces settlement timeout semantics, and preserves the settlement-side audit
+   trail for paid procurement.
+
+5. `service-catalog listener/indexer`
+
+   A catalog service or Node listens to exchange-offer publications on the
+   commercial exchange channel, indexes active `service-offer.v1` artifacts, and
+   exposes search/browse surfaces to buyers.
+
+6. `arbiter node` (optional or policy-dependent)
+
+   For `arbiter-confirmed` or disputed paths, a named arbiter role may decide the
+   terminal release or refund outcome. In hard MVP this role may be co-located with
+   the escrow supervisor, but it remains logically distinct.
+
+The smallest acceptable hard-MVP deployment therefore is:
+
+- one buyer-orchestrator Node (`Roman` / `CasualFeeders`),
+- one combined `gateway + escrow + catalog` deployment,
+- one or more provider Nodes (`Ola`, `Adam`, `Marcin`).
 
 ### Service Configuration and Publication
 

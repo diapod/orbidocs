@@ -169,6 +169,29 @@ Two deployment profiles are expected:
 In other words, settlement capability is a deployment profile layered onto the
 Node, not the default meaning of `Orbiplex Node`.
 
+### Story-006 Marketplace Deployment Roles
+
+For the marketplace baseline from `story-006.md`, the minimal logical deployment
+shape around Node should be made explicit:
+
+- `buyer-orchestrator node`
+  Roman-side Node hosting `Arca`, buyer-local workflow state, and local packaging.
+- `provider nodes`
+  service-providing Nodes hosting `Dator` and publishing standing offers.
+- `gateway node`
+  trusted ORC ingress/egress boundary emitting `gateway-receipt.v1`.
+- `escrow supervisor node`
+  trusted settlement authority creating and releasing `ledger-hold.v1`.
+- `service-catalog listener/indexer`
+  listener over the exchange publication channel indexing active `service-offer`
+  artifacts for discovery.
+- `arbiter node`
+  optional or policy-dependent role for `arbiter-confirmed` and dispute paths.
+
+Hard MVP may co-locate `gateway`, `escrow`, `catalog`, and even `arbiter` into one
+deployment, but their responsibilities should remain distinct at the protocol and
+audit level.
+
 ### Supervised Local HTTP Middleware Services
 
 Based on:
