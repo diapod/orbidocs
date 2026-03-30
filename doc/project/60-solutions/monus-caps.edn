@@ -1,0 +1,53 @@
+{:component/id :orbiplex/monus
+ :component/title "Orbiplex Monus"
+ :component/type :node-attached-module
+ :component/status :planned
+
+ :summary
+ "Node-attached local observation middleware for wellbeing, tension, and weak-signal
+ preparation under explicit host-granted capability contracts."
+
+ :may-implement
+ [{:cap/id :local-signal-weighting-and-draft-preparation
+   :title "Local Signal Weighting and Draft Preparation"
+   :kind :observation
+   :based-on ["doc/project/20-memos/orbiplex-monus.md"
+              "doc/project/30-stories/story-005.md"
+              "doc/project/40-proposals/022-monus-as-host-granted-local-observation-middleware.md"]
+   :schemas ["whisper-signal.v1"]
+   :responsibilities
+   ["Aggregate admitted local weak signals over time"
+    "Prepare candidate concern drafts or explicit do-not-publish recommendations"
+    "Preserve `monus-derived` and `monus-sensorium-derived` provenance for later Whisper publication"]
+   :status :todo}
+
+  {:cap/id :host-granted-capability-consumption
+   :title "Host-Granted Capability Consumption"
+   :kind :extension
+   :based-on ["doc/project/20-memos/orbiplex-monus.md"
+              "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
+              "doc/project/40-proposals/022-monus-as-host-granted-local-observation-middleware.md"
+              "doc/project/50-requirements/requirements-010.md"
+              "doc/project/50-requirements/requirements-013.md"]
+   :schemas []
+   :responsibilities
+   ["Consume only host-granted memory, signal, and draft-shaping capabilities"
+    "Degrade gracefully when some capability grants are absent"
+    "Submit bounded publication requests through host-owned contracts instead of direct transport egress"]
+   :status :todo}]
+
+ :out-of-scope
+ ["Direct network publication of `whisper-signal.v1`"
+  "Unrestricted memory access"
+  "Direct vendor/model side channels bypassing Node"
+  "Replacing emergency/help flows with rumor publication"]
+
+ :consumes
+ ["whisper-signal.v1"]
+
+ :produces
+ []
+
+ :notes
+ ["Monus is a local-first middleware, not a protocol authority."
+  "Host-granted capability contracts are the stable trust boundary for Monus support."]}

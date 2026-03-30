@@ -114,3 +114,8 @@ Status:
 ## Notes
 
 Whisper may be implemented as an in-process module or as a separate program/process attached to Node through explicit contracts. Its solution role is stable either way.
+
+When `Monus` is present, Whisper should treat it as an upstream local draft
+preparation module rather than as a peer publication authority. Monus may prepare
+candidate concern drafts, but Whisper and the host still own the bounded outgoing
+publication path.

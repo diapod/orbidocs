@@ -217,7 +217,11 @@ Responsibilities:
 - expose `middleware.dator` and `middleware.arca` as operator-visible components
   with lifecycle, readiness, and restart state,
 - keep bundled middleware under the same host-owned envelope and policy contracts
-  as any future replaceable external module.
+  as any future replaceable external module,
+- remain the future host-granted capability surface for local modules such as
+  `Orbiplex Monus`, including bounded memory/read-model access, local signal
+  summaries, model-assisted draft shaping, and bounded publication requests
+  without yielding direct transport or publication authority to the middleware.
 
 Status:
 - `todo`

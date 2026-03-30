@@ -36,7 +36,8 @@ That is enough for the existing middleware MVP, but not for long-lived local
 modules that naturally want to behave like attached services rather than one-shot
 scripts.
 
-Modules such as `Orbiplex Dator` or `Orbiplex Arca` may need:
+Modules such as `Orbiplex Dator`, `Orbiplex Arca`, or later `Orbiplex Monus` may
+need:
 
 - queue state,
 - long-lived HTTP handlers,
@@ -177,6 +178,7 @@ Both modules MUST:
 | FR-019 | The supervised executor MUST continue to consume `WorkflowEnvelope` and emit `MiddlewareDecision`, rather than defining a second middleware semantic protocol. | Fact | Proposal 019 |
 | FR-020 | The host SHOULD distinguish middleware invocation trace from middleware service lifecycle facts so startup failures are not conflated with ordinary hook rejections. | Inference | Proposal 019 + project values |
 | FR-021 | `http_local_json` MUST admit an optional sandbox-profile reference reusing the Node's host-owned sandbox policy surface for child process launch. | Fact | Proposal 019 |
+| FR-021a | The supervised `http_local_json` surface MAY later expose explicit host-granted capability contracts for attached modules such as `Orbiplex Monus`, instead of ambient unrestricted access to memory, model, or publication surfaces. | Fact | Proposal 019 + Proposal 022 |
 | FR-022 | The supervised executor MUST NOT receive host private signing keys or ambient settlement authority as part of its launch contract. | Fact | Proposal 019 + project values |
 | FR-023 | The hard MVP Node distribution MUST bundle `Orbiplex Dator` as a Python middleware module attached through `http_local_json`. | Fact | Proposal 019 |
 | FR-024 | The hard MVP Node distribution MUST bundle `Orbiplex Arca` as a Python middleware module attached through `http_local_json`. | Fact | Proposal 019 |
@@ -192,6 +194,7 @@ Both modules MUST:
 | NFR-004 | Supervised middleware services MUST remain diagnosable through stable operator-visible state rather than only through child-process logs. | Fact | Proposal 019 + project values |
 | NFR-005 | The supervised local-HTTP contract SHOULD stay close enough to the model-runtime `http_local` pattern that later extraction of shared supervision primitives remains possible. | Inference | Proposal 019 + existing Node design |
 | NFR-006 | Bundling `Dator` and `Arca` with Node MUST NOT collapse their authority into the host process; they remain replaceable modules behind the same host-owned contract. | Fact | Proposal 019 + project values |
+| NFR-006a | Future attached modules such as `Monus` SHOULD receive only explicit host-granted capabilities, so the middleware runtime does not become a hidden ambient authority surface. | Fact | Proposal 022 + project values |
 
 ## Failure Modes and Mitigations
 
