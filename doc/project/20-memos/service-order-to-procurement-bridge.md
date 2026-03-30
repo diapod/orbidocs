@@ -52,6 +52,9 @@ difference between them.
 Validated `service-order.v1` plus the currently active `service-offer.v1` that it
 references.
 
+Catalog resolution is an explicit prerequisite. The host does not accept
+pass-through standing offers from middleware in place of catalog resolution.
+
 ### Output
 
 A host-owned procurement execution carrying:
@@ -70,6 +73,7 @@ A host-owned procurement execution carrying:
 The host resolves `offer/id` against the active catalog read model and verifies:
 
 - offer is active,
+- order `offer/seq` still matches the latest active standing-offer sequence,
 - provider references match,
 - service type matches,
 - order constraints stay within offer bounds.
@@ -98,7 +102,12 @@ The execution should preserve explicit refs to:
 
 - `service-order/order-id`
 - `service-offer/offer-id`
+- `service-offer/offer-seq`
 - workflow run and phase when present
+
+For hard MVP those refs are preserved in buyer-local execution state and
+buyer-local receipt annotations rather than being pushed into the procurement
+wire contract.
 
 4. Derive procurement-facing responder surface
 
@@ -127,6 +136,30 @@ For hard MVP, this step assumes one deployment-local settlement authority
 boundary. Combined `gateway + escrow + catalog` deployment is acceptable. The
 bridge therefore does not yet freeze a final remote buyer-to-escrow wire API for
 hold creation or hold status lookup.
+
+## Bridge Result Shape
+
+The host-owned bridge returns one classified result to `Arca`:
+
+- `opened-execution`
+- `rejected`
+
+When rejected, the result carries one machine-readable classifier such as:
+
+- `queue-saturated`
+- `offer-not-found`
+- `offer-expired`
+- `offer-seq-mismatch`
+- `service-type-mismatch`
+- `provider-mismatch`
+- `price-exceeded`
+- `currency-mismatch`
+- `custodian-mismatch`
+- `settlement-blocked`
+- `other-reason`
+
+Optional `rejected-reason` may accompany any classifier and should remain
+human-readable with hard-MVP maximum size `1024` characters.
 
 ## Mapping Guidance
 

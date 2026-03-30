@@ -9,6 +9,7 @@
   "provider/node-id": "node:did:key:z6MkAdamNode111111111111111111111111111111111",
   "provider/participant-id": "participant:did:key:z6MkAdamParticipant11111111111111111111111",
   "offer/id": "offer:adam-news-01",
+  "offer/seq": 1,
   "service/type": "research/topical",
   "request/units": 3,
   "request/input": {

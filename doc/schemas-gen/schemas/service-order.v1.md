@@ -41,6 +41,7 @@ Machine-readable schema for one buyer-facing purchase intent referencing a stand
 | [`provider/node-id`](#field-provider-node-id) | `yes` | string | Provider-side serving node expected to fulfill the order. |
 | [`provider/participant-id`](#field-provider-participant-id) | `yes` | string | Provider-side accountable subject expected to stand behind the later procurement execution. |
 | [`offer/id`](#field-offer-id) | `yes` | string | Standing service offer selected by the buyer. |
+| [`offer/seq`](#field-offer-seq) | `yes` | integer | Standing-offer sequence observed by the buyer when the order was prepared. Hard MVP host bridge MUST reject stale mismatches against the active catalog. |
 | [`service/type`](#field-service-type) | `yes` | string | Service category expected by the buyer. The host validates it against the referenced standing offer. |
 | [`request/units`](#field-request-units) | `yes` | integer | Requested number of billable units under the referenced standing offer. The buyer computes this quantity explicitly from its own domain input. |
 | [`request/input`](#field-request-input) | `yes` | object | Structured buyer-side request input carried into the host-owned bridge. |
@@ -170,6 +171,14 @@ Provider-side accountable subject expected to stand behind the later procurement
 - Shape: string
 
 Standing service offer selected by the buyer.
+
+<a id="field-offer-seq"></a>
+## `offer/seq`
+
+- Required: `yes`
+- Shape: integer
+
+Standing-offer sequence observed by the buyer when the order was prepared. Hard MVP host bridge MUST reject stale mismatches against the active catalog.
 
 <a id="field-service-type"></a>
 ## `service/type`

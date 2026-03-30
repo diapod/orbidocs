@@ -35,6 +35,7 @@ Related source artifacts created from this note:
 - `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
 - `doc/project/50-requirements/requirements-012.md`
 - `doc/project/20-memos/service-order-to-procurement-bridge.md`
+- `doc/project/20-memos/story-006-settlement-rail-sprint-3.md`
 - `doc/schemas/service-offer.v1.schema.json`
 - `doc/schemas/service-order.v1.schema.json`
 

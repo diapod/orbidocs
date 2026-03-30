@@ -23,6 +23,7 @@
     "provider/node-id",
     "provider/participant-id",
     "offer/id",
+    "offer/seq",
     "service/type",
     "request/units",
     "request/input",
@@ -84,6 +85,11 @@
       "minLength": 1,
       "pattern": "^offer:[A-Za-z0-9][A-Za-z0-9:-]*$",
       "description": "Standing service offer selected by the buyer."
+    },
+    "offer/seq": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Standing-offer sequence observed by the buyer when the order was prepared. Hard MVP host bridge MUST reject stale mismatches against the active catalog."
     },
     "service/type": {
       "type": "string",

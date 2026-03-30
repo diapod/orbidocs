@@ -40,9 +40,10 @@ The key decision is simple:
 5. middleware init and capability reporting should become part of the supervised
    startup path so attached modules are no longer opaque executors.
 
-This gives Orbiplex a practical deployment model for Dator-like and Arca-like
-middleware without forcing every externally implemented module into one-shot
-`command_stdio` execution or requiring a separate service manager outside the Node.
+This gives Orbiplex a practical deployment model for Dator-like, Arca-like, and
+future Monus-like middleware without forcing every externally implemented module
+into one-shot `command_stdio` execution or requiring a separate service manager
+outside the Node.
 
 For the hard MVP baseline, `Orbiplex Dator` and `Orbiplex Arca` should be shipped
 with Node as bundled Python middleware services attached through the supervised
@@ -83,14 +84,19 @@ that are:
 - richer than one-shot policy scripts,
 - but still meant to be supervised by the Node host.
 
-`story-006.md` makes this concrete. Modules such as `Orbiplex Dator` and
-`Orbiplex Arca` fit poorly into `command_stdio` when they need:
+`story-006.md` makes this concrete. Modules such as `Orbiplex Dator`,
+`Orbiplex Arca`, and later `Orbiplex Monus` fit poorly into `command_stdio`
+when they need:
 
 - internal queueing,
 - cached state,
 - local HTTP APIs,
 - long-lived sessions to adjacent systems,
 - or a stable process lifetime aligned with the Node.
+
+For future local observation middleware such as `Monus`, the same executor also
+provides the right place for explicit host-granted capability contracts instead of
+ambient unrestricted access to memory, local signals, model help, or egress.
 
 Without a supervised local-HTTP executor, the system drifts toward two bad options:
 

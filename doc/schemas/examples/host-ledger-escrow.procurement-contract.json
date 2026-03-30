@@ -4,11 +4,6 @@
   "question/id": "question:01K1SETTLE001",
   "room/id": "question:01K1SETTLE001/execution/A",
   "selected-offer/id": "offer:01K1SETTLE001:A",
-  "source/marketplace-refs": {
-    "offer-id": "offer:ola-redaction-01",
-    "offer-seq": 1,
-    "order-id": "order:casualfeeders-breakfast-news-20260401-01"
-  },
   "created-at": "2026-03-28T09:15:30Z",
   "asker/node-id": "node:pl-main-client-01",
   "asker/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",

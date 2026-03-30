@@ -56,18 +56,21 @@ Without a dedicated marketplace contract layer:
 | FR-006a | Hard MVP `service-order.v1` MUST support `buyer/subject-kind = participant` and `buyer/subject-kind = org` only. | Fact | Story 006 review |
 | FR-006b | When `buyer/subject-kind = org`, the order MUST carry `buyer/operator-participant-id`, and hard MVP operational signing MUST be performed by that custodian participant rather than by a separate organization-key runtime. | Fact | Story 006 review + Proposal 017 |
 | FR-007 | `service-order.v1` MUST carry bounded request input, unit count, and max-price semantics before procurement execution begins. | Fact | Proposal 021 |
+| FR-007b | `service-order.v1` MUST carry `offer/seq`, and the host-owned bridge MUST reject the order when that sequence no longer matches the latest active standing-offer sequence in the catalog. | Fact | Story 006 review |
 | FR-007a | When `pricing/currency = ORC`, both `service-offer.v1.pricing/amount` and `service-order.v1.pricing/max-amount` MUST carry ORC minor units with fixed decimal scale `2`. | Fact | Proposal 021 + Requirements 007 |
 | FR-008 | `service-order.v1` MUST be signed by the buyer-side accountable subject. | Fact | Proposal 021 |
 | FR-009 | The Node host MUST validate `service-order.v1` against the referenced active `service-offer.v1` before opening procurement execution. | Fact | Proposal 021 |
 | FR-010 | The Node host MUST own the bridge from `service-order.v1` into the current procurement lifecycle; middleware MUST NOT fabricate the lower-layer procurement artifacts directly. | Fact | Proposal 021 + project values |
 | FR-011 | The first hard-MVP bridge MUST reuse the current selected-responder procurement substrate instead of inventing a separate economic closure family. | Fact | Proposal 021 |
 | FR-012 | The buyer-side hard MVP MUST expose a host-owned catalog read surface over active `service-offer.v1` artifacts. | Fact | Story 006 buyer note |
+| FR-012a | The buyer-side hard MVP MUST treat catalog resolution as an explicit prerequisite of bridge execution; middleware MUST NOT substitute pass-through standing offers for catalog lookup. | Fact | Story 006 review |
 | FR-013 | The buyer-side hard MVP MUST expose a host-owned write surface for validated service-order ingress. | Fact | Story 006 buyer note |
 | FR-014 | Buyer-side service-order execution MUST resolve payer context before settlement-aware procurement begins. | Fact | Proposal 016 + Proposal 017 |
 | FR-015 | `Arca` MUST route remote paid workflow steps through `service-order` and the host-owned bridge, rather than through side-channel vendor or transport payload creation. | Fact | Requirements 011 + Proposal 021 |
-| FR-015a | The host-owned bridge MUST preserve marketplace lineage inside `procurement-contract.v1` through `source/marketplace-refs` carrying at least `offer-id`, `offer-seq`, and `order-id` when the contract originates from a service-order purchase. | Fact | Story 006 review |
+| FR-015a | The host-owned bridge MUST preserve marketplace lineage carrying at least `offer-id`, `offer-seq`, and `order-id` in buyer-local execution state and buyer-local receipt annotations when procurement originates from a service-order purchase. | Fact | Story 006 review |
 | FR-015b | Queue saturation MUST be modeled as an order-level rejection or temporary-unavailability outcome before procurement contract creation, not as a transport or capability error. | Fact | Story 006 review |
 | FR-015c | Hard MVP buyer-side bridge semantics MUST target one deployment-local settlement authority boundary and MUST NOT depend on a frozen remote buyer-to-escrow hold API. | Fact | Story 006 review + Proposal 016 |
+| FR-015d | The host-owned bridge MUST return a classified result for pre-procurement rejections rather than a boolean-only rejection; hard-MVP classifiers SHOULD include at least `queue-saturated`, `offer-not-found`, `offer-expired`, `offer-seq-mismatch`, `service-type-mismatch`, `provider-mismatch`, `price-exceeded`, `currency-mismatch`, `custodian-mismatch`, `settlement-blocked`, and `other-reason`. | Fact | Story 006 review |
 | FR-016 | The system SHOULD preserve workflow lineage in `service-order.v1` so a buyer-side workflow can trace a purchase back to run and phase context. | Inference | Story 006 |
 | FR-017 | The buyer-side hard MVP SHOULD expose enough read-side settlement state to let `Arca` stop on insufficient funds, unresolved holds, or review-required outcomes. | Inference | Story 006 + Proposal 016 |
 
@@ -80,12 +83,14 @@ Without a dedicated marketplace contract layer:
 | NFR-003 | The host-owned bridge MUST keep workflow intent separate from procurement authority so diagnostics can attribute failures to the correct layer. | Fact | Project values |
 | NFR-004 | Catalog, order ingress, and procurement bridge SHOULD remain host-owned surfaces visible to operators rather than opaque middleware side effects. | Inference | Operability |
 | NFR-005 | Middleware convenience MUST NOT collapse the authority boundary between workflow orchestration and economic contract formation. | Fact | Requirements 011 + project values |
+| NFR-006 | Organization custodian resolution for hard-MVP buyer orders SHOULD remain a distinct host capability with explicit failure semantics, even when the first implementation is a local synchronous resolver. | Inference | Story 006 review |
 
 ## Failure Modes and Mitigations
 
 | Failure Mode | Impact | Mitigation |
 |---|---|---|
 | A service order references an expired or superseded offer | Buyer thinks a purchase is valid when it is not | Validate against active catalog state under `sequence/no` and `expires-at` before opening execution. |
+| A service order references the right offer id but a stale `offer/seq` | Buyer unknowingly buys under replaced marketplace terms | Require sequence match against the active catalog entry before bridge execution. |
 | `Arca` tries to bypass host procurement by emitting lower-layer payloads directly | Hidden economic side channel | Keep service-order ingress and bridge host-owned; reject direct lower-layer authorship by middleware. |
 | Organization-bound purchase context is ambiguous | Wrong payer or wrong audit trail | Require explicit buyer subject context and host-owned payer resolution. |
 | Offer and order price semantics drift | Contract surprises or accidental overspend | Require `pricing/max-amount` on order and match it against active offer terms. |
@@ -103,4 +108,5 @@ Without a dedicated marketplace contract layer:
 1. Add canonical JSON Schema files for `service-offer.v1` and `service-order.v1`.
 2. Add example payloads for both artifacts.
 3. Record the bridge mapping in a dedicated project note.
-4. Use those artifacts as the prerequisite boundary for buyer-side Node implementation planning.
+4. Freeze the catalog prerequisite, lineage location, and bridge-result classification before buyer-side bridge code is written.
+5. Use those artifacts as the prerequisite boundary for buyer-side Node implementation planning.

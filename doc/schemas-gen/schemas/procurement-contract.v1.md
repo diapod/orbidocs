@@ -38,7 +38,6 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 | [`question/id`](#field-question-id) | `yes` | string | Question lifecycle identifier to which the contract belongs. |
 | [`room/id`](#field-room-id) | `yes` | string | Room or execution channel bound to the selected responder path. |
 | [`selected-offer/id`](#field-selected-offer-id) | `yes` | string | Identifier of the offer chosen for contract formation. |
-| [`source/marketplace-refs`](#field-source-marketplace-refs) | `no` | object | Optional marketplace refs preserved when the contract is opened through the service-order bridge. |
 | [`created-at`](#field-created-at) | `yes` | string | Contract creation timestamp. |
 | [`asker/node-id`](#field-asker-node-id) | `yes` | string | Node acting for the asking side of the contract as the routing or hosting identity. |
 | [`asker/participant-id`](#field-asker-participant-id) | `yes` | string | Participation-role identity on whose behalf the asking side entered the contract. |
@@ -221,14 +220,6 @@ Room or execution channel bound to the selected responder path.
 - Shape: string
 
 Identifier of the offer chosen for contract formation.
-
-<a id="field-source-marketplace-refs"></a>
-## `source/marketplace-refs`
-
-- Required: `no`
-- Shape: object
-
-Optional marketplace refs preserved when the contract is opened through the service-order bridge.
 
 <a id="field-created-at"></a>
 ## `created-at`

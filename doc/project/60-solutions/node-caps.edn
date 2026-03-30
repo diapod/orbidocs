@@ -124,10 +124,11 @@
    :schemas []
    :responsibilities
    ["Host long-lived local HTTP middleware services under daemon-owned lifecycle semantics"
-    "Bundle and supervise Python implementations of Orbiplex Dator and Orbiplex Arca in the hard MVP"
-    "Keep middleware startup, readiness, restart budget, and shutdown under Node authority"
-    "Run `middleware-init` and retain module capability reports for operator inspection"
-    "Provide the deployment surface for Dator and Arca without overloading unmanaged adapters"]
+   "Bundle and supervise Python implementations of Orbiplex Dator and Orbiplex Arca in the hard MVP"
+   "Keep middleware startup, readiness, restart budget, and shutdown under Node authority"
+   "Run `middleware-init` and retain module capability reports for operator inspection"
+   "Provide the deployment surface for Dator and Arca without overloading unmanaged adapters"
+   "Remain the future host-granted capability surface for local modules such as Monus without yielding direct transport or publication authority"]
    :status :todo}]
 
  :may-implement

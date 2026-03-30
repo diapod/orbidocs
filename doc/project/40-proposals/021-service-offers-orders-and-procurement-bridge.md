@@ -194,6 +194,7 @@ The minimum contract should include:
 - `provider/node-id`
 - `provider/participant-id`
 - `offer/id`
+- `offer/seq`
 - `service/type`
 - `request/units`
 - `request/input`
@@ -221,11 +222,13 @@ Hard-MVP freeze:
 Given one `service-order.v1`, the host must:
 
 1. resolve the referenced active `service-offer.v1`,
-2. verify that provider and offer references match,
-3. verify that the offer is still active under `sequence/no` and `expires-at`,
-4. verify that requested service parameters stay within the offer constraints,
-5. verify that buyer-side max price and currency admit the current offer,
-6. resolve buyer subject and payer context.
+2. verify that order `offer/seq` still matches the latest active standing-offer
+   sequence,
+3. verify that provider and offer references match,
+4. verify that the offer is still active under `sequence/no` and `expires-at`,
+5. verify that requested service parameters stay within the offer constraints,
+6. verify that buyer-side max price and currency admit the current offer,
+7. resolve buyer subject and payer context.
 
 If any of these fail, the order must stop before procurement execution begins.
 
@@ -243,6 +246,15 @@ For hard MVP, the host should then:
 The derived procurement-facing state is host-owned. `Arca` and `Dator` may shape
 intent and metadata, but they are not the authority that authors the lower-layer
 artifacts.
+
+For hard MVP, marketplace lineage is preserved in buyer-local execution state and
+buyer-local receipt annotations:
+
+- `offer/id`,
+- `offer/seq`,
+- `order/id`.
+
+Those refs should not be treated as provider-facing procurement wire fields.
 
 For hard MVP, queue saturation is modeled before procurement contract creation:
 
@@ -273,6 +285,9 @@ In particular:
   the correct settlement and payer context,
 - the procurement contract and receipt remain the current economic closure points.
 
+The custodian check should remain a distinct host capability with explicit error
+semantics rather than an implicit helper hidden inside the bridge body.
+
 When `pricing/currency = ORC`, both `pricing/amount` and `pricing/max-amount`
 follow the fixed ORC scale-2 rule from the supervised settlement rail. The
 marketplace layer therefore carries integer minor units on the wire, while
@@ -294,6 +309,12 @@ For hard MVP, the bridge also freezes one deployment assumption:
 - combined `gateway + escrow + catalog` deployment is acceptable,
 - the buyer-side bridge does not yet standardize a final remote buyer-to-escrow
   hold API.
+
+The same assumption applies to catalog and escrow runtime placement:
+
+- catalog and escrow live in the daemon in hard MVP,
+- gateway may remain a separate trusted local process reached through one host
+  adapter surface.
 
 ## Trade-offs
 
@@ -329,6 +350,8 @@ For hard MVP, the bridge also freezes one deployment assumption:
    it implicit as an internal bridge product?
 4. Which subset of catalog search and filtering is required for hard MVP, beyond
    simple active-offer listing?
+5. What exact public shape should the host-owned bridge result expose to `Arca`
+   for classified pre-procurement rejection outcomes?
 
 ## Next Actions
 

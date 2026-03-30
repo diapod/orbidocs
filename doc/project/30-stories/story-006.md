@@ -39,6 +39,7 @@ Related follow-up planning note:
 
 - `doc/project/30-stories/story-006-buyer-node-components.md`
 - `doc/project/20-memos/service-order-to-procurement-bridge.md`
+- `doc/project/20-memos/story-006-settlement-rail-sprint-3.md`
 - `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
 - `doc/project/50-requirements/requirements-012.md`
 
