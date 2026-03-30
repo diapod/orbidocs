@@ -19,13 +19,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | Step | Markdown Files | With `Based on:` |
 |---|---:|---:|
 | `10-challenges` (Challenges) | `4` | `2` |
-| `20-memos` (Memos) | `31` | `2` |
+| `20-memos` (Memos) | `32` | `2` |
 | `30-stories` (Stories) | `11` | `1` |
 | `40-proposals` (Proposals) | `23` | `19` |
 | `50-requirements` (Requirements) | `14` | `12` |
 | `60-solutions` (Solutions) | `10` | `6` |
 
-- Total project markdown files: `95`
+- Total project markdown files: `96`
 - Proposals referencing source material: `19` / `23`
 - Requirements referencing source material: `12` / `14`
 

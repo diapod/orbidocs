@@ -2,6 +2,7 @@
 
 Based on:
 - `doc/project/20-memos/node-middleware-init-and-capability-reporting.md`
+- `doc/project/20-memos/node-http-middleware-auth-token-header.md`
 - `doc/project/30-stories/story-006.md`
 - `doc/project/60-solutions/node.md`
 - `node:middleware-runtime/README.md`
