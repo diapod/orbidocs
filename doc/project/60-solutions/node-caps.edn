@@ -20,12 +20,14 @@
    :schemas ["node-identity.v1"
              "node-advertisement.v1"
              "peer-handshake.v1"
-             "capability-advertisement.v1"]
+             "capability-advertisement.v1"
+             "signal-marker-envelope.v1"]
    :responsibilities
    ["Generate or load a stable local node identity"
     "Derive and expose a stable `node-id`"
     "Publish or consume signed endpoint advertisements"
     "Establish signed peer handshakes and capability exchange over the baseline transport"
+    "Publish and validate the first participant-scoped signed application envelope above the session layer"
     "Maintain keepalive and reconnect behavior for the first networked Node baseline"]
    :status :todo}
 

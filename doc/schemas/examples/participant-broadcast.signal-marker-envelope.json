@@ -1,0 +1,13 @@
+{
+  "schema/v": 1,
+  "message/id": "msg:01JVSME001",
+  "protocol/version": "0.1.0-mvp",
+  "message/kind": "signal-marker-envelope.v1",
+  "sender/participant-id": "participant:did:key:z6MkrLQkJr2YQ6L8eYw6Qk8f9P8GmJm7a3x6P1v1Q2w3E4r5",
+  "created-at": "2026-03-30T14:00:00Z",
+  "marker/ref": "signal-marker:01JVSM001",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:signal-marker-envelope-signature"
+  }
+}

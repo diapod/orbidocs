@@ -96,12 +96,13 @@ paper-only.
 | FR-009 | The first Node runtime enforcement MUST reject `procurement/request` when the asking participant carries an active hard block for that operation. | Fact | Proposal 018 |
 | FR-010 | The first Node runtime enforcement MUST reject `procurement/offer` when the responder participant carries an active hard block for that operation. | Fact | Proposal 018 |
 | FR-010a | The first expanded Node runtime enforcement MUST reject `response/deliver` when the responding participant carries an active hard block for that operation. | Fact | Proposal 018 |
-| FR-010b | The first expanded Node runtime enforcement MUST reject `response/accept` when the asking participant carries an active hard block for that operation. | Fact | Proposal 018 |
-| FR-010c | The first expanded Node runtime enforcement MUST reject `response/reject` when the asking participant carries an active hard block for that operation. | Fact | Proposal 018 |
+| FR-010b | The first expanded Node runtime enforcement MUST reject `procurement/contract-accept` when the asking participant carries an active hard block for that operation. | Fact | Proposal 018 |
+| FR-010c | The first expanded Node runtime enforcement MUST reject `response/accept` when the asking participant carries an active hard block for that operation. | Fact | Proposal 018 |
+| FR-010d | The first expanded Node runtime enforcement MUST reject `response/reject` when the asking participant carries an active hard block for that operation. | Fact | Proposal 018 |
 | FR-011 | The first Node runtime enforcement MUST keep `signal-marker/send` admissible even when the participant is otherwise `capability_limited`. | Fact | Proposal 018 |
 | FR-012 | The first Node runtime SHOULD consume `soft.priority-factor` as a deterministic procurement-ranking penalty rather than ignoring the soft layer completely. | Fact | Proposal 018 |
 | FR-013 | The first Node runtime MUST consume `soft.rate-limit-factor` through a deterministic per-participant operation cooldown for the first admitted daemon operations. | Fact | Proposal 018 |
-| FR-014 | The first admitted daemon operation set for the generic cooldown hook MUST include at least `procurement/request`, `procurement/offer`, `response/deliver`, `response/accept`, `response/reject`, and `signal-marker/send`. | Fact | Proposal 018 |
+| FR-014 | The first admitted daemon operation set for the generic cooldown hook MUST include at least `procurement/request`, `procurement/offer`, `procurement/contract-accept`, `response/deliver`, `response/accept`, `response/reject`, and `signal-marker/send`. | Fact | Proposal 018 |
 | FR-015 | Participant restriction state MUST complement rather than replace transport-facing peer governor state. | Fact | Proposal 018 + Proposal 014 |
 | FR-016 | Runtime traces and operator-visible diagnostics SHOULD make it possible to distinguish blocked privileged operations from protected floor operations and from cooldown rejections. | Inference | Proposal 018 + project values |
 | FR-017 | Participant-side `response/accept` and `response/reject` MUST be exposed through a participant-scoped daemon control contract rather than through infrastructure-operator action endpoints. | Fact | Proposal 018 |

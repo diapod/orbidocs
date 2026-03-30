@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:signal-marker-envelope:v1",
+  "title": "SignalMarkerEnvelope v1",
+  "description": "Machine-readable schema for the participant-scoped signed wire envelope that publishes a signal marker reference over an established peer session.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/project/50-requirements/requirements-006.md",
+    "doc/project/60-solutions/node.md"
+  ],
+  "required": [
+    "schema/v",
+    "message/id",
+    "protocol/version",
+    "message/kind",
+    "sender/participant-id",
+    "created-at",
+    "marker/ref",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "message/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this signed application envelope."
+    },
+    "protocol/version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Protocol version understood by the sender for this envelope family."
+    },
+    "message/kind": {
+      "const": "signal-marker-envelope.v1",
+      "description": "Canonical message family identifier for this participant-scoped wire envelope."
+    },
+    "sender/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Participant identity that signs and emits this message."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp carried inside the signed envelope."
+    },
+    "marker/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable reference to the signal-marker artifact or stream record pointed to by this envelope."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local or federation-local annotations outside the minimal semantic core."
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

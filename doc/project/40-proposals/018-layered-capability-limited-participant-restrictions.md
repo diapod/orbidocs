@@ -153,20 +153,22 @@ The first Node runtime rollout should stay small but real:
    that operation,
 3. reject `response/deliver` when the responding participant is hard-blocked for
    that operation,
-4. reject `response/accept` when the asking participant is hard-blocked for that
+4. reject `procurement/contract-accept` when the asking participant is
+   hard-blocked for that operation,
+5. reject `response/accept` when the asking participant is hard-blocked for that
    operation,
-5. reject `response/reject` when the asking participant is hard-blocked for that
+6. reject `response/reject` when the asking participant is hard-blocked for that
    operation,
-6. apply `soft.priority-factor` as a deterministic procurement-ranking penalty,
-7. apply `soft.rate-limit-factor` as a deterministic per-participant cooldown on
+7. apply `soft.priority-factor` as a deterministic procurement-ranking penalty,
+8. apply `soft.rate-limit-factor` as a deterministic per-participant cooldown on
    currently admitted daemon operations such as `procurement/request`,
-   `procurement/offer`, `response/deliver`, `response/accept`,
-   `response/reject`, and `signal-marker/send`,
-8. keep `signal-marker/send` explicitly admissible as a protected-floor operation
+   `procurement/offer`, `procurement/contract-accept`, `response/deliver`,
+   `response/accept`, `response/reject`, and `signal-marker/send`,
+9. keep `signal-marker/send` explicitly admissible as a protected-floor operation
    even when the participant is otherwise limited,
-9. expose participant-side `response/accept` and `response/reject` through a
-   dedicated participant-scoped daemon control contract instead of reusing
-   operator action endpoints.
+10. expose participant-side `response/accept` and `response/reject` through a
+    dedicated participant-scoped daemon control contract instead of reusing
+    operator action endpoints.
 
 Discovery visibility, broader operation coverage, and richer graduated governor
 policies remain deferred to later work.

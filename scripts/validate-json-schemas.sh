@@ -104,6 +104,9 @@ schema_for_file() {
     *.capability-advertisement.json)
       echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
       ;;
+    *.signal-marker-envelope.json)
+      echo "$SCHEMAS_DIR/signal-marker-envelope.v1.schema.json"
+      ;;
     *.signal-marker.json)
       echo "$SCHEMAS_DIR/signal-marker.v1.schema.json"
       ;;
