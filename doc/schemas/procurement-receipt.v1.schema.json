@@ -70,7 +70,7 @@
     },
     "confirmation/mode": {
       "type": "string",
-      "enum": ["arbiter-confirmed", "self-confirmed", "no-confirmation"],
+      "enum": ["arbiter-confirmed", "self-confirmed", "manual-review-only"],
       "description": "Confirmation mode actually used for the recorded outcome."
     },
     "answer/accepted": {

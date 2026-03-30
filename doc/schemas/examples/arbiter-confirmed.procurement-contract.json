@@ -4,6 +4,11 @@
   "question/id": "question:01K0FEDPROC1",
   "room/id": "question:01K0FEDPROC1/execution/A",
   "selected-offer/id": "offer:01K0FEDPROC1:A",
+  "source/marketplace-refs": {
+    "offer-id": "offer:adam-news-01",
+    "offer-seq": 4,
+    "order-id": "order:casualfeeders-breakfast-news-20260401-01"
+  },
   "created-at": "2026-03-22T18:16:00Z",
   "asker/node-id": "node:pl-wro-full-7f3c",
   "asker/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",

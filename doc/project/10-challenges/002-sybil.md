@@ -69,7 +69,7 @@ Classification:
 | Public discovery request/offer stage | Story steps 14-15, FR-010/FR-011 | One actor spawns many nodes and floods fake offers to steer selection. | Inference |
 | Offer scoring and selection | Story step 16, FR-012 | Colluding identities create synthetic diversity and manipulate score ranking. | Inference |
 | Private execution channel | Story step 16, FR-013/FR-014 | Adversary controls both responder and "independent" observers. | Inference |
-| Contract and confirmation mode | Story step 19, FR-016 | Attackers exploit no-confirmation/self-confirmation modes to farm trust cheaply. | Inference |
+| Contract and confirmation mode | Story step 19, FR-016 | Attackers exploit weak confirmation paths such as self-confirmed modes to farm trust cheaply or force costly manual review. | Inference |
 | Settlement and receipts | Story step 21, FR-018 | Self-dealing or collusive receipts are used as fake quality signals. | Inference |
 | Reputation update | Story step 22, FR-019, NFR-008 | Reputation inflation through collusive loops and whitewashing. | Fact (risk is explicitly called out), Inference (attack method) |
 

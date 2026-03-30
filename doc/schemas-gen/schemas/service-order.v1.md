@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/service-order.v1.schema.json`](../../schemas/service-order.v1.schema.json)
 
-Machine-readable schema for one buyer-facing purchase intent referencing a standing service offer. In hard MVP this artifact is bridged by the host into the current procurement substrate rather than bypassing it.
+Machine-readable schema for one buyer-facing purchase intent referencing a standing service offer. In hard MVP this artifact is bridged by the host into the current procurement substrate rather than bypassing it. The buyer computes `request/units` explicitly; the host must not infer economic meaning by parsing human-readable pricing labels.
 
 ## Governing Basis
 
@@ -35,14 +35,14 @@ Machine-readable schema for one buyer-facing purchase intent referencing a stand
 | [`order/id`](#field-order-id) | `yes` | string | Stable identifier of this buyer-side service order. |
 | [`created-at`](#field-created-at) | `yes` | string | Timestamp when the order became auditable. |
 | [`buyer/node-id`](#field-buyer-node-id) | `yes` | string | Node acting as the buyer-side orchestrator for this order. |
-| [`buyer/subject-kind`](#field-buyer-subject-kind) | `yes` | enum: `participant`, `org`, `pod-user` | Kind of accountable buyer subject that authorizes the order. |
+| [`buyer/subject-kind`](#field-buyer-subject-kind) | `yes` | enum: `participant`, `org` | Kind of accountable buyer subject that authorizes the order. |
 | [`buyer/subject-id`](#field-buyer-subject-id) | `yes` | string | Identifier of the accountable buyer subject. |
 | [`buyer/operator-participant-id`](#field-buyer-operator-participant-id) | `no` | string | Optional participant subject operating on behalf of the buyer subject, for example the custodian of an organization purchase. |
 | [`provider/node-id`](#field-provider-node-id) | `yes` | string | Provider-side serving node expected to fulfill the order. |
 | [`provider/participant-id`](#field-provider-participant-id) | `yes` | string | Provider-side accountable subject expected to stand behind the later procurement execution. |
 | [`offer/id`](#field-offer-id) | `yes` | string | Standing service offer selected by the buyer. |
 | [`service/type`](#field-service-type) | `yes` | string | Service category expected by the buyer. The host validates it against the referenced standing offer. |
-| [`request/units`](#field-request-units) | `yes` | integer | Requested number of billable units under the referenced standing offer. |
+| [`request/units`](#field-request-units) | `yes` | integer | Requested number of billable units under the referenced standing offer. The buyer computes this quantity explicitly from its own domain input. |
 | [`request/input`](#field-request-input) | `yes` | object | Structured buyer-side request input carried into the host-owned bridge. |
 | [`request/output-constraints`](#field-request-output-constraints) | `no` | object | Optional buyer-side output expectations narrower than or equal to the referenced standing offer. |
 | [`pricing/max-amount`](#field-pricing-max-amount) | `yes` | integer | Maximum total price in minor units the buyer is willing to accept for this order. When `pricing/currency = ORC`, the value uses ORC minor units with fixed scale `2`. |
@@ -127,7 +127,7 @@ Node acting as the buyer-side orchestrator for this order.
 ## `buyer/subject-kind`
 
 - Required: `yes`
-- Shape: enum: `participant`, `org`, `pod-user`
+- Shape: enum: `participant`, `org`
 
 Kind of accountable buyer subject that authorizes the order.
 
@@ -185,7 +185,7 @@ Service category expected by the buyer. The host validates it against the refere
 - Required: `yes`
 - Shape: integer
 
-Requested number of billable units under the referenced standing offer.
+Requested number of billable units under the referenced standing offer. The buyer computes this quantity explicitly from its own domain input.
 
 <a id="field-request-input"></a>
 ## `request/input`

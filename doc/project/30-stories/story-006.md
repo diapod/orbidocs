@@ -52,9 +52,10 @@ networking and identity architecture:
 - `participant:did:key:...` identifies the human participant and signs
   application-level artifacts: service offers or catalog publications, procurement
   contracts and receipts, response decisions, and reputation signals.
-- `org:did:key:...` identifies an organization participant and signs on behalf of the
-  organization. An org identity has a `custodian-ref` pointing to the
-  `participant:did:key` of its controlling operator.
+- `org:did:key:...` identifies an organization participant as the accountable
+  buying or settlement subject. In hard MVP, operational signatures for org-bound
+  exchange artifacts are made by the acting custodian `participant:did:key`, and
+  the host verifies this against `org/custodian-ref`.
 
 In MVP, `node-id` and `participant-id` MAY share the same underlying `did:key`. The
 protocol does not assume this — it treats them as independent subjects.
@@ -87,9 +88,11 @@ This means:
 
 - Middleware may influence the payload, but only where the host permits and only in
   ways prescribed by policy and field registry.
-- Middleware does **not** sign protocol artifacts. The Node's `participant:did:key`
-  (or `org:did:key` when acting on behalf of an organization) signs all
-  exchange-level artifacts.
+- Middleware does **not** sign protocol artifacts. The Node's
+  `participant:did:key` signs exchange-level artifacts. When acting on behalf of an
+  organization in hard MVP, the acting custodian participant performs the
+  operational signature while the artifact still carries the organization as the
+  accountable buyer subject.
 - Middleware does **not** hold private keys, manage transport, or control settlement.
   These remain host responsibilities.
 
@@ -153,7 +156,8 @@ announcement.
 
 A service offer carries at least:
 
-- `offer/id` — stable identifier for this offer.
+- `offer/id` — stable prefixed identifier for this offer (for example
+  `offer:ola:redaction-01` or `offer:01JV...`).
 - `provider/participant-id` — `participant:did:key:...` of the provider.
 - `provider/node-id` — `node:did:key:...` hosting the service.
 - `service/type` — schematic service category (e.g. `text/redaction`,
@@ -162,7 +166,9 @@ A service offer carries at least:
 - `pricing/amount` and `pricing/currency` — price per unit, carried on the wire in
   ORC minor units with fixed scale `2` (e.g. `1000` for `10.00 ORC` per `1800`
   input characters).
-- `pricing/unit` — what constitutes one billable unit.
+- `pricing/unit` — human-readable label of one billable unit.
+- `pricing/unit-kind` — machine-readable billing kind such as `per-item`,
+  `per-character-block`, `per-request`, or `flat`.
 - `constraints/input` — accepted input parameters (format, size, language).
 - `constraints/output` — promised output parameters (format, dimensions, size).
 - `delivery/max-duration` — maximum time from acceptance to delivery.
@@ -252,6 +258,12 @@ The smallest acceptable hard-MVP deployment therefore is:
 - one combined `gateway + escrow + catalog` deployment,
 - one or more provider Nodes (`Ola`, `Adam`, `Marcin`).
 
+Hard-MVP bridge assumption:
+
+- buyer-side purchase execution targets this deployment-local settlement
+  authority boundary rather than a separately standardized remote buyer-to-escrow
+  hold API.
+
 ### Service Configuration and Publication
 
 3. Ola configures `Dator` with the local language model `Bielik`. `Dator` does not
@@ -269,6 +281,7 @@ The smallest acceptable hard-MVP deployment therefore is:
    pricing/amount:        1000
    pricing/currency:      "ORC"
    pricing/unit:          "1800 input characters"
+   pricing/unit-kind:     "per-character-block"
    delivery/max-duration: 3600          # 1 hour
    hybrid:                true
    model-first:           true
@@ -303,6 +316,7 @@ The smallest acceptable hard-MVP deployment therefore is:
    pricing/amount:        200
    pricing/currency:      "ORC"
    pricing/unit:          "1 summary item"
+   pricing/unit-kind:     "per-item"
    constraints/output:    { char_limit: 1000, urls_required: true }
    delivery/max-duration: 1800          # 30 minutes
    hybrid:                false
@@ -330,6 +344,7 @@ The smallest acceptable hard-MVP deployment therefore is:
    pricing/amount:        500
    pricing/currency:      "ORC"
    pricing/unit:          "1 illustration"
+   pricing/unit-kind:     "per-item"
    constraints/output:    { max_width: 1920, max_height: 1080, max_size_mb: 10 }
    delivery/max-duration: 900           # 15 minutes
    hybrid:                false
@@ -558,6 +573,8 @@ The smallest acceptable hard-MVP deployment therefore is:
       (`participant:did:key:z6MkR...`),
     - provider `participant:did:key` and `node:did:key`,
     - accepted offer snapshot or catalog snapshot captured at order time,
+    - `source/marketplace-refs` linking contract back to `offer/id`,
+      `offer-seq`, and `order/id`,
     - `procurement-contract.v1` with agreed terms,
     - escrow hold reference and escrow supervisor node identity,
     - price, quantity, and unit basis,
@@ -587,7 +604,8 @@ illustration tasks, the first 3 are accepted and the remaining 3 receive an
 application-level order rejection or temporary-unavailability outcome
 (`queue-saturated`). This MUST NOT be modeled as `E_PROTO_CAP_MISSING`, because that
 code belongs to transport or capability-contract mismatch, not to business-level
-availability. `Arca` should retry with backoff until slots become available,
+availability. In hard MVP this is an order-level rejection before procurement
+contract creation. `Arca` should retry with backoff until slots become available,
 respecting the offer's `delivery/max-duration` as an outer timeout.
 
 ### Provider Timeout

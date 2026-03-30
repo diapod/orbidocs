@@ -12,6 +12,7 @@
   "pricing/amount": 1000,
   "pricing/currency": "ORC",
   "pricing/unit": "1800 input characters",
+  "pricing/unit-kind": "per-character-block",
   "delivery/max-duration-sec": 3600,
   "queue/auto-accept": false,
   "queue/max-depth": 3,

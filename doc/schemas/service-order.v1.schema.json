@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:service-order:v1",
   "title": "ServiceOrder v1",
-  "description": "Machine-readable schema for one buyer-facing purchase intent referencing a standing service offer. In hard MVP this artifact is bridged by the host into the current procurement substrate rather than bypassing it.",
+  "description": "Machine-readable schema for one buyer-facing purchase intent referencing a standing service offer. In hard MVP this artifact is bridged by the host into the current procurement substrate rather than bypassing it. The buyer computes `request/units` explicitly; the host must not infer economic meaning by parsing human-readable pricing labels.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
-  "x-dia-status": "draft",
+  "x-dia-status": "accepted",
   "x-dia-basis": [
     "doc/project/30-stories/story-006.md",
     "doc/project/30-stories/story-006-buyer-node-components.md",
@@ -38,6 +38,7 @@
     "order/id": {
       "type": "string",
       "minLength": 1,
+      "pattern": "^order:[A-Za-z0-9][A-Za-z0-9:-]*$",
       "description": "Stable identifier of this buyer-side service order."
     },
     "created-at": {
@@ -54,8 +55,7 @@
       "type": "string",
       "enum": [
         "participant",
-        "org",
-        "pod-user"
+        "org"
       ],
       "description": "Kind of accountable buyer subject that authorizes the order."
     },
@@ -82,6 +82,7 @@
     "offer/id": {
       "type": "string",
       "minLength": 1,
+      "pattern": "^offer:[A-Za-z0-9][A-Za-z0-9:-]*$",
       "description": "Standing service offer selected by the buyer."
     },
     "service/type": {
@@ -92,7 +93,7 @@
     "request/units": {
       "type": "integer",
       "minimum": 1,
-      "description": "Requested number of billable units under the referenced standing offer."
+      "description": "Requested number of billable units under the referenced standing offer. The buyer computes this quantity explicitly from its own domain input."
     },
     "request/input": {
       "type": "object",

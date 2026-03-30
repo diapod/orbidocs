@@ -70,7 +70,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`participant-bind.v1.schema.json`](schemas-gen/schemas/participant-bind.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`participant-capability-limits.v1.schema.json`](schemas-gen/schemas/participant-capability-limits.v1.md) | `7` | `5` | `yes` | `yes` | `1` | `1` |
 | [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | `18` | `17` | `yes` | `yes` | `2` | `1` |
-| [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `32` | `31` | `yes` | `yes` | `2` | `1` |
+| [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `33` | `32` | `yes` | `yes` | `2` | `1` |
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | `22` | `21` | `yes` | `yes` | `1` | `1` |
 | [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) | `20` | `19` | `yes` | `yes` | `2` | `1` |
 | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md) | `19` | `10` | `yes` | `yes` | `1` | `4` |
@@ -79,7 +79,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
-| [`service-offer.v1.schema.json`](schemas-gen/schemas/service-offer.v1.md) | `24` | `23` | `yes` | `yes` | `1` | `0` |
+| [`service-offer.v1.schema.json`](schemas-gen/schemas/service-offer.v1.md) | `25` | `24` | `yes` | `yes` | `1` | `0` |
 | [`service-order.v1.schema.json`](schemas-gen/schemas/service-order.v1.md) | `22` | `21` | `yes` | `yes` | `1` | `0` |
 | [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) | `21` | `20` | `yes` | `yes` | `2` | `2` |
 | [`signal-marker-envelope.v1.schema.json`](schemas-gen/schemas/signal-marker-envelope.v1.md) | `9` | `8` | `yes` | `yes` | `1` | `1` |

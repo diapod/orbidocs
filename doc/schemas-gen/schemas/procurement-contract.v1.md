@@ -38,6 +38,7 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 | [`question/id`](#field-question-id) | `yes` | string | Question lifecycle identifier to which the contract belongs. |
 | [`room/id`](#field-room-id) | `yes` | string | Room or execution channel bound to the selected responder path. |
 | [`selected-offer/id`](#field-selected-offer-id) | `yes` | string | Identifier of the offer chosen for contract formation. |
+| [`source/marketplace-refs`](#field-source-marketplace-refs) | `no` | object | Optional marketplace refs preserved when the contract is opened through the service-order bridge. |
 | [`created-at`](#field-created-at) | `yes` | string | Contract creation timestamp. |
 | [`asker/node-id`](#field-asker-node-id) | `yes` | string | Node acting for the asking side of the contract as the routing or hosting identity. |
 | [`asker/participant-id`](#field-asker-participant-id) | `yes` | string | Participation-role identity on whose behalf the asking side entered the contract. |
@@ -61,7 +62,7 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 | [`acceptance/min-length`](#field-acceptance-min-length) | `yes` | integer | Minimum accepted answer length. |
 | [`acceptance/max-length`](#field-acceptance-max-length) | `yes` | integer | Maximum accepted answer length. |
 | [`acceptance/arbiter-set`](#field-acceptance-arbiter-set) | `no` | array | Arbiter identities required when arbiter confirmation is part of the contract. |
-| [`confirmation/mode`](#field-confirmation-mode) | `yes` | enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation` | Confirmation mode required before settlement. |
+| [`confirmation/mode`](#field-confirmation-mode) | `yes` | enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only` | Confirmation mode required before settlement. |
 | [`status`](#field-status) | `yes` | enum: `pending`, `settled`, `rejected`, `expired`, `canceled` | Current lifecycle status of the contract. |
 | [`transport/encryption-mode`](#field-transport-encryption-mode) | `no` | enum: `none`, `recipient-key`, `federation-policy` | Expected transport-level privacy mode for the narrowed execution path. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
@@ -102,35 +103,6 @@ When:
 ```json
 {
   "properties": {
-    "confirmation/mode": {
-      "const": "no-confirmation"
-    }
-  },
-  "required": [
-    "confirmation/mode"
-  ]
-}
-```
-
-Then:
-
-```json
-{
-  "properties": {
-    "payment/amount": {
-      "const": 0
-    }
-  }
-}
-```
-
-### Rule 3
-
-When:
-
-```json
-{
-  "properties": {
     "settlement/rail": {
       "const": "host-ledger"
     }
@@ -164,7 +136,7 @@ Then:
 }
 ```
 
-### Rule 4
+### Rule 3
 
 When:
 
@@ -249,6 +221,14 @@ Room or execution channel bound to the selected responder path.
 - Shape: string
 
 Identifier of the offer chosen for contract formation.
+
+<a id="field-source-marketplace-refs"></a>
+## `source/marketplace-refs`
+
+- Required: `no`
+- Shape: object
+
+Optional marketplace refs preserved when the contract is opened through the service-order bridge.
 
 <a id="field-created-at"></a>
 ## `created-at`
@@ -438,7 +418,7 @@ Arbiter identities required when arbiter confirmation is part of the contract.
 ## `confirmation/mode`
 
 - Required: `yes`
-- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation`
+- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only`
 
 Confirmation mode required before settlement.
 

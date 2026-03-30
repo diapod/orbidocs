@@ -10,7 +10,7 @@ Based on:
 - `doc/project/50-requirements/requirements-011.md`
 
 Date: `2026-03-30`
-Status: Draft planning memo
+Status: Accepted hard-MVP bridge note
 
 ## Purpose
 
@@ -83,6 +83,13 @@ The host resolves:
 - payer account,
 - operator participant reference when relevant.
 
+For hard MVP, organization-bound buying is frozen as:
+
+- accountable subject = `org:did:key:...`,
+- operational signer = acting custodian `participant:did:key:...`,
+- host verification = resolve `org/custodian-ref` and check that the operator
+  participant is authorized to place the order.
+
 3. Open buyer-local execution
 
 The host opens one selected-responder execution scoped to the purchase.
@@ -116,6 +123,11 @@ After derivation, the host runs the current procurement substrate:
 - response intake,
 - receipt and review-required handling.
 
+For hard MVP, this step assumes one deployment-local settlement authority
+boundary. Combined `gateway + escrow + catalog` deployment is acceptable. The
+bridge therefore does not yet freeze a final remote buyer-to-escrow wire API for
+hold creation or hold status lookup.
+
 ## Mapping Guidance
 
 ### `service-offer.v1` -> derived procurement-facing data
@@ -138,6 +150,10 @@ Recommended mapping:
 - max price -> procurement price ceiling
 - requested delivery bound -> stricter deadline if admissible
 - workflow lineage -> execution annotations and trace refs
+
+When queue posture rejects the order, the host records an exchange-level or
+order-level rejection such as `queue-saturated` and stops before procurement
+contract creation.
 
 ## What `Arca` May and May Not Do
 

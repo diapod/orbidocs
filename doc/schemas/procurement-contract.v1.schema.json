@@ -59,6 +59,28 @@
       "minLength": 1,
       "description": "Identifier of the offer chosen for contract formation."
     },
+    "source/marketplace-refs": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "offer-id": {
+          "type": "string",
+          "pattern": "^offer:[A-Za-z0-9][A-Za-z0-9:-]*$",
+          "description": "Marketplace-side standing offer from which this procurement contract was derived."
+        },
+        "offer-seq": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Standing-offer sequence frozen at bridge time."
+        },
+        "order-id": {
+          "type": "string",
+          "pattern": "^order:[A-Za-z0-9][A-Za-z0-9:-]*$",
+          "description": "Buyer-side service order from which this procurement contract was derived."
+        }
+      },
+      "description": "Optional marketplace refs preserved when the contract is opened through the service-order bridge."
+    },
     "created-at": {
       "type": "string",
       "format": "date-time",
@@ -186,7 +208,7 @@
     },
     "confirmation/mode": {
       "type": "string",
-      "enum": ["arbiter-confirmed", "self-confirmed", "no-confirmation"],
+      "enum": ["arbiter-confirmed", "self-confirmed", "manual-review-only"],
       "description": "Confirmation mode required before settlement."
     },
     "status": {
@@ -220,25 +242,6 @@
         "required": [
           "acceptance/arbiter-set"
         ]
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "confirmation/mode": {
-            "const": "no-confirmation"
-          }
-        },
-        "required": [
-          "confirmation/mode"
-        ]
-      },
-      "then": {
-        "properties": {
-          "payment/amount": {
-            "const": 0
-          }
-        }
       }
     },
     {

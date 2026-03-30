@@ -86,7 +86,7 @@ directory ingestion).
 | FR-013 | The system MUST create a unique private execution channel with selected node and optional arbiters. | Fact | Story step 16 |
 | FR-014 | The full question MUST be re-sent in execution channel and MAY be encrypted per recipient key; refinements MUST stay within `max_delta_tokens`. | Fact | Story step 16 |
 | FR-015 | The system MUST perform funding and settlement precheck before contract creation. | Fact | Story step 19 |
-| FR-016 | The system MUST create a procurement contract with explicit acceptance criteria and one of three modes: arbiter-confirmed, self-confirmed (no arbiter), or no-confirmation (explicit zero-price offer). | Fact | Story step 19 |
+| FR-016 | The system MUST create a procurement contract with explicit acceptance criteria and one of three modes: arbiter-confirmed, self-confirmed (no arbiter), or manual-review-only. | Fact | Story step 19 |
 | FR-017 | The system MUST validate received answers against contract criteria before settlement. | Fact | Story step 18 |
 | FR-018 | If required confirmation is present and validation passes, the contract MUST settle and transfer agreed payment. | Fact | Story step 18 |
 | FR-019 | The system MUST persist a signed receipt and update node reputation after each completed interaction. | Inference | Story step 19 |

@@ -14,7 +14,7 @@ Based on:
 
 ## Status
 
-Proposed (Draft)
+Accepted (hard MVP contract)
 
 ## Date
 
@@ -96,11 +96,11 @@ Orbiplex should adopt the following hard-MVP layering:
 
 1. `service-offer.v1`
    - standing exchange-facing publication artifact,
-   - signed by the provider-side accountable subject,
+   - signed operationally by the provider-side participant subject,
    - catalog-visible and TTL-bounded.
 2. `service-order.v1`
    - buyer-side purchase intent artifact,
-   - signed by the buyer-side accountable subject,
+   - signed operationally by the buyer-side participant subject,
    - references one standing offer and carries bounded purchase parameters.
 3. `service-order -> procurement` host bridge
    - Node-owned transformation boundary,
@@ -169,6 +169,7 @@ The minimum contract should include:
 - `pricing/amount`
 - `pricing/currency`
 - `pricing/unit`
+- `pricing/unit-kind`
 - `delivery/max-duration-sec`
 - `queue/auto-accept`
 - `queue/max-depth`
@@ -205,6 +206,14 @@ The minimum contract should include:
 - optional `lineage/upstream-refs`
 - `signature`
 
+Hard-MVP freeze:
+
+- `offer/id` is a prefixed URN, not a free string,
+- `order/id` is a prefixed URN, not a free string,
+- `buyer/subject-kind` is limited to `participant` and `org`,
+- `buyer/operator-participant-id` is required when the buyer acts on behalf of an
+  organization.
+
 ## Host-Owned Bridge Semantics
 
 ### Validation phase
@@ -235,6 +244,13 @@ The derived procurement-facing state is host-owned. `Arca` and `Dator` may shape
 intent and metadata, but they are not the authority that authors the lower-layer
 artifacts.
 
+For hard MVP, queue saturation is modeled before procurement contract creation:
+
+- a service order may be rejected with `queue-saturated`,
+- this is an exchange-level or order-level admission outcome,
+- it is not a transport or capability mismatch,
+- it must not be normalized into a generic protocol error.
+
 ## Identity and Settlement Compatibility
 
 The new marketplace artifacts should remain compatible with:
@@ -247,16 +263,37 @@ The new marketplace artifacts should remain compatible with:
 
 In particular:
 
-- a service offer is signed by the provider-side accountable subject,
-- a service order is signed by the buyer-side accountable subject,
-- the host bridge is responsible for attaching the correct settlement and payer
-  context,
+- a service offer is signed by the provider-side participant subject,
+- a service order is signed by the buyer-side participant subject,
+- when the accountable buyer subject is an organization, hard MVP uses the
+  acting custodian participant as the operational signer together with explicit
+  `buyer/subject-kind = org`, `buyer/subject-id`, and
+  `buyer/operator-participant-id`,
+- the host bridge is responsible for verifying custodian authority and attaching
+  the correct settlement and payer context,
 - the procurement contract and receipt remain the current economic closure points.
 
 When `pricing/currency = ORC`, both `pricing/amount` and `pricing/max-amount`
 follow the fixed ORC scale-2 rule from the supervised settlement rail. The
 marketplace layer therefore carries integer minor units on the wire, while
 human-facing displays render them as `major.minor ORC`.
+
+The bridge computes economic totals only from machine-readable fields:
+
+- `pricing/unit-kind`,
+- `pricing/amount`,
+- `request/units`,
+- `pricing/max-amount`.
+
+Human-readable labels such as `pricing/unit` are descriptive only and must not be
+parsed by the host to derive price, hold amount, or contract total.
+
+For hard MVP, the bridge also freezes one deployment assumption:
+
+- the settlement authority boundary is deployment-local,
+- combined `gateway + escrow + catalog` deployment is acceptable,
+- the buyer-side bridge does not yet standardize a final remote buyer-to-escrow
+  hold API.
 
 ## Trade-offs
 

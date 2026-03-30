@@ -1,6 +1,6 @@
 {
   "schema/v": 1,
-  "order/id": "service-order:casualfeeders-breakfast-news-20260401-01",
+  "order/id": "order:casualfeeders-breakfast-news-20260401-01",
   "created-at": "2026-04-01T06:05:00Z",
   "buyer/node-id": "node:did:key:z6MkRomanBuyerNode111111111111111111111111111",
   "buyer/subject-kind": "org",

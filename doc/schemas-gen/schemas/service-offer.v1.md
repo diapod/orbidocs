@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/service-offer.v1.schema.json`](../../schemas/service-offer.v1.schema.json)
 
-Machine-readable schema for one standing exchange-facing service offer published by a provider-side subject. This artifact is catalog-facing and distinct from transport-facing node advertisements.
+Machine-readable schema for one standing exchange-facing service offer published by a provider-side subject. This artifact is catalog-facing and distinct from transport-facing node advertisements. Host-side pricing remains computable through explicit unit semantics rather than through parsing human-readable labels.
 
 ## Governing Basis
 
@@ -43,7 +43,8 @@ Machine-readable schema for one standing exchange-facing service offer published
 | [`service/description`](#field-service-description) | `yes` | string | Human-readable summary of the offered service. |
 | [`pricing/amount`](#field-pricing-amount) | `yes` | integer | Price in minor units for one billable unit of service. When `pricing/currency = ORC`, the value uses ORC minor units with fixed scale `2`. |
 | [`pricing/currency`](#field-pricing-currency) | `yes` | string | Settlement unit or currency symbol, with `ORC` as the current hard-MVP marketplace unit. |
-| [`pricing/unit`](#field-pricing-unit) | `yes` | string | Human-readable billable unit, for example `1 summary item`, `1800 input characters`, or `1 illustration`. |
+| [`pricing/unit`](#field-pricing-unit) | `yes` | string | Human-readable billable unit label, for example `1 summary item`, `1800 input characters`, or `1 illustration`. |
+| [`pricing/unit-kind`](#field-pricing-unit-kind) | `yes` | enum: `per-item`, `per-character-block`, `per-request`, `flat` | Host-computable pricing kind. The host computes total price and hold from explicit order units multiplied by `pricing/amount`; `pricing/unit` remains descriptive only. |
 | [`delivery/max-duration-sec`](#field-delivery-max-duration-sec) | `yes` | integer | Maximum provider-side promised duration for one accepted order under this standing offer. |
 | [`queue/auto-accept`](#field-queue-auto-accept) | `yes` | boolean | Whether the provider declares automatic acceptance up to the published queue posture. |
 | [`queue/max-depth`](#field-queue-max-depth) | `yes` | integer | Maximum queue depth at which the provider still considers the service admissible. |
@@ -52,7 +53,7 @@ Machine-readable schema for one standing exchange-facing service offer published
 | [`constraints/output`](#field-constraints-output) | `no` | object | Optional output-side bounded constraints declared by the provider. |
 | [`hybrid`](#field-hybrid) | `yes` | boolean | Whether this service involves human intervention beyond pure automated model execution. |
 | [`model-first`](#field-model-first) | `no` | boolean | Whether model-backed processing is intended to happen before human intervention when `hybrid` is true. |
-| [`confirmation/mode`](#field-confirmation-mode) | `no` | enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation` | Provider-declared preferred confirmation mode for later procurement formation. |
+| [`confirmation/mode`](#field-confirmation-mode) | `no` | enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only` | Provider-declared preferred confirmation mode intended to map directly into procurement contract confirmation semantics. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object | Optional marketplace-local or federation-local annotations that do not redefine the core standing-offer semantics. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` |  |
 
@@ -197,7 +198,15 @@ Settlement unit or currency symbol, with `ORC` as the current hard-MVP marketpla
 - Required: `yes`
 - Shape: string
 
-Human-readable billable unit, for example `1 summary item`, `1800 input characters`, or `1 illustration`.
+Human-readable billable unit label, for example `1 summary item`, `1800 input characters`, or `1 illustration`.
+
+<a id="field-pricing-unit-kind"></a>
+## `pricing/unit-kind`
+
+- Required: `yes`
+- Shape: enum: `per-item`, `per-character-block`, `per-request`, `flat`
+
+Host-computable pricing kind. The host computes total price and hold from explicit order units multiplied by `pricing/amount`; `pricing/unit` remains descriptive only.
 
 <a id="field-delivery-max-duration-sec"></a>
 ## `delivery/max-duration-sec`
@@ -267,9 +276,9 @@ Whether model-backed processing is intended to happen before human intervention 
 ## `confirmation/mode`
 
 - Required: `no`
-- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation`
+- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only`
 
-Provider-declared preferred confirmation mode for later procurement formation.
+Provider-declared preferred confirmation mode intended to map directly into procurement contract confirmation semantics.
 
 <a id="field-policy-annotations"></a>
 ## `policy_annotations`

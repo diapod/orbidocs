@@ -111,7 +111,7 @@ current design corpus, but is not the main line here.
     - deadline,
     - answer shape or format,
     - length bounds,
-    - confirmation mode (`arbiter-confirmed`, `self-confirmed`, or explicit no-confirmation for zero-price cases).
+    - confirmation mode (`arbiter-confirmed`, `self-confirmed`, or `manual-review-only`).
 20. During discussion and answer production, transcript monitors or secretaries may
     observe the room only if room policy and exposure mode allow it. If they do,
     captured material preserves:

@@ -10,7 +10,7 @@ Based on:
 - `doc/project/60-solutions/node.md`
 
 Date: `2026-03-30`
-Status: Draft planning note
+Status: Accepted hard-MVP planning note
 
 ## Purpose
 
@@ -89,6 +89,7 @@ Hard-MVP contract minimum:
 - `provider/node-id`
 - `service/type`
 - `pricing/*`
+- machine-readable `pricing/unit-kind`
 - `constraints/input`
 - `constraints/output`
 - `delivery/max-duration`
@@ -112,6 +113,13 @@ This is the missing buyer-facing purchase intent artifact.
 - what bounded output is expected,
 - what economic ceiling and deadline posture are acceptable,
 - and which workflow run or phase caused the order.
+
+Hard-MVP freeze:
+
+- `buyer/subject-kind` is limited to `participant` and `org`,
+- `org` purchases carry `buyer/operator-participant-id`,
+- the operational signature is performed by the custodian participant while the
+  accountable buyer subject remains the organization.
 
 This artifact should remain buyer-facing and exchange-facing. It should not expose
 internal daemon execution details.
@@ -138,6 +146,13 @@ This bridge contract should freeze:
 - which fields `Arca` may only propose rather than author,
 - where settlement refs enter,
 - how workflow lineage is preserved.
+
+Hard-MVP settlement assumption:
+
+- the bridge targets one deployment-local settlement authority boundary,
+- local or co-located `gateway + escrow + catalog` deployment is acceptable,
+- the buyer-side implementation should not speculate yet about a final remote
+  buyer-to-escrow wire protocol.
 
 ### 4. Buyer-side ledger and funding visibility contract
 

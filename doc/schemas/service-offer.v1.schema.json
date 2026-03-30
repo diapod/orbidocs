@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:service-offer:v1",
   "title": "ServiceOffer v1",
-  "description": "Machine-readable schema for one standing exchange-facing service offer published by a provider-side subject. This artifact is catalog-facing and distinct from transport-facing node advertisements.",
+  "description": "Machine-readable schema for one standing exchange-facing service offer published by a provider-side subject. This artifact is catalog-facing and distinct from transport-facing node advertisements. Host-side pricing remains computable through explicit unit semantics rather than through parsing human-readable labels.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
-  "x-dia-status": "draft",
+  "x-dia-status": "accepted",
   "x-dia-basis": [
     "doc/project/30-stories/story-006.md",
     "doc/project/30-stories/story-006-buyer-node-components.md",
@@ -27,6 +27,7 @@
     "pricing/amount",
     "pricing/currency",
     "pricing/unit",
+    "pricing/unit-kind",
     "delivery/max-duration-sec",
     "queue/auto-accept",
     "queue/max-depth",
@@ -41,6 +42,7 @@
     "offer/id": {
       "type": "string",
       "minLength": 1,
+      "pattern": "^offer:[A-Za-z0-9][A-Za-z0-9:-]*$",
       "description": "Stable identifier of this standing service offer."
     },
     "created-at": {
@@ -97,7 +99,17 @@
     "pricing/unit": {
       "type": "string",
       "minLength": 1,
-      "description": "Human-readable billable unit, for example `1 summary item`, `1800 input characters`, or `1 illustration`."
+      "description": "Human-readable billable unit label, for example `1 summary item`, `1800 input characters`, or `1 illustration`."
+    },
+    "pricing/unit-kind": {
+      "type": "string",
+      "enum": [
+        "per-item",
+        "per-character-block",
+        "per-request",
+        "flat"
+      ],
+      "description": "Host-computable pricing kind. The host computes total price and hold from explicit order units multiplied by `pricing/amount`; `pricing/unit` remains descriptive only."
     },
     "delivery/max-duration-sec": {
       "type": "integer",
@@ -141,9 +153,9 @@
       "enum": [
         "arbiter-confirmed",
         "self-confirmed",
-        "no-confirmation"
+        "manual-review-only"
       ],
-      "description": "Provider-declared preferred confirmation mode for later procurement formation."
+      "description": "Provider-declared preferred confirmation mode intended to map directly into procurement contract confirmation semantics."
     },
     "policy_annotations": {
       "type": "object",

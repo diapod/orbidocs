@@ -130,7 +130,7 @@
     },
     "confirmation/mode": {
       "type": "string",
-      "enum": ["arbiter-confirmed", "self-confirmed", "no-confirmation"],
+      "enum": ["arbiter-confirmed", "self-confirmed", "manual-review-only"],
       "description": "Confirmation model proposed by the responder for later contract formation."
     },
     "reputation/evidence": {
@@ -164,25 +164,6 @@
     }
   },
   "allOf": [
-    {
-      "if": {
-        "properties": {
-          "price/amount": {
-            "const": 0
-          }
-        },
-        "required": [
-          "price/amount"
-        ]
-      },
-      "then": {
-        "properties": {
-          "confirmation/mode": {
-            "enum": ["self-confirmed", "no-confirmation"]
-          }
-        }
-      }
-    },
     {
       "if": {
         "required": ["answer/min-length", "answer/max-length"]

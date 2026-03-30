@@ -67,7 +67,7 @@
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": ["arbiter-confirmed", "self-confirmed", "no-confirmation"]
+        "enum": ["arbiter-confirmed", "self-confirmed", "manual-review-only"]
       },
       "description": "Confirmation modes admitted by the escrow policy."
     },
