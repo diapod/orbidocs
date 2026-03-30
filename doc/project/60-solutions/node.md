@@ -117,6 +117,7 @@ Status:
 ### Settlement Policy Coordination and Disclosure Trail
 
 Based on:
+- `doc/project/30-stories/story-007.md`
 - `doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`
 - `doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`
 - `doc/project/50-requirements/requirements-007.md`
@@ -157,6 +158,11 @@ Two deployment profiles are expected:
   - emits or serves settlement-facing artifacts such as `gateway-policy.v1`,
     `escrow-policy.v1`, `settlement-policy-disclosure.v1`,
     `gateway-receipt.v1`, and `ledger-hold.v1` through explicit contracts,
+  - does not yet freeze a concrete MVP HA profile beyond one logical settlement
+    authority and no split-brain behavior,
+  - may later swap the storage backend to MariaDB or a similar replicated engine as
+    long as one logical settlement authority and protocol-visible contract
+    compatibility are preserved,
   - remains accountable through policy-bound roles rather than by collapsing the
     whole Node into one opaque settlement monolith.
 

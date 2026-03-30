@@ -90,6 +90,9 @@ Without that model:
 Orbiplex should adopt the following MVP settlement model for priced task execution:
 
 1. a federation runs one authoritative supervised settlement ledger for MVP,
+   where "one authoritative ledger" means one logical settlement authority and
+   single-writer source of truth rather than necessarily one physical host or one
+   process,
 2. users and responders transact in a federation-defined internal unit, with the
    reference MVP symbol `ORC` ("Orbiplex Credit"),
 3. prepaid balances are funded and redeemed only through trusted gateway nodes,
@@ -111,6 +114,18 @@ Orbiplex should adopt the following MVP settlement model for priced task executi
 
 For MVP, `gateway node` and `escrow supervisor node` MAY be the same operational
 service or the same umbrella-organization node class.
+
+## Deferred Deployment Topology Note
+
+MVP does not freeze a concrete HA deployment profile beyond one logical settlement
+authority and no split-brain behavior inside one federation.
+
+The storage backend itself should remain replaceable as long as it preserves the
+contract semantics above the storage line: append-only settlement facts, atomic hold
+creation, deterministic release/refund, and no split-brain settlement authority. In
+practice, a future backend swap to MariaDB or a similar replicated relational engine
+is admissible if it improves replication, failover, and read scaling without
+changing the protocol-visible artifacts.
 
 ## Core Model
 

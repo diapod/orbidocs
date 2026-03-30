@@ -98,6 +98,11 @@ Without these requirements, `host-ledger` remains nominal rather than actionable
 
 Within one federation, MVP runs on one authoritative supervised settlement ledger.
 
+In this context, "one authoritative ledger" means one logical settlement authority
+and single-writer source of truth. MVP does not require one physical host or one
+process, but it does forbid split-brain settlement authorities inside the same
+federation.
+
 This assumption is normative for MVP behavior of:
 
 - available-balance checks,
@@ -158,7 +163,8 @@ This assumption is normative for MVP behavior of:
 
 | ID | Requirement | Type | Source |
 |---|---|---|---|
-| NFR-001 | The supervised ledger MUST use atomic write semantics strong enough to prevent double-spend inside one federation MVP deployment. | Fact | Proposal 016 |
+| NFR-001 | The supervised ledger MUST use atomic write semantics strong enough to prevent double-spend inside one federation MVP deployment, including any later HA or failover setup that preserves one logical authority and avoids split-brain. | Fact | Proposal 016 |
+| NFR-001a | The settlement storage backend MAY be replaced in a later implementation phase by MariaDB or a similar replicated engine, but only if the deployment still preserves one logical authority, append-only settlement facts, and protocol-visible contract compatibility. | Fact | Proposal 016 |
 | NFR-002 | Economic contracts and receipts MUST stay auditable even when the external payment rail is implemented outside the protocol core. | Fact | Requirements 001 NFR-004 + Proposal 016 |
 | NFR-003 | Gateway conversion policy MAY vary by federation or operator, but the protocol-visible procurement path MUST remain agnostic to fiat exchange logic. | Fact | Proposal 016 |
 | NFR-004 | Every hold-, transfer-, and gateway-affecting artifact MUST be versioned and edge-validatable. | Inference | Contract-first architecture |

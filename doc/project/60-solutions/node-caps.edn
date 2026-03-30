@@ -66,7 +66,8 @@
   {:cap/id :settlement-policy-coordination
    :title "Settlement Policy Coordination and Disclosure Trail"
    :kind :policy-enforcement
-   :based-on ["doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md"
+   :based-on ["doc/project/30-stories/story-007.md"
+              "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md"
               "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md"
               "doc/project/50-requirements/requirements-007.md"
               "doc/project/50-requirements/requirements-008.md"]
