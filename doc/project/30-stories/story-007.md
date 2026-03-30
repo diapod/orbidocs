@@ -15,7 +15,9 @@ In particular, it assumes:
   - participation subjects (`participant:did:key:...`),
   - organization subjects (`org:did:key:...`),
   - and settlement accounts (`ledger-account.v1`),
-- `ORC` as the internal settlement unit visible to procurement artifacts,
+- `ORC` as the internal settlement unit visible to procurement artifacts, with
+  fixed decimal scale `2` and protocol-visible integer amount fields expressed in
+  ORC minor units,
 - trusted gateway and escrow roles attached to a settlement-capable Node,
 - append-only settlement facts instead of hidden mutable balance state,
 - explicit `gateway-policy.v1`, `escrow-policy.v1`, and
@@ -119,6 +121,8 @@ cross-federation settlement portability.
 
 - ORC ownership belongs to `ledger-account.v1`, not directly to `participant` or
   `org` records.
+- ORC uses fixed scale `2`: protocol-visible integers carry minor units, while
+  human-facing rendering uses `major.minor ORC`.
 - `participant:did:key:...` and `org:did:key:...` are accountable owners; the
   ledger account is the settlement container.
 - `available/balance` and `held/balance` are exported read models, not the only

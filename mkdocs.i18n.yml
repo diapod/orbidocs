@@ -109,6 +109,8 @@ plugins:
                     - Procurement Contract v1: doc/schemas-gen/schemas/procurement-contract.v1.md
                     - Procurement Offer v1: doc/schemas-gen/schemas/procurement-offer.v1.md
                     - Procurement Receipt v1: doc/schemas-gen/schemas/procurement-receipt.v1.md
+                    - Service Offer v1: doc/schemas-gen/schemas/service-offer.v1.md
+                    - Service Order v1: doc/schemas-gen/schemas/service-order.v1.md
                     - Proof of Personhood Attestation v1: doc/schemas-gen/schemas/proof-of-personhood-attestation.v1.md
                     - Question Envelope v1: doc/schemas-gen/schemas/question-envelope.v1.md
                     - Retrieval Request v1: doc/schemas-gen/schemas/retrieval-request.v1.md
@@ -192,6 +194,8 @@ plugins:
                     - Procurement Contract v1: doc/schemas-gen/schemas/procurement-contract.v1.md
                     - Procurement Offer v1: doc/schemas-gen/schemas/procurement-offer.v1.md
                     - Procurement Receipt v1: doc/schemas-gen/schemas/procurement-receipt.v1.md
+                    - Service Offer v1: doc/schemas-gen/schemas/service-offer.v1.md
+                    - Service Order v1: doc/schemas-gen/schemas/service-order.v1.md
                     - Proof of Personhood Attestation v1: doc/schemas-gen/schemas/proof-of-personhood-attestation.v1.md
                     - Question Envelope v1: doc/schemas-gen/schemas/question-envelope.v1.md
                     - Retrieval Request v1: doc/schemas-gen/schemas/retrieval-request.v1.md

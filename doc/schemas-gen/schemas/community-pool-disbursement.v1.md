@@ -29,8 +29,8 @@ Machine-readable schema for one council-approved community-pool outflow. The sig
 | [`disbursement/id`](#field-disbursement-id) | `yes` | string |  |
 | [`pool/account-id`](#field-pool-account-id) | `yes` | string | Ledger account id of the source community-pool. |
 | [`destination/account-id`](#field-destination-account-id) | `yes` | string | Ledger account id receiving the disbursement. |
-| [`amount`](#field-amount) | `yes` | integer | Transferred amount in internal minor units. |
-| [`unit`](#field-unit) | `yes` | const: `ORC` |  |
+| [`amount`](#field-amount) | `yes` | integer | Transferred amount in internal minor units. For `ORC`, the value uses ORC minor units with fixed scale `2`. |
+| [`unit`](#field-unit) | `yes` | const: `ORC` | Internal settlement unit carried by the disbursement in MVP. `ORC` uses fixed decimal scale `2`. |
 | [`purpose`](#field-purpose) | `yes` | enum: `ubc-subsidy`, `infrastructure-support`, `emergency-relief` |  |
 | [`basis/refs`](#field-basis-refs) | `yes` | array |  |
 | [`approved-by/id`](#field-approved-by-id) | `yes` | string |  |
@@ -80,13 +80,15 @@ Ledger account id receiving the disbursement.
 - Required: `yes`
 - Shape: integer
 
-Transferred amount in internal minor units.
+Transferred amount in internal minor units. For `ORC`, the value uses ORC minor units with fixed scale `2`.
 
 <a id="field-unit"></a>
 ## `unit`
 
 - Required: `yes`
 - Shape: const: `ORC`
+
+Internal settlement unit carried by the disbursement in MVP. `ORC` uses fixed decimal scale `2`.
 
 <a id="field-purpose"></a>
 ## `purpose`

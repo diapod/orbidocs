@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:service-order:v1",
+  "title": "ServiceOrder v1",
+  "description": "Machine-readable schema for one buyer-facing purchase intent referencing a standing service offer. In hard MVP this artifact is bridged by the host into the current procurement substrate rather than bypassing it.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-006.md",
+    "doc/project/30-stories/story-006-buyer-node-components.md",
+    "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md",
+    "doc/project/50-requirements/requirements-012.md"
+  ],
+  "required": [
+    "schema/v",
+    "order/id",
+    "created-at",
+    "buyer/node-id",
+    "buyer/subject-kind",
+    "buyer/subject-id",
+    "provider/node-id",
+    "provider/participant-id",
+    "offer/id",
+    "service/type",
+    "request/units",
+    "request/input",
+    "pricing/max-amount",
+    "pricing/currency",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "order/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier of this buyer-side service order."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the order became auditable."
+    },
+    "buyer/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node acting as the buyer-side orchestrator for this order."
+    },
+    "buyer/subject-kind": {
+      "type": "string",
+      "enum": [
+        "participant",
+        "org",
+        "pod-user"
+      ],
+      "description": "Kind of accountable buyer subject that authorizes the order."
+    },
+    "buyer/subject-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the accountable buyer subject."
+    },
+    "buyer/operator-participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional participant subject operating on behalf of the buyer subject, for example the custodian of an organization purchase."
+    },
+    "provider/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Provider-side serving node expected to fulfill the order."
+    },
+    "provider/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Provider-side accountable subject expected to stand behind the later procurement execution."
+    },
+    "offer/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Standing service offer selected by the buyer."
+    },
+    "service/type": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Service category expected by the buyer. The host validates it against the referenced standing offer."
+    },
+    "request/units": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Requested number of billable units under the referenced standing offer."
+    },
+    "request/input": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Structured buyer-side request input carried into the host-owned bridge."
+    },
+    "request/output-constraints": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional buyer-side output expectations narrower than or equal to the referenced standing offer."
+    },
+    "pricing/max-amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum total price in minor units the buyer is willing to accept for this order. When `pricing/currency = ORC`, the value uses ORC minor units with fixed scale `2`."
+    },
+    "pricing/currency": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 16,
+      "description": "Settlement unit or currency symbol expected by the buyer."
+    },
+    "delivery/requested-by": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional stricter delivery expectation imposed by the buyer. The host must reject values that exceed offer bounds or policy."
+    },
+    "workflow/run-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional buyer-side workflow run identifier, for example from `Arca`."
+    },
+    "workflow/phase-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional buyer-side workflow phase identifier, for example one phase within a recurring orchestration."
+    },
+    "lineage/upstream-refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional refs to upstream artifacts or prior workflow outputs that justify this purchase."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional buyer-local or federation-local annotations that do not redefine the core purchase semantics."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "buyer/subject-kind": {
+            "const": "org"
+          }
+        },
+        "required": [
+          "buyer/subject-kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "buyer/operator-participant-id"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ],
+          "description": "Signature algorithm used by the buyer-side accountable subject."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Serialized signature value."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schema/v": 1,
+  "order/id": "service-order:casualfeeders-breakfast-news-20260401-01",
+  "created-at": "2026-04-01T06:05:00Z",
+  "buyer/node-id": "node:did:key:z6MkRomanBuyerNode111111111111111111111111111",
+  "buyer/subject-kind": "org",
+  "buyer/subject-id": "org:did:key:z6MkCasualFeeders111111111111111111111111111",
+  "buyer/operator-participant-id": "participant:did:key:z6MkRomanParticipant11111111111111111111111",
+  "provider/node-id": "node:did:key:z6MkAdamNode111111111111111111111111111111111",
+  "provider/participant-id": "participant:did:key:z6MkAdamParticipant11111111111111111111111",
+  "offer/id": "offer:adam-news-01",
+  "service/type": "research/topical",
+  "request/units": 3,
+  "request/input": {
+    "language": "pl",
+    "topic": "breakfast news",
+    "keywords": [
+      "śniadanie",
+      "śniadania",
+      "brunch"
+    ],
+    "negative_terms": [
+      "powtórka",
+      "archiwum"
+    ]
+  },
+  "request/output-constraints": {
+    "char_limit": 1000,
+    "urls_required": true
+  },
+  "pricing/max-amount": 600,
+  "pricing/currency": "ORC",
+  "delivery/requested-by": "2026-04-01T06:35:00Z",
+  "workflow/run-id": "arca-run:casualfeeders-morning-feed:2026-04-01",
+  "workflow/phase-id": "phase-1-breakfast-research",
+  "lineage/upstream-refs": [
+    "workflow:casualfeeders-morning-feed"
+  ],
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:casualfeeders-breakfast-order-signature-001"
+  }
+}

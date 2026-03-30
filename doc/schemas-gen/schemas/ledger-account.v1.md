@@ -33,10 +33,10 @@ Machine-readable schema for one supervised prepaid ledger account used by the ho
 | [`owner/kind`](#field-owner-kind) | `yes` | enum: `participant`, `pod-user`, `org` | Identity layer that owns the account. |
 | [`owner/id`](#field-owner-id) | `yes` | string | Canonical identifier of the account owner. The allowed format depends on `owner/kind`. |
 | [`federation/id`](#field-federation-id) | `yes` | string | Authoritative federation ledger scope for this account. |
-| [`unit`](#field-unit) | `yes` | const: `ORC` | Internal settlement unit carried by this account in MVP. |
+| [`unit`](#field-unit) | `yes` | const: `ORC` | Internal settlement unit carried by this account in MVP. `ORC` uses fixed decimal scale `2`; protocol-visible integer balances therefore carry ORC minor units. |
 | [`status`](#field-status) | `yes` | enum: `active`, `suspended`, `closed` | Administrative state of the account on the supervised ledger. |
-| [`available/balance`](#field-available-balance) | `no` | integer | Optional exported read-model snapshot of immediately spendable balance. The append-only transfer and hold facts remain the source of truth. |
-| [`held/balance`](#field-held-balance) | `no` | integer | Optional exported read-model snapshot of funds currently reserved by active holds. |
+| [`available/balance`](#field-available-balance) | `no` | integer | Optional exported read-model snapshot of immediately spendable balance in ORC minor units with fixed scale `2`. The append-only transfer and hold facts remain the source of truth. |
+| [`held/balance`](#field-held-balance) | `no` | integer | Optional exported read-model snapshot of funds currently reserved by active holds in ORC minor units with fixed scale `2`. |
 | [`created-at`](#field-created-at) | `yes` | string | Timestamp when the account was opened. |
 | [`closed-at`](#field-closed-at) | `no` | string | Timestamp when the account was closed, if applicable. |
 | [`gateway/ref`](#field-gateway-ref) | `no` | string | Optional reference to the gateway or onboarding policy under which the account was provisioned. |
@@ -255,7 +255,7 @@ Authoritative federation ledger scope for this account.
 - Required: `yes`
 - Shape: const: `ORC`
 
-Internal settlement unit carried by this account in MVP.
+Internal settlement unit carried by this account in MVP. `ORC` uses fixed decimal scale `2`; protocol-visible integer balances therefore carry ORC minor units.
 
 <a id="field-status"></a>
 ## `status`
@@ -271,7 +271,7 @@ Administrative state of the account on the supervised ledger.
 - Required: `no`
 - Shape: integer
 
-Optional exported read-model snapshot of immediately spendable balance. The append-only transfer and hold facts remain the source of truth.
+Optional exported read-model snapshot of immediately spendable balance in ORC minor units with fixed scale `2`. The append-only transfer and hold facts remain the source of truth.
 
 <a id="field-held-balance"></a>
 ## `held/balance`
@@ -279,7 +279,7 @@ Optional exported read-model snapshot of immediately spendable balance. The appe
 - Required: `no`
 - Shape: integer
 
-Optional exported read-model snapshot of funds currently reserved by active holds.
+Optional exported read-model snapshot of funds currently reserved by active holds in ORC minor units with fixed scale `2`.
 
 <a id="field-created-at"></a>
 ## `created-at`

@@ -38,6 +38,9 @@ workflow composition, provenance, and bounded automation all remain visible.
 Related follow-up planning note:
 
 - `doc/project/30-stories/story-006-buyer-node-components.md`
+- `doc/project/20-memos/service-order-to-procurement-bridge.md`
+- `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
+- `doc/project/50-requirements/requirements-012.md`
 
 ## Identity Model
 
@@ -156,8 +159,9 @@ A service offer carries at least:
 - `service/type` — schematic service category (e.g. `text/redaction`,
   `research/topical`, `image/generation`).
 - `service/description` — human-readable service description.
-- `pricing/amount` and `pricing/currency` — price per unit (e.g. `10 ORC` per
-  `1800` input characters).
+- `pricing/amount` and `pricing/currency` — price per unit, carried on the wire in
+  ORC minor units with fixed scale `2` (e.g. `1000` for `10.00 ORC` per `1800`
+  input characters).
 - `pricing/unit` — what constitutes one billable unit.
 - `constraints/input` — accepted input parameters (format, size, language).
 - `constraints/output` — promised output parameters (format, dimensions, size).
@@ -262,7 +266,7 @@ The smallest acceptable hard-MVP deployment therefore is:
    provider/participant-id: "participant:did:key:z6MkOla..."
    provider/node-id:      "node:did:key:z6MkOla..."
    service/type:          "text/redaction"
-   pricing/amount:        10
+   pricing/amount:        1000
    pricing/currency:      "ORC"
    pricing/unit:          "1800 input characters"
    delivery/max-duration: 3600          # 1 hour
@@ -296,7 +300,7 @@ The smallest acceptable hard-MVP deployment therefore is:
    provider/participant-id: "participant:did:key:z6MkAdam..."
    provider/node-id:      "node:did:key:z6MkAdam..."
    service/type:          "research/topical"
-   pricing/amount:        2
+   pricing/amount:        200
    pricing/currency:      "ORC"
    pricing/unit:          "1 summary item"
    constraints/output:    { char_limit: 1000, urls_required: true }
@@ -323,7 +327,7 @@ The smallest acceptable hard-MVP deployment therefore is:
    provider/participant-id: "participant:did:key:z6MkMarcin..."
    provider/node-id:      "node:did:key:z6MkMarcin..."
    service/type:          "image/generation"
-   pricing/amount:        5
+   pricing/amount:        500
    pricing/currency:      "ORC"
    pricing/unit:          "1 illustration"
    constraints/output:    { max_width: 1920, max_height: 1080, max_size_mb: 10 }
@@ -337,12 +341,12 @@ The smallest acceptable hard-MVP deployment therefore is:
 
 ### Funding
 
-9. Roman uses an Orbiplex payment gateway node to add `500 ORC` to the
-   `CasualFeeders` organization account. He pays `500 PLN` through an external
+9. Roman uses an Orbiplex payment gateway node to add `500.00 ORC` to the
+   `CasualFeeders` organization account. He pays `500.00 PLN` through an external
    payment rail. The gateway performs an atomic split:
 
-   - `450 ORC` credited to `org:did:key:z6MkCF...` account,
-   - `50 ORC` (10% ingress fee) credited to `community-pool`.
+   - `450.00 ORC` credited to `org:did:key:z6MkCF...` account,
+   - `50.00 ORC` (10% ingress fee) credited to `community-pool`.
 
    The gateway emits a signed `gateway-receipt.v1`:
 
@@ -356,8 +360,8 @@ The smallest acceptable hard-MVP deployment therefore is:
    fee/rate:                    0.10
    fee/destination-account-id:  "account:fed-pl-main:community-pool"
    net/external-amount:         450.00
-   internal/amount:             450
-   internal/fee-amount:         50
+   internal/amount:             45000
+   internal/fee-amount:         5000
    internal/currency:           "ORC"
    account/id:                  "account:fed-pl-main:casualfeeders"
    gateway-policy/ref:          "gateway-policy:pl-main-prepaid-v1"
@@ -420,7 +424,7 @@ The smallest acceptable hard-MVP deployment therefore is:
 
 14. For each work order in Phase 1, the host on Roman's Node:
     - performs a funding precheck against `org:did:key:z6MkCF...` account
-      (sufficient balance for `2 ORC × 3 items × 2 orders = 12 ORC`),
+      (sufficient balance for `2.00 ORC × 3 items × 2 orders = 12.00 ORC`),
     - requests escrow hold from the escrow supervisor node,
     - creates `procurement-contract.v1` with `settlement/rail: host-ledger`.
 
@@ -433,7 +437,7 @@ The smallest acceptable hard-MVP deployment therefore is:
     payee/account-id:      "account:fed-pl-main:adam"
     escrow/node-id:        "node:did:key:z6MkESC..."
     escrow-policy/ref:     "escrow-policy:pl-main-standard-v1"
-    amount:                12
+    amount:                1200
     unit:                  "ORC"
     status:                "active"
     created-at:            "2026-04-01T06:05:00Z"
@@ -470,7 +474,7 @@ The smallest acceptable hard-MVP deployment therefore is:
 17. For each of the six research outputs, Roman's workflow submits one priced
     service-order request to Ola's Node. Funding precheck, escrow hold, and
     `procurement-contract.v1` creation follow the same pattern as Phase 1
-    (`6 × 10 ORC = 60 ORC` held).
+    (`6 × 10.00 ORC = 60.00 ORC` held).
 
 18. Ola's Node first runs the `Bielik`-backed model phase (model-first), producing
     an initial draft. Then Ola performs the manual follow-up implied by the `hybrid`
@@ -494,7 +498,7 @@ The smallest acceptable hard-MVP deployment therefore is:
 20. For each revised text, Roman's workflow submits an illustration task to Marcin's
     Node, constrained by the declared maximum dimensions and file size from the
     service offer. Funding precheck, escrow hold, and contract creation follow the
-    same pattern (`6 × 5 ORC = 30 ORC` held).
+    same pattern (`6 × 5.00 ORC = 30.00 ORC` held).
 
 21. Marcin's Node accepts and queues those image-generation tasks up to the published
     queue limit (3 active, so 6 tasks are processed in two batches of 3), executes
@@ -522,10 +526,10 @@ The smallest acceptable hard-MVP deployment therefore is:
     On the happy path the releases are:
 
     ```
-    For Phase 1 (Adam):    12 ORC released to participant:did:key:z6MkAdam...
-    For Phase 2 (Ola):     60 ORC released to participant:did:key:z6MkOla...
-    For Phase 3 (Marcin):  30 ORC released to participant:did:key:z6MkMarcin...
-    Total spent:          102 ORC from CasualFeeders account (of 450 ORC available)
+    For Phase 1 (Adam):    12.00 ORC released to participant:did:key:z6MkAdam...
+    For Phase 2 (Ola):     60.00 ORC released to participant:did:key:z6MkOla...
+    For Phase 3 (Marcin):  30.00 ORC released to participant:did:key:z6MkMarcin...
+    Total spent:          102.00 ORC from CasualFeeders account (of 450.00 ORC available)
     ```
 
     Each release produces one or more `ledger-transfer.v1` facts from hold to payee,

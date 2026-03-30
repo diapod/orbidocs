@@ -142,6 +142,11 @@ The protocol should treat `payment/currency = ORC` as the only unit it needs to
 understand. Fiat pricing, spreads, and exchange policies remain gateway-local and are
 audited through gateway artifacts rather than pushed into the procurement core.
 
+`ORC` uses a fixed decimal scale of `2`. Protocol-visible integer amount fields
+therefore carry ORC in minor units, where `1 = 0.01 ORC`, `100 = 1.00 ORC`, and
+`1234 = 12.34 ORC`. Human-readable rendering should use `major.minor ORC`, for
+example `0.00 ORC` or `12.34 ORC`.
+
 Voluntary exchange still means that a gateway, escrow operator, or provider MAY
 refuse a priced path, restrict regions, restrict account classes, or disable one
 rail altogether. The protocol should not force a sale. What it must force is the

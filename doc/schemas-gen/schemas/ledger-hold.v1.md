@@ -35,8 +35,8 @@ Machine-readable schema for one supervised escrow hold on the host-ledger settle
 | [`payee/account-id`](#field-payee-account-id) | `yes` | string | Ledger account eligible to receive release transfers from this hold. |
 | [`escrow/node-id`](#field-escrow-node-id) | `yes` | string | Supervisory node responsible for maintaining the hold state machine. |
 | [`escrow-policy/ref`](#field-escrow-policy-ref) | `no` | string | Escrow policy governing dispute, confirmation, and release behavior for this hold. |
-| [`amount`](#field-amount) | `yes` | integer | Reserved amount in internal minor units. |
-| [`unit`](#field-unit) | `yes` | const: `ORC` | Internal settlement unit carried by the hold in MVP. |
+| [`amount`](#field-amount) | `yes` | integer | Reserved amount in internal minor units. For `ORC`, the value uses ORC minor units with fixed scale `2`. |
+| [`unit`](#field-unit) | `yes` | const: `ORC` | Internal settlement unit carried by the hold in MVP. `ORC` uses fixed decimal scale `2`. |
 | [`status`](#field-status) | `yes` | enum: `active`, `disputed`, `released`, `partially-released`, `refunded`, `expired` | Operational state of the hold. |
 | [`created-at`](#field-created-at) | `yes` | string | Timestamp when the hold was created. |
 | [`work-by`](#field-work-by) | `yes` | string | Deadline by which the responder is expected to deliver the work. |
@@ -44,8 +44,8 @@ Machine-readable schema for one supervised escrow hold on the host-ledger settle
 | [`dispute-by`](#field-dispute-by) | `yes` | string | Last moment for opening a valid dispute under the contract policy. |
 | [`auto-release-after`](#field-auto-release-after) | `yes` | string | Moment when the hold may be released automatically if prior conditions are satisfied and no dispute is open. |
 | [`resolved-at`](#field-resolved-at) | `no` | string | Timestamp when the hold reached a terminal or review-complete state. |
-| [`released/amount`](#field-released-amount) | `no` | integer | Amount already released from the hold. |
-| [`refunded/amount`](#field-refunded-amount) | `no` | integer | Amount already refunded from the hold. |
+| [`released/amount`](#field-released-amount) | `no` | integer | Amount already released from the hold, expressed in ORC minor units with fixed scale `2`. |
+| [`refunded/amount`](#field-refunded-amount) | `no` | integer | Amount already refunded from the hold, expressed in ORC minor units with fixed scale `2`. |
 | [`dispute/case-ref`](#field-dispute-case-ref) | `no` | string | Formal dispute or arbiter case opened against the hold, if any. |
 | [`notes`](#field-notes) | `no` | string | Optional human-readable notes. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
@@ -262,7 +262,7 @@ Escrow policy governing dispute, confirmation, and release behavior for this hol
 - Required: `yes`
 - Shape: integer
 
-Reserved amount in internal minor units.
+Reserved amount in internal minor units. For `ORC`, the value uses ORC minor units with fixed scale `2`.
 
 <a id="field-unit"></a>
 ## `unit`
@@ -270,7 +270,7 @@ Reserved amount in internal minor units.
 - Required: `yes`
 - Shape: const: `ORC`
 
-Internal settlement unit carried by the hold in MVP.
+Internal settlement unit carried by the hold in MVP. `ORC` uses fixed decimal scale `2`.
 
 <a id="field-status"></a>
 ## `status`
@@ -334,7 +334,7 @@ Timestamp when the hold reached a terminal or review-complete state.
 - Required: `no`
 - Shape: integer
 
-Amount already released from the hold.
+Amount already released from the hold, expressed in ORC minor units with fixed scale `2`.
 
 <a id="field-refunded-amount"></a>
 ## `refunded/amount`
@@ -342,7 +342,7 @@ Amount already released from the hold.
 - Required: `no`
 - Shape: integer
 
-Amount already refunded from the hold.
+Amount already refunded from the hold, expressed in ORC minor units with fixed scale `2`.
 
 <a id="field-dispute-case-ref"></a>
 ## `dispute/case-ref`

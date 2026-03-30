@@ -115,6 +115,7 @@ This assumption is normative for MVP behavior of:
 | ID | Requirement | Type | Source |
 |---|---|---|---|
 | FR-001 | The MVP settlement unit MUST be an internal ledger unit independent from fiat pricing; the reference symbol is `ORC`. | Fact | Proposal 016 |
+| FR-001a | All protocol-visible ORC integer amount fields MUST use ORC minor units with fixed decimal scale `2`, so `1 = 0.01 ORC`, `100 = 1.00 ORC`, and human-readable rendering follows `major.minor ORC`. | Fact | Proposal 016 |
 | FR-002 | The system MUST keep economic balance and reputation as separate artifact families and MUST NOT derive governance weight from balance. | Fact | Proposal 016 |
 | FR-003 | A federation operating paid procurement MUST run one authoritative supervised settlement ledger for MVP. | Fact | Proposal 016 |
 | FR-004 | The system MUST support a `ledger-account` artifact that binds an account to an accountable owner, settlement unit, and account purpose. | Fact | Proposal 016 |

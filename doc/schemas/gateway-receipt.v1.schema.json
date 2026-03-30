@@ -61,11 +61,11 @@
     "internal/amount": {
       "type": "integer",
       "minimum": 1,
-      "description": "Net amount credited or debited to `account/id` in internal minor units."
+      "description": "Net amount credited or debited to `account/id` in internal minor units. For `ORC`, the value uses ORC minor units with fixed scale `2`."
     },
     "internal/currency": {
       "const": "ORC",
-      "description": "Internal settlement unit used by the supervised ledger in MVP."
+      "description": "Internal settlement unit used by the supervised ledger in MVP. `ORC` uses fixed decimal scale `2`."
     },
     "account/id": {
       "type": "string",
@@ -111,12 +111,12 @@
     "rate/applied": {
       "type": "number",
       "exclusiveMinimum": 0,
-      "description": "Applied conversion rate from one external unit into internal minor units."
+      "description": "Applied conversion rate from one external unit into internal minor units. For `ORC`, one unit of this rate equals one ORC minor unit at fixed scale `2`."
     },
     "internal/fee-amount": {
       "type": "integer",
       "minimum": 0,
-      "description": "Internal minor-unit amount credited to the fee destination account."
+      "description": "Internal minor-unit amount credited to the fee destination account. For `ORC`, the value uses ORC minor units with fixed scale `2`."
     },
     "external/provider": {
       "type": "string",

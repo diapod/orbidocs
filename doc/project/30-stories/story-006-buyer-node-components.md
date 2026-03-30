@@ -30,6 +30,14 @@ This document is intentionally placed before implementation. The hard-MVP buyer
 path should freeze the necessary data contracts and host capability surface before
 the workspace adds new execution code.
 
+Related source artifacts created from this note:
+
+- `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
+- `doc/project/50-requirements/requirements-012.md`
+- `doc/project/20-memos/service-order-to-procurement-bridge.md`
+- `doc/schemas/service-offer.v1.schema.json`
+- `doc/schemas/service-order.v1.schema.json`
+
 ## Non-Goals
 
 This note does not yet:

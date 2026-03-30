@@ -35,7 +35,7 @@ Machine-readable schema for responder offers attached to a published procurement
 | [`responder/participant-id`](#field-responder-participant-id) | `yes` | string | Participation-role identity that stands behind the offer and would own the responder-side participation semantics. |
 | [`responder/federation-id`](#field-responder-federation-id) | `no` | string | Federation identity of the responder when relevant to routing or trust. |
 | [`responder/public-key-ref`](#field-responder-public-key-ref) | `no` | string | Reference to the responder's encryption or signature key material. |
-| [`price/amount`](#field-price-amount) | `yes` | integer | Proposed price in minor units. |
+| [`price/amount`](#field-price-amount) | `yes` | integer | Proposed price in minor units. When `price/currency = ORC`, the value uses ORC minor units with fixed scale `2`. |
 | [`price/currency`](#field-price-currency) | `yes` | string | Currency or settlement unit symbol for the proposed price. |
 | [`deadline-at`](#field-deadline-at) | `yes` | string | Latest timestamp by which the responder expects to deliver or conclude. |
 | [`answer/min-length`](#field-answer-min-length) | `yes` | integer | Lower answer-length bound the responder is willing to contract against. |
@@ -188,7 +188,7 @@ Reference to the responder's encryption or signature key material.
 - Required: `yes`
 - Shape: integer
 
-Proposed price in minor units.
+Proposed price in minor units. When `price/currency = ORC`, the value uses ORC minor units with fixed scale `2`.
 
 <a id="field-price-currency"></a>
 ## `price/currency`

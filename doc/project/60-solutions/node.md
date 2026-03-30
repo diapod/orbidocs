@@ -97,6 +97,8 @@ Based on:
 - `doc/project/50-requirements/requirements-001.md`
 
 Related schemas:
+- `service-offer.v1`
+- `service-order.v1`
 - `procurement-offer.v1`
 - `procurement-contract.v1`
 - `procurement-receipt.v1`
@@ -105,6 +107,10 @@ Related schemas:
 - `settlement-policy-disclosure.v1`
 
 Responsibilities:
+- expose standing service-offer discovery and buyer-side service-order ingress for
+  marketplace-style exchange,
+- own the bridge from `service-order.v1` into the currently executable
+  selected-responder procurement substrate,
 - collect and evaluate offers,
 - select responders under policy,
 - record contracts and receipts without coupling protocol semantics to crypto rails,

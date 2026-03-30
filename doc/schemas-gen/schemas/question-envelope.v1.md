@@ -54,7 +54,7 @@ Machine-readable schema for signed question publication on the procurement event
 | [`models/exclude`](#field-models-exclude) | `no` | array | Disallowed model or capability labels. |
 | [`languages`](#field-languages) | `no` | array | Preferred answer languages. |
 | [`reward/mode`](#field-reward-mode) | `yes` | enum: `none`, `collaborative`, `procurement` | Whether the request seeks open collaboration only or explicit responder procurement. |
-| [`procurement/max-price-amount`](#field-procurement-max-price-amount) | `no` | integer | Maximum acceptable price in minor units when procurement is enabled. |
+| [`procurement/max-price-amount`](#field-procurement-max-price-amount) | `no` | integer | Maximum acceptable price in minor units when procurement is enabled. When `procurement/price-currency = ORC`, the value uses ORC minor units with fixed scale `2`. |
 | [`procurement/price-currency`](#field-procurement-price-currency) | `no` | string | Currency or settlement unit symbol associated with procurement ceiling and offers. |
 | [`procurement/max-wait-sec`](#field-procurement-max-wait-sec) | `no` | integer | Maximum wait time acceptable to the asker when procurement is enabled. |
 | [`signature`](#field-signature) | `no` | ref: `#/$defs/signature` | Detached or embedded signature container for the participant-authored publication path. |
@@ -446,7 +446,7 @@ Whether the request seeks open collaboration only or explicit responder procurem
 - Required: `no`
 - Shape: integer
 
-Maximum acceptable price in minor units when procurement is enabled.
+Maximum acceptable price in minor units when procurement is enabled. When `procurement/price-currency = ORC`, the value uses ORC minor units with fixed scale `2`.
 
 <a id="field-procurement-price-currency"></a>
 ## `procurement/price-currency`
