@@ -658,10 +658,10 @@ Higher-layer publication such as reduced `question-envelope` may follow later, o
 the seed transport and session slice is already proven end to end.
 
 At this stage the proposal freezes the **semantic** `signal-marker` decision, not
-yet a final publication-envelope schema for that marker. A concrete
-`signal-marker-envelope.v1` may first live as a repo-local Node contract and only
-later be promoted into canonical `orbidocs` schemas once the publish/receive flow
-and signed wire shape have stabilized.
+and now also freezes the canonical participant-scoped publication envelope for
+that marker. `signal-marker-envelope.v1` is the minimal signed wire artifact,
+while the separately visible `signal-marker.v1` marker remains the semantic or
+UI-facing artifact it may reference.
 
 ## Operational and Implementation Boundaries
 

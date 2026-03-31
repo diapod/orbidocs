@@ -74,6 +74,7 @@ higher-layer identity, room, or federation semantics.
 | FR-002 | `node-id` MUST be derived from the Node public key and MUST be stable across restarts until explicit rotation occurs. | Inference | Proposal 014 |
 | FR-002a | The canonical v1 `node-id` string MUST be `node:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`. Parsers MUST be strict, and alternative textual variants MUST be rejected for v1. | Fact | Freeze note |
 | FR-002b | Rotating the Ed25519 node keypair MUST produce a new `node-id`; v1 does not attempt continuity by reusing the old `node-id` across keys. | Fact | Freeze note |
+| FR-002c | The MVP operational layer MAY prepare a local overlap bundle linking the current and successor `node-id` values through dual signatures, but such preparation MUST NOT by itself grant automatic continuity semantics to discovery, routing, or peer trust state. | Fact | Freeze note |
 | FR-003 | The baseline protocol semantics MUST distinguish Node infrastructure identity from participant identity, and both MUST remain distinct from later pod-user or contextual nym layers. | Inference | Proposal 014 |
 | FR-003a | The canonical v1 `participant-id` string MUST be `participant:did:key:z<base58btc(0xed01 || raw_ed25519_public_key)>`. Parsers MUST be strict, and alternative textual variants MUST be rejected for v1. | Fact | Freeze note |
 | FR-003b | In the MVP baseline, `node-id` and `participant-id` MAY share the same underlying Ed25519 `did:key` fingerprint and signing material, but protocol implementations MUST NOT assume that role equality follows from shared key material. | Fact | Freeze note |
@@ -118,6 +119,7 @@ higher-layer identity, room, or federation semantics.
 | FR-014 | Capability advertisement MUST include at least transport profiles and narrow core protocol capabilities. Attached roles and plugin-process surfaces MUST remain optional in MVP. | Inference | Proposal 014 |
 | FR-014a | `capabilities/core` MUST be interpreted as a schematic set of capability identifiers, not a free-form implementation description. | Inference | Proposal 014 |
 | FR-014b | Every MVP Node MUST advertise `core/messaging` as the minimal explicit core capability proving that the established session is usable for post-handshake message exchange. | Fact | Freeze note |
+| FR-014c | The first participant-scoped application envelope family in the MVP MUST be canonically shared as `signal-marker-envelope.v1`, distinct from the separately visible `signal-marker.v1` artifact it may reference. | Fact | Freeze note |
 | FR-014c | Capabilities that are already implicit in a successful signed handshake, such as baseline protocol participation or the ability to sign the handshake itself, SHOULD NOT be modeled as separate mandatory advertised core capabilities in v1. | Inference | Freeze note |
 | FR-015 | A Node MUST support liveness maintenance through `ping/pong` or an equivalent keepalive flow. | Fact | Proposal 014 |
 | FR-016 | A Node MUST support reconnect behavior after transient peer or transport failure. | Fact | Proposal 014 |

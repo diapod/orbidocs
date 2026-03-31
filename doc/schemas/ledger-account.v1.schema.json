@@ -61,7 +61,7 @@
     },
     "unit": {
       "const": "ORC",
-      "description": "Internal settlement unit carried by this account in MVP."
+      "description": "Internal settlement unit carried by this account in MVP. `ORC` uses fixed decimal scale `2`; protocol-visible integer balances therefore carry ORC minor units."
     },
     "status": {
       "type": "string",
@@ -71,12 +71,12 @@
     "available/balance": {
       "type": "integer",
       "minimum": 0,
-      "description": "Optional exported read-model snapshot of immediately spendable balance. The append-only transfer and hold facts remain the source of truth."
+      "description": "Optional exported read-model snapshot of immediately spendable balance in ORC minor units with fixed scale `2`. The append-only transfer and hold facts remain the source of truth."
     },
     "held/balance": {
       "type": "integer",
       "minimum": 0,
-      "description": "Optional exported read-model snapshot of funds currently reserved by active holds."
+      "description": "Optional exported read-model snapshot of funds currently reserved by active holds in ORC minor units with fixed scale `2`."
     },
     "created-at": {
       "type": "string",

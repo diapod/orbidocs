@@ -90,7 +90,7 @@ No artifact may skip state transitions implicitly.
 - `CorpusEntry`:
   - `entry_id`, `bundle_id`, `content_pointer`, `domain_tags`, `quality_grade`, `risk_grade`, `training_eligibility`, `provenance_manifest`.
 - `TrainingJob`:
-  - `job_id`, `base_model_ref`, `method` (`lora|qlora`), `dataset_refs`, `policy_profile`, `started_at`, `ended_at`, `operator_ref`.
+  - `job_id`, `base_model_ref`, `method` (`lora|qlora`), `dataset_refs`, `policy_profile`, `constitutional_guidance_refs`, `started_at`, `ended_at`, `operator_ref`.
 - `AdapterArtifact`:
   - `adapter_id`, `job_id`, `base_model_ref`, `adapter_hash`, `eval_report_ref`, `deployment_scope`, `rollback_ref`, `creator_refs`.
 - `EvalReport`:
@@ -132,6 +132,7 @@ No artifact may skip state transitions implicitly.
 | FR-028 | Summaries derived from debates containing human-linked material MUST preserve enough provenance to indicate whether accepted reasoning relied on mediated or direct human input. | Inference | Proposal 004 |
 | FR-029 | If a secretary preserves or republishes human-linked material after node failure, the secretary MUST preserve the original origin class and MUST NOT silently flatten provenance. | Inference | Proposal 004 |
 | FR-030 | Public-vault publication policy SHOULD default to stricter handling for `human-live` material than for purely node-generated debate unless a federation explicitly relaxes that rule. | Inference | Proposal 004 |
+| FR-031 | Training policy profiles for specialization derived from swarm discussion, gift-economy exchange, or other community-governed material MUST be able to reference constitutional and core-value guidance, and the training node MUST apply that guidance as an explicit advisory steering layer during corpus selection, redaction, weighting, and evaluation. | Inference | Constitution + core values |
 
 ## Non-Functional Requirements
 
@@ -149,6 +150,7 @@ No artifact may skip state transitions implicitly.
 | NFR-010 | Deployment policy SHOULD allow federation-specific acceptance thresholds so one federation may reject an adapter another federation accepts. | Inference | Pluralism + federation autonomy |
 | NFR-011 | Provenance semantics for human-linked material MUST survive transcript export, curation, archival storage, and dataset assembly without lossy flattening. | Inference | Proposal 004 |
 | NFR-012 | User-facing and curator-facing tooling SHOULD make human-originated material inspectable and filterable without requiring exposure of real-world identity. | Inference | Proposal 004 |
+| NFR-013 | Constitutional and core-value guidance used by LLM-assisted curation or specialization SHOULD remain explicit and inspectable in policy metadata rather than being hidden inside opaque defaults or untraceable prompts. | Inference | Auditability + governance |
 
 ## Trade-offs
 

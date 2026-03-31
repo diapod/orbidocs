@@ -30,8 +30,8 @@ Machine-readable schema for one append-only internal transfer recorded by the ho
 | [`kind`](#field-kind) | `yes` | enum: `top-up-credit`, `escrow-hold`, `release`, `partial-release`, `refund`, `payout-debit`, `adjustment` | Transfer class on the supervised ledger. |
 | [`from/account-id`](#field-from-account-id) | `yes` | string | Debited ledger account identifier. |
 | [`to/account-id`](#field-to-account-id) | `yes` | string | Credited ledger account identifier. |
-| [`amount`](#field-amount) | `yes` | integer | Transferred amount in internal minor units. |
-| [`unit`](#field-unit) | `yes` | const: `ORC` | Internal settlement unit carried by the transfer in MVP. |
+| [`amount`](#field-amount) | `yes` | integer | Transferred amount in internal minor units. For `ORC`, the value uses ORC minor units with fixed scale `2`. |
+| [`unit`](#field-unit) | `yes` | const: `ORC` | Internal settlement unit carried by the transfer in MVP. `ORC` uses fixed decimal scale `2`. |
 | [`created-at`](#field-created-at) | `yes` | string | Timestamp when the transfer fact was recorded. |
 | [`hold/id`](#field-hold-id) | `no` | string | Escrow hold to which the transfer belongs, when applicable. |
 | [`contract/id`](#field-contract-id) | `no` | string | Procurement contract driving the transfer, when applicable. |
@@ -152,7 +152,7 @@ Credited ledger account identifier.
 - Required: `yes`
 - Shape: integer
 
-Transferred amount in internal minor units.
+Transferred amount in internal minor units. For `ORC`, the value uses ORC minor units with fixed scale `2`.
 
 <a id="field-unit"></a>
 ## `unit`
@@ -160,7 +160,7 @@ Transferred amount in internal minor units.
 - Required: `yes`
 - Shape: const: `ORC`
 
-Internal settlement unit carried by the transfer in MVP.
+Internal settlement unit carried by the transfer in MVP. `ORC` uses fixed decimal scale `2`.
 
 <a id="field-created-at"></a>
 ## `created-at`

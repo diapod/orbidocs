@@ -74,7 +74,7 @@
     "price/amount": {
       "type": "integer",
       "minimum": 0,
-      "description": "Proposed price in minor units."
+      "description": "Proposed price in minor units. When `price/currency = ORC`, the value uses ORC minor units with fixed scale `2`."
     },
     "price/currency": {
       "type": "string",
@@ -130,7 +130,7 @@
     },
     "confirmation/mode": {
       "type": "string",
-      "enum": ["arbiter-confirmed", "self-confirmed", "no-confirmation"],
+      "enum": ["arbiter-confirmed", "self-confirmed", "manual-review-only"],
       "description": "Confirmation model proposed by the responder for later contract formation."
     },
     "reputation/evidence": {
@@ -164,25 +164,6 @@
     }
   },
   "allOf": [
-    {
-      "if": {
-        "properties": {
-          "price/amount": {
-            "const": 0
-          }
-        },
-        "required": [
-          "price/amount"
-        ]
-      },
-      "then": {
-        "properties": {
-          "confirmation/mode": {
-            "enum": ["self-confirmed", "no-confirmation"]
-          }
-        }
-      }
-    },
     {
       "if": {
         "required": ["answer/min-length", "answer/max-length"]

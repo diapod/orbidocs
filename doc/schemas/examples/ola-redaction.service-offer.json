@@ -1,0 +1,35 @@
+{
+  "schema/v": 1,
+  "offer/id": "offer:ola-redaction-01",
+  "created-at": "2026-04-01T05:30:00Z",
+  "published-at": "2026-04-01T05:30:00Z",
+  "expires-at": "2026-04-02T05:30:00Z",
+  "sequence/no": 1,
+  "provider/node-id": "node:did:key:z6MkOlaNode11111111111111111111111111111111111",
+  "provider/participant-id": "participant:did:key:z6MkOlaParticipant11111111111111111111111111",
+  "service/type": "text/redaction",
+  "service/description": "Polish editorial redaction with model-first drafting and human refinement.",
+  "pricing/amount": 1000,
+  "pricing/currency": "ORC",
+  "pricing/unit": "1800 input characters",
+  "pricing/unit-kind": "per-character-block",
+  "delivery/max-duration-sec": 3600,
+  "queue/auto-accept": false,
+  "queue/max-depth": 3,
+  "queue/current-depth": 1,
+  "constraints/input": {
+    "language": "pl",
+    "max_input_characters": 1800
+  },
+  "constraints/output": {
+    "language": "pl",
+    "format": "markdown"
+  },
+  "hybrid": true,
+  "model-first": true,
+  "confirmation/mode": "self-confirmed",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:ola-redaction-offer-signature-001"
+  }
+}

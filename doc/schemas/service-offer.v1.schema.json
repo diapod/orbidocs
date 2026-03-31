@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:service-offer:v1",
+  "title": "ServiceOffer v1",
+  "description": "Machine-readable schema for one standing exchange-facing service offer published by a provider-side subject. This artifact is catalog-facing and distinct from transport-facing node advertisements. Host-side pricing remains computable through explicit unit semantics rather than through parsing human-readable labels.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-006.md",
+    "doc/project/30-stories/story-006-buyer-node-components.md",
+    "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md",
+    "doc/project/50-requirements/requirements-012.md"
+  ],
+  "required": [
+    "schema/v",
+    "offer/id",
+    "created-at",
+    "published-at",
+    "expires-at",
+    "sequence/no",
+    "provider/node-id",
+    "provider/participant-id",
+    "service/type",
+    "service/description",
+    "pricing/amount",
+    "pricing/currency",
+    "pricing/unit",
+    "pricing/unit-kind",
+    "delivery/max-duration-sec",
+    "queue/auto-accept",
+    "queue/max-depth",
+    "hybrid",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "offer/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^offer:[A-Za-z0-9][A-Za-z0-9:-]*$",
+      "description": "Stable identifier of this standing service offer."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the offer record became auditable."
+    },
+    "published-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the offer was last published to the exchange-visible channel."
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp after which the offer should be treated as stale."
+    },
+    "sequence/no": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Monotonic per-offer sequence number. Higher values supersede lower ones for the same standing offer identity."
+    },
+    "provider/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Serving node hosting this offer."
+    },
+    "provider/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Provider-side accountable subject publishing this offer."
+    },
+    "service/type": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Marketplace-visible service category such as `text/redaction`, `research/topical`, or `image/generation`."
+    },
+    "service/description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable summary of the offered service."
+    },
+    "pricing/amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Price in minor units for one billable unit of service. When `pricing/currency = ORC`, the value uses ORC minor units with fixed scale `2`."
+    },
+    "pricing/currency": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 16,
+      "description": "Settlement unit or currency symbol, with `ORC` as the current hard-MVP marketplace unit."
+    },
+    "pricing/unit": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable billable unit label, for example `1 summary item`, `1800 input characters`, or `1 illustration`."
+    },
+    "pricing/unit-kind": {
+      "type": "string",
+      "enum": [
+        "per-item",
+        "per-character-block",
+        "per-request",
+        "flat"
+      ],
+      "description": "Host-computable pricing kind. The host computes total price and hold from explicit order units multiplied by `pricing/amount`; `pricing/unit` remains descriptive only."
+    },
+    "delivery/max-duration-sec": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum provider-side promised duration for one accepted order under this standing offer."
+    },
+    "queue/auto-accept": {
+      "type": "boolean",
+      "description": "Whether the provider declares automatic acceptance up to the published queue posture."
+    },
+    "queue/max-depth": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum queue depth at which the provider still considers the service admissible."
+    },
+    "queue/current-depth": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Current queue depth when the offer was published or refreshed."
+    },
+    "constraints/input": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional input-side bounded constraints declared by the provider."
+    },
+    "constraints/output": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional output-side bounded constraints declared by the provider."
+    },
+    "hybrid": {
+      "type": "boolean",
+      "description": "Whether this service involves human intervention beyond pure automated model execution."
+    },
+    "model-first": {
+      "type": "boolean",
+      "description": "Whether model-backed processing is intended to happen before human intervention when `hybrid` is true."
+    },
+    "confirmation/mode": {
+      "type": "string",
+      "enum": [
+        "arbiter-confirmed",
+        "self-confirmed",
+        "manual-review-only"
+      ],
+      "description": "Provider-declared preferred confirmation mode intended to map directly into procurement contract confirmation semantics."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional marketplace-local or federation-local annotations that do not redefine the core standing-offer semantics."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "hybrid": {
+            "const": false
+          }
+        },
+        "required": [
+          "hybrid"
+        ]
+      },
+      "then": {
+        "properties": {
+          "model-first": {
+            "const": false
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ],
+          "description": "Signature algorithm used by the provider-side accountable subject."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Serialized signature value."
+        }
+      }
+    }
+  }
+}

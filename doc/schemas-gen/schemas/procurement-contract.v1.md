@@ -44,7 +44,7 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 | [`asker/pod-user-id`](#field-asker-pod-user-id) | `no` | string | Hosted-user identity when the contract was created on behalf of a later pod-backed client flow. This is additive to, not a replacement for, `asker/participant-id`. |
 | [`responder/node-id`](#field-responder-node-id) | `yes` | string | Node selected to fulfill the answer contract as the routing or hosting identity. |
 | [`responder/participant-id`](#field-responder-participant-id) | `yes` | string | Participation-role identity selected to fulfill or lead the responder side of the contract. |
-| [`payment/amount`](#field-payment-amount) | `yes` | integer | Agreed payment amount in minor units. |
+| [`payment/amount`](#field-payment-amount) | `yes` | integer | Agreed payment amount in minor units. When `payment/currency = ORC`, the value uses ORC minor units with fixed scale `2`. |
 | [`payment/currency`](#field-payment-currency) | `yes` | string | Currency or settlement unit symbol for the contract payment. |
 | [`payer/account-ref`](#field-payer-account-ref) | `no` | string | Optional payer-side canonical settlement owner reference. The role lives in the identifier prefix, so no separate `payer/kind` field is used. This becomes required for the `host-ledger` rail. |
 | [`payee/account-ref`](#field-payee-account-ref) | `no` | string | Optional payee-side canonical settlement owner reference. The role lives in the identifier prefix, so no separate `payee/kind` field is used. This becomes required for the `host-ledger` rail. |
@@ -61,7 +61,7 @@ Machine-readable schema for a selected responder contract linked to a procuremen
 | [`acceptance/min-length`](#field-acceptance-min-length) | `yes` | integer | Minimum accepted answer length. |
 | [`acceptance/max-length`](#field-acceptance-max-length) | `yes` | integer | Maximum accepted answer length. |
 | [`acceptance/arbiter-set`](#field-acceptance-arbiter-set) | `no` | array | Arbiter identities required when arbiter confirmation is part of the contract. |
-| [`confirmation/mode`](#field-confirmation-mode) | `yes` | enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation` | Confirmation mode required before settlement. |
+| [`confirmation/mode`](#field-confirmation-mode) | `yes` | enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only` | Confirmation mode required before settlement. |
 | [`status`](#field-status) | `yes` | enum: `pending`, `settled`, `rejected`, `expired`, `canceled` | Current lifecycle status of the contract. |
 | [`transport/encryption-mode`](#field-transport-encryption-mode) | `no` | enum: `none`, `recipient-key`, `federation-policy` | Expected transport-level privacy mode for the narrowed execution path. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
@@ -102,35 +102,6 @@ When:
 ```json
 {
   "properties": {
-    "confirmation/mode": {
-      "const": "no-confirmation"
-    }
-  },
-  "required": [
-    "confirmation/mode"
-  ]
-}
-```
-
-Then:
-
-```json
-{
-  "properties": {
-    "payment/amount": {
-      "const": 0
-    }
-  }
-}
-```
-
-### Rule 3
-
-When:
-
-```json
-{
-  "properties": {
     "settlement/rail": {
       "const": "host-ledger"
     }
@@ -164,7 +135,7 @@ Then:
 }
 ```
 
-### Rule 4
+### Rule 3
 
 When:
 
@@ -304,7 +275,7 @@ Participation-role identity selected to fulfill or lead the responder side of th
 - Required: `yes`
 - Shape: integer
 
-Agreed payment amount in minor units.
+Agreed payment amount in minor units. When `payment/currency = ORC`, the value uses ORC minor units with fixed scale `2`.
 
 <a id="field-payment-currency"></a>
 ## `payment/currency`
@@ -438,7 +409,7 @@ Arbiter identities required when arbiter confirmation is part of the contract.
 ## `confirmation/mode`
 
 - Required: `yes`
-- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation`
+- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only`
 
 Confirmation mode required before settlement.
 

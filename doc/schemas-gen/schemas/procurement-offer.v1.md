@@ -35,7 +35,7 @@ Machine-readable schema for responder offers attached to a published procurement
 | [`responder/participant-id`](#field-responder-participant-id) | `yes` | string | Participation-role identity that stands behind the offer and would own the responder-side participation semantics. |
 | [`responder/federation-id`](#field-responder-federation-id) | `no` | string | Federation identity of the responder when relevant to routing or trust. |
 | [`responder/public-key-ref`](#field-responder-public-key-ref) | `no` | string | Reference to the responder's encryption or signature key material. |
-| [`price/amount`](#field-price-amount) | `yes` | integer | Proposed price in minor units. |
+| [`price/amount`](#field-price-amount) | `yes` | integer | Proposed price in minor units. When `price/currency = ORC`, the value uses ORC minor units with fixed scale `2`. |
 | [`price/currency`](#field-price-currency) | `yes` | string | Currency or settlement unit symbol for the proposed price. |
 | [`deadline-at`](#field-deadline-at) | `yes` | string | Latest timestamp by which the responder expects to deliver or conclude. |
 | [`answer/min-length`](#field-answer-min-length) | `yes` | integer | Lower answer-length bound the responder is willing to contract against. |
@@ -45,45 +45,13 @@ Machine-readable schema for responder offers attached to a published procurement
 | [`specialization/tags`](#field-specialization-tags) | `yes` | array | Tags used to justify topical fit of the offer. |
 | [`models/used`](#field-models-used) | `no` | array | Models or capability labels the responder expects to use. |
 | [`operator-participation/may-occur`](#field-operator-participation-may-occur) | `no` | boolean | Whether the responder expects possible operator consultation or live human presence under allowed room policy. |
-| [`confirmation/mode`](#field-confirmation-mode) | `no` | enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation` | Confirmation model proposed by the responder for later contract formation. |
+| [`confirmation/mode`](#field-confirmation-mode) | `no` | enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only` | Confirmation model proposed by the responder for later contract formation. |
 | [`reputation/evidence`](#field-reputation-evidence) | `yes` | array | Evidence references advertised to justify responder trust. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
 
 ## Conditional Rules
 
 ### Rule 1
-
-When:
-
-```json
-{
-  "properties": {
-    "price/amount": {
-      "const": 0
-    }
-  },
-  "required": [
-    "price/amount"
-  ]
-}
-```
-
-Then:
-
-```json
-{
-  "properties": {
-    "confirmation/mode": {
-      "enum": [
-        "self-confirmed",
-        "no-confirmation"
-      ]
-    }
-  }
-}
-```
-
-### Rule 2
 
 When:
 
@@ -188,7 +156,7 @@ Reference to the responder's encryption or signature key material.
 - Required: `yes`
 - Shape: integer
 
-Proposed price in minor units.
+Proposed price in minor units. When `price/currency = ORC`, the value uses ORC minor units with fixed scale `2`.
 
 <a id="field-price-currency"></a>
 ## `price/currency`
@@ -266,7 +234,7 @@ Whether the responder expects possible operator consultation or live human prese
 ## `confirmation/mode`
 
 - Required: `no`
-- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation`
+- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only`
 
 Confirmation model proposed by the responder for later contract formation.
 

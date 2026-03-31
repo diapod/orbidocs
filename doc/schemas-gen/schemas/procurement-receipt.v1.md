@@ -39,7 +39,7 @@ Machine-readable schema for the auditable outcome of a procurement contract.
 | [`payee/participant-id`](#field-payee-participant-id) | `yes` | string | Participation-role identity on the payee/responder side whose acknowledgement or outcome is being recorded. |
 | [`settled-at`](#field-settled-at) | `no` | string | Timestamp at which settlement or equivalent terminal confirmation completed. |
 | [`outcome`](#field-outcome) | `yes` | enum: `settled`, `rejected`, `expired`, `canceled` | Terminal contract outcome recorded by the local node. |
-| [`confirmation/mode`](#field-confirmation-mode) | `yes` | enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation` | Confirmation mode actually used for the recorded outcome. |
+| [`confirmation/mode`](#field-confirmation-mode) | `yes` | enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only` | Confirmation mode actually used for the recorded outcome. |
 | [`answer/accepted`](#field-answer-accepted) | `no` | boolean | Whether the received answer or summary satisfied the contract criteria. |
 | [`payer/signature`](#field-payer-signature) | `no` | string | Signature or reference proving payer-side acceptance of the recorded outcome. |
 | [`payee/signature`](#field-payee-signature) | `no` | string | Signature or reference proving payee-side acknowledgement of the recorded outcome. |
@@ -253,7 +253,7 @@ Terminal contract outcome recorded by the local node.
 ## `confirmation/mode`
 
 - Required: `yes`
-- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `no-confirmation`
+- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only`
 
 Confirmation mode actually used for the recorded outcome.
 

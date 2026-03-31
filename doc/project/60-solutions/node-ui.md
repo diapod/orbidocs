@@ -18,8 +18,19 @@ This document defines solution-level responsibilities of the Node UI component.
 It does not define:
 - network protocol semantics,
 - canonical persistence of protocol artifacts,
-- training or archival logic as a source of truth,
-- one fixed UI toolkit or deployment shell.
+- training or archival logic as a source of truth.
+
+## Architecture Direction
+
+The chosen hard-MVP implementation direction is recorded in:
+
+- `doc/project/20-memos/node-ui-htmx-hateoas-architecture.md`
+
+In summary: the Node UI is a thin HTMX web client backed by a server-side
+template renderer (`node-ui` crate, Rust + Axum + MiniJinja) that proxies the
+daemon HTTP control API and renders HTML fragments. HATEOAS is the navigational
+model. The daemon remains the sole authority; the web server holds no protocol
+state.
 
 ## Must Implement
 

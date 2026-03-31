@@ -595,6 +595,18 @@ Learning mechanics:
 Risk modes per operation: one for "data," another for "routing," and another for
 "rescue."
 
+If a node uses an LLM for specialization, fine-tuning, distillation, training-material
+selection, or corpus-quality evaluation, it should treat the DIA Constitution and the
+core values as an explicit advisory steering voice. This is not a substitute for
+evidence and not a hidden channel of power over facts, but an axiological layer that
+helps evaluate source admissibility, risk boundaries, correction direction, and
+classes of material that should remain excluded from learning.
+
+In particular, material originating from community, care, or gift-economy modes
+should not enter the learning loop without checking compatibility with dignity, least
+disclosure, the right to exit, attribution, and protection of the community against
+exploitation and silent capture of meaning through model optimization.
+
 ### Cost and Energy as an Ethical Dimension
 
 We optimize not only for functionality, but also for cost, energy, and resources:
@@ -792,6 +804,13 @@ may still, through community policy (not a "right to payout"), trigger automatic
 rewards for actions that genuinely strengthen others - especially in rescue and
 protective situations - combining a guaranteed part, a random part, and recipient
 signal (percentage attribution of contribution).
+
+When information exchange, summaries, recommendations, or gratitude signals in this
+area are co-shaped by an LLM, the node should apply the Constitution and the core
+values as an advisory steering voice already at the communication layer, not only in
+later training. This means that optimization for fluency, engagement, profit, or ease
+of classification may not displace protection of raw signal, attribution, procedural
+justice, and the separation between gift, reputation, and constitutional power.
 
 Reward rules and potential "exit" to an external crypto ecosystem are governance
 parameters: in some federations they may be disabled, constrained, or split into

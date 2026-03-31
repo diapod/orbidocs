@@ -20,12 +20,14 @@
    :schemas ["node-identity.v1"
              "node-advertisement.v1"
              "peer-handshake.v1"
-             "capability-advertisement.v1"]
+             "capability-advertisement.v1"
+             "signal-marker-envelope.v1"]
    :responsibilities
    ["Generate or load a stable local node identity"
     "Derive and expose a stable `node-id`"
     "Publish or consume signed endpoint advertisements"
     "Establish signed peer handshakes and capability exchange over the baseline transport"
+    "Publish and validate the first participant-scoped signed application envelope above the session layer"
     "Maintain keepalive and reconnect behavior for the first networked Node baseline"]
    :status :todo}
 
@@ -64,7 +66,8 @@
   {:cap/id :settlement-policy-coordination
    :title "Settlement Policy Coordination and Disclosure Trail"
    :kind :policy-enforcement
-   :based-on ["doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md"
+   :based-on ["doc/project/30-stories/story-007.md"
+              "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md"
               "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md"
               "doc/project/50-requirements/requirements-007.md"
               "doc/project/50-requirements/requirements-008.md"]
@@ -107,6 +110,25 @@
    ["Prepare archival package with scope, redaction, and integrity metadata"
     "Select archivist under policy"
     "Record retrieval and storage provenance"]
+   :status :todo}
+
+  {:cap/id :supervised-local-http-middleware-services
+   :title "Supervised Local HTTP Middleware Services"
+   :kind :extension
+   :based-on ["doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
+              "doc/project/40-proposals/020-bundled-python-middleware-modules.md"
+              "doc/project/50-requirements/requirements-010.md"
+              "doc/project/50-requirements/requirements-011.md"
+              "doc/project/30-stories/story-006.md"
+              "doc/project/20-memos/node-middleware-init-and-capability-reporting.md"]
+   :schemas []
+   :responsibilities
+   ["Host long-lived local HTTP middleware services under daemon-owned lifecycle semantics"
+   "Bundle and supervise Python implementations of Orbiplex Dator and Orbiplex Arca in the hard MVP"
+   "Keep middleware startup, readiness, restart budget, and shutdown under Node authority"
+   "Run `middleware-init` and retain module capability reports for operator inspection"
+   "Provide the deployment surface for Dator and Arca without overloading unmanaged adapters"
+   "Remain the future host-granted capability surface for local modules such as Monus without yielding direct transport or publication authority"]
    :status :todo}]
 
  :may-implement
@@ -116,10 +138,10 @@
    :based-on ["doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md"
               "doc/project/50-requirements/requirements-004.md"
               "doc/project/50-requirements/requirements-005.md"]
-   :schemas ["transcript-segment.v1"
-             "transcript-bundle.v1"]
-   :responsibilities
-   ["Observe only policy-allowed traffic"
+  :schemas ["transcript-segment.v1"
+            "transcript-bundle.v1"]
+  :responsibilities
+  ["Observe only policy-allowed traffic"
     "Preserve human-origin semantics and consent basis"]
    :status :optional}]
 

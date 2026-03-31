@@ -53,6 +53,12 @@ schema_for_file() {
     *.node-advertisement.json)
       echo "$SCHEMAS_DIR/node-advertisement.v1.schema.json"
       ;;
+    *.service-offer.json)
+      echo "$SCHEMAS_DIR/service-offer.v1.schema.json"
+      ;;
+    *.service-order.json)
+      echo "$SCHEMAS_DIR/service-order.v1.schema.json"
+      ;;
     *.peer-handshake.json)
       echo "$SCHEMAS_DIR/peer-handshake.v1.schema.json"
       ;;
@@ -73,6 +79,9 @@ schema_for_file() {
       ;;
     *.participant-bind.json)
       echo "$SCHEMAS_DIR/participant-bind.v1.schema.json"
+      ;;
+    *.participant-capability-limits.json)
+      echo "$SCHEMAS_DIR/participant-capability-limits.v1.schema.json"
       ;;
     *.coi-declaration.json)
       echo "$SCHEMAS_DIR/coi-declaration.v1.schema.json"
@@ -100,6 +109,9 @@ schema_for_file() {
       ;;
     *.capability-advertisement.json)
       echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
+      ;;
+    *.signal-marker-envelope.json)
+      echo "$SCHEMAS_DIR/signal-marker-envelope.v1.schema.json"
       ;;
     *.signal-marker.json)
       echo "$SCHEMAS_DIR/signal-marker.v1.schema.json"

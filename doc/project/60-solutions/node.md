@@ -10,6 +10,7 @@ The Node is responsible for the solution-level execution path of:
 - peer identity, handshake, and endpoint discovery,
 - question room lifecycle,
 - federated answer procurement,
+- supervised local HTTP middleware services for bundled exchange and workflow modules,
 - settlement policy coordination and disclosure trail exposure for paid procurement,
 - local learning and knowledge promotion,
 - archival handoff and retrieval,
@@ -40,6 +41,7 @@ Related schemas:
 - `node-advertisement.v1`
 - `peer-handshake.v1`
 - `capability-advertisement.v1`
+- `signal-marker-envelope.v1`
 
 Responsibilities:
 - generate or load a stable local node identity,
@@ -48,6 +50,7 @@ Responsibilities:
 - resolve the signing key through `key/storage-ref` rather than inline secret material,
 - publish or consume signed endpoint advertisements,
 - establish signed peer handshakes and capability exchange over the baseline transport,
+- publish and validate the first participant-scoped signed application envelope above the session layer,
 - maintain keepalive and reconnect behavior for the first networked Node baseline.
 
 Note:
@@ -59,7 +62,7 @@ Note:
 - Participant authentication belongs to participant-scoped application artifacts carried over that encrypted node-to-node session, not to the handshake itself.
 - The minimal explicit advertised core capability in v1 is `core/messaging`; successful baseline participation and signed-handshake ability are treated as protocol-native facts rather than mandatory advertised capabilities.
 - `WSS/TLS` in v1 is only the carrier transport: TLS server authentication protects the endpoint and the channel, while peer identity still binds at the signed `peer-handshake.v1` layer; public endpoints should follow normal WebPKI hostname validation, and private trust roots remain deployment-local rather than protocol-visible.
-- Key rotation is not a live runtime feature in the MVP baseline; a new Ed25519 key means a new `node-id`, with overlap and succession left to a later operational layer.
+- Key rotation is not a live continuity feature in the MVP baseline; a new Ed25519 key still means a new `node-id`, but the operational layer may already prepare a local signed overlap bundle and `succession` hint without assigning automatic discovery or trust continuity semantics.
 - `node-advertisement.v1` may already carry a future-facing `succession` object, but the Node does not yet assign it active runtime continuity semantics in the MVP baseline.
 - In the MVP baseline, thin clients or remote UI sessions are delegated operator sessions of that same participant role, not independent hosted users with their own continuity layer.
 
@@ -94,6 +97,8 @@ Based on:
 - `doc/project/50-requirements/requirements-001.md`
 
 Related schemas:
+- `service-offer.v1`
+- `service-order.v1`
 - `procurement-offer.v1`
 - `procurement-contract.v1`
 - `procurement-receipt.v1`
@@ -102,6 +107,10 @@ Related schemas:
 - `settlement-policy-disclosure.v1`
 
 Responsibilities:
+- expose standing service-offer discovery and buyer-side service-order ingress for
+  marketplace-style exchange,
+- own the bridge from `service-order.v1` into the currently executable
+  selected-responder procurement substrate,
 - collect and evaluate offers,
 - select responders under policy,
 - record contracts and receipts without coupling protocol semantics to crypto rails,
@@ -114,6 +123,7 @@ Status:
 ### Settlement Policy Coordination and Disclosure Trail
 
 Based on:
+- `doc/project/30-stories/story-007.md`
 - `doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`
 - `doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`
 - `doc/project/50-requirements/requirements-007.md`
@@ -154,11 +164,67 @@ Two deployment profiles are expected:
   - emits or serves settlement-facing artifacts such as `gateway-policy.v1`,
     `escrow-policy.v1`, `settlement-policy-disclosure.v1`,
     `gateway-receipt.v1`, and `ledger-hold.v1` through explicit contracts,
+  - does not yet freeze a concrete MVP HA profile beyond one logical settlement
+    authority and no split-brain behavior,
+  - may later swap the storage backend to MariaDB or a similar replicated engine as
+    long as one logical settlement authority and protocol-visible contract
+    compatibility are preserved,
   - remains accountable through policy-bound roles rather than by collapsing the
     whole Node into one opaque settlement monolith.
 
 In other words, settlement capability is a deployment profile layered onto the
 Node, not the default meaning of `Orbiplex Node`.
+
+### Story-006 Marketplace Deployment Roles
+
+For the marketplace baseline from `story-006.md`, the minimal logical deployment
+shape around Node should be made explicit:
+
+- `buyer-orchestrator node`
+  Roman-side Node hosting `Arca`, buyer-local workflow state, and local packaging.
+- `provider nodes`
+  service-providing Nodes hosting `Dator` and publishing standing offers.
+- `gateway node`
+  trusted ORC ingress/egress boundary emitting `gateway-receipt.v1`.
+- `escrow supervisor node`
+  trusted settlement authority creating and releasing `ledger-hold.v1`.
+- `service-catalog listener/indexer`
+  listener over the exchange publication channel indexing active `service-offer`
+  artifacts for discovery.
+- `arbiter node`
+  optional or policy-dependent role for `arbiter-confirmed` and dispute paths.
+
+Hard MVP may co-locate `gateway`, `escrow`, `catalog`, and even `arbiter` into one
+deployment, but their responsibilities should remain distinct at the protocol and
+audit level.
+
+### Supervised Local HTTP Middleware Services
+
+Based on:
+- `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
+- `doc/project/40-proposals/020-bundled-python-middleware-modules.md`
+- `doc/project/50-requirements/requirements-010.md`
+- `doc/project/50-requirements/requirements-011.md`
+- `doc/project/30-stories/story-006.md`
+
+Responsibilities:
+- host the supervised `http_local_json` executor as a first-class daemon-owned
+  middleware runtime,
+- distribute `Orbiplex Dator` and `Orbiplex Arca` with the hard-MVP Node release,
+- run both bundled modules as supervised Python middleware services rather than as
+  unmanaged sidecars,
+- attach those modules through the host-owned `http_local_json` connector/executor,
+- expose `middleware.dator` and `middleware.arca` as operator-visible components
+  with lifecycle, readiness, and restart state,
+- keep bundled middleware under the same host-owned envelope and policy contracts
+  as any future replaceable external module,
+- remain the future host-granted capability surface for local modules such as
+  `Orbiplex Monus`, including bounded memory/read-model access, local signal
+  summaries, model-assisted draft shaping, and bounded publication requests
+  without yielding direct transport or publication authority to the middleware.
+
+Status:
+- `todo`
 
 ### Local Learning and Knowledge Promotion
 

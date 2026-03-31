@@ -33,8 +33,8 @@ Machine-readable schema for a signed fiat-to-credit or credit-to-fiat crossing p
 | [`direction`](#field-direction) | `yes` | enum: `inbound`, `outbound` | Direction of value crossing the protocol boundary. `inbound` credits a local account, `outbound` debits it for payout. |
 | [`external/amount`](#field-external-amount) | `yes` | number | Gross amount observed on the external payment rail before any explicit ingress fee is applied. |
 | [`external/currency`](#field-external-currency) | `yes` | string | External settlement currency or tender symbol. |
-| [`internal/amount`](#field-internal-amount) | `yes` | integer | Net amount credited or debited to `account/id` in internal minor units. |
-| [`internal/currency`](#field-internal-currency) | `yes` | const: `ORC` | Internal settlement unit used by the supervised ledger in MVP. |
+| [`internal/amount`](#field-internal-amount) | `yes` | integer | Net amount credited or debited to `account/id` in internal minor units. For `ORC`, the value uses ORC minor units with fixed scale `2`. |
+| [`internal/currency`](#field-internal-currency) | `yes` | const: `ORC` | Internal settlement unit used by the supervised ledger in MVP. `ORC` uses fixed decimal scale `2`. |
 | [`account/id`](#field-account-id) | `yes` | string | Local supervised account affected by the gateway event. |
 | [`ts`](#field-ts) | `yes` | string | Timestamp when the gateway event was committed for audit. |
 | [`external/payment-ref`](#field-external-payment-ref) | `yes` | string | Gateway-side payment reference such as a PSP transaction id or bank transfer reference. |
@@ -43,8 +43,8 @@ Machine-readable schema for a signed fiat-to-credit or credit-to-fiat crossing p
 | [`fee/rate`](#field-fee-rate) | `no` | number | Fee rate applied to the gross external amount. |
 | [`fee/destination-account-id`](#field-fee-destination-account-id) | `no` | string | Ledger account that received the internal fee portion, typically the `community-pool`. |
 | [`net/external-amount`](#field-net-external-amount) | `no` | number | External amount remaining after explicit fee deduction. |
-| [`rate/applied`](#field-rate-applied) | `no` | number | Applied conversion rate from one external unit into internal minor units. |
-| [`internal/fee-amount`](#field-internal-fee-amount) | `no` | integer | Internal minor-unit amount credited to the fee destination account. |
+| [`rate/applied`](#field-rate-applied) | `no` | number | Applied conversion rate from one external unit into internal minor units. For `ORC`, one unit of this rate equals one ORC minor unit at fixed scale `2`. |
+| [`internal/fee-amount`](#field-internal-fee-amount) | `no` | integer | Internal minor-unit amount credited to the fee destination account. For `ORC`, the value uses ORC minor units with fixed scale `2`. |
 | [`external/provider`](#field-external-provider) | `no` | string | Payment service provider or banking rail label used by the gateway. |
 | [`exchange-policy/ref`](#field-exchange-policy-ref) | `no` | string | Optional reference to the gateway-side pricing or exchange policy in force for this event. |
 | [`notes`](#field-notes) | `no` | string | Optional human-readable notes. |
@@ -174,7 +174,7 @@ External settlement currency or tender symbol.
 - Required: `yes`
 - Shape: integer
 
-Net amount credited or debited to `account/id` in internal minor units.
+Net amount credited or debited to `account/id` in internal minor units. For `ORC`, the value uses ORC minor units with fixed scale `2`.
 
 <a id="field-internal-currency"></a>
 ## `internal/currency`
@@ -182,7 +182,7 @@ Net amount credited or debited to `account/id` in internal minor units.
 - Required: `yes`
 - Shape: const: `ORC`
 
-Internal settlement unit used by the supervised ledger in MVP.
+Internal settlement unit used by the supervised ledger in MVP. `ORC` uses fixed decimal scale `2`.
 
 <a id="field-account-id"></a>
 ## `account/id`
@@ -254,7 +254,7 @@ External amount remaining after explicit fee deduction.
 - Required: `no`
 - Shape: number
 
-Applied conversion rate from one external unit into internal minor units.
+Applied conversion rate from one external unit into internal minor units. For `ORC`, one unit of this rate equals one ORC minor unit at fixed scale `2`.
 
 <a id="field-internal-fee-amount"></a>
 ## `internal/fee-amount`
@@ -262,7 +262,7 @@ Applied conversion rate from one external unit into internal minor units.
 - Required: `no`
 - Shape: integer
 
-Internal minor-unit amount credited to the fee destination account.
+Internal minor-unit amount credited to the fee destination account. For `ORC`, the value uses ORC minor units with fixed scale `2`.
 
 <a id="field-external-provider"></a>
 ## `external/provider`

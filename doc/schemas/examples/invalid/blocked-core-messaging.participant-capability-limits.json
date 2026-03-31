@@ -1,0 +1,19 @@
+{
+  "schema/v": 1,
+  "participant/id": "participant:did:key:z6Mkr7wN3qY8pL1mC4vB9hT2rF6xS8uD5nK3jP7cV1mR4",
+  "recorded-at": "2026-03-29T15:40:00Z",
+  "status": "capability_limited",
+  "soft": {
+    "priority-factor": 0.45,
+    "rate-limit-factor": 0.50
+  },
+  "hard": {
+    "blocked-operations": [
+      "core/messaging",
+      "procurement/offer"
+    ],
+    "reason/ref": "review:01JVSANCTION002",
+    "decision/author": "council:did:key:z6MkC7v4Q8u2N5p9R1s3T6y8U2w4X7z9K3m5P8q1R4s6",
+    "expires-at": "2026-04-15T00:00:00Z"
+  }
+}
