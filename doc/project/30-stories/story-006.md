@@ -107,11 +107,11 @@ MVP. To keep it implementable, it should be read in two layers:
    procurement and settlement contracts until a dedicated service artifact family is
    actually standardized.
 
-Implementation-oriented reading:
+Current hard-MVP reading:
 
 | Story layer | Preferred current contract |
 |-------------|----------------------------|
-| standing offer publication | plugin-level or future `service-offer.v1` |
+| standing offer publication | `service-offer.v1` |
 | buyer selects one standing offer | host-side workflow decision |
 | priced execution contract | `procurement-contract.v1` |
 | delivered payload | `response-envelope.v1` |
@@ -128,9 +128,9 @@ implementation:
 - participant-side acceptance, rejection, and dispute as explicit operations
   rather than implicit chat convention.
 
-The service-specific concepts introduced by this story remain valuable, but they
-should be treated as a future specialization layer over the current procurement
-substrate:
+The service-specific concepts introduced by this story are no longer just
+planning-only language. In hard MVP they already exist as a local marketplace
+layer over the procurement substrate:
 
 - model backing,
 - hybrid flags,
@@ -141,15 +141,14 @@ substrate:
 
 ## Service Offer Artifact
 
-`service-offer.v1` is described here as a future exchange-facing artifact, distinct
-from `node-advertisement.v1`. `node-advertisement.v1` describes transport endpoints
-and capabilities. A service offer would describe a priced, exchange-facing service.
+`service-offer.v1` is an exchange-facing artifact distinct from
+`node-advertisement.v1`. `node-advertisement.v1` describes transport endpoints and
+capabilities. `service-offer.v1` describes one priced, exchange-facing service.
 
-For implementation planning, this artifact SHOULD be treated as future-facing and
-non-blocking for the current Node MVP. The current executable path can already ship
-the economic core of the story by reusing `procurement-contract.v1`,
-`response-envelope.v1`, and `procurement-receipt.v1`, while `Dator` keeps the
-service-catalog surface as a plugin-local or later-standardized layer.
+In hard MVP, Node already treats this artifact as the standing-offer publication
+surface for bundled or supervised provider modules such as `Dator`, while still
+reusing `procurement-contract.v1`, `response-envelope.v1`, and
+`procurement-receipt.v1` as the execution-and-settlement substrate underneath.
 
 A service offer is signed by the provider's `participant:did:key` (not by
 `node:did:key`) because it is an application-level commitment, not a transport-level
@@ -686,24 +685,22 @@ workflow/timeout                 — outer workflow timeout reached
 
 ## Open Continuation
 
-- Exact schema for a future service-publication family such as `service-offer.v1`
-  and `service-work-order.v1`, if the project still wants a distinct layer above the
-  already frozen procurement family.
-- Whether a future service-specific family should wrap, alias, or simply project to
-  `procurement-contract.v1`, `response-envelope.v1`, and `procurement-receipt.v1`
-  rather than creating a second contract universe.
+- How remote observed offers enter the same marketplace surface once the exchange
+  publication channel and catalog-listener federation are frozen beyond the current
+  deployment-local hard-MVP catalog.
 - Whether catalog listeners should index only currently valid offers or also keep
   bounded historical offer snapshots for audit and reputation purposes.
 - How queue depth, `auto-accept`, and saturation state should be represented so that
   remote buyers do not race on stale availability.
 - How hybrid human-plus-model services should expose provenance granularity beyond
   `provenance/sequence` without leaking more operator detail than necessary.
-- How `Arca` should represent idempotent retries and partial failure recovery,
-  including whether fallback provider substitution requires explicit buyer
-  authorization or can be pre-configured as policy.
+- How `Arca` should represent broader multi-provider failover and idempotent retry
+  policy once workflows move beyond the current local hard-MVP orchestration slice.
 - Whether `service-offer.v1` should carry a `reputation/min-threshold` field
   allowing providers to reject buyers below a certain reputation level.
 - How the exchange publication channel relates to the existing peer gossip and
   node-advertisement propagation — shared transport, separate channel semantics.
+- Whether gateway funding should remain operator-ingested at the local boundary or
+  move to a first-class gateway adapter and wire protocol.
 - Whether `CasualFeeders` as `org:did:key` should be able to delegate signing
   authority to multiple custodians with threshold or rotation policies (post-MVP).

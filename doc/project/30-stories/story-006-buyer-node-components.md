@@ -227,8 +227,10 @@ Why it matters:
 
 Current status:
 
-- concept present in `story-006`
-- not yet closed as a Node runtime slice
+- closed in Node hard-MVP as a committed local catalog with
+  `service-offer.v1` import, active-offer lookup, list/detail reads, and
+  supervised module publication
+- remaining gap is remote observed-offer ingest and richer catalog/operator views
 
 ### 2. Buyer-side service-order ingress
 
@@ -248,7 +250,8 @@ Why it matters:
 
 Current status:
 
-- missing
+- closed in Node hard-MVP through `service-order.v1` validation, classified
+  bridge results, and thin local control plus launcher submit surfaces
 
 ### 3. Standing-offer to procurement bridge
 
@@ -270,8 +273,12 @@ Why it matters:
 
 Current status:
 
-- procurement core exists
-- standing-offer buyer ingress does not
+- closed in Node hard-MVP: one standing offer is resolved from the active
+  catalog, buyer and organization context is attached host-side, settlement
+  reservation happens inside the write gate, and procurement is opened through
+  the existing selected-responder core
+- remaining gap is broader marketplace federation and richer operator views over
+  policy-bound rejections
 
 ### 4. Buyer-side settlement consumption surface
 
@@ -293,8 +300,11 @@ Why it matters:
 
 Current status:
 
-- settlement-policy consumption exists partially in Node
-- real host-ledger artifact consumption is not yet closed
+- closed in Node hard-MVP for deployment-local settlement:
+  account and hold reads, idempotent gateway-receipt ingestion, hold
+  create/void/release/refund/freeze, policy freezing, and dispute resolution are
+  all runtime-backed
+- remaining gap is a real gateway adapter and any later remote escrow boundary
 
 ### 5. Organization-subject consumption and acting-on-behalf-of resolution
 
@@ -318,8 +328,10 @@ Why it matters:
 
 Current status:
 
-- organization identity semantics exist in proposals and story
-- buyer-side Node runtime support is still missing
+- closed in Node hard-MVP through host-side custodian resolution and
+  organization-bound payer context during `service-order` bridge validation
+- remaining gap is richer organization storage and delegation policy beyond the
+  current local custodian map
 
 ### 6. `Arca` host capability adapter
 
@@ -341,8 +353,9 @@ Why it matters:
 
 Current status:
 
-- generic middleware runtime exists
-- buyer-oriented capability surface does not
+- closed in Node hard-MVP: `Arca` now reuses existing `/v1/` catalog,
+  execution, receipt, and settlement reads through one module auth token and
+  also consumes host-owned workflow, notification, and artifact capabilities
 
 ### 7. Workflow-run state and local output staging
 
@@ -362,8 +375,12 @@ Why it matters:
 
 Current status:
 
-- supervised middleware substrate exists
-- buyer-side workflow runtime and local sinks are still missing
+- closed in Node hard-MVP: daemon persists workflow runs and step state, `Arca`
+  orchestrates through host-owned workflow capabilities, notifications are
+  persisted, and local artifacts are written and read through host-owned module
+  roots
+- remaining gap is broader scheduling, fan-out/fan-in policy, and product-level
+  operator UX over workflow runs
 
 ## Current Node Coverage vs Buyer Needs
 
@@ -378,52 +395,39 @@ The current Node workspace already provides useful foundations:
 - settlement-policy disclosure gating,
 - stable `node-id` and `participant-id`.
 
-The buyer-side gaps for `story-006` are therefore mostly above the current core:
+The buyer-side gaps for `story-006` are therefore no longer in the core purchase
+path. They now sit mostly above the current hard-MVP slice:
 
-- service-publication and catalog layer,
-- service-order buyer ingress,
-- standing-offer buyer bridge into procurement,
-- host-ledger artifact consumption,
-- organization-bound payer resolution,
-- explicit host capability surface for `Arca`,
-- workflow-local output and notification surfaces.
+- remote or federated offer ingest beyond the local committed catalog,
+- a real gateway adapter instead of operator-only top-up intake,
+- broader organization delegation and storage semantics beyond the current local
+  custodian map,
+- richer operator/UI surfaces for workflow runs, policy-bound rejections, and
+  marketplace inventory,
+- broader workflow planning than the currently implemented local multi-step
+  orchestration.
 
 ## Recommended Implementation Order
 
-### Phase A: contracts before runtime
+The original implementation order above is now largely complete in Node hard-MVP.
+The next practical order for story-006 is:
 
-Freeze:
-
-1. `service-offer.v1`
-2. `service-order.v1`
-3. `service-order -> procurement` bridge note
-4. buyer ledger visibility note
-5. `Arca` host capability note
-
-### Phase B: buyer-side read surfaces
+### Phase E: hard-MVP product closure
 
 Implement:
 
-1. service-catalog read model,
-2. service-offer list/detail control surfaces,
-3. buyer account / hold / receipt read surfaces.
+1. gateway adapter or equivalent non-operator top-up flow,
+2. richer operator views for module registry, workflow runs, and settlement plus
+   participant restrictions,
+3. explicit execution-to-receipt joins in launcher/UI.
 
-### Phase C: buyer-side write surfaces
-
-Implement:
-
-1. `service-order` ingress,
-2. standing-offer to procurement bridge,
-3. payer-subject resolution.
-
-### Phase D: workflow-host integration
+### Phase F: marketplace beyond one local deployment
 
 Implement:
 
-1. `Arca` capability adapter,
-2. workflow-run state,
-3. local artifact bundle writing,
-4. notifications.
+1. remote observed-offer ingest and marketplace distribution semantics,
+2. catalog listener/indexer topology beyond the local committed catalog,
+3. any later remote gateway or escrow boundary.
 
 ## Hard-MVP Boundary
 
