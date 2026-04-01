@@ -5,6 +5,9 @@ Based on:
 - `doc/project/40-proposals/007-pod-identity-and-tenancy-model.md`
 - `doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`
 - `doc/project/20-memos/console-participant-identity-create-and-import.md`
+- `doc/normative/50-constitutional-ops/en/ROOT-IDENTITY-AND-NYMS.en.md` (`DIA-ROOT-ID-001`)
+- `doc/normative/50-constitutional-ops/en/ATTESTATION-PROVIDERS.en.md` (`DIA-ATTEST-PROVIDERS-001`)
+- `doc/normative/50-constitutional-ops/en/ROLE-TO-IAL-MATRIX.en.md` (`DIA-ROLE-IAL-001`)
 
 This memo defines the assurance level model for `participant:did:key:...` subjects
 in Orbiplex Node. It establishes the four-level credibility hierarchy, the
@@ -31,10 +34,41 @@ onboarding, escrow authorization — may require a minimum assurance level as a
 precondition. That contract must be defined once, at the identity layer, rather
 than reimplemented ad hoc by each consumer.
 
+## Canonical Scale: IAL0–IAL5
+
+The Orbiplex Node assurance model is grounded in the normative DIA identity
+assurance level scale defined in `ROOT-IDENTITY-AND-NYMS.en.md`
+(`DIA-ROOT-ID-001`). That scale runs from `IAL0` to `IAL5`.
+
+The four levels used by the Participant runtime map to the canonical scale as
+follows:
+
+| Runtime name       | Canonical level | Source of assurance                            |
+| :----------------- | :-------------- | :--------------------------------------------- |
+| `Unknown`          | `IAL0`          | no external attestation                        |
+| `PhoneVerified`    | `IAL1`          | phone OTP confirmation (`source_class: phone`) |
+| `GovIdVerified`    | `IAL3`          | eID, PESEL+registry, or equivalent strong source |
+| `SovereignOperator`| `IAL5`          | software-pinned key; governance designation    |
+
+`IAL2` (basic multisig pseudonym) and `IAL4` (legally/constitutionally
+unsealable pseudonym) are not exposed as distinct levels in the MVP Participant
+runtime. They remain part of the canonical DIA scale for use in federation and
+governance contexts where those levels are relevant.
+
+`GovIdVerified` maps to `IAL3` rather than `IAL2` because the supported
+verification methods (`eid`, `mobywatel`, `epuap`, PESEL via registry) all fall
+under `source_class: strong` in `ATTESTATION-PROVIDERS.en.md`, which tops out
+at `IAL3`. Reaching `IAL4` would require a separate unsealing track, which is
+out of scope for MVP.
+
+`SovereignOperator` maps to `IAL5` because it is a governance-level trust
+anchor, orthogonal to the attestation chain. It is defined as a distinct
+strength class (`sovereign`) in `ATTESTATION-PROVIDERS.en.md`.
+
 ## Relationship to NIST SP 800-63 and eIDAS
 
-This model is structurally parallel to established identity assurance frameworks,
-adapted to the Orbiplex trust model.
+The DIA `IAL0`–`IAL5` scale is structurally parallel to established identity
+assurance frameworks, adapted to the Orbiplex trust model.
 
 **NIST SP 800-63-3** defines three Identity Assurance Levels:
 
@@ -49,30 +83,31 @@ levels for electronic identification:
 - Substantial: substantial confidence, typically multi-factor authentication,
 - High: high confidence, multi-factor with physical presence or equivalent.
 
-The Orbiplex assurance levels map approximately as follows:
+The DIA canonical levels map approximately to those frameworks as follows:
 
-| Orbiplex level     | NIST SP 800-63 | eIDAS          | Basis                                    |
-| :----------------- | :------------- | :------------- | :--------------------------------------- |
-| `Unknown`          | below IAL1     | below Low      | key exists, no binding verified          |
-| `PhoneVerified`    | IAL1–IAL2      | Low–Substantial | possession factor confirmed              |
-| `GovIdVerified`    | IAL2           | Substantial–High | real-world identity proofed             |
-| `SovereignOperator`| above IAL3     | above High     | explicit governance trust anchor         |
+| DIA level | Runtime name       | NIST SP 800-63 | eIDAS            | Basis                                        |
+| :-------- | :----------------- | :------------- | :--------------- | :------------------------------------------- |
+| `IAL0`    | `Unknown`          | below IAL1     | below Low        | key exists, no binding verified              |
+| `IAL1`    | `PhoneVerified`    | IAL1           | Low              | possession factor (phone OTP)                |
+| `IAL2`    | —                  | IAL1–IAL2      | Low–Substantial  | basic multisig; not exposed in MVP runtime   |
+| `IAL3`    | `GovIdVerified`    | IAL2           | Substantial–High | strong source: eID, registry, qualified sig  |
+| `IAL4`    | —                  | IAL3           | High             | unsealable; requires separate track          |
+| `IAL5`    | `SovereignOperator`| N/A            | N/A              | software-anchored governance designation     |
 
-The mapping is approximate. Phone verification is a possession factor (something
-you have), not a full identity proofing step — so it falls between IAL1 and IAL2
-depending on implementation strength. Government ID verification reaches IAL2 or
-eIDAS Substantial assuming the verification method is robust; High or IAL3 would
-require additional physical-presence or biometric evidence, which is out of scope
-for MVP. Sovereign operator trust is an out-of-band governance designation that
-sits above any verification hierarchy.
+The mapping is approximate. NIST IAL2 aligns roughly with DIA `IAL3` because
+both require evidence-based real-world identity proofing from a strong source;
+DIA `IAL2` is the intermediate multisig fallback which has no direct NIST
+equivalent. DIA `IAL5` has no equivalent in NIST SP 800-63 or eIDAS — those
+frameworks address personal identity verification and do not define a class for
+software-distribution trust anchors.
 
 ## Assurance Levels
 
 ```
-SovereignOperator  >  GovIdVerified  >  PhoneVerified  >  Unknown
+IAL5 SovereignOperator  >  IAL3 GovIdVerified  >  IAL1 PhoneVerified  >  IAL0 Unknown
 ```
 
-### Unknown
+### IAL0 — Unknown
 
 No verification has been performed. The participant is identified only by their
 `participant:did:key:...` value. Self-declared metadata such as `nickname` or
@@ -80,7 +115,7 @@ No verification has been performed. The participant is identified only by their
 
 This is the default state for every newly created or imported participant.
 
-### PhoneVerified
+### IAL1 — PhoneVerified
 
 The participant's phone number has been confirmed via an active verification
 step (for example, SMS OTP). This establishes that the operator controlling the
@@ -88,9 +123,10 @@ participant key also controls the claimed phone number at the time of
 verification.
 
 This level does not bind the participant to a real-world legal identity. It is a
-possession-factor confirmation, not an identity proofing step.
+possession-factor confirmation, not an identity proofing step. Corresponds to
+`source_class: phone` in `ATTESTATION-PROVIDERS.en.md`.
 
-### GovIdVerified
+### IAL3 — GovIdVerified
 
 The participant has been bound to a government-issued identity record: a country
 code and a national identification number (for example, PL + PESEL, DE + personal
@@ -99,9 +135,10 @@ a delegated attester.
 
 This level provides a binding between the cryptographic participant and a
 legal-identity-level real-world entity. It is the strongest level achievable
-through claim verification.
+through claim verification in the MVP runtime. Corresponds to `source_class:
+eid`, `mobywatel`, `epuap`, or `registry` in `ATTESTATION-PROVIDERS.en.md`.
 
-### SovereignOperator
+### IAL5 — SovereignOperator
 
 The participant's public key appears in the node's sovereign operator list — a
 statically configured or compiled-in set of explicitly pinned trusted keys. This
@@ -110,7 +147,9 @@ designation is a governance decision, not a verification outcome.
 Sovereign operator status is not derived from any verification fact. It overrides
 the claim-based hierarchy entirely. A sovereign operator with no verified phone
 or government ID still holds the highest assurance level, because the trust
-anchor is the explicit key pinning, not the verification chain.
+anchor is the explicit key pinning in the software distribution, not the
+verification chain. Corresponds to `source_class: software-pinned` in
+`ATTESTATION-PROVIDERS.en.md`.
 
 ## Assurance Level as a Derived Property
 
@@ -143,26 +182,30 @@ Verification events are recorded in the stream `identity/participant-verificatio
 as append-only facts. The stream follows the same pattern as
 `identity/participant-fact.v1`.
 
-**Critical constraint: raw PII must not enter the fact log.**
+**Critical constraint: the fact log must contain no data derived from the
+verified material — not the raw value, and not any hash of it.**
 
-The fact records only the attestation event — that a verification occurred, by
-whom, and when — not the data that was verified. The raw phone number and the raw
-government ID number are processed at the boundary and discarded. Only a
-one-way hash is retained for deduplication and audit purposes.
+Phone numbers and national ID numbers (PESEL, passport, etc.) have limited
+entropy and predictable structure. A hash of such a value — even `blake3` — is
+vulnerable to brute-force enumeration: an attacker who obtains the hash can
+recover the original value by exhaustively hashing the small search space. For
+Polish phone numbers (+48 + 9 digits ≈ 10⁹ candidates) or PESEL (11 digits
+encoding birth date and gender, further reducing the effective search space),
+this attack is practical on commodity hardware.
+
+The fact therefore records only that verification occurred — by whom, and when:
 
 ```
 ParticipantVerificationFact
   | PhoneVerificationConfirmed
   |   participant_id: String        // participant:did:key:z...
-  |   phone_hash: String            // blake3(E.164-normalized number)
   |   verified_at: String           // RFC 3339
-  |   verifier_ref: String          // "sms-otp-local" | "twilio" | ...
+  |   verifier_ref: String          // reference to attestation bundle or verifier id
   |
   | GovIdVerificationConfirmed
   |   participant_id: String
   |   country_code: String          // ISO 3166-1 alpha-2, e.g. "PL"
   |   id_kind: String               // "pesel" | "nip" | "passport" | ...
-  |   id_hash: String               // blake3(country_code || id_number)
   |   verified_at: String
   |   verifier_ref: String
   |
@@ -173,20 +216,57 @@ ParticipantVerificationFact
       reason: Option<String>
 ```
 
-`blake3(country_code || id_number)` allows the node to verify a presented
-credential against the stored hash without retaining the raw value. The hash
-should be salted per-node to prevent cross-node correlation.
+`country_code` and `id_kind` are retained in `GovIdVerificationConfirmed`
+because they describe the verification method, not the verified value. They do
+not allow reconstruction of the ID number.
+
+**Local deduplication.** If the node needs to detect duplicate verification
+attempts for the same phone number or ID (for example, to prevent one number
+from being linked to multiple participants), that check must use
+`HMAC(node_secret_key, normalized_value)` in a **separate local store outside
+the fact log** — never the raw value or an unsecretted hash. The HMAC key is
+node-local and never leaves the machine. This store is mutable and deletable,
+consistent with GDPR obligations.
+
+## Attestation Bundle — What the Participant Presents
+
+When a participant presents proof of verification to another party (another
+node, a federation onboarding gate, a procurement policy check), they present
+an **attestation bundle** — a signed artifact produced by the verifying parties.
+
+The attestation bundle proves that verification occurred via the verifiers'
+signatures. It contains **no material derived from the verified data**:
+
+```
+participant-verification-attestation.v1:
+  participant_id    // participant:did:key:z...
+  claim_kind        // "phone" | "gov-id"
+  country_code?     // for gov-id: ISO 3166-1 alpha-2
+  id_kind?          // for gov-id: "pesel" | "passport" | ...
+  assurance_level   // "ial1" | "ial3"
+  verified_at
+  expires_at
+  verifier_signatures[]   // one or more verifier signatures
+```
+
+The receiving party verifies the signatures, not any hash of the participant's
+phone number or ID. The phone number and ID number are never present in the
+bundle in any form.
+
+This separation is the security boundary: the fact log records what happened
+locally; the attestation bundle is what crosses trust boundaries. Neither
+contains brute-forceable derivations of PII.
 
 ## Privacy Boundary and GDPR
 
 The append-only fact log is incompatible with GDPR Article 17 (right to
-erasure) if it contains raw personal data. Storing only hashes of PII is the
-primary mitigation: the log retains no data from which the original value
-can be reconstructed.
+erasure) if it contains personal data in any recoverable form. The design above
+satisfies this by ensuring the fact log contains no PII and no hash from which
+PII could be recovered.
 
 If the node needs to store retrievable PII for operational reasons (for example,
-to pre-fill forms or to re-present data to the operator), that data must live in
-a **separate, mutable store** outside the fact log, with:
+to re-present data to the operator), that data must live in a **separate,
+mutable store** outside the fact log, with:
 
 - explicit retention policy,
 - operator-accessible deletion path,
@@ -245,7 +325,8 @@ requirement independently.
 - The verification protocol for government ID (document scan, registry API, etc.).
 - The schema for the separate PII store, if one is introduced.
 - The format or validation rules for national ID numbers by country.
-- The hash salt derivation and storage strategy.
+- The schema for the local deduplication store using HMAC.
+- The full schema and signing contract for `participant-verification-attestation.v1`.
 - Threshold or delegated custody of assurance-level claims.
 - Cross-node or federated presentation of assurance levels.
 - The governance process for adding or removing sovereign operator keys.

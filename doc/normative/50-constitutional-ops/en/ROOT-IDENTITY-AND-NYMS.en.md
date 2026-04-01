@@ -6,9 +6,11 @@
 | :--- | :--- |
 | `policy-id` | `DIA-ROOT-ID-001` |
 | `type` | Implementing act (Level 3 of the normative hierarchy) |
-| `version` | 0.1.0-draft |
+| `version` | 0.2.0-draft |
+| `date` | 2026-03-31 |
 | `basis` | Art. III.1-9, VII.4-8, XV, XVI of the DIA Constitution; `PROCEDURAL-REPUTATION-SPEC.en.md`; `FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`; `IDENTITY-ATTESTATION-AND-RECOVERY.en.md` |
 | `mechanism status` | the data model and assurance levels are normative; concrete eID integrations remain deployment parameters |
+| `changes` | Added `IAL5` (software-anchored sovereign): a governance-level trust anchor distinct from the attestation-based chain; added strength class `sovereign`. |
 
 ---
 
@@ -240,6 +242,26 @@ Each station SHOULD have:
 | `IAL2` | basic multisig pseudonym | `multisig-basic` or equivalent `k-of-n` attestation | medium influence, lower-risk roles |
 | `IAL3` | strongly anchored pseudonym | eID, qualified signature, ePUAP, mObywatel, `multisig-audited`, or equivalent | high influence, most public-trust roles |
 | `IAL4` | legally / constitutionally unsealable pseudonym | strong anchoring + controlled disclosure procedure | highest-stakes roles and cases |
+| `IAL5` | software-anchored sovereign | explicit public key pinned in a signed software release or deployment configuration shipped with the release; governance designation, not an attestation | protocol-level trust; designated sovereign infrastructure roles; cannot be obtained through attestation |
+
+`IAL5` is categorically distinct from `IAL0`–`IAL4`. Those levels describe the
+quality of real-world identity attestation. `IAL5` describes a governance-level
+designation: the trust derives entirely from the software distribution and
+release governance process, not from any verification of the holder's identity.
+A key may hold `IAL5` designation without any associated real-world identity
+verification. Conversely, an identity verified to `IAL4` does not automatically
+hold `IAL5` — the two designations are orthogonal.
+
+The `IAL5` designation is assigned by including a public key in:
+
+- a compiled-in constant in the software binary, auditable through source code
+  review and reproducible builds, or
+- a deployment configuration artifact that is signed and distributed as part of
+  an official software release.
+
+The assignment process and its audit trail are governance artefacts, not
+attestation artefacts. Changes to the `IAL5` key set MUST be treated as
+security-critical changes equivalent to rotating a root TLS trust anchor.
 
 ### 7.2. Jurisdictions and Examples
 
@@ -261,6 +283,16 @@ A federation MUST document which mechanisms map to which `IAL` level.
 
 ### 7.2.a. `IAL` ceiling by attestation strength
 
+Three strength classes exist for assurance sources:
+
+- `weak` — low-friction sources with limited evidentiary power (e.g. phone OTP),
+- `strong` — sources with legal or organizational anchoring (e.g. eID, qualified
+  signature),
+- `sovereign` — governance-level key pinning in software distribution; not an
+  attestation method; cannot be used to upgrade identity assurance level.
+
+Rules:
+
 1. A `weak` attestation SHOULD normally top out at `IAL1`, and only
    exceptionally at `IAL2` if the federation adds safeguards against takeover
    and influence multiplication.
@@ -268,7 +300,14 @@ A federation MUST document which mechanisms map to which `IAL` level.
 2. A `strong` attestation may unlock `IAL3` and `IAL4`, according to federation
    policy and role requirements.
 
-3. A `weak -> strong` upgrade SHOULD NOT create a new `anchor-identity` if the
+3. A `sovereign` designation confers `IAL5` and is orthogonal to the attestation
+   chain. It cannot be reached by upgrading from any attestation-based level. It
+   cannot be used to satisfy minimum `IAL` requirements for roles that specify
+   `IAL1`–`IAL4` — those roles require real-world identity anchoring, which
+   `IAL5` does not provide. Roles that specifically require `IAL5` must name it
+   explicitly.
+
+4. A `weak -> strong` upgrade SHOULD NOT create a new `anchor-identity` if the
    user can simultaneously:
 
    - prove control over the existing anchor,

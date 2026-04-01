@@ -6,8 +6,9 @@
 | :--- | :--- |
 | `policy-id` | `DIA-ROLE-IAL-001` |
 | `type` | Implementing act / qualification matrix |
-| `version` | 0.1.0-draft |
-| `date` | 2026-03-12 |
+| `version` | 0.2.0-draft |
+| `date` | 2026-03-31 |
+| `changes` | Added `IAL5` row for software-anchored sovereign infrastructure roles. |
 
 ---
 
@@ -64,6 +65,7 @@ reputation and does not dynamically multiply influence.
 | FSC member | sealed chamber, unsealing quorum | `IAL4` | `0%` | no premium, only responsibility |
 | High-stake oracle | health, liberty, high-damage impact | `IAL4` | `0%` | highest control required |
 | High-stake governance | constitutional and structural roles | `IAL4` | `0%` | asymmetric accountability |
+| Software-anchored sovereign infrastructure | protocol-level trust anchors shipped with software; designated sovereign operator keys | `IAL5` | `0%` | not obtained through attestation; assigned through software release governance; orthogonal to `IAL1`–`IAL4`; does not satisfy real-world identity requirements for other role classes |
 
 ---
 

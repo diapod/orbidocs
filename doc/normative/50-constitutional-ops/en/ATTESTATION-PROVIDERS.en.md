@@ -6,8 +6,9 @@
 | :--- | :--- |
 | `policy-id` | `DIA-ATTEST-PROVIDERS-001` |
 | `type` | Implementing act / attestation-method registry |
-| `version` | 0.1.0-draft |
-| `date` | 2026-03-12 |
+| `version` | 0.2.0-draft |
+| `date` | 2026-03-31 |
+| `changes` | Added `software-pinned` source class with strength `sovereign` and max `IAL5`; clarified that `sovereign` is not an attestation-chain method. |
 
 ---
 
@@ -27,7 +28,8 @@ attestation of the identity source.
 
 ## 2. General Rules
 
-1. `weak` and `strong` are properties of attestation, not of personhood.
+1. `weak`, `strong`, and `sovereign` are properties of the assurance source,
+   not of personhood.
 
 2. The same `anchor-identity` may have many attestations of different strength over time.
 
@@ -51,7 +53,16 @@ attestation of the identity source.
 | `epuap` | trusted profile / official channel | `strong` | `IAL3` | depends on integration quality |
 | `qualified_signature` | qualified signature | `strong` | `IAL4` | preferred for high-stakes roles |
 | `registry` | formal registry data of an organization | `strong` | `IAL3` | to `IAL4` after meeting procedural requirements |
+| `software-pinned` | public key compiled into a signed software release or pinned in a signed deployment configuration distributed with the release | `sovereign` | `IAL5` | not an attestation method; confers governance-level trust anchor designation; assignment through software release governance, not through identity proofing; orthogonal to `IAL0`–`IAL4` |
 | `other` | local / experimental method | depends on validation | `IAL0-IAL2` | requires explicit federation documentation |
+
+**Note on `sovereign` strength class.** `sovereign` is not a stronger form of
+`strong` attestation. It is categorically different: the trust derives from
+explicit key pinning in the software distribution and its release governance
+process, not from any verification of the key holder's real-world identity. A
+`sovereign`-class source does not satisfy identity-proofing requirements for
+roles that specify `IAL1`–`IAL4`. It applies only where a role or policy
+explicitly names `IAL5` or `sovereign` trust anchor status.
 
 ---
 

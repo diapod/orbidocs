@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-passport:v1",
+  "title": "CapabilityPassport v1",
+  "description": "Signed delegation artifact that grants a named infrastructure capability to a target Node on behalf of a sovereign operator participant. The signed payload is the deterministic canonical JSON of the whole artifact with the `signature` field omitted. Trust derives from local policy recognising the issuer as a sovereign operator, not from the passport alone.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md",
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/project/20-memos/participant-assurance-levels.md"
+  ],
+  "required": [
+    "schema",
+    "passport_id",
+    "node_id",
+    "capability_id",
+    "scope",
+    "issued_at",
+    "issuer/participant_id",
+    "issuer/node_id",
+    "revocation_ref",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "capability-passport.v1",
+      "description": "Schema discriminator. MUST be exactly `capability-passport.v1`."
+    },
+    "passport_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^passport:capability:",
+      "description": "Stable unique identifier for this passport. MUST use the `passport:capability:` prefix."
+    },
+    "node_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Target Node receiving the delegated capability. MUST match the `node:did:key:z...` canonical format."
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Bare kebab-case capability identifier (e.g. `network-ledger`, `seed-directory`, `escrow`). Maps 1:1 to the `core/<id>` or `role/<id>` prefix used in `CapabilityAdvertisementV1`. See Proposal 025 §7 for the naming convention."
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Capability definitions MAY add required scope fields as those capabilities are specified."
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp at which this passport was issued."
+    },
+    "expires_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "RFC 3339 timestamp after which this passport MUST be treated as expired. `null` means no explicit expiry; receivers SHOULD apply a locally configured maximum TTL."
+    },
+    "issuer/participant_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical `participant:did:key:z...` identifier of the issuing participant. MUST correspond to a participant whose assurance level is `SovereignOperator` (IAL5) under the receiving Node's local policy."
+    },
+    "issuer/node_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Node on which the issuing participant acted when signing this passport."
+    },
+    "revocation_ref": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "description": "Optional reference to an out-of-band revocation endpoint or log for this passport. `null` if no external revocation surface is provided; consumers SHOULD still poll the Seed Directory revocation log."
+    },
+    "signature": {
+      "$ref": "#/$defs/ed25519Signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional informational annotations. MUST NOT alter core passport semantics."
+    }
+  },
+  "$defs": {
+    "ed25519Signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["alg", "value"],
+      "description": "Ed25519 signature over the deterministic canonical JSON of the passport with the `signature` field omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order.",
+      "properties": {
+        "alg": {
+          "const": "ed25519",
+          "description": "Signature algorithm. MUST be `ed25519` in v1."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Base64url-encoded (no padding) Ed25519 signature bytes."
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "description": "passport_id must begin with `passport:capability:` — enforced via pattern above, redundant allOf kept for explicitness.",
+      "if": {
+        "required": ["passport_id"]
+      },
+      "then": {
+        "properties": {
+          "passport_id": {
+            "pattern": "^passport:capability:"
+          }
+        }
+      }
+    }
+  ]
+}
