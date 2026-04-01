@@ -10,10 +10,10 @@
   "kyc/mode": "provider-managed",
   "payout/manual-review": true,
   "external/providers": ["stripe", "sepa"],
-  "fee/ingress-rate": 0.10,
+  "fee/ingress-basis-points": 1000,
   "fee/ingress-destination-account-id": "account:fed-pl-main:community-pool",
   "fee/ingress-min-internal-amount": 1,
-  "fee/egress-rate": null,
+  "fee/egress-basis-points": null,
   "status": "active",
   "notes": "Primary prepaid gateway policy for the main federation rail."
 }

@@ -39,10 +39,10 @@ Machine-readable schema for one trusted gateway policy binding a servicing node 
 | [`kyc/mode`](#field-kyc-mode) | `no` | enum: `none`, `provider-managed`, `manual-review` | High-level compliance posture applied to payout or top-up flows. |
 | [`payout/manual-review`](#field-payout-manual-review) | `no` | boolean | Whether outbound settlement may require manual review under this policy. |
 | [`external/providers`](#field-external-providers) | `no` | array | Named external payment providers or rails admitted under this policy. |
-| [`fee/ingress-rate`](#field-fee-ingress-rate) | `yes` | number | Fixed ingress fee rate applied on gross external top-up amount in MVP. |
+| [`fee/ingress-basis-points`](#field-fee-ingress-basis-points) | `yes` | integer | Fixed ingress fee rate applied on gross external top-up amount in basis points (`100` = 1.00%). |
 | [`fee/ingress-destination-account-id`](#field-fee-ingress-destination-account-id) | `yes` | string | Ledger account that receives ingress fee credits, typically the `community-pool`. |
 | [`fee/ingress-min-internal-amount`](#field-fee-ingress-min-internal-amount) | `yes` | integer | Minimum internal-equivalent amount below which ingress fee is not applied. |
-| [`fee/egress-rate`](#field-fee-egress-rate) | `yes` | number \| null | Optional payout-side fee rate. MVP keeps this `null` until outbound payout stabilizes. |
+| [`fee/egress-basis-points`](#field-fee-egress-basis-points) | `yes` | integer \| null | Optional payout-side fee rate in basis points (`100` = 1.00%). MVP keeps this `null` until outbound payout stabilizes. |
 | [`status`](#field-status) | `yes` | enum: `active`, `suspended`, `retired` | Administrative lifecycle state of the gateway policy. |
 | [`suspended-at`](#field-suspended-at) | `no` | string | Timestamp when the gateway policy was suspended, if applicable. |
 | [`retired-at`](#field-retired-at) | `no` | string | Timestamp when the gateway policy was retired, if applicable. |
@@ -195,13 +195,13 @@ Whether outbound settlement may require manual review under this policy.
 
 Named external payment providers or rails admitted under this policy.
 
-<a id="field-fee-ingress-rate"></a>
-## `fee/ingress-rate`
+<a id="field-fee-ingress-basis-points"></a>
+## `fee/ingress-basis-points`
 
 - Required: `yes`
-- Shape: number
+- Shape: integer
 
-Fixed ingress fee rate applied on gross external top-up amount in MVP.
+Fixed ingress fee rate applied on gross external top-up amount in basis points (`100` = 1.00%).
 
 <a id="field-fee-ingress-destination-account-id"></a>
 ## `fee/ingress-destination-account-id`
@@ -219,13 +219,13 @@ Ledger account that receives ingress fee credits, typically the `community-pool`
 
 Minimum internal-equivalent amount below which ingress fee is not applied.
 
-<a id="field-fee-egress-rate"></a>
-## `fee/egress-rate`
+<a id="field-fee-egress-basis-points"></a>
+## `fee/egress-basis-points`
 
 - Required: `yes`
-- Shape: number | null
+- Shape: integer | null
 
-Optional payout-side fee rate. MVP keeps this `null` until outbound payout stabilizes.
+Optional payout-side fee rate in basis points (`100` = 1.00%). MVP keeps this `null` until outbound payout stabilizes.
 
 <a id="field-status"></a>
 ## `status`
