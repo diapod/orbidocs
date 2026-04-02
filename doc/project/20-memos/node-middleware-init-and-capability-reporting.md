@@ -120,6 +120,8 @@ The preferred report surface is now `input_chains`, where each entry declares:
 - optional `message_types`
 - optional `filter`
 - optional `invoke_path`
+- optional `local_routes` (only valid on `inbound-local`)
+- optional `skip_generic_chain` (only valid on `inbound-local`)
 
 Current host-owned chain set:
 
@@ -178,7 +180,13 @@ transport adapters:
   - the daemon evaluates the registration after local auth classification and
     before routing the HTTP request to control or module-capability handlers,
   - the forwarded envelope is `local-input-invoke.v1`,
-  - `allow`, `rewrite`, `return`, and `reject` are meaningful there.
+  - `allow`, `rewrite`, `return`, and `reject` are meaningful there,
+  - a module may claim one or more exclusive HTTP paths through `local_routes`;
+    relative paths such as `"pong-game"` resolve to `/v1/enact/pong-game`,
+  - only one module may own one `(METHOD, path)` pair; the daemon returns `503`
+    with `Retry-After` when the owning module is not yet ready,
+  - `skip_generic_chain` controls whether the entry also participates in the
+    generic dispatch loop (see "Generic dispatch on `inbound-local`" below).
 
 `pre-send` and `audit` are currently wired to the peer response path only.
 
@@ -363,6 +371,28 @@ A module registered on `inbound-local` without `local_routes` receives every
 request that has not been stopped by an earlier handler. This is the natural
 extension point for path-agnostic concerns: generic audit trails, fallback
 responders, or experimental handlers that do not yet own a specific path.
+
+### Generic dispatch on `inbound-local`
+
+A module that declares `local_routes` on `inbound-local` but sets no
+`message_types` and no `filter` would otherwise participate in the generic
+dispatch loop for *every* local HTTP request — an unintended side-effect of
+empty `message_types` matching all messages.
+
+`skip_generic_chain` provides explicit control:
+
+- **absent** (`null`): auto-infer. The daemon skips the entry from generic
+  dispatch when all of the following hold: `chain == inbound-local`,
+  `local_routes` is non-empty, `message_types` is empty, `filter` is absent.
+  This is the sensible default for claimed-route-only modules.
+- **`false`**: force participation in generic dispatch even when the auto-infer
+  conditions are met. Use this when a module claims routes *and* wants to act
+  as a generic fallback or auditing layer on all other local requests.
+- **`true`**: unconditional early skip. The daemon skips the entry from generic
+  dispatch without evaluating any conditions.
+
+The field is only valid on `inbound-local`; the daemon rejects it on any other
+chain.
 
 ## MVP boundary
 
