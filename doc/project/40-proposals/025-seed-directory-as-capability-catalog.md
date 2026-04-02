@@ -431,7 +431,11 @@ Conditional fields:
 
 ## Implementation Notes
 
-- The Seed Directory sidecar (Python FastAPI + SQLite) gains three new tables:
+- The reference Node runtime now ships an embedded Seed Directory service
+  inside the daemon process. It keeps the same HTTP surface and SQLite schema as
+  the earlier sidecar design so deployments can still treat it as the same
+  logical service.
+- The Seed Directory persistence layer gains three capability-specific tables:
   `capability_registrations`, `capability_passports`, `revocations`.
 - `capability_registrations` indexes `(node_id, capability_id)` as primary key
   with `published_at`, `expires_at`, and a foreign key to the passport record.
@@ -475,7 +479,7 @@ Conditional fields:
 
 ### Negative
 
-- The Seed Directory sidecar grows in scope and maintenance surface.
+- The embedded Seed Directory service grows in scope and maintenance surface.
 - Consumers must implement revocation polling, adding operational complexity.
 - Self-referential bootstrap (directory passports in distribution) requires
   governance discipline for key rotation.
