@@ -37,8 +37,9 @@ The decisions of this proposal are:
 4. the buyer bridge should resolve offers optimistically and rely on
    provider-side rejection codes (`offer-expired`, `queue-saturated`) already
    present in the protocol rather than adding a pre-order reservation step,
-5. the catalog listener role should be a dedicated supervised service with its
-   own HTTP API contract, not an embedded subsystem of every Node.
+5. the catalog role should stay outside the daemon's minimal trusted core, but
+   it may be hosted either by a compatibility `catalog-listener` sidecar or by
+   the preferred `dator` middleware-owned observed-catalog path.
 
 This keeps the trusted core small:
 
@@ -47,7 +48,11 @@ This keeps the trusted core small:
 - observed offers carry explicit provenance and trust metadata and are
   admitted only after a trust check,
 - the catalog service is a bounded role that can be co-located in hard-MVP
-  deployments but carries its own responsibility boundary.
+  deployments but carries its own responsibility boundary,
+- the daemon may keep a compatibility core-owned observed-catalog path behind
+  `offer_catalog.enabled = true`, but the default deployment direction is
+  `offer_catalog.enabled = false` with middleware ownership of the inter-node
+  observed catalog.
 
 ## Context and Problem Statement
 
@@ -195,19 +200,37 @@ These codes are already part of the bridge rejection vocabulary from
 `proposal-021`. `Arca` already handles rejection and retry. No new protocol
 roundtrip is needed.
 
-### 5. Catalog Listener as a Dedicated Supervised Role
+### 5. Catalog Ownership Boundary
 
-The catalog service is not embedded in the Node daemon. It is a separately
-supervised service with its own process boundary and HTTP API contract.
+The catalog service is not part of the daemon's minimal trusted core. It is a
+bounded role with its own storage and query boundary.
 
-A Node may run a catalog service locally as a supervised `http_local_json`
-attachment, co-located for hard-MVP deployments. In that case the Node acts
-both as a provider pushing offers to it and as a buyer pulling from it.
+Two deployment shapes are valid:
 
-This co-location is an operational choice, not an architectural coupling.
-The protocol and implementation treat the catalog service as an external
-attached role reachable via the `CatalogAdapter` contract, regardless of
-whether it runs in the same OS process group.
+- compatibility shape:
+  - a separately supervised `catalog-listener` sidecar with its own HTTP API
+    contract,
+  - useful as a bounded relay or migration bridge,
+- preferred shape:
+  - `dator` owns the inter-node observed catalog as middleware,
+  - it handles `offer-catalog.fetch.request` and `offer-catalog.push` through
+    the `inbound-peer` chain,
+  - it may expose its local operator surface through module-owned
+    `/v1/enact/...` routes such as `/v1/enact/service-catalog`,
+  - it may use host capabilities such as `catalog.local.query` and
+    `peer.session.establish` to compose daemon-local offers with middleware-
+    owned observed offers and to bootstrap peer sessions without borrowing
+    transport authority.
+
+The daemon remains the authority for:
+
+- locally committed standing offers,
+- outbound `service-offer-relay.v1` dispatch,
+- local `offer-catalog` capability advertisement and passport,
+- peer-session transport.
+
+This keeps the split explicit: transport and local offer truth stay in the
+daemon; cross-node observed catalog ownership may live in middleware.
 
 ## Proposed Artifact Shapes
 
@@ -253,6 +276,26 @@ Minimum fields:
 Removal is modeled as a separate `trusted-provider-removal.v1` fact or as a
 `removed` boolean on the same record in storage. Both forms may coexist in an
 append-only fact log.
+
+### 6. Generic Catalog Substrate
+
+The implementation substrate underneath this proposal no longer needs to be
+offer-hardcoded.
+
+The shared `catalog` crate may expose generic typed primitives such as:
+
+- `CatalogRecord`,
+- `CatalogStore<T>`,
+- `ObservedCatalogStore<T>`,
+- `CatalogPredicate<T>`,
+- `CatalogResolver<T, ...>`,
+- optional durable stores such as `SqliteCatalog<T>`.
+
+Offer-specific types such as `ServiceOfferRecord`, `OfferFilter`, and relay
+contracts remain stable on top of that substrate. This keeps the marketplace
+protocol offer-specific while letting the storage and filtering mechanics be
+reused by middleware or later catalog-like roles without re-implementing
+sequence-aware upsert, expiry, or observed provenance semantics.
 
 ## Behavior Contracts
 

@@ -40,6 +40,9 @@ The decisions of this proposal are:
 6. hard-MVP discovery for delegated infrastructure capabilities is static
    config pinned by a trusted sovereign issuer, not gossip or dynamic
    marketplace discovery.
+7. capability identifiers must distinguish formal global names from
+   identity-anchored sovereign names so private or deployment-local capability
+   namespaces do not collide.
 
 This keeps the stratification clean:
 
@@ -93,6 +96,8 @@ What is missing is one general artifact that says:
   synchronous local settlement trait.
 - Freeze static-config bootstrap for the first hard-MVP network-ledger
   deployment profile.
+- Freeze the sovereign capability-id syntax and the corresponding wire-
+  advertisement projection.
 
 ## Non-Goals
 
@@ -199,6 +204,63 @@ Future phases MAY add fields such as:
 
 Receivers MUST tolerate unknown `scope` keys and MUST validate only the fields
 they understand.
+
+### 4a. Sovereign Capability Identifiers
+
+Capability ids now distinguish two classes:
+
+- formal global ids without `@`, such as `network-ledger`,
+- sovereign ids anchored in an identity, such as
+  `audio-transcription@participant:did:key:z...`.
+
+A sovereign id may also be informal, indicated by a leading `~` on the
+capability name:
+
+- `~audio-transcription@participant:did:key:z...`
+
+This gives three stable wire-level intentions:
+
+| Form | Meaning |
+| :--- | :--- |
+| `network-ledger` | formal global capability id |
+| `audio-transcription@participant:did:key:...` | sovereign formal capability |
+| `~audio-transcription@participant:did:key:...` | sovereign informal capability |
+
+Rules:
+
+- formal capability ids MUST NOT contain `@`,
+- sovereign capability ids MUST contain exactly one `@`,
+- the identity suffix after `@` is the anchor and may currently be
+  `participant:did:key:...`, `node:did:key:...`, or `org:did:key:...`,
+- the `~` informal marker applies only to sovereign capability names.
+
+This preserves backward compatibility for all existing formal ids while
+letting operators or organizations anchor private capability families in their
+own identity instead of the global bare-name namespace.
+
+### 4b. Wire Advertisement Projection for Sovereign Capabilities
+
+Capability passports keep the full sovereign id, but capability advertisements
+use a shorter wire name:
+
+- `audio-transcription@participant:did:key:z...`
+  advertises as `sovereign/audio-transcription`,
+- `~audio-transcription@participant:did:key:z...`
+  advertises as `sovereign-informal/audio-transcription`.
+
+Because the wire name alone is not enough to reconstruct the full sovereign
+capability id, `CapabilityAdvertisementV1` must also carry:
+
+- `anchor_identities = { "audio-transcription": "participant:did:key:z..." }`
+
+Receivers therefore interpret sovereign wire advertisements from the pair:
+
+- short wire name in `capabilities/core`,
+- matching anchor entry in `anchor_identities`.
+
+Formal well-known capabilities still use their stable mapped wire names such as
+`core/network-ledger` or `role/offer-catalog`. Unknown formal capabilities may
+be advertised as bare formal names without `@`.
 
 ### 5. Async `NetworkLedgerAdapter` Boundary
 

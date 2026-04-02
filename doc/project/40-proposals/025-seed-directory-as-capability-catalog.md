@@ -68,6 +68,8 @@ solves this without introducing a separate hard-coded lookup mechanism.
 - Establish the naming convention between `CapabilityAdvertisementV1` capability
   strings and capability passport `capability_id` values.
 - Support multiple capabilities per Node, each with its own passport.
+- Support sovereign capability ids plus sovereign-aware lookup filters without
+  collapsing them into the global bare-name namespace.
 
 ## Non-Goals
 
@@ -150,9 +152,15 @@ GET  /cap/{node-id}
      → 404 if node not found
 
 # Query: all nodes with a given capability
-GET  /cap?capability={capability-id}
+GET  /cap?capability={capability-id-or-wire-name}
+        [&anchor={anchor-id}]
+        [&include_formal=true|false]
+        [&include_sovereign_formal=true|false]
+        [&include_sovereign_informal=true|false]
+        [&include_sovereign=true|false]
      → { items: [ { node_id, endpoints[], capability_id, passport,
-                    published_at, expires_at } ], next, max-items }
+                    published_at, expires_at, anchor_identity, informal } ],
+          next, max-items }
 
 # Revocation log
 POST /revoke
@@ -168,6 +176,17 @@ GET  /revocations?since={cursor}
 current endpoints alongside each passport. A Node missing a current advertisement
 is returned without endpoints (`endpoints: []`) rather than being omitted; the
 consumer may still use the passport for out-of-band contact.
+
+Flag defaults:
+
+- `include_formal = true`
+- `include_sovereign_formal = true`
+- `include_sovereign_informal = false`
+- `include_sovereign` is a shortcut for both sovereign flags
+
+This keeps old `GET /cap?capability=...` callers backward-compatible while
+still suppressing informal sovereign capabilities unless the consumer asks for
+them explicitly.
 
 ### 4. Consumer Verification Flow
 
@@ -303,25 +322,37 @@ are known from the shipped passports only.
 
 ### 7. Capability Naming Convention
 
-Two naming conventions coexist and MUST map 1:1:
+Capability naming now has three related layers:
 
 | Context | Pattern | Example |
 | :--- | :--- | :--- |
-| `CapabilityAdvertisementV1` (`capabilities/core`) | `^(core\|role\|plugin)/[a-z0-9-]+` | `core/seed-directory` |
-| Capability passport `capability_id` | bare kebab-case identifier | `seed-directory` |
+| Formal wire capability name | `core/...`, `role/...`, `plugin/...`, or bare formal name | `role/seed-directory` |
+| Sovereign wire capability name | `sovereign/...` or `sovereign-informal/...` | `sovereign/audio-transcription` |
+| Capability passport `capability_id` | formal bare id or sovereign id with anchor | `seed-directory`, `audio-transcription@participant:did:key:z...` |
 
-The mapping rule: strip the `core/`, `role/`, or `plugin/` prefix from the
-advertisement string to get the passport `capability_id`.
+Formal mappings stay stable:
 
 ```
-core/seed-directory   →  seed-directory
+role/seed-directory   →  seed-directory
 core/network-ledger   →  network-ledger
 role/escrow           →  escrow
 plugin/oracle-basic   →  oracle-basic
 ```
 
-The inverse mapping is injective: `seed-directory` maps to `core/seed-directory`
-only; no two advertisement prefixes may produce the same bare identifier.
+Unknown formal capabilities may also appear as bare formal wire names and map
+to themselves.
+
+Sovereign capabilities intentionally do not have a pure-name reverse mapping.
+Instead:
+
+```
+sovereign/audio-transcription + anchor_identities["audio-transcription"]
+  → audio-transcription@participant:did:key:z...
+```
+
+Informal sovereign capabilities use the same anchor rule but carry the
+`sovereign-informal/` wire prefix and the leading `~` in the reconstructed
+passport capability id.
 
 ### 8. Critical vs. Non-Critical Capabilities
 
@@ -394,7 +425,35 @@ Conditional fields:
       "capability_id": "network-ledger",
       "passport": { /* capability-passport.v1 */ },
       "published_at": "2026-04-01T10:00:00Z",
-      "expires_at":   "2027-04-01T10:00:00Z"
+      "expires_at":   "2027-04-01T10:00:00Z",
+      "anchor_identity": null,
+      "informal": false
+    }
+  ],
+  "next": "cur:01JQCAPCUR002",
+  "max-items": 100
+}
+```
+
+### `GET /cap?capability=audio-transcription&include_sovereign=true` Response
+
+```json
+{
+  "items": [
+    {
+      "node_id": "node:did:key:z6MkAudio",
+      "endpoints": [
+        { "endpoint/url": "wss://audio.example/peer",
+          "endpoint/transport": "wss",
+          "endpoint/role": "listener",
+          "endpoint/priority": 0 }
+      ],
+      "capability_id": "audio-transcription@participant:did:key:z6MkAnchor",
+      "passport": { /* capability-passport.v1 */ },
+      "published_at": "2026-04-01T10:00:00Z",
+      "expires_at":   "2027-04-01T10:00:00Z",
+      "anchor_identity": "participant:did:key:z6MkAnchor",
+      "informal": false
     }
   ],
   "next": "cur:01JQCAPCUR002",
@@ -445,6 +504,9 @@ Conditional fields:
   `passport_id` and `signed_by` columns; it need not be duplicated.
 - `GET /cap?capability` joins `capability_registrations` with
   `node_advertisements` to return current endpoints.
+- capability registration rows should also project `anchor_identity` and
+  `informal` as derived columns from the stored passport capability id so query
+  filtering does not need to re-parse every passport blob on the hot path.
 - `POST /revoke` branches on `signed_by`:
   - `"issuer"`: verify Ed25519 against `issuer/participant_id`; check issuer is
     sovereign; check issuer matches original passport's `issuer/participant_id`.
