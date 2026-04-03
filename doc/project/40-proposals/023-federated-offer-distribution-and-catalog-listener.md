@@ -10,7 +10,7 @@ Based on:
 
 ## Status
 
-Draft
+Implemented
 
 ## Date
 
@@ -43,16 +43,15 @@ The decisions of this proposal are:
 
 This keeps the trusted core small:
 
-- the local committed catalog remains the authority for locally published
-  offers and is not changed,
+- `dator` owns the local committed catalog and participant-facing publication;
+  the daemon no longer holds a local offer write path,
 - observed offers carry explicit provenance and trust metadata and are
   admitted only after a trust check,
 - the catalog service is a bounded role that can be co-located in hard-MVP
   deployments but carries its own responsibility boundary,
-- the daemon may keep a compatibility core-owned observed-catalog path behind
-  `offer_catalog.enabled = true`, but the default deployment direction is
-  `offer_catalog.enabled = false` with middleware ownership of the inter-node
-  observed catalog.
+- `dator` owns the supply side (local standing offers, `offer-catalog.fetch.request`
+  responder) and `arca` owns the demand side (observed catalog, peer discovery,
+  combined buyer view); the daemon is catalog-free.
 
 ## Context and Problem Statement
 
@@ -62,8 +61,8 @@ provider Nodes with `Dator` attached, while `Roman` runs a buyer Node with
 
 In this shape:
 
-- provider Nodes publish `service-offer.v1` artifacts locally through the
-  `service_offer.publish` host capability,
+- provider Nodes publish `service-offer.v1` artifacts locally through `Dator`,
+  which owns the full local offer lifecycle,
 - buyer Node's `Arca` must be able to browse offers from all three providers,
   not only from the co-located provider module.
 
@@ -120,11 +119,11 @@ Offer distribution in this phase follows a hybrid model:
 
 **Push path (provider side):**
 
-When a provider Node's `service_offer.publish` host handler commits a new or
-refreshed offer locally, the daemon also calls `CatalogAdapter::notify_offer()`
-to push the offer to the configured catalog service. This is a best-effort
-side-effect after local commit: local commit is the source of truth; catalog
-push failure does not roll back the local offer.
+`Dator` owns the local offer lifecycle: it commits new or refreshed offers to
+its own storage and handles `offer-catalog.fetch.request` from peer Nodes.
+Push notification to remote catalog peers travels through the daemon-owned
+`peer.message.dispatch` host capability. Local commit is the source of truth;
+any push failure does not roll back the committed offer.
 
 **Pull path (buyer side):**
 
@@ -205,32 +204,31 @@ roundtrip is needed.
 The catalog service is not part of the daemon's minimal trusted core. It is a
 bounded role with its own storage and query boundary.
 
-Two deployment shapes are valid:
+The implemented ownership split:
 
-- compatibility shape:
-  - a separately supervised `catalog-listener` sidecar with its own HTTP API
-    contract,
-  - useful as a bounded relay or migration bridge,
-- preferred shape:
-  - `dator` owns the inter-node observed catalog as middleware,
-  - it handles `offer-catalog.fetch.request` and `offer-catalog.push` through
-    the `inbound-peer` chain,
-  - it may expose its local operator surface through module-owned
-    `/v1/enact/...` routes such as `/v1/enact/service-catalog`,
-  - it may use host capabilities such as `catalog.local.query` and
-    `peer.session.establish` to compose daemon-local offers with middleware-
-    owned observed offers and to bootstrap peer sessions without borrowing
-    transport authority.
+- `dator` is the supply side:
+  - owns local standing offers and participant-facing publication,
+  - handles `offer-catalog.fetch.request` through the `inbound-peer` chain,
+  - exposes `POST /v1/enact/offers/snapshot` for daemon-side local dispatch
+    lookups,
+- `arca` is the demand side:
+  - owns observed catalog storage (SQLite),
+  - owns trusted-provider policy,
+  - runs background peer discovery and sync,
+  - handles `offer-catalog.fetch.response` and `offer-catalog.push`,
+  - serves the combined participant-facing `GET /v1/enact/service-catalog`,
+  - uses the `catalog.local.query` host capability to include Dator's local
+    offers in the combined view,
+- `catalog-listener` remains available as a compatibility relay for
+  deployments that still need it, but is not the preferred path,
+- the daemon is catalog-free: it provides transport primitives
+  (`peer.message.dispatch`, `peer.session.establish`, `catalog.local.query`,
+  `seed.directory.query`, `capability.passport.issue`) but holds no offer
+  state itself.
 
-The daemon remains the authority for:
-
-- locally committed standing offers,
-- outbound `service-offer-relay.v1` dispatch,
-- local `offer-catalog` capability advertisement and passport,
-- peer-session transport.
-
-This keeps the split explicit: transport and local offer truth stay in the
-daemon; cross-node observed catalog ownership may live in middleware.
+This keeps the split explicit: the daemon owns transport, session lifecycle,
+and outbound `service-offer-relay.v1` relay routing; offer truth and catalog
+state live entirely in middleware.
 
 ## Proposed Artifact Shapes
 

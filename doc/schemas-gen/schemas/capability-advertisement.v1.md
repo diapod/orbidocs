@@ -30,7 +30,8 @@ Machine-readable schema for baseline capability exchange after peer session esta
 | [`published-at`](#field-published-at) | `yes` | string | Timestamp when the capability set was published. |
 | [`protocol/version`](#field-protocol-version) | `yes` | string | Protocol version for which the capability advertisement is valid. |
 | [`transport/profiles`](#field-transport-profiles) | `yes` | array | Transport profiles currently exposed by the Node. |
-| [`capabilities/core`](#field-capabilities-core) | `yes` | array | Schematic capability identifiers supported by the Node. MVP capability advertisement is intentionally limited to a narrow core and MUST at least include `core/messaging`. |
+| [`capabilities/core`](#field-capabilities-core) | `yes` | array | Wire-visible capability identifiers supported by the Node. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/` or `sovereign-informal/`, and unknown formal capabilities may be advertised as bare names. |
+| [`anchor_identities`](#field-anchor-identities) | `no` | object | Optional sovereign capability anchor map keyed by the sovereign short name. Empty or absent for formal capabilities. |
 | [`roles/attached`](#field-roles-attached) | `no` | array | Optional attached roles or plugin-process capabilities visible at the Node boundary. Not required in MVP. |
 | [`surfaces/exposed`](#field-surfaces-exposed) | `no` | array | Exposed APIs, channels, or queues that can be used by peers or attached roles. |
 | [`messages/supported`](#field-messages-supported) | `yes` | array | Protocol message families currently supported by the Node. |
@@ -120,7 +121,15 @@ Transport profiles currently exposed by the Node.
 - Required: `yes`
 - Shape: array
 
-Schematic capability identifiers supported by the Node. MVP capability advertisement is intentionally limited to a narrow core and MUST at least include `core/messaging`.
+Wire-visible capability identifiers supported by the Node. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/` or `sovereign-informal/`, and unknown formal capabilities may be advertised as bare names.
+
+<a id="field-anchor-identities"></a>
+## `anchor_identities`
+
+- Required: `no`
+- Shape: object
+
+Optional sovereign capability anchor map keyed by the sovereign short name. Empty or absent for formal capabilities.
 
 <a id="field-roles-attached"></a>
 ## `roles/attached`

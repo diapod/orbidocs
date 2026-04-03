@@ -38,7 +38,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md) | `16` | `15` | `yes` | `yes` | `1` | `1` |
 | [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
-| [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
+| [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `1` |
 | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md) | `11` | `10` | `yes` | `yes` | `0` | `0` |
 | [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | `12` | `11` | `yes` | `yes` | `0` | `0` |
 | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |

@@ -217,9 +217,9 @@ Responsibilities:
 - attach those modules through the host-owned `http_local_json` connector/executor,
 - expose `middleware.dator` and `middleware.arca` as operator-visible components
   with lifecycle, readiness, and restart state,
-- keep local standing offers and outbound relay transport in the daemon, while
-  allowing middleware such as `Dator` to own the observed inter-node catalog
-  path when `offer_catalog.enabled = false`,
+- delegate local standing offer lifecycle and participant-facing publication to
+  `Dator`, while keeping outbound relay transport and peer-session routing in
+  the daemon,
 - expose host capabilities such as `catalog.local.query` and
   `peer.session.establish` so middleware may compose daemon-local offers with
   middleware-owned observed offers without taking ownership of peer transport,
@@ -231,7 +231,7 @@ Responsibilities:
   without yielding direct transport or publication authority to the middleware.
 
 Status:
-- `todo`
+- `done`
 
 ### Local Learning and Knowledge Promotion
 
