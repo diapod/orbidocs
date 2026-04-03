@@ -67,9 +67,17 @@
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "pattern": "^(core|role|plugin)/[a-z0-9-]+(?:/[a-z0-9-]+)*$"
+        "pattern": "^((core|role|plugin)/[a-z0-9-]+(?:/[a-z0-9-]+)*|(sovereign|sovereign-informal)/[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*|[A-Za-z0-9_-]+)$"
       },
-      "description": "Schematic capability identifiers supported by the Node. MVP capability advertisement is intentionally limited to a narrow core and MUST at least include `core/messaging`."
+      "description": "Wire-visible capability identifiers supported by the Node. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/` or `sovereign-informal/`, and unknown formal capabilities may be advertised as bare names."
+    },
+    "anchor_identities": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional sovereign capability anchor map keyed by the sovereign short name. Empty or absent for formal capabilities."
     },
     "roles/attached": {
       "type": "array",

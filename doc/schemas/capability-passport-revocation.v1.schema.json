@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-passport-revocation:v1",
+  "title": "CapabilityPassportRevocation v1",
+  "description": "Signed revocation artifact that invalidates a previously issued `capability-passport.v1`. Two signing authorities are recognised: the original issuer (sovereign operator who granted the capability) and the subject node (self-revocation by the node whose capability is being withdrawn). The `signed_by` field discriminates between the two paths. The Seed Directory appends accepted revocations to its append-only revocation log; consumers MUST poll `GET /revocations?since=` and immediately invalidate any cached passport whose `passport_id` appears in the log.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+  ],
+  "required": [
+    "schema",
+    "revocation_id",
+    "passport_id",
+    "node_id",
+    "capability_id",
+    "revoked_at",
+    "signed_by",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "capability-passport-revocation.v1",
+      "description": "Schema discriminator. MUST be exactly `capability-passport-revocation.v1`."
+    },
+    "revocation_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^passport-revocation:",
+      "description": "Stable unique identifier for this revocation record. MUST use the `passport-revocation:` prefix."
+    },
+    "passport_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^passport:capability:",
+      "description": "Identifier of the `capability-passport.v1` being revoked. MUST use the `passport:capability:` prefix and MUST match an existing passport known to the verifying party."
+    },
+    "node_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Node whose delegated capability is being revoked. MUST match the `node_id` in the original passport."
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Bare kebab-case capability identifier being revoked (e.g. `network-ledger`). MUST match the `capability_id` in the original passport."
+    },
+    "revoked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp at which the revocation was declared. The Seed Directory MUST store this timestamp in the revocation log entry."
+    },
+    "signed_by": {
+      "type": "string",
+      "enum": ["issuer", "subject"],
+      "description": "Who signed this revocation. `issuer` — the sovereign operator participant who originally issued the passport (uses `issuer/participant_id`). `subject` — the target node revoking its own capability using its node key (no `issuer/participant_id`; the signer public key is derived from `node_id`)."
+    },
+    "issuer/participant_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical `participant:did:key:z...` identifier of the revoking participant. REQUIRED when `signed_by == \"issuer\"` and MUST match `issuer/participant_id` in the original passport. MUST NOT be present when `signed_by == \"subject\"`."
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional human-readable note explaining why the passport was revoked (e.g. `operator key rotation`, `node decommissioned`). Not machine-interpreted; informational only."
+    },
+    "signature": {
+      "$ref": "#/$defs/ed25519Signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional informational annotations. MUST NOT alter revocation semantics."
+    }
+  },
+  "$defs": {
+    "ed25519Signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["alg", "value"],
+      "description": "Ed25519 signature over the deterministic canonical JSON of the revocation artifact with the `signature` field omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. For `signed_by == \"issuer\"` the signing key belongs to `issuer/participant_id`; for `signed_by == \"subject\"` the signing key belongs to the node identified by `node_id`.",
+      "properties": {
+        "alg": {
+          "const": "ed25519",
+          "description": "Signature algorithm. MUST be `ed25519` in v1."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Base64url-encoded (no padding) Ed25519 signature bytes."
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "description": "When signed_by == issuer: issuer/participant_id is required.",
+      "if": {
+        "properties": { "signed_by": { "const": "issuer" } },
+        "required": ["signed_by"]
+      },
+      "then": {
+        "required": ["issuer/participant_id"]
+      }
+    },
+    {
+      "description": "When signed_by == subject: issuer/participant_id MUST NOT be present; the signer public key is derived from node_id.",
+      "if": {
+        "properties": { "signed_by": { "const": "subject" } },
+        "required": ["signed_by"]
+      },
+      "then": {
+        "properties": {
+          "issuer/participant_id": false
+        }
+      }
+    }
+  ]
+}

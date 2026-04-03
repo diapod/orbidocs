@@ -22,10 +22,10 @@
     "operator/org-ref",
     "settlement/unit",
     "supported/directions",
-    "fee/ingress-rate",
+    "fee/ingress-basis-points",
     "fee/ingress-destination-account-id",
     "fee/ingress-min-internal-amount",
-    "fee/egress-rate",
+    "fee/egress-basis-points",
     "status"
   ],
   "properties": {
@@ -90,11 +90,11 @@
       },
       "description": "Named external payment providers or rails admitted under this policy."
     },
-    "fee/ingress-rate": {
-      "type": "number",
-      "exclusiveMinimum": 0,
-      "maximum": 1,
-      "description": "Fixed ingress fee rate applied on gross external top-up amount in MVP."
+    "fee/ingress-basis-points": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000,
+      "description": "Fixed ingress fee rate applied on gross external top-up amount in basis points (`100` = 1.00%)."
     },
     "fee/ingress-destination-account-id": {
       "type": "string",
@@ -106,11 +106,11 @@
       "minimum": 0,
       "description": "Minimum internal-equivalent amount below which ingress fee is not applied."
     },
-    "fee/egress-rate": {
-      "type": ["number", "null"],
+    "fee/egress-basis-points": {
+      "type": ["integer", "null"],
       "minimum": 0,
-      "maximum": 1,
-      "description": "Optional payout-side fee rate. MVP keeps this `null` until outbound payout stabilizes."
+      "maximum": 10000,
+      "description": "Optional payout-side fee rate in basis points (`100` = 1.00%). MVP keeps this `null` until outbound payout stabilizes."
     },
     "status": {
       "type": "string",

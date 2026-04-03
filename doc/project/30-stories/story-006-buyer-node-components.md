@@ -426,7 +426,8 @@ Implement:
 Implement:
 
 1. remote observed-offer ingest and marketplace distribution semantics,
-2. catalog listener/indexer topology beyond the local committed catalog,
+2. service-catalog topology beyond the local committed catalog, including a
+   middleware-owned observed catalog path,
 3. any later remote gateway or escrow boundary.
 
 ## Hard-MVP Boundary

@@ -240,11 +240,12 @@ in one deployment.
    enforces settlement timeout semantics, and preserves the settlement-side audit
    trail for paid procurement.
 
-5. `service-catalog listener/indexer`
+5. `service-catalog role`
 
-   A catalog service or Node listens to exchange-offer publications on the
-   commercial exchange channel, indexes active `service-offer.v1` artifacts, and
-   exposes search/browse surfaces to buyers.
+   A bounded catalog role or Node-owned middleware keeps observed remote
+   `service-offer.v1` artifacts, answers fetch requests, and exposes
+   search/browse surfaces to buyers. In the preferred hard-MVP path this may be
+   owned by `Dator`; a dedicated listener/indexer remains a compatibility shape.
 
 6. `arbiter node` (optional or policy-dependent)
 
@@ -686,9 +687,9 @@ workflow/timeout                 — outer workflow timeout reached
 ## Open Continuation
 
 - How remote observed offers enter the same marketplace surface once the exchange
-  publication channel and catalog-listener federation are frozen beyond the current
-  deployment-local hard-MVP catalog.
-- Whether catalog listeners should index only currently valid offers or also keep
+  publication channel and middleware-owned or dedicated catalog federation are
+  frozen beyond the current deployment-local hard-MVP catalog.
+- Whether catalog owners should index only currently valid offers or also keep
   bounded historical offer snapshots for audit and reputation purposes.
 - How queue depth, `auto-accept`, and saturation state should be represented so that
   remote buyers do not race on stale availability.

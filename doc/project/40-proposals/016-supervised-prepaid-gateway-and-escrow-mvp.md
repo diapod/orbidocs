@@ -326,6 +326,22 @@ same stack as the rest of the protocol family:
 This keeps gateway fee and rate disclosures auditable as first-class signed facts
 rather than as mutable gateway-local hints.
 
+### Value ingress paths
+
+Two paths exist for value to enter the system via `gateway-receipt.v1`:
+
+**Automated gateway path** — an external payment processor confirms a
+transaction; the gateway node signs the receipt and applies it to the ledger.
+Participants: external processor · gateway node · ledger.
+
+**Sovereign manual path** — no external processor is involved. An operator
+holding a key at the highest trust level (IAL5, sovereign operator) attests
+that value was received out-of-band and signs the receipt directly.
+Participants: sovereign operator · ledger.
+
+The receipt artifact is identical in both cases. The difference is the
+signer and the verification of their authority.
+
 ### 5. `community-pool-disbursement.v1`
 
 Purpose:

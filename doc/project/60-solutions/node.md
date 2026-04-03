@@ -188,9 +188,10 @@ shape around Node should be made explicit:
   trusted ORC ingress/egress boundary emitting `gateway-receipt.v1`.
 - `escrow supervisor node`
   trusted settlement authority creating and releasing `ledger-hold.v1`.
-- `service-catalog listener/indexer`
-  listener over the exchange publication channel indexing active `service-offer`
-  artifacts for discovery.
+- `service-catalog role`
+  bounded catalog ownership for remote observed offers and fetch/push exchange;
+  in the preferred deployment this is owned by `Dator`, while
+  `catalog-listener` remains a compatibility relay.
 - `arbiter node`
   optional or policy-dependent role for `arbiter-confirmed` and dispute paths.
 
@@ -216,6 +217,12 @@ Responsibilities:
 - attach those modules through the host-owned `http_local_json` connector/executor,
 - expose `middleware.dator` and `middleware.arca` as operator-visible components
   with lifecycle, readiness, and restart state,
+- delegate local standing offer lifecycle and participant-facing publication to
+  `Dator`, while keeping outbound relay transport and peer-session routing in
+  the daemon,
+- expose host capabilities such as `catalog.local.query` and
+  `peer.session.establish` so middleware may compose daemon-local offers with
+  middleware-owned observed offers without taking ownership of peer transport,
 - keep bundled middleware under the same host-owned envelope and policy contracts
   as any future replaceable external module,
 - remain the future host-granted capability surface for local modules such as
@@ -224,7 +231,7 @@ Responsibilities:
   without yielding direct transport or publication authority to the middleware.
 
 Status:
-- `todo`
+- `done`
 
 ### Local Learning and Knowledge Promotion
 

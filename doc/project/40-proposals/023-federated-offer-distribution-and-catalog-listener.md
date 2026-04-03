@@ -10,7 +10,7 @@ Based on:
 
 ## Status
 
-Draft
+Implemented
 
 ## Date
 
@@ -37,17 +37,21 @@ The decisions of this proposal are:
 4. the buyer bridge should resolve offers optimistically and rely on
    provider-side rejection codes (`offer-expired`, `queue-saturated`) already
    present in the protocol rather than adding a pre-order reservation step,
-5. the catalog listener role should be a dedicated supervised service with its
-   own HTTP API contract, not an embedded subsystem of every Node.
+5. the catalog role should stay outside the daemon's minimal trusted core, but
+   it may be hosted either by a compatibility `catalog-listener` sidecar or by
+   the preferred `dator` middleware-owned observed-catalog path.
 
 This keeps the trusted core small:
 
-- the local committed catalog remains the authority for locally published
-  offers and is not changed,
+- `dator` owns the local committed catalog and participant-facing publication;
+  the daemon no longer holds a local offer write path,
 - observed offers carry explicit provenance and trust metadata and are
   admitted only after a trust check,
 - the catalog service is a bounded role that can be co-located in hard-MVP
-  deployments but carries its own responsibility boundary.
+  deployments but carries its own responsibility boundary,
+- `dator` owns the supply side (local standing offers, `offer-catalog.fetch.request`
+  responder) and `arca` owns the demand side (observed catalog, peer discovery,
+  combined buyer view); the daemon is catalog-free.
 
 ## Context and Problem Statement
 
@@ -57,8 +61,8 @@ provider Nodes with `Dator` attached, while `Roman` runs a buyer Node with
 
 In this shape:
 
-- provider Nodes publish `service-offer.v1` artifacts locally through the
-  `service_offer.publish` host capability,
+- provider Nodes publish `service-offer.v1` artifacts locally through `Dator`,
+  which owns the full local offer lifecycle,
 - buyer Node's `Arca` must be able to browse offers from all three providers,
   not only from the co-located provider module.
 
@@ -115,11 +119,11 @@ Offer distribution in this phase follows a hybrid model:
 
 **Push path (provider side):**
 
-When a provider Node's `service_offer.publish` host handler commits a new or
-refreshed offer locally, the daemon also calls `CatalogAdapter::notify_offer()`
-to push the offer to the configured catalog service. This is a best-effort
-side-effect after local commit: local commit is the source of truth; catalog
-push failure does not roll back the local offer.
+`Dator` owns the local offer lifecycle: it commits new or refreshed offers to
+its own storage and handles `offer-catalog.fetch.request` from peer Nodes.
+Push notification to remote catalog peers travels through the daemon-owned
+`peer.message.dispatch` host capability. Local commit is the source of truth;
+any push failure does not roll back the committed offer.
 
 **Pull path (buyer side):**
 
@@ -195,19 +199,36 @@ These codes are already part of the bridge rejection vocabulary from
 `proposal-021`. `Arca` already handles rejection and retry. No new protocol
 roundtrip is needed.
 
-### 5. Catalog Listener as a Dedicated Supervised Role
+### 5. Catalog Ownership Boundary
 
-The catalog service is not embedded in the Node daemon. It is a separately
-supervised service with its own process boundary and HTTP API contract.
+The catalog service is not part of the daemon's minimal trusted core. It is a
+bounded role with its own storage and query boundary.
 
-A Node may run a catalog service locally as a supervised `http_local_json`
-attachment, co-located for hard-MVP deployments. In that case the Node acts
-both as a provider pushing offers to it and as a buyer pulling from it.
+The implemented ownership split:
 
-This co-location is an operational choice, not an architectural coupling.
-The protocol and implementation treat the catalog service as an external
-attached role reachable via the `CatalogAdapter` contract, regardless of
-whether it runs in the same OS process group.
+- `dator` is the supply side:
+  - owns local standing offers and participant-facing publication,
+  - handles `offer-catalog.fetch.request` through the `inbound-peer` chain,
+  - exposes `POST /v1/enact/offers/snapshot` for daemon-side local dispatch
+    lookups,
+- `arca` is the demand side:
+  - owns observed catalog storage (SQLite),
+  - owns trusted-provider policy,
+  - runs background peer discovery and sync,
+  - handles `offer-catalog.fetch.response` and `offer-catalog.push`,
+  - serves the combined participant-facing `GET /v1/enact/service-catalog`,
+  - uses the `catalog.local.query` host capability to include Dator's local
+    offers in the combined view,
+- `catalog-listener` remains available as a compatibility relay for
+  deployments that still need it, but is not the preferred path,
+- the daemon is catalog-free: it provides transport primitives
+  (`peer.message.dispatch`, `peer.session.establish`, `catalog.local.query`,
+  `seed.directory.query`, `capability.passport.issue`) but holds no offer
+  state itself.
+
+This keeps the split explicit: the daemon owns transport, session lifecycle,
+and outbound `service-offer-relay.v1` relay routing; offer truth and catalog
+state live entirely in middleware.
 
 ## Proposed Artifact Shapes
 
@@ -253,6 +274,26 @@ Minimum fields:
 Removal is modeled as a separate `trusted-provider-removal.v1` fact or as a
 `removed` boolean on the same record in storage. Both forms may coexist in an
 append-only fact log.
+
+### 6. Generic Catalog Substrate
+
+The implementation substrate underneath this proposal no longer needs to be
+offer-hardcoded.
+
+The shared `catalog` crate may expose generic typed primitives such as:
+
+- `CatalogRecord`,
+- `CatalogStore<T>`,
+- `ObservedCatalogStore<T>`,
+- `CatalogPredicate<T>`,
+- `CatalogResolver<T, ...>`,
+- optional durable stores such as `SqliteCatalog<T>`.
+
+Offer-specific types such as `ServiceOfferRecord`, `OfferFilter`, and relay
+contracts remain stable on top of that substrate. This keeps the marketplace
+protocol offer-specific while letting the storage and filtering mechanics be
+reused by middleware or later catalog-like roles without re-implementing
+sequence-aware upsert, expiry, or observed provenance semantics.
 
 ## Behavior Contracts
 
