@@ -109,6 +109,38 @@ The implementation specifics should also live in:
 
 because the host/runtime details are repository-local.
 
+## Factory config, node config, and runtime projection
+
+Middleware config layering should stay explicit and stratified.
+
+Three layers exist:
+
+1. `factory_config`
+   - comes from bundled middleware defaults under
+     `middleware-modules/<service-dir>/config/*.json`
+   - expresses only the module's own typed defaults such as `dator`,
+     `catalog_listener`, or `arca`
+2. `node_config`
+   - comes from `<data_dir>/config/*.json`
+   - expresses operator overrides and node-level policy
+3. `effective_runtime_config`
+   - built by the daemon as `deep_merge(factory_config, node_config)`
+   - then enriched with host-owned runtime projections
+
+Seeded node-level middleware fragments should therefore stay narrow. When the
+daemon materializes a missing `50-<module-key>.json`, that file should contain
+only `{ "<module-key>": { ...factory defaults... } }`.
+
+Host-owned runtime sections such as:
+
+- `middleware_http_local_services`
+- bridge defaults like `offer_catalog.dator_dispatch_url`
+
+belong to the runtime projection layer. They may be visible in resolved daemon
+config and diagnostics, but they should not be persisted back into the seeded
+factory fragments. That keeps the operator-facing files clean and preserves the
+boundary between module defaults, node overrides, and host execution strategy.
+
 ## Transport-defined chain attachments
 
 Middleware registration should describe transport attachment points, not domain
