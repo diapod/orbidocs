@@ -216,6 +216,25 @@ least:
 - bounded restart policy,
 - owning daemon component id.
 
+This runtime configuration should be treated as a projection, not as the
+factory source of truth for the middleware itself.
+
+Recommended layering:
+
+1. bundled middleware factory config lives under
+   `middleware-modules/<service-dir>/config/*.json`
+2. node operator config lives under `<data_dir>/config/*.json`
+3. the daemon builds one effective runtime config as
+   `deep_merge(factory_config, node_config)`
+4. the daemon then projects host-owned runtime sections such as supervised
+   executor stanzas and local bridge URLs
+
+The important boundary is that seeded operator-visible fragments such as
+`50-<module-key>.json` should contain only the middleware subtree
+`{ "<module-key>": { ... } }`. Host-owned runtime sections are visible in the
+resolved runtime config, but should not be written back into those seeded
+factory fragments.
+
 The hard MVP should assume at least two bundled supervised middleware component
 profiles:
 
