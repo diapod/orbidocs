@@ -40,8 +40,15 @@ is a bounded way for nodes to share socially meaningful weak signals such as:
 
 - "people in different places may be experiencing the same organizational abuse",
 - "users may be hitting the same harmful moderation pattern",
-- "a dignity or safety issue may be distributed rather than isolated.",
-- "ambulance refusal followed by severe complications may be repeating as a systemic emergency-care failure rather than as isolated bad luck."
+- "a dignity or safety issue may be distributed rather than isolated",
+- "ambulance refusal followed by severe complications may be repeating as a systemic emergency-care failure rather than as isolated bad luck",
+- "independent inventors in different countries appear to be converging on the same technical approach without prior contact",
+- "several communities have independently bootstrapped structurally similar solutions to an unmet need".
+
+The second class of signal — inspiration convergence — is as important as the first.
+Where problem signals serve early detection and collective response, inspiration signals
+serve co-creation: connecting people who have independently arrived at a similar idea
+before their paths diverge irrecoverably. Both polarities deserve first-class support.
 
 Without an explicit social-signal layer, nodes either:
 
@@ -97,6 +104,27 @@ Transport anonymity remains a separate concern:
   fail.
 
 ## Proposed Model
+
+### 0. Signal polarity
+
+A `whisper-signal` carries one of two fundamental polarities:
+
+- **`problem`** — the signal describes a distributed harm, failure, or dignity risk.
+  The lifecycle goal is early correlation and, where critical mass is reached,
+  collective response or protective action. Risk grade applies. Emergency assistance
+  paths may be triggered.
+- **`inspiration`** — the signal describes a convergent idea, creative discovery, or
+  emerging approach that multiple people or groups appear to have independently
+  reached. The lifecycle goal is to propose co-creation or collaboration between
+  parties who have not yet found one another. Risk grade does not apply. Emergency
+  protocols are never triggered.
+
+`signal_polarity` is a mandatory field on `whisper-signal.v1`. The two polarities
+share the same lifecycle but differ in urgency, redaction posture, and the nature of
+the resulting association room:
+
+- problem → support, coordination, or protective response room,
+- inspiration → co-creation or collaboration room.
 
 ### 1. Rumor semantics remain explicit
 
@@ -235,6 +263,7 @@ The likely first contract family is:
 
 `whisper-signal.v1` should be the first concrete artifact that embeds:
 
+- `signal_polarity` (`problem` | `inspiration`),
 - `rumor/nym`,
 - attached `nym-certificate`,
 - and a `nym` signature over the artifact body.
@@ -279,7 +308,9 @@ that should remain visible as well.
 
 ## Open Questions
 
-1. What exact threshold function should be used:
+1. Should `inspiration` signals use a different threshold function than `problem`
+   signals (e.g. lower count, broader geographic diversity requirement)?
+2. What exact threshold function should be used:
    - distinct nodes only,
    - trust-tier weighted,
    - or diversity-constrained?

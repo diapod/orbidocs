@@ -217,12 +217,12 @@ The implemented ownership split:
   - runs background peer discovery and sync,
   - handles `offer-catalog.fetch.response` and `offer-catalog.push`,
   - serves the combined participant-facing `GET /v1/enact/service-catalog`,
-  - uses the `catalog.local.query` host capability to include Dator's local
+  - uses the `offers.local.query` host capability to include Dator's local
     offers in the combined view,
 - `catalog-listener` remains available as a compatibility relay for
   deployments that still need it, but is not the preferred path,
 - the daemon is catalog-free: it provides transport primitives
-  (`peer.message.dispatch`, `peer.session.establish`, `catalog.local.query`,
+  (`peer.message.dispatch`, `peer.session.establish`, `offers.local.query`,
   `seed.directory.query`, `capability.passport.issue`) but holds no offer
   state itself.
 

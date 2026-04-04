@@ -220,7 +220,7 @@ Responsibilities:
 - delegate local standing offer lifecycle and participant-facing publication to
   `Dator`, while keeping outbound relay transport and peer-session routing in
   the daemon,
-- expose host capabilities such as `catalog.local.query` and
+- expose host capabilities such as `offers.local.query` and
   `peer.session.establish` so middleware may compose daemon-local offers with
   middleware-owned observed offers without taking ownership of peer transport,
 - keep bundled middleware under the same host-owned envelope and policy contracts
