@@ -118,8 +118,7 @@ Three layers exist:
 1. `factory_config`
    - comes from bundled middleware defaults under
      `middleware-modules/<service-dir>/config/*.json`
-   - expresses only the module's own typed defaults such as `dator`,
-     `catalog_listener`, or `arca`
+   - expresses only the module's own typed defaults such as `dator` or `arca`
 2. `node_config`
    - comes from `<data_dir>/config/*.json`
    - expresses operator overrides and node-level policy
@@ -129,17 +128,28 @@ Three layers exist:
 
 Seeded node-level middleware fragments should therefore stay narrow. When the
 daemon materializes a missing `50-<module-key>.json`, that file should contain
-only `{ "<module-key>": { ...factory defaults... } }`.
+only `{ "<module-key>": { ...factory defaults... } }`. Only factory entries
+with `seed_config = true` should be materialized this way; bundled modules
+without that flag remain opt-in until the operator defines their top-level
+subtree in node config.
 
 Host-owned runtime sections such as:
 
 - `middleware_http_local_services`
-- bridge defaults like `offer_catalog.dator_dispatch_url`
 
 belong to the runtime projection layer. They may be visible in resolved daemon
 config and diagnostics, but they should not be persisted back into the seeded
 factory fragments. That keeps the operator-facing files clean and preserves the
 boundary between module defaults, node overrides, and host execution strategy.
+
+The same separation now applies to daemon-state checkpointing:
+
+- operator config may set `state_checkpoint_interval_ms`,
+- the resulting checkpoint artifact lives under
+  `<data_dir>/storage/checkpoints/daemon-state.v1.json`,
+- the checkpoint file is part of runtime state and diagnostics,
+- it is not part of factory middleware config and must never be projected back
+  into seeded `50-<module-key>.json` fragments.
 
 ## Transport-defined chain attachments
 

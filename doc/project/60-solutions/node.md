@@ -190,8 +190,7 @@ shape around Node should be made explicit:
   trusted settlement authority creating and releasing `ledger-hold.v1`.
 - `service-catalog role`
   bounded catalog ownership for remote observed offers and fetch/push exchange;
-  in the preferred deployment this is owned by `Dator`, while
-  `catalog-listener` remains a compatibility relay.
+  owned by `Dator` (supply) and `Arca` (demand) in the standard deployment.
 - `arbiter node`
   optional or policy-dependent role for `arbiter-confirmed` and dispute paths.
 
