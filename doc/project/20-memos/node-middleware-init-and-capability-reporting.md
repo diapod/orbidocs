@@ -151,6 +151,15 @@ The same separation now applies to daemon-state checkpointing:
 - it is not part of factory middleware config and must never be projected back
   into seeded `50-<module-key>.json` fragments.
 
+The same principle applies to machine-readable contract artifacts published by
+the host:
+
+- runtime read models such as the local service-offer snapshot may be exposed as
+  read-only JSON Schema under endpoints like `/v1/schemas/service-offer-snapshot`,
+- middleware may consume those artifacts for validation and diagnostics,
+- but the schema artifacts remain host-owned runtime surfaces, not module
+  factory config.
+
 ## Transport-defined chain attachments
 
 Middleware registration should describe transport attachment points, not domain

@@ -219,6 +219,23 @@ least:
 This runtime configuration should be treated as a projection, not as the
 factory source of truth for the middleware itself.
 
+The same supervised shape benefits from host-published contract artifacts.
+For catalog-oriented middleware this means:
+
+- the daemon may publish read-only JSON Schema for host-visible record or
+  snapshot shapes such as `/v1/schemas/service-offer-snapshot`,
+- bundled Python modules may fetch those artifacts at runtime and validate
+  emitted JSON before persisting or returning it,
+- shared helper libraries such as `middleware-modules/lib/catalog.py` should
+  mirror only the storage mechanics and contract edges, not take over host
+  ownership of the actual catalogs,
+- that helper layer should keep its abstract `CatalogStore` semantic
+  (`upsert/get/list/delete/expire`) and push SQLite-specific row layout into an
+  explicit codec/projection layer rather than leaking table concerns through
+  the abstract store contract,
+- lightweight local schema validation should fail fast on unsupported features
+  such as `$ref` instead of silently treating them as valid.
+
 Bundled middleware defaults and daemon runtime projections should remain
 separate:
 
