@@ -17,3 +17,7 @@ Node-scoped roles may later appear here as separate components even if they are 
 ## Generated Views
 
 - [Solution Capability Matrix](CAPABILITY-MATRIX.en.md)
+
+## Registries and Contract Maps
+
+- [Capability ID Registry](CAPABILITY-REGISTRY.en.md)

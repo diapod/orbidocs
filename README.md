@@ -51,6 +51,17 @@ Canonical positions:
 - `doc/project/50-requirements/`
 - `doc/project/60-solutions/`
 
+Within `doc/project/60-solutions/`, keep a distinction between:
+
+- component pages such as `node.md` or `node-ui.md`,
+- generated capability overviews such as `CAPABILITY-MATRIX.*.md`,
+- and human-maintained contract maps such as `CAPABILITY-REGISTRY.*.md`.
+
+`CAPABILITY-REGISTRY.*.md` is the human-facing read model for stable
+`capability_id` semantics. It should be updated whenever capability ids, wire
+names, semantic role boundaries, or primary runtime ownership change in `node`
+or the corresponding proposals.
+
 Project workflow stays subordinate to the normative one. If a project document starts
 governing authority, identity, sanctions, disclosure, exceptions, or other high-stakes
 social rules, it should be promoted into `doc/normative/40-constitution/` or
@@ -199,6 +210,12 @@ The closest implementation-side counterpart of the `orbidocs` solutions layer li
 
 - `../node/docs/implementation-ledger.toml`
 - `../node/docs/IMPLEMENTATION-LEDGER.md`
+
+For capability semantics specifically, also reconcile against:
+
+- `../node/capability/src/lib.rs`
+- `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md`
+- `doc/project/60-solutions/CAPABILITY-REGISTRY.pl.md`
 
 This ledger is not generated from `orbidocs`. It is maintained manually in the
 `node` repository and should be reconciled there against:
