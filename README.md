@@ -80,6 +80,7 @@ social rules, it should be promoted into `doc/normative/40-constitution/` or
 - `.github/workflows/orbidocs-pages.yml` – GitHub Pages build/deploy workflow for the `public` branch.
 - `requirements-docs.txt` – Python dependencies for schema validation and MkDocs builds in CI.
 - `scripts/validate-json-schemas.sh` – schema/example validator wrapper.
+- `scripts/check-capability-registry.py` – verifies that `CAPABILITY-REGISTRY.*.md` matches the runtime capability map in `../node/capability/src/lib.rs`.
 - `scripts/generate-schema-docs.py` – generator for human-facing schema pages.
 - `scripts/generate-workflow-coverage.py` – generator for workflow coverage overview.
 - `scripts/build-site-docs.py` – staging-tree normalizer for the developer HTML build.
@@ -117,6 +118,12 @@ make check-json-syntax
 
 ```sh
 make validate-schemas
+```
+
+### Capability registry consistency
+
+```sh
+make check-capability-registry
 ```
 
 ### Regenerate human-facing schema pages

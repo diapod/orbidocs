@@ -125,6 +125,13 @@ wire names, semantic role boundaries, or primary runtime ownership change in:
 - `doc/project/60-solutions/node.md`
 - attached-role or capability proposals
 
+Before considering a capability-registry edit done, run:
+- `make check-capability-registry`
+
+This checker compares the registry tables against
+`../node/capability/src/lib.rs` and is the mechanical guard for
+`capability_id -> wire name` drift. It does not replace semantic review.
+
 For the sibling `node` repository, the implementation-side counterpart is
 `../node/docs/implementation-ledger.toml` (assuming that node repository is cloned
 into a sibling directory): it is maintained manually there from the `orbidocs`

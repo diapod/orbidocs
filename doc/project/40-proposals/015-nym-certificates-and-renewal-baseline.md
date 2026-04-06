@@ -137,17 +137,17 @@ trust:
     - "council:did:key:z6Mk..."
 ```
 
-Kompromitacja council powinna być traktowana jak kompromitacja infrastrukturalnego
-anchoru zaufania, nie zwykła awaria operacyjna. W szczególności:
+A council compromise should be treated as a compromise of an infrastructural
+trust anchor, not as an ordinary operational failure. In particular:
 
-- trapdoor może stać się narzędziem deanonimizacji,
-- odmowa renewal może stać się narzędziem cenzury,
-- a certyfikaty nymów tracą wartość epistemiczną.
+- the trapdoor may become a tool for deanonymization,
+- renewal refusal may become a tool of censorship,
+- and nym certificates lose their epistemic value.
 
-Dlatego warstwa `EMERGENCY-ACTIVATION-CRITERIA` POWINNA klasyfikować taki
-przypadek jako trigger kompromitacji infrastrukturalnej wymagający
-zamrożenia trapdooru, rotacji `council:did:key` oraz audytu ad-hoc. Ten kierunek
-jest już explicite ujęty w `DIA-EMRG-ACT-001`.
+Therefore the `EMERGENCY-ACTIVATION-CRITERIA` layer SHOULD classify such a case
+as an infrastructural-compromise trigger requiring trapdoor freeze, rotation of
+`council:did:key`, and an ad hoc audit. This direction is already stated
+explicitly in `DIA-EMRG-ACT-001`.
 
 ### 3. `nym-succession.v1`
 
