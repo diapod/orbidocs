@@ -243,6 +243,12 @@ Minimum fields:
   this relay (the provider Node or a trusted relay)
 - `relay/hops` — unsigned integer, maximum `3`; relays MUST drop envelopes
   where `relay/hops` would exceed the maximum
+- `relay/do-not-forward` — optional boolean advisory request asking the next
+  catalog or relay not to forward the envelope further; this is an explicit
+  policy hint, not a cryptographic prohibition
+- `relay/intended-node-id` — optional future-facing `node:did:key:...` hint
+  naming the Node that may be asked to relay the offer onward on the
+  publisher's behalf if it wants and can
 - `relay/relayed-at` — RFC 3339 timestamp of the most recent relay step
 - `offer` — the full embedded `service-offer.v1` payload, including its
   original `signature`
@@ -250,6 +256,12 @@ Minimum fields:
 The relay envelope itself is NOT signed by the relay node in this phase. Trust
 derives from the inner offer's signature (provider-signed) plus the
 `relay/origin-node-id` against the buyer's peer store and whitelist.
+
+`relay/do-not-forward` is intentionally advisory. It communicates publisher
+intent to the next catalog boundary, but does not itself enforce transport
+behavior. `relay/intended-node-id` is reserved for the later mediated-relay
+case where one Node is asked to forward the offer to another catalog Node; the
+current phase only preserves that hint.
 
 A later phase may add relay node signing to the envelope to support
 multi-hop accountability.

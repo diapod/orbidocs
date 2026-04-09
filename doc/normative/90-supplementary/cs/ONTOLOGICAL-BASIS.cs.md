@@ -7,8 +7,8 @@
 ## Apofatický enaktivismus
 
 Tento dokument popisuje filosofické podloží, z něhož vyrůstají
-[vize](../20-vision/cs/VISION.cs.md) a [základní
-hodnoty](../30-core-values/cs/CORE-VALUES.cs.md) projektu Orbiplex. Není
+[vize](../../20-vision/cs/VISION.cs.md) a [základní
+hodnoty](../../30-core-values/cs/CORE-VALUES.cs.md) projektu Orbiplex. Není
 manifestem víry ani metafyzickým prohlášením, ale souborem postulátů, které
 vysvětlují, **proč** má architektura roje právě tuto podobu a proč určité
 hodnoty považujeme za infrastrukturní, nikoli za volitelné.
