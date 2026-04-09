@@ -2,6 +2,25 @@
 
 Proposal: `doc/project/40-proposals/032-key-delegation-passports.md`
 
+## Current correction — inline proof model
+
+This implementation note was written for the earlier *lookup-chain* draft.
+The active MVP is the *inline proof* model:
+
+- do **not** add `issuer/signing_key` or `issuer/delegation_id` to
+  `capability-passport.v1`,
+- add optional `issuer_delegation: DelegationProof` to participant-signed
+  artifacts,
+- remove `issuer_delegation` from the surrounding artifact's canonical payload,
+- verify `DelegationProof` inline, then verify the artifact signature with
+  `proof.proxy_key`,
+- use full `key-delegation.v1` passports for registration, operator management,
+  local signing selection, publication, and revocation feeds — not as a remote
+  verifier dependency.
+
+Older sections below still describe the layered storage/API rollout and should
+be read through that correction.
+
 ## Layered Implementation Order
 
 Apply the change set from the bottom up:
@@ -44,28 +63,22 @@ Practical constraints:
 ### `capability-passport.v1`
 
 The current passport contract already uses flat slash-style issuer fields such
-as `issuer/participant_id` and `issuer/node_id`. Extend that same top-level
-shape with:
+as `issuer/participant_id` and `issuer/node_id`. Keep those. Extend the artifact
+with one optional compact proof:
 
 ```json
-"issuer/signing_key":   { "type": "string", "pattern": "^did:key:z" },
-"issuer/delegation_id": { "type": "string", "pattern": "^delegation:key:.+" }
+"issuer_delegation": {
+  "delegation_id": "delegation:key:...",
+  "proxy_key": "did:key:z...",
+  "principal_key": "did:key:z...",
+  "grants": { "signing/capability": ["network-ledger"] },
+  "expires_at": "...",
+  "principal_signature": "..."
+}
 ```
 
-Require pairing semantics:
-
-```json
-"allOf": [
-  {
-    "if": { "required": ["issuer/signing_key"] },
-    "then": { "required": ["issuer/delegation_id"] }
-  },
-  {
-    "if": { "required": ["issuer/delegation_id"] },
-    "then": { "required": ["issuer/signing_key"] }
-  }
-]
-```
+`issuer_delegation` is not part of the passport signature payload. It is an
+independently signed proof copied from the full delegation passport.
 
 ### Schema publication
 
@@ -94,12 +107,14 @@ pub type KeyDelegationGrants = BTreeMap<String, Vec<String>>;
 
 pub struct KeyDelegationPassport { ... }
 pub struct KeyDelegationSignature { ... }
+pub struct DelegationProof { ... }
 ```
 
 Minimal required behavior:
 
 - structural `validate()`,
-- `canonical_payload_json()` without `signature`,
+- `canonical_payload_json()` that delegates to the compact proof payload,
+- `to_proof()`,
 - `sign_with_issuer_private_key_base64url()`,
 - `verify_signature()`,
 - `verify(now_rfc3339)`,
@@ -110,33 +125,34 @@ Minimal required behavior:
 Extend `CapabilityPassport` with:
 
 ```rust
-#[serde(rename = "issuer/signing_key", skip_serializing_if = "Option::is_none", default)]
-pub issuer_signing_key: Option<String>,
-
-#[serde(rename = "issuer/delegation_id", skip_serializing_if = "Option::is_none", default)]
-pub issuer_delegation_id: Option<String>,
+#[serde(skip_serializing_if = "Option::is_none", default)]
+pub issuer_delegation: Option<DelegationProof>,
 ```
 
 Validation rules:
 
-- both fields must be present together or absent together,
-- `issuer/signing_key` must start with `did:key:`,
-- `issuer/delegation_id` must start with `delegation:key:`.
+- if proof is present, derive its participant id from `principal_key` and require
+  equality with `issuer/participant_id`,
+- `proxy_key` and `principal_key` must start with `did:key:`,
+- remove `issuer_delegation` from canonical passport payload before signing.
 
 Verification rules:
 
-- when `issuer/signing_key` is absent, preserve the existing direct participant
+- when `issuer_delegation` is absent, preserve the existing direct participant
   signing path,
-- when present, verify the passport signature against the proxy `did:key`
-  instead of the participant key.
+- when present, verify the proof with the participant key and then verify the
+  passport signature against `proof.proxy_key`.
 
-Suggested signing helper:
+Suggested signing surface:
 
 ```rust
-pub fn sign_with_proxy_key_base64url(
-    &mut self,
-    proxy_private_key_base64: &str,
-) -> Result<(), CapabilityPassportError>
+pub enum ParticipantSigningContext {
+    Direct { private_key_base64: String, participant_id: String },
+    Delegated { proxy_private_key_base64: String, proof: DelegationProof },
+}
+
+pub fn sign_as_participant(...)
+pub fn verify_participant_signature(...)
 ```
 
 ### `CapabilityPassportRevocation`
@@ -296,27 +312,28 @@ including `target_id` in the serialized entry shape. Consumers then use
 The delegated verification branch should:
 
 1. validate direct participant sovereignty,
-2. verify the capability passport signature with the proxy key,
-3. resolve `issuer/delegation_id`,
-4. load the delegation from cache or Seed Directory,
-5. verify the delegation signature with the participant key,
-6. verify issuer match, expiry, revocation, and grant coverage,
-7. reject `max_chain_depth > 0` in MVP.
+2. read inline `issuer_delegation`,
+3. derive the participant id from `issuer_delegation.principal_key` and require
+   it to match `issuer/participant_id`,
+4. verify the proof principal signature,
+5. check proof expiry and required grant,
+6. verify the capability passport signature with `issuer_delegation.proxy_key`.
 
 This keeps the trust chain explicit:
 
 ```text
 participant key
-  -> signs key-delegation.v1
+  -> signs DelegationProof payload
        -> authorizes proxy did:key
-            -> signs capability-passport.v1
+            -> signs capability-passport.v1 and carries proof inline
 ```
 
 ### Background sync
 
 `sync_seed_directories_once` should:
 
-- prefetch delegation records relevant to passport verification,
+- prefetch delegation records relevant to local management/signing and operator
+  inspection,
 - invalidate delegation cache entries on delegation revocations,
 - keep passport cache and delegation cache separate but parallel in behavior.
 

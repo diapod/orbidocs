@@ -47,7 +47,55 @@ The `revocations` table gains `target_id`, and feed serialization should expose
 both `passport_id` and `target_id`. Consumers then decide which cache to
 invalidate.
 
-## Decision 2 — reuse existing multibase helpers instead of inventing new key formatting
+## Decision 2 — carry compact delegation proof inline
+
+### Context
+
+The first design made proxy-signed passport verification depend on
+`issuer/signing_key` plus `issuer/delegation_id` and a Seed Directory/cache
+lookup. That kept passports small but made the signature verifier stateful.
+
+### Decision
+
+Embed `DelegationProof` beside every participant-level proxy signature:
+
+```rust
+pub struct DelegationProof {
+    pub delegation_id: String,
+    pub proxy_key: String,
+    pub principal_key: String,
+    pub grants: KeyDelegationGrants,
+    pub expires_at: String,
+    pub principal_signature: String,
+}
+```
+
+`CapabilityPassport` and issuer-signed `CapabilityPassportRevocation` carry it
+as optional `issuer_delegation`.
+
+Artifact canonical payload builders MUST remove both `signature` and
+`issuer_delegation`. The proof has its own canonical payload and its own
+principal signature.
+
+### Why this is better
+
+- remote verification is self-contained,
+- full `key-delegation.v1` passports stay in Seed Directory as management and
+  registration artifacts,
+- the signer can use one `ParticipantSigningContext` and the artifact does not
+  care whether the operation is direct or delegated.
+
+### Verification rule
+
+When verifying a proxy-signed participant artifact:
+
+- verify `proof.principal_signature` with `proof.principal_key`,
+- derive the expected `participant:did:key:...` from `proof.principal_key`,
+- verify the artifact signature with `proof.proxy_key`,
+- check proof expiry,
+- check required grant in the caller's domain policy.
+
+## Decision 3 — reuse existing multibase helpers instead of inventing new key formatting
 
 ### Context
 
@@ -79,14 +127,14 @@ from it.
 
 ### Practical implication
 
-When verifying a proxy-signed capability passport:
+When verifying a proxy-signed participant artifact:
 
-- strip `did:key:` from `issuer/signing_key`,
+- strip `did:key:` from `proof.proxy_key`,
 - pass the raw multibase part to `verify_message_base64url(...)`.
 
 Do not invent a second representation just for delegated signing.
 
-## Decision 3 — reuse the existing key-unlock cache model for proxy keys
+## Decision 4 — reuse the existing key-unlock cache model for proxy keys
 
 ### Context
 

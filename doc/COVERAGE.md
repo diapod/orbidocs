@@ -39,8 +39,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `1` |
-| [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md) | `11` | `10` | `yes` | `yes` | `0` | `0` |
-| [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | `12` | `11` | `yes` | `yes` | `0` | `0` |
+| [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md) | `13` | `12` | `yes` | `yes` | `0` | `0` |
+| [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | `13` | `12` | `yes` | `yes` | `0` | `0` |
 | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |

@@ -56,15 +56,20 @@ participant key.
 This proposal covers:
 
 - the `key-delegation.v1` artifact schema and its JSON Schema contract,
+- `DelegationProof` — a compact inline bearer credential extracted from a full
+  key-delegation passport and embedded next to proxy-key signatures,
 - a **proxy key store** — generation, import, export, and local storage of
   non-participant, non-transport Ed25519 keys,
-- extension of `capability-passport.v1` with optional `issuer/signing_key` and
-  `issuer/delegation_id` fields (additive, non-breaking, always paired),
+- extension of participant-signed artifacts (`capability-passport.v1`,
+  issuer-signed `capability-passport-revocation.v1`, later participant
+  ciphertexts) with optional `issuer_delegation` proof,
 - a `/key` endpoint on the Seed Directory for registration and lookup of
-  delegation passports,
-- a `DelegationCache` on consuming nodes (analogous to `PassportCache`),
-- updated capability passport verification algorithm that resolves the signing
-  chain,
+  full delegation passports used for management, publication, audit, and
+  revocation feeds,
+- a `DelegationCache` on owning/managing nodes (analogous to `PassportCache`) for
+  choosing a local proxy key; remote signature verification is self-contained,
+- updated participant-artifact signing and verification algorithm that verifies
+  the inline proof and then verifies the artifact with the proof's proxy key,
 - daemon HTTP API for delegation lifecycle management.
 
 Out of scope for this proposal:
@@ -236,28 +241,72 @@ non-expired delegation passport.
 - `issuer.node_id` — the node on which the delegation passport was created (and
   on which the signing participant key resided at time of issuance).
 - `signature` — Ed25519 signature of the canonical JSON representation of the
-  passport with the `signature` field omitted, signed by the private key of
+  compact delegation contract (`delegation_id`, `proxy_key`, `principal_key`,
+  `grants`, `expires_at`), signed by the private key of
   `issuer.participant_id`.
 
-### Extension to `capability-passport.v1`
+The full `key-delegation.v1` passport is a registration and management artifact.
+Its metadata (`schema`, `issued_at`, `issuer/node_id`, `max_chain_depth`,
+`parent_delegation_id`) travels through Seed Directory and operator surfaces, but
+does not enter the MVP signature payload.  The signature covers the smaller
+contract that can be embedded later as `DelegationProof`.
 
-Two optional slash-style fields are added to `capability-passport.v1` alongside
-the existing `issuer/participant_id` and `issuer/node_id` fields:
-`issuer/signing_key` and `issuer/delegation_id`. They must appear together —
-one without the other is a schema violation:
+### `DelegationProof` inline bearer form
+
+Every signature made with a proxy key carries a compact proof:
+
+```json
+{
+  "delegation_id": "delegation:key:<timestamp>:<random>",
+  "proxy_key": "did:key:z6Mk...",
+  "principal_key": "did:key:z6MkPrincipal...",
+  "grants": {
+    "signing/capability": ["network-ledger", "escrow"]
+  },
+  "expires_at": "2026-10-06T12:00:00Z",
+  "principal_signature": "<base64url>"
+}
+```
+
+Verification is self-contained:
+
+1. derive `participant:did:key:...` from `principal_key` and compare it to the
+   expected participant id,
+2. verify `principal_signature` over the canonical compact proof payload using
+   `principal_key`,
+3. verify the surrounding artifact signature using `proxy_key`,
+4. check `expires_at > now`,
+5. in domain policy, check `grants` for the required operation/target pair.
+
+The verifier does not need to fetch `key-delegation.v1` from the Seed Directory.
+If it also consumes revocation feeds it may reject an embedded
+`delegation_id` that appears there, but that is a revocation policy layer, not a
+dependency of signature verification.
+
+### Extension to participant-signed artifacts
+
+`capability-passport.v1` and issuer-signed
+`capability-passport-revocation.v1` gain one optional field,
+`issuer_delegation`, alongside existing `issuer/participant_id` and
+`issuer/node_id`-style fields:
 
 ```json
 "issuer/participant_id": "participant:did:key:z...",
 "issuer/node_id":        "node:did:key:z...",
-"issuer/signing_key":    "did:key:z6Mk...",                         // optional
-"issuer/delegation_id":  "delegation:key:1775477969437951000:ab12"  // optional; required when issuer/signing_key is present
+"issuer_delegation": {
+  "delegation_id": "delegation:key:1775477969437951000:ab12",
+  "proxy_key": "did:key:z6Mk...",
+  "principal_key": "did:key:z6MkPrincipal...",
+  "grants": { "signing/capability": ["network-ledger"] },
+  "expires_at": "2026-10-06T12:00:00Z",
+  "principal_signature": "<base64url>"
+}
 ```
 
 When both are absent the verifier uses the public key embedded in
-`participant_id` (direct signing path — existing behaviour).  When present, the
-pair gives the verifier a fully self-contained provenance reference: it knows
-exactly which key signed the artifact and exactly which delegation authorised
-that key, without any secondary search.
+`issuer/participant_id` (direct signing path — existing behaviour).  When
+`issuer_delegation` is present, it gives the verifier the proxy key, original
+participant key, grant set, expiry and principal signature inline.
 
 The identifiers embedded in a proxy-signed capability passport form a complete
 and unambiguous audit chain:
@@ -266,12 +315,11 @@ and unambiguous audit chain:
 capability-passport
   issuer/participant_id   → sovereign identity that ultimately authorises the passport
   issuer/node_id          → node on which the passport was issued
-  issuer/signing_key      → proxy key did:key that produced the signature
-  issuer/delegation_id    → the exact key-delegation.v1 record authorising the proxy key
-    └─ delegation.issuer.participant_id   (must equal passport["issuer/participant_id"])
-    └─ delegation.issuer.node_id          → node on which the delegation was created
-    └─ delegation.proxy_key               (must equal passport["issuer/signing_key"])
-    └─ delegation.grants                  → scope under which signing was authorised
+  issuer_delegation.proxy_key          → proxy key did:key that produced the signature
+  issuer_delegation.principal_key      → public key that derives to issuer/participant_id
+  issuer_delegation.delegation_id      → management / revocation reference
+  issuer_delegation.grants             → scope under which signing was authorised
+  issuer_delegation.principal_signature→ issuer signature over the proof payload
 ```
 
 For future sub-delegated chains (`max_chain_depth > 0`), each `key-delegation.v1`
@@ -281,32 +329,24 @@ delegation whose issuer is a direct participant key (no `parent_delegation_id`).
 This keeps chain traversal a simple ID-linked walk with a bounded depth, and
 every step is independently verifiable.
 
-This is a purely additive change to the existing schema; no version bump is
-required and existing passports without the fields continue to verify correctly.
+`issuer_delegation` is excluded from the surrounding artifact's canonical
+payload.  It has its own principal signature and can be copied unchanged beside
+multiple proxy-key signatures until it expires.
 
 ### Capability passport issuance with proxy key
 
-The existing `POST /v1/host/capabilities/capability.passport.issue` endpoint
-gains an optional `proxy_key_id` field:
+When the daemon issues or signs a passport:
 
-```json
-{
-  "capability_id":  "network-ledger",
-  "scope":          {},
-  "proxy_key_id":   "key:did:key:z6Mk..."   // optional
-}
-```
-
-When `proxy_key_id` is provided:
 1. The daemon resolves the proxy key from the proxy key store.
-2. It verifies that a non-expired, non-revoked delegation passport exists for
+2. It tries to find a non-expired, non-revoked local delegation passport for
    this proxy key granting `signing/capability` over the requested
    `capability_id` (or `*`).
-3. The capability passport is signed with the proxy key's private key.
-4. `issuer/signing_key` is set to the proxy key's `did:key`.
-5. `issuer/delegation_id` is set to the `delegation_id` of the authorising
-   delegation record.
-6. `issuer/participant_id` is set to the issuing participant (the same
+3. If found and the proxy private key is unlocked, it signs the capability
+   passport with the proxy private key and embeds `delegation_passport.to_proof()`
+   as `issuer_delegation`.
+4. Otherwise it falls back to direct participant-key signing and leaves
+   `issuer_delegation` absent.
+5. `issuer/participant_id` is set to the issuing participant (the same
    participant who issued the delegation passport).
 
 The signed capability passport is otherwise identical to a directly signed one
@@ -351,8 +391,9 @@ GET /key?delegation_id=delegation:key:1775477969437951000:ab12
 }
 ```
 
-Returns exactly one entry or `404`. This is the lookup path used by
-verifiers resolving `issuer/delegation_id` from a capability passport.
+Returns exactly one entry or `404`. This lookup is for operator inspection,
+publication state, revocation/audit, and local prewarming. It is no longer
+required by remote passport verification.
 
 #### Query by proxy key (secondary lookup)
 
@@ -414,11 +455,11 @@ struct CachedDelegation {
 type DelegationCache = HashMap<String, CachedDelegation>;
 ```
 
-Two lookup paths are supported:
+Two management lookup paths are supported:
 
-- **By `delegation_id`** (primary, used at verification time): exact match from
-  the `issuer/delegation_id` field embedded in the capability passport. This is
-  a single deterministic cache hit — no search required.
+- **By `delegation_id`** (primary for management/revocation): exact match from
+  the `issuer_delegation.delegation_id` field embedded in the capability
+  passport, or from an issued-delegation record.
 - **By `proxy_key`** (secondary, used for proactive pre-warming): the background
   sync task fetches all active delegations for `PASSPORT_SYNC_CAPABILITY_IDS`
   and indexes them by both `delegation_id` and `proxy_key`.
@@ -438,55 +479,41 @@ immediately invalidate matching entries regardless of TTL.
 The updated capability passport verification procedure:
 
 ```
-verify_capability_passport(passport, sovereign_participant_ids, delegation_cache):
+verify_capability_passport(passport, sovereign_participant_ids, now, required_grant):
 
   participant_id = passport["issuer/participant_id"]
   unless participant_id ∈ sovereign_participant_ids:
     reject("issuer is not a sovereign participant")
 
-  signing_key = passport["issuer/signing_key"]
-               ?? public_key_from_did_key(participant_id)
-
-  if signing_key == public_key_from_did_key(participant_id):
+  proof = passport["issuer_delegation"]
+  if proof is absent:
     // direct signing path — existing behaviour
-    verify_signature(passport, signing_key) or reject
+    verify_signature(passport, public_key_from_did_key(participant_id)) or reject
     return OK
 
   // proxy signing path
-  verify_signature(passport, signing_key) or reject("proxy signature invalid")
-
-  delegation_id = passport["issuer/delegation_id"]
-    or reject("signing_key present but delegation_id absent")
-
-  delegation = delegation_cache.get(delegation_id)
-             ?? fetch_from_seed_directory("/key?delegation_id=delegation_id")
-             ?? reject("no delegation found for delegation_id")
-
-  verify_signature(delegation, public_key_from_did_key(participant_id))
-    or reject("delegation signature invalid")
-
-  if delegation.issuer.participant_id != participant_id:
+  if participant_id_from_did_key(proof.principal_key) != participant_id:
     reject("delegation issuer mismatch")
 
-  if delegation.expires_at <= now:
-    reject("delegation expired")
+  verify_signature(proof.canonical_payload, proof.principal_key, proof.principal_signature)
+    or reject("delegation proof signature invalid")
 
-  if delegation_is_revoked(delegation.delegation_id):
-    reject("delegation revoked")
+  if proof.expires_at <= now:
+    reject("delegation proof expired")
 
-  if delegation.max_chain_depth > 0:
-    reject("sub-delegation not supported (MVP)")
+  verify_signature(passport, proof.proxy_key) or reject("proxy signature invalid")
 
-  grants = delegation.grants["signing/capability"] ?? []
-  unless passport.capability_id ∈ grants or "*" ∈ grants:
+  grants = proof.grants[required_grant.type] ?? []
+  unless required_grant.target ∈ grants or "*" ∈ grants:
     reject("capability not covered by delegation grant")
 
   return OK
 ```
 
-The on-demand network fetch (step 3) is only performed when the cache misses.
-In the steady state — where `sync_seed_directories_once` pre-warms the cache —
-the verification path is entirely synchronous and cache-local.
+The remote verification path has no Seed Directory fetch and no
+`DelegationCache` dependency.  Seed Directory and the local cache remain useful
+for discovering, publishing, listing, revoking, and choosing local delegation
+records before signing.
 
 ## Components and Roles
 
@@ -507,11 +534,14 @@ the verification path is entirely synchronous and cache-local.
 
 ### Daemon — verification layer
 
-- Extends capability passport verification to resolve `issuer/signing_key`.
-- Reads `DelegationCache` synchronously; triggers async seed-directory fetch
-  on cache miss (only in async context; sync paths use cache-only).
-- Invalidates `DelegationCache` entries on revocation events received by the
-  background sync task.
+- Extends participant signing with `ParticipantSigningContext`:
+  `Direct { participant_id, private_key }` or
+  `Delegated { proxy_private_key, proof }`.
+- Extends capability-passport and issuer-revocation verification to accept
+  inline `issuer_delegation` and to check the required grant at the policy
+  boundary.
+- Keeps `DelegationCache` on the management/signing side; remote verification is
+  self-contained.
 
 ### Daemon — background sync
 
@@ -558,10 +588,12 @@ the verification path is entirely synchronous and cache-local.
 
 1. Operator (or automated flow) calls
    `POST /v1/host/capabilities/capability.passport.issue`
-   with `proxy_key_id: "key:did:key:z6Mk..."`.
-2. Daemon verifies a live delegation covers the requested capability.
-3. Daemon signs the capability passport with the proxy key (participant key not
-   required, not touched).
+  for a capability covered by an active local delegation.
+2. Daemon chooses a participant signing context. If a matching delegation and
+   unlocked proxy key are available it chooses `Delegated`; otherwise it chooses
+   `Direct` and requires the participant key.
+3. In delegated mode the daemon signs the capability passport with the proxy key
+   and embeds `issuer_delegation`. The participant key is not required.
 4. Capability passport is stored and may be published to Seed Directory `/cap`
    as usual.
 
@@ -569,9 +601,11 @@ the verification path is entirely synchronous and cache-local.
 
 1. Operator generates a new proxy key.
 2. Operator issues a new delegation passport for the new key.
-3. Operator revokes the old delegation: the old proxy key's capability passports
-   remain valid until their own `expires_at` (delegation revocation affects
-   future issuance, not previously issued passports).
+3. Operator revokes the old delegation: the local daemon stops choosing it for
+   future signatures. Already issued capability passports remain valid until
+   their own `expires_at` and the embedded proof's `expires_at` unless the
+   passport itself is revoked or a consuming policy additionally rejects
+   revoked proof `delegation_id`s.
 4. Operator deletes the old proxy key from the store (refused if it is the
    `signing_key` of any non-expired capability passport that hasn't been
    superseded — UI should warn).
@@ -585,19 +619,19 @@ the verification path is entirely synchronous and cache-local.
    `/revocations`.
 4. Other nodes pick up the revocation on their next `/revocations` poll; their
    `DelegationCache` entries are invalidated.
-5. Any capability passport verification that reaches for the revoked delegation
-   fails immediately after the consuming node has processed the revocation event.
+5. Future local issuance does not use the revoked delegation. Already-issued
+   proxy-signed artifacts still carry enough proof to verify until proof expiry;
+   revoke the capability passport too if the intended effect is immediate
+   withdrawal of that passport.
 
 ## Relationship to Prior Proposals
 
 ### Proposal 024 (Capability Passports)
 
 This proposal extends Proposal 024's signing model. The
-`capability-passport.v1` schema gains optional `issuer/signing_key` and
-`issuer/delegation_id` fields, matching the current slash-style issuer field
-naming already used by the passport contract. Verification logic gains the
-proxy-key resolution branch. All existing direct-signed passports continue to
-work without modification.
+`capability-passport.v1` schema gains optional `issuer_delegation` carrying a
+compact inline proof. Verification logic gains the proof → proxy-key branch.
+All existing direct-signed passports continue to work without modification.
 
 ### Proposal 025 (Seed Directory as Capability Catalog)
 

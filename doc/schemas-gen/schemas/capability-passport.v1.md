@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/capability-passport.v1.schema.json`](../../schemas/capability-passport.v1.schema.json)
 
-Signed delegation artifact that grants a named infrastructure capability to a target Node on behalf of a sovereign operator participant. The signed payload is the deterministic canonical JSON of the whole artifact with the `signature` field omitted. Trust derives from local policy recognising the issuer as a sovereign operator, not from the passport alone.
+Signed delegation artifact that grants a named infrastructure capability to a target Node on behalf of a sovereign operator participant. Direct signatures are verified against the public key embedded in `issuer/participant_id`. Delegated signatures are verified against `issuer_delegation.proxy_key` after the inline delegation proof verifies against the same issuer. The signed payload is the deterministic canonical JSON of the artifact with `signature` and `issuer_delegation` omitted. Trust derives from local policy recognising the issuer as a sovereign operator, not from the passport alone.
 
 ## Governing Basis
 
@@ -40,6 +40,7 @@ Signed delegation artifact that grants a named infrastructure capability to a ta
 | [`issuer/participant_id`](#field-issuer-participant-id) | `yes` | string | Canonical `participant:did:key:z...` identifier of the issuing participant. MUST correspond to a participant whose assurance level is `SovereignOperator` (IAL5) under the receiving Node's local policy. |
 | [`issuer/node_id`](#field-issuer-node-id) | `yes` | string | Node on which the issuing participant acted when signing this passport. |
 | [`revocation_ref`](#field-revocation-ref) | `yes` | string \| null | Optional reference to an out-of-band revocation endpoint or log for this passport. `null` if no external revocation surface is provided; consumers SHOULD still poll the Seed Directory revocation log. |
+| [`issuer_delegation`](#field-issuer-delegation) | `no` | ref: `#/$defs/delegationProof` | Optional compact inline proof authorising a proxy key to sign this artifact for `issuer/participant_id`. Verifiers MUST verify this proof before checking the artifact signature with `proxy_key`; it is excluded from the artifact signature payload. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/ed25519Signature` |  |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object | Optional informational annotations. MUST NOT alter core passport semantics. |
 
@@ -47,7 +48,8 @@ Signed delegation artifact that grants a named infrastructure capability to a ta
 
 | Definition | Shape | Description |
 |---|---|---|
-| [`ed25519Signature`](#def-ed25519signature) | object | Ed25519 signature over the deterministic canonical JSON of the passport with the `signature` field omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. |
+| [`delegationProof`](#def-delegationproof) | object | Compact bearer credential copied out of a `key-delegation.v1` registration artifact and embedded beside a proxy-key signature. Its own principal signature covers only the compact proof payload. |
+| [`ed25519Signature`](#def-ed25519signature) | object | Ed25519 signature over the deterministic canonical JSON of the passport with the `signature` and `issuer_delegation` fields omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. |
 
 ## Conditional Rules
 
@@ -157,6 +159,14 @@ Node on which the issuing participant acted when signing this passport.
 
 Optional reference to an out-of-band revocation endpoint or log for this passport. `null` if no external revocation surface is provided; consumers SHOULD still poll the Seed Directory revocation log.
 
+<a id="field-issuer-delegation"></a>
+## `issuer_delegation`
+
+- Required: `no`
+- Shape: ref: `#/$defs/delegationProof`
+
+Optional compact inline proof authorising a proxy key to sign this artifact for `issuer/participant_id`. Verifiers MUST verify this proof before checking the artifact signature with `proxy_key`; it is excluded from the artifact signature payload.
+
 <a id="field-signature"></a>
 ## `signature`
 
@@ -173,9 +183,16 @@ Optional informational annotations. MUST NOT alter core passport semantics.
 
 ## Definition Semantics
 
+<a id="def-delegationproof"></a>
+## `$defs.delegationProof`
+
+- Shape: object
+
+Compact bearer credential copied out of a `key-delegation.v1` registration artifact and embedded beside a proxy-key signature. Its own principal signature covers only the compact proof payload.
+
 <a id="def-ed25519signature"></a>
 ## `$defs.ed25519Signature`
 
 - Shape: object
 
-Ed25519 signature over the deterministic canonical JSON of the passport with the `signature` field omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order.
+Ed25519 signature over the deterministic canonical JSON of the passport with the `signature` and `issuer_delegation` fields omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order.

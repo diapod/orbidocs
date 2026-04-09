@@ -132,6 +132,8 @@ portable signed artifact:
 - `issuer/participant_id = "participant:did:key:..."`
 - `issuer/node_id = "node:did:key:..."`
 - `revocation_ref = null | "node:did:key:..."`
+- optional `issuer_delegation = { ... }` when the passport is signed by a
+  scoped proxy key (see Proposal 032)
 - `signature = { "alg": "ed25519", "value": "..." }`
 
 The passport is an auditable delegated fact. It does not itself create trust
@@ -164,7 +166,9 @@ canonical JSON with:
 - object keys sorted lexicographically,
 - arrays left in original order,
 - no insignificant whitespace,
-- the top-level `signature` field omitted entirely from the canonical payload.
+- the top-level `signature` field omitted entirely from the canonical payload,
+- the top-level `issuer_delegation` field omitted when present. It carries a
+  separate principal signature and is verified as a separate proof.
 
 The signature algorithm is Ed25519.
 
@@ -172,13 +176,17 @@ The signing and verification algorithm is:
 
 1. clone the passport payload without `signature`,
 2. serialize it into canonical JSON,
-3. sign those bytes with the issuer participant's Ed25519 key,
+3. sign those bytes with the issuer participant's Ed25519 key, or with the
+   delegated proxy key named by an inline `issuer_delegation` proof,
 4. encode the signature as base64url without padding,
 5. store it under `signature.value`,
 6. set `signature.alg = "ed25519"`.
 
-The verifier repeats the same canonicalization and verifies the Ed25519
-signature against the public key recoverable from `issuer/participant_id`.
+The verifier repeats the same canonicalization. Direct passports verify the
+Ed25519 signature against the public key recoverable from
+`issuer/participant_id`. Delegated passports first verify `issuer_delegation`
+against that participant identity, then verify the passport signature against
+`issuer_delegation.proxy_key`.
 
 ### 4. `network-ledger` as the First Delegated Infrastructure Capability
 

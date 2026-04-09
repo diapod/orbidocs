@@ -106,8 +106,10 @@ The `PUT /cap/{node-id}/{capability-id}` request body MUST carry:
 
 The Seed Directory MUST verify before storing:
 
-1. the passport `signature` — against the issuer participant's public key
-   recovered from `issuer/participant_id`,
+1. the passport `signature` — direct passports verify against the issuer
+   participant public key recovered from `issuer/participant_id`; passports
+   with `issuer_delegation` first verify that inline proof against the issuer
+   participant, then verify the passport with `issuer_delegation.proxy_key`,
 2. `issuer/participant_id` is recognized as a sovereign operator under the
    directory's own local sovereign key set,
 3. `passport.node_id == {node-id}` in the URL path,
@@ -198,8 +200,9 @@ A Node consuming a passport-backed service MUST:
 4. Request the capability passport directly from the serving Node via a
    post-handshake artifact exchange (`capability-passport-present.v1`).
 5. Verify the passport independently:
-   - valid Ed25519 signature (using the locally known sovereign operator key,
-     not trusting the directory's copy),
+   - valid Ed25519 signature; for delegated passports, first verify inline
+     `issuer_delegation`, then verify the passport with the proof's `proxy_key`;
+     for direct passports, verify with the issuer participant key,
    - `passport.node_id` matches the `node:did:key:...` of the peer session,
    - `passport.capability_id` matches the capability being consumed,
    - `expires_at` is absent or in the future.
