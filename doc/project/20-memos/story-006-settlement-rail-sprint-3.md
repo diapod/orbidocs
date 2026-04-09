@@ -51,9 +51,9 @@ This means:
 
 Frozen local account namespace for hard MVP:
 
-- `account:participant:{participant_id}`
-- `account:org:{org_id}`
-- `account:community-pool`
+- `account:{identity_id}` for identity-backed settlement accounts
+  (`participant:...`, `org:...`, and later other identity namespaces),
+- `account:community-pool` for the shared system pool.
 
 ### 3. ORC arithmetic uses integer minor units only
 
