@@ -19,14 +19,14 @@ Generated coverage snapshot for the current `doc/` structure.
 | Step | Markdown Files | With `Based on:` |
 |---|---:|---:|
 | `10-challenges` (Challenges) | `4` | `2` |
-| `20-memos` (Memos) | `39` | `7` |
+| `20-memos` (Memos) | `41` | `8` |
 | `30-stories` (Stories) | `11` | `1` |
-| `40-proposals` (Proposals) | `34` | `25` |
+| `40-proposals` (Proposals) | `37` | `28` |
 | `50-requirements` (Requirements) | `15` | `13` |
 | `60-solutions` (Solutions) | `16` | `7` |
 
-- Total project markdown files: `121`
-- Proposals referencing source material: `25` / `34`
+- Total project markdown files: `126`
+- Proposals referencing source material: `28` / `37`
 - Requirements referencing source material: `13` / `15`
 
 ## Schema Workflow
@@ -63,6 +63,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md) | `17` | `17` | `yes` | `yes` | `1` | `1` |
 | [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `2` | `1` |
 | [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `2` |
+| [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `0` |
 | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md) | `11` | `9` | `yes` | `yes` | `2` | `1` |
 | [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md) | `10` | `8` | `yes` | `yes` | `1` | `1` |
 | [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md) | `10` | `8` | `yes` | `yes` | `1` | `0` |
@@ -130,6 +131,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`model-card.v1.schema.json`](schemas-gen/schemas/model-card.v1.md) | [`requirements-002.md`](project/50-requirements/requirements-002.md), [`requirements-003.md`](project/50-requirements/requirements-003.md), [`requirements-004.md`](project/50-requirements/requirements-004.md), [`requirements-005.md`](project/50-requirements/requirements-005.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-002.md`](project/30-stories/story-002.md), [`story-003.md`](project/30-stories/story-003.md), [`story-004.md`](project/30-stories/story-004.md) |
 | [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
+| [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md), [`requirements-010.md`](project/50-requirements/requirements-010.md), [`requirements-011.md`](project/50-requirements/requirements-011.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006.md`](project/30-stories/story-006.md), [`story-007.md`](project/30-stories/story-007.md) |
 | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`nym-renew-rejected.v1.schema.json`](schemas-gen/schemas/nym-renew-rejected.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
@@ -175,7 +177,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/normative/50-constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md`](normative/50-constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md) | [`coi-declaration.v1.schema.json`](schemas-gen/schemas/coi-declaration.v1.md) |
 | [`doc/normative/50-constitutional-ops/pl/PROCEDURAL-REPUTATION-SPEC.pl.md`](normative/50-constitutional-ops/pl/PROCEDURAL-REPUTATION-SPEC.pl.md) | [`coi-declaration.v1.schema.json`](schemas-gen/schemas/coi-declaration.v1.md), [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md) |
 | [`doc/normative/50-constitutional-ops/pl/RAW-SIGNAL-POLICY.pl.md`](normative/50-constitutional-ops/pl/RAW-SIGNAL-POLICY.pl.md) | [`signal-marker.v1.schema.json`](schemas-gen/schemas/signal-marker.v1.md), [`signal-transform-event.v1.schema.json`](schemas-gen/schemas/signal-transform-event.v1.md) |
-| [`doc/normative/50-constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md`](normative/50-constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md) | [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md) |
+| [`doc/normative/50-constitutional-ops/pl/ROLE-TO-IAL-MATRIX.pl.md`](normative/50-constitutional-ops/pl/ROLE-TO-IAL-MATRIX.pl.md) | [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) |
+| [`doc/normative/50-constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md`](normative/50-constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md) | [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md), [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md) |
 | [`doc/normative/50-constitutional-ops/pl/SWARM-ECONOMY-SUFFICIENCY.pl.md`](normative/50-constitutional-ops/pl/SWARM-ECONOMY-SUFFICIENCY.pl.md) | [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) |
 | [`doc/normative/50-constitutional-ops/pl/UBC-LIMIT-PROFILES.pl.md`](normative/50-constitutional-ops/pl/UBC-LIMIT-PROFILES.pl.md) | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md), [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md) |
 | [`doc/normative/50-constitutional-ops/pl/UNIVERSAL-BASIC-COMPUTE.pl.md`](normative/50-constitutional-ops/pl/UNIVERSAL-BASIC-COMPUTE.pl.md) | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md), [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md), [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) |
@@ -211,8 +214,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`](project/40-proposals/017-organization-subjects-and-org-did-key.md) | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md), [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md), [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md), [`ledger-account.v1.schema.json`](schemas-gen/schemas/ledger-account.v1.md), [`organization-subject.v1.schema.json`](schemas-gen/schemas/organization-subject.v1.md), [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md), [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) |
 | [`doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md`](project/40-proposals/018-layered-capability-limited-participant-restrictions.md) | [`participant-capability-limits.v1.schema.json`](schemas-gen/schemas/participant-capability-limits.v1.md) |
 | [`doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`](project/40-proposals/021-service-offers-orders-and-procurement-bridge.md) | [`service-offer.v1.schema.json`](schemas-gen/schemas/service-offer.v1.md), [`service-order.v1.schema.json`](schemas-gen/schemas/service-order.v1.md) |
-| [`doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md`](project/40-proposals/024-capability-passports-and-network-ledger-delegation.md) | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md), [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) |
-| [`doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`](project/40-proposals/025-seed-directory-as-capability-catalog.md) | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md), [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) |
+| [`doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md`](project/40-proposals/024-capability-passports-and-network-ledger-delegation.md) | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md), [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md), [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) |
+| [`doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`](project/40-proposals/025-seed-directory-as-capability-catalog.md) | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md), [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md), [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) |
+| [`doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md`](project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md) | [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md), [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) |
 | [`doc/project/50-requirements/requirements-001.md`](project/50-requirements/requirements-001.md) | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) |
 | [`doc/project/50-requirements/requirements-002.md`](project/50-requirements/requirements-002.md) | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) |
 | [`doc/project/50-requirements/requirements-003.md`](project/50-requirements/requirements-003.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md), [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md), [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) |
@@ -227,7 +231,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/schemas/client-instance-detachment.v1.schema.json`](schemas/client-instance-detachment.v1.schema.json) | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 | [`doc/schemas/participant-bind.v1.schema.json`](schemas/participant-bind.v1.schema.json) | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md), [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md), [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 
-- Canonical schemas: `62`
-- Generated schema docs: `62`
-- Positive examples: `82`
+- Canonical schemas: `63`
+- Generated schema docs: `63`
+- Positive examples: `83`
 - Negative examples: `76`

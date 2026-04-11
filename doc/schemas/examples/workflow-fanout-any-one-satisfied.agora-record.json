@@ -1,0 +1,32 @@
+{
+  "schema": "agora-record.v1",
+  "record/id": "sha256:WF001rk5d8m2hxQP4N7bT6vLYcFj3gsOwueazR9ikmt",
+  "record/kind": "public-log",
+  "topic/key": "orbiplex/workflow-runs/01JRCY0Y7T4Y9JQK8K7R6K4M3M",
+  "author/participant-id": "participant:did:key:z6MkExampleWorkflowParticipant222222222222",
+  "authored/at": "2026-04-11T11:00:00Z",
+  "content/schema": "public-log-entry.v1",
+  "content": {
+    "event": "workflow.fan-out.any-one-satisfied",
+    "level": "info",
+    "message": "Fan-out step completed after one dispatch satisfied the fan-in predicate.",
+    "attributes": {
+      "step/name": "choose-executor",
+      "dispatch/count": 3,
+      "dispatch/satisfied": "dispatch-01JRCY0Y7T4Y9JQK8K7R6K4M3N",
+      "outcome": "any_one_satisfied"
+    },
+    "correlation/run-id": "01JRCY0Y7T4Y9JQK8K7R6K4M3M",
+    "correlation/step-id": "choose-executor"
+  },
+  "record/about": [
+    {
+      "resource/kind": "workflow-run",
+      "resource/id": "01JRCY0Y7T4Y9JQK8K7R6K4M3M"
+    }
+  ],
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_example_workflow_fanout_any_one_0001"
+  }
+}

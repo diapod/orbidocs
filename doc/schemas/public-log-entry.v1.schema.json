@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:public-log-entry:v1",
+  "title": "PublicLogEntry v1",
+  "description": "Machine-readable schema for a single public log entry carried inside an `agora-record.v1` envelope when `content/schema = public-log-entry.v1`. Intended for structured, machine-readable event logs that should be publicly citeable (workflow runs, build events, operator announcements, public health checks). Not a replacement for private telemetry or audit trails. The envelope is the sole source of truth for schema identity: this object does NOT carry a `schema` discriminator, because the envelope's `content/schema` field already names the contract.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/40-proposals/033-workflow-fan-out-and-temporal-orchestration.md"
+  ],
+  "required": [
+    "event"
+  ],
+  "properties": {
+    "event": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Machine-readable event label. Applications SHOULD namespace labels by subsystem, for example `workflow.fan-out.dispatched`, `build.stage.completed`, `operator.announcement.posted`."
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "debug",
+        "info",
+        "notice",
+        "warn",
+        "error",
+        "critical"
+      ],
+      "default": "info",
+      "description": "Severity of the log entry. Defaults to `info` when absent."
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "description": "Optional human-readable description of the event. Structured attributes belong in `attributes`, not in the message."
+    },
+    "attributes": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional structured attributes describing the event. Keys SHOULD be stable across a given event label so that consumers can query and aggregate."
+    },
+    "correlation/run-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Optional correlation handle grouping multiple log entries under a single logical run (for example a workflow run id)."
+    },
+    "correlation/step-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Optional correlation handle for a step within a run."
+    }
+  }
+}

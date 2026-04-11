@@ -1,0 +1,28 @@
+{
+  "schema": "agora-record.v1",
+  "record/id": "sha256:4Q7x3kCDfm2yVwrbn8Hj5tlsOe9zApiU6Gq3wXYAbCd",
+  "record/kind": "opinion",
+  "topic/key": "orbiplex/opinions/url",
+  "record/about": [
+    {
+      "resource/kind": "url",
+      "resource/id": "https://example.org/article"
+    }
+  ],
+  "author/participant-id": "participant:did:key:z6MkExampleOpinionAuthor3333333333333333",
+  "authored/at": "2026-04-11T08:15:00Z",
+  "content/schema": "resource-opinion.v1",
+  "content": {
+    "opinion/id": "opinion:resource:01JRCY0Y7T4Y9JQK8K7R6K4M3M",
+    "resource/kind": "url",
+    "resource/id": "https://example.org/article",
+    "body/text": "Useful overview, but the sourcing is thin in the final section.",
+    "body/lang": "en",
+    "rating": 3
+  },
+  "record/lang": "en",
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_example_opinion_url_article_0001"
+  }
+}

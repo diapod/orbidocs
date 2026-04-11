@@ -375,6 +375,15 @@ passport-backed entries.
 This separation prevents conflation of governance-delegated infrastructure roles
 with ordinary protocol capabilities that every Node announces.
 
+Operator-binding availability uses the same passport-backed availability pattern
+but adds one extra rule. A `node-primary-operator` passport is only the
+participant-side consent half of a `node-operator-binding.v1` bundle. A Seed
+Directory MUST NOT accept or serve it as an operator binding unless the payload
+also carries the Node's signed acceptance, or an equivalent
+`node-operator-binding.v1` bundle, proving that the target Node accepted that
+participant as its primary operator. Publishing such a bundle is an explicit
+privacy/disclosure decision by the Node, not a default capability-gossip step.
+
 ## Artifact Shapes
 
 ### `capability-passport.v1` (normative reference to Proposal 024)

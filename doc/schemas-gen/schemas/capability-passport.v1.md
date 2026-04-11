@@ -2,13 +2,14 @@
 
 Source schema: [`doc/schemas/capability-passport.v1.schema.json`](../../schemas/capability-passport.v1.schema.json)
 
-Signed delegation artifact that grants a named infrastructure capability to a target Node on behalf of a sovereign operator participant. Direct signatures are verified against the public key embedded in `issuer/participant_id`. Delegated signatures are verified against `issuer_delegation.proxy_key` after the inline delegation proof verifies against the same issuer. The signed payload is the deterministic canonical JSON of the artifact with `signature` and `issuer_delegation` omitted. Trust derives from local policy recognising the issuer as a sovereign operator, not from the passport alone.
+Signed capability or consent artifact naming a capability profile for a target Node. Direct signatures are verified against the public key embedded in `issuer/participant_id`. Delegated signatures are verified against `issuer_delegation.proxy_key` after the inline delegation proof verifies against the same issuer. The signed payload is the deterministic canonical JSON of the artifact with `signature` and `issuer_delegation` omitted. Trust derives from profile-specific local policy, not from the passport alone: infrastructure profiles such as `network-ledger` may require a sovereign operator issuer, while consent profiles such as `node-primary-operator` may require a matching Node acceptance artifact.
 
 ## Governing Basis
 
 - [`doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md`](../../project/40-proposals/024-capability-passports-and-network-ledger-delegation.md)
 - [`doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`](../../project/40-proposals/025-seed-directory-as-capability-catalog.md)
 - [`doc/project/20-memos/participant-assurance-levels.md`](../../project/20-memos/participant-assurance-levels.md)
+- [`doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md`](../../project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md)
 
 ## Project Lineage
 
@@ -33,11 +34,11 @@ Signed delegation artifact that grants a named infrastructure capability to a ta
 | [`schema`](#field-schema) | `yes` | const: `capability-passport.v1` | Schema discriminator. MUST be exactly `capability-passport.v1`. |
 | [`passport_id`](#field-passport-id) | `yes` | string | Stable unique identifier for this passport. MUST use the `passport:capability:` prefix. |
 | [`node_id`](#field-node-id) | `yes` | string | Target Node receiving the delegated capability. MUST match the `node:did:key:z...` canonical format. |
-| [`capability_id`](#field-capability-id) | `yes` | string | Bare kebab-case capability identifier (e.g. `network-ledger`, `seed-directory`, `escrow`). Maps 1:1 to the `core/<id>` or `role/<id>` prefix used in `CapabilityAdvertisementV1`. See Proposal 025 §7 for the naming convention. |
+| [`capability_id`](#field-capability-id) | `yes` | string | Capability identifier. Formal global profiles use bare kebab-case identifiers such as `network-ledger`, `seed-directory`, `escrow`, or `node-primary-operator`. Sovereign/private profiles may add an identity anchor, e.g. `audio-transcription@participant:did:key:z...`, with an optional leading `~` for informal profiles. See Proposal 024 and Proposal 025 for naming and advertisement projection. |
 | [`scope`](#field-scope) | `yes` | object | Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Capability definitions MAY add required scope fields as those capabilities are specified. |
 | [`issued_at`](#field-issued-at) | `yes` | string | RFC 3339 timestamp at which this passport was issued. |
 | [`expires_at`](#field-expires-at) | `no` | string \| null | RFC 3339 timestamp after which this passport MUST be treated as expired. `null` means no explicit expiry; receivers SHOULD apply a locally configured maximum TTL. |
-| [`issuer/participant_id`](#field-issuer-participant-id) | `yes` | string | Canonical `participant:did:key:z...` identifier of the issuing participant. MUST correspond to a participant whose assurance level is `SovereignOperator` (IAL5) under the receiving Node's local policy. |
+| [`issuer/participant_id`](#field-issuer-participant-id) | `yes` | string | Canonical `participant:did:key:z...` identifier of the issuing participant. The required authority level is determined by the capability profile. Infrastructure profiles such as `network-ledger` and `seed-directory` usually require a software-pinned sovereign operator; the `node-primary-operator` consent profile requires this participant to match the operator named by the binding policy and to be accepted by the target Node. |
 | [`issuer/node_id`](#field-issuer-node-id) | `yes` | string | Node on which the issuing participant acted when signing this passport. |
 | [`revocation_ref`](#field-revocation-ref) | `yes` | string \| null | Optional reference to an out-of-band revocation endpoint or log for this passport. `null` if no external revocation surface is provided; consumers SHOULD still poll the Seed Directory revocation log. |
 | [`issuer_delegation`](#field-issuer-delegation) | `no` | ref: `#/$defs/delegationProof` | Optional compact inline proof authorising a proxy key to sign this artifact for `issuer/participant_id`. Verifiers MUST verify this proof before checking the artifact signature with `proxy_key`; it is excluded from the artifact signature payload. |
@@ -109,7 +110,7 @@ Target Node receiving the delegated capability. MUST match the `node:did:key:z..
 - Required: `yes`
 - Shape: string
 
-Bare kebab-case capability identifier (e.g. `network-ledger`, `seed-directory`, `escrow`). Maps 1:1 to the `core/<id>` or `role/<id>` prefix used in `CapabilityAdvertisementV1`. See Proposal 025 §7 for the naming convention.
+Capability identifier. Formal global profiles use bare kebab-case identifiers such as `network-ledger`, `seed-directory`, `escrow`, or `node-primary-operator`. Sovereign/private profiles may add an identity anchor, e.g. `audio-transcription@participant:did:key:z...`, with an optional leading `~` for informal profiles. See Proposal 024 and Proposal 025 for naming and advertisement projection.
 
 <a id="field-scope"></a>
 ## `scope`
@@ -141,7 +142,7 @@ RFC 3339 timestamp after which this passport MUST be treated as expired. `null` 
 - Required: `yes`
 - Shape: string
 
-Canonical `participant:did:key:z...` identifier of the issuing participant. MUST correspond to a participant whose assurance level is `SovereignOperator` (IAL5) under the receiving Node's local policy.
+Canonical `participant:did:key:z...` identifier of the issuing participant. The required authority level is determined by the capability profile. Infrastructure profiles such as `network-ledger` and `seed-directory` usually require a software-pinned sovereign operator; the `node-primary-operator` consent profile requires this participant to match the operator named by the binding policy and to be accepted by the target Node.
 
 <a id="field-issuer-node-id"></a>
 ## `issuer/node_id`

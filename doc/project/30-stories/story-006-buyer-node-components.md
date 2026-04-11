@@ -10,7 +10,7 @@ Based on:
 - `doc/project/60-solutions/node.md`
 
 Date: `2026-03-30`
-Updated: `2026-04-07`
+Updated: `2026-04-10`
 Status: Accepted hard-MVP planning note with implementation sync
 
 ## Purpose
@@ -57,6 +57,22 @@ Closed in the current workspace:
 
 The remaining items called out below should therefore be read as post-hard-MVP
 work unless explicitly marked otherwise.
+
+Thin fan-out temporal is now closed for the current slice:
+
+- `target.resolve = static` with explicit participant lists,
+- `fan_in.policy = any_one | all`,
+- step-level `timing.timeout` with `on_timeout = fail | skip | abort_workflow`,
+- workflow-level `deadline`,
+- persisted `WorkflowStepDispatch`,
+- operator-visible dispatch inspection in `WorkflowRunSnapshot.steps[].dispatches`.
+
+Still deferred beyond this slice:
+
+- `target.resolve = capability` acceptance proof over dynamic resolution,
+- `fan_in.policy = best_of` acceptance proof,
+- quorum policy,
+- retry/backoff scheduling.
 
 ## Non-Goals
 
@@ -404,7 +420,11 @@ Current status:
   roots
 - product-level operator UX over workflow runs is now closed in launcher and
   node-ui hard-MVP
-- remaining gap beyond hard-MVP is broader scheduling plus fan-out/fan-in policy
+- thin temporal fan-out is now closed in Node for static target selection,
+  `any_one | all`, step timeout handling, workflow deadline handling, and
+  persisted dispatch inspection at the workflow-step surface
+- remaining gap beyond hard-MVP is broader scheduling, capability-resolved
+  target selection, `best_of` acceptance proof, quorum policy, and retry/backoff
 
 ## Current Node Coverage vs Buyer Needs
 

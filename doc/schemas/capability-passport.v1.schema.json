@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:capability-passport:v1",
   "title": "CapabilityPassport v1",
-  "description": "Signed delegation artifact that grants a named infrastructure capability to a target Node on behalf of a sovereign operator participant. Direct signatures are verified against the public key embedded in `issuer/participant_id`. Delegated signatures are verified against `issuer_delegation.proxy_key` after the inline delegation proof verifies against the same issuer. The signed payload is the deterministic canonical JSON of the artifact with `signature` and `issuer_delegation` omitted. Trust derives from local policy recognising the issuer as a sovereign operator, not from the passport alone.",
+  "description": "Signed capability or consent artifact naming a capability profile for a target Node. Direct signatures are verified against the public key embedded in `issuer/participant_id`. Delegated signatures are verified against `issuer_delegation.proxy_key` after the inline delegation proof verifies against the same issuer. The signed payload is the deterministic canonical JSON of the artifact with `signature` and `issuer_delegation` omitted. Trust derives from profile-specific local policy, not from the passport alone: infrastructure profiles such as `network-ledger` may require a sovereign operator issuer, while consent profiles such as `node-primary-operator` may require a matching Node acceptance artifact.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -10,7 +10,8 @@
   "x-dia-basis": [
     "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md",
     "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
-    "doc/project/20-memos/participant-assurance-levels.md"
+    "doc/project/20-memos/participant-assurance-levels.md",
+    "doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md"
   ],
   "required": [
     "schema",
@@ -44,8 +45,8 @@
     "capability_id": {
       "type": "string",
       "minLength": 1,
-      "pattern": "^[a-z0-9-]+$",
-      "description": "Bare kebab-case capability identifier (e.g. `network-ledger`, `seed-directory`, `escrow`). Maps 1:1 to the `core/<id>` or `role/<id>` prefix used in `CapabilityAdvertisementV1`. See Proposal 025 §7 for the naming convention."
+      "pattern": "^[~]?[a-z0-9][a-z0-9_/-]*(?:@(participant|node|org):did:key:z[1-9A-HJ-NP-Za-km-z]+)?$",
+      "description": "Capability identifier. Formal global profiles use bare kebab-case identifiers such as `network-ledger`, `seed-directory`, `escrow`, or `node-primary-operator`. Sovereign/private profiles may add an identity anchor, e.g. `audio-transcription@participant:did:key:z...`, with an optional leading `~` for informal profiles. See Proposal 024 and Proposal 025 for naming and advertisement projection."
     },
     "scope": {
       "type": "object",
@@ -66,7 +67,7 @@
       "type": "string",
       "minLength": 1,
       "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
-      "description": "Canonical `participant:did:key:z...` identifier of the issuing participant. MUST correspond to a participant whose assurance level is `SovereignOperator` (IAL5) under the receiving Node's local policy."
+      "description": "Canonical `participant:did:key:z...` identifier of the issuing participant. The required authority level is determined by the capability profile. Infrastructure profiles such as `network-ledger` and `seed-directory` usually require a software-pinned sovereign operator; the `node-primary-operator` consent profile requires this participant to match the operator named by the binding policy and to be accepted by the target Node."
     },
     "issuer/node_id": {
       "type": "string",

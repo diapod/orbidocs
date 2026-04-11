@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-record:v1",
+  "title": "AgoraRecord v1",
+  "description": "Machine-readable schema for a signed, content-addressed, topic-addressed record ingested by an Agora topic relay. The envelope is backend-neutral and intentionally opaque about topic-key shape: the substrate does not type, parse, or split `topic/key`. Resource identity (proposal 026) is reachable through the optional `record/about` field and is never used as the primary key.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md",
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md",
+    "doc/project/40-proposals/032-key-delegation-passports.md",
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md"
+  ],
+  "required": [
+    "schema",
+    "record/id",
+    "record/kind",
+    "topic/key",
+    "author/participant-id",
+    "authored/at",
+    "content/schema",
+    "content",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-record.v1",
+      "description": "Schema discriminator. MUST be the literal string `agora-record.v1`."
+    },
+    "record/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$",
+      "minLength": 16,
+      "maxLength": 128,
+      "description": "Content-addressed identifier of this record. Computed by the Orbiplex canonical `sha256_base64url` helper: `sha256:` followed by the unpadded base64url (RFC 4648 section 5) encoding of `sha256(canonicalize(payload))`, where `payload` is the record with `record/id`, `signature`, `relay/received-at`, and `relay/id` removed. Two records with the same canonical payload MUST yield the same `record/id` on every relay.",
+      "$comment": "Canonicalization rules (key sorting, number normalization, Unicode NFC) are defined by the orbiplex-agora-core library and MUST match across implementations. The `sha256:<base64url-no-pad>` shape matches the convention already used by `node/capability/src/lib.rs::sha256_base64url` for signed artifacts and passport hashes."
+    },
+    "record/kind": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "Role label of this record. Application-visible discriminator used by query APIs and kind contracts. Examples: `opinion`, `comment`, `annotation`, `public-log`, `whisper-durable`. The substrate accepts any well-formed kind; it MAY mark unknown kinds as non-indexable until a kind contract is registered."
+    },
+    "topic/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^\\S(.*\\S)?$",
+      "description": "Opaque topic identifier. The substrate MUST NOT parse, split, or type this value. Canonicalization rules: Unicode NFC, no control characters (C0/C1/DEL), no leading or trailing whitespace, non-empty, at most 512 bytes after UTF-8 encoding. Applications choose their own naming conventions (namespace-prefixed paths, content-derived identifiers, human-readable channel names). Topic keys derived from external resource identity are a convention of the record-kind contract, not a rule of the substrate.",
+      "$comment": "The `^\\S(.*\\S)?$` pattern rejects leading and trailing whitespace. Unicode NFC normalization and the byte-length bound are enforced by orbiplex-agora-core since JSON Schema cannot express them directly."
+    },
+    "author/participant-id": {
+      "type": "string",
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Participant identity of the record author. The signature MUST verify against the participant's current capability passport chain, honoring any delegation from proposal 032."
+    },
+    "authored/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Wall-clock timestamp asserted by the author at the moment of record creation. Relays enforce a clock skew window (default ±10 minutes) at ingest; out-of-window records are flagged and temporarily excluded from live query results."
+    },
+    "content/schema": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*\\.v[0-9]+$",
+      "minLength": 3,
+      "maxLength": 128,
+      "description": "Identifier of the schema that describes the inner `content` payload. MUST follow the `{slug}.v{n}` shape. Examples: `plain-comment.v1`, `public-log-entry.v1`, `resource-opinion.v1`. The substrate does not require `content/schema` to be pre-registered; unknown schemas are stored and served but MAY be treated as opaque by indexers."
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Payload object conforming to the schema named by `content/schema`. Kind contracts define field-level validation; the substrate performs envelope-level validation only."
+    },
+    "record/about": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Optional secondary-index references to external subjects this record is about. Each entry follows the resource identity model from proposal 026. MUST NOT be used by the substrate to derive `topic/key`. A kind contract MAY require one or more entries for specific record kinds.",
+      "items": {
+        "$ref": "resource-ref.v1.schema.json"
+      }
+    },
+    "record/parent": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$",
+      "minLength": 16,
+      "maxLength": 128,
+      "description": "Optional parent record reference (reply, annotation, successor). MUST resolve to a record under the same `topic/key`. A record that references an as-yet-unknown parent is flagged `dangling` until the parent appears."
+    },
+    "record/supersedes": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$",
+      "minLength": 16,
+      "maxLength": 128,
+      "description": "Optional prior record reference that this record revises or replaces. MUST resolve to a record under the same `topic/key` authored by the same `author/participant-id`, unless a kind contract explicitly relaxes the author constraint."
+    },
+    "record/tags": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "description": "Optional short free-form tags for application-level grouping. The substrate does not interpret tag semantics.",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^\\S(.*\\S)?$"
+      }
+    },
+    "record/lang": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 35,
+      "pattern": "^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$",
+      "description": "Optional BCP 47 language tag describing the natural-language contents of the record. Informational only."
+    },
+    "relay/received-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Wall-clock timestamp stamped by the relay that first ingested the record. MUST NOT appear in the payload the author signs. Stripped before `record/id` computation and signature verification."
+    },
+    "relay/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Identifier of the relay that first ingested the record. MUST NOT appear in the payload the author signs. Stripped before `record/id` computation and signature verification."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature",
+      "description": "Ed25519 signature by the participant key of `author/participant-id` over the canonical payload of this record with `signature`, `relay/received-at`, and `relay/id` removed. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`. Verification uses the participant's capability passport chain (proposals 024 and 032); delegated signing via proposal 032 is permitted.",
+      "$comment": "Two distinct canonical payloads are used in this schema: (1) the `record/id` payload excludes record/id + signature + relay fields; (2) the signature payload excludes only signature + relay fields and keeps record/id. This matches the Matrix event-signing pattern where event_id is embedded in the signed content and gives wider cross-transport compatibility."
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ],
+          "description": "Signature algorithm. Only `ed25519` is accepted in v1."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Base64url-encoded signature bytes."
+        },
+        "key/ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional reference to the signing key or delegation proof, used when the author signs through a delegated proxy key from proposal 032."
+        }
+      }
+    }
+  }
+}

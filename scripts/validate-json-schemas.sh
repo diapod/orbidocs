@@ -50,6 +50,9 @@ schema_for_file() {
     *.node-identity.json)
       echo "$SCHEMAS_DIR/node-identity.v1.schema.json"
       ;;
+    *.node-operator-binding.json)
+      echo "$SCHEMAS_DIR/node-operator-binding.v1.schema.json"
+      ;;
     *.node-advertisement.json)
       echo "$SCHEMAS_DIR/node-advertisement.v1.schema.json"
       ;;
