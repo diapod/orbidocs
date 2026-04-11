@@ -104,6 +104,7 @@ plugins:
                     - Learning Outcome v1: doc/schemas-gen/schemas/learning-outcome.v1.md
                     - Model Card v1: doc/schemas-gen/schemas/model-card.v1.md
                     - Node Identity v1: doc/schemas-gen/schemas/node-identity.v1.md
+                    - Node Operator Binding v1: doc/schemas-gen/schemas/node-operator-binding.v1.md
                     - Node Advertisement v1: doc/schemas-gen/schemas/node-advertisement.v1.md
                     - Peer Handshake v1: doc/schemas-gen/schemas/peer-handshake.v1.md
                     - Procurement Contract v1: doc/schemas-gen/schemas/procurement-contract.v1.md
@@ -189,6 +190,7 @@ plugins:
                     - Learning Outcome v1: doc/schemas-gen/schemas/learning-outcome.v1.md
                     - Model Card v1: doc/schemas-gen/schemas/model-card.v1.md
                     - Node Identity v1: doc/schemas-gen/schemas/node-identity.v1.md
+                    - Node Operator Binding v1: doc/schemas-gen/schemas/node-operator-binding.v1.md
                     - Node Advertisement v1: doc/schemas-gen/schemas/node-advertisement.v1.md
                     - Peer Handshake v1: doc/schemas-gen/schemas/peer-handshake.v1.md
                     - Procurement Contract v1: doc/schemas-gen/schemas/procurement-contract.v1.md

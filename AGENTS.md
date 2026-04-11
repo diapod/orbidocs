@@ -116,6 +116,22 @@ Under `doc/project/60-solutions/`, keep human-facing component pages in Markdown
 (for example `node.md`, `node-ui.md`, `ferment.md`) and structured capability
 catalogs in sidecar `*-caps.edn` files.
 
+Treat `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md` and
+`doc/project/60-solutions/CAPABILITY-REGISTRY.pl.md` as human-maintained read
+models of stable `capability_id` semantics. Update them when capability ids,
+wire names, semantic role boundaries, or primary runtime ownership change in:
+
+- `node:capability/src/lib.rs`
+- `doc/project/60-solutions/node.md`
+- attached-role or capability proposals
+
+Before considering a capability-registry edit done, run:
+- `make check-capability-registry`
+
+This checker compares the registry tables against
+`../node/capability/src/lib.rs` and is the mechanical guard for
+`capability_id -> wire name` drift. It does not replace semantic review.
+
 For the sibling `node` repository, the implementation-side counterpart is
 `../node/docs/implementation-ledger.toml` (assuming that node repository is cloned
 into a sibling directory): it is maintained manually there from the `orbidocs`
@@ -157,6 +173,10 @@ Treat the following as generated artifacts rather than hand-edited source:
 
 When changing their source inputs or generators, regenerate them before
 considering the change done.
+
+By contrast, `CAPABILITY-REGISTRY.*.md` is not generated. It should stay concise,
+manual, and in sync with the current capability surface rather than with every
+incidental runtime detail.
 
 ## 9. Collaboration Rules for Agents
 

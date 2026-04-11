@@ -190,8 +190,7 @@ shape around Node should be made explicit:
   trusted settlement authority creating and releasing `ledger-hold.v1`.
 - `service-catalog role`
   bounded catalog ownership for remote observed offers and fetch/push exchange;
-  in the preferred deployment this is owned by `Dator`, while
-  `catalog-listener` remains a compatibility relay.
+  owned by `Dator` (supply) and `Arca` (demand) in the standard deployment.
 - `arbiter node`
   optional or policy-dependent role for `arbiter-confirmed` and dispute paths.
 
@@ -220,7 +219,7 @@ Responsibilities:
 - delegate local standing offer lifecycle and participant-facing publication to
   `Dator`, while keeping outbound relay transport and peer-session routing in
   the daemon,
-- expose host capabilities such as `catalog.local.query` and
+- expose host capabilities such as `offers.local.query` and
   `peer.session.establish` so middleware may compose daemon-local offers with
   middleware-owned observed offers without taking ownership of peer transport,
 - keep bundled middleware under the same host-owned envelope and policy contracts

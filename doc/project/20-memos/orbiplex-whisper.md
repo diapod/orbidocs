@@ -4,12 +4,21 @@
 
 The point is not generic chat between nodes. The point is to let nodes exchange weak signals in the form of "I heard that..." without prematurely treating them as confirmed facts. This would support early pattern correlation, social-signal detection, and safe association bootstrapping for people who may be experiencing the same problem without yet knowing about one another.
 
-Examples include:
+Examples of problem convergence include:
 
 - workers in a large global company seeing similar retaliation or organizational abuse patterns,
 - users of a Pod ecosystem experiencing the same harmful moderation or service failure pattern,
 - geographically distributed communities reporting the same emerging safety or dignity risk,
 - repeated emergency-health failures where an ambulance team refuses transport for severe abdominal pain and the affected person later experiences intestinal bleeding, suggesting a systemic triage or refusal problem rather than an isolated accident.
+
+Examples of inspiration convergence include:
+
+- independent inventors in different countries discovering the same technical approach without prior contact,
+- artists or composers arriving at structurally similar works through separate creative paths,
+- practitioners in unrelated fields developing parallel methods to a shared problem class,
+- communities in different regions bootstrapping similar local solutions to unmet needs.
+
+The second class — inspiration convergence — is as important as the first. Two or more people who arrive at a similar idea independently, and who do not know each other yet, may benefit from being brought together to create jointly rather than in parallel. `Whisper` should therefore carry both polarities without conflating them.
 
 `Whisper` should therefore operate on the level of:
 
@@ -19,6 +28,33 @@ Examples include:
 - and only later, if warranted, confirmed or procedurally reviewed cases.
 
 It should not start as a raw fact bus.
+
+## Signal polarity
+
+A `whisper-signal` may carry one of two fundamental polarities:
+
+- **problem** — the signal describes a distributed harm, failure, or dignity risk. The
+  goal is early correlation and, where critical mass is reached, collective response
+  or protective action.
+- **inspiration** — the signal describes a convergent idea, creative discovery, or
+  emerging approach. The goal is to find co-creators or collaborators who arrived at
+  a similar place independently, and to propose an association room oriented toward
+  joint creation rather than crisis response.
+
+The two polarities share the same lifecycle (`whisper-signal` → `whisper-interest` →
+`whisper-threshold-reached` → `association-room-proposal` → human opt-in) but differ
+in tone, urgency, and the nature of the resulting room:
+
+- problem signals may carry a risk grade and may trigger emergency assistance paths;
+  inspiration signals carry no risk grade and never trigger emergency protocols.
+- problem signals protect the anonymity of affected people; inspiration signals may
+  still prefer privacy in early phases to avoid premature priority conflicts or
+  attribution pressure, but do not carry the same protective urgency.
+- the association room proposed after a problem threshold is a support or coordination
+  space; the one proposed after an inspiration threshold is a co-creation or
+  collaboration space.
+
+Both polarities must be first-class concepts in the signal schema.
 
 For onion-style relay, forwarding nyms, or transport-level anonymity, keep a separate outbound privacy capability in mind. `Whisper` should express privacy intent and routing posture on the outgoing artifact, while some egress-side module or relay capability may realize optional anonymous forwarding at the transport layer. `Orbiplex Anon` in `doc/project/20-memos/orbiplex-anon.md` is one possible provider of that capability, not a semantic dependency of `Whisper`.
 

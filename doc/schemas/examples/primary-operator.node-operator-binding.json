@@ -1,0 +1,48 @@
+{
+  "schema/v": 1,
+  "binding/id": "node-operator-binding:pl-main:01jrnodeop001",
+  "binding/status": "active",
+  "passport": {
+    "schema": "capability-passport.v1",
+    "passport_id": "passport:capability:node-primary-operator:01jrnodeop001",
+    "node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "capability_id": "node-primary-operator",
+    "scope": {
+      "operator/role": "primary",
+      "operator/attestation-ref": "root-attestation:pl-main:01jrnodeop001",
+      "operator/attestation-kind": "identity-assurance",
+      "operator/assurance-level": "IAL2",
+      "derived/node-assurance-level": "IAL2",
+      "derivation/mode": "operator-attestation-inheritance",
+      "valid/from": "2026-04-11T10:00:00Z",
+      "valid/until": "2027-04-11T10:00:00Z",
+      "basis/refs": [
+        "node-identity:node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "root-attestation:pl-main:01jrnodeop001"
+      ]
+    },
+    "issued_at": "2026-04-11T10:00:00Z",
+    "expires_at": "2027-04-11T10:00:00Z",
+    "issuer/participant_id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "issuer/node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "revocation_ref": "seed-directory:capability-revocations:pl-main",
+    "signature": {
+      "alg": "ed25519",
+      "value": "base64url:operator-passport-signature"
+    }
+  },
+  "node_acceptance": {
+    "schema": "node-operator-acceptance.v1",
+    "acceptance/id": "node-operator-acceptance:pl-main:01jrnodeop001",
+    "accepted_at": "2026-04-11T10:01:00Z",
+    "passport_id": "passport:capability:node-primary-operator:01jrnodeop001",
+    "passport_hash": "sha256:base64url-passport-hash",
+    "node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "operator/participant_id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "signature": {
+      "alg": "ed25519",
+      "value": "base64url:node-acceptance-signature"
+    }
+  },
+  "published/disclosure-mode": "present-on-demand"
+}

@@ -1,0 +1,367 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:node-operator-binding:v1",
+  "title": "NodeOperatorBinding v1",
+  "description": "Machine-readable schema for a node-held operator-assurance certificate. The binding is a bundle over `capability-passport.v1`: the operator participant issues a `node-primary-operator` passport to the target node, and the node signs a separate acceptance proving that it accepts that participant as primary operator. Derived node assurance remains an eligibility gate, not reputation.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md",
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md",
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/normative/50-constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md",
+    "doc/normative/50-constitutional-ops/pl/ROLE-TO-IAL-MATRIX.pl.md"
+  ],
+  "required": [
+    "schema/v",
+    "binding/id",
+    "binding/status",
+    "passport",
+    "node_acceptance"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "binding/id": {
+      "type": "string",
+      "pattern": "^node-operator-binding:[a-z0-9][a-z0-9:-]*$",
+      "description": "Stable identifier of this node/operator binding bundle."
+    },
+    "binding/status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "revoked",
+        "expired",
+        "superseded"
+      ],
+      "description": "Lifecycle state of this binding bundle. Passport expiry or revocation should drive this projection."
+    },
+    "passport": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Full `capability-passport.v1` artifact issued by the operator participant. In this profile it is the participant-side consent claim: I agree to be primary operator of this target node.",
+      "required": [
+        "schema",
+        "passport_id",
+        "node_id",
+        "capability_id",
+        "scope",
+        "issued_at",
+        "issuer/participant_id",
+        "issuer/node_id",
+        "revocation_ref",
+        "signature"
+      ],
+      "properties": {
+        "schema": {
+          "const": "capability-passport.v1"
+        },
+        "passport_id": {
+          "type": "string",
+          "pattern": "^passport:capability:",
+          "description": "Stable identifier of the underlying operator-consent passport."
+        },
+        "node_id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Target node receiving the primary-operator consent passport."
+        },
+        "capability_id": {
+          "const": "node-primary-operator",
+          "description": "Virtual capability profile used for node/operator binding. It is not a generic runtime execution permission."
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "operator/role",
+            "operator/attestation-ref",
+            "operator/assurance-level",
+            "derived/node-assurance-level",
+            "derivation/mode",
+            "valid/from",
+            "basis/refs"
+          ],
+          "properties": {
+            "operator/role": {
+              "const": "primary",
+              "description": "Operator role carried by this v1 binding. The first version models only the primary operator."
+            },
+            "operator/attestation-ref": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Reference to the operator participant's identity-assurance, Proof-of-Personhood, or federation attestation record."
+            },
+            "operator/attestation-kind": {
+              "type": "string",
+              "enum": [
+                "identity-assurance",
+                "proof-of-personhood",
+                "federation-attestation",
+                "other"
+              ],
+              "description": "Optional classifier for the attestation reference used to derive node assurance."
+            },
+            "operator/assurance-level": {
+              "$ref": "#/$defs/assuranceLevel",
+              "description": "Assurance level of the operator participant at the time the binding is accepted."
+            },
+            "derived/node-assurance-level": {
+              "$ref": "#/$defs/assuranceLevel",
+              "description": "Assurance level exposed by the node for eligibility gates. Consumers MUST NOT treat this as reputation and SHOULD ensure it does not exceed the operator assurance level."
+            },
+            "derivation/mode": {
+              "type": "string",
+              "enum": [
+                "operator-attestation-inheritance",
+                "federation-reviewed-exception"
+              ],
+              "description": "How the node assurance was derived from the operator relationship."
+            },
+            "valid/from": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when the binding becomes valid."
+            },
+            "valid/until": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Optional timestamp after which the binding should no longer be treated as active."
+            },
+            "basis/refs": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "description": "Evidence references supporting the binding, such as node identity, operator attestation, or federation approval records.",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "approved-by/id": {
+              "type": "string",
+              "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+              "description": "Council or federation approval identity required for reviewed exceptions."
+            },
+            "approved-at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when a reviewed exception was approved."
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "derivation/mode": {
+                    "const": "federation-reviewed-exception"
+                  }
+                },
+                "required": [
+                  "derivation/mode"
+                ]
+              },
+              "then": {
+                "required": [
+                  "approved-by/id",
+                  "approved-at"
+                ]
+              }
+            }
+          ]
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "issuer/participant_id": {
+          "type": "string",
+          "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Participant identity of the primary operator issuing the consent passport."
+        },
+        "issuer/node_id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Node from which the operator participant acted when issuing the passport."
+        },
+        "revocation_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "description": "Reference to a revocation endpoint or log for this passport. `null` means no external revocation reference is declared."
+        },
+        "issuer_delegation": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Optional inline delegation proof reused from `capability-passport.v1` when the participant signs through a delegated proxy key."
+        },
+        "signature": {
+          "$ref": "#/$defs/signature",
+          "description": "Operator participant signature over the canonical passport payload."
+        }
+      }
+    },
+    "node_acceptance": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Node-side acceptance proving that the target node accepts the passport issuer as its primary operator. A participant-issued passport without this node acceptance is not a binding.",
+      "required": [
+        "schema",
+        "acceptance/id",
+        "accepted_at",
+        "passport_id",
+        "passport_hash",
+        "node_id",
+        "operator/participant_id",
+        "signature"
+      ],
+      "properties": {
+        "schema": {
+          "const": "node-operator-acceptance.v1"
+        },
+        "acceptance/id": {
+          "type": "string",
+          "pattern": "^node-operator-acceptance:[a-z0-9][a-z0-9:-]*$",
+          "description": "Stable identifier of the node acceptance record."
+        },
+        "accepted_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the node accepted the operator passport."
+        },
+        "passport_id": {
+          "type": "string",
+          "pattern": "^passport:capability:",
+          "description": "Passport accepted by the node. Consumers SHOULD require equality with `passport.passport_id`."
+        },
+        "passport_hash": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]+$",
+          "description": "Hash of the canonical signed passport payload or full passport artifact, as specified by the runtime profile. Consumers MUST compare it with the presented passport."
+        },
+        "node_id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Node accepting the operator passport. Consumers SHOULD require equality with `passport.node_id`."
+        },
+        "operator/participant_id": {
+          "type": "string",
+          "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Operator participant accepted by the node. Consumers SHOULD require equality with `passport.issuer/participant_id`."
+        },
+        "signature": {
+          "$ref": "#/$defs/signature",
+          "description": "Node Ed25519 signature over the canonical acceptance payload with `signature` omitted."
+        }
+      }
+    },
+    "published/disclosure-mode": {
+      "type": "string",
+      "enum": [
+        "local-only",
+        "present-on-demand",
+        "seed-directory"
+      ],
+      "default": "present-on-demand",
+      "description": "Disclosure posture for this binding. `seed-directory` means the node explicitly chose higher availability for the node/operator relation."
+    },
+    "seed-directory/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional Seed Directory publication reference when disclosure mode is `seed-directory`."
+    },
+    "revocation/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the record that revoked or superseded this binding."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local or federation policy annotations that do not change the core binding semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "binding/status": {
+            "const": "revoked"
+          }
+        },
+        "required": [
+          "binding/status"
+        ]
+      },
+      "then": {
+        "required": [
+          "revocation/ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "published/disclosure-mode": {
+            "const": "seed-directory"
+          }
+        },
+        "required": [
+          "published/disclosure-mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "seed-directory/ref"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "assuranceLevel": {
+      "type": "string",
+      "enum": [
+        "IAL0",
+        "IAL1",
+        "IAL2",
+        "IAL3",
+        "IAL4"
+      ],
+      "description": "Identity assurance level recognized by the surrounding policy for participant/operator identity proofing."
+    },
+    "signature": {
+      "type": "object",
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

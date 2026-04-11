@@ -219,21 +219,63 @@ least:
 This runtime configuration should be treated as a projection, not as the
 factory source of truth for the middleware itself.
 
+The same supervised shape benefits from host-published contract artifacts.
+For catalog-oriented middleware this means:
+
+- the daemon may publish read-only JSON Schema for host-visible record or
+  snapshot shapes such as `/v1/schemas/service-offer-snapshot`,
+- bundled Python modules may fetch those artifacts at runtime and validate
+  emitted JSON before persisting or returning it,
+- shared helper libraries such as `middleware-modules/lib/catalog.py` should
+  mirror only the storage mechanics and contract edges, not take over host
+  ownership of the actual catalogs,
+- that helper layer should keep its abstract `CatalogStore` semantic
+  (`upsert/get/list/delete/expire`) and push SQLite-specific row layout into an
+  explicit codec/projection layer rather than leaking table concerns through
+  the abstract store contract,
+- lightweight local schema validation should fail fast on unsupported features
+  such as `$ref` instead of silently treating them as valid.
+
+Bundled middleware defaults and daemon runtime projections should remain
+separate:
+
+- bundled factory defaults live under
+  `middleware-modules/<name>/config/*.json`,
+- operator overrides live under `<data_dir>/config/*.json`,
+- the daemon seeds only missing module subtrees such as `50-dator.json`,
+- the daemon then builds one effective runtime config as
+  `deep_merge(factory_config, node_config)`,
+- host-owned runtime sections such as `middleware_http_local_services` and
+  daemon-state checkpoint policy are derived after that merge and remain
+  visible only in resolved runtime config and diagnostics.
+
+Current daemon-state checkpoint projection:
+
+- config key: `state_checkpoint_interval_ms`
+- `0` disables periodic checkpoints
+- runtime artifact:
+  `<data_dir>/storage/checkpoints/daemon-state.v1.json`
+- control-plane trigger:
+  `POST /v1/daemon/checkpoint-now`
+
 Recommended layering:
 
 1. bundled middleware factory config lives under
    `middleware-modules/<service-dir>/config/*.json`
 2. node operator config lives under `<data_dir>/config/*.json`
 3. the daemon builds one effective runtime config as
-   `deep_merge(factory_config, node_config)`
+   `deep_merge(factory_config, node_config)`, where `factory_config` includes
+   only middleware with `seed_config = true` plus bundled modules explicitly
+   enabled by operator config
 4. the daemon then projects host-owned runtime sections such as supervised
-   executor stanzas and local bridge URLs
+   executor stanzas
 
 The important boundary is that seeded operator-visible fragments such as
 `50-<module-key>.json` should contain only the middleware subtree
-`{ "<module-key>": { ... } }`. Host-owned runtime sections are visible in the
-resolved runtime config, but should not be written back into those seeded
-factory fragments.
+`{ "<module-key>": { ... } }`, and only for middleware whose factory entry sets
+`seed_config = true`. Host-owned runtime sections are visible in the resolved
+runtime config, but should not be written back into those seeded factory
+fragments.
 
 The hard MVP should assume at least two bundled supervised middleware component
 profiles:

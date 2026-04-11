@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/capability-passport-revocation.v1.schema.json`](../../schemas/capability-passport-revocation.v1.schema.json)
 
-Signed revocation artifact that invalidates a previously issued `capability-passport.v1`. Two signing authorities are recognised: the original issuer (sovereign operator who granted the capability) and the subject node (self-revocation by the node whose capability is being withdrawn). The `signed_by` field discriminates between the two paths. The Seed Directory appends accepted revocations to its append-only revocation log; consumers MUST poll `GET /revocations?since=` and immediately invalidate any cached passport whose `passport_id` appears in the log.
+Signed revocation artifact that invalidates a previously issued `capability-passport.v1` or `key-delegation.v1`. Two signing authorities are recognised: the original issuer (sovereign operator who granted the capability/delegation) and the subject node (self-revocation by the node whose capability is being withdrawn). Issuer-signed revocations may be signed directly or by a proxy key with an inline `issuer_delegation` proof. The `signed_by` field discriminates between issuer and subject paths. The Seed Directory appends accepted revocations to its append-only revocation log; consumers MUST poll `GET /revocations?since=` and invalidate cached passports/delegations named by `passport_id` or `target_id`.
 
 ## Governing Basis
 
@@ -31,13 +31,15 @@ Signed revocation artifact that invalidates a previously issued `capability-pass
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `capability-passport-revocation.v1` | Schema discriminator. MUST be exactly `capability-passport-revocation.v1`. |
 | [`revocation_id`](#field-revocation-id) | `yes` | string | Stable unique identifier for this revocation record. MUST use the `passport-revocation:` prefix. |
-| [`passport_id`](#field-passport-id) | `yes` | string | Identifier of the `capability-passport.v1` being revoked. MUST use the `passport:capability:` prefix and MUST match an existing passport known to the verifying party. |
+| [`passport_id`](#field-passport-id) | `no` | string | Identifier of the `capability-passport.v1` being revoked. MUST use the `passport:capability:` prefix and MUST match an existing passport known to the verifying party. |
+| [`target_id`](#field-target-id) | `no` | string | Identifier of the `key-delegation.v1` being revoked. Exactly one of `passport_id` or `target_id` MUST be present. |
 | [`node_id`](#field-node-id) | `yes` | string | Node whose delegated capability is being revoked. MUST match the `node_id` in the original passport. |
 | [`capability_id`](#field-capability-id) | `yes` | string | Bare kebab-case capability identifier being revoked (e.g. `network-ledger`). MUST match the `capability_id` in the original passport. |
 | [`revoked_at`](#field-revoked-at) | `yes` | string | RFC 3339 timestamp at which the revocation was declared. The Seed Directory MUST store this timestamp in the revocation log entry. |
 | [`signed_by`](#field-signed-by) | `yes` | enum: `issuer`, `subject` | Who signed this revocation. `issuer` — the sovereign operator participant who originally issued the passport (uses `issuer/participant_id`). `subject` — the target node revoking its own capability using its node key (no `issuer/participant_id`; the signer public key is derived from `node_id`). |
 | [`issuer/participant_id`](#field-issuer-participant-id) | `no` | string | Canonical `participant:did:key:z...` identifier of the revoking participant. REQUIRED when `signed_by == "issuer"` and MUST match `issuer/participant_id` in the original passport. MUST NOT be present when `signed_by == "subject"`. |
 | [`reason`](#field-reason) | `no` | string | Optional human-readable note explaining why the passport was revoked (e.g. `operator key rotation`, `node decommissioned`). Not machine-interpreted; informational only. |
+| [`issuer_delegation`](#field-issuer-delegation) | `no` | ref: `#/$defs/delegationProof` | Optional compact inline proof authorising a proxy key to sign this issuer revocation for `issuer/participant_id`. MUST NOT be present when `signed_by == "subject"`. Excluded from the revocation signature payload. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/ed25519Signature` |  |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object | Optional informational annotations. MUST NOT alter revocation semantics. |
 
@@ -45,11 +47,44 @@ Signed revocation artifact that invalidates a previously issued `capability-pass
 
 | Definition | Shape | Description |
 |---|---|---|
-| [`ed25519Signature`](#def-ed25519signature) | object | Ed25519 signature over the deterministic canonical JSON of the revocation artifact with the `signature` field omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. For `signed_by == "issuer"` the signing key belongs to `issuer/participant_id`; for `signed_by == "subject"` the signing key belongs to the node identified by `node_id`. |
+| [`delegationProof`](#def-delegationproof) | object |  |
+| [`ed25519Signature`](#def-ed25519signature) | object | Ed25519 signature over the deterministic canonical JSON of the revocation artifact with the `signature` and `issuer_delegation` fields omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. For `signed_by == "issuer"` the signing key is either `issuer/participant_id` or `issuer_delegation.proxy_key`; for `signed_by == "subject"` the signing key belongs to the node identified by `node_id`. |
 
 ## Conditional Rules
 
 ### Rule 1
+
+Constraint:
+
+```json
+{
+  "description": "Exactly one target field is required: `passport_id` for capability passports or `target_id` for key delegations.",
+  "oneOf": [
+    {
+      "required": [
+        "passport_id"
+      ],
+      "not": {
+        "required": [
+          "target_id"
+        ]
+      }
+    },
+    {
+      "required": [
+        "target_id"
+      ],
+      "not": {
+        "required": [
+          "passport_id"
+        ]
+      }
+    }
+  ]
+}
+```
+
+### Rule 2
 
 When:
 
@@ -76,7 +111,7 @@ Then:
 }
 ```
 
-### Rule 2
+### Rule 3
 
 When:
 
@@ -98,7 +133,8 @@ Then:
 ```json
 {
   "properties": {
-    "issuer/participant_id": false
+    "issuer/participant_id": false,
+    "issuer_delegation": false
   }
 }
 ```
@@ -124,10 +160,18 @@ Stable unique identifier for this revocation record. MUST use the `passport-revo
 <a id="field-passport-id"></a>
 ## `passport_id`
 
-- Required: `yes`
+- Required: `no`
 - Shape: string
 
 Identifier of the `capability-passport.v1` being revoked. MUST use the `passport:capability:` prefix and MUST match an existing passport known to the verifying party.
+
+<a id="field-target-id"></a>
+## `target_id`
+
+- Required: `no`
+- Shape: string
+
+Identifier of the `key-delegation.v1` being revoked. Exactly one of `passport_id` or `target_id` MUST be present.
 
 <a id="field-node-id"></a>
 ## `node_id`
@@ -177,6 +221,14 @@ Canonical `participant:did:key:z...` identifier of the revoking participant. REQ
 
 Optional human-readable note explaining why the passport was revoked (e.g. `operator key rotation`, `node decommissioned`). Not machine-interpreted; informational only.
 
+<a id="field-issuer-delegation"></a>
+## `issuer_delegation`
+
+- Required: `no`
+- Shape: ref: `#/$defs/delegationProof`
+
+Optional compact inline proof authorising a proxy key to sign this issuer revocation for `issuer/participant_id`. MUST NOT be present when `signed_by == "subject"`. Excluded from the revocation signature payload.
+
 <a id="field-signature"></a>
 ## `signature`
 
@@ -193,9 +245,14 @@ Optional informational annotations. MUST NOT alter revocation semantics.
 
 ## Definition Semantics
 
+<a id="def-delegationproof"></a>
+## `$defs.delegationProof`
+
+- Shape: object
+
 <a id="def-ed25519signature"></a>
 ## `$defs.ed25519Signature`
 
 - Shape: object
 
-Ed25519 signature over the deterministic canonical JSON of the revocation artifact with the `signature` field omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. For `signed_by == "issuer"` the signing key belongs to `issuer/participant_id`; for `signed_by == "subject"` the signing key belongs to the node identified by `node_id`.
+Ed25519 signature over the deterministic canonical JSON of the revocation artifact with the `signature` and `issuer_delegation` fields omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. For `signed_by == "issuer"` the signing key is either `issuer/participant_id` or `issuer_delegation.proxy_key`; for `signed_by == "subject"` the signing key belongs to the node identified by `node_id`.

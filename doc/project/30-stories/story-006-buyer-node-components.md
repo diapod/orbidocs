@@ -10,7 +10,8 @@ Based on:
 - `doc/project/60-solutions/node.md`
 
 Date: `2026-03-30`
-Status: Accepted hard-MVP planning note
+Updated: `2026-04-10`
+Status: Accepted hard-MVP planning note with implementation sync
 
 ## Purpose
 
@@ -38,6 +39,40 @@ Related source artifacts created from this note:
 - `doc/project/20-memos/story-006-settlement-rail-sprint-3.md`
 - `doc/schemas/service-offer.v1.schema.json`
 - `doc/schemas/service-order.v1.schema.json`
+
+## Implementation Status Note (`2026-04-07`)
+
+The hard-MVP buyer path described by this note is now substantially implemented in
+the `Node` workspace.
+
+Closed in the current workspace:
+
+- local committed `service-offer.v1` catalog with supervised publication,
+- `service-order.v1` ingress and selected-offer procurement bridge,
+- deployment-local settlement rail including gateway adapter MVP and hold-backed
+  execution lifecycle,
+- operator and UI inspection surfaces for workflow runs, settlement state, module
+  registry, and execution-to-receipt joins,
+- durable multi-step `Arca` orchestration over host-owned workflow state.
+
+The remaining items called out below should therefore be read as post-hard-MVP
+work unless explicitly marked otherwise.
+
+Thin fan-out temporal is now closed for the current slice:
+
+- `target.resolve = static` with explicit participant lists,
+- `fan_in.policy = any_one | all`,
+- step-level `timing.timeout` with `on_timeout = fail | skip | abort_workflow`,
+- workflow-level `deadline`,
+- persisted `WorkflowStepDispatch`,
+- operator-visible dispatch inspection in `WorkflowRunSnapshot.steps[].dispatches`.
+
+Still deferred beyond this slice:
+
+- `target.resolve = capability` acceptance proof over dynamic resolution,
+- `fan_in.policy = best_of` acceptance proof,
+- quorum policy,
+- retry/backoff scheduling.
 
 ## Non-Goals
 
@@ -230,7 +265,8 @@ Current status:
 - closed in Node hard-MVP as a committed local catalog with
   `service-offer.v1` import, active-offer lookup, list/detail reads, and
   supervised module publication
-- remaining gap is remote observed-offer ingest and richer catalog/operator views
+- remaining gap beyond hard-MVP is remote observed-offer ingest and federated
+  catalog distribution semantics
 
 ### 2. Buyer-side service-order ingress
 
@@ -277,8 +313,9 @@ Current status:
   catalog, buyer and organization context is attached host-side, settlement
   reservation happens inside the write gate, and procurement is opened through
   the existing selected-responder core
-- remaining gap is broader marketplace federation and richer operator views over
-  policy-bound rejections
+- remaining gap beyond hard-MVP is broader marketplace federation; richer
+  operator views over policy-bound rejections are already closed in launcher and
+  node-ui
 
 ### 4. Buyer-side settlement consumption surface
 
@@ -304,7 +341,9 @@ Current status:
   account and hold reads, idempotent gateway-receipt ingestion, hold
   create/void/release/refund/freeze, policy freezing, and dispute resolution are
   all runtime-backed
-- remaining gap is a real gateway adapter and any later remote escrow boundary
+- gateway adapter MVP is now closed in Node hard-MVP through async gateway sync,
+  append-only gateway facts, and control plus inspection surfaces
+- remaining gap beyond hard-MVP is any later remote escrow boundary
 
 ### 5. Organization-subject consumption and acting-on-behalf-of resolution
 
@@ -330,8 +369,8 @@ Current status:
 
 - closed in Node hard-MVP through host-side custodian resolution and
   organization-bound payer context during `service-order` bridge validation
-- remaining gap is richer organization storage and delegation policy beyond the
-  current local custodian map
+- remaining gap beyond hard-MVP is richer organization storage and delegation
+  policy beyond the current local custodian map
 
 ### 6. `Arca` host capability adapter
 
@@ -379,8 +418,13 @@ Current status:
   orchestrates through host-owned workflow capabilities, notifications are
   persisted, and local artifacts are written and read through host-owned module
   roots
-- remaining gap is broader scheduling, fan-out/fan-in policy, and product-level
-  operator UX over workflow runs
+- product-level operator UX over workflow runs is now closed in launcher and
+  node-ui hard-MVP
+- thin temporal fan-out is now closed in Node for static target selection,
+  `any_one | all`, step timeout handling, workflow deadline handling, and
+  persisted dispatch inspection at the workflow-step surface
+- remaining gap beyond hard-MVP is broader scheduling, capability-resolved
+  target selection, `best_of` acceptance proof, quorum policy, and retry/backoff
 
 ## Current Node Coverage vs Buyer Needs
 
@@ -399,13 +443,11 @@ The buyer-side gaps for `story-006` are therefore no longer in the core purchase
 path. They now sit mostly above the current hard-MVP slice:
 
 - remote or federated offer ingest beyond the local committed catalog,
-- a real gateway adapter instead of operator-only top-up intake,
 - broader organization delegation and storage semantics beyond the current local
   custodian map,
-- richer operator/UI surfaces for workflow runs, policy-bound rejections, and
-  marketplace inventory,
 - broader workflow planning than the currently implemented local multi-step
-  orchestration.
+  orchestration, especially fan-out/fan-in policy,
+- any later remote gateway or escrow boundary.
 
 ## Recommended Implementation Order
 
@@ -414,12 +456,14 @@ The next practical order for story-006 is:
 
 ### Phase E: hard-MVP product closure
 
-Implement:
+Status in current workspace: closed.
 
-1. gateway adapter or equivalent non-operator top-up flow,
+Delivered:
+
+1. gateway adapter MVP with async sync and append-only gateway facts,
 2. richer operator views for module registry, workflow runs, and settlement plus
    participant restrictions,
-3. explicit execution-to-receipt joins in launcher/UI.
+3. explicit execution-to-receipt joins in launcher and node-ui.
 
 ### Phase F: marketplace beyond one local deployment
 

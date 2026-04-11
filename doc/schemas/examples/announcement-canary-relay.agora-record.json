@@ -1,0 +1,22 @@
+{
+  "schema": "agora-record.v1",
+  "record/id": "sha256:Zp2m9ThKqgX4r7v8C5n1Yb6jD3WlFsTaephQkU2mov8",
+  "record/kind": "comment",
+  "topic/key": "orbiplex/announcements",
+  "author/participant-id": "participant:did:key:z6MkExampleParticipantAnnouncement1111111111",
+  "authored/at": "2026-04-11T09:00:00Z",
+  "content/schema": "plain-comment.v1",
+  "content": {
+    "body": "Agora MVP landed on the canary relay. All current topic keys remain opaque; no migration required for existing record authors.",
+    "body/format": "text/plain",
+    "lang": "en"
+  },
+  "record/tags": [
+    "release",
+    "canary"
+  ],
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_example_announcement_canary_relay_0001"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:plain-comment:v1",
+  "title": "PlainComment v1",
+  "description": "Machine-readable schema for the simplest Agora content payload: a plain-text comment. Used as the inner `content` of an `agora-record.v1` envelope when `content/schema = plain-comment.v1`. The envelope is the sole source of truth for schema identity: this object does NOT carry a `schema` discriminator, because the envelope's `content/schema` field already names the contract.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+  ],
+  "required": [
+    "body"
+  ],
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "description": "The textual body of the comment. Plain, unformatted text by default. Renderers MUST treat the content as untrusted input and escape appropriately before display."
+    },
+    "body/format": {
+      "type": "string",
+      "enum": [
+        "text/plain",
+        "text/markdown"
+      ],
+      "default": "text/plain",
+      "description": "Optional content type hint for rendering. `text/plain` is the default. `text/markdown` requests CommonMark rendering. Renderers MUST NOT execute embedded scripts or interpret active content regardless of format."
+    },
+    "lang": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 35,
+      "pattern": "^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$",
+      "description": "Optional BCP 47 language tag for the comment body. Duplicates the envelope `record/lang` when both are present; when they disagree, the inner value takes precedence for rendering."
+    }
+  }
+}

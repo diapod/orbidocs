@@ -208,4 +208,4 @@ Trade-off:
 
 - a slow sidecar can temporarily head-of-line block one session worker thread.
 
-This is acceptable for MVP and bounded local handlers such as `catalog-listener`.
+This is acceptable for MVP and bounded local handlers such as `arca`.

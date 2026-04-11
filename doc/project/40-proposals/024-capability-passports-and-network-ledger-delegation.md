@@ -30,8 +30,10 @@ The decisions of this proposal are:
 
 1. infrastructure capabilities delegated to other Nodes must be expressed as a
    signed `capability-passport.v1` artifact rather than as ad-hoc config,
-2. passport signing authority belongs to a local participant whose derived
-   assurance level is `sovereign-operator`,
+2. passport signing proves issuer consent, while authority is interpreted by the
+   concrete capability profile; infrastructure profiles such as
+   `network-ledger` require a local participant whose derived assurance level is
+   `sovereign-operator`,
 3. the signing format is deterministic canonical JSON with the `signature`
    field omitted from the signed payload,
 4. `network-ledger` is the first concrete delegated infrastructure capability,
@@ -132,29 +134,43 @@ portable signed artifact:
 - `issuer/participant_id = "participant:did:key:..."`
 - `issuer/node_id = "node:did:key:..."`
 - `revocation_ref = null | "node:did:key:..."`
+- optional `issuer_delegation = { ... }` when the passport is signed by a
+  scoped proxy key (see Proposal 032)
 - `signature = { "alg": "ed25519", "value": "..." }`
 
-The passport is an auditable delegated fact. It does not itself create trust
-out of nothing. Trust derives from local policy that recognizes the issuing
-participant as a sovereign operator and accepts its delegation authority.
+The passport is an auditable delegated or consent fact. It does not itself
+create trust out of nothing. Trust derives from profile-specific local policy:
+for infrastructure delegation, policy recognizes the issuing participant as a
+sovereign operator and accepts its delegation authority; for consent profiles,
+policy may require additional counter-signatures or attestations.
 
-### 2. Signing Authority Belongs to Sovereign Operators
+### 2. Signing Authority Is Profile-Scoped
 
-Only a participant whose derived assurance level is `sovereign-operator` may
-issue a capability passport.
+Every capability passport is signed by a participant issuer, but not every
+passport profile has the same authority rule.
 
+For high-impact infrastructure profiles such as `network-ledger`,
+`seed-directory`, `escrow`, or `oracle`, only a participant whose derived
+assurance level is `sovereign-operator` may issue a valid capability passport.
 This does not mean that `IAL5` replaces ordinary identity proofing. It means
 that infrastructure delegation is governed by software-pinned sovereign trust,
 not by phone or government-ID attestation.
 
+Other profiles may define narrower consent semantics. For example,
+`node-primary-operator` is a virtual operator-binding capability: the participant
+passport means "I consent to be the primary operator of this Node", and the
+binding becomes effective only when the target Node also signs an acceptance
+artifact.
+
 Issuer verification therefore proceeds in two stages:
 
 1. parse `issuer/participant_id` from the passport,
-2. check that the local Node policy treats that participant as a sovereign
-   operator.
+2. apply the authority rule for the specific `capability_id`.
 
-If the issuer is not sovereign under local policy, the passport MUST be
-rejected even if the signature is cryptographically valid.
+If the issuer does not satisfy the profile-specific policy, the passport MUST be
+rejected even if the signature is cryptographically valid. For `network-ledger`
+and the other critical infrastructure profiles listed above, that policy is
+still sovereign-operator issuance.
 
 ### 3. Canonical Signing Format
 
@@ -164,7 +180,9 @@ canonical JSON with:
 - object keys sorted lexicographically,
 - arrays left in original order,
 - no insignificant whitespace,
-- the top-level `signature` field omitted entirely from the canonical payload.
+- the top-level `signature` field omitted entirely from the canonical payload,
+- the top-level `issuer_delegation` field omitted when present. It carries a
+  separate principal signature and is verified as a separate proof.
 
 The signature algorithm is Ed25519.
 
@@ -172,13 +190,17 @@ The signing and verification algorithm is:
 
 1. clone the passport payload without `signature`,
 2. serialize it into canonical JSON,
-3. sign those bytes with the issuer participant's Ed25519 key,
+3. sign those bytes with the issuer participant's Ed25519 key, or with the
+   delegated proxy key named by an inline `issuer_delegation` proof,
 4. encode the signature as base64url without padding,
 5. store it under `signature.value`,
 6. set `signature.alg = "ed25519"`.
 
-The verifier repeats the same canonicalization and verifies the Ed25519
-signature against the public key recoverable from `issuer/participant_id`.
+The verifier repeats the same canonicalization. Direct passports verify the
+Ed25519 signature against the public key recoverable from
+`issuer/participant_id`. Delegated passports first verify `issuer_delegation`
+against that participant identity, then verify the passport signature against
+`issuer_delegation.proxy_key`.
 
 ### 4. `network-ledger` as the First Delegated Infrastructure Capability
 
@@ -380,7 +402,8 @@ A receiver MUST reject the passport if any of the following holds:
 - `passport_id` does not use the `passport:capability:` prefix,
 - `signature.alg != "ed25519"`,
 - the signature does not verify against `issuer/participant_id`,
-- the issuer is not sovereign under local policy,
+- the issuer does not satisfy the policy for that `capability_id` (for
+  `network-ledger`, this means sovereign under local policy),
 - `expires_at` is present and already elapsed,
 - the passport's `capability_id` does not match the role being configured.
 

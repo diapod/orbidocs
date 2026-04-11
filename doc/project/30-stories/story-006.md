@@ -43,6 +43,25 @@ Related follow-up planning note:
 - `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
 - `doc/project/50-requirements/requirements-012.md`
 
+## Implementation Status Note (`2026-04-07`)
+
+The `Node` workspace now covers the hard-MVP reading of this story:
+
+- standing `service-offer.v1` publication through supervised provider modules,
+- buyer-side `service-order.v1` ingress and selected-offer procurement bridge,
+- deployment-local gateway plus escrow-backed settlement consumption,
+- bundled `Arca` orchestration over host-owned workflow, notification, and
+  artifact capabilities,
+- operator and UI inspection surfaces for workflow runs, execution detail, and
+  execution-to-receipt joins.
+
+What remains outside hard-MVP is the broader federated marketplace shape:
+
+- remote observed-offer ingest and richer inter-node catalog distribution,
+- broader organization delegation and storage semantics,
+- broader scheduling and fan-out/fan-in workflow policy,
+- any later remote gateway or escrow boundary.
+
 ## Identity Model
 
 This story relies on the layered identity model established in the Orbiplex

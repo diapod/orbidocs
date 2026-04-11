@@ -37,9 +37,8 @@ The decisions of this proposal are:
 4. the buyer bridge should resolve offers optimistically and rely on
    provider-side rejection codes (`offer-expired`, `queue-saturated`) already
    present in the protocol rather than adding a pre-order reservation step,
-5. the catalog role should stay outside the daemon's minimal trusted core, but
-   it may be hosted either by a compatibility `catalog-listener` sidecar or by
-   the preferred `dator` middleware-owned observed-catalog path.
+5. the catalog role should stay outside the daemon's minimal trusted core, and
+   is hosted by the `dator`/`arca` middleware-owned observed-catalog path.
 
 This keeps the trusted core small:
 
@@ -217,12 +216,10 @@ The implemented ownership split:
   - runs background peer discovery and sync,
   - handles `offer-catalog.fetch.response` and `offer-catalog.push`,
   - serves the combined participant-facing `GET /v1/enact/service-catalog`,
-  - uses the `catalog.local.query` host capability to include Dator's local
+  - uses the `offers.local.query` host capability to include Dator's local
     offers in the combined view,
-- `catalog-listener` remains available as a compatibility relay for
-  deployments that still need it, but is not the preferred path,
 - the daemon is catalog-free: it provides transport primitives
-  (`peer.message.dispatch`, `peer.session.establish`, `catalog.local.query`,
+  (`peer.message.dispatch`, `peer.session.establish`, `offers.local.query`,
   `seed.directory.query`, `capability.passport.issue`) but holds no offer
   state itself.
 
@@ -246,6 +243,12 @@ Minimum fields:
   this relay (the provider Node or a trusted relay)
 - `relay/hops` — unsigned integer, maximum `3`; relays MUST drop envelopes
   where `relay/hops` would exceed the maximum
+- `relay/do-not-forward` — optional boolean advisory request asking the next
+  catalog or relay not to forward the envelope further; this is an explicit
+  policy hint, not a cryptographic prohibition
+- `relay/intended-node-id` — optional future-facing `node:did:key:...` hint
+  naming the Node that may be asked to relay the offer onward on the
+  publisher's behalf if it wants and can
 - `relay/relayed-at` — RFC 3339 timestamp of the most recent relay step
 - `offer` — the full embedded `service-offer.v1` payload, including its
   original `signature`
@@ -253,6 +256,12 @@ Minimum fields:
 The relay envelope itself is NOT signed by the relay node in this phase. Trust
 derives from the inner offer's signature (provider-signed) plus the
 `relay/origin-node-id` against the buyer's peer store and whitelist.
+
+`relay/do-not-forward` is intentionally advisory. It communicates publisher
+intent to the next catalog boundary, but does not itself enforce transport
+behavior. `relay/intended-node-id` is reserved for the later mediated-relay
+case where one Node is asked to forward the offer to another catalog Node; the
+current phase only preserves that hint.
 
 A later phase may add relay node signing to the envelope to support
 multi-hop accountability.

@@ -17,3 +17,7 @@ Role związane z Node mogą pojawiać się tu później jako osobne komponenty, 
 ## Widoki generowane
 
 - [Macierz zdolności rozwiązań](CAPABILITY-MATRIX.pl.md)
+
+## Rejestry i mapy kontraktów
+
+- [Rejestr capability IDs](CAPABILITY-REGISTRY.pl.md)
