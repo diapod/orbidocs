@@ -48,6 +48,10 @@
       "pattern": "^[~]?[a-z0-9][a-z0-9_/-]*(?:@(participant|node|org):did:key:z[1-9A-HJ-NP-Za-km-z]+)?$",
       "description": "Capability identifier. Formal global profiles use bare kebab-case identifiers such as `network-ledger`, `seed-directory`, `escrow`, or `node-primary-operator`. Sovereign/private profiles may add an identity anchor, e.g. `audio-transcription@participant:did:key:z...`, with an optional leading `~` for informal profiles. See Proposal 024 and Proposal 025 for naming and advertisement projection."
     },
+    "capability_profile": {
+      "$ref": "#/$defs/capabilityProfile",
+      "description": "Optional human and machine description of the capability profile. This is signed with the passport when present, but it is metadata: trust still derives from passport verification and local policy."
+    },
     "scope": {
       "type": "object",
       "additionalProperties": true,
@@ -94,6 +98,52 @@
     }
   },
   "$defs": {
+    "capabilityProfile": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "display/name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Short human-readable capability name intended for UI display. It MUST NOT replace `capability_id` as protocol identity."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable capability explanation."
+        },
+        "lang": {
+          "type": "string",
+          "pattern": "^[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*$",
+          "description": "BCP 47-style language tag for human-readable profile fields."
+        },
+        "doc/ref": {
+          "type": "string",
+          "pattern": "^orbiplex:blob:sha256:[A-Za-z0-9_-]+$",
+          "description": "Optional content-addressed Orbiplex reference to a human-readable capability document."
+        },
+        "doc/url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional convenience URL for human-readable documentation. This is not a protocol dependency."
+        },
+        "schema/id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable logical identifier of the machine-readable capability schema."
+        },
+        "schema/ref": {
+          "type": "string",
+          "pattern": "^orbiplex:blob:sha256:[A-Za-z0-9_-]+$",
+          "description": "Content-addressed Orbiplex reference to a `capability-schema.v1` artifact retrievable over the peer protocol, Seed Directory, cache, or archivist surface."
+        },
+        "schema/media-type": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Media type of the capability schema content, for example `application/schema+json`."
+        }
+      }
+    },
     "delegationProof": {
       "type": "object",
       "additionalProperties": false,

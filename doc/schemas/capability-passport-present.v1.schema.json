@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-passport-present:v1",
+  "title": "CapabilityPassportPresent v1",
+  "description": "Wire envelope used to present a capability passport during a peer protocol exchange. The `passport` field carries the full signed `capability-passport.v1` artifact; the outer `schema` field identifies this envelope format.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md",
+    "doc/project/50-requirements/requirements-006.md",
+    "doc/project/60-solutions/capability-advertisement.md",
+    "doc/project/60-solutions/node.md"
+  ],
+  "required": [
+    "schema",
+    "passport"
+  ],
+  "properties": {
+    "schema": {
+      "const": "capability-passport-present.v1",
+      "description": "Schema discriminator. Must equal `capability-passport-present.v1`."
+    },
+    "passport": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The complete signed capability passport. Must conform to `capability-passport.v1`.",
+      "required": [
+        "schema",
+        "passport_id",
+        "node_id",
+        "capability_id",
+        "scope",
+        "issued_at",
+        "issuer/participant_id",
+        "issuer/node_id",
+        "revocation_ref",
+        "signature"
+      ],
+      "properties": {
+        "schema": {
+          "const": "capability-passport.v1"
+        },
+        "passport_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^passport:capability:.+$"
+        },
+        "node_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "capability_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "issuer/participant_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "issuer/node_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "revocation_ref": {
+          "type": ["string", "null"],
+          "minLength": 1
+        },
+        "signature": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["alg", "value"],
+          "properties": {
+            "alg": { "const": "ed25519" },
+            "value": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

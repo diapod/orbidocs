@@ -1,0 +1,29 @@
+{
+  "schema": "capability-passport-present.v1",
+  "passport": {
+    "schema": "capability-passport.v1",
+    "passport_id": "passport:capability:network-ledger:01JQNODECAP001",
+    "node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "capability_id": "network-ledger",
+    "capability_profile": {
+      "display/name": "Network ledger",
+      "description": "Allows a Node to participate in the federation-recognized network ledger surface.",
+      "lang": "en",
+      "schema/id": "urn:orbiplex:capability-profile:network-ledger:v1",
+      "schema/ref": "orbiplex:blob:sha256:networkLedgerCapabilitySchemaV1",
+      "schema/media-type": "application/schema+json"
+    },
+    "scope": {
+      "federation/id": "orbiplex-devnet"
+    },
+    "issued_at": "2026-03-23T18:11:00Z",
+    "expires_at": null,
+    "issuer/participant_id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "issuer/node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "revocation_ref": null,
+    "signature": {
+      "alg": "ed25519",
+      "value": "base64url:network-ledger-capability-passport-signature"
+    }
+  }
+}

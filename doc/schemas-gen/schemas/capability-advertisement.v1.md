@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/capability-advertisement.v1.schema.json`](../../schemas/capability-advertisement.v1.schema.json)
 
-Machine-readable schema for baseline capability exchange after peer session establishment.
+Machine-readable schema for baseline capability exchange after peer session establishment. The advertisement is a node-signed presentation of capability assertions in passport form. Seed Directory publication is optional: a Node may broadcast or directly answer with this artifact and include the credentials needed by the receiver to evaluate each presented capability under local policy.
 
 ## Governing Basis
 
@@ -30,7 +30,8 @@ Machine-readable schema for baseline capability exchange after peer session esta
 | [`published-at`](#field-published-at) | `yes` | string | Timestamp when the capability set was published. |
 | [`protocol/version`](#field-protocol-version) | `yes` | string | Protocol version for which the capability advertisement is valid. |
 | [`transport/profiles`](#field-transport-profiles) | `yes` | array | Transport profiles currently exposed by the Node. |
-| [`capabilities/core`](#field-capabilities-core) | `yes` | array | Wire-visible capability identifiers supported by the Node. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/` or `sovereign-informal/`, and unknown formal capabilities may be advertised as bare names. |
+| [`capabilities/core`](#field-capabilities-core) | `yes` | array | Compatibility and routing projection of the wire-visible capability identifiers supported by the Node. Values SHOULD be derived from `capabilities/presented[*].wire/name`. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/` or `sovereign-informal/`, and unknown formal capabilities may be advertised as bare names. |
+| [`capabilities/presented`](#field-capabilities-presented) | `yes` | array | Passport-form capability assertions presented directly by this Node. Each item carries the canonical capability id, the wire-visible projection, an assertion kind, and the passport or passport-compatible credential needed to evaluate the claim without querying a Seed Directory. |
 | [`anchor_identities`](#field-anchor-identities) | `no` | object | Optional sovereign capability anchor map keyed by the sovereign short name. Empty or absent for formal capabilities. |
 | [`roles/attached`](#field-roles-attached) | `no` | array | Optional attached roles or plugin-process capabilities visible at the Node boundary. Not required in MVP. |
 | [`surfaces/exposed`](#field-surfaces-exposed) | `no` | array | Exposed APIs, channels, or queues that can be used by peers or attached roles. |
@@ -42,6 +43,8 @@ Machine-readable schema for baseline capability exchange after peer session esta
 
 | Definition | Shape | Description |
 |---|---|---|
+| [`capabilityPresentation`](#def-capabilitypresentation) | object |  |
+| [`capabilityProfile`](#def-capabilityprofile) | object |  |
 | [`signature`](#def-signature) | object |  |
 
 ## Conditional Rules
@@ -61,6 +64,33 @@ Constraint:
   },
   "required": [
     "capabilities/core"
+  ]
+}
+```
+
+### Rule 2
+
+Constraint:
+
+```json
+{
+  "properties": {
+    "capabilities/presented": {
+      "contains": {
+        "type": "object",
+        "properties": {
+          "wire/name": {
+            "const": "core/messaging"
+          }
+        },
+        "required": [
+          "wire/name"
+        ]
+      }
+    }
+  },
+  "required": [
+    "capabilities/presented"
   ]
 }
 ```
@@ -121,7 +151,15 @@ Transport profiles currently exposed by the Node.
 - Required: `yes`
 - Shape: array
 
-Wire-visible capability identifiers supported by the Node. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/` or `sovereign-informal/`, and unknown formal capabilities may be advertised as bare names.
+Compatibility and routing projection of the wire-visible capability identifiers supported by the Node. Values SHOULD be derived from `capabilities/presented[*].wire/name`. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/` or `sovereign-informal/`, and unknown formal capabilities may be advertised as bare names.
+
+<a id="field-capabilities-presented"></a>
+## `capabilities/presented`
+
+- Required: `yes`
+- Shape: array
+
+Passport-form capability assertions presented directly by this Node. Each item carries the canonical capability id, the wire-visible projection, an assertion kind, and the passport or passport-compatible credential needed to evaluate the claim without querying a Seed Directory.
 
 <a id="field-anchor-identities"></a>
 ## `anchor_identities`
@@ -170,6 +208,16 @@ Protocol message families currently supported by the Node.
 Optional annotations that do not change the core advertised capability semantics.
 
 ## Definition Semantics
+
+<a id="def-capabilitypresentation"></a>
+## `$defs.capabilityPresentation`
+
+- Shape: object
+
+<a id="def-capabilityprofile"></a>
+## `$defs.capabilityProfile`
+
+- Shape: object
 
 <a id="def-signature"></a>
 ## `$defs.signature`

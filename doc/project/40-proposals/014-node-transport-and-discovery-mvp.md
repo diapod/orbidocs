@@ -624,7 +624,11 @@ Without those, an operator cannot tell whether the node is isolated, flapping,
 or gradually building a live peer set.
 
 The capability advertisement should not try to describe the whole implementation.
-It should publish a small set of schematic core capability identifiers, such as:
+It should publish passport-form capability assertions plus one small
+wire-visible projection for fast matching.
+
+The projection remains a small set of schematic core capability identifiers,
+such as:
 
 - required minimum:
   - `core/messaging`
@@ -636,6 +640,47 @@ It should publish a small set of schematic core capability identifiers, such as:
 Capabilities that are already implicit in the successful execution of the
 handshake, such as "can sign the handshake" or "is a protocol participant",
 should not be modeled as mandatory advertised core capabilities in v1.
+
+Capability advertisement is the Node-to-Node and datagram-friendly way to
+communicate capabilities without requiring a Seed Directory lookup. Each
+presented capability should carry a passport or passport-compatible assertion:
+
+- `capability/id` — canonical capability id,
+- `wire/name` — routing projection such as `core/messaging`,
+  `role/seed-directory`, or `sovereign/audio-transcription`,
+- `assertion/kind` — `self-issued-passport`, `issuer-passport`, or
+  `federation-endorsed-passport`,
+- `passport` — the credential the receiver verifies under the capability
+  profile and local policy,
+- optional `capability/profile` — short display metadata plus `schema/id`,
+  `schema/ref`, and `schema/media-type` for machine negotiation.
+
+This keeps custom capabilities out of a chaotic global taxonomy. A custom
+capability can live in the same passport namespace as other capabilities, for
+example:
+
+- `audio-transcription@participant:did:key:z...`
+- `~audio-transcription@participant:did:key:z...`
+
+`capabilities/core` remains a compatibility and routing projection. It should
+be derivable from `capabilities/presented[*].wire/name`; it is not the
+authoritative proof.
+
+The advertisement answers "what capabilities does this peer present right now,
+with what credentials?". The passport answers "under which issuer, scope, and
+policy may this node be accepted for this capability profile?".
+
+If a presented capability includes `schema/ref`, the referenced
+`capability-schema.v1` artifact should be fetchable over the authenticated peer
+message channel with:
+
+- `capability.schema.present.request`
+- `capability.schema.present.response`
+
+The `schema/ref` is content-addressed. Receivers must verify fetched schema
+content against that reference before using it for scope, input, output, error,
+or retry validation. A `doc/url` may exist as a human mirror, but it is not a
+runtime dependency.
 
 ### 5. First useful message slice
 

@@ -4,6 +4,8 @@ ignore:
 nav:
   - "SOLUTIONS*.md"
   - "CAPABILITY-MATRIX*.md"
+  - "CAPABILITY-REGISTRY*.md"
+  - "capability-advertisement.md"
   - "node.md"
   - "node-ui.md"
   - "ferment.md"

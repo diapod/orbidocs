@@ -128,6 +128,8 @@ portable signed artifact:
 - `passport_id = "passport:capability:..."`
 - `node_id = "node:did:key:..."` of the target Node receiving the capability
 - `capability_id = "network-ledger"` or another stable capability name
+- optional `capability_profile = { ... }` carrying human-readable display
+  metadata and content-addressed machine schema references
 - `scope = { ... }` capability-specific parameters
 - `issued_at` RFC 3339
 - `expires_at` RFC 3339 or `null`
@@ -143,6 +145,23 @@ create trust out of nothing. Trust derives from profile-specific local policy:
 for infrastructure delegation, policy recognizes the issuing participant as a
 sovereign operator and accepts its delegation authority; for consent profiles,
 policy may require additional counter-signatures or attestations.
+
+`capability_profile`, when present, is part of the signed passport payload. It
+may include:
+
+- `display/name`,
+- `description`,
+- `lang`,
+- `doc/ref`,
+- optional `doc/url` as a human convenience mirror,
+- `schema/id`,
+- `schema/ref`,
+- `schema/media-type`.
+
+`schema/ref` is a content-addressed Orbiplex reference to a
+`capability-schema.v1` artifact. Receivers use it to fetch a machine-readable
+contract over the Node-to-Node peer protocol or another local cache, not as a
+trust shortcut. Trust still comes from passport verification and local policy.
 
 ### 2. Signing Authority Is Profile-Scoped
 

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:offer-catalog-fetch-response:v1",
+  "title": "Offer Catalog Fetch Response",
+  "description": "Peer message payload carried by `offer-catalog.fetch.response`.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md",
+    "doc/project/40-proposals/027-middleware-peer-message-dispatch.md",
+    "doc/project/60-solutions/node.md"
+  ],
+  "properties": {
+    "offers": {
+      "type": "array",
+      "items": {
+        "$ref": "service-offer-relay.v1.schema.json"
+      },
+      "description": "Zero or more `service-offer-relay.v1` envelopes returned by the responder."
+    },
+    "node_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Responder Node id."
+    },
+    "responded_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp when the responder produced this payload."
+    },
+    "query_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional correlation id echoed from the request."
+    },
+    "error": {
+      "type": ["object", "string", "null"],
+      "description": "Optional error payload. `null` means the response is successful."
+    }
+  }
+}

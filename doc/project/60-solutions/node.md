@@ -41,7 +41,12 @@ Related schemas:
 - `node-advertisement.v1`
 - `peer-handshake.v1`
 - `capability-advertisement.v1`
+- `capability-schema.v1`
+- `capability-schema-present.v1`
 - `signal-marker-envelope.v1`
+
+Related solution contracts:
+- `doc/project/60-solutions/capability-advertisement.md`
 
 Responsibilities:
 - generate or load a stable local node identity,
