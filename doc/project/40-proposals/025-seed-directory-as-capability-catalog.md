@@ -357,23 +357,31 @@ Informal sovereign capabilities use the same anchor rule but carry the
 `sovereign-informal/` wire prefix and the leading `~` in the reconstructed
 passport capability id.
 
-### 8. Critical vs. Non-Critical Capabilities
+### 8. Directory-Indexed vs. Node-Presented Capabilities
 
-Not all capabilities require a sovereign-signed passport. The Seed Directory
-distinguishes two registration paths:
+Capability advertisements are no longer raw self-reported strings. They are
+Node-signed presentations of passport-form capability assertions.
 
-| Path | Passport required | Examples |
+The Seed Directory still distinguishes two discovery paths:
+
+| Path | Seed Directory publication | Examples |
 | :--- | :--- | :--- |
-| Passport-gated (`PUT /cap`) | Yes | `seed-directory`, `network-ledger`, `escrow`, `oracle` |
-| Self-reported (via `PUT /adv` extension) | No | `core/messaging`, `core/discovery`, `core/keepalive` |
+| Directory-indexed (`PUT /cap`) | Yes, accepted only after directory policy verifies the passport | `seed-directory`, `network-ledger`, `escrow`, `oracle` |
+| Node-presented (`capability-advertisement.v1`) | No directory required; the peer evaluates the presented passport under local policy | `core/messaging`, `core/discovery`, custom sovereign capability |
 
-Self-reported capabilities are carried in the `capability-advertisement.v1`
-field of `PUT /adv/{node-id}` and are indexed for informational queries but
-are NOT returned by `GET /cap?capability=`. That endpoint returns only
-passport-backed entries.
+`capability-advertisement.v1` may be sent directly after handshake, returned in
+response to a capability query, or broadcast where the transport profile admits
+datagram-style publication. It carries the presented capability assertions and
+the credentials needed for local verification.
 
-This separation prevents conflation of governance-delegated infrastructure roles
-with ordinary protocol capabilities that every Node announces.
+`GET /cap?capability=` remains the passport-backed directory lookup surface. It
+returns capabilities that the Seed Directory has accepted for indexing. A peer
+MAY still accept a directly presented capability that is absent from the Seed
+Directory if local policy allows that assertion kind and passport profile.
+
+This separation prevents conflation of directory availability with capability
+truth. The directory helps peers find and cache capabilities; it is not the only
+way a Node may communicate a signed capability assertion.
 
 Operator-binding availability uses the same passport-backed availability pattern
 but adds one extra rule. A `node-primary-operator` passport is only the
@@ -389,6 +397,63 @@ privacy/disclosure decision by the Node, not a default capability-gossip step.
 ### `capability-passport.v1` (normative reference to Proposal 024)
 
 Full field list in `doc/schemas/capability-passport.v1.schema.json`.
+
+Capability passports may carry optional `capability_profile` metadata:
+
+```json
+{
+  "capability_profile": {
+    "display/name": "Audio transcription",
+    "description": "Transcribes audio input into timestamped text segments.",
+    "lang": "en",
+    "doc/ref": "orbiplex:blob:sha256:...",
+    "doc/url": "https://example.org/capabilities/audio-transcription",
+    "schema/id": "urn:orbiplex:capability-profile:audio-transcription:v1",
+    "schema/ref": "orbiplex:blob:sha256:...",
+    "schema/media-type": "application/schema+json"
+  }
+}
+```
+
+These fields help humans and programs understand the capability profile, but do
+not create trust by themselves. The passport signature, issuer policy,
+revocation state, and receiver-local policy remain authoritative.
+
+`doc/url` is only a convenience mirror. Runtime behavior MUST NOT depend on
+dereferencing it.
+
+### `capability-schema.v1`
+
+Full field list in `doc/schemas/capability-schema.v1.schema.json`.
+
+`capability-schema.v1` is the portable machine-readable description of a
+capability profile. It may describe:
+
+- accepted `scope` fields,
+- request input shape,
+- response output shape,
+- error classes,
+- retry and idempotency semantics,
+- artifact or resource references used by that capability.
+
+The artifact uses:
+
+- `schema/id` as the stable logical contract name,
+- `schema/ref` as the content-addressed Orbiplex reference,
+- `schema/media-type` to identify the schema language,
+- `content` for the actual machine-readable schema,
+- a signature for portable provenance when the artifact is cached or relayed.
+
+Nodes may expose schema artifacts through the peer-message kind
+`capability.schema.present.request` / `capability.schema.present.response`.
+Seed Directory may index or cache them later, but it is not the mandatory
+runtime transport for schema retrieval.
+
+The response payload for that peer-message exchange is
+`capability-schema-present.v1`, a thin wrapper carrying either:
+
+- `status = "ok"` plus `artifact = { ... capability-schema.v1 ... }`,
+- or `status = "error"` plus an error object.
 
 ### `capability-passport-revocation.v1`
 
@@ -537,6 +602,11 @@ Conditional fields:
   Node-to-Node passport exchange, step 4 of the consumer flow) is a thin
   wrapper: `{ "schema": "capability-passport-present.v1", "passport": { ... } }`.
   Its full schema may be defined without a new proposal.
+- The `capability-schema.v1` artifact is fetched over the existing peer-message
+  channel with `capability.schema.present.request` and
+  `capability.schema.present.response`. A URL may be carried as a documentation
+  hint, but the protocol dependency is the content-addressed `schema/ref`, not
+  the URL.
 - Revocation cursor format follows the same opaque string pattern as `/adv?since`.
 
 ## Consequences
@@ -560,11 +630,13 @@ Conditional fields:
 
 ## Alternatives Considered
 
-### Accept self-reported capabilities without passport
+### Accept raw self-reported capabilities without passport-form assertions
 
-Rejected for critical capabilities. Self-reported capabilities cannot be audited
-as governance decisions. Any Node could claim `network-ledger` capability and
-receive ORC settlement operations.
+Rejected. Raw capability strings create taxonomy drift and cannot be audited as
+governance or operator decisions. A Node may self-issue and directly present a
+passport-form assertion, but receivers still evaluate that assertion under local
+policy. Critical capabilities such as `network-ledger` require a suitable issuer
+or federation policy before they are trusted.
 
 ### Separate capability directory service
 

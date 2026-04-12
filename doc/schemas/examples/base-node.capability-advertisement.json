@@ -12,6 +12,93 @@
     "core/discovery",
     "core/keepalive"
   ],
+  "capabilities/presented": [
+    {
+      "capability/id": "core/messaging",
+      "wire/name": "core/messaging",
+      "assertion/kind": "self-issued-passport",
+      "capability/profile": {
+        "display/name": "Core messaging",
+        "description": "Baseline authenticated peer message exchange over an established Node session.",
+        "lang": "en",
+        "schema/id": "urn:orbiplex:capability-profile:core-messaging:v1",
+        "schema/ref": "orbiplex:blob:sha256:coreMessagingCapabilitySchemaV1",
+        "schema/media-type": "application/schema+json"
+      },
+      "passport": {
+        "schema": "capability-passport.v1",
+        "passport_id": "passport:capability:core-messaging:01JQNODECAP001",
+        "node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "capability_id": "core/messaging",
+        "capability_profile": {
+          "display/name": "Core messaging",
+          "description": "Baseline authenticated peer message exchange over an established Node session.",
+          "lang": "en",
+          "schema/id": "urn:orbiplex:capability-profile:core-messaging:v1",
+          "schema/ref": "orbiplex:blob:sha256:coreMessagingCapabilitySchemaV1",
+          "schema/media-type": "application/schema+json"
+        },
+        "scope": {
+          "protocol/version": "0.1.0-mvp"
+        },
+        "issued_at": "2026-03-23T18:11:00Z",
+        "expires_at": "2026-03-23T18:16:00Z",
+        "issuer/participant_id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "issuer/node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "revocation_ref": null,
+        "signature": {
+          "alg": "ed25519",
+          "value": "base64url:self-issued-core-messaging-passport-signature"
+        }
+      }
+    },
+    {
+      "capability/id": "core/discovery",
+      "wire/name": "core/discovery",
+      "assertion/kind": "self-issued-passport",
+      "passport": {
+        "schema": "capability-passport.v1",
+        "passport_id": "passport:capability:core-discovery:01JQNODECAP001",
+        "node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "capability_id": "core/discovery",
+        "scope": {
+          "protocol/version": "0.1.0-mvp"
+        },
+        "issued_at": "2026-03-23T18:11:00Z",
+        "expires_at": "2026-03-23T18:16:00Z",
+        "issuer/participant_id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "issuer/node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "revocation_ref": null,
+        "signature": {
+          "alg": "ed25519",
+          "value": "base64url:self-issued-core-discovery-passport-signature"
+        }
+      }
+    },
+    {
+      "capability/id": "core/keepalive",
+      "wire/name": "core/keepalive",
+      "assertion/kind": "self-issued-passport",
+      "passport": {
+        "schema": "capability-passport.v1",
+        "passport_id": "passport:capability:core-keepalive:01JQNODECAP001",
+        "node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "capability_id": "core/keepalive",
+        "scope": {
+          "protocol/version": "0.1.0-mvp"
+        },
+        "issued_at": "2026-03-23T18:11:00Z",
+        "expires_at": "2026-03-23T18:16:00Z",
+        "issuer/participant_id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "issuer/node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "revocation_ref": null,
+        "signature": {
+          "alg": "ed25519",
+          "value": "base64url:self-issued-core-keepalive-passport-signature"
+        }
+      }
+    }
+  ],
   "roles/attached": [],
   "surfaces/exposed": [
     "peer-session"
@@ -19,6 +106,8 @@
   "messages/supported": [
     "peer-handshake.v1",
     "capability-advertisement.v1",
+    "capability.schema.present.request",
+    "capability.schema.present.response",
     "signal-marker.v1",
     "ping",
     "pong"

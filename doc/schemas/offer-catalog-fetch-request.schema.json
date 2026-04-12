@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:offer-catalog-fetch-request:v1",
+  "title": "Offer Catalog Fetch Request",
+  "description": "Peer message payload carried by `offer-catalog.fetch.request`.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md",
+    "doc/project/40-proposals/027-middleware-peer-message-dispatch.md",
+    "doc/project/60-solutions/node.md"
+  ],
+  "properties": {
+    "filter": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional responder-side filter hint."
+    },
+    "query_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional initiator-generated correlation id echoed back in the response."
+    }
+  }
+}

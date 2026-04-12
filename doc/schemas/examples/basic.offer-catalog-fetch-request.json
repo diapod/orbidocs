@@ -1,0 +1,8 @@
+{
+  "query_id": "query:offer-catalog:001",
+  "filter": {
+    "service/type": "text/redaction",
+    "active_only": true,
+    "limit": 20
+  }
+}

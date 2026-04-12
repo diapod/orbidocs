@@ -141,6 +141,67 @@ Capability-routed dispatch may also carry:
 there is no special `msg` meaning on that path; dotted paths such as
 `passport.capability_id` are the intended form.
 
+## Well-Known Capability Schema Messages
+
+The generic peer-message envelope is also the transport for capability schema
+retrieval. This keeps schema exchange inside the authenticated Node-to-Node
+session instead of making runtime behavior depend on an external HTTP URL.
+
+Reserved message kinds:
+
+| Message kind | Response kind | Intended owner |
+|---|---|---|
+| `capability.schema.present.request` | `capability.schema.present.response` | built-in daemon handler first, middleware fallback for custom capability stores |
+
+Request payload:
+
+```json
+{
+  "schema/ref": "orbiplex:blob:sha256:...",
+  "schema/id": "urn:orbiplex:capability-profile:audio-transcription:v1",
+  "accepted/media-types": [
+    "application/schema+json"
+  ]
+}
+```
+
+Response payload:
+
+```json
+{
+  "schema": "capability-schema-present.v1",
+  "status": "ok",
+  "artifact": {
+    "schema": "capability-schema.v1"
+  }
+}
+```
+
+Error payload:
+
+```json
+{
+  "schema": "capability-schema-present.v1",
+  "status": "error",
+  "error": {
+    "kind": "schema-unavailable",
+    "detail": "local node cannot present requested capability schema"
+  }
+}
+```
+
+Dispatch semantics:
+
+- the request MUST use the same `PeerMessageEnvelope.correlation_id` response
+  matching as other request/response peer messages,
+- `schema/ref` is the preferred lookup key because it is content-addressed,
+- `schema/id` is an optional logical-contract hint and MUST NOT replace the
+  hash check implied by `schema/ref`,
+- the returned `artifact` MUST conform to `capability-schema.v1`,
+- the response payload MUST conform to `capability-schema-present.v1`,
+- receivers MUST verify the artifact content against `schema/ref` before using
+  it for scope, input, output, error, or retry validation.
+
 ## Decision Semantics For Peer Messages
 
 In peer-message context only three decisions are meaningful:

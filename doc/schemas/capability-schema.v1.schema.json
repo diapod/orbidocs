@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-schema:v1",
+  "title": "CapabilitySchema v1",
+  "description": "Portable, content-addressed machine-readable schema artifact for one capability profile. Nodes may serve this artifact over the authenticated peer-message channel so receivers can validate capability scope, inputs, outputs, error profiles, and retry semantics without depending on an external URL.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md",
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/project/40-proposals/027-middleware-peer-message-dispatch.md",
+    "doc/project/60-solutions/capability-advertisement.md"
+  ],
+  "required": [
+    "schema",
+    "schema/id",
+    "schema/ref",
+    "schema/media-type",
+    "content",
+    "published-at",
+    "author/node-id",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "capability-schema.v1",
+      "description": "Schema discriminator. MUST be exactly `capability-schema.v1`."
+    },
+    "schema/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable logical identifier of the capability schema contract. This identifies what contract the content describes, not where it is hosted."
+    },
+    "schema/ref": {
+      "type": "string",
+      "pattern": "^orbiplex:blob:sha256:[A-Za-z0-9_-]+$",
+      "description": "Content-addressed reference to the canonical schema content. Receivers MUST verify that `content` hashes to this reference before using the schema."
+    },
+    "schema/media-type": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Media type of `content`, for example `application/schema+json`, `application/vnd.malli+edn`, or another profile-accepted machine-readable schema format."
+    },
+    "capability/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[~]?[a-z0-9][a-z0-9_/-]*(?:@(participant|node|org):did:key:z[1-9A-HJ-NP-Za-km-z]+)?$",
+      "description": "Optional capability id this schema describes. Formal profiles may use a bare id; sovereign or private profiles may use an identity-anchored id."
+    },
+    "wire/name": {
+      "type": "string",
+      "pattern": "^((core|role|plugin)/[a-z0-9-]+(?:/[a-z0-9-]+)*|(sovereign|sovereign-informal)/[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*|[A-Za-z0-9_-]+)$",
+      "description": "Optional wire-visible projection associated with the capability id."
+    },
+    "display/name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short human-readable capability name for UI display."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable capability explanation."
+    },
+    "lang": {
+      "type": "string",
+      "pattern": "^[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*$",
+      "description": "BCP 47-style language tag for human-readable fields."
+    },
+    "doc/ref": {
+      "type": "string",
+      "pattern": "^orbiplex:blob:sha256:[A-Za-z0-9_-]+$",
+      "description": "Optional content-addressed reference to human-readable documentation."
+    },
+    "doc/url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional convenience URL for human-readable documentation. This is a mirror or hint, not a protocol dependency."
+    },
+    "content": {
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ],
+      "description": "Machine-readable schema content. The interpretation is selected by `schema/media-type`."
+    },
+    "published-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when this schema artifact was published."
+    },
+    "author/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Node identity that publishes this schema artifact."
+    },
+    "author/participant-id": {
+      "type": "string",
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Optional participant identity responsible for authoring or approving this schema artifact."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local or federation-local annotations that do not change core schema semantics."
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "description": "Signature over the deterministic canonical form of this artifact with the top-level `signature` field omitted. The `schema/ref` still addresses only the canonical `content` value.",
+      "properties": {
+        "alg": {
+          "const": "ed25519",
+          "description": "Signature algorithm. MUST be `ed25519` in v1."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Base64url-encoded Ed25519 signature bytes."
+        }
+      }
+    }
+  }
+}

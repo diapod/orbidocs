@@ -35,6 +35,7 @@ Signed capability or consent artifact naming a capability profile for a target N
 | [`passport_id`](#field-passport-id) | `yes` | string | Stable unique identifier for this passport. MUST use the `passport:capability:` prefix. |
 | [`node_id`](#field-node-id) | `yes` | string | Target Node receiving the delegated capability. MUST match the `node:did:key:z...` canonical format. |
 | [`capability_id`](#field-capability-id) | `yes` | string | Capability identifier. Formal global profiles use bare kebab-case identifiers such as `network-ledger`, `seed-directory`, `escrow`, or `node-primary-operator`. Sovereign/private profiles may add an identity anchor, e.g. `audio-transcription@participant:did:key:z...`, with an optional leading `~` for informal profiles. See Proposal 024 and Proposal 025 for naming and advertisement projection. |
+| [`capability_profile`](#field-capability-profile) | `no` | ref: `#/$defs/capabilityProfile` | Optional human and machine description of the capability profile. This is signed with the passport when present, but it is metadata: trust still derives from passport verification and local policy. |
 | [`scope`](#field-scope) | `yes` | object | Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Capability definitions MAY add required scope fields as those capabilities are specified. |
 | [`issued_at`](#field-issued-at) | `yes` | string | RFC 3339 timestamp at which this passport was issued. |
 | [`expires_at`](#field-expires-at) | `no` | string \| null | RFC 3339 timestamp after which this passport MUST be treated as expired. `null` means no explicit expiry; receivers SHOULD apply a locally configured maximum TTL. |
@@ -49,6 +50,7 @@ Signed capability or consent artifact naming a capability profile for a target N
 
 | Definition | Shape | Description |
 |---|---|---|
+| [`capabilityProfile`](#def-capabilityprofile) | object |  |
 | [`delegationProof`](#def-delegationproof) | object | Compact bearer credential copied out of a `key-delegation.v1` registration artifact and embedded beside a proxy-key signature. Its own principal signature covers only the compact proof payload. |
 | [`ed25519Signature`](#def-ed25519signature) | object | Ed25519 signature over the deterministic canonical JSON of the passport with the `signature` and `issuer_delegation` fields omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. |
 
@@ -111,6 +113,14 @@ Target Node receiving the delegated capability. MUST match the `node:did:key:z..
 - Shape: string
 
 Capability identifier. Formal global profiles use bare kebab-case identifiers such as `network-ledger`, `seed-directory`, `escrow`, or `node-primary-operator`. Sovereign/private profiles may add an identity anchor, e.g. `audio-transcription@participant:did:key:z...`, with an optional leading `~` for informal profiles. See Proposal 024 and Proposal 025 for naming and advertisement projection.
+
+<a id="field-capability-profile"></a>
+## `capability_profile`
+
+- Required: `no`
+- Shape: ref: `#/$defs/capabilityProfile`
+
+Optional human and machine description of the capability profile. This is signed with the passport when present, but it is metadata: trust still derives from passport verification and local policy.
 
 <a id="field-scope"></a>
 ## `scope`
@@ -183,6 +193,11 @@ Optional compact inline proof authorising a proxy key to sign this artifact for 
 Optional informational annotations. MUST NOT alter core passport semantics.
 
 ## Definition Semantics
+
+<a id="def-capabilityprofile"></a>
+## `$defs.capabilityProfile`
+
+- Shape: object
 
 <a id="def-delegationproof"></a>
 ## `$defs.delegationProof`

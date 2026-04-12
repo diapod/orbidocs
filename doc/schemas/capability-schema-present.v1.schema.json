@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-schema-present:v1",
+  "title": "CapabilitySchemaPresent v1",
+  "description": "Peer-message response payload used to present one `capability-schema.v1` artifact over an authenticated Node-to-Node session. It mirrors the thin `capability-passport-present.v1` pattern while allowing explicit error responses for unavailable schemas.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/027-middleware-peer-message-dispatch.md",
+    "doc/project/60-solutions/capability-advertisement.md",
+    "doc/schemas/capability-schema.v1.schema.json"
+  ],
+  "required": [
+    "schema",
+    "status"
+  ],
+  "properties": {
+    "schema": {
+      "const": "capability-schema-present.v1",
+      "description": "Schema discriminator. MUST be exactly `capability-schema-present.v1`."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "error"
+      ],
+      "description": "Whether the requested schema artifact is present in this response."
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Returned `capability-schema.v1` artifact. Required when `status = \"ok\"`.",
+      "properties": {
+        "schema": {
+          "const": "capability-schema.v1"
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Machine-readable error object. Required when `status = \"error\"`.",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "schema-unavailable",
+            "schema-ref-mismatch",
+            "media-type-not-acceptable",
+            "request-invalid"
+          ]
+        },
+        "detail": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "artifact"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "error"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "error"
+        ]
+      }
+    }
+  ]
+}

@@ -553,7 +553,7 @@ opinions; the subject relation is carried in `record/about`:
     "body/lang": "en",
     "rating": 3
   },
-  "signature": "ed25519:BASE64URL..."
+  "signature": { "alg": "ed25519", "value": "BASE64URL..." }
 }
 ```
 
@@ -575,7 +575,7 @@ shapes; which one to use is a decision of the kind contract for
   "authored/at": "2026-04-11T08:15:00Z",
   "content/schema": "resource-opinion.v1",
   "content": { "...": "..." },
-  "signature": "ed25519:BASE64URL..."
+  "signature": { "alg": "ed25519", "value": "BASE64URL..." }
 }
 ```
 
@@ -595,7 +595,7 @@ A plain comment in a general channel. No external subject, no
     "body": "Agora MVP landed on canary relay.",
     "lang": "en"
   },
-  "signature": "ed25519:BASE64URL..."
+  "signature": { "alg": "ed25519", "value": "BASE64URL..." }
 }
 ```
 
@@ -617,7 +617,7 @@ same topic:
     "lang": "en"
   },
   "record/parent": "sha256:PR0p05kFtQYABcD1eFgH2iJKlMnOpExampleParent9",
-  "signature": "ed25519:BASE64URL..."
+  "signature": { "alg": "ed25519", "value": "BASE64URL..." }
 }
 ```
 
@@ -638,7 +638,7 @@ the run identifier, and there is no external subject to reference:
     "outcome": "any_one_satisfied",
     "dispatch_count": 3
   },
-  "signature": "ed25519:BASE64URL..."
+  "signature": { "alg": "ed25519", "value": "BASE64URL..." }
 }
 ```
 
@@ -727,6 +727,193 @@ The suggested first implementation path is:
 The first concrete migration target is proposal 026: serve resource
 opinions through Agora as `record/kind = "opinion"` with
 `content/schema = "resource-opinion.v1"`.
+
+### Implemented crate architecture
+
+The implementation follows a stratified layering, where each crate has a
+single responsibility and communicates through thin trait or data
+contracts:
+
+```
+L4.b  agora-http             REST/SSE surface (framework-neutral)
+L4.a  agora-relay-matrix     composition: SQLite store + Matrix transport
+L3    agora-matrix-client    MatrixRelayTransport<S: MatrixEventSink>
+      agora-matrix           pure data bridge (alias, content translation)
+L2    HttpMatrixEventSink    thin Matrix CS API sink (reqwest + ruma types)
+L1    MatrixCsClient         typed join/send/sync over Matrix CS API
+L0    AuthenticatedHttpClient bearer-auth HTTP + rate-limit retry
+      agora-relay-sqlite     persistent local relay (SQLite WAL)
+      agora-relay-mem        in-memory reference relay
+      agora-relay-trait      AgoraRelayTransport / AgoraRelay / SequencedRecord
+      agora-core             envelope verification, canonical JSON, signatures
+```
+
+#### Matrix transport: thin HTTP sink, not SDK
+
+The Matrix transport uses `reqwest::blocking` and `ruma 0.14.1` (types
+and endpoint definitions only, feature `client-api-c`) instead of
+`matrix-sdk`. This avoids the `matrix-sdk 0.16` + Rust 1.94 recursion
+limit overflow (upstream issue matrix-org/matrix-rust-sdk#6254) and
+reduces the transitive dependency footprint from ~180 crates to ~20.
+The `MatrixEventSink` trait decouples the transport from the concrete
+HTTP implementation; an `SdkMatrixEventSink` backed by `matrix-sdk`
+remains a documented plan for when the upstream issue is resolved, but
+is not required for MVP.
+
+Three Matrix CS API endpoints are used:
+
+- `POST /_matrix/client/v3/join/{roomIdOrAlias}` — idempotent room join
+- `PUT /_matrix/client/v3/rooms/{roomId}/send/{eventType}/{txnId}` —
+  send event with Agora `record/id` as deterministic `txnId` for
+  server-side idempotency
+- `GET /_matrix/client/v3/sync` — one global long-poll loop per sink,
+  events demultiplexed to per-(room, event_type) subscribers
+
+#### Federated relay composition (L4.a)
+
+`MatrixBackedRelay<S: MatrixEventSink>` composes `SqliteRelay` (local
+persistent store) with `MatrixRelayTransport<S>` (federation channel)
+and implements the full `AgoraRelay` trait (ingest + subscribe + query +
+fetch). Key properties:
+
+- **Local-first ingest**: records are persisted in SQLite before being
+  forwarded to Matrix. Matrix failure does not block local persistence.
+- **Forward-only-fresh**: duplicate records (by `record/id`) are not
+  forwarded to Matrix, preventing redundant federation traffic.
+- **Relay metadata stamping**: `relay/received-at` (RFC 3339 UTC) and
+  `relay/id` are stamped by the relay on every ingest, as specified in
+  section 2. These fields are excluded from content address and
+  signature (via `VerifiedRecord::with_relay_metadata`), so stamping
+  does not break the envelope invariant.
+- **Inbound bridge**: a background thread per topic subscribes to the
+  Matrix transport, verifies inbound events, and ingests them into the
+  local store. The bridge starts lazily (Cache mode) or eagerly
+  (Canonical mode) and includes a cooldown to prevent tight respawn
+  loops on transport failure.
+- **Retention sweep**: `sweep_retention()` enforces `max_age` and
+  `max_count` per topic, then rebuilds the subject index to prune
+  evicted entries.
+- **Three relay roles** are configuration, not separate implementations:
+  `Canonical` (eager inbound bridges for configured topics), `Cache`
+  (lazy bridges on first subscribe/query), `Origin` (outbound only).
+
+#### Subject index (L4.a internal)
+
+The cross-topic `record/about` index from section 5.5 is implemented as
+a `SubjectIndex` trait internal to `agora-relay-matrix`. It is populated
+as a side-effect of ingest and queried by the HTTP API for subject-based
+lookups. The MVP implementation is in-memory (`InMemorySubjectIndex`)
+and rebuildable from the local SQLite store via
+`rebuild_subject_index()`. The index is idempotent: re-indexing the same
+record is a no-op. The trait supports `clear()` for rebuild cycles
+triggered by retention sweeps or process restarts.
+
+#### HTTP API surface (L4.b)
+
+`agora-http` is a framework-neutral adapter that maps proposal 035 §5
+endpoints to `AgoraRelay` + `SubjectIndex` calls. It depends on no HTTP
+framework (`axum`, `hyper`, `actix-web`); a daemon or middleware layer
+wraps it in actual HTTP routing. Key design choices:
+
+- **Opaque cursors**: pagination uses base64url-encoded sequence numbers.
+  Clients must treat cursors as opaque strings. The `Cursor` type
+  encodes/decodes on the HTTP boundary; relay internals use bare `u64`
+  sequences via `SequencedRecord`.
+- **SSE for subscriptions**: `SseRecordStream` formats verified records
+  as standard Server-Sent Events (`event: agora.record`, `id:
+  {record/id}`, `data: {json}`).
+- **Topic mismatch validation**: `POST /topics/{topic-key}/records`
+  rejects records whose `topic/key` does not match the URL path.
+- **Partial about-filter rejection**: when exactly one of `about_kind`
+  or `about_id` is present, the API returns an explicit error instead of
+  silently ignoring the filter.
+- **`include_flagged` wire compatibility**: the parameter is accepted
+  but has no effect in MVP; flag semantics are deferred per section 8.
+
+### MVP implementation status vs this proposal
+
+#### Implemented
+
+- **Envelope verification** (`agora-core`): content address, Ed25519
+  signature, schema version, topic key syntax (empty, length,
+  whitespace, control chars). Cross-language fidelity verified against
+  a Python verifier (`agora-verifier` middleware module).
+- **Local relays** (`agora-relay-mem`, `agora-relay-sqlite`): ingest
+  with idempotent duplicate detection, per-topic append log, monotonic
+  sequence assignment, `QueryFilter`-based query with `SequencedRecord`
+  results, replay-capable subscriptions, fetch by `record/id`.
+- **Relay metadata stamping**: `relay/received-at` and `relay/id`
+  stamped by the federated relay (`agora-relay-matrix`) on ingest, via
+  `VerifiedRecord::with_relay_metadata()` which preserves the envelope
+  invariant (relay fields are excluded from content address and
+  signature).
+- **Matrix transport** (`agora-matrix-client`): thin HTTP sink using
+  `reqwest::blocking` + `ruma 0.14.1` types. Three CS API endpoints
+  (join, send with deterministic `txnId`, global sync with demux).
+  `matrix-sdk`-backed sink deferred due to Rust 1.94 recursion limit
+  (matrix-org/matrix-rust-sdk#6254).
+- **Matrix data bridge** (`agora-matrix`): deterministic room alias
+  derivation (`#agora.<hex-sha256-nfc>:<domain>`), event type
+  `org.orbiplex.agora.record.v1`, bidirectional record ↔ event content
+  translation with full envelope verification on inbound.
+- **Federated relay** (`agora-relay-matrix`): `MatrixBackedRelay<S>`
+  composing SQLite + Matrix transport. Local-first ingest,
+  forward-only-fresh, lazy/eager inbound bridges with cooldown,
+  three relay roles (Canonical/Cache/Origin), retention sweep
+  (`max_age`, `max_count`).
+- **Subject index** (`agora-relay-matrix`): in-memory `SubjectIndex`
+  for cross-topic `record/about` queries, idempotent, rebuildable from
+  local store.
+- **HTTP API surface** (`agora-http`): framework-neutral adapter for
+  proposal 035 §5 endpoints. Opaque cursors, SSE subscriptions, topic
+  mismatch validation, partial about-filter rejection.
+- **Retention** (age + count): `sweep_retention()` with automatic
+  subject index rebuild after purge.
+
+#### Deferred ingest invariants
+
+The following invariants from section 2 use "flag, not reject" semantics
+in this proposal and are not blocking for the first deployment:
+
+- **Invariant 5** (`authored/at` clock skew window) — not checked; the
+  field is validated as non-empty only.
+- **Invariant 6** (`record/parent` / `record/supersedes` dangling
+  detection) — not checked; the fields are accepted structurally.
+- **Invariant 7** (passport chain verification via proposals 024 and
+  032) — the signature is verified against the direct participant key
+  only; delegated signing keys are not yet supported.
+  `signature.key/ref` is defined in the schema but not yet represented
+  in the Rust `AgoraSignature` struct.
+- **Invariant 8** (`record/about` resource identity structural
+  validation per proposal 026) — the array is accepted structurally;
+  individual entries are not validated against `resource-ref.v1`.
+- **Schema-level patterns** (`record/kind`, `content/schema`,
+  `record/id` length bounds) — not enforced by the verification
+  library; the library checks non-empty semantics only. Schema-level
+  validation is a relay-side concern.
+- **Topic key NFC normalization** — the verification library checks
+  syntax only (empty, length, whitespace, control chars). NFC
+  normalization is applied by the canonical JSON layer before hashing
+  and signing, so content addresses are stable regardless of input NFC
+  form, but the relay does not currently reject or normalize non-NFC
+  topic keys at the ingest boundary.
+
+#### Not yet wired
+
+- **Daemon integration**: the HTTP API (`agora-http`) and federated
+  relay (`agora-relay-matrix`) are not yet wired into the Node daemon
+  control flow. The crates are self-contained and tested but require a
+  daemon-level lifecycle hook to start inbound bridges and expose the
+  REST/SSE surface.
+- **Retention scheduling**: `sweep_retention()` is a callable primitive
+  but is not yet driven by a periodic timer or cron-like scheduler.
+- **Subject index persistence**: the in-memory `SubjectIndex` does not
+  survive process restarts. `rebuild_subject_index()` reconstructs it
+  from the local SQLite store on startup, but a SQLite-backed subject
+  index would eliminate the rebuild cost.
+- **Room-to-topic name mapping** (section 6, rule 2): the relay does
+  not yet maintain a human-readable room-name mapping for operator
+  tooling.
 
 ## Consequences
 

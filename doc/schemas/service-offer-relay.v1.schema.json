@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:service-offer-relay:v1",
+  "title": "ServiceOfferRelay v1",
+  "description": "Wire envelope for one provider-signed `service-offer.v1` propagated across one offer-catalog relay boundary. The relay metadata is transport-facing; the embedded offer remains the accountable marketplace artifact.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md",
+    "doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md",
+    "doc/project/60-solutions/node.md"
+  ],
+  "required": [
+    "schema/v",
+    "relay/id",
+    "relay/origin-node-id",
+    "relay/hops",
+    "relay/relayed-at",
+    "offer"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "relay/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^offer-relay:[A-Za-z0-9][A-Za-z0-9:-]*$",
+      "description": "Stable relay-scoped identifier for this propagated offer."
+    },
+    "relay/origin-node-id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Node that first emitted this relay envelope."
+    },
+    "relay/hops": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3,
+      "description": "Relay hop count. Relays must drop envelopes whose hop count would exceed 3."
+    },
+    "relay/do-not-forward": {
+      "type": "boolean",
+      "default": false,
+      "description": "Advisory request asking downstream relays not to forward this envelope further."
+    },
+    "relay/intended-node-id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^node:.+$",
+      "description": "Optional future-facing hint naming the Node that may relay the offer onward on the publisher's behalf."
+    },
+    "relay/relayed-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the most recent relay step."
+    },
+    "offer": {
+      "$ref": "service-offer.v1.schema.json",
+      "description": "Embedded provider-signed standing service offer."
+    }
+  }
+}

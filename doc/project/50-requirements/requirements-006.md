@@ -61,7 +61,21 @@ higher-layer identity, room, or federation semantics.
 - `PeerHandshake`:
   - `handshake/id`, `handshake/mode`, `ts`, `sender/node-id`, optional `recipient/node-id`, `key/alg`, `key/public`, `session/pub`, optional `protocol/version`, optional `transport/profile`, `nonce`, optional `ack/of-handshake-id`, optional `capabilities/offered`, optional `terms/negotiated`, `signature`.
 - `CapabilityAdvertisement`:
-  - `advertisement/id`, `node/id`, `published-at`, `protocol/version`, `transport/profiles`, `capabilities/core`, optional `roles/attached`, optional `surfaces/exposed`, `messages/supported`, `signature`.
+  - `advertisement/id`, `node/id`, `published-at`, `protocol/version`,
+    `transport/profiles`, `capabilities/core`, `capabilities/presented`,
+    optional `roles/attached`, optional `surfaces/exposed`,
+    `messages/supported`, `signature`.
+  - `capabilities/core` is the wire-visible projection used for fast matching.
+  - `capabilities/presented` carries passport-form capability assertions with
+    `capability/id`, `wire/name`, `assertion/kind`, and `passport`.
+- `CapabilitySchema`:
+  - `schema/id`, `schema/ref`, `schema/media-type`, `content`,
+    `published-at`, `author/node-id`, and `signature`.
+  - `schema/ref` is a content-addressed Orbiplex reference to the canonical
+    schema content and is the integrity anchor for peer-served schema payloads.
+- `CapabilitySchemaPresent`:
+  - peer-message response wrapper for `capability.schema.present.response`,
+    carrying either one `capability-schema.v1` artifact or an error object.
 
 ## Functional Requirements
 
@@ -116,11 +130,15 @@ higher-layer identity, room, or federation semantics.
 | FR-012c | Forward secrecy in the v1 baseline SHOULD rely primarily on fresh ephemeral X25519 keys and the ephemeral-ephemeral DH term, not solely on identity-derived static DH terms. | Inference | Freeze note |
 | FR-012d | Local identity records with `identity/status` other than `active` MUST be rejected by the MVP runtime; richer status handling such as `rotating` or `retired` is deferred. | Fact | Freeze note |
 | FR-013 | After handshake, a Node MUST support capability advertisement exchange. | Fact | Proposal 014 |
-| FR-014 | Capability advertisement MUST include at least transport profiles and narrow core protocol capabilities. Attached roles and plugin-process surfaces MUST remain optional in MVP. | Inference | Proposal 014 |
-| FR-014a | `capabilities/core` MUST be interpreted as a schematic set of capability identifiers, not a free-form implementation description. | Inference | Proposal 014 |
-| FR-014b | Every MVP Node MUST advertise `core/messaging` as the minimal explicit core capability proving that the established session is usable for post-handshake message exchange. | Fact | Freeze note |
+| FR-014 | Capability advertisement MUST include at least transport profiles, narrow core protocol capability projection, and passport-form presented capabilities. Attached roles and plugin-process surfaces MUST remain optional in MVP. | Inference | Proposal 014 |
+| FR-014a | `capabilities/core` MUST be interpreted as a schematic wire-name projection derived from presented capability assertions, not as a free-form implementation description or the authoritative trust proof. | Inference | Proposal 014 |
+| FR-014b | Every MVP Node MUST advertise `core/messaging` as the minimal explicit core capability proving that the established session is usable for post-handshake message exchange, and MUST include a matching item in `capabilities/presented`. | Fact | Freeze note |
+| FR-014d | `capabilities/presented` MUST carry passport-form assertions with at least `capability/id`, `wire/name`, `assertion/kind`, and `passport`, so a Node can broadcast or answer its capabilities without requiring a Seed Directory lookup. | Fact | Freeze note |
+| FR-014e | Custom or sovereign capabilities SHOULD use the passport capability-id namespace, including identity-anchored forms such as `audio-transcription@participant:did:key:...` or informal `~audio-transcription@participant:did:key:...`, rather than inventing unscoped global names. | Inference | Capability Passport alignment |
 | FR-014c | The first participant-scoped application envelope family in the MVP MUST be canonically shared as `signal-marker-envelope.v1`, distinct from the separately visible `signal-marker.v1` artifact it may reference. | Fact | Freeze note |
-| FR-014c | Capabilities that are already implicit in a successful signed handshake, such as baseline protocol participation or the ability to sign the handshake itself, SHOULD NOT be modeled as separate mandatory advertised core capabilities in v1. | Inference | Freeze note |
+| FR-014f | Capabilities that are already implicit in a successful signed handshake, such as baseline protocol participation or the ability to sign the handshake itself, SHOULD NOT be modeled as separate mandatory advertised core capabilities in v1. | Inference | Freeze note |
+| FR-014g | A capability MAY carry human-readable profile metadata and a content-addressed `schema/ref`; if it advertises `schema/ref`, the Node SHOULD make the referenced `capability-schema.v1` artifact available through the authenticated peer-message channel rather than requiring an external URL. | Inference | Capability schema exchange |
+| FR-014h | `capability.schema.present.request` and `capability.schema.present.response` SHOULD be the well-known peer message kinds for retrieving capability schemas by `schema/ref`. Receivers MUST verify the returned content against `schema/ref` before using it for validation or negotiation. | Inference | Capability schema exchange |
 | FR-015 | A Node MUST support liveness maintenance through `ping/pong` or an equivalent keepalive flow. | Fact | Proposal 014 |
 | FR-016 | A Node MUST support reconnect behavior after transient peer or transport failure. | Fact | Proposal 014 |
 | FR-016a | Reconnect after transient transport failure SHOULD establish a fresh carrier connection and repeat the signed `peer-handshake.v1` flow rather than assuming protocol continuity from TLS session resumption alone. | Inference | Freeze note |

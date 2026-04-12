@@ -59,6 +59,15 @@ schema_for_file() {
     *.service-offer.json)
       echo "$SCHEMAS_DIR/service-offer.v1.schema.json"
       ;;
+    *.service-offer-relay.json)
+      echo "$SCHEMAS_DIR/service-offer-relay.v1.schema.json"
+      ;;
+    *.offer-catalog-fetch-request.json)
+      echo "$SCHEMAS_DIR/offer-catalog-fetch-request.schema.json"
+      ;;
+    *.offer-catalog-fetch-response.json)
+      echo "$SCHEMAS_DIR/offer-catalog-fetch-response.schema.json"
+      ;;
     *.service-order.json)
       echo "$SCHEMAS_DIR/service-order.v1.schema.json"
       ;;
@@ -112,6 +121,15 @@ schema_for_file() {
       ;;
     *.capability-advertisement.json)
       echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
+      ;;
+    *.capability-passport-present.json)
+      echo "$SCHEMAS_DIR/capability-passport-present.v1.schema.json"
+      ;;
+    *.capability-schema-present.json)
+      echo "$SCHEMAS_DIR/capability-schema-present.v1.schema.json"
+      ;;
+    *.capability-schema.json)
+      echo "$SCHEMAS_DIR/capability-schema.v1.schema.json"
       ;;
     *.signal-marker-envelope.json)
       echo "$SCHEMAS_DIR/signal-marker-envelope.v1.schema.json"

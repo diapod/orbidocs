@@ -1,0 +1,81 @@
+{
+  "schema": "capability-schema.v1",
+  "schema/id": "urn:orbiplex:capability-profile:audio-transcription:v1",
+  "schema/ref": "orbiplex:blob:sha256:audioTranscriptionCapabilitySchemaV1",
+  "schema/media-type": "application/schema+json",
+  "capability/id": "audio-transcription@participant:did:key:z6MkAnchor",
+  "wire/name": "sovereign/audio-transcription",
+  "display/name": "Audio transcription",
+  "description": "Transcribes audio input into timestamped text segments.",
+  "lang": "en",
+  "doc/ref": "orbiplex:blob:sha256:audioTranscriptionCapabilityDocV1",
+  "content": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "urn:orbiplex:capability-profile:audio-transcription:v1",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "scope",
+      "input",
+      "output"
+    ],
+    "properties": {
+      "scope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "languages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "max_duration_s": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "input": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "media_type"
+        ],
+        "properties": {
+          "media_type": {
+            "type": "string"
+          },
+          "artifact_ref": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "segments"
+        ],
+        "properties": {
+          "segments": {
+            "type": "array"
+          }
+        }
+      },
+      "errors": {
+        "type": "object"
+      },
+      "retry": {
+        "type": "object"
+      }
+    }
+  },
+  "published-at": "2026-04-12T10:00:00Z",
+  "author/node-id": "node:did:key:z6MkAudio",
+  "author/participant-id": "participant:did:key:z6MkAnchor",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:capability-schema-signature"
+  }
+}

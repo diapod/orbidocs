@@ -22,6 +22,33 @@ Nie obejmuje host-local capabilities typu `recovery.sign` czy
 `catalog.local.query`. Te należą do lokalnej powierzchni hosta, nie do
 federacyjnego rejestru capability IDs.
 
+## Warstwy deklarowania capability
+
+Capability advertisement i capability passport są powiązane, ale nie są
+wymienne.
+
+Używamy następujących warstw:
+
+| Warstwa | Artefakt | Znaczenie | Podstawa zaufania | Przykłady |
+|---|---|---|---|---|
+| Capability natywna dla protokołu | `capability-advertisement.v1` z self-issued passport-form assertion | "ten peer aktualnie mówi tą bazową powierzchnią protokołu" | podpis node'a, self-issued capability passport i poprawnie zestawiona sesja peer | `core/messaging`, `core/keepalive` |
+| Capability oparta o passport | `capability-passport.v1` niesiony w advertisement albo indeksowany przez Seed Directory | "ten node jest uprawniony albo zaakceptowany dla tego profilu capability" | profilowa polityka passportu, podpis wystawcy, sprawdzenie revocation | `network-ledger`, `seed-directory`, `escrow` |
+| Usługa rekomendowana w federacji | passport-backed capability plus polityka federacji | "ta passport-backed capability jest rekomendowana lub bezpieczna w tej federacji" | wystawca wysokiej atestacji, allowlist federacji, lokalna polityka | zatwierdzony ledger, zaufany seed directory, certyfikowany offer catalog |
+| Capability suwerenna/prywatna | sovereign capability id, opcjonalnie oparta o passport | "ten node oferuje capability zakotwiczoną w tożsamości poza globalnym bare-name namespace" | tożsamość kotwicząca plus opcjonalny passport i lokalna polityka | `audio-transcription@participant:did:key:...`, `~audio-transcription@participant:did:key:...` |
+| Custom capability ogłoszona samodzielnie | `capability-advertisement.v1` z self-issued passport-form assertion | "ten node twierdzi, że to potrafi; weryfikuj przez użycie protokołu albo lokalną politykę" | podpis node'a plus self-issued passport; bez endorsementu federacji, jeśli nie jest dołączony osobno | eksperymentalny plugin, niekrytyczna wskazówka discovery |
+
+W konsekwencji:
+
+- `capability-advertisement.v1` jest żywym widokiem discovery i routingu i może
+  być wymieniany bezpośrednio bez Seed Directory,
+- `capability-passport.v1` jest trwałym dowodem uprawnienia, zgody albo
+  endorsementu dla profili capability, które tego wymagają,
+- `capability-schema.v1` jest opcjonalnym kontraktem maszynowo-czytelnym dla
+  profilu capability i jest wskazywana przez content-addressed `schema/ref`,
+- Seed Directory indeksuje passport-backed capabilities dla discovery sieciowego,
+- a konsumenci muszą zastosować lokalną politykę, zanim potraktują jakąkolwiek
+  advertised capability jako zaufaną.
+
 ## Źródła prawdy
 
 Ten dokument ma pozostać zsynchronizowany co najmniej z:

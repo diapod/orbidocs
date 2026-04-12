@@ -22,6 +22,33 @@ It does not cover host-local capabilities such as `recovery.sign` or
 `catalog.local.query`. Those belong to the host's local capability surface, not
 to the federated capability ID registry.
 
+## Assertion Layers
+
+Capability advertising and capability passports are related, but not
+interchangeable.
+
+Use the following layers:
+
+| Layer | Artifact | Meaning | Trust basis | Examples |
+|---|---|---|---|---|
+| Protocol-native capability | `capability-advertisement.v1` with a self-issued passport-form assertion | "this peer currently speaks this baseline protocol surface" | node signature, self-issued capability passport, and successful peer session | `core/messaging`, `core/keepalive` |
+| Passport-backed capability | `capability-passport.v1` carried in advertisement or indexed by Seed Directory | "this node is authorized or accepted for this capability profile" | profile-specific passport policy, issuer signature, revocation checks | `network-ledger`, `seed-directory`, `escrow` |
+| Federation-recommended service | passport-backed capability plus federation policy | "this passport-backed capability is recommended or safe under this federation's policy" | high-assurance issuer, federation allowlist, local policy | approved ledger, trusted seed directory, certified offer catalog |
+| Sovereign/private capability | sovereign capability id, optionally passport-backed | "this node offers an identity-anchored capability outside the global bare-name namespace" | anchor identity plus optional passport and local policy | `audio-transcription@participant:did:key:...`, `~audio-transcription@participant:did:key:...` |
+| Self-announced custom capability | `capability-advertisement.v1` with a self-issued passport-form assertion | "this node says it can do this; verify by protocol use or local policy" | node signature plus self-issued passport; no federation endorsement unless separately attached | experimental plugin, non-critical discovery hint |
+
+Therefore:
+
+- `capability-advertisement.v1` is the live discovery and routing view and may
+  be exchanged directly without Seed Directory,
+- `capability-passport.v1` is the durable authority, consent, or endorsement
+  proof for capability profiles that require one,
+- `capability-schema.v1` is the optional machine-readable contract for a
+  capability profile and is referenced by content-addressed `schema/ref`,
+- the Seed Directory indexes passport-backed capabilities for network discovery,
+- and consumers must apply local policy before treating any advertised
+  capability as trusted.
+
 ## Sources of Truth
 
 This document should remain synchronized at least with:
