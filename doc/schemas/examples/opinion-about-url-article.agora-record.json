@@ -9,7 +9,7 @@
       "resource/id": "https://example.org/article"
     }
   ],
-  "author/participant-id": "participant:did:key:z6MkExampleOpinionAuthor3333333333333333",
+  "author/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "authored/at": "2026-04-11T08:15:00Z",
   "content/schema": "resource-opinion.v1",
   "content": {

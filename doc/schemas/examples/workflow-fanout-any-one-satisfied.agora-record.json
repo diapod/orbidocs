@@ -3,7 +3,7 @@
   "record/id": "sha256:WF001rk5d8m2hxQP4N7bT6vLYcFj3gsOwueazR9ikmt",
   "record/kind": "public-log",
   "topic/key": "orbiplex/workflow-runs/01JRCY0Y7T4Y9JQK8K7R6K4M3M",
-  "author/participant-id": "participant:did:key:z6MkExampleWorkflowParticipant222222222222",
+  "author/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "authored/at": "2026-04-11T11:00:00Z",
   "content/schema": "public-log-entry.v1",
   "content": {
