@@ -432,6 +432,70 @@ Authors who want their records to be findable under a subject SHOULD
 populate `record/about` explicitly; the substrate does not synthesize
 `record/about` from topic keys.
 
+### 5.6. Local deployment channels and authentication
+
+When Agora is attached to a Node as a supervised local service, it SHOULD expose
+the Agora HTTP API on its own port rather than through the daemon's
+request-response middleware proxy. SSE subscriptions are long-lived streams, and
+a dedicated port lets the operator decide whether the relay API remains on
+loopback or is exposed on a public interface.
+
+The Node-attached deployment has three distinct communication relationships:
+
+| Channel | Direction | Purpose | Token boundary |
+|---|---|---|---|
+| Lifecycle | daemon -> Agora | readiness, initialization, shutdown | daemon-generated middleware authtok, validated by Agora |
+| Host capability API | Agora -> daemon | node identity, capability passport lookup/publication, future policy checks | daemon-generated host-capability authtok, validated by daemon |
+| Agora API | UI/CLI/client -> Agora | ingest, query, fetch, subscribe | open in MVP; a separate client authtok MAY be enabled post-MVP |
+
+The host capability API is a local, authenticated, module-initiated channel.
+Agora MUST NOT implement node identity, Seed Directory publication, or
+capability-passport issuance itself. It asks the daemon for those host-owned
+capabilities, and the daemon remains the broker for identity and passport
+policy. In concrete Node deployments this is represented by environment
+variables equivalent to:
+
+```text
+ORBIPLEX_HOST_CAPABILITY_BASE_URL
+ORBIPLEX_HOST_CAPABILITY_AUTH_HEADER
+ORBIPLEX_HOST_CAPABILITY_AUTHTOK_FILE
+```
+
+If client authentication is enabled for the Agora API, it MUST use a token
+separate from both lifecycle and host-capability tokens. Absence of such a token
+means open access for development and local-only MVP operation.
+
+### 5.7. Capability passport semantics for `agora.relay`
+
+The middleware capability report and the capability passport are separate
+facts:
+
+- the module report declares capability: "this supervised process can serve
+  `agora.relay`";
+- the capability passport declares authorization: "the operator officially
+  offers `agora.relay` from this node under this issuer, scope, and metadata".
+
+Passport issuance MUST NOT be automatic merely because Agora reports
+`agora.relay`. The operator issues the passport through the same host-owned
+identity and capability flow used by other passport-backed capabilities. This
+allows the passport to be signed by a high-assurance participant or delegated
+operator key rather than by an ephemeral module identity.
+
+Operationally:
+
+- Agora without an `agora.relay` passport remains a valid local relay: UI, CLI,
+  and local Python clients may still ingest and query records.
+- Agora with an `agora.relay` passport becomes discoverable through the Seed
+  Directory and eligible for federation according to local policy.
+- At startup, a Node-attached Agora service SHOULD query the daemon for its
+  current `agora.relay` passport through the host capability API and expose the
+  result in its status surface.
+
+The `agora.relay` passport metadata schema is defined in
+`doc/schemas/agora-relay-capability.v1.md`. It includes at least the relay API
+endpoint, relay role, relay domain, supported transport set, API version, and
+advertised canonical topic set.
+
 ### 6. Reference Backend: Matrix
 
 The first reference implementation of the topic relay role MUST use a
@@ -748,17 +812,16 @@ L0    AuthenticatedHttpClient bearer-auth HTTP + rate-limit retry
       agora-core             envelope verification, canonical JSON, signatures
 ```
 
-#### Matrix transport: thin HTTP sink, not SDK
+#### Matrix transport: thin HTTP sink
 
 The Matrix transport uses `reqwest::blocking` and `ruma 0.14.1` (types
-and endpoint definitions only, feature `client-api-c`) instead of
-`matrix-sdk`. This avoids the `matrix-sdk 0.16` + Rust 1.94 recursion
-limit overflow (upstream issue matrix-org/matrix-rust-sdk#6254) and
-reduces the transitive dependency footprint from ~180 crates to ~20.
-The `MatrixEventSink` trait decouples the transport from the concrete
-HTTP implementation; an `SdkMatrixEventSink` backed by `matrix-sdk`
-remains a documented plan for when the upstream issue is resolved, but
-is not required for MVP.
+and endpoint definitions only, feature `client-api-c`) plus a small
+hand-written Client-Server HTTP wrapper. This keeps the transport
+auditable, avoids a full client state machine, and keeps Agora relay
+semantics in the relay crates rather than in a Matrix runtime. The
+`MatrixEventSink` trait decouples `MatrixRelayTransport` from the
+concrete HTTP implementation while preserving a single production path
+for the MVP.
 
 Three Matrix CS API endpoints are used:
 
@@ -850,8 +913,6 @@ wraps it in actual HTTP routing. Key design choices:
 - **Matrix transport** (`agora-matrix-client`): thin HTTP sink using
   `reqwest::blocking` + `ruma 0.14.1` types. Three CS API endpoints
   (join, send with deterministic `txnId`, global sync with demux).
-  `matrix-sdk`-backed sink deferred due to Rust 1.94 recursion limit
-  (matrix-org/matrix-rust-sdk#6254).
 - **Matrix data bridge** (`agora-matrix`): deterministic room alias
   derivation (`#agora.<hex-sha256-nfc>:<domain>`), event type
   `org.orbiplex.agora.record.v1`, bidirectional record ↔ event content
