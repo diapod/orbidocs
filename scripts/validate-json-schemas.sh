@@ -47,6 +47,9 @@ schema_for_file() {
     *.adapter-artifact.json)
       echo "$SCHEMAS_DIR/adapter-artifact.v1.schema.json"
       ;;
+    *.agora-record.json)
+      echo "$SCHEMAS_DIR/agora-record.v1.schema.json"
+      ;;
     *.node-identity.json)
       echo "$SCHEMAS_DIR/node-identity.v1.schema.json"
       ;;
