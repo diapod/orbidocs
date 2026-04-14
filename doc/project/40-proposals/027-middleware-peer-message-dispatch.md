@@ -26,8 +26,22 @@ That would grow the trusted daemon core and duplicate transport channels.
 Middleware modules attach to transport-defined host chains, not to
 domain-labeled router branches.
 
-The preferred registration surface is `input_chains` in
-`middleware-module-report`.
+The chain is a trait-based pipeline: `PeerMessageChain` holds ordered vectors of
+trait objects (`PeerMessageHandler`, `PreSendHandler`, `AuditHandler`). The chain
+does not distinguish between in-process handlers (Rust structs compiled into the
+daemon) and out-of-process handlers (loopback HTTP wrappers around supervised
+sidecars). Both implement the same trait interface and produce the same
+`PeerHandlerOutcome`. This makes the chain a trait pipeline, not an HTTP
+pipeline, and enables:
+
+- protocol-core and constitutional concerns (identity verification, network
+  ledger, memory organ observation) to participate without serialization overhead,
+- operator-replaceable extensions (marketplace workflows, content processing) to
+  participate through supervised sidecars with language independence and fault
+  isolation.
+
+The preferred registration surface for out-of-process modules is `input_chains`
+in `middleware-module-report`.
 
 For the peer path the relevant chains are:
 
@@ -240,6 +254,65 @@ This proposal does not force all middleware through loopback HTTP.
 Rust-native middleware can still implement the daemon-owned `PeerMessageHandler`
 trait directly and join the chain in-process. The HTTP bridge exists for
 supervised local sidecars, not as the only extension surface.
+
+## Observer Slots
+
+Handlers participate in chain dispatch and may short-circuit the flow via
+`Handled` or `Respond`. This is intentional: a handler that owns a message
+class should be able to claim it. But short-circuiting means downstream
+handlers on the same chain never see the message, and the existing audit chain
+receives a frozen copy of the original input payload, not the effective payload
+after mutations.
+
+Observer slots are separate registration lists invoked unconditionally,
+regardless of whether a handler returned `Handled`, `Respond`, or `Passthrough`.
+Observers are fire-and-forget and cannot influence dispatch flow.
+
+### Phase observers
+
+Each chain phase (`pre-input`, `inbound-peer`, `pre-send`) has an optional
+observer list invoked once after the phase completes (including after early
+exits). Phase observers receive:
+
+- the envelope as it entered the phase,
+- the envelope as it left the phase (after mutations),
+- the phase outcome (`completed`, `handled`, `responded`, `dropped`),
+- the identity of the handler that claimed the message (when applicable).
+
+Phase observers answer: "what happened during this specific phase?"
+
+### Post-chain observers
+
+A global observer list invoked once per dispatch, after all phases complete
+(and after send, when a response was produced). Post-chain observers receive:
+
+- the original input payload,
+- the effective payload after all chain mutations,
+- the response envelope (if any, after `pre-send` mutations),
+- the final dispatch outcome,
+- total dispatch duration.
+
+Post-chain observers answer: "what was the final result of the full dispatch?"
+This is the primary integration point for constitutional organs like Memarium
+that need to see what actually happened rather than what was originally
+submitted.
+
+### Relationship to audit
+
+The existing audit chain remains unchanged for backward compatibility.
+Post-chain observers are a strict superset of audit events, carrying both the
+original and effective payloads plus structured outcome metadata. New consumers
+should prefer post-chain observer registration over audit registration.
+
+### Observer registration
+
+In-process observers implement the observer trait directly (same trait-pipeline
+duality as handlers). Out-of-process observers may declare observation interest
+through a dedicated `observe_chains` section in the middleware module report,
+or through an `observer: true` flag on `input_chains` entries. The daemon
+dispatches observer events to out-of-process modules through the same loopback
+HTTP contract, but using fire-and-forget semantics (no response parsing, no
+timeout blocking of the dispatch thread).
 
 ## Operational Boundaries
 

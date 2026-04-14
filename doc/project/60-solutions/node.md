@@ -4,6 +4,13 @@
 
 Node-scoped roles such as archivist, memarium provider, or sensorium provider are not assumed to be in-process features of a single monolith. They may be implemented as separate programs or processes, written in different languages, as long as they attach to the Node through explicit protocol and API contracts.
 
+The Node's middleware chain (`PeerMessageChain`) is a trait-based pipeline, not an HTTP pipeline. It supports two handler realization patterns:
+
+- **In-process handlers**: Rust trait implementations compiled into the daemon, with direct access to storage, capability registries, and zero serialization overhead. This pattern is preferred for protocol-core and constitutional concerns (e.g. capability passport verification, network ledger updates, memarium observation).
+- **Out-of-process handlers**: supervised sidecar modules reached through loopback HTTP, with language independence and fault isolation. This pattern is preferred for operator-replaceable extensions (e.g. marketplace workflow modules, content processing).
+
+Both patterns implement the same trait interface and produce the same decision outcomes. The choice is a deployment concern per handler, not a property of the chain architecture. A constitutional organ like Memarium may participate as an in-process chain handler to guarantee co-lifecycle with the daemon while observing and enriching the full message flow.
+
 ## Purpose
 
 The Node is responsible for the solution-level execution path of:
