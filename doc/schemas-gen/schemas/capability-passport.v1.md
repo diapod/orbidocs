@@ -10,6 +10,9 @@ Signed capability or consent artifact naming a capability profile for a target N
 - [`doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`](../../project/40-proposals/025-seed-directory-as-capability-catalog.md)
 - [`doc/project/20-memos/participant-assurance-levels.md`](../../project/20-memos/participant-assurance-levels.md)
 - [`doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md`](../../project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md)
+- [`doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md`](../../project/40-proposals/038-key-roles-and-key-use-taxonomy.md)
+- [`doc/project/60-solutions/capability-binding.md`](../../project/60-solutions/capability-binding.md)
+- [`doc/project/60-solutions/sealer.md`](../../project/60-solutions/sealer.md)
 
 ## Project Lineage
 
@@ -23,6 +26,7 @@ Signed capability or consent artifact naming a capability profile for a target N
 
 - [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
 - [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
+- [`doc/project/30-stories/story-005.md`](../../project/30-stories/story-005.md)
 - [`doc/project/30-stories/story-006-buyer-node-components.md`](../../project/30-stories/story-006-buyer-node-components.md)
 - [`doc/project/30-stories/story-006.md`](../../project/30-stories/story-006.md)
 - [`doc/project/30-stories/story-007.md`](../../project/30-stories/story-007.md)
@@ -36,7 +40,7 @@ Signed capability or consent artifact naming a capability profile for a target N
 | [`node_id`](#field-node-id) | `yes` | string | Target Node receiving the delegated capability. MUST match the `node:did:key:z...` canonical format. |
 | [`capability_id`](#field-capability-id) | `yes` | string | Capability identifier. Formal global profiles use bare kebab-case identifiers such as `network-ledger`, `seed-directory`, `escrow`, or `node-primary-operator`. Sovereign/private profiles may add an identity anchor, e.g. `audio-transcription@participant:did:key:z...`, with an optional leading `~` for informal profiles. See Proposal 024 and Proposal 025 for naming and advertisement projection. |
 | [`capability_profile`](#field-capability-profile) | `no` | ref: `#/$defs/capabilityProfile` | Optional human and machine description of the capability profile. This is signed with the passport when present, but it is metadata: trust still derives from passport verification and local policy. |
-| [`scope`](#field-scope) | `yes` | object | Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Capability definitions MAY add required scope fields as those capabilities are specified. |
+| [`scope`](#field-scope) | `yes` | object | Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Non-key-use passports (e.g. `network-ledger`, `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization. |
 | [`issued_at`](#field-issued-at) | `yes` | string | RFC 3339 timestamp at which this passport was issued. |
 | [`expires_at`](#field-expires-at) | `no` | string \| null | RFC 3339 timestamp after which this passport MUST be treated as expired. `null` means no explicit expiry; receivers SHOULD apply a locally configured maximum TTL. |
 | [`issuer/participant_id`](#field-issuer-participant-id) | `yes` | string | Canonical `participant:did:key:z...` identifier of the issuing participant. The required authority level is determined by the capability profile. Infrastructure profiles such as `network-ledger` and `seed-directory` usually require a software-pinned sovereign operator; the `node-primary-operator` consent profile requires this participant to match the operator named by the binding policy and to be accepted by the target Node. |
@@ -53,6 +57,11 @@ Signed capability or consent artifact naming a capability profile for a target N
 | [`capabilityProfile`](#def-capabilityprofile) | object |  |
 | [`delegationProof`](#def-delegationproof) | object | Compact bearer credential copied out of a `key-delegation.v1` registration artifact and embedded beside a proxy-key signature. Its own principal signature covers only the compact proof payload. |
 | [`ed25519Signature`](#def-ed25519signature) | object | Ed25519 signature over the deterministic canonical JSON of the passport with the `signature` and `issuer_delegation` fields omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. |
+| [`allowedCaller`](#def-allowedcaller) | object | One caller entry recognized by a key-use passport. Verifier matches entries against a resolved `CallerBinding` produced by the `caller-binding` crate: `subject_key` MUST overlap `CallerBinding.subject_keys`; `label` MUST match `CallerBinding.caller_label` when present; `kind` MUST match `CallerBinding.subject_kind` when present. Only public-key material appears here; binding entries MUST NOT embed secrets. |
+| [`scopeProfileV1`](#def-scopeprofilev1) | object | One key-use profile entry in `scope.profiles[]`. The `profile` field is the discriminator. Recognized discriminators (`sealer-access@v1`, `memarium-space-access@v1`, `community-key-access@v1`) trigger profile-specific shape validation below. Unknown discriminators are tolerated by the schema but MUST NOT grant access at the verifier. |
+| [`sealerAccessProfileV1`](#def-sealeraccessprofilev1) | object | Authorizes Sealer AEAD operations on bounded semantic key identifiers as known to the operator. `key_ref_prefixes` and grant targets match values such as `key:community:...`; signer-layer wrapping such as `proxy:` is not part of the authorization tag. The dispatch layer is responsible for translating concrete signer `KeyRef` values before evaluation. See proposal 038 §Profile `sealer-access@v1`. |
+| [`memariumSpaceAccessProfileV1`](#def-memariumspaceaccessprofilev1) | object | Authorizes Memarium space-level operations at a layer above Sealer. See proposal 038 §Profile `memarium-space-access@v1`. |
+| [`communityKeyAccessProfileV1`](#def-communitykeyaccessprofilev1) | object | Authorizes community key material reception, rotation, and distribution decisions at a layer above Sealer. See proposal 038 §Profile `community-key-access@v1`. |
 
 ## Conditional Rules
 
@@ -128,7 +137,7 @@ Optional human and machine description of the capability profile. This is signed
 - Required: `yes`
 - Shape: object
 
-Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Capability definitions MAY add required scope fields as those capabilities are specified.
+Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Non-key-use passports (e.g. `network-ledger`, `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization.
 
 <a id="field-issued-at"></a>
 ## `issued_at`
@@ -212,3 +221,38 @@ Compact bearer credential copied out of a `key-delegation.v1` registration artif
 - Shape: object
 
 Ed25519 signature over the deterministic canonical JSON of the passport with the `signature` and `issuer_delegation` fields omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order.
+
+<a id="def-allowedcaller"></a>
+## `$defs.allowedCaller`
+
+- Shape: object
+
+One caller entry recognized by a key-use passport. Verifier matches entries against a resolved `CallerBinding` produced by the `caller-binding` crate: `subject_key` MUST overlap `CallerBinding.subject_keys`; `label` MUST match `CallerBinding.caller_label` when present; `kind` MUST match `CallerBinding.subject_kind` when present. Only public-key material appears here; binding entries MUST NOT embed secrets.
+
+<a id="def-scopeprofilev1"></a>
+## `$defs.scopeProfileV1`
+
+- Shape: object
+
+One key-use profile entry in `scope.profiles[]`. The `profile` field is the discriminator. Recognized discriminators (`sealer-access@v1`, `memarium-space-access@v1`, `community-key-access@v1`) trigger profile-specific shape validation below. Unknown discriminators are tolerated by the schema but MUST NOT grant access at the verifier.
+
+<a id="def-sealeraccessprofilev1"></a>
+## `$defs.sealerAccessProfileV1`
+
+- Shape: object
+
+Authorizes Sealer AEAD operations on bounded semantic key identifiers as known to the operator. `key_ref_prefixes` and grant targets match values such as `key:community:...`; signer-layer wrapping such as `proxy:` is not part of the authorization tag. The dispatch layer is responsible for translating concrete signer `KeyRef` values before evaluation. See proposal 038 §Profile `sealer-access@v1`.
+
+<a id="def-memariumspaceaccessprofilev1"></a>
+## `$defs.memariumSpaceAccessProfileV1`
+
+- Shape: object
+
+Authorizes Memarium space-level operations at a layer above Sealer. See proposal 038 §Profile `memarium-space-access@v1`.
+
+<a id="def-communitykeyaccessprofilev1"></a>
+## `$defs.communityKeyAccessProfileV1`
+
+- Shape: object
+
+Authorizes community key material reception, rotation, and distribution decisions at a layer above Sealer. See proposal 038 §Profile `community-key-access@v1`.
