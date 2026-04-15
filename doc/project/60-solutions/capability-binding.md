@@ -51,6 +51,13 @@ It does not define:
 - key-reference grammar (Key backend / `KeySource` concern; see
   proposal 038 §`key_ref` Is a Reference).
 
+The `RevocationView` is the local verifier's projection, not a network role.
+It may include node-local revocations that are meaningful only for local
+dispatch, local modules, or local host capabilities. Federated directories such
+as Seed Directory are only distribution surfaces for revocation artifacts that
+other nodes may need to observe; Capability Binding consumes the resulting
+local view and does not care which source produced it.
+
 ## Must Implement
 
 ### CallerBinding and Resolver
@@ -286,6 +293,11 @@ advertisements, it does not participate in Seed Directory capability
 discovery, and it does not cross the node boundary directly. Passport
 artifacts themselves travel across node boundaries; the decision organ
 does not.
+
+Likewise, a local revocation decision for a host capability is not automatically
+a Seed Directory event. Publishing a signed revocation artifact to a federated
+directory is a separate operation, used only when other nodes may rely on the
+artifact being revoked.
 
 ## Crate Boundary
 

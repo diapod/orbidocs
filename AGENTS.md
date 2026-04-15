@@ -94,6 +94,14 @@ Use the stratified `doc/` tree as the canonical source:
 - `doc/schemas/` for canonical machine-readable contracts.
 - `doc/schemas-gen/` for generated human-facing schema pages.
 
+For data shapes that express keys of associative structures, prefer Lisp-style
+namespaced keys of the form `namespace/name` when semantic grouping or collision
+avoidance is needed. The `namespace` part may contain dots to group meanings
+from general to specific; the `name` part is the local key name. Do not force
+dotted namespaces where the surrounding schema already disambiguates the keys
+without conflict. Small, agile on-wire structures may omit the namespace part
+entirely when the contract remains clear.
+
 Normative workflow positions:
 - `doc/normative/10-ideas/`
 - `doc/normative/20-vision/`

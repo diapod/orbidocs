@@ -102,7 +102,7 @@ Crosses the network:
   - CapabilityProfile advertisements
   - Seed Directory records
   - Capability passports (as signed credentials)
-  - Revocation artifacts (through the revocation feed)
+  - Revocation artifacts when they are published for federated consumption
   - AEAD envelopes (sealed bytes)
 
 Stays local to the acting node:
@@ -110,12 +110,31 @@ Stays local to the acting node:
     in-process caller map)
   - CallerBinding records (public-key-only)
   - RevocationView (local projection of the revocation feed)
+  - Node-local revocation decisions that affect only local dispatch
   - AuthorizationDecision values
   - SealerPolicy / SignerPolicy evaluation
   - Audit events
 ```
 
 The line is sharp: artifacts cross the network, decisions do not.
+
+## Revocation ontology
+
+Revocation has two distinct layers:
+
+1. A signed revocation artifact says that a capability passport or key
+   delegation is no longer valid evidence.
+2. A local `RevocationView` says what the acting node currently refuses to
+   honor while making an authorization decision.
+
+Those layers often compose, but they are not the same thing. A Node MAY keep a
+node-local revocation in its local dispatch projection when the revoked artifact
+only affects local modules, local UI, or local host capabilities. Such a
+revocation does not need Seed Directory publication.
+
+Seed Directory publication is for artifacts whose validity was, or may be,
+relied on by other nodes. It is a federated distribution surface for revocation
+artifacts, not the authority that makes local authorization decisions.
 
 ## Synthesis
 

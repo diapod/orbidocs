@@ -47,6 +47,10 @@ The `revocations` table gains `target_id`, and feed serialization should expose
 both `passport_id` and `target_id`. Consumers then decide which cache to
 invalidate.
 
+This is the federated publication path. A node-local revocation whose only
+effect is local dispatch does not have to be inserted into the Seed Directory
+revocation table; it can remain in the local verifier's `RevocationView`.
+
 ## Decision 2 — carry compact delegation proof inline
 
 ### Context
