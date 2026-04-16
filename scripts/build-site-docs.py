@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import shutil
+import re
 from pathlib import Path
 
 
@@ -17,6 +18,11 @@ ROOT_FILES = (
 EXCLUDED_DOCS = {
     Path("normative/10-ideas/COLLABORATION.md"),
 }
+FENCE_RE = re.compile(r"^[ \t]{0,3}(```+|~~~+)")
+LABEL_RE = re.compile(
+    r"^[ \t]{0,3}(?![-+*][ \t]|\d+[.)][ \t]|#{1,6}[ \t]|>)(?P<label>.+:\s*)$"
+)
+LIST_ITEM_RE = re.compile(r"^[ \t]{0,3}(?:[-+*][ \t]|\d+[.)][ \t])")
 
 
 def is_excluded_single_site_doc(rel: Path) -> bool:
@@ -67,10 +73,32 @@ def rewrite_asset_links(text: str) -> str:
     return text
 
 
+def normalize_label_led_lists(text: str) -> str:
+    """Add virtual source spacing needed by Python-Markdown before label-led lists."""
+    result: list[str] = []
+    previous_was_label = False
+    in_fence = False
+
+    for line in text.splitlines(keepends=True):
+        stripped_line = line.rstrip("\r\n")
+        newline = line[len(stripped_line) :]
+
+        if FENCE_RE.match(stripped_line):
+            in_fence = not in_fence
+
+        if not in_fence and previous_was_label and LIST_ITEM_RE.match(stripped_line):
+            result.append(newline or "\n")
+
+        result.append(line)
+        previous_was_label = not in_fence and bool(LABEL_RE.match(stripped_line))
+
+    return "".join(result)
+
+
 def write_transformed_markdown(source: Path, target: Path) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     text = source.read_text(encoding="utf-8")
-    target.write_text(rewrite_asset_links(text), encoding="utf-8")
+    target.write_text(normalize_label_led_lists(rewrite_asset_links(text)), encoding="utf-8")
 
 
 def copy_root_files() -> None:
