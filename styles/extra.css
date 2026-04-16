@@ -1,3 +1,108 @@
 .md-footer {
   display: none;
 }
+
+.diagram-zoom-host {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.diagram-zoom-host > .mermaid {
+  margin: 0;
+}
+
+.diagram-zoom-button {
+  position: absolute;
+  inset-block-start: 0.5rem;
+  inset-inline-end: 0.5rem;
+  z-index: 2;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-shadow: var(--md-shadow-z2);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.diagram-zoom-button:hover,
+.diagram-zoom-button:focus {
+  background: var(--md-accent-fg-color);
+  color: var(--md-accent-bg-color);
+}
+
+.diagram-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.diagram-lightbox[hidden] {
+  display: none;
+}
+
+.diagram-lightbox__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.diagram-lightbox__button {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  background: rgba(255, 255, 255, 0.95);
+  color: #111;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+}
+
+.diagram-lightbox__button:hover,
+.diagram-lightbox__button:focus {
+  background: #fff;
+}
+
+.diagram-lightbox__viewport {
+  overflow: auto;
+  border-radius: 0.5rem;
+  background: var(--md-default-bg-color);
+  box-shadow: var(--md-shadow-z3);
+}
+
+.diagram-lightbox__diagram {
+  width: var(--diagram-lightbox-layout-width, max-content);
+  height: var(--diagram-lightbox-layout-height, auto);
+  min-width: 100%;
+  padding: 1.5rem;
+}
+
+.diagram-lightbox__rendered {
+  width: max-content;
+  transform: scale(var(--diagram-lightbox-zoom, 1));
+  transform-origin: top left;
+}
+
+.diagram-lightbox__diagram .mermaid,
+.diagram-lightbox__diagram svg {
+  max-width: none;
+}
+
+.diagram-lightbox__diagram svg {
+  min-width: min(84rem, 140vw);
+  height: auto;
+}
+
+body.diagram-lightbox-open {
+  overflow: hidden;
+}

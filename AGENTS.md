@@ -186,7 +186,41 @@ By contrast, `CAPABILITY-REGISTRY.*.md` is not generated. It should stay concise
 manual, and in sync with the current capability surface rather than with every
 incidental runtime detail.
 
-## 9. Collaboration Rules for Agents
+## 9. Diagrams
+
+Use Mermaid diagrams through Material for MkDocs when a diagram clarifies system
+structure, message flow, state transitions, data relationships, or operational
+boundaries. Prefer diagram source that remains reviewable as text.
+
+Diagram ownership follows the document unless the diagram is intentionally shared
+across multiple documents:
+
+1. Use embedded Mermaid blocks for small, local explanatory diagrams. This is the
+   default for short flowcharts, sequences, state diagrams, and ER sketches that
+   explain one nearby paragraph or section.
+2. Use sidecar diagram files next to the owning document when a diagram becomes
+   large, frequently edited, or distracting inline. Prefer `*.mmd` or
+   `*.mermaid` source files. For several diagrams owned by one document, use a
+   local directory such as `sealer.diagrams/` next to `sealer.md`.
+3. Use a central `doc/diagrams/` tree only for canonical cross-document diagrams:
+   system maps, architectural strata, protocol flows, or diagrams referenced from
+   more than one document. Do not use it as a dumping ground for local diagrams.
+
+Examples:
+
+- `doc/project/60-solutions/sealer.md` may embed a short dispatch sequence
+  directly.
+- Larger Sealer-owned diagrams should live beside it, e.g.
+  `doc/project/60-solutions/sealer.diagrams/dispatch-gate.mmd`.
+- Shared architecture diagrams may live under
+  `doc/diagrams/architecture/host-capability-strata.mmd`.
+
+For multilingual documents, keep diagram labels in stable system terminology
+where practical and translate captions or surrounding explanation instead. If a
+diagram must be language-specific, treat it as owned by that localized document
+version.
+
+## 10. Collaboration Rules for Agents
 
 1. Make small, reviewable edits.
 2. Preserve existing intent unless explicitly asked to reframe it.
@@ -194,13 +228,13 @@ incidental runtime detail.
 4. Flag contradictions across documents and propose reconciliation.
 5. If confidence is below ~95% on intent, ask a focused clarification question.
 
-## 10. Non-Goals
+## 11. Non-Goals
 
 1. This repo is not a code monorepo for runtime services.
 2. This repo is not marketing copy.
 3. This repo should not contain secrets, credentials, or private operational data.
 
-## 11. Definition of Done (for doc changes)
+## 12. Definition of Done (for doc changes)
 
 A change is done when:
 
@@ -210,7 +244,7 @@ A change is done when:
 4. Trade-offs and risks are explicit.
 5. Next actions are concrete.
 
-## 12. Core Values
+## 13. Core Values
 
 Core values live under `doc/normative/30-core-values/`, with locale subdirectories
 and locale infixes in filenames, e.g.,
@@ -231,7 +265,7 @@ formulated in a different way or seen from a sifferent angle (or extended with
 details), you should ask user whether they really want to add a new value or
 integrate the given description into existing one.
 
-## 13. Values → Constitution: what gets reduced, what gets added, what gets synthesized
+## 14. Values → Constitution: what gets reduced, what gets added, what gets synthesized
 
 Moving from "values" to a "constitution" does two things at once: it reduces poetry
 and adds machinery.

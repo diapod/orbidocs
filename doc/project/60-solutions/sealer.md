@@ -20,15 +20,18 @@ The component is responsible for the solution-level execution path of:
 - per-operation nonce generation under a consistent policy per suite,
 - versioned ciphersuite selection with a strong default and explicit opt-in
   for alternatives,
-- caller-scoped policy gating on `(caller, suite, key_ref)` consistent with
-  the existing Signer policy model,
+- caller-scoped policy gating on `(caller, suite, key_ref)` through the
+  daemon capability/passport dispatch path,
 - audit trail for every seal and open decision,
 - tombstone markers as a first-class sealed kind.
 
-Sealer derives all symmetric key material through a `KeySource` trait; it
-never manages key storage, key generation, key rotation, or passphrase
-unlocking. Those responsibilities belong to Signer (or any other implementer
-of `KeySource`).
+Sealer derives all symmetric key material through a `KeySource` trait. The
+Node reference implementation uses a dedicated envelope-encrypted sealer
+master seed, not the Signer's Ed25519 seed. The `sealer-service` layer owns
+the `KeySource` composition contract, unlock cache, and envelope-unsealing
+trait; the daemon owns concrete file-backed envelope storage,
+Argon2id/AES-256-GCM envelope decrypt, AAD validation, rate limiting, and
+the local HTTP lifecycle for `sealer.master.init` and `sealer.unlock`.
 
 ## Scope
 
@@ -36,8 +39,9 @@ This document defines solution-level responsibilities of the Sealer component.
 
 It does not define:
 
-- concrete module layout in an implementation repository,
-- concrete key backend, key storage, or unlock policy (Signer's concern),
+- every concrete module layout in an implementation repository,
+- group/community key distribution above the local sealer master,
+- master-key rotation/rekey beyond one configured active master version,
 - key agreement protocols for group-wide key distribution (future work;
   a separate solution will document the group key agreement layer),
 - envelope format variants beyond the canonical JSON v1 described below
@@ -58,25 +62,24 @@ Responsibilities:
 
 - accept `plaintext: bytes` and `aad: bytes` without interpreting either
   (caller owns canonicalization of AAD),
-- accept `key_ref: SealerKeyRef` as a logical reference — Sealer resolves it
-  through the injected `KeySource`, never loads keys itself
-  (opaque `String` newtype owned by `sealer-core`, not re-exported from
-  `signer-core`; see proposal 038 §Sealer KeyRef Type),
+- accept `key_ref: KeyRef` as a logical reference — Sealer resolves it
+  through the injected `KeySource`, never loads keys itself. The current Node
+  implementation reuses `signer-core::KeyRef` as shared operator vocabulary;
+  proposal 038 records the future split to a sealer-owned newtype,
 - accept `suite: CiphersuiteId` selecting the AEAD family and version,
 - return a self-describing envelope,
 - on open, verify the tag before returning any plaintext; fail with a single
   opaque `OpenFailed` error for *cryptographic* verification failures
   (tag mismatch, AAD mismatch, wrong key) — these are indistinguishable at
   the public boundary by design,
-- pre-crypto policy and credential failures (stale revocation view, missing
-  passport, denied by policy) produce distinct first-class error variants
-  (`SealerError::RevocationStale`, `SealerError::Denied`, etc.) so that
-  operators can diagnose them without weakening the confidentiality
-  boundary.
+- pre-crypto dispatch and credential failures (stale revocation view, missing
+  passport, denied capability) are reported by the daemon/capability-binding
+  layer before engine invocation; engine-local non-cryptographic failures use
+  typed variants such as `NotAuthorized`, `UnknownSuite`, or `KeySource`.
 
 Status:
 
-- `todo`
+- `done` in the Node reference implementation.
 
 ### Ciphersuite Registry (Versioned, Configurable Default)
 
@@ -99,17 +102,19 @@ Responsibilities:
 
 Status:
 
-- `todo`
+- `done` for the default suite and registry contract in the Node reference
+  implementation; optional suites remain future/feature-gated.
 
 ### Key Source Boundary
 
 Based on:
-- `doc/project/40-proposals/037-host-signer-surface.md` (signer as authoritative key provider)
+- `doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md`
+  (sealer key-use taxonomy and derivation boundary)
 
 Responsibilities:
 
 - define a `KeySource` trait with a single method
-  `derive_symmetric(caller, key_ref, suite, info) -> SymmetricKey`
+  `derive_symmetric(caller, key_ref, suite, key_len, info) -> SymmetricKey`
   — KDF-proximity terminology uses `info`; wire/HTTP DTOs expose the same
   bytes as `derivation_info_b64u`; audit events record only
   `derivation_info_hash` (SHA-256 of the raw bytes), never the bytes
@@ -119,15 +124,20 @@ Responsibilities:
   the key without storing material in the envelope,
 - require zeroization-on-drop of the returned `SymmetricKey`,
 - compose `Sealer` over any `Arc<dyn KeySource>` without knowledge of whether
-  the source is a Signer, a test stub, or a future HSM adapter.
+  the source is the daemon sealer master, a test stub, or a future HSM
+  adapter.
 
-The Signer engine implements `KeySource` through a new `derive_aead_key` path
-(`HKDF-SHA256(master, salt = key_ref_bytes, info = suite_id ∥ caller_hash ∥ info)`).
-That adapter is defined in the Signer crate family, not here.
+The Node reference implementation uses `SealerMasterKeySource` in
+`sealer-service`. It resolves the active master through a `SealerKeyBackend`,
+requires the master to be initialized and unlocked, and derives AEAD keys with
+HKDF-SHA256 domain `orbiplex-sealer-aead-key:v2`, binding the authorization
+tag, suite id, active master version, requested key length, and caller-provided
+`info`. Signer is not on the derivation path. A daemon regression test asserts
+that repeated seal/open cycles do not call `HostSigner::sign`.
 
 Status:
 
-- `todo`
+- `done` in the Node reference implementation.
 
 ### Caller-Scoped Policy and Audit
 
@@ -136,17 +146,20 @@ Based on:
 
 Responsibilities:
 
-- gate every `seal` and `open` on `(caller, suite, key_ref)` through an
-  injected `SealerPolicy` trait,
+- gate every `seal`, `open`, and `derive_aead_key` on `(caller, suite,
+  key_ref)` through the daemon dispatch capability gate; the engine still has
+  an injected `SealerPolicy` for in-process invariants and testability,
 - record every accepted, denied, and failed operation into an injected
   `SealerAuditSink`,
 - record audit events without exposing plaintext, key material, or raw AAD
   (hash AAD before logging),
-- deny-by-default: missing policy entries produce `Denied`, not `Allowed`.
+- deny-by-default: missing policy entries produce a typed not-authorized
+  decision, not `Allowed`.
 
 Status:
 
-- `todo`
+- `partial`: engine-local policy/audit exists, and the deployed daemon
+  authorizes HTTP calls through capability binding before engine invocation.
 
 ### Passport-Aware Policy (Key-Use Authorization)
 
@@ -155,8 +168,9 @@ Based on:
   (§CallerBinding Ownership, §scope.allowed_callers and Passport Version,
   §Revocation Freshness)
 
-The default `SealerPolicy` MAY be composed with a passport-aware verifier
-that authorizes `(caller, suite, key_ref)` through:
+In the Node daemon, Sealer HTTP calls are authorized before engine invocation
+by the shared passport-aware capability verifier. It authorizes `(caller,
+grant_type, key_ref)` through:
 
 - a `CallerBinding` resolver (crate: `caller-binding`) that maps the
   incoming `CallerIdentity` to a subject key or module subject,
@@ -175,21 +189,22 @@ Verifier decision rule:
    `CallerBinding` subject.
 5. Effective `T_max = min(profile.max_revocation_staleness_seconds,
    local verifier T_max)`. If `now - RevocationView.checked_at > T_max`,
-   fail closed with `SealerError::RevocationStale`.
+   fail closed before engine invocation with a revocation-stale dispatch
+   denial.
 6. Emit audit: `caller_label`, `caller_source_digest` (authtok digest for
    HTTP callers), `passport_id`, `passport_digest`, `grant_type`, `target`,
    `key_ref`,
    `derivation_info_hash`, `revocation_freshness`, `decision`.
 
-Sealer itself does not parse passports. The passport-aware verifier
-lives in a separate adapter documented in `capability-binding.md` and feeds
-`SealerPolicy.authorize_*` with an
-already-decided outcome. Sealer stays on bytes; passport semantics stay
-in the adapter.
+Sealer itself does not parse passports. The passport-aware verifier lives in
+a separate adapter documented in `capability-binding.md`; the daemon calls the
+engine only after the verifier authorizes the request. Sealer stays on bytes;
+passport semantics stay in the adapter.
 
 Status:
 
-- `todo`
+- `done` in the Node daemon through capability-binding and real
+  `RevocationViewSource` snapshots.
 
 ### Canonical JSON Envelope v1
 
@@ -234,7 +249,7 @@ Notes:
 
 Status:
 
-- `todo`
+- `done` in the Node reference implementation.
 
 ### Tombstone Sealing
 
@@ -255,7 +270,7 @@ Responsibilities:
 
 Status:
 
-- `todo`
+- `done` in the Node reference implementation.
 
 ### Nonce Policy
 
@@ -272,7 +287,7 @@ Responsibilities:
 
 Status:
 
-- `todo`
+- `done` in the Node reference implementation.
 
 ### Dual Access Surface (In-Process Trait + HTTP via Daemon)
 
@@ -305,6 +320,19 @@ Responsibilities:
   `hyper`) — the daemon adapts the `(u16, String)` outcome to its own
   dispatch format.
 
+Current daemon-mounted routes:
+
+- `sealer.master.init` initializes a local envelope-encrypted sealer master
+  version and is operator-only,
+- `sealer.unlock` unlocks a configured local master version into the
+  daemon-local cache and is operator-only,
+- `sealer.seal`, `sealer.open`, and `sealer.derive-aead-key` are available to
+  authorized local modules through the existing module authtok/passport path.
+
+Missing masters fail as unavailable, locked masters fail as locked, and bad
+passphrases/rate limits remain distinct lifecycle errors. These errors are
+operational state, not AEAD tag detail.
+
 Rationale: this mirrors the existing Signer split so that a module written
 in Python can call the Signer and the Sealer through the same local HTTP
 surface with the same authtok, and an in-process Rust consumer pays zero
@@ -312,7 +340,7 @@ serialization overhead for either.
 
 Status:
 
-- `todo`
+- `done` for the listed Node daemon routes.
 
 ## May Implement
 
@@ -352,10 +380,9 @@ Status:
 
 ## Out of Scope
 
-- key generation, rotation, revocation, storage, or escrow
-  (Signer / key backend concern),
-- passphrase unlocking or unlock caching
-  (Signer concern),
+- arbitrary key generation, rotation, revocation, storage, or escrow beyond
+  the local envelope-encrypted sealer master,
+- group/community key distribution and rekey governance,
 - key agreement for groups (Community space key distribution)
   (separate future solution),
 - canonicalization of caller payloads or AAD
@@ -369,7 +396,8 @@ Status:
 
 - `plaintext: bytes`
 - `aad: bytes`
-- `key_ref: SealerKeyRef` (opaque `String` newtype, owned by `sealer-core`)
+- `key_ref: KeyRef` (currently shared operator vocabulary from `signer-core`;
+  proposal 038 records the future split to a sealer-owned newtype)
 - `suite: CiphersuiteId`
 - `derivation_info: bytes` (wire/HTTP DTO field name; `info` at KDF call site)
 - `CallerIdentity` (reused from `signer-core`)
@@ -383,14 +411,19 @@ Status:
   `derivation_info_hash` (never the raw bytes)
 - Typed error values (`SealerError`):
   - opaque `OpenFailed` for cryptographic verification failures,
-  - first-class `RevocationStale`, `Denied`, `UnknownSuite`, and related
-    non-opaque variants for pre-crypto policy and credential failures.
+  - first-class `NotAuthorized`, `UnknownSuite`, `KeySource`, and related
+    non-opaque variants for engine-local operational failures.
+  - daemon/capability-binding may return dispatch denials such as
+    revocation-stale before the engine is invoked.
 
 ## Host Capability Surface
 
-Sealer exposes a local host-capability surface (`sealer.seal`,
-`sealer.open`) through the in-process `Sealer` trait and the
-daemon-mounted HTTP shim. This surface is intended for local modules
+Sealer exposes a local host-capability surface (`sealer.master.init`,
+`sealer.unlock`, `sealer.seal`, `sealer.open`, `sealer.derive-aead-key`)
+through the in-process `Sealer` trait and the daemon-mounted HTTP shim.
+`sealer.master.init` and `sealer.unlock` are local operator lifecycle
+operations; module callers use the seal/open/derive operations through their
+own passports. This surface is intended for local modules
 supervised by the same daemon — in-process Rust consumers receive an
 `Arc<dyn Sealer>`, and supervised children written in other languages
 reach it through the daemon's existing authtok-resolved HTTP dispatch.
@@ -416,21 +449,23 @@ captured in `doc/project/20-memos/authorization-locality.md`.
 
 Defines the trait boundary and domain types:
 
-- `Sealer` trait (`seal`, `open`),
-- `KeySource` trait (`derive_symmetric`),
-- `SealerPolicy` trait (`authorize_seal`, `authorize_open`),
+- `Sealer` trait (`seal`, `open`, `derive_aead_key`),
+- `KeySource` trait (`derive_symmetric` with explicit `key_len`),
+- `SealerPolicy` trait (`authorize_seal`, `authorize_open`,
+  `authorize_derive_aead_key`),
 - `SealerAuditSink` trait (`record`),
 - `SealRequest`, `SealResponse`, `OpenRequest`, `OpenResponse`,
-- `CiphersuiteId`, `SealerKeyRef` (opaque `String` newtype owned by
-  `sealer-core`, not re-exported from `signer-core`),
+  `DeriveAeadKeyRequest`, `DeriveAeadKeyResponse`,
+- `CiphersuiteId`, `KeyRef` (currently reused from `signer-core` in the Node
+  implementation),
   `SymmetricKey` (zeroize-on-drop),
 - `SealEnvelope` (parse + serialize canonical JSON v1),
 - `SealKind::{Payload, Tombstone}`,
 - `OpenedPayload::{Payload(bytes), Tombstoned}`,
 - `SealerError` with `OpenFailed` as the single opaque variant for
-  cryptographic verification failures, plus first-class `RevocationStale`,
-  `Denied`, `UnknownSuite`, and related non-opaque variants for
-  pre-crypto policy and credential failures.
+  cryptographic verification failures, plus first-class `NotAuthorized`,
+  `UnknownSuite`, `KeySource`, and related non-opaque variants for
+  engine-local operational failures.
 
 Does not depend on any specific AEAD crate or key source.
 
@@ -440,13 +475,20 @@ Implements:
 
 - `SealerEngine` — concrete `Sealer` composing
   (`Arc<dyn KeySource>`, `SealerPolicy`, `SealerAuditSink`, `SealerEngineConfig`),
+- `SealerMasterKeySource` — concrete `KeySource` over a daemon-provided
+  sealer master backend and unlock cache,
+- `SealerKeyBackend`, `SealerEnvelopeUnsealer`, and `SealerUnlockCache` as
+  sealer-owned traits/runtime helpers with the same method shape as the
+  signer-side envelope pattern, but without a `sealer-service` to
+  `signer-service` dependency,
 - `xchacha20-poly1305@v1` suite (default, always available),
 - `aes-256-gcm-siv@v1` suite (optional, feature `aes-gcm-siv`),
 - OS-CSPRNG nonce generator,
 - deterministic nonce generator available only under `cfg(any(test, feature = "test-determinism"))`.
 
-Depends on: `sealer-core`, `orbiplex-node-crypto` (for re-used primitives),
-`chacha20poly1305`, `getrandom`, `base64`, `serde_json`, `zeroize`.
+Depends on: `sealer-core`, `signer-core` for shared caller/key-ref/unlock
+vocabulary, `chacha20poly1305`, `hkdf`, `sha2`, `getrandom`, `base64`,
+`serde_json`, `time`, `zeroize`.
 
 ### `sealer-http` crate
 
@@ -457,16 +499,29 @@ the same pattern as `signer-http`.
 
 Depends on: `sealer-core`, `serde_json`, `base64`.
 
-### `sealer-signer-bridge` crate (future, may live in `signer-service`)
+### Daemon-side sealer integration
 
-Provides `impl KeySource for SignerEngine` over the Signer's new
-`derive_aead_key` surface. Kept out of `sealer-service` so that a test
-deployment of Sealer does not pull in the Signer engine.
+The daemon owns the concrete operational backend:
+
+- `DaemonFileBackedSealerKeyBackend` for reading and writing local master
+  envelope files,
+- sealer master envelope JSON shape,
+- Argon2id/AES-256-GCM envelope decrypt with sealer-specific AAD
+  `sealer-master:<version>`,
+- unlock rate limiting and lifecycle routing,
+- operator-only `sealer.master.init` / `sealer.unlock`,
+- module passport authorization for `sealer.seal`, `sealer.open`, and
+  `sealer.derive-aead-key`.
+
+Layering rule: `sealer-service` owns traits and runtime composition; the daemon
+owns files, paths, config, concrete envelope JSON, and daemon-private crypto
+helpers. A future shared `envelope-keystore` crate should be extracted only
+when a third consumer makes the duplication mechanically removable.
 
 ## Notes
 
 Sealer is stratified below all modules that need confidentiality and above
-the byte-level AEAD primitives in `orbiplex-node-crypto`. Its interface is
+the byte-level AEAD primitive crates. Its interface is
 byte-oriented by design: callers own the semantics of what they seal, what
 they bind into AAD, and how they version their own payload schemas. Sealer
 owns the mechanics of AEAD, nonce, envelope, and policy gating.
@@ -474,13 +529,13 @@ owns the mechanics of AEAD, nonce, envelope, and policy gating.
 The core operational invariant is that `open(seal(plaintext, aad, key_ref))`
 recovers `plaintext` if and only if the caller presents the identical `aad`
 bytes and the `KeySource` returns the identical `SymmetricKey` for the same
-`(key_ref, suite, info)` triple. Any *cryptographic* divergence produces
-the same opaque `OpenFailed` error; diagnostic detail lives in the audit
-sink, never in the error value. Pre-crypto policy and credential failures
-(stale revocation view, missing passport, denied by policy) use their own
-non-opaque error variants by design — they do not reveal
-confidentiality-relevant information, and hiding them behind `OpenFailed`
-would only make operator diagnosis harder.
+`(key_ref, suite, key_len, active_master_version, info)` inputs. Any
+*cryptographic* divergence produces the same opaque `OpenFailed` error;
+diagnostic detail lives in the audit sink, never in the error value. Pre-crypto
+dispatch and credential failures (stale revocation view, missing passport,
+denied capability) remain non-opaque operational denials by design — they do
+not reveal AEAD verification detail, and hiding them behind `OpenFailed` would
+only make operator diagnosis harder.
 
 The envelope is at-rest operator-facing first (canonical JSON, base64url
 binaries) for parity with the existing `ParticipantKeyEnvelope` shape. The
