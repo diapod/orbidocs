@@ -67,6 +67,11 @@ LOCALE_INDEX = {
     "pl": """# Dokumentacja Orbiplex\n\nTo jest polska strona startowa dokumentacji Orbiplex.\n\nTłumaczenia: [English](/)\n\n## Sekcje\n\n- [Wizja](doc/normative/20-vision/VISION.md)\n- [Wartości podstawowe](doc/normative/30-core-values/CORE-VALUES.md)\n- [Konstytucja](doc/normative/40-constitution/CONSTITUTION.md)\n- [Akty wykonawcze](doc/normative/50-constitutional-ops/README.md)\n- [Workflow projektowy](doc/project/PROJECTS.md)\n- [Pokrycie workflowów](doc/COVERAGE.md)\n""",
     "en": """# Orbiplex Documentation\n\nThis is the English start page for Orbiplex documentation.\n\nTranslations: [Polski](/pl/)\n\n## Sections\n\n- [Vision](doc/normative/20-vision/VISION.md)\n- [Core Values](doc/normative/30-core-values/CORE-VALUES.md)\n- [Constitution](doc/normative/40-constitution/CONSTITUTION.md)\n- [Constitutional Ops](doc/normative/50-constitutional-ops/README.md)\n- [Project Workflow](doc/project/PROJECTS.md)\n- [Workflow Coverage](doc/COVERAGE.md)\n""",
 }
+FENCE_RE = re.compile(r"^[ \t]{0,3}(```+|~~~+)")
+LABEL_RE = re.compile(
+    r"^[ \t]{0,3}(?![-+*][ \t]|\d+[.)][ \t]|#{1,6}[ \t]|>)(?P<label>.+:\s*)$"
+)
+LIST_ITEM_RE = re.compile(r"^[ \t]{0,3}(?:[-+*][ \t]|\d+[.)][ \t])")
 
 
 def iter_source_files(root: Path):
@@ -92,6 +97,28 @@ def rewrite_markdown_links(text: str) -> str:
     for old, new in replacements.items():
         text = text.replace(old, new)
     return text
+
+
+def normalize_label_led_lists(text: str) -> str:
+    """Add virtual source spacing needed by Python-Markdown before label-led lists."""
+    result: list[str] = []
+    previous_was_label = False
+    in_fence = False
+
+    for line in text.splitlines(keepends=True):
+        stripped_line = line.rstrip("\r\n")
+        newline = line[len(stripped_line) :]
+
+        if FENCE_RE.match(stripped_line):
+            in_fence = not in_fence
+
+        if not in_fence and previous_was_label and LIST_ITEM_RE.match(stripped_line):
+            result.append(newline or "\n")
+
+        result.append(line)
+        previous_was_label = not in_fence and bool(LABEL_RE.match(stripped_line))
+
+    return "".join(result)
 
 
 def locale_from_suffix(path: Path) -> str | None:
@@ -133,7 +160,7 @@ def normalized_relative_path(path: Path) -> Path:
 def write_transformed_markdown(source: Path, target: Path) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     text = source.read_text(encoding="utf-8")
-    target.write_text(rewrite_markdown_links(text), encoding="utf-8")
+    target.write_text(normalize_label_led_lists(rewrite_markdown_links(text)), encoding="utf-8")
 
 
 def write_locale_index(locale: str) -> None:
