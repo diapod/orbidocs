@@ -19,14 +19,14 @@ Generated coverage snapshot for the current `doc/` structure.
 | Step | Markdown Files | With `Based on:` |
 |---|---:|---:|
 | `10-challenges` (Challenges) | `4` | `2` |
-| `20-memos` (Memos) | `41` | `8` |
+| `20-memos` (Memos) | `42` | `9` |
 | `30-stories` (Stories) | `11` | `1` |
-| `40-proposals` (Proposals) | `39` | `30` |
+| `40-proposals` (Proposals) | `40` | `31` |
 | `50-requirements` (Requirements) | `15` | `13` |
-| `60-solutions` (Solutions) | `18` | `9` |
+| `60-solutions` (Solutions) | `20` | `11` |
 
-- Total project markdown files: `130`
-- Proposals referencing source material: `30` / `39`
+- Total project markdown files: `134`
+- Proposals referencing source material: `31` / `40`
 - Requirements referencing source material: `13` / `15`
 
 ## Schema Workflow
@@ -40,7 +40,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
-| [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md) | `2` | `2` | `yes` | `yes` | `1` | `0` |
+| [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md) | `2` | `2` | `yes` | `yes` | `4` | `0` |
 | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md) | `13` | `12` | `yes` | `yes` | `0` | `0` |
 | [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | `14` | `13` | `yes` | `yes` | `0` | `0` |
 | [`capability-schema-present.v1.schema.json`](schemas-gen/schemas/capability-schema-present.v1.md) | `4` | `4` | `yes` | `yes` | `1` | `0` |
@@ -120,7 +120,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
 | [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md), [`requirements-010.md`](project/50-requirements/requirements-010.md), [`requirements-011.md`](project/50-requirements/requirements-011.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006.md`](project/30-stories/story-006.md), [`story-007.md`](project/30-stories/story-007.md) |
 | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md), [`requirements-010.md`](project/50-requirements/requirements-010.md), [`requirements-011.md`](project/50-requirements/requirements-011.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006.md`](project/30-stories/story-006.md), [`story-007.md`](project/30-stories/story-007.md) |
-| [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md), [`requirements-010.md`](project/50-requirements/requirements-010.md), [`requirements-011.md`](project/50-requirements/requirements-011.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006.md`](project/30-stories/story-006.md), [`story-007.md`](project/30-stories/story-007.md) |
+| [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md), [`requirements-010.md`](project/50-requirements/requirements-010.md), [`requirements-011.md`](project/50-requirements/requirements-011.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md), [`story-005.md`](project/30-stories/story-005.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006.md`](project/30-stories/story-006.md), [`story-007.md`](project/30-stories/story-007.md) |
 | [`capability-schema-present.v1.schema.json`](schemas-gen/schemas/capability-schema-present.v1.md) |  |  |
 | [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md), [`requirements-010.md`](project/50-requirements/requirements-010.md), [`requirements-011.md`](project/50-requirements/requirements-011.md) | [`story-001.md`](project/30-stories/story-001.md), [`story-004.md`](project/30-stories/story-004.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006.md`](project/30-stories/story-006.md), [`story-007.md`](project/30-stories/story-007.md) |
 | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md) | [`requirements-006.md`](project/50-requirements/requirements-006.md) | [`story-001.md`](project/30-stories/story-001.md) |
@@ -243,6 +243,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/033-workflow-fan-out-and-temporal-orchestration.md`](project/40-proposals/033-workflow-fan-out-and-temporal-orchestration.md) | [`public-log-entry.v1.schema.json`](schemas-gen/schemas/public-log-entry.v1.md) |
 | [`doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md`](project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md) | [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md), [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) |
 | [`doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`](project/40-proposals/035-agora-topic-addressed-record-relay.md) | [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md), [`plain-comment.v1.schema.json`](schemas-gen/schemas/plain-comment.v1.md), [`public-log-entry.v1.schema.json`](schemas-gen/schemas/public-log-entry.v1.md) |
+| [`doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md`](project/40-proposals/038-key-roles-and-key-use-taxonomy.md) | [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) |
 | [`doc/project/50-requirements/requirements-001.md`](project/50-requirements/requirements-001.md) | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) |
 | [`doc/project/50-requirements/requirements-002.md`](project/50-requirements/requirements-002.md) | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) |
 | [`doc/project/50-requirements/requirements-003.md`](project/50-requirements/requirements-003.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md), [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md), [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) |
@@ -253,7 +254,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/50-requirements/requirements-009.md`](project/50-requirements/requirements-009.md) | [`participant-capability-limits.v1.schema.json`](schemas-gen/schemas/participant-capability-limits.v1.md) |
 | [`doc/project/50-requirements/requirements-012.md`](project/50-requirements/requirements-012.md) | [`service-offer.v1.schema.json`](schemas-gen/schemas/service-offer.v1.md), [`service-order.v1.schema.json`](schemas-gen/schemas/service-order.v1.md) |
 | [`doc/project/60-solutions/capability-advertisement.md`](project/60-solutions/capability-advertisement.md) | [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md), [`capability-schema-present.v1.schema.json`](schemas-gen/schemas/capability-schema-present.v1.md), [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md) |
+| [`doc/project/60-solutions/capability-binding.md`](project/60-solutions/capability-binding.md) | [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) |
 | [`doc/project/60-solutions/node.md`](project/60-solutions/node.md) | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md), [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md), [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md), [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md), [`offer-catalog-fetch-request.schema.json`](schemas-gen/schemas/offer-catalog-fetch-request.md), [`offer-catalog-fetch-response.schema.json`](schemas-gen/schemas/offer-catalog-fetch-response.md), [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md), [`service-offer-relay.v1.schema.json`](schemas-gen/schemas/service-offer-relay.v1.md), [`signal-marker-envelope.v1.schema.json`](schemas-gen/schemas/signal-marker-envelope.v1.md) |
+| [`doc/project/60-solutions/sealer.md`](project/60-solutions/sealer.md) | [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) |
 | [`doc/schemas/capability-schema.v1.schema.json`](schemas/capability-schema.v1.schema.json) | [`capability-schema-present.v1.schema.json`](schemas-gen/schemas/capability-schema-present.v1.md) |
 | [`doc/schemas/client-instance-attachment.v1.schema.json`](schemas/client-instance-attachment.v1.schema.json) | [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md), [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 | [`doc/schemas/client-instance-detachment.v1.schema.json`](schemas/client-instance-detachment.v1.schema.json) | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
@@ -261,5 +264,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `73`
 - Generated schema docs: `73`
-- Positive examples: `92`
+- Positive examples: `95`
 - Negative examples: `76`

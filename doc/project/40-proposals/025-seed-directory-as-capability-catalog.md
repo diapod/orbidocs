@@ -29,8 +29,16 @@ The extension adds two complementary surfaces to the Seed Directory:
 1. a **capability registration surface** — Nodes with sovereign-issued passports
    register per-capability, and the directory verifies each passport before
    storing it,
-2. a **revocation surface** — sovereign operators publish revocations; consumers
-   poll for them.
+2. a **federated revocation surface** — sovereign operators publish revocations
+   for artifacts whose validity may be relied on by other Nodes; consumers poll
+   for them.
+
+This revocation surface is not the universal home for every revocation in a
+Node. Revocations that affect only local dispatch, local modules, local
+operator UI, or local host capabilities remain node-local policy projections.
+They may be represented by the same signed revocation artifact shape, but they
+do not need Seed Directory publication unless another Node is expected to rely
+on the artifact being revoked.
 
 The Seed Directory itself is modeled as a capability (`seed-directory`), with
 its own passports shipped in the software distribution. This closes the
@@ -282,6 +290,11 @@ than half the minimum expected passport TTL for capabilities they are actively
 consuming. On finding a revocation entry for a cached passport, the consumer
 MUST immediately invalidate its local cache and re-verify before continuing
 operations.
+
+This polling requirement applies to consumers of Seed Directory-published,
+federated capability or delegation artifacts. A Node may also maintain a
+separate local `RevocationView` for node-local dispatch decisions; that local
+view may include revocations that were never published to the Seed Directory.
 
 Nodes SHOULD also proactively re-verify passports for long-running sessions when
 they detect that a cached passport is approaching expiry.
@@ -579,6 +592,9 @@ Conditional fields:
   `capability_id`, `revoked_at`, and `signed_by`. The signer identity
   (`issuer/participant_id` or `node_id`) is recoverable from the stored
   `passport_id` and `signed_by` columns; it need not be duplicated.
+- The `revocations` table is the Seed Directory's federated publication log. It
+  is not a required storage backend for node-local revocations whose effect is
+  limited to one Node's dispatch gate.
 - `GET /cap?capability` joins `capability_registrations` with
   `node_advertisements` to return current endpoints.
 - capability registration rows should also project `anchor_identity` and

@@ -28,6 +28,10 @@ nav:
       - Proposals: doc/project/40-proposals
       - Requirements: doc/project/50-requirements
       - Solutions: doc/project/60-solutions
+  - Diagrams:
+      - Architecture:
+          - Orbiplex Root Component Map: doc/diagrams/architecture/orbiplex-root-component-map.md
+          - Host Capability Authorization Strata: doc/diagrams/architecture/host-capability-authorization-strata.md
   - Schemas:
       - Metadata Convention: doc/schemas
       - Generated Index: doc/schemas-gen/schema-index.md

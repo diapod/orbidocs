@@ -135,11 +135,32 @@ nie mogą rozluźniać (przesuwać w prawo).
 | Publikacja / komunikat zewnętrzny | A0 | Wysoka stawka reputacyjna |
 | Głosowanie reputacyjne | A0 | Wpływ na kierowanie zaufaniem (ang. trust routing) |
 | Modyfikacja danych wrażliwych | A0 | Prywatność, godność |
+| Zakresowa zmiana widoczności pamięci chroniąca prywatność | kontekstowo | Może być delegowana tylko wtedy, gdy operator wcześniej zatwierdził zakres, podmiot oraz model odwracalności/audytu |
 | Trasowanie (ang. routing) zadania do innego węzła | A1 | Odwracalne, ale wymaga świadomości |
 | Aktualizacja pamięci podręcznej (ang. cache) / indeksu | A2 | Rutynowe, budżetowalne |
 | Odpowiedź na zapytanie rutynowe | A2 | Rutynowe, budżetowalne |
 | Agregacja sensorium | A2 | Rutynowe, budżetowalne |
 | Ochrona życia / kryzysowa wstępna kategoryzacja (ang. triage) | A3 | Art. II.8 |
+
+### 4.1. Zapamiętane zgody operatora
+
+A0 oznacza, że przed podjęciem akcji wymagana jest ludzka wola. Nie musi to
+jednak zawsze oznaczać świeżego promptu dla każdego wystąpienia tej samej
+ograniczonej akcji. Operator może wyrazić tę wolę jako zapamiętaną politykę
+zgody, analogiczną do whitelisty agenta, jeżeli jawne są:
+
+- kto może działać: participant, agent, moduł albo lokalna tożsamość operatora,
+- jaka klasa danych lub akcji jest objęta zgodą,
+- jaki poziom autonomii i budżet obowiązują po zatwierdzeniu,
+- jak decyzja jest audytowana,
+- jak zgodę można odwołać.
+
+Przykład: `memarium.forget` nie jest jednym aktem społecznym. Natychmiastowe
+zapomnienie w przestrzeni personal może być delegowane agentowi prywatności dla
+ograniczonego podmiotu i klasy artefaktów. Publiczny tombstone, zapomnienie
+wspólnotowe i zapomnienie w przestrzeni crisis pozostają operacjami governed
+albo wymagającymi przeglądu operatora, ponieważ wpływają na pamięć wspólną,
+publiczną rozliczalność albo konstytucyjne minimum materiałów.
 
 ---
 

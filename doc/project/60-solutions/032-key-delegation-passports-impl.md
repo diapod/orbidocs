@@ -18,6 +18,11 @@ The active MVP is the *inline proof* model:
   local signing selection, publication, and revocation feeds — not as a remote
   verifier dependency.
 
+Revocation feeds mentioned here are publication feeds for artifacts that other
+Nodes may rely on. Local-only revocations, such as revoking a local dispatch
+passport used only by one Node's modules, remain in the local verifier's
+`RevocationView` and do not require Seed Directory publication.
+
 Older sections below still describe the layered storage/API rollout and should
 be read through that correction.
 

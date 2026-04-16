@@ -128,11 +128,14 @@ Rationale:
 Memarium integrates with the middleware chain through **observer slots** and an
 optional **chain handler**, not through the main dispatch pipeline.
 
-#### 2.1. Post-Chain Observer — `MemariumPostChainObserver`
+#### 2.1. Post-Chain Observation
 
-Memarium registers as a **post-chain observer** (see proposal 027). This
-observer is invoked once per dispatch, after all chain phases complete
-(including send, when a response was produced). It receives:
+Memarium participates in post-chain observation through a daemon-side adapter
+(see proposal 027). The daemon owns the `PostChainObserver` trait and
+`PostChainEvent` shape; `memarium-runtime` exposes the Memarium-domain
+`observe_dispatch(message_kind, correlation_id, effective_payload)` entry point.
+The adapter is invoked once per dispatch, after all chain phases complete
+(including send, when a response was produced). At the daemon layer it can see:
 
 - `input_payload` — the original envelope before any handler mutations,
 - `effective_payload` — the envelope after all chain mutations,
@@ -142,11 +145,21 @@ observer is invoked once per dispatch, after all chain phases complete
 - `handler_id` — which handler claimed the message (when applicable),
 - `message_kind`, `remote_node_id`, `correlation_id`, `elapsed`.
 
-This is the primary integration point for fact recording. Memarium sees **what
-actually happened** (the effective payload, including modifications by other
-middleware), not just what was originally submitted. This means middleware that
-runs earlier in the chain (e.g. Agora on `PreInput` or `InboundPeer`) can
-modify or annotate a message, and Memarium records the modified version.
+This is the primary integration point for fact recording. The daemon adapter
+passes the Memarium-relevant slice of the event into the runtime, so Memarium
+sees **what actually happened** (the effective payload, including modifications
+by other middleware), not just what was originally submitted. This means
+middleware that runs earlier in the chain (e.g. Agora on `PreInput` or
+`InboundPeer`) can modify or annotate a message, and Memarium records the
+modified version without depending on daemon-private dispatch types.
+
+Future note: if the observation contract needs to grow beyond the current
+`observe_dispatch(message_kind, correlation_id, effective_payload)` arguments,
+the runtime-side abstraction should be a Memarium-domain value such as
+`MemariumObservation`, not the daemon-private `PostChainObserver` or
+`PostChainEvent`. `PostChainObserver` remains a daemon adapter concern;
+`MemariumObservation` would be the stable semantic input understood by
+`memarium-runtime`.
 
 #### 2.2. Deklaratywne observe rules
 
@@ -288,40 +301,65 @@ become public by accident. Promotion requires:
 
 #### 4.1. `MemariumEntry`
 
-The unit of knowledge stored in Memarium:
+The unit of knowledge stored in Memarium. This is an internal domain type, not
+the public wire schema:
 
 ```
 MemariumEntry {
-    entry_id:      EntryId,
+    id:            EntryId,
     space:         SpaceId,
-    artifact_kind: ArtifactKind,    // knowledge-artifact | learning-outcome |
-                                    // agora-sync-record | archival-receipt |
-                                    // crisis-procedure | free-form-note | ...
-    content_hash:  ContentHash,
-    provenance:    Provenance,      // source room, agent, pipeline step
-    created_at:    Timestamp,
+    artifact_kind: ArtifactKind,       // knowledge-artifact | learning-outcome |
+                                       // agora-sync-record | archival-receipt |
+                                       // crisis-procedure | free-form-note | ...
     tags:          Vec<Tag>,
-    payload:       Vec<u8>,         // opaque to Memarium; interpreted by consumers
+    payload:       PayloadEnvelope,    // opaque body, explicit encoding/encryption envelope
+    attributes:    Map<String, String>,// filterable/indexable metadata
+    occurred_at:   Timestamp,          // domain time
+    recorded_at:   Option<Timestamp>,  // storage acceptance time
 }
 ```
 
 Entries are immutable facts. Updates are new entries with provenance links to
 prior entries.
 
+The entry payload is normalized before storage:
+
+```
+PayloadEnvelope {
+    encoding:   PayloadEncoding,        // plaintext-json | sealed-json-v1 | sealed-bytes-v1
+    media_type: Option<String>,
+    body:       JsonValue,
+    encryption: Option<EncryptionEnvelope>,
+}
+```
+
+Earlier sketches placed `content_hash` and `provenance` directly on
+`MemariumEntry`. MVP keeps those concerns stratified:
+
+- content hashing belongs below or beside the Memarium domain contract until a
+  canonical digest policy is defined for plaintext bodies, sealed envelopes,
+  storage records, and higher-level artifacts;
+- entry provenance is represented through attributes such as `source/entry-id`,
+  `source/space`, and `promotion/reason`, or through a future provenance
+  envelope once multiple concrete provenance modes justify it.
+
 #### 4.2. `MemariumFact`
 
-A lightweight record of an observed event relevant to memory:
+A lightweight record of an observed event relevant to memory. This is an
+internal domain type, not the public wire schema:
 
 ```
 MemariumFact {
-    fact_id:    FactId,
-    space:      SpaceId,
-    fact_kind:  FactKind,          // agora-submission | sync-confirmed |
-                                   // archival-handoff | promotion |
-                                   // agent-read | agent-cache-miss | ...
-    subject:    Option<EntryId>,   // the entry this fact is about, if any
-    occurred_at: Timestamp,
-    detail:     JsonValue,         // fact-kind-specific payload
+    id:                    FactId,
+    space:                 SpaceId,
+    fact_kind:             FactKind,     // agora-submission | sync-confirmed |
+                                         // archival-handoff | promotion |
+                                         // agent-read | agent-cache-miss | ...
+    tags:                  Vec<Tag>,
+    fields:                Map<String, JsonValue>,
+    source_message_kind:   Option<String>,
+    source_correlation_id: Option<String>,
+    recorded_at:           Timestamp,
 }
 ```
 
@@ -335,6 +373,13 @@ effective payload.
 Subsequent events (relay confirmation, failure, timeout) produce follow-up facts
 (`sync-confirmed`, `sync-failed`, `sync-timeout`). No entry is mutated; the
 current status is derived from the latest fact in the chain.
+
+Earlier sketches used top-level `subject` and `detail` fields. MVP represents
+those concepts through fact-kind-specific `fields`: an entry-related fact may
+carry `entry_id`, while an Agora fact may carry `topic`, `record_id`, and
+`content_hash`. `source_message_kind` and `source_correlation_id` record the
+minimal observer provenance without forcing every fact into an entry-subject
+shape.
 
 #### 4.3. `MemariumIndex`
 
@@ -365,13 +410,22 @@ daemon's host capability surface:
 | `memarium.index` | A2+ | Query the index for entry counts, tag distributions, recent activity within a space. |
 | `memarium.cache` | A1+ | Read-through cache: attempt index lookup, fall back to full scan, cache result. |
 | `memarium.promote` | A0 | Promote an entry from one space to another. Requires operator approval by default (A0) because it crosses policy boundaries. |
-| `memarium.forget` | A0 | Request right-to-forget on an entry. Subject to space forget policy. Always A0 (operator approval). |
+| `memarium.forget` | contextual | Request right-to-forget on an entry. The required autonomy depends on space, outcome, and caller authority: personal immediate forget may be delegated through tightly scoped passports; public tombstone and shared-memory forget requests require operator approval or governed workflow; crisis forget is restricted. |
 
 These capabilities are registered through the same host capability binding
 mechanism used by middleware modules (`/v1/host/capabilities/memarium.*`).
 In-process callers (agents, NSE hooks) invoke them directly through trait
 methods; out-of-process callers (middleware modules) invoke them through the
 existing host capability HTTP surface.
+
+For `memarium.forget`, "operator approval" may later be represented as a
+remembered operator decision rather than a one-click prompt for every request.
+For example, the operator may allow a participant, agent, or module to forget a
+bounded class of entries by default: one participant's personal entries, one
+artifact kind, one memory class (`personal`, `community`, `public`), or a wider
+scope explicitly accepted by the operator. Such remembered approvals are policy
+facts with scope, reason, issuer, and revocation path; they do not let an agent
+self-escalate beyond its contract.
 
 ### 6. Memarium-Agora Relationship
 
@@ -451,14 +505,34 @@ Does not depend on storage backend crates.
 Implements:
 - `MemariumRead`, `MemariumWrite`, `MemariumIndex` over `StorageRuntime`
 - Space-to-stream mapping and policy enforcement
-- `MemariumPostChainObserver` implementing the post-chain observer trait
+- `MemariumRuntime::observe_dispatch(...)` as the neutral post-chain observation
+  port over Memarium-domain data
 - `ObserveRuleCompiler` — compiles observe rules from merged middleware config
-- `MemariumContextEnricher` implementing `PeerMessageHandler` for `PreInput`
-  chain (optional, may be deferred)
+- optional `MemariumContextEnricher` semantics over Memarium-domain input
+  (daemon-side chain adapters remain outside this crate)
 - Index projection from commit log (via `storage-projector` patterns)
 
-Depends on: `memarium`, `storage`, `storage-runtime`, `middleware` (for
-observer and handler traits).
+Depends on: `memarium`, `storage`, `storage-runtime`. It does not depend on the
+daemon crate or daemon-private peer-message chain traits.
+
+#### `daemon` integration layer
+
+Implements:
+- `MemariumPostChainAdapter` implementing the daemon-private
+  `PostChainObserver` trait
+- mapping from `PostChainEvent` to
+  `MemariumRuntime::observe_dispatch(message_kind, correlation_id,
+  effective_payload)`
+- runtime construction from effective daemon/middleware config
+
+Depends on: `memarium`, `memarium-runtime`, `storage-runtime`, and daemon-private
+peer-message chain types.
+
+The post-chain adapter is daemon-side because `PostChainEvent` and
+`PostChainObserver` are daemon-private peer-message types. Hosting the adapter in
+`memarium-runtime` would force the runtime crate to take a dependency on daemon
+internals, violating the stratification contract: the L2 runtime does not depend
+on L3 daemon types.
 
 ## Proposed Crate Layout
 
@@ -467,18 +541,21 @@ node/
   memarium/
     Cargo.toml
     src/
-      lib.rs          -- trait boundary, domain types, policy contracts
-      observe.rs      -- ObserveRule, ObserveRuleSet types
+      lib.rs          -- trait boundary, domain types, policy contracts,
+                         ObserveRule, ObserveRuleSet
   memarium-runtime/
     Cargo.toml
     src/
-      lib.rs          -- runtime implementation
-      observer.rs     -- MemariumPostChainObserver
-      compiler.rs     -- ObserveRuleCompiler (config → compiled rules)
-      enricher.rs     -- MemariumContextEnricher (PreInput chain handler)
+      lib.rs          -- runtime implementation and observe_dispatch port
+      compiler.rs     -- ObserveRuleCompiler (config → compiled rules), if split out
+      enricher.rs     -- future Memarium-domain enrichment semantics, if needed
       projection.rs   -- index projection from commit log
     tests/
       ...
+  daemon/
+    src/
+      memarium_adapter.rs -- daemon-side PostChainObserver adapter:
+                            PostChainEvent → MemariumRuntime::observe_dispatch(...)
 ```
 
 ## Design Principles
@@ -553,7 +630,7 @@ node/
 | Personal entry promoted to public without operator consent | Privacy breach | Promotion requires A0 (operator approval). Cross-space promotion is never automatic. |
 | Agora sync fact chain diverges from actual relay state | Node believes submission succeeded when it failed, or vice versa | Periodic reconciliation: agent may compare local sync facts against Agora relay query results and record correction facts. |
 | Post-chain observer adds latency to message pipeline | Degraded peer message throughput | Observers are fire-and-forget by design. Writes are asynchronous appends to the commit log. |
-| Observe rule extract path references a missing field | Fact recorded with incomplete detail | Extract paths that resolve to `null` are preserved as explicit `null` in the fact detail. Rule compilation validates path syntax at startup; missing runtime values are not errors. |
+| Observe rule extract path references a missing field | Fact recorded with incomplete fields | Extract paths that resolve to `null` are preserved as explicit `null` in the fact fields. Rule compilation validates path syntax at startup; missing runtime values are not errors. |
 | Middleware config declares observe rule for non-existent space | Rule rejected at startup | Observe rule compiler validates space ids against the known space set and rejects unknown spaces with a startup warning. |
 
 ## Open Questions
@@ -565,8 +642,8 @@ node/
 3. Should community space group keys be managed by Memarium or by a separate
    key management component?
 4. What reconciliation frequency is appropriate for Agora sync fact chains?
-5. Should `MemariumFact` carry a structured detail schema per `FactKind`, or
-   remain a generic `JsonValue` in v1?
+5. Should selected `MemariumFact.fields` maps gain structured validation schemas
+   per `FactKind`, or remain open JSON maps throughout v1?
 6. What is the right granularity for `ArtifactKind`? Should it be an open enum
    or a closed set in v1?
 7. Should observe rules support extract path expressions beyond simple
@@ -580,7 +657,8 @@ node/
 1. Implement observer slot infrastructure in daemon (post-chain + per-phase).
 2. Add v1 Rust trait boundary in `memarium/src/lib.rs`.
 3. Add v1 runtime implementation in `memarium-runtime/src/lib.rs`.
-4. Implement `MemariumPostChainObserver` and `ObserveRuleCompiler`.
+4. Implement the daemon-side `MemariumPostChainAdapter` and runtime
+   `ObserveRuleCompiler`.
 5. Add host capability routes (`memarium.read`, `memarium.write`,
    `memarium.index`, `memarium.cache`) to daemon control plane.
 6. Add `memarium` config section support to middleware config merge.

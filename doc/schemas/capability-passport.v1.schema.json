@@ -11,7 +11,10 @@
     "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md",
     "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
     "doc/project/20-memos/participant-assurance-levels.md",
-    "doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md"
+    "doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md",
+    "doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md",
+    "doc/project/60-solutions/capability-binding.md",
+    "doc/project/60-solutions/sealer.md"
   ],
   "required": [
     "schema",
@@ -55,7 +58,21 @@
     "scope": {
       "type": "object",
       "additionalProperties": true,
-      "description": "Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Capability definitions MAY add required scope fields as those capabilities are specified."
+      "description": "Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Non-key-use passports (e.g. `network-ledger`, `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization.",
+      "properties": {
+        "allowed_callers": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/allowedCaller" },
+          "description": "Typed caller constraints used by key-use passports. A key-use verifier MUST find at least one entry whose `subject_key` overlaps the resolved `CallerBinding.subject_keys` (and whose `label`/`kind` match when present) before authorizing. Profiles MUST NOT override caller binding."
+        },
+        "profiles": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/scopeProfileV1" },
+          "description": "Typed key-use profile objects. Composition rule is OR across recognized profiles: at least one recognized profile, on its own terms, MUST authorize the requested `(grant_type, target, …)`. Fields MUST NOT combine across different profiles. Unknown profile discriminators MAY coexist but MUST NOT grant access."
+        }
+      }
     },
     "issued_at": {
       "type": "string",
@@ -212,6 +229,201 @@
           "type": "string",
           "minLength": 1,
           "description": "Base64url-encoded (no padding) Ed25519 signature bytes."
+        }
+      }
+    },
+    "allowedCaller": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject_key"],
+      "description": "One caller entry recognized by a key-use passport. Verifier matches entries against a resolved `CallerBinding` produced by the `caller-binding` crate: `subject_key` MUST overlap `CallerBinding.subject_keys`; `label` MUST match `CallerBinding.caller_label` when present; `kind` MUST match `CallerBinding.subject_kind` when present. Only public-key material appears here; binding entries MUST NOT embed secrets.",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "http-module",
+            "in-process-module",
+            "operator",
+            "participant",
+            "node",
+            "org"
+          ],
+          "description": "Optional caller-kind discriminator matching `CallerSubjectKind`. When present, constrains the resolved binding's subject kind."
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional human-readable caller label used for audit and operator diagnosis. When present, must match the resolved `CallerBinding.caller_label`."
+        },
+        "subject_key": {
+          "type": "string",
+          "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Public subject key in DID Key form. Required."
+        }
+      }
+    },
+    "scopeProfileV1": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["profile"],
+      "description": "One key-use profile entry in `scope.profiles[]`. The `profile` field is the discriminator. Recognized discriminators (`sealer-access@v1`, `memarium-space-access@v1`, `community-key-access@v1`) trigger profile-specific shape validation below. Unknown discriminators are tolerated by the schema but MUST NOT grant access at the verifier.",
+      "properties": {
+        "profile": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Profile discriminator. Recognized values: `sealer-access@v1`, `memarium-space-access@v1`, `community-key-access@v1`."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "profile": { "const": "sealer-access@v1" } },
+            "required": ["profile"]
+          },
+          "then": { "$ref": "#/$defs/sealerAccessProfileV1" }
+        },
+        {
+          "if": {
+            "properties": { "profile": { "const": "memarium-space-access@v1" } },
+            "required": ["profile"]
+          },
+          "then": { "$ref": "#/$defs/memariumSpaceAccessProfileV1" }
+        },
+        {
+          "if": {
+            "properties": { "profile": { "const": "community-key-access@v1" } },
+            "required": ["profile"]
+          },
+          "then": { "$ref": "#/$defs/communityKeyAccessProfileV1" }
+        }
+      ]
+    },
+    "sealerAccessProfileV1": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["profile", "grants", "max_revocation_staleness_seconds"],
+      "description": "Authorizes Sealer AEAD operations on bounded semantic key identifiers as known to the operator. `key_ref_prefixes` and grant targets match values such as `key:community:...`; signer-layer wrapping such as `proxy:` is not part of the authorization tag. The dispatch layer is responsible for translating concrete signer `KeyRef` values before evaluation. See proposal 038 §Profile `sealer-access@v1`.",
+      "properties": {
+        "profile": { "const": "sealer-access@v1" },
+        "grants": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "description": "Map of sealer grant-type -> target[]. Recognized grant types: `sealer/seal`, `sealer/open`, `sealer/derive-aead-key`. Targets MUST be semantic key identifier strings (for example `key:community:...`) or the wildcard `*` (wildcard permitted only for operator/root/break-glass/test profiles)."
+        },
+        "key_ref_prefixes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Optional prefix constraint over semantic key identifiers. When present, every non-wildcard target MUST share a prefix with at least one entry. Signer-layer wrappers such as `proxy:` are not matched here."
+        },
+        "suites": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9_-]*@v[0-9]+$" },
+          "description": "Optional AEAD ciphersuite constraint. When present, restricts the allowed `CiphersuiteId` on matched operations."
+        },
+        "max_revocation_staleness_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Per-profile maximum acceptable revocation-view staleness (seconds). The effective runtime bound is `min(this, local verifier T_max)`."
+        }
+      }
+    },
+    "memariumSpaceAccessProfileV1": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["profile", "grants", "spaces", "max_revocation_staleness_seconds"],
+      "description": "Authorizes Memarium space-level operations at a layer above Sealer. See proposal 038 §Profile `memarium-space-access@v1`.",
+      "properties": {
+        "profile": { "const": "memarium-space-access@v1" },
+        "grants": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "description": "Map of memarium grant-type -> target[]. Recognized grant types: `memarium/read`, `memarium/write`, `memarium/index`, `memarium/cache`, `memarium/promote`, `memarium/forget`. Target entries are Memarium space names or the wildcard `*`."
+        },
+        "spaces": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Enumerates the Memarium space names this profile applies to (e.g. `community`, `crisis`)."
+        },
+        "community_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Optional restriction to a bounded set of community identifiers."
+        },
+        "entry_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Optional restriction to a bounded set of Memarium entry kinds."
+        },
+        "max_revocation_staleness_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Per-profile maximum acceptable revocation-view staleness (seconds)."
+        }
+      }
+    },
+    "communityKeyAccessProfileV1": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "profile",
+        "grants",
+        "community_ids",
+        "max_revocation_staleness_seconds"
+      ],
+      "description": "Authorizes community key material reception, rotation, and distribution decisions at a layer above Sealer. See proposal 038 §Profile `community-key-access@v1`.",
+      "properties": {
+        "profile": { "const": "community-key-access@v1" },
+        "grants": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "description": "Map of community grant-type -> target[]. Recognized grant types: `community/key-receive`, `community/key-rotate`, `community/key-distribute`. Target entries are community identifiers or the wildcard `*`."
+        },
+        "community_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Enumerates the community identifiers this profile applies to."
+        },
+        "key_domains": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Optional restriction to bounded key domains (e.g. `space:community`, `domain:curation`, `domain:crisis:region:pl`)."
+        },
+        "epoch_range": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["min", "max"],
+          "properties": {
+            "min": { "type": "integer", "minimum": 0 },
+            "max": { "type": "integer", "minimum": 0 }
+          },
+          "description": "Optional restriction to a bounded epoch window. Verifier rejects operations with `epoch` outside `[min, max]`."
+        },
+        "max_revocation_staleness_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Per-profile maximum acceptable revocation-view staleness (seconds)."
         }
       }
     }

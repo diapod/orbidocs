@@ -1,0 +1,47 @@
+{
+  "schema": "capability-passport-present.v1",
+  "passport": {
+    "schema": "capability-passport.v1",
+    "passport_id": "passport:capability:community-key-access:01JR12COMKEY001",
+    "node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "capability_id": "community-key-access",
+    "capability_profile": {
+      "display/name": "Community key access",
+      "description": "Authorizes a designated participant to receive and rotate community key epochs for the `wroclaw-mutual-aid` community space.",
+      "lang": "en",
+      "schema/id": "urn:orbiplex:capability-profile:community-key-access:v1",
+      "schema/media-type": "application/schema+json"
+    },
+    "scope": {
+      "allowed_callers": [
+        {
+          "kind": "participant",
+          "label": "key-steward",
+          "subject_key": "did:key:z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M32"
+        }
+      ],
+      "profiles": [
+        {
+          "profile": "community-key-access@v1",
+          "grants": {
+            "community/key-receive": ["wroclaw-mutual-aid"],
+            "community/key-rotate": ["wroclaw-mutual-aid"]
+          },
+          "community_ids": ["wroclaw-mutual-aid"],
+          "key_domains": ["space:community"],
+          "epoch_range": { "min": 7, "max": 24 },
+          "max_revocation_staleness_seconds": 15
+        }
+      ]
+    },
+    "issued_at": "2026-04-15T12:00:00Z",
+    "expires_at": "2026-10-15T12:00:00Z",
+    "issuer/participant_id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "issuer/node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "revocation_ref": null,
+    "signature": {
+      "alg": "ed25519",
+      "value": "base64url:community-key-access-capability-passport-signature"
+    }
+  }
+}

@@ -19,6 +19,9 @@ theme:
 extra_css:
   - styles/extra.css
 
+extra_javascript:
+  - styles/diagram-lightbox.js
+
 markdown_extensions:
   - admonition
   - attr_list
@@ -26,7 +29,11 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.inlinehilite
   - pymdownx.tabbed:
       alternate_style: true
@@ -88,6 +95,10 @@ plugins:
           # BEGIN GENERATED PROJECT NAV EN
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV EN
+            - Diagrams:
+                - Architecture:
+                    - Orbiplex Root Component Map: doc/diagrams/architecture/orbiplex-root-component-map.md
+                    - Host Capability Authorization Strata: doc/diagrams/architecture/host-capability-authorization-strata.md
             - Schemas:
                 - Schema Metadata Convention: doc/schemas/README.md
                 - Generated Index: doc/schemas-gen/schema-index.md
@@ -174,6 +185,10 @@ plugins:
           # BEGIN GENERATED PROJECT NAV PL
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV PL
+            - Diagramy:
+                - Architektura:
+                    - Mapa głównych komponentów Orbiplex: doc/diagrams/architecture/orbiplex-root-component-map.md
+                    - Warstwy autoryzacji host capabilities: doc/diagrams/architecture/host-capability-authorization-strata.md
             - Schematy:
                 - Konwencja metadanych schematów: doc/schemas/README.md
                 - Wygenerowany indeks: doc/schemas-gen/schema-index.md

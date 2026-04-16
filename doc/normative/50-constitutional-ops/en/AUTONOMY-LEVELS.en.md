@@ -137,11 +137,31 @@ not loosen it (move right).
 | Publication / external communication | A0 | High reputational stakes |
 | Reputation vote | A0 | Affects trust routing |
 | Modification of sensitive data | A0 | Privacy, dignity |
+| Scoped privacy-preserving memory visibility change | contextual | May be delegated only when the operator has already approved the scope, subject, and reversal/audit model |
 | Routing a task to another node | A1 | Reversible, but requires awareness |
 | Updating cache / index | A2 | Routine, budgetable |
 | Answering a routine query | A2 | Routine, budgetable |
 | Sensorium aggregation | A2 | Routine, budgetable |
 | Protection of life / crisis triage | A3 | Art. II.8 |
+
+### 4.1. Remembered Operator Approvals
+
+A0 means that human will is required before an action is taken. It does not
+always require a fresh prompt for every occurrence of the same bounded action.
+The operator may express that will as a remembered approval policy, analogous to
+an agent whitelist, when all of the following are explicit:
+
+- who may act (participant, agent, module, or operator-local identity),
+- what class of data or action is covered,
+- which autonomy level and budget apply after approval,
+- how the decision is audited,
+- how the approval can be revoked.
+
+Example: `memarium.forget` is not one social action. Personal immediate forget
+may be delegated to a privacy agent for a bounded subject and artifact class.
+Public tombstone, community forget, and crisis-space forget remain governed or
+operator-reviewed because they affect shared memory, public accountability, or
+constitutional minimum material.
 
 ---
 
