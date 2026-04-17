@@ -29,14 +29,14 @@ the first `:`.
 
 One opinion record should be able to carry at least:
 
-- `resource-kind`
-- `resource-id`
-- optional derived `resource-key`
-- `author/participant-id`
-- optional free-text opinion body
-- optional `lang`
-- optional integer `rating` in `1..5`
-- `authored/at`
+- envelope `record/about[0].resource/kind`
+- envelope `record/about[0].resource/id`
+- optional derived `resource/key` in read models
+- envelope `author/participant-id`
+- required free-text opinion body (`opinion/text`)
+- optional `opinion/lang`
+- optional coarse integer `opinion/rating` in `-1|0|1`
+- envelope `authored/at`
 
 This produces a simple contract:
 
@@ -50,43 +50,47 @@ This produces a simple contract:
 If this idea becomes a concrete artifact, the first portable shape could be:
 
 - `schema = "resource-opinion.v1"`
-- `opinion/id`
-- `resource/kind`
-- `resource/id`
-- optional derived `resource/key`
-- `author/participant-id`
-- `authored/at`
-- optional `body/text`
-- optional `body/lang`
-- optional `rating`
-- optional `supersedes`
+- `opinion/text`
+- optional `opinion/lang`
+- optional `opinion/rating`
+- optional `opinion/tags`
+
+The concrete Agora envelope carries subject, author, timestamp,
+signature, topic routing, and the canonical record id; the
+`resource-opinion.v1` content body intentionally does not duplicate
+those fields.
 
 Recommended ingest invariants:
 
-1. `resource/kind` MUST be a small stable classifier such as `url`, `ean`,
+1. envelope `resource/kind` MUST be a small stable classifier such as `url`, `ean`,
    `node`, `org`, or `gps`
-2. `resource/id` MUST be treated as opaque within the given kind
-3. `resource/key`, when present, MUST equal `resource/kind + ":" + resource/id`
-4. `rating`, when present, MUST be an integer in `1..5`
-5. at least one of `body/text` or `rating` MUST be present
-6. `body/lang` MUST NOT appear without `body/text`
-7. `author/participant-id` SHOULD use the canonical `participant:did:key:...`
+2. envelope `resource/id` MUST be treated as opaque within the given kind
+3. `resource/key`, when projected, MUST equal `resource/kind + ":" + resource/id`
+4. content `opinion/text` MUST be a non-empty string
+5. content `opinion/rating`, when present, MUST be one of `-1`, `0`, or `1`
+6. content `opinion/lang`, when present, annotates `opinion/text`
+7. envelope `author/participant-id` SHOULD use the canonical `participant:did:key:...`
    shape
 
 Example:
 
 ```json
 {
-  "schema": "resource-opinion.v1",
-  "opinion/id": "opinion:resource:01JRCY0Y7T4Y9JQK8K7R6K4M3M",
-  "resource/kind": "url",
-  "resource/id": "https://example.org/article",
-  "resource/key": "url:https://example.org/article",
+  "schema": "agora-record.v1",
+  "record/kind": "opinion",
+  "topic/key": "opinions/url",
+  "record/about": [
+    { "resource/kind": "url", "resource/id": "https://example.org/article" }
+  ],
   "author/participant-id": "participant:did:key:z6MkExample",
   "authored/at": "2026-04-10T08:15:00Z",
-  "body/text": "Useful overview, but the sourcing is thin in the final section.",
-  "body/lang": "en",
-  "rating": 3
+  "content/schema": "resource-opinion.v1",
+  "content": {
+    "schema": "resource-opinion.v1",
+    "opinion/text": "Useful overview, but the sourcing is thin in the final section.",
+    "opinion/lang": "en",
+    "opinion/rating": 1
+  }
 }
 ```
 
@@ -141,7 +145,7 @@ readers can distinguish:
   precision-bounded location key?
 - Should one author be allowed many opinions per resource, or only one current
   opinion plus append-only revisions?
-- Should `rating` be optional on every opinion, or should rating and text be
+- Should `opinion/rating` be optional on every opinion, or should rating and text be
   split into separate artifact families?
 - Should the future discussion surface be ephemeral (`channel`) or archival
   (`forum`) by default?

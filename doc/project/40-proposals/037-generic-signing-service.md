@@ -849,7 +849,8 @@ Phase 3 — introduce Agora signing:
 
 1. Add `agora-core/sign_adapter.rs`.
 2. Add `agora-http` endpoint `agora.record.sign`.
-3. Wire node-ui compose flow through the adapter (P8 in Agora TODO).
+3. Wire node-ui compose flow through the adapter (P8 in Agora TODO) — done in
+   the Node MVP implementation.
 4. Add `host_signer.py` and `agora_record_signer.py` for external modules.
 
 Phase 4 — domain separation cutover (post-MVP consideration):
@@ -903,9 +904,9 @@ what it is told to sign.
 
 ### Proposal 035 (Agora Topic-Addressed Record Relay)
 
-Consumer. Agora's UI compose flow (P8 in Agora TODO) and external module
-signing capability are the first external-facing use cases for the generic
-signer. No Agora schema change.
+Consumer. Agora's UI compose flow (P8 in Agora TODO) is now implemented in the
+Node MVP as the first external-facing use case for the generic signer. External
+module signing uses the same HostSigner surface. No Agora schema change.
 
 ### Proposal 036 (Memarium)
 

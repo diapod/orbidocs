@@ -180,6 +180,11 @@ POST /revoke
 GET  /revocations?since={cursor}
      → { items: [ { passport_id, node_id, capability_id, revoked_at } ],
          next, max-items }
+
+# Node address attestation
+GET  /attest/node-address/{node-id}
+     → node-address-attestation.v1
+     → 503 if directory signing is missing, or if a configured active probe fails
 ```
 
 `GET /cap?capability` joins capability entries with the `/adv` table to return
@@ -597,6 +602,22 @@ Conditional fields:
   limited to one Node's dispatch gate.
 - `GET /cap?capability` joins `capability_registrations` with
   `node_advertisements` to return current endpoints.
+- `GET /attest/node-address/{node-id}` assembles
+  `node-address-attestation.v1` from the current signed advertisement. In the
+  embedded daemon implementation both `PUT /adv/{node-id}` and
+  `GET /attest/node-address/{node-id}` use an active WSS
+  `peer-handshake.v1` probe when a probe is configured. `GET /attest` issues
+  `directory-confirmed` evidence only after a fresh successful probe; if a
+  deployment has no probe configured, the same surface can still emit
+  `directory-accepted` evidence.
+- The two probes have different purposes: the PUT-time probe protects the
+  directory write gate, while the attestation-time probe produces fresh
+  third-party evidence. A PUT followed immediately by GET may therefore dial
+  twice in the MVP. Add a short TTL cache for `ReachabilityProof` keyed by
+  `(node_id, endpoint_url)` once traces show this is noisy.
+- Active probes are synchronous in the embedded MVP server. Before operating at
+  larger registration volume, bound probe concurrency with a semaphore or move
+  probing into a small async worker pool with limited fan-out.
 - capability registration rows should also project `anchor_identity` and
   `informal` as derived columns from the stored passport capability id so query
   filtering does not need to re-parse every passport blob on the hot path.

@@ -265,6 +265,12 @@ Optional fields:
 - `record/supersedes` — one prior `record/id` replaced by this revision
 - `record/tags` — short free-form tags (application use)
 - `record/lang` — BCP 47 language tag
+- `author/nym-certificate-ref` — when `author/participant-id` carries a
+  `nym:did:key:...` pseudonymous identity (see invariant 9 below), this
+  optional field points to or inlines the `nym-certificate.v1` that
+  binds the nym to its issuing council's authorization scope (proposal
+  015); it is part of the signed canonical bytes so the binding cannot
+  be stripped in transit
 - `relay/received-at` — stamped by the relay on ingest; never part of the
   signed payload
 - `relay/id` — identifier of the relay that first ingested the record
@@ -293,6 +299,23 @@ Ingest invariants:
 8. `record/about`, when present, MUST follow the resource identity rules of
    proposal 026. The substrate MUST NOT derive `topic/key` from
    `record/about` and MUST NOT require `record/about` to match the topic.
+9. **Pseudonymous authorship.** `author/participant-id` MAY carry a
+   `nym:did:key:...` identity in addition to a
+   `participant:did:key:...` identity, when the record kind permits
+   pseudonymous authorship (currently: `whisper`, see §3). In that case:
+   - the envelope signature MUST be Ed25519 by the private key of the
+     nym, not of any underlying participant;
+   - the envelope MUST carry `author/nym-certificate-ref` resolving to a
+     currently valid `nym-certificate.v1` (proposal 015) that binds the
+     nym to its issuing council's authorization scope;
+   - the ingest-attestation gate (proposal 041) MUST accept the nym
+     certificate in place of a participant capability passport for
+     ingest admission, under the consumer-local ingest mode configured
+     for the topic;
+   - subject sanctions and revocations attach to the nym identity for
+     the nym's bounded validity window; no attempt is made to
+     retroactively correlate nym records with the underlying
+     participant on the substrate layer.
 
 ### 3. Record Kinds and Content Schema Extension
 
@@ -308,6 +331,7 @@ contract that lives next to the subsystem that owns it. Examples for MVP:
 | `opinion` | `resource-opinion.v1` | proposal 026 |
 | `comment` | `plain-comment.v1` | Agora base kind |
 | `annotation` | `plain-annotation.v1` | Agora base kind |
+| `whisper` | `whisper-signal.v1` | proposal 013 |
 | `whisper-durable` | `whisper-threshold-record.v1` | proposal 013 follow-up |
 | `public-log` | `public-log-entry.v1` | application use |
 
@@ -602,7 +626,7 @@ opinions; the subject relation is carried in `record/about`:
   "schema": "agora-record.v1",
   "record/id": "sha256:4Q7x3kCDfm2yVwrbn8Hj5tlsOe9zApiU6Gq3wXYAbCd",
   "record/kind": "opinion",
-  "topic/key": "orbiplex/opinions/url",
+  "topic/key": "opinions/url",
   "record/about": [
     { "resource/kind": "url", "resource/id": "https://example.org/article" }
   ],
@@ -610,12 +634,10 @@ opinions; the subject relation is carried in `record/about`:
   "authored/at": "2026-04-11T08:15:00Z",
   "content/schema": "resource-opinion.v1",
   "content": {
-    "opinion/id": "opinion:resource:01JRCY0Y7T4Y9JQK8K7R6K4M3M",
-    "resource/kind": "url",
-    "resource/id": "https://example.org/article",
-    "body/text": "Useful overview, but the sourcing is thin in the final section.",
-    "body/lang": "en",
-    "rating": 3
+    "schema": "resource-opinion.v1",
+    "opinion/text": "Useful overview, but the sourcing is thin in the final section.",
+    "opinion/lang": "en",
+    "opinion/rating": 1
   },
   "signature": { "alg": "ed25519", "value": "BASE64URL..." }
 }
@@ -631,14 +653,18 @@ shapes; which one to use is a decision of the kind contract for
   "schema": "agora-record.v1",
   "record/id": "sha256:4Q7x3kCDfm2yVwrbn8Hj5tlsOe9zApiU6Gq3wXYAbCd",
   "record/kind": "opinion",
-  "topic/key": "orbiplex/opinions/url/sha256:4b7c9fzkMyAL8GBfQExamplePerUrlTopic01",
+  "topic/key": "opinions/url/sha256:4b7c9fzkMyAL8GBfQExamplePerUrlTopic01",
   "record/about": [
     { "resource/kind": "url", "resource/id": "https://example.org/article" }
   ],
   "author/participant-id": "participant:did:key:z6MkExample",
   "authored/at": "2026-04-11T08:15:00Z",
   "content/schema": "resource-opinion.v1",
-  "content": { "...": "..." },
+  "content": {
+    "schema": "resource-opinion.v1",
+    "opinion/text": "Useful overview, but the sourcing is thin in the final section.",
+    "opinion/lang": "en"
+  },
   "signature": { "alg": "ed25519", "value": "BASE64URL..." }
 }
 ```
@@ -735,7 +761,7 @@ scope is clean and tested.
 
 | Proposal | Relation |
 |---|---|
-| 013 — Whisper social signal exchange | Whisper rumors stay ephemeral; threshold-reached events become an optional `whisper-durable` record kind on Agora |
+| 013 — Whisper social signal exchange | `whisper-signal.v1` is a first-class Agora `content/schema` under `record/kind = "whisper"`, using pseudonymous `nym:did:key:...` authorship (§2 invariant 9) anchored by `nym-certificate.v1`; Agora is one of two distribution mechanisms (the other is direct node-to-node exchange, see proposal 013 §Distribution), and Memarium is the local storage surface for both. Threshold-reached events remain a separate `whisper-durable` kind for when a whisper crosses bootstrap thresholds and needs a different durability posture. |
 | 023 — federated offer distribution | The offer catalog today maintains its own storage; a future migration may express offer snapshots as Agora records under an operator-chosen topic key (for example `orbiplex/offer-catalog`) with `record/kind = "offer-snapshot"`, retiring the bespoke replication layer |
 | 024 — capability passports | Author signatures on Agora records are verified via the same passport chain |
 | 025 — seed directory as capability catalog | Seed directory remains a separate primitive for capability discovery; it MAY later publish its listings as records on an Agora topic for uniform federation |
@@ -928,10 +954,17 @@ wraps it in actual HTTP routing. Key design choices:
 - **HTTP API surface** (`agora-http`): framework-neutral adapter for
   proposal 035 §5 endpoints. Opaque cursors, SSE subscriptions, topic
   mismatch validation, partial about-filter rejection.
-- **Retention** (age + count): `sweep_retention()` with automatic
-  subject index rebuild after purge.
+- **Service and daemon integration** (`agora-service` + supervised
+  middleware): the relay runs as a daemon-managed local HTTP middleware
+  service. The daemon supervises the process, provisions module/client
+  auth tokens, and exposes capability-provider discovery while the
+  service owns its REST/SSE surface.
+- **Retention** (age + count + scheduling): `sweep_retention()` with
+  automatic subject index rebuild after purge, driven by the
+  `agora-service` retention sweep thread when topic policies are
+  configured.
 
-#### Deferred ingest invariants
+#### Ingest invariants still deferred or limited
 
 The following invariants from section 2 use "flag, not reject" semantics
 in this proposal and are not blocking for the first deployment:
@@ -939,7 +972,10 @@ in this proposal and are not blocking for the first deployment:
 - **Invariant 5** (`authored/at` clock skew window) — not checked; the
   field is validated as non-empty only.
 - **Invariant 6** (`record/parent` / `record/supersedes` dangling
-  detection) — not checked; the fields are accepted structurally.
+  detection) — implemented at the publisher edge in `agora-service`.
+  The default is warn-and-accept to preserve eventual consistency;
+  `strict_parent_refs = true` turns unresolved references into HTTP 422.
+  Federation ingress remains warn-only.
 - **Invariant 7** (passport chain verification via proposals 024 and
   032) — the signature is verified against the direct participant key
   only; delegated signing keys are not yet supported.
@@ -959,15 +995,8 @@ in this proposal and are not blocking for the first deployment:
   form, but the relay does not currently reject or normalize non-NFC
   topic keys at the ingest boundary.
 
-#### Not yet wired
+#### Still deferred / intentionally limited
 
-- **Daemon integration**: the HTTP API (`agora-http`) and federated
-  relay (`agora-relay-matrix`) are not yet wired into the Node daemon
-  control flow. The crates are self-contained and tested but require a
-  daemon-level lifecycle hook to start inbound bridges and expose the
-  REST/SSE surface.
-- **Retention scheduling**: `sweep_retention()` is a callable primitive
-  but is not yet driven by a periodic timer or cron-like scheduler.
 - **Subject index persistence**: the in-memory `SubjectIndex` does not
   survive process restarts. `rebuild_subject_index()` reconstructs it
   from the local SQLite store on startup, but a SQLite-backed subject
@@ -1071,4 +1100,22 @@ If adopted, the next artifacts should be:
    or Conduit deployment footprint,
 5. one separate proposal for private (encrypted) Agora topics,
 6. one separate proposal for Memarium, describing how curation attaches to
-   Agora records and Node-local stores.
+   Agora records and Node-local stores,
+7. proposal 040 (custodial redelivery and tombstones) defines the readback
+   tombstone vocabulary (`410 Gone` with `retention_expired`,
+   `removed_by_policy`, `storage_lost`, `superseded`), operator sovereignty
+   over re-acceptance, custodian negotiation via `capability-passport.v1`,
+   and the author-scoped sondage endpoints (count, listing, digest) gated
+   by `agora-author-proof.v1`. Agora implementations SHOULD implement the
+   tombstone surface as soon as the relay serves more than one node; pure
+   local-only MVP relays MAY keep `404` as the sole absence signal,
+8. proposal 041 (Agora ingest attestation and tiered access) defines the
+   `author/attestation_ref` optional signed envelope field, the
+   `agora-attestation-proof.v1` short-lived proof token, the ingest mode
+   matrix (`open`, `allowlist`, `passport`, `passport_scoped`, `layered`),
+   a predicate grammar for tiered gates, and a stable refusal reason-code
+   vocabulary symmetric with proposal 040's tombstone matrix. The
+   verification primitive is placed as a reusable `attestation-gate`
+   alongside signer and sealer in the daemon's trust-boundary zone and
+   is consumable by every component that needs to ask "is this author
+   attested under a passport I currently accept", not only Agora.

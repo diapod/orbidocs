@@ -37,6 +37,8 @@ Machine-readable schema for signed peer session establishment over the Node netw
 | [`protocol/version`](#field-protocol-version) | `no` | string | Protocol version for interpreting this handshake family. In v1 this is primarily interpretation context and domain-separation input, not mutable handshake business data. |
 | [`transport/profile`](#field-transport-profile) | `no` | enum: `wss` | Framing-level or per-hop transport profile of the current session. This is not part of the signed semantic payload unless asserted as a capability claim. |
 | [`session/intent`](#field-session-intent) | `no` | enum: `bootstrap`, `peer-connect`, `reconnect` | High-level intent of this session attempt. |
+| [`probe/challenge`](#field-probe-challenge) | `no` | string | Optional fresh probe challenge. If present, it is part of the signed semantic payload and is used by Seed Directory or trusted peers to prove that the endpoint answered this specific reachability probe. |
+| [`probe/purpose`](#field-probe-purpose) | `no` | enum: `seed-directory-address-verification` | Purpose of `probe/challenge`. In v1 the supported purpose is Seed Directory address verification for `node-address-attestation.v1` evidence. |
 | [`nonce`](#field-nonce) | `yes` | string | Fresh nonce used to bind this session attempt and reduce replay risk. v1 replay protection assumes a roughly `+-30s` clock-skew window and per-peer nonce retention of about `120s`. |
 | [`capabilities/offered`](#field-capabilities-offered) | `no` | array | Optional capability claims offered as part of the signed handshake payload. |
 | [`terms/negotiated`](#field-terms-negotiated) | `no` | object | Optional negotiated handshake terms carried inside the signed payload. |
@@ -74,6 +76,50 @@ Then:
 {
   "required": [
     "ack/of-handshake-id"
+  ]
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "required": [
+    "probe/challenge"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "probe/purpose"
+  ]
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "required": [
+    "probe/purpose"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "probe/challenge"
   ]
 }
 ```
@@ -183,6 +229,22 @@ Framing-level or per-hop transport profile of the current session. This is not p
 - Shape: enum: `bootstrap`, `peer-connect`, `reconnect`
 
 High-level intent of this session attempt.
+
+<a id="field-probe-challenge"></a>
+## `probe/challenge`
+
+- Required: `no`
+- Shape: string
+
+Optional fresh probe challenge. If present, it is part of the signed semantic payload and is used by Seed Directory or trusted peers to prove that the endpoint answered this specific reachability probe.
+
+<a id="field-probe-purpose"></a>
+## `probe/purpose`
+
+- Required: `no`
+- Shape: enum: `seed-directory-address-verification`
+
+Purpose of `probe/challenge`. In v1 the supported purpose is Seed Directory address verification for `node-address-attestation.v1` evidence.
 
 <a id="field-nonce"></a>
 ## `nonce`

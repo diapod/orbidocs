@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:whisper-signal:v1",
   "title": "WhisperSignal v1",
-  "description": "Machine-readable schema for bounded rumor-style social-signal exchange.",
+  "description": "Machine-readable schema for the content body of an Agora record (or INAC artefact) expressing a bounded rumor-style social signal. The enclosing `agora-record.v1` envelope carries identity, authorship (including pseudonymous `nym:did:key:…` authorship and the attached nym-certificate reference), authorship signature, timestamping, and topic routing; this schema validates only the content body. Sender transport identifiers (node id, federation id) are peer-session concerns and are not part of the signed content body.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -12,16 +12,13 @@
     "doc/project/20-memos/orbiplex-anon.md",
     "doc/project/30-stories/story-005.md",
     "doc/project/40-proposals/013-whisper-social-signal-exchange.md",
-    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md"
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md",
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/40-proposals/041-agora-ingest-attestation.md",
+    "doc/project/40-proposals/042-inter-node-artifact-channel.md"
   ],
   "required": [
-    "schema/v",
-    "signal/id",
-    "created-at",
-    "sender/node-id",
-    "rumor/nym",
-    "auth/nym-certificate",
-    "auth/nym-signature",
+    "schema",
     "epistemic/class",
     "signal/text",
     "topic/class",
@@ -34,42 +31,9 @@
     "forwarding/max-hops"
   ],
   "properties": {
-    "schema/v": {
-      "const": 1,
-      "description": "Schema version."
-    },
-    "signal/id": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Stable identifier of the published rumor-style signal."
-    },
-    "created-at": {
-      "type": "string",
-      "format": "date-time",
-      "description": "Publication timestamp of the outgoing signal."
-    },
-    "sender/node-id": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Infrastructure node that emitted or hosted the outgoing signal. This remains the routing and transport-facing identity even when authored participation is expressed through a pseudonymous nym."
-    },
-    "sender/federation-id": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Federation scope of the sender when relevant to routing or threshold policy."
-    },
-    "rumor/nym": {
-      "type": "string",
-      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
-      "description": "Pseudonymous author identity of the outgoing signal. This remains application-layer identity material and MUST NOT leak into the transport handshake."
-    },
-    "auth/nym-certificate": {
-      "$ref": "nym-certificate.v1.schema.json",
-      "description": "Attached council-issued certificate proving bounded validity of the outgoing rumor nym. Its `nym/id` should match `rumor/nym`."
-    },
-    "auth/nym-signature": {
-      "$ref": "#/$defs/signature",
-      "description": "Signature over the outgoing `whisper-signal` body made with the private key corresponding to `rumor/nym`."
+    "schema": {
+      "const": "whisper-signal.v1",
+      "description": "Content-level discriminator for consumers that inspect the payload outside its Agora or INAC envelope."
     },
     "epistemic/class": {
       "type": "string",
@@ -87,7 +51,7 @@
     "topic/class": {
       "type": "string",
       "minLength": 1,
-      "description": "Normalized issue class used for bounded correlation."
+      "description": "Normalized issue class used for bounded correlation. Distinct from the enclosing envelope's `topic/key`, which is an Agora routing key; `topic/class` is the semantic correlation class carried inside the rumor body."
     },
     "context/facets": {
       "type": "array",
@@ -112,7 +76,7 @@
         "cross-federation",
         "public-aggregate-only"
       ],
-      "description": "Maximum disclosure posture allowed for this signal."
+      "description": "Maximum disclosure posture allowed for this signal. Distribution-surface selection honours this: `private-correlation` SHOULD travel via INAC direct exchange (proposal 042); wider scopes MAY use Agora. The `SHOULD` is intentional — public Agora deployments SHOULD refuse `private-correlation` at ingest (its publication properties conflict with the disclosure intent), while closed / intra-organization Agora federations MAY carry these whispers internally under their own ingest policy."
     },
     "source/class": {
       "type": "string",
@@ -184,28 +148,6 @@
       "type": "object",
       "additionalProperties": true,
       "description": "Optional implementation- or federation-local annotations that do not change the core semantics."
-    }
-  },
-  "$defs": {
-    "signature": {
-      "type": "object",
-      "additionalProperties": true,
-      "required": [
-        "alg",
-        "value"
-      ],
-      "properties": {
-        "alg": {
-          "type": "string",
-          "enum": [
-            "ed25519"
-          ]
-        },
-        "value": {
-          "type": "string",
-          "minLength": 1
-        }
-      }
     }
   },
   "allOf": [

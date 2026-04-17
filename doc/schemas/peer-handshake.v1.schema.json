@@ -105,6 +105,18 @@
       ],
       "description": "High-level intent of this session attempt."
     },
+    "probe/challenge": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional fresh probe challenge. If present, it is part of the signed semantic payload and is used by Seed Directory or trusted peers to prove that the endpoint answered this specific reachability probe."
+    },
+    "probe/purpose": {
+      "type": "string",
+      "enum": [
+        "seed-directory-address-verification"
+      ],
+      "description": "Purpose of `probe/challenge`. In v1 the supported purpose is Seed Directory address verification for `node-address-attestation.v1` evidence."
+    },
     "nonce": {
       "type": "string",
       "minLength": 1,
@@ -170,6 +182,30 @@
       "then": {
         "required": [
           "ack/of-handshake-id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "probe/challenge"
+        ]
+      },
+      "then": {
+        "required": [
+          "probe/purpose"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "probe/purpose"
+        ]
+      },
+      "then": {
+        "required": [
+          "probe/challenge"
         ]
       }
     }

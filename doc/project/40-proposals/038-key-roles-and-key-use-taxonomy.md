@@ -33,19 +33,22 @@ artifact-specific layers own canonicalization and policy semantics.
 
 Key decisions:
 
-1. A `node key` identifies and authenticates a Node as infrastructure.
-2. A `participant key` identifies a human or participant actor and anchors
+1. A `node identity key` identifies and authenticates a Node as infrastructure.
+2. A `node AEAD key` is symmetric authenticated-encryption material owned by a
+   Node installation, available without operator unlock, used for sealing
+   node-local at-rest material.
+3. A `participant key` identifies a human or participant actor and anchors
    consent, authorship, and capability issuance.
-3. An `org key` identifies an organization-level subject and anchors
+4. An `org key` identifies an organization-level subject and anchors
    organization-scoped governance artifacts.
-4. A `proxy key` is a delegated key with bounded grants for a participant or
+5. A `proxy key` is a delegated key with bounded grants for a participant or
    organization principal; it is not a new principal.
-5. A `community key` is symmetric or derivable AEAD material for a bounded
+6. A `community key` is symmetric or derivable AEAD material for a bounded
    community key domain and epoch.
-6. A `global community key` for encryption is explicitly rejected. Global
+7. A `global community key` for encryption is explicitly rejected. Global
    community material intended for everyone is public; it needs signatures,
    provenance, content addressing, and governance, not a shared secret.
-7. `key_ref` identifies key material or a key generation line; `info` remains a
+8. `key_ref` identifies key material or a key generation line; `info` remains a
    per-operation derivation context. Signer and Sealer treat both as opaque.
 
 ## Context and Problem Statement
@@ -128,6 +131,7 @@ Examples:
 
 ```text
 key:node:self:ed25519
+key:node:self:epoch:1:aead
 key:participant:primary:ed25519
 key:org:did-key:z6MkOrg:governance:ed25519
 key:proxy:did-key:z6MkProxy:participant:did-key:z6MkPrincipal:ed25519
@@ -178,9 +182,9 @@ key_ref = generation identity
 info    = operation diversifier
 ```
 
-### 3. Node Key
+### 3. Node Identity Key
 
-A Node key identifies and authenticates one Orbiplex Node as infrastructure.
+A Node identity key identifies and authenticates one Orbiplex Node as infrastructure.
 
 Primary uses:
 
@@ -211,6 +215,79 @@ User-facing meaning:
 
 > This machine/runtime is the same Node that previously advertised, handshook,
 > or accepted a binding.
+
+### 3bis. Node AEAD Key
+
+A Node AEAD key is symmetric authenticated-encryption material controlled by one
+Orbiplex Node installation. It is distinct from the Node identity key (§3):
+the identity key answers "which Node", the AEAD key answers "which material at
+rest is this Node's own".
+
+Primary uses:
+
+- sealing constitutional seed entries in the Memarium crisis space on first
+  start, before any operator unlock has occurred,
+- sealing autonomic crisis facts produced by node-side detectors
+  (federation availability, sealer readiness, revocation view freshness,
+  storage integrity),
+- sealing future node-local at-rest material that is owned by the Node as
+  infrastructure and does not require operator-gated access.
+
+Properties:
+
+- symmetric AEAD material (suite chosen by Sealer; typical: AES-256-GCM or
+  XChaCha20-Poly1305),
+- canonical reference: `key:node:self:epoch:<n>:aead`,
+- generated at first daemon startup alongside the Node identity key,
+- stored in the local key backend without passphrase protection,
+- available to the Node process throughout its lifetime without operator action,
+- rotated by epoch bump; prior epochs retained in the key backend for
+  existing-ciphertext opening.
+
+Adversary model:
+
+- protects against filesystem, backup, or remote-storage adversaries that can
+  read the data directory but do not execute the Node process,
+- does NOT protect against an adversary who executes the Node process (the
+  Node has the key in memory whenever it runs),
+- does NOT protect against an adversary who obtains the key backend unlocked
+  (key backend protection is a separate layer and out of scope for this
+  proposal).
+
+What it must not be used for:
+
+- protecting operator emergency notes, recovery phrases, or other operator-held
+  secrets (those use an operator-held AEAD key that stays locked until sealer
+  unlock; see §4 and forthcoming operator-notes scope),
+- protecting participant-authored material (use Participant Key §4 or derived
+  participant-scoped AEAD),
+- protecting community-shared material (use Community Key §7),
+- signing anything (Node AEAD is symmetric; signatures use Node identity §3 or
+  Participant §4),
+- encrypting public material that needs provenance and governance (public
+  material is public: signed, addressed, governed — not encrypted with a
+  per-node symmetric key).
+
+User-facing meaning:
+
+> This material is the Node's own at-rest data, readable whenever this Node
+> runs, not readable from backups or exfiltrated files alone.
+
+Relation to operator keys (§4 and derivatives):
+
+A single Memarium space MAY host material sealed with different key roles.
+The Memarium crisis space is the canonical example:
+
+- constitutional seed entries use `key:node:self:epoch:1:aead`, auto-applied on
+  first start,
+- autonomic crisis facts use `key:node:self:epoch:1:aead`, written by
+  node-side detectors,
+- future operator-entered crisis notes use
+  `key:operator:crisis:memarium:epoch:1:aead`, gated by sealer unlock.
+
+Each writer chooses the appropriate role for its adversary model. The space
+policy (mandatory encryption) is enforced uniformly on all writes regardless
+of the writer's chosen role.
 
 ### 4. Participant Key
 

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:resource-opinion:v1",
+  "title": "ResourceOpinion v1",
+  "description": "Machine-readable schema for the content body of an Agora record expressing a participant's opinion about a resource. The enclosing `agora-record.v1` envelope carries identity, authorship, topic routing, and the canonical `record/about` subject reference; this schema validates only the content body.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-008-cool-site-comment.md",
+    "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md",
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/50-requirements/requirements-014.md"
+  ],
+  "required": [
+    "schema",
+    "opinion/text"
+  ],
+  "properties": {
+    "schema": {
+      "const": "resource-opinion.v1",
+      "description": "Content-level discriminator for consumers that inspect the payload outside its Agora envelope."
+    },
+    "opinion/text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8192,
+      "description": "Human-authored opinion text. Renderers MUST treat this value as untrusted input and escape appropriately before display."
+    },
+    "opinion/rating": {
+      "type": "integer",
+      "enum": [
+        -1,
+        0,
+        1
+      ],
+      "description": "Optional ternary rating: negative (-1), neutral (0), or positive (1). Absence means no rating was supplied."
+    },
+    "opinion/tags": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64
+      },
+      "description": "Optional loose tags. Tags are not a closed taxonomy."
+    },
+    "opinion/lang": {
+      "type": "string",
+      "pattern": "^[A-Za-z]{2,3}(-[A-Za-z0-9]{2,8})*$",
+      "description": "Optional BCP 47 language tag for `opinion/text`."
+    }
+  }
+}

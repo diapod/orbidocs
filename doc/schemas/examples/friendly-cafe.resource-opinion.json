@@ -1,0 +1,10 @@
+{
+  "schema": "resource-opinion.v1",
+  "opinion/text": "Quiet place, good espresso, and enough space to read for a while.",
+  "opinion/rating": 1,
+  "opinion/tags": [
+    "coffee",
+    "reading"
+  ],
+  "opinion/lang": "en"
+}

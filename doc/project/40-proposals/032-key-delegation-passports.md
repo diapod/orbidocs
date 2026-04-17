@@ -210,13 +210,11 @@ non-expired delegation passport.
     "signing/capability": ["network-ledger", "escrow"]
   },
   "max_chain_depth": 0,
-  "issued_at":       "2026-04-06T12:00:00Z",
-  "expires_at":      "2026-10-06T12:00:00Z",
-  "issuer": {
-    "participant_id": "participant:did:key:z...",
-    "node_id":        "node:did:key:z..."
-  },
-  "signature":       { "alg": "ed25519", "value": "<base64url>" }
+  "issued_at":             "2026-04-06T12:00:00Z",
+  "expires_at":            "2026-10-06T12:00:00Z",
+  "issuer/participant_id": "participant:did:key:z...",
+  "issuer/node_id":        "node:did:key:z...",
+  "signature":             { "alg": "ed25519", "value": "<base64url>" }
 }
 ```
 
@@ -238,12 +236,12 @@ non-expired delegation passport.
 - `expires_at` — **mandatory**.  Implementations must reject delegation passports
   lacking this field.  The recommended maximum TTL is 365 days; issuance UI
   should warn for values exceeding that.
-- `issuer.node_id` — the node on which the delegation passport was created (and
+- `issuer/node_id` — the node on which the delegation passport was created (and
   on which the signing participant key resided at time of issuance).
 - `signature` — Ed25519 signature of the canonical JSON representation of the
   compact delegation contract (`delegation_id`, `proxy_key`, `principal_key`,
   `grants`, `expires_at`), signed by the private key of
-  `issuer.participant_id`.
+  `issuer/participant_id`.
 
 The full `key-delegation.v1` passport is a registration and management artifact.
 Its metadata (`schema`, `issued_at`, `issuer/node_id`, `max_chain_depth`,
@@ -370,13 +368,13 @@ Content-Type: application/json
 
 The Seed Directory verifies:
 - The `key-delegation.v1` signature is valid (using the public key embedded in
-  `issuer.participant_id`).
+  `issuer/participant_id`).
 - `expires_at` is present and in the future.
 - `max_chain_depth` is `0` (MVP restriction; relaxed when sub-delegation is
   specified).
 
 On success the delegation is stored and indexed by both `proxy_key` and
-`issuer.participant_id`.
+`issuer/participant_id`.
 
 #### Query by delegation ID (primary lookup)
 
@@ -427,10 +425,11 @@ referencing the `delegation_id` field:
   "revocation_id":  "revocation:delegation:key:...",
   "target_id":      "delegation:key:<timestamp>:<random>",
   "signed_by":      "issuer",
-  "reason":         "key_rotation",
-  "revoked_at":     "...",
-  "issuer": { "participant_id": "...", "node_id": "..." },
-  "signature":      { "alg": "ed25519", "value": "..." }
+  "reason":                "key_rotation",
+  "revoked_at":            "...",
+  "issuer/participant_id": "participant:did:key:z...",
+  "issuer/node_id":        "node:did:key:z...",
+  "signature":             { "alg": "ed25519", "value": "..." }
 }
 ```
 

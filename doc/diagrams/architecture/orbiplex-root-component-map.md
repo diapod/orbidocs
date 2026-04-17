@@ -54,8 +54,8 @@ flowchart TB
   Control --- Daemon
   Daemon --- Gate
   Daemon --- PeerChain
-  Daemon --- Signer
-  Daemon --- Sealer
+  Gate --- Signer
+  Gate --- Sealer
   PeerChain --- Middleware
   Middleware --- Memarium
   Middleware --- Dator
@@ -90,21 +90,24 @@ flowchart TB
 1. The diagram is a map of responsibility boundaries, not a message-flow trace.
 2. The `Daemon` is the local host runtime. It owns dispatch, supervision, and
    host capability routing.
-3. `Signer` and `Sealer` are core host capabilities exposed through the daemon.
-4. `Middleware / PeerMessageChain` is the host-owned attachment stratum for
+3. `Host capability gate` is the dispatch-layer authorization boundary for
+   externally invoked host capabilities. It sits between daemon request routing
+   and core capability engines such as `Signer` and `Sealer`.
+4. `Signer` and `Sealer` are core host capabilities exposed through the daemon.
+5. `Middleware / PeerMessageChain` is the host-owned attachment stratum for
    modules that observe, enrich, publish, or orchestrate work without becoming
    hidden daemon internals.
-5. `Memarium` is shown as local/in-process middleware because it may need
+6. `Memarium` is shown as local/in-process middleware because it may need
    co-lifecycle with the daemon and full message-flow observation.
-6. `Dator` and `Arca` are shown as bundled middleware. In the hard-MVP shape
+7. `Dator` and `Arca` are shown as bundled middleware. In the hard-MVP shape
    they are also HTTP-supervised modules, but containment here uses packaging
    responsibility as the primary grouping.
-7. `Monus`, `Whisper`, and `Anon` are shown as other HTTP-supervised middleware
+8. `Monus`, `Whisper`, and `Anon` are shown as other HTTP-supervised middleware
    candidates until their final packaging contracts settle.
-8. `Agora Client` is the local adapter shape for publishing to, or observing,
+9. `Agora Client` is the local adapter shape for publishing to, or observing,
    the shared `Agora` substrate. It is separated from `Agora` itself to keep
    local integration concerns distinct from the federated record substrate.
-9. Some middleware nodes currently link to proposal documents until dedicated
+10. Some middleware nodes currently link to proposal documents until dedicated
    solution pages exist.
 
 ## Component Links

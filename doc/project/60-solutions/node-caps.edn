@@ -1,7 +1,7 @@
 {:component/id :orbiplex/node
  :component/title "Orbiplex Node"
  :component/type :runtime
- :component/status :planned
+ :component/status :partial
 
  :summary
  "Primary Orbiplex runtime responsible for room lifecycle, protocol enforcement,
@@ -29,7 +29,7 @@
     "Establish signed peer handshakes and capability exchange over the baseline transport"
     "Publish and validate the first participant-scoped signed application envelope above the session layer"
     "Maintain keepalive and reconnect behavior for the first networked Node baseline"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :room-lifecycle
    :title "Question Room Lifecycle"
@@ -44,7 +44,7 @@
    ["Open or bind a room to `question/id`"
     "Enforce exposure mode and room policy profile"
     "Preserve provenance for room messages and outputs"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :answer-procurement
    :title "Federated Answer Procurement"
@@ -61,7 +61,7 @@
     "Record contract and receipt without coupling to crypto rails"
     "Expose effective gateway and escrow policy context for paid procurement"
     "Suppress or degrade paid procurement paths when settlement disclosures require it"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :settlement-policy-coordination
    :title "Settlement Policy Coordination and Disclosure Trail"
@@ -81,7 +81,7 @@
     "Retain audit joins from procurement artifacts to settlement policies and disclosure events"
     "Expose degraded, blocked, or manual-review-only settlement states as first-class operational facts"
     "Keep settlement visibility separate from protocol-external payment execution"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :local-learning
    :title "Local Learning and Knowledge Promotion"
@@ -94,7 +94,7 @@
    ["Classify outcomes as confirmed/corrected/unresolved"
     "Promote only policy-accepted outcomes to trusted local retrieval"
     "Keep unresolved material out of trusted retrieval by default"]
-   :status :todo}
+   :status :done}
 
   {:cap/id :archival-handoff
    :title "Archivist and Vault Handoff"
@@ -129,7 +129,21 @@
    "Run `middleware-init` and retain module capability reports for operator inspection"
    "Provide the deployment surface for Dator and Arca without overloading unmanaged adapters"
    "Remain the future host-granted capability surface for local modules such as Monus without yielding direct transport or publication authority"]
-   :status :todo}]
+   :status :done}
+
+  {:cap/id :host-capability-lookup
+   :title "Host Capability Lookup"
+   :kind :daemon-api
+   :based-on ["doc/project/30-stories/story-008-cool-site-comment.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/50-requirements/requirements-014.md"]
+   :schemas []
+   :responsibilities
+   ["Expose `GET /v1/host/capabilities/{cap_id}` listing live providers of the capability"
+    "Aggregate providers from middleware module reports without leaking supervisor internals"
+    "Distinguish `capability_unknown` (404) from `capability known but unprovided` (200 with empty providers)"
+    "Keep naming decoupled from routing: clients address capabilities by id, not by component id"]
+   :status :done}]
 
  :may-implement
  [{:cap/id :transcript-monitoring

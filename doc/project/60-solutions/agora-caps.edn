@@ -1,0 +1,163 @@
+{:component/id :orbiplex/agora
+ :component/title "Orbiplex Agora"
+ :component/type :node-attached-module
+ :component/status :done
+
+ :summary
+ "Node-attached topic-addressed record relay providing a shared signed
+ substrate for records such as resource opinions, comments, whisper signals,
+ and federated offer announcements. Runs as a supervised middleware service
+ under the Node daemon and is discovered by clients through capability id
+ `agora.relay`."
+
+ :must-implement
+ [{:cap/id :agora-record-sign
+   :title "Agora Record Signing"
+   :kind :signing
+   :based-on ["doc/project/30-stories/story-008-cool-site-comment.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/50-requirements/requirements-014.md"]
+   :schemas ["agora-record.v1"
+             "resource-opinion.v1"]
+   :responsibilities
+   ["Canonicalize unsigned `agora-record.v1` payload for the `agora.record.v1` domain"
+    "Sign through the daemon host signer using `KeyRef::PrimaryParticipant`"
+    "Bind returned public key to the author's `participant/did:key` fingerprint"
+    "Compute `record/id` as `sha256:<base32lower(canonical_signed_bytes)>`"]
+   :status :done}
+
+  {:cap/id :agora-record-ingest
+   :title "Agora Record Ingest"
+   :kind :protocol
+   :based-on ["doc/project/30-stories/story-008-cool-site-comment.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/50-requirements/requirements-014.md"]
+   :schemas ["agora-record.v1"
+             "resource-opinion.v1"]
+   :responsibilities
+   ["Re-verify envelope structure and canonical `record/id` on ingest"
+    "Verify `signature.value` against author public key in `agora.record.v1` domain"
+    "Apply topic ACL gate before persistence"
+    "Reject duplicates idempotently (same `record/id` → `200 OK`)"
+    "Persist accepted records in the local relay backend"]
+   :status :done}
+
+  {:cap/id :agora-record-query
+   :title "Agora Record Query"
+   :kind :protocol
+   :based-on ["doc/project/30-stories/story-008-cool-site-comment.md"
+              "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/50-requirements/requirements-014.md"]
+   :schemas ["agora-record.v1"
+             "resource-ref.v1"]
+   :responsibilities
+   ["Serve `record/id`-keyed exact lookup"
+    "Serve bounded topic listings with cursor pagination"
+    "Serve `record/about` subject-index listings keyed by `{resource/kind, resource/id}`"
+    "Keep paging semantics stable across backends"]
+   :status :done}
+
+  {:cap/id :topic-subscribe-sse
+   :title "Topic Subscribe Stream"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"]
+   :schemas ["agora-record.v1"]
+   :responsibilities
+   ["Hold SSE connection per subscriber"
+    "Deliver newly accepted records on the subscribed `topic/key` in authored-at order"
+    "Honor subscription start cursors (`from-now`, `from-record-id`)"
+    "Enforce backpressure / lag bounds per subscription"]
+   :status :done}
+
+  {:cap/id :topic-acl-gate
+   :title "Topic ACL Gate"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"]
+   :schemas []
+   :responsibilities
+   ["Enforce `(topic/key, record/kind, content/schema)` admission rules"
+    "Decide whether the relay role (canonical/cache/origin) is authoritative for a topic"
+    "Apply the same rules to local ingest and federated ingress"]
+   :status :done}
+
+  {:cap/id :matrix-relay-transport
+   :title "Matrix Relay Transport"
+   :kind :transport
+   :based-on ["doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"]
+   :schemas ["agora-record.v1"]
+   :responsibilities
+   ["Publish accepted records as Matrix events under topic-keyed rooms per relay role"
+    "Ingest inbound Matrix events and re-validate as ordinary Agora records"
+    "Expose canonical/cache/origin topic behaviors as deployment-configurable roles"]
+   :status :done}
+
+  {:cap/id :retention-policy-sweep
+   :title "Retention Policy Sweep"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"]
+   :schemas []
+   :responsibilities
+   ["Run periodic sweep per configured interval"
+    "Evict records older than `max_age_secs` per topic"
+    "Trim topics exceeding `max_count` entries"
+    "Preserve canonical-role durability contracts where applicable"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :agora-relay-passport
+   :title "Agora Relay Capability Passport"
+   :kind :capability-passport
+   :based-on ["doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"]
+   :schemas ["capability-passport.v1"]
+   :responsibilities
+   ["Advertise `agora.relay` as a capability for federation-scoped discoverability"
+    "Expose relay endpoint, supported topics, and relay role through the passport payload"
+    "Remain optional: a relay without a passport is still a valid local relay"]
+   :status :optional}
+
+  {:cap/id :proxy-key-delegated-signing
+   :title "Proxy-Key Delegated Signing"
+   :kind :signing
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"]
+   :schemas ["agora-record.v1"
+             "key-delegation.v1"]
+   :responsibilities
+   ["Accept sign requests carrying a `DelegationProof` instead of direct participant signing"
+    "Verify proof through a pluggable `DelegationProofVerifier` (fail-closed fallback by default)"
+    "Bind proxy public key to the record and keep the principal's participant id as author"
+    "Attach inline proof so verifiers can check delegation without remote lookups"]
+   :status :planned}
+
+  {:cap/id :aggregate-status-surface
+   :title "Aggregate Status Surface"
+   :kind :inspection
+   :based-on ["doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"]
+   :schemas []
+   :responsibilities
+   ["Expose `/v1/agora/status` with relay role, configured topics, backend health"
+    "Report last sweep timestamp and outbound Matrix transport state"
+    "Remain cheap, cacheable, and suitable for operator inspection"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Per-kind semantic interpretation (opinion meaning, comment threading, whisper thresholds)"
+  "Listener-side filtering, moderation, or reputation weighting"
+  "Payment / settlement of record ingest"
+  "Long-running workflow execution driven by record content"
+  "Replacement of seed directory or offer catalog as storage backends in v1"]
+
+ :consumes
+ ["agora-record.v1"
+  "resource-ref.v1"
+  "capability-passport.v1"]
+
+ :produces
+ ["agora-record.v1"]
+
+ :notes
+ ["Agora v1 runs as a supervised Rust binary `orbiplex-node-agora-service` under the Node daemon middleware supervisor."
+  "The smallest useful Agora deployment is local-only: one node, one relay, no passport, one topic, one author."
+  "Federated deployment layers on top without replacing the envelope, signer contract, or `record/id` formula."
+  "Per-kind content semantics (e.g. `resource-opinion.v1`) are owned by their source proposals, not by Agora."]}
