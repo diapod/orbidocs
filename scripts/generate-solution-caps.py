@@ -179,6 +179,7 @@ def capability_rows(component_doc: str, caps: dict[str, Any]) -> list[dict[str, 
                     "status": cap.get("status", ""),
                     "based_on": cap.get("based-on", []),
                     "schemas": cap.get("schemas", []),
+                    "depends_on": cap.get("depends-on", []),
                 }
             )
     return rows
@@ -186,6 +187,13 @@ def capability_rows(component_doc: str, caps: dict[str, Any]) -> list[dict[str, 
 
 def humanize_keyword(value: str) -> str:
     return value.replace("-", " ").strip()
+
+
+def keyword_ref(value: Any) -> str:
+    text = str(value)
+    if text.startswith(":"):
+        text = text[1:]
+    return f"`:{text}`"
 
 
 def load_components() -> list[dict[str, Any]]:
@@ -231,8 +239,8 @@ def render_matrix(output_path: Path, title: str, intro: str, labels: dict[str, s
             "",
             "## " + labels["matrix_heading"],
             "",
-            f"| {labels['component']} | {labels['level']} | {labels['capability']} | {labels['kind']} | {labels['based_on']} | {labels['schemas']} | {labels['status']} |",
-            "|---|---|---|---|---|---|---|",
+            f"| {labels['component']} | {labels['level']} | {labels['capability']} | {labels['kind']} | {labels['based_on']} | {labels['schemas']} | {labels['depends_on']} | {labels['status']} |",
+            "|---|---|---|---|---|---|---|---|",
         ]
     )
 
@@ -243,6 +251,7 @@ def render_matrix(output_path: Path, title: str, intro: str, labels: dict[str, s
         component_doc = SOLUTIONS_DIR / row["component_doc"]
         based_on = ", ".join(doc_link(output_path, item) for item in row["based_on"])
         schemas = ", ".join(schema_doc_link(output_path, item) for item in row["schemas"])
+        depends_on = ", ".join(keyword_ref(item) for item in row["depends_on"])
         lines.append(
             f"| [`{row['component_title']}`]({rel_link_safe(output_path, component_doc)}) | "
             f"`{labels['must'] if row['level'] == 'must' else labels['may']}` | "
@@ -250,6 +259,7 @@ def render_matrix(output_path: Path, title: str, intro: str, labels: dict[str, s
             f"`{row['kind']}` | "
             f"{based_on} | "
             f"{schemas} | "
+            f"{depends_on} | "
             f"`{row['status']}` |"
         )
 
@@ -275,6 +285,7 @@ def main() -> int:
             "kind": "Kind",
             "based_on": "Based On",
             "schemas": "Schemas",
+            "depends_on": "Depends On",
             "must": "must",
             "may": "may",
         },
@@ -297,6 +308,7 @@ def main() -> int:
             "kind": "Rodzaj",
             "based_on": "Wynika z",
             "schemas": "Schematy",
+            "depends_on": "Zależy od",
             "must": "must",
             "may": "may",
         },

@@ -79,7 +79,60 @@ Note:
 - In the MVP baseline, thin clients or remote UI sessions are delegated operator sessions of that same participant role, not independent hosted users with their own continuity layer.
 
 Status:
-- `todo`
+- `partial` — the Node reference implementation has stable node and participant
+  identity, signed advertisements and handshakes, encrypted WSS sessions,
+  advertisement cache, peer supervisor, replay guard, capability downgrade, and
+  participant restriction import. Remaining work is continuity/client-instance
+  hardening and policy granularity recorded in the Node implementation ledger.
+
+### Host Signer and Key-Use Boundary
+
+Based on:
+- `doc/project/40-proposals/031-participant-key-passphrase-lock.md`
+- `doc/project/40-proposals/032-key-delegation-passports.md`
+- `doc/project/40-proposals/037-generic-signing-service.md`
+- `doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md`
+
+Related schemas:
+- `capability-passport.v1`
+- `capability-passport-revocation.v1`
+- `key-delegation.v1`
+
+Responsibilities:
+- expose a narrow host signer surface for domain-tagged Ed25519 signing,
+  passphrase-scoped unlock, explicit lock/status inspection, and node-self
+  X25519 Diffie-Hellman derivation,
+- keep artifact canonicalization outside the signer; artifact adapters own the
+  bytes to be signed and the signer owns only key access, policy, audit, and
+  cryptographic execution,
+- enforce caller x domain authorization before key material is touched,
+- keep unlock rate limiting as daemon/operator policy rather than as a
+  signer-service contract,
+- support envelope-backed primary and proxy keys without teaching the generic
+  signer daemon-local storage formats,
+- preserve derived node-self and recovery-org key availability for unattended
+  daemon operation under an explicit MVP deployment assumption,
+- surface locked, unauthorized, bad-passphrase, and rate-limited states through
+  stable local host-capability responses.
+
+TODO:
+- migrate the deployed verifier set to domain-wrapped signatures and then enable
+  domain wrapping by default for signer-routed artifacts,
+- define the post-MVP unattended-secret profile for node-self and recovery-org
+  material, e.g. OS keychain, hardware-backed key store, secrets manager, or
+  explicit operator session unlock,
+- replace label-only local caller identity for less trusted modules with a
+  passport or presentation-backed caller model,
+- expose an operator-facing diagnostic surface for recent denied signer
+  decisions, including caller, domain, key reference, and denial reason,
+- publish concise JSON wire examples for `signer.sign`, `signer.unlock`,
+  `signer.lock`, `signer.status`, and `signer.derive-shared-secret`,
+- keep settlement and marketplace passport fixtures separate from the signer
+  backlog; missing role passports such as `role/escrow` are authorization data
+  issues above the signer, not signer engine defects.
+
+Status:
+- `partial`
 
 ### Question Room Lifecycle
 
@@ -99,7 +152,9 @@ Responsibilities:
 - preserve provenance across room outputs.
 
 Status:
-- `todo`
+- `partial` — the selected-responder MVP path opens and tracks question
+  executions, persists transition facts, and closes response delivery with
+  receipt/settlement joins. Open collaborative room semantics remain deferred.
 
 ### Federated Answer Procurement
 
@@ -130,7 +185,9 @@ Responsibilities:
 - suppress or degrade paid procurement paths when settlement disclosures mark a blocking or degraded state.
 
 Status:
-- `todo`
+- `partial` — selected-responder procurement, offer ranking, contract/receipt
+  persistence, timeout cascade, dispute filing, and service-order bridge paths
+  are live. Broader federated marketplace/catalog distribution remains open.
 
 ### Settlement Policy Coordination and Disclosure Trail
 
@@ -155,7 +212,9 @@ Responsibilities:
 - keep this visibility separate from protocol-external payment execution and fiat rail mechanics.
 
 Status:
-- `todo`
+- `partial` — settlement disclosures, gateway/escrow policy imports, paid-path
+  gating, hold-time policy freezing, and operator inspection are implemented.
+  Richer policy-violation exploration remains open.
 
 ### Settlement-Capable Node Profile
 
@@ -260,7 +319,9 @@ Responsibilities:
 - keep unresolved material out of trusted retrieval by default.
 
 Status:
-- `todo`
+- `done` in the Node reference implementation. Reviews, learning outcomes, and
+  projected knowledge artifacts are persisted and exposed through daemon,
+  launcher, and Node UI inspection surfaces.
 
 ### Archivist and Vault Handoff
 

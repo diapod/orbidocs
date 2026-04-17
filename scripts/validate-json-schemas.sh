@@ -50,6 +50,9 @@ schema_for_file() {
     *.agora-record.json)
       echo "$SCHEMAS_DIR/agora-record.v1.schema.json"
       ;;
+    *.resource-opinion.json)
+      echo "$SCHEMAS_DIR/resource-opinion.v1.schema.json"
+      ;;
     *.node-identity.json)
       echo "$SCHEMAS_DIR/node-identity.v1.schema.json"
       ;;
@@ -58,6 +61,9 @@ schema_for_file() {
       ;;
     *.node-advertisement.json)
       echo "$SCHEMAS_DIR/node-advertisement.v1.schema.json"
+      ;;
+    *.node-address-attestation.json)
+      echo "$SCHEMAS_DIR/node-address-attestation.v1.schema.json"
       ;;
     *.service-offer.json)
       echo "$SCHEMAS_DIR/service-offer.v1.schema.json"

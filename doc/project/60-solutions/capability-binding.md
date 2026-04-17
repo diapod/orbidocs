@@ -88,7 +88,9 @@ Responsibilities:
 
 Status:
 
-- `todo`
+- `done` in the Node reference implementation. `orbiplex-node-caller-binding`
+  defines the value type, resolver trait, explicit `BindingError` variants, and
+  an in-memory resolver used by daemon dispatch tests and bootstrap wiring.
 
 ### Passport-Aware Verification Pipeline
 
@@ -147,7 +149,10 @@ Responsibilities:
 
 Status:
 
-- `todo`
+- `done` in the Node reference implementation. `orbiplex-node-capability-binding`
+  implements `PassportAuthorizationInput`, `RevocationView`,
+  `ProfileRegistry`, OR-composition over recognized profiles, allowed-caller
+  enforcement, strict revocation freshness, and typed denial reasons.
 
 ### Service Policy Adapters
 
@@ -173,7 +178,10 @@ Responsibilities:
 
 Status:
 
-- `todo`
+- `deferred` — the production path intentionally uses a daemon dispatch-layer
+  gate for Sealer and Memarium instead of injecting passport semantics into
+  `SealerPolicy` / `SignerPolicy` adapters. Add adapters only when a second
+  embedding needs engine-local policy composition.
 
 ### Audit Surface
 
@@ -199,7 +207,9 @@ Responsibilities:
 
 Status:
 
-- `todo`
+- `done` in the Node reference implementation. `AuthorizationAuditSink` records
+  a uniform `AuditFields` event for authorized and denied decisions, including
+  synthetic pre-pipeline denial events for missing passport lookups.
 
 ### Error Model
 
@@ -221,7 +231,9 @@ Responsibilities:
 
 Status:
 
-- `todo`
+- `done` in the Node reference implementation. Binding and authorization
+  failures remain non-opaque operator diagnostics, unknown profiles are
+  non-authorizing, and malformed recognized profiles fail closed.
 
 ## May Implement
 

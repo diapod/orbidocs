@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:key-delegation:v1",
+  "title": "KeyDelegation v1",
+  "description": "Registration and management artifact for a scoped delegation of capability-passport signing authority from a participant's sovereign key to a separate proxy key. The participant signs this artifact once to authorise the proxy key; all subsequent operational signing uses the proxy key and carries a compact `DelegationProof` extracted from this artifact (see `capability-passport.v1` `issuer_delegation`). The signature payload is the canonical JSON of the COMPACT proof contract (`delegation_id`, `proxy_key`, `principal_key`, `grants`, `expires_at`), NOT the full artifact. The full artifact is the Seed Directory registration and audit envelope that carries this payload alongside management metadata (`schema`, `issued_at`, `issuer/node_id`, `max_chain_depth`, `parent_delegation_id`).",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/032-key-delegation-passports.md",
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md",
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/project/40-proposals/030-identity-recovery-service.md",
+    "doc/project/40-proposals/031-participant-key-passphrase-lock.md",
+    "doc/project/60-solutions/032-key-delegation-passports-impl.md"
+  ],
+  "required": [
+    "schema",
+    "delegation_id",
+    "proxy_key",
+    "grants",
+    "max_chain_depth",
+    "issued_at",
+    "expires_at",
+    "issuer/participant_id",
+    "issuer/node_id",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "key-delegation.v1",
+      "description": "Schema discriminator. MUST be exactly `key-delegation.v1`."
+    },
+    "delegation_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^delegation:key:.+$",
+      "description": "Stable unique identifier for this delegation. MUST use the `delegation:key:` prefix followed by a non-empty suffix. The recommended construction is `delegation:key:<unix-nanos>:<random-hex>` so that ordering and uniqueness are self-evident; schema does not enforce the internal shape beyond the prefix."
+    },
+    "proxy_key": {
+      "type": "string",
+      "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Delegated Ed25519 public key in DID Key form. This is the key that will sign capability passports and revocations on behalf of `issuer/participant_id` for the lifetime of this delegation. The private counterpart is held by the proxy key store and MUST NOT appear anywhere in this artifact."
+    },
+    "grants": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "description": "Open grant map from grant type to non-empty list of target identifiers. MVP recognizes `signing/capability` whose targets are capability IDs (e.g. `network-ledger`, `escrow`) or the wildcard `\"*\"` that grants all capability IDs. Additional grant types (`signing/org`, `signing/proxy`, ...) are reserved for future proposals and MUST be ignored by verifiers that do not recognise them (open-world extension semantics). The wildcard `\"*\"` is operationally convenient but semantically equivalent to full capability-signing authority; operators SHOULD prefer explicit capability lists.",
+      "properties": {
+        "signing/capability": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Capability identifier authorised for proxy-key signing, or the literal `\"*\"` wildcard granting all capability IDs."
+          },
+          "description": "Capability-passport signing grants. When present MUST be a non-empty array of capability IDs or the wildcard `\"*\"`. This is the only grant type interpreted by MVP verifiers."
+        }
+      }
+    },
+    "max_chain_depth": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of additional delegation hops the proxy key is authorised to create. `0` means the proxy key MUST NOT issue further `key-delegation.v1` artifacts. Values greater than `0` remain schema-valid (so the artifact can travel through storage layers that pre-date sub-delegation) but MVP runtime implementations MUST reject any delegation with `max_chain_depth > 0` until sub-delegation is formally specified."
+    },
+    "parent_delegation_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^delegation:key:.+$",
+      "description": "Optional reference to the parent delegation from which this one was derived. Absent at the root of the chain (where the issuer is a direct participant key). Present on sub-delegations (`max_chain_depth > 0` in an ancestor). Reserved for post-MVP sub-delegation; MVP MUST reject artifacts that set this field."
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp at which the participant issued this delegation. Informational: the signature payload does not include this field. MUST be in the past relative to local wall clock at verification time (subject to clock-skew tolerance)."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp after which this delegation MUST be treated as expired. MANDATORY: implementations MUST reject delegation artifacts lacking this field. Part of the signed compact proof payload. Recommended maximum TTL is 365 days; issuance UI SHOULD warn for values exceeding that."
+    },
+    "issuer/participant_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical `participant:did:key:z...` identifier of the issuing participant. Its embedded public key is the `principal_key` that MUST verify the `signature` field (after canonicalization of the compact proof payload). Verifiers derive `participant:did:key:...` from the `principal_key` carried in a `DelegationProof` and require byte-equality with this value."
+    },
+    "issuer/node_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Node on which the issuing participant's private key resided at the moment of signing. Informational: the signature payload does not include this field. Used for audit and for correlating a delegation artifact to the node that issued it."
+    },
+    "signature": {
+      "$ref": "#/$defs/ed25519Signature",
+      "description": "Ed25519 signature by the private key of `issuer/participant_id` (the `principal_key`) over the canonical JSON representation of the COMPACT delegation proof contract: `{delegation_id, proxy_key, principal_key, grants, expires_at}`, with `principal_key` being the raw `did:key` bytes of `issuer/participant_id`. The signature explicitly does NOT cover the management metadata (`schema`, `issued_at`, `issuer/node_id`, `max_chain_depth`, `parent_delegation_id`). This keeps the same signed bytes verifiable both from the full artifact and from an inline `DelegationProof` copied into a downstream signed artifact (`capability-passport.v1` `issuer_delegation`)."
+    },
+    "co_signatures": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/ed25519Signature"
+      },
+      "description": "Reserved for post-MVP M-of-N multisig issuance. When absent, a single primary `signature` authorises the delegation. When present, each entry is an additional signature over the same compact proof payload by a co-issuer key authorised by an out-of-band multisig policy. MVP verifiers MUST ignore this field; MVP issuers MUST NOT emit it."
+    }
+  },
+  "$defs": {
+    "ed25519Signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["alg", "value"],
+      "description": "Ed25519 signature over the canonical JSON encoding of the compact delegation proof payload (`delegation_id`, `proxy_key`, `principal_key`, `grants`, `expires_at`). Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. The canonical payload is identical to the one carried in a `DelegationProof` embedded in downstream signed artifacts.",
+      "properties": {
+        "alg": {
+          "const": "ed25519",
+          "description": "Signature algorithm. MUST be `ed25519` in v1."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Base64url-encoded (no padding) Ed25519 signature bytes."
+        },
+        "key/ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional human-readable reference to the signing key slot used by the issuer (e.g. `participant:primary`). Informational only; verifiers MUST NOT rely on this field for key selection."
+        }
+      }
+    }
+  }
+}

@@ -7,7 +7,8 @@ Based on:
 
 ## Status
 
-Proposed (Draft)
+Partially implemented in the Node transport/discovery baseline; succession,
+peer-governor semantics, and richer federation policy remain deferred.
 
 ## Date
 
@@ -61,8 +62,8 @@ Orbiplex already has richer protocol ideas:
 - archival handoff,
 - and attached roles.
 
-What is still missing for practical Node implementation is a minimal networking
-baseline that says:
+At proposal time, what was still missing for practical Node implementation was
+a minimal networking baseline that says:
 
 - how a node identifies itself,
 - how another node finds it,
@@ -392,6 +393,12 @@ This keeps the directory as a signed cache rather than a trust gate. Read access
 should remain open, and write access should remain open to any correctly signed
 publisher, but rate-limited and freshness-checked.
 
+Proposal 025 and proposal 043 add a stricter operational profile for Seed
+Directory deployments that issue `node-address-attestation.v1`: such a
+deployment may actively probe the advertised WSS endpoint before accepting
+`PUT /adv/{node-id}` and again before issuing `directory-confirmed` address
+evidence. That probe is still address evidence, not capability authorization.
+
 Explicit full-dump directory listing should be avoided in the first design,
 because it turns the seed directory into a trivial topology-scraping endpoint.
 
@@ -581,6 +588,15 @@ response to one concrete initiation attempt. Protocol version belongs in the
 interpretation context and domain separator, not in the core semantic payload.
 Per-hop transport profile should remain framing metadata unless it is being
 asserted as a capability claim.
+
+For reachability probes, `peer-handshake.v1` may also carry
+`probe/challenge` and `probe/purpose`. These fields are not transport
+framing metadata: when present, they are part of the signed semantic payload.
+Seed Directory uses this to produce `directory-confirmed`
+`node-address-attestation.v1` evidence: the directory sends a fresh challenge,
+the target node answers with a signed `ack`, and the resulting transcript hash
+can be attached to address evidence without exposing plaintext transcript
+material.
 
 In v1 the handshake family should stay symmetric at schema level:
 

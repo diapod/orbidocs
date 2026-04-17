@@ -667,3 +667,12 @@ node/
    enforcement, cross-space promotion, observe rule compilation and matching.
 9. Add example observe rules to Agora middleware config.
 10. Update `node/docs/implementation-ledger.toml` with Memarium capability rows.
+11. Align self-custody defaults with proposal 040 §4: a node's Memarium MUST
+    by default retain, indefinitely, the envelopes of its own participant's
+    own Agora-published records, so that proposal 040's custodial
+    redelivery pattern has a guaranteed byte-identical source. Operator
+    override is allowed but must be explicit.
+12. Expose a memarium-to-memarium transfer endpoint for the custody flow
+    defined in proposal 040 §3, honoring the `memarium.custody`
+    capability-passport scope and preserving encrypted payloads as opaque
+    bytes.

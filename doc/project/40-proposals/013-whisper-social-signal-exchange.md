@@ -223,6 +223,124 @@ Humans must remain opt-in at the point where:
 - identities are correlated more directly,
 - or a dedicated room is joined.
 
+## Distribution and Local Storage
+
+A whisper is a content artifact; *how* it reaches receivers is a separate
+question. This proposal freezes two coequal distribution mechanisms and
+one local storage rule.
+
+### Agora as one distribution surface
+
+A whisper MAY be published as a first-class Agora record (proposal 035)
+with:
+
+- `record/kind = "whisper"`,
+- `content/schema = "whisper-signal.v1"`,
+- `author/participant-id` carrying the `rumor/nym` as a
+  `nym:did:key:...` identity (proposal 035 §2 invariant 9),
+- `author/nym-certificate-ref` resolving to a currently valid
+  `nym-certificate.v1` (proposal 015),
+- envelope `signature` produced by the nym's private key,
+- ingest admitted by the attestation gate (proposal 041) with the nym
+  certificate accepted as the attestation artifact under the topic's
+  configured ingest mode.
+
+When a whisper travels on Agora, identity, authorship, timing, the
+canonical record identifier, and the signature live in the **envelope**,
+not in the `whisper-signal.v1` content body. This mirrors the
+envelope-vs-content reconciliation applied to `resource-opinion.v1` in
+proposal 026 §2.
+
+| Concern | Where it lives |
+|---|---|
+| pseudonymous author identity | envelope `author/participant-id` = `nym:did:key:...` |
+| nym authorization binding | envelope `author/nym-certificate-ref` |
+| authoring timestamp | envelope `authored/at` |
+| canonical signal identifier | envelope `record/id` |
+| signature over canonical bytes | envelope `signature` (Ed25519 by the nym key) |
+| topic routing | envelope `topic/key` (conventionally `whispers/<topic-class>`) |
+| whisper semantics | content body validated by `whisper-signal.v1` |
+
+Agora distribution is appropriate when:
+
+- the whisper's `disclosure/scope` is `federation-scoped`,
+  `cross-federation`, or `public-aggregate-only`,
+- the author wants addressable subject-index presence under a public
+  topic,
+- the relay operators' ingest policies (proposal 041 §4–§5) match the
+  whisper's risk and routing posture.
+
+Agora distribution is NOT appropriate for whispers whose
+`disclosure/scope` is `private-correlation`; those SHOULD travel via
+direct node-to-node exchange.
+
+This is a **SHOULD, not a MUST**, by design. On public Agora
+deployments the semantics of `private-correlation` are incompatible
+with Agora's publication properties (public topic enumeration,
+subject-index presence, per-topic digest), and any such deployment
+SHOULD refuse these whispers at ingest. A closed / intra-organization
+federation (e.g. a corporate deployment whose Agora relay is
+authenticated, non-public, and governed by its own ingest policy) MAY
+choose to carry `private-correlation` whispers internally, because the
+exposure surface of such a relay is already narrowed to the
+organization. The rule is therefore scoped to disclosure semantics,
+not mechanically to the `agora-record.v1` envelope — operators of
+non-public federations are trusted to decide.
+
+### Direct node-to-node exchange as the second distribution surface
+
+A whisper MAY travel directly between participating nodes without
+touching an Agora relay. The **wire format remains the same
+`agora-record.v1` envelope**, so canonicalization, signature rules, and
+self-verification are identical; only the transport and the addressable
+scope differ:
+
+- transport: node-to-node authenticated channel realized through the
+  outbound privacy capability (see "Transport Boundary" below),
+- scope: the receiving set is determined by direct node selection or
+  by interest registration (`whisper-interest.v1`), not by public
+  topic subscription,
+- retention: governed by each receiver's local Memarium policy; there
+  is no shared substrate to enforce uniform retention across
+  receivers.
+
+Direct exchange is appropriate when:
+
+- `disclosure/scope = "private-correlation"`,
+- routing requires `hard-fail` anonymity and no Agora relay can
+  guarantee it,
+- the whisper is an early pattern probe that has not yet crossed any
+  threshold that would justify durable public presence.
+
+The same whisper MAY move between distribution surfaces over time:
+what starts as direct node-to-node exchange and later crosses a
+threshold (§5) MAY be republished to Agora as `whisper-durable`
+(record kind registered in proposal 035 §3), with the transition
+gated by the explicit consent step (§6).
+
+### Memarium as local storage
+
+Regardless of distribution surface, the **local storage of a whisper**
+— both authored and received — is the node's Memarium (proposal 036).
+Memarium carries:
+
+- the signed `agora-record.v1` envelope byte-identically (requirements-014
+  NFR-004), so the whisper remains verifiable and reshippable whether
+  it first traveled via Agora or directly,
+- the action trace for the whisper's lifecycle (draft, redaction,
+  approval, publication, forwarding, interest counting, threshold
+  detection),
+- the privacy policies that determine whether the whisper can be
+  replayed, forwarded, or exposed outside the node.
+
+Memarium is the authoritative local archive; Agora (where used) is a
+replicated publication surface. A whisper never stored in Memarium
+never existed from the local node's perspective. A whisper stored in
+Memarium remains replayable for the custodial redelivery flow
+(proposal 040) subject to the node's current retention and disclosure
+policy; the author's consent and the receiving relay's current
+ingest policy both remain authoritative at each reship.
+
 ## Transport Boundary with Outbound Privacy Capabilities
 
 `Whisper` should not own onion routing or relay topology.
@@ -261,12 +379,29 @@ The likely first contract family is:
 3. `whisper-threshold-reached.v1`
 4. `association-room-proposal.v1`
 
-`whisper-signal.v1` should be the first concrete artifact that embeds:
+`whisper-signal.v1` is a **content-body schema** for the Agora record
+envelope (proposal 035) and for the same envelope used in direct
+node-to-node exchange (see "Distribution and Local Storage"). The
+content body carries whisper-level semantics only:
 
 - `signal_polarity` (`problem` | `inspiration`),
-- `rumor/nym`,
-- attached `nym-certificate`,
-- and a `nym` signature over the artifact body.
+- `epistemic/class`, `signal/text`, `topic/class`, `context/facets`,
+- `confidence`, `disclosure/scope`, `risk/grade`, source attribution,
+- routing intent (`routing/profile`, `routing/failure-mode`,
+  `forwarding/max-hops`, ...).
+
+Identity and authorization that the pre-reconciliation sketch carried
+inside the content body move to the enclosing envelope:
+
+- `rumor/nym` → envelope `author/participant-id` as
+  `nym:did:key:...`,
+- attached `nym-certificate` → envelope `author/nym-certificate-ref`,
+- nym signature over the body → envelope `signature` over the full
+  canonical envelope bytes (Ed25519 by the nym key).
+
+This keeps `whisper-signal.v1` a small portable shape independent of
+whether the whisper travels on Agora or directly between nodes, and
+prevents the signing domain from being split across two artifacts.
 
 `whisper-interest.v1` should not mirror that pattern. It remains a node-scoped
 local-interest declaration:
@@ -335,3 +470,18 @@ that should remain visible as well.
 6. Decide whether a future local module such as `Orbiplex Monus` should be allowed
    to prepare semi-automatic or automatic Whisper drafts from wellbeing-weighted
    local signals.
+7. Rewrite `whisper-signal.v1.schema.json` as a content-body-only schema
+   (dropping `signal/id`, `created-at`, `rumor/nym`, `auth/nym-signature`,
+   and `auth/nym-certificate` — all of which move to the enclosing
+   `agora-record.v1` envelope per the Distribution section), mirroring
+   the content-body-only shape already applied to
+   `resource-opinion.v1.schema.json` for proposal 026.
+8. Register `whisper` as a recognized `record/kind` and
+   `whisper-signal.v1` as a recognized `content/schema` in the Agora
+   relay reference implementation; register `whispers/<topic-class>`
+   as the conventional topic-key prefix.
+9. Define the direct node-to-node exchange contract as a thin binding
+   over the same `agora-record.v1` envelope, consuming the outbound
+   privacy capability for transport and the attestation gate for
+   peer admission, with Memarium as the sole persistent store on both
+   ends.

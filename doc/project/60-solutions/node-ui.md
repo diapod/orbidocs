@@ -51,7 +51,10 @@ Responsibilities:
 - avoid becoming a second protocol authority beside the Node.
 
 Status:
-- `todo`
+- `partial` — Node UI exposes daemon status, execution lists/details,
+  participant accept/reject/dispute controls, review/promotion panels,
+  receipts, component registry, workflow runs, and settlement-linked details.
+  It remains thin over daemon APIs and is not a protocol authority.
 
 ### Provenance and Policy Inspection
 
@@ -75,7 +78,10 @@ Responsibilities:
 - render settlement policy degradation, suspension, and manual-review conditions before an operator commits to a paid path.
 
 Status:
-- `todo`
+- `partial` — execution detail renders status, review state, learning outcomes,
+  linked receipts, participant limits, trace/provenance, and settlement context.
+  Full transcript/human-origin inspection remains downstream of transcript
+  monitoring.
 
 ### Settlement Policy Inspection
 
@@ -98,7 +104,9 @@ Responsibilities:
 - preserve audit joins from procurement contracts and receipts back to their governing settlement policies.
 
 Status:
-- `todo`
+- `partial` — paid execution detail, receipts, ledger accounts/holds, gateway
+  top-ups, and manual settlement actions are visible in Node UI. Broader
+  disclosure exploration is still an operator-surface hardening item.
 
 ## May Implement
 

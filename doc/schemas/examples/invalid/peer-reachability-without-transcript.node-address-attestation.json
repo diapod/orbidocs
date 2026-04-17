@@ -1,0 +1,29 @@
+{
+  "schema": "node-address-attestation.v1",
+  "attestation/id": "attestation:node-address:missing-transcript",
+  "target/node-id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "endpoint": {
+    "scheme": "wss",
+    "host": "node-01.docs.orbiplex.ai",
+    "port": 443,
+    "path": "/peer"
+  },
+  "claim/digest": "sha256:K_9sToYbSOip2CvksD2sHnW2L_-qAc9QxYlq3lNw7Go",
+  "node-advertisement/ref": "orbiplex:blob:sha256:Qm2Qcs41hS2X3rq7Vgv9x82jjNGys8e_ZYup3o6CnCU",
+  "advertisement/digest": "sha256:Qm2Qcs41hS2X3rq7Vgv9x82jjNGys8e_ZYup3o6CnCU",
+  "observed/at": "2026-04-17T12:00:00Z",
+  "expires/at": "2026-04-17T12:05:00Z",
+  "evidence": [
+    {
+      "kind": "peer-reachability",
+      "signer/id": "node:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+      "signed/at": "2026-04-17T11:59:30Z",
+      "expires/at": "2026-04-17T12:05:00Z",
+      "claim/digest": "sha256:K_9sToYbSOip2CvksD2sHnW2L_-qAc9QxYlq3lNw7Go",
+      "signature": {
+        "alg": "ed25519",
+        "value": "JbcBGJ3DRpn5wEw-8TGTHTD5fjw_jUStJuK10xq5qDjlNoMC2kTuB7ipZUU2Af6HmO6vV0YcF2rW6NiAWSTCAQ"
+      }
+    }
+  ]
+}

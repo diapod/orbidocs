@@ -1,7 +1,7 @@
 {:component/id :orbiplex/node-ui
  :component/title "Orbiplex Node UI"
  :component/type :client
- :component/status :planned
+ :component/status :partial
 
  :summary
  "Thin control and inspection client for Node behavior, policy context, provenance-aware operator flows, and paid-path settlement visibility."
@@ -19,7 +19,7 @@
    ["Expose bounded controls for room participation and answer review"
     "Show enough room metadata for scope and policy understanding"
     "Avoid becoming a second protocol authority beside the Node"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :provenance-policy-inspection
    :title "Provenance and Policy Inspection"
@@ -35,7 +35,7 @@
     "Expose policy and scope information without flattening semantics"
     "Make unresolved and quarantined states clearly distinguishable"
     "Render settlement policy degradation, suspension, and manual-review conditions before paid commitment"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :settlement-policy-inspection
    :title "Settlement Policy Inspection"
@@ -53,7 +53,29 @@
     "Surface recent settlement disclosure events with their scope and impact mode"
     "Explain why a paid path is blocked, degraded, or forced into manual review"
     "Preserve audit joins from procurement artifacts back to governing settlement policies"]
-   :status :todo}]
+   :status :partial}
+
+  {:cap/id :opinion-compose-form
+   :title "Resource Opinion Compose Form"
+   :kind :ui-surface
+   :based-on ["doc/project/30-stories/story-008-cool-site-comment.md"
+              "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"
+              "doc/project/50-requirements/requirements-014.md"]
+   :schemas ["resource-opinion.v1"
+             "agora-record.v1"]
+   :depends-on [:host-capability-lookup
+                :agora-record-sign
+                :agora-record-ingest]
+   :responsibilities
+   ["Present a dedicated single-purpose form: opinion text, optional rating/tags/lang, plus subject reference"
+    "Build the envelope's `record/about[0]` as an open `resource-ref.v1` — MVP ships URL input; schema path accepts any `resource/kind` (url, ean, gps, isbn, …) without recompilation"
+    "Derive `topic/key` from the subject's `resource/kind`, keeping per-kind ACLs and listings natural"
+    "Discover an `agora.relay` provider through the host capability lookup, never from a component snapshot"
+    "Preserve byte-identical `resource/id` between the form input and `record/about[0].resource/id`"
+    "Sign through the host signer (`KeyRef::PrimaryParticipant`) in the `agora.record.v1` domain"
+    "POST the signed record to the discovered relay; treat `201 Created` as fresh and `200 OK` as idempotent"
+    "Surface an explicit `no-local-relay` state rather than silently degrading"]
+   :status :done}]
 
  :may-implement
  [{:cap/id :archivist-retrieval-views

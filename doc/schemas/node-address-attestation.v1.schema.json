@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:node-address-attestation:v1",
+  "title": "NodeAddressAttestation v1",
+  "description": "Fallback signed-evidence artifact for a single normalized Node address claim. Seed Directory remains the trusted primary source for node address resolution; this artifact carries bounded evidence that may help a receiver make a local degraded-mode dial decision when Seed Directory is unavailable. It belongs to the broader Orbiplex signed-credential/passport family but is intentionally not encoded as `capability-passport.v1`: capability passports grant authority, while address attestations carry freshness-bound evidence about observed reachability. The signed address claim is the deterministic canonical JSON of `{target/node-id, endpoint}`; evidence signatures bind to `claim/digest` and their own freshness metadata.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/043-node-address-attestation-fallback.md",
+    "doc/project/40-proposals/042-inter-node-artifact-channel.md",
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md"
+  ],
+  "required": [
+    "schema",
+    "attestation/id",
+    "target/node-id",
+    "endpoint",
+    "claim/digest",
+    "advertisement/digest",
+    "observed/at",
+    "expires/at",
+    "evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "node-address-attestation.v1",
+      "description": "Schema discriminator. MUST be exactly `node-address-attestation.v1`."
+    },
+    "attestation/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^attestation:node-address:",
+      "description": "Stable identifier for this assembled evidence packet. Recommended construction: `attestation:node-address:<claim-digest-suffix>:<unix-nanos-or-random>`."
+    },
+    "target/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Node whose endpoint is being attested. MUST match the node id in the embedded or referenced `node-advertisement.v1` when that advertisement is available."
+    },
+    "endpoint": {
+      "$ref": "#/$defs/normalizedEndpoint",
+      "description": "Normalized endpoint claim being attested. The claim digest is computed from canonical JSON containing only `target/node-id` and this normalized endpoint object. Receivers MUST normalize before digest comparison; raw endpoint URLs from advertisements are not authoritative for digesting."
+    },
+    "claim/digest": {
+      "$ref": "#/$defs/sha256Digest",
+      "description": "Digest of the normalized address claim: `sha256:<base64url-no-pad>` over canonical JSON `{ \"target/node-id\": ..., \"endpoint\": ... }`. Every evidence entry MUST repeat this same digest."
+    },
+    "node-advertisement": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional full `node-advertisement.v1` payload for the target node. Its own signature remains governed by `node-advertisement.v1`; this attestation does not reinterpret that signature."
+    },
+    "node-advertisement/ref": {
+      "type": "string",
+      "pattern": "^orbiplex:blob:sha256:[A-Za-z0-9_-]+$",
+      "description": "Optional content-addressed reference to the target node advertisement when the full advertisement is not embedded."
+    },
+    "advertisement/digest": {
+      "$ref": "#/$defs/sha256Digest",
+      "description": "Digest of the target `node-advertisement.v1` payload or referenced blob. Used for deduplication and for checking that peer evidence refers to the same signed advertisement."
+    },
+    "observed/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp at which the assembler most recently observed or accepted any evidence in this packet. Informational for ordering; freshness is enforced from each evidence entry and the envelope `expires/at`."
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp after which this assembled packet MUST be treated as expired. It SHOULD NOT exceed the earliest authoritative expiry among the evidence entries that make the packet useful under local policy."
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/evidenceEntry"
+      },
+      "description": "Signed evidence entries for this address claim. Unknown evidence kinds are not allowed in v1; new authority-bearing evidence classes require a new schema version or a formally registered extension."
+    },
+    "assembler/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Optional node that assembled the evidence packet. The assembler is a courier/curator, not an authority, unless it also appears as a valid evidence signer."
+    },
+    "signature": {
+      "$ref": "#/$defs/ed25519Signature",
+      "description": "Optional envelope signature by `assembler/node-id` over the deterministic canonical JSON of the attestation with `signature` omitted. This proves packet assembly integrity, not address authority. Receivers MUST evaluate `evidence[]` independently."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional local or federation-local annotations. MUST NOT alter core evidence semantics."
+    }
+  },
+  "$defs": {
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$",
+      "minLength": 16,
+      "maxLength": 128,
+      "description": "`sha256:` followed by unpadded base64url-encoded SHA-256 bytes."
+    },
+    "normalizedEndpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Canonical endpoint descriptor used for address-claim hashing. It intentionally avoids storing a raw URL as the semantic claim because equivalent URLs can differ textually.",
+      "required": [
+        "scheme",
+        "host",
+        "port",
+        "path"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "enum": [
+            "wss"
+          ],
+          "description": "Endpoint scheme. v1 aligns with the current node advertisement transport baseline and therefore permits `wss` only."
+        },
+        "host": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 253,
+          "description": "Normalized host name or IP literal. Implementations SHOULD lowercase DNS names and use IDNA/punycode before computing `claim/digest`."
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "description": "TCP port of the endpoint."
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^/",
+          "description": "Normalized absolute path. Use `/` when the transport endpoint has no more specific path."
+        }
+      }
+    },
+    "evidenceEntry": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Signed evidence statement for one normalized address claim. The signature covers the evidence statement without the `signature` field and binds the signer, claim digest, evidence kind, and freshness window.",
+      "required": [
+        "kind",
+        "signer/id",
+        "signed/at",
+        "expires/at",
+        "claim/digest",
+        "signature"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "self-advertisement",
+            "seed-directory",
+            "peer-reachability"
+          ],
+          "description": "Evidence class. `self-advertisement` proves only that the target key signed the claim; `seed-directory` carries directory authority and may include a transcript hash when the directory actively probed the endpoint; `peer-reachability` says another trusted node reached this endpoint for its own reason."
+        },
+        "signer/id": {
+          "type": "string",
+          "pattern": "^(node|participant|org):did:key:z[1-9A-HJ-NP-Za-km-z]+$|^seed-directory:[A-Za-z0-9._:-]+$",
+          "description": "Entity that signed this evidence statement. For `self-advertisement`, this SHOULD be the same as `target/node-id`; for `peer-reachability`, it is the observing peer node; for `seed-directory`, it is the directory operator identity."
+        },
+        "signed/at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp at which this evidence statement was signed."
+        },
+        "expires/at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp after which this evidence statement MUST be ignored."
+        },
+        "claim/digest": {
+          "$ref": "#/$defs/sha256Digest",
+          "description": "Digest of the normalized address claim this evidence signs. MUST equal the top-level `claim/digest`."
+        },
+        "advertisement/digest": {
+          "$ref": "#/$defs/sha256Digest",
+          "description": "Optional digest of the node advertisement observed by this signer. When present, SHOULD equal the top-level `advertisement/digest`."
+        },
+        "session/transcript-hash": {
+          "$ref": "#/$defs/sha256Digest",
+          "description": "Transcript hash for `peer-reachability` or actively confirmed `seed-directory` evidence, binding the witness to a successful peer session rather than to a naked TCP connect. Required for `peer-reachability`; optional for Seed Directory evidence; absent for directory-accepted evidence. MUST NOT contain plaintext transcript material."
+        },
+        "signature": {
+          "$ref": "#/$defs/ed25519Signature",
+          "description": "Signature over the canonical evidence statement with the `signature` field omitted. The signed statement includes `kind`, `signer/id`, `signed/at`, `expires/at`, `claim/digest`, and any present evidence metadata such as `advertisement/digest` or `session/transcript-hash`."
+        }
+      },
+      "allOf": [
+        {
+          "description": "`peer-reachability` evidence MUST carry a transcript hash so verifiers can distinguish observed sessions from unverifiable hearsay.",
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "peer-reachability"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "session/transcript-hash"
+            ]
+          }
+        }
+      ]
+    },
+    "ed25519Signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Ed25519 signature object used by envelope and evidence signatures.",
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519",
+          "description": "Signature algorithm. MUST be `ed25519` in v1."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Base64url-encoded (no padding) Ed25519 signature bytes."
+        },
+        "key/ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional signer-side key-slot hint. Informational only; verifiers MUST select keys from `signer/id` and local trust policy."
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "description": "The attestation must carry either a full target node advertisement or a content-addressed reference to one.",
+      "oneOf": [
+        {
+          "required": [
+            "node-advertisement"
+          ]
+        },
+        {
+          "required": [
+            "node-advertisement/ref"
+          ]
+        }
+      ]
+    }
+  ]
+}

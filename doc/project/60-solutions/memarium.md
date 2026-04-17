@@ -44,7 +44,7 @@ Responsibilities:
 - record promotion provenance as append-only facts.
 
 Status:
-- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion and append-only provenance are implemented in `memarium-runtime`. Crisis seed population (constitutional first-start set) is pending — see *Crisis Space Management* below.
+- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. Remaining work is operational hardening: published wire schemas/examples, operator grant installation flow, observer smoke coverage, focused detector-transition lifecycle coverage, and a non-scan read model if datasets outgrow MVP scale.
 
 ### Observer-Based Chain Integration
 
@@ -98,6 +98,8 @@ Related capabilities:
 - `memarium.cache`
 - `memarium.promote`
 - `memarium.forget`
+- `memarium.crisis_status`
+- `memarium.crisis_resolve`
 
 Responsibilities:
 - expose `memarium.read` (A1+): query entries by id, tag, artifact kind, within a space,
@@ -105,26 +107,29 @@ Responsibilities:
 - expose `memarium.index` (A2+): query index projections for entry counts, tag distributions, recent activity,
 - expose `memarium.cache` (A1+): read-through cache with index lookup fallback to full scan,
 - expose `memarium.promote` (A0): cross-space promotion requiring operator approval,
-- expose `memarium.forget` (contextual): right-to-forget requests subject to space forget policy and authority-specific autonomy rules,
+- expose `memarium.forget` (A0): right-to-forget requests subject to explicit operator approval and space forget policy,
+- expose `memarium.crisis_status` (A1): operator-visible crisis seed and active finding view,
+- expose `memarium.crisis_resolve` (A0): append-only operator force-resolution fact for a named detector,
 - register capabilities through the daemon's host capability binding mechanism,
 - serve in-process callers (agents, NSE hooks) through direct trait methods and out-of-process callers (middleware modules) through the host capability HTTP surface.
 
-All six capabilities are exposed as `POST /v1/host/capabilities/memarium.<op>` endpoints and run through the same passport-gated dispatch as Sealer (`capability-binding::authorize`, six-step pipeline). Revocation is integrated against local, static-file, Seed Directory, and delegation-target-id sources. The operator-vocabulary target tag is `memarium:space:<space>[:community:<id>][:kind:<kind>][:entry:<id>]`.
+All eight capabilities are exposed as `POST /v1/host/capabilities/memarium.<op>` endpoints and run through the same passport-gated dispatch as Sealer (`capability-binding::authorize`, six-step pipeline). Revocation is integrated against local, static-file, Seed Directory, and delegation-target-id sources. The operator-vocabulary target tag is `memarium:space:<space>[:community:<id>][:kind:<kind>][:entry:<id>]`; crisis status and resolve use the crisis space target.
 
-Authorization-level enforcement for `memarium.forget` is contextual rather than a
-blanket A0 rule. The current runtime gates `forget` through capability passports
-and the space `ForgetPolicy`: personal requests erase the read view, public
-requests tombstone, and community/crisis requests are rejected until governed or
-restricted workflows exist. The next authorization hardening step is to replace
-the coarse `is_a0(grant_type)` check with a decision function that considers
-space, expected outcome, caller authority, participant scope, artifact kind, and
+Authorization-level enforcement for `memarium.forget` is A0 in the current
+daemon: modules cannot call it directly even when they hold a passport grant.
+The runtime still gates the actual effect through the space `ForgetPolicy`:
+personal requests erase the read view, public requests tombstone, and
+community/crisis requests are rejected until governed or restricted workflows
+exist. The next authorization hardening step is to replace the coarse
+`is_a0(grant_type)` check with a decision function that considers space,
+expected outcome, caller authority, participant scope, artifact kind, and
 remembered operator approvals. A remembered approval is an explicit operator
 policy fact such as "always allow this participant or module to forget this class
 of personal entries"; it must carry scope, reason, issuer, audit trace, and a
 revocation path.
 
 Status:
-- `partial` — all six capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. Open points: contextual autonomy enforcement for `forget` (see above) and a non-scan read-model/index sidecar for large datasets.
+- `partial` — all eight capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. Open points: contextual autonomy enforcement for `forget` (see above), operational passport installation flow, and a non-scan read-model/index sidecar for large datasets.
 
 ### Agora Synchronization Tracking
 
@@ -173,6 +178,7 @@ Based on:
 - `doc/normative/40-constitution/en/CONSTITUTION.en.md` (Art. V.7)
 - `doc/normative/20-vision/en/VISION.en.md` (escape kit)
 - `doc/project/40-proposals/036-memarium.md`
+- `doc/project/40-proposals/039-crisis-space-seed-v1.md` (review candidate for the first constitutional seed bundle)
 
 Responsibilities:
 - enforce constitutional minimum retention for crisis entries (must not expire without explicit operator action),
@@ -182,7 +188,7 @@ Responsibilities:
 - support updates through explicit operator or federation action only.
 
 Status:
-- `todo` — space itself exists and enforces its policies like the other three; the constitutional seed-population step on first node start is the open piece blocking closure.
+- `done` — the crisis space enforces its policies like the other three spaces, and the daemon now applies the reviewed constitutional seed synchronously during startup after storage and the Node AEAD key are ready. Autonomous detector facts, `memarium.crisis_status`, and `memarium.crisis_resolve` provide the first operator-facing crisis management loop.
 
 ## May Implement
 
@@ -237,7 +243,7 @@ Memarium does **not** perform AEAD itself. Its responsibility at write time is t
 
 - `MemariumEntry` (internal domain type, not a wire schema)
 - `MemariumFact` (internal domain type, not a wire schema)
-- Host capability responses for `memarium.read`, `memarium.write`, `memarium.index`, `memarium.cache`, `memarium.promote`, `memarium.forget`
+- Host capability responses for `memarium.read`, `memarium.write`, `memarium.index`, `memarium.cache`, `memarium.promote`, `memarium.forget`, `memarium.crisis_status`, `memarium.crisis_resolve`
 
 ## Related Capability Data
 
@@ -246,7 +252,9 @@ Memarium does **not** perform AEAD itself. Its responsibility at write time is t
 - `memarium.index` — query index projections (A2+)
 - `memarium.cache` — read-through cache (A1+)
 - `memarium.promote` — cross-space promotion (A0)
-- `memarium.forget` — right-to-forget request (contextual autonomy)
+- `memarium.forget` — right-to-forget request (A0, then constrained by space policy)
+- `memarium.crisis_status` — crisis seed and active finding view (A1)
+- `memarium.crisis_resolve` — append-only operator force-resolution (A0)
 
 ## Crate Boundary
 
