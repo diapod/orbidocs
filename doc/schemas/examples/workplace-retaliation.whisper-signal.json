@@ -1,5 +1,6 @@
 {
   "schema": "whisper-signal.v1",
+  "signal_polarity": "problem",
   "epistemic/class": "rumor",
   "signal/text": "Several workers report a similar retaliation pattern after raising workload and safety concerns.",
   "topic/class": "workplace-retaliation-pattern",
@@ -11,7 +12,7 @@
   "confidence": 0.63,
   "disclosure/scope": "federation-scoped",
   "source/class": "pod-user",
-  "risk/grade": "high",
+  "signal/grade": "high",
   "routing/profile": "relayed",
   "routing/failure-mode": "soft-fail",
   "relay/acceptable-classes": [

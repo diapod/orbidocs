@@ -111,12 +111,14 @@ A `whisper-signal` carries one of two fundamental polarities:
 
 - **`problem`** — the signal describes a distributed harm, failure, or dignity risk.
   The lifecycle goal is early correlation and, where critical mass is reached,
-  collective response or protective action. Risk grade applies. Emergency assistance
+  collective response or protective action. The signal grade expresses protective
+  risk and urgency. Emergency assistance
   paths may be triggered.
 - **`inspiration`** — the signal describes a convergent idea, creative discovery, or
   emerging approach that multiple people or groups appear to have independently
   reached. The lifecycle goal is to propose co-creation or collaboration between
-  parties who have not yet found one another. Risk grade does not apply. Emergency
+  parties who have not yet found one another. The signal grade expresses convergence
+  strength, co-creation potential, or urgency of matching interested participants. Emergency
   protocols are never triggered.
 
 `signal_polarity` is a mandatory field on `whisper-signal.v1`. The two polarities
@@ -312,6 +314,99 @@ Direct exchange is appropriate when:
 - the whisper is an early pattern probe that has not yet crossed any
   threshold that would justify durable public presence.
 
+### Interest discovery and bounded private dissemination
+
+For `private-correlation` whispers, Agora-discovered topic interest is
+**eligibility, not delivery entitlement**.
+
+An Agora topic interest record may say that a node is willing and able to
+receive private whispers for a topic class via INAC or another acceptable
+private exchange path. It MUST NOT imply that every matching private
+whisper must be delivered to that node. The origin node is responsible
+only for **bounded initial dissemination** under local egress policy.
+
+A node selecting recipients for a private whisper SHOULD choose a small,
+policy-bounded set using criteria such as:
+
+- topic-class compatibility,
+- accepted `disclosure/scope`,
+- private transport support,
+- local egress budget,
+- declared intake capacity,
+- node or operator assurance,
+- diversity across federation, jurisdiction, operator class, or
+  reputation band,
+- deterministic epoch sampling, so popular topics do not always route
+  to the same receivers.
+
+Wider awareness SHOULD be achieved by thresholded aggregate artifacts
+and consent-gated follow-up, not by raw private-signal fan-out. A million
+nodes expressing general interest in a popular topic therefore does not
+create a million-message delivery obligation.
+
+### Holder-assisted redistribution
+
+A node that receives and stores a private whisper MAY later act as an
+additional holder and redistributor, but only when all of the following
+are true:
+
+- the signed whisper and local Memarium policy allow forwarding or
+  custodial redelivery,
+- the receiving operator explicitly enables holder availability for the
+  relevant class of whisper,
+- the node publishes only a bounded availability signal to Agora, not
+  the private whisper itself,
+- the node enforces the same disclosure, routing, budget, consent, and
+  audit constraints that applied to the origin node.
+
+The holder availability signal is a discovery hint, not a public shadow
+copy of the whisper. It SHOULD avoid raw `signal/text`, raw keywords,
+case-specific timestamps, and other reconstructive metadata. A safe v1
+shape should be closer to:
+
+- topic class or coarse topic family,
+- accepted private transport profile,
+- disclosure scope accepted by the holder,
+- capacity and rate limits,
+- assurance / relay / witness class,
+- optional opaque availability token for correlation with direct
+  follow-up.
+
+Publishing holder availability for a private whisper is itself a
+disclosure act. Public Agora deployments SHOULD treat per-signal holder
+availability as sensitive and may refuse it unless it is sufficiently
+coarse, delayed, thresholded, or explicitly authorized by the whisper's
+policy. Closed / intra-organization federations MAY use more specific
+holder availability beacons when their ingress and visibility policies
+make that exposure acceptable.
+
+Holder-assisted redistribution does not require an Agora availability
+record. A trusted node MAY contact a peer directly over INAC and offer a
+private whisper transfer using a bounded topic hint such as "I hold a
+private whisper for topic class X under disclosure scope Y". The peer
+MAY then request the artefact, ignore the offer, or ask for operator
+review before requesting it.
+
+This offer/request/transfer path is independent of the whisper's origin:
+the held whisper may have been authored locally, received directly,
+received through a trusted relay, restored from Memarium custody, or
+obtained from a later holder. What matters is the signed artefact, its
+forwarding policy, local holder policy, and the receiver's intake policy.
+
+Receiver decision policy MAY be:
+
+- **default policy** — deterministic local rules request or refuse the
+  offered whisper automatically,
+- **operator approval** — the node notifies the operator and requests
+  only after explicit approval,
+- **advisory automation** — a local advisory model or LLM evaluates the
+  offer against policy and recommends or triggers a request, subject to
+  configured autonomy limits and audit logging.
+
+The offer itself MUST NOT contain raw `signal/text`, raw keywords, or
+other reconstructive metadata. It should be no more specific than the
+minimum needed for the peer to decide whether to request the artefact.
+
 The same whisper MAY move between distribution surfaces over time:
 what starts as direct node-to-node exchange and later crosses a
 threshold (§5) MAY be republished to Agora as `whisper-durable`
@@ -340,6 +435,77 @@ Memarium remains replayable for the custodial redelivery flow
 (proposal 040) subject to the node's current retention and disclosure
 policy; the author's consent and the receiving relay's current
 ingest policy both remain authoritative at each reship.
+
+### Operator-mediated rumor curation
+
+A node that subscribes to public whispers (Agora) or accepts private
+whispers (direct node-to-node) accumulates received rumors in Memarium
+as part of the normal ingest path. Memarium is append-only from the
+envelope's perspective — a received whisper envelope is never
+retroactively mutated or deleted — but the node's local curation state
+for that envelope **is** a mutable projection, stored as separate
+Memarium facts keyed by the received record's id.
+
+The node surfaces accumulated rumors to the operator through a local
+inbox-style view (e.g. "you have 5 new whispers"). For each rumor the
+operator can apply one of the curation verdicts:
+
+- **credibility rating** on a 1..5 scale,
+- **mark as spam**,
+- **mark as policy-violating** (e.g. abusive, illegal, off-topic for
+  this node's federation posture).
+
+Each verdict is expressed as a `resource-opinion.v1` (proposal 026)
+whose envelope `record/about` references the rumor's `record/id` —
+the same identity under which the whisper is addressable in Agora
+and in Memarium. This keeps rumor curation inside the same opinion
+mechanism that the substrate already uses for resources, proposals,
+and identities; no separate "rumor review" schema is introduced.
+
+The concrete mapping (per `rumor-opinion.overlay.v1` defined in
+proposal 026 §2.4) is:
+
+- **credibility rating** → `opinion/subject-kind: "rumor"` plus
+  `rumor/credibility` integer in `1..5`. The core `opinion/rating`
+  field is left unused for rumor curation; credibility is a
+  kind-specific dimension orthogonal to the substrate-wide rating
+  scale.
+- **mark as spam** → `opinion/subject-kind: "rumor"` plus
+  `rumor/rejection-reason: "spam"`.
+- **mark as policy-violating** → `opinion/subject-kind: "rumor"`
+  plus `rumor/rejection-reason: "policy-violation"` (or one of the
+  more specific enum values `abusive`, `off-topic`, `duplicate`,
+  `fabricated` when the operator chooses a narrower reason).
+
+A single curation opinion MAY combine a credibility score and a
+rejection reason, and MAY additionally carry `opinion/text` when the
+operator wants to justify the verdict.
+
+Default propagation effect of a verdict, applied by the node's own
+outbound policy (not by the protocol):
+
+- **rated**: does not alter propagation; rating is a first-class
+  opinion that other nodes may or may not consume through the Agora
+  opinion topic for that record,
+- **spam**: the envelope is retained locally for audit but is **not**
+  rebroadcast, not forwarded via holder-assisted redistribution
+  (§Holder-assisted redistribution), and is excluded from threshold
+  counting on this node,
+- **policy-violating**: same outbound suppression as spam, and
+  additionally the node's curation opinion is published so that
+  peers relying on this node's judgement can discount the rumor.
+
+The curation opinion itself is an ordinary Agora record and follows
+the disclosure and signing rules of proposal 026; it does **not**
+inherit the original whisper's `disclosure/scope`. An operator
+reviewing a `private-correlation` whisper can still publish a public
+"this is spam" opinion about its record id without leaking the
+whisper body, because the opinion targets the id, not the content.
+
+No protocol-level deletion of the original whisper is required.
+Suppression is a local propagation decision; the verifiable envelope
+and its curation verdicts coexist in Memarium as separate facts on
+the same timeline.
 
 ## Transport Boundary with Outbound Privacy Capabilities
 
@@ -386,7 +552,7 @@ content body carries whisper-level semantics only:
 
 - `signal_polarity` (`problem` | `inspiration`),
 - `epistemic/class`, `signal/text`, `topic/class`, `context/facets`,
-- `confidence`, `disclosure/scope`, `risk/grade`, source attribution,
+- `confidence`, `disclosure/scope`, `signal/grade`, source attribution,
 - routing intent (`routing/profile`, `routing/failure-mode`,
   `forwarding/max-hops`, ...).
 
@@ -413,6 +579,8 @@ local-interest declaration:
 
 Later additions may include:
 
+- `whisper-topic-interest.v1`
+- `whisper-holder-availability.v1`
 - `whisper-disclosure-request.v1`
 - `whisper-disclosure-decision.v1`
 - `whisper-forward.v1`
@@ -456,6 +624,16 @@ that should remain visible as well.
    suitable outbound privacy capability present?
 5. Which parts of association bootstrap belong to Whisper and which should later
    move into a more specialized association module?
+6. **Resolved** — resolved in proposal 026 §2.4: curation verdicts
+   are expressed as `resource-opinion.v1` with
+   `opinion/subject-kind: "rumor"` plus the `rumor-opinion.overlay.v1`
+   fields (`rumor/credibility` in `1..5`; `rumor/rejection-reason`
+   as a closed enum). No new opinion subtype is introduced. Still
+   open: should the substrate define a minimum aggregation rule
+   (e.g. K independent `rumor/rejection-reason = spam` verdicts from
+   trusted peers) that a receiving node's default policy treats as
+   an automatic propagation suppressor, and how is "trusted peer"
+   scoped for that purpose?
 
 ## Next Actions
 
@@ -485,3 +663,23 @@ that should remain visible as well.
    privacy capability for transport and the attestation gate for
    peer admission, with Memarium as the sole persistent store on both
    ends.
+10. Wire operator-mediated rumor curation
+    (§Operator-mediated rumor curation) into the Node UI whisper
+    inbox: per-rumor actions for `rumor/credibility` (1..5),
+    `rumor/rejection-reason: spam`, and
+    `rumor/rejection-reason: policy-violation`; each action emits a
+    `resource-opinion.v1` with `opinion/subject-kind: "rumor"`
+    targeting the rumor's `record/id`, persisted as a Memarium fact
+    and routed through the node's normal opinion publication path.
+    Outbound propagation policy consumes the local verdicts as
+    suppression inputs (any `rumor/rejection-reason` present → no
+    rebroadcast, no holder-assisted redistribution, excluded from
+    threshold counting).
+11. Publish `rumor-opinion.overlay.v1.schema.json` as a standalone
+    overlay artifact validating the `rumor/*` namespace
+    (`rumor/credibility`, `rumor/rejection-reason`), and add a
+    worked example pair under
+    `doc/schemas/examples/`: one pure-credibility verdict (no
+    text, `rumor/credibility: 2`) and one spam verdict
+    (`rumor/rejection-reason: "spam"` plus short justification in
+    `opinion/text`).

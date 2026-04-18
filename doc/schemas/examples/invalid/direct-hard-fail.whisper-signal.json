@@ -1,4 +1,5 @@
 {
+  "schema": "whisper-signal.v1",
   "schema/v": 1,
   "signal/id": "wsp-sig-invalid-001",
   "created-at": "2026-03-23T18:10:00Z",
@@ -21,6 +22,7 @@
     "alg": "ed25519",
     "value": "sig_nym_whisper_001"
   },
+  "signal_polarity": "problem",
   "epistemic/class": "rumor",
   "signal/text": "Rumor text",
   "topic/class": "workplace-retaliation-pattern",
@@ -29,7 +31,7 @@
   ],
   "confidence": 0.63,
   "disclosure/scope": "federation-scoped",
-  "risk/grade": "high",
+  "signal/grade": "high",
   "routing/profile": "direct",
   "routing/failure-mode": "hard-fail",
   "forwarding/max-hops": 0

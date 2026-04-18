@@ -36,7 +36,7 @@ one concern:
 | L3 | `agora-matrix-client` | Matrix HTTP sink (send event, sync) |
 | L3.5 | `agora-relay-matrix` | federated `MatrixBackedRelay` combining a local relay with the Matrix sink/transport |
 | L4 | `agora-http` | `AgoraHttpApi` — request handlers over the relay trait, error mapping, SSE stream |
-| L4.b | `agora-capability-bridge` | (planned, P12) `DelegationProofVerifier` impl that reads `capability` crate types |
+| L4.b | `agora-capability-bridge` | P12 `DelegationProofVerifier` impl that reads `capability` crate types |
 | L5 | `agora-service` | supervised middleware binary: HTTP server + relay stack + retention sweep |
 | L6 | `daemon` | bundled middleware wiring (executable override, config materialization), capability lookup surface |
 
@@ -198,13 +198,15 @@ experiments that do not need durability.
 ## Layer 4.b — `agora-capability-bridge` (P12)
 
 Separate crate so that production nodes install the capability-backed
-verifier while tests can run with `RejectingDelegationVerifier`. Contract
-summary:
+verifier while tests can run with `RejectingDelegationVerifier`. This
+layer is implemented in node as `orbiplex-node-agora-capability-bridge`.
+Contract summary:
 
 - `CapabilityDelegationVerifier` parses the `serde_json::Value` proof into
   the typed `capability::DelegationProof`,
-- validates schema, proxy/principal key match to record author, grants
-  include `signing/capability` for `agora.record.v1`, and expiry against
+- validates schema, proxy key match to `signature.key/public`, principal
+  match to `author/participant-id`, grants include `signing/agora-record`
+  for `topic:<topic-key>` (or wildcard), and expiry against
   `record.authored/at` (deterministic, not wall clock).
 
 Full phase plan for this layer lives in the sibling `node` repository
@@ -325,8 +327,8 @@ does not offer a remote fallback.
 5. **L3 (Matrix).** Only once backends compile; federation is an amplifier
    of existing bugs.
 6. **L4 (`agora-http`).** HTTP surface changes after the core is stable.
-7. **L4.b (`agora-capability-bridge`).** P12 — gated on the record-level
-   fields and verifier trait landing in L0 first.
+7. **L4.b (`agora-capability-bridge`).** P12 bridge verifier — implemented
+   after the record-level fields and verifier trait landed in L0.
 8. **L5 (`agora-service`).** Binary integrates the above.
 9. **L6 (daemon wiring).** The `executable` override + bundled config.
 10. **L7 (Node UI).** Discovery UX.

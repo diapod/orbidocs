@@ -1,0 +1,171 @@
+{:component/id :orbiplex/arca
+ :component/title "Orbiplex Arca"
+ :component/type :runtime
+ :component/status :partial
+
+ :summary
+ "Buyer-side, demand-side workflow module bundled as a supervised
+  middleware service. Orchestrates multi-step service-order workflows
+  through host-owned procurement, and owns the observed offer catalog
+  for buyer-side discovery. Does not own supply-side publication
+  (Dator) and is explicitly not a protocol or settlement authority —
+  all signed acts go through host capabilities."
+
+ :must-implement
+ [{:cap/id :workflow-run-orchestrate
+   :title "Workflow Run Orchestration"
+   :kind :runtime
+   :based-on ["doc/project/30-stories/story-006.md"
+              "doc/project/30-stories/story-006-buyer-node-components.md"
+              "doc/project/20-memos/service-order-to-procurement-bridge.md"
+              "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md"]
+   :schemas ["service-order.v1"
+             "procurement-contract.v1"
+             "procurement-receipt.v1"]
+   :responsibilities
+   ["Normalize a configured workflow plan into a sequential, dependency-ordered step graph"
+    "Create a host-owned workflow run via daemon module API and update step status snapshots"
+    "Build per-step service-order requests from configured request_input plus upstream step output references via input_from"
+    "Submit one service-order per step through the classified buyer ingress at POST /v1/service-orders"
+    "Poll execution state through AwaitingManualRelease and resolve ordinary service-order steps to completed or failed"
+    "Apply per-step retry policy with retry_delay_ms backoff and max_retries cap"
+    "Honor per-step fail_policy (abort_workflow, skip, pause) when a step exhausts its retry budget"
+    "Emit operator notifications via POST /v1/module/notify and persist final artifacts via POST /v1/module/artifact/write under host-owned roots"
+    "Resume a previously persisted workflow run on module restart"]
+   :status :partial
+   :notes ["Implemented in node/middleware-modules/arca/service.py for configured and UI-triggered concrete plans"
+           "Arca observes host terminal run statuses such as deadline_exceeded and step_timeout, but ordinary non-fan-out service-order steps do not yet enforce WorkflowDefinition timing.timeout in the Arca loop"
+           "A step carrying target currently enters host-managed fan-out instead of ordinary service-order execution"]}
+
+  {:cap/id :observed-catalog-discovery
+   :title "Observed Offer Catalog and Discovery"
+   :kind :runtime
+   :based-on ["doc/project/30-stories/story-006.md"
+              "doc/project/30-stories/story-007.md"
+              "doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md"]
+   :schemas ["service-offer-relay.v1"
+             "trusted-provider.v1"]
+   :responsibilities
+   ["Persist observed remote offers in a local SQLite-backed catalog with trust level per source"
+    "Discover offer-catalog peers through the daemon host capability surface (offers.local.query, seed.directory.query, peer.session.establish, peer.message.dispatch)"
+    "Run a periodic background sync against discovered catalog peers (peer_sync_interval_sec)"
+    "Accept inbound offer-catalog.fetch.response and offer-catalog.push peer messages, validate, and upsert"
+    "Issue on-demand remote catalog queries (POST catalog/remote-query) and correlate the asynchronous responses through a threading.Event handle"
+    "Serve a combined participant-facing catalog view at GET /v1/enact/service-catalog merging local snapshots with observed remote offers"
+    "Apply trusted_providers policy when admitting observed offers"]
+   :status :done}
+
+  {:cap/id :host-capability-bridge-consumer
+   :title "Host Capability Bridge Consumer"
+   :kind :integration
+   :based-on ["doc/project/20-memos/node-middleware-init-and-capability-reporting.md"
+              "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
+              "doc/project/40-proposals/027-middleware-peer-message-dispatch.md"]
+   :schemas ["middleware-init.schema.json"
+             "middleware-module-report.schema.json"
+             "peer-message-invoke.v1.schema.json"
+             "local-input-invoke.v1.schema.json"]
+   :responsibilities
+   ["Run as a supervised http_local_json middleware module under the daemon"
+    "Declare input_chains for inbound-local routes (GET service-catalog, POST catalog/remote-query) and inbound-peer message types (offer-catalog.fetch.response, offer-catalog.push)"
+    "Consume host-owned authtok and middleware_home env contract"
+    "Use host capability endpoints for all peer transport, never opening its own outbound peer sockets"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :workflow-template-instantiate
+   :title "Workflow Template Instantiation"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/029-workflow-template-catalog.md"
+              "doc/project/40-proposals/044-host-owned-generic-module-store.md"
+              "doc/project/30-stories/story-009-bielik-blog-arca.md"]
+   :schemas ["workflow-template.v1"]
+   :responsibilities
+   ["Accept template_id plus operator-supplied parameters and produce a concrete WorkflowDefinition ready to dispatch"
+    "Resolve templates from the host-owned local module store (`record_kind = workflow-template`) or an imported public catalog record"
+    "Optionally browse and import templates from a public template catalog peer"]
+   :status :partial
+   :notes ["The local path is implemented: Arca stores workflow-template records in the host-owned module store, materializes template_id + parameters into a normalized WorkflowDefinition, and can start a workflow run from that rendered plan"
+           "The public/federated catalog side remains deferred: publication, listing, fetch, import, and Dator-side catalog participation are not part of the phase-0 local slice"]}
+
+  {:cap/id :workflow-fan-out
+   :title "Workflow Fan-Out and Aggregation"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/033-workflow-fan-out-and-temporal-orchestration.md"
+              "doc/project/30-stories/story-006.md"]
+   :schemas ["workflow-dispatch.v1"
+             "peer-message-invoke.v1"]
+   :responsibilities
+   ["Preserve target, fan_in, and timing fields in normalized plans passed to the host workflow run"
+    "Let the daemon dispatch host-managed workflow fan-out requests to static or protocol-capability-resolved targets"
+    "Wait for responses according to fan_in policy any_one, all, or best_of"
+    "Collect and surface the selected fan-out output as step details for downstream input_from consumption"
+    "Expose dispatch inspection records on WorkflowRunSnapshot.steps[].dispatches without leaking raw response payloads"]
+   :status :partial
+   :notes ["Implemented as a split responsibility: Arca marks target-bearing steps awaiting_fan_out only when they include fan_in; daemon/src/fanout.rs resolves targets, persists WorkflowStepDispatch records, reconciles fan_in, and writes selected_output"
+           "The Arca peer handler for workflow.fanout.request answers with local catalog offer data, not arbitrary service execution"
+           "Static and protocol-capability targets exist in daemon fan-out; quorum is not implemented; best_of exists in code but remains outside the current acceptance slice"]}
+
+  {:cap/id :workflow-temporal-orchestration
+   :title "Workflow Temporal Orchestration"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/033-workflow-fan-out-and-temporal-orchestration.md"]
+   :schemas []
+   :responsibilities
+   ["Preserve workflow-run-level deadline in normalized plans"
+    "Preserve per-step timing.timeout and timing.on_timeout in target-bearing fan-out steps"
+    "Let the daemon emit step_timeout for fan-out timing.timeout with on_timeout fail or abort_workflow"
+    "Let the daemon emit deadline_exceeded for an active fan-out step when the workflow-run deadline elapses"
+    "Express ordinary Arca retry with retry_delay_ms and max_retries on service-order steps"]
+   :status :partial
+   :notes ["The implemented contract uses proposal-033 timing.timeout and root deadline, not deadline_seconds"
+           "Temporal enforcement currently lives in daemon fan-out reconciliation; ordinary non-fan-out service-order steps still use Arca polling/retry and do not enforce timing.timeout"]}
+
+  {:cap/id :workflow-target-by-task-type
+   :title "Workflow Target Resolution by Task Type"
+   :kind :runtime
+   :based-on ["doc/project/30-stories/story-009-bielik-blog-arca.md"
+              "doc/project/30-stories/story-000.md"]
+   :responsibilities
+   ["Express ordinary service-order step targets as resolve: task_type with a task_type rather than a hard-coded participant"
+    "At dispatch time, use the host/catalog lookup surface to find a current provider offer for the mapped service_type and continue through ordinary service-order execution"]
+   :status :partial
+   :notes ["Implemented for daemon host-managed fan-out target resolution via capability passport cache"
+           "Implemented for ordinary Arca service-order execution as the phase-0 local rule: target.resolve=task_type without fan_in does not trigger fan-out, and target.task_type becomes the service_type lookup key when service_type is omitted"
+           "Richer task-type lookup/filter semantics remain open beyond the phase-0 slice"]}
+
+  {:cap/id :peer-workflow-fan-out-bridge
+   :title "Peer Workflow Fan-Out Bridge"
+   :kind :integration
+   :based-on ["doc/project/40-proposals/033-workflow-fan-out-and-temporal-orchestration.md"]
+   :responsibilities
+   ["Accept inbound workflow fan-out requests from peer modules and process them as ordinary local catalog queries"]
+   :status :done
+   :notes ["Implemented in node/middleware-modules/arca/service.py as workflow.fanout.request; it returns a local active offer for the requested service_type or no_offer_available"]}]
+
+ :out-of-scope
+ ["Local standing-offer publication and provider-side offer-catalog.fetch.response — those belong to Dator"
+  "Authoring or signing service-orders, procurement contracts, or receipts — those go through host-owned capabilities"
+  "Settlement, balance precheck, and hold management — host-owned through the deployment-local settlement write gate"
+  "Per-kind semantic interpretation of service outputs"
+  "Offer relay transport and peer session establishment — those are daemon host capabilities consumed by Arca"]
+
+ :consumes
+ ["service-offer-relay.v1"
+  "trusted-provider.v1"
+  "workflow.fanout.request"
+  "peer-message-invoke.v1"
+  "local-input-invoke.v1"
+  "middleware-init.schema.json"]
+
+ :produces
+ ["service-order.v1"
+  "workflow.fanout.response"
+  "catalog-local-query-request.schema.json"
+  "catalog-local-query-response.schema.json"]
+
+ :notes
+ ["Arca is bundled as a supervised Python middleware module under the http_local_json executor and listens on loopback (default 127.0.0.1:47981)."
+  "The Arca/Dator split is the only deployment model; the legacy offer_catalog.enabled flag has been removed."
+  "Arca now accepts concrete workflow plans and local template_id + parameters instantiation through the host-owned module store."
+  "Story-009 (bielik blog) is no longer blocked on local template instantiation or the phase-0 task-type-targeted ordinary service-order path; federated template catalog import/publication and richer target filtering remain deferred."]}

@@ -19,13 +19,14 @@
   ],
   "required": [
     "schema",
+    "signal_polarity",
     "epistemic/class",
     "signal/text",
     "topic/class",
     "context/facets",
     "confidence",
     "disclosure/scope",
-    "risk/grade",
+    "signal/grade",
     "routing/profile",
     "routing/failure-mode",
     "forwarding/max-hops"
@@ -34,6 +35,14 @@
     "schema": {
       "const": "whisper-signal.v1",
       "description": "Content-level discriminator for consumers that inspect the payload outside its Agora or INAC envelope."
+    },
+    "signal_polarity": {
+      "type": "string",
+      "enum": [
+        "problem",
+        "inspiration"
+      ],
+      "description": "Fundamental polarity of the whisper signal. `problem` describes a distributed harm, failure, or dignity risk that may require correlation and protective response. `inspiration` describes a convergent idea, creative discovery, or emerging approach that may justify co-creation. Emergency handling MUST NOT be triggered solely by an `inspiration` signal."
     },
     "epistemic/class": {
       "type": "string",
@@ -98,7 +107,7 @@
       },
       "description": "Optional high-level local signal classes that materially informed a derived or sensorium-assisted rumor draft."
     },
-    "risk/grade": {
+    "signal/grade": {
       "type": "string",
       "enum": [
         "low",
@@ -106,7 +115,7 @@
         "high",
         "critical"
       ],
-      "description": "Risk grade used to constrain later routing and disclosure."
+      "description": "Signal salience grade. For `problem` signals this grades protective risk and urgency. For `inspiration` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal_polarity`."
     },
     "routing/profile": {
       "type": "string",

@@ -71,7 +71,7 @@ v1 is simpler:
    least:
    - the accepted sanitized text,
    - source-class and disclosure metadata,
-   - risk grade,
+   - signal grade,
    - local audit reference,
    - and local policy context.
 10. Whisper checks local budget constraints before publication. At minimum, it checks:

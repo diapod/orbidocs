@@ -244,7 +244,10 @@ Responsibilities:
   delegation without remote lookups.
 
 Status:
-- `planned`
+- `partial`: envelope fields, fail-closed verifier hook, capability grant,
+  bridge verifier, and delegated example fixture are implemented. Accept
+  paths, `records.sign` with `key_delegation`, Python delegated verifier,
+  and UI support remain pending.
 
 ### Aggregate Status Surface
 

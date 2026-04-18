@@ -977,10 +977,19 @@ in this proposal and are not blocking for the first deployment:
   `strict_parent_refs = true` turns unresolved references into HTTP 422.
   Federation ingress remains warn-only.
 - **Invariant 7** (passport chain verification via proposals 024 and
-  032) — the signature is verified against the direct participant key
-  only; delegated signing keys are not yet supported.
-  `signature.key/ref` is defined in the schema but not yet represented
-  in the Rust `AgoraSignature` struct.
+  032) — the Rust `AgoraSignature` struct now carries a stratified
+  shape with `key/public` (the actual signing key bytes) and an
+  optional `key/delegation` block (delegation proof chain per
+  proposal 032). Direct-key signatures are fully verified end-to-end
+  (key match against the author's participant id is a hard block
+  via `SignAdapterError::PublicKeyMismatch`). Delegated signatures
+  are accepted structurally and verified through the
+  `CapabilityDelegationVerifier` trait wired in L4.b of the
+  035-impl doc; the default deployment installs a permissive
+  verifier, and hardened deployments plug in the
+  `agora-capability-bridge` proof checker. The legacy
+  `signature.key/ref` shape is retired and no longer appears in the
+  schema or the code.
 - **Invariant 8** (`record/about` resource identity structural
   validation per proposal 026) — the array is accepted structurally;
   individual entries are not validated against `resource-ref.v1`.
