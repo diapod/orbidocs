@@ -132,7 +132,7 @@ fields and the external resource reference:
   "schema": "agora-record.v1",
   "record/id": "sha256:pending",
   "record/kind": "opinion",
-  "topic/key": "opinions/url",
+  "topic/key": "ai.orbiplex.opinions/url",
   "author/participant-id": "participant:did:key:z6MkEla...",
   "authored/at": "2026-04-16T14:02:11Z",
   "content/schema": "resource-opinion.v1",
@@ -158,10 +158,10 @@ Shape notes:
   kinds × content schemas).
 - `record/about` carries the `{resource/kind, resource/id}` pair from
   proposal 026. The resource is identified as `url:<the URL>`.
-- `topic/key` is derived from the subject kind (`opinions/url` for a
-  URL opinion). A more elaborate deployment might split further by
-  domain or community; the MVP keeps the first partition per resource
-  kind.
+- `topic/key` is derived from the subject kind using the proposal 046
+  Orbiplex-core namespace (`ai.orbiplex.opinions/url` for a URL
+  opinion). A more elaborate deployment might split further by domain
+  or community; the MVP keeps the first partition per resource kind.
 - `record/id` and `signature.value` are placeholders; the signer
   replaces them.
 

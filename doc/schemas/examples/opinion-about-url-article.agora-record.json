@@ -2,7 +2,7 @@
   "schema": "agora-record.v1",
   "record/id": "sha256:4Q7x3kCDfm2yVwrbn8Hj5tlsOe9zApiU6Gq3wXYAbCd",
   "record/kind": "opinion",
-  "topic/key": "orbiplex/opinions/url",
+  "topic/key": "ai.orbiplex.opinions/url",
   "record/about": [
     {
       "resource/kind": "url",

@@ -160,4 +160,5 @@
  ["Agora v1 runs as a supervised Rust binary `orbiplex-node-agora-service` under the Node daemon middleware supervisor."
   "The smallest useful Agora deployment is local-only: one node, one relay, no passport, one topic, one author."
   "Federated deployment layers on top without replacing the envelope, signer contract, or `record/id` formula."
-  "Per-kind content semantics (e.g. `resource-opinion.v1`) are owned by their source proposals, not by Agora."]}
+  "Per-kind content semantics (e.g. `resource-opinion.v1`) are owned by their source proposals, not by Agora."
+  "Future hot-path transport optimizations (batch ingest, in-process daemon library) are documented in `doc/project/60-solutions/agora.md` §Future Hot-Path Optimizations; neither changes the envelope, signing domain, or `record/id` formula."]}

@@ -40,7 +40,7 @@ A discovering node can filter by `role`, `transport`, or specific
 {
   "endpoint": "https://relay.example.org:47991",
   "role": "canonical",
-  "canonical_topics": ["orbiplex/proposals/035"],
+  "canonical_topics": ["ai.orbiplex.proposals/035"],
   "relay_domain": "example.org",
   "transport": ["matrix"],
   "api_version": "1"

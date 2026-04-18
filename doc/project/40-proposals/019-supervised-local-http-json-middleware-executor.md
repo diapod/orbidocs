@@ -112,6 +112,43 @@ Neither option fits Orbiplex's preferred architecture of:
 - host-owned lifecycle semantics,
 - and visible operational state.
 
+## What Orbiplex Middleware Really Is
+
+The word *middleware* may evoke a pipeline for those accustomed to
+middleware from web services (Rack, Express, Ring, ASGI), where a
+middleware is an interceptor of the shape `handler(req, next)` wired
+into a chain-of-responsibility and invoked per HTTP request. Orbiplex
+middleware is not that.
+
+An Orbiplex middleware module is a **supervised application module** —
+a standalone process that talks to the daemon over `http_local_json`
+(and, for lighter cases, `command_stdio` or `local_http_json`).
+Lifecycle, readiness, restart policy, sandboxing, and exported
+operator state are owned by the Node host. The module contributes
+behavior by **declaring `input_chains`** (inbound-local routes and
+inbound-peer message types) and by **consuming host capabilities**
+for transport, signing, catalog, and settlement.
+
+The "chains" visible inside the daemon
+(`pre-input → built-in handler → inbound-peer → pre-send → audit`)
+are **lifecycle stages of a single transport request inside the
+daemon**, not an N-consumer composition over a domain event. They
+bracket one ingress/egress with policy, validation, and audit; they
+are not a domain pipeline that several independent modules sit on
+in order.
+
+Consequently, the relationship between middleware modules is not a
+chain-of-responsibility at the domain level. It is a **hosting
+application fabric with capability routing**: modules publish
+capabilities, the host resolves and dispatches, and composition is
+expressed through explicit capability calls and through Agora
+topic-addressed records. Pipeline topology appears only when
+modules are consciously composed that way — as Arca does for
+workflow plans (`step → step → step`) — and bus-like topology
+appears when modules fan out through Agora subscriptions or through
+`peer.message.dispatch`. Both shapes are derived from the same
+primitives; neither is baked into the executor.
+
 ## Goals
 
 - Define a supervision-aware middleware executor for long-lived local HTTP JSON

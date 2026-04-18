@@ -350,7 +350,7 @@ Topic-scoped digests serve two distinct consumers:
 
 - **custodians** performing reconciliation across a topic where they
   hold an expected subset (e.g. all records their participant has
-  authored under `opinions/url`),
+  authored under `ai.orbiplex.opinions/url`),
 - **future cross-relay mesh replication** (signaled in proposal 035
   Follow-Up): two relays carrying the same topic can detect divergence
   with one digest comparison before falling back to listing + diff.

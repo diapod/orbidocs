@@ -262,6 +262,61 @@ Responsibilities:
 Status:
 - `optional`
 
+## Future Hot-Path Optimizations
+
+The v1 loopback HTTP shape is acceptable for record traffic where the
+per-record cost is already dominated by Ed25519 signing and backend
+durability — story-008-style comments are a representative example. For
+producers that emit records at a rate where loopback round-trips become
+the dominant cost (any high-frequency, bounded-latency record source),
+two deferred options are available without changing the envelope, the
+signing domain, or the `record/id` formula.
+
+### Batch Ingest
+
+A single `POST /v1/agora/records` can accept N records in one request
+instead of one. The loopback round-trip amortizes across the batch, and
+after roughly fifty records the per-record transport cost falls below
+the per-record canonicalization and signing cost. This is the dominant
+optimization in comparable systems and keeps every other contract
+untouched: topic ACL, content-schema validation, signature verification,
+and idempotent persistence are applied per-record inside the batch, and
+the backend still sees one-record-at-a-time semantics. If the v1 HTTP
+surface does not already accept batched bodies, this should be a small
+dedicated proposal rather than a change to proposal 035.
+
+### Agora as In-Process Daemon Library
+
+The solution contract (see `Scope` above) explicitly allows Agora to run
+either as a supervised separate program or as an in-process module of
+the daemon. Moving the in-process shape from "allowed" to "delivered"
+removes the second loopback hop: producers still speak HTTP to the
+daemon over loopback, but the daemon resolves `agora.relay` to an
+in-process call into `agora-core` plus the configured relay backend,
+rather than to a second HTTP client pointed at
+`orbiplex-node-agora-service`.
+
+The cost is a narrower deployment envelope:
+
+- Agora must be built in the same language as the daemon. Today this is
+  Rust for both, so the constraint is not binding.
+- Independent restart of the relay is lost; relay lifecycle is fused
+  with the daemon's lifecycle.
+- Operator-visible component boundaries shift: `middleware.agora` stops
+  being a separately supervisable process.
+
+For the smallest useful deployment described in proposal 035 §5.7
+(local-only, one node, one relay, no passport, one topic, one author)
+the in-process shape is arguably a better default than the supervised
+binary: it removes a process, removes a port, and removes the second
+loopback hop, while preserving every observable semantic of the relay.
+
+Neither optimization is required for v1, and neither changes the
+`agora-record.v1` envelope, the `agora.record.v1` signing domain, the
+`record/id` formula, the topic ACL semantics, or any consumer-visible
+capability contract. They are orthogonal knobs on transport cost, not
+on meaning.
+
 ## Out of Scope
 
 - per-kind semantic interpretation (opinion meaning, comment threading,

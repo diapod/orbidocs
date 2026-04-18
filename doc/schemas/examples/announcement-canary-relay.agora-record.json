@@ -2,7 +2,7 @@
   "schema": "agora-record.v1",
   "record/id": "sha256:Zp2m9ThKqgX4r7v8C5n1Yb6jD3WlFsTaephQkU2mov8",
   "record/kind": "comment",
-  "topic/key": "orbiplex/announcements",
+  "topic/key": "ai.orbiplex.announcements/default",
   "author/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "authored/at": "2026-04-11T09:00:00Z",
   "content/schema": "plain-comment.v1",

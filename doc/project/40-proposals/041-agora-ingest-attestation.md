@@ -284,7 +284,7 @@ scope. The modes are:
 | `open` | Anyone with a mathematically valid signature may ingest. | no |
 | `allowlist` | Only authors whose `participant-id` (or parent `node-id`) appears in the operator's configured set may ingest. | no (local list) |
 | `passport` | Authors MUST present `author/attestation_ref` to any passport the relay accepts (configurable `capability_id` set), plus a valid proof token. | yes |
-| `passport_scoped` | As `passport`, plus scope predicates: the passport must grant a specific scope (e.g. `{"topic":"opinions/*"}` or `{"assurance_level":">=A2"}`) matching the ingest target. | yes |
+| `passport_scoped` | As `passport`, plus scope predicates: the passport must grant a specific scope (e.g. `{"topic":"ai.orbiplex.opinions/*"}` or `{"assurance_level":">=A2"}`) matching the ingest target. | yes |
 | `layered` | A conjunction of predicates from the grammar in §5. | per predicate |
 
 Defaults:
@@ -308,7 +308,7 @@ each clause is one of:
 
 | Predicate | Example | Notes |
 |---|---|---|
-| `topic_match` | `{"topic_match":"opinions/*"}` | glob on `topic/key` |
+| `topic_match` | `{"topic_match":"ai.orbiplex.opinions/*"}` | glob on `topic/key` |
 | `record_kind` | `{"record_kind":"opinion"}` | exact on `record/kind` |
 | `content_schema` | `{"content_schema":"resource-opinion.v1"}` | exact |
 | `subject_kind` | `{"subject_kind":"url"}` | exact on `record/about[0].resource/kind` |
@@ -333,7 +333,7 @@ Example tier configuration (illustrative, operator-local):
 {
   "gates": [
     {
-      "topic_match": "announcements/critical",
+      "topic_match": "ai.orbiplex.announcements/critical",
       "mode": "layered",
       "predicates": [
         {"passport_capability":"agora.ingest"},
@@ -343,7 +343,7 @@ Example tier configuration (illustrative, operator-local):
       ]
     },
     {
-      "topic_match": "opinions/*",
+      "topic_match": "ai.orbiplex.opinions/*",
       "mode": "passport",
       "accepted_capabilities": ["agora.ingest"],
       "predicates": [
@@ -378,8 +378,8 @@ Requests` for rate limits) and a JSON body:
 {
   "error": "ingest_refused",
   "reason": "author_not_attested",
-  "topic/key": "opinions/url",
-  "gate_ref": "opinions/*"
+  "topic/key": "ai.orbiplex.opinions/url",
+  "gate_ref": "ai.orbiplex.opinions/*"
 }
 ```
 

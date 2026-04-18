@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-directive:v1",
+  "title": "Sensorium Directive v1",
+  "description": "Request envelope addressed to sensorium-core by a consumer module (e.g. Arca, Dator, local agent) invoking an intentional action through a Sensorium connector. Consumers address actions by a public action_id; sensorium-core resolves the action_id through the operator-signed allowlist to a specific connector.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/045-sensorium-local-enaction-stratum.md",
+    "doc/project/40-proposals/032-key-delegation-passports.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "directive/id",
+    "directive/issued_at",
+    "issuer",
+    "action_id",
+    "parameters",
+    "timing"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "sensorium-directive.v1",
+      "description": "Schema tag for the v1 Sensorium contract."
+    },
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "directive/id": {
+      "type": "string",
+      "description": "Opaque identifier assigned by the issuer; recommended to be ULID. Used to correlate the request, its outcome record, and any emitted observations."
+    },
+    "directive/issued_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp at which the issuer produced this directive."
+    },
+    "issuer": {
+      "type": "object",
+      "description": "Identity of the invoking party. participant/did:key is the sovereign identity axis; module_id identifies the local module when applicable. At least one of participant/did:key or module_id MUST be present.",
+      "additionalProperties": true,
+      "anyOf": [
+        {
+          "required": [
+            "participant/did:key"
+          ]
+        },
+        {
+          "required": [
+            "module_id"
+          ]
+        }
+      ],
+      "properties": {
+        "module_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Registered module id of the consumer, e.g. orbiplex.arca or orbiplex.dator."
+        },
+        "participant/did:key": {
+          "type": "string",
+          "pattern": "^(participant:)?did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Participant identity on whose behalf the directive is issued. Preferred canonical form is participant:did:key:z...; direct did:key:z... remains accepted for local envelopes. Verifiers MUST normalize to participant:did:key:z... before comparing with the participant derived from issuer_delegation.principal_key."
+        },
+        "node_id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Optional node identity associated with the issuer context."
+        }
+      }
+    },
+    "idempotency/key": {
+      "type": "string",
+      "description": "Optional caller-provided idempotency key. sensorium-core SHOULD use it together with issuer and action_id to make retries of async or retryable directives safe."
+    },
+    "action_id": {
+      "type": "string",
+      "description": "Public, operator-allowlisted identifier of the action to perform (dotted notation recommended, e.g. os.process.spawn-read-only). Consumers MUST NOT select connector_id; action_id is the only public addressing handle.",
+      "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*$"
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Typed parameters for this action_id. Validated by sensorium-core against the parameter schema held in the allowlist entry for this action_id. MUST NOT carry raw shell strings, raw script bodies, or raw SQL; interpretive surfaces are expressed as script_id references to signed stored artifacts.",
+      "additionalProperties": true
+    },
+    "evidence/inputs": {
+      "type": "array",
+      "description": "Optional input artifacts, passed by reference rather than inline, using the minimal artifact-lane contract from proposal 045.",
+      "items": {
+        "$ref": "#/$defs/artifactRef"
+      }
+    },
+    "timing": {
+      "type": "object",
+      "description": "Directive-level timing policy. timing.timeout_ms is the end-to-end deadline enforced by sensorium-core from directive admission through connector dispatch and execution to final outcome recording.",
+      "additionalProperties": true,
+      "required": [
+        "timeout_ms",
+        "mode"
+      ],
+      "properties": {
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum wall-clock duration, in milliseconds, from sensorium-core admission of the directive to the final outcome. The action allowlist MUST define default_timeout_ms and max_timeout_ms; sensorium-core MUST reject or clamp requests exceeding max_timeout_ms. On expiry, exactly one sensorium-directive-outcome.v1 is written with outcome/status=\"timed_out\" and policy/decision.decision=\"timeout\"."
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "sync",
+            "async"
+          ],
+          "description": "sync returns the final status in the response. async returns status=admitted immediately; completion is audit-owned, and any linked world-fact observation is visible through local/sensorium/observations/{signal-kind} filtered by correlation/id."
+        }
+      }
+    },
+    "correlation/id": {
+      "type": "string",
+      "description": "Optional opaque string threading this directive through a higher-level plan (e.g. an Arca workflow run step, a Dator task dispatch). Preserved in the outcome and in any linked observations."
+    },
+    "issuer_delegation": {
+      "$ref": "#/$defs/delegationProof",
+      "description": "Optional proposal-032 DelegationProof authorising a proxy key to sign this directive. If present, signature MUST be produced by issuer_delegation.proxy_key and issuer_delegation.principal_key MUST derive to issuer.participant/did:key. Sensorium v1 accepts only max_chain_depth=0."
+    },
+    "signature": {
+      "$ref": "#/$defs/ed25519Signature"
+    }
+  },
+  "dependentRequired": {
+    "issuer_delegation": [
+      "signature"
+    ]
+  },
+  "$defs": {
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "artifact/id",
+        "role"
+      ],
+      "description": "Minimal artifact-lane reference. The artifact itself is stored outside this envelope and is addressed by a content or host-owned blob reference.",
+      "properties": {
+        "artifact/id": {
+          "type": "string",
+          "pattern": "^(sha256:[A-Za-z0-9_-]+|memarium-blob:[A-Za-z0-9._:/-]+)$",
+          "description": "Content-addressed or host-owned artifact identifier. v1 accepts sha256:<base64url-or-hex> and memarium-blob:<opaque-id> forms."
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "stdout",
+            "stderr",
+            "produced-file",
+            "raw-capture"
+          ],
+          "description": "Role of the artifact in the Sensorium exchange."
+        },
+        "media_type": {
+          "type": "string",
+          "description": "Optional media type of the referenced artifact."
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Optional artifact size in bytes."
+        }
+      }
+    },
+    "delegationProof": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "delegation_id",
+        "proxy_key",
+        "principal_key",
+        "grants",
+        "expires_at",
+        "principal_signature"
+      ],
+      "description": "Compact DelegationProof from proposal 032. In Sensorium v1 the proof may be present, but sub-delegation chains are not supported; max_chain_depth, when present, MUST be 0. Additional fields are tolerated for open-world forward compatibility; the canonical proof payload verified by implementations is limited to the proposal-032 compact proof fields.",
+      "properties": {
+        "delegation_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^delegation:key:",
+          "description": "Delegation management and revocation reference."
+        },
+        "proxy_key": {
+          "type": "string",
+          "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "did:key public key that signed the surrounding directive artifact."
+        },
+        "principal_key": {
+          "type": "string",
+          "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "did:key public key of the principal participant. Verifiers derive participant:did:key:... from this value and compare it to the normalized issuer.participant/did:key."
+        },
+        "grants": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "description": "Operation/target grants authorised for the proxy key."
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "max_chain_depth": {
+          "const": 0,
+          "description": "MVP restriction from proposal 032: sub-delegation chains are not accepted in Sensorium v1."
+        },
+        "principal_signature": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Base64url Ed25519 signature by principal_key over the canonical compact proof payload."
+        }
+      }
+    },
+    "ed25519Signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "description": "Ed25519 signature over the canonical directive payload. issuer_delegation is excluded from the surrounding directive payload and has its own principal_signature.",
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Base64url-encoded Ed25519 signature bytes."
+        }
+      }
+    }
+  }
+}

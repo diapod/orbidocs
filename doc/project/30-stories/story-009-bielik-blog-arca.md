@@ -78,37 +78,104 @@ direction whenever the editorial team wants to exchange artefacts
 unfit for git (large binary assets, confidential briefs) — but this
 story deliberately does not use them, to avoid adding code.
 
+### Local action boundary: Sensorium OS connector
+
+The story-specific roles do not spawn shell commands directly. The
+roles `bielik-researcher`, `illustrator`, `editor-in-chief`,
+`git-signer`, and `git-publisher` own the editorial semantics of their
+tasks, but any local operating-system action required to carry out
+those tasks is mediated through `sensorium-core` and an allowlisted
+Sensorium OS connector.
+
+This includes git fetch/checkout/read paths, file writes in the local
+worktree, signed commits, guarded pushes, narrow public-source
+fetching when a source is represented operationally as an OS action,
+**and the generative work itself — draft composition, image
+generation, language proofreading — invoked as allowlisted OS
+connector scripts that wrap the node's local model or tool**. Role
+modules do not run language models, diffusion models, or shell
+utilities in-process; each unit of work is a named `action_id` with a
+declared script path, parameter schema, timeout, `cwd`, environment,
+output caps, artifact capture, and incidental effects — all enforced
+at the connector boundary. The role modules remain consumers of
+`sensorium.directive.invoke`; they do not receive
+`sensorium.connector.invoke` grants and do not bypass `sensorium-core`.
+
+This does **not** change the transport stratification above: article
+bytes still flow through git, not through Arca, Agora, or Memarium.
+Sensorium's OS connector is an enaction boundary for local operations,
+not an artefact transport and not a parallel workflow engine.
+
 The story assumes the three nodes (`A`, `B`, `C`) are running and that
-each has published active service offers for the relevant `task_type`
-values. In the phase-0 mapping, `task_type` is projected onto
-`service/type` in the offer catalog. The git repository and Netlify
-configuration exist; they are an external artefact on which this story
-merely performs agreed operations.
+each runs **Orbiplex Dator** as its supply-side marketplace facade.
+Dator on each node publishes the node's active `service-offer.v1`
+records for the relevant `task_type` values, accepts incoming service
+orders from Arca on behalf of the local role modules, and enforces the
+node's bounded acceptance posture (queue depth, concurrency, refusal
+when the local role module is not ready). In the phase-0 mapping,
+`task_type` is projected onto `service/type` in the offer catalog. The
+git repository and Netlify configuration exist; they are an external
+artefact on which this story merely performs agreed operations.
+
+Dator is not an executor of editorial semantics and not an actor on
+the local operating system: it is the responder-side bridge between
+Arca's dispatch and the specialised role middleware modules named
+below. All editorial work is done by the role modules; all local OS
+actions are mediated through `sensorium-core` and the allowlisted
+Sensorium OS connector.
+
+For this demo, every offer published by every node's Dator has
+`price = 0 ORC` (free). This is a deliberate simplification: the
+subject of this story is editorial orchestration and local enaction,
+not settlement. A zero price keeps the flow on a single path
+(`service-offer.v1` → `service-order.v1` → accept → role module →
+result) without wiring holds, escrow, or ledger updates into the
+story. Variants with non-zero pricing, negotiation, or settlement are
+a separate story.
 
 ## Cast and Scene
 
 - **Node A — *Bielik Researcher*.** Operator: `participant:did:key:z6MkA…`.
-  Offers task types: `llm-research`, `draft-author`,
-  `git-commit-draft`. Has access to **Sensorium** (connectors to
+  Runs **Dator** which publishes its active offers for task types:
+  `llm-research`, `draft-author`, `git-commit-draft`, and accepts
+  Arca-dispatched service orders for them. Has access to **Sensorium** (connectors to
   external sources: arXiv, GitHub repositories, the Bielik mailing
-  list, news feeds) and to its **own, local Memarium** which retains
+  list, news feeds) and to the Sensorium OS connector for allowlisted
+  local repo and source-fetch actions. The researcher module still
+  receives admitted observations as facts; when it needs to touch the
+  local worktree or invoke a source-fetching command, it does so through
+  an Arca-mediated `sensorium.directive.invoke` path. Node A also has
+  access to its **own, local Memarium** which retains
   this node's previous Bielik articles and observed facts published by
   nodes B and C (illustration decisions, editorial rulings, rejected
   variants returning from review).
 - **Node B — *Illustrator*.** Operator: `participant:did:key:z6MkB…`.
-  Offers task types: `draft-read`, `image-generate`, `image-place`,
-  `git-commit-illustrated`. Has a local diffusion model and **its own
+  Runs **Dator** which publishes its active offers for task types:
+  `draft-read`, `image-generate`, `image-place`,
+  `git-commit-illustrated`, and accepts Arca-dispatched service orders
+  for them. Has a local diffusion model and **its own
   local Memarium** in which it keeps its aesthetic policy (palette,
   *hero image* typography, allowed styles) — a policy fed by facts
   published by node C (acceptances and rejections of illustrations
-  from previous runs) and by its own generative decisions.
+  from previous runs) and by its own generative decisions. Git
+  checkout, worktree writes, commit actions, and the image generation
+  itself are mediated through the Sensorium OS connector: the
+  diffusion model is wrapped as an allowlisted connector script, and
+  the illustrator role module owns only the semantic decisions (what
+  to depict, where to place each image, which aesthetic policy to
+  apply) — not the in-process execution of the model.
 - **Node C — *Editor-in-Chief*.** Operator: `participant:did:key:z6MkC…`.
-  Offers task types: `draft-read`, `editorial-review`,
-  `guardrails-as-code`, `git-push-publish`. Holds the only key
+  Runs **Dator** which publishes its active offers for task types:
+  `draft-read`, `editorial-review`, `guardrails-as-code`,
+  `git-push-publish`, and accepts Arca-dispatched service orders for
+  them. `git-push-publish` is advertised by Dator **only on node C**;
+  no other node's Dator publishes that offer. Holds the only key
   authorised to *push* to the branch tracked by Netlify
   (`publish/main`). Has the editorial line rules installed as code
   (proposal 026 §*Guardrails-as-code* — a non-functional contract at
-  node level, not a content-schema).
+  node level, not a content-schema). Review checkout, signed commit,
+  merge, and push actions are mediated through the Sensorium OS
+  connector, with `git-push-publish` allowlisted only on node C.
 - **Arca**, as a workflow module running on **one** of the nodes (in
   this story: on node A as host, but that is just the engine's
   location — Arca is *agnostic* about where the participants of the
@@ -194,13 +261,22 @@ supposed to see that something is stuck.
 ### Step 1: Node A does research and writes a draft
 
 Arca dispatches `research-and-draft` to the selected active offer for
-the `draft-author` task type (node A in this story). The research
-module:
+the `draft-author` task type (node A in this story). The order arrives
+at **Dator on node A**, which validates the order against node A's
+acceptance posture (task type still offered, queue not saturated,
+local role module ready), accepts it, and routes the payload to the
+`bielik-researcher` role module. Dator then tracks order state and
+surfaces the module's result back to Arca. The research module:
 
 1. Asks Sensorium about changes to the topic `Bielik` in the
    `cadence_window`: new *releases* on HF, commits in the
    `speakleash/Bielik-*` repo, new *issues* and *discussions*,
    mentions in selected feeds.
+   Sensorium returns admitted facts about public sources. If a source
+   requires an operational fetch rather than an already-admitted
+   observation, the researcher asks `sensorium-core` to invoke an
+   allowlisted OS connector action; the researcher does not run shell
+   commands directly.
 2. Asks **its own, local Memarium** (node A's Memarium) about **two**
    things:
    - previous articles in this cycle (its own drafts plus publication
@@ -210,7 +286,12 @@ module:
      constructions (the editorial idiolect — see seqnote — preserved
      in node A's Memarium as its view of the shared style, fed by
      corrections observed from node C).
-3. Generates a markdown draft in Hugo format:
+3. Asks `sensorium-core` to invoke an allowlisted OS connector action
+   that runs a local drafting script (a thin wrapper over the node's
+   research/drafting model). The script takes the admitted Sensorium
+   facts and the Memarium context as typed parameters, runs under the
+   connector's timeout/`cwd`/output-cap discipline, and returns a
+   markdown draft in Hugo format as a captured artifact:
 
 ```markdown
 ---
@@ -223,13 +304,18 @@ tags: ["bielik", "llm", "polski"]
 In the past two weeks, around Bielik, the following has happened…
 ```
 
-Node A clones the repo (if needed), creates the branch
+After the draft is produced, the git write is handled as a separate
+Arca task path (`git-commit-draft`). The `git-signer` role asks
+`sensorium-core` to invoke allowlisted OS connector actions that clone
+the repo (if needed), create the branch
 `drafts/bielik-2026-04-17-A`, writes the file
 `content/posts/2026-04-17-bielik-co-nowego.md`, *commits* with a *git*
 signature tied to node A's participant key (Ed25519 over the
 canonicalised commit object — the same signing mechanism used by the
 Agora relay in story 008, only with a different `domain tag`:
-`git.commit.v1`), and pushes the branch.
+`git.commit.v1`), and pushes the branch. The git bytes still move
+through git; Sensorium only mediates the local operation boundary and
+records directive outcomes.
 
 The step's result returned to Arca:
 
@@ -255,14 +341,17 @@ side; nothing disappears and nothing is mutated.
 ### Step 2: Node B reads the draft and creates illustrations
 
 Arca dispatches `illustrate` to the provider of `image-place` (node
-B), passing the result of step 1 as input. **The input is pointers**
+B), passing the result of step 1 as input. The order is received by
+**Dator on node B**, which accepts it under node B's acceptance
+posture and routes it to the `illustrator` role module. **The input is pointers**
 (`draft_branch`, `draft_commit`, `draft_path`, `memarium_record_id`),
 not the draft bytes — the article content does not enter the Arca
 data plane at all. The illustration module:
 
-1. `git fetch origin drafts/bielik-2026-04-17-A` and
-   `git checkout 8fa2…` on a local worktree associated with the
-   module; reads the file
+1. Asks `sensorium-core` to invoke allowlisted OS connector actions for
+   `git fetch origin drafts/bielik-2026-04-17-A` and
+   `git checkout 8fa2…` on a local worktree associated with the module;
+   reads the file
    `content/posts/2026-04-17-bielik-co-nowego.md`. The draft bytes
    arrived through the git channel, not the Arca channel.
 2. Extracts a list of visual motifs from the draft (title + selected
@@ -272,12 +361,20 @@ data plane at all. The illustration module:
    acceptances and rejections observed from node C in earlier runs
    (palette, *hero image* format, what to avoid — e.g. "do not use
    generic stock images of server rooms").
-4. Generates a *hero image* + 2–4 in-text illustrations with the local
-   diffusion model, saves them to `static/img/posts/2026-04-17/`.
-5. Edits the markdown file, adding `image:` to the frontmatter and
+4. Asks `sensorium-core` to invoke an allowlisted OS connector action
+   that runs a local illustration script wrapping the node's diffusion
+   model. The script receives the visual motifs and aesthetic policy
+   as typed parameters, generates a *hero image* + 2–4 in-text
+   illustrations, and writes them to `static/img/posts/2026-04-17/`
+   through a scoped worktree-write action (the same write-discipline
+   used for markdown). The illustrator role module never loads the
+   diffusion model in-process.
+5. Edits the markdown file by asking the OS connector to apply the
+   allowlisted worktree write: adding `image:` to the frontmatter and
    inserting `{{< figure src="…" >}}` at the appropriate places.
-6. *Commits* on the same branch with a node B participant-key
-   signature (`git.commit.v1`), pushes.
+6. Through the `git-signer` path, asks the OS connector to *commit* on
+   the same branch with a node B participant-key signature
+   (`git.commit.v1`) and push the draft branch.
 
 Result:
 
@@ -295,9 +392,13 @@ Result:
 Arca dispatches `review-and-publish` to the provider of
 `git-push-publish` (node C). The input is again only pointers from
 step 2 (`illustrated_commit`, `images_added`, `memarium_record_id`).
-The editorial module:
+The order is received by **Dator on node C** — the only node whose
+Dator advertises the `git-push-publish` task type — which accepts the
+order and routes it to the `editor-in-chief` and `git-publisher` role
+modules in sequence. The editorial module:
 
-1. `git fetch origin drafts/bielik-2026-04-17-A` and
+1. Asks `sensorium-core` to invoke allowlisted OS connector actions for
+   `git fetch origin drafts/bielik-2026-04-17-A` and
    `git checkout 1d4c…` — the draft bytes together with the embedded
    images arrive through the git channel.
 2. Reads the entire markdown file together with embedded images.
@@ -310,18 +411,28 @@ The editorial module:
    - check that `draft: true` will be removed;
    - link check (none returns 404);
    - check that the images exist at the paths used in `figure`.
-4. Performs language proofreading — minor punctuation, clarity and
-   rhythm corrections, **without** changing the article's thesis.
-5. Changes the frontmatter (`draft: false`), *commits* the changes on
-   the `drafts/bielik-2026-04-17-A` branch with node C's signature.
-6. Performs a *fast-forward merge* of the draft branch into
-   `publish/main` and pushes `publish/main` to origin.
+4. Asks `sensorium-core` to invoke an allowlisted OS connector action
+   that runs a local proofreading script (a thin wrapper over the
+   node's language model). The script performs minor punctuation,
+   clarity and rhythm corrections, **without** changing the article's
+   thesis, and returns the revised markdown as a captured artifact. The
+   `editor-in-chief` role module never loads the proofreading model
+   in-process; guardrails-as-code from step 3 above remain in the role
+   module (they are code, not a script).
+5. Changes the frontmatter (`draft: false`) through an allowlisted
+   worktree write, then *commits* the changes on the
+   `drafts/bielik-2026-04-17-A` branch with node C's signature.
+6. Through the `git-publisher` path, asks the OS connector to perform a
+   guarded *fast-forward merge* of the draft branch into `publish/main`
+   and push `publish/main` to origin.
 
 The push to `publish/main` is the sole publication trigger: Netlify
 listens to that branch and deploys. No other node has the key
 authorised for that push — it is the only place where publishing
 authority is centralised at the level of git operations, even though
-the process is distributed.
+the process is distributed. In implementation terms this is an explicit
+Arca-mediated Sensorium OS directive path, not a Sensorium
+research-observation connector path.
 
 Result:
 
@@ -358,7 +469,7 @@ button in a CMS panel.
 | 2 | Step 1 (`research-and-draft`) ends with a commit on the `drafts/bielik-…-A` branch signed by node A's participant key with signature domain `git.commit.v1` | verification of the commit object signature |
 | 3 | Step 2 (`illustrate`) commits on the same branch, adding ≥1 new image in `static/img/posts/<date>/` and at least one `{{< figure >}}` reference in the markdown file | content diff between `draft_commit` and `illustrated_commit` |
 | 4 | Step 3 (`review-and-publish`) changes `draft: true` to `draft: false`, *fast-forwards* `publish/main` to the commit from the draft branch and pushes **only** that branch | inspection of the origin repo's `git reflog` |
-| 5 | Only node C offers the `git-push-publish` task type; an attempt to push `publish/main` from node A or B fails at git policy level (origin-side or *pre-receive hook*) | negative test: a manual `git-push-publish` invocation from node A must be rejected |
+| 5 | Only node C offers the `git-push-publish` task type and only node C's Sensorium OS connector has an allowlisted publish action for `publish/main`; an attempt to push `publish/main` from node A or B fails at git policy level (origin-side or *pre-receive hook*) or at Sensorium directive admission | negative test: a manual `git-push-publish` invocation from node A must be rejected before or at git push |
 | 6 | Each of the three steps, if it exceeds `timing.timeout`, ends the *workflow run* with status `timed_out` indicating the specific step; there is no silent fallback to another provider | test: an artificial *sleep* in one of the modules longer than the *timeout* |
 | 7 | Each step appends at least one record to the **local Memarium of the node executing the step** (not to any shared store), whose identifier it returns in the step output; records are appended (append-only), not overwritten | inspection of each of the three Memariums between run 1 and run 2 — all records from run 1 retained |
 | 8 | After `completed`, Arca emits an `agora-record.v1` record with `record/kind: "workflow.completed"` containing `record/about` with links to the three Memarium records (one per step, each in a different node's Memarium) | inspection of the Agora relay after the finished run |
@@ -366,7 +477,10 @@ button in a CMS panel.
 | 10 | Netlify deploys **only** as a result of the step 3 push; a manual change to `publish/main` outside an Arca run is technically possible, but becomes a record visible in the log (not a hidden path) | inspection of the Netlify deployment history vs. the Arca log |
 | 11 | No single shared Memarium: each of the three nodes has its own instance; the exchange of facts between nodes happens solely through signed `agora-record.v1` records on the editorial Agora local relay | configuration inspection: each node has its own `memarium-store`; no shared mountpoint, no data branch that everyone sees without going through Agora |
 | 12 | **The article content (markdown + images) does not at any point enter the Arca data plane nor the content of Agora records.** Between steps only pointers (`branch`, `commit`, paths, `memarium_record_id`) are passed; draft and image bytes flow exclusively through git | inspection of `input` / `output` of each step in the *workflow run*: payload size < 4 KiB, no fields with markdown or image bytes; inspection of Agora records — `content` contains only metadata, not the article corpus |
-| 13 | Every module executing a git-using step starts with `git fetch`/`git checkout` based on the pointer from the previous step; there is no alternative path through which draft bytes could reach the module | code review of the `illustrator` and `editor-in-chief` modules: the only source of draft content is the local git worktree |
+| 13 | Every module executing a git-using step starts by invoking the Sensorium OS connector for `git fetch`/`git checkout` based on the pointer from the previous step; there is no direct shell path and no alternative path through which draft bytes could reach the module | code review of the `illustrator` and `editor-in-chief` modules plus Sensorium directive/outcome audit: the only source of draft content is the local git worktree |
+| 14 | Every service order dispatched by Arca is received by the local `Dator` on the responder node and routed to the corresponding role module; role modules do not receive Arca orders on any other path. `git-push-publish` appears as an active offer only on node C's Dator | offer-catalog inspection + Dator order log on each node |
+| 15 | Every published offer in this story has `price.amount = 0` in `ORC` | offer-catalog inspection |
+| 16 | All generative work (draft composition, image generation, language proofreading) is executed as a `sensorium.directive.invoke` call to an allowlisted OS connector action wrapping the corresponding local model/script; no role module loads a language or diffusion model in its own process space | Sensorium directive/outcome audit + module code review (no in-process model load) |
 
 ## What This Story Does NOT Cover
 
@@ -460,11 +574,12 @@ capability sidecars (e.g. `arca-caps.edn`) from marketplace
 | Step 0 (instantiating workflow from template) | Arca | `arca-caps.edn` → `:workflow-template-instantiate` | Done for local templates: resolve `template_id` + parameters into a concrete `WorkflowDefinition`; public/federated template import remains outside this local slice. | [`arca.md`](../60-solutions/arca.md) |
 | Step 0 (optional public template catalog) | Dator / template catalog module | Proposal 029 public template catalog role | Needed only if `bielik-biweekly-publish.v1` is published/imported through a public catalog: implement template publication, listing, fetch, and import handoff to Arca. Not needed for a daemon-local template. | [`029-workflow-template-catalog.md`](../40-proposals/029-workflow-template-catalog.md) |
 | Step 0 (resolving targets by task type) | Arca + offer catalog | `arca-caps.edn` → `:workflow-target-by-task-type`; offer `service/type` | Done for the phase-0 local rule: `target.resolve = task_type` maps `target.task_type` to `service_type` for ordinary service-order execution and does not trigger host fan-out without `fan_in`. | [`arca.md`](../60-solutions/arca.md) |
-| Step 1 (research) | `bielik-researcher` module on node A | task/service types: `llm-research`, `draft-author` | Implement the specialised module contract: query Sensorium, read local Memarium context, produce a draft, return only git/Memarium pointers to Arca. | [`bielik-researcher.md`](../60-solutions/bielik-researcher.md) |
-| Step 1 (signed commit) | `git-signer` module on node A | task/service type: `git-commit-draft` | Implement git commit signing with the participant key and a `git.commit.v1` domain tag, then expose branch/commit/path as the step output. | [`git-signer.md`](../60-solutions/git-signer.md) |
-| Step 2 (illustrations) | `illustrator` module on node B | task/service types: `image-generate`, `image-place` | Implement pointer-based draft checkout, image generation/placement, commit to the draft branch, and pointer-only result emission. | [`illustrator.md`](../60-solutions/illustrator.md) |
-| Step 3 (review + guardrails-as-code) | `editor-in-chief` module on node C | task/service types: `editorial-review`, `guardrails-as-code` | Implement review over git checkout with guardrails-as-code, returning acceptance/rejection facts and correction pointers without copying article bytes through Arca. | [`editor-in-chief.md`](../60-solutions/editor-in-chief.md) |
-| Step 3 (push to publishing branch) | `git-publisher` module on node C | task/service type: `git-push-publish` | Implement the guarded fast-forward/merge/push path to `publish/main`, including a signed publication commit and failure classification for rejected pushes. | [`git-publisher.md`](../60-solutions/git-publisher.md) |
+| Steps 1–3 (offer publication + order acceptance, per node) | Orbiplex Dator on nodes A, B, C | `service-offer.v1` publication (all offers at `price = 0 ORC` for this demo); `service-order.v1` acceptance posture; `task_type` ↔ `service/type` projection | Implement, per node, the supply-side marketplace facade: publish the node's active offers for its declared task types at zero price, accept incoming Arca-dispatched orders under queue/concurrency posture, route accepted orders to the correct local role module, surface module results back to Arca. `git-push-publish` is advertised only by node C's Dator. | [`dator.md`](../60-solutions/dator.md) |
+| Step 1 (research) | `bielik-researcher` module on node A + Sensorium OS connector | task/service types: `llm-research`, `draft-author`; Sensorium action ids for allowlisted public-source fetches when needed | Implement the specialised module contract: query admitted Sensorium observations, invoke allowlisted OS connector actions for operational source fetches, read local Memarium context, produce a draft, return only git/Memarium pointers to Arca. | [`bielik-researcher.md`](../60-solutions/bielik-researcher.md) |
+| Step 1 (signed commit) | `git-signer` module on node A + Sensorium OS connector | task/service type: `git-commit-draft`; Sensorium action ids for worktree write, commit, and draft-branch push | Implement git commit signing with the participant key and a `git.commit.v1` domain tag through an Arca-mediated Sensorium OS directive path, then expose branch/commit/path as the step output. This remains separate from Sensorium observation: the OS connector executes local actions; observations and outcomes provide audit. | [`git-signer.md`](../60-solutions/git-signer.md) |
+| Step 2 (illustrations) | `illustrator` module on node B + Sensorium OS connector | task/service types: `image-generate`, `image-place`; Sensorium action ids for checkout, worktree write, commit, and draft-branch push | Implement pointer-based draft checkout through Sensorium OS, image generation/placement, commit to the draft branch, and pointer-only result emission. | [`illustrator.md`](../60-solutions/illustrator.md) |
+| Step 3 (review + guardrails-as-code) | `editor-in-chief` module on node C + Sensorium OS connector | task/service types: `editorial-review`, `guardrails-as-code`; Sensorium action ids for checkout and guarded worktree writes | Implement review over a Sensorium-mediated git checkout with guardrails-as-code, returning acceptance/rejection facts and correction pointers without copying article bytes through Arca. | [`editor-in-chief.md`](../60-solutions/editor-in-chief.md) |
+| Step 3 (push to publishing branch) | `git-publisher` module on node C + Sensorium OS connector | task/service type: `git-push-publish`; Sensorium action ids for guarded fast-forward merge and `publish/main` push | Implement the guarded fast-forward/merge/push path to `publish/main`, including a signed publication commit and failure classification for rejected pushes, as an Arca-mediated Sensorium OS directive path. | [`git-publisher.md`](../60-solutions/git-publisher.md) |
 | Step 4 (recording the completion fact) | Memarium | `memarium-caps.edn` → `:append-fact` | Ensure each participating module appends its local fact record and returns stable `memarium_record_id` pointers that Arca can include in the final audit view. | [`memarium.md`](../60-solutions/memarium.md) |
 | Step 4 (publishing `workflow.completed` on Agora) | Orbiplex Agora | [`agora-caps.edn`](../60-solutions/agora-caps.edn) → `:agora-record-ingest` | Add the Arca/host completion emitter for `agora-record.v1` with `record/kind = workflow.completed`, linking run id, step records, Memarium ids, and git refs without embedding content bytes. | [`agora.md`](../60-solutions/agora.md) |
 
@@ -494,6 +609,13 @@ here):
 - Middleware modules (`bielik-researcher`, `illustrator`,
   `editor-in-chief`, `git-signer`, `git-publisher`) run under
   proposal 019.
+- `Orbiplex Dator` — runs on each of the three nodes as the
+  supply-side marketplace facade that publishes the node's active
+  `task_type` offers and accepts Arca-dispatched service orders on
+  behalf of the local role modules.
+- Sensorium OS connector — used by those role modules for allowlisted
+  local OS actions through `sensorium.directive.invoke`; role modules
+  do not call `sensorium.connector.invoke` directly.
 - Arca workflow — proposal 029 (templates) + proposal 033 (temporal
   orchestration) as the contractual base.
 

@@ -439,6 +439,11 @@ INAC is **not** a publication surface. Consequently:
 
 - no per-topic digest and no per-author digest on the channel (those
   are Agora concerns, proposals 035 and 040),
+- direct/private artefacts that reuse `agora-record.v1` MUST use a
+  `topic/key` beginning with `private/` while they remain on INAC;
+  proposal 046 requires Agora relays to reject `private/...` topics
+  fail-closed, so this prefix is both a marker of intent and a guard
+  against accidental publication,
 - no public enumeration endpoints,
 - the fact that an artefact passed between two nodes is only
   observable to those two nodes (plus any lawful intercept mandated

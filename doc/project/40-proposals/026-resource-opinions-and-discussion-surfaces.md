@@ -167,7 +167,7 @@ the content body:
 | authoring timestamp | envelope `authored/at` |
 | canonical record identifier | envelope `record/id` (derived from canonical signed bytes) |
 | signature | envelope `signature` |
-| topic routing | envelope `topic/key` (conventionally `opinions/<resource-kind>`) |
+| topic routing | envelope `topic/key` (conventionally `ai.orbiplex.opinions/<resource-kind>`) |
 
 The envelope's `content` object, validated by `resource-opinion.v1`,
 carries **only the verbal and scalar expression** of the opinion. This
@@ -361,7 +361,7 @@ the opinion itself.
   "schema": "agora-record.v1",
   "record/id": "sha256:4b7c9fzkMyAL8GBfQExampleRecordId00000000000000",
   "record/kind": "opinion",
-  "topic/key": "opinions/url",
+  "topic/key": "ai.orbiplex.opinions/url",
   "record/about": [
     {
       "resource/kind": "url",
@@ -392,7 +392,7 @@ content body shape and swaps only the envelope's `record/about[0]` and
 {
   "schema": "agora-record.v1",
   "record/kind": "opinion",
-  "topic/key": "opinions/ean",
+  "topic/key": "ai.orbiplex.opinions/ean",
   "record/about": [
     { "resource/kind": "ean", "resource/id": "5901234123457" }
   ],

@@ -128,6 +128,10 @@ plugins:
                     - Retrieval Request v1: doc/schemas-gen/schemas/retrieval-request.v1.md
                     - Retrieval Response v1: doc/schemas-gen/schemas/retrieval-response.v1.md
                     - Response Envelope v1: doc/schemas-gen/schemas/response-envelope.v1.md
+                    - Sensorium Directive v1: doc/schemas-gen/schemas/sensorium-directive.v1.md
+                    - Sensorium Directive Result v1: doc/schemas-gen/schemas/sensorium-directive-result.v1.md
+                    - Sensorium Directive Outcome v1: doc/schemas-gen/schemas/sensorium-directive-outcome.v1.md
+                    - Sensorium Observation v1: doc/schemas-gen/schemas/sensorium-observation.v1.md
                     - Signal Marker v1: doc/schemas-gen/schemas/signal-marker.v1.md
                     - Signal Transform Event v1: doc/schemas-gen/schemas/signal-transform-event.v1.md
                     - Transcript Bundle v1: doc/schemas-gen/schemas/transcript-bundle.v1.md
@@ -218,6 +222,10 @@ plugins:
                     - Retrieval Request v1: doc/schemas-gen/schemas/retrieval-request.v1.md
                     - Retrieval Response v1: doc/schemas-gen/schemas/retrieval-response.v1.md
                     - Response Envelope v1: doc/schemas-gen/schemas/response-envelope.v1.md
+                    - Sensorium Directive v1: doc/schemas-gen/schemas/sensorium-directive.v1.md
+                    - Sensorium Directive Result v1: doc/schemas-gen/schemas/sensorium-directive-result.v1.md
+                    - Sensorium Directive Outcome v1: doc/schemas-gen/schemas/sensorium-directive-outcome.v1.md
+                    - Sensorium Observation v1: doc/schemas-gen/schemas/sensorium-observation.v1.md
                     - Signal Marker v1: doc/schemas-gen/schemas/signal-marker.v1.md
                     - Signal Transform Event v1: doc/schemas-gen/schemas/signal-transform-event.v1.md
                     - Transcript Bundle v1: doc/schemas-gen/schemas/transcript-bundle.v1.md

@@ -1,0 +1,355 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-directive-outcome:v1",
+  "title": "Sensorium Directive Outcome v1",
+  "description": "Audit-only outcome record for a sensorium-directive.v1. Exactly one outcome record exists for every directive, including rejected, failed, timed_out, and completed directives. Outcome records are not published to local Agora observation topics and are reachable only through host-owned audit capabilities.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/045-sensorium-local-enaction-stratum.md",
+    "doc/project/40-proposals/032-key-delegation-passports.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "outcome/id",
+    "directive/id",
+    "outcome/status",
+    "outcome/recorded_at",
+    "action_id",
+    "issuer"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "sensorium-directive-outcome.v1",
+      "description": "Schema tag for the v1 Sensorium contract."
+    },
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "outcome/id": {
+      "type": "string",
+      "description": "Opaque audit outcome id assigned by sensorium-core; recommended to be ULID-prefixed."
+    },
+    "directive/id": {
+      "type": "string",
+      "description": "Identifier of the originating sensorium-directive.v1."
+    },
+    "correlation/id": {
+      "type": "string",
+      "description": "Optional opaque id threading this directive outcome through a higher-level plan or workflow."
+    },
+    "outcome/status": {
+      "type": "string",
+      "enum": [
+        "admitted",
+        "completed",
+        "failed",
+        "timed_out",
+        "rejected"
+      ],
+      "description": "Directive outcome status. admitted is used for async acceptance before final execution result is known."
+    },
+    "outcome/recorded_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp at which sensorium-core wrote the outcome record."
+    },
+    "directive/issued_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp copied from the directive when available."
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Connector-reported execution start timestamp, when available. This is connector telemetry, not the source/instrument event time; facts observed in the world belong in linked sensorium-observation.v1 records."
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Connector-reported execution completion timestamp, when available. sensorium-core receipt of the connector response is recorded separately as connector/responded_at."
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Connector-reported or sensorium-core-measured execution duration when available. Implementations SHOULD document which clock pair was used when precision matters."
+    },
+    "issuer": {
+      "type": "object",
+      "description": "Identity of the invoking party copied from the directive. participant/did:key is the sovereign identity axis; module_id identifies the local module when applicable.",
+      "additionalProperties": true,
+      "anyOf": [
+        {
+          "required": [
+            "participant/did:key"
+          ]
+        },
+        {
+          "required": [
+            "module_id"
+          ]
+        }
+      ],
+      "properties": {
+        "module_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Registered module id of the consumer, e.g. orbiplex.arca or orbiplex.dator."
+        },
+        "participant/did:key": {
+          "type": "string",
+          "pattern": "^(participant:)?did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Participant identity on whose behalf the directive is issued. Preferred canonical form is participant:did:key:z...; direct did:key:z... remains accepted for local envelopes. Verifiers MUST normalize to participant:did:key:z... before comparing with the participant derived from issuer_delegation.principal_key."
+        },
+        "node_id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Optional node identity associated with the issuer context."
+        }
+      }
+    },
+    "action_id": {
+      "type": "string",
+      "description": "Public action id invoked by the consumer.",
+      "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*$"
+    },
+    "connector/id": {
+      "type": "string",
+      "description": "Connector module id selected by sensorium-core after allowlist resolution. Absent for directives rejected before connector selection."
+    },
+    "connector/kind": {
+      "type": "string",
+      "description": "Connector kind/class label, e.g. OS."
+    },
+    "allowlist/ref": {
+      "type": "object",
+      "description": "Reference to the operator-signed allowlist entry used for admission.",
+      "additionalProperties": true,
+      "properties": {
+        "record/id": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "policy/decision": {
+      "type": "object",
+      "description": "Sensorium policy decision summary for admission, rejection, timeout, or failure.",
+      "additionalProperties": true,
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "admit",
+            "reject",
+            "timeout",
+            "fail"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "retry/attempts": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of execution attempts made for this directive outcome. Zero is valid for rejection before execution."
+    },
+    "result/summary": {
+      "description": "Optional compact result summary. Full typed results remain action-specific and may be returned through sensorium-directive-result.v1 or artifact references.",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": true
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "observation/ids": {
+      "type": "array",
+      "description": "Ids of sensorium-observation.v1 records emitted because the directive produced facts about the world. Empty or absent when no world-fact observation was produced.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "description": "References to artifacts produced by the directive, such as stdout, stderr, generated files, or raw signal captures, using the minimal artifact-lane contract from proposal 045.",
+      "items": {
+        "$ref": "#/$defs/artifactRef"
+      }
+    },
+    "diagnostics": {
+      "type": "array",
+      "description": "Structured diagnostics from sensorium-core or the connector. These are audit hints, not observation records.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "level": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warn",
+              "error"
+            ]
+          },
+          "kind": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "issuer_delegation": {
+      "$ref": "#/$defs/delegationProof",
+      "description": "Optional proposal-032 DelegationProof copied from the originating directive when the directive was signed by a proxy key. Outcome verification policy treats this as part of the directive audit chain; Sensorium v1 accepts only max_chain_depth=0."
+    },
+    "audit/store": {
+      "type": "object",
+      "description": "Optional host-owned audit sink reference. Directive outcomes are written to the Node-owned module store behind restricted sensorium.audit.* capabilities, not to local Agora observation topics.",
+      "additionalProperties": true,
+      "properties": {
+        "record/id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capability": {
+          "type": "string",
+          "pattern": "^sensorium\\.audit\\.[a-z][a-z0-9-]*$",
+          "description": "Restricted audit capability used to access this outcome record, e.g. sensorium.audit.read."
+        }
+      }
+    },
+    "connector/dispatched_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp when sensorium-core dispatched the admitted directive to the selected connector. Absent when the directive was rejected before connector selection."
+    },
+    "connector/responded_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp when sensorium-core received the terminal connector response. Absent when the connector did not respond before timing.timeout_ms expired."
+    },
+    "directive/signature_digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$",
+      "description": "Optional sha256 digest of the originating directive signature bytes, using the canonical signature value exactly as verified by sensorium-core. Preserves audit linkage without duplicating the full signature in the outcome record."
+    }
+  },
+  "$defs": {
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "artifact/id",
+        "role"
+      ],
+      "description": "Minimal artifact-lane reference. The artifact itself is stored outside this envelope and is addressed by a content or host-owned blob reference.",
+      "properties": {
+        "artifact/id": {
+          "type": "string",
+          "pattern": "^(sha256:[A-Za-z0-9_-]+|memarium-blob:[A-Za-z0-9._:/-]+)$",
+          "description": "Content-addressed or host-owned artifact identifier. v1 accepts sha256:<base64url-or-hex> and memarium-blob:<opaque-id> forms."
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "stdout",
+            "stderr",
+            "produced-file",
+            "raw-capture"
+          ],
+          "description": "Role of the artifact in the Sensorium exchange."
+        },
+        "media_type": {
+          "type": "string",
+          "description": "Optional media type of the referenced artifact."
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Optional artifact size in bytes."
+        }
+      }
+    },
+    "delegationProof": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "delegation_id",
+        "proxy_key",
+        "principal_key",
+        "grants",
+        "expires_at",
+        "principal_signature"
+      ],
+      "description": "Compact DelegationProof from proposal 032. In Sensorium v1 the proof may be present, but sub-delegation chains are not supported; max_chain_depth, when present, MUST be 0. Additional fields are tolerated for open-world forward compatibility; the canonical proof payload verified by implementations is limited to the proposal-032 compact proof fields.",
+      "properties": {
+        "delegation_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^delegation:key:",
+          "description": "Delegation management and revocation reference."
+        },
+        "proxy_key": {
+          "type": "string",
+          "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "did:key public key that signed the surrounding directive artifact."
+        },
+        "principal_key": {
+          "type": "string",
+          "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "did:key public key of the principal participant. Verifiers derive participant:did:key:... from this value and compare it to the normalized issuer.participant/did:key."
+        },
+        "grants": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "description": "Operation/target grants authorised for the proxy key."
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "max_chain_depth": {
+          "const": 0,
+          "description": "MVP restriction from proposal 032: sub-delegation chains are not accepted in Sensorium v1."
+        },
+        "principal_signature": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Base64url Ed25519 signature by principal_key over the canonical compact proof payload."
+        }
+      }
+    }
+  }
+}

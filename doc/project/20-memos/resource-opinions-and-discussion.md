@@ -78,7 +78,7 @@ Example:
 {
   "schema": "agora-record.v1",
   "record/kind": "opinion",
-  "topic/key": "opinions/url",
+  "topic/key": "ai.orbiplex.opinions/url",
   "record/about": [
     { "resource/kind": "url", "resource/id": "https://example.org/article" }
   ],

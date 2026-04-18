@@ -260,7 +260,7 @@ proposal 026 §2.
 | authoring timestamp | envelope `authored/at` |
 | canonical signal identifier | envelope `record/id` |
 | signature over canonical bytes | envelope `signature` (Ed25519 by the nym key) |
-| topic routing | envelope `topic/key` (conventionally `whispers/<topic-class>`) |
+| topic routing | envelope `topic/key` (conventionally `ai.orbiplex.whispers/<topic-class>` for public/federated whispers; `private/<name>` for direct-only INAC artefacts that must never be carried by Agora) |
 | whisper semantics | content body validated by `whisper-signal.v1` |
 
 Agora distribution is appropriate when:
@@ -656,8 +656,10 @@ that should remain visible as well.
    `resource-opinion.v1.schema.json` for proposal 026.
 8. Register `whisper` as a recognized `record/kind` and
    `whisper-signal.v1` as a recognized `content/schema` in the Agora
-   relay reference implementation; register `whispers/<topic-class>`
-   as the conventional topic-key prefix.
+   relay reference implementation; register
+   `ai.orbiplex.whispers/<topic-class>` as the conventional
+   public/federated topic-key prefix, and reserve `private/<name>`
+   for direct-only INAC artefacts outside Agora.
 9. Define the direct node-to-node exchange contract as a thin binding
    over the same `agora-record.v1` envelope, consuming the outbound
    privacy capability for transport and the attestation gate for

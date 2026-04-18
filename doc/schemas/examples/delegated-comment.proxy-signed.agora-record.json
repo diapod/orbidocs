@@ -2,7 +2,7 @@
   "schema": "agora-record.v1",
   "record/id": "sha256:P12delegatedProxySignedAgoraRecordExample0001",
   "record/kind": "comment",
-  "topic/key": "orbiplex/proposals/035",
+  "topic/key": "ai.orbiplex.proposals/035",
   "author/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
   "authored/at": "2026-04-12T10:00:00Z",
   "content/schema": "plain-comment.v1",
@@ -20,7 +20,7 @@
       "principal_key": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
       "grants": {
         "signing/agora-record": [
-          "topic:orbiplex/proposals/035"
+          "topic:ai.orbiplex.proposals/035"
         ]
       },
       "expires_at": "2026-04-12T11:00:00Z",

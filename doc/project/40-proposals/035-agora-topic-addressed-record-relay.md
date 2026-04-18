@@ -180,7 +180,7 @@ Applications choose their own topic-key conventions. Common patterns
 include:
 
 - namespace-prefixed path-like strings, for example
-  `orbiplex/proposals/035`, `mycompany/build-log`,
+  `ai.orbiplex.proposals/035`, `mycompany/build-log`,
 - random or content-derived identifiers, for example
   `01JRCY0Y7T4Y9JQK8K7R6K4M3M` or `sha256:4b7c...`,
 - human-readable channel names scoped by operator, for example
@@ -188,13 +188,24 @@ include:
 
 Applications that want topics derived from resource identity (proposal 026)
 MAY construct topic keys that embed the resource identity as a substring
-(for example `opinions/url/sha256:4b7c...`), but this is a convention of
+(for example `ai.orbiplex.opinions/url/sha256:4b7c...`), but this is a convention of
 the *record kind contract*, not a rule of the substrate.
 
 Two applications that pick the same `topic/key` will share a topic. The
 substrate does not enforce global namespacing; applications SHOULD use
 operator- or project-scoped prefixes to avoid collisions. Kind contracts
 MAY require stricter prefixes.
+
+The recommended namespace scheme — six named prefix classes
+(`ai.orbiplex.<subsystem>/<name>`, `participant:<pid>/…`,
+`node:<node-id>/…`, `federation:<fid>/…`, `local/…`, `private/…`)
+plus the rules that turn those prefixes into cryptographic ownership
+at the relay ingress — is defined in **proposal 046 (Agora Topic-Key
+Namespace Conventions)**. That proposal is non-normative for the
+substrate: `topic/key` remains opaque here; all enforcement lives in
+relay policy and author-side hygiene. Deployments that adopt 046
+run the one-compare core discriminator (`starts_with("ai.orbiplex.")`)
+and the five-check ingest policy before any 041 attestation tiering.
 
 #### 1.2. Record Identifier
 
@@ -396,7 +407,7 @@ Response:
 
 ```json
 {
-  "topic/key": "orbiplex/proposals/035",
+  "topic/key": "ai.orbiplex.proposals/035",
   "records": [ { ...agora-record.v1... }, ... ],
   "cursor": "opaque-next-cursor",
   "more": true
@@ -626,7 +637,7 @@ opinions; the subject relation is carried in `record/about`:
   "schema": "agora-record.v1",
   "record/id": "sha256:4Q7x3kCDfm2yVwrbn8Hj5tlsOe9zApiU6Gq3wXYAbCd",
   "record/kind": "opinion",
-  "topic/key": "opinions/url",
+  "topic/key": "ai.orbiplex.opinions/url",
   "record/about": [
     { "resource/kind": "url", "resource/id": "https://example.org/article" }
   ],
@@ -653,7 +664,7 @@ shapes; which one to use is a decision of the kind contract for
   "schema": "agora-record.v1",
   "record/id": "sha256:4Q7x3kCDfm2yVwrbn8Hj5tlsOe9zApiU6Gq3wXYAbCd",
   "record/kind": "opinion",
-  "topic/key": "opinions/url/sha256:4b7c9fzkMyAL8GBfQExamplePerUrlTopic01",
+  "topic/key": "ai.orbiplex.opinions/url/sha256:4b7c9fzkMyAL8GBfQExamplePerUrlTopic01",
   "record/about": [
     { "resource/kind": "url", "resource/id": "https://example.org/article" }
   ],
@@ -677,7 +688,7 @@ A plain comment in a general channel. No external subject, no
   "schema": "agora-record.v1",
   "record/id": "sha256:Zp2m9ThKqgX4r7v8C5n1Yb6jD3WlFsTaephQkU2mov8",
   "record/kind": "comment",
-  "topic/key": "orbiplex/announcements",
+  "topic/key": "ai.orbiplex.announcements/default",
   "author/participant-id": "participant:did:key:z6MkExample",
   "authored/at": "2026-04-11T09:00:00Z",
   "content/schema": "plain-comment.v1",
@@ -698,7 +709,7 @@ same topic:
   "schema": "agora-record.v1",
   "record/id": "sha256:TH7q1WknMyAL8GBfQC5XrExampleThreadStart01",
   "record/kind": "comment",
-  "topic/key": "orbiplex/proposals/035/discussion",
+  "topic/key": "ai.orbiplex.proposals/035/discussion",
   "author/participant-id": "participant:did:key:z6MkExample",
   "authored/at": "2026-04-11T10:30:00Z",
   "content/schema": "plain-comment.v1",
@@ -719,7 +730,7 @@ the run identifier, and there is no external subject to reference:
   "schema": "agora-record.v1",
   "record/id": "sha256:WF001rk5d8m2hxQP4N7bT6vLYcFj3gsOwueazR9ikmt",
   "record/kind": "public-log",
-  "topic/key": "orbiplex/workflow-runs/01JRCY0Y7T4Y9JQK8K7R6K4M3M",
+  "topic/key": "ai.orbiplex.workflow-runs/01JRCY0Y7T4Y9JQK8K7R6K4M3M",
   "author/participant-id": "participant:did:key:z6MkWorkflow",
   "authored/at": "2026-04-11T11:00:00Z",
   "content/schema": "public-log-entry.v1",

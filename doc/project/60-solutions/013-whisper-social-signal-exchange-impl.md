@@ -37,8 +37,8 @@ Whisper is **not** a transport; it is a **content kind plus an
 authoring/reception pipeline** that rides on two distribution surfaces:
 
 1. **Agora** (proposal 035) — for `disclosure/scope` values other than
-   `private-correlation`; topic convention proposed:
-   `whispers/<topic-class>` (open decision, see §Open Decisions).
+   `private-correlation`; topic convention:
+   `ai.orbiplex.whispers/<topic-class>` (proposal 046).
 2. **INAC** (proposal 042) — for `private-correlation`, for
    `routing/profile = direct`, and for any scope the participant
    prefers to keep off a public substrate.
@@ -139,7 +139,7 @@ that carries or stores it.
 
 | Where | What to register | State |
 |---|---|---|
-| Agora kinds table (proposal 035 §3) | `whisper-signal.v1` + topic convention for `whispers/<topic-class>` | 🟡 partially documented in 035; topic convention is an open decision |
+| Agora kinds table (proposal 035 §3) | `whisper-signal.v1` + topic convention for `ai.orbiplex.whispers/<topic-class>` | 🟡 convention resolved in 046; kind registration still pending |
 | Agora kinds table | `whisper-durable.v1` for threshold-promoted whispers | 🟡 mentioned in 013 §5, kind not yet registered |
 | INAC `handles_artifact_kinds` (proposal 042 §4) | `whisper-signal.v1` handler + authorization modes allowed | ❌ not started (INAC itself not started) |
 | Memarium observe rules | capture envelope byte-identically + action-trace for whisper lifecycle | ❌ not started |
@@ -154,7 +154,7 @@ build_whisper_envelope(
   content: WhisperSignalV1,            // schema-validated
   author: ParticipantOrNym,
   nym_cert_ref: Option<NymCertRef>,    // required when author is Nym
-  topic_key: Option<String>,           // Some("whispers/<topic-class>") for Agora, None for INAC
+  topic_key: Option<String>,           // Some("ai.orbiplex.whispers/<topic-class>") for Agora, Some("private/<name>") for INAC
   authored_at: DateTime<Utc>,
   signer: SigningService,              // proposal 037
 ) -> Result<AgoraRecord, WhisperEnvelopeError>
@@ -283,7 +283,7 @@ Receiver-side ingest is split across the two surfaces but uses the
 | `PassportResolutionCache` shared with Agora | ❌ not started |
 | Nym-certificate resolver | 🟡 certificate schema exists; resolver not started |
 | Whisper-specific ingest predicates (`disclosure_scope_in`, `content_field_in`, …) | ❌ not started (open decision in proposal 041) |
-| Matrix federation bridge for whisper topics | 🟡 generic bridge exists; topic-pattern allowlist for `whispers/*` not configured |
+| Matrix federation bridge for whisper topics | 🟡 generic bridge exists; topic-pattern allowlist for `ai.orbiplex.whispers/*` not configured |
 
 ## Layer 6 — Memarium integration
 
@@ -332,16 +332,11 @@ durable public presence as `whisper-durable.v1`.
 These must be resolved (short decisions, not full proposals) before
 Layer 1+ can be built coherently.
 
-1. **Topic-key convention for Agora whispers.** Candidates:
-   - `whispers/<topic-class>` (flat, simple, lets subject index
-     group by class),
-   - `whispers/<risk-grade>/<topic-class>` (allows risk-scoped
-     topic ACL and retention),
-   - `whispers/<federation-id>/<topic-class>` (scopes to
-     federation explicitly; risk of over-leaking federation id).
-
-   Decision lives in proposal 013 or 035 kinds table and in this
-   document's §Layer 1.
+1. **Topic-key convention for Agora whispers.** Resolved by proposal
+   046: public/federated whispers use
+   `ai.orbiplex.whispers/<topic-class>`. Direct/private
+   `private-correlation` artefacts use `private/<name>` while on INAC
+   and MUST NOT be submitted to Agora.
 
 2. **Predicate grammar for `disclosure/scope` filtering in
    attestation-gate.** Proposal 041 §5 needs a
@@ -397,7 +392,7 @@ Each step should leave the tree in a compiling state.
    primitive used by all receivers.
 5. **Layer 5 — Agora ingest path.** Whisper-specific predicates
    wired through attestation-gate; Matrix bridge allowlist for
-   `whispers/*`. This lets public whispers start flowing.
+   `ai.orbiplex.whispers/*`. This lets public whispers start flowing.
 6. **Layer 4 — router (Agora branch only).** Router that publishes
    to Agora; returns explicit error for `private-correlation`
    until INAC exists.

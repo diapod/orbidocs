@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-observation:v1",
+  "title": "Sensorium Observation v1",
+  "description": "Admitted local Sensorium observation: a fact about the world normalized by sensorium-core after connector submission or after a successful directive. Rejected and quarantined submissions do not become observation records.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/045-sensorium-local-enaction-stratum.md",
+    "doc/project/40-proposals/046-agora-topic-key-namespace-conventions.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "observation/id",
+    "connector/id",
+    "connector/kind",
+    "observed/at",
+    "ingested/at",
+    "signal/kind",
+    "confidence",
+    "freshness",
+    "sensitivity",
+    "source/ref",
+    "admission"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "sensorium-observation.v1",
+      "description": "Schema tag for the v1 Sensorium contract."
+    },
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "observation/id": {
+      "type": "string",
+      "description": "Opaque observation identifier assigned by sensorium-core; recommended to be ULID-prefixed, e.g. obs:local:01J..."
+    },
+    "invocation/id": {
+      "type": "string",
+      "description": "Optional connector invocation trace id. Present for reactive observations produced by a directive or explicit connector invocation."
+    },
+    "directive/id": {
+      "type": "string",
+      "description": "Optional directive id when this observation was produced as a result of sensorium-directive.v1."
+    },
+    "outcome/id": {
+      "type": "string",
+      "description": "Optional directive outcome id linking this observation to the audit-only sensorium-directive-outcome.v1 record."
+    },
+    "correlation/id": {
+      "type": "string",
+      "description": "Optional opaque id threading this observation through a higher-level plan or workflow."
+    },
+    "connector/id": {
+      "type": "string",
+      "description": "Registered connector module id that produced the submitted observation or executed the directive."
+    },
+    "connector/kind": {
+      "type": "string",
+      "description": "Domain-facing connector kind/class label, e.g. OS, public-network-reader, filesystem-watcher."
+    },
+    "observed/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp of the source event or instrument-level observation. This is the time belonging to the world/source, not the time at which the connector or sensorium-core processed the record."
+    },
+    "ingested/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp when sensorium-core admitted the observation and wrote the admitted record. This is not the source event time; use observed/at for the instrument/source timestamp and connector/submitted_at when connector latency matters."
+    },
+    "signal/kind": {
+      "type": "string",
+      "description": "Authoritative local signal kind used for query and per-kind local Agora topic derivation. The value forms the suffix of local/sensorium/observations/{signal-kind}. Each '/'-separated segment is a dotted chain of lowercase tokens, which lets connectors carry reverse-DNS vendor prefixes (e.g. com.apple.ios.accelerometer/x-axis) for collision-free namespacing. Bare short names (e.g. release, github-release, filesystem/change) remain valid and represent the community-common namespace. Orbiplex-owned kinds SHOULD use the ai.orbiplex.* prefix per proposal 046.",
+      "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*(/[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*)*$"
+    },
+    "signal/family": {
+      "type": "string",
+      "description": "Optional generic signal-family identifier declared by the connector alongside signal/kind. Carries the vendor-independent family name (e.g. accelerometer/x-axis, workflow/completed) so consumers can query across providers or subscribe broadly and filter by envelope without maintaining a vendor-to-family mapping. MUST NOT contain dots; the no-dot pattern distinguishes the community-common family namespace from the dotted reverse-DNS namespace used by signal/kind. Source of truth is the connector module report; sensorium-core does not derive this value. No local/sensorium/observations-by-family topic tree exists in v1.",
+      "pattern": "^[a-z][a-z0-9-]*(/[a-z0-9-]+)*$"
+    },
+    "subject/kind": {
+      "type": "string",
+      "description": "Optional kind of observed subject, e.g. github-repository, url, filesystem-path, host, self, environment. Omit only when the observation is genuinely subjectless."
+    },
+    "subject/id": {
+      "type": "string",
+      "description": "Optional stable subject identifier within subject/kind. For node-self measurements use a stable self identifier rather than a blank value."
+    },
+    "summary": {
+      "type": "object",
+      "description": "Optional human-readable compact summary. Numeric or high-frequency observations MAY omit this field when a textual summary would add no value.",
+      "additionalProperties": true,
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "description": "BCP 47 language tag for summary text."
+        },
+        "text": {
+          "type": "string",
+          "description": "Human-readable compact summary."
+        }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "class"
+      ],
+      "properties": {
+        "class": {
+          "type": "string",
+          "enum": [
+            "unknown",
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": "Sensorium-local confidence class; not the emergency C0-C4 credibility scale."
+        },
+        "rationale": {
+          "type": "string"
+        }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "ttl_sec"
+      ],
+      "properties": {
+        "ttl_sec": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Freshness horizon for read models and time-sensitive consumers. This is not necessarily a deletion deadline for historical/audit storage."
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "sensitivity": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "class"
+      ],
+      "properties": {
+        "class": {
+          "type": "string",
+          "enum": [
+            "public",
+            "community",
+            "private",
+            "operational-sensitive",
+            "sensitive-personal"
+          ],
+          "description": "Local sensitivity class aligned with connector_sensitivity_baseline values."
+        },
+        "redaction": {
+          "type": "string",
+          "description": "Connector or Sensorium redaction state label."
+        }
+      }
+    },
+    "source/ref": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "kind",
+        "value"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "Source reference kind, e.g. url, file, command, device. Uses the same lowercase slash-separated token convention as signal/kind and local Sensorium topic suffixes, including optional dotted reverse-DNS prefixes for vendor-specific reference kinds.",
+          "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*(/[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*)*$"
+        },
+        "value": {
+          "type": "string",
+          "description": "Source reference value; may be redacted.",
+          "minLength": 1
+        }
+      }
+    },
+    "evidence/refs": {
+      "type": "array",
+      "description": "Optional artifact or evidence references using the minimal artifact-lane contract from proposal 045.",
+      "items": {
+        "$ref": "#/$defs/artifactRef"
+      }
+    },
+    "policy/hints": {
+      "type": "object",
+      "description": "Connector-supplied policy hints. These are not authoritative.",
+      "additionalProperties": true,
+      "properties": {
+        "shareable": {
+          "type": "boolean"
+        },
+        "memarium_admit_hint": {
+          "type": "boolean",
+          "description": "Connector hint requesting durable Memarium admission. The authoritative decision is admission.memarium_admit."
+        },
+        "requested_consumer_scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "admission": {
+      "type": "object",
+      "description": "Sensorium-authored authoritative admission decision.",
+      "additionalProperties": true,
+      "required": [
+        "status",
+        "redaction_status",
+        "memarium_admit",
+        "consumer_scopes",
+        "store",
+        "publish_topics"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "const": "admitted",
+          "description": "sensorium-observation.v1 records are admitted-only; rejected and quarantined submissions do not become observations."
+        },
+        "redaction_status": {
+          "type": "string"
+        },
+        "memarium_admit": {
+          "type": "boolean"
+        },
+        "consumer_scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "store": {
+          "type": "object",
+          "description": "Required Node-owned generic module store reference and TTL metadata for the admitted observation.",
+          "additionalProperties": true,
+          "properties": {
+            "record/id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ttl_sec": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "expires_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "record/id",
+            "ttl_sec"
+          ]
+        },
+        "publish_topics": {
+          "type": "array",
+          "description": "Local Agora topics to which this observation was published. v1 topics MUST use the proposal-046 shape local/sensorium/observations/{signal-kind} and are rejected by multi-tenant relays.",
+          "items": {
+            "type": "string",
+            "pattern": "^local/sensorium/observations/[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*(/[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*)*$"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "connector/submitted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional RFC 3339 timestamp when the connector emitted or submitted the observation candidate to sensorium-core. Used to distinguish source lag (connector/submitted_at - observed/at) from admission lag (ingested/at - connector/submitted_at)."
+    }
+  },
+  "$defs": {
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "artifact/id",
+        "role"
+      ],
+      "description": "Minimal artifact-lane reference. The artifact itself is stored outside this envelope and is addressed by a content or host-owned blob reference.",
+      "properties": {
+        "artifact/id": {
+          "type": "string",
+          "pattern": "^(sha256:[A-Za-z0-9_-]+|memarium-blob:[A-Za-z0-9._:/-]+)$",
+          "description": "Content-addressed or host-owned artifact identifier. v1 accepts sha256:<base64url-or-hex> and memarium-blob:<opaque-id> forms."
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "stdout",
+            "stderr",
+            "produced-file",
+            "raw-capture"
+          ],
+          "description": "Role of the artifact in the Sensorium exchange."
+        },
+        "media_type": {
+          "type": "string",
+          "description": "Optional media type of the referenced artifact."
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Optional artifact size in bytes."
+        }
+      }
+    }
+  }
+}
