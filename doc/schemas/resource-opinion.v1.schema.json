@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:resource-opinion:v1",
   "title": "ResourceOpinion v1",
-  "description": "Machine-readable schema for the content body of an Agora record expressing a participant's opinion about a resource. The enclosing `agora-record.v1` envelope carries identity, authorship, topic routing, and the canonical `record/about` subject reference; this schema validates only the content body.",
+  "description": "Machine-readable schema for the content body of an Agora record expressing a participant's opinion about a resource. The enclosing `agora-record.v1` envelope carries identity, authorship, topic routing, and the canonical `record/about` subject reference; this schema validates only the content body. The schema is intentionally open (`additionalProperties: true`); consumers MAY extend it with kind-specific namespaced keys of the form `<kind>/<field>` validated by a separate overlay schema (e.g. `rumor-opinion.overlay.v1`). See proposal 026 §Kind-specific extensions.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -14,8 +14,19 @@
     "doc/project/50-requirements/requirements-014.md"
   ],
   "required": [
-    "schema",
-    "opinion/text"
+    "schema"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "opinion/text"
+      ]
+    },
+    {
+      "required": [
+        "opinion/rating"
+      ]
+    }
   ],
   "properties": {
     "schema": {
@@ -26,16 +37,13 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 8192,
-      "description": "Human-authored opinion text. Renderers MUST treat this value as untrusted input and escape appropriately before display."
+      "description": "Human-authored opinion text. Renderers MUST treat this value as untrusted input and escape appropriately before display. Optional only when `opinion/rating` is present — every opinion MUST carry at least one of `opinion/text` or `opinion/rating`. Relational fields (`opinion/in-reply-to`, `opinion/see-also`, `opinion/related`) are additive context and do NOT substitute for the opinion's own substance."
     },
     "opinion/rating": {
       "type": "integer",
-      "enum": [
-        -1,
-        0,
-        1
-      ],
-      "description": "Optional ternary rating: negative (-1), neutral (0), or positive (1). Absence means no rating was supplied."
+      "minimum": 0,
+      "maximum": 5,
+      "description": "Optional rating on a 1..5 scale where 1 is the weakest and 5 is the strongest positive assessment. The value `0` is the explicit 'no rating' marker; absence of the field has the same meaning. Consumers MUST NOT silently translate ratings to a different scale (e.g. a reputation signal) without an explicit mapping."
     },
     "opinion/tags": {
       "type": "array",
@@ -52,6 +60,55 @@
       "type": "string",
       "pattern": "^[A-Za-z]{2,3}(-[A-Za-z0-9]{2,8})*$",
       "description": "Optional BCP 47 language tag for `opinion/text`."
+    },
+    "opinion/subject-kind": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "Optional soft discriminator naming the kind of subject this opinion is about (e.g. `rumor`, `gps-location`, `public-person`, `ean`, `url`). Consumers MAY use this value to select a kind-specific overlay schema and interpret namespaced extension keys (e.g. `rumor/credibility`). It does not replace `record/about` in the enclosing envelope; it is a hint for payload-level routing."
+    },
+    "opinion/in-reply-to": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Optional `record/id` of another opinion to which this opinion is a direct reply. Gives the opinion conversational context; consumers MAY thread replies by following this link. The referenced opinion SHOULD itself be a `resource-opinion.v1` record, but consumers MUST tolerate dangling references (the referent may be unreachable at read time)."
+    },
+    "opinion/related": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "description": "Optional list of `record/id` values of other opinions related to this one (for example: prior takes the author has seen, opinions that inspired or corroborate this one, opinions the author is explicitly contrasting with). The relation is intentionally loose; stronger semantics belong in overlay fields or in a dedicated opinion-link schema."
+    },
+    "opinion/see-also": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Kind of the referenced opinable object (e.g. `url`, `rumor`, `resource`, `public-person`, `opinion`)."
+          },
+          {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "description": "Identifier of the referenced object in the form canonical for its kind (e.g. a URL string for `url`, a `sha256:…` record id for `rumor` or `opinion`, a URN for a resource)."
+          }
+        ],
+        "items": false,
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "description": "Optional list of related opinable objects the reader may want to look at alongside this opinion. Each entry is a 2-element vector `[kind, id]`. Unlike `opinion/related`, entries here are NOT restricted to opinions — they point at the underlying objects themselves (a URL, a rumor record, a resource URN, a person identity)."
     }
   }
 }

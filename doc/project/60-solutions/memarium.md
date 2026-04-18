@@ -115,6 +115,57 @@ Responsibilities:
 
 All eight capabilities are exposed as `POST /v1/host/capabilities/memarium.<op>` endpoints and run through the same passport-gated dispatch as Sealer (`capability-binding::authorize`, six-step pipeline). Revocation is integrated against local, static-file, Seed Directory, and delegation-target-id sources. The operator-vocabulary target tag is `memarium:space:<space>[:community:<id>][:kind:<kind>][:entry:<id>]`; crisis status and resolve use the crisis space target.
 
+#### Host API Wire Contract
+
+The host API keeps the `endpoint + op` shape. Each request is sent to one of
+the eight `memarium.*` endpoints and carries an `op` field identifying the
+operation inside that capability. Successful responses carry `status: "ok"`;
+error responses carry a stable `status: string`, a free-form human `reason`,
+and may carry structured `details`. Clients should parse `status`
+programmatically and must not parse `reason`.
+
+For HTTP target-bearing operations, `community_id` is required when
+`space == "community"`, even though the local runtime storage shape does not
+need it. The daemon needs it to build the authorization target. `entry_kind` is
+required for `memarium.write` / `write_entry` through the mandatory
+`artifact_kind` field, and optional elsewhere; when present, it participates in
+profile matching. `attributes` are an open-world `map<string,string>` with
+bounded key count, key size, and value size. `fields` are an open-world JSON
+object with bounded key count, key size, encoded size, and depth. Runtime domain
+types and HTTP wire schemas remain separate contracts. All HTTP wire timestamp
+fields are RFC3339 strings; Rust `SystemTime`'s serde object shape is an
+implementation detail and is not part of the Memarium host-capability contract.
+
+##### Response Status Codes
+
+The enumeration below is closed for host-capability contract v1. Adding a new
+status is a minor version bump; removing or renaming a status is breaking. Codes
+from the dispatch gate map to exactly one audit decision string.
+
+| Status | HTTP | Audit decision | Retryable | Meaning |
+| :--- | :--- | :--- | :--- | :--- |
+| `invalid_request` | `400 Bad Request` | - | no | Malformed JSON, missing required field, wrong type, or enum outside the accepted range. |
+| `unsupported_op` | `400 Bad Request` | - | no | Envelope shape is valid, but the `op` does not exist for this `memarium.*` host capability. |
+| `invalid_operator_reason` | `422 Unprocessable Entity` | - | no | `memarium.crisis_resolve` reason is empty, longer than 2048 bytes, or contains unsupported control characters. |
+| `passport_lookup_failed` | `403 Forbidden` | `denied:passport-lookup-failed` | no | Caller is identified, but no matching `memarium-space-access` passport is installed for this caller/capability target. |
+| `passport_invalid` | `403 Forbidden` | `denied:passport-invalid-signature` | no | Passport structure or signature does not verify. |
+| `passport_expired` | `403 Forbidden` | `denied:passport-expired` | no | Passport is outside its validity window. |
+| `binding_mismatch` | `403 Forbidden` | `denied:binding-mismatch` | no | Passport does not bind to the resolved caller. |
+| `allowed_callers_mismatch` | `403 Forbidden` | `denied:allowed-callers-mismatch` | no | Caller is not present in the passport's allowed caller set. |
+| `no_profile_matched` | `403 Forbidden` | `denied:no-profile-matched` | no | No passport profile matches the grant and structured Memarium target. |
+| `policy_denied` | `403 Forbidden` | `denied:policy-denied` | no | Issuer policy denied the request after the more specific denial classes did not apply. |
+| `revocation_stale` | `503 Service Unavailable` | `denied:revocation-stale` | yes | Revocation view is outside the configured freshness budget. |
+| `revoked` | `410 Gone` | `denied:revoked` | no | Passport id or delegation target id is revoked. |
+| `operator_only` | `403 Forbidden` | `denied:operator-only` | no | Capability requires A0; module callers cannot invoke it directly. |
+| `space_policy_violation` | `422 Unprocessable Entity` | - | no | Memarium space policy rejects the operation, e.g. plaintext write into an encryption-required space. |
+| `promotion_denied` | `403 Forbidden` | - | no | Cross-space promotion would violate Memarium promotion rules. Details may classify specific cases such as crisis-closed promotion. |
+| `not_found` | `404 Not Found` | - | no | Requested entry, fact, or cache key does not exist. |
+| `unknown_detector` | `422 Unprocessable Entity` | - | no | `memarium.crisis_resolve.detector` is outside the detector whitelist. `details.valid_detector_ids` lists accepted ids. |
+| `memarium_unavailable` | `503 Service Unavailable` | - | yes | Memarium host capability runtime is disabled or not currently available. |
+| `storage_unavailable` | `503 Service Unavailable` | - | yes | Transient storage failure. |
+| `storage_error` | `500 Internal Server Error` | - | no | Non-retryable storage failure. |
+| `internal_error` | `500 Internal Server Error` | - | no | Unexpected host-side state. The response must not leak stack traces or secrets. |
+
 Authorization-level enforcement for `memarium.forget` is A0 in the current
 daemon: modules cannot call it directly even when they hold a passport grant.
 The runtime still gates the actual effect through the space `ForgetPolicy`:

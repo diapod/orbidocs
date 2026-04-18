@@ -117,6 +117,7 @@
    :kind :extension
    :based-on ["doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
               "doc/project/40-proposals/020-bundled-python-middleware-modules.md"
+              "doc/project/40-proposals/044-host-owned-generic-module-store.md"
               "doc/project/50-requirements/requirements-010.md"
               "doc/project/50-requirements/requirements-011.md"
               "doc/project/30-stories/story-006.md"
@@ -127,6 +128,7 @@
    "Bundle and supervise Python implementations of Orbiplex Dator and Orbiplex Arca in the hard MVP"
    "Keep middleware startup, readiness, restart budget, and shutdown under Node authority"
    "Run `middleware-init` and retain module capability reports for operator inspection"
+   "Expose a host-owned generic module store for small module-local JSON records without daemon-owned payload semantics"
    "Provide the deployment surface for Dator and Arca without overloading unmanaged adapters"
    "Remain the future host-granted capability surface for local modules such as Monus without yielding direct transport or publication authority"]
    :status :done}

@@ -1,4 +1,4 @@
 {
   "schema": "resource-opinion.v1",
-  "opinion/rating": 1
+  "opinion/lang": "en"
 }

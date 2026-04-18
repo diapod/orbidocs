@@ -130,7 +130,7 @@
     },
     "signature": {
       "$ref": "#/$defs/signature",
-      "description": "Ed25519 signature by the participant key of `author/participant-id` over the canonical payload of this record with `signature`, `relay/received-at`, and `relay/id` removed. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`. Verification uses the participant's capability passport chain (proposals 024 and 032); delegated signing via proposal 032 is permitted.",
+      "description": "Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, and `relay/id` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`.",
       "$comment": "Two distinct canonical payloads are used in this schema: (1) the `record/id` payload excludes record/id + signature + relay fields; (2) the signature payload excludes only signature + relay fields and keeps record/id. This matches the Matrix event-signing pattern where event_id is embedded in the signed content and gives wider cross-transport compatibility."
     }
   },
@@ -140,7 +140,8 @@
       "additionalProperties": true,
       "required": [
         "alg",
-        "value"
+        "value",
+        "key/public"
       ],
       "properties": {
         "alg": {
@@ -155,10 +156,52 @@
           "minLength": 1,
           "description": "Base64url-encoded signature bytes."
         },
-        "key/ref": {
+        "key/public": {
           "type": "string",
           "minLength": 1,
-          "description": "Optional reference to the signing key or delegation proof, used when the author signs through a delegated proxy key from proposal 032."
+          "description": "Required multibase Ed25519 public key of the concrete signer. For direct signatures this is the key embedded in `author/participant-id`; for delegated signatures this is the proxy signing key. If this key differs from the key derived from `author/participant-id`, `key/delegation` MUST be present and valid. JSON Schema cannot derive and compare did:key values, so implementations enforce that fail-closed rule in the verifier."
+        },
+        "key/delegation": {
+          "$ref": "#/$defs/delegationProof",
+          "description": "Optional inline delegation proof authorising `key/public` to sign on behalf of `author/participant-id`. If present, `key/public` MUST also be present."
+        }
+      }
+    },
+    "delegationProof": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "delegation_id",
+        "proxy_key",
+        "principal_key",
+        "grants",
+        "expires_at",
+        "principal_signature"
+      ],
+      "description": "Compact bearer credential copied from a `key-delegation.v1` artifact and embedded beside a proxy-key signature. The full semantics live in proposal 032; Agora treats this as an inline proof for delegated record signing.",
+      "properties": {
+        "delegation_id": {
+          "type": "string",
+          "pattern": "^delegation:key:"
+        },
+        "proxy_key": {
+          "type": "string",
+          "pattern": "^did:key:"
+        },
+        "principal_key": {
+          "type": "string",
+          "pattern": "^did:key:"
+        },
+        "grants": {
+          "type": "object"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "principal_signature": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

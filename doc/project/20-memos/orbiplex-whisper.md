@@ -45,8 +45,9 @@ The two polarities share the same lifecycle (`whisper-signal` → `whisper-inter
 `whisper-threshold-reached` → `association-room-proposal` → human opt-in) but differ
 in tone, urgency, and the nature of the resulting room:
 
-- problem signals may carry a risk grade and may trigger emergency assistance paths;
-  inspiration signals carry no risk grade and never trigger emergency protocols.
+- problem signals use `signal/grade` as protective risk and urgency; inspiration
+  signals use `signal/grade` as convergence strength or co-creation potential and
+  never trigger emergency protocols solely by being inspirational.
 - problem signals protect the anonymity of affected people; inspiration signals may
   still prefer privacy in early phases to avoid premature priority conflicts or
   attribution pressure, but do not carry the same protective urgency.
@@ -94,7 +95,7 @@ The signal should be normalized and redacted. It should prefer:
 - confidence,
 - disclosure scope,
 - source class,
-- risk grade.
+- signal grade.
 
 It should avoid raw personally identifying material by default.
 
@@ -109,6 +110,25 @@ A receiving node may decide that the signal appears relevant to its operator or 
 - advertise that it is willing to participate in further correlation.
 
 This is important: relevance signaling should not require immediate disclosure.
+
+Interest advertisement is eligibility, not a delivery entitlement. If a popular
+topic has many interested nodes, the origin node should send only to a small,
+policy-bounded set chosen by topic match, private transport support, intake
+capacity, trust / assurance, diversity, and local egress budget.
+
+A receiving node that stores a private whisper may also become a bounded holder
+and redistributor when the original whisper policy, local Memarium policy, and
+operator settings allow it. Such a node may advertise holder availability in
+Agora, but the announcement should be a privacy-preserving availability hint
+(topic class, accepted private transport, capacity, assurance class, optional
+opaque token), not a public shadow copy of the private whisper or its raw
+keywords.
+
+The holder can also skip Agora and offer the whisper directly to a trusted peer:
+"I hold a private whisper for this coarse topic class and disclosure scope." The
+peer may request it by default policy, ask the operator, or use a bounded advisory
+LLM / automation path to decide. The offer should reveal only enough metadata to
+support that decision, not the whisper text or reconstructive keywords.
 
 ### 3. `whisper-threshold-reached`
 

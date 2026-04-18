@@ -20,13 +20,13 @@ Generated coverage snapshot for the current `doc/` structure.
 |---|---:|---:|
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `42` | `9` |
-| `30-stories` (Stories) | `12` | `1` |
-| `40-proposals` (Proposals) | `46` | `36` |
+| `30-stories` (Stories) | `13` | `1` |
+| `40-proposals` (Proposals) | `47` | `37` |
 | `50-requirements` (Requirements) | `16` | `14` |
-| `60-solutions` (Solutions) | `22` | `12` |
+| `60-solutions` (Solutions) | `26` | `14` |
 
-- Total project markdown files: `144`
-- Proposals referencing source material: `36` / `46`
+- Total project markdown files: `150`
+- Proposals referencing source material: `37` / `47`
 - Requirements referencing source material: `14` / `16`
 
 ## Schema Workflow
@@ -34,7 +34,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | Schema | Properties | Described Fields | `x-dia-basis` | Generated Doc | Valid Examples | Invalid Examples |
 |---|---:|---:|---|---|---:|---:|
 | [`adapter-artifact.v1.schema.json`](schemas-gen/schemas/adapter-artifact.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
-| [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md) | `16` | `16` | `yes` | `yes` | `3` | `0` |
+| [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md) | `16` | `16` | `yes` | `yes` | `4` | `0` |
 | [`answer-room-metadata.v1.schema.json`](schemas-gen/schemas/answer-room-metadata.v1.md) | `16` | `1` | `no` | `yes` | `3` | `1` |
 | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md) | `16` | `15` | `yes` | `yes` | `1` | `1` |
 | [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
@@ -89,7 +89,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`public-log-entry.v1.schema.json`](schemas-gen/schemas/public-log-entry.v1.md) | `6` | `6` | `yes` | `yes` | `0` | `0` |
 | [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) | `30` | `30` | `yes` | `yes` | `2` | `2` |
 | [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md) | `16` | `16` | `yes` | `yes` | `4` | `6` |
-| [`resource-opinion.v1.schema.json`](schemas-gen/schemas/resource-opinion.v1.md) | `5` | `5` | `yes` | `yes` | `1` | `1` |
+| [`resource-opinion.v1.schema.json`](schemas-gen/schemas/resource-opinion.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `1` |
 | [`resource-ref.v1.schema.json`](schemas-gen/schemas/resource-ref.v1.md) | `2` | `2` | `yes` | `yes` | `0` | `0` |
 | [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
@@ -107,7 +107,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md) | `17` | `12` | `yes` | `yes` | `1` | `2` |
 | [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) | `16` | `7` | `yes` | `yes` | `1` | `1` |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
-| [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) | `16` | `16` | `yes` | `yes` | `3` | `2` |
+| [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) | `17` | `17` | `yes` | `yes` | `3` | `2` |
 | [`whisper-threshold-reached.v1.schema.json`](schemas-gen/schemas/whisper-threshold-reached.v1.md) | `13` | `12` | `yes` | `yes` | `1` | `1` |
 
 ## Schema Project Lineage
@@ -278,5 +278,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `76`
 - Generated schema docs: `76`
-- Positive examples: `97`
+- Positive examples: `98`
 - Negative examples: `78`

@@ -1,5 +1,6 @@
 {
   "schema": "whisper-signal.v1",
+  "signal_polarity": "problem",
   "epistemic/class": "weak-signal",
   "signal/text": "A recurring emergency-care pattern may be emerging: severe abdominal pain is reported, ambulance transport is refused, and serious bleeding complications appear hours later.",
   "topic/class": "emergency-care-refusal-pattern",
@@ -9,15 +10,19 @@
     "later-intestinal-bleeding"
   ],
   "confidence": 0.71,
-  "disclosure/scope": "federation-scoped",
+  "disclosure/scope": "private-correlation",
   "source/class": "monus-derived",
-  "risk/grade": "critical",
+  "signal/grade": "critical",
   "routing/profile": "relayed",
-  "routing/failure-mode": "soft-fail",
+  "routing/failure-mode": "hard-fail",
   "relay/acceptable-classes": [
     "care-safety-peer",
     "whisper-witness"
   ],
-  "forwarding/max-hops": 2,
-  "forwarding/budget": 1
+  "forwarding/max-hops": 1,
+  "forwarding/budget": 1,
+  "policy_annotations": {
+    "deployment_class": "trusted-care-private-correlation",
+    "distribution_note": "Bounded trusted care relay for private correlation; not public Agora fan-out."
+  }
 }

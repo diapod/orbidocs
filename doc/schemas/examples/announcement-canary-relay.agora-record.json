@@ -17,6 +17,7 @@
   ],
   "signature": {
     "alg": "ed25519",
-    "value": "sig_example_announcement_canary_relay_0001"
+    "value": "sig_example_announcement_canary_relay_0001",
+    "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
   }
 }

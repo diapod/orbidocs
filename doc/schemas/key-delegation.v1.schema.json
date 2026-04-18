@@ -54,7 +54,7 @@
           "minLength": 1
         }
       },
-      "description": "Open grant map from grant type to non-empty list of target identifiers. MVP recognizes `signing/capability` whose targets are capability IDs (e.g. `network-ledger`, `escrow`) or the wildcard `\"*\"` that grants all capability IDs. Additional grant types (`signing/org`, `signing/proxy`, ...) are reserved for future proposals and MUST be ignored by verifiers that do not recognise them (open-world extension semantics). The wildcard `\"*\"` is operationally convenient but semantically equivalent to full capability-signing authority; operators SHOULD prefer explicit capability lists.",
+      "description": "Open grant map from grant type to non-empty list of target identifiers. MVP recognizes `signing/capability` whose targets are capability IDs (e.g. `network-ledger`, `escrow`) and `signing/agora-record` whose targets are Agora record-signing scopes (for example topic-scoped targets or the wildcard `\"*\"`). Additional grant types (`signing/org`, `signing/proxy`, ...) are reserved for future proposals and MUST be ignored by verifiers that do not recognise them (open-world extension semantics). The wildcard `\"*\"` is operationally convenient but semantically equivalent to full authority for the grant type; operators SHOULD prefer explicit targets.",
       "properties": {
         "signing/capability": {
           "type": "array",
@@ -64,7 +64,17 @@
             "minLength": 1,
             "description": "Capability identifier authorised for proxy-key signing, or the literal `\"*\"` wildcard granting all capability IDs."
           },
-          "description": "Capability-passport signing grants. When present MUST be a non-empty array of capability IDs or the wildcard `\"*\"`. This is the only grant type interpreted by MVP verifiers."
+          "description": "Capability-passport signing grants. When present MUST be a non-empty array of capability IDs or the wildcard `\"*\"`."
+        },
+        "signing/agora-record": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Agora record-signing target, or the literal `\"*\"` wildcard granting all Agora record-signing targets."
+          },
+          "description": "Agora record-signing grants. When present MUST be a non-empty array of topic-scoped targets or the wildcard `\"*\"`."
         }
       }
     },

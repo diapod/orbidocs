@@ -93,7 +93,9 @@ separate transport for each:
 1. **F2F distribution of opinions and whispers** — alternative to Agora
    when `disclosure/scope = "private-correlation"`, when no Agora relay
    satisfies the requested anonymity posture, or when the participants
-   prefer a decentralized non-public path.
+   prefer a decentralized non-public path. A node that holds a private
+   whisper may also offer it to a trusted peer by topic-class hint; the
+   peer decides whether to request the artefact.
 2. **Crisis notification** — rapid fan-out of
    `crisis-space-seed-v1` artefacts (proposal 039) to a pre-arranged
    neighbour set without waiting for a public relay round-trip.
@@ -128,6 +130,14 @@ pipeline (027). It is **not** a new transport. It reuses:
 INAC is **not** a publication surface. There is no topic index, no
 public enumeration, no per-topic digest; observability belongs to each
 endpoint's Memarium, not to a shared substrate.
+
+INAC MAY carry an offer/request/transfer flow for any signed artefact
+that both peers are authorized to exchange, regardless of where the
+artefact originated. The offer is a bounded discovery hint, not the
+artefact itself. For private whispers, the offer should carry only coarse
+topic and policy metadata needed for recipient-side decisioning; the
+request and transfer proceed only if the receiver's default policy,
+operator approval, or configured advisory automation accepts the offer.
 
 ### 2. Artefact shapes
 

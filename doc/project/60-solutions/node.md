@@ -274,6 +274,7 @@ audit level.
 Based on:
 - `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
 - `doc/project/40-proposals/020-bundled-python-middleware-modules.md`
+- `doc/project/40-proposals/044-host-owned-generic-module-store.md`
 - `doc/project/50-requirements/requirements-010.md`
 - `doc/project/50-requirements/requirements-011.md`
 - `doc/project/30-stories/story-006.md`
@@ -293,6 +294,9 @@ Responsibilities:
 - expose host capabilities such as `offers.local.query` and
   `peer.session.establish` so middleware may compose daemon-local offers with
   middleware-owned observed offers without taking ownership of peer transport,
+- expose a host-owned generic module store for small module-local JSON records
+  (`workflow-template`, cursors, local projections) while keeping record payload
+  semantics owned by the module,
 - keep bundled middleware under the same host-owned envelope and policy contracts
   as any future replaceable external module,
 - remain the future host-granted capability surface for local modules such as

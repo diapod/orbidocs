@@ -1,5 +1,6 @@
 {
   "schema": "whisper-signal.v1",
+  "signal_polarity": "problem",
   "epistemic/class": "weak-signal",
   "signal/text": "A recurring stress pattern may be associated with mention of the same institution and event class, suggesting a broader harm context rather than a one-off reaction.",
   "topic/class": "institution-linked-stress-pattern",
@@ -18,12 +19,9 @@
     "institution-mention",
     "event-mention"
   ],
-  "risk/grade": "moderate",
-  "routing/profile": "relayed",
+  "signal/grade": "moderate",
+  "routing/profile": "direct",
   "routing/failure-mode": "soft-fail",
-  "relay/acceptable-classes": [
-    "trusted-federation-peer"
-  ],
-  "forwarding/max-hops": 1,
-  "forwarding/budget": 1
+  "forwarding/max-hops": 0,
+  "forwarding/budget": 0
 }

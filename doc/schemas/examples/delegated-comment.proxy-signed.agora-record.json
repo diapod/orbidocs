@@ -1,0 +1,30 @@
+{
+  "schema": "agora-record.v1",
+  "record/id": "sha256:P12delegatedProxySignedAgoraRecordExample0001",
+  "record/kind": "comment",
+  "topic/key": "orbiplex/proposals/035",
+  "author/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "authored/at": "2026-04-12T10:00:00Z",
+  "content/schema": "plain-comment.v1",
+  "content": {
+    "body": "This record is signed by a delegated proxy key. The author remains the principal participant.",
+    "lang": "en"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_example_delegated_proxy_signed_agora_record_0001",
+    "key/public": "z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+    "key/delegation": {
+      "delegation_id": "delegation:key:agora:example:001",
+      "proxy_key": "did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+      "principal_key": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+      "grants": {
+        "signing/agora-record": [
+          "topic:orbiplex/proposals/035"
+        ]
+      },
+      "expires_at": "2026-04-12T11:00:00Z",
+      "principal_signature": "sig_example_principal_delegation_signature_0001"
+    }
+  }
+}

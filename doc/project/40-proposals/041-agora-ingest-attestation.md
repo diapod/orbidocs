@@ -266,7 +266,7 @@ the analogous checks:
 - verify that the certificate is within its validity window and not
   revoked,
 - verify that the certificate's authorization scope (council,
-  federation, risk-grade bound, disclosure-scope bound) matches what
+  federation, signal-grade bound, disclosure-scope bound) matches what
   the topic's ingest mode requires.
 
 Nym certificates and capability passports share the resolution cache
@@ -409,7 +409,7 @@ Stable reasons:
 | `nym_certificate_unknown` | `author/nym-certificate-ref` does not resolve. |
 | `nym_certificate_expired` | Nym certificate outside validity window. |
 | `nym_certificate_revoked` | Nym certificate revoked by the issuing council. |
-| `nym_certificate_scope_mismatch` | Certificate scope (council, disclosure bound, risk-grade bound) does not cover the ingest target. |
+| `nym_certificate_scope_mismatch` | Certificate scope (council, disclosure bound, signal-grade bound) does not cover the ingest target. |
 | `nym_council_not_accepted` | Issuing council not in the gate's `nym_council_in` allowlist. |
 | `pseudonymous_authorship_forbidden` | Envelope uses `nym:did:key:...` under a gate that forbids pseudonymous authorship. |
 | `pseudonymous_authorship_required` | Envelope uses `participant:did:key:...` under a gate that requires pseudonymous authorship. |

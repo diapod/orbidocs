@@ -42,8 +42,13 @@ The key decisions are:
    `author/participant-id`, `authored/at`); `resource-opinion.v1`
    itself is a content-body schema and does **not** duplicate those
    fields,
-4. one opinion contains `opinion/text` and may add `opinion/lang`,
-   `opinion/tags`, and a coarse `opinion/rating` in `-1|0|1`,
+4. one opinion carries an optional `opinion/text` and may add
+   `opinion/lang`, `opinion/tags`, a five-point `opinion/rating` in
+   `1..5` (with `0` or absence meaning no rating), and relational
+   fields (`opinion/in-reply-to`, `opinion/related`,
+   `opinion/see-also`); the schema is also open to kind-specific
+   namespaced extensions such as `rumor/credibility` and
+   `rumor/rejection-reason`,
 5. resource opinion artifacts remain distinct from participant or
    node reputation,
 6. a later discussion surface may attach to the same canonical
@@ -176,17 +181,45 @@ routed.
 Recommended minimum fields of `resource-opinion.v1`:
 
 - `schema`
-- required `opinion/text`
+- optional `opinion/text`
 - optional `opinion/lang`
 - optional `opinion/rating`
 - optional `opinion/tags`
+- optional `opinion/subject-kind`
+- optional `opinion/in-reply-to`
+- optional `opinion/related`
+- optional `opinion/see-also`
 
 Ingest invariants (applied to the content body only):
 
-1. `opinion/text` MUST be a non-empty string.
-2. `opinion/rating`, when present, MUST be one of `-1`, `0`, or `1`.
+1. `opinion/text`, when present, MUST be a non-empty string. An
+   opinion MAY be text-less if it carries at least one of
+   `opinion/rating`, `opinion/in-reply-to`, `opinion/related`,
+   `opinion/see-also`, or a kind-specific extension key (see §2.4).
+2. `opinion/rating`, when present, MUST be an integer in the range
+   `0..5`. Values `1..5` encode a five-point scale where `1` is the
+   weakest and `5` the strongest positive assessment. The value `0`
+   is the explicit "no rating" marker and is semantically equivalent
+   to the field being absent. Consumers MUST NOT silently rescale
+   ratings to a different range or to a reputation signal.
 3. `opinion/lang`, when present, annotates `opinion/text`.
 4. `opinion/tags`, when present, is an array of non-empty strings.
+5. `opinion/subject-kind`, when present, is a short string naming
+   the kind of subject the opinion is about (e.g. `rumor`, `url`,
+   `gps-location`, `public-person`, `ean`). It is a payload-level
+   hint for selecting an overlay schema and does not replace
+   envelope `record/about`.
+6. `opinion/in-reply-to`, when present, is the `record/id` of
+   another opinion the author is directly replying to. Consumers
+   MUST tolerate dangling references.
+7. `opinion/related`, when present, is an array of `record/id`
+   values of other opinions this opinion relates to (prior takes,
+   corroborating views, explicit contrasts). The relation is loose
+   by design.
+8. `opinion/see-also`, when present, is an array of 2-element
+   vectors `[kind, id]` pointing at other opinable objects (URLs,
+   rumors, resources, identities). Unlike `opinion/related`,
+   entries are NOT restricted to opinions.
 
 Invariants tied to envelope fields (enforced by the envelope
 contract, not by `resource-opinion.v1`):
@@ -210,20 +243,74 @@ is a **projection** of the envelope plus content, not a second
 authoritative schema; it does not gain fields that the envelope does
 not already carry.
 
-### 3. Verbal and Scalar Opinion Are Both First-Class
+#### 2.4. Kind-specific extensions
 
-An opinion may be:
+`resource-opinion.v1` keeps `additionalProperties: true`. The core
+schema is intentionally minimal; domain-specific fields live in
+namespaced extension keys of the form `<kind>/<field>`, where
+`<kind>` matches the `opinion/subject-kind` selector (when present)
+or the kind of the primary entry in envelope `record/about`.
 
-- verbal only,
-- rating only,
-- or verbal plus rating.
+Rules:
 
-This avoids splitting the first schema into separate text-review and star-rating
-artifacts while still allowing minimal use cases such as:
+1. Any field not named under the `opinion/*` namespace MUST carry a
+   `<kind>/<field>` shape. Flat unprefixed extension keys are
+   reserved for the core and MUST NOT be introduced by extensions.
+2. Namespaces are flat strings (no nested `<kind>/<sub>/<field>`
+   shapes). Multiple kinds MAY coexist on one opinion, but this is
+   discouraged; the canonical pattern is one `opinion/subject-kind`
+   plus one matching namespace.
+3. Validation of extension keys is performed by an **overlay
+   schema** registered separately from the core (e.g.
+   `rumor-opinion.overlay.v1`). The overlay validates only its own
+   namespace; it does not redefine `opinion/*` fields. Consumers
+   without the overlay installed MUST still accept the envelope —
+   unknown namespaced keys are forward-compatible.
+4. Overlays MUST NOT change the meaning of any `opinion/*` field.
+   In particular, `opinion/rating` always carries the five-point
+   meaning defined in §2.2 regardless of kind. Kind-specific
+   rating dimensions (e.g. `rumor/credibility`) live in the
+   overlay namespace.
+
+Concrete overlay defined as part of this proposal family:
+
+- `rumor-opinion.overlay.v1` — used when `opinion/subject-kind`
+  equals `rumor`. Fields:
+  - `rumor/credibility` — integer `1..5` (optional). Orthogonal to
+    `opinion/rating`; encodes an operator's assessment of how
+    credible the rumor appears. `0` or absence means no credibility
+    score.
+  - `rumor/rejection-reason` — closed enum (optional). Recognized
+    values: `spam`, `policy-violation`, `off-topic`, `abusive`,
+    `duplicate`, `fabricated`. The presence of any value is a
+    suppression signal for the node's outbound propagation policy
+    (proposal 013 §Operator-mediated rumor curation).
+
+Further overlays (e.g. `url-opinion.overlay.v1`,
+`public-person-opinion.overlay.v1`, `gps-location-opinion.overlay.v1`)
+may be added as separate artifacts without touching the core.
+
+### 3. Verbal, Scalar, and Relational Opinion Are All First-Class
+
+An opinion MAY be:
+
+- verbal only (text + language),
+- rating only (no text, just `opinion/rating`),
+- relational only (no text, just `opinion/in-reply-to`,
+  `opinion/related`, or `opinion/see-also`),
+- kind-specific only (no text, just overlay fields such as
+  `rumor/rejection-reason`),
+- or any combination of the above.
+
+This avoids splitting the first schema into separate text-review,
+star-rating, and link-only artifacts while still allowing minimal
+use cases such as:
 
 - "I only want to rate this item 4/5",
 - "I only want to leave a comment in Polish",
-- "I want both".
+- "I want to mark this rumor as spam without writing anything",
+- "I want both a text and a rating, plus a pointer to a related
+  earlier opinion".
 
 ### 4. Resource Opinion Is Not Reputation
 
@@ -288,7 +375,7 @@ the opinion itself.
     "schema": "resource-opinion.v1",
     "opinion/text": "Useful overview, but the sourcing is thin in the final section.",
     "opinion/lang": "en",
-    "opinion/rating": 1
+    "opinion/rating": 3
   },
   "signature": {
     "alg": "ed25519",
@@ -313,7 +400,7 @@ content body shape and swaps only the envelope's `record/about[0]` and
   "content": {
     "schema": "resource-opinion.v1",
     "opinion/text": "Solid packaging, product matched the description.",
-    "opinion/rating": 1
+    "opinion/rating": 4
   }
 }
 ```

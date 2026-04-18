@@ -13,16 +13,15 @@
   "authored/at": "2026-04-11T08:15:00Z",
   "content/schema": "resource-opinion.v1",
   "content": {
-    "opinion/id": "opinion:resource:01JRCY0Y7T4Y9JQK8K7R6K4M3M",
-    "resource/kind": "url",
-    "resource/id": "https://example.org/article",
-    "body/text": "Useful overview, but the sourcing is thin in the final section.",
-    "body/lang": "en",
-    "rating": 3
+    "schema": "resource-opinion.v1",
+    "opinion/text": "Useful overview, but the sourcing is thin in the final section.",
+    "opinion/lang": "en",
+    "opinion/rating": 3
   },
   "record/lang": "en",
   "signature": {
     "alg": "ed25519",
-    "value": "sig_example_opinion_url_article_0001"
+    "value": "sig_example_opinion_url_article_0001",
+    "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
   }
 }

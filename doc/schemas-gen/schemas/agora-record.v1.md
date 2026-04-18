@@ -48,13 +48,14 @@ Machine-readable schema for a signed, content-addressed, topic-addressed record 
 | [`record/lang`](#field-record-lang) | `no` | string | Optional BCP 47 language tag describing the natural-language contents of the record. Informational only. |
 | [`relay/received-at`](#field-relay-received-at) | `no` | string | Wall-clock timestamp stamped by the relay that first ingested the record. MUST NOT appear in the payload the author signs. Stripped before `record/id` computation and signature verification. |
 | [`relay/id`](#field-relay-id) | `no` | string | Identifier of the relay that first ingested the record. MUST NOT appear in the payload the author signs. Stripped before `record/id` computation and signature verification. |
-| [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` | Ed25519 signature by the participant key of `author/participant-id` over the canonical payload of this record with `signature`, `relay/received-at`, and `relay/id` removed. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`. Verification uses the participant's capability passport chain (proposals 024 and 032); delegated signing via proposal 032 is permitted. |
+| [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` | Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, and `relay/id` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`. |
 
 ## Definitions
 
 | Definition | Shape | Description |
 |---|---|---|
 | [`signature`](#def-signature) | object |  |
+| [`delegationProof`](#def-delegationproof) | object | Compact bearer credential copied from a `key-delegation.v1` artifact and embedded beside a proxy-key signature. The full semantics live in proposal 032; Agora treats this as an inline proof for delegated record signing. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -187,7 +188,7 @@ Identifier of the relay that first ingested the record. MUST NOT appear in the p
 - Required: `yes`
 - Shape: ref: `#/$defs/signature`
 
-Ed25519 signature by the participant key of `author/participant-id` over the canonical payload of this record with `signature`, `relay/received-at`, and `relay/id` removed. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`. Verification uses the participant's capability passport chain (proposals 024 and 032); delegated signing via proposal 032 is permitted.
+Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, and `relay/id` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`.
 
 Maintainer note: Two distinct canonical payloads are used in this schema: (1) the `record/id` payload excludes record/id + signature + relay fields; (2) the signature payload excludes only signature + relay fields and keeps record/id. This matches the Matrix event-signing pattern where event_id is embedded in the signed content and gives wider cross-transport compatibility.
 
@@ -197,3 +198,10 @@ Maintainer note: Two distinct canonical payloads are used in this schema: (1) th
 ## `$defs.signature`
 
 - Shape: object
+
+<a id="def-delegationproof"></a>
+## `$defs.delegationProof`
+
+- Shape: object
+
+Compact bearer credential copied from a `key-delegation.v1` artifact and embedded beside a proxy-key signature. The full semantics live in proposal 032; Agora treats this as an inline proof for delegated record signing.
