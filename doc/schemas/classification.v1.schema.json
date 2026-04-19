@@ -1,0 +1,426 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:classification:v1",
+  "title": "Classification v1",
+  "description": "Machine-readable schema for the Memarium classification label that travels with data across component boundaries. The label distinguishes the immutable `source_tier` (stamped once at first ingress or write) from the derived `effective_tier` (computed from `source_tier` and any currently-active `DeclassifyFact` in `declassify_trail`). Declassification never rewrites `source_tier`; it appends a fact to the trail. The lattice is intentionally small (Personal > Community > Public) with most-restrictive-wins semantics on merge.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/047-classification-label-propagation.md",
+    "doc/project/40-proposals/036-memarium.md",
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md",
+    "doc/project/40-proposals/032-key-delegation-passports.md",
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/40-proposals/042-inter-node-artifact-channel.md"
+  ],
+  "required": [
+    "schema",
+    "source_tier",
+    "effective_tier",
+    "provenance",
+    "bound_subjects",
+    "declassify_trail"
+  ],
+  "properties": {
+    "schema": {
+      "const": "classification.v1",
+      "description": "Content-level discriminator for consumers that inspect the label outside its enclosing envelope."
+    },
+    "source_tier": {
+      "$ref": "#/$defs/Tier",
+      "description": "Immutable classification assigned at first stamping (write into Memarium, ingress from outside, or operator acceptance out of quarantine). Never rewritten. A request that attempts to change `source_tier` MUST be rejected with `reason: source_tier_immutable`."
+    },
+    "effective_tier": {
+      "$ref": "#/$defs/Tier",
+      "description": "Derived tier used by egress guards. Equals `source_tier` unless at least one `DeclassifyFact` in `declassify_trail` is currently active (TTL valid, not revoked, not consumed for one-shot, and whose `surface`/`topic_class` bind to the current request). Consumers MUST treat `effective_tier` as a cached derivation of `source_tier` and `declassify_trail` — it MUST NOT exceed `source_tier` in the lattice order (i.e. it is never more restrictive than the source)."
+    },
+    "provenance": {
+      "$ref": "#/$defs/SpaceOrigin",
+      "description": "Where the data first entered the system. For locally written facts: the target Memarium space. For ingress from a peer or import: the ingress origin. For derivations: a two-parent reference summarizing the joined inputs."
+    },
+    "bound_subjects": {
+      "$ref": "#/$defs/BoundSubjects",
+      "description": "Tier-dependent projection of the subjects whose dignity interests attach to the fact. Egress to Public surfaces MUST carry only `public_projection` and MUST NOT carry `personal_or_community`. Violation is rejected with `reason: bound_subjects_not_public`."
+    },
+    "declassify_trail": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/DeclassifyFact" },
+      "description": "Append-only, time-ordered history of declassification acts. Possibly empty. Readers compute `effective_tier` from this trail; they MUST NOT infer classification from the trail alone without `source_tier`. Transformation-based persistent exceptions are separate Memarium policy facts, not entries in this array."
+    },
+    "quarantine": {
+      "$ref": "#/$defs/QuarantineMarker",
+      "description": "Present iff the fact is currently in ingress quarantine (no operator acceptance yet). Guarded reads of a quarantined fact MUST be rejected with `reason: quarantined`."
+    }
+  },
+  "$defs": {
+    "Tier": {
+      "type": "string",
+      "enum": ["Personal", "Community", "Public"],
+      "description": "Small boring lattice. `Personal` is top (most restrictive), `Public` is bottom (least restrictive), `Community` strictly between. Sub-tiers (Internal/Secret/Restricted) are intentionally NOT part of v1 — added only when a concrete edge guard would enforce them. Crisis is orthogonal and carried as a flag on the bearer, not a tier."
+    },
+    "SpaceOrigin": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "space"],
+          "properties": {
+            "kind": { "const": "local-space" },
+            "space": {
+              "type": "string",
+              "enum": ["Personal", "Community", "Public", "Crisis"]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "surface"],
+          "properties": {
+            "kind": { "const": "ingress" },
+            "surface": {
+              "type": "string",
+              "enum": ["federation", "inac", "import", "operator-stamp"]
+            },
+            "peer_ref": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Optional opaque reference to the originating peer or import source."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "parents"],
+          "properties": {
+            "kind": { "const": "derived" },
+            "parents": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": { "$ref": "#/$defs/SpaceOrigin" },
+              "description": "Binary-tree encoding of derivation provenance. N-ary derivations are encoded as left-leaning binary compositions."
+            }
+          }
+        }
+      ],
+      "description": "Origin of the data. Either a local Memarium space, an external ingress point, or a derivation over parent origins."
+    },
+    "BoundSubjects": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "personal_or_community": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SubjectRef" },
+          "description": "Full subject references. MUST be present iff `effective_tier ∈ { Personal, Community }`. MUST NOT be present when `effective_tier == Public`."
+        },
+        "public_projection": {
+          "$ref": "#/$defs/PublicProjection",
+          "description": "Leak-resistant projection. MUST be present iff `effective_tier == Public`. MUST NOT be present otherwise."
+        }
+      },
+      "oneOf": [
+        { "required": ["personal_or_community"] },
+        { "required": ["public_projection"] }
+      ],
+      "description": "Tier-dependent projection. Exactly one branch is populated; the choice MUST match `effective_tier`. Carrying the wrong branch at egress is rejected with `reason: bound_subjects_not_public` (for Public egress) or `classification_mismatch` otherwise."
+    },
+    "SubjectRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["person", "nym", "group", "institution", "role"]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "description": "Reference to a subject whose dignity interests attach to the fact."
+    },
+    "PublicProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject_set_hash", "count"],
+      "properties": {
+        "subject_set_hash": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$",
+          "description": "Hex-encoded SHA-256 (or equivalent 32-byte digest) of the canonicalized full subject set, salted per fact. The salt MUST NOT leak outside the node."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Cardinality of the full subject set. Disclosed to support aggregate reasoning."
+        },
+        "redacted_refs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind"],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": ["person", "nym", "group", "institution", "role"]
+              },
+              "role_hint": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Optional non-identifying role hint (e.g. \"witness\", \"reporter\") if operator-approved."
+              }
+            }
+          },
+          "description": "Optional explicit, operator-approved redacted references. Contents MUST NOT be reversible to identity."
+        }
+      }
+    },
+    "DeclassifyFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fact_id",
+        "from",
+        "to",
+        "surface",
+        "topic_class",
+        "mode",
+        "rationale",
+        "caller",
+        "correlation_id",
+        "issued_at"
+      ],
+      "properties": {
+        "fact_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Memarium fact identifier this declassification applies to."
+        },
+        "from": {
+          "$ref": "#/$defs/Tier",
+          "description": "Tier being declassified from. MUST equal the `effective_tier` at the time of issuance."
+        },
+        "to": {
+          "$ref": "#/$defs/Tier",
+          "description": "Tier being declassified to. MUST satisfy `to < from` in the lattice. Two-step declassification (Personal → Public directly) is forbidden; it MUST proceed via two separate acts."
+        },
+        "surface": {
+          "type": "string",
+          "enum": ["agora", "whisper", "inac", "export", "bus"],
+          "description": "The single egress surface this declassification binds to. A declassification for `whisper` does NOT permit `agora` publication."
+        },
+        "topic_class": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Semantic topic class this declassification binds to. A declassification for one topic_class does NOT transfer to another."
+        },
+        "mode": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind"],
+              "properties": {
+                "kind": { "const": "one-shot" },
+                "consumed_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Set when the single authorized egress has occurred. A one-shot fact with `consumed_at` set is no longer active."
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind", "ttl_seconds"],
+              "properties": {
+                "kind": { "const": "persistent-for-topic-class" },
+                "ttl_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Operator-accepted rationale. Stored verbatim in the ledger."
+        },
+        "caller": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["passport_ref", "role"],
+          "properties": {
+            "passport_ref": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Stable reference to the passport presented at the gate."
+            },
+            "role": {
+              "type": "string",
+              "enum": ["A0", "A1", "A2"],
+              "description": "Authorization role. A0 = operator, A1 = local module, A2 = delegated via nym."
+            }
+          }
+        },
+        "correlation_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Ties the originating request ↔ this DeclassifyFact ↔ the audit ledger entry."
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Normative expiry timestamp for persistent mode, computed from `issued_at + mode.ttl_seconds` by the issuer and verified by consumers. Absent for one-shot mode (consumption marker is `mode.consumed_at`)."
+        },
+        "revocation_anchor": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Anchor used by the shared revocation feed (local + static + seed-directory composite) to invalidate this fact ahead of schedule."
+        }
+      },
+      "allOf": [
+        {
+          "description": "Only one-step declassification is valid: Personal -> Community.",
+          "if": {
+            "properties": { "from": { "const": "Personal" } },
+            "required": ["from"]
+          },
+          "then": {
+            "properties": { "to": { "const": "Community" } }
+          }
+        },
+        {
+          "description": "Only one-step declassification is valid: Community -> Public.",
+          "if": {
+            "properties": { "from": { "const": "Community" } },
+            "required": ["from"]
+          },
+          "then": {
+            "properties": { "to": { "const": "Public" } }
+          }
+        },
+        {
+          "description": "Public cannot be declassified further.",
+          "if": {
+            "properties": { "from": { "const": "Public" } },
+            "required": ["from"]
+          },
+          "then": false
+        },
+        {
+          "description": "Persistent declassification facts carry an explicit expiry derived from issued_at + ttl_seconds.",
+          "if": {
+            "properties": {
+              "mode": {
+                "properties": { "kind": { "const": "persistent-for-topic-class" } },
+                "required": ["kind"]
+              }
+            },
+            "required": ["mode"]
+          },
+          "then": {
+            "required": ["expires_at"]
+          }
+        },
+        {
+          "description": "One-shot declassification facts are consumed by mode.consumed_at and do not carry expires_at.",
+          "if": {
+            "properties": {
+              "mode": {
+                "properties": { "kind": { "const": "one-shot" } },
+                "required": ["kind"]
+              }
+            },
+            "required": ["mode"]
+          },
+          "then": {
+            "not": { "required": ["expires_at"] }
+          }
+        }
+      ]
+    },
+    "QuarantineMarker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason", "entered_at"],
+      "properties": {
+        "reason": {
+          "type": "string",
+          "enum": [
+            "no-label-at-ingress",
+            "unknown-provenance",
+            "schema-older-than-v-with-classification",
+            "operator-hold"
+          ]
+        },
+        "entered_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "peer_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "description": "Marker indicating that the fact has not yet been accepted by the operator out of the ingress quarantine. While present, guarded reads/publishes MUST be rejected with `reason: quarantined`."
+    }
+  },
+  "allOf": [
+    {
+      "description": "effective_tier MUST NOT exceed source_tier in restriction (Personal > Community > Public). Equivalently: effective_tier is source_tier or lower.",
+      "if": {
+        "properties": { "source_tier": { "const": "Public" } },
+        "required": ["source_tier"]
+      },
+      "then": {
+        "properties": { "effective_tier": { "const": "Public" } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "source_tier": { "const": "Community" } },
+        "required": ["source_tier"]
+      },
+      "then": {
+        "properties": { "effective_tier": { "enum": ["Community", "Public"] } }
+      }
+    },
+    {
+      "description": "Source-aware BoundSubjects branch selection is enforced by BoundSubjects.oneOf; this clause ensures the branch matches effective_tier rather than source_tier.",
+      "if": {
+        "properties": { "effective_tier": { "const": "Public" } },
+        "required": ["effective_tier"]
+      },
+      "then": {
+        "properties": {
+          "bound_subjects": {
+            "required": ["public_projection"],
+            "not": { "required": ["personal_or_community"] }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "bound_subjects": {
+            "required": ["personal_or_community"],
+            "not": { "required": ["public_projection"] }
+          }
+        }
+      }
+    }
+  ]
+}

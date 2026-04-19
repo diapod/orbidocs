@@ -42,7 +42,9 @@ The decisions of this proposal are:
 6. hard-MVP discovery for delegated infrastructure capabilities is static
    config pinned by a trusted sovereign issuer, not gossip or dynamic
    marketplace discovery.
-7. capability identifiers must distinguish formal global names from
+7. publisher-signed capability templates for built-in modules are signed
+   recommendations, not executable authorization grants,
+8. capability identifiers must distinguish formal global names from
    identity-anchored sovereign names so private or deployment-local capability
    namespaces do not collide.
 
@@ -190,6 +192,55 @@ If the issuer does not satisfy the profile-specific policy, the passport MUST be
 rejected even if the signature is cryptographically valid. For `network-ledger`
 and the other critical infrastructure profiles listed above, that policy is
 still sovereign-operator issuance.
+
+### 2a. Publisher-Signed Capability Templates for Built-In Modules
+
+Built-in modules MAY be distributed with publisher-signed capability templates.
+A template is a signed statement of software intent, not an executable
+authorization grant.
+
+The template answers:
+
+- which built-in module or package asks for a host capability,
+- which `capability_id` and profile it expects,
+- which minimal scope it requests,
+- which package or component digest the request belongs to,
+- who published that recommendation.
+
+The local Node MUST NOT treat a publisher template as authority to use a host
+capability. Host capability use still requires either:
+
+- a local capability passport issued or accepted by local operator policy, or
+- an externally fetched executable passport whose issuer is explicitly trusted
+  by local policy for that exact capability and scope.
+
+Resolution order is:
+
+1. local deny or local disable wins and stops resolution,
+2. local executable passport wins over any publisher template,
+3. configured external passport sources MAY be queried only when local policy
+   names the source and trusts the issuer for the requested capability/scope,
+4. publisher templates MAY be used to recommend or auto-issue a local passport
+   only when local policy enables that behavior,
+5. otherwise the request is denied as missing authorization.
+
+This lets a packaged built-in module declare "I normally need
+`memarium.write` for the community space" without giving the software publisher
+standing authority over a local Node's Memarium. Local configuration remains the
+point where authority enters the system.
+
+If auto-issuance is enabled for built-ins, the Node signs or accepts a local
+passport derived from the template and records the template id and digest in
+audit metadata. Revoking or replacing the local passport immediately shadows the
+template. A local deny also shadows the template, even if the package is still
+installed.
+
+Externally fetched executable passports are acceptable only through
+operator-configured sources such as an organization policy server, a static
+deployment bundle, or a community governance issuer. A module MUST NOT fetch its
+own host-capability passport from the network and present it as a bootstrap
+authority path. That would collapse the separation between software identity and
+local authority.
 
 ### 3. Canonical Signing Format
 

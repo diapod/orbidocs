@@ -1,0 +1,53 @@
+{
+  "schema": "classification.v1",
+  "source_tier": "Community",
+  "effective_tier": "Public",
+  "provenance": {
+    "kind": "derived",
+    "parents": [
+      {
+        "kind": "local-space",
+        "space": "Community"
+      },
+      {
+        "kind": "ingress",
+        "surface": "operator-stamp",
+        "peer_ref": "operator:did:key:z6MkclassificationOperator"
+      }
+    ]
+  },
+  "bound_subjects": {
+    "public_projection": {
+      "subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "count": 3,
+      "redacted_refs": [
+        {
+          "kind": "group",
+          "role_hint": "affected-community"
+        }
+      ]
+    }
+  },
+  "declassify_trail": [
+    {
+      "fact_id": "fact:memarium:community-pattern-001",
+      "from": "Community",
+      "to": "Public",
+      "surface": "agora",
+      "topic_class": "workplace-retaliation-pattern",
+      "mode": {
+        "kind": "persistent-for-topic-class",
+        "ttl_seconds": 86400
+      },
+      "rationale": "Operator-approved public pattern summary with irreversible subject projection.",
+      "caller": {
+        "passport_ref": "passport:capability:memarium-declassify-operator-001",
+        "role": "A0"
+      },
+      "correlation_id": "corr:classification:community-pattern-001",
+      "issued_at": "2026-04-19T10:00:00Z",
+      "expires_at": "2026-04-20T10:00:00Z",
+      "revocation_anchor": "revocation:classification:community-pattern-001"
+    }
+  ]
+}

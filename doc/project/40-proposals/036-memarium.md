@@ -312,6 +312,7 @@ MemariumEntry {
                                        // agora-sync-record | archival-receipt |
                                        // crisis-procedure | free-form-note | ...
     tags:          Vec<Tag>,
+    classification: Classification,    // classification.v1 source/effective label
     payload:       PayloadEnvelope,    // opaque body, explicit encoding/encryption envelope
     attributes:    Map<String, String>,// filterable/indexable metadata
     occurred_at:   Timestamp,          // domain time
@@ -320,7 +321,9 @@ MemariumEntry {
 ```
 
 Entries are immutable facts. Updates are new entries with provenance links to
-prior entries.
+prior entries. `classification.source_tier` is stamped at write/ingress time and
+is immutable; declassification is represented by append-only policy facts and a
+derived read view, not by rewriting the entry.
 
 The entry payload is normalized before storage:
 
@@ -356,6 +359,7 @@ MemariumFact {
                                          // archival-handoff | promotion |
                                          // agent-read | agent-cache-miss | ...
     tags:                  Vec<Tag>,
+    classification:        Classification,
     fields:                Map<String, JsonValue>,
     source_message_kind:   Option<String>,
     source_correlation_id: Option<String>,
@@ -373,6 +377,12 @@ effective payload.
 Subsequent events (relay confirmation, failure, timeout) produce follow-up facts
 (`sync-confirmed`, `sync-failed`, `sync-timeout`). No entry is mutated; the
 current status is derived from the latest fact in the chain.
+
+Like entries, facts carry first-class `classification.v1` labels. The label is
+not stored inside `fields`; `fields` remain fact-kind-specific open-world data.
+During the compatibility window, unlabeled producers may be stamped as
+`Personal` with ingress quarantine, but the stable direction is explicit
+classification on every write path.
 
 Earlier sketches used top-level `subject` and `detail` fields. MVP represents
 those concepts through fact-kind-specific `fields`: an entry-related fact may

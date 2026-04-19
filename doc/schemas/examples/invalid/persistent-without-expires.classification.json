@@ -1,0 +1,35 @@
+{
+  "schema": "classification.v1",
+  "source_tier": "Community",
+  "effective_tier": "Public",
+  "provenance": {
+    "kind": "local-space",
+    "space": "Community"
+  },
+  "bound_subjects": {
+    "public_projection": {
+      "subject_set_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "count": 2
+    }
+  },
+  "declassify_trail": [
+    {
+      "fact_id": "fact:memarium:invalid-persistent-001",
+      "from": "Community",
+      "to": "Public",
+      "surface": "export",
+      "topic_class": "invalid-persistent-without-expiry",
+      "mode": {
+        "kind": "persistent-for-topic-class",
+        "ttl_seconds": 3600
+      },
+      "rationale": "Invalid: persistent declassification facts must carry expires_at.",
+      "caller": {
+        "passport_ref": "passport:capability:memarium-declassify-invalid-002",
+        "role": "A0"
+      },
+      "correlation_id": "corr:classification:invalid-persistent-001",
+      "issued_at": "2026-04-19T14:00:00Z"
+    }
+  ]
+}

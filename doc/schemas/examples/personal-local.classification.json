@@ -1,0 +1,18 @@
+{
+  "schema": "classification.v1",
+  "source_tier": "Personal",
+  "effective_tier": "Personal",
+  "provenance": {
+    "kind": "local-space",
+    "space": "Personal"
+  },
+  "bound_subjects": {
+    "personal_or_community": [
+      {
+        "kind": "person",
+        "id": "participant:did:key:z6MkpaWelsPersonalSubject"
+      }
+    ]
+  },
+  "declassify_trail": []
+}

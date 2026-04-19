@@ -66,6 +66,10 @@ It does not define:
   passport issuance) — Arca consumes these through host capabilities,
 - per-kind semantic interpretation of service outputs — that lives in
   the per-service schema and the consumer module,
+- hidden middleware mutation of workflow step outputs as an authority
+  to complete domain tasks — task fulfillment must be derived from
+  workflow-declared policy, explicit decision sources, or requester
+  confirmation,
 - the editorial, content, or research semantics of any specific
   workflow template (e.g. story-009 `bielik-biweekly-publish.v1`) —
   Arca only provides the orchestration substrate.
@@ -103,6 +107,48 @@ Responsibilities:
   persist final artifacts via `POST /v1/module/artifact/write` under
   host-owned module output roots,
 - resume a previously persisted workflow run on module restart.
+
+#### Execution Completion vs. Task Fulfillment
+
+Arca distinguishes transport-level execution completion from domain-level task
+fulfillment:
+
+- `execution.completed` means that the selected provider, role module, or
+  connector returned a response that Arca can persist as step output.
+- `task.fulfilled` means that the workflow's declared fulfillment policy has
+  accepted the domain task as done.
+
+The fulfillment decision MUST be explicit in the workflow definition. It may be
+derived from the current step output, from a separate capability invocation, from
+requester/operator confirmation, or from an automatic policy. It MUST NOT be
+introduced by an unannounced middleware that mutates a JSON payload in the
+processing stream.
+
+Supported policy vocabulary should start small:
+
+| Policy | Meaning |
+|---|---|
+| `output_match` | Derive fulfillment from the current step output using a JSON-path-like matcher. |
+| `external_decision` | Invoke a declared capability or middleware decision source and match its JSON response. |
+| `requester_confirmation` | Pause until the requesting participant or operator confirms completion through UI. |
+| `auto` | Treat successful execution as fulfillment. |
+| `never` | Never auto-fulfill; require a later explicit action or workflow transition. |
+
+`external_decision` is intentionally capability-shaped, not Sensorium-specific.
+The decision source may be a Sensorium OS action, another Sensorium connector,
+or an unrelated middleware capability. Arca does not need to understand the
+domain semantics of that component. It only needs the declared source, input
+mapping, result matcher, and transition policy (`on_not_fulfilled`,
+`on_error`).
+
+This allows two integration styles:
+
+- an Arca-aware decision component may return an
+  `arca-task-fulfillment-decision.v1` envelope with
+  `fulfillment/status`, evidence, and optional Memarium pointers;
+- an Arca-agnostic component may return a dull JSON shape such as
+  `{ "ok": true }` or `{ "status": "done" }`, with the workflow template
+  supplying the matcher that maps it to `task.fulfilled`.
 
 Status:
 - `partial` in the bundled middleware module. Sequential

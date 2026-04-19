@@ -38,6 +38,9 @@ schema_for_file() {
     *.corpus-entry.json)
       echo "$SCHEMAS_DIR/corpus-entry.v1.schema.json"
       ;;
+    *.classification.json)
+      echo "$SCHEMAS_DIR/classification.v1.schema.json"
+      ;;
     *.training-job.json)
       echo "$SCHEMAS_DIR/training-job.v1.schema.json"
       ;;

@@ -278,6 +278,76 @@ presents it to `Arca` as if the step had a single response.
 
 This preserves the existing `Arca` ↔ host interface contract.
 
+### Task Fulfillment Policy
+
+Step execution completion and task fulfillment are distinct concepts:
+
+- `execution.completed` means the selected provider or dispatcher returned a
+  syntactically usable response.
+- `task.fulfilled` means the workflow has a declared reason to treat the
+  domain task as done.
+
+`Arca` MUST NOT treat hidden middleware mutation of a step JSON payload as an
+implicit fulfillment authority. If a component outside the current step output
+decides fulfillment, the workflow definition MUST declare that decision source
+explicitly. This keeps domain intent visible in workflow data and prevents
+middleware-chain side effects from becoming an invisible task-completion
+mechanism.
+
+A step may therefore carry a `fulfillment` block such as:
+
+```json
+{
+  "fulfillment": {
+    "policy": "external_decision",
+    "decision_source": {
+      "kind": "capability",
+      "capability_id": "publication.verify",
+      "input": {
+        "commit_sha": { "from": "/steps/publish/output/publish_commit" },
+        "branch": "publish/main"
+      }
+    },
+    "result_match": {
+      "path": "/verification/status",
+      "fulfilled_values": ["fulfilled"],
+      "not_fulfilled_values": ["not_fulfilled", "rejected"]
+    },
+    "on_not_fulfilled": "pause",
+    "on_error": "fail"
+  }
+}
+```
+
+The decision source may be a Sensorium connector, another middleware capability,
+an operator or requester confirmation, or an automatic policy. The important
+invariant is that it is named in the workflow definition.
+
+The responder may be *Arca-aware* and return a dedicated decision envelope:
+
+```json
+{
+  "schema": "arca-task-fulfillment-decision.v1",
+  "fulfillment/status": "fulfilled",
+  "reason": "commit-visible-on-origin",
+  "evidence": {
+    "commit_sha": "8fa2...",
+    "ref": "origin/publish/main"
+  }
+}
+```
+
+It may also be deliberately dull and Arca-agnostic:
+
+```json
+{ "ok": true }
+```
+
+In the second case the workflow-owned `result_match` adapter derives
+`task.fulfilled` from the simple JSON shape. The domain-specific component owns
+the meaning of `ok`; `Arca` owns only the declared matching rule and the
+resulting workflow transition.
+
 ---
 
 ## Workflow Run Status Extensions

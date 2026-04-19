@@ -48,6 +48,7 @@ SCHEMA_WHITELIST = (
     "service-order.v1.schema.json",
     "offer-catalog-fetch-request.schema.json",
     "offer-catalog-fetch-response.schema.json",
+    "classification.v1.schema.json",
 )
 
 EXAMPLE_WHITELIST = (
@@ -99,6 +100,10 @@ EXAMPLE_WHITELIST = (
     "casualfeeders-breakfast-research.service-order.json",
     "basic.offer-catalog-fetch-request.json",
     "basic.offer-catalog-fetch-response.json",
+    "personal-local.classification.json",
+    "quarantined-ingress.classification.json",
+    "personal-to-community-one-shot.classification.json",
+    "community-to-public-persistent.classification.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
@@ -137,6 +142,10 @@ INVALID_EXAMPLE_WHITELIST = (
     "missing-participant-bind.client-instance-attachment.json",
     "missing-participant-bind.client-instance-detachment.json",
     "missing-detachment-ref.client-instance-recovery.json",
+    "direct-personal-to-public.classification.json",
+    "one-shot-with-expires.classification.json",
+    "persistent-without-expires.classification.json",
+    "public-with-full-subjects.classification.json",
 )
 
 

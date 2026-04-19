@@ -115,6 +115,36 @@ Responsibilities:
 
 All eight capabilities are exposed as `POST /v1/host/capabilities/memarium.<op>` endpoints and run through the same passport-gated dispatch as Sealer (`capability-binding::authorize`, six-step pipeline). Revocation is integrated against local, static-file, Seed Directory, and delegation-target-id sources. The operator-vocabulary target tag is `memarium:space:<space>[:community:<id>][:kind:<kind>][:entry:<id>]`; crisis status and resolve use the crisis space target.
 
+#### Built-In Module Passport Bootstrap
+
+Built-in modules MAY ship publisher-signed templates describing the Memarium
+capabilities they normally need, for example `memarium.write` to a bounded
+community space. Such a template is not a Memarium write passport. It is only a
+signed recommendation that local policy may use when installing or enabling the
+module.
+
+The daemon authorizes Memarium host-capability calls from one of these authority
+sources:
+
+1. a local executable passport installed by the operator or local deployment
+   policy,
+2. an executable passport fetched from an operator-configured trusted source,
+   such as an organization policy server or community governance issuer,
+3. a local passport auto-issued from a publisher template when local policy
+   explicitly enables auto-issuance for that built-in module.
+
+Local deny or local disable always wins. A local executable passport also
+shadows the publisher template, so updating local authority does not require
+changing the packaged software. If no executable passport can be resolved,
+`passport_lookup_failed` remains the correct denial status; an operator UI MAY
+surface the matching publisher template as an installation recommendation, but
+the dispatch gate still denies the request.
+
+A module MUST NOT bootstrap Memarium write authority by fetching its own
+passport from an arbitrary network endpoint. External passports are valid only
+when the source and issuer are named by local policy for the exact capability
+and scope.
+
 #### Host API Wire Contract
 
 The host API keeps the `endpoint + op` shape. Each request is sent to one of
@@ -132,9 +162,16 @@ required for `memarium.write` / `write_entry` through the mandatory
 profile matching. `attributes` are an open-world `map<string,string>` with
 bounded key count, key size, and value size. `fields` are an open-world JSON
 object with bounded key count, key size, encoded size, and depth. Runtime domain
-types and HTTP wire schemas remain separate contracts. All HTTP wire timestamp
-fields are RFC3339 strings; Rust `SystemTime`'s serde object shape is an
-implementation detail and is not part of the Memarium host-capability contract.
+types and HTTP wire schemas remain separate contracts.
+
+Entries and facts carry a first-class `classification: classification.v1`
+label. The label is not encoded in `attributes` or `fields`. During the
+migration window, write requests that omit `classification` are accepted and
+stamped as `Personal` with ingress quarantine; once producers have been
+refactored, the contract should move to strict-required labels. All HTTP wire
+timestamp fields are RFC3339 strings; Rust `SystemTime`'s serde object shape is
+an implementation detail and is not part of the Memarium host-capability
+contract.
 
 ##### Response Status Codes
 
@@ -180,7 +217,7 @@ of personal entries"; it must carry scope, reason, issuer, audit trace, and a
 revocation path.
 
 Status:
-- `partial` — all eight capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. Open points: contextual autonomy enforcement for `forget` (see above), operational passport installation flow, and a non-scan read-model/index sidecar for large datasets.
+- `partial` — all eight capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. Open points: contextual autonomy enforcement for `forget` (see above), implementation and operator UI for the passport installation/bootstrap flow described above, and a non-scan read-model/index sidecar for large datasets.
 
 ### Agora Synchronization Tracking
 

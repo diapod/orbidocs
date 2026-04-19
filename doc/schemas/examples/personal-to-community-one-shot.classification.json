@@ -1,0 +1,41 @@
+{
+  "schema": "classification.v1",
+  "source_tier": "Personal",
+  "effective_tier": "Community",
+  "provenance": {
+    "kind": "local-space",
+    "space": "Personal"
+  },
+  "bound_subjects": {
+    "personal_or_community": [
+      {
+        "kind": "person",
+        "id": "participant:did:key:z6MkpersonalOneShotSubject"
+      },
+      {
+        "kind": "institution",
+        "id": "org:did:key:z6MkinstitutionOneShotContext"
+      }
+    ]
+  },
+  "declassify_trail": [
+    {
+      "fact_id": "fact:memarium:personal-observation-001",
+      "from": "Personal",
+      "to": "Community",
+      "surface": "whisper",
+      "topic_class": "local-care-coordination",
+      "mode": {
+        "kind": "one-shot"
+      },
+      "rationale": "Single community-scoped disclosure accepted by the operator for care coordination.",
+      "caller": {
+        "passport_ref": "passport:capability:memarium-declassify-operator-002",
+        "role": "A0"
+      },
+      "correlation_id": "corr:classification:personal-observation-001",
+      "issued_at": "2026-04-19T11:00:00Z",
+      "revocation_anchor": "revocation:classification:personal-observation-001"
+    }
+  ]
+}

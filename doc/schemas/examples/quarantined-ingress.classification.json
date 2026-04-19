@@ -1,0 +1,24 @@
+{
+  "schema": "classification.v1",
+  "source_tier": "Personal",
+  "effective_tier": "Personal",
+  "provenance": {
+    "kind": "ingress",
+    "surface": "import",
+    "peer_ref": "import:legacy-archive-2026-04"
+  },
+  "bound_subjects": {
+    "personal_or_community": [
+      {
+        "kind": "nym",
+        "id": "nym:legacy-import-subject-001"
+      }
+    ]
+  },
+  "declassify_trail": [],
+  "quarantine": {
+    "reason": "no-label-at-ingress",
+    "entered_at": "2026-04-19T12:00:00Z",
+    "peer_ref": "import:legacy-archive-2026-04"
+  }
+}
