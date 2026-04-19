@@ -44,7 +44,7 @@ Responsibilities:
 - record promotion provenance as append-only facts.
 
 Status:
-- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. Remaining work is operational hardening: published wire schemas/examples, operator grant installation flow, observer smoke coverage, focused detector-transition lifecycle coverage, and a non-scan read model if datasets outgrow MVP scale.
+- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Remaining work is operational hardening: operator grant installation flow, full-chain observer lifecycle coverage, lag-forced detector lifecycle coverage, and a sidecar read model if datasets outgrow MVP scan budgets.
 
 ### Observer-Based Chain Integration
 
@@ -170,10 +170,12 @@ Entries and facts carry a first-class `classification: classification.v1`
 label. The label is not encoded in `attributes` or `fields`. During the
 migration window, write requests that omit `classification` are accepted and
 stamped as `Personal` with ingress quarantine; once producers have been
-refactored, the contract should move to strict-required labels. All HTTP wire
-timestamp fields are RFC3339 strings; Rust `SystemTime`'s serde object shape is
-an implementation detail and is not part of the Memarium host-capability
-contract.
+refactored, the contract should move to strict-required labels. The MVP
+migration gate is: no earlier than 2026-06-30, and only after
+`fallback_stamped_facts_per_space_per_day == 0` for seven consecutive days.
+All HTTP wire timestamp fields are RFC3339 strings; Rust `SystemTime`'s serde
+object shape is an implementation detail and is not part of the Memarium
+host-capability contract.
 
 Declassification never mutates the source fact. `memarium.declassify` appends a
 `classification-declassified` policy fact containing a `DeclassifyFact`; read
@@ -181,6 +183,9 @@ paths compose active policy facts into `classification.declassify_trail` and
 derive the current `effective_tier`. Operator quarantine actions likewise write
 append-only policy facts (`classification-quarantine-accepted` /
 `classification-quarantine-rejected`), preserving the original ingress record.
+`TransformationFact` is evidence/provenance only in v1: it may be referenced
+from `DeclassifyFact.evidence_ref`, but every effective-tier lowering still
+requires an explicit, active `DeclassifyFact`.
 The host API schema is published as `memarium-host-api.v1.schema.json` with
 examples under `doc/schemas/examples/*.memarium-host-api.json`.
 
@@ -210,8 +215,8 @@ from the dispatch gate map to exactly one audit decision string.
 | `declassification_required` | `403 Forbidden` | - | no | The destination would be reachable only after a valid declassification fact, but none is active. |
 | `declassification_scope_expired` | `403 Forbidden` | - | no | A declassification fact is invalid, expired, revoked, consumed, or not bound to the requested surface/topic/mode. |
 | `bound_subjects_not_public` | `400 Bad Request` | - | no | Public egress carries full subject references instead of `bound_subjects.public_projection`. |
-| `quarantined` | `403 Forbidden` | - | no | The target is still in ingress quarantine and requires an operator accept/reject/declassify action. |
-| `source_tier_immutable` | `422 Unprocessable Entity` | - | no | A request attempted to mutate or skip over the immutable source tier semantics. |
+| `quarantined` | `409 Conflict` | - | no | The target is still in ingress quarantine and requires an operator accept/reject/declassify action. |
+| `source_tier_immutable` | `400 Bad Request` | - | no | A request attempted to mutate or skip over the immutable source tier semantics. |
 | `space_policy_violation` | `422 Unprocessable Entity` | - | no | Memarium space policy rejects the operation, e.g. plaintext write into an encryption-required space. |
 | `promotion_denied` | `403 Forbidden` | - | no | Cross-space promotion would violate Memarium promotion rules. Details may classify specific cases such as crisis-closed promotion. |
 | `not_found` | `404 Not Found` | - | no | Requested entry, fact, or cache key does not exist. |
@@ -235,7 +240,7 @@ of personal entries"; it must carry scope, reason, issuer, audit trace, and a
 revocation path.
 
 Status:
-- `partial` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. Open points: contextual autonomy enforcement for `forget` (see above), richer operator UI for quarantine and declassification flows, implementation and operator UI for the passport installation/bootstrap flow described above, and a non-scan read-model/index sidecar for large datasets.
+- `partial` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. For MVP, scan-based point reads are accepted as the correctness fallback; the read-model/index sidecar is a post-MVP scale trigger, not a freeze blocker. Open points: contextual autonomy enforcement for `forget` (see above), richer operator UI for quarantine and declassification flows, and implementation/operator UI for the passport installation/bootstrap flow described above.
 
 ### Agora Synchronization Tracking
 
@@ -252,7 +257,7 @@ Responsibilities:
 Agora does not depend on Memarium. Memarium does not depend on Agora. Agora declares observe rules in its config; Memarium compiles and executes them without Agora-specific knowledge.
 
 Status:
-- `partial` — the Memarium side of the channel (rule compilation, post-chain matching, fact append) is implemented. Agora's middleware configuration must publish concrete `ObserveRule` entries (`agora-submission`, `sync-confirmed`, `sync-failed`, `sync-timeout`) for the feature to light up end-to-end.
+- `partial` — the Memarium side of the channel (rule compilation, post-chain matching, fact append) is implemented. Agora's bundled middleware configuration now publishes concrete `ObserveRule` entries for `agora-submission`, `sync-confirmed`, `sync-failed`, and `sync-timeout`; broader end-to-end coverage through a live Agora relay remains an operational lifecycle test.
 
 ### Archival Integration
 

@@ -47,7 +47,7 @@
     "declassify_trail": {
       "type": "array",
       "items": { "$ref": "#/$defs/DeclassifyFact" },
-      "description": "Append-only, time-ordered history of declassification acts. Possibly empty. Readers compute `effective_tier` from this trail; they MUST NOT infer classification from the trail alone without `source_tier`. Transformation-based persistent exceptions are separate Memarium policy facts, not entries in this array."
+      "description": "Append-only, time-ordered history of declassification acts. Possibly empty. Readers compute `effective_tier` from this trail; they MUST NOT infer classification from the trail alone without `source_tier`. Transformation facts may be referenced as evidence, but they do not lower classification by themselves in v1."
     },
     "quarantine": {
       "$ref": "#/$defs/QuarantineMarker",
@@ -290,6 +290,11 @@
           "type": "string",
           "minLength": 1,
           "description": "Anchor used by the shared revocation feed (local + static + seed-directory composite) to invalidate this fact ahead of schedule."
+        },
+        "evidence_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional evidence reference, commonly a TransformationFact id. Evidence supports the operator decision but never lowers classification without this DeclassifyFact."
         }
       },
       "allOf": [
@@ -352,6 +357,71 @@
           }
         }
       ]
+    },
+    "TransformationKind": {
+      "type": "string",
+      "enum": [
+        "k-anonymization",
+        "histogram",
+        "summary",
+        "embedding",
+        "redaction",
+        "other"
+      ],
+      "description": "Evidence-only transformation class. In v1, a TransformationFact is provenance for a DeclassifyFact, not an authorization to lower effective_tier."
+    },
+    "TransformationFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fact_id",
+        "kind",
+        "input_fact_ids",
+        "output_fact_id",
+        "evaluator",
+        "correlation_id",
+        "recorded_at"
+      ],
+      "properties": {
+        "fact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "$ref": "#/$defs/TransformationKind"
+        },
+        "input_fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "output_fact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evaluator": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable evaluator/tool/profile id that produced the transformed artefact."
+        },
+        "correlation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidence_digest": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional digest over transformation inputs or report material."
+        }
+      },
+      "description": "Append-only provenance fact for aggregation, redaction, embedding, or summarization. It can be referenced from DeclassifyFact.evidence_ref, but never changes effective_tier on its own."
     },
     "QuarantineMarker": {
       "type": "object",

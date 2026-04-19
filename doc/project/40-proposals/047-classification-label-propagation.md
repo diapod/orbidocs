@@ -221,22 +221,17 @@ two-parent reference. `declassify_trail` is unioned and time-ordered.
 **Aggregation does not auto-declassify.** Histograms, summaries, k-anonymized
 views, redactions, and embeddings are **not** privileged with respect to
 classification. Each such transformation produces a new artefact whose
-classification is, by default, the join of its inputs. Lowering it requires
-either:
-
-- an explicit `DeclassifyFact` attached to the output (§4), or
-- a recorded `TransformationFact` of a recognized kind (`k-anonymization`,
-  `aggregate-count`, `redact`, `embed`) declared as a **persistent
-  declassification exception** (§4) bound to that transformation and its
-  parameters.
+classification is, by default, the join of its inputs. Lowering it requires an
+explicit `DeclassifyFact` attached to the output (§4).
 
 `classification.v1` carries the label and the `declassify_trail`; it does not
-embed `TransformationFact`. Transformation exceptions are separate Memarium
-policy facts resolved by the egress guard before it accepts a lowered
-`effective_tier` for the derived artefact.
+embed `TransformationFact`. A `TransformationFact` may be stored as separate
+Memarium provenance and referenced from `DeclassifyFact.evidence_ref`, but it
+is evidence only in v1: it never lowers `effective_tier` without the explicit
+declassification act.
 
-Without one of those, a "summary" of Personal data is Personal. "Summary" is
-not a magic bypass.
+Without that explicit act, a "summary" of Personal data is Personal. "Summary"
+is not a magic bypass.
 
 **Rust shape — staged, not all-at-once.** To avoid prematurely coloring the
 entire codebase:
@@ -275,8 +270,8 @@ memarium.declassify {
 ```
 
 A `DeclassifyFact` appended to the trail mirrors this shape plus issuance
-time, expiry, revocation anchor, and a `consumed_at` marker for one-shot
-mode.
+time, expiry, revocation anchor, optional `evidence_ref`, and a `consumed_at`
+marker for one-shot mode.
 
 Authorization:
 
