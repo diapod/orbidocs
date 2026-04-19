@@ -10,7 +10,7 @@ The component is responsible for the solution-level execution path of:
 - local knowledge storage across four constitutionally defined memory spaces,
 - space-specific policy enforcement (encryption, retention, replication, forget),
 - middleware chain observation and context enrichment,
-- host capability exposure for agents and middleware (`memarium.read`, `memarium.write`, `memarium.index`, `memarium.cache`),
+- host capability exposure for agents and middleware (`memarium.read`, `memarium.write`, `memarium.index`, `memarium.cache`, `memarium.declassify`),
 - Agora synchronization tracking (recording outbound submissions and their confirmation status as local facts),
 - archival integration (recording handoff provenance and caching retrieval results),
 - crisis space management as a constitutional obligation.
@@ -98,6 +98,7 @@ Related capabilities:
 - `memarium.cache`
 - `memarium.promote`
 - `memarium.forget`
+- `memarium.declassify`
 - `memarium.crisis_status`
 - `memarium.crisis_resolve`
 
@@ -108,12 +109,13 @@ Responsibilities:
 - expose `memarium.cache` (A1+): read-through cache with index lookup fallback to full scan,
 - expose `memarium.promote` (A0): cross-space promotion requiring operator approval,
 - expose `memarium.forget` (A0): right-to-forget requests subject to explicit operator approval and space forget policy,
+- expose `memarium.declassify` (A0): append-only policy facts lowering a fact by one classification tier for a bound surface/topic/mode,
 - expose `memarium.crisis_status` (A1): operator-visible crisis seed and active finding view,
 - expose `memarium.crisis_resolve` (A0): append-only operator force-resolution fact for a named detector,
 - register capabilities through the daemon's host capability binding mechanism,
 - serve in-process callers (agents, NSE hooks) through direct trait methods and out-of-process callers (middleware modules) through the host capability HTTP surface.
 
-All eight capabilities are exposed as `POST /v1/host/capabilities/memarium.<op>` endpoints and run through the same passport-gated dispatch as Sealer (`capability-binding::authorize`, six-step pipeline). Revocation is integrated against local, static-file, Seed Directory, and delegation-target-id sources. The operator-vocabulary target tag is `memarium:space:<space>[:community:<id>][:kind:<kind>][:entry:<id>]`; crisis status and resolve use the crisis space target.
+All nine capabilities are exposed as `POST /v1/host/capabilities/memarium.<op>` endpoints and run through the same passport-gated dispatch as Sealer (`capability-binding::authorize`, six-step pipeline). Revocation is integrated against local, static-file, Seed Directory, and delegation-target-id sources. The operator-vocabulary target tag is `memarium:space:<space>[:community:<id>][:kind:<kind>][:entry:<id>]`; crisis status and resolve use the crisis space target. `memarium.declassify` uses a separate `memarium-declassify@v1` profile because authorization binds additional axes: surface, topic class, declassification mode, source tier, and target tier.
 
 #### Built-In Module Passport Bootstrap
 
@@ -148,7 +150,7 @@ and scope.
 #### Host API Wire Contract
 
 The host API keeps the `endpoint + op` shape. Each request is sent to one of
-the eight `memarium.*` endpoints and carries an `op` field identifying the
+the nine `memarium.*` endpoints and carries an `op` field identifying the
 operation inside that capability. Successful responses carry `status: "ok"`;
 error responses carry a stable `status: string`, a free-form human `reason`,
 and may carry structured `details`. Clients should parse `status`
@@ -173,6 +175,15 @@ timestamp fields are RFC3339 strings; Rust `SystemTime`'s serde object shape is
 an implementation detail and is not part of the Memarium host-capability
 contract.
 
+Declassification never mutates the source fact. `memarium.declassify` appends a
+`classification-declassified` policy fact containing a `DeclassifyFact`; read
+paths compose active policy facts into `classification.declassify_trail` and
+derive the current `effective_tier`. Operator quarantine actions likewise write
+append-only policy facts (`classification-quarantine-accepted` /
+`classification-quarantine-rejected`), preserving the original ingress record.
+The host API schema is published as `memarium-host-api.v1.schema.json` with
+examples under `doc/schemas/examples/*.memarium-host-api.json`.
+
 ##### Response Status Codes
 
 The enumeration below is closed for host-capability contract v1. Adding a new
@@ -194,6 +205,13 @@ from the dispatch gate map to exactly one audit decision string.
 | `revocation_stale` | `503 Service Unavailable` | `denied:revocation-stale` | yes | Revocation view is outside the configured freshness budget. |
 | `revoked` | `410 Gone` | `denied:revoked` | no | Passport id or delegation target id is revoked. |
 | `operator_only` | `403 Forbidden` | `denied:operator-only` | no | Capability requires A0; module callers cannot invoke it directly. |
+| `classification_missing` | `400 Bad Request` | - | no | A guarded surface requires a first-class `classification` label and none was supplied. |
+| `classification_mismatch` | `403 Forbidden` | - | no | The source/effective tier is incompatible with the requested operation or destination. |
+| `declassification_required` | `403 Forbidden` | - | no | The destination would be reachable only after a valid declassification fact, but none is active. |
+| `declassification_scope_expired` | `403 Forbidden` | - | no | A declassification fact is invalid, expired, revoked, consumed, or not bound to the requested surface/topic/mode. |
+| `bound_subjects_not_public` | `400 Bad Request` | - | no | Public egress carries full subject references instead of `bound_subjects.public_projection`. |
+| `quarantined` | `403 Forbidden` | - | no | The target is still in ingress quarantine and requires an operator accept/reject/declassify action. |
+| `source_tier_immutable` | `422 Unprocessable Entity` | - | no | A request attempted to mutate or skip over the immutable source tier semantics. |
 | `space_policy_violation` | `422 Unprocessable Entity` | - | no | Memarium space policy rejects the operation, e.g. plaintext write into an encryption-required space. |
 | `promotion_denied` | `403 Forbidden` | - | no | Cross-space promotion would violate Memarium promotion rules. Details may classify specific cases such as crisis-closed promotion. |
 | `not_found` | `404 Not Found` | - | no | Requested entry, fact, or cache key does not exist. |
@@ -217,7 +235,7 @@ of personal entries"; it must carry scope, reason, issuer, audit trace, and a
 revocation path.
 
 Status:
-- `partial` — all eight capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. Open points: contextual autonomy enforcement for `forget` (see above), implementation and operator UI for the passport installation/bootstrap flow described above, and a non-scan read-model/index sidecar for large datasets.
+- `partial` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. Open points: contextual autonomy enforcement for `forget` (see above), richer operator UI for quarantine and declassification flows, implementation and operator UI for the passport installation/bootstrap flow described above, and a non-scan read-model/index sidecar for large datasets.
 
 ### Agora Synchronization Tracking
 
@@ -331,7 +349,7 @@ Memarium does **not** perform AEAD itself. Its responsibility at write time is t
 
 - `MemariumEntry` (internal domain type, not a wire schema)
 - `MemariumFact` (internal domain type, not a wire schema)
-- Host capability responses for `memarium.read`, `memarium.write`, `memarium.index`, `memarium.cache`, `memarium.promote`, `memarium.forget`, `memarium.crisis_status`, `memarium.crisis_resolve`
+- Host capability responses for `memarium.read`, `memarium.write`, `memarium.index`, `memarium.cache`, `memarium.promote`, `memarium.forget`, `memarium.declassify`, `memarium.crisis_status`, `memarium.crisis_resolve`
 
 ## Related Capability Data
 
@@ -341,6 +359,7 @@ Memarium does **not** perform AEAD itself. Its responsibility at write time is t
 - `memarium.cache` — read-through cache (A1+)
 - `memarium.promote` — cross-space promotion (A0)
 - `memarium.forget` — right-to-forget request (A0, then constrained by space policy)
+- `memarium.declassify` — append-only declassification/quarantine policy facts (A0)
 - `memarium.crisis_status` — crisis seed and active finding view (A1)
 - `memarium.crisis_resolve` — append-only operator force-resolution (A0)
 

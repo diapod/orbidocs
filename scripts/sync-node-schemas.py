@@ -49,6 +49,7 @@ SCHEMA_WHITELIST = (
     "offer-catalog-fetch-request.schema.json",
     "offer-catalog-fetch-response.schema.json",
     "classification.v1.schema.json",
+    "memarium-host-api.v1.schema.json",
 )
 
 EXAMPLE_WHITELIST = (
@@ -61,6 +62,7 @@ EXAMPLE_WHITELIST = (
     "network-ledger.capability-passport-present.json",
     "sealer-access.capability-passport-present.json",
     "memarium-space-access.capability-passport-present.json",
+    "memarium-declassify.capability-passport-present.json",
     "community-key-access.capability-passport-present.json",
     "audio-transcription.capability-schema-present.json",
     "audio-transcription.capability-schema.json",
@@ -104,6 +106,9 @@ EXAMPLE_WHITELIST = (
     "quarantined-ingress.classification.json",
     "personal-to-community-one-shot.classification.json",
     "community-to-public-persistent.classification.json",
+    "write-entry.memarium-host-api.json",
+    "declassify.memarium-host-api.json",
+    "revoked.memarium-host-api.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (

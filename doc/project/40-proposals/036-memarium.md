@@ -421,6 +421,7 @@ daemon's host capability surface:
 | `memarium.cache` | A1+ | Read-through cache: attempt index lookup, fall back to full scan, cache result. |
 | `memarium.promote` | A0 | Promote an entry from one space to another. Requires operator approval by default (A0) because it crosses policy boundaries. |
 | `memarium.forget` | contextual | Request right-to-forget on an entry. The required autonomy depends on space, outcome, and caller authority: personal immediate forget may be delegated through tightly scoped passports; public tombstone and shared-memory forget requests require operator approval or governed workflow; crisis forget is restricted. |
+| `memarium.declassify` | A0 | Append a declassification/quarantine policy fact. Declassification never rewrites the source fact; it is authorized through `memarium-declassify@v1`, bound by space, surface, topic class, mode, and tier transition. |
 
 These capabilities are registered through the same host capability binding
 mechanism used by middleware modules (`/v1/host/capabilities/memarium.*`).

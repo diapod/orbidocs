@@ -28,7 +28,7 @@ schodzimy o jedno piętro niżej: trzy konkretne węzły, jeden konkretny temat
 Story opiera się na:
 
 - **Proposal 029** (Workflow Template Catalog) — definicji
-  `WorkflowDefinition` oraz katalogu szablonów: trzy kroki tej story są trzema
+  `WorkflowDefinition` oraz katalogu szablonów: cztery kroki tej story są czterema
   nazwanymi szablonami kroków, parametryzowanymi tematem (`Bielik`) oraz
   docelowym repozytorium.
 - **Proposal 033** (Workflow Fan-Out and Temporal Orchestration) — prymitywach
@@ -106,6 +106,19 @@ kontrakt wyniku oraz opcjonalną zawężoną ścieżkę podpisu. Semantyka gita 
 checkout, commit, fast-forward, push oraz sposób podpisywania payloadu commita —
 żyje w tych skonfigurowanych skryptach i w modułach ról, które je wywołują, a nie
 w kodzie connectora.
+
+Ta sama reguła dotyczy użycia modeli językowych w tej story. `llm-research`,
+`draft-author`, korekta językowa i każda inna praca wspomagana modelem są
+zwykłymi zadaniami workflow, które sięgają po model przez allowlistowaną akcję
+OS connectora opakowującą lokalny skrypt albo narzędzie. Dzięki temu
+implementacja referencyjna ma działającą ścieżkę użycia modeli bez dodawania
+model-specific kodu do Arki, Datora, Sensorium-core ani OS connectora. Przyszły
+dedykowany LLM connector Sensorium może zostać wprowadzony jako bardziej
+wyspecjalizowany backend, ale powinien zachować tę samą stratyfikację: workflow
+nazywa zadanie, moduł roli wywołuje zadeklarowaną capability/action, a
+model-specific konstrukcja promptu, wybór runtime'u, dane dostępowe providera,
+batching i kształtowanie wyniku żyją w skonfigurowanym wrapperze albo
+connectorze, nie w warstwie orkiestracji.
 
 **Klasyfikacja i autoryzacja akcji pochodzą z proposal 048.** Ta story nie
 wprowadza własnego modelu zaufania, własnego formatu allowlisty ani osobnej
@@ -227,7 +240,7 @@ parameters:
 ```
 
 Arca na węźle A buduje z tych parametrów konkretną instancję
-`WorkflowDefinition`: trzy kroki, każdy z zadeklarowanym celem `task_type`
+`WorkflowDefinition`: cztery kroki, każdy z zadeklarowanym celem `task_type`
 (zamiast hardkodowanego uczestnika). W runtime Arca pyta powierzchnię katalogu
 ofert, kto aktualnie oferuje odpowiadający `service/type`. Dzięki temu, jeśli
 węzeł B zawiedzie, a jego rolę przejmie inny węzeł oferujący `image-generate` /
@@ -589,7 +602,7 @@ Wynik:
 }
 ```
 
-### Krok 3: Węzeł C robi korektę i wypycha do publikacji
+### Krok 3: Węzeł C recenzuje, akceptuje albo odrzuca, i publikuje po akceptacji
 
 Arca dispatchuje `review-and-publish` do dostawcy `git-push-publish` (węzeł C).
 Wejściem są ponownie tylko wskaźniki z kroku 2 (`illustrated_commit`,
@@ -612,17 +625,23 @@ Moduł redakcyjny:
    - sprawdzenie, że obrazy istnieją pod ścieżkami użytymi w `figure`.
 4. Prosi `sensorium-core` o wywołanie allowlistowanej akcji OS connectora, która
    uruchamia lokalny skrypt korekty (cienki wrapper nad modelem językowym
-   węzła). Skrypt wykonuje drobne korekty interpunkcji, klarowności i rytmu,
-   **bez** zmiany tezy artykułu, i zwraca poprawiony markdown jako przechwycony
-   artefakt. Moduł roli `editor-in-chief` nigdy nie ładuje modelu korekty
+   węzła). Skrypt recenzuje materiał, wykonuje drobne korekty interpunkcji,
+   klarowności i rytmu wtedy, gdy akceptuje tekst, **bez** zmiany tezy artykułu,
+   i zwraca wąską decyzję JSON oraz ewentualny poprawiony markdown jako
+   przechwycone artefakty. Moduł roli `editor-in-chief` nigdy nie ładuje modelu korekty
    w swoim procesie; guardrails-as-code z kroku 3 powyżej pozostają w module
    roli (są kodem, nie skryptem).
-5. Zmienia frontmatter (`draft: false`) przez allowlistowany zapis worktree,
-   a następnie robi *commit* zmian na gałęzi `drafts/bielik-2026-04-17-A`
-   z podpisem węzła C.
-6. Przez ścieżkę `git-publisher` prosi OS connector o wykonanie strzeżonego
-   *fast-forward merge* gałęzi szkicu do `publish/main` i push `publish/main`
-   do origin.
+5. Interpretuje decyzję redakcyjną jako lokalny kontrakt workflow: `accepted`
+   oznacza, że rola może przekazać kandydata publisherowi; `rejected` oznacza,
+   że rola zapisuje fakt odrzucenia, zwraca Arce powód odrzucenia i wskaźniki
+   korekt oraz **nie** wywołuje ścieżki publikacji. Arca może wtedy pauzować,
+   failować albo skierować workflow korekcyjny zgodnie z `WorkflowDefinition`.
+6. Tylko dla `accepted` zmienia frontmatter (`draft: false`) przez
+   allowlistowany zapis worktree, a następnie robi *commit* zmian na gałęzi
+   `drafts/bielik-2026-04-17-A` z podpisem węzła C.
+7. Przez ścieżkę `git-publisher` prosi OS connector o wykonanie strzeżonego
+   *fast-forward merge* zaakceptowanej gałęzi szkicu do `publish/main` i push
+   `publish/main` do origin.
 
 Push do `publish/main` jest jedynym wyzwalaczem publikacji: Netlify nasłuchuje
 tej gałęzi i wdraża. Żaden inny węzeł nie ma klucza autoryzowanego do tego
@@ -636,9 +655,22 @@ Wynik:
 ```json
 {
   "outcome": "ok",
+  "editorial_decision": "accepted",
   "review_commit": "9a7e…",
   "publish_branch": "publish/main",
   "publish_commit": "9a7e…",
+  "memarium_record_id": "sha256:…"
+}
+```
+
+Dla odrzuconego kandydata wynik nadal jest pointer-only i audytowalny:
+
+```json
+{
+  "outcome": "rejected",
+  "editorial_decision": "rejected",
+  "rejection_reason": "missing primary source attribution",
+  "correction_pointers": ["content/posts/2026-04-17-bielik-co-nowego.md"],
   "memarium_record_id": "sha256:…"
 }
 ```
@@ -718,7 +750,8 @@ widoków monitorujących i historii. Operator widzi w thin client:
 
 > "Workflow `bielik-biweekly-publish.v1` zakończony. Krok 1: węzeł A
 > (53 min). Krok 2: węzeł B (12 min). Krok 3: węzeł C (8 min).
-> Publikacja: `publish/main@9a7e…`. Netlify deploy w toku."
+> Weryfikacja: fulfilled. Publikacja: `publish/main@9a7e…`.
+> Netlify deploy w toku."
 
 Kilka minut później artykuł jest live. Żaden człowiek nie kliknął przycisku
 "publish" w panelu CMS.
@@ -727,14 +760,14 @@ Kilka minut później artykuł jest live. Żaden człowiek nie kliknął przycis
 
 | # | Kryterium | Weryfikacja |
 | :--- | :--- | :--- |
-| 1 | `WorkflowDefinition` ma trzy kroki z celami `resolve: task_type`; nie zawiera hardkodowanych identyfikatorów uczestników | inspekcja zapisanego *workflow run* |
+| 1 | `WorkflowDefinition` ma cztery kroki z celami `resolve: task_type`; nie zawiera hardkodowanych identyfikatorów uczestników | inspekcja zapisanego *workflow run* |
 | 2 | Krok 1 (`research-and-draft`) kończy się commitem na gałęzi `drafts/bielik-…-A` podpisanym kluczem uczestnika węzła A z domeną podpisu `git.commit.v1` | weryfikacja podpisu obiektu commita |
 | 3 | Krok 2 (`illustrate`) commituję na tej samej gałęzi, dodając ≥1 nowy obraz w `static/img/posts/<date>/` oraz co najmniej jedną referencję `{{< figure >}}` w pliku markdown | diff treści między `draft_commit` i `illustrated_commit` |
-| 4 | Krok 3 (`review-and-publish`) zmienia `draft: true` na `draft: false`, wykonuje *fast-forward* `publish/main` do commita z gałęzi szkicu i wypycha **tylko** tę gałąź | inspekcja `git reflog` repozytorium origin |
+| 4 | Krok 3 (`review-and-publish`) albo odrzuca kandydata i emituje fakt odrzucenia bez pusha, albo, jeśli kandydat został zaakceptowany, zmienia `draft: true` na `draft: false`, wykonuje *fast-forward* `publish/main` do commita z gałęzi szkicu i wypycha **tylko** tę gałąź | inspekcja `git reflog` repozytorium origin oraz faktu Memarium roli `editor-in-chief` |
 | 5 | Tylko węzeł C oferuje typ zadania `git-push-publish` i tylko Sensorium OS connector węzła C ma allowlistowaną akcję publikacji dla `publish/main`; próba push `publish/main` z węzła A albo B zawodzi na poziomie polityki git (origin-side albo *pre-receive hook*) lub na poziomie dopuszczenia dyrektywy Sensorium | test negatywny: ręczne wywołanie `git-push-publish` z węzła A musi zostać odrzucone przed lub przy git push |
-| 6 | Każdy z trzech kroków, jeśli przekroczy `timing.timeout`, kończy *workflow run* statusem `timed_out` wskazującym konkretny krok; nie ma cichego fallbacku do innego dostawcy | test: sztuczny *sleep* w jednym z modułów dłuższy niż *timeout* |
+| 6 | Każdy z czterech kroków, jeśli przekroczy `timing.timeout`, kończy *workflow run* statusem `timed_out` wskazującym konkretny krok; nie ma cichego fallbacku do innego dostawcy | test: sztuczny *sleep* w jednym z modułów dłuższy niż *timeout* |
 | 7 | Każdy krok dopisuje co najmniej jeden rekord do **lokalnego Memarium węzła wykonującego krok** (nie do żadnego wspólnego magazynu), którego identyfikator zwraca w wyjściu kroku; rekordy są dopisywane (append-only), nie nadpisywane | inspekcja każdego z trzech Memariów między run 1 i run 2 — wszystkie rekordy z run 1 zachowane |
-| 8 | Po `completed` Arca emituje rekord `agora-record.v1` z `record/kind: "workflow.completed"` zawierający `record/about` z linkami do trzech rekordów Memarium (po jednym na krok, każdy w Memarium innego węzła) | inspekcja relaya Agora po zakończonym runie |
+| 8 | Po `completed` Arca emituje rekord `agora-record.v1` z `record/kind: "workflow.completed"` zawierający `record/about` z linkami do trzech commit-producing rekordów Memarium oraz rekordu Memarium weryfikacji publikacji | inspekcja relaya Agora po zakończonym runie |
 | 9 | Cykl można odtworzyć z *workflow run* + sumy trzech lokalnych Memariów — można zrekonstruować, kto co zaproponował, co odrzucono w recenzji i dlaczego, **bez** odwoływania się do wspólnego magazynu | test: usuń *working tree*, odtwórz ścieżkę publikacji wyłącznie z rekordów trzech Memariów + logu Arki |
 | 10 | Netlify wdraża **tylko** w wyniku pusha z kroku 3; ręczna zmiana `publish/main` poza runem Arki jest technicznie możliwa, ale staje się rekordem widocznym w logu (nie ukrytą ścieżką) | inspekcja historii wdrożeń Netlify względem logu Arki |
 | 11 | Brak jednego wspólnego Memarium: każdy z trzech węzłów ma własną instancję; wymiana faktów między węzłami odbywa się wyłącznie przez podpisane rekordy `agora-record.v1` na redakcyjnym lokalnym relayu Agora | inspekcja konfiguracji: każdy węzeł ma własny `memarium-store`; brak wspólnego mountpointu, brak gałęzi danych, którą wszyscy widzą bez przejścia przez Agorę |
@@ -833,8 +866,9 @@ sidecars (np. `arca-caps.edn`) od marketplace'owych nazw `task_type` /
 | Krok 2 (ilustracje) | moduł `illustrator` na węźle B + Sensorium OS connector | task/service types: `image-generate`, `image-place`; action ids Sensorium dla checkout, zapisu worktree, commit i push gałęzi szkicu. Klasy proposal 048: **C5 artifact-producing-spawn** dla skryptu modelu dyfuzyjnego (bajty obrazów jako zadeklarowane artefakty), **C3 scoped-fs-write** dla edycji markdown + commit, **C4 egress-network-spawn** dla push. | Zaimplementować pointer-based checkout szkicu przez Sensorium OS, generowanie/umieszczanie obrazów, commit do gałęzi szkicu i emisję wyniku tylko ze wskaźnikami. | planowany dokument rozwiązania `illustrator` |
 | Krok 3 (review + guardrails-as-code) | moduł `editor-in-chief` na węźle C + Sensorium OS connector | task/service types: `editorial-review`, `guardrails-as-code`; action ids Sensorium dla checkout i strzeżonych zapisów worktree. Klasy proposal 048: **C2 allowlisted-script** dla skryptu korekty, **C3 scoped-fs-write** dla patcha frontmatter/tekstu i podpisanego commita. | Zaimplementować review nad mediowanym przez Sensorium checkoutem git z guardrails-as-code, zwracając fakty akceptacji/odrzucenia i wskaźniki korekt bez kopiowania bajtów artykułu przez Arcę. | planowany dokument rozwiązania `editor-in-chief` |
 | Krok 3 (push do gałęzi publikacyjnej) | moduł `git-publisher` na węźle C + Sensorium OS connector | task/service type: `git-push-publish`; action ids Sensorium dla strzeżonego fast-forward merge i push `publish/main`. Klasa proposal 048: **C7 operator-gated-spawn** — push publikacyjny jest jedyną akcją w tej story, która w każdym niedemonstracyjnym deploymencie POWINNA wymagać autoryzacji operator-signed (nie node-signed); każdy podpisany commit publikacyjny używa tego samego wzorca zawężonej ścieżki podpisu `git.commit.v1`. | Zaimplementować strzeżoną ścieżkę fast-forward/merge/push do `publish/main`, w tym podpisany commit publikacyjny i klasyfikację błędów dla odrzuconych pushy, jako ścieżkę dyrektywy Sensorium OS mediowaną przez Arcę. | planowany dokument rozwiązania `git-publisher` |
-| Krok 4 (zapis faktu ukończenia) | Memarium | `memarium-caps.edn` → `:append-fact` | Upewnić się, że każdy uczestniczący moduł dopisuje swój lokalny rekord faktu i zwraca stabilne wskaźniki `memarium_record_id`, które Arca może włączyć do końcowego widoku audytu. | [`memarium.md`](../60-solutions/memarium.md) |
-| Krok 4 (publikacja `workflow.completed` na Agorze) | Orbiplex Agora | [`agora-caps.edn`](../60-solutions/agora-caps.edn) → `:agora-record-ingest` | Dodać emiter ukończenia Arca/host dla `agora-record.v1` z `record/kind = workflow.completed`, łączący run id, rekordy kroków, Memarium ids i git refs bez osadzania bajtów treści. | [`agora.md`](../60-solutions/agora.md) |
+| Krok 3b (weryfikacja fulfillmentu publikacji) | ścieżka modułu `publication-verifier` + Sensorium OS connector | task/service type: `publication-verifier`; action id Sensorium `story009.publication.verify`. Klasa proposal 048: **C2 allowlisted-script** dla read-only skryptu verifiera w szkielecie referencyjnym; mocniejsze wdrożenia MOGĄ opakować go w strzeżoną akcję network fetch/pull, gdy dowód musi być sprawdzony względem zdalnego origin. | Zaimplementować jawny krok workflow, który decyduje o fulfillment z wąskiego kontraktu JSON (`task-verification-result.v1`, np. `verification/status = fulfilled`). Semantyka weryfikacji specyficzna dla gita pozostaje w skonfigurowanym skrypcie; Arca tylko stosuje politykę fulfillmentu workflow (`output_match`) i zapisuje wskaźnik faktu weryfikacji Memarium. | planowany dokument rozwiązania `publication-verifier` |
+| Krok 4 (zapis faktu ukończenia) | Memarium | `memarium-caps.edn` → `:append-fact` | Upewnić się, że każdy uczestniczący moduł dopisuje swój lokalny rekord faktu i zwraca stabilne wskaźniki `memarium_record_id`, które Arca może włączyć do końcowego widoku audytu, w tym trzy fakty commit-producing oraz fakt weryfikacji publikacji. | [`memarium.md`](../60-solutions/memarium.md) |
+| Krok 4 (publikacja `workflow.completed` na Agorze) | Orbiplex Agora | [`agora-caps.edn`](../60-solutions/agora-caps.edn) → `:agora-record-ingest` | Dodać emiter ukończenia Arca/host dla `agora-record.v1` z `record/kind = workflow.completed`, łączący run id, rekordy kroków, Memarium ids, git refs i evidence weryfikacji publikacji bez osadzania bajtów treści. | [`agora.md`](../60-solutions/agora.md) |
 
 **Kotwice typów zadań** (nazwy marketplace/service, nie protocol capability
 passports):

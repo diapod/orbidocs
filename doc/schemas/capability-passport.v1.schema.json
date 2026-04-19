@@ -266,12 +266,12 @@
       "type": "object",
       "additionalProperties": true,
       "required": ["profile"],
-      "description": "One key-use profile entry in `scope.profiles[]`. The `profile` field is the discriminator. Recognized discriminators (`sealer-access@v1`, `memarium-space-access@v1`, `community-key-access@v1`) trigger profile-specific shape validation below. Unknown discriminators are tolerated by the schema but MUST NOT grant access at the verifier.",
+      "description": "One key-use profile entry in `scope.profiles[]`. The `profile` field is the discriminator. Recognized discriminators (`sealer-access@v1`, `memarium-space-access@v1`, `memarium-declassify@v1`, `community-key-access@v1`) trigger profile-specific shape validation below. Unknown discriminators are tolerated by the schema but MUST NOT grant access at the verifier.",
       "properties": {
         "profile": {
           "type": "string",
           "minLength": 1,
-          "description": "Profile discriminator. Recognized values: `sealer-access@v1`, `memarium-space-access@v1`, `community-key-access@v1`."
+          "description": "Profile discriminator. Recognized values: `sealer-access@v1`, `memarium-space-access@v1`, `memarium-declassify@v1`, `community-key-access@v1`."
         }
       },
       "allOf": [
@@ -288,6 +288,13 @@
             "required": ["profile"]
           },
           "then": { "$ref": "#/$defs/memariumSpaceAccessProfileV1" }
+        },
+        {
+          "if": {
+            "properties": { "profile": { "const": "memarium-declassify@v1" } },
+            "required": ["profile"]
+          },
+          "then": { "$ref": "#/$defs/memariumDeclassifyProfileV1" }
         },
         {
           "if": {
@@ -349,13 +356,89 @@
             "minItems": 1,
             "items": { "type": "string", "minLength": 1 }
           },
-          "description": "Map of memarium grant-type -> target[]. Recognized grant types: `memarium/read`, `memarium/write`, `memarium/index`, `memarium/cache`, `memarium/promote`, `memarium/forget`. Target entries are Memarium space names or the wildcard `*`."
+          "description": "Map of memarium grant-type -> target[]. Recognized grant types: `memarium/read`, `memarium/write`, `memarium/index`, `memarium/cache`, `memarium/promote`, `memarium/forget`, `memarium/crisis-status`, `memarium/crisis-resolve`. Target entries are Memarium space names or the wildcard `*`."
         },
         "spaces": {
           "type": "array",
           "minItems": 1,
           "items": { "type": "string", "minLength": 1 },
           "description": "Enumerates the Memarium space names this profile applies to (e.g. `community`, `crisis`)."
+        },
+        "community_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Optional restriction to a bounded set of community identifiers."
+        },
+        "entry_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Optional restriction to a bounded set of Memarium entry kinds."
+        },
+        "max_revocation_staleness_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Per-profile maximum acceptable revocation-view staleness (seconds)."
+        }
+      }
+    },
+    "memariumDeclassifyProfileV1": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "profile",
+        "grants",
+        "spaces",
+        "surfaces",
+        "topic_classes",
+        "modes",
+        "from_tiers",
+        "to_tiers",
+        "max_revocation_staleness_seconds"
+      ],
+      "description": "Authorizes append-only Memarium declassification policy facts. This profile is deliberately separate from `memarium-space-access@v1`: declassification binds not only to a space, but also to surface, topic class, mode, and tier transition.",
+      "properties": {
+        "profile": { "const": "memarium-declassify@v1" },
+        "grants": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "description": "Map of memarium grant-type -> target[]. Recognized grant type: `memarium/declassify`. Target entries are Memarium space names or the wildcard `*`."
+        },
+        "spaces": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "surfaces": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "enum": ["agora", "whisper", "inac", "export", "bus"] }
+        },
+        "topic_classes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "modes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "enum": ["one-shot", "persistent-for-topic-class"] }
+        },
+        "from_tiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "enum": ["Personal", "Community", "Public"] }
+        },
+        "to_tiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "enum": ["Personal", "Community", "Public"] }
         },
         "community_ids": {
           "type": "array",

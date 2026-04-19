@@ -1,0 +1,18 @@
+{
+  "op": "declassify",
+  "request": {
+    "space": "community",
+    "community_id": "wroclaw-mutual-aid",
+    "entry_kind": "resource-note",
+    "fact_id": "fact:community:1710000000000000000",
+    "from": "Community",
+    "to": "Public",
+    "surface": "agora",
+    "topic_class": "mutual-aid",
+    "mode": {
+      "kind": "one-shot"
+    },
+    "reason": "Operator reviewed the fact and approved a public projection.",
+    "correlation_id": "corr:memarium:declassify:example"
+  }
+}

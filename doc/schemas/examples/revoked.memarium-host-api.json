@@ -1,0 +1,6 @@
+{
+  "status": "revoked",
+  "reason": "revoked",
+  "retryable": false,
+  "audit_decision": "denied:revoked"
+}

@@ -1,0 +1,35 @@
+{
+  "op": "write_entry",
+  "request": {
+    "space": "public",
+    "artifact_kind": "resource-note",
+    "tags": ["source:operator"],
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Public",
+      "effective_tier": "Public",
+      "provenance": {
+        "kind": "local-space",
+        "space": "Public"
+      },
+      "bound_subjects": {
+        "public_projection": {
+          "subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "count": 0
+        }
+      },
+      "declassify_trail": []
+    },
+    "payload": {
+      "encoding": "plaintext-json",
+      "media_type": "application/json",
+      "body": {
+        "body": "Public resource note"
+      },
+      "encryption": null
+    },
+    "attributes": {
+      "topic": "mutual-aid"
+    }
+  }
+}

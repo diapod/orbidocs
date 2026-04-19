@@ -41,6 +41,9 @@ schema_for_file() {
     *.classification.json)
       echo "$SCHEMAS_DIR/classification.v1.schema.json"
       ;;
+    *.memarium-host-api.json)
+      echo "$SCHEMAS_DIR/memarium-host-api.v1.schema.json"
+      ;;
     *.training-job.json)
       echo "$SCHEMAS_DIR/training-job.v1.schema.json"
       ;;

@@ -58,9 +58,10 @@ Signed capability or consent artifact naming a capability profile for a target N
 | [`delegationProof`](#def-delegationproof) | object | Compact bearer credential copied out of a `key-delegation.v1` registration artifact and embedded beside a proxy-key signature. Its own principal signature covers only the compact proof payload. |
 | [`ed25519Signature`](#def-ed25519signature) | object | Ed25519 signature over the deterministic canonical JSON of the passport with the `signature` and `issuer_delegation` fields omitted entirely from the signed payload. Object keys are sorted lexicographically; no insignificant whitespace; arrays left in original order. |
 | [`allowedCaller`](#def-allowedcaller) | object | One caller entry recognized by a key-use passport. Verifier matches entries against a resolved `CallerBinding` produced by the `caller-binding` crate: `subject_key` MUST overlap `CallerBinding.subject_keys`; `label` MUST match `CallerBinding.caller_label` when present; `kind` MUST match `CallerBinding.subject_kind` when present. Only public-key material appears here; binding entries MUST NOT embed secrets. |
-| [`scopeProfileV1`](#def-scopeprofilev1) | object | One key-use profile entry in `scope.profiles[]`. The `profile` field is the discriminator. Recognized discriminators (`sealer-access@v1`, `memarium-space-access@v1`, `community-key-access@v1`) trigger profile-specific shape validation below. Unknown discriminators are tolerated by the schema but MUST NOT grant access at the verifier. |
+| [`scopeProfileV1`](#def-scopeprofilev1) | object | One key-use profile entry in `scope.profiles[]`. The `profile` field is the discriminator. Recognized discriminators (`sealer-access@v1`, `memarium-space-access@v1`, `memarium-declassify@v1`, `community-key-access@v1`) trigger profile-specific shape validation below. Unknown discriminators are tolerated by the schema but MUST NOT grant access at the verifier. |
 | [`sealerAccessProfileV1`](#def-sealeraccessprofilev1) | object | Authorizes Sealer AEAD operations on bounded semantic key identifiers as known to the operator. `key_ref_prefixes` and grant targets match values such as `key:community:...`; signer-layer wrapping such as `proxy:` is not part of the authorization tag. The dispatch layer is responsible for translating concrete signer `KeyRef` values before evaluation. See proposal 038 §Profile `sealer-access@v1`. |
 | [`memariumSpaceAccessProfileV1`](#def-memariumspaceaccessprofilev1) | object | Authorizes Memarium space-level operations at a layer above Sealer. See proposal 038 §Profile `memarium-space-access@v1`. |
+| [`memariumDeclassifyProfileV1`](#def-memariumdeclassifyprofilev1) | object | Authorizes append-only Memarium declassification policy facts. This profile is deliberately separate from `memarium-space-access@v1`: declassification binds not only to a space, but also to surface, topic class, mode, and tier transition. |
 | [`communityKeyAccessProfileV1`](#def-communitykeyaccessprofilev1) | object | Authorizes community key material reception, rotation, and distribution decisions at a layer above Sealer. See proposal 038 §Profile `community-key-access@v1`. |
 
 ## Conditional Rules
@@ -234,7 +235,7 @@ One caller entry recognized by a key-use passport. Verifier matches entries agai
 
 - Shape: object
 
-One key-use profile entry in `scope.profiles[]`. The `profile` field is the discriminator. Recognized discriminators (`sealer-access@v1`, `memarium-space-access@v1`, `community-key-access@v1`) trigger profile-specific shape validation below. Unknown discriminators are tolerated by the schema but MUST NOT grant access at the verifier.
+One key-use profile entry in `scope.profiles[]`. The `profile` field is the discriminator. Recognized discriminators (`sealer-access@v1`, `memarium-space-access@v1`, `memarium-declassify@v1`, `community-key-access@v1`) trigger profile-specific shape validation below. Unknown discriminators are tolerated by the schema but MUST NOT grant access at the verifier.
 
 <a id="def-sealeraccessprofilev1"></a>
 ## `$defs.sealerAccessProfileV1`
@@ -249,6 +250,13 @@ Authorizes Sealer AEAD operations on bounded semantic key identifiers as known t
 - Shape: object
 
 Authorizes Memarium space-level operations at a layer above Sealer. See proposal 038 §Profile `memarium-space-access@v1`.
+
+<a id="def-memariumdeclassifyprofilev1"></a>
+## `$defs.memariumDeclassifyProfileV1`
+
+- Shape: object
+
+Authorizes append-only Memarium declassification policy facts. This profile is deliberately separate from `memarium-space-access@v1`: declassification binds not only to a space, but also to surface, topic class, mode, and tier transition.
 
 <a id="def-communitykeyaccessprofilev1"></a>
 ## `$defs.communityKeyAccessProfileV1`

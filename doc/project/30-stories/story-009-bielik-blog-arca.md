@@ -115,6 +115,18 @@ fast-forward, push, and how the commit payload is signed — live in those
 configured scripts and in the role modules that call them, not in the
 connector code.
 
+The same rule applies to language-model use in this story. `llm-research`,
+`draft-author`, proofreading, and any other model-assisted work are ordinary
+workflow tasks that reach the model through an allowlisted OS connector action
+wrapping a local script or tool. This gives the reference implementation a
+working model path without adding model-specific code to Arca, Dator,
+Sensorium-core, or the OS connector. A future dedicated LLM Sensorium connector
+may be introduced as a more specialised backend, but it should preserve the
+same stratification: the workflow names the task, the role module invokes a
+declared capability/action, and model-specific prompt construction, runtime
+choice, provider credentials, batching, and output shaping live in the
+configured wrapper or connector, not in the orchestration layer.
+
 **Action classification and authorization come from proposal 048.**
 This story does not introduce its own trust model, its own allowlist
 format, or its own signing ceremony for OS connector scripts. Each
@@ -621,7 +633,7 @@ Result:
 }
 ```
 
-### Step 3: Node C proofreads and pushes for publication
+### Step 3: Node C reviews, accepts or rejects, and publishes if accepted
 
 Arca dispatches `review-and-publish` to the provider of
 `git-push-publish` (node C). The input is again only pointers from
@@ -647,18 +659,25 @@ modules in sequence. The editorial module:
    - check that the images exist at the paths used in `figure`.
 4. Asks `sensorium-core` to invoke an allowlisted OS connector action
    that runs a local proofreading script (a thin wrapper over the
-   node's language model). The script performs minor punctuation,
-   clarity and rhythm corrections, **without** changing the article's
-   thesis, and returns the revised markdown as a captured artifact. The
+   node's language model). The script reviews the material, performs
+   minor punctuation, clarity and rhythm corrections when it accepts
+   the piece, **without** changing the article's thesis, and returns a
+   narrow JSON decision plus any revised markdown as captured artifacts. The
    `editor-in-chief` role module never loads the proofreading model
    in-process; guardrails-as-code from step 3 above remain in the role
    module (they are code, not a script).
-5. Changes the frontmatter (`draft: false`) through an allowlisted
-   worktree write, then *commits* the changes on the
+5. Interprets the editorial decision as a workflow-local contract:
+   `accepted` means the role may hand the candidate to the publisher;
+   `rejected` means the role records the rejection fact, returns the
+   rejection reason and correction pointers to Arca, and **does not**
+   invoke the publish path. Arca may then pause, fail, or route a
+   correction workflow according to the `WorkflowDefinition`.
+6. For `accepted` only, changes the frontmatter (`draft: false`) through
+   an allowlisted worktree write, then *commits* the changes on the
    `drafts/bielik-2026-04-17-A` branch with node C's signature.
-6. Through the `git-publisher` path, asks the OS connector to perform a
-   guarded *fast-forward merge* of the draft branch into `publish/main`
-   and push `publish/main` to origin.
+7. Through the `git-publisher` path, asks the OS connector to perform a
+   guarded *fast-forward merge* of the accepted draft branch into
+   `publish/main` and push `publish/main` to origin.
 
 The push to `publish/main` is the sole publication trigger: Netlify
 listens to that branch and deploys. No other node has the key
@@ -673,9 +692,22 @@ Result:
 ```json
 {
   "outcome": "ok",
+  "editorial_decision": "accepted",
   "review_commit": "9a7e…",
   "publish_branch": "publish/main",
   "publish_commit": "9a7e…",
+  "memarium_record_id": "sha256:…"
+}
+```
+
+For a rejected candidate the result is still pointer-only and auditable:
+
+```json
+{
+  "outcome": "rejected",
+  "editorial_decision": "rejected",
+  "rejection_reason": "missing primary source attribution",
+  "correction_pointers": ["content/posts/2026-04-17-bielik-co-nowego.md"],
   "memarium_record_id": "sha256:…"
 }
 ```
@@ -769,7 +801,7 @@ button in a CMS panel.
 | 1 | The `WorkflowDefinition` has four steps with `resolve: task_type` targets; it contains no hard-coded participant identifiers | inspection of the saved *workflow run* |
 | 2 | Step 1 (`research-and-draft`) ends with a commit on the `drafts/bielik-…-A` branch signed by node A's participant key with signature domain `git.commit.v1` | verification of the commit object signature |
 | 3 | Step 2 (`illustrate`) commits on the same branch, adding ≥1 new image in `static/img/posts/<date>/` and at least one `{{< figure >}}` reference in the markdown file | content diff between `draft_commit` and `illustrated_commit` |
-| 4 | Step 3 (`review-and-publish`) changes `draft: true` to `draft: false`, *fast-forwards* `publish/main` to the commit from the draft branch and pushes **only** that branch | inspection of the origin repo's `git reflog` |
+| 4 | Step 3 (`review-and-publish`) either rejects the candidate and emits a rejection fact without pushing, or, if accepted, changes `draft: true` to `draft: false`, *fast-forwards* `publish/main` to the commit from the draft branch and pushes **only** that branch | inspection of the origin repo's `git reflog` plus the editor-in-chief Memarium fact |
 | 5 | Only node C offers the `git-push-publish` task type and only node C's Sensorium OS connector has an allowlisted publish action for `publish/main`; an attempt to push `publish/main` from node A or B fails at git policy level (origin-side or *pre-receive hook*) or at Sensorium directive admission | negative test: a manual `git-push-publish` invocation from node A must be rejected before or at git push |
 | 6 | Each of the four steps, if it exceeds `timing.timeout`, ends the *workflow run* with status `timed_out` indicating the specific step; there is no silent fallback to another provider | test: an artificial *sleep* in one of the modules longer than the *timeout* |
 | 7 | Each step appends at least one record to the **local Memarium of the node executing the step** (not to any shared store), whose identifier it returns in the step output; records are appended (append-only), not overwritten | inspection of each of the three Memariums between run 1 and run 2 — all records from run 1 retained |

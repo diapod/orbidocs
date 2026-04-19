@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:memarium-host-api:v1",
+  "title": "Memarium Host API v1",
+  "description": "Stable wire contract for daemon-level memarium.* host capability request and response envelopes. Operations are selected by the endpoint plus the `op` field; clients MUST parse `status` programmatically and MUST NOT parse free-form `reason`.",
+  "type": "object",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/036-memarium.md",
+    "doc/project/40-proposals/047-classification-label-propagation.md",
+    "doc/project/60-solutions/memarium.md"
+  ],
+  "oneOf": [
+    { "$ref": "#/$defs/OperationEnvelope" },
+    { "$ref": "#/$defs/OkResponse" },
+    { "$ref": "#/$defs/ErrorResponse" }
+  ],
+  "$defs": {
+    "OperationEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "request"],
+      "properties": {
+        "op": {
+          "type": "string",
+          "enum": [
+            "get_entry",
+            "query_entries",
+            "get_fact",
+            "query_facts",
+            "write_entry",
+            "write_fact",
+            "space_projection",
+            "all_projections",
+            "get",
+            "put",
+            "invalidate",
+            "promote",
+            "forget",
+            "declassify",
+            "quarantine_list",
+            "quarantine_accept",
+            "quarantine_reject",
+            "crisis_status",
+            "crisis_resolve"
+          ]
+        },
+        "request": {
+          "type": "object"
+        }
+      }
+    },
+    "OkResponse": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status"],
+      "properties": {
+        "status": { "const": "ok" }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason", "retryable"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "invalid_request",
+            "unsupported_op",
+            "invalid_operator_reason",
+            "passport_lookup_failed",
+            "passport_invalid",
+            "passport_expired",
+            "binding_mismatch",
+            "allowed_callers_mismatch",
+            "no_profile_matched",
+            "policy_denied",
+            "revocation_stale",
+            "revoked",
+            "operator_only",
+            "classification_missing",
+            "classification_mismatch",
+            "declassification_required",
+            "declassification_scope_expired",
+            "bound_subjects_not_public",
+            "quarantined",
+            "source_tier_immutable",
+            "space_policy_violation",
+            "promotion_denied",
+            "not_found",
+            "unknown_detector",
+            "memarium_unavailable",
+            "storage_unavailable",
+            "storage_error",
+            "internal_error"
+          ]
+        },
+        "reason": { "type": "string" },
+        "retryable": { "type": "boolean" },
+        "audit_decision": {
+          "type": "string",
+          "pattern": "^denied:"
+        },
+        "details": true
+      }
+    }
+  }
+}

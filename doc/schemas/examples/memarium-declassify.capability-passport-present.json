@@ -1,0 +1,51 @@
+{
+  "schema": "capability-passport-present.v1",
+  "passport": {
+    "schema": "capability-passport.v1",
+    "passport_id": "passport:capability:memarium-declassify:01JR12MEMARIUMDCL01",
+    "node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "capability_id": "memarium-space-access",
+    "capability_profile": {
+      "display/name": "Memarium declassification access",
+      "description": "Authorizes A0 operator-mediated Community to Public declassification for public Agora projections.",
+      "lang": "en",
+      "schema/id": "urn:orbiplex:capability-profile:memarium-declassify:v1",
+      "schema/media-type": "application/schema+json"
+    },
+    "scope": {
+      "allowed_callers": [
+        {
+          "kind": "participant",
+          "label": "operator",
+          "subject_key": "did:key:z6MkfsZpRgMvAyKvTXRvqHLxpV7uoNpXjJhJqxwGwm9AyJ2k"
+        }
+      ],
+      "profiles": [
+        {
+          "profile": "memarium-declassify@v1",
+          "grants": {
+            "memarium/declassify": ["community"]
+          },
+          "spaces": ["community"],
+          "community_ids": ["wroclaw-mutual-aid"],
+          "entry_kinds": ["resource-note"],
+          "surfaces": ["agora"],
+          "topic_classes": ["mutual-aid"],
+          "modes": ["one-shot"],
+          "from_tiers": ["Community"],
+          "to_tiers": ["Public"],
+          "max_revocation_staleness_seconds": 300
+        }
+      ]
+    },
+    "issued_at": "2026-04-19T12:00:00Z",
+    "expires_at": "2027-04-19T12:00:00Z",
+    "issuer/participant_id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "issuer/node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "revocation_ref": null,
+    "signature": {
+      "alg": "ed25519",
+      "value": "base64url:memarium-declassify-capability-passport-signature"
+    }
+  }
+}
