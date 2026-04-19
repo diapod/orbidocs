@@ -119,6 +119,11 @@
         }
       }
     },
+    "deadline_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional absolute RFC 3339 deadline propagated by the caller. When present, sensorium-core and the connector MUST enforce the smaller of timing.timeout_ms/max_timeout_ms and the remaining time until deadline_at. This keeps role-module HTTP timeouts, Sensorium outcomes, and connector execution telemetry aligned."
+    },
     "correlation/id": {
       "type": "string",
       "description": "Optional opaque string threading this directive through a higher-level plan (e.g. an Arca workflow run step, a Dator task dispatch). Preserved in the outcome and in any linked observations."

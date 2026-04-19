@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbiplex.ai/schemas/node/sensorium-os-error-codes.v1.json",
+  "title": "Sensorium OS Connector Error Codes v1",
+  "description": "Shared runtime diagnostic code vocabulary for the reference Sensorium OS connector. These codes are used in connector diagnostics, module reports, and Sensorium action-invalid observations so operators can build one reason dictionary instead of parsing free-form messages.",
+  "type": "string",
+  "enum": [
+    "action-catalog-unauthorized",
+    "action-not-allowlisted",
+    "script-hash-mismatch",
+    "working-directory-forbidden",
+    "parameters-schema-invalid",
+    "result-schema-invalid",
+    "result-pointer-missing",
+    "action-timeout",
+    "directive-missing",
+    "parameters-invalid",
+    "script-not-executable"
+  ],
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/045-sensorium-local-enaction-stratum.md",
+    "doc/project/40-proposals/048-sensorium-os-connector-action-classes.md",
+    "doc/project/30-stories/story-009-bielik-blog-arca.md"
+  ]
+}

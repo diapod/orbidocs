@@ -453,6 +453,10 @@ The lane-level invariants are:
 - every artifact should carry media type, sensitivity class, and preferably a
   content-addressed reference,
 - partial success is valid: observations may coexist with diagnostics,
+- a connector may emit an operational observation that a submitted action result
+  was invalid, but that observation must be a normal admitted world/control fact
+  (for example `ai.orbiplex.sensorium/action-invalid`), not a replacement for
+  the structured diagnostic or the directive outcome,
 - the directive lane never bypasses host-granted capability policy.
 
 The v1 lane mapping is:
@@ -622,6 +626,12 @@ Request envelope (`sensorium-directive.v1`), semantic summary:
   `sensorium-directive-outcome.v1` is written with
   `outcome/status: "timed_out"` and
   `policy/decision.decision: "timeout"`.
+- `deadline_at` — optional absolute RFC 3339 deadline propagated from the
+  caller's enclosing workflow or service dispatch. When present,
+  `sensorium-core` and the connector enforce the smaller of the local
+  timeout/max-timeout and the remaining time until `deadline_at`. This prevents
+  asymmetric traces where the role module, Sensorium outcome, and connector
+  execution report different timeout boundaries for the same directive.
   `sync` returns final status; `async` returns `status: "admitted"` and the
   caller reconciles completion through the audit outcome and optional linked
   observations filtered by `correlation/id`.

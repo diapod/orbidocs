@@ -6,6 +6,7 @@ Based on:
 - `doc/schemas/sensorium-directive.v1.schema.json`
 - `doc/schemas/sensorium-observation.v1.schema.json`
 - `doc/schemas/sensorium-directive-outcome.v1.schema.json`
+- `doc/schemas/sensorium-os-error-codes.v1.schema.json`
 
 ## Status
 
@@ -408,6 +409,38 @@ Declarations that fail validation are rejected at startup; the connector
 refuses to run with a partial catalog. This is intentional: a silent
 dropped action is a harder operator failure mode than a refusing module.
 
+Per-action result contracts may additionally declare a closed
+`result_contract.pointer_fields` list. For such actions, every listed field
+MUST be present in the structured JSON result returned by the script. A missing
+field is a contract failure, not an optional omission: the connector returns a
+structured diagnostic (`result-pointer-missing`) and Sensorium records an
+action-invalid observation. This prevents latent corruption where a script and a
+role module silently drift on names such as `review_commit` vs
+`reviewed_commit`.
+
+### Diagnostic Code Vocabulary
+
+The reference OS connector uses the shared schema
+`sensorium-os-error-codes.v1` for operator-facing diagnostic codes. The current
+v1 vocabulary is intentionally small and implementation-facing:
+
+- `action-catalog-unauthorized`
+- `action-not-allowlisted`
+- `script-hash-mismatch`
+- `working-directory-forbidden`
+- `parameters-schema-invalid`
+- `result-schema-invalid`
+- `result-pointer-missing`
+- `action-timeout`
+- `directive-missing`
+- `parameters-invalid`
+- `script-not-executable`
+
+Free-form diagnostic messages remain useful for humans, but routing,
+dashboards, tests, and audit reconstruction SHOULD branch on these stable
+codes. Unknown connector families may define their own vocabularies; the
+reference OS connector should not grow ad-hoc strings outside this schema.
+
 ### Publication path
 
 Once validated, the connector publishes its action catalog through the
@@ -529,6 +562,14 @@ On every supervised connector start:
    do not expose the action catalog; emit a diagnostic
    (`config/authorization: missing | hash-mismatch | signature-invalid`);
    follow the posture below.
+
+Startup verification is necessary but not sufficient. A connector MUST NOT keep
+an authorization decision forever in process memory without a reload contract.
+At dispatch time it MUST either re-read and verify the active sidecar, or prove
+that a host-owned reload/invalidation mechanism has invalidated the cached
+decision after any sidecar or effective-configuration change. The simple v1
+reference posture is stateless per-invocation verification: a stale sidecar on
+disk causes the next action dispatch to fail before spawn.
 
 #### Factory-default materialization and node-signed sidecars
 
@@ -838,9 +879,11 @@ and what shape of result to expect. That is the intended experience.
   scoped signer grant and arranges only that bounded grant through the host
   signer boundary.
 - **OS connector.** Loads and validates the action catalog from its
-  configuration file at startup. Publishes the catalog through its
-  module report. Enforces the class envelope for every action. Renders
-  the declaration's argv shape without shell interpolation, applies only
+  configuration file at startup, and revalidates sidecar authorization before
+  dispatch unless the host provides an explicit reload/invalidation channel.
+  Publishes the catalog through its module report. Enforces the class envelope
+  for every action. Renders the declaration's argv shape without shell
+  interpolation, applies only
   opaque process setup material already authorized by `sensorium-core` and
   the host, spawns the process, and captures results under the class's
   capture shape. Emits one or more observations where the declaration names

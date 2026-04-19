@@ -92,6 +92,11 @@ timeoutem, `cwd`, środowiskiem, limitami wyjścia, przechwytywaniem artefaktów
 oraz efektami ubocznymi — wszystko egzekwowane na granicy connectora. Moduły ról
 pozostają konsumentami `sensorium.directive.invoke`; nie otrzymują grantów
 `sensorium.connector.invoke` i nie obchodzą `sensorium-core`.
+Błędy walidacji po stronie connectora używają wspólnego słownika
+`sensorium-os-error-codes.v1`, a gdy odrzucają wynik akcji, która została już
+wykonana, są też reprezentowane jako obserwacje
+`ai.orbiplex.sensorium/action-invalid`, aby audyt operatora nie zależał od
+zobaczenia nietrwałej odpowiedzi HTTP.
 
 To **nie** zmienia stratyfikacji transportu opisanej wyżej: bajty artykułu nadal
 przepływają przez git, nie przez Arcę, Agorę ani Memarium. Sensorium OS connector
@@ -220,6 +225,567 @@ Warianty z ceną niezerową, negocjacją albo settlementem są osobną story.
 Tematem tej story jest cykl publikacyjny: **"Co nowego z Bielikiem"** —
 okresowy artykuł podsumowujący zmiany, *releases* i sygnały społecznościowe
 wokół modelu **Bielik** w rytmie dwutygodniowym.
+
+## Setup operatorski od zera
+
+Ta sekcja jest runbookiem operacyjnym dla operatora, który chce uruchomić story
+od pustego środowiska. Celowo utrzymuje semantykę Gita, modeli i publikacji
+w skryptach oraz konfiguracji pisanych przez operatora. Komponenty Orbiplex
+dostarczają orkiestrację, mediację capability, zapis, audyt i lokalny nadzór;
+nie uczą się semantyki Gita, Netlify, Bielika ani konkretnego LLM.
+
+Wspierane są dwa kształty setupu:
+
+- **Szkielet referencyjny na jednym hoście.** Jeden daemon uruchamia lokalnie
+  Arcę, Datora, `story009-roles`, `sensorium-core`, `sensorium-os`, Memarium
+  i Agorę. To najszybsza ścieżka developerska i najprostszy sposób weryfikacji
+  kontraktu.
+- **Trzykomputerowy deployment redakcyjny.** Węzły A, B i C uruchamiają własny
+  daemon, Datora, Sensorium, Sensorium OS connector oraz lokalne Memarium. Arca
+  może działać na węźle A. Tylko węzeł C reklamuje i autoryzuje
+  `git-push-publish`.
+
+### Prerekwizyty
+
+Przed instalacją Orbiplex na maszynach przygotuj:
+
+- Trzy nazwy hostów albo etykiety maszyn: `node-a`, `node-b`, `node-c`.
+- Jedno repozytorium Git z layoutem zgodnym z Hugo:
+  `content/posts/`, `static/img/posts/` oraz gałęzią publikacyjną, na przykład
+  `publish/main`.
+- Politykę gałęzi publikacyjnej. W deploymentcie referencyjnym może to być
+  lokalne repozytorium bare z hookiem `pre-receive`. W realnym deploymentcie
+  użyj uprawnień repozytorium albo hooków tak, aby tylko węzeł C mógł
+  aktualizować `publish/main`.
+- Serwis Netlify albo równoważny target wdrożeniowy obserwujący wyłącznie
+  `publish/main`. Netlify nie jest częścią control plane Orbiplex; jest
+  zewnętrznym obserwatorem gitowego data plane.
+- Tożsamości uczestników/operatorów dla trzech węzłów. Świeże demo może je
+  wygenerować przez Node UI; realny deployment powinien utworzyć albo
+  zaimportować je intencjonalnie i zabezpieczyć materiał odzyskiwania.
+- Skrypty albo wrappery dla każdej lokalnej akcji. Dołączone skrypty
+  referencyjne są deterministycznymi fixture'ami; realne operacje LLM,
+  obrazowe, recenzenckie i Git powinny być instalowane jako allowlistowane
+  skrypty OS connectora.
+
+### Oprogramowanie wymagane na każdym komputerze
+
+Na każdym hoście węzła zainstaluj ten sam baseline:
+
+```sh
+git --version
+python3 --version
+cargo --version
+```
+
+Wymagane pakiety:
+
+- Rust toolchain z Cargo, wystarczający do zbudowania daemona, Node UI oraz
+  usług middleware pisanych w Ruście.
+- Python 3.11 albo nowszy.
+- Pythonowe `jsonschema`, używane przez moduły referencyjne Sensorium do
+  walidacji JSON Schema na brzegu.
+- Git CLI.
+- Narzędzia buildowe platformy (`clang` / Xcode Command Line Tools na macOS,
+  równoważny toolchain kompilatora na Linuksie).
+
+Typowy bootstrap developerski:
+
+```sh
+cd node
+python3 -m pip install --user jsonschema
+cargo build -p orbiplex-node-daemon -p orbiplex-node-ui -p orbiplex-node-agora-service
+cargo test -p orbiplex-node-daemon --test story_009_sensorium_role_dispatch
+```
+
+Jeśli dana maszyna ma uruchamiać realne narzędzia LLM albo generowania obrazów,
+zainstaluj te runtime'y poza Orbiplex i wystaw je przez skrypty-wrappery pisane
+przez operatora. Moduły ról i Sensorium OS connector powinny nadal widzieć tylko
+`action_id`, ścieżkę skryptu, parametry JSON oraz kontrakt wyniku JSON.
+
+### Materializacja bazowa węzła
+
+Na każdym komputerze utwórz osobny katalog danych i zmaterializuj konfigurację
+fabryczną:
+
+```sh
+cd node
+export ORBIPLEX_NODE_DATA_DIR="$HOME/.orbiplex-story009/node-a"
+cargo run -p orbiplex-node-daemon -- materialize-config --data-dir "$ORBIPLEX_NODE_DATA_DIR"
+cargo run -p orbiplex-node-daemon -- check-config --data-dir "$ORBIPLEX_NODE_DATA_DIR"
+```
+
+Po dodaniu overlay config uruchom węzeł:
+
+```sh
+cargo run -p orbiplex-node-daemon -- run --data-dir "$ORBIPLEX_NODE_DATA_DIR"
+```
+
+Jeśli deployment używa helpera kontroli operatorskiej, równoważna komenda to:
+
+```sh
+python3 tools/orbiplex-node-control.py --data-dir "$ORBIPLEX_NODE_DATA_DIR" up
+```
+
+Helper `up` startuje daemon oraz, gdy `node_ui.start_with_node` ma wartość
+`true`, współlokowane Node UI. W foreground-only runie developerskim uruchom
+Node UI z drugiego terminala, jeżeli helper go nie startuje.
+
+Na pozostałych maszynach użyj katalogów danych `node-b` i `node-c`. Jeśli trzy
+węzły są symulowane na jednym hoście, użyj osobnych katalogów danych i osobnych
+portów loopback w każdym overlayu. Jeśli węzły działają na osobnych maszynach,
+dołączone porty loopback mogą pozostać takie same, bo są lokalne dla każdego
+hosta.
+
+Daemon zapisuje fragmenty konfiguracji edytowane przez operatora pod:
+
+```text
+<data_dir>/config/*.json
+```
+
+Konfiguracja dołączonych middleware jest tam seedowana, gdy `seed_config` ma
+wartość `true`. Fragmenty operatorskie powinny używać późniejszych nazw
+leksykalnych, na przykład `70-story009.json`, aby nadpisywać wygenerowane
+defaulty bez edytowania plików fabrycznych.
+
+### Wspólna konfiguracja węzłów
+
+Każdy węzeł uczestniczący w story potrzebuje włączonych komponentów:
+
+- `dator` — publikuje lokalne oferty za cenę zero i routuje zaakceptowane
+  zamówienia usług do modułu roli.
+- `story009_roles` — jest właścicielem semantyki ról specyficznych dla story
+  i wywołuje `sensorium.directive.invoke`.
+- `sensorium_core` — mediuje dyrektywy Sensorium, waliduje parametry, zapisuje
+  outcomes, przechowuje obserwacje i dispatchuje do connectorów.
+- `sensorium_os` — wykonuje allowlistowane skrypty albo procesy. Nigdy nie
+  powinien być grantowany bezpośrednio konsumentom.
+- `agora_service` — lokalny relay używany dla topiców obserwacji Sensorium oraz
+  końcowego rekordu `workflow.completed`.
+- Memarium — włączone jako host capability w daemonie; każdy węzeł zachowuje
+  własny lokalny store.
+
+Minimalny kształt overlayu:
+
+```json
+{
+  "agora_service": {
+    "enabled": true,
+    "relay_id": "story009-node-a-local",
+    "role": "local",
+    "relay_domain": "node-a.local"
+  },
+  "sensorium_core": {
+    "enabled": true,
+    "publish_to_agora": true,
+    "agora_base_url": "http://127.0.0.1:47991"
+  },
+  "sensorium_os": {
+    "enabled": true,
+    "allowed_workdirs": ["/srv/orbiplex/story009/blog-bielik"],
+    "allowed_script_roots": ["actions"]
+  },
+  "story009_roles": {
+    "enabled": true
+  }
+}
+```
+
+`allowed_workdirs` musi wskazywać lokalny checkout używany przez dany węzeł.
+Defaulty referencyjne celowo startują z pustą allowlistą katalogów roboczych,
+więc akcje OS fail-closed, dopóki operator nie wybierze workspace.
+
+Dla repozytoriów prywatnych nie polegaj na ambientowym `HOME`. OS connector
+celowo startuje skrypty z minimalnym środowiskiem. Każdy potrzebny credential
+helper, komendę SSH, ścieżkę deploy key albo nieinteraktywne ustawienie Gita
+zadeklaruj w wpisie katalogu akcji. Minimum dla akcji story:
+
+```json
+{
+  "GIT_TERMINAL_PROMPT": "0",
+  "GIT_ASKPASS": "/bin/true"
+}
+```
+
+### Konfiguracja węzła A
+
+Węzeł A hostuje operator-facing workflow Arki w tej story i posiada rolę
+drafting.
+
+Setup systemowy:
+
+- Sklonuj albo zainicjalizuj checkout repozytorium redakcyjnego pod allowlistowanym
+  katalogiem roboczym węzła A.
+- Nadaj węzłowi A dostęp read/fetch do origin oraz uprawnienie do pushowania
+  gałęzi szkiców, jeśli workflow używa zdalnych gałęzi szkiców.
+- Nie nadawaj węzłowi A uprawnienia do pushowania `publish/main`.
+
+Oferty Datora:
+
+- Zostaw albo zadeklaruj `draft-author`.
+- W pełniejszym deploymentcie dodaj rozdzielone oferty dla `llm-research`,
+  `git-commit-draft` albo innych wyspecjalizowanych typów zadań tylko wtedy,
+  gdy szablon workflow odwołuje się do nich jawnie.
+- Usuń `git-push-publish` z aktywnego katalogu ofert węzła A.
+
+Katalog akcji Sensorium OS:
+
+- Zostaw akcje potrzebne w ścieżce drafting, takie jak
+  `story009.draft.compose`.
+- Dodaj realne akcje wrapperów LLM/source-fetch według potrzeby.
+- Nie dodawaj akcji publikacji, która może aktualizować `publish/main`.
+
+Kroki UI/operatora na węźle A:
+
+- Uruchom daemon i Node UI.
+- Utwórz albo zaimportuj tożsamość uczestnika dla węzła A.
+- Potwierdź node-operator binding, jeśli UI o to poprosi.
+- Sprawdź oferty Datora i potwierdź, że `draft-author` jest aktywne.
+- Zaimportuj albo utwórz szablon workflow `bielik-biweekly-publish.v1`.
+- Uruchom workflow z szablonu, podając repozytorium, gałąź, temat i parametry
+  rytmu.
+
+### Konfiguracja węzła B
+
+Węzeł B posiada ilustrację i umieszczanie obrazów.
+
+Setup systemowy:
+
+- Sklonuj repozytorium redakcyjne pod allowlistowanym katalogiem roboczym węzła B.
+- Nadaj dostęp read/fetch do origin i write access tylko do gałęzi potrzebnych
+  dla commitów ilustracyjnych.
+- Zainstaluj wrapper generowania obrazów albo deterministyczny fixture script
+  pod allowlistowanym katalogiem skryptów.
+
+Oferty Datora:
+
+- Zostaw albo zadeklaruj `image-place`.
+- Jeśli workflow później rozdzieli generowanie obrazów od ich umieszczania,
+  dodaj `image-generate` oraz `git-commit-illustrated` jako osobne oferty.
+- Nie reklamuj `git-push-publish`.
+
+Katalog akcji Sensorium OS:
+
+- Zostaw akcje potrzebne w ścieżce ilustracyjnej, takie jak
+  `story009.image.place`.
+- Dodaj realny wrapper generowania obrazów, jeśli ten węzeł używa modelu zamiast
+  deterministycznego fixture.
+- Nie dodawaj akcji publikacji.
+
+Kroki UI/operatora na węźle B:
+
+- Uruchom daemon i Node UI.
+- Utwórz albo zaimportuj tożsamość uczestnika dla węzła B.
+- Potwierdź albo zainstaluj granty modułów potrzebne Datorowi, Sensorium,
+  Sensorium OS i Memarium.
+- Sprawdź Datora i potwierdź, że `image-place` jest aktywne i wycenione na
+  `0 ORC` dla demo.
+- Sprawdź Sensorium OS i potwierdź, że w efektywnym katalogu są tylko akcje
+  zamierzone dla węzła B.
+
+### Konfiguracja węzła C
+
+Węzeł C posiada recenzję redakcyjną, weryfikację publikacji oraz jedyny autorytet
+publikacji.
+
+Setup systemowy:
+
+- Sklonuj repozytorium redakcyjne pod allowlistowanym katalogiem roboczym węzła C.
+- Zainstaluj credentials albo politykę repozytorium pozwalającą węzłowi C, i
+  tylko węzłowi C, aktualizować `publish/main`.
+- Skonfiguruj ochronę gałęzi publikacyjnej albo hook przed uruchomieniem
+  workflow. Ścieżka negatywna jest częścią story: próba publikacji z węzła A/B
+  musi się nie powieść.
+
+Oferty Datora:
+
+- Zostaw albo zadeklaruj `git-push-publish`.
+- Zostaw albo zadeklaruj `publication-verifier`, jeśli weryfikacja jest
+  wykonywana przez węzeł C.
+- Nie reklamuj ofert drafting ani illustration, chyba że operator świadomie chce
+  jednowęzłowy fallback demo.
+
+Katalog akcji Sensorium OS:
+
+- Zostaw `story009.review.publish`.
+- Zostaw `story009.publication.verify`.
+- Dodaj ograniczoną ścieżkę podpisywania dla akcji produkujących commity:
+  `signing.allowed_domains = ["git.commit.v1"]`.
+- Traktuj akcję publikacji jako operator-gated poza ścieżką demo. W produkcji
+  katalog edytowany przez operatora powinien być autoryzowany podpisem operatora,
+  a nie polegać wyłącznie na node-signed factory bootstrap.
+
+Kroki UI/operatora na węźle C:
+
+- Uruchom daemon i Node UI.
+- Utwórz albo zaimportuj tożsamość uczestnika dla węzła C.
+- Potwierdź albo zainstaluj granty dla publikowania, podpisywania, Sensorium
+  i Memarium.
+- Sprawdź Datora i potwierdź, że `git-push-publish` jest aktywne tylko tutaj.
+- Sprawdź Sensorium OS i potwierdź, że akcja publikacji wskazuje zamierzony
+  skrypt, hash, workdir, branch i domenę podpisu.
+
+### Katalog akcji i autoryzacja sidecar
+
+Katalog akcji jest deklaracją operatora mówiącą, jakie lokalne akcje istnieją.
+Dla story-009 akcje referencyjne to:
+
+- `story009.draft.compose`
+- `story009.image.place`
+- `story009.review.publish`
+- `story009.publication.verify`
+
+Każda deklaracja akcji powinna zawierać:
+
+- `action_id`
+- `script_path`
+- `sha256` pliku skryptu, gdy akcja nie jest czysto tymczasową pracą
+  developerską
+- `parameters_schema`
+- `result_schema`
+- `limits`
+- `cwd_param`
+- `env`
+- `result_contract.pointer_fields`
+- `connector_incidental_effects`
+- opcjonalne `signing.allowed_domains`
+
+Świeże defaulty fabryczne mogą być podpisane przez węzeł podczas bootstrapu. Gdy
+operator edytuje katalog, efektywny katalog musi zostać ponownie autoryzowany
+przez mechanizm sidecar opisany w proposal 048. Jeśli
+`require_action_catalog_signature` jest włączone, a hash sidecara nie pasuje do
+efektywnego katalogu, `sensorium-os` musi odmówić wystawienia akcji. To
+sprawdzenie nie jest tylko ceremonią startową: dispatch musi również ponownie
+odczytać albo zwalidować aktywny sidecar, aby zmiana operatora na dysku nie
+zostawiła po cichu aktywnej starej autoryzacji w pamięci.
+
+Kontrakty wyników są celowo ścisłe w sprawie pól wskaźnikowych. Jeśli akcja
+deklaruje `result_contract.pointer_fields`, każde wymienione pole musi być obecne
+w wyniku JSON skryptu. Brakujące pola wskaźnikowe są raportowane jako
+`result-pointer-missing`, a niedopasowanie schemy jako `result-schema-invalid`;
+oba przypadki wytwarzają obserwację action-invalid dla symetrii audytu.
+
+### Checklist UI przed uruchomieniem workflow
+
+W Node UI na każdym węźle:
+
+1. Otwórz **Identity** i utwórz albo zaimportuj klucz uczestnika.
+2. Potwierdź obecność tożsamości węzła i tożsamości uczestnika.
+3. Otwórz **Components** i potwierdź, że Dator, Sensorium Core, Sensorium OS,
+   Story 009 Roles oraz Agora Service działają tam, gdzie powinny.
+4. Otwórz widok komponentu albo konfiguracji i sprawdź efektywny
+   `sensorium_os.action_catalog`.
+5. Otwórz widok Datora/ofert i potwierdź oferty specyficzne dla węzła.
+6. Na węźle A otwórz widok szablonów workflow, zinstancjonuj
+   `bielik-biweekly-publish.v1` i uruchom run.
+7. Obserwuj widok workflow run. Każdy krok powinien nieść tylko pola
+   wskaźnikowe: branch, commit, path, `memarium_record_id` oraz identyfikatory
+   Sensorium outcome/observation.
+8. Po ukończeniu sprawdź Agorę i potwierdź rekord `workflow.completed`
+   z linkami do trzech faktów commitów oraz faktu weryfikacji publikacji.
+9. Sprawdź każde lokalne Memarium. Fakty powinny być append-only i lokalne dla
+   węzła, który wykonał dany krok.
+
+### CLI smoke test
+
+Przed użyciem realnych maszyn uruchom szkielet referencyjny z workspace `node`:
+
+```sh
+cd node
+python3 tools/acceptance/story-009-reference-skeleton.py
+cargo test -p orbiplex-node-daemon --test story_009_sensorium_role_dispatch -- --nocapture
+```
+
+Smoke test powinien pokazać:
+
+- commit szkicu,
+- commit ilustracji,
+- zaakceptowany commit review/publish,
+- odrzuconą próbę review,
+- fakt weryfikacji publikacji,
+- outcomes i obserwacje Sensorium,
+- oraz dane rekonstrukcji wyprowadzone ze wskaźników workflow i identyfikatorów
+  faktów Memarium.
+
+Jeśli to przechodzi, a realny węzeł nie, zwykle przyczyną są problemy warstwy
+konfiguracji: brak allowlisty workdir, nieaktualny sidecar katalogu akcji, brak
+credentials Git, zły zestaw ofert Datora albo akcja publikacji przypadkowo
+włączona na złym węźle.
+
+## Przykładowe skrypty dla Sensorium OS connectora
+
+Sensorium OS connector nie woła funkcji Pythona in-process. Uruchamia
+allowlistowany program zadeklarowany w katalogu akcji. Dla `os.script.run`
+referencyjny connector wywołuje skrypt jako:
+
+```text
+<interpreter> <script_path> --params-json '<json object>'
+```
+
+Kontrakt skryptu jest celowo wąski:
+
+- wejściem jest obiekt JSON przekazany w `--params-json`;
+- stdin nie jest używany;
+- stdout musi zawierać jeden obiekt JSON zgodny z `result_schema` akcji;
+- stderr jest tekstem diagnostycznym i nie może być parsowany jako wynik;
+- niezerowy exit status oznacza, że akcja nie powiodła się przed wytworzeniem
+  poprawnego wyniku;
+- każde pole wymienione w `result_contract.pointer_fields` musi być obecne
+  w wyniku JSON.
+
+Poniższe przykłady są celowo lokalne domenowo. Sensorium OS nie wie, czym jest
+"artykuł", "redaktor", "Bielik" ani "opublikowane". Te znaczenia żyją w
+allowlistowanym skrypcie, jego schemie parametrów, jego schemie wyniku oraz
+module roli, który interpretuje wynik.
+
+### Przykład 1: skrypt producenta treści
+
+Ten kształt pasuje do akcji takiej jak `story009.draft.compose`. Skrypt dostaje
+proste parametry JSON, zapisuje przykładową treść artykułu do pliku wewnątrz
+allowlistowanego workdir i zwraca wskaźniki oraz małe metadane. Bajty artykułu
+zostają w filesystemowym/gitowym data plane; workflow widzi tylko wskaźniki.
+
+```python
+#!/usr/bin/env python3
+"""Minimalny producent treści story-009 dla akcji Sensorium OS."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+from typing import Any
+
+
+def parse_params() -> dict[str, Any]:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--params-json", required=True)
+    return json.loads(parser.parse_args().params_json)
+
+
+def sha256_text(text: str) -> str:
+    digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
+    return f"sha256:{digest}"
+
+
+def main() -> None:
+    params = parse_params()
+
+    repo = Path(params["repo"]).resolve()
+    draft_path = Path(params.get("draft_path") or "content/posts/bielik-draft.md")
+    title = str(params.get("title") or "Co nowego z Bielikiem")
+    topic = str(params.get("topic") or "Bielik")
+
+    output_path = repo / draft_path
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    content = f"""---
+title: "{title}"
+draft: true
+tags: ["bielik", "llm", "polski"]
+---
+
+Wokół tematu {topic} wydarzył się tydzień małych, użytecznych zmian.
+Ekosystem modelu staje się łatwiejszy do testowania, omawiania i ponownego użycia.
+Ten akapit zastępuje prawdziwy lokalny wrapper LLM albo skrypt redakcyjny.
+"""
+
+    output_path.write_text(content, encoding="utf-8")
+
+    result = {
+        "outcome": "ok",
+        "draft_path": str(draft_path),
+        "content_sha256": sha256_text(content),
+        "content_chars": len(content),
+        "summary": {
+            "lang": "pl",
+            "text": "Wytworzono przykładową treść szkicu o Bieliku.",
+        },
+    }
+    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Minimalne oczekiwania katalogu akcji dla producenta:
+
+- `parameters_schema` wymaga co najmniej `repo` i może przyjmować
+  `draft_path`, `title` oraz `topic`;
+- `result_schema` wymaga `outcome`, `draft_path`, `content_sha256`
+  i `content_chars`;
+- `result_contract.pointer_fields` powinno zawierać co najmniej `draft_path`
+  oraz `content_sha256`.
+
+### Przykład 2: skrypt redaktora / walidatora fulfillmentu
+
+Ten kształt pasuje do akcji takiej jak `story009.publication.verify` albo
+lekkiej bramki redakcyjnej przed publikacją. Skrypt nie zna Arki. Czyta plik
+wskazany przez parametry, stosuje jedną prostą regułę i zwraca decyzję
+strukturalną. Tutaj reguła jest celowo trywialna: tekst jest spełniony tylko
+wtedy, gdy jego długość wynosi co najmniej `min_chars`.
+
+```python
+#!/usr/bin/env python3
+"""Minimalny redaktor/walidator fulfillmentu story-009 dla akcji Sensorium OS."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+from typing import Any
+
+
+def parse_params() -> dict[str, Any]:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--params-json", required=True)
+    return json.loads(parser.parse_args().params_json)
+
+
+def main() -> None:
+    params = parse_params()
+
+    repo = Path(params["repo"]).resolve()
+    draft_path = Path(params["draft_path"])
+    min_chars = int(params.get("min_chars") or 600)
+
+    text = (repo / draft_path).read_text(encoding="utf-8")
+    char_count = len(text)
+    fulfilled = char_count >= min_chars
+
+    result = {
+        "outcome": "ok" if fulfilled else "rejected",
+        "editorial_decision": "accepted" if fulfilled else "rejected",
+        "reviewed_path": str(draft_path),
+        "content_chars": char_count,
+        "verification": {
+            "status": "fulfilled" if fulfilled else "not_fulfilled",
+            "kind": "content-length",
+            "min_chars": min_chars,
+            "actual_chars": char_count,
+        },
+        "rejection_reason": None if fulfilled else "content is shorter than the configured minimum",
+    }
+    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Minimalne oczekiwania katalogu akcji dla walidatora:
+
+- `parameters_schema` wymaga `repo` oraz `draft_path` i może przyjmować
+  `min_chars`;
+- `result_schema` wymaga `outcome`, `editorial_decision`, `reviewed_path`,
+  `content_chars` oraz `verification.status`;
+- moduł roli albo polityka fulfillmentu workflow mapuje
+  `/verification/status == "fulfilled"` na ukończenie zadania;
+- jeśli `result_contract.pointer_fields` zawiera `reviewed_path`, pole musi być
+  obecne zawsze, także w przypadkach odrzucenia.
 
 ## Sekwencja kroków
 
@@ -497,6 +1063,12 @@ Wynik kroku zwracany do Arki:
 }
 ```
 
+`signature_tracker.status` jest celowo wartością strukturalną. Prawdziwy sukces
+signera używa statusu signed/verified z metadanymi klucza i podpisu; run
+developerski bez transportu signera może użyć `marker-only`; odmowa polityki
+signera musi wyjść jako denial status ze stabilnym kodem błędu signera, na
+przykład `domain_not_authorized`, a nie jako ogólne `result-schema-invalid`.
+
 `memarium_record_id` wskazuje na rekord faktu "A wytworzył szkic X w odpowiedzi
 na *brief* Y w czasie T" — to fakt zapisany w **Memarium węzła A** (autora
 kroku), a nie nadpisany stan. Dla podpisanych commitów fakt zapisuje również SHA
@@ -515,6 +1087,10 @@ zapisuje faktów Memarium. Moduł roli (na przykład `git-signer` albo
 dyrektywy Sensorium w fakt `memarium.write`. Dator może zadeklarować, że od
 oferty usługi oczekuje się wytworzenia takiego faktu, ale Dator nie powinien
 interpretować podpisów commitów ani samodzielnie konstruować payloadu Memarium.
+Moduł roli powinien przenosić klucz idempotencji do `memarium.write`, wyprowadzony
+z identyfikatora dispatchu, rodzaju faktu, identyfikatora korelacji i Sensorium
+outcome id, aby retry po awarii po zapisie zwróciło ten sam fakt zamiast
+dublować rekord przyczynowy.
 
 Minimalny payload faktu dla podpisanego commita może więc mieć kształt danych
 pochodzących z JSON-a skryptu oraz envelope'u Sensorium:
@@ -656,7 +1232,7 @@ Wynik:
 {
   "outcome": "ok",
   "editorial_decision": "accepted",
-  "review_commit": "9a7e…",
+  "reviewed_commit": "9a7e…",
   "publish_branch": "publish/main",
   "publish_commit": "9a7e…",
   "memarium_record_id": "sha256:…"
@@ -917,6 +1493,9 @@ i backlogach modułów; nie tutaj):
 - `doc/project/40-proposals/048-sensorium-os-connector-action-classes.md`
   (klasy akcji C1..C7, edytowalny przez operatora katalog, sidecar
   authorization, node-signed factory bootstrap)
+- `doc/schemas/sensorium-os-error-codes.v1.schema.json`
+  (wspólny słownik kodów diagnostycznych dla referencyjnego Sensorium OS
+  connectora)
 - `doc/project/30-stories/story-000.md` (tożsamość węzła i uczestnika)
 - `doc/project/30-stories/story-008-cool-site-comment.md` (wzorzec podpisanego
   rekordu jako jednostki audytowalnej)

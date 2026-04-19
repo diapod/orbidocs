@@ -100,6 +100,11 @@ output caps, artifact capture, and incidental effects — all enforced
 at the connector boundary. The role modules remain consumers of
 `sensorium.directive.invoke`; they do not receive
 `sensorium.connector.invoke` grants and do not bypass `sensorium-core`.
+Connector-side validation failures use the shared
+`sensorium-os-error-codes.v1` vocabulary and, when they reject an
+otherwise executed action result, are also represented as
+`ai.orbiplex.sensorium/action-invalid` observations so operator audit
+does not depend on seeing a transient HTTP response.
 
 This does **not** change the transport stratification above: article
 bytes still flow through git, not through Arca, Agora, or Memarium.
@@ -237,6 +242,581 @@ a separate story.
 The topic of this story is the publishing cycle: **"What's new with
 Bielik"** — a periodic article summarising changes, *releases* and
 community signals around the **Bielik** model on a biweekly cadence.
+
+## Operator Setup From Scratch
+
+This section is an operational runbook for an operator who wants to
+bring the story up from an empty environment. It deliberately keeps
+the Git, model, and publishing semantics in operator-authored scripts
+and configuration. Orbiplex components provide orchestration,
+capability mediation, storage, audit, and local supervision; they do
+not learn the semantics of Git, Netlify, Bielik, or a particular LLM.
+
+There are two supported setup shapes:
+
+- **Reference skeleton on one host.** One daemon starts Arca, Dator,
+  `story009-roles`, `sensorium-core`, `sensorium-os`, Memarium, and
+  Agora locally. This is the fastest path for development and for
+  verifying the contract.
+- **Three-computer editorial deployment.** Node A, B, and C each run
+  their own daemon, Dator, Sensorium, Sensorium OS connector, and
+  local Memarium. Arca may run on node A. Only node C advertises and
+  authorises `git-push-publish`.
+
+### Prerequisites
+
+Before installing Orbiplex on the machines, prepare:
+
+- Three hostnames or machine labels: `node-a`, `node-b`, `node-c`.
+- One Git repository with a Hugo-compatible layout:
+  `content/posts/`, `static/img/posts/`, and a publish branch
+  such as `publish/main`.
+- A branch policy for the publish branch. In the reference deployment,
+  this may be a local bare repository with a `pre-receive` hook. In a
+  real deployment, use repository permissions or hooks so only node C
+  can update `publish/main`.
+- A Netlify site or equivalent deployment target watching only
+  `publish/main`. Netlify is not part of the Orbiplex control plane;
+  it is an external observer of the Git data plane.
+- Participant/operator identities for the three nodes. A fresh demo
+  can generate these through the Node UI; a real deployment should
+  import or create them intentionally and store recovery material.
+- Scripts or wrappers for every local action. The bundled reference
+  scripts are deterministic fixtures; real LLM, image, review, and Git
+  operations should be installed as allowlisted OS connector scripts.
+
+### Software Required on Every Computer
+
+Install the same baseline software on each node host:
+
+```sh
+git --version
+python3 --version
+cargo --version
+```
+
+Required packages:
+
+- Rust toolchain with Cargo, sufficient to build the daemon, Node UI,
+  and the Rust middleware services.
+- Python 3.11 or newer.
+- Python `jsonschema`, used by the Sensorium reference modules for
+  JSON Schema validation at the boundary.
+- Git CLI.
+- Platform build tools (`clang`/Xcode Command Line Tools on macOS,
+  equivalent compiler toolchain on Linux).
+
+Typical development bootstrap:
+
+```sh
+cd node
+python3 -m pip install --user jsonschema
+cargo build -p orbiplex-node-daemon -p orbiplex-node-ui -p orbiplex-node-agora-service
+cargo test -p orbiplex-node-daemon --test story_009_sensorium_role_dispatch
+```
+
+If a machine is expected to run real LLM or image generation tools,
+install those runtimes outside Orbiplex and expose them through
+operator-authored wrapper scripts. The role modules and Sensorium OS
+connector should still see only an `action_id`, a script path, JSON
+parameters, and a JSON result contract.
+
+### Base Node Materialisation
+
+On each computer, create a separate data directory and materialise the
+factory configuration:
+
+```sh
+cd node
+export ORBIPLEX_NODE_DATA_DIR="$HOME/.orbiplex-story009/node-a"
+cargo run -p orbiplex-node-daemon -- materialize-config --data-dir "$ORBIPLEX_NODE_DATA_DIR"
+cargo run -p orbiplex-node-daemon -- check-config --data-dir "$ORBIPLEX_NODE_DATA_DIR"
+```
+
+Start the node after the overlay config is in place:
+
+```sh
+cargo run -p orbiplex-node-daemon -- run --data-dir "$ORBIPLEX_NODE_DATA_DIR"
+```
+
+If the deployment uses the operator control helper, the equivalent
+operator command is:
+
+```sh
+python3 tools/orbiplex-node-control.py --data-dir "$ORBIPLEX_NODE_DATA_DIR" up
+```
+
+The `up` helper starts the daemon and, when `node_ui.start_with_node`
+is true, the co-located Node UI. In a foreground-only development
+run, start Node UI from a second terminal if it is not started by the
+helper.
+
+Use `node-b` and `node-c` data directories on the other machines. If
+all three nodes are simulated on one host, use distinct data
+directories and distinct loopback ports in each overlay. If the nodes
+run on separate machines, the bundled loopback ports may remain the
+same because they are local to each host.
+
+The daemon writes operator-edited config fragments under:
+
+```text
+<data_dir>/config/*.json
+```
+
+Bundled middleware config is seeded there when `seed_config` is true.
+Operator fragments should use higher lexical names such as
+`70-story009.json` so they override generated defaults without
+editing factory files.
+
+### Common Node Configuration
+
+Each node participating in the story needs these components enabled:
+
+- `dator` — publishes local zero-price offers and routes accepted
+  service orders to the role module.
+- `story009_roles` — owns the story-specific role semantics and calls
+  `sensorium.directive.invoke`.
+- `sensorium_core` — mediates Sensorium directives, validates
+  parameters, records outcomes, stores observations, and dispatches to
+  connectors.
+- `sensorium_os` — executes allowlisted scripts or processes. It must
+  never be granted directly to consumers.
+- `agora_service` — local relay used for Sensorium observation topics
+  and the final `workflow.completed` record.
+- Memarium — enabled as a host capability in the daemon; every node
+  keeps its own local store.
+
+Minimal overlay shape:
+
+```json
+{
+  "agora_service": {
+    "enabled": true,
+    "relay_id": "story009-node-a-local",
+    "role": "local",
+    "relay_domain": "node-a.local"
+  },
+  "sensorium_core": {
+    "enabled": true,
+    "publish_to_agora": true,
+    "agora_base_url": "http://127.0.0.1:47991"
+  },
+  "sensorium_os": {
+    "enabled": true,
+    "allowed_workdirs": ["/srv/orbiplex/story009/blog-bielik"],
+    "allowed_script_roots": ["actions"]
+  },
+  "story009_roles": {
+    "enabled": true
+  }
+}
+```
+
+The `allowed_workdirs` entry must point at the local checkout used by
+that node. The reference defaults intentionally ship with an empty
+workdir allowlist, so OS actions fail closed until the operator
+chooses the workspace.
+
+For private repositories, do not rely on ambient `HOME`. The OS
+connector intentionally starts scripts with a minimal environment.
+Declare any needed credential helper, SSH command, deploy key path, or
+non-interactive Git setting in the action catalog entry. At minimum,
+story actions should set:
+
+```json
+{
+  "GIT_TERMINAL_PROMPT": "0",
+  "GIT_ASKPASS": "/bin/true"
+}
+```
+
+### Node A Configuration
+
+Node A hosts the operator-facing Arca workflow in this story and owns
+the drafting role.
+
+System setup:
+
+- Clone or initialise the editorial repository checkout under node A's
+  allowlisted workdir.
+- Grant node A read/fetch access to the origin and permission to push
+  draft branches if the workflow uses remote draft branches.
+- Do not grant node A permission to push `publish/main`.
+
+Dator offers:
+
+- Keep or declare `draft-author`.
+- In a fuller deployment, add split offers for `llm-research`,
+  `git-commit-draft`, or other specialised task types only if the
+  workflow template references them explicitly.
+- Remove `git-push-publish` from node A's active Dator offer catalog.
+
+Sensorium OS action catalog:
+
+- Keep actions needed by the drafting path, such as
+  `story009.draft.compose`.
+- Add real LLM/source-fetch wrapper actions as needed.
+- Do not include a publish action that can update `publish/main`.
+
+UI/operator steps on node A:
+
+- Start the daemon and Node UI.
+- Create or import the participant identity for node A.
+- Confirm the node-operator binding if the UI asks for it.
+- Inspect the Dator offers and verify that `draft-author` is active.
+- Import or create the `bielik-biweekly-publish.v1` workflow template.
+- Start the workflow from the template with repository, branch, topic,
+  and cadence parameters.
+
+### Node B Configuration
+
+Node B owns illustration and image placement.
+
+System setup:
+
+- Clone the editorial repository under node B's allowlisted workdir.
+- Grant read/fetch access to the origin and write access only to the
+  branches needed for illustration commits.
+- Install the image-generation wrapper or deterministic fixture script
+  under an allowlisted script root.
+
+Dator offers:
+
+- Keep or declare `image-place`.
+- If the workflow later splits image generation from placement, add
+  `image-generate` and `git-commit-illustrated` as separate offers.
+- Do not advertise `git-push-publish`.
+
+Sensorium OS action catalog:
+
+- Keep actions needed by the illustration path, such as
+  `story009.image.place`.
+- Add the real image-generation wrapper action if this node uses a
+  model instead of the deterministic fixture.
+- Do not include the publish action.
+
+UI/operator steps on node B:
+
+- Start the daemon and Node UI.
+- Create or import the participant identity for node B.
+- Confirm or install the module grants needed by Dator, Sensorium,
+  Sensorium OS, and Memarium.
+- Inspect Dator and verify that `image-place` is active and priced at
+  `0 ORC` for the demo.
+- Inspect Sensorium OS and verify that only node B's intended actions
+  are present in the effective catalog.
+
+### Node C Configuration
+
+Node C owns editorial review, publication verification, and the only
+publish authority.
+
+System setup:
+
+- Clone the editorial repository under node C's allowlisted workdir.
+- Install credentials or repository policy allowing node C, and only
+  node C, to update `publish/main`.
+- Configure the publish branch protection or hook before running the
+  workflow. The negative path is part of the story: a node A/B publish
+  attempt must fail.
+
+Dator offers:
+
+- Keep or declare `git-push-publish`.
+- Keep or declare `publication-verifier` if verification is executed
+  by node C.
+- Do not advertise drafting or illustration offers unless the operator
+  deliberately wants a single-node fallback demo.
+
+Sensorium OS action catalog:
+
+- Keep `story009.review.publish`.
+- Keep `story009.publication.verify`.
+- Include the bounded signing lane for commit-producing actions:
+  `signing.allowed_domains = ["git.commit.v1"]`.
+- Treat the publish action as operator-gated outside the demo path.
+  In production, an operator-edited catalog should be authorised by an
+  operator signature rather than relying only on node-signed factory
+  bootstrap.
+
+UI/operator steps on node C:
+
+- Start the daemon and Node UI.
+- Create or import the participant identity for node C.
+- Confirm or install the grants for publishing, signing, Sensorium,
+  and Memarium.
+- Inspect Dator and verify that `git-push-publish` is active only here.
+- Inspect Sensorium OS and verify that the publish action points to
+  the intended script, hash, workdir, branch, and signing domain.
+
+### Action Catalog and Sidecar Authorisation
+
+The action catalog is the operator's declaration of what local actions
+exist. For story-009, the reference actions are:
+
+- `story009.draft.compose`
+- `story009.image.place`
+- `story009.review.publish`
+- `story009.publication.verify`
+
+Each action declaration should include:
+
+- `action_id`
+- `script_path`
+- `sha256` for the script file when the action is not purely
+  throw-away development work
+- `parameters_schema`
+- `result_schema`
+- `limits`
+- `cwd_param`
+- `env`
+- `result_contract.pointer_fields`
+- `connector_incidental_effects`
+- optional `signing.allowed_domains`
+
+Fresh factory defaults may be node-signed during bootstrap. Once the
+operator edits the catalog, the effective catalog must be re-authorised
+through the sidecar mechanism described in proposal 048. If
+`require_action_catalog_signature` is enabled and the sidecar hash does
+not match the effective catalog, `sensorium-os` must refuse to expose
+the action. The check is not only a startup ceremony: dispatch must
+also re-read or revalidate the active sidecar so an operator change on
+disk cannot leave a stale in-memory authorization silently active.
+
+Result contracts are deliberately strict about pointer fields. If an
+action declares `result_contract.pointer_fields`, every listed field
+must be present in the script's JSON result. Missing pointer fields are
+reported as `result-pointer-missing`, and schema mismatch is reported
+as `result-schema-invalid`; both produce an action-invalid observation
+for audit symmetry.
+
+### UI Checklist Before Running the Workflow
+
+In the Node UI on each node:
+
+1. Open **Identity** and create or import the participant key.
+2. Confirm that the node identity and participant identity are present.
+3. Open **Components** and confirm that Dator, Sensorium Core,
+   Sensorium OS, Story 009 Roles, and Agora Service are running where
+   expected.
+4. Open the component or config view and inspect the effective
+   `sensorium_os.action_catalog`.
+5. Open the Dator/offers view and confirm the node-specific offers.
+6. On node A, open the workflow templates view, instantiate
+   `bielik-biweekly-publish.v1`, and start the run.
+7. Watch the workflow run view. Each step should carry only pointer
+   fields: branch, commit, path, `memarium_record_id`, and Sensorium
+   outcome/observation identifiers.
+8. After completion, inspect Agora and verify a
+   `workflow.completed` record with links to the three commit facts
+   plus the publication verification fact.
+9. Inspect each local Memarium. The facts should be append-only and
+   local to the node that performed the step.
+
+### CLI Smoke Test
+
+Before using real machines, run the reference skeleton from the node
+workspace:
+
+```sh
+cd node
+python3 tools/acceptance/story-009-reference-skeleton.py
+cargo test -p orbiplex-node-daemon --test story_009_sensorium_role_dispatch -- --nocapture
+```
+
+The smoke test should show:
+
+- a draft commit,
+- an illustration commit,
+- an accepted review/publish commit,
+- a rejected review probe,
+- a publication verification fact,
+- Sensorium outcomes and observations,
+- and reconstruction data derived from workflow pointers and Memarium
+  fact identifiers.
+
+If this passes but a real node fails, the usual causes are
+configuration-layer issues: missing workdir allowlist, stale action
+catalog sidecar, absent Git credentials, wrong Dator offer set, or a
+publish action accidentally enabled on the wrong node.
+
+## Example Sensorium OS Connector Scripts
+
+The Sensorium OS connector does not call a Python function in-process.
+It starts an allowlisted program declared in the action catalog. For
+`os.script.run`, the reference connector invokes the script as:
+
+```text
+<interpreter> <script_path> --params-json '<json object>'
+```
+
+The script contract is intentionally narrow:
+
+- input is the JSON object passed in `--params-json`;
+- stdin is not used;
+- stdout must contain one JSON object matching the action's
+  `result_schema`;
+- stderr is diagnostic text and must not be parsed as the result;
+- non-zero exit status means the action failed before producing a
+  valid result;
+- every field listed in `result_contract.pointer_fields` must be
+  present in the JSON result.
+
+The examples below are deliberately domain-local. Sensorium OS does
+not know what "article", "editor", "Bielik", or "published" means.
+Those meanings live in the allowlisted script, its parameter schema,
+its result schema, and the role module that interprets the result.
+
+### Example 1: Content Producer Script
+
+This shape fits an action such as `story009.draft.compose`. The script
+receives simple JSON parameters, writes placeholder article content to
+a file inside the allowlisted workdir, and returns pointers plus small
+metadata. The article bytes stay in the filesystem/Git data plane; the
+workflow sees only pointers.
+
+```python
+#!/usr/bin/env python3
+"""Minimal story-009 content producer for a Sensorium OS action."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+from typing import Any
+
+
+def parse_params() -> dict[str, Any]:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--params-json", required=True)
+    return json.loads(parser.parse_args().params_json)
+
+
+def sha256_text(text: str) -> str:
+    digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
+    return f"sha256:{digest}"
+
+
+def main() -> None:
+    params = parse_params()
+
+    repo = Path(params["repo"]).resolve()
+    draft_path = Path(params.get("draft_path") or "content/posts/bielik-draft.md")
+    title = str(params.get("title") or "What is new with Bielik")
+    topic = str(params.get("topic") or "Bielik")
+
+    output_path = repo / draft_path
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    content = f"""---
+title: "{title}"
+draft: true
+tags: ["bielik", "llm", "polski"]
+---
+
+{topic} has seen a careful week of small, useful improvements.
+The model ecosystem is becoming easier to test, easier to discuss, and easier to reuse.
+This placeholder paragraph stands in for a real local LLM wrapper or editorial script.
+"""
+
+    output_path.write_text(content, encoding="utf-8")
+
+    result = {
+        "outcome": "ok",
+        "draft_path": str(draft_path),
+        "content_sha256": sha256_text(content),
+        "content_chars": len(content),
+        "summary": {
+            "lang": "en",
+            "text": "Placeholder Bielik draft content was produced.",
+        },
+    }
+    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Minimal action-catalog expectations for this producer:
+
+- `parameters_schema` requires at least `repo` and may accept
+  `draft_path`, `title`, and `topic`;
+- `result_schema` requires `outcome`, `draft_path`,
+  `content_sha256`, and `content_chars`;
+- `result_contract.pointer_fields` should include at least
+  `draft_path` and `content_sha256`.
+
+### Example 2: Editor / Fulfillment Validator Script
+
+This shape fits an action such as `story009.publication.verify` or a
+lightweight editorial gate before publish. The script does not know
+Arca. It reads the file indicated by the parameters, applies one
+simple rule, and returns a structured decision. Here the rule is
+intentionally trivial: the text is fulfilled only if its length is at
+least `min_chars`.
+
+```python
+#!/usr/bin/env python3
+"""Minimal story-009 editor/fulfillment validator for a Sensorium OS action."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+from typing import Any
+
+
+def parse_params() -> dict[str, Any]:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--params-json", required=True)
+    return json.loads(parser.parse_args().params_json)
+
+
+def main() -> None:
+    params = parse_params()
+
+    repo = Path(params["repo"]).resolve()
+    draft_path = Path(params["draft_path"])
+    min_chars = int(params.get("min_chars") or 600)
+
+    text = (repo / draft_path).read_text(encoding="utf-8")
+    char_count = len(text)
+    fulfilled = char_count >= min_chars
+
+    result = {
+        "outcome": "ok" if fulfilled else "rejected",
+        "editorial_decision": "accepted" if fulfilled else "rejected",
+        "reviewed_path": str(draft_path),
+        "content_chars": char_count,
+        "verification": {
+            "status": "fulfilled" if fulfilled else "not_fulfilled",
+            "kind": "content-length",
+            "min_chars": min_chars,
+            "actual_chars": char_count,
+        },
+        "rejection_reason": None if fulfilled else "content is shorter than the configured minimum",
+    }
+    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Minimal action-catalog expectations for this validator:
+
+- `parameters_schema` requires `repo` and `draft_path`, and may accept
+  `min_chars`;
+- `result_schema` requires `outcome`, `editorial_decision`,
+  `reviewed_path`, `content_chars`, and `verification.status`;
+- the role module or workflow fulfillment policy maps
+  `/verification/status == "fulfilled"` to task completion;
+- if `result_contract.pointer_fields` includes `reviewed_path`, the
+  field must always be present, including rejection cases.
 
 ## Sequence of Steps
 
@@ -524,6 +1104,12 @@ The step's result returned to Arca:
 }
 ```
 
+`signature_tracker.status` is intentionally a structured value. A real signer
+success uses a signed/verified status with key and signature metadata; a
+development run without signer transport may use `marker-only`; a signer policy
+refusal must surface as a denial status with a stable signer error code (for
+example `domain_not_authorized`), not as a generic result-schema failure.
+
 `memarium_record_id` points to the fact record "A produced draft X
 in response to *brief* Y at time T" — this is a fact written into
 **node A's Memarium** (the step's author), not overwritten state. For
@@ -543,6 +1129,10 @@ module (for example `git-signer` or `git-publisher`) is the semantic owner that
 transforms the Sensorium directive result into a `memarium.write` fact. Dator may
 declare that a service offer is expected to produce such a fact, but Dator should
 not interpret commit signatures or construct the Memarium payload itself.
+The role module should carry an idempotency key into `memarium.write`, derived
+from the dispatch id, fact kind, correlation id, and Sensorium outcome id, so a
+retry after a post-write failure returns the same fact instead of duplicating the
+causal record.
 
 A minimal fact payload for a signed commit can therefore be shaped as data
 derived from the script JSON plus the Sensorium envelope:
@@ -693,7 +1283,7 @@ Result:
 {
   "outcome": "ok",
   "editorial_decision": "accepted",
-  "review_commit": "9a7e…",
+  "reviewed_commit": "9a7e…",
   "publish_branch": "publish/main",
   "publish_commit": "9a7e…",
   "memarium_record_id": "sha256:…"
@@ -970,6 +1560,9 @@ here):
 - `doc/project/40-proposals/048-sensorium-os-connector-action-classes.md`
   (action classes C1..C7, operator-editable catalog, sidecar
   authorization, node-signed factory bootstrap)
+- `doc/schemas/sensorium-os-error-codes.v1.schema.json`
+  (shared diagnostic code vocabulary for the reference Sensorium OS
+  connector)
 - `doc/project/30-stories/story-000.md` (node and participant identity)
 - `doc/project/30-stories/story-008-cool-site-comment.md` (the
   pattern of a signed record as an auditable unit)

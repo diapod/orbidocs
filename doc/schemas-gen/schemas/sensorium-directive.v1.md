@@ -41,6 +41,7 @@ Request envelope addressed to sensorium-core by a consumer module (e.g. Arca, Da
 | [`parameters`](#field-parameters) | `yes` | object | Typed parameters for this action_id. Validated by sensorium-core against the parameter schema held in the allowlist entry for this action_id. MUST NOT carry raw shell strings, raw script bodies, or raw SQL; interpretive surfaces are expressed as script_id references to signed stored artifacts. |
 | [`evidence/inputs`](#field-evidence-inputs) | `no` | array | Optional input artifacts, passed by reference rather than inline, using the minimal artifact-lane contract from proposal 045. |
 | [`timing`](#field-timing) | `yes` | object | Directive-level timing policy. timing.timeout_ms is the end-to-end deadline enforced by sensorium-core from directive admission through connector dispatch and execution to final outcome recording. |
+| [`deadline_at`](#field-deadline-at) | `no` | string | Optional absolute RFC 3339 deadline propagated by the caller. When present, sensorium-core and the connector MUST enforce the smaller of timing.timeout_ms/max_timeout_ms and the remaining time until deadline_at. This keeps role-module HTTP timeouts, Sensorium outcomes, and connector execution telemetry aligned. |
 | [`correlation/id`](#field-correlation-id) | `no` | string | Optional opaque string threading this directive through a higher-level plan (e.g. an Arca workflow run step, a Dator task dispatch). Preserved in the outcome and in any linked observations. |
 | [`issuer_delegation`](#field-issuer-delegation) | `no` | ref: `#/$defs/delegationProof` | Optional proposal-032 DelegationProof authorising a proxy key to sign this directive. If present, signature MUST be produced by issuer_delegation.proxy_key and issuer_delegation.principal_key MUST derive to issuer.participant/did:key. Sensorium v1 accepts only max_chain_depth=0. |
 | [`signature`](#field-signature) | `no` | ref: `#/$defs/ed25519Signature` |  |
@@ -133,6 +134,14 @@ Optional input artifacts, passed by reference rather than inline, using the mini
 - Shape: object
 
 Directive-level timing policy. timing.timeout_ms is the end-to-end deadline enforced by sensorium-core from directive admission through connector dispatch and execution to final outcome recording.
+
+<a id="field-deadline-at"></a>
+## `deadline_at`
+
+- Required: `no`
+- Shape: string
+
+Optional absolute RFC 3339 deadline propagated by the caller. When present, sensorium-core and the connector MUST enforce the smaller of timing.timeout_ms/max_timeout_ms and the remaining time until deadline_at. This keeps role-module HTTP timeouts, Sensorium outcomes, and connector execution telemetry aligned.
 
 <a id="field-correlation-id"></a>
 ## `correlation/id`
