@@ -41,7 +41,7 @@ Machine-readable schema for the Memarium classification label that travels with 
 | [`effective_tier`](#field-effective-tier) | `yes` | ref: `#/$defs/Tier` | Derived tier used by egress guards. Equals `source_tier` unless at least one `DeclassifyFact` in `declassify_trail` is currently active (TTL valid, not revoked, not consumed for one-shot, and whose `surface`/`topic_class` bind to the current request). Consumers MUST treat `effective_tier` as a cached derivation of `source_tier` and `declassify_trail` — it MUST NOT exceed `source_tier` in the lattice order (i.e. it is never more restrictive than the source). |
 | [`provenance`](#field-provenance) | `yes` | ref: `#/$defs/SpaceOrigin` | Where the data first entered the system. For locally written facts: the target Memarium space. For ingress from a peer or import: the ingress origin. For derivations: a two-parent reference summarizing the joined inputs. |
 | [`bound_subjects`](#field-bound-subjects) | `yes` | ref: `#/$defs/BoundSubjects` | Tier-dependent projection of the subjects whose dignity interests attach to the fact. Egress to Public surfaces MUST carry only `public_projection` and MUST NOT carry `personal_or_community`. Violation is rejected with `reason: bound_subjects_not_public`. |
-| [`declassify_trail`](#field-declassify-trail) | `yes` | array | Append-only, time-ordered history of declassification acts. Possibly empty. Readers compute `effective_tier` from this trail; they MUST NOT infer classification from the trail alone without `source_tier`. Transformation-based persistent exceptions are separate Memarium policy facts, not entries in this array. |
+| [`declassify_trail`](#field-declassify-trail) | `yes` | array | Append-only, time-ordered history of declassification acts. Possibly empty. Readers compute `effective_tier` from this trail; they MUST NOT infer classification from the trail alone without `source_tier`. Transformation facts may be referenced as evidence, but they do not lower classification by themselves in v1. |
 | [`quarantine`](#field-quarantine) | `no` | ref: `#/$defs/QuarantineMarker` | Present iff the fact is currently in ingress quarantine (no operator acceptance yet). Guarded reads of a quarantined fact MUST be rejected with `reason: quarantined`. |
 
 ## Definitions
@@ -54,6 +54,8 @@ Machine-readable schema for the Memarium classification label that travels with 
 | [`SubjectRef`](#def-subjectref) | object | Reference to a subject whose dignity interests attach to the fact. |
 | [`PublicProjection`](#def-publicprojection) | object |  |
 | [`DeclassifyFact`](#def-declassifyfact) | object |  |
+| [`TransformationKind`](#def-transformationkind) | enum: `k-anonymization`, `histogram`, `summary`, `embedding`, `redaction`, `other` | Evidence-only transformation class. In v1, a TransformationFact is provenance for a DeclassifyFact, not an authorization to lower effective_tier. |
+| [`TransformationFact`](#def-transformationfact) | object | Append-only provenance fact for aggregation, redaction, embedding, or summarization. It can be referenced from DeclassifyFact.evidence_ref, but never changes effective_tier on its own. |
 | [`QuarantineMarker`](#def-quarantinemarker) | object | Marker indicating that the fact has not yet been accepted by the operator out of the ingress quarantine. While present, guarded reads/publishes MUST be rejected with `reason: quarantined`. |
 
 ## Conditional Rules
@@ -203,7 +205,7 @@ Tier-dependent projection of the subjects whose dignity interests attach to the 
 - Required: `yes`
 - Shape: array
 
-Append-only, time-ordered history of declassification acts. Possibly empty. Readers compute `effective_tier` from this trail; they MUST NOT infer classification from the trail alone without `source_tier`. Transformation-based persistent exceptions are separate Memarium policy facts, not entries in this array.
+Append-only, time-ordered history of declassification acts. Possibly empty. Readers compute `effective_tier` from this trail; they MUST NOT infer classification from the trail alone without `source_tier`. Transformation facts may be referenced as evidence, but they do not lower classification by themselves in v1.
 
 <a id="field-quarantine"></a>
 ## `quarantine`
@@ -252,6 +254,20 @@ Reference to a subject whose dignity interests attach to the fact.
 ## `$defs.DeclassifyFact`
 
 - Shape: object
+
+<a id="def-transformationkind"></a>
+## `$defs.TransformationKind`
+
+- Shape: enum: `k-anonymization`, `histogram`, `summary`, `embedding`, `redaction`, `other`
+
+Evidence-only transformation class. In v1, a TransformationFact is provenance for a DeclassifyFact, not an authorization to lower effective_tier.
+
+<a id="def-transformationfact"></a>
+## `$defs.TransformationFact`
+
+- Shape: object
+
+Append-only provenance fact for aggregation, redaction, embedding, or summarization. It can be referenced from DeclassifyFact.evidence_ref, but never changes effective_tier on its own.
 
 <a id="def-quarantinemarker"></a>
 ## `$defs.QuarantineMarker`
