@@ -1444,6 +1444,40 @@ brzegach, a nie w środku – oraz świadome projektowanie punktów rozszerzeń
 DIA rozdziela deklaratywne "co" od implementacyjnego "jak", aby warstwy mogły
 ewoluować niezależnie. Abstrakcje mają być cienkie, czytelne i kontraktowe.
 
+### Proces przed reifikacją
+
+Orbiplex zakłada, że złożone systemy nie są zbiorem gotowych rzeczy, lecz
+przepływem procesów, relacji, decyzji, obserwacji i transformacji. Dlatego
+unikamy przedwczesnej konkretyzacji: nie zamieniamy dynamicznego zjawiska
+w obiekt, typ, stan albo moduł wcześniej, niż wymaga tego kontrakt danej
+warstwy.
+
+Nie chodzi o to, aby nigdy nie tworzyć obiektów, typów, nazw ani artefaktów.
+Chodzi o to, aby rzeczownik pojawiał się dopiero tam, gdzie dana warstwa
+naprawdę potrzebuje stabilnego uchwytu. Wcześniej trzymamy zjawisko jako
+przepływ, relację, decyzję, transformację albo kontrakt.
+
+Wprowadzanie ustalonych obiektów i stanów do modelowania procesów, które są
+współzależne, dynamiczne i nie układają się po prostu w sekwencję wejście →
+przetwarzanie → wyjście, osłabia zdolność systemu do reagowania na warunki.
+System zaczyna wtedy bronić własnych rzeczowników zamiast odpowiadać na
+rzeczywistość.
+
+Ta wartość jest bliska zasadzie *information hiding* Davida Parnasa: dobry
+moduł nie odpowiada po prostu jednemu krokowi przetwarzania, lecz ukrywa
+decyzję projektową, która może się zmieniać. Z tej perspektywy interfejs nie
+powinien ujawniać tego, co jest tylko lokalną decyzją implementacyjną.
+
+W duchu Ousterhouta traktujemy przeciek informacji do interfejsu jako formę
+sprzężenia. Gdy wiele części systemu zaczyna zależeć od jednej zmiennej
+decyzji, ta decyzja zostaje zreifikowana: staje się fałszywą rzeczą publiczną,
+którą później trudno zmienić bez naruszania całości.
+
+Zdrowa architektura konkretyzuje świadomie i lokalnie: warstwowo, z nazwanym
+zakresem i kontraktem. Rzecz w systemie jest dopuszczalna, gdy jest audytowalną
+projekcją procesu w danej warstwie, a nie przypadkową metafizyką przemyconą
+przez nazwę, typ albo moduł.
+
 ### Stratyfikacja – projektowanie warstwowe
 
 DIA traktuje stratyfikację jako fundament rzemiosła: każda warstwa operuje własnymi

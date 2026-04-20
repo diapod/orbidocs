@@ -1394,6 +1394,38 @@ a vědomý návrh rozšiřovacích bodů.
 DIA odděluje deklarativní „co“ od implementačního „jak“, aby se vrstvy mohly
 vyvíjet nezávisle. Abstrakce mají být tenké, čitelné a kontraktové.
 
+### Proces před reifikací
+
+Orbiplex předpokládá, že složité systémy nejsou sbírkou hotových věcí, ale tokem
+procesů, vztahů, rozhodnutí, pozorování a transformací. Proto se vyhýbáme
+předčasné konkretizaci: neděláme z dynamického jevu objekt, typ, stav nebo modul
+dříve, než to vyžaduje kontrakt dané vrstvy.
+
+Nejde o to nikdy nevytvářet objekty, typy, názvy ani artefakty. Jde o to, aby se
+podstatné jméno objevilo teprve tam, kde daná vrstva skutečně potřebuje stabilní
+úchyt. Do té doby držíme jev jako tok, vztah, rozhodnutí, transformaci nebo
+kontrakt.
+
+Zavádění pevných objektů a stavů pro modelování procesů, které jsou vzájemně
+závislé, dynamické a nejsou jednoduše uspořádány jako vstup -> zpracování ->
+výstup, oslabuje schopnost systému reagovat na podmínky. Systém pak začíná
+bránit vlastní podstatná jména místo toho, aby odpovídal na skutečnost.
+
+Tato hodnota je blízká Parnasovu principu *information hiding*: dobrý modul
+neodpovídá jednoduše jednomu kroku zpracování, ale skrývá návrhové rozhodnutí,
+které se může měnit. Z tohoto pohledu nemá rozhraní odhalovat to, co je pouze
+lokálním implementačním rozhodnutím.
+
+V Ousterhoutově duchu chápeme prosakování informací do rozhraní jako formu
+provázání. Když mnoho částí systému začne záviset na jednom proměnlivém
+rozhodnutí, toto rozhodnutí se reifikuje: stává se falešnou veřejnou věcí,
+kterou je později obtížné změnit bez narušení celku.
+
+Zdravá architektura konkretizuje vědomě a lokálně: po vrstvách, s pojmenovaným
+rozsahem a kontraktem. Věc v systému je přípustná tehdy, když je auditovatelnou
+projekcí procesu v dané vrstvě, nikoli náhodnou metafyzikou propašovanou názvem,
+typem nebo modulem.
+
 ### Stratifikace – vrstevnaté navrhování
 
 DIA chápe stratifikaci jako základ řemesla: každá vrstva pracuje s vlastními pojmy,

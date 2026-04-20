@@ -1423,6 +1423,39 @@ instead of central validation, and conscious design of extension points.
 DIA separates declarative "what" from implementation "how" so layers can evolve
 independently. Abstractions should be thin, readable, and contract-driven.
 
+### Process Before Reification
+
+Orbiplex assumes that complex systems are not collections of ready-made things,
+but flows of processes, relations, decisions, observations, and transformations.
+We therefore avoid premature concretization: we do not turn a dynamic phenomenon
+into an object, type, state, or module earlier than the contract of a given layer
+requires.
+
+This does not mean never creating objects, types, names, or artifacts. It means
+that a noun should appear only where a given layer truly needs a stable handle.
+Before that point, we keep the phenomenon as a flow, relation, decision,
+transformation, or contract.
+
+Introducing fixed objects and states to model processes that are interdependent,
+dynamic, and not simply arranged as input -> processing -> output weakens the
+system's ability to respond to conditions. The system then starts defending its
+own nouns instead of responding to reality.
+
+This value is close to David Parnas's principle of *information hiding*: a good
+module does not merely correspond to one processing step, but hides a design
+decision that may change. From this perspective, an interface should not expose
+what is only a local implementation decision.
+
+In Ousterhout's spirit, we treat information leakage into an interface as a form
+of coupling. When many parts of the system begin to depend on one variable
+decision, that decision becomes reified: it becomes a false public thing that is
+later difficult to change without disturbing the whole.
+
+Healthy architecture concretizes consciously and locally: in layers, with a
+named scope and contract. A thing in the system is admissible when it is an
+auditable projection of a process in a given layer, not an accidental metaphysics
+smuggled through a name, type, or module.
+
 ### Stratification as Layered Design
 
 DIA treats stratification as a craft foundation: each layer operates on its own
