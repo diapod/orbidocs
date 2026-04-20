@@ -1,7 +1,7 @@
 # Podstawa ontologiczna
 
 <p align="center">
-  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiples Logo" width="240">
+  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiplex Logo" width="240">
 </p>
 
 ## Apofatyczny enaktywizm
@@ -209,6 +209,64 @@ poznania.
 Rój nie udaje wyroczni. Jest infrastrukturą dla wspólnoty, która wie, że widzi
 odbicia, i nie łudzi się, że to oryginały, a jednak działa mimo to, najlepiej jak
 potrafi, ponieważ inne sposoby poznawania są poza zasięgiem.
+
+## Konsekwencje dla systemu przetwarzania informacji
+
+Gdy enaktywistyczne i procesualne podejście stratyfikujemy do działającego systemu,
+dostajemy coś więcej niż odroczone przetwarzanie danych. Dostajemy dyscyplinę
+projektowania, w której konkretyzacja jest świadoma i lokalna.
+
+1. **Kontrakty zamiast przedwczesnych klas bytów.**  
+   Najpierw pytamy: "jakie przejście, uprawnienie, obserwacja albo decyzja tu
+   zachodzi?", a dopiero potem: "czy to potrzebuje typu?". To prowadzi do małych
+   artefaktów na poziomie komunikacji i cienkich interfejsów.
+
+2. **Tożsamość jako uchwyt, nie esencja.**  
+  `id` nie mówi, czym coś "naprawdę jest". Jest stabilnym punktem korelacji
+   w procesie. Znaczenie jest w warstwie, historii, kontrakcie i aktualnym
+   kontekście.
+
+3. **Moduły jako role w przepływie, nie ontologiczne substancje.**  
+   Komponent nie powinien wiedzieć, że rozmawia z "tym konkretnym czymś", jeżeli
+   wystarczy mu kontrakt zachowania. To chroni przed sprzężeniem.
+
+4. **Granice warstw jako granice sensu.**  
+   To samo zdarzenie może mieć inną projekcję w różnych warstwach. Niska warstwa
+   widzi bajty, wyższa widzi decyzję, jeszcze wyższa widzi fakt społeczny. Błąd
+   zaczyna się wtedy, gdy jedna warstwa "kradnie" ontologię drugiej.
+
+5. **Walidacja na brzegach jako rytuał konkretyzacji.**  
+   Dane płyną jako potencjalnie bogatsze i luźniejsze, ale na brzegu konkretnego
+   kontraktu mówimy: "tu, dla tej operacji, uznajemy taki kształt". To jest zdrowa
+   konkretyzacja, nie przedwczesna.
+
+6. **Polimorfizm i dyspozycja jako świadome opóźnienie decyzji.**  
+   Nie zamrażamy "kto wykona" w strukturze danych, jeżeli właściwe miejsce decyzji
+   jest później: przy kontekście, *capability*, profilu, ewaluatorze, rejestrze albo
+   weryfikatorze paszportu zdolności.
+
+7. **Zdarzenia i fakty zamiast mutowania rzeczy.**  
+   *Append-only facts* dobrze pasują do procesu: zapisujemy to, co zaszło, zamiast
+   udawać, że mamy jedną trwałą rzecz, która po prostu "zmieniła stan".
+
+8. **Architektura mniej podatna na nazewniczą hipnozę.**  
+   W systemach często nazwa tworzy fałszywą substancję: User, Agent, Passport,
+   Connector, Account.  Procesualne pytanie brzmi: "jakie procesy i relacje ta nazwa
+   tylko lokalnie skraca?".
+
+Nie udajemy, że nie jesteśmy podatni na przedwczesną konkretyzację. Zdając sobie z
+niej sprawę, możemy budować systemy, które adaptują się do tej właściwości naszych
+organizmów i aparatów poznawczych. Jedną z praktycznych metod jest stratyfikacja,
+czyli świadomie prowadzona konkretyzacja. Każda warstwa wybiera z niższej dynamiki
+tylko te własności, które są istotne dla jej kontraktu, nadaje tej projekcji nazwę
+i granice, a następnie udostępnia ją jako konkretny budulec warstwie wyższej. Dzięki
+temu system unika przypadkowej reifikacji: rzeczy powstają tam, gdzie są potrzebne,
+i tylko w zakresie, w którym dana warstwa może za nie odpowiadać.
+
+Warstwa jest więc kontekstem poznawczym i technicznym. Pozwala nie myśleć
+o wszystkich zależnościach naraz. To nie jest ucieczka od złożoności, ale uczciwe
+porcjowanie jej w taki sposób, aby człowiek mógł system rozumieć, testować, audytować
+i zmieniać bez rozrywania całości.
 
 ## Najbliższe tradycje filozoficzne
 

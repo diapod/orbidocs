@@ -225,6 +225,63 @@ that knows it sees reflections and does not delude itself that they are
 originals, yet acts anyway, as well as it can, because other modes of knowing are
 outside our reach.
 
+## Consequences for Information Processing Systems
+
+When the enactive and processual approach is stratified into a working system, we
+get more than deferred data processing. We get a design discipline in which
+concretization is conscious and local.
+
+1. **Contracts instead of premature classes of entities.** First we ask: "what
+   transition, permission, observation, or decision is happening here?", and only
+   then: "does this need a type?". This leads to small artifacts at the
+   communication level and thin interfaces.
+
+2. **Identity as a handle, not an essence.** An `id` does not say what something
+   "really is". It is a stable point of correlation in a process. Meaning lives
+   in the layer, history, contract, and current context.
+
+3. **Modules as roles in a flow, not ontological substances.** A component should
+   not need to know that it is talking to "this concrete thing" when a behavior
+   contract is enough. This protects against coupling.
+
+4. **Layer boundaries as boundaries of meaning.** The same event can have a
+   different projection in different layers. A low layer sees bytes, a higher
+   layer sees a decision, and an even higher layer sees a social fact. The error
+   begins when one layer steals the ontology of another.
+
+5. **Boundary validation as a ritual of concretization.** Data flows as
+   potentially richer and looser, but at the boundary of a concrete contract we
+   say: "here, for this operation, we accept this shape". This is healthy
+   concretization, not premature concretization.
+
+6. **Polymorphism and dispatch as deliberate postponement of decisions.** We do
+   not freeze "who will perform" inside a data structure if the proper place for
+   the decision comes later: at the context, capability, profile, evaluator,
+   registry, or passport verifier.
+
+7. **Events and facts instead of mutating things.** Append-only facts fit the
+   process well: we record what happened instead of pretending that we have one
+   durable thing that simply "changed state".
+
+8. **Architecture less vulnerable to naming hypnosis.** In systems, a name often
+   creates a false substance: User, Agent, Passport, Connector, Account. The
+   processual question is: "what processes and relations does this name only
+   locally abbreviate?".
+
+We do not pretend that we are immune to premature concretization. By recognizing
+it, we can build systems that adapt to this feature of our organisms. One
+practical method is stratification, that is, consciously guided concretization.
+Each layer selects from the lower dynamics only the properties relevant to its
+contract, gives that projection a name and boundaries, and then exposes it as a
+concrete building block for the higher layer. This lets the system avoid
+accidental reification: things arise where they are needed, and only within the
+scope for which a given layer can answer.
+
+A layer is therefore a cognitive and technical context. It lets us avoid thinking
+about all dependencies at once. This is not an escape from complexity, but an
+honest partitioning of it so that a human being can understand, test, audit, and
+change the system without tearing the whole apart.
+
 ## Closest philosophical traditions
 
 For the reader who wants to place the above postulates within a more familiar

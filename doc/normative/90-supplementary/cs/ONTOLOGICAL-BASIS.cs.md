@@ -1,7 +1,7 @@
 # Ontologický základ
 
 <p align="center">
-  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiples Logo" width="240">
+  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiplex Logo" width="240">
 </p>
 
 ## Apofatický enaktivismus
@@ -206,6 +206,62 @@ mezí poznání.
 Roj nepředstírá, že je věštírnou. Je infrastrukturou pro společenství, které ví,
 že vidí odrazy, a neklame se, že jsou to originály, a přesto jedná co nejlépe, jak
 umí, protože jiné způsoby poznávání jsou mimo dosah.
+
+## Důsledky pro systém zpracování informací
+
+Když enaktivní a procesuální přístup stratifikujeme do fungujícího systému,
+dostaneme víc než odložené zpracování dat. Dostaneme disciplínu návrhu, v níž
+je konkretizace vědomá a lokální.
+
+1. **Kontrakty místo předčasných tříd entit.** Nejprve se ptáme: „jaký přechod,
+   oprávnění, pozorování nebo rozhodnutí se tu odehrává?“, a teprve potom:
+   „potřebuje to typ?“. To vede k malým artefaktům na úrovni komunikace a k
+   tenkým rozhraním.
+
+2. **Identita jako úchyt, ne esence.** `id` neříká, čím něco „opravdu je“. Je
+   stabilním korelačním bodem v procesu. Význam leží ve vrstvě, historii,
+   kontraktu a aktuálním kontextu.
+
+3. **Moduly jako role v toku, ne ontologické substance.** Komponent nemá
+   potřebovat vědět, že mluví s „touto konkrétní věcí“, pokud mu stačí kontrakt
+   chování. To chrání před provázáním.
+
+4. **Hranice vrstev jako hranice smyslu.** Stejná událost může mít v různých
+   vrstvách jinou projekci. Nízká vrstva vidí bajty, vyšší vidí rozhodnutí a
+   ještě vyšší vidí společenský fakt. Chyba začíná tehdy, když jedna vrstva
+   „krade“ ontologii druhé.
+
+5. **Validace na hranách jako rituál konkretizace.** Data plynou jako potenciálně
+   bohatší a volnější, ale na hraně konkrétního kontraktu říkáme: „zde, pro tuto
+   operaci, přijímáme tento tvar“. To je zdravá konkretizace, ne předčasná.
+
+6. **Polymorfismus a dispatch jako vědomé odložení rozhodnutí.** Nezmrazujeme
+   „kdo vykoná“ v datové struktuře, pokud správné místo rozhodnutí přichází
+   později: u kontextu, capability, profilu, evaluatoru, registry nebo passport
+   verifieru.
+
+7. **Události a fakta místo mutování věcí.** Append-only facts dobře odpovídají
+   procesu: zapisujeme, co se stalo, místo abychom předstírali, že máme jednu
+   trvalou věc, která prostě „změnila stav“.
+
+8. **Architektura méně náchylná k hypnóze pojmenování.** V systémech název často
+   vytváří falešnou substanci: User, Agent, Passport, Connector, Account.
+   Procesuální otázka zní: „jaké procesy a vztahy tento název pouze lokálně
+   zkracuje?“.
+
+Nepředstíráme, že nejsme náchylní k předčasné konkretizaci. Tím, že si ji
+uvědomujeme, můžeme budovat systémy, které se této vlastnosti našich organismů
+přizpůsobují. Jednou z praktických metod je stratifikace, tedy vědomě vedená
+konkretizace. Každá vrstva vybírá z nižší dynamiky pouze ty vlastnosti, které
+jsou relevantní pro její kontrakt, dává této projekci název a hranice a následně
+ji zpřístupňuje jako konkrétní stavební blok vyšší vrstvě. Díky tomu se systém
+vyhýbá náhodné reifikaci: věci vznikají tam, kde jsou potřeba, a pouze v rozsahu,
+za který daná vrstva může odpovídat.
+
+Vrstva je tedy poznávacím i technickým kontextem. Umožňuje nemyslet na všechny
+závislosti najednou. Není to únik před složitostí, ale poctivé porcování
+složitosti tak, aby člověk mohl systém chápat, testovat, auditovat a měnit bez
+trhání celku.
 
 ## Nejbližší filosofické tradice
 
