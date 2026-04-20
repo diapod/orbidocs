@@ -683,8 +683,8 @@ Each JSON-e flow instance should follow the same high-level shape:
 4. extract an allowlisted result projection,
 5. render a role-specific `memarium.write` fact request,
 6. call `memarium.write`,
-7. render and optionally publish a `workflow.step.completed` record through a
-   host-owned capability or step,
+7. render a `workflow.step.completed` record and publish it through the
+   host-owned `workflow.step.completed.publish` capability,
 8. render a `service-dispatch-response.v1`,
 9. respond.
 
@@ -693,6 +693,14 @@ the domain effects: model execution, Git worktree access, commit production,
 publication push, and publication verification. The JSON-e flow middleware owns
 the declarative role-adapter layer between Dator, Sensorium, Memarium, and the
 service-dispatch response.
+
+The JSON-e flow engine MUST NOT know whether
+`workflow.step.completed.publish` is backed by Agora, local storage, another
+middleware component, or a future audit service. It only invokes the named host
+capability under the ordinary passport, allowlist, timeout, audit, and failure
+policy. Any concrete publication backend belongs behind that capability boundary,
+or inside the concrete middleware configuration when an operator deliberately
+chooses a lower-level capability.
 
 The story-009 MVP should include at least one executable regression proving that
 the five JSON-e flow middleware instances can replace `story009-roles` while
@@ -955,8 +963,9 @@ MVP scope for story-009 `orbiplex.json_e_flow.v1`:
 - support static host-owned steps: `render`, `validate`, `call`, `extract`,
   `respond`, and `fail`,
 - support allowlisted calls to `sensorium.directive.invoke` and `memarium.write`,
-- support a host-owned step or capability for publishing `workflow.step.completed`
-  records, if that remains part of the story-009 acceptance path,
+- support allowlisted calls to `workflow.step.completed.publish` for publishing
+  story-009 workflow-step completion records without exposing any Agora-specific
+  knowledge to the JSON-e flow engine,
 - validate statically declared capability calls at load time and invocation time,
 - enforce `max_flow_steps` and `max_loop_steps` even if the MVP uses only static
   flows,
@@ -1020,8 +1029,9 @@ general-purpose scripting language.
 1. Which Rust JSON-e implementation should be adopted after dependency review?
 2. What exact projection syntax should operators use for
    `context_projection`?
-3. What host-owned capability or step should publish story-009
-   `workflow.step.completed` records when replacing `story009-roles`?
+3. What exact request and response schema should
+   `workflow.step.completed.publish` use for story-009 and future workflow
+   publishers?
 4. Should JSON-e templates live in the host-owned module store, middleware config
    fragments, or both?
 5. Which `json_e_flow` dynamic features, if any, are justified by real middleware
