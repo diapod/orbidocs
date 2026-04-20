@@ -1,7 +1,7 @@
 # DIA / Orbiplex Core Values
 
 <p align="center">
-  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiples Logo" width="240">
+  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiplex Logo" width="240">
 </p>
 
 The values below are designed as an **ethical constitutional core** for the project

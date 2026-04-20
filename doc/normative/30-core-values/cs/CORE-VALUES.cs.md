@@ -1,7 +1,7 @@
 # Základní hodnoty DIA / Orbiplex
 
 <p align="center">
-  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiples Logo" width="240">
+  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiplex Logo" width="240">
 </p>
 
 Níže uvedené hodnoty jsou navrženy jako **etické ústavní jádro** projektu

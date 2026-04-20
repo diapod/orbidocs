@@ -1,7 +1,7 @@
 # Wartości podstawowe DIA / Orbiplex
 
 <p align="center">
-  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiples Logo" width="240">
+  <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiplex Logo" width="240">
 </p>
 
 Poniższe wartości są zaprojektowane jako **etyczny rdzeń konstytucyjny** dla projektu
