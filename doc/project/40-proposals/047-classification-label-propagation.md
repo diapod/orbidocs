@@ -202,8 +202,12 @@ Classification is added as a **required** field to:
 - `whisper-signal.v1` bodies (see §8 for the projection unification),
 - INAC artefact envelopes (per proposal 042).
 
-"Required" means no `Option<_>` and no schema `default`. Absence at parse time
-is a protocol violation.
+"Required" is the stable v1 target: no schema `default` and no silent
+classification loss at protocol boundaries. During the migration window,
+Memarium may accept missing labels under an explicit `LegacyStampThenWarn`
+mode: absence is stamped as `Personal` plus ingress quarantine, a warning is
+emitted, and the fallback is counted. `StrictRequired` may be enabled only
+after the configured date and an observed zero-fallback window (§10).
 
 ### 3. Propagation by Join on Merge — No Auto-Declassification
 
@@ -404,8 +408,13 @@ the existing Memarium audit-decision discipline.
 
 - Phase M1: add `classification` as *optional* to envelopes; Memarium stamps
   reads with the space's tier; no enforcement yet. **Label-first.**
-- Phase M2: flip to required on new-schema versions; old-schema ingress maps
-  to `Personal` + quarantine per §6.
+- Phase M2: run Memarium HTTP writes in `LegacyStampThenWarn`; old-schema
+  ingress and missing labels map to `Personal` + quarantine per §6, emit
+  warning diagnostics, and increment
+  `fallback_stamped_facts_per_space_per_day`.
+- Phase M2.5: flip to `StrictRequired` only after `strict_not_before` and after
+  the fallback metric is zero for the configured observation window. The
+  reference daemon default is no earlier than 2026-06-30 plus seven zero days.
 - Phase M3: activate egress guards on Agora / Whisper / INAC.
 - Phase M4: introduce `memarium.declassify` and wire the passport scope.
 - Phase M5: projection rule enforced at Whisper validator.

@@ -1,0 +1,36 @@
+{
+  "sensorium_core": {
+    "action_catalog": [
+      {
+        "action_id": "example.echo",
+        "connector_id": "example-sensorium-connector",
+        "default_timeout_ms": 5000,
+        "max_timeout_ms": 10000,
+        "parameters_schema": {
+          "type": "object",
+          "required": ["text"],
+          "properties": {
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            }
+          },
+          "additionalProperties": false
+        },
+        "limits": {
+          "stdout_max_bytes": 4096,
+          "stderr_max_bytes": 4096
+        },
+        "sensitivity_class": "public",
+        "observation_ttl_sec": 3600,
+        "connector_incidental_effects": [],
+        "result_contract": {
+          "pointer_fields": ["echo"],
+          "signal_kind": "ai.orbiplex.example/echo",
+          "signal_family": "example/echo"
+        }
+      }
+    ]
+  }
+}

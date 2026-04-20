@@ -44,7 +44,7 @@ Responsibilities:
 - record promotion provenance as append-only facts.
 
 Status:
-- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Remaining work is operational hardening: operator grant installation flow, full-chain observer lifecycle coverage, lag-forced detector lifecycle coverage, and a sidecar read model if datasets outgrow MVP scan budgets.
+- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Operator grant issuance/install flow, lag-forced crisis detector coverage, and the full PeerMessageChain/WSS → post-chain observer → Memarium query lifecycle are now represented in code. Remaining work is operational hardening: richer operator UX for quarantine/declassification, contextual forget authorization, and a sidecar read model if datasets outgrow MVP scan budgets.
 
 ### Observer-Based Chain Integration
 
@@ -147,6 +147,9 @@ passport from an arbitrary network endpoint. External passports are valid only
 when the source and issuer are named by local policy for the exact capability
 and scope.
 
+Operational issuance and activation steps are documented in
+[`doc/ops/memarium-passport-issuance.md`](../../ops/memarium-passport-issuance.md).
+
 #### Host API Wire Contract
 
 The host API keeps the `endpoint + op` shape. Each request is sent to one of
@@ -173,6 +176,18 @@ stamped as `Personal` with ingress quarantine; once producers have been
 refactored, the contract should move to strict-required labels. The MVP
 migration gate is: no earlier than 2026-06-30, and only after
 `fallback_stamped_facts_per_space_per_day == 0` for seven consecutive days.
+The daemon exposes this migration policy through:
+
+```toml
+[memarium.classification]
+mode = "legacy-stamp-then-warn"
+strict_not_before = "2026-06-30"
+strict_after_zero_fallback_days = 7
+```
+
+The fallback counter is exported in runtime metrics under
+`memarium_fallback_stamped_facts_per_space_per_day` keyed by
+`YYYY-MM-DD:<space>`.
 All HTTP wire timestamp fields are RFC3339 strings; Rust `SystemTime`'s serde
 object shape is an implementation detail and is not part of the Memarium
 host-capability contract.
@@ -240,7 +255,7 @@ of personal entries"; it must carry scope, reason, issuer, audit trace, and a
 revocation path.
 
 Status:
-- `partial` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. For MVP, scan-based point reads are accepted as the correctness fallback; the read-model/index sidecar is a post-MVP scale trigger, not a freeze blocker. Open points: contextual autonomy enforcement for `forget` (see above), richer operator UI for quarantine and declassification flows, and implementation/operator UI for the passport installation/bootstrap flow described above.
+- `partial` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. For MVP, scan-based point reads are accepted as the correctness fallback because storage `RecordId` is not the Memarium domain id; writes stamp storage `idempotency_key` with `EntryId` / `FactId`, so a future read-model/index sidecar or `get_by_idempotency_key` hook can replace scans without changing Memarium contracts. Open points: contextual autonomy enforcement for `forget` (see above), richer operator UI for quarantine and declassification flows, and post-MVP sidecar/index work if scan budgets are exceeded.
 
 ### Agora Synchronization Tracking
 
@@ -257,7 +272,7 @@ Responsibilities:
 Agora does not depend on Memarium. Memarium does not depend on Agora. Agora declares observe rules in its config; Memarium compiles and executes them without Agora-specific knowledge.
 
 Status:
-- `partial` — the Memarium side of the channel (rule compilation, post-chain matching, fact append) is implemented. Agora's bundled middleware configuration now publishes concrete `ObserveRule` entries for `agora-submission`, `sync-confirmed`, `sync-failed`, and `sync-timeout`; broader end-to-end coverage through a live Agora relay remains an operational lifecycle test.
+- `partial` — the Memarium side of the channel (rule compilation, post-chain matching, fact append) is implemented. Agora's bundled middleware configuration now publishes concrete `ObserveRule` entries for `agora-submission`, `sync-confirmed`, `sync-failed`, and `sync-timeout`, and the bundled config is covered by a compiler → observation → append → query test. Broader end-to-end coverage through a live Agora relay remains an operational lifecycle test.
 
 ### Archival Integration
 

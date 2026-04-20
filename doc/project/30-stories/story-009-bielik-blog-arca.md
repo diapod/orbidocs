@@ -28,14 +28,15 @@ in **Arca**, one git repository tracked by Netlify.
 The story relies on:
 
 - **Proposal 029** (Workflow Template Catalog) — definition of
-  `WorkflowDefinition` and the template catalog: the four steps of this
-  story are three named step templates, parameterised by topic
-  (`Bielik`) and target repository.
+  `WorkflowDefinition` and the template catalog: the five steps of this
+  story are named step templates, parameterised by topic (`Bielik`)
+  and target repository.
 - **Proposal 033** (Workflow Fan-Out and Temporal Orchestration) —
-  temporal primitives (timeout, retry, deadline) for the research and
-  review steps; *fan-out* is not used here (each step has a single
-  target), but temporality is essential so that a slow node does not
-  block publication.
+  temporal primitives (timeout, retry, deadline) for the research,
+  illustration, review, publish, and verification steps. Host-managed
+  fan-out is not used here; Arca uses an ordinary service-order DAG: after
+  draft completion it can dispatch illustration and editorial review
+  without waiting for either result, then publish waits for both branches.
 - **Proposal 019** (Supervised Local HTTP/JSON Middleware Executor) —
   each of the three nodes runs its specialised LLM modules (research,
   illustration, review) as supervised middleware modules that publish
@@ -143,7 +144,7 @@ as signed git commits, declare a bounded signing lane in that same catalog
 and the host signer authorize that narrow signer grant for the spawned script.
 The OS connector still only runs the configured process and never becomes a
 signing oracle. In the fresh-install demo path, the
-four story-009 scripts ship as **factory defaults** of the Sensorium
+five story-009 scripts ship as **factory defaults** of the Sensorium
 OS connector; after first start, the node materializes them into the
 active configuration area and the node itself emits a node-signed
 sidecar over the merged effective configuration — so the demo runs
@@ -837,7 +838,7 @@ parameters:
 ```
 
 Arca on node A builds a concrete `WorkflowDefinition` instance from
-those parameters: four steps, each with a declared `task_type` target
+those parameters: five steps, each with a declared `task_type` target
 (rather than a hard-coded participant). At runtime Arca asks the
 offer-catalog surface who currently offers the corresponding
 `service/type`. Thanks to this, if node B fails and its role is taken
@@ -861,17 +862,32 @@ over by another node offering `image-generate` / `image-place`, the
       "timing": { "timeout": "PT30M", "on_timeout": "fail" }
     },
     {
-      "id": "review-and-publish",
+      "id": "editorial-review",
+      "target": { "resolve": "task_type", "task_type": "editorial-review" },
+      "input_from_step": "research-and-draft",
+      "depends_on": ["research-and-draft"],
+      "timing": { "timeout": "PT30M", "on_timeout": "fail" }
+    },
+    {
+      "id": "publish",
       "target": { "resolve": "task_type", "task_type": "git-push-publish" },
-      "input_from_step": "illustrate",
+      "input_from_step": ["illustrate", "editorial-review"],
+      "depends_on": ["illustrate", "editorial-review"],
       "timing": { "timeout": "PT60M", "on_timeout": "fail" },
       "retry": { "max_attempts": 1, "backoff_seconds": 300 }
+    },
+    {
+      "id": "verify-publication",
+      "target": { "resolve": "task_type", "task_type": "publication-verifier" },
+      "input_from_step": "publish",
+      "depends_on": ["publish"],
+      "timing": { "timeout": "PT10M", "on_timeout": "fail" }
     }
   ]
 }
 ```
 
-The three `timing.timeout` values are a concrete application of
+The five `timing.timeout` values are a concrete application of
 *temporal orchestration* from proposal 033: if a provider does not
 return a result within the time window, the step is marked
 `timed_out` and the *workflow* halts with that status. There is no
@@ -903,7 +919,7 @@ sequenceDiagram
     StoreA-->>DaemonA: Template payload
     DaemonA->>ArcaA: Instantiate WorkflowDefinition
     ArcaA->>Offers: Resolve task_type targets to active service offers
-    Offers-->>ArcaA: draft-author → node A, image-place → node B, git-push-publish → node C
+    Offers-->>ArcaA: draft-author → node A, image-place → node B, editorial-review + git-push-publish → node C
     ArcaA-->>DaemonA: Persist workflow run with resolved step plan
     DaemonA-->>Operator: Workflow run accepted
 ```
@@ -969,7 +985,7 @@ sequenceDiagram
     DatorB-->>ArcaA: Complete illustrate
 ```
 
-#### Step 3 — node C reviews through git, then performs the only publish push
+#### Steps 3 and 4 — node C reviews through git, then performs the only publish push
 
 ```mermaid
 sequenceDiagram
@@ -983,25 +999,29 @@ sequenceDiagram
     participant Git as Git repository
     participant Netlify as Netlify deploy hook
 
-    ArcaA->>DatorC: service-order review-and-publish with illustrated_commit
+    ArcaA->>DatorC: service-order editorial-review with draft pointers
     DatorC->>EditorC: Route editorial-review order
-    EditorC->>SensoriumC: Invoke git fetch + checkout for illustrated_commit
-    SensoriumC->>Git: Fetch drafts/* and checkout illustrated_commit
-    Git-->>SensoriumC: Draft markdown + image bytes in local worktree
+    EditorC->>SensoriumC: Invoke git fetch + checkout for draft_commit
+    SensoriumC->>Git: Fetch drafts/* and checkout draft_commit
+    Git-->>SensoriumC: Draft markdown bytes in local worktree
     EditorC->>EditorC: Run guardrails-as-code
     EditorC->>SensoriumC: Invoke proofreading script and scoped worktree writes
     SensoriumC-->>EditorC: Reviewed markdown artifact and patch outcome
-    EditorC->>PublisherC: Hand off accepted publish candidate
+    EditorC->>MemariumC: Append editorial-review fact
+    EditorC-->>DatorC: Step result with editorial decision + memarium_record_id
+    DatorC-->>ArcaA: Complete editorial-review
+    ArcaA->>DatorC: service-order publish with illustration + editorial pointers
+    DatorC->>PublisherC: Route git-push-publish order
     PublisherC->>SensoriumC: Invoke signed commit, fast-forward merge, publish/main push
     SensoriumC->>Git: Commit review, merge draft branch, push publish/main
     Git-->>Netlify: publish/main update triggers deployment
     Git-->>SensoriumC: publish_commit
     PublisherC->>MemariumC: Append publication decision fact
     PublisherC-->>DatorC: Step result with publish_commit + memarium_record_id
-    DatorC-->>ArcaA: Complete review-and-publish
+    DatorC-->>ArcaA: Complete publish
 ```
 
-#### Step 4 — verified workflow completion is announced as metadata, not content
+#### Step 5 — verified workflow completion is announced as metadata, not content
 
 ```mermaid
 sequenceDiagram
@@ -1223,30 +1243,29 @@ Result:
 }
 ```
 
-### Step 3: Node C reviews, accepts or rejects, and publishes if accepted
+### Steps 3 and 4: Node C reviews, then publishes only if accepted
 
-Arca dispatches `review-and-publish` to the provider of
-`git-push-publish` (node C). The input is again only pointers from
-step 2 (`illustrated_commit`, `images_added`, `memarium_record_id`).
-The order is received by **Dator on node C** — the only node whose
-Dator advertises the `git-push-publish` task type — which accepts the
-order and routes it to the `editor-in-chief` and `git-publisher` role
-modules in sequence. The editorial module:
+Arca dispatches `editorial-review` to node C after the draft step; it can
+do this in parallel with `illustrate`, because both depend only on
+`research-and-draft`. The input is pointer-only (`draft_branch`,
+`draft_commit`, `draft_path`, `memarium_record_id`). The order is
+received by **Dator on node C**, which routes it to the
+`editor-in-chief` role module. The editorial module:
 
 1. Asks `sensorium-core` to invoke allowlisted OS connector actions for
    `git fetch origin drafts/bielik-2026-04-17-A` and
-   `git checkout 1d4c…` — the draft bytes together with the embedded
-   images arrive through the git channel.
-2. Reads the entire markdown file together with embedded images.
+   `git checkout <draft_commit>` — the draft bytes arrive through the git
+   channel.
+2. Reads the markdown draft. It does not wait for illustration artifacts;
+   the publish step later joins the editorial and illustration branches.
 3. Applies **guardrails-as-code** — rules baked into the module's
    code, not into a prompt:
    - editorial line check (forbidden phrases, source attribution
      requirement, title length limits);
    - check that the frontmatter has the required fields (`title`,
-     `date`, `tags`, `image`);
-   - check that `draft: true` will be removed;
-   - link check (none returns 404);
-   - check that the images exist at the paths used in `figure`.
+     `date`, `tags`);
+   - check that `draft: true` can be removed;
+   - link check (none returns 404).
 4. Asks `sensorium-core` to invoke an allowlisted OS connector action
    that runs a local proofreading script (a thin wrapper over the
    node's language model). The script reviews the material, performs
@@ -1257,17 +1276,19 @@ modules in sequence. The editorial module:
    in-process; guardrails-as-code from step 3 above remain in the role
    module (they are code, not a script).
 5. Interprets the editorial decision as a workflow-local contract:
-   `accepted` means the role may hand the candidate to the publisher;
-   `rejected` means the role records the rejection fact, returns the
-   rejection reason and correction pointers to Arca, and **does not**
+   `accepted` means the workflow may proceed to the separate `publish`
+   step; `rejected` means the role records the rejection fact, returns
+   the rejection reason and correction pointers to Arca, and **does not**
    invoke the publish path. Arca may then pause, fail, or route a
    correction workflow according to the `WorkflowDefinition`.
-6. For `accepted` only, changes the frontmatter (`draft: false`) through
-   an allowlisted worktree write, then *commits* the changes on the
-   `drafts/bielik-2026-04-17-A` branch with node C's signature.
-7. Through the `git-publisher` path, asks the OS connector to perform a
-   guarded *fast-forward merge* of the accepted draft branch into
-   `publish/main` and push `publish/main` to origin.
+
+Only after both `illustrate` and `editorial-review` complete does Arca
+dispatch `publish` to the provider of `git-push-publish` (node C). The
+`git-publisher` role asks the OS connector to perform the configured
+allowlisted script: change the frontmatter (`draft: false`), commit if
+needed, fast-forward/merge the accepted draft branch into `publish/main`,
+and push `publish/main` to origin. Git semantics remain inside that
+script and action declaration, not in Arca or Sensorium runtime.
 
 The push to `publish/main` is the sole publication trigger: Netlify
 listens to that branch and deploys. No other node has the key
@@ -1302,7 +1323,7 @@ For a rejected candidate the result is still pointer-only and auditable:
 }
 ```
 
-### Step 3b: Verify publication fulfillment
+### Step 5: Verify publication fulfillment
 
 Publishing and fulfillment are intentionally separate. `git-push-publish`
 returning a commit id means that the publish step executed and produced a
@@ -1316,7 +1337,7 @@ source:
 {
   "step_id": "verify-publication",
   "service_type": "publication-verifier",
-  "input_from": ["review-and-publish"],
+  "input_from": ["publish"],
   "fulfillment": {
     "policy": "external_decision",
     "decision_source": {
@@ -1369,7 +1390,7 @@ The `task-verification-result.v1` shape is a story-local convention until a
 second workflow needs the same contract. It should not be promoted into a global
 schema prematurely.
 
-### Step 4: Arca closes the workflow and announces the publication fact
+### Finalization: Arca closes the workflow and announces the publication fact
 
 Arca marks the *workflow run* as `completed`, records the full audit
 trail (input, output and time of each step, all participant-key
@@ -1388,23 +1409,39 @@ button in a CMS panel.
 
 | # | Criterion | Verification |
 | :--- | :--- | :--- |
-| 1 | The `WorkflowDefinition` has four steps with `resolve: task_type` targets; it contains no hard-coded participant identifiers | inspection of the saved *workflow run* |
+| 1 | The `WorkflowDefinition` has five steps with `resolve: task_type` targets; it contains no hard-coded participant identifiers | inspection of the saved *workflow run* |
 | 2 | Step 1 (`research-and-draft`) ends with a commit on the `drafts/bielik-…-A` branch signed by node A's participant key with signature domain `git.commit.v1` | verification of the commit object signature |
 | 3 | Step 2 (`illustrate`) commits on the same branch, adding ≥1 new image in `static/img/posts/<date>/` and at least one `{{< figure >}}` reference in the markdown file | content diff between `draft_commit` and `illustrated_commit` |
-| 4 | Step 3 (`review-and-publish`) either rejects the candidate and emits a rejection fact without pushing, or, if accepted, changes `draft: true` to `draft: false`, *fast-forwards* `publish/main` to the commit from the draft branch and pushes **only** that branch | inspection of the origin repo's `git reflog` plus the editor-in-chief Memarium fact |
+| 4 | Step 3 (`editorial-review`) either rejects the candidate and emits a rejection fact without pushing, or accepts the candidate and returns a pointer-only review fact; step 4 (`publish`) then changes `draft: true` to `draft: false`, fast-forwards `publish/main` to the accepted draft and pushes only that branch | inspection of the origin repo's `git reflog` plus the editor-in-chief Memarium fact |
 | 5 | Only node C offers the `git-push-publish` task type and only node C's Sensorium OS connector has an allowlisted publish action for `publish/main`; an attempt to push `publish/main` from node A or B fails at git policy level (origin-side or *pre-receive hook*) or at Sensorium directive admission | negative test: a manual `git-push-publish` invocation from node A must be rejected before or at git push |
-| 6 | Each of the four steps, if it exceeds `timing.timeout`, ends the *workflow run* with status `timed_out` indicating the specific step; there is no silent fallback to another provider | test: an artificial *sleep* in one of the modules longer than the *timeout* |
+| 6 | Each of the five steps, if it exceeds `timing.timeout`, ends the *workflow run* with status `timed_out` indicating the specific step; there is no silent fallback to another provider | test: an artificial *sleep* in one of the modules longer than the *timeout* |
 | 7 | Each step appends at least one record to the **local Memarium of the node executing the step** (not to any shared store), whose identifier it returns in the step output; records are appended (append-only), not overwritten | inspection of each of the three Memariums between run 1 and run 2 — all records from run 1 retained |
 | 8 | After `completed`, Arca emits an `agora-record.v1` record with `record/kind: "workflow.completed"` containing `record/about` with links to the three commit-producing Memarium records plus the publication verification Memarium record | inspection of the Agora relay after the finished run |
 | 9 | The cycle can be reproduced from the *workflow run* + the sum of the three local Memariums — one can reconstruct who proposed what, what was rejected at review and why, **without** referring to any shared store | test: delete the *working tree*, reconstruct the publication path solely from the records of the three Memariums + the Arca log |
-| 10 | Netlify deploys **only** as a result of the step 3 push; a manual change to `publish/main` outside an Arca run is technically possible, but becomes a record visible in the log (not a hidden path) | inspection of the Netlify deployment history vs. the Arca log |
+| 10 | Netlify deploys **only** as a result of the step 4 push; a manual change to `publish/main` outside an Arca run is technically possible, but becomes a record visible in the log (not a hidden path) | inspection of the Netlify deployment history vs. the Arca log |
 | 11 | No single shared Memarium: each of the three nodes has its own instance; the exchange of facts between nodes happens solely through signed `agora-record.v1` records on the editorial Agora local relay | configuration inspection: each node has its own `memarium-store`; no shared mountpoint, no data branch that everyone sees without going through Agora |
 | 12 | **The article content (markdown + images) does not at any point enter the Arca data plane nor the content of Agora records.** Between steps only pointers (`branch`, `commit`, paths, `memarium_record_id`) are passed; draft and image bytes flow exclusively through git | inspection of `input` / `output` of each step in the *workflow run*: payload size < 4 KiB, no fields with markdown or image bytes; inspection of Agora records — `content` contains only metadata, not the article corpus |
+| 12a | Any Agora record in this story that carries Memarium-derived pointers or summaries is classified for public egress: `classification.effective_tier = "Public"` and `bound_subjects.public_projection` is present; full subject refs are not published | Agora ingest/relay inspection plus classification egress guard denial tests |
 | 13 | Every module executing a git-using step starts by invoking the Sensorium OS connector for `git fetch`/`git checkout` based on the pointer from the previous step; there is no direct shell path and no alternative path through which draft bytes could reach the module | code review of the `illustrator` and `editor-in-chief` modules plus Sensorium directive/outcome audit: the only source of draft content is the local git worktree |
 | 14 | Every service order dispatched by Arca is received by the local `Dator` on the responder node and routed to the corresponding role module; role modules do not receive Arca orders on any other path. `git-push-publish` appears as an active offer only on node C's Dator | offer-catalog inspection + Dator order log on each node |
 | 15 | Every published offer in this story has `price.amount = 0` in `ORC` | offer-catalog inspection |
 | 16 | All generative work (draft composition, image generation, language proofreading) is executed as a `sensorium.directive.invoke` call to an allowlisted OS connector action wrapping the corresponding local model/script; no role module loads a language or diffusion model in its own process space | Sensorium directive/outcome audit + module code review (no in-process model load) |
 | 17 | The OS connector action catalog used in this story is declared in the connector's configuration file and authorized through the sidecar-signature mechanism from proposal 048 (node-signed on fresh install, operator-signed after any operator edit). Each action used by this story is declared under one of the classes from 048, and commit-signing actions declare a bounded `signing.allowed_domains = ["git.commit.v1"]` lane instead of receiving general signer access. The story introduces no parallel trust surface, no ad-hoc allowlist, and no separate signing artifact for OS actions. | inspection of the OS connector configuration + sidecar signature file; class tags, argv shapes, result contracts, and signing domains match the Realisation table |
+
+## Acceptance Coverage Status
+
+As of the reference implementation pass, story-009 has several distinct
+coverage levels. They should not be conflated.
+
+| Coverage level | Executable coverage | Criteria covered | Remaining gap |
+| :--- | :--- | :--- | :--- |
+| In-process reference skeleton | `node/tools/acceptance/story-009-reference-skeleton.py` | Exercises the intended strata `Dator -> role module -> sensorium-core -> sensorium-os`; validates production v1 Sensorium schemas; checks five workflow steps, zero-price offers, pointer-only step outputs, Git as the content data plane, guarded local `publish/main`, rejection path, publication verification, Memarium fact pointers, and action catalog pointer contracts. | Uses in-process host-capability patching and `signature_tracker.status = marker-only`; does not prove daemon supervisor, module authtok, real signer lane, or cross-node separation. |
+| Single-daemon supervised integration | `cargo test -p orbiplex-node-daemon --test story_009_sensorium_role_dispatch` | Runs the same seam through real supervised processes, module authtoks, host capability registry, host-owned module store replay, Arca workflow instantiation, Dator offer lookup, service orders, real daemon-scoped `git.commit.v1` signer lane, Memarium commit facts, publication verification fact, and a local Agora `workflow.completed` record linking the three commit facts plus verification. Covers the reference form of criteria 1, 2, 3, 4, 8, 12, 12a, 13, 15, 16, and 17. | Still a single-daemon deployment. It proves the contract seam, not the physical invariant that node A, node B, and node C are separate hosts with separate Memariums and only node C's connector able to push. |
+| Guarded local Git origin | Both reference skeleton and daemon integration | Proves the publish authority shape for criteria 4, 5, and 10 with a local bare `origin` and pre-receive guard. | Does not exercise Netlify or an external Git host. Netlify remains deployment infrastructure outside the Orbiplex control plane. |
+| Three-daemon topology smoke | `story_009_three_node_topology_harness_starts_isolated_daemons` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Starts three isolated daemon data dirs; verifies distinct control tokens and middleware registries; checks node-specific Dator service-type reports; checks node-specific Sensorium OS action catalogs; proves node C is the only daemon carrying `story009.review.publish` and the guarded publish token. Covers the topology slice of criteria 5, 11, and 14. | Does not perform editorial execution; it only proves deployment separation and node-specific authority shape. |
+| Three-daemon execution and reconstruction | `story_009_three_node_execution_reconstructs_workflow_completion_from_local_memaria` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Executes the story steps across three isolated daemon nodes: node A drafts, node B illustrates, node C reviews/publishes/verifies. Each node writes to its own local Memarium; the harness reconstructs a `workflow.completed`-style record with explicit links to the three commit-producing Memarium facts plus the publication verification fact. Covers the executable reconstruction slice of criteria 5, 7, 9, 11, and 14. | Dispatch is still test-orchestrated by direct calls to each node-local Dator endpoint. It does not yet prove Arca-driven peer service-order routing or signed local Agora fact exchange between nodes. |
+| Arca-driven remote-provider execution over WSS peer catalog and peer sessions | `story_009_arca_drives_remote_providers_and_reconstructs_from_editorial_agora` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Runs Arca on node A as the orchestrator. Node A is configured with peer node ids for node B/C, but does not seed their offers. Arca fetches their Dator catalogs through `offer-catalog.fetch.request/response` over established daemon-owned WSS peer sessions, persists the discovered offers in its observed catalog, selects node B/C providers, dispatches remote-provider service orders through daemon-owned `peer.message.dispatch`, receives `service-order.dispatch.response` over the same peer-session correlation path, completes the workflow from pointer-only step outputs, publishes the final `workflow.completed` record, and reconstructs the editorial path from signed `workflow.step.completed` records on node A's local Agora topic `local/story-009/editorial-facts`. The editorial facts validate against `story009.workflow-step-completed.v1`, carry non-null `workflow/run-id` and `workflow/phase-id` for every step, and the test asserts that node A/B reject `git-push-publish` while their Sensorium OS catalogs do not expose the publish action. Covers the current executable form of criteria 5, 7, 8, 9, 11, and 14. | Still a harness-level peer list rather than production trust/discovery policy: node A uses `catalog_peer_node_ids` as an explicit test/deployment override for which established peers to query. The service offers themselves are discovered through the peer catalog plane, not statically seeded. Production profiles should replace this override with trusted-peer policy, capability-passport checks, Seed Directory discovery, and federation endorsement policy. |
+| Peer service-order dispatch contract | `python3 -m unittest middleware-modules/arca/test_service.py middleware-modules/dator/test_service.py` plus daemon peer response-kind coverage | Freezes the transport-shaped seam: Dator handles `service-order.dispatch.request` on inbound-peer with an explicitly declared long-running chain timeout and executes the same local role-module path; Arca derives a peer-message remote target from an observed offer, sends it through daemon-owned `peer.message.dispatch`, and correlates `service-order.dispatch.response` by `request_id`. | Unit-level coverage plus spawned-daemon WSS coverage. `daemon_peer_listener_accepts_dialer_and_dispatches_peer_message` proves generic WSS peer-message delivery; the story-009 Arca-driven harness proves the full service-order dispatch path over established WSS peer sessions. |
 
 ## What This Story Does NOT Cover
 
@@ -1543,7 +1580,7 @@ here):
   do not call `sensorium.connector.invoke` directly. Action
   classification and catalog authorization follow **proposal 048**
   (classes C1..C7, sidecar signature, node-signed factory bootstrap);
-  the four story-009 scripts ship as factory defaults and are
+  the five story-009 scripts ship as factory defaults and are
   node-signed on first start, so the demo runs without any operator
   signing ceremony.
 - Arca workflow — proposal 029 (templates) + proposal 033 (temporal

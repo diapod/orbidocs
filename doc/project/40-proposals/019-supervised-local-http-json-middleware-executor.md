@@ -120,14 +120,25 @@ middleware is an interceptor of the shape `handler(req, next)` wired
 into a chain-of-responsibility and invoked per HTTP request. Orbiplex
 middleware is not that.
 
-An Orbiplex middleware module is a **supervised application module** —
-a standalone process that talks to the daemon over `http_local_json`
-(and, for lighter cases, `command_stdio` or `local_http_json`).
-Lifecycle, readiness, restart policy, sandboxing, and exported
-operator state are owned by the Node host. The module contributes
+An Orbiplex middleware module is a hosted extension point, not always
+a standalone service. Powerful middleware may be a **supervised
+application module** that talks to the daemon over `http_local_json`
+(and, for lighter process-backed cases, `command_stdio` or
+`local_http_json`). Declarative middleware may instead be a host-run
+data transformer such as the proposed `json_e` executor. Lifecycle,
+readiness, restart policy, sandboxing, and exported operator state are
+owned by the Node host where they apply. The module contributes
 behavior by **declaring `input_chains`** (inbound-local routes and
 inbound-peer message types) and by **consuming host capabilities**
 for transport, signing, catalog, and settlement.
+
+When behavior can be expressed as matching, field selection, value
+substitution, JSON construction, and host-validated response building,
+operators SHOULD prefer a declarative transformer executor such as
+`json_e` over a supervised HTTP service. Process-backed middleware is
+reserved for behavior that needs its own runtime, complex domain logic,
+long-lived state, streaming, or direct contact with the operating
+system through a controlled capability surface.
 
 The "chains" visible inside the daemon
 (`pre-input → built-in handler → inbound-peer → pre-send → audit`)

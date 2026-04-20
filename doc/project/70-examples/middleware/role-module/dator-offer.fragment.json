@@ -1,0 +1,25 @@
+{
+  "dator": {
+    "service_offers": [
+      {
+        "service_type": "example/summarize",
+        "service_description": "Example role-module backed summarization task.",
+        "pricing_amount": 0,
+        "pricing_currency": "ORC",
+        "pricing_unit": "one task",
+        "pricing_unit_kind": "per-task",
+        "delivery_max_duration_sec": 300,
+        "queue_auto_accept": true,
+        "queue_max_depth": 2,
+        "hybrid": false,
+        "model_first": false,
+        "confirmation_mode": "automatic",
+        "dispatch": {
+          "kind": "role-module",
+          "capability_id": "role.example-summarizer.execute",
+          "required_sensorium_actions": []
+        }
+      }
+    ]
+  }
+}

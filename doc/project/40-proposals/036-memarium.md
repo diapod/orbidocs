@@ -429,6 +429,12 @@ In-process callers (agents, NSE hooks) invoke them directly through trait
 methods; out-of-process callers (middleware modules) invoke them through the
 existing host capability HTTP surface.
 
+Point reads may use an O(n) scan as the MVP correctness fallback because the
+storage-layer `RecordId` is not the Memarium domain id. Write paths should
+stamp storage `idempotency_key` with `EntryId` / `FactId`, so a future
+addressable sidecar or `get_by_idempotency_key` hook can replace scans without
+changing the Memarium domain contract.
+
 For `memarium.forget`, "operator approval" may later be represented as a
 remembered operator decision rather than a one-click prompt for every request.
 For example, the operator may allow a participant, agent, or module to forget a
@@ -629,7 +635,9 @@ node/
      updates.
    - Cost: deriving current status requires scanning fact chain (mitigated by
      index projection).
-   - Mitigation: `MemariumIndex` is a projection that caches derived state.
+   - Mitigation: `MemariumIndex` is a projection that caches derived state;
+     point-read scans are acceptable for MVP and become a sidecar trigger only
+     when p95 latency or per-space record counts exceed the operator budget.
 
 ## Failure Modes and Mitigations
 
@@ -665,25 +673,26 @@ node/
 
 ## Next Actions
 
-1. Implement observer slot infrastructure in daemon (post-chain + per-phase).
-2. Add v1 Rust trait boundary in `memarium/src/lib.rs`.
-3. Add v1 runtime implementation in `memarium-runtime/src/lib.rs`.
-4. Implement the daemon-side `MemariumPostChainAdapter` and runtime
-   `ObserveRuleCompiler`.
-5. Add host capability routes (`memarium.read`, `memarium.write`,
-   `memarium.index`, `memarium.cache`) to daemon control plane.
-6. Add `memarium` config section support to middleware config merge.
-7. Add crisis space seed population on first node start.
-8. Add integration tests: entry lifecycle, fact chain derivation, space policy
-   enforcement, cross-space promotion, observe rule compilation and matching.
-9. Add example observe rules to Agora middleware config.
-10. Update `node/docs/implementation-ledger.toml` with Memarium capability rows.
-11. Align self-custody defaults with proposal 040 §4: a node's Memarium MUST
+1. Keep the daemon-side post-chain adapter and runtime `ObserveRuleCompiler`
+   stratification: `memarium-runtime` must not depend on daemon-private
+   `PostChainEvent` / `PostChainObserver` types.
+2. Keep full WSS peer-supervisor lifecycle coverage for PeerMessageChain/WSS →
+   post-chain observer → Memarium query; the adapter unit path is useful but
+   insufficient as final evidence.
+3. Continue host capability hardening for `memarium.read`, `write`, `index`,
+   `cache`, `promote`, `forget`, `declassify`, `crisis_status`, and
+   `crisis_resolve`.
+4. Keep Agora observe rules bundled with Agora config; Memarium only compiles
+   and executes the declarations.
+5. Add the read sidecar only when scan-based point reads exceed the agreed
+   operator budget.
+6. Update `node/docs/implementation-ledger.toml` with Memarium capability rows.
+7. Align self-custody defaults with proposal 040 §4: a node's Memarium MUST
     by default retain, indefinitely, the envelopes of its own participant's
     own Agora-published records, so that proposal 040's custodial
     redelivery pattern has a guaranteed byte-identical source. Operator
     override is allowed but must be explicit.
-12. Expose a memarium-to-memarium transfer endpoint for the custody flow
+8. Expose a memarium-to-memarium transfer endpoint for the custody flow
     defined in proposal 040 §3, honoring the `memarium.custody`
     capability-passport scope and preserving encrypted payloads as opaque
     bytes.
