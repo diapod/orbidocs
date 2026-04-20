@@ -49,14 +49,13 @@ The story relies on:
   is used by git commits: every commit is optionally signed by the key
   of the node that produced it, and the trace of that signature lands
   in the author node's Memarium.
-- **The editorial Agora local relay** — the channel through which the
-  three nodes share significant **facts** (publishing `agora-record.v1`
-  records with `record/kind` of `workflow.step.completed`,
-  `workflow.completed`, optionally editorial observations). Each node
-  has its **own, local Memarium**; editorial memory continuity is
-  **emergent**: it arises from nodes publishing significant facts on
-  the Agora relay and every observer appending them to its own
-  Memarium. There is no single shared store.
+- **Host-owned workflow step-completion read models and local Agora
+  monitoring** — each daemon that executes a step accepts its own
+  `workflow.step.completed` record and exposes it through
+  `/v1/workflows/runs/{workflow_run_id}/steps/completed`. Arca may publish the
+  final `workflow.completed` monitoring fact to local Agora. Each node still has
+  its **own, local Memarium**; editorial memory continuity is **emergent** and
+  is reconstructed from explicit pointers, not from a single shared store.
 
 ### Transport Stratification (architectural decision)
 
@@ -236,13 +235,12 @@ a separate story.
   `config.toml`). The `drafts/*` branch is for drafts and working
   versions; the `publish/main` branch is the only one Netlify deploys.
 - **Three local Memariums** — one per node. Each stores its own facts
-  (what the given node itself produced or decided) and observations of
-  significant facts of other nodes, fetched through the editorial
-  Agora local relay or through INAC. "Editorial memory" as a whole is
-  an **emergent view** composed of these three Memariums; it does not
-  exist as a single shared store nor a single authoritative back-end.
-  Consistency is achieved through append-only records, not through
-  shared state.
+  (what the given node itself produced or decided) and any observations it is
+  explicitly allowed to import through workflow, local relay, or INAC contracts.
+  "Editorial memory" as a whole is an **emergent view** composed of these three
+  Memariums plus workflow step-completion pointers; it does not exist as a
+  single shared store nor a single authoritative back-end. Consistency is
+  achieved through append-only records, not through shared state.
 
 The topic of this story is the publishing cycle: **"What's new with
 Bielik"** — a periodic article summarising changes, *releases* and
@@ -1085,8 +1083,8 @@ surfaces the provider result back to Arca. The research adapter:
 2. Asks **its own, local Memarium** (node A's Memarium) about **two**
    things:
    - previous articles in this cycle (its own drafts plus publication
-     records observed from node C — all earlier fetched from the
-     editorial Agora local relay),
+     records observed from node C — all earlier imported through explicit
+     workflow/local-relay contracts),
    - editorial-characteristic phrases and preferred stylistic
      constructions (the editorial idiolect — see seqnote — preserved
      in node A's Memarium as its view of the shared style, fed by
@@ -1156,11 +1154,10 @@ in response to *brief* Y at time T" — this is a fact written into
 signed commits, that fact also records the commit SHA, signature domain
 (`git.commit.v1`), signer identity, signature value or digest, and the
 Sensorium directive/outcome identifiers that caused the local action. In
-parallel, node A publishes a condensed equivalent of this fact as an
-`agora-record.v1` record on the editorial Agora local relay, so that
-nodes B and C — observing this relay — append their copies into
-**their** Memariums. Later steps append further facts on their own
-side; nothing disappears and nothing is mutated.
+parallel, the role flow publishes a host-owned `workflow.step.completed` record
+on the daemon that executed the step. Other nodes do not receive a hidden copy;
+any cross-node projection must be explicit. Later steps append further facts on
+their own side; nothing disappears and nothing is mutated.
 
 The memory projection boundary is intentionally above Sensorium. The OS
 connector only returns the script's JSON plus artifacts; it does not know that
@@ -1425,6 +1422,24 @@ The operator sees in the thin client:
 A few minutes later the article is live. No human clicked a "publish"
 button in a CMS panel.
 
+### Two completion planes
+
+Story-009 deliberately separates two completion planes:
+
+- `workflow.step.completed` is a host-owned audit/read-model record accepted by
+  the daemon that executed the role step. In a three-node run, node A, node B,
+  and node C each expose their local records through
+  `/v1/workflows/runs/{workflow_run_id}/steps/completed`. This plane is not an
+  Agora topic and does not create a hidden shared store.
+- `workflow.completed` is the final workflow-level monitoring fact emitted by
+  Arca after all required step outputs have been collected. It may be published
+  to local Agora as `record/kind: "workflow.completed"` for UI, operator, and
+  history views.
+
+Reconstruction of the editorial path reads the per-node step-completion read
+models and follows their explicit `memarium_record_id` pointers. Public or
+team-facing monitoring reads the final `workflow.completed` record.
+
 ## Acceptance Criteria
 
 | # | Criterion | Verification |
@@ -1439,7 +1454,7 @@ button in a CMS panel.
 | 8 | After `completed`, Arca emits an `agora-record.v1` record with `record/kind: "workflow.completed"` containing `record/about` with links to the three commit-producing Memarium records plus the publication verification Memarium record | inspection of the Agora relay after the finished run |
 | 9 | The cycle can be reproduced from the *workflow run* + the sum of the three local Memariums — one can reconstruct who proposed what, what was rejected at review and why, **without** referring to any shared store | test: delete the *working tree*, reconstruct the publication path solely from the records of the three Memariums + the Arca log |
 | 10 | Netlify deploys **only** as a result of the step 4 push; a manual change to `publish/main` outside an Arca run is technically possible, but becomes a record visible in the log (not a hidden path) | inspection of the Netlify deployment history vs. the Arca log |
-| 11 | No single shared Memarium: each of the three nodes has its own instance; the exchange of facts between nodes happens solely through signed `agora-record.v1` records on the editorial Agora local relay | configuration inspection: each node has its own `memarium-store`; no shared mountpoint, no data branch that everyone sees without going through Agora |
+| 11 | No single shared Memarium: each of the three nodes has its own instance; step-completion reconstruction uses per-node host-owned workflow read models with explicit Memarium pointers, while the final `workflow.completed` monitoring fact may be published to local Agora | configuration inspection: each node has its own `memarium-store`; each executing node exposes `/v1/workflows/runs/{workflow_run_id}/steps/completed`; no shared mountpoint, no data branch that everyone sees without going through an explicit workflow or relay contract |
 | 12 | **The article content (markdown + images) does not at any point enter the Arca data plane nor the content of Agora records.** Between steps only pointers (`branch`, `commit`, paths, `memarium_record_id`) are passed; draft and image bytes flow exclusively through git | inspection of `input` / `output` of each step in the *workflow run*: payload size < 4 KiB, no fields with markdown or image bytes; inspection of Agora records — `content` contains only metadata, not the article corpus |
 | 12a | Any Agora record in this story that carries Memarium-derived pointers or summaries is classified for public egress: `classification.effective_tier = "Public"` and `bound_subjects.public_projection` is present; full subject refs are not published | Agora ingest/relay inspection plus classification egress guard denial tests |
 | 13 | Every module executing a git-using step starts by invoking the Sensorium OS connector for `git fetch`/`git checkout` based on the pointer from the previous step; there is no direct shell path and no alternative path through which draft bytes could reach the module | code review of the `illustrator` and `editor-in-chief` modules plus Sensorium directive/outcome audit: the only source of draft content is the local git worktree |
@@ -1460,16 +1475,17 @@ coverage levels. They should not be conflated.
 | Guarded local Git origin | Both reference skeleton and daemon integration | Proves the publish authority shape for criteria 4, 5, and 10 with a local bare `origin` and pre-receive guard. | Does not exercise Netlify or an external Git host. Netlify remains deployment infrastructure outside the Orbiplex control plane. |
 | Three-daemon topology smoke | `story_009_three_node_topology_harness_starts_isolated_daemons` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Starts three isolated daemon data dirs; verifies distinct control tokens and middleware registries; checks node-specific Dator service-type reports; checks node-specific Sensorium OS action catalogs; proves node C is the only daemon carrying `story009.review.publish` and the guarded publish token. Covers the topology slice of criteria 5, 11, and 14. | Does not perform editorial execution; it only proves deployment separation and node-specific authority shape. |
 | Three-daemon execution and reconstruction | `story_009_three_node_execution_reconstructs_workflow_completion_from_local_memaria` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Executes the story steps across three isolated daemon nodes: node A drafts, node B illustrates, node C reviews/publishes/verifies. Each node writes to its own local Memarium; the harness reconstructs a `workflow.completed`-style record with explicit links to the three commit-producing Memarium facts plus the publication verification fact. Covers the executable reconstruction slice of criteria 5, 7, 9, 11, and 14. | Dispatch is still test-orchestrated by direct calls to each node-local Dator endpoint. It does not yet prove Arca-driven peer service-order routing or signed local Agora fact exchange between nodes. |
-| Arca-driven remote-provider execution over WSS peer catalog and peer sessions | `story_009_arca_drives_remote_providers_and_reconstructs_from_editorial_agora` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Runs Arca on node A as the orchestrator. Node B/C publish `offer-catalog` capability passports to their embedded Seed Directory surfaces; node A is configured with Seed Directory endpoints and an explicit `catalog_peer_discovery_policy` allowlisting the expected provider node ids, but it does not seed their offers and does not use `catalog_peer_node_ids`. Arca discovers catalog peers through `seed.directory.query` with a Seed Directory predicate over trusted node ids, fetches their Dator catalogs through `offer-catalog.fetch.request/response` over established daemon-owned WSS peer sessions, persists the discovered offers in its observed catalog, selects node B/C providers, dispatches remote-provider service orders through daemon-owned `peer.message.dispatch`, receives `service-order.dispatch.response` over the same peer-session correlation path, completes the workflow from pointer-only step outputs, publishes the final `workflow.completed` record, and reconstructs the editorial path from signed `workflow.step.completed` records on node A's local Agora topic `local/story-009/editorial-facts`. The editorial facts validate against `story009.workflow-step-completed.v1`, carry non-null `workflow/run-id` and `workflow/phase-id` for every step, and the test asserts that node A/B reject `git-push-publish` while their Sensorium OS catalogs do not expose the publish action. Covers the current executable form of criteria 5, 7, 8, 9, 11, and 14. | The allowlisted `trusted_node_ids` policy remains a harness/deployment override. Production profiles should replace or enrich it with broader trusted-peer policy, capability-passport verification, Seed Directory assurance, and federation endorsement policy. |
+| Arca-driven remote-provider execution over WSS peer catalog and peer sessions | `story_009_arca_drives_remote_providers_and_reads_host_owned_step_completion` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Runs Arca on node A as the orchestrator. Step-completion reconstruction is host-owned rather than Agora-owned. Node B/C publish `offer-catalog` capability passports to their embedded Seed Directory surfaces; node A is configured with Seed Directory endpoints and an explicit `catalog_peer_discovery_policy` allowlisting the expected provider node ids, but it does not seed their offers and does not use `catalog_peer_node_ids`. Arca discovers catalog peers through `seed.directory.query` with a Seed Directory predicate over trusted node ids, fetches their Dator catalogs through `offer-catalog.fetch.request/response` over established daemon-owned WSS peer sessions, persists the discovered offers in its observed catalog, selects node B/C providers, dispatches remote-provider service orders through daemon-owned `peer.message.dispatch`, receives `service-order.dispatch.response` over the same peer-session correlation path, completes the workflow from pointer-only step outputs, publishes the final `workflow.completed` monitoring record, and verifies the editorial path by reading the per-node host-owned `/v1/workflows/runs/{workflow_run_id}/steps/completed` read models. The step-completion records validate against `story009.workflow-step-completed.v1`, carry non-null `workflow/run-id` and `workflow/phase-id` for every step, and the test asserts that node A/B reject `git-push-publish` while their Sensorium OS catalogs do not expose the publish action. Covers the current executable form of criteria 5, 7, 8, 9, 11 and 14. | The allowlisted `trusted_node_ids` policy remains a harness/deployment override. Production profiles should replace or enrich it with broader trusted-peer policy, capability-passport verification, Seed Directory assurance, and federation endorsement policy. |
 | Peer service-order dispatch contract | `python3 -m unittest middleware-modules/arca/test_service.py middleware-modules/dator/test_service.py` plus daemon peer response-kind coverage | Freezes the transport-shaped seam: Dator handles `service-order.dispatch.request` on inbound-peer with an explicitly declared long-running chain timeout and executes the same local role capability path; Arca derives a peer-message remote target from an observed offer, sends it through daemon-owned `peer.message.dispatch`, and correlates `service-order.dispatch.response` by `request_id`. | Unit-level coverage plus spawned-daemon WSS coverage. `daemon_peer_listener_accepts_dialer_and_dispatches_peer_message` proves generic WSS peer-message delivery; the story-009 Arca-driven harness proves the full service-order dispatch path over established WSS peer sessions. |
 
 ## What This Story Does NOT Cover
 
 - **Memarium federation beyond the editorial team.** Each of the three
-  nodes has its own local Memarium; editorial consistency is emergent,
-  achieved through the editorial Agora local relay. Synchronisation
-  with other editorial teams or with public Agora records is a
-  separate story.
+  nodes has its own local Memarium; editorial consistency for this harness is
+  reconstructed from explicit Memarium pointers in the per-node host-owned workflow
+  step-completion read models, with only the final monitoring fact published as
+  `workflow.completed` on local Agora. Synchronisation with other editorial
+  teams or with public Agora records is a separate story.
 - **Artefact exchange other than via git.** The INAC channel
   (proposal 042) and the `memarium-blob.v1` schema are the natural
   extension direction (large binary assets unfit for git, confidential
@@ -1510,8 +1526,8 @@ five Orbiplex commitments expressed in the seqnote:
    node keeps its **own Memarium** as an appended stream of **facts**
    from which the path of its own decisions can be reconstructed.
    "Editorial memory" as a whole is an emergent view of the three
-   Memariums tied together by signed records on the editorial Agora
-   local relay. No one owns shared state; everyone owns their own
+   Memariums tied together by explicit workflow step-completion records and
+   final monitoring facts. No one owns shared state; everyone owns their own
    history and their observation of others' facts. Nothing is mutated
    "in place".
 3. **Transport stratification: data plane = git, control plane =

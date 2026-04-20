@@ -47,13 +47,14 @@ Story opiera się na:
   (`PrimaryParticipant`) jako jednostki audytowalnej. Tutaj ten sam mechanizm
   jest używany przez commity git: każdy commit może być podpisany kluczem węzła,
   który go wytworzył, a ślad tego podpisu trafia do Memarium węzła-autora.
-- **Redakcyjnym lokalnym relayu Agora** — kanale, przez który trzy węzły
-  dzielą się istotnymi **faktami** (publikując rekordy `agora-record.v1`
-  z `record/kind` równym `workflow.step.completed`, `workflow.completed`,
-  opcjonalnie obserwacjami redakcyjnymi). Każdy węzeł ma **własne, lokalne
-  Memarium**; ciągłość pamięci redakcyjnej jest **emergentna**: powstaje z tego,
-  że węzły publikują istotne fakty na relayu Agora, a każdy obserwator dopisuje
-  je do własnego Memarium. Nie istnieje jeden wspólny magazyn.
+- **Host-owned read-modelach ukończeń kroków workflow i lokalnym monitoringu
+  Agora** — każdy daemon wykonujący krok przyjmuje własny rekord
+  `workflow.step.completed` i wystawia go przez
+  `/v1/workflows/runs/{workflow_run_id}/steps/completed`. Arca może publikować
+  finalny fakt monitoringowy `workflow.completed` do lokalnej Agory. Każdy
+  węzeł nadal ma **własne, lokalne Memarium**; ciągłość pamięci redakcyjnej jest
+  **emergentna** i odtwarzana z jawnych pointerów, nie z jednego wspólnego
+  magazynu.
 
 ### Stratyfikacja transportu (decyzja architektoniczna)
 
@@ -224,12 +225,12 @@ Warianty z ceną niezerową, negocjacją albo settlementem są osobną story.
   jest dla szkiców i wersji roboczych; gałąź `publish/main` jest jedyną gałęzią
   wdrażaną przez Netlify.
 - **Trzy lokalne Memaria** — jedno na węzeł. Każde przechowuje własne fakty
-  (co dany węzeł sam wytworzył lub zdecydował) oraz obserwacje istotnych faktów
-  innych węzłów, pobrane przez redakcyjny lokalny relay Agora albo przez INAC.
-  "Pamięć redakcyjna" jako całość jest **emergentnym widokiem** złożonym z tych
-  trzech Memariów; nie istnieje jako jeden wspólny magazyn ani jeden
-  autorytatywny backend. Spójność jest osiągana przez append-only records, nie
-  przez współdzielony stan.
+  (co dany węzeł sam wytworzył lub zdecydował) oraz obserwacje, które może jawnie
+  zaimportować przez kontrakty workflow, lokalnego relaya albo INAC. "Pamięć
+  redakcyjna" jako całość jest **emergentnym widokiem** złożonym z tych trzech
+  Memariów oraz pointerów ukończeń kroków workflow; nie istnieje jako jeden
+  wspólny magazyn ani jeden autorytatywny backend. Spójność jest osiągana przez
+  append-only records, nie przez współdzielony stan.
 
 Tematem tej story jest cykl publikacyjny: **"Co nowego z Bielikiem"** —
 okresowy artykuł podsumowujący zmiany, *releases* i sygnały społecznościowe
@@ -1051,8 +1052,8 @@ providera z powrotem Arce. Adapter researchu:
    poleceń powłoki bezpośrednio.
 2. Pyta **własne, lokalne Memarium** (Memarium węzła A) o **dwie** rzeczy:
    - poprzednie artykuły w tym cyklu (własne szkice plus rekordy publikacji
-     zaobserwowane z węzła C — wszystkie wcześniej pobrane z redakcyjnego
-     lokalnego relaya Agora),
+     zaobserwowane z węzła C — wszystkie wcześniej zaimportowane przez jawne
+     kontrakty workflow/lokalnego relaya),
    - charakterystyczne redakcyjnie frazy i preferowane konstrukcje stylistyczne
      (idiolekt redakcyjny — patrz seqnote — zachowany w Memarium węzła A jako
      jego widok wspólnego stylu, zasilany korektami obserwowanymi z węzła C).
@@ -1118,11 +1119,10 @@ na *brief* Y w czasie T" — to fakt zapisany w **Memarium węzła A** (autora
 kroku), a nie nadpisany stan. Dla podpisanych commitów fakt zapisuje również SHA
 commita, domenę podpisu (`git.commit.v1`), tożsamość signera, wartość lub digest
 podpisu oraz identyfikatory dyrektywy/wyniku Sensorium, które spowodowały
-lokalną akcję. Równolegle węzeł A publikuje skondensowany odpowiednik tego faktu
-jako rekord `agora-record.v1` na redakcyjnym lokalnym relayu Agora, aby węzły B
-i C — obserwujące ten relay — dopisały swoje kopie do **swoich** Memariów.
-Kolejne kroki dopisują dalsze fakty po swojej stronie; nic nie znika i nic nie
-jest mutowane.
+lokalną akcję. Równolegle role flow publikuje host-owned rekord `workflow.step.completed` w
+daemonie, który wykonał krok. Inne węzły nie dostają ukrytej kopii; każda
+projekcja cross-node musi być jawna. Kolejne kroki dopisują dalsze fakty po
+swojej stronie; nic nie znika i nic nie jest mutowane.
 
 Granica projekcji pamięci jest celowo ponad Sensorium. OS connector zwraca tylko
 JSON skryptu plus artefakty; nie wie, że `draft_commit` jest commitem Git, i nie
@@ -1373,6 +1373,24 @@ widoków monitorujących i historii. Operator widzi w thin client:
 Kilka minut później artykuł jest live. Żaden człowiek nie kliknął przycisku
 "publish" w panelu CMS.
 
+### Dwie płaszczyzny completion
+
+Story-009 celowo rozdziela dwie płaszczyzny completion:
+
+- `workflow.step.completed` jest host-owned rekordem audytu/read-modelu,
+  przyjmowanym przez daemon, który wykonał krok roli. W trzywęzłowym runie node
+  A, node B i node C wystawiają swoje lokalne rekordy przez
+  `/v1/workflows/runs/{workflow_run_id}/steps/completed`. Ta płaszczyzna nie
+  jest topicem Agory i nie tworzy ukrytego wspólnego store.
+- `workflow.completed` jest finalnym faktem monitoringowym poziomu workflow,
+  emitowanym przez Arcę po zebraniu wymaganych wyjść kroków. Może być
+  publikowany do lokalnej Agory jako `record/kind: "workflow.completed"` dla
+  UI, operatora i widoków historii.
+
+Rekonstrukcja ścieżki redakcyjnej czyta per-node read-modele ukończeń kroków i
+podąża za ich jawnymi pointerami `memarium_record_id`. Monitoring publiczny lub
+zespołowy czyta finalny rekord `workflow.completed`.
+
 ## Kryteria akceptacji
 
 | # | Kryterium | Weryfikacja |
@@ -1387,7 +1405,7 @@ Kilka minut później artykuł jest live. Żaden człowiek nie kliknął przycis
 | 8 | Po `completed` Arca emituje rekord `agora-record.v1` z `record/kind: "workflow.completed"` zawierający `record/about` z linkami do trzech commit-producing rekordów Memarium oraz rekordu Memarium weryfikacji publikacji | inspekcja relaya Agora po zakończonym runie |
 | 9 | Cykl można odtworzyć z *workflow run* + sumy trzech lokalnych Memariów — można zrekonstruować, kto co zaproponował, co odrzucono w recenzji i dlaczego, **bez** odwoływania się do wspólnego magazynu | test: usuń *working tree*, odtwórz ścieżkę publikacji wyłącznie z rekordów trzech Memariów + logu Arki |
 | 10 | Netlify wdraża **tylko** w wyniku pusha z kroku 4; ręczna zmiana `publish/main` poza runem Arki jest technicznie możliwa, ale staje się rekordem widocznym w logu (nie ukrytą ścieżką) | inspekcja historii wdrożeń Netlify względem logu Arki |
-| 11 | Brak jednego wspólnego Memarium: każdy z trzech węzłów ma własną instancję; wymiana faktów między węzłami odbywa się wyłącznie przez podpisane rekordy `agora-record.v1` na redakcyjnym lokalnym relayu Agora | inspekcja konfiguracji: każdy węzeł ma własny `memarium-store`; brak wspólnego mountpointu, brak gałęzi danych, którą wszyscy widzą bez przejścia przez Agorę |
+| 11 | Brak jednego wspólnego Memarium: każdy z trzech węzłów ma własną instancję; rekonstrukcja ukończeń kroków używa per-node host-owned read-modeli workflow z jawnymi pointerami Memarium, a finalny fakt monitoringowy `workflow.completed` może być publikowany do lokalnej Agory | inspekcja konfiguracji: każdy węzeł ma własny `memarium-store`; każdy węzeł wykonujący krok wystawia `/v1/workflows/runs/{workflow_run_id}/steps/completed`; brak wspólnego mountpointu, brak gałęzi danych, którą wszyscy widzą bez przejścia przez jawny kontrakt workflow albo relaya |
 | 12 | **Treść artykułu (markdown + obrazy) w żadnym momencie nie wchodzi do data plane Arki ani do treści rekordów Agora.** Między krokami przekazywane są tylko wskaźniki (`branch`, `commit`, ścieżki, `memarium_record_id`); bajty szkicu i obrazów płyną wyłącznie przez git | inspekcja `input` / `output` każdego kroku w *workflow run*: payload size < 4 KiB, brak pól z bajtami markdown lub obrazów; inspekcja rekordów Agora — `content` zawiera tylko metadane, nie korpus artykułu |
 | 12a | Każdy rekord Agora w tej story, który niesie wskaźniki lub podsumowania pochodzące z Memarium, jest sklasyfikowany do publicznego egressu: `classification.effective_tier = "Public"` i obecne jest `bound_subjects.public_projection`; pełne referencje subjectów nie są publikowane | inspekcja ingest/relaya Agora oraz testy odmowy classification egress guard |
 | 13 | Każdy moduł wykonujący krok używający gita zaczyna od wywołania Sensorium OS connectora dla `git fetch`/`git checkout` na podstawie wskaźnika z poprzedniego kroku; nie ma bezpośredniej ścieżki shell i żadnej alternatywnej ścieżki, którą bajty szkicu mogłyby dotrzeć do modułu | code review modułów `illustrator` i `editor-in-chief` plus audyt dyrektyw/wyników Sensorium: jedynym źródłem treści szkicu jest lokalne git worktree |
@@ -1408,15 +1426,16 @@ pokrycia. Nie należy ich mieszać.
 | Strzeżony lokalny Git origin | Reference skeleton i daemon integration | Dowodzi kształtu autorytetu publikacji dla kryteriów 4, 5 i 10 przez lokalne bare `origin` oraz guard `pre-receive`. | Nie ćwiczy Netlify ani zewnętrznego hosta Git. Netlify pozostaje infrastrukturą deploymentu poza control plane Orbiplex. |
 | Three-daemon topology smoke | `story_009_three_node_topology_harness_starts_isolated_daemons` w `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Startuje trzy izolowane katalogi danych daemona; weryfikuje osobne control tokeny i rejestry middleware; sprawdza node-specific service-type reports Datora; sprawdza node-specific katalogi akcji Sensorium OS; dowodzi, że node C jest jedynym daemonem niosącym `story009.review.publish` oraz guarded publish token. Pokrywa topologiczny wycinek kryteriów 5, 11 i 14. | Nie wykonuje pracy redakcyjnej; dowodzi tylko separacji deploymentu i node-specific authority shape. |
 | Three-daemon execution and reconstruction | `story_009_three_node_execution_reconstructs_workflow_completion_from_local_memaria` w `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Wykonuje kroki story na trzech izolowanych daemonach: node A szkicuje, node B ilustruje, node C recenzuje/publikuje/weryfikuje. Każdy węzeł zapisuje do własnego lokalnego Memarium; harness rekonstruuje rekord w stylu `workflow.completed` z jawnymi linkami do trzech commit-producing faktów Memarium oraz faktu weryfikacji publikacji. Pokrywa wykonywalny wycinek rekonstrukcji dla kryteriów 5, 7, 9, 11 i 14. | Dispatch nadal jest orkiestracją testową przez bezpośrednie wywołania node-local endpointów Datora. Nie dowodzi jeszcze Arca-driven peer service-order routing ani podpisanej lokalnej wymiany faktów Agora między węzłami. |
-| Arca-driven remote-provider execution over WSS peer catalog and peer sessions | `story_009_arca_drives_remote_providers_and_reconstructs_from_editorial_agora` w `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Uruchamia Arcę na node A jako orkiestratora. Node B/C publikują capability passporty `offer-catalog` do swoich embedded Seed Directory; node A jest skonfigurowany z endpointami Seed Directory oraz jawną polityką `catalog_peer_discovery_policy` allowlistującą oczekiwane identyfikatory providerów, ale nie seeduje ich ofert i nie używa `catalog_peer_node_ids`. Arca odkrywa catalog peers przez `seed.directory.query` z predykatem Seed Directory po zaufanych node ids, pobiera katalogi Datora przez `offer-catalog.fetch.request/response` po ustanowionych daemon-owned sesjach WSS peer, zapisuje odkryte oferty w swoim observed catalog, wybiera providerów node B/C, dispatchuje remote-provider service orders przez daemon-owned `peer.message.dispatch`, odbiera `service-order.dispatch.response` tą samą ścieżką korelacji peer-session, domyka workflow z pointer-only outputów kroków, publikuje finalny rekord `workflow.completed` i rekonstruuje ścieżkę redakcyjną z podpisanych rekordów `workflow.step.completed` na lokalnym topicu Agory node A `local/story-009/editorial-facts`. Fakty redakcyjne walidują się względem `story009.workflow-step-completed.v1`, niosą niepuste `workflow/run-id` i `workflow/phase-id` dla każdego kroku, a test potwierdza, że node A/B odrzucają `git-push-publish` i ich katalogi Sensorium OS nie wystawiają akcji publikacji. Pokrywa obecną wykonywalną postać kryteriów 5, 7, 8, 9, 11 i 14. | Allowlista `trusted_node_ids` pozostaje override'em harnessowym/deploymentowym. Profile produkcyjne powinny zastąpić lub wzbogacić ją bogatszą polityką trusted peers, weryfikacją capability passportów, assurance z Seed Directory oraz polityką federation endorsement. |
+| Arca-driven remote-provider execution over WSS peer catalog and peer sessions | `story_009_arca_drives_remote_providers_and_reads_host_owned_step_completion` w `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Uruchamia Arcę na node A jako orkiestratora. Rekonstrukcja ukończeń kroków jest host-owned, a nie Agora-owned. Node B/C publikują capability passporty `offer-catalog` do swoich embedded Seed Directory; node A jest skonfigurowany z endpointami Seed Directory oraz jawną polityką `catalog_peer_discovery_policy` allowlistującą oczekiwane identyfikatory providerów, ale nie seeduje ich ofert i nie używa `catalog_peer_node_ids`. Arca odkrywa catalog peers przez `seed.directory.query` z predykatem Seed Directory po zaufanych node ids, pobiera katalogi Datora przez `offer-catalog.fetch.request/response` po ustanowionych daemon-owned sesjach WSS peer, zapisuje odkryte oferty w swoim observed catalog, wybiera providerów node B/C, dispatchuje remote-provider service orders przez daemon-owned `peer.message.dispatch`, odbiera `service-order.dispatch.response` tą samą ścieżką korelacji peer-session, domyka workflow z pointer-only outputów kroków, publikuje finalny monitoringowy rekord `workflow.completed` i weryfikuje ścieżkę redakcyjną przez per-node host-owned read-modele `/v1/workflows/runs/{workflow_run_id}/steps/completed`. Rekordy ukończeń kroków walidują się względem `story009.workflow-step-completed.v1`, niosą niepuste `workflow/run-id` i `workflow/phase-id` dla każdego kroku, a test potwierdza, że node A/B odrzucają `git-push-publish` i ich katalogi Sensorium OS nie wystawiają akcji publikacji. Pokrywa obecną wykonywalną postać kryteriów 5, 7, 8, 9, 11 i 14. | Allowlista `trusted_node_ids` pozostaje override'em harnessowym/deploymentowym. Profile produkcyjne powinny zastąpić lub wzbogacić ją bogatszą polityką trusted peers, weryfikacją capability passportów, assurance z Seed Directory oraz polityką federation endorsement. |
 | Kontrakt peer service-order dispatch | `python3 -m unittest middleware-modules/arca/test_service.py middleware-modules/dator/test_service.py` plus pokrycie mapowania peer response-kind w daemonie | Zamraża szew w kształcie transportowym: Dator obsługuje `service-order.dispatch.request` na inbound-peer z jawnie zadeklarowanym długim timeoutem chainu i wykonuje tę samą lokalną ścieżkę capability roli; Arca wyprowadza peer-message remote target z zaobserwowanej oferty, wysyła go przez daemon-owned `peer.message.dispatch` i koreluje `service-order.dispatch.response` po `request_id`. | Pokrycie jednostkowe plus spawned-daemon WSS coverage. `daemon_peer_listener_accepts_dialer_and_dispatches_peer_message` dowodzi generycznej dostawy WSS peer-message; Arca-driven harness story-009 dowodzi pełnej ścieżki service-order dispatch przez ustanowione sesje WSS peer. |
 
 ## Czego ta story NIE obejmuje
 
 - **Federacji Memarium poza zespołem redakcyjnym.** Każdy z trzech węzłów ma
-  własne lokalne Memarium; spójność redakcyjna jest emergentna, osiągana przez
-  redakcyjny lokalny relay Agora. Synchronizacja z innymi zespołami redakcyjnymi
-  albo publicznymi rekordami Agora to osobna story.
+  własne lokalne Memarium; w tym harnessie spójność redakcyjna jest odtwarzana
+  z jawnych pointerów Memarium w per-node host-owned read-modelach ukończeń kroków workflow, a tylko finalny fakt monitoringowy jest publikowany jako
+  `workflow.completed` w lokalnej Agorze. Synchronizacja z innymi zespołami
+  redakcyjnymi albo publicznymi rekordami Agora to osobna story.
 - **Wymiany artefaktów innej niż przez git.** Kanał INAC (proposal 042) oraz
   schema `memarium-blob.v1` są naturalnym kierunkiem rozszerzenia (duże zasoby
   binarne nienadające się do gita, poufne briefy), ale ta story celowo ich nie
@@ -1452,10 +1471,10 @@ zobowiązań Orbiplex wyrażonych w seqnote:
 2. **Pamięć jako infrastruktura, nie log; lokalna, nie współdzielona.** Każdy
    węzeł utrzymuje **własne Memarium** jako dopisywany strumień **faktów**,
    z którego można odtworzyć ścieżkę własnych decyzji. "Pamięć redakcyjna" jako
-   całość jest emergentnym widokiem trzech Memariów związanych podpisanymi
-   rekordami na redakcyjnym lokalnym relayu Agora. Nikt nie posiada wspólnego
-   stanu; każdy posiada własną historię i własną obserwację faktów innych. Nic
-   nie jest mutowane "w miejscu".
+   całość jest emergentnym widokiem trzech Memariów związanych jawnymi
+   rekordami ukończeń kroków workflow i finalnymi faktami monitoringowymi. Nikt
+   nie posiada wspólnego stanu; każdy posiada własną historię i własną obserwację
+   faktów innych. Nic nie jest mutowane "w miejscu".
 3. **Stratyfikacja transportu: data plane = git, control plane = Arca + Agora.**
    Bajty "pracy" (markdown, obrazy, korekty) płyną wyłącznie przez repozytorium
    git, które i tak jest wymagane przez architekturę publikacji. Między krokami
