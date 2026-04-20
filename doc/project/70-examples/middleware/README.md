@@ -1,17 +1,27 @@
 # Middleware Examples
 
-Orbiplex middleware modules are supervised application processes. They are not
-in-process plugins and not Rack/Express/Ring-style interceptors. A module talks
-to the Node daemon through HTTP/JSON, declares capabilities in its module report,
-and receives work through host-owned routing.
+Orbiplex middleware behavior is routed by host-owned capabilities. The common
+shape is a supervised application process that talks to the Node daemon through
+HTTP/JSON, but small static role adapters may also be hosted directly by the
+daemon as `json_e_flow` providers.
+
+Neither shape is a Rack/Express/Ring-style interceptor chain. The daemon owns
+capability routing, supervision where applicable, module auth tokens, and the
+audit boundary. The module or flow owns only its local behavior behind the
+declared capability.
 
 ## Examples
 
-- `role-module/` - a minimal role module behind a Dator offer.
+- `role-module-http/` - a minimal supervised HTTP/JSON role module behind a
+  Dator offer.
+- `role-module-json-e/` - the same role-module idea as a daemon-hosted
+  `json_e_flow` provider.
+- `json-e-flow-role/` - a minimal generic `json_e_flow` role provider with a
+  mocked host capability call.
 - `sensorium-connector/` - a minimal Sensorium connector called only by
   Sensorium-core.
 
-## Common Shape
+## Supervised HTTP Shape
 
 A small middleware module usually exposes:
 
@@ -22,3 +32,19 @@ A small middleware module usually exposes:
 The daemon owns process supervision, module auth tokens, host capability routing,
 and auditability. The module owns only its local behavior behind the declared
 capability.
+
+## JSON-e Flow Shape
+
+A JSON-e-flow role provider usually declares:
+
+- one `middleware_json_e_flow_services` entry in daemon config,
+- stable `module_id`, `component_id`, and `template_id`,
+- `bindings.role_capability_id` for Dator dispatch,
+- `context_projection` mapping the incoming role invocation into authoring
+  variables,
+- `allowed_calls` as the static host capability allowlist,
+- a small `render` / `call` / `validate` / `respond` step list.
+
+Use JSON-e-flow for small declarative adapters. Move domain-heavy behavior to a
+proper capability provider, such as a supervised middleware module or a
+Sensorium connector.

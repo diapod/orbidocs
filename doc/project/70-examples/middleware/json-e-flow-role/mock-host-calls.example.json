@@ -1,0 +1,12 @@
+{
+  "calls": {
+    "call_echo": {
+      "echo": "mocked host capability response"
+    }
+  },
+  "capabilities": {
+    "example.echo": {
+      "echo": "fallback host capability response"
+    }
+  }
+}

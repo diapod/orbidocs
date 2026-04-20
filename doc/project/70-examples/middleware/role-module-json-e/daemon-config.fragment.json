@@ -1,0 +1,78 @@
+{
+  "middleware_json_e_flow_services": {
+    "example-summarizer-json-e-flow": {
+      "id": "example-summarizer-json-e-flow",
+      "module_id": "example-roles",
+      "component_id": "middleware.examples.roles.summarizer",
+      "bindings": {
+        "role_capability_id": "role.example-summarizer.execute"
+      },
+      "template_id": "examples.role.summarizer.flow.v1",
+      "profile_version": "orbiplex.json_e_flow.v1",
+      "context_contract": "json_e.context.role_execute.v1",
+      "context_projection": {
+        "capability_id": "$.capability_id",
+        "role_capability_id": "$['role/capability_id']",
+        "dispatch_id": "$['dispatch/id']",
+        "service_type": "$.service_type",
+        "request_input": "$['request/input']",
+        "workflow_run_id": "$['workflow/run-id']",
+        "workflow_phase_id": "$['workflow/phase-id']",
+        "correlation_id": "$['correlation/id']",
+        "execution_ref": "$.execution_ref",
+        "now": {"host_value": "invocation.rfc3339_now"}
+      },
+      "helper_profile": "orbiplex.json_e.helpers.basic.v1",
+      "helpers": [],
+      "allowed_calls": [],
+      "limits": {
+        "max_template_bytes": 32768,
+        "max_context_bytes": 16384,
+        "max_output_bytes": 32768,
+        "max_evaluation_depth": 32,
+        "max_collection_size": 128,
+        "max_string_bytes": 16384,
+        "timeout_ms": 1000,
+        "max_flow_steps": 16,
+        "max_loop_steps": 32
+      },
+      "steps": [
+        {
+          "kind": "render",
+          "id": "render_response",
+          "as": "response",
+          "template": {
+            "schema_version": "v1",
+            "capability_id": "service_dispatch_execute",
+            "status": "completed",
+            "dispatch/id": "${dispatch_id}",
+            "completed-at": "${now}",
+            "answer/content": {
+              "summary": "${request_input.text}",
+              "source_text": "${request_input.text}",
+              "workflow/run-id": "${workflow_run_id}",
+              "workflow/phase-id": "${workflow_phase_id}",
+              "correlation/id": "${correlation_id}"
+            },
+            "answer/format": "application/json",
+            "confidence/signal": 0.75,
+            "human-linked-participation": false,
+            "provenance/origin-classes": ["json_e_flow", "role-module-json-e"],
+            "message": null
+          }
+        },
+        {
+          "kind": "validate",
+          "id": "validate_response",
+          "input": "$.response",
+          "contract": "service-dispatch-response.v1"
+        },
+        {
+          "kind": "respond",
+          "id": "respond",
+          "input": "$.response"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "v1",
+  "capability_id": "role_task_execute",
+  "role/capability_id": "role.example-json-e-flow.execute",
+  "dispatch/id": "dispatch:example:json-e-flow-role:1",
+  "service_type": "example/echo",
+  "request/input": {
+    "text": "JSON-e-flow keeps the role adapter declarative and auditable."
+  },
+  "workflow/run-id": "run:example-json-e-flow-role",
+  "workflow/phase-id": "echo",
+  "correlation/id": "run:example-json-e-flow-role",
+  "execution_ref": "question:example-json-e-flow-role"
+}

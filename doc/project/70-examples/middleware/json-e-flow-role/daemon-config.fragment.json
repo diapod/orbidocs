@@ -1,0 +1,92 @@
+{
+  "middleware_json_e_flow_services": {
+    "example-json-e-flow-role": {
+      "id": "example-json-e-flow-role",
+      "module_id": "example-json-e-flow-role",
+      "component_id": "middleware.examples.json-e-flow-role",
+      "bindings": {
+        "role_capability_id": "role.example-json-e-flow.execute"
+      },
+      "template_id": "examples.json-e-flow-role.v1",
+      "profile_version": "orbiplex.json_e_flow.v1",
+      "context_contract": "json_e.context.role_execute.v1",
+      "context_projection": {
+        "capability_id": "$.capability_id",
+        "role_capability_id": "$['role/capability_id']",
+        "dispatch_id": "$['dispatch/id']",
+        "service_type": "$.service_type",
+        "request_input": "$['request/input']",
+        "workflow_run_id": "$['workflow/run-id']",
+        "workflow_phase_id": "$['workflow/phase-id']",
+        "correlation_id": "$['correlation/id']",
+        "execution_ref": "$.execution_ref",
+        "now": {"host_value": "invocation.rfc3339_now"}
+      },
+      "helper_profile": "orbiplex.json_e.helpers.basic.v1",
+      "helpers": [],
+      "allowed_calls": ["example.echo"],
+      "limits": {
+        "max_template_bytes": 32768,
+        "max_context_bytes": 16384,
+        "max_output_bytes": 32768,
+        "max_evaluation_depth": 32,
+        "max_collection_size": 128,
+        "max_string_bytes": 16384,
+        "timeout_ms": 1000,
+        "max_flow_steps": 16,
+        "max_loop_steps": 32
+      },
+      "steps": [
+        {
+          "kind": "render",
+          "id": "render_echo_request",
+          "as": "echo_request",
+          "template": {
+            "text": "${request_input.text}",
+            "correlation_id": "${correlation_id}"
+          }
+        },
+        {
+          "kind": "call",
+          "id": "call_echo",
+          "capability": "example.echo",
+          "input": "$.echo_request",
+          "as": "echo_result"
+        },
+        {
+          "kind": "render",
+          "id": "render_response",
+          "as": "response",
+          "template": {
+            "schema_version": "v1",
+            "capability_id": "service_dispatch_execute",
+            "status": "completed",
+            "dispatch/id": "${dispatch_id}",
+            "completed-at": "${now}",
+            "answer/content": {
+              "echo": "${$.echo_result.echo}",
+              "workflow/run-id": "${workflow_run_id}",
+              "workflow/phase-id": "${workflow_phase_id}"
+            },
+            "answer/format": "application/json",
+            "confidence/signal": 0.8,
+            "human-linked-participation": false,
+            "provenance/origin-classes": ["json_e_flow"],
+            "message": null
+          }
+        },
+        {
+          "kind": "validate",
+          "id": "validate_response",
+          "input": "$.response",
+          "contract": "service-dispatch-response.v1"
+        },
+        {
+          "kind": "respond",
+          "id": "respond",
+          "input": "$.response"
+        }
+      ]
+    }
+  }
+}

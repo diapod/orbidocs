@@ -1,4 +1,4 @@
-# Minimal Role Module
+# Minimal HTTP Role Module
 
 This example shows the smallest useful middleware process that Dator can call
 through a `dispatch.kind = "role-module"` offer.

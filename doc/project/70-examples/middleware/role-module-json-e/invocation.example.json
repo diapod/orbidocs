@@ -1,0 +1,14 @@
+{
+  "schema_version": "v1",
+  "capability_id": "role_task_execute",
+  "role/capability_id": "role.example-summarizer.execute",
+  "dispatch/id": "dispatch:example:json-e:1",
+  "service_type": "example/summarize",
+  "request/input": {
+    "text": "A long input that should be summarized by a role adapter. The minimal JSON-e example echoes the text as a pointer-sized result. Real summarization belongs in a Sensorium-mediated model or OS action."
+  },
+  "workflow/run-id": "run:example-json-e",
+  "workflow/phase-id": "summarize",
+  "correlation/id": "run:example-json-e",
+  "execution_ref": "question:example-json-e"
+}
