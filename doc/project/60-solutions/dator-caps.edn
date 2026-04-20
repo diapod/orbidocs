@@ -1,0 +1,170 @@
+{:component/id :orbiplex/dator
+ :component/title "Orbiplex Dator"
+ :component/type :node-attached-module
+ :component/status :partial
+
+ :summary
+ "Node-attached supply-side marketplace module bundled as a supervised
+ middleware service. Owns local standing-offer publication, provider-side
+ offer-catalog responses, and provider-side service dispatch. Counterpart
+ of Arca: Dator supplies and executes, Arca observes, selects, and
+ orchestrates."
+
+ :must-implement
+ [{:cap/id :dator-standing-offer-publication
+   :title "Supply-Side Standing Offer Publication"
+   :kind :runtime
+   :based-on ["doc/project/30-stories/story-006.md"
+              "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md"
+              "doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md"]
+   :schemas ["service-offer.v1"
+             "service-offer-relay.v1"]
+   :responsibilities
+   ["Own the local standing-offer write path for provider-side offers"
+    "Derive deterministic offer/id values for managed offers"
+    "Assign monotonic sequence/no values for offer updates"
+    "Inject provider participant and provider node context"
+    "Accept participant-facing local publication requests"
+    "Return published once the local commit succeeds"
+    "Treat outbound relay as best-effort metadata separate from local publication success"
+    "Honor relay.do_not_forward and relay.intended_node_id as relay-policy hints"]
+   :status :done}
+
+  {:cap/id :dator-provider-catalog-responder
+   :title "Provider Catalog Responder"
+   :kind :runtime
+   :based-on ["doc/project/30-stories/story-006.md"
+              "doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md"]
+   :schemas ["service-offer.v1"
+             "service-offer-relay.v1"]
+   :responsibilities
+   ["Answer inbound offer-catalog.fetch.request with local offers only"
+    "Keep responder behavior supply-side and stateless with respect to observed remote catalogs"
+    "Expose POST /v1/enact/offers/snapshot for daemon-side local dispatch lookups"
+    "Refresh the provider's offer-catalog capability passport through the host"
+    "Avoid peer discovery and background pull responsibility"]
+   :status :done}
+
+  {:cap/id :dator-provider-service-dispatch
+   :title "Provider Service Dispatch"
+   :kind :runtime
+   :based-on ["doc/project/30-stories/story-006.md"
+              "doc/project/30-stories/story-009-bielik-blog-arca.md"
+              "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md"
+              "doc/project/40-proposals/027-middleware-peer-message-dispatch.md"]
+   :schemas []
+   :responsibilities
+   ["Accept daemon-submitted service_dispatch_execute payloads for local provider work"
+    "Select the matching standing offer by service_type"
+    "Route executable offers through dispatch.kind = role-module"
+    "Invoke the configured role host capability identified by dispatch.capability_id"
+    "Preserve workflow lineage fields such as workflow/run-id, workflow/phase-id, and correlation/id"
+    "Return pointer-sized service-dispatch responses suitable for Arca and procurement inspection"]
+   :status :done}
+
+  {:cap/id :dator-peer-service-order-dispatch-responder
+   :title "Peer Service-Order Dispatch Responder"
+   :kind :integration
+   :based-on ["doc/project/30-stories/story-009-bielik-blog-arca.md"
+              "doc/project/40-proposals/027-middleware-peer-message-dispatch.md"]
+   :schemas []
+   :responsibilities
+   ["Accept inbound peer service-order.dispatch.request"
+    "Execute the enclosed dispatch payload through the same local role-module path used by local provider dispatch"
+    "Correlate the response by request_id"
+    "Return service-order.dispatch.response without changing the domain dispatch contract"]
+   :status :done}
+
+  {:cap/id :dator-host-capability-bridge-consumer
+   :title "Host Capability Bridge Consumer"
+   :kind :integration
+   :based-on ["doc/project/20-memos/node-middleware-init-and-capability-reporting.md"
+              "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
+              "doc/project/40-proposals/027-middleware-peer-message-dispatch.md"]
+   :schemas []
+   :responsibilities
+   ["Run as a supervised http_local_json middleware module under the daemon"
+    "Consume the host-owned authtok and middleware_home env contract"
+    "Declare handled service types and inbound routes through middleware-init/module-report"
+    "Use host capabilities for passport issuance, peer dispatch, and role capability invocation"
+    "Never open its own peer transport sockets"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :dator-provider-queue-and-backpressure
+   :title "Provider Queue and Backpressure"
+   :kind :runtime
+   :based-on ["doc/project/30-stories/story-006.md"
+              "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md"]
+   :schemas ["service-order.v1"]
+   :responsibilities
+   ["Persist incoming accepted provider dispatches before execution"
+    "Enforce queue_max_depth as local admission/backpressure instead of relying only on buyer-side pre-contract rejection"
+    "Expose queue depth and dispatch status for operator inspection"
+    "Run one or more worker loops with explicit timeout and retry policy"
+    "Keep admission idempotent by order/id or dispatch id"]
+   :status :planned}
+
+  {:cap/id :dator-durable-offer-relay-outbox
+   :title "Durable Offer Relay Outbox"
+   :kind :reliability
+   :based-on ["doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md"]
+   :schemas ["service-offer-relay.v1"]
+   :responsibilities
+   ["Persist outbound relay attempts for locally published offers"
+    "Retry failed delivery under bounded policy"
+    "Expose delivery state separately from local publication state"
+    "Preserve relay.do_not_forward and relay.intended_node_id as relay-policy metadata"]
+   :status :partial}
+
+  {:cap/id :dator-public-template-catalog-participation
+   :title "Public Template Catalog Participation"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/029-workflow-template-catalog.md"
+              "doc/project/40-proposals/044-host-owned-generic-module-store.md"
+              "doc/project/30-stories/story-009-bielik-blog-arca.md"]
+   :schemas []
+   :responsibilities
+   ["Publish workflow templates as supply-side catalog records when a node intentionally hosts a template catalog role"
+    "List and fetch template records for remote Arca import"
+    "Keep template publication separate from ordinary task-offer publication"]
+   :status :planned}
+
+  {:cap/id :dator-rich-provider-operator-surface
+   :title "Rich Provider Operator Surface"
+   :kind :inspection
+   :based-on ["doc/project/30-stories/story-006.md"
+              "doc/project/30-stories/story-009-bielik-blog-arca.md"]
+   :schemas ["service-offer.v1"]
+   :responsibilities
+   ["Inspect local offers with publication and relay state"
+    "Inspect role-module routing and required Sensorium action declarations"
+    "Inspect accepted, running, completed, failed, and rejected provider dispatches"
+    "Expose provider-side health without leaking role-module private artifacts"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Observed catalog storage and trusted-provider policy — Arca owns the demand-side catalog"
+  "Workflow orchestration and offer selection — Arca owns buyer-side orchestration"
+  "Peer session establishment and generic peer dispatch — daemon host capabilities own transport"
+  "Procurement, settlement, receipt signing, and release/refund/freeze transitions"
+  "Concrete task semantics — role modules own task-specific work"
+  "Direct Sensorium connector invocation — Sensorium-core mediates connector access"]
+
+ :consumes
+ ["service-offer.v1"
+  "service-offer-relay.v1"
+  "service-dispatch-request.schema.json"
+  "peer-message-invoke.v1.schema.json"
+  "middleware-init.schema.json"]
+
+ :produces
+ ["service-offer.v1"
+  "service-dispatch-response.schema.json"
+  "service-order.dispatch.response"]
+
+ :notes
+ ["Dator is bundled as a supervised Python middleware module under the http_local_json executor."
+  "The Arca/Dator split is the only deployment model for the current marketplace runtime: Dator is supply-side, Arca is demand-side."
+  "service_type names the concrete marketplace service offered by Dator; task_type remains an Arca/workflow-side selector that may resolve to a service type during provider selection."
+  "Queueing is the main remaining Dator completeness gap for provider execution hardening."]}

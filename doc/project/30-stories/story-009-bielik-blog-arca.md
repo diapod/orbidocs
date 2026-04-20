@@ -81,11 +81,14 @@ story deliberately does not use them, to avoid adding code.
 
 ### Local action boundary: Sensorium OS connector
 
-The story-specific roles do not spawn shell commands directly. The
-roles `bielik-researcher`, `illustrator`, `editor-in-chief`,
-`git-signer`, and `git-publisher` own the editorial semantics of their
-tasks, but any local operating-system action required to carry out
-those tasks is mediated through `sensorium-core` and an allowlisted
+The story-specific role adapter does not spawn shell commands directly. In the
+official reference profile, the roles `bielik-researcher`, `illustrator`,
+`editor-in-chief`, `git-signer`, and `git-publisher` are implemented as
+configuration-driven `json_e_flow` middleware instances that own only the
+declarative task glue: render a Sensorium directive, call Sensorium, write a
+Memarium fact, publish a workflow-step completion fact, and return a
+pointer-sized service response. Any local operating-system action required to
+carry out those tasks is mediated through `sensorium-core` and an allowlisted
 Sensorium OS connector.
 
 This includes git fetch/checkout/read paths, file writes in the local
@@ -98,9 +101,9 @@ modules do not run language models, diffusion models, or shell
 utilities in-process; each unit of work is a named `action_id` with a
 declared script path, parameter schema, timeout, `cwd`, environment,
 output caps, artifact capture, and incidental effects — all enforced
-at the connector boundary. The role modules remain consumers of
-`sensorium.directive.invoke`; they do not receive
-`sensorium.connector.invoke` grants and do not bypass `sensorium-core`.
+at the connector boundary. The role adapter remains a consumer of
+`sensorium.directive.invoke`; it does not receive `sensorium.connector.invoke`
+grants and does not bypass `sensorium-core`.
 Connector-side validation failures use the shared
 `sensorium-os-error-codes.v1` vocabulary and, when they reject an
 otherwise executed action result, are also represented as
@@ -118,8 +121,8 @@ Git. The operator-authored action catalog maps each `action_id` to a concrete
 script or command invocation, argv shape, environment, class envelope, result
 contract, and optional scoped signing lane. Git semantics — checkout, commit,
 fast-forward, push, and how the commit payload is signed — live in those
-configured scripts and in the role modules that call them, not in the
-connector code.
+configured scripts and in the JSON-e role adapter configuration that calls
+them, not in the connector code.
 
 The same rule applies to language-model use in this story. `llm-research`,
 `draft-author`, proofreading, and any other model-assisted work are ordinary
@@ -128,7 +131,7 @@ wrapping a local script or tool. This gives the reference implementation a
 working model path without adding model-specific code to Arca, Dator,
 Sensorium-core, or the OS connector. A future dedicated LLM Sensorium connector
 may be introduced as a more specialised backend, but it should preserve the
-same stratification: the workflow names the task, the role module invokes a
+same stratification: the workflow names the task, the role adapter invokes a
 declared capability/action, and model-specific prompt construction, runtime
 choice, provider credentials, batching, and output shaping live in the
 configured wrapper or connector, not in the orchestration layer.
@@ -156,25 +159,26 @@ The story assumes the three nodes (`A`, `B`, `C`) are running and that
 each runs **Orbiplex Dator** as its supply-side marketplace facade.
 Dator on each node publishes the node's active `service-offer.v1`
 records for the relevant `task_type` values, accepts incoming service
-orders from Arca on behalf of the local role modules, and enforces the
-node's bounded acceptance posture (queue depth, concurrency, refusal
-when the local role module is not ready). In the phase-0 mapping,
+orders from Arca on behalf of the local role capability provider, and enforces
+the node's bounded acceptance posture (queue depth, concurrency, refusal when
+the local role capability is not ready). In the phase-0 mapping,
 `task_type` is projected onto `service/type` in the offer catalog. The
 git repository and Netlify configuration exist; they are an external
 artefact on which this story merely performs agreed operations.
 
 Dator is not an executor of editorial semantics and not an actor on
 the local operating system: it is the responder-side bridge between
-Arca's dispatch and the specialised role middleware modules named
-below. All editorial work is done by the role modules; all local OS
-actions are mediated through `sensorium-core` and the allowlisted
-Sensorium OS connector.
+Arca's dispatch and the specialised role capability provider named
+below. In the reference profile that provider is `json_e_flow`, not a separate
+HTTP daemon. All editorial work is expressed by the role adapter configuration
+and the allowlisted scripts; all local OS actions are mediated through
+`sensorium-core` and the allowlisted Sensorium OS connector.
 
 For this demo, every offer published by every node's Dator has
 `price = 0 ORC` (free). This is a deliberate simplification: the
 subject of this story is editorial orchestration and local enaction,
 not settlement. A zero price keeps the flow on a single path
-(`service-offer.v1` → `service-order.v1` → accept → role module →
+(`service-offer.v1` → `service-order.v1` → accept → role capability →
 result) without wiring holds, escrow, or ledger updates into the
 story. Variants with non-zero pricing, negotiation, or settlement are
 a separate story.
@@ -318,7 +322,7 @@ cargo test -p orbiplex-node-daemon --test story_009_sensorium_role_dispatch
 
 If a machine is expected to run real LLM or image generation tools,
 install those runtimes outside Orbiplex and expose them through
-operator-authored wrapper scripts. The role modules and Sensorium OS
+operator-authored wrapper scripts. The role adapters and Sensorium OS
 connector should still see only an `action_id`, a script path, JSON
 parameters, and a JSON result contract.
 
@@ -374,9 +378,10 @@ editing factory files.
 Each node participating in the story needs these components enabled:
 
 - `dator` — publishes local zero-price offers and routes accepted
-  service orders to the role module.
-- `story009_roles` — owns the story-specific role semantics and calls
-  `sensorium.directive.invoke`.
+  service orders to the role capability provider.
+- `middleware_json_e_flow_services` — owns the story-specific role adapter
+  configuration for `role.bielik-*.execute`; this replaces the old
+  supervised `story009_roles` HTTP-local adapter in the official profile.
 - `sensorium_core` — mediates Sensorium directives, validates
   parameters, records outcomes, stores observations, and dispatches to
   connectors.
@@ -408,10 +413,24 @@ Minimal overlay shape:
     "allowed_script_roots": ["actions"]
   },
   "story009_roles": {
-    "enabled": true
+    "enabled": false
+  },
+  "middleware_json_e_flow_services": {
+    "story009-role-bielik-researcher-json-e-flow": {
+      "module_id": "story009-roles",
+      "bindings": {
+        "role_capability_id": "role.bielik-researcher.execute",
+        "action_id": "story009.draft.compose"
+      }
+    }
   }
 }
 ```
+
+The JSON example above is intentionally partial: a real `json_e_flow` service
+entry also declares `component_id`, `template_id`, context projection, helper
+profile, allowed host calls, limits, and static flow steps. The operator pack in
+`node/tools/acceptance/story-009-operator` renders the full entries.
 
 The `allowed_workdirs` entry must point at the local checkout used by
 that node. The reference defaults intentionally ship with an empty
@@ -938,7 +957,7 @@ sequenceDiagram
     participant AgoraRelay as Editorial Agora relay
 
     ArcaA->>DatorA: service-order research-and-draft
-    DatorA->>ResearcherA: Route accepted order to role module
+    DatorA->>ResearcherA: Route accepted order to JSON-e role adapter
     ResearcherA->>SensoriumA: Query admitted observations and invoke allowlisted fetches
     SensoriumA-->>ResearcherA: Public-source facts and connector outcomes
     ResearcherA->>MemariumA: Read previous articles and editorial idiolect facts
@@ -968,7 +987,7 @@ sequenceDiagram
     participant AgoraRelay as Editorial Agora relay
 
     ArcaA->>DatorB: service-order illustrate with draft_branch, draft_commit, draft_path
-    DatorB->>IllustratorB: Route accepted order to role module
+    DatorB->>IllustratorB: Route accepted order to JSON-e role adapter
     IllustratorB->>SensoriumB: Invoke git fetch + checkout for draft pointers
     SensoriumB->>Git: Fetch drafts/* and checkout draft_commit
     Git-->>SensoriumB: Draft markdown bytes in local worktree
@@ -1050,8 +1069,9 @@ the `draft-author` task type (node A in this story). The order arrives
 at **Dator on node A**, which validates the order against node A's
 acceptance posture (task type still offered, queue not saturated,
 local role module ready), accepts it, and routes the payload to the
-`bielik-researcher` role module. Dator then tracks order state and
-surfaces the module's result back to Arca. The research module:
+local role capability ready), accepts it, and routes the payload to the
+`bielik-researcher` JSON-e role adapter. Dator then tracks order state and
+surfaces the provider result back to Arca. The research adapter:
 
 1. Asks Sensorium about changes to the topic `Bielik` in the
    `cadence_window`: new *releases* on HF, commits in the
@@ -1423,9 +1443,9 @@ button in a CMS panel.
 | 12 | **The article content (markdown + images) does not at any point enter the Arca data plane nor the content of Agora records.** Between steps only pointers (`branch`, `commit`, paths, `memarium_record_id`) are passed; draft and image bytes flow exclusively through git | inspection of `input` / `output` of each step in the *workflow run*: payload size < 4 KiB, no fields with markdown or image bytes; inspection of Agora records — `content` contains only metadata, not the article corpus |
 | 12a | Any Agora record in this story that carries Memarium-derived pointers or summaries is classified for public egress: `classification.effective_tier = "Public"` and `bound_subjects.public_projection` is present; full subject refs are not published | Agora ingest/relay inspection plus classification egress guard denial tests |
 | 13 | Every module executing a git-using step starts by invoking the Sensorium OS connector for `git fetch`/`git checkout` based on the pointer from the previous step; there is no direct shell path and no alternative path through which draft bytes could reach the module | code review of the `illustrator` and `editor-in-chief` modules plus Sensorium directive/outcome audit: the only source of draft content is the local git worktree |
-| 14 | Every service order dispatched by Arca is received by the local `Dator` on the responder node and routed to the corresponding role module; role modules do not receive Arca orders on any other path. `git-push-publish` appears as an active offer only on node C's Dator | offer-catalog inspection + Dator order log on each node |
+| 14 | Every service order dispatched by Arca is received by the local `Dator` on the responder node and routed to the corresponding role capability provider; role adapters do not receive Arca orders on any other path. `git-push-publish` appears as an active offer only on node C's Dator | offer-catalog inspection + Dator order log on each node |
 | 15 | Every published offer in this story has `price.amount = 0` in `ORC` | offer-catalog inspection |
-| 16 | All generative work (draft composition, image generation, language proofreading) is executed as a `sensorium.directive.invoke` call to an allowlisted OS connector action wrapping the corresponding local model/script; no role module loads a language or diffusion model in its own process space | Sensorium directive/outcome audit + module code review (no in-process model load) |
+| 16 | All generative work (draft composition, image generation, language proofreading) is executed as a `sensorium.directive.invoke` call to an allowlisted OS connector action wrapping the corresponding local model/script; no role adapter loads a language or diffusion model in its own process space | Sensorium directive/outcome audit + module/config review (no in-process model load) |
 | 17 | The OS connector action catalog used in this story is declared in the connector's configuration file and authorized through the sidecar-signature mechanism from proposal 048 (node-signed on fresh install, operator-signed after any operator edit). Each action used by this story is declared under one of the classes from 048, and commit-signing actions declare a bounded `signing.allowed_domains = ["git.commit.v1"]` lane instead of receiving general signer access. The story introduces no parallel trust surface, no ad-hoc allowlist, and no separate signing artifact for OS actions. | inspection of the OS connector configuration + sidecar signature file; class tags, argv shapes, result contracts, and signing domains match the Realisation table |
 
 ## Acceptance Coverage Status
@@ -1435,13 +1455,13 @@ coverage levels. They should not be conflated.
 
 | Coverage level | Executable coverage | Criteria covered | Remaining gap |
 | :--- | :--- | :--- | :--- |
-| In-process reference skeleton | `node/tools/acceptance/story-009-reference-skeleton.py` | Exercises the intended strata `Dator -> role module -> sensorium-core -> sensorium-os`; validates production v1 Sensorium schemas; checks five workflow steps, zero-price offers, pointer-only step outputs, Git as the content data plane, guarded local `publish/main`, rejection path, publication verification, Memarium fact pointers, and action catalog pointer contracts. | Uses in-process host-capability patching and `signature_tracker.status = marker-only`; does not prove daemon supervisor, module authtok, real signer lane, or cross-node separation. |
-| Single-daemon supervised integration | `cargo test -p orbiplex-node-daemon --test story_009_sensorium_role_dispatch` | Runs the same seam through real supervised processes, module authtoks, host capability registry, host-owned module store replay, Arca workflow instantiation, Dator offer lookup, service orders, real daemon-scoped `git.commit.v1` signer lane, Memarium commit facts, publication verification fact, and a local Agora `workflow.completed` record linking the three commit facts plus verification. Covers the reference form of criteria 1, 2, 3, 4, 8, 12, 12a, 13, 15, 16, and 17. | Still a single-daemon deployment. It proves the contract seam, not the physical invariant that node A, node B, and node C are separate hosts with separate Memariums and only node C's connector able to push. |
+| In-process reference skeleton | `node/tools/acceptance/story-009-reference-skeleton.py` | Exercises the intended strata `Dator -> role adapter -> sensorium-core -> sensorium-os`; validates production v1 Sensorium schemas; checks five workflow steps, zero-price offers, pointer-only step outputs, Git as the content data plane, guarded local `publish/main`, rejection path, publication verification, Memarium fact pointers, and action catalog pointer contracts. | Uses in-process host-capability patching and `signature_tracker.status = marker-only`; does not prove daemon supervisor, module authtok, real signer lane, or cross-node separation. |
+| Single-daemon supervised integration | `cargo test -p orbiplex-node-daemon --test story_009_sensorium_role_dispatch` | Runs the same seam through real supervised processes plus in-process `json_e_flow` role providers, module authtoks, host capability registry, host-owned module store replay, Arca workflow instantiation, Dator offer lookup, service orders, real daemon-scoped `git.commit.v1` signer lane, Memarium commit facts, publication verification fact, and a local Agora `workflow.completed` record linking the three commit facts plus verification. Covers the reference form of criteria 1, 2, 3, 4, 8, 12, 12a, 13, 15, 16, and 17. | Still a single-daemon deployment. It proves the contract seam, not the physical invariant that node A, node B, and node C are separate hosts with separate Memariums and only node C's connector able to push. |
 | Guarded local Git origin | Both reference skeleton and daemon integration | Proves the publish authority shape for criteria 4, 5, and 10 with a local bare `origin` and pre-receive guard. | Does not exercise Netlify or an external Git host. Netlify remains deployment infrastructure outside the Orbiplex control plane. |
 | Three-daemon topology smoke | `story_009_three_node_topology_harness_starts_isolated_daemons` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Starts three isolated daemon data dirs; verifies distinct control tokens and middleware registries; checks node-specific Dator service-type reports; checks node-specific Sensorium OS action catalogs; proves node C is the only daemon carrying `story009.review.publish` and the guarded publish token. Covers the topology slice of criteria 5, 11, and 14. | Does not perform editorial execution; it only proves deployment separation and node-specific authority shape. |
 | Three-daemon execution and reconstruction | `story_009_three_node_execution_reconstructs_workflow_completion_from_local_memaria` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Executes the story steps across three isolated daemon nodes: node A drafts, node B illustrates, node C reviews/publishes/verifies. Each node writes to its own local Memarium; the harness reconstructs a `workflow.completed`-style record with explicit links to the three commit-producing Memarium facts plus the publication verification fact. Covers the executable reconstruction slice of criteria 5, 7, 9, 11, and 14. | Dispatch is still test-orchestrated by direct calls to each node-local Dator endpoint. It does not yet prove Arca-driven peer service-order routing or signed local Agora fact exchange between nodes. |
 | Arca-driven remote-provider execution over WSS peer catalog and peer sessions | `story_009_arca_drives_remote_providers_and_reconstructs_from_editorial_agora` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Runs Arca on node A as the orchestrator. Node B/C publish `offer-catalog` capability passports to their embedded Seed Directory surfaces; node A is configured with Seed Directory endpoints and an explicit `catalog_peer_discovery_policy` allowlisting the expected provider node ids, but it does not seed their offers and does not use `catalog_peer_node_ids`. Arca discovers catalog peers through `seed.directory.query` with a Seed Directory predicate over trusted node ids, fetches their Dator catalogs through `offer-catalog.fetch.request/response` over established daemon-owned WSS peer sessions, persists the discovered offers in its observed catalog, selects node B/C providers, dispatches remote-provider service orders through daemon-owned `peer.message.dispatch`, receives `service-order.dispatch.response` over the same peer-session correlation path, completes the workflow from pointer-only step outputs, publishes the final `workflow.completed` record, and reconstructs the editorial path from signed `workflow.step.completed` records on node A's local Agora topic `local/story-009/editorial-facts`. The editorial facts validate against `story009.workflow-step-completed.v1`, carry non-null `workflow/run-id` and `workflow/phase-id` for every step, and the test asserts that node A/B reject `git-push-publish` while their Sensorium OS catalogs do not expose the publish action. Covers the current executable form of criteria 5, 7, 8, 9, 11, and 14. | The allowlisted `trusted_node_ids` policy remains a harness/deployment override. Production profiles should replace or enrich it with broader trusted-peer policy, capability-passport verification, Seed Directory assurance, and federation endorsement policy. |
-| Peer service-order dispatch contract | `python3 -m unittest middleware-modules/arca/test_service.py middleware-modules/dator/test_service.py` plus daemon peer response-kind coverage | Freezes the transport-shaped seam: Dator handles `service-order.dispatch.request` on inbound-peer with an explicitly declared long-running chain timeout and executes the same local role-module path; Arca derives a peer-message remote target from an observed offer, sends it through daemon-owned `peer.message.dispatch`, and correlates `service-order.dispatch.response` by `request_id`. | Unit-level coverage plus spawned-daemon WSS coverage. `daemon_peer_listener_accepts_dialer_and_dispatches_peer_message` proves generic WSS peer-message delivery; the story-009 Arca-driven harness proves the full service-order dispatch path over established WSS peer sessions. |
+| Peer service-order dispatch contract | `python3 -m unittest middleware-modules/arca/test_service.py middleware-modules/dator/test_service.py` plus daemon peer response-kind coverage | Freezes the transport-shaped seam: Dator handles `service-order.dispatch.request` on inbound-peer with an explicitly declared long-running chain timeout and executes the same local role capability path; Arca derives a peer-message remote target from an observed offer, sends it through daemon-owned `peer.message.dispatch`, and correlates `service-order.dispatch.response` by `request_id`. | Unit-level coverage plus spawned-daemon WSS coverage. `daemon_peer_listener_accepts_dialer_and_dispatches_peer_message` proves generic WSS peer-message delivery; the story-009 Arca-driven harness proves the full service-order dispatch path over established WSS peer sessions. |
 
 ## What This Story Does NOT Cover
 
@@ -1535,7 +1555,7 @@ capability sidecars (e.g. `arca-caps.edn`) from marketplace
 | Step 0 (instantiating workflow from template) | Arca | `arca-caps.edn` → `:workflow-template-instantiate` | Done for local templates: resolve `template_id` + parameters into a concrete `WorkflowDefinition`; public/federated template import remains outside this local slice. | [`arca.md`](../60-solutions/arca.md) |
 | Step 0 (optional public template catalog) | Dator / template catalog module | Proposal 029 public template catalog role | Needed only if `bielik-biweekly-publish.v1` is published/imported through a public catalog: implement template publication, listing, fetch, and import handoff to Arca. Not needed for a daemon-local template. | [`029-workflow-template-catalog.md`](../40-proposals/029-workflow-template-catalog.md) |
 | Step 0 (resolving targets by task type) | Arca + offer catalog | `arca-caps.edn` → `:workflow-target-by-task-type`; offer `service/type` | Done for the phase-0 local rule: `target.resolve = task_type` maps `target.task_type` to `service_type` for ordinary service-order execution and does not trigger host fan-out without `fan_in`. | [`arca.md`](../60-solutions/arca.md) |
-| Steps 1–3 (offer publication + order acceptance, per node) | Orbiplex Dator on nodes A, B, C | `service-offer.v1` publication (all offers at `price = 0 ORC` for this demo); `service-order.v1` acceptance posture; `task_type` ↔ `service/type` projection | Implement, per node, the supply-side marketplace facade: publish the node's active offers for its declared task types at zero price, accept incoming Arca-dispatched orders under queue/concurrency posture, route accepted orders to the correct local role module, surface module results back to Arca. `git-push-publish` is advertised only by node C's Dator. | planned Dator solution doc |
+| Steps 1–3 (offer publication + order acceptance, per node) | Orbiplex Dator on nodes A, B, C | `service-offer.v1` publication (all offers at `price = 0 ORC` for this demo); `service-order.v1` acceptance posture; `task_type` ↔ `service/type` projection | Implement, per node, the supply-side marketplace facade: publish the node's active offers for its declared task types at zero price, accept incoming Arca-dispatched orders under queue/concurrency posture, route accepted orders to the correct local role capability provider, surface provider results back to Arca. `git-push-publish` is advertised only by node C's Dator. | planned Dator solution doc |
 | Step 1 (research) | `bielik-researcher` module on node A + Sensorium OS connector | task/service types: `llm-research`, `draft-author`; Sensorium action ids for allowlisted public-source fetches when needed. Proposal 048 classes: **C1** for read-only public-source fetches, **C6 composed-spawn** for the drafting script if it combines LLM egress and worktree write. | Implement the specialised module contract: query admitted Sensorium observations, invoke allowlisted OS connector actions for operational source fetches, read local Memarium context, produce a draft, return only git/Memarium pointers to Arca. | planned `bielik-researcher` solution doc |
 | Step 1 (signed commit) | `git-signer` module on node A + Sensorium OS connector | task/service type: `git-commit-draft`; Sensorium action ids for worktree write, commit, and draft-branch push. Proposal 048 classes: **C3 scoped-fs-write** for worktree write + commit, **C4 egress-network-spawn** for the draft-branch push; commit-signing actions additionally declare a scoped `signing.allowed_domains = ["git.commit.v1"]` lane. | Implement git commit signing with the participant key and a `git.commit.v1` domain tag through an Arca-mediated Sensorium OS directive path. The action catalog maps labels to scripts/argv shapes; `sensorium-core`/host authorize the scoped signer grant, the OS connector only enforces the process envelope, and the configured script owns Git-specific payload construction. Expose branch/commit/path/signature tracker fields as the step output. This remains separate from Sensorium observation: the OS connector executes local actions; observations and outcomes provide audit. | planned `git-signer` solution doc |
 | Step 2 (illustrations) | `illustrator` module on node B + Sensorium OS connector | task/service types: `image-generate`, `image-place`; Sensorium action ids for checkout, worktree write, commit, and draft-branch push. Proposal 048 classes: **C5 artifact-producing-spawn** for the diffusion-model script (image bytes as declared artifacts), **C3 scoped-fs-write** for markdown edit + commit, **C4 egress-network-spawn** for the push. | Implement pointer-based draft checkout through Sensorium OS, image generation/placement, commit to the draft branch, and pointer-only result emission. | planned `illustrator` solution doc |
@@ -1568,15 +1588,16 @@ capability passports):
 here):
 
 - `node/agora-core` — used to sign the `workflow.completed` record.
-- Middleware modules (`bielik-researcher`, `illustrator`,
-  `editor-in-chief`, `git-signer`, `git-publisher`) run under
-  proposal 019.
+- Role adapter middleware instances (`bielik-researcher`, `illustrator`,
+  `editor-in-chief`, `git-signer`, `git-publisher`) run as
+  `json_e_flow` configuration under proposal 049. They are first-class
+  middleware providers but not supervised HTTP daemons in the official profile.
 - `Orbiplex Dator` — runs on each of the three nodes as the
   supply-side marketplace facade that publishes the node's active
   `task_type` offers and accepts Arca-dispatched service orders on
-  behalf of the local role modules.
-- Sensorium OS connector — used by those role modules for allowlisted
-  local OS actions through `sensorium.directive.invoke`; role modules
+  behalf of the local role capability providers.
+- Sensorium OS connector — used by those role adapters for allowlisted
+  local OS actions through `sensorium.directive.invoke`; role adapters
   do not call `sensorium.connector.invoke` directly. Action
   classification and catalog authorization follow **proposal 048**
   (classes C1..C7, sidecar signature, node-signed factory bootstrap);

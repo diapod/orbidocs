@@ -739,8 +739,9 @@ domain fact, for example `record/kind = workflow.step.completed` with
 the host-owned operation that admits that fact.
 
 The story-009 MVP should include at least one executable regression proving that
-the five JSON-e flow middleware instances can replace `story009-roles` while
-preserving the existing acceptance properties:
+the five JSON-e flow middleware instances can replace the supervised
+`story009-roles` HTTP-local adapter while preserving the existing acceptance
+properties:
 
 - Dator routes each service order to the matching role capability,
 - each role invokes only its configured Sensorium action,
@@ -749,6 +750,12 @@ preserving the existing acceptance properties:
 - node C remains the only node exposing the publish action,
 - the final workflow can still be reconstructed from local Memarium facts and
   editorial Agora records.
+
+The official story-009 operator profile uses this JSON-e-flow role adapter
+shape. Dator offers still point at the same `role.bielik-*.execute`
+capabilities; the daemon now serves those capabilities from
+`middleware_json_e_flow_services` entries instead of starting a dedicated
+`story009-roles` Python service.
 
 ## Example: Pure Role Response
 

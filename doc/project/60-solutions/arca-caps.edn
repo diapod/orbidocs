@@ -35,7 +35,7 @@
    :status :partial
    :notes ["Implemented in node/middleware-modules/arca/service.py for configured and UI-triggered concrete plans"
            "Arca observes host terminal run statuses such as deadline_exceeded and step_timeout, but ordinary non-fan-out service-order steps do not yet enforce WorkflowDefinition timing.timeout in the Arca loop"
-           "A step carrying target currently enters host-managed fan-out instead of ordinary service-order execution"]}
+           "target.resolve=task_type without fan_in stays on the ordinary service-order path; host-managed fan-out requires an explicit fan_in block"]}
 
   {:cap/id :observed-catalog-discovery
    :title "Observed Offer Catalog and Discovery"
@@ -130,8 +130,8 @@
    ["Express ordinary service-order step targets as resolve: task_type with a task_type rather than a hard-coded participant"
     "At dispatch time, use the host/catalog lookup surface to find a current provider offer for the mapped service_type and continue through ordinary service-order execution"]
    :status :partial
-   :notes ["Implemented for daemon host-managed fan-out target resolution via capability passport cache"
-           "Implemented for ordinary Arca service-order execution as the phase-0 local rule: target.resolve=task_type without fan_in does not trigger fan-out, and target.task_type becomes the service_type lookup key when service_type is omitted"
+   :notes ["Implemented for ordinary Arca service-order execution as the phase-0 local rule: target.resolve=task_type without fan_in does not trigger fan-out, and target.task_type becomes the service_type lookup key when service_type is omitted"
+           "Host-managed fan-out still supports protocol-capability target resolution as a separate target mode"
            "Richer task-type lookup/filter semantics remain open beyond the phase-0 slice"]}
 
   {:cap/id :peer-workflow-fan-out-bridge

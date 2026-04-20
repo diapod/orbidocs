@@ -76,11 +76,15 @@ dodawać kodu.
 
 ### Lokalna granica działania: Sensorium OS connector
 
-Role specyficzne dla tej story nie uruchamiają poleceń powłoki bezpośrednio.
-Role `bielik-researcher`, `illustrator`, `editor-in-chief`, `git-signer` oraz
-`git-publisher` posiadają semantykę redakcyjną swoich zadań, ale każda lokalna
-akcja systemu operacyjnego potrzebna do ich wykonania jest mediowana przez
-`sensorium-core` oraz allowlistowany Sensorium OS connector.
+Role specyficzne dla tej story nie uruchamiają poleceń powłoki bezpośrednio. W
+oficjalnym profilu referencyjnym role `bielik-researcher`, `illustrator`,
+`editor-in-chief`, `git-signer` oraz `git-publisher` są adapterami
+zadeklarowanymi jako `json_e_flow`. Posiadają tylko deklaratywny klej zadania:
+renderują dyrektywę Sensorium, wołają Sensorium, zapisują fakt Memarium,
+publikują fakt ukończenia kroku workflow i zwracają pointer-only odpowiedź
+usługową. Każda lokalna akcja systemu operacyjnego potrzebna do wykonania
+zadania jest mediowana przez `sensorium-core` oraz allowlistowany Sensorium OS
+connector.
 
 Obejmuje to ścieżki git fetch/checkout/read, zapisy plików w lokalnym worktree,
 podpisane commity, strzeżone pushe, wąskie pobieranie źródeł publicznych, gdy
@@ -91,8 +95,8 @@ lub narzędzie węzła**. Moduły ról nie uruchamiają modeli językowych, mode
 dyfuzyjnych ani narzędzi powłoki w swoim procesie; każda jednostka pracy jest
 nazwanym `action_id` z zadeklarowaną ścieżką skryptu, schematem parametrów,
 timeoutem, `cwd`, środowiskiem, limitami wyjścia, przechwytywaniem artefaktów
-oraz efektami ubocznymi — wszystko egzekwowane na granicy connectora. Moduły ról
-pozostają konsumentami `sensorium.directive.invoke`; nie otrzymują grantów
+oraz efektami ubocznymi — wszystko egzekwowane na granicy connectora. Adaptery
+ról pozostają konsumentami `sensorium.directive.invoke`; nie otrzymują grantów
 `sensorium.connector.invoke` i nie obchodzą `sensorium-core`.
 Błędy walidacji po stronie connectora używają wspólnego słownika
 `sensorium-os-error-codes.v1`, a gdy odrzucają wynik akcji, która została już
@@ -111,8 +115,8 @@ Katalog akcji autorowany przez operatora mapuje każde `action_id` na konkretny
 skrypt albo wywołanie polecenia, kształt argv, środowisko, envelope klasy,
 kontrakt wyniku oraz opcjonalną zawężoną ścieżkę podpisu. Semantyka gita —
 checkout, commit, fast-forward, push oraz sposób podpisywania payloadu commita —
-żyje w tych skonfigurowanych skryptach i w modułach ról, które je wywołują, a nie
-w kodzie connectora.
+żyje w tych skonfigurowanych skryptach i w konfiguracji adapterów `json_e_flow`,
+które je wywołują, a nie w kodzie connectora.
 
 Ta sama reguła dotyczy użycia modeli językowych w tej story. `llm-research`,
 `draft-author`, korekta językowa i każda inna praca wspomagana modelem są
@@ -122,7 +126,7 @@ implementacja referencyjna ma działającą ścieżkę użycia modeli bez dodawa
 model-specific kodu do Arki, Datora, Sensorium-core ani OS connectora. Przyszły
 dedykowany LLM connector Sensorium może zostać wprowadzony jako bardziej
 wyspecjalizowany backend, ale powinien zachować tę samą stratyfikację: workflow
-nazywa zadanie, moduł roli wywołuje zadeklarowaną capability/action, a
+nazywa zadanie, adapter roli wywołuje zadeklarowaną capability/action, a
 model-specific konstrukcja promptu, wybór runtime'u, dane dostępowe providera,
 batching i kształtowanie wyniku żyją w skonfigurowanym wrapperze albo
 connectorze, nie w warstwie orkiestracji.
@@ -148,23 +152,26 @@ Story zakłada, że trzy węzły (`A`, `B`, `C`) działają i każdy uruchamia
 **Orbiplex Dator** jako swoją supply-side marketplace facade. Dator na każdym
 węźle publikuje aktywne rekordy `service-offer.v1` dla właściwych wartości
 `task_type`, przyjmuje przychodzące zamówienia usług z Arki w imieniu lokalnych
-modułów ról i egzekwuje ograniczoną postawę akceptacji węzła (głębokość kolejki,
-współbieżność, odmowa, gdy lokalny moduł roli nie jest gotowy). W mapowaniu
+providerów capability roli i egzekwuje ograniczoną postawę akceptacji węzła
+(głębokość kolejki, współbieżność, odmowa, gdy lokalna capability roli nie jest
+gotowa). W mapowaniu
 phase-0 `task_type` jest projektowany na `service/type` w katalogu ofert.
 Repozytorium git i konfiguracja Netlify istnieją; są zewnętrznym artefaktem, na
 którym ta story wykonuje uzgodnione operacje.
 
 Dator nie jest wykonawcą semantyki redakcyjnej i nie jest aktorem na lokalnym
 systemie operacyjnym: jest responder-side mostem między dispatchingiem Arki
-a wyspecjalizowanymi modułami middleware ról nazwanymi niżej. Cała praca
-redakcyjna jest wykonywana przez moduły ról; wszystkie lokalne akcje OS są
-mediowane przez `sensorium-core` i allowlistowany Sensorium OS connector.
+a wyspecjalizowanym providerem capability roli. W profilu referencyjnym tym
+providerem jest `json_e_flow`, nie osobny daemon HTTP. Cała praca redakcyjna
+jest wyrażona w konfiguracji adapterów ról i allowlistowanych skryptach;
+wszystkie lokalne akcje OS są mediowane przez `sensorium-core` i allowlistowany
+Sensorium OS connector.
 
 Dla tego demo każda oferta publikowana przez Dator każdego węzła ma
 `price = 0 ORC` (za darmo). To celowe uproszczenie: tematem tej story jest
 orkiestracja redakcyjna i lokalna enakcja, nie settlement. Cena zero utrzymuje
 przepływ na jednej ścieżce (`service-offer.v1` → `service-order.v1` → accept →
-role module → result) bez podpinania holdów, escrow ani aktualizacji ledgerów.
+role capability → result) bez podpinania holdów, escrow ani aktualizacji ledgerów.
 Warianty z ceną niezerową, negocjacją albo settlementem są osobną story.
 
 ## Obsada i scena
@@ -355,9 +362,10 @@ defaulty bez edytowania plików fabrycznych.
 Każdy węzeł uczestniczący w story potrzebuje włączonych komponentów:
 
 - `dator` — publikuje lokalne oferty za cenę zero i routuje zaakceptowane
-  zamówienia usług do modułu roli.
-- `story009_roles` — jest właścicielem semantyki ról specyficznych dla story
-  i wywołuje `sensorium.directive.invoke`.
+  zamówienia usług do providera capability roli.
+- `middleware_json_e_flow_services` — jest właścicielem konfiguracji adapterów
+  ról `role.bielik-*.execute`; w oficjalnym profilu zastępuje stary supervised
+  adapter HTTP-local `story009_roles`.
 - `sensorium_core` — mediuje dyrektywy Sensorium, waliduje parametry, zapisuje
   outcomes, przechowuje obserwacje i dispatchuje do connectorów.
 - `sensorium_os` — wykonuje allowlistowane skrypty albo procesy. Nigdy nie
@@ -388,10 +396,24 @@ Minimalny kształt overlayu:
     "allowed_script_roots": ["actions"]
   },
   "story009_roles": {
-    "enabled": true
+    "enabled": false
+  },
+  "middleware_json_e_flow_services": {
+    "story009-role-bielik-researcher-json-e-flow": {
+      "module_id": "story009-roles",
+      "bindings": {
+        "role_capability_id": "role.bielik-researcher.execute",
+        "action_id": "story009.draft.compose"
+      }
+    }
   }
 }
 ```
+
+Powyższy JSON jest celowo częściowy: pełny wpis `json_e_flow` deklaruje też
+`component_id`, `template_id`, projekcję kontekstu, helper profile, listę
+dozwolonych host calls, limity i statyczne kroki flow. Pełne wpisy renderuje
+operator pack w `node/tools/acceptance/story-009-operator`.
 
 `allowed_workdirs` musi wskazywać lokalny checkout używany przez dany węzeł.
 Defaulty referencyjne celowo startują z pustą allowlistą katalogów roboczych,
@@ -1015,9 +1037,10 @@ sequenceDiagram
 Arca dispatchuje `research-and-draft` do wybranej aktywnej oferty dla typu
 zadania `draft-author` (w tej story: węzeł A). Zamówienie trafia do **Datora na
 węźle A**, który waliduje je względem postawy akceptacji węzła A (typ zadania
-nadal oferowany, kolejka nieprzesycona, lokalny moduł roli gotowy), przyjmuje je
-i kieruje payload do modułu roli `bielik-researcher`. Dator śledzi potem stan
-zamówienia i wystawia wynik modułu z powrotem Arce. Moduł researchu:
+nadal oferowany, kolejka nieprzesycona, lokalna capability roli gotowa),
+przyjmuje je i kieruje payload do adaptera `json_e_flow`
+`bielik-researcher`. Dator śledzi potem stan zamówienia i wystawia wynik
+providera z powrotem Arce. Adapter researchu:
 
 1. Pyta Sensorium o zmiany w temacie `Bielik` w `cadence_window`: nowe
    *releases* na HF, commity w repo `speakleash/Bielik-*`, nowe *issues*
@@ -1368,9 +1391,9 @@ Kilka minut później artykuł jest live. Żaden człowiek nie kliknął przycis
 | 12 | **Treść artykułu (markdown + obrazy) w żadnym momencie nie wchodzi do data plane Arki ani do treści rekordów Agora.** Między krokami przekazywane są tylko wskaźniki (`branch`, `commit`, ścieżki, `memarium_record_id`); bajty szkicu i obrazów płyną wyłącznie przez git | inspekcja `input` / `output` każdego kroku w *workflow run*: payload size < 4 KiB, brak pól z bajtami markdown lub obrazów; inspekcja rekordów Agora — `content` zawiera tylko metadane, nie korpus artykułu |
 | 12a | Każdy rekord Agora w tej story, który niesie wskaźniki lub podsumowania pochodzące z Memarium, jest sklasyfikowany do publicznego egressu: `classification.effective_tier = "Public"` i obecne jest `bound_subjects.public_projection`; pełne referencje subjectów nie są publikowane | inspekcja ingest/relaya Agora oraz testy odmowy classification egress guard |
 | 13 | Każdy moduł wykonujący krok używający gita zaczyna od wywołania Sensorium OS connectora dla `git fetch`/`git checkout` na podstawie wskaźnika z poprzedniego kroku; nie ma bezpośredniej ścieżki shell i żadnej alternatywnej ścieżki, którą bajty szkicu mogłyby dotrzeć do modułu | code review modułów `illustrator` i `editor-in-chief` plus audyt dyrektyw/wyników Sensorium: jedynym źródłem treści szkicu jest lokalne git worktree |
-| 14 | Każde zamówienie usługi dispatchowane przez Arcę jest odbierane przez lokalny `Dator` na węźle odpowiadającym i kierowane do odpowiadającego modułu roli; moduły ról nie otrzymują zamówień Arki żadną inną ścieżką. `git-push-publish` pojawia się jako aktywna oferta tylko w Datorze węzła C | inspekcja offer-catalog + log zamówień Datora na każdym węźle |
+| 14 | Każde zamówienie usługi dispatchowane przez Arcę jest odbierane przez lokalny `Dator` na węźle odpowiadającym i kierowane do odpowiadającego providera capability roli; adaptery ról nie otrzymują zamówień Arki żadną inną ścieżką. `git-push-publish` pojawia się jako aktywna oferta tylko w Datorze węzła C | inspekcja offer-catalog + log zamówień Datora na każdym węźle |
 | 15 | Każda opublikowana oferta w tej story ma `price.amount = 0` w `ORC` | inspekcja offer-catalog |
-| 16 | Cała praca generatywna (komponowanie szkicu, generowanie obrazów, korekta językowa) jest wykonywana jako wywołanie `sensorium.directive.invoke` do allowlistowanej akcji OS connectora opakowującej odpowiedni lokalny model/skrypt; żaden moduł roli nie ładuje modelu językowego ani dyfuzyjnego w swoim procesie | audyt dyrektyw/wyników Sensorium + code review modułów (brak ładowania modelu w procesie) |
+| 16 | Cała praca generatywna (komponowanie szkicu, generowanie obrazów, korekta językowa) jest wykonywana jako wywołanie `sensorium.directive.invoke` do allowlistowanej akcji OS connectora opakowującej odpowiedni lokalny model/skrypt; żaden adapter roli nie ładuje modelu językowego ani dyfuzyjnego w swoim procesie | audyt dyrektyw/wyników Sensorium + przegląd konfiguracji/kodu (brak ładowania modelu w procesie) |
 | 17 | Katalog akcji OS connectora użyty w tej story jest zadeklarowany w pliku konfiguracyjnym connectora i autoryzowany mechanizmem sidecar-signature z proposal 048 (node-signed przy świeżej instalacji, operator-signed po każdej edycji operatora). Każda akcja użyta przez story należy do jednej z klas z 048, a akcje podpisujące commity deklarują ograniczoną ścieżkę `signing.allowed_domains = ["git.commit.v1"]` zamiast otrzymywać ogólny dostęp signera. Story nie wprowadza równoległej powierzchni zaufania, ad-hoc allowlisty ani osobnego artefaktu podpisu dla akcji OS. | inspekcja konfiguracji OS connectora + pliku sidecar signature; tagi klas, kształty argv, kontrakty wyniku i domeny podpisu odpowiadają tabeli Realisation |
 
 ## Status pokrycia kryteriów akceptacji
@@ -1380,13 +1403,13 @@ pokrycia. Nie należy ich mieszać.
 
 | Poziom pokrycia | Pokrycie wykonywalne | Kryteria pokryte | Pozostała luka |
 | :--- | :--- | :--- | :--- |
-| In-process reference skeleton | `node/tools/acceptance/story-009-reference-skeleton.py` | Ćwiczy zamierzoną stratyfikację `Dator -> role module -> sensorium-core -> sensorium-os`; waliduje produkcyjne schemy Sensorium v1; sprawdza pięć kroków workflow, oferty za cenę zero, pointer-only wyniki kroków, Git jako data plane treści, strzeżone lokalne `publish/main`, ścieżkę odrzucenia, weryfikację publikacji, wskaźniki faktów Memarium oraz kontrakty pointer fields katalogu akcji. | Używa in-process patchowania host capabilities i `signature_tracker.status = marker-only`; nie dowodzi supervisora daemona, module authtok, realnej ścieżki signera ani separacji między węzłami. |
-| Jednowęzłowa integracja supervised | `cargo test -p orbiplex-node-daemon --test story_009_sensorium_role_dispatch` | Uruchamia ten sam szew przez realne nadzorowane procesy, module authtok, host capability registry, replay host-owned module store, instancjację workflow Arki, lookup ofert Datora, service orders, realną daemon-scoped ścieżkę signera `git.commit.v1`, fakty commitów Memarium, fakt weryfikacji publikacji oraz lokalny rekord Agora `workflow.completed` linkujący trzy fakty commitów i weryfikację. Pokrywa referencyjną postać kryteriów 1, 2, 3, 4, 8, 12, 12a, 13, 15, 16 i 17. | Nadal jest to deployment jednego daemona. Dowodzi szwu kontraktowego, nie fizycznego inwariantu, że node A, node B i node C są osobnymi hostami z osobnymi Memariami i tylko connector węzła C może pushować. |
+| In-process reference skeleton | `node/tools/acceptance/story-009-reference-skeleton.py` | Ćwiczy zamierzoną stratyfikację `Dator -> role adapter -> sensorium-core -> sensorium-os`; waliduje produkcyjne schemy Sensorium v1; sprawdza pięć kroków workflow, oferty za cenę zero, pointer-only wyniki kroków, Git jako data plane treści, strzeżone lokalne `publish/main`, ścieżkę odrzucenia, weryfikację publikacji, wskaźniki faktów Memarium oraz kontrakty pointer fields katalogu akcji. | Używa in-process patchowania host capabilities i `signature_tracker.status = marker-only`; nie dowodzi supervisora daemona, module authtok, realnej ścieżki signera ani separacji między węzłami. |
+| Jednowęzłowa integracja supervised | `cargo test -p orbiplex-node-daemon --test story_009_sensorium_role_dispatch` | Uruchamia ten sam szew przez realne nadzorowane procesy oraz in-process providerów ról `json_e_flow`, module authtok, host capability registry, replay host-owned module store, instancjację workflow Arki, lookup ofert Datora, service orders, realną daemon-scoped ścieżkę signera `git.commit.v1`, fakty commitów Memarium, fakt weryfikacji publikacji oraz lokalny rekord Agora `workflow.completed` linkujący trzy fakty commitów i weryfikację. Pokrywa referencyjną postać kryteriów 1, 2, 3, 4, 8, 12, 12a, 13, 15, 16 i 17. | Nadal jest to deployment jednego daemona. Dowodzi szwu kontraktowego, nie fizycznego inwariantu, że node A, node B i node C są osobnymi hostami z osobnymi Memariami i tylko connector węzła C może pushować. |
 | Strzeżony lokalny Git origin | Reference skeleton i daemon integration | Dowodzi kształtu autorytetu publikacji dla kryteriów 4, 5 i 10 przez lokalne bare `origin` oraz guard `pre-receive`. | Nie ćwiczy Netlify ani zewnętrznego hosta Git. Netlify pozostaje infrastrukturą deploymentu poza control plane Orbiplex. |
 | Three-daemon topology smoke | `story_009_three_node_topology_harness_starts_isolated_daemons` w `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Startuje trzy izolowane katalogi danych daemona; weryfikuje osobne control tokeny i rejestry middleware; sprawdza node-specific service-type reports Datora; sprawdza node-specific katalogi akcji Sensorium OS; dowodzi, że node C jest jedynym daemonem niosącym `story009.review.publish` oraz guarded publish token. Pokrywa topologiczny wycinek kryteriów 5, 11 i 14. | Nie wykonuje pracy redakcyjnej; dowodzi tylko separacji deploymentu i node-specific authority shape. |
 | Three-daemon execution and reconstruction | `story_009_three_node_execution_reconstructs_workflow_completion_from_local_memaria` w `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Wykonuje kroki story na trzech izolowanych daemonach: node A szkicuje, node B ilustruje, node C recenzuje/publikuje/weryfikuje. Każdy węzeł zapisuje do własnego lokalnego Memarium; harness rekonstruuje rekord w stylu `workflow.completed` z jawnymi linkami do trzech commit-producing faktów Memarium oraz faktu weryfikacji publikacji. Pokrywa wykonywalny wycinek rekonstrukcji dla kryteriów 5, 7, 9, 11 i 14. | Dispatch nadal jest orkiestracją testową przez bezpośrednie wywołania node-local endpointów Datora. Nie dowodzi jeszcze Arca-driven peer service-order routing ani podpisanej lokalnej wymiany faktów Agora między węzłami. |
 | Arca-driven remote-provider execution over WSS peer catalog and peer sessions | `story_009_arca_drives_remote_providers_and_reconstructs_from_editorial_agora` w `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Uruchamia Arcę na node A jako orkiestratora. Node B/C publikują capability passporty `offer-catalog` do swoich embedded Seed Directory; node A jest skonfigurowany z endpointami Seed Directory oraz jawną polityką `catalog_peer_discovery_policy` allowlistującą oczekiwane identyfikatory providerów, ale nie seeduje ich ofert i nie używa `catalog_peer_node_ids`. Arca odkrywa catalog peers przez `seed.directory.query` z predykatem Seed Directory po zaufanych node ids, pobiera katalogi Datora przez `offer-catalog.fetch.request/response` po ustanowionych daemon-owned sesjach WSS peer, zapisuje odkryte oferty w swoim observed catalog, wybiera providerów node B/C, dispatchuje remote-provider service orders przez daemon-owned `peer.message.dispatch`, odbiera `service-order.dispatch.response` tą samą ścieżką korelacji peer-session, domyka workflow z pointer-only outputów kroków, publikuje finalny rekord `workflow.completed` i rekonstruuje ścieżkę redakcyjną z podpisanych rekordów `workflow.step.completed` na lokalnym topicu Agory node A `local/story-009/editorial-facts`. Fakty redakcyjne walidują się względem `story009.workflow-step-completed.v1`, niosą niepuste `workflow/run-id` i `workflow/phase-id` dla każdego kroku, a test potwierdza, że node A/B odrzucają `git-push-publish` i ich katalogi Sensorium OS nie wystawiają akcji publikacji. Pokrywa obecną wykonywalną postać kryteriów 5, 7, 8, 9, 11 i 14. | Allowlista `trusted_node_ids` pozostaje override'em harnessowym/deploymentowym. Profile produkcyjne powinny zastąpić lub wzbogacić ją bogatszą polityką trusted peers, weryfikacją capability passportów, assurance z Seed Directory oraz polityką federation endorsement. |
-| Kontrakt peer service-order dispatch | `python3 -m unittest middleware-modules/arca/test_service.py middleware-modules/dator/test_service.py` plus pokrycie mapowania peer response-kind w daemonie | Zamraża szew w kształcie transportowym: Dator obsługuje `service-order.dispatch.request` na inbound-peer z jawnie zadeklarowanym długim timeoutem chainu i wykonuje tę samą lokalną ścieżkę role-module; Arca wyprowadza peer-message remote target z zaobserwowanej oferty, wysyła go przez daemon-owned `peer.message.dispatch` i koreluje `service-order.dispatch.response` po `request_id`. | Pokrycie jednostkowe plus spawned-daemon WSS coverage. `daemon_peer_listener_accepts_dialer_and_dispatches_peer_message` dowodzi generycznej dostawy WSS peer-message; Arca-driven harness story-009 dowodzi pełnej ścieżki service-order dispatch przez ustanowione sesje WSS peer. |
+| Kontrakt peer service-order dispatch | `python3 -m unittest middleware-modules/arca/test_service.py middleware-modules/dator/test_service.py` plus pokrycie mapowania peer response-kind w daemonie | Zamraża szew w kształcie transportowym: Dator obsługuje `service-order.dispatch.request` na inbound-peer z jawnie zadeklarowanym długim timeoutem chainu i wykonuje tę samą lokalną ścieżkę capability roli; Arca wyprowadza peer-message remote target z zaobserwowanej oferty, wysyła go przez daemon-owned `peer.message.dispatch` i koreluje `service-order.dispatch.response` po `request_id`. | Pokrycie jednostkowe plus spawned-daemon WSS coverage. `daemon_peer_listener_accepts_dialer_and_dispatches_peer_message` dowodzi generycznej dostawy WSS peer-message; Arca-driven harness story-009 dowodzi pełnej ścieżki service-order dispatch przez ustanowione sesje WSS peer. |
 
 ## Czego ta story NIE obejmuje
 
@@ -1505,9 +1528,9 @@ i backlogach modułów; nie tutaj):
 - `Orbiplex Dator` — działa na każdym z trzech węzłów jako supply-side
   marketplace facade, która publikuje aktywne oferty `task_type` węzła
   i przyjmuje zamówienia usług dispatchowane przez Arcę w imieniu lokalnych
-  modułów ról.
-- Sensorium OS connector — używany przez te moduły ról do allowlistowanych
-  lokalnych akcji OS przez `sensorium.directive.invoke`; moduły ról nie
+  providerów capability roli.
+- Sensorium OS connector — używany przez te adaptery ról do allowlistowanych
+  lokalnych akcji OS przez `sensorium.directive.invoke`; adaptery ról nie
   wywołują `sensorium.connector.invoke` bezpośrednio. Klasyfikacja akcji
   i autoryzacja katalogu idą za **proposal 048** (klasy C1..C7, sidecar
   signature, node-signed factory bootstrap); trzy skrypty story-009 są

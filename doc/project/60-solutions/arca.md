@@ -268,15 +268,21 @@ Based on:
 - `doc/project/30-stories/story-006.md`
 
 Related schemas:
-- `service-order.v1`
+- `workflow-dispatch.v1`
+- `peer-message-invoke.v1`
 
 Responsibilities:
-- express a step that dispatches one request to multiple discovered
-  targets simultaneously,
-- wait for responses according to a configurable aggregation policy
-  (first / any / all / quorum),
-- collect and select per the configured fan-in policy and surface the
-  selected output to the next step.
+- preserve `target`, `fan_in`, and `timing` fields in normalized
+  plans passed to the host workflow run,
+- let the daemon dispatch host-managed workflow fan-out requests to
+  static or protocol-capability-resolved targets,
+- wait for responses according to `fan_in` policy (`any_one`, `all`,
+  or implemented-but-deferred `best_of`),
+- collect and surface the selected fan-out output as step details for
+  downstream `input_from` consumption,
+- expose dispatch inspection records on
+  `WorkflowRunSnapshot.steps[].dispatches` without leaking raw response
+  payloads.
 
 Status:
 - `partial` — the thin host-managed fan-out slice exists for explicit
@@ -284,8 +290,10 @@ Status:
   protocol-capability targets, persists `WorkflowStepDispatch` records,
   reconciles `any_one`, `all`, and implemented-but-deferred
   `best_of`, and surfaces inspection data in
-  `WorkflowRunSnapshot.steps[].dispatches`. Quorum and retry/backoff
-  policies remain deferred.
+  `WorkflowRunSnapshot.steps[].dispatches`. Arca only enters this path
+  when `fan_in` is present; `target.resolve = task_type` without
+  `fan_in` stays on the ordinary service-order path. Quorum and
+  retry/backoff policies remain deferred.
 
 ### Workflow Temporal Orchestration
 
@@ -336,8 +344,10 @@ Responsibilities:
   ordinary local catalog queries.
 
 Status:
-- `partial` — `handle_peer_workflow_fanout_request` exists as a
-  stub-style handler returning a classified outcome.
+- `done` — `workflow.fanout.request` is implemented in the bundled
+  Arca module as a local catalog-query responder. It returns a local
+  active offer for the requested `service_type` or
+  `no_offer_available`; it does not execute arbitrary services.
 
 ## Out of Scope
 
@@ -379,7 +389,7 @@ Arca is bundled as a supervised Python middleware module under the
 `service.py`, and `config/00-arca.json`). The Arca/Dator split is the
 deployment model — the legacy `offer_catalog.enabled` flag has been
 removed, and `Dator` is the supply-side counterpart for local offer
-publication and responder-side fetch/push.
+publication and responder-side `offer-catalog.fetch.request` answers.
 
 Arca's MUST boundary is intentionally narrow: it orchestrates and it
 discovers, but it does not author signed acts. Every signed protocol
@@ -392,9 +402,11 @@ of what Arca may and may not do.
 
 Story-009 (`bielik-biweekly-publish.v1`) is the first story that
 exercises Arca beyond the story-006 single-vertical-slice profile. It
-requires three currently non-`done` capabilities:
-`workflow-template-instantiate` (`:todo`),
-`workflow-target-by-task-type` (`:partial`), and the per-step subset of
-`workflow-temporal-orchestration` (`:partial`). Until those land, the
-story-009 sequence cannot be expressed in a `WorkflowDefinition` that
-Arca can dispatch end-to-end.
+now has the local phase-0 substrate: workflow templates can be stored
+in the host-owned module store, materialized from `template_id` plus
+parameters, and dispatched as ordinary service-order DAGs using
+`target.resolve = task_type`. The remaining Arca gaps are narrower:
+richer task-type lookup/filter policy, public/federated template
+catalog import, and full `timing.timeout` enforcement for ordinary
+non-fan-out service-order steps. Host-managed fan-out remains a
+separate path and requires an explicit `fan_in` block.
