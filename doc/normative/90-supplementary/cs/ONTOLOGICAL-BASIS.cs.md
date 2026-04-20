@@ -181,22 +181,23 @@ intence účastníků.
 ## Jak se postuláty spojují s architekturou
 
 Pět postulátů není oddělenou „filosofií“ přilepenou k technickému projektu.
-Jsou spíše základem, z něhož vyrůstá zbytek:
+Jsou spíše základem, z něhož vyrůstají hodnoty a z nich ústavní ustanovení,
+kontrakty a datová schémata:
 
-* postulát 1 (apofatický základ)  
-  → epistemická hygiena, odmítnutí reifikace, smyčka korekce;
+* postulát 1 (apofatický základ):  
+  epistemická hygiena, odmítnutí reifikace, smyčka korekce;
 
-* postulát 2 (stratifikace)  
-  → vrstvená architektura roje, kontrakty vrstev, separace úrovní;
+* postulát 2 (stratifikace):  
+  vrstvená architektura roje, kontrakty vrstev, separace úrovní;
 
-* postulát 3 (enaktivní účast)  
-  → člověk jako výchozí kanál moci, emoce jako telemetrie;
+* postulát 3 (enaktivní účast):  
+  člověk jako výchozí kanál moci, emoce jako telemetrie;
 
-* postulát 4 (redukce ≠ vysvětlení)  
-  → multiparadigmatismus, pluralismus, anti-sektářství;
+* postulát 4 (redukce ≠ vysvětlení):  
+  multiparadigmatismus, pluralismus, anti-sektářství;
 
-* postulát 5 (intence jako systémová síla)  
-  → transparentnost schopnosti jednat, ekonomika reciprocity, epistemická odvaha.
+* postulát 5 (intence jako systémová síla):  
+  transparentnost schopnosti jednat, ekonomika reciprocity, epistemická odvaha.
 
 V praxi to znamená jediné návrhové kritérium: **architektura má podporovat vědomé
 přebývání v interpretaci** – se smyčkami korekce, odmítnutím reifikace pravdy jako
@@ -249,19 +250,20 @@ je konkretizace vědomá a lokální.
    Procesuální otázka zní: „jaké procesy a vztahy tento název pouze lokálně
    zkracuje?“.
 
-Nepředstíráme, že nejsme náchylní k předčasné konkretizaci. Tím, že si ji
-uvědomujeme, můžeme budovat systémy, které se této vlastnosti našich organismů
-přizpůsobují. Jednou z praktických metod je stratifikace, tedy vědomě vedená
-konkretizace. Každá vrstva vybírá z nižší dynamiky pouze ty vlastnosti, které
-jsou relevantní pro její kontrakt, dává této projekci název a hranice a následně
-ji zpřístupňuje jako konkrétní stavební blok vyšší vrstvě. Díky tomu se systém
-vyhýbá náhodné reifikaci: věci vznikají tam, kde jsou potřeba, a pouze v rozsahu,
-za který daná vrstva může odpovídat.
+Uvědomujeme si, že jsme náchylní k předčasné konkretizaci, a s tímto vědomím
+můžeme budovat systémy, které se přizpůsobují této vlastnosti našich organismů a
+poznávacích aparátů. Jednou z praktických metod je stratifikace, tedy vědomě
+vedená konkretizace. Každá vrstva vybírá z nižší dynamiky pouze ty vlastnosti,
+které jsou relevantní pro její kontrakt (abstrahování), dává této projekci název
+a hranice (identifikace) a následně ji zpřístupňuje jako konkrétní stavební blok
+vyšší vrstvě (konkretizace).
 
-Vrstva je tedy poznávacím i technickým kontextem. Umožňuje nemyslet na všechny
-závislosti najednou. Není to únik před složitostí, ale poctivé porcování
-složitosti tak, aby člověk mohl systém chápat, testovat, auditovat a měnit bez
-trhání celku.
+Díky tomu se systém vyhýbá náhodné reifikaci: věci vznikají tam, kde jsou
+potřeba, a pouze v rozsahu a tvaru, za které má dané *stratum* nést
+odpovědnost. Takto vytvářené vrstvy abstrakce jsou tedy poznávacím i technickým
+kontextem. Umožňují nemyslet na všechny závislosti najednou. Není to únik před
+složitostí, ale poctivé porcování složitosti tak, aby člověk mohl systém chápat,
+testovat, auditovat a měnit bez trhání celku nebo náhodné konkretizace.
 
 ## Nejbližší filosofické tradice
 

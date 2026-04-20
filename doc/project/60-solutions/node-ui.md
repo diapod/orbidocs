@@ -32,6 +32,37 @@ daemon HTTP control API and renders HTML fragments. HATEOAS is the navigational
 model. The daemon remains the sole authority; the web server holds no protocol
 state.
 
+## Middleware Operator UI Extensions
+
+The built-in Node UI should not need compile-time knowledge of every middleware
+module and its operator-facing screens. Middleware modules, especially
+non-native modules that are not shipped as part of the Node itself, should be
+able to contribute their own operator UI fragments through a host-owned
+extension surface.
+
+The intended shape is data-driven registration:
+
+- a module declares module-scoped operator UI routes,
+- a module contributes templates, static assets, or render descriptors under a
+  module-owned namespace,
+- the Node UI registers those routes under a bounded mount point such as
+  `/modules/{module_id}/...`,
+- the Node UI provides the shell, navigation, layout, session boundary, CSRF
+  protection, daemon proxy, and route-collision checks,
+- the module owns only the semantics and presentation of its own operator views.
+
+This keeps the UI stratified. The Node UI remains a thin host-owned projection
+layer, while module-specific operator experience stays with the module that owns
+the domain. Adding a new externally supplied middleware module should therefore
+require adding its templates and route declarations, not editing Rust code in the
+built-in UI to teach it that the module exists.
+
+Template execution must remain sandboxed and host-owned. A module-provided UI
+extension must not receive the daemon authtok, raw ambient filesystem access, or
+an unrestricted server-side execution hook. It may render against a bounded
+operator context and call daemon or module endpoints only through explicit
+host-owned routes.
+
 ## Must Implement
 
 ### Node Control Surface

@@ -258,6 +258,30 @@ behavior harder to audit. They MUST therefore be guarded by explicit profile
 support, resource limits, trace coverage, and documentation that warns operators
 to use them only when a simpler static flow is insufficient.
 
+### Resource budget and execution timeout
+
+Every `json_e` and `json_e_flow` middleware instance MUST declare an explicit
+execution timeout in `limits.timeout_ms`. A JSON-e middleware must never have an
+implicit unbounded evaluation window just because it is "only" a data
+transformer.
+
+For pure `json_e`, `limits.timeout_ms` is the wall-clock budget for one
+transform invocation: context projection, template evaluation, and output
+contract validation. At minimum, every conforming implementation MUST enforce
+the budget across template evaluation and helper execution.
+
+For `json_e_flow`, the same field is the overall budget for one flow invocation.
+Individual host-owned `call` steps MAY also carry stricter per-call timeouts,
+but they MUST NOT extend the total flow beyond the remaining
+`limits.timeout_ms` budget.
+
+This timeout is distinct from process and loopback-service timeouts used by
+`command_stdio`, `local_http_json`, or `http_local_json`. JSON-e does not spawn a
+process, but it still consumes CPU, memory, and operator attention; its
+configuration therefore needs its own evaluation budget. Exceeding the budget
+fails closed with a stable resource-limit or executor-timeout failure and emits
+the measured duration in the evaluation trace.
+
 Every `json_e_flow` middleware MUST have explicit step limits. Suggested defaults:
 
 - `max_flow_steps`: 32 total executed steps per invocation,
@@ -441,7 +465,7 @@ profile limits, for example:
 - maximum evaluation depth,
 - maximum collection size for `$map` and `$reduce`,
 - maximum string size,
-- wall-clock evaluation timeout if supported by the implementation.
+- required wall-clock evaluation timeout (`limits.timeout_ms`).
 
 The executor MUST reject templates that render non-finite numbers or values that
 cannot be represented in the committed JSON contract.
@@ -701,6 +725,18 @@ capability under the ordinary passport, allowlist, timeout, audit, and failure
 policy. Any concrete publication backend belongs behind that capability boundary,
 or inside the concrete middleware configuration when an operator deliberately
 chooses a lower-level capability.
+
+For this capability, "publish" means host-owned admission of a validated workflow
+step completion record into the node's configured workflow completion record
+plane. A successful response means the host accepted the record, assigned or
+resolved a stable `record_id`, and made the record available to local workflow
+reconstruction according to the node configuration.
+
+It does not imply global broadcast, peer delivery, final workflow completion, or
+any specific backing store such as Agora. The published record remains the
+domain fact, for example `record/kind = workflow.step.completed` with
+`schema = story009.workflow-step-completed.v1`; the capability name denotes only
+the host-owned operation that admits that fact.
 
 The story-009 MVP should include at least one executable regression proving that
 the five JSON-e flow middleware instances can replace `story009-roles` while

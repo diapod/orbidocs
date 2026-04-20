@@ -53,6 +53,18 @@ It should include at least:
 - module description,
 - offered capabilities.
 
+It may also declare module-owned operator UI extensions. This is especially
+important for non-native middleware modules that are not shipped with the Node:
+the built-in operator UI should not need to know about new modules at compile
+time in order to expose their local management screens.
+
+The report is the right registration boundary for a future optional
+operator-UI declaration because it is already the host-owned startup handshake
+where a module says: "this is what I provide". The declaration should describe
+UI routes, templates, navigation labels, and required local operator
+capabilities as data. It should not require the Node UI to import module code or
+hard-code module-specific pages.
+
 ## Semi-open capability catalog
 
 Capability identifiers exposed by middleware modules should be semi-open.
@@ -159,6 +171,50 @@ the host:
 - middleware may consume those artifacts for validation and diagnostics,
 - but the schema artifacts remain host-owned runtime surfaces, not module
   factory config.
+
+## Operator UI extension declarations
+
+Middleware operator UI should be registered as another host-owned projection,
+not as hidden coupling between a module and the built-in Node UI.
+
+A future `middleware-module-report` extension should allow a module to declare:
+
+- module-scoped UI routes such as `/modules/{module_id}/settings` or
+  `/modules/{module_id}/templates`,
+- template or fragment identifiers served from the module package or from a
+  host-materialized module UI directory,
+- optional static assets under a module-owned namespace,
+- navigation labels and grouping hints for the operator shell,
+- required local operator capabilities or permissions for each route,
+- whether the route renders host-side templates, proxies a bounded module
+  endpoint, or links to an externally supervised local surface.
+
+The Node UI owns:
+
+- route collision prevention,
+- the common operator shell and navigation,
+- authentication and session boundaries,
+- CSRF and form-submission protection,
+- the daemon authtok boundary,
+- template sandboxing and allowed helper functions,
+- and audit-visible registration diagnostics.
+
+The middleware module owns:
+
+- the meaning of its own operator screens,
+- its own templates or fragment descriptors,
+- module-specific validation labels and help text,
+- and any module endpoint that is explicitly proxied by the host.
+
+The route namespace must stay bounded. The default mount should be under a
+module-scoped path such as `/modules/{module_id}/...`; arbitrary claims over the
+root operator UI are not part of the contract. This mirrors `inbound-local`
+`local_routes` on the daemon side, but it is a separate UI projection contract:
+claiming a daemon HTTP route does not automatically claim an operator UI route.
+
+Until this field is added to the committed Rust and JSON Schema contracts,
+implementations should treat operator UI extension registration as a design
+direction, not as a valid wire field in `middleware-module-report`.
 
 ## Transport-defined chain attachments
 

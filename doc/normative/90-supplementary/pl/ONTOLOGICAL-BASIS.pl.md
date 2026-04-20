@@ -7,7 +7,7 @@
 ## Apofatyczny enaktywizm
 
 Ten dokument opisuje filozoficzne podłoże, z którego wyrastają
-[wizja](../20-vision/pl/VISION.pl.md) i [wartości
+[wizja](../20-vision/pl/VISION.pl.md) i [wartości
 podstawowe](../30-core-values/pl/CORE-VALUES.pl.md) projektu Orbiplex. Nie jest
 manifestem wiary ani deklaracją metafizyczną, lecz zbiorem postulatów, które
 wyjaśniają **dlaczego** architektura roju ma taką, a nie inną postać, i dlaczego
@@ -83,7 +83,7 @@ Ludzkie doświadczenie ma architekturę warstwową:
 0.1.1.1.1. obiektywność  
 
 Każda warstwa wyrasta z głębszej jako jej abstrakt, a konkrety niższych warstw stają
-się budulcem wyższych – analogicznie do *stratified design* Abelsona i Sussmana ("MIT
+się budulcem wyższych – analogicznie do *stratified design* Abelsona i Sussmana ("MIT
 AI Memo 986"), gdzie implementacje stają się abstrakcjami kolejnych poziomów.
 
 Świadomość ma wrodzoną zdolność "wiercenia dziur w abstrakcjach", czyli
@@ -184,25 +184,26 @@ finansowania nie wypaczała intencji uczestników.
 ## Jak postulaty łączą się z architekturą
 
 Pięć postulatów nie jest oddzielną "filozofią" przyklejoną do projektu technicznego.
-Są one raczej fundamentem, z którego wyrasta reszta:
+Są one raczej fundamentem, z którego wyrastają wartości, a z nich zapisy
+konstytucyjne, kontrakty i schematy danych:
 
-* postulat 1 (apofatyczny fundament)  
-  → higiena epistemiczna, odmowa reifikacji, pętla korekty;
+* postulat 1 (apofatyczny fundament):  
+  higiena epistemiczna, odmowa reifikacji, pętla korekty;
 
-* postulat 2 (stratyfikacja)  
-  → architektura warstwowa roju, kontrakty warstw, separacja poziomów;
+* postulat 2 (stratyfikacja):  
+  architektura warstwowa roju, kontrakty warstw, separacja poziomów;
 
-*  postulat 3 (enaktywne uczestnictwo)  
-  → człowiek jako domyślna ścieżka mocy, emocje jako telemetria;
+* postulat 3 (enaktywne uczestnictwo):  
+  człowiek jako domyślna ścieżka mocy, emocje jako telemetria;
 
-* postulat 4 (redukcja ≠ wyjaśnienie)  
-  → wieloparadygmatowość, pluralizm, anty-sekciarstwo;
+* postulat 4 (redukcja ≠ wyjaśnienie):  
+  wieloparadygmatowość, pluralizm, anty-sekciarstwo;
 
-* postulat 5 (intencja jako siła systemowa)  
-  → przejrzystość sprawczości, ekonomia wzajemności, odwaga epistemiczna.
+* postulat 5 (intencja jako siła systemowa):  
+  przejrzystość sprawczości, ekonomia wzajemności, odwaga epistemiczna.
 
 W praktyce oznacza to jedno kryterium projektowe: **architektura ma wspierać świadome
-zamieszkiwanie w interpretacji** – z pętlami korekty, odmową reifikacji prawdy jako
+zamieszkiwanie w interpretacji** – z pętlami korekty, odmową reifikacji prawdy jako
 statusu, ochroną różnorodności jako źródła nowości i z jawnym odnotowywaniem granic
 poznania.
 
@@ -254,19 +255,21 @@ projektowania, w której konkretyzacja jest świadoma i lokalna.
    Connector, Account.  Procesualne pytanie brzmi: "jakie procesy i relacje ta nazwa
    tylko lokalnie skraca?".
 
-Nie udajemy, że nie jesteśmy podatni na przedwczesną konkretyzację. Zdając sobie z
-niej sprawę, możemy budować systemy, które adaptują się do tej właściwości naszych
+Zdajemy sobie sprawę, że jesteśmy podatni na przedwczesną konkretyzację, a wiedząc
+o tym, możemy budować systemy, które adaptują się do tej właściwości naszych
 organizmów i aparatów poznawczych. Jedną z praktycznych metod jest stratyfikacja,
 czyli świadomie prowadzona konkretyzacja. Każda warstwa wybiera z niższej dynamiki
-tylko te własności, które są istotne dla jej kontraktu, nadaje tej projekcji nazwę
-i granice, a następnie udostępnia ją jako konkretny budulec warstwie wyższej. Dzięki
-temu system unika przypadkowej reifikacji: rzeczy powstają tam, gdzie są potrzebne,
-i tylko w zakresie, w którym dana warstwa może za nie odpowiadać.
+tylko te własności, które są istotne dla jej kontraktu (abstrahowanie), nadaje tej
+projekcji nazwę i granice (identyfikowanie), a następnie udostępnia ją jako konkretny
+budulec warstwie wyższej (konkretyzowanie).
 
-Warstwa jest więc kontekstem poznawczym i technicznym. Pozwala nie myśleć
-o wszystkich zależnościach naraz. To nie jest ucieczka od złożoności, ale uczciwe
-porcjowanie jej w taki sposób, aby człowiek mógł system rozumieć, testować, audytować
-i zmieniać bez rozrywania całości.
+Dzięki temu system unika przypadkowej reifikacji: rzeczy powstają tam, gdzie są
+potrzebne, i tylko w zakresie oraz kształcie, w których dane *stratum* powinno brać
+za nie odpowiedzialność. Tak tworzone warstwy abstrakcji są więc kontekstem
+poznawczym i technicznym. Pozwalają nie myśleć o wszystkich zależnościach naraz. To
+nie jest ucieczka od złożoności, lecz uczciwe porcjowanie jej w taki sposób, aby
+człowiek mógł system rozumieć, testować, audytować i zmieniać bez rozrywania całości
+bądź przypadkowej konkretyzacji.
 
 ## Najbliższe tradycje filozoficzne
 

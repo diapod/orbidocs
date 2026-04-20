@@ -198,22 +198,23 @@ that the funding structure does not distort the intentions of participants.
 ## How the postulates connect to the architecture
 
 The five postulates are not a separate philosophy glued onto a technical project.
-They are rather the foundation from which the rest grows:
+They are rather the foundation from which values grow, and from those values
+constitutional provisions, contracts, and data schemas:
 
-* postulate 1 (apophatic foundation)
-  → epistemic hygiene, refusal of reification, correction loop;
+* postulate 1 (apophatic foundation):  
+  epistemic hygiene, refusal of reification, correction loop;
 
-* postulate 2 (stratification)
-  → layered swarm architecture, layer contracts, separation of levels;
+* postulate 2 (stratification):  
+  layered swarm architecture, layer contracts, separation of levels;
 
-* postulate 3 (enactive participation)
-  → the human as the default path of power, emotions as telemetry;
+* postulate 3 (enactive participation):  
+  the human as the default path of power, emotions as telemetry;
 
-* postulate 4 (reduction ≠ explanation)
-  → multi-paradigmaticity, pluralism, anti-sectarianism;
+* postulate 4 (reduction ≠ explanation):  
+  multi-paradigmaticity, pluralism, anti-sectarianism;
 
-* postulate 5 (intention as a systemic force)
-  → transparency of agency, an economy of reciprocity, epistemic courage.
+* postulate 5 (intention as a systemic force):  
+  transparency of agency, an economy of reciprocity, epistemic courage.
 
 In practice this means one design criterion: **architecture should support
 conscious dwelling within interpretation**: with correction loops, refusal to
@@ -268,19 +269,21 @@ concretization is conscious and local.
    processual question is: "what processes and relations does this name only
    locally abbreviate?".
 
-We do not pretend that we are immune to premature concretization. By recognizing
-it, we can build systems that adapt to this feature of our organisms. One
-practical method is stratification, that is, consciously guided concretization.
-Each layer selects from the lower dynamics only the properties relevant to its
-contract, gives that projection a name and boundaries, and then exposes it as a
-concrete building block for the higher layer. This lets the system avoid
-accidental reification: things arise where they are needed, and only within the
-scope for which a given layer can answer.
+We recognize that we are susceptible to premature concretization, and knowing
+this, we can build systems that adapt to this property of our organisms and
+cognitive apparatuses. One practical method is stratification, that is,
+consciously guided concretization. Each layer selects from the lower dynamics
+only the properties relevant to its contract (abstraction), gives that projection
+a name and boundaries (identification), and then exposes it as a concrete
+building block for the higher layer (concretization).
 
-A layer is therefore a cognitive and technical context. It lets us avoid thinking
-about all dependencies at once. This is not an escape from complexity, but an
-honest partitioning of it so that a human being can understand, test, audit, and
-change the system without tearing the whole apart.
+This lets the system avoid accidental reification: things arise where they are
+needed, and only within the scope and shape for which a given stratum should take
+responsibility. Layers of abstraction created this way are therefore cognitive
+and technical contexts. They let us avoid thinking about all dependencies at
+once. This is not an escape from complexity, but an honest partitioning of it so
+that a human being can understand, test, audit, and change the system without
+tearing the whole apart or introducing accidental concretization.
 
 ## Closest philosophical traditions
 

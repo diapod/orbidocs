@@ -208,20 +208,23 @@ them explicitly.
 Capability discovery consumers may need to ask for "Nodes with capability X
 that also satisfy local trust policy Y" without first downloading an arbitrary
 page of unrelated entries and filtering it locally.  The Seed Directory query
-surface therefore SHOULD grow an optional predicate/filter object for
-capability discovery.
+surface therefore accepts an optional predicate/filter object for capability
+discovery. Callers should still keep local post-filtering as a compatibility and
+defense-in-depth layer because older Seed Directory endpoints may ignore unknown
+query parameters.
 
-The first predicate set should stay deliberately small and index-friendly:
+The first predicate set stays deliberately small and index-friendly:
 
 - `node_id` / `node_ids` — restrict results to one or more known Nodes,
-- `issuer` / `issuer_participant_id` — restrict results to passports issued by
+- `issuer` / `issuers` — restrict results to passports issued by
   a known participant or sovereign operator,
 - `capability_id` — keep the primary capability selector explicit inside the
   predicate form when clients use a structured query body,
 - `endorsement` — restrict results to entries carrying a recognized federation
   or policy endorsement,
-- `passport_profile` — reserved for later filtering by projected,
-  indexable passport profile fields.
+- `passport_profile` — filter by projected passport profile markers. This starts
+  as a shallow marker match and can become index-backed when profile projection
+  stabilizes.
 
 The predicate is a discovery optimization and policy expression, not an
 authorization decision.  Consumers MUST still verify the served Node's passport
