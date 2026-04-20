@@ -989,6 +989,97 @@ Post-MVP scope:
 | Module-store template loading | Host-owned storage path after static configured templates have real users. |
 | Additional helper profiles | Added only when a concrete use case cannot be expressed by basic mechanical helpers. |
 
+## Implementation Plan
+
+The work should land as small, reviewable layers. Each layer should have a
+schema or test fixture that makes the boundary visible.
+
+| Step | Scope | Done when |
+| :--- | :--- | :--- |
+| 1 | Commit JSON-e configuration schemas | Node can validate `json_e` and `json_e_flow` middleware configuration, limits, helper exposure, context projection, and static flow shape at config-load time. |
+| 2 | Implement pure `json_e` substrate | Middleware runtime can evaluate a configured JSON-e template against an operator-projected context, validate output, expose basic helpers, enforce limits, produce diagnostics, and dry-run without effects. |
+| 3 | Add first-class daemon registration | Daemon config can register JSON-e middleware instances through the same operator-managed configuration layer as other middleware classes. Component snapshots and validation errors identify them as middleware, not hidden hooks. |
+| 4 | Implement static `json_e_flow` | Middleware runtime supports `render`, `validate`, `call`, `extract`, `respond`, and `fail`; all `call` steps are static, allowlisted, passport-checked, traced, and budgeted. |
+| 5 | Add host capability for workflow step publication | `workflow.step.completed.publish` has a narrow request/response schema and can be called by `json_e_flow` without exposing any Agora-specific backend to the flow engine. |
+| 6 | Build story-009 migration fixture | Five JSON-e flow role middleware configs replace the `story009-roles` Python adapter while keeping Sensorium OS scripts, Dator offers, Memarium writes, and pointer-sized responses intact. |
+| 7 | Add story-009 regression | The existing story-009 acceptance path can run without starting `story009-roles`, and still proves routing, Sensorium action isolation, Memarium fact writes, publication authority shape, and reconstruction. |
+
+The implementation should avoid dynamic flow features until the story-009 static
+flow slice proves that they are needed. Raising limits or adding flow language
+features should require a concrete migration case, not convenience pressure from
+one oversized template.
+
+## Story-009 Migration Fixture
+
+The migration fixture should live in the Node repository as implementation-side
+test data. A representative layout:
+
+```text
+node:middleware-runtime/fixtures/json-e-flow/story-009/
+  README.md
+  00-context-role-execute.sample.json
+  10-role-bielik-researcher.json
+  20-role-bielik-illustrator.json
+  30-role-bielik-editor-in-chief.json
+  40-role-bielik-git-publisher.json
+  50-role-bielik-publication-verifier.json
+  expected/
+    bielik-researcher.response.json
+    bielik-illustrator.response.json
+    bielik-editor-in-chief.response.json
+    bielik-git-publisher.response.json
+    bielik-publication-verifier.response.json
+```
+
+The fixture is not a new daemon module. It is a set of operator-style
+configuration fragments that can be loaded by tests or copied into a node
+configuration layer.
+
+Each role fixture should contain:
+
+- middleware identity: `id`, `module_id`, `component_id`, and role binding,
+- `profile_version`: `orbiplex.json_e_flow.v1`,
+- `context_contract`: `json_e.context.role_execute.v1`,
+- `context_projection` for dispatch id, role capability id, service type,
+  request input, workflow ids, correlation id, execution ref, timeout, and
+  invocation time,
+- static `allowed_calls` containing only the capabilities needed by that role,
+- role-local `result_fields` allowlist,
+- a `render` step for `sensorium-directive.v1`,
+- a `call` step for `sensorium.directive.invoke`,
+- `extract` or `render` steps for the pointer-sized answer content,
+- a `render` step for the role-specific `memarium.write` request,
+- a `call` step for `memarium.write`,
+- a `render` step for `workflow.step.completed`,
+- a `call` step for `workflow.step.completed.publish`,
+- a final `respond` step returning `service-dispatch-response.v1`.
+
+The five fixtures should keep the role-specific data explicit:
+
+| Fixture | Role capability | Sensorium action | Memarium fact kind |
+| :--- | :--- | :--- | :--- |
+| `10-role-bielik-researcher.json` | `role.bielik-researcher.execute` | `story009.draft.compose` | `story009.git-commit-produced` |
+| `20-role-bielik-illustrator.json` | `role.bielik-illustrator.execute` | `story009.image.place` | `story009.git-commit-produced` |
+| `30-role-bielik-editor-in-chief.json` | `role.bielik-editor-in-chief.execute` | `story009.editorial.review` | `story009.editorial-review` |
+| `40-role-bielik-git-publisher.json` | `role.bielik-git-publisher.execute` | `story009.review.publish` | `story009.git-commit-produced` |
+| `50-role-bielik-publication-verifier.json` | `role.bielik-publication-verifier.execute` | `story009.publication.verify` | `story009.publication-verified` |
+
+The fixture should include mocked host-call responses for dry-run tests:
+
+- a successful `sensorium.directive.invoke` response for each role,
+- a successful `memarium.write` response with one fact id,
+- a successful `workflow.step.completed.publish` response,
+- one failure fixture for Sensorium failure mapping,
+- one failure fixture for Memarium write failure mapping,
+- one failure fixture for invalid role capability or service type.
+
+The fixture acceptance test should run in two modes:
+
+1. dry-run mode, using mocked host-call responses and asserting rendered
+   intermediate values;
+2. integration mode, using the existing story-009 Sensorium OS scripts and host
+   capabilities, with the `story009-roles` supervised Python middleware disabled.
+
 Acceptance criteria for the pure profile:
 
 - validate wrapper schema, profile version, context contract, output contract,
