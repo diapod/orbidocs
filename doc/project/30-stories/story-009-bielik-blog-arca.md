@@ -255,12 +255,16 @@ and configuration. Orbiplex components provide orchestration,
 capability mediation, storage, audit, and local supervision; they do
 not learn the semantics of Git, Netlify, Bielik, or a particular LLM.
 
-There are two supported setup shapes:
+There are three supported setup shapes:
 
 - **Reference skeleton on one host.** One daemon starts Arca, Dator,
   `story009-roles`, `sensorium-core`, `sensorium-os`, Memarium, and
   Agora locally. This is the fastest path for development and for
   verifying the contract.
+- **Persistent one-laptop operator pack.** Three durable node profiles live on
+  one operator machine with distinct control, WSS, and Node UI ports. This uses
+  the same three-node topology as the production story while keeping the setup
+  local and repeatable.
 - **Three-computer editorial deployment.** Node A, B, and C each run
   their own daemon, Dator, Sensorium, Sensorium OS connector, and
   local Memarium. Arca may run on node A. Only node C advertises and
@@ -407,6 +411,31 @@ all three nodes are simulated on one host, use distinct data
 directories and distinct loopback ports in each overlay. If the nodes
 run on separate machines, the bundled loopback ports may remain the
 same because they are local to each host.
+
+For the persistent one-laptop profile, the operator helper in the node
+repository creates:
+
+```text
+$HOME/.orbiplex/bielik-blog-A
+$HOME/.orbiplex/bielik-blog-B
+$HOME/.orbiplex/bielik-blog-C
+$HOME/.orbiplex/bielik-blog-data
+```
+
+`bielik-blog-data` owns the shared Git clone, rendered staging profiles, local
+WSS peer-discovery material, audit exports, and logs. The helper keeps daemon
+startup and Node UI startup separate so all three UIs can run at once:
+
+- node A UI: `http://127.0.0.1:47990`
+- node B UI: `http://127.0.0.1:48090`
+- node C UI: `http://127.0.0.1:48190`
+
+In this local shape, node A should discover role providers through node B and
+node C Seed Directory endpoints by default, not by querying only itself. The
+reference helper therefore renders node A with Seed Directory endpoints for
+node B and node C. Missing Sensorium OS action-catalog sidecars may be reported
+as `awaiting_operator_signature` during initialization; they become blocking
+only when the operator expects a signed production run.
 
 The daemon writes operator-edited config fragments under:
 
@@ -692,16 +721,20 @@ In the Node UI on each node:
 7. Watch the workflow run view. Each step should carry only pointer
    fields: branch, commit, path, `memarium_record_id`, and Sensorium
    outcome/observation identifiers.
-8. When the publish step reaches the C7 gate, confirm that the UI shows
+8. Open the JSON-e flow middleware view when diagnosing role adapters. It should
+   show the role capability, allowed host calls, trace retention policy, recent
+   trace summaries, and per-step request/response digests without exposing raw
+   secret-bearing context.
+9. When the publish step reaches the C7 gate, confirm that the UI shows
    `Awaiting acceptance` with the requesting component, action id, target
    branch, and content digest/summary; choose `[Sign]` only if the request is
    expected.
-9. After completion, inspect Agora and verify a
+10. After completion, inspect Agora and verify a
    `workflow.completed` record with links to the three commit facts
    plus the publication verification fact.
-10. Inspect each local Memarium. The facts should be append-only and
+11. Inspect each local Memarium. The facts should be append-only and
    local to the node that performed the step.
-11. Open the step-completion aggregation view, or run
+12. Open the step-completion aggregation view, or run
    `story-009-step-completions.py --expect-complete`, and verify that all five
    expected step ids are present exactly once.
 

@@ -244,12 +244,16 @@ w skryptach oraz konfiguracji pisanych przez operatora. Komponenty Orbiplex
 dostarczają orkiestrację, mediację capability, zapis, audyt i lokalny nadzór;
 nie uczą się semantyki Gita, Netlify, Bielika ani konkretnego LLM.
 
-Wspierane są dwa kształty setupu:
+Wspierane są trzy kształty setupu:
 
 - **Szkielet referencyjny na jednym hoście.** Jeden daemon uruchamia lokalnie
   Arcę, Datora, `story009-roles`, `sensorium-core`, `sensorium-os`, Memarium
   i Agorę. To najszybsza ścieżka developerska i najprostszy sposób weryfikacji
   kontraktu.
+- **Trwały jednolaptopowy pakiet operatorski.** Trzy trwałe profile węzłów żyją
+  na jednej maszynie operatora, z osobnymi portami control, WSS i Node UI. To
+  używa tej samej trzywęzłowej topologii co story produkcyjna, ale setup
+  pozostaje lokalny i powtarzalny.
 - **Trzykomputerowy deployment redakcyjny.** Węzły A, B i C uruchamiają własny
   daemon, Datora, Sensorium, Sensorium OS connector oraz lokalne Memarium. Arca
   może działać na węźle A. Tylko węzeł C reklamuje i autoryzuje
@@ -395,6 +399,32 @@ węzły są symulowane na jednym hoście, użyj osobnych katalogów danych i oso
 portów loopback w każdym overlayu. Jeśli węzły działają na osobnych maszynach,
 dołączone porty loopback mogą pozostać takie same, bo są lokalne dla każdego
 hosta.
+
+Dla trwałego profilu jednolaptopowego helper operatorski w repozytorium `node`
+tworzy:
+
+```text
+$HOME/.orbiplex/bielik-blog-A
+$HOME/.orbiplex/bielik-blog-B
+$HOME/.orbiplex/bielik-blog-C
+$HOME/.orbiplex/bielik-blog-data
+```
+
+`bielik-blog-data` jest właścicielem współdzielonego klona Git, wyrenderowanych
+profili stagingowych, lokalnego materiału WSS peer-discovery, eksportów audytu
+oraz logów. Helper rozdziela start daemonów od startu Node UI, aby wszystkie
+trzy UI mogły działać równocześnie:
+
+- UI węzła A: `http://127.0.0.1:47990`
+- UI węzła B: `http://127.0.0.1:48090`
+- UI węzła C: `http://127.0.0.1:48190`
+
+W tym lokalnym kształcie węzeł A powinien odkrywać providerów ról przez endpointy
+Seed Directory węzłów B i C, a nie przez pytanie wyłącznie samego siebie.
+Referencyjny helper renderuje więc węzeł A z endpointami Seed Directory dla
+węzła B i węzła C. Brakujące sidecary katalogu akcji Sensorium OS mogą być
+raportowane podczas inicjalizacji jako `awaiting_operator_signature`; stają się
+blokujące dopiero wtedy, gdy operator oczekuje podpisanego runu produkcyjnego.
 
 Daemon zapisuje fragmenty konfiguracji edytowane przez operatora pod:
 
@@ -675,15 +705,19 @@ W Node UI na każdym węźle:
 7. Obserwuj widok workflow run. Każdy krok powinien nieść tylko pola
    wskaźnikowe: branch, commit, path, `memarium_record_id` oraz identyfikatory
    Sensorium outcome/observation.
-8. Gdy krok publikacji dojdzie do bramki C7, potwierdź, że UI pokazuje
+8. Otwórz widok middleware JSON-e flow podczas diagnozowania adapterów ról.
+   Powinien pokazywać capability roli, dozwolone wywołania hosta, politykę
+   retencji trace, ostatnie podsumowania trace oraz digesty request/response
+   dla kroków, bez ujawniania surowego kontekstu niosącego sekrety.
+9. Gdy krok publikacji dojdzie do bramki C7, potwierdź, że UI pokazuje
    `Awaiting acceptance` z komponentem żądającym, action id, gałęzią docelową
    i digestem/podsumowaniem treści; wybierz `[Sign]` tylko wtedy, gdy żądanie
    jest oczekiwane.
-9. Po ukończeniu sprawdź Agorę i potwierdź rekord `workflow.completed`
+10. Po ukończeniu sprawdź Agorę i potwierdź rekord `workflow.completed`
    z linkami do trzech faktów commitów oraz faktu weryfikacji publikacji.
-10. Sprawdź każde lokalne Memarium. Fakty powinny być append-only i lokalne dla
+11. Sprawdź każde lokalne Memarium. Fakty powinny być append-only i lokalne dla
    węzła, który wykonał dany krok.
-11. Otwórz widok agregacji ukończeń kroków albo uruchom
+12. Otwórz widok agregacji ukończeń kroków albo uruchom
    `story-009-step-completions.py --expect-complete` i zweryfikuj, że wszystkie
    pięć oczekiwanych step id występuje dokładnie raz.
 
@@ -1466,7 +1500,7 @@ Kształt `task-verification-result.v1` jest lokalną konwencją tej story, dopó
 drugi workflow nie będzie potrzebował tego samego kontraktu. Nie powinien być
 przedwcześnie promowany do globalnej schemy.
 
-### Krok 4: Arca zamyka workflow i ogłasza fakt publikacji
+### Finalizacja: Arca zamyka workflow i ogłasza fakt publikacji
 
 Arca oznacza *workflow run* jako `completed`, zapisuje pełny ślad audytu
 (wejście, wyjście i czas każdego kroku, wszystkie podpisy kluczy uczestników)
