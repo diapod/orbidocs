@@ -142,7 +142,7 @@ podpisu w tym samym katalogu (na przykład jeden podpis w domenie
 `git.commit.v1`); `sensorium-core` i host signer autoryzują ten wąski grant
 signera dla uruchamianego skryptu. OS connector nadal tylko uruchamia
 skonfigurowany proces i nigdy nie staje się wyrocznią podpisów. W ścieżce demo
-świeżej instalacji trzy skrypty story-009 są dostarczane jako **fabryczne
+świeżej instalacji pięć skryptów story-009 jest dostarczanych jako **fabryczne
 domyślne** elementy Sensorium OS connectora; po pierwszym starcie węzeł
 materializuje je w aktywnym obszarze konfiguracji i sam emituje node-signed
 sidecar nad scaloną efektywną konfiguracją — więc demo działa bez ceremonii
@@ -1391,6 +1391,17 @@ Rekonstrukcja ścieżki redakcyjnej czyta per-node read-modele ukończeń krokó
 podąża za ich jawnymi pointerami `memarium_record_id`. Monitoring publiczny lub
 zespołowy czyta finalny rekord `workflow.completed`.
 
+Produkcyjny widok operatorski powinien agregować te read-modele jako projekcję
+odczytową, a nie jako nową płaszczyznę zapisu. Agregator może pytać endpointy
+control skonfigurowanych węzłów, scalać rekordy po `workflow/run-id` oraz
+`workflow/phase-id` i pokazywać brakujące, zduplikowane albo nieoczekiwane
+identyfikatory kroków. Nie powinien publikować syntetycznych rekordów
+`workflow.step.completed` do Agory i nie powinien traktować finalnego faktu
+monitoringowego `workflow.completed` jako źródła prawdy dla ukończenia
+pojedynczych kroków. Obecny helper operatorski
+`node/tools/acceptance/story-009-step-completions.py --expect-complete` jest
+CLI-owym kształtem takiej projekcji.
+
 ## Kryteria akceptacji
 
 | # | Kryterium | Weryfikacja |
@@ -1500,27 +1511,30 @@ sucho zwyczajna. Nowością jest to, że **proces redakcyjny nad tą infrastrukt
 jest opisany jako współpraca podpisanych węzłów**, a nie jako jeden monolityczny
 skrypt CI albo jeden nieskrępowany pracownik AI.
 
-## Realizacja
+## Mapa implementacji i utwardzania
 
-Tabela poniżej jest **mapą**, nie lustrem. Rozróżnia solution capability
-sidecars (np. `arca-caps.edn`) od marketplace'owych nazw `task_type` /
-`service/type` reklamowanych przez oferty.
+Tabela poniżej jest **mapą**, nie lustrem. Rozróżnia solution capability sidecars
+(np. `arca-caps.edn`) od marketplace'owych nazw `task_type` / `service/type`
+reklamowanych przez oferty. Kolumna implementacji referencyjnej opisuje to, co
+obecny workspace node'a już ćwiczy. Kolumna utwardzania nazywa to, co zostaje
+przed potraktowaniem tego samego szwu jako produkcyjnego deploymentu.
 
-| Zakres | Komponent | Kotwica | Brakująca implementacja, aby ten krok przeszedł | Dokument rozwiązania |
+| Zakres | Komponent | Status implementacji referencyjnej | Pozostałe utwardzanie produkcyjne | Dokument rozwiązania |
 |---|---|---|---|---|
-| Krok 0 (lokalne podłoże utrwalania szablonów) | Orbiplex Node (daemon) | Proposal 044 host-owned module store | Gotowe jako podłoże: modułowe rekordy JSON mogą lokalnie utrwalać `record_kind = workflow-template` bez zmian schematu daemona. | [`host-owned-module-store.md`](../60-solutions/host-owned-module-store.md), [`044-host-owned-generic-module-store.md`](../40-proposals/044-host-owned-generic-module-store.md) |
-| Krok 0 (instancjacja workflow z szablonu) | Arca | `arca-caps.edn` → `:workflow-template-instantiate` | Gotowe dla lokalnych szablonów: rozwiązuje `template_id` + parametry do konkretnego `WorkflowDefinition`; import publicznych/federowanych szablonów pozostaje poza tym lokalnym wycinkiem. | [`arca.md`](../60-solutions/arca.md) |
-| Krok 0 (opcjonalny publiczny katalog szablonów) | Dator / moduł katalogu szablonów | Rola publicznego katalogu szablonów z proposal 029 | Potrzebne tylko wtedy, gdy `bielik-biweekly-publish.v1` jest publikowany/importowany przez publiczny katalog: zaimplementować publikację, listowanie, fetch i przekazanie importu do Arki. Niepotrzebne dla szablonu lokalnego dla daemona. | [`029-workflow-template-catalog.md`](../40-proposals/029-workflow-template-catalog.md) |
-| Krok 0 (rozwiązywanie celów po typie zadania) | Arca + offer catalog | `arca-caps.edn` → `:workflow-target-by-task-type`; oferta `service/type` | Gotowe dla lokalnej reguły phase-0: `target.resolve = task_type` mapuje `target.task_type` na `service_type` dla zwykłego wykonania service-order i nie uruchamia host fan-out bez `fan_in`. | [`arca.md`](../60-solutions/arca.md) |
-| Kroki 1–3 (publikacja ofert + akceptacja zamówień, per węzeł) | Orbiplex Dator na węzłach A, B, C | publikacja `service-offer.v1` (wszystkie oferty po `price = 0 ORC` dla tego demo); postawa akceptacji `service-order.v1`; projekcja `task_type` ↔ `service/type` | Zaimplementować per węzeł supply-side marketplace facade: publikować aktywne oferty węzła dla zadeklarowanych typów zadań po cenie zero, przyjmować zamówienia dispatchowane przez Arcę według postawy kolejki/współbieżności, kierować przyjęte zamówienia do właściwego lokalnego modułu roli, wystawiać wyniki modułu z powrotem Arce. `git-push-publish` jest reklamowany tylko przez Dator węzła C. | planowany dokument rozwiązania Dator |
-| Krok 1 (research) | moduł `bielik-researcher` na węźle A + Sensorium OS connector | task/service types: `llm-research`, `draft-author`; action ids Sensorium dla allowlistowanych pobrań źródeł publicznych, gdy potrzebne. Klasy proposal 048: **C1** dla read-only public-source fetches, **C6 composed-spawn** dla skryptu szkicowania, jeśli łączy LLM egress i zapis worktree. | Zaimplementować wyspecjalizowany kontrakt modułu: pytać dopuszczone obserwacje Sensorium, wywoływać allowlistowane akcje OS connectora dla operacyjnych pobrań źródeł, czytać lokalny kontekst Memarium, wytworzyć szkic, zwrócić Arce tylko wskaźniki git/Memarium. | planowany dokument rozwiązania `bielik-researcher` |
-| Krok 1 (podpisany commit) | moduł `git-signer` na węźle A + Sensorium OS connector | task/service type: `git-commit-draft`; action ids Sensorium dla zapisu worktree, commita i push gałęzi szkicu. Klasy proposal 048: **C3 scoped-fs-write** dla zapisu worktree + commit, **C4 egress-network-spawn** dla push gałęzi szkicu; akcje podpisywania commitów dodatkowo deklarują zawężoną ścieżkę `signing.allowed_domains = ["git.commit.v1"]`. | Zaimplementować podpisywanie commitów git kluczem uczestnika i domain tag `git.commit.v1` przez ścieżkę dyrektywy Sensorium OS mediowaną przez Arcę. Katalog akcji mapuje etykiety na skrypty/kształty argv; `sensorium-core`/host autoryzuje zawężony grant signera, OS connector egzekwuje tylko envelope procesu, a skonfigurowany skrypt posiada konstrukcję Git-specific payload. Wystawić pola branch/commit/path/signature tracker jako wyjście kroku. Pozostaje to oddzielone od obserwacji Sensorium: OS connector wykonuje lokalne akcje; obserwacje i wyniki dają audyt. | planowany dokument rozwiązania `git-signer` |
-| Krok 2 (ilustracje) | moduł `illustrator` na węźle B + Sensorium OS connector | task/service types: `image-generate`, `image-place`; action ids Sensorium dla checkout, zapisu worktree, commit i push gałęzi szkicu. Klasy proposal 048: **C5 artifact-producing-spawn** dla skryptu modelu dyfuzyjnego (bajty obrazów jako zadeklarowane artefakty), **C3 scoped-fs-write** dla edycji markdown + commit, **C4 egress-network-spawn** dla push. | Zaimplementować pointer-based checkout szkicu przez Sensorium OS, generowanie/umieszczanie obrazów, commit do gałęzi szkicu i emisję wyniku tylko ze wskaźnikami. | planowany dokument rozwiązania `illustrator` |
-| Krok 3 (review + guardrails-as-code) | moduł `editor-in-chief` na węźle C + Sensorium OS connector | task/service types: `editorial-review`, `guardrails-as-code`; action ids Sensorium dla checkout i strzeżonych zapisów worktree. Klasy proposal 048: **C2 allowlisted-script** dla skryptu korekty, **C3 scoped-fs-write** dla patcha frontmatter/tekstu i podpisanego commita. | Zaimplementować review nad mediowanym przez Sensorium checkoutem git z guardrails-as-code, zwracając fakty akceptacji/odrzucenia i wskaźniki korekt bez kopiowania bajtów artykułu przez Arcę. | planowany dokument rozwiązania `editor-in-chief` |
-| Krok 3 (push do gałęzi publikacyjnej) | moduł `git-publisher` na węźle C + Sensorium OS connector | task/service type: `git-push-publish`; action ids Sensorium dla strzeżonego fast-forward merge i push `publish/main`. Klasa proposal 048: **C7 operator-gated-spawn** — push publikacyjny jest jedyną akcją w tej story, która w każdym niedemonstracyjnym deploymencie POWINNA wymagać autoryzacji operator-signed (nie node-signed); każdy podpisany commit publikacyjny używa tego samego wzorca zawężonej ścieżki podpisu `git.commit.v1`. | Zaimplementować strzeżoną ścieżkę fast-forward/merge/push do `publish/main`, w tym podpisany commit publikacyjny i klasyfikację błędów dla odrzuconych pushy, jako ścieżkę dyrektywy Sensorium OS mediowaną przez Arcę. | planowany dokument rozwiązania `git-publisher` |
-| Krok 3b (weryfikacja fulfillmentu publikacji) | ścieżka modułu `publication-verifier` + Sensorium OS connector | task/service type: `publication-verifier`; action id Sensorium `story009.publication.verify`. Klasa proposal 048: **C2 allowlisted-script** dla read-only skryptu verifiera w szkielecie referencyjnym; mocniejsze wdrożenia MOGĄ opakować go w strzeżoną akcję network fetch/pull, gdy dowód musi być sprawdzony względem zdalnego origin. | Zaimplementować jawny krok workflow, który decyduje o fulfillment z wąskiego kontraktu JSON (`task-verification-result.v1`, np. `verification/status = fulfilled`). Semantyka weryfikacji specyficzna dla gita pozostaje w skonfigurowanym skrypcie; Arca tylko stosuje politykę fulfillmentu workflow (`output_match`) i zapisuje wskaźnik faktu weryfikacji Memarium. | planowany dokument rozwiązania `publication-verifier` |
-| Krok 4 (zapis faktu ukończenia) | Memarium | `memarium-caps.edn` → `:append-fact` | Upewnić się, że każdy uczestniczący moduł dopisuje swój lokalny rekord faktu i zwraca stabilne wskaźniki `memarium_record_id`, które Arca może włączyć do końcowego widoku audytu, w tym trzy fakty commit-producing oraz fakt weryfikacji publikacji. | [`memarium.md`](../60-solutions/memarium.md) |
-| Krok 4 (publikacja `workflow.completed` na Agorze) | Orbiplex Agora | [`agora-caps.edn`](../60-solutions/agora-caps.edn) → `:agora-record-ingest` | Dodać emiter ukończenia Arca/host dla `agora-record.v1` z `record/kind = workflow.completed`, łączący run id, rekordy kroków, Memarium ids, git refs i evidence weryfikacji publikacji bez osadzania bajtów treści. | [`agora.md`](../60-solutions/agora.md) |
+| Krok 0 (lokalne podłoże utrwalania szablonów) | Orbiplex Node (daemon) | Gotowe jako podłoże: modułowe rekordy JSON mogą lokalnie utrwalać `record_kind = workflow-template` bez zmian schematu daemona. | Publiczny/federowany lifecycle szablonów pozostaje opcjonalny dla tej story. | [`host-owned-module-store.md`](../60-solutions/host-owned-module-store.md), [`044-host-owned-generic-module-store.md`](../40-proposals/044-host-owned-generic-module-store.md) |
+| Krok 0 (instancjacja workflow z szablonu) | Arca | Gotowe dla lokalnych szablonów: `template_id` + parametry rozwiązują się do konkretnego `WorkflowDefinition` i runu. | Import publicznych/federowanych szablonów powinien przejść przez katalog szablonów, jeśli story stanie się pakietem wielokrotnego użytku. | [`arca.md`](../60-solutions/arca.md) |
+| Krok 0 (opcjonalny publiczny katalog szablonów) | Dator / moduł katalogu szablonów | Niepotrzebne w obecnym daemon-local profilu. | Publikację, listowanie, fetch i handoff importu implementować dopiero wtedy, gdy `bielik-biweekly-publish.v1` stanie się publicznym/federowanym szablonem. | [`029-workflow-template-catalog.md`](../40-proposals/029-workflow-template-catalog.md) |
+| Krok 0 (rozwiązywanie celów po typie zadania) | Arca + offer catalog | Gotowe dla obecnej reguły: `target.resolve = task_type` mapuje `target.task_type` na providerskie `service/type` bez host fan-out, jeśli nie ma `fan_in`. | Produkcyjna polityka discovery powinna wyjść poza allowlisty harnessu w stronę trusted peer, passport, endorsement i predykatów Seed Directory. | [`arca.md`](../60-solutions/arca.md) |
+| Kroki 1–3 (publikacja ofert + akceptacja zamówień, per węzeł) | Orbiplex Dator na węzłach A, B, C | Gotowe w harnessie referencyjnym: Dator publikuje oferty zero-price, przyjmuje service orders dispatchowane przez Arcę, kieruje je do providerów capability ról i wystawia `git-push-publish` tylko na węźle C. | Utwardzić postawę kolejki/współbieżności, diagnostykę odmów, produkcyjne ceny jeśli praca przestanie być zero-price, oraz federacyjną politykę discovery/endorsement. | planowany dokument rozwiązania Dator |
+| Krok 1 (research + draft) | provider roli `bielik-researcher` na węźle A + Sensorium OS connector | Gotowe jako provider `json_e_flow`, który wywołuje allowlistowaną akcję OS `story009.draft.compose`; akcja zwraca pointer-only wynik git/Memarium. | Zastąpić logikę fixture'ową realnymi wrapperami źródeł publicznych/LLM jako skryptami kontrolowanymi przez operatora; semantyka Gita i LLM zostaje w skryptach, nie w Arce, Datorze, Sensorium-core ani implementacji connectora. | planowany dokument rozwiązania `bielik-researcher` |
+| Krok 1 (podpisany commit) | provider roli + Sensorium OS connector + daemon signer lane | Gotowe w supervised integration: tracking commita używa daemon-scoped ścieżki signera `git.commit.v1` i zapisuje `signature_tracker.status = signed`. | Deploymenty niedemonstracyjne powinny używać operator-reviewed katalogów akcji i zawężonych grantów signera; warianty delegated/proxy-key są osobnym przepływem. | planowany dokument rozwiązania `git-signer` |
+| Krok 2 (ilustracje) | provider roli `illustrator` na węźle B + Sensorium OS connector | Gotowe jako provider `json_e_flow`, który wywołuje allowlistowaną akcję OS `story009.image.place`; output pozostaje pointer-only. | Zastąpić fixture image placement realnym toolingiem diffusion/assets przez skrypty i deklarowane artefakty; bajty payloadu nadal nie wchodzą do Arki ani Agory. | planowany dokument rozwiązania `illustrator` |
+| Krok 3 (review + guardrails-as-code) | provider roli `editor-in-chief` na węźle C + Sensorium OS connector | Gotowe jako `story009.editorial.review`, w tym ścieżka akceptacji/odrzucenia i lokalny fakt Memarium. | Rozwinąć guardrails-as-code z referencyjnych reguł w operator-owned katalog reguł redakcyjnych; powody odrzucenia utrzymać jako dane strukturalne. | planowany dokument rozwiązania `editor-in-chief` |
+| Krok 4 (push do gałęzi publikacyjnej) | provider roli `git-publisher` na węźle C + Sensorium OS connector | Gotowe względem strzeżonego lokalnego bare origin przez `story009.review.publish`; negatywny autorytet node A/B jest testowany. | Podłączyć prawdziwy Git host/Netlify target i wymagać operator-signed autoryzacji dla akcji publikacyjnych C7 w profilach niedemonstracyjnych. | planowany dokument rozwiązania `git-publisher` |
+| Krok 5 (weryfikacja fulfillmentu publikacji) | provider roli `publication-verifier` na węźle C + Sensorium OS connector | Gotowe przez `story009.publication.verify`; Arca stosuje workflowową politykę fulfillmentu `output_match` do wąskiego wyniku JSON. | W zewnętrznych deploymentach weryfikować dowód względem zdalnego origin/stanu deploymentu, a nie tylko lokalnego guarded origin. | planowany dokument rozwiązania `publication-verifier` |
+| Audyt ukończeń kroków | Daemon host-owned workflow read model | Gotowe: providery ról publikują `workflow.step.completed` przez daemon, a każdy wykonujący węzeł wystawia `/v1/workflows/runs/{workflow_run_id}/steps/completed`. | Dodać operator UI/agregator po stronie odczytu nad trzema endpointami control; nie przenosić per-step completion do Agory. | [`host-owned-module-store.md`](../60-solutions/host-owned-module-store.md) |
+| Lokalna pamięć kroków | Memarium | Gotowe w harnessie referencyjnym: każdy wykonujący węzeł zapisuje lokalne fakty Memarium i zwraca stabilne pointery `memarium_record_id`. | Federacja poza zespołem redakcyjnym oraz synchronizacja między zespołami pozostają osobnymi story. | [`memarium.md`](../60-solutions/memarium.md) |
+| Monitoring poziomu workflow | Arca + Orbiplex Agora | Gotowe: Arca emituje lokalny `agora-record.v1` z `record/kind = workflow.completed`, linkując run id, outputy kroków, Memarium ids, git refs i evidence weryfikacji publikacji bez osadzania bajtów treści. | Widoki produkcyjne powinny traktować to jako monitoring/historię, nie jako źródło prawdy dla ukończeń pojedynczych kroków. | [`agora.md`](../60-solutions/agora.md) |
 
 **Kotwice typów zadań** (nazwy marketplace/service, nie protocol capability
 passports):
@@ -1542,8 +1556,10 @@ passports):
 i backlogach modułów; nie tutaj):
 
 - `node/agora-core` — używany do podpisania rekordu `workflow.completed`.
-- Moduły middleware (`bielik-researcher`, `illustrator`, `editor-in-chief`,
-  `git-signer`, `git-publisher`) działają pod proposal 019.
+- Adaptery ról (`bielik-researcher`, `illustrator`, `editor-in-chief`,
+  `git-signer`, `git-publisher`) działają jako konfiguracja `json_e_flow`
+  pod proposal 049. Są pierwszoklasowymi providerami middleware, ale w profilu
+  oficjalnym nie są nadzorowanymi daemonami HTTP.
 - `Orbiplex Dator` — działa na każdym z trzech węzłów jako supply-side
   marketplace facade, która publikuje aktywne oferty `task_type` węzła
   i przyjmuje zamówienia usług dispatchowane przez Arcę w imieniu lokalnych
@@ -1552,7 +1568,7 @@ i backlogach modułów; nie tutaj):
   lokalnych akcji OS przez `sensorium.directive.invoke`; adaptery ról nie
   wywołują `sensorium.connector.invoke` bezpośrednio. Klasyfikacja akcji
   i autoryzacja katalogu idą za **proposal 048** (klasy C1..C7, sidecar
-  signature, node-signed factory bootstrap); trzy skrypty story-009 są
+  signature, node-signed factory bootstrap); pięć skryptów story-009 jest
   dostarczane jako fabryczne defaulty i podpisywane przez węzeł przy pierwszym
   starcie, więc demo działa bez ceremonii podpisu operatora.
 - Workflow Arki — proposal 029 (templates) + proposal 033 (temporal
