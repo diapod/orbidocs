@@ -230,9 +230,9 @@ a separate story.
   location — Arca is *agnostic* about where the participants of the
   defined steps physically live; it finds them through task-type offer
   lookup).
-- **The git repository** `git@example.org:redakcja/blog-bielik.git`
-  with Hugo structure (`content/posts/`, `static/img/posts/`,
-  `config.toml`). The `drafts/*` branch is for drafts and working
+- **The git repository** `git@bielik-blog:orbiplex/bielik-blog.git`
+  with Hugo structure (`content/pl/log/<year>/`,
+  `content/en/log/<year>/`, `static/img/posts/`, `config.toml`). The `drafts/*` branch is for drafts and working
   versions; the `publish/main` branch is the only one Netlify deploys.
 - **Three local Memariums** — one per node. Each stores its own facts
   (what the given node itself produced or decided) and any observations it is
@@ -266,14 +266,62 @@ There are two supported setup shapes:
   local Memarium. Arca may run on node A. Only node C advertises and
   authorises `git-push-publish`.
 
+### Production Target Decisions
+
+The production-oriented variant of story-009 uses these decisions:
+
+- **Git data plane:** the editorial repository is a real GitLab repository,
+  reachable by the operator environment as
+  `git@bielik-blog:orbiplex/bielik-blog.git`. The `bielik-blog` SSH host alias
+  and private deploy key are operator-managed machine configuration, not
+  Orbiplex configuration and not repository content.
+- **Publishing branch:** `publish/main` remains the only publication branch.
+  Node C is the only node allowed to push it.
+- **Hugo content layout:** Polish articles live under
+  `content/pl/log/<year>/`; English translations live under
+  `content/en/log/<year>/`.
+- **Deployment target:** Netlify, or an equivalent deployment system, watches
+  the publishing branch. The verifier checks the public site URL, expected under
+  `https://bielik.orbiplex.ai/`, for example
+  `https://bielik.orbiplex.ai/pl/log/2026/bielik-13B-instruct/`. Netlify setup
+  is external infrastructure and is not automated by this story.
+- **Operator model:** one operator manages the three nodes and signs the
+  relevant local authority artifacts.
+- **Role provider model:** story-009 officially uses `json_e_flow` role
+  providers. The former HTTP-local role-module shape is legacy/deprecated for
+  this story.
+- **Model wrappers:** real LLM or diffusion use is deliberately outside the
+  Orbiplex core. The allowlisted script may use an OpenRouter-compatible API URL
+  and optional API key; if those are unset or empty, it must fall back to static
+  deterministic text.
+- **Publish approval:** `git-push-publish` is operator-gated. The UI should show
+  an `Awaiting acceptance` item containing the requesting component, requested
+  action, action content digest/summary, and `[Sign]` / `[Reject]` actions. The
+  accepted path is an operator signature over the approval artifact.
+- **Discovery trust:** production discovery is capability-passport and issuer
+  policy based. Harness `trusted_node_ids` remain an override, not the final
+  trust model.
+- **Provider choice:** Arca may select providers automatically, but the operator
+  must be able to override the selected provider for a run.
+- **Completion view:** the production UI aggregates per-node
+  `/v1/workflows/runs/{workflow_run_id}/steps/completed` control read models.
+  There is no Agora-backed synthetic step-completion store.
+- **Monitoring fact:** Arca still emits `workflow.completed` as a local Agora
+  monitoring/history fact.
+- **Audit model:** the production audit bundle is composed from Memarium facts,
+  workflow step-completion records, signer traces, and an exportable run bundle.
+- **Retention:** Memarium facts are retained indefinitely. Sensorium artifacts
+  use TTL. Script stdout/stderr artifacts are retained for one day by default.
+
 ### Prerequisites
 
 Before installing Orbiplex on the machines, prepare:
 
 - Three hostnames or machine labels: `node-a`, `node-b`, `node-c`.
-- One Git repository with a Hugo-compatible layout:
-  `content/posts/`, `static/img/posts/`, and a publish branch
-  such as `publish/main`.
+- One Git repository with a Hugo-compatible layout. For the production target,
+  the remote is `git@bielik-blog:orbiplex/bielik-blog.git`, Polish posts live
+  under `content/pl/log/<year>/`, English translations live under
+  `content/en/log/<year>/`, and the publishing branch is `publish/main`.
 - A branch policy for the publish branch. In the reference deployment,
   this may be a local bare repository with a `pre-receive` hook. In a
   real deployment, use repository permissions or hooks so only node C
@@ -448,6 +496,20 @@ story actions should set:
 }
 ```
 
+For the GitLab target above, the operator machine may provide an SSH alias such
+as `bielik-blog` in `~/.ssh/config`. If the OS action catalog needs to pin that
+route explicitly, set a non-interactive `GIT_SSH_COMMAND`, for example:
+
+```json
+{
+  "GIT_SSH_COMMAND": "ssh -F /home/orbiplex/.ssh/config -o IdentitiesOnly=yes"
+}
+```
+
+Private deploy keys are deployment secrets. They may be installed on trusted
+operator/developer machines, but they must not be committed to Orbiplex or to
+story content repositories.
+
 ### Node A Configuration
 
 Node A hosts the operator-facing Arca workflow in this story and owns
@@ -556,6 +618,11 @@ Sensorium OS action catalog:
   In production, an operator-edited catalog should be authorised by an
   operator signature rather than relying only on node-signed factory
   bootstrap.
+- Require an explicit operator approval for each `git-push-publish` request in
+  production. The UI should present `Awaiting acceptance` with the requesting
+  component id, action id, target branch, content digest/summary, and `[Sign]`
+  / `[Reject]` buttons. `[Sign]` produces the approval signature consumed by the
+  publish action; `[Reject]` records a structured refusal.
 
 UI/operator steps on node C:
 
@@ -625,11 +692,18 @@ In the Node UI on each node:
 7. Watch the workflow run view. Each step should carry only pointer
    fields: branch, commit, path, `memarium_record_id`, and Sensorium
    outcome/observation identifiers.
-8. After completion, inspect Agora and verify a
+8. When the publish step reaches the C7 gate, confirm that the UI shows
+   `Awaiting acceptance` with the requesting component, action id, target
+   branch, and content digest/summary; choose `[Sign]` only if the request is
+   expected.
+9. After completion, inspect Agora and verify a
    `workflow.completed` record with links to the three commit facts
    plus the publication verification fact.
-9. Inspect each local Memarium. The facts should be append-only and
+10. Inspect each local Memarium. The facts should be append-only and
    local to the node that performed the step.
+11. Open the step-completion aggregation view, or run
+   `story-009-step-completions.py --expect-complete`, and verify that all five
+   expected step ids are present exactly once.
 
 ### CLI Smoke Test
 
@@ -702,6 +776,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import urllib.request
 from pathlib import Path
 from typing import Any
 
@@ -717,16 +793,48 @@ def sha256_text(text: str) -> str:
     return f"sha256:{digest}"
 
 
+def maybe_generate_with_openrouter(prompt: str) -> str | None:
+    api_url = os.environ.get("OPENROUTER_API_URL", "").strip()
+    api_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+    model = os.environ.get("OPENROUTER_MODEL", "").strip() or "openrouter/auto"
+    if not api_url:
+        return None
+
+    request_body = json.dumps(
+        {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": "Write a concise Hugo blog draft."},
+                {"role": "user", "content": prompt},
+            ],
+        }
+    ).encode("utf-8")
+    headers = {"Content-Type": "application/json"}
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+    request = urllib.request.Request(api_url, data=request_body, headers=headers, method="POST")
+    with urllib.request.urlopen(request, timeout=60) as response:  # nosec: operator-configured endpoint
+        payload = json.loads(response.read().decode("utf-8"))
+    return payload["choices"][0]["message"]["content"]
+
+
 def main() -> None:
     params = parse_params()
 
     repo = Path(params["repo"]).resolve()
-    draft_path = Path(params.get("draft_path") or "content/posts/bielik-draft.md")
+    draft_path = Path(params.get("draft_path") or "content/pl/log/2026/bielik-draft.md")
     title = str(params.get("title") or "What is new with Bielik")
     topic = str(params.get("topic") or "Bielik")
 
     output_path = repo / draft_path
     output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    prompt = f"Write a short Hugo markdown draft about {topic}. Title: {title}."
+    generated = maybe_generate_with_openrouter(prompt)
+    body = generated or f"""{topic} has seen a careful week of small, useful improvements.
+The model ecosystem is becoming easier to test, easier to discuss, and easier to reuse.
+This placeholder paragraph stands in for a real local LLM wrapper or editorial script.
+"""
 
     content = f"""---
 title: "{title}"
@@ -734,9 +842,7 @@ draft: true
 tags: ["bielik", "llm", "polski"]
 ---
 
-{topic} has seen a careful week of small, useful improvements.
-The model ecosystem is becoming easier to test, easier to discuss, and easier to reuse.
-This placeholder paragraph stands in for a real local LLM wrapper or editorial script.
+{body}
 """
 
     output_path.write_text(content, encoding="utf-8")
@@ -848,7 +954,7 @@ template_id: bielik-biweekly-publish.v1
 parameters:
   topic: "Bielik"
   cadence_window: { from: "2026-04-03", to: "2026-04-17" }
-  repo: "git@example.org:redakcja/blog-bielik.git"
+  repo: "git@bielik-blog:orbiplex/bielik-blog.git"
   draft_branch_prefix: "drafts/bielik-"
   publish_branch: "publish/main"
   hugo_section: "posts"
@@ -1112,7 +1218,7 @@ Arca task path (`git-commit-draft`). The `git-signer` role asks
 `sensorium-core` to invoke allowlisted OS connector actions that clone
 the repo (if needed), create the branch
 `drafts/bielik-2026-04-17-A`, writes the file
-`content/posts/2026-04-17-bielik-co-nowego.md`, *commits* with a *git*
+`content/pl/log/2026/bielik-co-nowego.md`, *commits* with a *git*
 signature tied to node A's participant key (Ed25519 over the
 canonicalised commit object — the same signing mechanism used by the
 Agora relay in story 008, only with a different `domain tag`:
@@ -1131,7 +1237,7 @@ The step's result returned to Arca:
   "outcome": "ok",
   "draft_branch": "drafts/bielik-2026-04-17-A",
   "draft_commit": "8fa2…",
-  "draft_path": "content/posts/2026-04-17-bielik-co-nowego.md",
+  "draft_path": "content/pl/log/2026/bielik-co-nowego.md",
   "signature_tracker": {
     "domain": "git.commit.v1",
     "status": "verified",
@@ -1190,7 +1296,7 @@ derived from the script JSON plus the Sensorium envelope:
   "git": {
     "branch": "drafts/bielik-2026-04-17-A",
     "commit_sha": "8fa2…",
-    "paths": ["content/posts/2026-04-17-bielik-co-nowego.md"]
+    "paths": ["content/pl/log/2026/bielik-co-nowego.md"]
   },
   "signature": {
     "domain": "git.commit.v1",
@@ -1225,7 +1331,7 @@ data plane at all. The illustration module:
    `git fetch origin drafts/bielik-2026-04-17-A` and
    `git checkout 8fa2…` on a local worktree associated with the module;
    reads the file
-   `content/posts/2026-04-17-bielik-co-nowego.md`. The draft bytes
+   `content/pl/log/2026/bielik-co-nowego.md`. The draft bytes
    arrived through the git channel, not the Arca channel.
 2. Extracts a list of visual motifs from the draft (title + selected
    headers + 1–3 longer paragraphs as *prompt context*).
@@ -1335,7 +1441,7 @@ For a rejected candidate the result is still pointer-only and auditable:
   "outcome": "rejected",
   "editorial_decision": "rejected",
   "rejection_reason": "missing primary source attribution",
-  "correction_pointers": ["content/posts/2026-04-17-bielik-co-nowego.md"],
+  "correction_pointers": ["content/pl/log/2026/bielik-co-nowego.md"],
   "memarium_record_id": "sha256:…"
 }
 ```
@@ -1635,6 +1741,45 @@ here):
   signing ceremony.
 - Arca workflow — proposal 029 (templates) + proposal 033 (temporal
   orchestration) as the contractual base.
+
+## Production Readiness Checklist
+
+Before treating story-009 as a production deployment, verify these decisions in
+configuration, UI, and tests:
+
+- GitLab remote is configured as `git@bielik-blog:orbiplex/bielik-blog.git` on
+  every node that needs Git access, with private keys installed only as
+  deployment secrets.
+- Hugo paths are created under `content/pl/log/<year>/` and
+  `content/en/log/<year>/` before the first real article run.
+- Only node C can push `publish/main`; node A and node B must fail before or at
+  push if they attempt `git-push-publish`.
+- `git-push-publish` requires an operator-signed approval artifact and surfaces
+  an `Awaiting acceptance` UI item with `[Sign]` and `[Reject]`.
+- Capability discovery uses passport and issuer policy. Harness
+  `trusted_node_ids` are not the only production trust gate.
+- Arca supports automatic provider selection plus operator override for the run.
+- The step-completion UI is a read-side aggregator over per-node control
+  endpoints, not an Agora topic and not a shared store.
+- `workflow.completed` is emitted as a monitoring/history fact after completion.
+- The verifier checks the deployed URL under `https://bielik.orbiplex.ai/` once
+  Netlify is connected.
+- The audit bundle can be exported from Memarium facts, workflow step-completion
+  records, signer traces, Sensorium outcomes, and the final monitoring fact.
+- Retention is explicit: Memarium facts indefinitely, Sensorium artifacts by
+  TTL, stdout/stderr artifacts one day by default.
+- Story role providers are `json_e_flow`; HTTP-local role modules remain legacy
+  harness material.
+
+Minimum negative tests for the production MVP:
+
+- provider unavailable;
+- step timeout;
+- node C operator rejects publish;
+- Git push rejected;
+- signer locked or unauthorized;
+- missing Memarium passport;
+- Seed Directory returns only untrusted providers.
 
 ## References
 

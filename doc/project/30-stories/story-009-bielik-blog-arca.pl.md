@@ -220,8 +220,8 @@ Warianty z ceną niezerową, negocjacją albo settlementem są osobną story.
   na węźle A jako hoście, ale to tylko lokalizacja silnika — Arca jest
   *agnostyczna* względem tego, gdzie fizycznie żyją uczestnicy zdefiniowanych
   kroków; znajduje ich przez lookup ofert po task-type).
-- **Repozytorium git** `git@example.org:redakcja/blog-bielik.git` ze strukturą
-  Hugo (`content/posts/`, `static/img/posts/`, `config.toml`). Gałąź `drafts/*`
+- **Repozytorium git** `git@bielik-blog:orbiplex/bielik-blog.git` ze strukturą
+  Hugo (`content/pl/log/<year>/`, `content/en/log/<year>/`, `static/img/posts/`, `config.toml`). Gałąź `drafts/*`
   jest dla szkiców i wersji roboczych; gałąź `publish/main` jest jedyną gałęzią
   wdrażaną przez Netlify.
 - **Trzy lokalne Memaria** — jedno na węzeł. Każde przechowuje własne fakty
@@ -255,14 +255,63 @@ Wspierane są dwa kształty setupu:
   może działać na węźle A. Tylko węzeł C reklamuje i autoryzuje
   `git-push-publish`.
 
+### Decyzje dla targetu produkcyjnego
+
+Produkcyjnie zorientowany wariant story-009 używa tych decyzji:
+
+- **Git data plane:** repozytorium redakcyjne jest realnym repozytorium GitLab,
+  widocznym w środowisku operatora jako
+  `git@bielik-blog:orbiplex/bielik-blog.git`. Alias SSH `bielik-blog` oraz
+  prywatny deploy key są konfiguracją maszyny operatora, nie konfiguracją
+  Orbiplex i nie treścią repozytorium.
+- **Gałąź publikacyjna:** `publish/main` pozostaje jedyną gałęzią publikacyjną.
+  Tylko węzeł C może ją pushować.
+- **Layout treści Hugo:** polskie artykuły żyją pod
+  `content/pl/log/<year>/`; angielskie tłumaczenia pod
+  `content/en/log/<year>/`.
+- **Target wdrożeniowy:** Netlify albo równoważny system deploymentu obserwuje
+  gałąź publikacyjną. Verifier sprawdza publiczny URL pod
+  `https://bielik.orbiplex.ai/`, na przykład
+  `https://bielik.orbiplex.ai/pl/log/2026/bielik-13B-instruct/`. Setup Netlify
+  jest infrastrukturą zewnętrzną i nie jest automatyzowany przez tę story.
+- **Model operatorski:** jeden operator zarządza trzema węzłami i podpisuje
+  właściwe lokalne artefakty autorytetu.
+- **Model providerów ról:** story-009 oficjalnie używa providerów ról
+  `json_e_flow`. Dawny kształt HTTP-local role-module jest dla tej story
+  legacy/deprecated.
+- **Wrappery modeli:** realne użycie LLM albo diffusion celowo pozostaje poza
+  rdzeniem Orbiplex. Allowlistowany skrypt może użyć URL-a API zgodnego
+  z OpenRouter i opcjonalnego API key; jeśli są puste albo nieustawione, musi
+  wrócić do statycznego deterministycznego tekstu.
+- **Akceptacja publikacji:** `git-push-publish` jest operator-gated. UI powinno
+  pokazać element `Awaiting acceptance` z komponentem żądającym, akcją,
+  digestem/podsumowaniem treści oraz przyciskami `[Sign]` / `[Reject]`.
+  Ścieżka akceptacji to podpis operatora nad artefaktem approval.
+- **Zaufanie discovery:** produkcyjne discovery opiera się na capability
+  passportach i polityce issuerów. Harnessowe `trusted_node_ids` pozostają
+  override'em, nie finalnym modelem zaufania.
+- **Wybór providera:** Arca może wybierać providerów automatycznie, ale operator
+  musi mieć możliwość override'u wyboru dla runu.
+- **Widok completion:** produkcyjny UI agreguje per-node control read-modele
+  `/v1/workflows/runs/{workflow_run_id}/steps/completed`. Nie ma syntetycznego
+  wspólnego store ukończeń kroków w Agorze.
+- **Fakt monitoringowy:** Arca nadal emituje `workflow.completed` jako lokalny
+  fakt monitoringowy/historyczny Agory.
+- **Model audytu:** produkcyjny audit bundle składa się z faktów Memarium,
+  rekordów workflow step-completion, śladów signera oraz eksportowalnego bundle
+  całego runu.
+- **Retencja:** fakty Memarium są przechowywane bezterminowo. Artefakty Sensorium
+  mają TTL. Artefakty stdout/stderr skryptów domyślnie żyją jeden dzień.
+
 ### Prerekwizyty
 
 Przed instalacją Orbiplex na maszynach przygotuj:
 
 - Trzy nazwy hostów albo etykiety maszyn: `node-a`, `node-b`, `node-c`.
-- Jedno repozytorium Git z layoutem zgodnym z Hugo:
-  `content/posts/`, `static/img/posts/` oraz gałęzią publikacyjną, na przykład
-  `publish/main`.
+- Jedno repozytorium Git z layoutem zgodnym z Hugo. Dla targetu produkcyjnego
+  remote to `git@bielik-blog:orbiplex/bielik-blog.git`, polskie wpisy żyją pod
+  `content/pl/log/<year>/`, angielskie tłumaczenia pod
+  `content/en/log/<year>/`, a gałęzią publikacyjną jest `publish/main`.
 - Politykę gałęzi publikacyjnej. W deploymentcie referencyjnym może to być
   lokalne repozytorium bare z hookiem `pre-receive`. W realnym deploymentcie
   użyj uprawnień repozytorium albo hooków tak, aby tylko węzeł C mógł
@@ -432,6 +481,20 @@ zadeklaruj w wpisie katalogu akcji. Minimum dla akcji story:
 }
 ```
 
+Dla powyższego targetu GitLab maszyna operatora może dostarczać alias SSH
+`bielik-blog` w `~/.ssh/config`. Jeśli katalog akcji OS ma przypiąć tę ścieżkę
+jawnie, ustaw nieinteraktywne `GIT_SSH_COMMAND`, na przykład:
+
+```json
+{
+  "GIT_SSH_COMMAND": "ssh -F /home/orbiplex/.ssh/config -o IdentitiesOnly=yes"
+}
+```
+
+Prywatne deploy keys są sekretami deploymentu. Mogą być instalowane na zaufanych
+maszynach operatorów/developerów, ale nie mogą trafić do Orbiplex ani do
+repozytoriów z treścią story.
+
 ### Konfiguracja węzła A
 
 Węzeł A hostuje operator-facing workflow Arki w tej story i posiada rolę
@@ -539,6 +602,12 @@ Katalog akcji Sensorium OS:
 - Traktuj akcję publikacji jako operator-gated poza ścieżką demo. W produkcji
   katalog edytowany przez operatora powinien być autoryzowany podpisem operatora,
   a nie polegać wyłącznie na node-signed factory bootstrap.
+- Wymagaj jawnej akceptacji operatora dla każdego żądania `git-push-publish`
+  w produkcji. UI powinno pokazać `Awaiting acceptance` z identyfikatorem
+  komponentu żądającego, action id, gałęzią docelową, digestem/podsumowaniem
+  treści oraz przyciskami `[Sign]` / `[Reject]`. `[Sign]` produkuje podpis
+  approval konsumowany przez akcję publikacji; `[Reject]` zapisuje strukturalną
+  odmowę.
 
 Kroki UI/operatora na węźle C:
 
@@ -606,10 +675,17 @@ W Node UI na każdym węźle:
 7. Obserwuj widok workflow run. Każdy krok powinien nieść tylko pola
    wskaźnikowe: branch, commit, path, `memarium_record_id` oraz identyfikatory
    Sensorium outcome/observation.
-8. Po ukończeniu sprawdź Agorę i potwierdź rekord `workflow.completed`
+8. Gdy krok publikacji dojdzie do bramki C7, potwierdź, że UI pokazuje
+   `Awaiting acceptance` z komponentem żądającym, action id, gałęzią docelową
+   i digestem/podsumowaniem treści; wybierz `[Sign]` tylko wtedy, gdy żądanie
+   jest oczekiwane.
+9. Po ukończeniu sprawdź Agorę i potwierdź rekord `workflow.completed`
    z linkami do trzech faktów commitów oraz faktu weryfikacji publikacji.
-9. Sprawdź każde lokalne Memarium. Fakty powinny być append-only i lokalne dla
+10. Sprawdź każde lokalne Memarium. Fakty powinny być append-only i lokalne dla
    węzła, który wykonał dany krok.
+11. Otwórz widok agregacji ukończeń kroków albo uruchom
+   `story-009-step-completions.py --expect-complete` i zweryfikuj, że wszystkie
+   pięć oczekiwanych step id występuje dokładnie raz.
 
 ### CLI smoke test
 
@@ -679,6 +755,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import urllib.request
 from pathlib import Path
 from typing import Any
 
@@ -694,16 +772,48 @@ def sha256_text(text: str) -> str:
     return f"sha256:{digest}"
 
 
+def maybe_generate_with_openrouter(prompt: str) -> str | None:
+    api_url = os.environ.get("OPENROUTER_API_URL", "").strip()
+    api_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+    model = os.environ.get("OPENROUTER_MODEL", "").strip() or "openrouter/auto"
+    if not api_url:
+        return None
+
+    request_body = json.dumps(
+        {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": "Napisz zwięzły szkic wpisu Hugo."},
+                {"role": "user", "content": prompt},
+            ],
+        }
+    ).encode("utf-8")
+    headers = {"Content-Type": "application/json"}
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+    request = urllib.request.Request(api_url, data=request_body, headers=headers, method="POST")
+    with urllib.request.urlopen(request, timeout=60) as response:  # nosec: endpoint konfigurowany przez operatora
+        payload = json.loads(response.read().decode("utf-8"))
+    return payload["choices"][0]["message"]["content"]
+
+
 def main() -> None:
     params = parse_params()
 
     repo = Path(params["repo"]).resolve()
-    draft_path = Path(params.get("draft_path") or "content/posts/bielik-draft.md")
+    draft_path = Path(params.get("draft_path") or "content/pl/log/2026/bielik-draft.md")
     title = str(params.get("title") or "Co nowego z Bielikiem")
     topic = str(params.get("topic") or "Bielik")
 
     output_path = repo / draft_path
     output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    prompt = f"Napisz krótki szkic markdown dla Hugo o temacie {topic}. Tytuł: {title}."
+    generated = maybe_generate_with_openrouter(prompt)
+    body = generated or f"""Wokół tematu {topic} wydarzył się tydzień małych, użytecznych zmian.
+Ekosystem modelu staje się łatwiejszy do testowania, omawiania i ponownego użycia.
+Ten akapit zastępuje prawdziwy lokalny wrapper LLM albo skrypt redakcyjny.
+"""
 
     content = f"""---
 title: "{title}"
@@ -711,9 +821,7 @@ draft: true
 tags: ["bielik", "llm", "polski"]
 ---
 
-Wokół tematu {topic} wydarzył się tydzień małych, użytecznych zmian.
-Ekosystem modelu staje się łatwiejszy do testowania, omawiania i ponownego użycia.
-Ten akapit zastępuje prawdziwy lokalny wrapper LLM albo skrypt redakcyjny.
+{body}
 """
 
     output_path.write_text(content, encoding="utf-8")
@@ -824,7 +932,7 @@ template_id: bielik-biweekly-publish.v1
 parameters:
   topic: "Bielik"
   cadence_window: { from: "2026-04-03", to: "2026-04-17" }
-  repo: "git@example.org:redakcja/blog-bielik.git"
+  repo: "git@bielik-blog:orbiplex/bielik-blog.git"
   draft_branch_prefix: "drafts/bielik-"
   publish_branch: "publish/main"
   hugo_section: "posts"
@@ -1079,7 +1187,7 @@ Po wytworzeniu szkicu zapis git jest obsługiwany jako osobna ścieżka zadania
 Arki (`git-commit-draft`). Rola `git-signer` prosi `sensorium-core` o wywołanie
 allowlistowanych akcji OS connectora, które klonują repo (jeśli trzeba), tworzą
 gałąź `drafts/bielik-2026-04-17-A`, zapisują plik
-`content/posts/2026-04-17-bielik-co-nowego.md`, robią *commit* z podpisem *git*
+`content/pl/log/2026/bielik-co-nowego.md`, robią *commit* z podpisem *git*
 powiązanym z kluczem uczestnika węzła A (Ed25519 nad kanonicznym obiektem
 commita — ten sam mechanizm podpisywania, którego relay Agora używa w story 008,
 tylko z innym `domain tag`: `git.commit.v1`) i wypychają gałąź. Podpis może być
@@ -1097,7 +1205,7 @@ Wynik kroku zwracany do Arki:
   "outcome": "ok",
   "draft_branch": "drafts/bielik-2026-04-17-A",
   "draft_commit": "8fa2…",
-  "draft_path": "content/posts/2026-04-17-bielik-co-nowego.md",
+  "draft_path": "content/pl/log/2026/bielik-co-nowego.md",
   "signature_tracker": {
     "domain": "git.commit.v1",
     "status": "verified",
@@ -1155,7 +1263,7 @@ pochodzących z JSON-a skryptu oraz envelope'u Sensorium:
   "git": {
     "branch": "drafts/bielik-2026-04-17-A",
     "commit_sha": "8fa2…",
-    "paths": ["content/posts/2026-04-17-bielik-co-nowego.md"]
+    "paths": ["content/pl/log/2026/bielik-co-nowego.md"]
   },
   "signature": {
     "domain": "git.commit.v1",
@@ -1189,7 +1297,7 @@ do data plane Arki. Moduł ilustracyjny:
 1. Prosi `sensorium-core` o wywołanie allowlistowanych akcji OS connectora dla
    `git fetch origin drafts/bielik-2026-04-17-A` oraz `git checkout 8fa2…`
    na lokalnym worktree powiązanym z modułem; czyta plik
-   `content/posts/2026-04-17-bielik-co-nowego.md`. Bajty szkicu przyszły przez
+   `content/pl/log/2026/bielik-co-nowego.md`. Bajty szkicu przyszły przez
    kanał git, nie przez kanał Arki.
 2. Wyciąga listę motywów wizualnych ze szkicu (tytuł + wybrane nagłówki +
    1–3 dłuższe akapity jako *prompt context*).
@@ -1287,7 +1395,7 @@ Dla odrzuconego kandydata wynik nadal jest pointer-only i audytowalny:
   "outcome": "rejected",
   "editorial_decision": "rejected",
   "rejection_reason": "missing primary source attribution",
-  "correction_pointers": ["content/posts/2026-04-17-bielik-co-nowego.md"],
+  "correction_pointers": ["content/pl/log/2026/bielik-co-nowego.md"],
   "memarium_record_id": "sha256:…"
 }
 ```
@@ -1573,6 +1681,48 @@ i backlogach modułów; nie tutaj):
   starcie, więc demo działa bez ceremonii podpisu operatora.
 - Workflow Arki — proposal 029 (templates) + proposal 033 (temporal
   orchestration) jako baza kontraktowa.
+
+## Checklist gotowości produkcyjnej
+
+Przed potraktowaniem story-009 jako produkcyjnego deploymentu zweryfikuj te
+decyzje w konfiguracji, UI i testach:
+
+- GitLab remote jest skonfigurowany jako
+  `git@bielik-blog:orbiplex/bielik-blog.git` na każdym węźle, który potrzebuje
+  dostępu do Gita, a prywatne klucze są instalowane wyłącznie jako sekrety
+  deploymentu.
+- Ścieżki Hugo istnieją pod `content/pl/log/<year>/` oraz
+  `content/en/log/<year>/` przed pierwszym realnym runem artykułu.
+- Tylko węzeł C może pushować `publish/main`; węzeł A i węzeł B muszą zawieść
+  przed albo przy pushu, jeśli spróbują `git-push-publish`.
+- `git-push-publish` wymaga operator-signed approval artifact i wystawia element
+  UI `Awaiting acceptance` z `[Sign]` oraz `[Reject]`.
+- Capability discovery używa passportów i polityki issuerów. Harnessowe
+  `trusted_node_ids` nie są jedyną produkcyjną bramką zaufania.
+- Arca obsługuje automatyczny wybór providera oraz operator override dla runu.
+- UI ukończeń kroków jest read-side agregatorem nad per-node endpointami
+  control, nie topicem Agory i nie współdzielonym store.
+- `workflow.completed` jest emitowany jako fakt monitoringowy/historyczny po
+  ukończeniu workflow.
+- Verifier sprawdza wdrożony URL pod `https://bielik.orbiplex.ai/`, gdy Netlify
+  jest podłączone.
+- Audit bundle da się wyeksportować z faktów Memarium, rekordów workflow
+  step-completion, śladów signera, wyników Sensorium i finalnego faktu
+  monitoringowego.
+- Retencja jest jawna: fakty Memarium bezterminowo, artefakty Sensorium według
+  TTL, artefakty stdout/stderr domyślnie jeden dzień.
+- Providery ról story są `json_e_flow`; HTTP-local role modules pozostają
+  legacy harness material.
+
+Minimalne testy negatywne dla produkcyjnego MVP:
+
+- provider unavailable;
+- timeout kroku;
+- operator węzła C odmawia publikacji;
+- Git push rejected;
+- signer locked lub unauthorized;
+- brak passportu Memarium;
+- Seed Directory zwraca wyłącznie nieufnych providerów.
 
 ## Referencje
 
