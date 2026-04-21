@@ -929,6 +929,16 @@ call. The flow trace should link:
 - response digest,
 - decision or failure reason.
 
+The daemon should expose an operator-facing read model for configured
+`json_e_flow` middleware. The current implementation shape is
+`GET /v1/json-e-flow-middleware?limit=N`, with the Node UI rendering the same
+projection. This read model is not the raw trace log. It is a bounded operator
+view containing middleware identity, role capability id, helper profile,
+allowed host calls, limits, trace retention policy, recent retained trace
+summaries, and per-step request/response digests. Raw context values and raw
+capability responses MUST remain out of this projection unless an explicit
+trace policy authorizes retention for that field class.
+
 ## Implementation Sketch
 
 Add a middleware-runtime executor:
