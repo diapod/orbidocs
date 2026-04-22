@@ -606,7 +606,7 @@ The resolution:
    each of them, takes the **in-memory merged effective configuration
    as it will actually run**, and **automatically produces a
    node-signed sidecar** over that value (same JCS + sha-256 pipeline
-   described above), using the **node's own participant key** — which
+   described above), using the **node-self identity key** — which
    is itself a trusted signer in the local trust model. Anchoring the
    signature on the in-memory merged value (rather than on any
    individual file) is what keeps this mechanism correct in the
@@ -627,9 +627,11 @@ Observable consequences and guarantees:
 - The first operator edit is always surfaced and requires explicit
   admittance; there is no silent drift from "factory" to "customized".
 - Every authorized configuration, whether node-signed or
-  operator-signed, carries an identifiable `signer.participant/id`, so
-  audit can tell node-bootstrapped authorizations apart from operator
-  authorizations without ambiguity.
+  operator-signed, carries an identifiable signer subject:
+  `signer.node_id` for node-self bootstrap and `signer.participant_id`
+  for operator authorization. Audit can therefore tell
+  node-bootstrapped authorizations apart from operator authorizations
+  without ambiguity.
 - The sidecar file lives in the same active configuration area in
   both cases — the signer identity is what differs, not the location
   or the schema.
@@ -642,6 +644,18 @@ sidecar at the first operator modification.
 
 #### Re-authorization posture
 
+The sidecar-signature mechanism is a specialization of a more general
+**signed middleware configuration artifact** mechanism. A middleware may declare
+one or more signed artifacts in its active config, each with an `artifact_id`,
+a JSON Pointer to the effective config fragment, and a signing domain. The host
+then computes the canonical hash of that fragment, writes the detached sidecar
+under `<middleware-home>/config/.signatures/`, and blocks stale or denied
+artifacts as Local Readiness Gate items (proposal 050). Sensorium OS uses
+this generic mechanism with the first built-in artifact:
+`module_id = "sensorium-os"`, `artifact_id = "action-catalog"`,
+`config_pointer = "/sensorium_os/action_catalog"`, and
+`signing_domain = "sensorium.os.action-catalog.v1"`.
+
 - **Strict posture (default for non-bootstrap deployments).** The
   connector reports `config/authorized: false` and refuses to expose
   its action catalog. The host surfaces an operator prompt — "the
@@ -651,6 +665,17 @@ sidecar at the first operator modification.
   detached signature over its canonical hash, and write the sidecar
   signature file**. On rejection the host disables the middleware
   until the configuration is reverted or re-signed.
+  A host MAY implement this as Local Readiness Gate (proposal 050): keep the
+  daemon control/UI plane alive, block dependent middleware runtime,
+  expose the blocking sidecar path and catalog hash to the operator,
+  and resume only after an explicit signed grant or deny artifact is
+  written.
+- **Host bootstrap posture (default for missing sidecars).** If the
+  sidecar is absent, the host MAY create a node-self signed bootstrap
+  sidecar before starting the connector. This posture is limited to
+  absence. A present-but-stale sidecar MUST NOT be silently replaced by
+  the node; it enters Strict posture and requires an explicit operator
+  decision.
 - **Bootstrap posture (explicit and narrow).** A top-level
   `allow_unsigned_bootstrap` boolean in the connector configuration
   MAY be set to `true` during initial development. When set, a

@@ -434,8 +434,13 @@ In this local shape, node A should discover role providers through node B and
 node C Seed Directory endpoints by default, not by querying only itself. The
 reference helper therefore renders node A with Seed Directory endpoints for
 node B and node C. Missing Sensorium OS action-catalog sidecars may be reported
-as `awaiting_operator_signature` during initialization; they become blocking
-only when the operator expects a signed production run.
+as `awaiting_operator_signature` during initialization before the daemons are
+started; daemon startup materializes them as node-self signed bootstrap
+sidecars. A present-but-stale sidecar is not auto-replaced and requires an
+explicit operator decision in Node UI. In that case the daemon may enter
+Local Readiness Gate (proposal 050): control/UI endpoints stay live, but
+story middleware is not started until the operator signs or rejects the changed
+catalog.
 
 The daemon writes operator-edited config fragments under:
 

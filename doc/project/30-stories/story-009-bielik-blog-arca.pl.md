@@ -423,8 +423,13 @@ W tym lokalnym kształcie węzeł A powinien odkrywać providerów ról przez en
 Seed Directory węzłów B i C, a nie przez pytanie wyłącznie samego siebie.
 Referencyjny helper renderuje więc węzeł A z endpointami Seed Directory dla
 węzła B i węzła C. Brakujące sidecary katalogu akcji Sensorium OS mogą być
-raportowane podczas inicjalizacji jako `awaiting_operator_signature`; stają się
-blokujące dopiero wtedy, gdy operator oczekuje podpisanego runu produkcyjnego.
+raportowane podczas inicjalizacji przed startem daemonów jako
+`awaiting_operator_signature`; start daemona materializuje je jako bootstrapowe
+sidecary podpisane `node-self`. Istniejący, ale nieaktualny sidecar nie jest
+automatycznie zastępowany i wymaga jawnej decyzji operatora w Node UI. W takim
+przypadku daemon może wejść w Local Readiness Gate (proposal 050): endpointy control/UI
+pozostają, ale middleware story nie startuje, dopóki operator nie podpisze
+albo nie odrzuci zmienionego katalogu.
 
 Daemon zapisuje fragmenty konfiguracji edytowane przez operatora pod:
 
