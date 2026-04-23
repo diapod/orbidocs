@@ -450,6 +450,15 @@ The lane-level invariants are:
 - raw artifacts are evidence or source material, not normalized observations by
   default,
 - every directive should carry an invocation id, timeout, and output budget,
+- every directive action must be finite and timeout-governed; Sensorium
+  connectors, including the OS connector, must not use directive execution to
+  host long-lived daemons, watchers, subscriptions, model workers, or open-ended
+  streams. Long-running behavior belongs in a separately supervised middleware
+  module or connector; a directive may only invoke a bounded command that
+  samples, checks, transforms, or triggers one action and then returns.
+  Asynchrony, threads, watchers, queues, caches, and streaming are allowed
+  behind the invoked script boundary, but the directive boundary must linearize
+  them into one bounded invocation result,
 - every artifact should carry media type, sensitivity class, and preferably a
   content-addressed reference,
 - partial success is valid: observations may coexist with diagnostics,

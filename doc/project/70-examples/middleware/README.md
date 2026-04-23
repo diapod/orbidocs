@@ -18,6 +18,9 @@ declared capability.
   `json_e_flow` provider.
 - `json-e-flow-role/` - a minimal generic `json_e_flow` role provider with a
   mocked host capability call.
+- `middleware-package-ui/` - minimal `middleware.package.v1` package that
+  contributes a no-JavaScript Node UI surface and can carry signed config
+  fragments.
 - `sensorium-connector/` - a minimal Sensorium connector called only by
   Sensorium-core.
 
@@ -48,3 +51,11 @@ A JSON-e-flow role provider usually declares:
 Use JSON-e-flow for small declarative adapters. Move domain-heavy behavior to a
 proper capability provider, such as a supervised middleware module or a
 Sensorium connector.
+
+## Middleware Package Shape
+
+External packages live under `<data_dir>/middleware-packages/<package>/` and are
+described by `middleware.package.v1`. A package may contribute host-rendered UI
+fragments and declarative config fragments. Config fragments are activated by
+the daemon only after the package artifact has a current operator signature;
+the package remains data, not executable JavaScript.

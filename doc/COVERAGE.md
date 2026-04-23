@@ -25,7 +25,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | `50-requirements` (Requirements) | `16` | `14` |
 | `60-solutions` (Solutions) | `27` | `15` |
 
-- Total project markdown files: `164`
+- Total project markdown files: `165`
 - Proposals referencing source material: `43` / `53`
 - Requirements referencing source material: `14` / `16`
 

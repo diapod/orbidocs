@@ -137,10 +137,10 @@ Nodes declare local readiness prerequisites as data:
     "require_operator_participant_key": true,
     "required_capability_passports": [
       {
-        "id": "story009-roles.memarium-space-access",
+        "id": "story009-json-e-flow.memarium-space-access",
         "label": "Story-009 JSON-e role provider Memarium passport",
         "capability_id": "memarium-space-access",
-        "module_id": "story009-roles"
+        "module_id": "story009.json-e-flow.roles"
       }
     ]
   }

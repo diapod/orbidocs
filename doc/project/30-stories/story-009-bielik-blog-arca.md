@@ -258,9 +258,9 @@ not learn the semantics of Git, Netlify, Bielik, or a particular LLM.
 There are three supported setup shapes:
 
 - **Reference skeleton on one host.** One daemon starts Arca, Dator,
-  `story009-roles`, `sensorium-core`, `sensorium-os`, Memarium, and
-  Agora locally. This is the fastest path for development and for
-  verifying the contract.
+  in-process JSON-e role flows (`story009.json-e-flow.roles`),
+  `sensorium-core`, `sensorium-os`, Memarium, and Agora locally. This is
+  the fastest path for development and for verifying the contract.
 - **Persistent one-laptop operator pack.** Three durable node profiles live on
   one operator machine with distinct control, WSS, and Node UI ports. This uses
   the same three-node topology as the production story while keeping the setup
@@ -497,7 +497,7 @@ Minimal overlay shape:
   },
   "middleware_json_e_flow_services": {
     "story009-role-bielik-researcher-json-e-flow": {
-      "module_id": "story009-roles",
+      "module_id": "story009.json-e-flow.roles",
       "bindings": {
         "role_capability_id": "role.bielik-researcher.execute",
         "action_id": "story009.draft.compose"

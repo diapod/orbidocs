@@ -1,0 +1,33 @@
+{
+  "schema": "middleware.package.v1",
+  "package_id": "example.middleware-ui",
+  "version": "0.1.0",
+  "module_id": "example-middleware",
+  "provides": {
+    "config_fragments": [
+      {
+        "kind": "daemon.middleware_json_e_flow_services",
+        "path": "config/json-e-flow-services.json"
+      }
+    ]
+  },
+  "ui_surfaces": [
+    {
+      "surface_id": "example",
+      "label": "Example",
+      "mount": "/middleware/example/_ui",
+      "nav_group": "middleware",
+      "nav_entries": [
+        {
+          "label": "Overview",
+          "path": ""
+        }
+      ],
+      "render": {
+        "kind": "host-template-fragment",
+        "template_root": "ui",
+        "index": "index.html"
+      }
+    }
+  ]
+}

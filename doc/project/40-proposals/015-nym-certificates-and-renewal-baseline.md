@@ -229,13 +229,41 @@ Later phases may add:
 - synchronized epoch batches,
 - private resets with no public predecessor link,
 - non-revocation proofs,
+- contextual participant nyms for Seed Directory publication, where the public
+  discovery/reputation handle is not the root `participant:did:key`,
 - or stronger revocable-anonymity constructions.
 
 The stable invariant should remain:
 
 - `nym` is an application-layer pseudonym,
 - transport does not route on `nym`,
+- Seed Directory should not require routine disclosure of root participant
+  identity when a scoped nym can carry discovery and reputation semantics,
 - and upgrading anonymity must not contaminate the networking boundary.
+
+The later contextual-nym design should draw from multiple adjacent privacy
+families: private messaging systems that minimize graph disclosure, shielded
+cryptocurrency key/address hierarchies, and selective-disclosure credential
+systems. The intended direction is not to make one of those systems normative,
+but to preserve these properties: per-context identifiers, rotation, selective
+continuity proofs, and avoidance of a globally linkable participant identity.
+
+Later work should also split nym semantics by accountability class. Public,
+reputation-bearing actions may use `accountable-nym` with a conditional
+sealed-council unseal path, while private, consent-bound communication may use
+`private-nym` with much stronger unlinkability and only local or group-scoped
+reputation. This v1 certificate baseline does not freeze those classes, unseal
+policy, or private group pseudonymity. It only keeps enough room for them by
+keeping `nym` above transport and by avoiding routine disclosure of the root
+participant identity.
+
+Private-group removal has a separate unresolved requirement: a group may need to
+exclude not only the current nym, but also future nyms controlled by the same
+hidden subject, without learning the root participant identity. A later proposal
+should define a scoped mechanism for that, such as group-local nullifiers,
+issuer-side refusal, anonymous non-revocation proofs, or sealed group-local
+exclusion handles. The mechanism must avoid turning private removal into a
+globally linkable identifier.
 
 ## First Concrete Embedding
 

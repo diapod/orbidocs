@@ -247,7 +247,8 @@ nie uczą się semantyki Gita, Netlify, Bielika ani konkretnego LLM.
 Wspierane są trzy kształty setupu:
 
 - **Szkielet referencyjny na jednym hoście.** Jeden daemon uruchamia lokalnie
-  Arcę, Datora, `story009-roles`, `sensorium-core`, `sensorium-os`, Memarium
+  Arcę, Datora, in-process przepływy ról JSON-e
+  (`story009.json-e-flow.roles`), `sensorium-core`, `sensorium-os`, Memarium
   i Agorę. To najszybsza ścieżka developerska i najprostszy sposób weryfikacji
   kontraktu.
 - **Trwały jednolaptopowy pakiet operatorski.** Trzy trwałe profile węzłów żyją
@@ -485,7 +486,7 @@ Minimalny kształt overlayu:
   },
   "middleware_json_e_flow_services": {
     "story009-role-bielik-researcher-json-e-flow": {
-      "module_id": "story009-roles",
+      "module_id": "story009.json-e-flow.roles",
       "bindings": {
         "role_capability_id": "role.bielik-researcher.execute",
         "action_id": "story009.draft.compose"
