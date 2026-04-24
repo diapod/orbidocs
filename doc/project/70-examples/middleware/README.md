@@ -43,10 +43,33 @@ A JSON-e-flow role provider usually declares:
 - one `middleware_json_e_flow_services` entry in daemon config,
 - stable `module_id`, `component_id`, and `template_id`,
 - `bindings.role_capability_id` for Dator dispatch,
+- optional per-flow `raw_signal_access` if this flow needs the initial raw
+  invocation payload or prior component input snapshots,
 - `context_projection` mapping the incoming role invocation into authoring
   variables,
 - `allowed_calls` as the static host capability allowlist,
 - a small `render` / `call` / `validate` / `respond` step list.
+
+`raw_signal_access` is a permission to expose host-preserved context, not a
+template variable by itself. To use it, the flow must also project the needed
+field, for example:
+
+```json
+{
+  "raw_signal_access": {
+    "requires_raw_signal": true,
+    "requires_component_io_trace": false,
+    "reason": "compare normalized request with the original role invocation"
+  },
+  "context_projection": {
+    "raw_signal": "$.trace.raw_signal_access.raw_signal"
+  }
+}
+```
+
+Use `requires_component_io_trace` only when the flow really needs the history of
+prior component inputs in the same local passage. It is heavier than preserving
+the initial raw signal.
 
 Use JSON-e-flow for small declarative adapters. Move domain-heavy behavior to a
 proper capability provider, such as a supervised middleware module or a

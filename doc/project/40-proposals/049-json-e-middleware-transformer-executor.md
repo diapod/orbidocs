@@ -216,6 +216,23 @@ It is not suitable for:
 A flow is a list of declarative steps. JSON-e renders step inputs, but the host
 interprets and executes the step semantics.
 
+Each concrete flow MAY declare `raw_signal_access` in its
+`middleware_json_e_flow_services` entry. This is a per-flow switch, not a global
+JSON-e setting. It may request:
+
+- `requires_raw_signal` - expose the initial invocation payload under
+  `trace.raw_signal_access.raw_signal` for projection into the JSON-e authoring
+  context,
+- `requires_component_io_trace` - expose the prior component input snapshots
+  under `trace.raw_signal_access.component_io_trace`.
+
+The declaration only permits exposure. The flow still sees those values only if
+the operator maps them through `context_projection`, for example
+`"raw_signal": "$.trace.raw_signal_access.raw_signal"`. Flows without the
+declaration receive no raw-signal context even if another flow uses it. This
+keeps the raw signal as a deliberate hole in the abstraction, not ambient
+authority.
+
 Candidate step kinds:
 
 - `render` — evaluate a JSON-e template into a named value,

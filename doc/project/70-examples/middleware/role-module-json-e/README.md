@@ -57,6 +57,9 @@ host calls, the mock file is intentionally empty.
 - `bindings.role_capability_id` is the role capability Dator targets.
 - `context_projection` is the only place that maps incoming Dator fields into
   the JSON-e authoring context.
+- `raw_signal_access` may be declared per flow when this adapter needs the
+  original invocation payload or prior component input snapshots; those values
+  still have to be explicitly mapped through `context_projection`.
 - `allowed_calls` is a static allowlist. A flow cannot call a capability that is
   not listed there.
 - End with `validate` against `service-dispatch-response.v1` and then

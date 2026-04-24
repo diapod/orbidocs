@@ -38,3 +38,36 @@ Dator role dispatch
 
 The flow has no ambient authority. It can only use values projected into its
 context and host capabilities listed in `allowed_calls`.
+
+## Raw Signal Access
+
+Every `json_e_flow` entry may opt in to raw signal context with
+`raw_signal_access`:
+
+```json
+{
+  "raw_signal_access": {
+    "requires_raw_signal": true,
+    "requires_component_io_trace": false,
+    "reason": "compare the rendered response with the original invocation"
+  }
+}
+```
+
+This does not automatically place raw values in the template context. The flow
+must also project them explicitly:
+
+```json
+{
+  "context_projection": {
+    "raw_signal": "$.trace.raw_signal_access.raw_signal",
+    "component_io_trace": "$.trace.raw_signal_access.component_io_trace"
+  }
+}
+```
+
+`requires_raw_signal` exposes the initial invocation payload.
+`requires_component_io_trace` exposes the history of prior component input
+snapshots for the same local passage. Use the latter sparingly; it is intended
+for edge cases where the flow must reason about how data changed before it
+arrived.
