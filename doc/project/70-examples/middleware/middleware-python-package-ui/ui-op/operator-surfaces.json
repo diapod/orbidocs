@@ -1,0 +1,17 @@
+{
+  "operator_surfaces": [
+    {
+      "surface_id": "example-python",
+      "label": "Example Python",
+      "description": "Example server-rendered Python middleware operator surface.",
+      "rendering": "server-html",
+      "entry_path": "ui",
+      "nav_group": "middleware",
+      "nav_entries": [
+        {"label": "Home", "path": ""},
+        {"label": "Status", "path": "status"}
+      ],
+      "required_capabilities": ["example.read"]
+    }
+  ]
+}

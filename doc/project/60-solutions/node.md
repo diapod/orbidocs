@@ -288,6 +288,11 @@ Responsibilities:
 - attach those modules through the host-owned `http_local_json` connector/executor,
 - expose `middleware.dator` and `middleware.arca` as operator-visible components
   with lifecycle, readiness, and restart state,
+- preserve middleware operator UI as a layered contract: packages may ship
+  host-rendered HTML(X) in `ui/`, operator-surface metadata belongs in `ui-op/`,
+  live modules report `operator_surfaces` during `middleware-init`, and Python
+  middleware may expose `server-html` pages through the shared stdlib helper
+  under a host-owned `/middleware/{surface_id}/...` mount,
 - delegate local standing offer lifecycle and participant-facing publication to
   `Dator`, while keeping outbound relay transport and peer-session routing in
   the daemon,

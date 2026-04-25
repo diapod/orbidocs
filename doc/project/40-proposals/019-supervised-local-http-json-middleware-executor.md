@@ -325,6 +325,40 @@ The important boundary is that seeded operator-visible fragments such as
 runtime config, but should not be written back into those seeded factory
 fragments.
 
+### 3. Middleware UI Package and Operator Surface Layout
+
+Middleware packages that contribute operator UI should keep renderable fragments
+separate from operator-surface contract metadata:
+
+```text
+middleware.package.json
+config/
+  *.json
+ui/
+  index.html
+  fragments/
+  static/
+ui-op/
+  operator-surfaces.json
+```
+
+Conventions:
+
+- `ui/` is the default root for host-rendered HTML(X) fragments used by
+  `UiSurfaceRegistry` and `host-template-fragment` renderers.
+- `ui-op/` is the default root for operator-surface artifacts: declarations,
+  examples, notes, and metadata that correspond to
+  `middleware-module-report.operator_surfaces`.
+- `middleware.package.json` describes installed UI/config package assets.
+- the live middleware report describes runtime presence, navigation,
+  capabilities, and rendering ownership.
+
+These are intentionally separate layers. A package may install HTML fragments
+without the middleware currently running. A running middleware may report
+operator surfaces even when the host later decides to render them from packaged
+fragments. The host should combine both facts instead of treating either one as
+the whole truth.
+
 The hard MVP should assume at least two bundled supervised middleware component
 profiles:
 
@@ -376,7 +410,7 @@ For packaging, the Node distribution should contain:
 - a bundled Python distribution for `Orbiplex Arca`,
 - default component configuration wiring those modules into supervised startup.
 
-### 3. Lifecycle Ownership
+### 4. Lifecycle Ownership
 
 For `http_local_json`, the host owns these phases:
 
@@ -392,7 +426,7 @@ The module does not self-declare semantic authority over those states. It may re
 health, but the host interprets that health and publishes the resulting component
 state.
 
-### 4. Startup Semantics
+### 5. Startup Semantics
 
 The MVP startup path should be:
 
@@ -411,7 +445,7 @@ If readiness never succeeds:
 - operator surfaces show explicit startup failure,
 - ordinary hook traffic must not be routed to that executor.
 
-### 5. Stop and Shutdown Semantics
+### 6. Stop and Shutdown Semantics
 
 The MVP stop path should be:
 
@@ -431,7 +465,7 @@ For hard MVP, graceful termination may be simple:
 The exact signal differs by platform, but the host-owned semantics should remain the
 same.
 
-### 6. Restart Policy
+### 7. Restart Policy
 
 The hard MVP restart policy should stay small:
 
@@ -451,7 +485,7 @@ If the process exceeds that restart budget:
 
 This is enough for MVP. Richer backoff curves can come later.
 
-### 7. Health Model
+### 8. Health Model
 
 `http_local_json` should expose two distinct health notions:
 
@@ -476,7 +510,7 @@ In the hard MVP, those operator-visible components should include at least:
 - `middleware.dator`
 - `middleware.arca`
 
-### 8. Middleware Init and Module Reporting
+### 9. Middleware Init and Module Reporting
 
 The supervised attach flow should consume the existing init/report direction from
 `doc/project/20-memos/node-middleware-init-and-capability-reporting.md`.
@@ -491,13 +525,24 @@ The module then returns one module report carrying at least:
 - short description,
 - capability ids,
 - declared output-contract references where required,
+- optional `operator_surfaces` for middleware-owned operator UI discovery,
 - middleware contract version,
 - host API version expected by the module.
 
 The host stores and exposes that report as module metadata rather than leaving the
 executor as a bare id plus URL.
 
-### 9. Invocation Contract
+`operator_surfaces` is not a replacement for middleware UI packages. It is the
+runtime declaration that a live module owns a surface. `UiSurfaceRegistry`
+remains the host-side registry for installed HTML(X) fragments and merged
+surface metadata. For static or package-rendered views, a module may report a
+`host-mediated` surface that is backed by package `ui/` assets. For live
+server-rendered modules such as Python middleware, the module should report a
+`server-html` surface with a relative `entry_path`; Node UI then maps
+`/middleware/{surface_id}/...` to the module-owned route through its bounded
+same-origin proxy.
+
+### 10. Invocation Contract
 
 The supervised executor should reuse the same envelope/decision contract as other
 middleware executors:
@@ -512,7 +557,7 @@ This keeps the executor transport replaceable:
 - same semantic host contract,
 - different lifecycle ownership model.
 
-### 10. Sandbox and Process Policy
+### 11. Sandbox and Process Policy
 
 The supervised executor should reuse the same host-owned sandbox-profile surface now
 used for `command_stdio`, as far as that surface makes sense for long-lived local
@@ -527,7 +572,7 @@ Hard MVP requires only:
 
 The module must never receive host signing keys directly as part of supervision.
 
-### 11. Component Integration
+### 12. Component Integration
 
 The daemon should expose supervised middleware services as first-class components,
 for example:
@@ -547,7 +592,7 @@ That component identity should support:
 This keeps operator tooling coherent with the rest of the daemon instead of creating
 one invisible mini-supervisor inside middleware.
 
-### 12. Trace Boundaries
+### 13. Trace Boundaries
 
 The host should distinguish:
 

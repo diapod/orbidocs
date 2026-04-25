@@ -1,0 +1,19 @@
+{
+  "schema": "middleware.package.v1",
+  "package_id": "example-python",
+  "version": "0.1.0",
+  "module_id": "example-python",
+  "provides": {
+    "config_fragments": [
+      {
+        "kind": "daemon.middleware_http_local_services",
+        "path": "config/http-local-service.json"
+      }
+    ],
+    "operator_surfaces": [
+      {
+        "path": "ui-op/operator-surfaces.json"
+      }
+    ]
+  }
+}

@@ -21,6 +21,9 @@ declared capability.
 - `middleware-package-ui/` - minimal `middleware.package.v1` package that
   contributes a no-JavaScript Node UI surface and can carry signed config
   fragments.
+- `middleware-python-package-ui/` - minimal supervised Python middleware package
+  that declares a runtime `server-html` operator surface and renders its own
+  HATEOAS/HTMX HTML under a host-owned `/middleware/{surface_id}/...` mount.
 - `sensorium-connector/` - a minimal Sensorium connector called only by
   Sensorium-core.
 
@@ -82,3 +85,30 @@ described by `middleware.package.v1`. A package may contribute host-rendered UI
 fragments and declarative config fragments. Config fragments are activated by
 the daemon only after the package artifact has a current operator signature;
 the package remains data, not executable JavaScript.
+
+Recommended package layout:
+
+```text
+middleware.package.json
+config/
+  *.json
+ui/
+  index.html
+  fragments/
+  static/
+ui-op/
+  operator-surfaces.json
+```
+
+Use `ui/` for renderable HTML(X) fragments consumed by the Node UI
+`UiSurfaceRegistry`. Use `ui-op/` for operator-surface contract artifacts:
+sample `operator_surfaces` declarations, capability notes, and binding metadata
+that a live middleware module can mirror in its `middleware-module-report`.
+
+For Python middleware that owns live server-rendered HTML, prefer a supervised
+`http_local_json` service with a runtime `server-html` surface instead of static
+package fragments. The shared stdlib helper lives in
+`node/middleware-modules/lib/ui/python`; the daemon exposes it through
+`ORBIPLEX_MIDDLEWARE_UI_PYTHON_LIB_DIR` and `PYTHONPATH` when supervising
+bundled services. Distributable Python packages may vendor the same helper under
+`lib/ui/python/` and use the host-provided path when it is available.

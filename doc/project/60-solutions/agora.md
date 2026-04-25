@@ -129,7 +129,10 @@ Responsibilities:
 Status:
 - `done` in the Node reference implementation. The HTTP surface serves
   record-id lookup, bounded topic listings, and `record/about` subject-index
-  listings over stable cursor semantics.
+  listings over stable cursor semantics. The `record/about` index is a
+  derived, rebuildable relay-local view over the persisted records, not a
+  source of truth; a dedicated persisted subject-index projector remains a
+  later optimization if rebuild cost or query volume justifies it.
 
 ### Topic Subscribe Stream
 

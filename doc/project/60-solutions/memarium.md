@@ -44,7 +44,7 @@ Responsibilities:
 - record promotion provenance as append-only facts.
 
 Status:
-- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Operator grant issuance/install flow, lag-forced crisis detector coverage, and the full PeerMessageChain/WSS → post-chain observer → Memarium query lifecycle are now represented in code. Remaining work is operational hardening: richer operator UX for quarantine/declassification, contextual forget authorization, and a sidecar read model if datasets outgrow MVP scan budgets.
+- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → post-chain observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, and the enforced strict-mode gate for classification fallback are now represented in code. Remaining work is operational hardening: concrete Whisper/INAC/export edge adapters still need to call the shared classification egress helper, contextual forget authorization remains open, and a sidecar read model may be added if datasets outgrow MVP scan budgets.
 
 ### Observer-Based Chain Integration
 
@@ -188,6 +188,10 @@ strict_after_zero_fallback_days = 7
 The fallback counter is exported in runtime metrics under
 `memarium_fallback_stamped_facts_per_space_per_day` keyed by
 `YYYY-MM-DD:<space>`.
+When `mode = "strict-required"`, the daemon now enforces this gate rather than
+only documenting it: unlabeled writes are rejected only after the configured
+date has passed and the configured consecutive-day zero-fallback window has
+been observed.
 All HTTP wire timestamp fields are RFC3339 strings; Rust `SystemTime`'s serde
 object shape is an implementation detail and is not part of the Memarium
 host-capability contract.
@@ -198,6 +202,8 @@ paths compose active policy facts into `classification.declassify_trail` and
 derive the current `effective_tier`. Operator quarantine actions likewise write
 append-only policy facts (`classification-quarantine-accepted` /
 `classification-quarantine-rejected`), preserving the original ingress record.
+Accepted quarantine facts clear the read/query quarantine marker for the target
+fact; rejected facts remain visible as append-only audit evidence.
 `TransformationFact` is evidence/provenance only in v1: it may be referenced
 from `DeclassifyFact.evidence_ref`, but every effective-tier lowering still
 requires an explicit, active `DeclassifyFact`.
@@ -255,7 +261,7 @@ of personal entries"; it must carry scope, reason, issuer, audit trace, and a
 revocation path.
 
 Status:
-- `partial` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. For MVP, scan-based point reads are accepted as the correctness fallback because storage `RecordId` is not the Memarium domain id; writes stamp storage `idempotency_key` with `EntryId` / `FactId`, so a future read-model/index sidecar or `get_by_idempotency_key` hook can replace scans without changing Memarium contracts. Open points: contextual autonomy enforcement for `forget` (see above), richer operator UI for quarantine and declassification flows, and post-MVP sidecar/index work if scan budgets are exceeded.
+- `partial` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. For MVP, scan-based point reads are accepted as the correctness fallback because storage `RecordId` is not the Memarium domain id; writes stamp storage `idempotency_key` with `EntryId` / `FactId`, so a future read-model/index sidecar or `get_by_idempotency_key` hook can replace scans without changing Memarium contracts. The launcher now provides the minimum operator CLI over the existing host-capability contract (`memarium quarantine {list,accept,reject}` and `memarium declassify`), while richer node-ui / batch UX remains future work. Open points: contextual autonomy enforcement for `forget` (see above), concrete non-Agora edge adapters for the shared classification helper, and post-MVP sidecar/index work if scan budgets are exceeded.
 
 ### Agora Synchronization Tracking
 

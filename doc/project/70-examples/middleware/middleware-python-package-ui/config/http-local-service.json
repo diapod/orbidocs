@@ -1,0 +1,14 @@
+{
+  "middleware_http_local_services": [
+    {
+      "module_id": "example-python",
+      "component_id": "example-python-service",
+      "label": "Example Python middleware",
+      "command": ["python3", "service.py"],
+      "working_dir": ".",
+      "health_path": "/healthz",
+      "init_path": "/v1/middleware/init",
+      "sandbox_profile": "middleware.default"
+    }
+  ]
+}

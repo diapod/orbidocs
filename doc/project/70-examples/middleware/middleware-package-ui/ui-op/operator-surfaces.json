@@ -1,0 +1,18 @@
+{
+  "operator_surfaces": [
+    {
+      "surface_id": "example",
+      "label": "Example",
+      "description": "Example host-rendered middleware operator surface.",
+      "rendering": "host-mediated",
+      "nav_group": "middleware",
+      "nav_entries": [
+        {
+          "label": "Overview",
+          "path": ""
+        }
+      ],
+      "required_capabilities": []
+    }
+  ]
+}

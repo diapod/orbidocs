@@ -172,49 +172,129 @@ the host:
 - but the schema artifacts remain host-owned runtime surfaces, not module
   factory config.
 
-## Operator UI extension declarations
+## Operator UI surface declarations
 
-Middleware operator UI should be registered as another host-owned projection,
-not as hidden coupling between a module and the built-in Node UI.
+Middleware operator UI is split across two deliberately separate contracts:
 
-A future `middleware-module-report` extension should allow a module to declare:
+1. `middleware.package.json` / `UiSurfaceRegistry`
+   - install-time packaging and host-rendered HTML(X) fragments,
+   - loaded by Node UI from `<data_dir>/middleware-packages`,
+   - useful for small pluggable middleware packages that do not own a live HTML
+     server,
+   - may provide templates, static HTML fragments, navigation entries, and
+     config fragments.
+2. `middleware-module-report.operator_surfaces`
+   - runtime discovery from a live middleware module,
+   - returned during `middleware-init`,
+   - tells the host which operator surfaces the running module provides, what
+     navigation should be exposed, which capabilities are relevant, and who owns
+     the concrete rendering.
 
-- module-scoped UI routes such as `/modules/{module_id}/settings` or
-  `/modules/{module_id}/templates`,
-- template or fragment identifiers served from the module package or from a
-  host-materialized module UI directory,
-- optional static assets under a module-owned namespace,
-- navigation labels and grouping hints for the operator shell,
-- required local operator capabilities or permissions for each route,
-- whether the route renders host-side templates, proxies a bounded module
-  endpoint, or links to an externally supervised local surface.
+These two contracts describe different layers. `UiSurfaceRegistry` says "these
+UI assets are installed and renderable by the Node UI host". `operator_surfaces`
+says "this middleware is alive and declares these operator-facing surfaces now".
+The Node UI may combine both: a `host-mediated` runtime surface can be backed by
+a packaged `UiSurfaceRegistry` fragment, while a `server-html` surface is proxied
+to a module-owned HATEOAS/HTMX route.
+
+Recommended package layout:
+
+```text
+middleware.package.json
+config/
+  *.json
+ui/
+  index.html
+  fragments/
+  static/
+ui-op/
+  operator-surfaces.json
+```
+
+The `ui/` directory contains host-rendered HTML(X) fragments and optional static
+assets for `UiSurfaceRegistry` renderers. The `ui-op/` directory contains
+operator-surface metadata: sample or generated `operator_surfaces` declarations,
+surface-to-capability notes, and any package-local documentation needed by the
+live middleware to report the same surface during `middleware-init`.
+
+`ui-op/` is intentionally not the HTML template root. It is the package-local
+place for "operator surface contract" artifacts. That keeps renderable fragments
+separate from runtime/discovery declarations.
+
+The current `operator_surfaces[]` shape is:
+
+```json
+{
+  "surface_id": "arca",
+  "label": "Arca",
+  "description": "Buyer-side orchestration and observed catalog operator surface.",
+  "rendering": "server-html",
+  "entry_path": "ui",
+  "nav_group": "middleware",
+  "nav_entries": [
+    {"label": "Definitions", "path": "definitions"},
+    {"label": "Templates", "path": "templates"},
+    {"label": "Runs", "path": "runs"}
+  ],
+  "required_capabilities": [
+    "workflow.orchestrate",
+    "catalog.offer_discovery",
+    "workflow.template_store"
+  ]
+}
+```
+
+Supported rendering values:
+
+- `host-mediated`
+  - the Node UI owns the concrete HTML representation,
+  - the module report is live presence, navigation, and capability metadata,
+  - this is the correct mode for packaged HTML(X) fragments and built-in
+    host-rendered views.
+- `server-html`
+  - the middleware module owns the HTML/HATEOAS representation,
+  - the report must include a relative `entry_path`,
+  - the host may map `/middleware/{surface_id}/...` to the module-owned local
+    route through a bounded same-origin proxy.
+
+The middleware module does not choose the public mount path. The host derives it
+from `surface_id`, normally:
+
+```text
+/middleware/{surface_id}/...
+```
+
+This keeps the route namespace bounded and avoids arbitrary claims over the
+operator UI root. It mirrors `inbound-local.local_routes` on the daemon side, but
+it remains a separate UI projection contract: claiming a daemon HTTP route does
+not automatically claim an operator UI route.
 
 The Node UI owns:
 
 - route collision prevention,
-- the common operator shell and navigation,
+- common shell, navigation, layout, and accessibility frame,
 - authentication and session boundaries,
 - CSRF and form-submission protection,
-- the daemon authtok boundary,
-- template sandboxing and allowed helper functions,
+- daemon authtok boundary,
+- template sandboxing and allowed helper functions for host-rendered fragments,
+- proxy policy for `server-html` surfaces,
 - and audit-visible registration diagnostics.
 
-The middleware module owns:
+The middleware module or package owns:
 
 - the meaning of its own operator screens,
-- its own templates or fragment descriptors,
-- module-specific validation labels and help text,
-- and any module endpoint that is explicitly proxied by the host.
+- packaged templates or host-rendered fragments when using `UiSurfaceRegistry`,
+- module-specific labels, validation language, and help text,
+- and any module endpoint explicitly proxied by the host for `server-html`.
 
-The route namespace must stay bounded. The default mount should be under a
-module-scoped path such as `/modules/{module_id}/...`; arbitrary claims over the
-root operator UI are not part of the contract. This mirrors `inbound-local`
-`local_routes` on the daemon side, but it is a separate UI projection contract:
-claiming a daemon HTTP route does not automatically claim an operator UI route.
-
-Until this field is added to the committed Rust and JSON Schema contracts,
-implementations should treat operator UI extension registration as a design
-direction, not as a valid wire field in `middleware-module-report`.
+Python middleware that serves `server-html` pages should use the shared helper in
+`node/middleware-modules/lib/ui/python` when possible. The daemon provides this
+helper to supervised bundled services through
+`ORBIPLEX_MIDDLEWARE_UI_PYTHON_LIB_DIR` and `PYTHONPATH`; external packages may
+vendor it under `lib/ui/python/`. The helper standardizes environment parsing,
+surface declarations, small HTML rendering helpers, and server-side host
+capability calls without moving UI state into the browser or leaking daemon
+tokens into HTML.
 
 ## Transport-defined chain attachments
 

@@ -40,28 +40,71 @@ non-native modules that are not shipped as part of the Node itself, should be
 able to contribute their own operator UI fragments through a host-owned
 extension surface.
 
-The intended shape is data-driven registration:
+The intended shape is stratified, data-driven registration:
 
-- a module declares module-scoped operator UI routes,
-- a module contributes templates, static assets, or render descriptors under a
-  module-owned namespace,
-- the Node UI registers those routes under a bounded mount point such as
-  `/modules/{module_id}/...`,
+- a middleware package may contribute host-rendered HTML(X) fragments through
+  `middleware.package.json` and the `UiSurfaceRegistry`,
+- a live middleware module may declare `operator_surfaces` in its
+  `middleware-module-report`,
+- the Node UI derives a bounded mount point such as
+  `/middleware/{surface_id}/...`,
 - the Node UI provides the shell, navigation, layout, session boundary, CSRF
   protection, daemon proxy, and route-collision checks,
 - the module owns only the semantics and presentation of its own operator views.
 
+Recommended middleware package layout:
+
+```text
+middleware.package.json
+config/
+  *.json
+ui/
+  index.html
+  fragments/
+  static/
+ui-op/
+  operator-surfaces.json
+```
+
+`ui/` is the renderable HTML(X) root. `ui-op/` is the package-local root for
+operator surface declarations, examples, and binding notes corresponding to
+runtime `operator_surfaces`. Keeping them separate prevents HTML fragments,
+runtime discovery metadata, and daemon config fragments from collapsing into one
+ambiguous directory.
+
+The rendering modes are:
+
+- `host-mediated`
+  - Node UI renders the concrete representation, often from built-in templates
+    or from a package's `ui/` directory,
+  - the live module report provides presence, navigation, and capability
+    metadata.
+- `server-html`
+  - the middleware module owns the HATEOAS/HTMX representation,
+  - Node UI maps the surface through a bounded same-origin route and keeps
+    auth/proxy policy host-owned,
+  - this is the preferred mode for supervised Python middleware packages that
+    render their own operator pages.
+
 This keeps the UI stratified. The Node UI remains a thin host-owned projection
 layer, while module-specific operator experience stays with the module that owns
 the domain. Adding a new externally supplied middleware module should therefore
-require adding its templates and route declarations, not editing Rust code in the
-built-in UI to teach it that the module exists.
+require package metadata, runtime `operator_surfaces`, or both; it should not
+require editing Rust code in the built-in UI to teach it that the module exists.
 
 Template execution must remain sandboxed and host-owned. A module-provided UI
 extension must not receive the daemon authtok, raw ambient filesystem access, or
 an unrestricted server-side execution hook. It may render against a bounded
 operator context and call daemon or module endpoints only through explicit
 host-owned routes.
+
+Python middleware packages may reuse the shared stdlib helper from
+`node/middleware-modules/lib/ui/python` to declare `server-html` surfaces, read
+the supervised middleware environment, render small HTML documents, and call
+host capabilities server-side. The helper is a developer convenience, not a new
+UI runtime: state and representation still belong to the middleware service,
+while the public route, proxy policy, navigation, and auth boundary remain owned
+by Node UI.
 
 ## Must Implement
 

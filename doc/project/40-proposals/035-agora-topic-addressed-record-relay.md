@@ -1017,10 +1017,13 @@ in this proposal and are not blocking for the first deployment:
 
 #### Still deferred / intentionally limited
 
-- **Subject index persistence**: the in-memory `SubjectIndex` does not
-  survive process restarts. `rebuild_subject_index()` reconstructs it
-  from the local SQLite store on startup, but a SQLite-backed subject
-  index would eliminate the rebuild cost.
+- **Subject index persistence**: for MVP, the `record/about`
+  `SubjectIndex` is intentionally a derived, rebuildable view over the
+  local relay store. It is not a source of truth and does not need its own
+  persisted projector to satisfy the v1 contract. `rebuild_subject_index()`
+  reconstructs it from the local SQLite store on startup; a SQLite-backed
+  subject index should be added later only when listing volume, restart
+  latency, or retention churn makes rebuild cost material.
 - **Room-to-topic name mapping** (section 6, rule 2): the relay does
   not yet maintain a human-readable room-name mapping for operator
   tooling.
