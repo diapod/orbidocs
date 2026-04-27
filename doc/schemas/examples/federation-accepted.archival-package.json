@@ -13,6 +13,24 @@
     "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9",
     "summary:01JP0M1W2BG31EM7GX05PZ5K1J"
   ],
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Community",
+    "effective_tier": "Community",
+    "provenance": {
+      "kind": "local-space",
+      "space": "Community"
+    },
+    "bound_subjects": {
+      "personal_or_community": [
+        {
+          "kind": "group",
+          "id": "community:wroclaw-mutual-aid"
+        }
+      ]
+    },
+    "declassify_trail": []
+  },
   "publication/timing-profile": "curator-gated",
   "retention/max-duration-sec": 7776000,
   "retention/max-idle-ttl-sec": 2592000,

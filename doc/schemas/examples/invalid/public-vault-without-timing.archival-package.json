@@ -12,6 +12,52 @@
   "provenance/refs": [
     "bundle:01JNZ94NQ90KJ0H2VTW6J8Q0D9"
   ],
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Public",
+    "effective_tier": "Public",
+    "provenance": {
+      "kind": "derived",
+      "parents": [
+        {
+          "kind": "local-space",
+          "space": "Community"
+        },
+        {
+          "kind": "ingress",
+          "surface": "operator-stamp",
+          "peer_ref": "operator:did:key:z6MkclassificationOperator"
+        }
+      ]
+    },
+    "bound_subjects": {
+      "public_projection": {
+        "subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "count": 3
+      }
+    },
+    "declassify_trail": [
+      {
+        "fact_id": "fact:memarium:archive-public-001",
+        "from": "Community",
+        "to": "Public",
+        "surface": "export",
+        "topic_class": "knowledge-artifact",
+        "mode": {
+          "kind": "persistent-for-topic-class",
+          "ttl_seconds": 86400
+        },
+        "rationale": "Explicit public archival export after irreversible projection.",
+        "caller": {
+          "passport_ref": "passport:capability:memarium-declassify-operator-001",
+          "role": "A0"
+        },
+        "correlation_id": "corr:classification:archive-public-001",
+        "issued_at": "2026-04-19T10:00:00Z",
+        "expires_at": "2026-04-20T10:00:00Z"
+      }
+    ]
+  },
   "integrity/proof": {
     "alg": "sha256+ed25519",
     "verification_ref": "proof:01JP0TAT1D3P0K5TGHW93K6Q6A"

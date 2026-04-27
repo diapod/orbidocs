@@ -25,7 +25,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | `50-requirements` (Requirements) | `16` | `14` |
 | `60-solutions` (Solutions) | `28` | `16` |
 
-- Total project markdown files: `169`
+- Total project markdown files: `170`
 - Proposals referencing source material: `46` / `56`
 - Requirements referencing source material: `14` / `16`
 
@@ -36,7 +36,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`adapter-artifact.v1.schema.json`](schemas-gen/schemas/adapter-artifact.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md) | `16` | `16` | `yes` | `yes` | `4` | `0` |
 | [`answer-room-metadata.v1.schema.json`](schemas-gen/schemas/answer-room-metadata.v1.md) | `16` | `1` | `no` | `yes` | `3` | `1` |
-| [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md) | `16` | `15` | `yes` | `yes` | `1` | `1` |
+| [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md) | `17` | `16` | `yes` | `yes` | `1` | `1` |
 | [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |

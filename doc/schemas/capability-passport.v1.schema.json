@@ -119,6 +119,11 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "compatible_with": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional formal capability id whose public contract this profile claims to implement. Sovereign capability ids without a leading `~` SHOULD set this field; informal `~...@...` capability ids SHOULD omit it unless they intentionally claim a compatibility subset."
+        },
         "display/name": {
           "type": "string",
           "minLength": 1,

@@ -36,6 +36,7 @@ Portable, content-addressed machine-readable schema artifact for one capability 
 | [`schema/ref`](#field-schema-ref) | `yes` | string | Content-addressed reference to the canonical schema content. Receivers MUST verify that `content` hashes to this reference before using the schema. |
 | [`schema/media-type`](#field-schema-media-type) | `yes` | string | Media type of `content`, for example `application/schema+json`, `application/vnd.malli+edn`, or another profile-accepted machine-readable schema format. |
 | [`capability/id`](#field-capability-id) | `no` | string | Optional capability id this schema describes. Formal profiles may use a bare id; sovereign or private profiles may use an identity-anchored id. |
+| [`compatible_with`](#field-compatible-with) | `no` | string | Optional formal capability id whose public contract this schema claims to implement. Omit for purely custom `~...@...` protocols. |
 | [`wire/name`](#field-wire-name) | `no` | string | Optional wire-visible projection associated with the capability id. |
 | [`display/name`](#field-display-name) | `no` | string | Short human-readable capability name for UI display. |
 | [`description`](#field-description) | `no` | string | Human-readable capability explanation. |
@@ -95,6 +96,14 @@ Media type of `content`, for example `application/schema+json`, `application/vnd
 - Shape: string
 
 Optional capability id this schema describes. Formal profiles may use a bare id; sovereign or private profiles may use an identity-anchored id.
+
+<a id="field-compatible-with"></a>
+## `compatible_with`
+
+- Required: `no`
+- Shape: string
+
+Optional formal capability id whose public contract this schema claims to implement. Omit for purely custom `~...@...` protocols.
 
 <a id="field-wire-name"></a>
 ## `wire/name`

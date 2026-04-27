@@ -30,7 +30,7 @@ Machine-readable schema for baseline capability exchange after peer session esta
 | [`published-at`](#field-published-at) | `yes` | string | Timestamp when the capability set was published. |
 | [`protocol/version`](#field-protocol-version) | `yes` | string | Protocol version for which the capability advertisement is valid. |
 | [`transport/profiles`](#field-transport-profiles) | `yes` | array | Transport profiles currently exposed by the Node. |
-| [`capabilities/core`](#field-capabilities-core) | `yes` | array | Compatibility and routing projection of the wire-visible capability identifiers supported by the Node. Values SHOULD be derived from `capabilities/presented[*].wire/name`. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/` or `sovereign-informal/`, and unknown formal capabilities may be advertised as bare names. |
+| [`capabilities/core`](#field-capabilities-core) | `yes` | array | Compatibility and routing projection of the wire-visible capability identifiers supported by the Node. Values SHOULD be derived from `capabilities/presented[*].wire/name`. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/`; `sovereign-informal/` remains accepted for legacy advertisements but new `~...@...` capability ids project to `sovereign/...`. Unknown formal capabilities may be advertised as bare names. |
 | [`capabilities/presented`](#field-capabilities-presented) | `yes` | array | Passport-form capability assertions presented directly by this Node. Each item carries the canonical capability id, the wire-visible projection, an assertion kind, and the passport or passport-compatible credential needed to evaluate the claim without querying a Seed Directory. |
 | [`anchor_identities`](#field-anchor-identities) | `no` | object | Optional sovereign capability anchor map keyed by the sovereign short name. Empty or absent for formal capabilities. |
 | [`roles/attached`](#field-roles-attached) | `no` | array | Optional attached roles or plugin-process capabilities visible at the Node boundary. Not required in MVP. |
@@ -151,7 +151,7 @@ Transport profiles currently exposed by the Node.
 - Required: `yes`
 - Shape: array
 
-Compatibility and routing projection of the wire-visible capability identifiers supported by the Node. Values SHOULD be derived from `capabilities/presented[*].wire/name`. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/` or `sovereign-informal/`, and unknown formal capabilities may be advertised as bare names.
+Compatibility and routing projection of the wire-visible capability identifiers supported by the Node. Values SHOULD be derived from `capabilities/presented[*].wire/name`. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/`; `sovereign-informal/` remains accepted for legacy advertisements but new `~...@...` capability ids project to `sovereign/...`. Unknown formal capabilities may be advertised as bare names.
 
 <a id="field-capabilities-presented"></a>
 ## `capabilities/presented`

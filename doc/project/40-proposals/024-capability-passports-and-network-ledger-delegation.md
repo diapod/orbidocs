@@ -310,13 +310,13 @@ capability name:
 
 - `~audio-transcription@participant:did:key:z...`
 
-This gives three stable wire-level intentions:
+This gives three stable identity-level intentions:
 
 | Form | Meaning |
 | :--- | :--- |
 | `network-ledger` | formal global capability id |
-| `audio-transcription@participant:did:key:...` | sovereign formal capability |
-| `~audio-transcription@participant:did:key:...` | sovereign informal capability |
+| `audio-transcription@participant:did:key:...` | sovereign capability that claims compatibility with the formal `audio-transcription` contract through `capability_profile.compatible_with` |
+| `~audio-transcription@participant:did:key:...` | sovereign custom capability that does not claim the formal/global meaning of `audio-transcription` |
 
 Rules:
 
@@ -324,11 +324,28 @@ Rules:
 - sovereign capability ids MUST contain exactly one `@`,
 - the identity suffix after `@` is the anchor and may currently be
   `participant:did:key:...`, `node:did:key:...`, or `org:did:key:...`,
-- the `~` informal marker applies only to sovereign capability names.
+- the `~` marker applies only to sovereign capability names and means
+  "do not interpret this short name as a claim to any future or current formal
+  global capability of the same name",
+- a sovereign capability id without `~` SHOULD include
+  `capability_profile.compatible_with = "<formal-capability-id>"`,
+- a `~...@...` capability SHOULD provide its own `schema/ref` when it is
+  publicly advertised, and SHOULD omit `compatible_with` unless it deliberately
+  implements a documented subset of a formal profile.
 
 This preserves backward compatibility for all existing formal ids while
 letting operators or organizations anchor private capability families in their
 own identity instead of the global bare-name namespace.
+
+The preferred anchor for custom capability families is `participant` or `org`:
+
+- use `participant:did:key:...` when one operator or author carries the
+  semantic/reputational continuity across multiple Nodes,
+- use `org:did:key:...` when an organization, project, or federation owns the
+  capability family,
+- use `node:did:key:...` only when the capability is intentionally bound to one
+  concrete Node instance; this is valid but self-limiting because reputation and
+  continuity do not naturally move with future Nodes.
 
 ### 4b. Wire Advertisement Projection for Sovereign Capabilities
 
@@ -338,7 +355,7 @@ use a shorter wire name:
 - `audio-transcription@participant:did:key:z...`
   advertises as `sovereign/audio-transcription`,
 - `~audio-transcription@participant:did:key:z...`
-  advertises as `sovereign-informal/audio-transcription`.
+  also advertises as `sovereign/audio-transcription`.
 
 Because the wire name alone is not enough to reconstruct the full sovereign
 capability id, `CapabilityAdvertisementV1` must also carry:
@@ -352,7 +369,41 @@ Receivers therefore interpret sovereign wire advertisements from the pair:
 
 Formal well-known capabilities still use their stable mapped wire names such as
 `core/network-ledger` or `role/offer-catalog`. Unknown formal capabilities may
-be advertised as bare formal names without `@`.
+be advertised as bare formal names without `@` only on local, experimental, or
+explicitly scoped private surfaces.
+
+For **publicly broadcast** capability passports, unknown custom bare names are
+not acceptable as a stable naming strategy. A public custom service capability
+MUST either:
+
+- use a registered formal `capability_id` whose wire projection is assigned by
+  the shared registry (`core/...`, `role/...`, or `plugin/...`), or
+- use a sovereign capability id anchored in a participant, node, or
+  organization identity, for example
+  `~article-review@participant:did:key:z...`, which advertises as
+  `sovereign/article-review`.
+
+This keeps public Seed Directory and federation discovery from becoming a
+global collision-prone string registry, while still allowing operators and
+communities to publish arbitrary custom services under their own identity
+anchor.
+
+### 4c. Public Passport Tiers
+
+Publicly broadcast capability passports have two governance tiers:
+
+| Tier | Passport `capability_id` | Typical issuer | Public meaning |
+| :--- | :--- | :--- | :--- |
+| Official / community-recognized | registered formal id, e.g. `network-ledger`, `seed-directory`, `offer-catalog` | participant, council, organization, or federation key with the highest required attestation for that community | "this node is officially accepted for a stable community-visible capability profile" |
+| Compatible sovereign implementation | sovereign id without `~`, e.g. `offer-catalog@participant:did:key:z...`, plus `capability_profile.compatible_with` | the anchoring participant, organization, or an explicitly delegated signer | "this node offers an anchored implementation of the named formal contract; consumers still verify schema/profile evidence and local policy" |
+| Custom / operator-authored | sovereign id with `~`, e.g. `~article-review@participant:did:key:z...` or `~article-review@org:did:key:z...` | the anchoring participant, node, organization, or an explicitly delegated signer | "this node offers this anchored custom service without claiming a global formal meaning for the short name; consumers apply local policy and any attached endorsements" |
+
+The first tier is intentionally conservative. It is for capabilities whose name
+and semantics are shared by the community or federation. The sovereign tiers are
+the open extension path: anyone can define or claim compatibility for a service,
+but the public name carries an anchor so consumers can reason about provenance,
+reputation, revocation, and local trust without treating the custom name as a
+global standard.
 
 ### 5. Async `NetworkLedgerAdapter` Boundary
 

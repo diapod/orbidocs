@@ -70,7 +70,7 @@
         "type": "string",
         "pattern": "^((core|role|plugin)/[a-z0-9-]+(?:/[a-z0-9-]+)*|(sovereign|sovereign-informal)/[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*|[A-Za-z0-9_-]+)$"
       },
-      "description": "Compatibility and routing projection of the wire-visible capability identifiers supported by the Node. Values SHOULD be derived from `capabilities/presented[*].wire/name`. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/` or `sovereign-informal/`, and unknown formal capabilities may be advertised as bare names."
+      "description": "Compatibility and routing projection of the wire-visible capability identifiers supported by the Node. Values SHOULD be derived from `capabilities/presented[*].wire/name`. Known formal capabilities use stable `core/` or `role/` names, sovereign capabilities use `sovereign/`; `sovereign-informal/` remains accepted for legacy advertisements but new `~...@...` capability ids project to `sovereign/...`. Unknown formal capabilities may be advertised as bare names."
     },
     "capabilities/presented": {
       "type": "array",
@@ -189,6 +189,11 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "compatible_with": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional formal capability id whose public contract this presented profile claims to implement. This is a compatibility claim checked by receivers against local policy and schema evidence; it does not replace the passport capability id."
+        },
         "display/name": {
           "type": "string",
           "minLength": 1,

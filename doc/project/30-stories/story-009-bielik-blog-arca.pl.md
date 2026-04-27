@@ -1588,6 +1588,21 @@ pokrycia. Nie należy ich mieszać.
 | Arca-driven remote-provider execution over WSS peer catalog and peer sessions | `story_009_arca_drives_remote_providers_and_reads_host_owned_step_completion` w `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Uruchamia Arcę na node A jako orkiestratora. Rekonstrukcja ukończeń kroków jest host-owned, a nie Agora-owned. Node B/C publikują capability passporty `offer-catalog` do swoich embedded Seed Directory; node A jest skonfigurowany z endpointami Seed Directory oraz jawną polityką `catalog_peer_discovery_policy` allowlistującą oczekiwane identyfikatory providerów, ale nie seeduje ich ofert i nie używa `catalog_peer_node_ids`. Arca odkrywa catalog peers przez `seed.directory.query` z predykatem Seed Directory po zaufanych node ids, pobiera katalogi Datora przez `offer-catalog.fetch.request/response` po ustanowionych daemon-owned sesjach WSS peer, zapisuje odkryte oferty w swoim observed catalog, wybiera providerów node B/C, dispatchuje remote-provider service orders przez daemon-owned `peer.message.dispatch`, odbiera `service-order.dispatch.response` tą samą ścieżką korelacji peer-session, domyka workflow z pointer-only outputów kroków, publikuje finalny monitoringowy rekord `workflow.completed` i weryfikuje ścieżkę redakcyjną przez per-node host-owned read-modele `/v1/workflows/runs/{workflow_run_id}/steps/completed`. Rekordy ukończeń kroków walidują się względem `story009.workflow-step-completed.v1`, niosą niepuste `workflow/run-id` i `workflow/phase-id` dla każdego kroku, a test potwierdza, że node A/B odrzucają `git-push-publish` i ich katalogi Sensorium OS nie wystawiają akcji publikacji. Pokrywa obecną wykonywalną postać kryteriów 5, 7, 8, 9, 11 i 14. | Allowlista `trusted_node_ids` pozostaje override'em harnessowym/deploymentowym. Profile produkcyjne powinny zastąpić lub wzbogacić ją bogatszą polityką trusted peers, weryfikacją capability passportów, assurance z Seed Directory oraz polityką federation endorsement. |
 | Kontrakt peer service-order dispatch | `python3 -m unittest middleware-modules/arca/test_service.py middleware-modules/dator/test_service.py` plus pokrycie mapowania peer response-kind w daemonie | Zamraża szew w kształcie transportowym: Dator obsługuje `service-order.dispatch.request` na inbound-peer z jawnie zadeklarowanym długim timeoutem chainu i wykonuje tę samą lokalną ścieżkę capability roli; Arca wyprowadza peer-message remote target z zaobserwowanej oferty, wysyła go przez daemon-owned `peer.message.dispatch` i koreluje `service-order.dispatch.response` po `request_id`. | Pokrycie jednostkowe plus spawned-daemon WSS coverage. `daemon_peer_listener_accepts_dialer_and_dispatches_peer_message` dowodzi generycznej dostawy WSS peer-message; Arca-driven harness story-009 dowodzi pełnej ścieżki service-order dispatch przez ustanowione sesje WSS peer. |
 
+Story-009 jest zamkniętym, operatorskim deploymentem redakcyjnym, a nie
+publiczną federacją capability. Passporty `offer-catalog` są tu faktami
+katalogu deploymentowego, które pozwalają node A odkryć znane węzły providerów
+B/C. Nie oznaczają, że B/C są oficjalnymi providerami `offer-catalog` dla całej
+społeczności. Publiczny deployment sieciowy powinien dołożyć federation
+endorsement, politykę issuerów o wyższej atestacji albo zakotwiczone w
+tożsamości nazwy custom capability ponad tym kształtem harnessu.
+
+Gdy capability specyficzna dla Story-009 jest publikowana poza tym zamkniętym
+kształtem deploymentu, powinna używać konwencji sovereign custom z Proposals
+024/025: `~story009-...@participant:did:key:...` albo
+`~story009-...@org:did:key:...` z własnym `schema/ref`. Sovereign id bez `~`
+jest zarezerwowane dla deklaracji kompatybilności i powinno nieść
+`capability_profile.compatible_with`.
+
 ## Czego ta story NIE obejmuje
 
 - **Federacji Memarium poza zespołem redakcyjnym.** Każdy z trzech węzłów ma

@@ -269,6 +269,38 @@ operator UI root. It mirrors `inbound-local.local_routes` on the daemon side, bu
 it remains a separate UI projection contract: claiming a daemon HTTP route does
 not automatically claim an operator UI route.
 
+## Local readiness declarations
+
+Middleware may declare host-evaluated readiness requirements in module config or
+in `middleware-module-report.readiness_requirements`. These declarations are
+data: the daemon decides whether a requirement is supported, whether the module
+is configured, and whether the result becomes a Local Readiness Gate blocker.
+Core/node blockers such as local participant keys, node-operator binding, and
+capability passports remain daemon-owned checks.
+
+The first supported middleware-owned requirement kind is:
+
+```json
+{
+  "id": "action-catalog-sidecar",
+  "kind": "signed-config-artifact",
+  "artifact_id": "action-catalog",
+  "label": "Sensorium OS action catalog",
+  "config_pointer": "/sensorium_os/action_catalog",
+  "signing_domain": "sensorium.os.action-catalog.v1",
+  "sidecar_schema": "sensorium-os.action-catalog-signature.v1",
+  "authorization_schema": "sensorium-os.action-catalog-authorization.v1",
+  "sidecar_file": "sensorium-os.sig.json",
+  "review_href": "/middleware/sensorium-os",
+  "blocking": true
+}
+```
+
+For startup gating, the daemon currently evaluates these declarations from
+configured module config. Runtime reports expose declarations for discovery and
+diagnostics, but a module that is not configured or enabled does not create a
+startup blocker just because its factory metadata exists.
+
 The Node UI owns:
 
 - route collision prevention,

@@ -49,6 +49,11 @@
       "pattern": "^[~]?[a-z0-9][a-z0-9_/-]*(?:@(participant|node|org):did:key:z[1-9A-HJ-NP-Za-km-z]+)?$",
       "description": "Optional capability id this schema describes. Formal profiles may use a bare id; sovereign or private profiles may use an identity-anchored id."
     },
+    "compatible_with": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional formal capability id whose public contract this schema claims to implement. Omit for purely custom `~...@...` protocols."
+    },
     "wire/name": {
       "type": "string",
       "pattern": "^((core|role|plugin)/[a-z0-9-]+(?:/[a-z0-9-]+)*|(sovereign|sovereign-informal)/[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*|[A-Za-z0-9_-]+)$",

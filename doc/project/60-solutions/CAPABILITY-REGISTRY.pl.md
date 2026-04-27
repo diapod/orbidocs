@@ -49,6 +49,31 @@ W konsekwencji:
 - a konsumenci muszą zastosować lokalną politykę, zanim potraktują jakąkolwiek
   advertised capability jako zaufaną.
 
+## Klasy publicznych passportów
+
+Rejestr rozróżnia publikację w publicznej sieci od zamkniętych katalogów
+deploymentowych.
+
+Dla publicznie rozgłaszanych capability passports:
+
+| Klasa | Passport `capability_id` | Projekcja wire/query | Oczekiwanie wobec wystawcy |
+|---|---|---|---|
+| Oficjalna / rozpoznana przez społeczność | zarejestrowany formalny bare id, np. `network-ledger`, `seed-directory`, `offer-catalog` | stabilna nazwa mapowana, np. `core/network-ledger`, `role/seed-directory`, `role/offer-catalog` | klucz participanta, organizacji, rady albo federacji z najwyższą atestacją wymaganą przez politykę społeczności |
+| Kompatybilna implementacja sovereign | sovereign id bez `~`, np. `offer-catalog@participant:did:key:...`, plus `capability_profile.compatible_with` | `sovereign/...` plus filtrowanie po anchorze | tożsamość kotwicząca albo delegowany signer; konsumenci weryfikują deklarację kompatybilności względem schematu/profilu i lokalnej polityki |
+| Custom / operatorska | sovereign id z `~`, np. `~article-review@participant:did:key:...` albo `~article-review@org:did:key:...` | `sovereign/...` plus filtrowanie po anchorze | tożsamość kotwicząca albo delegowany signer; konsumenci stosują lokalną politykę endorsementu i reputacji; `schema/ref` opisuje własny protokół |
+
+Publiczna usługa customowa NIE POWINNA tworzyć nowego niezakotwiczonego
+formalnego bare `capability_id` i publikować go tak, jakby był capability
+rozpoznaną przez społeczność. Powinna użyć istniejącego zarejestrowanego
+formalnego id albo sovereign id zakotwiczonego w tożsamości.
+
+Zamknięte deploymenty operatorskie są inną kategorią. Mogą używać lokalnego
+Seed Directory jako katalogu deploymentowego dla znanego zestawu formalnych
+capabilities, gdzie zaufanie wynika z jawnej konfiguracji, allowlisty node ids
+i ustanowionych sesji peer, a nie z publicznego endorsementu federacji.
+Story-009 używa tej zamkniętej reguły deploymentowej dla passportów
+`offer-catalog` na node B/C.
+
 ## Źródła prawdy
 
 Ten dokument ma pozostać zsynchronizowany co najmniej z:

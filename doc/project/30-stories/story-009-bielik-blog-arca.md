@@ -1632,6 +1632,21 @@ coverage levels. They should not be conflated.
 | Arca-driven remote-provider execution over WSS peer catalog and peer sessions | `story_009_arca_drives_remote_providers_and_reads_host_owned_step_completion` in `node/daemon/tests/story_009_sensorium_role_dispatch.rs` | Runs Arca on node A as the orchestrator. Step-completion reconstruction is host-owned rather than Agora-owned. Node B/C publish `offer-catalog` capability passports to their embedded Seed Directory surfaces; node A is configured with Seed Directory endpoints and an explicit `catalog_peer_discovery_policy` allowlisting the expected provider node ids, but it does not seed their offers and does not use `catalog_peer_node_ids`. Arca discovers catalog peers through `seed.directory.query` with a Seed Directory predicate over trusted node ids, fetches their Dator catalogs through `offer-catalog.fetch.request/response` over established daemon-owned WSS peer sessions, persists the discovered offers in its observed catalog, selects node B/C providers, dispatches remote-provider service orders through daemon-owned `peer.message.dispatch`, receives `service-order.dispatch.response` over the same peer-session correlation path, completes the workflow from pointer-only step outputs, publishes the final `workflow.completed` monitoring record, and verifies the editorial path by reading the per-node host-owned `/v1/workflows/runs/{workflow_run_id}/steps/completed` read models. The step-completion records validate against `story009.workflow-step-completed.v1`, carry non-null `workflow/run-id` and `workflow/phase-id` for every step, and the test asserts that node A/B reject `git-push-publish` while their Sensorium OS catalogs do not expose the publish action. Covers the current executable form of criteria 5, 7, 8, 9, 11 and 14. | The allowlisted `trusted_node_ids` policy remains a harness/deployment override. Production profiles should replace or enrich it with broader trusted-peer policy, capability-passport verification, Seed Directory assurance, and federation endorsement policy. |
 | Peer service-order dispatch contract | `python3 -m unittest middleware-modules/arca/test_service.py middleware-modules/dator/test_service.py` plus daemon peer response-kind coverage | Freezes the transport-shaped seam: Dator handles `service-order.dispatch.request` on inbound-peer with an explicitly declared long-running chain timeout and executes the same local role capability path; Arca derives a peer-message remote target from an observed offer, sends it through daemon-owned `peer.message.dispatch`, and correlates `service-order.dispatch.response` by `request_id`. | Unit-level coverage plus spawned-daemon WSS coverage. `daemon_peer_listener_accepts_dialer_and_dispatches_peer_message` proves generic WSS peer-message delivery; the story-009 Arca-driven harness proves the full service-order dispatch path over established WSS peer sessions. |
 
+Story-009 is a closed operator-owned editorial deployment, not a public
+capability federation. Its `offer-catalog` passports are deployment catalog
+facts used to let node A discover the known provider nodes B/C. They do not
+claim that B/C are community-wide official `offer-catalog` providers. A public
+network deployment should layer federation endorsement, higher-assurance issuer
+policy, or identity-anchored custom capability names on top of this harness
+shape.
+
+When a Story-009-specific capability is published outside this closed
+deployment shape, it should use the sovereign custom convention from Proposals
+024/025: `~story009-...@participant:did:key:...` or
+`~story009-...@org:did:key:...` with its own `schema/ref`. A sovereign id
+without `~` is reserved for compatibility claims and should carry
+`capability_profile.compatible_with`.
+
 ## What This Story Does NOT Cover
 
 - **Memarium federation beyond the editorial team.** Each of the three

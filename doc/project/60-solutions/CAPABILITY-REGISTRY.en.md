@@ -49,6 +49,30 @@ Therefore:
 - and consumers must apply local policy before treating any advertised
   capability as trusted.
 
+## Public Passport Classes
+
+The registry distinguishes public network publication from closed deployment
+catalogs.
+
+For publicly broadcast capability passports:
+
+| Class | Passport `capability_id` | Wire/query projection | Issuer expectation |
+|---|---|---|---|
+| Official / community-recognized | registered formal bare id, e.g. `network-ledger`, `seed-directory`, `offer-catalog` | stable mapped name such as `core/network-ledger`, `role/seed-directory`, `role/offer-catalog` | participant, organization, council, or federation key at the highest assurance required by the community policy |
+| Compatible sovereign implementation | sovereign id without `~`, e.g. `offer-catalog@participant:did:key:...`, plus `capability_profile.compatible_with` | `sovereign/...` plus anchor-aware filtering | the anchoring identity or delegated signer; consumers verify the compatibility claim against schema/profile evidence and local policy |
+| Custom / operator-authored | sovereign id with `~`, e.g. `~article-review@participant:did:key:...` or `~article-review@org:did:key:...` | `sovereign/...` plus anchor-aware filtering | the anchoring identity or delegated signer; consumers apply local endorsement and reputation policy; `schema/ref` describes the custom protocol |
+
+A public custom service MUST NOT mint a new unanchored bare formal
+`capability_id` and publish it as if it were a community-recognized capability.
+It should either use an existing registered formal id or use a sovereign
+identity-anchored id.
+
+Closed operator-owned deployments are different. They may use a local Seed
+Directory as a deployment catalog for a known set of formal capabilities, with
+trust coming from explicit configuration, allowlisted node ids, and established
+peer sessions rather than public federation endorsement. Story-009 uses this
+closed-deployment rule for the `offer-catalog` passports on node B/C.
+
 ## Sources of Truth
 
 This document should remain synchronized at least with:

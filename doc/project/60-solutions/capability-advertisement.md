@@ -123,16 +123,22 @@ Custom capabilities should not invent unscoped global names.
 They should use the same namespace as `capability-passport.v1`, including
 identity-anchored forms such as:
 
-- `audio-transcription@participant:did:key:z...`
-- `~audio-transcription@participant:did:key:z...`
+- `audio-transcription@participant:did:key:z...` for an anchored compatibility
+  claim that carries `capability/profile.compatible_with`,
+- `~audio-transcription@participant:did:key:z...` for an anchored custom
+  protocol that does not claim a global formal meaning for `audio-transcription`.
 
 Their wire-visible projection uses:
 
 - `sovereign/...`
-- or `sovereign-informal/...`
 
 with anchor reconstruction rules defined by the capability registry and Seed
 Directory proposal.
+
+The leading `~` remains in the canonical `capability/id`; it is not projected
+into a separate wire prefix. A sovereign id without `~` is a compatibility
+claim and should carry `capability/profile.compatible_with`. A sovereign id with
+`~` is a custom protocol/scheme and should carry its own `schema/ref`.
 
 ### UI Presentation
 
@@ -208,7 +214,7 @@ The first shape is:
   "schema/id": "urn:orbiplex:capability-profile:audio-transcription:v1",
   "schema/ref": "orbiplex:blob:sha256:...",
   "schema/media-type": "application/schema+json",
-  "capability/id": "audio-transcription@participant:did:key:z...",
+  "capability/id": "~audio-transcription@participant:did:key:z...",
   "wire/name": "sovereign/audio-transcription",
   "display/name": "Audio transcription",
   "description": "Transcribes audio input into timestamped text segments.",

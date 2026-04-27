@@ -526,6 +526,8 @@ The module then returns one module report carrying at least:
 - capability ids,
 - declared output-contract references where required,
 - optional `operator_surfaces` for middleware-owned operator UI discovery,
+- optional `readiness_requirements` for middleware-owned Local Readiness Gate
+  declarations,
 - middleware contract version,
 - host API version expected by the module.
 
@@ -541,6 +543,13 @@ server-rendered modules such as Python middleware, the module should report a
 `server-html` surface with a relative `entry_path`; Node UI then maps
 `/middleware/{surface_id}/...` to the module-owned route through its bounded
 same-origin proxy.
+
+`readiness_requirements` is likewise a declaration, not an imperative startup
+hook. The daemon evaluates supported requirement kinds and merges resulting
+blocks with node/core readiness checks. The first supported middleware-owned
+kind is `signed-config-artifact`, which points at a JSON value in module config
+and a host-owned sidecar file. Available but disabled middleware does not block
+startup merely because its factory config declares such a requirement.
 
 ### 10. Invocation Contract
 

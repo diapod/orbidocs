@@ -44,7 +44,7 @@ Responsibilities:
 - record promotion provenance as append-only facts.
 
 Status:
-- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → post-chain observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, and the enforced strict-mode gate for classification fallback are now represented in code. Remaining work is operational hardening: concrete Whisper/INAC/export edge adapters still need to call the shared classification egress helper, contextual forget authorization remains open, and a sidecar read model may be added if datasets outgrow MVP scan budgets.
+- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → post-chain observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, the enforced strict-mode gate for classification fallback, and a classification-aware archival export adapter for `archival-package.v1` are now represented in code. Remaining work is operational hardening: concrete Whisper/INAC edge adapters still need to call the shared classification egress helper, contextual forget authorization remains open, and a sidecar read model may be added if datasets outgrow MVP scan budgets.
 
 ### Observer-Based Chain Integration
 
@@ -302,7 +302,7 @@ Responsibilities:
 - serve as local cache for previously retrieved archival material to avoid redundant remote retrieval.
 
 Status:
-- `todo`
+- `partial` — the Memarium domain layer now owns a thin archival export adapter around `archival-package.v1`, and the daemon exposes a local operator backup flow on top of it. `POST /v1/memarium/backups` prepares one bundle under `<data_dir>/memarium/backups/<backup_id>/`, materializes per-item payload snapshots plus `archival-package.v1` JSON files, and returns a manifest with absolute file paths and metadata; `GET /v1/memarium/backups/{backup_id}` rehydrates that manifest for later inspection. The adapter builds/stamps packages with RFC3339 `created-at`, preserves `classification` as first-class package data, normalizes export-bound `effective_tier` against `surface=export` + `topic_class`, and denies quarantined / malformed / not-yet-declassified public-vault packages before any archivist handoff code runs. Remote archivist discovery, handoff transport, retrieval caching, and append-only archival result facts are still future work.
 
 ### Crisis Space Management
 

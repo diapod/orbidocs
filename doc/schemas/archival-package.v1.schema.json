@@ -25,6 +25,7 @@
     "redaction/status",
     "payload/ref",
     "provenance/refs",
+    "classification",
     "integrity/proof"
   ],
   "properties": {
@@ -106,6 +107,10 @@
         "minLength": 1
       },
       "description": "Trace references that bind the package to its source discussion or promotion history."
+    },
+    "classification": {
+      "$ref": "classification.v1.schema.json",
+      "description": "Classification label preserved across archival/export boundaries. Export adapters MAY normalize `effective_tier` for the current export surface, but MUST preserve `source_tier`, `provenance`, and `declassify_trail` without rewriting them."
     },
     "publication/timing-profile": {
       "type": "string",

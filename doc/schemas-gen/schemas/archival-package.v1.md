@@ -42,6 +42,7 @@ Machine-readable schema for packaging durable artifacts for archivist or vault h
 | [`redaction/status`](#field-redaction-status) | `yes` | enum: `none`, `partial`, `full-derived` | Redaction posture of the exported artifact. |
 | [`payload/ref`](#field-payload-ref) | `yes` | string | Stable content, blob, or manifest reference for the packaged payload. |
 | [`provenance/refs`](#field-provenance-refs) | `yes` | array | Trace references that bind the package to its source discussion or promotion history. |
+| [`classification`](#field-classification) | `yes` | ref: `classification.v1.schema.json` | Classification label preserved across archival/export boundaries. Export adapters MAY normalize `effective_tier` for the current export surface, but MUST preserve `source_tier`, `provenance`, and `declassify_trail` without rewriting them. |
 | [`publication/timing-profile`](#field-publication-timing-profile) | `no` | enum: `live-mirror`, `delayed-bundle`, `curator-gated` | Timing profile for publication beyond storage success. |
 | [`retention/max-duration-sec`](#field-retention-max-duration-sec) | `no` | integer | Maximum intended storage duration in seconds when retention is bounded. |
 | [`retention/max-idle-ttl-sec`](#field-retention-max-idle-ttl-sec) | `no` | integer | Maximum idle time without retrieval before the package may expire. |
@@ -172,6 +173,14 @@ Stable content, blob, or manifest reference for the packaged payload.
 - Shape: array
 
 Trace references that bind the package to its source discussion or promotion history.
+
+<a id="field-classification"></a>
+## `classification`
+
+- Required: `yes`
+- Shape: ref: `classification.v1.schema.json`
+
+Classification label preserved across archival/export boundaries. Export adapters MAY normalize `effective_tier` for the current export surface, but MUST preserve `source_tier`, `provenance`, and `declassify_trail` without rewriting them.
 
 <a id="field-publication-timing-profile"></a>
 ## `publication/timing-profile`

@@ -83,12 +83,45 @@ Signed middleware configuration approval is represented as:
   "kind": "signed-middleware-config-artifact",
   "module_id": "sensorium-os",
   "artifact_id": "action-catalog",
+  "label": "Sensorium OS action catalog",
   "reason": "signature-stale"
 }
 ```
 
 The existing middleware-config-artifact signing endpoints remain the concrete
-operator action surface for that blocker kind.
+operator action for this blocker kind.
+
+Middleware MAY declare signed configuration readiness requirements in its
+configuration through `readiness_requirements[]`. This is an additive source of
+gate blockers; it does not replace node/core readiness checks such as local
+participant keys, node-operator binding, or capability passports.
+
+Example:
+
+```json
+{
+  "readiness_requirements": [
+    {
+      "id": "action-catalog-sidecar",
+      "kind": "signed-config-artifact",
+      "artifact_id": "action-catalog",
+      "label": "Sensorium OS action catalog",
+      "config_pointer": "/sensorium_os/action_catalog",
+      "signing_domain": "sensorium.os.action-catalog.v1",
+      "sidecar_schema": "sensorium-os.action-catalog-signature.v1",
+      "authorization_schema": "sensorium-os.action-catalog-authorization.v1",
+      "sidecar_file": "sensorium-os.sig.json",
+      "review_href": "/middleware/sensorium-os",
+      "blocking": true
+    }
+  ]
+}
+```
+
+The daemon evaluates these declarations only for configured middleware modules.
+Available-but-disabled bundled modules remain discoverable, but they do not
+block Local Readiness Gate merely because their factory config declares a
+requirement.
 
 ## Minimal Components
 

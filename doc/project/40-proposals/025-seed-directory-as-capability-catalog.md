@@ -200,8 +200,8 @@ Flag defaults:
 - `include_sovereign` is a shortcut for both sovereign flags
 
 This keeps old `GET /cap?capability=...` callers backward-compatible while
-still suppressing informal sovereign capabilities unless the consumer asks for
-them explicitly.
+still suppressing custom `~...@...` sovereign capabilities unless the consumer
+asks for them explicitly.
 
 ### 3a. Capability Query Predicate/Filter
 
@@ -382,7 +382,7 @@ Capability naming now has three related layers:
 | Context | Pattern | Example |
 | :--- | :--- | :--- |
 | Formal wire capability name | `core/...`, `role/...`, `plugin/...`, or bare formal name | `role/seed-directory` |
-| Sovereign wire capability name | `sovereign/...` or `sovereign-informal/...` | `sovereign/audio-transcription` |
+| Sovereign wire capability name | `sovereign/...` | `sovereign/audio-transcription` |
 | Capability passport `capability_id` | formal bare id or sovereign id with anchor | `seed-directory`, `audio-transcription@participant:did:key:z...` |
 
 Formal mappings stay stable:
@@ -395,7 +395,11 @@ plugin/oracle-basic   →  oracle-basic
 ```
 
 Unknown formal capabilities may also appear as bare formal wire names and map
-to themselves.
+to themselves on local, private, or explicitly experimental surfaces. Public
+Seed Directory publication SHOULD NOT use unknown bare formal names for custom
+services. Public custom capabilities should be identity-anchored sovereign
+capabilities, or should first be added to the shared registry as formal
+`core/...`, `role/...`, or `plugin/...` mappings.
 
 Sovereign capabilities intentionally do not have a pure-name reverse mapping.
 Instead:
@@ -405,9 +409,45 @@ sovereign/audio-transcription + anchor_identities["audio-transcription"]
   → audio-transcription@participant:did:key:z...
 ```
 
-Informal sovereign capabilities use the same anchor rule but carry the
-`sovereign-informal/` wire prefix and the leading `~` in the reconstructed
-passport capability id.
+Custom sovereign capabilities use the same anchor rule and carry the leading
+`~` in the passport capability id:
+
+```
+sovereign/article-review + anchor_identities["article-review"]
+  → ~article-review@participant:did:key:z...
+```
+
+The `~` marker is deliberately part of the canonical `capability_id`, not the
+wire projection. The wire name is a routing/discovery projection; the passport
+capability id, its anchor, and its signed `capability_profile` are the semantic
+source of truth.
+
+Publicly indexed capability passports therefore divide into:
+
+| Public class | Passport `capability_id` | Query / wire name | Acceptance rule |
+| :--- | :--- | :--- | :--- |
+| Official / community-recognized | registered formal id, e.g. `seed-directory`, `network-ledger`, `offer-catalog` | stable mapped name, e.g. `role/seed-directory`, `core/network-ledger`, `role/offer-catalog` | directory policy requires the configured high-assurance issuer or federation endorsement |
+| Compatible sovereign implementation | sovereign id without `~`, e.g. `offer-catalog@participant:did:key:z...` | `sovereign/offer-catalog` plus anchor filter | directory policy verifies the anchor, signature, revocation state, `capability_profile.compatible_with`, schema/profile evidence, and local endorsement predicate |
+| Custom / operator-authored | sovereign id with `~` and anchor, e.g. `~article-review@participant:did:key:z...` | `sovereign/article-review` plus anchor filter | directory policy verifies the anchor, signature, revocation state, and any local endorsement predicate; `schema/ref` describes the custom protocol |
+
+Sovereign ids without `~`, such as
+`offer-catalog@participant:did:key:z...`, are compatibility claims. They SHOULD
+carry `capability_profile.compatible_with = "offer-catalog"` and a
+content-addressed `schema/ref` for the profile being implemented. Consumers
+MUST still verify this claim against local policy and schema evidence; the name
+alone is not sufficient authority.
+
+This keeps public discovery open to community-built services without allowing
+unanchored custom strings to look like globally recognized capabilities.
+
+Closed, operator-owned deployments MAY deliberately relax this rule for a
+known set of formal capabilities. In that mode the Seed Directory is not a
+public recommendation surface; it is a local/deployment catalog whose trust
+boundary is the operator's explicit configuration, allowlisted node ids, and
+established peer sessions. Story-009 uses this deployment-shaped exception:
+`offer-catalog` is a registered formal capability, but its node B/C passports
+are accepted inside a closed editorial harness and are not presented as
+community-wide endorsement of those providers.
 
 ### 8. Directory-Indexed vs. Node-Presented Capabilities
 

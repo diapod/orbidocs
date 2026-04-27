@@ -111,7 +111,7 @@ vector index record.
 Purpose:
 
 - package an artifact for durable retention or publication,
-- carry publication scope, archival basis, redaction state, integrity proof, and
+- carry publication scope, archival basis, classification label, redaction state, integrity proof, and
   retention hints,
 - remain generic enough to wrap summaries, transcript bundles, corpus candidates, or
   promoted knowledge artifacts.
