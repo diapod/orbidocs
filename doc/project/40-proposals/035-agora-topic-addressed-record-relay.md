@@ -930,6 +930,45 @@ wraps it in actual HTTP routing. Key design choices:
 - **`include_flagged` wire compatibility**: the parameter is accepted
   but has no effect in MVP; flag semantics are deferred per section 8.
 
+#### Local runtime data-dir ownership
+
+An Agora service instance has exclusive ownership of its local runtime
+data directory. This is the Agora middleware data directory, not the
+Node profile root. Under daemon supervision the default path is:
+
+```
+<node-data-dir>/middleware/agora-service/data
+```
+
+For example, a Story-009 laptop profile may resolve it as:
+
+```
+~/.orbiplex/bielik-blog-A/middleware/agora-service/data
+```
+
+The Agora middleware data directory is a single-writer local state root,
+not a multi-process database contract. At most one live Agora service
+instance MUST use a given Agora middleware data directory at a time.
+
+This ownership invariant covers the SQLite relay store, the subject
+index rebuild cycle, retention sweeps, rate-limiter snapshots, and any
+other process-local caches or timers derived from the same root. Adding
+file locks around individual snapshot reads and writes would protect
+only those I/O operations; it would not make two Agora runtimes share one
+coherent timeline, one cache state, or one retention policy execution.
+
+Implementations SHOULD enforce the invariant with an exclusive
+startup-time lock file inside the Agora middleware data directory and
+fail fast with an operator-readable error when the lock is already held.
+Snapshot writes SHOULD remain crash-safe through the usual temp-file,
+fsync, and atomic rename discipline.
+
+Per-file shared/exclusive locks MAY be added later as a compatibility
+mechanism for external diagnostic, backup, or migration tools that need
+to read snapshot files while Agora is running. Such locks MUST NOT be
+interpreted as permission to run multiple Agora service instances against
+the same Agora middleware data directory.
+
 ### MVP implementation status vs this proposal
 
 #### Implemented
