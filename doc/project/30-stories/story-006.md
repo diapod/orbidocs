@@ -187,7 +187,7 @@ A service offer carries at least:
   input characters).
 - `pricing/unit` — human-readable label of one billable unit.
 - `pricing/unit-kind` — machine-readable billing kind such as `per-item`,
-  `per-character-block`, `per-request`, or `flat`.
+  `per-character-block`, `per-request`, `per-task`, or `flat`.
 - `constraints/input` — accepted input parameters (format, size, language).
 - `constraints/output` — promised output parameters (format, dimensions, size).
 - `delivery/max-duration` — maximum time from acceptance to delivery.

@@ -107,6 +107,7 @@
         "per-item",
         "per-character-block",
         "per-request",
+        "per-task",
         "flat"
       ],
       "description": "Host-computable pricing kind. The host computes total price and hold from explicit order units multiplied by `pricing/amount`; `pricing/unit` remains descriptive only."

@@ -44,7 +44,7 @@ Machine-readable schema for one standing exchange-facing service offer published
 | [`pricing/amount`](#field-pricing-amount) | `yes` | integer | Price in minor units for one billable unit of service. When `pricing/currency = ORC`, the value uses ORC minor units with fixed scale `2`. |
 | [`pricing/currency`](#field-pricing-currency) | `yes` | string | Settlement unit or currency symbol, with `ORC` as the current hard-MVP marketplace unit. |
 | [`pricing/unit`](#field-pricing-unit) | `yes` | string | Human-readable billable unit label, for example `1 summary item`, `1800 input characters`, or `1 illustration`. |
-| [`pricing/unit-kind`](#field-pricing-unit-kind) | `yes` | enum: `per-item`, `per-character-block`, `per-request`, `flat` | Host-computable pricing kind. The host computes total price and hold from explicit order units multiplied by `pricing/amount`; `pricing/unit` remains descriptive only. |
+| [`pricing/unit-kind`](#field-pricing-unit-kind) | `yes` | enum: `per-item`, `per-character-block`, `per-request`, `per-task`, `flat` | Host-computable pricing kind. The host computes total price and hold from explicit order units multiplied by `pricing/amount`; `pricing/unit` remains descriptive only. |
 | [`delivery/max-duration-sec`](#field-delivery-max-duration-sec) | `yes` | integer | Maximum provider-side promised duration for one accepted order under this standing offer. |
 | [`queue/auto-accept`](#field-queue-auto-accept) | `yes` | boolean | Whether the provider declares automatic acceptance up to the published queue posture. |
 | [`queue/max-depth`](#field-queue-max-depth) | `yes` | integer | Maximum queue depth at which the provider still considers the service admissible. |
@@ -204,7 +204,7 @@ Human-readable billable unit label, for example `1 summary item`, `1800 input ch
 ## `pricing/unit-kind`
 
 - Required: `yes`
-- Shape: enum: `per-item`, `per-character-block`, `per-request`, `flat`
+- Shape: enum: `per-item`, `per-character-block`, `per-request`, `per-task`, `flat`
 
 Host-computable pricing kind. The host computes total price and hold from explicit order units multiplied by `pricing/amount`; `pricing/unit` remains descriptive only.
 
