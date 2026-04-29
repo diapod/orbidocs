@@ -256,6 +256,20 @@ buyer-local receipt annotations:
 
 Those refs should not be treated as provider-facing procurement wire fields.
 
+### Zero-price confirmation fallback
+
+When the selected standing offer has `pricing/amount = 0`, the host-owned
+bridge should use a deterministic local fallback: **zero price path does not
+require confirmation**. This avoids projecting a free, local execution into a
+settlement confirmation policy that only matters once funds, holds, or escrow
+are involved.
+
+`confirmation/mode` remains the exchange/procurement wire field with the
+official confirmation vocabulary. Local middleware or profile config may use a
+convenience value such as `confirmation_mode: "automatic"` to request this
+zero-price fallback, but that value must be normalized before publishing the
+wire offer; it is not an official `confirmation/mode` value.
+
 For hard MVP, queue saturation is modeled before procurement contract creation:
 
 - a service order may be rejected with `queue-saturated`,

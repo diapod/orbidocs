@@ -182,6 +182,14 @@ result) without wiring holds, escrow, or ledger updates into the
 story. Variants with non-zero pricing, negotiation, or settlement are
 a separate story.
 
+The reference Dator profile expresses this local shortcut with
+`confirmation_mode: "automatic"`. That value is profile-local vocabulary: it
+means the zero-price story path uses the deterministic fallback "zero price path
+does not require confirmation." It is not an official on-wire
+`confirmation/mode` value; published `service-offer.v1` records should omit
+`confirmation/mode` or use one of the official confirmation modes after local
+normalization.
+
 ## Cast and Scene
 
 - **Node A — *Bielik Researcher*.** Operator: `participant:did:key:z6MkA…`.
