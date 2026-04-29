@@ -305,6 +305,21 @@ with an empty `providers` array. If the capability is unknown, it returns
 or capability-unavailable state rather than silently falling back to a public
 relay (story-008 acceptance criterion 2).
 
+### Agora CLI TLS trust
+
+The Rust `orbiplex-node-agora` CLI supports both plain local `http://`
+and TLS-protected `https://` Agora base URLs. HTTPS uses the bundled
+WebPKI root store by default. Operators may add private trust anchors
+with `--tls-ca-file PATH` or `ORBIPLEX_AGORA_TLS_CA_FILE`; the CLI flag
+has priority over the environment. Empty or malformed CA files fail
+closed.
+
+`--tls-insecure-skip-verify` exists only as a diagnostic escape hatch.
+It disables certificate verification and prints a warning to stderr
+stating that the mode must not be used in production. This keeps local
+debugging possible without making insecure TLS a quiet or normal
+deployment mode.
+
 ## Layer 7 — Node UI discovery
 
 The Node UI does not ship a hardcoded Agora endpoint. For compose flows

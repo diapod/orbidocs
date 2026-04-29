@@ -500,6 +500,26 @@ If client authentication is enabled for the Agora API, it MUST use a token
 separate from both lifecycle and host-capability tokens. Absence of such a token
 means open access for development and local-only MVP operation.
 
+### 5.6.1. Agora CLI TLS trust configuration
+
+Local CLI clients MAY connect to Agora over either `http://` or `https://`
+base URLs. The CLI TLS trust contract is deliberately small:
+
+- the default HTTPS mode uses the built-in WebPKI root set and rejects
+  self-signed or otherwise untrusted certificates;
+- `--tls-ca-file PATH` adds one or more PEM-encoded CA certificates to
+  the trust store; `ORBIPLEX_AGORA_TLS_CA_FILE` provides the same value
+  from the environment, and the explicit CLI flag takes precedence;
+- `--tls-insecure-skip-verify` is a diagnostic-only bypass for local
+  debugging. It MUST print an operator-visible warning and MUST NOT be
+  used in production.
+
+The custom CA mode is for local labs, private CA deployments, and small
+operator-controlled federations. It is not a substitute for explicit
+relay identity policy. Certificate or SPKI pinning remains a future
+extension for public relay deployments that need tighter endpoint
+continuity than CA trust alone.
+
 ### 5.7. Capability passport semantics for `agora.relay`
 
 The middleware capability report and the capability passport are separate
