@@ -1,0 +1,78 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://schemas.orbiplex.ai/node/middleware-runtime/command-stdio-executor-config.schema.json",
+    "title": "CommandStdioExecutorConfig",
+    "description": "Configuration contract for one bounded command_stdio middleware executor. The executor invokes one external process per envelope, sends a workflow envelope as one JSON line on stdin, expects one middleware-decision JSON value on stdout, and retains stderr only for bounded diagnostics.",
+    "type": "object",
+    "additionalProperties": false,
+    "x-dia-basis": [
+        "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md",
+        "doc/project/40-proposals/049-json-e-middleware-transformer-executor.md",
+        "doc/project/50-requirements/requirements-010.md"
+    ],
+    "required": [
+        "id",
+        "executable",
+        "args",
+        "cwd",
+        "env",
+        "timeout_ms",
+        "max_stdout_bytes",
+        "max_stderr_bytes"
+    ],
+    "properties": {
+        "id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable executor identifier used by hook policies, diagnostics, and execution traces. Runtime validation rejects empty or whitespace-only values."
+        },
+        "executable": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Executable path or command name passed to the host process launcher. Runtime validation rejects empty or whitespace-only values."
+        },
+        "args": {
+            "type": "array",
+            "description": "Process arguments appended after the executable. Arguments are host-local launch data, not shell-interpreted command text.",
+            "items": {
+                "type": "string"
+            }
+        },
+        "cwd": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "minLength": 1,
+            "description": "Optional working directory for the child process. null means inherit the host process working directory."
+        },
+        "env": {
+            "type": "object",
+            "description": "Extra environment variables injected before optional sandbox hooks run. This map is additive unless a sandbox profile later clears or rewrites the environment.",
+            "propertyNames": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^=\\u0000]+$"
+            },
+            "additionalProperties": {
+                "type": "string",
+                "pattern": "^[^\\u0000]*$"
+            }
+        },
+        "timeout_ms": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Maximum wall-clock runtime for one external executor invocation, in milliseconds. This maps to the Rust Duration field named timeout."
+        },
+        "max_stdout_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Maximum number of stdout bytes accepted from the child process before the invocation fails closed."
+        },
+        "max_stderr_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Maximum number of stderr bytes retained from the child process for diagnostics before the invocation fails closed."
+        }
+    }
+}
