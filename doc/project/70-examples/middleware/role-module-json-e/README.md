@@ -64,5 +64,8 @@ host calls, the mock file is intentionally empty.
   not listed there.
 - End with `validate` against `service-dispatch-response.v1` and then
   `respond`.
+- A sanitized provider-side `failed` response may include `tracking-id`, a safe
+  correlation id for operator support. Do not expose local component names,
+  stdout, stderr, stack traces, or private paths to the requester.
 - Keep `answer/content` pointer-sized. Large data belongs in Git, Memarium,
   artifacts, Sensorium observations, or a module-owned store.

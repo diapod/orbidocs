@@ -140,7 +140,8 @@
    ["Inspect local offers with publication and relay state"
     "Inspect role-module routing and required Sensorium action declarations"
     "Inspect accepted, running, completed, failed, and rejected provider dispatches"
-    "Expose provider-side health without leaking role-module private artifacts"]
+    "Expose provider-side health without leaking role-module private artifacts"
+    "Surface requester-visible tracking-id values for failed dispatches while keeping full diagnostics provider-local"]
    :status :optional}]
 
  :out-of-scope

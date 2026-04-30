@@ -59,5 +59,8 @@ curl -s -X POST http://127.0.0.1:47989/v1/role/execute \
   `correlation/id` in emitted facts, directives, or observations.
 - Return `service-dispatch-response` with `completed`, `failed`, or
   `rejected-invalid-request`.
+- A sanitized provider-side `failed` response may include `tracking-id`, a safe
+  correlation id for operator support. Do not expose local component names,
+  stdout, stderr, stack traces, or private paths to the requester.
 - Keep `answer/content` pointer-sized. Large bytes belong in explicit data
   planes: Git, Memarium, artifacts, or a module-owned store.

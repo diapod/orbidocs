@@ -272,7 +272,10 @@ Responsibilities:
 - inspect accepted, running, completed, failed, and rejected provider
   dispatches,
 - expose provider-side health without leaking role-module private
-  artifacts.
+  artifacts,
+- surface requester-visible `tracking-id` values for failed dispatches so the
+  requester can report a provider failure while full diagnostics remain
+  provider-local.
 
 Status:
 - `optional`. MVP exposes enough module and offer state for the current
