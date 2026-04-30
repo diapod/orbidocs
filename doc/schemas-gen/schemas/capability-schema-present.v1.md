@@ -7,7 +7,7 @@ Peer-message response payload used to present one `capability-schema.v1` artifac
 ## Governing Basis
 
 - [`doc/project/40-proposals/027-middleware-peer-message-dispatch.md`](../../project/40-proposals/027-middleware-peer-message-dispatch.md)
-- [`doc/project/60-solutions/capability-advertisement.md`](../../project/60-solutions/capability-advertisement.md)
+- [`doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md`](../../project/60-solutions/007-capability-advertisement/007-capability-advertisement.md)
 - [`doc/schemas/capability-schema.v1.schema.json`](../../schemas/capability-schema.v1.schema.json)
 
 ## Project Lineage

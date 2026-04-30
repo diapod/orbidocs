@@ -23,8 +23,8 @@ The project needs a license baseline that:
 
 Input analysis is documented in:
 - `doc/project/10-challenges/001-licensing.md`
-- `doc/project/30-stories/story-001.md`
-- `doc/project/50-requirements/requirements-001.md`
+- `doc/project/30-stories/story-001-swarm-node-onboarding.md`
+- `doc/project/50-requirements/requirements-001-node-onboarding.md`
 
 ## Options Considered
 

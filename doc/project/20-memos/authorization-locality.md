@@ -3,8 +3,8 @@
 Based on:
 
 - `doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md`
-- `doc/project/60-solutions/capability-binding.md`
-- `doc/project/60-solutions/sealer.md`
+- `doc/project/60-solutions/006-capability-binding/006-capability-binding.md`
+- `doc/project/60-solutions/005-sealer/005-sealer.md`
 
 This memo explains one architectural decision that runs across Sealer,
 Signer, Capability Binding, and any future passport-gated host

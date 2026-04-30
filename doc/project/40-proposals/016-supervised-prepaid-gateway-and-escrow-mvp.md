@@ -1,10 +1,10 @@
 # Supervised Prepaid Gateway and Escrow MVP
 
 Based on:
-- `doc/project/30-stories/story-001.md`
-- `doc/project/30-stories/story-004.md`
+- `doc/project/30-stories/story-001-swarm-node-onboarding.md`
+- `doc/project/30-stories/story-004-pod-client-onboarding.md`
 - `doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`
-- `doc/project/60-solutions/node.md`
+- `doc/project/60-solutions/000-node/000-node.md`
 - `doc/normative/30-core-values/en/CORE-VALUES.en.md`
 - `doc/normative/50-constitutional-ops/en/SWARM-ECONOMY-SUFFICIENCY.en.md`
 - `doc/normative/50-constitutional-ops/en/UNIVERSAL-BASIC-COMPUTE.en.md`

@@ -7,18 +7,18 @@ Machine-readable schema for a participant-scoped layered restriction state. The 
 ## Governing Basis
 
 - [`doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md`](../../project/40-proposals/018-layered-capability-limited-participant-restrictions.md)
-- [`doc/project/50-requirements/requirements-009.md`](../../project/50-requirements/requirements-009.md)
+- [`doc/project/50-requirements/requirements-009-capability-limits.md`](../../project/50-requirements/requirements-009-capability-limits.md)
 
 ## Project Lineage
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
-- [`doc/project/50-requirements/requirements-009.md`](../../project/50-requirements/requirements-009.md)
+- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
+- [`doc/project/50-requirements/requirements-009-capability-limits.md`](../../project/50-requirements/requirements-009-capability-limits.md)
 
 ### Stories
 
-- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
+- [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)
 
 ## Fields
 

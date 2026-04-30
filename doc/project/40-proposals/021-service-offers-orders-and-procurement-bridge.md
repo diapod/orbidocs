@@ -1,16 +1,16 @@
 # Proposal 021: Service Offers, Service Orders, and the Host-Owned Procurement Bridge
 
 Based on:
-- `doc/project/30-stories/story-006.md`
+- `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
 - `doc/project/30-stories/story-006-buyer-node-components.md`
 - `doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`
 - `doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`
 - `doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`
 - `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
 - `doc/project/40-proposals/020-bundled-python-middleware-modules.md`
-- `doc/project/50-requirements/requirements-010.md`
-- `doc/project/50-requirements/requirements-011.md`
-- `doc/project/60-solutions/node.md`
+- `doc/project/50-requirements/requirements-010-middleware-executor.md`
+- `doc/project/50-requirements/requirements-011-dator-arca-contracts.md`
+- `doc/project/60-solutions/000-node/000-node.md`
 
 ## Status
 

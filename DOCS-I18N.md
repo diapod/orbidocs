@@ -40,7 +40,7 @@ Examples:
 
 - `README.md`
 - `TRACEABILITY.md`
-- `doc/project/PROJECTS.md`
+- `doc/project/PROJECTS.en.md`
 - `doc/schemas/README.md`
 - schema docs under `doc/schemas-gen/`
 

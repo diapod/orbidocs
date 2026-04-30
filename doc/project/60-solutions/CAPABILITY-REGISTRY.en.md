@@ -78,7 +78,7 @@ closed-deployment rule for the `offer-catalog` passports on node B/C.
 This document should remain synchronized at least with:
 
 - `node:capability/src/lib.rs`
-- `orbidocs:doc/project/60-solutions/node.md`
+- `orbidocs:doc/project/60-solutions/000-node/000-node.md`
 - `orbidocs:doc/project/60-solutions/CAPABILITY-MATRIX.en.md`
 - the relevant capability or attached-role proposals
 
@@ -95,8 +95,12 @@ then this registry should be updated as well.
 
 | capability_id | Wire name | Class | Semantic role | Typical runtime owner | Passport in MVP | Notes |
 |---|---|---|---|---|---|---|
+| `core/messaging` | `core/messaging` | protocol-native infrastructure | baseline encrypted peer messaging/session capability required for peer sessions | Node protocol / peer supervisor | self-issued advertisement/passport-form assertion | Mandatory baseline capability; peers lacking it are rejected by handshake/session validation. |
+| `core/discovery` | `core/discovery` | protocol-native infrastructure | baseline peer discovery and advertisement exchange surface | Node protocol / discovery runtime | self-issued advertisement/passport-form assertion | Used for discovery and advertisement semantics; formal registry row keeps code constants and docs aligned. |
+| `core/keepalive` | `core/keepalive` | protocol-native infrastructure | baseline keepalive/reconnect liveness surface | Node protocol / peer supervisor | self-issued advertisement/passport-form assertion | Protocol-native capability; not an attached service role. |
 | `network-ledger` | `core/network-ledger` | infrastructure | remote settlement-ledger authority for other nodes | settlement-capable Node | yes | This capability means ledger authority, not merely one hold or one policy. |
 | `seed-directory` | `role/seed-directory` | infrastructure | catalog of capability passports, revocations, and advertisements used for bootstrap and discovery | Seed Directory service or embedded Node service | yes | This capability covers trusted catalog publication and lookup semantics. |
+| `node-primary-operator` | `role/node-primary-operator` | binding / governance | participant-issued authority binding naming the primary operator of a node | capability / Seed Directory / daemon acceptance path | yes | Binding-only capability; consumers must verify the node-operator binding artifact, not treat it as a generic service. |
 | `offer-catalog` | `role/offer-catalog` | domain role | federated offer surface used for responder-side fetch and discovery | Dator on the supply side, Arca on the demand/discovery side | yes, when delegated by passport | The capability is domain-level; implementations may split supply and observed/discovery concerns across modules. |
 | `escrow` | `role/escrow` | attached supervisory role | supervisor of hold, release, refund, freeze, and dispute paths for settlement contracts | escrow supervisor node or attached service | yes | This capability governs the lifecycle of reserved funds for a contract, not full ledger authority. |
 | `oracle` | `plugin/oracle` | attached role / plugin | bounded external judgment, verification, or adjudication surface | future oracle service | planned | At this stage it is a reserved identifier and extension direction rather than a full hard-MVP runtime slice. |

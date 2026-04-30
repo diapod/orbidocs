@@ -1,7 +1,7 @@
 # Proposal 051: Swarm Membership, Reputation Bootstrap, and Public Adjudication
 
 Based on:
-- `doc/project/50-requirements/requirements-001.md`
+- `doc/project/50-requirements/requirements-001-node-onboarding.md`
 - `doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md`
 - `doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md`
 - `doc/project/20-memos/reputation-signal-v1-invariants.md`

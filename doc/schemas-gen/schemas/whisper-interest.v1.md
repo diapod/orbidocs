@@ -7,14 +7,14 @@ Machine-readable schema for bounded local-interest registration in response to a
 ## Governing Basis
 
 - [`doc/project/20-memos/orbiplex-whisper.md`](../../project/20-memos/orbiplex-whisper.md)
-- [`doc/project/30-stories/story-005.md`](../../project/30-stories/story-005.md)
+- [`doc/project/30-stories/story-005-whisper-rumor-intake.md`](../../project/30-stories/story-005-whisper-rumor-intake.md)
 - [`doc/project/40-proposals/013-whisper-social-signal-exchange.md`](../../project/40-proposals/013-whisper-social-signal-exchange.md)
 
 ## Project Lineage
 
 ### Stories
 
-- [`doc/project/30-stories/story-005.md`](../../project/30-stories/story-005.md)
+- [`doc/project/30-stories/story-005-whisper-rumor-intake.md`](../../project/30-stories/story-005-whisper-rumor-intake.md)
 
 ## Fields
 

@@ -8,7 +8,7 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
-    "doc/project/50-requirements/requirements-004.md"
+    "doc/project/50-requirements/requirements-004-transcript-curation.md"
   ],
   "required": [
     "schema/v",

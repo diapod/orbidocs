@@ -1,0 +1,108 @@
+{:component/id :orbiplex/host-owned-module-store
+ :component/title "Host-Owned Module Store"
+ :component/type :host-capability
+ :component/status :done
+
+ :summary
+ "A local Node durability primitive that lets supervised middleware modules
+ persist small JSON records without forcing the daemon to learn module-specific
+ schemas. The Node owns scoping, persistence, and access control; the module owns
+ payload semantics."
+
+ :must-implement
+ [{:cap/id :module-store-persistence
+   :title "Append-Only Module Store Persistence"
+   :kind :storage
+   :based-on ["doc/project/40-proposals/044-host-owned-generic-module-store.md"
+              "doc/project/30-stories/story-009-bielik-blog-arca.md"
+              "doc/project/60-solutions/000-node/000-node.md"]
+   :schemas []
+   :responsibilities
+   ["Persist mutations as `daemon/module-store-record.v1` records keyed by `(module_id, record_kind, record_id)`"
+    "Derive stream id from the effective key, encoded safely for the commit log"
+    "Rebuild a live BTreeMap projection on replay: put/upsert inserts latest record, delete writes a tombstone and removes the live entry"
+    "Capture the live projection in daemon checkpoint state; apply tail records during replay after checkpoint"
+    "Keep module store state aligned with the rest of daemon-owned runtime state without a module-specific table"]
+   :status :done}
+
+  {:cap/id :module-store-host-capability-endpoints
+   :title "Module Store Host Capability HTTP Endpoints"
+   :kind :daemon-api
+   :based-on ["doc/project/40-proposals/044-host-owned-generic-module-store.md"
+              "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
+              "doc/project/60-solutions/000-node/000-node.md"]
+   :schemas []
+   :responsibilities
+   ["Expose four module-authtok protected calls: `POST /v1/module/store/records/{put,get,list,delete}`"
+    "Derive `module_id` from the module authtok binding — the module never sends its own id"
+    "Scope all operations to the calling module's key space"
+    "Return typed status responses: `module_store_put` / `module_store_get` / `module_store_list` / `module_store_delete`"]
+   :status :done}
+
+  {:cap/id :module-store-record-contract
+   :title "Module Store Record Contract"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/044-host-owned-generic-module-store.md"]
+   :schemas []
+   :responsibilities
+   ["Define operator-visible record shape: `record_kind`, `record_id`, `owner_participant_id`, `payload`, `created_at`, `updated_at`"
+    "Keep the semantic key as `(module_id, record_kind, record_id)` — stable, explicit, and namespace-isolated per module"
+    "Leave payload interpretation and validation entirely to the owning module"
+    "Support tombstone semantics: delete removes the live projection entry"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :module-store-schema-gating
+   :title "Schema-Gated Module Store Record Kinds"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/044-host-owned-generic-module-store.md"]
+   :schemas []
+   :responsibilities
+   ["Optionally validate module store records against registered JSON Schemas per `record_kind`"
+    "Reject records that fail schema validation at the daemon boundary before persistence"]
+   :status :planned}
+
+  {:cap/id :module-store-operator-ui
+   :title "Operator UI for Module Store Inspection"
+   :kind :inspection
+   :based-on ["doc/project/60-solutions/001-node-ui/001-node-ui.md"
+              "doc/project/40-proposals/044-host-owned-generic-module-store.md"]
+   :schemas []
+   :responsibilities
+   ["Expose module store records in node-ui for operator inspection"
+    "Allow filtering by module and record kind"]
+   :status :planned}
+
+  {:cap/id :module-store-export-publish
+   :title "Module Store Export and Publication Path"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/044-host-owned-generic-module-store.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"
+              "doc/project/60-solutions/004-dator/004-dator.md"]
+   :schemas []
+   :responsibilities
+   ["Provide an explicit publish/export path from module store records to Agora or Dator"
+    "Preserve module ownership and record provenance across the publication boundary"]
+   :status :planned}]
+
+ :out-of-scope
+ ["Large artifact storage — the store is for small control records, not blobs"
+  "Public federation catalog semantics — publication uses Agora or Dator, not the store directly"
+  "Rich search or cross-module query — the store is a per-module key-value primitive"
+  "Secrets requiring a sealer or passport gate — use the Sealer host capability instead"]
+
+ :consumes
+ ["Module authtok (daemon-owned binding)"
+  "Daemon commit log (JSONL)"
+  "Checkpoint capture and replay contracts"]
+
+ :produces
+ ["daemon/module-store-record.v1"
+  "module_store_put / get / list / delete response contracts"
+  "Live BTreeMap projection over committed records"]
+
+ :notes
+ ["This solution catalog entry maps to the host-owned-module-store implementation document."
+  "The first use is Arca's local workflow template store (`record_kind = workflow-template`), closing Story-009 Step 0."
+  "The MVP wire contract currently lives as typed Rust request/response structures in `node/middleware/src/module_store.rs`; JSON Schema gate files remain deferred."
+  "The store is intentionally small and dumb: it does not interpret payloads, does not index beyond the (module, kind, id) key, and does not broadcast changes."]}

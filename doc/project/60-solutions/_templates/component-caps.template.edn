@@ -10,8 +10,8 @@
  [{:cap/id :capability-name
    :title "Capability Name"
    :kind :protocol
-   :based-on ["doc/project/30-stories/story-001.md"
-              "doc/project/50-requirements/requirements-001.md"]
+   :based-on ["doc/project/30-stories/story-001-swarm-node-onboarding.md"
+              "doc/project/50-requirements/requirements-001-node-onboarding.md"]
    :schemas ["example-schema.v1"]
    :responsibilities
    ["Describe the first required responsibility"

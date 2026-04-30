@@ -1,0 +1,89 @@
+{:component/id :orbiplex/capability-advertisement
+ :component/title "Capability Advertisement"
+ :component/type :protocol-artifact
+ :component/status :done
+
+ :summary
+ "Node-facing protocol artifact for communicating what a peer can do now,
+ together with passport-form evidence and a routing projection that receivers
+ can verify without treating projections as authority."
+
+ :must-implement
+ [{:cap/id :passport-form-presentation
+   :title "Passport-Form Presentation"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/014-node-transport-and-discovery-mvp.md"
+              "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+              "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"]
+   :schemas ["capability-advertisement.v1"
+             "capability-passport.v1"]
+   :responsibilities
+   ["Carry `capabilities/presented` as the verification input"
+    "Include capability id, wire name, assertion kind, and passport-form credential"
+    "Require receivers to verify presented credentials under local policy and revocation state"]
+   :status :done}
+
+  {:cap/id :routing-projection
+   :title "Routing Projection"
+   :kind :routing
+   :based-on ["doc/project/40-proposals/014-node-transport-and-discovery-mvp.md"]
+   :schemas ["capability-advertisement.v1"]
+   :responsibilities
+   ["Retain `capabilities/core` as compatibility and routing projection"
+    "Keep routing projection derivable from presented capabilities"
+    "Never treat projection as authoritative trust proof"]
+   :status :done}
+
+  {:cap/id :capability-schema-presentation
+   :title "Capability Schema Presentation"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"]
+   :schemas ["capability-schema.v1"
+             "capability-schema-present.v1"]
+   :responsibilities
+   ["Represent machine-readable capability contracts as `capability-schema.v1` artifacts"
+    "Use content-addressed `schema/ref` as the integrity anchor"
+    "Allow advertisements to present schema metadata for negotiation and UI"]
+   :status :done}
+
+  {:cap/id :seed-directory-registration
+   :title "Seed Directory Registration"
+   :kind :transport
+   :based-on ["doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"]
+   :schemas ["capability-advertisement.v1"
+             "node-advertisement.v1"]
+   :responsibilities
+   ["Allow Seed Directory registration payloads to include capability advertisements"
+    "Support capability discovery without requiring all peers to dial each node first"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :broadcast-capability-advertisement
+   :title "Broadcast Capability Advertisement"
+   :kind :transport
+   :based-on ["doc/project/40-proposals/014-node-transport-and-discovery-mvp.md"]
+   :schemas ["capability-advertisement.v1"]
+   :responsibilities
+   ["Publish capability advertisements over datagram-style or broadcast transports where available"
+    "Keep the same verification contract as direct exchange"]
+   :status :planned}]
+
+ :out-of-scope
+ ["Capability-specific wire protocols"
+  "Federation recommendation policy"
+  "Revocation transport beyond passport and revocation artifacts"
+  "Implementation-local host capabilities"]
+
+ :consumes
+ ["capability-passport.v1"
+  "capability-schema.v1"
+  "capability-passport-revocation.v1"]
+
+ :produces
+ ["capability-advertisement.v1"
+  "capabilities/presented"
+  "capabilities/core routing projection"]
+
+ :notes
+ ["Capability advertisement is a protocol artifact and read-side presentation boundary, not a long-lived runtime component."
+  "Trust follows the presented passport or schema artifact, never the routing projection alone."]}

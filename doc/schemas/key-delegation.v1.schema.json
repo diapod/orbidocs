@@ -13,7 +13,7 @@
     "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
     "doc/project/40-proposals/030-identity-recovery-service.md",
     "doc/project/40-proposals/031-participant-key-passphrase-lock.md",
-    "doc/project/60-solutions/032-key-delegation-passports-impl.md"
+    "doc/project/60-solutions/014-key-delegation-passports/014-key-delegation-passports-impl.md"
   ],
   "required": [
     "schema",

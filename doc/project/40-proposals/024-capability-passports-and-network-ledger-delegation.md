@@ -6,7 +6,7 @@ Based on:
 - `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
 - `doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md`
 - `doc/project/20-memos/participant-assurance-levels.md`
-- `doc/project/60-solutions/node.md`
+- `doc/project/60-solutions/000-node/000-node.md`
 
 ## Status
 

@@ -1,0 +1,96 @@
+{:component/id :orbiplex/inter-node-artifact-channel
+ :component/title "Inter-Node Artifact Channel (INAC)"
+ :component/type :peer-protocol
+ :component/status :planned
+
+ :summary
+ "Planned peer-to-peer artifact exchange channel for byte-identical transfer of
+ Agora records, Memarium blobs, and registered artifact kinds over authenticated
+ node sessions."
+
+ :must-implement
+ [{:cap/id :inac-control-plane
+   :title "INAC Control Plane"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/042-inter-node-artifact-channel.md"
+              "doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel-impl.md"]
+   :schemas ["inac-control.v1"
+             "peer-message-invoke.v1"]
+   :responsibilities
+   ["Register `inac.v1` as a peer-message kind"
+    "Carry `offer`, `request`, `push`, and refusal response frames"
+    "Keep control messages small and auditable"
+    "Reject unknown artifact kinds with `kind-not-supported`"]
+   :status :todo}
+
+  {:cap/id :byte-identical-artifact-transfer
+   :title "Byte-Identical Artifact Transfer"
+   :kind :storage
+   :based-on ["doc/project/40-proposals/042-inter-node-artifact-channel.md"]
+   :schemas ["agora-record.v1"
+             "memarium-blob.v1"]
+   :responsibilities
+   ["Preserve envelope bytes exactly as received"
+    "Verify `record/id` or `blob/id` against canonical envelope bytes"
+    "Route accepted artifacts to Agora, Memarium, or registered handlers"
+    "Avoid re-signing artifacts during transfer"]
+   :status :todo}
+
+  {:cap/id :binary-frame-streaming
+   :title "Binary Frame Streaming"
+   :kind :transport-extension
+   :based-on ["doc/project/40-proposals/042-inter-node-artifact-channel.md"
+              "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md"]
+   :schemas ["memarium-blob.v1"]
+   :responsibilities
+   ["Move large payload bytes outside JSON control messages"
+    "Bind binary streams to `sha256:...` payload references"
+    "Verify reassembled payload hashes before acceptance"
+    "Support abort semantics for incomplete streams"]
+   :status :todo}
+
+  {:cap/id :artifact-authorization-gate
+   :title "Artifact Authorization Gate"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/041-agora-ingest-attestation.md"
+              "doc/project/40-proposals/042-inter-node-artifact-channel.md"]
+   :schemas ["capability-passport.v1"]
+   :responsibilities
+   ["Authorize inbound artifact operations through shared attestation/passport policy"
+    "Support general capability, custody, invitation, and attestation-only paths"
+    "Apply per-peer and per-kind rate and size budgets"
+    "Keep INAC from becoming a parallel authority system"]
+   :status :todo}]
+
+ :may-implement
+ [{:cap/id :middleware-artifact-kind-registry
+   :title "Middleware Artifact Kind Registry"
+   :kind :extension
+   :based-on ["doc/project/40-proposals/042-inter-node-artifact-channel.md"
+              "doc/project/20-memos/node-middleware-init-and-capability-reporting.md"]
+   :schemas ["middleware-module-report.schema.json"]
+   :responsibilities
+   ["Add `handles_artifact_kinds` to module reports"
+    "Detect startup conflicts when multiple modules claim the same artifact kind"
+    "Dispatch accepted artifacts to registered middleware handlers"]
+   :status :planned}]
+
+ :out-of-scope
+ ["Public topic indexing"
+  "Replacing Agora relay"
+  "Replacing Memarium custody"
+  "Inventing a credential format other than capability passports"]
+
+ :consumes
+ ["agora-record.v1"
+  "memarium-blob.v1"
+  "capability-passport.v1"]
+
+ :produces
+ ["peer-message responses"
+  "accepted artifact custody records"
+  "refusal codes"]
+
+ :notes
+ ["INAC remains planned until the peer-message kind, control schemas, and binary-frame transport discipline are implemented together."
+  "The solution overview exists to give the capability matrix a stable home for proposal 042 work."]}

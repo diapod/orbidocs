@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:memarium-blob:v1",
+  "title": "MemariumBlob v1",
+  "description": "Machine-readable schema for a signed, content-addressed Memarium-native artifact envelope. It is used for artifacts that are not Agora records but still need byte-identical custody and transfer, including small out-of-band passport handoffs, encrypted notes, action-trace archives, backup bundles, and INAC payloads.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/042-inter-node-artifact-channel.md",
+    "doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md",
+    "doc/project/60-solutions/002-memarium/002-memarium.md"
+  ],
+  "required": [
+    "schema",
+    "blob/id",
+    "blob/content-type",
+    "blob/payload",
+    "blob/encryption",
+    "author/participant-id",
+    "authored/at",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "memarium-blob.v1",
+      "description": "Schema discriminator. MUST be the literal string `memarium-blob.v1`."
+    },
+    "blob/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$",
+      "minLength": 16,
+      "maxLength": 128,
+      "description": "Content-addressed identifier of this blob envelope. Computed from canonical bytes of the envelope without `blob/id` and `signature`, using the same sha256 base64url convention as Agora records and capability artifacts."
+    },
+    "blob/content-type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]*(/[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]*)?(;.*)?$",
+      "description": "IANA-style media type or Orbiplex-registered kind label used by receivers to select a handler. The substrate treats it as an opaque dispatch hint."
+    },
+    "blob/payload": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/inlinePayload"
+        },
+        {
+          "$ref": "#/$defs/referencedPayload"
+        }
+      ],
+      "description": "Payload carried inline for tiny control-plane handoffs or referenced by content hash and stream id for side-loaded binary-frame transfer."
+    },
+    "blob/encryption": {
+      "oneOf": [
+        {
+          "const": "none"
+        },
+        {
+          "$ref": "#/$defs/encryption"
+        }
+      ],
+      "description": "`none` for plaintext custody or an encryption descriptor. Encrypted blobs make the receiver a byte custodian, not necessarily a reader."
+    },
+    "author/participant-id": {
+      "type": "string",
+      "pattern": "^(participant|nym):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Author identity. Accepts participant and nym DID keys as described by the identity and pseudonymization proposals."
+    },
+    "authored/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Wall-clock timestamp asserted by the author at blob creation."
+    },
+    "author/attestation-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Optional reference to an attestation artifact supporting the author's authority or context."
+    },
+    "author/nym-certificate-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Optional reference to a nym certificate when the author identity is pseudonymous."
+    },
+    "classification": {
+      "$ref": "classification.v1.schema.json",
+      "description": "Optional classification label carried with the blob for downstream custody and egress decisions."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature",
+      "description": "Ed25519 signature over canonical envelope bytes with `signature` removed, using signing domain `memarium.blob.v1`."
+    }
+  },
+  "$defs": {
+    "inlinePayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "encoding",
+        "value"
+      ],
+      "properties": {
+        "mode": {
+          "const": "inline"
+        },
+        "encoding": {
+          "const": "base64url"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]*$",
+          "description": "Unpadded base64url-encoded payload bytes."
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Decoded payload byte length, when known."
+        }
+      }
+    },
+    "referencedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "ref",
+        "size_bytes"
+      ],
+      "properties": {
+        "mode": {
+          "const": "ref"
+        },
+        "ref": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]+$",
+          "minLength": 16,
+          "maxLength": 128,
+          "description": "Content hash of the side-loaded payload bytes."
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stream_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Session-scoped binary-frame stream identifier used by INAC or another transport."
+        }
+      }
+    },
+    "encryption": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "algorithm",
+        "key-ref"
+      ],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Encryption algorithm identifier, for example `xchacha20-poly1305@v1`."
+        },
+        "key-ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "description": "Opaque key reference understood by the local key source."
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Unpadded base64url signature bytes."
+        },
+        "key/public": {
+          "type": "string",
+          "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Optional signing key identifier when the signature is delegated."
+        },
+        "key/delegation": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Optional inline delegation proof."
+        }
+      }
+    }
+  }
+}
+

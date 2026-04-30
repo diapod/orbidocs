@@ -5,7 +5,7 @@ Based on:
 - `doc/normative/40-constitution/en/CONSTITUTION.en.md` (Art. IX.7)
 - `doc/project/40-proposals/036-memarium.md` (crisis space obligations)
 - `doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md` (`key_ref` taxonomy)
-- `doc/project/60-solutions/memarium.md` (Crisis Space Management)
+- `doc/project/60-solutions/002-memarium/002-memarium.md` (Crisis Space Management)
 
 ## Status
 

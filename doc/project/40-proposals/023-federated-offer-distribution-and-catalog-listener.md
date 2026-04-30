@@ -1,12 +1,12 @@
 # Proposal 023: Federated Offer Distribution and Catalog Listener
 
 Based on:
-- `doc/project/30-stories/story-006.md`
+- `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
 - `doc/project/30-stories/story-006-buyer-node-components.md`
-- `doc/project/30-stories/story-007.md`
+- `doc/project/30-stories/story-007-settlement-capable-node.md`
 - `doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`
 - `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
-- `doc/project/60-solutions/node.md`
+- `doc/project/60-solutions/000-node/000-node.md`
 
 ## Status
 

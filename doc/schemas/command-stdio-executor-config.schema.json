@@ -8,7 +8,7 @@
     "x-dia-basis": [
         "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md",
         "doc/project/40-proposals/049-json-e-middleware-transformer-executor.md",
-        "doc/project/50-requirements/requirements-010.md"
+        "doc/project/50-requirements/requirements-010-middleware-executor.md"
     ],
     "required": [
         "id",

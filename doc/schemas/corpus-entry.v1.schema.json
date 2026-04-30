@@ -8,9 +8,9 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
-    "doc/project/50-requirements/requirements-004.md",
-    "doc/project/50-requirements/requirements-002.md",
-    "doc/project/50-requirements/requirements-003.md"
+    "doc/project/50-requirements/requirements-004-transcript-curation.md",
+    "doc/project/50-requirements/requirements-002-peer-learning.md",
+    "doc/project/50-requirements/requirements-003-memory-archivists.md"
   ],
   "required": [
     "schema/v",

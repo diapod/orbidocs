@@ -27,8 +27,8 @@ Additionally, the hostile nature of open-membership swarms requires built-in Syb
 
 Input analysis is documented in:
 - `doc/project/10-challenges/002-sybil.md`
-- `doc/project/30-stories/story-001.md`
-- `doc/project/50-requirements/requirements-001.md`
+- `doc/project/30-stories/story-001-swarm-node-onboarding.md`
+- `doc/project/50-requirements/requirements-001-node-onboarding.md`
 
 ## Options Considered
 

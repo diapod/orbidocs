@@ -1,0 +1,142 @@
+{:component/id :orbiplex/raw-signal-access
+ :component/title "Raw Signal Access"
+ :component/type :middleware-capability
+ :component/status :done
+
+ :summary
+ "A local, in-memory execution mechanism for middleware flows that need to
+ inspect the initial trigger or prior component inputs during one passage
+ through a middleware chain. It separates host-owned preservation from
+ executor-local exposure — no ambient authority, no durable storage, no
+ Memarium write path."
+
+ :must-implement
+ [{:cap/id :host-owned-preservation
+   :title "Host-Owned Raw Context Preservation"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/053-raw-signal-access.md"
+              "doc/project/40-proposals/027-middleware-peer-message-dispatch.md"
+              "doc/project/60-solutions/000-node/000-node.md"]
+   :schemas ["workflow-envelope.schema.json"]
+   :responsibilities
+   ["Always carry and append `component_path[]` through the middleware runtime"
+    "Preserve `raw_signal` for the passage when at least one executor declares `requires_raw_signal`"
+    "Preserve `component_io_trace[]` only while a later executor may need it"
+    "Never expose raw context through the final `MiddlewareRunResult.envelope`"]
+   :status :done}
+
+  {:cap/id :executor-local-exposure
+   :title "Executor-Local Raw Context Exposure"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/053-raw-signal-access.md"
+              "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"]
+   :schemas ["workflow-envelope.schema.json"]
+   :responsibilities
+   ["Deliver `trace.raw_signal_access.raw_signal` only to executors that declared `requires_raw_signal`"
+    "Deliver `trace.raw_signal_access.component_io_trace` only to executors that declared `requires_component_io_trace`"
+    "Sanitize the envelope for executors without `raw_signal_access` — they never see the raw context"
+    "Prevent ambient authority: the host carries raw context internally without exposing it to unauthorized middleware"]
+   :status :done}
+
+  {:cap/id :module-report-declaration
+   :title "Module Report Raw Access Declaration"
+   :kind :extension
+   :based-on ["doc/project/40-proposals/053-raw-signal-access.md"
+              "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
+              "doc/project/20-memos/node-middleware-init-and-capability-reporting.md"]
+   :schemas ["middleware-module-report.schema.json"]
+   :responsibilities
+   ["Accept `raw_signal_access` declaration block in supervised HTTP middleware module reports"
+    "Support `requires_raw_signal` and `requires_component_io_trace` boolean flags with a human-readable `reason`"
+    "Bind module metadata to runtime exposure at the daemon supervisor layer — the HTTP executor remains unaware of module reports"
+    "Wrap ready supervised executors with the latest module-report `raw_signal_access` declaration"]
+   :status :done}
+
+  {:cap/id :json-e-raw-context
+   :title "JSON-e and JSON-e-Flow Raw Context Projection"
+   :kind :extension
+   :based-on ["doc/project/40-proposals/053-raw-signal-access.md"
+              "doc/project/40-proposals/049-json-e-middleware-transformer-executor.md"
+              "doc/project/30-stories/story-009-bielik-blog-arca.md"]
+   :schemas ["json-e-flow-middleware.schema.json"
+             "json-e-context-role-execute.schema.json"]
+   :responsibilities
+   ["Accept per-flow `raw_signal_access` declaration in JSON-e-flow configs — declaration is per flow, not global"
+    "Project raw context into the template only when the operator explicitly maps it through `context_projection`"
+    "Keep the projection gap explicit: a flow may be authorized but the template still does not see raw context without a projection mapping"
+    "Bridge JSON-e-flow direct host-capability dispatch through daemon `DispatchTraceContext`"]
+   :status :done}
+
+  {:cap/id :component-path
+   :title "Component Path Tracing"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/053-raw-signal-access.md"]
+   :schemas ["workflow-envelope.schema.json"]
+   :responsibilities
+   ["Append one `ComponentPathEntry` per executor invocation: `component_id` and `executor_kind`"
+    "Support optional `module_id`, `capability_id`, and per-flow `step_id` fields when the dispatch layer can provide them"
+    "Use executor id as `component_id` in generic middleware-runtime MVP paths; direct daemon dispatch may provide richer entries"
+    "Keep `component_path[]` host-owned — middleware must not mutate it"]
+   :status :done}
+
+  {:cap/id :component-io-trace
+   :title "Component I/O Trace"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/053-raw-signal-access.md"]
+   :schemas ["workflow-envelope.schema.json"]
+   :responsibilities
+   ["Store the input payload observed by prior components in `component_io_trace[]`"
+    "Append component input only when a remaining executor declares `requires_component_io_trace`"
+    "Stop growing the trace when no remaining executor can consume it"
+    "Store the input payload in MVP; `input_digest`, redaction, and size-aware truncation are follow-up hardening"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :component-io-trace-hardening
+   :title "Component I/O Trace Hardening"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/053-raw-signal-access.md"]
+   :schemas []
+   :responsibilities
+   ["Add `input_digest` computation for component I/O trace entries"
+    "Add size-aware truncation for large input payloads"
+    "Add redaction support for sensitive fields in component I/O trace"]
+   :status :planned}
+
+  {:cap/id :component-path-enrichment
+   :title "Component Path Enrichment Beyond MVP"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/053-raw-signal-access.md"]
+   :schemas ["workflow-envelope.schema.json"]
+   :responsibilities
+   ["Adopt enriched `ComponentPathEntry` fields consistently across generic middleware-runtime paths, not only direct daemon dispatch"
+    "Enable richer diagnostic and audit views over the component path without leaking raw context"]
+   :status :planned}]
+
+ :out-of-scope
+ ["Persisting raw signal or component I/O trace to Memarium or any durable store"
+  "Exposing raw context to every middleware in a chain — access is opt-in and executor-local"
+  "Defining replay or durable trace export — this is a per-passage in-memory mechanism"
+  "Making raw access a debugging flag — it is a declared, auditable contract"
+  "Allowing middleware to mutate `component_path[]` or `trace.raw_signal_access`"
+  "Direct dispatch paths that bypass `MiddlewareRuntime::run_hook` without their own explicit bridge"]
+
+ :consumes
+ ["Middleware envelope (WorkflowEnvelope)"
+  "Module report `raw_signal_access` declaration"
+  "Supervised executor readiness binding"
+  "JSON-e-flow config per-flow `raw_signal_access` declaration"
+  "JSON-e `context_projection` mapping"]
+
+ :produces
+ ["MiddlewareRunResult.envelope (without `trace.raw_signal_access`)"
+  "ComponentPathEntry (appended per executor)"
+  "ComponentIOTraceEntry (when needed by remaining executors)"
+  "DispatchTraceContext (JSON-e-flow daemon bridge)"]
+
+ :notes
+ ["This solution catalog entry maps to proposal 053 and the middleware-runtime raw signal access implementation."
+  "The design preserves stratyfikacja: preservation is host-owned, exposure is executor-local. No middleware can access raw context without explicit declaration and host policy."
+  "Test coverage verifies four invariants: only declaring executor receives raw signal, only declaring executor receives component I/O trace, JSON-e can project raw signal through context_projection, and final envelopes do not leak trace.raw_signal_access."
+  "JSON-e-flow is not a generic MiddlewareExecutor — its output is a service response, not a middleware decision — so it bridges raw context through its own daemon-level DispatchTraceContext."
+  "Raw signal access is intentionally not durable, not replayable, and not a Memarium write path. It is a per-passage optimization for correct in-chain decisions."]}

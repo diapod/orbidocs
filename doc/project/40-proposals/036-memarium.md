@@ -4,11 +4,11 @@ Based on:
 - `doc/normative/20-vision/en/VISION.en.md` (Memarium definition, memory spaces)
 - `doc/normative/40-constitution/en/CONSTITUTION.en.md` (Art. II.4, V.7 — Memarium as constitutional organ)
 - `doc/normative/50-constitutional-ops/en/AUTONOMY-LEVELS.en.md` (memarium.read, memarium.index at A1/A2)
-- `doc/project/30-stories/story-003.md` (remote memory preservation)
+- `doc/project/30-stories/story-003-remote-memory-preservation.md` (remote memory preservation)
 - `doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md` (archival contract family)
 - `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md` (Agora orthogonality)
-- `doc/project/50-requirements/requirements-003.md` (archival handoff requirements)
-- `doc/project/60-solutions/node.md` (node-attached roles, archivist/vault handoff)
+- `doc/project/50-requirements/requirements-003-memory-archivists.md` (archival handoff requirements)
+- `doc/project/60-solutions/000-node/000-node.md` (node-attached roles, archivist/vault handoff)
 - `doc/project/60-solutions/SOLUTIONS.en.md` (memarium provider as attached role)
 
 ## Status

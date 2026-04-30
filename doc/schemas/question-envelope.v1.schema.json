@@ -8,8 +8,8 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
-    "doc/project/30-stories/story-001.md",
-    "doc/project/30-stories/story-004.md",
+    "doc/project/30-stories/story-001-swarm-node-onboarding.md",
+    "doc/project/30-stories/story-004-pod-client-onboarding.md",
     "doc/project/20-memos/nym-authored-payload-verification.md",
     "doc/project/40-proposals/003-question-envelope-and-answer-channel.md",
     "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md",

@@ -13,8 +13,8 @@
     "doc/project/20-memos/participant-assurance-levels.md",
     "doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md",
     "doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md",
-    "doc/project/60-solutions/capability-binding.md",
-    "doc/project/60-solutions/sealer.md"
+    "doc/project/60-solutions/006-capability-binding/006-capability-binding.md",
+    "doc/project/60-solutions/005-sealer/005-sealer.md"
   ],
   "required": [
     "schema",

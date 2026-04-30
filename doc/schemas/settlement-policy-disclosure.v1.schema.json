@@ -11,8 +11,8 @@
     "doc/project/20-memos/settlement-policy-disclosure-v1-invariants.md",
     "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
     "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md",
-    "doc/project/50-requirements/requirements-007.md",
-    "doc/project/50-requirements/requirements-008.md",
+    "doc/project/50-requirements/requirements-007-gateway-escrow-mvp.md",
+    "doc/project/50-requirements/requirements-008-org-subject-rollout.md",
     "doc/normative/50-constitutional-ops/pl/ABUSE-DISCLOSURE-PROTOCOL.pl.md"
   ],
   "required": [

@@ -547,7 +547,7 @@ Operationally:
   result in its status surface.
 
 The `agora.relay` passport metadata schema is defined in
-`doc/schemas/agora-relay-capability.v1.md`. It includes at least the relay API
+`doc/project/60-solutions/008-agora/agora-relay-capability.v1.md`. It includes at least the relay API
 endpoint, relay role, relay domain, supported transport set, API version, and
 advertised canonical topic set.
 

@@ -6,8 +6,8 @@ Machine-readable schema for the final answer returned from swarm procurement or 
 
 ## Governing Basis
 
-- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
-- [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
+- [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)
+- [`doc/project/30-stories/story-004-pod-client-onboarding.md`](../../project/30-stories/story-004-pod-client-onboarding.md)
 - [`doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md`](../../project/40-proposals/004-human-origin-flags-and-operator-participation.md)
 - [`doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md`](../../project/40-proposals/008-transcription-monitors-and-public-vaults.md)
 - [`doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`](../../project/40-proposals/011-federated-answer-procurement-lifecycle.md)
@@ -16,8 +16,8 @@ Machine-readable schema for the final answer returned from swarm procurement or 
 
 ### Stories
 
-- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
-- [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
+- [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)
+- [`doc/project/30-stories/story-004-pod-client-onboarding.md`](../../project/30-stories/story-004-pod-client-onboarding.md)
 
 ## Fields
 

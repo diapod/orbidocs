@@ -7,18 +7,18 @@ Machine-readable schema for signed peer session establishment over the Node netw
 ## Governing Basis
 
 - [`doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`](../../project/40-proposals/014-node-transport-and-discovery-mvp.md)
-- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
-- [`doc/project/60-solutions/node.md`](../../project/60-solutions/node.md)
+- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
+- [`doc/project/60-solutions/000-node/000-node.md`](../../project/60-solutions/000-node/000-node.md)
 
 ## Project Lineage
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
+- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
 
 ### Stories
 
-- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
+- [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)
 
 ## Fields
 

@@ -1,7 +1,7 @@
 # Proposal 033: Workflow Fan-Out and Temporal Orchestration
 
 Based on:
-- `doc/project/30-stories/story-006.md`
+- `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
 - `doc/project/30-stories/story-006-buyer-node-components.md`
 - `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
 - `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`

@@ -3,7 +3,7 @@
 Based on:
 - `doc/project/20-memos/orbiplex-whisper.md`
 - `doc/project/20-memos/orbiplex-anon.md`
-- `doc/project/30-stories/story-005.md`
+- `doc/project/30-stories/story-005-whisper-rumor-intake.md`
 
 ## Status
 

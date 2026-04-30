@@ -6,7 +6,7 @@ Based on:
 - `doc/project/40-proposals/027-middleware-peer-message-dispatch.md`
 - `doc/project/40-proposals/045-sensorium-local-enaction-stratum.md`
 - `doc/project/40-proposals/048-sensorium-os-connector-action-classes.md`
-- `doc/project/70-examples/middleware/role-module/README.md`
+- `doc/project/70-examples/middleware/role-module-json-e/README.md`
 - `node:nse/README.md`
 - `node:middleware-runtime/README.md`
 

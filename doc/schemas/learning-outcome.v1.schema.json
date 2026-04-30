@@ -8,8 +8,8 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
-    "doc/project/30-stories/story-002.md",
-    "doc/project/50-requirements/requirements-002.md",
+    "doc/project/30-stories/story-002-federated-peer-learning.md",
+    "doc/project/50-requirements/requirements-002-peer-learning.md",
     "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"
   ],
   "required": [

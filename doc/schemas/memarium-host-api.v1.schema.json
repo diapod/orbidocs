@@ -9,7 +9,7 @@
   "x-dia-basis": [
     "doc/project/40-proposals/036-memarium.md",
     "doc/project/40-proposals/047-classification-label-propagation.md",
-    "doc/project/60-solutions/memarium.md"
+    "doc/project/60-solutions/002-memarium/002-memarium.md"
   ],
   "oneOf": [
     { "$ref": "#/$defs/OperationEnvelope" },

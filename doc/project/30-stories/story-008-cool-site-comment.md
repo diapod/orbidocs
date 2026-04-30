@@ -281,16 +281,16 @@ the status itself, to avoid drift.
 
 | Story scope | Component | Capability (catalog entry — status lives here) | Solution doc |
 |---|---|---|---|
-| Step 1 (compose form) · Step 3 (envelope assembly) | Orbiplex Node UI | `node-ui-caps.edn` → `:opinion-compose-form` | [`node-ui.md`](../60-solutions/node-ui.md) |
-| Step 2 (resolve `agora.relay` provider via host capability API) | Orbiplex Node (daemon) | `node-caps.edn` → `:host-capability-lookup` | [`node.md`](../60-solutions/node.md) |
-| Step 4 (sign through host signer, domain `agora.record.v1`) | Orbiplex Agora (node-attached module) | [`agora-caps.edn`](../60-solutions/agora-caps.edn) → `:agora-record-sign` | [`agora.md`](../60-solutions/agora.md) |
-| Step 5 (ingest signed envelope) | Orbiplex Agora | [`agora-caps.edn`](../60-solutions/agora-caps.edn) → `:agora-record-ingest` | [`agora.md`](../60-solutions/agora.md) |
-| Step 6 (readback by `record/id`) | Orbiplex Agora | [`agora-caps.edn`](../60-solutions/agora-caps.edn) → `:agora-record-query` | [`agora.md`](../60-solutions/agora.md) |
+| Step 1 (compose form) · Step 3 (envelope assembly) | Orbiplex Node UI | `node-ui-caps.edn` → `:opinion-compose-form` | [`node-ui.md`](../60-solutions/001-node-ui/001-node-ui.md) |
+| Step 2 (resolve `agora.relay` provider via host capability API) | Orbiplex Node (daemon) | `node-caps.edn` → `:host-capability-lookup` | [`node.md`](../60-solutions/000-node/000-node.md) |
+| Step 4 (sign through host signer, domain `agora.record.v1`) | Orbiplex Agora (node-attached module) | [`agora-caps.edn`](../60-solutions/008-agora/008-agora-caps.edn) → `:agora-record-sign` | [`agora.md`](../60-solutions/008-agora/008-agora.md) |
+| Step 5 (ingest signed envelope) | Orbiplex Agora | [`agora-caps.edn`](../60-solutions/008-agora/008-agora-caps.edn) → `:agora-record-ingest` | [`agora.md`](../60-solutions/008-agora/008-agora.md) |
+| Step 6 (readback by `record/id`) | Orbiplex Agora | [`agora-caps.edn`](../60-solutions/008-agora/008-agora-caps.edn) → `:agora-record-query` | [`agora.md`](../60-solutions/008-agora/008-agora.md) |
 
 The implementation-oriented companion for the Agora rows is
-[`035-agora-topic-addressed-relay-impl.md`](../60-solutions/035-agora-topic-addressed-relay-impl.md).
+[`008-agora-topic-addressed-relay-impl.md`](../60-solutions/008-agora/008-agora-topic-addressed-relay-impl.md).
 The requirements contract this story enforces lives in
-[`requirements-014.md`](../50-requirements/requirements-014.md).
+[`requirements-014-resource-opinions.md`](../50-requirements/requirements-014-resource-opinions.md).
 
 **Declared capability anchors**:
 
@@ -323,13 +323,13 @@ repository, not in this document):
   (`resource/kind` + `resource/id`, `resource-opinion.v1`)
 - `doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md`
   (capability routing within the capability model)
-- `doc/project/30-stories/story-000.md` (identity + host capability
+- `doc/project/30-stories/story-000-two-nodes-see-each-other.md` (identity + host capability
   channel baseline)
-- `doc/project/50-requirements/requirements-014.md` (contract for the
+- `doc/project/50-requirements/requirements-014-resource-opinions.md` (contract for the
   URL-opinion local-relay MVP path)
-- `doc/project/60-solutions/agora.md` (Agora solution document)
-- `doc/project/60-solutions/agora-caps.edn` (Agora capability catalog)
-- `doc/project/60-solutions/035-agora-topic-addressed-relay-impl.md`
+- `doc/project/60-solutions/008-agora/008-agora.md` (Agora solution document)
+- `doc/project/60-solutions/008-agora/008-agora-caps.edn` (Agora capability catalog)
+- `doc/project/60-solutions/008-agora/008-agora-topic-addressed-relay-impl.md`
   (layered implementation guidelines for proposal 035)
 - `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` (generated
   architecture-level status view)

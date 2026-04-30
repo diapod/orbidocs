@@ -8,7 +8,7 @@ Stable wire contract for daemon-level memarium.* host capability request and res
 
 - [`doc/project/40-proposals/036-memarium.md`](../../project/40-proposals/036-memarium.md)
 - [`doc/project/40-proposals/047-classification-label-propagation.md`](../../project/40-proposals/047-classification-label-propagation.md)
-- [`doc/project/60-solutions/memarium.md`](../../project/60-solutions/memarium.md)
+- [`doc/project/60-solutions/002-memarium/002-memarium.md`](../../project/60-solutions/002-memarium/002-memarium.md)
 
 ## Project Lineage
 

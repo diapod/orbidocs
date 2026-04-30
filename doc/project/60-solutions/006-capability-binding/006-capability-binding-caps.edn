@@ -1,0 +1,93 @@
+{:component/id :orbiplex/capability-binding
+ :component/title "Orbiplex Capability Binding"
+ :component/type :authorization
+ :component/status :done
+
+ :summary
+ "Local authorization layer that binds CallerIdentity, CallerBinding,
+ capability-passport.v1 profiles, and RevocationView freshness into a single
+ auditable authorization decision for passport-gated host capabilities."
+
+ :must-implement
+ [{:cap/id :caller-binding-resolver
+   :title "CallerBinding and Resolver"
+   :kind :identity-binding
+   :based-on ["doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md"]
+   :schemas []
+   :responsibilities
+   ["Define `CallerBinding` with caller label, source selector, subject kind, subject id, subject keys, issued_at, and optional expires_at"
+    "Define `CallerBindingResolver::resolve` over `CallerIdentity`"
+    "Expose explicit `BindingError` variants for operator diagnostics"
+    "Keep binding subject keys public-only"]
+   :status :done}
+
+  {:cap/id :passport-aware-verification-pipeline
+   :title "Passport-Aware Verification Pipeline"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md"
+              "doc/project/60-solutions/005-sealer/005-sealer.md"]
+   :schemas ["capability-passport.v1"]
+   :responsibilities
+   ["Resolve caller binding"
+    "Verify passport signature, issuer delegation, and expiry"
+    "Authorize by OR-composition over recognized `scope.profiles[]`"
+    "Enforce top-level `scope.allowed_callers`"
+    "Enforce revocation freshness with `min(profile_T_max, local_T_max)`"
+    "Return typed `AuthorizationDecision` denial reasons"]
+   :status :done}
+
+  {:cap/id :authorization-audit-sink
+   :title "Authorization Audit Surface"
+   :kind :inspection
+   :based-on ["doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md"]
+   :schemas []
+   :responsibilities
+   ["Emit caller, subject, passport digest, grant, target, matched profile, freshness, and decision"
+    "Never emit plaintext, raw AAD, key material, or raw derivation_info bytes"
+    "Record denied decisions with the same event schema as authorized decisions"]
+   :status :done}
+
+  {:cap/id :daemon-dispatch-integration
+   :title "Daemon Dispatch Integration"
+   :kind :daemon-api
+   :based-on ["doc/project/60-solutions/005-sealer/005-sealer.md"
+              "doc/project/60-solutions/002-memarium/002-memarium.md"]
+   :schemas ["capability-passport.v1"]
+   :responsibilities
+   ["Gate Sealer and Memarium host-capability calls before service invocation"
+    "Map denial reasons to stable HTTP status bodies"
+    "Keep passport semantics out of cryptographic service engines"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :engine-local-service-adapters
+   :title "Engine-Local Service Policy Adapters"
+   :kind :adapter
+   :based-on ["doc/project/60-solutions/005-sealer/005-sealer.md"]
+   :schemas []
+   :responsibilities
+   ["Provide optional `SealerPolicy` and `SignerPolicy` adapters over the authorization pipeline"
+    "Use adapters only when a second embedding needs engine-local policy composition"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Construction of CallerIdentity from transport credentials"
+  "Capability passport artifact signing and canonicalization"
+  "Revocation feed distribution"
+  "AEAD or digital signature primitives"]
+
+ :consumes
+ ["CallerIdentity"
+  "CallerBinding"
+  "capability-passport.v1"
+  "RevocationView"
+  "OperationRequest"]
+
+ :produces
+ ["AuthorizationDecision"
+  "AuthorizationAuditEvent"
+  "typed denial reasons"]
+
+ :notes
+ ["Capability Binding composes existing lower-layer facts; it does not own passports, transport authentication, or cryptographic operations."
+  "The Node reference path uses dispatch-layer gates for Sealer and Memarium rather than service-policy adapters."]}

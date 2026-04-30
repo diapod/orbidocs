@@ -520,7 +520,7 @@ without breaking existing senders.
 7. Ledger entries for `declassify` use the same `correlation_id` and
    `denied:*` / `allowed:*` discipline as other gate-audited ops.
 8. **Hook-point inventory in Memarium docs.** Proposal 036 and
-   `doc/project/60-solutions/memarium.md` are updated with an explicit
+   `doc/project/60-solutions/002-memarium/002-memarium.md` are updated with an explicit
    subsection "Where labels live" enumerating the exact hook points:
    - `memarium.write` — stamps `source_tier` from the target space,
      initializes empty `declassify_trail`.
@@ -568,7 +568,7 @@ without breaking existing senders.
   implemented and covered by integration tests.
 - Operator documentation (`orbidocs/doc/ops/`) includes a runbook for
   declassification and for handling ingress quarantine.
-- Proposal 036 and `orbidocs/doc/project/60-solutions/memarium.md` updated
+- Proposal 036 and `orbidocs/doc/project/60-solutions/002-memarium/002-memarium.md` updated
   with an explicit "where labels live" section covering read / write / index
   / cache / observe paths (see §Implementation Sketch step 8).
 

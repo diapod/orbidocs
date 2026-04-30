@@ -4,7 +4,7 @@ Based on:
 - `doc/normative/20-vision/en/VISION.en.md`
 - `doc/normative/20-vision/pl/VISION.pl.md`
 - `doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`
-- `doc/project/50-requirements/requirements-007.md`
+- `doc/project/50-requirements/requirements-007-gateway-escrow-mvp.md`
 
 Date: `2026-04-10`
 Status: Draft memo

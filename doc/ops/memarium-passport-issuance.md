@@ -225,5 +225,5 @@ revocation view.
 ## See Also
 
 - [Proposal 032: Key Delegation Passports](../project/40-proposals/032-key-delegation-passports.md)
-- [Memarium solution](../project/60-solutions/memarium.md)
-- [Memarium classification](./memarium-classification.md)
+- [Memarium solution](../project/60-solutions/002-memarium/002-memarium.md)
+- [Classification label propagation](../project/40-proposals/047-classification-label-propagation.md)

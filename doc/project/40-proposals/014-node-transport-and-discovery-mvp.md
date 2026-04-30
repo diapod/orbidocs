@@ -2,8 +2,8 @@
 
 Based on:
 - `doc/project/40-proposals/002-comm-protocol.md`
-- `doc/project/30-stories/story-001.md`
-- `doc/project/60-solutions/node.md`
+- `doc/project/30-stories/story-001-swarm-node-onboarding.md`
+- `doc/project/60-solutions/000-node/000-node.md`
 
 ## Status
 
@@ -902,7 +902,7 @@ intentionally deferred beyond the MVP baseline.
    - `node-advertisement.v1`
    - `peer-handshake.v1`
    - `capability-advertisement.v1`
-3. Extend `doc/project/60-solutions/node.md`
+3. Extend `doc/project/60-solutions/000-node/000-node.md`
    with the networking baseline as a first-class Node capability.
 4. Extend the Node implementation ledger with the same baseline capability.
 5. Add the frozen trace-event and boundary-error contract to the first implementation slice.

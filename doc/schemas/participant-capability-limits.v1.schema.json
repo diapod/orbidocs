@@ -9,7 +9,7 @@
   "x-dia-status": "draft",
   "x-dia-basis": [
     "doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md",
-    "doc/project/50-requirements/requirements-009.md"
+    "doc/project/50-requirements/requirements-009-capability-limits.md"
   ],
   "required": [
     "schema/v",

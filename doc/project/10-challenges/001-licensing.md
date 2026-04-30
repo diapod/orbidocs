@@ -1,6 +1,6 @@
 # Licensing Challenges for Orbiplex Swarm Components
 
-Based on: `doc/project/30-stories/story-001.md`, `doc/project/50-requirements/requirements-001.md`  
+Based on: `doc/project/30-stories/story-001-swarm-node-onboarding.md`, `doc/project/50-requirements/requirements-001-node-onboarding.md`  
 Date: `2026-02-22`  
 Status: Draft
 

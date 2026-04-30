@@ -1,0 +1,109 @@
+{:component/id :orbiplex/bounded-local-server-runtime
+ :component/title "Bounded Local Server Runtime"
+ :component/type :infrastructure
+ :component/status :done
+
+ :summary
+ "A shared sync TCP/HTTP mini-server primitive (`bounded-server` crate) replacing
+ ad-hoc `thread::spawn` accept loops with bounded accepts, handler permits, fast
+ overload rejection, first-class shutdown drain, and runtime metrics."
+
+ :must-implement
+ [{:cap/id :bounded-server-core
+   :title "Bounded Server Core Contract"
+   :kind :runtime
+   :based-on ["doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"
+              "doc/project/60-solutions/000-node/000-node.md"]
+   :schemas []
+   :responsibilities
+   ["Provide `BoundedServerConfig` with a resource contract: `max_connections`, per-socket read/write timeouts, handler timeout, shutdown grace period, backoff intervals"
+    "Provide `BoundedServerHandle` with `local_addr`, `stop()`, `wait()`, `stop_token()`, and `metrics()` snapshot"
+    "Provide `ConnectionHandler` trait with single-method handler interface — each accepted connection acquires a permit, released automatically on handler return"
+    "Use a fixed-size thread pool pulling from a bounded `sync_channel` of depth `max_connections`"
+    "Return fast HTTP 503 on overload before spawning a thread — no thread is spawned for rejected connections"
+    "Catch handler panics at the per-connection boundary, count as `handler_errors_total`, and continue serving"]
+   :status :done}
+
+  {:cap/id :bounded-server-shutdown
+   :title "Cooperative Shutdown Drain"
+   :kind :runtime
+   :based-on ["doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"]
+   :schemas []
+   :responsibilities
+   ["Close the accept loop on stop signal; workers poll a shared stop flag and exit within ~250ms"
+    "Wait for all worker threads to return after the stop signal — cooperative, not preemptive"
+    "Record `shutdown_drain_ms` from accept-loop exit to last worker return as an operational metric"
+    "Handle channel disconnect: workers notice `RecvTimeoutError::Disconnected` and exit gracefully"
+    "Handle accept errors: log to `last_accept_error`, sleep for `accept_error_backoff`, and retry"]
+   :status :done}
+
+  {:cap/id :bounded-server-metrics
+   :title "Bounded Server Runtime Metrics"
+   :kind :inspection
+   :based-on ["doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"]
+   :schemas []
+   :responsibilities
+   ["Expose `active_connections`, `accepted_total`, `rejected_over_capacity_total` as counters"
+    "Expose `handler_errors_total`, `shutdown_drain_ms` as operational signals"
+    "Expose `last_accept_error` and `last_handler_error` for diagnostics"
+    "Keep metrics behind a snapshot so callers read consistent values without contending on per-connection counters"]
+   :status :done}
+
+  {:cap/id :daemon-surface-migration
+   :title "Daemon Surface Migration to Bounded Server"
+   :kind :daemon-api
+   :based-on ["doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"
+              "doc/project/60-solutions/000-node/000-node.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas []
+   :responsibilities
+   ["Migrate daemon health endpoint from unbounded accept loop to `bounded-server`"
+    "Migrate embedded Rust Seed Directory server to `bounded-server`"
+    "Migrate Agora service standalone binary to `bounded-server`"
+    "Migrate daemon peer listener from unbounded accept loop to `bounded-server`"
+    "Keep each surface independently configured while sharing the same crate and runtime contract"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :bounded-server-async-runtime
+   :title "Async Runtime Variant"
+   :kind :runtime
+   :based-on ["doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"]
+   :schemas []
+   :responsibilities
+   ["Provide an async variant of `bounded-server` using tokio primitives for handler scheduling"
+    "Keep the same resource contract shape so callers migrate without changing configuration"]
+   :status :planned}
+
+  {:cap/id :bounded-server-integration-tests
+   :title "Overload Rejection Integration Tests"
+   :kind :test
+   :based-on ["doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"]
+   :schemas []
+   :responsibilities
+   ["Add integration tests verifying 503 rejection under load in a real daemon context"
+    "Verify shutdown drain metrics are accurate across multiple concurrent handler completions"]
+   :status :planned}]
+
+ :out-of-scope
+ ["Async I/O or tokio-based handler execution — the MVP uses sync `std::thread` pools"
+  "Preemptive handler shutdown — handlers must return cooperatively; the server does not kill threads"
+  "Streaming response support — the `ConnectionHandler` trait does not expose a streaming interface in MVP"
+  "Dynamic connection limit adjustment at runtime — the pool size is fixed at server creation"]
+
+ :consumes
+ ["std::net (TcpListener, TcpStream)"
+  "std::sync (mpsc sync_channel, Arc, Mutex)"
+  "std::thread (JoinHandle, spawn, park_timeout)"]
+
+ :produces
+ ["BoundedServerConfig"
+  "BoundedServerHandle"
+  "BoundedServerMetrics"
+  "503 Service Unavailable (overload rejection)"]
+
+ :notes
+ ["This is a single-file infrastructure crate with zero external dependencies — pure `std`."
+  "All four daemon surfaces (health endpoint, seed directory, agora service, peer listener) have been migrated to this primitive."
+  "The crate lives at `node/bounded-server/` and is consumed as a workspace member, not a published library."
+  "Thread-per-connection is explicitly accepted for MVP; an async variant is deferred to a later iteration."]}

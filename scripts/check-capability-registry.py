@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 NODE_CAPABILITY = ROOT.parent / "node" / "capability" / "src" / "lib.rs"
+NODE_PROTOCOL = ROOT.parent / "node" / "protocol" / "src" / "lib.rs"
 REGISTRY_EN = ROOT / "doc" / "project" / "60-solutions" / "CAPABILITY-REGISTRY.en.md"
 REGISTRY_PL = ROOT / "doc" / "project" / "60-solutions" / "CAPABILITY-REGISTRY.pl.md"
 
@@ -21,7 +22,7 @@ MAP_RE = re.compile(
 ENTRY_RE = re.compile(r'\(\s*([A-Z0-9_]+|"[^"]+")\s*,\s*"([^"]+)"\s*\)')
 
 
-def load_runtime_capabilities(path: Path) -> dict[str, str]:
+def load_runtime_capabilities(path: Path, protocol_path: Path) -> dict[str, str]:
     text = path.read_text(encoding="utf-8")
     consts = {name: value for name, value in CONST_RE.findall(text)}
     match = MAP_RE.search(text)
@@ -38,6 +39,24 @@ def load_runtime_capabilities(path: Path) -> dict[str, str]:
                     f"Map entry key {raw_key!r} is not a string literal and not a known const"
                 )
         mapping[capability_id] = wire_name
+
+    protocol_text = protocol_path.read_text(encoding="utf-8")
+    protocol_consts = {name: value for name, value in CONST_RE.findall(protocol_text)}
+    for const_name in (
+        "CORE_CAP_MESSAGING",
+        "CORE_CAP_DISCOVERY",
+        "CORE_CAP_KEEPALIVE",
+    ):
+        capability_id = protocol_consts.get(const_name)
+        if capability_id is None:
+            raise ValueError(f"Could not find {const_name} in {protocol_path}")
+        mapping[capability_id] = capability_id
+
+    node_operator = consts.get("NODE_PRIMARY_OPERATOR_CAPABILITY_ID")
+    if node_operator is None:
+        raise ValueError(f"Could not find NODE_PRIMARY_OPERATOR_CAPABILITY_ID in {path}")
+    mapping[node_operator] = "role/node-primary-operator"
+
     return mapping
 
 
@@ -99,7 +118,7 @@ def compare_registry(runtime: dict[str, str], registry: dict[str, str], path: Pa
 
 
 def main() -> int:
-    runtime = load_runtime_capabilities(NODE_CAPABILITY)
+    runtime = load_runtime_capabilities(NODE_CAPABILITY, NODE_PROTOCOL)
     errors: list[str] = []
     for registry_path in (REGISTRY_EN, REGISTRY_PL):
         registry = parse_registry_table(registry_path)

@@ -7,7 +7,7 @@ Based on:
 - `doc/project/40-proposals/006-pod-access-layer-for-thin-clients.md`
 - `doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md`
 - `doc/project/40-proposals/050-local-readiness-gate.md`
-- `doc/project/60-solutions/node-ui.md`
+- `doc/project/60-solutions/001-node-ui/001-node-ui.md`
 - `node/DEV-GUIDELINES.md`
 
 ## Status

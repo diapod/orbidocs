@@ -21,8 +21,8 @@ It does not define:
 ### Capability Name
 
 Based on:
-- `doc/project/30-stories/story-001.md`
-- `doc/project/50-requirements/requirements-001.md`
+- `doc/project/30-stories/story-001-swarm-node-onboarding.md`
+- `doc/project/50-requirements/requirements-001-node-onboarding.md`
 
 Related schemas:
 - `example-schema.v1`

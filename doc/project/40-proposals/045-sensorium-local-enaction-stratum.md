@@ -11,8 +11,8 @@ Based on:
 - `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
 - `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
 - `doc/project/40-proposals/022-monus-as-host-granted-local-observation-middleware.md`
-- `doc/project/60-solutions/node.md`
-- `doc/project/60-solutions/monus.md`
+- `doc/project/60-solutions/000-node/000-node.md`
+- `doc/project/60-solutions/009-monus/009-monus.md`
 
 ## Status
 

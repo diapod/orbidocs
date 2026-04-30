@@ -1,13 +1,13 @@
 # Story 006 Settlement Rail Sprint 3
 
 Based on:
-- `doc/project/30-stories/story-006.md`
+- `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
 - `doc/project/30-stories/story-006-buyer-node-components.md`
 - `doc/project/20-memos/service-order-to-procurement-bridge.md`
 - `doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`
-- `doc/project/50-requirements/requirements-007.md`
-- `doc/project/50-requirements/requirements-008.md`
-- `doc/project/60-solutions/node.md`
+- `doc/project/50-requirements/requirements-007-gateway-escrow-mvp.md`
+- `doc/project/50-requirements/requirements-008-org-subject-rollout.md`
+- `doc/project/60-solutions/000-node/000-node.md`
 
 Date: `2026-03-30`
 Status: Accepted hard-MVP planning note

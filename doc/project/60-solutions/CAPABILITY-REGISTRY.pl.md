@@ -79,7 +79,7 @@ Story-009 używa tej zamkniętej reguły deploymentowej dla passportów
 Ten dokument ma pozostać zsynchronizowany co najmniej z:
 
 - `node:capability/src/lib.rs`
-- `orbidocs:doc/project/60-solutions/node.md`
+- `orbidocs:doc/project/60-solutions/000-node/000-node.md`
 - `orbidocs:doc/project/60-solutions/CAPABILITY-MATRIX.pl.md`
 - odpowiednimi proposalami capability lub attached roles
 
@@ -96,8 +96,12 @@ to ten rejestr również powinien zostać zaktualizowany.
 
 | capability_id | Wire name | Klasa | Rola semantyczna | Typowy owner runtime | Passport w MVP | Uwagi |
 |---|---|---|---|---|---|---|
+| `core/messaging` | `core/messaging` | infrastrukturalna natywna dla protokołu | bazowa szyfrowana komunikacja peer/session wymagana dla sesji peer | protokół Node / peer supervisor | self-issued advertisement/passport-form assertion | Obowiązkowa bazowa capability; peer bez niej jest odrzucany podczas walidacji handshake/sesji. |
+| `core/discovery` | `core/discovery` | infrastrukturalna natywna dla protokołu | bazowa powierzchnia peer discovery i wymiany advertisementów | protokół Node / discovery runtime | self-issued advertisement/passport-form assertion | Używana dla semantyki discovery i advertisementów; formalny wpis utrzymuje zgodność stałych kodu z dokumentacją. |
+| `core/keepalive` | `core/keepalive` | infrastrukturalna natywna dla protokołu | bazowa powierzchnia keepalive/reconnect dla żywotności sesji | protokół Node / peer supervisor | self-issued advertisement/passport-form assertion | Capability natywna dla protokołu; nie jest attached service role. |
 | `network-ledger` | `core/network-ledger` | infrastrukturalna | zdalny autorytet settlement ledger dla innych node'ów | settlement-capable Node | tak | Capability oznacza autorytet księgi, nie tylko pojedynczy hold czy politykę. |
 | `seed-directory` | `role/seed-directory` | infrastrukturalna | katalog capability passports, revocations i advertisementów używany do bootstrapu i discovery | Seed Directory service lub embedded Node service | tak | Capability dotyczy katalogu i zaufanego publikowania/odczytu wpisów katalogowych. |
+| `node-primary-operator` | `role/node-primary-operator` | binding / governance | wystawione przez participanta wiązanie autorytetu wskazujące primary operator node'a | capability / Seed Directory / ścieżka akceptacji daemona | tak | Capability wyłącznie wiążąca; konsumenci muszą weryfikować artefakt node-operator binding, a nie traktować jej jak zwykłą usługę. |
 | `offer-catalog` | `role/offer-catalog` | rola domenowa | federacyjna powierzchnia ofertowa używana do responder-side fetch i discovery | Dator jako strona podaży, Arca jako strona popytu/discovery | tak, jeśli capability jest delegowane przez passport | Capability jest domenowa; konkretna implementacja może rozdzielać supply i observed/discovery na różne moduły. |
 | `escrow` | `role/escrow` | attached supervisory role | nadzorca hold, release, refund, freeze i dispute path dla settlement kontraktów | escrow supervisor node lub attached service | tak | Capability oznacza nadzór nad losem środków zarezerwowanych dla kontraktu, nie pełny autorytet całej księgi. |
 | `oracle` | `plugin/oracle` | attached role / plugin | bounded external judgment, verification lub adjudication surface | przyszły oracle service | planowane | Na obecnym etapie to zarezerwowany identyfikator i kierunek rozszerzenia, nie pełny hard-MVP runtime slice. |

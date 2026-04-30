@@ -154,7 +154,9 @@ def rel_link_safe(from_path: Path, target: Path) -> str:
 
 def schema_doc_link(from_path: Path, schema_name: str) -> str:
     schema_path = SCHEMA_DOCS_DIR / f"{schema_name}.md"
-    return f"[`{schema_name}`]({rel_link_safe(from_path, schema_path)})"
+    if schema_path.exists():
+        return f"[`{schema_name}`]({rel_link_safe(from_path, schema_path)})"
+    return f"`{schema_name}`"
 
 
 def doc_link(from_path: Path, rel_doc: str) -> str:
@@ -198,9 +200,10 @@ def keyword_ref(value: Any) -> str:
 
 def load_components() -> list[dict[str, Any]]:
     components: list[dict[str, Any]] = []
-    for path in sorted(SOLUTIONS_DIR.glob("*-caps.edn")):
+    for path in sorted(SOLUTIONS_DIR.rglob("*-caps.edn")):
         caps = parse_edn(path)
-        component_doc = path.name.removesuffix("-caps.edn") + ".md"
+        component_doc_path = path.with_name(path.name.removesuffix("-caps.edn") + ".md")
+        component_doc = component_doc_path.relative_to(SOLUTIONS_DIR).as_posix()
         components.append(
             {
                 "caps_path": path,

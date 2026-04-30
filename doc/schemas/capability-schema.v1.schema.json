@@ -11,7 +11,7 @@
     "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md",
     "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
     "doc/project/40-proposals/027-middleware-peer-message-dispatch.md",
-    "doc/project/60-solutions/capability-advertisement.md"
+    "doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md"
   ],
   "required": [
     "schema",

@@ -6,8 +6,8 @@ Machine-readable schema for signed question publication on the procurement event
 
 ## Governing Basis
 
-- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
-- [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
+- [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)
+- [`doc/project/30-stories/story-004-pod-client-onboarding.md`](../../project/30-stories/story-004-pod-client-onboarding.md)
 - [`doc/project/20-memos/nym-authored-payload-verification.md`](../../project/20-memos/nym-authored-payload-verification.md)
 - [`doc/project/40-proposals/003-question-envelope-and-answer-channel.md`](../../project/40-proposals/003-question-envelope-and-answer-channel.md)
 - [`doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md`](../../project/40-proposals/015-nym-certificates-and-renewal-baseline.md)
@@ -18,12 +18,12 @@ Machine-readable schema for signed question publication on the procurement event
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
+- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
 
 ### Stories
 
-- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
-- [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
+- [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)
+- [`doc/project/30-stories/story-004-pod-client-onboarding.md`](../../project/30-stories/story-004-pod-client-onboarding.md)
 
 ## Fields
 

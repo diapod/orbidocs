@@ -1,0 +1,171 @@
+{:component/id :orbiplex/key-delegation-passports
+ :component/title "Key Delegation Passports"
+ :component/type :protocol
+ :component/status :partial
+
+ :summary
+ "Delegated signing authority through proxy key pairs, enabling a participant's
+ primary key to issue bounded-scope signing credentials without exposing the
+ primary private key at the edge."
+
+ :must-implement
+ [{:cap/id :delegation-contracts
+   :title "Delegation Passport Contracts"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"
+              "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+              "doc/project/60-solutions/000-node/000-node.md"]
+   :schemas ["key-delegation.v1"
+             "capability-passport.v1"]
+   :responsibilities
+   ["Define `KeyDelegationPassport` with schema version, delegation id, principal/proxy keys, grants, max_chain_depth, and expiry"
+    "Define `DelegationProof` as the compact inline proof form embedded in proxy-signed artifacts"
+    "Define `KeyDelegationSignature` with canonical signing under domain `key-delegation.v1`"
+    "Validate structural integrity: principal key derives to participant id, proxy key starts with `did:key:`, delegation id starts with `delegation:key:`"
+    "Support grant matching: wildcard `*`, `signing/capability`, and `signing/agora-record`"
+    "Build canonical payloads excluding both `signature` and `issuer_delegation`"]
+   :status :done}
+
+  {:cap/id :participant-signing-context
+   :title "Participant Signing Context with Delegation"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"
+              "doc/project/40-proposals/037-generic-signing-service.md"]
+   :schemas ["key-delegation.v1"
+             "capability-passport.v1"]
+   :responsibilities
+   ["Provide `ParticipantSigningContext` with `Direct` and `Delegated` variants"
+    "Route capability passport and issuer-revocation signing through `sign_as_participant`"
+    "Verify proxy-signed artifacts against embedded `DelegationProof` at the inline verifier boundary"
+    "Fall back from delegated to direct signing when no active delegation or unlocked proxy key is available"]
+   :status :done}
+
+  {:cap/id :proxy-key-lifecycle
+   :title "Proxy Key Lifecycle and Daemon Storage"
+   :kind :daemon-api
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"
+              "doc/project/40-proposals/031-participant-key-passphrase-lock.md"
+              "doc/project/60-solutions/005-sealer/005-sealer.md"]
+   :schemas ["key-delegation.v1"]
+   :responsibilities
+   ["Generate proxy Ed25519 keypairs and derive canonical `proxy:did:key:...` identifiers"
+    "Store proxy private keys as plaintext or `ParticipantKeyEnvelope` when passphrase-protected"
+    "Persist `ProxyKeyRecord` and `IssuedKeyDelegationRecord` through append-only facts, startup replay, and checkpoint capture"
+    "Expose operator HTTP surfaces for proxy key create, import, list, and delete"]
+   :status :partial}
+
+  {:cap/id :delegation-issuance
+   :title "Delegation Issuance and Passport Integration"
+   :kind :daemon-api
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"
+              "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"]
+   :schemas ["key-delegation.v1"
+             "capability-passport.v1"]
+   :responsibilities
+   ["Build a `KeyDelegationPassport` from operator participant identity, local node identity, proxy key, grants, and expiry"
+    "Sign the delegation passport with the participant key"
+    "When issuing a proxy-signed capability passport: resolve proxy key, resolve live delegation, verify grant coverage, build `DelegationProof`, sign with `ParticipantSigningContext::Delegated`"
+    "Embed returned `issuer_delegation` in the capability passport"
+    "Guard full-passport MVP: reject `max_chain_depth > 0` on registration and management surfaces"]
+   :status :done}
+
+  {:cap/id :delegation-verification
+   :title "Delegation-Aware Passport Verification"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"
+              "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"]
+   :schemas ["key-delegation.v1"
+             "capability-passport.v1"]
+   :responsibilities
+   ["Verify proxy-signed capability passports through the inline `DelegationProof` without fetching the full delegation passport"
+    "Verify proof principal signature with `proof.principal_key`, derive to expected participant id, check expiry"
+    "Verify the artifact signature with `proof.proxy_key`"
+    "Check required grant at the domain-policy boundary"
+    "Reject `max_chain_depth > 0` at verification time"]
+   :status :done}
+
+  {:cap/id :seed-directory-key-endpoints
+   :title "Seed Directory /key Delegation Endpoints"
+   :kind :transport
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"
+              "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"]
+   :schemas ["key-delegation.v1"]
+   :responsibilities
+   ["Expose `PUT /key/{delegation_id}` for delegation publication"
+    "Expose `GET /key/{delegation_id}` for delegation fetch"
+    "Expose `GET /key?proxy_key=...` for proxy-key lookup"
+   "Expose `GET /key?participant_id=...&capability=...` for grant-aware discovery"
+   "Flow delegation revocations through the same revocation feed as passport revocations, carrying `target_id` cleanly"]
+   :status :done}
+
+  {:cap/id :delegation-cache-and-sync
+   :title "Delegation Cache and Background Sync"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"
+              "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"]
+   :schemas []
+   :responsibilities
+   ["Maintain a separate `DelegationCache` from `PassportCache` — related but not identical semantics"
+    "Prefetch key delegations for local signing and operator views through background sync"
+    "Invalidate delegation cache entries on delegation revocations"
+    "Never pass `DelegationCache` into remote capability passport signature verification — proxy-signed artifacts verify from their embedded proof"]
+   :status :done}
+
+  {:cap/id :delegation-operator-surfaces
+   :title "Operator Delegation Management Surfaces"
+   :kind :inspection
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"]
+   :schemas ["key-delegation.v1"]
+   :responsibilities
+   ["Expose daemon HTTP endpoints for proxy key lifecycle, delegation issue/publish/revoke"
+    "Expose optional schema exposure for `key-delegation.v1`"
+    "Keep daemon contract stable before adding Node UI delegation views"]
+   :status :partial}]
+
+ :may-implement
+ [{:cap/id :multi-hop-delegation
+   :title "Multi-Hop Delegation Chains"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"]
+   :schemas ["key-delegation.v1"]
+   :responsibilities
+   ["Support `max_chain_depth > 0` for chained proxy delegations beyond the MVP single-hop guard"
+    "Validate chain depth, expiry monotonicity, and grant narrowing at each hop"]
+   :status :planned}
+
+  {:cap/id :delegation-node-ui
+   :title "Node UI Delegation Management"
+   :kind :client-surface
+   :based-on ["doc/project/40-proposals/032-key-delegation-passports.md"
+              "doc/project/60-solutions/001-node-ui/001-node-ui.md"]
+   :schemas []
+   :responsibilities
+   ["Provide operator-facing UI for proxy key and delegation lifecycle management"
+    "Surface delegation cache state in component health views"]
+   :status :planned}]
+
+ :out-of-scope
+ ["Multi-hop delegation chains beyond the MVP single-hop guard"
+  "Delegation-based authorization for non-signing capabilities in MVP"
+  "Cross-federation delegation discovery beyond Seed Directory /key surface"
+  "The `ParticipantKeyEnvelope` passphrase-lock contract itself"]
+
+ :consumes
+ ["key-delegation.v1"
+  "capability-passport.v1"
+  "capability-passport-revocation.v1"
+  "participant-bind.v1"
+  "Seed Directory /revocations feed"]
+
+ :produces
+ ["key-delegation.v1"
+  "DelegationProof (embedded in capability-passport.v1)"
+  "Proxy-key and delegation records in daemon state"
+  "Seed Directory /key responses"
+  "Operator management HTTP surfaces"]
+
+ :notes
+ ["This solution catalog entry maps to the 014-key-delegation-passports coding guide and its daemon-side implementation."
+  "Statuses reflect the single-hop MVP path; multi-hop delegation chains remain explicitly guarded at `max_chain_depth > 0`."
+  "The inline-verifier design keeps proxy-signed artifacts self-contained: consumers verify from the embedded proof without fetching the full delegation passport."
+  "Delegation revocation reuses the existing `capability-passport-revocation.v1` feed and wire contract, carrying `target_id` for delegation-scoped revocations."]}

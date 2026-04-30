@@ -3,10 +3,10 @@
 Based on:
 - `doc/project/20-memos/orbiplex-monus.md`
 - `doc/project/20-memos/orbiplex-whisper.md`
-- `doc/project/30-stories/story-005.md`
+- `doc/project/30-stories/story-005-whisper-rumor-intake.md`
 - `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
 - `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
-- `doc/project/50-requirements/requirements-010.md`
+- `doc/project/50-requirements/requirements-010-middleware-executor.md`
 
 Date: `2026-03-30`
 Status: Draft

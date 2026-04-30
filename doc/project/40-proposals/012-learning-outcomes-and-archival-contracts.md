@@ -1,10 +1,10 @@
 # Learning Outcomes, Knowledge Artifacts, and Archival Contracts
 
 Based on:
-- `doc/project/50-requirements/requirements-002.md`
-- `doc/project/50-requirements/requirements-003.md`
-- `doc/project/50-requirements/requirements-004.md`
-- `doc/project/50-requirements/requirements-005.md`
+- `doc/project/50-requirements/requirements-002-peer-learning.md`
+- `doc/project/50-requirements/requirements-003-memory-archivists.md`
+- `doc/project/50-requirements/requirements-004-transcript-curation.md`
+- `doc/project/50-requirements/requirements-005-transcript-segments.md`
 
 ## Status
 
@@ -28,10 +28,10 @@ semantics.
 
 ## Context and Problem Statement
 
-`requirements-002.md` now defines how accepted room corrections become
+`requirements-002-peer-learning.md` now defines how accepted room corrections become
 `confirmed`, `corrected`, or `unresolved` outcomes.
 
-`requirements-003.md` defines how valuable artifacts move into archivist and vault
+`requirements-003-memory-archivists.md` defines how valuable artifacts move into archivist and vault
 flows with explicit publication scope.
 
 What remains underspecified is the contract layer between those two points:

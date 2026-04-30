@@ -7,7 +7,7 @@ Based on:
 - `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
 - `doc/project/40-proposals/036-memarium.md`
 - `doc/project/40-proposals/040-custodial-redelivery-and-tombstones.md`
-- `doc/project/50-requirements/requirements-014.md`
+- `doc/project/50-requirements/requirements-014-resource-opinions.md`
 
 ## Status
 

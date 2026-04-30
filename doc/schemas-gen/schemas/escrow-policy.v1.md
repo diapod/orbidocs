@@ -8,21 +8,21 @@ Machine-readable schema for one trusted escrow policy binding a supervisory sett
 
 - [`doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`](../../project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md)
 - [`doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`](../../project/40-proposals/017-organization-subjects-and-org-did-key.md)
-- [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
-- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
+- [`doc/project/50-requirements/requirements-007-gateway-escrow-mvp.md`](../../project/50-requirements/requirements-007-gateway-escrow-mvp.md)
+- [`doc/project/50-requirements/requirements-008-org-subject-rollout.md`](../../project/50-requirements/requirements-008-org-subject-rollout.md)
 
 ## Project Lineage
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-006.md`](../../project/50-requirements/requirements-006.md)
-- [`doc/project/50-requirements/requirements-007.md`](../../project/50-requirements/requirements-007.md)
-- [`doc/project/50-requirements/requirements-008.md`](../../project/50-requirements/requirements-008.md)
+- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
+- [`doc/project/50-requirements/requirements-007-gateway-escrow-mvp.md`](../../project/50-requirements/requirements-007-gateway-escrow-mvp.md)
+- [`doc/project/50-requirements/requirements-008-org-subject-rollout.md`](../../project/50-requirements/requirements-008-org-subject-rollout.md)
 
 ### Stories
 
-- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
-- [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
+- [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)
+- [`doc/project/30-stories/story-004-pod-client-onboarding.md`](../../project/30-stories/story-004-pod-client-onboarding.md)
 
 ## Fields
 

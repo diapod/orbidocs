@@ -46,6 +46,6 @@ flowchart TB
 
 Related documents:
 
-- [Capability Binding](../../project/60-solutions/capability-binding.md)
-- [Sealer](../../project/60-solutions/sealer.md)
+- [Capability Binding](../../project/60-solutions/006-capability-binding/006-capability-binding.md)
+- [Sealer](../../project/60-solutions/005-sealer/005-sealer.md)
 - [Key Roles and Key Use Taxonomy](../../project/40-proposals/038-key-roles-and-key-use-taxonomy.md)

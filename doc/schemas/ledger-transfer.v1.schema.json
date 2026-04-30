@@ -9,7 +9,7 @@
   "x-dia-status": "draft",
   "x-dia-basis": [
     "doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md",
-    "doc/project/50-requirements/requirements-007.md"
+    "doc/project/50-requirements/requirements-007-gateway-escrow-mvp.md"
   ],
   "required": [
     "schema/v",

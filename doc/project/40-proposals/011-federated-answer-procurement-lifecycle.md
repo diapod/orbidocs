@@ -1,8 +1,8 @@
 # Federated Answer Procurement Lifecycle Artifacts
 
 Based on:
-- `doc/project/30-stories/story-001.md`
-- `doc/project/30-stories/story-004.md`
+- `doc/project/30-stories/story-001-swarm-node-onboarding.md`
+- `doc/project/30-stories/story-004-pod-client-onboarding.md`
 - `doc/project/40-proposals/003-question-envelope-and-answer-channel.md`
 - `doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md`
 - `doc/project/40-proposals/005-operator-participation-room-policy-profiles.md`

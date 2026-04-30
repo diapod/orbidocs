@@ -2,7 +2,7 @@
 
 Based on:
 - `doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`
-- `doc/project/50-requirements/requirements-006.md`
+- `doc/project/50-requirements/requirements-006-node-networking-mvp.md`
 - `doc/schemas/node-advertisement.v1.schema.json`
 
 ## Status

@@ -1,0 +1,76 @@
+{:component/id :orbiplex/classification
+ :component/title "Orbiplex Classification"
+ :component/type :policy-data-layer
+ :component/status :draft
+
+ :summary
+ "Shared classification label and propagation contract for Memarium, Agora,
+ archival export, and future peer-forwarding surfaces."
+
+ :must-implement
+ [{:cap/id :classification-label-contract
+   :title "Classification Label Contract"
+   :kind :data-contract
+   :based-on ["doc/project/40-proposals/047-classification-label-propagation.md"]
+   :schemas ["classification.v1"]
+   :responsibilities
+   ["Represent tier, scope, and provenance as explicit data"
+    "Keep unknown policy extensions tolerable for asynchronous evolution"
+    "Provide one vocabulary for Memarium, Agora, archival export, and forwarding guards"]
+   :status :done}
+
+  {:cap/id :memarium-label-propagation
+   :title "Memarium Label Propagation"
+   :kind :storage-policy
+   :based-on ["doc/project/40-proposals/047-classification-label-propagation.md"
+              "doc/project/60-solutions/002-memarium/002-memarium.md"]
+   :schemas ["classification.v1"
+             "memarium-host-api.v1"]
+   :responsibilities
+   ["Store labels with entries and facts"
+    "Stamp legacy unlabeled Personal+quarantine data under strict-mode migration"
+    "Compose append-only declassification evidence into effective read views"]
+   :status :partial}
+
+  {:cap/id :egress-guard
+   :title "Classification Egress Guard"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/047-classification-label-propagation.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas ["classification.v1"
+             "agora-record.v1"]
+   :responsibilities
+   ["Block public publication when effective classification forbids it"
+    "Reuse one helper across Agora, Whisper, INAC, and archival export as those surfaces mature"
+    "Keep edge enforcement at the publication/forwarding boundary"]
+   :status :partial}]
+
+ :may-implement
+ [{:cap/id :operator-classification-ux
+   :title "Operator Classification UX"
+   :kind :operator-ui
+   :based-on ["doc/project/40-proposals/047-classification-label-propagation.md"]
+   :schemas ["classification.v1"]
+   :responsibilities
+   ["Expose quarantine review and declassification actions"
+    "Show why an egress path was blocked"
+    "Support batch review without hiding provenance"]
+   :status :planned}]
+
+ :out-of-scope
+ ["Choosing one global political taxonomy"
+  "Replacing host capability authorization"
+  "Silently lowering classification without an explicit declassification fact"]
+
+ :consumes
+ ["classification.v1"]
+
+ :produces
+ ["effective classification views"
+  "egress decisions"
+  "declassification evidence references"]
+
+ :notes
+ ["This solution exists because classification is now a shared runtime concern, not only a Memarium subsection."
+  "Concrete policy thresholds may vary by pseudonymization class and local operator policy."]}
+

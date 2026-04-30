@@ -8,7 +8,7 @@ Based on:
 - `doc/project/40-proposals/032-key-delegation-passports.md`
 - `doc/project/40-proposals/036-memarium.md`
 - `doc/project/40-proposals/037-generic-signing-service.md`
-- `doc/project/60-solutions/sealer.md`
+- `doc/project/60-solutions/005-sealer/005-sealer.md`
 
 ## Status
 

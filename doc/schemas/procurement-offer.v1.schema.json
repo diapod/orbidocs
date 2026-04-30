@@ -8,9 +8,9 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
-    "doc/project/30-stories/story-001.md",
-    "doc/project/30-stories/story-004.md",
-    "doc/project/50-requirements/requirements-001.md",
+    "doc/project/30-stories/story-001-swarm-node-onboarding.md",
+    "doc/project/30-stories/story-004-pod-client-onboarding.md",
+    "doc/project/50-requirements/requirements-001-node-onboarding.md",
     "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
   ],
   "required": [

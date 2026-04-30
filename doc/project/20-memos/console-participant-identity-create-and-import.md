@@ -5,7 +5,7 @@ Based on:
 - `doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`
 - `doc/project/40-proposals/007-pod-identity-and-tenancy-model.md`
 - `doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`
-- `doc/project/30-stories/story-000.md`
+- `doc/project/30-stories/story-000-two-nodes-see-each-other.md`
 
 This memo captures one UI and runtime direction for participant identity handling
 in Orbiplex Node.

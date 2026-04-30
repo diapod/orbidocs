@@ -6,21 +6,21 @@ Machine-readable schema for responder offers attached to a published procurement
 
 ## Governing Basis
 
-- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
-- [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
-- [`doc/project/50-requirements/requirements-001.md`](../../project/50-requirements/requirements-001.md)
+- [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)
+- [`doc/project/30-stories/story-004-pod-client-onboarding.md`](../../project/30-stories/story-004-pod-client-onboarding.md)
+- [`doc/project/50-requirements/requirements-001-node-onboarding.md`](../../project/50-requirements/requirements-001-node-onboarding.md)
 - [`doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`](../../project/40-proposals/011-federated-answer-procurement-lifecycle.md)
 
 ## Project Lineage
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-001.md`](../../project/50-requirements/requirements-001.md)
+- [`doc/project/50-requirements/requirements-001-node-onboarding.md`](../../project/50-requirements/requirements-001-node-onboarding.md)
 
 ### Stories
 
-- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
-- [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
+- [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)
+- [`doc/project/30-stories/story-004-pod-client-onboarding.md`](../../project/30-stories/story-004-pod-client-onboarding.md)
 
 ## Fields
 

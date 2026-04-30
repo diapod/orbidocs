@@ -1,7 +1,7 @@
 # Node UI: HTMX and HATEOAS Web Client Architecture
 
 Based on:
-- `doc/project/60-solutions/node-ui.md`
+- `doc/project/60-solutions/001-node-ui/001-node-ui.md`
 - `doc/project/20-memos/pod-backed-thin-clients.md`
 - `doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md`
 

@@ -12,7 +12,7 @@
     "doc/normative/50-constitutional-ops/en/EMERGENCY-ACTIVATION-CRITERIA.en.md",
     "doc/project/20-memos/exception-record-v1-invariants.md",
     "doc/project/40-proposals/017-organization-subjects-and-org-did-key.md",
-    "doc/project/50-requirements/requirements-008.md"
+    "doc/project/50-requirements/requirements-008-org-subject-rollout.md"
   ],
   "required": [
     "schema/v",

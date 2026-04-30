@@ -4,8 +4,8 @@ Based on:
 - `doc/project/30-stories/story-009-bielik-blog-arca.md`
 - `doc/project/40-proposals/029-workflow-template-catalog.md`
 - `doc/project/40-proposals/033-workflow-fan-out-and-temporal-orchestration.md`
-- `doc/project/60-solutions/arca.md`
-- `doc/project/60-solutions/node.md`
+- `doc/project/60-solutions/003-arca/003-arca.md`
+- `doc/project/60-solutions/000-node/000-node.md`
 
 ## Status
 

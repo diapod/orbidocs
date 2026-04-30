@@ -4,12 +4,12 @@ Based on:
 - `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
 - `doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md`
 - `doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md`
-- `doc/project/40-proposals/032-key-delegation-and-capability-chain.md`
+- `doc/project/40-proposals/032-key-delegation-passports.md`
 - `doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md`
 - `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
 - `doc/project/40-proposals/041-agora-ingest-attestation.md`
 - `doc/project/40-proposals/042-inter-node-artifact-channel.md`
-- `doc/project/50-requirements/requirements-014.md`
+- `doc/project/50-requirements/requirements-014-resource-opinions.md`
 
 ## Status
 

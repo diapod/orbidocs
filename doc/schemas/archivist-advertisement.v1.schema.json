@@ -8,8 +8,8 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
-    "doc/project/30-stories/story-003.md",
-    "doc/project/50-requirements/requirements-003.md",
+    "doc/project/30-stories/story-003-remote-memory-preservation.md",
+    "doc/project/50-requirements/requirements-003-memory-archivists.md",
     "doc/project/40-proposals/008-transcription-monitors-and-public-vaults.md",
     "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"
   ],

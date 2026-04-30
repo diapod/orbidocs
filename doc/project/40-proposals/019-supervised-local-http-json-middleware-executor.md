@@ -3,8 +3,8 @@
 Based on:
 - `doc/project/20-memos/node-middleware-init-and-capability-reporting.md`
 - `doc/project/20-memos/node-http-middleware-auth-token-header.md`
-- `doc/project/30-stories/story-006.md`
-- `doc/project/60-solutions/node.md`
+- `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
+- `doc/project/60-solutions/000-node/000-node.md`
 - `node:middleware-runtime/README.md`
 - `node:model-runtime/README.md`
 
@@ -84,7 +84,7 @@ that are:
 - richer than one-shot policy scripts,
 - but still meant to be supervised by the Node host.
 
-`story-006.md` makes this concrete. Modules such as `Orbiplex Dator`,
+`story-006-voluntary-swarm-exchange.md` makes this concrete. Modules such as `Orbiplex Dator`,
 `Orbiplex Arca`, and later `Orbiplex Monus` fit poorly into `command_stdio`
 when they need:
 

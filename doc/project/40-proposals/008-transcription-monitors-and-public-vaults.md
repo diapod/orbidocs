@@ -191,7 +191,7 @@ default.
 
 ## Next Actions
 
-1. Align transcript role semantics with `requirements-004.md`.
+1. Align transcript role semantics with `requirements-004-transcript-curation.md`.
 2. Define publication-state vocabulary for transcript bundles and vault promotion.
 3. Define archivist advertisement and replication contract.
 4. Define curator review and redaction workflow for public-vault promotion.

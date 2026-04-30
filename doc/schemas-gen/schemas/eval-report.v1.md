@@ -6,23 +6,23 @@ Machine-readable schema for adapter evaluation outputs that gate validation, dep
 
 ## Governing Basis
 
-- [`doc/project/50-requirements/requirements-004.md`](../../project/50-requirements/requirements-004.md)
+- [`doc/project/50-requirements/requirements-004-transcript-curation.md`](../../project/50-requirements/requirements-004-transcript-curation.md)
 
 ## Project Lineage
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-002.md`](../../project/50-requirements/requirements-002.md)
-- [`doc/project/50-requirements/requirements-003.md`](../../project/50-requirements/requirements-003.md)
-- [`doc/project/50-requirements/requirements-004.md`](../../project/50-requirements/requirements-004.md)
-- [`doc/project/50-requirements/requirements-005.md`](../../project/50-requirements/requirements-005.md)
+- [`doc/project/50-requirements/requirements-002-peer-learning.md`](../../project/50-requirements/requirements-002-peer-learning.md)
+- [`doc/project/50-requirements/requirements-003-memory-archivists.md`](../../project/50-requirements/requirements-003-memory-archivists.md)
+- [`doc/project/50-requirements/requirements-004-transcript-curation.md`](../../project/50-requirements/requirements-004-transcript-curation.md)
+- [`doc/project/50-requirements/requirements-005-transcript-segments.md`](../../project/50-requirements/requirements-005-transcript-segments.md)
 
 ### Stories
 
-- [`doc/project/30-stories/story-001.md`](../../project/30-stories/story-001.md)
-- [`doc/project/30-stories/story-002.md`](../../project/30-stories/story-002.md)
-- [`doc/project/30-stories/story-003.md`](../../project/30-stories/story-003.md)
-- [`doc/project/30-stories/story-004.md`](../../project/30-stories/story-004.md)
+- [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)
+- [`doc/project/30-stories/story-002-federated-peer-learning.md`](../../project/30-stories/story-002-federated-peer-learning.md)
+- [`doc/project/30-stories/story-003-remote-memory-preservation.md`](../../project/30-stories/story-003-remote-memory-preservation.md)
+- [`doc/project/30-stories/story-004-pod-client-onboarding.md`](../../project/30-stories/story-004-pod-client-onboarding.md)
 
 ## Fields
 

@@ -1,0 +1,114 @@
+{:component/id :orbiplex/sealer
+ :component/title "Orbiplex Sealer"
+ :component/type :host-capability
+ :component/status :partial
+
+ :summary
+ "Local authenticated-encryption capability for opaque byte buffers. Sealer owns
+ AEAD suite selection, envelope production, key-source derivation boundaries,
+ engine audit, and daemon dispatch integration while keeping passport semantics
+ outside the crypto engine."
+
+ :must-implement
+ [{:cap/id :opaque-aead
+   :title "Opaque AEAD Over Byte Buffers"
+   :kind :crypto-service
+   :based-on ["doc/normative/40-constitution/en/CONSTITUTION.en.md"
+              "doc/project/40-proposals/036-memarium.md"]
+   :schemas []
+   :responsibilities
+   ["Accept plaintext and AAD bytes without interpreting either"
+    "Resolve logical `key_ref` through injected `KeySource`"
+    "Return a self-describing envelope"
+    "Fail cryptographic open errors with an opaque `OpenFailed` boundary"]
+   :status :done}
+
+  {:cap/id :ciphersuite-registry
+   :title "Ciphersuite Registry"
+   :kind :crypto-policy
+   :based-on ["doc/project/40-proposals/036-memarium.md"]
+   :schemas []
+   :responsibilities
+   ["Define stable ciphersuite ids such as `xchacha20-poly1305@v1`"
+    "Ship `xchacha20-poly1305@v1` as the mandatory default suite"
+    "Reject unknown suites without silent fallback"
+    "Keep alternative suites explicit and feature-gated"]
+   :status :done}
+
+  {:cap/id :key-source-boundary
+   :title "Key Source Boundary"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md"]
+   :schemas []
+   :responsibilities
+   ["Define `KeySource::derive_symmetric` as the only key-material boundary"
+    "Use `info` / `derivation_info_b64u` as per-operation derivation context"
+    "Return zeroize-on-drop symmetric keys"
+    "Keep Signer out of the AEAD derivation path"]
+   :status :done}
+
+  {:cap/id :passport-aware-dispatch-gate
+   :title "Passport-Aware Dispatch Gate"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md"
+              "doc/project/60-solutions/006-capability-binding/006-capability-binding.md"]
+   :schemas ["capability-passport.v1"]
+   :responsibilities
+   ["Authorize HTTP calls before engine invocation through capability binding"
+    "Gate `seal`, `open`, and `derive_aead_key` on caller, grant type, key_ref, suite, and revocation freshness"
+    "Keep Sealer itself unaware of passport parsing"]
+   :status :done}
+
+  {:cap/id :canonical-json-envelope
+   :title "Canonical JSON Envelope v1"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/036-memarium.md"]
+   :schemas []
+   :responsibilities
+   ["Serialize sealed payloads as canonical JSON with base64url binary fields"
+    "Carry schema, suite, key_ref, kind, nonce, ciphertext, and AAD hash metadata"
+    "Support tombstone markers as a sealed kind"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :cbor-envelope-variant
+   :title "CBOR Envelope Variant"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/036-memarium.md"]
+   :schemas []
+   :responsibilities
+   ["Add a canonical CBOR envelope encoding without changing AEAD suite semantics"
+    "Preserve JSON v1 as the readable operator-facing envelope"]
+   :status :planned}
+
+  {:cap/id :group-key-distribution-layer
+   :title "Group Key Distribution Layer"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md"]
+   :schemas []
+   :responsibilities
+   ["Define community or group key distribution above the local sealer master"
+    "Keep key agreement protocol concerns outside Sealer core"]
+   :status :planned}]
+
+ :out-of-scope
+ ["Group/community key distribution above the local sealer master"
+  "Master-key rotation beyond one configured active master version"
+  "Memarium AAD semantics"
+  "Passport parsing inside sealer-core or sealer-service"]
+
+ :consumes
+ ["CallerIdentity"
+  "KeyRef"
+  "CiphersuiteId"
+  "derivation_info_b64u"
+  "capability-passport.v1 through daemon dispatch"]
+
+ :produces
+ ["Sealer envelope JSON v1"
+  "SealerAuditEvent"
+  "AEAD key material for authorized derive-aead-key calls"]
+
+ :notes
+ ["The production Node path authorizes Sealer HTTP requests in the daemon dispatch layer before invoking the engine."
+  "Engine-local `SealerPolicy` remains for in-process invariants and tests; deployed HTTP policy is capability-binding driven."]}

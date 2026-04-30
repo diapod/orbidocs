@@ -130,7 +130,7 @@ models of stable `capability_id` semantics. Update them when capability ids,
 wire names, semantic role boundaries, or primary runtime ownership change in:
 
 - `node:capability/src/lib.rs`
-- `doc/project/60-solutions/node.md`
+- `doc/project/60-solutions/000-node/000-node.md`
 - attached-role or capability proposals
 
 Before considering a capability-registry edit done, run:
@@ -159,9 +159,9 @@ For challenge/proposal linkage, keep traceability explicit:
 
 When both exist for the same topic, keep traceability explicit:
 - each requirements file should reference its source story in the header (for
-  example: `Based on: doc/project/30-stories/story-001.md`);
-- use aligned numbering where practical (for example: `story-001.md` ->
-  `requirements-001.md`).
+  example: `Based on: doc/project/30-stories/story-001-swarm-node-onboarding.md`);
+- use aligned numbering where practical (for example: `story-001-swarm-node-onboarding.md` ->
+  `requirements-001-node-onboarding.md`).
 
 Memos under `doc/project/20-memos/` are informal, short-lived notes (idea seeds,
 observations, backlog items).
@@ -208,7 +208,7 @@ across multiple documents:
 
 Examples:
 
-- `doc/project/60-solutions/sealer.md` may embed a short dispatch sequence
+- `doc/project/60-solutions/005-sealer/005-sealer.md` may embed a short dispatch sequence
   directly.
 - Larger Sealer-owned diagrams should live beside it, e.g.
   `doc/project/60-solutions/sealer.diagrams/dispatch-gate.mmd`.

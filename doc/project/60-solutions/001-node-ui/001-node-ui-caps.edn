@@ -1,0 +1,114 @@
+{:component/id :orbiplex/node-ui
+ :component/title "Orbiplex Node UI"
+ :component/type :client
+ :component/status :partial
+
+ :summary
+ "Thin control and inspection client for Node behavior, policy context, provenance-aware operator flows, and paid-path settlement visibility."
+
+ :must-implement
+ [{:cap/id :node-control-surface
+   :title "Node Control Surface"
+   :kind :client-surface
+   :based-on ["doc/project/30-stories/story-001-swarm-node-onboarding.md"
+              "doc/project/30-stories/story-004-pod-client-onboarding.md"
+              "doc/project/20-memos/pod-backed-thin-clients.md"]
+   :schemas ["answer-room-metadata.v1"
+             "response-envelope.v1"]
+   :responsibilities
+   ["Expose bounded controls for room participation and answer review"
+    "Show enough room metadata for scope and policy understanding"
+    "Avoid becoming a second protocol authority beside the Node"]
+   :status :partial}
+
+  {:cap/id :provenance-policy-inspection
+   :title "Provenance and Policy Inspection"
+   :kind :inspection
+   :based-on ["doc/project/40-proposals/004-human-origin-flags-and-operator-participation.md"
+              "doc/project/50-requirements/requirements-004-transcript-curation.md"
+              "doc/project/50-requirements/requirements-005-transcript-segments.md"]
+   :schemas ["transcript-segment.v1"
+             "transcript-bundle.v1"
+             "learning-outcome.v1"]
+   :responsibilities
+   ["Render provenance and human-origin markers"
+    "Expose policy and scope information without flattening semantics"
+    "Make unresolved and quarantined states clearly distinguishable"
+    "Render settlement policy degradation, suspension, and manual-review conditions before paid commitment"]
+   :status :partial}
+
+  {:cap/id :settlement-policy-inspection
+   :title "Settlement Policy Inspection"
+   :kind :inspection
+   :based-on ["doc/project/40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md"
+              "doc/project/50-requirements/requirements-007-gateway-escrow-mvp.md"
+              "doc/project/50-requirements/requirements-008-org-subject-rollout.md"]
+   :schemas ["gateway-policy.v1"
+             "escrow-policy.v1"
+             "settlement-policy-disclosure.v1"
+             "procurement-contract.v1"
+             "procurement-receipt.v1"]
+   :responsibilities
+   ["Show active settlement policies attached to a paid procurement path"
+    "Surface recent settlement disclosure events with their scope and impact mode"
+    "Explain why a paid path is blocked, degraded, or forced into manual review"
+    "Preserve audit joins from procurement artifacts back to governing settlement policies"]
+   :status :partial}
+
+  {:cap/id :opinion-compose-form
+   :title "Resource Opinion Compose Form"
+   :kind :ui-surface
+   :based-on ["doc/project/30-stories/story-008-cool-site-comment.md"
+              "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"
+              "doc/project/50-requirements/requirements-014-resource-opinions.md"]
+   :schemas ["resource-opinion.v1"
+             "agora-record.v1"]
+   :depends-on [:host-capability-lookup
+                :agora-record-sign
+                :agora-record-ingest]
+   :responsibilities
+   ["Present a dedicated single-purpose form: opinion text, optional rating/tags/lang, plus subject reference"
+    "Build the envelope's `record/about[0]` as an open `resource-ref.v1` — MVP ships URL input; schema path accepts any `resource/kind` (url, ean, gps, isbn, …) without recompilation"
+    "Derive `topic/key` from the subject's `resource/kind`, keeping per-kind ACLs and listings natural"
+    "Discover an `agora.relay` provider through the host capability lookup, never from a component snapshot"
+    "Preserve byte-identical `resource/id` between the form input and `record/about[0].resource/id`"
+    "Sign through the host signer (`KeyRef::PrimaryParticipant`) in the `agora.record.v1` domain"
+    "POST the signed record to the discovered relay; treat `201 Created` as fresh and `200 OK` as idempotent"
+    "Surface an explicit `no-local-relay` state rather than silently degrading"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :archivist-retrieval-views
+   :title "Archivist and Retrieval Views"
+   :kind :inspection
+   :based-on ["doc/project/30-stories/story-003-remote-memory-preservation.md"
+              "doc/project/50-requirements/requirements-003-memory-archivists.md"]
+   :schemas ["archival-package.v1"
+             "retrieval-request.v1"
+             "retrieval-response.v1"]
+   :responsibilities
+   ["Show archival status and retrieval metadata"
+    "Provide bounded operator affordances for archival handoff and retrieval inspection"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Canonical protocol persistence"
+  "Network protocol semantics"
+  "Standalone training or archival execution"]
+
+ :consumes
+ ["answer-room-metadata.v1"
+  "response-envelope.v1"
+  "learning-outcome.v1"
+  "archival-package.v1"
+  "retrieval-response.v1"
+  "gateway-policy.v1"
+  "escrow-policy.v1"
+  "settlement-policy-disclosure.v1"]
+
+ :produces
+ []
+
+ :notes
+ ["Different host-specific clients may exist for desktop, browser, terminal, or thin-client settings."
+  "The UI stays thin and subordinate to Node behavior."]}
