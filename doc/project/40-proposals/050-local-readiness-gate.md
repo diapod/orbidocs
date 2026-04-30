@@ -167,6 +167,7 @@ Nodes declare local readiness prerequisites as data:
 ```json
 {
   "local_readiness": {
+    "auto_ready": false,
     "require_operator_participant_key": true,
     "required_capability_passports": [
       {
@@ -184,6 +185,24 @@ Nodes declare local readiness prerequisites as data:
 used. This keeps the gate generic: Story-009 is one profile, not hard-coded
 daemon behavior.
 
+`auto_ready` is an explicit local bootstrap switch. Its default is `false`.
+When enabled, the daemon MAY resolve readiness blockers automatically only in a
+narrow fresh-deployment case:
+
+- exactly one local participant exists,
+- that participant was created recently,
+- its signing key is available locally without an interactive passphrase,
+- readiness blockers are local bootstrap actions, not federation or remote
+  trust decisions.
+
+In that case the daemon may create the local node-operator binding, sign pending
+local middleware config/package sidecars, and issue configured local capability
+passports into the host-owned passport store. The attempt may run either during
+daemon startup or immediately after the operator creates/imports the first local
+participant while the daemon is already waiting in `local_readiness_gate`. This
+is intended for development profiles and single-operator bootstrap packs, not
+for imported production identities or multi-operator deployments.
+
 ## Operator Flow
 
 1. The daemon starts the minimal control plane.
@@ -197,6 +216,14 @@ daemon behavior.
 7. When the blocker list is empty, the node either:
    - exits with a restart-required status for the supervisor, or
    - performs an explicit daemon restart/reload operation.
+
+If `local_readiness.auto_ready` is enabled, the daemon MAY attempt a bounded
+automatic version of steps 5-6 before entering the gate or after the first local
+participant is created/imported inside the gate. A successful auto-ready run
+MUST NOT silently start dependent runtime components in the same process. It
+resolves local authority material, remains in `local_readiness_gate`, and
+reports `status: "restart_required"` so the next process start observes a clean,
+fully-materialized local state.
 
 The first implementation may require manual daemon restart after signing. A
 later implementation may auto-restart after the final blocker is resolved, but

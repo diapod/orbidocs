@@ -432,6 +432,17 @@ przypadku daemon może wejść w Local Readiness Gate (proposal 050): endpointy 
 pozostają, ale middleware story nie startuje, dopóki operator nie podpisze
 albo nie odrzuci zmienionego katalogu.
 
+Lokalny operator pack włącza `local_readiness.auto_ready` dla świeżych profili
+dev. Jeśli profil zawiera dokładnie jeden niedawno utworzony plaintext
+participant key, daemon może automatycznie utworzyć lokalny node-operator
+binding, podpisać oczekujące sidecary readiness i wystawić wymagane lokalne
+capability passports dla modułów story. Próba może uruchomić się przy starcie
+albo od razu po utworzeniu/zaimportowaniu pierwszego participanta, gdy daemon
+już czeka w Local Readiness Gate. Udane przejście auto-ready nadal zatrzymuje
+daemon na Local Readiness Gate ze `status: "restart_required"`; operator albo
+launcher wykonuje jeden restart, aby middleware wystartowało z czystej granicy
+lifecycle.
+
 Daemon zapisuje fragmenty konfiguracji edytowane przez operatora pod:
 
 ```text
@@ -563,7 +574,9 @@ Kroki UI/operatora na węźle A:
 
 - Uruchom daemon i Node UI.
 - Utwórz albo zaimportuj tożsamość uczestnika dla węzła A.
-- Potwierdź node-operator binding, jeśli UI o to poprosi.
+- Potwierdź node-operator binding, jeśli UI o to poprosi. W świeżym profilu
+  auto-ready może być już zmaterializowany przez daemon; wtedy UI pokazuje
+  kontynuację restart-required zamiast ręcznej akcji bindingu.
 - Sprawdź oferty Datora i potwierdź, że `draft-author` jest aktywne.
 - Zaimportuj albo utwórz szablon workflow `bielik-biweekly-publish.v1`.
 - Uruchom workflow z szablonu, podając repozytorium, gałąź, temat i parametry

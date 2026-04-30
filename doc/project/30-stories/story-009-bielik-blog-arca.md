@@ -450,6 +450,17 @@ Local Readiness Gate (proposal 050): control/UI endpoints stay live, but
 story middleware is not started until the operator signs or rejects the changed
 catalog.
 
+The local operator pack enables `local_readiness.auto_ready` for fresh dev
+profiles. If a profile contains exactly one recently-created plaintext
+participant key, the daemon may automatically create the local node-operator
+binding, sign pending local readiness sidecars, and issue the required local
+capability passports for the story modules. The attempt can run at startup or
+immediately after the first participant is created/imported while the daemon is
+already waiting in Local Readiness Gate. A successful auto-ready pass still
+stops at Local Readiness Gate with `status: "restart_required"`; the operator or
+launcher performs one restart so middleware starts from a clean lifecycle
+boundary.
+
 The daemon writes operator-edited config fragments under:
 
 ```text
@@ -584,7 +595,10 @@ UI/operator steps on node A:
 
 - Start the daemon and Node UI.
 - Create or import the participant identity for node A.
-- Confirm the node-operator binding if the UI asks for it.
+- Confirm the node-operator binding if the UI asks for it. In a fresh
+  auto-ready profile this may already be materialized by the daemon, in which
+  case the UI shows the restart-required continuation instead of a manual
+  binding action.
 - Inspect the Dator offers and verify that `draft-author` is active.
 - Import or create the `bielik-biweekly-publish.v1` workflow template.
 - Start the workflow from the template with repository, branch, topic,
