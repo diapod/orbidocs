@@ -86,6 +86,17 @@ fragments and declarative config fragments. Config fragments are activated by
 the daemon only after the package artifact has a current operator signature;
 the package remains data, not executable JavaScript.
 
+The canonical directory contract is defined in
+[`019-middleware`](../../60-solutions/019-middleware/019-middleware.md#standard-files-and-directories).
+The short rule is:
+
+- `<data_dir>/middleware-packages/<package>/config/` contains package-shipped
+  declarative config fragments. Treat it as factory/package material and include
+  it in the package signature surface.
+- `<data_dir>/middleware/<module_id>/config/` contains active node-local runtime
+  configuration for one module instance. Operator-managed config sidecars and
+  generated active configuration belong there, not in the package tree.
+
 Recommended package layout:
 
 ```text
