@@ -1,0 +1,173 @@
+{:component/id :orbiplex/middleware
+ :component/title "Orbiplex Middleware"
+ :component/type :extension-host
+ :component/status :done
+
+ :summary
+ "The Node extension-host layer for in-process, declarative, command, unmanaged
+ local HTTP, and supervised local HTTP middleware. The daemon owns lifecycle,
+ dispatch, validation, capability gates, trace, and failure semantics; modules
+ contribute behavior through declared input chains, claimed routes, module
+ reports, executor configuration, and explicit host capability calls."
+
+ :must-implement
+ [{:cap/id :middleware-input-chains
+   :title "Transport-Defined Middleware Input Chains"
+   :kind :dispatch-contract
+   :based-on ["doc/project/40-proposals/027-middleware-peer-message-dispatch.md"
+              "node/middleware/README.md"]
+   :schemas ["middleware-module-report"
+             "workflow-envelope"
+             "local-input-invoke.v1"
+             "peer-message-invoke.v1"]
+   :responsibilities
+   ["Define stable input chains: `pre-input`, `inbound-local`, `inbound-peer`, `inbound-broadcast`, `pre-send`, and `audit`"
+    "Let module reports subscribe to chains through `input_chains[]` instead of domain-specific ingress names"
+    "Apply message type and JSON predicate filters before out-of-process dispatch"
+    "Keep route and handler dispatch host-owned"]
+   :status :done}
+
+  {:cap/id :middleware-executor-classes
+   :title "Middleware Executor Classes"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
+              "doc/project/40-proposals/049-json-e-middleware-transformer-executor.md"
+              "doc/project/50-requirements/requirements-010-middleware-executor.md"
+              "node/middleware/README.md"]
+   :schemas ["workflow-envelope"
+             "middleware-decision"
+             "hook-mutation-policy"]
+   :responsibilities
+   ["Support in-process handlers for host-trusted protocol concerns"
+    "Support declarative `json_e` and `json_e_flow` for low-power data transformation and bounded host-owned flows"
+    "Support `nse_rhai`, `command_stdio`, `local_http_json`, and supervised `http_local_json` executor classes"
+    "Keep executor transport subordinate to middleware semantic contracts"]
+   :status :partial}
+
+  {:cap/id :middleware-init-and-report
+   :title "Middleware Init And Module Reporting"
+   :kind :lifecycle-contract
+   :based-on ["doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
+              "doc/project/50-requirements/requirements-010-middleware-executor.md"
+              "node/middleware/README.md"]
+   :schemas ["middleware-init"
+             "middleware-module-report"]
+   :responsibilities
+   ["Run host-owned init/report after readiness and before ordinary hook traffic"
+    "Expose module identity, description, roles, input chains, route claims, host capability handlers, service types, and UI metadata"
+    "Treat the report as registry data only; authority remains in host policy, authtok binding, and capability passports"]
+   :status :done}
+
+  {:cap/id :middleware-claimed-local-routes
+   :title "Claimed Local Routes"
+   :kind :local-dispatch
+   :based-on ["node/middleware/README.md"
+              "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"]
+   :schemas ["middleware-module-report"
+             "local-input-invoke.v1"]
+   :responsibilities
+   ["Allow one ready module to own a `(METHOD, path)` route under `/v1/enact/`"
+    "Return `503` when a known claimed-route owner is not ready"
+    "Run `pre-input` before the exclusive route owner sees the local request"
+    "Reject route claims outside the local enactment namespace"]
+   :status :done}
+
+  {:cap/id :middleware-host-capability-bridge
+   :title "Host Capability Bridge For Middleware"
+   :kind :authority-boundary
+   :based-on ["doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+              "doc/project/40-proposals/036-memarium.md"
+              "doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"
+              "doc/project/60-solutions/006-capability-binding/006-capability-binding.md"]
+   :schemas ["capability-passport-issue-request"
+             "capability-passport-issue-response"
+             "artifact-read-request"
+             "artifact-write-request"
+             "notify-emit-request"
+             "catalog-local-query-request"
+             "peer-message-dispatch-request"
+             "peer-session-establish-request"]
+   :responsibilities
+   ["Route effectful middleware actions through explicit host capabilities instead of ambient authority"
+    "Reuse module authtok, caller binding, capability passports, dispatch gates, timeout, size limit, and audit policy"
+    "Keep module report declarations separate from granted authority"]
+   :status :partial}
+
+  {:cap/id :middleware-trace-and-raw-signal
+   :title "Trace, Component Path, And Raw Signal Access"
+   :kind :observability-contract
+   :based-on ["doc/project/40-proposals/053-raw-signal-access.md"
+              "doc/project/60-solutions/013-raw-signal-access/013-raw-signal-access.md"]
+   :schemas ["workflow-envelope"
+             "middleware-module-report"]
+   :responsibilities
+   ["Carry host-owned `causality_id` and append-only `component_path[]` through a middleware passage"
+    "Preserve `raw_signal` and `component_io_trace[]` only when required by configured flow/module access"
+    "Expose raw context only to middleware that declared and was allowed to receive it"
+    "Avoid leaking raw context in final results by default"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :middleware-phase-observers
+   :title "Phase And Post-Chain Observers"
+   :kind :observability-contract
+   :based-on ["node/middleware/README.md"
+              "doc/project/40-proposals/036-memarium.md"]
+   :schemas ["middleware-module-report"]
+   :responsibilities
+   ["Invoke observers after phase completion even when a dispatch handler short-circuits"
+    "Provide post-chain observation over original and effective payloads"
+    "Let Memarium and audit modules record facts about the effective result"]
+   :status :planned}
+
+  {:cap/id :middleware-operator-ui-extensions
+   :title "Middleware Operator UI Extensions"
+   :kind :operator-ui
+   :based-on ["doc/project/40-proposals/052-tauri-hosted-node-ui.md"
+              "node/middleware/README.md"]
+   :schemas ["middleware-module-report"]
+   :responsibilities
+   ["Allow module packages to contribute operator UI templates, assets, and routes"
+    "Keep route mounting, auth, readiness, and collision handling host-owned"
+    "Avoid hard-coding future module-specific UI into built-in Node UI"]
+   :status :partial}
+
+  {:cap/id :middleware-schema-gate-coverage
+   :title "Expanded Middleware Schema Gate Coverage"
+   :kind :validation
+   :based-on ["node/middleware/README.md"]
+   :schemas ["node/middleware/schemas/*.schema.json"]
+   :responsibilities
+   ["Schema-gate every external middleware boundary that crosses process or package trust"
+    "Keep Rust-native semantic validation after structural JSON validation"]
+   :status :partial}]
+
+ :out-of-scope
+ ["Capability passport semantics themselves"
+  "Public federation trust decisions for module packages"
+  "One global order for all middleware modules across every hook family"
+  "Durable raw-signal storage by default"
+  "Letting module reports become authority grants"]
+
+ :consumes
+ ["middleware module reports"
+  "middleware init messages"
+  "WorkflowEnvelope"
+  "local-input-invoke.v1"
+  "peer-message-invoke.v1"
+  "module authtok binding"
+  "capability passports"
+  "host-owned executor configuration"]
+
+ :produces
+ ["middleware decisions"
+  "claimed local route dispatch"
+  "host capability calls"
+  "middleware trace records"
+  "component_path[]"
+  "module runtime reports"
+  "operator-visible middleware component state"]
+
+ :notes
+ ["This solution is intentionally the cross-cutting middleware map. Specific host-owned primitives remain in their own solution documents: raw signal access, module store, bounded local server runtime, capability binding, Dator, Arca, Sensorium, and Memarium."
+  "The diagram in `019-middleware.md` is the canonical high-level hook map. It should be updated whenever a new middleware input chain or dispatch surface becomes first-class."]}
