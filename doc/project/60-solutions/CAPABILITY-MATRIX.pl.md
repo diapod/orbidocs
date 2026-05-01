@@ -6,71 +6,26 @@ Wygenerowane z sidecarów `*-caps.edn` w `doc/project/60-solutions/`. Ta macierz
 
 | Komponent | Typ | Status | Opis |
 |---|---|---|---|
-| [`Orbiplex Node`](000-node/000-node.md) | `runtime` | `partial` | Primary Orbiplex runtime responsible for room lifecycle, protocol enforcement,
- procurement flow, settlement policy coordination, archival handoff, retrieval,
- and policy-gated local knowledge operations. Settlement-capable deployments may
- additionally attach trusted gateway or escrow roles, but that profile is not
- assumed for every Node. |
+| [`Orbiplex Node`](000-node/000-node.md) | `runtime` | `partial` | Primary Orbiplex runtime responsible for room lifecycle, protocol enforcement,<br> procurement flow, settlement policy coordination, archival handoff, retrieval,<br> and policy-gated local knowledge operations. Settlement-capable deployments may<br> additionally attach trusted gateway or escrow roles, but that profile is not<br> assumed for every Node. |
 | [`Orbiplex Node UI`](001-node-ui/001-node-ui.md) | `client` | `partial` | Thin control and inspection client for Node behavior, policy context, provenance-aware operator flows, and paid-path settlement visibility. |
 | [`Orbiplex Memarium`](002-memarium/002-memarium.md) | `node-attached-organ` | `partial` | Node-attached local memory-and-knowledge organ responsible for preserving entries, facts, crisis evidence, classification policy facts, and classification-aware archival exports across the personal, community, public, and crisis memory spaces. |
-| [`Orbiplex Arca`](003-arca/003-arca.md) | `runtime` | `partial` | Buyer-side, demand-side workflow module bundled as a supervised
-  middleware service. Orchestrates multi-step service-order workflows
-  through host-owned procurement, and owns the observed offer catalog
-  for buyer-side discovery. Does not own supply-side publication
-  (Dator) and is explicitly not a protocol or settlement authority —
-  all signed acts go through host capabilities. |
-| [`Orbiplex Dator`](004-dator/004-dator.md) | `node-attached-module` | `partial` | Node-attached supply-side marketplace module bundled as a supervised
- middleware service. Owns local standing-offer publication, provider-side
- offer-catalog responses, and provider-side service dispatch. Counterpart
- of Arca: Dator supplies and executes, Arca observes, selects, and
- orchestrates. |
-| [`Orbiplex Sealer`](005-sealer/005-sealer.md) | `host-capability` | `partial` | Local authenticated-encryption capability for opaque byte buffers. Sealer owns
- AEAD suite selection, envelope production, key-source derivation boundaries,
- engine audit, and daemon dispatch integration while keeping passport semantics
- outside the crypto engine. |
-| [`Orbiplex Capability Binding`](006-capability-binding/006-capability-binding.md) | `authorization` | `done` | Local authorization layer that binds CallerIdentity, CallerBinding,
- capability-passport.v1 profiles, and RevocationView freshness into a single
- auditable authorization decision for passport-gated host capabilities. |
-| [`Capability Advertisement`](007-capability-advertisement/007-capability-advertisement.md) | `protocol-artifact` | `done` | Node-facing protocol artifact for communicating what a peer can do now,
- together with passport-form evidence and a routing projection that receivers
- can verify without treating projections as authority. |
-| [`Orbiplex Agora`](008-agora/008-agora.md) | `node-attached-module` | `partial` | Node-attached topic-addressed record relay providing a shared signed
- substrate for records such as resource opinions, comments, whisper signals,
- and federated offer announcements. Runs as a supervised middleware service
- under the Node daemon and is discovered by clients through capability id
- `agora.relay`. |
-| [`Orbiplex Monus`](009-monus/009-monus.md) | `node-attached-module` | `planned` | Node-attached local observation middleware for wellbeing, tension, and weak-signal
- preparation under explicit host-granted capability contracts. |
-| [`Orbiplex Anon`](010-anon/010-anon.md) | `node-attached-module` | `planned` | Node-attached outbound privacy component for relay indirection, derived
- forwarding nyms, and onion-like transport profiles. |
-| [`Orbiplex Whisper`](011-whisper/011-whisper.md) | `node-attached-module` | `planned` | Node-attached social-signal exchange component for rumor intake, redaction,
- thresholding, and opt-in association bootstrap. |
+| [`Orbiplex Arca`](003-arca/003-arca.md) | `runtime` | `partial` | Buyer-side, demand-side workflow module bundled as a supervised<br>  middleware service. Orchestrates multi-step service-order workflows<br>  through host-owned procurement, and owns the observed offer catalog<br>  for buyer-side discovery. Does not own supply-side publication<br>  (Dator) and is explicitly not a protocol or settlement authority —<br>  all signed acts go through host capabilities. |
+| [`Orbiplex Dator`](004-dator/004-dator.md) | `node-attached-module` | `partial` | Node-attached supply-side marketplace module bundled as a supervised<br> middleware service. Owns local standing-offer publication, provider-side<br> offer-catalog responses, and provider-side service dispatch. Counterpart<br> of Arca: Dator supplies and executes, Arca observes, selects, and<br> orchestrates. |
+| [`Orbiplex Sealer`](005-sealer/005-sealer.md) | `host-capability` | `partial` | Local authenticated-encryption capability for opaque byte buffers. Sealer owns<br> AEAD suite selection, envelope production, key-source derivation boundaries,<br> engine audit, and daemon dispatch integration while keeping passport semantics<br> outside the crypto engine. |
+| [`Orbiplex Capability Binding`](006-capability-binding/006-capability-binding.md) | `authorization` | `done` | Local authorization layer that binds CallerIdentity, CallerBinding,<br> capability-passport.v1 profiles, and RevocationView freshness into a single<br> auditable authorization decision for passport-gated host capabilities. |
+| [`Capability Advertisement`](007-capability-advertisement/007-capability-advertisement.md) | `protocol-artifact` | `done` | Node-facing protocol artifact for communicating what a peer can do now,<br> together with passport-form evidence and a routing projection that receivers<br> can verify without treating projections as authority. |
+| [`Orbiplex Agora`](008-agora/008-agora.md) | `node-attached-module` | `partial` | Node-attached topic-addressed record relay providing a shared signed<br> substrate for records such as resource opinions, comments, whisper signals,<br> and federated offer announcements. Runs as a supervised middleware service<br> under the Node daemon and is discovered by clients through capability id<br> `agora.relay`. |
+| [`Orbiplex Monus`](009-monus/009-monus.md) | `node-attached-module` | `planned` | Node-attached local observation middleware for wellbeing, tension, and weak-signal<br> preparation under explicit host-granted capability contracts. |
+| [`Orbiplex Anon`](010-anon/010-anon.md) | `node-attached-module` | `planned` | Node-attached outbound privacy component for relay indirection, derived<br> forwarding nyms, and onion-like transport profiles. |
+| [`Orbiplex Whisper`](011-whisper/011-whisper.md) | `node-attached-module` | `planned` | Node-attached social-signal exchange component for rumor intake, redaction,<br> thresholding, and opt-in association bootstrap. |
 | [`Ferment`](012-ferment/012-ferment.md) | `dev-tool` | `optional` | Optional development and experimentation tool for scenario replay, evaluation support, and model-adjacent workflows around Orbiplex. |
-| [`Raw Signal Access`](013-raw-signal-access/013-raw-signal-access.md) | `middleware-capability` | `done` | A local, in-memory execution mechanism for middleware flows that need to
- inspect the initial trigger or prior component inputs during one passage
- through a middleware chain. It separates host-owned preservation from
- executor-local exposure — no ambient authority, no durable storage, no
- Memarium write path. |
-| [`Key Delegation Passports`](014-key-delegation-passports/014-key-delegation-passports.md) | `protocol` | `partial` | Delegated signing authority through proxy key pairs, enabling a participant's
- primary key to issue bounded-scope signing credentials without exposing the
- primary private key at the edge. |
-| [`Host-Owned Module Store`](015-host-owned-module-store/015-host-owned-module-store.md) | `host-capability` | `done` | A local Node durability primitive that lets supervised middleware modules
- persist small JSON records without forcing the daemon to learn module-specific
- schemas. The Node owns scoping, persistence, and access control; the module owns
- payload semantics. |
-| [`Bounded Local Server Runtime`](016-bounded-local-server-runtime/016-bounded-local-server-runtime.md) | `infrastructure` | `done` | A shared sync TCP/HTTP mini-server primitive (`bounded-server` crate) replacing
- ad-hoc `thread::spawn` accept loops with bounded accepts, handler permits, fast
- overload rejection, first-class shutdown drain, and runtime metrics. |
-| [`Inter-Node Artifact Channel (INAC)`](017-inter-node-artifact-channel/017-inter-node-artifact-channel.md) | `peer-protocol` | `planned` | Planned peer-to-peer artifact exchange channel for byte-identical transfer of
- Agora records, Memarium blobs, and registered artifact kinds over authenticated
- node sessions. |
-| [`Orbiplex Classification`](018-classification/018-classification.md) | `policy-data-layer` | `draft` | Shared classification label and propagation contract for Memarium, Agora,
- archival export, and future peer-forwarding surfaces. |
-| [`Orbiplex Middleware`](019-middleware/019-middleware.md) | `extension-host` | `done` | The Node extension-host layer for in-process, declarative, command, unmanaged
- local HTTP, and supervised local HTTP middleware. The daemon owns lifecycle,
- dispatch, validation, capability gates, trace, and failure semantics; modules
- contribute behavior through declared input chains, claimed routes, module
- reports, executor configuration, and explicit host capability calls. |
+| [`Raw Signal Access`](013-raw-signal-access/013-raw-signal-access.md) | `middleware-capability` | `done` | A local, in-memory execution mechanism for middleware flows that need to<br> inspect the initial trigger or prior component inputs during one passage<br> through a middleware chain. It separates host-owned preservation from<br> executor-local exposure — no ambient authority, no durable storage, no<br> Memarium write path. |
+| [`Key Delegation Passports`](014-key-delegation-passports/014-key-delegation-passports.md) | `protocol` | `partial` | Delegated signing authority through proxy key pairs, enabling a participant's<br> primary key to issue bounded-scope signing credentials without exposing the<br> primary private key at the edge. |
+| [`Host-Owned Module Store`](015-host-owned-module-store/015-host-owned-module-store.md) | `host-capability` | `done` | A local Node durability primitive that lets supervised middleware modules<br> persist small JSON records without forcing the daemon to learn module-specific<br> schemas. The Node owns scoping, persistence, and access control; the module owns<br> payload semantics. |
+| [`Bounded Local Server Runtime`](016-bounded-local-server-runtime/016-bounded-local-server-runtime.md) | `infrastructure` | `done` | A shared sync TCP/HTTP mini-server primitive (`bounded-server` crate) replacing<br> ad-hoc `thread::spawn` accept loops with bounded accepts, handler permits, fast<br> overload rejection, first-class shutdown drain, and runtime metrics. |
+| [`Inter-Node Artifact Channel (INAC)`](017-inter-node-artifact-channel/017-inter-node-artifact-channel.md) | `peer-protocol` | `planned` | Planned peer-to-peer artifact exchange channel for byte-identical transfer of<br> Agora records, Memarium blobs, and registered artifact kinds over authenticated<br> node sessions. |
+| [`Orbiplex Classification`](018-classification/018-classification.md) | `policy-data-layer` | `draft` | Shared classification label and propagation contract for Memarium, Agora,<br> archival export, and future peer-forwarding surfaces. |
+| [`Orbiplex Middleware`](019-middleware/019-middleware.md) | `extension-host` | `done` | The Node extension-host layer for in-process, declarative, command, unmanaged<br> local HTTP, and supervised local HTTP middleware. The daemon owns lifecycle,<br> dispatch, validation, capability gates, trace, and failure semantics; modules<br> contribute behavior through declared input chains, claimed routes, module<br> reports, executor configuration, and explicit host capability calls. |
 
 ## Macierz zdolności
 

@@ -164,6 +164,17 @@ def doc_link(from_path: Path, rel_doc: str) -> str:
     return f"[`{Path(rel_doc).name}`]({rel_link_safe(from_path, target)})"
 
 
+def table_cell(value: Any) -> str:
+    """Render one Markdown table cell without leaking row delimiters."""
+    return (
+        str(value)
+        .replace("|", r"\|")
+        .replace("\r\n", "\n")
+        .replace("\r", "\n")
+        .replace("\n", "<br>")
+    )
+
+
 def capability_rows(component_doc: str, caps: dict[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for level_key, level_label in (("must-implement", "must"), ("may-implement", "may")):
@@ -234,7 +245,7 @@ def render_matrix(output_path: Path, title: str, intro: str, labels: dict[str, s
             f"| [`{data.get('component/title', component['component_doc'])}`]({rel_link_safe(output_path, doc_target)}) | "
             f"`{data.get('component/type', '')}` | "
             f"`{data.get('component/status', '')}` | "
-            f"{data.get('summary', '')} |"
+            f"{table_cell(data.get('summary', ''))} |"
         )
 
     lines.extend(
@@ -258,11 +269,11 @@ def render_matrix(output_path: Path, title: str, intro: str, labels: dict[str, s
         lines.append(
             f"| [`{row['component_title']}`]({rel_link_safe(output_path, component_doc)}) | "
             f"`{labels['must'] if row['level'] == 'must' else labels['may']}` | "
-            f"{row['cap_title']} | "
+            f"{table_cell(row['cap_title'])} | "
             f"`{row['kind']}` | "
-            f"{based_on} | "
-            f"{schemas} | "
-            f"{depends_on} | "
+            f"{table_cell(based_on)} | "
+            f"{table_cell(schemas)} | "
+            f"{table_cell(depends_on)} | "
             f"`{row['status']}` |"
         )
 
