@@ -157,15 +157,44 @@ Define Sensorium v1 as a **local enaction stratum**:
 
 The implementation architecture is:
 
-- `sensorium-core` is one supervised Node-attached middleware component that owns
+- `sensorium-core` is the Node-attached Sensorium Core component that owns
   admission, normalization, policy, read models, and the consumer-facing
-  capability surface,
+  capability surface; in the current Node implementation this core is a Rust
+  organ integrated into the daemon, while older Python `sensorium-core` code is
+  only a retired reference,
 - every Sensorium connector is a separate middleware module registered with the
   host as `module_role: "sensorium-connector"`,
 - connectors communicate through the standard middleware init/report,
   host-capability, `local-input-invoke.v1`, and `peer-message-invoke.v1`
   envelopes,
 - Sensorium does not define or own a second plugin API for connectors.
+
+### Nomenclature: Core, Connector, Action, Package
+
+Sensorium terminology intentionally separates the stable organ from the
+replaceable adapters around it.
+
+| Term | Meaning |
+| --- | --- |
+| Sensorium organ | The node's local sensorimotor contact surface with the world: observation, directive mediation, diagnostics, artifacts, policy, audit, and minimal normalization. |
+| Sensorium Core / `sensorium-core` | The mediator and contract boundary of the organ. It exposes public Sensorium capabilities such as `sensorium.directive.invoke`, admits observations, resolves action ids, selects connectors, records outcomes, and hides connector implementation details from consumers. |
+| Sensorium connector | A separate middleware module that adapts one class of external contact to Sensorium. It is not a plugin loaded by `sensorium-core`; it is a daemon-hosted middleware participant reached through the standard host capability dispatch layer. |
+| Sensorium OS connector / `sensorium-os` | One concrete connector middleware for allowlisted operating-system actions. A deployment may replace it or create another connector with a different `module_id`, `connector_id`, action catalog, and implementation. |
+| Connector action | A declarative entry in a connector's action catalog, for example `story009.review.publish`. An action is not a middleware module; it is an operation exposed by a connector and mediated by `sensorium-core`. |
+| Middleware package | An installable artifact that may carry connector code, scripts, action declarations, UI fragments, and config fragments. A package can extend a connector without becoming the organ itself. |
+
+This naming matters for authority. Consumers such as Arca, Dator, Monus, or a
+role module do not depend on "the OS connector" as an object. They depend on a
+Sensorium capability and an action contract. `sensorium-core` maps that contract
+to a concrete connector under operator policy. That lets an operator replace
+`sensorium-os` with another connector implementation, or run several connector
+modules with different names and grants, without changing consumer code.
+
+This is also distinct from `json_e` / `json_e_flow`. JSON-e Flow is an executor
+backend and a concrete flow config is treated as one operational middleware
+component. It is not a Sensorium organ and it does not mediate connector
+selection. A JSON-e Flow may call `sensorium.directive.invoke`, but then it is
+just another consumer of the Sensorium Core boundary.
 
 This is not a compromise. It follows the same stratification Orbiplex already
 uses for autonomous units of local work: supervised middleware, explicit grants,

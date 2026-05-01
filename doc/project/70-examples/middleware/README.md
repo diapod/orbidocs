@@ -53,6 +53,12 @@ A JSON-e-flow role provider usually declares:
 - `allowed_calls` as the static host capability allowlist,
 - a small `render` / `call` / `validate` / `respond` step list.
 
+Each such entry is operationally a separate middleware component. The daemon may
+run all of them on the same `json_e_flow` executor, but each configured flow has
+its own identity, bindings, limits, trace records, raw-signal declaration, and
+operator status. Treat the shared JSON-e Flow engine as the mechanism; treat the
+flow definition as the thin middleware instance.
+
 `raw_signal_access` is a permission to expose host-preserved context, not a
 template variable by itself. To use it, the flow must also project the needed
 field, for example:

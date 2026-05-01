@@ -6,6 +6,11 @@ application process is launched. The daemon exposes the configured role
 capability directly and evaluates the static flow when Dator dispatches a role
 module task.
 
+The `json_e_flow` executor is the shared mechanism. The concrete flow definition
+in daemon config is the operational middleware component: it owns the role
+capability binding, limits, allowed calls, trace identity, and operator-visible
+status. In practice this is a thin middleware instance implemented as data.
+
 Use this pattern when the role behavior is declarative and small:
 
 - render a `service-dispatch-response`,

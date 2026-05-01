@@ -37,6 +37,14 @@ the implementation artifact may be only configuration: one operator-owned JSON
 fragment can define the middleware identity, bindings, context projection, helper
 profile, limits, and template.
 
+This document distinguishes the executor mechanism from the operational
+component. `json_e` and `json_e_flow` name executor classes. A concrete
+registered definition of either class is treated operationally as its own
+middleware component: it has its own `module_id` or component id, bindings,
+limits, capability surface, trace identity, and operator lifecycle. In that
+sense each flow definition is a thin middleware built on the JSON-e or JSON-e
+Flow mechanism, not merely a private template inside a global executor.
+
 This proposal intentionally treats JSON-e as a **data transformer**, not as an
 ambient scripting language. JSON-e may construct JSON values, apply conditions,
 bind local values, map over collections, and call a small host-provided set of
@@ -185,6 +193,12 @@ semantics live in explicit profile fields, for example:
 - `context_contract`: `json_e.context.role_execute.v1`,
 - `output_contract`: `service-dispatch-response.v1`.
 
+A registered `json_e` definition is therefore the component boundary. The
+shared executor evaluates it, but the definition owns the middleware identity:
+which hook or role it binds to, which context projection it receives, which
+limits apply, which output contract is expected, and how it appears in traces and
+operator UI.
+
 For the same template digest, helper profile, limits, and context JSON value,
 `json_e` evaluation MUST produce the same output or the same validation failure
 class.
@@ -215,6 +229,13 @@ It is not suitable for:
 
 A flow is a list of declarative steps. JSON-e renders step inputs, but the host
 interprets and executes the step semantics.
+
+Each registered flow is a thin middleware component. The daemon may host many
+`json_e_flow` definitions on the same executor implementation, but dispatch,
+authorization, tracing, raw-signal exposure, limits, allowed calls, and operator
+status are evaluated per flow definition. The engine should not learn domain
+semantics such as "this is the editorial reviewer"; it only executes the
+contract declared by the selected flow component.
 
 Each concrete flow MAY declare `raw_signal_access` in its
 `middleware_json_e_flow_services` entry. This is a per-flow switch, not a global

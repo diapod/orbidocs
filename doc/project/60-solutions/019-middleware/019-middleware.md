@@ -123,6 +123,24 @@ the behavior. A JSON transformation should not become a supervised service only
 because it is convenient. A long-lived connector should not become an in-process
 core handler only because that is faster to write.
 
+Domain organs may use middleware modules without turning those modules into
+organ-specific plugins. Sensorium is the reference case: `sensorium-core` is the
+Sensorium mediator/organ boundary, while `sensorium-os` is a separate connector
+middleware module with its own action catalog. A connector action is not a
+middleware module; it is an operation declared by a connector and mediated by
+the organ's public capability surface.
+
+JSON-e Flow uses different vocabulary. The `json_e_flow` engine is an executor
+backend; each concrete flow configuration is treated as one operational
+middleware component. It is not a Sensorium-like organ and it does not mediate a
+family of connectors.
+
+The same distinction applies to pure `json_e`. `json_e` and `json_e_flow` are
+mechanisms; the registered definition is the middleware component. A flow or
+template config is therefore a thin middleware instance with its own identity,
+bindings, limits, trace surface, operator status, and lifecycle, even when the
+code executing it is the shared daemon-hosted JSON-e executor.
+
 ## Package And Config Files
 
 Layered config directories and signed middleware package artifacts ignore
