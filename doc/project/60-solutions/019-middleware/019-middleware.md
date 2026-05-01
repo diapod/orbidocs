@@ -138,6 +138,80 @@ Python `__pycache__/*.pyc` files, editor backups, and scratch trees do not
 change the semantic package artifact. Real package/config files remain inside
 the signed surface and still make the sidecar stale when changed.
 
+### Standard Files And Directories
+
+The middleware host uses two separate trees under a node data directory. They
+must not be treated as interchangeable.
+
+```text
+<data-dir>/
+  middleware/
+    <module-id>/
+      config/
+      data/
+      bind
+      pid
+      authtok
+  middleware-packages/
+    <package-id>/
+      middleware.package.json
+      config/
+      ui/
+      ui-op/
+      actions/
+      lib/
+      .signatures/
+```
+
+`<data-dir>/middleware/<module-id>/` is the node-owned active runtime home for
+one concrete module instance. It is writable by the host and, where explicitly
+granted, by the module.
+
+- `config/` contains active local configuration for that module instance:
+  operator-edited fragments, generated active config, detached signature
+  sidecars, and other node-owned configuration artifacts. It is the right place
+  for configuration that changes because this node's operator changed runtime
+  policy.
+- `data/` contains module-owned durable runtime state, caches, local databases,
+  offer stores, checkpoints, or projections.
+- `bind` records the current local endpoint for supervised local HTTP services.
+- `pid` records the currently supervised process id when a module is running as
+  a child process.
+- `authtok` and similarly named token files are host-owned local credentials.
+  They are runtime material, not package content.
+
+`<data-dir>/middleware-packages/<package-id>/` is an installed package artifact.
+It is conceptually read-only after install, except for package upgrade,
+reinstall, or detached signature writes under `.signatures/`.
+
+- `middleware.package.json` is the package manifest and declares package
+  identity, contributed modules, UI surfaces, and config fragments.
+- `config/` contains package-shipped declarative config fragments. These are
+  factory/package fragments, not mutable runtime config. They are included in
+  the package hash/signature surface. Changing them means the package artifact
+  changed and must make the package sidecar stale.
+- `ui/` contains host-rendered HTML(X) fragments and static assets consumed by
+  Node UI.
+- `ui-op/` contains operator-surface declarations, examples, notes, and
+  metadata that a live module may mirror through `middleware-module-report`.
+- `actions/` contains package-shipped scripts or action assets, when the
+  package exists to extend an executor such as Sensorium OS.
+- `lib/` contains package-shipped helper libraries. A supervised module may
+  prefer host-provided libraries when the host exposes them, but vendored
+  helpers remain package content.
+- `.signatures/` contains detached host/operator signatures for the package
+  artifact. Signature files are excluded from the signed package hash so the act
+  of signing does not mutate the artifact being signed.
+
+The boundary is deliberately strict:
+
+- package `config/` is source material for activation and merge;
+- runtime `middleware/<module-id>/config/` is active node configuration;
+- effective runtime config is a projection assembled by the daemon and should
+  not be written back into package config fragments;
+- operator-managed sidecars authorizing effective configuration live in the
+  active runtime configuration area, not in the package-shipped config tree.
+
 ## Hook And Dispatch Map
 
 This diagram is the middleware analogue of a netfilter hook map. It does not
