@@ -1,0 +1,26 @@
+{
+  "schema": "agora-record.v1",
+  "record/id": "sha256:PolicyBoundRootCommentExample00000001",
+  "record/kind": "comment",
+  "topic/key": "ai.orbiplex.comments/resource/sha256-example-thread",
+  "record/policy": "sha256:CommentThreadPolicyPhoneConfirmedExample001",
+  "record/about": [
+    {
+      "resource/kind": "url",
+      "resource/id": "https://example.org/article"
+    }
+  ],
+  "author/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "authored/at": "2026-05-01T18:01:00Z",
+  "content/schema": "plain-comment.v1",
+  "content": {
+    "body": "This thread requires phone-confirmed participants.",
+    "lang": "en"
+  },
+  "record/lang": "en",
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_example_policy_bound_root_comment_0001",
+    "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  }
+}

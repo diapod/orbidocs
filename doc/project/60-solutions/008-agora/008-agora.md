@@ -46,6 +46,9 @@ It does not define:
 - the semantic meaning of any specific `content/schema` carried inside an
   Agora record (that lives in the per-kind proposal, e.g. proposal 026 for
   `resource-opinion.v1`),
+- namespace-level authority roots and publish/subscribe capability profiles —
+  those are defined in
+  `doc/project/60-solutions/045-agora-authority.md`,
 - content moderation, reputation weighting, or listener-side filtering —
   these are the listener's concern,
 - whether the relay runs in-process with the daemon or as a separate program;
@@ -83,6 +86,15 @@ Status:
 - `done` in the Node reference implementation. `agora-core` owns canonical
   bytes, record-id derivation, and `sign_agora_record_via_host`; `agora-service`
   exposes `POST /v1/agora/records.sign` over the daemon HostSigner path.
+
+Signing placeholder contract:
+- unsigned builders and `POST /v1/agora/records.sign` MAY use
+  `record/id = "sha256:pending"` and `signature.value = "pending"` as
+  input placeholders,
+- `records.sign` MUST overwrite both fields before returning the record,
+- every final ingest, replay, and federation path MUST reject a record that
+  still carries `sha256:pending`; syntactic `sha256:*` shape is not enough,
+  because the declared `record/id` must match the canonical content address.
 
 ### Agora Record Ingest
 
@@ -205,6 +217,49 @@ Responsibilities:
 Status:
 - `done` in the Node reference implementation. `agora-service` starts the
   configured retention sweep over per-topic retention policies.
+
+### Domain Accepted-Fact Adapters
+
+Based on:
+- `doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md`
+- `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
+- `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
+
+Related schemas:
+- `agora-record.v1`
+- `service-offer.v1`
+- `node-advertisement.v1`
+- `seed-capability-registration.v1`
+- `capability-passport-revocation.v1`
+
+Responsibilities:
+- keep `agora-record.v1` as the generic public/federated envelope, not as a
+  home for domain policy,
+- emit accepted Seed Directory facts as records:
+  `seed.node-advertisement.accepted`,
+  `seed.capability-registration.accepted`, and
+  `seed.capability-revocation.accepted`,
+- emit provider service-offer snapshots as `offer-snapshot` records,
+- replay those records into domain projections (`SeedDirectoryStore`,
+  `ObservedCatalogStore`) rather than making discovery or marketplace clients
+  query raw Agora topics,
+- treat `offer-snapshot` as the durable public/federated publication record,
+  not as the full source of truth for a provider's standing offer,
+- preserve offer provenance during replay so marketplace trust admission can
+  use the provider participant id, provider node id, record author,
+  publisher/origin node id, topic key, record id, observation time, and inner
+  `service-offer.v1` signature verification result,
+- let the domain engines continue to own passport checks, sovereign policy,
+  trust admission, TTL/sequence semantics, endpoint joins, and query shape.
+
+Status:
+- `done` for the reference adapter layer. `seed-directory::agora` maps accepted
+  Seed Directory advertisements, capability registrations, and revocations to
+  `agora-record.v1` and can replay them into the existing store. `catalog::agora`
+  maps `service-offer.v1` snapshots to `offer-snapshot` records and can replay
+  them into the observed catalog projection. The schema gate recognizes these
+  content schemas in strict Agora content-validation mode. Runtime federation
+  wiring remains a later integration step.
 
 ## May Implement
 

@@ -59,6 +59,9 @@ schema_for_file() {
     *.resource-opinion.json)
       echo "$SCHEMAS_DIR/resource-opinion.v1.schema.json"
       ;;
+    *.comment-thread-policy.json)
+      echo "$SCHEMAS_DIR/comment-thread-policy.v1.schema.json"
+      ;;
     *.node-identity.json)
       echo "$SCHEMAS_DIR/node-identity.v1.schema.json"
       ;;
@@ -76,6 +79,9 @@ schema_for_file() {
       ;;
     *.service-offer-relay.json)
       echo "$SCHEMAS_DIR/service-offer-relay.v1.schema.json"
+      ;;
+    *.seed-capability-registration.json)
+      echo "$SCHEMAS_DIR/seed-capability-registration.v1.schema.json"
       ;;
     *.offer-catalog-fetch-request.json)
       echo "$SCHEMAS_DIR/offer-catalog-fetch-request.schema.json"

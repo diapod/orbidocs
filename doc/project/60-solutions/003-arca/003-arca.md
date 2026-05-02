@@ -173,6 +173,8 @@ Based on:
 
 Related schemas:
 - `service-offer-relay.v1`
+- `service-offer.v1`
+- `agora-record.v1`
 - `trusted-provider.v1`
 
 Responsibilities:
@@ -198,7 +200,12 @@ Status:
   trusted-provider policy, peer discovery and background sync,
   fetch.response / push admission, on-demand remote query, and the
   combined catalog view are live (see
-  `node/docs/IMPLEMENTATION-LEDGER.md` proposal 023 row).
+  `node/docs/IMPLEMENTATION-LEDGER.md` proposal 023 row). The shared catalog
+  crate now also has an Agora projection adapter: replayed
+  `offer-snapshot` records carrying `service-offer.v1` can be admitted into
+  `ObservedCatalogStore` after the same domain validation and trust-level
+  assignment. Arca still reads the materialized catalog surface rather than raw
+  Agora topics.
 
 ### Host Capability Bridge Consumer
 

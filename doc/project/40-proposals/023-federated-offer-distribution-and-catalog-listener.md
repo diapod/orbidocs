@@ -124,6 +124,14 @@ Push notification to remote catalog peers travels through the daemon-owned
 `peer.message.dispatch` host capability. Local commit is the source of truth;
 any push failure does not roll back the committed offer.
 
+This "source of truth" statement is intentionally narrow. `Dator`'s local
+catalog is the source of truth for locally published standing offers. The
+provider-signed `service-offer.v1` is the cryptographic offer artifact. A
+future Agora `offer-snapshot` is only the durable public/federated fact that a
+snapshot was published, not the full authority over offer validity or
+execution. The provider runtime remains the final authority for capacity,
+expiry, queue saturation, and provider-side rejection at order time.
+
 **Pull path (buyer side):**
 
 A buyer Node runs a background periodic task that calls
@@ -256,6 +264,16 @@ Minimum fields:
 The relay envelope itself is NOT signed by the relay node in this phase. Trust
 derives from the inner offer's signature (provider-signed) plus the
 `relay/origin-node-id` against the buyer's peer store and whitelist.
+
+If this envelope is later represented as an Agora `offer-snapshot`, the
+replacement MUST preserve enough provenance for the buyer to make the same
+trust admission decision. The canonical record or replay context must expose
+the provider participant id, provider node id, Agora record author,
+publisher/origin node id, ingest or observation timestamp, topic key, record
+id, and the inner `service-offer.v1` signature verification result. Relay
+transport fields such as `relay/hops`, `relay/relayed-at`, and
+`relay/do-not-forward` may be represented by Agora relay metadata or policy,
+but origin/provenance cannot be lost.
 
 `relay/do-not-forward` is intentionally advisory. It communicates publisher
 intent to the next catalog boundary, but does not itself enforce transport

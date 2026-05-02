@@ -34,7 +34,7 @@ Machine-readable schema for a signed, content-addressed, topic-addressed record 
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `agora-record.v1` | Schema discriminator. MUST be the literal string `agora-record.v1`. |
-| [`record/id`](#field-record-id) | `yes` | string | Content-addressed identifier of this record. Computed by the Orbiplex canonical `sha256_base64url` helper: `sha256:` followed by the unpadded base64url (RFC 4648 section 5) encoding of `sha256(canonicalize(payload))`, where `payload` is the record with `record/id`, `signature`, `relay/received-at`, and `relay/id` removed. Two records with the same canonical payload MUST yield the same `record/id` on every relay. |
+| [`record/id`](#field-record-id) | `yes` | string | Content-addressed identifier of this record. Computed by the Orbiplex canonical `sha256_base64url` helper: `sha256:` followed by the unpadded base64url (RFC 4648 section 5) encoding of `sha256(canonicalize(payload))`, where `payload` is the record with `record/id`, `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Two records with the same canonical payload MUST yield the same `record/id` on every relay. |
 | [`record/kind`](#field-record-kind) | `yes` | string | Role label of this record. Application-visible discriminator used by query APIs and kind contracts. Examples: `opinion`, `comment`, `annotation`, `public-log`, `whisper-durable`. The substrate accepts any well-formed kind; it MAY mark unknown kinds as non-indexable until a kind contract is registered. |
 | [`topic/key`](#field-topic-key) | `yes` | string | Opaque topic identifier. The substrate MUST NOT parse, split, or type this value. Canonicalization rules: Unicode NFC, no control characters (C0/C1/DEL), no leading or trailing whitespace, non-empty, at most 512 bytes after UTF-8 encoding. Applications choose their own naming conventions (namespace-prefixed paths, content-derived identifiers, human-readable channel names). Topic keys derived from external resource identity are a convention of the record-kind contract, not a rule of the substrate. |
 | [`author/participant-id`](#field-author-participant-id) | `yes` | string | Participant identity of the record author. The signature MUST verify against the participant's current capability passport chain, honoring any delegation from proposal 032. |
@@ -44,11 +44,13 @@ Machine-readable schema for a signed, content-addressed, topic-addressed record 
 | [`record/about`](#field-record-about) | `no` | array | Optional secondary-index references to external subjects this record is about. Each entry follows the resource identity model from proposal 026. MUST NOT be used by the substrate to derive `topic/key`. A kind contract MAY require one or more entries for specific record kinds. |
 | [`record/parent`](#field-record-parent) | `no` | string | Optional parent record reference (reply, annotation, successor). MUST resolve to a record under the same `topic/key`. A record that references an as-yet-unknown parent is flagged `dangling` until the parent appears. |
 | [`record/supersedes`](#field-record-supersedes) | `no` | string | Optional prior record reference that this record revises or replaces. MUST resolve to a record under the same `topic/key` authored by the same `author/participant-id`, unless a kind contract explicitly relaxes the author constraint. |
+| [`record/policy`](#field-record-policy) | `no` | string | Optional policy record reference. For comment threads this SHOULD point to an Agora record with `record/kind = thread-policy` and `content/schema = comment-thread-policy.v1`. The policy record is part of domain authorization and is signed like any other Agora record; the substrate only validates the reference shape. |
 | [`record/tags`](#field-record-tags) | `no` | array | Optional short free-form tags for application-level grouping. The substrate does not interpret tag semantics. |
 | [`record/lang`](#field-record-lang) | `no` | string | Optional BCP 47 language tag describing the natural-language contents of the record. Informational only. |
 | [`relay/received-at`](#field-relay-received-at) | `no` | string | Wall-clock timestamp stamped by the relay that first ingested the record. MUST NOT appear in the payload the author signs. Stripped before `record/id` computation and signature verification. |
 | [`relay/id`](#field-relay-id) | `no` | string | Identifier of the relay that first ingested the record. MUST NOT appear in the payload the author signs. Stripped before `record/id` computation and signature verification. |
-| [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` | Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, and `relay/id` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`. |
+| [`relay/hops`](#field-relay-hops) | `no` | integer | Relay-local hop count stamped by relay implementations. The field is transport metadata, not author content: it MUST NOT appear in the payload the author signs and is stripped before `record/id` computation and signature verification. |
+| [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` | Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`. |
 
 ## Definitions
 
@@ -72,7 +74,7 @@ Schema discriminator. MUST be the literal string `agora-record.v1`.
 - Required: `yes`
 - Shape: string
 
-Content-addressed identifier of this record. Computed by the Orbiplex canonical `sha256_base64url` helper: `sha256:` followed by the unpadded base64url (RFC 4648 section 5) encoding of `sha256(canonicalize(payload))`, where `payload` is the record with `record/id`, `signature`, `relay/received-at`, and `relay/id` removed. Two records with the same canonical payload MUST yield the same `record/id` on every relay.
+Content-addressed identifier of this record. Computed by the Orbiplex canonical `sha256_base64url` helper: `sha256:` followed by the unpadded base64url (RFC 4648 section 5) encoding of `sha256(canonicalize(payload))`, where `payload` is the record with `record/id`, `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Two records with the same canonical payload MUST yield the same `record/id` on every relay.
 
 Maintainer note: Canonicalization rules (key sorting, number normalization, Unicode NFC) are defined by the orbiplex-agora-core library and MUST match across implementations. The `sha256:<base64url-no-pad>` shape matches the convention already used by `node/capability/src/lib.rs::sha256_base64url` for signed artifacts and passport hashes.
 
@@ -150,6 +152,14 @@ Optional parent record reference (reply, annotation, successor). MUST resolve to
 
 Optional prior record reference that this record revises or replaces. MUST resolve to a record under the same `topic/key` authored by the same `author/participant-id`, unless a kind contract explicitly relaxes the author constraint.
 
+<a id="field-record-policy"></a>
+## `record/policy`
+
+- Required: `no`
+- Shape: string
+
+Optional policy record reference. For comment threads this SHOULD point to an Agora record with `record/kind = thread-policy` and `content/schema = comment-thread-policy.v1`. The policy record is part of domain authorization and is signed like any other Agora record; the substrate only validates the reference shape.
+
 <a id="field-record-tags"></a>
 ## `record/tags`
 
@@ -182,13 +192,21 @@ Wall-clock timestamp stamped by the relay that first ingested the record. MUST N
 
 Identifier of the relay that first ingested the record. MUST NOT appear in the payload the author signs. Stripped before `record/id` computation and signature verification.
 
+<a id="field-relay-hops"></a>
+## `relay/hops`
+
+- Required: `no`
+- Shape: integer
+
+Relay-local hop count stamped by relay implementations. The field is transport metadata, not author content: it MUST NOT appear in the payload the author signs and is stripped before `record/id` computation and signature verification.
+
 <a id="field-signature"></a>
 ## `signature`
 
 - Required: `yes`
 - Shape: ref: `#/$defs/signature`
 
-Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, and `relay/id` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`.
+Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`.
 
 Maintainer note: Two distinct canonical payloads are used in this schema: (1) the `record/id` payload excludes record/id + signature + relay fields; (2) the signature payload excludes only signature + relay fields and keeps record/id. This matches the Matrix event-signing pattern where event_id is embedded in the signed content and gives wider cross-transport compatibility.
 

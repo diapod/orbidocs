@@ -1,0 +1,7 @@
+{
+  "schema": "comment-thread-policy.v1",
+  "policy/min-attestation": "phone-confirmed",
+  "policy/inheritance": "descendants",
+  "policy/may-tighten": true,
+  "policy/may-loosen": true
+}

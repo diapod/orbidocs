@@ -35,7 +35,7 @@
       "pattern": "^sha256:[A-Za-z0-9_-]+$",
       "minLength": 16,
       "maxLength": 128,
-      "description": "Content-addressed identifier of this record. Computed by the Orbiplex canonical `sha256_base64url` helper: `sha256:` followed by the unpadded base64url (RFC 4648 section 5) encoding of `sha256(canonicalize(payload))`, where `payload` is the record with `record/id`, `signature`, `relay/received-at`, and `relay/id` removed. Two records with the same canonical payload MUST yield the same `record/id` on every relay.",
+      "description": "Content-addressed identifier of this record. Computed by the Orbiplex canonical `sha256_base64url` helper: `sha256:` followed by the unpadded base64url (RFC 4648 section 5) encoding of `sha256(canonicalize(payload))`, where `payload` is the record with `record/id`, `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Two records with the same canonical payload MUST yield the same `record/id` on every relay.",
       "$comment": "Canonicalization rules (key sorting, number normalization, Unicode NFC) are defined by the orbiplex-agora-core library and MUST match across implementations. The `sha256:<base64url-no-pad>` shape matches the convention already used by `node/capability/src/lib.rs::sha256_base64url` for signed artifacts and passport hashes."
     },
     "record/kind": {
@@ -98,6 +98,13 @@
       "maxLength": 128,
       "description": "Optional prior record reference that this record revises or replaces. MUST resolve to a record under the same `topic/key` authored by the same `author/participant-id`, unless a kind contract explicitly relaxes the author constraint."
     },
+    "record/policy": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$",
+      "minLength": 16,
+      "maxLength": 128,
+      "description": "Optional policy record reference. For comment threads this SHOULD point to an Agora record with `record/kind = thread-policy` and `content/schema = comment-thread-policy.v1`. The policy record is part of domain authorization and is signed like any other Agora record; the substrate only validates the reference shape."
+    },
     "record/tags": {
       "type": "array",
       "maxItems": 32,
@@ -128,9 +135,14 @@
       "maxLength": 256,
       "description": "Identifier of the relay that first ingested the record. MUST NOT appear in the payload the author signs. Stripped before `record/id` computation and signature verification."
     },
+    "relay/hops": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Relay-local hop count stamped by relay implementations. The field is transport metadata, not author content: it MUST NOT appear in the payload the author signs and is stripped before `record/id` computation and signature verification."
+    },
     "signature": {
       "$ref": "#/$defs/signature",
-      "description": "Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, and `relay/id` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`.",
+      "description": "Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`.",
       "$comment": "Two distinct canonical payloads are used in this schema: (1) the `record/id` payload excludes record/id + signature + relay fields; (2) the signature payload excludes only signature + relay fields and keeps record/id. This matches the Matrix event-signing pattern where event_id is embedded in the signed content and gives wider cross-transport compatibility."
     }
   },

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:seed-capability-registration:v1",
+  "title": "SeedCapabilityRegistration v1",
+  "description": "Accepted Seed Directory capability-registration fact carried as the `content` of an `agora-record.v1` envelope when `record/kind = seed.capability-registration.accepted`. This is not a raw client request. It is the domain fact emitted after Seed Directory policy has accepted a capability passport for a target node and capability id.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/60-solutions/008-agora/008-agora.md"
+  ],
+  "required": [
+    "schema",
+    "node/id",
+    "capability/id",
+    "passport"
+  ],
+  "properties": {
+    "schema": {
+      "const": "seed-capability-registration.v1",
+      "description": "Schema discriminator for the accepted capability-registration fact."
+    },
+    "node/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Target node for which the capability passport was accepted. Must match `passport.node_id`."
+    },
+    "capability/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Capability id under which the passport was accepted. Must match `passport.capability_id`."
+    },
+    "passport": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "schema",
+        "passport_id",
+        "node_id",
+        "capability_id",
+        "scope",
+        "issued_at",
+        "issuer/participant_id",
+        "issuer/node_id",
+        "revocation_ref",
+        "signature"
+      ],
+      "properties": {
+        "schema": { "const": "capability-passport.v1" },
+        "passport_id": { "type": "string", "pattern": "^passport:capability:" },
+        "node_id": { "type": "string", "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$" },
+        "capability_id": { "type": "string", "minLength": 1 },
+        "scope": { "type": "object", "additionalProperties": true },
+        "issued_at": { "type": "string", "format": "date-time" },
+        "expires_at": { "type": ["string", "null"], "format": "date-time" },
+        "issuer/participant_id": { "type": "string", "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$" },
+        "issuer/node_id": { "type": "string", "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$" },
+        "revocation_ref": { "type": ["string", "null"] },
+        "signature": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["alg", "value"],
+          "properties": {
+            "alg": { "const": "ed25519" },
+            "value": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

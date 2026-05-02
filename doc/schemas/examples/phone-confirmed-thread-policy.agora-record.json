@@ -1,0 +1,22 @@
+{
+  "schema": "agora-record.v1",
+  "record/id": "sha256:CommentThreadPolicyPhoneConfirmedExample001",
+  "record/kind": "thread-policy",
+  "topic/key": "ai.orbiplex.comments/resource/sha256-example-thread",
+  "author/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "authored/at": "2026-05-01T18:00:00Z",
+  "content/schema": "comment-thread-policy.v1",
+  "content": {
+    "schema": "comment-thread-policy.v1",
+    "policy/thread-topic-key": "ai.orbiplex.comments/resource/sha256-example-thread",
+    "policy/min-attestation": "phone-confirmed",
+    "policy/inheritance": "descendants",
+    "policy/may-tighten": true,
+    "policy/may-loosen": false
+  },
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_example_comment_thread_policy_0001",
+    "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  }
+}

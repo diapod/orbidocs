@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:comment-thread-policy:v1",
+  "title": "CommentThreadPolicy v1",
+  "description": "Content schema for an Agora thread participation policy record. Used with `record/kind = thread-policy` and `content/schema = comment-thread-policy.v1`. The policy is intentionally separate from `plain-comment.v1`: comments carry speech, while this payload carries the access rule for joining a comment thread or subtree.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/60-solutions/045-agora-authority.md"
+  ],
+  "required": [
+    "schema",
+    "policy/min-attestation",
+    "policy/inheritance",
+    "policy/may-tighten",
+    "policy/may-loosen"
+  ],
+  "properties": {
+    "schema": {
+      "const": "comment-thread-policy.v1",
+      "description": "Content-level discriminator for consumers that inspect the payload outside its Agora envelope."
+    },
+    "policy/thread-topic-key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^\\S(.*\\S)?$",
+      "description": "Optional topic key of the comment thread this policy governs. When present, domain validators SHOULD require it to equal the enclosing Agora record's `topic/key`."
+    },
+    "policy/root-record-id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$",
+      "minLength": 16,
+      "maxLength": 128,
+      "description": "Optional root comment record id. This may be absent when the policy record is published before the root comment so the root can reference the policy without a circular dependency."
+    },
+    "policy/min-attestation": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Minimum author attestation required to publish a comment governed by this policy. Early expected values include `unknown`, `phone-confirmed`, `national-id`, `community-trusted`, and `sovereign-operator`. The ordering and equivalence rules are domain policy, not JSON Schema."
+    },
+    "policy/inheritance": {
+      "type": "string",
+      "enum": [
+        "descendants"
+      ],
+      "description": "Inheritance mode. `descendants` means the policy applies to replies below the record or topic it is attached to."
+    },
+    "policy/may-tighten": {
+      "type": "boolean",
+      "const": true,
+      "description": "Whether descendant comments may attach a stricter policy for their own subtree. v1 requires `true` so moderation can narrow participation without mutating ancestors."
+    },
+    "policy/may-loosen": {
+      "type": "boolean",
+      "const": false,
+      "description": "Whether descendant comments may weaken an inherited policy. v1 requires `false`; a child subtree may tighten inherited requirements but MUST NOT loosen them."
+    },
+    "policy/rate-budget": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional participation rate budget hint. Enforcement is domain-specific and may depend on author, topic, reputation, or relay-local anti-abuse policy.",
+      "properties": {
+        "per": {
+          "type": "string",
+          "enum": [
+            "minute",
+            "hour",
+            "day"
+          ]
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "policy/description": {
+      "type": "string",
+      "maxLength": 512,
+      "description": "Optional human-readable explanation shown to participants before they join the thread."
+    }
+  }
+}

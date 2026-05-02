@@ -213,6 +213,9 @@ and the five-check ingest policy before any 041 attestation tiering.
 
 - `record/id = "sha256:" + base64url-no-pad(sha256(canonical-json(record-without-id-signature-and-relay-fields)))`
 
+The relay fields excluded from this payload are `relay/received-at`,
+`relay/id`, and `relay/hops`.
+
 This matches the Orbiplex canonical hash convention already used by
 `node/capability/src/lib.rs::sha256_base64url` for signed artifacts and
 passport hashes, so that a single content-address prefix covers both the
@@ -274,6 +277,9 @@ Optional fields:
 - `record/parent` — one parent `record/id` when the record is a reply,
   annotation, or successor
 - `record/supersedes` — one prior `record/id` replaced by this revision
+- `record/policy` — one policy record reference. For comment threads this
+  points to a `thread-policy` record whose `content/schema` is
+  `comment-thread-policy.v1`.
 - `record/tags` — short free-form tags (application use)
 - `record/lang` — BCP 47 language tag
 - `author/nym-certificate-ref` — when `author/participant-id` carries a
@@ -285,12 +291,15 @@ Optional fields:
 - `relay/received-at` — stamped by the relay on ingest; never part of the
   signed payload
 - `relay/id` — identifier of the relay that first ingested the record
+- `relay/hops` — relay-local hop count stamped by relay implementations;
+  never part of the signed payload
 
 Ingest invariants:
 
 1. `topic/key` MUST satisfy the canonicalization rules from section 1.1.
 2. `record/id` MUST equal the content hash of the canonical payload with
-   `record/id`, `signature`, `relay/received-at`, and `relay/id` omitted.
+   `record/id`, `signature`, `relay/received-at`, `relay/id`, and
+   `relay/hops` omitted.
 3. `signature` MUST be a valid Ed25519 signature by the participant key of
    `author/participant-id`, verifiable against the participant's current
    capability passport chain (proposals 024 and 032).
@@ -310,7 +319,11 @@ Ingest invariants:
 8. `record/about`, when present, MUST follow the resource identity rules of
    proposal 026. The substrate MUST NOT derive `topic/key` from
    `record/about` and MUST NOT require `record/about` to match the topic.
-9. **Pseudonymous authorship.** `author/participant-id` MAY carry a
+9. `record/policy`, when present, MUST resolve to a known policy record under
+   the same `topic/key` or be flagged `dangling` until the policy appears.
+   The substrate validates only the reference shape. Kind-specific policy
+   evaluators decide whether a missing or stale policy blocks publication.
+10. **Pseudonymous authorship.** `author/participant-id` MAY carry a
    `nym:did:key:...` identity in addition to a
    `participant:did:key:...` identity, when the record kind permits
    pseudonymous authorship (currently: `whisper`, see §3). In that case:
@@ -341,6 +354,7 @@ contract that lives next to the subsystem that owns it. Examples for MVP:
 |---|---|---|
 | `opinion` | `resource-opinion.v1` | proposal 026 |
 | `comment` | `plain-comment.v1` | Agora base kind |
+| `thread-policy` | `comment-thread-policy.v1` | Agora base kind |
 | `annotation` | `plain-annotation.v1` | Agora base kind |
 | `whisper` | `whisper-signal.v1` | proposal 013 |
 | `whisper-durable` | `whisper-threshold-record.v1` | proposal 013 follow-up |
@@ -443,8 +457,8 @@ POST /v1/agora/topics/{topic-key}/records
 ```
 
 Body: `agora-record.v1` signed by the author. Relay verifies invariants and
-returns the canonical stored record (with `relay/received-at` and
-`relay/id`) or an error.
+returns the canonical stored record (with `relay/received-at`, `relay/id`,
+and `relay/hops`) or an error.
 
 #### 5.5. Cross-topic query by subject
 
@@ -742,6 +756,45 @@ same topic:
 }
 ```
 
+A thread policy record can be published in the same topic before the root
+comment. The root comment then references it through `record/policy`. The
+policy is not embedded in `plain-comment.v1`; comments carry speech, while a
+`thread-policy` record carries the access rule for joining the thread.
+
+```json
+{
+  "schema": "agora-record.v1",
+  "record/id": "sha256:PolicyPhoneConfirmedExample001",
+  "record/kind": "thread-policy",
+  "topic/key": "ai.orbiplex.proposals/035/discussion",
+  "author/participant-id": "participant:did:key:z6MkExample",
+  "authored/at": "2026-04-11T10:29:00Z",
+  "content/schema": "comment-thread-policy.v1",
+  "content": {
+    "schema": "comment-thread-policy.v1",
+    "policy/thread-topic-key": "ai.orbiplex.proposals/035/discussion",
+    "policy/min-attestation": "phone-confirmed",
+    "policy/inheritance": "descendants",
+    "policy/may-tighten": true,
+    "policy/may-loosen": false
+  },
+  "signature": { "alg": "ed25519", "value": "BASE64URL..." }
+}
+```
+
+The effective policy for a comment is inherited from the nearest applicable
+ancestor policy:
+
+```text
+root or ancestor policy
+  -> child comment
+  -> child may attach stricter policy for its own subtree
+  -> child MUST NOT loosen inherited policy
+```
+
+Domain policy, not the Agora substrate, defines the ordering among attestation
+levels such as `phone-confirmed`, `national-id`, or `community-trusted`.
+
 A public log entry produced by a workflow run. The topic is derived from
 the run identifier, and there is no external subject to reference:
 
@@ -900,11 +953,11 @@ fetch). Key properties:
   forwarded to Matrix. Matrix failure does not block local persistence.
 - **Forward-only-fresh**: duplicate records (by `record/id`) are not
   forwarded to Matrix, preventing redundant federation traffic.
-- **Relay metadata stamping**: `relay/received-at` (RFC 3339 UTC) and
-  `relay/id` are stamped by the relay on every ingest, as specified in
-  section 2. These fields are excluded from content address and
-  signature (via `VerifiedRecord::with_relay_metadata`), so stamping
-  does not break the envelope invariant.
+- **Relay metadata stamping**: `relay/received-at` (RFC 3339 UTC),
+  `relay/id`, and `relay/hops` are stamped by the relay on every ingest,
+  as specified in section 2. These fields are excluded from content
+  address and signature (via `VerifiedRecord` relay metadata helpers), so
+  stamping does not break the envelope invariant.
 - **Inbound bridge**: a background thread per topic subscribes to the
   Matrix transport, verifies inbound events, and ingests them into the
   local store. The bridge starts lazily (Cache mode) or eagerly
@@ -1001,10 +1054,10 @@ the same Agora middleware data directory.
   with idempotent duplicate detection, per-topic append log, monotonic
   sequence assignment, `QueryFilter`-based query with `SequencedRecord`
   results, replay-capable subscriptions, fetch by `record/id`.
-- **Relay metadata stamping**: `relay/received-at` and `relay/id`
-  stamped by the federated relay (`agora-relay-matrix`) on ingest, via
-  `VerifiedRecord::with_relay_metadata()` which preserves the envelope
-  invariant (relay fields are excluded from content address and
+- **Relay metadata stamping**: `relay/received-at`, `relay/id`, and
+  `relay/hops` stamped by the federated relay (`agora-relay-matrix`) on
+  ingest, via `VerifiedRecord` relay metadata helpers which preserve the
+  envelope invariant (relay fields are excluded from content address and
   signature).
 - **Matrix transport** (`agora-matrix-client`): thin HTTP sink using
   `reqwest::blocking` + `ruma 0.14.1` types. Three CS API endpoints

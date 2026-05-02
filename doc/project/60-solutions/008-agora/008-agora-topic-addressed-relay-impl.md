@@ -182,6 +182,13 @@ experiments that do not need durability.
   | GET | `/v1/agora/about/{kind}/{id}/records` | subject-index page |
   | POST | `/v1/agora/records.sign` | sign unsigned envelope through host signer |
 
+- `POST /v1/agora/records.sign` is the only HTTP surface where
+  `record/id = "sha256:pending"` is meaningful. It is a signing-input
+  placeholder, not a valid final record id. The handler computes the real
+  content address, writes the signature, self-verifies, and returns a final
+  envelope. Normal ingest/replay/federation reject `sha256:pending` as a
+  content-address mismatch.
+
 - Error mapping:
   - `PublicKeyMismatch` → HTTP 422 `author_signature_binding_failed`,
   - `TopicAclDenied` → HTTP 403 `topic_acl_denied`,

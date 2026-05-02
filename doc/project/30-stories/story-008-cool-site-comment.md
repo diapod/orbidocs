@@ -163,7 +163,9 @@ Shape notes:
   opinion). A more elaborate deployment might split further by domain
   or community; the MVP keeps the first partition per resource kind.
 - `record/id` and `signature.value` are placeholders; the signer
-  replaces them.
+  replaces them. `sha256:pending` is valid only as input to
+  `/v1/agora/records.sign`; a relay must reject it on normal ingest,
+  replay, or federation because it is not the computed content address.
 
 ### Step 4: Node UI signs through the host signer
 

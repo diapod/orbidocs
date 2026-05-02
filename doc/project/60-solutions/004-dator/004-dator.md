@@ -72,6 +72,7 @@ Related schemas:
 - `participant-service-offer-publish-request.schema.json`
 - `participant-service-offer-publish-response.schema.json`
 - `service-offer-relay.v1`
+- `agora-record.v1`
 
 Responsibilities:
 - own the local standing-offer write path for provider-side offers,
@@ -87,7 +88,11 @@ Responsibilities:
 
 Status:
 - `done` for the hard-MVP local publication path. Dator owns the local
-  write, while the daemon remains transport and commit-log authority.
+  write, while the daemon remains transport and commit-log authority. The
+  Node reference implementation also carries a catalog-layer Agora adapter
+  that can publish an accepted `service-offer.v1` snapshot as an
+  `agora-record.v1` with `record/kind = offer-snapshot`; runtime relay wiring
+  remains separate from the local commit contract.
 
 ### Provider Catalog Responder
 

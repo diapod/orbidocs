@@ -1,0 +1,13 @@
+{
+  "schema": "comment-thread-policy.v1",
+  "policy/thread-topic-key": "ai.orbiplex.comments/resource/sha256-example-thread",
+  "policy/min-attestation": "phone-confirmed",
+  "policy/inheritance": "descendants",
+  "policy/may-tighten": true,
+  "policy/may-loosen": false,
+  "policy/rate-budget": {
+    "per": "hour",
+    "max": 20
+  },
+  "policy/description": "Participants need at least phone-confirmed attestation to join this thread."
+}

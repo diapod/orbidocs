@@ -1,0 +1,21 @@
+{
+  "schema": "seed-capability-registration.v1",
+  "node/id": "node:did:key:z6Mku7KQsKnCnmyyMbq5ifWSXcLYuZBNoJfEA8xTRWwF94j8",
+  "capability/id": "offer-catalog",
+  "passport": {
+    "schema": "capability-passport.v1",
+    "passport_id": "passport:capability:example-offer-catalog",
+    "node_id": "node:did:key:z6Mku7KQsKnCnmyyMbq5ifWSXcLYuZBNoJfEA8xTRWwF94j8",
+    "capability_id": "offer-catalog",
+    "scope": {},
+    "issued_at": "2026-04-27T07:37:40Z",
+    "expires_at": null,
+    "issuer/participant_id": "participant:did:key:z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+    "issuer/node_id": "node:did:key:z6Mku7KQsKnCnmyyMbq5ifWSXcLYuZBNoJfEA8xTRWwF94j8",
+    "revocation_ref": null,
+    "signature": {
+      "alg": "ed25519",
+      "value": "example-signature"
+    }
+  }
+}
