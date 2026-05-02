@@ -15,9 +15,28 @@ Implementation status:
   Agora topic, Arca can replay those `offer-snapshot` records into its observed
   catalog projection, and Seed Directory has a publish-after-accept hook for
   accepted advertisement/capability/revocation facts.
+- Replay equivalence tests now cover Seed Directory and Offer Catalog: accepted
+  domain writes projected from Agora replay produce the same domain read model
+  as the legacy local projection, except for local ingest timestamps that are
+  intentionally projection-local.
+- Arca has an `offer_agora.source_mode` switch. `agora-primary` feeds the
+  observed/federated offer projection from Agora and skips legacy peer-catalog
+  sync, while Dator's local offer DB remains the authoritative local store.
+- P12 delegated signing is wired for the Rust service/relay path:
+  `records.sign` accepts inline `key_delegation`, relay stores are
+  verifier-aware and fail closed by default, and `agora-service` uses the
+  capability delegation bridge for self-check and authority checks. Invalid
+  supplied delegation proofs are policy rejections, not internal signer or
+  verifier failures.
+- M1 org authority roots require `custody_policy_ref` and locally configured
+  authorized participants or keys. Final org-authority records still require
+  inline `key-delegation.v1`; richer org custody resolution remains a later
+  resolver layer.
+- Rejections are an operator-local diagnostic feed in the service status, not a
+  public Agora protocol feed.
 - Story-009 laptop profiles wire node B/C Dator instances to node A's local
   Agora service and configure node A Arca to replay the shared Story-009 offer
-  topic.
+  topic as its primary observed-offer source.
 
 ## Thesis
 
@@ -405,6 +424,19 @@ Authority publish verification order:
 6. Ingest/publish only if all required gates pass.
 ```
 
+M1 implementation note:
+
+- Inline proof is preferred. The accepted Rust service/relay path carries the
+  full `key-delegation.v1` proof in `signature.key/delegation`, avoiding an
+  extra resolver call on the hot path.
+- A participant root may sign directly with its own key or through a delegated
+  key that passes `key-delegation.v1` verification.
+- An org root is not a list of publishing keys. It is a configured subject that
+  may establish authority. In M1 it must name `custody_policy_ref`, and local
+  policy must explicitly authorize the participant/key that signs the inline
+  delegation. If the local policy cannot prove that link, the service fails
+  closed.
+
 Participation publish verification order:
 
 ```text
@@ -601,8 +633,9 @@ Rejected requests may have an audit stream, but treat it carefully:
 orbiplex/seed-directory/v1/{federation-id}/rejections
 ```
 
-That stream can leak intent or become an enumeration/spam channel. It should be
-operator/debug scoped unless there is a clear public value.
+That stream can leak intent or become an enumeration/spam channel. For M1 it is
+not a public protocol feature. Implement only a local operator/audit feed unless
+there is a later explicit decision to publish redacted rejection facts.
 
 Invariant:
 
@@ -814,6 +847,27 @@ Node / host bridge:
 
 Arca should not own procurement. The host-owned bridge protects procurement
 identity, settlement semantics, policy gating, and traceability.
+
+The production switch is projection-scoped:
+
+```text
+offer_agora.source_mode = "legacy-plus-agora"
+  -> replay Agora snapshots
+  -> keep legacy HTTP/Seed Directory peer-catalog sync
+
+offer_agora.source_mode = "agora-primary"
+  -> replay Agora snapshots
+  -> skip legacy observed-catalog peer sync
+  -> keep local authoritative stores local
+```
+
+Invalid `source_mode` values should normalize to the safe compatibility path:
+`legacy-plus-agora` when Agora replay is enabled, otherwise `disabled`. A typo
+must not accidentally select the narrower production path.
+
+This switch changes only how Arca feeds its observed/federated catalog
+projection. It does not make Agora the authority for a provider's local standing
+offer.
 
 ## Resource Opinions, Public Comments, Public Gossip, Topic Logs
 
@@ -1453,6 +1507,6 @@ Consider adding a negative seed-directory test for mismatches in those fields.
 | Passport signature cache | ✅ capability-binding has signature/profile/authorization caches keyed by passport digest and revocation view |
 | Write path: two distinct signatures | ✅ conceptually separated |
 | Topic naming stability | ✅ `/v1/` prefixes |
-| Rejection feed scope | ❌ rejection feed not implemented |
+| Rejection feed scope | ✅ local operator feed implemented; public feed intentionally deferred |
 | Publish accepted facts, not raw requests | ✅ Seed Directory publishes after acceptance |
 | Dual publish (Phase 1) | ✅ Seed Directory + Dator |
