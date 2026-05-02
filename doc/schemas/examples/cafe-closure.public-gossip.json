@@ -1,0 +1,19 @@
+{
+  "schema": "public-gossip.v1",
+  "gossip/text": "Several regulars report that the cafe near the station may close earlier on Fridays during renovation.",
+  "gossip/lang": "en",
+  "epistemic/class": "rumor",
+  "topic/class": "local-business-hours",
+  "context/facets": [
+    "cafe",
+    "station-area",
+    "renovation"
+  ],
+  "confidence": 0.42,
+  "disclosure/scope": "public",
+  "gossip/source-kind": "second-hand",
+  "gossip/tags": [
+    "local",
+    "hours"
+  ]
+}

@@ -148,6 +148,31 @@ trait AgoraAuthorityResolver {
 - the effective assurance level,
 - validity and revocation status at `record.authored/at`.
 
+Implementation status:
+
+- The reference Agora service accepts `agora_service.authority_roots[]` as
+  deployment config and validates the subject kind, assurance, purposes, and
+  namespace set at startup.
+- The reference service also accepts `authority_record_kinds[]` as the local
+  list of record kinds that claim namespace authority. The default set is
+  `announcement`, `proposal`, `policy`, `namespace-root`, and
+  `authority-root`.
+- `/v1/agora/status` exposes `authority_roots_count` at the top level and may
+  expose a richer `operator_visibility` diagnostic read model on the local
+  operator-authenticated UI/API path. That diagnostic model may include the
+  authority-root list only when client authentication is configured; unauthenticated
+  status surfaces should expose counts and redaction markers instead. Topic ACL,
+  namespace posture, strict gates, and runtime limits may be included as local
+  diagnostics, but this is not a public federation contract and MUST NOT be used
+  as a policy input by other relays.
+- Enforcement still flows through `topic_acl = capability` and the daemon-owned
+  `agora-publish@v1` / `agora-subscribe@v1` passport authorization path. The
+  current direct participant resolver connects a signed record's
+  `author/participant-id` and `signature.key/public` to one configured
+  participant authority root for the target namespace. Organization roots and
+  delegated authority signatures fail closed until the custody/delegation
+  resolver path is wired.
+
 ### 3. Operational Delegation and Derived Keys
 
 Authority roots SHOULD be long-lived anchors. They SHOULD NOT be used as ordinary
@@ -350,6 +375,13 @@ The profile should gate:
 - `GET /v1/agora/about/{kind}/{id}/records` when the subject query would reveal
   protected topics.
 
+Historical query responses SHOULD include `agora-query-attestation.v1`. The
+attestation is not itself an authorization grant; it is the exported evidence
+of what a relay returned after `agora-subscribe@v1` and topic policy were
+applied. For subject-index queries, the attestation MUST be assembled after
+per-record topic filtering so protected records cannot be proven or enumerated
+through an unfiltered digest.
+
 Reference implementation note: `agora-service` keeps `open`,
 `authenticated`, and `deny` as local transport ACL modes, and adds
 `capability` as the passport-backed mode. In `capability` mode the service
@@ -359,6 +391,11 @@ capability API to authorize either `agora.publish.authorize` or
 `capability-passport.v1` against the built-in `agora-publish@v1` and
 `agora-subscribe@v1` profile evaluators. Subject-index results are filtered by
 the same subscribe gate so they cannot reveal records from protected topics.
+For publish, the service includes the record author, authored time, record id,
+and signature context in the daemon authorization request. For authority record
+kinds, it also performs the local authority-root check before calling the
+daemon so namespace authority and local caller capability stay separate but
+both must pass.
 
 ### 6. Relationship to Topic ACLs
 

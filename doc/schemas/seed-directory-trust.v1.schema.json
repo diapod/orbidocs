@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:seed-directory-trust:v1",
+  "title": "SeedDirectoryTrust v1",
+  "description": "Local trust registry for Seed Directory endpoints. This artifact records which user-maintained or federation-endorsed Seed Directory instances a node or deployment may query, and how much local trust weight each directory receives. It is not a global registry of true directories; it is local policy input.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"
+  ],
+  "required": [
+    "schema",
+    "directories"
+  ],
+  "properties": {
+    "schema": {
+      "const": "seed-directory-trust.v1",
+      "description": "Schema discriminator."
+    },
+    "directories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/directory"
+      },
+      "description": "Trusted or candidate Seed Directory entries evaluated by local policy."
+    },
+    "policy/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional local policy identifier for operator diagnostics and future query attestations."
+    },
+    "issued-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional timestamp when this local trust registry was produced."
+    }
+  },
+  "$defs": {
+    "directory": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "node_id",
+        "endpoint",
+        "trust_level",
+        "weight"
+      ],
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Node identity of the Seed Directory service."
+        },
+        "endpoint": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "description": "HTTP(S) endpoint of the Seed Directory API."
+        },
+        "trust_level": {
+          "type": "string",
+          "enum": [
+            "personal",
+            "community",
+            "federation-endorsed"
+          ],
+          "description": "Local trust tier assigned to this directory."
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Positive local trust weight used by future multi-directory query policies."
+        },
+        "passport_ref": {
+          "type": "string",
+          "pattern": "^passport:capability:",
+          "description": "Optional reference to the capability passport proving the node may act as `seed-directory`."
+        },
+        "federation_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional federation scope for this trust entry."
+        },
+        "policy_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional policy reference that explains why this directory is trusted."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether the entry participates in local discovery policy. Disabled entries may be retained for diagnostics."
+        }
+      }
+    }
+  }
+}

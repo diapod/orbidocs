@@ -91,8 +91,11 @@ Status:
   write, while the daemon remains transport and commit-log authority. The
   Node reference implementation also carries a catalog-layer Agora adapter
   that can publish an accepted `service-offer.v1` snapshot as an
-  `agora-record.v1` with `record/kind = offer-snapshot`; runtime relay wiring
-  remains separate from the local commit contract.
+  `agora-record.v1` with `record/kind = offer-snapshot`. The snapshot's
+  `record/about` includes provider, `publisher-node`, and `origin-node`
+  resource refs so Arca can preserve relay trust-admission semantics while
+  replaying from Agora. Runtime relay wiring remains separate from the local
+  commit contract.
 
 ### Provider Catalog Responder
 

@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:public-gossip:v1",
+  "title": "PublicGossip v1",
+  "description": "Machine-readable schema for the content body of an Agora record carrying a public, bounded gossip item: a rumor, weak signal, or low-resolution observation that is intentionally not evidence. The enclosing `agora-record.v1` envelope carries identity, authorship, topic routing, `record/about`, parent/supersedes links, and signature. This payload carries only the public epistemic claim and its local context.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/60-solutions/008-agora/008-agora-dir-simplify-impl.md"
+  ],
+  "required": [
+    "schema",
+    "gossip/text",
+    "epistemic/class",
+    "topic/class",
+    "confidence",
+    "disclosure/scope"
+  ],
+  "properties": {
+    "schema": {
+      "const": "public-gossip.v1",
+      "description": "Content-level discriminator for consumers that inspect the payload outside its Agora envelope."
+    },
+    "gossip/text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "description": "Human-readable public gossip text. Renderers MUST treat it as untrusted input. This text is not evidence; it is a public claim requiring independent corroboration."
+    },
+    "gossip/lang": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 35,
+      "pattern": "^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$",
+      "description": "Optional BCP 47 language tag for `gossip/text`."
+    },
+    "epistemic/class": {
+      "type": "string",
+      "enum": [
+        "rumor",
+        "weak-signal",
+        "observation"
+      ],
+      "description": "Epistemic posture. `rumor` is unverified social information; `weak-signal` is an early pattern hint; `observation` is a low-resolution public observation that still must not be treated as verified evidence by this schema alone."
+    },
+    "topic/class": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "description": "Normalized semantic class used for topic grouping and local correlation. This is not the Agora `topic/key`; it is payload-level meaning."
+    },
+    "context/facets": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 96
+      },
+      "description": "Optional low-resolution facets that help readers and indexers understand the context without forcing raw disclosure."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Author-local confidence in the relevance or signal value. Consumers MUST NOT treat this as proof or reputation weight without an explicit policy mapping."
+    },
+    "disclosure/scope": {
+      "type": "string",
+      "const": "public",
+      "description": "Public gossip is intentionally public. Private or federation-scoped rumor exchange belongs to `whisper-signal.v1` or another non-public transport policy."
+    },
+    "gossip/source-kind": {
+      "type": "string",
+      "enum": [
+        "first-hand",
+        "second-hand",
+        "pattern-observed",
+        "machine-assisted",
+        "unspecified"
+      ],
+      "description": "Optional coarse source posture. It is a disclosure aid, not an evidentiary proof."
+    },
+    "gossip/tags": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64
+      },
+      "description": "Optional loose tags. Tags are not a closed taxonomy."
+    },
+    "gossip/see-also": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Kind of referenced object, such as `url`, `record`, `topic`, or `resource`."
+          },
+          {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "description": "Identifier of the referenced object in the form canonical for its kind."
+          }
+        ],
+        "items": false,
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "description": "Optional related public resources or records."
+    },
+    "policy/notes": {
+      "type": "string",
+      "maxLength": 512,
+      "description": "Optional policy or moderation note shown to readers."
+    }
+  }
+}

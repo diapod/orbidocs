@@ -1,0 +1,13 @@
+{
+  "schema": "agora-query-attestation.v1",
+  "attestation/id": "attestation:agora-query:K4H4k7P0JwJ88a1EJd5o0iAQ2ZP6mJk5N7Yq7mF9c1A",
+  "attested/at": "2026-05-02T10:30:00Z",
+  "query/mode": "topic-records",
+  "query/filter": {
+    "limit": 50
+  },
+  "result/record-ids": [],
+  "result/count": 0,
+  "result/digest": "sha256:K4H4k7P0JwJ88a1EJd5o0iAQ2ZP6mJk5N7Yq7mF9c1A",
+  "result/digest-alg": "jcs-nfc-sha256-base64url"
+}

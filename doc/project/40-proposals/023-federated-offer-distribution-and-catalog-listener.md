@@ -275,6 +275,12 @@ transport fields such as `relay/hops`, `relay/relayed-at`, and
 `relay/do-not-forward` may be represented by Agora relay metadata or policy,
 but origin/provenance cannot be lost.
 
+Implementation note: the reference `offer-snapshot` representation carries
+`publisher-node` and `origin-node` resource refs in `record/about`, while
+`relay/hops` and `relay/received-at` stay on the Agora envelope. Consumers
+fall back to `provider/node-id` only when older records lack these resource
+refs.
+
 `relay/do-not-forward` is intentionally advisory. It communicates publisher
 intent to the next catalog boundary, but does not itself enforce transport
 behavior. `relay/intended-node-id` is reserved for the later mediated-relay

@@ -1,0 +1,18 @@
+{
+  "schema": "agora-query-attestation.v1",
+  "attestation/id": "attestation:agora-query:K4H4k7P0JwJ88a1EJd5o0iAQ2ZP6mJk5N7Yq7mF9c1A",
+  "attested/at": "2026-05-02T10:30:00Z",
+  "relay/id": "agora-relay:example",
+  "query/mode": "topic-records",
+  "query/topic-key": "ai.orbiplex.comments/thread-example",
+  "query/filter": {
+    "limit": 50,
+    "kind": "comment"
+  },
+  "result/record-ids": [
+    "sha256:9vxJW9R1lyYt6Tw53uPchS0ijwQvmw2N6vgAz2nH9DA"
+  ],
+  "result/count": 1,
+  "result/digest": "sha256:K4H4k7P0JwJ88a1EJd5o0iAQ2ZP6mJk5N7Yq7mF9c1A",
+  "result/digest-alg": "jcs-nfc-sha256-base64url"
+}

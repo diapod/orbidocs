@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-query-attestation:v1",
+  "title": "AgoraQueryAttestation v1",
+  "description": "Machine-readable attestation for one Agora historical query response. It binds the query scope, normalized filter, returned record ids, pagination/pruning metadata, and a deterministic digest of the response page. A signature is optional in v1 so local relays can emit unsigned attestations before relay signing is wired; signed deployments should sign the canonical JSON of this object with `signature` omitted.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/60-solutions/008-agora/008-agora-dir-simplify-impl.md",
+    "doc/project/60-solutions/045-agora-authority.md"
+  ],
+  "required": [
+    "schema",
+    "attestation/id",
+    "attested/at",
+    "query/mode",
+    "query/filter",
+    "result/record-ids",
+    "result/count",
+    "result/digest",
+    "result/digest-alg"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-query-attestation.v1",
+      "description": "Schema discriminator. MUST be exactly `agora-query-attestation.v1`."
+    },
+    "attestation/id": {
+      "type": "string",
+      "pattern": "^attestation:agora-query:[A-Za-z0-9_-]{16,128}$",
+      "description": "Stable identifier for this attested response page. The reference implementation derives it from the response digest."
+    },
+    "attested/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC time when the relay assembled the attestation."
+    },
+    "relay/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Optional relay identifier that assembled the page."
+    },
+    "query/mode": {
+      "type": "string",
+      "enum": [
+        "topic-records",
+        "subject-records"
+      ],
+      "description": "Query family this attestation describes."
+    },
+    "query/topic-key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Topic key for a topic-records query."
+    },
+    "query/resource": {
+      "$ref": "#/$defs/resourceRef",
+      "description": "Subject resource for a subject-records query."
+    },
+    "query/filter": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Normalized filter used by the relay after URL decoding and limit defaults.",
+      "properties": {
+        "since": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "description": "Opaque cursor supplied by the caller, if any."
+        },
+        "from-sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Decoded inclusive starting sequence, if a cursor was supplied."
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Effective page limit."
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Optional `record/kind` filter."
+        },
+        "about": {
+          "$ref": "#/$defs/resourceRef",
+          "description": "Optional `record/about` filter for topic queries."
+        },
+        "include-flagged": {
+          "type": "boolean",
+          "description": "Caller-supplied flag compatibility bit. Flag semantics are deployment policy."
+        }
+      }
+    },
+    "result/record-ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[A-Za-z0-9_-]+$"
+      },
+      "description": "Record ids returned in page order."
+    },
+    "result/count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of returned records. MUST equal the length of `result/record-ids`."
+    },
+    "result/next-cursor": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Opaque cursor for the next page, if present in the response."
+    },
+    "result/cursor-pruned": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requested-from",
+        "first-available"
+      ],
+      "properties": {
+        "requested-from": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "first-available": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Explicit discontinuity notice when retention pruned records below the caller's cursor."
+    },
+    "result/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{16,128}$",
+      "description": "Digest of the canonical query-attestation material: query mode, scope, normalized filter, returned record ids, next cursor, and cursor-pruned notice."
+    },
+    "result/digest-alg": {
+      "const": "jcs-nfc-sha256-base64url",
+      "description": "Digest algorithm used for `result/digest`."
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key/public": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key/delegation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "description": "Optional relay signature over the canonical attestation with `signature` omitted. Unsigned v1 attestations still provide deterministic digest evidence but not relay accountability."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "query/mode": {
+            "const": "topic-records"
+          }
+        },
+        "required": [
+          "query/mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "query/topic-key"
+        ],
+        "not": {
+          "required": [
+            "query/resource"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "query/mode": {
+            "const": "subject-records"
+          }
+        },
+        "required": [
+          "query/mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "query/resource"
+        ],
+        "not": {
+          "required": [
+            "query/topic-key"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "resourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resource/kind",
+        "resource/id"
+      ],
+      "properties": {
+        "resource/kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "resource/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      }
+    }
+  }
+}

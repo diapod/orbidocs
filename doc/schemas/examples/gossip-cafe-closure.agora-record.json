@@ -1,0 +1,40 @@
+{
+  "schema": "agora-record.v1",
+  "record/id": "sha256:PublicGossipCafeClosureExample00000001",
+  "record/kind": "gossip",
+  "topic/key": "ai.orbiplex.gossip/local-business-hours",
+  "record/about": [
+    {
+      "resource/kind": "place",
+      "resource/id": "geo:51.109,17.032;u=200"
+    }
+  ],
+  "author/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "authored/at": "2026-05-02T10:00:00Z",
+  "content/schema": "public-gossip.v1",
+  "content": {
+    "schema": "public-gossip.v1",
+    "gossip/text": "Several regulars report that the cafe near the station may close earlier on Fridays during renovation.",
+    "gossip/lang": "en",
+    "epistemic/class": "rumor",
+    "topic/class": "local-business-hours",
+    "context/facets": [
+      "cafe",
+      "station-area",
+      "renovation"
+    ],
+    "confidence": 0.42,
+    "disclosure/scope": "public",
+    "gossip/source-kind": "second-hand",
+    "gossip/tags": [
+      "local",
+      "hours"
+    ]
+  },
+  "record/lang": "en",
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_example_public_gossip_0001",
+    "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "schema": "public-gossip.v1",
+  "gossip/text": "This should not be accepted as public gossip.",
+  "epistemic/class": "rumor",
+  "topic/class": "private-matter",
+  "confidence": 0.5,
+  "disclosure/scope": "private-correlation"
+}

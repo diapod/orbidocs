@@ -56,8 +56,14 @@ schema_for_file() {
     *.agora-record.json)
       echo "$SCHEMAS_DIR/agora-record.v1.schema.json"
       ;;
+    *.agora-query-attestation.json)
+      echo "$SCHEMAS_DIR/agora-query-attestation.v1.schema.json"
+      ;;
     *.resource-opinion.json)
       echo "$SCHEMAS_DIR/resource-opinion.v1.schema.json"
+      ;;
+    *.public-gossip.json)
+      echo "$SCHEMAS_DIR/public-gossip.v1.schema.json"
       ;;
     *.comment-thread-policy.json)
       echo "$SCHEMAS_DIR/comment-thread-policy.v1.schema.json"
@@ -82,6 +88,9 @@ schema_for_file() {
       ;;
     *.seed-capability-registration.json)
       echo "$SCHEMAS_DIR/seed-capability-registration.v1.schema.json"
+      ;;
+    *.seed-directory-trust.json)
+      echo "$SCHEMAS_DIR/seed-directory-trust.v1.schema.json"
       ;;
     *.offer-catalog-fetch-request.json)
       echo "$SCHEMAS_DIR/offer-catalog-fetch-request.schema.json"

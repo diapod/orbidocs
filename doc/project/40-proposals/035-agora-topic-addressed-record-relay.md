@@ -355,6 +355,7 @@ contract that lives next to the subsystem that owns it. Examples for MVP:
 | `opinion` | `resource-opinion.v1` | proposal 026 |
 | `comment` | `plain-comment.v1` | Agora base kind |
 | `thread-policy` | `comment-thread-policy.v1` | Agora base kind |
+| `gossip` | `public-gossip.v1` | Agora base kind |
 | `annotation` | `plain-annotation.v1` | Agora base kind |
 | `whisper` | `whisper-signal.v1` | proposal 013 |
 | `whisper-durable` | `whisper-threshold-record.v1` | proposal 013 follow-up |
@@ -421,15 +422,47 @@ Response:
 
 ```json
 {
-  "topic/key": "ai.orbiplex.proposals/035",
   "records": [ { ...agora-record.v1... }, ... ],
-  "cursor": "opaque-next-cursor",
-  "more": true
+  "next_cursor": "opaque-next-cursor",
+  "cursor_pruned": {
+    "requested_from": 5,
+    "first_available": 10
+  },
+  "query_attestation": { "...agora-query-attestation.v1...": "..." }
 }
 ```
 
 Cursors MUST be opaque. Relays MAY reorder within a given time slice but
 MUST be stable for a given cursor.
+
+#### 5.1a. Query attestations
+
+Historical query responses SHOULD include an `agora-query-attestation.v1`
+object under `query_attestation`.
+
+The attestation binds:
+
+- query mode (`topic-records` or `subject-records`),
+- topic key or subject resource,
+- normalized filter after URL decoding and limit defaults,
+- returned `record/id` values in page order,
+- `next_cursor`,
+- cursor-pruning notice, if any,
+- deterministic response digest.
+
+The digest is `sha256:` over canonical JSON using the Agora NFC profile
+(`jcs-nfc-sha256-base64url`). It covers the query scope, normalized filter,
+returned record ids, and pagination/pruning metadata. It intentionally does
+not cover local HTTP headers or transport details.
+
+An attestation MAY be unsigned in early local relays. In that case it is still
+useful as a deterministic page proof for local audit and replay comparison,
+but it does not prove relay accountability. Signed deployments SHOULD sign the
+canonical JSON of `agora-query-attestation.v1` with `signature` omitted.
+
+Subject-index queries MUST attach the attestation after subscribe-policy
+filtering. Otherwise the proof would describe the unfiltered subject index
+instead of the response actually returned to the caller.
 
 #### 5.2. Fetch one record by content id
 
@@ -496,6 +529,19 @@ The Node-attached deployment has three distinct communication relationships:
 | Lifecycle | daemon -> Agora | readiness, initialization, shutdown | daemon-generated middleware authtok, validated by Agora |
 | Host capability API | Agora -> daemon | node identity, capability passport lookup/publication, future policy checks | daemon-generated host-capability authtok, validated by daemon |
 | Agora API | UI/CLI/client -> Agora | ingest, query, fetch, subscribe | open in MVP; a separate client authtok MAY be enabled post-MVP |
+
+The Agora middleware SHOULD declare its own operator-facing UI surface through
+the middleware module report. The host UI may mount that surface under its local
+middleware namespace, but the Agora component owns the Agora-specific views and
+operator vocabulary. A Node-attached Agora service SHOULD expose a local
+`operator_visibility` status read model covering relay endpoint, namespace
+policy, topic ACL, authority-root summary, strict gates, Matrix posture,
+HTTP/SSE limits, rate-limit persistence, retention summary, passport state, and
+client-auth posture. Full authority-root lists should be shown only on a
+client-authenticated local operator surface; unauthenticated status responses
+should expose counts and redaction markers instead. This read model is
+diagnostic only; it is not a federation protocol and does not authorize publish
+or subscribe operations.
 
 The host capability API is a local, authenticated, module-initiated channel.
 Agora MUST NOT implement node identity, Seed Directory publication, or
@@ -1002,6 +1048,11 @@ wraps it in actual HTTP routing. Key design choices:
   silently ignoring the filter.
 - **`include_flagged` wire compatibility**: the parameter is accepted
   but has no effect in MVP; flag semantics are deferred per section 8.
+- **Query attestations**: historical query pages include
+  `agora-query-attestation.v1`. The reference adapter emits unsigned
+  attestations that bind query scope, normalized filter, record ids, cursor
+  metadata, and a deterministic digest. Relay signatures over attestations are
+  a later signer/authority integration, not an `agora-core` concern.
 
 #### Local runtime data-dir ownership
 

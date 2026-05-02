@@ -1,0 +1,11 @@
+{
+  "schema": "seed-directory-trust.v1",
+  "directories": [
+    {
+      "node_id": "node:did:key:z6MkCommunitySeed1111111111111111111111111111111",
+      "endpoint": "https://seed.community.example",
+      "trust_level": "community",
+      "weight": 0
+    }
+  ]
+}

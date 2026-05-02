@@ -444,13 +444,13 @@ work derived from this proposal. Status values:
 
 | ID | Work item | Status | Done criteria |
 | :--- | :--- | :--- | :--- |
-| P054-01 | Define `seed-directory-trust.v1` schema | todo | Canonical schema exists, has positive/negative fixtures, and documents `personal`, `community`, and `federation-endorsed` trust tiers. |
-| P054-02 | Add Node runtime config for trusted directories | todo | Node config can load trusted directory entries with `node_id`, `endpoint`, `trust_level`, `weight`, optional `passport_ref`, and rejects invalid entries at config check. |
+| P054-01 | Define `seed-directory-trust.v1` schema | done | Canonical schema exists, has positive/negative fixtures, and documents `personal`, `community`, and `federation-endorsed` trust tiers. |
+| P054-02 | Add Node runtime config for trusted directories | done | Node config can load trusted directory entries with `node_id`, `endpoint`, `trust_level`, `weight`, optional `passport_ref`, and rejects invalid entries at config check. |
 | P054-03 | Expose trusted directory status in operator surfaces | todo | UI/API can show configured trusted Seed Directories, their trust tier, and why each is trusted or rejected. |
 | P054-04 | Define `seed-directory-query-attestation.v1` | todo | Schema and proposal text define query digest, response digest, projection cursor/high-water mark, policy id/digest, issued time, expiry, signer, and signature. |
 | P054-05 | Add optional query attestation support | todo | Seed Directory can return a signed query attestation for critical `GET /adv`, `GET /cap`, and `GET /revocations` responses when requested. |
-| P054-06 | Replay accepted Seed Directory facts from Agora | todo | A Seed Directory projection can rebuild from trusted Agora `seed.*.accepted` records after envelope, schema, and domain validation. |
-| P054-07 | Add projection equivalence tests | todo | Tests prove `SeedDirectoryHTTP(ProjectionFromLocalStore) == SeedDirectoryHTTP(ProjectionFromTrustedAgoraReplay)` for advertisements, capabilities, and revocations under the same policy. |
+| P054-06 | Replay accepted Seed Directory facts from Agora | in-progress | A Seed Directory projection can rebuild from trusted Agora `seed.*.accepted` records after envelope, schema, and domain validation. |
+| P054-07 | Add projection equivalence tests | in-progress | Tests prove `SeedDirectoryHTTP(ProjectionFromLocalStore) == SeedDirectoryHTTP(ProjectionFromTrustedAgoraReplay)` for advertisements, capabilities, and revocations under the same policy. |
 | P054-08 | Add multi-directory client query policy | todo | Client-side discovery can query multiple trusted directories and merge results using preferred directory, quorum, or weighted trust policy. |
 | P054-09 | Implement reconciliation rules | todo | Revocations are monotonic, newer advertisements replace older ones, absence in one directory does not delete another directory's positive result, and duplicate capabilities dedupe deterministically. |
 | P054-10 | Connect directory operator trust to reputation/endorsement | deferred | `community-trusted` / `community-entrusted` and `ai.orbiplex.reputation/**` can influence directory trust without replacing local override. |
