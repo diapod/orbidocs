@@ -258,8 +258,28 @@ Status:
   `agora-record.v1` and can replay them into the existing store. `catalog::agora`
   maps `service-offer.v1` snapshots to `offer-snapshot` records and can replay
   them into the observed catalog projection. The schema gate recognizes these
-  content schemas in strict Agora content-validation mode. Runtime federation
-  wiring remains a later integration step.
+  content schemas in strict Agora content-validation mode. M2 uses
+  deterministic-as-of-record-acceptance replay: domain projections trust records
+  already accepted by the local relay, with revocation freshness checked at the
+  publish/ingest boundary. Local authoritative stores remain local; observed or
+  federated read models use `agora-primary` replay where configured.
+
+M2 replay-fed projections cover this canonical domain set:
+
+- Seed Directory accepted facts,
+- Offer Catalog observed/federated snapshots,
+- moderation markers,
+- comments,
+- resource opinions,
+- public gossip.
+
+Seed Directory and Offer Catalog carry hard equivalence tests because both have
+pre-Agora domain stores. Agora-native domains (moderation markers, comments,
+opinions, gossip) use fixture replay tests into an empty projection store instead
+of inventing a legacy model. The reference implementation exposes projection
+status and domain query endpoints under `/v1/agora/projections/*`; operational
+diagnostics include counters for malformed/skipped/rejected/deferred records,
+cursor pruning, cursor state, last error, and last successful replay age.
 
 ## May Implement
 
@@ -313,6 +333,59 @@ Status:
   `agora.record.admit` remains a later composition point for verification plus
   publish/subscribe policy.
 
+### Replay-Fed Public Domain Projections
+
+Based on:
+- `doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md`
+- `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
+- `doc/project/60-solutions/008-agora/008-agora-dir-simplify-impl.md`
+
+Related schemas:
+- `agora-record.v1`
+- `plain-comment.v1`
+- `comment-thread-policy.v1`
+- `resource-opinion.v1`
+- `public-gossip.v1`
+- `moderation-marker.v1`
+
+Responsibilities:
+- replay accepted public Agora records into local read models without querying
+  raw topics from domain logic,
+- keep comments, opinions, public gossip, and moderation markers in separate
+  tables while sharing cursor and diagnostic mechanics,
+- preserve orphan queue behavior for comments/opinions and deterministic
+  promotion when parents arrive,
+- clamp gossip TTL/decay through local projection policy,
+- expose operator and API status for projection health.
+
+Status:
+- `done` for M2 reference mechanics. The Node implementation uses
+  `<agora_data_dir>/agora-projections.v1.sqlite`, projects comments/thread
+  policies, resource opinions, public gossip, and moderation markers, and
+  exposes `/v1/agora/operator/projections/replay` plus read-model query surfaces
+  under `/v1/agora/projections/*`. Public moderation markers remain signals:
+  M2 does not define automatic hide/delete policy from marker content.
+
+### Operator-Local Rejection Feed
+
+Based on:
+- `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
+
+Responsibilities:
+- persist local rejection diagnostics without publishing a public rejection
+  oracle,
+- keep request bodies, passports, proof bundles, and internal policy traces out
+  of the store by default,
+- expose bounded operator diagnostics through the Agora service status/API.
+
+Status:
+- `done` for M2b. Rejections are stored in
+  `<agora_data_dir>/agora-rejections.v1.sqlite` and exposed through
+  `/v1/agora/status` and `GET /v1/agora/operator/rejections`. The default store
+  is digest-only; payload capture, if ever enabled locally, is an operator
+  debugging mode rather than a public protocol feature. A public rejection feed
+  is explicitly out of scope for M2/M2b.
+
 ### Org Authority Custody
 
 Org authority roots do not name "keys that may publish" directly. They name an
@@ -336,6 +409,13 @@ decision bundle signs the target record digest, policy ref, org id, purpose,
 topic key, and optional delegation id; duplicate signers count once. Unknown
 policy refs, unknown modes, missing decisions, target mismatches, and
 insufficient quorum fail closed.
+
+M2b implementation status: `agora-service` loads `org_custody_policies` from
+its runtime config, resolves `custody_policy_ref` fail-closed, validates
+`org-custody-policy.v1` and inline `org-custody-decision.v1` through the Node
+schema gate, and has regression coverage for valid threshold, missing signer,
+duplicate signer, signer outside policy, target digest mismatch, unknown
+policy ref, and unknown mode.
 
 ### Aggregate Status Surface
 

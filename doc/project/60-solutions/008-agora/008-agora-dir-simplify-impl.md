@@ -1,6 +1,8 @@
 # Directory Simplification Through Agora Records
 
-Status: implementation guidance / design note.
+Status: implementation guidance / design note. M2 runtime/protocol mechanics
+are implemented; remaining items in this file are post-M2 policy or operator UX
+work unless explicitly marked otherwise.
 
 Implementation status:
 
@@ -10,11 +12,12 @@ Implementation status:
   `service-offer.v1`, `node-advertisement.v1`,
   `seed-capability-registration.v1`, and
   `capability-passport-revocation.v1`.
-- Runtime dual-publish / replay wiring is partially implemented:
-  Dator can best-effort publish accepted `service-offer.v1` snapshots to an
-  Agora topic, Arca can replay those `offer-snapshot` records into its observed
-  catalog projection, and Seed Directory has a publish-after-accept hook for
-  accepted advertisement/capability/revocation facts.
+- Runtime dual-publish / replay wiring is implemented for the M2 production
+  path: Dator can best-effort publish accepted `service-offer.v1` snapshots to
+  an Agora topic, Arca can replay those `offer-snapshot` records into its
+  observed catalog projection in `agora-primary` mode, and Seed Directory
+  publishes accepted advertisement/capability/revocation facts after domain
+  validation.
 - Replay equivalence tests now cover Seed Directory and Offer Catalog: accepted
   domain writes projected from Agora replay produce the same domain read model
   as the legacy local projection, except for local ingest timestamps that are
@@ -41,6 +44,11 @@ Implementation status:
   `ai.orbiplex.moderation.v1/markers/<target-kind>/<target-id-hash>`, where
   `target-id-hash` uses the same JCS-NFC SHA-256 base64url convention as Agora
   content addressing over the canonical `{kind, id}` target descriptor.
+- Public moderation markers are part of the M2 replay-fed projection set. The
+  reference Node implementation projects accepted markers into
+  `<agora_data_dir>/agora-projections.v1.sqlite` as a target/action/reason read
+  model. This is still a signal projection only; automatic hide, quarantine,
+  reputation scoring, or appeal workflows remain policy layers above it.
 - P12 delegated signing is wired across Rust service/relay, SQLite replay,
   Matrix-only federation ingest, and non-Rust host-capability verification.
   `records.sign` accepts inline `key_delegation`, relay stores are
@@ -326,7 +334,6 @@ not a JSON Schema responsibility.
 #### Public Moderation TODO
 
 - publish/list UI for public moderation marker records;
-- replay-backed moderation projections over marker topics;
 - marker weighting policy using issuer attestation, reputation, and reason;
 - `flag/clear` authority-root and community-trusted quorum verification;
 - optional web-capture middleware that stores observed URL content in Memarium;
@@ -1712,7 +1719,7 @@ Consider adding a negative seed-directory test for mismatches in those fields.
 | Agora subscribe through capability passport | ✅ `agora-subscribe@v1` profile + daemon `agora.subscribe.authorize`; subject index filters by topic auth |
 | `agora-record.v1` signing contract (canonical JSON) | ✅ in `agora-core` |
 | `record/id` content-addressed | ✅ `sha256:...`, but the builder emits pending |
-| Revocation freshness in replay path | ✅ passport-gated subscribe uses capability-binding revocation freshness; domain projection replay still must document its own trust source |
+| Revocation freshness in replay path | ✅ projection replay is deterministic-as-of-record-acceptance; domain projections trust records accepted by the local relay, with revocation freshness checked at publish/ingest or passport-gated subscribe boundaries |
 | Relay metadata outside domain payload | ✅ `relay/received-at`, `relay/id`, `relay/hops` |
 | Crate boundaries — adapters, not a monolith | ✅ `agora.rs` in catalog and seed-directory |
 | Passport signature cache | ✅ capability-binding has signature/profile/authorization caches keyed by passport digest and revocation view |

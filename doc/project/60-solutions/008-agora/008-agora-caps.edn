@@ -1,7 +1,7 @@
 {:component/id :orbiplex/agora
  :component/title "Orbiplex Agora"
  :component/type :node-attached-module
- :component/status :partial
+ :component/status :done
 
  :summary
  "Node-attached topic-addressed record relay providing a shared signed
@@ -81,6 +81,21 @@
     "Apply the same rules to local ingest and federated ingress"]
    :status :done}
 
+  {:cap/id :org-authority-custody
+   :title "Org Authority Custody"
+   :kind :policy-enforcement
+   :based-on ["doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas ["org-custody-policy.v1"
+             "org-custody-decision.v1"
+             "key-delegation.v1"
+             "agora-record.v1"]
+   :responsibilities
+   ["Resolve org authority roots through `custody_policy_ref` instead of raw publisher-key lists"
+    "Validate custody policy and inline decision proofs at the Node schema gate"
+    "Support `any-authorized` and real threshold/quorum custody modes"
+    "Fail closed for unknown policy refs, unknown modes, missing decisions, duplicate-only quorum, signer mismatch, and target digest mismatch"]
+   :status :done}
+
   {:cap/id :matrix-relay-transport
    :title "Matrix Relay Transport"
    :kind :transport
@@ -102,6 +117,36 @@
     "Evict records older than `max_age_secs` per topic"
     "Trim topics exceeding `max_count` entries"
     "Preserve canonical-role durability contracts where applicable"]
+   :status :done}
+
+  {:cap/id :replay-fed-domain-projections
+   :title "Replay-Fed Domain Projections"
+   :kind :projection
+   :based-on ["doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/60-solutions/008-agora/008-agora-dir-simplify-impl.md"]
+   :schemas ["agora-record.v1"
+             "plain-comment.v1"
+             "comment-thread-policy.v1"
+             "resource-opinion.v1"
+             "public-gossip.v1"
+             "moderation-marker.v1"]
+   :responsibilities
+   ["Replay accepted public Agora records into local domain read models"
+    "Keep comments, resource opinions, public gossip, and moderation markers in separate tables"
+    "Share cursor, pruning, replay-diagnostic, and orphan mechanics without mixing domain semantics"
+    "Expose projection status and query APIs under the Agora service surface"]
+   :status :done}
+
+  {:cap/id :operator-local-rejection-feed
+   :title "Operator-Local Rejection Feed"
+   :kind :inspection
+   :based-on ["doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"]
+   :schemas []
+   :responsibilities
+   ["Persist local rejection diagnostics without publishing a public rejection oracle"
+    "Store request digests and bounded metadata by default, not raw payloads or private proofs"
+    "Expose the feed through `/v1/agora/status` and `GET /v1/agora/operator/rejections`"]
    :status :done}]
 
  :may-implement
@@ -128,7 +173,7 @@
     "Verify proof through a pluggable `DelegationProofVerifier` (fail-closed fallback by default)"
     "Bind proxy public key to the record and keep the principal's participant id as author"
     "Attach inline proof so verifiers can check delegation without remote lookups"]
-   :status :planned}
+   :status :done}
 
   {:cap/id :aggregate-status-surface
    :title "Aggregate Status Surface"
@@ -142,8 +187,9 @@
    :status :optional}]
 
  :out-of-scope
- ["Per-kind semantic interpretation (opinion meaning, comment threading, whisper thresholds)"
-  "Listener-side filtering, moderation, or reputation weighting"
+ ["Public rejection feed and public rejection oracle semantics in M2/M2b"
+  "Automatic policy decisions, moderation enforcement, or reputation weighting"
+  "Whisper threshold projection and private-disclosure mechanics"
   "Payment / settlement of record ingest"
   "Long-running workflow execution driven by record content"
   "Replacement of seed directory or offer catalog as storage backends in v1"]
