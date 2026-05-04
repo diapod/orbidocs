@@ -1,0 +1,15 @@
+{
+  "schema": "org-custody-policy.v1",
+  "policy/ref": "org-custody:orbiplex:v1",
+  "org/id": "org:did:key:z6MkOrgRootExample",
+  "accepted/delegation_schema": "key-delegation.v1",
+  "rules": [
+    {
+      "purpose": "agora-authority",
+      "namespaces": ["ai.orbiplex.announcements/**"],
+      "mode": "any-authorized",
+      "authorized/participant_ids": ["participant:did:key:z6MkCustodianExample"],
+      "max_delegation_ttl_seconds": 2678400
+    }
+  ]
+}

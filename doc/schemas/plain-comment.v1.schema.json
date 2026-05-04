@@ -29,6 +29,12 @@
       "default": "text/plain",
       "description": "Optional content type hint for rendering. `text/plain` is the default. `text/markdown` requests CommonMark rendering. Renderers MUST NOT execute embedded scripts or interpret active content regardless of format."
     },
+    "thread/title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "description": "Optional title for a thread opened by this comment. Projection consumers MUST interpret this field only when the enclosing Agora record is a root comment without `record/parent`; on replies it is ignored or surfaced as a diagnostic."
+    },
     "lang": {
       "type": "string",
       "minLength": 2,

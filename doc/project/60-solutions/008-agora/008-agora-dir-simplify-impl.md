@@ -22,17 +22,40 @@ Implementation status:
 - Arca has an `offer_agora.source_mode` switch. `agora-primary` feeds the
   observed/federated offer projection from Agora and skips legacy peer-catalog
   sync, while Dator's local offer DB remains the authoritative local store.
-- P12 delegated signing is wired for the Rust service/relay path:
+- Arca persists its Agora replay cursor and replay diagnostics in the observed
+  catalog database. Operators can inspect replay status, review malformed or
+  pruned-cursor diagnostics, run a single resync pass, or reset the cursor for
+  a deterministic projection rebuild. When the replay page includes an Agora
+  query attestation, Arca persists the full latest attestation next to the
+  cursor.
+- Dator exposes Agora publish diagnostics separately from local offer
+  acceptance through its status endpoint and Dator offers UI. Local offer
+  commits remain authoritative; failed Agora publication is surfaced as
+  transport/publication state, not as a failed offer publish.
+- Agora service has durable operator-local visibility markers for hide/unhide
+  and flag/unflag. These markers live in Agora service storage, affect local
+  historical list views and status, but they are intentionally separate from
+  public cross-node moderation markers.
+- Public cross-node moderation has a first payload contract:
+  `moderation-marker.v1`. Markers are routed under
+  `ai.orbiplex.moderation.v1/markers/<target-kind>/<target-id-hash>`, where
+  `target-id-hash` uses the same JCS-NFC SHA-256 base64url convention as Agora
+  content addressing over the canonical `{kind, id}` target descriptor.
+- P12 delegated signing is wired across Rust service/relay, SQLite replay,
+  Matrix-only federation ingest, and non-Rust host-capability verification.
   `records.sign` accepts inline `key_delegation`, relay stores are
   verifier-aware and fail closed by default, and `agora-service` uses the
   capability delegation bridge for self-check and authority checks. Invalid
   supplied delegation proofs are policy rejections, not internal signer or
   verifier failures.
-- M1 org authority roots require `custody_policy_ref` and locally configured
-  authorized participants or keys. Final org-authority records still require
-  inline `key-delegation.v1`; richer org custody resolution remains a later
-  resolver layer.
-- Rejections are an operator-local diagnostic feed in the service status, not a
+- Org authority roots require `custody_policy_ref` and resolve that reference
+  to an explicit `org-custody-policy.v1` artifact in merged Agora config.
+  M2b supports `any-authorized` and real `threshold` custody. Threshold records
+  require an inline `org-custody-decision.v1` bundle with quorum signatures;
+  unknown policy refs, missing rules, duplicate-only quorum, target mismatch,
+  and unsupported shapes fail closed.
+- Rejections are a durable operator-local diagnostic feed in
+  `<agora_data_dir>/agora-rejections.v1.sqlite` and service status, not a
   public Agora protocol feed.
 - Story-009 laptop profiles wire node B/C Dator instances to node A's local
   Agora service and configure node A Arca to replay the shared Story-009 offer
@@ -218,8 +241,9 @@ M1 topic conventions:
 | `ai.orbiplex.proposals/<id>/discussion` | `ial1` participants and above, unless a stricter thread policy applies |
 | `ai.orbiplex.opinions/<resource-kind>/...` | `ial1` participants and above |
 | `ai.orbiplex.comments/<thread-id>` | `ial1` participants and above, with optional tightening through `comment-thread-policy.v1` |
-| `ai.orbiplex.gossip/<topic-class>` | `ial1` participants and above; payload must be public and marked as non-evidence |
+| `ai.orbiplex.public-signals/<topic-class>` | `ial1` participants and above; `gossip` payloads must be public, weak-signal records marked as non-evidence |
 | `ai.orbiplex.whispers/...` | `ial1-pseudonymized` participants or stricter local whisper policy |
+| `ai.orbiplex.moderation.v1/markers/<target-kind>/<target-id-hash>` | `ial1` participants and above for ordinary `flag`; `flag/clear` requires authority-root authorization or a community-trusted quorum under the referenced policy |
 | `participant:<pid>/...` | the participant or a valid delegation chain resolving to that participant |
 | `node:<node-id>/...` | the node/operator chain after node-binding verification is wired |
 | `federation:<fid>/...` | federation policy |
@@ -227,6 +251,88 @@ M1 topic conventions:
 `ai.orbiplex.*` is reserved for Orbiplex-defined semantics from orbidocs.
 Publishing into that namespace is allowed only when local policy and the
 presented passport authorize the concrete record.
+
+### Public Moderation Markers
+
+`moderation-marker.v1` is the public, federated marker payload for cross-node
+flagging and moderation signals. A marker is an append-only public signal. It is
+never an imperative delete, hide, or ban command:
+
+```text
+agora-record.v1
+  record/kind    = "moderation-marker"
+  content/schema = "moderation-marker.v1"
+  topic/key      = ai.orbiplex.moderation.v1/markers/<target-kind>/<target-id-hash>
+```
+
+The marker action vocabulary is closed in v1:
+
+```text
+flag
+flag/support
+flag/dispute
+flag/clear
+recommendation/hide
+recommendation/unhide
+reputation-signal
+```
+
+The reason taxonomy is also closed in v1. It uses the `content/*`, `aim/*`,
+`protocol/*`, and `other` families defined by `moderation-marker.v1`. Unknown
+reasons are schema-invalid rather than open-world.
+
+`policy/ref` is required. The special value `default` means the default
+moderation policy for the Agora namespace that carries the marker, not a single
+global policy for every deployment.
+
+The deterministic `target-id-hash` is computed with the same primitive as Agora
+content addressing:
+
+```text
+sha256:<base64url-no-pad(
+  sha256(JCS-NFC-JSON({"kind": target.kind, "id": target.id}))
+)>
+```
+
+The implementation helper lives in `agora-core` as
+`moderation_target_id_hash()` and `moderation_marker_topic_key()`. Hashing the
+`kind` with the `id` avoids semantic collisions between identical strings used
+as participant ids, node ids, URLs, or record ids.
+
+Mutable locators such as URLs are modeled as locator identities, not as
+content-addresses. The target stays stable:
+
+```json
+{
+  "target": {
+    "kind": "url",
+    "id": "https://example.org/article",
+    "url/canonical": "https://example.org/article"
+  }
+}
+```
+
+Observed HTML, HTTP validators, timestamps, and archive or Memarium references
+belong in `evidence`. A future web-capture middleware may fetch, normalize, and
+store a URL snapshot in Memarium, but that pipeline is explicitly outside the
+marker v1 contract.
+
+Inline proofs are the preferred shape. Ordinary `flag` records require policy
+equivalent to `ial1` participation. `flag/clear` requires either an
+authority-root-authorized key or a community-trusted quorum proof under the
+referenced policy. Full evaluation of those proofs is a policy/projection layer,
+not a JSON Schema responsibility.
+
+#### Public Moderation TODO
+
+- publish/list UI for public moderation marker records;
+- replay-backed moderation projections over marker topics;
+- marker weighting policy using issuer attestation, reputation, and reason;
+- `flag/clear` authority-root and community-trusted quorum verification;
+- optional web-capture middleware that stores observed URL content in Memarium;
+- operator explanations showing which markers affected local visibility;
+- automatic hide/quarantine decision layers, if and only if backed by explicit
+  local or community policy.
 
 ### Record Authorization Classes
 
@@ -728,6 +834,13 @@ At minimum, an `offer-snapshot` record or its replay context must expose:
 - `record/id`,
 - inner `service-offer.v1` signature verification result.
 
+For the M2 implementation, Dator signs the inner `service-offer.v1` content with
+the provider participant before signing the outer `agora-record.v1` envelope.
+Arca admits replayed offer snapshots only when that inner provider signature
+verifies over canonical service-offer content with `signature` pruned. A valid
+outer Agora envelope is transport provenance; it is not sufficient authority for
+the provider offer artifact.
+
 Mapping from legacy relay metadata to Agora-native replay:
 
 | `service-offer-relay.v1` | Agora-native source |
@@ -895,14 +1008,18 @@ Public gossip is the public, low-friction sibling of private Whisper exchange:
 ```text
 record/kind    = "gossip"
 content/schema = "public-gossip.v1"
-topic/key      = ai.orbiplex.gossip/<topic-class>
+topic/key      = ai.orbiplex.public-signals/<topic-class>
 record/about   = optional resource or place/person/topic index hints
 ```
 
 The payload MUST carry `disclosure/scope = "public"` and an
-`epistemic/class`. It is intentionally not evidence. Private or
-federation-scoped rumor exchange remains `whisper-signal.v1` or another
-non-public transport policy; do not smuggle it into `public-gossip.v1`.
+`epistemic/class`. It is intentionally not evidence. Payloads MAY suggest
+effective-view parameters such as `gossip/expires-at`,
+`gossip/decay-half-life-seconds`, and `gossip/min-effective-weight`, but local
+projection policy clamps those values; the immutable Agora record is not
+deleted by effective-view expiry. Private or federation-scoped rumor exchange
+remains `whisper-signal.v1` or another non-public transport policy; do not
+smuggle it into `public-gossip.v1`.
 
 Thread participation policy should not be embedded in `plain-comment.v1`.
 Use a separate Agora record:
@@ -1133,6 +1250,82 @@ Rules:
 - Module-local auth tokens identify the transport caller; they do not replace
   capability passport authorization.
 
+### Host Verifier Boundary For Non-Rust Middleware
+
+Middleware implemented outside Rust should not duplicate Agora's delegated
+signing, authority-root, revocation, or capability-profile semantics. The host
+should expose loopback host capabilities that let supervised middleware ask the
+daemon to verify or admit an Agora record under the node's current policy view.
+
+The first transport is normal HTTP over loopback:
+
+```text
+Python or other supervised middleware
+  -> POST /v1/host/capabilities/agora.record.verify
+     X-Orbiplex-Module-Authtok: <module host token>
+     X-Orbiplex-Component: <module_id>   # optional assertion
+  -> daemon shared Agora verification core
+  -> accepted | rejected + reason
+```
+
+`X-Orbiplex-Module-Authtok` authenticates the component. `X-Orbiplex-Component`
+is an assertion and diagnostic guard only: if present, it must match the module
+id bound to the token. The host must never trust the component header without
+the token. Once the module is authenticated, the host can attach the runtime
+configuration, capability passports, revocation view, and component-local policy
+that were established when the middleware was initialized.
+
+The admission core should be shared by:
+
+```text
+HTTP record ingest
+Matrix federation ingest
+local replay/projection rebuild
+host capability calls from non-Rust middleware
+```
+
+The desired invariant is:
+
+```text
+admit_agora_record(record, context, policy_view, revocation_view)
+```
+
+is the single semantic decision point. Transport adapters may differ, but they
+must not fork delegated-signing rules.
+
+The initial host surface exposes a verify capability:
+
+```text
+POST /v1/host/capabilities/agora.record.verify
+```
+
+This verifies the record envelope and inline delegated/proxy key proof through
+the same `CapabilityDelegationVerifier` used by the Rust Agora service path. It
+does not authorize publication or subscription by itself. Bundled Python
+middleware uses `middleware-modules/lib/host_agora.py::HostAgoraClient` for this
+call, so Python code stays a transport client rather than a second verifier
+implementation.
+
+A later host surface may expose a high-level admit capability:
+
+```text
+POST /v1/host/capabilities/agora.record.admit
+```
+
+with context such as `ingress`, `operation`, `topic/key`, and caller binding.
+Lower-level verify-only surfaces can be added later if middleware needs them for
+diagnostics; admit is the safer default for decisions that must include
+publish/subscribe profile checks, authority roots, and revocation freshness.
+
+Shared cross-language delegated vectors must guard the contract:
+
+- direct author signature accepted;
+- valid delegated key accepted;
+- expired delegation rejected;
+- wrong `signing/agora-record` domain or scope rejected;
+- tampered payload rejected;
+- `signature.key/public` mismatch rejected.
+
 ### Agora Envelope Canonicalization
 
 Do not redefine Agora signing in this note. Use `agora-core` as the executable
@@ -1330,7 +1523,25 @@ Public rejection records MAY include:
 - timestamp
 
 Operator-local rejection records may carry richer diagnostics because they stay
-inside the operator control plane.
+inside the operator control plane. M2b persists them in
+`<agora_data_dir>/agora-rejections.v1.sqlite` with bounded retention and exposes
+them through `/v1/agora/status` and `GET /v1/agora/operator/rejections`. The
+stored shape is deliberately small:
+
+```text
+rejected_at
+surface
+status
+reason
+topic_key
+record_kind
+content_schema
+record_id
+request_digest
+```
+
+The store MUST NOT persist raw request bodies, passports, proof bundles, or
+internal policy traces.
 
 ## Code Review Disposition 2026-05-01
 
@@ -1505,7 +1716,7 @@ Consider adding a negative seed-directory test for mismatches in those fields.
 | Relay metadata outside domain payload | ✅ `relay/received-at`, `relay/id`, `relay/hops` |
 | Crate boundaries — adapters, not a monolith | ✅ `agora.rs` in catalog and seed-directory |
 | Passport signature cache | ✅ capability-binding has signature/profile/authorization caches keyed by passport digest and revocation view |
-| Write path: two distinct signatures | ✅ conceptually separated |
+| Write path: two distinct signatures | ✅ Dator signs inner `service-offer.v1` and outer `agora-record.v1`; Arca verifies inner provider signature during replay admission |
 | Topic naming stability | ✅ `/v1/` prefixes |
 | Rejection feed scope | ✅ local operator feed implemented; public feed intentionally deferred |
 | Publish accepted facts, not raw requests | ✅ Seed Directory publishes after acceptance |

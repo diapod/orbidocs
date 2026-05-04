@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:org-custody-policy:v1",
+  "title": "OrgCustodyPolicy v1",
+  "description": "Public policy artifact describing which participants or keys may authorize organization-scoped Agora authority actions, and whether authorization is any-authorized or threshold-based. The artifact is referenced by an Agora authority root via custody_policy_ref and is evaluated fail-closed by the local relay.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/008-agora/008-agora.md",
+    "doc/project/60-solutions/008-agora/008-agora-dir-simplify-impl.md"
+  ],
+  "required": [
+    "schema",
+    "policy/ref",
+    "org/id",
+    "accepted/delegation_schema",
+    "rules"
+  ],
+  "properties": {
+    "schema": { "const": "org-custody-policy.v1" },
+    "policy/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Stable local or federated reference used by authority roots."
+    },
+    "org/id": {
+      "type": "string",
+      "pattern": "^org:",
+      "description": "Organization identity governed by this policy."
+    },
+    "accepted/delegation_schema": {
+      "const": "key-delegation.v1",
+      "description": "Delegation proof schema accepted by M2b Agora authority checks."
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/rule" }
+    }
+  },
+  "$defs": {
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose", "namespaces", "mode"],
+      "properties": {
+        "purpose": {
+          "type": "string",
+          "enum": ["agora-authority"],
+          "description": "M2b supports only Agora authority establishment."
+        },
+        "namespaces": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["any-authorized", "threshold"]
+        },
+        "threshold/min_signers": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128,
+          "description": "Required when mode is threshold. Duplicate signers count once."
+        },
+        "authorized/participant_ids": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "type": "string", "pattern": "^participant:" },
+          "default": []
+        },
+        "authorized/key_publics": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "max_delegation_ttl_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Optional upper bound from record authored_at to key-delegation expires_at."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "const": "threshold" } }, "required": ["mode"] },
+          "then": { "required": ["threshold/min_signers"] }
+        },
+        {
+          "anyOf": [
+            { "required": ["authorized/participant_ids"] },
+            { "required": ["authorized/key_publics"] }
+          ]
+        }
+      ]
+    }
+  }
+}

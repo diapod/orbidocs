@@ -1,0 +1,40 @@
+{
+  "schema": "moderation-marker.v1",
+  "marker/id": "marker:moderation:1777800000000000001:clear",
+  "marker/action": "flag/clear",
+  "marker/reason": "content/spam",
+  "target": {
+    "kind": "moderation-marker",
+    "id": "marker:moderation:1777800000000000000:url-spam"
+  },
+  "issuer": {
+    "kind": "org",
+    "id": "org:orbiplex-moderation-council"
+  },
+  "policy/ref": "default",
+  "proofs": {
+    "issuer/attestation": [
+      {
+        "schema": "attestation-passport.v1",
+        "attestation/level": "community-trusted",
+        "passport/id": "passport:attestation:community-trusted-example"
+      }
+    ],
+    "authority/root-chain": [
+      {
+        "schema": "authority-root-chain.v1",
+        "root/id": "authority-root:example"
+      }
+    ]
+  },
+  "clears": {
+    "marker/id": "marker:moderation:1777800000000000000:url-spam",
+    "target": {
+      "kind": "url",
+      "id": "https://example.org/article",
+      "url/canonical": "https://example.org/article"
+    },
+    "marker/reason": "content/spam"
+  },
+  "created/at": "2026-05-03T13:00:00Z"
+}

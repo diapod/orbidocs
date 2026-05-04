@@ -97,6 +97,23 @@
       },
       "description": "Optional loose tags. Tags are not a closed taxonomy."
     },
+    "gossip/expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional author-suggested expiration time for the effective gossip view. Projection policy MAY clamp this value and MUST keep the historical Agora record immutable."
+    },
+    "gossip/decay-half-life-seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 31536000,
+      "description": "Optional author-suggested half-life for local effective-weight decay. Projection policy MAY clamp this value."
+    },
+    "gossip/min-effective-weight": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Optional author-suggested minimum effective weight below which the local projection may treat the gossip as below-threshold. Projection policy MAY clamp this value."
+    },
     "gossip/see-also": {
       "type": "array",
       "maxItems": 32,

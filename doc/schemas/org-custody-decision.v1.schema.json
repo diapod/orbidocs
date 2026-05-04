@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:org-custody-decision:v1",
+  "title": "OrgCustodyDecision v1",
+  "description": "Signed quorum bundle authorizing one organization-scoped Agora authority action under an org-custody-policy.v1 threshold rule. It is carried inline with the key-delegation proof so verifiers can fail closed without an extra network lookup.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/008-agora/008-agora.md",
+    "doc/project/60-solutions/008-agora/008-agora-dir-simplify-impl.md"
+  ],
+  "required": [
+    "schema",
+    "decision/id",
+    "policy/ref",
+    "org/id",
+    "purpose",
+    "topic/key",
+    "target/record_digest",
+    "decided-at",
+    "signatures"
+  ],
+  "properties": {
+    "schema": { "const": "org-custody-decision.v1" },
+    "decision/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "policy/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "org/id": { "type": "string", "pattern": "^org:" },
+    "purpose": { "type": "string", "enum": ["agora-authority"] },
+    "topic/key": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "target/record_digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$",
+      "description": "Digest of the target Agora record with the embedded org custody decision removed from signature.key/delegation, avoiding recursive self-reference."
+    },
+    "delegation/id": { "type": "string", "pattern": "^delegation:key:" },
+    "decided-at": { "type": "string", "format": "date-time" },
+    "expires-at": {
+      "anyOf": [
+        { "type": "string", "format": "date-time" },
+        { "type": "null" }
+      ]
+    },
+    "signatures": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": { "$ref": "#/$defs/signature" }
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["participant/id", "key/public", "alg", "value"],
+      "properties": {
+        "participant/id": { "type": "string", "pattern": "^participant:" },
+        "key/public": { "type": "string", "minLength": 1 },
+        "alg": { "const": "ed25519" },
+        "value": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-# Solution 045: Agora Authority
+# Solution 021: Agora Authority
 
 Date: `2026-05-01`
 Status: Draft

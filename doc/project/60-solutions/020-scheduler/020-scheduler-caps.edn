@@ -1,0 +1,141 @@
+{:component/id :orbiplex/replay-scheduler
+ :component/title "Replay Scheduler"
+ :component/type :infrastructure
+ :component/status :partial
+
+ :summary
+ "A shared host-owned runtime primitive for bounded periodic jobs. The first
+ consumer is Agora projection replay, but the primitive is generic: it owns
+ timing, jitter, backoff, launch accounting, shutdown, and status snapshots;
+ domain execution and authorization remain with the owning component and host
+ authority gate."
+
+ :must-implement
+ [{:cap/id :scheduler-core-runtime
+   :title "Scheduler Core Runtime"
+   :kind :runtime
+   :based-on ["doc/project/60-solutions/020-scheduler/020-scheduler.md"
+              "doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"]
+   :schemas []
+   :responsibilities
+   ["Register normalized `ScheduledJobSpec` values with explicit `job_id`, `owner_component_id`, `owner_runtime_api`, `domain`, and `action`"
+    "Calculate next due launches with deterministic per-job/per-window jitter and bounded retry backoff"
+    "Enforce global and per-job concurrency limits without unbounded backlog"
+    "Support explicit overlap and missed-launch policies; default to `SkipIfRunning` and `RunOnceIfMissed`"
+    "Expose pure status snapshots for due, running, failed, paused, and disabled jobs"]
+   :status :done}
+
+  {:cap/id :scheduler-durable-launch-ledger
+   :title "Durable Launch Ledger"
+   :kind :storage
+   :based-on ["doc/project/60-solutions/020-scheduler/020-scheduler.md"]
+   :schemas []
+   :responsibilities
+   ["Persist scheduler job state separately from domain projection cursors"
+    "Persist every launch with deterministic `launch_id`, scheduled time, status, attempt, error class, and optional outcome JSON"
+    "Survive runtime restart without double-launching the same `(job_id, scheduled_for)` window"
+    "Fail closed or disable scheduler with operator-visible error when the durable ledger cannot be opened"
+    "Treat in-memory launch storage as a test fixture only, not a production runtime profile"]
+   :status :done}
+
+  {:cap/id :scheduler-authority-boundary
+   :title "Scheduled Job Authority Boundary"
+   :kind :policy-enforcement
+   :based-on ["doc/project/60-solutions/020-scheduler/020-scheduler.md"
+              "doc/project/60-solutions/019-middleware/019-middleware.md"]
+   :schemas []
+   :responsibilities
+   ["Use a host-owned authority gate before every periodic launch"
+    "Use the same authority gate for operator-triggered `run-once` launches"
+    "Prevent one middleware component from forcing another component's private action without an explicit delegated capability contract"
+    "Keep scheduler timing decisions separate from domain authorization and capability/passport checks"]
+   :status :done}
+
+  {:cap/id :scheduler-host-job-source-merge
+   :title "Host-Owned Job Source Merge"
+   :kind :configuration
+   :based-on ["doc/project/60-solutions/020-scheduler/020-scheduler.md"
+              "doc/project/60-solutions/015-host-owned-module-store/015-host-owned-module-store.md"
+              "doc/project/60-solutions/019-middleware/019-middleware.md"]
+   :schemas []
+   :responsibilities
+   ["Normalize global host jobs, component jobs, middleware-package factory jobs, runtime-owned registrations, and operator actions into one job-spec stream"
+    "Inject `owner_component_id`, `owner_runtime_api`, and `action` before the scheduler sees a job"
+    "Treat `owner_runtime_api` as a string at the configuration/wire boundary; normalize known values and reject unknown values in the host adapter"
+    "Reject conflicting `job_id` values unless the override has the same `owner_component_id`, the same `job_id`, and explicit `override: true`"
+    "Extract middleware package factory job specs only from effective package configuration after Local Readiness Gate acceptance"
+    "Reject runtime attempts to register another component's owner id without an explicit delegated capability contract"]
+   :status :done}
+
+  {:cap/id :scheduler-cooperative-shutdown
+   :title "Cooperative Scheduler Shutdown"
+   :kind :runtime
+   :based-on ["doc/project/60-solutions/020-scheduler/020-scheduler.md"]
+   :schemas []
+   :responsibilities
+   ["Expose a stop token to running jobs"
+    "Stop launching new jobs after shutdown begins"
+    "Drain running jobs up to configured shutdown grace"
+    "Persist final interrupted or completed launch state before exit"
+    "Require jobs to check cancellation between bounded work units, such as replay pages"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :agora-projection-replay-jobs
+   :title "Agora Projection Replay Jobs"
+   :kind :integration
+   :based-on ["doc/project/60-solutions/020-scheduler/020-scheduler.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas ["agora-record.v1"]
+   :responsibilities
+   ["Register Agora-owned replay jobs for comments, resource opinions, public gossip, Seed Directory accepted-record projections, and offer publication projections"
+    "Route each job through Agora projection APIs such as `ProjectionStore::replay_topic_from_relay` rather than embedding Agora semantics in the scheduler"
+    "Return generic scheduled job outcomes while Agora UI and status surfaces explain domain meaning"]
+   :status :partial}
+
+  {:cap/id :scheduler-operator-status-surface
+   :title "Scheduler Operator Status Surface"
+   :kind :inspection
+   :based-on ["doc/project/60-solutions/020-scheduler/020-scheduler.md"
+              "doc/project/60-solutions/001-node-ui/001-node-ui.md"]
+   :schemas []
+   :responsibilities
+   ["Expose scheduler status, job list, per-job details, pause/resume, and run-once through host-owned API/UI surfaces"
+    "Keep generic scheduler UI focused on timing and launch state"
+    "Let component UIs, such as Agora UI, render domain-specific topic, schema, cursor, lag, and replay outcome details"]
+   :status :done}
+
+  {:cap/id :non-agora-maintenance-jobs
+   :title "Non-Agora Maintenance Jobs"
+   :kind :optional
+   :based-on ["doc/project/60-solutions/020-scheduler/020-scheduler.md"]
+   :schemas []
+   :responsibilities
+   ["Use the same scheduler primitive for future bounded maintenance jobs such as local projections, exports, backups, or operator notifications"
+    "Keep each job owned by its component and authorized through the same host gate"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Distributed leadership or cluster-wide singleton scheduling"
+  "Declarative DAG/dependency scheduling between jobs in M1"
+  "Remote peers or Agora records directly creating local scheduler jobs"
+  "Record validation, signing, delegated signing, trust admission, moderation, or reputation policy"
+  "Domain projection cursor ownership; cursors remain in the domain projection layer"]
+
+ :consumes
+ ["Local host configuration"
+  "Component configuration"
+  "Effective middleware package factory job specs"
+  "Runtime-owned registration requests"
+  "Operator scheduler actions"]
+
+ :produces
+ ["Scheduled job status snapshots"
+  "Durable scheduled job state"
+  "Durable scheduled launch records"
+  "scheduled-job-outcome.v1-style runtime data"]
+
+ :notes
+ ["The scheduler is a host-owned timing and control primitive, not a capability or domain-policy engine."
+  "The first implementation should include the durable launch ledger rather than adding it after the runtime exists."
+  "Agora projection replay is the first consumer, but the crate should remain generic and reusable by other host components."]}

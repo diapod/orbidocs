@@ -5,7 +5,7 @@ Based on:
 - `doc/project/20-memos/participant-assurance-levels.md`
 - `doc/project/20-memos/reputation-signal-v1-invariants.md`
 - `doc/project/40-proposals/041-agora-ingest-attestation.md`
-- `doc/project/60-solutions/045-agora-authority.md`
+- `doc/project/60-solutions/021-agora-authority/021-agora-authority.md`
 
 ## Status
 

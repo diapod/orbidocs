@@ -1,0 +1,24 @@
+{
+  "schema": "moderation-marker.v1",
+  "marker/id": "marker:moderation:bad-action",
+  "marker/action": "delete",
+  "marker/reason": "content/spam",
+  "target": {
+    "kind": "agora-record",
+    "id": "sha256:47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU"
+  },
+  "issuer": {
+    "kind": "participant",
+    "id": "participant:did:key:z6MkIssuerExample111111111111111111111"
+  },
+  "policy/ref": "default",
+  "proofs": {
+    "issuer/attestation": [
+      {
+        "schema": "attestation-passport.v1",
+        "attestation/level": "ial1"
+      }
+    ]
+  },
+  "created/at": "2026-05-03T12:10:00Z"
+}

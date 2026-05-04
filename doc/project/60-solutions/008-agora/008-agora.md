@@ -48,7 +48,7 @@ It does not define:
   `resource-opinion.v1`),
 - namespace-level authority roots and publish/subscribe capability profiles —
   those are defined in
-  `doc/project/60-solutions/045-agora-authority.md`,
+  `doc/project/60-solutions/021-agora-authority/021-agora-authority.md`,
 - content moderation, reputation weighting, or listener-side filtering —
   these are the listener's concern,
 - whether the relay runs in-process with the daemon or as a separate program;
@@ -302,10 +302,40 @@ Responsibilities:
   delegation without remote lookups.
 
 Status:
-- `partial`: envelope fields, fail-closed verifier hook, capability grant,
-  bridge verifier, and delegated example fixture are implemented. Accept
-  paths, `records.sign` with `key_delegation`, Python delegated verifier,
-  and UI support remain pending.
+- `done` for M2b verification parity: envelope fields, fail-closed verifier
+  hook, capability grant, bridge verifier, delegated examples, Rust
+  service/relay accept paths, `records.sign` with `key_delegation`, Rust
+  Matrix-only ingest parity, and host `agora.record.verify` capability for
+  non-Rust middleware are implemented. Bundled Python middleware has a
+  `HostAgoraClient.verify_record()` helper for that verifier, and committed
+  delegated fixtures assert the same decisions across Rust, Matrix, SQLite
+  replay, and Python host-capability transport. High-level
+  `agora.record.admit` remains a later composition point for verification plus
+  publish/subscribe policy.
+
+### Org Authority Custody
+
+Org authority roots do not name "keys that may publish" directly. They name an
+organization identity that may establish authority under a referenced custody
+policy:
+
+```json
+{
+  "id": "org:...",
+  "kind": "org",
+  "custody_policy_ref": "org-custody:example:v1",
+  "namespaces": ["ai.orbiplex.reputation/**"]
+}
+```
+
+The referenced `org-custody-policy.v1` artifact defines which participants or
+keys may authorize `agora-authority` actions and whether the rule is
+`any-authorized` or `threshold`. Threshold rules require an inline
+`org-custody-decision.v1` bundle carried beside the key-delegation proof. The
+decision bundle signs the target record digest, policy ref, org id, purpose,
+topic key, and optional delegation id; duplicate signers count once. Unknown
+policy refs, unknown modes, missing decisions, target mismatches, and
+insufficient quorum fail closed.
 
 ### Aggregate Status Surface
 
@@ -379,7 +409,8 @@ on meaning.
 
 - per-kind semantic interpretation (opinion meaning, comment threading,
   whisper thresholds),
-- listener-side filtering, moderation, or reputation weighting,
+- listener-side filtering, automatic moderation decisions, or reputation
+  weighting,
 - payment / settlement of record ingest,
 - long-running workflow execution driven by record content,
 - replacement of the seed directory or the offer catalog — those are
@@ -389,6 +420,7 @@ on meaning.
 
 - `agora-record.v1`
 - `resource-ref.v1`
+- `moderation-marker.v1`
 - `capability-passport.v1`
 
 ## Produces

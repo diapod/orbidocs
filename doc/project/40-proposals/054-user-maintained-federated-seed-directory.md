@@ -7,7 +7,7 @@ Based on:
 - `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
 - `doc/project/40-proposals/045-sensorium-local-enaction-stratum.md`
 - `doc/project/40-proposals/046-agora-topic-key-namespace-conventions.md`
-- `doc/project/60-solutions/045-agora-authority.md`
+- `doc/project/60-solutions/021-agora-authority/021-agora-authority.md`
 
 ## Status
 

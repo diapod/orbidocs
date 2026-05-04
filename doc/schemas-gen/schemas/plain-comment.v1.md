@@ -31,6 +31,7 @@ Machine-readable schema for the simplest Agora content payload: a plain-text com
 |---|---|---|---|
 | [`body`](#field-body) | `yes` | string | The textual body of the comment. Plain, unformatted text by default. Renderers MUST treat the content as untrusted input and escape appropriately before display. |
 | [`body/format`](#field-body-format) | `no` | enum: `text/plain`, `text/markdown` | Optional content type hint for rendering. `text/plain` is the default. `text/markdown` requests CommonMark rendering. Renderers MUST NOT execute embedded scripts or interpret active content regardless of format. |
+| [`thread/title`](#field-thread-title) | `no` | string | Optional title for a thread opened by this comment. Projection consumers MUST interpret this field only when the enclosing Agora record is a root comment without `record/parent`; on replies it is ignored or surfaced as a diagnostic. |
 | [`lang`](#field-lang) | `no` | string | Optional BCP 47 language tag for the comment body. Duplicates the envelope `record/lang` when both are present; when they disagree, the inner value takes precedence for rendering. |
 ## Field Semantics
 
@@ -49,6 +50,14 @@ The textual body of the comment. Plain, unformatted text by default. Renderers M
 - Shape: enum: `text/plain`, `text/markdown`
 
 Optional content type hint for rendering. `text/plain` is the default. `text/markdown` requests CommonMark rendering. Renderers MUST NOT execute embedded scripts or interpret active content regardless of format.
+
+<a id="field-thread-title"></a>
+## `thread/title`
+
+- Required: `no`
+- Shape: string
+
+Optional title for a thread opened by this comment. Projection consumers MUST interpret this field only when the enclosing Agora record is a root comment without `record/parent`; on replies it is ignored or surfaced as a diagnostic.
 
 <a id="field-lang"></a>
 ## `lang`

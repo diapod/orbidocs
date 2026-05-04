@@ -1,0 +1,399 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:moderation-marker:v1",
+  "title": "ModerationMarker v1",
+  "description": "Machine-readable schema for the content body of an Agora record carrying a public moderation marker. The marker is an append-only public signal, not an imperative delete or hide command. The enclosing `agora-record.v1` envelope carries identity, authorship, topic routing, optional record/about references, and signature. Local, community, or namespace policy decides how markers affect visibility, reputation, quarantine, or appeal outcomes.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/60-solutions/008-agora/008-agora-dir-simplify-impl.md"
+  ],
+  "required": [
+    "schema",
+    "marker/id",
+    "marker/action",
+    "marker/reason",
+    "target",
+    "issuer",
+    "policy/ref",
+    "proofs",
+    "created/at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "moderation-marker.v1",
+      "description": "Content-level discriminator for consumers that inspect the payload outside its Agora envelope."
+    },
+    "marker/id": {
+      "type": "string",
+      "pattern": "^marker:[A-Za-z0-9._:-]{1,160}$",
+      "description": "Stable marker identifier assigned by the authoring component. It is not the Agora `record/id`; the latter remains the content address of the enclosing record."
+    },
+    "marker/action": {
+      "type": "string",
+      "enum": [
+        "flag",
+        "flag/support",
+        "flag/dispute",
+        "flag/clear",
+        "recommendation/hide",
+        "recommendation/unhide",
+        "reputation-signal"
+      ],
+      "description": "Canonical moderation action. `flag/*` belongs to claim lifecycle, `recommendation/*` is projection advice, and `reputation-signal` affects trust/reputation projections. The marker remains a signal, never an imperative command."
+    },
+    "marker/reason": {
+      "type": "string",
+      "enum": [
+        "content/spam",
+        "content/malware",
+        "content/sexual",
+        "content/non-consensual",
+        "content/off-topic",
+        "content/low-quality",
+        "content/malformed",
+        "content/misinformation",
+        "content/unsafe",
+        "content/copyright",
+        "content/other",
+        "aim/fraud",
+        "aim/harassment",
+        "aim/hate",
+        "aim/impersonation",
+        "aim/privacy-violation",
+        "aim/other",
+        "protocol/abuse",
+        "protocol/malformed",
+        "protocol/other",
+        "other"
+      ],
+      "description": "Globally canonical v1 reason taxonomy. Unknown reasons are schema-invalid rather than open-world. Local policy may map these reasons to local visibility/reputation decisions."
+    },
+    "marker/severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Optional issuer-local severity hint. Consumers MUST NOT treat it as an automatic hide/delete decision without an explicit policy mapping."
+    },
+    "target": {
+      "$ref": "#/$defs/target"
+    },
+    "subject": {
+      "$ref": "#/$defs/identityRef",
+      "description": "Optional actor identity most directly associated with the target, when known. If a user publishes under a nym, moderation should target that nym unless policy explicitly allows escalation."
+    },
+    "issuer": {
+      "$ref": "#/$defs/issuerRef"
+    },
+    "policy/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Explicit moderation policy reference. The special value `default` means the default moderation policy for the Agora namespace that carries this marker."
+    },
+    "proofs": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Inline verification material. Orbiplex prefers offline-verifiable markers: attestation passports, key delegations, authority-root chains, or quorum proofs should travel with the marker whenever practical.",
+      "properties": {
+        "issuer/attestation": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/proofObject"
+          },
+          "description": "Inline attestations for the issuer. For ordinary `flag`, policy expects at least IAL1-equivalent proof."
+        },
+        "issuer/delegation": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/proofObject"
+          },
+          "description": "Optional inline key/proxy delegations proving that the signing key may speak for the issuer."
+        },
+        "authority/root-chain": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/proofObject"
+          },
+          "description": "Optional authority-root chain. Required by policy for authority-root-cleared `flag/clear` markers."
+        },
+        "quorum/community-trusted": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/proofObject"
+          },
+          "description": "Optional quorum proof from community-trusted identities. Required by policy for quorum-cleared `flag/clear` markers."
+        }
+      },
+      "required": ["issuer/attestation"]
+    },
+    "evidence": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/evidenceRef"
+      },
+      "description": "Optional evidence references. For mutable locators such as URLs, the target is the canonical locator identity and observed content belongs here as time-bound evidence."
+    },
+    "clears": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional detail for `flag/clear`, naming the marker or reason class being cleared.",
+      "properties": {
+        "marker/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "target": {
+          "$ref": "#/$defs/target"
+        },
+        "marker/reason": {
+          "$ref": "#/$defs/reason"
+        }
+      }
+    },
+    "note": {
+      "type": "string",
+      "maxLength": 2048,
+      "description": "Optional short public note. Renderers MUST treat it as untrusted input and escape appropriately."
+    },
+    "created/at": {
+      "$ref": "#/$defs/rfc3339"
+    },
+    "expires/at": {
+      "anyOf": [
+        { "$ref": "#/$defs/rfc3339" },
+        { "type": "null" }
+      ],
+      "description": "Optional marker expiry. Absence and null both mean no declared expiry; local policy may still apply retention or weighting windows."
+    }
+  },
+  "$defs": {
+    "reason": {
+      "type": "string",
+      "enum": [
+        "content/spam",
+        "content/malware",
+        "content/sexual",
+        "content/non-consensual",
+        "content/off-topic",
+        "content/low-quality",
+        "content/malformed",
+        "content/misinformation",
+        "content/unsafe",
+        "content/copyright",
+        "content/other",
+        "aim/fraud",
+        "aim/harassment",
+        "aim/hate",
+        "aim/impersonation",
+        "aim/privacy-violation",
+        "aim/other",
+        "protocol/abuse",
+        "protocol/malformed",
+        "protocol/other",
+        "other"
+      ]
+    },
+    "rfc3339": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "agora-record",
+            "agora-topic",
+            "participant",
+            "org",
+            "nym",
+            "node",
+            "capability-passport",
+            "service-offer",
+            "url",
+            "resource",
+            "comment-thread",
+            "moderation-marker"
+          ],
+          "description": "Kind of target. The deterministic target-id hash MUST be computed over at least `{kind, id}` using the Agora JCS-NFC SHA-256 base64url convention."
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "description": "Canonical identifier for the target kind. For `url`, this is the canonical locator identity, not a content digest."
+        },
+        "url/canonical": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048,
+          "description": "Canonical URL when `kind = url`. URL targets are mutable locators; observed content digests belong in `evidence`."
+        }
+      }
+    },
+    "identityRef": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["participant", "org", "nym", "node"]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "issuerRef": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["participant", "org", "nym"]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "proofObject": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["schema"],
+      "properties": {
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "evidenceRef": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "agora-record",
+            "web-observation",
+            "url",
+            "resource",
+            "memarium-blob",
+            "moderation-marker"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "observed/at": {
+          "$ref": "#/$defs/rfc3339"
+        },
+        "content/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]+$"
+        },
+        "content/digest-alg": {
+          "type": "string",
+          "enum": ["sha256-base64url", "jcs-nfc-sha256-base64url"]
+        },
+        "http/status": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599
+        },
+        "http/etag": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "http/last-modified": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "archive/ref": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "memarium/ref": {
+          "type": "string",
+          "maxLength": 1024
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "marker/action": { "const": "flag/clear" }
+        },
+        "required": ["marker/action"]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": ["clears"]
+          },
+          {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": { "const": "moderation-marker" }
+                },
+                "required": ["kind"]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "target": {
+            "properties": {
+              "kind": { "const": "url" }
+            },
+            "required": ["kind"]
+          }
+        },
+        "required": ["target"]
+      },
+      "then": {
+        "properties": {
+          "target": {
+            "required": ["url/canonical"]
+          }
+        }
+      }
+    }
+  ]
+}

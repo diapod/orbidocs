@@ -1,0 +1,26 @@
+{
+  "schema": "org-custody-decision.v1",
+  "decision/id": "org-custody-decision:example:001",
+  "policy/ref": "org-custody:orbiplex-threshold:v1",
+  "org/id": "org:did:key:z6MkOrgRootExample",
+  "purpose": "agora-authority",
+  "topic/key": "ai.orbiplex.reputation/daily/2026-05-03",
+  "target/record_digest": "sha256:47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU",
+  "delegation/id": "delegation:key:example:001",
+  "decided-at": "2026-05-03T10:00:00Z",
+  "expires-at": "2026-05-04T10:00:00Z",
+  "signatures": [
+    {
+      "participant/id": "participant:did:key:z6MkCustodianOne",
+      "key/public": "z6MkCustodianOne",
+      "alg": "ed25519",
+      "value": "example-signature-one"
+    },
+    {
+      "participant/id": "participant:did:key:z6MkCustodianTwo",
+      "key/public": "z6MkCustodianTwo",
+      "alg": "ed25519",
+      "value": "example-signature-two"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "org-custody-policy.v1",
+  "policy/ref": "org-custody:bad:v1",
+  "org/id": "org:did:key:z6MkOrgRootExample",
+  "accepted/delegation_schema": "key-delegation.v1",
+  "rules": [
+    {
+      "purpose": "agora-authority",
+      "namespaces": ["ai.orbiplex/**"],
+      "mode": "council-vibes",
+      "authorized/participant_ids": ["participant:did:key:z6MkCustodianExample"]
+    }
+  ]
+}

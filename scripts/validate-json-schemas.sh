@@ -59,11 +59,20 @@ schema_for_file() {
     *.agora-query-attestation.json)
       echo "$SCHEMAS_DIR/agora-query-attestation.v1.schema.json"
       ;;
+    *.org-custody-policy.json)
+      echo "$SCHEMAS_DIR/org-custody-policy.v1.schema.json"
+      ;;
+    *.org-custody-decision.json)
+      echo "$SCHEMAS_DIR/org-custody-decision.v1.schema.json"
+      ;;
     *.resource-opinion.json)
       echo "$SCHEMAS_DIR/resource-opinion.v1.schema.json"
       ;;
     *.public-gossip.json)
       echo "$SCHEMAS_DIR/public-gossip.v1.schema.json"
+      ;;
+    *.moderation-marker.json)
+      echo "$SCHEMAS_DIR/moderation-marker.v1.schema.json"
       ;;
     *.comment-thread-policy.json)
       echo "$SCHEMAS_DIR/comment-thread-policy.v1.schema.json"

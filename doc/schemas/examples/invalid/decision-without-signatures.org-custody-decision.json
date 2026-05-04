@@ -1,0 +1,11 @@
+{
+  "schema": "org-custody-decision.v1",
+  "decision/id": "org-custody-decision:bad:001",
+  "policy/ref": "org-custody:orbiplex-threshold:v1",
+  "org/id": "org:did:key:z6MkOrgRootExample",
+  "purpose": "agora-authority",
+  "topic/key": "ai.orbiplex.reputation/daily/2026-05-03",
+  "target/record_digest": "sha256:47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU",
+  "decided-at": "2026-05-03T10:00:00Z",
+  "signatures": []
+}

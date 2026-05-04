@@ -1,0 +1,24 @@
+{
+  "schema": "moderation-marker.v1",
+  "marker/id": "marker:moderation:url-without-canonical",
+  "marker/action": "flag",
+  "marker/reason": "content/spam",
+  "target": {
+    "kind": "url",
+    "id": "https://example.org/article"
+  },
+  "issuer": {
+    "kind": "participant",
+    "id": "participant:did:key:z6MkIssuerExample111111111111111111111"
+  },
+  "policy/ref": "default",
+  "proofs": {
+    "issuer/attestation": [
+      {
+        "schema": "attestation-passport.v1",
+        "attestation/level": "ial1"
+      }
+    ]
+  },
+  "created/at": "2026-05-03T12:10:00Z"
+}

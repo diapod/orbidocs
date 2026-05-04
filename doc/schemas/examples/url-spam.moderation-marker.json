@@ -1,0 +1,47 @@
+{
+  "schema": "moderation-marker.v1",
+  "marker/id": "marker:moderation:1777800000000000000:url-spam",
+  "marker/action": "flag",
+  "marker/reason": "content/spam",
+  "marker/severity": "medium",
+  "target": {
+    "kind": "url",
+    "id": "https://example.org/article",
+    "url/canonical": "https://example.org/article"
+  },
+  "issuer": {
+    "kind": "participant",
+    "id": "participant:did:key:z6MkIssuerExample111111111111111111111"
+  },
+  "policy/ref": "default",
+  "proofs": {
+    "issuer/attestation": [
+      {
+        "schema": "attestation-passport.v1",
+        "attestation/level": "ial1",
+        "passport/id": "passport:attestation:example"
+      }
+    ],
+    "issuer/delegation": [
+      {
+        "schema": "key-delegation.v1",
+        "target/id": "delegation:example"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "web-observation",
+      "url": "https://example.org/article",
+      "observed/at": "2026-05-03T12:00:00Z",
+      "http/status": 200,
+      "http/etag": "\"abc\"",
+      "content/digest": "sha256:47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU",
+      "content/digest-alg": "sha256-base64url",
+      "memarium/ref": "memarium-blob:example"
+    }
+  ],
+  "note": "Looks like a repeated spam landing page at this URL.",
+  "created/at": "2026-05-03T12:10:00Z",
+  "expires/at": null
+}

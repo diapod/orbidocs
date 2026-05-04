@@ -1,0 +1,139 @@
+{:component/id :orbiplex/agora-authority
+ :component/title "Orbiplex Agora Authority"
+ :component/type :policy-enforcement-layer
+ :component/status :draft
+
+ :summary
+ "Authority, delegation, and participation-gate layer for protected Agora
+ namespaces. Keeps namespace authority, operational signing keys, publication
+ passports, subscription passports, and participation attestations separate from
+ the Agora record envelope."
+
+ :must-implement
+ [{:cap/id :authority-root-config
+   :title "Authority Root Configuration"
+   :kind :policy-configuration
+   :based-on ["doc/project/40-proposals/017-organization-subjects-and-org-did-key.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/50-requirements/requirements-008-org-subject-rollout.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas ["agora-record.v1"
+             "org-custody-policy.v1"]
+   :responsibilities
+   ["Represent namespace authority as configured accountable subjects, not as hard-coded signing keys"
+    "Bind authority roots to topic-prefix patterns, purposes, assurance tiers, validity windows, and optional custody policy references"
+    "Fail closed when a protected namespace has no accepted local authority root"]
+   :status :partial}
+
+  {:cap/id :authority-resolution
+   :title "Authority Resolution"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/017-organization-subjects-and-org-did-key.md"
+              "doc/project/40-proposals/032-key-delegation-passports.md"
+              "doc/project/60-solutions/014-key-delegation-passports/014-key-delegation-passports.md"]
+   :schemas ["agora-record.v1"
+             "key-delegation.v1"
+             "org-custody-decision.v1"
+             "org-custody-policy.v1"]
+   :responsibilities
+   ["Resolve a signed Agora record to a root subject, concrete signing key, delegation or custody proof path, namespace match, and effective assurance"
+    "Keep participant roots, organization roots, delegated signing keys, and derived operational keys behind one deterministic resolver interface"
+    "Reject organization roots and delegated authority paths until the relevant custody or delegation resolver is wired for the deployment"]
+   :status :partial}
+
+  {:cap/id :agora-publish-profile
+   :title "Agora Publish Profile"
+   :kind :capability-passport
+   :based-on ["doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/40-proposals/041-agora-ingest-attestation.md"
+              "doc/project/60-solutions/006-capability-binding/006-capability-binding.md"]
+   :schemas ["capability-passport.v1"
+             "agora-record.v1"
+             "plain-comment.v1"
+             "resource-opinion.v1"
+             "comment-thread-policy.v1"]
+   :responsibilities
+   ["Authorize `agora/publish` by topic, record kind, content schema, revocation freshness, and caller binding"
+    "Separate authority publishing for announcements, proposals, policies, namespace roots, and authority roots from ordinary participation publishing"
+    "Apply participation thresholds such as phone-confirmed attestation for comments and opinions without treating them as namespace authority"]
+   :status :partial}
+
+  {:cap/id :agora-subscribe-profile
+   :title "Agora Subscribe Profile"
+   :kind :capability-passport
+   :based-on ["doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/60-solutions/006-capability-binding/006-capability-binding.md"]
+   :schemas ["capability-passport.v1"
+             "agora-record.v1"
+             "agora-query-attestation.v1"]
+   :responsibilities
+   ["Authorize history and live topic subscription through `agora-subscribe@v1` when a relay is not public-open"
+    "Gate subject-index queries by per-record topic subscription policy before assembling response attestations"
+    "Keep read authorization separate from publish authorization"]
+   :status :partial}
+
+  {:cap/id :topic-acl-authority-composition
+   :title "Topic ACL And Authority Composition"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas ["agora-record.v1"
+             "moderation-marker.v1"]
+   :responsibilities
+   ["Run local HTTP/client auth and topic ACL as the coarse gate before envelope, passport, and authority checks"
+    "Expose diagnostics that distinguish topic ACL allow/deny from capability-profile and authority-root allow/deny"
+    "Keep `agora-core` focused on record verification while authority policy remains a dedicated layer"]
+   :status :partial}]
+
+ :may-implement
+ [{:cap/id :authority-root-schema
+   :title "Authority Root Schema"
+   :kind :data-contract
+   :based-on ["doc/project/60-solutions/021-agora-authority/021-agora-authority.md"]
+   :schemas []
+   :responsibilities
+   ["Freeze a canonical config schema such as `agora-authority-roots.v1` or `agora-authority-policy.v1`"
+    "Represent participant roots, organization roots, namespace rules, assurance, validity, and custody-policy references as data"
+    "Allow deployments to validate authority configuration at startup"]
+   :status :planned}
+
+  {:cap/id :operator-authority-visibility
+   :title "Operator Authority Visibility"
+   :kind :operator-ui
+   :based-on ["doc/project/60-solutions/008-agora/008-agora.md"
+              "doc/project/60-solutions/021-agora-authority/021-agora-authority.md"]
+   :schemas []
+   :responsibilities
+   ["Expose authority-root counts and redaction markers on unauthenticated status surfaces"
+    "Expose richer authority-root diagnostics only on local operator-authenticated UI/API paths"
+    "Show topic ACL, passport-profile, revocation, and authority resolver decisions separately"]
+   :status :planned}]
+
+ :out-of-scope
+ ["Changing the `agora-record.v1` envelope to embed custody semantics"
+  "Making `agora-core` an authority policy engine"
+  "Treating phone-confirmed participation as namespace authority"
+  "Granting subscribe rights from publish rights or publish rights from subscribe rights"
+  "Choosing one global organization custody mechanism for every deployment"]
+
+ :consumes
+ ["agora-record.v1"
+  "capability-passport.v1"
+  "key-delegation.v1"
+  "org-custody-policy.v1"
+  "org-custody-decision.v1"
+  "comment-thread-policy.v1"]
+
+ :produces
+ ["authority decisions"
+  "publish authorization decisions"
+  "subscribe authorization decisions"
+  "operator authority diagnostics"]
+
+ :notes
+ ["This solution is in the Agora family but has its own solution identity because namespace authority is a policy layer, not the relay substrate itself."
+  "For `ai.orbiplex/**`, the recommended policy is highest-assurance authority roots for announcements/proposals and phone-confirmed-or-better participation for comments/opinions."
+  "Historical query attestations prove what the relay returned after subscribe policy and topic filtering; they are not authorization grants."
+  "Organization roots and delegated authority signatures fail closed until the relevant custody/delegation resolver path is wired."]}

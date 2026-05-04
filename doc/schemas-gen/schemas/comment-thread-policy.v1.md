@@ -7,7 +7,7 @@ Content schema for an Agora thread participation policy record. Used with `recor
 ## Governing Basis
 
 - [`doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`](../../project/40-proposals/035-agora-topic-addressed-record-relay.md)
-- [`doc/project/60-solutions/045-agora-authority.md`](../../project/60-solutions/045-agora-authority.md)
+- [`doc/project/60-solutions/021-agora-authority/021-agora-authority.md`](../../project/60-solutions/021-agora-authority/021-agora-authority.md)
 
 ## Project Lineage
 

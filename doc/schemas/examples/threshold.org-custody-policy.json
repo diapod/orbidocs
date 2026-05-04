@@ -1,0 +1,20 @@
+{
+  "schema": "org-custody-policy.v1",
+  "policy/ref": "org-custody:orbiplex-threshold:v1",
+  "org/id": "org:did:key:z6MkOrgRootExample",
+  "accepted/delegation_schema": "key-delegation.v1",
+  "rules": [
+    {
+      "purpose": "agora-authority",
+      "namespaces": ["ai.orbiplex.reputation/**"],
+      "mode": "threshold",
+      "threshold/min_signers": 2,
+      "authorized/participant_ids": [
+        "participant:did:key:z6MkCustodianOne",
+        "participant:did:key:z6MkCustodianTwo",
+        "participant:did:key:z6MkCustodianThree"
+      ],
+      "max_delegation_ttl_seconds": 604800
+    }
+  ]
+}

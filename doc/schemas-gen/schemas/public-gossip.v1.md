@@ -40,6 +40,9 @@ Machine-readable schema for the content body of an Agora record carrying a publi
 | [`disclosure/scope`](#field-disclosure-scope) | `yes` | const: `public` | Public gossip is intentionally public. Private or federation-scoped rumor exchange belongs to `whisper-signal.v1` or another non-public transport policy. |
 | [`gossip/source-kind`](#field-gossip-source-kind) | `no` | enum: `first-hand`, `second-hand`, `pattern-observed`, `machine-assisted`, `unspecified` | Optional coarse source posture. It is a disclosure aid, not an evidentiary proof. |
 | [`gossip/tags`](#field-gossip-tags) | `no` | array | Optional loose tags. Tags are not a closed taxonomy. |
+| [`gossip/expires-at`](#field-gossip-expires-at) | `no` | string | Optional author-suggested expiration time for the effective gossip view. Projection policy MAY clamp this value and MUST keep the historical Agora record immutable. |
+| [`gossip/decay-half-life-seconds`](#field-gossip-decay-half-life-seconds) | `no` | integer | Optional author-suggested half-life for local effective-weight decay. Projection policy MAY clamp this value. |
+| [`gossip/min-effective-weight`](#field-gossip-min-effective-weight) | `no` | number | Optional author-suggested minimum effective weight below which the local projection may treat the gossip as below-threshold. Projection policy MAY clamp this value. |
 | [`gossip/see-also`](#field-gossip-see-also) | `no` | array | Optional related public resources or records. |
 | [`policy/notes`](#field-policy-notes) | `no` | string | Optional policy or moderation note shown to readers. |
 ## Field Semantics
@@ -123,6 +126,30 @@ Optional coarse source posture. It is a disclosure aid, not an evidentiary proof
 - Shape: array
 
 Optional loose tags. Tags are not a closed taxonomy.
+
+<a id="field-gossip-expires-at"></a>
+## `gossip/expires-at`
+
+- Required: `no`
+- Shape: string
+
+Optional author-suggested expiration time for the effective gossip view. Projection policy MAY clamp this value and MUST keep the historical Agora record immutable.
+
+<a id="field-gossip-decay-half-life-seconds"></a>
+## `gossip/decay-half-life-seconds`
+
+- Required: `no`
+- Shape: integer
+
+Optional author-suggested half-life for local effective-weight decay. Projection policy MAY clamp this value.
+
+<a id="field-gossip-min-effective-weight"></a>
+## `gossip/min-effective-weight`
+
+- Required: `no`
+- Shape: number
+
+Optional author-suggested minimum effective weight below which the local projection may treat the gossip as below-threshold. Projection policy MAY clamp this value.
 
 <a id="field-gossip-see-also"></a>
 ## `gossip/see-also`
