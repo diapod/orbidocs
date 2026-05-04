@@ -1,0 +1,20 @@
+{
+  "schema": "agora-public-rejection.v1",
+  "schema/v": 1,
+  "rejection/id": "rejection:sha256:ABCDEFGHijklmnop0123456789_-ABCDEFGHijklmnop",
+  "relay/id": "node:did:key:z6MkRelayExample111111111111111111111111111",
+  "target": {
+    "topic_hash": "sha256:topicABCDEFGHijklmnop0123456789_-ABCDEFGH",
+    "record_digest": "sha256:recordABCDEFGHijklmnop0123456789_-ABCDEFG"
+  },
+  "decision": {
+    "class": "policy-denied",
+    "visibility": "redacted",
+    "retryable": false
+  },
+  "policy": {
+    "policy_ref": "default",
+    "policy_digest": "sha256:policyABCDEFGHijklmnop0123456789_-ABCDEFG"
+  },
+  "observed_at": "2026-05-04T20:30:00Z"
+}

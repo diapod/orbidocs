@@ -1,0 +1,21 @@
+{
+  "schema": "agora-authority-policy.v1",
+  "schema/v": 1,
+  "policy/id": "agora-authority-policy:bad-org-root",
+  "authority_roots": [
+    {
+      "root/id": "root:org-without-custody",
+      "subject": { "kind": "org", "id": "org:orbiplex" },
+      "topic_patterns": ["ai.orbiplex/**"],
+      "purposes": ["agora.namespace.root"],
+      "assurance/min": "sovereign-operator"
+    }
+  ],
+  "namespace_defaults": [
+    {
+      "topic_pattern": "ai.orbiplex/**",
+      "publish": "authority-root",
+      "subscribe": "capability"
+    }
+  ]
+}

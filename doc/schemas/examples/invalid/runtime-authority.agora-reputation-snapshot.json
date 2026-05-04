@@ -1,0 +1,24 @@
+{
+  "schema": "agora-reputation-snapshot.v1",
+  "schema/v": 1,
+  "snapshot/id": "reputation-snapshot:bad-runtime-authority",
+  "snapshot/period": {
+    "from": "2026-05-03T00:00:00Z",
+    "until": "2026-05-04T00:00:00Z"
+  },
+  "issuer": {
+    "kind": "org",
+    "id": "org:orbiplex-reputation-council"
+  },
+  "entries": [
+    {
+      "subject": {
+        "kind": "participant",
+        "id": "participant:did:key:z6MkTrustedExample111111111111111111111"
+      },
+      "tier": "runtime-admin",
+      "score": 1.0
+    }
+  ],
+  "computed_at": "2026-05-04T00:15:00Z"
+}

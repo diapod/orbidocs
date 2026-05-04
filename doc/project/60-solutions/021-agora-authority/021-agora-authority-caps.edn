@@ -18,12 +18,13 @@
               "doc/project/50-requirements/requirements-008-org-subject-rollout.md"
               "doc/project/60-solutions/008-agora/008-agora.md"]
    :schemas ["agora-record.v1"
+             "agora-authority-policy.v1"
              "org-custody-policy.v1"]
    :responsibilities
    ["Represent namespace authority as configured accountable subjects, not as hard-coded signing keys"
     "Bind authority roots to topic-prefix patterns, purposes, assurance tiers, validity windows, and optional custody policy references"
     "Fail closed when a protected namespace has no accepted local authority root"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :authority-resolution
    :title "Authority Resolution"
@@ -38,8 +39,8 @@
    :responsibilities
    ["Resolve a signed Agora record to a root subject, concrete signing key, delegation or custody proof path, namespace match, and effective assurance"
     "Keep participant roots, organization roots, delegated signing keys, and derived operational keys behind one deterministic resolver interface"
-    "Reject organization roots and delegated authority paths until the relevant custody or delegation resolver is wired for the deployment"]
-   :status :partial}
+    "Fail closed on missing custody/delegation proof, unknown policy refs, duplicate signers, signers outside policy, target digest mismatch, and stale validity windows"]
+   :status :done}
 
   {:cap/id :agora-publish-profile
    :title "Agora Publish Profile"
@@ -92,12 +93,12 @@
    :title "Authority Root Schema"
    :kind :data-contract
    :based-on ["doc/project/60-solutions/021-agora-authority/021-agora-authority.md"]
-   :schemas []
+   :schemas ["agora-authority-policy.v1"]
    :responsibilities
    ["Freeze a canonical config schema such as `agora-authority-roots.v1` or `agora-authority-policy.v1`"
     "Represent participant roots, organization roots, namespace rules, assurance, validity, and custody-policy references as data"
     "Allow deployments to validate authority configuration at startup"]
-   :status :planned}
+   :status :done}
 
   {:cap/id :operator-authority-visibility
    :title "Operator Authority Visibility"
@@ -109,7 +110,7 @@
    ["Expose authority-root counts and redaction markers on unauthenticated status surfaces"
     "Expose richer authority-root diagnostics only on local operator-authenticated UI/API paths"
     "Show topic ACL, passport-profile, revocation, and authority resolver decisions separately"]
-   :status :planned}]
+   :status :partial}]
 
  :out-of-scope
  ["Changing the `agora-record.v1` envelope to embed custody semantics"
@@ -136,4 +137,4 @@
  ["This solution is in the Agora family but has its own solution identity because namespace authority is a policy layer, not the relay substrate itself."
   "For `ai.orbiplex/**`, the recommended policy is highest-assurance authority roots for announcements/proposals and phone-confirmed-or-better participation for comments/opinions."
   "Historical query attestations prove what the relay returned after subscribe policy and topic filtering; they are not authorization grants."
-  "Organization roots and delegated authority signatures fail closed until the relevant custody/delegation resolver path is wired."]}
+  "Organization roots and delegated authority signatures are wired for the current M3 resolver shape; future production deployments may still choose stricter custody policies or additional revocation freshness rules."]}

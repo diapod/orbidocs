@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-reputation-snapshot:v1",
+  "title": "AgoraReputationSnapshot v1",
+  "description": "Authority-published advisory reputation snapshot for Agora. M3 projects community trust inputs from these records, but runtime authorization must not depend on community-trusted until a later evaluator and anti-gaming policy are explicitly designed.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/008-agora/008-agora.md",
+    "doc/project/60-solutions/021-agora-authority/021-agora-authority.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "snapshot/id",
+    "snapshot/period",
+    "issuer",
+    "entries",
+    "computed_at"
+  ],
+  "properties": {
+    "schema": { "const": "agora-reputation-snapshot.v1" },
+    "schema/v": { "const": 1 },
+    "snapshot/id": {
+      "type": "string",
+      "pattern": "^reputation-snapshot:[A-Za-z0-9._:-]{1,160}$"
+    },
+    "snapshot/period": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["from", "until"],
+      "properties": {
+        "from": { "$ref": "#/$defs/rfc3339" },
+        "until": { "$ref": "#/$defs/rfc3339" }
+      }
+    },
+    "issuer": { "$ref": "#/$defs/identityRef" },
+    "method/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Policy or method identifier used to compute the snapshot."
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/entry" }
+    },
+    "computed_at": { "$ref": "#/$defs/rfc3339" },
+    "valid_until": {
+      "anyOf": [{ "$ref": "#/$defs/rfc3339" }, { "type": "null" }]
+    }
+  },
+  "$defs": {
+    "rfc3339": { "type": "string", "format": "date-time" },
+    "identityRef": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["participant", "org", "nym"] },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["subject", "tier", "score"],
+      "properties": {
+        "subject": { "$ref": "#/$defs/identityRef" },
+        "tier": {
+          "type": "string",
+          "enum": [
+            "community-trusted",
+            "community-entrusted",
+            "neutral",
+            "limited",
+            "sanctioned"
+          ]
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "basis": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "kind": { "type": "string", "maxLength": 128 },
+              "id": { "type": "string", "maxLength": 512 },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[A-Za-z0-9_-]{32,96}$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -329,9 +329,11 @@ Status:
   non-Rust middleware are implemented. Bundled Python middleware has a
   `HostAgoraClient.verify_record()` helper for that verifier, and committed
   delegated fixtures assert the same decisions across Rust, Matrix, SQLite
-  replay, and Python host-capability transport. High-level
-  `agora.record.admit` remains a later composition point for verification plus
-  publish/subscribe policy.
+  replay, and Python host-capability transport. M3 adds high-level
+  `agora.record.admit` as a read-only host capability that composes verifier
+  output with content-schema checks, optional publish/subscribe profile checks,
+  and node-local authority-policy evaluation for supervised middleware
+  diagnostics.
 
 ### Replay-Fed Public Domain Projections
 
@@ -347,6 +349,8 @@ Related schemas:
 - `resource-opinion.v1`
 - `public-gossip.v1`
 - `moderation-marker.v1`
+- `agora-public-rejection.v1`
+- `agora-reputation-snapshot.v1`
 
 Responsibilities:
 - replay accepted public Agora records into local read models without querying

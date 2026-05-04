@@ -59,6 +59,15 @@ schema_for_file() {
     *.agora-query-attestation.json)
       echo "$SCHEMAS_DIR/agora-query-attestation.v1.schema.json"
       ;;
+    *.agora-authority-policy.json)
+      echo "$SCHEMAS_DIR/agora-authority-policy.v1.schema.json"
+      ;;
+    *.agora-public-rejection.json)
+      echo "$SCHEMAS_DIR/agora-public-rejection.v1.schema.json"
+      ;;
+    *.agora-reputation-snapshot.json)
+      echo "$SCHEMAS_DIR/agora-reputation-snapshot.v1.schema.json"
+      ;;
     *.org-custody-policy.json)
       echo "$SCHEMAS_DIR/org-custody-policy.v1.schema.json"
       ;;

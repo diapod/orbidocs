@@ -1,0 +1,72 @@
+{
+  "schema": "agora-authority-policy.v1",
+  "schema/v": 1,
+  "policy/id": "agora-authority-policy:local-default",
+  "valid_from": "2026-05-04T00:00:00Z",
+  "valid_until": null,
+  "authority_roots": [
+    {
+      "root/id": "root:ai-orbiplex-main",
+      "subject": {
+        "kind": "participant",
+        "id": "participant:did:key:z6MkAuthorityRootExample1111111111111111111"
+      },
+      "topic_patterns": ["ai.orbiplex/**"],
+      "purposes": ["agora.namespace.root"],
+      "assurance/min": "sovereign-operator",
+      "custody_policy_ref": null,
+      "valid_from": "2026-05-04T00:00:00Z",
+      "valid_until": null
+    }
+  ],
+  "org_custody_policies": [],
+  "publish_policies": [
+    {
+      "policy/id": "publish:ai-orbiplex-authority",
+      "topic_patterns": ["ai.orbiplex.proposals/**", "ai.orbiplex.announcements/**"],
+      "mode": "authority-root",
+      "record_kinds": ["proposal", "announcement", "policy", "namespace-root", "authority-root"],
+      "policy/ref": "default"
+    },
+    {
+      "policy/id": "publish:ai-orbiplex-participation",
+      "topic_patterns": ["ai.orbiplex.comments/**", "ai.orbiplex.opinions/**", "ai.orbiplex.gossip/**"],
+      "mode": "capability",
+      "capability_id": "agora-publish@v1",
+      "record_kinds": ["comment", "resource-opinion", "public-gossip"],
+      "assurance/min": "ial1",
+      "policy/ref": "default"
+    }
+  ],
+  "subscribe_policies": [
+    {
+      "policy/id": "subscribe:ai-orbiplex-protected",
+      "topic_patterns": ["ai.orbiplex.proposals/**", "ai.orbiplex.announcements/**"],
+      "mode": "capability",
+      "capability_id": "agora-subscribe@v1",
+      "policy/ref": "default"
+    }
+  ],
+  "namespace_defaults": [
+    {
+      "topic_pattern": "ai.orbiplex/**",
+      "publish": "authority-root",
+      "subscribe": "capability",
+      "policy/ref": "default"
+    },
+    {
+      "topic_pattern": "orbiplex/**",
+      "publish": "public-open",
+      "subscribe": "public-open",
+      "policy/ref": "default"
+    }
+  ],
+  "diagnostics": {
+    "public_decision_receipts": {
+      "enabled": false,
+      "topic": "ai.orbiplex.policy-decisions/v1/local",
+      "max_receipts_per_record": 1,
+      "redaction": "digest-only"
+    }
+  }
+}

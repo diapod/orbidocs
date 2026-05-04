@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-public-rejection:v1",
+  "title": "AgoraPublicRejection v1",
+  "description": "Redacted public policy-decision receipt for an Agora admission rejection that already targeted a public surface. This is not the operator-local rejection feed and must not expose passport ids, participant ids denied by policy, delegation internals, or revocation-source details.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/008-agora/008-agora.md",
+    "doc/project/60-solutions/021-agora-authority/021-agora-authority.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "rejection/id",
+    "relay/id",
+    "target",
+    "decision",
+    "policy",
+    "observed_at"
+  ],
+  "properties": {
+    "schema": { "const": "agora-public-rejection.v1" },
+    "schema/v": { "const": 1 },
+    "rejection/id": {
+      "type": "string",
+      "pattern": "^rejection:sha256:[A-Za-z0-9_-]{32,96}$"
+    },
+    "relay/id": {
+      "type": "string",
+      "pattern": "^node:did:key:[A-Za-z0-9]+$"
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["topic_hash", "record_digest"],
+      "properties": {
+        "topic_hash": { "$ref": "#/$defs/sha256Digest" },
+        "record_digest": { "$ref": "#/$defs/sha256Digest" },
+        "target/kind": {
+          "type": "string",
+          "enum": ["agora-record", "agora-topic", "public-governance-surface"]
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["class", "visibility", "retryable"],
+      "properties": {
+        "class": {
+          "type": "string",
+          "enum": [
+            "schema-invalid",
+            "signature-invalid",
+            "policy-denied",
+            "authority-denied",
+            "rate-limited",
+            "spam-suspected",
+            "unsupported-kind",
+            "stale-or-expired"
+          ]
+        },
+        "visibility": { "const": "redacted" },
+        "retryable": { "type": "boolean" }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["policy_ref", "policy_digest"],
+      "properties": {
+        "policy_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "policy_digest": { "$ref": "#/$defs/sha256Digest" }
+      }
+    },
+    "observed_at": { "$ref": "#/$defs/rfc3339" },
+    "notes": {
+      "type": "array",
+      "maxItems": 8,
+      "items": { "type": "string", "maxLength": 256 }
+    }
+  },
+  "$defs": {
+    "rfc3339": { "type": "string", "format": "date-time" },
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{32,96}$"
+    }
+  }
+}

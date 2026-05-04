@@ -1,0 +1,27 @@
+{
+  "schema": "agora-reputation-snapshot.v1",
+  "schema/v": 1,
+  "snapshot/id": "reputation-snapshot:daily:2026-05-04",
+  "snapshot/period": {
+    "from": "2026-05-03T00:00:00Z",
+    "until": "2026-05-04T00:00:00Z"
+  },
+  "issuer": {
+    "kind": "org",
+    "id": "org:orbiplex-reputation-council"
+  },
+  "method/ref": "default",
+  "entries": [
+    {
+      "subject": {
+        "kind": "participant",
+        "id": "participant:did:key:z6MkTrustedExample111111111111111111111"
+      },
+      "tier": "community-trusted",
+      "score": 0.99,
+      "confidence": 0.92
+    }
+  ],
+  "computed_at": "2026-05-04T00:15:00Z",
+  "valid_until": "2026-05-05T00:15:00Z"
+}

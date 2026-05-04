@@ -150,13 +150,16 @@ trait AgoraAuthorityResolver {
 
 Implementation status:
 
-- The reference Agora service accepts `agora_service.authority_roots[]` as
-  deployment config and validates the subject kind, assurance, purposes, and
-  namespace set at startup.
+- The reference Agora service accepts canonical `authority_policy` data shaped
+  as `agora-authority-policy.v1`, validates it through the Node schema gate, and
+  normalizes it into effective authority roots before resolver use.
+- The older `agora_service.authority_roots[]` deployment field remains a local
+  transitional input. It is treated as an alternate source for the same
+  effective authority-root snapshot, not as a separate hidden authority model.
 - The reference service also accepts `authority_record_kinds[]` as the local
   list of record kinds that claim namespace authority. The default set is
-  `announcement`, `proposal`, `policy`, `namespace-root`, and
-  `authority-root`.
+  `announcement`, `proposal`, `moderation-marker`, and
+  `reputation-snapshot`.
 - `/v1/agora/status` exposes `authority_roots_count` at the top level and may
   expose a richer `operator_visibility` diagnostic read model on the local
   operator-authenticated UI/API path. That diagnostic model may include the
@@ -167,11 +170,22 @@ Implementation status:
   as a policy input by other relays.
 - Enforcement still flows through `topic_acl = capability` and the daemon-owned
   `agora-publish@v1` / `agora-subscribe@v1` passport authorization path. The
-  current direct participant resolver connects a signed record's
-  `author/participant-id` and `signature.key/public` to one configured
-  participant authority root for the target namespace. Organization roots and
-  delegated authority signatures fail closed until the custody/delegation
-  resolver path is wired.
+  current resolver connects a signed record's `author/participant-id`,
+  `signature.key/public`, optional inline `key-delegation.v1`, and optional
+  `org-custody-decision.v1` to the configured participant or organization root
+  for the target namespace. Organization roots support the locally configured
+  `any-authorized` and `threshold` custody modes; unknown policy refs, duplicate
+  signers, signers outside policy, missing signers, and target-digest mismatch
+  fail closed.
+- The daemon exposes read-only `POST /v1/host/capabilities/agora.record.admit`
+  for supervised middleware. It returns a stratified local admission decision
+  over envelope verification, content-schema validation, optional
+  publish/subscribe capability profiles, authority evaluation from the node's
+  effective `agora_service` config, and final allow/deny state. The daemon and
+  Agora service both consume the same authority-policy shape; the service still
+  owns enforcement on its ingest path, while the host capability gives
+  non-Rust middleware the same local admission explanation without publishing or
+  persisting the record.
 
 ### 3. Operational Delegation and Derived Keys
 
