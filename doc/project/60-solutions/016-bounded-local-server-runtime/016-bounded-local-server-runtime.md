@@ -8,9 +8,11 @@
 
 A shared sync TCP/HTTP mini-server primitive (`bounded-server` crate) replaces
 ad-hoc `thread::spawn` accept loops in the daemon health endpoint, Seed
-Directory, Agora service, and daemon peer listener. Every server surface
-governed by this primitive gets bounded accepts, handler permits, fast overload
-rejection, and first-class shutdown drain with metrics.
+Directory, Agora service, and daemon peer listener. Python supervised
+middleware uses the analogous `bounded_http.py` helper around the stdlib
+`ThreadingHTTPServer`. Every server surface governed by these primitives gets
+bounded accepts or active-request permits, fast overload rejection, and
+first-class shutdown drain or daemon-supervised shutdown with metrics.
 
 ## Context and Problem Statement
 
@@ -21,6 +23,7 @@ Before this solution, four server surfaces used unbounded or separately bounded
 2. Seed Directory (`seed-directory/src/lib.rs`)
 3. Agora service (`agora-service/src/main.rs`)
 4. Daemon peer listener (`daemon/src/peer_supervisor.rs`)
+5. Bundled Python middleware (`middleware-modules/*/service.py`)
 
 A small number of slow or malicious clients could exhaust the process thread
 limit, memory, or both. Shutdown was not coordinated — active handlers could
@@ -52,6 +55,27 @@ A single `bounded-server` crate providing:
 - **Metrics**: `active_connections`, `accepted_total`,
   `rejected_over_capacity_total`, `handler_errors_total`, `shutdown_drain_ms`,
   `last_accept_error`, `last_handler_error`.
+- **Daemon resource pressure surface**: `/v1/runtime-metrics` exposes a
+  `resource_pressure` object with OS parallelism, best-effort process thread
+  count where available, supervised middleware HTTP totals, and scheduler
+  active/queued/registered job counts. Node UI mirrors that summary on the
+  Status page.
+
+For Python middleware, `BoundedThreadingHTTPServer` keeps the familiar stdlib
+`BaseHTTPRequestHandler` programming model but gates active requests with
+`ORBIPLEX_MIDDLEWARE_MAX_CONNECTIONS` (default: 32). When no permit is
+available it writes a minimal HTTP 503 response and closes the socket without
+starting another handler thread.
+
+## Production Invariant
+
+No production local server path may create one unbounded thread per accepted
+connection or request. A sync server must either use the Rust `bounded-server`
+primitive, the Python `BoundedThreadingHTTPServer` helper, or an equivalent
+bounded executor with explicit overload behavior. Reload and restart paths must
+use cooperative bounded drain. If a supervised process cannot be stopped within
+its configured stop/kill budget, the daemon/operator surface must report the
+remaining process rather than hiding it as a successful shutdown.
 
 ## Trade-offs
 
@@ -92,4 +116,7 @@ A single `bounded-server` crate providing:
 - [x] Migrate Seed Directory server.
 - [x] Migrate Agora service.
 - [x] Migrate daemon peer listener.
+- [x] Migrate bundled Python middleware to `BoundedThreadingHTTPServer`.
+- [x] Expose daemon resource pressure in runtime metrics and Node UI status.
+- [x] Add bounded Python HTTP helper test for fast 503 rejection.
 - [ ] Add integration test that verifies 503 under load in a real daemon context.
