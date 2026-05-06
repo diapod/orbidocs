@@ -37,7 +37,8 @@ Machine-readable schema for a signed, content-addressed, topic-addressed record 
 | [`record/id`](#field-record-id) | `yes` | string | Content-addressed identifier of this record. Computed by the Orbiplex canonical `sha256_base64url` helper: `sha256:` followed by the unpadded base64url (RFC 4648 section 5) encoding of `sha256(canonicalize(payload))`, where `payload` is the record with `record/id`, `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Two records with the same canonical payload MUST yield the same `record/id` on every relay. |
 | [`record/kind`](#field-record-kind) | `yes` | string | Role label of this record. Application-visible discriminator used by query APIs and kind contracts. Examples: `opinion`, `comment`, `annotation`, `public-log`, `whisper-durable`. The substrate accepts any well-formed kind; it MAY mark unknown kinds as non-indexable until a kind contract is registered. |
 | [`topic/key`](#field-topic-key) | `yes` | string | Opaque topic identifier. The substrate MUST NOT parse, split, or type this value. Canonicalization rules: Unicode NFC, no control characters (C0/C1/DEL), no leading or trailing whitespace, non-empty, at most 512 bytes after UTF-8 encoding. Applications choose their own naming conventions (namespace-prefixed paths, content-derived identifiers, human-readable channel names). Topic keys derived from external resource identity are a convention of the record-kind contract, not a rule of the substrate. |
-| [`author/participant-id`](#field-author-participant-id) | `yes` | string | Participant identity of the record author. The signature MUST verify against the participant's current capability passport chain, honoring any delegation from proposal 032. |
+| [`author/participant-id`](#field-author-participant-id) | `yes` | string | Participant identity or application-layer nym identity of the record author. Participant-authored records verify directly against the participant key or an explicit delegation proof. Nym-authored records MUST carry `author/nym-proof`, and the record signature verifies against the nym key certified by that proof. |
+| [`author/nym-proof`](#field-author-nym-proof) | `no` | ref: `nym-authorship-proof.v1.schema.json` | Inline-first proof for nym-authored records. Required when `author/participant-id` starts with `nym:did:key:` and forbidden by the core verifier for participant-authored records. The proof context MUST match `topic/key`, `record/kind`, `content/schema`, and any relevant disclosure scope. |
 | [`authored/at`](#field-authored-at) | `yes` | string | Wall-clock timestamp asserted by the author at the moment of record creation. Relays enforce a clock skew window (default ±10 minutes) at ingest; out-of-window records are flagged and temporarily excluded from live query results. |
 | [`content/schema`](#field-content-schema) | `yes` | string | Identifier of the schema that describes the inner `content` payload. MUST follow the `{slug}.v{n}` shape. Examples: `plain-comment.v1`, `public-log-entry.v1`, `resource-opinion.v1`. The substrate does not require `content/schema` to be pre-registered; unknown schemas are stored and served but MAY be treated as opaque by indexers. |
 | [`content`](#field-content) | `yes` | object | Payload object conforming to the schema named by `content/schema`. Kind contracts define field-level validation; the substrate performs envelope-level validation only. |
@@ -50,7 +51,7 @@ Machine-readable schema for a signed, content-addressed, topic-addressed record 
 | [`relay/received-at`](#field-relay-received-at) | `no` | string | Wall-clock timestamp stamped by the relay that first ingested the record. MUST NOT appear in the payload the author signs. Stripped before `record/id` computation and signature verification. |
 | [`relay/id`](#field-relay-id) | `no` | string | Identifier of the relay that first ingested the record. MUST NOT appear in the payload the author signs. Stripped before `record/id` computation and signature verification. |
 | [`relay/hops`](#field-relay-hops) | `no` | integer | Relay-local hop count stamped by relay implementations. The field is transport metadata, not author content: it MUST NOT appear in the payload the author signs and is stripped before `record/id` computation and signature verification. |
-| [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` | Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`. |
+| [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` | Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Direct participant signatures verify with the participant key embedded in `author/participant-id`. Direct nym signatures verify with the nym key embedded in `author/participant-id` and require a verifier-usable `author/nym-proof`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`. |
 
 ## Definitions
 
@@ -58,6 +59,36 @@ Machine-readable schema for a signed, content-addressed, topic-addressed record 
 |---|---|---|
 | [`signature`](#def-signature) | object |  |
 | [`delegationProof`](#def-delegationproof) | object | Compact bearer credential copied from a `key-delegation.v1` artifact and embedded beside a proxy-key signature. The full semantics live in proposal 032; Agora treats this as an inline proof for delegated record signing. |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "author/participant-id": {
+      "pattern": "^nym:did:key:"
+    }
+  },
+  "required": [
+    "author/participant-id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "author/nym-proof"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -102,7 +133,15 @@ Maintainer note: The `^\S(.*\S)?$` pattern rejects leading and trailing whitespa
 - Required: `yes`
 - Shape: string
 
-Participant identity of the record author. The signature MUST verify against the participant's current capability passport chain, honoring any delegation from proposal 032.
+Participant identity or application-layer nym identity of the record author. Participant-authored records verify directly against the participant key or an explicit delegation proof. Nym-authored records MUST carry `author/nym-proof`, and the record signature verifies against the nym key certified by that proof.
+
+<a id="field-author-nym-proof"></a>
+## `author/nym-proof`
+
+- Required: `no`
+- Shape: ref: `nym-authorship-proof.v1.schema.json`
+
+Inline-first proof for nym-authored records. Required when `author/participant-id` starts with `nym:did:key:` and forbidden by the core verifier for participant-authored records. The proof context MUST match `topic/key`, `record/kind`, `content/schema`, and any relevant disclosure scope.
 
 <a id="field-authored-at"></a>
 ## `authored/at`
@@ -206,7 +245,7 @@ Relay-local hop count stamped by relay implementations. The field is transport m
 - Required: `yes`
 - Shape: ref: `#/$defs/signature`
 
-Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`.
+Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Direct participant signatures verify with the participant key embedded in `author/participant-id`. Direct nym signatures verify with the nym key embedded in `author/participant-id` and require a verifier-usable `author/nym-proof`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`.
 
 Maintainer note: Two distinct canonical payloads are used in this schema: (1) the `record/id` payload excludes record/id + signature + relay fields; (2) the signature payload excludes only signature + relay fields and keeps record/id. This matches the Matrix event-signing pattern where event_id is embedded in the signed content and gives wider cross-transport compatibility.
 

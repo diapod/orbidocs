@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-redaction-prepare-request:v1",
+  "title": "WhisperRedactionPrepareRequest v1",
+  "description": "Host-capability request for preparing a local redaction draft from raw Whisper intake material. This is a private workflow contract, not an Agora content schema; the provider returns a draft and never publishes to Agora or approves publication.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-005-whisper-rumor-intake.md",
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md",
+    "doc/project/40-proposals/055-bounded-deferred-operation-contract.md",
+    "doc/project/60-solutions/011-whisper/011-whisper.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "intake/id",
+    "raw/private-material",
+    "redaction/profile",
+    "policy/constraints",
+    "disclosure/target"
+  ],
+  "properties": {
+    "schema": { "const": "whisper-redaction-prepare-request.v1" },
+    "schema/v": { "const": 1 },
+    "intake/id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Local whisper-intake identifier. Used for correlation and idempotent retry, not for public publication."
+    },
+    "raw/private-material": {
+      "description": "Raw local/private material supplied to the configured redaction provider. The request must remain on loopback/host-capability transport and must not be published to Agora.",
+      "type": ["object", "array", "string", "number", "boolean", "null"]
+    },
+    "redaction/profile": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Provider-local redaction profile or policy preset. `default` is the safe baseline."
+    },
+    "operator/instructions": {
+      "type": ["string", "null"],
+      "description": "Optional local-only operator instructions for the provider."
+    },
+    "policy/constraints": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Machine-readable policy constraints such as maximum length, forbidden categories, local-only model policy, or disclosure target."
+    },
+    "retention/policy-ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "disclosure/target": {
+      "type": "string",
+      "enum": ["public-whisper-candidate", "private-summary", "operator-review-only"],
+      "description": "Intended use of the draft. M4 uses `public-whisper-candidate`; operator approval is still required before publication."
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "schema": "agora-reputation-snapshot.v1",
+  "schema": "reputation-snapshot.v1",
   "schema/v": 1,
   "snapshot/id": "reputation-snapshot:daily:2026-05-04",
   "snapshot/period": {

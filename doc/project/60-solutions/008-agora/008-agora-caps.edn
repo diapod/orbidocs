@@ -104,6 +104,7 @@
    :responsibilities
    ["Publish accepted records as Matrix events under topic-keyed rooms per relay role"
     "Ingest inbound Matrix events and re-validate as ordinary Agora records"
+    "Treat Matrix as transport provenance only; trust the verified envelope and local admission policy, not the donor relay"
     "Expose canonical/cache/origin topic behaviors as deployment-configurable roles"]
    :status :done}
 
@@ -150,7 +151,31 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :agora-relay-passport
+ [{:cap/id :story-005-public-signal-smoke
+   :title "Story-005 Public Signal Smoke"
+   :kind :e2e
+   :based-on ["doc/project/30-stories/story-005-whisper-rumor-intake.md"
+              "doc/project/40-proposals/013-whisper-social-signal-exchange.md"
+              "doc/project/60-solutions/011-whisper/011-whisper.md"]
+   :schemas ["agora-record.v1"
+             "whisper-signal.v1"
+             "whisper-interest.v1"
+             "whisper-threshold-reached.v1"
+             "association-room-proposal.v1"
+             "public-gossip.v1"]
+   :responsibilities
+   ["Provide a three-node laptop smoke where node A and node B publish similar sanitized public/federated `whisper-signal.v1` records and node C runs the Agora relay/server"
+    "Reject private-correlation whispers on the public relay path"
+    "Replay accepted public Whisper records into a projection with diagnostics"
+    "Create deterministic threshold state with the M4 rule: two distinct eligible nodes, same `topic/class`, same `signal/similarity-key`, bounded time window"
+    "Emit deterministic `whisper-threshold-reached.v1` and `association-room-proposal.v1` records as projection-authority-signed, issuer-scoped derived claims"
+    "Prevent derived-record loops with deterministic ids, source-kind exclusion, and derivation refs"
+    "Create an association-room proposal without automatic human enrollment"
+    "Keep Matrix-backed Agora sync parity as a separate M4 test from the three-node HTTP smoke"
+    "Keep Story-009 Agora-primary smoke green while adding the Story-005 smoke"]
+   :status :planned}
+
+  {:cap/id :agora-relay-passport
    :title "Agora Relay Capability Passport"
    :kind :capability-passport
    :based-on ["doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
@@ -189,7 +214,7 @@
  :out-of-scope
  ["Public rejection feed and public rejection oracle semantics in M2/M2b"
   "Automatic policy decisions, moderation enforcement, or reputation weighting"
-  "Whisper threshold projection and private-disclosure mechanics"
+  "Private-disclosure mechanics for Whisper"
   "Payment / settlement of record ingest"
   "Long-running workflow execution driven by record content"
   "Replacement of seed directory or offer catalog as storage backends in v1"]

@@ -461,8 +461,7 @@ Każdy węzeł uczestniczący w story potrzebuje włączonych komponentów:
 - `dator` — publikuje lokalne oferty za cenę zero i routuje zaakceptowane
   zamówienia usług do providera capability roli.
 - `middleware_json_e_flow_services` — jest właścicielem konfiguracji adapterów
-  ról `role.bielik-*.execute`; w oficjalnym profilu zastępuje stary supervised
-  adapter HTTP-local `story009_roles`.
+  ról `role.bielik-*.execute`; to oficjalna ścieżka Story-009.
 - `sensorium_core` — mediuje dyrektywy Sensorium, waliduje parametry, zapisuje
   outcomes, przechowuje obserwacje i dispatchuje do connectorów.
 - `sensorium_os` — wykonuje allowlistowane skrypty albo procesy. Nigdy nie
@@ -491,9 +490,6 @@ Minimalny kształt overlayu:
     "enabled": true,
     "allowed_workdirs": ["/srv/orbiplex/story009/blog-bielik"],
     "allowed_script_roots": ["actions"]
-  },
-  "story009_roles": {
-    "enabled": false
   },
   "middleware_json_e_flow_services": {
     "story009-role-bielik-researcher-json-e-flow": {

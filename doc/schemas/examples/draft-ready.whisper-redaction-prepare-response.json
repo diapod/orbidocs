@@ -1,0 +1,22 @@
+{
+  "schema": "whisper-redaction-prepare-response.v1",
+  "schema/v": 1,
+  "status": "needs-human-review",
+  "redaction/draft": {
+    "signal/text": "A harmful workload pattern was reported in a small team.",
+    "topic/class": "workload-stress",
+    "context/facets": ["workplace", "workload"]
+  },
+  "diagnostics": [
+    {
+      "level": "info",
+      "code": "category-redacted",
+      "category": "person-name",
+      "message": "Removed identifying names."
+    }
+  ],
+  "confidence": 0.81,
+  "provider/id": "json-e-flow.sensorium.redaction.fixture",
+  "profile/id": "default",
+  "retryable": false
+}

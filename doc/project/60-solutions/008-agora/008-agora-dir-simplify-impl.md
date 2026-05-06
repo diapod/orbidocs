@@ -1077,6 +1077,16 @@ use direct node exchange, INAC, invitation-tokened transfer, or another bounded
 private channel. Memarium remains the local memory surface for both public and
 private whispers under classification policy.
 
+M4 implementation note:
+
+Agora M4 uses Story-005 as the closure smoke for this boundary. The target is a
+three-node laptop scenario: node A and node B each publish a sanitized,
+disclosure-safe public/federated Whisper signal, while node C runs the Agora
+relay/server. C must accept and replay the public records, reject private-correlation
+whispers on the public relay path, and expose threshold/proposal state through
+domain projections. The threshold-crossed output may become durable/public, but raw
+private rumor text remains a Memarium/private-exchange concern.
+
 ## Capability And Listing Announcements
 
 Public announcements about capabilities, listings, or operator-intended

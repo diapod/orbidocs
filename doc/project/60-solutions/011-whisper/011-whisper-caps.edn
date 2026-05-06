@@ -19,8 +19,14 @@
    ["Capture rumor-style input without flattening it into evidence"
     "Run bounded local redaction, paraphrase, and idiolect reduction"
     "Require user approval before publication"
-    "Emit `whisper-signal` artifacts with explicit epistemic class and routing/privacy intent"]
-   :status :todo}
+    "Implement intake/redaction as a supervised Rust middleware package with its own operator UI surface"
+    "Store raw user input and intermediate redaction drafts only in local/private Memarium state before public publication"
+    "Allow the sanitizing step to be supplied by another configured middleware package without changing the downstream publishable `whisper-signal.v1` contract"
+    "Emit `whisper-signal` artifacts with explicit epistemic class and routing/privacy intent"
+    "Use `whisper-signal.v1` directly for the Agora M4 public/federated smoke, with nym-authored Agora envelope identity and inline-first nym proof"
+    "Use Agora only for disclosure-safe public or federation-scoped signals"
+    "Keep private-correlation and direct-only whisper bodies off public Agora topics"]
+   :status :planned}
 
   {:cap/id :interest-and-threshold-coordination
    :title "Interest and Threshold Coordination"
@@ -33,10 +39,14 @@
              "association-room-proposal.v1"]
    :responsibilities
    ["Register local relevance without premature disclosure"
-    "Recognize threshold crossings under policy"
+    "Recognize threshold crossings under policy, with Agora M4 proving the minimal rule: two distinct eligible nodes, same `topic/class`, same `signal/similarity-key`, bounded time window"
     "Derive deterministic bootstrap sets"
-    "Publish association proposals that preserve opt-in enrollment"]
-   :status :todo}]
+    "Publish association-room proposals as public/federated Agora records with redacted/bootstrap-only content"
+    "Emit deterministic `whisper-threshold-reached.v1` and `association-room-proposal.v1` records as projection-authority-signed, issuer-scoped derived claims"
+    "Prevent derived-record loops with deterministic ids, source-kind exclusion, and derivation refs"
+    "Preserve opt-in enrollment and never auto-enroll humans"
+    "Expose threshold/proposal state for the Story-005 three-node smoke"]
+   :status :planned}]
 
  :may-implement
  [{:cap/id :aggregate-topic-notices
@@ -53,7 +63,8 @@
  :out-of-scope
  ["Transport-layer anonymity and relay topology"
   "Automatic exposure of identities to one another"
-  "Hard semantic duplicate suppression in v1"]
+  "Hard semantic duplicate suppression in v1"
+  "Using Agora for private-correlation or direct-only whisper bodies"]
 
  :consumes
  ["whisper-signal.v1"
@@ -66,5 +77,6 @@
   "association-room-proposal.v1"]
 
  :notes
- ["Whisper may be implemented in-process or as a separate attached program."
-  "Callers of outbound privacy should declare intent, not name a concrete relay module."]}
+ ["Whisper intake/redaction should be implemented as a supervised HTTP middleware service; shared transport-independent semantics belong in `whisper-core`."
+  "Callers of outbound privacy should declare intent, not name a concrete relay module."
+  "Agora M4 uses Story-005 as the three-node public/federated smoke: node A and node B submit similar sanitized signals, node C runs the Agora relay/server, and threshold/proposal state is rebuilt from accepted public records."]}

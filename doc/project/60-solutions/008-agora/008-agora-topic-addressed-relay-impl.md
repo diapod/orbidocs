@@ -162,6 +162,12 @@ experiments that do not need durability.
   `SubjectIndex`.
 - three roles (`canonical`, `cache`, `origin`) gate outbound/inbound and
   ACL authority per topic.
+- inbound Matrix events are transport carriers only: the bridge must verify the
+  embedded `agora-record.v1` envelope, signature/delegation proof,
+  content-schema, topic ACL, authority/capability/revocation policy, and
+  idempotency before local persistence.
+- donor relay identity and Matrix event signatures are diagnostics/provenance;
+  they do not replace local admission.
 - bridges are started once at service startup
   (`start_configured_bridges()`), never inside request handlers.
 

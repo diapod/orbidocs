@@ -65,8 +65,8 @@ schema_for_file() {
     *.agora-public-rejection.json)
       echo "$SCHEMAS_DIR/agora-public-rejection.v1.schema.json"
       ;;
-    *.agora-reputation-snapshot.json)
-      echo "$SCHEMAS_DIR/agora-reputation-snapshot.v1.schema.json"
+    *.reputation-snapshot.json)
+      echo "$SCHEMAS_DIR/reputation-snapshot.v1.schema.json"
       ;;
     *.org-custody-policy.json)
       echo "$SCHEMAS_DIR/org-custody-policy.v1.schema.json"
@@ -253,6 +253,12 @@ schema_for_file() {
       ;;
     *.whisper-threshold-reached.json)
       echo "$SCHEMAS_DIR/whisper-threshold-reached.v1.schema.json"
+      ;;
+    *.whisper-redaction-prepare-request.json)
+      echo "$SCHEMAS_DIR/whisper-redaction-prepare-request.v1.schema.json"
+      ;;
+    *.whisper-redaction-prepare-response.json)
+      echo "$SCHEMAS_DIR/whisper-redaction-prepare-response.v1.schema.json"
       ;;
     *.association-room-proposal.json)
       echo "$SCHEMAS_DIR/association-room-proposal.v1.schema.json"

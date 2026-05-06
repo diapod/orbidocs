@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:orbiplex:schema:agora-reputation-snapshot:v1",
-  "title": "AgoraReputationSnapshot v1",
-  "description": "Authority-published advisory reputation snapshot for Agora. M3 projects community trust inputs from these records, but runtime authorization must not depend on community-trusted until a later evaluator and anti-gaming policy are explicitly designed.",
+  "$id": "urn:orbiplex:schema:reputation-snapshot:v1",
+  "title": "ReputationSnapshot v1",
+  "description": "Authority-published advisory reputation snapshot. It is a domain payload that may be carried by Agora records, files, or future reputation APIs; M3 projects community trust inputs from these records, but runtime authorization must not depend on community-trusted until a later evaluator and anti-gaming policy are explicitly designed.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -21,7 +21,7 @@
     "computed_at"
   ],
   "properties": {
-    "schema": { "const": "agora-reputation-snapshot.v1" },
+    "schema": { "const": "reputation-snapshot.v1" },
     "schema/v": { "const": 1 },
     "snapshot/id": {
       "type": "string",

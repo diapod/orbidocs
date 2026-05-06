@@ -479,8 +479,7 @@ Each node participating in the story needs these components enabled:
 - `dator` — publishes local zero-price offers and routes accepted
   service orders to the role capability provider.
 - `middleware_json_e_flow_services` — owns the story-specific role adapter
-  configuration for `role.bielik-*.execute`; this replaces the old
-  supervised `story009_roles` HTTP-local adapter in the official profile.
+  configuration for `role.bielik-*.execute`; this is the official Story-009 path.
 - `sensorium_core` — mediates Sensorium directives, validates
   parameters, records outcomes, stores observations, and dispatches to
   connectors.
@@ -510,9 +509,6 @@ Minimal overlay shape:
     "enabled": true,
     "allowed_workdirs": ["/srv/orbiplex/story009/blog-bielik"],
     "allowed_script_roots": ["actions"]
-  },
-  "story009_roles": {
-    "enabled": false
   },
   "middleware_json_e_flow_services": {
     "story009-role-bielik-researcher-json-e-flow": {

@@ -1,0 +1,16 @@
+{
+  "schema": "whisper-redaction-prepare-request.v1",
+  "schema/v": 1,
+  "intake/id": "whisper-intake:example-1",
+  "raw/private-material": {
+    "body": "I saw a harmful pattern in a small team. Names should be removed."
+  },
+  "redaction/profile": "default",
+  "operator/instructions": "Remove names and unique location details.",
+  "policy/constraints": {
+    "local_only": true,
+    "max_length": 1200
+  },
+  "retention/policy-ref": "whisper-intake.local-private.v1",
+  "disclosure/target": "public-whisper-candidate"
+}

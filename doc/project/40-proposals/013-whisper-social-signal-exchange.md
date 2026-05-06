@@ -180,6 +180,8 @@ The v1 baseline should use simpler controls instead of semantic dedup:
 - forwarding budgets,
 - derived-nym depth limits,
 - hop TTL,
+- optional deterministic `signal/similarity-key` for fixture-grade or explicitly
+  policy-defined thresholding,
 - trust- and policy-aware thresholding.
 
 This proposal explicitly rejects hard semantic duplicate gating for v1, because:
@@ -215,6 +217,31 @@ that publishes an `association-room-proposal` with:
 - bootstrap expiry,
 - and moderation or witness expectations.
 
+For Agora M4, the first threshold function is deliberately narrow: at least two
+distinct eligible nodes publish public/federated `whisper-signal.v1` records with
+the same `topic/class` and deterministic `signal/similarity-key` within a bounded
+time window. This is an implementation smoke rule, not a claim that production
+Whisper has semantic duplicate detection.
+
+Threshold and proposal records are public meta-signals, not public gossip.
+`whisper-threshold-reached.v1` means that a projection or issuer claims a
+policy-defined correlation was observed. `association-room-proposal.v1` means
+that a redacted/bootstrap-only coordination surface is proposed. Neither record
+publishes the underlying social narrative; `public-gossip.v1` is a separate,
+later publication step requiring explicit human, collective, or policy authority.
+That publication step may be independent of Whisper, or it may follow opt-in
+association. An `association-room-proposal` is therefore a possible precursor to
+public gossip, not a required precondition.
+
+The signer roles are intentionally split. A source `whisper-signal.v1` is signed
+by the source nym or other admitted author. A derived
+`whisper-threshold-reached.v1` or `association-room-proposal.v1` is signed by a
+projection authority, because it is a claim about a projection result rather than
+a firsthand social statement. The first implementation may use one projection
+node or delegated projection key, but the protocol should remain compatible with
+future static or reputation-selected committee authorities that attach inline
+selection and quorum proofs.
+
 ### 6. Explicit consent gate
 
 Threshold crossing may justify a next-stage room, but not silent enrollment.
@@ -240,8 +267,9 @@ with:
 - `content/schema = "whisper-signal.v1"`,
 - `author/participant-id` carrying the `rumor/nym` as a
   `nym:did:key:...` identity (proposal 035 §2 invariant 9),
-- `author/nym-certificate-ref` resolving to a currently valid
-  `nym-certificate.v1` (proposal 015),
+- `author/nym-proof` carrying inline-first `nym-certificate.v1` material
+  sufficient to verify the current nym without remote lookup, plus optional refs
+  for longer lineage, audit, or reputation history,
 - envelope `signature` produced by the nym's private key,
 - ingest admitted by the attestation gate (proposal 041) with the nym
   certificate accepted as the attestation artifact under the topic's
@@ -256,7 +284,7 @@ proposal 026 §2.
 | Concern | Where it lives |
 |---|---|
 | pseudonymous author identity | envelope `author/participant-id` = `nym:did:key:...` |
-| nym authorization binding | envelope `author/nym-certificate-ref` |
+| nym authorization binding | envelope `author/nym-proof` with inline-first certificate material and optional refs |
 | authoring timestamp | envelope `authored/at` |
 | canonical signal identifier | envelope `record/id` |
 | signature over canonical bytes | envelope `signature` (Ed25519 by the nym key) |
@@ -507,6 +535,28 @@ Suppression is a local propagation decision; the verifiable envelope
 and its curation verdicts coexist in Memarium as separate facts on
 the same timeline.
 
+## M4 Acceptance Scenario
+
+Agora M4 uses Story-005 as the first full public/federated Whisper smoke:
+
+```text
+node A user -> sanitized public/federated whisper signal -> node C Agora relay
+node B user -> similar sanitized public/federated whisper signal -> node C Agora relay
+node C relay -> replay-fed Whisper projection -> threshold -> association-room proposal
+```
+
+The smoke proves only the disclosure-safe public/federated path. A
+`private-correlation` whisper submitted to the public relay path must be rejected
+or held out of Agora, because private whispers belong to direct exchange, INAC, or
+another bounded private transport path, with local Memarium custody. Matrix may be
+used later as an optional private transport adapter, but Matrix rooms are not part
+of the Whisper or INAC domain model. The threshold result may create an
+`association-room-proposal`, but it must not enroll humans automatically.
+It also must not be treated as `public-gossip.v1`; it is only a coordination
+record until a separate publication decision exists. Public gossip can still be
+published independently on the public weak-signal path; the proposal lifecycle is
+not a mandatory prerequisite.
+
 ## Transport Boundary with Outbound Privacy Capabilities
 
 `Whisper` should not own onion routing or relay topology.
@@ -552,6 +602,8 @@ content body carries whisper-level semantics only:
 
 - `signal_polarity` (`problem` | `inspiration`),
 - `epistemic/class`, `signal/text`, `topic/class`, `context/facets`,
+- optional `signal/similarity-key` for deterministic threshold smoke and explicit
+  policy-defined matching,
 - `confidence`, `disclosure/scope`, `signal/grade`, source attribution,
 - routing intent (`routing/profile`, `routing/failure-mode`,
   `forwarding/max-hops`, ...).
@@ -561,7 +613,9 @@ inside the content body move to the enclosing envelope:
 
 - `rumor/nym` → envelope `author/participant-id` as
   `nym:did:key:...`,
-- attached `nym-certificate` → envelope `author/nym-certificate-ref`,
+- attached `nym-certificate` → envelope `author/nym-proof` carrying
+  inline-first certificate material, with optional refs for longer lineage,
+  audit, or reputation history,
 - nym signature over the body → envelope `signature` over the full
   canonical envelope bytes (Ed25519 by the nym key).
 
@@ -613,18 +667,18 @@ that should remain visible as well.
 
 1. Should `inspiration` signals use a different threshold function than `problem`
    signals (e.g. lower count, broader geographic diversity requirement)?
-2. What exact threshold function should be used:
-   - distinct nodes only,
-   - trust-tier weighted,
-   - or diversity-constrained?
-2. What exact structure should a rumor nym and derived forwarding nym have?
-3. Should `whisper-threshold-reached` include aggregate statistics only, or also
+2. **Resolved for M4, open for production policy** — M4 uses two distinct eligible
+   nodes with the same `topic/class` and `signal/similarity-key` inside a bounded
+   time window. Production policy may later add trust-tier weighting or diversity
+   constraints.
+3. What exact structure should a rumor nym and derived forwarding nym have?
+4. Should `whisper-threshold-reached` include aggregate statistics only, or also
    bounded witness references?
-4. Should some classes of rumor be forbidden from any rebroadcast without a
+5. Should some classes of rumor be forbidden from any rebroadcast without a
    suitable outbound privacy capability present?
-5. Which parts of association bootstrap belong to Whisper and which should later
+6. Which parts of association bootstrap belong to Whisper and which should later
    move into a more specialized association module?
-6. **Resolved** — resolved in proposal 026 §2.4: curation verdicts
+7. **Resolved** — resolved in proposal 026 §2.4: curation verdicts
    are expressed as `resource-opinion.v1` with
    `opinion/subject-kind: "rumor"` plus the `rumor-opinion.overlay.v1`
    fields (`rumor/credibility` in `1..5`; `rumor/rejection-reason`
@@ -637,23 +691,24 @@ that should remain visible as well.
 
 ## Next Actions
 
-1. Add v1 schemas for `whisper-signal`, `whisper-interest`,
-   `whisper-threshold-reached`, and `association-room-proposal`.
+1. Keep v1 schemas for `whisper-signal`, `whisper-interest`,
+   `whisper-threshold-reached`, and `association-room-proposal` synchronized with
+   the implementation schema gate.
 2. Add one implementation-facing solution component for `Whisper`.
 3. Add one implementation-facing solution component for an outbound privacy
    provider such as `Anon`.
 4. Define the local Node service contract for model-assisted redaction and user
    approval workflows.
-5. Revisit threshold policy and derived-nym rules once the first schema set exists.
+5. Revisit production threshold policy and derived-nym rules after M4 proves the
+   deterministic two-node smoke rule.
 6. Decide whether a future local module such as `Orbiplex Monus` should be allowed
    to prepare semi-automatic or automatic Whisper drafts from wellbeing-weighted
    local signals.
-7. Rewrite `whisper-signal.v1.schema.json` as a content-body-only schema
-   (dropping `signal/id`, `created-at`, `rumor/nym`, `auth/nym-signature`,
-   and `auth/nym-certificate` — all of which move to the enclosing
-   `agora-record.v1` envelope per the Distribution section), mirroring
-   the content-body-only shape already applied to
-   `resource-opinion.v1.schema.json` for proposal 026.
+7. Keep `whisper-signal.v1.schema.json` as a content-body-only schema
+   (with `signal/id`, `created-at`, `rumor/nym`, `auth/nym-signature`,
+   and `author/nym-proof` living in the enclosing `agora-record.v1`
+   envelope per the Distribution section), mirroring the content-body-only shape
+   already applied to `resource-opinion.v1.schema.json` for proposal 026.
 8. Register `whisper` as a recognized `record/kind` and
    `whisper-signal.v1` as a recognized `content/schema` in the Agora
    relay reference implementation; register

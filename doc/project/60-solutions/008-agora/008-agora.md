@@ -195,13 +195,19 @@ Responsibilities:
   rooms per the relay-role model (canonical / cache / origin),
 - ingest inbound Matrix events, re-validate as ordinary Agora records, and
   apply the same ingest contract as the local path,
+- treat Matrix as transport provenance only: the receiver trusts the
+  `agora-record.v1` envelope after local verification, not the donor relay,
 - expose canonical-topic, cache-topic, and origin-topic behaviors as
   deployment-configurable roles.
 
 Status:
 - `done` in the Node reference implementation. `agora-matrix-client` and
   `agora-relay-matrix` provide Matrix-backed publish, inbound sync, and
-  store-and-forward relay behavior.
+  store-and-forward relay behavior. Inbound Matrix records are admitted through
+  the same envelope/signature/delegation, content-schema, topic ACL,
+  authority/capability/revocation, and idempotency checks as local HTTP ingest;
+  Matrix event signatures and donor relay identity are diagnostics and transport
+  provenance, not sufficient record validity.
 
 ### Retention Policy Sweep
 
@@ -350,7 +356,7 @@ Related schemas:
 - `public-gossip.v1`
 - `moderation-marker.v1`
 - `agora-public-rejection.v1`
-- `agora-reputation-snapshot.v1`
+- `reputation-snapshot.v1`
 
 Responsibilities:
 - replay accepted public Agora records into local read models without querying
@@ -369,6 +375,76 @@ Status:
   exposes `/v1/agora/operator/projections/replay` plus read-model query surfaces
   under `/v1/agora/projections/*`. Public moderation markers remain signals:
   M2 does not define automatic hide/delete policy from marker content.
+
+### Agora M4: Story-005 Public Signal Closure
+
+Based on:
+- `doc/project/30-stories/story-005-whisper-rumor-intake.md`
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+- `doc/project/60-solutions/011-whisper/011-whisper.md`
+
+Related schemas:
+- `agora-record.v1`
+- `whisper-signal.v1`
+- `whisper-interest.v1`
+- `whisper-threshold-reached.v1`
+- `association-room-proposal.v1`
+- `public-gossip.v1`
+
+Responsibilities:
+- use Agora as the public/federated substrate for disclosure-safe Whisper/public
+  signal records without making Agora the owner of Whisper semantics,
+- carry `whisper-signal.v1` directly for the M4 public/federated smoke rather
+  than substituting generic `public-gossip.v1`,
+- keep private/direct or `private-correlation` whispers off public Agora topics,
+- replay accepted public Whisper signals into a domain projection with cursor,
+  lag, malformed/skipped/rejected/deferred diagnostics,
+- derive deterministic threshold state from compatible public/federated signals
+  using the M4 rule: two distinct eligible nodes, same `topic/class`, same
+  `signal/similarity-key`, bounded time window,
+- emit deterministic `whisper-threshold-reached.v1` and
+  `association-room-proposal.v1` records as projection-authority-signed,
+  issuer-scoped derived claims while preserving explicit human opt-in,
+- prevent derived-record loops with deterministic derived ids, source-record-kind
+  exclusion, and derivation refs,
+- treat threshold/proposal artifacts as replayable public meta-signals and
+  coordination records, not as `public-gossip.v1` social narratives,
+- keep `public-gossip.v1` as an explicit publication act that can be produced
+  independently or after opt-in association, but never automatically from a
+  threshold/proposal projection,
+- provide a three-node laptop smoke where node A and node B submit similar signals
+  and node C runs the Agora relay/server.
+
+Status:
+- `partial` for M4. The public/federated direct-HTTP smoke path is implemented:
+  node A and node B submit signed `whisper-signal.v1` records to node C's Agora
+  service, and node C projects signal, threshold, and association-room proposal
+  state. The implementation guide is `agora-m4-impl.md` at the repository root.
+  Remaining M4 closure work is Matrix-backed Agora sync parity,
+  `nym:...` envelope authorship with inline-first nym proof verification, the
+  bounded supervised `whisper-intake` workflow, and emission of signed
+  threshold/proposal derived records. Story-009 Agora-primary smoke remains the
+  regression guard for the existing Agora substrate.
+
+### Projection Authority for Derived Records
+
+Derived public records are signed by a projection authority. In M4 the authority
+may be the local projection node or a short-lived delegated projection key, but
+that is an implementation choice, not the permanent protocol model. The derived
+record is an issuer-scoped claim that a deterministic projection rule was applied
+to listed source records; it is not a global social-truth assertion.
+
+Root authority configuration establishes which identities may grant projection
+publication rights. Routine derived records should be signed by operational
+delegated keys whenever possible, keeping long-lived authority material out of
+the hot path.
+
+The contract must remain compatible with future committee authority. A later
+static committee or reputation-selected committee can sign the same derived
+records by carrying inline selection and quorum proofs in derivation/authority
+metadata. This lets local policy move from "trust this projection authority" to
+"trust this quorum of community-trusted authorities" without changing the
+meaning of `whisper-threshold-reached.v1` or `association-room-proposal.v1`.
 
 ### Operator-Local Rejection Feed
 

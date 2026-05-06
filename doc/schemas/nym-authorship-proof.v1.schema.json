@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-authorship-proof:v1",
+  "title": "NymAuthorshipProof v1",
+  "description": "Inline-first proof that a nym-authored Agora record is signed by a certified application-layer pseudonym whose certificate scope authorizes the record context.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md",
+    "doc/project/60-solutions/011-whisper/011-whisper.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "proof/suite",
+    "proof/mode",
+    "proof/audience",
+    "proof/context",
+    "nym/certificate"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nym-authorship-proof.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "proof/suite": {
+      "type": "string",
+      "enum": ["orbiplex.nym-ed25519-cert.v1"],
+      "description": "Verification suite. M4 accepts Ed25519 nym keys certified by an inline council-issued nym certificate. Future suites may use threshold credentials or zero-knowledge attestations without changing the Agora envelope."
+    },
+    "proof/mode": {
+      "type": "string",
+      "enum": ["inline-certificate"],
+      "description": "Inline-first mode: enough signed material is carried in the record to verify without an additional network lookup."
+    },
+    "proof/audience": {
+      "type": "string",
+      "enum": ["agora-ingest"],
+      "description": "Audience binding. Prevents reusing an application nym certificate proof as an unrelated protocol credential."
+    },
+    "proof/context": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["topic/key", "record/kind", "content/schema"],
+      "properties": {
+        "topic/key": {"type": "string", "minLength": 1, "maxLength": 512},
+        "record/kind": {"type": "string", "minLength": 1, "maxLength": 64},
+        "content/schema": {"type": "string", "minLength": 3, "maxLength": 128},
+        "disclosure/scope": {"type": "string", "minLength": 1, "maxLength": 128},
+        "federation/id": {"type": "string", "minLength": 1, "maxLength": 256}
+      }
+    },
+    "nym/certificate": {
+      "$ref": "#/$defs/nymCertificate"
+    }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": {"type": "string", "enum": ["ed25519"]},
+        "value": {"type": "string", "minLength": 1}
+      }
+    },
+    "nymCertificate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "schema/v",
+        "nym/id",
+        "epoch",
+        "issued-at",
+        "expires-at",
+        "leniency-until",
+        "issuer/id",
+        "signature"
+      ],
+      "properties": {
+        "schema/v": {"const": 1},
+        "nym/id": {
+          "type": "string",
+          "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "epoch": {"type": "integer", "minimum": 1},
+        "issued-at": {"type": "string", "format": "date-time"},
+        "expires-at": {"type": "string", "format": "date-time"},
+        "leniency-until": {"type": "string", "format": "date-time"},
+        "issuer/id": {
+          "type": "string",
+          "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "scope/federation-id": {"type": "string", "minLength": 1, "maxLength": 256},
+        "scope/topic-patterns": {
+          "$ref": "#/$defs/stringList",
+          "description": "Optional topic allowlist. Supported patterns are `*`, exact topic keys, legacy child globs such as `ai.orbiplex.whispers/*`, and capability-style `topic:ai.orbiplex.whispers/**`; child globs are boundary-aware and match only topics below the named prefix."
+        },
+        "scope/record-kinds": {"$ref": "#/$defs/stringList"},
+        "scope/content-schemas": {"$ref": "#/$defs/stringList"},
+        "scope/disclosure-scopes": {"$ref": "#/$defs/stringList"},
+        "scope/signal-grades": {"$ref": "#/$defs/stringList"},
+        "scope/max-validity-seconds": {"type": "integer", "minimum": 1},
+        "privacy/linkability": {"type": "string", "minLength": 1, "maxLength": 128},
+        "privacy/context-domain": {"type": "string", "minLength": 1, "maxLength": 256},
+        "abuse/rate-class": {"type": "string", "minLength": 1, "maxLength": 128},
+        "revocation/ref": {"type": "string", "minLength": 1, "maxLength": 512},
+        "signature": {"$ref": "#/$defs/signature"}
+      }
+    }
+  }
+}

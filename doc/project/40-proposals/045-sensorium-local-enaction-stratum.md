@@ -488,6 +488,10 @@ The lane-level invariants are:
   Asynchrony, threads, watchers, queues, caches, and streaming are allowed
   behind the invoked script boundary, but the directive boundary must linearize
   them into one bounded invocation result,
+- a directive that needs longer work may use the explicit deferred-operation
+  extension from Proposal 055: the initial invocation still returns quickly with
+  an operation handle, while the host owns retry cadence, expiry, cancellation,
+  and final timeout policy. Deferred mode is not the default sync contract,
 - every artifact should carry media type, sensitivity class, and preferably a
   content-addressed reference,
 - partial success is valid: observations may coexist with diagnostics,

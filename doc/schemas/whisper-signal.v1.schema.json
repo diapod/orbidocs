@@ -62,6 +62,11 @@
       "minLength": 1,
       "description": "Normalized issue class used for bounded correlation. Distinct from the enclosing envelope's `topic/key`, which is an Agora routing key; `topic/class` is the semantic correlation class carried inside the rumor body."
     },
+    "signal/similarity-key": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional deterministic correlation key used by fixture-grade or policy-defined threshold engines. M4 uses `topic/class` plus this key for the first laptop smoke; semantic similarity remains a later policy or module concern."
+    },
     "context/facets": {
       "type": "array",
       "minItems": 1,

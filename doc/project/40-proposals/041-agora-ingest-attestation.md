@@ -255,10 +255,11 @@ Relays SHOULD cache resolved-passport decisions with an explicit TTL
 **Nym-certificate as an alternate attestation artifact.** When the
 ingest target permits pseudonymous authorship (e.g. `record/kind =
 "whisper"` per proposal 035 §2 invariant 9 and proposal 013), the
-envelope carries `author/nym-certificate-ref` instead of (or alongside)
-`author/attestation_ref`. The gate then resolves a `nym-certificate.v1`
-(proposal 015) through the same cache path as passports and performs
-the analogous checks:
+envelope carries `author/nym-proof` instead of (or alongside)
+`author/attestation_ref`. In the M4 baseline the proof inlines enough
+`nym-certificate.v1` material (proposal 015) to verify the current nym without
+remote lookup; optional refs may be cached for audit/history but are not required
+for the common admission path. The gate performs the analogous checks:
 
 - verify the council's signature on the nym certificate,
 - verify that the certificate's bound nym matches the envelope's
@@ -318,7 +319,7 @@ each clause is one of:
 | `author_not_in_blocklist` | `{"author_not_in_blocklist":true}` | operator-local blocklist |
 | `rate_budget` | `{"rate_budget":{"per":"hour","max":100}}` | per-author rate cap |
 | `proof_fresh_within` | `{"proof_fresh_within":"300s"}` | max age of proof token |
-| `nym_certificate_valid` | `{"nym_certificate_valid":true}` | envelope's `author/nym-certificate-ref` resolves to a valid `nym-certificate.v1` |
+| `nym_certificate_valid` | `{"nym_certificate_valid":true}` | envelope's `author/nym-proof` carries a valid inline-first `nym-certificate.v1` proof |
 | `nym_council_in` | `{"nym_council_in":["council:did:key:..."]}` | issuing council allowlist for the nym certificate |
 | `pseudonymous_authorship` | `{"pseudonymous_authorship":"allowed"}` or `"required"` or `"forbidden"` | whether `author/participant-id` may / must / must-not be a `nym:did:key:...` |
 
@@ -406,7 +407,7 @@ Stable reasons:
 | `issuer_not_accepted` | Passport issuer not in `issuer_in`. |
 | `ingest_predicate_unknown` | Gate references a predicate the relay cannot evaluate. |
 | `rate_limited` | `rate_budget` exceeded; `429` with `Retry-After`. |
-| `nym_certificate_unknown` | `author/nym-certificate-ref` does not resolve. |
+| `nym_certificate_unknown` | `author/nym-proof` is missing, malformed, or cannot provide a verifier-usable nym certificate/proof. |
 | `nym_certificate_expired` | Nym certificate outside validity window. |
 | `nym_certificate_revoked` | Nym certificate revoked by the issuing council. |
 | `nym_certificate_scope_mismatch` | Certificate scope (council, disclosure bound, signal-grade bound) does not cover the ingest target. |

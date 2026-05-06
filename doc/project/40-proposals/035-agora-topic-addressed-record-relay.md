@@ -282,12 +282,13 @@ Optional fields:
   `comment-thread-policy.v1`.
 - `record/tags` — short free-form tags (application use)
 - `record/lang` — BCP 47 language tag
-- `author/nym-certificate-ref` — when `author/participant-id` carries a
+- `author/nym-proof` — when `author/participant-id` carries a
   `nym:did:key:...` pseudonymous identity (see invariant 9 below), this
-  optional field points to or inlines the `nym-certificate.v1` that
-  binds the nym to its issuing council's authorization scope (proposal
-  015); it is part of the signed canonical bytes so the binding cannot
-  be stripped in transit
+  optional field carries a `nym-authorship-proof.v1`; in the M4 baseline
+  the proof inlines enough `nym-certificate.v1` material to verify the current
+  nym without remote lookup, while optional refs may point to longer lineage,
+  audit, or reputation history. The proof is part of the signed canonical bytes
+  so the binding cannot be stripped in transit.
 - `relay/received-at` — stamped by the relay on ingest; never part of the
   signed payload
 - `relay/id` — identifier of the relay that first ingested the record
@@ -300,9 +301,11 @@ Ingest invariants:
 2. `record/id` MUST equal the content hash of the canonical payload with
    `record/id`, `signature`, `relay/received-at`, `relay/id`, and
    `relay/hops` omitted.
-3. `signature` MUST be a valid Ed25519 signature by the participant key of
-   `author/participant-id`, verifiable against the participant's current
-   capability passport chain (proposals 024 and 032).
+3. `signature` MUST be a valid Ed25519 signature by the envelope author subject
+   key named by `author/participant-id`. For ordinary records this is the
+   participant key and is verifiable against the participant's current capability
+   passport chain (proposals 024 and 032). For records whose kind permits
+   pseudonymous authorship, invariant 10 defines the nym-key path.
 4. `content/schema` MUST be present and MUST name a known content schema
    identifier; relays MUST accept unknown schemas but MAY mark them as
    non-indexable until a schema contract is registered.
@@ -313,9 +316,10 @@ Ingest invariants:
 6. `record/parent` and `record/supersedes`, when present, MUST resolve to
    known records under the same `topic/key` or be flagged `dangling` until
    the parent appears.
-7. `author/participant-id` MUST carry a currently valid participant identity;
-   sanctioned or revoked participants are still stored but excluded from
-   default query output.
+7. `author/participant-id` MUST carry a currently valid author subject:
+   normally `participant:did:key:...`, or `nym:did:key:...` only when the record
+   kind explicitly permits pseudonymous authorship. Sanctioned or revoked author
+   subjects are still stored but excluded from default query output.
 8. `record/about`, when present, MUST follow the resource identity rules of
    proposal 026. The substrate MUST NOT derive `topic/key` from
    `record/about` and MUST NOT require `record/about` to match the topic.
@@ -329,9 +333,10 @@ Ingest invariants:
    pseudonymous authorship (currently: `whisper`, see §3). In that case:
    - the envelope signature MUST be Ed25519 by the private key of the
      nym, not of any underlying participant;
-   - the envelope MUST carry `author/nym-certificate-ref` resolving to a
-     currently valid `nym-certificate.v1` (proposal 015) that binds the
-     nym to its issuing council's authorization scope;
+   - the envelope MUST carry `author/nym-proof` containing a currently
+     valid `nym-authorship-proof.v1`; in the M4 baseline this proof inlines a
+     `nym-certificate.v1` (proposal 015) that binds the nym to its issuing
+     council's authorization scope and can be verified without a network lookup;
    - the ingest-attestation gate (proposal 041) MUST accept the nym
      certificate in place of a participant capability passport for
      ingest admission, under the consumer-local ingest mode configured
@@ -670,6 +675,43 @@ The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
 such a transport is out of scope for this proposal.
 
+#### 6.1. Federation trust boundary
+
+Matrix federation is a transport and replay channel, not an admission oracle.
+A receiving Agora relay MUST NOT trust a donor relay merely because the record
+arrived through Matrix or because the Matrix event itself is valid. The receiving
+relay MUST treat the Matrix event as a carrier for an `agora-record.v1` envelope
+and run the same local admission pipeline it would run for any other inbound
+record.
+
+The receiver therefore verifies, at minimum:
+
+1. the `agora-record.v1` envelope shape and canonical `record/id`,
+2. the envelope signature, author key, nym certificate, or delegated/proxy proof,
+   as applicable,
+3. content-schema conformance for `content/schema`,
+4. topic ACL and relay-role policy,
+5. authority, capability, revocation, and custody policy required by the topic
+   or record kind,
+6. idempotent deduplication by `record/id`.
+
+The Matrix homeserver signature and Matrix event id are transport provenance and
+diagnostics. They may support relay health, abuse analysis, or federation trust
+scoring, but they are not sufficient proof that the embedded Agora record is
+valid or locally admissible.
+
+Operationally:
+
+```text
+relay is transport
+envelope is evidence
+local policy is admission
+```
+
+This allows two Agora servers to synchronize accepted records without requiring
+full mutual trust between relay operators. A malicious or buggy donor may deliver
+bytes, but the receiver admits only records whose envelope and local policy pass.
+
 ### 7. Retention
 
 Retention is configured per topic and per record kind, with relay-level
@@ -891,7 +933,7 @@ scope is clean and tested.
 
 | Proposal | Relation |
 |---|---|
-| 013 — Whisper social signal exchange | `whisper-signal.v1` is a first-class Agora `content/schema` under `record/kind = "whisper"`, using pseudonymous `nym:did:key:...` authorship (§2 invariant 9) anchored by `nym-certificate.v1`; Agora is one of two distribution mechanisms (the other is direct node-to-node exchange, see proposal 013 §Distribution), and Memarium is the local storage surface for both. Threshold-reached events remain a separate `whisper-durable` kind for when a whisper crosses bootstrap thresholds and needs a different durability posture. |
+| 013 — Whisper social signal exchange | `whisper-signal.v1` is a first-class Agora `content/schema` under `record/kind = "whisper"`, using pseudonymous `nym:did:key:...` authorship (§2 invariant 9) anchored by `author/nym-proof` with inline-first `nym-certificate.v1` material; Agora is one of two distribution mechanisms (the other is direct node-to-node exchange, see proposal 013 §Distribution), and Memarium is the local storage surface for both. Threshold-reached events remain a separate `whisper-durable` kind for when a whisper crosses bootstrap thresholds and needs a different durability posture. |
 | 023 — federated offer distribution | The offer catalog today maintains its own storage; a future migration may express offer snapshots as Agora records under an operator-chosen topic key (for example `orbiplex/offer-catalog`) with `record/kind = "offer-snapshot"`, retiring the bespoke replication layer |
 | 024 — capability passports | Author signatures on Agora records are verified via the same passport chain |
 | 025 — seed directory as capability catalog | Seed directory remains a separate primitive for capability discovery; it MAY later publish its listings as records on an Agora topic for uniform federation |
@@ -1062,12 +1104,6 @@ Node profile root. Under daemon supervision the default path is:
 
 ```
 <node-data-dir>/middleware/agora-service/data
-```
-
-For example, a Story-009 laptop profile may resolve it as:
-
-```
-~/.orbiplex/bielik-blog-A/middleware/agora-service/data
 ```
 
 The Agora middleware data directory is a single-writer local state root,

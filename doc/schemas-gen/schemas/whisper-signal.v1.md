@@ -43,6 +43,7 @@ Machine-readable schema for the content body of an Agora record (or INAC artefac
 | [`epistemic/class`](#field-epistemic-class) | `yes` | enum: `rumor`, `weak-signal` | Explicit epistemic class that prevents the artifact from being treated as evidence. |
 | [`signal/text`](#field-signal-text) | `yes` | string | Sanitized text accepted by the local user before publication. |
 | [`topic/class`](#field-topic-class) | `yes` | string | Normalized issue class used for bounded correlation. Distinct from the enclosing envelope's `topic/key`, which is an Agora routing key; `topic/class` is the semantic correlation class carried inside the rumor body. |
+| [`signal/similarity-key`](#field-signal-similarity-key) | `no` | string | Optional deterministic correlation key used by fixture-grade or policy-defined threshold engines. M4 uses `topic/class` plus this key for the first laptop smoke; semantic similarity remains a later policy or module concern. |
 | [`context/facets`](#field-context-facets) | `yes` | array | Normalized, low-resolution facets that help correlation without forcing raw disclosure. |
 | [`confidence`](#field-confidence) | `yes` | number | Local confidence in the quality and relevance of the prepared signal. |
 | [`disclosure/scope`](#field-disclosure-scope) | `yes` | enum: `private-correlation`, `federation-scoped`, `cross-federation`, `public-aggregate-only` | Maximum disclosure posture allowed for this signal. Distribution-surface selection honours this: `private-correlation` SHOULD travel via INAC direct exchange (proposal 042); wider scopes MAY use Agora. The `SHOULD` is intentional — public Agora deployments SHOULD refuse `private-correlation` at ingest (its publication properties conflict with the disclosure intent), while closed / intra-organization Agora federations MAY carry these whispers internally under their own ingest policy. |
@@ -160,6 +161,14 @@ Sanitized text accepted by the local user before publication.
 - Shape: string
 
 Normalized issue class used for bounded correlation. Distinct from the enclosing envelope's `topic/key`, which is an Agora routing key; `topic/class` is the semantic correlation class carried inside the rumor body.
+
+<a id="field-signal-similarity-key"></a>
+## `signal/similarity-key`
+
+- Required: `no`
+- Shape: string
+
+Optional deterministic correlation key used by fixture-grade or policy-defined threshold engines. M4 uses `topic/class` plus this key for the first laptop smoke; semantic similarity remains a later policy or module concern.
 
 <a id="field-context-facets"></a>
 ## `context/facets`

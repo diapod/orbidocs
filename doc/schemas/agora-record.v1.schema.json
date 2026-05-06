@@ -55,8 +55,12 @@
     },
     "author/participant-id": {
       "type": "string",
-      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
-      "description": "Participant identity of the record author. The signature MUST verify against the participant's current capability passport chain, honoring any delegation from proposal 032."
+      "pattern": "^(participant|nym):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Participant identity or application-layer nym identity of the record author. Participant-authored records verify directly against the participant key or an explicit delegation proof. Nym-authored records MUST carry `author/nym-proof`, and the record signature verifies against the nym key certified by that proof."
+    },
+    "author/nym-proof": {
+      "$ref": "nym-authorship-proof.v1.schema.json",
+      "description": "Inline-first proof for nym-authored records. Required when `author/participant-id` starts with `nym:did:key:` and forbidden by the core verifier for participant-authored records. The proof context MUST match `topic/key`, `record/kind`, `content/schema`, and any relevant disclosure scope."
     },
     "authored/at": {
       "type": "string",
@@ -142,10 +146,25 @@
     },
     "signature": {
       "$ref": "#/$defs/signature",
-      "description": "Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Direct signatures verify with the participant key embedded in `author/participant-id`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`.",
+      "description": "Ed25519 signature over the canonical payload of this record with `signature`, `relay/received-at`, `relay/id`, and `relay/hops` removed. Direct participant signatures verify with the participant key embedded in `author/participant-id`. Direct nym signatures verify with the nym key embedded in `author/participant-id` and require a verifier-usable `author/nym-proof`. Delegated signatures carry `key/public` (the proxy signing key) and `key/delegation` (an inline proof from proposal 032); verifiers first check the Ed25519 signature with `key/public`, then validate the delegation proof. Note that `record/id` is INCLUDED in the signed payload: the signature explicitly binds the content-address. `record/id` itself is a separate hash computed over a different canonical payload that additionally excludes `record/id`.",
       "$comment": "Two distinct canonical payloads are used in this schema: (1) the `record/id` payload excludes record/id + signature + relay fields; (2) the signature payload excludes only signature + relay fields and keeps record/id. This matches the Matrix event-signing pattern where event_id is embedded in the signed content and gives wider cross-transport compatibility."
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "author/participant-id": {
+            "pattern": "^nym:did:key:"
+          }
+        },
+        "required": ["author/participant-id"]
+      },
+      "then": {
+        "required": ["author/nym-proof"]
+      }
+    }
+  ],
   "$defs": {
     "signature": {
       "type": "object",

@@ -120,6 +120,123 @@ The scheduler must not implement:
 - process restart or supervision,
 - trust, moderation, reputation, or Seed Directory policy.
 
+## Deferred Operation Continuations
+
+Proposal 055 adds a bounded deferred-operation contract for calls that cannot
+produce a final value inside one normal request budget. This does not turn the
+scheduler into a domain workflow engine. The scheduler or a lighter poller may
+drive the wake-up timing, but the continuation itself is a host/runtime-owned
+data value.
+
+The important boundary is:
+
+```text
+deferred = runtime control outcome
+deferred != ordinary domain payload
+```
+
+Downstream components should not receive `deferred` as normal input unless they
+explicitly declare a control-plane role that handles deferred operation state.
+The default runtime behavior is to stop the current branch, persist a
+continuation context, poll or wait until the deferred operation completes, then
+resume from the recorded point with the final value.
+
+This prevents every downstream component from needing domain knowledge about
+\"try again later\" semantics. A component after the deferred edge sees either a
+normal completed value or a terminal failure/timeout.
+
+### Continuation Context as Data
+
+Orbiplex should not try to capture a language/runtime stack. A continuation is a
+serializable value:
+
+```text
+ContinuationContext = data required to resume one flow from one explicit point
+```
+
+The context should contain only durable, replayable data:
+
+- `schema`, for example `orbiplex-continuation.v1`,
+- `continuation_id`,
+- owning workflow/run ids where present,
+- owning component/module id,
+- deferred `operation_id`,
+- resume kind and resume point,
+- caller/capability snapshot,
+- original input or current flow context as JSON,
+- optional envelope or workflow envelope snapshot,
+- trace/correlation ids,
+- idempotency key,
+- deadline and retry policy snapshot,
+- attempt counters and last diagnostic.
+
+The context must not contain:
+
+- Rust stack frames,
+- closures/functions,
+- thread handles,
+- sockets,
+- locks,
+- open files,
+- live child-process handles,
+- borrowed references.
+
+For JSON-e Flow, the natural continuation is:
+
+```text
+template_id
+step_index / step_id
+current_context_json
+output_binding
+deferred operation_id
+trace id
+deadline
+idempotency key
+```
+
+On resume, the host/runtime polls `operation_id`, receives a completed result,
+binds it to `current_context_json[output_binding]`, and continues with
+`step_index + 1`.
+
+### Execution Strategies
+
+The preferred strategy is **continuation-resume** from the first implementation:
+
+```text
+component step calls deferred-capable capability
+  -> receives deferred(operation_id)
+  -> runtime persists ContinuationContext
+  -> runtime stops the branch
+  -> scheduler/poller checks status later
+  -> completed(result)
+  -> runtime resumes from the stored resume point
+  -> downstream receives completed value only
+```
+
+A simpler abort-and-reschedule-step strategy is acceptable only as a fallback for
+idempotent steps, but it should not be the target architecture. It retries a
+larger part of the flow and therefore makes side-effect idempotency more
+fragile.
+
+The anti-pattern is passing `deferred` downstream as domain data. That complects
+control flow with domain payloads and forces every component to learn the same
+retry semantics.
+
+### Scheduler Boundary
+
+The scheduler may store wake-up state and launch the poll/resume action, but it
+does not interpret the continuation payload beyond generic owner/action fields.
+The owning runtime remains responsible for validating the continuation schema,
+checking authority, polling the deferred operation, and resuming the flow.
+
+In short:
+
+```text
+scheduler = when to wake
+deferred-operation runtime = how to poll and decide terminal state
+owning interpreter = how to resume the domain flow
+```
+
 ## Job Ownership and Authority Boundary
 
 Every runtime job must carry explicit ownership data:
