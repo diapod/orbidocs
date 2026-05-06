@@ -135,6 +135,12 @@ The boundary uses `whisper-redaction-prepare-request.v1` and
 `whisper-intake` sends raw private material by value over the loopback
 host-capability call, validates the provider response, persists the returned
 draft locally, and leaves publication blocked until explicit operator approval.
+`raw/private-material` intentionally accepts any JSON value while the
+redaction-preparation contract is still settling across deterministic fixtures,
+JSON-e Flow, Sensorium OS actions, and future model-assisted providers. Once the
+stable provider interface is proven, the field should be narrowed to
+`object|string`; scalar, array, and `null` payloads are compatibility slack, not
+the intended long-term shape.
 When model-assisted preparation is explicitly enabled, missing
 `whisper.redaction.prepare` support should fail closed through readiness rather
 than presenting a misleading prepare button.
@@ -282,6 +288,11 @@ The provider is not a publication authority. It may return `draft-ready`,
 `needs-human-review`, `unsafe-output`, `policy-denied`, `model-unavailable`,
 `retryable-timeout`, or `failed`; only the first two statuses may carry a draft,
 and even then the operator approval transition remains separate.
+The request schema currently leaves `raw/private-material` deliberately broad so
+early providers can pass structured intake envelopes, raw strings, or fixture
+values through the same loopback-only boundary. The intended stable contract is
+to narrow that field to `object|string` after provider behavior and tests have
+converged.
 
 When `Monus` is present, Whisper should treat it as an upstream local draft
 preparation module rather than as a peer publication authority. Monus may prepare
