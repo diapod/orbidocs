@@ -2,7 +2,11 @@
 
 **Status:** Partially implemented (M1 crate + daemon host adapter)
 
-**Based on:** `scheduler-impl.md`, `agora-m2-impl.md`, `agora-m2b-impl.md`, `agora-m2c-impl.md`, `dir-simplify.md`, `doc/project/60-solutions/008-agora/008-agora.md`, `doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md`, `node/storage-projector`, `node/agora-projections`
+**Based on:** `doc/project/60-solutions/008-agora/008-agora.md`,
+`doc/project/60-solutions/008-agora/008-agora-dir-simplify-impl.md`,
+`doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md`,
+`node/storage-projector`, `node/agora-projections`, and the Node
+`replay-scheduler` / daemon host-adapter implementation.
 
 **Date:** 2026-05-04
 

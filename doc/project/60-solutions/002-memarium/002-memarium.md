@@ -23,7 +23,9 @@ It does not define:
 - concrete module layout in an implementation repository,
 - federated Memarium replication between nodes (future work),
 - full curation or training pipeline (downstream consumers),
-- specific full-text search or vector index implementation (runtime concern),
+- specific full-text search or vector index implementation (runtime concern; see
+  `doc/project/60-solutions/022-semantic-index/022-semantic-index.md` for the
+  semantic projection boundary),
 - frozen archival contract schemas (builds on current draft proposals).
 
 ## Must Implement

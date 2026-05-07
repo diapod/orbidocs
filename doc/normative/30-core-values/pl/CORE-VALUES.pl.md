@@ -107,6 +107,24 @@ charakterystyka nie była automatycznie cenzurowana, uśredniana ani "uładniana
 maszynę. Rój może pomagać w tłumaczeniu, porządkowaniu i dostrajaniu komunikacji, ale
 nie może ukrywać faktu, że to już jest interpretacja, a nie surowe świadectwo.
 
+### Mowa przed dokumentem
+
+Komunikacja jest wcześniejsza niż artefakt. Era sieci odziedziczyła przypadkowe
+wiązanie każdej wypowiedzi z jednym autorem, jednym miejscem i nieokreśloną
+trwałością, a następnie pomyliła ten koszt wczesnej implementacji z naturą
+komunikacji. Orbiplex nie przyjmuje tego wiązania jako domyślnego.
+
+Wypowiedź jest kandydatem do obiegu, nie aktem notarialnym. Autorstwo, miejsce
+publikacji i trwałość są właściwościami opcjonalnymi, kontekstowymi i zasłużonymi:
+powinny pojawiać się tam, gdzie dana warstwa, relacja albo stawka naprawdę ich
+potrzebuje, a nie dlatego, że protokół wymusza zamrożenie śladu. Projektujemy dla
+właściwości, które rozmowa miała zawsze poza siecią: dryfu, parafrazy,
+półtrwania, pamięci rozproszonej i prawa do nieutrwalania wszystkiego.
+
+Nie oznacza to pogardy dla dokumentów, podpisów ani archiwów. Oznacza, że
+dokumentacja jest świadomą konkretyzacją aktu mowy, a nie jego domyślnym losem.
+Szanujemy akt komunikacji, zanim uczynimy z niego artefakt.
+
 ### Zrównoważanie i demokratyzacja
 
 Wiedza i inteligencja nie mogą być trwale monopolizowane przez centra kapitału,

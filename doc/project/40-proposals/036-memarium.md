@@ -97,7 +97,9 @@ What is missing:
 - This proposal does not define the full curation or training pipeline. Those are
   downstream consumers of Memarium artifacts.
 - This proposal does not require a specific full-text search or vector index
-  implementation. Indexing strategy is a runtime concern.
+  implementation. Indexing strategy is a runtime concern. The solution-level
+  boundary for semantic embeddings and vector backends is
+  `doc/project/60-solutions/022-semantic-index/022-semantic-index.md`.
 - This proposal does not freeze the archival contract schemas; it builds on them
   as currently proposed.
 

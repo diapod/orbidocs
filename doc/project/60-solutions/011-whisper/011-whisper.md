@@ -93,7 +93,7 @@ Responsibilities:
   policy allows that surface.
 
 Status:
-- `partial` for Agora M4. The shared `whisper-core` implementation boundary now
+- `done` for Agora M4. The shared `whisper-core` implementation boundary now
   owns Agora-independent public/private posture parsing, public Agora disclosure
   denial for `private-correlation` and direct-only signals, and deterministic M4
   threshold/proposal id derivation. Agora consumes that core at ingress/signing
@@ -108,6 +108,10 @@ Status:
   and retried through an operator action. The Node workspace also ships
   `whisper-intake` as an opt-in bundled supervised middleware package so
   Story-005 profiles can enable it without manual binary wiring.
+  M4 intentionally stops at a deterministic local provider boundary: JSON-e Flow
+  can route `whisper.redaction.prepare` into Sensorium OS, and Sensorium OS can
+  run the local fixture or a locally configured model command. Policy for
+  external/model-runtime providers is post-M4.
 
 Model-assisted redaction/paraphrase now has a stable host-capability boundary.
 The first concrete M4 provider path is deliberately configuration-driven and
@@ -182,15 +186,14 @@ Responsibilities:
   local policy, but they do not publish the underlying story.
 
 Status:
-- `partial` for Agora M4. Node's Agora projection store can project public
+- `done` for Agora M4. Node's Agora projection store can project public
   `whisper-signal.v1` records, derive deterministic threshold state for two
   distinct source nodes in the same `topic/class` + `signal/similarity-key`
   group, create association-room proposal projection state, and expose derived
   threshold/proposal drafts for projection-authority signing. Agora service can
-  sign and ingest those derived records when a host signer is available. The
-  daemon-hosted Story-005 smoke proves the same path with a real daemon
-  HostSigner, so the remaining gap is model-assisted redaction, not projection
-  authority wiring.
+  sign and ingest those derived records when a host signer is available.
+  Direct and daemon-hosted Story-005 smoke coverage proves the same path with a
+  real daemon HostSigner.
 
 ### Projection Authority for Threshold and Proposal Claims
 

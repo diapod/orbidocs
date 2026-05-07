@@ -1721,7 +1721,7 @@ only in `seed-directory/src/agora.rs:57-67`. The schema-gate test should be
 explicitly understood as validating structure only, not business semantics.
 Consider adding a negative seed-directory test for mismatches in those fields.
 
-### Compliance With dir-simplify.md — Summary
+### Compliance With This Simplification Contract — Summary
 
 | Guidance | Status |
 |---|---|

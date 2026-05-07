@@ -105,6 +105,24 @@ charakteristika nebyla strojem automaticky cenzurována, zprůměrována ani „
 Roj může pomáhat s překladem, uspořádáním a dolaďováním komunikace, ale nesmí
 skrývat, že už jde o interpretaci, nikoli o syrové svědectví.
 
+### Řeč před dokumentem
+
+Komunikace předchází artefaktu. Síťová éra zdědila nahodilé svázání každé výpovědi
+s jedním autorem, jedním místem a neurčitou trvalostí a poté si tuto cenu rané
+implementace spletla s povahou komunikace samé. Orbiplex toto svázání nepřijímá
+jako výchozí.
+
+Výpověď je kandidátem na oběh, nikoli notářským aktem. Autorství, místo publikace
+a trvalost jsou volitelné, kontextové a zasloužené vlastnosti: mají se objevovat
+tam, kde je daná vrstva, vztah nebo sázka opravdu potřebuje, ne proto, že protokol
+vynucuje zmrazení každé stopy. Navrhujeme pro vlastnosti, které rozhovor měl vždy
+mimo síť: posun významu, parafrázi, poločas rozpadu, distribuovanou paměť a právo
+neuchovávat všechno.
+
+To neznamená pohrdání dokumenty, podpisy ani archivy. Znamená to, že dokumentace je
+vědomou konkretizací aktu řeči, nikoli jeho výchozím osudem. Ctíme akt komunikace
+dříve, než z něj učiníme artefakt.
+
 ### Vyvažování a demokratizace
 
 Vědění a inteligence nesmějí být trvale monopolizovány centry kapitálu,

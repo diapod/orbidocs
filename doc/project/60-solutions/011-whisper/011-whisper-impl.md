@@ -31,6 +31,40 @@ It exists to:
   implementation can meaningfully proceed,
 - give a stable commit order when shaping the whisper stack.
 
+## Current implementation status
+
+This implementation note started as a layer-by-layer build plan. The layer
+tables below are useful for historical sequencing, but the authoritative current
+status is:
+
+- `whisper-signal.v1`, `whisper-threshold-reached.v1`, and
+  `association-room-proposal.v1` are implemented for the Agora M4 public signal
+  path.
+- Public/federated Whisper records are carried as `agora-record.v1` envelopes
+  with `content/schema = "whisper-signal.v1"`.
+- Public Whisper authorship is nym-authored at the envelope boundary:
+  `author/participant-id = nym:did:key:...` requires verifier-usable
+  `author/nym-proof`; private-correlation and direct-only signals are rejected
+  on public Agora topics.
+- `whisper-intake` exists as a bounded supervised Rust HTTP middleware with its
+  own operator UI surface, local-private SQLite intake store, host-authenticated
+  loopback API, sealed `personal` Memarium sync for raw/draft/quarantine/candidate
+  stages, and manual retry for private sync.
+- `whisper.redaction.prepare` is the stable redaction/paraphrase capability
+  boundary. The first provider path is deterministic and local:
+  JSON-e Flow calls `sensorium.directive.invoke`, and Sensorium OS runs a
+  bounded `whisper.redaction.prepare` action. The provider returns a draft for
+  human review; it never publishes to Agora and never marks a candidate approved.
+- Node C's Agora projection can derive deterministic threshold/proposal state
+  from two eligible public signals, sign derived records through the host signer,
+  ingest them through the ordinary Agora path, and prevent derived-record loops.
+- Story-005 now has a three-node laptop operator pack and English/Polish
+  runbooks that exercise A/B Whisper Intake plus C Agora projection.
+
+Post-M4 work is intentionally narrower: richer external/model-runtime redaction
+policy can be added behind the same `whisper.redaction.prepare` contract without
+changing the Whisper/Agora envelope boundary.
+
 ## Architectural posture
 
 Whisper is **not** a transport; it is a **content kind plus an

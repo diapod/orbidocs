@@ -109,6 +109,24 @@ character automatically censored, averaged out, or "cleaned up" by the machine.
 The swarm may help with translation, structuring, and tuning communication, but it
 may not hide the fact that this is already interpretation, not raw testimony.
 
+### Speech Before Document
+
+Communication predates the artifact. The networked era inherited an accidental
+binding of every utterance to one author, one location, and indefinite persistence,
+and then mistook that cost of early implementation for the nature of communication
+itself. Orbiplex does not accept this binding as the default.
+
+An utterance is a candidate for circulation, not a notarized act. Authorship,
+publication location, and persistence are optional, contextual, and earned
+properties: they should appear where a layer, relation, or stake truly needs them,
+not because the protocol forces every trace to freeze. We design for properties
+conversation has always had outside the network: drift, paraphrase, half-life,
+distributed memory, and the right not to preserve everything.
+
+This is not contempt for documents, signatures, or archives. It means documentation
+is a conscious concretization of speech, not its default fate. We honor the act of
+communication before turning it into an artifact.
+
 ### Rebalancing and Democratization
 
 Knowledge and intelligence must not be permanently monopolized by centers of capital,

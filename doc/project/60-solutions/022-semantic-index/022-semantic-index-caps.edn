@@ -1,0 +1,132 @@
+{:component/id :orbiplex/semantic-index
+ :component/title "Orbiplex Semantic Index"
+ :component/type :node-attached-read-model
+ :component/status :planned
+
+ :summary
+ "Node-local semantic retrieval projection derived from Memarium facts and
+ policy-accepted knowledge artifacts. Memarium remains the source of truth;
+ Semantic Index owns embeddings, vector backend adapters, projection cursors,
+ retrieval queries, and optional clustering/training-candidate preparation."
+
+ :must-implement
+ [{:cap/id :semantic-rebuildable-projection
+   :title "Rebuildable Semantic Projection"
+   :kind :storage
+   :based-on ["doc/project/40-proposals/036-memarium.md"
+              "doc/project/40-proposals/047-classification-label-propagation.md"
+              "doc/project/50-requirements/requirements-001-node-onboarding.md"
+              "doc/project/30-stories/story-002-federated-peer-learning.md"]
+   :schemas ["classification.v1"
+             "knowledge-artifact.v1"
+             "learning-outcome.v1"]
+   :responsibilities
+   ["Maintain semantic index rows as an eventually consistent projection"
+    "Store projection cursors and diagnostics separately from Memarium facts"
+    "Rebuild from Memarium and policy-accepted knowledge artifacts"
+    "Expose stale, lagging, skipped, and rejected projection status to operators"]
+   :status :planned}
+
+  {:cap/id :semantic-sqlite-vector-backend
+   :title "SQLite-First Vector Backend"
+   :kind :storage
+   :based-on ["doc/project/40-proposals/036-memarium.md"
+              "doc/project/60-solutions/022-semantic-index/022-semantic-index.md"]
+   :schemas []
+   :responsibilities
+   ["Provide a local SQLite backend under `<data-dir>/semantic-index/`"
+    "Support a plain SQLite fallback for small datasets and smoke tests"
+    "Allow later replacement by `sqlite-vec` or a similar SQLite vector extension without changing Semantic Index callers"
+    "Keep backend-specific ANN structures out of protocol and Memarium contracts"]
+   :status :planned}
+
+  {:cap/id :semantic-classification-aware-extraction
+   :title "Classification-Aware Extraction"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/047-classification-label-propagation.md"
+              "doc/project/60-solutions/018-classification/018-classification.md"]
+   :schemas ["classification.v1"]
+   :responsibilities
+   ["Require source classification on every indexed item"
+    "Carry source refs, effective tier, bound subjects, and declassification trail into index metadata"
+    "Prevent retrieval from returning material above the caller's allowed tier"
+    "Treat embeddings and clusters as derivatives requiring their own policy checks"]
+   :status :planned}
+
+  {:cap/id :semantic-bounded-projection-jobs
+   :title "Bounded Semantic Projection Jobs"
+   :kind :integration
+   :based-on ["doc/project/60-solutions/020-scheduler/020-scheduler.md"
+              "doc/project/60-solutions/022-semantic-index/022-semantic-index.md"]
+   :schemas []
+   :responsibilities
+   ["Run extraction and embedding refresh through bounded scheduler jobs"
+    "Use idempotency keys derived from source id, source revision or fact sequence, stage, and embedding model id"
+    "Report projection lag, retryable failures, permanent policy denials, and embedding provider errors"
+    "Support operator pause, resume, and retry without modifying Memarium facts"]
+   :status :planned}]
+
+ :may-implement
+ [{:cap/id :semantic-dedicated-vector-backend
+   :title "Dedicated Vector Store Adapter"
+   :kind :optional
+   :based-on ["doc/project/60-solutions/022-semantic-index/022-semantic-index.md"]
+   :schemas []
+   :responsibilities
+   ["Move similarity search to a dedicated vector backend when SQLite no longer satisfies size or latency requirements"
+    "Preserve the same domain adapter and query semantics"
+    "Keep source-of-truth and classification gates unchanged"]
+   :status :optional}
+
+  {:cap/id :semantic-batch-clustering-worker
+   :title "Batch Clustering Worker"
+   :kind :optional
+   :based-on ["doc/project/60-solutions/022-semantic-index/022-semantic-index.md"]
+   :schemas []
+   :responsibilities
+   ["Cluster indexed vectors into derived semantic groups"
+    "Create representative examples for local micro-model training"
+    "Emit classification-preserving semantic-cluster.v1-style artifacts"
+    "Support optional libraries such as clostera without adding them to Memarium or Node core"]
+   :status :optional}
+
+  {:cap/id :semantic-personal-micro-model-datasets
+   :title "Personal Micro-Model Dataset Preparation"
+   :kind :optional
+   :based-on ["doc/project/60-solutions/022-semantic-index/022-semantic-index.md"]
+   :schemas []
+   :responsibilities
+   ["Select, balance, and redact local training candidates from semantic clusters"
+    "Keep dataset preparation separate from model-weight mutation"
+    "Require explicit operator or policy approval before using Personal material for training"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Replacing Memarium as the source of truth"
+  "Storing vector rows inside the primary Memarium database"
+  "Federated Memarium replication"
+  "Public export of private embeddings without explicit declassification"
+  "Model training or model-weight mutation"
+  "Choosing one mandatory vector database for all implementations"
+  "Treating clusters, centroids, or summaries as authoritative facts"]
+
+ :consumes
+ ["MemariumFact"
+  "MemariumEntry"
+  "classification.v1"
+  "knowledge-artifact.v1"
+  "learning-outcome.v1"
+  "Local embedding-provider configuration"
+  "Scheduler job launches"]
+
+ :produces
+ ["Semantic index rows"
+  "Semantic projection cursors and diagnostics"
+  "Retrieval query responses"
+  "semantic-cluster.v1-style derived artifacts"
+  "Training-candidate manifests"]
+
+ :notes
+ ["Semantic Index is a rebuildable read model. Memarium remains the authoritative append-only memory organ."
+  "The first backend should be SQLite-based; `sqlite-vec` or a similar extension can be adopted without changing the semantic boundary."
+  "Batch clustering engines such as clostera are optional downstream workers, not core Memarium or Node dependencies."]}

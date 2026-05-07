@@ -1,7 +1,7 @@
 {:component/id :orbiplex/whisper
  :component/title "Orbiplex Whisper"
  :component/type :node-attached-module
- :component/status :planned
+ :component/status :partial
 
  :summary
  "Node-attached social-signal exchange component for rumor intake, redaction,
@@ -26,7 +26,7 @@
     "Use `whisper-signal.v1` directly for the Agora M4 public/federated smoke, with nym-authored Agora envelope identity and inline-first nym proof"
     "Use Agora only for disclosure-safe public or federation-scoped signals"
     "Keep private-correlation and direct-only whisper bodies off public Agora topics"]
-   :status :planned}
+   :status :done}
 
   {:cap/id :interest-and-threshold-coordination
    :title "Interest and Threshold Coordination"
@@ -46,7 +46,7 @@
     "Prevent derived-record loops with deterministic ids, source-kind exclusion, and derivation refs"
     "Preserve opt-in enrollment and never auto-enroll humans"
     "Expose threshold/proposal state for the Story-005 three-node smoke"]
-   :status :planned}]
+   :status :done}]
 
  :may-implement
  [{:cap/id :aggregate-topic-notices

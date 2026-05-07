@@ -416,15 +416,20 @@ Responsibilities:
   and node C runs the Agora relay/server.
 
 Status:
-- `partial` for M4. The public/federated direct-HTTP smoke path is implemented:
-  node A and node B submit signed `whisper-signal.v1` records to node C's Agora
-  service, and node C projects signal, threshold, and association-room proposal
-  state. The implementation guide is `agora-m4-impl.md` at the repository root.
-  Remaining M4 closure work is Matrix-backed Agora sync parity,
-  `nym:...` envelope authorship with inline-first nym proof verification, the
-  bounded supervised `whisper-intake` workflow, and emission of signed
-  threshold/proposal derived records. Story-009 Agora-primary smoke remains the
-  regression guard for the existing Agora substrate.
+- `done` for M4 in the Node reference implementation. The public/federated
+  direct-HTTP smoke path is implemented: node A and node B submit
+  nym-authored, signed `whisper-signal.v1` records to node C's Agora service,
+  and node C projects signal, threshold, and association-room proposal state.
+  Agora verifies inline-first nym proofs at the envelope/policy boundary,
+  rejects private/direct-only Whisper signals on public Agora topics, emits
+  deterministic `whisper-threshold-reached.v1` and
+  `association-room-proposal.v1` records through the host signer, and prevents
+  derived-record loops through source-kind exclusion and deterministic
+  derivation ids. Story-005 now has a three-node laptop operator pack with
+  durable profiles and English/Polish runbooks. Matrix-backed Agora sync parity
+  is covered separately so Matrix remains a transport, not a trust source.
+  Story-009 Agora-primary smoke remains the regression guard for the existing
+  Agora substrate.
 
 ### Projection Authority for Derived Records
 

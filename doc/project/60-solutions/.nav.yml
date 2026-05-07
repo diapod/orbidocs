@@ -24,3 +24,7 @@ nav:
   - "016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"
   - "017-inter-node-artifact-channel/017-inter-node-artifact-channel.md"
   - "018-classification/018-classification.md"
+  - "019-middleware/019-middleware.md"
+  - "020-scheduler/020-scheduler.md"
+  - "021-agora-authority/021-agora-authority.md"
+  - "022-semantic-index/022-semantic-index.md"
