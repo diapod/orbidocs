@@ -34,8 +34,11 @@ It exists to:
 
 INAC is a **peer-level artefact exchange protocol**, layered above
 the WSS peer transport (proposal 002) and parallel to the peer
-message dispatch pipeline (proposal 027). It is not a new transport,
-not a new identity system, and not a new authorization authority.
+message dispatch pipeline (proposal 027). In the component-facing
+architecture it is a private/direct transport adapter under
+`doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`.
+It is not a general component send API, not a new identity system, and not a
+new authorization authority.
 
 Three operations — `offer`, `request`, `push` — travel as peer
 messages with a dedicated `msg` kind `inac.v1`. Large payloads
@@ -44,10 +47,11 @@ through the attestation-gate (proposal 041) using one of four
 sources: general capability passport, custody passport, invitation
 passport, or attestation alone.
 
-The kind registry is **open**: baseline artefact shapes are
-`agora-record.v1` and `memarium-blob.v1`; additional kinds plug in
-through the same `middleware-module-report` extension idiom as
-peer-message kinds.
+Artifact-kind admission is owned by Artifact Delivery, not by a middleware
+chain. INAC receives or transfers byte-identical artifacts and then feeds the
+host-owned inbound admission path. That path has a single authoritative
+acceptor per artifact schema/content-type class. Additional artifact kinds plug
+in as explicit inbound acceptors, not as fan-out chains.
 
 ## Invariants that cross layers
 
@@ -108,8 +112,8 @@ INAC operations are peer messages under the `PeerMessageChain`
 |---|---|
 | Register `inac.v1` as a `msg` kind in the reference peer-message registry | ❌ not started |
 | Document the message envelope under `peer-message-invoke.v1` forwarding rules | ❌ not started |
-| Add `handles_artifact_kinds` field to `middleware-module-report` (mirrors `handles_peer_message_types`) | ❌ not started |
-| Document registration semantics for kind claims (precedence, conflict detection, startup warning on shadowing) | ❌ not started |
+| Feed received artifacts into Artifact Delivery inbound admission | ❌ not started |
+| Project middleware and in-process component acceptor declarations into the Artifact Delivery route table | ❌ not started |
 
 ## Layer 2 — Control protocol
 
@@ -212,17 +216,18 @@ registered handler for its `schema`.
 
 ### Open-kind handlers
 
-A module registers `handles_artifact_kinds` in its
-`middleware-module-report`; INAC looks up the handler per operation.
-Safety floor (§Invariant 7) applies: unknown registered kind with no
-handler → `kind-not-supported`.
+Open artifact kinds are registered as Artifact Delivery inbound acceptors.
+INAC does not own this registry and does not fan out to middleware chains. It
+feeds the received artifact into Artifact Delivery; the host-owned admission
+table selects exactly one authoritative acceptor. Safety floor (§Invariant 7)
+applies: unknown registered kind with no acceptor → `kind-not-supported`.
 
 ### Status
 
 | Component | State |
 |---|---|
-| `handles_artifact_kinds` registry + lookup | ❌ not started |
-| Precedence rule on shadowed kinds (proposal 042 Open Question #4; proposed default: first loaded wins + startup warning) | ❌ decision pending |
+| Artifact Delivery inbound acceptor registry + lookup | ❌ not started |
+| Conflict rule on shadowed kinds: multiple authoritative acceptors fail readiness | ✅ decided in Artifact Delivery |
 | Safety-floor refusal for unknown kinds | ❌ not started |
 | Session-level kind handshake (advisory enumeration, authoritative routing per-op) | ❌ not started |
 
@@ -278,8 +283,8 @@ to proposal 027's peer-message dispatch.
 | Component | State |
 |---|---|
 | `inac.v1` peer-message handler registered in the `PeerMessageChain` | ❌ not started |
-| Sidecar-registration path (so Python/other-language modules can claim kinds via `handles_artifact_kinds`) | ❌ not started |
-| Daemon supervisor readiness: kind registry is resolved at init, not at first request | ❌ not started |
+| Sidecar-registration path (so Python/other-language modules can declare Artifact Delivery inbound acceptors) | ❌ not started |
+| Daemon supervisor readiness: Artifact Delivery route table is resolved at init, not at first request | ❌ not started |
 
 ## Open decisions blocking implementation
 
@@ -322,7 +327,7 @@ to proposal 027's peer-message dispatch.
   Layer 3 lands. This lets Layer 2 (control protocol) ship before
   Layer 3 (streaming);
 - two baseline kinds only (`agora-record.v1`, `memarium-blob.v1`);
-  `handles_artifact_kinds` registry lands after baseline works;
+  open middleware acceptor declarations land after baseline works;
 - no session-level kind handshake in v1 (authoritative routing
   per-operation is sufficient);
 - no `node-address-attestation.v1` kind (042 Open Question #6 is
@@ -349,8 +354,8 @@ Each step leaves the tree compiling.
    Blocks Layer 6.
 5. **Layer 4 — authorization.** Verifier paths for all four sources.
 6. **Layer 5 — baseline kind dispatch.** `agora-record.v1` +
-   `memarium-blob.v1` handlers only; `handles_artifact_kinds`
-   registry omitted.
+   `memarium-blob.v1` acceptors only; open middleware acceptor
+   declarations omitted.
 7. **Layer 2 — control protocol.** `offer` / `request` / `push` +
    responses, inline-only payloads.
 8. **Layer 1 — peer-message registration.** Register `inac.v1`
@@ -364,8 +369,8 @@ Each step leaves the tree compiling.
     on INAC.
 12. **Layer 3 — binary-frame streaming.** After proposal 002
     documents the transport-level framing.
-13. **Layer 5 — `handles_artifact_kinds` open registry.** Unlocks
-    third-party middleware kind extensions.
+13. **Layer 5 — Artifact Delivery open acceptor registry.** Unlocks
+    third-party middleware kind extensions without making INAC a chain.
 14. **042 Open Question #6 — `node-address-attestation.v1`.**
     Deferred; gated on the Seed Directory federation decision.
 

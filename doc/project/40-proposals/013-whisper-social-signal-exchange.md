@@ -121,7 +121,7 @@ A `whisper-signal` carries one of two fundamental polarities:
   strength, co-creation potential, or urgency of matching interested participants. Emergency
   protocols are never triggered.
 
-`signal_polarity` is a mandatory field on `whisper-signal.v1`. The two polarities
+`signal/polarity` is a mandatory field on `whisper-signal.v1`. The two polarities
 share the same lifecycle but differ in urgency, redaction posture, and the nature of
 the resulting association room:
 
@@ -600,7 +600,7 @@ envelope (proposal 035) and for the same envelope used in direct
 node-to-node exchange (see "Distribution and Local Storage"). The
 content body carries whisper-level semantics only:
 
-- `signal_polarity` (`problem` | `inspiration`),
+- `signal/polarity` (`problem` | `inspiration`),
 - `epistemic/class`, `signal/text`, `topic/class`, `context/facets`,
 - optional `signal/similarity-key` for deterministic threshold smoke and explicit
   policy-defined matching,

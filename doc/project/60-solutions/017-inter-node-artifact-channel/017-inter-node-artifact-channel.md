@@ -4,10 +4,12 @@ INAC is the planned peer-to-peer artifact exchange surface for moving
 byte-identical Orbiplex artifacts between nodes without publishing them through
 a public substrate.
 
-It is layered above authenticated peer sessions and parallel to Agora:
+It is layered above authenticated peer sessions and parallel to Agora, but the
+component-facing delivery abstraction belongs to Artifact Delivery:
 
 - Agora is topic-addressed public or semi-public relay.
-- INAC is direct node-to-node artifact transfer.
+- Artifact Delivery is the host-owned delivery and admission plane.
+- INAC is the private/direct node-to-node transport adapter under that plane.
 - Memarium remains the local custody store.
 
 The current solution status is **planned**. Proposal 042 defines the semantic
@@ -29,8 +31,8 @@ storage integration.
 - Keep artifact envelopes byte-identical across transfer and storage.
 - Reuse existing authority surfaces such as capability passports,
   invitation/custody passports, and attestation-gate style verification.
-- Route accepted artifacts to Agora, Memarium, or a registered middleware
-  handler depending on artifact kind.
+- Feed received artifacts into the host-owned Artifact Delivery inbound
+  admission path, which dispatches to exactly one authoritative acceptor.
 - Keep large payload bytes out of the JSON control plane by using
   content-addressed binary-frame streams.
 
@@ -47,3 +49,6 @@ and authorization gate are not implemented as a complete runtime slice yet.
 - future `inac-control.v1`
 - `capability-passport.v1`
 
+## Related Solutions
+
+- [Artifact Delivery](../023-artifact-delivery/023-artifact-delivery.md)

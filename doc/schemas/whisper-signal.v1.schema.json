@@ -19,7 +19,7 @@
   ],
   "required": [
     "schema",
-    "signal_polarity",
+    "signal/polarity",
     "epistemic/class",
     "signal/text",
     "topic/class",
@@ -36,7 +36,7 @@
       "const": "whisper-signal.v1",
       "description": "Content-level discriminator for consumers that inspect the payload outside its Agora or INAC envelope."
     },
-    "signal_polarity": {
+    "signal/polarity": {
       "type": "string",
       "enum": [
         "problem",
@@ -56,6 +56,16 @@
       "type": "string",
       "minLength": 1,
       "description": "Sanitized text accepted by the local user before publication."
+    },
+    "signal/text-native": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional sanitized text in the original non-English language. Use this only when the original accepted user-facing wording is not English; English text stays solely in `signal/text`."
+    },
+    "signal/text-native-lang": {
+      "type": "string",
+      "pattern": "^(?!en(?:-|$))[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$",
+      "description": "BCP 47-like language tag for `signal/text-native`. This field is intentionally non-English; English originals MUST omit both native-text fields and use only `signal/text`."
     },
     "topic/class": {
       "type": "string",
@@ -120,7 +130,7 @@
         "high",
         "critical"
       ],
-      "description": "Signal salience grade. For `problem` signals this grades protective risk and urgency. For `inspiration` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal_polarity`."
+      "description": "Signal salience grade. For `problem` signals this grades protective risk and urgency. For `inspiration` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal/polarity`."
     },
     "routing/profile": {
       "type": "string",
@@ -206,5 +216,13 @@
         }
       }
     }
-  ]
+  ],
+  "dependentRequired": {
+    "signal/text-native": [
+      "signal/text-native-lang"
+    ],
+    "signal/text-native-lang": [
+      "signal/text-native"
+    ]
+  }
 }

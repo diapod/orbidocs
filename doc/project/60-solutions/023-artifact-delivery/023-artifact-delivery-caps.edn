@@ -1,0 +1,149 @@
+{:component/id :orbiplex/artifact-delivery
+ :component/title "Artifact Delivery"
+ :component/type :node-attached-runtime
+ :component/status :planned
+
+ :summary
+ "Host-owned artifact delivery and admission plane. Components submit one
+ delivery envelope carrying artifact, delivery plan, and policy, plus
+ explicit inbound/outbound artifact schema declarations; the host resolves
+ recipients, executes fan-out and fallback plans, selects transports such as
+ INAC or Agora, centralizes transport runtime, and dispatches inbound artifacts
+ to exactly one authoritative acceptor."
+
+ :must-implement
+ [{:cap/id :artifact-delivery-runtime
+   :title "Host-Owned Artifact Delivery Runtime"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/042-inter-node-artifact-channel.md"
+              "doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md"
+              "doc/project/60-solutions/019-middleware/019-middleware.md"]
+   :schemas ["artifact-delivery-envelope.v1"
+             "artifact-delivery-plan.v1"
+             "artifact-delivery-acceptor.v1"]
+   :responsibilities
+   ["Expose one component-facing artifact send surface"
+    "Keep transport connections centralized in the host"
+    "Compile route tables from factory config, effective config, in-process manifests, and middleware module reports"
+    "Expose route table and conflict state to the operator"]
+   :status :planned}
+
+  {:cap/id :artifact-delivery-outbound-authorization
+   :title "Outbound Authorization and Recipient Resolution"
+   :kind :policy-enforcement
+   :based-on ["doc/project/60-solutions/006-capability-binding/006-capability-binding.md"
+              "doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md"
+              "doc/project/60-solutions/021-agora-authority/021-agora-authority.md"]
+   :schemas ["artifact-delivery-envelope.v1"]
+   :responsibilities
+   ["Require explicit outbound schema declarations per component"
+    "Normalize single-recipient envelopes into delivery plans"
+    "Resolve named route refs plus node, configured-default, and agora-default recipient selectors for the MVP"
+    "Allow one delivery stage to mix explicit node targets, configured defaults, groups, and later capability resolver targets"
+    "Deduplicate concrete targets after full resolution and before transport execution"
+    "Support configured defaults that pin a name to a concrete node id without making node id a separate selector kind"
+    "Execute staged delivery plans with all, any, and quorum success policies"
+    "Support configured fallback such as direct node first, then Agora or a configured group"
+    "Authorize route refs, selector classes, concrete target node ids, maximum targets, and maximum fallback stages per component"
+    "Treat selector allowlists as permissions, not fallback order, and fail malformed or unresolved selector targets before transport execution"
+    "Keep participant, org, and capability-based recipient resolution behind later resolver adapters"
+    "Deny valid-schema sends when the component lacks an outbound allow"]
+   :status :planned}
+
+  {:cap/id :artifact-delivery-single-owner-admission
+   :title "Single-Owner Inbound Admission"
+   :kind :admission
+   :based-on ["doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md"
+              "doc/project/60-solutions/019-middleware/019-middleware.md"]
+   :schemas ["artifact-delivery-acceptor.v1"
+             "memarium-blob.v1"
+             "agora-record.v1"]
+   :responsibilities
+   ["Enforce at most one authoritative acceptor per schema and content-type class"
+    "Fail readiness on conflicting acceptors"
+    "Return kind-not-supported when no acceptor is available"
+    "Call supervised HTTP, in-process, or explicitly configured JSON-e Flow acceptors through the same conceptual admission contract"]
+   :status :planned}
+
+  {:cap/id :artifact-delivery-transport-adapter-registry
+   :title "Transport Adapter Registry"
+   :kind :integration
+   :based-on ["doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas ["agora-record.v1"
+             "memarium-blob.v1"]
+   :responsibilities
+   ["Register INAC as the MVP private/direct node transport"
+    "Register Agora publish as the MVP public/federated publication adapter"
+    "Keep future Matrix mailbox support behind the same adapter boundary"
+    "Ensure transport adapters feed inbound admission instead of owning their own domain-specific dispatch tables"]
+   :status :planned}]
+
+ :may-implement
+ [{:cap/id :artifact-delivery-capability-recipient-resolver
+   :title "Capability-Based Recipient Resolver"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"
+              "doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md"]
+   :schemas ["capability-passport.v1"
+             "capability-advertisement.v1"]
+   :responsibilities
+   ["Resolve capability-first and capability-many recipient selectors through Seed Directory and local policy"
+    "Preserve revocation freshness and capability profile checks"
+    "Expose candidate selection diagnostics"]
+   :status :optional}
+
+  {:cap/id :artifact-delivery-matrix-mailbox-transport
+   :title "Matrix Mailbox Transport Adapter"
+   :kind :optional
+   :based-on ["doc/project/60-solutions/008-agora/008-agora.md"
+              "doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md"]
+   :schemas ["artifact-delivery-envelope.v1"]
+   :responsibilities
+   ["Use deterministic node-mailbox room aliases for asynchronous artifact control messages"
+    "Treat Matrix as transport only, never as trust source"
+    "Support inline-only mailbox delivery first"
+    "Feed the same Artifact Delivery inbound admission path used by INAC WSS"]
+   :status :optional}
+
+  {:cap/id :artifact-delivery-exclusive-route-registry
+   :title "Shared Exclusive Route Registry Primitive"
+   :kind :optional
+   :based-on ["doc/project/60-solutions/019-middleware/019-middleware.md"]
+   :schemas []
+   :responsibilities
+   ["Extract a small generic registry only after Artifact Delivery proves that the same exclusive route-table primitive is needed elsewhere"
+    "Preserve simple domain-specific data shapes until reuse is real"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Replacing INAC, Agora, Seed Directory, or Memarium"
+  "Becoming a general workflow engine"
+  "Running middleware-owned peer listeners or transport loops"
+  "Fan-out to multiple authoritative acceptors for one artifact kind"
+  "Treating valid schema as sufficient send authority"
+  "Silent opaque storage of unknown artifact kinds"
+  "Public enumeration of private/direct deliveries"
+  "Domain interpretation of accepted artifacts"]
+
+ :consumes
+ ["Component artifact send requests"
+  "Inbound artifacts from transport adapters"
+  "Component module reports"
+  "In-process component manifests"
+ "Effective node artifact-delivery config"
+  "Configured artifact delivery routes and destination groups"
+  "Seed Directory candidate records for future capability-based recipient selectors"]
+
+ :produces
+ ["Transport-specific delivery requests"
+ "Inbound admission calls to authoritative acceptors"
+  "Per-stage delivery outcomes"
+  "Operator-visible route table snapshots"
+  "Conflict diagnostics"
+  "Delivery and refusal counters"]
+
+ :notes
+ ["INAC is the private/direct transport adapter under Artifact Delivery, not the top-level component-facing abstraction."
+  "Inbound admission is single-owner, not a middleware chain."
+  "Inbound support does not imply outbound send authority; both directions require explicit declarations."]}

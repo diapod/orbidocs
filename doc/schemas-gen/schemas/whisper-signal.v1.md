@@ -39,9 +39,11 @@ Machine-readable schema for the content body of an Agora record (or INAC artefac
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `whisper-signal.v1` | Content-level discriminator for consumers that inspect the payload outside its Agora or INAC envelope. |
-| [`signal_polarity`](#field-signal-polarity) | `yes` | enum: `problem`, `inspiration` | Fundamental polarity of the whisper signal. `problem` describes a distributed harm, failure, or dignity risk that may require correlation and protective response. `inspiration` describes a convergent idea, creative discovery, or emerging approach that may justify co-creation. Emergency handling MUST NOT be triggered solely by an `inspiration` signal. |
+| [`signal/polarity`](#field-signal-polarity) | `yes` | enum: `problem`, `inspiration` | Fundamental polarity of the whisper signal. `problem` describes a distributed harm, failure, or dignity risk that may require correlation and protective response. `inspiration` describes a convergent idea, creative discovery, or emerging approach that may justify co-creation. Emergency handling MUST NOT be triggered solely by an `inspiration` signal. |
 | [`epistemic/class`](#field-epistemic-class) | `yes` | enum: `rumor`, `weak-signal` | Explicit epistemic class that prevents the artifact from being treated as evidence. |
 | [`signal/text`](#field-signal-text) | `yes` | string | Sanitized text accepted by the local user before publication. |
+| [`signal/text-native`](#field-signal-text-native) | `no` | string | Optional sanitized text in the original non-English language. Use this only when the original accepted user-facing wording is not English; English text stays solely in `signal/text`. |
+| [`signal/text-native-lang`](#field-signal-text-native-lang) | `no` | string | BCP 47-like language tag for `signal/text-native`. This field is intentionally non-English; English originals MUST omit both native-text fields and use only `signal/text`. |
 | [`topic/class`](#field-topic-class) | `yes` | string | Normalized issue class used for bounded correlation. Distinct from the enclosing envelope's `topic/key`, which is an Agora routing key; `topic/class` is the semantic correlation class carried inside the rumor body. |
 | [`signal/similarity-key`](#field-signal-similarity-key) | `no` | string | Optional deterministic correlation key used by fixture-grade or policy-defined threshold engines. M4 uses `topic/class` plus this key for the first laptop smoke; semantic similarity remains a later policy or module concern. |
 | [`context/facets`](#field-context-facets) | `yes` | array | Normalized, low-resolution facets that help correlation without forcing raw disclosure. |
@@ -49,7 +51,7 @@ Machine-readable schema for the content body of an Agora record (or INAC artefac
 | [`disclosure/scope`](#field-disclosure-scope) | `yes` | enum: `private-correlation`, `federation-scoped`, `cross-federation`, `public-aggregate-only` | Maximum disclosure posture allowed for this signal. Distribution-surface selection honours this: `private-correlation` SHOULD travel via INAC direct exchange (proposal 042); wider scopes MAY use Agora. The `SHOULD` is intentional — public Agora deployments SHOULD refuse `private-correlation` at ingest (its publication properties conflict with the disclosure intent), while closed / intra-organization Agora federations MAY carry these whispers internally under their own ingest policy. |
 | [`source/class`](#field-source-class) | `no` | enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived`, `monus-sensorium-derived` | High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. `monus-sensorium-derived` is used when Monus relied materially on Sensorium-originated local signals. |
 | [`source/signal-kinds`](#field-source-signal-kinds) | `no` | array | Optional high-level local signal classes that materially informed a derived or sensorium-assisted rumor draft. |
-| [`signal/grade`](#field-signal-grade) | `yes` | enum: `low`, `moderate`, `high`, `critical` | Signal salience grade. For `problem` signals this grades protective risk and urgency. For `inspiration` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal_polarity`. |
+| [`signal/grade`](#field-signal-grade) | `yes` | enum: `low`, `moderate`, `high`, `critical` | Signal salience grade. For `problem` signals this grades protective risk and urgency. For `inspiration` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal/polarity`. |
 | [`routing/profile`](#field-routing-profile) | `yes` | enum: `direct`, `relayed`, `onion-relayed` | Requested outbound transport posture. |
 | [`routing/failure-mode`](#field-routing-failure-mode) | `yes` | enum: `soft-fail`, `hard-fail` | Whether the sender allows downgrade if the requested transport posture cannot be satisfied. |
 | [`relay/acceptable-classes`](#field-relay-acceptable-classes) | `no` | array | Optional relay classes acceptable for outbound privacy realization. |
@@ -131,7 +133,7 @@ Then:
 Content-level discriminator for consumers that inspect the payload outside its Agora or INAC envelope.
 
 <a id="field-signal-polarity"></a>
-## `signal_polarity`
+## `signal/polarity`
 
 - Required: `yes`
 - Shape: enum: `problem`, `inspiration`
@@ -153,6 +155,22 @@ Explicit epistemic class that prevents the artifact from being treated as eviden
 - Shape: string
 
 Sanitized text accepted by the local user before publication.
+
+<a id="field-signal-text-native"></a>
+## `signal/text-native`
+
+- Required: `no`
+- Shape: string
+
+Optional sanitized text in the original non-English language. Use this only when the original accepted user-facing wording is not English; English text stays solely in `signal/text`.
+
+<a id="field-signal-text-native-lang"></a>
+## `signal/text-native-lang`
+
+- Required: `no`
+- Shape: string
+
+BCP 47-like language tag for `signal/text-native`. This field is intentionally non-English; English originals MUST omit both native-text fields and use only `signal/text`.
 
 <a id="field-topic-class"></a>
 ## `topic/class`
@@ -216,7 +234,7 @@ Optional high-level local signal classes that materially informed a derived or s
 - Required: `yes`
 - Shape: enum: `low`, `moderate`, `high`, `critical`
 
-Signal salience grade. For `problem` signals this grades protective risk and urgency. For `inspiration` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal_polarity`.
+Signal salience grade. For `problem` signals this grades protective risk and urgency. For `inspiration` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal/polarity`.
 
 <a id="field-routing-profile"></a>
 ## `routing/profile`

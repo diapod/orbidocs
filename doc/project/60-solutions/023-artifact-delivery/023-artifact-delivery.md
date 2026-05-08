@@ -1,0 +1,912 @@
+# Artifact Delivery
+
+`Artifact Delivery` is the host-owned delivery and admission plane for moving
+schema-bound artifacts between Orbiplex components, nodes, and public/federated
+substrates without forcing every component to own transport connections or
+interpret peer topology.
+
+Status: `planned`
+
+Date: `2026-05-08`
+
+## Executive Summary
+
+Artifact Delivery separates a component's intent from the concrete transport used
+to satisfy that intent.
+
+A component should be able to say:
+
+```text
+deliver this artifact envelope under delivery plan P
+```
+
+The host-owned Artifact Delivery runtime then performs:
+
+```text
+outbound authorization
+  -> recipient resolution
+  -> transport selection
+  -> transport execution
+  -> inbound admission
+  -> exactly one domain acceptor
+```
+
+INAC becomes the private/direct node-to-node transport adapter inside this plane,
+not the top-level abstraction. Agora remains the public/federated record
+substrate. Middleware and node-attached components can opt into Artifact Delivery
+through explicit inbound acceptor and outbound send declarations, visible to the
+operator as data. The delivery plan may contain a single recipient selector,
+multiple destinations executed in parallel, or staged fallback routes such as
+`node -> on failure -> agora`.
+
+The key decision is strict: inbound artifact admission is single-owner, not a
+middleware chain. A given artifact kind has at most one authoritative acceptor.
+If a domain needs fan-out, it must do so behind one explicit acceptor that owns
+that domain semantics.
+
+## Context and Problem Statement
+
+The Inter-Node Artifact Channel (INAC) solution defines a direct artifact transfer
+surface between authenticated nodes. During design review, a sharper separation
+emerged:
+
+- INAC should own private/direct node-to-node artifact transport.
+- A higher layer should own component-facing delivery intent, recipient resolution,
+  outbound permission, operator-visible routing, and inbound admission dispatch.
+- Components must not each create their own peer listeners, Matrix rooms, retry
+  loops, or transport-specific connection managers.
+- Existing middleware `input_chains` are useful precedent for declarative
+  runtime registration, but their chain semantics are too broad for artifact
+  admission.
+
+Without this layer, every component that needs inter-node artifact movement would
+need to know whether to call INAC, Agora, Seed Directory, peer-message dispatch,
+or a future Matrix mailbox adapter. That would duplicate transport logic and
+make policy invisible to the operator.
+
+With this layer, components request artifact delivery through one host-owned
+interface, and the host keeps transport, policy, and admission routing coherent.
+
+## Proposed Model / Decision
+
+Artifact Delivery is a node-attached host runtime composed by the daemon or host.
+It is not a separate public protocol and not a workflow engine.
+
+Its responsibilities are:
+
+1. Accept component delivery requests.
+2. Authorize outbound artifact schemas per component.
+3. Resolve recipient selectors into concrete delivery targets.
+4. Choose and invoke a transport adapter.
+5. Receive artifacts from transport adapters.
+6. Authorize inbound delivery.
+7. Dispatch to exactly one authoritative acceptor.
+8. Expose route tables, conflicts, counters, and refusals to the operator.
+
+### Layering
+
+```mermaid
+flowchart TD
+  C["Component intent"] --> AD["Artifact Delivery runtime"]
+  AD --> OA["Outbound allow table"]
+  AD --> R["Recipient resolver"]
+  R --> TS["Transport selector"]
+  TS --> INAC["INAC transport adapter"]
+  TS --> AGORA["Agora publish adapter"]
+  TS --> MATRIX["Future Matrix mailbox adapter"]
+  INAC --> ADIN["Artifact Delivery inbound admission"]
+  MATRIX --> ADIN
+  AGORA --> AGORAA["Agora admission"]
+  ADIN --> IA["Inbound acceptor table"]
+  IA --> D["Domain component acceptor"]
+```
+
+The diagram is intentionally asymmetric: publishing to Agora is not the same as
+private delivery to a node. Agora is a public/federated record substrate with its
+own admission rules. INAC and future mailbox transports feed Artifact Delivery
+inbound admission for private/direct artifacts.
+
+### Core Vocabulary
+
+| Term | Meaning |
+|---|---|
+| Artifact | A byte-identical payload with a declared schema/kind, content type, digest, size, and optional envelope id. |
+| Component | A supervised middleware, in-process node-attached component, or other host-composed actor allowed to request delivery or accept inbound artifacts. |
+| Outbound allow | A config/report declaration that a component may send artifacts of selected schemas through Artifact Delivery. |
+| Delivery envelope | One single-arity request object carrying component identity, artifact, delivery plan, and policy. |
+| Recipient selector | A transport-neutral target expression such as node, participant, capability-first, configured-default, or agora-default. |
+| Recipient resolver | Host-owned resolver that turns a recipient selector into one or more concrete transport targets. |
+| Delivery plan | A declarative route plan containing one or more stages. Each stage has targets, execution mode, success policy, and optional fallback behavior. |
+| Destination group | A locally configured set of recipient selectors, for example future user-defined groups such as friends, family, work, or synchronizers. |
+| Transport adapter | A concrete delivery mechanism such as INAC over WSS, future INAC-over-Matrix mailbox, or Agora publish. |
+| Inbound acceptor | Exactly one authoritative component endpoint for one artifact schema/content-type class. |
+| Admission | The host-owned inbound gate that checks transport context, authorization, budgets, idempotency, and acceptor lookup before calling the acceptor. |
+
+### Delivery Envelope Shape
+
+The eventual wire/control shape should be formalized as a schema such as
+`artifact-delivery-envelope.v1`. The important point is single arity: the
+component submits one delivery envelope, and the `delivery/plan` inside that
+envelope chooses the recipient mode, fan-out, and fallback behavior. The
+component API should not grow separate methods for `send_to_node`,
+`send_to_participant`, `send_to_capability`, `send_to_group`, or
+`publish_to_agora`.
+
+The solution-level shape is:
+
+```json
+{
+  "schema": "artifact-delivery-envelope.v1",
+  "component/id": "vendor.middleware",
+  "artifact": {
+    "schema": "vendor.foo.v1",
+    "content/type": "application/json",
+    "digest": "sha256:...",
+    "size/bytes": 1234,
+    "bytes/base64": "..."
+  },
+  "delivery/plan": {
+    "mode": "sequence",
+    "stages": [
+      {
+        "stage/id": "direct-node",
+        "mode": "parallel",
+        "targets": [
+          {
+            "selector/kind": "node",
+            "node/id": "node:did:key:..."
+          }
+        ],
+        "success/policy": "all"
+      }
+    ]
+  },
+  "policy": {
+    "privacy": "private",
+    "delivery": "at-least-once",
+    "max/recipients": 1,
+    "timeout/ms": 5000
+  }
+}
+```
+
+The artifact bytes remain domain-owned. Artifact Delivery may validate the outer
+envelope, content type, size, digest, authorization, delivery plan, recipient
+selectors, and delivery policy, but it must not reinterpret the domain payload.
+
+For ergonomic MVP implementations, a single `recipient` selector may be accepted
+as syntactic sugar and normalized immediately into a one-stage `delivery/plan`.
+The normalized plan is the internal contract.
+
+### Delivery Plans
+
+The delivery plan is the place where multiple destinations and fallback live. It
+is not a workflow engine: it only describes how to deliver the same artifact to
+one or more transport targets.
+
+A `delivery/plan` may either contain inline `stages` or a `route/ref` pointing to
+a configured route. Route references are normalized to concrete stages before
+authorization and execution.
+
+Recommended plan vocabulary:
+
+| Field | Meaning |
+|---|---|
+| `route/ref` | Optional configured route id. Mutually exclusive with inline `stages` in the request envelope. |
+| `mode` | Plan execution mode. MVP: `sequence`. Later: `parallel` for independent top-level stages. |
+| `stages` | Ordered stage list. In `sequence` mode, the next stage runs only if the current stage fails under its success policy. |
+| `stage/id` | Stable local id for diagnostics and idempotency. |
+| `targets` | One or more recipient selectors resolved by the host. |
+| `success/policy` | Stage success rule: `all`, `any`, or `quorum`. |
+| `quorum/min-success` | Required when `success/policy = quorum`. |
+| `on/failure` | Optional next stage id for explicit fallback routing. If omitted in `sequence` mode, the next listed stage is the fallback. |
+
+Validation and resolution failures are not delivery failures. A malformed
+selector, such as `selector/kind = node` without `node/id`, fails before any
+transport adapter is invoked. An unresolved configured default or group is also
+a route/configuration error. Fallback applies only after a valid target has been
+resolved and a delivery attempt fails under the stage's success policy.
+
+Direct node with Agora fallback:
+
+```json
+{
+  "mode": "sequence",
+  "stages": [
+    {
+      "stage/id": "direct-node",
+      "mode": "parallel",
+      "targets": [
+        {
+          "selector/kind": "node",
+          "node/id": "node:did:key:..."
+        }
+      ],
+      "success/policy": "all",
+      "on/failure": "public-agora"
+    },
+    {
+      "stage/id": "public-agora",
+      "mode": "parallel",
+      "targets": [
+        {
+          "selector/kind": "agora-default"
+        }
+      ],
+      "success/policy": "all"
+    }
+  ]
+}
+```
+
+Send to an explicit node, a configured group, and Agora at once:
+
+```json
+{
+  "mode": "sequence",
+  "stages": [
+    {
+      "stage/id": "fanout",
+      "mode": "parallel",
+      "targets": [
+        {
+          "selector/kind": "node",
+          "node/id": "node:did:key:..."
+        },
+        {
+          "selector/kind": "group",
+          "group/id": "friends"
+        },
+        {
+          "selector/kind": "agora-default"
+        }
+      ],
+      "success/policy": "all"
+    }
+  ]
+}
+```
+
+Group fallback where the group succeeds if at least one member succeeds:
+
+```json
+{
+  "mode": "sequence",
+  "stages": [
+    {
+      "stage/id": "primary-node",
+      "targets": [
+        {
+          "selector/kind": "node",
+          "node/id": "node:did:key:..."
+        }
+      ],
+      "success/policy": "all",
+      "on/failure": "synchronizers"
+    },
+    {
+      "stage/id": "synchronizers",
+      "targets": [
+        {
+          "selector/kind": "group",
+          "group/id": "synchronizers"
+        }
+      ],
+      "success/policy": "any"
+    }
+  ]
+}
+```
+
+Group expansion is policy-sensitive. A group selector resolves to zero or more
+concrete recipient selectors, and the stage's `success/policy` decides whether
+the expanded group fails on the first member failure (`all`), only when every
+member fails (`any`), or when fewer than a configured number succeed (`quorum`).
+
+Stages may mix explicit targets and configured targets. For example, one stage
+may include explicit `node` selectors, a `configured-default`, a `group`, and a
+future `capability-many` selector such as "up to two acceptable `agora.relay`
+providers". All selectors are first resolved into concrete canonical targets,
+then deduplicated, and only then counted against fan-out limits and executed.
+
+Resolution order:
+
+```text
+inline targets / route ref
+  -> resolve configured-default
+  -> expand groups
+  -> resolve capability selectors
+  -> produce canonical concrete targets
+  -> deduplicate by canonical target key
+  -> enforce fan-out and target allow limits
+  -> execute transport adapters
+```
+
+Example canonical target keys:
+
+- `inac:node:<node-id>` for direct node delivery;
+- `agora:default:<topic-or-route-id>` for the local default Agora route;
+- `agora:node:<node-id>:<topic-or-route-id>` for a future explicit node-hosted
+  Agora target;
+- `matrix-mailbox:node:<node-id>` for a future mailbox transport.
+
+This deduplication happens after full resolution because only then can the host
+see that an explicit `node/id`, a configured default, a group member, and a
+capability resolver result all point to the same concrete destination.
+
+### Configured Routes and Groups
+
+The preferred operational shape is config-driven. Components may request a named
+route, and the host config decides whether that route delivers to one node,
+several nodes, a future user-defined group, Agora, or staged fallback targets.
+
+The config may also pin a named default to a concrete `node/id`. This does not
+create a separate selector kind. The selector kind remains `node`; the configured
+default simply resolves to a concrete node selector. This keeps the protocol
+small while allowing an operator to say "the default private destination for
+this component is exactly this node".
+
+Example effective config fragment:
+
+```json
+{
+  "artifact_delivery": {
+    "defaults": [
+      {
+        "name": "primary-recipient-node",
+        "selector": {
+          "selector/kind": "node",
+          "node/id": "node:did:key:..."
+        }
+      }
+    ],
+    "groups": [
+      {
+        "group/id": "synchronizers",
+        "members": [
+          {
+            "selector/kind": "node",
+            "node/id": "node:did:key:..."
+          },
+          {
+            "selector/kind": "node",
+            "node/id": "node:did:key:..."
+          }
+        ]
+      }
+    ],
+    "routes": [
+      {
+        "route/id": "private-whisper-default",
+        "plan": {
+          "mode": "sequence",
+          "stages": [
+            {
+              "stage/id": "direct-recipient",
+              "targets": [
+                {
+                  "selector/kind": "configured-default",
+                  "name": "primary-recipient-node"
+                }
+              ],
+              "success/policy": "all",
+              "on/failure": "synchronizer-group"
+            },
+            {
+              "stage/id": "synchronizer-group",
+              "targets": [
+                {
+                  "selector/kind": "group",
+                  "group/id": "synchronizers"
+                }
+              ],
+              "success/policy": "any"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+The component-facing envelope can then stay small:
+
+```json
+{
+  "schema": "artifact-delivery-envelope.v1",
+  "component/id": "whisper-intake",
+  "artifact": {
+    "schema": "whisper-private-transfer.v1",
+    "content/type": "application/json",
+    "digest": "sha256:...",
+    "size/bytes": 1234,
+    "bytes/base64": "..."
+  },
+  "delivery/plan": {
+    "route/ref": "private-whisper-default"
+  }
+}
+```
+
+Route references are still subject to outbound authorization. A component is not
+allowed to smuggle a wider route through a named config entry unless its
+outbound allow permits that route id, target selector classes, and fan-out
+limits.
+
+`recipient/selectors` in an outbound allow is an authorization allowlist, not a
+routing plan and not a fallback order. For example, allowing both `node` and
+`agora-default` means the component may use either selector when the
+`delivery/plan` or configured `route/ref` explicitly selects it. It MUST NOT
+mean "try node, and if `node/id` is missing, publish to Agora".
+
+`configured-default` may also be used as one target inside a larger stage, not
+only as a whole `route/ref`. This lets a sender combine explicit recipients with
+operator-owned defaults without knowing whether the default expands to one node,
+a group, or a local public/federated route:
+
+```json
+{
+  "mode": "sequence",
+  "stages": [
+    {
+      "stage/id": "fanout",
+      "mode": "parallel",
+      "targets": [
+        {
+          "selector/kind": "node",
+          "node/id": "node:did:key:A"
+        },
+        {
+          "selector/kind": "configured-default",
+          "name": "private-whisper-default-targets"
+        }
+      ],
+      "success/policy": "any"
+    }
+  ]
+}
+```
+
+### Recipient Selectors
+
+MVP recipient selector kinds:
+
+| Kind | Meaning | Likely transport |
+|---|---|---|
+| `node` | Send to one explicit node id. | INAC WSS |
+| `configured-default` | Resolve a named local default from host config; the default may resolve to a concrete `node` selector. | Configured adapter |
+| `agora-default` | Publish an Agora record to the default local/federated Agora route. | Agora publish |
+
+Later recipient selector kinds:
+
+| Kind | Meaning | Resolver |
+|---|---|---|
+| `group` | Resolve a user-defined local group such as friends, family, work, or synchronizers. | Host config + policy |
+| `participant` | Resolve participant to one or more reachable node ids under local policy. | Identity/Seed Directory/policy |
+| `org` | Resolve organization to allowed node or participant representatives. | Org custody/policy |
+| `capability-first` | Pick the first acceptable node advertising a capability. | Seed Directory + policy |
+| `capability-many` | Pick up to N acceptable nodes advertising a capability. | Seed Directory + policy |
+| `agora-node` | Publish to an explicitly selected node-hosted Agora endpoint. | Agora endpoint resolver |
+| `matrix-mailbox-node` | Leave a private artifact control message in a node mailbox room. | Future Matrix mailbox adapter |
+
+Only the MVP set should be implemented first. The other kinds are reserved by
+this solution to keep the API direction stable.
+
+### Outbound Allow Table
+
+Inbound support must not imply outbound authority. A component may accept
+`vendor.foo.v1` and still be forbidden from sending it.
+
+A component can send through Artifact Delivery only when an explicit outbound
+allow exists:
+
+```json
+{
+  "component/id": "vendor.middleware",
+  "schema": "vendor.foo.v1",
+  "recipient/selectors": ["node", "configured-default", "group", "agora-default"],
+  "route/refs": ["private-whisper-default"],
+  "target/node-ids": ["node:did:key:..."],
+  "fanout/max-targets": 3,
+  "fallback/max-stages": 2,
+  "max/bytes": 262144,
+  "requires/capability": "artifact-delivery.send"
+}
+```
+
+If a component needs both input and output for the same schema, the schema must
+appear in both the inbound acceptor table and outbound allow table.
+
+Missing transport-specific selector parameters are a fast failure with
+diagnostics. A `node` selector without `node/id` should produce a malformed or
+semantically invalid envelope response, while a `configured-default` that does
+not resolve to a concrete target should produce a route/configuration conflict
+or disabled route. Neither case may silently fall back to `agora-default`.
+
+### Inbound Acceptor Table
+
+Inbound admission is single-owner:
+
+```json
+{
+  "schema": "vendor.foo.v1",
+  "content/types": ["application/json"],
+  "component/id": "vendor.middleware",
+  "target/kind": "supervised-http",
+  "invoke/path": "/v1/artifacts/accept",
+  "max/bytes": 262144
+}
+```
+
+For in-process node-attached components the same declarative row should exist,
+but its target is a host-composed function rather than a loopback HTTP path:
+
+```json
+{
+  "schema": "memarium-blob.v1",
+  "component/id": "memarium",
+  "target/kind": "in-process",
+  "invoke": "memarium.inac.accept"
+}
+```
+
+This is deliberately data-first: the operator should be able to inspect that
+`memarium-blob.v1` delivered through Artifact Delivery will be accepted by
+Memarium even if Memarium is compiled into the host rather than running as a
+supervised HTTP middleware.
+
+### Acceptor Response Contract
+
+An acceptor returns a small admission result:
+
+```json
+{
+  "status": "accepted",
+  "artifact/ref": "memarium:entry:...",
+  "idempotency/key": "sha256:..."
+}
+```
+
+Allowed status values:
+
+- `accepted`
+- `already-present`
+- `rejected`
+- `retryable`
+
+Artifact Delivery maps these to transport-level responses and operator-visible
+counters. The acceptor owns any domain workflow it starts after admission.
+
+### Multiple Dispatch Rule
+
+Multiple authoritative acceptors for the same schema/content-type class are not
+allowed in the MVP.
+
+Startup/readiness behavior:
+
+- no acceptor: inbound request returns `kind-not-supported`;
+- one acceptor: route is active;
+- more than one acceptor: readiness conflict, route disabled until resolved.
+
+If a domain genuinely needs fan-out, it should register one explicit router
+acceptor. That router then owns the domain fan-out semantics after Artifact
+Delivery admission.
+
+### Relationship to Middleware `input_chains`
+
+Artifact Delivery should reuse the useful parts of the module report idiom:
+
+- component declares capabilities as data;
+- declarations include invoke paths and limits;
+- host compiles the effective route table at startup;
+- conflicts are operator-visible before first request.
+
+It should not reuse chain semantics. Artifact Delivery admission is not an
+`input_chains` pass, not a fan-out, and not a general middleware pipeline.
+
+Preferred naming:
+
+```text
+inbound_acceptors
+outbound_allows
+```
+
+Avoid naming this surface `handles_artifact_kinds`, because `handles` suggests a
+chain or general workflow. `acceptor` says this is an admission boundary.
+
+### JSON-e and JSON-e Flow
+
+JSON-e and JSON-e Flow are not automatic Artifact Delivery consumers.
+
+They may participate only when explicitly configured as an acceptor target or
+when a domain component uses them internally after accepting an artifact. A valid
+JSON schema alone must never cause an artifact to be injected into JSON-e Flow.
+
+Valid models:
+
+```text
+artifact schema X -> DomainComponent acceptor -> DomainComponent may run JSON-e Flow
+```
+
+or, explicitly:
+
+```text
+artifact schema X -> configured json-e-flow acceptor template T
+```
+
+The second model requires an operator-visible declaration and normal outbound or
+inbound capability checks.
+
+### Relationship to INAC
+
+INAC is the private/direct transport adapter under Artifact Delivery.
+
+It owns:
+
+- WSS peer session use;
+- future Matrix mailbox transport use;
+- INAC control messages such as offer/request/push;
+- binary-frame transfer when payloads exceed the inline ceiling;
+- transport-level retries, peer budgets, and transport diagnostics.
+
+It does not own:
+
+- component-facing recipient selector semantics;
+- capability-first or participant recipient resolution;
+- outbound schema permissions;
+- the global inbound acceptor table;
+- domain workflow after an artifact is admitted.
+
+### Relationship to Agora
+
+Agora is not a private artifact courier. It is the durable public/federated record
+substrate.
+
+Artifact Delivery may route an outbound envelope to Agora only when the
+recipient selector is explicitly Agora-shaped, for example `agora-default` or
+`agora-node`, and the artifact is an acceptable Agora publication artifact. This
+path goes through Agora's own publish/admission policy.
+
+Do not silently replace a private node delivery request with an Agora publish.
+
+### Relationship to Seed Directory
+
+Seed Directory is a recipient resolver input, not a transport.
+
+Recipient selectors such as `capability-first` and `capability-many` may use Seed
+Directory to find candidate nodes, but Artifact Delivery still owns the local
+policy decision that selects a concrete target and transport.
+
+### Relationship to Memarium
+
+Memarium may be an inbound acceptor for `memarium-blob.v1` and a custody target
+for domains that explicitly choose custody. Artifact Delivery must not decide on
+its own to store arbitrary unknown artifacts in Memarium. Opaque storage is only
+valid when the envelope kind itself is the contract, such as `memarium-blob.v1`,
+or when a configured custody acceptor explicitly owns that policy.
+
+## Must Implement
+
+### Host-Owned Artifact Delivery Runtime
+
+Based on:
+
+- `doc/project/40-proposals/042-inter-node-artifact-channel.md`
+- `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
+- `doc/project/60-solutions/019-middleware/019-middleware.md`
+
+Responsibilities:
+
+- expose one component-facing send surface;
+- keep transport connections centralized in the host;
+- compile route tables from factory config, effective config, in-process
+  manifests, and middleware module reports;
+- expose route table and conflict state to the operator.
+
+Status:
+
+- `planned`
+
+### Outbound Authorization and Recipient Resolution
+
+Based on:
+
+- `doc/project/60-solutions/006-capability-binding/006-capability-binding.md`
+- `doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md`
+- `doc/project/60-solutions/021-agora-authority/021-agora-authority.md`
+
+Responsibilities:
+
+- require explicit outbound schema declarations per component;
+- normalize single-recipient envelopes into `delivery/plan`;
+- resolve named route refs plus `node`, `configured-default`, and
+  `agora-default` recipient selectors for the MVP;
+- allow one stage to mix explicit targets, configured defaults, groups, and
+  later capability resolver targets;
+- deduplicate concrete targets after full resolution and before transport
+  execution;
+- treat selector allowlists as permissions, not fallback order;
+- fail malformed or unresolved selector targets before transport execution;
+- execute staged delivery plans with `all`, `any`, and `quorum` success
+  policies;
+- support configured fallback such as direct node first, then Agora or a
+  configured group;
+- authorize route refs, selector classes, concrete target node ids, fan-out
+  limits, and fallback depth per component;
+- keep participant, org, and capability-based recipient resolution as later
+  resolver adapters;
+- deny valid-schema sends when the component lacks an outbound allow.
+
+Status:
+
+- `planned`
+
+### Single-Owner Inbound Admission
+
+Based on:
+
+- `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
+- `doc/project/60-solutions/019-middleware/019-middleware.md`
+
+Responsibilities:
+
+- enforce at most one authoritative acceptor per schema/content-type class;
+- fail readiness on conflicting acceptors;
+- return `kind-not-supported` when no acceptor is available;
+- call supervised HTTP, in-process, or explicitly configured JSON-e Flow
+  acceptors through the same conceptual admission contract.
+
+Status:
+
+- `planned`
+
+### Transport Adapter Registry
+
+Based on:
+
+- `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
+- `doc/project/60-solutions/008-agora/008-agora.md`
+
+Responsibilities:
+
+- register INAC as the MVP private/direct node transport;
+- register Agora publish as the MVP public/federated publication adapter;
+- keep future Matrix mailbox support behind the same adapter boundary;
+- ensure transport adapters feed inbound admission instead of owning their own
+  domain-specific dispatch tables.
+
+Status:
+
+- `planned`
+
+## May Implement
+
+### Capability-Based Recipient Resolver
+
+Based on:
+
+- `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
+- `doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md`
+
+Responsibilities:
+
+- resolve `capability-first` and `capability-many` recipient selectors through
+  Seed Directory and local policy;
+- preserve revocation freshness and capability profile checks;
+- expose candidate selection diagnostics.
+
+Status:
+
+- `optional`
+
+### Matrix Mailbox Transport Adapter
+
+Based on:
+
+- `doc/project/60-solutions/008-agora/008-agora.md`
+- `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
+
+Responsibilities:
+
+- use deterministic node-mailbox room aliases for asynchronous artifact control
+  messages;
+- treat Matrix as transport only, never as trust source;
+- support inline-only mailbox delivery first;
+- feed the same Artifact Delivery inbound admission path used by INAC WSS.
+
+Status:
+
+- `optional`
+
+### Shared Exclusive Route Registry Primitive
+
+Based on:
+
+- `doc/project/60-solutions/019-middleware/019-middleware.md`
+
+Responsibilities:
+
+- extract a small generic registry only after Artifact Delivery proves that the
+  same exclusive route-table primitive is needed elsewhere;
+- preserve simple domain-specific data shapes until reuse is real.
+
+Status:
+
+- `optional`
+
+## Out of Scope
+
+- Replacing INAC, Agora, Seed Directory, or Memarium.
+- Becoming a general workflow engine.
+- Running middleware-owned peer listeners or transport loops.
+- Fan-out to multiple authoritative acceptors for one artifact kind.
+- Treating valid schema as sufficient send authority.
+- Silent opaque storage of unknown artifact kinds.
+- Public enumeration of private/direct deliveries.
+- Domain interpretation of accepted artifacts.
+
+## Failure Modes and Mitigations
+
+| Failure mode | Mitigation |
+|---|---|
+| Artifact Delivery becomes a second middleware chain | Enforce single authoritative acceptor per schema/content-type class. |
+| Components bypass host policy by opening their own transports | Keep transports host-owned and grant components only a send capability. |
+| Inbound support accidentally grants outbound authority | Maintain separate `inbound_acceptors` and `outbound_allows`. |
+| A component smuggles a broad fan-out through a named route | Authorize route refs, selector classes, concrete target node ids, maximum targets, and maximum fallback stages per component. |
+| Missing node target silently falls back to Agora | Treat missing transport-specific selector parameters as malformed or unresolved target errors; require an explicit `delivery/plan` stage for Agora fallback. |
+| The same target is delivered twice because it appears both explicitly and through a default/group/capability result | Resolve all selectors to canonical target keys and deduplicate before fan-out limit enforcement and transport execution. |
+| Group delivery semantics are ambiguous | Put `success/policy` on the stage after group expansion: `all`, `any`, or `quorum`. |
+| Two modules claim the same artifact kind | Fail readiness and expose conflict diagnostics. |
+| Agora is used as an accidental private delivery channel | Require explicit Agora-shaped recipient selectors and Agora publish policy. |
+| Seed Directory lookup hides policy decisions | Keep Seed Directory as resolver input; local Artifact Delivery policy selects targets. |
+| JSON-e Flow becomes an implicit generic artifact consumer | Allow JSON-e Flow only behind explicit acceptor declarations. |
+| Early generic abstraction becomes too large | Start with Artifact Delivery-specific route tables; extract a generic primitive only after reuse is proven. |
+
+## Open Questions
+
+1. Should MVP outbound declarations live only in factory/effective config, or may
+   supervised middleware module reports declare outbound schemas directly?
+
+   Suggested default: allow module reports to request outbound schemas, but the
+   effective host config must approve them before they become active.
+
+2. Should `agora-default` accept only `agora-record.v1`, or should it accept
+   domain payloads that the host wraps into Agora records?
+
+   Suggested default: accept only already-formed `agora-record.v1` at first.
+   Host-side wrapping can be a later explicit adapter.
+
+3. Should in-process acceptors be declared in the same effective config tree as
+   supervised middleware acceptors?
+
+   Suggested default: yes. The operator-visible route table should not depend on
+   whether the acceptor is supervised HTTP or in-process Rust.
+
+4. Should observers/audit hooks exist separately from authoritative acceptors?
+
+   Suggested default: not in the MVP. Add read-only observers only after the
+   single-owner admission path is implemented and tested.
+
+5. Should user-defined groups be implemented in the MVP or only reserved by the
+   plan schema?
+
+   Suggested default: implement named route refs and simple static groups
+   together if Story-005 private delivery needs them; otherwise reserve `group`
+   and keep the MVP to explicit node, configured default, and Agora routes.
+
+## Next Actions
+
+1. Update INAC implementation guidance to describe INAC as a transport adapter
+   under Artifact Delivery.
+2. Define draft schemas for `artifact-delivery-envelope.v1`,
+   `artifact-delivery-plan.v1`, and inbound acceptor declarations when
+   implementation starts.
+3. Add route-table conflict checks to the Node implementation plan before adding
+   any INAC transport code.
+4. Keep Story-005 private Whisper delivery as the first concrete consumer once
+   the Artifact Delivery MVP exists.
+
+## Related Capability Data
+
+- `023-artifact-delivery-caps.edn`

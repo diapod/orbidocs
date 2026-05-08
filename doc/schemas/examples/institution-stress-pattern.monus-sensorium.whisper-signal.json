@@ -1,6 +1,6 @@
 {
   "schema": "whisper-signal.v1",
-  "signal_polarity": "problem",
+  "signal/polarity": "problem",
   "epistemic/class": "weak-signal",
   "signal/text": "A recurring stress pattern may be associated with mention of the same institution and event class, suggesting a broader harm context rather than a one-off reaction.",
   "topic/class": "institution-linked-stress-pattern",

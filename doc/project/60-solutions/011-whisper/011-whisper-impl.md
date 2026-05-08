@@ -175,7 +175,7 @@ that carries or stores it.
 |---|---|---|
 | Agora kinds table (proposal 035 §3) | `whisper-signal.v1` + topic convention for `ai.orbiplex.whispers/<topic-class>` | 🟡 convention resolved in 046; kind registration still pending |
 | Agora kinds table | `whisper-durable.v1` for threshold-promoted whispers | 🟡 mentioned in 013 §5, kind not yet registered |
-| INAC `handles_artifact_kinds` (proposal 042 §4) | `whisper-signal.v1` handler + authorization modes allowed | ❌ not started (INAC itself not started) |
+| Artifact Delivery inbound acceptor for INAC-carried private/direct artifacts | `whisper-signal.v1` acceptor + authorization modes allowed | ❌ not started (INAC and Artifact Delivery not started) |
 | Memarium observe rules | capture envelope byte-identically + action-trace for whisper lifecycle | ❌ not started |
 
 ## Layer 2 — Envelope builder and canonicalization

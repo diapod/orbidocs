@@ -50,10 +50,10 @@ other without re-signing.
 The channel is **generic**. Its baseline carries two artefact shapes —
 `agora-record.v1` (for records that already live, or could live, on
 Agora) and `memarium-blob.v1` (for generic Memarium-native custody
-payloads) — but the kind registry is **open**: additional kinds are
-registered by middleware modules through the same
-`middleware-module-report` mechanism that already lets modules claim
-peer message types in proposal 027.
+payloads). Additional kinds are admitted through the host-owned
+Artifact Delivery inbound acceptor table rather than through an INAC
+middleware chain. See
+`doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`.
 
 ## Context and Problem Statement
 
@@ -352,7 +352,8 @@ own authentication surface, its own proxy-compatibility story
 (proposal 002), and a separate connection; keeping streaming on the
 established WSS session avoids all three.
 
-### 4. Extensibility: open kind registry, capability-gated per peer
+### 4. Extensibility: open Artifact Delivery acceptor registry,
+capability-gated per peer
 
 This was an explicit open question when the proposal was commissioned.
 The answer: **open registry, not a closed enumeration**.
@@ -361,13 +362,12 @@ Rationale (stratified design from CLAUDE.md):
 
 - a closed set couples the channel to today's artefact vocabulary and
   forces every new kind into a core-proposal amendment,
-- Orbiplex already has an open extension mechanism for peer message
-  types (proposal 027: `handles_peer_message_types` on
-  `middleware-module-report`); mirroring it keeps one extension idiom
-  across the whole peer plane,
-- the channel itself does not need to understand every kind — it only
-  needs to **route** a kind to a handler that claims it and to let
-  the attestation-gate apply per-kind policy.
+- Orbiplex already has declarative component registration through
+  middleware module reports and effective host config; Artifact Delivery
+  reuses that idiom for operator-visible inbound acceptor declarations,
+- INAC itself does not need to understand every kind — it only needs to
+  transfer byte-identical artifacts and feed the host-owned inbound
+  admission path.
 
 Model:
 
@@ -376,29 +376,29 @@ Model:
      when present, otherwise stored as an opaque envelope in
      Memarium),
    - `memarium-blob.v1` (handled by Memarium directly).
-2. **Additional kinds** are registered by middleware modules through
-   a new field on `middleware-module-report`:
-   `handles_artifact_kinds: [{ schema, content_types?,
-   authorization_modes_allowed, storage_target }]`. The registration
-   says *"I understand this kind, here is my policy for accepting
-   it, here is where it lands."*
+2. **Additional kinds** are registered as Artifact Delivery inbound
+   acceptors. A supervised middleware module may request an acceptor
+   through its module report, while an in-process component may declare
+   the same acceptor through host/effective config. The registration says:
+   *"this component is the authoritative admission surface for this
+   schema/content-type class."*
 3. **Kind discovery at the peer level** happens inside `offer` and
    the optional INAC session handshake: an `offer` with a
    `schema` the receiver does not handle yields
    `decline { reason: kind-not-supported }`. A session-level
-   handshake MAY enumerate supported kinds up front as an
-   optimization, but enumeration is advisory; authoritative routing
-   always happens per-operation.
+   handshake MAY enumerate supported kinds up front as an optimization,
+   but enumeration is advisory; authoritative admission always happens
+   per-operation through Artifact Delivery.
 4. **Safety floor for unknown kinds.** A receiver confronted with a
-   registered kind that has no local handler MUST refuse with
-   `kind-not-supported` rather than storing opaque content; silent
-   opaque storage would let pushers exploit the channel as a generic
-   dead-drop. (Opaque storage of `memarium-blob.v1` is explicitly
-   **allowed** because the blob envelope is itself the contract.)
+   registered kind that has no local acceptor MUST refuse with
+   `kind-not-supported` rather than storing opaque content; silent opaque
+   storage would let pushers exploit the channel as a generic dead-drop.
+   (Opaque storage of `memarium-blob.v1` is explicitly **allowed**
+   because the blob envelope is itself the contract.)
 
-This design makes INAC the peer counterpart to what Agora's kind
-registry is for topic-addressed records: a shared extensible surface
-where new artefact domains plug in without forking the protocol.
+This design makes Artifact Delivery the shared extensible surface for
+component-facing artifact send/admit declarations. INAC remains one
+transport adapter under that surface.
 
 ### 5. Authorization: one gate, four sources
 
@@ -614,9 +614,10 @@ before it has been used.
    `agora-record.v1`.
 2. Register the `inac.v1` peer-message `msg` kind in the
    reference-implementation peer message registry (proposal 027).
-3. Add a new `handles_artifact_kinds` field to
-   `middleware-module-report` and document its registration
-   semantics alongside `handles_peer_message_types`.
+3. Define Artifact Delivery inbound acceptor and outbound allow
+   declarations. Supervised middleware module reports may request
+   acceptors, but the effective host route table remains the authority
+   that resolves conflicts and exposes operator-visible state.
 4. Specify the INAC control-message schemas for `offer`, `request`,
    `push` and their response envelopes.
 5. Document the `inac.invitation` `capability_id` in proposal 024

@@ -22,7 +22,7 @@
     "alg": "ed25519",
     "value": "sig_nym_whisper_001"
   },
-  "signal_polarity": "problem",
+  "signal/polarity": "problem",
   "epistemic/class": "rumor",
   "signal/text": "Rumor text",
   "topic/class": "workplace-retaliation-pattern",

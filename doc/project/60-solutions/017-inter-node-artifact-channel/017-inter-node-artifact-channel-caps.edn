@@ -5,8 +5,8 @@
 
  :summary
  "Planned peer-to-peer artifact exchange channel for byte-identical transfer of
- Agora records, Memarium blobs, and registered artifact kinds over authenticated
- node sessions."
+ Agora records, Memarium blobs, and Artifact Delivery-admitted artifact kinds
+ over authenticated node sessions."
 
  :must-implement
  [{:cap/id :inac-control-plane
@@ -32,7 +32,7 @@
    :responsibilities
    ["Preserve envelope bytes exactly as received"
     "Verify `record/id` or `blob/id` against canonical envelope bytes"
-    "Route accepted artifacts to Agora, Memarium, or registered handlers"
+    "Feed received artifacts into Artifact Delivery inbound admission"
     "Avoid re-signing artifacts during transfer"]
    :status :todo}
 
@@ -63,16 +63,19 @@
    :status :todo}]
 
  :may-implement
- [{:cap/id :middleware-artifact-kind-registry
-   :title "Middleware Artifact Kind Registry"
+ [{:cap/id :artifact-delivery-inac-acceptor-integration
+   :title "Artifact Delivery Acceptor Integration"
    :kind :extension
    :based-on ["doc/project/40-proposals/042-inter-node-artifact-channel.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
               "doc/project/20-memos/node-middleware-init-and-capability-reporting.md"]
-   :schemas ["middleware-module-report.schema.json"]
+   :schemas ["artifact-delivery-acceptor.v1"
+             "middleware-module-report.schema.json"]
    :responsibilities
-   ["Add `handles_artifact_kinds` to module reports"
-    "Detect startup conflicts when multiple modules claim the same artifact kind"
-    "Dispatch accepted artifacts to registered middleware handlers"]
+   ["Project supervised middleware declarations into Artifact Delivery inbound acceptors"
+    "Project in-process component manifests into the same operator-visible route table"
+    "Fail readiness when multiple authoritative acceptors claim the same artifact kind"
+    "Keep INAC as a transport adapter rather than a middleware chain"]
    :status :planned}]
 
  :out-of-scope

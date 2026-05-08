@@ -1,6 +1,6 @@
 {
   "schema": "whisper-signal.v1",
-  "signal_polarity": "problem",
+  "signal/polarity": "problem",
   "epistemic/class": "weak-signal",
   "signal/text": "A recurring emergency-care pattern may be emerging: severe abdominal pain is reported, ambulance transport is refused, and serious bleeding complications appear hours later.",
   "topic/class": "emergency-care-refusal-pattern",
