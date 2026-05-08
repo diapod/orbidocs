@@ -25,12 +25,14 @@
    :implemented ["`inac-control.v1` JSON Schema and schema-gate coverage"
                  "`node/inac-core` pure validation and refusal vocabulary"
                  "`node/inac-runtime` fail-closed runtime registry"
+                 "local outbound allow gate treats empty operation/schema sets as deny-all, not wildcard authority"
                  "daemon host capability endpoints for local offer/request/push"
                  "operator status endpoint `/v1/inac/status`"
                  "operator UI `/admin/inac` for handlers, counters, and recent refusals"]
    :remaining ["Register `inac.v1` as a WSS peer-message kind"
                "Wire remote peer session dispatch"
-               "Persist transfer status/idempotency beyond in-memory MVP"]}
+               "Persist transfer status/idempotency beyond in-memory MVP"
+               "Define explicit response `meta` propagation or termination rules"]}
 
   {:cap/id :byte-identical-artifact-transfer
    :title "Byte-Identical Artifact Transfer"
@@ -46,10 +48,12 @@
    :status :partial
    :implemented ["`memarium-blob.v1` is schema-gated and synchronized into node contracts"
                  "inline payload byte identity is checked by `inac-core`"
+                 "`push` requires exactly one payload location: inline bytes, artifact/ref, or artifact/href"
                  "`verify_artifact_bytes` checks exact full-envelope bytes for `agora-record.v1`, `memarium-blob.v1`, and future schemas before handler interpretation"]
    :remaining ["Verify domain-specific `record/id` and `blob/id` semantics inside concrete domain handlers"
                "Feed accepted artifacts into concrete domain handlers"
-               "Persist accepted custody records where the receiving domain requires it"]}
+               "Persist accepted custody records where the receiving domain requires it"
+               "Resolve referenced payload locations (`artifact/ref`, `artifact/href`) through a fetch or streaming contract before domain admission"]}
 
   {:cap/id :binary-frame-streaming
    :title "Binary Frame Streaming"
@@ -112,5 +116,7 @@
  :notes
  ["INAC has a schema-gated local MVP scaffold, but is not yet a complete peer transport."
   "The runtime fails closed without an explicit authoritative handler for an artifact kind."
+  "Direct `inac.offer`, `inac.request`, and `inac.push` host capabilities are governed by INAC outbound allowlists; Artifact Delivery routes that resolve to `inac-direct` are governed by Artifact Delivery outbound allowlists."
+  "Referenced payload slots are schema-valid, but operational transfer remains inline-first until resolver/fetch or binary streaming lands."
   "The local host/operator surface now includes `/v1/inac/status` and `/admin/inac`; this is observability, not peer transport completion."
   "WSS peer-message wiring, binary streaming, and passport/invitation authorization remain required before production peer-to-peer artifact exchange."]}

@@ -99,7 +99,7 @@ in as explicit inbound acceptors, not as fan-out chains.
 | Schema | Role | State |
 |---|---|---|
 | `memarium-blob.v1` | generic Memarium-native artefact envelope (content-addressed `blob/id`, domain `memarium.blob.v1`) | ✅ schema exists and is synchronized into node schema-gate |
-| `inac-control.v1` | control-message envelope for `offer`/`request`/`push` operations + response frames | ✅ schema exists; local runtime scaffold validates it |
+| `inac-control.v1` | control-message envelope for `offer`/`request`/`push` operations + response frames | ✅ schema exists; local runtime scaffold validates it; `push` requires exactly one payload location |
 | `agora-record.v1` | reused from proposal 035 | ✅ exists |
 | `capability-passport.v1` (with `capability_id = "inac.invitation"` variant) | authorization artifact for invitation-based push | 🟡 base format exists; `inac.invitation` scope grammar and single-use rule to document in proposal 024 (042 Follow-Up #5) |
 
@@ -145,9 +145,15 @@ Registration of these codes in proposal 041 §6 is 042 Follow-Up #12.
 
 | Component | State |
 |---|---|
-| Control-message schemas (`inac-control.v1` envelopes for each op + response frame) | ❌ not started |
+| Control-message schemas (`inac-control.v1` envelopes for each op + response frame) | ✅ implemented for the local MVP scaffold |
 | Refusal-code vocabulary extension in proposal 041 §6 | ❌ not started |
 | Query/filter grammar for `request` (reuse of proposal 035 §8 selectors where possible) | ❌ not started |
+
+Response metadata is intentionally not yet a cross-node contract. Until a
+dedicated `meta` propagation rule exists, implementations must either terminate
+transport-local metadata at the current node boundary or copy only explicitly
+declared, tracing-safe fields. Middleware-visible semantics must not depend on
+implicit `meta` round-tripping.
 
 ## Layer 3 — Binary-frame streaming
 
@@ -183,6 +189,12 @@ consumer of this framing, not its author.
 | Receiver-side reassembler + hash verifier | ❌ not started |
 | Abort frame handling | ❌ not started |
 | Per-peer / per-kind inline-ceiling configuration surface | ❌ not started |
+
+`artifact/ref` and `artifact/href` are valid control-plane payload locations,
+but they are not enough by themselves. A production route must also define a
+resolver/fetch or binary-frame streaming contract that turns the reference into
+byte-identical artifact bytes before domain admission. The local MVP scaffold is
+therefore inline-first in practice.
 
 ## Layer 4 — Authorization (attestation-gate consumer)
 
@@ -226,9 +238,9 @@ applies: unknown registered kind with no acceptor → `kind-not-supported`.
 
 | Component | State |
 |---|---|
-| Artifact Delivery inbound acceptor registry + lookup | ❌ not started |
-| Conflict rule on shadowed kinds: multiple authoritative acceptors fail readiness | ✅ decided in Artifact Delivery |
-| Safety-floor refusal for unknown kinds | ❌ not started |
+| Artifact Delivery inbound acceptor registry + lookup | ✅ implemented for in-process MVP acceptors; supervised HTTP and domain acceptor adapters remain later layers |
+| Conflict rule on shadowed kinds: duplicate exact authoritative acceptors fail readiness; exact content-type handlers may coexist with one wildcard fallback | ✅ implemented in Artifact Delivery |
+| Safety-floor refusal for unknown kinds | ✅ implemented in local INAC runtime as fail-closed `kind-not-supported` |
 | Session-level kind handshake (advisory enumeration, authoritative routing per-op) | ❌ not started |
 
 ## Layer 6 — Invitation-passport lifecycle
@@ -284,7 +296,17 @@ to proposal 027's peer-message dispatch.
 |---|---|
 | `inac.v1` peer-message handler registered in the `PeerMessageChain` | ❌ not started |
 | Sidecar-registration path (so Python/other-language modules can declare Artifact Delivery inbound acceptors) | ❌ not started |
-| Daemon supervisor readiness: Artifact Delivery route table is resolved at init, not at first request | ❌ not started |
+| Daemon supervisor readiness: Artifact Delivery route table is resolved at init, not at first request | ✅ implemented for the current config/runtime validation surface; module-report acceptor projection remains later |
+
+The direct INAC host capability surface and the Artifact Delivery route surface
+remain separate authorization boundaries:
+
+- `inac.offer`, `inac.request`, and `inac.push` use INAC outbound allowlists;
+- `artifact.delivery.send` uses Artifact Delivery outbound allowlists, even
+  when a route resolves to the local `inac-direct` adapter.
+
+This avoids treating permission to use one component-facing surface as implicit
+permission to use the other.
 
 ## Open decisions blocking implementation
 
@@ -326,6 +348,8 @@ to proposal 027's peer-message dispatch.
   above the ceiling → `push` refused with `storage-full` until
   Layer 3 lands. This lets Layer 2 (control protocol) ship before
   Layer 3 (streaming);
+- referenced payload locations (`artifact/ref`, `artifact/href`) are schema
+  slots only until a resolver/fetch or streaming contract is wired;
 - two baseline kinds only (`agora-record.v1`, `memarium-blob.v1`);
   open middleware acceptor declarations land after baseline works;
 - no session-level kind handshake in v1 (authoritative routing

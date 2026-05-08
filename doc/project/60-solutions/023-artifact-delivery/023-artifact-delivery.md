@@ -72,10 +72,17 @@ Current implementation status:
 - `node/artifact-delivery-core` owns pure envelope validation, route expansion,
   recipient resolution for the MVP selector set, outbound authorization,
   deterministic delivery ids, target deduplication, and failure classes.
+  Startup/config validation now also rejects duplicate route/default/group ids,
+  unknown outbound route refs, recursive or unresolved configured defaults,
+  nested groups, empty groups, and invalid route plans before the first
+  delivery request is accepted.
 - `node/artifact-delivery` owns the host runtime, exact transport adapter
   selection by resolved `adapter_scheme`, stage/target outcomes, idempotent
   retry by deterministic delivery id, and a SQLite delivery ledger at
   `<node-data-dir>/storage/artifact-delivery.sqlite`.
+  The SQLite ledger uses explicit `user_version` migrations, `busy_timeout`,
+  `foreign_keys`, and WAL-oriented pragmas; idempotent retry preserves the
+  original submission timestamp.
 - The daemon exposes `artifact.delivery.send`,
   `GET /v1/artifact-delivery/routes`,
   `GET /v1/artifact-delivery/deliveries`, and per-delivery lookup.
@@ -89,10 +96,35 @@ Current implementation status:
   already signed `agora-record.v1` through Artifact Delivery.
 - The daemon also has a local `inac-direct` short-circuit adapter used as a
   runtime/test integration point. It is not a production remote-node transport;
-  WSS/Matrix peer transport remains part of INAC.
+  WSS/Matrix peer transport remains part of INAC. A remote `inac-direct`
+  target fails permanently until that transport exists, so synchronous retry
+  loops do not spin on an impossible route.
+- The local `inac-direct` adapter is governed by Artifact Delivery outbound
+  allowlists when it is reached through `artifact.delivery.send`. Direct
+  component calls to INAC host capabilities such as `inac.offer`,
+  `inac.request`, or `inac.push` are governed by the separate INAC outbound
+  allow gate. These gates are intentionally distinct until a shared policy
+  registry is proven necessary.
 - The runtime has the first inbound acceptor registry with single-owner conflict
-  detection for `(artifact schema, content type)` classes. Concrete acceptor
-  invocation is still a later layer.
+  detection for `(artifact schema, content type)` classes, deterministic
+  inbound admission ids, receiver-local admission/refusal ledger, and
+  operator-visible admission status APIs. Inline inbound artifacts are checked
+  for `size/bytes` and non-empty `sha256:*` byte identity before an acceptor is
+  invoked. Exact content-type acceptors may coexist with one wildcard acceptor
+  for the same schema; exact matches win and the wildcard remains the fallback.
+  Concrete host/component acceptor adapters are still a later layer. Operator
+  admission views may therefore be empty until a transport adapter feeds inbound
+  artifacts into this shared admission path.
+- Current production adapters are operationally inline-first. Envelopes may
+  carry `artifact/ref` or `artifact/href` as schema-valid payload locations, but
+  a route or adapter must provide an explicit resolver/fetch contract before
+  accepting referenced payloads. Otherwise the delivery or admission path must
+  fail before invoking a domain acceptor.
+- The runtime records and validates the shape of `policy`, but full generic
+  enforcement of every policy field is not complete. Privacy, retry, timeout,
+  and retention semantics are enforced only where an explicit route, adapter,
+  or domain acceptor proves that behavior. A route must fail closed rather than
+  silently treating an unsupported policy requirement as satisfied.
 - Story-005 uses the public side of this path: `whisper-intake` asks the host to
   sign a public `agora-record.v1`, wraps the signed record in
   `artifact-delivery-envelope.v1`, and sends it through the `agora-default`
@@ -576,6 +608,14 @@ semantically invalid envelope response, while a `configured-default` that does
 not resolve to a concrete target should produce a route/configuration conflict
 or disabled route. Neither case may silently fall back to `agora-default`.
 
+Policy fields are part of the audited envelope contract, but they are not a
+license to assume behavior the selected route cannot provide. Until full
+generic policy enforcement exists, `policy` is an intent and constraint input:
+implementations must either prove enforcement at the selected route/adapter or
+domain acceptor boundary, or reject the delivery with a clear diagnostic.
+Examples include privacy class, retry/deadline semantics, retention class, and
+operator-review requirements.
+
 ### Inbound Acceptor Table
 
 Inbound admission is single-owner:
@@ -607,6 +647,30 @@ This is deliberately data-first: the operator should be able to inspect that
 `memarium-blob.v1` delivered through Artifact Delivery will be accepted by
 Memarium even if Memarium is compiled into the host rather than running as a
 supervised HTTP middleware.
+
+Artifact Delivery is a host-owned runtime service composed by the daemon, not a
+separate supervised middleware process. The communication path to the concrete
+acceptor depends on component placement:
+
+- in-process Rust components are invoked through host-composed trait objects or
+  functions;
+- supervised middleware is invoked through daemon/middleware-runtime loopback
+  HTTP using the component endpoint, auth token, lifecycle state, and timeout
+  known to the host;
+- JSON-e or JSON-e Flow participate only behind an explicit host-composed
+  acceptor declaration.
+
+The `artifact-delivery` runtime crate owns the admission registry, idempotency,
+ledger, and status model. It must not own loopback HTTP clients, supervised
+process lifecycle, or middleware auth details; those belong to daemon
+composition.
+
+Before invoking an acceptor, the runtime validates the local artifact boundary:
+schema and content type must be non-empty, the digest must be a non-empty
+`sha256:*` content address, inline bytes must match both `size/bytes` and
+digest, and non-inline artifacts must carry a non-empty `artifact/ref`. A byte-identity
+failure is recorded as a receiver-local rejected admission and must not invoke
+the domain acceptor.
 
 ### Acceptor Response Contract
 
@@ -645,11 +709,15 @@ The implementation should be stratified into four layers:
    layer must not depend on networking, SQLite, the daemon, Tokio, Agora, INAC,
    Memarium, or the system clock.
 2. **Runtime**: adapter registries, inbound acceptor registries, durable delivery
-   ledger, status lookup, retries, deadlines, bounded stage execution, and error
-   classification.
+   and admission ledgers, status lookup, retries, deadlines, bounded stage
+   execution, idempotency, and error classification. This layer exposes
+   acceptor traits but remains transport- and lifecycle-agnostic.
 3. **Transport/admission adapters**: narrow edge implementations for INAC, Agora
    publish, future Matrix mailbox delivery, supervised HTTP acceptors,
-   in-process acceptors, and explicitly configured JSON-e Flow acceptors.
+   in-process acceptors, and explicitly configured JSON-e Flow acceptors. These
+   adapters live in daemon/middleware-runtime or domain integration crates, not
+   inside the pure Artifact Delivery runtime crate when they require host
+   lifecycle knowledge.
 4. **Daemon composition**: effective config loading, module-report ingestion,
    readiness diagnostics, host capability exposure, operator APIs, and UI.
 
@@ -794,6 +862,13 @@ It does not own:
 - the global inbound acceptor table;
 - domain workflow after an artifact is admitted.
 
+The AD-to-INAC path and the direct INAC host capability path have separate
+authorization gates in the current implementation. Artifact Delivery outbound
+allowlists authorize components to use an AD route that happens to resolve to
+`inac-direct`; INAC outbound allowlists authorize direct `inac.*` host
+capability calls. This prevents a component that may use one surface from
+implicitly gaining authority on the other.
+
 ### Relationship to Agora
 
 Agora is not a private artifact courier. It is the durable public/federated record
@@ -854,10 +929,13 @@ Status:
   coverage, daemon configuration, `artifact.delivery.send`, route/status
   operator APIs, deterministic delivery ids, in-memory test ledger,
   SQLite-backed runtime ledger, the Agora publish adapter, a local INAC direct
-  short-circuit adapter, inbound acceptor registry conflict detection, and
-  regression tests. Asynchronous `202 Accepted` execution, recovery workers,
-  remote INAC peer transport, concrete inbound acceptor invocation, and
-  private/direct Story-005 delivery remain later layers.
+  short-circuit adapter, inbound acceptor registry conflict detection,
+  receiver-local inbound admission ledger, admission idempotency, admission
+  status APIs, and regression tests. Asynchronous `202 Accepted` execution,
+  recovery workers, remote INAC peer transport, concrete host/component
+  acceptor adapters, referenced payload resolver/fetch support, full generic
+  delivery-policy enforcement, and private/direct Story-005 delivery remain
+  later layers.
 
 ### Outbound Authorization and Recipient Resolution
 
@@ -913,6 +991,8 @@ Responsibilities:
 - enforce at most one authoritative acceptor per schema/content-type class;
 - fail readiness on conflicting acceptors;
 - return `kind-not-supported` when no acceptor is available;
+- persist receiver-local admission/refusal records with deterministic
+  `admission/id` and idempotent replay behavior;
 - declare supervised HTTP and in-process acceptors in the same effective
   route-table shape;
 - call supervised HTTP, in-process, or explicitly configured JSON-e Flow
@@ -923,7 +1003,18 @@ Responsibilities:
 
 Status:
 
-- `planned`
+- `mvp-foundation-implemented`: the runtime has an inbound acceptor trait,
+  single-owner registry conflict detection, exact and wildcard content-type
+  lookup, deterministic receiver-local `admission/id` generation, a persistent
+  admission/refusal ledger, idempotent replay of already-recorded admissions,
+  pre-acceptor inline byte-identity checks, route snapshots that expose
+  registered acceptors, read APIs for recent admissions and admission detail,
+  and operator UI coverage. Concrete host/component acceptor adapters remain
+  separate daemon or middleware-runtime composition layers: the pure Artifact
+  Delivery runtime must not own loopback HTTP clients, supervised process
+  lifecycle, or middleware authentication. Admission APIs and UI are therefore
+  a valid empty surface until an inbound transport and at least one concrete
+  acceptor adapter are wired.
 
 ### Transport Adapter Registry
 
@@ -945,7 +1036,12 @@ Responsibilities:
 
 Status:
 
-- `planned`
+- `mvp-foundation-implemented`: the runtime has an exact adapter-scheme
+  registry, conflict detection, route/status exposure, the production
+  `agora-default` publish adapter, and a local `inac-direct` short-circuit
+  adapter used by runtime tests and future peer-transport wiring. Production
+  WSS/Matrix INAC transport and inbound transport feeding into the shared
+  admission path remain later layers.
 
 ## May Implement
 

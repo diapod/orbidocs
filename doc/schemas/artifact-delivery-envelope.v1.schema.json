@@ -65,7 +65,12 @@
       "additionalProperties": false,
       "required": ["stage/id", "targets"],
       "properties": {
-        "stage/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "stage/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9:_./-]+$"
+        },
         "mode": { "type": "string", "enum": ["parallel"], "default": "parallel" },
         "targets": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/selector" } },
         "success/policy": { "type": "string", "enum": ["all", "any", "quorum"], "default": "all" },

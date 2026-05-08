@@ -69,7 +69,16 @@
         "required": ["operation"]
       },
       "then": {
-        "required": ["artifact"]
+        "required": ["artifact"],
+        "properties": {
+          "artifact": {
+            "oneOf": [
+              { "required": ["bytes/base64url"], "not": { "anyOf": [{ "required": ["artifact/ref"] }, { "required": ["artifact/href"] }] } },
+              { "required": ["artifact/ref"], "not": { "anyOf": [{ "required": ["bytes/base64url"] }, { "required": ["artifact/href"] }] } },
+              { "required": ["artifact/href"], "not": { "anyOf": [{ "required": ["bytes/base64url"] }, { "required": ["artifact/ref"] }] } }
+            ]
+          }
+        }
       }
     },
     {
@@ -132,7 +141,7 @@
         },
         "bytes/base64url": {
           "type": "string",
-          "pattern": "^[A-Za-z0-9_-]*$"
+          "pattern": "^[A-Za-z0-9_-]+$"
         },
         "artifact/ref": {
           "type": "string",

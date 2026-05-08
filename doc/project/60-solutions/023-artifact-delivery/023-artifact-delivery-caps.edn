@@ -32,8 +32,10 @@
     "Expose route table and conflict state to the operator"]
    :status :partial
    :notes
-   ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory test ledger, a SQLite runtime ledger at `<node-data-dir>/storage/artifact-delivery.sqlite`, the Agora publish adapter, a local INAC direct short-circuit adapter, inbound acceptor registry conflict detection, Story-005 public Whisper candidate delivery through AD -> Agora, and regression coverage."
-    "Asynchronous execution, remote INAC peer transport, concrete inbound acceptor invocation, and private/direct Story-005 delivery are later layers."]}
+   ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, startup/effective-config validation, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory test ledger, a SQLite runtime ledger at `<node-data-dir>/storage/artifact-delivery.sqlite` with explicit user_version migrations and PRAGMA setup, the Agora publish adapter, a local INAC direct short-circuit adapter, inbound acceptor registry conflict detection, pre-acceptor non-empty sha256 and inline byte-identity validation, a receiver-local inbound admission/refusal ledger, admission idempotency, admission status APIs/UI, Story-005 public Whisper candidate delivery through AD -> Agora, and regression coverage."
+    "Current production adapters are operationally inline-first. Referenced payload locations (`artifact/ref`, `artifact/href`) require an explicit resolver/fetch contract before a route can accept them."
+    "Current runtime records and validates policy shape, but full generic enforcement of privacy, retry, timeout, retention, and operator-review semantics remains route/adapter/domain-specific until the later policy-enforcement layer lands."
+    "Asynchronous execution, recovery workers, remote INAC peer transport, concrete host/component acceptor adapters, referenced payload resolver/fetch support, full generic delivery-policy enforcement, and private/direct Story-005 delivery are later layers."]}
 
   {:cap/id :artifact-delivery-outbound-authorization
    :title "Outbound Authorization and Recipient Resolution"
@@ -58,7 +60,7 @@
     "Deny valid-schema sends when the component lacks an outbound allow"]
    :status :partial
    :notes
-   ["The pure core/runtime split implements route refs, configured defaults, groups, node and agora-default selectors, target dedupe, fan-out/fallback limits, runtime stage target caps, digest validation, route-plan validation, and all/any/quorum evaluation."
+   ["The pure core/runtime split implements route refs, configured defaults, groups, node and agora-default selectors, target dedupe, fan-out/fallback limits, runtime stage target caps, digest validation, route-plan validation, config cross-reference validation, defensive quorum-zero rejection, and all/any/quorum evaluation."
     "Participant, org, and capability-based recipient selectors remain post-MVP resolver adapters."]}
 
   {:cap/id :artifact-delivery-single-owner-admission
@@ -79,12 +81,19 @@
     "Record receiver-local admission ids separately from sender-local delivery ids"]
    :status :partial
    :implemented ["Inbound acceptor trait and registry"
-                 "Single-owner conflict detection for exact and wildcard content-type registrations"
-                 "Operator route snapshot includes registered inbound acceptors"]
-   :remaining ["Supervised HTTP acceptor invocation"
-               "In-process acceptor invocation"
+                 "Single-owner conflict detection for exact content-type duplicates while allowing exact registrations to coexist with one wildcard fallback"
+                 "Runtime invocation for registered in-process acceptor trait objects"
+                 "Deterministic receiver-local admission ids"
+                 "Persistent receiver-local admission/refusal ledger"
+                 "Admission idempotency without reinvoking acceptors"
+                 "Pre-acceptor non-empty sha256 and inline byte-identity validation"
+                 "Operator route snapshot includes registered inbound acceptors"
+                 "Operator admission status APIs and UI"]
+   :remaining ["Host/component adapter for supervised HTTP acceptor invocation in daemon or middleware-runtime"
+               "Host/component adapter for built-in in-process acceptor composition"
                "JSON-e Flow acceptor declaration"
-               "Receiver-local admission/refusal ledger"]}
+               "Transport adapters feeding inbound artifacts into the shared admission path"
+               "Referenced payload resolver/fetch support before acceptor invocation"]}
 
   {:cap/id :artifact-delivery-transport-adapter-registry
    :title "Transport Adapter Registry"
@@ -105,7 +114,7 @@
                  "Runtime passes one resolved target plus one shared immutable artifact reference to adapters"
                  "Operator status exposes registered adapter schemes"
                  "Agora publish adapter for `agora-default`"
-                 "Local INAC direct short-circuit adapter for runtime tests/future peer-transport wiring"]
+                 "Local INAC direct short-circuit adapter for runtime tests/future peer-transport wiring; remote direct-node targets fail permanently until peer transport exists"]
    :remaining ["Replace local INAC short-circuit with production private/direct peer transport"
                "Feed inbound transport artifacts into Artifact Delivery admission"]}]
 
@@ -177,5 +186,6 @@
 
  :notes
  ["INAC is the private/direct transport adapter under Artifact Delivery, not the top-level component-facing abstraction."
+  "AD routes that resolve to local `inac-direct` are governed by Artifact Delivery outbound allowlists; direct `inac.offer`, `inac.request`, and `inac.push` host capabilities remain governed by the separate INAC outbound allow gate."
   "Inbound admission is single-owner, not a middleware chain."
   "Inbound support does not imply outbound send authority; both directions require explicit declarations."]}

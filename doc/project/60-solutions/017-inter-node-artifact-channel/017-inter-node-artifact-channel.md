@@ -27,6 +27,8 @@ Implemented now:
   inline payload ceiling, and byte identity checks.
 - `node/inac-runtime` for an explicit artifact handler registry and fail-closed
   dispatch semantics.
+  Local outbound allows are deny-by-default: empty `operations` or `schemas`
+  sets do not mean wildcard authority.
 - `node/inac-handlers` as the daemon composition point for future concrete
   handlers (`agora-record.v1`, `memarium-blob.v1`, middleware-owned kinds).
 - Daemon host/operator surface:
@@ -59,7 +61,14 @@ Partial / MVP scaffold.
 
 The schema-gated control plane and local runtime skeleton are implemented. The
 runtime intentionally fails closed when no authoritative handler is registered
-for an artifact kind. Full WSS peer-message wiring, binary-frame streaming,
+for an artifact kind. `push` requires exactly one payload location
+(`bytes/base64url`, `artifact/ref`, or `artifact/href`). The local MVP scaffold
+is operationally inline-first: referenced payload locations are schema-valid,
+but require a future resolver/fetch or binary streaming contract before
+production peer transfer can accept them. Direct component calls to `inac.*`
+host capabilities are governed by INAC outbound allowlists; Artifact Delivery
+routes that happen to use `inac-direct` are governed by Artifact Delivery
+outbound allowlists. Full WSS peer-message wiring, binary-frame streaming,
 passport/invitation authorization, and concrete Agora/Memarium handlers remain
 outside the MVP scaffold.
 

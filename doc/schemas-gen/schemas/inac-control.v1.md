@@ -52,7 +52,70 @@ Then:
 {
   "required": [
     "artifact"
-  ]
+  ],
+  "properties": {
+    "artifact": {
+      "oneOf": [
+        {
+          "required": [
+            "bytes/base64url"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "artifact/ref"
+                ]
+              },
+              {
+                "required": [
+                  "artifact/href"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "required": [
+            "artifact/ref"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "bytes/base64url"
+                ]
+              },
+              {
+                "required": [
+                  "artifact/href"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "required": [
+            "artifact/href"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "bytes/base64url"
+                ]
+              },
+              {
+                "required": [
+                  "artifact/ref"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
 }
 ```
 
