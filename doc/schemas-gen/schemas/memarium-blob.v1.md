@@ -43,6 +43,8 @@ Machine-readable schema for a signed, content-addressed Memarium-native artifact
 | [`author/attestation-ref`](#field-author-attestation-ref) | `no` | string | Optional reference to an attestation artifact supporting the author's authority or context. |
 | [`author/nym-certificate-ref`](#field-author-nym-certificate-ref) | `no` | string | Optional reference to a nym certificate when the author identity is pseudonymous. |
 | [`classification`](#field-classification) | `no` | object | Optional classification label carried with the blob for downstream custody and egress decisions. |
+| [`extensions`](#field-extensions) | `no` | object | Explicit extension container for fields not understood by the base memarium-blob.v1 schema. Extension consumers MUST include these bytes in the signed envelope canonicalization. |
+| [`policy_annotations`](#field-policy-annotations) | `no` | object | Explicit policy annotation container. Producers MUST NOT add undeclared top-level policy fields. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` | Ed25519 signature over canonical envelope bytes with `signature` removed, using signing domain `memarium.blob.v1`. |
 
 ## Definitions
@@ -134,6 +136,22 @@ Optional reference to a nym certificate when the author identity is pseudonymous
 - Shape: object
 
 Optional classification label carried with the blob for downstream custody and egress decisions.
+
+<a id="field-extensions"></a>
+## `extensions`
+
+- Required: `no`
+- Shape: object
+
+Explicit extension container for fields not understood by the base memarium-blob.v1 schema. Extension consumers MUST include these bytes in the signed envelope canonicalization.
+
+<a id="field-policy-annotations"></a>
+## `policy_annotations`
+
+- Required: `no`
+- Shape: object
+
+Explicit policy annotation container. Producers MUST NOT add undeclared top-level policy fields.
 
 <a id="field-signature"></a>
 ## `signature`

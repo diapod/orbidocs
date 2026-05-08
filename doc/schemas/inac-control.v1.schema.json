@@ -26,11 +26,15 @@
     },
     "correlation/id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9:_./-]+$"
     },
     "idempotency/key": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9:_./-]+$"
     },
     "artifact": {
       "$ref": "#/$defs/artifact"
@@ -46,7 +50,16 @@
     },
     "meta": {
       "type": "object",
-      "additionalProperties": true
+      "maxProperties": 16,
+      "propertyNames": {
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[A-Za-z0-9:_./-]+$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 512
+      }
     }
   },
   "allOf": [
@@ -114,7 +127,8 @@
         },
         "size/bytes": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "maximum": 1073741824
         },
         "bytes/base64url": {
           "type": "string",
@@ -129,7 +143,7 @@
           "format": "uri"
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
     },
     "request": {
       "type": "object",
@@ -152,7 +166,7 @@
           "pattern": "^sha256:[A-Za-z0-9_-]+$"
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
     },
     "transfer": {
       "type": "object",
@@ -170,7 +184,7 @@
           "minimum": 1
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
     },
     "response": {
       "type": "object",
@@ -191,6 +205,7 @@
             "malformed",
             "handler-unavailable",
             "already-present",
+            "operation-not-supported",
             "policy-denied",
             "transport-unavailable"
           ]
@@ -203,11 +218,12 @@
           "minimum": 0
         },
         "message": {
-          "type": "string"
+          "type": "string",
+          "maxLength": 1024
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
     }
   },
-  "additionalProperties": true
+  "additionalProperties": false
 }

@@ -4,7 +4,7 @@
   "title": "MemariumBlob v1",
   "description": "Machine-readable schema for a signed, content-addressed Memarium-native artifact envelope. It is used for artifacts that are not Agora records but still need byte-identical custody and transfer, including small out-of-band passport handoffs, encrypted notes, action-trace archives, backup bundles, and INAC payloads.",
   "type": "object",
-  "additionalProperties": true,
+  "additionalProperties": false,
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
@@ -89,6 +89,16 @@
       "type": "object",
       "additionalProperties": true,
       "description": "Optional classification label carried with the blob for downstream custody and egress decisions."
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Explicit extension container for fields not understood by the base memarium-blob.v1 schema. Extension consumers MUST include these bytes in the signed envelope canonicalization."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Explicit policy annotation container. Producers MUST NOT add undeclared top-level policy fields."
     },
     "signature": {
       "$ref": "#/$defs/signature",
