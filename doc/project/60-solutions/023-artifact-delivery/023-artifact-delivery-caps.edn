@@ -32,8 +32,8 @@
     "Expose route table and conflict state to the operator"]
    :status :partial
    :notes
-   ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory ledger, and regression coverage."
-    "SQLite ledger persistence, asynchronous execution, concrete INAC/Agora transport adapters, and inbound admission are later layers."]}
+   ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory test ledger, a SQLite runtime ledger at `<node-data-dir>/storage/artifact-delivery.sqlite`, the Agora publish adapter, a local INAC direct short-circuit adapter, inbound acceptor registry conflict detection, Story-005 public Whisper candidate delivery through AD -> Agora, and regression coverage."
+    "Asynchronous execution, remote INAC peer transport, concrete inbound acceptor invocation, and private/direct Story-005 delivery are later layers."]}
 
   {:cap/id :artifact-delivery-outbound-authorization
    :title "Outbound Authorization and Recipient Resolution"
@@ -77,7 +77,14 @@
     "Call supervised HTTP, in-process, or explicitly configured JSON-e Flow acceptors through the same conceptual admission contract"
     "Require JSON-e Flow acceptors to be bound to explicit operator-visible instances/templates"
     "Record receiver-local admission ids separately from sender-local delivery ids"]
-   :status :planned}
+   :status :partial
+   :implemented ["Inbound acceptor trait and registry"
+                 "Single-owner conflict detection for exact and wildcard content-type registrations"
+                 "Operator route snapshot includes registered inbound acceptors"]
+   :remaining ["Supervised HTTP acceptor invocation"
+               "In-process acceptor invocation"
+               "JSON-e Flow acceptor declaration"
+               "Receiver-local admission/refusal ledger"]}
 
   {:cap/id :artifact-delivery-transport-adapter-registry
    :title "Transport Adapter Registry"
@@ -93,7 +100,14 @@
     "Select adapters by exact adapter scheme from resolved targets"
     "Pass one dispatch target plus one shared immutable artifact reference to adapters and keep fallback decisions in the runtime"
     "Ensure transport adapters feed inbound admission instead of owning their own domain-specific dispatch tables"]
-   :status :planned}]
+   :status :partial
+   :implemented ["Exact adapter-scheme registry and conflict detection"
+                 "Runtime passes one resolved target plus one shared immutable artifact reference to adapters"
+                 "Operator status exposes registered adapter schemes"
+                 "Agora publish adapter for `agora-default`"
+                 "Local INAC direct short-circuit adapter for runtime tests/future peer-transport wiring"]
+   :remaining ["Replace local INAC short-circuit with production private/direct peer transport"
+               "Feed inbound transport artifacts into Artifact Delivery admission"]}]
 
  :may-implement
  [{:cap/id :artifact-delivery-capability-recipient-resolver
@@ -148,16 +162,17 @@
   "Inbound artifacts from transport adapters"
   "Component module reports"
   "In-process component manifests"
- "Effective node artifact-delivery config"
+  "Effective node artifact-delivery config"
   "Configured artifact delivery routes and destination groups"
   "Seed Directory candidate records for future capability-based recipient selectors"]
 
  :produces
  ["Transport-specific delivery requests"
- "Inbound admission calls to authoritative acceptors"
+  "Inbound admission calls to authoritative acceptors"
   "Per-stage delivery outcomes"
   "Operator-visible route table snapshots"
   "Conflict diagnostics"
+  "SQLite delivery ledger under `<node-data-dir>/storage/artifact-delivery.sqlite`"
   "Delivery and refusal counters"]
 
  :notes

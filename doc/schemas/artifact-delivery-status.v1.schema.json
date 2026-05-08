@@ -12,8 +12,11 @@
   "properties": {
     "schema": { "const": "artifact-delivery-status.v1" },
     "delivery/id": { "type": "string", "pattern": "^delivery:[A-Za-z0-9_-]+$" },
+    "submitted-at": { "type": "string", "format": "date-time" },
     "status": { "type": "string", "enum": ["accepted", "running", "succeeded", "partial", "failed-retryable", "failed-permanent"] },
     "dispatch/plan": { "type": "object", "additionalProperties": true },
-    "stage/outcomes": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+    "stage/outcomes": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+    "failure/class": { "type": ["string", "null"] },
+    "diagnostic": { "type": ["object", "null"], "additionalProperties": true }
   }
 }

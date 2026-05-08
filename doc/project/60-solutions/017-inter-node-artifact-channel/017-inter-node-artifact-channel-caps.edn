@@ -26,7 +26,8 @@
                  "`node/inac-core` pure validation and refusal vocabulary"
                  "`node/inac-runtime` fail-closed runtime registry"
                  "daemon host capability endpoints for local offer/request/push"
-                 "operator status endpoint `/v1/inac/status`"]
+                 "operator status endpoint `/v1/inac/status`"
+                 "operator UI `/admin/inac` for handlers, counters, and recent refusals"]
    :remaining ["Register `inac.v1` as a WSS peer-message kind"
                "Wire remote peer session dispatch"
                "Persist transfer status/idempotency beyond in-memory MVP"]}
@@ -44,8 +45,9 @@
     "Avoid re-signing artifacts during transfer"]
    :status :partial
    :implemented ["`memarium-blob.v1` is schema-gated and synchronized into node contracts"
-                 "inline payload byte identity is checked by `inac-core`"]
-   :remaining ["Verify `agora-record.v1` and `memarium-blob.v1` envelope IDs before concrete domain acceptance"
+                 "inline payload byte identity is checked by `inac-core`"
+                 "`verify_artifact_bytes` checks exact full-envelope bytes for `agora-record.v1`, `memarium-blob.v1`, and future schemas before handler interpretation"]
+   :remaining ["Verify domain-specific `record/id` and `blob/id` semantics inside concrete domain handlers"
                "Feed accepted artifacts into concrete domain handlers"
                "Persist accepted custody records where the receiving domain requires it"]}
 
@@ -110,4 +112,5 @@
  :notes
  ["INAC has a schema-gated local MVP scaffold, but is not yet a complete peer transport."
   "The runtime fails closed without an explicit authoritative handler for an artifact kind."
+  "The local host/operator surface now includes `/v1/inac/status` and `/admin/inac`; this is observability, not peer transport completion."
   "WSS peer-message wiring, binary streaming, and passport/invitation authorization remain required before production peer-to-peer artifact exchange."]}

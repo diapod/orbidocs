@@ -16,9 +16,12 @@ Operator/host status payload for a single Artifact Delivery run. This is not an 
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `artifact-delivery-status.v1` |  |
 | [`delivery/id`](#field-delivery-id) | `yes` | string |  |
+| [`submitted-at`](#field-submitted-at) | `no` | string |  |
 | [`status`](#field-status) | `yes` | enum: `accepted`, `running`, `succeeded`, `partial`, `failed-retryable`, `failed-permanent` |  |
 | [`dispatch/plan`](#field-dispatch-plan) | `no` | object |  |
 | [`stage/outcomes`](#field-stage-outcomes) | `no` | array |  |
+| [`failure/class`](#field-failure-class) | `no` | string \| null |  |
+| [`diagnostic`](#field-diagnostic) | `no` | object \| null |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -31,6 +34,12 @@ Operator/host status payload for a single Artifact Delivery run. This is not an 
 ## `delivery/id`
 
 - Required: `yes`
+- Shape: string
+
+<a id="field-submitted-at"></a>
+## `submitted-at`
+
+- Required: `no`
 - Shape: string
 
 <a id="field-status"></a>
@@ -50,3 +59,15 @@ Operator/host status payload for a single Artifact Delivery run. This is not an 
 
 - Required: `no`
 - Shape: array
+
+<a id="field-failure-class"></a>
+## `failure/class`
+
+- Required: `no`
+- Shape: string | null
+
+<a id="field-diagnostic"></a>
+## `diagnostic`
+
+- Required: `no`
+- Shape: object | null

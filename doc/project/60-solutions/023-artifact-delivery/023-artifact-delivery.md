@@ -5,7 +5,7 @@ schema-bound artifacts between Orbiplex components, nodes, and public/federated
 substrates without forcing every component to own transport connections or
 interpret peer topology.
 
-Status: `planned`
+Status: `partial`
 
 Date: `2026-05-08`
 
@@ -66,6 +66,42 @@ make policy invisible to the operator.
 
 With this layer, components request artifact delivery through one host-owned
 interface, and the host keeps transport, policy, and admission routing coherent.
+
+Current implementation status:
+
+- `node/artifact-delivery-core` owns pure envelope validation, route expansion,
+  recipient resolution for the MVP selector set, outbound authorization,
+  deterministic delivery ids, target deduplication, and failure classes.
+- `node/artifact-delivery` owns the host runtime, exact transport adapter
+  selection by resolved `adapter_scheme`, stage/target outcomes, idempotent
+  retry by deterministic delivery id, and a SQLite delivery ledger at
+  `<node-data-dir>/storage/artifact-delivery.sqlite`.
+- The daemon exposes `artifact.delivery.send`,
+  `GET /v1/artifact-delivery/routes`,
+  `GET /v1/artifact-delivery/deliveries`, and per-delivery lookup.
+- Node UI exposes `/admin/artifact-delivery` as an operator view over routes,
+  adapters, config diagnostics, and recent deliveries.
+- The daemon registers the `agora-default` publish adapter. It accepts
+  byte-identical `agora-record.v1` artifacts and submits them to the configured
+  local Agora service.
+- `agora-default` does not sign records. Components that need host custody use a
+  separate host capability such as `agora.record.sign` first, then pass the
+  already signed `agora-record.v1` through Artifact Delivery.
+- The daemon also has a local `inac-direct` short-circuit adapter used as a
+  runtime/test integration point. It is not a production remote-node transport;
+  WSS/Matrix peer transport remains part of INAC.
+- The runtime has the first inbound acceptor registry with single-owner conflict
+  detection for `(artifact schema, content type)` classes. Concrete acceptor
+  invocation is still a later layer.
+- Story-005 uses the public side of this path: `whisper-intake` asks the host to
+  sign a public `agora-record.v1`, wraps the signed record in
+  `artifact-delivery-envelope.v1`, and sends it through the `agora-default`
+  route to the node C Agora service.
+
+The implementation is still `partial` because asynchronous `202 Accepted`
+execution, recovery workers, production remote INAC peer transport, concrete
+inbound acceptor invocation, and private/direct Story-005 delivery are
+intentionally later layers.
 
 ## Proposed Model / Decision
 
@@ -816,10 +852,12 @@ Status:
 - `mvp-implemented`: the Node workspace now has
   `artifact-delivery-core`, `artifact-delivery`, JSON schemas, schema-gate
   coverage, daemon configuration, `artifact.delivery.send`, route/status
-  operator APIs, deterministic delivery ids, in-memory delivery ledger, and
-  regression tests. SQLite-backed ledgers, asynchronous `202 Accepted`
-  execution, concrete INAC/Agora adapters, and inbound admission remain later
-  layers.
+  operator APIs, deterministic delivery ids, in-memory test ledger,
+  SQLite-backed runtime ledger, the Agora publish adapter, a local INAC direct
+  short-circuit adapter, inbound acceptor registry conflict detection, and
+  regression tests. Asynchronous `202 Accepted` execution, recovery workers,
+  remote INAC peer transport, concrete inbound acceptor invocation, and
+  private/direct Story-005 delivery remain later layers.
 
 ### Outbound Authorization and Recipient Resolution
 
