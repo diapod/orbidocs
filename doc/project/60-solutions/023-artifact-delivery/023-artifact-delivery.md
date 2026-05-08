@@ -132,6 +132,8 @@ component API should not grow separate methods for `send_to_node`,
 `send_to_participant`, `send_to_capability`, `send_to_group`, or
 `publish_to_agora`.
 
+The host capability name is `artifact.delivery.send`.
+
 The solution-level shape is:
 
 ```json
@@ -187,6 +189,10 @@ one or more transport targets.
 A `delivery/plan` may either contain inline `stages` or a `route/ref` pointing to
 a configured route. Route references are normalized to concrete stages before
 authorization and execution.
+
+Route ids are stable operator-facing names. A route may carry an internal
+`route/version`; the delivery ledger records the expanded normalized plan so
+historical runs remain auditable after a route changes.
 
 Recommended plan vocabulary:
 
@@ -333,6 +339,16 @@ Example canonical target keys:
 This deduplication happens after full resolution because only then can the host
 see that an explicit `node/id`, a configured default, a group member, and a
 capability resolver result all point to the same concrete destination.
+
+When multiple selectors resolve to the same concrete target, the retained target
+keeps the first provenance in this priority order:
+
+```text
+explicit -> configured-default -> group -> capability
+```
+
+This keeps operator diagnostics stable: the target is delivered once, but the UI
+can still explain why that target was selected.
 
 ### Configured Routes and Groups
 
@@ -578,6 +594,90 @@ Allowed status values:
 Artifact Delivery maps these to transport-level responses and operator-visible
 counters. The acceptor owns any domain workflow it starts after admission.
 
+JSON-e Flow may be an inbound acceptor only through an explicit declaration
+bound to a concrete JSON-e Flow instance/template. A valid schema alone never
+injects an artifact into JSON-e Flow. The operator-visible route table must show
+which instance accepts a given schema/content-type class.
+
+### Implementation Guidance
+
+The implementation should be stratified into four layers:
+
+1. **Pure core**: synchronous, side-effect-free DTOs, validation,
+   normalization, recipient resolution traits, target deduplication, outbound
+   authorization, dispatch-plan construction, and stable failure classes. This
+   layer must not depend on networking, SQLite, the daemon, Tokio, Agora, INAC,
+   Memarium, or the system clock.
+2. **Runtime**: adapter registries, inbound acceptor registries, durable delivery
+   ledger, status lookup, retries, deadlines, bounded stage execution, and error
+   classification.
+3. **Transport/admission adapters**: narrow edge implementations for INAC, Agora
+   publish, future Matrix mailbox delivery, supervised HTTP acceptors,
+   in-process acceptors, and explicitly configured JSON-e Flow acceptors.
+4. **Daemon composition**: effective config loading, module-report ingestion,
+   readiness diagnostics, host capability exposure, operator APIs, and UI.
+
+The pure core pipeline should be explicit:
+
+```text
+validate envelope
+  -> expand route/default/group plan
+  -> resolve targets
+  -> deduplicate by canonical target key
+  -> authorize outbound plan
+  -> build canonical dispatch plan
+```
+
+Failure classes are part of the wire/ledger contract and should not be derived
+from internal error strings. The initial stable set is:
+
+- `envelope-malformed`
+- `envelope-invalid`
+- `route-unresolved`
+- `admission-conflict`
+- `kind-not-supported`
+- `outbound-denied`
+- `adapter-transient`
+- `adapter-permanent`
+- `stage-timeout`
+- `admission-timeout`
+- `ledger-error`
+
+Transport adapters are selected by exact `adapter_scheme` from each resolved
+target, not by a soft `can_deliver(target)` probe. An adapter receives one
+`DispatchTarget` plus one shared immutable artifact reference. It must not see
+the whole dispatch plan and must not decide fallback order.
+
+Inline payload fan-out should avoid copying large byte arrays. A simple
+`Arc<[u8]>`-style shared byte value is sufficient for the first implementation;
+the protocol does not need a separate bytes abstraction just for fan-out.
+
+The runtime must persist the accepted submission and canonical dispatch plan
+before invoking the first transport adapter. The dispatch plan should be stored
+as canonical JSON using the project-wide JCS profile. A deterministic
+`delivery/id` should be computed from a domain-separated, length-framed tuple of
+sender-local fields, such as component id, artifact digest, normalized delivery
+plan digest, and idempotency key. The receiver must not treat this sender-local
+`delivery/id` as its admission identity; inbound admission needs its own
+receiver-local `admission/id` and idempotency key.
+
+The durable ledger should live in its own SQLite file under the node data dir
+and record at least:
+
+- submissions and canonical expanded plans;
+- per-stage and per-target outcomes;
+- inbound admissions;
+- route and acceptor conflicts;
+- timestamps, deadlines, and retry counters.
+
+SQLite setup should follow existing node storage practice: explicit migrations,
+WAL where appropriate, busy timeout, foreign keys, and transaction boundaries
+around state transitions.
+
+Effective config validation should fail readiness for unknown route refs,
+unresolved configured defaults, empty groups, recursive groups, invalid quorum,
+missing adapter schemes, and conflicting inbound acceptors.
+
 ### Multiple Dispatch Rule
 
 Multiple authoritative acceptors for the same schema/content-type class are not
@@ -699,14 +799,27 @@ Based on:
 Responsibilities:
 
 - expose one component-facing send surface;
+- expose `artifact.delivery.send` as the component-facing host capability;
 - keep transport connections centralized in the host;
 - compile route tables from factory config, effective config, in-process
   manifests, and middleware module reports;
+- return delivery ids for accepted asynchronous deliveries and expose delivery
+  status lookup;
+- keep pure validation, normalization, recipient resolution, target
+  deduplication, and outbound authorization in a synchronous side-effect-free
+  core layer;
+- persist accepted submissions before transport execution;
 - expose route table and conflict state to the operator.
 
 Status:
 
-- `planned`
+- `mvp-implemented`: the Node workspace now has
+  `artifact-delivery-core`, `artifact-delivery`, JSON schemas, schema-gate
+  coverage, daemon configuration, `artifact.delivery.send`, route/status
+  operator APIs, deterministic delivery ids, in-memory delivery ledger, and
+  regression tests. SQLite-backed ledgers, asynchronous `202 Accepted`
+  execution, concrete INAC/Agora adapters, and inbound admission remain later
+  layers.
 
 ### Outbound Authorization and Recipient Resolution
 
@@ -734,13 +847,21 @@ Responsibilities:
   configured group;
 - authorize route refs, selector classes, concrete target node ids, fan-out
   limits, and fallback depth per component;
+- keep route ids stable, carry route versions inside route definitions, and
+  persist expanded normalized plans in the ledger;
 - keep participant, org, and capability-based recipient resolution as later
   resolver adapters;
 - deny valid-schema sends when the component lacks an outbound allow.
 
 Status:
 
-- `planned`
+- `mvp-implemented`: explicit component/schema outbound allowlists, route refs,
+  configured defaults, groups, `node`, `agora-default`, fan-out limits,
+  fallback-depth limits, runtime stage target caps, deterministic dedupe,
+  content digest validation, route-plan validation, and `all`/`any`/`quorum`
+  stage evaluation are implemented in the pure core/runtime split.
+  Participant/org/capability recipient selectors remain post-MVP resolver
+  adapters.
 
 ### Single-Owner Inbound Admission
 
@@ -754,8 +875,13 @@ Responsibilities:
 - enforce at most one authoritative acceptor per schema/content-type class;
 - fail readiness on conflicting acceptors;
 - return `kind-not-supported` when no acceptor is available;
+- declare supervised HTTP and in-process acceptors in the same effective
+  route-table shape;
 - call supervised HTTP, in-process, or explicitly configured JSON-e Flow
-  acceptors through the same conceptual admission contract.
+  acceptors through the same conceptual admission contract;
+- require JSON-e Flow acceptors to be bound to explicit operator-visible
+  instances/templates;
+- record receiver-local admission ids separately from sender-local delivery ids.
 
 Status:
 
@@ -773,6 +899,9 @@ Responsibilities:
 - register INAC as the MVP private/direct node transport;
 - register Agora publish as the MVP public/federated publication adapter;
 - keep future Matrix mailbox support behind the same adapter boundary;
+- select adapters by exact adapter scheme from resolved targets;
+- pass only one dispatch target and one shared immutable artifact reference to
+  each adapter, keeping fallback decisions in the runtime;
 - ensure transport adapters feed inbound admission instead of owning their own
   domain-specific dispatch tables.
 
@@ -863,37 +992,48 @@ Status:
 | JSON-e Flow becomes an implicit generic artifact consumer | Allow JSON-e Flow only behind explicit acceptor declarations. |
 | Early generic abstraction becomes too large | Start with Artifact Delivery-specific route tables; extract a generic primitive only after reuse is proven. |
 
+## Resolved Implementation Decisions
+
+1. The component-facing host capability is `artifact.delivery.send`.
+2. Delivery may complete synchronously for fast plans, but the runtime has a
+   ledger from the beginning and may return `202 accepted` for longer plans.
+   The response carries a `delivery/id`, and the sender can query status by
+   that id.
+3. MVP group use is route-driven. Components should use `route/ref` for
+   operator-owned group routes; inline groups can remain test-only or later
+   surface area.
+4. MVP user-defined groups are static local config groups only.
+5. `agora-default` accepts already-formed `agora-record.v1` first. Host-side
+   wrapping of arbitrary domain payloads is a later explicit adapter, not hidden
+   behavior.
+6. Concrete `target/node-ids` in outbound allows are optional. If present, they
+   restrict the resolved concrete node targets.
+7. Supervised middleware module reports may request outbound allows, but only
+   effective host config can approve them.
+8. JSON-e Flow can be an inbound acceptor only through explicit
+   instance/template-bound acceptor configuration.
+9. Multiple adapters may support the same selector class, but adapter selection
+   must be explicit in route config or deterministic by priority. The default
+   direct `node` adapter is INAC/WSS; Matrix mailbox is a future explicit
+   fallback stage.
+10. Route refs are stable names; route versions live inside route definitions,
+    and the ledger stores the expanded normalized plan used by each delivery.
+11. Capability routing for `agora.relay` is post-MVP, but should be one of the
+    first post-MVP resolver adapters. The MVP uses `agora-default` from local
+    config.
+12. The delivery ledger is required even for synchronous successes.
+13. Missing transport-specific selector parameters, such as `node` without
+    `node/id`, fail validation/resolution and never imply fallback to Agora.
+14. In-process acceptors and supervised HTTP acceptors are declared in the same
+    effective config/route table shape so operator visibility does not depend on
+    runtime placement.
+
 ## Open Questions
 
-1. Should MVP outbound declarations live only in factory/effective config, or may
-   supervised middleware module reports declare outbound schemas directly?
-
-   Suggested default: allow module reports to request outbound schemas, but the
-   effective host config must approve them before they become active.
-
-2. Should `agora-default` accept only `agora-record.v1`, or should it accept
-   domain payloads that the host wraps into Agora records?
-
-   Suggested default: accept only already-formed `agora-record.v1` at first.
-   Host-side wrapping can be a later explicit adapter.
-
-3. Should in-process acceptors be declared in the same effective config tree as
-   supervised middleware acceptors?
-
-   Suggested default: yes. The operator-visible route table should not depend on
-   whether the acceptor is supervised HTTP or in-process Rust.
-
-4. Should observers/audit hooks exist separately from authoritative acceptors?
+1. Should observers/audit hooks exist separately from authoritative acceptors?
 
    Suggested default: not in the MVP. Add read-only observers only after the
    single-owner admission path is implemented and tested.
-
-5. Should user-defined groups be implemented in the MVP or only reserved by the
-   plan schema?
-
-   Suggested default: implement named route refs and simple static groups
-   together if Story-005 private delivery needs them; otherwise reserve `group`
-   and keep the MVP to explicit node, configured default, and Agora routes.
 
 ## Next Actions
 
@@ -906,6 +1046,8 @@ Status:
    any INAC transport code.
 4. Keep Story-005 private Whisper delivery as the first concrete consumer once
    the Artifact Delivery MVP exists.
+5. Add the post-MVP `capability-first` / `capability-many` resolver for
+   `agora.relay` discovery after the MVP route/default/group path is stable.
 
 ## Related Capability Data
 

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-delivery-envelope:v1",
+  "title": "ArtifactDeliveryEnvelope v1",
+  "description": "Host capability request for Artifact Delivery. The envelope carries one artifact descriptor, one delivery plan, optional policy, and optional idempotency key. Host config resolves route refs, defaults, groups, and transport adapters.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/042-inter-node-artifact-channel.md",
+    "doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md",
+    "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+  ],
+  "required": ["schema", "component/id", "artifact", "delivery/plan"],
+  "properties": {
+    "schema": { "const": "artifact-delivery-envelope.v1" },
+    "component/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "artifact": { "$ref": "#/$defs/artifact" },
+    "delivery/plan": { "$ref": "#/$defs/deliveryPlan" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "content/type", "digest", "size/bytes"],
+      "oneOf": [
+        { "required": ["bytes/base64"], "not": { "required": ["artifact/ref"] } },
+        { "required": ["artifact/ref"], "not": { "required": ["bytes/base64"] } }
+      ],
+      "properties": {
+        "schema": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "content/type": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+        "size/bytes": { "type": "integer", "minimum": 0 },
+        "bytes/base64": { "type": "string", "contentEncoding": "base64" },
+        "artifact/ref": { "type": "string", "minLength": 1, "maxLength": 1024 }
+      }
+    },
+    "deliveryPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "oneOf": [
+        { "required": ["route/ref"], "not": { "required": ["stages"] } },
+        { "required": ["stages"], "not": { "required": ["route/ref"] } }
+      ],
+      "properties": {
+        "route/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "mode": { "type": "string", "enum": ["sequence"], "default": "sequence" },
+        "stages": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/stage" }
+        }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage/id", "targets"],
+      "properties": {
+        "stage/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "mode": { "type": "string", "enum": ["parallel"], "default": "parallel" },
+        "targets": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/selector" } },
+        "success/policy": { "type": "string", "enum": ["all", "any", "quorum"], "default": "all" },
+        "quorum/min-success": { "type": "integer", "minimum": 1 },
+        "on/failure": { "type": "string", "minLength": 1, "maxLength": 256 }
+      }
+    },
+    "selector": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "node/id"],
+          "properties": {
+            "selector/kind": { "const": "node" },
+            "node/id": { "type": "string", "minLength": 1, "maxLength": 256 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "name"],
+          "properties": {
+            "selector/kind": { "const": "configured-default" },
+            "name": { "type": "string", "minLength": 1, "maxLength": 256 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "group/id"],
+          "properties": {
+            "selector/kind": { "const": "group" },
+            "group/id": { "type": "string", "minLength": 1, "maxLength": 256 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind"],
+          "properties": {
+            "selector/kind": { "const": "agora-default" }
+          }
+        }
+      ]
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "privacy": { "type": "string", "enum": ["private", "public", "federated"] },
+        "delivery": { "type": "string", "enum": ["at-least-once", "best-effort"] },
+        "timeout/ms": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

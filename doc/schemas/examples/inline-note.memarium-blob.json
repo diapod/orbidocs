@@ -1,0 +1,18 @@
+{
+  "schema": "memarium-blob.v1",
+  "blob/id": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+  "blob/content-type": "application/json",
+  "blob/payload": {
+    "mode": "inline",
+    "encoding": "base64url",
+    "value": "e30",
+    "size_bytes": 2
+  },
+  "blob/encryption": "none",
+  "author/participant-id": "participant:did:key:z6Mkha6BfR3tQx9pYz7sVw4nM2qA8cD5eF6gH7jK8mN9pQ",
+  "authored/at": "2026-05-08T00:00:00Z",
+  "signature": {
+    "alg": "ed25519",
+    "value": "example-signature-value"
+  }
+}

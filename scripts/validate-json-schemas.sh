@@ -44,6 +44,21 @@ schema_for_file() {
     *.memarium-host-api.json)
       echo "$SCHEMAS_DIR/memarium-host-api.v1.schema.json"
       ;;
+    *.memarium-blob.json)
+      echo "$SCHEMAS_DIR/memarium-blob.v1.schema.json"
+      ;;
+    *.artifact-delivery-envelope.json)
+      echo "$SCHEMAS_DIR/artifact-delivery-envelope.v1.schema.json"
+      ;;
+    *.artifact-delivery-result.json)
+      echo "$SCHEMAS_DIR/artifact-delivery-result.v1.schema.json"
+      ;;
+    *.artifact-delivery-status.json)
+      echo "$SCHEMAS_DIR/artifact-delivery-status.v1.schema.json"
+      ;;
+    *.inac-control.json)
+      echo "$SCHEMAS_DIR/inac-control.v1.schema.json"
+      ;;
     *.training-job.json)
       echo "$SCHEMAS_DIR/training-job.v1.schema.json"
       ;;

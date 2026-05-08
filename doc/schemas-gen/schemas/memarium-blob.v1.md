@@ -42,7 +42,7 @@ Machine-readable schema for a signed, content-addressed Memarium-native artifact
 | [`authored/at`](#field-authored-at) | `yes` | string | Wall-clock timestamp asserted by the author at blob creation. |
 | [`author/attestation-ref`](#field-author-attestation-ref) | `no` | string | Optional reference to an attestation artifact supporting the author's authority or context. |
 | [`author/nym-certificate-ref`](#field-author-nym-certificate-ref) | `no` | string | Optional reference to a nym certificate when the author identity is pseudonymous. |
-| [`classification`](#field-classification) | `no` | ref: `classification.v1.schema.json` | Optional classification label carried with the blob for downstream custody and egress decisions. |
+| [`classification`](#field-classification) | `no` | object | Optional classification label carried with the blob for downstream custody and egress decisions. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` | Ed25519 signature over canonical envelope bytes with `signature` removed, using signing domain `memarium.blob.v1`. |
 
 ## Definitions
@@ -131,7 +131,7 @@ Optional reference to a nym certificate when the author identity is pseudonymous
 ## `classification`
 
 - Required: `no`
-- Shape: ref: `classification.v1.schema.json`
+- Shape: object
 
 Optional classification label carried with the blob for downstream custody and egress decisions.
 

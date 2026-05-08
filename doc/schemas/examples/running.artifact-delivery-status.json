@@ -1,0 +1,7 @@
+{
+  "schema": "artifact-delivery-status.v1",
+  "delivery/id": "delivery:abc123",
+  "status": "running",
+  "dispatch/plan": {},
+  "stage/outcomes": []
+}

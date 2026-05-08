@@ -1,7 +1,7 @@
 {:component/id :orbiplex/inter-node-artifact-channel
  :component/title "Inter-Node Artifact Channel (INAC)"
  :component/type :peer-protocol
- :component/status :planned
+ :component/status :partial
 
  :summary
  "Planned peer-to-peer artifact exchange channel for byte-identical transfer of
@@ -21,7 +21,15 @@
     "Carry `offer`, `request`, `push`, and refusal response frames"
     "Keep control messages small and auditable"
     "Reject unknown artifact kinds with `kind-not-supported`"]
-   :status :todo}
+   :status :partial
+   :implemented ["`inac-control.v1` JSON Schema and schema-gate coverage"
+                 "`node/inac-core` pure validation and refusal vocabulary"
+                 "`node/inac-runtime` fail-closed runtime registry"
+                 "daemon host capability endpoints for local offer/request/push"
+                 "operator status endpoint `/v1/inac/status`"]
+   :remaining ["Register `inac.v1` as a WSS peer-message kind"
+               "Wire remote peer session dispatch"
+               "Persist transfer status/idempotency beyond in-memory MVP"]}
 
   {:cap/id :byte-identical-artifact-transfer
    :title "Byte-Identical Artifact Transfer"
@@ -34,7 +42,12 @@
     "Verify `record/id` or `blob/id` against canonical envelope bytes"
     "Feed received artifacts into Artifact Delivery inbound admission"
     "Avoid re-signing artifacts during transfer"]
-   :status :todo}
+   :status :partial
+   :implemented ["`memarium-blob.v1` is schema-gated and synchronized into node contracts"
+                 "inline payload byte identity is checked by `inac-core`"]
+   :remaining ["Verify `agora-record.v1` and `memarium-blob.v1` envelope IDs before concrete domain acceptance"
+               "Feed accepted artifacts into concrete domain handlers"
+               "Persist accepted custody records where the receiving domain requires it"]}
 
   {:cap/id :binary-frame-streaming
    :title "Binary Frame Streaming"
@@ -95,5 +108,6 @@
   "refusal codes"]
 
  :notes
- ["INAC remains planned until the peer-message kind, control schemas, and binary-frame transport discipline are implemented together."
-  "The solution overview exists to give the capability matrix a stable home for proposal 042 work."]}
+ ["INAC has a schema-gated local MVP scaffold, but is not yet a complete peer transport."
+  "The runtime fails closed without an explicit authoritative handler for an artifact kind."
+  "WSS peer-message wiring, binary streaming, and passport/invitation authorization remain required before production peer-to-peer artifact exchange."]}

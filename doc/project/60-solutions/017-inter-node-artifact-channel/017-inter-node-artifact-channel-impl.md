@@ -98,8 +98,8 @@ in as explicit inbound acceptors, not as fan-out chains.
 
 | Schema | Role | State |
 |---|---|---|
-| `memarium-blob.v1` | generic Memarium-native artefact envelope (content-addressed `blob/id`, domain `memarium.blob.v1`) | ❌ not started — described in proposal 042 §2.2 in prose; schema file to write |
-| `inac-control.v1` (tentative name) | control-message envelope for `offer`/`request`/`push` operations + response frames | ❌ not started |
+| `memarium-blob.v1` | generic Memarium-native artefact envelope (content-addressed `blob/id`, domain `memarium.blob.v1`) | ✅ schema exists and is synchronized into node schema-gate |
+| `inac-control.v1` | control-message envelope for `offer`/`request`/`push` operations + response frames | ✅ schema exists; local runtime scaffold validates it |
 | `agora-record.v1` | reused from proposal 035 | ✅ exists |
 | `capability-passport.v1` (with `capability_id = "inac.invitation"` variant) | authorization artifact for invitation-based push | 🟡 base format exists; `inac.invitation` scope grammar and single-use rule to document in proposal 024 (042 Follow-Up #5) |
 
@@ -347,17 +347,19 @@ Each step leaves the tree compiling.
    3 (shadowing precedence), 4 (offer rate default).** Cheap;
    unblocks schemas and gate.
 2. **Layer 0 — schemas.** `memarium-blob.v1` first, then
-   `inac-control.v1` control-message envelopes.
+   `inac-control.v1` control-message envelopes. **Done for the MVP
+   scaffold.**
 3. **Attestation-gate (proposal 041).** Shared primitive; blocks
    Layer 4.
 4. **`inac.invitation` scope grammar documented in proposal 024.**
    Blocks Layer 6.
 5. **Layer 4 — authorization.** Verifier paths for all four sources.
-6. **Layer 5 — baseline kind dispatch.** `agora-record.v1` +
-   `memarium-blob.v1` acceptors only; open middleware acceptor
-   declarations omitted.
+6. **Layer 5 — baseline kind dispatch.** Runtime registry exists and
+   fails closed. Concrete `agora-record.v1` and `memarium-blob.v1`
+   acceptors remain to wire.
 7. **Layer 2 — control protocol.** `offer` / `request` / `push` +
-   responses, inline-only payloads.
+   responses, inline-only payloads. **Done locally; peer-message transport
+   remains to wire.**
 8. **Layer 1 — peer-message registration.** Register `inac.v1`
    with the `PeerMessageChain`.
 9. **Layer 6 — invitation lifecycle.** Issuer + receiver +

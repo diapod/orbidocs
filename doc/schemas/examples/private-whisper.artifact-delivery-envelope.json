@@ -1,0 +1,20 @@
+{
+  "schema": "artifact-delivery-envelope.v1",
+  "component/id": "whisper-intake",
+  "artifact": {
+    "schema": "whisper-private-transfer.v1",
+    "content/type": "application/json",
+    "digest": "sha256:abc123",
+    "size/bytes": 2,
+    "bytes/base64": "e30="
+  },
+  "delivery/plan": {
+    "route/ref": "private-whisper-default"
+  },
+  "policy": {
+    "privacy": "private",
+    "delivery": "at-least-once",
+    "timeout/ms": 5000
+  },
+  "idempotency/key": "intake:demo:private-transfer"
+}

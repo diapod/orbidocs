@@ -1,0 +1,14 @@
+{
+  "schema": "inac-control.v1",
+  "operation": "push",
+  "correlation/id": "inac-correlation:example",
+  "idempotency/key": "inac-example-push-inline",
+  "artifact": {
+    "schema": "memarium-blob.v1",
+    "content/type": "application/json",
+    "artifact/id": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+    "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+    "size/bytes": 2,
+    "bytes/base64url": "e30"
+  }
+}

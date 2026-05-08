@@ -1,7 +1,7 @@
 {:component/id :orbiplex/artifact-delivery
  :component/title "Artifact Delivery"
  :component/type :node-attached-runtime
- :component/status :planned
+ :component/status :partial
 
  :summary
  "Host-owned artifact delivery and admission plane. Components submit one
@@ -19,14 +19,21 @@
               "doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md"
               "doc/project/60-solutions/019-middleware/019-middleware.md"]
    :schemas ["artifact-delivery-envelope.v1"
-             "artifact-delivery-plan.v1"
-             "artifact-delivery-acceptor.v1"]
+             "artifact-delivery-result.v1"
+             "artifact-delivery-status.v1"]
    :responsibilities
    ["Expose one component-facing artifact send surface"
+    "Expose artifact.delivery.send as the component-facing host capability"
     "Keep transport connections centralized in the host"
     "Compile route tables from factory config, effective config, in-process manifests, and middleware module reports"
+    "Return delivery ids for accepted asynchronous deliveries and expose delivery status lookup"
+    "Keep core validation, normalization, recipient resolution, target deduplication, and outbound authorization synchronous and side-effect-free"
+    "Persist accepted submissions and canonical expanded dispatch plans before transport execution"
     "Expose route table and conflict state to the operator"]
-   :status :planned}
+   :status :partial
+   :notes
+   ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory ledger, and regression coverage."
+    "SQLite ledger persistence, asynchronous execution, concrete INAC/Agora transport adapters, and inbound admission are later layers."]}
 
   {:cap/id :artifact-delivery-outbound-authorization
    :title "Outbound Authorization and Recipient Resolution"
@@ -46,9 +53,13 @@
     "Support configured fallback such as direct node first, then Agora or a configured group"
     "Authorize route refs, selector classes, concrete target node ids, maximum targets, and maximum fallback stages per component"
     "Treat selector allowlists as permissions, not fallback order, and fail malformed or unresolved selector targets before transport execution"
+    "Keep route ids stable, carry route versions inside route definitions, and persist expanded normalized plans in the ledger"
     "Keep participant, org, and capability-based recipient resolution behind later resolver adapters"
     "Deny valid-schema sends when the component lacks an outbound allow"]
-   :status :planned}
+   :status :partial
+   :notes
+   ["The pure core/runtime split implements route refs, configured defaults, groups, node and agora-default selectors, target dedupe, fan-out/fallback limits, runtime stage target caps, digest validation, route-plan validation, and all/any/quorum evaluation."
+    "Participant, org, and capability-based recipient selectors remain post-MVP resolver adapters."]}
 
   {:cap/id :artifact-delivery-single-owner-admission
    :title "Single-Owner Inbound Admission"
@@ -62,7 +73,10 @@
    ["Enforce at most one authoritative acceptor per schema and content-type class"
     "Fail readiness on conflicting acceptors"
     "Return kind-not-supported when no acceptor is available"
-    "Call supervised HTTP, in-process, or explicitly configured JSON-e Flow acceptors through the same conceptual admission contract"]
+    "Declare supervised HTTP and in-process acceptors in the same effective route-table shape"
+    "Call supervised HTTP, in-process, or explicitly configured JSON-e Flow acceptors through the same conceptual admission contract"
+    "Require JSON-e Flow acceptors to be bound to explicit operator-visible instances/templates"
+    "Record receiver-local admission ids separately from sender-local delivery ids"]
    :status :planned}
 
   {:cap/id :artifact-delivery-transport-adapter-registry
@@ -76,6 +90,8 @@
    ["Register INAC as the MVP private/direct node transport"
     "Register Agora publish as the MVP public/federated publication adapter"
     "Keep future Matrix mailbox support behind the same adapter boundary"
+    "Select adapters by exact adapter scheme from resolved targets"
+    "Pass one dispatch target plus one shared immutable artifact reference to adapters and keep fallback decisions in the runtime"
     "Ensure transport adapters feed inbound admission instead of owning their own domain-specific dispatch tables"]
    :status :planned}]
 
@@ -89,6 +105,7 @@
              "capability-advertisement.v1"]
    :responsibilities
    ["Resolve capability-first and capability-many recipient selectors through Seed Directory and local policy"
+    "Prioritize agora.relay capability routing as an early post-MVP resolver"
     "Preserve revocation freshness and capability profile checks"
     "Expose candidate selection diagnostics"]
    :status :optional}

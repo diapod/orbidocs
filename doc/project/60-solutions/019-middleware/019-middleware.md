@@ -163,6 +163,8 @@ must not be treated as interchangeable.
 
 ```text
 <data-dir>/
+  control/
+    middleware-last-settings.json
   middleware/
     <module-id>/
       config/
@@ -180,6 +182,12 @@ must not be treated as interchangeable.
       lib/
       .signatures/
 ```
+
+`<data-dir>/control/middleware-last-settings.json` is host-generated local
+control state, not middleware package material and not an operator-owned module
+configuration fragment. It may carry minimal UI-controlled runtime toggles such
+as `enabled`, and it may suppress runtime activation, but it must not replace or
+block materialization of package/factory `50-<module>.json` config fragments.
 
 `<data-dir>/middleware/<module-id>/` is the node-owned active runtime home for
 one concrete module instance. It is writable by the host and, where explicitly

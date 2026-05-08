@@ -61,6 +61,11 @@ SCHEMA_WHITELIST = (
     "offer-catalog-fetch-response.schema.json",
     "classification.v1.schema.json",
     "memarium-host-api.v1.schema.json",
+    "memarium-blob.v1.schema.json",
+    "artifact-delivery-envelope.v1.schema.json",
+    "artifact-delivery-result.v1.schema.json",
+    "artifact-delivery-status.v1.schema.json",
+    "inac-control.v1.schema.json",
 )
 
 EXAMPLE_WHITELIST = (
@@ -122,10 +127,16 @@ EXAMPLE_WHITELIST = (
     "personal-to-community-one-shot.classification.json",
     "community-to-public-persistent.classification.json",
     "write-entry.memarium-host-api.json",
+    "inline-note.memarium-blob.json",
     "basic.whisper-redaction-prepare-request.json",
     "draft-ready.whisper-redaction-prepare-response.json",
     "declassify.memarium-host-api.json",
     "revoked.memarium-host-api.json",
+    "private-whisper.artifact-delivery-envelope.json",
+    "accepted.artifact-delivery-result.json",
+    "running.artifact-delivery-status.json",
+    "push-inline.inac-control.json",
+    "refused.inac-control.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
@@ -172,6 +183,8 @@ INVALID_EXAMPLE_WHITELIST = (
     "persistent-without-expires.classification.json",
     "public-with-full-subjects.classification.json",
     "success-without-draft.whisper-redaction-prepare-response.json",
+    "inac-push-missing-artifact.inac-control.json",
+    "memarium-blob-without-signature.memarium-blob.json",
 )
 
 

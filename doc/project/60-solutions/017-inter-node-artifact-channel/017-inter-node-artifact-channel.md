@@ -12,10 +12,27 @@ component-facing delivery abstraction belongs to Artifact Delivery:
 - INAC is the private/direct node-to-node transport adapter under that plane.
 - Memarium remains the local custody store.
 
-The current solution status is **planned**. Proposal 042 defines the semantic
-contract; the implementation guideline in this directory decomposes the work
-into schemas, peer-message registration, authorization, binary streaming, and
-storage integration.
+The current solution status is **partial / MVP scaffold**. Proposal 042 defines
+the semantic contract; the implementation guideline in this directory
+decomposes the work into schemas, peer-message registration, authorization,
+binary streaming, and storage integration.
+
+Implemented now:
+
+- `inac-control.v1` as the transport-neutral control frame for `offer`,
+  `request`, `push`, and response/refusal operations.
+- `memarium-blob.v1` synchronized into the node schema gate as a transferable
+  signed artifact envelope.
+- `node/inac-core` for pure DTOs, operation validation, refusal vocabulary,
+  inline payload ceiling, and byte identity checks.
+- `node/inac-runtime` for an explicit artifact handler registry and fail-closed
+  dispatch semantics.
+- `node/inac-handlers` as the daemon composition point for future concrete
+  handlers (`agora-record.v1`, `memarium-blob.v1`, middleware-owned kinds).
+- Daemon host/operator surface:
+  `POST /v1/host/capabilities/inac.offer`,
+  `POST /v1/host/capabilities/inac.request`,
+  `POST /v1/host/capabilities/inac.push`, and `GET /v1/inac/status`.
 
 ## Based On
 
@@ -38,15 +55,19 @@ storage integration.
 
 ## Status
 
-Planned. The solution has an implementation outline and baseline artifact
-contracts, but the peer-message kind, control schemas, binary stream handling,
-and authorization gate are not implemented as a complete runtime slice yet.
+Partial / MVP scaffold.
+
+The schema-gated control plane and local runtime skeleton are implemented. The
+runtime intentionally fails closed when no authoritative handler is registered
+for an artifact kind. Full WSS peer-message wiring, binary-frame streaming,
+passport/invitation authorization, and concrete Agora/Memarium handlers remain
+outside the MVP scaffold.
 
 ## Related Schemas
 
 - `agora-record.v1`
 - `memarium-blob.v1`
-- future `inac-control.v1`
+- `inac-control.v1`
 - `capability-passport.v1`
 
 ## Related Solutions

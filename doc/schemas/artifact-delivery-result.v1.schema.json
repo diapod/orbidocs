@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-delivery-result:v1",
+  "title": "ArtifactDeliveryResult v1",
+  "description": "Response returned by the Artifact Delivery host capability after accepting or completing a delivery request.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"],
+  "required": ["schema", "delivery/id", "status"],
+  "properties": {
+    "schema": { "const": "artifact-delivery-result.v1" },
+    "delivery/id": { "type": "string", "pattern": "^delivery:[A-Za-z0-9_-]+$" },
+    "status": { "type": "string", "enum": ["accepted", "running", "succeeded", "partial", "failed-retryable", "failed-permanent"] },
+    "failure/class": { "$ref": "#/$defs/failureClass" },
+    "diagnostic": { "type": ["object", "array", "string", "number", "boolean", "null"] },
+    "stage/results": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+  },
+  "$defs": {
+    "failureClass": {
+      "type": "string",
+      "enum": [
+        "envelope-malformed",
+        "envelope-invalid",
+        "route-unresolved",
+        "admission-conflict",
+        "kind-not-supported",
+        "outbound-denied",
+        "adapter-transient",
+        "adapter-permanent",
+        "stage-timeout",
+        "admission-timeout",
+        "ledger-error"
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "inac-control.v1",
+  "operation": "refused",
+  "correlation/id": "inac-correlation:example",
+  "response": {
+    "status": "refused",
+    "refusal/code": "kind-not-supported",
+    "retryable": false,
+    "message": "No registered INAC handler accepts this artifact schema."
+  }
+}

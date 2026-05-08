@@ -1,0 +1,6 @@
+{
+  "schema": "artifact-delivery-result.v1",
+  "delivery/id": "delivery:abc123",
+  "status": "accepted",
+  "stage/results": []
+}

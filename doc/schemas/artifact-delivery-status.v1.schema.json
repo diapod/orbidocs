@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-delivery-status:v1",
+  "title": "ArtifactDeliveryStatus v1",
+  "description": "Operator/host status payload for a single Artifact Delivery run. This is not an MVP cross-component host capability.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"],
+  "required": ["schema", "delivery/id", "status"],
+  "properties": {
+    "schema": { "const": "artifact-delivery-status.v1" },
+    "delivery/id": { "type": "string", "pattern": "^delivery:[A-Za-z0-9_-]+$" },
+    "status": { "type": "string", "enum": ["accepted", "running", "succeeded", "partial", "failed-retryable", "failed-permanent"] },
+    "dispatch/plan": { "type": "object", "additionalProperties": true },
+    "stage/outcomes": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+  }
+}
