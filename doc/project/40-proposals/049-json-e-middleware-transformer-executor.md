@@ -254,6 +254,18 @@ declaration receive no raw-signal context even if another flow uses it. This
 keeps the raw signal as a deliberate hole in the abstraction, not ambient
 authority.
 
+Each concrete flow may also set `deferred_response_mode`:
+
+- `surface-to-caller` (default) — pending deferred host capability responses are
+  surfaced as a control outcome to the caller/runtime, and completed
+  `deferred-operation-status.v1` responses resume the flow with their `result`.
+- `reject-as-failure` — any deferred host capability response is a synchronous
+  flow failure (`deferred-not-accepted`).
+
+This is intentionally the only per-flow deferred setting. Retry cadence, TTL,
+poll limits, continuation ownership, and resume scheduling are host policy and
+runtime concerns, not flow-local policy.
+
 Candidate step kinds:
 
 - `render` — evaluate a JSON-e template into a named value,
@@ -612,6 +624,8 @@ errors, output validation errors, and authority errors. Suggested failure classe
 | `output-contract-error` | The rendered JSON value does not satisfy the selected output contract. |
 | `disallowed-call` | A `json_e_flow` step requests a call not allowed by the flow profile, hook policy, passport, or local configuration. |
 | `capability-call-failed` | A host-owned `json_e_flow` capability call was allowed but failed during execution. |
+| `deferred-operation` | A host-owned `json_e_flow` capability call returned a pending deferred operation/status and the flow surfaced it to the caller. |
+| `deferred-not-accepted` | The flow's `deferred_response_mode` rejects deferred host capability responses. |
 | `flow-policy-rejected` | A host-owned `json_e_flow` `validate` or `decide` step rejected the flow. |
 
 Load-time validation should check:
@@ -869,6 +883,7 @@ This example sketches the `json_e_flow` profile.
     "sensorium.directive.invoke",
     "memarium.write"
   ],
+  "deferred_response_mode": "surface-to-caller",
   "steps": [
     {
       "kind": "render",

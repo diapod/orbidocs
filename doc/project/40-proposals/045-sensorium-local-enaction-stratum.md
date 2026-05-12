@@ -789,6 +789,11 @@ observations they emit without prompting:
       "emits_observation_kind": "git/fetch-result",
       "default_timeout_ms": 30000,
       "max_timeout_ms": 300000,
+      "execution_mode_support": "sync-only",
+      "deferred_profile": {
+        "preferred_retry_after_seconds": 15,
+        "preferred_max_ttl_seconds": 1800
+      },
       "requires_grant": "sensorium.directive.invoke:os.process.spawn-read-only",
       "artifact_outputs": ["stdout", "stderr"],
       "reentrancy": "parallel"
@@ -809,6 +814,12 @@ become invocable until the operator promotes matching entries into the
 signed allowlist; the module report alone grants nothing. This keeps the
 allowlist the single authority over what the node may actually do to the
 world, and keeps connector authors honest about what they are offering.
+
+`execution_mode_support` is an operator-approved action property, not a caller
+preference. The safe default is `sync-only`; `timing.mode = "async"` is rejected
+before dispatch unless the signed allowlist entry says `either` or `async-only`.
+`deferred_profile` carries connector/action hints only. The host still clamps
+retry cadence and maximum lifetime through its deferred-operation policy.
 
 #### Loop closure invariant
 

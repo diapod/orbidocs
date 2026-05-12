@@ -65,6 +65,8 @@ SCHEMA_WHITELIST = (
     "artifact-delivery-envelope.v1.schema.json",
     "artifact-delivery-result.v1.schema.json",
     "artifact-delivery-status.v1.schema.json",
+    "deferred-operation.v1.schema.json",
+    "deferred-operation-status.v1.schema.json",
     "inac-control.v1.schema.json",
 )
 

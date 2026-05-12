@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:deferred-operation-status:v1",
+  "title": "Deferred Operation Status v1",
+  "description": "Status payload for an operation previously accepted as deferred-operation.v1. Pending and running statuses keep the caller suspended; terminal statuses either resume with result or end the continuation.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "status",
+    "operation/id",
+    "operation/kind",
+    "updated_at"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "deferred-operation-status.v1",
+      "description": "Schema tag for deferred operation status payloads."
+    },
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "timed-out",
+        "cancelled",
+        "expired",
+        "unknown"
+      ],
+      "description": "Lifecycle status. pending/running suspend processing; completed resumes with result; failed/timed-out/cancelled/expired/unknown are terminal failures unless the parent runtime has an explicit retry policy."
+    },
+    "operation/id": {
+      "type": "string",
+      "pattern": "^deferred:[a-z][a-z0-9.-]*:[A-Za-z0-9_-]+$",
+      "description": "Id from the initial deferred-operation.v1 payload."
+    },
+    "operation/kind": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*$",
+      "description": "Operation class that owns the continuation semantics."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp at which this status was produced."
+    },
+    "retry_after_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3600,
+      "description": "Host-clamped lower bound before the next poll/resume attempt. Required by convention for pending/running statuses that are not immediately resumable."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Current absolute expiry deadline, if still applicable."
+    },
+    "result": {
+      "description": "Domain result only for completed status. It MUST be validated by the owning operation kind before downstream use."
+    },
+    "diagnostics": {
+      "type": "array",
+      "description": "Optional diagnostics for operator and caller visibility.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Open extension map for experimental or deployment-local metadata. Stable protocol fields MUST be promoted to first-class schema properties."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "result"
+        ]
+      }
+    }
+  ]
+}

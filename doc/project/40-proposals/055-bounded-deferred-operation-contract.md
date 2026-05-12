@@ -28,7 +28,7 @@ That default should remain intact. A synchronous host call MUST NOT silently
 become a long-running process, watcher, stream, or unbounded model job.
 
 This proposal adds a separate extension: a **bounded deferred operation
-contract**. A module may quickly return `deferred` with an `operation_id`, a
+contract**. A module may quickly return `deferred` with an `operation/id`, a
 `retry_after_seconds` hint, and an expiry/deadline. The host then polls a status
 capability or status endpoint under host-owned retry, deadline, and cancellation
 policy.
@@ -118,33 +118,50 @@ sync-only.
 
 ### 2. Deferred Mode Is Explicit
 
-A call may request or allow deferred mode through either a capability/profile
-split or an input field.
-
-Two acceptable shapes:
-
-```text
-sensorium.directive.invoke@sync
-sensorium.directive.invoke@deferred
-```
-
-or:
+A call may request deferred mode through an input field:
 
 ```json
 {
-  "execution_mode": "sync"
+  "timing": {
+    "mode": "sync"
+  }
 }
 ```
 
 ```json
 {
-  "execution_mode": "deferred"
+  "timing": {
+    "mode": "async"
+  }
 }
 ```
 
-For v1, the simpler wire shape is to keep one capability and include an explicit
-`execution_mode`, while capability/readiness policy states whether the caller may
-use deferred mode.
+For v1, Sensorium keeps one capability (`sensorium.directive.invoke`) and uses
+the directive timing mode. Whether that mode is allowed is declared by the
+operator-signed action catalog entry, not by the caller alone.
+
+Action catalog entries may declare:
+
+```json
+{
+  "action_id": "story009.draft.compose",
+  "execution_mode_support": "either",
+  "deferred_profile": {
+    "preferred_retry_after_seconds": 15,
+    "preferred_max_ttl_seconds": 1800
+  }
+}
+```
+
+`execution_mode_support` is one of:
+
+- `sync-only` — safe default. `timing.mode = "async"` is rejected before
+  connector dispatch.
+- `either` — caller may request either `sync` or `async`.
+- `async-only` — `timing.mode = "sync"` is rejected before connector dispatch.
+
+`deferred_profile` is a connector/action hint, not policy. The host still
+computes the effective retry/expiry values through `DeferredHostPolicy`.
 
 ### 3. Deferred Initial Response
 
@@ -157,14 +174,17 @@ Canonical payload shape:
 ```json
 {
   "schema": "deferred-operation.v1",
+  "schema/v": 1,
   "status": "deferred",
-  "operation_id": "operation:sensorium:sha256:...",
+  "operation/id": "deferred:sensorium.directive.invoke:...",
+  "operation/kind": "sensorium.directive.invoke",
   "retry_after_seconds": 5,
   "created_at": "2026-05-05T18:00:00Z",
   "expires_at": "2026-05-05T18:05:00Z",
-  "status_capability": "sensorium.directive.status",
-  "cancel_capability": "sensorium.directive.cancel",
-  "correlation_id": "run:...",
+  "status_href": "/v1/deferred/...",
+  "cancel_href": "/v1/deferred/.../cancel",
+  "correlation/id": "run:...",
+  "audit/outcome-ref": "outcome:...",
   "diagnostics": []
 }
 ```
@@ -191,7 +211,9 @@ Canonical status response:
 ```json
 {
   "schema": "deferred-operation-status.v1",
-  "operation_id": "operation:sensorium:sha256:...",
+  "schema/v": 1,
+  "operation/id": "deferred:sensorium.directive.invoke:...",
+  "operation/kind": "sensorium.directive.invoke",
   "status": "pending",
   "retry_after_seconds": 10,
   "expires_at": "2026-05-05T18:05:00Z",
@@ -203,10 +225,13 @@ Canonical status response:
 Allowed statuses:
 
 - `pending` — not ready yet; host may retry later.
+- `running` — connector has started work; host may retry later.
 - `completed` — final result is available in the response or by reference.
 - `failed` — final failure, not retryable unless the payload says otherwise.
-- `expired` — operation exceeded its own lifetime.
-- `canceled` — host or operator canceled the operation.
+- `timed-out` — connector work exceeded its configured or host-clamped timeout.
+- `cancelled` — host or operator cancelled the operation.
+- `expired` — host/runtime no longer accepts this operation because its
+  deferred lifetime expired before a terminal result was produced.
 - `unknown` — the connector no longer recognizes the operation id; host treats
   this as terminal unless policy says otherwise.
 
@@ -215,9 +240,11 @@ Completed response example:
 ```json
 {
   "schema": "deferred-operation-status.v1",
-  "operation_id": "operation:sensorium:sha256:...",
+  "schema/v": 1,
+  "operation/id": "deferred:sensorium.directive.invoke:...",
+  "operation/kind": "sensorium.directive.invoke",
   "status": "completed",
-  "completed_at": "2026-05-05T18:01:12Z",
+  "updated_at": "2026-05-05T18:01:12Z",
   "result": {
     "schema": "sensorium-directive-result.v1",
     "status": "completed",
@@ -250,11 +277,22 @@ Connector hints are advisory:
 
 ```text
 effective_retry_after = clamp(connector_retry_after, host_min, host_max)
-effective_expires_at = min(connector_expires_at, host_deadline)
+effective_requested_ttl =
+  min_present(connector_fail_after, action_preferred_max_ttl, caller_deadline_remaining)
+effective_expires_at = now + min(effective_requested_ttl, host_max_ttl)
 ```
 
 A connector cannot keep work alive indefinitely by returning larger
-`retry_after_seconds` values.
+`retry_after_seconds` or `fail_after_seconds` values. A caller-provided
+`deadline_at` is also an upper bound: if both the connector/action and caller
+provide lifetime hints, the effective lifetime is the smaller value before the
+host maximum TTL clamp is applied.
+
+Caller-supplied directives SHOULD NOT carry ad-hoc polling cadence fields unless
+the capability profile explicitly defines them. For Sensorium directives,
+`timing.timeout_ms` remains the connector execution budget, not the deferred
+operation polling lifetime. Deferred operation expiry is host-policy-owned and
+may be narrowed by an explicit caller `deadline_at`.
 
 ### 6. Poller vs Scheduler
 
@@ -305,7 +343,7 @@ Candidate shape:
   "continuation_id": "continuation:...",
   "workflow_run_id": "run:...",
   "step_id": "call_sensorium_directive",
-  "deferred_operation_id": "operation:sensorium:sha256:...",
+  "deferred_operation_id": "deferred:sensorium.directive.invoke:...",
   "resume_kind": "json_e_flow_step",
   "resume_point": {
     "executor_id": "json_e_flow",
@@ -321,7 +359,7 @@ Candidate shape:
   "context": {},
   "envelope": null,
   "trace": {
-    "correlation_id": "run:..."
+    "correlation/id": "run:..."
   },
   "idempotency_key": "idem:...",
   "deadline_at": "2026-05-05T18:05:00Z",
@@ -335,6 +373,12 @@ The exact schema may evolve, but the invariant is stable:
 Continuation context is a value, not a captured stack.
 Only the runtime that owns the interpreter may consume the continuation.
 ```
+
+Continuation context is host/runtime-private unless a specific capability
+contract says otherwise. Initial `deferred-operation.v1` responses expose only
+the stable operation handle, retry hint, deadlines, and optional status/cancel
+links. They MUST NOT echo operator-internal allowlist entries, connector config,
+or raw private payloads.
 
 Allowed contents:
 
@@ -405,14 +449,19 @@ keeps the host request open.
 Valid pattern:
 
 ```text
-sensorium-os action start
+sensorium-core validates action execution_mode_support
+  -> sync-only + async: reject
+  -> async-only + sync: reject
+
+sensorium-os action start (for async-capable actions)
   -> start local model job / OS job / external request
   -> persist operation handle in connector-owned state
-  -> return deferred operation_id
+  -> return sensorium-connector-deferred.v1
 
 host later polls
-  -> sensorium-os action status(operation_id)
-  -> pending | completed | failed | expired
+  -> sensorium.operation.status
+  -> sensorium-os connector status(operation_id)
+  -> pending | running | completed | failed | timed-out | cancelled | expired | unknown
 ```
 
 Invalid pattern:
@@ -435,6 +484,18 @@ continuation, suspend that branch, schedule or poll later, and resume the step
 with the completed value.
 
 It should not busy-wait inside one JSON-e Flow execution.
+
+Per-flow JSON-e Flow configuration has exactly one deferred decision:
+`deferred_response_mode`.
+
+- `surface-to-caller` (default) surfaces `deferred-operation.v1` or pending
+  `deferred-operation-status.v1` as a deferred control outcome.
+- `reject-as-failure` treats deferred responses as a synchronous contract
+  failure (`deferred-not-accepted`).
+
+Retry cadence, TTL, polling limits, and continuation ownership are not
+per-flow settings. They remain host policy (`DeferredHostPolicy`) and the later
+continuation runtime.
 
 ### 9. Operator Visibility
 
@@ -470,25 +531,36 @@ Required initial fields:
 
 - `schema`,
 - `status`,
-- `operation_id`,
+- `operation/id`,
+- `operation/kind`,
 - `retry_after_seconds`,
 - `created_at`,
 - `expires_at`,
-- `status_capability` or `status_href`.
+- optionally `status_href` when a poll endpoint exists.
 
 Recommended fields:
 
-- `cancel_capability` or `cancel_href`,
-- `correlation_id`,
+- `cancel_href`,
+- `correlation/id`,
+- `audit/outcome-ref`,
 - `owner_module_id`,
 - `capability_id`,
 - `diagnostics`.
+
+`audit/outcome-ref` links the quick `202 Accepted` control response back to
+the host/runtime outcome record that made the acceptance decision. This keeps
+the new response shape auditable even though it intentionally no longer returns
+the full domain-specific Sensorium result envelope.
+
+The root schema is closed by default. Experimental or deployment-local metadata
+belongs under `extensions`; stable fields should be promoted to explicit schema
+properties.
 
 ## Invariants
 
 - Initial invoke returns quickly.
 - Deferred operation ids are stable and idempotent for the accepted work.
-- The final result is idempotent for `operation_id`.
+- The final result is idempotent for `operation/id`.
 - Host clamps retry cadence and operation lifetime.
 - Connector cannot extend the operation beyond host policy.
 - Sync-only capability profiles cannot return deferred status.
@@ -567,7 +639,7 @@ A user submits raw private text to `whisper-intake`.
 whisper-intake
   -> stores raw/private material locally
   -> seals raw/private material to personal Memarium
-  -> calls whisper.redaction.prepare with execution_mode = deferred
+  -> calls whisper.redaction.prepare with timing.mode = "async"
 ```
 
 The provider is JSON-e Flow backed by a Sensorium OS action.
@@ -582,7 +654,7 @@ The host records the deferred operation and polls later.
 
 ```text
 host poller
-  -> sensorium.directive.status(operation_id)
+  -> sensorium.operation.status(operation_id)
   <- completed(redaction draft)
 ```
 
@@ -591,38 +663,44 @@ public/federated `whisper-signal.v1` candidate can be published.
 
 ## Open Questions
 
-1. Should the v1 status path be capability-shaped (`sensorium.directive.status`)
-   or URL-shaped (`status_href`) by default?
-2. Should host deferred operation state be durable across daemon restarts in v1,
+1. Should host deferred operation state be durable across daemon restarts in v1,
    or may v1 treat restart as terminal `unknown` for connector-owned operations?
-3. Should `cancel_capability` be required for every deferred operation, or should
+2. Should `cancel_href` be required for every deferred operation, or should
    non-cancelable operations be allowed with an explicit reason?
-4. Should JSON-e Flow gain first-class `awaiting_deferred_operation` step status,
+3. Should JSON-e Flow gain first-class `awaiting_deferred_operation` step status,
    or should it return a generic awaiting outcome to its caller?
-5. What is the default maximum deferred operation lifetime for Sensorium OS
+4. What is the default maximum deferred operation lifetime for Sensorium OS
    actions: seconds, minutes, or profile-specific only?
 
 ## Next Actions
 
-1. Add JSON Schemas for `deferred-operation.v1` and
+1. [done] Add JSON Schemas for `deferred-operation.v1` and
    `deferred-operation-status.v1`.
-2. Add a minimal host-side deferred operation classifier and policy clamp helper.
-3. Add Sensorium OS reference support for one deferred action pair:
-   `start` + `status`.
-4. Add JSON-e Flow handling for explicit deferred step outcomes without
-   busy-waiting.
-5. Add operator visibility for pending/expired deferred operations.
-6. Use `whisper.redaction.prepare` as the first practical consumer once its
-   provider contract is implemented.
+2. [done] Add a minimal host-side deferred operation classifier and policy
+   clamp helper.
+3. [done] Add Sensorium deferred admission support. Sensorium-core validates
+   `execution_mode_support`, maps connector-owned
+   `sensorium-connector-deferred.v1` acknowledgements into canonical
+   `deferred-operation.v1`, and exposes `sensorium.operation.status` to poll the
+   connector status path.
+4. [done] Add JSON-e Flow handling for explicit deferred step outcomes without
+   busy-waiting. JSON-e Flow now suspends/fails with a control-plane
+   `deferred-operation` diagnostic, can resume from a completed
+   `deferred-operation-status.v1`, and exposes `deferred_response_mode` as the
+   per-flow contract decision.
+5. [todo] Add operator visibility for pending/running/timed-out/expired deferred operations.
+6. [partial] Use `whisper.redaction.prepare` as the first practical consumer:
+   the sync provider path exists; model-assisted provider policy remains outside
+   M4/P055, but the connector operation store/status surface now exists.
 
 ## Tracking
 
 | ID | Work item | Status | Notes |
 |---|---|---|---|
-| P055-01 | Define `deferred-operation.v1` schema | todo | Initial accepted response. |
-| P055-02 | Define `deferred-operation-status.v1` schema | todo | Status poll response. |
-| P055-03 | Host policy clamp helper | todo | Min/max retry, max lifetime, max attempts. |
-| P055-04 | Sensorium OS reference deferred action | todo | Start/status pair, no open host request. |
-| P055-05 | JSON-e Flow deferred step status | todo | No busy-wait inside one execution. |
-| P055-06 | Operator visibility | todo | Pending/expired/cancel/retry state. |
-| P055-07 | Whisper redaction provider integration | todo | First practical consumer through `whisper.redaction.prepare`. |
+| P055-01 | Define `deferred-operation.v1` schema | done | Initial accepted response in `doc/schemas/` and node schema-gate. |
+| P055-02 | Define `deferred-operation-status.v1` schema | done | Status poll response in `doc/schemas/` and node schema-gate. |
+| P055-03 | Host policy clamp helper | done | `deferred-operation` owns retry/TTL clamp; `bounded-work-runtime` owns retry/backoff/concurrency mechanics. |
+| P055-04 | Sensorium OS reference deferred action | done | Sensorium-core validates action execution mode, maps connector deferred acknowledgements to canonical host deferred operations, and polls connector status through `sensorium.operation.status`. |
+| P055-05 | JSON-e Flow deferred step status | done | Flow suspends pending deferred outcomes, resumes from completed `deferred-operation-status.v1`, and may reject deferred responses via `deferred_response_mode = "reject-as-failure"`. |
+| P055-06 | Operator visibility | todo | Pending/running/timed-out/expired/cancel/retry state. |
+| P055-07 | Whisper redaction provider integration | partial | Sync `whisper.redaction.prepare` provider exists; connector deferred start/status support exists; full model-assisted redaction policy remains deployment/provider work. |

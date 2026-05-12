@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:deferred-operation:v1",
+  "title": "Deferred Operation v1",
+  "description": "Initial 202 Accepted control payload for an explicitly opted-in deferred operation. This is not domain data; it tells the caller that processing is suspended and may be resumed by polling or a stored continuation.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "status",
+    "operation/id",
+    "operation/kind",
+    "created_at",
+    "retry_after_seconds",
+    "expires_at"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "deferred-operation.v1",
+      "description": "Schema tag for the initial deferred operation payload."
+    },
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "status": {
+      "type": "string",
+      "const": "deferred",
+      "description": "Initial control status. Callers MUST suspend downstream domain processing instead of treating this payload as ordinary output."
+    },
+    "operation/id": {
+      "type": "string",
+      "pattern": "^deferred:[a-z][a-z0-9.-]*:[A-Za-z0-9_-]+$",
+      "description": "Stable id for the deferred operation. Implementations SHOULD derive it deterministically from the operation kind and an idempotency seed when duplicate suppression matters."
+    },
+    "operation/kind": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*$",
+      "description": "Operation class that owns the continuation semantics, e.g. sensorium.directive.invoke or json-e-flow.step."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp at which the host accepted the deferred operation."
+    },
+    "retry_after_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3600,
+      "description": "Host-clamped lower bound before the caller or scheduler should poll/resume the operation. It maps to HTTP Retry-After for HTTP surfaces."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Host-clamped absolute deadline after which the operation MUST be treated as expired if no terminal result exists."
+    },
+    "status_href": {
+      "type": "string",
+      "description": "Optional local status endpoint for polling. Omitted when the caller must resume through a stored continuation rather than HTTP polling."
+    },
+    "cancel_href": {
+      "type": "string",
+      "description": "Optional local cancel endpoint. Absence means cancellation is unsupported for this operation kind."
+    },
+    "correlation/id": {
+      "type": "string",
+      "description": "Optional correlation id from the parent flow or workflow."
+    },
+    "audit/outcome-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional reference to the host/runtime audit outcome that recorded acceptance of this deferred operation."
+    },
+    "continuation": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Explicit serializable continuation context. It is a host/runtime value, not a captured language stack."
+    },
+    "diagnostics": {
+      "type": "array",
+      "description": "Optional diagnostics for operator and caller visibility.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Open extension map for experimental or deployment-local metadata. Stable protocol fields MUST be promoted to first-class schema properties."
+    }
+  }
+}

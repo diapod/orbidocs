@@ -115,7 +115,7 @@
             "sync",
             "async"
           ],
-          "description": "sync returns the final status in the response. async returns status=admitted immediately; completion is audit-owned, and any linked world-fact observation is visible through local/sensorium/observations/{signal-kind} filtered by correlation/id."
+          "description": "sync returns the final status in the response. async is an explicit P055 deferred mode: sensorium-core returns HTTP 202 with deferred-operation.v1, and downstream components MUST suspend/resume rather than treating the payload as domain data."
         }
       }
     },
