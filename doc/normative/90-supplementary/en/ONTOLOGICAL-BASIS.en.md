@@ -79,16 +79,24 @@ interpretations, "knows" this, and therefore designs loops of correction.
 
 Human experience has a layered architecture:
 
-0. (consciousness)  
-0.1. (subjectivity)  
-0.1.1. person  
-0.1.1.1. culture  
-0.1.1.1.1. objectivity  
+* 0 (basis)
+    * 0.1 (consciousness)
+        * 0.1.1. (subjectivity)
+            * 0.1.1.1. person
+                * 0.1.1.1.1. culture
+                    * 0.1.1.1.1.1. objectivity
 
-Each layer arises from a deeper one as its abstraction, and the concretes of the
-lower layers become the building material of the higher ones, analogously to
-Abelson and Sussman's *stratified design* ("MIT AI Memo 986"), in which
-implementations become abstractions for subsequent levels.
+Note: The *ad hoc* model proposed above is meant to demonstrate the relation of
+containment. Different practical or analytical approaches may distinguish the
+layers in a more or less detailed way. For example, between consciousness and
+the sense of subjectivity we may distinguish a perspective of presence before
+the split into subject and object, and so on. Here we accept this division in
+order to show the mechanism itself without intrusive concretization.
+
+We can notice that each layer arises from a deeper one as its abstraction, and
+the concretes of the lower layers become the building material of the higher
+ones, analogously to Abelson and Sussman's *stratified design* ("MIT AI Memo
+986"), in which implementations become abstractions for subsequent levels.
 
 Consciousness has an innate ability to "drill through abstractions," that is,
 to access any level directly without going through the intermediate layers. One

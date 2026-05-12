@@ -76,15 +76,24 @@ i wobec tego projektuje pętle korekty.
 
 Ludzkie doświadczenie ma architekturę warstwową:
 
-0. (świadomość)  
-0.1. (podmiotowość)  
-0.1.1. osoba  
-0.1.1.1. kultura  
-0.1.1.1.1. obiektywność  
+* 0 (podstawa)
+    * 0.1 (świadomość)
+        * 0.1.1. (podmiotowość)
+            * 0.1.1.1. osoba
+                * 0.1.1.1.1. kultura
+                    * 0.1.1.1.1.1. obiektywność
 
-Każda warstwa wyrasta z głębszej jako jej abstrakt, a konkrety niższych warstw stają
-się budulcem wyższych – analogicznie do *stratified design* Abelsona i Sussmana ("MIT
-AI Memo 986"), gdzie implementacje stają się abstrakcjami kolejnych poziomów.
+Uwaga: Powyżej zaproponowany *ad-hoc* model ma demonstrować relację zawierania. Różne
+praktyczne bądź analityczne podejścia mogą w bardziej lub mniej szczegółowy sposób
+rozróżniać poszczególne warstwy. Na przykład między świadomością a poczuciem
+podmiotowości możemy wyróżnić perspektywę obecności jeszcze przed podziałem na
+podmiot i przedmiot itd. W tym miejscu przyjmujemy taki podział, aby pokazać sam
+mechanizm bez nachalnej konkretyzacji.
+
+Możemy zauważyć, że każda warstwa wyrasta z głębszej jako jej abstrakt, a konkrety
+niższych warstw stają się budulcem wyższych – analogicznie do *stratified design*
+Abelsona i Sussmana ("MIT AI Memo 986"), gdzie implementacje stają się abstrakcjami
+kolejnych poziomów.
 
 Świadomość ma wrodzoną zdolność "wiercenia dziur w abstrakcjach", czyli
 bezpośredniego dostępu (prześwietlania) do dowolnego poziomu z pominięciem warstw
