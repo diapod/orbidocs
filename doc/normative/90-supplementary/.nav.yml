@@ -1,11 +1,9 @@
 nav:
   - PL:
       - Supplementary: pl/SUPPLEMENTARY.pl.md
-      - AI Manifesto: pl/AI-MANIFESTO.pl.md
       - Ontological Basis: pl/ONTOLOGICAL-BASIS.pl.md
   - EN:
       - Supplementary: en/SUPPLEMENTARY.en.md
-      - AI Manifesto: en/AI-MANIFESTO.en.md
       - Ontological Basis: en/ONTOLOGICAL-BASIS.en.md
   - CS:
       - Ontological Basis: cs/ONTOLOGICAL-BASIS.cs.md
