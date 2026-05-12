@@ -13,10 +13,12 @@
     "schema": { "const": "artifact-delivery-status.v1" },
     "delivery/id": { "type": "string", "pattern": "^delivery:[A-Za-z0-9_-]+$" },
     "submitted-at": { "type": "string", "format": "date-time" },
-    "status": { "type": "string", "enum": ["accepted", "running", "succeeded", "partial", "failed-retryable", "failed-permanent"] },
+    "status": { "type": "string", "enum": ["accepted", "running", "succeeded", "partial", "failed-retryable", "failed-permanent", "expired"] },
     "dispatch/plan": { "type": "object", "additionalProperties": true },
     "stage/outcomes": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
     "failure/class": { "type": ["string", "null"] },
-    "diagnostic": { "type": ["object", "null"], "additionalProperties": true }
+    "diagnostic": { "type": ["object", "null"], "additionalProperties": true },
+    "expires-at": { "type": ["string", "null"], "format": "date-time" },
+    "retry/history": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
   }
 }

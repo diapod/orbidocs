@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-delivery-recovery:v1",
+  "title": "ArtifactDeliveryRecovery v1",
+  "description": "Operator response returned after one Artifact Delivery recovery pass.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"],
+  "required": ["schema", "status", "recovered/count", "deliveries"],
+  "properties": {
+    "schema": { "const": "artifact-delivery-recovery.v1" },
+    "status": { "const": "ok" },
+    "recovered/count": { "type": "integer", "minimum": 0 },
+    "deliveries": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    }
+  }
+}

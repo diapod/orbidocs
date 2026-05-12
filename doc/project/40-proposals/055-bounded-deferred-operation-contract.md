@@ -692,6 +692,12 @@ public/federated `whisper-signal.v1` candidate can be published.
 6. [partial] Use `whisper.redaction.prepare` as the first practical consumer:
    the sync provider path exists; model-assisted provider policy remains outside
    M4/P055, but the connector operation store/status surface now exists.
+7. [done] Use Artifact Delivery as a clean non-Sensorium consumer:
+   `artifact.delivery.send?mode=deferred` persists an accepted delivery and
+   returns `deferred-operation.v1`; the AD runtime uses `bounded-work-runtime`
+   for transport retry/backoff/deadline mechanics, exposes a canonical
+   `deferred-operation-status.v1` status URL, and provides a manual recovery
+   pass for recoverable delivery records.
 
 ## Tracking
 
@@ -704,3 +710,4 @@ public/federated `whisper-signal.v1` candidate can be published.
 | P055-05 | JSON-e Flow deferred step status | done | Flow suspends pending deferred outcomes, resumes from completed `deferred-operation-status.v1`, and may reject deferred responses via `deferred_response_mode = "reject-as-failure"`. |
 | P055-06 | Operator visibility | todo | Pending/running/timed-out/expired/cancel/retry state. |
 | P055-07 | Whisper redaction provider integration | partial | Sync `whisper.redaction.prepare` provider exists; connector deferred start/status support exists; full model-assisted redaction policy remains deployment/provider work. |
+| P055-08 | Artifact Delivery deferred consumer | done | AD can persist a delivery through `submit_deferred` / `artifact.delivery.send?mode=deferred`, return canonical `deferred-operation.v1` with stable operation metadata and `audit/outcome-ref`, expose canonical `deferred-operation-status.v1`, and recover accepted/running/retryable records through its ledger-backed recovery pass. |

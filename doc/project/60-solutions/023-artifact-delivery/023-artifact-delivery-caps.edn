@@ -20,7 +20,8 @@
               "doc/project/60-solutions/019-middleware/019-middleware.md"]
    :schemas ["artifact-delivery-envelope.v1"
              "artifact-delivery-result.v1"
-             "artifact-delivery-status.v1"]
+             "artifact-delivery-status.v1"
+             "artifact-delivery-recovery.v1"]
    :responsibilities
    ["Expose one component-facing artifact send surface"
     "Expose artifact.delivery.send as the component-facing host capability"
@@ -33,6 +34,7 @@
    :status :partial
    :notes
    ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, startup/effective-config validation, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory test ledger, a SQLite runtime ledger at `<node-data-dir>/storage/artifact-delivery.sqlite` with explicit user_version migrations and PRAGMA setup, the Agora publish adapter, a local INAC direct short-circuit adapter, inbound acceptor registry conflict detection, pre-acceptor non-empty sha256 and inline byte-identity validation, a receiver-local inbound admission/refusal ledger, admission idempotency, admission status APIs/UI, Story-005 public Whisper candidate delivery through AD -> Agora, and regression coverage."
+    "Deferred Artifact Delivery is a P055 consumer: `?mode=deferred` returns `deferred-operation.v1` with stable operation metadata, `audit/outcome-ref`, and a canonical operation-status URL; recovery preserves prior attempts in `retry/history` and returns schema-gated `artifact-delivery-recovery.v1`."
     "Current production adapters are operationally inline-first. Referenced payload locations (`artifact/ref`, `artifact/href`) require an explicit resolver/fetch contract before a route can accept them."
     "Current runtime records and validates policy shape, but full generic enforcement of privacy, retry, timeout, retention, and operator-review semantics remains route/adapter/domain-specific until the later policy-enforcement layer lands."
     "Asynchronous execution, recovery workers, remote INAC peer transport, concrete host/component acceptor adapters, referenced payload resolver/fetch support, full generic delivery-policy enforcement, and private/direct Story-005 delivery are later layers."]}

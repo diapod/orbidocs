@@ -12,7 +12,7 @@
   "properties": {
     "schema": { "const": "artifact-delivery-result.v1" },
     "delivery/id": { "type": "string", "pattern": "^delivery:[A-Za-z0-9_-]+$" },
-    "status": { "type": "string", "enum": ["accepted", "running", "succeeded", "partial", "failed-retryable", "failed-permanent"] },
+    "status": { "type": "string", "enum": ["accepted", "running", "succeeded", "partial", "failed-retryable", "failed-permanent", "expired"] },
     "failure/class": { "$ref": "#/$defs/failureClass" },
     "diagnostic": { "type": ["object", "array", "string", "number", "boolean", "null"] },
     "stage/results": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
@@ -31,7 +31,8 @@
         "adapter-permanent",
         "stage-timeout",
         "admission-timeout",
-        "ledger-error"
+        "ledger-error",
+        "runtime-limit"
       ]
     }
   }

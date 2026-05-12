@@ -17,11 +17,13 @@ Operator/host status payload for a single Artifact Delivery run. This is not an 
 | [`schema`](#field-schema) | `yes` | const: `artifact-delivery-status.v1` |  |
 | [`delivery/id`](#field-delivery-id) | `yes` | string |  |
 | [`submitted-at`](#field-submitted-at) | `no` | string |  |
-| [`status`](#field-status) | `yes` | enum: `accepted`, `running`, `succeeded`, `partial`, `failed-retryable`, `failed-permanent` |  |
+| [`status`](#field-status) | `yes` | enum: `accepted`, `running`, `succeeded`, `partial`, `failed-retryable`, `failed-permanent`, `expired` |  |
 | [`dispatch/plan`](#field-dispatch-plan) | `no` | object |  |
 | [`stage/outcomes`](#field-stage-outcomes) | `no` | array |  |
 | [`failure/class`](#field-failure-class) | `no` | string \| null |  |
 | [`diagnostic`](#field-diagnostic) | `no` | object \| null |  |
+| [`expires-at`](#field-expires-at) | `no` | string \| null |  |
+| [`retry/history`](#field-retry-history) | `no` | array |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -46,7 +48,7 @@ Operator/host status payload for a single Artifact Delivery run. This is not an 
 ## `status`
 
 - Required: `yes`
-- Shape: enum: `accepted`, `running`, `succeeded`, `partial`, `failed-retryable`, `failed-permanent`
+- Shape: enum: `accepted`, `running`, `succeeded`, `partial`, `failed-retryable`, `failed-permanent`, `expired`
 
 <a id="field-dispatch-plan"></a>
 ## `dispatch/plan`
@@ -71,3 +73,15 @@ Operator/host status payload for a single Artifact Delivery run. This is not an 
 
 - Required: `no`
 - Shape: object | null
+
+<a id="field-expires-at"></a>
+## `expires-at`
+
+- Required: `no`
+- Shape: string | null
+
+<a id="field-retry-history"></a>
+## `retry/history`
+
+- Required: `no`
+- Shape: array

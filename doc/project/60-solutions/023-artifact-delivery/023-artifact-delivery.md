@@ -130,10 +130,17 @@ Current implementation status:
   `artifact-delivery-envelope.v1`, and sends it through the `agora-default`
   route to the node C Agora service.
 
-The implementation is still `partial` because asynchronous `202 Accepted`
-execution, recovery workers, production remote INAC peer transport, concrete
-inbound acceptor invocation, and private/direct Story-005 delivery are
-intentionally later layers.
+The implementation is still `partial` because production remote INAC peer
+transport, concrete inbound acceptor invocation, referenced payload fetching,
+full generic delivery-policy enforcement, automatic background recovery, and
+private/direct Story-005 delivery are intentionally later layers. The MVP now
+does include a P055-style deferred submit mode and a manual recovery pass:
+`artifact.delivery.send?mode=deferred` persists an accepted delivery and returns
+`deferred-operation.v1` with a stable `operation/id`, `expires_at`,
+`audit/outcome-ref`, and a `status_href` that resolves to canonical
+`deferred-operation-status.v1`. `POST /v1/artifact-delivery/recover` retries
+recoverable ledger records, preserves previous attempts in `retry/history`, and
+returns schema-gated `artifact-delivery-recovery.v1`.
 
 ## Proposed Model / Decision
 
@@ -201,6 +208,16 @@ component API should not grow separate methods for `send_to_node`,
 `publish_to_agora`.
 
 The host capability name is `artifact.delivery.send`.
+The default call is synchronous from the caller's perspective: the host persists
+the delivery and attempts transport execution before returning
+`artifact-delivery-result.v1`. A caller that explicitly opts into
+`?mode=deferred` receives canonical `deferred-operation.v1` instead; the
+delivery can then be observed through
+`/v1/artifact-delivery/deliveries/{delivery-id}/operation-status` and retried by
+the host's recovery pass. `?mode=deferred` is the only canonical URI selector;
+boolean aliases such as `?deferred=true` are not part of the contract. This
+keeps P055 as the shared deferred response contract while Artifact Delivery
+continues to own its own delivery ledger and transport semantics.
 
 The solution-level shape is:
 
@@ -931,11 +948,13 @@ Status:
   SQLite-backed runtime ledger, the Agora publish adapter, a local INAC direct
   short-circuit adapter, inbound acceptor registry conflict detection,
   receiver-local inbound admission ledger, admission idempotency, admission
-  status APIs, and regression tests. Asynchronous `202 Accepted` execution,
-  recovery workers, remote INAC peer transport, concrete host/component
-  acceptor adapters, referenced payload resolver/fetch support, full generic
-  delivery-policy enforcement, and private/direct Story-005 delivery remain
-  later layers.
+  status APIs, bounded transport retry/deadline execution through
+  `bounded-work-runtime`, P055 deferred submit, P055 operation-status endpoint,
+  manual recovery pass with `retry/history` and `artifact-delivery-recovery.v1`,
+  and regression tests. Automatic background recovery workers, remote INAC peer
+  transport, concrete host/component acceptor adapters, referenced payload
+  resolver/fetch support, full generic delivery-policy enforcement, and
+  private/direct Story-005 delivery remain later layers.
 
 ### Outbound Authorization and Recipient Resolution
 
