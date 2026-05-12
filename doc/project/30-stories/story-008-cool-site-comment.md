@@ -238,7 +238,7 @@ approve Ela's text. The opinion belongs to Ela.
   local providers.
 - **Delegated / proxy-key signing** — Ela signs with her primary
   participant key. Proxy keys and `key-delegation.v1` are tracked as
-  P12 in `docs/agora/TODO.md`.
+  P12 in `doc/project/60-solutions/008-agora/008-agora-backlog.md`.
 - **Content moderation, reputation, or filtering** — the seqnote makes
   clear filtering is the listener's concern. This story produces an
   opinion; it does not say anything about whose attention it reaches.
@@ -309,7 +309,7 @@ repository, not in this document):
 
 - `node/docs/implementation-ledger.toml` — per-crate status for
   `agora-core`, `agora-service`, and adjacent crates.
-- `node/docs/agora/TODO.md` — granular P1–P13 backlog for the Agora
+- `doc/project/60-solutions/008-agora/008-agora-backlog.md` — granular P1–P13 backlog for the Agora
   module. Step 4 of this story depends on P12 only if Ela uses a proxy
   key; with `PrimaryParticipant` (the scenario as written), no P-item
   is blocking.

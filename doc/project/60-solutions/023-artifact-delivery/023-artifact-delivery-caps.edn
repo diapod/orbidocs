@@ -34,10 +34,10 @@
    :status :partial
    :notes
    ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, startup/effective-config validation, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory test ledger, a SQLite runtime ledger at `<node-data-dir>/storage/artifact-delivery.sqlite` with explicit user_version migrations and PRAGMA setup, the Agora publish adapter, a local INAC direct short-circuit adapter, inbound acceptor registry conflict detection, pre-acceptor non-empty sha256 and inline byte-identity validation, a receiver-local inbound admission/refusal ledger, admission idempotency, admission status APIs/UI, Story-005 public Whisper candidate delivery through AD -> Agora, and regression coverage."
-    "Deferred Artifact Delivery is a P055 consumer: `?mode=deferred` returns `deferred-operation.v1` with stable operation metadata, `audit/outcome-ref`, and a canonical operation-status URL; recovery preserves prior attempts in `retry/history` and returns schema-gated `artifact-delivery-recovery.v1`."
+    "Deferred Artifact Delivery is a P055 consumer: `?mode=deferred` returns `deferred-operation.v1` with stable operation metadata, `audit/outcome-ref`, and a canonical operation-status URL; recovery preserves prior attempts in `retry/history` and returns schema-gated `artifact-delivery-recovery.v1`. The daemon also starts a background recovery worker by default, with interval, batch, and pass-deadline policy visible to operators."
     "Current production adapters are operationally inline-first. Referenced payload locations (`artifact/ref`, `artifact/href`) require an explicit resolver/fetch contract before a route can accept them."
     "Current runtime records and validates policy shape, but full generic enforcement of privacy, retry, timeout, retention, and operator-review semantics remains route/adapter/domain-specific until the later policy-enforcement layer lands."
-    "Asynchronous execution, recovery workers, remote INAC peer transport, concrete host/component acceptor adapters, referenced payload resolver/fetch support, full generic delivery-policy enforcement, and private/direct Story-005 delivery are later layers."]}
+    "Remote INAC peer transport, JSON-e Flow acceptor declaration, referenced payload resolver/fetch support, full generic delivery-policy enforcement, and private/direct Story-005 delivery are later layers."]}
 
   {:cap/id :artifact-delivery-outbound-authorization
    :title "Outbound Authorization and Recipient Resolution"
@@ -90,11 +90,12 @@
                  "Admission idempotency without reinvoking acceptors"
                  "Pre-acceptor non-empty sha256 and inline byte-identity validation"
                  "Operator route snapshot includes registered inbound acceptors"
-                 "Operator admission status APIs and UI"]
-   :remaining ["Host/component adapter for supervised HTTP acceptor invocation in daemon or middleware-runtime"
-               "Host/component adapter for built-in in-process acceptor composition"
-               "JSON-e Flow acceptor declaration"
-               "Transport adapters feeding inbound artifacts into the shared admission path"
+                 "Operator admission status APIs and UI"
+                 "Shared `POST /v1/artifact-delivery/admissions` path"
+                 "Daemon supervised HTTP acceptor adapter"
+                 "Daemon in-process `inac.push` acceptor adapter"]
+   :remaining ["JSON-e Flow acceptor declaration"
+               "Remote INAC/Matrix transport adapters feeding inbound artifacts into the shared admission path"
                "Referenced payload resolver/fetch support before acceptor invocation"]}
 
   {:cap/id :artifact-delivery-transport-adapter-registry

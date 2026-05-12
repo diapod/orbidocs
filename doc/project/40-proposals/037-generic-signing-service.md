@@ -9,7 +9,10 @@ Based on:
 
 ## Status
 
-Draft
+Accepted; MVP implementation landed in `node`. The core `HostSigner` trait,
+`SignerEngine`, `signer-http` handlers, daemon host-capability routes,
+node-self routing, and current artifact adapters are implemented. Items in
+`Post-MVP` remain future hardening or ergonomics work.
 
 ## Date
 
@@ -511,6 +514,61 @@ one and only check:
 
 Policy is authoritative; the signer never consults artifact crates to decide
 what is allowed.
+
+### Node-self routing through HostSigner
+
+Node-owned transport and discovery artifacts are also signer consumers. The
+production node must not keep a parallel direct-signing path for these
+artifacts, because that would bypass the same policy, unlock, revocation, and
+audit stratum used for participant and proxy signing.
+
+The node-self key is addressed as:
+
+```rust
+KeyRef::Derived {
+    purpose: "node-self".to_owned(),
+    index: 0,
+}
+```
+
+The current node-self domains are:
+
+| Artifact | Domain tag |
+| --- | --- |
+| `PeerHandshakeV1` hello/ack signatures | `node.peer-handshake.v1` |
+| `NodeAdvertisementV1` | `node.advertisement.v1` |
+| `CapabilityAdvertisementV1` | `node.capability-advertisement.v1` |
+| `PeerMessageEnvelope` | `node.peer-message.v1` |
+| `SignalMarkerEnvelopeV1` | `node.signal-marker.v1` |
+
+The network crate keeps the signer boundary artifact-agnostic through a narrow
+`NodeSelfSigner` trait:
+
+```rust
+pub trait NodeSelfSigner: Send + Sync {
+    fn node_id(&self) -> &str;
+    fn public_key_multibase(&self) -> &str;
+    fn sign(&self, domain: &str, signing_input: &[u8]) -> Result<String, NetworkSessionError>;
+    fn diffie_hellman(&self, peer_public: &[u8; 32]) -> Result<[u8; 32], NetworkSessionError>;
+}
+```
+
+In production, the daemon implements this trait with a `HostSigner` adapter. The
+adapter signs with the `node-self` derived key and performs static X25519 DH
+through `HostSigner::derive_shared_secret` using domain
+`node.x25519-dh.v1`. The carrier layer receives a single `NodeSelfSigner`
+instead of a raw `StoredNodeIdentity`; session-key derivation passes only the
+peer public key into `diffie_hellman`, and the one-time local ephemeral key
+remains local to the carrier.
+
+This keeps a clean split:
+
+- the network layer owns handshake, advertisement, peer-message, and session-key
+  mechanics;
+- the signer layer owns key access, policy, unlock, revocation, and audit;
+- legacy or test-only paths may implement `NodeSelfSigner` directly from
+  `StoredNodeIdentity`, but production node-self signing and DH route through
+  `HostSigner`.
 
 ### Unlock cache (reuses proposal 031)
 

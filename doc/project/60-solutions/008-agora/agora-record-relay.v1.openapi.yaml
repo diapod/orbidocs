@@ -1,0 +1,609 @@
+openapi: "3.1.0"
+info:
+  title: "Orbiplex Agora Record Relay"
+  version: "1"
+  description: >
+    Topic-addressed record relay over Matrix federation. This document
+    describes the public Agora HTTP API only; middleware lifecycle endpoints
+    used by the daemon supervisor are intentionally excluded.
+
+servers:
+  - url: "http://127.0.0.1:47991"
+    description: "Local development default"
+
+security:
+  - AgoraClientToken: []
+  - {}
+
+paths:
+  /v1/agora/status:
+    get:
+      operationId: getAgoraStatus
+      summary: "Return Agora relay status."
+      responses:
+        "200":
+          description: "Current relay status."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+
+  /v1/agora/records/{record_id}:
+    get:
+      operationId: fetchAgoraRecord
+      summary: "Fetch one record by content-addressed record/id."
+      parameters:
+        - $ref: "#/components/parameters/record_id"
+      responses:
+        "200":
+          description: "Record found."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgoraRecord"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /v1/agora/topics/{topic_key}/records:
+    get:
+      operationId: listAgoraTopicRecords
+      summary: "List records for one topic."
+      parameters:
+        - $ref: "#/components/parameters/topic_key"
+        - $ref: "#/components/parameters/since"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/kind"
+        - $ref: "#/components/parameters/about_kind"
+        - $ref: "#/components/parameters/about_id"
+      responses:
+        "200":
+          description: "Records page."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecordsPage"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    post:
+      operationId: postAgoraTopicRecord
+      summary: "Ingest one complete signed record into a topic."
+      description: >
+        The submitted record MUST be final: record/id MUST equal the
+        canonical content address and signature.value MUST be a real
+        Ed25519 signature. The signing placeholder sha256:pending is
+        accepted only by POST /v1/agora/records.sign and is rejected here
+        as a content-address mismatch.
+      parameters:
+        - $ref: "#/components/parameters/topic_key"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgoraRecord"
+      responses:
+        "201":
+          description: "New record accepted."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IngestReceipt"
+        "200":
+          description: "Record recognized as an idempotent duplicate."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IngestReceipt"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "422":
+          description: >
+            Record rejected: topic mismatch, bad signature, content
+            address mismatch, malformed envelope, or schema violation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /v1/agora/topics/{topic_key}/subscribe:
+    get:
+      operationId: subscribeAgoraTopic
+      summary: "Subscribe to new records for one topic."
+      parameters:
+        - $ref: "#/components/parameters/topic_key"
+      responses:
+        "200":
+          description: "SSE stream of new records."
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                description: |
+                  event: agora.record
+                  id: sha256:<base64url>
+                  data: <AgoraRecord JSON>
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+
+  /v1/agora/records.sign:
+    post:
+      operationId: signAgoraRecord
+      summary: "Sign an unsigned Agora record envelope through the host signer."
+      description: >
+        This is the only public Agora HTTP endpoint where the placeholder
+        record/id value sha256:pending is meaningful. The endpoint treats
+        record/id and signature.value as unsigned-input placeholders,
+        computes the canonical content address, obtains an Ed25519
+        signature from the host signer, self-verifies the resulting
+        envelope, and returns a final AgoraRecord. The response MUST NOT
+        contain sha256:pending or signature.value = pending.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignRecordRequest"
+      responses:
+        "200":
+          description: "Signed and self-verified Agora record."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgoraRecord"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "422":
+          description: >
+            Signing rejected: bad envelope, topic ACL denied, unsupported
+            delegated key_ref, author/signing-key mismatch, or signer
+            policy failure.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "423":
+          description: "Host signer is locked."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+
+  /v1/agora/about/{resource_kind}/{resource_id}/records:
+    get:
+      operationId: listAgoraSubjectRecords
+      summary: "List records that reference one record/about subject."
+      parameters:
+        - $ref: "#/components/parameters/resource_kind"
+        - $ref: "#/components/parameters/resource_id"
+        - $ref: "#/components/parameters/since"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/kind"
+      responses:
+        "200":
+          description: "Records page from the secondary subject index."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecordsPage"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+components:
+  securitySchemes:
+    AgoraClientToken:
+      type: apiKey
+      in: header
+      name: X-Orbiplex-Agora-Authtok
+      description: >
+        Daemon-managed client token. Header name is configurable via
+        ORBIPLEX_AGORA_CLIENT_AUTH_HEADER. Token is read from
+        ORBIPLEX_AGORA_CLIENT_AUTHTOK_FILE. When these env vars are absent,
+        the API may be open for standalone development.
+
+  parameters:
+    topic_key:
+      name: topic_key
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 512
+      description: >
+        Topic key. Slashes MUST be percent-encoded as %2F.
+        Example: orbiplex%2Fproposals%2F035.
+    record_id:
+      name: record_id
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 128
+        pattern: "^sha256:[A-Za-z0-9_-]+$"
+      description: "Content-addressed record/id. Path segment MUST be percent-encoded."
+    resource_kind:
+      name: resource_kind
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 256
+      description: "record/about resource kind. Path segment MUST be percent-encoded."
+    resource_id:
+      name: resource_id
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 256
+      description: "record/about resource id. Path segment MUST be percent-encoded."
+    since:
+      name: since
+      in: query
+      required: false
+      schema:
+        type: string
+      description: "Opaque pagination cursor returned as next_cursor."
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 100
+      description: "Page size. Values above the service limit return 400."
+    kind:
+      name: kind
+      in: query
+      required: false
+      schema:
+        type: string
+      description: "Filter by record/kind."
+    about_kind:
+      name: about_kind
+      in: query
+      required: false
+      schema:
+        type: string
+      description: "Filter by record/about resource kind. Must be paired with about_id."
+    about_id:
+      name: about_id
+      in: query
+      required: false
+      schema:
+        type: string
+      description: "Filter by record/about resource id. Must be paired with about_kind."
+  responses:
+    BadRequest:
+      description: "Malformed request, invalid cursor, bad percent-encoding, or limit violation."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Unauthorized:
+      description: "Missing or invalid Agora client token when client auth is enabled."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Forbidden:
+      description: "Per-topic ACL denied this operation."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: "Resource not found."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    RateLimited:
+      description: "Public endpoint rate limit exceeded."
+      headers:
+        Retry-After:
+          description: "Retry delay in seconds."
+          schema:
+            type: integer
+            minimum: 0
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RateLimitError"
+    Unavailable:
+      description: "Relay unavailable or SSE subscription closed."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    ServerError:
+      description: "Internal relay or serialization error."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+  schemas:
+    AgoraRecord:
+      type: object
+      required:
+        - schema
+        - record/id
+        - record/kind
+        - topic/key
+        - author/participant-id
+        - authored/at
+        - content/schema
+        - content
+        - signature
+      properties:
+        schema:
+          type: string
+          const: "agora-record.v1"
+        record/id:
+          type: string
+          pattern: "^sha256:[A-Za-z0-9_-]+$"
+          description: >
+            Final content-addressed record id. sha256:pending is a
+            records.sign input placeholder only; ingest, replay, and
+            federation require the computed content address.
+        record/kind:
+          type: string
+        topic/key:
+          type: string
+          maxLength: 512
+        author/participant-id:
+          type: string
+          pattern: "^participant:did:key:z"
+        authored/at:
+          type: string
+          format: date-time
+        content/schema:
+          type: string
+        content:
+          type: object
+          additionalProperties: true
+        record/about:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResourceRef"
+        record/parent:
+          type: string
+        record/supersedes:
+          type: string
+        record/tags:
+          type: array
+          items:
+            type: string
+        record/lang:
+          type: string
+        signature:
+          $ref: "#/components/schemas/AgoraSignature"
+        relay/received-at:
+          type: string
+          format: date-time
+        relay/id:
+          type: string
+        relay/hops:
+          type: integer
+          minimum: 0
+          description: "Unsigned relay metadata incremented by relay adapters."
+      additionalProperties: true
+
+    SignRecordRequest:
+      type: object
+      required:
+        - record
+      properties:
+        record:
+          allOf:
+            - $ref: "#/components/schemas/AgoraRecord"
+          description: >
+            Unsigned input envelope. record/id MAY be sha256:pending and
+            signature.value MAY be pending here only. The signer overwrites
+            both fields before returning the final AgoraRecord.
+        key_ref:
+          type: object
+          properties:
+            kind:
+              type: string
+              enum: ["primary-participant", "proxy", "derived"]
+            key_id:
+              type: string
+            purpose:
+              type: string
+            index:
+              type: integer
+              minimum: 0
+          description: >
+            Host signer key reference. Omitted means primary participant.
+            Non-primary refs are rejected by the MVP service until delegated
+            Agora signatures are enabled end-to-end.
+          additionalProperties: true
+        unlock_token:
+          type: string
+          description: "Optional token returned by a prior signer unlock flow."
+      additionalProperties: false
+
+    AgoraSignature:
+      type: object
+      required:
+        - alg
+        - value
+      properties:
+        alg:
+          type: string
+          const: "ed25519"
+        value:
+          type: string
+          description: >
+            Base64url-no-pad Ed25519 signature on final records. The
+            literal pending is valid only inside SignRecordRequest input.
+        key/public:
+          type: string
+          description: >
+            Multibase public key of the concrete signing key. Required by
+            final record verification; omitted only in unsigned signing input.
+        key/delegation:
+          description: "Optional delegated-signing proof for future proxy-key flows."
+          additionalProperties: true
+      additionalProperties: true
+
+    ResourceRef:
+      type: object
+      required:
+        - resource/kind
+        - resource/id
+      properties:
+        resource/kind:
+          type: string
+        resource/id:
+          type: string
+      additionalProperties: true
+
+    RecordsPage:
+      type: object
+      required:
+        - records
+      properties:
+        records:
+          type: array
+          items:
+            $ref: "#/components/schemas/AgoraRecord"
+        next_cursor:
+          type: string
+          description: "Opaque pagination cursor. Absent when no more pages."
+      additionalProperties: false
+
+    IngestReceipt:
+      type: object
+      required:
+        - record_id
+      properties:
+        record_id:
+          type: string
+          pattern: "^sha256:[A-Za-z0-9_-]+$"
+        duplicate:
+          type: boolean
+      additionalProperties: true
+
+    StatusResponse:
+      type: object
+      required:
+        - status
+        - relay_id
+        - role
+        - passport
+      properties:
+        status:
+          type: string
+          enum: ["active", "unconfigured"]
+        relay_id:
+          type: string
+        role:
+          type: string
+          enum: ["canonical", "cache", "origin"]
+        passport:
+          $ref: "#/components/schemas/PassportStatus"
+      additionalProperties: true
+
+    PassportStatus:
+      type: object
+      required:
+        - state
+      properties:
+        state:
+          type: string
+          enum: ["issued", "not_issued", "standalone", "unknown"]
+        passport_id:
+          type: string
+        capability_id:
+          type: string
+        issued_at:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+        reason:
+          type: string
+      additionalProperties: true
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          oneOf:
+            - type: string
+            - type: object
+              properties:
+                code:
+                  type: string
+                message:
+                  type: string
+                retry_after_ms:
+                  type: integer
+              additionalProperties: true
+      additionalProperties: true
+
+    RateLimitError:
+      allOf:
+        - $ref: "#/components/schemas/ErrorResponse"
+      example:
+        error:
+          code: "rate_limited"
+          message: "rate limited"
+          retry_after_ms: 60000

@@ -64,6 +64,23 @@ Related schemas:
 - `node-advertisement.v1`
 - `peer-handshake.v1`
 
+## Implementation Stratification
+
+The implementation should keep the same layered boundary as the protocol model:
+
+| Layer | Responsibility |
+|---|---|
+| Protocol | wire structs, validation, deterministic signing input, and message-kind constants |
+| Capability | presented-capability assembly, core projection, sovereign capability-id parsing, and `capability_id -> wire/name` mapping |
+| Signer | node-self signing through `HostSigner` under `node.capability-advertisement.v1` |
+| Network | encode/decode, schema-gated ingress/egress, Ed25519 sign/verify, and freshness checks |
+| Schema store | resolving `schema/ref` to `capability-schema.v1` artifacts |
+| Daemon | orchestration, local advertisement build, schema-present request handling, cache replacement, and lifecycle triggers |
+
+Layer direction is strict. The protocol layer treats passport bodies as opaque
+JSON; typed parsing, passport semantics, revocation, and local authority policy
+belong above the wire-contract layer.
+
 ## Required Semantics
 
 ### Passport-Form Presentation
@@ -300,6 +317,37 @@ Receivers should verify:
 4. the content hash implied by `schema/ref`,
 5. and local policy for the capability profile.
 
+## Signing and Wire Invariants
+
+Capability advertisements are node-self artifacts. They are signed by the Node
+identity through the generic host signer, using the domain tag:
+
+```text
+node.capability-advertisement.v1
+```
+
+The signed bytes are the deterministic signing input for
+`capability-advertisement.v1`: the signature-stripped payload encoded in the
+canonical form used by the protocol crate, prefixed with the
+`capability-advertisement.v1` domain separator. Nested passports are included in
+that signed payload.
+
+The following invariants are mandatory:
+
+1. `capabilities/core` is derivable from
+   `capabilities/presented[*].wire/name`; it is never an independent authority
+   source.
+2. `core/messaging` is present in both `capabilities/core` and
+   `capabilities/presented`.
+3. `node/id` in the advertisement matches the node-self signer identity.
+4. `published-at` is checked against the ingress freshness window defined by
+   the networking requirements.
+5. Unknown `capability/id` values are tolerated by quarantine or ignore policy;
+   they must not break the peer relationship by default.
+6. `schema/ref` is an integrity anchor; fetched schema content is hash-verified
+   before use.
+7. The `capability_id -> wire/name` mapping mirrors the capability registry.
+
 ## Node Responsibilities
 
 A Node that emits `capability-advertisement.v1` should:
@@ -345,6 +393,43 @@ The same capability advertisement may be:
 The Seed Directory indexes capabilities it accepts under its own policy. It is a
 discovery and caching surface, not the only authority that makes a capability
 claim visible.
+
+## Implementation Status and Open Edges
+
+The Node implementation already covers the baseline exchange:
+
+- local advertisement assembly from passport-backed presented capabilities,
+- routing projection derivation,
+- HostSigner-backed node-self signing,
+- schema-gated ingress and egress,
+- outer signature verification,
+- ingress freshness checks,
+- schema-present request handling,
+- and monotonic cache replacement for peer advertisements.
+
+The remaining implementation edges are:
+
+1. **Per-passport ingress verification.** The outer advertisement signature
+   verifies the transport artifact. Each embedded passport still needs typed
+   verification, delegated issuer proof handling when present, revocation
+   checks, capability-profile authority checks, and receiver-local policy.
+   Unknown capability ids should be quarantined rather than rejected globally.
+2. **Pluggable schema store.** The current daemon-local schema lookup is a
+   minimum store. A future store should key by `schema/ref`, optionally index by
+   `schema/id`, and leave hash verification to the consumer so the store remains
+   a dumb cache.
+3. **Lifecycle-driven rebuilds.** Rebuild and re-sign on startup, relevant
+   transport/config changes, newly accepted or removed passports, revocations
+   invalidating presented passports, and delegated signer rotation that changes
+   inline issuer-delegation proofs.
+4. **Reusable outbound schema retrieval.** The inbound
+   `capability.schema.present.request` path exists; reusable client-side
+   request/correlation/hash-verification helpers should be factored when a
+   second caller needs them.
+5. **Seed Directory reconciliation.** Direct peer advertisements remain the live
+   presentation. Seed Directory `PUT /cap` and `GET /cap` flows are indexing and
+   discovery surfaces, not trust anchors, and must preserve the same local
+   verification model.
 
 ## Consumes
 

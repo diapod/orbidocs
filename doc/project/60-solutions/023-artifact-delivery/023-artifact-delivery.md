@@ -112,9 +112,11 @@ Current implementation status:
   for `size/bytes` and non-empty `sha256:*` byte identity before an acceptor is
   invoked. Exact content-type acceptors may coexist with one wildcard acceptor
   for the same schema; exact matches win and the wildcard remains the fallback.
-  Concrete host/component acceptor adapters are still a later layer. Operator
-  admission views may therefore be empty until a transport adapter feeds inbound
-  artifacts into this shared admission path.
+  The daemon now has concrete host/component acceptor adapters for supervised
+  HTTP middleware and in-process `inac.push`, plus `POST
+  /v1/artifact-delivery/admissions` as the shared inbound admission path.
+  JSON-e Flow acceptor declaration and remote peer transports remain later
+  layers.
 - Current production adapters are operationally inline-first. Envelopes may
   carry `artifact/ref` or `artifact/href` as schema-valid payload locations, but
   a route or adapter must provide an explicit resolver/fetch contract before
@@ -131,16 +133,33 @@ Current implementation status:
   route to the node C Agora service.
 
 The implementation is still `partial` because production remote INAC peer
-transport, concrete inbound acceptor invocation, referenced payload fetching,
-full generic delivery-policy enforcement, automatic background recovery, and
-private/direct Story-005 delivery are intentionally later layers. The MVP now
-does include a P055-style deferred submit mode and a manual recovery pass:
+transport, referenced payload fetching, full generic delivery-policy
+enforcement, JSON-e Flow acceptor declaration, and private/direct Story-005
+delivery are intentionally later layers. The MVP now does include a P055-style
+deferred submit mode, a manual recovery pass, and a daemon background recovery
+worker enabled by default:
 `artifact.delivery.send?mode=deferred` persists an accepted delivery and returns
 `deferred-operation.v1` with a stable `operation/id`, `expires_at`,
 `audit/outcome-ref`, and a `status_href` that resolves to canonical
 `deferred-operation-status.v1`. `POST /v1/artifact-delivery/recover` retries
 recoverable ledger records, preserves previous attempts in `retry/history`, and
-returns schema-gated `artifact-delivery-recovery.v1`.
+returns schema-gated `artifact-delivery-recovery.v1`. The background worker is
+host-owned, has configurable interval/batch/pass-deadline limits, shuts down
+cooperatively with the daemon, and is visible in the Artifact Delivery operator
+status.
+
+The daemon-level knobs are intentionally small:
+
+- `artifact_delivery_recovery.enabled` defaults to `true`;
+- `artifact_delivery_recovery.interval_ms`, `batch_limit`, and
+  `pass_deadline_ms` bound automatic recovery work;
+- `artifact_delivery_acceptors.supervised_http` declares loopback HTTP
+  middleware acceptors with `component_id`, `artifact_schema`,
+  optional `content_type`, `invoke_path`, request timeout, and response size
+  limit. The referenced component must exist in the daemon middleware config at
+  startup;
+- `artifact_delivery_acceptors.in_process` declares daemon-composed acceptors;
+  the MVP supports `invoke = "inac.push"`.
 
 ## Proposed Model / Decision
 
@@ -685,9 +704,10 @@ composition.
 Before invoking an acceptor, the runtime validates the local artifact boundary:
 schema and content type must be non-empty, the digest must be a non-empty
 `sha256:*` content address, inline bytes must match both `size/bytes` and
-digest, and non-inline artifacts must carry a non-empty `artifact/ref`. A byte-identity
-failure is recorded as a receiver-local rejected admission and must not invoke
-the domain acceptor.
+digest, and non-inline artifacts must carry a non-empty `artifact/ref`. Inline
+bytes and `artifact/ref` are mutually exclusive, so admission never has to infer
+which payload location is authoritative. A byte-identity failure is recorded as
+a receiver-local rejected admission and must not invoke the domain acceptor.
 
 ### Acceptor Response Contract
 
@@ -951,10 +971,12 @@ Status:
   status APIs, bounded transport retry/deadline execution through
   `bounded-work-runtime`, P055 deferred submit, P055 operation-status endpoint,
   manual recovery pass with `retry/history` and `artifact-delivery-recovery.v1`,
-  and regression tests. Automatic background recovery workers, remote INAC peer
-  transport, concrete host/component acceptor adapters, referenced payload
-  resolver/fetch support, full generic delivery-policy enforcement, and
-  private/direct Story-005 delivery remain later layers.
+  daemon background recovery enabled by default, supervised HTTP and in-process
+  `inac.push` acceptor adapters, the shared `POST
+  /v1/artifact-delivery/admissions` path, and regression tests. Remote INAC peer
+  transport, JSON-e Flow acceptor declaration, referenced payload resolver/fetch
+  support, full generic delivery-policy enforcement, and private/direct
+  Story-005 delivery remain later layers.
 
 ### Outbound Authorization and Recipient Resolution
 
@@ -1028,12 +1050,13 @@ Status:
   admission/refusal ledger, idempotent replay of already-recorded admissions,
   pre-acceptor inline byte-identity checks, route snapshots that expose
   registered acceptors, read APIs for recent admissions and admission detail,
-  and operator UI coverage. Concrete host/component acceptor adapters remain
-  separate daemon or middleware-runtime composition layers: the pure Artifact
-  Delivery runtime must not own loopback HTTP clients, supervised process
-  lifecycle, or middleware authentication. Admission APIs and UI are therefore
-  a valid empty surface until an inbound transport and at least one concrete
-  acceptor adapter are wired.
+  operator UI coverage, and a daemon-owned `POST
+  /v1/artifact-delivery/admissions` ingress for transport adapters. Concrete
+  host/component acceptor adapters remain outside the pure runtime: the daemon
+  currently composes supervised HTTP middleware acceptors and an in-process
+  `inac.push` acceptor, while the pure Artifact Delivery runtime still owns no
+  loopback HTTP client, supervised process lifecycle, or middleware auth logic.
+  JSON-e Flow acceptors and production remote transports remain later layers.
 
 ### Transport Adapter Registry
 

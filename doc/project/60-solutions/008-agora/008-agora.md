@@ -37,6 +37,14 @@ The component is responsible for the solution-level execution path of:
   uniform capability id (`agora.relay`), with optional `agora.relay` capability
   passport for federation discoverability.
 
+Public contract artifacts:
+
+- `doc/project/60-solutions/008-agora/agora-record-relay.v1.openapi.yaml` is
+  the canonical OpenAPI contract for the public Agora HTTP surface.
+- `doc/project/60-solutions/008-agora/008-agora-backlog.md` is the granular
+  solution-local implementation backlog for P-items that are too detailed for
+  this overview.
+
 ## Scope
 
 This document defines solution-level responsibilities of the Agora component.

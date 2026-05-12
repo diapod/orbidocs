@@ -12,7 +12,7 @@ This note is the implementation entry point for the Agora relay. It does
 **not** duplicate the per-capability status (that lives in
 `agora-caps.edn` and is surfaced by `CAPABILITY-MATRIX.en.md`) and it does
 **not** try to replace the fine-grained backlog (that lives in
-`node/docs/agora/TODO.md` in the sibling `node` repository).
+`doc/project/60-solutions/008-agora/008-agora-backlog.md`).
 
 It exists to:
 
@@ -404,8 +404,10 @@ Keep these restrictions explicit in both code and docs:
   source proposal.
 - `doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md`
   — content schema for URL opinions.
-- `node/docs/agora/TODO.md` — granular P1–P13 backlog (source of truth for
+- `doc/project/60-solutions/008-agora/008-agora-backlog.md` — granular P1–P13 backlog (source of truth for
   status of implementation tasks).
+- `doc/project/60-solutions/008-agora/agora-record-relay.v1.openapi.yaml` —
+  public Agora HTTP OpenAPI contract.
 - `node/docs/implementation-ledger.toml` — per-crate implementation status.
 - `doc/project/40-proposals/032-key-delegation-passports.md` — source
   proposal for the P12 delegated-signing layer.
