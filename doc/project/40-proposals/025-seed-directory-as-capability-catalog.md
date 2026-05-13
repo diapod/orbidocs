@@ -484,6 +484,52 @@ also carries the Node's signed acceptance, or an equivalent
 participant as its primary operator. Publishing such a bundle is an explicit
 privacy/disclosure decision by the Node, not a default capability-gossip step.
 
+Participant-to-node lookup is therefore not a default directory fact. It is a
+public/operator discovery projection derived from accepted
+`node-operator-binding.v1` bundles and should be treated as opt-in disclosure.
+Directory implementations that expose this projection SHOULD sort candidate
+nodes by the local acceptance/receipt time descending, then by `node_id`
+ascending as a deterministic tie-break. The local projection timestamp is the
+ranking input; remote-declared timestamps are evidence, not authority.
+
+Privacy-preserving contact or delivery discovery should use a scoped
+`routing-subject` rather than the root `participant:did:key`. A routing subject
+is an application/discovery identity that may be indexed as
+`routing-subject-id -> node candidates` without publishing the hidden root
+participant relation. Transport still targets the selected `node-id`.
+
+The implemented Seed Directory HTTP surface for these projections is:
+
+```text
+GET /participant/{participant-id}
+PUT /routing-subject/{routing-subject-id}/{binding-id}
+GET /routing-subject/{routing-subject-id}
+```
+
+`GET /participant/{participant-id}` is derived from accepted
+`node-operator-binding.v1` entries and is therefore an explicit public/operator
+disclosure path. `PUT /routing-subject/{routing-subject-id}/{binding-id}` accepts
+`routing-subject-binding.v1`: the routing subject signs the binding, the node
+signs acceptance over the same canonical binding input, and the directory stores
+only bindings that pass shape, path-id, expiry, and signature checks. Both read
+projections sort candidates by local acceptance/receipt time descending and then
+by `node_id` ascending.
+
+`GET /routing-subject/{routing-subject-id}` is intentionally the public routing
+projection. It returns only `routing-subject-binding.v1` entries whose effective
+`disclosure/mode` is `public-unlinked`. Bindings marked `participant-disclosed`,
+`org-disclosed`, or `present-on-demand` may still be stored as verified facts, but
+they are not enumerable through this public resolver without a later
+authorization/presentation flow.
+
+This also covers private replies to nym-authored public posts. A public Matrix
+or Agora post may expose an optional contact reference for its nym. Seed
+Directory should resolve that contact reference to a routing subject and node
+candidates, not to the root participant. The reply payload should be encrypted
+to the contact/routing public key and delivered to the selected node; the
+receiver's local policy decides which participant, operator, or inbox may
+decrypt it.
+
 ## Artifact Shapes
 
 ### `capability-passport.v1` (normative reference to Proposal 024)
@@ -663,8 +709,9 @@ Conditional fields:
   inside the daemon process. It keeps the same HTTP surface and SQLite schema as
   the earlier sidecar design so deployments can still treat it as the same
   logical service.
-- The Seed Directory persistence layer gains three capability-specific tables:
-  `capability_registrations`, `capability_passports`, `revocations`.
+- The Seed Directory persistence layer gains capability and subject-specific
+  tables: `capability_registrations`, `capability_passports`, `revocations`, and
+  `routing_subject_bindings`.
 - `capability_registrations` indexes `(node_id, capability_id)` as primary key
   with `published_at`, `expires_at`, and a foreign key to the passport record.
 - `revocations` stores `revocation_id`, `passport_id`, `node_id`,
@@ -676,6 +723,11 @@ Conditional fields:
   limited to one Node's dispatch gate.
 - `GET /cap?capability` joins `capability_registrations` with
   `node_advertisements` to return current endpoints.
+- `GET /participant/{participant-id}` projects accepted
+  `node-operator-binding.v1` entries into node candidates.
+- `PUT /routing-subject/{routing-subject-id}/{binding-id}` stores verified
+  `routing-subject-binding.v1` entries and `GET /routing-subject/{routing-subject-id}`
+  projects only `public-unlinked` entries into node candidates.
 - `GET /attest/node-address/{node-id}` assembles
   `node-address-attestation.v1` from the current signed advertisement. In the
   embedded daemon implementation both `PUT /adv/{node-id}` and

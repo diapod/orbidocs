@@ -46,6 +46,7 @@ Machine-readable schema for the content body of an Agora record (or INAC artefac
 | [`signal/text-native-lang`](#field-signal-text-native-lang) | `no` | string | BCP 47-like language tag for `signal/text-native`. This field is intentionally non-English; English originals MUST omit both native-text fields and use only `signal/text`. |
 | [`topic/class`](#field-topic-class) | `yes` | string | Normalized issue class used for bounded correlation. Distinct from the enclosing envelope's `topic/key`, which is an Agora routing key; `topic/class` is the semantic correlation class carried inside the rumor body. |
 | [`signal/similarity-key`](#field-signal-similarity-key) | `no` | string | Optional deterministic correlation key used by fixture-grade or policy-defined threshold engines. M4 uses `topic/class` plus this key for the first laptop smoke; semantic similarity remains a later policy or module concern. |
+| [`contact/ref`](#field-contact-ref) | `no` | string | Optional reply/contact routing subject. Consumers MUST NOT infer a participant or node route from nym authorship when this field is absent. |
 | [`context/facets`](#field-context-facets) | `yes` | array | Normalized, low-resolution facets that help correlation without forcing raw disclosure. |
 | [`confidence`](#field-confidence) | `yes` | number | Local confidence in the quality and relevance of the prepared signal. |
 | [`disclosure/scope`](#field-disclosure-scope) | `yes` | enum: `private-correlation`, `federation-scoped`, `cross-federation`, `public-aggregate-only` | Maximum disclosure posture allowed for this signal. Distribution-surface selection honours this: `private-correlation` SHOULD travel via INAC direct exchange (proposal 042); wider scopes MAY use Agora. The `SHOULD` is intentional — public Agora deployments SHOULD refuse `private-correlation` at ingest (its publication properties conflict with the disclosure intent), while closed / intra-organization Agora federations MAY carry these whispers internally under their own ingest policy. |
@@ -187,6 +188,14 @@ Normalized issue class used for bounded correlation. Distinct from the enclosing
 - Shape: string
 
 Optional deterministic correlation key used by fixture-grade or policy-defined threshold engines. M4 uses `topic/class` plus this key for the first laptop smoke; semantic similarity remains a later policy or module concern.
+
+<a id="field-contact-ref"></a>
+## `contact/ref`
+
+- Required: `no`
+- Shape: string
+
+Optional reply/contact routing subject. Consumers MUST NOT infer a participant or node route from nym authorship when this field is absent.
 
 <a id="field-context-facets"></a>
 ## `context/facets`

@@ -147,6 +147,26 @@
             "max/nodes": { "type": "integer", "minimum": 1 },
             "filters": { "$ref": "#/$defs/capability_filters" }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "participant/id"],
+          "properties": {
+            "selector/kind": { "const": "participant" },
+            "participant/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+            "max/nodes": { "type": "integer", "minimum": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "routing-subject/id"],
+          "properties": {
+            "selector/kind": { "const": "routing-subject" },
+            "routing-subject/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+            "max/nodes": { "type": "integer", "minimum": 1 }
+          }
         }
       ]
     },

@@ -90,10 +90,17 @@ Current implementation status:
   adapters, config diagnostics, and recent deliveries.
 - The daemon registers the `agora-default` publish adapter. It accepts
   byte-identical `agora-record.v1` artifacts and submits them to the configured
-  local Agora service.
+  Agora HTTP endpoint. That endpoint may be a local supervised `agora-service`
+  or a remote/thin-node relay endpoint configured in the adapter. Artifact
+  Delivery must not require every publishing node to run a local Agora service.
 - `agora-default` does not sign records. Components that need host custody use a
   separate host capability such as `agora.record.sign` first, then pass the
   already signed `agora-record.v1` through Artifact Delivery.
+  Story-005's local acceptance profile is a narrow exception for repeatable
+  laptop smoke tests: public Whisper candidates may be signed by a deterministic
+  nym fixture only when the middleware is started with an explicit acceptance
+  mode guard. That fixture certificate is topic-scoped and short-lived, and is
+  not a production signing path.
 - The daemon also has an `inac-direct` adapter. Local targets use the local
   `InacRuntime` short-circuit; remote targets use the peer supervisor's
   authenticated WSS peer-message session with `msg = "inac.v1"`. Matrix mailbox
@@ -139,12 +146,23 @@ Current implementation status:
   `AD -> agora-default`, while private/direct candidates are signed as
   byte-identical `agora-record.v1` artifacts and transported through
   `AD -> inac-direct` to the configured peer. A private/direct record is not a
-  public Agora publication.
+  public Agora publication. The Story-005 smoke pre-warms the direct A -> B peer
+  session with the host-owned `peer.session.establish` capability and gives the
+  private AD route a longer timeout than public Agora publication, because
+  private/direct delivery may have to wait for a WSS peer session.
+- `capability-many`, `participant`, and `routing-subject` selectors may carry
+  `max/nodes` to bound fan-out at resolution time before the route-level target
+  cap is enforced. Participant and routing-subject resolution is host-composed
+  through Seed Directory projections and has a daemon-side TTL cache; the core
+  crate only sees the lookup traits. Public routing-subject lookup only returns
+  `public-unlinked` bindings. Other disclosure modes are stored facts, not
+  enumerable public routing results until a separate authorized presentation
+  path exists.
 
 The implementation is still `partial` because full generic delivery-policy
 enforcement, Matrix mailbox transport, richer referenced payload schemes, INAC
-authorization/invitations, and a fully automated three-node operator smoke are
-later layers. The MVP now does include a P055-style
+authorization/invitations, and broader production hardening are later layers.
+The MVP now does include a P055-style
 deferred submit mode, a manual recovery pass, and a daemon background recovery
 worker enabled by default:
 `artifact.delivery.send?mode=deferred` persists an accepted delivery and returns
@@ -620,13 +638,14 @@ Implemented recipient selector kinds:
 | `agora-default` | Publish an Agora record to the default local/federated Agora route. | Agora publish |
 | `capability-first` | Pick the first acceptable node advertising a capability. | Seed Directory + policy |
 | `capability-many` | Pick up to N acceptable nodes advertising a capability. | Seed Directory + policy |
+| `participant` | Resolve an explicitly public/operator participant to one or more reachable node ids under local policy. This is opt-in disclosure, not the privacy-preserving default. | Seed Directory + policy |
+| `routing-subject` | Resolve a delegated, scoped contact/delivery identity to one or more reachable node ids without publishing the root participant id. | Seed Directory + policy |
 
 Later recipient selector kinds:
 
 | Kind | Meaning | Resolver |
 |---|---|---|
 | `group` | Resolve a user-defined local group such as friends, family, work, or synchronizers. | Host config + policy |
-| `participant` | Resolve participant to one or more reachable node ids under local policy. | Identity/Seed Directory/policy |
 | `org` | Resolve organization to allowed node or participant representatives. | Org custody/policy |
 | `agora-node` | Publish to an explicitly selected node-hosted Agora endpoint. | Agora endpoint resolver |
 | `matrix-mailbox-node` | Leave a private artifact control message in a node mailbox room. | Future Matrix mailbox adapter |
@@ -642,6 +661,35 @@ endorsement, and passport-profile filters belong to the next policy iteration;
 until then the daemon accepts only Seed Directory entries whose capability
 passport verifies against the configured sovereign authority set and whose
 `node_id` / `capability_id` match the requested capability.
+
+Participant and routing-subject resolution are deliberately split:
+
+- `participant` is for explicit public/operator disclosure. The expected Seed
+  Directory source is a verified `node-operator-binding.v1` bundle, where the
+  participant issued the `node-primary-operator` passport and the node signed
+  the corresponding acceptance.
+- `routing-subject` is the privacy-preserving contact/delivery direction. It is
+  a delegated, scoped identity that can be indexed by Seed Directory without
+  publishing the root `participant:did:key`.
+- Both selectors resolve to concrete node candidates before transport
+  execution. Transport adapters still connect to `node-id`; neither
+  participant nor nym becomes a transport-layer identity.
+- Candidate ordering should use the local Seed Directory projection timestamp
+  (`accepted_at` / `received_at`) descending, with `node_id` ascending as a
+  deterministic tie-break. Remote-declared timestamps are input facts, not the
+  ranking authority.
+
+For nym-authored public posts, Artifact Delivery should treat contact as a
+separate routing problem:
+
+- the public post may carry an optional `contact/ref` or equivalent hint;
+- that hint resolves to a `routing-subject`, not to the hidden root
+  participant;
+- AD then resolves `routing-subject -> node candidates`, encrypts or carries the
+  already encrypted private reply according to the artifact contract, and
+  delivers to the selected `node-id`;
+- if the post has no contact hint, AD must not infer a route from the nym's
+  author identity alone.
 
 ### Outbound Allow Table
 
@@ -956,6 +1004,14 @@ Recipient selectors such as `capability-first` and `capability-many` may use See
 Directory to find candidate nodes, but Artifact Delivery still owns the local
 policy decision that selects a concrete target and transport.
 
+`participant` and `routing-subject` selectors follow the same boundary.
+Seed Directory provides projections such as public operator
+`participant-id -> node candidates` and privacy-preserving
+`routing-subject-id -> node candidates`, but AD remains responsible for outbound
+authorization, route selection, deduplication, and adapter execution. The
+privacy default is not to publish root `participant-id -> node-id`; that mapping
+is reserved for explicit public/operator disclosure.
+
 The daemon-side lookup treats remote Seed Directory responses as untrusted
 input: response bodies are size-limited before JSON deserialization, entries are
 verified against capability passport rules, and only matching `node_id` /
@@ -1017,11 +1073,14 @@ Status:
   `artifact-store:` referenced payload resolution, remote INAC WSS peer
   transport feeding the shared `POST /v1/artifact-delivery/admissions` path,
   capability-first/many recipient resolution through the daemon's Seed Directory
-  capability lookup, Story-005 public Whisper via `agora-default`, Story-005
-  private/direct Whisper via `inac-direct`, and regression tests. Matrix mailbox
-  transport, richer referenced payload schemes, full generic delivery-policy
-  enforcement, INAC authorization/invitations, and a full automated
-  three-daemon AD observability smoke remain later layers.
+  capability lookup, participant/routing-subject recipient resolution through
+  Seed Directory projections, Story-005 public Whisper via `agora-default`,
+  Story-005 private/direct Whisper via `inac-direct`, a full three-daemon Story-005 AD
+  observability smoke that asserts A/B are thin Agora clients publishing to
+  node C rather than running a local `agora-service`, and regression tests.
+  Matrix mailbox transport, richer
+  referenced payload schemes, full generic delivery-policy enforcement, and
+  INAC authorization/invitations remain later layers.
 
 ### Outbound Authorization and Recipient Resolution
 
@@ -1157,6 +1216,39 @@ Status:
   node targets to Artifact Delivery. The blocking Seed Directory fetch path
   also enforces a bounded response body before deserialization.
 
+### Subject-Based Recipient Resolver
+
+Based on:
+
+- `doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md`
+- `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
+
+Responsibilities:
+
+- resolve public/operator `participant` selectors only when the operator chose
+  explicit disclosure, typically via a published `node-operator-binding.v1`;
+- resolve `routing-subject` selectors as scoped contact/delivery
+  identities without requiring root participant disclosure;
+- support nym reply/contact flows where a public nym-authored artifact carries
+  an optional contact hint that resolves to a routing subject;
+- preserve the invariant that transport still routes to `node-id`, not `nym` or
+  participant identity;
+- expose ordering and privacy diagnostics to the operator.
+
+Status:
+
+- `implemented`: `artifact-delivery-core` owns `ParticipantNodeLookup`,
+  `RoutingSubjectNodeLookup`, and subject-aware recipient resolution. The daemon
+  composes those lookups with the same Seed Directory query path used for
+  capability discovery. Seed Directory exposes `GET /participant/{participant-id}`
+  from accepted `node-operator-binding.v1` entries and
+  `GET /routing-subject/{routing-subject-id}` from accepted
+  `routing-subject-binding.v1` entries. Both projections sort candidates by local
+  accepted/received time descending and then by `node_id` for stable results.
+  Participant and routing-subject selectors accept `max/nodes`; the daemon caches
+  positive subject lookup results with the same short TTL class as capability
+  lookup. Public routing-subject reads return only `public-unlinked` entries.
+
 ### Matrix Mailbox Transport Adapter
 
 Based on:
@@ -1266,13 +1358,11 @@ Status:
 
 ## Next Actions
 
-1. Add an automated three-daemon AD observability smoke that asserts delivery
-   status, inbound admission state, and operator UI/API snapshots for Story-005.
-2. Add invitation/passport authorization for INAC before widening private/direct
+1. Add invitation/passport authorization for INAC before widening private/direct
    delivery beyond explicit story/profile allowlists.
-3. Add Matrix mailbox transport only if store-and-forward private delivery is
+2. Add Matrix mailbox transport only if store-and-forward private delivery is
    required.
-4. Add richer referenced payload schemes such as Memarium or peer fetch only
+3. Add richer referenced payload schemes such as Memarium or peer fetch only
    with explicit resolver allowlists and digest validation.
 
 ## Related Capability Data

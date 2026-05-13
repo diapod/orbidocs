@@ -107,6 +107,9 @@ schema_for_file() {
     *.node-operator-binding.json)
       echo "$SCHEMAS_DIR/node-operator-binding.v1.schema.json"
       ;;
+    *.routing-subject-binding.json)
+      echo "$SCHEMAS_DIR/routing-subject-binding.v1.schema.json"
+      ;;
     *.node-advertisement.json)
       echo "$SCHEMAS_DIR/node-advertisement.v1.schema.json"
       ;;

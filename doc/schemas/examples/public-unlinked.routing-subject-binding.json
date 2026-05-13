@@ -1,0 +1,27 @@
+{
+  "schema": "routing-subject-binding.v1",
+  "schema/v": 1,
+  "binding/id": "routing-subject-binding:test:001",
+  "routing-subject/id": "routing:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+  "node/id": "node:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+  "disclosure/mode": "public-unlinked",
+  "purposes": [
+    "direct-delivery",
+    "contact"
+  ],
+  "encryption/key/alg": "x25519",
+  "encryption/key/public": "z6LSroutingEncryptionKeyExample111111111111111",
+  "valid/from": "2026-05-13T10:00:00Z",
+  "scope/federation-id": "fed:story-005",
+  "scope/content-schemas": [
+    "whisper-signal.v1"
+  ],
+  "proof/routing-subject-signature": {
+    "alg": "ed25519",
+    "value": "base64url:routing-subject-signature"
+  },
+  "proof/node-acceptance-signature": {
+    "alg": "ed25519",
+    "value": "base64url:node-acceptance-signature"
+  }
+}

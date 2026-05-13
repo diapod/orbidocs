@@ -77,6 +77,11 @@
       "minLength": 1,
       "description": "Optional deterministic correlation key used by fixture-grade or policy-defined threshold engines. M4 uses `topic/class` plus this key for the first laptop smoke; semantic similarity remains a later policy or module concern."
     },
+    "contact/ref": {
+      "type": "string",
+      "pattern": "^routing:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Optional reply/contact routing subject. Consumers MUST NOT infer a participant or node route from nym authorship when this field is absent."
+    },
     "context/facets": {
       "type": "array",
       "minItems": 1,

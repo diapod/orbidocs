@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:routing-subject-binding:v1",
+  "title": "RoutingSubjectBinding v1",
+  "description": "Public or presentable binding between a privacy-preserving routing subject and a node that can receive direct delivery, contact, or inbox artifacts for that subject. It is intentionally not a root participant locator.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md",
+    "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "binding/id",
+    "routing-subject/id",
+    "node/id",
+    "purposes",
+    "encryption/key/alg",
+    "encryption/key/public",
+    "valid/from",
+    "proof/routing-subject-signature",
+    "proof/node-acceptance-signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "routing-subject-binding.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "binding/id": {
+      "type": "string",
+      "pattern": "^routing-subject-binding:[a-z0-9][a-z0-9:-]*$"
+    },
+    "routing-subject/id": {
+      "type": "string",
+      "pattern": "^routing:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Public routing subject. It may be derived from or delegated by a participant privately, but this artifact does not reveal that root relationship."
+    },
+    "node/id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "disclosure/mode": {
+      "type": "string",
+      "default": "public-unlinked",
+      "enum": [
+        "public-unlinked",
+        "participant-disclosed",
+        "org-disclosed",
+        "present-on-demand"
+      ]
+    },
+    "purposes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "direct-delivery",
+          "contact",
+          "inbox"
+        ]
+      }
+    },
+    "encryption/key/alg": {
+      "type": "string",
+      "minLength": 1
+    },
+    "encryption/key/public": {
+      "type": "string",
+      "minLength": 1
+    },
+    "valid/from": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "scope/federation-id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope/topic-patterns": {
+      "$ref": "#/$defs/stringList"
+    },
+    "scope/content-schemas": {
+      "$ref": "#/$defs/stringList"
+    },
+    "proof/routing-subject-signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "proof/node-acceptance-signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": [
+            "ed25519"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

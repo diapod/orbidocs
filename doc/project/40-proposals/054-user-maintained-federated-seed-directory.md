@@ -326,6 +326,33 @@ record/kind    = "seed.capability-revocation.accepted"
 content/schema = "capability-passport-revocation.v1"
 ```
 
+Future subject-discovery facts should keep the same rule: publish accepted
+semantic facts, not raw requests. In particular:
+
+```text
+record/kind    = "seed.node-operator-binding.accepted"
+content/schema = "node-operator-binding.v1"
+```
+
+is a public/operator disclosure fact. It lets Seed Directory project
+`participant-id -> node candidates` only for participants that explicitly chose
+that disclosure path through a verified `node-operator-binding.v1` bundle.
+
+Privacy-preserving delivery does not require publishing root
+`participant-id -> node-id`. `routing-subject-binding.v1` publishes a scoped
+`routing-subject-id -> node candidates` projection. Such a routing subject is an
+application/discovery identity; transport still connects to the selected
+`node-id`, and nym/root participant linkage remains private unless a workflow
+explicitly discloses it. The binding is accepted through
+`PUT /routing-subject/{routing-subject-id}/{binding-id}` and queried through
+`GET /routing-subject/{routing-subject-id}`.
+
+Nym contact discovery follows this same pattern. A nym-authored Matrix or Agora
+post may carry a contact reference, but that reference should resolve to a
+routing subject or mailbox/contact surface, not to the root participant. The
+Seed Directory projection may help locate candidate nodes for that routing
+subject; it should not become a public oracle for `nym -> participant`.
+
 ### Read Path
 
 ```text

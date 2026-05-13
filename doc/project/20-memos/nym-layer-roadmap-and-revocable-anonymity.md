@@ -208,6 +208,51 @@ The intended Orbiplex shape is a hybrid:
 - `reputation subject` is normally the nym, with optional proof of continuity
   across rotations.
 
+This does not imply that `nym` becomes a transport address. If a workflow needs
+delivery or contact discovery without publishing the root participant id, it
+should use a scoped routing subject:
+
+- `routing-subject` is an application/discovery identity, not a transport-layer
+  identity;
+- Seed Directory may index `routing-subject-id -> node candidates` with only the
+  metadata required for delivery policy and local verification;
+- transport still connects to the selected `node-id`;
+- public `participant-id -> node-id` lookup is an opt-in operator/service
+  disclosure, not the default privacy-preserving path;
+- a routing subject should be rotatable and scoped, and public succession
+  between routing subjects should be disclosed only when the workflow needs
+  continuity.
+
+### Contacting a Nym Without Revealing the Root Participant
+
+When a reader sees a useful nym-authored post in Matrix, Agora, or another
+public/federated surface, the reply path should address the nym's contact
+surface rather than trying to discover the root participant.
+
+The intended flow is:
+
+1. The public post is authored by `nym:did:key:...` and carries the usual
+   nym-authorship proof.
+2. The post MAY carry optional `contact/ref` with a `routing:did:key:...`
+   `routing-subject` identifier.
+3. The reader verifies the nym proof and resolves the contact hint through Seed
+   Directory or another configured discovery surface.
+4. The discovery result yields `routing-subject-id`, candidate `node-id`s, and a
+   public encryption key for the contact surface.
+5. The private reply is encrypted to that routing/contact key and delivered by
+   Artifact Delivery to the selected node.
+6. The receiving node maps the routing subject to a local inbox and authorized
+   decryptors under local policy.
+
+The sender learns the nym, routing subject, and selected node candidate. The
+sender does not learn the root participant id, other nyms belonging to the same
+participant, or the local operator/custody arrangement unless the receiver
+explicitly discloses them.
+
+Not every nym-authored post needs to be contactable. Contact hints should be
+optional, rotatable, and scoped. A nym used only for public expression may omit
+contact information entirely.
+
 Open questions for a future proposal:
 
 - whether nym keys are deterministically derived, randomly generated and
@@ -310,6 +355,8 @@ Across all phases, the architectural invariant should remain:
 
 - `nym` is an application-layer pseudonym,
 - transport does not route on `nym`,
+- Seed Directory may resolve application/discovery subjects to node candidates,
+  but the transport target remains `node-id`,
 - session establishment does not authenticate `nym`,
 - and stronger anonymity machinery upgrades the pseudonym layer without
   contaminating the networking boundary.
