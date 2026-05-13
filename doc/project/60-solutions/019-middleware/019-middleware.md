@@ -297,8 +297,13 @@ flowchart TB
   HostCalls --> Artifacts["module artifacts"]:::store
   HostCalls --> Notify["operator notifications"]:::host
   HostCalls --> Catalog["offer/catalog query and publish"]:::host
+  HostCalls --> ArtifactDelivery["artifact-delivery.*\nroutes, deliveries, admissions"]:::host
+  HostCalls --> InacDirect["inac.*\ndirect artifact channel"]:::host
   HostCalls --> PeerDispatch["peer.message.dispatch\npeer.session.establish"]:::host
   HostCalls --> PassportIssue["capability.passport.issue"]:::host
+  ArtifactDelivery --> InacDirect
+  ArtifactDelivery --> AgoraPublish["Agora publish adapter"]:::host
+  InacDirect --> PeerDispatch
 
   PreSend --> Egress["peer/local/broadcast egress"]:::terminal
   PreSend --> Drop["drop or deny"]:::terminal

@@ -18,6 +18,8 @@ flowchart TB
     Daemon["Daemon<br/>host runtime + dispatch"]
     Gate["Host capability gate<br/>capability-binding"]
     PeerChain["PeerMessageChain<br/>protocol middleware"]
+    ArtifactDelivery["Artifact Delivery<br/>host-owned delivery + admission"]
+    INAC["INAC<br/>private/direct artifact transport"]
   end
 
   subgraph CoreCapabilities["Core Host Capabilities"]
@@ -54,6 +56,8 @@ flowchart TB
   Control --- Daemon
   Daemon --- Gate
   Daemon --- PeerChain
+  Daemon --- ArtifactDelivery
+  ArtifactDelivery --- INAC
   Gate --- Signer
   Gate --- Sealer
   PeerChain --- Middleware
@@ -66,12 +70,16 @@ flowchart TB
   Dator --- AgoraClient
   Arca --- AgoraClient
   Memarium --- AgoraClient
+  Middleware --- ArtifactDelivery
+  ArtifactDelivery --- AgoraClient
   AgoraClient --- Agora
   Daemon --- SeedDirectory
 
   click UI "../../../project/60-solutions/node-ui/" "Orbiplex Node UI"
   click Daemon "../../../project/60-solutions/node/" "Orbiplex Node"
   click Gate "../../../project/60-solutions/capability-binding/" "Capability Binding"
+  click ArtifactDelivery "../../../project/60-solutions/023-artifact-delivery/023-artifact-delivery/" "Artifact Delivery"
+  click INAC "../../../project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel/" "Inter-Node Artifact Channel"
   click Signer "../../../project/40-proposals/037-generic-signing-service/" "Generic Signing Service"
   click Sealer "../../../project/60-solutions/sealer/" "Sealer"
   click Memarium "../../../project/60-solutions/memarium/" "Memarium"
@@ -93,21 +101,24 @@ flowchart TB
 3. `Host capability gate` is the dispatch-layer authorization boundary for
    externally invoked host capabilities. It sits between daemon request routing
    and core capability engines such as `Signer` and `Sealer`.
-4. `Signer` and `Sealer` are core host capabilities exposed through the daemon.
-5. `Middleware / PeerMessageChain` is the host-owned attachment stratum for
+4. `Artifact Delivery` is the host-owned delivery and admission plane for
+   artifact movement. `INAC` is shown underneath it as the private/direct
+   transport adapter rather than as a top-level component-facing abstraction.
+5. `Signer` and `Sealer` are core host capabilities exposed through the daemon.
+6. `Middleware / PeerMessageChain` is the host-owned attachment stratum for
    modules that observe, enrich, publish, or orchestrate work without becoming
    hidden daemon internals.
-6. `Memarium` is shown as local/in-process middleware because it may need
+7. `Memarium` is shown as local/in-process middleware because it may need
    co-lifecycle with the daemon and full message-flow observation.
-7. `Dator` and `Arca` are shown as bundled middleware. In the hard-MVP shape
+8. `Dator` and `Arca` are shown as bundled middleware. In the hard-MVP shape
    they are also HTTP-supervised modules, but containment here uses packaging
    responsibility as the primary grouping.
-8. `Monus`, `Whisper`, and `Anon` are shown as other HTTP-supervised middleware
+9. `Monus`, `Whisper`, and `Anon` are shown as other HTTP-supervised middleware
    candidates until their final packaging contracts settle.
-9. `Agora Client` is the local adapter shape for publishing to, or observing,
+10. `Agora Client` is the local adapter shape for publishing to, or observing,
    the shared `Agora` substrate. It is separated from `Agora` itself to keep
    local integration concerns distinct from the federated record substrate.
-10. Some middleware nodes currently link to proposal documents until dedicated
+11. Some middleware nodes currently link to proposal documents until dedicated
    solution pages exist.
 
 ## Component Links
@@ -115,6 +126,8 @@ flowchart TB
 - [Orbiplex Node](../../project/60-solutions/000-node/000-node.md)
 - [Orbiplex Node UI](../../project/60-solutions/001-node-ui/001-node-ui.md)
 - [Capability Binding](../../project/60-solutions/006-capability-binding/006-capability-binding.md)
+- [Artifact Delivery](../../project/60-solutions/023-artifact-delivery/023-artifact-delivery.md)
+- [Inter-Node Artifact Channel](../../project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md)
 - [Generic Signing Service](../../project/40-proposals/037-generic-signing-service.md)
 - [Sealer](../../project/60-solutions/005-sealer/005-sealer.md)
 - [Memarium](../../project/60-solutions/002-memarium/002-memarium.md)

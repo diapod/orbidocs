@@ -1081,6 +1081,7 @@ sequenceDiagram
     participant ResearcherA as bielik-researcher
     participant SensoriumA as Sensorium core + OS connector
     participant MemariumA as Memarium na węźle A
+    participant AD as Artifact Delivery
     participant Git as Repozytorium git
     participant AgoraRelay as Redakcyjny relay Agora
 
@@ -1096,7 +1097,8 @@ sequenceDiagram
     SensoriumA->>Git: Zapisz treść, commit z markerem/podpisem git.commit.v1, push drafts/*
     Git-->>SensoriumA: draft_branch, draft_commit, draft_path
     ResearcherA->>MemariumA: Dopisz fakt story009.git-commit-produced
-    ResearcherA->>AgoraRelay: Opublikuj skondensowany wskaźnik faktu agora-record.v1
+    ResearcherA->>AD: Wyślij podpisany wskaźnik faktu agora-record.v1
+    AD->>AgoraRelay: Opublikuj przez route agora-default
     ResearcherA-->>DatorA: Wynik kroku ze wskaźnikami git + memarium_record_id
     DatorA-->>ArcaA: Zakończ research-and-draft
 ```
@@ -1111,6 +1113,7 @@ sequenceDiagram
     participant IllustratorB as Moduł illustrator
     participant SensoriumB as Sensorium core + OS connector
     participant MemariumB as Memarium na węźle B
+    participant AD as Artifact Delivery
     participant Git as Repozytorium git
     participant AgoraRelay as Redakcyjny relay Agora
 
@@ -1127,7 +1130,8 @@ sequenceDiagram
     SensoriumB->>Git: Commit obrazów + referencji Markdown, push drafts/*
     Git-->>SensoriumB: illustrated_commit
     IllustratorB->>MemariumB: Dopisz fakt decyzji ilustracyjnej
-    IllustratorB->>AgoraRelay: Opublikuj skondensowany wskaźnik faktu agora-record.v1
+    IllustratorB->>AD: Wyślij podpisany wskaźnik faktu agora-record.v1
+    AD->>AgoraRelay: Opublikuj przez route agora-default
     IllustratorB-->>DatorB: Wynik kroku z illustrated_commit + memarium_record_id
     DatorB-->>ArcaA: Zakończ illustrate
 ```
@@ -1175,6 +1179,7 @@ sequenceDiagram
     autonumber
     participant ArcaA as Arca na węźle A
     participant MemariumA as Memarium na węźle A
+    participant AD as Artifact Delivery
     participant AgoraRelay as Redakcyjny relay Agora
     participant NodeB as Obserwatorzy węzła B
     participant NodeC as Obserwatorzy węzła C
@@ -1182,7 +1187,8 @@ sequenceDiagram
 
     ArcaA->>ArcaA: Oznacz workflow run jako completed
     ArcaA->>MemariumA: Dopisz lokalny fakt workflow.completed
-    ArcaA->>AgoraRelay: Emituj agora-record.v1 workflow.completed ze wskaźnikami Memarium i git
+    ArcaA->>AD: Wyślij podpisany workflow.completed agora-record.v1
+    AD->>AgoraRelay: Opublikuj ze wskaźnikami Memarium i git
     AgoraRelay-->>NodeB: Zaobserwowane metadane ukończenia
     AgoraRelay-->>NodeC: Zaobserwowane metadane ukończenia
     NodeB->>NodeB: Dopisz obserwację do lokalnego Memarium
