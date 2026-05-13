@@ -31,6 +31,16 @@ PROJECT_NAV_MARKERS = {
         "          # END GENERATED PROJECT NAV PL",
     ),
 }
+FAQ_NAV_MARKERS = {
+    "en": (
+        "          # BEGIN GENERATED FAQ NAV EN",
+        "          # END GENERATED FAQ NAV EN",
+    ),
+    "pl": (
+        "          # BEGIN GENERATED FAQ NAV PL",
+        "          # END GENERATED FAQ NAV PL",
+    ),
+}
 PROJECT_LABELS = {
     "en": {
         "root": "Project",
@@ -63,9 +73,13 @@ PROJECT_SECTION_ORDER = (
     "50-requirements",
     "60-solutions",
 )
+FAQ_LABEL = {
+    "en": "(FAQ)",
+    "pl": "(FAQ)",
+}
 LOCALE_INDEX = {
-    "pl": """# Dokumentacja Orbiplex\n\nTo jest polska strona startowa dokumentacji Orbiplex.\n\nTłumaczenia: [English](/)\n\n## Sekcje\n\n- [Wizja](doc/normative/20-vision/VISION.md)\n- [Wartości podstawowe](doc/normative/30-core-values/CORE-VALUES.md)\n- [Konstytucja](doc/normative/40-constitution/CONSTITUTION.md)\n- [Akty wykonawcze](doc/normative/50-constitutional-ops/README.md)\n- [Podstawa ontologiczna](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Workflow projektowy](doc/project/PROJECTS.md)\n- [Pokrycie workflowów](doc/COVERAGE.md)\n""",
-    "en": """# Orbiplex Documentation\n\nThis is the English start page for Orbiplex documentation.\n\nTranslations: [Polski](/pl/)\n\n## Sections\n\n- [Vision](doc/normative/20-vision/VISION.md)\n- [Core Values](doc/normative/30-core-values/CORE-VALUES.md)\n- [Constitution](doc/normative/40-constitution/CONSTITUTION.md)\n- [Constitutional Ops](doc/normative/50-constitutional-ops/README.md)\n- [Ontological Basis](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Project Workflow](doc/project/PROJECTS.md)\n- [Workflow Coverage](doc/COVERAGE.md)\n""",
+    "pl": """# Dokumentacja Orbiplex\n\nTo jest polska strona startowa dokumentacji Orbiplex.\n\nTłumaczenia: [English](/)\n\n## Sekcje\n\n- [Wizja](doc/normative/20-vision/VISION.md)\n- [Wartości podstawowe](doc/normative/30-core-values/CORE-VALUES.md)\n- [Konstytucja](doc/normative/40-constitution/CONSTITUTION.md)\n- [Akty wykonawcze](doc/normative/50-constitutional-ops/README.md)\n- [Podstawa ontologiczna](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Workflow projektowy](doc/project/PROJECTS.md)\n- [Pokrycie workflowów](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n""",
+    "en": """# Orbiplex Documentation\n\nThis is the English start page for Orbiplex documentation.\n\nTranslations: [Polski](/pl/)\n\n## Sections\n\n- [Vision](doc/normative/20-vision/VISION.md)\n- [Core Values](doc/normative/30-core-values/CORE-VALUES.md)\n- [Constitution](doc/normative/40-constitution/CONSTITUTION.md)\n- [Constitutional Ops](doc/normative/50-constitutional-ops/README.md)\n- [Ontological Basis](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Project Workflow](doc/project/PROJECTS.md)\n- [Workflow Coverage](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n""",
 }
 FENCE_RE = re.compile(r"^[ \t]{0,3}(```+|~~~+)")
 LABEL_RE = re.compile(
@@ -308,6 +322,34 @@ def render_project_nav(locale: str) -> str:
     return "\n".join(lines)
 
 
+def collect_faq_files(locale: str) -> list[Path]:
+    faq_root = BUILD_DIR / locale / "doc" / "ops" / "faq"
+    if not faq_root.exists():
+        return []
+    return [
+        path
+        for path in sorted(faq_root.glob("*-faq.md"))
+        if path.is_file() and not path.name.startswith(".")
+    ]
+
+
+def render_faq_nav(locale: str) -> str:
+    root_indent = " " * 12
+    item_indent = " " * 16
+
+    lines = [
+        f"{root_indent}- {FAQ_LABEL[locale]}:",
+        f"{item_indent}- doc/ops/faq/FAQ.md",
+    ]
+
+    for path in collect_faq_files(locale):
+        rel = path.relative_to(BUILD_DIR / locale).as_posix()
+        title = read_markdown_title(path)
+        lines.append(f"{item_indent}- {yaml_string(title)}: {rel}")
+
+    return "\n".join(lines)
+
+
 def replace_marked_block(text: str, begin_marker: str, end_marker: str, content: str) -> str:
     pattern = re.compile(
         rf"{re.escape(begin_marker)}\n.*?\n{re.escape(end_marker)}",
@@ -328,6 +370,13 @@ def write_generated_i18n_config() -> None:
             begin_marker,
             end_marker,
             render_project_nav(locale),
+        )
+        faq_begin_marker, faq_end_marker = FAQ_NAV_MARKERS[locale]
+        rendered = replace_marked_block(
+            rendered,
+            faq_begin_marker,
+            faq_end_marker,
+            render_faq_nav(locale),
         )
 
     I18N_GENERATED_CONFIG.write_text(rendered, encoding="utf-8")

@@ -39,6 +39,10 @@ Implemented now:
   sessions. Artifact Delivery remote `inac-direct` targets use this path, and
   received `push` frames feed the shared Artifact Delivery inbound admission
   registry instead of a parallel INAC-specific dispatch table.
+- Story-005 private/direct Whisper is wired as the first concrete vertical
+  consumer of `AD -> inac-direct`: the sender produces a signed private
+  `agora-record.v1` artifact, Artifact Delivery routes it to the configured
+  peer, and the receiver feeds the push into the shared AD admission path.
 
 ## Based On
 
@@ -73,8 +77,9 @@ resolver registry, with `artifact-store:` as the first production resolver.
 Direct component calls to `inac.*` host capabilities are governed by INAC
 outbound allowlists; Artifact Delivery routes that happen to use `inac-direct`
 are governed by Artifact Delivery outbound allowlists. Matrix mailbox transport,
-binary-frame streaming, passport/invitation authorization, and concrete
-Agora/Memarium handlers remain outside the MVP scaffold.
+binary-frame streaming, passport/invitation authorization beyond explicit
+profile allowlists, and concrete Agora/Memarium handlers remain outside the MVP
+scaffold.
 
 ## Related Schemas
 

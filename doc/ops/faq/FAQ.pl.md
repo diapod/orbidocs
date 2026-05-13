@@ -1,0 +1,9 @@
+---
+render_macros: true
+---
+
+# FAQ
+
+Najczęstsze pytania operacyjne.
+
+{{ list_faq_pages(locale="pl", page=page, summaries=False) }}

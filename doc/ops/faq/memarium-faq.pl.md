@@ -1,4 +1,4 @@
-# Memarium — FAQ
+# Memarium FAQ
 
 ## Po co Memarium potrzebuje paszportu?
 

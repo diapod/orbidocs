@@ -177,3 +177,38 @@ def define_env(env: Any) -> None:
                     continue
             lines.append(f"- [{title}]({rel.as_posix()})")
         return "\n".join(lines)
+
+    @env.macro
+    def list_faq_pages(locale: str = "en", page: Any = None, summaries: bool = True) -> str:
+        current_page = _current_page_path(page)
+        if current_page is None:
+            raise ValueError("list_faq_pages requires page=page")
+
+        faq_dir = current_page.parent.resolve()
+        patterns = [f"*-faq.{locale}.md", "*-faq.md"]
+        candidates = []
+        seen: set[Path] = set()
+        for pattern in patterns:
+            for path in sorted(faq_dir.glob(pattern)):
+                if not path.is_file() or path.name.startswith("."):
+                    continue
+                if path.name in {f"FAQ.{locale}.md", "FAQ.md"}:
+                    continue
+                if path in seen:
+                    continue
+                seen.add(path)
+                candidates.append(path)
+
+        if not candidates:
+            return "_No FAQ documents found._"
+
+        lines = []
+        for candidate in candidates:
+            title = _extract_title(candidate)
+            if summaries:
+                summary = _extract_summary(candidate)
+                if summary:
+                    lines.append(f"- [{title}]({candidate.name}) - {summary}")
+                    continue
+            lines.append(f"- [{title}]({candidate.name})")
+        return "\n".join(lines)

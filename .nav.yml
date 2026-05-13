@@ -32,6 +32,7 @@ nav:
       - Proposals: doc/project/40-proposals
       - Requirements: doc/project/50-requirements
       - Solutions: doc/project/60-solutions
+  - (FAQ): doc/ops/faq
   - Diagrams:
       - Architecture:
           - Orbiplex Root Component Map: doc/diagrams/architecture/orbiplex-root-component-map.md

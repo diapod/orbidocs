@@ -95,6 +95,9 @@ plugins:
           # BEGIN GENERATED PROJECT NAV EN
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV EN
+          # BEGIN GENERATED FAQ NAV EN
+          # FAQ nav is generated into mkdocs.i18n.generated.yml from doc/ops/faq/*-faq.*.md.
+          # END GENERATED FAQ NAV EN
             - Diagrams:
                 - Architecture:
                     - Orbiplex Root Component Map: doc/diagrams/architecture/orbiplex-root-component-map.md
@@ -191,6 +194,9 @@ plugins:
           # BEGIN GENERATED PROJECT NAV PL
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV PL
+          # BEGIN GENERATED FAQ NAV PL
+          # FAQ nav is generated into mkdocs.i18n.generated.yml from doc/ops/faq/*-faq.*.md.
+          # END GENERATED FAQ NAV PL
             - Diagramy:
                 - Architektura:
                     - Mapa głównych komponentów Orbiplex: doc/diagrams/architecture/orbiplex-root-component-map.md

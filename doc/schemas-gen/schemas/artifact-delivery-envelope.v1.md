@@ -48,6 +48,7 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 | [`deliveryPlan`](#def-deliveryplan) | object |  |
 | [`stage`](#def-stage) | object |  |
 | [`selector`](#def-selector) | unspecified |  |
+| [`capability_filters`](#def-capability-filters) | object |  |
 | [`policy`](#def-policy) | object |  |
 ## Field Semantics
 
@@ -108,6 +109,11 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 ## `$defs.selector`
 
 - Shape: unspecified
+
+<a id="def-capability-filters"></a>
+## `$defs.capability_filters`
+
+- Shape: object
 
 <a id="def-policy"></a>
 ## `$defs.policy`

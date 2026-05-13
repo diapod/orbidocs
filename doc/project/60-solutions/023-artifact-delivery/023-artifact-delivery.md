@@ -135,15 +135,16 @@ Current implementation status:
   and retention semantics are enforced only where an explicit route, adapter,
   or domain acceptor proves that behavior. A route must fail closed rather than
   silently treating an unsupported policy requirement as satisfied.
-- Story-005 uses the public side of this path: `whisper-intake` asks the host to
-  sign a public `agora-record.v1`, wraps the signed record in
-  `artifact-delivery-envelope.v1`, and sends it through the `agora-default`
-  route to the node C Agora service.
+- Story-005 uses both sides of this path: public candidates go through
+  `AD -> agora-default`, while private/direct candidates are signed as
+  byte-identical `agora-record.v1` artifacts and transported through
+  `AD -> inac-direct` to the configured peer. A private/direct record is not a
+  public Agora publication.
 
 The implementation is still `partial` because full generic delivery-policy
 enforcement, Matrix mailbox transport, richer referenced payload schemes, INAC
-authorization/invitations, and private/direct Story-005 delivery are later
-layers. The MVP now does include a P055-style
+authorization/invitations, and a fully automated three-node operator smoke are
+later layers. The MVP now does include a P055-style
 deferred submit mode, a manual recovery pass, and a daemon background recovery
 worker enabled by default:
 `artifact.delivery.send?mode=deferred` persists an accepted delivery and returns
@@ -610,13 +611,15 @@ a group, or a local public/federated route:
 
 ### Recipient Selectors
 
-MVP recipient selector kinds:
+Implemented recipient selector kinds:
 
 | Kind | Meaning | Likely transport |
 |---|---|---|
 | `node` | Send to one explicit node id. | INAC WSS |
 | `configured-default` | Resolve a named local default from host config; the default may resolve to a concrete `node` selector. | Configured adapter |
 | `agora-default` | Publish an Agora record to the default local/federated Agora route. | Agora publish |
+| `capability-first` | Pick the first acceptable node advertising a capability. | Seed Directory + policy |
+| `capability-many` | Pick up to N acceptable nodes advertising a capability. | Seed Directory + policy |
 
 Later recipient selector kinds:
 
@@ -625,13 +628,20 @@ Later recipient selector kinds:
 | `group` | Resolve a user-defined local group such as friends, family, work, or synchronizers. | Host config + policy |
 | `participant` | Resolve participant to one or more reachable node ids under local policy. | Identity/Seed Directory/policy |
 | `org` | Resolve organization to allowed node or participant representatives. | Org custody/policy |
-| `capability-first` | Pick the first acceptable node advertising a capability. | Seed Directory + policy |
-| `capability-many` | Pick up to N acceptable nodes advertising a capability. | Seed Directory + policy |
 | `agora-node` | Publish to an explicitly selected node-hosted Agora endpoint. | Agora endpoint resolver |
 | `matrix-mailbox-node` | Leave a private artifact control message in a node mailbox room. | Future Matrix mailbox adapter |
 
-Only the MVP set should be implemented first. The other kinds are reserved by
-this solution to keep the API direction stable.
+`capability-first` and `capability-many` were added after the initial MVP once
+the route/default/group core was stable. They remain transport-neutral
+selectors: Seed Directory resolves candidates, Artifact Delivery still performs
+local outbound authorization and adapter selection.
+
+The current capability selector filter is intentionally narrow: it supports
+`target/node-ids` as a local allowlist/intersection filter. Issuer,
+endorsement, and passport-profile filters belong to the next policy iteration;
+until then the daemon accepts only Seed Directory entries whose capability
+passport verifies against the configured sovereign authority set and whose
+`node_id` / `capability_id` match the requested capability.
 
 ### Outbound Allow Table
 
@@ -946,6 +956,17 @@ Recipient selectors such as `capability-first` and `capability-many` may use See
 Directory to find candidate nodes, but Artifact Delivery still owns the local
 policy decision that selects a concrete target and transport.
 
+The daemon-side lookup treats remote Seed Directory responses as untrusted
+input: response bodies are size-limited before JSON deserialization, entries are
+verified against capability passport rules, and only matching `node_id` /
+`capability_id` pairs are returned to AD.
+
+Deferred lookup refinements are tracked in the implementation notes rather than
+treated as current contract bugs: short negative caching for empty capability
+results, endpoint-level retry/backoff, a shared blocking HTTP client, and
+query-level result limits. These should be added only with explicit cache TTL,
+diagnostic, and partial-result semantics.
+
 ### Relationship to Memarium
 
 Memarium may be an inbound acceptor for `memarium-blob.v1` and a custody target
@@ -994,10 +1015,13 @@ Status:
   daemon background recovery enabled by default, supervised HTTP and in-process
   `inac.push` acceptor adapters, explicit pure JSON-e Flow acceptors,
   `artifact-store:` referenced payload resolution, remote INAC WSS peer
-  transport feeding the shared `POST /v1/artifact-delivery/admissions` path, and
-  regression tests. Matrix mailbox transport, richer referenced payload schemes,
-  full generic delivery-policy enforcement, INAC authorization/invitations, and
-  private/direct Story-005 delivery remain later layers.
+  transport feeding the shared `POST /v1/artifact-delivery/admissions` path,
+  capability-first/many recipient resolution through the daemon's Seed Directory
+  capability lookup, Story-005 public Whisper via `agora-default`, Story-005
+  private/direct Whisper via `inac-direct`, and regression tests. Matrix mailbox
+  transport, richer referenced payload schemes, full generic delivery-policy
+  enforcement, INAC authorization/invitations, and a full automated
+  three-daemon AD observability smoke remain later layers.
 
 ### Outbound Authorization and Recipient Resolution
 
@@ -1126,7 +1150,12 @@ Responsibilities:
 
 Status:
 
-- `optional`
+- `implemented`: `artifact-delivery-core` owns the transport-neutral selector
+  DTOs and `CapabilityNodeLookup` trait; the daemon composes a Seed
+  Directory-backed lookup that reuses the existing capability discovery cache,
+  verifies capability passports, applies local filters, and returns concrete
+  node targets to Artifact Delivery. The blocking Seed Directory fetch path
+  also enforces a bounded response body before deserialization.
 
 ### Matrix Mailbox Transport Adapter
 
@@ -1237,17 +1266,14 @@ Status:
 
 ## Next Actions
 
-1. Update INAC implementation guidance to describe INAC as a transport adapter
-   under Artifact Delivery.
-2. Define draft schemas for `artifact-delivery-envelope.v1`,
-   `artifact-delivery-plan.v1`, and inbound acceptor declarations when
-   implementation starts.
-3. Add route-table conflict checks to the Node implementation plan before adding
-   any INAC transport code.
-4. Keep Story-005 private Whisper delivery as the first concrete consumer once
-   the Artifact Delivery MVP exists.
-5. Add the post-MVP `capability-first` / `capability-many` resolver for
-   `agora.relay` discovery after the MVP route/default/group path is stable.
+1. Add an automated three-daemon AD observability smoke that asserts delivery
+   status, inbound admission state, and operator UI/API snapshots for Story-005.
+2. Add invitation/passport authorization for INAC before widening private/direct
+   delivery beyond explicit story/profile allowlists.
+3. Add Matrix mailbox transport only if store-and-forward private delivery is
+   required.
+4. Add richer referenced payload schemes such as Memarium or peer fetch only
+   with explicit resolver allowlists and digest validation.
 
 ## Related Capability Data
 

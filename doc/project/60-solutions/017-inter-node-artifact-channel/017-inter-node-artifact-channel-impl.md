@@ -245,7 +245,7 @@ applies: unknown registered kind with no acceptor → `kind-not-supported`.
 
 | Component | State |
 |---|---|
-| Artifact Delivery inbound acceptor registry + lookup | ✅ implemented for in-process MVP acceptors; supervised HTTP and domain acceptor adapters remain later layers |
+| Artifact Delivery inbound acceptor registry + lookup | ✅ implemented for in-process MVP acceptors, supervised HTTP acceptors, JSON-e Flow acceptors, and WSS `inac.v1` push admission |
 | Conflict rule on shadowed kinds: duplicate exact authoritative acceptors fail readiness; exact content-type handlers may coexist with one wildcard fallback | ✅ implemented in Artifact Delivery |
 | Safety-floor refusal for unknown kinds | ✅ implemented in local INAC runtime as fail-closed `kind-not-supported` |
 | Session-level kind handshake (advisory enumeration, authoritative routing per-op) | ❌ not started |
@@ -311,6 +311,9 @@ remain separate authorization boundaries:
 - `inac.offer`, `inac.request`, and `inac.push` use INAC outbound allowlists;
 - `artifact.delivery.send` uses Artifact Delivery outbound allowlists, even
   when a route resolves to the local `inac-direct` adapter.
+- Story-005 private/direct Whisper uses the Artifact Delivery route surface:
+  `private-whisper-default` resolves to `inac-direct` and relies on explicit
+  peer allowlists until full invitation/passport authorization is implemented.
 
 This avoids treating permission to use one component-facing surface as implicit
 permission to use the other.

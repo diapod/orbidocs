@@ -1,0 +1,7 @@
+ignore:
+  - "*.pl.md"
+
+nav:
+  - FAQ.en.md
+  - "*-faq.en.md"
+

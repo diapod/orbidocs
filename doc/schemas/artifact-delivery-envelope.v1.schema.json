@@ -126,14 +126,46 @@
           "properties": {
             "selector/kind": { "const": "agora-default" }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "capability/id"],
+          "properties": {
+            "selector/kind": { "const": "capability-first" },
+            "capability/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+            "filters": { "$ref": "#/$defs/capability_filters" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "capability/id"],
+          "properties": {
+            "selector/kind": { "const": "capability-many" },
+            "capability/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+            "max/nodes": { "type": "integer", "minimum": 1 },
+            "filters": { "$ref": "#/$defs/capability_filters" }
+          }
         }
       ]
+    },
+    "capability_filters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "target/node-ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 256 },
+          "uniqueItems": true
+        }
+      }
     },
     "policy": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "privacy": { "type": "string", "enum": ["private", "public", "federated"] },
+        "privacy": { "type": "string", "enum": ["private", "private-direct", "public", "federated"] },
         "delivery": { "type": "string", "enum": ["at-least-once", "best-effort"] },
         "timeout/ms": { "type": "integer", "minimum": 1 }
       }
