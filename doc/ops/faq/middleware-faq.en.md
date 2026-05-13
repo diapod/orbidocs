@@ -330,6 +330,130 @@ new module identity and action catalog.
 }
 ```
 
+## What is Role Middleware?
+
+Role middleware is middleware that acts as a provider or dispatcher for a named
+role/service contract. It is not an execution type like supervised HTTP,
+JSON-e Flow, command/stdio, or in-process Rust. It is a functional role: the
+component receives a bounded request such as "perform this editorial-review role"
+or "execute this offer-catalog provider role", selects the appropriate behavior,
+and returns a `service-dispatch-response`-style result under the declared
+contract. The same role middleware pattern can be implemented with different
+execution types depending on how much authority, state, and runtime complexity
+the role needs.
+
+The useful distinction is:
+
+- execution type answers "how does this middleware run?",
+- role middleware answers "what dispatch responsibility does this middleware
+  perform?".
+
+A role middleware should not become a generic script runner or a hidden
+application server. It should advertise the role capability it provides, validate
+the incoming role request, produce a traceable response, and use host
+capabilities only through explicit allowlists. In Story-009, the role providers
+for draft composition, illustration preparation, editorial review, publish, and
+verification are examples of this shape. Some are better as JSON-e Flow because
+they are bounded adapters; others may become supervised HTTP modules if they need
+state, queues, richer policy, or an operator UI.
+
+### Role middleware with supervised HTTP
+
+A supervised HTTP role middleware is useful when the provider needs a real
+process: durable local state, queueing, non-trivial domain logic, an HTML
+operator surface, or integration with adjacent tools. The daemon starts and
+monitors the process, sends the module init/report handshake, and dispatches role
+requests to the module through an explicit HTTP/JSON contract. The module should
+branch on the role capability or service type in the request, not on hidden
+daemon state.
+
+```json
+{
+  "module_id": "story009-roles-http",
+  "executor": "http_local_json",
+  "capabilities": [
+    {
+      "capability_id": "role/story009.editorial-review.execute",
+      "kind": "service-dispatch-provider"
+    }
+  ],
+  "invoke_path": "/v1/roles/dispatch"
+}
+```
+
+```python
+def dispatch_role(request):
+    role = request["role_capability_id"]
+
+    if role == "role/story009.editorial-review.execute":
+        return {
+            "schema_version": "v1",
+            "capability_id": "service_dispatch_execute",
+            "status": "completed",
+            "dispatch/id": request["dispatch/id"],
+            "answer/content": {"decision": "accepted"},
+            "answer/format": "json",
+            "confidence/signal": 0.82,
+            "human-linked-participation": False
+        }
+
+    return {
+        "schema_version": "v1",
+        "capability_id": "service_dispatch_execute",
+        "status": "rejected-invalid-request",
+        "dispatch/id": request.get("dispatch/id"),
+        "reason": "unsupported role capability"
+    }
+```
+
+This shape is appropriate for Dator-like providers, Arca-adjacent role services,
+or operator-installed modules whose behavior is too rich for a declarative flow.
+
+### Role middleware with JSON-e Flow
+
+JSON-e Flow role middleware is the preferred low-code shape when the role is a
+bounded adapter: render a request, optionally call an allowlisted host
+capability, extract a result, and respond. Each flow definition is operationally
+a separate role middleware component even though it runs through the shared
+JSON-e Flow executor. This lets an operator install or inspect a role provider as
+data without granting it OS access.
+
+```json
+{
+  "id": "story009.editorial.review",
+  "module_id": "story009.editorial.review",
+  "executor": "json_e_flow",
+  "bindings": {
+    "role_capability_id": "role/story009.editorial-review.execute"
+  },
+  "limits": { "timeout_ms": 500, "max_steps": 6 },
+  "steps": [
+    {
+      "id": "respond",
+      "kind": "respond",
+      "template": {
+        "schema_version": "v1",
+        "capability_id": "service_dispatch_execute",
+        "status": "completed",
+        "dispatch/id": "${request.dispatch/id}",
+        "completed-at": "${now}",
+        "answer/content": {
+          "decision": "accepted",
+          "notes": "Rendered by a bounded JSON-e Flow role provider."
+        },
+        "answer/format": "json",
+        "confidence/signal": 1.0,
+        "human-linked-participation": false
+      }
+    }
+  ]
+}
+```
+
+Use JSON-e Flow role middleware for role adapters that can be described as data
+and whose effects are narrow enough to be declared as host-owned steps. Move to
+supervised HTTP when the role starts needing a richer runtime boundary.
+
 ## Where can middleware attach to the node data path?
 
 Middleware can attach to different places in the node's data path. The hook says
