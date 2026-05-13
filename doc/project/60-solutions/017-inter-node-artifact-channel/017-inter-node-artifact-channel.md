@@ -35,6 +35,10 @@ Implemented now:
   `POST /v1/host/capabilities/inac.offer`,
   `POST /v1/host/capabilities/inac.request`,
   `POST /v1/host/capabilities/inac.push`, and `GET /v1/inac/status`.
+- `msg = "inac.v1"` registered in the daemon peer-message chain for WSS
+  sessions. Artifact Delivery remote `inac-direct` targets use this path, and
+  received `push` frames feed the shared Artifact Delivery inbound admission
+  registry instead of a parallel INAC-specific dispatch table.
 
 ## Based On
 
@@ -59,18 +63,18 @@ Implemented now:
 
 Partial / MVP scaffold.
 
-The schema-gated control plane and local runtime skeleton are implemented. The
-runtime intentionally fails closed when no authoritative handler is registered
-for an artifact kind. `push` requires exactly one payload location
-(`bytes/base64url`, `artifact/ref`, or `artifact/href`). The local MVP scaffold
-is operationally inline-first: referenced payload locations are schema-valid,
-but require a future resolver/fetch or binary streaming contract before
-production peer transfer can accept them. Direct component calls to `inac.*`
-host capabilities are governed by INAC outbound allowlists; Artifact Delivery
-routes that happen to use `inac-direct` are governed by Artifact Delivery
-outbound allowlists. Full WSS peer-message wiring, binary-frame streaming,
-passport/invitation authorization, and concrete Agora/Memarium handlers remain
-outside the MVP scaffold.
+The schema-gated control plane, local runtime skeleton, and WSS peer-message
+transport are implemented. The runtime intentionally fails closed when no
+authoritative handler is registered for an artifact kind. `push` requires
+exactly one payload location (`bytes/base64url`, `artifact/ref`, or
+`artifact/href`). The first remote path is inline-first over WSS peer messages;
+referenced payloads can be resolved before admission through Artifact Delivery's
+resolver registry, with `artifact-store:` as the first production resolver.
+Direct component calls to `inac.*` host capabilities are governed by INAC
+outbound allowlists; Artifact Delivery routes that happen to use `inac-direct`
+are governed by Artifact Delivery outbound allowlists. Matrix mailbox transport,
+binary-frame streaming, passport/invitation authorization, and concrete
+Agora/Memarium handlers remain outside the MVP scaffold.
 
 ## Related Schemas
 

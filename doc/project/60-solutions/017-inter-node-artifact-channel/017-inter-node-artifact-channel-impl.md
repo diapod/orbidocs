@@ -53,6 +53,14 @@ host-owned inbound admission path. That path has a single authoritative
 acceptor per artifact schema/content-type class. Additional artifact kinds plug
 in as explicit inbound acceptors, not as fan-out chains.
 
+The first remote WSS implementation is deliberately fail-closed: authenticated
+peer session establishment is not sufficient authority to send AD-bound INAC
+frames. The receiver applies a host-owned allowlist
+(`artifact_delivery_adapters.inac_peer_transport.inbound_allowed_peers`) before
+answering `offer` or accepting `push`. An empty list means deny-all. This is a
+minimal production guard until the full invitation/passport/revocation freshness
+gate is wired.
+
 ## Invariants that cross layers
 
 1. **Envelope byte-identity.** Whatever an INAC peer receives and
@@ -110,9 +118,9 @@ INAC operations are peer messages under the `PeerMessageChain`
 
 | Item | State |
 |---|---|
-| Register `inac.v1` as a `msg` kind in the reference peer-message registry | ❌ not started |
+| Register `inac.v1` as a `msg` kind in the reference peer-message registry | ✅ implemented for WSS peer sessions |
 | Document the message envelope under `peer-message-invoke.v1` forwarding rules | ❌ not started |
-| Feed received artifacts into Artifact Delivery inbound admission | ❌ not started |
+| Feed received artifacts into Artifact Delivery inbound admission | ✅ implemented for WSS `push` frames |
 | Project middleware and in-process component acceptor declarations into the Artifact Delivery route table | ❌ not started |
 
 ## Layer 2 — Control protocol
@@ -149,11 +157,10 @@ Registration of these codes in proposal 041 §6 is 042 Follow-Up #12.
 | Refusal-code vocabulary extension in proposal 041 §6 | ❌ not started |
 | Query/filter grammar for `request` (reuse of proposal 035 §8 selectors where possible) | ❌ not started |
 
-Response metadata is intentionally not yet a cross-node contract. Until a
-dedicated `meta` propagation rule exists, implementations must either terminate
-transport-local metadata at the current node boundary or copy only explicitly
-declared, tracing-safe fields. Middleware-visible semantics must not depend on
-implicit `meta` round-tripping.
+Response metadata is intentionally not a cross-node round-trip contract in the
+current implementation. The WSS peer handler terminates inbound `meta` at the
+node boundary and emits response frames without copying caller-provided metadata.
+Middleware-visible semantics must not depend on implicit `meta` propagation.
 
 ## Layer 3 — Binary-frame streaming
 
@@ -294,7 +301,7 @@ to proposal 027's peer-message dispatch.
 
 | Component | State |
 |---|---|
-| `inac.v1` peer-message handler registered in the `PeerMessageChain` | ❌ not started |
+| `inac.v1` peer-message handler registered in the `PeerMessageChain` | ✅ implemented for daemon in-process WSS handling |
 | Sidecar-registration path (so Python/other-language modules can declare Artifact Delivery inbound acceptors) | ❌ not started |
 | Daemon supervisor readiness: Artifact Delivery route table is resolved at init, not at first request | ✅ implemented for the current config/runtime validation surface; module-report acceptor projection remains later |
 
@@ -382,10 +389,10 @@ Each step leaves the tree compiling.
    fails closed. Concrete `agora-record.v1` and `memarium-blob.v1`
    acceptors remain to wire.
 7. **Layer 2 — control protocol.** `offer` / `request` / `push` +
-   responses, inline-only payloads. **Done locally; peer-message transport
-   remains to wire.**
+   responses, inline-only payloads. **Done locally and over WSS peer-message
+   push.**
 8. **Layer 1 — peer-message registration.** Register `inac.v1`
-   with the `PeerMessageChain`.
+   with the `PeerMessageChain`. **Done for WSS.**
 9. **Layer 6 — invitation lifecycle.** Issuer + receiver +
    consumption log.
 10. **Layer 8 — middleware integration.** Daemon wiring of the

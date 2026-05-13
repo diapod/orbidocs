@@ -94,11 +94,15 @@ Current implementation status:
 - `agora-default` does not sign records. Components that need host custody use a
   separate host capability such as `agora.record.sign` first, then pass the
   already signed `agora-record.v1` through Artifact Delivery.
-- The daemon also has a local `inac-direct` short-circuit adapter used as a
-  runtime/test integration point. It is not a production remote-node transport;
-  WSS/Matrix peer transport remains part of INAC. A remote `inac-direct`
-  target fails permanently until that transport exists, so synchronous retry
-  loops do not spin on an impossible route.
+- The daemon also has an `inac-direct` adapter. Local targets use the local
+  `InacRuntime` short-circuit; remote targets use the peer supervisor's
+  authenticated WSS peer-message session with `msg = "inac.v1"`. Matrix mailbox
+  transport remains a later INAC transport, not part of the first remote path.
+  Remote WSS inbound `offer`/`push` frames are fail-closed by default and must
+  match `artifact_delivery_adapters.inac_peer_transport.inbound_allowed_peers`
+  before they reach Artifact Delivery admission. A configured-but-unavailable
+  peer session is retryable; a disabled peer transport is a permanent delivery
+  configuration failure.
 - The local `inac-direct` adapter is governed by Artifact Delivery outbound
   allowlists when it is reached through `artifact.delivery.send`. Direct
   component calls to INAC host capabilities such as `inac.offer`,
@@ -113,15 +117,19 @@ Current implementation status:
   invoked. Exact content-type acceptors may coexist with one wildcard acceptor
   for the same schema; exact matches win and the wildcard remains the fallback.
   The daemon now has concrete host/component acceptor adapters for supervised
-  HTTP middleware and in-process `inac.push`, plus `POST
-  /v1/artifact-delivery/admissions` as the shared inbound admission path.
-  JSON-e Flow acceptor declaration and remote peer transports remain later
-  layers.
-- Current production adapters are operationally inline-first. Envelopes may
-  carry `artifact/ref` or `artifact/href` as schema-valid payload locations, but
-  a route or adapter must provide an explicit resolver/fetch contract before
-  accepting referenced payloads. Otherwise the delivery or admission path must
-  fail before invoking a domain acceptor.
+  HTTP middleware, in-process `inac.push`, and explicitly configured pure
+  JSON-e Flow acceptors, plus `POST /v1/artifact-delivery/admissions` as the
+  shared inbound admission path. Remote INAC WSS peer messages feed this same
+  admission path on the receiver.
+- Current production adapters can resolve referenced payloads through an
+  explicit resolver registry. The initial production resolver is
+  `artifact-store:`, rooted at `<node-data-dir>/storage/artifact-store`; it
+  canonicalizes paths, rejects symlink/path escapes, limits relative ref suffix
+  length, opens without following final symlinks on Unix, caps size, and
+  verifies the declared `sha256:` digest before invoking a transport adapter or
+  acceptor.
+  Other schemes such as `memarium:`, `agora:`, `inac:`, `http:`, or `file:` are
+  not implicitly enabled.
 - The runtime records and validates the shape of `policy`, but full generic
   enforcement of every policy field is not complete. Privacy, retry, timeout,
   and retention semantics are enforced only where an explicit route, adapter,
@@ -132,10 +140,10 @@ Current implementation status:
   `artifact-delivery-envelope.v1`, and sends it through the `agora-default`
   route to the node C Agora service.
 
-The implementation is still `partial` because production remote INAC peer
-transport, referenced payload fetching, full generic delivery-policy
-enforcement, JSON-e Flow acceptor declaration, and private/direct Story-005
-delivery are intentionally later layers. The MVP now does include a P055-style
+The implementation is still `partial` because full generic delivery-policy
+enforcement, Matrix mailbox transport, richer referenced payload schemes, INAC
+authorization/invitations, and private/direct Story-005 delivery are later
+layers. The MVP now does include a P055-style
 deferred submit mode, a manual recovery pass, and a daemon background recovery
 worker enabled by default:
 `artifact.delivery.send?mode=deferred` persists an accepted delivery and returns
@@ -153,6 +161,11 @@ The daemon-level knobs are intentionally small:
 - `artifact_delivery_recovery.enabled` defaults to `true`;
 - `artifact_delivery_recovery.interval_ms`, `batch_limit`, and
   `pass_deadline_ms` bound automatic recovery work;
+- `artifact_delivery_acceptors.http_admission_allowed_source_adapters` is the
+  control-plane HTTP admission source allowlist. Empty means deny-all for
+  `POST /v1/artifact-delivery/admissions`; in-process transport adapters such
+  as the WSS INAC peer handler may still call the runtime admission path
+  directly after their own transport policy gates;
 - `artifact_delivery_acceptors.supervised_http` declares loopback HTTP
   middleware acceptors with `component_id`, `artifact_schema`,
   optional `content_type`, `invoke_path`, request timeout, and response size
@@ -160,6 +173,13 @@ The daemon-level knobs are intentionally small:
   startup;
 - `artifact_delivery_acceptors.in_process` declares daemon-composed acceptors;
   the MVP supports `invoke = "inac.push"`.
+- `artifact_delivery_acceptors.json_e_flow` declares pure JSON-e Flow inbound
+  acceptors. These flows are compiled once at daemon startup, must contain a
+  `respond` step that yields an `InboundAdmissionResult`, and cannot declare host
+  capability calls.
+- `artifact_delivery_adapters.inac_peer_transport.inbound_allowed_peers` is the
+  receiver-side remote WSS INAC allowlist. Empty means deny-all; this prevents
+  ambient authority until full invitation/passport authorization is implemented.
 
 ## Proposed Model / Decision
 
@@ -972,11 +992,12 @@ Status:
   `bounded-work-runtime`, P055 deferred submit, P055 operation-status endpoint,
   manual recovery pass with `retry/history` and `artifact-delivery-recovery.v1`,
   daemon background recovery enabled by default, supervised HTTP and in-process
-  `inac.push` acceptor adapters, the shared `POST
-  /v1/artifact-delivery/admissions` path, and regression tests. Remote INAC peer
-  transport, JSON-e Flow acceptor declaration, referenced payload resolver/fetch
-  support, full generic delivery-policy enforcement, and private/direct
-  Story-005 delivery remain later layers.
+  `inac.push` acceptor adapters, explicit pure JSON-e Flow acceptors,
+  `artifact-store:` referenced payload resolution, remote INAC WSS peer
+  transport feeding the shared `POST /v1/artifact-delivery/admissions` path, and
+  regression tests. Matrix mailbox transport, richer referenced payload schemes,
+  full generic delivery-policy enforcement, INAC authorization/invitations, and
+  private/direct Story-005 delivery remain later layers.
 
 ### Outbound Authorization and Recipient Resolution
 
@@ -1051,12 +1072,13 @@ Status:
   pre-acceptor inline byte-identity checks, route snapshots that expose
   registered acceptors, read APIs for recent admissions and admission detail,
   operator UI coverage, and a daemon-owned `POST
-  /v1/artifact-delivery/admissions` ingress for transport adapters. Concrete
+  /v1/artifact-delivery/admissions` ingress for explicitly allowlisted
+  control-plane transport adapters. Concrete
   host/component acceptor adapters remain outside the pure runtime: the daemon
-  currently composes supervised HTTP middleware acceptors and an in-process
-  `inac.push` acceptor, while the pure Artifact Delivery runtime still owns no
-  loopback HTTP client, supervised process lifecycle, or middleware auth logic.
-  JSON-e Flow acceptors and production remote transports remain later layers.
+  currently composes supervised HTTP middleware acceptors, an in-process
+  `inac.push` acceptor, and explicit pure JSON-e Flow acceptors, while the pure
+  Artifact Delivery runtime still owns no loopback HTTP client, supervised
+  process lifecycle, or middleware auth logic.
 
 ### Transport Adapter Registry
 
@@ -1080,10 +1102,11 @@ Status:
 
 - `mvp-foundation-implemented`: the runtime has an exact adapter-scheme
   registry, conflict detection, route/status exposure, the production
-  `agora-default` publish adapter, and a local `inac-direct` short-circuit
-  adapter used by runtime tests and future peer-transport wiring. Production
-  WSS/Matrix INAC transport and inbound transport feeding into the shared
-  admission path remain later layers.
+  `agora-default` publish adapter, and an `inac-direct` adapter that uses a
+  local short-circuit for local targets and authenticated WSS peer messages for
+  remote direct-node targets. Remote WSS INAC push frames feed the shared
+  Artifact Delivery inbound admission path. Matrix mailbox transport remains a
+  later adapter.
 
 ## May Implement
 
@@ -1187,7 +1210,8 @@ Status:
 7. Supervised middleware module reports may request outbound allows, but only
    effective host config can approve them.
 8. JSON-e Flow can be an inbound acceptor only through explicit
-   instance/template-bound acceptor configuration.
+   instance/template-bound acceptor configuration. The MVP in-process adapter is
+   pure; flows with host capability calls are rejected at daemon startup.
 9. Multiple adapters may support the same selector class, but adapter selection
    must be explicit in route config or deterministic by priority. The default
    direct `node` adapter is INAC/WSS; Matrix mailbox is a future explicit

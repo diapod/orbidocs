@@ -27,12 +27,15 @@
                  "`node/inac-runtime` fail-closed runtime registry"
                  "local outbound allow gate treats empty operation/schema sets as deny-all, not wildcard authority"
                  "daemon host capability endpoints for local offer/request/push"
+                 "`inac.v1` WSS peer-message kind and in-process daemon handler"
+                 "Artifact Delivery remote `inac-direct` delivery over existing WSS peer sessions"
+                 "Inbound WSS `push` frames feed Artifact Delivery inbound admission"
+                 "Inbound WSS `offer` and `push` frames are fail-closed behind receiver-side peer allowlists"
+                 "INAC response meta is terminated at the peer boundary in the current implementation"
                  "operator status endpoint `/v1/inac/status`"
                  "operator UI `/admin/inac` for handlers, counters, and recent refusals"]
-   :remaining ["Register `inac.v1` as a WSS peer-message kind"
-               "Wire remote peer session dispatch"
-               "Persist transfer status/idempotency beyond in-memory MVP"
-               "Define explicit response `meta` propagation or termination rules"]}
+   :remaining ["Persist transfer status/idempotency beyond in-memory MVP"
+               "Replace minimal peer allowlists with full passport/invitation authorization when that layer lands"]}
 
   {:cap/id :byte-identical-artifact-transfer
    :title "Byte-Identical Artifact Transfer"
@@ -79,7 +82,12 @@
     "Support general capability, custody, invitation, and attestation-only paths"
     "Apply per-peer and per-kind rate and size budgets"
     "Keep INAC from becoming a parallel authority system"]
-   :status :todo}]
+   :status :partial
+   :implemented ["Receiver-side remote WSS INAC allowlist for Artifact Delivery offer/push frames"
+                 "Empty allowlist means deny-all, so enabling remote WSS INAC does not grant ambient inbound authority"]
+   :remaining ["Shared attestation/passport/invitation authorization"
+               "Per-peer and per-kind rate and size budgets"
+               "General custody and attestation-only paths"]}]
 
  :may-implement
  [{:cap/id :artifact-delivery-inac-acceptor-integration
@@ -114,9 +122,10 @@
   "refusal codes"]
 
  :notes
- ["INAC has a schema-gated local MVP scaffold, but is not yet a complete peer transport."
+ ["INAC has a schema-gated local MVP scaffold and WSS peer-message transport, but is not yet a complete peer protocol."
   "The runtime fails closed without an explicit authoritative handler for an artifact kind."
+  "Remote WSS INAC receiver policy now fails closed with `inbound_allowed_peers`; this is a minimal peer allowlist, not the final passport/invitation authorization layer."
   "Direct `inac.offer`, `inac.request`, and `inac.push` host capabilities are governed by INAC outbound allowlists; Artifact Delivery routes that resolve to `inac-direct` are governed by Artifact Delivery outbound allowlists."
-  "Referenced payload slots are schema-valid, but operational transfer remains inline-first until resolver/fetch or binary streaming lands."
+  "Referenced payload slots are schema-valid; Artifact Delivery can resolve `artifact-store:` references before admission, while peer fetch and binary streaming remain future work."
   "The local host/operator surface now includes `/v1/inac/status` and `/admin/inac`; this is observability, not peer transport completion."
-  "WSS peer-message wiring, binary streaming, and passport/invitation authorization remain required before production peer-to-peer artifact exchange."]}
+  "Matrix mailbox transport, binary streaming, and passport/invitation authorization remain required before complete peer-to-peer artifact exchange."]}
