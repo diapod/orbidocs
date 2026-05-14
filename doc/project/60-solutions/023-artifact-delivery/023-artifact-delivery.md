@@ -135,13 +135,21 @@ Current implementation status:
   length, opens without following final symlinks on Unix, caps size, and
   verifies the declared `sha256:` digest before invoking a transport adapter or
   acceptor.
-  Other schemes such as `memarium:`, `agora:`, `inac:`, `http:`, or `file:` are
-  not implicitly enabled.
-- The runtime records and validates the shape of `policy`, but full generic
-  enforcement of every policy field is not complete. Privacy, retry, timeout,
-  and retention semantics are enforced only where an explicit route, adapter,
-  or domain acceptor proves that behavior. A route must fail closed rather than
-  silently treating an unsupported policy requirement as satisfied.
+  The daemon also registers separate public-space Memarium resolver schemes:
+  `memarium-public-entry:<entry-id>` resolves to the entry payload body and
+  `memarium-public-fact:<fact-id>` resolves to the full fact, both as canonical
+  JSON with size and digest verification. Non-public spaces are rejected until
+  Artifact Delivery carries caller/capability context or calls the regular
+  `memarium.read` host capability path. Other schemes such as `agora:`,
+  `inac:`, `http:`, or `file:` are not implicitly enabled.
+- The runtime records, validates, and enforces the mechanical subset of
+  `policy`: route/selector allowlists, fan-out and byte caps, delivery timeout,
+  retry budget, idempotency, and the privacy-vs-transport invariant that
+  `privacy = private | private-direct` can use only adapter schemes explicitly
+  reviewed as private-safe. The initial private-safe set is `inac-direct`;
+  public/federated or merely unreviewed adapters fail closed. Domain privacy,
+  retention, revocation freshness, and classification semantics remain owned by
+  adapters or domain acceptors and must fail closed if unsupported.
 - Story-005 uses both sides of this path: public candidates go through
   `AD -> agora-default`, while private/direct candidates are signed as
   byte-identical `agora-record.v1` artifacts and transported through
@@ -150,18 +158,20 @@ Current implementation status:
   session with the host-owned `peer.session.establish` capability and gives the
   private AD route a longer timeout than public Agora publication, because
   private/direct delivery may have to wait for a WSS peer session.
-- `capability-many`, `participant`, and `routing-subject` selectors may carry
-  `max/nodes` to bound fan-out at resolution time before the route-level target
-  cap is enforced. Participant and routing-subject resolution is host-composed
-  through Seed Directory projections and has a daemon-side TTL cache; the core
-  crate only sees the lookup traits. Public routing-subject lookup only returns
-  `public-unlinked` bindings. Other disclosure modes are stored facts, not
-  enumerable public routing results until a separate authorized presentation
-  path exists.
+- `capability-many`, `participant`, `org`, and `routing-subject` selectors may
+  carry `max/nodes` to bound fan-out at resolution time before the route-level
+  target cap is enforced. Participant and routing-subject resolution is
+  host-composed through Seed Directory projections and has a daemon-side TTL
+  cache; `org` resolution is fail-closed through an explicit host-composed
+  resolver that currently maps configured org custodians to participant node
+  candidates. The core crate only sees lookup traits. Public routing-subject
+  lookup only returns `public-unlinked` bindings. Other disclosure modes are
+  stored facts, not enumerable public routing results until a separate
+  authorized presentation path exists.
 
-The implementation is still `partial` because full generic delivery-policy
-enforcement, Matrix mailbox transport, richer referenced payload schemes, INAC
-authorization/invitations, and broader production hardening are later layers.
+The implementation is still `partial` because Matrix mailbox transport, INAC
+authorization/invitations, non-public referenced payload resolution, and broader
+production hardening are later layers.
 The MVP now does include a P055-style
 deferred submit mode, a manual recovery pass, and a daemon background recovery
 worker enabled by default:
@@ -487,7 +497,7 @@ When multiple selectors resolve to the same concrete target, the retained target
 keeps the first provenance in this priority order:
 
 ```text
-explicit -> configured-default -> group -> capability
+explicit -> configured-default -> group -> capability/subject/org
 ```
 
 This keeps operator diagnostics stable: the target is delivered once, but the UI
@@ -639,6 +649,7 @@ Implemented recipient selector kinds:
 | `capability-first` | Pick the first acceptable node advertising a capability. | Seed Directory + policy |
 | `capability-many` | Pick up to N acceptable nodes advertising a capability. | Seed Directory + policy |
 | `participant` | Resolve an explicitly public/operator participant to one or more reachable node ids under local policy. This is opt-in disclosure, not the privacy-preserving default. | Seed Directory + policy |
+| `org` | Resolve an organization through an explicit host-composed org lookup. The current daemon resolver uses configured org custodians plus Seed Directory participant projections and fails closed when no evidence is available. | Org custody/policy + Seed Directory |
 | `routing-subject` | Resolve a delegated, scoped contact/delivery identity to one or more reachable node ids without publishing the root participant id. | Seed Directory + policy |
 
 Later recipient selector kinds:
@@ -646,7 +657,6 @@ Later recipient selector kinds:
 | Kind | Meaning | Resolver |
 |---|---|---|
 | `group` | Resolve a user-defined local group such as friends, family, work, or synchronizers. | Host config + policy |
-| `org` | Resolve organization to allowed node or participant representatives. | Org custody/policy |
 | `agora-node` | Publish to an explicitly selected node-hosted Agora endpoint. | Agora endpoint resolver |
 | `matrix-mailbox-node` | Leave a private artifact control message in a node mailbox room. | Future Matrix mailbox adapter |
 
@@ -706,6 +716,7 @@ allow exists:
   "recipient/selectors": ["node", "configured-default", "group", "agora-default"],
   "route/refs": ["private-whisper-default"],
   "target/node-ids": ["node:did:key:..."],
+  "artifact/ref-schemes": ["memarium-public-entry"],
   "fanout/max-targets": 3,
   "fallback/max-stages": 2,
   "max/bytes": 262144,
@@ -716,6 +727,12 @@ allow exists:
 If a component needs both input and output for the same schema, the schema must
 appear in both the inbound acceptor table and outbound allow table.
 
+Referenced payload schemes are also authorization surface. When an outbound
+allow carries `artifact/ref-schemes`, Artifact Delivery checks the `artifact/ref`
+prefix before invoking a resolver. This lets operators authorize
+`memarium-public-entry` without also authorizing `memarium-public-fact`, even
+though both resolvers are backed by the same Memarium runtime.
+
 Missing transport-specific selector parameters are a fast failure with
 diagnostics. A `node` selector without `node/id` should produce a malformed or
 semantically invalid envelope response, while a `configured-default` that does
@@ -723,12 +740,13 @@ not resolve to a concrete target should produce a route/configuration conflict
 or disabled route. Neither case may silently fall back to `agora-default`.
 
 Policy fields are part of the audited envelope contract, but they are not a
-license to assume behavior the selected route cannot provide. Until full
-generic policy enforcement exists, `policy` is an intent and constraint input:
-implementations must either prove enforcement at the selected route/adapter or
-domain acceptor boundary, or reject the delivery with a clear diagnostic.
-Examples include privacy class, retry/deadline semantics, retention class, and
-operator-review requirements.
+license to assume behavior the selected route cannot provide. Artifact Delivery
+enforces the mechanical policy subset it owns directly: selector/route
+allowlists, fan-out, byte caps, timeouts, retry/idempotency, and private policy
+adapter allowlisting. Other policy terms must either be proved at the selected
+route/adapter or domain acceptor boundary, or the delivery must be rejected with
+a clear diagnostic. Examples include retention class, revocation freshness,
+classification semantics, and operator-review requirements.
 
 ### Inbound Acceptor Table
 
@@ -794,7 +812,7 @@ An acceptor returns a small admission result:
 ```json
 {
   "status": "accepted",
-  "artifact/ref": "memarium:entry:...",
+  "artifact/ref": "memarium-public-entry:...",
   "idempotency/key": "sha256:..."
 }
 ```
@@ -995,6 +1013,10 @@ recipient selector is explicitly Agora-shaped, for example `agora-default` or
 path goes through Agora's own publish/admission policy.
 
 Do not silently replace a private node delivery request with an Agora publish.
+For `privacy = private | private-direct`, Artifact Delivery denies every adapter
+scheme except those explicitly marked private-safe by the host runtime. Today
+that means `inac-direct`; new adapters are denied under private policy until
+reviewed.
 
 ### Relationship to Seed Directory
 
@@ -1075,12 +1097,15 @@ Status:
   capability-first/many recipient resolution through the daemon's Seed Directory
   capability lookup, participant/routing-subject recipient resolution through
   Seed Directory projections, Story-005 public Whisper via `agora-default`,
+  fail-closed org recipient resolution through configured org custodians plus
+  Seed Directory participant projections, public `memarium:` referenced payload
+  resolution for `public` entries/facts, mechanical delivery-policy enforcement
+  including private-to-Agora rejection,
   Story-005 private/direct Whisper via `inac-direct`, a full three-daemon Story-005 AD
   observability smoke that asserts A/B are thin Agora clients publishing to
   node C rather than running a local `agora-service`, and regression tests.
-  Matrix mailbox transport, richer
-  referenced payload schemes, full generic delivery-policy enforcement, and
-  INAC authorization/invitations remain later layers.
+  Matrix mailbox transport, non-public referenced payload resolution, and INAC
+  authorization/invitations remain later layers.
 
 ### Outbound Authorization and Recipient Resolution
 

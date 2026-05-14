@@ -55,7 +55,8 @@ Fallback signed-evidence artifact for a single normalized Node address claim. Se
 |---|---|---|
 | [`sha256Digest`](#def-sha256digest) | string | `sha256:` followed by unpadded base64url-encoded SHA-256 bytes. |
 | [`normalizedEndpoint`](#def-normalizedendpoint) | object | Canonical endpoint descriptor used for address-claim hashing. It intentionally avoids storing a raw URL as the semantic claim because equivalent URLs can differ textually. |
-| [`evidenceEntry`](#def-evidenceentry) | object | Signed evidence statement for one normalized address claim. The signature covers the evidence statement without the `signature` field and binds the signer, claim digest, evidence kind, and freshness window. |
+| [`evidenceEntry`](#def-evidenceentry) | object | Signed evidence statement for one normalized address claim. The signature covers the evidence statement without the `signature` field and binds the signer, claim digest, evidence kind, freshness window, and any endpoint certificate observation. `signed/at` MUST be less than or equal to `expires/at`. When `endpoint/certificate` is present, `endpoint/certificate.verified/at` MUST fall inside the evidence freshness window with at most 16 seconds of clock-skew tolerance. |
+| [`endpointCertificateEvidence`](#def-endpointcertificateevidence) | object |  |
 | [`ed25519Signature`](#def-ed25519signature) | object | Ed25519 signature object used by envelope and evidence signatures. |
 
 ## Conditional Rules
@@ -217,7 +218,12 @@ Canonical endpoint descriptor used for address-claim hashing. It intentionally a
 
 - Shape: object
 
-Signed evidence statement for one normalized address claim. The signature covers the evidence statement without the `signature` field and binds the signer, claim digest, evidence kind, and freshness window.
+Signed evidence statement for one normalized address claim. The signature covers the evidence statement without the `signature` field and binds the signer, claim digest, evidence kind, freshness window, and any endpoint certificate observation. `signed/at` MUST be less than or equal to `expires/at`. When `endpoint/certificate` is present, `endpoint/certificate.verified/at` MUST fall inside the evidence freshness window with at most 16 seconds of clock-skew tolerance.
+
+<a id="def-endpointcertificateevidence"></a>
+## `$defs.endpointCertificateEvidence`
+
+- Shape: object
 
 <a id="def-ed25519signature"></a>
 ## `$defs.ed25519Signature`

@@ -151,9 +151,27 @@ Each evidence entry should include:
   naked TCP connect,
 - optional `session/transcript-hash` for `seed-directory` evidence. When
   present, the evidence class is `directory-confirmed`; when absent, the
-  evidence class is only `directory-accepted`.
+  evidence class is only `directory-accepted`,
+- required `endpoint/certificate` whenever `session/transcript-hash` is
+  present. This object carries the observed endpoint certificate
+  fingerprint (`sha256-leaf-der` in the initial implementation), the
+  server name used for verification, and the verification timestamp. It
+  is transport endpoint evidence, not node identity.
 
 The transcript hash must not contain plaintext transcript material.
+
+For endpoint certificate evidence, `verified/at` means the time at which
+the observing node or Seed Directory completed local verification of the
+endpoint certificate. It is not the later signing or re-emission time of
+the evidence. Implementations MUST enforce the evidence-local time window:
+
+```text
+signed/at <= endpoint/certificate.verified/at <= expires/at
+```
+
+with at most 16 seconds of clock-skew tolerance on either side. Evidence
+whose verification timestamp falls outside that tolerated window is
+time-inconsistent and MUST be rejected.
 
 ### 3. Trust Semantics
 

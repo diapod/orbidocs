@@ -144,8 +144,8 @@
     },
     "evidenceEntry": {
       "type": "object",
-      "additionalProperties": true,
-      "description": "Signed evidence statement for one normalized address claim. The signature covers the evidence statement without the `signature` field and binds the signer, claim digest, evidence kind, and freshness window.",
+      "additionalProperties": false,
+      "description": "Signed evidence statement for one normalized address claim. The signature covers the evidence statement without the `signature` field and binds the signer, claim digest, evidence kind, freshness window, and any endpoint certificate observation. `signed/at` MUST be less than or equal to `expires/at`. When `endpoint/certificate` is present, `endpoint/certificate.verified/at` MUST fall inside the evidence freshness window with at most 16 seconds of clock-skew tolerance.",
       "required": [
         "kind",
         "signer/id",
@@ -191,9 +191,13 @@
           "$ref": "#/$defs/sha256Digest",
           "description": "Transcript hash for `peer-reachability` or actively confirmed `seed-directory` evidence, binding the witness to a successful peer session rather than to a naked TCP connect. Required for `peer-reachability`; optional for Seed Directory evidence; absent for directory-accepted evidence. MUST NOT contain plaintext transcript material."
         },
+        "endpoint/certificate": {
+          "$ref": "#/$defs/endpointCertificateEvidence",
+          "description": "Signed observation of the TLS endpoint certificate seen during an active WSS probe. This is endpoint transport evidence, not node identity. Required whenever `session/transcript-hash` is present."
+        },
         "signature": {
           "$ref": "#/$defs/ed25519Signature",
-          "description": "Signature over the canonical evidence statement with the `signature` field omitted. The signed statement includes `kind`, `signer/id`, `signed/at`, `expires/at`, `claim/digest`, and any present evidence metadata such as `advertisement/digest` or `session/transcript-hash`."
+          "description": "Signature over the canonical evidence statement with the `signature` field omitted. The signed statement includes `kind`, `signer/id`, `signed/at`, `expires/at`, `claim/digest`, and any present evidence metadata such as `advertisement/digest`, `session/transcript-hash`, or `endpoint/certificate`."
         }
       },
       "allOf": [
@@ -214,8 +218,54 @@
               "session/transcript-hash"
             ]
           }
+        },
+        {
+          "description": "Evidence that binds to an observed peer session MUST also bind the TLS endpoint certificate fingerprint seen on that session.",
+          "if": {
+            "required": [
+              "session/transcript-hash"
+            ]
+          },
+          "then": {
+            "required": [
+              "endpoint/certificate"
+            ]
+          }
         }
       ]
+    },
+    "endpointCertificateEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fingerprint/alg",
+        "fingerprint",
+        "verified/at"
+      ],
+      "properties": {
+        "fingerprint/alg": {
+          "type": "string",
+          "enum": [
+            "sha256-leaf-der",
+            "sha256-spki"
+          ],
+          "description": "`sha256-leaf-der` hashes the full leaf certificate DER. `sha256-spki` hashes the leaf SubjectPublicKeyInfo DER and is reserved until explicit X.509/SPKI extraction is implemented."
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/sha256Digest",
+          "description": "Fingerprint of the observed endpoint certificate material."
+        },
+        "server-name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Server name used for TLS verification/SNI when the observation was made."
+        },
+        "verified/at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the observing node or Seed Directory completed local verification of the endpoint certificate. It is not the later signing or re-emission time of the evidence. When embedded in an evidence entry, it MUST be within that entry's `signed/at`..`expires/at` freshness window with at most 16 seconds of clock-skew tolerance."
+        }
+      }
     },
     "ed25519Signature": {
       "type": "object",

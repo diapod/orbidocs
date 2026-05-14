@@ -121,7 +121,8 @@ admission, revocation, and operational burden in one root.
 
 For node-to-node WSS/HTTP communication, the default SHOULD be:
 
-1. the node generates a self-signed endpoint certificate in its data directory;
+1. the node generates node-local endpoint certificate material in its data
+   directory with bounded validity;
 2. the node advertises or registers its current endpoint through Seed Directory;
 3. Seed Directory probes the endpoint and records the observed certificate
    fingerprint;
@@ -131,6 +132,56 @@ For node-to-node WSS/HTTP communication, the default SHOULD be:
 
 The endpoint certificate is therefore not the node identity. It is a transport
 key for one reachable endpoint.
+
+Generated node-local CA and listener certificates SHOULD have bounded validity
+so stale endpoint trust material naturally lapses. The reference node
+implementation uses a 365-day validity window and backdates by 5 minutes for
+local clock skew. The operator rotation path is explicit: the generation
+endpoint may be called with `force: true` to replace the listener leaf, listener
+private key, and node-local trust root, followed by daemon restart/reload so WSS
+listener and dialer trust roots observe the new files.
+
+The generated listener certificate SHOULD NOT expose the stable Orbiplex
+`node_id` in the TLS subject by default. A public TLS listener is visible to
+ordinary port scanners before the Orbiplex peer-handshake layer can apply any
+friend, capability, or network-membership checks. Publishing `node:did:key:...`
+as the TLS Common Name would therefore create a cheap reconnaissance vector:
+any non-peer client could correlate one node across addresses, restarts, NATs,
+or networks.
+
+The privacy-preserving default is an opaque `route_id`: the generated local CA
+uses a route-local Common Name and the listener leaf certificate uses the same
+route identifier as its TLS subject. Operators MAY explicitly configure
+`node_id` as the TLS certificate identity for local diagnostics or deliberately
+public services, but this is not the default.
+
+If a peer observes a certificate CN that uses the Orbiplex node-id prefix, it
+MUST compare that value with the signed `peer-handshake.v1` sender node id and
+reject the connection on mismatch. Absence of a node-id CN MUST NOT reject
+otherwise valid WebPKI or private-CA certificates.
+
+For operator-managed bootstrap seeds, a daemon MAY additionally configure a
+static leaf-certificate pin on the seed entry. This is not a replacement for
+Seed Directory endpoint evidence; it is a local bootstrap contract that lets the
+peer supervisor reject a seed endpoint when the observed TLS leaf fingerprint no
+longer matches the operator's configured expectation. Pins use
+`sha256:<base64url-no-pad>` over the leaf certificate DER and MUST fail
+configuration validation if the digest body is malformed.
+
+For local node-generated certificates, the preferred public-listener shape is a
+route-local CA with a generated CA key and an opaque route-id Common Name. The
+WSS listener receives a separate random leaf key signed by that issuer. This
+avoids copying node identity private key material into the TLS listener key
+file and avoids leaking the stable node id through the TLS certificate chain.
+The peer handshake remains the proof of node identity.
+The generated listener private key is a secret configuration artifact and SHOULD
+be written with owner-only permissions (`0600` on Unix-like systems). Public
+certificates and trust roots may remain world-readable.
+
+If an operator explicitly configures certificate or private-key source paths,
+missing paths or empty certificate directories are configuration errors. The
+readiness helper may offer generation only when the source is absent/defaulted,
+not when an explicit path is mistyped.
 
 The minimum attested material is:
 
@@ -144,9 +195,27 @@ probe_method
 seed_directory_signature
 ```
 
-This material can be carried by `node-address-attestation.v1` or a future
-version of that artifact if the current schema needs an explicit TLS fingerprint
-field.
+This material is carried by `node-address-attestation.v1` as signed
+`endpoint/certificate` evidence on transcript-bound observations. The v1
+implementation starts with `sha256-leaf-der`; `sha256-spki` remains a reserved
+algorithm value until explicit SPKI extraction is implemented.
+
+Endpoint certificate observation is an initiator-side fact: it records what the
+dialing/probing side verified for the remote endpoint during TLS setup. A
+listener/responder transcript MUST NOT populate this observation with its own
+server certificate as if it were peer evidence.
+
+`endpoint/certificate.verified/at` means the time at which the observer
+completed local endpoint-certificate verification. It is not the later evidence
+signing time and not a re-emission timestamp. In v1, when endpoint certificate
+evidence is present, implementations MUST enforce:
+
+```text
+signed/at <= endpoint/certificate.verified/at <= expires/at
+```
+
+with at most 16 seconds of clock-skew tolerance on either side of the evidence
+freshness window.
 
 ### 4. Seed Directory Trust Must Be Stricter Than Node Trust
 
@@ -239,7 +308,8 @@ This avoids turning X.509 into an accidental ontology for Orbiplex identity.
 
 ## Example Sequence: Node-to-Node WSS
 
-1. Node A generates a self-signed WSS certificate in its data directory.
+1. Node A generates a bounded-validity node-local CA certificate and a
+   CA-signed WSS listener certificate in its data directory.
 2. Node A registers `node_id`, endpoint URL, and service metadata with Seed
    Directory.
 3. Seed Directory probes the endpoint.
@@ -354,8 +424,8 @@ Expected implementation work:
 1. Define endpoint trust classes in daemon/transport configuration.
 2. Ensure Seed Directory public endpoint trust is configured separately from
    node endpoint trust.
-3. Extend `node-address-attestation.v1` if it does not already carry an
-   explicit TLS certificate fingerprint.
+3. Keep `node-address-attestation.v1` evidence signed over
+   `endpoint/certificate` whenever a session transcript hash is present.
 4. Add diagnostics for `UnknownIssuer`, fingerprint mismatch, expired
    attestation, and peer-handshake identity mismatch.
 5. Expose effective TLS trust policy in readiness/status reports.
@@ -363,8 +433,8 @@ Expected implementation work:
 
 ## Open Questions
 
-1. Should `node-address-attestation.v1` carry the full leaf certificate
-   fingerprint only, or also a public-key/SPKI fingerprint?
+1. Should `sha256-spki` be implemented after `sha256-leaf-der`, and which X.509
+   parser should own SPKI extraction?
 2. Should Seed Directory accept multiple fingerprints for one node endpoint
    during rotation windows?
 3. How long should node endpoint attestations remain fresh by default?
@@ -377,7 +447,11 @@ Expected implementation work:
 
 1. Audit current TLS call sites and classify them by trust class.
 2. Add or update configuration schema for explicit TLS trust policy.
-3. Check whether `node-address-attestation.v1` needs a TLS fingerprint field.
+3. Add the remaining node-endpoint dial enforcement bridge: carry signed
+   `endpoint/certificate` evidence through `PeerStore` or an endpoint evidence
+   companion, and propagate the selected endpoint fingerprint into the dial
+   candidate before the peer supervisor compares it with the observed TLS leaf
+   certificate.
 4. Add a solution-level update once the implementation shape is stable.
 5. Update operator runbooks for local certificates, official service roots, and
    fingerprint mismatch troubleshooting.

@@ -59,6 +59,12 @@
       "claim/digest": "sha256:K_9sToYbSOip2CvksD2sHnW2L_-qAc9QxYlq3lNw7Go",
       "advertisement/digest": "sha256:Qm2Qcs41hS2X3rq7Vgv9x82jjNGys8e_ZYup3o6CnCU",
       "session/transcript-hash": "sha256:T7ZmNO0hEL1Gg7cAL_q1Dmq30B9R0QOMCIL19qXOJ9s",
+      "endpoint/certificate": {
+        "fingerprint/alg": "sha256-leaf-der",
+        "fingerprint": "sha256:yUD9dYv2SP0C9K5tCxm8o3qUTGBW0h1su4dugmS_2sc",
+        "server-name": "node-01.docs.orbiplex.ai",
+        "verified/at": "2026-04-17T11:59:30Z"
+      },
       "signature": {
         "alg": "ed25519",
         "value": "JbcBGJ3DRpn5wEw-8TGTHTD5fjw_jUStJuK10xq5qDjlNoMC2kTuB7ipZUU2Af6HmO6vV0YcF2rW6NiAWSTCAQ"
