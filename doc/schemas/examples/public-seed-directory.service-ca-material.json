@@ -1,0 +1,39 @@
+{
+  "schema": "service-ca-material.v1",
+  "ca/id": "service-ca:seed-directory:pl-main:2026q2",
+  "service/kind": "seed-directory",
+  "scope": {
+    "federation/id": "fed:orbiplex-pl",
+    "seed-directory/id": "seed-directory:pl-main",
+    "protocols": [
+      "seed-directory.v1",
+      "node-address-attestation.v1"
+    ],
+    "endpoint/name-constraints": [
+      "*.seed.orbiplex.example"
+    ]
+  },
+  "material": {
+    "format": "x509-pem",
+    "sha256": "sha256:Q11cQuFKZ9nQ3PGPuH7yR2V2Oa42N8VdEa7Yc5wQxPA",
+    "pem": "-----BEGIN CERTIFICATE-----\nMIIBszCCAVmgAwIBAgIUExamplePublicServiceCaForDocsOnlywCgYIKoZIzj0E\nAwIwJTEjMCEGA1UEAwwaT3JiaXBsZXggUHVibGljIFNlcnZpY2UgQ0EwHhcNMjYw\nNTE0MDAwMDAwWhcNMjYwODEyMDAwMDAwWjAlMSMwIQYDVQQDDBpPcmJpcGxleCBQ\ndWJsaWMgU2VydmljZSBDQTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABExample\nMaterialForSchemaValidationOnly000000000000000000000000000000000000\n0000000000000000000000000000000000000000000000000000000000000000\nCgYIKoZIzj0EAwIDRwAwRAIgExampleSignatureBytesForDocumentationOnly0\nAiAExampleSignatureBytesForDocumentationOnly1\n-----END CERTIFICATE-----\n",
+    "key/id": "service-ca-key:pl-main:2026q2"
+  },
+  "valid/from": "2026-05-14T00:00:00Z",
+  "valid/until": "2026-08-12T00:00:00Z",
+  "rotation": {
+    "supersedes": "service-ca:seed-directory:pl-main:2026q1",
+    "overlap/until": "2026-06-01T00:00:00Z",
+    "next/key": "service-ca-key:pl-main:2026q3"
+  },
+  "issuer": {
+    "authority/id": "governance:orbiplex-pl",
+    "authority/class": "federation-governance"
+  },
+  "policy/ref": "local-trust-policy:orbiplex-pl:seed-directory-service-ca",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:service-ca-material-signature",
+    "key/ref": "did:key:z6MkGovernanceExample"
+  }
+}

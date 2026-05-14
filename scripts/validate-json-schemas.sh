@@ -116,6 +116,9 @@ schema_for_file() {
     *.node-address-attestation.json)
       echo "$SCHEMAS_DIR/node-address-attestation.v1.schema.json"
       ;;
+    *.service-ca-material.json)
+      echo "$SCHEMAS_DIR/service-ca-material.v1.schema.json"
+      ;;
     *.service-offer.json)
       echo "$SCHEMAS_DIR/service-offer.v1.schema.json"
       ;;

@@ -1,0 +1,20 @@
+{
+  "schema": "service-ca-material.v1",
+  "ca/id": "service-ca:seed-directory:pl-main:invalid",
+  "service/kind": "seed-directory",
+  "material": {
+    "format": "x509-pem",
+    "sha256": "sha256:Q11cQuFKZ9nQ3PGPuH7yR2V2Oa42N8VdEa7Yc5wQxPA",
+    "pem": "-----BEGIN CERTIFICATE-----\nMIIBszCCAVmgAwIBAgIUExamplePublicServiceCaForDocsOnlywCgYIKoZIzj0E\nAwIwJTEjMCEGA1UEAwwaT3JiaXBsZXggUHVibGljIFNlcnZpY2UgQ0EwHhcNMjYw\nNTE0MDAwMDAwWhcNMjYwODEyMDAwMDAwWjAlMSMwIQYDVQQDDBpPcmJpcGxleCBQ\ndWJsaWMgU2VydmljZSBDQTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABExample\nMaterialForSchemaValidationOnly000000000000000000000000000000000000\n0000000000000000000000000000000000000000000000000000000000000000\nCgYIKoZIzj0EAwIDRwAwRAIgExampleSignatureBytesForDocumentationOnly0\nAiAExampleSignatureBytesForDocumentationOnly1\n-----END CERTIFICATE-----\n"
+  },
+  "valid/from": "2026-05-14T00:00:00Z",
+  "valid/until": "2026-08-12T00:00:00Z",
+  "issuer": {
+    "authority/id": "governance:orbiplex-pl",
+    "authority/class": "federation-governance"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:service-ca-material-signature"
+  }
+}

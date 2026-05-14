@@ -168,6 +168,33 @@ Current implementation status:
   lookup only returns `public-unlinked` bindings. Other disclosure modes are
   stored facts, not enumerable public routing results until a separate
   authorized presentation path exists.
+- Discovery-backed direct delivery now has a transport evidence bridge for
+  node endpoints. When Seed Directory can provide `node-address-attestation.v1`
+  for a resolved participant or routing-subject node, the daemon records the
+  selected `endpoint/certificate` fingerprint in the peer supervisor's endpoint
+  evidence companion. The subsequent WSS dial carries that fingerprint into
+  `DialCandidate.expected_tls_certificate_sha256` and fails closed on mismatch
+  before INAC or Artifact Delivery payload exchange. This bridge keeps
+  transport evidence in daemon composition; Artifact Delivery core continues to
+  see only resolved targets and route policy.
+- Discovery and routing freshness are governed by
+  `peer_discovery.freshness_policy`. Deployment-class defaults encode the
+  current public profile recommendation: endpoint advertisements are short-lived
+  reachability candidates, endpoint attestations are short-to-medium evidence,
+  service CA material and routing bindings live longer, and resolver cache TTLs
+  remain short.
+- For direct subject-node delivery, endpoint evidence is not merely diagnostic.
+  A resolved subject node is promoted to a concrete direct target only when the
+  Seed Directory attestation provides usable `endpoint/certificate` evidence for
+  the selected endpoint. `fresh` evidence can be used immediately; `usable`
+  evidence still carries a certificate pin but may require a fresh probe or peer
+  handshake before sensitive payload exchange. Stale or dead evidence is not
+  used for direct/private delivery.
+- Service CA material follows a separate trust-policy path. The daemon exposes
+  `service_ca_trust_policy` and an operator evaluation endpoint for
+  `service-ca-material.v1`; cryptographic signature verification must succeed
+  before local policy evaluation is meaningful, and accepting a candidate under
+  local policy does not automatically install it as a runtime trust root.
 
 The implementation is still `partial` because Matrix mailbox transport, INAC
 authorization/invitations, non-public referenced payload resolution, and broader

@@ -63,6 +63,8 @@
         "fingerprint/alg": "sha256-leaf-der",
         "fingerprint": "sha256:yUD9dYv2SP0C9K5tCxm8o3qUTGBW0h1su4dugmS_2sc",
         "server-name": "node-01.docs.orbiplex.ai",
+        "subject/common-name": "route:docs-node-01",
+        "advisory/route-id": "route:docs-node-01",
         "verified/at": "2026-04-17T11:59:30Z"
       },
       "signature": {

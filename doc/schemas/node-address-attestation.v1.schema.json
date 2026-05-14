@@ -260,6 +260,16 @@
           "minLength": 1,
           "description": "Server name used for TLS verification/SNI when the observation was made."
         },
+        "subject/common-name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Leaf certificate Common Name observed during TLS setup, when present. This is diagnostic and advisory material, not node identity by itself."
+        },
+        "advisory/route-id": {
+          "type": "string",
+          "pattern": "^route:",
+          "description": "Structured route id extracted from `subject/common-name` when the certificate CN uses the Orbiplex `route:` prefix. Dialers may compare it with endpoint evidence or local seed expectations as an advisory cross-layer consistency check."
+        },
         "verified/at": {
           "type": "string",
           "format": "date-time",

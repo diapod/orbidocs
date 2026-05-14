@@ -14,7 +14,9 @@ Based on:
 
 ## Status
 
-Draft
+Accepted for partial implementation.
+
+Implementation contract: `doc/project/60-solutions/024-tls-trust-policy/024-tls-trust-policy.md`.
 
 ## Date
 
@@ -155,10 +157,35 @@ route identifier as its TLS subject. Operators MAY explicitly configure
 `node_id` as the TLS certificate identity for local diagnostics or deliberately
 public services, but this is not the default.
 
-If a peer observes a certificate CN that uses the Orbiplex node-id prefix, it
-MUST compare that value with the signed `peer-handshake.v1` sender node id and
-reject the connection on mismatch. Absence of a node-id CN MUST NOT reject
-otherwise valid WebPKI or private-CA certificates.
+The TLS layer and the peer-identity layer SHOULD propagate different facts:
+
+- `tls_chain_verified`: whether the transport certificate chain, hostname/SNI,
+  configured CA material, WebPKI roots, or explicit pin passed the TLS endpoint
+  policy;
+- `subject_common_name`: the observed leaf certificate Common Name, when present;
+- `advisory_subject_verified`: whether a higher Orbiplex layer has interpreted
+  the CN as an Orbiplex subject and checked it against the expected peer context.
+
+If the observed CN is an ordinary DNS-style name and the endpoint policy uses
+Orbiplex Public Service CA or WebPKI, the TLS layer verifies the certificate
+through the configured root store and propagates the CN with
+`tls_chain_verified = true`. The peer layer does not need to reinterpret such a
+CN as Orbiplex identity.
+
+If the observed CN contains Orbiplex-style structured identity material, such as
+`node:did:key:...` or an opaque `route:...`, the transport layer MUST propagate
+the CN but MUST NOT treat it as a complete identity proof by itself. The peer
+layer then applies contextual checks:
+
+- `node:did:key:...` MUST match the signed `peer-handshake.v1` sender node id;
+- `route:...` MAY be checked against the expected route id carried by endpoint
+  evidence, local seed configuration, or another explicit routing contract;
+- mismatch MUST reject the connection before protocol payload exchange;
+- absence of a node-id or route-id CN MUST NOT reject otherwise valid WebPKI,
+  public-service-CA, private-CA, or pinned endpoint certificates.
+
+This keeps CN as an advisory cross-layer consistency check rather than a source
+of Orbiplex authority.
 
 For operator-managed bootstrap seeds, a daemon MAY additionally configure a
 static leaf-certificate pin on the seed entry. This is not a replacement for
@@ -174,6 +201,16 @@ WSS listener receives a separate random leaf key signed by that issuer. This
 avoids copying node identity private key material into the TLS listener key
 file and avoids leaking the stable node id through the TLS certificate chain.
 The peer handshake remains the proof of node identity.
+
+Route ids SHOULD be stable operational route subjects, not per-connection random
+values. A node should generate the route id when listener certificate material is
+first created, persist it in local configuration, and reuse it across daemon
+restarts and ordinary leaf-certificate rotations. Regenerating the route id is a
+route-identity rotation: it requires regenerating the listener certificate and
+refreshing any endpoint evidence, local seed records, or peer expectations that
+referenced the previous route id. This cadence makes advisory route-id
+validation useful without exposing the stable node id.
+
 The generated listener private key is a secret configuration artifact and SHOULD
 be written with owner-only permissions (`0600` on Unix-like systems). Public
 certificates and trust roots may remain world-readable.
@@ -408,6 +445,7 @@ Orbiplex peer handshakes.
 | Orbiplex Public Service CA is compromised | Rotate bundled root, publish revocation notice, pin service keys where possible. |
 | Diagnostic insecure mode leaks into production | Keep it explicit, logged, readiness-visible, and disabled by default. |
 | TLS cert is mistaken for node identity | Documentation and code names use `endpoint_certificate`, `fingerprint`, and `peer_handshake` terminology. |
+| Route id is regenerated too often | Treat route id rotation as an explicit route-identity rotation that refreshes listener certificates and endpoint evidence. |
 
 ## Implementation Notes
 
@@ -431,27 +469,131 @@ Expected implementation work:
 5. Expose effective TLS trust policy in readiness/status reports.
 6. Document local certificate rotation and trust-root installation.
 
-## Open Questions
+## Resolved Questions
 
-1. Should `sha256-spki` be implemented after `sha256-leaf-der`, and which X.509
-   parser should own SPKI extraction?
-2. Should Seed Directory accept multiple fingerprints for one node endpoint
-   during rotation windows?
-3. How long should node endpoint attestations remain fresh by default?
-4. Should official services prefer Orbiplex Public Service CA over WebPKI, or
-   support both in parallel for browser-facing surfaces?
-5. Should user-maintained Seed Directory instances publish their own service CA
-   material as signed governance artifacts?
+1. `sha256-leaf-der` is sufficient for the current implementation. `sha256-spki`
+   remains deferred until certificate renewal or deployment constraints make
+   public-key pinning technically necessary.
+2. Seed Directory SHOULD support multiple valid fingerprints for one node
+   endpoint during rotation windows. Rotation needs overlap rather than an
+   instantaneous cut-over.
+3. Freshness is class-specific:
+   - `node_id` is a stable cryptographic identity fact and has no ordinary TTL,
+     though it can be revoked, replaced, or marked compromised.
+   - Node identity confirmation, certificate, or binding records SHOULD carry
+     `issued_at`, `expires_at`, and revocation references; validity is typically
+     months to years.
+   - Node operator or routing bindings SHOULD be medium-lived; days, weeks, or
+     months depending on local governance policy.
+   - Node endpoint advertisements are reachability candidates, not durable
+     identity facts; dynamic laptop-style nodes should use about `5-15 min`,
+     stable servers may use about `1 h`, and re-announcement SHOULD happen at
+     `TTL / 2` or `TTL / 3`.
+   - Endpoint attestations SHOULD be short to medium lived, about `15 min` to
+     `24 h` depending on endpoint class and risk.
+   - Fresh liveness probes are very short lived, usually a few minutes.
+   - Resolvers MAY cache active endpoint results for about `30-120 s`.
+   - Old endpoint records MAY be retained historically for about `24-72 h`, but
+     MUST NOT be treated as active routing truth.
+4. Official non-browser node services SHOULD prefer Orbiplex Public Service CA
+   over WebPKI. Browser-facing surfaces MAY need WebPKI in parallel, but node
+   runtime trust should not silently trust the global WebPKI root set.
+5. User-maintained Seed Directory instances MAY publish service CA material as
+   signed governance artifacts. Nodes MUST treat that material as scoped trust
+   material candidates and MUST require local policy or an accepted governance
+   authority before using it for endpoint validation.
+6. Scoped service CA governance material SHOULD use `service-ca-material.v1` for
+   M4/M5. The schema is sufficient if it cleanly separates:
+   - CA material,
+   - usage scope,
+   - governance authority or proof,
+   - validity and rotation,
+   - and local acceptance policy.
+
+   Important contract:
+
+   ```text
+   service-ca-material.v1 != trust decision
+   ```
+
+   `service-ca-material.v1` means "this CA material is announced for this
+   scope." Local trust policy means "this issuer may establish CA material for
+   this scope." A node MUST NOT use published CA material until local policy
+   accepts the issuer, scope, and policy reference. Future complexity should use
+   adjacent artifacts such as `service-ca-revocation.v1`,
+   `service-ca-policy.v1`, or `service-ca-transparency-checkpoint.v1` rather
+   than overloading the initial material artifact.
+
+   `authority/class` is only a declared class and MAY narrow a local rule. It
+   MUST NOT authorize a service CA candidate by itself; the local rule still
+   needs an explicit `authority/id` match.
+7. The first public federation profile SHOULD use conservative TTLs:
+
+   | Deployment class | Endpoint advertisement | Endpoint attestation | Liveness freshness | Service CA material | Operator/routing binding |
+   |---|---:|---:|---:|---:|---:|
+   | `laptop-dynamic` | `10 min` | `30 min` | `2 min` | `30 days` | `30 days` |
+   | `home-node` | `30 min` | `2 h` | `5 min` | `60 days` | `90 days` |
+   | `vps-stable` | `1 h` | `12 h` | `10 min` | `90 days` | `180 days` |
+   | `seed-directory` | `1 h` | `24 h` | `15 min` | `90 days` | `180 days` |
+   | `bootstrap-anchor` | `6 h` | `72 h` | probe-before-use | `180 days` | `365 days` |
+
+   Re-announcement cadence SHOULD be:
+
+   ```text
+   reannounce_at = TTL / 3
+   jitter = +/- 10%
+   ```
+
+   Hard rules:
+
+   ```text
+   endpoint advertisement TTL <= endpoint attestation TTL
+   liveness freshness <= endpoint advertisement TTL
+   service CA material TTL >> endpoint attestation TTL
+   binding TTL >> endpoint advertisement TTL
+   ```
+
+   Routing SHOULD distinguish freshness classes:
+
+   ```text
+   fresh   = verified_at <= class fresh window
+   usable  = now <= expires_at, but verified_at is older than the fresh window
+   stale   = now > expires_at, only history or probe fallback
+   dead    = stale retention exceeded or explicit revocation
+   ```
+
+   Even when endpoint attestation remains valid for hours, direct or private
+   delivery SHOULD NOT rely on an old attestation alone; it should perform a
+   fresh probe or peer handshake when the freshness window has elapsed.
+
+## Remaining Open Questions
+
+None for this proposal revision.
 
 ## Next Actions
 
-1. Audit current TLS call sites and classify them by trust class.
-2. Add or update configuration schema for explicit TLS trust policy.
-3. Add the remaining node-endpoint dial enforcement bridge: carry signed
-   `endpoint/certificate` evidence through `PeerStore` or an endpoint evidence
-   companion, and propagate the selected endpoint fingerprint into the dial
-   candidate before the peer supervisor compares it with the observed TLS leaf
-   certificate.
-4. Add a solution-level update once the implementation shape is stable.
-5. Update operator runbooks for local certificates, official service roots, and
-   fingerprint mismatch troubleshooting.
+1. Done: `service-ca-material.v1` defines the signed governance-published CA
+   material candidate. It deliberately does not encode the local trust decision.
+2. Done: node endpoint evidence has an implementation bridge. Seed Directory
+   node candidate resolution can fetch `node-address-attestation.v1`, copy the
+   selected `endpoint/certificate` fingerprint into the daemon's endpoint
+   evidence companion, and the peer supervisor prefers that attested fingerprint
+   over static bootstrap seed pins when building `DialCandidate`.
+3. Done: discovery/routing freshness policy is configurable through
+   `peer_discovery.freshness_policy`, with deployment-class defaults and
+   `fresh` / `usable` / `stale` / `dead` classification helpers.
+4. Done: local `service_ca_trust_policy` is represented at daemon-config level
+   and evaluated by the pure `orbiplex-node-service-ca-trust` crate. The
+   operator API exposes the configured rules and can evaluate a
+   `service-ca-material.v1` candidate without installing it as a trust root.
+   The daemon-side evaluation surface verifies the canonical candidate
+   signature before policy evaluation; the pure crate remains a policy
+   evaluator and does not resolve keys by itself.
+5. Done: peer supervisor operator status exposes endpoint evidence and
+   freshness classification so operators can inspect fresh vs. stale endpoint
+   pins. Direct subject-node resolution promotes only usable endpoint
+   certificate evidence into Artifact Delivery direct targets; stale and dead
+   evidence remain diagnostic or historical only.
+6. Next: update operator runbooks for local certificates, official service
+   roots, service CA material acceptance, and fingerprint mismatch
+   troubleshooting.

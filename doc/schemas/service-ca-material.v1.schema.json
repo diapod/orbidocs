@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:service-ca-material:v1",
+  "title": "Service CA Material v1",
+  "type": "object",
+  "additionalProperties": false,
+  "description": "Signed governance-published trust material candidate for a scoped service CA. This artifact is not a local trust decision; a node may use it only after local policy accepts the issuer, scope, and policy reference.",
+  "x-dia-basis": [
+    "doc/project/40-proposals/056-orbiplex-tls-trust-policy.md"
+  ],
+  "required": [
+    "schema",
+    "ca/id",
+    "service/kind",
+    "scope",
+    "material",
+    "valid/from",
+    "valid/until",
+    "issuer",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "service-ca-material.v1",
+      "description": "Schema discriminator. MUST be exactly `service-ca-material.v1`."
+    },
+    "ca/id": {
+      "type": "string",
+      "pattern": "^service-ca:[A-Za-z0-9._:-]+$",
+      "description": "Stable identifier of this CA material artifact or CA lineage member."
+    },
+    "service/kind": {
+      "type": "string",
+      "enum": [
+        "seed-directory",
+        "agora",
+        "artifact-delivery",
+        "inac",
+        "other"
+      ],
+      "description": "Service surface for which this CA material is being announced."
+    },
+    "scope": {
+      "$ref": "#/$defs/scope"
+    },
+    "material": {
+      "$ref": "#/$defs/material"
+    },
+    "valid/from": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Start of the publication validity window."
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time",
+      "description": "End of the publication validity window. Nodes MUST ignore this candidate after this time unless a newer accepted artifact supersedes it."
+    },
+    "rotation": {
+      "$ref": "#/$defs/rotation"
+    },
+    "issuer": {
+      "$ref": "#/$defs/issuer"
+    },
+    "policy/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional local-policy reference or governance policy identifier that tells a node which acceptance rule may authorize this trust material."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Scope in which this CA material may be considered. Local trust policy MUST match against this scope before using the material.",
+      "required": [
+        "protocols"
+      ],
+      "properties": {
+        "federation/id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "seed-directory/id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "protocols": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "endpoint/name-constraints": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Optional DNS or endpoint-name constraints. These are scoped policy hints, not a global trust-store installation instruction."
+        }
+      }
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "sha256",
+        "pem"
+      ],
+      "properties": {
+        "format": {
+          "const": "x509-pem",
+          "description": "Current v1 material format. DER bundles can be introduced through a later schema or profile if needed."
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256Digest",
+          "description": "SHA-256 digest of the canonical PEM bytes as published in `pem`."
+        },
+        "pem": {
+          "type": "string",
+          "pattern": "^-----BEGIN CERTIFICATE-----[A-Za-z0-9+/=\\r\\n]+-----END CERTIFICATE-----\\r?\\n?$",
+          "description": "PEM encoded CA certificate."
+        },
+        "key/id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional issuer-facing key identifier for rotation and operator diagnostics."
+        }
+      }
+    },
+    "rotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "supersedes": {
+          "type": "string",
+          "pattern": "^service-ca:[A-Za-z0-9._:-]+$"
+        },
+        "overlap/until": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "next/key": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "issuer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority/id",
+        "authority/class"
+      ],
+      "properties": {
+        "authority/id": {
+          "type": "string",
+          "pattern": "^(participant|org|node):did:key:z[1-9A-HJ-NP-Za-km-z]+$|^governance:[A-Za-z0-9._:-]+$"
+        },
+        "authority/class": {
+          "type": "string",
+          "enum": [
+            "community-trusted",
+            "federation-governance",
+            "operator-local",
+            "diagnostic"
+          ]
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key/ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional signing public-key reference. Required by runtimes that cannot derive a did:key public key from issuer.authority/id, for example governance aliases such as governance:orbiplex-pl."
+        }
+      }
+    },
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$"
+    }
+  }
+}

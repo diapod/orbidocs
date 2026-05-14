@@ -68,6 +68,7 @@ SCHEMA_WHITELIST = (
     "deferred-operation.v1.schema.json",
     "deferred-operation-status.v1.schema.json",
     "inac-control.v1.schema.json",
+    "service-ca-material.v1.schema.json",
 )
 
 EXAMPLE_WHITELIST = (
@@ -139,6 +140,7 @@ EXAMPLE_WHITELIST = (
     "running.artifact-delivery-status.json",
     "push-inline.inac-control.json",
     "refused.inac-control.json",
+    "public-seed-directory.service-ca-material.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
@@ -187,6 +189,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "success-without-draft.whisper-redaction-prepare-response.json",
     "inac-push-missing-artifact.inac-control.json",
     "memarium-blob-without-signature.memarium-blob.json",
+    "no-scope.service-ca-material.json",
 )
 
 

@@ -39,6 +39,17 @@ Implemented now:
   sessions. Artifact Delivery remote `inac-direct` targets use this path, and
   received `push` frames feed the shared Artifact Delivery inbound admission
   registry instead of a parallel INAC-specific dispatch table.
+- Node endpoint dials enforce endpoint certificate evidence when discovery has
+  it. Seed Directory node resolution can fetch `node-address-attestation.v1`,
+  copy the selected `endpoint/certificate` fingerprint into the daemon's peer
+  endpoint evidence companion, and the peer supervisor then carries that
+  fingerprint into the concrete dial candidate. Static seed pins remain a
+  bootstrap shortcut; attested endpoint evidence wins when both are present.
+  Stale or expired attestations are ignored before they can become dial pins.
+- The daemon exposes peer supervisor endpoint-evidence diagnostics for operator
+  inspection. Fresh evidence can feed direct INAC delivery; usable/stale/dead
+  evidence remains a discovery or troubleshooting hint and does not become a
+  direct delivery target without fresh verification.
 - Story-005 private/direct Whisper is wired as the first concrete vertical
   consumer of `AD -> inac-direct`: the sender produces a signed private
   `agora-record.v1` artifact, Artifact Delivery routes it to the configured
@@ -87,6 +98,7 @@ scaffold.
 - `memarium-blob.v1`
 - `inac-control.v1`
 - `capability-passport.v1`
+- `node-address-attestation.v1`
 
 ## Related Solutions
 

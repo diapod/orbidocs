@@ -1,0 +1,155 @@
+{:component/id :orbiplex/tls-trust-policy
+ :component/title "TLS Trust Policy"
+ :component/type :node-transport-trust-layer
+ :component/status :partial
+
+ :summary
+ "Node-side TLS trust layer that separates endpoint transport verification,
+ signed endpoint evidence, peer identity proof, capability authorization, and
+ local operator policy. It covers service CA material, Seed Directory endpoint
+ evidence, advisory TLS route ids, local listener certificate generation, and
+ peer supervisor enforcement."
+
+ :must-implement
+ [{:cap/id :tls-service-ca-material
+   :title "Scoped Service CA Material"
+   :kind :trust-material
+   :based-on ["doc/project/40-proposals/056-orbiplex-tls-trust-policy.md"]
+   :schemas ["service-ca-material.v1"]
+   :responsibilities
+   ["Represent governance-published service CA material as a signed candidate"
+    "Keep CA material separate from local trust decisions"
+    "Carry service kind, usage scope, validity, rotation, issuer, policy reference, and signature"
+    "Require canonical signature verification before policy evaluation"]
+   :status :partial
+   :implemented ["service-ca-material.v1 schema and examples"
+                 "service-ca-trust pure evaluator"
+                 "Daemon service CA evaluation endpoint with signature verification"
+                 "Local service_ca_trust_policy validation"]
+   :remaining ["Persistent service CA candidate store"
+               "Automatic scoped trust-root installation"
+               "Service CA revocation and transparency artifacts"]}
+
+  {:cap/id :tls-node-endpoint-evidence
+   :title "Node Endpoint Certificate Evidence"
+   :kind :endpoint-evidence
+   :based-on ["doc/project/40-proposals/043-node-address-attestation-fallback.md"
+              "doc/project/40-proposals/056-orbiplex-tls-trust-policy.md"]
+   :schemas ["node-address-attestation.v1"]
+   :responsibilities
+   ["Record observed TLS endpoint certificate material in signed node-address attestations"
+    "Use sha256-leaf-der fingerprint evidence for MVP pinning"
+    "Carry subject common name and advisory route id as diagnostics and cross-layer checks"
+    "Reject expired, stale, or malformed endpoint evidence for direct delivery"]
+   :status :partial
+   :implemented ["endpoint/certificate evidence in node-address-attestation.v1"
+                 "Seed Directory WSS probe records TLS leaf fingerprint"
+                 "Daemon enrichment of Seed Directory node candidates"
+                 "PeerEndpointEvidenceStore in peer supervisor"
+                 "Dial candidate fingerprint propagation"]
+   :remaining ["sha256-spki extraction"
+               "Multiple valid fingerprints during certificate rotation"
+               "Peer-relayed endpoint evidence import path"]}
+
+  {:cap/id :tls-advisory-route-id
+   :title "Advisory TLS Route ID"
+   :kind :privacy-preserving-consistency-check
+   :based-on ["doc/project/40-proposals/056-orbiplex-tls-trust-policy.md"]
+   :schemas ["node-address-attestation.v1"]
+   :responsibilities
+   ["Avoid exposing stable node ids in generated TLS certificate subjects by default"
+    "Use opaque route ids as TLS Common Name material for node-local listener certificates"
+    "Propagate advisory route ids from TLS observation to endpoint evidence"
+    "Fail WSS dial when observed route id contradicts expected route id"]
+   :status :partial
+   :implemented ["Route-id certificate identity default in daemon peer listener config"
+                 "TLS CN extraction and advisory route-id derivation"
+                 "Endpoint certificate advisory/route-id schema field"
+                 "Peer supervisor route-id enforcement"]
+   :remaining ["Operator UI for explicit route identity rotation"
+               "Documented multi-node production route-id rotation runbook"]}
+
+  {:cap/id :tls-local-listener-certificate-generation
+   :title "Local Peer Listener Certificate Generation"
+   :kind :operator-readiness-action
+   :based-on ["doc/project/40-proposals/056-orbiplex-tls-trust-policy.md"]
+   :schemas []
+   :responsibilities
+   ["Generate missing local WSS listener certificate material from readiness gate"
+    "Use a route-local CA plus separate random listener leaf key"
+    "Persist generated route id in local config fragments"
+    "Keep listener private key separate from node identity key"]
+   :status :partial
+   :implemented ["Readiness action for missing peer listener certificate material"
+                 "Generated trust root, listener leaf certificate, and PKCS#8 listener key"
+                 "Certificate source loading from files and directories"
+                 "Hidden, backup, cache, and temporary file filtering"]
+   :remaining ["Hot reload of listener certificate material"
+               "Production rotation workflow with endpoint evidence refresh"]}
+
+  {:cap/id :tls-peer-dial-enforcement
+   :title "Peer Dial TLS Evidence Enforcement"
+   :kind :transport-enforcement
+   :based-on ["doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+              "doc/project/60-solutions/024-tls-trust-policy/024-tls-trust-policy.md"]
+   :schemas ["node-address-attestation.v1"]
+   :responsibilities
+   ["Rank dial candidates with endpoint evidence before static seed pins"
+    "Reject TLS leaf fingerprint mismatch before payload exchange"
+    "Reject advisory route-id mismatch before payload exchange"
+    "Run peer handshake after TLS endpoint checks to prove node identity"]
+   :status :partial
+   :implemented ["Endpoint evidence and static seed pin lookup"
+                 "DialCandidate expected TLS fingerprint and route id"
+                 "Peer supervisor leaf fingerprint enforcement"
+                 "Peer supervisor advisory route-id enforcement"
+                 "Network transcript exposes initiator-side TLS peer certificate observation"]
+   :remaining ["Broader diagnostics and operator remediation hints"
+               "Rotation-window acceptance for endpoint certificates"]}]
+
+ :may-implement
+ [{:cap/id :tls-trust-policy-schema
+   :title "Generic TLS Trust Policy Schema"
+   :kind :optional-config-contract
+   :based-on ["doc/project/60-solutions/024-tls-trust-policy/024-tls-trust-policy.md"]
+   :schemas []
+   :responsibilities
+   ["Define a reusable tls-trust-policy.v1 config shape"
+    "Represent official-service, node-endpoint, local-dev, and diagnostic trust classes"
+    "Keep runtime-specific daemon config as an implementation projection"]
+   :status :optional}
+
+  {:cap/id :tls-service-ca-revocation
+   :title "Service CA Revocation and Transparency"
+   :kind :optional-governance-artifact
+   :based-on ["doc/project/60-solutions/024-tls-trust-policy/024-tls-trust-policy.md"]
+   :schemas []
+   :responsibilities
+   ["Publish scoped revocation or supersession information for service CA material"
+    "Support governance-visible rotation and overlap windows"
+    "Avoid installing governance-published CA material as implicit global trust"]
+   :status :optional}]
+
+ :out-of-scope
+ ["Using TLS certificates as capability authorization"
+  "Treating a TLS certificate as node identity without peer-handshake proof"
+  "One global Orbiplex CA for ordinary user-operated nodes"
+  "Silent fallback to insecure TLS verification"
+  "Installing service CA material into the operating-system global trust store"]
+
+ :consumes
+ ["service-ca-material.v1"
+  "node-address-attestation.v1"
+  "peer-handshake.v1"
+  "Daemon peer discovery config"
+  "Seed Directory reachability probes"
+  "Local operator trust policy"]
+
+ :produces
+ ["Scoped service CA trust evaluation"
+  "Endpoint certificate evidence"
+  "Peer endpoint evidence store entries"
+  "TLS leaf fingerprint dial expectations"
+  "Advisory route-id dial expectations"
+  "Local listener certificate material"]}
