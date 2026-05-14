@@ -249,7 +249,7 @@
             "sha256-leaf-der",
             "sha256-spki"
           ],
-          "description": "`sha256-leaf-der` hashes the full leaf certificate DER. `sha256-spki` hashes the leaf SubjectPublicKeyInfo DER and is reserved until explicit X.509/SPKI extraction is implemented."
+          "description": "`sha256-leaf-der` hashes the full leaf certificate DER. `sha256-spki` hashes the leaf SubjectPublicKeyInfo DER and is supported by Phase 4 endpoint pinning for key-continuity checks across certificate rotation."
         },
         "fingerprint": {
           "$ref": "#/$defs/sha256Digest",
@@ -269,6 +269,16 @@
           "type": "string",
           "pattern": "^(route:.+|routing:did:key:z[1-9A-HJ-NP-Za-km-z]+)$",
           "description": "Structured route id extracted from `subject/common-name` when the certificate CN uses a non-empty Orbiplex `route:` prefix or a delegated `routing:did:key:...` routing subject. Rust protocol validation additionally verifies the routing subject as an Ed25519 did:key. Dialers may compare it with endpoint evidence or local seed expectations as an advisory cross-layer consistency check."
+        },
+        "rotation/group-id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional operator-scoped rotation group. When omitted, runtimes derive the rotation group from `(target/node-id, endpoint)`."
+        },
+        "rotation/supersedes": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional fingerprint or certificate identifier superseded by this evidence. This supports overlap windows without making rotation metadata mandatory for v1 attestations."
         },
         "verified/at": {
           "type": "string",

@@ -1,0 +1,18 @@
+{
+  "schema": "service-ca-revocation.v1",
+  "revocation/id": "service-ca-revocation:seed-directory:pl-main:2026q2:001",
+  "ca/id": "service-ca:seed-directory:pl-main:2026q2",
+  "material/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "revoked/at": "2026-05-14T12:00:00Z",
+  "reason-code": "superseded",
+  "issuer": {
+    "authority/id": "governance:orbiplex-pl",
+    "authority/class": "federation-governance"
+  },
+  "policy/ref": "local-trust-policy:orbiplex-pl:seed-directory-service-ca",
+  "signature": {
+    "alg": "ed25519",
+    "key/ref": "did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+    "value": "base64url-signature-placeholder"
+  }
+}

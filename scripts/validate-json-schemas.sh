@@ -119,6 +119,9 @@ schema_for_file() {
     *.service-ca-material.json)
       echo "$SCHEMAS_DIR/service-ca-material.v1.schema.json"
       ;;
+    *.service-ca-revocation.json)
+      echo "$SCHEMAS_DIR/service-ca-revocation.v1.schema.json"
+      ;;
     *.service-offer.json)
       echo "$SCHEMAS_DIR/service-offer.v1.schema.json"
       ;;

@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:service-ca-revocation:v1",
+  "title": "Service CA Revocation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "description": "Signed governance or operator fact revoking scoped Service CA material. This is a revocation candidate until the local node verifies the signature and accepts the issuer under local trust policy.",
+  "x-dia-basis": [
+    "doc/project/40-proposals/056-orbiplex-tls-trust-policy.md",
+    "doc/project/60-solutions/024-tls-trust-policy/024-tls-trust-policy.md"
+  ],
+  "required": [
+    "schema",
+    "revocation/id",
+    "ca/id",
+    "revoked/at",
+    "reason-code",
+    "issuer",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "service-ca-revocation.v1"
+    },
+    "revocation/id": {
+      "type": "string",
+      "pattern": "^service-ca-revocation:[A-Za-z0-9._:-]+$"
+    },
+    "ca/id": {
+      "type": "string",
+      "pattern": "^service-ca:[A-Za-z0-9._:-]+$"
+    },
+    "material/digest": {
+      "$ref": "#/$defs/sha256Digest",
+      "description": "Optional canonical payload or PEM digest. When omitted, the revocation applies to all active local candidates with the same `ca/id`."
+    },
+    "revoked/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reason-code": {
+      "type": "string",
+      "enum": [
+        "key-compromise",
+        "scope-withdrawn",
+        "superseded",
+        "operator-request",
+        "policy-violation",
+        "diagnostic"
+      ]
+    },
+    "issuer": {
+      "$ref": "#/$defs/issuer"
+    },
+    "policy/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "issuer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority/id",
+        "authority/class"
+      ],
+      "properties": {
+        "authority/id": {
+          "type": "string",
+          "pattern": "^(participant|org|node):did:key:z[1-9A-HJ-NP-Za-km-z]+$|^governance:[A-Za-z0-9._:-]+$"
+        },
+        "authority/class": {
+          "type": "string",
+          "enum": [
+            "community-trusted",
+            "federation-governance",
+            "operator-local",
+            "diagnostic"
+          ]
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key/ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional key reference. Verifiers MUST resolve authority keys from local policy; this field is a consistency check, not authority discovery."
+        }
+      }
+    },
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$"
+    }
+  }
+}

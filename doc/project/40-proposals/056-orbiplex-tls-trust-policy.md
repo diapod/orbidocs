@@ -243,8 +243,9 @@ seed_directory_signature
 
 This material is carried by `node-address-attestation.v1` as signed
 `endpoint/certificate` evidence on transcript-bound observations. The v1
-implementation starts with `sha256-leaf-der`; `sha256-spki` remains a reserved
-algorithm value until explicit SPKI extraction is implemented.
+implementation supports `sha256-leaf-der` and `sha256-spki`; leaf DER remains
+the default required pin, while SPKI supports continuity checks across leaf
+certificate renewal.
 
 Endpoint certificate observation is an initiator-side fact: it records what the
 dialing/probing side verified for the remote endpoint during TLS setup. A
@@ -603,6 +604,9 @@ None for this proposal revision.
    pins. Direct subject-node resolution promotes only usable endpoint
    certificate evidence into Artifact Delivery direct targets; stale and dead
    evidence remain diagnostic or historical only.
-6. Next: update operator runbooks for local certificates, official service
+6. Done: `service-ca-revocation.v1`, persisted Service CA candidates,
+   persisted evaluations, scoped installations, and multi-pin endpoint evidence
+   close the Phase 4 production-minimum lifecycle.
+7. Next: update operator runbooks for local certificates, official service
    roots, service CA material acceptance, and fingerprint mismatch
    troubleshooting.

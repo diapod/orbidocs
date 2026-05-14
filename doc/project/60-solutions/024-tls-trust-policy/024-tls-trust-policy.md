@@ -5,7 +5,7 @@ services, Seed Directory discovery, and node-to-node WSS/HTTP communication.
 It keeps TLS endpoint verification, endpoint evidence, peer identity, and
 capability authorization in separate strata.
 
-Status: `partial`
+Status: `mvp-ready`
 
 Date: `2026-05-14`
 
@@ -39,14 +39,15 @@ local policy           -> operator-owned final acceptance decision
 
 The current solution supports two concrete trust paths:
 
-- **Service CA candidates** are described by `service-ca-material.v1` and
-  evaluated against local `service_ca_trust_policy`. A candidate is not a trust
-  decision; it becomes usable only after signature verification and local policy
-  acceptance.
+- **Service CA candidates** are described by `service-ca-material.v1`, persisted
+  in the daemon Service CA trust store, evaluated against local
+  `service_ca_trust_policy`, and installed only as scoped roots. A candidate is
+  not a trust decision; it becomes usable only after signature verification,
+  local policy acceptance, and explicit scoped installation.
 - **Node endpoint evidence** is carried by `node-address-attestation.v1` as
   `endpoint/certificate` facts. The daemon can use this evidence to pin the
-  observed TLS leaf certificate for participant, org, routing-subject, and
-  direct peer delivery resolution.
+  observed TLS leaf certificate or SPKI for participant, org, routing-subject,
+  and direct peer delivery resolution.
 
 For node-generated listener certificates, the privacy-preserving default is to
 use an opaque `route:` identifier in the TLS subject rather than the stable
@@ -113,7 +114,8 @@ service-ca-material.v1 != trust decision
 
 A node may use service CA material only after:
 
-1. the candidate signature is verified over the canonical payload;
+1. the candidate signature is verified over the domain-wrapped canonical
+   payload using a locally trusted authority key;
 2. local policy accepts the issuer, service kind, scope, policy reference, and
    validity window;
 3. the resulting decision is applied to a specific endpoint class, not to the
@@ -139,8 +141,8 @@ The normal flow is:
 6. A resolver returns node candidates enriched with `endpoint/certificate`
    evidence.
 7. The daemon records endpoint evidence in the peer supervisor.
-8. A later WSS dial fails closed if the observed TLS leaf certificate or
-   advisory route id contradicts the expected evidence.
+8. A later WSS dial fails closed if the observed TLS leaf/SPKI pin or advisory
+   route id contradicts the expected evidence.
 9. The Orbiplex peer handshake then proves the peer node id.
 
 Direct/private subject-node delivery requires usable endpoint evidence before a
@@ -235,27 +237,31 @@ Implemented in `node`:
 - `service-ca-material.v1` protocol contract, schema examples, and validation;
 - `service-ca-trust` pure evaluator and daemon evaluation endpoint;
 - signature verification before daemon service CA policy evaluation;
+- persistent daemon Service CA trust candidate/evaluation/installation and
+  revocation store;
+- operator endpoints for importing candidates, persisting evaluations,
+  installing scoped roots, disabling installations, and importing signed
+  revocations;
+- `service-ca-revocation.v1` schema and example;
 - `node-address-attestation.v1` endpoint certificate evidence with
-  `subject/common-name` and `advisory/route-id`;
+  `subject/common-name`, `advisory/route-id`, and optional rotation metadata;
 - WSS probe extraction of TLS leaf fingerprint and advisory CN facts;
+- SPKI fingerprint extraction from observed leaf certificates;
 - daemon enrichment of Seed Directory node candidates with endpoint evidence;
-- `PeerEndpointEvidenceStore` and dial candidate expected TLS fingerprint /
-  advisory route id;
-- peer supervisor enforcement of TLS leaf fingerprint and advisory route id;
+- `PeerEndpointEvidenceStore` with multiple active pins per endpoint and dial
+  candidate expected TLS pin/advisory route id propagation;
+- peer supervisor enforcement of TLS leaf/SPKI fingerprint and advisory route
+  id;
 - discovery freshness profiles and resolver cache/freshness validation;
 - readiness-triggered local peer listener certificate generation;
 - certificate source loading from files or directories with hygiene filters;
 - OpenSSL helper scripts for public service CA operations.
 
-Partial or deferred:
+Deferred beyond the current production-minimum slice:
 
 - full generic `tls-trust-policy.v1` config schema;
-- persistent service CA candidate store;
-- automatic service CA trust-root installation from accepted candidates;
-- SPKI fingerprint extraction (`sha256-spki`);
-- multi-fingerprint endpoint rotation windows;
-- revocation artifacts for service CA material;
 - public transparency/checkpointing for service CA governance material.
+- peer-relayed endpoint evidence import path.
 
 ## Failure Modes and Mitigations
 
@@ -264,7 +270,7 @@ Partial or deferred:
 | Service CA candidate is forged | Verify canonical signature before local policy evaluation. |
 | Service CA candidate is accepted too broadly | Scope by service kind, federation, protocol set, policy ref, and local issuer policy. |
 | Seed Directory emits stale endpoint evidence | Enforce evidence expiry and discovery freshness windows. |
-| Node rotates listener certificate without refreshed evidence | Dialer fails closed on leaf fingerprint mismatch. |
+| Node rotates listener certificate without refreshed evidence | Dialer fails closed on leaf/SPKI fingerprint mismatch. |
 | TLS CN leaks stable node id | Default generated cert identity is opaque `route:` id. |
 | Route id mismatch | Peer supervisor rejects before payload exchange. |
 | TLS certificate is mistaken for node identity | Peer handshake remains mandatory for node identity proof. |
@@ -297,14 +303,10 @@ Partial or deferred:
 1. Should `tls-trust-policy.v1` become a standalone config schema, or should the
    current daemon config remain the only runtime contract until a second
    implementation appears?
-2. What is the first production rotation format for service CA material:
-   `service-ca-revocation.v1`, a transparency checkpoint, or a policy bundle?
-3. When should `sha256-spki` be implemented: only after leaf renewal pain
-   appears, or before first public federation?
-4. Should endpoint evidence support multiple valid fingerprints during
-   certificate rotation in v1, or should this wait for an explicit v2?
-5. Which operator UI should own long-lived service CA material acceptance:
+2. Which operator UI should own long-lived service CA material acceptance:
    readiness gate, Seed Directory admin, or a dedicated trust-policy screen?
+3. What is the first public transparency format for Service CA governance
+   material: a checkpoint, a gossip record, or an Agora authority projection?
 
 ## Next Actions
 
@@ -312,7 +314,7 @@ Partial or deferred:
    contract.
 2. Add production operator documentation for generating and rotating public
    service CA material.
-3. Decide whether to persist service CA candidates locally or keep the current
-   stateless evaluation endpoint.
-4. Add rotation-window support for endpoint evidence before relying on it for
-   long-lived public nodes.
+3. Add peer-relayed endpoint evidence import only after direct Seed Directory
+   evidence has operated in real deployments.
+4. Add transparency/checkpoint artifacts once federation governance needs public
+   auditability beyond local operator policy.

@@ -69,6 +69,7 @@ SCHEMA_WHITELIST = (
     "deferred-operation-status.v1.schema.json",
     "inac-control.v1.schema.json",
     "service-ca-material.v1.schema.json",
+    "service-ca-revocation.v1.schema.json",
 )
 
 EXAMPLE_WHITELIST = (
@@ -141,6 +142,7 @@ EXAMPLE_WHITELIST = (
     "push-inline.inac-control.json",
     "refused.inac-control.json",
     "public-seed-directory.service-ca-material.json",
+    "public-seed-directory.service-ca-revocation.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
