@@ -267,8 +267,8 @@
         },
         "advisory/route-id": {
           "type": "string",
-          "pattern": "^route:",
-          "description": "Structured route id extracted from `subject/common-name` when the certificate CN uses the Orbiplex `route:` prefix. Dialers may compare it with endpoint evidence or local seed expectations as an advisory cross-layer consistency check."
+          "pattern": "^(route:.+|routing:did:key:z[1-9A-HJ-NP-Za-km-z]+)$",
+          "description": "Structured route id extracted from `subject/common-name` when the certificate CN uses a non-empty Orbiplex `route:` prefix or a delegated `routing:did:key:...` routing subject. Rust protocol validation additionally verifies the routing subject as an Ed25519 did:key. Dialers may compare it with endpoint evidence or local seed expectations as an advisory cross-layer consistency check."
         },
         "verified/at": {
           "type": "string",

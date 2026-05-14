@@ -153,14 +153,22 @@ delivery.
 
 The default generated listener certificate uses a `route:` identifier in the
 certificate subject. This avoids exposing stable `node:did:key:...` to ordinary
-TLS scanners.
+TLS scanners. A delegated `routing:did:key:...` routing subject may also be used
+as the advisory route id when the operator deliberately wants endpoint evidence
+to bind the TLS endpoint to that scoped delivery/contact identity.
 
 The route id is advisory and contextual:
 
 - the TLS layer extracts and propagates the Common Name;
 - the network layer may derive `advisory_route_id` when the CN starts with
-  `route:`;
+  `route:` or `routing:did:key:`;
+- `route:` ids MUST have a non-empty suffix, while `routing:did:key:` ids are
+  protocol-validated as Ed25519 did:key material before being accepted as
+  endpoint evidence;
 - the peer supervisor compares it with route evidence or local seed config;
+- Artifact Delivery's daemon-composed `routing-subject` lookup requires
+  `endpoint/certificate.advisory/route-id` to match the requested
+  `routing:did:key:...` before a direct target is emitted;
 - mismatch rejects the connection before protocol payload exchange;
 - match does not grant capability authority.
 

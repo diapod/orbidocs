@@ -173,13 +173,22 @@ through the configured root store and propagates the CN with
 CN as Orbiplex identity.
 
 If the observed CN contains Orbiplex-style structured identity material, such as
-`node:did:key:...` or an opaque `route:...`, the transport layer MUST propagate
-the CN but MUST NOT treat it as a complete identity proof by itself. The peer
-layer then applies contextual checks:
+`node:did:key:...`, an opaque `route:...`, or a delegated
+`routing:did:key:...` routing subject, the transport layer MUST propagate the CN
+but MUST NOT treat it as a complete identity proof by itself. The peer layer
+then applies contextual checks:
 
 - `node:did:key:...` MUST match the signed `peer-handshake.v1` sender node id;
-- `route:...` MAY be checked against the expected route id carried by endpoint
-  evidence, local seed configuration, or another explicit routing contract;
+- `route:...` and `routing:did:key:...` MAY be checked against the expected
+  route id carried by endpoint evidence, local seed configuration, or another
+  explicit routing contract;
+- `route:...` MUST have a non-empty suffix, and `routing:did:key:...` endpoint
+  evidence MUST validate as Ed25519 did:key material rather than only matching a
+  string prefix;
+- when Artifact Delivery resolves a `routing-subject` selector for direct
+  delivery, endpoint evidence MUST carry matching
+  `endpoint/certificate.advisory/route-id = routing:did:key:...` before the
+  daemon emits a concrete node target;
 - mismatch MUST reject the connection before protocol payload exchange;
 - absence of a node-id or route-id CN MUST NOT reject otherwise valid WebPKI,
   public-service-CA, private-CA, or pinned endpoint certificates.

@@ -35,9 +35,9 @@
    :notes
    ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, startup/effective-config validation, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory test ledger, a SQLite runtime ledger at `<node-data-dir>/storage/artifact-delivery.sqlite` with explicit user_version migrations and PRAGMA setup, the Agora publish adapter, local and remote WSS INAC direct-node delivery, inbound acceptor registry conflict detection, pre-acceptor non-empty sha256 and inline byte-identity validation, an `artifact-store:` referenced payload resolver rooted under `<node-data-dir>/storage/artifact-store`, receiver-side remote WSS INAC allowlists, a receiver-local inbound admission/refusal ledger, control-plane HTTP admission source adapter allowlists, admission idempotency, admission status APIs/UI, Story-005 public Whisper candidate delivery through AD -> Agora, and regression coverage."
     "Deferred Artifact Delivery is a P055 consumer: `?mode=deferred` returns `deferred-operation.v1` with stable operation metadata, `audit/outcome-ref`, and a canonical operation-status URL; recovery preserves prior attempts in `retry/history` and returns schema-gated `artifact-delivery-recovery.v1`. The daemon also starts a background recovery worker by default, with interval, batch, and pass-deadline policy visible to operators."
-    "Referenced payload resolution is registry-based and fail-closed. The first production resolver is `artifact-store:`; it limits reference suffix length, rejects path escape, uses no-follow file opening on Unix, and still requires digest validation. Other schemes remain disabled until explicitly implemented."
-    "Current runtime records and validates policy shape, but full generic enforcement of privacy, retry, timeout, retention, and operator-review semantics remains route/adapter/domain-specific until the later policy-enforcement layer lands."
-    "Matrix mailbox transport, richer referenced payload schemes, INAC authorization/invitations, full generic delivery-policy enforcement, and private/direct Story-005 delivery are later layers."]}
+    "Referenced payload resolution is registry-based and fail-closed. Production resolvers include `artifact-store:`, public Memarium refs, and scoped Memarium refs (`memarium-entry:<space>:<entry-id>`, `memarium-fact:<space>:<fact-id>`) that require outbound component context and the host `memarium.read` passport gate. Other schemes remain disabled until explicitly implemented."
+    "Current runtime records, validates, and reports policy support for the mechanical enforcement subset. Full generic retention/operator-review semantics remain route/adapter/domain-specific until proven reusable."
+    "Matrix mailbox transport, peer/agora referenced payload fetch, and INAC authorization/invitations are later layers."]}
 
   {:cap/id :artifact-delivery-outbound-authorization
    :title "Outbound Authorization and Recipient Resolution"
@@ -97,9 +97,10 @@
                  "Explicit pure JSON-e Flow acceptor declaration compiled once at startup and required to contain a respond step"
                  "Remote INAC WSS peer-message transport feeds inbound artifacts into the shared admission path"
                  "Remote INAC inbound WSS allowlist with empty-list deny-all semantics"
-                 "`artifact-store:` referenced payload resolver/fetch support before acceptor invocation"]
+                 "`artifact-store:` referenced payload resolver/fetch support before acceptor invocation"
+                 "Public and scoped Memarium referenced payload resolvers with digest/size validation; scoped refs require caller/capability context"]
    :remaining ["Matrix mailbox transport adapters feeding inbound artifacts into the shared admission path"
-               "Additional referenced payload schemes such as `memarium:`, `agora:`, or peer fetch"]}
+               "Additional referenced payload schemes such as `agora:` or peer fetch"]}
 
   {:cap/id :artifact-delivery-transport-adapter-registry
    :title "Transport Adapter Registry"

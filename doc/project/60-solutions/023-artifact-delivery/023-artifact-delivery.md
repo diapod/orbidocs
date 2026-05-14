@@ -138,9 +138,11 @@ Current implementation status:
   The daemon also registers separate public-space Memarium resolver schemes:
   `memarium-public-entry:<entry-id>` resolves to the entry payload body and
   `memarium-public-fact:<fact-id>` resolves to the full fact, both as canonical
-  JSON with size and digest verification. Non-public spaces are rejected until
-  Artifact Delivery carries caller/capability context or calls the regular
-  `memarium.read` host capability path. Other schemes such as `agora:`,
+  JSON with size and digest verification. Scoped Memarium resolver schemes
+  `memarium-entry:<space>:<entry-id>` and `memarium-fact:<space>:<fact-id>`
+  are also available for spaces such as `personal`, `community`, `public`, and
+  `crisis`, but they require outbound component context and reuse the host's
+  `memarium.read` passport gate before reading. Other schemes such as `agora:`,
   `inac:`, `http:`, or `file:` are not implicitly enabled.
 - The runtime records, validates, and enforces the mechanical subset of
   `policy`: route/selector allowlists, fan-out and byte caps, delivery timeout,
@@ -171,12 +173,19 @@ Current implementation status:
 - Discovery-backed direct delivery now has a transport evidence bridge for
   node endpoints. When Seed Directory can provide `node-address-attestation.v1`
   for a resolved participant or routing-subject node, the daemon records the
-  selected `endpoint/certificate` fingerprint in the peer supervisor's endpoint
-  evidence companion. The subsequent WSS dial carries that fingerprint into
-  `DialCandidate.expected_tls_certificate_sha256` and fails closed on mismatch
-  before INAC or Artifact Delivery payload exchange. This bridge keeps
-  transport evidence in daemon composition; Artifact Delivery core continues to
-  see only resolved targets and route policy.
+  selected `endpoint/certificate` fingerprint and advisory route id in the peer
+  supervisor's endpoint evidence companion. The subsequent WSS dial carries the
+  fingerprint into `DialCandidate.expected_tls_certificate_sha256` and the
+  advisory route id into the TLS CN consistency check; both fail closed on
+  mismatch before INAC or Artifact Delivery payload exchange. For
+  `routing-subject` selectors, the daemon additionally requires the attested
+  endpoint certificate advisory route id to equal the requested
+  `routing:did:key:...` subject before producing a direct target. Advisory
+  `route:` ids must be non-empty, and delegated `routing:did:key:...` advisory
+  ids are protocol-validated as Ed25519 did:key material before endpoint
+  evidence is accepted. This bridge
+  keeps transport evidence in daemon composition; Artifact Delivery core
+  continues to see only resolved targets and route policy.
 - Discovery and routing freshness are governed by
   `peer_discovery.freshness_policy`. Deployment-class defaults encode the
   current public profile recommendation: endpoint advertisements are short-lived
@@ -1125,14 +1134,14 @@ Status:
   capability lookup, participant/routing-subject recipient resolution through
   Seed Directory projections, Story-005 public Whisper via `agora-default`,
   fail-closed org recipient resolution through configured org custodians plus
-  Seed Directory participant projections, public `memarium:` referenced payload
-  resolution for `public` entries/facts, mechanical delivery-policy enforcement
+  Seed Directory participant projections, public and capability-gated scoped
+  Memarium referenced payload resolution, mechanical delivery-policy enforcement
   including private-to-Agora rejection,
   Story-005 private/direct Whisper via `inac-direct`, a full three-daemon Story-005 AD
   observability smoke that asserts A/B are thin Agora clients publishing to
   node C rather than running a local `agora-service`, and regression tests.
-  Matrix mailbox transport, non-public referenced payload resolution, and INAC
-  authorization/invitations remain later layers.
+  Matrix mailbox transport and INAC authorization/invitations remain later
+  layers.
 
 ### Outbound Authorization and Recipient Resolution
 
@@ -1414,8 +1423,8 @@ Status:
    delivery beyond explicit story/profile allowlists.
 2. Add Matrix mailbox transport only if store-and-forward private delivery is
    required.
-3. Add richer referenced payload schemes such as Memarium or peer fetch only
-   with explicit resolver allowlists and digest validation.
+3. Add peer/agora referenced payload fetch only with explicit resolver
+   allowlists, size caps, and digest validation.
 
 ## Related Capability Data
 

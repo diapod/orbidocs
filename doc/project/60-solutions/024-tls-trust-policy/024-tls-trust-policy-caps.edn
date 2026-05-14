@@ -63,8 +63,8 @@
     "Fail WSS dial when observed route id contradicts expected route id"]
    :status :partial
    :implemented ["Route-id certificate identity default in daemon peer listener config"
-                 "TLS CN extraction and advisory route-id derivation"
-                 "Endpoint certificate advisory/route-id schema field"
+                 "TLS CN extraction and advisory route-id derivation for non-empty `route:` ids and Ed25519 `routing:did:key:` subjects"
+                 "Endpoint certificate advisory/route-id schema field accepting opaque route ids and validated routing-subject ids"
                  "Peer supervisor route-id enforcement"]
    :remaining ["Operator UI for explicit route identity rotation"
                "Documented multi-node production route-id rotation runbook"]}
@@ -104,6 +104,7 @@
                  "DialCandidate expected TLS fingerprint and route id"
                  "Peer supervisor leaf fingerprint enforcement"
                  "Peer supervisor advisory route-id enforcement"
+                 "Artifact Delivery routing-subject lookup prefilters direct targets by matching endpoint advisory route id"
                  "Network transcript exposes initiator-side TLS peer certificate observation"]
    :remaining ["Broader diagnostics and operator remediation hints"
                "Rotation-window acceptance for endpoint certificates"]}]
