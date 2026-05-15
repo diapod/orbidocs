@@ -433,6 +433,15 @@ single-use consumption, directed at a specific peer — are expressed
 through the passport's scope fields, not through a separate
 credential class.
 
+Invitation delivery and human acceptance are intentionally separate
+from the INAC wire gate. A future generic user/operator notification
+queue may deliver an invitation to a participant or nym and render
+`Accept` / `Reject` actions in `/operator/notifications` or
+`/admin/notifications`. Accepting would issue the narrow
+`inac.invitation` passport and may create a local contact; rejecting
+would record a local decision without granting authority. INAC only
+verifies the resulting inline passport on arrival.
+
 ### 6. Privacy and observability differences from Agora
 
 INAC is **not** a publication surface. Consequently:
@@ -510,10 +519,9 @@ before it has been used.
   discovery; those belong to proposals 002 and 014.
 - INAC does **not** define how invitation passports are delivered
   out-of-band to the inviter's peer; it only defines their
-  verification on arrival. Delivery may itself happen through INAC
-  (passport handoff is one of the five use cases in §8) or through
-  any other channel the inviter and invitee have already
-  established.
+  verification on arrival. Delivery may happen through a future
+  notification queue, through INAC passport handoff, or through any
+  other channel the inviter and invitee have already established.
 - INAC does **not** define Memarium storage semantics; it defines
   wire operations that write into Memarium via its existing host
   capabilities (proposal 036).

@@ -88,9 +88,24 @@ resolver registry, with `artifact-store:` as the first production resolver.
 Direct component calls to `inac.*` host capabilities are governed by INAC
 outbound allowlists; Artifact Delivery routes that happen to use `inac-direct`
 are governed by Artifact Delivery outbound allowlists. Matrix mailbox transport,
-binary-frame streaming, passport/invitation authorization beyond explicit
-profile allowlists, and concrete Agora/Memarium handlers remain outside the MVP
-scaffold.
+binary-frame streaming, general/custody passport authorization, and concrete
+Agora/Memarium handlers remain outside the MVP scaffold. Receiver-side WSS
+`push` authorization now has a first production gate: without an explicit
+profile allowlist the frame must carry an inline `capability-passport.v1` with
+`capability_id = "inac.invitation"` under `authorization`; rejected transfers
+are written to a local INAC transfer ledger before Artifact Delivery admission.
+Invitation-passport authorization fails closed when the receiver has no current
+revocation view source; the WSS peer identity still authenticates the transport
+session, while the invitation passport only authorizes that verified peer to
+present a specific artifact push.
+
+Invitation delivery and acceptance is intentionally not a full UX contract yet.
+The intended later layer is a generic user/operator notification queue, for
+example `/operator/notifications` or `/admin/notifications`, where an invitation
+notification can render `Accept` / `Reject` actions. Accepting would issue the
+narrow `inac.invitation` passport and create a local contact; rejecting would
+record the local decision without minting authority. That notification mechanism
+is broader than INAC and should not be embedded into the INAC transport core.
 
 ## Related Schemas
 

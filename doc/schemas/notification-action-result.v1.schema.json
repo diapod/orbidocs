@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:notification-action-result:v1",
+  "title": "NotificationActionResult v1",
+  "description": "Result returned after a notification action submission.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/057-user-and-operator-notifications.md"],
+  "required": ["schema", "status", "notification/id", "action/id"],
+  "properties": {
+    "schema": { "const": "notification-action-result.v1" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "action-no-longer-available",
+        "action-target-not-implemented",
+        "version-conflict",
+        "replay-rejected",
+        "invalid-input"
+      ]
+    },
+    "notification/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "action/id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "action/submission-id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "version": { "type": "integer", "minimum": 1 },
+    "reason/code": { "type": "string", "minLength": 1, "maxLength": 128 }
+  }
+}

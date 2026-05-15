@@ -15,6 +15,7 @@ Control-plane frame for Inter-Node Artifact Channel offer/request/push/response 
 | [`artifact`](#field-artifact) | `no` | ref: `#/$defs/artifact` |  |
 | [`request`](#field-request) | `no` | ref: `#/$defs/request` |  |
 | [`transfer`](#field-transfer) | `no` | ref: `#/$defs/transfer` |  |
+| [`authorization`](#field-authorization) | `no` | ref: `#/$defs/authorization` |  |
 | [`response`](#field-response) | `no` | ref: `#/$defs/response` |  |
 | [`meta`](#field-meta) | `no` | object |  |
 
@@ -25,6 +26,7 @@ Control-plane frame for Inter-Node Artifact Channel offer/request/push/response 
 | [`artifact`](#def-artifact) | object |  |
 | [`request`](#def-request) | object |  |
 | [`transfer`](#def-transfer) | object |  |
+| [`authorization`](#def-authorization) | object |  |
 | [`response`](#def-response) | object |  |
 
 ## Conditional Rules
@@ -252,6 +254,12 @@ Then:
 - Required: `no`
 - Shape: ref: `#/$defs/transfer`
 
+<a id="field-authorization"></a>
+## `authorization`
+
+- Required: `no`
+- Shape: ref: `#/$defs/authorization`
+
 <a id="field-response"></a>
 ## `response`
 
@@ -278,6 +286,11 @@ Then:
 
 <a id="def-transfer"></a>
 ## `$defs.transfer`
+
+- Shape: object
+
+<a id="def-authorization"></a>
+## `$defs.authorization`
 
 - Shape: object
 

@@ -98,7 +98,8 @@
           "required": ["selector/kind", "node/id"],
           "properties": {
             "selector/kind": { "const": "node" },
-            "node/id": { "type": "string", "minLength": 1, "maxLength": 256 }
+            "node/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+            "inac/authorization": { "$ref": "#/$defs/inac_authorization" }
           }
         },
         {
@@ -175,10 +176,27 @@
           "properties": {
             "selector/kind": { "const": "routing-subject" },
             "routing-subject/id": { "type": "string", "minLength": 1, "maxLength": 256 },
-            "max/nodes": { "type": "integer", "minimum": 1 }
+            "max/nodes": { "type": "integer", "minimum": 1 },
+            "inac/authorization": { "$ref": "#/$defs/inac_authorization" }
           }
         }
       ]
+    },
+    "inac_authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "passport"],
+      "properties": {
+        "mode": { "const": "invitation-passport" },
+        "passport": {
+          "type": "object",
+          "required": ["schema"],
+          "properties": {
+            "schema": { "const": "capability-passport.v1" }
+          },
+          "additionalProperties": true
+        }
+      }
     },
     "capability_filters": {
       "type": "object",

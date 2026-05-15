@@ -45,6 +45,9 @@
     "transfer": {
       "$ref": "#/$defs/transfer"
     },
+    "authorization": {
+      "$ref": "#/$defs/authorization"
+    },
     "response": {
       "$ref": "#/$defs/response"
     },
@@ -195,6 +198,27 @@
       },
       "additionalProperties": false
     },
+    "authorization": {
+      "type": "object",
+      "required": ["mode", "passport"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["invitation-passport"]
+        },
+        "passport": {
+          "type": "object",
+          "required": ["schema"],
+          "properties": {
+            "schema": {
+              "const": "capability-passport.v1"
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
     "response": {
       "type": "object",
       "required": ["status"],
@@ -209,6 +233,10 @@
             "kind-not-supported",
             "kind-conflict",
             "not-authorized",
+            "invitation-unknown",
+            "invitation-expired",
+            "invitation-revoked",
+            "invitation-scope-mismatch",
             "payload-too-large",
             "digest-mismatch",
             "malformed",

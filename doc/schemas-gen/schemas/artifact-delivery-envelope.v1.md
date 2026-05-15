@@ -48,6 +48,7 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 | [`deliveryPlan`](#def-deliveryplan) | object |  |
 | [`stage`](#def-stage) | object |  |
 | [`selector`](#def-selector) | unspecified |  |
+| [`inac_authorization`](#def-inac-authorization) | object |  |
 | [`capability_filters`](#def-capability-filters) | object |  |
 | [`policy`](#def-policy) | object |  |
 ## Field Semantics
@@ -109,6 +110,11 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 ## `$defs.selector`
 
 - Shape: unspecified
+
+<a id="def-inac-authorization"></a>
+## `$defs.inac_authorization`
+
+- Shape: object
 
 <a id="def-capability-filters"></a>
 ## `$defs.capability_filters`

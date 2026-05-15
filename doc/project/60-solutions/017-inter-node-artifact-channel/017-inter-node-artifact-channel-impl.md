@@ -109,7 +109,7 @@ gate is wired.
 | `memarium-blob.v1` | generic Memarium-native artefact envelope (content-addressed `blob/id`, domain `memarium.blob.v1`) | ✅ schema exists and is synchronized into node schema-gate |
 | `inac-control.v1` | control-message envelope for `offer`/`request`/`push` operations + response frames | ✅ schema exists; local runtime scaffold validates it; `push` requires exactly one payload location |
 | `agora-record.v1` | reused from proposal 035 | ✅ exists |
-| `capability-passport.v1` (with `capability_id = "inac.invitation"` variant) | authorization artifact for invitation-based push | 🟡 base format exists; `inac.invitation` scope grammar and single-use rule to document in proposal 024 (042 Follow-Up #5) |
+| `capability-passport.v1` (with `capability_id = "inac.invitation"` variant) | authorization artifact for invitation-based push | ✅ MVP scope grammar and receiver-side verifier are implemented for WSS `push`; general/custody paths remain later layers |
 
 ## Layer 1 — Peer-message kind registration
 
@@ -217,7 +217,7 @@ as described in proposal 042 §5.
 | `PassportResolutionCache` (shared with Agora) | ❌ not started |
 | General-capability-passport verifier path | ❌ not started |
 | Custody-passport verifier path (enforces `max_bytes`, `max_records`, `duration` from scope) | ❌ not started |
-| Invitation-passport verifier path (expiry, single-use consumption log, scope match) | ❌ not started |
+| Invitation-passport verifier path (expiry, revocation freshness, single-use consumption log, scope match) | ✅ implemented for receiver-side WSS `push` before Artifact Delivery admission; missing revocation source is a fail-closed `not-authorized` condition |
 | Attestation-only fallback (for `offer` and for per-kind policies that allow unsolicited accept) | ❌ not started |
 | Per-peer rate budgets (for `offer` vs `push`) | ❌ not started |
 
@@ -265,10 +265,18 @@ Distinctive traits expressed through scope fields:
 
 | Component | State |
 |---|---|
-| `inac.invitation` scope grammar documented in proposal 024 (042 Follow-Up #5) | ❌ not started |
-| Issuer-side: passport builder for invitations | ❌ not started |
-| Receiver-side: single-use consumption log in Memarium | ❌ not started |
-| Revocation channel (reuse of proposal 024 passport revocation) | 🟡 generic passport revocation exists; invitation-specific rate-limit/lifecycle interplay not designed |
+| `inac.invitation` scope grammar | ✅ implemented as `inac-invitation@v1` with `inac/push`, `peer_node_ids`, `artifact_schemas`, optional `artifact_ids`, optional `content_types`, and `single_use` defaulting to `true` |
+| Issuer-side: passport builder for invitations | 🟡 generic `capability.passport.sign` exists; Story-005 bootstrap uses it to install A↔B invitation passports; a user-facing invitation issuance UI remains future work |
+| Receiver-side: single-use consumption log | ✅ implemented in the local INAC SQLite ledger under `<data-dir>/storage/inac.sqlite`; repeated use of the same single-use passport for a different transfer is refused before AD admission |
+| Revocation channel (reuse of proposal 024 passport revocation) | ✅ receiver gate requires a revocation view source, checks the current revocation view and freshness budget, and fails closed when the view is missing or stale; invitation-specific rate-limit policy remains a later policy layer |
+
+Future invitation UX should be built on a generic notification queue rather
+than inside the INAC transport. A notification addressed to a participant or
+nym can render invitation-specific `Accept` / `Reject` controls: accepting
+issues the narrow `inac.invitation` passport and may create a local contact,
+while rejecting records a local decision without granting authority. This
+keeps INAC as the transport/admission gate and lets invitations share the same
+operator/user notification substrate as other actionable events.
 
 ## Layer 7 — Peer transport and node-identity
 
