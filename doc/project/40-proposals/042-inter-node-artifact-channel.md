@@ -373,9 +373,12 @@ Model:
 
 1. **Baseline kinds** are defined normatively in this proposal:
    - `agora-record.v1` (handled by the daemon's Agora-relay subsystem
-     when present, otherwise stored as an opaque envelope in
-     Memarium),
-   - `memarium-blob.v1` (handled by Memarium directly).
+     when present; absence of local Agora is an explicit handler-unavailable
+     condition rather than an implicit Memarium fallback),
+   - `memarium-blob.v1` (handled by Memarium directly after blob-id and
+     signature verification). The current baseline acceptor requires
+     `signature.key/public` and does not infer the signing key from
+     `author/participant-id`; delegated blob signatures remain future work.
 2. **Additional kinds** are registered as Artifact Delivery inbound
    acceptors. A supervised middleware module may request an acceptor
    through its module report, while an in-process component may declare
@@ -394,7 +397,12 @@ Model:
    `kind-not-supported` rather than storing opaque content; silent opaque
    storage would let pushers exploit the channel as a generic dead-drop.
    (Opaque storage of `memarium-blob.v1` is explicitly **allowed**
-   because the blob envelope is itself the contract.)
+   because the blob envelope is itself the contract. Plaintext/private
+   custody still requires explicit policy and is fail-closed by the baseline
+   handler, including `blob/encryption = "none"` and descriptors with
+   `algorithm = "none"`. The current baseline writes accepted custody facts to
+   the local public Memarium space; configurable target spaces are future
+   custody-policy work.)
 
 This design makes Artifact Delivery the shared extensible surface for
 component-facing artifact send/admit declarations. INAC remains one
@@ -438,9 +446,11 @@ from the INAC wire gate. A generic user/operator notification queue may
 deliver an invitation to a participant, nym, or operator and render
 `Accept` / `Reject` actions in `/operator/notifications` or
 `/admin/notifications`. Accepting issues the narrow `inac.invitation`
-passport and may later create a local contact; rejecting records a
-local decision without granting authority. INAC only verifies the
-resulting inline passport on arrival.
+passport and creates a local contact projection for operator visibility;
+rejecting records a local decision without granting authority. The local
+contact is not authority and is not published to Seed Directory, Agora, or a
+future Contact Catalog. INAC verifies the resulting inline passport on arrival
+through the shared capability-binding authorization path.
 
 Receiver-issued invitation passports are short-lived by policy. The current
 daemon default is one hour, configurable as

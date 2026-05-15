@@ -31,14 +31,13 @@
                  "Artifact Delivery remote `inac-direct` delivery over existing WSS peer sessions"
                  "Inbound WSS `push` frames feed Artifact Delivery inbound admission"
                  "Inbound WSS `offer` frames are fail-closed behind receiver-side peer allowlists"
-                 "Inbound WSS `push` frames require either an explicit receiver-side peer allowlist or an inline `inac.invitation` capability passport"
+                 "Inbound WSS `push` frames require either an explicit receiver-side peer allowlist or an inline capability passport authorized as `inac.invitation`, `inac-push@v1`, or `memarium-custody@v1`"
                  "INAC transfer decisions are persisted in a local SQLite ledger before or after Artifact Delivery admission"
                  "INAC response meta is terminated at the peer boundary in the current implementation"
                  "operator status endpoint `/v1/inac/status`"
                  "operator UI `/admin/inac` for handlers, counters, and recent refusals"]
    :remaining ["Add Matrix mailbox peer transport if asynchronous store-and-forward is needed"
-               "Add binary streaming for large payloads"
-               "Add general/custody passport authorization paths beyond invitation push"]}
+               "Add binary streaming for large payloads"]}
 
   {:cap/id :byte-identical-artifact-transfer
    :title "Byte-Identical Artifact Transfer"
@@ -55,11 +54,14 @@
    :implemented ["`memarium-blob.v1` is schema-gated and synchronized into node contracts"
                  "inline payload byte identity is checked by `inac-core`"
                  "`push` requires exactly one payload location: inline bytes, artifact/ref, or artifact/href"
-                 "`verify_artifact_bytes` checks exact full-envelope bytes for `agora-record.v1`, `memarium-blob.v1`, and future schemas before handler interpretation"]
-   :remaining ["Verify domain-specific `record/id` and `blob/id` semantics inside concrete domain handlers"
-               "Feed accepted artifacts into concrete domain handlers"
-               "Persist accepted custody records where the receiving domain requires it"
-               "Resolve referenced payload locations (`artifact/ref`, `artifact/href`) through a fetch or streaming contract before domain admission"]}
+                 "`verify_artifact_bytes` checks exact full-envelope bytes for `agora-record.v1`, `memarium-blob.v1`, and future schemas before handler interpretation"
+                 "Artifact Delivery in-process acceptor verifies `agora-record.v1` and re-ingests it through local Agora when available"
+                 "Artifact Delivery in-process acceptor verifies `memarium-blob.v1`, recomputes `blob/id`, requires `signature.key/public`, verifies the signature, and stores an accepted custody fact through Memarium"
+                 "Baseline `agora-record.v1` handler fails explicitly when local Agora is unavailable instead of silently falling back to Memarium"
+                 "Baseline `memarium-blob.v1` handler rejects plaintext/private custody fail-closed unless a future explicit policy enables it"
+                 "Baseline `memarium-blob.v1` custody facts are recorded in the local public Memarium space; configurable target spaces remain future custody-policy work"]
+   :remaining ["Resolve referenced payload locations (`artifact/ref`, `artifact/href`) through a fetch or streaming contract before domain admission"
+               "Add delegated signature support for `memarium-blob.v1` if custody/system artifact semantics later require it"]}
 
   {:cap/id :binary-frame-streaming
    :title "Binary Frame Streaming"
@@ -88,16 +90,20 @@
    :status :partial
    :implemented ["Receiver-side remote WSS INAC allowlist for Artifact Delivery offer frames"
                  "Receiver-side remote WSS push gate for inline `inac.invitation` capability passports"
+                 "Receiver-side invitation authorization uses the shared `capability-binding::authorize` path with `OperationRequest::InacPush`"
+                 "Receiver-side general push authorization uses the shared `capability-binding::authorize` path with the built-in `inac-push@v1` evaluator"
+                 "Receiver-side Memarium custody authorization uses the shared `capability-binding::authorize` path with the built-in `memarium-custody@v1` evaluator"
+                 "Custody transport limits enforce `max_bytes` before AD admission and durable `max_records` consumption in `<data-dir>/storage/inac.sqlite`"
                  "`inac-invitation@v1` scope evaluator with `inac/push`, peer, schema, artifact id, content type, and single-use semantics"
                  "Single-use invitation consumption and transfer decisions are persisted in `<data-dir>/storage/inac.sqlite`"
                  "Invitation passport authorization fails closed without a current receiver revocation view source"
                  "Receiver-side per-peer/per-kind inbound budgets reject oversized, quota-exceeded, rate-limited, or explicit-deny `offer`/`push` frames before AD admission"
                  "Unsolicited `offer` frames can create local operator notifications with host-owned `inac.invitation.accept` / `inac.invitation.reject` actions"
                  "Accept is idempotent for already accepted offers, receiver-issued invitation passport TTL is configurable, and active pending offers are capped per remote node"
+                 "Accepted invitations create a local INAC contact projection by default; the contact is not authority"
                  "Empty allowlist means deny-all, so enabling remote WSS INAC does not grant ambient inbound authority"]
-   :remaining ["General capability and custody passport authorization"
-               "Attestation-only paths"
-               "Durable contact creation after accepted invitations"]}]
+   :remaining ["Attestation-only paths"
+               "Full Contact Catalog integration remains a separate future layer"]}]
 
  :may-implement
  [{:cap/id :artifact-delivery-inac-acceptor-integration
@@ -134,9 +140,9 @@
  :notes
  ["INAC has a schema-gated local MVP scaffold and WSS peer-message transport, but is not yet a complete peer protocol."
   "The runtime fails closed without an explicit authoritative handler for an artifact kind."
-  "Remote WSS INAC receiver policy now fails closed: `offer` remains behind explicit peer allowlists, while `push` requires either an explicit allowlist or an inline `inac.invitation` passport."
+  "Remote WSS INAC receiver policy now fails closed: `offer` remains behind explicit peer allowlists, while `push` requires either an explicit allowlist or an inline capability passport authorized as invitation, generic INAC push, or Memarium custody."
   "Direct `inac.offer`, `inac.request`, and `inac.push` host capabilities are governed by INAC outbound allowlists; Artifact Delivery routes that resolve to `inac-direct` are governed by Artifact Delivery outbound allowlists."
   "Referenced payload slots are schema-valid; Artifact Delivery can resolve `artifact-store:` references before admission, while peer fetch and binary streaming remain future work."
   "The local host/operator surface now includes `/v1/inac/status` and `/admin/inac`; this is observability, not peer transport completion."
   "Invitation notification delivery uses the local notification queue: Accept issues a narrow invitation passport and Reject records a local denial; this is a local UX flow, not a second authority system."
-  "Matrix mailbox transport, binary streaming, and general/custody passport authorization remain required before complete peer-to-peer artifact exchange."]}
+  "Matrix mailbox transport and binary streaming remain required before complete peer-to-peer artifact exchange."]}

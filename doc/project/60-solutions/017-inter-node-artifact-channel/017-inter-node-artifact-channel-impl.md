@@ -109,7 +109,7 @@ gate is wired.
 | `memarium-blob.v1` | generic Memarium-native artefact envelope (content-addressed `blob/id`, domain `memarium.blob.v1`) | ✅ schema exists and is synchronized into node schema-gate |
 | `inac-control.v1` | control-message envelope for `offer`/`request`/`push` operations + response frames | ✅ schema exists; local runtime scaffold validates it; `push` requires exactly one payload location |
 | `agora-record.v1` | reused from proposal 035 | ✅ exists |
-| `capability-passport.v1` (with `capability_id = "inac.invitation"` variant) | authorization artifact for invitation-based push | ✅ MVP scope grammar and receiver-side verifier are implemented for WSS `push`; general/custody paths remain later layers |
+| `capability-passport.v1` (`inac.invitation`, generic `inac-push@v1`, and `memarium.custody`) | authorization artifact for invitation, general push, and custody push | ✅ receiver-side WSS `push` verifies all three passport paths through the shared capability-binding gate |
 
 ## Layer 1 — Peer-message kind registration
 
@@ -215,8 +215,8 @@ as described in proposal 042 §5.
 |---|---|
 | Attestation-gate crate (shared with Agora) | ❌ not started |
 | `PassportResolutionCache` (shared with Agora) | ❌ not started |
-| General-capability-passport verifier path | ❌ not started |
-| Custody-passport verifier path (enforces `max_bytes`, `max_records`, `duration` from scope) | ❌ not started |
+| General-capability-passport verifier path | ✅ implemented for receiver-side WSS `push` through `capability-binding::authorize`, `OperationRequest::InacPush`, and the built-in `inac-push@v1` evaluator |
+| Custody-passport verifier path (enforces `max_bytes`, `max_records`, `duration` from scope) | ✅ implemented for receiver-side WSS `push` through `capability-binding::authorize`, the built-in `memarium-custody@v1` evaluator, byte-limit enforcement, and durable `max_records` consumption in the INAC ledger |
 | Invitation-passport verifier path (expiry, revocation freshness, single-use consumption log, scope match) | ✅ implemented for receiver-side WSS `push` before Artifact Delivery admission; missing revocation source is a fail-closed `not-authorized` condition |
 | Attestation-only fallback (for `offer` and for per-kind policies that allow unsolicited accept) | ❌ not started |
 | Per-peer/per-kind budgets (for `offer` vs `push`, schema, content type, size, and per-minute rate) | ✅ implemented as receiver-side `artifact_delivery_adapters.inac_peer_transport.inbound_budgets`; budget refusals are recorded before AD admission and before invitation notifications; `max_per_minute = 0` is an explicit `policy-denied` deny rule, not a transient quota state |
@@ -230,8 +230,17 @@ registered handler for its `schema`.
 
 | Schema | Handler | Storage target | State |
 |---|---|---|---|
-| `agora-record.v1` | Agora-relay subsystem when present (re-ingest through the relay); otherwise Memarium opaque store | Agora SQLite + subject index, **or** Memarium | 🟡 Agora ingest exists; Memarium opaque-envelope storage for records not present on local Agora not started |
-| `memarium-blob.v1` | Memarium directly | Memarium | ❌ not started (schema and storage path) |
+| `agora-record.v1` | Artifact Delivery in-process acceptor that verifies the envelope and re-ingests through local `agora-service` when available | Agora relay/store | ✅ implemented; absence of local Agora is an explicit handler-unavailable refusal/transient failure, with no implicit Memarium fallback |
+| `memarium-blob.v1` | Artifact Delivery in-process acceptor that validates schema, recomputes `blob/id`, verifies the envelope signature, and writes an accepted custody fact through Memarium | Memarium | ✅ implemented for encrypted/opaque custody; plaintext/private custody remains fail-closed unless a future explicit policy enables it |
+
+The baseline `memarium-blob.v1` acceptor is intentionally stricter than the
+portable schema. It requires `signature.key/public` so verification does not
+infer a signing key from `author/participant-id`; delegated blob signatures are
+future work. It also requires a non-plaintext encryption descriptor object and
+rejects both `blob/encryption = "none"` and descriptors with
+`algorithm = "none"`. Accepted custody envelopes are recorded as local
+Memarium facts in the public space for the MVP; configurable target spaces and
+sealed/private custody storage remain future work.
 
 ### Open-kind handlers
 
@@ -268,6 +277,7 @@ Distinctive traits expressed through scope fields:
 | `inac.invitation` scope grammar | ✅ implemented as `inac-invitation@v1` with `inac/push`, `peer_node_ids`, `artifact_schemas`, optional `artifact_ids`, optional `content_types`, and `single_use` defaulting to `true` |
 | Issuer-side: passport builder for invitations | ✅ generic `capability.passport.sign` exists; Story-005 bootstrap can install A↔B invitation passports, and receiver-side notification Accept can issue a narrow `inac.invitation` passport for a pending offer; receiver-issued notification passports use `artifact_delivery_adapters.inac_peer_transport.invitation_passport_ttl_seconds` (default 3600 seconds) |
 | Receiver-side: single-use consumption log | ✅ implemented in the local INAC SQLite ledger under `<data-dir>/storage/inac.sqlite`; repeated use of the same single-use passport for a different transfer is refused before AD admission |
+| Receiver-side authorization core | ✅ implemented through the shared `capability-binding::authorize` path using `OperationRequest::InacPush`, a synthetic remote-node caller binding, the built-in `inac-invitation@v1` evaluator, and the receiver revocation view |
 | Revocation channel (reuse of proposal 024 passport revocation) | ✅ receiver gate requires a revocation view source, checks the current revocation view and freshness budget, and fails closed when the view is missing or stale; invitation-specific rate-limit policy remains a later policy layer |
 
 Invitation UX is built on the generic notification queue rather than inside the
@@ -276,8 +286,12 @@ host-owned `inac.invitation.accept` and `inac.invitation.reject` action refs.
 Accepting issues the narrow `inac.invitation` passport; rejecting records a
 local refusal. Accept is idempotent for an already accepted offer and does not
 issue another passport on a repeated action. Active pending offers are capped
-per remote node before another notification is created. Creating a durable
-contact after accept remains a separate contact-management layer.
+per remote node before another notification is created. Accept also creates a
+durable local contact projection in the INAC SQLite ledger when
+`artifact_delivery_adapters.inac_peer_transport.contact_creation_after_accept`
+is enabled. That contact is an operator-visible local relationship read model;
+it does not grant authority, publish to Seed Directory or Agora, or replace the
+future Contact Catalog.
 
 ## Layer 7 — Peer transport and node-identity
 
@@ -321,8 +335,8 @@ remain separate authorization boundaries:
 - `artifact.delivery.send` uses Artifact Delivery outbound allowlists, even
   when a route resolves to the local `inac-direct` adapter.
 - Story-005 private/direct Whisper uses the Artifact Delivery route surface:
-  `private-whisper-default` resolves to `inac-direct` and relies on explicit
-  peer allowlists until full invitation/passport authorization is implemented.
+  `private-whisper-default` resolves to `inac-direct` and uses the same
+  receiver-side INAC passport gate as other remote WSS `push` frames.
 
 This avoids treating permission to use one component-facing surface as implicit
 permission to use the other.
@@ -350,11 +364,11 @@ permission to use the other.
    Decision informs Layer 4 per-peer rate budgets.
 
 5. **Opaque-envelope storage for `agora-record.v1` on nodes without
-   a local Agora-relay subsystem.** If a node receives an
-   `agora-record.v1` via INAC but runs no Agora relay, does it
-   store the envelope in Memarium (allowing later re-ship per
-   proposal 040) or refuse? Proposal 042 §5 implies allow;
-   confirm and specify Memarium storage shape.
+   a local Agora-relay subsystem.** Decision for the current implementation:
+   the baseline `agora-record.v1` acceptor refuses explicitly when local
+   Agora is unavailable. INAC/AD do not silently store Agora records in
+   Memarium; a future custody path can add that behavior only through an
+   explicit acceptor/configuration.
 
 6. **Streaming abort semantics.** After abort, does the passport
    remain usable for a retry of the same artefact, or does abort
@@ -396,10 +410,12 @@ Each step leaves the tree compiling.
    Layer 4.
 4. **`inac.invitation` scope grammar documented in proposal 024.**
    Blocks Layer 6.
-5. **Layer 4 — authorization.** Verifier paths for all four sources.
+5. **Layer 4 — authorization.** Verifier paths for invitation, general
+   INAC push, and Memarium custody passports are implemented through the
+   shared capability-binding gate. Attestation-only remains future work.
 6. **Layer 5 — baseline kind dispatch.** Runtime registry exists and
    fails closed. Concrete `agora-record.v1` and `memarium-blob.v1`
-   acceptors remain to wire.
+   acceptors are wired through Artifact Delivery in-process acceptors.
 7. **Layer 2 — control protocol.** `offer` / `request` / `push` +
    responses, inline-only payloads. **Done locally and over WSS peer-message
    push.**

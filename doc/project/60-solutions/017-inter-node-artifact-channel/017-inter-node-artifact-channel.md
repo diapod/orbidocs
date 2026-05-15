@@ -87,17 +87,31 @@ referenced payloads can be resolved before admission through Artifact Delivery's
 resolver registry, with `artifact-store:` as the first production resolver.
 Direct component calls to `inac.*` host capabilities are governed by INAC
 outbound allowlists; Artifact Delivery routes that happen to use `inac-direct`
-are governed by Artifact Delivery outbound allowlists. Matrix mailbox transport,
-binary-frame streaming, general/custody passport authorization, and concrete
-Agora/Memarium handlers remain outside the MVP scaffold. Receiver-side WSS
+are governed by Artifact Delivery outbound allowlists. Matrix mailbox transport
+and binary-frame streaming remain outside the MVP scaffold. Receiver-side WSS
 `push` authorization now has a first production gate: without an explicit
-profile allowlist the frame must carry an inline `capability-passport.v1` with
-`capability_id = "inac.invitation"` under `authorization`; rejected transfers
-are written to a local INAC transfer ledger before Artifact Delivery admission.
-Invitation-passport authorization fails closed when the receiver has no current
-revocation view source; the WSS peer identity still authenticates the transport
-session, while the invitation passport only authorizes that verified peer to
-present a specific artifact push.
+profile allowlist the frame must carry an inline `capability-passport.v1` under
+`authorization`. Invitation passports (`capability_id = "inac.invitation"`),
+general INAC push passports (`inac-push@v1`), and Memarium custody passports
+(`capability_id = "memarium.custody"`, profile `memarium-custody@v1`) all pass
+through the shared capability-binding authorization path before Artifact Delivery
+admission. Rejected transfers are written to a local INAC transfer ledger before
+Artifact Delivery admission. Passport authorization fails closed when the
+receiver has no current revocation view source; the WSS peer identity still
+authenticates the transport session, while the passport only authorizes that
+verified peer to present a specific artifact push.
+
+Baseline Artifact Delivery acceptors are now present for the two INAC baseline
+artifact kinds. `agora-record.v1` is verified and re-ingested through the local
+Agora service when available; absence of local Agora is an explicit handler
+unavailable condition, not an implicit Memarium fallback. `memarium-blob.v1` is
+verified as a Memarium blob envelope and stored through Memarium as an accepted
+custody fact. The baseline acceptor requires an explicit
+`signature.key/public`, rejects delegated blob signatures for now, and accepts
+only encrypted/opaque custody envelopes. Plaintext/private blob custody remains
+fail-closed unless a future explicit policy enables it. MVP custody facts are
+written to the local public Memarium space; configurable target spaces are a
+later custody-policy layer.
 
 Inbound INAC budgets are receiver-side policy: they match remote node id,
 operation, artifact schema, and optional content type, then refuse before

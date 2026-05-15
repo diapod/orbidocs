@@ -1140,8 +1140,13 @@ Status:
   Story-005 private/direct Whisper via `inac-direct`, a full three-daemon Story-005 AD
   observability smoke that asserts A/B are thin Agora clients publishing to
   node C rather than running a local `agora-service`, and regression tests.
-  Matrix mailbox transport and INAC authorization/invitations remain later
-  layers.
+  Matrix mailbox transport and binary streaming remain later layers. INAC WSS
+  now provides invitation, generic `inac-push@v1`, and
+  `memarium-custody@v1` passport authorization before AD inbound admission.
+  The baseline `memarium-blob.v1` acceptor requires explicit
+  `signature.key/public`, rejects plaintext custody, and records accepted
+  custody facts in the local public Memarium space until a later custody-policy
+  layer adds configurable target spaces.
 
 ### Outbound Authorization and Recipient Resolution
 

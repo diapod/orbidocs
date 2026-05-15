@@ -208,6 +208,10 @@ subset of its memarium artifacts. The flow is:
    asked), the counterparty node id, and expiry. The passport is the
    receiver's signed, verifiable consent — the receiver cannot later claim
    "I never agreed" without repudiating their own key.
+   The current INAC/Artifact Delivery implementation recognizes this as
+   profile `memarium-custody@v1`, enforces peer/schema/content-type scope plus
+   transport limits (`max_bytes`, `max_records`) before domain admission, and
+   records durable `max_records` consumption in the receiver's INAC ledger.
 3. **Transfer** — the requester ships envelopes addressed by their
    `record/id`, either directly to the custodian's ingest surface (for
    Agora-native records) or via a memarium-to-memarium transfer endpoint
@@ -225,6 +229,9 @@ Encryption rule:
   not a reader,
 - content that was plaintext in memarium MAY be transferred in plaintext
   and stored as such,
+- the current baseline INAC `memarium-blob.v1` acceptor is stricter than the
+  general protocol permission: plaintext/private custody is fail-closed unless
+  a future explicit policy enables it,
 - the custody passport does not grant read access to encrypted payloads;
   read rights are a separate capability on a separate key path.
 
@@ -444,8 +451,9 @@ Tradeoffs:
 If adopted, the next artifacts should be:
 
 1. a schema file for `agora-author-proof.v1`,
-2. a schema / scope definition for the `memarium.custody` capability
-   within `capability-passport.v1`,
+2. extend the current `memarium-custody@v1` scope definition only when
+   custody semantics need more than peer/schema/content-type/artifact and
+   transport-limit axes,
 3. a requirements note tying §2 (tombstones) into the Agora readback
    surface alongside requirements-014,
 4. a requirements note tying §4 (default self-custody) into Memarium
