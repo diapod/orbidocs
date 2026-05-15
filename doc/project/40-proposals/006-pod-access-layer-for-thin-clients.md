@@ -140,6 +140,10 @@ The thin client should focus on:
 - optional encrypted cache for recent conversations or working material,
 - offline drafting where feasible.
 
+Notification semantics should remain node-owned and policy-controlled. Thin
+clients may project and present notifications, but Proposal 057
+(`057-user-and-operator-notifications.md`) defines the shared attention model.
+
 The client should avoid silently becoming a second hidden runtime. If it grows major
 execution responsibilities, that should be treated as movement toward `hybrid` or
 `full-node`, not as accidental client bloat.

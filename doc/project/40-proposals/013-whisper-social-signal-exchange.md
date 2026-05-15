@@ -478,6 +478,10 @@ The node surfaces accumulated rumors to the operator through a local
 inbox-style view (e.g. "you have 5 new whispers"). For each rumor the
 operator can apply one of the curation verdicts:
 
+The inbox/notification distinction is shared with Proposal 057
+(`057-user-and-operator-notifications.md`): whispers create local attention
+items, while the inbox is only a projection over those items.
+
 - **credibility rating** on a 1..5 scale,
 - **mark as spam**,
 - **mark as policy-violating** (e.g. abusive, illegal, off-topic for

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:notification-create:v1",
+  "title": "NotificationCreate v1",
+  "description": "Host capability request used by authorized producers to create a durable local notification. Raw body/input is transient request material and MUST NOT be persisted.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/057-user-and-operator-notifications.md"],
+  "required": [
+    "schema",
+    "idempotency/key",
+    "notification/kind",
+    "recipient/class",
+    "priority",
+    "reason/code",
+    "title"
+  ],
+  "properties": {
+    "schema": { "const": "notification-create.v1" },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "notification/kind": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "correlation/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "collapse/key": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "sender/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "recipient/class": { "$ref": "#/$defs/recipientClass" },
+    "recipient/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "subject/ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "priority": { "$ref": "#/$defs/priority" },
+    "reason/code": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "expires/at": { "type": "string", "format": "date-time" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 240 },
+    "body/text": { "type": "string", "minLength": 1, "maxLength": 4096 },
+    "body/ref": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "body/input": {
+      "description": "Transient producer input used only for validation, action rendering context, or digesting. It MUST NOT be persisted by the notification store."
+    },
+    "actions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/action" },
+      "default": []
+    }
+  },
+  "$defs": {
+    "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+    "recipientClass": { "type": "string", "enum": ["operator", "user", "pod-user", "role"] },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action/id", "kind", "label"],
+      "oneOf": [
+        { "required": ["target/ref"], "not": { "required": ["target/path"] } },
+        { "required": ["target/path"], "not": { "required": ["target/ref"] } }
+      ],
+      "properties": {
+        "action/id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "kind": {
+          "type": "string",
+          "enum": ["link", "button", "confirm", "text-input", "single-choice", "multi-choice"]
+        },
+        "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "method": { "type": "string", "enum": ["GET", "POST"] },
+        "target/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "target/path": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "action/expires-at": { "type": "string", "format": "date-time" },
+        "input/schema": { "type": "object" },
+        "marks/handled": { "type": "boolean", "default": false }
+      }
+    }
+  }
+}

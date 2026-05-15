@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:notification-allow:v1",
+  "title": "NotificationAllow v1",
+  "description": "Host-side allow policy for external middleware notification authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/057-user-and-operator-notifications.md"],
+  "required": ["component/id", "notification/kinds", "recipient/classes", "max/priority"],
+  "properties": {
+    "component/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "notification/kinds": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+      "uniqueItems": true
+    },
+    "action/refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 256 },
+      "uniqueItems": true,
+      "default": []
+    },
+    "recipient/classes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "enum": ["operator", "user", "pod-user", "role"] },
+      "uniqueItems": true
+    },
+    "recipient/ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 256 },
+      "uniqueItems": true,
+      "default": []
+    },
+    "max/priority": { "type": "string", "enum": ["low", "medium", "high"] },
+    "rate/per-minute": { "type": "integer", "minimum": 1, "default": 60 },
+    "redaction/policy/ref": { "type": "string", "minLength": 1, "maxLength": 256 }
+  }
+}

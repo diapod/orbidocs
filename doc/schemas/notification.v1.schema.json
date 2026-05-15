@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:notification:v1",
+  "title": "Notification v1",
+  "description": "Durable local notification read model. It stores only redacted projections, body/ref, body/text, and digests; raw body/input is intentionally absent.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/057-user-and-operator-notifications.md"],
+  "required": [
+    "schema",
+    "notification/id",
+    "notification/kind",
+    "version",
+    "sender/id",
+    "recipient/id",
+    "recipient/class",
+    "priority",
+    "reason/code",
+    "delivered/at",
+    "title"
+  ],
+  "properties": {
+    "schema": { "const": "notification.v1" },
+    "notification/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "notification/kind": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "correlation/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "collapse/key": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "supersedes": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "version": { "type": "integer", "minimum": 1 },
+    "sender/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "recipient/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "recipient/class": { "$ref": "#/$defs/recipientClass" },
+    "subject/ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "priority": { "$ref": "#/$defs/priority" },
+    "reason/code": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "delivered/at": { "type": "string", "format": "date-time" },
+    "expires/at": { "type": "string", "format": "date-time" },
+    "snoozed/until": { "type": "string", "format": "date-time" },
+    "read/opened": { "type": "boolean", "default": false },
+    "handled": { "type": "boolean", "default": false },
+    "source/component": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "policy/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "title": { "type": "string", "minLength": 1, "maxLength": 240 },
+    "body/text": { "type": "string", "minLength": 1, "maxLength": 4096 },
+    "body/ref": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "body/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "actions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/action" },
+      "default": []
+    }
+  },
+  "$defs": {
+    "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+    "recipientClass": { "type": "string", "enum": ["operator", "user", "pod-user", "role"] },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action/id", "kind", "label"],
+      "oneOf": [
+        { "required": ["target/ref"], "not": { "required": ["target/path"] } },
+        { "required": ["target/path"], "not": { "required": ["target/ref"] } }
+      ],
+      "properties": {
+        "action/id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "kind": {
+          "type": "string",
+          "enum": ["link", "button", "confirm", "text-input", "single-choice", "multi-choice"]
+        },
+        "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "method": { "type": "string", "enum": ["GET", "POST"] },
+        "target/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "target/path": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "action/expires-at": { "type": "string", "format": "date-time" },
+        "input/schema": { "type": "object" },
+        "marks/handled": { "type": "boolean", "default": false }
+      }
+    }
+  }
+}

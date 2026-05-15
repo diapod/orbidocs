@@ -109,6 +109,10 @@ A receiving node may decide that the signal appears relevant to its operator or 
 - register interest without disclosing the underlying person or case,
 - advertise that it is willing to participate in further correlation.
 
+The notification step is local attention routing, not disclosure. Its generic
+contract is tracked in Proposal 057
+(`doc/project/40-proposals/057-user-and-operator-notifications.md`).
+
 This is important: relevance signaling should not require immediate disclosure.
 
 Interest advertisement is eligibility, not a delivery entitlement. If a popular

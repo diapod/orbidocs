@@ -2,6 +2,9 @@
 
 A node that participates in a question debate may notify its operator that a live discussion is underway and that human input could materially improve the outcome.
 
+Notification delivery and attention policy for this flow should follow
+Proposal 057 (`doc/project/40-proposals/057-user-and-operator-notifications.md`).
+
 This is narrower than generic human expertise escalation. The point is not only to ask a human specialist for an answer, but to let a node pull human judgment into an already active multi-node debate around a specific question.
 
 Two participation modes seem useful:
@@ -60,4 +63,6 @@ This creates a practical human-in-the-loop gradient:
 
 That gradient is valuable because different questions need different depths of human presence. Some cases benefit from quiet consultation and condensation; others benefit from letting a human voice enter the room without pretending it is just another model output.
 
-Promote to: proposal or requirements document when operator-presence flags, transcript semantics, notification policy, and room-level permissions are specified.
+Promote to: requirements document when operator-presence flags, transcript
+semantics, notification policy, and room-level permissions are specified. The
+generic notification layer is now tracked by Proposal 057.

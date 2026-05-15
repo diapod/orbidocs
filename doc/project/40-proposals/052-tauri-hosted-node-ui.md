@@ -550,6 +550,10 @@ Allowed `invoke` commands should be small native host affordances, for example:
 - request desktop bootstrap status,
 - ask the launcher to start or stop daemon/Node UI in `supervise-local` mode.
 
+OS notifications are presentation effects only. Their semantic source should be
+the node-owned notification model described in Proposal 057
+(`057-user-and-operator-notifications.md`).
+
 `invoke` commands should not:
 
 - call daemon control endpoints directly from frontend code,
@@ -833,6 +837,9 @@ understandable.
 - Add file picker integration only for explicit import/export flows.
 - Add deep-link handling only after the resource-reference security model is
   stable.
+
+The readiness/task notification semantics should be consumed from Proposal 057
+rather than invented inside the desktop shell.
 
 ### Slice 5: Node-Side Ledger and Docs Alignment
 

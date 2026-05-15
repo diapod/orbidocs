@@ -105,6 +105,12 @@ The existence of `/v1/events` means later migration to SSE is now an integration
 step rather than a daemon prerequisite. The UI structure should stay compatible
 with that later swap.
 
+User/operator notifications should not be modeled as raw SSE events. SSE is the
+local wake-up transport; Proposal 057
+(`doc/project/40-proposals/057-user-and-operator-notifications.md`) owns the
+semantic distinction between notification facts, inbox projections, and
+presentation surfaces.
+
 ## What the Web Server Must Not Do
 
 - implement any protocol semantics,

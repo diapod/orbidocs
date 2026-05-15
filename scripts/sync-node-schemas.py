@@ -68,6 +68,13 @@ SCHEMA_WHITELIST = (
     "deferred-operation.v1.schema.json",
     "deferred-operation-status.v1.schema.json",
     "inac-control.v1.schema.json",
+    "notification.v1.schema.json",
+    "notification-create.v1.schema.json",
+    "notification-action.v1.schema.json",
+    "notification-action-result.v1.schema.json",
+    "notification-state-changed.v1.schema.json",
+    "notification-allow.v1.schema.json",
+    "notification-delivery-policy.v1.schema.json",
     "service-ca-material.v1.schema.json",
     "service-ca-revocation.v1.schema.json",
 )

@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `44` | `10` |
 | `30-stories` (Stories) | `14` | `1` |
-| `40-proposals` (Proposals) | `59` | `49` |
+| `40-proposals` (Proposals) | `60` | `50` |
 | `50-requirements` (Requirements) | `16` | `14` |
 | `60-solutions` (Solutions) | `41` | `24` |
 
-- Total project markdown files: `188`
-- Proposals referencing source material: `49` / `59`
+- Total project markdown files: `189`
+- Proposals referencing source material: `50` / `60`
 - Requirements referencing source material: `14` / `16`
 
 ## Schema Workflow
@@ -71,7 +71,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md) | `22` | `22` | `yes` | `yes` | `3` | `5` |
 | [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md) | `20` | `19` | `yes` | `yes` | `1` | `1` |
 | [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md) | `23` | `22` | `yes` | `yes` | `1` | `1` |
-| [`inac-control.v1.schema.json`](schemas-gen/schemas/inac-control.v1.md) | `9` | `0` | `no` | `yes` | `2` | `1` |
+| [`inac-control.v1.schema.json`](schemas-gen/schemas/inac-control.v1.md) | `10` | `0` | `no` | `yes` | `2` | `1` |
 | [`key-delegation.v1.schema.json`](schemas-gen/schemas/key-delegation.v1.md) | `12` | `12` | `yes` | `yes` | `0` | `0` |
 | [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) | `16` | `16` | `yes` | `yes` | `1` | `1` |
@@ -86,6 +86,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `2` | `1` |
 | [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `2` |
 | [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `0` |
+| [`notification-action-result.v1.schema.json`](schemas-gen/schemas/notification-action-result.v1.md) | `7` | `0` | `yes` | `yes` | `0` | `0` |
+| [`notification-action.v1.schema.json`](schemas-gen/schemas/notification-action.v1.md) | `10` | `0` | `yes` | `yes` | `0` | `0` |
+| [`notification-allow.v1.schema.json`](schemas-gen/schemas/notification-allow.v1.md) | `8` | `0` | `yes` | `yes` | `0` | `0` |
+| [`notification-create.v1.schema.json`](schemas-gen/schemas/notification-create.v1.md) | `17` | `1` | `yes` | `yes` | `0` | `0` |
+| [`notification-delivery-policy.v1.schema.json`](schemas-gen/schemas/notification-delivery-policy.v1.md) | `7` | `0` | `yes` | `yes` | `0` | `0` |
+| [`notification-state-changed.v1.schema.json`](schemas-gen/schemas/notification-state-changed.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
+| [`notification.v1.schema.json`](schemas-gen/schemas/notification.v1.md) | `26` | `0` | `yes` | `yes` | `0` | `0` |
 | [`nym-authorship-proof.v1.schema.json`](schemas-gen/schemas/nym-authorship-proof.v1.md) | `7` | `3` | `yes` | `yes` | `0` | `0` |
 | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md) | `11` | `9` | `yes` | `yes` | `2` | `1` |
 | [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md) | `10` | `8` | `yes` | `yes` | `1` | `1` |
@@ -200,6 +207,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`node-advertisement.v1.schema.json`](schemas-gen/schemas/node-advertisement.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`node-identity.v1.schema.json`](schemas-gen/schemas/node-identity.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md) |
+| [`notification-action-result.v1.schema.json`](schemas-gen/schemas/notification-action-result.v1.md) |  |  |
+| [`notification-action.v1.schema.json`](schemas-gen/schemas/notification-action.v1.md) |  |  |
+| [`notification-allow.v1.schema.json`](schemas-gen/schemas/notification-allow.v1.md) |  |  |
+| [`notification-create.v1.schema.json`](schemas-gen/schemas/notification-create.v1.md) |  |  |
+| [`notification-delivery-policy.v1.schema.json`](schemas-gen/schemas/notification-delivery-policy.v1.md) |  |  |
+| [`notification-state-changed.v1.schema.json`](schemas-gen/schemas/notification-state-changed.v1.md) |  |  |
+| [`notification.v1.schema.json`](schemas-gen/schemas/notification.v1.md) |  |  |
 | [`nym-authorship-proof.v1.schema.json`](schemas-gen/schemas/nym-authorship-proof.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md) |
 | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
@@ -333,6 +347,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/054-user-maintained-federated-seed-directory.md`](project/40-proposals/054-user-maintained-federated-seed-directory.md) | [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md), [`seed-directory-trust.v1.schema.json`](schemas-gen/schemas/seed-directory-trust.v1.md) |
 | [`doc/project/40-proposals/055-bounded-deferred-operation-contract.md`](project/40-proposals/055-bounded-deferred-operation-contract.md) | [`deferred-operation-status.v1.schema.json`](schemas-gen/schemas/deferred-operation-status.v1.md), [`deferred-operation.v1.schema.json`](schemas-gen/schemas/deferred-operation.v1.md), [`whisper-redaction-prepare-request.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-request.v1.md), [`whisper-redaction-prepare-response.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-response.v1.md) |
 | [`doc/project/40-proposals/056-orbiplex-tls-trust-policy.md`](project/40-proposals/056-orbiplex-tls-trust-policy.md) | [`service-ca-material.v1.schema.json`](schemas-gen/schemas/service-ca-material.v1.md), [`service-ca-revocation.v1.schema.json`](schemas-gen/schemas/service-ca-revocation.v1.md) |
+| [`doc/project/40-proposals/057-user-and-operator-notifications.md`](project/40-proposals/057-user-and-operator-notifications.md) | [`notification-action-result.v1.schema.json`](schemas-gen/schemas/notification-action-result.v1.md), [`notification-action.v1.schema.json`](schemas-gen/schemas/notification-action.v1.md), [`notification-allow.v1.schema.json`](schemas-gen/schemas/notification-allow.v1.md), [`notification-create.v1.schema.json`](schemas-gen/schemas/notification-create.v1.md), [`notification-delivery-policy.v1.schema.json`](schemas-gen/schemas/notification-delivery-policy.v1.md), [`notification-state-changed.v1.schema.json`](schemas-gen/schemas/notification-state-changed.v1.md), [`notification.v1.schema.json`](schemas-gen/schemas/notification.v1.md) |
 | [`doc/project/50-requirements/requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md) | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md), [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md), [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) |
 | [`doc/project/50-requirements/requirements-002-peer-learning.md`](project/50-requirements/requirements-002-peer-learning.md) | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`knowledge-artifact.v1.schema.json`](schemas-gen/schemas/knowledge-artifact.v1.md), [`learning-outcome.v1.schema.json`](schemas-gen/schemas/learning-outcome.v1.md) |
 | [`doc/project/50-requirements/requirements-003-memory-archivists.md`](project/50-requirements/requirements-003-memory-archivists.md) | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md), [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md), [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md), [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md), [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md), [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) |
@@ -362,7 +377,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/schemas/client-instance-detachment.v1.schema.json`](schemas/client-instance-detachment.v1.schema.json) | [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 | [`doc/schemas/participant-bind.v1.schema.json`](schemas/participant-bind.v1.schema.json) | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md), [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md), [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 
-- Canonical schemas: `109`
-- Generated schema docs: `109`
+- Canonical schemas: `116`
+- Generated schema docs: `116`
 - Positive examples: `133`
 - Negative examples: `99`

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:notification-delivery-policy:v1",
+  "title": "NotificationDeliveryPolicy v1",
+  "description": "Local host policy controlling whether a created notification interrupts, enters the inbox, is deferred, or is suppressed.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/057-user-and-operator-notifications.md"],
+  "properties": {
+    "schema": { "const": "notification-delivery-policy.v1" },
+    "enabled": { "type": "boolean", "default": true },
+    "policy/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "timezone": { "type": "string", "minLength": 1, "maxLength": 64, "default": "UTC" },
+    "safety-critical/kinds": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+      "uniqueItems": true,
+      "default": []
+    },
+    "disabled/kinds": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+      "uniqueItems": true,
+      "default": []
+    },
+    "quiet-hours": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start/hour-utc", "end/hour-utc"],
+      "properties": {
+        "start/hour-utc": { "type": "integer", "minimum": 0, "maximum": 23 },
+        "end/hour-utc": { "type": "integer", "minimum": 0, "maximum": 23 }
+      }
+    }
+  }
+}

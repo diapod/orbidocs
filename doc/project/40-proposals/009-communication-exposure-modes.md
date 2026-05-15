@@ -139,6 +139,10 @@ Exposure mode should influence at least:
 - summary visibility,
 - vault publication eligibility.
 
+Notification fan-out is an input to the local attention model described in
+Proposal 057 (`057-user-and-operator-notifications.md`); exposure mode should
+shape who may be notified, not bypass local notification policy.
+
 The exact lower-level fields may differ by federation, but the semantic effect must be
 predictable.
 

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:notification-action:v1",
+  "title": "NotificationAction v1",
+  "description": "Operator-visible action descriptor carried by a notification. Actions are schema-shaped widgets, not embedded UI fragments.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/057-user-and-operator-notifications.md"],
+  "required": ["action/id", "kind", "label"],
+  "oneOf": [
+    { "required": ["target/ref"], "not": { "required": ["target/path"] } },
+    { "required": ["target/path"], "not": { "required": ["target/ref"] } }
+  ],
+  "properties": {
+    "action/id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "kind": {
+      "type": "string",
+      "enum": ["link", "button", "confirm", "text-input", "single-choice", "multi-choice"]
+    },
+    "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "description": { "type": "string", "minLength": 1, "maxLength": 1000 },
+    "method": { "type": "string", "enum": ["GET", "POST"] },
+    "target/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "target/path": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "action/expires-at": { "type": "string", "format": "date-time" },
+    "input/schema": { "type": "object" },
+    "marks/handled": { "type": "boolean", "default": false }
+  }
+}

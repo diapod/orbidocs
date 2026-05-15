@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:notification-state-changed:v1",
+  "title": "NotificationStateChanged v1",
+  "description": "Privacy-minimal SSE payload announcing that a recipient notification read model changed. It intentionally excludes title, body, kind, subject, actions, and raw input.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/057-user-and-operator-notifications.md"],
+  "required": ["schema", "recipient/id", "unread/count", "max/unread-priority", "last/changed-at"],
+  "properties": {
+    "schema": { "const": "notification-state-changed.v1" },
+    "recipient/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "notification/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "unread/count": { "type": "integer", "minimum": 0 },
+    "max/unread-priority": { "type": "integer", "minimum": 0, "maximum": 3 },
+    "last/changed-at": { "type": "string", "format": "date-time" }
+  }
+}
