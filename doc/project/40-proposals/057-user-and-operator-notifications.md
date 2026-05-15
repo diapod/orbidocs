@@ -734,6 +734,12 @@ This prevents a UI feature from becoming an authority boundary.
 11. Operator timezone is explicit configuration with UTC fallback.
 12. OS notifications and cross-node notification aggregation are post-MVP and do
     not add fields to `notification.v1`.
+13. Host-owned action refs may be implemented incrementally. The first concrete
+    daemon-owned refs are `inac.invitation.accept` and
+    `inac.invitation.reject`; they are local operator actions that update INAC
+    pending-offer state and optionally issue a narrow `inac.invitation`
+    passport. They do not make notifications a generic capability invocation
+    channel.
 
 ## Post-MVP Questions
 

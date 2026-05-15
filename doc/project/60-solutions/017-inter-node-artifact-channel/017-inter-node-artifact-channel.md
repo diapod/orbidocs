@@ -99,13 +99,27 @@ revocation view source; the WSS peer identity still authenticates the transport
 session, while the invitation passport only authorizes that verified peer to
 present a specific artifact push.
 
-Invitation delivery and acceptance is intentionally not a full UX contract yet.
-The intended later layer is a generic user/operator notification queue, for
-example `/operator/notifications` or `/admin/notifications`, where an invitation
-notification can render `Accept` / `Reject` actions. Accepting would issue the
-narrow `inac.invitation` passport and create a local contact; rejecting would
-record the local decision without minting authority. That notification mechanism
-is broader than INAC and should not be embedded into the INAC transport core.
+Inbound INAC budgets are receiver-side policy: they match remote node id,
+operation, artifact schema, and optional content type, then refuse before
+Artifact Delivery admission or notification creation. Refusals such as
+`payload-too-large`, `rate-limited`, and `quota-exceeded` are local transfer
+decisions, not public protocol judgments. A per-minute limit of zero is an
+explicit `policy-denied` deny rule. Active pending offers are also bounded per
+remote node before notification creation, so unsolicited `offer` cannot be used
+as an unbounded local queue.
+
+Invitation delivery and acceptance now uses the generic user/operator
+notification queue. An unsolicited `offer` that passes schema, size, and budget
+checks creates a local pending offer plus an operator notification with
+host-owned `inac.invitation.accept` and `inac.invitation.reject` action refs.
+Accepting issues a narrow `inac.invitation` passport and returns it on the next
+matching `offer`; rejecting records the local decision without minting
+authority. This notification flow is a local UX that issues a passport; it is
+not a second INAC authority system and does not replace Artifact Delivery
+admission. The receiver-issued invitation passport TTL is daemon policy
+(`artifact_delivery_adapters.inac_peer_transport.invitation_passport_ttl_seconds`,
+default 3600 seconds). Repeating `Accept` after the offer is already accepted
+is idempotent and does not issue a replacement passport.
 
 ## Related Schemas
 

@@ -434,13 +434,26 @@ through the passport's scope fields, not through a separate
 credential class.
 
 Invitation delivery and human acceptance are intentionally separate
-from the INAC wire gate. A future generic user/operator notification
-queue may deliver an invitation to a participant or nym and render
+from the INAC wire gate. A generic user/operator notification queue may
+deliver an invitation to a participant, nym, or operator and render
 `Accept` / `Reject` actions in `/operator/notifications` or
-`/admin/notifications`. Accepting would issue the narrow
-`inac.invitation` passport and may create a local contact; rejecting
-would record a local decision without granting authority. INAC only
-verifies the resulting inline passport on arrival.
+`/admin/notifications`. Accepting issues the narrow `inac.invitation`
+passport and may later create a local contact; rejecting records a
+local decision without granting authority. INAC only verifies the
+resulting inline passport on arrival.
+
+Receiver-issued invitation passports are short-lived by policy. The current
+daemon default is one hour, configurable as
+`artifact_delivery_adapters.inac_peer_transport.invitation_passport_ttl_seconds`.
+Accepting the same pending offer is idempotent and MUST NOT issue a new
+passport after the offer is already accepted. Receivers SHOULD cap active
+pending offers per remote node before creating operator notifications, so
+`offer` cannot become an unbounded notification/ledger allocation channel.
+
+For AD-generated INAC frames, `artifact/id` MAY be content-addressed and equal
+to the descriptor `digest`. This is valid when the carried artifact has no
+stable domain-level identifier; the digest remains the byte-identity proof used
+by the INAC verifier.
 
 ### 6. Privacy and observability differences from Agora
 
@@ -517,11 +530,11 @@ before it has been used.
   for directly-addressed exchange.
 - INAC does **not** define NAT traversal, hole-punching, or
   discovery; those belong to proposals 002 and 014.
-- INAC does **not** define how invitation passports are delivered
-  out-of-band to the inviter's peer; it only defines their
-  verification on arrival. Delivery may happen through a future
-  notification queue, through INAC passport handoff, or through any
-  other channel the inviter and invitee have already established.
+- INAC does **not** define a second authority system for invitation
+  approval. Notification approval is a local UX that issues a normal
+  `capability-passport.v1`; passport handoff may happen as a response
+  to a repeated `offer` or through any other channel the inviter and
+  invitee have already established.
 - INAC does **not** define Memarium storage semantics; it defines
   wire operations that write into Memarium via its existing host
   capabilities (proposal 036).

@@ -244,7 +244,9 @@
             "already-present",
             "operation-not-supported",
             "policy-denied",
-            "transport-unavailable"
+            "transport-unavailable",
+            "rate-limited",
+            "quota-exceeded"
           ]
         },
         "retryable": {

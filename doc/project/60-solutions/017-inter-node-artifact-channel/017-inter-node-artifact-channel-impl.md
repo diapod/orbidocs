@@ -219,7 +219,7 @@ as described in proposal 042 §5.
 | Custody-passport verifier path (enforces `max_bytes`, `max_records`, `duration` from scope) | ❌ not started |
 | Invitation-passport verifier path (expiry, revocation freshness, single-use consumption log, scope match) | ✅ implemented for receiver-side WSS `push` before Artifact Delivery admission; missing revocation source is a fail-closed `not-authorized` condition |
 | Attestation-only fallback (for `offer` and for per-kind policies that allow unsolicited accept) | ❌ not started |
-| Per-peer rate budgets (for `offer` vs `push`) | ❌ not started |
+| Per-peer/per-kind budgets (for `offer` vs `push`, schema, content type, size, and per-minute rate) | ✅ implemented as receiver-side `artifact_delivery_adapters.inac_peer_transport.inbound_budgets`; budget refusals are recorded before AD admission and before invitation notifications; `max_per_minute = 0` is an explicit `policy-denied` deny rule, not a transient quota state |
 
 ## Layer 5 — Kind dispatch and storage targets
 
@@ -266,17 +266,18 @@ Distinctive traits expressed through scope fields:
 | Component | State |
 |---|---|
 | `inac.invitation` scope grammar | ✅ implemented as `inac-invitation@v1` with `inac/push`, `peer_node_ids`, `artifact_schemas`, optional `artifact_ids`, optional `content_types`, and `single_use` defaulting to `true` |
-| Issuer-side: passport builder for invitations | 🟡 generic `capability.passport.sign` exists; Story-005 bootstrap uses it to install A↔B invitation passports; a user-facing invitation issuance UI remains future work |
+| Issuer-side: passport builder for invitations | ✅ generic `capability.passport.sign` exists; Story-005 bootstrap can install A↔B invitation passports, and receiver-side notification Accept can issue a narrow `inac.invitation` passport for a pending offer; receiver-issued notification passports use `artifact_delivery_adapters.inac_peer_transport.invitation_passport_ttl_seconds` (default 3600 seconds) |
 | Receiver-side: single-use consumption log | ✅ implemented in the local INAC SQLite ledger under `<data-dir>/storage/inac.sqlite`; repeated use of the same single-use passport for a different transfer is refused before AD admission |
 | Revocation channel (reuse of proposal 024 passport revocation) | ✅ receiver gate requires a revocation view source, checks the current revocation view and freshness budget, and fails closed when the view is missing or stale; invitation-specific rate-limit policy remains a later policy layer |
 
-Future invitation UX should be built on a generic notification queue rather
-than inside the INAC transport. A notification addressed to a participant or
-nym can render invitation-specific `Accept` / `Reject` controls: accepting
-issues the narrow `inac.invitation` passport and may create a local contact,
-while rejecting records a local decision without granting authority. This
-keeps INAC as the transport/admission gate and lets invitations share the same
-operator/user notification substrate as other actionable events.
+Invitation UX is built on the generic notification queue rather than inside the
+INAC transport. A pending `offer` creates an operator notification with
+host-owned `inac.invitation.accept` and `inac.invitation.reject` action refs.
+Accepting issues the narrow `inac.invitation` passport; rejecting records a
+local refusal. Accept is idempotent for an already accepted offer and does not
+issue another passport on a repeated action. Active pending offers are capped
+per remote node before another notification is created. Creating a durable
+contact after accept remains a separate contact-management layer.
 
 ## Layer 7 — Peer transport and node-identity
 

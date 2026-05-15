@@ -91,11 +91,13 @@
                  "`inac-invitation@v1` scope evaluator with `inac/push`, peer, schema, artifact id, content type, and single-use semantics"
                  "Single-use invitation consumption and transfer decisions are persisted in `<data-dir>/storage/inac.sqlite`"
                  "Invitation passport authorization fails closed without a current receiver revocation view source"
+                 "Receiver-side per-peer/per-kind inbound budgets reject oversized, quota-exceeded, rate-limited, or explicit-deny `offer`/`push` frames before AD admission"
+                 "Unsolicited `offer` frames can create local operator notifications with host-owned `inac.invitation.accept` / `inac.invitation.reject` actions"
+                 "Accept is idempotent for already accepted offers, receiver-issued invitation passport TTL is configurable, and active pending offers are capped per remote node"
                  "Empty allowlist means deny-all, so enabling remote WSS INAC does not grant ambient inbound authority"]
    :remaining ["General capability and custody passport authorization"
-               "Per-peer and per-kind rate and size budgets"
                "Attestation-only paths"
-               "User/operator notification lifecycle for invitation accept/reject UX"]}]
+               "Durable contact creation after accepted invitations"]}]
 
  :may-implement
  [{:cap/id :artifact-delivery-inac-acceptor-integration
@@ -136,5 +138,5 @@
   "Direct `inac.offer`, `inac.request`, and `inac.push` host capabilities are governed by INAC outbound allowlists; Artifact Delivery routes that resolve to `inac-direct` are governed by Artifact Delivery outbound allowlists."
   "Referenced payload slots are schema-valid; Artifact Delivery can resolve `artifact-store:` references before admission, while peer fetch and binary streaming remain future work."
   "The local host/operator surface now includes `/v1/inac/status` and `/admin/inac`; this is observability, not peer transport completion."
-  "Invitation notification delivery and Accept/Reject UI are future user/operator notification work, not INAC transport core."
+  "Invitation notification delivery uses the local notification queue: Accept issues a narrow invitation passport and Reject records a local denial; this is a local UX flow, not a second authority system."
   "Matrix mailbox transport, binary streaming, and general/custody passport authorization remain required before complete peer-to-peer artifact exchange."]}
