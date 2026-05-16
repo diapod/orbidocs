@@ -252,27 +252,32 @@ The messaging middleware inspects the queued message and sees that Daniel does
 not have a passport authorizing messages to the contact route behind
 `marcin@example.org`.
 
-Daniel's node discovers a suitable Contact Catalog through Seed Directory.
-The lookup itself is performed through the Artifact Delivery resolver
-registry, the same plug-in surface that already serves `artifact-store:`,
-`memarium-public-entry:`, and `agora-record:`. The lookup is expressed as a
-resolver scheme such as:
+Daniel's node discovers a suitable Contact Catalog provider through Seed
+Directory and performs an authenticated `POST /v1/contact-catalog/lookups`
+directly against the chosen provider. The lookup is **not** wrapped in
+Artifact Delivery: it is a recipient-resolution step that happens *before*
+AD is invoked.
+
+The architectural reason matters. AD distinguishes two axes:
 
 ```text
-contact-lookup:email:<normalized-digest>
+artifact/ref resolver scheme  -> "where do I fetch the payload bytes?"
+recipient selector kind       -> "to whom and over which route should I deliver?"
 ```
 
-Going through the resolver registry gives the lookup the existing
-size/`sha256` verification, per-scheme enablement, and operator-visible
-routing for free; the catalog stays a domain authority rather than a parallel
-transport.
+Contact lookup is the second kind of question, not the first. It returns
+metadata about *whom* and *which route*, not a content-addressable payload
+to fetch. Modelling it as an AD resolver scheme would conflate the two
+axes; MVP keeps the lookup as a plain authenticated HTTP call from
+messaging middleware to the Contact Catalog provider, and only after the
+route is known does AD enter the picture for the contact-request delivery
+of Step 6.
 
-The query mode may be authenticated exact lookup, invitation-only lookup, or
-a future blinded/private lookup profile. This story only requires that the
-catalog does not return a naked root participant identity as the normal
-result.
+The MVP query mode is authenticated invitation-only lookup with strict
+rate limiting (Proposal 058 MVP Decision #1). The catalog must not return
+a naked root participant identity as the normal result.
 
-The resolver returns a `contact-lookup-result.v1`-like artifact containing a
+The lookup returns a `contact-lookup-result.v1` artifact containing a
 route candidate for Marcin's node, for example:
 
 - a routing subject;
@@ -280,7 +285,9 @@ route candidate for Marcin's node, for example:
 - a node candidate with endpoint evidence;
 - a flag saying that contact permission is required.
 
-Daniel's outbound message now moves to:
+Daniel's middleware records the resolved route candidate and prepares to
+hand AD a normal `routing-subject` (or `node`) selector when it sends the
+contact-request in Step 6. The outbound message itself now moves to:
 
 ```text
 waiting-for-contact-permission
@@ -605,8 +612,16 @@ new message.
 - Define the `message-envelope.v1` artifact.
 - Define the attestation-service capability id used in Step 2 and the concrete
   OTP/link request and return contracts.
-- Formalise the `contact-lookup:` resolver scheme for the frozen MVP
-  invitation-only lookup profile.
+- Specify the messaging-middleware-side Contact Catalog client (Seed
+  Directory provider discovery → authenticated
+  `POST /v1/contact-catalog/lookups` → `contact-lookup-result.v1` handling
+  → handoff to AD as a normal `routing-subject` / `node` selector).
+- (Deferred ergonomics, not blocking story-010 MVP) Consider adding
+  `selector/kind = "contact-lookup"` as a host-composed *recipient
+  selector kind* in Artifact Delivery, analogous to existing
+  `routing-subject` resolution. This is explicitly **not** an
+  `artifact/ref` resolver scheme: contact lookup is recipient resolution,
+  not payload fetch. Tracked as P058-019.
 - Specify the host-capability surface for "look up a usable passport for this
   outbound message" (`capability.passport.lookup`-style), since today the
   middleware host bridge exposes issue but not best-match lookup.
@@ -628,42 +643,63 @@ artifact and what is still missing.
 ### Per-Step Coverage
 
 - **Step 1 — Marcin opens a public contact path (contactability UI):** `[todo]`
-  - Closest artifacts: Proposal 058 (Contact Catalog, Draft) sketches the local
-    contact store / catalog split; Node UI (`Orbiplex Node UI`, status
-    `partial`) has no contactability settings panel for messaging.
-  - Missing: messaging-component contactability form, local contact store
-    schema, and the participant/nym/routing-subject picker for outbound contact
-    routes.
+  - Closest artifacts: Proposal 058 (now MVP-seeded) defines the local
+    contact store / catalog split; Solution 025 Local Contact Store
+    (`partial`) already provides daemon-side `local-contacts.sqlite` with
+    create / list / get / patch / archive operator API + `/admin/contact-catalog`
+    inspection surface; Node UI (`Orbiplex Node UI`, status `partial`) does
+    not yet expose a user-facing contactability settings panel for messaging.
+  - Missing: messaging-component contactability form, `local-contact.v1`
+    schema file, and the participant / nym / routing-subject picker for
+    outbound contact routes.
 
 - **Step 2 — Marcin's node collects contact-control attestations:** `[todo]`
-  - Closest artifacts: `capability-passport.v1` issuance via Capability Binding
-    (`done`) and Key Delegation Passports (`done`) give the passport machinery;
-    Seed Directory has discovery/`/key` endpoints (`done` / `partial`).
+  - Closest artifacts: `capability-passport.v1` issuance via Capability
+    Binding (`done`) and Key Delegation Passports (`done`) give the
+    passport machinery; Seed Directory has discovery / `/key` endpoints
+    (`done` / `partial`); Solution 025 Contact Claim Admission (`done`)
+    already evaluates first-class `email-control@v1` /
+    `phone-control@v1` `capability-passport.v1` profiles, so the consumer
+    side of these proofs is live.
   - Newly frozen contracts: `phone-control` and `email-control` capability
-    ids are registered as contact-control proof capabilities.
-  - Missing: their concrete passport profiles, the attestation-service role
-    (whether hosted on Seed Directory or a separate capability), OTP/link
-    verification flow, and the request/return schemas referenced by
-    `contact/attestation-ref` in Proposal 058.
+    ids are registered with wire names `proof/phone-control` /
+    `proof/email-control` and MVP `passport: yes`; Proposal 058 MVP
+    Decision #6 sets a 90-day default freshness window.
+  - Missing: the attestation-service role itself and its Capability
+    Registry row (e.g. `email-attestation` / `phone-attestation`), the
+    OTP / link verification flow specification, and the request / return
+    artifacts for the *acquisition* side (the catalog consumes the
+    resulting passport, but Marcin's node ↔ attestation service
+    conversation is not yet specified).
 
 - **Step 3 — Marcin publishes contact claims to the Contact Catalog:** `[in-progress]`
-  - Closest artifacts: the catalog mechanics that Contact Catalog needs
-    already exist in the `orbiplex-node-catalog` crate (`CatalogRecord`,
-    `CatalogStore<T>`, `SqliteCatalog<T>`, `ObservedCatalogStore<T>`,
-    `CatalogResolver`, `CatalogPredicate`, `TrustedProviderStore`, Agora
-    bridge). Dator is the existing concrete instance of the Catalog
-    Provider Role for the offer domain; Contact Catalog is the next named
-    instance, now documented in Proposal 058 §11 and §12 with a Rust
-    supervised-middleware reuse path. Solution 019 (`Orbiplex Middleware`,
-    `done`) provides the hosting plane.
-  - Newly frozen contracts: `contact-claim.v1`, the `contact-catalog`
-    capability id, and Solution 025 define the first implementation target.
-  - Missing: the Contact Catalog Rust middleware crate that parameterises `node/catalog` with
-    `ContactClaimRecord` (P058-017), `catalog_kind: contact` registration
-    (P058-004), admission policy enforcing attestation freshness
-    (P058-005), revocation / expiry pipeline (P058-011), and generalisation
-    of the `CatalogAdapter` trait over `T: CatalogRecord` if remote fetch
-    is in scope (P058-018).
+  - Closest artifacts: Solution 025 (Contact Catalog) is `partial` overall,
+    with two `done` `must-implement` capabilities — Contact Claim Admission
+    (Node `contact-catalog-core` validates `contact-claim.v1`, verifies
+    participant / delegated-participant signatures, evaluates
+    `email-control@v1` / `phone-control@v1` passports, and checks signature,
+    expiry, profile match, and revocation freshness) and Invitation-Only
+    Lookup (Node `contact-catalog-service` exposes authenticated
+    `POST /v1/contact-catalog/lookups` returning `contact-lookup-result.v1`).
+    The catalog mechanics come from the `orbiplex-node-catalog` crate
+    (`CatalogRecord`, `CatalogStore<T>`, `SqliteCatalog<T>`,
+    `ObservedCatalogStore<T>`, `CatalogResolver`, `CatalogPredicate`,
+    `TrustedProviderStore`); the Catalog Provider Role is documented in
+    Proposal 058 §11. Solution 019 (`Orbiplex Middleware`, `done`) provides
+    the hosting plane.
+  - Newly frozen contracts: `contact-claim.v1` (schema), the
+    `contact-catalog` capability id, MVP Decisions 1–10 of Proposal 058
+    (lookup mode, signer rule, control-proof TTL, routes-per-claim,
+    pairwise nyms, Agora non-goal, no-match audit), and Solution 025
+    component contract.
+  - Missing: full federation / Seed Directory operator policy for the
+    `catalog_kind: contact` registration (P058-004 `partial`); revocation
+    / expiry pipeline beyond admission-time enforcement (P058-011
+    `partial`); the supervised-middleware-form deployment of
+    `contact-catalog-core` + `contact-catalog-service` as a separate
+    middleware crate (P058-017 `partial` — daemon-side prototype exists);
+    full remote provider fetch orchestration on top of the now-generic
+    `CatalogAdapter<T, F>` (P058-018 `partial`).
 
 - **Step 4 — Daniel composes a message by email address (compose UI + outbound
   queue):** `[todo]`
@@ -679,15 +715,29 @@ artifact and what is still missing.
     `ready-for-delivery` states), and the "unknown recipient" warning
     indicator.
 
-- **Step 5 — Daniel's middleware resolves the contact route:** `[todo]`
-  - Closest artifacts: Artifact Delivery resolver registry (`partial`,
-    production: `artifact-store:`, plus opt-in `memarium-*` and
-    `agora-record:`) is the plug-in point named by the story as
-    `contact-lookup:`; Seed Directory capability discovery is in place.
-  - Newly frozen contracts: `contact-lookup-result.v1` and MVP
-    invitation-only lookup.
-  - Missing: the `contact-lookup:` resolver scheme and its Contact Catalog
-    client, and the queue state transition driven by the lookup result.
+- **Step 5 — Daniel's middleware resolves the contact route:** `[in-progress]`
+  - Closest artifacts: Solution 025 Invitation-Only Lookup is `done` —
+    `POST /v1/contact-catalog/lookups` returns `contact-lookup-result.v1`
+    as a route candidate, rate-limited by auth fingerprint + digest +
+    purpose, with rejection of raw handle-like inputs and redacted
+    no-match audit; the daemon also exposes `/v1/contact-catalog/status`
+    and runs an opt-in supervised runtime on stable loopback. Seed
+    Directory capability discovery is in place. AD recipient resolution
+    (`routing-subject`, `node`) is the existing axis that consumes the
+    lookup result.
+  - Architectural note: contact lookup is *recipient resolution*, not
+    *payload fetch*. It is intentionally not modelled as an AD
+    `artifact/ref` resolver scheme; instead the messaging middleware
+    issues the catalog HTTP call directly and then hands AD a normal
+    `routing-subject` (or `node`) selector for the Step 6 contact-request
+    delivery.
+  - Newly frozen contracts: `contact-lookup-result.v1` (schema) and MVP
+    authenticated invitation-only lookup (Proposal 058 MVP Decision #1,
+    Solution 025).
+  - Missing: messaging-middleware-side Contact Catalog client (Seed
+    Directory provider discovery + authenticated HTTP call + result
+    handling) and the queue state transition driven by the lookup result
+    (both depend on Step 4 messaging middleware).
 
 - **Step 6 — Daniel sends a contact request over INAC/AD:** `[in-progress]`
   - Closest artifacts: the exact transport shape this step needs —
@@ -697,35 +747,57 @@ artifact and what is still missing.
     Delivery single-owner inbound admission (`partial`) carry the inline
     passport gate, including the `inac.invitation` passport precedent;
     `participant-bind.v1` / `routing-subject-binding.v1` cover sender
-    identifiers.
-  - Newly frozen contract: `contact-request.v1`.
-  - Missing: an authoritative acceptor registered for it, and a sender-handle
-    attestation reference compatible with Step 2.
+    identifiers. Solution 025 Contact Request Admission is `partial`: the
+    daemon registers an in-process Artifact Delivery acceptor target
+    `contact.request`, persists `contact-request.v1` state, and has
+    validation tests covering real participant signatures, expiry, bad
+    purpose, bad signature, and redacted notification wording.
+  - Newly frozen contract: `contact-request.v1` (schema).
+  - Missing: broader *supervised multi-process* AD accept/reject tests
+    (single-process validation tests with real participant signatures are
+    already done per Solution 025), and a sender-handle attestation
+    reference flow on Daniel's side using the `phone-control` /
+    `email-control` passport shape (90-day TTL per Proposal 058 MVP
+    Decision #6).
 
 - **Step 7 — Marcin reviews the request (notification + accept/reject):**
   `[in-progress]`
-  - Closest artifacts: Proposal 057 notifications are largely landed —
+  - Closest artifacts: Proposal 057 notifications are landed —
     `notification.create` host capability, durable store, operator UI inbox,
     rate limiting (`done`); INAC invitation flow already issues passports
-    through `inac.invitation.accept` / `inac.invitation.reject` actions on the
-    shared notification queue and is the direct precedent for the messaging
-    contact-request flow.
-  - Missing: a messaging-specific `notification/kind`, the contact-request
-    detail view, and accept/reject actions wired to `messaging-receive`
-    issuance instead of `inac.invitation`. P057-009 (inline action execution)
-    is itself `partial`.
+    through `inac.invitation.accept` / `inac.invitation.reject` actions on
+    the shared notification queue. Solution 025 Contact Request Admission
+    (`partial`) closes the messaging-specific loop: durable
+    `contact-request.received` notifications with accept / reject actions
+    are created, acceptance issues a narrow `messaging-receive@v1`
+    capability passport, rejection records the local decision without
+    minting authority, and validation tests cover real participant
+    signatures plus redacted notification wording — the
+    messaging-action-issues-passport wiring is no longer hypothetical.
+  - Missing: supervised multi-process AD accept/reject tests (Solution
+    025 names this as the remaining open item), broader user-facing UX
+    polish around the contact-request detail view, and promotion of
+    P057-009 (inline action execution) from `partial` to `done` for the
+    messaging-action class.
 
 - **Step 8 — Marcin's node issues a messaging passport:** `[in-progress]`
   - Closest artifacts: `capability-passport.v1`, Capability Binding (`done`),
     Key Delegation Passports incl. inline `DelegationProof` (`done`) — the
     chosen mechanism for nym-rotation continuity is the existing delegation
     path; INAC + Artifact Delivery can carry the response (`partial`).
-  - Newly frozen contract: `messaging-receive` capability id.
-  - Missing: passport profile implementation (scope fields `receiver` as
-    `routing:did:key:...` or `contact_nym`, `sender`, `public_handle`,
-    permitted op, expiry, revocation refs, `contacts`-class limits), and a
-    `key-delegation.v1`
-    grant label scoping delegated messaging signing.
+    Solution 025 Contact Request Admission (`partial`) actually issues
+    `messaging-receive@v1` capability passports on acceptance, scoped to
+    request, sender, recipient route, contact nym, purpose, expiry, and
+    revocation reference; validation tests cover issuance with real
+    participant signatures.
+  - Newly frozen contracts: `messaging-receive` capability id, Proposal
+    058 MVP Decision #4 (the registry-safe bare id supersedes
+    story-local `messaging.receive@v1` spelling), and Proposal 058 MVP
+    Decision #8 (pairwise contact nyms as default).
+  - Missing: a `key-delegation.v1` grant label scoping delegated messaging
+    signing (so Daniel's nym-rotation continuity uses the existing inline
+    `DelegationProof` path without a bespoke renewal flow), and supervised
+    multi-process AD transport tests for the issuance response leg.
 
 - **Step 9 — Daniel's node attaches the passport to queued messages:** `[todo]`
   - Closest artifacts: the daemon already has `PassportCache` and
@@ -801,8 +873,12 @@ artifact and what is still missing.
   Solution 025, and the `contact-catalog` capability id are now frozen for
   MVP; module implementation and Seed Directory advertisement remain to do.
 - **Contact-handle attestation (phone / email) as a capability surface:**
-  `[todo]` — `phone-control` and `email-control` ids are registered; the
-  attestation-service role and OTP/link verification flow remain to do.
+  `[in-progress]` — `phone-control` and `email-control` capability ids are
+  registered in the Capability Registry and consumed by Solution 025
+  admission (first-class `email-control@v1` / `phone-control@v1` passport
+  profiles are evaluated); the attestation-service role itself, the
+  OTP/link verification flow, and the registry row for the
+  attestation-service capability remain to do.
 - **Messaging middleware with stratified storage (compose, outbound queue,
   Layer 1 Maildir bodies, Layer 2 middleware-owned SQLite index, Layer 3
   Memarium messaging facts, mailbox view):** `[todo]` — the only existing
@@ -811,7 +887,14 @@ artifact and what is still missing.
   fact surface for Layer 3 (`Memarium Host Capability API` is `partial`)
   but the messaging fact kinds are not yet enumerated.
 - **Local contact store (raw address book, labels, pairwise nym mappings):**
-  `[todo]` — Proposal 058 names it; nothing implemented.
+  `[in-progress]` — Solution 025 Local Contact Store is `partial`: the
+  daemon owns `<node-data-dir>/storage/local-contacts.sqlite` and exposes
+  local `GET/POST/PATCH/DELETE /v1/local-contacts...` routes; raw handles
+  stay daemon-local and do not leak into Contact Catalog records, Seed
+  Directory records, or shared lookup audit. Missing: the `local-contact.v1`
+  schema file at `doc/schemas/`, recovery/backup semantics for local
+  contacts and pairwise nym mappings, and integration with the
+  participant-owned `pseudonym-vault.v1` recovery path.
 - **"Nym factory" with role-separated derived keys (signing, DH, sealing) and
   routing-subject vault:** `[todo]` — Proposal 059 is Draft;
   `pseudonym-vault.v1` exists as a first schema seed and `nym-certificate.v1`
@@ -836,46 +919,55 @@ exists yet, that is called out explicitly so the gap is visible.
 
 - contactability settings UI panel inside the messaging middleware client (no
   dedicated tracker; awaiting messaging middleware solution doc)
-- local contact store schema covering raw handles, labels, and pairwise nym
-  mappings (see: [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
+- `local-contact.v1` schema file at `doc/schemas/` (referenced by
+  [Solution 025 Local Contact Store](../60-solutions/025-contact-catalog/025-contact-catalog.md)
+  but file not yet present; partial enforcement via DB schema in
+  `local-contacts.sqlite`; see also
+  [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
+- pairwise nym mapping table and recovery semantics on top of the existing
+  `local-contacts.sqlite` (see:
+  [Solution 025 Local Contact Store](../60-solutions/025-contact-catalog/025-contact-catalog.md),
+  [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
 - participant / nym / routing-subject picker for outbound contact routes
-  (see: [Proposal 058 Tracking row P058-001](../40-proposals/058-contact-catalog.md),
+  in the operator UI (see:
   [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
-- UI wording distinguishing contact-control proof from identity assurance
-  (see: [Proposal 058 Tracking row P058-012](../40-proposals/058-contact-catalog.md))
+- end-user UI copy refinement distinguishing contact-control proof from
+  identity assurance, on top of the existing `/admin/contact-catalog`
+  surface (see:
+  [Proposal 058 Tracking row P058-012](../40-proposals/058-contact-catalog.md))
 
 ### Step 2 — outstanding features
 
-- `phone-control` capability id registration (see:
-  [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md))
-- `email-control` capability id registration (see:
-  [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md))
 - attestation-service role discoverable through Seed Directory under a
   capability id such as `email-attestation` (see:
   [Proposal 025](../40-proposals/025-seed-directory-as-capability-catalog.md);
-  no dedicated attestation-service solution doc yet)
-- OTP/link verification flow specification (no dedicated tracker; needs new
-  proposal)
-- request/return schemas referenced by `contact/attestation-ref` (see:
-  [Proposal 058 Tracking row P058-001](../40-proposals/058-contact-catalog.md))
+  no dedicated attestation-service solution doc yet — see Cross-Cutting
+  block below)
+- OTP/link verification flow specification (no dedicated tracker; needs
+  new proposal)
+- attestation request and return artifact shapes for the contact handle
+  side of `contact/attestation-ref` (Solution 025 already consumes the
+  resulting `email-control@v1` / `phone-control@v1` passports; the
+  *acquisition* side schemas remain to be defined)
 
 ### Step 3 — outstanding features
 
-- `contact-claim.v1` schema definition (see:
-  [Proposal 058 Tracking row P058-001](../40-proposals/058-contact-catalog.md))
-- Contact Catalog module/service implementation as a Rust supervised HTTP
-  middleware reusing `orbiplex-node-catalog` (see:
-  [Proposal 058 Tracking row P058-014](../40-proposals/058-contact-catalog.md),
-  [Proposal 058 Tracking row P058-016](../40-proposals/058-contact-catalog.md),
-  [Proposal 058 Tracking row P058-017](../40-proposals/058-contact-catalog.md),
-  [Proposal 058 Tracking row P058-018](../40-proposals/058-contact-catalog.md))
-- `catalog_kind: contact` registration via existing `catalog_endpoints`
-  abstraction (see:
+- supervised-middleware-form deployment of `contact-catalog-core` +
+  `contact-catalog-service` (current implementation runs daemon-side; the
+  target shape per Solution 025 Notes links `orbiplex-node-catalog`
+  directly inside a separate supervised HTTP middleware) (see:
+  [Proposal 058 Tracking row P058-017](../40-proposals/058-contact-catalog.md))
+- federation / Seed Directory operator policy on top of the existing
+  daemon-managed `contact-catalog` passport with `catalog_kind = "contact"`
+  (see:
   [Proposal 058 Tracking row P058-004](../40-proposals/058-contact-catalog.md))
-- admission policy enforcing attestation freshness (see:
-  [Proposal 058 Tracking row P058-005](../40-proposals/058-contact-catalog.md))
-- revocation / expiry pipeline for rotated contact handles (see:
+- full revocation / expiry pipeline for handles rotated by external
+  providers, beyond admission-time enforcement and the projection sidecar
+  (see:
   [Proposal 058 Tracking row P058-011](../40-proposals/058-contact-catalog.md))
+- full remote provider fetch orchestration on top of the generic
+  `CatalogAdapter<T, F>` and `RemoteContactClaimFilter` (see:
+  [Proposal 058 Tracking row P058-018](../40-proposals/058-contact-catalog.md))
 
 ### Step 4 — outstanding features
 
@@ -890,54 +982,68 @@ exists yet, that is called out explicitly so the gap is visible.
 
 ### Step 5 — outstanding features
 
-- `contact-lookup:` resolver scheme registration in the Artifact Delivery
-  resolver registry (see:
-  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
-- Contact Catalog lookup client behind that resolver (no dedicated tracker;
-  covered by Contact Catalog module work in
-  [Proposal 058 Tracking row P058-014](../40-proposals/058-contact-catalog.md))
-- queue state transition wiring driven by the lookup result (depends on Step
-  4 messaging middleware)
+- messaging-middleware-side Contact Catalog client: Seed Directory
+  provider discovery, authenticated `POST /v1/contact-catalog/lookups`
+  call, and `contact-lookup-result.v1` handling (no dedicated tracker;
+  covered by messaging middleware solution doc; the catalog endpoint
+  itself is `done` in
+  [Solution 025 Invitation-Only Lookup](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+- queue state transition wiring driven by the lookup result (depends on
+  Step 4 messaging middleware)
+- (deferred ergonomics) `selector/kind = "contact-lookup"` as a
+  host-composed *recipient selector kind* in Artifact Delivery, so
+  messaging middleware could hand AD a handle without itself knowing the
+  Contact Catalog domain — explicitly distinguished from an
+  `artifact/ref` resolver scheme (wrong axis) (see:
+  [Proposal 058 Tracking row P058-019](../40-proposals/058-contact-catalog.md))
 
 ### Step 6 — outstanding features
 
-- authoritative inbound acceptor for `contact-request.v1` registered with
-  Artifact Delivery (see:
-  [Solution 023 §Single-Owner Inbound Admission](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
-- sender-handle attestation reference compatible with the Step 2 passport
-  shape (see:
-  [Proposal 058 Tracking row P058-005](../40-proposals/058-contact-catalog.md))
+- end-to-end Artifact Delivery transport tests for the
+  `contact.request` acceptor with real participant signatures (the
+  acceptor itself is registered per
+  [Solution 025 Contact Request Admission](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+- sender-handle attestation reference flow on Daniel's side, attaching the
+  same `email-control@v1` / `phone-control@v1` passport shape Marcin
+  collected in Step 2 (see:
+  [Proposal 058 MVP Decision #6](../40-proposals/058-contact-catalog.md)
+  for the TTL recommendation; depends on Cross-Cutting
+  contact-handle-attestation block below)
 - route policy default with `privacy = private-direct` for the
   contact-request route (see:
   [Solution 023 privacy invariant](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
 
 ### Step 7 — outstanding features
 
-- `notification/kind = "messaging.contact-request"` registered as a known
-  notification kind (see:
-  [Proposal 057](../40-proposals/057-user-and-operator-notifications.md))
-- contact-request detail view in operator/user UI (see:
+- end-to-end Artifact Delivery tests for the
+  `contact-request.received` notification flow with real participant
+  signatures (the notification, accept / reject actions, and
+  `messaging-receive@v1` passport issuance on acceptance are already
+  wired in
+  [Solution 025 Contact Request Admission](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+- user-facing contact-request detail view in the Node UI (operator-side
+  exists at `/admin/contact-catalog`; user-facing view remains, see:
   [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
-- `messaging.contact.accept` / `messaging.contact.reject` action refs wired
-  to `messaging-receive` issuance via the inline action execution
-  registry (see:
+- promote inline action execution from `partial` to `done` so the
+  messaging-action class is no longer rendered as disabled in any UI
+  (see:
   [Proposal 057 Tracking row P057-009](../40-proposals/057-user-and-operator-notifications.md))
-- promote inline action execution (P057-009) from `partial` to `done` for
-  the messaging-action class (see:
-  [Proposal 057 Tracking row P057-009](../40-proposals/057-user-and-operator-notifications.md))
+- promote cross-recipient user inboxes from `partial` to `done` so
+  notifications reach end-users, not only operators (see:
+  [Proposal 057 Tracking row P057-011](../40-proposals/057-user-and-operator-notifications.md))
 
 ### Step 8 — outstanding features
 
-- `messaging-receive` passport profile and scope field shapes (`receiver`,
-  `sender`, `public_handle`, op, expiry, revocation, `contacts`-class limits)
-  (see:
-  [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md); needs a
-  new proposal to freeze the profile)
-- `key-delegation.v1` grant label for delegated messaging signing (see:
+- `key-delegation.v1` grant label scoping delegated messaging signing, so
+  Daniel's nym-rotation continuity uses the existing inline
+  `DelegationProof` path without a bespoke renewal flow (see:
   [Solution 014](../60-solutions/014-key-delegation-passports/014-key-delegation-passports.md),
   [Proposal 032](../40-proposals/032-key-delegation-passports.md))
+- end-to-end transport-tested issuance with real participant signatures
+  (Solution 025 Contact Request Admission `partial` names this as the
+  remaining open item; the issuance itself is already wired)
 - INAC/AD outbound carrying the issued passport response under
-  `privacy = private-direct` (see:
+  `privacy = private-direct` for the response leg (see:
   [Solution 017](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md),
   [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
 
@@ -1036,7 +1142,7 @@ exists yet, that is called out explicitly so the gap is visible.
 
 ### Cross-Cutting Block — Contact Catalog as a domain catalog (P058) — outstanding features
 
-Already frozen for MVP:
+Already done (no further work needed for this story):
 
 - `contact-claim.v1` schema (see:
   [Proposal 058 Tracking row P058-001](../40-proposals/058-contact-catalog.md))
@@ -1044,61 +1150,93 @@ Already frozen for MVP:
   [Proposal 058 Tracking row P058-002](../40-proposals/058-contact-catalog.md))
 - `contact-request.v1` schema (see:
   [Solution 025 Contact Catalog](../60-solutions/025-contact-catalog/025-contact-catalog.md))
-- `contact-catalog` capability id and minimal profile (see:
+- `contact-catalog` capability id and minimal profile registered in the
+  Capability Registry (see:
   [Proposal 058 Tracking row P058-003](../40-proposals/058-contact-catalog.md))
-- first MVP query mode decision: authenticated invitation-only lookup (see:
+- admission policy (attestation freshness, signature, expiry, purpose
+  allowlist) (see:
+  [Proposal 058 Tracking row P058-005](../40-proposals/058-contact-catalog.md),
+  [Solution 025 Contact Claim Admission](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+- first MVP query mode decision: authenticated invitation-only lookup
+  (see:
   [Proposal 058 Tracking row P058-007](../40-proposals/058-contact-catalog.md))
+- No-Agora-publication-path decision (see:
+  [Proposal 058 Tracking row P058-013](../40-proposals/058-contact-catalog.md))
 - Contact Catalog solution doc and capability sidecar (see:
   [Proposal 058 Tracking row P058-014](../40-proposals/058-contact-catalog.md))
-
-Still outstanding:
-
-- `catalog_kind: contact` registration through `catalog_endpoints` (see:
-  [Proposal 058 Tracking row P058-004](../40-proposals/058-contact-catalog.md))
-- admission policy (attestation freshness, signature, expiry, purpose
-  allowlist, TTL) (see:
-  [Proposal 058 Tracking row P058-005](../40-proposals/058-contact-catalog.md))
-- privacy-preserving lookup index (see:
-  [Proposal 058 Tracking row P058-006](../40-proposals/058-contact-catalog.md))
-- local contact store model (see:
-  [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
-- pairwise contact nym handling (see:
-  [Proposal 058 Tracking row P058-009](../40-proposals/058-contact-catalog.md))
-- routing-subject / contact-nym as default lookup result with multi-route
-  support (see:
-  [Proposal 058 Tracking row P058-010](../40-proposals/058-contact-catalog.md))
-- contact claim revocation and expiry pipeline (see:
-  [Proposal 058 Tracking row P058-011](../40-proposals/058-contact-catalog.md))
-- operator / user UI wording (see:
-  [Proposal 058 Tracking row P058-012](../40-proposals/058-contact-catalog.md))
-- Agora publication policy for catalog records (see:
-  [Proposal 058 Tracking row P058-013](../40-proposals/058-contact-catalog.md))
-- no-match audit event policy (see:
-  [Proposal 058 Tracking row P058-015](../40-proposals/058-contact-catalog.md))
 - Catalog Provider Role contract documented (Dator + Contact Catalog as
   named instances of the same role) (see:
   [Proposal 058 Tracking row P058-016](../40-proposals/058-contact-catalog.md))
+
+Still partial — landed in MVP-shape, hardening or completion remains:
+
+- `catalog_kind: contact` registration through `catalog_endpoints`
+  (daemon-managed passport published; full federation / Seed Directory
+  operator policy open) (see:
+  [Proposal 058 Tracking row P058-004](../40-proposals/058-contact-catalog.md))
+- privacy-preserving lookup index (invitation-only digest lookup done;
+  blinded / PSI deferred) (see:
+  [Proposal 058 Tracking row P058-006](../40-proposals/058-contact-catalog.md))
+- local contact store model (`local-contacts.sqlite` + CRUD done;
+  `local-contact.v1` schema file and recovery semantics pending) (see:
+  [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
+- pairwise contact nym handling (`messaging-receive@v1` scoped to contact
+  nym; lifecycle / recovery policy open) (see:
+  [Proposal 058 Tracking row P058-009](../40-proposals/058-contact-catalog.md))
+- routing-subject / contact-nym as default lookup result (default
+  invariant done; multi-route v2 planned) (see:
+  [Proposal 058 Tracking row P058-010](../40-proposals/058-contact-catalog.md))
+- contact claim revocation and expiry pipeline (admission-time
+  enforcement + sidecar `active | expired | revoked` projection done;
+  replay / as-of projector open) (see:
+  [Proposal 058 Tracking row P058-011](../40-proposals/058-contact-catalog.md))
+- operator / user UI wording (admin UI exists; end-user copy refinement
+  remains) (see:
+  [Proposal 058 Tracking row P058-012](../40-proposals/058-contact-catalog.md))
+- no-match audit event policy (redacted audit emitted; further policy
+  hardening remains) (see:
+  [Proposal 058 Tracking row P058-015](../40-proposals/058-contact-catalog.md))
 - Contact Catalog Rust supervised HTTP middleware crate scaffold reusing
-  `orbiplex-node-catalog` primitives (see:
+  `orbiplex-node-catalog` primitives (`contact-catalog-core` and
+  `contact-catalog-service` crates exist daemon-side; separate
+  supervised-middleware-form deployment remains) (see:
   [Proposal 058 Tracking row P058-017](../40-proposals/058-contact-catalog.md))
 - generalise `node/catalog` `CatalogAdapter` trait over `T: CatalogRecord`
-  so contact and offer providers share one async remote-fetch contract
-  (see:
+  (`CatalogAdapter<T, F>` with `ObservedRecord<T>` and
+  `RemoteContactClaimFilter` done; `RemoteContactCatalogHttpAdapter`
+  refreshes trusted providers into a sidecar remote claim cache; full
+  federation acceptance tests + operator policy UX open) (see:
   [Proposal 058 Tracking row P058-018](../40-proposals/058-contact-catalog.md))
+- (deferred ergonomics) `selector/kind = "contact-lookup"` as a
+  host-composed *recipient selector kind* in Artifact Delivery, so
+  messaging middleware could hand AD a contact handle without itself
+  knowing the Contact Catalog domain — explicitly distinguished from an
+  `artifact/ref` resolver scheme (resolvers return payload bytes; contact
+  lookup returns recipient routes; different axes) (see:
+  [Proposal 058 Tracking row P058-019](../40-proposals/058-contact-catalog.md))
 
 ### Cross-Cutting Block — Contact-handle attestation as a capability surface — outstanding features
 
-- Already frozen: `phone-control` and `email-control` capability ids are now
-  registered in the Capability Registry.
-- attestation-service role and Seed Directory discoverability (no dedicated
-  tracker; needs new proposal)
-- `phone-control` passport profile (see:
+Already done:
+
+- `phone-control` and `email-control` capability ids registered in the
+  Capability Registry with `passport in MVP: yes` (see:
   [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md))
-- `email-control` passport profile (see:
-  [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md))
-- OTP/link verification flow (no dedicated tracker)
-- request/return schema definitions (see:
-  [Proposal 058 Tracking row P058-001](../40-proposals/058-contact-catalog.md))
+- `email-control@v1` and `phone-control@v1` passport profiles consumed
+  by Contact Catalog admission as first-class freshness-bound input
+  evidence (see:
+  [Solution 025 Contact Claim Admission](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+
+Still outstanding:
+
+- attestation-service role and Seed Directory discoverability under a
+  capability id such as `email-attestation` / `phone-attestation` (no
+  dedicated tracker; needs new proposal and Capability Registry row)
+- OTP / link verification flow specification (no dedicated tracker)
+- attestation request and return artifact shapes for the *acquisition*
+  side of `contact/attestation-ref` — Contact Catalog consumes the
+  resulting passport, but the conversation between the user's node and
+  the attestation service is not yet specified (no dedicated tracker)
 
 ### Cross-Cutting Block — Messaging middleware with stratified storage — outstanding features
 
@@ -1116,15 +1254,29 @@ Still outstanding:
 
 ### Cross-Cutting Block — Local contact store — outstanding features
 
-- raw address book entry storage (see:
+Already done:
+
+- raw address book entry storage with create / list / get / patch /
+  archive operator API on top of `local-contacts.sqlite` (see:
+  [Solution 025 Local Contact Store](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+- never-published-by-default policy enforcement — raw handles stay
+  daemon-local and do not leak into Contact Catalog records, Seed
+  Directory records, or shared lookup audit (see:
+  [Solution 025 Local Contact Store](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+
+Still outstanding:
+
+- `local-contact.v1` schema file at `doc/schemas/` (referenced by
+  Solution 025 but file not yet present)
+- explicit user labels and per-contact metadata fields beyond the
+  current DB columns (see:
   [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
-- user labels and per-contact metadata (see:
-  [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
-- pairwise nym mapping table (see:
+- pairwise nym mapping table specifics and lifecycle (see:
   [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md),
   [Proposal 058 Tracking row P058-009](../40-proposals/058-contact-catalog.md))
-- never-published-by-default policy enforcement (see:
-  [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
+- recovery and backup semantics for local contacts and pairwise nym
+  mappings, including integration with `pseudonym-vault.v1` (see:
+  [Proposal 059 Tracking row P059-010](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 
 ### Cross-Cutting Block — "Nym factory" with role-separated derived keys — outstanding features
 

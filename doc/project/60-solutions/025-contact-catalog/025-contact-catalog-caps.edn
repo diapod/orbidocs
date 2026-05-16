@@ -1,13 +1,16 @@
 {:component/id :orbiplex/contact-catalog
  :component/title "Contact Catalog"
  :component/type :node-attached-runtime
- :component/status :planned
+ :component/status :partial
 
  :summary
- "Node-attached domain catalog for opt-in private contact discovery. It admits
- contact-control-backed claims, stores privacy-preserving lookup indexes, and
- returns route candidates or invitation-required results instead of root
- participant identities."
+ "Node-attached domain catalog for opt-in private contact discovery. The current
+ implementation has the MVP admission and invitation-only lookup spine:
+ contact-control-backed claims, privacy-preserving lookup indexes, redacted
+ audit, daemon-local contacts, contact-request admission, and narrow
+ messaging-receive passport issuance. Blinded/PSI lookup, route-set v2, richer
+ provider policy UX, recovery semantics, and broader end-to-end transport tests
+ remain post-MVP layers."
 
  :must-implement
  [{:cap/id :contact-catalog-claim-admission
@@ -18,11 +21,15 @@
    :schemas ["contact-claim.v1"
              "capability-passport.v1"]
    :responsibilities
-   ["Validate contact-control evidence before admitting a claim"
+   ["Validate contact-claim.v1 before admission"
+    "Verify participant or delegated-participant claim signatures"
+    "Reject node-only claim signatures"
+    "Require email-control@v1 or phone-control@v1 passport evidence for email and phone claims"
+    "Check passport signature, expiry, profile match, and revocation freshness"
     "Reject raw handle publication under the MVP profile"
     "Enforce purpose allowlists, expiry, revocation reference shape, and monotonic sequence numbers"
     "Store admitted claims through CatalogStore<ContactClaimRecord>"]
-   :status :planned}
+   :status :done}
 
   {:cap/id :contact-catalog-invitation-lookup
    :title "Invitation-Only Contact Lookup"
@@ -32,12 +39,14 @@
    :schemas ["contact-lookup-result.v1"
              "routing-subject-binding.v1"]
    :responsibilities
-   ["Expose a contact catalog lookup endpoint under catalog_kind contact"
-    "Require authenticated callers and rate limits"
-    "Return route candidates or invitation-required results"
-    "Never return raw participant ids by default"
-    "Record no-match audits without leaking queried handles"]
-   :status :planned}
+   ["Expose authenticated POST /v1/contact-catalog/lookups"
+    "Require authenticated callers and rate limits before lookup execution"
+    "Rate limit by auth fingerprint, contact-index digest, and purpose"
+    "Reject raw handle-like lookup inputs"
+    "Return contact-lookup-result.v1 as a route candidate or invitation-required result"
+    "Prefer routing-subject, contact-nym, or invitation routes and never return root participant ids by default"
+    "Record redacted lookup audit for success, no-match, ambiguous, policy-denied, and rate-limited outcomes"]
+   :status :done}
 
   {:cap/id :contact-request-admission
    :title "Contact Request Admission"
@@ -51,24 +60,27 @@
              "notification-action.v1"
              "capability-passport.v1"]
    :responsibilities
-   ["Register exactly one authoritative acceptor for contact-request.v1"
-    "Create durable messaging contact-request notifications"
-    "Issue a narrow messaging-receive capability passport on user acceptance"
+   ["Register exactly one authoritative in-process Artifact Delivery acceptor for contact-request.v1"
+    "Persist pending contact-request.v1 state in the daemon-local contact store"
+    "Create durable contact-request.received notifications with accept/reject actions"
+    "Issue a narrow messaging-receive@v1 capability passport on user acceptance"
+    "Scope messaging-receive passports to request, sender, recipient route, contact nym, purpose, expiry, and revocation reference"
     "Record rejection without minting authority"]
-   :status :planned}
+   :status :partial}
 
   {:cap/id :local-contact-store
    :title "Local Contact Store"
    :kind :storage
    :based-on ["doc/project/40-proposals/058-contact-catalog.md"
               "doc/project/30-stories/story-010-message-to-a-friend.md"]
-   :schemas ["pseudonym-vault.v1"]
+   :schemas ["local-contact.v1"]
    :responsibilities
    ["Store raw handles, labels, local relationship state, and pairwise nym mappings locally"
     "Keep the store unpublished by default"
-    "Persist continuity data needed for recovery and nym regeneration"
+    "Expose local create/list/get/patch/archive routes through the daemon"
+    "Persist accepted contact-request state and local contact decisions"
     "Expose only redacted or digest-bound references to network artifacts"]
-   :status :planned}]
+   :status :partial}]
 
  :may-implement
  [{:cap/id :federated-contact-catalog-peer-fetch
@@ -80,8 +92,9 @@
    ["Use ObservedCatalogStore<ContactClaimRecord> only for communities that explicitly accept a private peer/fetch federation model"
     "Preserve publisher and origin provenance"
     "Forbid raw contact handles, unsalted public hashes, and public-log-style contact projections in federated records"
-    "Keep Agora out of the Contact Catalog propagation path"]
-   :status :deferred}
+    "Keep Agora out of the Contact Catalog propagation path"
+    "Fetch generic ObservedRecord<ContactClaimRecord> through CatalogAdapter<T,F> when provider policy allows it"]
+   :status :partial}
 
   {:cap/id :private-contact-lookup-protocol
    :title "Blinded or PSI Contact Lookup"
@@ -91,7 +104,31 @@
    :responsibilities
    ["Add stronger private discovery profiles after the cryptographic protocol is selected"
     "Keep contact-lookup-result.v1 stable across lookup protocol upgrades"]
-   :status :deferred}]
+   :status :deferred}
+
+  {:cap/id :contact-catalog-provider-policy-ux
+   :title "Provider Trust Policy UX"
+   :kind :inspection
+   :based-on ["doc/project/40-proposals/058-contact-catalog.md"
+              "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"]
+   :schemas []
+   :responsibilities
+   ["Expose trusted, uncertain, and blocked contact-catalog provider state to operators"
+    "Harden Seed Directory provider refresh and trust policy beyond the current sidecar cache"
+    "Make provider policy changes auditable and reversible"]
+   :status :partial}
+
+  {:cap/id :contact-catalog-route-set-v2
+   :title "Route Set v2 and Recovery Semantics"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/058-contact-catalog.md"]
+   :schemas ["contact-lookup-result.v1"
+             "local-contact.v1"]
+   :responsibilities
+   ["Support multiple routes per contact claim beyond the MVP single selected route"
+    "Define recovery and backup semantics for daemon-local contacts and pairwise nym mappings"
+    "Preserve the route-candidate contract while allowing richer contact continuation state"]
+   :status :planned}]
 
  :out-of-scope
  ["Global address book"
@@ -105,17 +142,22 @@
  :consumes
  ["contact-claim.v1"
   "contact-request.v1"
+  "local-contact.v1"
   "capability-passport.v1"
   "routing-subject-binding.v1"
   "Seed Directory provider records for contact-catalog, email-control, and phone-control"]
 
  :produces
  ["contact-lookup-result.v1"
-  "messaging.contact-request notifications"
+  "contact-request.received notifications"
+  "notification-action.v1 accept/reject actions"
   "capability-passport.v1 under messaging-receive"
-  "Local audit facts about admission, lookup, no-match, acceptance, and rejection"]
+  "Local contact records and contact-request state"
+  "Redacted audit facts about admission, lookup, no-match, acceptance, and rejection"]
 
  :notes
- ["MVP lookup mode is invitation-only with authenticated callers and strict rate limiting."
-  "Raw external handles belong in the local contact store, not in network catalog records."
-  "Concrete implementation ownership belongs in the Node repository."]}
+ ["MVP lookup mode is authenticated invitation-only with strict rate limiting."
+  "Raw external handles belong in the daemon-local contact store, not in network catalog records."
+  "Contact-control proves control of a contact channel, not full identity assurance."
+  "Contact Catalog MVP is implemented without Agora as a publication or relay dependency."
+  "The current implementation uses contact-catalog-core, contact-catalog-service, daemon local contacts, the Artifact Delivery contact.request acceptor, and Node UI /admin/contact-catalog."]}

@@ -6,7 +6,7 @@ handle, such as an email address or phone number, without turning Seed Directory
 into a people directory and without publishing raw `phone/email -> participant`
 maps.
 
-Status: `planned`
+Status: `partial`
 
 Date: `2026-05-16`
 
@@ -76,11 +76,11 @@ Responsibilities:
 
 Status:
 
-- `partial` — Node daemon has an in-process Artifact Delivery acceptor target
-  `contact.request`, durable `contact-request.received` notifications with
-  accept/reject actions, and acceptance issues a narrow `messaging-receive`
-  capability passport. End-to-end AD transport tests and richer operator UX
-  remain open.
+- `done` — Node `contact-catalog-core` validates `contact-claim.v1`, verifies
+  participant/delegated participant signatures, rejects node-only signatures,
+  evaluates `email-control@v1` / `phone-control@v1` passports, and checks
+  passport signature, expiry, profile match, and revocation freshness before
+  admission.
 
 ### Invitation-Only Lookup
 
@@ -106,10 +106,14 @@ Responsibilities:
 
 Status:
 
-- `partial` — Node daemon owns `<node-data-dir>/storage/local-contacts.sqlite`
-  and exposes local operator/control API routes for create/list/get/patch/archive.
-  Raw handles remain daemon-local and are not emitted by Contact Catalog lookup,
-  Seed Directory records, or shared audit.
+- `done` — Node `contact-catalog-service` exposes authenticated invitation-only
+  `POST /v1/contact-catalog/lookups`, returns `contact-lookup-result.v1`, rate
+  limits by auth fingerprint + digest + purpose, rejects raw handle-like lookup
+  inputs, writes redacted lookup audit without raw query values or root
+  participant ids, and exposes redacted counters/recent policy events in service
+  status. The daemon owns an opt-in supervised runtime on stable loopback and a
+  `/v1/contact-catalog/status` proxy; a process smoke starts the real service
+  binary and verifies readiness plus projection status through that proxy.
 
 ### Contact Request Admission
 
@@ -139,7 +143,13 @@ Responsibilities:
 
 Status:
 
-- `planned`
+- `partial` — The daemon registers a default in-process Artifact Delivery
+  acceptor target `contact.request`, persists `contact-request.v1` state, creates
+  durable `contact-request.received` notifications, exposes host-owned
+  accept/reject actions, and issues `messaging-receive@v1` passports on
+  acceptance. Validation tests cover real participant signatures, expiry, bad
+  purpose, bad signature, and redacted notification wording. Broader supervised
+  multi-process AD accept/reject tests remain open.
 
 ### Local Contact Store
 
@@ -150,7 +160,7 @@ Based on:
 
 Related schemas:
 
-- `pseudonym-vault.v1`
+- `local-contact.v1`
 
 Responsibilities:
 
@@ -163,7 +173,12 @@ Responsibilities:
 
 Status:
 
-- `planned`
+- `partial` — The daemon owns
+  `<node-data-dir>/storage/local-contacts.sqlite` and exposes local
+  create/list/get/patch/archive routes. Raw handles remain daemon-local and are
+  not emitted by Contact Catalog lookup, Seed Directory records, or shared
+  lookup audit. Recovery/backup semantics for local contacts and pairwise nym
+  mappings remain open.
 
 ## May Implement
 
@@ -190,8 +205,11 @@ Status:
 
 - `partial` — `node/catalog::CatalogAdapter<T, F>` now has a generic
   `ObservedRecord<T>` fetch contract and Contact Catalog defines
-  `RemoteContactClaimFilter`; provider policy remains trusted-only and no
-  Agora publication/relay path is introduced.
+  `RemoteContactClaimFilter`; `contact-catalog-service` uses a
+  `RemoteContactCatalogHttpAdapter` to refresh trusted provider claims into a
+  sidecar remote cache. Provider policy remains trusted-only and no Agora
+  publication/relay path is introduced. Broader multi-process trusted-provider
+  acceptance remains open.
 
 ### Blinded or PSI Lookup
 
