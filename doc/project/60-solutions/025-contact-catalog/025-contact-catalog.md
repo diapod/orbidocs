@@ -76,7 +76,11 @@ Responsibilities:
 
 Status:
 
-- `planned`
+- `partial` — Node daemon has an in-process Artifact Delivery acceptor target
+  `contact.request`, durable `contact-request.received` notifications with
+  accept/reject actions, and acceptance issues a narrow `messaging-receive`
+  capability passport. End-to-end AD transport tests and richer operator UX
+  remain open.
 
 ### Invitation-Only Lookup
 
@@ -102,7 +106,10 @@ Responsibilities:
 
 Status:
 
-- `planned`
+- `partial` — Node daemon owns `<node-data-dir>/storage/local-contacts.sqlite`
+  and exposes local operator/control API routes for create/list/get/patch/archive.
+  Raw handles remain daemon-local and are not emitted by Contact Catalog lookup,
+  Seed Directory records, or shared audit.
 
 ### Contact Request Admission
 
@@ -181,7 +188,10 @@ Responsibilities:
 
 Status:
 
-- `deferred`
+- `partial` — `node/catalog::CatalogAdapter<T, F>` now has a generic
+  `ObservedRecord<T>` fetch contract and Contact Catalog defines
+  `RemoteContactClaimFilter`; provider policy remains trusted-only and no
+  Agora publication/relay path is introduced.
 
 ### Blinded or PSI Lookup
 

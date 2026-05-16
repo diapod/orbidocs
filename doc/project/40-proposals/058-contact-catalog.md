@@ -738,23 +738,14 @@ The remaining open questions are post-MVP:
 
 ## Next Actions
 
-1. Implement a Rust supervised Contact Catalog middleware that links
-   `orbiplex-node-catalog` and implements `ContactClaimRecord: CatalogRecord`.
-2. Register `catalog_kind = "contact"` in the existing catalog endpoint pattern
-   and advertise the `contact-catalog` capability through Seed Directory.
-3. Implement the MVP admission policy for `contact-claim.v1`, including
-   contact-control proof freshness, purpose allowlists, expiry, revocation
-   references, and participant-authorized signatures.
-4. Implement authenticated invitation-only lookup returning
-   `contact-lookup-result.v1`.
-5. Add the local contact store model: raw contacts, labels, pairwise nym
-   mappings, and relationship state.
-6. Register a `contact-request.v1` acceptor and connect it to notifications and
-   `messaging-receive` passport issuance.
-7. Add operator/user UI wording that clearly distinguishes contact control from
-   identity assurance.
-8. Generalise `node/catalog` `CatalogAdapter` if remote/federated contact
-   catalog fetch becomes part of the implementation slice.
+1. Harden the daemon-managed Contact Catalog provider trust policy beyond the
+   MVP trusted/uncertain/blocked cache.
+2. Exercise `contact-request.v1` accept/reject through end-to-end Artifact
+   Delivery tests with real participant signatures.
+3. Extend the local contact store with operator UX and recovery/backup policy.
+4. Decide which blinded lookup or PSI profile should supplement
+   invitation-only lookup after MVP.
+5. Define a future route-set shape for multi-route contact results.
 
 ## Tracking
 
@@ -774,14 +765,14 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-005 | Contact Catalog admission policy (attestation freshness, signature, expiry, purpose allowlist, TTL recommendation) | done | Node `contact-catalog-core` validates `contact-claim.v1`, verifies participant/delegated participant claim signatures, rejects node-only signatures, requires first-class `email-control@v1` / `phone-control@v1` `capability-passport.v1` profiles, checks passport signatures, expiry, profile match, and revocation freshness. |
 | P058-006 | Privacy-preserving lookup index implementation (normalized or blinded) | partial | Node `contact-catalog-service` exposes authenticated `POST /v1/contact-catalog/lookups` for keyed/digest invitation-only lookup, rejects raw handle-like inputs, returns `contact-lookup-result.v1`, and rate-limits by token fingerprint + digest + purpose. Stronger blinded/PSI profiles are deferred. |
 | P058-007 | First MVP query mode decision (authenticated exact / invitation-only / blinded digest) | done | MVP is authenticated invitation-only lookup with strict rate limiting. |
-| P058-008 | Local contact store model (raw handles, labels, pairwise nym mappings, never-published-by-default) | planned | Solution 025 defines responsibilities; concrete storage implementation remains pending. |
-| P058-009 | Pairwise contact nym handling for one-to-one relationships | planned | MVP decision: default for ordinary one-to-one relationships, not mandatory for public handles or governance/high-stakes procedures. |
+| P058-008 | Local contact store model (raw handles, labels, pairwise nym mappings, never-published-by-default) | partial | Node daemon now owns `<node-data-dir>/storage/local-contacts.sqlite` and exposes local operator/control API routes `GET/POST/PATCH/DELETE /v1/local-contacts...`; raw handles stay in the daemon-local store and are not used in Contact Catalog claims, lookup responses, Seed Directory records, or shared lookup audit. |
+| P058-009 | Pairwise contact nym handling for one-to-one relationships | partial | `contact-request.v1` acceptance creates a deterministic local `contact-nym:*` mapping and scopes `messaging-receive@v1` to that local nym, sender, route, request and purpose. Broader nym lifecycle/recovery policy remains open. |
 | P058-010 | Routing-subject / contact-nym as default lookup result (never root participant by default), with multi-route support | partial | Lookup MVP prefers `owner/routing-subject-id`, then `owner/contact-nym-id`, then `owner/invitation-route`, and never returns `owner/participant-id`. Multi-route result sets remain deferred to additional claims or a future v2 route set. |
-| P058-011 | Contact claim revocation and expiry pipeline for rotated or removed handles | partial | Contact Catalog admission and lookup now consume the daemon revocation snapshot and fail closed in daemon-managed admission when the snapshot is unavailable/stale; lookup filters revoked passport/claim refs at read time. A background contact-claim revocation projector/pipeline remains open. |
-| P058-012 | Operator / user UI wording distinguishing contact-control proof from identity assurance | todo | Named in Next Actions; no UI surface. |
+| P058-011 | Contact claim revocation and expiry pipeline for rotated or removed handles | partial | Contact Catalog admission and lookup consume daemon revocation snapshots, and `contact-catalog-service` now keeps a sidecar SQLite projection for `active | expired | revoked` claim state plus fail-closed daemon-managed lookup when projection/revocation freshness is unavailable. A richer replay/as-of projector remains open. |
+| P058-012 | Operator / user UI wording distinguishing contact-control proof from identity assurance | partial | Node UI exposes `/admin/contact-catalog` and contact-request notifications state that `contact-control` proves control of a contact channel, not full identity assurance. More end-user copy can still be refined. |
 | P058-013 | No Agora publication path for Contact Catalog records | done | Contact Catalog has no Agora publication path: records, lookup indexes, routes, relationship facts, and observed contact projections are not planned for Agora. Discovery stays with Seed Directory and lookup/fetch policy stays with Contact Catalog providers. |
 | P058-014 | Contact Catalog solution document and capability sidecar | done | `doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md` and `025-contact-catalog-caps.edn`. |
-| P058-015 | No-match audit event policy (avoiding address-book leakage) | planned | MVP decision: redacted aggregate or digest-bound audit only; no raw queried handles in shared audit records. |
+| P058-015 | No-match audit event policy (avoiding address-book leakage) | partial | `contact-catalog-service` records redacted lookup audit rows for no-match, ambiguous, policy-denied, rate-limited and success classes using auth fingerprint, contact-index digest, purpose and count class; it does not persist raw query bodies, raw handles, raw lookup values or root participant ids. |
 | P058-016 | Catalog Provider Role contract documented (role shared by Dator and Contact Catalog: typed `CatalogRecord` + `CatalogStore<T>` + supervised HTTP + capability id + admission policy) | done | §11 Catalog Provider Role. Dator named as existing offer-domain instance; Contact Catalog named as next contact-domain instance. |
-| P058-017 | Contact Catalog Rust supervised HTTP middleware crate scaffold reusing `orbiplex-node-catalog` (`ContactClaimRecord: CatalogRecord`, `SqliteCatalog<ContactClaimRecord>`, `ContactClaimPredicate` variants implementing `CatalogPredicate`, admission gate before `upsert`) | partial | Node now has `contact-catalog-core` plus `contact-catalog-service`: supervised bounded HTTP lifecycle, passport-backed admission gate before upsert, `SqliteCatalog<ContactClaimRecord>` persistence, claim read/list endpoints, `POST /v1/contact-catalog/lookups`, daemon host revocation snapshot consumption, daemon-managed config under `middleware-modules/contact-catalog-service`, and `ContactClaimFilter` predicates. Still pending: local contact store, `contact-request.v1` acceptor, full contact revocation projector, and remote fetch adapter generalisation. |
-| P058-018 | Generalise `node/catalog` `CatalogAdapter` trait over `T: CatalogRecord` (and `ObservedRecord<T>` for the fetch payload), so contact and offer providers share one async remote-fetch contract instead of duplicating it | todo | §12.3 Adapter Trait Generalisation; current trait in `node/catalog/src/adapter.rs` is specialised to `ServiceOfferRecord`. Also unblocks future schema / template catalog providers. |
+| P058-017 | Contact Catalog Rust supervised HTTP middleware crate scaffold reusing `orbiplex-node-catalog` (`ContactClaimRecord: CatalogRecord`, `SqliteCatalog<ContactClaimRecord>`, `ContactClaimPredicate` variants implementing `CatalogPredicate`, admission gate before `upsert`) | partial | Node now has `contact-catalog-core`, `contact-catalog-service`, daemon-owned local contacts, and a daemon in-process `contact-request.v1` acceptor. The service includes lifecycle, passport-backed admission, SQLite claim store, lookup, projection, provider-cache and redacted audit sidecars. Still pending post-MVP: richer provider policy UX, blinded lookup/PSI, route-set v2 and broader contact recovery flows. |
+| P058-018 | Generalise `node/catalog` `CatalogAdapter` trait over `T: CatalogRecord` (and `ObservedRecord<T>` for the fetch payload), so contact and offer providers share one async remote-fetch contract instead of duplicating it | partial | `node/catalog::CatalogAdapter<T, F>` now fetches `ObservedRecord<T>` and notifies `T: CatalogRecord`, while offer-specific HTTP/in-memory adapters keep compatibility wrappers. `contact-catalog-core::RemoteContactClaimFilter` defines the Contact Catalog remote fetch filter; full remote provider fetch orchestration remains policy-gated. |
