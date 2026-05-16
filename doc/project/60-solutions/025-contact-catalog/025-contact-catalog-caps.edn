@@ -71,17 +71,16 @@
    :status :planned}]
 
  :may-implement
- [{:cap/id :federated-observed-contact-catalog
-   :title "Federated Observed Contact Catalog"
+ [{:cap/id :federated-contact-catalog-peer-fetch
+   :title "Federated Contact Catalog Peer Fetch"
    :kind :optional
-   :based-on ["doc/project/40-proposals/058-contact-catalog.md"
-              "doc/project/60-solutions/008-agora/008-agora.md"]
-   :schemas ["contact-claim.v1"
-             "agora-record.v1"]
+   :based-on ["doc/project/40-proposals/058-contact-catalog.md"]
+   :schemas ["contact-claim.v1"]
    :responsibilities
-   ["Use ObservedCatalogStore<ContactClaimRecord> only for communities that explicitly accept semi-public contact projections"
+   ["Use ObservedCatalogStore<ContactClaimRecord> only for communities that explicitly accept a private peer/fetch federation model"
     "Preserve publisher and origin provenance"
-    "Forbid raw contact handles and unsalted public hashes in federated records"]
+    "Forbid raw contact handles, unsalted public hashes, and public-log-style contact projections in federated records"
+    "Keep Agora out of the Contact Catalog propagation path"]
    :status :deferred}
 
   {:cap/id :private-contact-lookup-protocol
@@ -100,7 +99,8 @@
   "Phone or email control as legal identity assurance"
   "General friend-class authorization"
   "Messaging UI or mailbox storage"
-  "Seed Directory contact semantics"]
+  "Seed Directory contact semantics"
+  "Agora publication of Contact Catalog records, lookup indexes, routes, or relationship facts"]
 
  :consumes
  ["contact-claim.v1"

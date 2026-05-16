@@ -160,24 +160,24 @@ Status:
 
 ## May Implement
 
-### Federated Observed Contact Catalog
+### Federated Contact Catalog Peer Fetch
 
 Based on:
 
 - `doc/project/40-proposals/058-contact-catalog.md`
-- `doc/project/60-solutions/008-agora/008-agora.md`
 
 Related schemas:
 
 - `contact-claim.v1`
-- `agora-record.v1`
 
 Responsibilities:
 
 - use `ObservedCatalogStore<ContactClaimRecord>` only for communities that
-  explicitly accept semi-public contact projections;
+  explicitly accept a private peer/fetch federation model;
 - preserve publisher and origin provenance;
-- forbid raw contact handles and unsalted public hashes in federated records.
+- forbid raw contact handles, unsalted public hashes, and public-log-style
+  contact projections in federated records;
+- keep Agora out of the Contact Catalog propagation path.
 
 Status:
 

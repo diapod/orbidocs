@@ -142,9 +142,10 @@ later without changing the high-level Contact Catalog boundary.
 8. **Pairwise nyms:** pairwise contact nyms are the default privacy posture for
    ordinary one-to-one relationships, but not mandatory for public handles or
    governance/high-stakes procedures.
-9. **Agora publication:** Contact Catalog records are not published through
-   Agora in MVP. Federated observed contact projections are deferred until a
-   community explicitly accepts that privacy posture.
+9. **Agora non-goal:** Contact Catalog records are not published through
+   Agora, and future Contact Catalog closure work MUST NOT depend on Agora
+   propagation. Discovery stays with Seed Directory; contact lookup stays with
+   the Contact Catalog service and its privacy policy.
 10. **No-match audit:** no-match lookups may emit redacted aggregate or
     digest-bound audit events, but MUST NOT store raw queried handles in shared
     audit records.
@@ -458,7 +459,7 @@ Catalog Provider Role
   -> local published store (CatalogStore<T>) + optional observed store
   -> domain-specific HTTP API (publish, query, admin)
   -> capability id discoverable through Seed Directory
-  -> optional federation through the Agora bridge
+  -> optional domain-specific federation/fetch policy, if the domain accepts it
 ```
 
 A node may host many Catalog Provider middleware instances side by side
@@ -480,8 +481,9 @@ The role contract that every Catalog Provider middleware must follow:
    advertise the endpoint and trust evidence without learning domain
    semantics.
 5. Run a domain admission policy before any `CatalogStore::upsert`.
-6. Optionally participate in federated propagation through the Agora bridge
-   if the domain accepts public or semi-public projections.
+6. Optionally participate in domain-specific federated fetch or observed-store
+   ingestion only if the domain accepts the privacy model. Contact Catalog does
+   not use Agora for this role.
 
 Naming this role explicitly serves two purposes. First, Contact Catalog can
 inherit the pattern instead of reinventing it. Second, future catalogs
@@ -513,8 +515,9 @@ lands.
   Recommended path:
   `<node-data-dir>/storage/contact-catalog.sqlite`.
 - `ObservedCatalogStore<T>` + `InMemoryObservedStore<T>` + `TrustLevel` —
-  for federated relay-observed claims, if Contact Catalog opts into
-  federation (P058-013 governs whether it does).
+  for domain-specific observed claims when a catalog type has an accepted
+  federation model. Contact Catalog has no Agora-backed observed projection in
+  this plan.
 - `CatalogResolver<T, L, O>` — composes local published and observed stores
   into one record-id-deduplicated view.
 - `CatalogPredicate<T>` + `CatalogFilter<T>` — composable filters, with
@@ -662,9 +665,10 @@ their privacy risks differ sharply.
 
 `orbiplex-node-catalog` (`node/catalog/`) is the shared crate that owns the
 typed catalog mechanics — records, stores, observed projections, resolvers,
-adapters, SQLite/in-memory backends, and the Agora bridge. It is mechanism,
-not domain authority: it provides primitives and stays unaware of the
-domain that instantiates them.
+adapters, and SQLite/in-memory backends. Some domains may add their own relay
+bridges, but those bridges are not part of the Contact Catalog plan. The crate
+is mechanism, not domain authority: it provides primitives and stays unaware
+of the domain that instantiates them.
 
 Dator is the existing concrete instance of the Catalog Provider Role for
 the offer domain (today as a Python supervised HTTP middleware that does
@@ -674,11 +678,14 @@ link `orbiplex-node-catalog` directly and parameterises it with a
 `ContactClaimRecord`. See §11 for the role contract and §12 for the
 implementation sketch.
 
-### Agora
+### Agora Non-Goal
 
-Agora may store public contact catalog artifacts if a community explicitly wants
-public contactability records. Agora should not learn private address-book
-semantics or raw contact identifiers.
+Contact Catalog does not publish records, observed contact projections,
+lookup indexes, routes, or relationship facts through Agora. If a deployment
+needs broader discovery, it should advertise the `contact-catalog` capability
+through Seed Directory and expose policy-controlled lookup or fetch endpoints.
+Agora may still exist for other Orbiplex domains, but it is not a Contact
+Catalog dependency.
 
 ## Failure Modes and Mitigations
 
@@ -724,11 +731,9 @@ The remaining open questions are post-MVP:
 
 1. Which blinded lookup or PSI protocol should replace or supplement
    invitation-only lookup for address-book discovery?
-2. Which communities, if any, want semi-public Contact Catalog projections
-   through Agora, and under what admission policy?
-3. Should a future `contact-claim.v2` support a first-class route set instead
+2. Should a future `contact-claim.v2` support a first-class route set instead
    of one preferred route plus purposes?
-4. What operator-facing aggregate metrics are useful for abuse defense without
+3. What operator-facing aggregate metrics are useful for abuse defense without
    leaking address-book contents?
 
 ## Next Actions
@@ -774,7 +779,7 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-010 | Routing-subject / contact-nym as default lookup result (never root participant by default), with multi-route support | partial | Lookup MVP prefers `owner/routing-subject-id`, then `owner/contact-nym-id`, then `owner/invitation-route`, and never returns `owner/participant-id`. Multi-route result sets remain deferred to additional claims or a future v2 route set. |
 | P058-011 | Contact claim revocation and expiry pipeline for rotated or removed handles | partial | Contact Catalog admission and lookup now consume the daemon revocation snapshot and fail closed in daemon-managed admission when the snapshot is unavailable/stale; lookup filters revoked passport/claim refs at read time. A background contact-claim revocation projector/pipeline remains open. |
 | P058-012 | Operator / user UI wording distinguishing contact-control proof from identity assurance | todo | Named in Next Actions; no UI surface. |
-| P058-013 | Agora publication policy for catalog records, if any | deferred | MVP forbids Agora publication of Contact Catalog records; federated observed projections are post-MVP. |
+| P058-013 | No Agora publication path for Contact Catalog records | done | Contact Catalog has no Agora publication path: records, lookup indexes, routes, relationship facts, and observed contact projections are not planned for Agora. Discovery stays with Seed Directory and lookup/fetch policy stays with Contact Catalog providers. |
 | P058-014 | Contact Catalog solution document and capability sidecar | done | `doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md` and `025-contact-catalog-caps.edn`. |
 | P058-015 | No-match audit event policy (avoiding address-book leakage) | planned | MVP decision: redacted aggregate or digest-bound audit only; no raw queried handles in shared audit records. |
 | P058-016 | Catalog Provider Role contract documented (role shared by Dator and Contact Catalog: typed `CatalogRecord` + `CatalogStore<T>` + supervised HTTP + capability id + admission policy) | done | §11 Catalog Provider Role. Dator named as existing offer-domain instance; Contact Catalog named as next contact-domain instance. |
