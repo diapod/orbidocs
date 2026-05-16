@@ -14,7 +14,7 @@ Based on:
 
 ## Status
 
-Draft
+Accepted - Node MVP runtime implemented
 
 ## Date
 
@@ -55,6 +55,19 @@ Key decisions:
 7. Public envelopes and encrypted payload metadata MUST NOT expose participant
    recovery recipients or otherwise reveal `nym -> participant` or
    `routing-subject -> participant` linkage.
+
+MVP implementation decisions:
+
+1. `participant/vault-wrap` is derived from the participant root only.
+2. The participant root remains implicit behind mnemonic/recovery flows; it is
+   not materialized as a separate public or syncable artifact.
+3. Vault synchronization uses a single-writer latest-snapshot model:
+   importing an older version is rollback rejection, and importing a higher
+   version that does not supersede the local latest snapshot is explicit
+   conflict rejection.
+4. `route:...` remains an advisory routing identifier with no mandatory
+   keypair or recovery model. `routing:did:key:...` is the cryptographic
+   routing-subject identity whose seed belongs in the encrypted vault.
 
 ## Context and Problem Statement
 
@@ -304,6 +317,12 @@ The first schema seed for this model is:
 The vault MAY be synchronised across devices or to external storage, but only as
 an opaque ciphertext blob.
 
+For MVP / full v1 runtime, synchronization is deliberately not a multi-writer
+merge system. A node stores and imports opaque snapshots with `vault/version`
+and `supersedes` lineage. Import accepts only a higher version that supersedes
+the current latest local snapshot. Older snapshots are rejected as rollback;
+parallel higher-version snapshots are rejected as conflicts.
+
 The remote store must see only technical metadata needed for retrieval and
 rollback detection, for example:
 
@@ -447,15 +466,23 @@ future-complete recovery shape.
 
 ## Open Questions
 
-1. Should the participant root-seed layer be made explicit as a stable local
-   artifact, or remain implicit behind recovery flows?
-2. Should `participant/dh` ever be publicly discoverable, or remain a local
+Resolved for MVP:
+
+1. The participant root-seed layer remains implicit behind recovery flows.
+2. `participant/vault-wrap` is root-only in MVP.
+3. The minimal vault shape is `pseudonym-vault.v1`: ciphertext-only outer
+   artifact, semantic runtime validation for crypto fields, version lineage,
+   and private local plaintext records for nym and routing-subject seeds.
+4. Multi-device editing is intentionally not a merge problem in MVP:
+   single-writer latest snapshots are accepted, rollback and conflict are
+   rejected.
+
+Still open:
+
+1. Should `participant/dh` ever be publicly discoverable, or remain a local
    capability surfaced only through controlled direct protocols?
-3. What is the minimal vault shape that supports sync, restore, rollback
-   detection, and future partial rotation for both nyms and routing subjects?
-4. Should vault wrapping be derived only from participant root material, or from
-   root material plus a second local factor by default?
-5. How should multiple concurrently edited vault snapshots merge across devices?
+2. Should a future post-MVP profile add a second local factor for vault wrap,
+   or keep root-only as the operational default?
 
 ## Consequences
 
@@ -478,16 +505,25 @@ future-complete recovery shape.
 
 ## Next Actions
 
-1. Promote `pseudonym-vault.v1` from first schema seed to runtime import/export
-   support in Node.
-2. Define a role-aware participant recovery bundle that supersedes raw
-   signing-key-only fallback export.
-3. Add explicit signer and/or sealer purpose labels for
-   `participant/signing`, `participant/dh`, and `participant/vault-wrap`.
-4. Decide whether `participant/dh` needs any protocol-visible projection in MVP
-   follow-up work, or should remain fully local.
-5. Add negative tests and schema-gate policy for accidental participant
-   recovery-recipient leakage in pseudonymous envelopes.
+Completed in Node MVP:
+
+1. Promote `pseudonym-vault.v1` from schema seed to runtime import/export
+   support.
+2. Add role derivation for `participant/dh`, `participant/vault-wrap`,
+   `nym/{signing,dh}`, and `routing-subject/{signing,dh}` without changing the
+   existing participant signing vector.
+3. Add local nym and routing-subject creation backed by private random seeds
+   stored inside the encrypted vault.
+4. Add role-aware participant recovery bundle import/export.
+5. Add negative tests and runtime boundary policy for accidental participant
+   recovery-recipient leakage in pseudonymous or routing metadata.
+
+Remaining follow-up:
+
+1. Decide whether `participant/dh` needs any protocol-visible projection after
+   MVP, or should remain fully local.
+2. Decide whether a future vault-wrap profile should add an optional second
+   local factor.
 
 ## Tracking
 
@@ -502,21 +538,21 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 | ID | Feature | Status | Evidence |
 |---|---|---|---|
 | P059-001 | Backward-compatible `orbiplex-participant-seed-v1` signing path preserved (existing mnemonic → participant signing identity unchanged) | done | §1 Decision; existing implementation per `participant-seed-contract-v1.md`. Invariant: no remapping of existing mnemonics; this row tracks that no regression is introduced. |
-| P059-002 | Conceptual participant root-seed layer with versioned, domain-separated derivation labels (`orbiplex/v1/participant/{signing,dh,vault-wrap,recovery-wrap}`) | todo | §2 Decision; current code keeps the layer implicit; explicit materialization is Open Question #1 / P059-016. |
+| P059-002 | Conceptual participant root-seed layer with versioned, domain-separated derivation labels (`orbiplex/v1/participant/{signing,dh,vault-wrap,recovery-wrap}`) | done | §2 Decision; Node `crypto` exposes stable role-purpose constants and derivation helpers while keeping the root implicit behind recovery flows. |
 | P059-003 | `participant/signing` role (Ed25519 authorship / consent / capability / governance) | done | §3 Decision #1; equivalent to today's participant signing key. |
-| P059-004 | `participant/dh` role (X25519 key agreement for direct / sealed paths) | todo | §3 Decision #2; not yet derived as a separate purpose. Public projection decision is Open Question #2 / P059-015. |
-| P059-005 | `participant/vault-wrap` symmetric AEAD wrap key derived from the participant root | todo | §3 Decision #3; required to encrypt the pseudonym vault. Derivation source is Open Question #4 / P059-018. |
+| P059-004 | `participant/dh` role (X25519 key agreement for direct / sealed paths) | done | §3 Decision #2; Node derives this role locally from the implicit participant root. Public projection remains P059-015. |
+| P059-005 | `participant/vault-wrap` symmetric AEAD wrap key derived from the participant root | done | §3 Decision #3; MVP uses root-only derivation for `pseudonym-vault.v1` sealing and opening. |
 | P059-006 | `participant/recovery-wrap` role (escrow / recovery-bundle wrap) | deferred | §3 Decision #4; explicitly reserved for later. |
-| P059-007 | Per-nym random local seed storage inside encrypted participant-owned vault (`nym-seed → nym/signing`, `nym-seed → nym/dh`) | todo | §4 Decision; required for per-nym isolation. |
-| P059-008 | Routing-subject random local seed storage inside the vault (`routing-subject-seed → routing-subject/signing`, `routing-subject-seed → routing-subject/dh`) | todo | §4 Decision; mirrors nym pattern for delivery / contact semantics. |
-| P059-009 | `pseudonym-vault.v1` private vault format (versioned, AEAD-wrapped, `supersedes` chain) | partial | §5 Decision + `doc/schemas/pseudonym-vault.v1.schema.json` (schema seed present); runtime import / export not implemented. |
-| P059-010 | Vault sync / restore runtime in Node (encrypted blob upload / download, version conflict handling, rollback detection) | todo | §5 Decision + Next Actions #1; depends on P059-005 and P059-009. |
-| P059-011 | Role-aware participant recovery bundle (supersedes raw signing-key-only fallback export) | todo | §8 Decision + Next Actions #2. |
-| P059-012 | Explicit signer / sealer purpose labels for `participant/signing`, `participant/dh`, `participant/vault-wrap` in capability surfaces | todo | Next Actions #3; integrates with signer / sealer dispatch and Capability Binding. |
-| P059-013 | Wire privacy invariant enforcement — no participant-recovery-recipient and no participant-mappable handle in pseudonymous envelopes; negative tests and schema-gate policy | todo | §7 Decision + Next Actions #5. |
-| P059-014 | Advisory `route:` vs cryptographic `routing:did:key:...` boundary kept distinct in implementation and recovery semantics | partial | §6 Decision; the distinction is named in design; Solution 023 currently handles both classes; explicit boundary tests not yet defined. |
-| P059-015 | `participant/dh` protocol-visible projection decision (publicly discoverable vs controlled-direct only) | open | Open Question #2 + Next Actions #4. |
-| P059-016 | Participant root-seed layer materialization decision (explicit local artifact vs implicit behind recovery flows) | open | Open Question #1. |
-| P059-017 | Minimal `pseudonym-vault.v1` shape covering sync, restore, rollback detection, and future partial rotation | open | Open Question #3; affects P059-009 and P059-010. |
-| P059-018 | Vault wrap derivation source decision (participant root only vs root + second local factor) | open | Open Question #4; affects P059-005 and P059-009. |
-| P059-019 | Multi-device concurrent vault edit merge strategy | open | Open Question #5; affects P059-010. |
+| P059-007 | Per-nym random local seed storage inside encrypted participant-owned vault (`nym-seed → nym/signing`, `nym-seed → nym/dh`) | done | §4 Decision; Node creates local nym records from random per-item seeds inside private vault plaintext and reseals snapshots. |
+| P059-008 | Routing-subject random local seed storage inside the vault (`routing-subject-seed → routing-subject/signing`, `routing-subject-seed → routing-subject/dh`) | done | §4 Decision; Node creates cryptographic `routing:did:key:...` subjects from random per-item seeds inside private vault plaintext. |
+| P059-009 | `pseudonym-vault.v1` private vault format (versioned, AEAD-wrapped, `supersedes` chain) | done | §5 Decision + `doc/schemas/pseudonym-vault.v1.schema.json`; Node mirrors the schema, validates import/export, and enforces runtime crypto semantics. |
+| P059-010 | Vault sync / restore runtime in Node (encrypted blob upload / download, version conflict handling, rollback detection) | done | §5 Decision; daemon import/export uses opaque blobs, single-writer latest, rollback rejection, and conflict rejection. |
+| P059-011 | Role-aware participant recovery bundle (supersedes raw signing-key-only fallback export) | done | §8 Decision; daemon recovery-bundle export/import restores participant mnemonic plus latest sealed vault snapshots and fails closed for raw signing-key-only recovery. |
+| P059-012 | Explicit signer / sealer purpose labels for `participant/signing`, `participant/dh`, `participant/vault-wrap` in capability surfaces | partial | Role-purpose labels are explicit in Node crypto/identity; broader signer/sealer capability dispatch projection remains follow-up. |
+| P059-013 | Wire privacy invariant enforcement — no participant-recovery-recipient and no participant-mappable handle in pseudonymous envelopes; negative tests and schema-gate policy | done | §7 Decision; Node rejects participant recovery-recipient leakage for pseudonymous/routing Artifact Delivery and Agora record paths and carries a negative vault-leak fixture. |
+| P059-014 | Advisory `route:` vs cryptographic `routing:did:key:...` boundary kept distinct in implementation and recovery semantics | done | §6 Decision; Node protocol tests cover `route:` as advisory endpoint metadata while `routing:did:key:...` is the vault-backed cryptographic routing subject class. |
+| P059-015 | `participant/dh` protocol-visible projection decision (publicly discoverable vs controlled-direct only) | open | Still-open Question #1 + Remaining follow-up #1. |
+| P059-016 | Participant root-seed layer materialization decision (explicit local artifact vs implicit behind recovery flows) | done | MVP decision: implicit root behind mnemonic/recovery flows; no separate public or syncable root artifact. |
+| P059-017 | Minimal `pseudonym-vault.v1` shape covering sync, restore, rollback detection, and future partial rotation | done | MVP decision: ciphertext-only outer artifact with runtime semantic crypto validation, private plaintext seed records, `vault/version`, and `supersedes`. |
+| P059-018 | Vault wrap derivation source decision (participant root only vs root + second local factor) | done | MVP decision: root-only; optional second local factor is a future profile question, not an MVP blocker. |
+| P059-019 | Multi-device concurrent vault edit merge strategy | done | MVP decision: no merge; single-writer latest accepts linear supersession, rejects rollback and concurrent conflict. |

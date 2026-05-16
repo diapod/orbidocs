@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `44` | `10` |
 | `30-stories` (Stories) | `15` | `1` |
-| `40-proposals` (Proposals) | `62` | `52` |
+| `40-proposals` (Proposals) | `63` | `53` |
 | `50-requirements` (Requirements) | `16` | `14` |
 | `60-solutions` (Solutions) | `42` | `25` |
 
-- Total project markdown files: `193`
-- Proposals referencing source material: `52` / `62`
+- Total project markdown files: `194`
+- Proposals referencing source material: `53` / `63`
 - Requirements referencing source material: `14` / `16`
 
 ## Schema Workflow
