@@ -31,3 +31,4 @@ nav:
   - "023-artifact-delivery/023-artifact-delivery.md"
   - "024-tls-trust-policy/024-tls-trust-policy.md"
   - "025-contact-catalog/025-contact-catalog.md"
+  - "026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md"

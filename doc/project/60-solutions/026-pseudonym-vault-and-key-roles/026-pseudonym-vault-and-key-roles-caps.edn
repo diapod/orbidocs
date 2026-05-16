@@ -1,0 +1,165 @@
+{:component/id :orbiplex/pseudonym-vault-and-key-roles
+ :component/title "Pseudonym Vault and Key Roles"
+ :component/type :node-attached-runtime
+ :component/status :partial
+
+ :summary
+ "Node-attached identity runtime for Proposal 059: stable participant signing
+ compatibility, versioned role derivation, ciphertext-only pseudonym-vault.v1
+ snapshots, local nym and routing-subject seed continuity, role-aware recovery
+ bundles, and privacy guards that prevent participant recovery-recipient leakage
+ in pseudonymous or routing metadata. The MVP runtime is implemented; public
+ participant/dh projection, participant/recovery-wrap, second-factor vault-wrap
+ profiles, and multi-device merge remain post-MVP layers."
+
+ :must-implement
+ [{:cap/id :stable-participant-role-derivation
+   :title "Stable Participant Role Derivation"
+   :kind :identity
+   :based-on ["doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"
+              "doc/project/20-memos/participant-seed-contract-v1.md"]
+   :schemas ["participant-key-envelope.v1"]
+   :responsibilities
+   ["Preserve the existing orbiplex-participant-seed-v1 signing path and participant id vectors"
+    "Derive role-specific material through versioned, domain-separated labels"
+    "Expose participant/signing, participant/dh, and participant/vault-wrap as distinct purposes"
+    "Reserve participant/recovery-wrap for a future profile"
+    "Fail closed when a role-root operation is attempted for a raw signing-key-only participant"]
+   :status :done}
+
+  {:cap/id :ciphertext-only-pseudonym-vault
+   :title "Ciphertext-Only Pseudonym Vault"
+   :kind :storage
+   :based-on ["doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
+   :schemas ["pseudonym-vault.v1"]
+   :responsibilities
+   ["Validate pseudonym-vault.v1 only at import/export boundaries"
+    "Keep the outer artifact free of participant, nym, and routing-subject public identifiers"
+    "Enforce runtime crypto semantics for salt, nonce, ciphertext, AEAD integrity, and AAD profile"
+    "Store snapshots with vault/version and supersedes lineage"
+    "Reject rollback imports and concurrent higher-version conflicts"]
+   :status :done}
+
+  {:cap/id :local-nym-routing-subject-creation
+   :title "Local Nym and Routing-Subject Creation"
+   :kind :identity
+   :based-on ["doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md"
+              "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"
+              "doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
+   :schemas ["nym-certificate.v1"
+             "routing-subject-binding.v1"
+             "pseudonym-vault.v1"]
+   :responsibilities
+   ["Create nyms from random per-nym local seeds stored inside the encrypted vault"
+    "Create cryptographic routing subjects from random per-subject local seeds stored inside the encrypted vault"
+    "Derive each nym and routing subject into separate signing and DH roles"
+    "Keep advisory route: identifiers out of the vault recovery model"
+    "Reseal the vault after local pseudonym mutation"]
+   :status :done}
+
+  {:cap/id :role-aware-participant-recovery-bundle
+   :title "Role-Aware Participant Recovery Bundle"
+   :kind :recovery
+   :based-on ["doc/project/40-proposals/030-identity-recovery-service.md"
+              "doc/project/40-proposals/031-participant-key-passphrase-lock.md"
+              "doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
+   :schemas ["pseudonym-vault.v1"]
+   :responsibilities
+   ["Export enough mnemonic or recovery-root material to restore participant role derivation where policy allows export"
+    "Include latest sealed pseudonym-vault snapshots as opaque ciphertext blobs"
+    "Restore the role tree and sealed vault snapshots without exposing participant linkage in public artifacts"
+    "Treat raw signing-key-only export as legacy-minimum recovery, not full role recovery"]
+   :status :done}
+
+  {:cap/id :pseudonymous-routing-privacy-guard
+   :title "Pseudonymous and Routing Metadata Privacy Guard"
+   :kind :policy
+   :based-on ["doc/project/40-proposals/042-inter-node-artifact-channel.md"
+              "doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas ["artifact-delivery-envelope.v1"
+             "agora-record.v1"
+             "pseudonym-vault.v1"]
+   :responsibilities
+   ["Reject public or federated pseudonymous/routing envelopes that expose a participant recovery recipient"
+    "Apply the invariant to Artifact Delivery and Agora admission/signing paths"
+    "Allow participant recovery recipients only in explicitly non-pseudonymous participant-scoped contexts"
+    "Preserve diagnostic trace without logging vault plaintext or secret material"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :participant-dh-projection
+   :title "Participant DH Projection"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
+   :schemas []
+   :responsibilities
+   ["Decide whether participant/dh is ever publicly discoverable"
+    "Define projection artifact, disclosure rule, and revocation semantics if it becomes public"
+    "Keep participant/dh local to controlled direct protocols if no public projection is chosen"]
+   :status :open}
+
+  {:cap/id :participant-recovery-wrap-profile
+   :title "Recovery-Wrap Profile"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
+   :schemas []
+   :responsibilities
+   ["Define participant/recovery-wrap separately from participant/vault-wrap"
+    "Decide whether recovery-wrap supports escrow, social recovery, hardware custody, or only local recovery-bundle sealing"
+    "Keep recovery-wrap out of MVP vault sync semantics until the recovery profile is explicit"]
+   :status :deferred}
+
+  {:cap/id :stronger-vault-wrap-profiles
+   :title "Stronger Vault-Wrap Profiles"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
+   :schemas ["pseudonym-vault.v1"]
+   :responsibilities
+   ["Add an optional second local factor or hardware-backed wrapping mode"
+    "Preserve root-only participant/vault-wrap as the MVP compatibility profile"
+    "Make profile selection explicit in vault metadata and import policy"]
+   :status :planned}
+
+  {:cap/id :multi-device-vault-merge
+   :title "Multi-Device Vault Merge"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
+   :schemas ["pseudonym-vault.v1"]
+   :responsibilities
+   ["Replace single-writer latest snapshots only after conflict-resolving or operation-based merge semantics are designed"
+    "Preserve rollback detection and AEAD integrity under any future merge model"
+    "Avoid leaking plaintext item identifiers to the sync backend"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Changing the stable orbiplex-participant-seed-v1 participant signing path"
+  "Deriving every nym or routing subject deterministically from the participant root"
+  "Publishing nym-to-participant or routing-subject-to-participant linkage"
+  "Treating advisory route: identifiers as cryptographic subjects"
+  "Public participant DH discovery in MVP"
+  "Social recovery, threshold custody, or HSM-only operation"
+  "Network-visible vault plaintext"]
+
+ :consumes
+ ["orbiplex-participant-seed-v1 mnemonic/recovery material"
+  "participant-key-envelope.v1"
+  "pseudonym-vault.v1 import snapshots"
+  "Local nym and routing-subject creation requests"
+  "Artifact Delivery and Agora envelopes at privacy-guard boundaries"]
+
+ :produces
+ ["stable participant:did:key signing identities"
+  "local participant/dh role material"
+  "local participant/vault-wrap AEAD wrapping material"
+  "local nym:did:key signing and DH material"
+  "local routing:did:key signing and DH material"
+  "sealed pseudonym-vault.v1 snapshots"
+  "role-aware participant recovery bundles"
+  "privacy rejection facts for participant recovery-recipient leakage"]
+
+ :notes
+ ["This component is local-first: public contracts expose pseudonymous authorship and routing subjects, while private vaults preserve the secret continuity behind them."
+  "route: identifiers remain advisory route labels; routing:did:key identifiers are cryptographic routing subjects."
+  "MVP sync is single-writer latest, not multi-device merge."]}

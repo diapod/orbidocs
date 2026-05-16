@@ -12,6 +12,9 @@ Based on:
 - `doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md`
 - `doc/schemas/pseudonym-vault.v1.schema.json`
 
+Promoted to:
+- `doc/project/60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md`
+
 ## Status
 
 Accepted - Node MVP runtime implemented
