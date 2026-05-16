@@ -42,8 +42,8 @@ new authorization authority.
 
 Three operations — `offer`, `request`, `push` — travel as peer
 messages with a dedicated `msg` kind `inac.v1`. Large payloads
-travel as binary frames on the same WSS session. Authorization flows
-through the attestation-gate (proposal 041) using one of four
+travel as session-scoped stream chunks on the same WSS session.
+Authorization flows through the attestation-gate (proposal 041) using one of four
 sources: general capability passport, custody passport, invitation
 passport, or attestation alone.
 
@@ -162,46 +162,48 @@ current implementation. The WSS peer handler terminates inbound `meta` at the
 node boundary and emits response frames without copying caller-provided metadata.
 Middleware-visible semantics must not depend on implicit `meta` propagation.
 
-## Layer 3 — Binary-frame streaming
+## Layer 3 — Streamed payload transfer
 
-Large payloads travel on the same WSS session as binary frames,
-tagged with a session-scoped `stream-id`. Proposal 042 §3.4 is the
-contract.
+Large payloads travel on the same WSS session, tagged with a
+session-scoped `stream-id`. The current implementation uses peer-message
+frames with `msg = "inac.stream.chunk.v1"` carried by the existing WSS
+binary envelope; a future raw binary-frame optimization can replace only the
+chunk carrier, not the INAC/AD contract.
 
 ### Rules
 
-- control message carries `blob/payload = { ref: "sha256:…",
-  size-bytes, stream-id }`,
-- chunks carry the `stream-id` in their frame header,
+- the final `push` carries `transfer.mode = "stream"` and
+  `artifact/ref = "inac-stream:<stream-id>"`,
+- chunks carry `stream/id`, `chunk/index`, final flag, descriptor snapshot,
+  and chunk bytes,
 - receiver reassembles → recomputes `sha256` → MUST refuse with
-  `content-hash-mismatch` on mismatch,
-- abort control frame cancels mid-stream without invalidating the
-  authorizing passport,
+  `digest-mismatch` on mismatch,
+- interrupted or malformed streams do not invoke Artifact Delivery admission
+  or any domain acceptor,
 - inline base64 allowed only below the configured ceiling
   (proposed default 64 KiB, per-node / per-peer / per-kind
   configurable).
 
 ### Placement
 
-The binary-frame discipline is a **transport concern** and belongs
-in proposal 002, not in INAC proper (042 Follow-Up #6). INAC is a
-consumer of this framing, not its author.
+The stream chunk discipline is a **transport concern**. INAC consumes it and
+Artifact Delivery decides when to use it for `inac-direct`; domain acceptors
+only see a byte-identical artifact after size/digest verification.
 
 ### Status
 
 | Component | State |
 |---|---|
-| WSS binary-frame discipline documented in proposal 002 | ❌ not started (042 Follow-Up #6) |
-| Sender-side stream serializer | ❌ not started |
-| Receiver-side reassembler + hash verifier | ❌ not started |
-| Abort frame handling | ❌ not started |
+| WSS peer-message stream carrier | ✅ implemented as `inac.stream.chunk.v1` |
+| Sender-side stream serializer | ✅ implemented for AD `inac-direct` |
+| Receiver-side reassembler + hash verifier | ✅ implemented under `<data-dir>/storage/artifact-delivery/streams/` |
+| Abort frame handling | ❌ not started; malformed/interrupted streams fail closed and are cleaned at startup |
 | Per-peer / per-kind inline-ceiling configuration surface | ❌ not started |
 
 `artifact/ref` and `artifact/href` are valid control-plane payload locations,
 but they are not enough by themselves. A production route must also define a
 resolver/fetch or binary-frame streaming contract that turns the reference into
-byte-identical artifact bytes before domain admission. The local MVP scaffold is
-therefore inline-first in practice.
+byte-identical artifact bytes before domain admission.
 
 ## Layer 4 — Authorization (attestation-gate consumer)
 

@@ -110,6 +110,9 @@ schema_for_file() {
     *.routing-subject-binding.json)
       echo "$SCHEMAS_DIR/routing-subject-binding.v1.schema.json"
       ;;
+    *.pseudonym-vault.json)
+      echo "$SCHEMAS_DIR/pseudonym-vault.v1.schema.json"
+      ;;
     *.node-advertisement.json)
       echo "$SCHEMAS_DIR/node-advertisement.v1.schema.json"
       ;;

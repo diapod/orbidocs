@@ -37,7 +37,7 @@
                  "operator status endpoint `/v1/inac/status`"
                  "operator UI `/admin/inac` for handlers, counters, and recent refusals"]
    :remaining ["Add Matrix mailbox peer transport if asynchronous store-and-forward is needed"
-               "Add binary streaming for large payloads"]}
+               "Add raw binary-frame optimization if the current peer-message stream carrier becomes insufficient"]}
 
   {:cap/id :byte-identical-artifact-transfer
    :title "Byte-Identical Artifact Transfer"
@@ -60,11 +60,11 @@
                  "Baseline `agora-record.v1` handler fails explicitly when local Agora is unavailable instead of silently falling back to Memarium"
                  "Baseline `memarium-blob.v1` handler rejects plaintext/private custody fail-closed unless a future explicit policy enables it"
                  "Baseline `memarium-blob.v1` custody facts are recorded in the local public Memarium space; configurable target spaces remain future custody-policy work"]
-   :remaining ["Resolve referenced payload locations (`artifact/ref`, `artifact/href`) through a fetch or streaming contract before domain admission"
+   :remaining ["Resolve additional referenced payload locations such as `artifact/href` or peer object-store refs through explicit fetch contracts before domain admission"
                "Add delegated signature support for `memarium-blob.v1` if custody/system artifact semantics later require it"]}
 
   {:cap/id :binary-frame-streaming
-   :title "Binary Frame Streaming"
+   :title "Streamed Payload Transfer"
    :kind :transport-extension
    :based-on ["doc/project/40-proposals/042-inter-node-artifact-channel.md"
               "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md"]
@@ -74,7 +74,13 @@
     "Bind binary streams to `sha256:...` payload references"
     "Verify reassembled payload hashes before acceptance"
     "Support abort semantics for incomplete streams"]
-   :status :todo}
+   :status :partial
+   :implemented ["Artifact Delivery `inac-direct` switches payloads above its inline ceiling to stream transfer"
+                 "Sender emits ordered `inac.stream.chunk.v1` peer messages over the authenticated WSS peer session"
+                 "Receiver stores stream chunks under `<node-data-dir>/storage/artifact-delivery/streams`, recomputes sha256 incrementally, validates `size/bytes`, and feeds a file-backed payload to AD inbound admission only after successful finalization"
+                 "Malformed, oversized, interrupted, or digest-mismatched streams fail closed before any domain acceptor is invoked"]
+   :remaining ["Add explicit stream abort/control frames if needed by operators"
+               "Replace the peer-message JSON chunk carrier with raw binary frames if profiling shows meaningful overhead"]}
 
   {:cap/id :artifact-authorization-gate
    :title "Artifact Authorization Gate"
@@ -142,7 +148,7 @@
   "The runtime fails closed without an explicit authoritative handler for an artifact kind."
   "Remote WSS INAC receiver policy now fails closed: `offer` remains behind explicit peer allowlists, while `push` requires either an explicit allowlist or an inline capability passport authorized as invitation, generic INAC push, or Memarium custody."
   "Direct `inac.offer`, `inac.request`, and `inac.push` host capabilities are governed by INAC outbound allowlists; Artifact Delivery routes that resolve to `inac-direct` are governed by Artifact Delivery outbound allowlists."
-  "Referenced payload slots are schema-valid; Artifact Delivery can resolve `artifact-store:` references before admission, while peer fetch and binary streaming remain future work."
+  "Referenced payload slots are schema-valid; Artifact Delivery can resolve `artifact-store:`, Memarium, and explicitly allowed `agora-record:` references before admission. `inac-peer-artifact:` peer object-store lookup remains future work."
   "The local host/operator surface now includes `/v1/inac/status` and `/admin/inac`; this is observability, not peer transport completion."
   "Invitation notification delivery uses the local notification queue: Accept issues a narrow invitation passport and Reject records a local denial; this is a local UX flow, not a second authority system."
-  "Matrix mailbox transport and binary streaming remain required before complete peer-to-peer artifact exchange."]}
+  "Matrix mailbox transport remains required before asynchronous store-and-forward peer exchange. Raw binary-frame streaming is an optimization over the current peer-message stream carrier, not a prerequisite for byte-identical large payload transfer."]}

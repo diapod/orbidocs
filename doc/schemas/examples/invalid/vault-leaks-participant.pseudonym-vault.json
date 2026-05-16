@@ -1,0 +1,19 @@
+{
+  "schema": "pseudonym-vault.v1",
+  "schema/v": 1,
+  "vault/id": "pseudonym-vault:01jv7pseudonym001",
+  "vault/version": 17,
+  "vault/profile": "participant-private-pseudonyms",
+  "contents/kinds": [
+    "nym"
+  ],
+  "created-at": "2026-05-16T09:00:00Z",
+  "sealed-at": "2026-05-16T09:05:00Z",
+  "crypto/kdf": "hkdf-sha256",
+  "crypto/aead": "xchacha20-poly1305",
+  "crypto/wrap-purpose": "participant/vault-wrap",
+  "salt": "bWluaW1hbC1leGFtcGxlLXNhbHQ",
+  "nonce": "bWluaW1hbC1ub25jZS0xMjM",
+  "ciphertext": "b3BhcXVlLXNlYWxlZC12YXVsdC1ibG9i",
+  "participant/id": "participant:did:key:z6MkLeakyParticipant"
+}

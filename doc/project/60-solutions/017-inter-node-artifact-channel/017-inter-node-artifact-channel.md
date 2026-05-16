@@ -71,8 +71,10 @@ Implemented now:
   invitation/custody passports, and attestation-gate style verification.
 - Feed received artifacts into the host-owned Artifact Delivery inbound
   admission path, which dispatches to exactly one authoritative acceptor.
-- Keep large payload bytes out of the JSON control plane by using
-  content-addressed binary-frame streams.
+- Keep large payload bytes out of the main JSON control frame by using
+  session-scoped, content-addressed stream chunks; a lower-level raw binary
+  carrier can be added later if profiling shows the JSON chunk carrier is too
+  expensive.
 
 ## Status
 
@@ -88,7 +90,9 @@ resolver registry, with `artifact-store:` as the first production resolver.
 Direct component calls to `inac.*` host capabilities are governed by INAC
 outbound allowlists; Artifact Delivery routes that happen to use `inac-direct`
 are governed by Artifact Delivery outbound allowlists. Matrix mailbox transport
-and binary-frame streaming remain outside the MVP scaffold. Receiver-side WSS
+and raw binary-frame optimization remain outside the MVP scaffold; WSS
+`inac.stream.chunk.v1` stream chunks are implemented for payloads above the
+inline ceiling. Receiver-side WSS
 `push` authorization now has a first production gate: without an explicit
 profile allowlist the frame must carry an inline `capability-passport.v1` under
 `authorization`. Invitation passports (`capability_id = "inac.invitation"`),
@@ -112,6 +116,13 @@ only encrypted/opaque custody envelopes. Plaintext/private blob custody remains
 fail-closed unless a future explicit policy enables it. MVP custody facts are
 written to the local public Memarium space; configurable target spaces are a
 later custody-policy layer.
+
+For streamed payloads, the receiver writes chunks to
+`<data-dir>/storage/artifact-delivery/streams/`, verifies declared size and
+`sha256:*` digest before the final `push` enters Artifact Delivery admission,
+and removes temporary state after completed admission, startup cleanup, or a
+bounded stale-stream TTL. Malformed, interrupted, or digest-mismatched streams
+do not invoke domain acceptors.
 
 Inbound INAC budgets are receiver-side policy: they match remote node id,
 operation, artifact schema, and optional content type, then refuse before

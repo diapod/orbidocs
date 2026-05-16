@@ -134,7 +134,9 @@ Current implementation status:
   canonicalizes paths, rejects symlink/path escapes, limits relative ref suffix
   length, opens without following final symlinks on Unix, caps size, and
   verifies the declared `sha256:` digest before invoking a transport adapter or
-  acceptor.
+  acceptor. Small resolved payloads remain inline; larger local/resolved
+  payloads become file-backed values so stream-capable adapters can avoid
+  materializing one large JSON body.
   The daemon also registers separate public-space Memarium resolver schemes:
   `memarium-public-entry:<entry-id>` resolves to the entry payload body and
   `memarium-public-fact:<fact-id>` resolves to the full fact, both as canonical
@@ -142,8 +144,12 @@ Current implementation status:
   `memarium-entry:<space>:<entry-id>` and `memarium-fact:<space>:<fact-id>`
   are also available for spaces such as `personal`, `community`, `public`, and
   `crisis`, but they require outbound component context and reuse the host's
-  `memarium.read` passport gate before reading. Other schemes such as `agora:`,
-  `inac:`, `http:`, or `file:` are not implicitly enabled.
+  `memarium.read` passport gate before reading. `agora-record:<record-id>` is
+  available as an explicit opt-in resolver: it fetches the record from the
+  configured Agora endpoint, rejects declared or advertised response sizes above
+  the resolver limit, and still treats the envelope digest as the source of
+  truth. Other schemes such as `inac-peer-artifact:`, `http:`, or `file:` are
+  not implicitly enabled.
 - The runtime records, validates, and enforces the mechanical subset of
   `policy`: route/selector allowlists, fan-out and byte caps, delivery timeout,
   retry budget, idempotency, and the privacy-vs-transport invariant that
@@ -205,10 +211,13 @@ Current implementation status:
   before local policy evaluation is meaningful, and accepting a candidate under
   local policy does not automatically install it as a runtime trust root.
 
-The implementation is still `partial` because Matrix mailbox transport, INAC
-authorization/invitations, non-public referenced payload resolution, and broader
-production hardening are later layers.
-The MVP now does include a P055-style
+The implementation is still `partial` because Matrix mailbox transport, raw
+binary-frame optimization, `inac-peer-artifact:` peer referenced payload fetch,
+configurable custody target-space policy, and broader production hardening
+remain later layers. INAC authorization/invitations, `agora-record:` payload
+resolution, public/scoped Memarium referenced payload resolution, and WSS stream
+chunks above the inline ceiling are now implemented.
+The MVP also includes a P055-style
 deferred submit mode, a manual recovery pass, and a daemon background recovery
 worker enabled by default:
 `artifact.delivery.send?mode=deferred` persists an accepted delivery and returns
@@ -219,7 +228,10 @@ recoverable ledger records, preserves previous attempts in `retry/history`, and
 returns schema-gated `artifact-delivery-recovery.v1`. The background worker is
 host-owned, has configurable interval/batch/pass-deadline limits, shuts down
 cooperatively with the daemon, and is visible in the Artifact Delivery operator
-status.
+status. If a daemon exits while a delivery is `running`, the SQLite ledger
+marks that interrupted record as `failed-retryable` on the next open; normal
+recovery still only executes `accepted` and `failed-retryable` records, so live
+in-process streams are not duplicated.
 
 The daemon-level knobs are intentionally small:
 
@@ -1020,7 +1032,7 @@ It owns:
 - WSS peer session use;
 - future Matrix mailbox transport use;
 - INAC control messages such as offer/request/push;
-- binary-frame transfer when payloads exceed the inline ceiling;
+- session-scoped stream chunks when payloads exceed the inline ceiling;
 - transport-level retries, peer budgets, and transport diagnostics.
 
 It does not own:
@@ -1135,14 +1147,16 @@ Status:
   Seed Directory projections, Story-005 public Whisper via `agora-default`,
   fail-closed org recipient resolution through configured org custodians plus
   Seed Directory participant projections, public and capability-gated scoped
-  Memarium referenced payload resolution, mechanical delivery-policy enforcement
-  including private-to-Agora rejection,
+  Memarium referenced payload resolution, `agora-record:<record-id>` referenced
+  payload resolution with allowlist and digest validation, mechanical
+  delivery-policy enforcement including private-to-Agora rejection,
   Story-005 private/direct Whisper via `inac-direct`, a full three-daemon Story-005 AD
   observability smoke that asserts A/B are thin Agora clients publishing to
-  node C rather than running a local `agora-service`, and regression tests.
-  Matrix mailbox transport and binary streaming remain later layers. INAC WSS
-  now provides invitation, generic `inac-push@v1`, and
-  `memarium-custody@v1` passport authorization before AD inbound admission.
+  node C rather than running a local `agora-service`, large private/direct
+  payload streaming over the existing WSS peer-message session, and regression
+  tests. Matrix mailbox transport and a generic peer object-store resolver
+  remain later layers. INAC WSS now provides invitation, generic `inac-push@v1`,
+  and `memarium-custody@v1` passport authorization before AD inbound admission.
   The baseline `memarium-blob.v1` acceptor requires explicit
   `signature.key/public`, rejects plaintext custody, and records accepted
   custody facts in the local public Memarium space until a later custody-policy
@@ -1428,8 +1442,8 @@ Status:
    delivery beyond explicit story/profile allowlists.
 2. Add Matrix mailbox transport only if store-and-forward private delivery is
    required.
-3. Add peer/agora referenced payload fetch only with explicit resolver
-   allowlists, size caps, and digest validation.
+3. Add `inac-peer-artifact:` only when a concrete peer object-store/request
+   lookup exists; until then it remains reserved and fail-closed.
 
 ## Related Capability Data
 

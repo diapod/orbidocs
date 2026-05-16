@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:pseudonym-vault:v1",
+  "title": "PseudonymVault v1",
+  "description": "Opaque encrypted local vault snapshot for nym and routing-subject private material. The outer artifact carries only technical sync and crypto metadata; plaintext pseudonym identifiers and participant linkage belong inside the ciphertext.",
+  "type": "object",
+  "additionalProperties": true,
+  "propertyNames": {
+    "not": {
+      "pattern": "^(participant/id|participant-id|owner/participant-id|nym/id|routing-subject/id)$"
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "vault/id",
+    "vault/version",
+    "vault/profile",
+    "contents/kinds",
+    "created-at",
+    "sealed-at",
+    "crypto/kdf",
+    "crypto/aead",
+    "crypto/wrap-purpose",
+    "salt",
+    "nonce",
+    "ciphertext"
+  ],
+  "properties": {
+    "schema": {
+      "const": "pseudonym-vault.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "vault/id": {
+      "type": "string",
+      "pattern": "^pseudonym-vault:[a-z0-9][a-z0-9:-]*$",
+      "description": "Opaque vault snapshot identifier. It must not encode participant, nym, or routing-subject ids."
+    },
+    "vault/version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonic local version of this sealed vault snapshot."
+    },
+    "vault/profile": {
+      "type": "string",
+      "enum": [
+        "participant-private-pseudonyms"
+      ],
+      "description": "Declares the plaintext family without exposing plaintext subjects."
+    },
+    "contents/kinds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "nym",
+          "routing-subject"
+        ]
+      },
+      "description": "Coarse encrypted content class. Specific ids and handles remain inside ciphertext."
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sealed-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "supersedes": {
+      "type": "string",
+      "pattern": "^pseudonym-vault:[a-z0-9][a-z0-9:-]*$",
+      "description": "Optional previous vault snapshot id for rollback detection and sync lineage."
+    },
+    "crypto/kdf": {
+      "type": "string",
+      "enum": [
+        "hkdf-sha256"
+      ],
+      "description": "KDF used to derive the vault wrapping key from participant root material and the stored salt."
+    },
+    "crypto/aead": {
+      "type": "string",
+      "enum": [
+        "xchacha20-poly1305",
+        "aes-256-gcm"
+      ]
+    },
+    "crypto/wrap-purpose": {
+      "type": "string",
+      "const": "participant/vault-wrap",
+      "description": "Private role purpose used to derive the wrapping key. This is a role label, not a public participant identifier."
+    },
+    "crypto/aad-profile": {
+      "type": "string",
+      "enum": [
+        "pseudonym-vault.outer-metadata.v1"
+      ],
+      "default": "pseudonym-vault.outer-metadata.v1"
+    },
+    "salt": {
+      "$ref": "#/$defs/base64url"
+    },
+    "nonce": {
+      "$ref": "#/$defs/base64url"
+    },
+    "ciphertext": {
+      "$ref": "#/$defs/base64url"
+    },
+    "ciphertext/digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "Optional digest of the ciphertext for object-store deduplication and sync verification."
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    }
+  }
+}
