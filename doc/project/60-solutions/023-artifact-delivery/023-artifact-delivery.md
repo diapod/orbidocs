@@ -760,6 +760,11 @@ Slash-separated values are acceptable for this field because they are semantic
 tags, not route
 paths or resolver scheme names.
 
+Contact lookup is not the Contact Catalog synchronization channel. It performs
+one recipient-resolution lookup for a delivery plan. Provider-to-provider
+Contact Catalog sync belongs to the catalog/provider surface: host-authorized
+control plane, direct catalog data plane, and no Agora publication path.
+
 The current capability selector filter is intentionally narrow: it supports
 `target/node-ids` as a local allowlist/intersection filter. Issuer,
 endorsement, and passport-profile filters belong to the next policy iteration;

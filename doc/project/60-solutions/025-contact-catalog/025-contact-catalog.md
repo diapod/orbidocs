@@ -201,6 +201,16 @@ Responsibilities:
 
 - use `ObservedCatalogStore<ContactClaimRecord>` only for communities that
   explicitly accept a private peer/fetch federation model;
+- never expose a public anonymous dump of the contact catalog; ordinary clients
+  use authenticated lookup, while bulk/list fetch is local-operator or
+  trusted-provider sync only;
+- let the host/daemon own discovery, trust policy, passport validation, auth
+  material, and revocation freshness;
+- use direct catalog-to-catalog HTTP as the data plane only after host policy
+  has marked the provider trusted;
+- implement reusable fetch/merge/replay mechanics in the generic catalog
+  abstraction, while this service owns Contact Catalog runtime and privacy
+  policy;
 - preserve publisher and origin provenance;
 - forbid raw contact handles, unsalted public hashes, and public-log-style
   contact projections in federated records;
@@ -213,8 +223,10 @@ Status:
   `RemoteContactClaimFilter`; `contact-catalog-service` uses a
   `RemoteContactCatalogHttpAdapter` to refresh trusted provider claims into a
   sidecar remote cache. Provider policy remains trusted-only and no Agora
-  publication/relay path is introduced. Broader multi-process trusted-provider
-  acceptance remains open.
+  publication/relay path is introduced. The next contract layer is a dedicated
+  provider sync shape with cursors/high-water marks, tombstone or revocation
+  replay, loop prevention, and generic `node/catalog` sync mechanics. Broader
+  multi-process trusted-provider acceptance remains open.
 
 ### Blinded or PSI Lookup
 

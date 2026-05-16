@@ -149,6 +149,18 @@ later without changing the high-level Contact Catalog boundary.
 10. **No-match audit:** no-match lookups may emit redacted aggregate or
     digest-bound audit events, but MUST NOT store raw queried handles in shared
     audit records.
+11. **Public fetch boundary:** a network-reachable Contact Catalog is not an
+    anonymous full-dump endpoint. Ordinary clients use authenticated lookup.
+    Bulk/list fetch is reserved for local operator APIs or explicitly trusted
+    provider sync, under policy and audit.
+12. **Provider sync control/data plane:** host/daemon policy owns discovery,
+    trust state, passport validation, auth material, and revocation freshness.
+    Once a provider is trusted, catalog-to-catalog record fetch may use a
+    direct data-plane call between Contact Catalog services.
+13. **Generic sync mechanics:** transport-neutral catalog sync mechanics
+    belong in `node/catalog`, not in Contact Catalog runtime. Contact Catalog
+    supplies the domain record, filter, admission, privacy policy, and HTTP
+    worker/runtime.
 
 The corresponding initial schemas are:
 
@@ -489,7 +501,9 @@ The role contract that every Catalog Provider middleware must follow:
 5. Run a domain admission policy before any `CatalogStore::upsert`.
 6. Optionally participate in domain-specific federated fetch or observed-store
    ingestion only if the domain accepts the privacy model. Contact Catalog does
-   not use Agora for this role.
+   not use Agora for this role. Provider-to-provider Contact Catalog fetch is a
+   direct catalog data-plane operation after host policy has accepted the
+   provider; it is not a public dump and not a relay path.
 
 Naming this role explicitly serves two purposes. First, Contact Catalog can
 inherit the pattern instead of reinventing it. Second, future catalogs
@@ -596,7 +610,28 @@ remote-fetch contract. Without this generalisation Contact Catalog would
 need a parallel `ContactCatalogAdapter` trait that duplicates the
 abstraction. The generalisation is tracked as P058-018.
 
-### 12.4 Deployment Shape
+### 12.4 Generic Catalog Sync Mechanic
+
+The shared catalog crate should own the transport-neutral mechanics of
+provider sync. A future `CatalogSynchronizer<T, F, A, S>` or equivalent
+function over `CatalogAdapter<T, F>` and `ObservedCatalogStore<T>` should:
+
+- fetch `ObservedRecord<T>` from one provider using a typed filter and cursor;
+- validate every observed record through `T: CatalogRecord`;
+- apply sequence-aware upsert and trust-level admission;
+- preserve provider origin, relay hop counts, and any `do_not_forward` or
+  `intended_node` constraints;
+- return counted outcomes such as inserted, replaced, stale/ignored, and
+  rejected;
+- carry cursor or high-water metadata without knowing the provider auth
+  runtime;
+- prevent loops when records have crossed multiple providers.
+
+This mechanic must not own HTTP routes, provider authentication, Seed
+Directory discovery, revocation snapshots, or Contact Catalog privacy policy.
+Those are runtime and policy concerns of the domain service and the host.
+
+### 12.5 Deployment Shape
 
 The Contact Catalog middleware runs as a supervised HTTP middleware,
 analogous to Dator. Recommended language: **Rust**, specifically so that the
@@ -614,7 +649,7 @@ daemon for storage operations. The middleware:
 - publishes a `contact-catalog` capability passport through Seed Directory
   so consumers can find it without learning domain semantics.
 
-### 12.5 Storage Boundary
+### 12.6 Storage Boundary
 
 Contact Catalog storage stays inside the middleware's own data directory.
 It does **not** become part of Memarium's fact stream by default. This
@@ -717,7 +752,9 @@ lookup indexes, routes, or relationship facts through Agora. If a deployment
 needs broader discovery, it should advertise the `contact-catalog` capability
 through Seed Directory and expose policy-controlled lookup or fetch endpoints.
 Agora may still exist for other Orbiplex domains, but it is not a Contact
-Catalog dependency.
+Catalog dependency. Trusted provider sync/fetch, if enabled, is direct between
+Contact Catalog services after host authorization; records are not published,
+relayed, or fanned out through Agora.
 
 ## Failure Modes and Mitigations
 
@@ -775,9 +812,14 @@ The remaining open questions are post-MVP:
 2. Exercise `contact-request.v1` accept/reject through end-to-end Artifact
    Delivery tests with real participant signatures.
 3. Extend the local contact store with operator UX and recovery/backup policy.
-4. Decide which blinded lookup or PSI profile should supplement
+4. Define the provider-to-provider sync contract: cursor/high-water semantics,
+   tombstone or revocation replay, loop prevention, and host-authorized direct
+   fetch between trusted Contact Catalog services.
+5. Add the generic catalog sync mechanic in `node/catalog` so Contact Catalog
+   and future catalog providers do not duplicate fetch/merge/replay logic.
+6. Decide which blinded lookup or PSI profile should supplement
    invitation-only lookup after MVP.
-5. Define a future route-set shape for multi-route contact results.
+7. Define a future route-set shape for multi-route contact results.
 
 ## Tracking
 
@@ -809,3 +851,4 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-017 | Contact Catalog Rust supervised HTTP middleware crate scaffold reusing `orbiplex-node-catalog` (`ContactClaimRecord: CatalogRecord`, `SqliteCatalog<ContactClaimRecord>`, `ContactClaimPredicate` variants implementing `CatalogPredicate`, admission gate before `upsert`) | partial | Node now has `contact-catalog-core`, `contact-catalog-service`, daemon-owned local contacts, and a daemon in-process `contact-request.v1` acceptor. The service includes lifecycle, passport-backed admission, SQLite claim store, lookup, active projection worker, provider-cache/remote-claim-cache, redacted audit sidecars, and opt-in daemon-managed runtime on stable loopback. A daemon process smoke now starts the real supervised binary and verifies `/v1/contact-catalog/status` readiness/projection state through the daemon proxy; deeper multi-process contact-request, admission/lookup, and trusted-provider acceptance remains pending. Still pending post-MVP: richer provider policy UX, blinded lookup/PSI, route-set v2 and broader contact recovery flows. |
 | P058-018 | Generalise `node/catalog` `CatalogAdapter` trait over `T: CatalogRecord` (and `ObservedRecord<T>` for the fetch payload), so contact and offer providers share one async remote-fetch contract instead of duplicating it | partial | `node/catalog::CatalogAdapter<T, F>` now fetches `ObservedRecord<T>` and notifies `T: CatalogRecord`, while offer-specific HTTP/in-memory adapters keep compatibility wrappers. `contact-catalog-core::RemoteContactClaimFilter` defines the Contact Catalog remote fetch filter, and `contact-catalog-service` uses a `RemoteContactCatalogHttpAdapter` to refresh trusted providers into a sidecar remote claim cache. Broader federation acceptance tests and operator policy UX remain open. |
 | P058-019 | `selector/kind = "contact-lookup"` as a host-composed *recipient selector kind* in Artifact Delivery, normalising lookup-safe contact references into `routing-subject` / `node` targets via a configured Contact Catalog provider. | done | AD core defines `RecipientSelector::ContactLookup`, selector shape validation, `SelectorClass::ContactLookup`, `ContactLookupNodeLookup`, and selector-purpose-aware outbound allow. Daemon wires the trait to local supervised HTTP `contact-catalog-service`, consumes canonical `contact-lookup-result.v1`, rejects raw handles, supports only `invitation-only` / `contact-request/messaging` / `max/nodes = 1`, and fails closed for `no-match`, `ambiguous`, `policy-denied`, `rate-limited`, unavailable provider, and `contact-nym/id` without a routable target. Explicitly distinguished from an `artifact/ref` resolver scheme. |
+| P058-020 | Provider-to-provider Contact Catalog sync contract without Agora: no anonymous public dumps, host-authorized direct fetch, cursor/high-water replay, tombstone/revocation handling, and loop prevention over generic catalog mechanics. | planned | Decision captured in MVP decisions, §11, §12.4, and the Agora non-goal. Current Node code has trusted-provider discovery/cache and sidecar remote claim refresh, but it does not yet expose a dedicated sync contract with cursors, tombstones, high-water marks, or generic `node/catalog` synchronizer semantics. |
