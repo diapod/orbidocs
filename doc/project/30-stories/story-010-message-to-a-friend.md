@@ -811,3 +811,300 @@ artifact and what is still missing.
   exists yet at the middleware admission boundary; the messaging middleware
   needs a local `contacts` set whose membership is what the
   `messaging.receive@v1` passport effectively encodes for the receiver side.
+
+## Outstanding Features per Subsystem (Path to `[done]`)
+
+For each `[todo]` and `[in-progress]` entry in Implementation Coverage above,
+this section lists the concrete features that still need to land. Each
+feature points to the closest existing tracker document; when no tracker
+exists yet, that is called out explicitly so the gap is visible.
+
+### Step 1 — outstanding features
+
+- contactability settings UI panel inside the messaging middleware client (no
+  dedicated tracker; awaiting messaging middleware solution doc)
+- local contact store schema covering raw handles, labels, and pairwise nym
+  mappings (see: [Proposal 058 §7](../40-proposals/058-contact-catalog.md))
+- participant / nym / routing-subject picker for outbound contact routes
+  (see: [Proposal 058 §4](../40-proposals/058-contact-catalog.md),
+  [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
+- UI wording distinguishing contact-control proof from identity assurance
+  (see: [Proposal 058 Next Actions #5](../40-proposals/058-contact-catalog.md))
+
+### Step 2 — outstanding features
+
+- `phone-control` capability id registration (see:
+  [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md))
+- `email-control` capability id registration (see:
+  [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md))
+- attestation-service role discoverable through Seed Directory under a
+  capability id such as `email-attestation` (see:
+  [Proposal 025](../40-proposals/025-seed-directory-as-capability-catalog.md);
+  no dedicated attestation-service solution doc yet)
+- OTP/link verification flow specification (no dedicated tracker; needs new
+  proposal)
+- request/return schemas referenced by `contact/attestation-ref` (see:
+  [Proposal 058 §4](../40-proposals/058-contact-catalog.md))
+
+### Step 3 — outstanding features
+
+- `contact-claim.v1` schema definition (see:
+  [Proposal 058 §4 / Next Actions #1](../40-proposals/058-contact-catalog.md))
+- Contact Catalog module/service implementation (no dedicated tracker;
+  awaiting Contact Catalog solution doc)
+- `catalog_kind: contact` registration via existing `catalog_endpoints`
+  abstraction (see:
+  [Proposal 058 §1](../40-proposals/058-contact-catalog.md))
+- admission policy enforcing attestation freshness (see:
+  [Proposal 058 §9](../40-proposals/058-contact-catalog.md))
+- revocation / expiry pipeline for rotated contact handles (see:
+  [Proposal 058 §4 + Failure Modes](../40-proposals/058-contact-catalog.md))
+
+### Step 4 — outstanding features
+
+- messaging middleware module with compose form, recipient parser, and local
+  outbound queue (no dedicated tracker; hosted on
+  [Solution 019 Middleware](../60-solutions/019-middleware/019-middleware.md))
+- outbound queue state machine including
+  `waiting-for-contact-permission` and `ready-for-delivery` (no dedicated
+  tracker)
+- "unknown recipient" warning indicator in compose UI (see:
+  [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
+
+### Step 5 — outstanding features
+
+- `contact-lookup-result.v1` schema (see:
+  [Proposal 058 §5 / Next Actions #1](../40-proposals/058-contact-catalog.md))
+- `contact-lookup:` resolver scheme registration in the Artifact Delivery
+  resolver registry (see:
+  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+- Contact Catalog lookup client behind that resolver (no dedicated tracker)
+- chosen first MVP query mode — authenticated exact / invitation-only /
+  blinded (see:
+  [Proposal 058 §8 / Open Questions #1](../40-proposals/058-contact-catalog.md))
+- queue state transition wiring driven by the lookup result (depends on Step
+  4 messaging middleware)
+
+### Step 6 — outstanding features
+
+- `contact-request.v1` artifact schema (no dedicated tracker; needs new
+  proposal)
+- authoritative inbound acceptor for `contact-request.v1` registered with
+  Artifact Delivery (see:
+  [Solution 023 §Single-Owner Inbound Admission](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+- sender-handle attestation reference compatible with the Step 2 passport
+  shape (see:
+  [Proposal 058 §9](../40-proposals/058-contact-catalog.md))
+- route policy default with `privacy = private-direct` for the
+  contact-request route (see:
+  [Solution 023 privacy invariant](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+
+### Step 7 — outstanding features
+
+- `notification/kind = "messaging.contact-request"` registered as a known
+  notification kind (see:
+  [Proposal 057](../40-proposals/057-user-and-operator-notifications.md))
+- contact-request detail view in operator/user UI (see:
+  [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
+- `messaging.contact.accept` / `messaging.contact.reject` action refs wired
+  to `messaging.receive@v1` issuance via the inline action execution
+  registry (see:
+  [Proposal 057 Tracking row P057-009](../40-proposals/057-user-and-operator-notifications.md))
+- promote inline action execution (P057-009) from `partial` to `done` for
+  the messaging-action class (see:
+  [Proposal 057 Tracking row P057-009](../40-proposals/057-user-and-operator-notifications.md))
+
+### Step 8 — outstanding features
+
+- frozen `messaging.receive@v1` capability id with profile and scope field
+  shapes (`receiver`, `sender`, `public_handle`, op, expiry, revocation,
+  `contacts`-class limits) (see:
+  [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md); needs a
+  new proposal to freeze the profile)
+- `key-delegation.v1` grant label for delegated messaging signing (see:
+  [Solution 014](../60-solutions/014-key-delegation-passports/014-key-delegation-passports.md),
+  [Proposal 032](../40-proposals/032-key-delegation-passports.md))
+- INAC/AD outbound carrying the issued passport response under
+  `privacy = private-direct` (see:
+  [Solution 017](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md),
+  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+
+### Step 9 — outstanding features
+
+- messaging middleware outbound-queue scanner (no dedicated tracker)
+- `capability.passport.lookup`-style host capability surface for
+  best-match passport lookup from middleware — the missing symmetric
+  counterpart of the existing issue path (see:
+  [Solution 006 Daemon Dispatch Integration](../60-solutions/006-capability-binding/006-capability-binding.md),
+  [Solution 019 Host Capability Bridge](../60-solutions/019-middleware/019-middleware.md))
+- attach-and-rescan-on-passport-arrival in the middleware (no dedicated
+  tracker)
+- queue state transition to `ready-for-delivery` (no dedicated tracker)
+- vault-backed persistence of `contacts` membership and issued
+  `messaging.receive@v1` passports (see:
+  [Proposal 059 §5](../40-proposals/059-participant-and-nym-key-role-derivation.md);
+  `pseudonym-vault.v1` schema seed present, runtime not implemented)
+
+### Step 10 — outstanding features
+
+- `message-envelope.v1` artifact schema (no dedicated tracker; needs new
+  proposal)
+- messaging inbound acceptor registered via one of
+  `artifact_delivery_acceptors.supervised_http` / `in_process` /
+  `json_e_flow` (see:
+  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+- messaging-specific sender ↔ `scope.sender` check, with delegated nyms
+  resolving through inline `DelegationProof` (see:
+  [Solution 014](../60-solutions/014-key-delegation-passports/014-key-delegation-passports.md))
+- messaging-specific receiver-route ↔ `scope.receiver` check (no dedicated
+  tracker; messaging acceptor responsibility)
+- messaging-specific public-handle ↔ `scope.public_handle` check (no
+  dedicated tracker; messaging acceptor responsibility)
+- `contacts`-class policy gate inside the acceptor (no dedicated tracker;
+  depends on Cross-Cutting `contacts` block below)
+- route policy default with `privacy = private-direct` for the
+  `message-envelope.v1` route (see:
+  [Solution 023 privacy invariant](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+
+### Step 11 — outstanding features
+
+- messaging middleware module itself (no dedicated tracker; awaiting
+  solution doc)
+- Layer 1 Maildir body store under the middleware data directory (no
+  dedicated tracker)
+- Layer 2 middleware-owned SQLite operational index with documented
+  rebuild-from-Layer-1 + Layer-3 procedure (see: this story's Open
+  Continuation; no separate tracker yet)
+- Layer 3 `contacts`-membership-change fact kind registered with Memarium
+  (see:
+  [Solution 002 Memarium Host Capability API](../60-solutions/002-memarium/002-memarium.md),
+  [Proposal 036](../40-proposals/036-memarium.md))
+- Layer 3 `messaging.receive@v1` issuance / revocation fact kind registered
+  with Memarium (see: same)
+- Layer 3 retention-decision fact kind registered with Memarium (see: same)
+- inbox projection fed by Layer 1 + Layer 2 (no dedicated tracker)
+- "open in mailbox view" notification target wired into the arrival
+  notification (see:
+  [Proposal 057](../40-proposals/057-user-and-operator-notifications.md),
+  [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
+
+### Cross-Cutting Block — INAC + Artifact Delivery transport plane — outstanding features
+
+- Matrix mailbox transport adapter (see:
+  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md),
+  [Solution 017](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md))
+- raw binary frame streaming optimization (see:
+  [Solution 017 capability "Binary Frame Streaming"](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md))
+- `inac-peer-artifact:` peer-referenced payload fetch (see:
+  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+- broader production hardening for AD outbound + inbound paths (see:
+  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+- messaging-specific acceptors (covered by Step 6 and Step 10 above)
+
+### Cross-Cutting Block — User/operator notifications — outstanding features
+
+- promote P057-009 inline action execution from `partial` to `done` for
+  the messaging-action class (see:
+  [Proposal 057 Tracking](../40-proposals/057-user-and-operator-notifications.md))
+- promote P057-011 cross-recipient user inboxes from `partial` to `done`
+  so the user (not only operator) sees messaging notifications (see:
+  [Proposal 057 Tracking](../40-proposals/057-user-and-operator-notifications.md))
+- (deferred: P057-012 OS notifications — not blocking for this story)
+
+### Cross-Cutting Block — Capability Advertisement of messaging support — outstanding features
+
+- `messaging.accept` advertisement entry defined and tied to the
+  `messaging.receive@v1` profile (see:
+  [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md),
+  [Solution 007](../60-solutions/007-capability-advertisement/007-capability-advertisement.md))
+- publication of `messaging.accept` by nodes that accept messaging, so
+  Contact Catalog and lookup consumers can filter messaging-capable nodes
+  (see:
+  [Solution 007](../60-solutions/007-capability-advertisement/007-capability-advertisement.md))
+
+### Cross-Cutting Block — Contact Catalog as a domain catalog (P058) — outstanding features
+
+- `contact-claim.v1` and `contact-lookup-result.v1` draft schemas (see:
+  [Proposal 058 Next Actions #1](../40-proposals/058-contact-catalog.md))
+- `contact-catalog` capability profile and registration decision (see:
+  [Proposal 058 Next Actions #2](../40-proposals/058-contact-catalog.md))
+- local contact store model (see:
+  [Proposal 058 Next Actions #3](../40-proposals/058-contact-catalog.md))
+- first MVP query mode (see:
+  [Proposal 058 Next Actions #4](../40-proposals/058-contact-catalog.md))
+- operator/user UI wording (see:
+  [Proposal 058 Next Actions #5](../40-proposals/058-contact-catalog.md))
+- Agora publication policy for catalog records (see:
+  [Proposal 058 Next Actions #6](../40-proposals/058-contact-catalog.md))
+- Contact Catalog solution doc and capability sidecar (no dedicated tracker
+  yet)
+
+### Cross-Cutting Block — Contact-handle attestation as a capability surface — outstanding features
+
+- attestation-service role and Seed Directory discoverability (no dedicated
+  tracker; needs new proposal)
+- `phone-control` capability id + passport profile (see:
+  [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md))
+- `email-control` capability id + passport profile (see:
+  [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md))
+- OTP/link verification flow (no dedicated tracker)
+- request/return schema definitions (see:
+  [Proposal 058 §4](../40-proposals/058-contact-catalog.md))
+
+### Cross-Cutting Block — Messaging middleware with stratified storage — outstanding features
+
+- messaging middleware solution document and capability sidecar (no
+  dedicated tracker)
+- Layer 1 / Layer 2 / Layer 3 storage stratification per Step 11 (see: Step
+  11 above)
+- enumeration and registration of Layer 3 messaging-fact kinds with
+  Memarium (see:
+  [Solution 002](../60-solutions/002-memarium/002-memarium.md), this
+  story's Open Continuation)
+- mailbox view and inbox projection (no dedicated tracker)
+- mailbox-view-targeted notification action (see:
+  [Proposal 057](../40-proposals/057-user-and-operator-notifications.md))
+
+### Cross-Cutting Block — Local contact store — outstanding features
+
+- raw address book entry storage (see:
+  [Proposal 058 §7](../40-proposals/058-contact-catalog.md))
+- user labels and per-contact metadata (see:
+  [Proposal 058 §7](../40-proposals/058-contact-catalog.md))
+- pairwise nym mapping table (see:
+  [Proposal 058 §6](../40-proposals/058-contact-catalog.md))
+- never-published-by-default policy enforcement (see:
+  [Proposal 058 §7](../40-proposals/058-contact-catalog.md))
+
+### Cross-Cutting Block — "Nym factory" with role-separated derived keys — outstanding features
+
+- participant key-role derivation contexts (`participant/signing`,
+  `participant/dh`, `participant/vault-wrap`) (see:
+  [Proposal 059 §2-3](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+- per-nym random seed storage inside the encrypted vault (see:
+  [Proposal 059 §4](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+- routing-subject seed storage inside the vault (see:
+  [Proposal 059 §4](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+- vault sync / restore runtime in Node (see:
+  [Proposal 059 Next Actions #1](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+- role-aware participant recovery bundle (see:
+  [Proposal 059 Next Actions #2](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+- explicit signer / sealer purpose labels for the new participant roles
+  (see:
+  [Proposal 059 Next Actions #3](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+- schema-gate policy preventing accidental participant-recovery-recipient
+  leakage in pseudonymous envelopes (see:
+  [Proposal 059 Next Actions #5](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+
+### Cross-Cutting Block — `contacts` relationship class — outstanding features
+
+- local relationship-class model inside the messaging middleware (no
+  dedicated tracker)
+- `contacts` membership set with default "may send messages to me" policy
+  (no dedicated tracker)
+- bi-directional projection between `contacts` membership and issued
+  `messaging.receive@v1` passports (no dedicated tracker)
+- per-class limit configuration surface (rate, size, sender allow/deny) (no
+  dedicated tracker)
+- vault-backed persistence of membership changes per Step 9 (see:
+  [Proposal 059 §5](../40-proposals/059-participant-and-nym-key-role-derivation.md))

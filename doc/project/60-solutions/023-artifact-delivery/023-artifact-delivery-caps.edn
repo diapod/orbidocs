@@ -101,8 +101,9 @@
                  "`artifact-store:` referenced payload resolver/fetch support before acceptor invocation"
                  "Public and scoped Memarium referenced payload resolvers with digest/size validation; scoped refs require caller/capability context"
                  "`agora-record:<record-id>` referenced payload resolver with explicit scheme allowlist and digest/size validation"]
-   :remaining ["Matrix mailbox transport adapters feeding inbound artifacts into the shared admission path"
-               "`inac-peer-artifact:` peer fetch after a concrete peer object store/request lookup exists"]}
+   :remaining ["Matrix mailbox transport adapters feeding inbound artifacts into the shared admission path, with transport-envelope encryption for plaintext payloads"
+               "Host-owned peer artifact cache/store for store-and-forward payload lookup"
+               "Digest-bound `inac-peer-artifact:` peer fetch after a concrete peer object store/request lookup exists"]}
 
   {:cap/id :artifact-delivery-transport-adapter-registry
    :title "Transport Adapter Registry"
@@ -114,7 +115,7 @@
    :responsibilities
    ["Register INAC as the MVP private/direct node transport"
     "Register Agora publish as the MVP public/federated publication adapter"
-    "Keep future Matrix mailbox support behind the same adapter boundary"
+    "Keep future Matrix mailbox support behind the same adapter boundary as the first store-and-forward fallback transport"
     "Select adapters by exact adapter scheme from resolved targets"
     "Pass one dispatch target plus one shared immutable artifact reference to adapters and keep fallback decisions in the runtime"
     "Ensure transport adapters feed inbound admission instead of owning their own domain-specific dispatch tables"]
@@ -128,7 +129,7 @@
                  "Remote INAC WSS stream chunks for payloads above the inline ceiling"
                  "Inbound WSS INAC push frames feed Artifact Delivery admission"
                  "Remote INAC disabled transport is reported as permanent configuration failure, while missing live peer sessions remain retryable"]
-   :remaining ["Add Matrix mailbox fallback transport"
+   :remaining ["Add Matrix mailbox fallback transport with `artifact-mailbox-sealed.v1` for plaintext/JSON payloads"
                "Add raw binary-frame optimization if the peer-message stream carrier becomes insufficient"]}]
 
  :may-implement
@@ -155,7 +156,9 @@
    :responsibilities
    ["Use deterministic node-mailbox room aliases for asynchronous artifact control messages"
     "Treat Matrix as transport only, never as trust source"
-    "Support inline-only mailbox delivery first"
+    "Require the same envelope/INAC authorization proof that WSS would require"
+    "Seal plaintext/JSON payloads into `artifact-mailbox-sealed.v1` encrypted to the recipient key before posting to Matrix"
+    "Unseal on the receiver and revalidate the original artifact descriptor before admission"
     "Feed the same Artifact Delivery inbound admission path used by INAC WSS"]
    :status :optional}
 

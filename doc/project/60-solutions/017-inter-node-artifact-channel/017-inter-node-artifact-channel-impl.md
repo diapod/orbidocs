@@ -61,6 +61,16 @@ answering `offer` or accepting `push`. An empty list means deny-all. This is a
 minimal production guard until the full invitation/passport/revocation freshness
 gate is wired.
 
+Matrix mailbox remains a later transport adapter, not an INAC authority system.
+The accepted default is to use it as the first asynchronous store-and-forward
+fallback for private delivery. A mailbox event must carry the same
+envelope/INAC authorization proof that WSS would require. Plaintext/JSON
+payloads should be sealed before posting as `artifact-mailbox-sealed.v1`
+encrypted to the recipient key; already domain-encrypted or opaque custody
+payloads may remain byte-identical. The receiver unseals, then validates the
+original descriptor (`size/bytes`, `sha256:*`, schema, content type) before the
+ordinary Artifact Delivery inbound admission path.
+
 ## Invariants that cross layers
 
 1. **Envelope byte-identity.** Whatever an INAC peer receives and

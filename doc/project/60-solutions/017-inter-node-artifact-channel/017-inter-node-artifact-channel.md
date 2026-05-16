@@ -90,7 +90,10 @@ resolver registry, with `artifact-store:` as the first production resolver.
 Direct component calls to `inac.*` host capabilities are governed by INAC
 outbound allowlists; Artifact Delivery routes that happen to use `inac-direct`
 are governed by Artifact Delivery outbound allowlists. Matrix mailbox transport
-and raw binary-frame optimization remain outside the MVP scaffold; WSS
+and raw binary-frame optimization remain outside the MVP scaffold; the accepted
+Matrix default is a store-and-forward fallback that carries the same
+authorization proof as WSS and seals plaintext payloads as
+`artifact-mailbox-sealed.v1` before posting to Matrix. WSS
 `inac.stream.chunk.v1` stream chunks are implemented for payloads above the
 inline ceiling. Receiver-side WSS
 `push` authorization now has a first production gate: without an explicit

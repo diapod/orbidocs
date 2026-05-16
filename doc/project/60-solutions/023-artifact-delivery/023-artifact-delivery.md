@@ -1341,7 +1341,17 @@ Responsibilities:
 - use deterministic node-mailbox room aliases for asynchronous artifact control
   messages;
 - treat Matrix as transport only, never as trust source;
-- support inline-only mailbox delivery first;
+- act as the first store-and-forward fallback transport for private delivery;
+- require the same envelope/INAC authorization/passport proof that WSS would
+  require; receiving a Matrix event is never authority by itself;
+- seal plaintext/JSON payloads by default into an `artifact-mailbox-sealed.v1`
+  transport envelope encrypted to the recipient key before posting to Matrix;
+- skip mailbox sealing only when the payload is already domain-encrypted,
+  opaque custody, or a route explicitly enables a test/policy exception such as
+  `allow_plain_mailbox = true`;
+- unseal on the receiver, then revalidate the original artifact descriptor
+  (`size/bytes`, `sha256:*`, schema, content type) before normal AD/INAC
+  admission;
 - feed the same Artifact Delivery inbound admission path used by INAC WSS.
 
 Status:
@@ -1438,12 +1448,16 @@ Status:
 
 ## Next Actions
 
-1. Add invitation/passport authorization for INAC before widening private/direct
-   delivery beyond explicit story/profile allowlists.
-2. Add Matrix mailbox transport only if store-and-forward private delivery is
-   required.
-3. Add `inac-peer-artifact:` only when a concrete peer object-store/request
-   lookup exists; until then it remains reserved and fail-closed.
+1. Add Matrix mailbox as the first store-and-forward AD/INAC transport. Default
+   it to transport-envelope encryption for plaintext/JSON payloads through
+   `artifact-mailbox-sealed.v1`; Matrix remains a carrier, not an authority.
+2. Add a host-owned peer artifact cache/store under AD/INAC for
+   store-and-forward payload lookup. Keep it bounded and diagnostic-only; do not
+   treat it as Memarium semantic memory.
+3. Add `inac-peer-artifact:` only on top of that concrete peer object-store or
+   request lookup. The resolver must be explicitly allowlisted and digest-bound:
+   `artifact/ref` locates bytes, while envelope `size/bytes` and `sha256:*`
+   decide acceptance.
 
 ## Related Capability Data
 
