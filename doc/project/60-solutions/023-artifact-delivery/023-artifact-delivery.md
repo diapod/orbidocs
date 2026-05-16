@@ -61,7 +61,7 @@ emerged:
 
 Without this layer, every component that needs inter-node artifact movement would
 need to know whether to call INAC, Agora, Seed Directory, peer-message dispatch,
-or a future Matrix mailbox adapter. That would duplicate transport logic and
+or Matrix mailbox. That would duplicate transport logic and
 make policy invisible to the operator.
 
 With this layer, components request artifact delivery through one host-owned
@@ -104,12 +104,26 @@ Current implementation status:
 - The daemon also has an `inac-direct` adapter. Local targets use the local
   `InacRuntime` short-circuit; remote targets use the peer supervisor's
   authenticated WSS peer-message session with `msg = "inac.v1"`. Matrix mailbox
-  transport remains a later INAC transport, not part of the first remote path.
+  is the first store-and-forward fallback transport and is enabled only through
+  explicit routes/fallbacks.
   Remote WSS inbound `offer`/`push` frames are fail-closed by default and must
   match `artifact_delivery_adapters.inac_peer_transport.inbound_allowed_peers`
   before they reach Artifact Delivery admission. A configured-but-unavailable
   peer session is retryable; a disabled peer transport is a permanent delivery
   configuration failure.
+- Matrix mailbox is a carrier, not an authority. Outbound mailbox delivery
+  requires explicit INAC authorization in the target addressing, seals the
+  `inac-control.v1` frame as `artifact-mailbox-sealed.v1` to the recipient
+  node, and posts it as a Matrix event. The receiver unseals, revalidates size
+  and `sha256:*`, feeds the frame through the same INAC/Artifact Delivery
+  admission path used by WSS, and only caches inline payload bytes in the
+  host-owned peer artifact store after the frame is accepted. Replay protection
+  is not delegated to Matrix ordering: it relies on AD idempotency keys and INAC
+  invitation/passport consumption semantics. The inbound worker exposes bounded
+  operator-visible status (`enabled`, `running`, received/accepted/rejected
+  counters, panic count, cache write failures, last error, last event time)
+  through the AD status surface without exposing payloads, passport bodies, or
+  Matrix event bodies.
 - The local `inac-direct` adapter is governed by Artifact Delivery outbound
   allowlists when it is reached through `artifact.delivery.send`. Direct
   component calls to INAC host capabilities such as `inac.offer`,
@@ -148,13 +162,16 @@ Current implementation status:
   available as an explicit opt-in resolver: it fetches the record from the
   configured Agora endpoint, rejects declared or advertised response sizes above
   the resolver limit, and still treats the envelope digest as the source of
-  truth. Other schemes such as `inac-peer-artifact:`, `http:`, or `file:` are
-  not implicitly enabled.
+  truth. `inac-peer-artifact:<node-id>:<artifact-id>` is also available as an
+  explicit opt-in resolver backed by the host-owned peer artifact cache; it is a
+  digest-bound local cache lookup, not a remote fetcher and not a trust source.
+  Other schemes such as `http:` or `file:` are not implicitly enabled.
 - The runtime records, validates, and enforces the mechanical subset of
   `policy`: route/selector allowlists, fan-out and byte caps, delivery timeout,
   retry budget, idempotency, and the privacy-vs-transport invariant that
   `privacy = private | private-direct` can use only adapter schemes explicitly
-  reviewed as private-safe. The initial private-safe set is `inac-direct`;
+  reviewed as private-safe. The reviewed private-safe set is `inac-direct` and
+  `matrix-mailbox`;
   public/federated or merely unreviewed adapters fail closed. Domain privacy,
   retention, revocation freshness, and classification semantics remain owned by
   adapters or domain acceptors and must fail closed if unsupported.
@@ -211,12 +228,13 @@ Current implementation status:
   before local policy evaluation is meaningful, and accepting a candidate under
   local policy does not automatically install it as a runtime trust root.
 
-The implementation is still `partial` because Matrix mailbox transport, raw
-binary-frame optimization, `inac-peer-artifact:` peer referenced payload fetch,
-configurable custody target-space policy, and broader production hardening
-remain later layers. INAC authorization/invitations, `agora-record:` payload
-resolution, public/scoped Memarium referenced payload resolution, and WSS stream
-chunks above the inline ceiling are now implemented.
+The implementation is still `partial` because raw binary-frame optimization,
+configurable custody target-space policy, Matrix operational hardening, and
+broader production hardening remain later layers. INAC authorization/invitations,
+`agora-record:` payload resolution, public/scoped Memarium referenced payload
+resolution, WSS stream chunks above the inline ceiling, Matrix mailbox
+store-and-forward, and `inac-peer-artifact:` peer artifact resolution are now
+implemented at MVP level.
 The MVP also includes a P055-style
 deferred submit mode, a manual recovery pass, and a daemon background recovery
 worker enabled by default:
@@ -256,7 +274,24 @@ The daemon-level knobs are intentionally small:
   capability calls.
 - `artifact_delivery_adapters.inac_peer_transport.inbound_allowed_peers` is the
   receiver-side remote WSS INAC allowlist. Empty means deny-all; this prevents
-  ambient authority until full invitation/passport authorization is implemented.
+  ambient authority unless a later INAC gate accepts an invitation or capability
+  passport.
+- `artifact_delivery_adapters.matrix_mailbox.enabled` defaults to `false`.
+  Enabling it requires a Matrix homeserver URL, access token, mailbox room alias
+  prefix, server name, event type, event payload byte limit, and retention
+  window for the host-owned peer artifact cache. The current implementation
+  always seals mailbox control frames before posting them; `seal_plain_payloads`
+  remains a conservative configuration marker and must not be treated as a
+  plaintext bypass. Peer artifact cache cleanup runs at startup and
+  opportunistically after a bounded number of writes; corrupt indices, expired
+  entries and orphaned content files are removed before count/byte cap eviction.
+  Resolver reads also fail as retryable cache misses when an index is expired or
+  its content file has disappeared, so evicted cache state does not surface later
+  as an acceptor-level file I/O failure.
+  `peer_artifact_cache_max_entries` defaults to `4096`,
+  `peer_artifact_cache_max_bytes` defaults to `256 MiB`, and zero is invalid
+  when Matrix mailbox is enabled. These limits are transport-cache hygiene, not
+  Memarium retention policy.
 
 ## Proposed Model / Decision
 
@@ -284,7 +319,7 @@ flowchart TD
   R --> TS["Transport selector"]
   TS --> INAC["INAC transport adapter"]
   TS --> AGORA["Agora publish adapter"]
-  TS --> MATRIX["Future Matrix mailbox adapter"]
+  TS --> MATRIX["Matrix mailbox adapter"]
   INAC --> ADIN["Artifact Delivery inbound admission"]
   MATRIX --> ADIN
   AGORA --> AGORAA["Agora admission"]
@@ -294,8 +329,8 @@ flowchart TD
 
 The diagram is intentionally asymmetric: publishing to Agora is not the same as
 private delivery to a node. Agora is a public/federated record substrate with its
-own admission rules. INAC and future mailbox transports feed Artifact Delivery
-inbound admission for private/direct artifacts.
+own admission rules. INAC WSS and Matrix mailbox transports feed Artifact
+Delivery inbound admission for private/direct artifacts.
 
 ### Core Vocabulary
 
@@ -309,7 +344,7 @@ inbound admission for private/direct artifacts.
 | Recipient resolver | Host-owned resolver that turns a recipient selector into one or more concrete transport targets. |
 | Delivery plan | A declarative route plan containing one or more stages. Each stage has targets, execution mode, success policy, and optional fallback behavior. |
 | Destination group | A locally configured set of recipient selectors, for example future user-defined groups such as friends, family, work, or synchronizers. |
-| Transport adapter | A concrete delivery mechanism such as INAC over WSS, future INAC-over-Matrix mailbox, or Agora publish. |
+| Transport adapter | A concrete delivery mechanism such as INAC over WSS, Matrix mailbox store-and-forward, or Agora publish. |
 | Inbound acceptor | Exactly one authoritative component endpoint for one artifact schema/content-type class. |
 | Admission | The host-owned inbound gate that checks transport context, authorization, budgets, idempotency, and acceptor lookup before calling the acceptor. |
 
@@ -535,7 +570,8 @@ Example canonical target keys:
 - `agora:default:<topic-or-route-id>` for the local default Agora route;
 - `agora:node:<node-id>:<topic-or-route-id>` for a future explicit node-hosted
   Agora target;
-- `matrix-mailbox:node:<node-id>` for a future mailbox transport.
+- `matrix-mailbox:node:<node-id>` for the Matrix mailbox store-and-forward
+  transport.
 
 This deduplication happens after full resolution because only then can the host
 see that an explicit `node/id`, a configured default, a group member, and a
@@ -706,7 +742,7 @@ Later recipient selector kinds:
 |---|---|---|
 | `group` | Resolve a user-defined local group such as friends, family, work, or synchronizers. | Host config + policy |
 | `agora-node` | Publish to an explicitly selected node-hosted Agora endpoint. | Agora endpoint resolver |
-| `matrix-mailbox-node` | Leave a private artifact control message in a node mailbox room. | Future Matrix mailbox adapter |
+| `matrix-mailbox-node` | Leave a private artifact control message in a node mailbox room. | Matrix mailbox adapter |
 
 `capability-first` and `capability-many` were added after the initial MVP once
 the route/default/group core was stable. They remain transport-neutral
@@ -892,9 +928,12 @@ The implementation should be stratified into four layers:
 2. **Runtime**: adapter registries, inbound acceptor registries, durable delivery
    and admission ledgers, status lookup, retries, deadlines, bounded stage
    execution, idempotency, and error classification. This layer exposes
-   acceptor traits but remains transport- and lifecycle-agnostic.
+   acceptor traits but remains transport- and lifecycle-agnostic. Runtime
+   deadlines are cooperative for synchronous adapters: every transport adapter
+   must set its own I/O timeout or explicitly honor the deadline passed through
+   the bounded work context.
 3. **Transport/admission adapters**: narrow edge implementations for INAC, Agora
-   publish, future Matrix mailbox delivery, supervised HTTP acceptors,
+   publish, Matrix mailbox delivery, supervised HTTP acceptors,
    in-process acceptors, and explicitly configured JSON-e Flow acceptors. These
    adapters live in daemon/middleware-runtime or domain integration crates, not
    inside the pure Artifact Delivery runtime crate when they require host
@@ -1030,7 +1069,7 @@ INAC is the private/direct transport adapter under Artifact Delivery.
 It owns:
 
 - WSS peer session use;
-- future Matrix mailbox transport use;
+- Matrix mailbox transport use;
 - INAC control messages such as offer/request/push;
 - session-scoped stream chunks when payloads exceed the inline ceiling;
 - transport-level retries, peer budgets, and transport diagnostics.
@@ -1153,8 +1192,10 @@ Status:
   Story-005 private/direct Whisper via `inac-direct`, a full three-daemon Story-005 AD
   observability smoke that asserts A/B are thin Agora clients publishing to
   node C rather than running a local `agora-service`, large private/direct
-  payload streaming over the existing WSS peer-message session, and regression
-  tests. Matrix mailbox transport and a generic peer object-store resolver
+  payload streaming over the existing WSS peer-message session, Matrix mailbox
+  store-and-forward with operator-visible worker metrics and bounded peer
+  artifact cache limits, `inac-peer-artifact:` peer artifact resolution, and
+  regression tests. Matrix mailbox room lifecycle and larger-object chunking
   remain later layers. INAC WSS now provides invitation, generic `inac-push@v1`,
   and `memarium-custody@v1` passport authorization before AD inbound admission.
   The baseline `memarium-blob.v1` acceptor requires explicit
@@ -1254,7 +1295,7 @@ Responsibilities:
 
 - register INAC as the MVP private/direct node transport;
 - register Agora publish as the MVP public/federated publication adapter;
-- keep future Matrix mailbox support behind the same adapter boundary;
+- keep Matrix mailbox support behind the same adapter boundary;
 - select adapters by exact adapter scheme from resolved targets;
 - pass only one dispatch target and one shared immutable artifact reference to
   each adapter, keeping fallback decisions in the runtime;
@@ -1268,8 +1309,9 @@ Status:
   `agora-default` publish adapter, and an `inac-direct` adapter that uses a
   local short-circuit for local targets and authenticated WSS peer messages for
   remote direct-node targets. Remote WSS INAC push frames feed the shared
-  Artifact Delivery inbound admission path. Matrix mailbox transport remains a
-  later adapter.
+  Artifact Delivery inbound admission path. Matrix mailbox is now present as the
+  first explicit store-and-forward fallback adapter and feeds the same inbound
+  admission path after unsealing and revalidation.
 
 ## May Implement
 
@@ -1346,9 +1388,10 @@ Responsibilities:
   require; receiving a Matrix event is never authority by itself;
 - seal plaintext/JSON payloads by default into an `artifact-mailbox-sealed.v1`
   transport envelope encrypted to the recipient key before posting to Matrix;
-- skip mailbox sealing only when the payload is already domain-encrypted,
-  opaque custody, or a route explicitly enables a test/policy exception such as
-  `allow_plain_mailbox = true`;
+- keep the current implementation fail-closed by always sealing the
+  `inac-control.v1` frame before posting to Matrix. A future already-encrypted
+  opaque-custody bypass would require an explicit route policy and a separate
+  review;
 - unseal on the receiver, then revalidate the original artifact descriptor
   (`size/bytes`, `sha256:*`, schema, content type) before normal AD/INAC
   admission;
@@ -1425,8 +1468,8 @@ Status:
    pure; flows with host capability calls are rejected at daemon startup.
 9. Multiple adapters may support the same selector class, but adapter selection
    must be explicit in route config or deterministic by priority. The default
-   direct `node` adapter is INAC/WSS; Matrix mailbox is a future explicit
-   fallback stage.
+   direct `node` adapter is INAC/WSS; Matrix mailbox is an explicit
+   store-and-forward fallback stage.
 10. Route refs are stable names; route versions live inside route definitions,
     and the ledger stores the expanded normalized plan used by each delivery.
 11. Capability routing for `agora.relay` is post-MVP, but should be one of the
@@ -1448,14 +1491,11 @@ Status:
 
 ## Next Actions
 
-1. Add Matrix mailbox as the first store-and-forward AD/INAC transport. Default
-   it to transport-envelope encryption for plaintext/JSON payloads through
-   `artifact-mailbox-sealed.v1`; Matrix remains a carrier, not an authority.
-2. Add a host-owned peer artifact cache/store under AD/INAC for
-   store-and-forward payload lookup. Keep it bounded and diagnostic-only; do not
-   treat it as Memarium semantic memory.
-3. Add `inac-peer-artifact:` only on top of that concrete peer object-store or
-   request lookup. The resolver must be explicitly allowlisted and digest-bound:
+1. Harden Matrix mailbox room lifecycle and add larger-object chunking over
+   Matrix when the single-event mailbox envelope becomes insufficient.
+2. Keep the host-owned peer artifact cache/store bounded and diagnostic-only; it
+   is a store-and-forward transport cache, not Memarium semantic memory.
+3. Keep `inac-peer-artifact:` explicitly allowlisted and digest-bound:
    `artifact/ref` locates bytes, while envelope `size/bytes` and `sha256:*`
    decide acceptance.
 

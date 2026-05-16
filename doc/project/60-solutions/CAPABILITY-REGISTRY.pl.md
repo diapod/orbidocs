@@ -130,6 +130,22 @@ W obecnym MVP:
 Capability pozostaje jedna, choć runtime może ją realizować przez więcej niż jeden
 moduł.
 
+### `contact-catalog`
+
+`contact-catalog` odkrywa opt-in contact routes, nie ludzi. Provider może być
+odkrywany przez Seed Directory, ale domenowa polityka katalogu odpowiada za:
+
+- dopuszczone dowody kontroli kontaktu,
+- indeksy lookup,
+- ujawnianie route candidates,
+- rate limiting,
+- audyt no-match,
+- oraz revocation albo expiry contact claims.
+
+Profil MVP jest invitation-only. Konsumenci powinni oczekiwać, że
+`contact-lookup-result.v1` nazwie `routing-subject`, `contact_nym` albo ścieżkę
+zaproszenia, nigdy surowego root participanta jako domyślnej odpowiedzi.
+
 ## Następne kroki
 
 - Rozszerzyć ten rejestr, gdy pojawią się kolejne capability IDs o stabilnym

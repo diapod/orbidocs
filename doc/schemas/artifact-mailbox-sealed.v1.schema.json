@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-mailbox-sealed:v1",
+  "title": "Artifact Mailbox Sealed Transport Envelope v1",
+  "description": "Transport-only Matrix mailbox envelope for store-and-forward Artifact Delivery / INAC messages. Matrix is the carrier, not authority; receivers unseal and revalidate the embedded control frame before admission.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "source/adapter",
+    "sender/node-id",
+    "recipient/node-id",
+    "control/schema",
+    "payload/security",
+    "sealed/payload"
+  ],
+  "properties": {
+    "schema": { "const": "artifact-mailbox-sealed.v1" },
+    "source/adapter": { "const": "daemon.matrix-mailbox" },
+    "sender/node-id": { "type": "string", "pattern": "^node:did:key:.+" },
+    "recipient/node-id": { "type": "string", "pattern": "^node:did:key:.+" },
+    "control/schema": { "const": "inac-control.v1" },
+    "payload/security": { "const": "sealed" },
+    "sealed/payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "alg",
+        "sender/node-id",
+        "recipient/node-id",
+        "nonce/base64url",
+        "ciphertext/base64url"
+      ],
+      "properties": {
+        "schema": { "const": "artifact-mailbox-sealed-payload.v1" },
+        "alg": { "const": "node-static-x25519+a256gcm" },
+        "sender/node-id": { "type": "string", "pattern": "^node:did:key:.+" },
+        "recipient/node-id": { "type": "string", "pattern": "^node:did:key:.+" },
+        "nonce/base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+        "ciphertext/base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" }
+      }
+    }
+  }
+}

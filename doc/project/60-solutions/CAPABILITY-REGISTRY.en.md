@@ -129,6 +129,22 @@ In the current MVP:
 The capability remains singular even if the runtime realizes it through more than
 one module.
 
+### `contact-catalog`
+
+`contact-catalog` discovers opt-in contact routes, not people. A provider may
+be discovered through Seed Directory, but the catalog's domain policy owns:
+
+- admitted contact-control evidence,
+- lookup indexes,
+- route candidate disclosure,
+- rate limits,
+- no-match audit behavior,
+- and revocation or expiry of contact claims.
+
+The MVP profile is invitation-only. Consumers should expect
+`contact-lookup-result.v1` to name a `routing-subject`, `contact_nym`, or
+invitation path, never a raw root participant by default.
+
 ## Next Actions
 
 - Extend this registry when new stable inter-node capability IDs appear.

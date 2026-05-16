@@ -488,3 +488,35 @@ future-complete recovery shape.
    follow-up work, or should remain fully local.
 5. Add negative tests and schema-gate policy for accidental participant
    recovery-recipient leakage in pseudonymous envelopes.
+
+## Tracking
+
+Status legend: `todo` (no implementation work started), `planned` (design
+defined, awaiting implementation), `partial` (partially implemented), `done`
+(fully implemented and integrated), `open` (a design decision is still
+required before implementation can proceed), `deferred` (explicitly post-MVP
+for this proposal). Status values are kept consistent with other tracker
+tables in this project (see Proposal 057 §Tracking and Proposal 058
+§Tracking for precedent).
+
+| ID | Feature | Status | Evidence |
+|---|---|---|---|
+| P059-001 | Backward-compatible `orbiplex-participant-seed-v1` signing path preserved (existing mnemonic → participant signing identity unchanged) | done | §1 Decision; existing implementation per `participant-seed-contract-v1.md`. Invariant: no remapping of existing mnemonics; this row tracks that no regression is introduced. |
+| P059-002 | Conceptual participant root-seed layer with versioned, domain-separated derivation labels (`orbiplex/v1/participant/{signing,dh,vault-wrap,recovery-wrap}`) | todo | §2 Decision; current code keeps the layer implicit; explicit materialization is Open Question #1 / P059-016. |
+| P059-003 | `participant/signing` role (Ed25519 authorship / consent / capability / governance) | done | §3 Decision #1; equivalent to today's participant signing key. |
+| P059-004 | `participant/dh` role (X25519 key agreement for direct / sealed paths) | todo | §3 Decision #2; not yet derived as a separate purpose. Public projection decision is Open Question #2 / P059-015. |
+| P059-005 | `participant/vault-wrap` symmetric AEAD wrap key derived from the participant root | todo | §3 Decision #3; required to encrypt the pseudonym vault. Derivation source is Open Question #4 / P059-018. |
+| P059-006 | `participant/recovery-wrap` role (escrow / recovery-bundle wrap) | deferred | §3 Decision #4; explicitly reserved for later. |
+| P059-007 | Per-nym random local seed storage inside encrypted participant-owned vault (`nym-seed → nym/signing`, `nym-seed → nym/dh`) | todo | §4 Decision; required for per-nym isolation. |
+| P059-008 | Routing-subject random local seed storage inside the vault (`routing-subject-seed → routing-subject/signing`, `routing-subject-seed → routing-subject/dh`) | todo | §4 Decision; mirrors nym pattern for delivery / contact semantics. |
+| P059-009 | `pseudonym-vault.v1` private vault format (versioned, AEAD-wrapped, `supersedes` chain) | partial | §5 Decision + `doc/schemas/pseudonym-vault.v1.schema.json` (schema seed present); runtime import / export not implemented. |
+| P059-010 | Vault sync / restore runtime in Node (encrypted blob upload / download, version conflict handling, rollback detection) | todo | §5 Decision + Next Actions #1; depends on P059-005 and P059-009. |
+| P059-011 | Role-aware participant recovery bundle (supersedes raw signing-key-only fallback export) | todo | §8 Decision + Next Actions #2. |
+| P059-012 | Explicit signer / sealer purpose labels for `participant/signing`, `participant/dh`, `participant/vault-wrap` in capability surfaces | todo | Next Actions #3; integrates with signer / sealer dispatch and Capability Binding. |
+| P059-013 | Wire privacy invariant enforcement — no participant-recovery-recipient and no participant-mappable handle in pseudonymous envelopes; negative tests and schema-gate policy | todo | §7 Decision + Next Actions #5. |
+| P059-014 | Advisory `route:` vs cryptographic `routing:did:key:...` boundary kept distinct in implementation and recovery semantics | partial | §6 Decision; the distinction is named in design; Solution 023 currently handles both classes; explicit boundary tests not yet defined. |
+| P059-015 | `participant/dh` protocol-visible projection decision (publicly discoverable vs controlled-direct only) | open | Open Question #2 + Next Actions #4. |
+| P059-016 | Participant root-seed layer materialization decision (explicit local artifact vs implicit behind recovery flows) | open | Open Question #1. |
+| P059-017 | Minimal `pseudonym-vault.v1` shape covering sync, restore, rollback detection, and future partial rotation | open | Open Question #3; affects P059-009 and P059-010. |
+| P059-018 | Vault wrap derivation source decision (participant root only vs root + second local factor) | open | Open Question #4; affects P059-005 and P059-009. |
+| P059-019 | Multi-device concurrent vault edit merge strategy | open | Open Question #5; affects P059-010. |
