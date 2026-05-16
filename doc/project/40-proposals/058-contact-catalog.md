@@ -489,3 +489,30 @@ semantics or raw contact identifiers.
    identity assurance.
 6. Decide how Contact Catalog records may be published through Agora without
    leaking raw contact identifiers.
+
+## Tracking
+
+Status legend: `todo` (no implementation work started), `planned` (design
+defined, awaiting implementation), `partial` (partially implemented), `done`
+(fully implemented and integrated), `open` (a design decision is still
+required before implementation can proceed), `deferred` (explicitly post-MVP
+for this proposal). Status values are kept consistent with other tracker
+tables in this project (see Proposal 057 §Tracking for precedent).
+
+| ID | Feature | Status | Evidence |
+|---|---|---|---|
+| P058-001 | `contact-claim.v1` schema (fields per §4, signing key class decision) | todo | Field list sketched in §4; named in Next Actions #1; signing key class is Open Question #3; no `doc/schemas/contact-claim.v1.schema.json` yet. |
+| P058-002 | `contact-lookup-result.v1` schema (fields per §5) | todo | Field list sketched in §5; named in Next Actions #1; no `doc/schemas/contact-lookup-result.v1.schema.json` yet. |
+| P058-003 | `contact-catalog` capability id and minimal profile registered in the Capability Registry | todo | Named in §1 and Next Actions #2; not in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md`. |
+| P058-004 | `catalog_kind: contact` registration through the existing `catalog_endpoints` plug-in pattern | todo | Shape in §1; reuses the offer / schema / template catalog precedent; no registration yet. |
+| P058-005 | Contact Catalog admission policy (attestation freshness, signature, expiry, purpose allowlist, TTL recommendation) | todo | Requirements enumerated in §9; TTL recommendation is Open Question #4; no admission policy implementation. |
+| P058-006 | Privacy-preserving lookup index implementation (normalized or blinded) | todo | Discussed in §3 and §8; depends on P058-007. |
+| P058-007 | First MVP query mode decision (authenticated exact / invitation-only / blinded digest) | open | Open Question #1; conservative default named in Next Actions #4 as invitation-only with authenticated callers and strict rate limiting. |
+| P058-008 | Local contact store model (raw handles, labels, pairwise nym mappings, never-published-by-default) | todo | Distinguished in §7; named in Next Actions #3; no implementation. |
+| P058-009 | Pairwise contact nym handling for one-to-one relationships | planned | Preferred posture defined in §6; mandatory-vs-default decision is Open Question #6. |
+| P058-010 | Routing-subject / contact-nym as default lookup result (never root participant by default), with multi-route support | planned | Invariant defined in §3 and §5; multi-route support is Open Question #5; implementation depends on P058-002 and P058-006. |
+| P058-011 | Contact claim revocation and expiry pipeline for rotated or removed handles | todo | Required by §4 and Failure Modes; no pipeline yet. |
+| P058-012 | Operator / user UI wording distinguishing contact-control proof from identity assurance | todo | Named in Next Actions #5; no UI surface. |
+| P058-013 | Agora publication policy for catalog records, if any | open | Next Actions #6; not yet decided; must avoid leaking raw contact identifiers. |
+| P058-014 | Contact Catalog solution document and capability sidecar | todo | No `doc/project/60-solutions/NNN-contact-catalog/` directory yet. |
+| P058-015 | No-match audit event policy (avoiding address-book leakage) | open | Open Question #7. |
