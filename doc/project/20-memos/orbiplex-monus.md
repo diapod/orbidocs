@@ -48,6 +48,8 @@ The host may later grant `Monus` a bounded subset of capabilities such as:
 
 - local memory/query access over admitted scopes,
 - local signal or Sensorium summary intake,
+- admitted communication-signal intake, such as locally configured access to
+  selected outgoing messages, incoming messages, or conversation summaries,
 - local model-assisted draft shaping,
 - local audit-log emission,
 - and a request surface for bounded outgoing `Whisper` publication.
@@ -55,6 +57,14 @@ The host may later grant `Monus` a bounded subset of capabilities such as:
 The host should remain free to deny some of those capabilities per deployment or
 policy profile. `Monus` therefore depends on explicit contracts granted by the
 Node rather than on ambient access to all local state.
+
+Communication-derived signals are especially sensitive. A user may explicitly
+configure Monus to observe selected communication surfaces, for example outgoing
+messages, but that grant is still local, bounded, revocable, and auditable. An
+outgoing message may become one source for a Monus-prepared candidate rumor only
+when local policy admits that message class for observation. The message itself
+does not become a network rumor, and Monus should record an audit event showing
+that a communication-derived signal contributed to the draft.
 
 ## Relationship to Whisper
 

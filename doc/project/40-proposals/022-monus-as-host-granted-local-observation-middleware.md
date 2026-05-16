@@ -77,11 +77,32 @@ The first useful capability families are:
 
 - bounded local memory or read-model queries,
 - bounded local signal ingestion,
+- bounded communication-signal ingestion from user-approved communication
+  surfaces,
 - bounded model-assisted draft shaping,
 - local audit/event emission,
 - request submission for Whisper-side review or publication.
 
 Each deployment may grant a subset only.
+
+Communication-signal ingestion is a narrower profile than general memory
+access. It covers local communication artifacts or read models that the user has
+explicitly allowed Monus to observe, such as selected outgoing messages,
+selected incoming messages, or derived conversation summaries. The host owns the
+selection policy:
+
+- which mailboxes, chats, contacts, accounts, or message classes are in scope,
+- whether Monus sees full content, redacted content, metadata, or summaries,
+- whether the grant applies to outgoing messages, incoming messages, or both,
+- retention and redaction rules for the observation event,
+- and whether a human review step is required before any Whisper handoff.
+
+For example, a user may allow Monus to inspect outgoing messages as a weak
+signal source. If an outgoing message repeatedly names the same institution and
+event class, Monus may create a local candidate concern draft. That draft is a
+derived local artifact, not the outgoing message itself and not a network-facing
+rumor. The later Whisper path still performs redaction, provenance marking,
+budget checks, and publication policy.
 
 ### 3. Publication boundary
 
@@ -104,6 +125,22 @@ When an outgoing social signal is materially prepared by Monus, the resulting
 
 The local host should also retain an audit trace that the draft was middleware-
 assisted rather than purely user-authored.
+
+For communication-derived drafts, the audit trace should additionally record:
+
+- the communication observation grant or policy reference,
+- the source class, such as `outgoing-message`, `incoming-message`, or
+  `conversation-summary`,
+- the minimum source reference needed for local audit or appeal,
+- whether Monus saw raw content, redacted content, metadata, or a summary,
+- the transform path from observed communication signal to candidate concern
+  draft,
+- and the human or policy basis that allowed the draft to move toward Whisper.
+
+The audit trace need not disclose full message content to every later consumer.
+It must, however, be sufficient for the local user or an authorized audit path
+to answer why Monus formed the candidate rumor and which host-granted capability
+was used.
 
 ## Trade-offs
 

@@ -40,6 +40,10 @@ The key boundary is:
 | FR-010 | If a deployment grants Monus memory/query access, that access MUST remain bounded by admitted local scopes rather than unrestricted access to all local storage.  | Fact | Proposal 022 | todo |
 | FR-011 | If a deployment grants Monus model-assisted draft shaping, the draft-shaping path MUST remain host-owned and policy-visible rather than allowing direct vendor side channels from Monus.  | Fact | Proposal 022 + Requirements 010 | todo |
 | FR-012 | If a deployment grants Monus publication-request capability, the request path MUST target a Node-owned or Whisper-owned review/publication contract rather than direct transport egress.  | Fact | Proposal 022 | todo |
+| FR-013 | If a deployment grants Monus communication-signal ingestion, the grant MUST be explicit, user-approved, bounded by local policy, and separately revocable from general memory/query access. | Fact | Proposal 022 | todo |
+| FR-014 | Communication-signal ingestion MUST distinguish source classes such as outgoing message, incoming message, conversation summary, and metadata-only observation. | Fact | Proposal 022 | todo |
+| FR-015 | A communication-derived Monus draft MUST NOT publish or expose the original message content as a network-facing rumor unless a later Whisper or Node policy explicitly authorizes that disclosure path. | Fact | Proposal 022 + Story 005 | todo |
+| FR-016 | When an outgoing message contributes to a Monus-prepared candidate rumor, the local audit trace MUST record the observation grant, source class, source reference, exposed content mode, transform path, and basis for any Whisper handoff. | Fact | Proposal 022 | todo |
 
 ## Non-Functional Requirements
 
@@ -49,12 +53,14 @@ The key boundary is:
 | NFR-002 | Monus support MUST remain optional at deployment level and MUST NOT be assumed by the core Node transport or procurement baseline.  | Fact | Proposal 022 | todo |
 | NFR-003 | Host-granted Monus capabilities SHOULD be inspectable by operators as explicit configuration or capability-report state rather than hidden middleware assumptions.  | Inference | Operability | todo |
 | NFR-004 | A future Monus implementation MAY be written in Python or another language as long as it attaches through the supervised middleware surface and honors the host capability contracts.  | Fact | Proposal 022 + Proposal 019 | todo |
+| NFR-005 | Communication-derived observation SHOULD default to least disclosure: summaries or redacted projections should be preferred over raw message content when they are sufficient for the Monus task. | Inference | Privacy and auditability | todo |
 
 ## Failure Modes and Mitigations
 
 | Failure Mode | Impact | Mitigation |
 |---|---|---|---|---|
 | Monus silently reads more local state than intended | Hidden privacy violation and broken trust boundary | Require explicit host-granted capability contracts and bounded local scope for memory/query access. |
+| Monus treats ordinary messages as ambient observation data | Private communication becomes hidden monitoring input | Require explicit communication-signal grants, source-class filtering, least-disclosure projections, and local audit records. |
 | Monus publishes directly through transport without host validation | Unbounded rumor publication and broken accountability | Keep transport egress Node-owned and Whisper-mediated. |
 | Monus calls external model vendors directly | Hidden side channel and audit gap | Require host-owned model-assisted draft-shaping path. |
 | Deployment grants only partial capability set | Feature brittleness | Require Monus to degrade gracefully under partial host grants. |

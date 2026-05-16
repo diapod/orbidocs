@@ -49,6 +49,8 @@ Related schemas:
 
 Responsibilities:
 - aggregate admitted local weak signals over time,
+- use communication-derived signals only when a user-approved host grant admits
+  the relevant message class, such as selected outgoing messages,
 - keep the distinction between user-authored and middleware-derived concern drafts,
 - prepare candidate concern drafts or explicit do-not-publish recommendations,
 - preserve `monus-derived` and `monus-sensorium-derived` provenance for later
@@ -71,6 +73,8 @@ Related schemas:
 
 Responsibilities:
 - consume only host-granted memory, signal, and draft-shaping capabilities,
+- consume communication-signal sources only through explicit host-granted
+  policies that name scope, source class, and exposed content mode,
 - degrade gracefully when some capability grants are absent,
 - submit bounded publication requests through Node or Whisper contracts instead of
   direct transport egress,
@@ -90,6 +94,9 @@ Status:
 
 - host-granted local memory or read-model views
 - host-granted local signal summaries
+- host-granted communication-signal projections, such as selected outgoing
+  messages, selected incoming messages, conversation summaries, or metadata-only
+  observations
 - host-granted model-assisted draft-shaping services
 
 ## Produces
@@ -97,6 +104,8 @@ Status:
 - local concern drafts
 - local recommendation records
 - bounded publication requests aimed at Whisper-side processing
+- local audit events linking each communication-derived draft to the observation
+  grant, source class, exposed content mode, transform path, and handoff basis
 
 ## Related Capability Data
 
