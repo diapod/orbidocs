@@ -41,7 +41,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`answer-room-metadata.v1.schema.json`](schemas-gen/schemas/answer-room-metadata.v1.md) | `16` | `1` | `no` | `yes` | `3` | `1` |
 | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md) | `17` | `16` | `yes` | `yes` | `1` | `1` |
 | [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
-| [`artifact-delivery-envelope.v1.schema.json`](schemas-gen/schemas/artifact-delivery-envelope.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
+| [`artifact-delivery-envelope.v1.schema.json`](schemas-gen/schemas/artifact-delivery-envelope.v1.md) | `6` | `0` | `yes` | `yes` | `2` | `2` |
 | [`artifact-delivery-recovery.v1.schema.json`](schemas-gen/schemas/artifact-delivery-recovery.v1.md) | `4` | `0` | `yes` | `yes` | `0` | `0` |
 | [`artifact-delivery-result.v1.schema.json`](schemas-gen/schemas/artifact-delivery-result.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
 | [`artifact-delivery-status.v1.schema.json`](schemas-gen/schemas/artifact-delivery-status.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
@@ -62,7 +62,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`comment-thread-policy.v1.schema.json`](schemas-gen/schemas/comment-thread-policy.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `1` |
 | [`community-pool-disbursement.v1.schema.json`](schemas-gen/schemas/community-pool-disbursement.v1.md) | `13` | `5` | `yes` | `yes` | `1` | `1` |
 | [`contact-claim.v1.schema.json`](schemas-gen/schemas/contact-claim.v1.md) | `21` | `9` | `yes` | `yes` | `1` | `0` |
-| [`contact-lookup-result.v1.schema.json`](schemas-gen/schemas/contact-lookup-result.v1.md) | `15` | `2` | `yes` | `yes` | `1` | `0` |
+| [`contact-lookup-result.v1.schema.json`](schemas-gen/schemas/contact-lookup-result.v1.md) | `15` | `2` | `yes` | `yes` | `2` | `1` |
 | [`contact-request.v1.schema.json`](schemas-gen/schemas/contact-request.v1.md) | `18` | `3` | `yes` | `yes` | `1` | `0` |
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
@@ -393,5 +393,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `121`
 - Generated schema docs: `121`
-- Positive examples: `137`
-- Negative examples: `100`
+- Positive examples: `139`
+- Negative examples: `103`

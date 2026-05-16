@@ -1,0 +1,25 @@
+{
+  "schema": "artifact-delivery-envelope.v1",
+  "component/id": "messaging-middleware",
+  "artifact": {
+    "schema": "contact-request.v1",
+    "content/type": "application/json",
+    "digest": "sha256:3r4RZtRuRLdICc3gejyqqYEPt3CmzNTvKxoZBqNuegQ",
+    "size/bytes": 2,
+    "bytes/base64": "e30="
+  },
+  "delivery/plan": {
+    "stages": [
+      {
+        "stage/id": "contact-request",
+        "targets": [
+          {
+            "selector/kind": "contact-lookup",
+            "contact/index-value": "marcin@example.org",
+            "purpose": "messaging"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -179,6 +179,38 @@
             "max/nodes": { "type": "integer", "minimum": 1 },
             "inac/authorization": { "$ref": "#/$defs/inac_authorization" }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "contact/index-value", "purpose"],
+          "properties": {
+            "selector/kind": { "const": "contact-lookup" },
+            "contact/index-value": {
+              "type": "string",
+              "description": "Lookup-safe Contact Catalog index value. Raw phone numbers and email addresses are not valid selector input.",
+              "pattern": "^sha256:[A-Za-z0-9_-]{16,}$"
+            },
+            "purpose": {
+              "type": "string",
+              "enum": ["messaging"]
+            },
+            "lookup/mode": {
+              "type": "string",
+              "const": "invitation-only",
+              "default": "invitation-only"
+            },
+            "selector/purpose": {
+              "type": "string",
+              "const": "contact-request/messaging"
+            },
+            "contact/catalog-ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "max/nodes": { "type": "integer", "minimum": 1, "maximum": 1 }
+          }
         }
       ]
     },

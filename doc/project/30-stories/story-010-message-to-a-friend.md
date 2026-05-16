@@ -273,6 +273,15 @@ messaging middleware to the Contact Catalog provider, and only after the
 route is known does AD enter the picture for the contact-request delivery
 of Step 6.
 
+The ergonomic AD selector may encode that same intent directly as
+`selector/kind = "contact-lookup"` with an optional
+`selector/purpose = "contact-request/messaging"`. The slash is acceptable here
+as a compact hierarchy: `contact-request` names why the selector is being used,
+and `messaging` names the domain capability being approached. That field is
+not the same as the Contact Catalog lookup `purpose`; it is an AD policy hint
+that lets the host allow contact lookup for a small contact request while still
+rejecting full message delivery until a `messaging-receive` passport exists.
+
 The MVP query mode is authenticated invitation-only lookup with strict
 rate limiting (Proposal 058 MVP Decision #1). The catalog must not return
 a naked root participant identity as the normal result.
@@ -616,12 +625,6 @@ new message.
   Directory provider discovery → authenticated
   `POST /v1/contact-catalog/lookups` → `contact-lookup-result.v1` handling
   → handoff to AD as a normal `routing-subject` / `node` selector).
-- (Deferred ergonomics, not blocking story-010 MVP) Consider adding
-  `selector/kind = "contact-lookup"` as a host-composed *recipient
-  selector kind* in Artifact Delivery, analogous to existing
-  `routing-subject` resolution. This is explicitly **not** an
-  `artifact/ref` resolver scheme: contact lookup is recipient resolution,
-  not payload fetch. Tracked as P058-019.
 - Specify the host-capability surface for "look up a usable passport for this
   outbound message" (`capability.passport.lookup`-style), since today the
   middleware host bridge exposes issue but not best-match lookup.
@@ -727,10 +730,14 @@ artifact and what is still missing.
     lookup result.
   - Architectural note: contact lookup is *recipient resolution*, not
     *payload fetch*. It is intentionally not modelled as an AD
-    `artifact/ref` resolver scheme; instead the messaging middleware
-    issues the catalog HTTP call directly and then hands AD a normal
-    `routing-subject` (or `node`) selector for the Step 6 contact-request
-    delivery.
+    `artifact/ref` resolver scheme. Two MVP-supported paths now exist:
+    (a) messaging middleware constructs an AD delivery envelope with
+    `selector/kind = "contact-lookup"` and the daemon host-composes the
+    lookup, normalising the result to a `routing-subject` / `node`
+    target — the AD selector kind is `done` (P058-019); or
+    (b) messaging middleware issues the catalog HTTP call directly and
+    hands AD a normal `routing-subject` / `node` selector. Both are
+    selector-axis, not resolver-axis.
   - Newly frozen contracts: `contact-lookup-result.v1` (schema) and MVP
     authenticated invitation-only lookup (Proposal 058 MVP Decision #1,
     Solution 025).
@@ -982,20 +989,23 @@ exists yet, that is called out explicitly so the gap is visible.
 
 ### Step 5 — outstanding features
 
-- messaging-middleware-side Contact Catalog client: Seed Directory
-  provider discovery, authenticated `POST /v1/contact-catalog/lookups`
-  call, and `contact-lookup-result.v1` handling (no dedicated tracker;
-  covered by messaging middleware solution doc; the catalog endpoint
-  itself is `done` in
-  [Solution 025 Invitation-Only Lookup](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+- pick and integrate one of two MVP-supported lookup paths in the
+  messaging middleware (no dedicated tracker; covered by messaging
+  middleware solution doc):
+  - (preferred) construct an AD delivery envelope with
+    `selector/kind = "contact-lookup"` and let the daemon host-compose
+    the lookup, normalising the result to a `routing-subject` or `node`
+    target — the AD selector is `done` (see:
+    [Proposal 058 Tracking row P058-019](../40-proposals/058-contact-catalog.md),
+    [Solution 023 §Recipient Selectors](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+  - (alternative) messaging-middleware-side Contact Catalog client doing
+    Seed Directory provider discovery + authenticated
+    `POST /v1/contact-catalog/lookups` call directly, with handoff to AD
+    via a normal `routing-subject` / `node` selector — the catalog
+    endpoint is `done` (see:
+    [Solution 025 Invitation-Only Lookup](../60-solutions/025-contact-catalog/025-contact-catalog.md))
 - queue state transition wiring driven by the lookup result (depends on
   Step 4 messaging middleware)
-- (deferred ergonomics) `selector/kind = "contact-lookup"` as a
-  host-composed *recipient selector kind* in Artifact Delivery, so
-  messaging middleware could hand AD a handle without itself knowing the
-  Contact Catalog domain — explicitly distinguished from an
-  `artifact/ref` resolver scheme (wrong axis) (see:
-  [Proposal 058 Tracking row P058-019](../40-proposals/058-contact-catalog.md))
 
 ### Step 6 — outstanding features
 
@@ -1108,9 +1118,19 @@ exists yet, that is called out explicitly so the gap is visible.
 
 ### Cross-Cutting Block — INAC + Artifact Delivery transport plane — outstanding features
 
-- Matrix mailbox transport adapter (see:
-  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md),
-  [Solution 017](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md))
+Already done since the first writing of this story:
+
+- AD `Capability-Based Recipient Resolver` (`capability-first` /
+  `capability-many` selectors) (see:
+  [Solution 023 §Recipient Selectors](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+- AD `Matrix Mailbox Transport Adapter` (see:
+  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+- AD `selector/kind = "contact-lookup"` recipient selector kind (see:
+  [Proposal 058 Tracking row P058-019](../40-proposals/058-contact-catalog.md),
+  [Solution 023 §Recipient Selectors](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+
+Still outstanding:
+
 - raw binary frame streaming optimization (see:
   [Solution 017 capability "Binary Frame Streaming"](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md))
 - `inac-peer-artifact:` peer-referenced payload fetch (see:
@@ -1167,6 +1187,11 @@ Already done (no further work needed for this story):
 - Catalog Provider Role contract documented (Dator + Contact Catalog as
   named instances of the same role) (see:
   [Proposal 058 Tracking row P058-016](../40-proposals/058-contact-catalog.md))
+- AD `selector/kind = "contact-lookup"` recipient selector kind — the
+  host-composed lookup ergonomics path, deliberately distinguished from
+  an `artifact/ref` resolver scheme (see:
+  [Proposal 058 Tracking row P058-019](../40-proposals/058-contact-catalog.md),
+  [Solution 023 §Recipient Selectors](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
 
 Still partial — landed in MVP-shape, hardening or completion remains:
 
@@ -1207,13 +1232,6 @@ Still partial — landed in MVP-shape, hardening or completion remains:
   refreshes trusted providers into a sidecar remote claim cache; full
   federation acceptance tests + operator policy UX open) (see:
   [Proposal 058 Tracking row P058-018](../40-proposals/058-contact-catalog.md))
-- (deferred ergonomics) `selector/kind = "contact-lookup"` as a
-  host-composed *recipient selector kind* in Artifact Delivery, so
-  messaging middleware could hand AD a contact handle without itself
-  knowing the Contact Catalog domain — explicitly distinguished from an
-  `artifact/ref` resolver scheme (resolvers return payload bytes; contact
-  lookup returns recipient routes; different axes) (see:
-  [Proposal 058 Tracking row P058-019](../40-proposals/058-contact-catalog.md))
 
 ### Cross-Cutting Block — Contact-handle attestation as a capability surface — outstanding features
 

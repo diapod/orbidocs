@@ -16,9 +16,7 @@
     "schema",
     "schema/v",
     "lookup/id",
-    "catalog/id",
     "match/class",
-    "policy/ref",
     "issued/at"
   ],
   "properties": {
@@ -82,6 +80,19 @@
       "additionalProperties": true
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "match/class": { "const": "invitation-available" }
+        },
+        "required": ["match/class"]
+      },
+      "then": {
+        "required": ["result/route"]
+      }
+    }
+  ],
   "$defs": {
     "route": {
       "type": "object",

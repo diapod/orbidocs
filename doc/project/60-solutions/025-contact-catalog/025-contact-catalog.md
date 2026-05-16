@@ -103,6 +103,11 @@ Responsibilities:
   result;
 - never return raw `participant:did:key` by default;
 - emit no-match audit entries without storing or exposing raw queried handles.
+- support host-composed Artifact Delivery `selector/kind = "contact-lookup"`
+  without making Contact Catalog an AD payload resolver. In that integration,
+  AD passes `selector/purpose = "contact-request/messaging"` to express that
+  lookup is being used for a messaging contact request, not for full message
+  delivery.
 
 Status:
 

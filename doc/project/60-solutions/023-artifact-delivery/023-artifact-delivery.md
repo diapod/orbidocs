@@ -735,6 +735,7 @@ Implemented recipient selector kinds:
 | `participant` | Resolve an explicitly public/operator participant to one or more reachable node ids under local policy. This is opt-in disclosure, not the privacy-preserving default. | Seed Directory + policy |
 | `org` | Resolve an organization through an explicit host-composed org lookup. The current daemon resolver uses configured org custodians plus Seed Directory participant projections and fails closed when no evidence is available. | Org custody/policy + Seed Directory |
 | `routing-subject` | Resolve a delegated, scoped contact/delivery identity to one or more reachable node ids without publishing the root participant id. | Seed Directory + policy |
+| `contact-lookup` | Resolve a lookup-safe contact index through a host-composed Contact Catalog provider, then normalize the result to a `routing-subject` or concrete `node` target. MVP supports only `lookup/mode = invitation-only`, `purpose = messaging`, `selector/purpose = contact-request/messaging`, and `max/nodes = 1`. | Contact Catalog + Seed Directory subject lookup |
 
 Later recipient selector kinds:
 
@@ -748,6 +749,16 @@ Later recipient selector kinds:
 the route/default/group core was stable. They remain transport-neutral
 selectors: Seed Directory resolves candidates, Artifact Delivery still performs
 local outbound authorization and adapter selection.
+
+`contact-lookup` is deliberately a recipient selector, not an `artifact/ref`
+resolver scheme. For the Story-010 messaging path, `selector/purpose` is
+`contact-request/messaging`: the first segment names the AD use case and the
+second segment names the domain being approached. This allows host policy to
+permit contact lookup for `contact-request.v1` while still denying full message
+delivery until the receiver has issued a scoped `messaging-receive` passport.
+Slash-separated values are acceptable for this field because they are semantic
+tags, not route
+paths or resolver scheme names.
 
 The current capability selector filter is intentionally narrow: it supports
 `target/node-ids` as a local allowlist/intersection filter. Issuer,

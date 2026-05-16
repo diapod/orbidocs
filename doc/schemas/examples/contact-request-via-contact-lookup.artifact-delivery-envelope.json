@@ -1,0 +1,36 @@
+{
+  "schema": "artifact-delivery-envelope.v1",
+  "component/id": "messaging-middleware",
+  "artifact": {
+    "schema": "contact-request.v1",
+    "content/type": "application/json",
+    "digest": "sha256:3r4RZtRuRLdICc3gejyqqYEPt3CmzNTvKxoZBqNuegQ",
+    "size/bytes": 2,
+    "bytes/base64": "e30="
+  },
+  "delivery/plan": {
+    "stages": [
+      {
+        "stage/id": "contact-request",
+        "targets": [
+          {
+            "selector/kind": "contact-lookup",
+            "contact/index-value": "sha256:4d3d0d879a9a6a6132c45d4f58d2c8b76c8a0f44cdb97f3ce7c8c537e9f8c001",
+            "purpose": "messaging",
+            "lookup/mode": "invitation-only",
+            "selector/purpose": "contact-request/messaging",
+            "contact/catalog-ref": "contact-catalog:local",
+            "max/nodes": 1
+          }
+        ],
+        "success/policy": "all"
+      }
+    ]
+  },
+  "policy": {
+    "privacy": "private-direct",
+    "delivery": "at-least-once",
+    "timeout/ms": 5000
+  },
+  "idempotency/key": "contact-request:daniel-marcin-email"
+}

@@ -293,7 +293,7 @@ A successful lookup should return a route, not a person record:
 ```text
 contact-lookup-result.v1
   lookup/id
-  catalog/id
+  catalog/id?                  # optional in MVP
   match/class                 # exact-control-proof | invitation-available | ambiguous | no-match
   result/route?
     routing-subject/id?
@@ -303,13 +303,19 @@ contact-lookup-result.v1
     valid/until
   result/presentation-required?
   result/invitation-required?
-  policy/ref
+  policy/ref?
   audit/ref?
 ```
 
 The result is a **contact route candidate**. A consumer must still complete the
 normal invitation, messaging, or direct-delivery handshake before assuming a
 relationship exists.
+
+The canonical v1 contract requires only `schema`, `schema/v`, `lookup/id`,
+`match/class`, and `issued/at`; `result/route` is additionally required when
+`match/class = "invitation-available"`. Transitional service fields such as
+`message` or legacy `result` may appear for local diagnostics, but clients must
+not rely on them.
 
 ### 6. Pairwise Contact Nyms
 
@@ -638,15 +644,28 @@ client (messaging middleware or other domain consumer)
      selector for the subsequent contact-request / message delivery
 ```
 
-Note: contact lookup is a **recipient-resolution** step that happens
-*before* Artifact Delivery is invoked. It is intentionally not registered
-as an `artifact/ref` resolver scheme in AD, because resolver schemes
-answer "where do I fetch the payload bytes?" while contact lookup answers
-"to whom and over which route should this be delivered?" — two different
-axes. A future ergonomic option is to add `selector/kind = "contact-lookup"`
-as an AD *recipient selector kind* (host-composed, analogous to the
-existing `routing-subject` resolution), but that is deliberately deferred
-and tracked separately (see P058-019).
+Note: contact lookup is a **recipient-resolution** step. It is intentionally
+not registered as an `artifact/ref` resolver scheme in AD, because resolver
+schemes answer "where do I fetch the payload bytes?" while contact lookup
+answers "to whom and over which route should this be delivered?" — two
+different axes.
+
+Artifact Delivery now exposes `selector/kind = "contact-lookup"` as a
+host-composed recipient selector. AD core owns only the DTO, validation and
+`ContactLookupNodeLookup` trait; the daemon calls the configured local Contact
+Catalog provider, consumes canonical `contact-lookup-result.v1`, and normalizes
+`invitation-available` results to a `routing-subject` or concrete `node`
+target. MVP accepts only `lookup/mode = "invitation-only"`, `purpose =
+"messaging"`, `selector/purpose = "contact-request/messaging"`, and
+`max/nodes = 1`.
+
+`selector/purpose` is allowed to use a slash as a lightweight hierarchy: the
+left side names the selector use case, while the right side names the domain
+capability being approached. This is intentionally more specific than the
+Contact Catalog `purpose = "messaging"` field, because future subsystems may
+have their own contact-request flows. MVP policy should allow
+`contact-request/messaging` only for small `contact-request.v1` artifacts, not
+for full message delivery before a `messaging-receive` passport exists.
 
 ## Relationship to Existing Mechanisms
 
@@ -789,4 +808,4 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-016 | Catalog Provider Role contract documented (role shared by Dator and Contact Catalog: typed `CatalogRecord` + `CatalogStore<T>` + supervised HTTP + capability id + admission policy) | done | §11 Catalog Provider Role. Dator named as existing offer-domain instance; Contact Catalog named as next contact-domain instance. |
 | P058-017 | Contact Catalog Rust supervised HTTP middleware crate scaffold reusing `orbiplex-node-catalog` (`ContactClaimRecord: CatalogRecord`, `SqliteCatalog<ContactClaimRecord>`, `ContactClaimPredicate` variants implementing `CatalogPredicate`, admission gate before `upsert`) | partial | Node now has `contact-catalog-core`, `contact-catalog-service`, daemon-owned local contacts, and a daemon in-process `contact-request.v1` acceptor. The service includes lifecycle, passport-backed admission, SQLite claim store, lookup, active projection worker, provider-cache/remote-claim-cache, redacted audit sidecars, and opt-in daemon-managed runtime on stable loopback. A daemon process smoke now starts the real supervised binary and verifies `/v1/contact-catalog/status` readiness/projection state through the daemon proxy; deeper multi-process contact-request, admission/lookup, and trusted-provider acceptance remains pending. Still pending post-MVP: richer provider policy UX, blinded lookup/PSI, route-set v2 and broader contact recovery flows. |
 | P058-018 | Generalise `node/catalog` `CatalogAdapter` trait over `T: CatalogRecord` (and `ObservedRecord<T>` for the fetch payload), so contact and offer providers share one async remote-fetch contract instead of duplicating it | partial | `node/catalog::CatalogAdapter<T, F>` now fetches `ObservedRecord<T>` and notifies `T: CatalogRecord`, while offer-specific HTTP/in-memory adapters keep compatibility wrappers. `contact-catalog-core::RemoteContactClaimFilter` defines the Contact Catalog remote fetch filter, and `contact-catalog-service` uses a `RemoteContactCatalogHttpAdapter` to refresh trusted providers into a sidecar remote claim cache. Broader federation acceptance tests and operator policy UX remain open. |
-| P058-019 | Optional later ergonomics: `selector/kind = "contact-lookup"` as a host-composed *recipient selector kind* in Artifact Delivery, normalising contact handles into `routing-subject` / `node` targets via a configured Contact Catalog provider (analogous to existing `routing-subject` resolution). MVP path is middleware-side direct HTTP lookup before AD; this row tracks the post-MVP stratification improvement that would let messaging middleware hand AD a handle without itself knowing the Contact Catalog domain. | deferred | §12.5 Storage Boundary Note. Out of scope for the first implementation contract; not blocking story-010 MVP. Explicitly distinguished from an `artifact/ref` resolver scheme (wrong axis: resolvers return payload bytes, contact lookup returns recipient routes). |
+| P058-019 | `selector/kind = "contact-lookup"` as a host-composed *recipient selector kind* in Artifact Delivery, normalising lookup-safe contact references into `routing-subject` / `node` targets via a configured Contact Catalog provider. | done | AD core defines `RecipientSelector::ContactLookup`, selector shape validation, `SelectorClass::ContactLookup`, `ContactLookupNodeLookup`, and selector-purpose-aware outbound allow. Daemon wires the trait to local supervised HTTP `contact-catalog-service`, consumes canonical `contact-lookup-result.v1`, rejects raw handles, supports only `invitation-only` / `contact-request/messaging` / `max/nodes = 1`, and fails closed for `no-match`, `ambiguous`, `policy-denied`, `rate-limited`, unavailable provider, and `contact-nym/id` without a routable target. Explicitly distinguished from an `artifact/ref` resolver scheme. |

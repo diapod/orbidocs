@@ -23,14 +23,14 @@ Result of a Contact Catalog lookup. A positive result is a route candidate or in
 | [`schema`](#field-schema) | `yes` | const: `contact-lookup-result.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`lookup/id`](#field-lookup-id) | `yes` | string |  |
-| [`catalog/id`](#field-catalog-id) | `yes` | string |  |
+| [`catalog/id`](#field-catalog-id) | `no` | string |  |
 | [`lookup/mode`](#field-lookup-mode) | `no` | enum: `invitation-only`, `authenticated-exact`, `keyed-digest`, `blinded-digest`, `psi` |  |
 | [`match/class`](#field-match-class) | `yes` | enum: `exact-control-proof`, `invitation-available`, `ambiguous`, `no-match`, `policy-denied`, `rate-limited` | MVP public or semi-public catalogs SHOULD prefer `invitation-available`, `policy-denied`, or `no-match` over identity-revealing exact-owner answers. |
 | [`result/route`](#field-result-route) | `no` | ref: `#/$defs/route` |  |
 | [`result/presentation-required`](#field-result-presentation-required) | `no` | boolean |  |
 | [`result/invitation-required`](#field-result-invitation-required) | `no` | boolean |  |
 | [`result/retry-after`](#field-result-retry-after) | `no` | string |  |
-| [`policy/ref`](#field-policy-ref) | `yes` | string |  |
+| [`policy/ref`](#field-policy-ref) | `no` | string |  |
 | [`audit/ref`](#field-audit-ref) | `no` | string | Optional audit reference. No-match audit references must avoid leaking raw address-book contents. |
 | [`issued/at`](#field-issued-at) | `yes` | string |  |
 | [`valid/until`](#field-valid-until) | `no` | string |  |
@@ -41,6 +41,36 @@ Result of a Contact Catalog lookup. A positive result is a route candidate or in
 | Definition | Shape | Description |
 |---|---|---|
 | [`route`](#def-route) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "match/class": {
+      "const": "invitation-available"
+    }
+  },
+  "required": [
+    "match/class"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "result/route"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -64,7 +94,7 @@ Result of a Contact Catalog lookup. A positive result is a route candidate or in
 <a id="field-catalog-id"></a>
 ## `catalog/id`
 
-- Required: `yes`
+- Required: `no`
 - Shape: string
 
 <a id="field-lookup-mode"></a>
@@ -108,7 +138,7 @@ MVP public or semi-public catalogs SHOULD prefer `invitation-available`, `policy
 <a id="field-policy-ref"></a>
 ## `policy/ref`
 
-- Required: `yes`
+- Required: `no`
 - Shape: string
 
 <a id="field-audit-ref"></a>
