@@ -11,11 +11,13 @@ Based on:
 
 ## Status
 
-Draft
+Draft, MVP contract seeded
 
 ## Date
 
 2026-05-15
+
+MVP contract update: 2026-05-16
 
 ## Executive Summary
 
@@ -108,6 +110,54 @@ surface that:
   attestation.
 
 ## Proposed Model
+
+## MVP Decisions Frozen on 2026-05-16
+
+These decisions define the first implementation contract. They are deliberately
+conservative; stronger private-discovery protocols can replace the lookup edge
+later without changing the high-level Contact Catalog boundary.
+
+1. **Lookup mode:** MVP Contact Catalog uses authenticated invitation-only
+   lookup with strict rate limiting. A successful lookup returns a route
+   candidate or invitation-required result, not the owner identity.
+2. **Capability id:** `contact-catalog` is a standalone domain capability id
+   with wire name `role/contact-catalog`.
+3. **Contact-control proof ids:** `email-control` and `phone-control` are
+   standalone capability ids used by contact-control attestation services.
+4. **Messaging contact consent id:** `messaging-receive` is the narrow passport
+   profile minted after accepting a `contact-request.v1`. The earlier
+   story-local spelling `messaging.receive@v1` should be treated as superseded
+   by this registry-safe bare capability id.
+5. **Claim signer:** MVP contact claims are signed by the controlling
+   participant or by a participant-authorized delegated signing key. A node may
+   add hosting evidence, but a node signature alone is not sufficient to bind a
+   human contact handle to a route.
+6. **Control-proof TTL:** email and phone control proofs SHOULD use a default
+   maximum freshness window of 90 days for MVP catalog admission. Local policy
+   MAY require shorter windows, especially for phone numbers or known unstable
+   providers.
+7. **Routes per claim:** the MVP schema allows one preferred route per claim,
+   with purposes naming the allowed uses. Multi-route publication remains a
+   later extension through additional claims or a v2 route set.
+8. **Pairwise nyms:** pairwise contact nyms are the default privacy posture for
+   ordinary one-to-one relationships, but not mandatory for public handles or
+   governance/high-stakes procedures.
+9. **Agora publication:** Contact Catalog records are not published through
+   Agora in MVP. Federated observed contact projections are deferred until a
+   community explicitly accepts that privacy posture.
+10. **No-match audit:** no-match lookups may emit redacted aggregate or
+    digest-bound audit events, but MUST NOT store raw queried handles in shared
+    audit records.
+
+The corresponding initial schemas are:
+
+- `contact-claim.v1`
+- `contact-lookup-result.v1`
+- `contact-request.v1`
+
+The solution-level component contract is:
+
+- `doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md`
 
 ### 1. Contact Catalog Is a Domain Catalog
 
@@ -392,6 +442,196 @@ sequenceDiagram
     A->>A: Store local relationship mapping
 ```
 
+### 11. Catalog Provider Role
+
+Across the Orbiplex node, several domains share the same architectural shape:
+a node-attached, supervised middleware that owns one typed catalog and
+exposes it through a domain-specific HTTP API. The offer-catalog
+implementation in Dator is the existing concrete instance; Contact Catalog
+is the next instance, for the contact domain. This shared shape is named
+explicitly as the **Catalog Provider Role**:
+
+```text
+Catalog Provider Role
+  -> typed domain records (CatalogRecord implementations)
+  -> domain admission policy on the publish edge
+  -> local published store (CatalogStore<T>) + optional observed store
+  -> domain-specific HTTP API (publish, query, admin)
+  -> capability id discoverable through Seed Directory
+  -> optional federation through the Agora bridge
+```
+
+A node may host many Catalog Provider middleware instances side by side
+(offers, contacts, schemas, templates, workflow templates) without
+duplicating the storage layer, because the storage primitives live once in
+the shared `node/catalog` crate (see §12 below) and each provider
+parameterises them by its own record type.
+
+The role contract that every Catalog Provider middleware must follow:
+
+1. Declare one or more typed `CatalogRecord` implementations naming the
+   domain artifacts the provider admits.
+2. Use `CatalogStore<T>` for the local published store and, if federation is
+   in scope, `ObservedCatalogStore<T>` for relay-observed records of the
+   same type.
+3. Expose a supervised domain-specific HTTP surface for publish, query, and
+   admin, attached through the existing Node Middleware extension-host.
+4. Declare a `catalog_kind` and a stable capability id so Seed Directory can
+   advertise the endpoint and trust evidence without learning domain
+   semantics.
+5. Run a domain admission policy before any `CatalogStore::upsert`.
+6. Optionally participate in federated propagation through the Agora bridge
+   if the domain accepts public or semi-public projections.
+
+Naming this role explicitly serves two purposes. First, Contact Catalog can
+inherit the pattern instead of reinventing it. Second, future catalogs
+(schema catalog, workflow template catalog, any community-defined catalog)
+get a stable role contract to satisfy and a clear answer to "what crate do
+I link?".
+
+## Implementation Sketch: `node/catalog` Reuse
+
+The Orbiplex node already exposes the catalog mechanics this proposal
+needs, in the `orbiplex-node-catalog` crate at `node/catalog/`. Contact
+Catalog must not invent a parallel storage layer; it must reuse these
+primitives. This section is non-normative implementation guidance for the
+future Contact Catalog middleware crate, intended to make the reuse path
+explicit and to keep the `node/catalog` adapter trait open to
+parameterisation when Contact Catalog (the second consumer after offers)
+lands.
+
+### 12.1 `node/catalog` Primitives Reused As-Is
+
+- `CatalogRecord` trait — minimal contract: `record_id`, `sequence_no`,
+  `expires_at_str`, `validate_record`. The first reuse decision is to
+  implement this trait on the Contact Catalog domain record.
+- `CatalogStore<T>` trait — typed local store with `upsert`, `get`, `list`,
+  `expire_stale`, and the `UpsertOutcome::{Inserted, Replaced,
+  IgnoredStale}` family. Sequence-aware idempotency for free.
+- `InMemoryCatalog<T>` — in-memory store for tests and tiny deployments.
+- `SqliteCatalog<T>` — persistent SQLite store under the `sqlite` feature.
+  Recommended path:
+  `<node-data-dir>/storage/contact-catalog.sqlite`.
+- `ObservedCatalogStore<T>` + `InMemoryObservedStore<T>` + `TrustLevel` —
+  for federated relay-observed claims, if Contact Catalog opts into
+  federation (P058-013 governs whether it does).
+- `CatalogResolver<T, L, O>` — composes local published and observed stores
+  into one record-id-deduplicated view.
+- `CatalogPredicate<T>` + `CatalogFilter<T>` — composable filters, with
+  `active_only` automatically pushed down to SQLite via the existing
+  `is_active_only` hook.
+- `TrustedProviderStore` + `TrustedProviderFact` — append-only whitelist for
+  trusted Contact Catalog peers (useful in invitation-only or
+  federation-trusted profiles).
+
+### 12.2 Contact-Catalog-Specific Types
+
+Define a Contact Catalog domain record implementing `CatalogRecord` (sketch;
+field names align with §4):
+
+```rust
+pub struct ContactClaimRecord {
+    pub schema_v: u32,
+    pub claim_id: String,                       // "contact-claim:..."
+    pub contact_kind: ContactKind,              // Phone | Email | Other
+    pub contact_normalized_digest: String,
+    pub contact_attestation_ref: String,
+    pub contact_attested_at: String,
+    pub contact_attestation_expires_at: String,
+    pub owner_routing_subject_id: Option<String>,
+    pub owner_contact_nym_id: Option<String>,
+    pub owner_participant_id: Option<String>,   // disclosure-gated
+    pub disclosure_mode: DisclosureMode,
+    pub purposes: Vec<String>,
+    pub issued_at: String,
+    pub expires_at: String,
+    pub sequence_no: u64,
+    pub revocation_ref: Option<String>,
+    pub signature: ContactClaimSignature,
+}
+
+impl CatalogRecord for ContactClaimRecord {
+    fn record_id(&self) -> &str { &self.claim_id }
+    fn sequence_no(&self) -> u64 { self.sequence_no }
+    fn expires_at_str(&self) -> Option<&str> { Some(&self.expires_at) }
+    fn validate_record(&self) -> Result<(), CatalogError> {
+        // schema/v check, claim/id prefix, signature shape,
+        // attestation expiry presence, purpose allowlist, etc.
+    }
+}
+```
+
+The same trait holds contact-specific validation on the edge while the
+generic store stays unaware of contact semantics. `ContactLookupResultRecord`
+follows the same pattern for query-side artifacts when these need to be
+cached or relayed.
+
+Contact-specific filters live as `CatalogPredicate<ContactClaimRecord>`
+implementations: lookup by normalised handle digest, lookup by purpose,
+active-only, and so on. They compose with `CatalogFilter`.
+
+### 12.3 Adapter Trait Generalisation
+
+The current `CatalogAdapter` trait in `node/catalog/src/adapter.rs` is
+specialised to `ServiceOfferRecord`:
+
+```rust
+async fn fetch_offers(...) -> Result<Vec<ObservedOfferRecord>, CatalogError>;
+async fn notify_offer(offer: &ServiceOfferRecord, ...) -> Result<...>;
+```
+
+Contact Catalog is the second consumer of this surface. The right move is
+to generalise the trait over `T: CatalogRecord` (and `ObservedRecord<T>` for
+the fetch payload), so contact and offer providers can share one async
+remote-fetch contract. Without this generalisation Contact Catalog would
+need a parallel `ContactCatalogAdapter` trait that duplicates the
+abstraction. The generalisation is tracked as P058-018.
+
+### 12.4 Deployment Shape
+
+The Contact Catalog middleware runs as a supervised HTTP middleware,
+analogous to Dator. Recommended language: **Rust**, specifically so that the
+middleware can link `orbiplex-node-catalog` as a library and use the typed
+primitives directly, rather than going through an HTTP hop into the
+daemon for storage operations. The middleware:
+
+- declares `catalog_kind = "contact"` and a `catalog_endpoints` entry that
+  Seed Directory advertises (per §1);
+- exposes domain HTTP under `/v1/contact-catalog/...` (publish, query,
+  admin);
+- owns one `SqliteCatalog<ContactClaimRecord>` (and optionally one
+  `InMemoryObservedStore<ContactClaimRecord>` for federation);
+- runs the admission policy from §9 before each `upsert`;
+- publishes a `contact-catalog` capability passport through Seed Directory
+  so consumers can find it without learning domain semantics.
+
+### 12.5 Storage Boundary
+
+Contact Catalog storage stays inside the middleware's own data directory.
+It does **not** become part of Memarium's fact stream by default. This
+matches the storage-stratification reasoning in story-010 §11: per-record
+catalog rows are operational state that the provider owns and may
+vacuum/shard/rebuild independently. Memarium remains relevant only for
+semantic facts about a catalog (audit events, policy changes), not for the
+catalog rows themselves.
+
+```text
+contact-catalog middleware (Rust, supervised HTTP)
+  -> uses orbiplex-node-catalog                          (Layer A: shared primitives)
+  -> accepts contact-claim.v1                            (Layer B: domain admission)
+  -> enforces admission policy
+  -> stores in SqliteCatalog<ContactClaimRecord>         (Layer C: middleware-owned storage)
+  -> exposes contact lookup HTTP API                     (Layer D: domain HTTP surface)
+
+Seed Directory
+  -> discovers contact-catalog capability
+  -> returns endpoint + passport/evidence
+
+client
+  -> queries catalog (via the contact-lookup: resolver)
+  -> receives routing-subject / contact_nym / invitation flow
+```
+
 ## Relationship to Existing Mechanisms
 
 ### Seed Directory
@@ -417,6 +657,22 @@ results.
 Offer Catalog indexes exchange-facing service artifacts. Contact Catalog indexes
 contactability claims. Both use admission policy and observed projections, but
 their privacy risks differ sharply.
+
+### `node/catalog` and the Catalog Provider Role
+
+`orbiplex-node-catalog` (`node/catalog/`) is the shared crate that owns the
+typed catalog mechanics — records, stores, observed projections, resolvers,
+adapters, SQLite/in-memory backends, and the Agora bridge. It is mechanism,
+not domain authority: it provides primitives and stays unaware of the
+domain that instantiates them.
+
+Dator is the existing concrete instance of the Catalog Provider Role for
+the offer domain (today as a Python supervised HTTP middleware that does
+not link the crate directly). Contact Catalog is the proposed next
+instance, recommended as a Rust supervised HTTP middleware that **does**
+link `orbiplex-node-catalog` directly and parameterises it with a
+`ContactClaimRecord`. See §11 for the role contract and §12 for the
+implementation sketch.
 
 ### Agora
 
@@ -462,33 +718,38 @@ semantics or raw contact identifiers.
 
 ## Open Questions
 
-1. What is the first MVP lookup mode: authenticated exact lookup,
-   invitation-only, or a minimal blinded digest?
-2. Should `contact-catalog` be a standalone capability id, or should it be a
-   profile under a broader `catalog` capability?
-3. Should contact claims be signed by `participant`, `node`, or a delegated
-   `contact_nym` key?
-4. What TTL should be recommended for phone and email control proofs?
-5. Should contact catalog entries support multiple routes per contact claim, for
-   example chat, inbox, direct-delivery, and recovery?
-6. Should pairwise contact nyms be mandatory for user-to-user communication, or
-   only the default when a relationship is not public?
-7. What audit event should be emitted when a catalog lookup produces no match,
-   given that no-match events can themselves leak address-book contents?
+The original MVP questions have been answered in
+[`MVP Decisions Frozen on 2026-05-16`](#mvp-decisions-frozen-on-2026-05-16).
+The remaining open questions are post-MVP:
+
+1. Which blinded lookup or PSI protocol should replace or supplement
+   invitation-only lookup for address-book discovery?
+2. Which communities, if any, want semi-public Contact Catalog projections
+   through Agora, and under what admission policy?
+3. Should a future `contact-claim.v2` support a first-class route set instead
+   of one preferred route plus purposes?
+4. What operator-facing aggregate metrics are useful for abuse defense without
+   leaking address-book contents?
 
 ## Next Actions
 
-1. Define `contact-claim.v1` and `contact-lookup-result.v1` draft schemas.
-2. Define a minimal `contact-catalog` capability profile and decide whether it
-   is registered through Seed Directory.
-3. Add a local contact store model: raw contacts, labels, pairwise nym mappings,
-   and relationship state.
-4. Define the first MVP query mode. The conservative default is
-   invitation-only lookup with authenticated callers and strict rate limiting.
-5. Add operator/user UI wording that clearly distinguishes contact control from
+1. Implement a Rust supervised Contact Catalog middleware that links
+   `orbiplex-node-catalog` and implements `ContactClaimRecord: CatalogRecord`.
+2. Register `catalog_kind = "contact"` in the existing catalog endpoint pattern
+   and advertise the `contact-catalog` capability through Seed Directory.
+3. Implement the MVP admission policy for `contact-claim.v1`, including
+   contact-control proof freshness, purpose allowlists, expiry, revocation
+   references, and participant-authorized signatures.
+4. Implement authenticated invitation-only lookup returning
+   `contact-lookup-result.v1`.
+5. Add the local contact store model: raw contacts, labels, pairwise nym
+   mappings, and relationship state.
+6. Register a `contact-request.v1` acceptor and connect it to notifications and
+   `messaging-receive` passport issuance.
+7. Add operator/user UI wording that clearly distinguishes contact control from
    identity assurance.
-6. Decide how Contact Catalog records may be published through Agora without
-   leaking raw contact identifiers.
+8. Generalise `node/catalog` `CatalogAdapter` if remote/federated contact
+   catalog fetch becomes part of the implementation slice.
 
 ## Tracking
 
@@ -501,18 +762,21 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 
 | ID | Feature | Status | Evidence |
 |---|---|---|---|
-| P058-001 | `contact-claim.v1` schema (fields per §4, signing key class decision) | todo | Field list sketched in §4; named in Next Actions #1; signing key class is Open Question #3; no `doc/schemas/contact-claim.v1.schema.json` yet. |
-| P058-002 | `contact-lookup-result.v1` schema (fields per §5) | todo | Field list sketched in §5; named in Next Actions #1; no `doc/schemas/contact-lookup-result.v1.schema.json` yet. |
-| P058-003 | `contact-catalog` capability id and minimal profile registered in the Capability Registry | todo | Named in §1 and Next Actions #2; not in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md`. |
-| P058-004 | `catalog_kind: contact` registration through the existing `catalog_endpoints` plug-in pattern | todo | Shape in §1; reuses the offer / schema / template catalog precedent; no registration yet. |
-| P058-005 | Contact Catalog admission policy (attestation freshness, signature, expiry, purpose allowlist, TTL recommendation) | todo | Requirements enumerated in §9; TTL recommendation is Open Question #4; no admission policy implementation. |
-| P058-006 | Privacy-preserving lookup index implementation (normalized or blinded) | todo | Discussed in §3 and §8; depends on P058-007. |
-| P058-007 | First MVP query mode decision (authenticated exact / invitation-only / blinded digest) | open | Open Question #1; conservative default named in Next Actions #4 as invitation-only with authenticated callers and strict rate limiting. |
-| P058-008 | Local contact store model (raw handles, labels, pairwise nym mappings, never-published-by-default) | todo | Distinguished in §7; named in Next Actions #3; no implementation. |
-| P058-009 | Pairwise contact nym handling for one-to-one relationships | planned | Preferred posture defined in §6; mandatory-vs-default decision is Open Question #6. |
-| P058-010 | Routing-subject / contact-nym as default lookup result (never root participant by default), with multi-route support | planned | Invariant defined in §3 and §5; multi-route support is Open Question #5; implementation depends on P058-002 and P058-006. |
+| P058-001 | `contact-claim.v1` schema (fields per §4, signing key class decision) | done | `doc/schemas/contact-claim.v1.schema.json` defines the draft contract; MVP signer rule is frozen in the 2026-05-16 decisions. |
+| P058-002 | `contact-lookup-result.v1` schema (fields per §5) | done | `doc/schemas/contact-lookup-result.v1.schema.json` defines the draft route-candidate result. |
+| P058-003 | `contact-catalog` capability id and minimal profile registered in the Capability Registry | done | `contact-catalog` is registered in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md` / `.pl.md` with wire name `role/contact-catalog`. |
+| P058-004 | `catalog_kind: contact` registration through the existing `catalog_endpoints` plug-in pattern | planned | Shape in §1; implementation remains a Node/middleware task. |
+| P058-005 | Contact Catalog admission policy (attestation freshness, signature, expiry, purpose allowlist, TTL recommendation) | planned | MVP policy decisions are frozen; implementation remains pending. |
+| P058-006 | Privacy-preserving lookup index implementation (normalized or blinded) | planned | MVP uses keyed/digest-bound invitation-only lookup; stronger blinded/PSI profiles are deferred. |
+| P058-007 | First MVP query mode decision (authenticated exact / invitation-only / blinded digest) | done | MVP is authenticated invitation-only lookup with strict rate limiting. |
+| P058-008 | Local contact store model (raw handles, labels, pairwise nym mappings, never-published-by-default) | planned | Solution 025 defines responsibilities; concrete storage implementation remains pending. |
+| P058-009 | Pairwise contact nym handling for one-to-one relationships | planned | MVP decision: default for ordinary one-to-one relationships, not mandatory for public handles or governance/high-stakes procedures. |
+| P058-010 | Routing-subject / contact-nym as default lookup result (never root participant by default), with multi-route support | planned | MVP result schema is done; multi-route is deferred to additional claims or a future v2 route set. |
 | P058-011 | Contact claim revocation and expiry pipeline for rotated or removed handles | todo | Required by §4 and Failure Modes; no pipeline yet. |
-| P058-012 | Operator / user UI wording distinguishing contact-control proof from identity assurance | todo | Named in Next Actions #5; no UI surface. |
-| P058-013 | Agora publication policy for catalog records, if any | open | Next Actions #6; not yet decided; must avoid leaking raw contact identifiers. |
-| P058-014 | Contact Catalog solution document and capability sidecar | todo | No `doc/project/60-solutions/NNN-contact-catalog/` directory yet. |
-| P058-015 | No-match audit event policy (avoiding address-book leakage) | open | Open Question #7. |
+| P058-012 | Operator / user UI wording distinguishing contact-control proof from identity assurance | todo | Named in Next Actions; no UI surface. |
+| P058-013 | Agora publication policy for catalog records, if any | deferred | MVP forbids Agora publication of Contact Catalog records; federated observed projections are post-MVP. |
+| P058-014 | Contact Catalog solution document and capability sidecar | done | `doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md` and `025-contact-catalog-caps.edn`. |
+| P058-015 | No-match audit event policy (avoiding address-book leakage) | planned | MVP decision: redacted aggregate or digest-bound audit only; no raw queried handles in shared audit records. |
+| P058-016 | Catalog Provider Role contract documented (role shared by Dator and Contact Catalog: typed `CatalogRecord` + `CatalogStore<T>` + supervised HTTP + capability id + admission policy) | done | §11 Catalog Provider Role. Dator named as existing offer-domain instance; Contact Catalog named as next contact-domain instance. |
+| P058-017 | Contact Catalog Rust supervised HTTP middleware crate scaffold reusing `orbiplex-node-catalog` (`ContactClaimRecord: CatalogRecord`, `SqliteCatalog<ContactClaimRecord>`, `ContactClaimPredicate` variants implementing `CatalogPredicate`, admission gate before `upsert`) | todo | §12 Implementation Sketch (12.1–12.4); requires P058-001 (record schema) and P058-005 (admission policy); depends on P058-018 if remote fetch is in scope. |
+| P058-018 | Generalise `node/catalog` `CatalogAdapter` trait over `T: CatalogRecord` (and `ObservedRecord<T>` for the fetch payload), so contact and offer providers share one async remote-fetch contract instead of duplicating it | todo | §12.3 Adapter Trait Generalisation; current trait in `node/catalog/src/adapter.rs` is specialised to `ServiceOfferRecord`. Also unblocks future schema / template catalog providers. |

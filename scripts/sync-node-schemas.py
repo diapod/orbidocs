@@ -75,6 +75,9 @@ SCHEMA_WHITELIST = (
     "notification-state-changed.v1.schema.json",
     "notification-allow.v1.schema.json",
     "notification-delivery-policy.v1.schema.json",
+    "contact-claim.v1.schema.json",
+    "contact-lookup-result.v1.schema.json",
+    "contact-request.v1.schema.json",
     "service-ca-material.v1.schema.json",
     "service-ca-revocation.v1.schema.json",
 )
@@ -148,6 +151,9 @@ EXAMPLE_WHITELIST = (
     "running.artifact-delivery-status.json",
     "push-inline.inac-control.json",
     "refused.inac-control.json",
+    "invite-only.contact-claim.json",
+    "invitation-required.contact-lookup-result.json",
+    "messaging.contact-request.json",
     "public-seed-directory.service-ca-material.json",
     "public-seed-directory.service-ca-revocation.json",
 )

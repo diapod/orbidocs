@@ -21,7 +21,8 @@
    :schemas ["artifact-delivery-envelope.v1"
              "artifact-delivery-result.v1"
              "artifact-delivery-status.v1"
-             "artifact-delivery-recovery.v1"]
+             "artifact-delivery-recovery.v1"
+             "artifact-mailbox-sealed.v1"]
    :responsibilities
    ["Expose one component-facing artifact send surface"
     "Expose artifact.delivery.send as the component-facing host capability"
@@ -35,9 +36,9 @@
    :notes
    ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, startup/effective-config validation, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory test ledger, a SQLite runtime ledger at `<node-data-dir>/storage/artifact-delivery.sqlite` with explicit user_version migrations and PRAGMA setup, the Agora publish adapter, local and remote WSS INAC direct-node delivery, INAC WSS stream chunks for payloads above the inline ceiling, inbound acceptor registry conflict detection, pre-acceptor non-empty sha256 and inline byte-identity validation, an `artifact-store:` referenced payload resolver rooted under `<node-data-dir>/storage/artifact-store`, file-backed resolved payloads for larger local/resolved artifacts, receiver-side remote WSS INAC allowlists, a receiver-local inbound admission/refusal ledger, control-plane HTTP admission source adapter allowlists, admission idempotency, admission status APIs/UI, Story-005 public Whisper candidate delivery through AD -> Agora, and regression coverage."
     "Deferred Artifact Delivery is a P055 consumer: `?mode=deferred` returns `deferred-operation.v1` with stable operation metadata, `audit/outcome-ref`, and a canonical operation-status URL; recovery preserves prior attempts in `retry/history` and returns schema-gated `artifact-delivery-recovery.v1`. The daemon also starts a background recovery worker by default, with interval, batch, and pass-deadline policy visible to operators."
-    "Referenced payload resolution is registry-based and fail-closed. Production resolvers include `artifact-store:`, public Memarium refs, scoped Memarium refs (`memarium-entry:<space>:<entry-id>`, `memarium-fact:<space>:<fact-id>`) that require outbound component context and the host `memarium.read` passport gate, and `agora-record:<record-id>` which fetches through the configured Agora endpoint only when the outbound allow includes that scheme. Other schemes remain disabled until explicitly implemented."
+    "Referenced payload resolution is registry-based and fail-closed. Production resolvers include `artifact-store:`, public Memarium refs, scoped Memarium refs (`memarium-entry:<space>:<entry-id>`, `memarium-fact:<space>:<fact-id>`) that require outbound component context and the host `memarium.read` passport gate, `agora-record:<record-id>` which fetches through the configured Agora endpoint only when the outbound allow includes that scheme, and `inac-peer-artifact:<node-id>:<artifact-id>` which resolves from the host-owned peer artifact cache and remains digest-bound to the envelope descriptor."
     "Current runtime records, validates, and reports policy support for the mechanical enforcement subset. Full generic retention/operator-review semantics remain route/adapter/domain-specific until proven reusable."
-    "Matrix mailbox transport, `inac-peer-artifact:` peer object-store lookup, and generic raw binary stream optimization are later layers."]}
+    "Matrix mailbox store-and-forward transport and `inac-peer-artifact:` peer artifact cache lookup are present at MVP level. Generic raw binary stream optimization and richer Matrix operational hardening remain later layers."]}
 
   {:cap/id :artifact-delivery-outbound-authorization
    :title "Outbound Authorization and Recipient Resolution"
@@ -45,7 +46,8 @@
    :based-on ["doc/project/60-solutions/006-capability-binding/006-capability-binding.md"
               "doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md"
               "doc/project/60-solutions/021-agora-authority/021-agora-authority.md"]
-   :schemas ["artifact-delivery-envelope.v1"]
+   :schemas ["artifact-delivery-envelope.v1"
+             "artifact-mailbox-sealed.v1"]
    :responsibilities
    ["Require explicit outbound schema declarations per component"
     "Normalize single-recipient envelopes into delivery plans"
@@ -100,10 +102,11 @@
                  "Remote INAC inbound WSS allowlist with empty-list deny-all semantics"
                  "`artifact-store:` referenced payload resolver/fetch support before acceptor invocation"
                  "Public and scoped Memarium referenced payload resolvers with digest/size validation; scoped refs require caller/capability context"
-                 "`agora-record:<record-id>` referenced payload resolver with explicit scheme allowlist and digest/size validation"]
-   :remaining ["Matrix mailbox transport adapters feeding inbound artifacts into the shared admission path, with transport-envelope encryption for plaintext payloads"
-               "Host-owned peer artifact cache/store for store-and-forward payload lookup"
-               "Digest-bound `inac-peer-artifact:` peer fetch after a concrete peer object store/request lookup exists"]}
+                 "`agora-record:<record-id>` referenced payload resolver with explicit scheme allowlist and digest/size validation"
+                 "Matrix mailbox transport adapters feed inbound artifacts into the shared admission path, with transport-envelope encryption for plaintext payloads"
+                 "Host-owned peer artifact cache/store for store-and-forward payload lookup"
+                 "Digest-bound `inac-peer-artifact:` peer fetch from that cache with digest/size validation"]
+   :remaining []}
 
   {:cap/id :artifact-delivery-transport-adapter-registry
    :title "Transport Adapter Registry"
@@ -115,7 +118,7 @@
    :responsibilities
    ["Register INAC as the MVP private/direct node transport"
     "Register Agora publish as the MVP public/federated publication adapter"
-    "Keep future Matrix mailbox support behind the same adapter boundary as the first store-and-forward fallback transport"
+    "Keep Matrix mailbox support behind the same adapter boundary as the first store-and-forward fallback transport"
     "Select adapters by exact adapter scheme from resolved targets"
     "Pass one dispatch target plus one shared immutable artifact reference to adapters and keep fallback decisions in the runtime"
     "Ensure transport adapters feed inbound admission instead of owning their own domain-specific dispatch tables"]
@@ -128,9 +131,9 @@
                  "Remote INAC WSS peer-message adapter for direct-node targets"
                  "Remote INAC WSS stream chunks for payloads above the inline ceiling"
                  "Inbound WSS INAC push frames feed Artifact Delivery admission"
-                 "Remote INAC disabled transport is reported as permanent configuration failure, while missing live peer sessions remain retryable"]
-   :remaining ["Add Matrix mailbox fallback transport with `artifact-mailbox-sealed.v1` for plaintext/JSON payloads"
-               "Add raw binary-frame optimization if the peer-message stream carrier becomes insufficient"]}]
+                 "Remote INAC disabled transport is reported as permanent configuration failure, while missing live peer sessions remain retryable"
+                 "Matrix mailbox fallback transport with `artifact-mailbox-sealed.v1` for plaintext/JSON payloads"]
+   :remaining ["Add raw binary-frame optimization if the peer-message stream carrier becomes insufficient"]}]
 
  :may-implement
  [{:cap/id :artifact-delivery-capability-recipient-resolver
@@ -145,7 +148,7 @@
     "Prioritize agora.relay capability routing as an early post-MVP resolver"
     "Preserve revocation freshness and capability profile checks"
     "Expose candidate selection diagnostics"]
-   :status :optional}
+   :status :done}
 
   {:cap/id :artifact-delivery-matrix-mailbox-transport
    :title "Matrix Mailbox Transport Adapter"
@@ -160,7 +163,7 @@
     "Seal plaintext/JSON payloads into `artifact-mailbox-sealed.v1` encrypted to the recipient key before posting to Matrix"
     "Unseal on the receiver and revalidate the original artifact descriptor before admission"
     "Feed the same Artifact Delivery inbound admission path used by INAC WSS"]
-   :status :optional}
+   :status :done}
 
   {:cap/id :artifact-delivery-exclusive-route-registry
    :title "Shared Exclusive Route Registry Primitive"

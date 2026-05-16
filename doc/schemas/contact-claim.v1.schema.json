@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:contact-claim:v1",
+  "title": "ContactClaim v1",
+  "description": "Opt-in claim that a controller of a phone number, email address, or comparable human contact handle wants a Contact Catalog to expose a privacy-preserving route candidate for selected purposes. Raw contact handles are not stored in this artifact by default.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/058-contact-catalog.md",
+    "doc/project/30-stories/story-010-message-to-a-friend.md",
+    "doc/schemas/routing-subject-binding.v1.schema.json"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "claim/id",
+    "contact/kind",
+    "contact/index",
+    "contact/attestation-ref",
+    "contact/attested-at",
+    "contact/attestation-expires-at",
+    "disclosure/mode",
+    "purposes",
+    "issued/at",
+    "expires/at",
+    "sequence/no",
+    "proof/signature"
+  ],
+  "anyOf": [
+    {
+      "required": ["owner/routing-subject-id"]
+    },
+    {
+      "required": ["owner/contact-nym-id"]
+    },
+    {
+      "required": ["owner/invitation-route"]
+    }
+  ],
+  "properties": {
+    "schema": {
+      "const": "contact-claim.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "claim/id": {
+      "type": "string",
+      "pattern": "^contact-claim:[a-z0-9][a-z0-9:-]*$",
+      "description": "Stable catalog record id. Sequence-aware stores replace only with newer `sequence/no` values for the same id."
+    },
+    "contact/kind": {
+      "type": "string",
+      "enum": ["phone", "email", "other"],
+      "description": "Kind of external contact handle proved by the attestation."
+    },
+    "contact/index": {
+      "$ref": "#/$defs/contactIndex"
+    },
+    "contact/attestation-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to a fresh contact-control proof, normally a `capability-passport.v1` under `email-control` or `phone-control`. The Contact Catalog stores this reference, not the OTP transcript."
+    },
+    "contact/attested-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "contact/attestation-expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time after which the contact-control proof is no longer fresh enough for admission or lookup."
+    },
+    "owner/routing-subject-id": {
+      "type": "string",
+      "pattern": "^routing:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Preferred MVP route target. It is contactable without revealing the root participant."
+    },
+    "owner/contact-nym-id": {
+      "type": "string",
+      "pattern": "^contact-nym:[a-z0-9][a-z0-9:-]*$",
+      "description": "Optional relationship or context pseudonym exposed for contact discovery."
+    },
+    "owner/invitation-route": {
+      "$ref": "#/$defs/invitationRoute"
+    },
+    "owner/participant-id": {
+      "type": "string",
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Disclosure-gated participant id. It MUST NOT be returned by default contact lookup profiles."
+    },
+    "disclosure/mode": {
+      "type": "string",
+      "enum": [
+        "private-lookup",
+        "invite-only",
+        "public-handle",
+        "present-on-demand"
+      ],
+      "description": "MVP Contact Catalog admission MUST support `invite-only`; other modes are profile extensions."
+    },
+    "purposes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["contact", "inbox", "direct-delivery", "messaging", "recovery"]
+      }
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sequence/no": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonic sequence for idempotent replacement in `CatalogStore<T>`."
+    },
+    "revocation/ref": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "policy/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proof/signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "contactIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "value"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["normalized-digest", "keyed-digest", "blinded-digest"],
+          "description": "Indexing mode. MVP SHOULD use `keyed-digest` for admitted claims and MUST NOT publish raw handles."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 16,
+          "description": "Digest or blinded token over the locally normalized contact handle."
+        },
+        "alg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kid": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Key identifier for keyed or blinded digest profiles; never the key itself."
+        }
+      }
+    },
+    "invitationRoute": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["route/id", "node/id"],
+      "properties": {
+        "route/id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node/id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "valid/until": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "signer": {
+          "type": "string",
+          "pattern": "^(participant|node|routing|contact-nym):"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

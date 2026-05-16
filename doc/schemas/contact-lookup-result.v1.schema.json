@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:contact-lookup-result:v1",
+  "title": "ContactLookupResult v1",
+  "description": "Result of a Contact Catalog lookup. A positive result is a route candidate or invitation path, not a durable identity assertion and not proof that a relationship exists.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/058-contact-catalog.md",
+    "doc/project/30-stories/story-010-message-to-a-friend.md",
+    "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "lookup/id",
+    "catalog/id",
+    "match/class",
+    "policy/ref",
+    "issued/at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "contact-lookup-result.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "lookup/id": {
+      "type": "string",
+      "pattern": "^contact-lookup:[a-z0-9][a-z0-9:-]*$"
+    },
+    "catalog/id": {
+      "type": "string",
+      "pattern": "^contact-catalog:[a-z0-9][a-z0-9:-]*$"
+    },
+    "lookup/mode": {
+      "type": "string",
+      "enum": ["invitation-only", "authenticated-exact", "keyed-digest", "blinded-digest", "psi"]
+    },
+    "match/class": {
+      "type": "string",
+      "enum": ["exact-control-proof", "invitation-available", "ambiguous", "no-match", "policy-denied", "rate-limited"],
+      "description": "MVP public or semi-public catalogs SHOULD prefer `invitation-available`, `policy-denied`, or `no-match` over identity-revealing exact-owner answers."
+    },
+    "result/route": {
+      "$ref": "#/$defs/route"
+    },
+    "result/presentation-required": {
+      "type": "boolean",
+      "default": false
+    },
+    "result/invitation-required": {
+      "type": "boolean",
+      "default": true
+    },
+    "result/retry-after": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policy/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audit/ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional audit reference. No-match audit references must avoid leaking raw address-book contents."
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "route": {
+      "type": "object",
+      "additionalProperties": true,
+      "anyOf": [
+        {
+          "required": ["routing-subject/id"]
+        },
+        {
+          "required": ["contact-nym/id"]
+        },
+        {
+          "required": ["invitation/ref"]
+        }
+      ],
+      "required": ["purposes"],
+      "properties": {
+        "routing-subject/id": {
+          "type": "string",
+          "pattern": "^routing:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "contact-nym/id": {
+          "type": "string",
+          "pattern": "^contact-nym:[a-z0-9][a-z0-9:-]*$"
+        },
+        "node/id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "invitation/ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purposes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["contact", "inbox", "direct-delivery", "messaging", "recovery"]
+          }
+        },
+        "valid/until": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

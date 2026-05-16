@@ -1,0 +1,31 @@
+{
+  "schema": "contact-claim.v1",
+  "schema/v": 1,
+  "claim/id": "contact-claim:marcin-email:001",
+  "contact/kind": "email",
+  "contact/index": {
+    "mode": "keyed-digest",
+    "value": "sha256:4d3d0d879a9a6a6132c45d4f58d2c8b76c8a0f44cdb97f3ce7c8c537e9f8c001",
+    "alg": "hmac-sha256",
+    "kid": "contact-catalog-key:2026-05"
+  },
+  "contact/attestation-ref": "passport:capability:email-control:marcin-email:001",
+  "contact/attested-at": "2026-05-16T08:30:00Z",
+  "contact/attestation-expires-at": "2026-08-14T08:30:00Z",
+  "owner/routing-subject-id": "routing:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+  "disclosure/mode": "invite-only",
+  "purposes": [
+    "contact",
+    "messaging"
+  ],
+  "issued/at": "2026-05-16T09:00:00Z",
+  "expires/at": "2026-06-15T09:00:00Z",
+  "sequence/no": 1,
+  "revocation/ref": "seed-directory:revocation-feed:contact-claim:marcin-email",
+  "policy/ref": "contact-catalog-policy:mvp-invite-only",
+  "proof/signature": {
+    "alg": "ed25519",
+    "signer": "participant:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+    "value": "base64url:contact-claim-signature"
+  }
+}

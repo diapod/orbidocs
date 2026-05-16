@@ -34,10 +34,10 @@
                  "Inbound WSS `push` frames require either an explicit receiver-side peer allowlist or an inline capability passport authorized as `inac.invitation`, `inac-push@v1`, or `memarium-custody@v1`"
                  "INAC transfer decisions are persisted in a local SQLite ledger before or after Artifact Delivery admission"
                  "INAC response meta is terminated at the peer boundary in the current implementation"
+                 "Matrix mailbox peer transport is the first asynchronous store-and-forward fallback, with transport-envelope encryption for plaintext payloads"
                  "operator status endpoint `/v1/inac/status`"
                  "operator UI `/admin/inac` for handlers, counters, and recent refusals"]
-   :remaining ["Add Matrix mailbox peer transport as the first asynchronous store-and-forward fallback, with transport-envelope encryption for plaintext payloads"
-               "Add raw binary-frame optimization if the current peer-message stream carrier becomes insufficient"]}
+   :remaining ["Add raw binary-frame optimization if the current peer-message stream carrier becomes insufficient"]}
 
   {:cap/id :byte-identical-artifact-transfer
    :title "Byte-Identical Artifact Transfer"
@@ -148,7 +148,7 @@
   "The runtime fails closed without an explicit authoritative handler for an artifact kind."
   "Remote WSS INAC receiver policy now fails closed: `offer` remains behind explicit peer allowlists, while `push` requires either an explicit allowlist or an inline capability passport authorized as invitation, generic INAC push, or Memarium custody."
   "Direct `inac.offer`, `inac.request`, and `inac.push` host capabilities are governed by INAC outbound allowlists; Artifact Delivery routes that resolve to `inac-direct` are governed by Artifact Delivery outbound allowlists."
-  "Referenced payload slots are schema-valid; Artifact Delivery can resolve `artifact-store:`, Memarium, and explicitly allowed `agora-record:` references before admission. `inac-peer-artifact:` peer object-store lookup remains future work and must be digest-bound to the envelope descriptor."
+  "Referenced payload slots are schema-valid; Artifact Delivery can resolve `artifact-store:`, Memarium, explicitly allowed `agora-record:`, and explicitly allowed `inac-peer-artifact:` references before admission. `inac-peer-artifact:` is a digest-bound peer artifact cache lookup, not remote trust."
   "The local host/operator surface now includes `/v1/inac/status` and `/admin/inac`; this is observability, not peer transport completion."
   "Invitation notification delivery uses the local notification queue: Accept issues a narrow invitation passport and Reject records a local denial; this is a local UX flow, not a second authority system."
-  "Matrix mailbox transport remains required before asynchronous store-and-forward peer exchange. It should encrypt plaintext/JSON payloads as `artifact-mailbox-sealed.v1` to the receiver while keeping Matrix as a carrier, not an authority. Raw binary-frame streaming is an optimization over the current peer-message stream carrier, not a prerequisite for byte-identical large payload transfer."]}
+  "Matrix mailbox transport is present as asynchronous store-and-forward peer exchange. It encrypts plaintext/JSON payloads as `artifact-mailbox-sealed.v1` to the receiver while keeping Matrix as a carrier, not an authority. Raw binary-frame streaming is an optimization over the current peer-message stream carrier, not a prerequisite for byte-identical large payload transfer."]}

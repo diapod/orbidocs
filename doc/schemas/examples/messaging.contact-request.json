@@ -1,0 +1,31 @@
+{
+  "schema": "contact-request.v1",
+  "schema/v": 1,
+  "request/id": "contact-request:daniel-to-marcin:001",
+  "request/kind": "messaging-contact",
+  "sender/display-name": "Daniel Kowalski",
+  "sender/subject": {
+    "participant/id": "participant:did:key:z6MkDaneA11111111111111111111111111111111111111"
+  },
+  "sender/handle-proof-ref": "passport:capability:email-control:daniel-email:001",
+  "sender/reply-route": {
+    "routing-subject/id": "routing:did:key:z6MkDaneRoute1111111111111111111111111111111"
+  },
+  "recipient/route": {
+    "routing-subject/id": "routing:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE"
+  },
+  "recipient/public-handle-ref": "contact-handle-digest:sha256:4d3d0d879a9a6a6132c45d4f58d2c8b76c8a0f44cdb97f3ce7c8c537e9f8c001",
+  "requested/capability-id": "messaging-receive",
+  "requested/purposes": [
+    "messaging"
+  ],
+  "greeting": "Hi Marcin, I have started using Orbiplex.",
+  "issued/at": "2026-05-16T09:10:00Z",
+  "expires/at": "2026-05-17T09:10:00Z",
+  "correlation/id": "contact-request-correlation:daniel-marcin-email",
+  "proof/signature": {
+    "alg": "ed25519",
+    "signer": "participant:did:key:z6MkDaneA11111111111111111111111111111111111111",
+    "value": "base64url:contact-request-signature"
+  }
+}

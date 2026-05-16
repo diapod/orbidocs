@@ -101,6 +101,15 @@ schema_for_file() {
     *.comment-thread-policy.json)
       echo "$SCHEMAS_DIR/comment-thread-policy.v1.schema.json"
       ;;
+    *.contact-claim.json)
+      echo "$SCHEMAS_DIR/contact-claim.v1.schema.json"
+      ;;
+    *.contact-lookup-result.json)
+      echo "$SCHEMAS_DIR/contact-lookup-result.v1.schema.json"
+      ;;
+    *.contact-request.json)
+      echo "$SCHEMAS_DIR/contact-request.v1.schema.json"
+      ;;
     *.node-identity.json)
       echo "$SCHEMAS_DIR/node-identity.v1.schema.json"
       ;;

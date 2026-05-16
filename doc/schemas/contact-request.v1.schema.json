@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:contact-request:v1",
+  "title": "ContactRequest v1",
+  "description": "Private artifact sent to a route candidate returned by Contact Catalog to request a narrow messaging/contact relationship. It carries a sender subject and optional sender-handle proof; it is not the private message body.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-010-message-to-a-friend.md",
+    "doc/project/40-proposals/058-contact-catalog.md",
+    "doc/project/40-proposals/057-user-and-operator-notifications.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "request/id",
+    "request/kind",
+    "sender/subject",
+    "recipient/route",
+    "requested/capability-id",
+    "requested/purposes",
+    "issued/at",
+    "expires/at",
+    "proof/signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "contact-request.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "request/id": {
+      "type": "string",
+      "pattern": "^contact-request:[a-z0-9][a-z0-9:-]*$"
+    },
+    "request/kind": {
+      "type": "string",
+      "enum": ["messaging-contact"]
+    },
+    "sender/display-name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 140
+    },
+    "sender/subject": {
+      "$ref": "#/$defs/subject"
+    },
+    "sender/handle-proof-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional `email-control` or `phone-control` passport reference proving that the sender controls the displayed contact handle."
+    },
+    "sender/reply-route": {
+      "$ref": "#/$defs/subject"
+    },
+    "recipient/route": {
+      "$ref": "#/$defs/subject"
+    },
+    "recipient/public-handle-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque reference to the external handle used for lookup. Raw email or phone MAY be stored locally, but network artifacts SHOULD prefer a redacted or digest-bound reference."
+    },
+    "requested/capability-id": {
+      "type": "string",
+      "enum": ["messaging-receive"],
+      "description": "Capability passport profile requested from the recipient if the user accepts."
+    },
+    "requested/purposes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["messaging"]
+      }
+    },
+    "greeting": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "correlation/id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proof/signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "participant/id": {
+          "type": "string",
+          "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "routing-subject/id": {
+          "type": "string",
+          "pattern": "^routing:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "contact-nym/id": {
+          "type": "string",
+          "pattern": "^contact-nym:[a-z0-9][a-z0-9:-]*$"
+        },
+        "node/id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "signer": {
+          "type": "string",
+          "pattern": "^(participant|routing|contact-nym):"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
