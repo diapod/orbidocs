@@ -1,0 +1,757 @@
+# Proposal 060: Messaging Middleware and Personal Message Delivery
+
+Based on:
+
+- `doc/project/30-stories/story-010-message-to-a-friend.md`
+- `doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md`
+- `doc/project/40-proposals/032-key-delegation-passports.md`
+- `doc/project/40-proposals/042-inter-node-artifact-channel.md`
+- `doc/project/40-proposals/047-classification-label-propagation.md`
+- `doc/project/40-proposals/057-user-and-operator-notifications.md`
+- `doc/project/40-proposals/058-contact-catalog.md`
+- `doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md`
+- `doc/project/60-solutions/002-memarium/002-memarium.md`
+- `doc/project/60-solutions/006-capability-binding/006-capability-binding.md`
+- `doc/project/60-solutions/014-key-delegation-passports/014-key-delegation-passports.md`
+- `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
+- `doc/project/60-solutions/019-middleware/019-middleware.md`
+- `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
+- `doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md`
+- `doc/schemas/capability-passport.v1.schema.json`
+- `doc/schemas/contact-request.v1.schema.json`
+
+## Status
+
+Draft
+
+## Date
+
+2026-05-17
+
+## Executive Summary
+
+Story-010 (Message to a Friend) walks through the end-to-end UX of sending a
+private Orbiplex message by typing an external contact handle. Most of the
+plumbing needed for that flow is already specified and partially landed:
+Contact Catalog (Solution 025) handles discovery, admission, and contact
+requests; Artifact Delivery (Solution 023) handles transport; Capability
+Binding handles passport authority; INAC handles private/direct transport;
+P057 handles notifications.
+
+What is still missing is the **messaging middleware** — the
+application-level domain module that owns:
+
+- composing messages,
+- the local outbound message queue with its state machine,
+- inbound message storage stratified across Maildir bodies, a
+  middleware-owned SQLite operational index, and bounded Memarium
+  semantic / audit facts,
+- the `messaging-receive@v1` passport profile freeze and the
+  `message-envelope.v1` artifact contract,
+- the inbound acceptor that performs the three messaging-specific scope
+  checks plus the `contacts`-class policy gate before persisting any
+  message body,
+- the `contacts` relationship class model with default policy
+  "may send messages to me",
+- the mailbox view, inbox projection, and the "open in mailbox view"
+  notification target,
+- the bridge to participant-owned vault recovery for `contacts`
+  membership and issued passports.
+
+This proposal freezes those contracts, names the component, and stratifies
+its responsibilities against the daemon and the existing supervised
+middleware host. It deliberately reuses every piece of existing
+infrastructure rather than reinventing transport, admission, or passport
+verification.
+
+The single biggest decision is that **messaging middleware is the
+authoritative acceptor for `message-envelope.v1` registered through one
+of the existing `artifact_delivery_acceptors.*` surfaces**, not a parallel
+transport plane. AD does generic admission (signature, expiry, revocation,
+TLS evidence, size, rate); the messaging acceptor does the three
+messaging-specific scope checks and the `contacts`-class policy gate
+before invoking persistence.
+
+## Context and Problem Statement
+
+Orbiplex today has every primitive needed to deliver a private message
+between two nodes, but no application-level domain module that ties them
+together into a user-facing inbox + outbox experience:
+
+- Artifact Delivery moves any signed artifact between authenticated peers
+  with single-owner inbound admission and the existing privacy invariant
+  (`privacy = private-direct` → `inac-direct`).
+- INAC carries inline-passport-gated peer pushes over WSS.
+- Capability Binding verifies passport signatures, expiry, revocation
+  freshness, and audits authorization decisions.
+- Key Delegation Passports supports proxy-signed artifacts with inline
+  `DelegationProof`.
+- Contact Catalog (Solution 025) admits contact claims, exposes
+  invitation-only lookup, registers the `contact.request` acceptor,
+  creates `contact-request.received` notifications with accept / reject
+  actions, and issues `messaging-receive@v1` capability passports on
+  acceptance.
+- The Capability Registry already has `messaging-receive` as an
+  application-consent capability id (`app/messaging-receive`).
+- Solution 019 Middleware provides the supervised-HTTP / in-process /
+  JSON-e-Flow extension-host plane.
+- Memarium exposes a host capability surface for semantic facts with
+  policy and classification.
+- `core/messaging` is the protocol-native peer-session baseline; it is not
+  an application middleware.
+
+What no document yet specifies is *how* a node-attached domain module
+turns those primitives into a personal mailbox: which acceptor it
+registers, what schema it consumes, how its outbound queue interacts with
+passport issuance, where message bodies live, how operational state is
+kept separate from semantic facts, and what consent class governs
+sender-side acceptance.
+
+Story-010 §11 already sketched the stratified storage model (Maildir +
+middleware-owned SQLite + bounded Memarium facts) and the
+`contacts`-class membership idea. This proposal lifts those story-level
+sketches into a proposal-level contract and freezes the artifact +
+passport profile required to implement them.
+
+## Goals
+
+- Define the messaging middleware as a node-attached domain module with
+  one named role and explicit responsibilities.
+- Freeze the `message-envelope.v1` artifact schema.
+- Freeze the `messaging-receive@v1` passport profile, including its
+  `scope.*` field shapes.
+- Define the local outbound message queue state machine.
+- Define the inbound acceptor contract and enumerate the three
+  messaging-specific scope checks + `contacts`-class policy gate.
+- Define the storage stratification across Layer 1 (Maildir),
+  Layer 2 (middleware-owned SQLite operational index), and
+  Layer 3 (bounded Memarium semantic / audit facts).
+- Define the `contacts` relationship class as a local set with default
+  policy "may send messages to me" and a bi-directional projection
+  against issued `messaging-receive@v1` passports.
+- Specify the recovery story for `contacts` membership and issued
+  passports against `pseudonym-vault.v1` (P059).
+- Specify the `key-delegation.v1` grant label for delegated messaging
+  signing, so Daniel's nym rotation does not break Marcin's acceptance.
+- Stratify the role into a small daemon-side host/authority layer and a
+  separate messaging service, following the precedent set by Contact
+  Catalog (P058 §11 Catalog Provider Role and the daemon-vs-service split
+  documented for Solution 025).
+
+## Non-Goals
+
+- This proposal does not specify a compose UI design beyond saying that
+  compose is a Node UI surface that calls into the messaging service.
+- This proposal does not bridge to standard email or to any external IM
+  network. Messaging is Orbiplex-only.
+- This proposal does not define a search query language. Layer 2 may
+  expose FTS5 over message bodies, but the query surface is implementation
+  detail.
+- This proposal does not define a cross-device sync protocol for read /
+  unread / flag state. Single-device MVP is enough for story-010; sync
+  is post-MVP.
+- This proposal does not own the contact-request flow. That flow lives in
+  Solution 025 Contact Request Admission; the messaging middleware
+  consumes the resulting `messaging-receive@v1` passports.
+- This proposal does not own the local contact store. That store is
+  owned by the daemon under Solution 025 Local Contact Store; the
+  messaging middleware reads / writes through host capability calls.
+- This proposal does not own attestation acquisition for `phone-control`
+  / `email-control`. That is a separate proposal slot (see story-010
+  Cross-Cutting block).
+
+## Proposed Model
+
+### 1. Component Boundary
+
+The messaging middleware is a node-attached domain module with two
+co-located but distinct subsystems, mirroring the Contact Catalog split:
+
+- **Node daemon** owns the small host / authority layer:
+  - supervisor lifecycle for the messaging service binary;
+  - in-process or supervised-HTTP routing of the `message-envelope.v1`
+    Artifact Delivery acceptor to the messaging service;
+  - host capability bridge for `capability.passport.lookup`,
+    `capability.passport.issue`, `memarium.write`, `notification.create`,
+    and `local-contacts.*`;
+  - the `/admin/messaging` operator UI surface;
+  - the `/v1/messaging/status` proxy reading service state.
+
+- **Messaging service** (Rust supervised HTTP middleware, recommended) owns
+  the domain:
+  - Layer 1 Maildir body store under
+    `<node-data-dir>/storage/messaging/maildir/...`;
+  - Layer 2 middleware-owned SQLite operational index at
+    `<node-data-dir>/storage/messaging/index.sqlite`, with rows for
+    message id, from, to, date, subject, threading id, flags, size,
+    Maildir path, plus optional FTS5;
+  - the inbound acceptor that runs the three messaging-specific scope
+    checks plus the `contacts`-class policy gate;
+  - the outbound message queue with its state machine, queue scanner,
+    and passport attachment;
+  - the inbox projection feeding the mailbox view;
+  - construction of AD delivery envelopes using either
+    `selector/kind = "contact-lookup"` (preferred) or a normal
+    `routing-subject` / `node` selector after a middleware-side direct
+    lookup;
+  - writing the bounded Layer 3 messaging-fact stream through the
+    Memarium host capability;
+  - calling `notification.create` for arrival notifications with a
+    `mailbox/open` action target.
+
+Compose UI is a Node UI surface that calls into the messaging service.
+The middleware does not embed its own browser stack.
+
+### 2. Stratified Storage
+
+Inbound and outbound message state is stratified across three layers,
+each holding a different class of data with its own write rate and
+lifecycle. The layering was sketched in story-010 §11; this proposal
+freezes it.
+
+```text
+incoming message envelope
+  -> Maildir body file                          (Layer 1: immutable per-message bytes)
+  -> messaging-service SQLite operational index (Layer 2: rebuildable hot state)
+  -> Memarium messaging facts                   (Layer 3: bounded semantic / audit facts)
+  -> inbox projection                           (read model fed by Layers 1+2)
+```
+
+**Layer 1 — Maildir bodies.** Immutable for the life of the message.
+Owned by the messaging service. Not part of Memarium custody by default;
+the file system is the right primitive for opaque per-message blobs.
+
+**Layer 2 — Messaging-service-owned SQLite operational index.** Hot
+operational state: per-message rows, optional FTS5, thread joins,
+read / unread, snooze, starring. Fully rebuildable from Layer 1 bodies
+plus the Layer 3 fact stream. The service is allowed to vacuum, shard,
+or fully rebuild Layer 2 without coordinating with any other module.
+
+**Layer 3 — Memarium messaging facts.** Bounded by user and policy
+decisions, not by message traffic. The enumerated fact kinds are:
+
+- `contacts.membership-changed.v1` — sender subject added, removed, or
+  rotated within `contacts`;
+- `messaging.passport-issued.v1` and `messaging.passport-revoked.v1` —
+  joined with the existing revocation feed;
+- `messaging.classification-decided.v1` — per-conversation or
+  per-message classification (`classification.v1` already lives in
+  Memarium);
+- `messaging.retention-decided.v1` — deletion reason, archival export
+  pointer;
+- `messaging.crisis-marked.v1` — explicit crisis-space mark the user
+  applies to a thread or message.
+
+Per-message header rows and `read / unread` flags **must not** end up
+in Layer 3.
+
+The bounding rule, in one line:
+
+> If the field is rewritten more often than once per message lifetime
+> (read / unread flips, sort keys, thread membership), it stays in
+> Layer 2. If it is a user-or-policy decision with non-zero audit
+> weight, it goes to Layer 3. Bodies stay in Layer 1.
+
+### 3. `message-envelope.v1` Artifact
+
+The wire envelope carrying a personal message between nodes:
+
+```text
+message-envelope.v1
+  schema                    # "message-envelope.v1"
+  schema/v                  # "1"
+  envelope/id               # ULID-like stable id
+  message/id                # opaque per-message id (= envelope/id in MVP)
+  thread/id?                # optional threading group id
+  sender/subject            # participant | nym | routing-subject (matches passport scope.sender)
+  sender/handle?            # public handle declared at send time (matches passport scope.public_handle)
+  receiver/route            # routing:did:key:... or contact-nym:... (matches passport scope.receiver)
+  authorization
+    passport-ref?           # canonical ref to a cached capability-passport.v1
+    passport?               # inline capability-passport.v1 (preferred for first contact)
+    delegation-proof?       # inline DelegationProof when sender uses a delegated nym
+  body
+    content-type            # text/plain | text/markdown | application/json (MVP set)
+    encoding                # "utf-8" | "base64" (latter for opaque payloads)
+    size/bytes
+    sha256                  # required, byte-identity over body content
+    inline?                 # body bytes for small messages
+    ref?                    # artifact-store: or similar for larger bodies
+  meta
+    sent/at                 # ISO-8601
+    content/digest          # canonical digest covering id + sender + receiver + body sha256
+    classification?         # optional classification.v1 hint
+  signature
+    key/public              # sender subject signing key
+    value                   # signature over the canonical payload
+```
+
+The MVP profile requires only `schema`, `schema/v`, `envelope/id`,
+`sender/subject`, `receiver/route`, `authorization`, `body`,
+`meta.sent/at`, `meta.content/digest`, and `signature`. All other fields
+are optional.
+
+The body MAY be inline for short messages or referenced via an existing
+AD resolver scheme (`artifact-store:` for local pre-staged blobs) for
+larger payloads. End-to-end encryption of the body is out of scope for
+MVP; the private-direct INAC transport already provides
+sender-authenticated transport confidentiality on the wire.
+
+### 4. `messaging-receive@v1` Passport Profile
+
+The passport profile minted by Solution 025 Contact Request Admission on
+acceptance, and the same profile consumed by the messaging acceptor on
+inbound. Frozen here:
+
+```text
+capability_id     = "messaging-receive"
+profile/v         = "1"
+scope
+  receiver        # routing:did:key:... or contact-nym:... (never participant:did:key)
+  sender          # participant | nym | routing-subject of the accepted sender
+  public_handle?  # the contact handle Daniel used to reach Marcin, when known
+  contact-request # contact-request.v1/id that motivated this passport
+  purpose         # "messaging" (MVP fixed value)
+expires/at        # required
+revocation/ref    # required; canonical ref into the daemon revocation feed
+limits?
+  rate/per-day?   # per-class messaging rate limit (default: unbounded for MVP)
+  body/max-bytes? # per-class body size limit (default: 1 MiB for MVP)
+issuer
+  participant     # Marcin's participant id (issuer of the receive consent)
+  delegation?     # optional issuer DelegationProof when minted via a proxy key
+signature
+  key/public      # matches issuer.participant (or issuer.delegation proxy)
+  value
+```
+
+Three properties of this profile matter:
+
+1. `scope.receiver` is never the raw `participant:did:key`. It is always
+   a `routing:did:key:...` (per `routing-subject-binding.v1`) or a
+   pairwise `contact_nym` (per P058). This is the wire-privacy invariant
+   from P059 §7.
+2. `scope.sender` may be a participant (most stable) or a nym
+   (privacy-preserving). Nym rotation is supported through the
+   `key-delegation.v1` grant label defined below.
+3. `contact-request` ties the consent to the specific request, so revoking
+   the contact request also unambiguously revokes the messaging consent.
+
+### 5. `key-delegation.v1` Grant Label for Delegated Messaging Signing
+
+Daniel's nym-rotation continuity uses the existing inline
+`DelegationProof` path. This proposal adds one grant label to the Key
+Delegation Passports grant vocabulary:
+
+```text
+signing/messaging-send
+```
+
+Semantics: a participant authorizes a proxy key to sign
+`message-envelope.v1` artifacts on its behalf. When Daniel rotates a
+messaging nym, the new nym presents an inline `DelegationProof` rooted in
+the participant that Marcin accepted. The messaging acceptor verifies
+the proof and treats the message as sent by the accepted participant.
+No re-approval ceremony is needed.
+
+### 6. Inbound Acceptor and the Messaging-Specific Checks
+
+The messaging acceptor registers exactly one acceptor target for the
+`message-envelope.v1` artifact kind through one of the existing
+`artifact_delivery_acceptors.*` surfaces:
+
+- `artifact_delivery_acceptors.supervised_http` (recommended for the
+  Rust messaging service);
+- `artifact_delivery_acceptors.in_process` (for the MVP fallback that
+  runs entirely inside the daemon);
+- `artifact_delivery_acceptors.json_e_flow` (for compositional
+  experimentation, not the production path).
+
+Generic AD admission already enforces:
+
+- the passport signature is valid (Capability Binding);
+- the passport has not expired or been revoked (Capability Binding +
+  Seed Directory revocation feed);
+- the transport session is authenticated and pinned to attested endpoint
+  certificate evidence (TLS Trust Policy);
+- size, rate, and idempotency limits hold (AD route policy + INAC
+  receiver-side budgets).
+
+The messaging acceptor adds **three messaging-specific scope checks plus
+one policy gate**:
+
+1. `sender ↔ scope.sender`: the `sender/subject` field in the envelope
+   matches the `scope.sender` field in the presented passport. When the
+   sender presents a delegated nym, the inline `DelegationProof` must
+   resolve to a subject equal to `scope.sender`.
+2. `receiver ↔ scope.receiver`: the `receiver/route` field matches the
+   `scope.receiver` field in the passport.
+3. `public-handle ↔ scope.public_handle`: when the envelope carries
+   `sender/handle`, it matches `scope.public_handle`. When absent on
+   either side, the check is skipped.
+4. **`contacts`-class policy gate**: the resolved `sender/subject`
+   must still be a member of the local `contacts` set (no revocation
+   on Marcin's side) and the per-class limits (`limits.*` in the
+   passport) must not be exhausted.
+
+If any check fails, the acceptor refuses admission before invoking
+persistence. Refusal classes are first-class operator-visible audit
+events.
+
+### 7. Outbound Queue State Machine
+
+The outbound message queue is owned by the messaging service. The
+canonical state machine:
+
+```text
+composed
+  -> waiting-for-route       # recipient is an external contact handle, no route yet
+  -> waiting-for-contact-permission
+  -> ready-for-delivery
+  -> in-flight
+  -> delivered
+  -> failed-terminal
+```
+
+State transitions:
+
+- `composed → waiting-for-route` when the recipient is an external
+  contact handle that does not yet resolve to a local known contact.
+- `waiting-for-route → waiting-for-contact-permission` after the
+  Contact Catalog lookup returns a route candidate but no
+  `messaging-receive@v1` passport for that sender↔receiver pair is yet
+  cached.
+- `waiting-for-route → ready-for-delivery` shortcut when the recipient
+  is a known local contact and a usable passport is already cached.
+- `waiting-for-contact-permission → ready-for-delivery` when a usable
+  passport arrives via `capability.passport.lookup` (queue scanner
+  attaches it).
+- `ready-for-delivery → in-flight` when the AD delivery envelope is
+  accepted by the host (typically returns a `delivery/id` for tracking).
+- `in-flight → delivered` on successful AD admission on the receiver
+  side (tracked via AD `deferred-operation` or recovery worker).
+- `in-flight → failed-terminal` on AD recovery exhaustion.
+
+The queue scanner runs whenever a new passport is added to
+`PassportCache`. It looks up messages in `waiting-for-contact-permission`
+that match the freshly arrived passport's `scope.sender ↔ scope.receiver`
+pair and promotes them to `ready-for-delivery`.
+
+### 8. `contacts` Relationship Class
+
+The messaging service owns the local `contacts` relationship-class set,
+with the following invariants:
+
+- Membership is keyed by the accepted sender subject (participant, nym,
+  or routing subject), not by handle.
+- Default policy is "may send messages to me". No other capability is
+  implicitly granted.
+- Membership is bi-directionally projected with issued
+  `messaging-receive@v1` passports: issuing a passport adds (or
+  refreshes) membership; revoking the passport removes membership and
+  emits a `contacts.membership-changed.v1` fact into Layer 3.
+- Per-class limits (`rate/per-day`, `body/max-bytes`, sender allow /
+  deny overrides) are local policy that the messaging acceptor enforces
+  alongside the passport's own `limits.*`.
+- Membership state is mirrored into `pseudonym-vault.v1` (P059) so it
+  survives node reinstall from the participant mnemonic.
+
+`contacts` is intentionally narrower than `friends`. Adding a sender to
+`contacts` never silently grants friend-class capabilities. The class
+distinction is documented for INAC middleware configuration generally,
+not only for messaging.
+
+### 9. Recovery and Vault Integration
+
+Three classes of state need recovery treatment:
+
+- **Maildir bodies (Layer 1)** are backed up like any file storage. Loss
+  causes user data loss but does not break the protocol. A future
+  archivist handoff (P012) MAY package Maildir bodies as
+  `memarium-blob.v1` bundles; this is optional.
+- **SQLite operational index (Layer 2)** is **not** backed up. It is
+  fully rebuildable from Layer 1 plus the Layer 3 fact stream. This is
+  the point of stratification.
+- **Layer 3 Memarium facts** are backed up through the existing Memarium
+  archival path.
+- **`contacts` membership + issued `messaging-receive@v1` passports**
+  live inside `pseudonym-vault.v1` (P059), so mnemonic-based restore
+  brings back both signing material and policy state. The messaging
+  service queries the vault on startup to reconstruct its `contacts`
+  set and reissue / re-validate passports.
+
+The recovery story for the SQLite operational index is: on first
+startup after restore, replay Layer 3 messaging facts to recreate
+`contacts` membership and known passports; walk the Maildir tree to
+populate per-message rows; rebuild the FTS5 index; surface a
+"reindexing" status through `/v1/messaging/status` until done.
+
+## Daemon vs Service Boundary
+
+This proposal explicitly stratifies the messaging middleware between
+two co-located subsystems, following the precedent established for
+Contact Catalog (P058 §11 Catalog Provider Role).
+
+**Node daemon** owns the small host / authority layer:
+
+- supervisor lifecycle for the messaging-service binary;
+- `message-envelope.v1` Artifact Delivery acceptor routing (either
+  in-process to the service or supervised-HTTP proxy);
+- host capability bridge: `capability.passport.lookup`,
+  `capability.passport.issue`, `memarium.write`, `notification.create`,
+  `local-contacts.read` (per Solution 025 daemon-owned local contacts);
+- `/admin/messaging` operator UI surface;
+- `/v1/messaging/status` proxy.
+
+**messaging-service** (separate process / supervised middleware) owns
+the domain:
+
+- Layer 1 Maildir body store under
+  `<node-data-dir>/storage/messaging/maildir/...`;
+- Layer 2 middleware-owned SQLite operational index;
+- the inbound acceptor running the three scope checks +
+  `contacts`-class policy gate;
+- the outbound queue + state machine + scanner + passport attachment;
+- the inbox projection feeding the mailbox view;
+- AD delivery envelope construction;
+- writing Layer 3 messaging facts through Memarium host capability;
+- arrival notifications via `notification.create` with a `mailbox/open`
+  action target.
+
+This split is what the user pays for in stratification: daemon stays a
+small host / authority that does not learn messaging-domain semantics;
+the service owns the domain and may be evolved independently. Compose
+UI is a Node UI surface that calls into the service through host
+capability and operator HTTP routes.
+
+## Relationship to Existing Mechanisms
+
+### Artifact Delivery (Solution 023)
+
+The messaging service registers exactly one inbound acceptor for
+`message-envelope.v1` through `artifact_delivery_acceptors.*`. Outbound
+messages use either the `contact-lookup` recipient selector kind
+(P058-019, `done`) or a normal `routing-subject` / `node` selector after
+a middleware-side direct catalog lookup. The `privacy = private-direct`
+invariant applies; today's private-safe adapter is `inac-direct`.
+
+### INAC (Solution 017)
+
+INAC is the private/direct transport adapter under AD. The messaging
+service does not speak INAC directly; AD routes the
+`message-envelope.v1` push.
+
+### Capability Binding (Solution 006) and Key Delegation Passports (Solution 014)
+
+Capability Binding verifies passport signature, expiry, and revocation
+freshness before the acceptor is invoked. Key Delegation Passports
+provides the inline `DelegationProof` path for nym-rotation continuity.
+This proposal adds one grant label, `signing/messaging-send`.
+
+### Contact Catalog (Solution 025) and Proposal 058
+
+Contact Catalog owns: contact discovery (Invitation-Only Lookup),
+contact-claim admission, the `contact.request` acceptor, durable
+`contact-request.received` notifications, and `messaging-receive@v1`
+passport issuance. The messaging middleware *consumes* the issued
+passports and does not duplicate any of those responsibilities.
+
+The contact-lookup recipient selector kind (P058-019) is the preferred
+outbound integration; middleware-side direct HTTP is the alternative.
+
+### User and Operator Notifications (P057)
+
+The messaging service uses `notification.create` for:
+
+- inbound message arrival, with a `mailbox/open` action that opens the
+  mailbox view focused on the new message;
+- delivery confirmations or failures, when the user opted into them.
+
+The contact-request notification flow is owned by Solution 025; this
+proposal does not duplicate it.
+
+### Memarium (Solution 002, Proposal 036) and Classification (Proposal 047)
+
+The messaging service writes the bounded Layer 3 fact stream through
+the Memarium host capability. `classification.v1` decisions reuse the
+existing Memarium classification path. Memarium does not learn
+per-message header semantics; only the enumerated semantic facts cross
+the boundary.
+
+### Solution 019 Middleware
+
+The messaging service attaches through the supervised-HTTP / in-process
+host capability bridge already provided by Solution 019. No new
+extension-host primitive is introduced.
+
+### Proposal 059 (Nym key-role derivation) and `pseudonym-vault.v1`
+
+`contacts` membership and issued `messaging-receive@v1` passports live
+inside `pseudonym-vault.v1`. The messaging service depends on the vault
+runtime promotion (P059-010, currently `todo`) for full recovery.
+Before P059-010 lands, MVP recovery may fall back to a daemon-local
+encrypted store with the same shape, mirrored into the vault when
+available.
+
+### `core/messaging` Capability
+
+`core/messaging` is the protocol-native baseline peer messaging /
+session capability. It is mandatory for every node, used by the peer
+handshake. It is **not** an application messaging middleware. This
+proposal adds a separate application capability id.
+
+### New Capability Ids Introduced
+
+- `messaging-send` (`app/messaging-send`) — application capability id
+  for sending personal messages. Used by `key-delegation.v1` grant
+  `signing/messaging-send`. MVP passport: planned.
+- `messaging.contact-request` `notification/kind` — already registered
+  implicitly by Solution 025; this proposal restates the dependency.
+- `mailbox.open` `notification/action` — new action target wired by the
+  messaging service and dispatched into the Node UI mailbox view.
+
+## Failure Modes and Mitigations
+
+| Failure mode | Mitigation |
+| :--- | :--- |
+| Sender forges `sender/subject` | The messaging acceptor enforces sender ↔ `scope.sender` match against the presented passport; Capability Binding already verified passport signature and revocation. |
+| Sender uses a rotated nym | Inline `DelegationProof` rooted in the accepted participant; the messaging acceptor verifies the proof and treats the message as sent by the accepted subject. |
+| Receiver route does not match accepted route | The messaging acceptor enforces receiver ↔ `scope.receiver` match and refuses before persistence. |
+| Public handle drift (handle reassigned externally) | The messaging acceptor enforces public-handle ↔ `scope.public_handle` when the envelope carries a handle; absent handles skip the check. Handle reassignment is mitigated upstream by Contact Catalog claim revocation (P058-011). |
+| Operational index (Layer 2) corruption | Layer 2 is rebuildable from Layer 1 bodies plus Layer 3 fact stream; the service surfaces a "reindexing" status while it rebuilds. |
+| Memarium fact volume bloats with traffic | Layer 3 is bounded to user / policy decisions, not per-message rows. The bounding rule is enforced at write time; rows that fail the rule are refused at the messaging service before reaching the Memarium host capability. |
+| Mailbox view opens before reindex completes | `/v1/messaging/status` exposes a `reindexing` flag; Node UI surfaces a banner and may render partial mailbox views from whatever Layer 2 is already populated. |
+| Daniel sends before consent | The message remains in the outbound queue at `waiting-for-contact-permission` until a usable passport arrives; AD is never invoked. |
+| Daniel sends with a passport but Marcin revoked it mid-flight | The receiver-side Capability Binding revocation check fails closed; the message is refused at AD admission before the messaging acceptor sees it. |
+| `messaging-receive@v1` passport scope and envelope disagree | The messaging acceptor refuses; the refusal is operator-visible as an audit event. |
+| Service crashes mid-write | Layer 1 Maildir write is the durable commit point; Layer 2 / Layer 3 updates are idempotent on retry, keyed by `envelope/id`. |
+| Vault unavailable during startup | The messaging service starts in a degraded mode that serves cached `contacts` state from Layer 2 only; new memberships are queued until the vault is available; the `/v1/messaging/status` proxy surfaces the degraded mode. |
+| `contact-request` revoked after acceptance | Revoking the `messaging-receive@v1` passport on Marcin's side propagates through Capability Binding revocation and `contacts.membership-changed.v1` fact in Layer 3. |
+
+## Trade-offs
+
+### Benefits
+
+- One named domain module ties together every existing primitive
+  (passports, INAC, AD, Memarium, notifications, Contact Catalog) into a
+  story-shaped flow without inventing new transport or admission
+  semantics.
+- Stratified storage (Layer 1 / Layer 2 / Layer 3) keeps high-volume
+  operational state out of Memarium and out of any backup that doesn't
+  need it.
+- The `contacts` relationship class is local-first and explicitly
+  narrower than `friends`, preserving the "scoped acceptance" property
+  Marcin wants in story-010.
+- Nym-rotation continuity reuses the existing inline `DelegationProof`
+  path; no bespoke renewal flow.
+- Daemon stays a small host / authority that does not learn
+  messaging-domain semantics; the service owns the domain.
+
+### Costs
+
+- New state to maintain: outbound queue, `contacts` set, Layer 2 index,
+  Layer 3 fact stream, mailbox projection.
+- More moving parts at startup: the service must coordinate with the
+  vault, Memarium, the daemon's host capability bridge, AD acceptor
+  registration, and Node UI.
+- The MVP fall-back for vault unavailability adds a small operator
+  surface (the degraded-mode flag) that has no equivalent in pre-vault
+  Orbiplex.
+- Recovery scenarios multiply: lose-bodies, lose-index, lose-vault each
+  produce a different recovery posture.
+
+## Open Questions
+
+1. Compose UI ownership — does the messaging service own a small
+   embedded HTTP UI (rendered by Node UI), or does Node UI own the
+   compose surface and call into the service through operator HTTP
+   only?
+2. Threading model — is `thread/id` a free-form opaque id, an
+   In-Reply-To-style chain, or a richer conversation container?
+3. Body content types — is the MVP set `text/plain` + `text/markdown` +
+   `application/json` enough, or do we admit `text/html` (with
+   sanitization) from day one?
+4. Body end-to-end encryption — INAC transport already protects the
+   wire; should the body also be encrypted at rest in Maildir, or is
+   the on-disk privacy boundary the operating system's user permissions?
+5. Per-class limits enforcement — should the messaging acceptor be the
+   only enforcer of `limits.*`, or should AD route policy also have a
+   way to express them so over-quota messages get refused even earlier?
+6. Cross-device sync — when does it land relative to single-device
+   MVP, and does it require a new artifact kind for `messaging.flag.v1`
+   events?
+7. Mailbox view ownership — does the mailbox UI come from the
+   messaging service (HTML fragments) or from Node UI (server-side
+   rendering against `/v1/messaging/*` HTTP)?
+8. Attachment handling — at what size threshold do bodies move from
+   inline `body.inline` to `body.ref` with `artifact-store:`?
+9. Failed-terminal recovery — should the user be able to manually
+   retry a `failed-terminal` outbound message, or is recovery only via
+   re-compose?
+
+## Next Actions
+
+1. Define the `message-envelope.v1` draft schema at
+   `doc/schemas/message-envelope.v1.schema.json`.
+2. Define the `messaging-receive@v1` passport profile shape as an
+   explicit document (the Capability Registry row already exists; the
+   profile freeze is what this row's "MVP passport: planned" tracks).
+3. Register `messaging-send` capability id in the Capability Registry.
+4. Add the `signing/messaging-send` grant label to Solution 014 Key
+   Delegation Passports grant vocabulary.
+5. Create solution doc and capability sidecar under
+   `doc/project/60-solutions/NNN-messaging-middleware/`, naming the
+   daemon-side and service-side capabilities consistent with §1.
+6. Add Layer 3 messaging-fact kind schemas:
+   `contacts.membership-changed.v1`,
+   `messaging.passport-issued.v1`,
+   `messaging.passport-revoked.v1`,
+   `messaging.retention-decided.v1`,
+   `messaging.crisis-marked.v1` (classification reuses existing
+   `classification.v1`).
+7. Add the `capability.passport.lookup` host capability surface (the
+   symmetric counterpart of the existing issue path) in Capability
+   Binding + Solution 019 Host Capability Bridge.
+8. Add the `mailbox.open` notification action target.
+9. Add the `/admin/messaging` operator UI surface and the
+   `/v1/messaging/status` daemon proxy.
+10. Decide the open questions above before MVP freeze.
+
+## Tracking
+
+Status legend: `todo` (no implementation work started), `planned` (design
+defined, awaiting implementation), `partial` (partially implemented), `done`
+(fully implemented and integrated), `open` (a design decision is still
+required before implementation can proceed), `deferred` (explicitly post-MVP
+for this proposal). Status values are kept consistent with other tracker
+tables in this project (see Proposal 057 §Tracking and Proposal 058
+§Tracking for precedent).
+
+| ID | Feature | Status | Evidence |
+|---|---|---|---|
+| P060-001 | `message-envelope.v1` artifact schema (fields per §3) | todo | No `doc/schemas/message-envelope.v1.schema.json` yet; canonical MVP shape sketched in §3. |
+| P060-002 | `messaging-receive@v1` passport profile freeze (scope shape per §4) | todo | Capability Registry row exists with `passport in MVP: planned`; profile shape sketched in §4 but not yet documented as an explicit profile spec. |
+| P060-003 | `messaging-send` capability id registration in the Capability Registry | todo | Named in §10 New Capability Ids; not yet in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md`. |
+| P060-004 | `signing/messaging-send` grant label added to `key-delegation.v1` grant vocabulary | todo | Named in §5; depends on Solution 014. |
+| P060-005 | Messaging middleware solution document and capability sidecar | todo | No `doc/project/60-solutions/NNN-messaging-middleware/` directory yet. |
+| P060-006 | Daemon vs service boundary documented (small host/authority layer vs domain service) | done | §1 Component Boundary + Daemon vs Service Boundary section. Mirrors P058 §11 Catalog Provider Role pattern. |
+| P060-007 | Stratified storage contract (Layer 1 Maildir, Layer 2 service SQLite, Layer 3 Memarium facts) frozen | done | §2 Stratified Storage with bounding rule; promoted from story-010 §11 sketch. |
+| P060-008 | `contacts` relationship class model frozen (local set, default "may send messages to me" policy, bi-directional projection with `messaging-receive@v1` passports) | done | §8 `contacts` Relationship Class. Implementation tracked separately by P060-013. |
+| P060-009 | Inbound acceptor: three messaging-specific scope checks + `contacts`-policy gate | todo | §6 Inbound Acceptor and the Messaging-Specific Checks; depends on P060-001 and P060-002. |
+| P060-010 | Outbound queue state machine | done | §7 Outbound Queue State Machine; implementation tracked separately by P060-013. |
+| P060-011 | Layer 3 messaging-fact kind schemas (`contacts.membership-changed.v1`, `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`, `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`) | todo | §2 Layer 3 enumeration; no schema files yet. |
+| P060-012 | `capability.passport.lookup` host capability surface (symmetric counterpart of the existing issue path) | todo | §1 Component Boundary host capability bridge; depends on Solution 006 + Solution 019. |
+| P060-013 | Messaging service implementation (compose + outbound queue + Layer 1 Maildir + Layer 2 SQLite + inbox projection + acceptor + Layer 3 fact writes) | todo | Depends on P060-001 through P060-012. |
+| P060-014 | `mailbox.open` notification action target wired into Node UI mailbox view | todo | §10 Next Actions #8; depends on P057-009 inline action execution promotion. |
+| P060-015 | `/admin/messaging` operator UI surface and `/v1/messaging/status` daemon proxy | todo | §1 Component Boundary; depends on P060-013 to have something meaningful to proxy. |
+| P060-016 | Recovery: `contacts` membership + issued `messaging-receive@v1` passports persisted in `pseudonym-vault.v1` | todo | §9 Recovery and Vault Integration; depends on P059-010 vault sync/restore runtime. Pre-vault MVP fallback in degraded mode. |
+| P060-017 | Recovery: Layer 2 SQLite index rebuild procedure (replay Layer 3 → walk Maildir → repopulate rows → rebuild FTS5) | todo | §9 Recovery and Vault Integration; depends on P060-013 and P060-011. |
+| P060-018 | Compose UI ownership decision (service-embedded HTTP UI vs Node UI surface calling service) | open | Open Question #1. |
+| P060-019 | Threading model decision (opaque id vs In-Reply-To chain vs richer conversation container) | open | Open Question #2. |
+| P060-020 | Body content-type set decision (text/plain + text/markdown + application/json vs adding text/html with sanitization) | open | Open Question #3. |
+| P060-021 | Body at-rest encryption decision (Maildir bodies plaintext vs sealed by `participant/vault-wrap`) | open | Open Question #4. |
+| P060-022 | Per-class limits enforcement placement (messaging acceptor only vs AD route policy aware) | open | Open Question #5. |
+| P060-023 | Cross-device sync of `read/unread` and other Layer 2 flags | deferred | Open Question #6; post-MVP; may require new `messaging.flag.v1` event kind. |
+| P060-024 | Mailbox view rendering ownership (service-rendered fragments vs Node UI server-side render against `/v1/messaging/*`) | open | Open Question #7. |
+| P060-025 | Attachment handling threshold (inline vs `artifact-store:` ref) | open | Open Question #8. |
+| P060-026 | Failed-terminal outbound recovery UX (manual retry vs re-compose) | open | Open Question #9. |
