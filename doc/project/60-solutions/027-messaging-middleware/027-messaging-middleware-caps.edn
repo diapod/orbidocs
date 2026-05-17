@@ -73,7 +73,7 @@
     "Sign outbound message-envelope.v1 artifacts through signer.sign under signing/messaging-send"
     "Deliver ready messages through artifact.delivery.send as private-direct"
     "Retry transient host failures and terminally fail schema, conflict, or scope refusals"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :inbound-policy-and-mailbox-resolution
    :title "Inbound Policy and Mailbox Resolution"

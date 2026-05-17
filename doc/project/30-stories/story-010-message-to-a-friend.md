@@ -289,9 +289,10 @@ not the same as the Contact Catalog lookup `purpose`; it is an AD policy hint
 that lets the host allow contact lookup for a small contact request while still
 rejecting full message delivery until a `messaging-receive` passport exists.
 
-The MVP query mode is authenticated invitation-only lookup with strict
-rate limiting (Proposal 058 MVP Decision #1). The catalog must not return
-a naked root participant identity as the normal result.
+The MVP query mode is public invitation-only digest lookup with strict
+rate limiting and redacted audit (Proposal 058 MVP Decision #1). The
+catalog must not return a naked root participant identity as the normal
+result.
 
 The lookup returns a `contact-lookup-result.v1` artifact containing a
 route candidate for Marcin's node, for example:
@@ -640,11 +641,10 @@ new message.
   attempt limits, TTL, quotas, and audit are wired).
 - Add first-class pod-user session / auth UX on top of the now
   fail-closed P057-011 user / pod-user notification route binding.
-- Turn the executable Story-010 two-node smoke into a green strict E2E
-  gate once sender-side lookup can use Node A's shared remote Contact
-  Catalog provider and the remaining cross-node receive-passport
-  handoff gaps are closed (smoke driver `story-smoke` + `ad-smoke`
-  exist per P060-035 `done`).
+- Keep the executable Story-010 two-node strict smoke green as the
+  messaging regression gate. It now covers shared remote Contact Catalog
+  lookup, cross-node receive-passport handoff, private-direct message
+  delivery, and delivered inbox/outbox state (P060-035 `done`).
 
 ## Implementation Coverage
 
@@ -705,8 +705,10 @@ artifact and what is still missing.
     participant / delegated-participant signatures, evaluates
     `email-control@v1` / `phone-control@v1` passports, and checks signature,
     expiry, profile match, and revocation freshness) and Invitation-Only
-    Lookup (Node `contact-catalog-service` exposes authenticated
-    `POST /v1/contact-catalog/lookups` returning `contact-lookup-result.v1`).
+    Lookup (Node `contact-catalog-service` exposes public
+    invitation-only `POST /v1/contact-catalog/lookups` returning
+    `contact-lookup-result.v1`, with policy, rate-limit, and redacted
+    audit controls).
     The catalog mechanics come from the `orbiplex-node-catalog` crate
     (`CatalogRecord`, `CatalogStore<T>`, `SqliteCatalog<T>`,
     `ObservedCatalogStore<T>`, `CatalogResolver`, `CatalogPredicate`,
@@ -721,9 +723,10 @@ artifact and what is still missing.
   - Missing: full federation / Seed Directory operator policy for the
     `catalog_kind: contact` registration (P058-004 `partial`); revocation
     / expiry pipeline beyond admission-time enforcement (P058-011
-    `partial`); the supervised-middleware-form deployment of
-    `contact-catalog-core` + `contact-catalog-service` as a separate
-    middleware crate (P058-017 `partial` — daemon-side prototype exists);
+    `partial`); the supervised `contact-catalog-core` +
+    `contact-catalog-service` middleware exists and has a daemon process
+    smoke, while deeper multi-process contact-request / admission /
+    lookup / trusted-provider acceptance remains (P058-017 `partial`);
     broader federation acceptance tests on top of the now-generic
     `CatalogAdapter<T, F>` plus `sync_catalog_provider(...)`
     transport-neutral mechanics in `node/catalog` (P058-018 `partial`);
@@ -732,7 +735,7 @@ artifact and what is still missing.
     snapshot fetch + opaque cursor + self-origin rejection landed).
 
 - **Step 4 — Daniel composes a message by email address (compose UI + outbound
-  queue):** `[in-progress]`
+  queue):** `[done]`
   - Closest artifacts: Solution 027 (Messaging Middleware) exists
     with component status `partial`; Node has `messaging-core` and
     `messaging-service` crates implementing outbound enqueue / outbox /
@@ -741,15 +744,14 @@ artifact and what is still missing.
     `/admin/messaging` compose, status, inbox, outbox, diagnostics, and
     message detail (P060-015 `done`). Solution 019 (`Orbiplex
     Middleware`, `done`) provides the hosting plane.
-  - Missing: real contact-lookup-result promotion semantics in the
-    outbound queue (the queue exists; the "unknown recipient" warning +
-    state machine wiring against actual lookup results is part of
-    P060-013 remaining hardening).
+  - Story-010 coverage: contact-lookup-result promotion, unknown-recipient
+    warning, shared remote Contact Catalog lookup, and strict outbound queue
+    delivery are covered by the two-node `ad-smoke`.
 
-- **Step 5 — Daniel's middleware resolves the contact route:** `[in-progress]`
+- **Step 5 — Daniel's middleware resolves the contact route:** `[done]`
   - Closest artifacts: Solution 025 Invitation-Only Lookup is `done` —
     `POST /v1/contact-catalog/lookups` returns `contact-lookup-result.v1`
-    as a route candidate, rate-limited by auth fingerprint + digest +
+    as a route candidate, rate-limited by client fingerprint + digest +
     purpose, with rejection of raw handle-like inputs and redacted
     no-match audit; the daemon also exposes `/v1/contact-catalog/status`
     and runs an opt-in supervised runtime on stable loopback. Seed
@@ -767,12 +769,11 @@ artifact and what is still missing.
     hands AD a normal `routing-subject` / `node` selector. Both are
     selector-axis, not resolver-axis.
   - Newly frozen contracts: `contact-lookup-result.v1` (schema) and MVP
-    authenticated invitation-only lookup (Proposal 058 MVP Decision #1,
+    public invitation-only digest lookup (Proposal 058 MVP Decision #1,
     Solution 025).
-  - Missing: messaging-middleware-side Contact Catalog client (Seed
-    Directory provider discovery + authenticated HTTP call + result
-    handling) and the queue state transition driven by the lookup result
-    (both depend on Step 4 messaging middleware).
+  - Story-010 coverage: messaging-side lookup can now use the shared remote
+    Contact Catalog provider selected from Seed Directory/provider cache;
+    the outbound queue stores the returned route and promotes delivery.
 
 - **Step 6 — Daniel sends a contact request over INAC/AD:** `[in-progress]`
   - Closest artifacts: the exact transport shape this step needs —
@@ -788,6 +789,9 @@ artifact and what is still missing.
     validation tests covering real participant signatures, expiry, bad
     purpose, bad signature, and redacted notification wording.
   - Newly frozen contract: `contact-request.v1` (schema).
+  - Story-010 coverage: strict `ad-smoke` now delivers Daniel's signed
+    contact request through AD/INAC to Marcin's node and records the
+    operator notification.
   - Missing: broader *supervised multi-process* AD accept/reject tests
     (single-process validation tests with real participant signatures are
     already done per Solution 025), and a sender-handle attestation
@@ -813,6 +817,9 @@ artifact and what is still missing.
     notification action target is wired through a host-owned action
     target; Node UI exposes message detail at
     `/admin/messaging/messages/{message_id}`.
+  - Story-010 coverage: strict `ad-smoke` now exercises the operator
+    accept action and waits for the resulting receive-passport handoff
+    before delivering Daniel's queued message.
   - Missing: supervised multi-process AD accept/reject tests (Solution
     025 names this as the remaining open item) and broader user-facing
     UX polish.
@@ -836,8 +843,11 @@ artifact and what is still missing.
     `key-delegation.v1` vocabulary (P060-004 `done`) — Daniel's
     nym-rotation continuity uses the existing inline `DelegationProof`
     path without a bespoke renewal flow.
-  - Missing: supervised multi-process AD transport tests for the
-    issuance response leg.
+  - Story-010 coverage: strict `ad-smoke` now covers the acceptance-time
+    `messaging-receive@v1` passport issue and peer-channel
+    `capability.passport.present` handoff to Daniel's node.
+  - Missing: broader supervised multi-process AD transport tests for
+    non-happy-path issuance / handoff failures.
 
 - **Step 9 — Daniel's node attaches the passport to queued messages:** `[in-progress]`
   - Closest artifacts: the daemon already has `PassportCache` and
@@ -856,6 +866,9 @@ artifact and what is still missing.
     recovery mirror is wired through `identity.messaging-recovery.mirror`
     and persisted in a durable local recovery mirror table (P060-016
     `partial`).
+  - Story-010 coverage: strict `ad-smoke` now waits for the accepted
+    passport to reach Daniel's node, then pumps the outbox until the
+    queued message is delivered.
   - Missing: sealed Pseudonym Vault record replay at startup so a
     fresh node restored from mnemonic rehydrates `contacts` membership
     and issued passports from the vault directly (P060-016 — local
@@ -904,9 +917,9 @@ artifact and what is still missing.
   - Missing: remote Memarium replay in Layer 2 rebuild (current
     `reindex` replays locally durable Layer 3 from `pending_facts`
     plus FTS5 rebuild; remote Memarium replay remains) (P060-017);
-    full mock-host integration coverage, sender-side lookup against
-    the shared remote Contact Catalog provider, and green Story-010
-    cross-node delivery acceptance (P060-013 remaining hardening).
+    full mock-host integration coverage for signer, AD, Memarium,
+    notification, and failure-class matrices (P060-013 remaining
+    hardening).
 
 ### Cross-Cutting Building Blocks
 
@@ -932,14 +945,18 @@ artifact and what is still missing.
   audit actors, and fail-closed user/pod-user recipient route binding are
   `done`; P057-011 remains `partial` only for first-class pod-user session/auth
   UX.
-- **Capability Advertisement of messaging support:** `[todo]` —
-  `capability-advertisement.v1` plumbing is `done`; a concrete
-  `messaging.accept` advertisement entry tied to the `messaging-receive`
-  profile is not yet defined or published.
+- **Capability Advertisement of messaging support:** `[done]` —
+  `capability-advertisement.v1` plumbing is `done`; `messaging.accept`
+  is registered as `app/messaging.accept`, tied to the
+  `messaging-receive@v1` profile and private-direct messaging routes
+  (P060-036).
 - **Contact Catalog as a domain catalog (P058):** `[in-progress]` —
   `contact-claim.v1`, `contact-lookup-result.v1`, `contact-request.v1`,
   Solution 025, and the `contact-catalog` capability id are now frozen for
-  MVP; module implementation and Seed Directory advertisement remain to do.
+  MVP; supervised service, local claim admission, public invitation-only
+  lookup, provider cache, sync snapshot, and Seed Directory provider metadata
+  are implemented. Broader federation policy, PSI/blinded lookup, route-set
+  v2, and tombstone/revocation replay remain future layers.
 - **Contact-handle attestation (phone / email) as a capability surface:**
   `[in-progress]` — `phone-control` and `email-control` capability ids are
   registered in the Capability Registry and consumed by Solution 025
@@ -963,9 +980,8 @@ artifact and what is still missing.
   through `memarium.write` with pending replay, FTS5 is rebuilt in
   `reindex`, and contact-lookup-result promotion is wired. Remaining:
   remote Memarium replay in Layer 2 rebuild, sealed vault record
-  replay at startup, full mock-host integration coverage, supervised
-  multi-process cross-node tests, and green Story-010 cross-node
-  delivery acceptance.
+  replay at startup, full mock-host integration coverage, and
+  supervised multi-process cross-node acceptor tests.
 - **Local contact store (raw address book, labels, pairwise nym mappings):**
   `[in-progress]` — Solution 025 Local Contact Store is `partial`: the
   daemon owns `<node-data-dir>/storage/local-contacts.sqlite` and
@@ -977,8 +993,7 @@ artifact and what is still missing.
   records, Seed Directory records, or shared lookup audit. The
   participant-owned `pseudonym-vault.v1` runtime that backs
   cross-restore recovery is `done` (Solution 026); what remains is the
-  local-contacts-side sealed backup / replay wiring. Missing: the
-  `local-contact.v1` schema file at `doc/schemas/`.
+  local-contacts-side sealed backup / replay wiring.
 - **"Nym factory" with role-separated derived keys (signing, DH, sealing) and
   routing-subject vault:** `[in-progress]` — Proposal 059 is Accepted with
   Node MVP runtime implemented; Solution 026 (Pseudonym Vault and Key
@@ -989,10 +1004,11 @@ artifact and what is still missing.
   single-writer latest semantics, role-aware participant recovery bundle,
   wire-privacy invariant enforcement, and MVP-frozen decisions for the
   previously open questions (root-seed materialization, vault shape,
-  wrap derivation, multi-device merge). Still open: `participant/dh`
-  protocol-visible projection decision (P059-015) and the broader
-  signer/sealer capability dispatch projection (P059-012 `partial`).
-  `participant/recovery-wrap` is deferred (P059-006).
+  wrap derivation, multi-device merge, `participant/dh` controlled-direct
+  projection, signer/sealer role-purpose catalog, and
+  `participant/recovery-wrap` local sealed-bundle profile). Post-MVP
+  escrow, social recovery, and hardware custody remain separate future
+  procedures.
 - **`contacts` relationship class (default policy: "may send messages to me")
   kept distinct from `friends`:** `[in-progress]` — model frozen
   (P060-008 `done`) and storage boundary decided (P060-029 `done`):
@@ -1000,9 +1016,8 @@ artifact and what is still missing.
   contacts may project it for UX. `contacts` membership is projected
   from presented receive passports at admission time (P060-009 `partial`).
   Remaining: per-class limit configuration surface beyond passport
-  `limits.*` and full membership-history persistence via Layer 3
-  `contacts.membership-changed.v1` facts (schema `done` per P060-011;
-  runtime writes pending).
+  `limits.*` and sealed-vault startup replay for recovered membership
+  and receive-passport references.
 
 ## Outstanding Features per Subsystem (Path to `[done]`)
 
@@ -1072,11 +1087,6 @@ Still outstanding:
 
 ### Step 3 — outstanding features
 
-- supervised-middleware-form deployment of `contact-catalog-core` +
-  `contact-catalog-service` (current implementation runs daemon-side; the
-  target shape per Solution 025 Notes links `orbiplex-node-catalog`
-  directly inside a separate supervised HTTP middleware) (see:
-  [Proposal 058 Tracking row P058-017](../40-proposals/058-contact-catalog.md))
 - federation / Seed Directory operator policy on top of the existing
   daemon-managed `contact-catalog` passport with `catalog_kind = "contact"`
   (see:
@@ -1085,10 +1095,14 @@ Still outstanding:
   providers, beyond admission-time enforcement and the projection sidecar
   (see:
   [Proposal 058 Tracking row P058-011](../40-proposals/058-contact-catalog.md))
-- broader federation acceptance tests + operator policy UX on top of
-  the now-generic `CatalogAdapter<T, F>` + `sync_catalog_provider(...)`
-  transport-neutral mechanics in `node/catalog` (see:
+- broader federation acceptance tests and durable provider-policy
+  audit / revert history on top of the now-generic `CatalogAdapter<T, F>`
+  + `sync_catalog_provider(...)` transport-neutral mechanics in
+  `node/catalog` (see:
   [Proposal 058 Tracking row P058-018](../40-proposals/058-contact-catalog.md))
+- deeper multi-process contact-request, admission / lookup, and trusted-provider
+  acceptance tests for the supervised Contact Catalog middleware (see:
+  [Proposal 058 Tracking row P058-017](../40-proposals/058-contact-catalog.md))
 - real tombstone / revocation replay contract + incremental cursor
   semantics beyond MVP snapshot high-water + multi-process federation
   acceptance tests for the provider-to-provider sync contract (see:
@@ -1107,33 +1121,24 @@ Already done:
 - outbound queue state machine including `waiting-for-contact-permission`
   and `ready-for-delivery` (P060-010 `done`)
 
-Still outstanding:
-
-- real contact-lookup-result promotion semantics in the outbound queue
-  (P060-013 remaining hardening item)
-- "unknown recipient" warning indicator in compose UI on top of the
-  existing Node UI compose screen (see:
-  [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
+This step is now implemented for the Story-010 path: contact-lookup-result
+promotion is wired in the outbound queue, unknown-recipient warning is shown
+in compose, and the strict two-node smoke covers the shared remote Contact
+Catalog path.
 
 ### Step 5 — outstanding features
 
-- pick and integrate one of two MVP-supported lookup paths in the
-  messaging middleware (no dedicated tracker; covered by messaging
-  middleware solution doc):
-  - (preferred) construct an AD delivery envelope with
-    `selector/kind = "contact-lookup"` and let the daemon host-compose
-    the lookup, normalising the result to a `routing-subject` or `node`
-    target — the AD selector is `done` (see:
-    [Proposal 058 Tracking row P058-019](../40-proposals/058-contact-catalog.md),
-    [Solution 023 §Recipient Selectors](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
-  - (alternative) messaging-middleware-side Contact Catalog client doing
-    Seed Directory provider discovery + authenticated
-    `POST /v1/contact-catalog/lookups` call directly, with handoff to AD
-    via a normal `routing-subject` / `node` selector — the catalog
-    endpoint is `done` (see:
-    [Solution 025 Invitation-Only Lookup](../60-solutions/025-contact-catalog/025-contact-catalog.md))
-- queue state transition wiring driven by the lookup result (depends on
-  Step 4 messaging middleware)
+Already done:
+
+- AD `selector/kind = "contact-lookup"` and the direct messaging-side
+  shared remote Contact Catalog lookup path are both available; strict
+  Story-010 smoke uses the shared remote provider path selected from
+  Seed Directory / provider cache.
+- queue state transition wiring driven by the lookup result is implemented:
+  the outbound queue stores the returned route and promotes the message
+  toward contact permission and delivery.
+
+No outstanding Story-010 item remains for this step.
 
 ### Step 6 — outstanding features
 
@@ -1147,9 +1152,6 @@ Still outstanding:
   [Proposal 058 MVP Decision #6](../40-proposals/058-contact-catalog.md)
   for the TTL recommendation; depends on Cross-Cutting
   contact-handle-attestation block below)
-- route policy default with `privacy = private-direct` for the
-  contact-request route (see:
-  [Solution 023 privacy invariant](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
 
 ### Step 7 — outstanding features
 
@@ -1194,6 +1196,9 @@ Already done:
   vocabulary (P060-004)
 - validation tests cover passport issuance with real participant
   signatures (Solution 025 Contact Request Admission)
+- strict Story-010 smoke covers the response leg through peer-channel
+  `capability.passport.present`; the queued message is delivered only
+  after Daniel's node receives a usable `messaging-receive@v1` passport
 
 Still outstanding:
 
@@ -1201,10 +1206,6 @@ Still outstanding:
   response leg
   (Solution 025 Contact Request Admission `partial` names this as the
   remaining open item; the issuance itself is already wired)
-- INAC/AD outbound carrying the issued passport response under
-  `privacy = private-direct` for the response leg (see:
-  [Solution 017](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md),
-  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
 
 ### Step 9 — outstanding features
 
@@ -1253,9 +1254,6 @@ Still outstanding:
   acceptor (P060-009 remaining hardening)
 - supervised multi-process cross-node tests (P060-009 remaining
   hardening)
-- route policy default with `privacy = private-direct` for the
-  `message-envelope.v1` route (see:
-  [Solution 023 privacy invariant](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
 
 ### Step 11 — outstanding features
 
@@ -1289,9 +1287,9 @@ Still outstanding:
 - remote Memarium replay in Layer 2 rebuild (locally durable Layer 3
   replay from `pending_facts` and FTS5 rebuild are wired; only remote
   Memarium replay remains) (P060-017 `partial`)
-- full mock-host integration coverage, sender-side lookup against the
-  shared remote Contact Catalog provider, and green Story-010
-  cross-node delivery acceptance (P060-013 remaining hardening)
+- full mock-host integration coverage for signer, AD, Memarium,
+  notification, and failure-class matrices (P060-013 remaining
+  hardening)
 
 ### Cross-Cutting Block — INAC + Artifact Delivery transport plane — outstanding features
 
@@ -1305,13 +1303,17 @@ Already done since the first writing of this story:
 - AD `selector/kind = "contact-lookup"` recipient selector kind (see:
   [Proposal 058 Tracking row P058-019](../40-proposals/058-contact-catalog.md),
   [Solution 023 §Recipient Selectors](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+- `inac-peer-artifact:` peer-referenced payload fetch is implemented as
+  a digest-bound host-owned peer artifact cache resolver in Artifact
+  Delivery (see:
+  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
 
 Still outstanding:
 
-- raw binary frame streaming optimization (see:
+- post-MVP INAC stream hardening beyond the implemented
+  `inac.stream.chunk.binary.v1` carrier: explicit abort/control frames
+  or lower-level zero-copy frame split if profiling shows value (see:
   [Solution 017 capability "Binary Frame Streaming"](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md))
-- `inac-peer-artifact:` peer-referenced payload fetch (see:
-  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
 - broader production hardening for AD outbound + inbound paths (see:
   [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
 - messaging-specific acceptors (covered by Step 6 and Step 10 above)
@@ -1340,6 +1342,8 @@ Still outstanding:
 
 ### Cross-Cutting Block — Capability Advertisement of messaging support — outstanding features
 
+Already done:
+
 - `messaging.accept` advertisement entry defined and tied to the
   `messaging-receive` profile (see:
   [Capability Registry](../60-solutions/CAPABILITY-REGISTRY.en.md),
@@ -1366,7 +1370,7 @@ Already done (no further work needed for this story):
   allowlist) (see:
   [Proposal 058 Tracking row P058-005](../40-proposals/058-contact-catalog.md),
   [Solution 025 Contact Claim Admission](../60-solutions/025-contact-catalog/025-contact-catalog.md))
-- first MVP query mode decision: authenticated invitation-only lookup
+- first MVP query mode decision: public invitation-only digest lookup
   (see:
   [Proposal 058 Tracking row P058-007](../40-proposals/058-contact-catalog.md))
 - No-Agora-publication-path decision (see:
@@ -1391,8 +1395,8 @@ Still partial — landed in MVP-shape, hardening or completion remains:
 - privacy-preserving lookup index (invitation-only digest lookup done;
   blinded / PSI deferred) (see:
   [Proposal 058 Tracking row P058-006](../40-proposals/058-contact-catalog.md))
-- local contact store model (`local-contacts.sqlite` + CRUD done;
-  `local-contact.v1` schema file and recovery semantics pending) (see:
+- local contact store model (`local-contacts.sqlite` + CRUD and
+  `local-contact.v1` schema done; sealed vault backup / replay remains) (see:
   [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
 - pairwise contact nym handling (`messaging-receive@v1` scoped to contact
   nym; lifecycle / recovery policy open) (see:
@@ -1412,8 +1416,10 @@ Still partial — landed in MVP-shape, hardening or completion remains:
   [Proposal 058 Tracking row P058-015](../40-proposals/058-contact-catalog.md))
 - Contact Catalog Rust supervised HTTP middleware crate scaffold reusing
   `orbiplex-node-catalog` primitives (`contact-catalog-core` and
-  `contact-catalog-service` crates exist daemon-side; separate
-  supervised-middleware-form deployment remains) (see:
+  `contact-catalog-service` exist with lifecycle, SQLite, lookup,
+  provider cache, daemon-managed runtime, UI, and process smoke; deeper
+  multi-process contact-request / admission / lookup / trusted-provider
+  acceptance remains) (see:
   [Proposal 058 Tracking row P058-017](../40-proposals/058-contact-catalog.md))
 - generalise `node/catalog` `CatalogAdapter` trait over `T: CatalogRecord`
   (`CatalogAdapter<T, F>` with `ObservedRecord<T>` and
@@ -1422,7 +1428,8 @@ Still partial — landed in MVP-shape, hardening or completion remains:
   `sync_catalog_provider(...)` as transport-neutral fetch / validate /
   merge / count; `RemoteContactCatalogHttpAdapter` plus generic sync
   refreshes trusted providers into a sidecar remote claim cache; full
-  federation acceptance tests + operator policy UX open) (see:
+  federation acceptance tests and durable provider-policy audit / revert
+  history remain open) (see:
   [Proposal 058 Tracking row P058-018](../40-proposals/058-contact-catalog.md))
 - provider-to-provider Contact Catalog sync contract without Agora —
   authenticated `GET /v1/contact-catalog/sync/claims` snapshot fetch,
@@ -1469,8 +1476,9 @@ Still outstanding:
 
 Proposal 060 is Draft with most MVP decisions frozen; Solution 027
 (Messaging Middleware, `partial`) realises the runtime with eight
-`must-implement` capabilities, two of which are now `done`
-(`messaging-receive-passport-profile` and `messaging-node-ui`) and six
+`must-implement` capabilities, three of which are now `done`
+(`messaging-receive-passport-profile`, `outbound-contact-and-delivery`,
+and `messaging-node-ui`) and five
 `partial`.
 
 Already done:
@@ -1496,10 +1504,12 @@ Already done:
   construction + supervised Contact Catalog admission (P060-033 `done`)
 - Story-010 two-node acceptance scaffold including `story-smoke` and
   self-contained `ad-smoke` for the Seed Directory + Attestation
-  Service + Contact Catalog + Messaging topology; the smoke now covers
-  attestation challenge/redeem, contactability publish, supervised
-  Contact Catalog admission, and lookup before reporting the current
-  sender-side shared-catalog lookup boundary (P060-035 `done`)
+  Service + Contact Catalog + Messaging topology; strict `ad-smoke`
+  now covers attestation challenge/redeem, contactability publish,
+  supervised Contact Catalog admission, shared lookup, contact request
+  delivery, operator accept, `messaging-receive@v1` passport handoff,
+  private-direct `message-envelope.v1` delivery, and delivered
+  inbox/outbox state (P060-035 `done`)
 - signer-derived sender identity + Pseudonym Vault reply-route
   creation for contact requests (P060-013 evidence)
 - kind-specific Layer 3 fact artifacts written through `memarium.write`
@@ -1520,10 +1530,9 @@ Still outstanding:
   replay + FTS5 rebuild already implemented) (P060-017 remaining)
 - sealed Pseudonym Vault record replay at startup (local recovery
   mirror table persists records; vault replay remains) (P060-016)
-- full mock-host integration coverage, sender-side lookup against the
-  shared remote Contact Catalog provider instead of requiring a local
-  `contact-catalog-service`, and green Story-010 cross-node delivery
-  acceptance (P060-013 remaining hardening)
+- full mock-host integration coverage for signer, AD, Memarium,
+  notification, and failure-class matrices (P060-013 remaining
+  hardening)
 - supervised multi-process cross-node messaging-acceptor tests
   (P060-009 remaining hardening)
 - Seed Directory advertisement of `role/email-attestation` /
@@ -1551,9 +1560,6 @@ Already done:
 
 Still outstanding:
 
-- `local-contact.v1` schema file at `doc/schemas/` (referenced by
-  Solution 025 but file not yet present; the DB schema in
-  `local-contacts.sqlite` is currently the only structural enforcement)
 - sealed Pseudonym Vault backup / replay for `local-contacts.sqlite`
   rows and pairwise nym mappings (vault runtime itself is `done` per
   P059-010 / Solution 026; the local-contacts-side mirror remains)
@@ -1588,36 +1594,28 @@ Already done (no further work needed for this story):
   [Proposal 059 Tracking row P059-010](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 - role-aware participant recovery bundle (see:
   [Proposal 059 Tracking row P059-011](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+- explicit signer / sealer purpose labels for the new participant roles
+  in capability surfaces (see:
+  [Proposal 059 Tracking row P059-012](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 - schema-gate policy preventing accidental
   participant-recovery-recipient leakage in pseudonymous envelopes
   (see:
   [Proposal 059 Tracking row P059-013](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 - explicit `route:` vs `routing:did:key:...` boundary tests (see:
   [Proposal 059 Tracking row P059-014](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+- `participant/dh` protocol-visible projection decision: controlled-direct
+  / local-only, with no standing public discovery artifact (see:
+  [Proposal 059 Tracking row P059-015](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 - MVP decisions frozen for previously open questions: root-seed
   materialization implicit (P059-016), minimal vault shape ciphertext-only
   (P059-017), vault wrap derived from root only (P059-018), no multi-device
   merge in MVP (P059-019)
-
-Still partial — landed in MVP-shape, hardening or completion remains:
-
-- explicit signer / sealer purpose labels for the new participant roles
-  in capability surfaces (role-purpose labels explicit in Node
-  crypto/identity; broader signer/sealer capability dispatch projection
-  remains) (see:
-  [Proposal 059 Tracking row P059-012](../40-proposals/059-participant-and-nym-key-role-derivation.md))
-
-Still outstanding (design decision):
-
-- `participant/dh` protocol-visible projection decision — publicly
-  discoverable vs controlled-direct only (see:
-  [Proposal 059 Tracking row P059-015](../40-proposals/059-participant-and-nym-key-role-derivation.md))
-
-Out of scope (deferred):
-
-- `participant/recovery-wrap` role for escrow / recovery-bundle wrap
+- `participant/recovery-wrap` local sealed-bundle profile; escrow,
+  social recovery, and hardware custody are separate future procedures
   (see:
   [Proposal 059 Tracking row P059-006](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+
+No outstanding Story-010 item remains for the nym/key-role layer.
 
 ### Cross-Cutting Block — `contacts` relationship class — outstanding features
 
@@ -1639,9 +1637,6 @@ Still outstanding:
 
 - per-class limit configuration surface beyond passport `limits.*`
   (rate, size, sender allow/deny overrides) (no dedicated tracker)
-- full membership-history persistence via Layer 3
-  `contacts.membership-changed.v1` runtime writes (schema `done` per
-  P060-011; runtime writes pending P060-013 remaining hardening)
 - messaging-side integration with the now-implemented vault runtime
   for persisting membership changes per Step 9 (vault runtime itself is
   `done`; see:

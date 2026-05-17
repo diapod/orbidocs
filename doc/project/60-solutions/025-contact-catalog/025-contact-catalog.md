@@ -111,10 +111,10 @@ Responsibilities:
 
 Status:
 
-- `done` — Node `contact-catalog-service` exposes authenticated invitation-only
+- `done` — Node `contact-catalog-service` exposes public invitation-only
   `POST /v1/contact-catalog/lookups`, returns `contact-lookup-result.v1`, rate
-  limits by auth fingerprint + digest + purpose, rejects raw handle-like lookup
-  inputs, writes redacted lookup audit without raw query values or root
+  limits by client fingerprint + digest + purpose, rejects raw handle-like
+  lookup inputs, writes redacted lookup audit without raw query values or root
   participant ids, and exposes redacted counters/recent policy events in service
   status. The daemon owns an opt-in supervised runtime on stable loopback and a
   `/v1/contact-catalog/status` proxy; a process smoke starts the real service
@@ -255,7 +255,7 @@ Related schemas:
 
 Responsibilities:
 
-- replace or supplement authenticated invitation-only lookup with stronger
+- replace or supplement public invitation-only digest lookup with stronger
   private discovery profiles once the cryptographic protocol is selected;
 - keep the result artifact stable so clients do not depend on the lookup
   protocol internals.

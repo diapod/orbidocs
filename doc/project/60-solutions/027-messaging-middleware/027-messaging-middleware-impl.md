@@ -108,5 +108,7 @@ Additional hardening now covered by focused tests:
   `contact-attestation-request.v1`, and `contact-attestation-result.v1` at the
   intended local import/export and ingress/egress boundaries;
 - Story-010 has a two-node profile and launcher scaffold under
-  `node/tools/acceptance/story-010-operator/`; this is not yet a green E2E
-  smoke driver.
+  `node/tools/acceptance/story-010-operator/`; strict `ad-smoke` now covers
+  attestation, contactability publish, shared Contact Catalog lookup, contact
+  request acceptance, `messaging-receive@v1` passport handoff, private-direct
+  message delivery, and delivered inbox/outbox state.

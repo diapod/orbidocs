@@ -39,9 +39,9 @@
    :schemas ["contact-lookup-result.v1"
              "routing-subject-binding.v1"]
    :responsibilities
-   ["Expose authenticated POST /v1/contact-catalog/lookups"
-    "Require authenticated callers and rate limits before lookup execution"
-    "Rate limit by auth fingerprint, contact-index digest, and purpose"
+   ["Expose public invitation-only POST /v1/contact-catalog/lookups"
+    "Keep admin and provider-sync surfaces authenticated while allowing remote senders to perform digest lookup"
+    "Rate limit by client fingerprint, contact-index digest, and purpose"
     "Reject raw handle-like lookup inputs"
     "Return contact-lookup-result.v1 as a route candidate or invitation-required result"
     "Prefer routing-subject, contact-nym, or invitation routes and never return root participant ids by default"
@@ -159,7 +159,7 @@
   "Redacted audit facts about admission, lookup, no-match, acceptance, and rejection"]
 
  :notes
- ["MVP lookup mode is authenticated invitation-only with strict rate limiting."
+ ["MVP lookup mode is public invitation-only digest lookup with strict rate limiting and redacted audit."
   "Raw external handles belong in the daemon-local contact store, not in network catalog records."
   "Contact-control proves control of a contact channel, not full identity assurance."
   "Contact Catalog MVP is implemented without Agora as a publication or relay dependency."

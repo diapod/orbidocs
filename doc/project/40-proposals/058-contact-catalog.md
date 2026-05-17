@@ -117,9 +117,10 @@ These decisions define the first implementation contract. They are deliberately
 conservative; stronger private-discovery protocols can replace the lookup edge
 later without changing the high-level Contact Catalog boundary.
 
-1. **Lookup mode:** MVP Contact Catalog uses authenticated invitation-only
-   lookup with strict rate limiting. A successful lookup returns a route
-   candidate or invitation-required result, not the owner identity.
+1. **Lookup mode:** MVP Contact Catalog uses public invitation-only digest
+   lookup with strict rate limiting and redacted audit. Admin/sync surfaces
+   remain authenticated. A successful lookup returns a route candidate or
+   invitation-required result, not the owner identity.
 2. **Capability id:** `contact-catalog` is a standalone domain capability id
    with wire name `role/contact-catalog`.
 3. **Contact-control proof ids:** `email-control` and `phone-control` are
@@ -838,8 +839,8 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-003 | `contact-catalog` capability id and minimal profile registered in the Capability Registry | done | `contact-catalog` is registered in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md` / `.pl.md` with wire name `role/contact-catalog`. |
 | P058-004 | `catalog_kind: contact` registration through the existing `catalog_endpoints` plug-in pattern | partial | Node `contact-catalog-service` now issues a daemon-managed `contact-catalog` passport with `catalog_kind = "contact"`, `catalog_endpoints`, `lookup_modes = ["invitation-only"]`, and publishes it through the daemon host capability path when daemon-managed. Daemon `/v1/contact-catalog/status` proxies service state for UI/operator flows. Full federation/Seed Directory operator UX remains open. |
 | P058-005 | Contact Catalog admission policy (attestation freshness, signature, expiry, purpose allowlist, TTL recommendation) | done | Node `contact-catalog-core` validates `contact-claim.v1`, verifies participant/delegated participant claim signatures, rejects node-only signatures, requires first-class `email-control@v1` / `phone-control@v1` `capability-passport.v1` profiles, checks passport signatures, expiry, profile match, and revocation freshness. |
-| P058-006 | Privacy-preserving lookup index implementation (normalized or blinded) | partial | Node `contact-catalog-service` exposes authenticated `POST /v1/contact-catalog/lookups` for keyed/digest invitation-only lookup, rejects raw handle-like inputs, returns `contact-lookup-result.v1`, and rate-limits by token fingerprint + digest + purpose. Stronger blinded/PSI profiles are deferred. |
-| P058-007 | First MVP query mode decision (authenticated exact / invitation-only / blinded digest) | done | MVP is authenticated invitation-only lookup with strict rate limiting. |
+| P058-006 | Privacy-preserving lookup index implementation (normalized or blinded) | partial | Node `contact-catalog-service` exposes public `POST /v1/contact-catalog/lookups` for keyed/digest invitation-only lookup, rejects raw handle-like inputs, returns `contact-lookup-result.v1`, and rate-limits by client fingerprint + digest + purpose. Admin/sync surfaces remain authenticated. Stronger blinded/PSI profiles are deferred. |
+| P058-007 | First MVP query mode decision (exact / invitation-only / blinded digest) | done | MVP is public invitation-only digest lookup with strict rate limiting and redacted audit; authentication remains required for admin/sync surfaces, not for remote sender lookup. |
 | P058-008 | Local contact store model (raw handles, labels, pairwise nym mappings, never-published-by-default) | partial | Node daemon now owns `<node-data-dir>/storage/local-contacts.sqlite` and exposes local operator/control API routes `GET/POST/PATCH/DELETE /v1/local-contacts...` plus handle resolution. Records carry compatible `label`, explicit `labels[]`, `metadata {}`, UX/provenance fields, and pairwise nym pointers; `local_contact_pairwise_mappings` records active/rotated/revoked/archived lifecycle. Raw handles stay in the daemon-local store and are not used in Contact Catalog claims, lookup responses, Seed Directory records, or shared lookup audit. Sealed vault backup/replay remains follow-up. |
 | P058-009 | Pairwise contact nym handling for one-to-one relationships | partial | `contact-request.v1` acceptance creates a deterministic local `contact-nym:*` mapping and scopes `messaging-receive@v1` to that local nym, sender, route, request and purpose. Broader nym lifecycle/recovery policy remains open. |
 | P058-010 | Routing-subject / contact-nym as default lookup result (never root participant by default), with multi-route support | partial | Lookup MVP prefers `owner/routing-subject-id`, then `owner/contact-nym-id`, then `owner/invitation-route`, and never returns `owner/participant-id`. Multi-route result sets remain deferred to additional claims or a future v2 route set. |
