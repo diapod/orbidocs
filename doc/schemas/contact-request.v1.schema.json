@@ -18,7 +18,6 @@
     "request/id",
     "request/kind",
     "sender/subject",
-    "recipient/route",
     "requested/capability-id",
     "requested/purposes",
     "issued/at",
@@ -57,7 +56,8 @@
       "$ref": "#/$defs/subject"
     },
     "recipient/route": {
-      "$ref": "#/$defs/subject"
+      "$ref": "#/$defs/subject",
+      "description": "Optional explicit recipient route. Contact Catalog lookup deliveries MAY omit it; the receiving node then binds the request to the local node-id selected by the delivery route."
     },
     "recipient/public-handle-ref": {
       "type": "string",

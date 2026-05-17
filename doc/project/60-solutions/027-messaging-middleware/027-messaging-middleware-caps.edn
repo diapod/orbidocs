@@ -1,0 +1,168 @@
+{:component/id :orbiplex/messaging-middleware
+ :component/title "Messaging Middleware"
+ :component/type :node-attached-runtime
+ :component/status :partial
+
+ :summary
+ "Node-attached personal messaging runtime for Proposal 060: inbound
+ message-envelope.v1 admission, outbound contact permission and private-direct
+ delivery, messaging-receive@v1 receive-consent passports, Maildir plus SQLite
+ mailbox state, bounded Memarium facts, Pseudonym Vault recovery records, and a
+ thin Node UI. Body encryption, group messaging, and multi-device read sync are
+ post-MVP."
+
+ :must-implement
+ [{:cap/id :messaging-receive-passport-profile
+   :title "messaging-receive@v1 Passport Profile"
+   :kind :capability
+   :based-on ["doc/project/40-proposals/060-messaging-middleware.md"
+              "doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md"]
+   :schemas ["capability-passport.v1"]
+   :responsibilities
+   ["Use capability id messaging-receive and canonical grant messaging/receive"
+    "Use the existing MessagingReceiveProfileV1 shape from node/capability"
+    "Scope receive consent by request/id, sender subjects, recipient routes, contact nym id, purposes, revocation freshness, and optional limits"
+    "Default max revocation staleness to 300 seconds"
+    "Reject alternate messaging receive profile shapes"]
+   :status :partial}
+
+  {:cap/id :messaging-service-runtime
+   :title "Supervised Messaging Service"
+   :kind :service
+   :based-on ["doc/project/40-proposals/060-messaging-middleware.md"]
+   :schemas ["message-envelope.v1"]
+   :responsibilities
+   ["Expose authenticated status, inbound accept, outbound queue, mailbox, message, retry, process, pending-fact replay, retention, crisis, and reindex endpoints"
+    "Store Layer 1 message bodies in Maildir and Layer 2 indexes in SQLite"
+    "Keep outbound bodies as Maildir draft records instead of long SQLite text"
+    "Use PRAGMA user_version migrations for storage evolution"
+    "Stay disabled by default in bundled daemon config"]
+   :status :partial}
+
+  {:cap/id :outbound-contact-and-delivery
+   :title "Outbound Contact Permission and Delivery"
+   :kind :workflow
+   :based-on ["doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+              "doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md"]
+   :schemas ["contact-request.v1"
+             "artifact-delivery-envelope.v1"
+             "message-envelope.v1"]
+   :responsibilities
+   ["Send signed contact-request.v1 artifacts through contact lookup for recipient handles"
+    "Derive sender participant identity from host signer key material rather than service-local placeholders"
+    "Create a fresh daemon-owned routing-subject reply route for contact requests"
+    "Wait for capability.passport.lookup to return a usable messaging-receive passport"
+    "Sign outbound message-envelope.v1 artifacts through signer.sign under signing/messaging-send"
+    "Deliver ready messages through artifact.delivery.send as private-direct"
+    "Retry transient host failures and terminally fail schema, conflict, or scope refusals"]
+   :status :partial}
+
+  {:cap/id :inbound-policy-and-mailbox-resolution
+   :title "Inbound Policy and Mailbox Resolution"
+   :kind :policy
+   :based-on ["doc/project/40-proposals/060-messaging-middleware.md"]
+   :schemas ["message-envelope.v1"
+             "local-recipient-mailbox-resolve.v1"]
+   :responsibilities
+   ["Always call local-recipient-mailbox.resolve before persistence"
+    "Enforce passport_matches_message for presented messaging-receive passports"
+    "Enforce active contacts membership or first valid accepted-contact-request passport"
+    "Refuse missing consent as contacts-policy-denied without sender-visible mailbox oracle"
+    "Fallback node-id or routing-subject messages without local evidence to the operator mailbox"]
+   :status :partial}
+
+  {:cap/id :local-participant-handle-ownership
+   :title "Local Participant Handle Ownership"
+   :kind :authority
+   :based-on ["doc/project/40-proposals/060-messaging-middleware.md"
+              "doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md"]
+   :schemas ["local-recipient-mailbox-resolve.v1"]
+   :responsibilities
+   ["Store local participant public-handle ownership separately from address-book contacts"
+    "Track handle kind, handle digest, participant id, evidence ref, evidence status, and timestamps"
+    "Expose daemon control endpoints to list, add, and delete local participant handles"
+    "Return verified only for fresh contact-control evidence and mapped for ordinary local projections"]
+   :status :partial}
+
+  {:cap/id :layer-three-facts-and-recovery
+   :title "Layer 3 Facts and Recovery"
+   :kind :recovery
+   :based-on ["doc/project/60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md"]
+   :schemas ["contacts.membership-changed.v1"
+             "messaging.passport-issued.v1"
+             "messaging.passport-revoked.v1"
+             "messaging.retention-decided.v1"
+             "messaging.crisis-marked.v1"]
+   :responsibilities
+   ["Write bounded messaging facts through memarium.write"
+    "Store failed fact writes in pending_facts and expose degraded status"
+    "Replay pending facts idempotently"
+    "Mirror contacts membership and receive-passport references through identity.messaging-recovery.mirror"
+    "Persist accepted recovery mirror records in the daemon-local durable mirror table until sealed Pseudonym Vault replay is added"
+    "Reindex SQLite from Maildir and Layer 3 facts"]
+   :status :partial}
+
+  {:cap/id :messaging-node-ui
+   :title "Node UI Messaging Surface"
+   :kind :ui
+   :based-on ["doc/project/40-proposals/060-messaging-middleware.md"]
+   :schemas []
+   :responsibilities
+   ["Expose /admin/messaging for status, compose, inbox, outbox, message detail, pending facts, and recovery diagnostics"
+    "Use daemon-proxied /v1/messaging/* APIs rather than duplicating domain logic"
+    "Handle mailbox.open notification actions by opening message detail without mutating consent state"]
+   :status :partial}]
+
+ :may-implement
+ [{:cap/id :html-message-rendering
+   :title "HTML Message Rendering"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/060-messaging-middleware.md"]
+   :schemas ["message-envelope.v1"]
+   :responsibilities
+   ["Render sanitized HTML body parts after the text/plain MVP is stable"
+    "Keep active content disabled by default"
+    "Expose operator-visible source/preview switching"]
+   :status :deferred}
+
+  {:cap/id :group-messaging
+   :title "Group Messaging"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/060-messaging-middleware.md"]
+   :schemas []
+   :responsibilities
+   ["Design fan-out, group consent, and shared conversation state separately from the one-to-one MVP"
+    "Avoid overloading messaging-receive@v1 with group semantics"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Body encryption in the first MVP+ slice"
+  "HTML rendering and active content"
+  "Group messaging, CC, or BCC"
+  "Cross-device read/unread sync"
+  "Full multi-device Pseudonym Vault merge"]
+
+ :consumes
+ ["message-envelope.v1 artifacts"
+  "contact-request.v1 artifacts"
+  "messaging-receive capability passports"
+  "Artifact Delivery private-direct and contact lookup send requests"
+  "local participant public-handle evidence"
+  "Memarium write capability"
+  "Pseudonym Vault recovery mirror capability"]
+
+ :produces
+ ["Maildir message and draft files"
+  "SQLite mailbox and outbox indexes"
+  "contacts.membership-changed.v1 facts"
+  "messaging.passport-issued.v1 facts"
+  "messaging.passport-revoked.v1 facts"
+  "messaging.retention-decided.v1 facts"
+  "messaging.crisis-marked.v1 facts"
+  "operator notifications with mailbox.open actions"
+  "private recovery records for contacts membership and receive-passport refs"]
+
+ :notes
+ ["The messaging service owns messaging consent state; the daemon owns authority, signing, and private identity evidence."
+  "No generic messaging.fact.v1 wire artifact is introduced in the MVP."
+  "The local participant-handle store is separate from address-book contacts to avoid treating UX labels as consent authority."]}

@@ -618,25 +618,21 @@ new message.
 
 ## Open Continuation
 
-- Implement the concrete `messaging-receive` passport profile, including the
-  `scope.receiver` / `scope.sender` / `scope.public_handle` field shapes.
-- Define the `message-envelope.v1` artifact.
-- Define the attestation-service capability id used in Step 2 and the concrete
-  OTP/link request and return contracts.
-- Specify the messaging-middleware-side Contact Catalog client (Seed
-  Directory provider discovery → authenticated
-  `POST /v1/contact-catalog/lookups` → `contact-lookup-result.v1` handling
-  → handoff to AD as a normal `routing-subject` / `node` selector).
-- Specify the host-capability surface for "look up a usable passport for this
-  outbound message" (`capability.passport.lookup`-style), since today the
-  middleware host bridge exposes issue but not best-match lookup.
-- Define Layer 2 (operational SQLite index) repair rules so the index can be
-  fully rebuilt from Layer 1 Maildir bodies plus the Layer 3 Memarium
-  messaging-fact stream, with no dependency on prior index state.
-- Enumerate the concrete Layer 3 messaging-fact kinds (membership change,
-  passport issuance/revocation, classification decision, retention
-  decision, crisis-space mark) and register them with Memarium's fact
-  surface.
+- Define the attestation-service capability id used in Step 2
+  (`email-attestation` / `phone-attestation`) and the concrete OTP/link
+  request and return contracts.
+- Promote `capability.passport.lookup` documentation into Solution 019
+  Host Capability Bridge (the daemon endpoint already exists; what
+  remains is naming it as a stable middleware contract).
+- Complete Layer 2 SQLite operational index rebuild semantics
+  (replay-from-Layer-3 path + FTS5 rebuild; current `reindex` walks
+  Maildir but does not yet replay Layer 3 facts).
+- Wire receiver-side revocation-view enforcement and supervised
+  multi-process cross-node Artifact Delivery tests for the messaging
+  acceptor.
+- Persist full vault records (not just mirror calls) and replay them on
+  startup so a fresh node restored from mnemonic rehydrates `contacts`
+  membership and issued `messaging-receive@v1` passports.
 
 ## Implementation Coverage
 
@@ -707,18 +703,19 @@ artifact and what is still missing.
     `CatalogAdapter<T, F>` (P058-018 `partial`).
 
 - **Step 4 — Daniel composes a message by email address (compose UI + outbound
-  queue):** `[todo]`
-  - Closest artifacts: the `core/messaging` capability in the Capability
-    Registry is the baseline encrypted peer-session surface, **not** an
-    application-level messaging middleware; INAC (`partial`) and Artifact
-    Delivery (`partial`) own transport, not message UX; Solution 019
-    (`Orbiplex Middleware`, `done`) provides the supervised-middleware
-    plumbing on which a future messaging-middleware module would attach
-    (claimed routes, host capability bridge, lifecycle, module reporting).
-  - Missing: messaging middleware module (compose form, recipient parsing,
-    local outbound queue with `waiting-for-contact-permission` /
-    `ready-for-delivery` states), and the "unknown recipient" warning
-    indicator.
+  queue):** `[in-progress]`
+  - Closest artifacts: Solution 027 (Messaging Middleware) exists
+    with component status `partial`; Node has `messaging-core` and
+    `messaging-service` crates implementing outbound enqueue / outbox /
+    retry / process, Maildir message and draft storage, and signed
+    `message-envelope.v1` private-direct delivery. Node UI exposes
+    `/admin/messaging` compose, status, inbox, outbox, diagnostics, and
+    message detail (P060-015 `done`). Solution 019 (`Orbiplex
+    Middleware`, `done`) provides the hosting plane.
+  - Missing: real contact-lookup-result promotion semantics in the
+    outbound queue (the queue exists; the "unknown recipient" warning +
+    state machine wiring against actual lookup results is part of
+    P060-013 remaining hardening).
 
 - **Step 5 — Daniel's middleware resolves the contact route:** `[in-progress]`
   - Closest artifacts: Solution 025 Invitation-Only Lookup is `done` —
@@ -783,11 +780,13 @@ artifact and what is still missing.
     minting authority, and validation tests cover real participant
     signatures plus redacted notification wording — the
     messaging-action-issues-passport wiring is no longer hypothetical.
+  - Additional landed evidence: P060-014 `done` — `mailbox.open`
+    notification action target is wired through a host-owned action
+    target; Node UI exposes message detail at
+    `/admin/messaging/messages/{message_id}`.
   - Missing: supervised multi-process AD accept/reject tests (Solution
-    025 names this as the remaining open item), broader user-facing UX
-    polish around the contact-request detail view, and promotion of
-    P057-009 (inline action execution) from `partial` to `done` for the
-    messaging-action class.
+    025 names this as the remaining open item) and broader user-facing
+    UX polish.
 
 - **Step 8 — Marcin's node issues a messaging passport:** `[in-progress]`
   - Closest artifacts: `capability-passport.v1`, Capability Binding (`done`),
@@ -799,62 +798,78 @@ artifact and what is still missing.
     request, sender, recipient route, contact nym, purpose, expiry, and
     revocation reference; validation tests cover issuance with real
     participant signatures.
-  - Newly frozen contracts: `messaging-receive` capability id, Proposal
-    058 MVP Decision #4 (the registry-safe bare id supersedes
-    story-local `messaging.receive@v1` spelling), and Proposal 058 MVP
-    Decision #8 (pairwise contact nyms as default).
-  - Missing: a `key-delegation.v1` grant label scoping delegated messaging
-    signing (so Daniel's nym-rotation continuity uses the existing inline
-    `DelegationProof` path without a bespoke renewal flow), and supervised
-    multi-process AD transport tests for the issuance response leg.
+  - Newly frozen contracts: `messaging-receive` capability id, the
+    `messaging-receive@v1` passport profile (P060-002 `done` — canonical
+    `MessagingReceiveProfileV1` with `request/id`, `sender_subjects`,
+    `recipient_routes`, `contact_nym_id`, `purposes`, default
+    revocation freshness 300 s), `messaging-send` capability id
+    (P060-003 `done`), and the `signing/messaging-send` grant label in
+    `key-delegation.v1` vocabulary (P060-004 `done`) — Daniel's
+    nym-rotation continuity uses the existing inline `DelegationProof`
+    path without a bespoke renewal flow.
+  - Missing: supervised multi-process AD transport tests for the
+    issuance response leg.
 
-- **Step 9 — Daniel's node attaches the passport to queued messages:** `[todo]`
+- **Step 9 — Daniel's node attaches the passport to queued messages:** `[in-progress]`
   - Closest artifacts: the daemon already has `PassportCache` and
-    `DelegationCache` with background sync (`done`); INAC/AD already accept
-    inline passports under `authorization`; the participant-owned vault
-    recovery story is now real — Solution 026 (Pseudonym Vault and Key
-    Roles, `partial`) implements `pseudonym-vault.v1` runtime,
-    role-aware recovery bundles, and single-writer latest snapshot
-    semantics; P059 is Accepted with Node MVP runtime implemented
-    (P059-009, P059-010, P059-011 all `done`).
-  - Missing: messaging middleware outbound-queue scanner, a host capability
-    surface for best-match passport lookup
-    (`capability.passport.lookup`-style — the middleware bridge currently
-    exposes issue but not lookup), attach-and-rescan on passport arrival,
-    queue state transition to `ready-for-delivery`, and the messaging
-    middleware integration with Solution 026 to persist `contacts`
-    membership through the vault runtime.
+    `DelegationCache` with background sync (`done`); INAC/AD already
+    accept inline passports under `authorization`; Solution 026
+    (Pseudonym Vault and Key Roles, `partial`) implements
+    `pseudonym-vault.v1` runtime, role-aware recovery bundles, and
+    single-writer latest snapshot semantics. Solution 027 messaging
+    service has passport lookup promotion in the outbound queue
+    (P060-013 `partial`), and the daemon exposes the
+    `capability.passport.lookup` host capability with
+    `capability-passport-lookup.v1` validation, multi-passport
+    `PassportCache` scan, revoked filtering, and usable/refused states
+    (P060-012 `partial`). Vault recovery mirror is wired through
+    `identity.messaging-recovery.mirror` (P060-016 `partial`).
+  - Missing: full vault record persistence (not just mirror calls) and
+    startup replay, plus updating Solution 019 docs to formalise the
+    `capability.passport.lookup` host capability contract.
 
 - **Step 10 — Daniel sends the message; Marcin's node verifies before
   middleware:** `[in-progress]`
-  - Closest artifacts: four of the seven story-level checks are already
+  - Closest artifacts: four of the seven story-level checks are
     enforced by shared infrastructure — Capability Binding passport
     sig/expiry/revocation pipeline (`done`), TLS Trust Policy peer-dial
     evidence (`mvp-ready`), and AD/INAC route policy + receiver-side
-    budgets (`partial`); only sender/receiver/public-handle scope match and
-    the `contacts`-class policy belong to the messaging acceptor itself.
-    AD single-owner inbound admission (`partial`) is the dispatch surface
-    the acceptor will register through.
-  - Missing: `message-envelope.v1` artifact schema, the messaging acceptor
-    registered via `artifact_delivery_acceptors.supervised_http` /
-    `in_process` / `json_e_flow`, and the three messaging-specific scope
-    checks plus the `contacts`-policy gate inside it.
+    budgets (`partial`). The remaining three checks plus the
+    `contacts`-class policy gate now live in the messaging service:
+    Solution 027 messaging service exposes
+    `POST /v1/artifact-delivery/accept` with schema/domain validation,
+    digest idempotency, Maildir + SQLite writes, passport scope
+    matching, `contacts` membership projection from presented receive
+    passports, and a generic `contacts-policy-denied` refusal class
+    (P060-009 `partial`). `message-envelope.v1` schema, examples,
+    Node protocol mirror, and `schema-gate` validators all exist
+    (P060-001 `done`). The acceptor also calls the new
+    `local-recipient-mailbox.resolve` host capability (P060-032 `done`)
+    for mailbox routing.
+  - Missing: full receiver-side revocation-view integration and broader
+    supervised multi-process cross-node tests (these are the explicit
+    P060-009 remaining hardening items).
 
-- **Step 11 — Marcin's middleware stores the message:** `[todo]`
-  - Closest artifacts: AD single-owner acceptor dispatch (`partial`) is the
-    intended hand-off point; notification infrastructure (P057) can announce
-    arrival; Memarium owns the Layer 3 fact surface
-    (`Memarium Host Capability API` — `partial`,
-    `Classification Policy Facts` — `partial`); two of the five planned
-    Layer 3 fact kinds already have frozen contracts on the Memarium side —
+- **Step 11 — Marcin's middleware stores the message:** `[in-progress]`
+  - Closest artifacts: Solution 027 messaging service has the full
+    stratified-storage spine in place — Maildir message and draft
+    storage, SQLite with `PRAGMA user_version` migrations, retention
+    and crisis fact endpoints, pending Memarium facts, and reindex
+    (P060-013 `partial`). All five Layer 3 fact schemas exist with
+    examples, Node protocol mirror, and `schema-gate` export
+    validators (P060-011 `done`). Two of the five Layer 3 fact kinds
+    additionally have Memarium-side contracts —
     `classification.v1` (Classification Label Contract — `done`) and
-    crisis-space marks (Memarium Crisis Space Loop — `done`).
-  - Missing: messaging middleware itself, Layer 1 Maildir body store, Layer
-    2 middleware-owned SQLite operational index with a documented
-    rebuild-from-Layer-1+Layer-3 procedure, the three remaining Layer 3
-    messaging-fact kinds (membership change, passport
-    issuance/revocation, retention decision) registered with Memarium, the
-    inbox projection, and the "open in mailbox view" notification target.
+    crisis-space marks (Memarium Crisis Space Loop — `done`). The
+    `mailbox.open` notification action target is wired
+    (P060-014 `done`); operator UI exposes the full mailbox surface
+    (P060-015 `done`).
+  - Missing: full Layer 3 replay path for Layer 2 rebuild + FTS5
+    rebuild (current `reindex` walks Maildir but does not yet replay
+    Layer 3 facts); runtime Memarium writes promotion from
+    pending-facts to durable Memarium records (the fact endpoints
+    exist; the actual Memarium write call is pending P060-013
+    remaining work).
 
 ### Cross-Cutting Building Blocks
 
@@ -894,11 +909,19 @@ artifact and what is still missing.
   attestation-service capability remain to do.
 - **Messaging middleware with stratified storage (compose, outbound queue,
   Layer 1 Maildir bodies, Layer 2 middleware-owned SQLite index, Layer 3
-  Memarium messaging facts, mailbox view):** `[todo]` — the only existing
-  "messaging" identifier is the `core/messaging` transport-baseline
-  capability, which is not an application middleware; Memarium provides the
-  fact surface for Layer 3 (`Memarium Host Capability API` is `partial`)
-  but the messaging fact kinds are not yet enumerated.
+  Memarium messaging facts, mailbox view):** `[in-progress]` — Proposal
+  060 is Draft with most MVP decisions frozen; Solution 027 (Messaging
+  Middleware, `partial`) realises the runtime with seven `partial`
+  must-implement capabilities (`messaging-receive-passport-profile`,
+  `messaging-service-runtime`, `outbound-contact-and-delivery`,
+  `inbound-policy-and-mailbox-resolution`,
+  `local-participant-handle-ownership`, `layer-three-facts-and-recovery`,
+  `messaging-node-ui`). Node has `messaging-core` and `messaging-service`
+  crates. All five Layer 3 fact kinds have frozen schemas with examples
+  and validators. Remaining: full Layer 3 runtime writes, Layer 2
+  rebuild from Layer 3, full vault record persistence, supervised
+  multi-process cross-node tests, FTS5 rebuild, real
+  contact-lookup-result promotion semantics.
 - **Local contact store (raw address book, labels, pairwise nym mappings):**
   `[in-progress]` — Solution 025 Local Contact Store is `partial`: the
   daemon owns `<node-data-dir>/storage/local-contacts.sqlite` and exposes
@@ -925,10 +948,15 @@ artifact and what is still missing.
   signer/sealer capability dispatch projection (P059-012 `partial`).
   `participant/recovery-wrap` is deferred (P059-006).
 - **`contacts` relationship class (default policy: "may send messages to me")
-  kept distinct from `friends`:** `[todo]` — no relationship-class model
-  exists yet at the middleware admission boundary; the messaging middleware
-  needs a local `contacts` set whose membership is what the
-  `messaging-receive` passport effectively encodes for the receiver side.
+  kept distinct from `friends`:** `[in-progress]` — model frozen
+  (P060-008 `done`) and storage boundary decided (P060-029 `done`):
+  messaging service owns canonical receive-consent membership; local
+  contacts may project it for UX. `contacts` membership is projected
+  from presented receive passports at admission time (P060-009 `partial`).
+  Remaining: per-class limit configuration surface beyond passport
+  `limits.*` and full membership-history persistence via Layer 3
+  `contacts.membership-changed.v1` facts (schema `done` per P060-011;
+  runtime writes pending).
 
 ## Outstanding Features per Subsystem (Path to `[done]`)
 
@@ -993,13 +1021,23 @@ exists yet, that is called out explicitly so the gap is visible.
 
 ### Step 4 — outstanding features
 
-- messaging middleware module with compose form, recipient parser, and local
-  outbound queue (no dedicated tracker; hosted on
-  [Solution 019 Middleware](../60-solutions/019-middleware/019-middleware.md))
-- outbound queue state machine including
-  `waiting-for-contact-permission` and `ready-for-delivery` (no dedicated
-  tracker)
-- "unknown recipient" warning indicator in compose UI (see:
+Already done:
+
+- messaging middleware solution doc + capability sidecar (see:
+  [Solution 027 Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md),
+  P060-005)
+- `messaging-core` and `messaging-service` crates with outbound enqueue,
+  outbox, retry, process, Maildir drafts, and `/admin/messaging` compose
+  surface (P060-013 `partial`, P060-015 `done`)
+- outbound queue state machine including `waiting-for-contact-permission`
+  and `ready-for-delivery` (P060-010 `done`)
+
+Still outstanding:
+
+- real contact-lookup-result promotion semantics in the outbound queue
+  (P060-013 remaining hardening item)
+- "unknown recipient" warning indicator in compose UI on top of the
+  existing Node UI compose screen (see:
   [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
 
 ### Step 5 — outstanding features
@@ -1040,18 +1078,25 @@ exists yet, that is called out explicitly so the gap is visible.
 
 ### Step 7 — outstanding features
 
-- end-to-end Artifact Delivery tests for the
-  `contact-request.received` notification flow with real participant
-  signatures (the notification, accept / reject actions, and
-  `messaging-receive@v1` passport issuance on acceptance are already
-  wired in
+Already done:
+
+- notification + accept/reject + `messaging-receive@v1` passport
+  issuance wired with validation tests covering real participant
+  signatures (see:
   [Solution 025 Contact Request Admission](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+- `mailbox.open` notification action target wired through a host-owned
+  action target; Node UI exposes message detail at
+  `/admin/messaging/messages/{message_id}` (P060-014 `done`)
+
+Still outstanding:
+
+- supervised multi-process AD accept/reject tests (Solution 025 names
+  this as the open item)
 - user-facing contact-request detail view in the Node UI (operator-side
   exists at `/admin/contact-catalog`; user-facing view remains, see:
   [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
-- promote inline action execution from `partial` to `done` so the
-  messaging-action class is no longer rendered as disabled in any UI
-  (see:
+- promote inline action execution from `partial` to `done` for the
+  messaging-action class (see:
   [Proposal 057 Tracking row P057-009](../40-proposals/057-user-and-operator-notifications.md))
 - promote cross-recipient user inboxes from `partial` to `done` so
   notifications reach end-users, not only operators (see:
@@ -1059,12 +1104,20 @@ exists yet, that is called out explicitly so the gap is visible.
 
 ### Step 8 — outstanding features
 
-- `key-delegation.v1` grant label scoping delegated messaging signing, so
-  Daniel's nym-rotation continuity uses the existing inline
-  `DelegationProof` path without a bespoke renewal flow (see:
-  [Solution 014](../60-solutions/014-key-delegation-passports/014-key-delegation-passports.md),
-  [Proposal 032](../40-proposals/032-key-delegation-passports.md))
-- end-to-end transport-tested issuance with real participant signatures
+Already done:
+
+- `messaging-receive@v1` passport profile freeze (P060-002)
+- `messaging-send` capability id registration with wire name
+  `app/messaging-send` (P060-003)
+- `signing/messaging-send` grant label in `key-delegation.v1`
+  vocabulary (P060-004)
+- validation tests cover passport issuance with real participant
+  signatures (Solution 025 Contact Request Admission)
+
+Still outstanding:
+
+- supervised multi-process AD transport tests for the issuance
+  response leg
   (Solution 025 Contact Request Admission `partial` names this as the
   remaining open item; the issuance itself is already wired)
 - INAC/AD outbound carrying the issued passport response under
@@ -1074,67 +1127,86 @@ exists yet, that is called out explicitly so the gap is visible.
 
 ### Step 9 — outstanding features
 
-- messaging middleware outbound-queue scanner (no dedicated tracker)
-- `capability.passport.lookup`-style host capability surface for
-  best-match passport lookup from middleware — the missing symmetric
-  counterpart of the existing issue path (see:
-  [Solution 006 Daemon Dispatch Integration](../60-solutions/006-capability-binding/006-capability-binding.md),
-  [Solution 019 Host Capability Bridge](../60-solutions/019-middleware/019-middleware.md))
-- attach-and-rescan-on-passport-arrival in the middleware (no dedicated
-  tracker)
-- queue state transition to `ready-for-delivery` (no dedicated tracker)
-- messaging-middleware integration with the now-implemented
-  `pseudonym-vault.v1` runtime to persist `contacts` membership and
-  issued `messaging-receive` passports (the vault runtime itself is
-  `done` per
-  [Proposal 059 Tracking row P059-009](../40-proposals/059-participant-and-nym-key-role-derivation.md),
-  [Proposal 059 Tracking row P059-010](../40-proposals/059-participant-and-nym-key-role-derivation.md),
-  and
-  [Solution 026 Pseudonym Vault and Key Roles](../60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md);
-  what remains is the messaging-domain side of the integration)
+Already done:
+
+- messaging-service has a passport lookup promotion path in its
+  outbound queue with attach-and-rescan semantics (P060-013 `partial`)
+- daemon `capability.passport.lookup` host capability endpoint with
+  `capability-passport-lookup.v1` validation, multi-passport
+  `PassportCache` scan, revoked filtering, and usable/refused states
+  (P060-012 `partial`)
+- queue state transition to `ready-for-delivery` (P060-010 `done`)
+- vault-mirror call wired through
+  `identity.messaging-recovery.mirror` host capability (P060-016
+  `partial`)
+
+Still outstanding:
+
+- promote the `capability.passport.lookup` documentation into
+  Solution 019 Host Capability Bridge as a stable middleware contract
+- full vault record persistence (not just mirror calls) and startup
+  replay so a fresh node rehydrates `contacts` membership and issued
+  `messaging-receive@v1` passports from `pseudonym-vault.v1`
 
 ### Step 10 — outstanding features
 
-- `message-envelope.v1` artifact schema (no dedicated tracker; needs new
-  proposal)
-- messaging inbound acceptor registered via one of
-  `artifact_delivery_acceptors.supervised_http` / `in_process` /
-  `json_e_flow` (see:
-  [Solution 023](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
-- messaging-specific sender ↔ `scope.sender` check, with delegated nyms
-  resolving through inline `DelegationProof` (see:
-  [Solution 014](../60-solutions/014-key-delegation-passports/014-key-delegation-passports.md))
-- messaging-specific receiver-route ↔ `scope.receiver` check (no dedicated
-  tracker; messaging acceptor responsibility)
-- messaging-specific public-handle ↔ `scope.public_handle` check (no
-  dedicated tracker; messaging acceptor responsibility)
-- `contacts`-class policy gate inside the acceptor (no dedicated tracker;
-  depends on Cross-Cutting `contacts` block below)
+Already done:
+
+- `message-envelope.v1` artifact schema with examples, Node protocol
+  mirror, and `schema-gate` validators (P060-001)
+- messaging inbound acceptor registered as
+  `POST /v1/artifact-delivery/accept` in `messaging-service` with
+  schema/domain validation, digest idempotency, Maildir + SQLite
+  writes, passport scope matching, `contacts` membership projection,
+  and a generic `contacts-policy-denied` refusal class (P060-009
+  `partial`)
+- messaging-specific sender / receiver-route / public-handle scope
+  checks (P060-009 + P060-027 for public-handle policy)
+- `contacts`-class policy gate inside the acceptor (P060-009)
+- `local-recipient-mailbox.resolve` host capability for mailbox
+  routing (P060-032 `done`)
+
+Still outstanding:
+
+- full receiver-side revocation-view integration in the messaging
+  acceptor (P060-009 remaining hardening)
+- supervised multi-process cross-node tests (P060-009 remaining
+  hardening)
 - route policy default with `privacy = private-direct` for the
   `message-envelope.v1` route (see:
   [Solution 023 privacy invariant](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
 
 ### Step 11 — outstanding features
 
-- messaging middleware module itself (no dedicated tracker; awaiting
-  solution doc)
-- Layer 1 Maildir body store under the middleware data directory (no
-  dedicated tracker)
-- Layer 2 middleware-owned SQLite operational index with documented
-  rebuild-from-Layer-1 + Layer-3 procedure (see: this story's Open
-  Continuation; no separate tracker yet)
-- Layer 3 `contacts`-membership-change fact kind registered with Memarium
-  (see:
-  [Solution 002 Memarium Host Capability API](../60-solutions/002-memarium/002-memarium.md),
-  [Proposal 036](../40-proposals/036-memarium.md))
-- Layer 3 `messaging-receive` issuance / revocation fact kind registered
-  with Memarium (see: same)
-- Layer 3 retention-decision fact kind registered with Memarium (see: same)
-- inbox projection fed by Layer 1 + Layer 2 (no dedicated tracker)
-- "open in mailbox view" notification target wired into the arrival
-  notification (see:
-  [Proposal 057](../40-proposals/057-user-and-operator-notifications.md),
-  [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
+Already done:
+
+- Solution 027 (Messaging Middleware) solution doc + capability sidecar
+  (P060-005)
+- Layer 1 Maildir body store + drafts under
+  `<node-data-dir>/storage/messaging/...` (P060-013 `partial`)
+- Layer 2 middleware-owned SQLite operational index with
+  `PRAGMA user_version` migrations and `reindex` endpoint walking
+  Maildir (P060-013 `partial`, P060-017 `partial`)
+- all five Layer 3 fact schemas with examples and `schema-gate`
+  validators: `contacts.membership-changed.v1`,
+  `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`,
+  `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`
+  (P060-011 `done`)
+- inbox projection through `/v1/messaging/mailbox` and message read
+  endpoints (P060-013 + P060-015)
+- `mailbox.open` notification action target wired through host-owned
+  action target; Node UI exposes message detail (P060-014 `done`)
+
+Still outstanding:
+
+- Layer 3 runtime Memarium writes promotion from pending-facts to
+  durable Memarium records (the fact endpoints exist; the actual
+  Memarium write call is pending P060-013 remaining hardening)
+- Layer 2 rebuild from Layer 3 replay (the current `reindex` walks
+  Maildir but does not yet replay Layer 3 facts) + FTS5 rebuild
+  (P060-017 `partial`)
+- revocation-triggered `messaging.passport-revoked.v1` fact writes
+  (P060-013 remaining hardening)
 
 ### Cross-Cutting Block — INAC + Artifact Delivery transport plane — outstanding features
 
@@ -1278,17 +1350,38 @@ Still outstanding:
 
 ### Cross-Cutting Block — Messaging middleware with stratified storage — outstanding features
 
-- messaging middleware solution document and capability sidecar (no
-  dedicated tracker)
-- Layer 1 / Layer 2 / Layer 3 storage stratification per Step 11 (see: Step
-  11 above)
-- enumeration and registration of Layer 3 messaging-fact kinds with
-  Memarium (see:
-  [Solution 002](../60-solutions/002-memarium/002-memarium.md), this
-  story's Open Continuation)
-- mailbox view and inbox projection (no dedicated tracker)
-- mailbox-view-targeted notification action (see:
-  [Proposal 057](../40-proposals/057-user-and-operator-notifications.md))
+Proposal 060 is Draft with most MVP decisions frozen; Solution 027
+(Messaging Middleware, `partial`) realises the runtime.
+
+Already done:
+
+- messaging middleware solution document and capability sidecar (see:
+  [Solution 027 Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md);
+  P060-005)
+- Layer 1 / Layer 2 / Layer 3 storage stratification per Step 11 (see:
+  Step 11 above; P060-007)
+- all five Layer 3 messaging-fact schemas with examples and
+  `schema-gate` validators (P060-011)
+- mailbox view and inbox projection through Solution 027
+  `/v1/messaging/mailbox` + Node UI `/admin/messaging` (P060-013,
+  P060-015)
+- `mailbox.open` notification action target wired
+  (P060-014)
+- `local-recipient-mailbox.resolve` host capability for inbound
+  mailbox routing (P060-032)
+
+Still outstanding (Solution 027 component is `partial`; all seven
+`must-implement` capabilities are `partial`):
+
+- Layer 3 runtime Memarium writes (the fact endpoints exist;
+  promotion from pending-facts to durable Memarium records pending)
+- Layer 2 rebuild from Layer 3 replay + FTS5 rebuild (P060-017)
+- full vault record persistence + startup replay (P060-016)
+- real contact-lookup-result promotion semantics in the outbound
+  queue (P060-013 remaining hardening)
+- supervised multi-process cross-node messaging-acceptor tests
+  (P060-009 remaining hardening)
+- revocation-triggered passport-revoked facts
 
 ### Cross-Cutting Block — Local contact store — outstanding features
 
@@ -1376,14 +1469,27 @@ Out of scope (deferred):
 
 ### Cross-Cutting Block — `contacts` relationship class — outstanding features
 
-- local relationship-class model inside the messaging middleware (no
-  dedicated tracker)
-- `contacts` membership set with default "may send messages to me" policy
-  (no dedicated tracker)
-- bi-directional projection between `contacts` membership and issued
-  `messaging-receive` passports (no dedicated tracker)
-- per-class limit configuration surface (rate, size, sender allow/deny) (no
-  dedicated tracker)
+Already done:
+
+- `contacts` relationship class model frozen (P060-008): local set,
+  default "may send messages to me" policy, bi-directional projection
+  with `messaging-receive@v1` passports
+- storage boundary decision (P060-029): messaging service owns
+  canonical receive-consent membership; local contacts may project it
+  for UX
+- `contacts` membership projection from presented receive passports at
+  admission time, and a generic `contacts-policy-denied` refusal
+  class (P060-009 `partial`)
+- vault-mirror call through `identity.messaging-recovery.mirror`
+  (P060-016 `partial`)
+
+Still outstanding:
+
+- per-class limit configuration surface beyond passport `limits.*`
+  (rate, size, sender allow/deny overrides) (no dedicated tracker)
+- full membership-history persistence via Layer 3
+  `contacts.membership-changed.v1` runtime writes (schema `done` per
+  P060-011; runtime writes pending P060-013 remaining hardening)
 - messaging-side integration with the now-implemented vault runtime
   for persisting membership changes per Step 9 (vault runtime itself is
   `done`; see:

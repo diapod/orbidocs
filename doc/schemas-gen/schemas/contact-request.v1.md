@@ -28,7 +28,7 @@ Private artifact sent to a route candidate returned by Contact Catalog to reques
 | [`sender/subject`](#field-sender-subject) | `yes` | ref: `#/$defs/subject` |  |
 | [`sender/handle-proof-ref`](#field-sender-handle-proof-ref) | `no` | string | Optional `email-control` or `phone-control` passport reference proving that the sender controls the displayed contact handle. |
 | [`sender/reply-route`](#field-sender-reply-route) | `no` | ref: `#/$defs/subject` |  |
-| [`recipient/route`](#field-recipient-route) | `yes` | ref: `#/$defs/subject` |  |
+| [`recipient/route`](#field-recipient-route) | `no` | ref: `#/$defs/subject` | Optional explicit recipient route. Contact Catalog lookup deliveries MAY omit it; the receiving node then binds the request to the local node-id selected by the delivery route. |
 | [`recipient/public-handle-ref`](#field-recipient-public-handle-ref) | `no` | string | Opaque reference to the external handle used for lookup. Raw email or phone MAY be stored locally, but network artifacts SHOULD prefer a redacted or digest-bound reference. |
 | [`requested/capability-id`](#field-requested-capability-id) | `yes` | enum: `messaging-receive` | Capability passport profile requested from the recipient if the user accepts. |
 | [`requested/purposes`](#field-requested-purposes) | `yes` | array |  |
@@ -100,8 +100,10 @@ Optional `email-control` or `phone-control` passport reference proving that the 
 <a id="field-recipient-route"></a>
 ## `recipient/route`
 
-- Required: `yes`
+- Required: `no`
 - Shape: ref: `#/$defs/subject`
+
+Optional explicit recipient route. Contact Catalog lookup deliveries MAY omit it; the receiving node then binds the request to the local node-id selected by the delivery route.
 
 <a id="field-recipient-public-handle-ref"></a>
 ## `recipient/public-handle-ref`

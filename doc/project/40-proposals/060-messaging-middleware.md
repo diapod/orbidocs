@@ -1011,32 +1011,21 @@ prefer contract tests and daemon/service boundaries over UI completeness.
 
 1. Keep `message-envelope.v1` schema examples and Node `schema-gate`
    validators synchronized while service-side admission evolves.
-2. Define the `messaging-receive@v1` passport profile shape as an
-   explicit document (the Capability Registry row already exists; the
-   profile freeze is what this row's "MVP passport: planned" tracks).
-3. Keep the `messaging-send` Capability Registry row synchronized with
+2. Keep the `messaging-send` Capability Registry row synchronized with
    node-side capability constants.
-4. Keep the `signing/messaging-send` grant label synchronized with
+3. Keep the `signing/messaging-send` grant label synchronized with
    Solution 014 Key Delegation Passports and node-side delegation constants.
-5. Create solution doc and capability sidecar under
-   `doc/project/60-solutions/NNN-messaging-middleware/`, naming the
-   daemon-side and service-side capabilities consistent with §1.
-6. Implement Memarium writes for Layer 3 messaging-fact schemas:
-   `contacts.membership-changed.v1`,
-   `messaging.passport-issued.v1`,
-   `messaging.passport-revoked.v1`,
-   `messaging.retention-decided.v1`,
-   `messaging.crisis-marked.v1` (classification reuses existing
-   `classification.v1`).
-7. Document the implemented `capability.passport.lookup` host capability
+4. Complete runtime revocation detection for
+   `messaging.passport-revoked.v1`; current fact writing covers
+   membership, passport persistence, retention, and crisis marks.
+5. Document the implemented `capability.passport.lookup` host capability
    surface in Capability Binding + Solution 019 Host Capability Bridge.
-8. Extend the implemented `local-recipient-mailbox.resolve` host
-   capability beyond operator fallback once local public-handle-to-
-   participant evidence is modeled.
-9. Add the `mailbox.open` notification action target.
-10. Add the `/admin/messaging` operator UI surface and the
-   `/v1/messaging/status` daemon proxy.
-11. Keep MVP decision rows and tracker evidence in sync while implementing
+6. Harden outbound contact-request/message signing fixtures with a full
+   mock-host integration test that verifies signer-derived sender identity,
+   Pseudonym Vault reply-route creation, and Artifact Delivery payloads.
+7. Promote the durable local recovery mirror into sealed `pseudonym-vault.v1`
+   record replay at daemon startup.
+8. Keep MVP decision rows and tracker evidence in sync while implementing
     schemas and host capabilities.
 
 ## Tracking
@@ -1052,22 +1041,22 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 | ID | Feature | Status | Evidence |
 |---|---|---|---|
 | P060-001 | `message-envelope.v1` artifact schema (fields per §3) | done | `doc/schemas/message-envelope.v1.schema.json`, examples, Node protocol mirror, and `schema-gate` validators exist. |
-| P060-002 | `messaging-receive@v1` passport profile freeze (scope shape per §4) | todo | Capability Registry row exists with `passport in MVP: planned`; profile shape sketched in §4 but not yet documented as an explicit profile spec. |
+| P060-002 | `messaging-receive@v1` passport profile freeze (scope shape per §4) | done | Solution 027 documents `messaging-receive@v1` as the canonical `MessagingReceiveProfileV1` shape with `request/id`, `sender_subjects`, `recipient_routes`, `contact_nym_id`, `purposes`, revocation freshness default 300 seconds, optional limits, and no second profile shape. |
 | P060-003 | `messaging-send` capability id registration in the Capability Registry | done | Registered in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md` / `.pl.md` and node `capability` constants as `app/messaging-send`. |
 | P060-004 | `signing/messaging-send` grant label added to `key-delegation.v1` grant vocabulary | done | Added to Solution 014 implementation notes/capability sidecar and node `capability` delegation constants. |
-| P060-005 | Messaging middleware solution document and capability sidecar | todo | No `doc/project/60-solutions/NNN-messaging-middleware/` directory yet. |
+| P060-005 | Messaging middleware solution document and capability sidecar | done | `doc/project/60-solutions/027-messaging-middleware/` contains the solution document, implementation notes, and `027-messaging-middleware-caps.edn`; generated capability matrices include the component. |
 | P060-006 | Daemon vs service boundary documented (small host/authority layer vs domain service) | done | §1 Component Boundary + Daemon vs Service Boundary section. Mirrors P058 §11 Catalog Provider Role pattern. |
 | P060-007 | Stratified storage contract (Layer 1 Maildir, Layer 2 service SQLite, Layer 3 Memarium facts) frozen | done | §2 Stratified Storage with bounding rule; promoted from story-010 §11 sketch. |
 | P060-008 | `contacts` relationship class model frozen (local set, default "may send messages to me" policy, bi-directional projection with `messaging-receive@v1` passports) | done | §8 `contacts` Relationship Class. Implementation tracked separately by P060-013. |
-| P060-009 | Inbound acceptor: three messaging-specific scope checks + `contacts`-policy gate + recipient mailbox resolution | partial | `messaging-service` exposes `POST /v1/artifact-delivery/accept`, schema/domain validation, digest idempotency, Maildir + SQLite writes, passport scope matching, and an operator-safe mailbox fallback. Full contacts-policy gate and multi-participant mailbox resolution remain follow-up work. |
+| P060-009 | Inbound acceptor: three messaging-specific scope checks + `contacts`-policy gate + recipient mailbox resolution | partial | `messaging-service` exposes `POST /v1/artifact-delivery/accept`, schema/domain validation, digest idempotency, Maildir + SQLite writes, passport scope matching, `contacts` membership projection from presented receive passports, generic `contacts-policy-denied` refusal, host `local-recipient-mailbox.resolve`, and inbound notifications. Remaining hardening: full receiver-side revocation-view integration and broader cross-node tests. |
 | P060-010 | Outbound queue state machine | done | §7 Outbound Queue State Machine; implementation tracked separately by P060-013. |
 | P060-011 | Layer 3 messaging-fact kind schemas (`contacts.membership-changed.v1`, `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`, `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`) | done | Schema files, examples where useful, Node protocol mirror, and `schema-gate` export validators exist. Runtime Memarium writes remain tracked by P060-013. |
 | P060-012 | `capability.passport.lookup` host capability surface (symmetric counterpart of the existing issue path) | partial | Daemon host capability endpoint validates `capability-passport-lookup.v1`, scans the shared multi-passport `PassportCache`, filters revoked passports, and returns usable/refused lookup states. Solution 019 documentation remains to be updated. |
-| P060-013 | Messaging service implementation (compose + outbound queue + Layer 1 Maildir + Layer 2 SQLite + inbox projection + acceptor + Layer 3 fact writes) | partial | Node has `messaging-core` and `messaging-service` crates with status, inbound accept, outbound enqueue/outbox/retry, mailbox/message read endpoints, Maildir + SQLite storage, and pending-facts status. Production AD send, Contact Catalog promotion, Memarium writes, recovery, and UI are follow-up slices. |
-| P060-014 | `mailbox.open` notification action target wired into Node UI mailbox view | todo | **Next Actions** #9; depends on P057-009 inline action execution promotion. |
-| P060-015 | `/admin/messaging` operator UI surface and `/v1/messaging/status` daemon proxy | partial | Daemon proxies `/v1/messaging/status`, outbound, outbox, retry, mailbox, and message read surfaces to supervised `messaging-service` when enabled. `/admin/messaging` UI remains follow-up work. |
-| P060-016 | Recovery: `contacts` membership + issued `messaging-receive@v1` passports persisted in `pseudonym-vault.v1` | todo | §9 Recovery and Vault Integration. The vault runtime dependency is resolved — P059 is Accepted with Node MVP runtime implemented (P059-009 / P059-010 `done`, Solution 026 Pseudonym Vault and Key Roles realises the runtime). What remains is the messaging-domain side of the integration: persist membership changes and issued passports as private plaintext records inside the vault, replay them on startup. |
-| P060-017 | Recovery: Layer 2 SQLite index rebuild procedure (replay Layer 3 → walk Maildir → repopulate rows → rebuild FTS5) | todo | §9 Recovery and Vault Integration; depends on P060-013 and P060-011. |
+| P060-013 | Messaging service implementation (compose + outbound queue + Layer 1 Maildir + Layer 2 SQLite + inbox projection + acceptor + Layer 3 fact writes) | partial | Node has `messaging-core` and `messaging-service` crates with host capability client, status, inbound accept, outbound enqueue/outbox/retry/process, mailbox/message read endpoints, Maildir message and draft storage, SQLite `PRAGMA user_version` migrations, signer-derived contact-request/message sender identity, Pseudonym Vault reply-route creation, contact-request dispatch through AD, passport lookup promotion, signed message-envelope private-direct delivery, pending Memarium facts, retention/crisis fact endpoints, and reindex. Remaining hardening: full mock-host integration coverage, richer contact lookup result promotion semantics, and revocation-triggered passport-revoked facts. |
+| P060-014 | `mailbox.open` notification action target wired into Node UI mailbox view | done | Messaging inbound notifications include `mailbox.open`; daemon marks the action handled through a host-owned no-domain-mutation target, and Node UI exposes message detail at `/admin/messaging/messages/{message_id}`. |
+| P060-015 | `/admin/messaging` operator UI surface and `/v1/messaging/status` daemon proxy | done | Daemon proxies `/v1/messaging/status`, outbound, outbox, outbox process, pending-facts replay, reindex, retry, mailbox, and message read/write surfaces; Node UI exposes `/admin/messaging` compose, status, inbox, outbox, diagnostics, and message detail. |
+| P060-016 | Recovery: `contacts` membership + issued `messaging-receive@v1` passports persisted in `pseudonym-vault.v1` | partial | `messaging-service` mirrors contacts membership records through the daemon host capability `identity.messaging-recovery.mirror`; the daemon validates accepted record kinds and persists them in a durable local recovery mirror table. Sealed vault record replay at startup remains follow-up work. |
+| P060-017 | Recovery: Layer 2 SQLite index rebuild procedure (replay Layer 3 → walk Maildir → repopulate rows → rebuild FTS5) | partial | `messaging-service` exposes `POST /v1/messaging/reindex` and daemon/UI proxies; the implementation rebuilds SQLite message rows from Maildir and exposes `reindexing`. Layer 3 replay and FTS5 are still future hardening. |
 | P060-018 | Compose UI ownership decision (service-embedded HTTP UI vs Node UI surface calling service) | done | MVP Decisions: Node UI owns compose and mailbox screens. |
 | P060-019 | Threading model decision (opaque id vs In-Reply-To chain vs richer conversation container) | done | MVP Decisions: optional opaque `thread/id`; replies may use root `message/id`. |
 | P060-020 | Body content-type set decision (text/plain + text/markdown + application/json vs adding text/html with sanitization) | done | MVP Decisions: `text/plain`, `text/markdown`, and restricted `application/json`; `text/html` deferred. |
@@ -1082,4 +1071,4 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 | P060-029 | `contacts` membership storage boundary vs local-contact row projection | done | MVP Decisions + §8 `contacts` Relationship Class: messaging service owns canonical receive-consent membership; local contacts may project it for UX. |
 | P060-030 | Retention defaults for Maildir, Layer 2, and Layer 3 | done | MVP Decisions + §9 Recovery and Vault Integration: keep-local / no automatic purge; Layer 2 remains rebuildable; Layer 3 follows Memarium retention plus `messaging.retention-decided.v1`. |
 | P060-031 | Recommended implementation slices | done | **Recommended Implementation Slices** defines five thin slices: inbound local accept/store, contacts + passport lookup, outbound queue + AD send, Contact Catalog integration, mailbox UX + recovery. |
-| P060-032 | `local-recipient-mailbox.resolve` host capability and inbound mailbox routing contract | partial | Daemon endpoint validates `local-recipient-mailbox-resolve.v1`, uses daemon-owned local contacts for public-handle/contact-nym evidence, and falls back to operator mailbox without sender-visible oracle. Full participant mailbox ownership needs local participant mapping evidence. |
+| P060-032 | `local-recipient-mailbox.resolve` host capability and inbound mailbox routing contract | done | Daemon endpoint validates `local-recipient-mailbox-resolve.v1`, uses daemon-owned local participant handle ownership records for public-handle → participant mailbox, reports `verified` only for explicit evidence status, keeps address-book contacts as mapped fallback, and falls back to the operator mailbox without a sender-visible oracle. |
