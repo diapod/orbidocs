@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:local-contact:v1",
+  "title": "LocalContact v1",
+  "description": "Daemon-local address-book and contact continuity record. It is never published as a Contact Catalog claim and may contain raw handles, labels, UX metadata, and pairwise routing continuity state.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md",
+    "doc/project/40-proposals/058-contact-catalog.md",
+    "doc/project/30-stories/story-010-message-to-a-friend.md"
+  ],
+  "required": [
+    "schema",
+    "contact/id",
+    "handle/kind",
+    "handle/raw",
+    "handle/normalized",
+    "handle/digest",
+    "state",
+    "created/at",
+    "updated/at"
+  ],
+  "properties": {
+    "schema": { "const": "local-contact.v1" },
+    "contact/id": {
+      "type": "string",
+      "pattern": "^local-contact:[A-Za-z0-9_-]+$"
+    },
+    "handle/kind": {
+      "type": "string",
+      "enum": ["email", "phone", "other"]
+    },
+    "handle/raw": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Raw user-entered handle. This stays daemon-local."
+    },
+    "handle/normalized": {
+      "type": "string",
+      "minLength": 1
+    },
+    "handle/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Compatibility single display label."
+    },
+    "labels": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 80 },
+      "description": "User-managed labels for grouping and search."
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Daemon-local UX/provenance metadata. It is not network evidence."
+    },
+    "state": {
+      "type": "string",
+      "enum": ["pending", "active", "rejected", "blocked", "archived"]
+    },
+    "pairwise/contact-nym-id": {
+      "type": "string",
+      "pattern": "^contact-nym:[a-z0-9][a-z0-9:-]*$",
+      "description": "Compatibility pointer to the current active pairwise mapping."
+    },
+    "routing-subject/id": {
+      "type": "string",
+      "pattern": "^routing:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "remote/subject": {
+      "$ref": "#/$defs/subject"
+    },
+    "source/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated/at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": true,
+      "anyOf": [
+        { "required": ["participant/id"] },
+        { "required": ["nym/id"] },
+        { "required": ["routing-subject/id"] },
+        { "required": ["contact-nym/id"] },
+        { "required": ["node/id"] }
+      ],
+      "properties": {
+        "participant/id": { "type": "string", "pattern": "^participant:" },
+        "nym/id": { "type": "string", "pattern": "^nym:" },
+        "routing-subject/id": { "type": "string", "pattern": "^routing:" },
+        "contact-nym/id": { "type": "string", "pattern": "^contact-nym:" },
+        "node/id": { "type": "string", "pattern": "^node:" }
+      }
+    }
+  }
+}

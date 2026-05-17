@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:contact-attestation-result:v1",
+  "title": "ContactAttestationResult v1",
+  "description": "Return artifact produced after a successful contact attestation challenge redemption. It carries the issued email-control@v1 or phone-control@v1 passport.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/061-contact-attestation-service.md"],
+  "required": [
+    "schema",
+    "schema/v",
+    "request/id",
+    "challenge/id",
+    "contact/kind",
+    "contact/digest",
+    "passport",
+    "issued/at"
+  ],
+  "properties": {
+    "schema": { "const": "contact-attestation-result.v1" },
+    "schema/v": { "const": 1 },
+    "request/id": {
+      "type": "string",
+      "pattern": "^contact-attestation-request:[a-z0-9][a-z0-9:-]*$"
+    },
+    "challenge/id": {
+      "type": "string",
+      "pattern": "^contact-attestation-challenge:[a-z0-9][a-z0-9:-]*$"
+    },
+    "contact/kind": { "type": "string", "enum": ["email", "phone"] },
+    "contact/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "passport": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Issued capability-passport.v1 artifact for email-control@v1 or phone-control@v1."
+    },
+    "issued/at": { "type": "string", "format": "date-time" },
+    "expires/at": { "type": "string", "format": "date-time" }
+  }
+}

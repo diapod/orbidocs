@@ -18,6 +18,8 @@ Result returned after a notification action submission.
 | [`status`](#field-status) | `yes` | enum: `accepted`, `action-no-longer-available`, `action-target-not-implemented`, `version-conflict`, `replay-rejected`, `invalid-input` |  |
 | [`notification/id`](#field-notification-id) | `yes` | string |  |
 | [`action/id`](#field-action-id) | `yes` | string |  |
+| [`actor/id`](#field-actor-id) | `no` | string |  |
+| [`actor/class`](#field-actor-class) | `no` | enum: `operator`, `participant`, `pod-user`, `http-module`, `in-process-module`, `node`, `org` |  |
 | [`action/submission-id`](#field-action-submission-id) | `no` | string |  |
 | [`version`](#field-version) | `no` | integer |  |
 | [`reason/code`](#field-reason-code) | `no` | string |  |
@@ -46,6 +48,18 @@ Result returned after a notification action submission.
 
 - Required: `yes`
 - Shape: string
+
+<a id="field-actor-id"></a>
+## `actor/id`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-actor-class"></a>
+## `actor/class`
+
+- Required: `no`
+- Shape: enum: `operator`, `participant`, `pod-user`, `http-module`, `in-process-module`, `node`, `org`
 
 <a id="field-action-submission-id"></a>
 ## `action/submission-id`

@@ -90,6 +90,7 @@
    :responsibilities
    ["Route effectful middleware actions through explicit host capabilities instead of ambient authority"
     "Reuse module authtok, caller binding, capability passports, dispatch gates, timeout, size limit, and audit policy"
+    "Expose capability.passport.lookup as a stable host bridge so middleware can ask the daemon for scoped, freshness-checked passport selection instead of scanning passport storage"
     "Keep module report declarations separate from granted authority"]
    :status :partial}
 

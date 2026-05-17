@@ -1,0 +1,18 @@
+{
+  "schema": "contact-attestation-result.v1",
+  "schema/v": 1,
+  "request/id": "contact-attestation-request:marcin-email-001",
+  "challenge/id": "contact-attestation-challenge:marcin-email-001",
+  "contact/kind": "email",
+  "contact/digest": "sha256:VBCNwlOECdO5YdGmDo4UnAX8lJK64aiLKbC2QHn2d54",
+  "passport": {
+    "schema": "capability-passport.v1",
+    "passport/id": "passport:capability:email-control:marcin-email-001",
+    "capability/id": "email-control",
+    "profile": {
+      "profile": "email-control@v1"
+    }
+  },
+  "issued/at": "2026-05-17T08:05:00Z",
+  "expires/at": "2026-08-15T08:05:00Z"
+}

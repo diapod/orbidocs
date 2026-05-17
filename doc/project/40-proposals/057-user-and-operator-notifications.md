@@ -211,6 +211,7 @@ surface.
 The host capability boundary must enforce:
 
 - authenticated component identity,
+- `sender/ref` absence or equality with the authenticated component identity,
 - idempotency key semantics,
 - allowed notification kind,
 - allowed recipient class and recipient id,
@@ -219,7 +220,7 @@ The host capability boundary must enforce:
 - allowed priority range,
 - action schema validation,
 - redaction policy for high-sensitivity payloads,
-- rate limits per component and notification kind.
+- rate limits per component and notification kind,
 - rate limits per sender and notification kind, including host-owned internal
   producers that bypass `NotificationAllow` but not runtime throttling.
 
@@ -326,9 +327,21 @@ Minimum MVP rules:
 - Operator UI reads operator-recipient queues through the operator binding store.
 - User or pod-user UI reads only notifications where `recipient/id` matches the
   authenticated local identity.
+- If no matching local caller binding exists, user and pod-user notification
+  routes fail closed instead of treating the route parameter as authority.
 - Every read/open/handled/action-submit audit fact records the actor identity.
-- Per-recipient encryption at rest is deferred until the threat model requires
-  it, but URLs, schemas, and storage keys should not preclude it.
+- Store v3 keeps routing metadata queryable in plaintext, but seals title,
+  body, body refs, actions, and body digests per recipient before persistence.
+  The node-local store uses `XChaCha20Poly1305` with a daemon-owned local seal
+  key and per-recipient content keys derived with HKDF over recipient class and
+  recipient id. The AEAD associated data binds notification id, recipient id,
+  recipient class, and notification version; reads also reject sealed payloads
+  whose decrypted `body_digest` no longer matches the plaintext routing
+  metadata. The daemon-local seal key is an MVP filesystem-local root: if it is
+  compromised together with the queue DB, all sealed local notification payloads
+  on that node are compromised. The store does not receive participant root
+  secrets. Missing local seal material fails closed for user and pod-user
+  reads/actions.
 
 ### Schema-Defined Actions
 
@@ -708,6 +721,9 @@ This prevents a UI feature from becoming an authority boundary.
 3. Idempotency uses the natural key `(sender/id, idempotency/key)`. Storage names
    this owner `sender_id`; `component/id` remains configuration vocabulary for
    middleware allow rules, not the idempotency owner.
+   `sender/ref` on `notification.create` is compatibility/advisory input:
+   the daemon canonicalizes it to the authenticated component identity and
+   rejects mismatches.
 4. `body/input` is transport-only. Durable notification state stores `body/ref`,
    optional user-facing text, and digests or redacted projections, not persistent
    raw body payloads. `body/input` still participates in the idempotency
@@ -735,11 +751,11 @@ This prevents a UI feature from becoming an authority boundary.
 12. OS notifications and cross-node notification aggregation are post-MVP and do
     not add fields to `notification.v1`.
 13. Host-owned action refs may be implemented incrementally. The first concrete
-    daemon-owned refs are `inac.invitation.accept` and
-    `inac.invitation.reject`; they are local operator actions that update INAC
-    pending-offer state and optionally issue a narrow `inac.invitation`
-    passport. They do not make notifications a generic capability invocation
-    channel.
+    daemon-owned refs are `inac.invitation.accept`,
+    `inac.invitation.reject`, `contact-request.accept`,
+    `contact-request.reject`, and `mailbox.open`; they are local actions that
+    call narrowly wired host/domain handlers. They do not make notifications a
+    generic capability invocation channel.
 
 ## Post-MVP Questions
 
@@ -747,8 +763,9 @@ This prevents a UI feature from becoming an authority boundary.
    per-recipient sequence numbers for all SSE consumers?
 2. Should `NotificationAllow` later support namespaced extension prefixes such
    as `vendor.example/*`, or should it remain literal-only?
-3. When pod-user UI becomes first-class, should pod users receive independent
-   attention policies or inherit operator defaults with per-recipient overrides?
+3. When pod-user authentication/session binding becomes first-class, should pod
+   users receive independent attention policies or inherit operator defaults
+   with per-recipient overrides?
 4. Should OS notification adapters be added for desktop shells, and which
    redaction profile should they use?
 5. Should cross-node notification aggregation be modelled as a separate artifact
@@ -807,13 +824,13 @@ The first implementation should include tests for:
 |---|---|---|---|
 | P057-001 | Schema-backed notification contracts | done | `notification*.v1` schemas exist in `doc/schemas/` and are synchronized into `node/protocol/contracts/schemas/`. |
 | P057-002 | Pure notification core and policy evaluator | done | `orbiplex-node-notification-core` defines typed contracts, `NotificationAllow`, idempotency digests, and `NotificationDeliveryPolicy`. |
-| P057-003 | Durable queue and append-only audit | done | `orbiplex-node-notification-store` owns SQLite queue state with `schema` and positive `version` validation, plus JSONL audit events for create, conflict, opened, handled, snooze, delete, and suppression paths. |
+| P057-003 | Durable queue and append-only audit | done | `orbiplex-node-notification-store` owns SQLite queue state with `schema` and positive `version` validation, JSONL audit events for create, conflict, opened, handled, snooze, delete, and suppression paths, and Store v3 per-recipient sealing for user/pod-user payload fields. |
 | P057-004 | Legacy `notify_emit` compatibility | done | Daemon `notify_emit` adapts into `notification.create` semantics and persists through the new store. |
-| P057-005 | Host capability `notification.create` | done | Daemon exposes `/v1/host/capabilities/notification.create`, validates through schema-gate, enforces `NotificationAllow`, evaluates policy, stores, and emits state pings. |
+| P057-005 | Host capability `notification.create` | done | Daemon exposes `/v1/host/capabilities/notification.create`, validates through schema-gate, binds `sender/ref` to the authenticated component identity, enforces `NotificationAllow`, evaluates policy, stores, and emits state pings. |
 | P057-006 | Operator notification API | done | Daemon exposes list/detail/opened/handled/snooze/delete routes under `/v1/operator/notifications` and `/v1/admin/notifications`. |
 | P057-007 | Operator UI inbox | done | Node UI exposes `/operator/notifications` and `/admin/notifications` list/detail views with opened, handled, and snooze actions. |
 | P057-008 | Privacy-minimal SSE ping | done | Daemon publishes only `notification-state-changed.v1` payloads; title, body, kind, subject, and action details are excluded. |
-| P057-009 | Inline action execution registry | partial | Data contracts and endpoint shape exist; daemon-internal action execution is intentionally still narrow and returns `action-target-not-implemented` unless wired; Node UI renders unwired action refs as disabled controls instead of optimistic submits. |
+| P057-009 | Inline action execution registry | done | Daemon action execution dispatches wired refs including `contact-request.accept`, `contact-request.reject`, INAC invitation actions, and `mailbox.open`; unknown refs return `action-target-not-implemented`. Node UI renders active controls for wired refs and disabled controls for unwired/expired refs. Action audit facts record the bound actor identity. |
 | P057-010 | Rate limiting per sender/kind | done | `NotificationAllow` carries `rate/per-minute`; daemon runtime enforces it per `(sender/id, notification/kind)` before queue/idempotency write, and internal daemon producers use their own configured minute cap. |
-| P057-011 | Cross-recipient user inboxes | partial | Recipient class/id are first-class in model and store; MVP UI is operator-only. |
+| P057-011 | Cross-recipient user inboxes | partial | Recipient class/id are first-class in model and store; daemon exposes user and pod-user scoped read/action routes; Node UI has user and pod-user inbox list surfaces; Store v3 seals notification payload per recipient; daemon read/action routes now require a matching authenticated caller binding and fail closed without one. Remaining work: first-class pod-user session/auth UX. |
 | P057-012 | OS notifications | deferred | Explicitly post-MVP; no desktop-shell adapter is implemented. |

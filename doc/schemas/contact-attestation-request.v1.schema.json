@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:contact-attestation-request:v1",
+  "title": "ContactAttestationRequest v1",
+  "description": "Acquisition-side request from a node to a contact attestation service asking it to challenge one email address or phone number and later issue a contact-control passport.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/061-contact-attestation-service.md"],
+  "required": [
+    "schema",
+    "schema/v",
+    "request/id",
+    "contact/kind",
+    "contact/value",
+    "subject",
+    "requested/capability-id",
+    "requested/profile",
+    "requested/purposes",
+    "issued/at"
+  ],
+  "properties": {
+    "schema": { "const": "contact-attestation-request.v1" },
+    "schema/v": { "const": 1 },
+    "request/id": {
+      "type": "string",
+      "pattern": "^contact-attestation-request:[a-z0-9][a-z0-9:-]*$"
+    },
+    "contact/kind": {
+      "type": "string",
+      "enum": ["email", "phone"]
+    },
+    "contact/value": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Raw delivery target. It is sent only to the selected attestation service."
+    },
+    "subject": { "$ref": "#/$defs/subject" },
+    "requested/capability-id": {
+      "type": "string",
+      "enum": ["email-control", "phone-control"]
+    },
+    "requested/profile": {
+      "type": "string",
+      "enum": ["email-control@v1", "phone-control@v1"]
+    },
+    "requested/purposes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "enum": ["contact", "messaging", "direct-delivery", "recovery"] }
+    },
+    "delivery/preference": {
+      "type": "string",
+      "enum": ["link-and-code", "code-only"],
+      "default": "link-and-code"
+    },
+    "issued/at": { "type": "string", "format": "date-time" },
+    "expires/at": { "type": "string", "format": "date-time" },
+    "proof/signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": true,
+      "anyOf": [
+        { "required": ["participant/id"] },
+        { "required": ["nym/id"] },
+        { "required": ["routing-subject/id"] }
+      ],
+      "properties": {
+        "participant/id": { "type": "string", "pattern": "^participant:" },
+        "nym/id": { "type": "string", "pattern": "^nym:" },
+        "routing-subject/id": { "type": "string", "pattern": "^routing:" }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": { "const": "ed25519" },
+        "signer": { "type": "string", "pattern": "^(participant|nym|routing):" },
+        "value": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

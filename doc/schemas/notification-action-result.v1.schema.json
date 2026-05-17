@@ -24,6 +24,11 @@
     },
     "notification/id": { "type": "string", "minLength": 1, "maxLength": 256 },
     "action/id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "actor/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "actor/class": {
+      "type": "string",
+      "enum": ["operator", "participant", "pod-user", "http-module", "in-process-module", "node", "org"]
+    },
     "action/submission-id": { "type": "string", "minLength": 1, "maxLength": 256 },
     "version": { "type": "integer", "minimum": 1 },
     "reason/code": { "type": "string", "minLength": 1, "maxLength": 128 }

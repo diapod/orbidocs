@@ -24,7 +24,7 @@
     "Scope receive consent by request/id, sender subjects, recipient routes, contact nym id, purposes, revocation freshness, and optional limits"
     "Default max revocation staleness to 300 seconds"
     "Reject alternate messaging receive profile shapes"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :messaging-service-runtime
    :title "Supervised Messaging Service"
@@ -37,6 +37,23 @@
     "Keep outbound bodies as Maildir draft records instead of long SQLite text"
     "Use PRAGMA user_version migrations for storage evolution"
     "Stay disabled by default in bundled daemon config"]
+   :status :partial}
+
+  {:cap/id :contactability-and-local-contacts
+   :title "Contactability Drafts And Local Contacts"
+   :kind :ux-authority-boundary
+   :based-on ["doc/project/40-proposals/060-messaging-middleware.md"
+              "doc/project/40-proposals/061-contact-attestation-service.md"
+              "doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md"]
+   :schemas ["local-contact.v1"
+             "contact-attestation-request.v1"
+             "contact-attestation-result.v1"]
+   :responsibilities
+   ["Expose daemon contactability draft, options, attest, and publish endpoints for the Story-010 operator path"
+    "Keep local contacts as daemon-local UX and continuity projections rather than network evidence"
+    "Store labels, metadata, handle digests, and active/rotated pairwise contact-nym mappings"
+    "Validate local-contact import/export and contact-attestation request/result boundaries through schema-gate"
+    "Use the separate attestation-service role for email-control and phone-control acquisition"]
    :status :partial}
 
   {:cap/id :outbound-contact-and-delivery
@@ -52,6 +69,7 @@
     "Derive sender participant identity from host signer key material rather than service-local placeholders"
     "Create a fresh daemon-owned routing-subject reply route for contact requests"
     "Wait for capability.passport.lookup to return a usable messaging-receive passport"
+    "Promote concrete contact-lookup-result.v1 messaging routes and terminally fail no-match or policy-denied results"
     "Sign outbound message-envelope.v1 artifacts through signer.sign under signing/messaging-send"
     "Deliver ready messages through artifact.delivery.send as private-direct"
     "Retry transient host failures and terminally fail schema, conflict, or scope refusals"]
@@ -106,12 +124,13 @@
    :title "Node UI Messaging Surface"
    :kind :ui
    :based-on ["doc/project/40-proposals/060-messaging-middleware.md"]
-   :schemas []
+   :schemas ["local-contact.v1"]
    :responsibilities
-   ["Expose /admin/messaging for status, compose, inbox, outbox, message detail, pending facts, and recovery diagnostics"
+   ["Expose /admin/messaging for status, contactability drafts, compose, inbox, outbox, message detail, pending facts, and recovery diagnostics"
+    "Render local-contact based unknown-recipient warnings before contact-request flow"
     "Use daemon-proxied /v1/messaging/* APIs rather than duplicating domain logic"
     "Handle mailbox.open notification actions by opening message detail without mutating consent state"]
-   :status :partial}]
+   :status :done}]
 
  :may-implement
  [{:cap/id :html-message-rendering
@@ -145,6 +164,8 @@
  :consumes
  ["message-envelope.v1 artifacts"
   "contact-request.v1 artifacts"
+  "local-contact.v1 contact projections"
+  "contact-attestation-request.v1 and contact-attestation-result.v1 artifacts"
   "messaging-receive capability passports"
   "Artifact Delivery private-direct and contact lookup send requests"
   "local participant public-handle evidence"
@@ -154,6 +175,7 @@
  :produces
  ["Maildir message and draft files"
   "SQLite mailbox and outbox indexes"
+  "local contact continuity projections"
   "contacts.membership-changed.v1 facts"
   "messaging.passport-issued.v1 facts"
   "messaging.passport-revoked.v1 facts"

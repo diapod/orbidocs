@@ -110,6 +110,33 @@ schema_for_file() {
     *.contact-request.json)
       echo "$SCHEMAS_DIR/contact-request.v1.schema.json"
       ;;
+    *.message-envelope.json)
+      echo "$SCHEMAS_DIR/message-envelope.v1.schema.json"
+      ;;
+    *.contacts.membership-changed.json)
+      echo "$SCHEMAS_DIR/contacts.membership-changed.v1.schema.json"
+      ;;
+    *.messaging.passport-issued.json)
+      echo "$SCHEMAS_DIR/messaging.passport-issued.v1.schema.json"
+      ;;
+    *.messaging.passport-revoked.json)
+      echo "$SCHEMAS_DIR/messaging.passport-revoked.v1.schema.json"
+      ;;
+    *.messaging.retention-decided.json)
+      echo "$SCHEMAS_DIR/messaging.retention-decided.v1.schema.json"
+      ;;
+    *.messaging.crisis-marked.json)
+      echo "$SCHEMAS_DIR/messaging.crisis-marked.v1.schema.json"
+      ;;
+    *.local-contact.json)
+      echo "$SCHEMAS_DIR/local-contact.v1.schema.json"
+      ;;
+    *.contact-attestation-request.json)
+      echo "$SCHEMAS_DIR/contact-attestation-request.v1.schema.json"
+      ;;
+    *.contact-attestation-result.json)
+      echo "$SCHEMAS_DIR/contact-attestation-result.v1.schema.json"
+      ;;
     *.node-identity.json)
       echo "$SCHEMAS_DIR/node-identity.v1.schema.json"
       ;;

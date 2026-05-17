@@ -64,6 +64,13 @@ missing active membership is refused as `contacts-policy-denied`.
 The refusal response is intentionally generic. It must not reveal whether a
 public handle exists locally or which participant owns it.
 
+Current receiver-side revocation coverage is fail-closed for `passport-ref`
+admission through `capability.passport.lookup`, which uses the daemon
+revocation view and a 300 second freshness budget. Inline presented passports
+are scope-checked at the messaging boundary; full inline revocation verification
+requires a host verifier that can evaluate the presented passport against the
+revocation view without requiring it to exist in the local passport cache.
+
 ## Facts and Recovery
 
 Layer 3 fact writes go through `memarium.write`. On failure, the fact is stored
@@ -89,3 +96,17 @@ The MVP+ acceptance set is:
   mailbox-resolution fallback, and `mailbox.open`;
 - UI smoke loads `/admin/messaging`, queues compose, lists inbox/outbox, and
   opens a message detail through a notification action.
+
+Additional hardening now covered by focused tests:
+
+- `capability` rejects alternate `messaging-receive` passport profile shapes
+  and defaults missing receive-profile revocation freshness to 300 seconds;
+- `messaging-service` promotes valid `contact-lookup-result.v1` route
+  candidates and terminally fails `no-match` results;
+- daemon proxying includes the outbox contact-lookup-result promotion endpoint;
+- `schema-gate` validates `local-contact.v1`,
+  `contact-attestation-request.v1`, and `contact-attestation-result.v1` at the
+  intended local import/export and ingress/egress boundaries;
+- Story-010 has a two-node profile and launcher scaffold under
+  `node/tools/acceptance/story-010-operator/`; this is not yet a green E2E
+  smoke driver.

@@ -411,6 +411,15 @@ Common surfaces include:
 The host may gate these calls through module authtok, caller binding, capability
 passports, revocation freshness, local allowlists, timeout, and audit sinks.
 
+`capability.passport.lookup` is a stable host capability bridge contract, not a
+messaging-private helper. A hosted middleware supplies a capability id, required
+scope selectors, freshness requirements, and a request timestamp. The daemon
+selects only active cached passports whose typed scope matches the selectors and
+whose revocation view is fresh enough. The caller receives either a usable
+passport/ref or a structured refusal such as `not-found` or `revocation-stale`.
+Modules must not scan passport storage directly or infer revocation freshness
+from local cache presence.
+
 ## Raw Signal And Trace
 
 Every middleware passage has a host-owned trace context:

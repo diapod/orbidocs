@@ -68,7 +68,12 @@ The story also reuses these existing mechanism documents:
   facts, with **Proposal 047** (Classification Label Propagation) for
   classification facts that touch Memarium-managed state;
 - **Solution 019** (Middleware) for supervised middleware attachment patterns
-  and host-owned component boundaries used by a future messaging acceptor.
+  and host-owned component boundaries used by a future messaging acceptor;
+- **Proposal 061** (Contact Attestation Service) for the email- and
+  phone-control attestation provider role, OTP / link flow, and the
+  `contact-attestation-request.v1` / `contact-attestation-result.v1`
+  acquisition-side artifacts that mint `email-control@v1` /
+  `phone-control@v1` passports consumed by Steps 2 and 6.
 
 MVP contract note: Proposal 058 now freezes the concrete messaging authorization
 capability id as `messaging-receive`, expressed through
@@ -618,9 +623,6 @@ new message.
 
 ## Open Continuation
 
-- Define the attestation-service capability id used in Step 2
-  (`email-attestation` / `phone-attestation`) and the concrete OTP/link
-  request and return contracts.
 - Promote `capability.passport.lookup` documentation into Solution 019
   Host Capability Bridge (the daemon endpoint already exists; what
   remains is naming it as a stable middleware contract).
@@ -630,9 +632,21 @@ new message.
 - Wire receiver-side revocation-view enforcement and supervised
   multi-process cross-node Artifact Delivery tests for the messaging
   acceptor.
-- Persist full vault records (not just mirror calls) and replay them on
-  startup so a fresh node restored from mnemonic rehydrates `contacts`
-  membership and issued `messaging-receive@v1` passports.
+- Persist sealed vault record replay at startup so a fresh node
+  restored from mnemonic rehydrates `contacts` membership and issued
+  `messaging-receive@v1` passports (the local recovery mirror table
+  now persists records; sealed vault replay remains).
+- Land production attestation delivery (SMTP / SMS) + full operator
+  policy + Seed Directory advertisement of `role/email-attestation` /
+  `role/phone-attestation` providers (Proposal 061 defines the role;
+  the bundled middleware is currently dev-mode disabled).
+- Land production Contact Catalog publication path for the
+  contactability bridge (current publish records a local draft only).
+- Bind P057-011 user / pod-user notification routes to authenticated
+  local identity (final step to promote P057-011 to `done`).
+- Implement the executable end-to-end smoke driver for the Story-010
+  two-node acceptance scaffold (P060-035 — scaffold exists, driver
+  does not).
 
 ## Implementation Coverage
 
@@ -643,35 +657,46 @@ artifact and what is still missing.
 
 ### Per-Step Coverage
 
-- **Step 1 — Marcin opens a public contact path (contactability UI):** `[todo]`
-  - Closest artifacts: Proposal 058 (now MVP-seeded) defines the local
-    contact store / catalog split; Solution 025 Local Contact Store
-    (`partial`) already provides daemon-side `local-contacts.sqlite` with
-    create / list / get / patch / archive operator API + `/admin/contact-catalog`
-    inspection surface; Node UI (`Orbiplex Node UI`, status `partial`) does
-    not yet expose a user-facing contactability settings panel for messaging.
-  - Missing: messaging-component contactability form, `local-contact.v1`
-    schema file, and the participant / nym / routing-subject picker for
-    outbound contact routes.
+- **Step 1 — Marcin opens a public contact path (contactability UI):** `[in-progress]`
+  - Closest artifacts: P060-033 (`partial`) closes the local contact and
+    contactability bridge — Node adds `local-contact.v1` schema-gate
+    import/export validation, local contact labels and metadata,
+    `/v1/local-contacts/resolve`, daemon contactability
+    draft/options/attest/publish endpoints, and a Node UI contactability
+    panel. Solution 027 cap `:contactability-and-local-contacts`
+    (`partial`) anchors the messaging-side surface. Solution 025 Local
+    Contact Store (`partial`) provides daemon-side `local-contacts.sqlite`.
+  - Newly frozen contracts: `local-contact.v1` schema file exists at
+    `doc/schemas/local-contact.v1.schema.json` (closing the previous
+    schema-file gap).
+  - Missing: production Contact Catalog publication path (the current
+    publish endpoint records a local draft only) and contact-control
+    evidence binding from the attestation seam (depends on Step 2);
+    sealed-vault backup / replay of contactability state.
 
-- **Step 2 — Marcin's node collects contact-control attestations:** `[todo]`
+- **Step 2 — Marcin's node collects contact-control attestations:** `[in-progress]`
   - Closest artifacts: `capability-passport.v1` issuance via Capability
     Binding (`done`) and Key Delegation Passports (`done`) give the
     passport machinery; Seed Directory has discovery / `/key` endpoints
     (`done` / `partial`); Solution 025 Contact Claim Admission (`done`)
-    already evaluates first-class `email-control@v1` /
-    `phone-control@v1` `capability-passport.v1` profiles, so the consumer
-    side of these proofs is live.
-  - Newly frozen contracts: `phone-control` and `email-control` capability
-    ids are registered with wire names `proof/phone-control` /
-    `proof/email-control` and MVP `passport: yes`; Proposal 058 MVP
-    Decision #6 sets a 90-day default freshness window.
-  - Missing: the attestation-service role itself and its Capability
-    Registry row (e.g. `email-attestation` / `phone-attestation`), the
-    OTP / link verification flow specification, and the request / return
-    artifacts for the *acquisition* side (the catalog consumes the
-    resulting passport, but Marcin's node ↔ attestation service
-    conversation is not yet specified).
+    evaluates first-class `email-control@v1` / `phone-control@v1`
+    profiles. Proposal 061 (Contact Attestation Service) defines the
+    attestation role with OTP / link flow, and Node has
+    `attestation-core` + `attestation-service` crates plus bundled
+    (disabled) `attestation-service` middleware config (P060-034
+    `partial`).
+  - Newly frozen contracts: `phone-control` / `email-control` capability
+    ids registered as contact-control proofs; `email-attestation` /
+    `phone-attestation` capability ids registered as attestation
+    *provider* roles (`role/email-attestation` / `role/phone-attestation`,
+    MVP `passport: yes`); `contact-attestation-request.v1` and
+    `contact-attestation-result.v1` schemas exist with examples and
+    schema-gate validators; Proposal 058 MVP Decision #6 sets 90-day
+    default freshness window.
+  - Missing: production SMTP / SMS delivery integration (current dev
+    delivery is local), full operator policy beyond the bundled
+    disabled middleware config, and the Seed Directory advertisement
+    flow for attestation providers.
 
 - **Step 3 — Marcin publishes contact claims to the Contact Catalog:** `[in-progress]`
   - Closest artifacts: Solution 025 (Contact Catalog) is `partial` overall,
@@ -699,8 +724,12 @@ artifact and what is still missing.
     `partial`); the supervised-middleware-form deployment of
     `contact-catalog-core` + `contact-catalog-service` as a separate
     middleware crate (P058-017 `partial` — daemon-side prototype exists);
-    full remote provider fetch orchestration on top of the now-generic
-    `CatalogAdapter<T, F>` (P058-018 `partial`).
+    broader federation acceptance tests on top of the now-generic
+    `CatalogAdapter<T, F>` plus `sync_catalog_provider(...)`
+    transport-neutral mechanics in `node/catalog` (P058-018 `partial`);
+    real tombstone/revocation replay + incremental cursor semantics for
+    the provider-to-provider sync contract (P058-020 `partial` — MVP
+    snapshot fetch + opaque cursor + self-origin rejection landed).
 
 - **Step 4 — Daniel composes a message by email address (compose UI + outbound
   queue):** `[in-progress]`
@@ -924,15 +953,17 @@ artifact and what is still missing.
   contact-lookup-result promotion semantics.
 - **Local contact store (raw address book, labels, pairwise nym mappings):**
   `[in-progress]` — Solution 025 Local Contact Store is `partial`: the
-  daemon owns `<node-data-dir>/storage/local-contacts.sqlite` and exposes
-  local `GET/POST/PATCH/DELETE /v1/local-contacts...` routes; raw handles
-  stay daemon-local and do not leak into Contact Catalog records, Seed
-  Directory records, or shared lookup audit. The participant-owned
-  `pseudonym-vault.v1` runtime that backs cross-restore recovery is now
-  `done` (Solution 026); what remains is the messaging-domain side of
-  the integration. Missing: the `local-contact.v1` schema file at
-  `doc/schemas/` and the local-contacts ↔ vault wiring for membership
-  recovery.
+  daemon owns `<node-data-dir>/storage/local-contacts.sqlite` and
+  exposes local `GET/POST/PATCH/DELETE /v1/local-contacts...` routes
+  with `label`, `labels[]`, `metadata {}`, UX/provenance fields, and
+  pairwise nym pointers; the `local_contact_pairwise_mappings` table
+  tracks `active / rotated / revoked / archived` lifecycle. Raw
+  handles stay daemon-local and do not leak into Contact Catalog
+  records, Seed Directory records, or shared lookup audit. The
+  participant-owned `pseudonym-vault.v1` runtime that backs
+  cross-restore recovery is `done` (Solution 026); what remains is the
+  local-contacts-side sealed backup / replay wiring. Missing: the
+  `local-contact.v1` schema file at `doc/schemas/`.
 - **"Nym factory" with role-separated derived keys (signing, DH, sealing) and
   routing-subject vault:** `[in-progress]` — Proposal 059 is Accepted with
   Node MVP runtime implemented; Solution 026 (Pseudonym Vault and Key
@@ -967,38 +998,65 @@ exists yet, that is called out explicitly so the gap is visible.
 
 ### Step 1 — outstanding features
 
-- contactability settings UI panel inside the messaging middleware client (no
-  dedicated tracker; awaiting messaging middleware solution doc)
-- `local-contact.v1` schema file at `doc/schemas/` (referenced by
-  [Solution 025 Local Contact Store](../60-solutions/025-contact-catalog/025-contact-catalog.md)
-  but file not yet present; partial enforcement via DB schema in
-  `local-contacts.sqlite`; see also
+Already done:
+
+- `local-contact.v1` schema file at `doc/schemas/` with examples and
+  schema-gate validators (P060-033)
+- compatible `label`, explicit `labels[]`, `metadata {}`, UX/provenance
+  fields, and pairwise nym pointers in `local-contacts.sqlite`; the
+  `local_contact_pairwise_mappings` table tracks
+  `active/rotated/revoked/archived` lifecycle (see:
   [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
-- pairwise nym mapping table and recovery semantics on top of the existing
-  `local-contacts.sqlite` (see:
-  [Solution 025 Local Contact Store](../60-solutions/025-contact-catalog/025-contact-catalog.md),
-  [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
-- participant / nym / routing-subject picker for outbound contact routes
-  in the operator UI (see:
+- contactability UI panel in Node UI with daemon
+  contactability draft/options/attest/publish endpoints (P060-033
+  `partial`)
+- messaging contactability surfaces in Node UI alongside admin (see:
+  [Proposal 058 Tracking row P058-012](../40-proposals/058-contact-catalog.md))
+- Solution 027 cap `:contactability-and-local-contacts` (`partial`)
+  anchors the messaging-side contactability surface
+
+Still outstanding:
+
+- production Contact Catalog publication path (current publish endpoint
+  records a local draft; production binding to admitted Contact Catalog
+  claims remains) (P060-033)
+- contact-control evidence binding from the attestation seam (depends
+  on Step 2 production attestation delivery; P060-034)
+- sealed-vault backup / replay for `local-contacts.sqlite` rows and
+  pairwise nym mappings (P058-008 — vault runtime is `done`; the
+  local-contacts-side mirror remains)
+- participant / nym / routing-subject picker for outbound contact
+  routes in the operator UI (see:
   [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
 - end-user UI copy refinement distinguishing contact-control proof from
-  identity assurance, on top of the existing `/admin/contact-catalog`
-  surface (see:
+  identity assurance after the attestation service leaves local/dev
+  delivery mode (see:
   [Proposal 058 Tracking row P058-012](../40-proposals/058-contact-catalog.md))
 
 ### Step 2 — outstanding features
 
-- attestation-service role discoverable through Seed Directory under a
-  capability id such as `email-attestation` (see:
-  [Proposal 025](../40-proposals/025-seed-directory-as-capability-catalog.md);
-  no dedicated attestation-service solution doc yet — see Cross-Cutting
-  block below)
-- OTP/link verification flow specification (no dedicated tracker; needs
-  new proposal)
-- attestation request and return artifact shapes for the contact handle
-  side of `contact/attestation-ref` (Solution 025 already consumes the
-  resulting `email-control@v1` / `phone-control@v1` passports; the
-  *acquisition* side schemas remain to be defined)
+Already done:
+
+- attestation-service role defined by Proposal 061 (Contact Attestation
+  Service)
+- `email-attestation` (`role/email-attestation`) and `phone-attestation`
+  (`role/phone-attestation`) capability ids registered in the
+  Capability Registry with MVP `passport: yes`
+- `contact-attestation-request.v1` and `contact-attestation-result.v1`
+  schemas with examples and schema-gate validators (P060-034)
+- Node `attestation-core` + `attestation-service` crates with bundled
+  (disabled) `attestation-service` middleware config (P060-034
+  `partial`)
+- OTP / link verification flow specification in P061
+
+Still outstanding:
+
+- production SMTP / SMS delivery integration (current dev delivery is
+  local) (P060-034)
+- full operator policy beyond the bundled disabled middleware config
+  (P060-034)
+- Seed Directory advertisement of attestation providers under the
+  registered capability ids
 
 ### Step 3 — outstanding features
 
@@ -1015,9 +1073,14 @@ exists yet, that is called out explicitly so the gap is visible.
   providers, beyond admission-time enforcement and the projection sidecar
   (see:
   [Proposal 058 Tracking row P058-011](../40-proposals/058-contact-catalog.md))
-- full remote provider fetch orchestration on top of the generic
-  `CatalogAdapter<T, F>` and `RemoteContactClaimFilter` (see:
+- broader federation acceptance tests + operator policy UX on top of
+  the now-generic `CatalogAdapter<T, F>` + `sync_catalog_provider(...)`
+  transport-neutral mechanics in `node/catalog` (see:
   [Proposal 058 Tracking row P058-018](../40-proposals/058-contact-catalog.md))
+- real tombstone / revocation replay contract + incremental cursor
+  semantics beyond MVP snapshot high-water + multi-process federation
+  acceptance tests for the provider-to-provider sync contract (see:
+  [Proposal 058 Tracking row P058-020](../40-proposals/058-contact-catalog.md))
 
 ### Step 4 — outstanding features
 
@@ -1087,6 +1150,14 @@ Already done:
 - `mailbox.open` notification action target wired through a host-owned
   action target; Node UI exposes message detail at
   `/admin/messaging/messages/{message_id}` (P060-014 `done`)
+- inline action execution registry promoted to `done` — daemon
+  dispatches `contact-request.accept`, `contact-request.reject`, INAC
+  invitation actions, and `mailbox.open`; Node UI renders active
+  controls for wired refs and disabled controls for unwired / expired
+  refs (P057-009 `done`)
+- user and pod-user notification routes + Store v3 sealed per
+  recipient + user/pod-user inbox list surfaces in Node UI (P057-011
+  `partial` — see remaining hardening below)
 
 Still outstanding:
 
@@ -1095,11 +1166,9 @@ Still outstanding:
 - user-facing contact-request detail view in the Node UI (operator-side
   exists at `/admin/contact-catalog`; user-facing view remains, see:
   [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
-- promote inline action execution from `partial` to `done` for the
-  messaging-action class (see:
-  [Proposal 057 Tracking row P057-009](../40-proposals/057-user-and-operator-notifications.md))
-- promote cross-recipient user inboxes from `partial` to `done` so
-  notifications reach end-users, not only operators (see:
+- bind user / pod-user notification routes to authenticated local
+  identity (currently routes trust their parameter); promotes P057-011
+  fully to `done` (see:
   [Proposal 057 Tracking row P057-011](../40-proposals/057-user-and-operator-notifications.md))
 
 ### Step 8 — outstanding features
@@ -1233,12 +1302,24 @@ Still outstanding:
 
 ### Cross-Cutting Block — User/operator notifications — outstanding features
 
-- promote P057-009 inline action execution from `partial` to `done` for
-  the messaging-action class (see:
-  [Proposal 057 Tracking](../40-proposals/057-user-and-operator-notifications.md))
-- promote P057-011 cross-recipient user inboxes from `partial` to `done`
-  so the user (not only operator) sees messaging notifications (see:
-  [Proposal 057 Tracking](../40-proposals/057-user-and-operator-notifications.md))
+Already done:
+
+- P057-009 inline action execution registry promoted to `done` —
+  daemon dispatches `contact-request.accept`, `contact-request.reject`,
+  INAC invitation actions, and `mailbox.open`; Node UI renders active
+  controls for wired refs and disabled controls for unwired / expired
+  refs (see:
+  [Proposal 057 Tracking row P057-009](../40-proposals/057-user-and-operator-notifications.md))
+- user and pod-user notification routes, Store v3 sealed per
+  recipient, and user/pod-user inbox list surfaces in Node UI
+  (P057-011 `partial`)
+
+Still outstanding:
+
+- bind P057-011 user / pod-user notification routes to authenticated
+  local identity (current routes trust the path parameter alone);
+  promotes P057-011 fully to `done` (see:
+  [Proposal 057 Tracking row P057-011](../40-proposals/057-user-and-operator-notifications.md))
 - (deferred: P057-012 OS notifications — not blocking for this story)
 
 ### Cross-Cutting Block — Capability Advertisement of messaging support — outstanding features
@@ -1320,10 +1401,21 @@ Still partial — landed in MVP-shape, hardening or completion remains:
   [Proposal 058 Tracking row P058-017](../40-proposals/058-contact-catalog.md))
 - generalise `node/catalog` `CatalogAdapter` trait over `T: CatalogRecord`
   (`CatalogAdapter<T, F>` with `ObservedRecord<T>` and
-  `RemoteContactClaimFilter` done; `RemoteContactCatalogHttpAdapter`
+  `RemoteContactClaimFilter` done; `node/catalog` now exposes
+  `CatalogSyncOptions`, `CatalogSyncReport`, `CatalogSyncSink`, and
+  `sync_catalog_provider(...)` as transport-neutral fetch / validate /
+  merge / count; `RemoteContactCatalogHttpAdapter` plus generic sync
   refreshes trusted providers into a sidecar remote claim cache; full
   federation acceptance tests + operator policy UX open) (see:
   [Proposal 058 Tracking row P058-018](../40-proposals/058-contact-catalog.md))
+- provider-to-provider Contact Catalog sync contract without Agora —
+  authenticated `GET /v1/contact-catalog/sync/claims` snapshot fetch,
+  opaque cursor in `RemoteContactClaimFilter`, self-origin rejection,
+  provider sync sidecar state — done in MVP-shape per Decision #11–#13;
+  real tombstone / revocation replay, incremental cursor beyond
+  snapshot high-water, and multi-process federation acceptance tests
+  remain (see:
+  [Proposal 058 Tracking row P058-020](../40-proposals/058-contact-catalog.md))
 
 ### Cross-Cutting Block — Contact-handle attestation as a capability surface — outstanding features
 
@@ -1336,52 +1428,78 @@ Already done:
   by Contact Catalog admission as first-class freshness-bound input
   evidence (see:
   [Solution 025 Contact Claim Admission](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+- attestation-service role defined by Proposal 061 (Contact
+  Attestation Service)
+- `email-attestation` and `phone-attestation` capability ids registered
+  in the Capability Registry as service-role ids (`role/email-attestation`,
+  `role/phone-attestation`) with MVP `passport: yes`
+- `contact-attestation-request.v1` and `contact-attestation-result.v1`
+  schemas with examples and schema-gate validators (P060-034)
+- Node `attestation-core` + `attestation-service` crates with bundled
+  (disabled) `attestation-service` middleware config (P060-034
+  `partial`)
+- OTP / link verification flow specification in Proposal 061
 
 Still outstanding:
 
-- attestation-service role and Seed Directory discoverability under a
-  capability id such as `email-attestation` / `phone-attestation` (no
-  dedicated tracker; needs new proposal and Capability Registry row)
-- OTP / link verification flow specification (no dedicated tracker)
-- attestation request and return artifact shapes for the *acquisition*
-  side of `contact/attestation-ref` — Contact Catalog consumes the
-  resulting passport, but the conversation between the user's node and
-  the attestation service is not yet specified (no dedicated tracker)
+- production SMTP / SMS delivery integration (current dev delivery is
+  local) (P060-034)
+- full operator policy beyond the bundled disabled middleware config
+  (P060-034)
+- Seed Directory advertisement of attestation providers under
+  `role/email-attestation` / `role/phone-attestation`
 
 ### Cross-Cutting Block — Messaging middleware with stratified storage — outstanding features
 
 Proposal 060 is Draft with most MVP decisions frozen; Solution 027
-(Messaging Middleware, `partial`) realises the runtime.
+(Messaging Middleware, `partial`) realises the runtime with eight
+`must-implement` capabilities, two of which are now `done`
+(`messaging-receive-passport-profile` and `messaging-node-ui`) and six
+`partial`.
 
 Already done:
 
 - messaging middleware solution document and capability sidecar (see:
   [Solution 027 Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md);
   P060-005)
+- `messaging-receive@v1` passport profile freeze (P060-002 + Solution
+  027 cap `:messaging-receive-passport-profile` `done`)
 - Layer 1 / Layer 2 / Layer 3 storage stratification per Step 11 (see:
   Step 11 above; P060-007)
 - all five Layer 3 messaging-fact schemas with examples and
   `schema-gate` validators (P060-011)
 - mailbox view and inbox projection through Solution 027
   `/v1/messaging/mailbox` + Node UI `/admin/messaging` (P060-013,
-  P060-015)
-- `mailbox.open` notification action target wired
-  (P060-014)
+  P060-015, Solution 027 cap `:messaging-node-ui` `done`)
+- `mailbox.open` notification action target wired (P060-014)
 - `local-recipient-mailbox.resolve` host capability for inbound
   mailbox routing (P060-032)
+- `local-contact.v1` schema + contactability draft/options/attest/
+  publish endpoints + Node UI contactability panel (P060-033 `partial`)
+- Story-010 two-node acceptance scaffold under
+  `node/tools/acceptance/story-010-operator/` (P060-035 `partial`)
+- signer-derived sender identity + Pseudonym Vault reply-route
+  creation for contact requests (P060-013 evidence)
 
-Still outstanding (Solution 027 component is `partial`; all seven
-`must-implement` capabilities are `partial`):
+Still outstanding:
 
 - Layer 3 runtime Memarium writes (the fact endpoints exist;
-  promotion from pending-facts to durable Memarium records pending)
+  promotion from pending-facts to durable Memarium records pending —
+  P060-013 remaining hardening)
 - Layer 2 rebuild from Layer 3 replay + FTS5 rebuild (P060-017)
-- full vault record persistence + startup replay (P060-016)
-- real contact-lookup-result promotion semantics in the outbound
-  queue (P060-013 remaining hardening)
+- full vault record persistence + startup replay (P060-016 — local
+  recovery mirror table now persists records; sealed vault record
+  replay at startup remains)
+- full mock-host integration coverage + full Story-010 cross-node
+  acceptance + revocation-triggered passport-revoked facts (P060-013
+  remaining hardening)
 - supervised multi-process cross-node messaging-acceptor tests
   (P060-009 remaining hardening)
-- revocation-triggered passport-revoked facts
+- executable end-to-end smoke driver for the two-node acceptance
+  scaffold (P060-035)
+- production Contact Catalog publication path for the contactability
+  bridge (P060-033)
+- production attestation delivery + operator policy (P060-034)
 
 ### Cross-Cutting Block — Local contact store — outstanding features
 
@@ -1390,6 +1508,13 @@ Already done:
 - raw address book entry storage with create / list / get / patch /
   archive operator API on top of `local-contacts.sqlite` (see:
   [Solution 025 Local Contact Store](../60-solutions/025-contact-catalog/025-contact-catalog.md))
+- explicit user labels (`label`, `labels[]`), per-contact metadata
+  (`metadata {}`), UX / provenance fields, and pairwise nym pointers
+  in `local-contacts.sqlite` (see:
+  [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
+- `local_contact_pairwise_mappings` table tracking
+  `active / rotated / revoked / archived` lifecycle (see:
+  [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
 - never-published-by-default policy enforcement — raw handles stay
   daemon-local and do not leak into Contact Catalog records, Seed
   Directory records, or shared lookup audit (see:
@@ -1398,15 +1523,13 @@ Already done:
 Still outstanding:
 
 - `local-contact.v1` schema file at `doc/schemas/` (referenced by
-  Solution 025 but file not yet present)
-- explicit user labels and per-contact metadata fields beyond the
-  current DB columns (see:
-  [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
-- pairwise nym mapping table specifics and lifecycle (see:
+  Solution 025 but file not yet present; the DB schema in
+  `local-contacts.sqlite` is currently the only structural enforcement)
+- sealed Pseudonym Vault backup / replay for `local-contacts.sqlite`
+  rows and pairwise nym mappings (vault runtime itself is `done` per
+  P059-010 / Solution 026; the local-contacts-side mirror remains)
+  (see:
   [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md),
-  [Proposal 058 Tracking row P058-009](../40-proposals/058-contact-catalog.md))
-- recovery and backup semantics for local contacts and pairwise nym
-  mappings, including integration with `pseudonym-vault.v1` (see:
   [Proposal 059 Tracking row P059-010](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 
 ### Cross-Cutting Block — "Nym factory" with role-separated derived keys — outstanding features

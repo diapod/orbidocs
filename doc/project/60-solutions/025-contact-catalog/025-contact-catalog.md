@@ -180,10 +180,16 @@ Status:
 
 - `partial` — The daemon owns
   `<node-data-dir>/storage/local-contacts.sqlite` and exposes local
-  create/list/get/patch/archive routes. Raw handles remain daemon-local and are
-  not emitted by Contact Catalog lookup, Seed Directory records, or shared
-  lookup audit. Recovery/backup semantics for local contacts and pairwise nym
-  mappings remain open.
+  create/list/get/patch/archive routes. Records now carry compatible `label`,
+  explicit `labels[]`, `metadata {}`, UX/provenance fields, and an active
+  pairwise contact-nym pointer. The store also maintains
+  `local_contact_pairwise_mappings` with `active`, `rotated`, `revoked`, and
+  `archived` lifecycle states so nym rotation is history-preserving. Raw handles
+  remain daemon-local and are not emitted by Contact Catalog lookup, Seed
+  Directory records, or shared lookup audit. Durable local recovery mirror
+  records exist for messaging recovery; sealed `pseudonym-vault.v1` backup and
+  startup replay for local contacts and pairwise mappings remain follow-up
+  work.
 
 ## May Implement
 

@@ -1,0 +1,17 @@
+{
+  "schema": "local-contact.v1",
+  "contact/id": "local-contact:Z2a_xV7eUS5YZnM3BUXX2m3xRiZtBB9jsgoTpDJT4U4",
+  "handle/kind": "email",
+  "handle/raw": "Marcin@example.org",
+  "handle/normalized": "marcin@example.org",
+  "handle/digest": "sha256:VBCNwlOECdO5YdGmDo4UnAX8lJK64aiLKbC2QHn2d54",
+  "label": "Marcin",
+  "labels": ["friend", "orbiplex"],
+  "metadata": {
+    "note": "Met at tea."
+  },
+  "state": "active",
+  "pairwise/contact-nym-id": "contact-nym:marcin-001",
+  "created/at": "2026-05-17T08:00:00Z",
+  "updated/at": "2026-05-17T08:30:00Z"
+}

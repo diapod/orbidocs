@@ -35,6 +35,8 @@ This solution implements the MVP+ personal messaging path:
 - outbound compose, route lookup, contact permission waiting, and private-direct
   delivery through host capabilities;
 - the canonical `messaging-receive@v1` passport profile;
+- the local contactability draft surface used by Story-010 before Contact
+  Catalog publication is fully automated;
 - local participant mailbox resolution through a daemon-owned authority store;
 - Layer 1 Maildir bodies, Layer 2 SQLite indexes, and Layer 3 Memarium facts;
 - degraded operation when Memarium or host capabilities are temporarily
@@ -77,6 +79,13 @@ Binding has verified the passport signature and freshness:
 
 The passport may be presented inline or by reference, but the service never
 owns private keys and never mints the passport directly.
+
+Verifier boundary rule: when `capability_id = "messaging-receive"`, the
+capability layer rejects passports that do not contain at least one canonical
+`messaging-receive@v1` scope profile, and it rejects alternate profile
+discriminators such as bare `messaging-receive`. If
+`max_revocation_staleness_seconds` is omitted by an older producer, the typed
+profile defaults it to 300 seconds before evaluation.
 
 ## Host Capabilities
 
@@ -151,6 +160,10 @@ The outbound queue is deterministic and retryable:
    the Pseudonym Vault. If Contact Catalog lookup is the only known recipient
    address, `recipient/route` is omitted; the receiving daemon binds the
    request to its local node id instead of trusting a sender-invented route.
+   When a `contact-lookup-result.v1` arrives for an outbox item, the service
+   promotes only concrete route candidates whose `result/route.purposes`
+   contains `messaging`; `no-match`, `policy-denied`, and `ambiguous` are
+   terminal failures, while stale or rate-limited results stay retryable.
 2. `waiting-for-contact-permission` calls `capability.passport.lookup` for a
    usable `messaging-receive` passport.
 3. `ready-for-delivery` builds and signs `message-envelope.v1`, attaches the
@@ -180,19 +193,42 @@ Layer 3 facts and exposes `reindexing` through service status.
 
 ## UI Boundary
 
-Node UI owns `/admin/messaging`. It renders status, compose, inbox, mailbox
-lists, outbox, message detail, pending-facts diagnostics, and recovery/reindex
-actions by calling `/v1/messaging/*` daemon proxies. It does not duplicate
-messaging policy logic.
+Node UI owns `/admin/messaging`. It renders status, contactability draft
+settings, compose, inbox, mailbox lists, outbox, message detail, pending-facts
+diagnostics, and recovery/reindex actions by calling `/v1/messaging/*` daemon
+proxies. It does not duplicate messaging policy logic.
+
+The contactability panel is draft-first. Editing public handles and route
+bindings never mutates Contact Catalog state until the user invokes `Publish`.
+The MVP surface records attest/publish intent locally; production publication
+continues through Contact Catalog and the attestation service contracts.
+
+Local contacts are a daemon-owned UX and continuity projection. They may carry
+labels, local metadata, and the active pairwise `contact-nym` mapping used for
+operator-facing continuity, but they are not network evidence. The canonical
+receive-consent state remains the messaging service's `contacts` membership plus
+the corresponding `messaging-receive@v1` passport.
 
 `mailbox.open` is a host-owned notification action target. It opens
 `/admin/messaging/messages/{message_id}` and may mark the notification handled
 or the local read UX state; it does not mutate messaging-domain consent or
 delivery state.
 
+## Implementation Tracker
+
+| ID | Feature | Status | Evidence |
+|---|---|---|---|
+| S027-001 | Canonical `messaging-receive@v1` profile enforcement | done | Node `capability` rejects non-canonical `messaging-receive` profile discriminators and defaults missing `max_revocation_staleness_seconds` to 300 seconds. |
+| S027-002 | Messaging service runtime | partial | `messaging-service` covers inbound accept, outbox, contact-lookup-result promotion, private-direct delivery, Maildir/SQLite storage, pending facts, recovery mirroring, and reindex. Full Story-010 E2E and revocation-triggered `messaging.passport-revoked.v1` facts remain hardening. |
+| S027-003 | Contactability and local contacts | partial | Daemon exposes contactability draft/options/attest/publish endpoints, `local-contact.v1` import/export validation, local contact labels/metadata, pairwise mapping lifecycle, and `/v1/local-contacts/resolve`. Production Contact Catalog publication and verified contact-control evidence binding remain follow-up. |
+| S027-004 | Contact attestation service dependency | partial | Node adds `attestation-core`, supervised `attestation-service`, disabled bundled middleware config, contact attestation schemas/examples, schema-gate validators, and `email-attestation` / `phone-attestation` capability ids. Production delivery adapters and operator policy remain outside this messaging slice. |
+| S027-005 | Node UI messaging surface | done | Node UI renders `/admin/messaging` with contactability draft controls, compose, local-contact based unknown-recipient warning, inbox, outbox, diagnostics, and message detail. |
+| S027-006 | Story-010 acceptance pack | partial | `node/tools/acceptance/story-010-operator/` provides two-node profile generation and launcher/runbook scaffolding. The green automated smoke driver is not implemented yet. |
+
 ## References
 
 - `doc/project/40-proposals/060-messaging-middleware.md`
+- `doc/project/40-proposals/061-contact-attestation-service.md`
 - `doc/project/30-stories/story-010-message-to-a-friend.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 - `doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md`
