@@ -116,7 +116,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`procurement-offer.v1.schema.json`](schemas-gen/schemas/procurement-offer.v1.md) | `22` | `21` | `yes` | `yes` | `1` | `1` |
 | [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) | `20` | `19` | `yes` | `yes` | `2` | `1` |
 | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md) | `19` | `10` | `yes` | `yes` | `1` | `4` |
-| [`pseudonym-vault.v1.schema.json`](schemas-gen/schemas/pseudonym-vault.v1.md) | `18` | `8` | `yes` | `yes` | `1` | `1` |
+| [`pseudonym-vault.v1.schema.json`](schemas-gen/schemas/pseudonym-vault.v1.md) | `20` | `10` | `yes` | `yes` | `2` | `2` |
 | [`public-gossip.v1.schema.json`](schemas-gen/schemas/public-gossip.v1.md) | `15` | `15` | `yes` | `yes` | `1` | `1` |
 | [`public-log-entry.v1.schema.json`](schemas-gen/schemas/public-log-entry.v1.md) | `6` | `6` | `yes` | `yes` | `0` | `0` |
 | [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) | `30` | `30` | `yes` | `yes` | `2` | `2` |
@@ -393,5 +393,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `121`
 - Generated schema docs: `121`
-- Positive examples: `139`
-- Negative examples: `103`
+- Positive examples: `140`
+- Negative examples: `104`

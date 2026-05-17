@@ -18,6 +18,7 @@ participant mnemonic / recovery root
   -> stable participant signing identity
   -> participant role derivation
   -> participant/vault-wrap
+  -> participant/recovery-wrap
   -> ciphertext-only pseudonym-vault.v1 snapshots
   -> private nym and routing-subject seed recovery
 ```
@@ -26,9 +27,14 @@ The MVP profile is intentionally conservative:
 
 - keep `orbiplex-participant-seed-v1` stable;
 - keep the participant root implicit behind recovery flows;
-- derive `participant/dh` and `participant/vault-wrap` without changing the
-  public participant id;
+- derive `participant/dh`, `participant/vault-wrap`, and
+  `participant/recovery-wrap` without changing the public participant id;
+- keep `participant/dh` local-only and never publish it as a standing discovery
+  artifact;
 - store nym and `routing:did:key:...` seeds inside a private encrypted vault;
+- support `root-only` vault wrapping by default and optional
+  `root+local-passphrase` wrapping when the operator wants a second local
+  factor;
 - synchronize only opaque `pseudonym-vault.v1` snapshots;
 - accept only single-writer linear vault updates;
 - reject participant recovery-recipient leakage in pseudonymous or routing
@@ -72,7 +78,10 @@ Responsibilities:
 - derive role-specific material through versioned, domain-separated labels;
 - expose `participant/signing`, `participant/dh`, and
   `participant/vault-wrap` as distinct purposes;
-- keep `participant/recovery-wrap` reserved for a future profile;
+- keep `participant/dh` local-only: derivable on demand for controlled
+  direct/sealed protocols, but not discoverable;
+- expose `participant/recovery-wrap` as an internal-wrap purpose for local
+  sealed recovery bundles;
 - fail closed when only raw signing-key material is available and a role-root
   operation requires mnemonic or recovery-root material.
 
@@ -155,6 +164,10 @@ Responsibilities:
 
 - export enough mnemonic/recovery-root material to restore participant role
   derivation where policy allows export;
+- support a legacy full-root export profile for compatibility;
+- support a sealed-local profile whose payload is wrapped by
+  `participant/recovery-wrap` and whose import requires the mnemonic/recovery
+  root supplied separately;
 - include latest sealed pseudonym-vault snapshots as opaque ciphertext blobs;
 - restore the role tree and sealed vault snapshots without exposing participant
   linkage in public artifacts;
@@ -165,7 +178,8 @@ Status:
 
 - `done` — Node has a role-aware participant recovery bundle import/export path
   that restores mnemonic-backed role derivation and latest sealed vault
-  snapshots, while fail-closing when only raw signing-key material is present.
+  snapshots, supports legacy full-root and sealed-local profiles, and
+  fail-closes when only raw signing-key material is present.
 
 ### Pseudonymous and Routing Metadata Privacy Guard
 
@@ -200,7 +214,7 @@ Status:
 
 ## May Implement
 
-### Participant DH Projection
+### Participant DH Local-Only Role
 
 Based on:
 
@@ -212,14 +226,18 @@ Related schemas:
 
 Responsibilities:
 
-- decide whether `participant/dh` is ever publicly discoverable;
-- if public, define the exact projection artifact, disclosure rule, and
-  revocation semantics;
-- if private, keep it local to controlled direct protocols.
+- derive `participant/dh` from the implicit participant root when controlled
+  direct/sealed protocols need it;
+- keep `participant/dh` out of Seed Directory records, node advertisements,
+  capability advertisements, vault outer metadata, and recovery bundle
+  metadata;
+- expose only role-purpose catalog metadata that says the role exists and is
+  local-only.
 
 Status:
 
-- `open`
+- `done` — Node exposes `participant/dh` only as a local role-purpose catalog
+  row and derives the key on demand from mnemonic/recovery-root material.
 
 ### Recovery-Wrap Profile
 
@@ -234,14 +252,16 @@ Related schemas:
 Responsibilities:
 
 - define `participant/recovery-wrap` separately from `participant/vault-wrap`;
-- decide whether it supports escrow, social recovery, hardware custody, or only
-  local recovery-bundle sealing;
-- keep it out of the MVP vault sync semantics until the recovery profile is
-  explicit.
+- use it for local sealed recovery-bundle payloads;
+- require mnemonic/recovery-root material separately when importing a
+  sealed-local bundle;
+- keep escrow, social recovery, and hardware custody out of this profile until
+  separate procedures are designed.
 
 Status:
 
-- `deferred`
+- `done` — MVP implements `participant/recovery-wrap` as a local internal-wrap
+  role for sealed recovery bundles, not as social recovery or escrow.
 
 ### Stronger Vault-Wrap Profiles
 
@@ -261,7 +281,9 @@ Responsibilities:
 
 Status:
 
-- `planned`
+- `partial` — Node implements the opt-in `root+local-passphrase` profile in
+  `pseudonym-vault.v1` metadata and runtime import/export; hardware-backed
+  wrapping remains deferred.
 
 ### Multi-Device Vault Merge
 
@@ -291,7 +313,7 @@ Status:
   root;
 - publishing `nym -> participant` or `routing-subject -> participant` linkage;
 - treating advisory `route:...` identifiers as cryptographic subjects;
-- defining a public participant DH discovery artifact in MVP;
+- publishing a standing participant DH discovery artifact;
 - defining social recovery, threshold custody, or HSM-only operation;
 - storing vault plaintext in network-visible artifacts.
 
@@ -308,6 +330,7 @@ Status:
 - stable `participant:did:key:...` signing identities
 - local `participant/dh` role material
 - local `participant/vault-wrap` AEAD wrapping material
+- local `participant/recovery-wrap` AEAD wrapping material
 - local `nym:did:key:...` signing and DH material
 - local `routing:did:key:...` signing and DH material
 - sealed `pseudonym-vault.v1` snapshots

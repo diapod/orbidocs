@@ -41,6 +41,8 @@ Opaque encrypted local vault snapshot for nym and routing-subject private materi
 | [`crypto/kdf`](#field-crypto-kdf) | `yes` | enum: `hkdf-sha256` | KDF used to derive the vault wrapping key from participant root material and the stored salt. |
 | [`crypto/aead`](#field-crypto-aead) | `yes` | enum: `xchacha20-poly1305`, `aes-256-gcm` |  |
 | [`crypto/wrap-purpose`](#field-crypto-wrap-purpose) | `yes` | const: `participant/vault-wrap` | Private role purpose used to derive the wrapping key. This is a role label, not a public participant identifier. |
+| [`crypto/wrap-profile`](#field-crypto-wrap-profile) | `no` | enum: `root-only`, `root+local-passphrase` | Local wrap-strength profile. `root-only` preserves the Proposal 059 compatibility profile; `root+local-passphrase` additionally requires a local passphrase at open/import time. |
+| [`crypto/passphrase-kdf`](#field-crypto-passphrase-kdf) | `no` | object | Metadata for the optional local passphrase factor. The passphrase itself is never serialized. |
 | [`crypto/aad-profile`](#field-crypto-aad-profile) | `no` | enum: `pseudonym-vault.outer-metadata.v1` |  |
 | [`salt`](#field-salt) | `yes` | ref: `#/$defs/base64url` |  |
 | [`nonce`](#field-nonce) | `yes` | ref: `#/$defs/base64url` |  |
@@ -53,6 +55,65 @@ Opaque encrypted local vault snapshot for nym and routing-subject private materi
 | Definition | Shape | Description |
 |---|---|---|
 | [`base64url`](#def-base64url) | string |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "crypto/wrap-profile": {
+      "const": "root+local-passphrase"
+    }
+  },
+  "required": [
+    "crypto/wrap-profile"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "crypto/passphrase-kdf"
+  ]
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "properties": {
+    "crypto/wrap-profile": {
+      "const": "root-only"
+    }
+  },
+  "required": [
+    "crypto/wrap-profile"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "not": {
+    "required": [
+      "crypto/passphrase-kdf"
+    ]
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -140,6 +201,22 @@ KDF used to derive the vault wrapping key from participant root material and the
 - Shape: const: `participant/vault-wrap`
 
 Private role purpose used to derive the wrapping key. This is a role label, not a public participant identifier.
+
+<a id="field-crypto-wrap-profile"></a>
+## `crypto/wrap-profile`
+
+- Required: `no`
+- Shape: enum: `root-only`, `root+local-passphrase`
+
+Local wrap-strength profile. `root-only` preserves the Proposal 059 compatibility profile; `root+local-passphrase` additionally requires a local passphrase at open/import time.
+
+<a id="field-crypto-passphrase-kdf"></a>
+## `crypto/passphrase-kdf`
+
+- Required: `no`
+- Shape: object
+
+Metadata for the optional local passphrase factor. The passphrase itself is never serialized.
 
 <a id="field-crypto-aad-profile"></a>
 ## `crypto/aad-profile`

@@ -1,0 +1,28 @@
+{
+  "schema": "pseudonym-vault.v1",
+  "schema/v": 1,
+  "vault/id": "pseudonym-vault:01jv7pseudonym002",
+  "vault/version": 18,
+  "vault/profile": "participant-private-pseudonyms",
+  "contents/kinds": [
+    "nym",
+    "routing-subject"
+  ],
+  "created-at": "2026-05-16T09:00:00Z",
+  "sealed-at": "2026-05-16T10:05:00Z",
+  "supersedes": "pseudonym-vault:01jv7pseudonym001",
+  "crypto/kdf": "hkdf-sha256",
+  "crypto/aead": "xchacha20-poly1305",
+  "crypto/wrap-purpose": "participant/vault-wrap",
+  "crypto/wrap-profile": "root+local-passphrase",
+  "crypto/passphrase-kdf": {
+    "alg": "hkdf-sha256",
+    "purpose": "pseudonym-vault.v1/root+local-passphrase",
+    "salt/ref": "salt"
+  },
+  "crypto/aad-profile": "pseudonym-vault.outer-metadata.v1",
+  "salt": "bWluaW1hbC1leGFtcGxlLXNhbHQ",
+  "nonce": "bWluaW1hbC1ub25jZS0xMjM",
+  "ciphertext": "b3BhcXVlLXNlYWxlZC12YXVsdC1ibG9i",
+  "ciphertext/digest": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+}

@@ -8,9 +8,9 @@
  compatibility, versioned role derivation, ciphertext-only pseudonym-vault.v1
  snapshots, local nym and routing-subject seed continuity, role-aware recovery
  bundles, and privacy guards that prevent participant recovery-recipient leakage
- in pseudonymous or routing metadata. The MVP runtime is implemented; public
- participant/dh projection, participant/recovery-wrap, second-factor vault-wrap
- profiles, and multi-device merge remain post-MVP layers."
+ in pseudonymous or routing metadata. The MVP runtime is implemented with
+ local-only participant/dh, local sealed participant/recovery-wrap, and optional
+ root+local-passphrase vault wrapping. Multi-device merge remains post-MVP."
 
  :must-implement
  [{:cap/id :stable-participant-role-derivation
@@ -23,7 +23,8 @@
    ["Preserve the existing orbiplex-participant-seed-v1 signing path and participant id vectors"
     "Derive role-specific material through versioned, domain-separated labels"
     "Expose participant/signing, participant/dh, and participant/vault-wrap as distinct purposes"
-    "Reserve participant/recovery-wrap for a future profile"
+    "Keep participant/dh local-only and non-discoverable"
+    "Expose participant/recovery-wrap as an internal-wrap purpose for local sealed recovery bundles"
     "Fail closed when a role-root operation is attempted for a raw signing-key-only participant"]
    :status :done}
 
@@ -66,6 +67,8 @@
    :schemas ["pseudonym-vault.v1"]
    :responsibilities
    ["Export enough mnemonic or recovery-root material to restore participant role derivation where policy allows export"
+    "Support the legacy full-root recovery export profile for compatibility"
+    "Support a sealed-local recovery profile wrapped by participant/recovery-wrap and requiring mnemonic separately on import"
     "Include latest sealed pseudonym-vault snapshots as opaque ciphertext blobs"
     "Restore the role tree and sealed vault snapshots without exposing participant linkage in public artifacts"
     "Treat raw signing-key-only export as legacy-minimum recovery, not full role recovery"]
@@ -89,16 +92,16 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :participant-dh-projection
-   :title "Participant DH Projection"
+ [{:cap/id :participant-dh-local-only-role
+   :title "Participant DH Local-Only Role"
    :kind :optional
    :based-on ["doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
    :schemas []
    :responsibilities
-   ["Decide whether participant/dh is ever publicly discoverable"
-    "Define projection artifact, disclosure rule, and revocation semantics if it becomes public"
-    "Keep participant/dh local to controlled direct protocols if no public projection is chosen"]
-   :status :open}
+   ["Derive participant/dh from the implicit participant root on demand for controlled direct/sealed protocols"
+    "Keep participant/dh out of Seed Directory records, node advertisements, capability advertisements, vault outer metadata, and recovery bundle metadata"
+    "Expose only role-purpose catalog metadata showing that participant/dh is local-only"]
+   :status :done}
 
   {:cap/id :participant-recovery-wrap-profile
    :title "Recovery-Wrap Profile"
@@ -107,9 +110,10 @@
    :schemas []
    :responsibilities
    ["Define participant/recovery-wrap separately from participant/vault-wrap"
-    "Decide whether recovery-wrap supports escrow, social recovery, hardware custody, or only local recovery-bundle sealing"
-    "Keep recovery-wrap out of MVP vault sync semantics until the recovery profile is explicit"]
-   :status :deferred}
+    "Use participant/recovery-wrap for local sealed recovery-bundle payloads"
+    "Require mnemonic or recovery-root material separately when importing a sealed-local bundle"
+    "Keep escrow, social recovery, and hardware custody out of this MVP profile"]
+   :status :done}
 
   {:cap/id :stronger-vault-wrap-profiles
    :title "Stronger Vault-Wrap Profiles"
@@ -120,7 +124,7 @@
    ["Add an optional second local factor or hardware-backed wrapping mode"
     "Preserve root-only participant/vault-wrap as the MVP compatibility profile"
     "Make profile selection explicit in vault metadata and import policy"]
-   :status :planned}
+   :status :partial}
 
   {:cap/id :multi-device-vault-merge
    :title "Multi-Device Vault Merge"
@@ -151,9 +155,10 @@
 
  :produces
  ["stable participant:did:key signing identities"
-  "local participant/dh role material"
-  "local participant/vault-wrap AEAD wrapping material"
-  "local nym:did:key signing and DH material"
+ "local participant/dh role material"
+ "local participant/vault-wrap AEAD wrapping material"
+ "local participant/recovery-wrap AEAD wrapping material"
+ "local nym:did:key signing and DH material"
   "local routing:did:key signing and DH material"
   "sealed pseudonym-vault.v1 snapshots"
   "role-aware participant recovery bundles"

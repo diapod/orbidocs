@@ -31,6 +31,44 @@
     "nonce",
     "ciphertext"
   ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "crypto/wrap-profile": {
+            "const": "root+local-passphrase"
+          }
+        },
+        "required": [
+          "crypto/wrap-profile"
+        ]
+      },
+      "then": {
+        "required": [
+          "crypto/passphrase-kdf"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "crypto/wrap-profile": {
+            "const": "root-only"
+          }
+        },
+        "required": [
+          "crypto/wrap-profile"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "crypto/passphrase-kdf"
+          ]
+        }
+      }
+    }
+  ],
   "properties": {
     "schema": {
       "const": "pseudonym-vault.v1"
@@ -99,6 +137,39 @@
       "type": "string",
       "const": "participant/vault-wrap",
       "description": "Private role purpose used to derive the wrapping key. This is a role label, not a public participant identifier."
+    },
+    "crypto/wrap-profile": {
+      "type": "string",
+      "enum": [
+        "root-only",
+        "root+local-passphrase"
+      ],
+      "default": "root-only",
+      "description": "Local wrap-strength profile. `root-only` preserves the Proposal 059 compatibility profile; `root+local-passphrase` additionally requires a local passphrase at open/import time."
+    },
+    "crypto/passphrase-kdf": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "purpose",
+        "salt/ref"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "const": "hkdf-sha256"
+        },
+        "purpose": {
+          "type": "string",
+          "const": "pseudonym-vault.v1/root+local-passphrase"
+        },
+        "salt/ref": {
+          "type": "string",
+          "const": "salt"
+        }
+      },
+      "description": "Metadata for the optional local passphrase factor. The passphrase itself is never serialized."
     },
     "crypto/aad-profile": {
       "type": "string",

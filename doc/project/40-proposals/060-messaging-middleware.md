@@ -72,6 +72,13 @@ TLS evidence, size, rate); the messaging acceptor does the three
 messaging-specific scope checks and the `contacts`-class policy gate
 before invoking persistence.
 
+The first implementation slice should be deliberately narrow: one-to-one
+text messages, `private-direct` delivery, Contact Catalog lookup by route
+candidate, inline or `artifact-store:` body payloads, one local node UI
+mailbox, and no cross-device synchronization. That slice is already enough
+to exercise the real seams without asking the messaging module to become
+its own transport, identity system, contact catalog, or long-term archive.
+
 ## Context and Problem Statement
 
 Orbiplex today has every primitive needed to deliver a private message
@@ -159,6 +166,9 @@ passport profile required to implement them.
 - This proposal does not own attestation acquisition for `phone-control`
   / `email-control`. That is a separate proposal slot (see story-010
   Cross-Cutting block).
+- This proposal does not define end-to-end message-body encryption. It may
+  be added as a later body profile without changing the transport,
+  consent, or storage boundaries frozen here.
 
 ## Proposed Model
 
@@ -173,7 +183,10 @@ co-located but distinct subsystems, mirroring the Contact Catalog split:
     Artifact Delivery acceptor to the messaging service;
   - host capability bridge for `capability.passport.lookup`,
     `capability.passport.issue`, `memarium.write`, `notification.create`,
-    and `local-contacts.*`;
+    `local-contacts.*`, and `local-recipient-mailbox.resolve`;
+  - policy evaluation for which supervised service may call each host
+    capability, using the existing Capability Binding and middleware
+    caller-binding machinery;
   - the `/admin/messaging` operator UI surface;
   - the `/v1/messaging/status` proxy reading service state.
 
@@ -183,10 +196,11 @@ co-located but distinct subsystems, mirroring the Contact Catalog split:
     `<node-data-dir>/storage/messaging/maildir/...`;
   - Layer 2 middleware-owned SQLite operational index at
     `<node-data-dir>/storage/messaging/index.sqlite`, with rows for
-    message id, from, to, date, subject, threading id, flags, size,
-    Maildir path, plus optional FTS5;
+    mailbox id, message id, from, to, date, subject, threading id,
+    flags, size, Maildir path, plus optional FTS5;
   - the inbound acceptor that runs the three messaging-specific scope
-    checks plus the `contacts`-class policy gate;
+    checks plus the `contacts`-class policy gate and local recipient
+    mailbox resolution;
   - the outbound message queue with its state machine, queue scanner,
     and passport attachment;
   - the inbox projection feeding the mailbox view;
@@ -201,6 +215,13 @@ co-located but distinct subsystems, mirroring the Contact Catalog split:
 
 Compose UI is a Node UI surface that calls into the messaging service.
 The middleware does not embed its own browser stack.
+
+The host boundary is intentionally thin. The daemon does not parse message
+threads, flags, mailbox search, or contact relationship semantics beyond
+the authority decisions it already owns. Conversely, the messaging service
+does not fetch peer endpoints, verify TLS evidence, maintain revocation
+freshness, or issue arbitrary passports on its own. It asks the host for
+those things through explicit capabilities.
 
 ### 2. Stratified Storage
 
@@ -222,10 +243,11 @@ Owned by the messaging service. Not part of Memarium custody by default;
 the file system is the right primitive for opaque per-message blobs.
 
 **Layer 2 — Messaging-service-owned SQLite operational index.** Hot
-operational state: per-message rows, optional FTS5, thread joins,
-read / unread, snooze, starring. Fully rebuildable from Layer 1 bodies
-plus the Layer 3 fact stream. The service is allowed to vacuum, shard,
-or fully rebuild Layer 2 without coordinating with any other module.
+operational state: per-message rows, `mailbox/id`, optional FTS5,
+thread joins, read / unread, snooze, starring. Fully rebuildable from
+Layer 1 bodies plus the Layer 3 fact stream. The service is allowed to
+vacuum, shard, or fully rebuild Layer 2 without coordinating with any
+other module.
 
 **Layer 3 — Memarium messaging facts.** Bounded by user and policy
 decisions, not by message traffic. The enumerated fact kinds are:
@@ -264,8 +286,8 @@ message-envelope.v1
   message/id                # opaque per-message id (= envelope/id in MVP)
   thread/id?                # optional threading group id
   sender/subject            # participant | nym | routing-subject (matches passport scope.sender)
-  sender/handle?            # public handle declared at send time (matches passport scope.public_handle)
-  receiver/route            # routing:did:key:... or contact-nym:... (matches passport scope.receiver)
+  receiver/route            # node:did:key:..., routing:did:key:..., or contact-nym:... (matches passport scope.receiver)
+  receiver/public-handle?   # external searchable handle used for discovery, e.g. marcin@example.org
   authorization
     passport-ref?           # canonical ref to a cached capability-passport.v1
     passport?               # inline capability-passport.v1 (preferred for first contact)
@@ -297,6 +319,20 @@ larger payloads. End-to-end encryption of the body is out of scope for
 MVP; the private-direct INAC transport already provides
 sender-authenticated transport confidentiality on the wire.
 
+`receiver/public-handle` is deliberately receiver-side. It records the
+external searchable handle the sender used to discover the route, such
+as `marcin@example.org` or a phone number digest/presentation accepted
+by the Contact Catalog profile. It is not Daniel's email address.
+Daniel's own display or sender handle belongs to the contact-request /
+local address book layer and should not be copied into every message
+unless a later profile explicitly needs it.
+
+`receiver/public-handle` is not a participant/nym correlation oracle. If
+the receiver is addressed by a participant-bound route, the route remains
+authoritative for mailbox delivery; the public handle can be verified or
+marked suspicious locally, but it must not be used to prove or disprove
+the receiver route to the sender.
+
 ### 4. `messaging-receive@v1` Passport Profile
 
 The passport profile minted by Solution 025 Contact Request Admission on
@@ -307,7 +343,7 @@ inbound. Frozen here:
 capability_id     = "messaging-receive"
 profile/v         = "1"
 scope
-  receiver        # routing:did:key:... or contact-nym:... (never participant:did:key)
+  receiver        # node:did:key:..., routing:did:key:..., or contact-nym:... (MVP excludes participant:did:key)
   sender          # participant | nym | routing-subject of the accepted sender
   public_handle?  # the contact handle Daniel used to reach Marcin, when known
   contact-request # contact-request.v1/id that motivated this passport
@@ -327,10 +363,15 @@ signature
 
 Three properties of this profile matter:
 
-1. `scope.receiver` is never the raw `participant:did:key`. It is always
-   a `routing:did:key:...` (per `routing-subject-binding.v1`) or a
-   pairwise `contact_nym` (per P058). This is the wire-privacy invariant
-   from P059 §7.
+1. MVP `scope.receiver` is never the raw `participant:did:key`. It is a
+   `node:did:key:...` for node-level direct delivery, a
+   `routing:did:key:...` (per `routing-subject-binding.v1`), or a
+   pairwise `contact-nym` (per P058). Participant-specific delivery
+   should prefer routing subjects or contact nyms; node-id delivery is
+   treated as node-level unless local recipient mailbox resolution below
+   can bind it to a participant-controlled public handle. If a later
+   participant-direct profile admits `participant:did:key` as a receiver,
+   it follows the same participant-bound mailbox rule as `contact-nym`.
 2. `scope.sender` may be a participant (most stable) or a nym
    (privacy-preserving). Nym rotation is supported through the
    `key-delegation.v1` grant label defined below.
@@ -386,9 +427,9 @@ one policy gate**:
    resolve to a subject equal to `scope.sender`.
 2. `receiver ↔ scope.receiver`: the `receiver/route` field matches the
    `scope.receiver` field in the passport.
-3. `public-handle ↔ scope.public_handle`: when the envelope carries
-   `sender/handle`, it matches `scope.public_handle`. When absent on
-   either side, the check is skipped.
+3. `receiver/public-handle ↔ scope.public_handle`: when the envelope
+   carries `receiver/public-handle`, it matches `scope.public_handle`.
+   When absent on either side, the check is skipped.
 4. **`contacts`-class policy gate**: the resolved `sender/subject`
    must still be a member of the local `contacts` set (no revocation
    on Marcin's side) and the per-class limits (`limits.*` in the
@@ -397,6 +438,64 @@ one policy gate**:
 If any check fails, the acceptor refuses admission before invoking
 persistence. Refusal classes are first-class operator-visible audit
 events.
+
+#### Recipient Mailbox Resolution
+
+After the acceptor has passed AD, passport, scope, and `contacts`
+policy checks, the messaging service resolves the local mailbox that
+will receive the message. This is a local projection decision; it does
+not grant authority and it must not weaken the admission checks above.
+
+For an inbound message addressed to a node-level or non-participant-bound
+receiver (`node:did:key:...` or a routing subject that does not locally
+resolve to exactly one participant mailbox):
+
+- if the envelope does not carry `receiver/public-handle`, the message
+  goes to the node operator mailbox;
+- if the envelope carries `receiver/public-handle`, the service asks the
+  host to resolve that handle against local, attested, participant-owned
+  public identity mappings;
+- if the host returns exactly one local participant mailbox whose
+  mapping is still backed by a valid `email-control@v1` /
+  `phone-control@v1` passport or equivalent Contact Catalog admission
+  evidence, the message goes to that participant mailbox;
+- if the host cannot resolve the handle, the evidence is stale or
+  revoked, or the mapping is ambiguous, the message goes to the node
+  operator mailbox with an operator-visible reason.
+
+The service MUST NOT infer a participant mailbox merely because the
+receiver route is locally known. A bare node id or routing subject is a
+network delivery target, not a mailbox owner. `receiver/public-handle`
+is the intentional user-facing selector for participant mailbox routing
+for these routes.
+
+For an inbound message addressed to a participant-bound route, such as a
+pairwise `contact-nym` or a future explicit `participant:did:key`
+direct-addressing profile, the resolved participant is authoritative for
+mailbox delivery. If the envelope also carries `receiver/public-handle`,
+the host may verify whether that handle is locally attested for the same
+participant and return a local `public-handle/status`, but the messaging
+service MUST NOT reject with a sender-visible `user unknown` solely
+because the public handle is absent, stale, unknown, or not attested for
+that participant. Otherwise a sender could probe whether a nym belongs
+to a known email address or phone number.
+
+Pairwise `contact-nym` receivers resolve through the local `contacts`
+membership projection. If that projection is absent or ambiguous, the
+same operator-mailbox fallback applies.
+
+The local mapping is owned by the daemon / Contact Catalog authority
+layer, not by the messaging service. It may be backed by local
+`contact-claim.v1` records, the local contact store, `PassportCache`,
+and participant vault records, but the messaging service sees only the
+bounded host-capability response.
+
+The acceptor MUST treat `envelope/id` as the idempotency key for
+receiver-side persistence. Replaying the same accepted envelope may repair
+Layer 2 / Layer 3 side effects, but it must not create a second Maildir
+message. If a replay presents the same `envelope/id` with different body
+digest, sender, receiver, or authorization material, the acceptor refuses it
+as an identity conflict.
 
 ### 7. Outbound Queue State Machine
 
@@ -412,6 +511,10 @@ composed
   -> delivered
   -> failed-terminal
 ```
+
+`draft` is not part of this protocol state machine. Draft editing may live
+in Node UI local state or in a future draft store. The queue begins at
+`composed`, after the user has asked the service to send.
 
 State transitions:
 
@@ -436,6 +539,10 @@ The queue scanner runs whenever a new passport is added to
 `PassportCache`. It looks up messages in `waiting-for-contact-permission`
 that match the freshly arrived passport's `scope.sender ↔ scope.receiver`
 pair and promotes them to `ready-for-delivery`.
+
+The first implementation may support only a single recipient per envelope.
+Group messaging, CC/BCC-like fan-out, and shared conversation state are
+post-MVP because they require different consent and key-management rules.
 
 ### 8. `contacts` Relationship Class
 
@@ -499,7 +606,8 @@ Contact Catalog (P058 §11 Catalog Provider Role).
   in-process to the service or supervised-HTTP proxy);
 - host capability bridge: `capability.passport.lookup`,
   `capability.passport.issue`, `memarium.write`, `notification.create`,
-  `local-contacts.read` (per Solution 025 daemon-owned local contacts);
+  `local-contacts.read`, `local-recipient-mailbox.resolve` (per
+  Solution 025 daemon-owned contact and claim state);
 - `/admin/messaging` operator UI surface;
 - `/v1/messaging/status` proxy.
 
@@ -510,7 +618,7 @@ the domain:
   `<node-data-dir>/storage/messaging/maildir/...`;
 - Layer 2 middleware-owned SQLite operational index;
 - the inbound acceptor running the three scope checks +
-  `contacts`-class policy gate;
+  `contacts`-class policy gate and recipient mailbox resolution;
 - the outbound queue + state machine + scanner + passport attachment;
 - the inbox projection feeding the mailbox view;
 - AD delivery envelope construction;
@@ -523,6 +631,94 @@ small host / authority that does not learn messaging-domain semantics;
 the service owns the domain and may be evolved independently. Compose
 UI is a Node UI surface that calls into the service through host
 capability and operator HTTP routes.
+
+## Host Capability Contracts Needed by Messaging
+
+The messaging service should use existing host capability patterns wherever
+possible. The MVP host bridge needs these calls:
+
+| Capability | Owner | Used for |
+| :--- | :--- | :--- |
+| `artifact.delivery.send` | daemon / Artifact Delivery | Submit `message-envelope.v1` for `private-direct` delivery. |
+| `capability.passport.lookup` | daemon / Capability Binding | Find a usable `messaging-receive` passport for an outbound queue item. |
+| `capability.passport.issue` | daemon / Capability Binding | Issue or refresh local passports only through already authorized action paths; ordinary outbound sending should not call this. |
+| `memarium.write` | daemon / Memarium | Append Layer 3 messaging facts. |
+| `notification.create` | daemon / Notifications | Create inbound-message and delivery-status notifications. |
+| `local-contacts.read` | daemon / Contact Catalog local store | Resolve local contact labels and route hints. |
+| `local-contacts.write` | daemon / Contact Catalog local store | Optional MVP write path for adding a newly accepted contact projection. |
+| `local-recipient-mailbox.resolve` | daemon / Contact Catalog local claim store + Capability Binding | Resolve an accepted inbound receiver route to the node operator mailbox or a participant mailbox without turning public handles into sender-visible correlation tests. |
+| `pseudonym-vault.read` / `pseudonym-vault.write` | daemon / Solution 026 | Restore and persist `contacts` membership and issued passport references. |
+
+`capability.passport.lookup` is the only new host capability that blocks the
+outbound queue from being clean. Its MVP request shape can be small:
+
+```text
+capability.passport.lookup
+  capability_id = "messaging-receive"
+  required_scope
+    sender
+    receiver
+    public_handle?
+    purpose = "messaging"
+  freshness
+    require_revocation_fresh = true
+  now
+```
+
+The response is either:
+
+```text
+usable-passport
+  passport-ref
+  passport?
+  expires/at
+  revocation/ref
+```
+
+or a refusal such as `not-found`, `expired`, `revoked`,
+`revocation-view-stale`, or `scope-mismatch`. The lookup capability does not
+mint authority; it only selects an already valid passport under the host's
+current revocation view.
+
+`local-recipient-mailbox.resolve` is the inbound counterpart for mailbox
+routing, not for admission:
+
+```text
+local-recipient-mailbox.resolve
+  receiver_route            # node:did:key:..., routing:did:key:..., contact-nym:..., or future participant-direct receiver
+  public_handle?            # from receiver/public-handle
+  purpose = "messaging"
+  freshness
+    require_control_passport_fresh = true
+    require_revocation_fresh = true
+```
+
+The response is either:
+
+```text
+participant-mailbox
+  participant
+  mailbox/id
+  resolution/source          # contact-nym | participant-direct | public-handle-mapping
+  public-handle/status?      # absent | verified | unverified | mismatch | stale | revoked
+  public-handle/ref?
+  contact-claim/ref?
+  control-passport/ref?
+```
+
+or:
+
+```text
+operator-mailbox
+  mailbox/id = "operator"
+  reason = no-public-handle | unknown-public-handle | stale-evidence | revoked | ambiguous | no-recipient-owner
+```
+
+The messaging service stores the returned `mailbox/id` in Layer 2. Raw
+public handles remain daemon-local except for the optional
+`receiver/public-handle` already present in the sender-provided envelope.
+For participant-bound routes, `public-handle/status` is local diagnostic
+context; it must not become a sender-visible delivery oracle.
 
 ## Relationship to Existing Mechanisms
 
@@ -558,6 +754,10 @@ passports and does not duplicate any of those responsibilities.
 
 The contact-lookup recipient selector kind (P058-019) is the preferred
 outbound integration; middleware-side direct HTTP is the alternative.
+The same daemon-owned Contact Catalog state is the natural source for
+local public-identity mappings used by inbound mailbox resolution. That
+projection is local authority state, not a network lookup performed by
+the messaging service.
 
 ### User and Operator Notifications (P057)
 
@@ -569,6 +769,11 @@ The messaging service uses `notification.create` for:
 
 The contact-request notification flow is owned by Solution 025; this
 proposal does not duplicate it.
+
+For MVP, Node UI owns mailbox rendering and handles `mailbox.open`.
+The messaging service exposes structured read APIs or supervised HTML
+fragments only as an implementation convenience; the durable notification
+action target remains a stable action ref, not an embedded UI contract.
 
 ### Memarium (Solution 002, Proposal 036) and Classification (Proposal 047)
 
@@ -612,6 +817,25 @@ proposal adds a separate application capability id.
 - `mailbox.open` `notification/action` — new action target wired by the
   messaging service and dispatched into the Node UI mailbox view.
 
+## MVP Decisions
+
+These decisions answer the open questions for the first implementation
+slice. They can be revisited later without changing the stratified
+boundary.
+
+| Area | MVP decision | Later extension |
+| :--- | :--- | :--- |
+| Compose UI ownership | Node UI owns compose and mailbox screens; it calls the messaging service through daemon-proxied HTTP or host capabilities. | Service-rendered fragments may be added later if Node UI wants to delegate rendering. |
+| Threading | `thread/id` is optional and opaque. Replies may set it to the root `message/id`; no RFC-style reply graph in MVP. | Rich conversation containers and reply DAGs. |
+| Content types | `text/plain` and `text/markdown` are admitted. `application/json` is allowed only for explicitly typed system/test messages. `text/html` is deferred. | Sanitized HTML profile. |
+| Body at rest | Maildir bodies are stored as ordinary files under the node data directory. At-rest encryption is delegated to OS/user-disk policy in MVP. | Per-message sealed body profile using participant/vault wrapping. |
+| Limits | Messaging acceptor enforces `limits.*`; AD route policy enforces coarse body-size and route budgets before the acceptor. | Shared policy registry if duplication becomes costly. |
+| Cross-device sync | Deferred. Layer 2 flags are local operational state. | `messaging.flag.v1` or similar sync artifact. |
+| Mailbox view | Node UI renders mailbox views from `/v1/messaging/*`. | Service-owned fragments if useful. |
+| Receiver public handle | `receiver/public-handle` is optional for admission. If absent on node-id / non-participant-bound routing-subject delivery, the accepted message is routed to the operator mailbox. Participant-bound routes deliver to the participant resolved from the route; a supplied public handle is verified or marked suspicious locally, never used as a sender-visible `nym -> email/phone` test. | Later profiles may require the public handle for selected mailbox policies or derive mailbox ownership from stronger private presentations, but must preserve the anti-oracle property. |
+| Inline body threshold | Inline body is allowed up to 64 KiB in MVP; larger bodies use `artifact-store:`. Receiver policy may set a lower limit. | Streaming / attachment-specific profile. |
+| Failed-terminal recovery | User may retry, which creates a new delivery attempt for the same `envelope/id` if the content is unchanged; editing creates a new envelope. | Rich retry scheduling and per-recipient partial success. |
+
 ## Failure Modes and Mitigations
 
 | Failure mode | Mitigation |
@@ -619,7 +843,9 @@ proposal adds a separate application capability id.
 | Sender forges `sender/subject` | The messaging acceptor enforces sender ↔ `scope.sender` match against the presented passport; Capability Binding already verified passport signature and revocation. |
 | Sender uses a rotated nym | Inline `DelegationProof` rooted in the accepted participant; the messaging acceptor verifies the proof and treats the message as sent by the accepted subject. |
 | Receiver route does not match accepted route | The messaging acceptor enforces receiver ↔ `scope.receiver` match and refuses before persistence. |
-| Public handle drift (handle reassigned externally) | The messaging acceptor enforces public-handle ↔ `scope.public_handle` when the envelope carries a handle; absent handles skip the check. Handle reassignment is mitigated upstream by Contact Catalog claim revocation (P058-011). |
+| Public handle drift (handle reassigned externally) | The messaging acceptor enforces `receiver/public-handle` ↔ `scope.public_handle` when the envelope carries the receiver handle; absent handles skip the check. Handle reassignment is mitigated upstream by Contact Catalog claim revocation (P058-011). |
+| Direct node/routing-subject message cannot be bound to a local participant mailbox | The accepted message goes to the node operator mailbox with a structured reason; the service does not guess mailbox ownership from route familiarity. |
+| Public handle used as a nym correlation probe | Participant-bound receiver routes ignore the public handle for sender-visible admission and mailbox ownership. The host may return a local `public-handle/status`, but mismatch or unknown status does not produce a sender-visible `user unknown`. |
 | Operational index (Layer 2) corruption | Layer 2 is rebuildable from Layer 1 bodies plus Layer 3 fact stream; the service surfaces a "reindexing" status while it rebuilds. |
 | Memarium fact volume bloats with traffic | Layer 3 is bounded to user / policy decisions, not per-message rows. The bounding rule is enforced at write time; rows that fail the rule are refused at the messaging service before reaching the Memarium host capability. |
 | Mailbox view opens before reindex completes | `/v1/messaging/status` exposes a `reindexing` flag; Node UI surfaces a banner and may render partial mailbox views from whatever Layer 2 is already populated. |
@@ -661,32 +887,107 @@ proposal adds a separate application capability id.
 
 ## Open Questions
 
-1. Compose UI ownership — does the messaging service own a small
-   embedded HTTP UI (rendered by Node UI), or does Node UI own the
-   compose surface and call into the service through operator HTTP
-   only?
-2. Threading model — is `thread/id` a free-form opaque id, an
-   In-Reply-To-style chain, or a richer conversation container?
-3. Body content types — is the MVP set `text/plain` + `text/markdown` +
-   `application/json` enough, or do we admit `text/html` (with
-   sanitization) from day one?
-4. Body end-to-end encryption — INAC transport already protects the
-   wire; should the body also be encrypted at rest in Maildir, or is
-   the on-disk privacy boundary the operating system's user permissions?
-5. Per-class limits enforcement — should the messaging acceptor be the
-   only enforcer of `limits.*`, or should AD route policy also have a
-   way to express them so over-quota messages get refused even earlier?
-6. Cross-device sync — when does it land relative to single-device
-   MVP, and does it require a new artifact kind for `messaging.flag.v1`
-   events?
-7. Mailbox view ownership — does the mailbox UI come from the
-   messaging service (HTML fragments) or from Node UI (server-side
-   rendering against `/v1/messaging/*` HTTP)?
-8. Attachment handling — at what size threshold do bodies move from
-   inline `body.inline` to `body.ref` with `artifact-store:`?
-9. Failed-terminal recovery — should the user be able to manually
-   retry a `failed-terminal` outbound message, or is recovery only via
-   re-compose?
+1. Should Layer 3 messaging facts be one generic
+   `messaging.fact.v1` envelope with `fact/kind`, or separate schemas for
+   each fact kind listed in §2?
+2. Should `contacts` membership use the same local-contact row as the
+   human address book, or remain a separate messaging-service relation with
+   an optional projection into local contacts?
+3. What exact retention defaults should apply to Maildir bodies, Layer 2
+   index rows, and Layer 3 facts?
+
+## Recommended Implementation Slices
+
+Implementation should proceed in thin vertical slices that preserve the
+daemon/service boundary and reuse existing primitives.
+
+### Slice 1: Inbound Local Accept and Store
+
+Goal: prove that `message-envelope.v1` can be admitted and stored without
+building compose UI or contact lookup.
+
+Deliverables:
+
+- `message-envelope.v1` schema and positive/negative examples;
+- in-process or supervised-HTTP AD acceptor registration for
+  `message-envelope.v1`;
+- acceptor validation for body digest, signature shape, idempotency, and
+  the three scope checks against a supplied `messaging-receive` passport;
+- Layer 1 Maildir write;
+- minimal Layer 2 SQLite row insert;
+- `/v1/messaging/status` exposing ready / degraded / reindexing state.
+
+This slice may use a fixture passport and a direct `node` or
+`routing-subject` selector. It should not depend on compose UI, Contact
+Catalog lookup, or outbound queue scanning.
+
+### Slice 2: Contacts and Passport Lookup
+
+Goal: make consent local and queryable.
+
+Deliverables:
+
+- `contacts` membership table or store inside the messaging service;
+- `capability.passport.lookup` host capability with the MVP request /
+  response shape from this proposal;
+- `local-recipient-mailbox.resolve` host capability with the MVP request /
+  response shape from this proposal;
+- `contacts` gate in the inbound acceptor;
+- recipient mailbox resolution for operator vs participant mailboxes;
+- Layer 3 fact writes for membership changes and passport issuance /
+  revocation, using either the final fact schemas or a temporary internal
+  event shape clearly marked as non-wire.
+
+This slice turns acceptance from "passport shape matches" into "passport
+and current local relationship policy both match".
+
+### Slice 3: Outbound Queue and AD Send
+
+Goal: send a message to an already known route.
+
+Deliverables:
+
+- outbound queue table and state machine;
+- queue scanner triggered by passport arrival or explicit retry;
+- AD delivery envelope construction with `privacy = private-direct`;
+- transition handling for `ready-for-delivery`, `in-flight`,
+  `delivered`, and `failed-terminal`;
+- arrival notification using `notification.create` and `mailbox.open`.
+
+This slice still does not require external handle lookup. The recipient can
+be a known `routing-subject` or `node` target with a cached passport.
+
+### Slice 4: Contact Catalog Integration
+
+Goal: support story-010's "type `marcin@example.org`" path.
+
+Deliverables:
+
+- recipient parser that distinguishes known local contacts from external
+  contact handles;
+- `waiting-for-route` and `waiting-for-contact-permission` transitions;
+- preferred AD `selector/kind = "contact-lookup"` integration, or the
+  middleware-side direct `POST /v1/contact-catalog/lookups` fallback;
+- contact-request handoff reuse from Solution 025;
+- queue promotion when the resulting `messaging-receive` passport appears.
+
+This slice should not duplicate Contact Catalog admission or contact-request
+accept/reject semantics. It only consumes the result.
+
+### Slice 5: Mailbox UX and Recovery
+
+Goal: make the feature usable and repairable.
+
+Deliverables:
+
+- Node UI compose, inbox, message detail, and notification target;
+- Layer 2 rebuild command / startup path;
+- vault integration for `contacts` membership and issued passport refs;
+- Memarium-backed Layer 3 facts promoted from temporary event shapes to
+  stable schemas if Slice 2 used a temporary shape.
+
+This is the first slice where operator polish matters. Earlier slices should
+prefer contract tests and daemon/service boundaries over UI completeness.
 
 ## Next Actions
 
@@ -711,10 +1012,12 @@ proposal adds a separate application capability id.
 7. Add the `capability.passport.lookup` host capability surface (the
    symmetric counterpart of the existing issue path) in Capability
    Binding + Solution 019 Host Capability Bridge.
-8. Add the `mailbox.open` notification action target.
-9. Add the `/admin/messaging` operator UI surface and the
+8. Add the `local-recipient-mailbox.resolve` host capability surface for
+   inbound participant mailbox routing.
+9. Add the `mailbox.open` notification action target.
+10. Add the `/admin/messaging` operator UI surface and the
    `/v1/messaging/status` daemon proxy.
-10. Decide the open questions above before MVP freeze.
+11. Resolve the three remaining open questions above before MVP freeze.
 
 ## Tracking
 
@@ -730,27 +1033,33 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 |---|---|---|---|
 | P060-001 | `message-envelope.v1` artifact schema (fields per §3) | todo | No `doc/schemas/message-envelope.v1.schema.json` yet; canonical MVP shape sketched in §3. |
 | P060-002 | `messaging-receive@v1` passport profile freeze (scope shape per §4) | todo | Capability Registry row exists with `passport in MVP: planned`; profile shape sketched in §4 but not yet documented as an explicit profile spec. |
-| P060-003 | `messaging-send` capability id registration in the Capability Registry | todo | Named in §10 New Capability Ids; not yet in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md`. |
+| P060-003 | `messaging-send` capability id registration in the Capability Registry | todo | Named in **New Capability Ids Introduced**; not yet in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md`. |
 | P060-004 | `signing/messaging-send` grant label added to `key-delegation.v1` grant vocabulary | todo | Named in §5; depends on Solution 014. |
 | P060-005 | Messaging middleware solution document and capability sidecar | todo | No `doc/project/60-solutions/NNN-messaging-middleware/` directory yet. |
 | P060-006 | Daemon vs service boundary documented (small host/authority layer vs domain service) | done | §1 Component Boundary + Daemon vs Service Boundary section. Mirrors P058 §11 Catalog Provider Role pattern. |
 | P060-007 | Stratified storage contract (Layer 1 Maildir, Layer 2 service SQLite, Layer 3 Memarium facts) frozen | done | §2 Stratified Storage with bounding rule; promoted from story-010 §11 sketch. |
 | P060-008 | `contacts` relationship class model frozen (local set, default "may send messages to me" policy, bi-directional projection with `messaging-receive@v1` passports) | done | §8 `contacts` Relationship Class. Implementation tracked separately by P060-013. |
-| P060-009 | Inbound acceptor: three messaging-specific scope checks + `contacts`-policy gate | todo | §6 Inbound Acceptor and the Messaging-Specific Checks; depends on P060-001 and P060-002. |
+| P060-009 | Inbound acceptor: three messaging-specific scope checks + `contacts`-policy gate + recipient mailbox resolution | todo | §6 Inbound Acceptor and the Messaging-Specific Checks; depends on P060-001, P060-002, and P060-032. |
 | P060-010 | Outbound queue state machine | done | §7 Outbound Queue State Machine; implementation tracked separately by P060-013. |
 | P060-011 | Layer 3 messaging-fact kind schemas (`contacts.membership-changed.v1`, `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`, `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`) | todo | §2 Layer 3 enumeration; no schema files yet. |
 | P060-012 | `capability.passport.lookup` host capability surface (symmetric counterpart of the existing issue path) | todo | §1 Component Boundary host capability bridge; depends on Solution 006 + Solution 019. |
-| P060-013 | Messaging service implementation (compose + outbound queue + Layer 1 Maildir + Layer 2 SQLite + inbox projection + acceptor + Layer 3 fact writes) | todo | Depends on P060-001 through P060-012. |
-| P060-014 | `mailbox.open` notification action target wired into Node UI mailbox view | todo | §10 Next Actions #8; depends on P057-009 inline action execution promotion. |
-| P060-015 | `/admin/messaging` operator UI surface and `/v1/messaging/status` daemon proxy | todo | §1 Component Boundary; depends on P060-013 to have something meaningful to proxy. |
+| P060-013 | Messaging service implementation (compose + outbound queue + Layer 1 Maildir + Layer 2 SQLite + inbox projection + acceptor + Layer 3 fact writes) | todo | Depends on P060-001 through P060-012 and P060-032. |
+| P060-014 | `mailbox.open` notification action target wired into Node UI mailbox view | todo | **Next Actions** #9; depends on P057-009 inline action execution promotion. |
+| P060-015 | `/admin/messaging` operator UI surface and `/v1/messaging/status` daemon proxy | todo | **Next Actions** #10; depends on P060-013 to have something meaningful to proxy. |
 | P060-016 | Recovery: `contacts` membership + issued `messaging-receive@v1` passports persisted in `pseudonym-vault.v1` | todo | §9 Recovery and Vault Integration. The vault runtime dependency is resolved — P059 is Accepted with Node MVP runtime implemented (P059-009 / P059-010 `done`, Solution 026 Pseudonym Vault and Key Roles realises the runtime). What remains is the messaging-domain side of the integration: persist membership changes and issued passports as private plaintext records inside the vault, replay them on startup. |
 | P060-017 | Recovery: Layer 2 SQLite index rebuild procedure (replay Layer 3 → walk Maildir → repopulate rows → rebuild FTS5) | todo | §9 Recovery and Vault Integration; depends on P060-013 and P060-011. |
-| P060-018 | Compose UI ownership decision (service-embedded HTTP UI vs Node UI surface calling service) | open | Open Question #1. |
-| P060-019 | Threading model decision (opaque id vs In-Reply-To chain vs richer conversation container) | open | Open Question #2. |
-| P060-020 | Body content-type set decision (text/plain + text/markdown + application/json vs adding text/html with sanitization) | open | Open Question #3. |
-| P060-021 | Body at-rest encryption decision (Maildir bodies plaintext vs sealed by `participant/vault-wrap`) | open | Open Question #4. |
-| P060-022 | Per-class limits enforcement placement (messaging acceptor only vs AD route policy aware) | open | Open Question #5. |
-| P060-023 | Cross-device sync of `read/unread` and other Layer 2 flags | deferred | Open Question #6; post-MVP; may require new `messaging.flag.v1` event kind. |
-| P060-024 | Mailbox view rendering ownership (service-rendered fragments vs Node UI server-side render against `/v1/messaging/*`) | open | Open Question #7. |
-| P060-025 | Attachment handling threshold (inline vs `artifact-store:` ref) | open | Open Question #8. |
-| P060-026 | Failed-terminal outbound recovery UX (manual retry vs re-compose) | open | Open Question #9. |
+| P060-018 | Compose UI ownership decision (service-embedded HTTP UI vs Node UI surface calling service) | done | MVP Decisions: Node UI owns compose and mailbox screens. |
+| P060-019 | Threading model decision (opaque id vs In-Reply-To chain vs richer conversation container) | done | MVP Decisions: optional opaque `thread/id`; replies may use root `message/id`. |
+| P060-020 | Body content-type set decision (text/plain + text/markdown + application/json vs adding text/html with sanitization) | done | MVP Decisions: `text/plain`, `text/markdown`, and restricted `application/json`; `text/html` deferred. |
+| P060-021 | Body at-rest encryption decision (Maildir bodies plaintext vs sealed by `participant/vault-wrap`) | done | MVP Decisions: ordinary files under node data dir; sealed body profile deferred. |
+| P060-022 | Per-class limits enforcement placement (messaging acceptor only vs AD route policy aware) | done | MVP Decisions: coarse AD budgets plus messaging acceptor `limits.*`. |
+| P060-023 | Cross-device sync of `read/unread` and other Layer 2 flags | deferred | MVP Decisions: post-MVP; may require `messaging.flag.v1`. |
+| P060-024 | Mailbox view rendering ownership (service-rendered fragments vs Node UI server-side render against `/v1/messaging/*`) | done | MVP Decisions: Node UI renders from `/v1/messaging/*`. |
+| P060-025 | Attachment handling threshold (inline vs `artifact-store:` ref) | done | MVP Decisions: inline up to 64 KiB; larger bodies use `artifact-store:`. |
+| P060-026 | Failed-terminal outbound recovery UX (manual retry vs re-compose) | done | MVP Decisions: unchanged retry keeps `envelope/id`; edits create a new envelope. |
+| P060-027 | `receiver/public-handle` policy when passport has `scope.public_handle` or receiver is participant-bound | done | MVP Decisions: optional for admission; absent handle on node-id / non-participant-bound routing-subject delivery routes to the operator mailbox, while participant-bound routes deliver by route ownership and treat public-handle verification as local diagnostic context, not a sender-visible correlation oracle. |
+| P060-028 | Layer 3 fact schema shape (generic envelope vs separate schemas) | open | Open Question #1. |
+| P060-029 | `contacts` membership storage boundary vs local-contact row projection | open | Open Question #2. |
+| P060-030 | Retention defaults for Maildir, Layer 2, and Layer 3 | open | Open Question #3. |
+| P060-031 | Recommended implementation slices | done | **Recommended Implementation Slices** defines five thin slices: inbound local accept/store, contacts + passport lookup, outbound queue + AD send, Contact Catalog integration, mailbox UX + recovery. |
+| P060-032 | `local-recipient-mailbox.resolve` host capability and inbound mailbox routing contract | todo | §6 Recipient Mailbox Resolution + Host Capability Contracts; depends on Solution 025 local claim/contact state and Capability Binding revocation freshness. |
