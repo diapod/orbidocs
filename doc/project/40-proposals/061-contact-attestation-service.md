@@ -72,13 +72,28 @@ will receive the passport.
 Return artifact carrying the issued passport plus contact digest and challenge
 metadata. The result does not carry the OTP transcript.
 
-## MVP Runtime
+## Runtime
 
-The MVP runtime is a supervised local HTTP middleware. It is disabled by
-default. It supports a local/dev delivery adapter that records the link and OTP
-code in service-local debug state for integration testing. That debug view is a
-local/dev adapter artifact, not production challenge state. Production SMTP/SMS
-delivery providers are explicitly out of scope for this proposal slice.
+The runtime is a supervised local HTTP middleware. It is still opt-in in bundled
+node config: the seed fragment is present, but the operator must enable the
+`attestation_service` middleware setting before the daemon starts it. The
+bundled opt-in config selects the local/dev delivery adapter explicitly, so a
+developer node can run the Story-010 flow without SMTP or SMS credentials.
+
+The service supports three delivery modes:
+
+- `dev` stores the redemption link and OTP in service-local debug state;
+- `smtp` sends email challenges through an operator-configured SMTP relay;
+- `webhook` sends phone challenges to an operator-configured SMS provider
+  webhook.
+
+The debug view is a local/dev adapter artifact, not production challenge state.
+Production deployments should select `smtp` for email and `webhook` for phone,
+provide credentials through secret files when possible, and keep the debug
+adapter disabled. If both a direct secret environment variable and its `_FILE`
+variant are configured, the `_FILE` value wins; loaded file secrets are trimmed
+and unreadable or empty files are treated as no configured secret rather than
+falling back to the direct environment value.
 
 The service never owns signing keys. Passport issue goes through host capability
 `capability.passport.issue`.
@@ -90,4 +105,12 @@ Implemented MVP endpoints:
 - `POST /v1/attestation/challenges/{challenge_id}/redeem`.
 
 The bundled node config keeps the service disabled by default and injects the
-standard host capability bridge environment when enabled.
+standard host capability bridge environment when enabled. Operator policy knobs
+include the default 5-attempt challenge limit, 24-hour TTL, pending-challenge
+quotas per handle and participant, and delivery audit retention. The runtime
+records delivery audit rows without storing raw OTP values in the durable
+challenge table.
+
+Seed Directory advertisement remains a role-discovery concern: providers should
+advertise `role/email-attestation` and/or `role/phone-attestation` with
+capability passports, while clients keep the provider selection explicit.

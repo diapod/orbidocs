@@ -200,8 +200,8 @@ proxies. It does not duplicate messaging policy logic.
 
 The contactability panel is draft-first. Editing public handles and route
 bindings never mutates Contact Catalog state until the user invokes `Publish`.
-The MVP surface records attest/publish intent locally; production publication
-continues through Contact Catalog and the attestation service contracts.
+`Publish` now requires contact-control evidence from the attestation flow and
+submits a signed `contact-claim.v1` admission to the supervised Contact Catalog.
 
 Local contacts are a daemon-owned UX and continuity projection. They may carry
 labels, local metadata, and the active pairwise `contact-nym` mapping used for
@@ -219,11 +219,11 @@ delivery state.
 | ID | Feature | Status | Evidence |
 |---|---|---|---|
 | S027-001 | Canonical `messaging-receive@v1` profile enforcement | done | Node `capability` rejects non-canonical `messaging-receive` profile discriminators and defaults missing `max_revocation_staleness_seconds` to 300 seconds. |
-| S027-002 | Messaging service runtime | partial | `messaging-service` covers inbound accept, outbox, contact-lookup-result promotion, private-direct delivery, Maildir/SQLite storage, pending facts, recovery mirroring, and reindex. Full Story-010 E2E and revocation-triggered `messaging.passport-revoked.v1` facts remain hardening. |
-| S027-003 | Contactability and local contacts | partial | Daemon exposes contactability draft/options/attest/publish endpoints, `local-contact.v1` import/export validation, local contact labels/metadata, pairwise mapping lifecycle, and `/v1/local-contacts/resolve`. Production Contact Catalog publication and verified contact-control evidence binding remain follow-up. |
-| S027-004 | Contact attestation service dependency | partial | Node adds `attestation-core`, supervised `attestation-service`, disabled bundled middleware config, contact attestation schemas/examples, schema-gate validators, and `email-attestation` / `phone-attestation` capability ids. Production delivery adapters and operator policy remain outside this messaging slice. |
+| S027-002 | Messaging service runtime | partial | `messaging-service` covers inbound accept, outbox, contact-lookup-result promotion, private-direct delivery, Maildir/SQLite storage, kind-specific Layer 3 fact artifacts, pending Memarium replay, recovery mirroring, revocation-triggered `messaging.passport-revoked.v1`, and reindex with Maildir + local Layer 3 replay + FTS5 rebuild. Full mock-host coverage, sender-side lookup against the shared remote Contact Catalog provider, and green cross-node Story-010 delivery remain hardening. |
+| S027-003 | Contactability and local contacts | partial | Daemon exposes contactability draft/options/attest/publish endpoints, requires contact-control passport evidence at publish time, binds the published owner participant to the draft route or attestation passport subject, signs `contact-claim.v1`, admits it to the supervised Contact Catalog, validates `local-contact.v1` import/export, stores local contact labels/metadata, tracks pairwise mapping lifecycle, and exposes `/v1/local-contacts/resolve`. Sealed vault backup/replay for local contacts remains tracked under Contact Catalog recovery. |
+| S027-004 | Contact attestation service dependency | partial | Node adds `attestation-core`, supervised opt-in `attestation-service`, contact attestation schemas/examples, schema-gate validators, `email-attestation` / `phone-attestation` capability ids, local/dev delivery, SMTP email delivery, SMS webhook delivery, attempt limits, challenge TTL, quotas, and delivery audit. Seed Directory provider advertisement and production operator policy UX remain follow-up. |
 | S027-005 | Node UI messaging surface | done | Node UI renders `/admin/messaging` with contactability draft controls, compose, local-contact based unknown-recipient warning, inbox, outbox, diagnostics, and message detail. |
-| S027-006 | Story-010 acceptance pack | partial | `node/tools/acceptance/story-010-operator/` provides two-node profile generation and launcher/runbook scaffolding. The green automated smoke driver is not implemented yet. |
+| S027-006 | Story-010 acceptance pack | done | `node/tools/acceptance/story-010-operator/` provides two-node profile generation, launchers, UI helpers, `story-smoke`, and self-contained `ad-smoke`. It now exercises Attestation Service challenge/redeem, daemon contactability publish, supervised Contact Catalog admission, and lookup before reporting the first real runtime boundary as structured JSON; strict mode is available for the future green E2E gate. |
 
 ## References
 

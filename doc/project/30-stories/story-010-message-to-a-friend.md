@@ -623,30 +623,28 @@ new message.
 
 ## Open Continuation
 
-- Promote `capability.passport.lookup` documentation into Solution 019
-  Host Capability Bridge (the daemon endpoint already exists; what
-  remains is naming it as a stable middleware contract).
-- Complete Layer 2 SQLite operational index rebuild semantics
-  (replay-from-Layer-3 path + FTS5 rebuild; current `reindex` walks
-  Maildir but does not yet replay Layer 3 facts).
+- Add remote Memarium replay to the Layer 2 rebuild path (current
+  `reindex` already replays locally durable Layer 3 fact projections
+  from `pending_facts` and rebuilds FTS5; only remote Memarium replay
+  remains, P060-017).
 - Wire receiver-side revocation-view enforcement and supervised
   multi-process cross-node Artifact Delivery tests for the messaging
-  acceptor.
+  acceptor (P060-009).
 - Persist sealed vault record replay at startup so a fresh node
   restored from mnemonic rehydrates `contacts` membership and issued
   `messaging-receive@v1` passports (the local recovery mirror table
-  now persists records; sealed vault replay remains).
-- Land production attestation delivery (SMTP / SMS) + full operator
-  policy + Seed Directory advertisement of `role/email-attestation` /
-  `role/phone-attestation` providers (Proposal 061 defines the role;
-  the bundled middleware is currently dev-mode disabled).
-- Land production Contact Catalog publication path for the
-  contactability bridge (current publish records a local draft only).
-- Bind P057-011 user / pod-user notification routes to authenticated
-  local identity (final step to promote P057-011 to `done`).
-- Implement the executable end-to-end smoke driver for the Story-010
-  two-node acceptance scaffold (P060-035 — scaffold exists, driver
-  does not).
+  now persists records; sealed vault replay remains, P060-016).
+- Complete Seed Directory advertisement of `role/email-attestation` /
+  `role/phone-attestation` providers so client nodes can discover them
+  (Proposal 061 defines the role; `dev` / `smtp` / `webhook` delivery,
+  attempt limits, TTL, quotas, and audit are wired).
+- Add first-class pod-user session / auth UX on top of the now
+  fail-closed P057-011 user / pod-user notification route binding.
+- Turn the executable Story-010 two-node smoke into a green strict E2E
+  gate once sender-side lookup can use Node A's shared remote Contact
+  Catalog provider and the remaining cross-node receive-passport
+  handoff gaps are closed (smoke driver `story-smoke` + `ad-smoke`
+  exist per P060-035 `done`).
 
 ## Implementation Coverage
 
@@ -657,22 +655,23 @@ artifact and what is still missing.
 
 ### Per-Step Coverage
 
-- **Step 1 — Marcin opens a public contact path (contactability UI):** `[in-progress]`
-  - Closest artifacts: P060-033 (`partial`) closes the local contact and
+- **Step 1 — Marcin opens a public contact path (contactability UI):** `[implemented with recovery follow-up]`
+  - Closest artifacts: P060-033 (`done`) closes the local contact and
     contactability bridge — Node adds `local-contact.v1` schema-gate
     import/export validation, local contact labels and metadata,
     `/v1/local-contacts/resolve`, daemon contactability
-    draft/options/attest/publish endpoints, and a Node UI contactability
-    panel. Solution 027 cap `:contactability-and-local-contacts`
-    (`partial`) anchors the messaging-side surface. Solution 025 Local
-    Contact Store (`partial`) provides daemon-side `local-contacts.sqlite`.
+    draft/options/attest/publish endpoints, a Node UI contactability
+    panel, contact-control evidence binding, signed `contact-claim.v1`
+    construction, and supervised Contact Catalog admission. Solution 027
+    cap `:contactability-and-local-contacts` (`partial`) anchors the
+    messaging-side surface because local-contact sealed recovery still
+    belongs to Contact Catalog recovery. Solution 025 Local Contact Store
+    (`partial`) provides daemon-side `local-contacts.sqlite`.
   - Newly frozen contracts: `local-contact.v1` schema file exists at
     `doc/schemas/local-contact.v1.schema.json` (closing the previous
     schema-file gap).
-  - Missing: production Contact Catalog publication path (the current
-    publish endpoint records a local draft only) and contact-control
-    evidence binding from the attestation seam (depends on Step 2);
-    sealed-vault backup / replay of contactability state.
+  - Missing: sealed-vault backup / replay of local contactability and
+    pairwise mapping continuity state.
 
 - **Step 2 — Marcin's node collects contact-control attestations:** `[in-progress]`
   - Closest artifacts: `capability-passport.v1` issuance via Capability
@@ -681,10 +680,11 @@ artifact and what is still missing.
     (`done` / `partial`); Solution 025 Contact Claim Admission (`done`)
     evaluates first-class `email-control@v1` / `phone-control@v1`
     profiles. Proposal 061 (Contact Attestation Service) defines the
-    attestation role with OTP / link flow, and Node has
-    `attestation-core` + `attestation-service` crates plus bundled
-    (disabled) `attestation-service` middleware config (P060-034
-    `partial`).
+    attestation role with OTP / link flow; Node has `attestation-core`
+    + `attestation-service` crates with bundled opt-in middleware
+    config, three delivery modes (`dev` / `smtp` / `webhook`),
+    challenge attempt limits + TTL + quotas + delivery audit
+    (P060-034 `partial`).
   - Newly frozen contracts: `phone-control` / `email-control` capability
     ids registered as contact-control proofs; `email-attestation` /
     `phone-attestation` capability ids registered as attestation
@@ -692,11 +692,11 @@ artifact and what is still missing.
     MVP `passport: yes`); `contact-attestation-request.v1` and
     `contact-attestation-result.v1` schemas exist with examples and
     schema-gate validators; Proposal 058 MVP Decision #6 sets 90-day
-    default freshness window.
-  - Missing: production SMTP / SMS delivery integration (current dev
-    delivery is local), full operator policy beyond the bundled
-    disabled middleware config, and the Seed Directory advertisement
-    flow for attestation providers.
+    default freshness window; production SMTP email + SMS webhook
+    delivery adapters implemented.
+  - Missing: Seed Directory advertisement flow for attestation
+    providers (P060-034 — remaining item; provider-side delivery and
+    operator policy already wired).
 
 - **Step 3 — Marcin publishes contact claims to the Contact Catalog:** `[in-progress]`
   - Closest artifacts: Solution 025 (Contact Catalog) is `partial` overall,
@@ -850,12 +850,17 @@ artifact and what is still missing.
     (P060-013 `partial`), and the daemon exposes the
     `capability.passport.lookup` host capability with
     `capability-passport-lookup.v1` validation, multi-passport
-    `PassportCache` scan, revoked filtering, and usable/refused states
-    (P060-012 `partial`). Vault recovery mirror is wired through
-    `identity.messaging-recovery.mirror` (P060-016 `partial`).
-  - Missing: full vault record persistence (not just mirror calls) and
-    startup replay, plus updating Solution 019 docs to formalise the
-    `capability.passport.lookup` host capability contract.
+    `PassportCache` scan, revoked filtering, scope-matched typed
+    profiles, and usable/refused lookup states — documented in Solution
+    019 as a stable host capability bridge (P060-012 `done`). Vault
+    recovery mirror is wired through `identity.messaging-recovery.mirror`
+    and persisted in a durable local recovery mirror table (P060-016
+    `partial`).
+  - Missing: sealed Pseudonym Vault record replay at startup so a
+    fresh node restored from mnemonic rehydrates `contacts` membership
+    and issued passports from the vault directly (P060-016 — local
+    recovery mirror table now persists records; sealed vault replay
+    remains).
 
 - **Step 10 — Daniel sends the message; Marcin's node verifies before
   middleware:** `[in-progress]`
@@ -882,23 +887,26 @@ artifact and what is still missing.
 - **Step 11 — Marcin's middleware stores the message:** `[in-progress]`
   - Closest artifacts: Solution 027 messaging service has the full
     stratified-storage spine in place — Maildir message and draft
-    storage, SQLite with `PRAGMA user_version` migrations, retention
-    and crisis fact endpoints, pending Memarium facts, and reindex
-    (P060-013 `partial`). All five Layer 3 fact schemas exist with
-    examples, Node protocol mirror, and `schema-gate` export
-    validators (P060-011 `done`). Two of the five Layer 3 fact kinds
-    additionally have Memarium-side contracts —
-    `classification.v1` (Classification Label Contract — `done`) and
-    crisis-space marks (Memarium Crisis Space Loop — `done`). The
-    `mailbox.open` notification action target is wired
-    (P060-014 `done`); operator UI exposes the full mailbox surface
-    (P060-015 `done`).
-  - Missing: full Layer 3 replay path for Layer 2 rebuild + FTS5
-    rebuild (current `reindex` walks Maildir but does not yet replay
-    Layer 3 facts); runtime Memarium writes promotion from
-    pending-facts to durable Memarium records (the fact endpoints
-    exist; the actual Memarium write call is pending P060-013
-    remaining work).
+    storage, SQLite with `PRAGMA user_version` migrations, kind-specific
+    Layer 3 fact artifacts written through `memarium.write`, pending
+    fact replay, retention/crisis fact endpoints, revocation-triggered
+    `messaging.passport-revoked.v1` writes, and a `reindex` flow that
+    replays locally durable Layer 3 fact projections from
+    `pending_facts` and rebuilds FTS5 (P060-013 `partial`, P060-017
+    `partial`). All five Layer 3 fact schemas exist with examples,
+    Node protocol mirror, and `schema-gate` export validators
+    (P060-011 `done`). Two of the five Layer 3 fact kinds additionally
+    have Memarium-side contracts — `classification.v1` (Classification
+    Label Contract — `done`) and crisis-space marks (Memarium Crisis
+    Space Loop — `done`). The `mailbox.open` notification action
+    target is wired (P060-014 `done`); operator UI exposes the full
+    mailbox surface with unknown-recipient warning (P060-015 `done`).
+  - Missing: remote Memarium replay in Layer 2 rebuild (current
+    `reindex` replays locally durable Layer 3 from `pending_facts`
+    plus FTS5 rebuild; remote Memarium replay remains) (P060-017);
+    full mock-host integration coverage, sender-side lookup against
+    the shared remote Contact Catalog provider, and green Story-010
+    cross-node delivery acceptance (P060-013 remaining hardening).
 
 ### Cross-Cutting Building Blocks
 
@@ -919,8 +927,11 @@ artifact and what is still missing.
   Matrix mailbox transport, broader production hardening, and any
   messaging-specific acceptors remain to do.
 - **User/operator notifications (P057):** `[in-progress]` — store, operator
-  inbox, host capability, and per-sender/kind rate limits are `done`; inline
-  action execution is `partial` and user-facing inboxes are MVP operator-only.
+  inbox, host capability, per-sender/kind rate limits, authenticated
+  `notification.create` sender binding, inline action execution, bound action
+  audit actors, and fail-closed user/pod-user recipient route binding are
+  `done`; P057-011 remains `partial` only for first-class pod-user session/auth
+  UX.
 - **Capability Advertisement of messaging support:** `[todo]` —
   `capability-advertisement.v1` plumbing is `done`; a concrete
   `messaging.accept` advertisement entry tied to the `messaging-receive`
@@ -940,17 +951,21 @@ artifact and what is still missing.
   Layer 1 Maildir bodies, Layer 2 middleware-owned SQLite index, Layer 3
   Memarium messaging facts, mailbox view):** `[in-progress]` — Proposal
   060 is Draft with most MVP decisions frozen; Solution 027 (Messaging
-  Middleware, `partial`) realises the runtime with seven `partial`
-  must-implement capabilities (`messaging-receive-passport-profile`,
-  `messaging-service-runtime`, `outbound-contact-and-delivery`,
+  Middleware, `partial`) realises the runtime with eight
+  `must-implement` capabilities: two `done`
+  (`messaging-receive-passport-profile`, `messaging-node-ui`) and six
+  `partial` (`messaging-service-runtime`,
+  `contactability-and-local-contacts`, `outbound-contact-and-delivery`,
   `inbound-policy-and-mailbox-resolution`,
-  `local-participant-handle-ownership`, `layer-three-facts-and-recovery`,
-  `messaging-node-ui`). Node has `messaging-core` and `messaging-service`
-  crates. All five Layer 3 fact kinds have frozen schemas with examples
-  and validators. Remaining: full Layer 3 runtime writes, Layer 2
-  rebuild from Layer 3, full vault record persistence, supervised
-  multi-process cross-node tests, FTS5 rebuild, real
-  contact-lookup-result promotion semantics.
+  `local-participant-handle-ownership`, `layer-three-facts-and-recovery`).
+  Node has `messaging-core` and `messaging-service` crates. All five
+  Layer 3 fact kinds have frozen schemas, Memarium writes are wired
+  through `memarium.write` with pending replay, FTS5 is rebuilt in
+  `reindex`, and contact-lookup-result promotion is wired. Remaining:
+  remote Memarium replay in Layer 2 rebuild, sealed vault record
+  replay at startup, full mock-host integration coverage, supervised
+  multi-process cross-node tests, and green Story-010 cross-node
+  delivery acceptance.
 - **Local contact store (raw address book, labels, pairwise nym mappings):**
   `[in-progress]` — Solution 025 Local Contact Store is `partial`: the
   daemon owns `<node-data-dir>/storage/local-contacts.sqlite` and
@@ -1008,20 +1023,17 @@ Already done:
   `active/rotated/revoked/archived` lifecycle (see:
   [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
 - contactability UI panel in Node UI with daemon
-  contactability draft/options/attest/publish endpoints (P060-033
-  `partial`)
+  contactability draft/options/attest/publish endpoints, contact-control
+  evidence binding, signed `contact-claim.v1` construction, and supervised
+  Contact Catalog admission (P060-033 `done`)
 - messaging contactability surfaces in Node UI alongside admin (see:
   [Proposal 058 Tracking row P058-012](../40-proposals/058-contact-catalog.md))
-- Solution 027 cap `:contactability-and-local-contacts` (`partial`)
-  anchors the messaging-side contactability surface
+- Solution 027 cap `:contactability-and-local-contacts` (`partial`) anchors
+  the messaging-side contactability surface; it remains partial only because
+  local-contact sealed recovery is still tracked under Contact Catalog recovery
 
 Still outstanding:
 
-- production Contact Catalog publication path (current publish endpoint
-  records a local draft; production binding to admitted Contact Catalog
-  claims remains) (P060-033)
-- contact-control evidence binding from the attestation seam (depends
-  on Step 2 production attestation delivery; P060-034)
 - sealed-vault backup / replay for `local-contacts.sqlite` rows and
   pairwise nym mappings (P058-008 — vault runtime is `done`; the
   local-contacts-side mirror remains)
@@ -1045,18 +1057,18 @@ Already done:
 - `contact-attestation-request.v1` and `contact-attestation-result.v1`
   schemas with examples and schema-gate validators (P060-034)
 - Node `attestation-core` + `attestation-service` crates with bundled
-  (disabled) `attestation-service` middleware config (P060-034
-  `partial`)
-- OTP / link verification flow specification in P061
+  opt-in `attestation-service` middleware config (P060-034 `partial`)
+- three delivery modes implemented (`dev` / `smtp` / `webhook`):
+  production SMTP email + SMS webhook adapters wired
+- challenge attempt limits + TTL + quotas + delivery audit
+- OTP / link verification flow specification in Proposal 061
 
 Still outstanding:
 
-- production SMTP / SMS delivery integration (current dev delivery is
-  local) (P060-034)
-- full operator policy beyond the bundled disabled middleware config
-  (P060-034)
-- Seed Directory advertisement of attestation providers under the
-  registered capability ids
+- Seed Directory advertisement of attestation providers under
+  `role/email-attestation` / `role/phone-attestation` so client nodes
+  can discover them (P060-034 — the only remaining provider-side
+  item)
 
 ### Step 3 — outstanding features
 
@@ -1155,9 +1167,10 @@ Already done:
   invitation actions, and `mailbox.open`; Node UI renders active
   controls for wired refs and disabled controls for unwired / expired
   refs (P057-009 `done`)
-- user and pod-user notification routes + Store v3 sealed per
-  recipient + user/pod-user inbox list surfaces in Node UI (P057-011
-  `partial` — see remaining hardening below)
+- user and pod-user notification routes now fail closed unless the
+  authenticated caller binding matches `recipient/id`; Store v3 seals payloads
+  per recipient; user/pod-user inbox list surfaces exist in Node UI
+  (P057-011 `partial` only for first-class pod-user session/auth UX)
 
 Still outstanding:
 
@@ -1166,9 +1179,8 @@ Still outstanding:
 - user-facing contact-request detail view in the Node UI (operator-side
   exists at `/admin/contact-catalog`; user-facing view remains, see:
   [Solution 001 Node UI](../60-solutions/001-node-ui/001-node-ui.md))
-- bind user / pod-user notification routes to authenticated local
-  identity (currently routes trust their parameter); promotes P057-011
-  fully to `done` (see:
+- first-class pod-user session/auth UX for recipient-specific notification
+  inboxes (see:
   [Proposal 057 Tracking row P057-011](../40-proposals/057-user-and-operator-notifications.md))
 
 ### Step 8 — outstanding features
@@ -1200,22 +1212,22 @@ Already done:
 
 - messaging-service has a passport lookup promotion path in its
   outbound queue with attach-and-rescan semantics (P060-013 `partial`)
-- daemon `capability.passport.lookup` host capability endpoint with
+- daemon `capability.passport.lookup` host capability with
   `capability-passport-lookup.v1` validation, multi-passport
-  `PassportCache` scan, revoked filtering, and usable/refused states
-  (P060-012 `partial`)
+  `PassportCache` scan, revoked filtering, scope-matched typed
+  profiles, and usable/refused lookup states — documented in
+  Solution 019 as a stable host capability bridge (P060-012 `done`)
 - queue state transition to `ready-for-delivery` (P060-010 `done`)
 - vault-mirror call wired through
-  `identity.messaging-recovery.mirror` host capability (P060-016
-  `partial`)
+  `identity.messaging-recovery.mirror` host capability + durable
+  local recovery mirror table (P060-016 `partial`)
 
 Still outstanding:
 
-- promote the `capability.passport.lookup` documentation into
-  Solution 019 Host Capability Bridge as a stable middleware contract
-- full vault record persistence (not just mirror calls) and startup
-  replay so a fresh node rehydrates `contacts` membership and issued
-  `messaging-receive@v1` passports from `pseudonym-vault.v1`
+- sealed Pseudonym Vault record replay at startup so a fresh node
+  rehydrates `contacts` membership and issued `messaging-receive@v1`
+  passports directly from the vault (P060-016 — local mirror table
+  persists records; sealed vault replay remains)
 
 ### Step 10 — outstanding features
 
@@ -1254,28 +1266,32 @@ Already done:
 - Layer 1 Maildir body store + drafts under
   `<node-data-dir>/storage/messaging/...` (P060-013 `partial`)
 - Layer 2 middleware-owned SQLite operational index with
-  `PRAGMA user_version` migrations and `reindex` endpoint walking
-  Maildir (P060-013 `partial`, P060-017 `partial`)
+  `PRAGMA user_version` migrations, `reindex` endpoint walking Maildir,
+  locally durable Layer 3 fact projection replay from `pending_facts`,
+  and FTS5 rebuild (P060-013 `partial`, P060-017 `partial`)
 - all five Layer 3 fact schemas with examples and `schema-gate`
   validators: `contacts.membership-changed.v1`,
   `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`,
   `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`
   (P060-011 `done`)
+- kind-specific Layer 3 fact artifacts written through `memarium.write`
+  + pending fact replay + retention/crisis fact endpoints +
+  revocation-triggered `messaging.passport-revoked.v1` writes
+  (P060-013 evidence)
 - inbox projection through `/v1/messaging/mailbox` and message read
-  endpoints (P060-013 + P060-015)
+  endpoints + unknown-recipient warning in Node UI compose
+  (P060-013 + P060-015)
 - `mailbox.open` notification action target wired through host-owned
   action target; Node UI exposes message detail (P060-014 `done`)
 
 Still outstanding:
 
-- Layer 3 runtime Memarium writes promotion from pending-facts to
-  durable Memarium records (the fact endpoints exist; the actual
-  Memarium write call is pending P060-013 remaining hardening)
-- Layer 2 rebuild from Layer 3 replay (the current `reindex` walks
-  Maildir but does not yet replay Layer 3 facts) + FTS5 rebuild
-  (P060-017 `partial`)
-- revocation-triggered `messaging.passport-revoked.v1` fact writes
-  (P060-013 remaining hardening)
+- remote Memarium replay in Layer 2 rebuild (locally durable Layer 3
+  replay from `pending_facts` and FTS5 rebuild are wired; only remote
+  Memarium replay remains) (P060-017 `partial`)
+- full mock-host integration coverage, sender-side lookup against the
+  shared remote Contact Catalog provider, and green Story-010
+  cross-node delivery acceptance (P060-013 remaining hardening)
 
 ### Cross-Cutting Block — INAC + Artifact Delivery transport plane — outstanding features
 
@@ -1310,15 +1326,15 @@ Already done:
   controls for wired refs and disabled controls for unwired / expired
   refs (see:
   [Proposal 057 Tracking row P057-009](../40-proposals/057-user-and-operator-notifications.md))
-- user and pod-user notification routes, Store v3 sealed per
-  recipient, and user/pod-user inbox list surfaces in Node UI
-  (P057-011 `partial`)
+- user and pod-user notification routes now require a matching authenticated
+  caller binding and fail closed without one; Store v3 seals payloads per
+  recipient; user/pod-user inbox list surfaces exist in Node UI
+  (P057-011 `partial` only for first-class pod-user session/auth UX)
 
 Still outstanding:
 
-- bind P057-011 user / pod-user notification routes to authenticated
-  local identity (current routes trust the path parameter alone);
-  promotes P057-011 fully to `done` (see:
+- first-class pod-user session/auth UX for recipient-specific notification
+  inboxes (see:
   [Proposal 057 Tracking row P057-011](../40-proposals/057-user-and-operator-notifications.md))
 - (deferred: P057-012 OS notifications — not blocking for this story)
 
@@ -1436,18 +1452,18 @@ Already done:
 - `contact-attestation-request.v1` and `contact-attestation-result.v1`
   schemas with examples and schema-gate validators (P060-034)
 - Node `attestation-core` + `attestation-service` crates with bundled
-  (disabled) `attestation-service` middleware config (P060-034
-  `partial`)
+  opt-in `attestation-service` middleware config (P060-034 `partial`)
+- three delivery modes: `dev` for integration testing, `smtp` for
+  production email, `webhook` for production SMS (P060-034)
+- challenge attempt limits, TTL, quotas, and delivery audit (P060-034)
 - OTP / link verification flow specification in Proposal 061
 
 Still outstanding:
 
-- production SMTP / SMS delivery integration (current dev delivery is
-  local) (P060-034)
-- full operator policy beyond the bundled disabled middleware config
-  (P060-034)
 - Seed Directory advertisement of attestation providers under
-  `role/email-attestation` / `role/phone-attestation`
+  `role/email-attestation` / `role/phone-attestation` so client nodes
+  can discover them (P060-034 — the only remaining provider-side
+  item)
 
 ### Cross-Cutting Block — Messaging middleware with stratified storage — outstanding features
 
@@ -1475,31 +1491,44 @@ Already done:
 - `local-recipient-mailbox.resolve` host capability for inbound
   mailbox routing (P060-032)
 - `local-contact.v1` schema + contactability draft/options/attest/
-  publish endpoints + Node UI contactability panel (P060-033 `partial`)
-- Story-010 two-node acceptance scaffold under
-  `node/tools/acceptance/story-010-operator/` (P060-035 `partial`)
+  publish endpoints + Node UI contactability panel + contact-control
+  passport binding at publish time + signed `contact-claim.v1`
+  construction + supervised Contact Catalog admission (P060-033 `done`)
+- Story-010 two-node acceptance scaffold including `story-smoke` and
+  self-contained `ad-smoke` for the Seed Directory + Attestation
+  Service + Contact Catalog + Messaging topology; the smoke now covers
+  attestation challenge/redeem, contactability publish, supervised
+  Contact Catalog admission, and lookup before reporting the current
+  sender-side shared-catalog lookup boundary (P060-035 `done`)
 - signer-derived sender identity + Pseudonym Vault reply-route
   creation for contact requests (P060-013 evidence)
+- kind-specific Layer 3 fact artifacts written through `memarium.write`
+  + pending fact replay + retention/crisis fact endpoints +
+  revocation-triggered `messaging.passport-revoked.v1` writes
+  (P060-013 evidence)
+- daemon `capability.passport.lookup` host capability documented in
+  Solution 019 as a stable host capability bridge contract (P060-012
+  `done`)
+- Layer 2 `reindex` replays locally durable Layer 3 fact projections
+  from `pending_facts` and rebuilds FTS5 (P060-017 evidence)
+- Node UI exposes unknown-recipient warning before contact-request
+  flow (P060-015 evidence)
 
 Still outstanding:
 
-- Layer 3 runtime Memarium writes (the fact endpoints exist;
-  promotion from pending-facts to durable Memarium records pending —
-  P060-013 remaining hardening)
-- Layer 2 rebuild from Layer 3 replay + FTS5 rebuild (P060-017)
-- full vault record persistence + startup replay (P060-016 — local
-  recovery mirror table now persists records; sealed vault record
-  replay at startup remains)
-- full mock-host integration coverage + full Story-010 cross-node
-  acceptance + revocation-triggered passport-revoked facts (P060-013
-  remaining hardening)
+- remote Memarium replay in Layer 2 rebuild (local pending Layer 3
+  replay + FTS5 rebuild already implemented) (P060-017 remaining)
+- sealed Pseudonym Vault record replay at startup (local recovery
+  mirror table persists records; vault replay remains) (P060-016)
+- full mock-host integration coverage, sender-side lookup against the
+  shared remote Contact Catalog provider instead of requiring a local
+  `contact-catalog-service`, and green Story-010 cross-node delivery
+  acceptance (P060-013 remaining hardening)
 - supervised multi-process cross-node messaging-acceptor tests
   (P060-009 remaining hardening)
-- executable end-to-end smoke driver for the two-node acceptance
-  scaffold (P060-035)
-- production Contact Catalog publication path for the contactability
-  bridge (P060-033)
-- production attestation delivery + operator policy (P060-034)
+- Seed Directory advertisement of `role/email-attestation` /
+  `role/phone-attestation` providers (P060-034 — production delivery,
+  attempt limits, TTL, quotas, audit are wired)
 
 ### Cross-Cutting Block — Local contact store — outstanding features
 
