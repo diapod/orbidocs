@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-passport-lookup:v1",
+  "title": "CapabilityPassportLookup v1",
+  "description": "Host-capability request and response contract for selecting an already valid local capability passport.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/060-messaging-middleware.md"],
+  "required": ["schema", "schema/v", "capability/id", "required/scope"],
+  "properties": {
+    "schema": { "const": "capability-passport-lookup.v1" },
+    "schema/v": { "const": 1 },
+    "capability/id": { "type": "string", "minLength": 1 },
+    "required/scope": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["purpose"],
+      "properties": {
+        "sender": { "$ref": "#/$defs/subject_string" },
+        "receiver": { "$ref": "#/$defs/subject_string" },
+        "contact-nym/id": { "type": "string", "pattern": "^contact-nym:" },
+        "contact-request/id": { "type": "string", "pattern": "^contact-request:" },
+        "public-handle": { "type": "string", "minLength": 1 },
+        "purpose": { "const": "messaging" }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "require_revocation_fresh": { "type": "boolean" },
+        "max_revocation_staleness_seconds": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "now": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "subject_string": {
+      "type": "string",
+      "pattern": "^(participant|nym|routing|contact-nym|node):"
+    }
+  }
+}

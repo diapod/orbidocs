@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging.retention-decided:v1",
+  "title": "MessagingRetentionDecided v1",
+  "description": "Messaging-owned Layer 3 fact recording an explicit message or thread retention decision.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/060-messaging-middleware.md"],
+  "required": [
+    "schema",
+    "schema/v",
+    "fact/id",
+    "event/at",
+    "target",
+    "decision/kind",
+    "decided/by"
+  ],
+  "properties": {
+    "schema": { "const": "messaging.retention-decided.v1" },
+    "schema/v": { "const": 1 },
+    "fact/id": {
+      "type": "string",
+      "pattern": "^fact:messaging.retention-decided:[a-z0-9][a-z0-9:-]*$"
+    },
+    "event/at": { "type": "string", "format": "date-time" },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "message/id": { "type": "string", "minLength": 1 },
+        "thread/id": { "type": "string", "minLength": 1 },
+        "mailbox/id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "decision/kind": {
+      "type": "string",
+      "enum": ["keep-local", "archive", "delete", "exported"]
+    },
+    "decided/by": { "type": "string", "minLength": 1 },
+    "reason": { "type": "string", "minLength": 1 },
+    "archive/ref": { "type": "string", "minLength": 1 }
+  }
+}

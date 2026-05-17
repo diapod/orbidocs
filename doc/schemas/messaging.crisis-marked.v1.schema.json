@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging.crisis-marked:v1",
+  "title": "MessagingCrisisMarked v1",
+  "description": "Messaging-owned Layer 3 fact recording an explicit user or policy mark that places a message or thread in crisis handling.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/060-messaging-middleware.md"],
+  "required": [
+    "schema",
+    "schema/v",
+    "fact/id",
+    "event/at",
+    "target",
+    "mark/kind",
+    "marked/by"
+  ],
+  "properties": {
+    "schema": { "const": "messaging.crisis-marked.v1" },
+    "schema/v": { "const": 1 },
+    "fact/id": {
+      "type": "string",
+      "pattern": "^fact:messaging.crisis-marked:[a-z0-9][a-z0-9:-]*$"
+    },
+    "event/at": { "type": "string", "format": "date-time" },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "message/id": { "type": "string", "minLength": 1 },
+        "thread/id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "mark/kind": {
+      "type": "string",
+      "enum": ["marked", "cleared"]
+    },
+    "marked/by": { "type": "string", "minLength": 1 },
+    "reason": { "type": "string", "minLength": 1 },
+    "crisis-space/id": { "type": "string", "minLength": 1 }
+  }
+}

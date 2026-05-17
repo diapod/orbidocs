@@ -106,6 +106,7 @@ Suggested public surface:
 pub const KEY_DELEGATION_SCHEMA_V1: &str = "key-delegation.v1";
 pub const KEY_DELEGATION_ID_PREFIX: &str = "delegation:key:";
 pub const GRANT_SIGNING_CAPABILITY: &str = "signing/capability";
+pub const GRANT_SIGNING_MESSAGING_SEND: &str = "signing/messaging-send";
 pub const GRANT_WILDCARD: &str = "*";
 
 pub type KeyDelegationGrants = BTreeMap<String, Vec<String>>;

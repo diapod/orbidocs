@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging.passport-issued:v1",
+  "title": "MessagingPassportIssued v1",
+  "description": "Messaging-owned Layer 3 fact recording issuance or refresh of a messaging-receive passport.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/060-messaging-middleware.md"],
+  "required": [
+    "schema",
+    "schema/v",
+    "fact/id",
+    "event/at",
+    "passport/id",
+    "capability/id",
+    "sender/subject",
+    "receiver/route",
+    "purpose"
+  ],
+  "properties": {
+    "schema": { "const": "messaging.passport-issued.v1" },
+    "schema/v": { "const": 1 },
+    "fact/id": {
+      "type": "string",
+      "pattern": "^fact:messaging.passport-issued:[a-z0-9][a-z0-9:-]*$"
+    },
+    "event/at": { "type": "string", "format": "date-time" },
+    "passport/id": { "type": "string", "pattern": "^passport:capability:" },
+    "capability/id": { "const": "messaging-receive" },
+    "sender/subject": { "$ref": "#/$defs/subject" },
+    "receiver/route": { "$ref": "#/$defs/subject" },
+    "contact-request/id": { "type": "string", "pattern": "^contact-request:" },
+    "contact-nym/id": { "type": "string", "pattern": "^contact-nym:" },
+    "purpose": { "const": "messaging" },
+    "expires/at": { "type": "string", "format": "date-time" },
+    "revocation/ref": { "type": ["string", "null"] }
+  },
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 1,
+      "properties": {
+        "participant/id": { "type": "string", "pattern": "^participant:" },
+        "nym/id": { "type": "string", "pattern": "^nym:" },
+        "routing-subject/id": { "type": "string", "pattern": "^routing:" },
+        "contact-nym/id": { "type": "string", "pattern": "^contact-nym:" },
+        "node/id": { "type": "string", "pattern": "^node:" }
+      }
+    }
+  }
+}

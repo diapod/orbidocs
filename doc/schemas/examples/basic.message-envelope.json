@@ -1,0 +1,36 @@
+{
+  "schema": "message-envelope.v1",
+  "schema/v": 1,
+  "envelope/id": "message-envelope:01jykq4y9z:daniel-to-marcin",
+  "message/id": "message:01jykq4y9z:daniel-to-marcin",
+  "sender/subject": {
+    "participant/id": "participant:did:key:z6Mksender"
+  },
+  "receiver/route": {
+    "contact-nym/id": "contact-nym:marcin"
+  },
+  "receiver/public-handle": {
+    "kind": "email",
+    "value": "marcin@example.org",
+    "attestation-ref": "contact-claim:marcin-email"
+  },
+  "authorization": {
+    "passport-ref": "passport:capability:messaging-receive:example"
+  },
+  "body": {
+    "content-type": "text/plain",
+    "encoding": "utf-8",
+    "size/bytes": 21,
+    "sha256": "sha256:MbVB6hHdb5borzEYgokwGe_UBh1Ec0YfbpQpoIlnwNs",
+    "inline": "Tea from brodziuszka?"
+  },
+  "meta": {
+    "sent/at": "2026-05-17T12:00:00Z",
+    "content/digest": "sha256:MbVB6hHdb5borzEYgokwGe_UBh1Ec0YfbpQpoIlnwNs"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key/public": "did:key:z6Mksender#z6Mksender",
+    "value": "base64url:message-envelope-signature"
+  }
+}

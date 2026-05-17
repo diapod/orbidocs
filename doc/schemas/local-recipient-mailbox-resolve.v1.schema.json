@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:local-recipient-mailbox-resolve:v1",
+  "title": "LocalRecipientMailboxResolve v1",
+  "description": "Host-capability request and response contract for local recipient mailbox resolution after message admission.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/060-messaging-middleware.md"],
+  "required": ["schema", "schema/v", "receiver/route", "purpose"],
+  "properties": {
+    "schema": { "const": "local-recipient-mailbox-resolve.v1" },
+    "schema/v": { "const": 1 },
+    "receiver/route": {
+      "type": "string",
+      "pattern": "^(node|routing|contact-nym|participant):"
+    },
+    "public-handle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["email", "phone", "other"] },
+        "value": { "type": "string", "minLength": 1, "maxLength": 320 }
+      }
+    },
+    "purpose": { "const": "messaging" },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "require_control_passport_fresh": { "type": "boolean" },
+        "require_revocation_fresh": { "type": "boolean" }
+      }
+    }
+  }
+}

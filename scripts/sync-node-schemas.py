@@ -78,6 +78,14 @@ SCHEMA_WHITELIST = (
     "contact-claim.v1.schema.json",
     "contact-lookup-result.v1.schema.json",
     "contact-request.v1.schema.json",
+    "message-envelope.v1.schema.json",
+    "contacts.membership-changed.v1.schema.json",
+    "messaging.passport-issued.v1.schema.json",
+    "messaging.passport-revoked.v1.schema.json",
+    "messaging.retention-decided.v1.schema.json",
+    "messaging.crisis-marked.v1.schema.json",
+    "capability-passport-lookup.v1.schema.json",
+    "local-recipient-mailbox-resolve.v1.schema.json",
     "service-ca-material.v1.schema.json",
     "service-ca-revocation.v1.schema.json",
 )
@@ -156,6 +164,9 @@ EXAMPLE_WHITELIST = (
     "invitation-required.contact-lookup-result.json",
     "no-match.contact-lookup-result.json",
     "messaging.contact-request.json",
+    "basic.message-envelope.json",
+    "contacts-added.contacts.membership-changed.json",
+    "issued.messaging.passport-issued.json",
     "public-seed-directory.service-ca-material.json",
     "public-seed-directory.service-ca-revocation.json",
 )
@@ -208,6 +219,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "raw-handle.contact-lookup.artifact-delivery-envelope.json",
     "unsupported-mode.contact-lookup.artifact-delivery-envelope.json",
     "invitation-without-route.contact-lookup-result.json",
+    "missing-signature.message-envelope.json",
     "memarium-blob-without-signature.memarium-blob.json",
     "no-scope.service-ca-material.json",
 )

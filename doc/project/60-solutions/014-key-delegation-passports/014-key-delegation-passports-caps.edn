@@ -22,7 +22,7 @@
     "Define `DelegationProof` as the compact inline proof form embedded in proxy-signed artifacts"
     "Define `KeyDelegationSignature` with canonical signing under domain `key-delegation.v1`"
     "Validate structural integrity: principal key derives to participant id, proxy key starts with `did:key:`, delegation id starts with `delegation:key:`"
-    "Support grant matching: wildcard `*`, `signing/capability`, and `signing/agora-record`"
+    "Support grant matching: wildcard `*`, `signing/capability`, `signing/agora-record`, and `signing/messaging-send`"
     "Build canonical payloads excluding both `signature` and `issuer_delegation`"]
    :status :done}
 

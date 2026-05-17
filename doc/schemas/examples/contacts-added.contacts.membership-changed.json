@@ -1,0 +1,13 @@
+{
+  "schema": "contacts.membership-changed.v1",
+  "schema/v": 1,
+  "fact/id": "fact:contacts.membership-changed:01jykq5a:daniel-added",
+  "event/at": "2026-05-17T12:01:00Z",
+  "relationship/class": "contacts",
+  "change/kind": "added",
+  "subject": {
+    "participant/id": "participant:did:key:z6Mksender"
+  },
+  "source/ref": "contact-request:marcin:001",
+  "passport/id": "passport:capability:messaging-receive:example"
+}

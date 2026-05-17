@@ -46,7 +46,8 @@ Responsibilities:
 - define `DelegationProof` as the compact inline proof form embedded in proxy-signed artifacts,
 - define `KeyDelegationSignature` with canonical signing under domain `key-delegation.v1`,
 - validate structural integrity: principal key derives to participant id, proxy key starts with `did:key:`, delegation id starts with `delegation:key:`,
-- support grant matching for wildcard `*`, `signing/capability`, and `signing/agora-record`,
+- support grant matching for wildcard `*`, `signing/capability`,
+  `signing/agora-record`, and `signing/messaging-send`,
 - build canonical payloads excluding both `signature` and optional `issuer_delegation`.
 
 Status:

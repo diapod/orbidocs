@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging.passport-revoked:v1",
+  "title": "MessagingPassportRevoked v1",
+  "description": "Messaging-owned Layer 3 fact recording revocation of a messaging-receive passport.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/060-messaging-middleware.md"],
+  "required": [
+    "schema",
+    "schema/v",
+    "fact/id",
+    "event/at",
+    "passport/id",
+    "capability/id",
+    "revocation/id"
+  ],
+  "properties": {
+    "schema": { "const": "messaging.passport-revoked.v1" },
+    "schema/v": { "const": 1 },
+    "fact/id": {
+      "type": "string",
+      "pattern": "^fact:messaging.passport-revoked:[a-z0-9][a-z0-9:-]*$"
+    },
+    "event/at": { "type": "string", "format": "date-time" },
+    "passport/id": { "type": "string", "pattern": "^passport:capability:" },
+    "capability/id": { "const": "messaging-receive" },
+    "revocation/id": { "type": "string", "minLength": 1 },
+    "reason": { "type": "string", "minLength": 1 },
+    "source/ref": { "type": "string", "minLength": 1 }
+  }
+}

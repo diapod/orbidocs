@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:message-envelope:v1",
+  "title": "MessageEnvelope v1",
+  "description": "Private personal-message artifact carried by Artifact Delivery and admitted by the messaging middleware.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-010-message-to-a-friend.md",
+    "doc/project/40-proposals/060-messaging-middleware.md",
+    "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "envelope/id",
+    "sender/subject",
+    "receiver/route",
+    "authorization",
+    "body",
+    "meta",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "message-envelope.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "envelope/id": {
+      "type": "string",
+      "pattern": "^message-envelope:[a-z0-9][a-z0-9:-]*$"
+    },
+    "message/id": {
+      "type": "string",
+      "pattern": "^message:[a-z0-9][a-z0-9:-]*$"
+    },
+    "thread/id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sender/subject": {
+      "$ref": "#/$defs/subject"
+    },
+    "receiver/route": {
+      "$ref": "#/$defs/subject"
+    },
+    "receiver/public-handle": {
+      "$ref": "#/$defs/public_handle"
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": true,
+      "minProperties": 1,
+      "properties": {
+        "passport-ref": {
+          "type": "string",
+          "pattern": "^passport:capability:"
+        },
+        "passport": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["schema", "passport_id", "capability_id"],
+          "properties": {
+            "schema": {
+              "const": "capability-passport.v1"
+            },
+            "passport_id": {
+              "type": "string",
+              "pattern": "^passport:capability:"
+            },
+            "capability_id": {
+              "const": "messaging-receive"
+            }
+          }
+        },
+        "delegation-proof": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "anyOf": [
+        { "required": ["passport-ref"] },
+        { "required": ["passport"] }
+      ]
+    },
+    "body": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["content-type", "encoding", "size/bytes", "sha256"],
+      "properties": {
+        "content-type": {
+          "type": "string",
+          "enum": ["text/plain", "text/markdown", "application/json"]
+        },
+        "encoding": {
+          "type": "string",
+          "enum": ["utf-8", "base64"]
+        },
+        "size/bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        },
+        "sha256": {
+          "type": "string",
+          "description": "SHA-256 of the body bytes encoded with the Orbiplex content digest convention: `sha256:` plus unpadded base64url.",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "inline": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string",
+          "pattern": "^(artifact-store|memarium-blob):"
+        }
+      },
+      "oneOf": [
+        { "required": ["inline"] },
+        { "required": ["ref"] }
+      ]
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["sent/at", "content/digest"],
+      "properties": {
+        "sent/at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "content/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "classification": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 1,
+      "properties": {
+        "participant/id": {
+          "type": "string",
+          "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "nym/id": {
+          "type": "string",
+          "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "routing-subject/id": {
+          "type": "string",
+          "pattern": "^routing:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "contact-nym/id": {
+          "type": "string",
+          "pattern": "^contact-nym:[a-z0-9][a-z0-9:-]*$"
+        },
+        "node/id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        }
+      }
+    },
+    "public_handle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["email", "phone", "other"]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 320
+        },
+        "attestation-ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["alg", "key/public", "value"],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "key/public": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "messaging.passport-issued.v1",
+  "schema/v": 1,
+  "fact/id": "fact:messaging.passport-issued:01jykq5b:marcin",
+  "event/at": "2026-05-17T12:02:00Z",
+  "passport/id": "passport:capability:messaging-receive:example",
+  "capability/id": "messaging-receive",
+  "sender/subject": {
+    "participant/id": "participant:did:key:z6Mksender"
+  },
+  "receiver/route": {
+    "contact-nym/id": "contact-nym:marcin"
+  },
+  "contact-request/id": "contact-request:marcin:001",
+  "contact-nym/id": "contact-nym:marcin",
+  "purpose": "messaging",
+  "expires/at": "2026-06-16T12:02:00Z"
+}
