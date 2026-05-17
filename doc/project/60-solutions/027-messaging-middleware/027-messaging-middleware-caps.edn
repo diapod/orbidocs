@@ -22,6 +22,7 @@
    ["Use capability id messaging-receive and canonical grant messaging/receive"
     "Use the existing MessagingReceiveProfileV1 shape from node/capability"
     "Scope receive consent by request/id, sender subjects, recipient routes, contact nym id, purposes, revocation freshness, and optional limits"
+    "Check receiver-side revocation state for inline passports before persistence"
     "Default max revocation staleness to 300 seconds"
     "Reject alternate messaging receive profile shapes"]
    :status :done}
@@ -35,6 +36,8 @@
    ["Expose authenticated status, inbound accept, outbound queue, mailbox, message, retry, process, pending-fact replay, retention, crisis, and reindex endpoints"
     "Store Layer 1 message bodies in Maildir and Layer 2 indexes in SQLite"
     "Keep outbound bodies as Maildir draft records instead of long SQLite text"
+    "Fail closed against receiver-side revocation snapshots before persisting inline messaging-receive passports"
+    "Run reindex as remote Memarium replay, local Layer 3 replay, Maildir walk, and FTS5 rebuild"
     "Use PRAGMA user_version migrations for storage evolution"
     "Stay disabled by default in bundled daemon config"]
    :status :partial}
@@ -115,7 +118,9 @@
    ["Write bounded messaging facts through memarium.write"
     "Store failed fact writes in pending_facts and expose degraded status"
     "Replay pending facts idempotently"
+    "Replay remote Memarium messaging facts during reindex before local pending facts and Maildir walk"
     "Mirror contacts membership and receive-passport references through identity.messaging-recovery.mirror"
+    "Export and replay local contact, pairwise mapping, and messaging mirror recovery bundles without reactivating revoked or archived mappings"
     "Persist accepted recovery mirror records in the daemon-local durable mirror table until sealed Pseudonym Vault replay is added"
     "Reindex SQLite from Maildir and Layer 3 facts"]
    :status :partial}

@@ -187,9 +187,10 @@ Status:
   `archived` lifecycle states so nym rotation is history-preserving. Raw handles
   remain daemon-local and are not emitted by Contact Catalog lookup, Seed
   Directory records, or shared lookup audit. Durable local recovery mirror
-  records exist for messaging recovery; sealed `pseudonym-vault.v1` backup and
-  startup replay for local contacts and pairwise mappings remain follow-up
-  work.
+  records exist for messaging recovery; the local contact store can export and
+  replay local-contact, pairwise-mapping, and messaging-recovery mirror records
+  without reactivating revoked or archived pairwise mappings. Sealed
+  `pseudonym-vault.v1` persistence and startup replay remain follow-up work.
 
 ## May Implement
 

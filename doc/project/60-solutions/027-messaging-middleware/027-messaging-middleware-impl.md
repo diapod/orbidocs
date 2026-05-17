@@ -104,11 +104,20 @@ Additional hardening now covered by focused tests:
 - `messaging-service` promotes valid `contact-lookup-result.v1` route
   candidates and terminally fails `no-match` results;
 - daemon proxying includes the outbox contact-lookup-result promotion endpoint;
+- `messaging-service` checks receiver-side revocation snapshots for inline
+  `messaging-receive@v1` passports before Maildir/SQLite persistence;
+- `messaging-service` reindex attempts remote Memarium replay before local
+  Layer 3 projection replay, Maildir walk, and FTS5 rebuild, with degraded
+  diagnostics when Memarium is unavailable;
+- the daemon local contact store can export/replay local contact, pairwise
+  mapping, and messaging recovery mirror records without reactivating revoked
+  or archived pairwise mappings;
 - `schema-gate` validates `local-contact.v1`,
   `contact-attestation-request.v1`, and `contact-attestation-result.v1` at the
   intended local import/export and ingress/egress boundaries;
 - Story-010 has a two-node profile and launcher scaffold under
   `node/tools/acceptance/story-010-operator/`; strict `ad-smoke` now covers
-  attestation, contactability publish, shared Contact Catalog lookup, contact
-  request acceptance, `messaging-receive@v1` passport handoff, private-direct
-  message delivery, and delivered inbox/outbox state.
+  Seed Directory discovery of attestation providers, attestation,
+  contactability publish, shared Contact Catalog lookup, contact request
+  acceptance, `messaging-receive@v1` passport handoff, private-direct message
+  delivery, and delivered inbox/outbox state.
