@@ -222,11 +222,17 @@ Status:
   `ObservedRecord<T>` fetch contract and Contact Catalog defines
   `RemoteContactClaimFilter`; `contact-catalog-service` uses a
   `RemoteContactCatalogHttpAdapter` to refresh trusted provider claims into a
-  sidecar remote cache. Provider policy remains trusted-only and no Agora
-  publication/relay path is introduced. The next contract layer is a dedicated
-  provider sync shape with cursors/high-water marks, tombstone or revocation
-  replay, loop prevention, and generic `node/catalog` sync mechanics. Broader
-  multi-process trusted-provider acceptance remains open.
+  sidecar remote cache. `node/catalog` now also carries the generic
+  `sync_catalog_provider(...)` mechanic for fetch, observed-record validation,
+  loop guardrails, self-origin rejection when the daemon provides the local
+  node id, sequence-aware merge, data-derived high-water metadata and counted
+  outcomes. Contact Catalog exposes authenticated
+  `GET /v1/contact-catalog/sync/claims` as the trusted provider snapshot
+  contract and records provider sync state in the sidecar with last-run counts
+  and cumulative totals.
+  Provider policy remains trusted-only and no Agora publication/relay path is
+  introduced. Tombstone/revocation replay, stronger incremental cursor
+  semantics and broader multi-process trusted-provider acceptance remain open.
 
 ### Blinded or PSI Lookup
 

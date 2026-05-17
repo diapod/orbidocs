@@ -584,14 +584,16 @@ The messaging service attaches through the supervised-HTTP / in-process
 host capability bridge already provided by Solution 019. No new
 extension-host primitive is introduced.
 
-### Proposal 059 (Nym key-role derivation) and `pseudonym-vault.v1`
+### Proposal 059 (Nym key-role derivation) and Solution 026
 
 `contacts` membership and issued `messaging-receive@v1` passports live
-inside `pseudonym-vault.v1`. The messaging service depends on the vault
-runtime promotion (P059-010, currently `todo`) for full recovery.
-Before P059-010 lands, MVP recovery may fall back to a daemon-local
-encrypted store with the same shape, mirrored into the vault when
-available.
+inside `pseudonym-vault.v1`. Proposal 059 is Accepted with Node MVP
+runtime implemented; Solution 026 (Pseudonym Vault and Key Roles)
+realises the runtime — sealed vault snapshots, role-aware recovery
+bundles, single-writer latest with rollback and conflict rejection. The
+messaging service writes membership and passport records as private
+plaintext entries inside vault snapshots, and replays them on startup.
+No degraded-mode fallback is needed.
 
 ### `core/messaging` Capability
 
@@ -625,7 +627,7 @@ proposal adds a separate application capability id.
 | Daniel sends with a passport but Marcin revoked it mid-flight | The receiver-side Capability Binding revocation check fails closed; the message is refused at AD admission before the messaging acceptor sees it. |
 | `messaging-receive@v1` passport scope and envelope disagree | The messaging acceptor refuses; the refusal is operator-visible as an audit event. |
 | Service crashes mid-write | Layer 1 Maildir write is the durable commit point; Layer 2 / Layer 3 updates are idempotent on retry, keyed by `envelope/id`. |
-| Vault unavailable during startup | The messaging service starts in a degraded mode that serves cached `contacts` state from Layer 2 only; new memberships are queued until the vault is available; the `/v1/messaging/status` proxy surfaces the degraded mode. |
+| Vault unavailable during startup | Vault runtime is owned by Solution 026 and is `done`; the messaging service treats vault unavailability as a transient daemon condition and waits, surfacing the wait state through `/v1/messaging/status`. New memberships are queued until the vault accepts a snapshot. |
 | `contact-request` revoked after acceptance | Revoking the `messaging-receive@v1` passport on Marcin's side propagates through Capability Binding revocation and `contacts.membership-changed.v1` fact in Layer 3. |
 
 ## Trade-offs
@@ -654,9 +656,6 @@ proposal adds a separate application capability id.
 - More moving parts at startup: the service must coordinate with the
   vault, Memarium, the daemon's host capability bridge, AD acceptor
   registration, and Node UI.
-- The MVP fall-back for vault unavailability adds a small operator
-  surface (the degraded-mode flag) that has no equivalent in pre-vault
-  Orbiplex.
 - Recovery scenarios multiply: lose-bodies, lose-index, lose-vault each
   produce a different recovery posture.
 
@@ -744,7 +743,7 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 | P060-013 | Messaging service implementation (compose + outbound queue + Layer 1 Maildir + Layer 2 SQLite + inbox projection + acceptor + Layer 3 fact writes) | todo | Depends on P060-001 through P060-012. |
 | P060-014 | `mailbox.open` notification action target wired into Node UI mailbox view | todo | §10 Next Actions #8; depends on P057-009 inline action execution promotion. |
 | P060-015 | `/admin/messaging` operator UI surface and `/v1/messaging/status` daemon proxy | todo | §1 Component Boundary; depends on P060-013 to have something meaningful to proxy. |
-| P060-016 | Recovery: `contacts` membership + issued `messaging-receive@v1` passports persisted in `pseudonym-vault.v1` | todo | §9 Recovery and Vault Integration; depends on P059-010 vault sync/restore runtime. Pre-vault MVP fallback in degraded mode. |
+| P060-016 | Recovery: `contacts` membership + issued `messaging-receive@v1` passports persisted in `pseudonym-vault.v1` | todo | §9 Recovery and Vault Integration. The vault runtime dependency is resolved — P059 is Accepted with Node MVP runtime implemented (P059-009 / P059-010 `done`, Solution 026 Pseudonym Vault and Key Roles realises the runtime). What remains is the messaging-domain side of the integration: persist membership changes and issued passports as private plaintext records inside the vault, replay them on startup. |
 | P060-017 | Recovery: Layer 2 SQLite index rebuild procedure (replay Layer 3 → walk Maildir → repopulate rows → rebuild FTS5) | todo | §9 Recovery and Vault Integration; depends on P060-013 and P060-011. |
 | P060-018 | Compose UI ownership decision (service-embedded HTTP UI vs Node UI surface calling service) | open | Open Question #1. |
 | P060-019 | Threading model decision (opaque id vs In-Reply-To chain vs richer conversation container) | open | Open Question #2. |

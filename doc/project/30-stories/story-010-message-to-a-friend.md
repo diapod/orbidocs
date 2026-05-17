@@ -59,7 +59,9 @@ The story also reuses these existing mechanism documents:
   certificate evidence and peer-dial enforcement before private/direct
   delivery;
 - **Proposal 059** (Participant, Nym, and Routing-Subject Key-Role
-  Derivation) plus `pseudonym-vault.v1` and `routing-subject-binding.v1` for
+  Derivation, Accepted with Node MVP runtime implemented) plus
+  **Solution 026** (Pseudonym Vault and Key Roles) realising the runtime,
+  `pseudonym-vault.v1`, and `routing-subject-binding.v1` for
   participant-backed nym continuity, routing subjects, and private vault
   recovery;
 - **Proposal 036** and **Solution 002** (Memarium) for local semantic/audit
@@ -809,15 +811,19 @@ artifact and what is still missing.
 - **Step 9 — Daniel's node attaches the passport to queued messages:** `[todo]`
   - Closest artifacts: the daemon already has `PassportCache` and
     `DelegationCache` with background sync (`done`); INAC/AD already accept
-    inline passports under `authorization`; `pseudonym-vault.v1` is the named
-    recovery container on Marcin's side (P059, schema seed present, runtime
-    not implemented).
+    inline passports under `authorization`; the participant-owned vault
+    recovery story is now real — Solution 026 (Pseudonym Vault and Key
+    Roles, `partial`) implements `pseudonym-vault.v1` runtime,
+    role-aware recovery bundles, and single-writer latest snapshot
+    semantics; P059 is Accepted with Node MVP runtime implemented
+    (P059-009, P059-010, P059-011 all `done`).
   - Missing: messaging middleware outbound-queue scanner, a host capability
     surface for best-match passport lookup
     (`capability.passport.lookup`-style — the middleware bridge currently
     exposes issue but not lookup), attach-and-rescan on passport arrival,
-    queue state transition to `ready-for-delivery`, and the vault-backed
-    persistence of `contacts` membership.
+    queue state transition to `ready-for-delivery`, and the messaging
+    middleware integration with Solution 026 to persist `contacts`
+    membership through the vault runtime.
 
 - **Step 10 — Daniel sends the message; Marcin's node verifies before
   middleware:** `[in-progress]`
@@ -898,17 +904,26 @@ artifact and what is still missing.
   daemon owns `<node-data-dir>/storage/local-contacts.sqlite` and exposes
   local `GET/POST/PATCH/DELETE /v1/local-contacts...` routes; raw handles
   stay daemon-local and do not leak into Contact Catalog records, Seed
-  Directory records, or shared lookup audit. Missing: the `local-contact.v1`
-  schema file at `doc/schemas/`, recovery/backup semantics for local
-  contacts and pairwise nym mappings, and integration with the
-  participant-owned `pseudonym-vault.v1` recovery path.
+  Directory records, or shared lookup audit. The participant-owned
+  `pseudonym-vault.v1` runtime that backs cross-restore recovery is now
+  `done` (Solution 026); what remains is the messaging-domain side of
+  the integration. Missing: the `local-contact.v1` schema file at
+  `doc/schemas/` and the local-contacts ↔ vault wiring for membership
+  recovery.
 - **"Nym factory" with role-separated derived keys (signing, DH, sealing) and
-  routing-subject vault:** `[todo]` — Proposal 059 is Draft;
-  `pseudonym-vault.v1` exists as a first schema seed and `nym-certificate.v1`
-  / `routing-subject-binding.v1` define the public surfaces, but participant
-  key-role derivation (`participant/signing`, `participant/dh`,
-  `participant/vault-wrap`), per-nym random seed storage, and vault
-  sync/restore runtime are not implemented.
+  routing-subject vault:** `[in-progress]` — Proposal 059 is Accepted with
+  Node MVP runtime implemented; Solution 026 (Pseudonym Vault and Key
+  Roles, `partial`) realises the runtime. Done: participant key-role
+  derivation (`participant/signing`, `participant/dh`,
+  `participant/vault-wrap`), per-nym and routing-subject random seed
+  storage inside `pseudonym-vault.v1`, vault sync/restore runtime with
+  single-writer latest semantics, role-aware participant recovery bundle,
+  wire-privacy invariant enforcement, and MVP-frozen decisions for the
+  previously open questions (root-seed materialization, vault shape,
+  wrap derivation, multi-device merge). Still open: `participant/dh`
+  protocol-visible projection decision (P059-015) and the broader
+  signer/sealer capability dispatch projection (P059-012 `partial`).
+  `participant/recovery-wrap` is deferred (P059-006).
 - **`contacts` relationship class (default policy: "may send messages to me")
   kept distinct from `friends`:** `[todo]` — no relationship-class model
   exists yet at the middleware admission boundary; the messaging middleware
@@ -1068,10 +1083,15 @@ exists yet, that is called out explicitly so the gap is visible.
 - attach-and-rescan-on-passport-arrival in the middleware (no dedicated
   tracker)
 - queue state transition to `ready-for-delivery` (no dedicated tracker)
-- vault-backed persistence of `contacts` membership and issued
-  `messaging-receive` passports (see:
+- messaging-middleware integration with the now-implemented
+  `pseudonym-vault.v1` runtime to persist `contacts` membership and
+  issued `messaging-receive` passports (the vault runtime itself is
+  `done` per
   [Proposal 059 Tracking row P059-009](../40-proposals/059-participant-and-nym-key-role-derivation.md),
-  [Proposal 059 Tracking row P059-010](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+  [Proposal 059 Tracking row P059-010](../40-proposals/059-participant-and-nym-key-role-derivation.md),
+  and
+  [Solution 026 Pseudonym Vault and Key Roles](../60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md);
+  what remains is the messaging-domain side of the integration)
 
 ### Step 10 — outstanding features
 
@@ -1298,10 +1318,17 @@ Still outstanding:
 
 ### Cross-Cutting Block — "Nym factory" with role-separated derived keys — outstanding features
 
-- participant root-seed derivation layer with versioned, domain-separated
-  derivation labels (see:
+Proposal 059 is Accepted with Node MVP runtime implemented (see also
+[Solution 026 Pseudonym Vault and Key Roles](../60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md),
+`partial` overall; the MVP runtime is `done`, post-MVP layers are
+named).
+
+Already done (no further work needed for this story):
+
+- participant root-seed derivation layer with versioned,
+  domain-separated derivation labels (see:
   [Proposal 059 Tracking row P059-002](../40-proposals/059-participant-and-nym-key-role-derivation.md))
-- `participant/dh` role (X25519 key agreement) (see:
+- `participant/dh` role (X25519 key agreement), derived locally (see:
   [Proposal 059 Tracking row P059-004](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 - `participant/vault-wrap` symmetric AEAD wrap key (see:
   [Proposal 059 Tracking row P059-005](../40-proposals/059-participant-and-nym-key-role-derivation.md))
@@ -1311,23 +1338,41 @@ Still outstanding:
   [Proposal 059 Tracking row P059-008](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 - `pseudonym-vault.v1` runtime promotion from schema seed (see:
   [Proposal 059 Tracking row P059-009](../40-proposals/059-participant-and-nym-key-role-derivation.md))
-- vault sync / restore runtime in Node (see:
+- vault sync / restore runtime in Node, single-writer latest with
+  rollback and conflict rejection (see:
   [Proposal 059 Tracking row P059-010](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 - role-aware participant recovery bundle (see:
   [Proposal 059 Tracking row P059-011](../40-proposals/059-participant-and-nym-key-role-derivation.md))
-- explicit signer / sealer purpose labels for the new participant roles
+- schema-gate policy preventing accidental
+  participant-recovery-recipient leakage in pseudonymous envelopes
   (see:
-  [Proposal 059 Tracking row P059-012](../40-proposals/059-participant-and-nym-key-role-derivation.md))
-- schema-gate policy preventing accidental participant-recovery-recipient
-  leakage in pseudonymous envelopes (see:
   [Proposal 059 Tracking row P059-013](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 - explicit `route:` vs `routing:did:key:...` boundary tests (see:
   [Proposal 059 Tracking row P059-014](../40-proposals/059-participant-and-nym-key-role-derivation.md))
-- pending design decisions: `participant/dh` projection (P059-015),
-  root-seed materialization (P059-016), minimal vault shape (P059-017),
-  vault wrap derivation source (P059-018), multi-device vault merge
-  (P059-019) (see:
-  [Proposal 059 Tracking](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+- MVP decisions frozen for previously open questions: root-seed
+  materialization implicit (P059-016), minimal vault shape ciphertext-only
+  (P059-017), vault wrap derived from root only (P059-018), no multi-device
+  merge in MVP (P059-019)
+
+Still partial — landed in MVP-shape, hardening or completion remains:
+
+- explicit signer / sealer purpose labels for the new participant roles
+  in capability surfaces (role-purpose labels explicit in Node
+  crypto/identity; broader signer/sealer capability dispatch projection
+  remains) (see:
+  [Proposal 059 Tracking row P059-012](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+
+Still outstanding (design decision):
+
+- `participant/dh` protocol-visible projection decision — publicly
+  discoverable vs controlled-direct only (see:
+  [Proposal 059 Tracking row P059-015](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+
+Out of scope (deferred):
+
+- `participant/recovery-wrap` role for escrow / recovery-bundle wrap
+  (see:
+  [Proposal 059 Tracking row P059-006](../40-proposals/059-participant-and-nym-key-role-derivation.md))
 
 ### Cross-Cutting Block — `contacts` relationship class — outstanding features
 
@@ -1339,5 +1384,8 @@ Still outstanding:
   `messaging-receive` passports (no dedicated tracker)
 - per-class limit configuration surface (rate, size, sender allow/deny) (no
   dedicated tracker)
-- vault-backed persistence of membership changes per Step 9 (see:
-  [Proposal 059 Tracking row P059-010](../40-proposals/059-participant-and-nym-key-role-derivation.md))
+- messaging-side integration with the now-implemented vault runtime
+  for persisting membership changes per Step 9 (vault runtime itself is
+  `done`; see:
+  [Proposal 059 Tracking row P059-010](../40-proposals/059-participant-and-nym-key-role-derivation.md),
+  [Solution 026 Pseudonym Vault and Key Roles](../60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md))
