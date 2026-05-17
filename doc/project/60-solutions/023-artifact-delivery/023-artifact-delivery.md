@@ -848,6 +848,14 @@ route/adapter or domain acceptor boundary, or the delivery must be rejected with
 a clear diagnostic. Examples include retention class, revocation freshness,
 classification semantics, and operator-review requirements.
 
+Route and adapter diagnostics should expose a `policy/support` projection rather
+than leaving policy coverage implicit. The projection is descriptive, not the
+source of authority: enforcement remains in route validation, outbound
+authorization, adapter selection, and domain acceptor gates. Its purpose is to
+let the operator see which policy fields are enforced by the core, which are
+enforced by the selected adapter/domain layer, and which would fail closed as
+unsupported before a delivery is accepted.
+
 ### Inbound Acceptor Table
 
 Inbound admission is single-owner:
@@ -1490,9 +1498,12 @@ Status:
    store-and-forward fallback stage.
 10. Route refs are stable names; route versions live inside route definitions,
     and the ledger stores the expanded normalized plan used by each delivery.
-11. Capability routing for `agora.relay` is post-MVP, but should be one of the
-    first post-MVP resolver adapters. The MVP uses `agora-default` from local
-    config.
+11. Capability routing entered after the initial AD MVP as a host-composed
+    resolver layer. `capability-first` and `capability-many` are recipient
+    selectors, not transport adapters: Seed Directory and local policy resolve
+    candidates, then AD still performs outbound authorization, deduplication,
+    stage planning, and adapter selection. Static `agora-default` remains valid
+    when the operator wants a fixed local/federated Agora route.
 12. The delivery ledger is required even for synchronous successes.
 13. Missing transport-specific selector parameters, such as `node` without
     `node/id`, fail validation/resolution and never imply fallback to Agora.

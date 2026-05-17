@@ -334,7 +334,7 @@ helps peers find each other — but this is deferred.
 |---|---|
 | WSS transport + identity (proposal 002) | 🟡 transport proposal accepted; implementation state lives in node repo |
 | Discovery (proposal 014) | 🟡 same as above |
-| `node-address-attestation.v1` kind | ❌ deferred (042 Open Question #6) |
+| `node-address-attestation.v1` endpoint evidence | ✅ implemented as discovery/TLS trust evidence in Seed Directory and peer supervisor integration; carrying it as an INAC artefact for peer-relayed discovery remains deferred |
 
 ## Layer 8 — Middleware integration
 
@@ -360,60 +360,61 @@ remain separate authorization boundaries:
 This avoids treating permission to use one component-facing surface as implicit
 permission to use the other.
 
-## Open decisions blocking implementation
+## Remaining follow-ups and settled implementation decisions
 
-1. **Inline-ceiling defaults and configurability surface.**
-   Proposed 64 KiB default; operators configure per-node,
-   per-peer, per-kind. Decision: where in config schema
-   (daemon-level? per-middleware-module? per-kind registration?).
+1. **Inline ceiling and streaming.** The implementation now has a bounded inline
+   ceiling plus `inac.stream.chunk.v1` over the existing WSS peer-message
+   session for larger payloads. A lower-level raw WebSocket binary carrier is a
+   future performance optimization, not a semantic requirement.
 
-2. **Single-use consumption semantics for invitation passports.**
-   Is single-use the default, or is it an opt-in scope field? What
-   is the consumption granularity — per-peer, per-artifact-id,
-   per-schema? Decision lives in proposal 024 scope grammar
-   extension.
+2. **Per-peer and per-kind budget configurability.** Receiver-side
+   `offer`/`push` budgets exist, but finer per-kind inline-ceiling and stream
+   budget surfaces remain future hardening.
 
-3. **Kind-shadowing precedence (042 Open Question #4).**
-   Proposed default: first-loaded wins with operator warning.
-   Alternative: explicit ordering in config. Decision informs
-   Layer 5 dispatch.
+3. **Single-use invitation passports.** `inac-invitation@v1` defaults
+   `single_use` to `true`. Reuse is checked by the receiver-side INAC ledger
+   before AD admission.
 
-4. **Offer-without-intent policy default (042 Open Question #3).**
-   Proposed default: allowed but rate-limited per source node id.
-   Decision informs Layer 4 per-peer rate budgets.
+4. **Kind-shadowing precedence.** Artifact Delivery owns the authoritative
+   acceptor table. Duplicate exact authoritative acceptors are conflicts;
+   exact content-type handlers may coexist with one wildcard fallback.
 
-5. **Opaque-envelope storage for `agora-record.v1` on nodes without
-   a local Agora-relay subsystem.** Decision for the current implementation:
-   the baseline `agora-record.v1` acceptor refuses explicitly when local
-   Agora is unavailable. INAC/AD do not silently store Agora records in
-   Memarium; a future custody path can add that behavior only through an
-   explicit acceptor/configuration.
+5. **Offer-without-intent policy.** Unsolicited `offer` intake is controlled by
+   receiver-side peer budgets and invitation notification policy. It must never
+   imply authority to `push`.
 
-6. **Streaming abort semantics.** After abort, does the passport
-   remain usable for a retry of the same artefact, or does abort
-   count as consumption? Affects invitation passport lifecycle
-   (Layer 6).
+6. **Opaque-envelope storage for `agora-record.v1` on nodes without a local
+   Agora-relay subsystem.** The baseline acceptor refuses explicitly when local
+   Agora is unavailable. INAC/AD do not silently store Agora records in Memarium;
+   a future custody path can add that behavior only through an explicit
+   acceptor/configuration.
 
-## MVP boundaries
+7. **Streaming abort semantics.** Abort frames and whether an aborted transfer
+   consumes a single-use invitation remain future work. Interrupted or malformed
+   streams fail closed and do not invoke AD admission.
 
-- inline-only payloads in v1 (no binary-frame streaming). Artefacts
-  above the ceiling → `push` refused with `storage-full` until
-  Layer 3 lands. This lets Layer 2 (control protocol) ship before
-  Layer 3 (streaming);
-- referenced payload locations (`artifact/ref`, `artifact/href`) are schema
-  slots only until a resolver/fetch or streaming contract is wired;
-- two baseline kinds only (`agora-record.v1`, `memarium-blob.v1`);
-  open middleware acceptor declarations land after baseline works;
-- no session-level kind handshake in v1 (authoritative routing
-  per-operation is sufficient);
-- no `node-address-attestation.v1` kind (042 Open Question #6 is
-  explicitly deferred);
-- single-custodian flows in v1 (multi-custody is allowed per
-  proposal 040 §3 but the INAC protocol does not coordinate
-  custodians — each operates independently);
-- no automatic INAC-to-Agora promotion (cross-surface migration is
-  a consumer's concern, e.g. whisper durable promotion; INAC
-  itself does not migrate).
+## Current production-MVP boundaries
+
+- Payload transfer supports inline artefacts and session-scoped stream chunks
+  over the existing WSS peer-message session. A raw lower-level WebSocket binary
+  carrier remains a profiling-led optimization.
+- Referenced payload locations (`artifact/ref`, `artifact/href`) are valid
+  control-plane slots only when a configured resolver/fetch or stream contract
+  can turn the reference into byte-identical bytes before domain admission.
+- Baseline handlers cover `agora-record.v1` and `memarium-blob.v1`. Open
+  middleware acceptors are represented through Artifact Delivery acceptor
+  declarations rather than by making INAC a middleware chain.
+- No session-level kind handshake in v1; authoritative routing remains
+  per-operation and per-admission.
+- `node-address-attestation.v1` is implemented as discovery/TLS endpoint
+  evidence, but peer-relaying address attestations as INAC-carried artefacts is
+  deferred.
+- Single-custodian flows are the operational baseline. Multi-custody is allowed
+  by higher-level custody policy, but the INAC protocol does not coordinate
+  custodians; each custodian operates independently.
+- No automatic INAC-to-Agora promotion. Cross-surface migration is a consumer's
+  concern, such as a future Whisper durable-promotion workflow; INAC itself does
+  not migrate artefacts between substrates.
 
 ## Recommended commit order
 

@@ -123,6 +123,12 @@ body reference, subject/reference, actions, and optional digest or redacted
 summary owned by the notification service. The domain payload remains in its
 domain store.
 
+`body/input` must also stay out of ordinary diagnostics. Types carrying
+transient input should avoid `Debug`; logs and audit facts should use redacted
+or digest-only projections. `zeroize` may be used as best-effort hygiene for
+buffers owned by the implementation, but the MVP does not claim heap-wide
+erasure for `serde_json` internals or require heap-snapshot style tests.
+
 The initial kind vocabulary should remain non-exhaustive but reserve common
 production identifiers:
 
@@ -194,6 +200,13 @@ facts:
 
 This split keeps the inbox cheap to query while preserving a defensible history
 for "suppression is not deletion" and leak diagnostics.
+
+The audit JSONL is the recovery source of truth. If the SQLite queue is lost
+or corrupted, the inbox state is rebuildable by idempotent replay of audit
+facts in order (delivered, opened, handled, snoozed, snooze-cleared,
+retracted, superseded) reconciled against the idempotency table. Replay
+must be pure: no SSE pings, no retract broadcasts, no producer-visible side
+effects.
 
 ### Host Capability
 
@@ -313,6 +326,14 @@ This keeps the boundary stratified:
 The UI should never accept arbitrary component-authored notifications directly.
 Doing so would couple components to a specific UI backend and would bypass the
 host-owned attention policy.
+
+Every external or out-of-process call inside `NotificationService` should
+carry an explicit deadline and a typed retryable/terminal failure
+classification, consistent with the project-wide "external calls have
+budgets" rule. This applies to operator binding lookup, SQLite queue
+transactions, JSONL audit appends, SSE publish, and background sweepers
+(snooze expiry, retention cleanup). Audit append failure must block the
+queue commit; SSE publish failure must not.
 
 ### Recipient Isolation
 
@@ -632,6 +653,12 @@ The layers should remain separate:
 | OS/native shell | Show optional local interruption affordances. |
 
 This prevents a UI feature from becoming an authority boundary.
+
+The UI does not hold a copy of `NotificationDeliveryPolicy`. It consumes a
+pre-projected read model (unread count, max unread priority, available
+actions) and renders affordances; it does not decide whether a notification
+is snoozed, suppressed, or eligible for interrupt. All delivery decisions
+remain in the daemon-side `NotificationService`.
 
 ## Example Scenarios
 

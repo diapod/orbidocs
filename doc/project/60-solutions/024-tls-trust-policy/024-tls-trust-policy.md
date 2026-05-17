@@ -125,6 +125,26 @@ The pure `service-ca-trust` evaluator intentionally does not resolve keys or
 install trust roots. Daemon endpoints verify signatures before reporting policy
 evaluation as meaningful.
 
+The production lifecycle keeps candidate, evaluation, installation, and
+revocation as separate states:
+
+- `canonical_payload_digest` is the natural identity of an imported candidate.
+  A second candidate with the same `ca/id` but a different canonical payload is
+  a conflict or supersession candidate, never an overwrite.
+- Signature verification is a precondition for policy evaluation. A candidate
+  whose signer key is missing or whose domain-wrapped canonical signature is
+  invalid may be stored for diagnostics but must not be evaluated as accepted
+  policy material.
+- `policy_state = accepted` does not install a trust root. Runtime TLS uses a CA
+  only after a separate scoped installation record points at the accepted
+  evaluation.
+- Installation scope is deterministic and local to a connection class: endpoint
+  trust class, service kind, federation id, Seed Directory id, protocol set, and
+  optional endpoint name constraints. The network layer receives only the
+  connection-specific root bundle and does not know governance policy.
+- Revocation is a signed fact, not an imperative command. A node applies it only
+  after local policy accepts the revocation issuer for the relevant scope.
+
 ### Node Endpoint Evidence
 
 For node-to-node communication, the endpoint certificate is not node identity.
@@ -150,6 +170,20 @@ candidate becomes a concrete direct target. `fresh` evidence may be used
 immediately; `usable` evidence may still require a live probe or handshake
 before sensitive payload exchange. Stale or dead evidence is not used for direct
 delivery.
+
+When several evidence entries exist for the same `(node-id, endpoint-url)`, the
+peer supervisor applies this precedence:
+
+1. fresh verified attested evidence;
+2. usable verified attested evidence;
+3. static seed pin, only when no verified attested evidence exists for that
+   endpoint;
+4. explicit handshake-only fallback, disabled by default and never a silent
+   private/direct delivery policy.
+
+Evidence may use `sha256-leaf-der` or `sha256-spki`; a connection is acceptable
+when at least one active expected digest method matches the observed
+certificate material and any advisory route-id requirement also matches.
 
 ### Advisory Route ID
 
