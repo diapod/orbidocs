@@ -21,7 +21,7 @@
     "Carry `offer`, `request`, `push`, and refusal response frames"
     "Keep control messages small and auditable"
     "Reject unknown artifact kinds with `kind-not-supported`"]
-   :status :partial
+   :status :done
    :implemented ["`inac-control.v1` JSON Schema and schema-gate coverage"
                  "`node/inac-core` pure validation and refusal vocabulary"
                  "`node/inac-runtime` fail-closed runtime registry"
@@ -37,7 +37,7 @@
                  "Matrix mailbox peer transport is the first asynchronous store-and-forward fallback, with transport-envelope encryption for plaintext payloads"
                  "operator status endpoint `/v1/inac/status`"
                  "operator UI `/admin/inac` for handlers, counters, and recent refusals"]
-   :remaining ["Add raw binary-frame optimization if the current peer-message stream carrier becomes insufficient"]}
+   :remaining []}
 
   {:cap/id :byte-identical-artifact-transfer
    :title "Byte-Identical Artifact Transfer"
@@ -77,10 +77,11 @@
    :status :partial
    :implemented ["Artifact Delivery `inac-direct` switches payloads above its inline ceiling to stream transfer"
                  "Sender emits ordered `inac.stream.chunk.v1` peer messages over the authenticated WSS peer session"
+                 "Sender now prefers the `inac.stream.chunk.binary.v1` chunk carrier with offset, size, final flag, artifact ref, and per-chunk `sha256`, falling back to the JSON/base64url carrier for older receivers"
                  "Receiver stores stream chunks under `<node-data-dir>/storage/artifact-delivery/streams`, recomputes sha256 incrementally, validates `size/bytes`, and feeds a file-backed payload to AD inbound admission only after successful finalization"
-                 "Malformed, oversized, interrupted, or digest-mismatched streams fail closed before any domain acceptor is invoked"]
+                 "Receiver accepts both binary-carrier and JSON/base64url chunk carriers through the same `InacStreamStore`; malformed, oversized, interrupted, offset-mismatched, or digest-mismatched streams fail closed before any domain acceptor is invoked"]
    :remaining ["Add explicit stream abort/control frames if needed by operators"
-               "Replace the peer-message JSON chunk carrier with raw binary frames if profiling shows meaningful overhead"]}
+               "Profile whether a lower-level zero-copy WebSocket frame split is still worth adding beyond the authenticated application-frame carrier"]}
 
   {:cap/id :artifact-authorization-gate
    :title "Artifact Authorization Gate"

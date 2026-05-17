@@ -236,9 +236,12 @@ Status:
   `GET /v1/contact-catalog/sync/claims` as the trusted provider snapshot
   contract and records provider sync state in the sidecar with last-run counts
   and cumulative totals.
-  Provider policy remains trusted-only and no Agora publication/relay path is
-  introduced. Tombstone/revocation replay, stronger incremental cursor
-  semantics and broader multi-process trusted-provider acceptance remain open.
+  Provider policy remains trusted-only for sync, but operators can now inspect
+  discovered providers and set `trusted`, `uncertain`, or `blocked` from
+  `/admin/contact-catalog` over the service policy endpoint. No Agora
+  publication/relay path is introduced. Tombstone/revocation replay, stronger
+  incremental cursor semantics, durable policy-change audit/revert history, and
+  broader multi-process trusted-provider acceptance remain open.
 
 ### Blinded or PSI Lookup
 

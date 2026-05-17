@@ -228,13 +228,13 @@ Current implementation status:
   before local policy evaluation is meaningful, and accepting a candidate under
   local policy does not automatically install it as a runtime trust root.
 
-The implementation is still `partial` because raw binary-frame optimization,
-configurable custody target-space policy, Matrix operational hardening, and
-broader production hardening remain later layers. INAC authorization/invitations,
-`agora-record:` payload resolution, public/scoped Memarium referenced payload
-resolution, WSS stream chunks above the inline ceiling, Matrix mailbox
-store-and-forward, and `inac-peer-artifact:` peer artifact resolution are now
-implemented at MVP level.
+The implementation is still `partial` because configurable custody target-space
+policy, Matrix operational hardening, and broader production hardening remain
+later layers. INAC authorization/invitations, `agora-record:` payload
+resolution, public/scoped Memarium referenced payload resolution, WSS stream
+chunks above the inline ceiling, the `inac.stream.chunk.binary.v1` chunk carrier
+with JSON/base64url fallback, Matrix mailbox store-and-forward, and
+`inac-peer-artifact:` peer artifact resolution are now implemented at MVP level.
 The MVP also includes a P055-style
 deferred submit mode, a manual recovery pass, and a daemon background recovery
 worker enabled by default:
@@ -1208,11 +1208,13 @@ Status:
   Story-005 private/direct Whisper via `inac-direct`, a full three-daemon Story-005 AD
   observability smoke that asserts A/B are thin Agora clients publishing to
   node C rather than running a local `agora-service`, large private/direct
-  payload streaming over the existing WSS peer-message session, Matrix mailbox
-  store-and-forward with operator-visible worker metrics and bounded peer
-  artifact cache limits, `inac-peer-artifact:` peer artifact resolution, and
-  regression tests. Matrix mailbox room lifecycle and larger-object chunking
-  remain later layers. INAC WSS now provides invitation, generic `inac-push@v1`,
+  payload streaming over the existing WSS peer-message session with
+  `inac.stream.chunk.binary.v1` preferred and JSON/base64url chunks retained as
+  compatibility fallback, Matrix mailbox store-and-forward with
+  operator-visible worker metrics and bounded peer artifact cache limits,
+  `inac-peer-artifact:` peer artifact resolution, and regression tests. Matrix
+  mailbox room lifecycle and larger-object chunking remain later layers. INAC
+  WSS now provides invitation, generic `inac-push@v1`,
   and `memarium-custody@v1` passport authorization before AD inbound admission.
   The baseline `memarium-blob.v1` acceptor requires explicit
   `signature.key/public`, rejects plaintext custody, and records accepted

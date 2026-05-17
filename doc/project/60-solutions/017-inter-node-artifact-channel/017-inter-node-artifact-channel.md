@@ -72,9 +72,10 @@ Implemented now:
 - Feed received artifacts into the host-owned Artifact Delivery inbound
   admission path, which dispatches to exactly one authoritative acceptor.
 - Keep large payload bytes out of the main JSON control frame by using
-  session-scoped, content-addressed stream chunks; a lower-level raw binary
-  carrier can be added later if profiling shows the JSON chunk carrier is too
-  expensive.
+  session-scoped, content-addressed stream chunks. The current stream path
+  prefers `inac.stream.chunk.binary.v1` with per-chunk digest/offset/size
+  validation and retains the JSON/base64url chunk shape as compatibility
+  fallback.
 
 ## Status
 
@@ -94,10 +95,10 @@ is now the first store-and-forward fallback: it carries the same authorization
 proof as WSS, seals plaintext payloads as `artifact-mailbox-sealed.v1` before
 posting to Matrix, and feeds the unsealed frame through the same receiver-side
 authorization and Artifact Delivery admission path. Matrix remains a carrier,
-not an authority. Raw binary-frame optimization remains outside the MVP
-scaffold. WSS
-`inac.stream.chunk.v1` stream chunks are implemented for payloads above the
-inline ceiling. Receiver-side WSS
+not an authority. WSS stream chunks are implemented for payloads above the
+inline ceiling; senders prefer `inac.stream.chunk.binary.v1` and receivers keep
+the JSON/base64url chunk carrier as a fail-closed compatibility path.
+Receiver-side WSS
 `push` authorization now has a first production gate: without an explicit
 profile allowlist the frame must carry an inline `capability-passport.v1` under
 `authorization`. Invitation passports (`capability_id = "inac.invitation"`),
@@ -123,11 +124,12 @@ written to the local public Memarium space; configurable target spaces are a
 later custody-policy layer.
 
 For streamed payloads, the receiver writes chunks to
-`<data-dir>/storage/artifact-delivery/streams/`, verifies declared size and
-`sha256:*` digest before the final `push` enters Artifact Delivery admission,
-and removes temporary state after completed admission, startup cleanup, or a
-bounded stale-stream TTL. Malformed, interrupted, or digest-mismatched streams
-do not invoke domain acceptors.
+`<data-dir>/storage/artifact-delivery/streams/`, verifies declared size,
+offsets, per-chunk digest where present, and final `sha256:*` artifact digest
+before the final `push` enters Artifact Delivery admission, and removes
+temporary state after completed admission, startup cleanup, or a bounded
+stale-stream TTL. Malformed, interrupted, offset-mismatched, or
+digest-mismatched streams do not invoke domain acceptors.
 
 Inbound INAC budgets are receiver-side policy: they match remote node id,
 operation, artifact schema, and optional content type, then refuse before

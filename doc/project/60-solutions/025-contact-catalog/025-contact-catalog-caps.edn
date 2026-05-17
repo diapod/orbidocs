@@ -116,6 +116,9 @@
    ["Expose trusted, uncertain, and blocked contact-catalog provider state to operators"
     "Harden Seed Directory provider refresh and trust policy beyond the current sidecar cache"
     "Make provider policy changes auditable and reversible"]
+   :implemented ["Daemon/service status exposes provider trust cache and sync diagnostics"
+                 "Node UI `/admin/contact-catalog` renders discovered providers and active Trust / Uncertain / Block actions over the service `PATCH /v1/contact-catalog/providers/{id}` policy endpoint"]
+   :remaining ["Add durable audit/revert history for provider policy changes"]
    :status :partial}
 
   {:cap/id :contact-catalog-route-set-v2

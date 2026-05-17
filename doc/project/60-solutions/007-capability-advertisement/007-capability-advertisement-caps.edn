@@ -55,6 +55,7 @@
    :responsibilities
    ["Allow Seed Directory registration payloads to include capability advertisements"
     "Support capability discovery without requiring all peers to dial each node first"]
+   :evidence ["`messaging.accept` is now a registered application advertisement (`app/messaging.accept`) tied to the canonical `messaging-receive@v1` profile and private-direct route policy."]
    :status :done}]
 
  :may-implement

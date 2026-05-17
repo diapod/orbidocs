@@ -176,16 +176,22 @@ Middleware-visible semantics must not depend on implicit `meta` propagation.
 
 Large payloads travel on the same WSS session, tagged with a
 session-scoped `stream-id`. The current implementation uses peer-message
-frames with `msg = "inac.stream.chunk.v1"` carried by the existing WSS
-binary envelope; a future raw binary-frame optimization can replace only the
-chunk carrier, not the INAC/AD contract.
+frames with `msg = "inac.stream.chunk.v1"` carried by the existing WSS binary
+envelope. Senders prefer the `inac.stream.chunk.binary.v1` payload shape, which
+adds offset, size, final flag, artifact ref, and per-chunk `sha256`; the older
+JSON/base64url chunk shape remains a compatibility fallback. In the current
+runtime this is still an application-frame JSON payload with `bytes/base64url`;
+`binary` names the byte-level validation contract, not a raw WebSocket frame.
+A future lower level zero-copy WebSocket split can replace only the carrier
+plumbing, not the INAC/AD contract.
 
 ### Rules
 
 - the final `push` carries `transfer.mode = "stream"` and
   `artifact/ref = "inac-stream:<stream-id>"`,
 - chunks carry `stream/id`, `chunk/index`, final flag, descriptor snapshot,
-  and chunk bytes,
+  artifact ref, chunk size, chunk offset, optional per-chunk digest, and chunk
+  bytes,
 - receiver reassembles → recomputes `sha256` → MUST refuse with
   `digest-mismatch` on mismatch,
 - interrupted or malformed streams do not invoke Artifact Delivery admission
@@ -205,6 +211,7 @@ only see a byte-identical artifact after size/digest verification.
 | Component | State |
 |---|---|
 | WSS peer-message stream carrier | ✅ implemented as `inac.stream.chunk.v1` |
+| Preferred binary chunk payload shape | ✅ implemented as `inac.stream.chunk.binary.v1` with JSON/base64url fallback |
 | Sender-side stream serializer | ✅ implemented for AD `inac-direct` |
 | Receiver-side reassembler + hash verifier | ✅ implemented under `<data-dir>/storage/artifact-delivery/streams/` |
 | Abort frame handling | ❌ not started; malformed/interrupted streams fail closed and are cleaned at startup |
@@ -440,8 +447,8 @@ Each step leaves the tree compiling.
 11. **MVP ships here.** Consumers (whisper direct, custody
     transfer, crisis fan-out, passport handoff) start depending
     on INAC.
-12. **Layer 3 — binary-frame streaming.** After proposal 002
-    documents the transport-level framing.
+12. **Layer 3 — lower-level zero-copy WebSocket split.** Optional profiling-led
+    optimization beyond the authenticated stream chunk carrier.
 13. **Layer 5 — Artifact Delivery open acceptor registry.** Unlocks
     third-party middleware kind extensions without making INAC a chain.
 14. **042 Open Question #6 — `node-address-attestation.v1`.**
@@ -469,7 +476,7 @@ Each step leaves the tree compiling.
 - **Shared-cache test**: a passport resolved on the Agora path
   is immediately available on the INAC path and vice versa (same
   `PassportResolutionCache`).
-- **Streaming hash-mismatch test** (post-MVP Layer 3): an
+- **Streaming hash-mismatch test**: an
   intentional byte-flip in a chunk MUST trigger
-  `content-hash-mismatch` refusal; no partial-commit residue on
+  `digest-mismatch` refusal; no partial-commit residue on
   the receiver.

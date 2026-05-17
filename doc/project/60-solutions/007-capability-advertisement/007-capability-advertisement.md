@@ -115,6 +115,20 @@ It should be derivable from:
 
 It must not be treated as the authoritative trust proof.
 
+### Messaging Accept Advertisement
+
+Nodes that accept inbound messaging publish `messaging.accept` with wire name
+`app/messaging.accept` only while the supervised messaging service is enabled
+and the inbound `message-envelope.v1` acceptor is ready. The advertisement is a
+read-side routing signal, not the receive consent itself.
+
+The advertised profile is tied to the canonical `messaging-receive@v1` receive
+passport profile. It declares the route kinds that may receive messages and the
+default delivery privacy of `private-direct`. Contact Catalog lookup consumers
+may use `messaging.accept` to filter candidate nodes before sending a
+`contact-request.v1`, but receivers still verify the presented
+`messaging-receive` passport and local `contacts` policy at admission time.
+
 ### Assertion Kinds
 
 The first assertion kinds are:
