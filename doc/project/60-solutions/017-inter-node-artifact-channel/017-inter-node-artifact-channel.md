@@ -93,11 +93,13 @@ outbound allowlists; Artifact Delivery routes that happen to use `inac-direct`
 are governed by Artifact Delivery outbound allowlists. Matrix mailbox transport
 is now the first store-and-forward fallback: it carries the same authorization
 proof as WSS, seals plaintext payloads as `artifact-mailbox-sealed.v1` before
-posting to Matrix, and feeds the unsealed frame through the same receiver-side
-authorization and Artifact Delivery admission path. Matrix remains a carrier,
-not an authority. WSS stream chunks are implemented for payloads above the
-inline ceiling; senders prefer `inac.stream.chunk.binary.v1` and receivers keep
-the JSON/base64url chunk carrier as a fail-closed compatibility path.
+posting to Matrix, chunks sealed payloads as `artifact-mailbox-chunk.v1` when a
+single Matrix event would exceed the configured mailbox event byte limit, and
+feeds the unsealed frame through the same receiver-side authorization and
+Artifact Delivery admission path. Matrix remains a carrier, not an authority.
+WSS stream chunks are implemented for payloads above the inline ceiling; senders
+prefer `inac.stream.chunk.binary.v1` and receivers keep the JSON/base64url chunk
+carrier as a fail-closed compatibility path.
 Receiver-side WSS
 `push` authorization now has a first production gate: without an explicit
 profile allowlist the frame must carry an inline `capability-passport.v1` under

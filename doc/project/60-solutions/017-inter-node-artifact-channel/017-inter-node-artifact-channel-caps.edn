@@ -34,7 +34,7 @@
                  "Inbound WSS `push` frames require either an explicit receiver-side peer allowlist or an inline capability passport authorized as `inac.invitation`, `inac-push@v1`, or `memarium-custody@v1`"
                  "INAC transfer decisions are persisted in a local SQLite ledger before or after Artifact Delivery admission"
                  "INAC response meta is terminated at the peer boundary in the current implementation"
-                 "Matrix mailbox peer transport is the first asynchronous store-and-forward fallback, with transport-envelope encryption for plaintext payloads"
+                 "Matrix mailbox peer transport is the first asynchronous store-and-forward fallback, with transport-envelope encryption for plaintext payloads and sealed event chunking for oversized mailbox payloads"
                  "operator status endpoint `/v1/inac/status`"
                  "operator UI `/admin/inac` for handlers, counters, and recent refusals"]
    :remaining []}
@@ -110,7 +110,7 @@
                  "Accepted invitations create a local INAC contact projection by default; the contact is not authority"
                  "Empty allowlist means deny-all, so enabling remote WSS INAC does not grant ambient inbound authority"]
    :remaining ["Attestation-only paths"
-               "Full Contact Catalog integration remains a separate future layer"]}]
+               "Broader Contact Catalog/social-graph authority remains outside INAC; AD contact-lookup addressability is implemented as a separate resolver layer"]}]
 
  :may-implement
  [{:cap/id :artifact-delivery-inac-acceptor-integration
@@ -152,4 +152,4 @@
   "Referenced payload slots are schema-valid; Artifact Delivery can resolve `artifact-store:`, Memarium, explicitly allowed `agora-record:`, and explicitly allowed `inac-peer-artifact:` references before admission. `inac-peer-artifact:` is a digest-bound peer artifact cache lookup, not remote trust."
   "The local host/operator surface now includes `/v1/inac/status` and `/admin/inac`; this is observability, not peer transport completion."
   "Invitation notification delivery uses the local notification queue: Accept issues a narrow invitation passport and Reject records a local denial; this is a local UX flow, not a second authority system."
-  "Matrix mailbox transport is present as asynchronous store-and-forward peer exchange. It encrypts plaintext/JSON payloads as `artifact-mailbox-sealed.v1` to the receiver while keeping Matrix as a carrier, not an authority. Raw binary-frame streaming is an optimization over the current peer-message stream carrier, not a prerequisite for byte-identical large payload transfer."]}
+  "Matrix mailbox transport is present as asynchronous store-and-forward peer exchange. It encrypts plaintext/JSON payloads as `artifact-mailbox-sealed.v1` to the receiver, chunks oversized sealed payloads as `artifact-mailbox-chunk.v1`, repairs deterministic mailbox rooms before retrying sends, and keeps Matrix as a carrier, not an authority. Raw binary-frame streaming is an optimization over the current peer-message stream carrier, not a prerequisite for byte-identical large payload transfer."]}

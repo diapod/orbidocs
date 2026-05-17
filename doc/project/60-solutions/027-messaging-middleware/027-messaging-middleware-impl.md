@@ -118,6 +118,9 @@ Additional hardening now covered by focused tests:
 - Story-010 has a two-node profile and launcher scaffold under
   `node/tools/acceptance/story-010-operator/`; strict `ad-smoke` now covers
   Seed Directory discovery of attestation providers, attestation,
-  contactability publish, shared Contact Catalog lookup, contact request
-  acceptance, `messaging-receive@v1` passport handoff, private-direct message
-  delivery, and delivered inbox/outbox state.
+  contactability publish, shared Contact Catalog lookup, receiver-side INAC
+  transport invitation approval through operator notifications, contact
+  request acceptance, `messaging-receive@v1` passport handoff, private-direct
+  message delivery, and delivered inbox/outbox state. The preauthorized
+  peer-allowlist scaffold remains available only through an explicit acceptance
+  debug flag.

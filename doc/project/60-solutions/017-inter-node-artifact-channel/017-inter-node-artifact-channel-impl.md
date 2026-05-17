@@ -61,15 +61,17 @@ answering `offer` or accepting `push`. An empty list means deny-all. This is a
 minimal production guard until the full invitation/passport/revocation freshness
 gate is wired.
 
-Matrix mailbox remains a later transport adapter, not an INAC authority system.
-The accepted default is to use it as the first asynchronous store-and-forward
-fallback for private delivery. A mailbox event must carry the same
-envelope/INAC authorization proof that WSS would require. Plaintext/JSON
-payloads should be sealed before posting as `artifact-mailbox-sealed.v1`
-encrypted to the recipient key; already domain-encrypted or opaque custody
-payloads may remain byte-identical. The receiver unseals, then validates the
-original descriptor (`size/bytes`, `sha256:*`, schema, content type) before the
-ordinary Artifact Delivery inbound admission path.
+Matrix mailbox is the first asynchronous store-and-forward transport adapter,
+not an INAC authority system. A mailbox event must carry the same envelope/INAC
+authorization proof that WSS would require. Plaintext/JSON payloads are sealed
+before posting as `artifact-mailbox-sealed.v1` encrypted to the recipient key;
+oversized sealed payloads are split into `artifact-mailbox-chunk.v1` events in
+the same deterministic mailbox room. The receiver reassembles chunks only after
+TTL, count, size, duplicate, per-chunk digest, and total sealed digest
+validation, unseals the envelope, then validates the original descriptor
+(`size/bytes`, `sha256:*`, schema, content type) before the ordinary Artifact
+Delivery inbound admission path. Deterministic mailbox room ensure/repair is a
+transport reliability concern and does not add authority.
 
 ## Invariants that cross layers
 
@@ -310,7 +312,7 @@ durable local contact projection in the INAC SQLite ledger when
 `artifact_delivery_adapters.inac_peer_transport.contact_creation_after_accept`
 is enabled. That contact is an operator-visible local relationship read model;
 it does not grant authority, publish to Seed Directory or Agora, or replace the
-future Contact Catalog.
+broader public Contact Catalog authority surface.
 
 ## Layer 7 — Peer transport and node-identity
 

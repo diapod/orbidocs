@@ -229,12 +229,13 @@ Current implementation status:
   local policy does not automatically install it as a runtime trust root.
 
 The implementation is still `partial` because configurable custody target-space
-policy, Matrix operational hardening, and broader production hardening remain
-later layers. INAC authorization/invitations, `agora-record:` payload
-resolution, public/scoped Memarium referenced payload resolution, WSS stream
-chunks above the inline ceiling, the `inac.stream.chunk.binary.v1` chunk carrier
-with JSON/base64url fallback, Matrix mailbox store-and-forward, and
-`inac-peer-artifact:` peer artifact resolution are now implemented at MVP level.
+policy, generic raw binary optimization/profiling, and broader production
+hardening remain later layers. INAC authorization/invitations, `agora-record:`
+payload resolution, public/scoped Memarium referenced payload resolution, WSS
+stream chunks above the inline ceiling, the `inac.stream.chunk.binary.v1` chunk
+carrier with JSON/base64url fallback, Matrix mailbox store-and-forward with room
+lifecycle repair and larger-object event chunking, and `inac-peer-artifact:`
+peer artifact resolution are now implemented at MVP level.
 The MVP also includes a P055-style
 deferred submit mode, a manual recovery pass, and a daemon background recovery
 worker enabled by default:
@@ -282,7 +283,20 @@ The daemon-level knobs are intentionally small:
   window for the host-owned peer artifact cache. The current implementation
   always seals mailbox control frames before posting them; `seal_plain_payloads`
   remains a conservative configuration marker and must not be treated as a
-  plaintext bypass. Peer artifact cache cleanup runs at startup and
+  plaintext bypass. Single Matrix events carry `artifact-mailbox-sealed.v1`.
+  When the sealed payload would exceed the configured event byte limit, the
+  sender emits `artifact-mailbox-chunk.v1` events in the same deterministic
+  recipient room. The receiver stores chunks under
+  `<data-dir>/storage/artifact-delivery/matrix-mailbox-chunks/`, validates
+  per-chunk digests, total sealed digest, count, size, TTL, and duplicate
+  consistency, then unseals and enters the normal AD/INAC admission path. Room
+  `ensure` is retried around send failures and status exposes room readiness,
+  room errors, chunked transfer counters, chunk event counters, and inbound
+  worker counters without payload/passport bodies. The current Matrix mailbox
+  chunker still materializes the sealed payload locally and caps that path at
+  the AD default resolved-payload budget (64 MiB); Matrix media or a streaming
+  object-store protocol remains a later layer. Peer artifact cache cleanup runs
+  at startup and
   opportunistically after a bounded number of writes; corrupt indices, expired
   entries and orphaned content files are removed before count/byte cap eviction.
   Resolver reads also fail as retryable cache misses when an index is expired or
@@ -763,7 +777,13 @@ paths or resolver scheme names.
 Contact lookup is not the Contact Catalog synchronization channel. It performs
 one recipient-resolution lookup for a delivery plan. Provider-to-provider
 Contact Catalog sync belongs to the catalog/provider surface: host-authorized
-control plane, direct catalog data plane, and no Agora publication path.
+control plane, direct catalog data plane, and no Agora publication path. The
+daemon-composed AD resolver first tries the local Contact Catalog lookup
+surface and may fall back to trusted remote Contact Catalog providers discovered
+through Seed Directory when the local provider is unavailable. The result is
+only addressability: it produces `routing-subject` or `node` delivery
+candidates. It does not authorize the eventual push; INAC/AD passport and
+admission gates still decide whether the artifact is accepted.
 
 The current capability selector filter is intentionally narrow: it supports
 `target/node-ids` as a local allowlist/intersection filter. Issuer,
@@ -1220,8 +1240,8 @@ Status:
   `inac.stream.chunk.binary.v1` preferred and JSON/base64url chunks retained as
   compatibility fallback, Matrix mailbox store-and-forward with
   operator-visible worker metrics and bounded peer artifact cache limits,
-  `inac-peer-artifact:` peer artifact resolution, and regression tests. Matrix
-  mailbox room lifecycle and larger-object chunking remain later layers. INAC
+  `inac-peer-artifact:` peer artifact resolution, Matrix mailbox room lifecycle
+  repair, larger-object mailbox event chunking, and regression tests. INAC
   WSS now provides invitation, generic `inac-push@v1`,
   and `memarium-custody@v1` passport authorization before AD inbound admission.
   The baseline `memarium-blob.v1` acceptor requires explicit
@@ -1257,8 +1277,8 @@ Responsibilities:
   limits, and fallback depth per component;
 - keep route ids stable, carry route versions inside route definitions, and
   persist expanded normalized plans in the ledger;
-- keep participant, org, and capability-based recipient resolution as later
-  resolver adapters;
+- resolve capability-first/many, participant, routing-subject, org, and
+  contact-lookup selectors through host-composed resolver adapters;
 - deny valid-schema sends when the component lacks an outbound allow.
 
 Status:
@@ -1414,6 +1434,8 @@ Responsibilities:
   require; receiving a Matrix event is never authority by itself;
 - seal plaintext/JSON payloads by default into an `artifact-mailbox-sealed.v1`
   transport envelope encrypted to the recipient key before posting to Matrix;
+- split sealed mailbox payloads into `artifact-mailbox-chunk.v1` events when a
+  single Matrix event would exceed the configured event byte limit;
 - keep the current implementation fail-closed by always sealing the
   `inac-control.v1` frame before posting to Matrix. A future already-encrypted
   opaque-custody bypass would require an explicit route policy and a separate
@@ -1422,10 +1444,16 @@ Responsibilities:
   (`size/bytes`, `sha256:*`, schema, content type) before normal AD/INAC
   admission;
 - feed the same Artifact Delivery inbound admission path used by INAC WSS.
+- maintain deterministic recipient mailbox room lifecycle through idempotent
+  room ensure and send-time repair.
 
 Status:
 
-- `optional`
+- `implemented`: Matrix mailbox is disabled by default and explicit-route only.
+  It seals plaintext/JSON payloads as `artifact-mailbox-sealed.v1`, chunks
+  oversized sealed payloads as `artifact-mailbox-chunk.v1`, validates chunks
+  before unseal/admission, maintains deterministic room ensure/repair, and
+  exposes room/chunk/worker counters through AD status/UI.
 
 ### Shared Exclusive Route Registry Primitive
 
@@ -1520,13 +1548,12 @@ Status:
 
 ## Next Actions
 
-1. Harden Matrix mailbox room lifecycle and add larger-object chunking over
-   Matrix when the single-event mailbox envelope becomes insufficient.
-2. Keep the host-owned peer artifact cache/store bounded and diagnostic-only; it
-   is a store-and-forward transport cache, not Memarium semantic memory.
-3. Keep `inac-peer-artifact:` explicitly allowlisted and digest-bound:
-   `artifact/ref` locates bytes, while envelope `size/bytes` and `sha256:*`
-   decide acceptance.
+1. Add configurable Memarium custody target-space policy when custody routing
+   needs more than the current explicit fail-closed/default-space behavior.
+2. Profile whether a lower-level zero-copy WebSocket frame split is still worth
+   adding beyond the authenticated application-frame carrier.
+3. Add Matrix media or a generic object-store transport only if payloads above
+   the current sealed-materialization cap need mailbox store-and-forward.
 
 ## Related Capability Data
 

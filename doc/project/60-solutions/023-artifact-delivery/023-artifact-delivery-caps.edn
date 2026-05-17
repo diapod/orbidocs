@@ -22,7 +22,8 @@
              "artifact-delivery-result.v1"
              "artifact-delivery-status.v1"
              "artifact-delivery-recovery.v1"
-             "artifact-mailbox-sealed.v1"]
+             "artifact-mailbox-sealed.v1"
+             "artifact-mailbox-chunk.v1"]
    :responsibilities
    ["Expose one component-facing artifact send surface"
     "Expose artifact.delivery.send as the component-facing host capability"
@@ -38,7 +39,7 @@
     "Deferred Artifact Delivery is a P055 consumer: `?mode=deferred` returns `deferred-operation.v1` with stable operation metadata, `audit/outcome-ref`, and a canonical operation-status URL; recovery preserves prior attempts in `retry/history` and returns schema-gated `artifact-delivery-recovery.v1`. The daemon also starts a background recovery worker by default, with interval, batch, and pass-deadline policy visible to operators."
     "Referenced payload resolution is registry-based and fail-closed. Production resolvers include `artifact-store:`, public Memarium refs, scoped Memarium refs (`memarium-entry:<space>:<entry-id>`, `memarium-fact:<space>:<fact-id>`) that require outbound component context and the host `memarium.read` passport gate, `agora-record:<record-id>` which fetches through the configured Agora endpoint only when the outbound allow includes that scheme, and `inac-peer-artifact:<node-id>:<artifact-id>` which resolves from the host-owned peer artifact cache and remains digest-bound to the envelope descriptor."
     "Current runtime records, validates, and reports policy support for the mechanical enforcement subset. Full generic retention/operator-review semantics remain route/adapter/domain-specific until proven reusable."
-    "Matrix mailbox store-and-forward transport and `inac-peer-artifact:` peer artifact cache lookup are present at MVP level. Matrix mailbox now exposes operator-visible worker metrics and bounded peer artifact cache limits; room lifecycle and Matrix larger-object chunking remain later layers."]}
+    "Matrix mailbox store-and-forward transport and `inac-peer-artifact:` peer artifact cache lookup are present at MVP level. Matrix mailbox exposes operator-visible worker metrics, room readiness/errors, chunk counters, bounded peer artifact cache limits, deterministic room ensure/repair, and sealed larger-object event chunking through `artifact-mailbox-chunk.v1`. Matrix media and a generic object-store protocol remain later layers."]}
 
   {:cap/id :artifact-delivery-outbound-authorization
    :title "Outbound Authorization and Recipient Resolution"
@@ -60,12 +61,12 @@
     "Authorize route refs, selector classes, concrete target node ids, maximum targets, and maximum fallback stages per component"
     "Treat selector allowlists as permissions, not fallback order, and fail malformed or unresolved selector targets before transport execution"
     "Keep route ids stable, carry route versions inside route definitions, and persist expanded normalized plans in the ledger"
-    "Keep participant, org, and capability-based recipient resolution behind later resolver adapters"
+    "Resolve capability-first/many, participant, routing-subject, org, and contact-lookup selectors through host-composed resolver adapters"
     "Deny valid-schema sends when the component lacks an outbound allow"]
    :status :partial
    :notes
   ["The pure core/runtime split implements route refs, configured defaults, groups, node and agora-default selectors, target dedupe, fan-out/fallback limits, runtime stage target caps, digest validation, route-plan validation, config cross-reference validation, defensive quorum-zero rejection, and all/any/quorum evaluation."
-    "Participant, org, and capability-based recipient selectors remain post-MVP resolver adapters."]}
+    "Host-composed resolver adapters now cover capability-first/many through Seed Directory, participant and routing-subject through Seed Directory projections, org through configured custodians plus Seed Directory participant projections, and contact-lookup through Contact Catalog plus Seed Directory subject lookup. Broader org policy engines, authorized non-public routing-subject presentation, and richer contact graph semantics remain domain-specific future layers."]}
 
   {:cap/id :artifact-delivery-single-owner-admission
    :title "Single-Owner Inbound Admission"
@@ -134,7 +135,9 @@
                  "Remote INAC stream sender prefers the binary chunk carrier and falls back to the JSON/base64url carrier when the receiver refuses the binary schema as malformed"
                  "Inbound WSS INAC push frames feed Artifact Delivery admission"
                  "Remote INAC disabled transport is reported as permanent configuration failure, while missing live peer sessions remain retryable"
-                 "Matrix mailbox fallback transport with `artifact-mailbox-sealed.v1` for plaintext/JSON payloads"]
+                 "Matrix mailbox fallback transport with `artifact-mailbox-sealed.v1` for plaintext/JSON payloads"
+                 "Matrix mailbox room ensure/repair and operator-visible room/chunk status"
+                 "Matrix mailbox larger-object event chunking with `artifact-mailbox-chunk.v1` sealed payload fragments"]
    :remaining ["Profile whether a lower-level zero-copy WebSocket frame split is still worth adding beyond the authenticated application-frame carrier"]}]
 
  :may-implement
@@ -157,12 +160,17 @@
    :kind :optional
    :based-on ["doc/project/60-solutions/008-agora/008-agora.md"
               "doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md"]
-   :schemas ["artifact-delivery-envelope.v1"]
+   :schemas ["artifact-delivery-envelope.v1"
+             "artifact-mailbox-sealed.v1"
+             "artifact-mailbox-chunk.v1"]
    :responsibilities
    ["Use deterministic node-mailbox room aliases for asynchronous artifact control messages"
     "Treat Matrix as transport only, never as trust source"
     "Require the same envelope/INAC authorization proof that WSS would require"
     "Seal plaintext/JSON payloads into `artifact-mailbox-sealed.v1` encrypted to the recipient key before posting to Matrix"
+    "Split oversized sealed mailbox payloads into `artifact-mailbox-chunk.v1` events in the same deterministic recipient room"
+    "Reassemble chunks only after TTL, count, size, duplicate, per-chunk digest, and total sealed digest validation"
+    "Maintain mailbox room lifecycle through idempotent room ensure and send-time repair"
     "Unseal on the receiver and revalidate the original artifact descriptor before admission"
     "Feed the same Artifact Delivery inbound admission path used by INAC WSS"]
    :status :done}
@@ -194,7 +202,7 @@
   "In-process component manifests"
   "Effective node artifact-delivery config"
   "Configured artifact delivery routes and destination groups"
-  "Seed Directory candidate records for future capability-based recipient selectors"]
+  "Seed Directory candidate records for capability, participant, routing-subject, org, and contact-lookup recipient selectors"]
 
  :produces
  ["Transport-specific delivery requests"
