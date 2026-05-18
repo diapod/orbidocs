@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/contact-lookup-result.v1.schema.json`](../../schemas/contact-lookup-result.v1.schema.json)
 
-Result of a Contact Catalog lookup. A positive result is a route candidate or invitation path, not a durable identity assertion and not proof that a relationship exists.
+Route-set result of a Contact Catalog lookup. A positive result is a lookup-safe route candidate, not identity assurance and not proof that a relationship exists.
 
 ## Governing Basis
 
@@ -24,17 +24,13 @@ Result of a Contact Catalog lookup. A positive result is a route candidate or in
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`lookup/id`](#field-lookup-id) | `yes` | string |  |
 | [`catalog/id`](#field-catalog-id) | `no` | string |  |
-| [`lookup/mode`](#field-lookup-mode) | `no` | enum: `invitation-only`, `authenticated-exact`, `keyed-digest`, `blinded-digest`, `psi` |  |
-| [`match/class`](#field-match-class) | `yes` | enum: `exact-control-proof`, `invitation-available`, `ambiguous`, `no-match`, `policy-denied`, `rate-limited` | MVP public or semi-public catalogs SHOULD prefer `invitation-available`, `policy-denied`, or `no-match` over identity-revealing exact-owner answers. |
-| [`result/route`](#field-result-route) | `no` | ref: `#/$defs/route` |  |
-| [`result/presentation-required`](#field-result-presentation-required) | `no` | boolean |  |
-| [`result/invitation-required`](#field-result-invitation-required) | `no` | boolean |  |
-| [`result/retry-after`](#field-result-retry-after) | `no` | string |  |
-| [`policy/ref`](#field-policy-ref) | `no` | string |  |
-| [`audit/ref`](#field-audit-ref) | `no` | string | Optional audit reference. No-match audit references must avoid leaking raw address-book contents. |
-| [`issued/at`](#field-issued-at) | `yes` | string |  |
+| [`lookup/mode`](#field-lookup-mode) | `yes` | enum: `invitation-only`, `blinded-digest`, `psi` |  |
+| [`match/class`](#field-match-class) | `yes` | enum: `invitation-available`, `ambiguous`, `no-match`, `policy-denied`, `rate-limited` |  |
+| [`result/routes`](#field-result-routes) | `yes` | array |  |
+| [`selected/route`](#field-selected-route) | `no` | ref: `#/$defs/route` |  |
 | [`valid/until`](#field-valid-until) | `no` | string |  |
-| [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
+| [`policy/ref`](#field-policy-ref) | `no` | string |  |
+| [`issued/at`](#field-issued-at) | `yes` | string |  |
 
 ## Definitions
 
@@ -66,8 +62,13 @@ Then:
 ```json
 {
   "required": [
-    "result/route"
-  ]
+    "selected/route"
+  ],
+  "properties": {
+    "result/routes": {
+      "minItems": 1
+    }
+  }
 }
 ```
 
@@ -100,37 +101,29 @@ Then:
 <a id="field-lookup-mode"></a>
 ## `lookup/mode`
 
-- Required: `no`
-- Shape: enum: `invitation-only`, `authenticated-exact`, `keyed-digest`, `blinded-digest`, `psi`
+- Required: `yes`
+- Shape: enum: `invitation-only`, `blinded-digest`, `psi`
 
 <a id="field-match-class"></a>
 ## `match/class`
 
 - Required: `yes`
-- Shape: enum: `exact-control-proof`, `invitation-available`, `ambiguous`, `no-match`, `policy-denied`, `rate-limited`
+- Shape: enum: `invitation-available`, `ambiguous`, `no-match`, `policy-denied`, `rate-limited`
 
-MVP public or semi-public catalogs SHOULD prefer `invitation-available`, `policy-denied`, or `no-match` over identity-revealing exact-owner answers.
+<a id="field-result-routes"></a>
+## `result/routes`
 
-<a id="field-result-route"></a>
-## `result/route`
+- Required: `yes`
+- Shape: array
+
+<a id="field-selected-route"></a>
+## `selected/route`
 
 - Required: `no`
 - Shape: ref: `#/$defs/route`
 
-<a id="field-result-presentation-required"></a>
-## `result/presentation-required`
-
-- Required: `no`
-- Shape: boolean
-
-<a id="field-result-invitation-required"></a>
-## `result/invitation-required`
-
-- Required: `no`
-- Shape: boolean
-
-<a id="field-result-retry-after"></a>
-## `result/retry-after`
+<a id="field-valid-until"></a>
+## `valid/until`
 
 - Required: `no`
 - Shape: string
@@ -141,31 +134,11 @@ MVP public or semi-public catalogs SHOULD prefer `invitation-available`, `policy
 - Required: `no`
 - Shape: string
 
-<a id="field-audit-ref"></a>
-## `audit/ref`
-
-- Required: `no`
-- Shape: string
-
-Optional audit reference. No-match audit references must avoid leaking raw address-book contents.
-
 <a id="field-issued-at"></a>
 ## `issued/at`
 
 - Required: `yes`
 - Shape: string
-
-<a id="field-valid-until"></a>
-## `valid/until`
-
-- Required: `no`
-- Shape: string
-
-<a id="field-policy-annotations"></a>
-## `policy_annotations`
-
-- Required: `no`
-- Shape: object
 
 ## Definition Semantics
 

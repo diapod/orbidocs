@@ -197,7 +197,7 @@
             },
             "lookup/mode": {
               "type": "string",
-              "const": "invitation-only",
+              "enum": ["invitation-only", "blinded-digest", "psi"],
               "default": "invitation-only"
             },
             "selector/purpose": {

@@ -8,9 +8,9 @@
  implementation has the MVP admission and invitation-only lookup spine:
  contact-control-backed claims, privacy-preserving lookup indexes, redacted
  audit, daemon-local contacts, contact-request admission, and narrow
- messaging-receive passport issuance. Blinded/PSI lookup, route-set v2, richer
- provider policy UX, recovery semantics, and broader end-to-end transport tests
- remain post-MVP layers."
+ messaging-receive passport issuance. Blinded/PSI runtime support and route-set
+ v1 are present; richer provider policy UX, recovery semantics, and broader
+ end-to-end transport tests remain post-MVP layers."
 
  :must-implement
  [{:cap/id :contact-catalog-claim-admission
@@ -121,15 +121,14 @@
    :remaining ["Add durable audit/revert history for provider policy changes"]
    :status :partial}
 
-  {:cap/id :contact-catalog-route-set-v2
-   :title "Route Set v2 and Recovery Semantics"
+  {:cap/id :contact-catalog-recovery-semantics
+   :title "Recovery Semantics"
    :kind :optional
    :based-on ["doc/project/40-proposals/058-contact-catalog.md"]
    :schemas ["contact-lookup-result.v1"
              "local-contact.v1"]
    :responsibilities
-   ["Support multiple routes per contact claim beyond the MVP single selected route"
-    "Define recovery and backup semantics for daemon-local contacts and pairwise nym mappings"
+   ["Define recovery and backup semantics for daemon-local contacts and pairwise nym mappings"
     "Preserve the route-candidate contract while allowing richer contact continuation state"]
    :status :planned}]
 

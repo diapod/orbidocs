@@ -64,8 +64,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`community-pool-disbursement.v1.schema.json`](schemas-gen/schemas/community-pool-disbursement.v1.md) | `13` | `5` | `yes` | `yes` | `1` | `1` |
 | [`contact-attestation-request.v1.schema.json`](schemas-gen/schemas/contact-attestation-request.v1.md) | `13` | `1` | `yes` | `yes` | `1` | `0` |
 | [`contact-attestation-result.v1.schema.json`](schemas-gen/schemas/contact-attestation-result.v1.md) | `9` | `1` | `yes` | `yes` | `1` | `0` |
-| [`contact-claim.v1.schema.json`](schemas-gen/schemas/contact-claim.v1.md) | `21` | `9` | `yes` | `yes` | `1` | `0` |
-| [`contact-lookup-result.v1.schema.json`](schemas-gen/schemas/contact-lookup-result.v1.md) | `15` | `2` | `yes` | `yes` | `2` | `1` |
+| [`contact-claim.v1.schema.json`](schemas-gen/schemas/contact-claim.v1.md) | `18` | `1` | `yes` | `yes` | `1` | `0` |
+| [`contact-lookup-result.v1.schema.json`](schemas-gen/schemas/contact-lookup-result.v1.md) | `11` | `0` | `yes` | `yes` | `2` | `1` |
 | [`contact-request.v1.schema.json`](schemas-gen/schemas/contact-request.v1.md) | `18` | `4` | `yes` | `yes` | `1` | `0` |
 | [`contacts.membership-changed.v1.schema.json`](schemas-gen/schemas/contacts.membership-changed.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |

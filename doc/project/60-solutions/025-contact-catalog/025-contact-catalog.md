@@ -76,7 +76,8 @@ Responsibilities:
 
 Status:
 
-- `done` — Node `contact-catalog-core` validates `contact-claim.v1`, verifies
+- `done` — Node `contact-catalog-core` validates canonical route-set
+  `contact-claim.v1`, verifies
   participant/delegated participant signatures, rejects node-only signatures,
   evaluates `email-control@v1` / `phone-control@v1` passports, and checks
   passport signature, expiry, profile match, and revocation freshness before
@@ -99,9 +100,11 @@ Responsibilities:
 - expose `/v1/contact-catalog/lookup` or an equivalent supervised middleware
   endpoint under `catalog_kind = "contact"`;
 - require authenticated callers and rate limits before lookup execution;
-- return `contact-lookup-result.v1` as a route candidate or invitation-required
-  result;
+- return `contact-lookup-result.v1` as a route-set candidate or
+  invitation-required result;
 - never return raw `participant:did:key` by default;
+- use opaque `contact-route:<digest>` invitation refs when the local
+  contactability draft is participant-routed;
 - emit no-match audit entries without storing or exposing raw queried handles.
 - support host-composed Artifact Delivery `selector/kind = "contact-lookup"`
   without making Contact Catalog an AD payload resolver. In that integration,
@@ -111,12 +114,14 @@ Responsibilities:
 
 Status:
 
-- `done` — Node `contact-catalog-service` exposes public invitation-only
-  `POST /v1/contact-catalog/lookups`, returns `contact-lookup-result.v1`, rate
+- `done` — Node `contact-catalog-service` exposes public invitation-only,
+  blinded-digest and PSI-mode `POST /v1/contact-catalog/lookups`, returns
+  `contact-lookup-result.v1` with `result/routes[]` and `selected/route`, rate
   limits by client fingerprint + digest + purpose, rejects raw handle-like
   lookup inputs, writes redacted lookup audit without raw query values or root
   participant ids, and exposes redacted counters/recent policy events in service
-  status. The daemon owns an opt-in supervised runtime on stable loopback and a
+  status. The daemon consumes canonical v1 route sets for AD `contact-lookup`.
+  The daemon owns an opt-in supervised runtime on stable loopback and a
   `/v1/contact-catalog/status` proxy; a process smoke starts the real service
   binary and verifies readiness plus projection status through that proxy.
 
@@ -240,8 +245,10 @@ Status:
   Provider policy remains trusted-only for sync, but operators can now inspect
   discovered providers and set `trusted`, `uncertain`, or `blocked` from
   `/admin/contact-catalog` over the service policy endpoint. No Agora
-  publication/relay path is introduced. Tombstone/revocation replay, stronger
-  incremental cursor semantics, durable policy-change audit/revert history, and
+  publication/relay path is introduced. Provider trust changes are durably
+  audited with actor, a required reason capped at 1000 characters,
+  previous/next state, passport hash and endpoint.
+  Tombstone/revocation replay, stronger incremental cursor semantics, and
   broader multi-process trusted-provider acceptance remain open.
 
 ### Blinded or PSI Lookup
@@ -263,7 +270,12 @@ Responsibilities:
 
 Status:
 
-- `deferred`
+- `partial` — `orbiplex-node-crypto::contact_psi` provides auditable
+  Ristretto255 DH-PSI primitives, and the Contact Catalog service accepts
+  `blinded-digest` and `psi` lookup modes with mode/index pairing, redacted
+  audit, rate limiting and route-set responses. Full protocol UX and broader
+  PSI failure matrix remain focused lower-level tests rather than a separate
+  top-level E2E harness; Story-010 strict `ad-smoke` remains the E2E gate.
 
 ## Out of Scope
 
@@ -292,10 +304,11 @@ Status:
 
 ## Notes
 
-The MVP is deliberately invitation-only. This leaves enough room for a useful
-first implementation while avoiding the false precision of low-entropy lookup
-handles. Stronger private lookup protocols can later replace the lookup edge
-without changing the route-candidate contract.
+The default MVP path remains invitation-only digest lookup, and the runtime also
+accepts `blinded-digest` and `psi` lookup modes for claims indexed with the
+matching private mode. This keeps the common path simple while letting stricter
+privacy mechanics evolve at the lookup edge without changing the route-candidate
+contract.
 
 Concrete crate/module ownership belongs in the Node implementation repository.
 The expected implementation shape is a Rust supervised HTTP middleware that

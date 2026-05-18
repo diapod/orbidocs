@@ -137,9 +137,9 @@ later without changing the high-level Contact Catalog boundary.
    maximum freshness window of 90 days for MVP catalog admission. Local policy
    MAY require shorter windows, especially for phone numbers or known unstable
    providers.
-7. **Routes per claim:** the MVP schema allows one preferred route per claim,
-   with purposes naming the allowed uses. Multi-route publication remains a
-   later extension through additional claims or a v2 route set.
+7. **Routes per claim:** canonical `contact-claim.v1` carries an ordered
+   `owner/routes[]` route set. Lookup returns canonical
+   `contact-lookup-result.v1` with `result/routes[]` and `selected/route`.
 8. **Pairwise nyms:** pairwise contact nyms are the default privacy posture for
    ordinary one-to-one relationships, but not mandatory for public handles or
    governance/high-stakes procedures.
@@ -158,7 +158,11 @@ later without changing the high-level Contact Catalog boundary.
     trust state, passport validation, auth material, and revocation freshness.
     Once a provider is trusted, catalog-to-catalog record fetch may use a
     direct data-plane call between Contact Catalog services.
-13. **Generic sync mechanics:** transport-neutral catalog sync mechanics
+13. **Pre-freeze schema consolidation:** the earlier route-candidate
+    `contact-claim.v1` / `contact-lookup-result.v1` drafts were replaced before
+    public freeze. Route-set/private-lookup semantics are now the only
+    canonical v1 contracts; no `*.v2` wire contract is advertised or emitted.
+14. **Generic sync mechanics:** transport-neutral catalog sync mechanics
     belong in `node/catalog`, not in Contact Catalog runtime. Contact Catalog
     supplies the domain record, filter, admission, privacy policy, and HTTP
     worker/runtime.
@@ -274,7 +278,7 @@ contact with itself, its nym, or its routing subject. A contact claim without
 control proof is not an opt-in contact route; it is an unauthenticated assertion
 about someone else's address book.
 
-The future schema should carry at least:
+The canonical schema carries at least:
 
 ```text
 contact-claim.v1
@@ -284,8 +288,7 @@ contact-claim.v1
   contact/attestation-ref       # proof of control, not raw OTP transcript
   contact/attested-at
   contact/attestation-expires-at
-  owner/routing-subject-id?
-  owner/contact-nym-id?
+  owner/routes[]                # ordered route-set: routing-subject | contact-nym | invitation-route
   owner/participant-id?         # optional and disclosure-gated
   disclosure/mode               # private-lookup | invite-only | public-handle | present-on-demand
   purposes[]                    # contact | inbox | direct-delivery | recovery
@@ -307,28 +310,29 @@ A successful lookup should return a route, not a person record:
 contact-lookup-result.v1
   lookup/id
   catalog/id?                  # optional in MVP
-  match/class                 # exact-control-proof | invitation-available | ambiguous | no-match
-  result/route?
+  lookup/mode                  # invitation-only | blinded-digest | psi
+  match/class                  # invitation-available | ambiguous | no-match | policy-denied | rate-limited
+  result/routes[]
+    route/type                 # routing-subject | contact-nym | invitation-route
     routing-subject/id?
     contact-nym/id?
     node/id?
+    invitation/ref?
     purposes[]
-    valid/until
-  result/presentation-required?
-  result/invitation-required?
+    valid/until?
+  selected/route?
+  valid/until?
   policy/ref?
-  audit/ref?
 ```
 
 The result is a **contact route candidate**. A consumer must still complete the
 normal invitation, messaging, or direct-delivery handshake before assuming a
 relationship exists.
 
-The canonical v1 contract requires only `schema`, `schema/v`, `lookup/id`,
-`match/class`, and `issued/at`; `result/route` is additionally required when
-`match/class = "invitation-available"`. Transitional service fields such as
-`message` or legacy `result` may appear for local diagnostics, but clients must
-not rely on them.
+The canonical v1 contract requires `schema`, `schema/v`, `lookup/id`,
+`lookup/mode`, `match/class`, `result/routes`, and `issued/at`;
+`selected/route` plus at least one route is additionally required when
+`match/class = "invitation-available"`.
 
 ### 6. Pairwise Contact Nyms
 
@@ -690,11 +694,11 @@ different axes.
 Artifact Delivery now exposes `selector/kind = "contact-lookup"` as a
 host-composed recipient selector. AD core owns only the DTO, validation and
 `ContactLookupNodeLookup` trait; the daemon calls the configured local Contact
-Catalog provider, consumes canonical `contact-lookup-result.v1`, and normalizes
-`invitation-available` results to a `routing-subject` or concrete `node`
-target. MVP accepts only `lookup/mode = "invitation-only"`, `purpose =
-"messaging"`, `selector/purpose = "contact-request/messaging"`, and
-`max/nodes = 1`.
+Catalog provider, consumes canonical `contact-lookup-result.v1` route sets,
+and normalizes `invitation-available` results
+to a `routing-subject` or concrete `node` target. MVP accepts `lookup/mode =
+"invitation-only"`, `"blinded-digest"` or `"psi"`, `purpose = "messaging"`,
+`selector/purpose = "contact-request/messaging"`, and `max/nodes = 1`.
 
 `selector/purpose` is allowed to use a slash as a lightweight hierarchy: the
 left side names the selector use case, while the right side names the domain
@@ -800,11 +804,7 @@ The original MVP questions have been answered in
 [`MVP Decisions Frozen on 2026-05-16`](#mvp-decisions-frozen-on-2026-05-16).
 The remaining open questions are post-MVP:
 
-1. Which blinded lookup or PSI protocol should replace or supplement
-   invitation-only lookup for address-book discovery?
-2. Should a future `contact-claim.v2` support a first-class route set instead
-   of one preferred route plus purposes?
-3. What operator-facing aggregate metrics are useful for abuse defense without
+1. What operator-facing aggregate metrics are useful for abuse defense without
    leaking address-book contents?
 
 ## Next Actions
@@ -819,9 +819,8 @@ The remaining open questions are post-MVP:
    cursors.
 5. Exercise trusted provider refresh through multi-process daemon/service
    federation acceptance tests.
-6. Decide which blinded lookup or PSI profile should supplement
-   invitation-only lookup after MVP.
-7. Define a future route-set shape for multi-route contact results.
+6. Extend focused PSI/blinded lookup coverage beyond the current runtime
+   mode/index gate.
 
 ## Tracking
 
@@ -834,23 +833,23 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 
 | ID | Feature | Status | Evidence |
 |---|---|---|---|
-| P058-001 | `contact-claim.v1` schema (fields per §4, signing key class decision) | done | `doc/schemas/contact-claim.v1.schema.json` defines the draft contract; MVP signer rule is frozen in the 2026-05-16 decisions. |
-| P058-002 | `contact-lookup-result.v1` schema (fields per §5) | done | `doc/schemas/contact-lookup-result.v1.schema.json` defines the draft route-candidate result. |
+| P058-001 | `contact-claim.v1` schema (fields per §4, signing key class decision, route-set v1) | done | `doc/schemas/contact-claim.v1.schema.json` defines the canonical route-set contract with ordered `owner/routes[]`. The earlier route-candidate v1 draft was replaced before public freeze and is not a supported public contract. MVP signer rule is frozen in the 2026-05-16 decisions; canonical v1 keeps the current participant-signature domain until the proof contract carries an explicit domain. |
+| P058-002 | `contact-lookup-result.v1` schema (fields per §5, route-set v1) | done | `doc/schemas/contact-lookup-result.v1.schema.json` defines the active route-set result with `result/routes[]` and `selected/route`. The earlier route-candidate v1 draft was replaced before public freeze and is not a supported public contract. |
 | P058-003 | `contact-catalog` capability id and minimal profile registered in the Capability Registry | done | `contact-catalog` is registered in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md` / `.pl.md` with wire name `role/contact-catalog`. |
-| P058-004 | `catalog_kind: contact` registration through the existing `catalog_endpoints` plug-in pattern | partial | Node `contact-catalog-service` now issues a daemon-managed `contact-catalog` passport with `catalog_kind = "contact"`, `catalog_endpoints`, `lookup_modes = ["invitation-only"]`, and publishes it through the daemon host capability path when daemon-managed. Daemon `/v1/contact-catalog/status` proxies service state for UI/operator flows. Full federation/Seed Directory operator UX remains open. |
-| P058-005 | Contact Catalog admission policy (attestation freshness, signature, expiry, purpose allowlist, TTL recommendation) | done | Node `contact-catalog-core` validates `contact-claim.v1`, verifies participant/delegated participant claim signatures, rejects node-only signatures, requires first-class `email-control@v1` / `phone-control@v1` `capability-passport.v1` profiles, checks passport signatures, expiry, profile match, and revocation freshness. |
-| P058-006 | Privacy-preserving lookup index implementation (normalized or blinded) | partial | Node `contact-catalog-service` exposes public `POST /v1/contact-catalog/lookups` for keyed/digest invitation-only lookup, rejects raw handle-like inputs, returns `contact-lookup-result.v1`, and rate-limits by client fingerprint + digest + purpose. Admin/sync surfaces remain authenticated. Stronger blinded/PSI profiles are deferred. |
+| P058-004 | `catalog_kind: contact` registration through the existing `catalog_endpoints` plug-in pattern | partial | Node `contact-catalog-service` now issues a daemon-managed `contact-catalog` passport with `catalog_kind = "contact"`, `catalog_endpoints`, `lookup_modes = ["invitation-only", "blinded-digest", "psi"]`, and schema refs for `contact-claim.v1` / `contact-lookup-result.v1`. Daemon `/v1/contact-catalog/status` proxies service state for UI/operator flows. Full federation/Seed Directory operator UX remains open. |
+| P058-005 | Contact Catalog admission policy (attestation freshness, signature, expiry, purpose allowlist, TTL recommendation) | done | Node `contact-catalog-core` validates canonical route-set `contact-claim.v1`, verifies participant/delegated participant claim signatures, rejects node-only signatures, requires first-class `email-control@v1` / `phone-control@v1` `capability-passport.v1` profiles, checks passport signatures, expiry, profile match, and revocation freshness. |
+| P058-006 | Privacy-preserving lookup index implementation (normalized or blinded) | partial | Node now has `orbiplex-node-crypto::contact_psi`, a small Ristretto255 DH-PSI primitive layer depending only on the crypto crate's existing curve25519-dalek/sha2 stack plus randomness. `contact-catalog-service` accepts `invitation-only`, `blinded-digest`, and `psi` lookup modes, requires mode/index pairing for private modes, rejects raw handle-like inputs, returns `contact-lookup-result.v1`, and rate-limits/audits by redacted fingerprints and digests. Full protocol-level PSI exchange UX remains focused-test/runtime work rather than a separate E2E harness. |
 | P058-007 | First MVP query mode decision (exact / invitation-only / blinded digest) | done | MVP is public invitation-only digest lookup with strict rate limiting and redacted audit; authentication remains required for admin/sync surfaces, not for remote sender lookup. |
 | P058-008 | Local contact store model (raw handles, labels, pairwise nym mappings, never-published-by-default) | partial | Node daemon now owns `<node-data-dir>/storage/local-contacts.sqlite` and exposes local operator/control API routes `GET/POST/PATCH/DELETE /v1/local-contacts...` plus handle resolution. Records carry compatible `label`, explicit `labels[]`, `metadata {}`, UX/provenance fields, and pairwise nym pointers; `local_contact_pairwise_mappings` records active/rotated/revoked/archived lifecycle. Raw handles stay in the daemon-local store and are not used in Contact Catalog claims, lookup responses, Seed Directory records, or shared lookup audit. The local contact store now has an export/replay recovery bundle for local contacts, pairwise mappings, and messaging recovery mirror records; replay preserves terminal pairwise mapping lifecycle and refuses to reactivate revoked/archived mappings. Sealed `pseudonym-vault.v1` persistence and startup replay remain follow-up. |
 | P058-009 | Pairwise contact nym handling for one-to-one relationships | partial | `contact-request.v1` acceptance creates a deterministic local `contact-nym:*` mapping and scopes `messaging-receive@v1` to that local nym, sender, route, request and purpose. Broader nym lifecycle/recovery policy remains open. |
-| P058-010 | Routing-subject / contact-nym as default lookup result (never root participant by default), with multi-route support | partial | Lookup MVP prefers `owner/routing-subject-id`, then `owner/contact-nym-id`, then `owner/invitation-route`, and never returns `owner/participant-id`. Multi-route result sets remain deferred to additional claims or a future v2 route set. |
+| P058-010 | Routing-subject / contact-nym as default lookup result (never root participant by default), with multi-route support | done | Runtime now emits canonical `contact-lookup-result.v1` with `result/routes[]` and `selected/route`, and daemon AD lookup consumes that route-set shape. `contact-claim.v1` supports ordered `owner/routes[]` with routing-subject, contact-nym and invitation-route entries. Participant-routed contactability claims expose only opaque `contact-route:<digest>` invitation refs plus node routing data in lookup results; lookup still never returns `owner/participant-id` or root participant identifiers. |
 | P058-011 | Contact claim revocation and expiry pipeline for rotated or removed handles | partial | Contact Catalog admission and lookup consume daemon revocation snapshots, and `contact-catalog-service` now runs a daemon-managed background projector that periodically refreshes `capability.revocation.snapshot`, replays `SqliteCatalog<ContactClaimRecord>`, records projection runs, materializes `active | expired | revoked | unknown`, and fails closed when projection/revocation freshness is unavailable. Richer as-of/operator replay tooling remains open. |
 | P058-012 | Operator / user UI wording distinguishing contact-control proof from identity assurance | partial | Node UI exposes `/admin/contact-catalog`, contact-request notifications, and messaging contactability surfaces that distinguish `contact-control` from identity assurance. More end-user copy can still be refined after the attestation service leaves local/dev delivery mode. |
 | P058-013 | No Agora publication path for Contact Catalog records | done | Contact Catalog has no Agora publication path: records, lookup indexes, routes, relationship facts, and observed contact projections are not planned for Agora. Discovery stays with Seed Directory and lookup/fetch policy stays with Contact Catalog providers. |
 | P058-014 | Contact Catalog solution document and capability sidecar | done | `doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md` and `025-contact-catalog-caps.edn`. |
 | P058-015 | No-match audit event policy (avoiding address-book leakage) | partial | `contact-catalog-service` records redacted lookup audit rows for no-match, ambiguous, policy-denied, rate-limited and success classes using auth fingerprint, contact-index digest, purpose and count class; status exposes counters plus recent redacted policy/rate-limit events. It does not persist raw query bodies, raw handles, raw lookup values or root participant ids. |
 | P058-016 | Catalog Provider Role contract documented (role shared by Dator and Contact Catalog: typed `CatalogRecord` + `CatalogStore<T>` + supervised HTTP + capability id + admission policy) | done | §11 Catalog Provider Role. Dator named as existing offer-domain instance; Contact Catalog named as next contact-domain instance. |
-| P058-017 | Contact Catalog Rust supervised HTTP middleware crate scaffold reusing `orbiplex-node-catalog` (`ContactClaimRecord: CatalogRecord`, `SqliteCatalog<ContactClaimRecord>`, `ContactClaimPredicate` variants implementing `CatalogPredicate`, admission gate before `upsert`) | partial | Node now has `contact-catalog-core`, `contact-catalog-service`, daemon-owned local contacts, and a daemon in-process `contact-request.v1` acceptor. The service includes lifecycle, passport-backed admission, SQLite claim store, lookup, active projection worker, provider-cache/remote-claim-cache, redacted audit sidecars, and opt-in daemon-managed runtime on stable loopback. `/admin/contact-catalog` now exposes discovered providers and active trust/uncertain/block controls over the service policy endpoint. A daemon process smoke starts the real supervised binary and verifies `/v1/contact-catalog/status` readiness/projection state through the daemon proxy; deeper multi-process contact-request, admission/lookup, and trusted-provider acceptance remains pending. Still pending post-MVP: durable provider-policy audit/revert history, blinded lookup/PSI, route-set v2 and broader contact recovery flows. |
+| P058-017 | Contact Catalog Rust supervised HTTP middleware crate scaffold reusing `orbiplex-node-catalog` (`ContactClaimRecord: CatalogRecord`, `SqliteCatalog<ContactClaimRecord>`, `ContactClaimPredicate` variants implementing `CatalogPredicate`, admission gate before `upsert`) | partial | Node now has `contact-catalog-core`, `contact-catalog-service`, daemon-owned local contacts, and a daemon in-process `contact-request.v1` acceptor. The service includes lifecycle, passport-backed admission, SQLite claim store, lookup, active projection worker, provider-cache/remote-claim-cache, redacted audit sidecars, provider trust audit, private lookup modes, canonical v1 route-set responses, and opt-in daemon-managed runtime on stable loopback. `/admin/contact-catalog` exposes discovered providers and active trust/uncertain/block controls over the service policy endpoint. Story-010 strict `ad-smoke` is the top-level Contact Catalog E2E gate; focused service/daemon tests cover refusal, replay, private lookup and policy edges. Still pending post-MVP: sealed startup replay for local contact recovery, tombstone/revocation sync replay, and broader multi-process federation acceptance. |
 | P058-018 | Generalise `node/catalog` `CatalogAdapter` trait over `T: CatalogRecord` (and `ObservedRecord<T>` for the fetch payload), so contact and offer providers share one async remote-fetch contract instead of duplicating it | partial | `node/catalog::CatalogAdapter<T, F>` now fetches `ObservedRecord<T>` and notifies `T: CatalogRecord`, while offer-specific HTTP/in-memory adapters keep compatibility wrappers. `node/catalog` also exposes `CatalogSyncOptions`, `CatalogSyncReport`, `CatalogSyncSink`, and `sync_catalog_provider(...)` for transport-neutral fetch/validate/merge/count mechanics. `contact-catalog-core::RemoteContactClaimFilter` defines the Contact Catalog remote fetch filter, and `contact-catalog-service` uses a `RemoteContactCatalogHttpAdapter` plus generic sync to refresh trusted providers into a sidecar remote claim cache. Operator provider trust UX is wired in Node UI; broader federation acceptance tests and durable policy audit/revert history remain open. |
-| P058-019 | `selector/kind = "contact-lookup"` as a host-composed *recipient selector kind* in Artifact Delivery, normalising lookup-safe contact references into `routing-subject` / `node` targets via a configured Contact Catalog provider. | done | AD core defines `RecipientSelector::ContactLookup`, selector shape validation, `SelectorClass::ContactLookup`, `ContactLookupNodeLookup`, and selector-purpose-aware outbound allow. Daemon wires the trait to local supervised HTTP `contact-catalog-service`, consumes canonical `contact-lookup-result.v1`, rejects raw handles, supports only `invitation-only` / `contact-request/messaging` / `max/nodes = 1`, and fails closed for `no-match`, `ambiguous`, `policy-denied`, `rate-limited`, unavailable provider, and `contact-nym/id` without a routable target. Explicitly distinguished from an `artifact/ref` resolver scheme. |
-| P058-020 | Provider-to-provider Contact Catalog sync contract without Agora: no anonymous public dumps, host-authorized direct fetch, cursor/high-water replay, tombstone/revocation handling, and loop prevention over generic catalog mechanics. | partial | Decision captured in MVP decisions, §11, §12.4, and the Agora non-goal. Node now exposes authenticated `GET /v1/contact-catalog/sync/claims` as a trusted-provider snapshot fetch contract, extends `RemoteContactClaimFilter` with an opaque cursor, runs trusted-provider refresh through generic `node/catalog::sync_catalog_provider(...)`, derives high-water from accepted provider records, rejects self-originated records when the daemon injects the local node id, stores provider sync last-run counts, cumulative total counts, high-water/cursor/error state in the service sidecar, and surfaces provider sync status. Still pending: real tombstone/revocation replay contract, incremental cursor semantics beyond snapshot high-water, and multi-process federation acceptance tests. |
+| P058-019 | `selector/kind = "contact-lookup"` as a host-composed *recipient selector kind* in Artifact Delivery, normalising lookup-safe contact references into `routing-subject` / `node` targets via a configured Contact Catalog provider. | done | AD core defines `RecipientSelector::ContactLookup`, selector shape validation, `SelectorClass::ContactLookup`, `ContactLookupNodeLookup`, and selector-purpose-aware outbound allow. Daemon wires the trait to local supervised HTTP `contact-catalog-service`, consumes `contact-lookup-result.v1` route sets, rejects raw handles, supports `invitation-only`, `blinded-digest`, and `psi` lookup modes for `contact-request/messaging` with `max/nodes = 1`, and fails closed for `no-match`, `ambiguous`, `policy-denied`, `rate-limited`, unavailable provider, and `contact-nym/id` without a routable target. Explicitly distinguished from an `artifact/ref` resolver scheme. |
+| P058-020 | Provider-to-provider Contact Catalog sync contract without Agora: no anonymous public dumps, host-authorized direct fetch, cursor/high-water replay, tombstone/revocation handling, and loop prevention over generic catalog mechanics. | partial | Decision captured in MVP decisions, §11, §12.4, and the Agora non-goal. Node exposes authenticated `GET /v1/contact-catalog/sync/claims` as a trusted-provider snapshot fetch contract, extends `RemoteContactClaimFilter` with an opaque cursor, runs trusted-provider refresh through generic `node/catalog::sync_catalog_provider(...)`, derives high-water from accepted provider records, rejects self-originated records when the daemon injects the local node id, stores provider sync last-run counts, cumulative total counts, high-water/cursor/error state in the service sidecar, and now keeps durable provider-policy audit for trust changes. Still pending: real tombstone/revocation replay contract, incremental cursor semantics beyond snapshot high-water, and multi-process federation acceptance tests beyond Story-010 happy path. |

@@ -294,8 +294,8 @@ rate limiting and redacted audit (Proposal 058 MVP Decision #1). The
 catalog must not return a naked root participant identity as the normal
 result.
 
-The lookup returns a `contact-lookup-result.v1` artifact containing a
-route candidate for Marcin's node, for example:
+The lookup returns a canonical `contact-lookup-result.v1` artifact containing a
+route set and selected route for Marcin's node. A route candidate can be:
 
 - a routing subject;
 - a contact nym;
@@ -706,13 +706,15 @@ artifact and what is still missing.
 - **Step 3 — Marcin publishes contact claims to the Contact Catalog:** `[in-progress]`
   - Closest artifacts: Solution 025 (Contact Catalog) is `partial` overall,
     with two `done` `must-implement` capabilities — Contact Claim Admission
-    (Node `contact-catalog-core` validates `contact-claim.v1`, verifies
+    (Node `contact-catalog-core` validates canonical route-set
+    `contact-claim.v1`, verifies
     participant / delegated-participant signatures, evaluates
     `email-control@v1` / `phone-control@v1` passports, and checks signature,
-    expiry, profile match, and revocation freshness) and Invitation-Only
-    Lookup (Node `contact-catalog-service` exposes public
-    invitation-only `POST /v1/contact-catalog/lookups` returning
-    `contact-lookup-result.v1`, with policy, rate-limit, and redacted
+    expiry, profile match, and revocation freshness) and Contact Lookup
+    (Node `contact-catalog-service` exposes public
+    invitation-only plus `blinded-digest` / `psi`
+    `POST /v1/contact-catalog/lookups` returning
+    `contact-lookup-result.v1`, policy, rate-limit, and redacted
     audit controls).
     The catalog mechanics come from the `orbiplex-node-catalog` crate
     (`CatalogRecord`, `CatalogStore<T>`, `SqliteCatalog<T>`,
@@ -720,18 +722,19 @@ artifact and what is still missing.
     `TrustedProviderStore`); the Catalog Provider Role is documented in
     Proposal 058 §11. Solution 019 (`Orbiplex Middleware`, `done`) provides
     the hosting plane.
-  - Newly frozen contracts: `contact-claim.v1` (schema), the
+  - Newly frozen contracts: canonical route-set `contact-claim.v1`, the
     `contact-catalog` capability id, MVP Decisions 1–10 of Proposal 058
     (lookup mode, signer rule, control-proof TTL, routes-per-claim,
     pairwise nyms, Agora non-goal, no-match audit), and Solution 025
     component contract.
   - Missing: full federation / Seed Directory operator policy for the
     `catalog_kind: contact` registration (P058-004 `partial`); revocation
-    / expiry pipeline beyond admission-time enforcement (P058-011
+    / expiry replay beyond the active projection worker (P058-011
     `partial`); the supervised `contact-catalog-core` +
-    `contact-catalog-service` middleware exists and has a daemon process
-    smoke, while deeper multi-process contact-request / admission /
-    lookup / trusted-provider acceptance remains (P058-017 `partial`);
+    `contact-catalog-service` middleware is covered by Story-010 strict
+    multi-process admission / lookup / contact-request / accept / message
+    delivery smoke, while focused refusal, stale/revoked, and trusted-provider
+    edge cases remain in lower-level tests (P058-017 `partial`);
     broader federation acceptance tests on top of the now-generic
     `CatalogAdapter<T, F>` plus `sync_catalog_provider(...)`
     transport-neutral mechanics in `node/catalog` (P058-018 `partial`);
@@ -773,12 +776,15 @@ artifact and what is still missing.
     (b) messaging middleware issues the catalog HTTP call directly and
     hands AD a normal `routing-subject` / `node` selector. Both are
     selector-axis, not resolver-axis.
-  - Newly frozen contracts: `contact-lookup-result.v1` (schema) and MVP
+  - Newly frozen contracts: canonical route-set `contact-lookup-result.v1` and MVP
     public invitation-only digest lookup (Proposal 058 MVP Decision #1,
     Solution 025).
   - Story-010 coverage: messaging-side lookup can now use the shared remote
     Contact Catalog provider selected from Seed Directory/provider cache;
-    the outbound queue stores the returned route and promotes delivery.
+    strict smoke asserts `contact-lookup-result.v1`, `result/routes[]`,
+    `selected/route`, opaque `contact-route:<digest>` invitation refs, and
+    no root participant id leakage before the outbound queue stores the
+    returned route and promotes delivery.
 
 - **Step 6 — Daniel sends a contact request over INAC/AD:** `[in-progress]`
   - Closest artifacts: the exact transport shape this step needs —
@@ -958,12 +964,15 @@ artifact and what is still missing.
   `messaging-receive@v1` profile and private-direct messaging routes
   (P060-036).
 - **Contact Catalog as a domain catalog (P058):** `[in-progress]` —
-  `contact-claim.v1`, `contact-lookup-result.v1`, `contact-request.v1`,
+  canonical route-set `contact-claim.v1`, `contact-lookup-result.v1`,
+  `contact-request.v1`,
   Solution 025, and the `contact-catalog` capability id are now frozen for
   MVP; supervised service, local claim admission, public invitation-only
-  lookup, provider cache, sync snapshot, and Seed Directory provider metadata
-  are implemented. Broader federation policy, PSI/blinded lookup, route-set
-  v2, and tombstone/revocation replay remain future layers.
+  lookup, provider cache, sync snapshot, Seed Directory provider metadata,
+  provider trust audit, route-set v1, and focused PSI/blinded runtime support
+  are implemented. Sealed vault startup replay, tombstone/revocation sync
+  replay, and broader multi-process federation acceptance remain future
+  layers.
 - **Contact-handle attestation (phone / email) as a capability surface:**
   `[in-progress]` — `phone-control` and `email-control` capability ids are
   registered in the Capability Registry and consumed by Solution 025
@@ -1398,6 +1407,10 @@ Already done (no further work needed for this story):
   an `artifact/ref` resolver scheme (see:
   [Proposal 058 Tracking row P058-019](../40-proposals/058-contact-catalog.md),
   [Solution 023 §Recipient Selectors](../60-solutions/023-artifact-delivery/023-artifact-delivery.md))
+- Story-010 Contact Catalog lookup now asserts the active
+  `contact-lookup-result.v1` route-set shape and rejects root participant id
+  leakage; participant-routed contactability uses opaque
+  `contact-route:<digest>` invitation refs.
 
 Still partial — landed in MVP-shape, hardening or completion remains:
 
@@ -1406,7 +1419,9 @@ Still partial — landed in MVP-shape, hardening or completion remains:
   operator policy open) (see:
   [Proposal 058 Tracking row P058-004](../40-proposals/058-contact-catalog.md))
 - privacy-preserving lookup index (invitation-only digest lookup done;
-  blinded / PSI deferred) (see:
+  `blinded-digest` and `psi` modes implemented in the Contact Catalog runtime
+  and covered by focused service tests; the Story-010 happy path still uses
+  `invitation-only`) (see:
   [Proposal 058 Tracking row P058-006](../40-proposals/058-contact-catalog.md))
 - local contact store model (`local-contacts.sqlite` + CRUD and
   `local-contact.v1` schema done; sealed vault backup / replay remains) (see:

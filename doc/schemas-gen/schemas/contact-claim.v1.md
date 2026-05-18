@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/contact-claim.v1.schema.json`](../../schemas/contact-claim.v1.schema.json)
 
-Opt-in claim that a controller of a phone number, email address, or comparable human contact handle wants a Contact Catalog to expose a privacy-preserving route candidate for selected purposes. Raw contact handles are not stored in this artifact by default.
+Opt-in Contact Catalog claim using an ordered lookup-safe owner route set. Raw handles are not stored in this artifact.
 
 ## Governing Basis
 
@@ -22,31 +22,29 @@ Opt-in claim that a controller of a phone number, email address, or comparable h
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `contact-claim.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`claim/id`](#field-claim-id) | `yes` | string | Stable catalog record id. Sequence-aware stores replace only with newer `sequence/no` values for the same id. |
-| [`contact/kind`](#field-contact-kind) | `yes` | enum: `phone`, `email`, `other` | Kind of external contact handle proved by the attestation. |
+| [`claim/id`](#field-claim-id) | `yes` | string |  |
+| [`contact/kind`](#field-contact-kind) | `yes` | enum: `phone`, `email`, `other` |  |
 | [`contact/index`](#field-contact-index) | `yes` | ref: `#/$defs/contactIndex` |  |
-| [`contact/attestation-ref`](#field-contact-attestation-ref) | `yes` | string | Reference to a fresh contact-control proof, normally a `capability-passport.v1` under `email-control` or `phone-control`. The Contact Catalog stores this reference, not the OTP transcript. |
+| [`contact/attestation-ref`](#field-contact-attestation-ref) | `yes` | string |  |
 | [`contact/attested-at`](#field-contact-attested-at) | `yes` | string |  |
-| [`contact/attestation-expires-at`](#field-contact-attestation-expires-at) | `yes` | string | Time after which the contact-control proof is no longer fresh enough for admission or lookup. |
-| [`owner/routing-subject-id`](#field-owner-routing-subject-id) | `no` | string | Preferred MVP route target. It is contactable without revealing the root participant. |
-| [`owner/contact-nym-id`](#field-owner-contact-nym-id) | `no` | string | Optional relationship or context pseudonym exposed for contact discovery. |
-| [`owner/invitation-route`](#field-owner-invitation-route) | `no` | ref: `#/$defs/invitationRoute` |  |
-| [`owner/participant-id`](#field-owner-participant-id) | `no` | string | Disclosure-gated participant id. It MUST NOT be returned by default contact lookup profiles. |
-| [`disclosure/mode`](#field-disclosure-mode) | `yes` | enum: `private-lookup`, `invite-only`, `public-handle`, `present-on-demand` | MVP Contact Catalog admission MUST support `invite-only`; other modes are profile extensions. |
+| [`contact/attestation-expires-at`](#field-contact-attestation-expires-at) | `yes` | string |  |
+| [`owner/routes`](#field-owner-routes) | `yes` | array |  |
+| [`owner/participant-id`](#field-owner-participant-id) | `no` | string | Disclosure-gated root participant id. It MUST NOT be returned by default Contact Catalog lookup profiles. |
+| [`disclosure/mode`](#field-disclosure-mode) | `yes` | enum: `private-lookup`, `invite-only`, `public-handle`, `present-on-demand` |  |
 | [`purposes`](#field-purposes) | `yes` | array |  |
 | [`issued/at`](#field-issued-at) | `yes` | string |  |
 | [`expires/at`](#field-expires-at) | `yes` | string |  |
-| [`sequence/no`](#field-sequence-no) | `yes` | integer | Monotonic sequence for idempotent replacement in `CatalogStore<T>`. |
+| [`sequence/no`](#field-sequence-no) | `yes` | integer |  |
 | [`revocation/ref`](#field-revocation-ref) | `no` | string \| null |  |
 | [`policy/ref`](#field-policy-ref) | `no` | string |  |
 | [`proof/signature`](#field-proof-signature) | `yes` | ref: `#/$defs/signature` |  |
-| [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
 
 ## Definitions
 
 | Definition | Shape | Description |
 |---|---|---|
 | [`contactIndex`](#def-contactindex) | object |  |
+| [`ownerRoute`](#def-ownerroute) | object |  |
 | [`invitationRoute`](#def-invitationroute) | object |  |
 | [`signature`](#def-signature) | object |  |
 ## Field Semantics
@@ -69,15 +67,11 @@ Opt-in claim that a controller of a phone number, email address, or comparable h
 - Required: `yes`
 - Shape: string
 
-Stable catalog record id. Sequence-aware stores replace only with newer `sequence/no` values for the same id.
-
 <a id="field-contact-kind"></a>
 ## `contact/kind`
 
 - Required: `yes`
 - Shape: enum: `phone`, `email`, `other`
-
-Kind of external contact handle proved by the attestation.
 
 <a id="field-contact-index"></a>
 ## `contact/index`
@@ -91,8 +85,6 @@ Kind of external contact handle proved by the attestation.
 - Required: `yes`
 - Shape: string
 
-Reference to a fresh contact-control proof, normally a `capability-passport.v1` under `email-control` or `phone-control`. The Contact Catalog stores this reference, not the OTP transcript.
-
 <a id="field-contact-attested-at"></a>
 ## `contact/attested-at`
 
@@ -105,29 +97,11 @@ Reference to a fresh contact-control proof, normally a `capability-passport.v1` 
 - Required: `yes`
 - Shape: string
 
-Time after which the contact-control proof is no longer fresh enough for admission or lookup.
+<a id="field-owner-routes"></a>
+## `owner/routes`
 
-<a id="field-owner-routing-subject-id"></a>
-## `owner/routing-subject-id`
-
-- Required: `no`
-- Shape: string
-
-Preferred MVP route target. It is contactable without revealing the root participant.
-
-<a id="field-owner-contact-nym-id"></a>
-## `owner/contact-nym-id`
-
-- Required: `no`
-- Shape: string
-
-Optional relationship or context pseudonym exposed for contact discovery.
-
-<a id="field-owner-invitation-route"></a>
-## `owner/invitation-route`
-
-- Required: `no`
-- Shape: ref: `#/$defs/invitationRoute`
+- Required: `yes`
+- Shape: array
 
 <a id="field-owner-participant-id"></a>
 ## `owner/participant-id`
@@ -135,15 +109,13 @@ Optional relationship or context pseudonym exposed for contact discovery.
 - Required: `no`
 - Shape: string
 
-Disclosure-gated participant id. It MUST NOT be returned by default contact lookup profiles.
+Disclosure-gated root participant id. It MUST NOT be returned by default Contact Catalog lookup profiles.
 
 <a id="field-disclosure-mode"></a>
 ## `disclosure/mode`
 
 - Required: `yes`
 - Shape: enum: `private-lookup`, `invite-only`, `public-handle`, `present-on-demand`
-
-MVP Contact Catalog admission MUST support `invite-only`; other modes are profile extensions.
 
 <a id="field-purposes"></a>
 ## `purposes`
@@ -169,8 +141,6 @@ MVP Contact Catalog admission MUST support `invite-only`; other modes are profil
 - Required: `yes`
 - Shape: integer
 
-Monotonic sequence for idempotent replacement in `CatalogStore<T>`.
-
 <a id="field-revocation-ref"></a>
 ## `revocation/ref`
 
@@ -189,16 +159,15 @@ Monotonic sequence for idempotent replacement in `CatalogStore<T>`.
 - Required: `yes`
 - Shape: ref: `#/$defs/signature`
 
-<a id="field-policy-annotations"></a>
-## `policy_annotations`
-
-- Required: `no`
-- Shape: object
-
 ## Definition Semantics
 
 <a id="def-contactindex"></a>
 ## `$defs.contactIndex`
+
+- Shape: object
+
+<a id="def-ownerroute"></a>
+## `$defs.ownerRoute`
 
 - Shape: object
 

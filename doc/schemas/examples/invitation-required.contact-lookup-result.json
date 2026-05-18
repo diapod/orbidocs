@@ -1,11 +1,12 @@
 {
   "schema": "contact-lookup-result.v1",
   "schema/v": 1,
-  "lookup/id": "contact-lookup:daniel-marcin-email:001",
+  "lookup/id": "contact-lookup:daniel-marcin-email-001",
   "catalog/id": "contact-catalog:community:001",
   "lookup/mode": "invitation-only",
   "match/class": "invitation-available",
-  "result/route": {
+  "selected/route": {
+    "route/type": "routing-subject",
     "routing-subject/id": "routing:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
     "node/id": "node:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
     "purposes": [
@@ -13,10 +14,18 @@
     ],
     "valid/until": "2026-05-17T09:00:00Z"
   },
-  "result/presentation-required": false,
-  "result/invitation-required": true,
+  "result/routes": [
+    {
+      "route/type": "routing-subject",
+      "routing-subject/id": "routing:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+      "node/id": "node:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+      "purposes": [
+        "messaging"
+      ],
+      "valid/until": "2026-05-17T09:00:00Z"
+    }
+  ],
   "policy/ref": "contact-catalog-policy:mvp-invite-only",
-  "audit/ref": "audit:contact-lookup:daniel-marcin-email:001",
   "issued/at": "2026-05-16T09:05:00Z",
   "valid/until": "2026-05-17T09:05:00Z"
 }

@@ -1,8 +1,9 @@
 {
   "schema": "contact-lookup-result.v1",
   "schema/v": 1,
-  "lookup/id": "contact-lookup:daniel-marcin-email:no-match",
+  "lookup/id": "contact-lookup:daniel-marcin-email-no-match",
   "lookup/mode": "invitation-only",
   "match/class": "no-match",
+  "result/routes": [],
   "issued/at": "2026-05-16T09:05:00Z"
 }
