@@ -71,7 +71,7 @@ Recent component deltas:
 | [Proposal 029: Workflow Template Catalog](../40-proposals/029-workflow-template-catalog.md) | `false` | `false` | `false` | `40` |
 | [Proposal 030: Identity Recovery Service](../40-proposals/030-identity-recovery-service.md) | `false` | `false` | `false` | `55` |
 | [Proposal 031: Participant Key Passphrase Lock](../40-proposals/031-participant-key-passphrase-lock.md) | `false` | `false` | `false` | `65` |
-| [Proposal 032: Key Delegation Passports](../40-proposals/032-key-delegation-passports.md) | `true` | `true` | `false` | `92` |
+| [Proposal 032: Key Delegation Passports](../40-proposals/032-key-delegation-passports.md) | `true` | `true` | `false` | `100` |
 | [Proposal 033: Workflow Fan-Out and Temporal Orchestration](../40-proposals/033-workflow-fan-out-and-temporal-orchestration.md) | `true` | `true` | `false` | `77` |
 | [Proposal 034: Node Operator Binding and Derived Node Assurance](../40-proposals/034-node-operator-binding-and-derived-node-assurance.md) | `true` | `true` | `false` | `90` |
 | [Proposal 035: Agora — Topic-Addressed Record Relay and Shared Record Substrate](../40-proposals/035-agora-topic-addressed-record-relay.md) | `true` | `true` | `false` | `92` |

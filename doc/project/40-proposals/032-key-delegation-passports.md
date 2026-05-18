@@ -150,11 +150,11 @@ duplication.
 #### Generation
 
 ```
-POST /v1/host/keys/generate
-{ "label": "my-proxy-key", "passphrase": "<optional>" }
+POST /v1/host/proxy-keys/generate
+{ "passphrase": "<required for encrypted envelope>" }
 
 → 201
-{ "key_id": "key:did:key:z6Mk...", "did_key": "did:key:z6Mk...", "label": "my-proxy-key" }
+{ "key_id": "proxy-key:...", "proxy_key_did": "did:key:z6Mk...", "storage_mode": "encrypted", "unlocked": false }
 ```
 
 The private key material never appears in the response.  The operator must call
@@ -163,37 +163,43 @@ the export endpoint explicitly to obtain it.
 #### Import
 
 ```
-POST /v1/host/keys/import
+POST /v1/host/proxy-keys/import
 {
-  "private_key_base64": "<raw 32-byte Ed25519 scalar, base64url>",
-  "label": "imported",
-  "passphrase": "<optional>"
+  "private_key_base64url": "<raw 32-byte Ed25519 scalar, base64url>",
+  "passphrase": "<required for encrypted envelope>"
 }
 
 → 201
-{ "key_id": "key:did:key:z...", "did_key": "did:key:z...", "label": "imported" }
+{ "key_id": "proxy-key:...", "proxy_key_did": "did:key:z...", "storage_mode": "encrypted", "unlocked": false }
 ```
 
 #### Export (download)
 
 ```
-GET /v1/host/keys/{key_id}/export?format=raw|envelope&passphrase=<optional>
+POST /v1/host/proxy-keys/{key_id}/export
+{
+  "format": "raw|envelope",
+  "passphrase": "<optional>",
+  "confirm": "export-understood"
+}
 ```
 
 - `format=raw` — returns the plaintext private key as base64url; only permitted
-  if the key is currently unlocked (plaintext in memory or unlocked via
-  passphrase).
+  with `confirm = "export-understood"`, and only if the key is currently
+  unlocked or a passphrase is supplied in the JSON body.
 - `format=envelope` — returns the `participant-key-envelope.v1` JSON blob
-  exactly as stored on disk; can be imported to another node.
+  exactly as stored on disk when already encrypted, or wraps plaintext material
+  into a fresh envelope when a passphrase is supplied.
 
 The export endpoint requires operator authentication (control token) and
-produces an audit trace entry.
+produces an audit trace entry. Passphrases are intentionally carried in the
+request body rather than URL query parameters.
 
 #### List and delete
 
 ```
-GET    /v1/host/keys
-DELETE /v1/host/keys/{key_id}
+GET    /v1/host/proxy-keys
+DELETE /v1/host/proxy-keys/{key_id}
 ```
 
 Deletion is refused if the key is currently referenced by a non-revoked,
@@ -357,12 +363,11 @@ A new endpoint is added to the Seed Directory alongside `/cap` and `/revocations
 #### Register delegation
 
 ```
-POST /key
+PUT /key/delegation:key:1775477969437951000:ab12
 Content-Type: application/json
 
 {
-  "delegation": { /* key-delegation.v1 object */ },
-  "node_id":    "node:did:key:z..."
+  "delegation": { /* key-delegation.v1 object */ }
 }
 ```
 
@@ -379,7 +384,7 @@ On success the delegation is stored and indexed by both `proxy_key` and
 #### Query by delegation ID (primary lookup)
 
 ```
-GET /key?delegation_id=delegation:key:1775477969437951000:ab12
+GET /key/delegation:key:1775477969437951000:ab12
 
 → 200
 {
@@ -459,16 +464,16 @@ Two management lookup paths are supported:
 - **By `delegation_id`** (primary for management/revocation): exact match from
   the `issuer_delegation.delegation_id` field embedded in the capability
   passport, or from an issued-delegation record.
-- **By `proxy_key`** (secondary, used for proactive pre-warming): the background
-  sync task fetches all active delegations for `PASSPORT_SYNC_CAPABILITY_IDS`
-  and indexes them by both `delegation_id` and `proxy_key`.
+- **By `proxy_key`** (secondary, used for operator inspection and ad hoc
+  lookup): Seed Directory answers `GET /key?proxy_key=...`, but the daemon's
+  proactive sync does not enumerate by capability class.
 
 The cache is populated:
-- proactively by the background seed-sync task (adds `signing/capability`
-  delegations for `PASSPORT_SYNC_CAPABILITY_IDS`, analogous to how capability
-  passports are pre-fetched),
+- proactively by the background seed-sync task using known `delegation_id`
+  values from local issued-delegation records and inline `issuer_delegation`
+  proofs observed during verification/admission,
 - on-demand when a verifier encounters a `delegation_id` not present in the
-  cache (fires an async Seed Directory fetch via `/key?delegation_id=...`).
+  cache (fires an async Seed Directory fetch via `GET /key/{delegation_id}`).
 
 TTL default: 10 minutes.  Revocation events (received via `/revocations` poll)
 immediately invalidate matching entries regardless of TTL.
@@ -518,18 +523,22 @@ records before signing.
 
 ### Daemon — proxy key store
 
-- Stores `ProxyKeyRecord` on disk under `data_dir/proxy-keys/`.
+- Stores `ProxyKeyRecord` in the daemon state/commit-log projection.
 - Shares the `ParticipantKeyEnvelope` format (and unlock/lock mechanism from
   Proposal 031) for encrypted storage.
-- Exposes CRUD HTTP surface for generation, import, export, and deletion.
+- Exposes runtime-first HTTP surface for generation, import, export, unlock,
+  listing, and deletion under `/v1/host/proxy-keys/...`.
 
 ### Daemon — delegation passport lifecycle
 
 - Issues `key-delegation.v1` passports on operator request: resolves proxy key,
-  builds and signs the artifact, stores as `IssuedKeyDelegationRecord` on disk.
-- Revokes via the existing revocation path; stores revocation record.
-- Refreshes `local_delegation_passports` (in-memory map analogous to
-  `LocalCapabilityPassports`) after each issue, revoke, or delete.
+  builds and signs the artifact, and stores a full
+  `IssuedKeyDelegationRecord` with `stored_at`, `last_published_at`,
+  `published_endpoints`, `last_revoked_at`, and `last_revocation_id`.
+- Lists and reads issued delegation records under `/v1/host/delegations`.
+- Publishes through `POST /v1/host/delegations/{delegation_id}/publish`.
+- Revokes through the existing `capability-passport-revocation.v1` path with
+  `target_id = delegation_id`, then projects that state into the local record.
 
 ### Daemon — verification layer
 
@@ -544,15 +553,17 @@ records before signing.
 
 ### Daemon — background sync
 
-- `sync_seed_directories_once` fetches `/key` entries for all
-  `PASSPORT_SYNC_CAPABILITY_IDS` alongside the existing `/cap` fetch.
-- Populates `DelegationCache` and invalidates entries matching revocations from
-  `/revocations`.
+- `sync_seed_directories_once` refreshes `/key/{delegation_id}` by known
+  delegation ids: locally issued records plus ids observed in inline
+  `issuer_delegation` proofs during verification/admission.
+- Populates `DelegationCache`, invalidates entries matching revocations from
+  `/revocations`, and projects delegation revocations into local issued records
+  so future local delegated signing does not reuse revoked delegations.
 
 ### Seed Directory — `/key` surface
 
-- Accepts `POST /key` registrations; verifies delegation signature and policy
-  constraints before storing.
+- Accepts `PUT /key/{delegation_id}` registrations; verifies delegation
+  signature and policy constraints before storing.
 - Answers `GET /key?proxy_key=...` and `GET /key?participant_id=...&capability=...`
   queries.
 - Participates in the existing `/revocations` cursor feed for delegation
@@ -572,16 +583,17 @@ records before signing.
 ### Issue a delegation passport
 
 1. Operator generates or imports a proxy key via
-   `POST /v1/host/keys/generate` or `POST /v1/host/keys/import`.
+   `POST /v1/host/proxy-keys/generate` or
+   `POST /v1/host/proxy-keys/import`.
 2. Operator opens "Delegation" panel; selects the proxy key and the capability
    IDs to grant (e.g. `network-ledger`); sets `expires_at`.
-3. UI calls `POST /v1/host/capabilities/capability.key-delegation.issue`.
+3. UI calls `POST /v1/host/proxy-keys/{key_id}/issue-delegation`.
 4. Daemon verifies the participant key is available (unlocked per Proposal 031
    if passphrase-locked), builds and signs the `key-delegation.v1` artifact,
-   and stores it on disk.
-5. Operator publishes: `POST /v1/host/capabilities/capability.key-delegation.publish`.
-6. Daemon pushes the delegation to Seed Directory `/key`; logs the registered
-   entry with `last_published_at`.
+   and stores it in the local issued-delegation read model.
+5. Operator publishes: `POST /v1/host/delegations/{delegation_id}/publish`.
+6. Daemon pushes the delegation to Seed Directory `PUT /key/{delegation_id}`;
+   logs the accepted endpoints with `last_published_at`.
 
 ### Sign a capability passport using the proxy key
 
@@ -612,10 +624,9 @@ records before signing.
 ### Emergency revocation
 
 1. Participant key is unlocked.
-2. Operator calls `POST /v1/host/capabilities/capability.key-delegation.revoke`
-   with `delegation_id`.
+2. Operator calls `POST /v1/host/delegations/{delegation_id}/revoke`.
 3. Daemon signs a revocation artifact and publishes to Seed Directory
-   `/revocations`.
+   `/revoke`.
 4. Other nodes pick up the revocation on their next `/revocations` poll; their
    `DelegationCache` entries are invalidated.
 5. Future local issuance does not use the revoked delegation. Already-issued
