@@ -59,6 +59,38 @@ Do not apply it mechanically to short-lived caches, idempotency lookup tables,
 opaque cursor tables, or stores that are already append-only unless there is a
 concrete replay or audit need.
 
+### Classifying a Store: Cache vs. Fact Store With Eviction
+
+Before deciding "this is a cache, skip the convention", apply the diagnostic
+test. Misclassification goes both ways: temporalizing a real cache is
+over-engineering, but treating a fact store as a cache hides provenance and
+loses audit.
+
+> If you might ever want to ask "what did this store contain at time T?"
+> or "where did this value come from?" — it is not a cache. It is a
+> temporal store with an eviction policy, and it falls under this
+> convention.
+
+True caches are memoizations of pure functions: input determines value, no
+provenance to record, "what was it yesterday" is not a meaningful question.
+They stay outside this convention.
+
+| Shape | Treatment |
+| --- | --- |
+| Memoization of a pure function (compiled validator, parsed config, derived key) | True cache. No temporal axis. Outside this convention. |
+| Idempotency lookup, pagination cursor, short-lived dedup index | True cache. TTL only, no history. Outside this convention. |
+| Record of a remote claim or signed observation | Fact store. Inside this convention. |
+| Cached passport / capability presentation with issuer, signature, validity | Fact store. Inside this convention. |
+| Observed TLS fingerprint, route advertisement, peer evidence | Fact store. Inside this convention. |
+| Resolver TTL state carrying remote claim payload | Hybrid. Split: store the fact under this convention; derive "should refetch?" as a query against `valid_until` or last observation. |
+
+Two TTL meanings collide on the hybrid case and are the root of recurring
+bugs. On a true cache, TTL means "how long the memoization remains
+trustable". On a fact store, retention means "how long we keep history for
+audit". They are different axes. A single column named `expires_at` that
+sometimes means one and sometimes the other is the signal that the table
+needs to be split.
+
 ## Proposed Model / Decision
 
 A temporal store has three conceptual parts.
@@ -150,6 +182,124 @@ them explicitly as domain fields.
 but it is projection state derived from event application, not an independent
 source of truth.
 
+### Per-Store Performance Profile
+
+Each store declares a performance profile that controls retention,
+compaction aggressiveness, power policy for background workers, and
+projection-verify cadence. The architectural shape (events + projection
++ as-of) is profile-independent; operational cost is not.
+
+Three named profiles:
+
+| Dimension | `minimal` | `balanced` | `full-audit` |
+| --- | --- | --- | --- |
+| Retention horizon | 30 days | 180 days | 5 years / unlimited |
+| Compaction trigger | age 30d **or** disk pressure ≥ 80% | age 180d **or** disk pressure ≥ 90% | age 5y, opt-in only |
+| Compaction strategy | aggressive — drop subsumed | standard — subsumed → `compacted_snapshot` | minimal — retraction merge only |
+| `tx_time` granularity beyond horizon | day-level | hour-level | full preserved |
+| Workers on battery | skip non-critical | throttle 10× | normal |
+| Projection checksum verify | lazy (on suspect) | periodic 1h | per-startup + 1h |
+| As-of horizon | retention horizon | retention horizon | unlimited |
+| SQLite `busy_timeout` | 200 ms | 1 s | 5 s |
+| Default lease duration | 30 s | 60 s | 300 s |
+
+Defaults follow a neutral `DeviceFootprint` axis owned by the temporal
+convention:
+
+```text
+Ephemeral   → minimal       # laptops, dynamic IP, suspendy
+Personal    → balanced      # home node, shared user resource
+Hosted      → balanced      # VPS infrastructure
+Critical    → full-audit    # seed-directory, bootstrap anchor
+```
+
+The daemon's `DaemonDiscoveryDeploymentClass` is mapped into
+`DeviceFootprint` at config load (`LaptopDynamic → Ephemeral`,
+`HomeNode → Personal`, `VpsStable → Hosted`, `SeedDirectory → Critical`,
+`BootstrapAnchor → Critical`). Operators may set `device_footprint`
+directly in the performance config when they want storage profile
+decoupled from deployment-class defaults.
+
+Per-store override:
+
+```toml
+[performance]
+default_profile = "minimal"
+
+[stores.notifications]
+profile = "minimal"
+
+[stores.agora_relay]
+profile = "full-audit"
+operator_acknowledged_disk_cost = true
+```
+
+`operator_acknowledged_disk_cost = true` is **required** when a store
+runs `full-audit` on a host whose `DeviceFootprint` default would otherwise
+be `minimal` or `balanced` (i.e. `Ephemeral`, `Personal`, or `Hosted`).
+Readiness gate refuses to bring the store up otherwise. The flag is recorded with its acknowledgement timestamp and
+shown in operator UI; this is how a public service hosted on a personal
+device avoids becoming an invisible disk eater.
+
+The acknowledgement covers **retention, not availability**. A `full-audit`
+store on a personal device preserves history when the process runs; it
+does not become reachable when the laptop is asleep, offline, or
+suspended. Operators hosting a public service from a personal device must
+understand this asymmetry before setting the flag — convention provides
+an audit story, not an HA story. Intermittent reachability is the expected
+operating mode of personal-device-hosted public services and is reported
+in operator UI as informational, not as a fault.
+
+Background workers read their store's profile and adapt power policy
+accordingly. There is no separate "power policy" axis.
+
+Compaction runs under two triggers, both required for every profile:
+**planned** (age-based, on a background worker that respects the profile's
+power policy — throttled or skipped on battery for low-profile stores)
+and **emergency** (disk-pressure-based, runs synchronously when free
+space drops below the profile's threshold, bypassing power policy because
+the alternative is a failed write). The emergency trigger always emits an
+operator notification so disk pressure is visible.
+
+Profile change is **immediate by default**: when the profile changes,
+the new retention horizon and compaction strategy apply to existing
+history at the next compaction pass. This is a destructive operation
+that requires `operator_acknowledged_compaction_on_change = true`
+alongside the profile change; the config validator refuses to apply the
+change otherwise. Convention chooses sharp cut over gradual transition
+so that a store's stated profile is also its actual profile across the
+whole history. Gradual transition remains available as an opt-in
+(`profile_change_mode = "gradual"`) for rare cases where phased rollout
+is wanted.
+
+### Storage Layout Manifest
+
+Each store writes a manifest at
+`<data-dir>/storage/<store>/manifest.json`:
+
+```json
+{
+  "store/id": "notifications",
+  "schema/user-version": 4,
+  "profile": "minimal",
+  "operator-acknowledgements": { "disk-cost": null },
+  "files": [
+    "events.sqlite",
+    "events.sqlite-wal",
+    "events.sqlite-shm",
+    "audit/"
+  ],
+  "size/bytes": 12345678,
+  "as-of-tx-id": 42891
+}
+```
+
+Operator UI reads manifests to render disk usage, profile, and backup
+scope per store. A user wanting to back up their notifications copies
+exactly the files listed in the manifest; restore is a directory-paste.
+This makes "what is this file?" answerable without grep against source
+code.
+
 ## Time Axes
 
 The convention recognizes two semantic time axes:
@@ -162,6 +312,26 @@ The convention recognizes two semantic time axes:
 Other timestamps such as `observed_at`, `accepted_at`, `signed_at`,
 `expires_at`, `started_at`, `finished_at`, and `retry_after` are domain or
 operational fields. They are useful, but they are not generic temporal axes.
+
+Wall-clock and monotonic clock have separate roles:
+
+- **Wall-clock** (RFC3339 / `SystemTime`) stamps `tx_time` once at commit.
+  Audit-shaped, human-readable, may drift on NTP correction. Acceptable
+  for a stamp written once.
+- **Monotonic clock** (`Instant`, or a runtime clock abstraction with
+  equivalent semantics) drives operational time: lease deadlines, retry
+  schedules, snooze "is it time yet?" checks, rate-limit windows. It is
+  immune to NTP and timezone shifts; suspend/resume behavior is
+  platform-dependent, so strict lease systems should detect resume by comparing
+  wall-clock and monotonic deltas.
+
+End-user devices suspend; a laptop closed for hours wakes with wall-clock
+jumped. Lease and retry timers must not depend on wall-clock alone, or they can
+mass-expire on resume.
+
+Exception: comparing `valid_until` (a wall-clock value from a protocol
+message) against current time uses wall-clock — the operand itself is
+wall-clock-anchored.
 
 ## Write Path Contract
 
@@ -219,7 +389,7 @@ keeping migration locks and rollback scope small.
 
 ## Current Adoption
 
-The first implemented pilot is Node's notification store:
+The first implemented core pilot is Node's notification store:
 
 ```text
 notification_transactions
@@ -232,6 +402,13 @@ notification_queue.as_of_tx_id
 notifications, event snapshots may include sealed nonce/ciphertext so replay can
 rebuild the projection; plaintext title/body/actions and transient `body/input`
 must not be present in event rows.
+
+The notification pilot does **not** yet implement the full performance-profile
+layer introduced by this solution. Per-store profile configuration, compaction
+workers, emergency disk-pressure compaction, and storage manifests are the next
+slice before notification storage can be called fully compliant with this
+solution. Until then, it should be described as "core temporal pilot done",
+not as "complete temporal storage convention implemented".
 
 The next recommended pilot is the Messaging outbox status/attempt store. Extract
 a shared helper crate only after at least two stores converge on the same shape.
@@ -266,6 +443,11 @@ Costs:
 | JSONL and SQLite disagree | Treat SQLite event log as source of truth; JSONL is a post-commit mirror. |
 | Cross-store saga is expected to be atomic | Use `correlation_id` for reconstruction; this convention does not provide distributed transactions. |
 | Duplicate logical requests create duplicate events | Use `idempotency_key` uniqueness at the event boundary. |
+| Fact store mislabelled as cache (no audit, no provenance) | Apply the cache-vs-fact-store diagnostic at design time; if "what did this contain at time T?" is ever a useful question, the table is in scope of this convention. |
+| Public service on personal device runs disk to zero | `full-audit` profile on a host whose `DeviceFootprint` would default to `minimal`/`balanced` requires explicit `operator_acknowledged_disk_cost = true`; readiness gate refuses startup otherwise; operator UI reports disk usage per `full-audit` store. |
+| Wall-clock skew after suspend mass-expires leases and retries | Use monotonic clock for all operational timers; on resume past a threshold (~5 minutes), run projection checksum verify and lease audit before resuming normal work. |
+| Profile change silently destroys history | Profile change is immediate by default; config validator refuses the change unless `operator_acknowledged_compaction_on_change = true` accompanies it. Gradual transition available as explicit opt-in. |
+| Cross-store saga fragments after retention expiry | Accepted as expected outcome. Cross-store `correlation_id` queries return partial sagas with explicit gaps; UI labels them "partial — retention expired in: <store list>". No global minimum retention across joined stores. |
 
 ## Open Questions
 

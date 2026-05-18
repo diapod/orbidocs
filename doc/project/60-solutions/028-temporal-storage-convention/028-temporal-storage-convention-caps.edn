@@ -43,7 +43,31 @@
     "Cover as-of replay before and after representative state transitions"
     "Cover bootstrap migration from pre-temporal current rows"
     "Cover privacy invariants for event payloads"]
-   :status :done}]
+   :status :done}
+
+  {:cap/id :per-store-performance-profile
+   :title "Per-Store Performance Profile"
+   :kind :storage-operations-contract
+   :based-on ["doc/project/40-proposals/062-temporal-storage-convention.md"]
+   :schemas []
+   :responsibilities
+   ["Select minimal, balanced, or full-audit retention profile per store"
+    "Require explicit operator acknowledgement for full-audit on personal-device deployment classes"
+    "Apply profile-specific retention horizon, compaction strategy, busy timeout, and background-worker power behavior"
+    "Treat cross-store correlation queries as partial when shorter-retention stores have compacted history"]
+   :status :todo}
+
+  {:cap/id :temporal-compaction-and-manifest
+   :title "Temporal Compaction and Storage Manifest"
+   :kind :storage-operations-contract
+   :based-on ["doc/project/40-proposals/062-temporal-storage-convention.md"]
+   :schemas []
+   :responsibilities
+   ["Run age-based planned compaction according to the store profile"
+    "Run emergency disk-pressure compaction before writes fail"
+    "Emit operator notification for emergency compaction"
+    "Write a store manifest listing profile, acknowledged disk cost, files, size, and as-of tx id for backup and operator UI"]
+   :status :todo}]
 
  :may-implement
  [{:cap/id :shared-temporal-helper-crate
@@ -64,6 +88,7 @@
  :consumes []
  :produces []
 
- :notes
- ["Notification store is the first implemented pilot."
+:notes
+ ["Notification store is the first implemented core temporal event-log/projection pilot."
+  "Notification store still needs profile, compaction, and manifest wiring before it is fully compliant with this solution."
   "Messaging outbox status and attempts are the recommended second pilot."]}

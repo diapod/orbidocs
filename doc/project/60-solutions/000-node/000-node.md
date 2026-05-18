@@ -88,9 +88,11 @@ Adoption is selective:
 The first Notification state-transition pilot is implemented in the Node
 reference store. The canonical storage-design guidance lives in
 `doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md`.
-The next recommended migration is Messaging outbox attempts. A shared helper
-crate for temporal stores should be extracted only after at least two migrations
-converge on the same shape.
+That pilot covers the core event-log/projection shape; the per-store performance
+profile, compaction, emergency disk-pressure handling, and manifest layer from
+the solution remain follow-up work. The next recommended migration is Messaging
+outbox attempts. A shared helper crate for temporal stores should be extracted
+only after at least two migrations converge on the same shape.
 
 ## Must Implement
 
