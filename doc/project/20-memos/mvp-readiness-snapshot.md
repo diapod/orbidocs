@@ -56,7 +56,7 @@ Recent component deltas:
 | [Supervised Prepaid Gateway and Escrow MVP](../40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md) | `true` | `false` | `false` | `65` |
 | [Proposal 017: Organization Subjects and org:did:key](../40-proposals/017-organization-subjects-and-org-did-key.md) | `true` | `true` | `false` | `88` |
 | [Proposal 018: Layered capability_limited Participant Restrictions](../40-proposals/018-layered-capability-limited-participant-restrictions.md) | `true` | `false` | `false` | `25` |
-| [Proposal 019: Supervised http_local_json Middleware Executor](../40-proposals/019-supervised-local-http-json-middleware-executor.md) | `true` | `true` | `false` | `96` |
+| [Proposal 019: Supervised http_local_json Middleware Executor](../40-proposals/019-supervised-local-http-json-middleware-executor.md) | `true` | `true` | `false` | `100` |
 | [Proposal 020: Bundled Python Middleware Modules for Hard MVP](../40-proposals/020-bundled-python-middleware-modules.md) | `true` | `true` | `false` | `100` |
 | [Proposal 021: Service Offers, Service Orders, and the Host-Owned Procurement Bridge](../40-proposals/021-service-offers-orders-and-procurement-bridge.md) | `true` | `true` | `false` | `88` |
 | [Proposal 022: Monus as Host-Granted Local Observation Middleware](../40-proposals/022-monus-as-host-granted-local-observation-middleware.md) | `false` | `false` | `false` | `15` |
