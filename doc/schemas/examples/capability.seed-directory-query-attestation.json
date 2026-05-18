@@ -1,0 +1,21 @@
+{
+  "schema": "seed-directory-query-attestation.v1",
+  "attestation/id": "attestation:seed-directory-query:K4H4k7P0JwJ88a1EJd5o0iAQ2ZP6mJk5N7Yq7mF9c1A",
+  "directory/node-id": "node:did:key:z6MkSeedDirectoryNode",
+  "query/mode": "cap-query",
+  "query/path": "/cap",
+  "query/filter": {
+    "capability": "offer-catalog",
+    "limit": "50"
+  },
+  "result/digest": "sha256:K4H4k7P0JwJ88a1EJd5o0iAQ2ZP6mJk5N7Yq7mF9c1A",
+  "result/digest-alg": "jcs-nfc-sha256-base64url",
+  "projection/high-water-tx-id": 42,
+  "issued/at": "2026-05-18T10:30:00Z",
+  "expires/at": "2026-05-18T10:35:00Z",
+  "signer/id": "node:did:key:z6MkSeedDirectoryNode",
+  "signature": {
+    "alg": "ed25519",
+    "value": "z5sSignedQueryAttestation"
+  }
+}

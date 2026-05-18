@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:seed-directory-query-attestation:v1",
+  "title": "SeedDirectoryQueryAttestation v1",
+  "description": "Signed proof for one Seed Directory query response. It binds the normalized query path/filter to the canonical response digest and the local projection high-water mark. This attests what the directory returned; it does not by itself prove that the returned world-state is globally true.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"
+  ],
+  "required": [
+    "schema",
+    "attestation/id",
+    "directory/node-id",
+    "query/mode",
+    "query/path",
+    "query/filter",
+    "result/digest",
+    "result/digest-alg",
+    "projection/high-water-tx-id",
+    "issued/at",
+    "expires/at",
+    "signer/id",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "seed-directory-query-attestation.v1",
+      "description": "Schema discriminator. MUST be exactly `seed-directory-query-attestation.v1`."
+    },
+    "attestation/id": {
+      "type": "string",
+      "pattern": "^attestation:seed-directory-query:[A-Za-z0-9_-]{16,128}$",
+      "description": "Stable identifier for this attested response. The reference implementation derives it from `result/digest`."
+    },
+    "directory/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:.+",
+      "description": "Node id of the Seed Directory instance that assembled the response."
+    },
+    "query/mode": {
+      "type": "string",
+      "enum": [
+        "adv-get",
+        "adv-list",
+        "cap-node",
+        "cap-query",
+        "revocations"
+      ],
+      "description": "Read surface being attested."
+    },
+    "query/path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "description": "HTTP path without query string."
+    },
+    "query/filter": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 2048
+      },
+      "description": "URL-decoded query parameters after removing the `attest` trigger."
+    },
+    "result/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{16,128}$",
+      "description": "Digest of the canonical JSON response body before the attestation is attached."
+    },
+    "result/digest-alg": {
+      "const": "jcs-nfc-sha256-base64url",
+      "description": "Canonicalization and digest algorithm used for `result/digest`."
+    },
+    "projection/high-water-tx-id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "description": "Highest temporal projection transaction id visible when the response was assembled, or null if the projection has no temporal facts yet."
+    },
+    "policy/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Optional local policy id that governed this query."
+    },
+    "policy/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{16,128}$",
+      "description": "Optional digest of the local policy material."
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signer/id": {
+      "type": "string",
+      "pattern": "^node:did:key:.+",
+      "description": "Signer id used for the attestation signature."
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key/public": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "description": "Signature over canonical JSON of this object with `signature` omitted."
+    }
+  }
+}

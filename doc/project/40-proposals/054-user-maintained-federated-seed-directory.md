@@ -236,20 +236,28 @@ missing capability is **view integrity evidence**: a way for a directory to say,
 "this is the projection slice I served at this time, under this policy and
 cursor".
 
-Therefore, the future extension should be a purpose-built
+Therefore, the extension is a purpose-built
 `seed-directory-query-attestation.v1`, not ad-hoc signing of every response.
 
 A query attestation should be optional and used by critical clients or
-multi-directory comparison flows. It should include at least:
+multi-directory comparison flows. The first implementation is requested with
+`attest=seed-directory-query.v1` on Seed Directory reads and leaves response
+shapes unchanged when the parameter is absent. The attestation includes:
 
 - directory `node_id`,
-- endpoint or directory identity reference,
-- query parameters or canonical query digest,
-- response digest or Merkle-style page digest,
+- query mode and normalized query filter,
+- digest of the canonical response body without the attestation field,
 - projection cursor / high-water mark,
-- policy id or policy digest,
 - issued time and expiry,
+- signer id,
 - signature by the directory node or delegated signing key.
+
+The attestation is proof of the directory response, not proof that the response
+is the whole truth about the network. Truth still comes from the accepted fact
+log, replayed or locally admitted records, independent verification of the
+embedded domain artifacts, and local trust policy. In other words, the
+attestation answers "what did this directory serve for this query at this
+projection high-water mark?", not "what must every client believe?".
 
 Existing `node-address-attestation.v1` is the right precedent: signed
 attestations should have a clear evidence class and purpose rather than turning
@@ -429,24 +437,29 @@ publisher, federation topic, or a local threshold policy.
 
 1. Should `seed-directory-trust.v1` live in node runtime config, in a federation
    pack, or in both?
-2. What is the minimal `seed-directory-query-attestation.v1` shape that is useful
-   without becoming a Merkle-tree protocol too early?
+2. Should the first `seed-directory-query-attestation.v1` later grow Merkle page
+   proofs, or is canonical response-body digest enough until multi-directory
+   comparison needs partial proofs?
 3. Which directory trust policy should be the default for a new open-network
    node: one preferred directory, two-of-N quorum, weighted trust, or manual
    bootstrap?
 4. How should `community-trusted` / `community-entrusted` attestation feed into
    directory operator trust?
-5. Which accepted-fact lanes should be replayed by default for personal mirrors?
+5. Should personal mirrors enable trusted Agora replay by default once a trusted
+   federation pack is installed, or should replay remain an explicit local
+   operator choice?
 
 ## Next Actions
 
 1. Define `seed-directory-trust.v1` as a local configuration schema for trusted
    directories, their weights, and trust tiers.
-2. Define `seed-directory-query-attestation.v1` for critical signed discovery
-   responses.
-3. Complete Agora replay of accepted Seed Directory facts into a materialized
-   projection.
-4. Add an equivalence test:
+2. Add client-side multi-directory query policy: preferred directory, quorum, or
+   weighted trust.
+3. Extend reconciliation rules from single trusted replay streams to
+   multi-directory merge policy.
+4. Add an operational runbook for personal mirrors, community directories, and
+   federation-endorsed directories.
+5. Keep the equivalence invariant for future merge policy:
 
    ```text
    SeedDirectoryHTTP(ProjectionFromLocalStore)
@@ -454,8 +467,6 @@ publisher, federation topic, or a local threshold policy.
    SeedDirectoryHTTP(ProjectionFromTrustedAgoraReplay)
    ```
 
-5. Add client-side multi-directory query policy: preferred directory, quorum, or
-   weighted trust.
 6. Connect directory operator trust to future `ai.orbiplex.reputation/**`
    records and `ReputationProjection`.
 
@@ -473,11 +484,11 @@ work derived from this proposal. Status values:
 | :--- | :--- | :--- | :--- |
 | P054-01 | Define `seed-directory-trust.v1` schema | done | Canonical schema exists, has positive/negative fixtures, and documents `personal`, `community`, and `federation-endorsed` trust tiers. |
 | P054-02 | Add Node runtime config for trusted directories | done | Node config can load trusted directory entries with `node_id`, `endpoint`, `trust_level`, `weight`, optional `passport_ref`, and rejects invalid entries at config check. |
-| P054-03 | Expose trusted directory status in operator surfaces | todo | UI/API can show configured trusted Seed Directories, their trust tier, and why each is trusted or rejected. |
-| P054-04 | Define `seed-directory-query-attestation.v1` | todo | Schema and proposal text define query digest, response digest, projection cursor/high-water mark, policy id/digest, issued time, expiry, signer, and signature. |
-| P054-05 | Add optional query attestation support | todo | Seed Directory can return a signed query attestation for critical `GET /adv`, `GET /cap`, and `GET /revocations` responses when requested. |
-| P054-06 | Replay accepted Seed Directory facts from Agora | in-progress | A Seed Directory projection can rebuild from trusted Agora `seed.*.accepted` records after envelope, schema, and domain validation. |
-| P054-07 | Add projection equivalence tests | in-progress | Tests prove `SeedDirectoryHTTP(ProjectionFromLocalStore) == SeedDirectoryHTTP(ProjectionFromTrustedAgoraReplay)` for advertisements, capabilities, and revocations under the same policy. |
+| P054-03 | Expose trusted directory status in operator surfaces | in-progress | API diagnostics expose configured trusted replay status, last cursor, accepted/rejected counts, last run, last error, and skip reasons through Seed Directory temporal status and the `/v1/seed-directory` snapshot, including the `embedded_seed_directory_store_unavailable` case. Full operator UI for directory trust tiers remains pending. |
+| P054-04 | Define `seed-directory-query-attestation.v1` | done | Canonical schema, positive/negative fixtures, schema-gate validation, and proposal text define query mode/filter, canonical response digest, projection high-water mark, issued time, expiry, signer, and signature. |
+| P054-05 | Add optional query attestation support | done | Seed Directory returns a signed query attestation for `GET /adv`, `GET /adv/{node_id}`, `GET /cap`, `GET /cap/{node_id}`, and `GET /revocations` when requested with `attest=seed-directory-query.v1`; unavailable signer returns `503 attestation_unavailable`; default responses remain unchanged. |
+| P054-06 | Replay accepted Seed Directory facts from Agora | done | Daemon has opt-in `seed_directory_agora_replay` runtime that replays trusted `adv`, `cap`, and `revocations` lanes from Agora through the Seed Directory Agora adapter, follows paginated result pages until `next_cursor` is absent, persists per-federation lane cursors/status, and applies validated records to the embedded store. |
+| P054-07 | Add projection equivalence tests | done | Tests prove direct-write and trusted-Agora replay projection equivalence for advertisements, capability registrations, and revocations, including the effect of revocation on capability lookup. |
 | P054-08 | Add multi-directory client query policy | todo | Client-side discovery can query multiple trusted directories and merge results using preferred directory, quorum, or weighted trust policy. |
 | P054-09 | Implement reconciliation rules | todo | Revocations are monotonic, newer advertisements replace older ones, absence in one directory does not delete another directory's positive result, and duplicate capabilities dedupe deterministically. |
 | P054-10 | Connect directory operator trust to reputation/endorsement | deferred | `community-trusted` / `community-entrusted` and `ai.orbiplex.reputation/**` can influence directory trust without replacing local override. |
