@@ -46,7 +46,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`artifact-delivery-result.v1.schema.json`](schemas-gen/schemas/artifact-delivery-result.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
 | [`artifact-delivery-status.v1.schema.json`](schemas-gen/schemas/artifact-delivery-status.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`artifact-mailbox-sealed.v1.schema.json`](schemas-gen/schemas/artifact-mailbox-sealed.v1.md) | `7` | `0` | `no` | `yes` | `0` | `0` |
-| [`artifact-object-pointer.v1.schema.json`](schemas-gen/schemas/artifact-object-pointer.v1.md) | `13` | `1` | `yes` | `yes` | `1` | `1` |
+| [`artifact-object-pointer.v1.schema.json`](schemas-gen/schemas/artifact-object-pointer.v1.md) | `14` | `2` | `yes` | `yes` | `1` | `1` |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`capability-passport-lookup.v1.schema.json`](schemas-gen/schemas/capability-passport-lookup.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |

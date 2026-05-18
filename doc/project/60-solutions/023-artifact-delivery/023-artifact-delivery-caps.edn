@@ -1,7 +1,7 @@
 {:component/id :orbiplex/artifact-delivery
  :component/title "Artifact Delivery"
  :component/type :node-attached-runtime
- :component/status :partial
+ :component/status :done
 
  :summary
  "Host-owned artifact delivery and admission plane. Components submit one
@@ -34,7 +34,7 @@
     "Keep core validation, normalization, recipient resolution, target deduplication, and outbound authorization synchronous and side-effect-free"
     "Persist accepted submissions and canonical expanded dispatch plans before transport execution"
     "Expose route table and conflict state to the operator"]
-   :status :partial
+   :status :done
    :notes
    ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, startup/effective-config validation, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory test ledger, a SQLite runtime ledger at `<node-data-dir>/storage/artifact-delivery.sqlite` with explicit user_version migrations and PRAGMA setup, the Agora publish adapter, local and remote WSS INAC direct-node delivery, INAC WSS stream chunks for payloads above the inline ceiling, inbound acceptor registry conflict detection, pre-acceptor non-empty sha256 and inline byte-identity validation, an `artifact-store:` referenced payload resolver rooted under `<node-data-dir>/storage/artifact-store`, file-backed resolved payloads for larger local/resolved artifacts, receiver-side remote WSS INAC allowlists, a receiver-local inbound admission/refusal ledger, control-plane HTTP admission source adapter allowlists, admission idempotency, admission status APIs/UI, Story-005 public Whisper candidate delivery through AD -> Agora, and regression coverage."
     "Deferred Artifact Delivery is a P055 consumer: `?mode=deferred` returns `deferred-operation.v1` with stable operation metadata, `audit/outcome-ref`, and a canonical operation-status URL; recovery preserves prior attempts in `retry/history` and returns schema-gated `artifact-delivery-recovery.v1`. The daemon also starts a background recovery worker by default, with interval, batch, and pass-deadline policy visible to operators."
@@ -43,7 +43,7 @@
     "The `memarium-blob.v1` in-process acceptor now has daemon-local custody target-space policy via `artifact_delivery_acceptors.memarium_blob_custody`; default behavior remains `public`, configured `personal`/`community` spaces are allowed, and `crisis` is rejected until a separate crisis-custody contract exists."
     "Artifact Delivery exposes lightweight profiling counters for payload materialization and transport accounting, including inline/file-backed source counts, materialization bytes/time, transport payload bytes, and WSS stream chunk counts without logging payload contents."
     "Read-only observer hooks are present for delivery/admission completion metadata. Observers see ids, status, schema and digest fields only; observer panics are counted and ignored so they never change the authoritative acceptor result."
-    "Matrix mailbox store-and-forward transport and `inac-peer-artifact:` peer artifact cache lookup are present at MVP level. Matrix mailbox exposes operator-visible worker metrics, room readiness/errors, chunk counters, bounded peer artifact cache limits, deterministic room ensure/repair, and sealed larger-object event chunking through `artifact-mailbox-chunk.v1`. `artifact-object-pointer.v1` and `object-store-indirect` are contract-mode only: the schema and selector vocabulary exist, but daemon config fails closed until remote fetch and receiver rehydration are implemented. Matrix media remains deferred."]}
+    "Matrix mailbox store-and-forward transport and `inac-peer-artifact:` peer artifact cache lookup are present at MVP level. Matrix mailbox exposes operator-visible worker metrics, room readiness/errors, chunk counters, bounded peer artifact cache limits, deterministic room ensure/repair, and sealed larger-object event chunking through `artifact-mailbox-chunk.v1`. `object-store-indirect` is enabled for the hard-MVP path: the outbound adapter writes payload bytes into the host-owned daemon object store, sends a small `artifact-object-pointer.v1` through sealed Matrix mailbox control, carries the fetch token only in sealed metadata, and the receiver fetches, verifies digest/size/expiry/ref/scheme, rehydrates the original artifact, and only then invokes normal Artifact Delivery admission. Matrix media remains deferred."]}
 
   {:cap/id :artifact-delivery-outbound-authorization
    :title "Outbound Authorization and Recipient Resolution"
@@ -67,7 +67,7 @@
     "Keep route ids stable, carry route versions inside route definitions, and persist expanded normalized plans in the ledger"
     "Resolve capability-first/many, participant, routing-subject, org, and contact-lookup selectors through host-composed resolver adapters"
     "Deny valid-schema sends when the component lacks an outbound allow"]
-   :status :partial
+   :status :done
    :notes
   ["The pure core/runtime split implements route refs, configured defaults, groups, node and agora-default selectors, target dedupe, fan-out/fallback limits, runtime stage target caps, digest validation, route-plan validation, config cross-reference validation, defensive quorum-zero rejection, and all/any/quorum evaluation."
     "Host-composed resolver adapters now cover capability-first/many through Seed Directory, participant and routing-subject through Seed Directory projections, org through configured custodians plus Seed Directory participant projections, and contact-lookup through Contact Catalog plus Seed Directory subject lookup. Broader org policy engines, authorized non-public routing-subject presentation, and richer contact graph semantics remain domain-specific future layers."]}
@@ -142,9 +142,10 @@
                  "Matrix mailbox fallback transport with `artifact-mailbox-sealed.v1` for plaintext/JSON payloads"
                  "Matrix mailbox room ensure/repair and operator-visible room/chunk status"
                  "Matrix mailbox larger-object event chunking with `artifact-mailbox-chunk.v1` sealed payload fragments"
+                 "Object-store-indirect transport with daemon object-store write, bounded fetch token, sealed Matrix control pointer dispatch, HTTP fetch endpoint, and receiver-side fetch/rehydrate before admission"
                  "Lightweight profiling counters for materialization and transport accounting"]
    :remaining ["Use profiling data to decide whether a lower-level zero-copy WebSocket frame split is worth adding beyond the authenticated application-frame carrier"
-               "Implement receiver-side fetch/rehydrate before enabling the contract-mode `object-store-indirect` adapter"]}]
+               "Keep Matrix media as a post-MVP transport variant until a real deployment requires it"]}]
 
  :may-implement
  [{:cap/id :artifact-delivery-capability-recipient-resolver

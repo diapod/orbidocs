@@ -228,10 +228,10 @@ Current implementation status:
   before local policy evaluation is meaningful, and accepting a candidate under
   local policy does not automatically install it as a runtime trust root.
 
-The implementation is still `partial` because the generic object-store
-indirect transport is contract-mode only: the schema, selector vocabulary and
-daemon configuration exist, but enabling the adapter fails closed until remote
-fetch and receiver rehydration are implemented. INAC authorization/invitations,
+The hard-MVP implementation now includes the generic object-store indirect
+transport: the schema and selector vocabulary are backed by a daemon adapter,
+token-bound HTTP fetch, sealed Matrix mailbox control dispatch, and
+receiver-side rehydration before normal admission. INAC authorization/invitations,
 `agora-record:` payload resolution, public/scoped Memarium referenced payload
 resolution, configurable Memarium custody target-space policy for
 `memarium-blob.v1`, lightweight AD profiling counters, WSS stream chunks above
@@ -1371,7 +1371,12 @@ Status:
   remote direct-node targets. Remote WSS INAC push frames feed the shared
   Artifact Delivery inbound admission path. Matrix mailbox is now present as the
   first explicit store-and-forward fallback adapter and feeds the same inbound
-  admission path after unsealing and revalidation.
+  admission path after unsealing and revalidation. `object-store-indirect` is
+  enabled for the hard-MVP path: the sender writes payload bytes into the
+  daemon object store, emits a small `artifact-object-pointer.v1` through sealed
+  Matrix mailbox control, keeps the fetch token in sealed metadata only, and the
+  receiver fetches, verifies, rehydrates, and admits the original artifact rather
+  than the pointer.
 
 ## Implemented and Optional Extensions
 
@@ -1593,18 +1598,17 @@ Status:
    runtime records materialization counts, materialized bytes, materialization
    time, source class (`inline` / `file-backed`), stream chunk counts and
    transport payload bytes so the next optimization decision is data-led.
-3. Generic object-store indirect delivery is represented in contracts and
-   schema, but disabled fail-closed in daemon configuration until receiver-side
-   fetch, digest/size/expiry verification and rehydrated admission are present.
+3. Generic object-store indirect delivery is implemented for the hard-MVP path:
+   HTTP fetch is token-bound, ref-bound, TTL-bound and digest/size verified;
+   Matrix mailbox remains the sealed control carrier for the pointer and token
+   metadata.
 
 ## Next Actions
 
-1. Implement receiver-side fetch/rehydrate for `artifact-object-pointer.v1`
-   before enabling `object-store-indirect`.
-2. Use profiling counters from operator/status snapshots to decide whether a
+1. Use profiling counters from operator/status snapshots to decide whether a
    lower-level zero-copy WebSocket frame split is worth adding beyond the
    authenticated application-frame carrier.
-3. Keep Matrix media deferred; prefer the generic object-store path for payloads
+2. Keep Matrix media deferred; prefer the generic object-store path for payloads
    that outgrow the current Matrix mailbox sealed chunk carrier.
 
 ## Related Capability Data

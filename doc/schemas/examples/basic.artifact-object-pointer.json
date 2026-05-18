@@ -8,6 +8,8 @@
   "artifact/size-bytes": 10485760,
   "store/scheme": "daemon-object-store",
   "store/ref": "object-store:sha256:V4lueL4rgePayloadDigestExample000000000000000",
+  "fetch/url": "https://node.example.invalid/v1/artifact-delivery/object-store/fetch?ref=object-store%3Asha256%3AV4lueL4rgePayloadDigestExample000000000000000",
+  "fetch/token-ref": "fetch-token:example",
   "payload/security": "sealed",
   "expires/at": "2026-05-18T12:00:00Z",
   "issued/at": "2026-05-18T11:45:00Z"

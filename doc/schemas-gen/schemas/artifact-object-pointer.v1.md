@@ -23,6 +23,7 @@ Small Artifact Delivery control artifact pointing to a host-owned object-store p
 | [`artifact/size-bytes`](#field-artifact-size-bytes) | `yes` | integer |  |
 | [`store/scheme`](#field-store-scheme) | `yes` | enum: `daemon-object-store` |  |
 | [`store/ref`](#field-store-ref) | `yes` | string |  |
+| [`fetch/url`](#field-fetch-url) | `no` | string | Receiver-side HTTPS or loopback fetch URL for the bounded object fetch endpoint. The URL is transport metadata; receivers MUST still verify digest, size, expiry, and local policy before admission. |
 | [`fetch/token-ref`](#field-fetch-token-ref) | `no` | string | Optional bounded fetch-token reference. The token value itself MUST NOT be embedded when the pointer is visible to logs or untrusted intermediaries. |
 | [`payload/security`](#field-payload-security) | `no` | enum: `sealed`, `integrity-only` |  |
 | [`expires/at`](#field-expires-at) | `yes` | string |  |
@@ -82,6 +83,14 @@ Small Artifact Delivery control artifact pointing to a host-owned object-store p
 
 - Required: `yes`
 - Shape: string
+
+<a id="field-fetch-url"></a>
+## `fetch/url`
+
+- Required: `no`
+- Shape: string
+
+Receiver-side HTTPS or loopback fetch URL for the bounded object fetch endpoint. The URL is transport metadata; receivers MUST still verify digest, size, expiry, and local policy before admission.
 
 <a id="field-fetch-token-ref"></a>
 ## `fetch/token-ref`

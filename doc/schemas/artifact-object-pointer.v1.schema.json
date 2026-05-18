@@ -33,6 +33,12 @@
     "artifact/size-bytes": { "type": "integer", "minimum": 0 },
     "store/scheme": { "type": "string", "enum": ["daemon-object-store"] },
     "store/ref": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "fetch/url": {
+      "type": "string",
+      "description": "Receiver-side HTTPS or loopback fetch URL for the bounded object fetch endpoint. The URL is transport metadata; receivers MUST still verify digest, size, expiry, and local policy before admission.",
+      "minLength": 1,
+      "maxLength": 2048
+    },
     "fetch/token-ref": {
       "type": "string",
       "description": "Optional bounded fetch-token reference. The token value itself MUST NOT be embedded when the pointer is visible to logs or untrusted intermediaries.",
