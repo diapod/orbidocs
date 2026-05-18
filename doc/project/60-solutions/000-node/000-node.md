@@ -34,6 +34,61 @@ It does not define:
 - protocol-external payment execution,
 - default direct mutation of base models.
 
+## Local Storage Convention
+
+Based on:
+- `doc/project/40-proposals/062-temporal-storage-convention.md`
+
+Node-local SQLite stores should follow the accepted temporal storage convention
+when they persist queues, state machines, accepted public or federated facts,
+privacy-sensitive workflows, or other state that must be auditable and
+recoverable.
+
+The convention is:
+
+```text
+append-only transactions/events
+  -> derived current projection
+  -> short transactions around append and projection update
+```
+
+The event log is the durable information model. Current tables are query and UI
+projections derived from the event log; they are not second sources of truth. A
+projection row should carry `as_of_tx_id`, not an independent `updated_at`, when
+the component adopts the temporal convention.
+
+Temporal stores distinguish:
+
+- `tx_time` — local transaction time controlled by this store;
+- `valid_from` / `valid_until` — optional validity interval for facts whose
+  truth has a start and end;
+- domain timestamps such as `authored_at`, `published_at`, `signed_at`, or
+  `expires_at` — payload attributes, not generic temporal axes;
+- operational timestamps such as `started_at`, `finished_at`, `retry_after`, or
+  `lease_until` — execution metadata for workers, retries, and leases.
+
+Background workers must not hold database locks while doing network,
+middleware, signing, sealing, replay, or other external work. When exclusive
+processing is needed, the worker claims a short lease in one transaction,
+performs work outside the database lock, and appends the result in a later
+transaction.
+
+Adoption is selective:
+
+- use the convention for delivery/outbox attempts, notification state
+  transitions, Seed Directory accepted facts, Artifact Delivery status,
+  Whisper intake stages, and similar audit-sensitive state;
+- keep short-lived caches, idempotency lookups, cursors, and already append-only
+  ledgers simple unless a concrete replay, audit, or forensics need appears;
+- store private workflow history as sealed references, digests, and metadata,
+  not repeated plaintext payloads;
+- rely on `correlation_id` joins for cross-store sagas rather than introducing a
+  shared transaction registry.
+
+The first recommended migrations are Notification state transitions and
+Messaging outbox attempts. A shared helper crate for temporal stores should be
+extracted only after at least two migrations converge on the same shape.
+
 ## Must Implement
 
 ### Peer Identity, Discovery, and Session Baseline

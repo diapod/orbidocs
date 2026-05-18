@@ -780,10 +780,13 @@ Contact Catalog sync belongs to the catalog/provider surface: host-authorized
 control plane, direct catalog data plane, and no Agora publication path. The
 daemon-composed AD resolver first tries the local Contact Catalog lookup
 surface and may fall back to trusted remote Contact Catalog providers discovered
-through Seed Directory when the local provider is unavailable. The result is
-only addressability: it produces `routing-subject` or `node` delivery
-candidates. It does not authorize the eventual push; INAC/AD passport and
-admission gates still decide whether the artifact is accepted.
+through Seed Directory when the local provider is unavailable. Remote fallback
+is mode-aware: the provider passport must advertise the requested
+`lookup/mode`, so a `psi` or `blinded-digest` selector is not silently routed to
+an invitation-only provider. The result is only addressability: it
+produces `routing-subject` or `node` delivery candidates. It does not authorize
+the eventual push; INAC/AD passport and admission gates still decide whether the
+artifact is accepted.
 
 The current capability selector filter is intentionally narrow: it supports
 `target/node-ids` as a local allowlist/intersection filter. Issuer,
@@ -1287,9 +1290,15 @@ Status:
   configured defaults, groups, `node`, `agora-default`, fan-out limits,
   fallback-depth limits, runtime stage target caps, deterministic dedupe,
   content digest validation, route-plan validation, and `all`/`any`/`quorum`
-  stage evaluation are implemented in the pure core/runtime split.
-  Participant/org/capability recipient selectors remain post-MVP resolver
-  adapters.
+  stage evaluation are implemented in the pure core/runtime split. Capability
+  (`capability-first`, `capability-many`), subject (`participant`,
+  `routing-subject`), organization (`org`), and contact-lookup selectors are
+  also implemented as host-composed resolver layers: the core crate owns typed
+  selector DTOs and lookup traits, the runtime accepts injected lookup
+  adapters, and the daemon composes those adapters from Seed Directory
+  projections, configured organization custodian policy, Contact Catalog lookup,
+  endpoint evidence, and local outbound allow rules. These resolver layers are
+  part of the current MVP implementation, not deferred post-MVP work.
 
 ### Single-Owner Inbound Admission
 
@@ -1359,7 +1368,7 @@ Status:
   first explicit store-and-forward fallback adapter and feeds the same inbound
   admission path after unsealing and revalidation.
 
-## May Implement
+## Implemented and Optional Extensions
 
 ### Capability-Based Recipient Resolver
 
@@ -1416,6 +1425,37 @@ Status:
   Participant and routing-subject selectors accept `max/nodes`; the daemon caches
   positive subject lookup results with the same short TTL class as capability
   lookup. Public routing-subject reads return only `public-unlinked` entries.
+
+### Organization Custodian Recipient Resolver
+
+Based on:
+
+- `doc/project/40-proposals/017-organization-subjects-and-org-did-key.md`
+- `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
+
+Responsibilities:
+
+- resolve `org` recipient selectors through explicit host policy, not through a
+  public global `org -> node` directory;
+- map an organization id to configured participant custodians under local
+  operator policy;
+- reuse Seed Directory participant projections to turn those custodians into
+  reachable node candidates;
+- fail closed when the organization has no configured custodians, the custodian
+  list is empty, or no custodian node has usable endpoint evidence;
+- keep organization policy/evidence metadata in the resolved target so the
+  ledger can explain why that node was selected.
+
+Status:
+
+- `implemented`: `artifact-delivery-core` owns `OrgNodeLookup`,
+  `ResolvedOrgNode`, `RecipientSelector::Org`, selector-class authorization,
+  validation, target conversion, and unit coverage for org provenance. The
+  daemon composes `OrgNodeLookup` from `organization_custodians`, Seed Directory
+  participant candidate lookup, and endpoint certificate evidence. The resolver
+  skips custodian candidates without usable endpoint evidence and returns
+  concrete AD targets with `org/id`, policy ref, evidence digest, route kind,
+  endpoint URL, and certificate pin metadata.
 
 ### Matrix Mailbox Transport Adapter
 

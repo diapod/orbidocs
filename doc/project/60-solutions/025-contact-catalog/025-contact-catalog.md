@@ -194,8 +194,11 @@ Status:
   Directory records, or shared lookup audit. Durable local recovery mirror
   records exist for messaging recovery; the local contact store can export and
   replay local-contact, pairwise-mapping, and messaging-recovery mirror records
-  without reactivating revoked or archived pairwise mappings. Sealed
-  `pseudonym-vault.v1` persistence and startup replay remain follow-up work.
+  without reactivating revoked or archived pairwise mappings.
+  `pseudonym-vault.v1` can carry a sealed
+  `local-contact-recovery-bundle.v1`; vault import replays that bundle, and
+  daemon startup replays the latest root-only sealed vault snapshot. Operator
+  unlock/startup UX for `root+local-passphrase` vaults remains follow-up work.
 
 ## May Implement
 
@@ -242,13 +245,17 @@ Status:
   `GET /v1/contact-catalog/sync/claims` as the trusted provider snapshot
   contract and records provider sync state in the sidecar with last-run counts
   and cumulative totals.
+  Provider tombstones are now part of the trusted-provider snapshot body and
+  are cached durably; replay/restart hides remote claims whose sequence is
+  covered by a cached tombstone, and sync status records a retryable/terminal
+  failure class.
   Provider policy remains trusted-only for sync, but operators can now inspect
   discovered providers and set `trusted`, `uncertain`, or `blocked` from
   `/admin/contact-catalog` over the service policy endpoint. No Agora
   publication/relay path is introduced. Provider trust changes are durably
   audited with actor, a required reason capped at 1000 characters,
   previous/next state, passport hash and endpoint.
-  Tombstone/revocation replay, stronger incremental cursor semantics, and
+  Local tombstone production, stronger incremental cursor semantics, and
   broader multi-process trusted-provider acceptance remain open.
 
 ### Blinded or PSI Lookup

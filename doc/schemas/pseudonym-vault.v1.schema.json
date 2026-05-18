@@ -101,7 +101,8 @@
         "type": "string",
         "enum": [
           "nym",
-          "routing-subject"
+          "routing-subject",
+          "local-contact-recovery"
         ]
       },
       "description": "Coarse encrypted content class. Specific ids and handles remain inside ciphertext."

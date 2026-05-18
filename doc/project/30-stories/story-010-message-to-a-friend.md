@@ -289,10 +289,12 @@ not the same as the Contact Catalog lookup `purpose`; it is an AD policy hint
 that lets the host allow contact lookup for a small contact request while still
 rejecting full message delivery until a `messaging-receive` passport exists.
 
-The MVP query mode is public invitation-only digest lookup with strict
-rate limiting and redacted audit (Proposal 058 MVP Decision #1). The
-catalog must not return a naked root participant identity as the normal
-result.
+The Story-010 happy path uses invitation-only digest lookup with strict rate
+limiting and redacted audit. The same AD selector shape can request
+`blinded-digest` or `psi`, but Story-010 does not synthesize a private-mode
+contact claim; those mode/index-pair and refusal cases stay in focused Contact
+Catalog tests. The catalog must not return a naked root participant identity as
+the normal result.
 
 The lookup returns a canonical `contact-lookup-result.v1` artifact containing a
 route set and selected route for Marcin's node. A route candidate can be:
@@ -628,12 +630,11 @@ new message.
   for the messaging acceptor. Receiver-side revocation-view enforcement is
   now wired for both passport refs and inline `messaging-receive@v1`
   passports (P060-009).
-- Persist sealed vault record replay at startup so a fresh node
-  restored from mnemonic rehydrates `contacts` membership and issued
-  `messaging-receive@v1` passports (the local recovery mirror table
-  now persists records and local contact recovery bundles can be replayed
-  without reactivating terminal pairwise mappings; sealed vault replay
-  remains, P060-016).
+- Extend sealed vault startup replay beyond root-only local-contact recovery
+  into the remaining passphrase-unlock UX and receive-passport membership
+  recovery details (the local recovery mirror table persists records,
+  local contact recovery bundles are sealed into `pseudonym-vault.v1`,
+  import/startup replay preserves terminal pairwise mappings, P060-016).
 - Promote contactability acquisition to select a discovered/trusted
   attestation provider in production. The Story-010 acceptance pack now
   publishes and discovers `role/email-attestation` /
@@ -673,8 +674,9 @@ artifact and what is still missing.
   - Story-010 UI coverage: `/admin/messaging` includes a contactability
     route-kind picker for `participant`, `nym`, and `routing-subject`,
     plus the route value field used in the draft/publish flow.
-  - Missing: sealed-vault backup / replay of local contactability and
-    pairwise mapping continuity state.
+  - Missing: passphrase-unlock startup UX for `root+local-passphrase`
+    vaults and broader restore coverage; root-only sealed local-contact
+    recovery now replays at startup.
 
 - **Step 2 — Marcin's node collects contact-control attestations:** `[in-progress]`
   - Closest artifacts: `capability-passport.v1` issuance via Capability
@@ -738,9 +740,10 @@ artifact and what is still missing.
     broader federation acceptance tests on top of the now-generic
     `CatalogAdapter<T, F>` plus `sync_catalog_provider(...)`
     transport-neutral mechanics in `node/catalog` (P058-018 `partial`);
-    real tombstone/revocation replay + incremental cursor semantics for
-    the provider-to-provider sync contract (P058-020 `partial` — MVP
-    snapshot fetch + opaque cursor + self-origin rejection landed).
+    local tombstone production / revocation fact export + incremental cursor
+    semantics for the provider-to-provider sync contract (P058-020
+    `partial` — MVP snapshot fetch + opaque cursor + self-origin rejection
+    and remote tombstone replay landed).
 
 - **Step 4 — Daniel composes a message by email address (compose UI + outbound
   queue):** `[done]`
@@ -970,9 +973,10 @@ artifact and what is still missing.
   MVP; supervised service, local claim admission, public invitation-only
   lookup, provider cache, sync snapshot, Seed Directory provider metadata,
   provider trust audit, route-set v1, and focused PSI/blinded runtime support
-  are implemented. Sealed vault startup replay, tombstone/revocation sync
-  replay, and broader multi-process federation acceptance remain future
-  layers.
+  are implemented. Root-only sealed local-contact startup replay and remote
+  tombstone sync replay are implemented; passphrase-unlock recovery UX,
+  local tombstone/revocation fact export, and broader multi-process
+  federation acceptance remain future layers.
 - **Contact-handle attestation (phone / email) as a capability surface:**
   `[in-progress]` — `phone-control` and `email-control` capability ids are
   registered in the Capability Registry and consumed by Solution 025
@@ -1002,9 +1006,10 @@ artifact and what is still missing.
   Layer 3 fact kinds have frozen schemas, Memarium writes are wired
   through `memarium.write` with pending replay, remote Memarium replay
   is part of `reindex`, FTS5 is rebuilt in `reindex`, and
-  contact-lookup-result promotion is wired. Remaining: sealed vault
-  record replay at startup, fuller outbound mock-host integration coverage,
-  and supervised multi-process cross-node acceptor tests.
+  contact-lookup-result promotion is wired. Remaining: passphrase-unlock
+  recovery UX for sealed vault startup replay, fuller outbound mock-host
+  integration coverage, and supervised multi-process cross-node acceptor
+  tests.
 - **Local contact store (raw address book, labels, pairwise nym mappings):**
   `[in-progress]` — Solution 025 Local Contact Store is `partial`: the
   daemon owns `<node-data-dir>/storage/local-contacts.sqlite` and
@@ -1015,8 +1020,9 @@ artifact and what is still missing.
   handles stay daemon-local and do not leak into Contact Catalog
   records, Seed Directory records, or shared lookup audit. The
   participant-owned `pseudonym-vault.v1` runtime that backs
-  cross-restore recovery is `done` (Solution 026); what remains is the
-  local-contacts-side sealed backup / replay wiring.
+  cross-restore recovery is `done` (Solution 026); local-contact recovery
+  bundles now seal into the vault and root-only snapshots replay at startup.
+  What remains is passphrase-unlock startup UX and broader restore coverage.
 - **"Nym factory" with role-separated derived keys (signing, DH, sealing) and
   routing-subject vault:** `[in-progress]` — Proposal 059 is Accepted with
   Node MVP runtime implemented; Solution 026 (Pseudonym Vault and Key
@@ -1071,14 +1077,15 @@ Already done:
   [Proposal 058 Tracking row P058-012](../40-proposals/058-contact-catalog.md))
 - Solution 027 cap `:contactability-and-local-contacts` (`partial`) anchors
   the messaging-side contactability surface; it remains partial only because
-  local-contact sealed recovery is still tracked under Contact Catalog recovery
+  passphrase-unlock local-contact sealed recovery UX is still tracked under
+  Contact Catalog recovery
 
 Still outstanding:
 
-- sealed-vault backup / replay for `local-contacts.sqlite` rows and
-  pairwise nym mappings (P058-008 — vault runtime is `done`; the
-  local-contacts-side recovery bundle is now present, but sealed vault
-  persistence and startup replay remain)
+- passphrase-unlock startup UX for `root+local-passphrase`
+  local-contact recovery vaults (P058-008 — vault runtime is `done`;
+  the local-contacts-side recovery bundle is sealed into `pseudonym-vault.v1`,
+  import replay is present, and root-only startup replay is present)
 - end-user UI copy refinement distinguishing contact-control proof from
   identity assurance after the attestation service leaves local/dev
   delivery mode (see:
@@ -1250,10 +1257,10 @@ Already done:
 
 Still outstanding:
 
-- sealed Pseudonym Vault record replay at startup so a fresh node
-  rehydrates `contacts` membership and issued `messaging-receive@v1`
-  passports directly from the vault (P060-016 — local mirror table
-  persists records; sealed vault replay remains)
+- passphrase-unlock Pseudonym Vault startup replay UX so a fresh node can
+  rehydrate `contacts` membership and issued `messaging-receive@v1`
+  passports from locked vaults (P060-016 — local mirror table persists
+  records; root-only local-contact recovery startup replay is present)
 
 ### Step 10 — outstanding features
 
@@ -1424,13 +1431,14 @@ Still partial — landed in MVP-shape, hardening or completion remains:
   `invitation-only`) (see:
   [Proposal 058 Tracking row P058-006](../40-proposals/058-contact-catalog.md))
 - local contact store model (`local-contacts.sqlite` + CRUD and
-  `local-contact.v1` schema done; sealed vault backup / replay remains) (see:
+  `local-contact.v1` schema done; sealed vault bundle/import/root-only
+  startup replay done; passphrase-unlock startup UX remains) (see:
   [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md))
 - pairwise contact nym handling (`messaging-receive@v1` scoped to contact
   nym; lifecycle / recovery policy open) (see:
   [Proposal 058 Tracking row P058-009](../40-proposals/058-contact-catalog.md))
-- routing-subject / contact-nym as default lookup result (default
-  invariant done; multi-route v2 planned) (see:
+- routing-subject / contact-nym as default lookup result with canonical
+  route-set `contact-lookup-result.v1` (done for Story-010) (see:
   [Proposal 058 Tracking row P058-010](../40-proposals/058-contact-catalog.md))
 - contact claim revocation and expiry pipeline (admission-time
   enforcement + sidecar `active | expired | revoked` projection done;
@@ -1455,17 +1463,17 @@ Still partial — landed in MVP-shape, hardening or completion remains:
   `CatalogSyncOptions`, `CatalogSyncReport`, `CatalogSyncSink`, and
   `sync_catalog_provider(...)` as transport-neutral fetch / validate /
   merge / count; `RemoteContactCatalogHttpAdapter` plus generic sync
-  refreshes trusted providers into a sidecar remote claim cache; full
-  federation acceptance tests and durable provider-policy audit / revert
-  history remain open) (see:
+  refreshes trusted providers into a sidecar remote claim cache; provider
+  policy audit with required reasons is durable; broader multi-process
+  federation acceptance tests remain open) (see:
   [Proposal 058 Tracking row P058-018](../40-proposals/058-contact-catalog.md))
 - provider-to-provider Contact Catalog sync contract without Agora —
   authenticated `GET /v1/contact-catalog/sync/claims` snapshot fetch,
   opaque cursor in `RemoteContactClaimFilter`, self-origin rejection,
   provider sync sidecar state — done in MVP-shape per Decision #11–#13;
-  real tombstone / revocation replay, incremental cursor beyond
-  snapshot high-water, and multi-process federation acceptance tests
-  remain (see:
+  remote tombstone replay is present; local tombstone production,
+  revocation fact export, incremental cursor beyond snapshot high-water,
+  and multi-process federation acceptance tests remain (see:
   [Proposal 058 Tracking row P058-020](../40-proposals/058-contact-catalog.md))
 
 ### Cross-Cutting Block — Contact-handle attestation as a capability surface — outstanding features
@@ -1556,10 +1564,10 @@ Already done:
 
 Still outstanding:
 
-- sealed Pseudonym Vault record replay at startup (local recovery
-  mirror table persists records and local contact recovery bundles replay
-  without reactivating terminal pairwise mappings; vault replay remains)
-  (P060-016)
+- passphrase-unlock Pseudonym Vault startup replay UX (local recovery mirror
+  table persists records; local contact recovery bundles are sealed into
+  `pseudonym-vault.v1`; import/root-only startup replay preserves terminal
+  pairwise mappings) (P060-016)
 - fuller mock-host integration coverage for outbound signer, AD,
   notification, and failure-class matrices; receiver-side revocation
   snapshots and remote Memarium replay already have mock-host coverage
@@ -1596,10 +1604,11 @@ Already done:
 
 Still outstanding:
 
-- sealed Pseudonym Vault persistence and startup replay for
+- passphrase-unlock startup UX and broader restore coverage for
   `local-contacts.sqlite` rows and pairwise nym mappings (vault runtime
   itself is `done` per P059-010 / Solution 026; the local-contacts-side
-  recovery bundle is now present)
+  recovery bundle is sealed into `pseudonym-vault.v1`, import replay is
+  present, and root-only startup replay is present)
   (see:
   [Proposal 058 Tracking row P058-008](../40-proposals/058-contact-catalog.md),
   [Proposal 059 Tracking row P059-010](../40-proposals/059-participant-and-nym-key-role-derivation.md))
