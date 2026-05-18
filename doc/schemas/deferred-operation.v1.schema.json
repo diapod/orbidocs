@@ -69,6 +69,11 @@
       "type": "string",
       "description": "Optional local cancel endpoint. Absence means cancellation is unsupported for this operation kind."
     },
+    "cancel/unavailable-reason": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reason cancellation is not available for this operation. Exactly one of cancel_href or cancel/unavailable-reason MUST be present."
+    },
     "correlation/id": {
       "type": "string",
       "description": "Optional correlation id from the parent flow or workflow."
@@ -96,5 +101,27 @@
       "additionalProperties": true,
       "description": "Open extension map for experimental or deployment-local metadata. Stable protocol fields MUST be promoted to first-class schema properties."
     }
-  }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "cancel_href"
+      ],
+      "not": {
+        "required": [
+          "cancel/unavailable-reason"
+        ]
+      }
+    },
+    {
+      "required": [
+        "cancel/unavailable-reason"
+      ],
+      "not": {
+        "required": [
+          "cancel_href"
+        ]
+      }
+    }
+  ]
 }

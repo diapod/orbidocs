@@ -34,3 +34,4 @@ nav:
   - "026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md"
   - "027-messaging-middleware/027-messaging-middleware.md"
   - "028-temporal-storage-convention/028-temporal-storage-convention.md"
+  - "029-bounded-deferred-operations/029-bounded-deferred-operations.md"

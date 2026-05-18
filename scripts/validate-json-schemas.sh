@@ -59,6 +59,12 @@ schema_for_file() {
     *.artifact-object-pointer.json)
       echo "$SCHEMAS_DIR/artifact-object-pointer.v1.schema.json"
       ;;
+    *.deferred-operation.json)
+      echo "$SCHEMAS_DIR/deferred-operation.v1.schema.json"
+      ;;
+    *.deferred-operation-status.json)
+      echo "$SCHEMAS_DIR/deferred-operation-status.v1.schema.json"
+      ;;
     *.inac-control.json)
       echo "$SCHEMAS_DIR/inac-control.v1.schema.json"
       ;;

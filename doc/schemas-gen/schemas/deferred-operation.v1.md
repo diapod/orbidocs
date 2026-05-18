@@ -24,6 +24,7 @@ Initial 202 Accepted control payload for an explicitly opted-in deferred operati
 | [`expires_at`](#field-expires-at) | `yes` | string | Host-clamped absolute deadline after which the operation MUST be treated as expired if no terminal result exists. |
 | [`status_href`](#field-status-href) | `no` | string | Optional local status endpoint for polling. Omitted when the caller must resume through a stored continuation rather than HTTP polling. |
 | [`cancel_href`](#field-cancel-href) | `no` | string | Optional local cancel endpoint. Absence means cancellation is unsupported for this operation kind. |
+| [`cancel/unavailable-reason`](#field-cancel-unavailable-reason) | `no` | string | Reason cancellation is not available for this operation. Exactly one of cancel_href or cancel/unavailable-reason MUST be present. |
 | [`correlation/id`](#field-correlation-id) | `no` | string | Optional correlation id from the parent flow or workflow. |
 | [`audit/outcome-ref`](#field-audit-outcome-ref) | `no` | string | Optional reference to the host/runtime audit outcome that recorded acceptance of this deferred operation. |
 | [`continuation`](#field-continuation) | `no` | object | Explicit serializable continuation context. It is a host/runtime value, not a captured language stack. |
@@ -110,6 +111,14 @@ Optional local status endpoint for polling. Omitted when the caller must resume 
 - Shape: string
 
 Optional local cancel endpoint. Absence means cancellation is unsupported for this operation kind.
+
+<a id="field-cancel-unavailable-reason"></a>
+## `cancel/unavailable-reason`
+
+- Required: `no`
+- Shape: string
+
+Reason cancellation is not available for this operation. Exactly one of cancel_href or cancel/unavailable-reason MUST be present.
 
 <a id="field-correlation-id"></a>
 ## `correlation/id`

@@ -23,9 +23,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | `30-stories` (Stories) | `15` | `1` |
 | `40-proposals` (Proposals) | `65` | `54` |
 | `50-requirements` (Requirements) | `16` | `14` |
-| `60-solutions` (Solutions) | `46` | `27` |
+| `60-solutions` (Solutions) | `47` | `28` |
 
-- Total project markdown files: `200`
+- Total project markdown files: `201`
 - Proposals referencing source material: `54` / `65`
 - Requirements referencing source material: `14` / `16`
 
@@ -72,7 +72,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`deferred-operation-status.v1.schema.json`](schemas-gen/schemas/deferred-operation-status.v1.md) | `11` | `11` | `yes` | `yes` | `0` | `0` |
-| [`deferred-operation.v1.schema.json`](schemas-gen/schemas/deferred-operation.v1.md) | `15` | `15` | `yes` | `yes` | `0` | `0` |
+| [`deferred-operation.v1.schema.json`](schemas-gen/schemas/deferred-operation.v1.md) | `16` | `16` | `yes` | `yes` | `2` | `2` |
 | [`emergency-activation.v1.schema.json`](schemas-gen/schemas/emergency-activation.v1.md) | `21` | `21` | `yes` | `yes` | `2` | `4` |
 | [`emergency-signal.v1.schema.json`](schemas-gen/schemas/emergency-signal.v1.md) | `15` | `15` | `yes` | `yes` | `2` | `4` |
 | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md) | `17` | `16` | `yes` | `yes` | `1` | `1` |
@@ -420,5 +420,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `133`
 - Generated schema docs: `133`
-- Positive examples: `147`
-- Negative examples: `106`
+- Positive examples: `149`
+- Negative examples: `108`

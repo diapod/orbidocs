@@ -9,9 +9,13 @@ Based on:
 - `doc/project/40-proposals/049-json-e-middleware-transformer-executor.md`
 - `doc/project/60-solutions/020-scheduler/020-scheduler.md`
 
+Promoted to:
+
+- `doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md`
+
 ## Status
 
-Draft
+Implemented MVP
 
 ## Date
 
@@ -83,9 +87,9 @@ failure.
   semantics without keeping host requests open.
 - Allow schedulers or lighter pollers to drive status checks.
 - Keep deferred work observable by operators.
-- Keep JSON-e and JSON-e Flow deterministic at their own boundary: they may
-  receive a deferred result and pass it upward, but they should not hide an
-  unbounded wait inside a pure-looking transform.
+- Keep JSON-e and JSON-e Flow deterministic at their own boundary: a flow may
+  suspend on a deferred control response, but deferred handles remain
+  host-owned control-plane state rather than domain payload.
 
 ## Non-Goals
 
@@ -188,6 +192,15 @@ Canonical payload shape:
   "diagnostics": []
 }
 ```
+
+Exactly one cancellation surface MUST be present:
+
+- `cancel_href` when the operation can still be cancelled through a host-owned
+  control endpoint,
+- `cancel/unavailable-reason` when the operation is explicitly not cancelable.
+
+This keeps non-cancelable work visible without pretending that every transport
+or side effect can be safely undone.
 
 HTTP mapping:
 
@@ -663,14 +676,22 @@ public/federated `whisper-signal.v1` candidate can be published.
 
 ## Open Questions
 
-1. Should host deferred operation state be durable across daemon restarts in v1,
-   or may v1 treat restart as terminal `unknown` for connector-owned operations?
-2. Should `cancel_href` be required for every deferred operation, or should
-   non-cancelable operations be allowed with an explicit reason?
-3. Should JSON-e Flow gain first-class `awaiting_deferred_operation` step status,
-   or should it return a generic awaiting outcome to its caller?
-4. What is the default maximum deferred operation lifetime for Sensorium OS
-   actions: seconds, minutes, or profile-specific only?
+Resolved for MVP:
+
+1. Host deferred operation state is durable across daemon restarts in a
+   host-owned SQLite registry at `<data-dir>/storage/deferred-operations.sqlite`.
+   Connector-owned state is also durable where the connector accepts deferred
+   work, starting with Sensorium OS.
+2. Non-cancelable operations are allowed, but they must carry
+   `cancel/unavailable-reason`. A payload with neither `cancel_href` nor
+   `cancel/unavailable-reason`, or with both, is invalid.
+3. JSON-e Flow uses persisted continuation state. The host registry stores the
+   private continuation digest and payload; operator views expose only the
+   redacted read model. On `completed` status the daemon resumes the flow with
+   the final result bound at the deferred step.
+4. The host default max TTL is 15 minutes. Sensorium OS action profiles may ask
+   for shorter retry/TTL values, but the effective values are clamped by
+   `DeferredHostPolicy`.
 
 ## Next Actions
 
@@ -688,10 +709,15 @@ public/federated `whisper-signal.v1` candidate can be published.
    `deferred-operation` diagnostic, can resume from a completed
    `deferred-operation-status.v1`, and exposes `deferred_response_mode` as the
    per-flow contract decision.
-5. [partial] Add operator visibility for pending/running/timed-out/expired deferred operations. Artifact Delivery now exposes delivery list/detail, operation-status URLs, retry history, and recovery status in the operator UI; a shared cross-consumer deferred-operation dashboard remains open.
-6. [partial] Use `whisper.redaction.prepare` as the first practical consumer:
-   the sync provider path exists; model-assisted provider policy remains outside
-   M4/P055, but the connector operation store/status surface now exists.
+5. [done] Add operator visibility for pending/running/timed-out/expired
+   deferred operations. The daemon exposes a shared registry API and the
+   operator UI exposes `/admin/deferred-operations` with list/detail, poll, and
+   cancel/non-cancelable controls.
+6. [done] Use `whisper.redaction.prepare` as the first practical consumer:
+   Sensorium OS can accept the action as deferred, persist its connector-owned
+   state, report status after restart, and support cancellation while the action
+   is still pending. Model-assisted redaction quality remains provider policy,
+   not P055 runtime semantics.
 7. [done] Use Artifact Delivery as a clean non-Sensorium consumer:
    `artifact.delivery.send?mode=deferred` persists an accepted delivery and
    returns `deferred-operation.v1`; the AD runtime uses `bounded-work-runtime`
@@ -703,11 +729,11 @@ public/federated `whisper-signal.v1` candidate can be published.
 
 | ID | Work item | Status | Notes |
 |---|---|---|---|
-| P055-01 | Define `deferred-operation.v1` schema | done | Initial accepted response in `doc/schemas/` and node schema-gate. |
+| P055-01 | Define `deferred-operation.v1` schema | done | Initial accepted response in `doc/schemas/` and node schema-gate, including the exactly-one cancelability invariant for `cancel_href` vs `cancel/unavailable-reason`. |
 | P055-02 | Define `deferred-operation-status.v1` schema | done | Status poll response in `doc/schemas/` and node schema-gate. |
 | P055-03 | Host policy clamp helper | done | `deferred-operation` owns retry/TTL clamp; `bounded-work-runtime` owns retry/backoff/concurrency mechanics. |
-| P055-04 | Sensorium OS reference deferred action | done | Sensorium-core validates action execution mode, maps connector deferred acknowledgements to canonical host deferred operations, and polls connector status through `sensorium.operation.status`. |
-| P055-05 | JSON-e Flow deferred step status | done | Flow suspends pending deferred outcomes, resumes from completed `deferred-operation-status.v1`, and may reject deferred responses via `deferred_response_mode = "reject-as-failure"`. |
-| P055-06 | Operator visibility | partial | Artifact Delivery exposes deferred delivery list/detail, canonical operation-status URLs, retry history, recovery status, and recoverable counts in daemon and operator UI surfaces. A shared cross-consumer deferred-operation dashboard for Sensorium/JSON-e/AD and explicit cancel controls remains open. |
-| P055-07 | Whisper redaction provider integration | partial | Sync `whisper.redaction.prepare` provider exists; connector deferred start/status support exists; full model-assisted redaction policy remains deployment/provider work. |
+| P055-04 | Sensorium OS reference deferred action | done | Sensorium-core validates action execution mode, maps connector deferred acknowledgements to canonical host deferred operations, polls connector status through `sensorium.operation.status`, and can call `sensorium.operation.cancel` for pending connector work. |
+| P055-05 | JSON-e Flow deferred step status | done | Flow suspends pending deferred outcomes, stores a host-owned persisted continuation, resumes from completed `deferred-operation-status.v1`, and may reject deferred responses via `deferred_response_mode = "reject-as-failure"`. |
+| P055-06 | Operator visibility | done | Daemon owns a shared deferred-operation registry API and Node UI exposes `/admin/deferred-operations` with list/detail, poll, cancel, non-cancelable reason, expiry, retry, source, and redacted continuation/diagnostic digests. |
+| P055-07 | Whisper redaction provider integration | done | `whisper.redaction.prepare` is available through the Sensorium OS deferred path; completed responses return through `deferred-operation-status.v1` and then through existing redaction response validation. Full model policy remains provider-specific. |
 | P055-08 | Artifact Delivery deferred consumer | done | AD can persist a delivery through `submit_deferred` / `artifact.delivery.send?mode=deferred`, return canonical `deferred-operation.v1` with stable operation metadata and `audit/outcome-ref`, expose canonical `deferred-operation-status.v1`, and recover accepted/running/retryable records through its ledger-backed recovery pass. |

@@ -1,0 +1,189 @@
+{:component/id :orbiplex/bounded-deferred-operations
+ :component/title "Bounded Deferred Operations"
+ :component/type :host-control-plane
+ :component/status :done
+
+ :summary
+ "Shared host-owned control-plane contract for bounded long operations. It
+ gives host capabilities and middleware calls a durable deferred handle,
+ status polling, explicit cancellation semantics, redacted operator
+ visibility, and runtime-owned continuation resume without turning the daemon
+ or scheduler into a domain workflow engine."
+
+ :must-implement
+ [{:cap/id :deferred-operation-wire-contract
+   :title "Deferred Operation Wire Contract"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/055-bounded-deferred-operation-contract.md"]
+   :schemas ["deferred-operation.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Return `202 Accepted` with `deferred-operation.v1` for accepted work that is not complete"
+    "Expose `status_href`, retry hints, expiry, and explicit cancellation semantics"
+    "Require exactly one cancellation surface: `cancel_href` or `cancel/unavailable-reason`"
+    "Keep continuation and status polling in the control plane, not in the domain payload"
+    "Validate the contracts at host/runtime boundaries"]
+   :status :done}
+
+  {:cap/id :deferred-host-policy
+   :title "Deferred Host Policy and Bounded Runtime Boundary"
+   :kind :runtime-policy
+   :based-on ["doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+              "doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"]
+   :schemas ["deferred-operation.v1"]
+   :responsibilities
+   ["Clamp requested retry and TTL values through host policy"
+    "Keep the default host maximum TTL at 15 minutes"
+    "Allow providers to request shorter effective TTLs but not longer ones"
+    "Keep bounded execution mechanics in `bounded-work-runtime`"]
+   :status :done}
+
+  {:cap/id :host-deferred-registry
+   :title "Durable Host Deferred Registry"
+   :kind :storage-runtime
+   :based-on ["doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+              "doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md"]
+   :schemas ["deferred-operation.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Persist accepted operations under `<data-dir>/storage/deferred-operations.sqlite`"
+    "Expose list, detail, status, poll, and cancel APIs"
+    "Store source, kind, status, retry, expiry, cancelability, correlation id, continuation digest, diagnostics digest, and last error"
+    "Store status history as digest-only audit events"
+    "Avoid exposing raw continuation or payload material in operator views"]
+   :status :done}
+
+  {:cap/id :deferred-poll-expiry-cancel
+   :title "Poll, Expiry, and Cancellation Runtime"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+              "doc/project/60-solutions/020-scheduler/020-scheduler.md"]
+   :schemas ["deferred-operation-status.v1"]
+   :responsibilities
+   ["Poll registered operations through their owning runtime"
+    "Respect `retry_after_seconds` and `expires_at`"
+    "Mark expired operations as `expired`"
+    "Bridge cancellation only when `cancel_href` exists"
+    "Return `cancel/unavailable-reason` for non-cancelable work"
+    "Treat `unknown` as terminal rather than creating an infinite retry loop"]
+   :status :done}
+
+  {:cap/id :json-e-flow-persisted-continuation
+   :title "JSON-e Flow Persisted Continuation"
+   :kind :middleware-runtime
+   :based-on ["doc/project/40-proposals/049-json-e-middleware-transformer-executor.md"
+              "doc/project/40-proposals/055-bounded-deferred-operation-contract.md"]
+   :schemas ["deferred-operation.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Suspend JSON-e Flow when a host capability returns a deferred operation"
+    "Persist continuation data as host-owned control-plane state"
+    "Resume the flow after `completed` status with the final result bound at the deferred step"
+    "Fail the flow with a clear `deferred-operation` diagnostic for terminal failure states"
+    "Preserve `deferred_response_mode = reject-as-failure` for flows that require synchronous semantics"]
+   :status :done}
+
+  {:cap/id :sensorium-os-deferred-state
+   :title "Sensorium OS Deferred Action State"
+   :kind :connector-runtime
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"
+              "doc/project/40-proposals/055-bounded-deferred-operation-contract.md"]
+   :schemas ["deferred-operation.v1"
+             "deferred-operation-status.v1"
+             "sensorium-directive.v1"
+             "sensorium-directive-result.v1"]
+   :responsibilities
+   ["Map connector deferred acknowledgements to canonical host deferred operations"
+    "Persist connector-owned deferred action state under the module data directory"
+    "Expose `sensorium.operation.status`"
+    "Expose `sensorium.operation.cancel` for work that is still pending"
+    "Return explicit non-cancelable reasons for work already in irreversible phases"]
+   :status :done}
+
+  {:cap/id :deferred-operator-visibility
+   :title "Operator Deferred Operation Visibility"
+   :kind :operator-ui
+   :based-on ["doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+              "doc/project/60-solutions/001-node-ui/001-node-ui.md"]
+   :schemas ["deferred-operation.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Expose `/admin/deferred-operations`"
+    "List and inspect pending, running, timed-out, expired, cancelled, failed, and completed operations"
+    "Show retry state, expiry, source component, continuation owner, status history, and redacted digests"
+    "Provide poll-now and cancel controls"
+    "Never show raw continuation state or raw payloads in the operator UI"]
+   :status :done}
+
+  {:cap/id :artifact-delivery-deferred-consumer
+   :title "Artifact Delivery Deferred Consumer"
+   :kind :consumer-integration
+   :based-on ["doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+              "doc/project/40-proposals/055-bounded-deferred-operation-contract.md"]
+   :schemas ["artifact-delivery-status.v1"
+             "artifact-delivery-recovery.v1"
+             "deferred-operation.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Accept `artifact.delivery.send?mode=deferred`"
+    "Persist accepted delivery state in the Artifact Delivery ledger"
+    "Return a canonical deferred operation handle"
+    "Expose operation status through the shared deferred status contract"
+    "Recover accepted, running, and retryable records through Artifact Delivery recovery"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :automatic-deferred-poller
+   :title "Automatic Poller Wakeups"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+              "doc/project/60-solutions/020-scheduler/020-scheduler.md"]
+   :schemas ["deferred-operation.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Run a lightweight daemon poller for due operations"
+    "Optionally use the replay scheduler as a wake-up source"
+    "Keep deferred-operation semantics in the P055 runtime rather than inside the scheduler"
+    "Expose poller counters to operators"]
+   :status :planned}
+
+  {:cap/id :cross-node-deferred-aggregation
+   :title "Cross-Node Deferred Operation Aggregation"
+   :kind :future-operator-view
+   :based-on ["doc/project/40-proposals/055-bounded-deferred-operation-contract.md"]
+   :schemas ["deferred-operation.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Aggregate deferred state across nodes only when an explicit federated operator view exists"
+    "Avoid treating remote deferred handles as local authority"
+    "Preserve per-node ownership and audit semantics"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Replacing domain ledgers such as Artifact Delivery delivery history, Sensorium connector action state, or workflow-specific ledgers"
+  "Capturing runtime stacks, closures, file handles, sockets, locks, or thread handles as continuations"
+  "Turning the daemon into a generic workflow engine"
+  "Treating deferred operations as ordinary domain payload"
+  "Making every operation cancelable"
+  "Exposing raw continuation state through operator UI"
+  "Defining provider-specific quality policy for Whisper redaction"]
+
+ :consumes
+ ["deferred-operation.v1"
+  "deferred-operation-status.v1"
+  "Artifact Delivery delivery status"
+  "Sensorium connector operation status"
+  "Host retry/TTL/cancellation policy"]
+
+ :produces
+ ["Durable deferred operation read model"
+  "Digest-only status event history"
+  "Operator list/detail/poll/cancel surfaces"
+  "Runtime continuation resume for JSON-e Flow"
+  "Terminal deferred-operation diagnostics"]
+
+ :notes
+ ["This solution promotes Proposal 055 to a solution-level horizontal control-plane component."
+  "Artifact Delivery, Sensorium, JSON-e Flow, Whisper, and future middleware consume the contract; none of them owns the shared vocabulary."
+  "The daemon registry is operator-visible read model and control join point, not a replacement for domain ledgers."
+  "The solution intentionally keeps scheduler wakeups optional: scheduling may trigger polling, but deferred-operation runtime owns terminal-state semantics."]}
