@@ -833,7 +833,9 @@ proposal adds a separate application capability id.
 
 - `messaging-send` (`app/messaging-send`) — application capability id
   for sending personal messages. Used by `key-delegation.v1` grant
-  `signing/messaging-send`. MVP passport: planned.
+  `signing/messaging-send`. The capability id and signing grant are
+  registered; concrete passport issuance/use is part of the sender-side
+  messaging path.
 - `messaging.contact-request` `notification/kind` — already registered
   implicitly by Solution 025; this proposal restates the dependency.
 - `mailbox.open` `notification/action` — new action target wired by the

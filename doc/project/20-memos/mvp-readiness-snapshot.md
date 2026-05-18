@@ -93,7 +93,7 @@ Recent component deltas:
 | [Proposal 052: Tauri-Hosted Node UI](../40-proposals/052-tauri-hosted-node-ui.md) | `false` | `false` | `false` | `70` |
 | [Proposal 053: Raw Signal Access for Middleware Flows](../40-proposals/053-raw-signal-access.md) | `true` | `true` | `false` | `100` |
 | [Proposal 054: User-Maintained Federated Seed Directory](../40-proposals/054-user-maintained-federated-seed-directory.md) | `true` | `false` | `false` | `37` |
-| [Proposal 055: Bounded Deferred Operation Contract](../40-proposals/055-bounded-deferred-operation-contract.md) | `true` | `false` | `false` | `72` |
+| [Proposal 055: Bounded Deferred Operation Contract](../40-proposals/055-bounded-deferred-operation-contract.md) | `true` | `false` | `false` | `76` |
 | [Proposal 056: Orbiplex TLS Trust Policy](../40-proposals/056-orbiplex-tls-trust-policy.md) | `true` | `true` | `false` | `86` |
 | [Proposal 057: User and Operator Notifications](../40-proposals/057-user-and-operator-notifications.md) | `true` | `true` | `false` | `90` |
 | [Proposal 058: Contact Catalog and Private Contact Discovery](../40-proposals/058-contact-catalog.md) | `false` | `true` | `false` | `88` |

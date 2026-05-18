@@ -688,7 +688,7 @@ public/federated `whisper-signal.v1` candidate can be published.
    `deferred-operation` diagnostic, can resume from a completed
    `deferred-operation-status.v1`, and exposes `deferred_response_mode` as the
    per-flow contract decision.
-5. [todo] Add operator visibility for pending/running/timed-out/expired deferred operations.
+5. [partial] Add operator visibility for pending/running/timed-out/expired deferred operations. Artifact Delivery now exposes delivery list/detail, operation-status URLs, retry history, and recovery status in the operator UI; a shared cross-consumer deferred-operation dashboard remains open.
 6. [partial] Use `whisper.redaction.prepare` as the first practical consumer:
    the sync provider path exists; model-assisted provider policy remains outside
    M4/P055, but the connector operation store/status surface now exists.
@@ -708,6 +708,6 @@ public/federated `whisper-signal.v1` candidate can be published.
 | P055-03 | Host policy clamp helper | done | `deferred-operation` owns retry/TTL clamp; `bounded-work-runtime` owns retry/backoff/concurrency mechanics. |
 | P055-04 | Sensorium OS reference deferred action | done | Sensorium-core validates action execution mode, maps connector deferred acknowledgements to canonical host deferred operations, and polls connector status through `sensorium.operation.status`. |
 | P055-05 | JSON-e Flow deferred step status | done | Flow suspends pending deferred outcomes, resumes from completed `deferred-operation-status.v1`, and may reject deferred responses via `deferred_response_mode = "reject-as-failure"`. |
-| P055-06 | Operator visibility | todo | Pending/running/timed-out/expired/cancel/retry state. |
+| P055-06 | Operator visibility | partial | Artifact Delivery exposes deferred delivery list/detail, canonical operation-status URLs, retry history, recovery status, and recoverable counts in daemon and operator UI surfaces. A shared cross-consumer deferred-operation dashboard for Sensorium/JSON-e/AD and explicit cancel controls remains open. |
 | P055-07 | Whisper redaction provider integration | partial | Sync `whisper.redaction.prepare` provider exists; connector deferred start/status support exists; full model-assisted redaction policy remains deployment/provider work. |
 | P055-08 | Artifact Delivery deferred consumer | done | AD can persist a delivery through `submit_deferred` / `artifact.delivery.send?mode=deferred`, return canonical `deferred-operation.v1` with stable operation metadata and `audit/outcome-ref`, expose canonical `deferred-operation-status.v1`, and recover accepted/running/retryable records through its ledger-backed recovery pass. |
