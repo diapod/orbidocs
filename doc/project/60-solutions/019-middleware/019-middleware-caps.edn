@@ -114,12 +114,14 @@
    :kind :observability-contract
    :based-on ["node/middleware/README.md"
               "doc/project/40-proposals/036-memarium.md"]
-   :schemas ["middleware-module-report"]
+   :schemas ["middleware-module-report"
+             "peer-message-observe.v1"]
    :responsibilities
    ["Invoke observers after phase completion even when a dispatch handler short-circuits"
     "Provide post-chain observation over original and effective payloads"
-    "Let Memarium and audit modules record facts about the effective result"]
-   :status :planned}
+    "Let Memarium and audit modules record facts about the effective result"
+    "Allow out-of-process observers through `input_chains[].observer` and `observe_chains[]` without giving them dispatch authority"]
+   :status :done}
 
   {:cap/id :middleware-operator-ui-extensions
    :title "Middleware Operator UI Extensions"

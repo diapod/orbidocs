@@ -27,6 +27,7 @@ Related schemas:
 - `middleware-module-report`
 - `local-input-invoke.v1`
 - `peer-message-invoke.v1`
+- `peer-message-observe.v1`
 - `service-dispatch-request`
 - `service-dispatch-response`
 - `service-offer-publish-request`
@@ -42,6 +43,12 @@ Related schemas:
 ## Status
 
 Implemented MVP, with active extension points.
+
+`Proposal 027: Middleware Peer-Message Dispatch` is closed in this solution.
+The implemented slice includes built-in capability schema presentation with
+middleware fallback for valid unknown schema refs, terminal
+`schema-unavailable` fallback, and out-of-process phase/post-chain observer
+registration through `middleware-module-report`.
 
 ## Purpose
 
@@ -312,7 +319,6 @@ flowchart TB
 
   PreInput -. "phase observer" .-> Observers["phase observers"]:::module
   InboundPeer -. "phase observer" .-> Observers
-  InboundLocal -. "phase observer" .-> Observers
   PreSend -. "phase observer" .-> Observers
   Audit --> PostChain["post-chain observers"]:::module
   PostChain --> Trace["trace/middleware\ncomponent_io_trace summaries"]:::store
@@ -335,6 +341,13 @@ The known chain names are:
 New consumers should prefer phase observers and post-chain observers for
 visibility. Dispatch handlers may short-circuit; observers are meant to see
 what happened even when a handler claimed the message.
+
+Out-of-process peer observers register either with
+`input_chains[].observer = true` for `pre-input`, `inbound-peer`, or
+`pre-send`, or through `observe_chains[]` for those same phase observers plus
+`post-chain`. The daemon invokes them with `peer-message-observe.v1` through a
+bounded fire-and-forget queue. Observer failures are diagnostics; they do not
+alter dispatch.
 
 ## Executor Classes
 
@@ -362,6 +375,7 @@ The report may declare:
 - module identity and description,
 - module role,
 - input chain subscriptions,
+- observer subscriptions,
 - local route claims,
 - host capability handler registrations,
 - workflow-kind handlers,

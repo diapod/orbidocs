@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted for MVP.
+Implemented MVP as part of `doc/project/60-solutions/019-middleware/019-middleware.md`.
 
 ## Problem
 
@@ -216,6 +216,20 @@ Dispatch semantics:
 - receivers MUST verify the artifact content against `schema/ref` before using
   it for scope, input, output, error, or retry validation.
 
+Runtime handling is intentionally three-stage:
+
+1. the built-in daemon handler validates the request and returns `ok` for
+   locally known built-in schemas;
+2. when the request is valid but `schema/ref` is not known locally, the built-in
+   handler returns `Passthrough` so ordinary `inbound-peer` middleware may serve
+   custom capability stores;
+3. after all middleware routes have declined the message, a terminal fallback
+   returns `schema-unavailable`.
+
+Invalid requests are never passed to middleware fallback. They return
+`request-invalid` directly from the built-in handler, which avoids
+sender-visible ambiguity between "bad request" and "unknown schema".
+
 ## Decision Semantics For Peer Messages
 
 In peer-message context only three decisions are meaningful:
@@ -313,6 +327,30 @@ or through an `observer: true` flag on `input_chains` entries. The daemon
 dispatches observer events to out-of-process modules through the same loopback
 HTTP contract, but using fire-and-forget semantics (no response parsing, no
 timeout blocking of the dispatch thread).
+
+`input_chains[].observer = true` is valid only for:
+
+- `pre-input`,
+- `inbound-peer`,
+- `pre-send`.
+
+Observer input-chain entries do not claim dispatch ownership, cannot claim
+local routes, and cannot set `skip_generic_chain`.
+
+`observe_chains[]` supports:
+
+- `pre-input`,
+- `inbound-peer`,
+- `pre-send`,
+- `post-chain`.
+
+Out-of-process observer invocation uses `peer-message-observe.v1`. The
+envelope carries observation kind, phase or post-chain position, message kind,
+correlation id, remote node id, input/effective payload or envelopes, response
+when available, final outcome, and elapsed time. Observer dispatch is
+fire-and-forget through a bounded daemon queue; queue exhaustion, HTTP failure,
+or invalid observer output is logged/audited and never changes peer-message
+dispatch.
 
 ## Operational Boundaries
 
