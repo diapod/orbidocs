@@ -497,8 +497,10 @@ Two trigger types, both required:
   This is the normal path; users never see it.
 - **Emergency**: disk-pressure-based, runs synchronously when free space
   drops below the threshold defined by the profile. Bypasses power policy
-  because the alternative is a failed write. Always emits an operator
-  notification so the user sees that the device is under disk pressure.
+  because the alternative is a failed write. Emits an operator notification
+  when emergency compaction actually reclaims temporal history; an emergency
+  pass with no reclaimable history is logged as diagnostics rather than
+  creating user attention by itself.
 
 The compaction algorithm itself is unchanged: events fully subsumed by a
 later assertion on the same `(subject_id, attribute)` pair, beyond the
@@ -849,25 +851,29 @@ above, they have clearer defaults.
 The first implementation slice is in Node:
 
 - `temporal-profile` provides the pure `DeviceFootprint`,
-  `PerformanceProfile`, dimensions, validation, store handles, and shared
-  compaction-decision logic.
+  `PerformanceProfile`, dimensions, validation, store handles, profile-aware
+  index declarations, and shared compaction-decision logic.
 - Daemon maps `DaemonDiscoveryDeploymentClass` to `DeviceFootprint` at boot
   and supports JSON `performance` config with optional footprint/default
   profile plus per-store overrides.
-- `device-power` provides the `DevicePowerSource` trait and portable
-  `AlwaysAC` fallback; real macOS/Linux battery detection is deliberately a
-  later layer.
+- `device-power` provides the `DevicePowerSource` trait, portable `AlwaysAC`
+  fallback, and best-effort macOS/Linux battery detection.
 - `bounded-work-runtime` has a profiled pass helper that samples power once per
   pass and applies skip/throttle/normal policy from the store handle.
-- `storage-manifest` provides atomic derived manifest writes.
+- `storage-manifest` provides atomic derived manifest writes with an explicit
+  `temporal: true|false` marker.
 - notification-store is the first adopter: it receives a `StoreProfileHandle`,
-  applies profile-derived SQLite pragmas, writes a manifest, and exposes the
-  shared compaction decision boundary.
+  applies profile-derived SQLite pragmas, creates profile-aware indices over
+  one schema, writes a manifest, and performs destructive compaction for
+  `minimal`/`balanced` while preserving current-projection replay.
 
-The implemented slice does not yet include destructive store compaction,
-emergency disk-pressure compaction with operator notification, or a shared
-temporal helper crate for event-log replay. Those remain follow-up slices after
-at least one more store adopts the convention.
+Daemon startup now gathers notification-store disk stats, runs the compaction
+pass, and emits an operator notification when disk pressure forces emergency
+cleanup that reclaims temporal history. That startup notification also publishes
+a best-effort `notification-state-changed` SSE signal when the daemon event bus
+is already available; clients still use their initial notification list read as
+the reconnect/startup source of truth. A shared temporal helper crate for event-log replay remains deferred
+until at least one more store adopts the convention.
 
 ## Remaining Open Questions
 

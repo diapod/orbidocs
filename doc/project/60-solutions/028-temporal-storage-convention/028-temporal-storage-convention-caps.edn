@@ -54,6 +54,7 @@
    ["Select minimal, balanced, or full-audit retention profile per store"
     "Use neutral DeviceFootprint defaults rather than daemon deployment-class semantics in lower storage layers"
     "Require explicit operator acknowledgement for full-audit on non-critical device footprints"
+    "Keep one schema per store kind and make indices/expensive queries profile-aware"
     "Apply profile-specific busy timeout and expose retention, compaction, lease, checksum, and power dimensions"
     "Treat cross-store correlation queries as partial when shorter-retention stores have compacted history"]
    :status :partial}
@@ -67,7 +68,7 @@
    ["Provide shared compaction decision calculation according to the store profile"
     "Run age-based planned compaction according to the store profile"
     "Run emergency disk-pressure compaction before writes fail"
-    "Emit operator notification for emergency compaction"
+    "Emit operator notification and best-effort state-changed signal for emergency compaction when temporal history is actually reclaimed"
     "Write a store manifest listing profile, acknowledged disk cost, files, size, and as-of tx id for backup and operator UI"]
    :status :partial}]
 
@@ -92,6 +93,7 @@
 
 :notes
  ["Notification store is the first implemented core temporal event-log/projection pilot and first performance-profile adopter."
-  "Node now has temporal-profile, device-power, storage-manifest, profile-aware bounded worker passes, daemon performance config, notification-store profile-driven SQLite pragmas, and notification manifests."
-  "Notification store still needs destructive compaction workers and emergency disk-pressure compaction with operator notification before it is fully compliant with this solution."
+  "Node now has temporal-profile, device-power with macOS/Linux best-effort detection, storage-manifest with temporal markers, profile-aware bounded worker passes, daemon performance config, notification-store profile-driven SQLite pragmas, profile-aware notification indices, notification manifests, destructive notification-store compaction for minimal/balanced, and startup emergency disk-pressure compaction notification plus best-effort state-changed signal when history is reclaimed."
+  "The performance-profile and compaction capabilities remain marked partial at the solution level until a second temporal store adopts the convention and proves which helper surfaces should be shared."
+  "Shared temporal replay helpers remain deferred until a second store converges on the same shape."
   "Messaging outbox status and attempts are the recommended second pilot."]}

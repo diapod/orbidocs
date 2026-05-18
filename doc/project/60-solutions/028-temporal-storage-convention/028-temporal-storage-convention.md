@@ -273,8 +273,9 @@ Compaction runs under two triggers, both required for every profile:
 power policy — throttled or skipped on battery for low-profile stores)
 and **emergency** (disk-pressure-based, runs synchronously when free
 space drops below the profile's threshold, bypassing power policy because
-the alternative is a failed write). The emergency trigger always emits an
-operator notification so disk pressure is visible.
+the alternative is a failed write). The emergency trigger emits an operator
+notification when it actually reclaims temporal history; a no-reclaim pass is
+logged as diagnostics so an empty/fresh store does not create attention noise.
 
 Profile change is **immediate by default**: when the profile changes,
 the new retention horizon and compaction strategy apply to existing
@@ -551,17 +552,26 @@ applies profile-derived SQLite pragmas, writes
 changes through `POST /v1/operator/storage/profile-change/{store_id}` by
 writing a restart-required operator config fragment.
 
-The adopted slice intentionally stops at the safe shared boundary:
+The adopted slice keeps the shared boundary explicit:
 `temporal-profile` owns dimensions, validation, power policy, and compaction
 decision calculation; `bounded-work-runtime` can run profiled passes with a
-`DevicePowerSource`; `device-power` currently provides the portable
-`AlwaysAC` fallback; and `storage-manifest` owns atomic manifest writes.
-Destructive notification event compaction, emergency disk-pressure compaction
-that emits operator notifications, and additional real device-power detectors
-remain future store-specific/runtime layers. Until those are implemented,
-notification-store should be described as "temporal event-log/projection plus
-performance-profile wiring done", not as "all compaction policy fully
-operational".
+`DevicePowerSource`; `device-power` provides `AlwaysAC` plus best-effort
+macOS/Linux battery detectors; and `storage-manifest` owns atomic manifest
+writes with an explicit `temporal: true|false` marker.
+
+Notification-store is now the first full adopter of this slice. It keeps one
+schema across profiles, applies profile-aware index declarations, dispatches
+profile-aware list queries without changing the public notification API,
+performs destructive event-log compaction for `minimal` and `balanced` profiles
+while preserving current-projection replay through boundary snapshots, and
+returns a typed `AsOfBeyondRetention` error for as-of requests before the
+retained floor. `full-audit` remains non-destructive. Daemon startup gathers
+store/disk stats, runs a notification-store compaction pass, and emits an
+operator notification when disk pressure forces emergency compaction that
+reclaims temporal history. That notification also publishes a best-effort
+`notification-state-changed` SSE signal through the startup event bus when it is
+available; clients still use their initial notification list read as the
+reconnect/startup source of truth.
 
 The next recommended pilot is the Messaging outbox status/attempt store. Extract
 a shared helper crate only after at least two stores converge on the same shape.
