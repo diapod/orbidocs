@@ -1,0 +1,69 @@
+{:component/id :orbiplex/temporal-storage-convention
+ :component/title "Temporal Storage Convention"
+ :component/type :architecture-convention
+ :component/status :accepted
+
+ :summary
+ "Solution-level storage convention for SQLite-backed Node stores: append
+ transaction/event facts, derive current projections with as_of_tx_id, and prove
+ replay equivalence in tests."
+
+ :must-implement
+ [{:cap/id :temporal-event-log-shape
+   :title "Temporal Event Log Shape"
+   :kind :storage-contract
+   :based-on ["doc/project/40-proposals/062-temporal-storage-convention.md"]
+   :schemas []
+   :responsibilities
+   ["Represent local writes as transaction rows plus event rows"
+    "Keep actor, causation, correlation, and signature metadata on transactions"
+    "Use idempotency_key for logical request deduplication at the event boundary"
+    "Use valid_from and valid_until only for domains with real valid-time semantics"]
+   :status :done}
+
+  {:cap/id :derived-current-projection
+   :title "Derived Current Projection"
+   :kind :storage-contract
+   :based-on ["doc/project/40-proposals/062-temporal-storage-convention.md"]
+   :schemas []
+   :responsibilities
+   ["Serve API and UI reads from current projection tables"
+    "Treat the event log as the recovery source of truth"
+    "Carry as_of_tx_id on projection rows instead of updated_at"
+    "Keep optimistic-concurrency version as derived projection state"]
+   :status :done}
+
+  {:cap/id :replay-equivalence-testing
+   :title "Replay Equivalence Testing"
+   :kind :test-contract
+   :based-on ["doc/project/40-proposals/062-temporal-storage-convention.md"]
+   :schemas []
+   :responsibilities
+   ["Prove that projection replay from events equals the live projection"
+    "Cover as-of replay before and after representative state transitions"
+    "Cover bootstrap migration from pre-temporal current rows"
+    "Cover privacy invariants for event payloads"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :shared-temporal-helper-crate
+   :title "Shared Temporal Helper Crate"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/062-temporal-storage-convention.md"]
+   :schemas []
+   :responsibilities
+   ["Extract typed TxId/EventId and replay harness helpers only after at least two stores converge"
+    "Avoid creating a database framework before the shape is proven by pilots"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Replacing domain-specific validation and projection logic"
+  "Providing distributed transactions across stores"
+  "Turning JSONL audit mirrors into the canonical temporal store"]
+
+ :consumes []
+ :produces []
+
+ :notes
+ ["Notification store is the first implemented pilot."
+  "Messaging outbox status and attempts are the recommended second pilot."]}

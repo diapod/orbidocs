@@ -6,6 +6,11 @@ Date: 2026-05-18
 
 Based on: implementation schema review across Node SQLite stores.
 
+Promoted to: `doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md`
+
+This proposal records the rationale and decision history. The canonical
+implementation guidance now lives in the promoted solution document.
+
 ## Executive Summary
 
 Orbiplex should adopt a small temporal storage convention for database-backed
@@ -549,10 +554,11 @@ Recommended first pilots:
 4. Artifact Delivery delivery/admission events.
 5. Whisper intake stage events with sealed references.
 
-Notification store moves to the top because it already has the right
-architectural shape (audit JSONL as recovery source of truth, SQLite as
-projection); converting it is a refinement of an existing split rather
-than a refactor of in-place state.
+Notification store moved to the top because it already had the right
+architectural shape: a local queue projection and a separate audit trail. The
+implemented pilot makes the SQLite temporal event log the recovery source of
+truth, keeps `notification_queue` as the derived current projection, and keeps
+JSONL as a diagnostic/export mirror rather than the only rebuild source.
 
 ## Decisions
 
@@ -602,9 +608,8 @@ store-specific retention, compaction, and migration questions.
 
 ## Next Actions
 
-1. Choose one pilot store, preferably Notification store first and Messaging
-   outbox second.
-2. Implement event/attempt tables without changing public behavior.
-3. Add replay equivalence tests for the pilot.
+1. Complete the second pilot in Messaging outbox status and attempts.
+2. Implement outbox event/attempt tables without changing public behavior.
+3. Add replay equivalence tests for the outbox pilot.
 4. Reassess whether a small shared temporal helper crate is justified after two
    migrations.

@@ -85,9 +85,12 @@ Adoption is selective:
 - rely on `correlation_id` joins for cross-store sagas rather than introducing a
   shared transaction registry.
 
-The first recommended migrations are Notification state transitions and
-Messaging outbox attempts. A shared helper crate for temporal stores should be
-extracted only after at least two migrations converge on the same shape.
+The first Notification state-transition pilot is implemented in the Node
+reference store. The canonical storage-design guidance lives in
+`doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md`.
+The next recommended migration is Messaging outbox attempts. A shared helper
+crate for temporal stores should be extracted only after at least two migrations
+converge on the same shape.
 
 ## Must Implement
 

@@ -159,6 +159,7 @@ layer:
 notification_queue
   schema                # notification.v1; read path rejects unknown schema
   notification_id       # stable unique id
+  as_of_tx_id           # transaction id whose event produced this projection row
   idempotency_key       # nullable only for internally derived notifications
   correlation_id        # groups notifications from one domain fact
   collapse_key          # producer-provided active-item dedup key
@@ -184,29 +185,35 @@ notification_queue
   policy_ref            # nullable
 ```
 
-The queue is not an append-only public protocol log. It is a local UX state
-store. Queue mutations such as `read/opened`, `handled`, `snoozed`, and
-`retracted` should be mirrored into the local append-only notification audit.
+The queue is not an append-only public protocol log. It is a local UX projection
+stored under `<data-dir>/storage/notifications.sqlite`. The durable source of
+truth for notification state is the SQLite temporal event log in the same store:
 
-MVP storage should still separate mutable UX state from append-only operational
-facts:
+- `notification_transactions` records local transaction time, actor, causation,
+  and correlation metadata.
+- `notification_events` records delivered, suppressed, opened, handled,
+  snoozed, snooze-cleared, deleted, superseded, and action-submitted projection
+  facts.
+- `notification_queue` remains the current inbox projection for low-latency UI
+  and API reads.
 
-- Mutable queue: SQLite under `<data-dir>/storage/notifications.sqlite`, using
-  the same operational posture as other node-local ledgers where practical
-  (`WAL`, `busy_timeout`, explicit `user_version` migrations).
-- Append-only audit: `storage-jsonl::FileLedger` under
-  `<data-dir>/storage/notification-audit/`, recording delivered, suppressed,
-  opened, handled, snoozed, retracted, and action-submitted facts.
+The store uses the same operational posture as other node-local ledgers where
+practical (`WAL`, `busy_timeout`, explicit `user_version` migrations). Queue
+rows are derived from the event log and carry `as_of_tx_id`; they are not a
+second source of truth.
 
-This split keeps the inbox cheap to query while preserving a defensible history
-for "suppression is not deletion" and leak diagnostics.
+For `User` and `PodUser` recipients, event snapshots may include the same sealed
+payload nonce/ciphertext stored in the queue projection. That is intentional:
+the event log must be able to rebuild the projection without consulting JSONL.
+The contract is that the event log does not expose plaintext title/body/actions
+or transient `body/input`.
 
-The audit JSONL is the recovery source of truth. If the SQLite queue is lost
-or corrupted, the inbox state is rebuildable by idempotent replay of audit
-facts in order (delivered, opened, handled, snoozed, snooze-cleared,
-retracted, superseded) reconciled against the idempotency table. Replay
-must be pure: no SSE pings, no retract broadcasts, no producer-visible side
-effects.
+The JSONL audit under `<data-dir>/storage/notification-audit/` remains a
+diagnostic/export mirror. It is not the only recovery source. If the current
+SQLite projection is lost or corrupted while the event log remains intact, the
+inbox state is rebuildable by idempotent replay of `notification_events`.
+Replay must be pure: no SSE pings, no retract broadcasts, no producer-visible
+side effects.
 
 ### Host Capability
 
@@ -835,7 +842,8 @@ The first implementation should include tests for:
    validation.
 4. Implement `NotificationDeliveryPolicy` as data plus a pure evaluator with an
    audit trail.
-5. Implement durable SQLite queue plus append-only JSONL notification audit.
+5. Implement durable SQLite temporal event log plus derived queue projection and
+   JSONL audit mirror.
 6. Add `/operator/notifications` list and detail views.
 7. Add SSE-backed top-bar unread/unhandled indicator with the
    `notification-state-changed.v1` privacy contract.
@@ -851,7 +859,7 @@ The first implementation should include tests for:
 |---|---|---|---|
 | P057-001 | Schema-backed notification contracts | done | `notification*.v1` schemas exist in `doc/schemas/` and are synchronized into `node/protocol/contracts/schemas/`. |
 | P057-002 | Pure notification core and policy evaluator | done | `orbiplex-node-notification-core` defines typed contracts, `NotificationAllow`, idempotency digests, and `NotificationDeliveryPolicy`. |
-| P057-003 | Durable queue and append-only audit | done | `orbiplex-node-notification-store` owns SQLite queue state with `schema` and positive `version` validation, JSONL audit events for create, conflict, opened, handled, snooze, delete, and suppression paths, and Store v3 per-recipient sealing for user/pod-user payload fields. |
+| P057-003 | Durable queue and append-only audit | done | `orbiplex-node-notification-store` owns a SQLite temporal event log (`notification_transactions` + `notification_events`) as the recovery source of truth, derives `notification_queue` current rows with `schema`, `as_of_tx_id`, and positive `version` validation, keeps JSONL audit as a diagnostic/export mirror for create, conflict, opened, handled, snooze, delete, and suppression paths, and Store v4 keeps per-recipient sealing for user/pod-user payload fields. |
 | P057-004 | Legacy `notify_emit` compatibility | done | Daemon `notify_emit` adapts into `notification.create` semantics and persists through the new store. |
 | P057-005 | Host capability `notification.create` | done | Daemon exposes `/v1/host/capabilities/notification.create`, validates through schema-gate, binds `sender/ref` to the authenticated component identity, enforces `NotificationAllow`, evaluates policy, stores, and emits state pings. |
 | P057-006 | Operator notification API | done | Daemon exposes list/detail/opened/handled/snooze/delete routes under `/v1/operator/notifications` and `/v1/admin/notifications`. |
