@@ -866,14 +866,34 @@ The first implementation slice is in Node:
   applies profile-derived SQLite pragmas, creates profile-aware indices over
   one schema, writes a manifest, and performs destructive compaction for
   `minimal`/`balanced` while preserving current-projection replay.
+- messaging-service is the second adopter for outbox status and attempts:
+  `outbox_transactions`, `outbox_events`, and `outbox_attempts` are the local
+  temporal source for outbound queue transitions while the existing `outbox`
+  row remains the public API/UI projection. Migration bootstraps existing
+  outbox rows into redacted projection snapshots, and replay-equivalence tests
+  compare the event-derived projection with the live projection.
+- `temporal-event-log` was extracted after comparing those two pilots. It owns
+  only the common mechanics: transaction inserts, event inserts, projection
+  `as_of_tx_id` updates, and latest-snapshot replay by subject. Store-owned
+  snapshot shape, redaction, attempts, retention, compaction, and as-of horizon
+  errors remain outside the helper.
+- Node exposes the first operator-facing diagnostics API for temporal stores:
+  `GET /v1/operator/storage/stores/{store_id}/temporal/status`,
+  `GET /v1/operator/storage/stores/{store_id}/temporal/events`,
+  `GET /v1/operator/storage/correlations/{correlation_id}`, and
+  `POST /v1/operator/storage/stores/{store_id}/temporal/replay-check`.
+  The event feed is redacted by construction: it returns event metadata,
+  value shape, and value digest, never raw domain payloads. This is an audit and
+  debugging surface, not a full time-travel UI.
 
 Daemon startup now gathers notification-store disk stats, runs the compaction
 pass, and emits an operator notification when disk pressure forces emergency
 cleanup that reclaims temporal history. That startup notification also publishes
 a best-effort `notification-state-changed` SSE signal when the daemon event bus
 is already available; clients still use their initial notification list read as
-the reconnect/startup source of truth. A shared temporal helper crate for event-log replay remains deferred
-until at least one more store adopts the convention.
+the reconnect/startup source of truth. The shared helper was extracted from
+working code rather than designed in advance, and intentionally stays below
+domain storage semantics.
 
 ## Remaining Open Questions
 
@@ -882,8 +902,12 @@ store-specific retention, compaction, and migration questions.
 
 ## Next Actions
 
-1. Complete the second pilot in Messaging outbox status and attempts.
-2. Implement outbox event/attempt tables without changing public behavior.
-3. Add replay equivalence tests for the outbox pilot.
-4. Reassess whether a small shared temporal helper crate is justified after two
-   migrations.
+1. Keep new SQLite operational stores using this convention as their design
+   checklist.
+2. Use `temporal-event-log` for mechanical transaction/event/replay plumbing
+   only; do not move store-owned snapshot, redaction, attempt, retention, or
+   compaction semantics into it.
+3. Keep the operator temporal diagnostics API limited to status, redacted event
+   feed, correlation fragments, and bounded replay/checksum checks.
+4. Pick the next adopter, with Seed Directory accepted facts preferred unless a
+   stronger operational store need appears first.

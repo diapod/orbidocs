@@ -573,8 +573,41 @@ reclaims temporal history. That notification also publishes a best-effort
 available; clients still use their initial notification list read as the
 reconnect/startup source of truth.
 
-The next recommended pilot is the Messaging outbox status/attempt store. Extract
-a shared helper crate only after at least two stores converge on the same shape.
+Messaging outbox status/attempt storage is now the second pilot. The
+`messaging-service` keeps `outbox` as its current projection and records queue
+transitions in `outbox_transactions`, `outbox_events`, and `outbox_attempts`.
+The migration bootstraps existing outbox rows as redacted projection snapshots,
+and replay-equivalence tests compare the event-derived projection with the live
+projection.
+
+After comparing the two pilots, Node now extracts only the genuinely common
+mechanics into `temporal-event-log`: transaction-row insertion, event-row
+insertion, projection `as_of_tx_id` updates, and latest-snapshot replay by
+subject. Domain snapshot shape, privacy redaction, attempt logs, retention,
+compaction, and as-of horizon errors stay in the owning store. This keeps the
+shared crate as a small mechanical primitive rather than a second storage
+framework.
+
+Node now also exposes a deliberately narrow operator diagnostics surface for
+temporal stores:
+
+- `GET /v1/operator/storage/stores/{store_id}/temporal/status` returns current
+  transaction/projection ids, retention horizon, compaction floor, event and
+  transaction counts, last compaction metadata, and last replay/checksum status.
+- `GET /v1/operator/storage/stores/{store_id}/temporal/events?limit=...&correlation_id=...`
+  returns a redacted event feed for debugging. Event `value_json` is summarized
+  by shape and digest only; raw payloads, message bodies, notification bodies,
+  and passport bodies are not returned.
+- `GET /v1/operator/storage/correlations/{correlation_id}` aggregates
+  per-store event fragments into a diagnostic cross-store saga view. Each store
+  reports whether local retention may have cut older history; the endpoint does
+  not claim distributed transactionality.
+- `POST /v1/operator/storage/stores/{store_id}/temporal/replay-check` runs a
+  bounded replay-equivalence/checksum check and stores the result as local
+  diagnostics.
+
+This is operator audit/diagnostics, not a full time-travel UI. Product-level
+historical views remain domain-specific APIs.
 
 ## Trade-offs
 
@@ -614,19 +647,14 @@ Costs:
 | Schema diverges per profile, making migration hard | One schema per store-kind, identical across profiles. Profile drives indices and queries only. Profile upgrade adds indices via `CREATE INDEX IF NOT EXISTS`; profile change is never a schema migration. |
 | As-of query past compaction horizon returns silent partial result | As-of queries return `Result<View, AsOfBeyondRetention>`. Beyond the horizon, only snapshots remain; the API surfaces a typed error rather than fabricating a partial view. |
 
-## Open Questions
-
-1. Which second store should be migrated first: Messaging outbox attempts or
-   Artifact Delivery delivery/admission events?
-2. After two pilots, is a small shared helper crate justified, or are local
-   store-specific helpers still clearer?
-3. Which operator-facing historical queries should become real APIs rather than
-   test-only replay helpers?
-
 ## Next Actions
 
 1. Use this solution as the default checklist when designing new SQLite-backed
    operational stores.
-2. Complete the second pilot in Messaging outbox status and attempts.
-3. Add replay-equivalence tests for that second pilot.
-4. Reassess a shared temporal helper crate after the second pilot, not before.
+2. Use `temporal-event-log` only for mechanical transaction/event/replay
+   plumbing; keep domain snapshots, redaction, attempts, and compaction local to
+   each store.
+3. Keep the operator temporal diagnostics surface narrow: status, redacted event
+   feed, correlation fragments, and replay/checksum checks only.
+4. Pick the next adopter, with Seed Directory accepted facts preferred unless a
+   stronger operational store need appears first.
