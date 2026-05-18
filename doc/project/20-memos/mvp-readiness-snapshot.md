@@ -98,7 +98,7 @@ Recent component deltas:
 | [Proposal 055: Bounded Deferred Operation Contract](../40-proposals/055-bounded-deferred-operation-contract.md) | `true` | `true` | `false` | `100` |
 | [Proposal 056: Orbiplex TLS Trust Policy](../40-proposals/056-orbiplex-tls-trust-policy.md) | `true` | `true` | `false` | `86` |
 | [Proposal 057: User and Operator Notifications](../40-proposals/057-user-and-operator-notifications.md) | `true` | `true` | `false` | `90` |
-| [Proposal 058: Contact Catalog and Private Contact Discovery](../40-proposals/058-contact-catalog.md) | `false` | `true` | `false` | `88` |
+| [Proposal 058: Contact Catalog and Private Contact Discovery](../40-proposals/058-contact-catalog.md) | `false` | `true` | `false` | `90` |
 | [Proposal 059: Participant, Nym, and Routing-Subject Key-Role Derivation](../40-proposals/059-participant-and-nym-key-role-derivation.md) | `false` | `true` | `false` | `90` |
 | [Proposal 060: Messaging Middleware and Personal Message Delivery](../40-proposals/060-messaging-middleware.md) | `false` | `true` | `false` | `88` |
 | [Proposal 061: Contact Attestation Service](../40-proposals/061-contact-attestation-service.md) | `false` | `false` | `false` | `78` |
@@ -133,7 +133,7 @@ Recent component deltas:
 | [Orbiplex Semantic Index](../60-solutions/022-semantic-index/022-semantic-index.md) | `false` | `false` | `false` | `15` |
 | [Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md) | `true` | `true` | `false` | `100` |
 | [TLS Trust Policy](../60-solutions/024-tls-trust-policy/024-tls-trust-policy.md) | `true` | `true` | `false` | `86` |
-| [Contact Catalog](../60-solutions/025-contact-catalog/025-contact-catalog.md) | `false` | `true` | `false` | `88` |
+| [Contact Catalog](../60-solutions/025-contact-catalog/025-contact-catalog.md) | `false` | `true` | `false` | `90` |
 | [Pseudonym Vault and Key Roles](../60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md) | `false` | `true` | `false` | `90` |
 | [Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md) | `false` | `true` | `false` | `88` |
 | [Temporal Storage Convention](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md) | `false` | `false` | `false` | `42` |

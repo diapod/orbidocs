@@ -9,7 +9,7 @@
  contact-control-backed claims, privacy-preserving lookup indexes, redacted
  audit, daemon-local contacts, contact-request admission, and narrow
  messaging-receive passport issuance. Blinded/PSI runtime support and route-set
- v1 are present; richer provider policy UX, recovery semantics, and broader
+ v1 are present; richer provider policy UX, recovery hardening, and broader
  end-to-end transport tests remain post-MVP layers."
 
  :must-implement
@@ -104,7 +104,11 @@
    :responsibilities
    ["Add stronger private discovery profiles after the cryptographic protocol is selected"
     "Keep contact-lookup-result.v1 stable across lookup protocol upgrades"]
-   :status :deferred}
+   :implemented ["Node crypto has a Ristretto255 DH-PSI primitive layer"
+                 "contact-catalog-service accepts blinded-digest and psi lookup modes with matching private-mode index validation"
+                 "Private lookup modes return canonical contact-lookup-result.v1 and share the same redacted audit/rate-limit boundary as invitation-only lookup"]
+   :remaining ["Complete protocol-level PSI exchange UX and broader E2E harness coverage"]
+   :status :partial}
 
   {:cap/id :contact-catalog-provider-policy-ux
    :title "Provider Trust Policy UX"
@@ -130,7 +134,13 @@
    :responsibilities
    ["Define recovery and backup semantics for daemon-local contacts and pairwise nym mappings"
     "Preserve the route-candidate contract while allowing richer contact continuation state"]
-   :status :planned}]
+   :implemented ["Daemon local contacts can export and replay a recovery bundle for local contacts, pairwise mappings, and messaging recovery mirror records"
+                 "pseudonym-vault.v1 can carry a sealed local-contact-recovery-bundle.v1"
+                 "Replay preserves terminal pairwise mapping lifecycle and refuses to reactivate revoked or archived mappings"
+                 "Daemon startup replays the latest root-only sealed vault snapshot"]
+   :remaining ["Add operator unlock/startup UX for root+local-passphrase vaults"
+               "Broaden restart and recovery coverage"]
+   :status :partial}]
 
  :out-of-scope
  ["Global address book"
