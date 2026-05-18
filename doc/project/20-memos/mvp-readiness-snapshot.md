@@ -15,6 +15,7 @@ Recent component deltas:
 - Artifact Delivery moved from "MVP transport foundation" to "MVP hardening mostly covered": Memarium custody target-space policy, profiling counters, metadata-only observers, Matrix mailbox hardening, and `artifact-object-pointer.v1` contract-mode scaffolding are now documented and implemented. It remains partial because `object-store-indirect` is fail-closed until remote fetch and receiver rehydration exist.
 - Notifications now have a local durable MVP foundation: schema-gated `notification.create`, temporal SQLite event log, derived queue projection, JSONL audit mirror, SSE state ping, operator UI, legacy `notify_emit` adapter, and first daemon-owned actions. They remain partial because storage performance profiles, compaction, pod-user UX, OS notifications, and cross-node aggregation are later layers.
 - Contact Catalog and Messaging have moved substantially beyond design: Story 010 strict `ad-smoke` is the current E2E gate for Contact Catalog + Messaging, but production provider selection, broader federation tests, passphrase-unlock recovery UX, and hardening matrices remain open.
+- Replay Scheduler M1 is now fully closed for the hard-MVP slice: the generic bounded scheduler, durable launch ledger, host-owned job-source merge, authority gate, cooperative shutdown, Agora projection replay action, and operator status/control surface are all documented as implemented. Richer Agora-domain panels and non-Agora maintenance jobs are post-M1 extensions.
 - Temporal Storage Convention is now a formal proposal/solution pair with notification-store as the first implemented pilot. The convention is not complete until profile configuration, compaction, emergency cleanup, manifests, and at least one more converged store exist.
 - Bounded Deferred Operations were promoted from Proposal 055 to Solution 029 as a horizontal host control-plane component. The MVP slice is complete: shared wire contracts, host registry, poll/cancel surfaces, JSON-e Flow persisted continuation, Sensorium OS deferred state, operator visibility, and AD consumer integration.
 
@@ -127,7 +128,7 @@ Recent component deltas:
 | [Inter-Node Artifact Channel (INAC)](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md) | `true` | `true` | `false` | `88` |
 | [Classification](../60-solutions/018-classification/018-classification.md) | `true` | `false` | `false` | `61` |
 | [Middleware](../60-solutions/019-middleware/019-middleware.md) | `true` | `true` | `false` | `94` |
-| [Replay Scheduler](../60-solutions/020-scheduler/020-scheduler.md) | `true` | `true` | `false` | `92` |
+| [Replay Scheduler](../60-solutions/020-scheduler/020-scheduler.md) | `true` | `true` | `false` | `100` |
 | [Solution 021: Agora Authority](../60-solutions/021-agora-authority/021-agora-authority.md) | `false` | `false` | `false` | `77` |
 | [Orbiplex Semantic Index](../60-solutions/022-semantic-index/022-semantic-index.md) | `false` | `false` | `false` | `15` |
 | [Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md) | `true` | `true` | `false` | `92` |

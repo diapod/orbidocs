@@ -1,6 +1,6 @@
 # Replay Scheduler
 
-**Status:** Partially implemented (M1 crate + daemon host adapter)
+**Status:** MVP complete (M1 crate, daemon host adapter, Agora replay adapter, and operator surface)
 
 **Based on:** `doc/project/60-solutions/008-agora/008-agora.md`,
 `doc/project/60-solutions/008-agora/008-agora-dir-simplify-impl.md`,
@@ -10,10 +10,12 @@
 
 **Date:** 2026-05-04
 
+**Last synchronized:** 2026-05-18
+
 ## Executive Summary
 
 The Replay Scheduler is a shared host-owned runtime primitive for bounded periodic jobs.
-Its first intended consumer is Agora projection replay: comments, resource opinions,
+Its first production consumer is Agora projection replay: comments, resource opinions,
 public gossip, Seed Directory projections, and offer publication projections can be
 kept fresh from local relay stores without an external trigger.
 
@@ -27,13 +29,14 @@ The implementation should live as a reusable Node crate, tentatively
 `node/replay-scheduler` / `orbiplex-node-replay-scheduler`, with the daemon/host
 providing the standard runtime adapter.
 
-As of 2026-05-04, Phase 1 exists in Node as `node/replay-scheduler`. It implements
-the generic crate, durable SQLite launch ledger, bounded launch gates, jitter/backoff,
-same-gate `run-once`, cooperative shutdown, job-source normalization helpers, and
-contract tests. The daemon also has the first host adapter: it extracts jobs from
-node config and effective signed middleware package fragments, registers
+As of 2026-05-18, the M1 runtime slice exists in Node as `node/replay-scheduler`
+plus a daemon host adapter. It implements the generic crate, durable SQLite launch
+ledger, bounded launch gates, jitter/backoff, same-gate `run-once`, cooperative
+shutdown, job-source normalization helpers, and contract tests. The daemon extracts
+jobs from node config and effective signed middleware package fragments, registers
 `agora.projection.replay` as the first production action, exposes host scheduler
-status/control API, and renders `/admin/scheduler` with HTMX-refreshing job controls.
+status/control API, and renders `/admin/scheduler` with HTMX-refreshing job controls
+and per-job execution history.
 
 ## Context and Problem Statement
 
@@ -535,9 +538,8 @@ last domain error for Agora-owned replay jobs.
   cooperative shutdown.
 - Add restart/double-launch tests.
 
-Status: done for the generic crate. The implementation enforces bounded concurrent
-launches by global and per-job gates; it does not yet expose a daemon-owned HTTP/API
-surface.
+Status: done. The implementation enforces bounded concurrent launches by global and
+per-job gates.
 
 ### Phase 2 — Host adapter and job-source merge
 
@@ -550,6 +552,11 @@ surface.
 - Block runtime registration for another component's owner id unless a delegated
   capability contract allows it.
 
+Status: done. The daemon host adapter owns job-source extraction from node config and
+effective signed middleware package fragments, validates ownership, rejects unknown
+runtime APIs, rejects cross-owner overrides, and normalizes accepted specs before the
+scheduler sees them.
+
 ### Phase 3 — Agora adapter
 
 - Register Agora M2 projection jobs from Agora-owned configuration.
@@ -557,12 +564,23 @@ surface.
 - Add status to host scheduler status and/or Agora status surface.
 - Cover in-memory and SQLite relay/store paths in tests.
 
+Status: done for M1. `agora.projection.replay` is the first production action; the
+daemon job adapter calls the Agora component's loopback operator replay endpoint,
+and Story-009 profiles register comments, thread-policy, opinions, and public-gossip
+replay jobs explicitly. Richer Agora-domain lag/cursor/detail panels are post-M1 UI
+work, not MVP closure criteria for the shared scheduler primitive.
+
 ### Phase 4 — Operator UI
 
 - Host UI shows generic scheduler mechanics.
 - Agora UI surfaces Agora-owned jobs with domain-specific meaning.
 - `run-once`, pause, and resume remain gated by the same authority path as periodic
   launches.
+
+Status: done for the generic host-owned surface. The daemon exposes status, job
+detail, pause/resume, and run-once routes; Node UI renders `/admin/scheduler` with
+HTMX-refreshed job state and per-job execution history. Component-specific Agora
+projection panels remain a post-M1 extension.
 
 ## Trade-offs
 
@@ -608,21 +626,21 @@ Deferred intentionally:
 
 No protocol-level open questions remain for the M1 scheduler contract.
 
-Implementation details still need normal code review when the crate lands:
+The M1 implementation has landed. Remaining review topics are ordinary hardening
+follow-ups rather than protocol blockers:
 
 1. The exact list of initially known `owner_runtime_api` string values.
 2. The exact audit payload for accepted same-owner overrides.
 3. The concrete host configuration path for global scheduler settings.
 
-## Next Actions
+## Post-M1 Follow-Ups
 
-1. Wire the host/daemon adapter that owns global, component, and middleware-package
-   job-source extraction after Local Readiness Gate acceptance.
-2. Wire Agora projection replay jobs as the first real consumer.
-3. Add host scheduler status/run-once/pause/resume routes and keep component-specific
-   rendering inside the owning UI, starting with Agora.
-4. Keep scheduler documentation synchronized with the Rust data shapes as host
-   integration lands.
+1. Add richer Agora-domain projection lag/cursor/detail panels on top of the generic
+   host scheduler job state.
+2. Promote additional host maintenance loops to the shared scheduler only after they
+   have explicit ownership and authority boundaries.
+3. Keep scheduler documentation synchronized with Rust data shapes as post-M1
+   consumers land.
 
 ## Related Capability Data
 

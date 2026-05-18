@@ -1,11 +1,11 @@
 {:component/id :orbiplex/replay-scheduler
  :component/title "Replay Scheduler"
  :component/type :infrastructure
- :component/status :partial
+ :component/status :done
 
  :summary
  "A shared host-owned runtime primitive for bounded periodic jobs. The first
- consumer is Agora projection replay, but the primitive is generic: it owns
+ production consumer is Agora projection replay, and the M1 primitive is complete: it owns
  timing, jitter, backoff, launch accounting, shutdown, and status snapshots;
  domain execution and authorization remain with the owning component and host
  authority gate."
@@ -91,7 +91,7 @@
    ["Register Agora-owned replay jobs for comments, resource opinions, public gossip, Seed Directory accepted-record projections, and offer publication projections"
     "Route each job through Agora projection APIs such as `ProjectionStore::replay_topic_from_relay` rather than embedding Agora semantics in the scheduler"
     "Return generic scheduled job outcomes while Agora UI and status surfaces explain domain meaning"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :scheduler-operator-status-surface
    :title "Scheduler Operator Status Surface"
@@ -138,4 +138,5 @@
  :notes
  ["The scheduler is a host-owned timing and control primitive, not a capability or domain-policy engine."
   "The first implementation should include the durable launch ledger rather than adding it after the runtime exists."
-  "Agora projection replay is the first consumer, but the crate should remain generic and reusable by other host components."]}
+  "Agora projection replay is the first production consumer for M1; richer Agora-domain panels and non-Agora consumers are post-M1 extensions."
+  "The crate should remain generic and reusable by other host components."]}
