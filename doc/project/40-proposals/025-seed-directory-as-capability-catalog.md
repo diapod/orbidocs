@@ -721,6 +721,18 @@ Conditional fields:
 - The `revocations` table is the Seed Directory's federated publication log. It
   is not a required storage backend for node-local revocations whose effect is
   limited to one Node's dispatch gate.
+- The embedded Seed Directory persistence layer now follows the Temporal
+  Storage Convention for accepted facts. Local
+  `seed_directory_transactions` / `seed_directory_events` are the recovery and
+  audit source of truth for accepted advertisements, capability registrations,
+  node-operator bindings, routing-subject bindings, revocations, key
+  delegations, and local operator retractions. The established HTTP/API
+  surfaces still read projection tables. `advertisement_events` remains only a
+  compatibility feed/projection during this transition.
+- Public reads filter projection rows by domain validity (`expires_at`,
+  `valid_until`) and do not perform hidden destructive cleanup. Maintenance and
+  compaction must be explicit, operator-visible, and must not silently change
+  the meaning of the accepted fact log.
 - `GET /cap?capability` joins `capability_registrations` with
   `node_advertisements` to return current endpoints.
 - `GET /participant/{participant-id}` projects accepted

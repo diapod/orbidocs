@@ -872,19 +872,27 @@ The first implementation slice is in Node:
   row remains the public API/UI projection. Migration bootstraps existing
   outbox rows into redacted projection snapshots, and replay-equivalence tests
   compare the event-derived projection with the live projection.
+- Seed Directory accepted facts are the third adopter: accepted node
+  advertisements, capability registrations, node-operator bindings,
+  routing-subject bindings, revocations, key delegations, and local operator
+  retractions are recorded in `seed_directory_transactions` /
+  `seed_directory_events` while the established Seed Directory HTTP/API
+  surfaces continue to read projection tables. Expiry is handled by read-side
+  validity filtering instead of hidden write-on-read deletes.
 - `temporal-event-log` was extracted after comparing those two pilots. It owns
   only the common mechanics: transaction inserts, event inserts, projection
-  `as_of_tx_id` updates, and latest-snapshot replay by subject. Store-owned
-  snapshot shape, redaction, attempts, retention, compaction, and as-of horizon
-  errors remain outside the helper.
+  `as_of_tx_id` updates, latest-snapshot replay by subject, mechanical status
+  counters, and redacted event feeds. Store-owned snapshot shape, redaction,
+  attempts, retention, compaction, and as-of horizon errors remain outside the
+  helper.
 - Node exposes the first operator-facing diagnostics API for temporal stores:
   `GET /v1/operator/storage/stores/{store_id}/temporal/status`,
   `GET /v1/operator/storage/stores/{store_id}/temporal/events`,
   `GET /v1/operator/storage/correlations/{correlation_id}`, and
   `POST /v1/operator/storage/stores/{store_id}/temporal/replay-check`.
   The event feed is redacted by construction: it returns event metadata,
-  value shape, and value digest, never raw domain payloads. This is an audit and
-  debugging surface, not a full time-travel UI.
+  value shape, and `sha256:<base64url-no-pad>` value digest, never raw domain
+  payloads. This is an audit and debugging surface, not a full time-travel UI.
 
 Daemon startup now gathers notification-store disk stats, runs the compaction
 pass, and emits an operator notification when disk pressure forces emergency
@@ -909,5 +917,7 @@ store-specific retention, compaction, and migration questions.
    compaction semantics into it.
 3. Keep the operator temporal diagnostics API limited to status, redacted event
    feed, correlation fragments, and bounded replay/checksum checks.
-4. Pick the next adopter, with Seed Directory accepted facts preferred unless a
-   stronger operational store need appears first.
+4. Use Seed Directory accepted facts as the reference public accepted-fact
+   adopter when designing the next local fact store: event log is recovery
+   source, established public APIs read projections, and operator diagnostics
+   expose status/feed/replay-check rather than full time-travel UI.

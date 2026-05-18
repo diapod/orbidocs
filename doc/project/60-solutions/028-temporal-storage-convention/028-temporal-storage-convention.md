@@ -580,13 +580,25 @@ The migration bootstraps existing outbox rows as redacted projection snapshots,
 and replay-equivalence tests compare the event-derived projection with the live
 projection.
 
-After comparing the two pilots, Node now extracts only the genuinely common
+Seed Directory accepted facts are now the third adopter. The embedded Seed
+Directory keeps its public `/adv`, `/cap`, `/revocations`, `/participant`,
+`/routing-subject`, and `/key` semantics stable, but accepted advertisements,
+capability registrations, node-operator bindings, routing-subject bindings,
+revocations, key delegations, and local operator retractions are written into
+`seed_directory_transactions` / `seed_directory_events` first and then projected
+into the existing read tables. Expired facts are filtered on read by their
+domain validity fields; public reads no longer perform hidden destructive
+write-on-read cleanup. The legacy `advertisement_events` feed remains a
+compatibility projection, not the recovery source of truth.
+
+After comparing the pilots, Node now extracts only the genuinely common
 mechanics into `temporal-event-log`: transaction-row insertion, event-row
-insertion, projection `as_of_tx_id` updates, and latest-snapshot replay by
-subject. Domain snapshot shape, privacy redaction, attempt logs, retention,
-compaction, and as-of horizon errors stay in the owning store. This keeps the
-shared crate as a small mechanical primitive rather than a second storage
-framework.
+insertion, projection `as_of_tx_id` updates, latest-snapshot replay by subject,
+mechanical status counters, and redacted event-feed helpers. Domain snapshot
+shape, privacy redaction policy beyond shape/digest summaries, attempt logs,
+retention, compaction, and as-of horizon errors stay in the owning store. This
+keeps the shared crate as a small mechanical primitive rather than a second
+storage framework.
 
 Node now also exposes a deliberately narrow operator diagnostics surface for
 temporal stores:
@@ -596,8 +608,8 @@ temporal stores:
   transaction counts, last compaction metadata, and last replay/checksum status.
 - `GET /v1/operator/storage/stores/{store_id}/temporal/events?limit=...&correlation_id=...`
   returns a redacted event feed for debugging. Event `value_json` is summarized
-  by shape and digest only; raw payloads, message bodies, notification bodies,
-  and passport bodies are not returned.
+  by shape and `sha256:<base64url-no-pad>` digest only; raw payloads, message
+  bodies, notification bodies, and passport bodies are not returned.
 - `GET /v1/operator/storage/correlations/{correlation_id}` aggregates
   per-store event fragments into a diagnostic cross-store saga view. Each store
   reports whether local retention may have cut older history; the endpoint does
@@ -647,7 +659,7 @@ Costs:
 | Schema diverges per profile, making migration hard | One schema per store-kind, identical across profiles. Profile drives indices and queries only. Profile upgrade adds indices via `CREATE INDEX IF NOT EXISTS`; profile change is never a schema migration. |
 | As-of query past compaction horizon returns silent partial result | As-of queries return `Result<View, AsOfBeyondRetention>`. Beyond the horizon, only snapshots remain; the API surfaces a typed error rather than fabricating a partial view. |
 
-## Next Actions
+## Operational Guidance
 
 1. Use this solution as the default checklist when designing new SQLite-backed
    operational stores.
@@ -656,5 +668,6 @@ Costs:
    each store.
 3. Keep the operator temporal diagnostics surface narrow: status, redacted event
    feed, correlation fragments, and replay/checksum checks only.
-4. Pick the next adopter, with Seed Directory accepted facts preferred unless a
-   stronger operational store need appears first.
+4. Treat Seed Directory accepted facts as the reference adopter for public
+   accepted-fact stores: local event log is recovery/audit source, public API
+   reads projections, and replay-check is operator diagnostics.
