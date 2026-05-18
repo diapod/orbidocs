@@ -5,12 +5,12 @@
 
  :summary
  "Node-attached domain catalog for opt-in private contact discovery. The current
- implementation has the MVP admission and invitation-only lookup spine:
- contact-control-backed claims, privacy-preserving lookup indexes, redacted
- audit, daemon-local contacts, contact-request admission, and narrow
- messaging-receive passport issuance. Blinded/PSI runtime support and route-set
- v1 are present; richer provider policy UX, recovery hardening, and broader
- end-to-end transport tests remain post-MVP layers."
+ hard-MVP implementation has contact-control-backed claim admission,
+ invitation-only/blinded-digest/PSI lookup, route-set v1 results, redacted audit,
+ daemon-local contacts, contact-request admission, narrow messaging-receive
+ passport issuance, local recovery replay, provider trust policy, and
+ non-Agora provider sync with tombstone/revocation replay. Broader production
+ federation matrices and future privacy upgrades remain post-MVP layers."
 
  :must-implement
  [{:cap/id :contact-catalog-claim-admission
@@ -63,10 +63,10 @@
    ["Register exactly one authoritative in-process Artifact Delivery acceptor for contact-request.v1"
     "Persist pending contact-request.v1 state in the daemon-local contact store"
     "Create durable contact-request.received notifications with accept/reject actions"
-    "Issue a narrow messaging-receive@v1 capability passport on user acceptance"
-    "Scope messaging-receive passports to request, sender, recipient route, contact nym, purpose, expiry, and revocation reference"
-    "Record rejection without minting authority"]
-   :status :partial}
+   "Issue a narrow messaging-receive@v1 capability passport on user acceptance"
+   "Scope messaging-receive passports to request, sender, recipient route, contact nym, purpose, expiry, and revocation reference"
+   "Record rejection without minting authority"]
+   :status :done}
 
   {:cap/id :local-contact-store
    :title "Local Contact Store"
@@ -77,10 +77,12 @@
    :responsibilities
    ["Store raw handles, labels, local relationship state, and pairwise nym mappings locally"
     "Keep the store unpublished by default"
-    "Expose local create/list/get/patch/archive routes through the daemon"
-    "Persist accepted contact-request state and local contact decisions"
-    "Expose only redacted or digest-bound references to network artifacts"]
-   :status :partial}]
+   "Expose local create/list/get/patch/archive routes through the daemon"
+   "Expose pairwise active/rotated/revoked/archived mapping lifecycle without deleting history"
+   "Seal and replay local contact recovery bundles through pseudonym-vault.v1, including passphrase-unlock replay"
+   "Persist accepted contact-request state and local contact decisions"
+   "Expose only redacted or digest-bound references to network artifacts"]
+   :status :done}]
 
  :may-implement
  [{:cap/id :federated-contact-catalog-peer-fetch
@@ -92,9 +94,10 @@
    ["Use ObservedCatalogStore<ContactClaimRecord> only for communities that explicitly accept a private peer/fetch federation model"
     "Preserve publisher and origin provenance"
     "Forbid raw contact handles, unsalted public hashes, and public-log-style contact projections in federated records"
-    "Keep Agora out of the Contact Catalog propagation path"
-    "Fetch generic ObservedRecord<ContactClaimRecord> through CatalogAdapter<T,F> when provider policy allows it"]
-   :status :partial}
+   "Keep Agora out of the Contact Catalog propagation path"
+    "Fetch generic ObservedRecord<ContactClaimRecord> through CatalogAdapter<T,F> when provider policy allows it"
+    "Replay provider tombstones/revocation facts and skip uncertain, blocked, expired, or self-origin providers"]
+   :status :done}
 
   {:cap/id :private-contact-lookup-protocol
    :title "Blinded or PSI Contact Lookup"
@@ -106,9 +109,10 @@
     "Keep contact-lookup-result.v1 stable across lookup protocol upgrades"]
    :implemented ["Node crypto has a Ristretto255 DH-PSI primitive layer"
                  "contact-catalog-service accepts blinded-digest and psi lookup modes with matching private-mode index validation"
+                 "PSI hard-MVP uses POST /v1/contact-catalog/psi/evaluate followed by lookup_mode=psi plus psi/match-token"
                  "Private lookup modes return canonical contact-lookup-result.v1 and share the same redacted audit/rate-limit boundary as invitation-only lookup"]
-   :remaining ["Complete protocol-level PSI exchange UX and broader E2E harness coverage"]
-   :status :partial}
+   :remaining ["Broaden production PSI/federation matrices beyond hard-MVP focused tests"]
+   :status :done}
 
   {:cap/id :contact-catalog-provider-policy-ux
    :title "Provider Trust Policy UX"
@@ -121,9 +125,10 @@
     "Harden Seed Directory provider refresh and trust policy beyond the current sidecar cache"
     "Make provider policy changes auditable and reversible"]
    :implemented ["Daemon/service status exposes provider trust cache and sync diagnostics"
-                 "Node UI `/admin/contact-catalog` renders discovered providers and active Trust / Uncertain / Block actions over the service `PATCH /v1/contact-catalog/providers/{id}` policy endpoint"]
-   :remaining ["Add durable audit/revert history for provider policy changes"]
-   :status :partial}
+                 "Node UI `/admin/contact-catalog` renders discovered providers and active Trust / Uncertain / Block actions over the service `PATCH /v1/contact-catalog/providers/{id}` policy endpoint"
+                 "Provider policy changes require a reason and are durably audited with previous/next state, actor, passport hash, and endpoint"]
+   :remaining ["Add richer operator revert workflows after production federation evidence accumulates"]
+   :status :done}
 
   {:cap/id :contact-catalog-recovery-semantics
    :title "Recovery Semantics"
@@ -137,10 +142,10 @@
    :implemented ["Daemon local contacts can export and replay a recovery bundle for local contacts, pairwise mappings, and messaging recovery mirror records"
                  "pseudonym-vault.v1 can carry a sealed local-contact-recovery-bundle.v1"
                  "Replay preserves terminal pairwise mapping lifecycle and refuses to reactivate revoked or archived mappings"
-                 "Daemon startup replays the latest root-only sealed vault snapshot"]
-   :remaining ["Add operator unlock/startup UX for root+local-passphrase vaults"
-               "Broaden restart and recovery coverage"]
-   :status :partial}]
+                 "Daemon startup replays the latest root-only sealed vault snapshot"
+                 "Operator replay/export accepts local_passphrase for root+local-passphrase vaults without unattended startup unlock"]
+   :remaining ["Broaden restart and recovery coverage as production deployment evidence accumulates"]
+   :status :done}]
 
  :out-of-scope
  ["Global address book"

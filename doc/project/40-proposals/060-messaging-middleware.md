@@ -1023,8 +1023,8 @@ prefer contract tests and daemon/service boundaries over UI completeness.
 5. Complete receiver-side revocation-view coverage and supervised cross-node
    acceptor tests for inbound messaging admission.
 6. Extend sealed `pseudonym-vault.v1` recovery beyond the current
-   local-contact import/root-only startup replay into passphrase-unlock
-   startup UX and receive-passport membership restoration.
+   local-contact import/root-only/passphrase replay into broader
+   receive-passport membership restoration matrices.
 7. Add remote Memarium replay to the Layer 2 `reindex` rebuild path.
 8. Keep MVP decision rows and tracker evidence in sync while hardening the
    remaining runtime and recovery paths.

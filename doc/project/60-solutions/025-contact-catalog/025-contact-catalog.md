@@ -6,7 +6,7 @@ handle, such as an email address or phone number, without turning Seed Directory
 into a people directory and without publishing raw `phone/email -> participant`
 maps.
 
-Status: `partial`
+Status: `partial` (hard-MVP implemented; broader privacy/federation expansion remains open)
 
 Date: `2026-05-16`
 
@@ -183,7 +183,7 @@ Responsibilities:
 
 Status:
 
-- `partial` — The daemon owns
+- `done for hard-MVP` — The daemon owns
   `<node-data-dir>/storage/local-contacts.sqlite` and exposes local
   create/list/get/patch/archive routes. Records now carry compatible `label`,
   explicit `labels[]`, `metadata {}`, UX/provenance fields, and an active
@@ -197,8 +197,10 @@ Status:
   without reactivating revoked or archived pairwise mappings.
   `pseudonym-vault.v1` can carry a sealed
   `local-contact-recovery-bundle.v1`; vault import replays that bundle, and
-  daemon startup replays the latest root-only sealed vault snapshot. Operator
-  unlock/startup UX for `root+local-passphrase` vaults remains follow-up work.
+  daemon startup replays the latest root-only sealed vault snapshot. Explicit
+  operator replay/export hooks accept `local_passphrase` for
+  `root+local-passphrase` vaults without opening those vaults during unattended
+  startup or weakening their wrap profile.
 
 ## May Implement
 
@@ -233,7 +235,7 @@ Responsibilities:
 
 Status:
 
-- `partial` — `node/catalog::CatalogAdapter<T, F>` now has a generic
+- `done for hard-MVP` — `node/catalog::CatalogAdapter<T, F>` now has a generic
   `ObservedRecord<T>` fetch contract and Contact Catalog defines
   `RemoteContactClaimFilter`; `contact-catalog-service` uses a
   `RemoteContactCatalogHttpAdapter` to refresh trusted provider claims into a
@@ -255,8 +257,10 @@ Status:
   publication/relay path is introduced. Provider trust changes are durably
   audited with actor, a required reason capped at 1000 characters,
   previous/next state, passport hash and endpoint.
-  Local tombstone production, stronger incremental cursor semantics, and
-  broader multi-process trusted-provider acceptance remain open.
+  Local tombstone facts are produced for operator-tombstoned and
+  projection-revoked claims, exported through `tombstones[]`, and applied on
+  active-only read paths after restart. Broader production federation matrices
+  remain post-MVP hardening.
 
 ### Blinded or PSI Lookup
 
@@ -277,12 +281,18 @@ Responsibilities:
 
 Status:
 
-- `partial` — `orbiplex-node-crypto::contact_psi` provides auditable
+- `done for hard-MVP` — `orbiplex-node-crypto::contact_psi` provides auditable
   Ristretto255 DH-PSI primitives, and the Contact Catalog service accepts
   `blinded-digest` and `psi` lookup modes with mode/index pairing, redacted
-  audit, rate limiting and route-set responses. Full protocol UX and broader
-  PSI failure matrix remain focused lower-level tests rather than a separate
-  top-level E2E harness; Story-010 strict `ad-smoke` remains the E2E gate.
+  audit, rate limiting and route-set responses. Hard-MVP PSI uses
+  `POST /v1/contact-catalog/psi/evaluate` for bounded evaluated elements and
+  candidate tokens, then `POST /v1/contact-catalog/lookups` with
+  `lookup_mode = "psi"` plus `psi/match-token`. The service-local PSI server
+  seed is stored as plain base64url in the service SQLite database; the
+  hard-MVP security boundary is the local data-dir filesystem, and the seed is
+  not emitted through status, audit or sync. Broader PSI failure matrices remain
+  focused lower-level tests rather than a separate top-level E2E harness;
+  Story-010 strict `ad-smoke` remains the E2E gate.
 
 ## Out of Scope
 
