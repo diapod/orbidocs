@@ -18,7 +18,6 @@ Machine-readable schema for a small append-only reputation fact record. This con
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
 - [`doc/project/50-requirements/requirements-008-org-subject-rollout.md`](../../project/50-requirements/requirements-008-org-subject-rollout.md)
 
 ### Stories

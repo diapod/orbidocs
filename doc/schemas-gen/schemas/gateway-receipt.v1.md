@@ -14,7 +14,6 @@ Machine-readable schema for a signed fiat-to-credit or credit-to-fiat crossing p
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
 - [`doc/project/50-requirements/requirements-007-gateway-escrow-mvp.md`](../../project/50-requirements/requirements-007-gateway-escrow-mvp.md)
 - [`doc/project/50-requirements/requirements-008-org-subject-rollout.md`](../../project/50-requirements/requirements-008-org-subject-rollout.md)
 

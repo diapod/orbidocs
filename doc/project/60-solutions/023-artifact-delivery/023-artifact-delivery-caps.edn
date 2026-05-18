@@ -22,6 +22,7 @@
              "artifact-delivery-result.v1"
              "artifact-delivery-status.v1"
              "artifact-delivery-recovery.v1"
+             "artifact-object-pointer.v1"
              "artifact-mailbox-sealed.v1"
              "artifact-mailbox-chunk.v1"]
    :responsibilities
@@ -39,7 +40,10 @@
     "Deferred Artifact Delivery is a P055 consumer: `?mode=deferred` returns `deferred-operation.v1` with stable operation metadata, `audit/outcome-ref`, and a canonical operation-status URL; recovery preserves prior attempts in `retry/history` and returns schema-gated `artifact-delivery-recovery.v1`. The daemon also starts a background recovery worker by default, with interval, batch, and pass-deadline policy visible to operators."
     "Referenced payload resolution is registry-based and fail-closed. Production resolvers include `artifact-store:`, public Memarium refs, scoped Memarium refs (`memarium-entry:<space>:<entry-id>`, `memarium-fact:<space>:<fact-id>`) that require outbound component context and the host `memarium.read` passport gate, `agora-record:<record-id>` which fetches through the configured Agora endpoint only when the outbound allow includes that scheme, and `inac-peer-artifact:<node-id>:<artifact-id>` which resolves from the host-owned peer artifact cache and remains digest-bound to the envelope descriptor."
     "Current runtime records, validates, and reports policy support for the mechanical enforcement subset. Full generic retention/operator-review semantics remain route/adapter/domain-specific until proven reusable."
-    "Matrix mailbox store-and-forward transport and `inac-peer-artifact:` peer artifact cache lookup are present at MVP level. Matrix mailbox exposes operator-visible worker metrics, room readiness/errors, chunk counters, bounded peer artifact cache limits, deterministic room ensure/repair, and sealed larger-object event chunking through `artifact-mailbox-chunk.v1`. Matrix media and a generic object-store protocol remain later layers."]}
+    "The `memarium-blob.v1` in-process acceptor now has daemon-local custody target-space policy via `artifact_delivery_acceptors.memarium_blob_custody`; default behavior remains `public`, configured `personal`/`community` spaces are allowed, and `crisis` is rejected until a separate crisis-custody contract exists."
+    "Artifact Delivery exposes lightweight profiling counters for payload materialization and transport accounting, including inline/file-backed source counts, materialization bytes/time, transport payload bytes, and WSS stream chunk counts without logging payload contents."
+    "Read-only observer hooks are present for delivery/admission completion metadata. Observers see ids, status, schema and digest fields only; observer panics are counted and ignored so they never change the authoritative acceptor result."
+    "Matrix mailbox store-and-forward transport and `inac-peer-artifact:` peer artifact cache lookup are present at MVP level. Matrix mailbox exposes operator-visible worker metrics, room readiness/errors, chunk counters, bounded peer artifact cache limits, deterministic room ensure/repair, and sealed larger-object event chunking through `artifact-mailbox-chunk.v1`. `artifact-object-pointer.v1` and `object-store-indirect` are contract-mode only: the schema and selector vocabulary exist, but daemon config fails closed until remote fetch and receiver rehydration are implemented. Matrix media remains deferred."]}
 
   {:cap/id :artifact-delivery-outbound-authorization
    :title "Outbound Authorization and Recipient Resolution"
@@ -137,8 +141,10 @@
                  "Remote INAC disabled transport is reported as permanent configuration failure, while missing live peer sessions remain retryable"
                  "Matrix mailbox fallback transport with `artifact-mailbox-sealed.v1` for plaintext/JSON payloads"
                  "Matrix mailbox room ensure/repair and operator-visible room/chunk status"
-                 "Matrix mailbox larger-object event chunking with `artifact-mailbox-chunk.v1` sealed payload fragments"]
-   :remaining ["Profile whether a lower-level zero-copy WebSocket frame split is still worth adding beyond the authenticated application-frame carrier"]}]
+                 "Matrix mailbox larger-object event chunking with `artifact-mailbox-chunk.v1` sealed payload fragments"
+                 "Lightweight profiling counters for materialization and transport accounting"]
+   :remaining ["Use profiling data to decide whether a lower-level zero-copy WebSocket frame split is worth adding beyond the authenticated application-frame carrier"
+               "Implement receiver-side fetch/rehydrate before enabling the contract-mode `object-store-indirect` adapter"]}]
 
  :may-implement
  [{:cap/id :artifact-delivery-capability-recipient-resolver

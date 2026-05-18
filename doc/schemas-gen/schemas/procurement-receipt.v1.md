@@ -18,7 +18,6 @@ Machine-readable schema for the auditable outcome of a procurement contract.
 ### Requirements
 
 - [`doc/project/50-requirements/requirements-001-node-onboarding.md`](../../project/50-requirements/requirements-001-node-onboarding.md)
-- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
 - [`doc/project/50-requirements/requirements-007-gateway-escrow-mvp.md`](../../project/50-requirements/requirements-007-gateway-escrow-mvp.md)
 
 ### Stories

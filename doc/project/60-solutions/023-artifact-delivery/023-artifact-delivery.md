@@ -228,14 +228,17 @@ Current implementation status:
   before local policy evaluation is meaningful, and accepting a candidate under
   local policy does not automatically install it as a runtime trust root.
 
-The implementation is still `partial` because configurable custody target-space
-policy, generic raw binary optimization/profiling, and broader production
-hardening remain later layers. INAC authorization/invitations, `agora-record:`
-payload resolution, public/scoped Memarium referenced payload resolution, WSS
-stream chunks above the inline ceiling, the `inac.stream.chunk.binary.v1` chunk
-carrier with JSON/base64url fallback, Matrix mailbox store-and-forward with room
-lifecycle repair and larger-object event chunking, and `inac-peer-artifact:`
-peer artifact resolution are now implemented at MVP level.
+The implementation is still `partial` because the generic object-store
+indirect transport is contract-mode only: the schema, selector vocabulary and
+daemon configuration exist, but enabling the adapter fails closed until remote
+fetch and receiver rehydration are implemented. INAC authorization/invitations,
+`agora-record:` payload resolution, public/scoped Memarium referenced payload
+resolution, configurable Memarium custody target-space policy for
+`memarium-blob.v1`, lightweight AD profiling counters, WSS stream chunks above
+the inline ceiling, the `inac.stream.chunk.binary.v1` chunk carrier with
+JSON/base64url fallback, Matrix mailbox store-and-forward with room lifecycle
+repair and larger-object event chunking, metadata-only read-only observers, and
+`inac-peer-artifact:` peer artifact resolution are implemented at MVP level.
 The MVP also includes a P055-style
 deferred submit mode, a manual recovery pass, and a daemon background recovery
 worker enabled by default:
@@ -1249,8 +1252,10 @@ Status:
   and `memarium-custody@v1` passport authorization before AD inbound admission.
   The baseline `memarium-blob.v1` acceptor requires explicit
   `signature.key/public`, rejects plaintext custody, and records accepted
-  custody facts in the local public Memarium space until a later custody-policy
-  layer adds configurable target spaces.
+  custody facts in the daemon-local target space selected by
+  `artifact_delivery_acceptors.memarium_blob_custody`. The default target space
+  remains `public`; `personal` and `community` may be allowed by local config;
+  `crisis` is rejected until a separate crisis-custody contract exists.
 
 ### Outbound Authorization and Recipient Resolution
 
@@ -1579,21 +1584,28 @@ Status:
     effective config/route table shape so operator visibility does not depend on
     runtime placement.
 
-## Open Questions
+## Resolved Implementation Decisions
 
-1. Should observers/audit hooks exist separately from authoritative acceptors?
-
-   Suggested default: not in the MVP. Add read-only observers only after the
-   single-owner admission path is implemented and tested.
+1. Observer hooks are allowed only as read-only, metadata-only observers outside
+   the authoritative acceptor path. Observer failures are logged and counted but
+   never change the delivery or admission result.
+2. Lower-level WSS zero-copy is not implemented without profiling evidence. The
+   runtime records materialization counts, materialized bytes, materialization
+   time, source class (`inline` / `file-backed`), stream chunk counts and
+   transport payload bytes so the next optimization decision is data-led.
+3. Generic object-store indirect delivery is represented in contracts and
+   schema, but disabled fail-closed in daemon configuration until receiver-side
+   fetch, digest/size/expiry verification and rehydrated admission are present.
 
 ## Next Actions
 
-1. Add configurable Memarium custody target-space policy when custody routing
-   needs more than the current explicit fail-closed/default-space behavior.
-2. Profile whether a lower-level zero-copy WebSocket frame split is still worth
-   adding beyond the authenticated application-frame carrier.
-3. Add Matrix media or a generic object-store transport only if payloads above
-   the current sealed-materialization cap need mailbox store-and-forward.
+1. Implement receiver-side fetch/rehydrate for `artifact-object-pointer.v1`
+   before enabling `object-store-indirect`.
+2. Use profiling counters from operator/status snapshots to decide whether a
+   lower-level zero-copy WebSocket frame split is worth adding beyond the
+   authenticated application-frame carrier.
+3. Keep Matrix media deferred; prefer the generic object-store path for payloads
+   that outgrow the current Matrix mailbox sealed chunk carrier.
 
 ## Related Capability Data
 

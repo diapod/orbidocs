@@ -15,7 +15,6 @@ Machine-readable schema for one buyer-facing purchase intent referencing a stand
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
 - [`doc/project/50-requirements/requirements-010-middleware-executor.md`](../../project/50-requirements/requirements-010-middleware-executor.md)
 - [`doc/project/50-requirements/requirements-011-dator-arca-contracts.md`](../../project/50-requirements/requirements-011-dator-arca-contracts.md)
 - [`doc/project/50-requirements/requirements-012-service-offers-orders.md`](../../project/50-requirements/requirements-012-service-offers-orders.md)

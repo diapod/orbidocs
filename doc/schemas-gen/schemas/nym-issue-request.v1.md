@@ -11,10 +11,6 @@ Machine-readable schema for a participant-signed request to issue a fresh applic
 
 ## Project Lineage
 
-### Requirements
-
-- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
-
 ### Stories
 
 - [`doc/project/30-stories/story-001-swarm-node-onboarding.md`](../../project/30-stories/story-001-swarm-node-onboarding.md)

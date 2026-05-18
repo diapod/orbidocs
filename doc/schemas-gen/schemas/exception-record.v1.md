@@ -16,7 +16,6 @@ Machine-readable schema for a first-class audit record describing one bounded op
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
 - [`doc/project/50-requirements/requirements-008-org-subject-rollout.md`](../../project/50-requirements/requirements-008-org-subject-rollout.md)
 
 ### Stories

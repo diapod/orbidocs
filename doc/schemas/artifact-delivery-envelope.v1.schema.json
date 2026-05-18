@@ -211,6 +211,16 @@
             },
             "max/nodes": { "type": "integer", "minimum": 1, "maximum": 1 }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "node/id"],
+          "properties": {
+            "selector/kind": { "const": "object-store-indirect" },
+            "node/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+            "inac/authorization": { "$ref": "#/$defs/inac_authorization" }
+          }
         }
       ]
     },

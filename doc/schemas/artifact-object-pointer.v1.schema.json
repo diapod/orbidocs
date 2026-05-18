@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-object-pointer:v1",
+  "title": "ArtifactObjectPointer v1",
+  "description": "Small Artifact Delivery control artifact pointing to a host-owned object-store payload. The pointer is not authority: receivers MUST fetch the object, verify digest, size, expiry, and local transport policy, then admit the original artifact through normal Artifact Delivery admission.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "pointer/id",
+    "artifact/schema",
+    "artifact/content-type",
+    "artifact/digest",
+    "artifact/size-bytes",
+    "store/scheme",
+    "store/ref",
+    "expires/at",
+    "issued/at"
+  ],
+  "properties": {
+    "schema": { "const": "artifact-object-pointer.v1" },
+    "schema/v": { "const": 1 },
+    "pointer/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "artifact/schema": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "artifact/content-type": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "artifact/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "artifact/size-bytes": { "type": "integer", "minimum": 0 },
+    "store/scheme": { "type": "string", "enum": ["daemon-object-store"] },
+    "store/ref": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "fetch/token-ref": {
+      "type": "string",
+      "description": "Optional bounded fetch-token reference. The token value itself MUST NOT be embedded when the pointer is visible to logs or untrusted intermediaries.",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "payload/security": {
+      "type": "string",
+      "enum": ["sealed", "integrity-only"],
+      "default": "sealed"
+    },
+    "expires/at": { "type": "string", "format": "date-time" },
+    "issued/at": { "type": "string", "format": "date-time" }
+  }
+}

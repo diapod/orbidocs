@@ -15,7 +15,6 @@ Machine-readable schema for one trusted gateway policy binding a servicing node 
 
 ### Requirements
 
-- [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
 - [`doc/project/50-requirements/requirements-007-gateway-escrow-mvp.md`](../../project/50-requirements/requirements-007-gateway-escrow-mvp.md)
 - [`doc/project/50-requirements/requirements-008-org-subject-rollout.md`](../../project/50-requirements/requirements-008-org-subject-rollout.md)
 

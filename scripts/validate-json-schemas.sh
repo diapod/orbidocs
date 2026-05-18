@@ -56,6 +56,9 @@ schema_for_file() {
     *.artifact-delivery-status.json)
       echo "$SCHEMAS_DIR/artifact-delivery-status.v1.schema.json"
       ;;
+    *.artifact-object-pointer.json)
+      echo "$SCHEMAS_DIR/artifact-object-pointer.v1.schema.json"
+      ;;
     *.inac-control.json)
       echo "$SCHEMAS_DIR/inac-control.v1.schema.json"
       ;;
