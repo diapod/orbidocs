@@ -153,13 +153,14 @@ Responsibilities:
 
 Status:
 
-- `partial` — The daemon registers a default in-process Artifact Delivery
+- `done for hard-MVP` — The daemon registers a default in-process Artifact Delivery
   acceptor target `contact.request`, persists `contact-request.v1` state, creates
   durable `contact-request.received` notifications, exposes host-owned
   accept/reject actions, and issues `messaging-receive@v1` passports on
   acceptance. Validation tests cover real participant signatures, expiry, bad
-  purpose, bad signature, and redacted notification wording. Broader supervised
-  multi-process AD accept/reject tests remain open.
+  purpose, bad signature, and redacted notification wording. Story 010 strict
+  smoke exercises the operator notification accept path end-to-end; broader
+  failure-matrix AD accept/reject tests remain post-MVP hardening.
 
 ### Local Contact Store
 
