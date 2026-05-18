@@ -268,7 +268,8 @@ in operator UI as informational, not as a fault.
 Background workers read their store's profile and adapt power policy
 accordingly. There is no separate "power policy" axis.
 
-Compaction runs under two triggers, both required for every profile:
+For `full-compaction-required` stores, compaction runs under two triggers,
+both required for every destructive profile:
 **planned** (age-based, on a background worker that respects the profile's
 power policy — throttled or skipped on battery for low-profile stores)
 and **emergency** (disk-pressure-based, runs synchronously when free
@@ -276,6 +277,9 @@ space drops below the profile's threshold, bypassing power policy because
 the alternative is a failed write). The emergency trigger emits an operator
 notification when it actually reclaims temporal history; a no-reclaim pass is
 logged as diagnostics so an empty/fresh store does not create attention noise.
+`bounded-noop-required` stores must still publish compaction status, but the
+operation is diagnostic/no-op until the owning domain defines a destructive
+retention action.
 
 Profile change is **immediate by default**: when the profile changes,
 the new retention horizon and compaction strategy apply to existing
@@ -287,6 +291,37 @@ so that a store's stated profile is also its actual profile across the
 whole history. Gradual transition remains available as an opt-in
 (`profile_change_mode = "gradual"`) for rare cases where phased rollout
 is wanted.
+
+### Compaction Requirement Boundary
+
+Every temporal store must expose the same hard-MVP observability contract:
+a replayable event log, a derived current projection, diagnostics, replay-check,
+and a storage manifest. Destructive compaction is not universal.
+
+Stores choose one of two explicit classes:
+
+- `full-compaction-required` — the store owns locally growing history whose
+  retention must be reduced by the generic temporal profile. The current
+  adopter is `notification-store`: it writes a manifest and performs destructive
+  temporal compaction for `minimal` and `balanced` profiles while preserving
+  replay through boundary snapshots.
+- `bounded-noop-required` — the store's temporal history is bounded or retained
+  by domain rules, so generic destructive compaction would erase the wrong
+  semantics. The store still writes a manifest, exposes status/replay-check, and
+  reports `compaction.policy = "bounded-noop"` with a reason.
+
+Current bounded/no-op adopters are:
+
+- `seed-directory` accepted facts: validity and expiry are domain facts, and
+  public projections filter expired material on read. Generic destructive
+  compaction is not a hard-MVP requirement.
+- `messaging` outbox: the temporal log records queue state and attempts. Message
+  body retention, Maildir cleanup, and user/operator retention decisions belong
+  to messaging, not to the generic temporal profile.
+
+New temporal stores must choose `full-compaction-required` or
+`bounded-noop-required` in their design notes and justify the class before they
+are considered hard-MVP complete.
 
 ### Storage Layout Manifest
 
@@ -578,7 +613,10 @@ Messaging outbox status/attempt storage is now the second pilot. The
 transitions in `outbox_transactions`, `outbox_events`, and `outbox_attempts`.
 The migration bootstraps existing outbox rows as redacted projection snapshots,
 and replay-equivalence tests compare the event-derived projection with the live
-projection.
+projection. Messaging writes `storage/messaging/manifest.json`, exposes temporal
+status/feed/replay-check through the daemon proxy, and declares
+`compaction.policy = "bounded-noop"` because outbox cleanup and Maildir body
+retention are messaging-domain policies.
 
 Seed Directory accepted facts are now the third adopter. The embedded Seed
 Directory keeps its public `/adv`, `/cap`, `/revocations`, `/participant`,
@@ -589,7 +627,11 @@ revocations, key delegations, and local operator retractions are written into
 into the existing read tables. Expired facts are filtered on read by their
 domain validity fields; public reads no longer perform hidden destructive
 write-on-read cleanup. The legacy `advertisement_events` feed remains a
-compatibility projection, not the recovery source of truth.
+compatibility projection, not the recovery source of truth. Seed Directory
+writes `storage/seed-directory/manifest.json`, exposes temporal
+status/feed/replay-check, and declares `compaction.policy = "bounded-noop"`
+because validity/expiry filtering is the hard-MVP retention boundary for
+accepted public facts.
 
 After comparing the pilots, Node now extracts only the genuinely common
 mechanics into `temporal-event-log`: transaction-row insertion, event-row

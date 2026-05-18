@@ -1544,7 +1544,10 @@ Already done:
   supervised Contact Catalog admission, shared lookup, contact request
   delivery, operator accept, `messaging-receive@v1` passport handoff,
   private-direct `message-envelope.v1` delivery, and delivered
-  inbox/outbox state (P060-035 `done`)
+  inbox/outbox state. The smoke report now also includes non-gating
+  temporal diagnostics for Seed Directory and Messaging so operator
+  storage/profile regressions are visible without making them a
+  domain-story step (P060-035 `done`; see Solution 028 / Proposal 062)
 - signer-derived sender identity + Pseudonym Vault reply-route
   creation for contact requests (P060-013 evidence)
 - kind-specific Layer 3 fact artifacts written through `memarium.write`

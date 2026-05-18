@@ -57,7 +57,7 @@
     "Keep one schema per store kind and make indices/expensive queries profile-aware"
     "Apply profile-specific busy timeout and expose retention, compaction, lease, checksum, and power dimensions"
     "Treat cross-store correlation queries as partial when shorter-retention stores have compacted history"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :temporal-compaction-and-manifest
    :title "Temporal Compaction and Storage Manifest"
@@ -70,7 +70,7 @@
     "Run emergency disk-pressure compaction before writes fail"
     "Emit operator notification and best-effort state-changed signal for emergency compaction when temporal history is actually reclaimed"
     "Write a store manifest listing profile, acknowledged disk cost, files, size, and as-of tx id for backup and operator UI"]
-   :status :partial}]
+   :status :done}]
 
  :may-implement
  [{:cap/id :shared-temporal-helper-crate
@@ -94,6 +94,7 @@
 :notes
  ["Notification store is the first implemented core temporal event-log/projection pilot and first performance-profile adopter."
   "Node now has temporal-profile, device-power with macOS/Linux best-effort detection, storage-manifest with temporal markers, profile-aware bounded worker passes, daemon performance config, notification-store profile-driven SQLite pragmas, profile-aware notification indices, notification manifests, destructive notification-store compaction for minimal/balanced, and startup emergency disk-pressure compaction notification plus best-effort state-changed signal when history is reclaimed."
-  "The performance-profile and compaction capabilities remain marked partial at the solution level until a second temporal store adopts the convention and proves which helper surfaces should be shared."
-  "Shared temporal replay helpers remain deferred until a second store converges on the same shape."
-  "Messaging outbox status and attempts are the recommended second pilot."]}
+  "Messaging outbox status/attempt storage and Seed Directory accepted facts are converged bounded/no-op adopters: both expose temporal status/feed/replay-check and storage manifests while reporting compaction.policy = bounded-noop with domain retention rationale."
+  "The hard-MVP compaction boundary is explicit: notification-store is full-compaction-required; messaging and Seed Directory accepted facts are bounded-noop-required."
+  "Shared temporal replay helpers remain optional because the current shared crate deliberately stops at mechanical event/replay primitives."
+  "The shared temporal-event-log crate remains intentionally mechanical and does not own domain retention, redaction, attempts, or destructive compaction semantics."]}

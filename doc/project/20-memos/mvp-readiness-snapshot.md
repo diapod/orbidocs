@@ -13,10 +13,10 @@ Change basis: this refresh incorporates the current worktree state on 2026-05-18
 Recent component deltas:
 
 - Artifact Delivery moved from "MVP transport foundation" to hard-MVP complete: Memarium custody target-space policy, profiling counters, metadata-only observers, Matrix mailbox hardening, and `object-store-indirect` fetch/rehydrate through `artifact-object-pointer.v1` are now documented and implemented. Lower-level zero-copy and Matrix media variants remain post-MVP optimization layers.
-- Notifications now have a local durable MVP foundation: schema-gated `notification.create`, temporal SQLite event log, derived queue projection, JSONL audit mirror, SSE state ping, operator UI, legacy `notify_emit` adapter, and first daemon-owned actions. They remain partial because storage performance profiles, compaction, pod-user UX, OS notifications, and cross-node aggregation are later layers.
+- Notifications now have a local durable MVP foundation: schema-gated `notification.create`, temporal SQLite event log, derived queue projection, JSONL audit mirror, SSE state ping, operator UI, legacy `notify_emit` adapter, first daemon-owned actions, profile-aware manifests, and destructive temporal compaction for local notification history. They remain partial because pod-user UX, OS notifications, and cross-node aggregation are later layers.
 - Contact Catalog and Messaging have moved substantially beyond design: Story 010 strict `ad-smoke` is the current E2E gate for Contact Catalog + Messaging. Contact Catalog hard-MVP recovery, tombstone/revocation replay, PSI/blinded lookup, and provider sync are implemented; production provider selection, broader federation tests, and larger hardening matrices remain open.
 - Replay Scheduler M1 is now fully closed for the hard-MVP slice: the generic bounded scheduler, durable launch ledger, host-owned job-source merge, authority gate, cooperative shutdown, Agora projection replay action, and operator status/control surface are all documented as implemented. Richer Agora-domain panels and non-Agora maintenance jobs are post-M1 extensions.
-- Temporal Storage Convention is now a formal proposal/solution pair with notification-store as the first implemented pilot. The convention is not complete until profile configuration, compaction, emergency cleanup, manifests, and at least one more converged store exist.
+- Temporal Storage Convention is now hard-MVP complete: notification-store is the full-compaction-required adopter, while messaging outbox and Seed Directory accepted facts are converged bounded/no-op adopters with manifests, temporal status/feed/replay-check, and explicit `compaction.policy = "bounded-noop"` diagnostics.
 - Bounded Deferred Operations were promoted from Proposal 055 to Solution 029 as a horizontal host control-plane component. The MVP slice is complete: shared wire contracts, host registry, poll/cancel surfaces, JSON-e Flow persisted continuation, Sensorium OS deferred state, operator visibility, and AD consumer integration.
 - Proposal 054 now has the core runtime trust slice implemented: `seed-directory-query-attestation.v1` is schema-gated, Seed Directory can attach opt-in signed response attestations, daemon can opt into trusted Agora replay for `adv`, `cap`, and `revocations` lanes, replay cursors/status are persisted in the embedded store, and projection equivalence tests include revocation effects. Multi-directory query/merge policy and the full operator trust UI remain open.
 
@@ -103,7 +103,7 @@ Recent component deltas:
 | [Proposal 059: Participant, Nym, and Routing-Subject Key-Role Derivation](../40-proposals/059-participant-and-nym-key-role-derivation.md) | `false` | `true` | `false` | `90` |
 | [Proposal 060: Messaging Middleware and Personal Message Delivery](../40-proposals/060-messaging-middleware.md) | `false` | `true` | `false` | `88` |
 | [Proposal 061: Contact Attestation Service](../40-proposals/061-contact-attestation-service.md) | `false` | `false` | `false` | `78` |
-| [Proposal 062: Temporal Storage Convention](../40-proposals/062-temporal-storage-convention.md) | `false` | `false` | `false` | `42` |
+| [Proposal 062: Temporal Storage Convention](../40-proposals/062-temporal-storage-convention.md) | `false` | `true` | `false` | `100` |
 
 ## Solutions
 
@@ -137,5 +137,5 @@ Recent component deltas:
 | [Contact Catalog](../60-solutions/025-contact-catalog/025-contact-catalog.md) | `false` | `true` | `false` | `90` |
 | [Pseudonym Vault and Key Roles](../60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md) | `false` | `true` | `false` | `90` |
 | [Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md) | `false` | `true` | `false` | `88` |
-| [Temporal Storage Convention](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md) | `false` | `false` | `false` | `42` |
+| [Temporal Storage Convention](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md) | `false` | `true` | `false` | `100` |
 | [Bounded Deferred Operations](../60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md) | `true` | `true` | `false` | `100` |

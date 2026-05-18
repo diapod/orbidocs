@@ -487,10 +487,10 @@ history.
 
 The original draft listed compaction as a future concern. On end-user
 devices it is not — event logs that grow forever fill user disks
-invisibly. Compaction must be available from the first migration of any
-store under this convention.
+invisibly. A temporal store must therefore choose an explicit compaction
+class from the first migration.
 
-Two trigger types, both required:
+For `full-compaction-required` stores, two trigger types are required:
 
 - **Planned**: age-based, runs on a background worker, respects the
   profile's power policy (skip/throttle on battery for low-profile stores).
@@ -502,12 +502,16 @@ Two trigger types, both required:
   pass with no reclaimable history is logged as diagnostics rather than
   creating user attention by itself.
 
-The compaction algorithm itself is unchanged: events fully subsumed by a
-later assertion on the same `(subject_id, attribute)` pair, beyond the
-profile's retention horizon, are replaced by a `compacted_snapshot` event
-(`balanced`/`full-audit`) or removed (`minimal`). Excision remains a
-separate, separately-authorized mechanism; compaction and excision never
-run together.
+For `bounded-noop-required` stores, compaction is explicit but
+non-destructive: status reports `compaction.policy = "bounded-noop"` and a
+reason, while retention remains the owning domain's policy.
+
+For destructive adopters, the compaction algorithm itself is unchanged:
+events fully subsumed by a later assertion on the same `(subject_id,
+attribute)` pair, beyond the profile's retention horizon, are replaced by a
+`compacted_snapshot` event (`balanced`/`full-audit`) or removed (`minimal`).
+Excision remains a separate, separately-authorized mechanism; compaction and
+excision never run together.
 
 ## Recommended Adoption Targets
 
@@ -879,6 +883,13 @@ The first implementation slice is in Node:
   `seed_directory_events` while the established Seed Directory HTTP/API
   surfaces continue to read projection tables. Expiry is handled by read-side
   validity filtering instead of hidden write-on-read deletes.
+- The hard-MVP compaction boundary is explicit: every temporal store needs an
+  event log, projection, diagnostics, replay-check, and manifest, but only
+  stores with unbounded local history need destructive generic compaction.
+  `notification-store` is `full-compaction-required`. Seed Directory accepted
+  facts and messaging outbox are `bounded-noop-required`: both expose manifests
+  and `compaction.policy = "bounded-noop"`, while validity/expiry and message
+  retention remain domain semantics.
 - `temporal-event-log` was extracted after comparing those two pilots. It owns
   only the common mechanics: transaction inserts, event inserts, projection
   `as_of_tx_id` updates, latest-snapshot replay by subject, mechanical status
@@ -908,7 +919,7 @@ domain storage semantics.
 None for the draft convention. Future implementation work may still raise
 store-specific retention, compaction, and migration questions.
 
-## Next Actions
+## Operational Guidance
 
 1. Keep new SQLite operational stores using this convention as their design
    checklist.
@@ -921,3 +932,7 @@ store-specific retention, compaction, and migration questions.
    adopter when designing the next local fact store: event log is recovery
    source, established public APIs read projections, and operator diagnostics
    expose status/feed/replay-check rather than full time-travel UI.
+5. Classify every future temporal store as either `full-compaction-required` or
+   `bounded-noop-required`. A bounded/no-op store must still expose a manifest
+   and status reason; it must not pretend that generic destructive compaction
+   occurred.
