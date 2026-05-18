@@ -384,18 +384,27 @@ into a `DeviceFootprint` at config load (`LaptopDynamic → Ephemeral`,
 decouple storage profile from deployment-class defaults. This keeps the
 temporal convention zero-dependency on daemon-level concepts.
 
-Per-store override is always available:
+Per-store override is always available. TOML snippets are acceptable as
+explanatory notation, but Orbiplex Node's actual layered configuration files
+are JSON. The canonical Node shape is:
 
-```toml
-[performance]
-default_profile = "minimal"
-
-[stores.notifications]
-profile = "minimal"
-
-[stores.agora_relay]
-profile = "full-audit"
-operator_acknowledged_disk_cost = true
+```json
+{
+  "performance": {
+    "device_footprint": "personal",
+    "default_profile": "minimal",
+    "per_store": {
+      "notifications": {
+        "profile": "minimal"
+      },
+      "agora-relay": {
+        "profile": "full-audit",
+        "operator_acknowledged_disk_cost": true,
+        "operator_acknowledged_disk_cost_at": "2026-05-18T12:00:00Z"
+      }
+    }
+  }
+}
 ```
 
 The `operator_acknowledged_disk_cost = true` flag is **required** when a
@@ -803,6 +812,7 @@ above, they have clearer defaults.
    `Projection` trait with replay-equivalence harness, and an `AsOf`
    primitive. Do not pre-build it — extract from working code in
    notification-store and outbox-store.
+
 2. **Time format**: RFC3339 for `tx_time`; integer counters for operational
    durations and hot-path scheduling fields. Persisted ledger timestamps that
    already use integer Unix nanoseconds may keep that representation, but the
@@ -833,6 +843,31 @@ above, they have clearer defaults.
    the base event shape. Stores that need indexed content equality may add a
    domain-specific digest column, but that is an optimization, not part of the
    temporal contract.
+
+## Implementation Status
+
+The first implementation slice is in Node:
+
+- `temporal-profile` provides the pure `DeviceFootprint`,
+  `PerformanceProfile`, dimensions, validation, store handles, and shared
+  compaction-decision logic.
+- Daemon maps `DaemonDiscoveryDeploymentClass` to `DeviceFootprint` at boot
+  and supports JSON `performance` config with optional footprint/default
+  profile plus per-store overrides.
+- `device-power` provides the `DevicePowerSource` trait and portable
+  `AlwaysAC` fallback; real macOS/Linux battery detection is deliberately a
+  later layer.
+- `bounded-work-runtime` has a profiled pass helper that samples power once per
+  pass and applies skip/throttle/normal policy from the store handle.
+- `storage-manifest` provides atomic derived manifest writes.
+- notification-store is the first adopter: it receives a `StoreProfileHandle`,
+  applies profile-derived SQLite pragmas, writes a manifest, and exposes the
+  shared compaction decision boundary.
+
+The implemented slice does not yet include destructive store compaction,
+emergency disk-pressure compaction with operator notification, or a shared
+temporal helper crate for event-log replay. Those remain follow-up slices after
+at least one more store adopts the convention.
 
 ## Remaining Open Questions
 

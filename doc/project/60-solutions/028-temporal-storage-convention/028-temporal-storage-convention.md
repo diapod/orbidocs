@@ -220,18 +220,27 @@ The daemon's `DaemonDiscoveryDeploymentClass` is mapped into
 directly in the performance config when they want storage profile
 decoupled from deployment-class defaults.
 
-Per-store override:
+Per-store override in documentation may be shown as TOML notation, but
+Orbiplex Node's real layered configuration is JSON. The canonical Node
+shape is:
 
-```toml
-[performance]
-default_profile = "minimal"
-
-[stores.notifications]
-profile = "minimal"
-
-[stores.agora_relay]
-profile = "full-audit"
-operator_acknowledged_disk_cost = true
+```json
+{
+  "performance": {
+    "device_footprint": "personal",
+    "default_profile": "minimal",
+    "per_store": {
+      "notifications": {
+        "profile": "minimal"
+      },
+      "agora-relay": {
+        "profile": "full-audit",
+        "operator_acknowledged_disk_cost": true,
+        "operator_acknowledged_disk_cost_at": "2026-05-18T12:00:00Z"
+      }
+    }
+  }
+}
 ```
 
 `operator_acknowledged_disk_cost = true` is **required** when a store
@@ -240,6 +249,12 @@ be `minimal` or `balanced` (i.e. `Ephemeral`, `Personal`, or `Hosted`).
 Readiness gate refuses to bring the store up otherwise. The flag is recorded with its acknowledgement timestamp and
 shown in operator UI; this is how a public service hosted on a personal
 device avoids becoming an invisible disk eater.
+
+`Critical` footprints do not require this acknowledgement because
+`full-audit` is their expected default. They are still operator-visible:
+Node emits a startup warning for any store whose resolved SQLite pragmas use
+`synchronous = "FULL"`, because that setting improves durability but can make
+writes fsync-bound even on critical infrastructure.
 
 The acknowledgement covers **retention, not availability**. A `full-audit`
 store on a personal device preserves history when the process runs; it
@@ -299,6 +314,129 @@ scope per store. A user wanting to back up their notifications copies
 exactly the files listed in the manifest; restore is a directory-paste.
 This makes "what is this file?" answerable without grep against source
 code.
+
+### Adopting the Profile Layer in a Node Store
+
+A new Node store should adopt the operational profile layer in this order:
+
+1. Choose one stable `StoreId` from the reserved vocabulary or add a new
+   documented id. Current reserved ids are `notifications`,
+   `artifact-delivery`, `inac`, `agora-relay`, `agora-projections`, and
+   `messaging`.
+2. Accept a `StoreProfileHandle` in the store configuration. Stores must not
+   read daemon config or deployment-class values directly.
+3. Apply `handle.sqlite_pragmas()` immediately after SQLite connect, before
+   migrations or write-path work.
+4. Use `should_compact(handle.resolved(), stats)` as the shared decision
+   boundary, then run only domain-specific compaction that preserves replay
+   invariants.
+5. Write `<data-dir>/storage/<store>/manifest.json` after boot and after
+   commits that materially change file layout, schema version, projection
+   cursor, or storage size.
+6. Let daemon/operator endpoints expose profile and manifest snapshots. The
+   manifest remains a derived operator view, never recovery authority.
+
+### Component Contract: One Schema, Profile-Aware Indices and Queries
+
+A store using this convention declares its relationship in two layers,
+not one. The component need not know about every dimension of the
+profile — only what is described below.
+
+**Layer 1 — store-level binary decision: temporal or not.**
+
+A component states once, in its manifest:
+
+```json
+{ "store/id": "notifications", "temporal": true, "profile": "minimal", ... }
+```
+
+When `temporal: false`, the convention does not apply to the store at
+all (pure cache, memoization, idempotency-only lookup). When
+`temporal: true`, the store inherits `domain_transactions`,
+`domain_events`, the projection table, replay tests, manifest, and the
+profile resolver. There is no per-table opt-in inside one store — the
+decision is binary at the store level.
+
+**Layer 2 — within a temporal store, schema is one, indices and queries
+are profile-aware.**
+
+| Aspect | Strategy |
+| --- | --- |
+| Table schema (DDL, columns, constraints) | One schema per store-kind. Identical across profiles. |
+| Indices | Profile-aware. Declared as data with `min_profile`. |
+| Queries | Profile-aware. Three named SQL strings + match dispatcher. |
+| Retention, compaction, power policy | Profile-driven (already in this convention). |
+| Snapshot vs delta in events | Profile-aware. `minimal` may prefer snapshots; `full-audit` deltas. |
+
+Rationale: schema is the domain contract — what this store *means*.
+Profile is the operational dialect — how intensively we use it. Mixing
+them produces two stores pretending to be one, makes profile change a
+schema migration (blocking adoption), and turns replay-equivalence tests
+into N × N combinations.
+
+**Indices as data:**
+
+```rust
+pub struct IndexSpec {
+    pub name: &'static str,
+    pub columns: &'static [&'static str],
+    pub min_profile: PerformanceProfile,
+}
+
+pub const NOTIFICATION_INDICES: &[IndexSpec] = &[
+    IndexSpec { name: "events_subject_tx_idx",  columns: &["subject_id", "tx_id"], min_profile: Minimal },
+    IndexSpec { name: "events_correlation_idx", columns: &["correlation_id"],      min_profile: Balanced },
+    IndexSpec { name: "events_actor_idx",       columns: &["actor_id"],            min_profile: FullAudit },
+];
+```
+
+Migration code filters by `min_profile <= current_profile` and runs
+`CREATE INDEX IF NOT EXISTS`. Profile upgrade adds indices safely;
+profile downgrade leaves them in place (drop is opt-in to avoid
+surprising the next upgrade).
+
+**Queries as data, dispatcher as code:**
+
+```rust
+mod notification_queries {
+    pub const LIST_MINIMAL: &str = "SELECT ... FROM notification_current ORDER BY tx_id DESC LIMIT 50";
+    pub const LIST_BALANCED: &str = LIST_MINIMAL;  // explicit equality, not duplication
+    pub const LIST_FULL_AUDIT: &str = "
+        SELECT c.*, COUNT(e.event_id) AS event_count
+        FROM notification_current c
+        LEFT JOIN notification_events e ON e.subject_id = c.subject_id
+        GROUP BY c.subject_id ORDER BY c.tx_id DESC LIMIT 50";
+}
+
+fn list_notifications(profile: PerformanceProfile, ...) -> Result<...> {
+    let sql = match profile {
+        PerformanceProfile::Minimal   => notification_queries::LIST_MINIMAL,
+        PerformanceProfile::Balanced  => notification_queries::LIST_BALANCED,
+        PerformanceProfile::FullAudit => notification_queries::LIST_FULL_AUDIT,
+    };
+    // execute(sql, ...)
+}
+```
+
+Three strings, one match. No trait machinery, no codegen. Most queries
+in a typical store have a single variant — only the ones whose cost
+truly differs across profiles (joins against events, aggregations over
+`correlation_id`, audit views) carry three.
+
+**Three pitfalls to avoid:**
+
+1. **"Column only for full-audit"** — the column exists in the schema
+   regardless of profile; under `minimal` it is simply `NULL`. Schema
+   constant, contract clear, no profile-conditional DDL.
+2. **Query result differs across profiles** — a query like
+   `SELECT FROM events WHERE tx_time > NOW() - 1 year` returns empty under
+   `minimal` (30-day retention) and full history under `full-audit`. This
+   is correct behavior, not a bug. Operator UI must label such views as
+   "history limited by retention profile".
+3. **As-of query past compaction horizon** — as-of `T` reconstructs from
+   event log. Beyond the compaction horizon, only snapshots remain. The
+   API returns `Result<View, AsOfBeyondRetention>` — a typed error, not a
+   silent partial result.
 
 ## Time Axes
 
@@ -403,12 +541,27 @@ notifications, event snapshots may include sealed nonce/ciphertext so replay can
 rebuild the projection; plaintext title/body/actions and transient `body/input`
 must not be present in event rows.
 
-The notification pilot does **not** yet implement the full performance-profile
-layer introduced by this solution. Per-store profile configuration, compaction
-workers, emergency disk-pressure compaction, and storage manifests are the next
-slice before notification storage can be called fully compliant with this
-solution. Until then, it should be described as "core temporal pilot done",
-not as "complete temporal storage convention implemented".
+The notification pilot now also adopts the first performance-profile layer:
+Node resolves a daemon-owned `performance` config at boot, maps
+`DaemonDiscoveryDeploymentClass` to the neutral `DeviceFootprint` axis unless
+overridden, injects a read-only `StoreProfileHandle` into notification-store,
+applies profile-derived SQLite pragmas, writes
+`storage/notifications/manifest.json`, exposes
+`GET /v1/operator/storage/profiles`, and accepts explicit per-store profile
+changes through `POST /v1/operator/storage/profile-change/{store_id}` by
+writing a restart-required operator config fragment.
+
+The adopted slice intentionally stops at the safe shared boundary:
+`temporal-profile` owns dimensions, validation, power policy, and compaction
+decision calculation; `bounded-work-runtime` can run profiled passes with a
+`DevicePowerSource`; `device-power` currently provides the portable
+`AlwaysAC` fallback; and `storage-manifest` owns atomic manifest writes.
+Destructive notification event compaction, emergency disk-pressure compaction
+that emits operator notifications, and additional real device-power detectors
+remain future store-specific/runtime layers. Until those are implemented,
+notification-store should be described as "temporal event-log/projection plus
+performance-profile wiring done", not as "all compaction policy fully
+operational".
 
 The next recommended pilot is the Messaging outbox status/attempt store. Extract
 a shared helper crate only after at least two stores converge on the same shape.
@@ -448,6 +601,8 @@ Costs:
 | Wall-clock skew after suspend mass-expires leases and retries | Use monotonic clock for all operational timers; on resume past a threshold (~5 minutes), run projection checksum verify and lease audit before resuming normal work. |
 | Profile change silently destroys history | Profile change is immediate by default; config validator refuses the change unless `operator_acknowledged_compaction_on_change = true` accompanies it. Gradual transition available as explicit opt-in. |
 | Cross-store saga fragments after retention expiry | Accepted as expected outcome. Cross-store `correlation_id` queries return partial sagas with explicit gaps; UI labels them "partial — retention expired in: <store list>". No global minimum retention across joined stores. |
+| Schema diverges per profile, making migration hard | One schema per store-kind, identical across profiles. Profile drives indices and queries only. Profile upgrade adds indices via `CREATE INDEX IF NOT EXISTS`; profile change is never a schema migration. |
+| As-of query past compaction horizon returns silent partial result | As-of queries return `Result<View, AsOfBeyondRetention>`. Beyond the horizon, only snapshots remain; the API surfaces a typed error rather than fabricating a partial view. |
 
 ## Open Questions
 

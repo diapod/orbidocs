@@ -52,10 +52,11 @@
    :schemas []
    :responsibilities
    ["Select minimal, balanced, or full-audit retention profile per store"
-    "Require explicit operator acknowledgement for full-audit on personal-device deployment classes"
-    "Apply profile-specific retention horizon, compaction strategy, busy timeout, and background-worker power behavior"
+    "Use neutral DeviceFootprint defaults rather than daemon deployment-class semantics in lower storage layers"
+    "Require explicit operator acknowledgement for full-audit on non-critical device footprints"
+    "Apply profile-specific busy timeout and expose retention, compaction, lease, checksum, and power dimensions"
     "Treat cross-store correlation queries as partial when shorter-retention stores have compacted history"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :temporal-compaction-and-manifest
    :title "Temporal Compaction and Storage Manifest"
@@ -63,11 +64,12 @@
    :based-on ["doc/project/40-proposals/062-temporal-storage-convention.md"]
    :schemas []
    :responsibilities
-   ["Run age-based planned compaction according to the store profile"
+   ["Provide shared compaction decision calculation according to the store profile"
+    "Run age-based planned compaction according to the store profile"
     "Run emergency disk-pressure compaction before writes fail"
     "Emit operator notification for emergency compaction"
     "Write a store manifest listing profile, acknowledged disk cost, files, size, and as-of tx id for backup and operator UI"]
-   :status :todo}]
+   :status :partial}]
 
  :may-implement
  [{:cap/id :shared-temporal-helper-crate
@@ -89,6 +91,7 @@
  :produces []
 
 :notes
- ["Notification store is the first implemented core temporal event-log/projection pilot."
-  "Notification store still needs profile, compaction, and manifest wiring before it is fully compliant with this solution."
+ ["Notification store is the first implemented core temporal event-log/projection pilot and first performance-profile adopter."
+  "Node now has temporal-profile, device-power, storage-manifest, profile-aware bounded worker passes, daemon performance config, notification-store profile-driven SQLite pragmas, and notification manifests."
+  "Notification store still needs destructive compaction workers and emergency disk-pressure compaction with operator notification before it is fully compliant with this solution."
   "Messaging outbox status and attempts are the recommended second pilot."]}
