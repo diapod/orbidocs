@@ -807,7 +807,10 @@ The remaining open questions are post-MVP:
 1. What operator-facing aggregate metrics are useful for abuse defense without
    leaking address-book contents?
 
-## Next Actions
+## Post-MVP Next Actions
+
+The hard-MVP tracker below is complete. The remaining actions are production
+hardening and privacy/federation expansion beyond the hard-MVP acceptance gate.
 
 1. Harden the daemon-managed Contact Catalog provider trust policy beyond the
    MVP trusted/uncertain/blocked cache.

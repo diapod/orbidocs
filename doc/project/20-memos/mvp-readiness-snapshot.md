@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-05-18.
+Snapshot date: 2026-05-19.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -8,13 +8,14 @@ Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implement
 
 Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
 
-Change basis: this refresh incorporates the current worktree state on 2026-05-18, including Story 010, Proposals 057-062, Solutions 025-029, the Artifact Delivery / INAC / TLS trust updates, and the related notification, contact, messaging, pseudonym-vault, service-CA, artifact-mailbox, artifact-object-pointer, temporal-storage, and bounded-deferred-operation schemas and trackers.
+Change basis: this refresh incorporates the current worktree state on 2026-05-19, including Story 010, Proposals 057-062, Solutions 025-029, the Artifact Delivery / INAC / TLS trust updates, and the related notification, contact, messaging, pseudonym-vault, service-CA, artifact-mailbox, artifact-object-pointer, temporal-storage, and bounded-deferred-operation schemas and trackers.
 
 Recent component deltas:
 
 - Artifact Delivery moved from "MVP transport foundation" to hard-MVP complete: Memarium custody target-space policy, profiling counters, metadata-only observers, Matrix mailbox hardening, and `object-store-indirect` fetch/rehydrate through `artifact-object-pointer.v1` are now documented and implemented. Lower-level zero-copy and Matrix media variants remain post-MVP optimization layers.
 - Notifications now have a local durable MVP foundation: schema-gated `notification.create`, temporal SQLite event log, derived queue projection, JSONL audit mirror, SSE state ping, operator UI, legacy `notify_emit` adapter, first daemon-owned actions, profile-aware manifests, and destructive temporal compaction for local notification history. They remain partial because pod-user UX, OS notifications, and cross-node aggregation are later layers.
-- Contact Catalog and Messaging have moved substantially beyond design: Story 010 strict `ad-smoke` is the current E2E gate for Contact Catalog + Messaging. Contact Catalog hard-MVP recovery, tombstone/revocation replay, PSI/blinded lookup, provider sync, provider trust controls, and contact-control-vs-identity wording are implemented; Messaging recovery now seals local-contact and messaging recovery mirrors into `pseudonym-vault.v1` and replays the latest root-only sealed recovery snapshot at startup. Production contactability provider selection, broader federation tests, receive-passport restoration matrices, body encryption, and larger hardening matrices remain open.
+- Contact Catalog hard-MVP is tracker-complete: Proposal 058 and Solution 025 now report the implemented route-set `contact-claim.v1` / `contact-lookup-result.v1` runtime, supervised service, local contact recovery, tombstone/revocation replay, PSI/blinded lookup, provider sync, provider trust controls, and contact-control-vs-identity wording as done for the hard-MVP slice.
+- Messaging hard-MVP is tracker-complete: Proposal 060 and Solution 027 now report supervised messaging runtime, daemon-mediated contactability provider discovery/challenge/redeem, Contact Catalog lookup/contact-request handoff, private-direct delivery, `messaging.flag.v1` read/unread replay, Node UI controls, and Story 010 strict `ad-smoke` as done for the hard-MVP slice. Production privacy/federation expansion, receive-passport restoration matrices beyond the current sealed local recovery path, body encryption, HTML rendering, group messaging, and live multi-device push remain post-MVP work.
 - Replay Scheduler M1 is now fully closed for the hard-MVP slice: the generic bounded scheduler, durable launch ledger, host-owned job-source merge, authority gate, cooperative shutdown, Agora projection replay action, and operator status/control surface are all documented as implemented. Richer Agora-domain panels and non-Agora maintenance jobs are post-M1 extensions.
 - Temporal Storage Convention is now hard-MVP complete: notification-store is the full-compaction-required adopter, while messaging outbox and Seed Directory accepted facts are converged bounded/no-op adopters with manifests, temporal status/feed/replay-check, and explicit `compaction.policy = "bounded-noop"` diagnostics.
 - Bounded Deferred Operations were promoted from Proposal 055 to Solution 029 as a horizontal host control-plane component. The MVP slice is complete: shared wire contracts, host registry, poll/cancel surfaces, JSON-e Flow persisted continuation, Sensorium OS deferred state, operator visibility, and AD consumer integration.
@@ -35,7 +36,7 @@ Recent component deltas:
 | [Story 007: Settlement-Capable Node as the Authoritative ORC Ledger](../30-stories/story-007-settlement-capable-node.md) | `false` | `false` | `false` | `82` |
 | [Story 008: Leaving an Opinion on a Website via the Local Node](../30-stories/story-008-cool-site-comment.md) | `false` | `false` | `false` | `100` |
 | [Story 009: The magazine publishes itself — a three-node blogging pipeline about Bielik, conducted by Arca](../30-stories/story-009-bielik-blog-arca.md) | `false` | `false` | `false` | `85` |
-| [Story 010: Message to a Friend](../30-stories/story-010-message-to-a-friend.md) | `false` | `true` | `false` | `88` |
+| [Story 010: Message to a Friend](../30-stories/story-010-message-to-a-friend.md) | `false` | `true` | `false` | `100` |
 
 ## Proposals
 
@@ -99,9 +100,9 @@ Recent component deltas:
 | [Proposal 055: Bounded Deferred Operation Contract](../40-proposals/055-bounded-deferred-operation-contract.md) | `true` | `true` | `false` | `100` |
 | [Proposal 056: Orbiplex TLS Trust Policy](../40-proposals/056-orbiplex-tls-trust-policy.md) | `true` | `true` | `false` | `86` |
 | [Proposal 057: User and Operator Notifications](../40-proposals/057-user-and-operator-notifications.md) | `true` | `true` | `false` | `90` |
-| [Proposal 058: Contact Catalog and Private Contact Discovery](../40-proposals/058-contact-catalog.md) | `false` | `true` | `false` | `94` |
+| [Proposal 058: Contact Catalog and Private Contact Discovery](../40-proposals/058-contact-catalog.md) | `false` | `true` | `false` | `100` |
 | [Proposal 059: Participant, Nym, and Routing-Subject Key-Role Derivation](../40-proposals/059-participant-and-nym-key-role-derivation.md) | `false` | `true` | `false` | `90` |
-| [Proposal 060: Messaging Middleware and Personal Message Delivery](../40-proposals/060-messaging-middleware.md) | `false` | `true` | `false` | `92` |
+| [Proposal 060: Messaging Middleware and Personal Message Delivery](../40-proposals/060-messaging-middleware.md) | `false` | `true` | `false` | `100` |
 | [Proposal 061: Contact Attestation Service](../40-proposals/061-contact-attestation-service.md) | `false` | `false` | `false` | `78` |
 | [Proposal 062: Temporal Storage Convention](../40-proposals/062-temporal-storage-convention.md) | `false` | `true` | `false` | `100` |
 
@@ -134,8 +135,8 @@ Recent component deltas:
 | [Orbiplex Semantic Index](../60-solutions/022-semantic-index/022-semantic-index.md) | `false` | `false` | `false` | `15` |
 | [Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md) | `true` | `true` | `false` | `100` |
 | [TLS Trust Policy](../60-solutions/024-tls-trust-policy/024-tls-trust-policy.md) | `true` | `true` | `false` | `86` |
-| [Contact Catalog](../60-solutions/025-contact-catalog/025-contact-catalog.md) | `false` | `true` | `false` | `92` |
+| [Contact Catalog](../60-solutions/025-contact-catalog/025-contact-catalog.md) | `false` | `true` | `false` | `100` |
 | [Pseudonym Vault and Key Roles](../60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md) | `false` | `true` | `false` | `90` |
-| [Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md) | `false` | `true` | `false` | `90` |
+| [Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md) | `false` | `true` | `false` | `100` |
 | [Temporal Storage Convention](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md) | `false` | `true` | `false` | `100` |
 | [Bounded Deferred Operations](../60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md) | `true` | `true` | `false` | `100` |

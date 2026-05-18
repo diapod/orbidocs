@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging.flag:v1",
+  "title": "MessagingFlag v1",
+  "description": "Messaging-owned Layer 3 fact recording a replayable local message flag change, such as read/unread.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/060-messaging-middleware.md"],
+  "required": [
+    "schema",
+    "schema/v",
+    "fact/id",
+    "event/at",
+    "message/id",
+    "mailbox/id",
+    "flag/name",
+    "flag/state",
+    "actor/ref"
+  ],
+  "properties": {
+    "schema": { "const": "messaging.flag.v1" },
+    "schema/v": { "const": 1 },
+    "fact/id": {
+      "type": "string",
+      "pattern": "^fact:messaging.flag:[a-z0-9][a-z0-9:-]*$"
+    },
+    "event/at": { "type": "string", "format": "date-time" },
+    "message/id": { "type": "string", "minLength": 1 },
+    "mailbox/id": { "type": "string", "minLength": 1 },
+    "flag/name": {
+      "type": "string",
+      "enum": ["read"]
+    },
+    "flag/state": {
+      "type": "string",
+      "enum": ["set", "cleared"]
+    },
+    "actor/ref": { "type": "string", "minLength": 1 },
+    "source/device-id": { "type": "string", "minLength": 1 },
+    "causation/ref": { "type": "string", "minLength": 1 }
+  }
+}

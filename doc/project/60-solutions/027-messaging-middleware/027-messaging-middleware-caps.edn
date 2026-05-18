@@ -1,14 +1,15 @@
 {:component/id :orbiplex/messaging-middleware
  :component/title "Messaging Middleware"
  :component/type :node-attached-runtime
- :component/status :partial
+ :component/status :hard-mvp-done
 
  :summary
  "Node-attached personal messaging runtime for Proposal 060: inbound
  message-envelope.v1 admission, outbound contact permission and private-direct
  delivery, messaging-receive@v1 receive-consent passports, Maildir plus SQLite
  mailbox state, bounded Memarium facts, Pseudonym Vault recovery records, and a
- thin Node UI. Body encryption, group messaging, and multi-device read sync are
+ thin Node UI. Read/unread state is synchronized by messaging.flag.v1 replay.
+ Body encryption, group messaging, and live multi-device mailbox-state push are
  post-MVP."
 
  :must-implement
@@ -31,16 +32,18 @@
    :title "Supervised Messaging Service"
    :kind :service
    :based-on ["doc/project/40-proposals/060-messaging-middleware.md"]
-   :schemas ["message-envelope.v1"]
+   :schemas ["message-envelope.v1"
+             "messaging.flag.v1"]
    :responsibilities
    ["Expose authenticated status, inbound accept, outbound queue, mailbox, message, retry, process, pending-fact replay, retention, crisis, and reindex endpoints"
     "Store Layer 1 message bodies in Maildir and Layer 2 indexes in SQLite"
     "Keep outbound bodies as Maildir draft records instead of long SQLite text"
     "Fail closed against receiver-side revocation snapshots before persisting inline messaging-receive passports"
     "Run reindex as remote Memarium replay, local Layer 3 replay, Maildir walk, and FTS5 rebuild"
+    "Store and replay read/unread state through messaging.flag.v1 and a rebuildable SQLite flag projection"
     "Use PRAGMA user_version migrations for storage evolution"
     "Stay disabled by default in bundled daemon config"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :contactability-and-local-contacts
    :title "Contactability Drafts And Local Contacts"
@@ -52,12 +55,13 @@
              "contact-attestation-request.v1"
              "contact-attestation-result.v1"]
    :responsibilities
-   ["Expose daemon contactability draft, options, attest, and publish endpoints for the Story-010 operator path"
+   ["Expose daemon contactability draft, options, challenge/redeem, passport import, and publish endpoints for the Story-010 operator path"
     "Keep local contacts as daemon-local UX and continuity projections rather than network evidence"
     "Store labels, metadata, handle digests, and active/rotated pairwise contact-nym mappings"
     "Validate local-contact import/export and contact-attestation request/result boundaries through schema-gate"
+    "Discover trusted/fresh attestation providers through Seed Directory before challenge/redeem"
     "Use the separate attestation-service role for email-control and phone-control acquisition"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :outbound-contact-and-delivery
    :title "Outbound Contact Permission and Delivery"
@@ -90,7 +94,7 @@
     "Enforce active contacts membership or first valid accepted-contact-request passport"
     "Refuse missing consent as contacts-policy-denied without sender-visible mailbox oracle"
     "Fallback node-id or routing-subject messages without local evidence to the operator mailbox"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :local-participant-handle-ownership
    :title "Local Participant Handle Ownership"
@@ -103,7 +107,7 @@
     "Track handle kind, handle digest, participant id, evidence ref, evidence status, and timestamps"
     "Expose daemon control endpoints to list, add, and delete local participant handles"
     "Return verified only for fresh contact-control evidence and mapped for ordinary local projections"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :layer-three-facts-and-recovery
    :title "Layer 3 Facts and Recovery"
@@ -113,17 +117,19 @@
              "messaging.passport-issued.v1"
              "messaging.passport-revoked.v1"
              "messaging.retention-decided.v1"
-             "messaging.crisis-marked.v1"]
+             "messaging.crisis-marked.v1"
+             "messaging.flag.v1"]
    :responsibilities
    ["Write bounded messaging facts through memarium.write"
     "Store failed fact writes in pending_facts and expose degraded status"
     "Replay pending facts idempotently"
     "Replay remote Memarium messaging facts during reindex before local pending facts and Maildir walk"
+    "Replay messaging.flag.v1 to restore read/unread state across device/reindex recovery"
     "Mirror contacts membership and receive-passport references through identity.messaging-recovery.mirror"
     "Export and replay local contact, pairwise mapping, and messaging mirror recovery bundles without reactivating revoked or archived mappings"
-    "Persist accepted recovery mirror records in the daemon-local durable mirror table until sealed Pseudonym Vault replay is added"
+    "Persist accepted recovery mirror records in the daemon-local durable mirror table and seal/replay local recovery bundles through pseudonym-vault.v1"
     "Reindex SQLite from Maildir and Layer 3 facts"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :messaging-node-ui
    :title "Node UI Messaging Surface"
@@ -131,7 +137,7 @@
    :based-on ["doc/project/40-proposals/060-messaging-middleware.md"]
    :schemas ["local-contact.v1"]
    :responsibilities
-   ["Expose /admin/messaging for status, contactability drafts, compose, inbox, outbox, message detail, pending facts, and recovery diagnostics"
+   ["Expose /admin/messaging for status, contactability drafts, provider challenge/redeem, compose, inbox, read/unread actions, outbox, message detail, pending facts, and recovery diagnostics"
     "Render local-contact based unknown-recipient warnings before contact-request flow"
     "Use daemon-proxied /v1/messaging/* APIs rather than duplicating domain logic"
     "Handle mailbox.open notification actions by opening message detail without mutating consent state"]
@@ -163,7 +169,7 @@
  ["Body encryption in the first MVP+ slice"
   "HTML rendering and active content"
   "Group messaging, CC, or BCC"
-  "Cross-device read/unread sync"
+  "Live multi-device read/unread push beyond replay"
   "Full multi-device Pseudonym Vault merge"]
 
  :consumes
@@ -186,6 +192,7 @@
   "messaging.passport-revoked.v1 facts"
   "messaging.retention-decided.v1 facts"
   "messaging.crisis-marked.v1 facts"
+  "messaging.flag.v1 facts"
   "operator notifications with mailbox.open actions"
   "private recovery records for contacts membership and receive-passport refs"]
 

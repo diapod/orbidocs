@@ -1,7 +1,9 @@
 {:component/id :orbiplex/contact-catalog
  :component/title "Contact Catalog"
  :component/type :node-attached-runtime
- :component/status :partial
+ :component/status :hard-mvp-done
+ :component/hard-mvp-status :done
+ :component/post-mvp-status :partial
 
  :summary
  "Node-attached domain catalog for opt-in private contact discovery. The current
@@ -10,7 +12,8 @@
  daemon-local contacts, contact-request admission, narrow messaging-receive
  passport issuance, local recovery replay, provider trust policy, and
  non-Agora provider sync with tombstone/revocation replay. Broader production
- federation matrices and future privacy upgrades remain post-MVP layers."
+ federation matrices and future privacy upgrades remain post-MVP layers, not
+ hard-MVP blockers."
 
  :must-implement
  [{:cap/id :contact-catalog-claim-admission

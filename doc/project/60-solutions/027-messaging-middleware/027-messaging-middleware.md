@@ -4,7 +4,7 @@
 that turns Proposal 060 into runtime responsibilities for personal message
 admission, outbound contact permission, mailbox indexing, and recovery metadata.
 
-Status: `partial`
+Status: `hard-mvp-done`
 
 Date: `2026-05-17`
 
@@ -44,9 +44,10 @@ This solution implements the MVP+ personal messaging path:
 - recovery mirroring for contact membership and receive-passport references;
 - a thin Node UI for compose, inbox, outbox, status, and diagnostics.
 
-Out of scope for this solution are body encryption, HTML rendering, group
-messaging, CC/BCC, multi-device read/unread sync, and full multi-device vault
-merge.
+Out of scope for this hard-MVP are body encryption, HTML rendering, group
+messaging, CC/BCC, live multi-device mailbox-state push, and full
+multi-device vault merge. Read/unread sync is in scope as replayable
+`messaging.flag.v1` Layer 3 facts.
 
 ## Passport Profile
 
@@ -185,18 +186,20 @@ The recovery boundary is private and host-owned. The messaging service mirrors:
 
 The daemon persists these records through
 `identity.messaging-recovery.mirror` in a durable local recovery mirror table.
-Sealed Pseudonym Vault replay remains the next recovery layer; the mirror is no
-longer an acknowledge-only stub. Recovery import/replay can restore the
-messaging service's membership and receive-passport references. A separate
+Local contact and messaging recovery bundles are sealed into
+`pseudonym-vault.v1`; import/root-only startup replay preserves terminal
+pairwise mapping states and explicit passphrase replay covers
+`root+local-passphrase` local-contact recovery snapshots. A separate
 `POST /v1/messaging/reindex` rebuilds SQLite mailbox indexes from Maildir and
 Layer 3 facts and exposes `reindexing` through service status.
 
 ## UI Boundary
 
 Node UI owns `/admin/messaging`. It renders status, contactability draft
-settings, compose, inbox, mailbox lists, outbox, message detail, pending-facts
-diagnostics, and recovery/reindex actions by calling `/v1/messaging/*` daemon
-proxies. It does not duplicate messaging policy logic.
+settings, provider challenge/redeem controls, compose, inbox, mailbox lists,
+read/unread controls, outbox, message detail, pending-facts diagnostics, and
+recovery/reindex actions by calling `/v1/messaging/*` daemon proxies. It does
+not duplicate messaging policy logic.
 
 The contactability panel is draft-first. Editing public handles and route
 bindings never mutates Contact Catalog state until the user invokes `Publish`.
@@ -219,11 +222,11 @@ delivery state.
 | ID | Feature | Status | Evidence |
 |---|---|---|---|
 | S027-001 | Canonical `messaging-receive@v1` profile enforcement | done | Node `capability` rejects non-canonical `messaging-receive` profile discriminators and defaults missing `max_revocation_staleness_seconds` to 300 seconds. |
-| S027-002 | Messaging service runtime | partial | `messaging-service` covers inbound accept, outbox, contact-lookup-result promotion, sender-side lookup against a shared remote Contact Catalog provider, receive-passport handoff, private-direct delivery, Maildir/SQLite storage, temporal outbox transaction/event/attempt tables with `outbox` as the public projection, redacted outbox event snapshots that omit raw recipient handles and subjects, replay-equivalence tests, operator temporal diagnostics endpoints for status/redacted events/correlation/replay-check via daemon proxy, kind-specific Layer 3 fact artifacts, pending Memarium replay, recovery mirroring, receiver-side revocation snapshot checks for inline `messaging-receive@v1` passports, fail-closed no-host behavior for passport-based first contact, revocation-triggered `messaging.passport-revoked.v1`, reindex with remote Memarium replay + local Layer 3 replay + Maildir + FTS5 rebuild, and strict Story-010 cross-node delivery smoke coverage. Mock-host coverage now covers inline revocation and remote replay; fuller outbound signer/AD/notification and failure-class matrices remain hardening. |
+| S027-002 | Messaging service runtime | done | `messaging-service` covers inbound accept, outbox, contact-lookup-result promotion, sender-side lookup against a shared remote Contact Catalog provider, receive-passport handoff, private-direct delivery, Maildir/SQLite storage, temporal outbox transaction/event/attempt tables with `outbox` as the public projection, redacted outbox event snapshots that omit raw recipient handles and subjects, replay-equivalence tests, operator temporal diagnostics endpoints for status/redacted events/correlation/replay-check via daemon proxy, kind-specific Layer 3 fact artifacts, pending Memarium replay, recovery mirroring, receiver-side revocation snapshot checks for inline `messaging-receive@v1` passports, fail-closed no-host behavior for passport-based first contact, revocation-triggered `messaging.passport-revoked.v1`, read/unread sync through `messaging.flag.v1`, reindex with remote Memarium replay + local Layer 3 replay + Maildir + FTS5 rebuild, and strict Story-010 cross-node delivery smoke coverage. Mock-host coverage covers inline revocation, outbound passport lookup, signer, `artifact.delivery.send`, redacted failure classes, and remote replay. |
 | S027-003 | Contactability and local contacts | done | Daemon exposes contactability draft/options/attest/publish endpoints, requires contact-control passport evidence at publish time, binds the published owner participant to the draft route or attestation passport subject, signs canonical route-set `contact-claim.v1`, admits it to the supervised Contact Catalog, validates `local-contact.v1` import/export, stores local contact labels/metadata, tracks pairwise mapping lifecycle, and exposes `/v1/local-contacts/resolve`. Local contact and messaging recovery bundles seal into `pseudonym-vault.v1`, replay on import/root-only startup, preserve terminal pairwise mapping states, and explicit operator passphrase replay covers `root+local-passphrase` local-contact recovery snapshots. |
-| S027-004 | Contact attestation service dependency | partial | Node adds `attestation-core`, supervised opt-in `attestation-service`, contact attestation schemas/examples, schema-gate validators, `email-attestation` / `phone-attestation` capability ids, local/dev delivery, SMTP email delivery, SMS webhook delivery, attempt limits, challenge TTL, quotas, and delivery audit. Story-010 acceptance now publishes and discovers `role/email-attestation` / `role/phone-attestation` provider passports through Seed Directory before the e-mail-control acquisition. Production contactability acquisition through a discovered/trusted provider and operator policy UX remain follow-up. |
-| S027-005 | Node UI messaging surface | done | Node UI renders `/admin/messaging` with contactability draft controls, compose, local-contact based unknown-recipient warning, inbox, outbox, diagnostics, and message detail. |
-| S027-006 | Story-010 acceptance pack | done | `node/tools/acceptance/story-010-operator/` provides two-node profile generation, launchers, UI helpers, `story-smoke`, and self-contained `ad-smoke`. Strict `ad-smoke` now defaults to the no-scaffold path: INAC transport is approved through the receiver's operator notification before contact-request AD admission. It also covers Attestation Service challenge/redeem, daemon contactability publish, supervised Contact Catalog admission, shared remote lookup, contact request delivery, operator accept, `messaging-receive@v1` passport handoff, private-direct `message-envelope.v1` delivery, and delivered inbox/outbox state. The old peer allowlist/preissued transport passport path is retained only as an explicit acceptance debug flag. |
+| S027-004 | Contact attestation service dependency | done | Node adds `attestation-core`, supervised opt-in `attestation-service`, contact attestation schemas/examples, schema-gate validators, `email-attestation` / `phone-attestation` capability ids, local/dev delivery, SMTP email delivery, SMS webhook delivery, attempt limits, challenge TTL, quotas, and delivery audit. Daemon contactability options discover trusted/fresh `role/email-attestation` / `role/phone-attestation` providers through Seed Directory, expose provider status in Node UI, and start/redeem challenges through daemon contactability endpoints. Story-010 now uses that runtime path for e-mail-control acquisition. |
+| S027-005 | Node UI messaging surface | done | Node UI renders `/admin/messaging` with contactability draft controls, provider challenge/redeem controls, compose, local-contact based unknown-recipient warning, inbox, read/unread actions, outbox, diagnostics, and message detail. |
+| S027-006 | Story-010 acceptance pack | done | `node/tools/acceptance/story-010-operator/` provides two-node profile generation, launchers, UI helpers, `story-smoke`, and self-contained `ad-smoke`. Strict `ad-smoke` now defaults to the no-scaffold path: INAC transport is approved through the receiver's operator notification before contact-request AD admission. It also covers Attestation Service challenge/redeem, daemon contactability publish, supervised Contact Catalog admission, shared remote lookup, contact request delivery, operator accept, `messaging-receive@v1` passport handoff, private-direct `message-envelope.v1` delivery, delivered inbox/outbox state, and `messaging.flag.v1` read/unread replay. The old peer allowlist/preissued transport passport path is retained only as an explicit acceptance debug flag. |
 
 ## References
 

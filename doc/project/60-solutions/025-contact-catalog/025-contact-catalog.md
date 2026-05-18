@@ -6,9 +6,14 @@ handle, such as an email address or phone number, without turning Seed Directory
 into a people directory and without publishing raw `phone/email -> participant`
 maps.
 
-Status: `partial` (hard-MVP implemented; broader privacy/federation expansion remains open)
+Status: `hard-MVP done` (the broader solution remains `partial` for
+post-MVP privacy/federation expansion)
 
 Date: `2026-05-16`
+
+Hard-MVP tracker status: `100% implemented`. All `Must Implement`
+capabilities in the Solution 025 sidecar and all Proposal 058 tracker rows are
+`done`; remaining work named in this document is explicitly post-MVP hardening.
 
 ## Executive Summary
 
