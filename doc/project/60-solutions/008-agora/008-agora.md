@@ -479,6 +479,35 @@ Status:
   debugging mode rather than a public protocol feature. A public rejection feed
   is explicitly out of scope for M2/M2b.
 
+### Correlated Action Trace
+
+Based on:
+- `doc/project/30-stories/story-008-cool-site-comment.md`
+- `doc/project/50-requirements/requirements-014-resource-opinions.md`
+
+Responsibilities:
+- correlate the local resource-opinion flow across daemon capability lookup,
+  Agora signing, ingest, duplicate ingest, subject query, and record fetch,
+- keep the canonical trace in daemon-owned append-only storage under
+  `trace/agora`,
+- use `X-Orbiplex-Correlation-Id` as the caller-supplied correlation seam,
+- reject trace append payloads that are malformed, oversized, or contain
+  sensitive-looking keys,
+- expose append degradation in `/v1/agora/status` without coupling Agora to the
+  daemon's storage internals.
+
+Status:
+- `done` for Story-008 hard-MVP. The daemon exposes module-authenticated
+  `POST /v1/host/capabilities/agora.trace.append` for the supervised
+  `agora-service`, instruments `GET /v1/host/capabilities/agora.relay`
+  lookup, and exposes operator readback through
+  `GET /v1/traces/agora?correlation_id=...&record_id=...&limit=...`.
+  Malformed or policy-rejected trace appends fail as HTTP 422, while daemon
+  storage failures fail as HTTP 500; `agora-service` counts failed append
+  attempts and reports trace status as `ok` or `degraded`.
+  The public Agora API itself remains storage-agnostic: it emits events through
+  the host capability channel and never writes the daemon commit log directly.
+
 ### Org Authority Custody
 
 Org authority roots do not name "keys that may publish" directly. They name an

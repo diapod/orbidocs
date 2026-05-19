@@ -226,7 +226,7 @@ approve Ela's text. The opinion belongs to Ela.
 | 4 | `record/about` contains exactly one entry with `resource/kind = "url"` and `resource/id = "https://randomseed.io/"` (byte-identical, no normalization drift) | integration test |
 | 5 | Signing uses `KeyRef::PrimaryParticipant` and domain tag `agora.record.v1`; the envelope self-verifies before ingest | log inspection + `verify_envelope` assertion |
 | 6 | Ingest returns `201 Created` with the same `record/id` computed by the signer; duplicate POST returns `200 OK` and is idempotent | integration test |
-| 7 | Full action trace exists under `trace/agora` and includes: capability lookup, sign request, ingest, readback | log inspection after test run |
+| 7 | Full action trace exists under `trace/agora` and includes: capability lookup, sign request, ingest, readback, all tied by one correlation id | integration test querying `GET /v1/traces/agora?correlation_id=...` |
 | 8 | The whole flow works with zero `agora.relay` capability passport configured (local-only mode) | deploy without a passport, re-run steps 1–6 |
 
 ## What This Story Does NOT Cover
@@ -288,6 +288,7 @@ the status itself, to avoid drift.
 | Step 4 (sign through host signer, domain `agora.record.v1`) | Orbiplex Agora (node-attached module) | [`agora-caps.edn`](../60-solutions/008-agora/008-agora-caps.edn) → `:agora-record-sign` | [`agora.md`](../60-solutions/008-agora/008-agora.md) |
 | Step 5 (ingest signed envelope) | Orbiplex Agora | [`agora-caps.edn`](../60-solutions/008-agora/008-agora-caps.edn) → `:agora-record-ingest` | [`agora.md`](../60-solutions/008-agora/008-agora.md) |
 | Step 6 (readback by `record/id`) | Orbiplex Agora | [`agora-caps.edn`](../60-solutions/008-agora/008-agora-caps.edn) → `:agora-record-query` | [`agora.md`](../60-solutions/008-agora/008-agora.md) |
+| Step 7 (inspect correlated local trace) | Orbiplex Node (daemon) + Orbiplex Agora | [`agora-caps.edn`](../60-solutions/008-agora/008-agora-caps.edn) → `:agora-action-trace` | [`agora.md`](../60-solutions/008-agora/008-agora.md) |
 
 The implementation-oriented companion for the Agora rows is
 [`008-agora-topic-addressed-relay-impl.md`](../60-solutions/008-agora/008-agora-topic-addressed-relay-impl.md).

@@ -200,6 +200,21 @@
     "Attach inline proof so verifiers can check delegation without remote lookups"]
    :status :done}
 
+  {:cap/id :agora-action-trace
+   :title "Correlated Agora Action Trace"
+   :kind :inspection
+   :based-on ["doc/project/30-stories/story-008-cool-site-comment.md"
+              "doc/project/50-requirements/requirements-014-resource-opinions.md"]
+   :schemas ["agora-trace.v1"]
+   :responsibilities
+   ["Emit non-secret trace events for `capability.lookup`, `record.sign`, `record.ingest`, and `record.readback`"
+    "Carry `X-Orbiplex-Correlation-Id` from UI/CLI/API callers into daemon-owned trace storage"
+    "Store the canonical local trace under daemon stream `trace/agora`"
+    "Accept trace appends only through the module-authenticated host capability path"
+    "Expose append failure/degraded status through `/v1/agora/status`"
+    "Expose bounded operator readback via `GET /v1/traces/agora` without replaying the action"]
+   :status :done}
+
   {:cap/id :aggregate-status-surface
    :title "Aggregate Status Surface"
    :kind :inspection

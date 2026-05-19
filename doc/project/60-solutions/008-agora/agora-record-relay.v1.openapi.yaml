@@ -545,6 +545,7 @@ components:
         - relay_id
         - role
         - passport
+        - trace
       properties:
         status:
           type: string
@@ -556,6 +557,23 @@ components:
           enum: ["canonical", "cache", "origin"]
         passport:
           $ref: "#/components/schemas/PassportStatus"
+        trace:
+          $ref: "#/components/schemas/TraceStatus"
+      additionalProperties: true
+
+    TraceStatus:
+      type: object
+      required:
+        - status
+        - append_failures
+      properties:
+        status:
+          type: string
+          enum: ["ok", "degraded"]
+        append_failures:
+          type: integer
+          minimum: 0
+          description: "Count of failed attempts to append Agora trace events through the daemon host capability API."
       additionalProperties: true
 
     PassportStatus:
