@@ -318,6 +318,13 @@ Status:
 - Seed Directory capability provider records for `contact-catalog`,
   `email-control`, and `phone-control`
 
+Contact Catalog provider discovery is capability-first. The daemon asks Seed
+Directory for providers advertising the `contact-catalog` capability and applies
+the same local multi-directory query policy used by Artifact Delivery and other
+discovery consumers. Contact Catalog remains the domain lookup service after a
+provider is selected; Seed Directory does not become contact-aware and does not
+authorize message delivery by itself.
+
 ## Produces
 
 - `contact-lookup-result.v1`

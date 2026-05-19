@@ -1175,6 +1175,10 @@ The daemon-side lookup treats remote Seed Directory responses as untrusted
 input: response bodies are size-limited before JSON deserialization, entries are
 verified against capability passport rules, and only matching `node_id` /
 `capability_id` pairs are returned to AD.
+The same daemon-owned Seed Directory query policy applies to AD capability,
+participant, routing-subject, org-custodian, and Contact Catalog provider
+discovery: `preferred-directory`, `quorum`, or `weighted-trust` selects discovery
+sources, while AD still owns route policy and INAC/passport authorization.
 
 Deferred lookup refinements are tracked in the implementation notes rather than
 treated as current contract bugs: short negative caching for empty capability

@@ -192,7 +192,9 @@ Conceptual shape:
       "trust_level": "personal",
       "passport_ref": "passport:capability:...",
       "federation_id": "orbiplex-main",
-      "weight": 1
+      "weight": 1,
+      "endorsement_refs": ["endorsement:seed-directory:orbiplex-main"],
+      "reputation_ref": "reputation:seed-directory:orbiplex-main"
     }
   ]
 }
@@ -206,6 +208,52 @@ Conceptual shape:
 
 The trust registry may be bootstrapped from distribution defaults, manual
 configuration, a local community pack, or later from public reputation records.
+For the hard-MVP runtime, `endorsement_refs` and `reputation_ref` are local
+policy inputs only. They help the daemon decide which trusted directories may
+participate in discovery, but they do not replace passport verification,
+revocation checks, peer `node_id` verification, or future `ReputationProjection`
+logic.
+
+The daemon-owned query policy is configured separately:
+
+```json
+{
+  "network": {
+    "seed_directory_query_policy": {
+      "mode": "preferred-directory",
+      "preferred_node_id": "node:did:key:z...",
+      "required_directory_endorsements": [],
+      "include_embedded": false
+    }
+  }
+}
+```
+
+`mode` supports:
+
+- `preferred-directory`, the compatibility default. The daemon queries the
+  preferred configured directory first and falls back to later configured
+  sources, including the embedded local directory as a fallback, only after
+  fetch or verification failure. A successful empty response means "the
+  preferred source does not currently know this capability" and is reported in
+  last-query diagnostics rather than silently falling through.
+- `quorum`, which requires `min_success` matching observations for the same
+  result.
+- `weighted-trust`, which requires `min_weight` total local trust weight for
+  the same result.
+
+For `quorum` and `weighted-trust`, the embedded local directory is not counted
+as a vote unless the operator explicitly opts in with `include_embedded = true`
+or represents it as an explicit trusted source. This avoids accidental
+self-voting in multi-directory policy.
+
+All modes consult the bounded revocation feed from eligible sources before
+returning merged capability observations. A verified revocation for a passport
+id is monotonic for that query: a capability passport revoked by one eligible
+directory is filtered out even when another eligible directory still advertises
+it. Revocation feed fetch failures are operator diagnostics; they do not make
+Matrix, Agora, or any directory an authority substitute for passport and
+revocation verification at the consumer boundary.
 
 ### 4. Sovereign Issuer Policy Uses Authority Roots
 
@@ -451,15 +499,7 @@ publisher, federation topic, or a local threshold policy.
 
 ## Next Actions
 
-1. Define `seed-directory-trust.v1` as a local configuration schema for trusted
-   directories, their weights, and trust tiers.
-2. Add client-side multi-directory query policy: preferred directory, quorum, or
-   weighted trust.
-3. Extend reconciliation rules from single trusted replay streams to
-   multi-directory merge policy.
-4. Add an operational runbook for personal mirrors, community directories, and
-   federation-endorsed directories.
-5. Keep the equivalence invariant for future merge policy:
+1. Keep the equivalence invariant for future merge policy:
 
    ```text
    SeedDirectoryHTTP(ProjectionFromLocalStore)
@@ -467,8 +507,53 @@ publisher, federation topic, or a local threshold policy.
    SeedDirectoryHTTP(ProjectionFromTrustedAgoraReplay)
    ```
 
-6. Connect directory operator trust to future `ai.orbiplex.reputation/**`
-   records and `ReputationProjection`.
+2. Connect the hard-MVP local `endorsement_refs` / `reputation_ref` input to
+   future `ai.orbiplex.reputation/**` records and `ReputationProjection`.
+3. Consider Merkle/page proof extensions for `seed-directory-query-attestation.v1`
+   only if partial proof verification becomes necessary for large
+   multi-directory comparisons.
+
+## Operational Runbook
+
+### Personal Mirror
+
+- Configure one trusted directory entry with `trust_level = "personal"` and a
+  low local `weight`, or rely on the embedded local directory in
+  `preferred-directory` mode.
+- Keep `include_embedded = false` for quorum/weighted modes unless the operator
+  explicitly wants the local mirror to count as a vote.
+- Enable trusted Agora replay only when a trusted federation pack or explicit
+  operator policy defines the relevant federation lanes.
+
+### Community Directory
+
+- Configure the community directory under `seed_directory_trust` with
+  `trust_level = "community"`, a bounded local `weight`, and any local
+  `endorsement_refs` supplied by the community pack.
+- Use `quorum` when multiple community directories should independently observe
+  the same discovery result.
+- Treat missing results as absence, not deletion. A community directory that
+  omits an entry must not remove another directory's positive result.
+
+### Federation-Endorsed Directory
+
+- Configure `trust_level = "federation-endorsed"`, `federation_id`,
+  `policy_ref`, and local endorsement references from the federation pack.
+- Use `weighted-trust` when federation packs assign different local weights to
+  personal, community, and federation-endorsed directories.
+- Keep public query attestation optional for normal reads, but require it for
+  audit/export workflows that need a signed response digest.
+
+### Failure Handling
+
+- Fetch, parse, verification, policy, and endorsement failures must appear as
+  skipped/rejected diagnostics in `/v1/seed-directory` and the operator UI.
+- A failed directory source does not reset replay cursors and does not silently
+  rewrite query policy.
+- Revocations are monotonic: a revoked passport or target cannot be restored by
+  a positive observation from a different directory.
+- Directory trust chooses discovery sources only. Consumers still verify
+  passports, revocation freshness, peer-session identity, and domain admission.
 
 ## Implementation Tracking
 
@@ -483,14 +568,14 @@ work derived from this proposal. Status values:
 | ID | Work item | Status | Done criteria |
 | :--- | :--- | :--- | :--- |
 | P054-01 | Define `seed-directory-trust.v1` schema | done | Canonical schema exists, has positive/negative fixtures, and documents `personal`, `community`, and `federation-endorsed` trust tiers. |
-| P054-02 | Add Node runtime config for trusted directories | done | Node config can load trusted directory entries with `node_id`, `endpoint`, `trust_level`, `weight`, optional `passport_ref`, and rejects invalid entries at config check. |
-| P054-03 | Expose trusted directory status in operator surfaces | in-progress | API diagnostics expose configured trusted replay status, last cursor, accepted/rejected counts, last run, last error, and skip reasons through Seed Directory temporal status and the `/v1/seed-directory` snapshot, including the `embedded_seed_directory_store_unavailable` case. Full operator UI for directory trust tiers remains pending. |
+| P054-02 | Add Node runtime config for trusted directories | done | Node config can load trusted directory entries with `node_id`, `endpoint`, `trust_level`, `weight`, optional `passport_ref`, optional `endorsement_refs`, optional `reputation_ref`, and rejects invalid entries at config check. |
+| P054-03 | Expose trusted directory status in operator surfaces | done | `/v1/seed-directory` and Node UI expose query policy, configured/effective trusted directories, trust tiers, weights, enabled state, federation/policy refs, endorsement/reputation refs, replay state, last query diagnostic, and skip reasons without exposing secrets or raw fetch bodies. |
 | P054-04 | Define `seed-directory-query-attestation.v1` | done | Canonical schema, positive/negative fixtures, schema-gate validation, and proposal text define query mode/filter, canonical response digest, projection high-water mark, issued time, expiry, signer, and signature. |
 | P054-05 | Add optional query attestation support | done | Seed Directory returns a signed query attestation for `GET /adv`, `GET /adv/{node_id}`, `GET /cap`, `GET /cap/{node_id}`, and `GET /revocations` when requested with `attest=seed-directory-query.v1`; unavailable signer returns `503 attestation_unavailable`; default responses remain unchanged. |
 | P054-06 | Replay accepted Seed Directory facts from Agora | done | Daemon has opt-in `seed_directory_agora_replay` runtime that replays trusted `adv`, `cap`, and `revocations` lanes from Agora through the Seed Directory Agora adapter, follows paginated result pages until `next_cursor` is absent, persists per-federation lane cursors/status, and applies validated records to the embedded store. |
 | P054-07 | Add projection equivalence tests | done | Tests prove direct-write and trusted-Agora replay projection equivalence for advertisements, capability registrations, and revocations, including the effect of revocation on capability lookup. |
-| P054-08 | Add multi-directory client query policy | todo | Client-side discovery can query multiple trusted directories and merge results using preferred directory, quorum, or weighted trust policy. |
-| P054-09 | Implement reconciliation rules | todo | Revocations are monotonic, newer advertisements replace older ones, absence in one directory does not delete another directory's positive result, and duplicate capabilities dedupe deterministically. |
-| P054-10 | Connect directory operator trust to reputation/endorsement | deferred | `community-trusted` / `community-entrusted` and `ai.orbiplex.reputation/**` can influence directory trust without replacing local override. |
-| P054-11 | Document operational runbook for user-maintained directories | todo | Operator docs explain personal mirror, community directory, and federation-endorsed deployment modes, including failure and revocation handling. |
+| P054-08 | Add multi-directory client query policy | done | Daemon-owned Seed Directory consumers use `preferred-directory`, `quorum`, or `weighted-trust` policy through one source eligibility and merge layer; embedded local directory counts in quorum/weighted only by explicit opt-in. |
+| P054-09 | Implement reconciliation rules | done | Capability observations group by `passport_id` with a stable fallback key, duplicate observations from one source cannot satisfy quorum/weight, verified cross-directory revocations monotonically suppress revoked passports, absence in one directory does not delete another directory's positive result, duplicates dedupe deterministically, and subject/capability discovery share the same source eligibility policy. |
+| P054-10 | Connect directory operator trust to reputation/endorsement | done | Hard-MVP implements local `endorsement_refs`, `reputation_ref`, and `required_directory_endorsements` as policy inputs; full `ai.orbiplex.reputation/**` to `ReputationProjection` remains post-MVP. |
+| P054-11 | Document operational runbook for user-maintained directories | done | Operator docs explain personal mirror, community directory, federation-endorsed directory, multi-directory policy, replay/query failure handling, revocation handling, query attestation, and troubleshooting boundaries. |
 | P054-12 | Adopt Temporal Storage Convention for local accepted facts | done | Embedded Seed Directory writes accepted facts and operator retractions into `seed_directory_transactions` / `seed_directory_events`, keeps HTTP/API tables as projections, filters expiry on read, exposes operator temporal status/events/replay-check, and covers replay equivalence for accepted/retracted local facts. |
