@@ -6,7 +6,7 @@ This table is an estimated cross-document readiness snapshot for canonical Story
 
 Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implementation notes, coding guides, and generated registries are excluded. Solution rows use the main `NNN-*/NNN-*.md` document for each component.
 
-Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
+Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-010`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
 
 Change basis: this refresh incorporates the current worktree state on 2026-05-19, including Story 010, Proposals 057-062, Solutions 025-029, the Artifact Delivery / INAC / TLS trust updates, and the related notification, contact, messaging, pseudonym-vault, service-CA, artifact-mailbox, artifact-object-pointer, temporal-storage, and bounded-deferred-operation schemas and trackers.
 
@@ -21,7 +21,7 @@ Recent component deltas:
 - Bounded Deferred Operations were promoted from Proposal 055 to Solution 029 as a horizontal host control-plane component. The MVP slice is complete: shared wire contracts, host registry, poll/cancel surfaces, JSON-e Flow persisted continuation, Sensorium OS deferred state, operator visibility, and AD consumer integration.
 - Sensorium has been promoted to Solution 030 as a constitutional organ. Its MVP slice is implemented for `sensorium-core` observation admission/query, directive invocation, audit-only outcomes, internal connector dispatch, the supervised Sensorium OS reference connector, action-catalog sidecar authorization, and deferred Sensorium actions. Local Agora observation publication remains partial because runtime support currently exposes topic metadata and read surfaces rather than a complete local subscription bus.
 - Proposal 054 is hard-MVP complete: `seed-directory-query-attestation.v1` is schema-gated, Seed Directory can attach opt-in signed response attestations, daemon can opt into trusted Agora replay for `adv`, `cap`, and `revocations` lanes, replay follows paginated Agora result pages, replay cursors/status are persisted in the embedded store, projection equivalence tests include revocation effects, and daemon-owned Seed Directory discovery now applies one strict multi-directory policy (`preferred-directory`, `quorum`, or `weighted-trust`) across host queries, AD/capability routing, subject lookup, and Contact Catalog provider discovery, with cross-directory revocation suppression for revoked capability passports. `/v1/seed-directory` and Node UI expose safe trusted-directory diagnostics, local endorsement/reputation policy inputs, replay state, and skip reasons.
-- Memarium now has the first Solution 028-style SQLite read sidecar: entry/fact/policy current projections are rebuilt from append-only Memarium storage streams, carry `as_of_tx_id`, expose non-temporal operator diagnostics, and are covered by replay-equivalence tests. Contextual personal-space forget delegation plus concrete Whisper and INAC/private Artifact Delivery classification egress adapters are now represented in code, leaving richer operator UX, governed community forget, and remote archivist handoff as post-hard-MVP layers.
+- Memarium Proposal 036 and Solution 002 are now implementation-complete for v1: neutral `MemariumObservation` bridges post-chain and phase observers without daemon-private runtime dependencies, observe-rule paths are validated with explicit-null extraction semantics, governed community forget accepts explicit governance references, the read sidecar performs startup catch-up while retaining scan fallback, local backup packages can be submitted through operator remote-archivist handoff/retrieval control surfaces over Artifact Delivery, and Story-005 smoke confirms the classification-bearing private AD/INAC path used by Memarium-adjacent archival/export boundaries. Richer Node UI batch UX remains a product layer, not a Proposal 036 blocker.
 
 ## Stories
 
@@ -38,7 +38,7 @@ Recent component deltas:
 | [Story 007: Settlement-Capable Node as the Authoritative ORC Ledger](../30-stories/story-007-settlement-capable-node.md) | `false` | `false` | `false` | `82` |
 | [Story 008: Leaving an Opinion on a Website via the Local Node](../30-stories/story-008-cool-site-comment.md) | `false` | `false` | `false` | `100` |
 | [Story 009: The magazine publishes itself — a three-node blogging pipeline about Bielik, conducted by Arca](../30-stories/story-009-bielik-blog-arca.md) | `false` | `false` | `false` | `85` |
-| [Story 010: Message to a Friend](../30-stories/story-010-message-to-a-friend.md) | `false` | `true` | `false` | `100` |
+| [Story 010: Message to a Friend](../30-stories/story-010-message-to-a-friend.md) | `true` | `true` | `false` | `100` |
 
 ## Proposals
 
@@ -79,7 +79,7 @@ Recent component deltas:
 | [Proposal 033: Workflow Fan-Out and Temporal Orchestration](../40-proposals/033-workflow-fan-out-and-temporal-orchestration.md) | `true` | `true` | `false` | `77` |
 | [Proposal 034: Node Operator Binding and Derived Node Assurance](../40-proposals/034-node-operator-binding-and-derived-node-assurance.md) | `true` | `true` | `false` | `90` |
 | [Proposal 035: Agora — Topic-Addressed Record Relay and Shared Record Substrate](../40-proposals/035-agora-topic-addressed-record-relay.md) | `true` | `true` | `false` | `92` |
-| [Proposal 036: Memarium — Local Memory Organ for the Orbiplex Node](../40-proposals/036-memarium.md) | `true` | `false` | `false` | `84` |
+| [Proposal 036: Memarium — Local Memory Organ for the Orbiplex Node](../40-proposals/036-memarium.md) | `true` | `true` | `true` | `100` |
 | [Proposal 037: Generic Signing Service](../40-proposals/037-generic-signing-service.md) | `true` | `true` | `false` | `100` |
 | [Proposal 038: Key Roles and Key Use Taxonomy](../40-proposals/038-key-roles-and-key-use-taxonomy.md) | `true` | `true` | `false` | `100` |
 | [Proposal 039 Crisis Seed v1 Review Record](../40-proposals/039-crisis-space-seed-v1-review.md) | `false` | `false` | `false` | `25` |
@@ -102,10 +102,10 @@ Recent component deltas:
 | [Proposal 055: Bounded Deferred Operation Contract](../40-proposals/055-bounded-deferred-operation-contract.md) | `true` | `true` | `false` | `100` |
 | [Proposal 056: Orbiplex TLS Trust Policy](../40-proposals/056-orbiplex-tls-trust-policy.md) | `true` | `true` | `false` | `86` |
 | [Proposal 057: User and Operator Notifications](../40-proposals/057-user-and-operator-notifications.md) | `true` | `true` | `false` | `90` |
-| [Proposal 058: Contact Catalog and Private Contact Discovery](../40-proposals/058-contact-catalog.md) | `false` | `true` | `false` | `100` |
+| [Proposal 058: Contact Catalog and Private Contact Discovery](../40-proposals/058-contact-catalog.md) | `true` | `true` | `false` | `100` |
 | [Proposal 059: Participant, Nym, and Routing-Subject Key-Role Derivation](../40-proposals/059-participant-and-nym-key-role-derivation.md) | `false` | `true` | `false` | `90` |
-| [Proposal 060: Messaging Middleware and Personal Message Delivery](../40-proposals/060-messaging-middleware.md) | `false` | `true` | `false` | `100` |
-| [Proposal 061: Contact Attestation Service](../40-proposals/061-contact-attestation-service.md) | `false` | `false` | `false` | `78` |
+| [Proposal 060: Messaging Middleware and Personal Message Delivery](../40-proposals/060-messaging-middleware.md) | `true` | `true` | `false` | `100` |
+| [Proposal 061: Contact Attestation Service](../40-proposals/061-contact-attestation-service.md) | `true` | `true` | `false` | `78` |
 | [Proposal 062: Temporal Storage Convention](../40-proposals/062-temporal-storage-convention.md) | `false` | `true` | `false` | `100` |
 
 ## Solutions
@@ -114,7 +114,7 @@ Recent component deltas:
 |---|---:|---:|---:|---:|
 | [Orbiplex Node](../60-solutions/000-node/000-node.md) | `true` | `true` | `false` | `85` |
 | [Orbiplex Node UI](../60-solutions/001-node-ui/001-node-ui.md) | `true` | `false` | `false` | `82` |
-| [Orbiplex Memarium](../60-solutions/002-memarium/002-memarium.md) | `true` | `false` | `false` | `90` |
+| [Orbiplex Memarium](../60-solutions/002-memarium/002-memarium.md) | `true` | `true` | `true` | `100` |
 | [Orbiplex Arca](../60-solutions/003-arca/003-arca.md) | `true` | `true` | `false` | `88` |
 | [Orbiplex Dator](../60-solutions/004-dator/004-dator.md) | `true` | `true` | `false` | `100` |
 | [Orbiplex Sealer](../60-solutions/005-sealer/005-sealer.md) | `true` | `true` | `false` | `96` |
@@ -137,9 +137,10 @@ Recent component deltas:
 | [Orbiplex Semantic Index](../60-solutions/022-semantic-index/022-semantic-index.md) | `false` | `false` | `false` | `15` |
 | [Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md) | `true` | `true` | `false` | `100` |
 | [TLS Trust Policy](../60-solutions/024-tls-trust-policy/024-tls-trust-policy.md) | `true` | `true` | `false` | `86` |
-| [Contact Catalog](../60-solutions/025-contact-catalog/025-contact-catalog.md) | `false` | `true` | `false` | `100` |
+| [Contact Catalog](../60-solutions/025-contact-catalog/025-contact-catalog.md) | `true` | `true` | `false` | `100` |
 | [Pseudonym Vault and Key Roles](../60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md) | `false` | `true` | `false` | `90` |
-| [Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md) | `false` | `true` | `false` | `100` |
+| [Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md) | `true` | `true` | `false` | `100` |
 | [Temporal Storage Convention](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md) | `false` | `true` | `false` | `100` |
 | [Bounded Deferred Operations](../60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md) | `true` | `true` | `false` | `100` |
 | [Sensorium](../60-solutions/030-sensorium/030-sensorium.md) | `true` | `true` | `false` | `92` |
+| [Seed Directory](../60-solutions/031-seed-directory/031-seed-directory.md) | `true` | `true` | `false` | `100` |

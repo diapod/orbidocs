@@ -1,7 +1,7 @@
 {:component/id :orbiplex/memarium
  :component/title "Orbiplex Memarium"
  :component/type :node-attached-organ
- :component/status :partial
+ :component/status :done
 
  :summary
  "Node-attached local memory-and-knowledge organ responsible for preserving entries, facts, crisis evidence, classification policy facts, and classification-aware archival exports across the personal, community, public, and crisis memory spaces."
@@ -20,7 +20,7 @@
     "Keep entries and facts append-only at the domain boundary; policy transitions are represented as facts"
     "Reject plaintext writes into encryption-required spaces"
     "Preserve source classification labels as first-class data rather than attributes or fields"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :post-chain-observation
    :title "Post-Chain Observation"
@@ -33,7 +33,7 @@
     "Record facts from effective payloads after middleware mutation, not from original input payloads"
     "Compile and execute declarative observe rules supplied by semantic owner modules"
     "Never block, reject, drop, or rewrite peer messages from the observer position"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :memarium-host-capability-api
    :title "Memarium Host Capability API"
@@ -95,8 +95,9 @@
     "Preserve classification as package data and enforce export-bound classification guards"
     "Write bundles through a staging directory and publish only after all payloads, packages, and manifest data succeed"
     "Generate package ids scoped by backup id plus item ordinal so repeated backups of the same source do not collide"
-    "Expose local control endpoints for create/list/detail inspection of backup bundles"]
-   :status :partial}]
+    "Expose local control endpoints for create/list/detail inspection of backup bundles"
+    "Feed remote handoff control through Artifact Delivery when the operator selects an archivist target"]
+   :status :done}]
 
  :may-implement
  [{:cap/id :memarium-context-enrichment
@@ -135,17 +136,17 @@
              "retrieval-response.v1"]
    :responsibilities
    ["Discover or select remote archivists under policy"
-    "Transmit classification-aware archival packages through a future handoff transport"
+    "Transmit classification-aware archival packages and retrieval requests through Artifact Delivery / INAC handoff"
     "Record handoff and retrieval results back into Memarium as append-only facts"
     "Cache retrieved material locally to avoid redundant remote retrieval"]
-   :status :planned}]
+   :status :done}]
 
  :out-of-scope
  ["Federated Memarium replication between nodes"
   "Owning Agora relay semantics or topic moderation"
   "Direct model training or model-weight mutation"
   "Replacing Sealer or other AEAD-speaking callers for payload encryption"
-  "Protocol-external long-term archive custody beyond local backup bundle materialization"]
+  "Protocol-external long-term archive custody guarantees beyond submitted Artifact Delivery handoff records"]
 
  :consumes
  ["classification.v1"
@@ -164,9 +165,14 @@
   "memarium-host-api.v1 responses"
   "classification policy facts"
   "archival-package.v1"
-  "memarium-local-backup-bundle.v1 manifests"]
+  "memarium-local-backup-bundle.v1 manifests"
+  "archival-handoff-requested facts"
+  "archival-handoff-accepted facts"
+  "archival-handoff-failed facts"
+  "retrieval-request.v1 Artifact Delivery envelopes"
+  "archival-retrieval-requested facts"]
 
  :notes
  ["This catalog is solution-level. Concrete Rust crate boundaries and daemon route ownership live in the node implementation ledger."
   "Memarium host capabilities use dotted HTTP route names such as memarium.read; passport grants use namespaced-symbol vocabulary such as memarium/read."
-  "The local backup flow is a control endpoint, not a passport-gated memarium.* host capability, because it is an operator-local daemon lifecycle operation."]}
+  "The local backup and remote archivist handoff flows are control endpoints, not passport-gated memarium.* host capabilities, because they are operator-local daemon lifecycle operations."]}

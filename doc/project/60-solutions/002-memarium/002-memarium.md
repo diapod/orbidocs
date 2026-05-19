@@ -46,7 +46,7 @@ Responsibilities:
 - record promotion provenance as append-only facts.
 
 Status:
-- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → post-chain observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, the enforced strict-mode gate for classification fallback, a classification-aware archival export adapter for `archival-package.v1`, concrete Whisper and INAC/private AD classification egress adapters, contextual personal-space forget delegation, and a SQLite derived read sidecar are now represented in code. Remaining work is operational hardening around richer operator UX, governed community forget, and future remote archivist handoff.
+- `done` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Personal forget can be delegated through scoped passports, public forget tombstones, community forget accepts an explicit governance reference before erasure, and crisis forget remains restricted. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, the enforced strict-mode gate for classification fallback, a classification-aware archival export adapter for `archival-package.v1`, concrete Whisper and INAC/private AD classification egress adapters, contextual personal-space forget delegation, remote archivist handoff/retrieval control surfaces, and a SQLite derived read sidecar are now represented in code.
 
 ### Observer-Based Chain Integration
 
@@ -62,12 +62,12 @@ Responsibilities:
 - optionally add a daemon-side `PreInput` adapter for `MemariumContextEnricher` semantics to annotate inbound messages with cached knowledge artifacts,
 - never block, drop, reject, or mutate peer messages from any chain or observer position.
 
-The observers and handlers are in-process trait implementations compiled into the daemon. They do not use loopback HTTP and share the same `StorageRuntime` as the rest of the daemon. The daemon owns chain-private traits such as `PostChainObserver`; `memarium-runtime` owns the neutral `observe_dispatch(message_kind, correlation_id, effective_payload)` port. This follows the trait-pipeline architecture documented in proposal 027 and the middleware README.
+The observers and handlers are in-process trait implementations compiled into the daemon. They do not use loopback HTTP and share the same `StorageRuntime` as the rest of the daemon. The daemon owns chain-private traits such as `PostChainObserver` and `PhaseObserver`; `memarium-runtime` owns the neutral `MemariumObservation` port plus the compatibility `observe_dispatch(message_kind, correlation_id, effective_payload)` wrapper. This follows the trait-pipeline architecture documented in proposal 027 and the middleware README.
 
 For stratification reasons, the post-chain adapter lives on the daemon side (it bridges daemon-private `PostChainEvent`/`PostChainObserver` types into `memarium-runtime`), while the semantic observer contract stays in `memarium-runtime`. The runtime crate never depends on daemon-private peer-message types.
 
 Status:
-- `partial` — post-chain observer and declarative rule compilation are wired (daemon-side adapter over a runtime trait). Per-phase observer registration and the optional `MemariumContextEnricher` (PreInput) are infrastructure-ready but not yet registered by the runtime.
+- `done` — post-chain observer, per-phase observer registration, neutral `MemariumObservation`, declarative rule compilation, startup extract-path validation, and explicit `null` preservation for missing runtime extract values are wired. `MemariumContextEnricher` exists as a read-only domain trait; the daemon keeps it disabled by default until an operator config explicitly attaches enrichment behavior.
 
 ### Declarative Observe Rules
 
@@ -82,10 +82,10 @@ Responsibilities:
 
 Each middleware is the semantic expert for its own domain. Agora declares that `agora-record.v1` messages are `agora-submission` facts in the public space. Dator declares that `service-offer.v1` messages are offer-tracking facts. Memarium compiles and executes these rules without domain-specific knowledge.
 
-Implementation note: runtime rule compilation currently logs and skips malformed rules (warn-level) rather than rejecting the whole rule set at startup; space ids are validated structurally via enum deserialization. A missing extract path yields a field absent from the recorded fact (not an explicit JSON `null`). Hard-reject semantics for unknown space ids and explicit-null preservation are open decisions.
+Implementation note: rule compilation validates extract path syntax at startup, and space ids are validated structurally via enum deserialization before a rule can be executed. A missing extract path is preserved as an explicit JSON `null` in the recorded fact, so consumers can distinguish "field absent from the source" from "rule did not ask for this field."
 
 Status:
-- `partial` — `ObserveRule` contract, config merge, and runtime matching + field extraction are implemented. Hard-validation of unknown space ids and explicit-null preservation are open design points (see *Implementation note* above).
+- `done` — `ObserveRule` contract, config merge, startup validation, runtime matching, effective-payload extraction, explicit-null preservation, and operator override points are implemented.
 
 ### Host Capabilities
 
@@ -253,14 +253,15 @@ Authorization-level enforcement for `memarium.forget` is contextual in the
 daemon. A module caller may request personal-space forget through the normal
 passport gate when its passport grants `memarium/forget` for `personal`.
 Public forget remains operator-only at dispatch and becomes a runtime tombstone;
-community forget remains governed and crisis forget remains operator-only plus
+community forget remains governed and requires an explicit governance reference
+before the runtime records erasure; crisis forget remains operator-only plus
 runtime-restricted. The next authorization hardening step is remembered operator
 approval: an explicit operator policy fact such as "always allow this participant
 or module to forget this class of personal entries"; it must carry scope, reason,
 issuer, audit trace, and a revocation path.
 
 Status:
-- `partial` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, four revocation sources, and contextual personal-space forget delegation. Point reads and policy read views now use a derived SQLite sidecar by default; it rebuilds from the append-only `memarium:{space}:entries` and `memarium:{space}:facts` streams, materializes `memarium_entry_current`, `memarium_fact_current`, and `memarium_policy_current` rows with `as_of_tx_id`, and keeps scan-based reads as the correctness fallback when the sidecar is disabled. The launcher now provides the minimum operator CLI over the existing host-capability contract (`memarium quarantine {list,accept,reject}` and `memarium declassify`), while richer node-ui / batch UX remains future work. Open points: remembered operator approvals for broader forget delegation, governed community forget workflows, and a future background projector if sync-on-read exceeds deployment budgets.
+- `done` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, four revocation sources, contextual personal-space forget delegation, and governed community forget through explicit governance references. Point reads and policy read views now use a derived SQLite sidecar by default; it rebuilds from the append-only `memarium:{space}:entries` and `memarium:{space}:facts` streams, materializes `memarium_entry_current`, `memarium_fact_current`, and `memarium_policy_current` rows with `as_of_tx_id`, performs daemon startup catch-up when enabled, and keeps scan-based reads as the correctness fallback when the sidecar is disabled. The launcher now provides the minimum operator CLI over the existing host-capability contract (`memarium quarantine {list,accept,reject}` and `memarium declassify`), while richer node-ui / batch UX remains future work.
 
 ### Agora Synchronization Tracking
 
@@ -277,7 +278,7 @@ Responsibilities:
 Agora does not depend on Memarium. Memarium does not depend on Agora. Agora declares observe rules in its config; Memarium compiles and executes them without Agora-specific knowledge.
 
 Status:
-- `partial` — the Memarium side of the channel (rule compilation, post-chain matching, fact append) is implemented. Agora's bundled middleware configuration now publishes concrete `ObserveRule` entries for `agora-submission`, `sync-confirmed`, `sync-failed`, and `sync-timeout`, and the bundled config is covered by a compiler → observation → append → query test. Broader end-to-end coverage through a live Agora relay remains an operational lifecycle test.
+- `done` — the Memarium side of the channel is implemented without depending on Agora internals: rule compilation, post-chain matching, fact append, and query are covered by tests. Agora's bundled middleware configuration publishes concrete `ObserveRule` entries for `agora-submission`, `sync-confirmed`, `sync-failed`, and `sync-timeout`, and the compiler → observation → append → query path protects those rules. Live relay behavior remains an Agora / Story-level operational test, not a Memarium contract blocker.
 
 ### Archival Integration
 
@@ -301,7 +302,7 @@ Responsibilities:
 - serve as local cache for previously retrieved archival material to avoid redundant remote retrieval.
 
 Status:
-- `partial` — the Memarium domain layer now owns a thin archival export adapter around `archival-package.v1`, and the daemon exposes a local operator backup flow on top of it. `POST /v1/memarium/backups` prepares one bundle under `<data_dir>/memarium/backups/<backup_id>/`, materializes per-item payload snapshots plus `archival-package.v1` JSON files, and returns a manifest with absolute file paths and metadata; `GET /v1/memarium/backups/{backup_id}` rehydrates that manifest for later inspection. The adapter builds/stamps packages with RFC3339 `created-at`, preserves `classification` as first-class package data, normalizes export-bound `effective_tier` against `surface=export` + `topic_class`, and denies quarantined / malformed / not-yet-declassified public-vault packages before any archivist handoff code runs. Remote archivist discovery, handoff transport, retrieval caching, and append-only archival result facts are still future work.
+- `done` — the Memarium domain layer owns a thin archival export adapter around `archival-package.v1`, and the daemon exposes local operator backup plus remote handoff/retrieval control flows on top of it. `POST /v1/memarium/backups` prepares one bundle under `<data_dir>/memarium/backups/<backup_id>/`, materializes per-item payload snapshots plus `archival-package.v1` JSON files, and returns a manifest with metadata; `GET /v1/memarium/backups/{backup_id}` rehydrates that manifest for later inspection. `POST /v1/memarium/archival/handoffs` preflights every package, submits each item to Artifact Delivery for INAC/archivist transport, and records append-only `archival-handoff-requested`, then `archival-handoff-accepted` or `archival-handoff-failed` facts with partial-submit diagnostics when AD rejects a later item. `POST /v1/memarium/archival/retrievals` builds and submits `retrieval-request.v1` through Artifact Delivery, records `archival-retrieval-requested`, and records `archival-retrieval-unavailable` if the outbound request cannot be queued. Future retrieval-response acceptors may append `found`, `denied`, `unavailable`, or `tombstoned` facts and materialize returned entries/facts only through the ordinary Memarium write path. `GET /v1/memarium/archivists` reads cached `archivist-advertisement` facts. The adapter builds/stamps packages with RFC3339 `created-at`, preserves `classification` as first-class package data, normalizes export-bound `effective_tier` against `surface=export` + `topic_class`, and denies quarantined / malformed / not-yet-declassified public-vault packages before any handoff is submitted.
 
 ### Crisis Space Management
 
@@ -448,6 +449,6 @@ Memarium is a constitutional organ at layer L2 in the system stratification (L0:
 
 The chain integration follows the observer slot pattern (proposal 027): the daemon registers a Memarium post-chain adapter that sees effective payloads after all middleware mutations, not a dispatch handler. Fact recording is driven by declarative observe rules declared by each middleware in its own configuration, merged through the daemon's standard deep-merge strategy. This eliminates coupling between the memory organ and the semantic modules it observes.
 
-Future note: if `observe_dispatch(message_kind, correlation_id, effective_payload)` becomes too narrow, the runtime-side expansion point should be a Memarium-domain `MemariumObservation` value. `PostChainObserver` and `PostChainEvent` should remain daemon adapter concepts, not runtime dependencies.
+The runtime-side expansion point is now the Memarium-domain `MemariumObservation` value. `observe_dispatch(message_kind, correlation_id, effective_payload)` remains as a compatibility wrapper for post-chain callers. `PostChainObserver`, `PhaseObserver`, and their event types remain daemon adapter concepts, not runtime dependencies.
 
 Implementation-specific decomposition, file ownership, and delivery status belong in the concrete Node repository's implementation ledger.

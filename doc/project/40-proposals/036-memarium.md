@@ -13,7 +13,7 @@ Based on:
 
 ## Status
 
-Draft
+Implemented v1
 
 ## Date
 
@@ -654,47 +654,37 @@ node/
 | Observe rule extract path references a missing field | Fact recorded with incomplete fields | Extract paths that resolve to `null` are preserved as explicit `null` in the fact fields. Rule compilation validates path syntax at startup; missing runtime values are not errors. |
 | Middleware config declares observe rule for non-existent space | Rule rejected at startup | Observe rule compiler validates space ids against the known space set and rejects unknown spaces with a startup warning. |
 
-## Open Questions
+## Resolved Decisions
 
-1. Should `MemariumContextEnricher` (PreInput) be part of the MVP, or deferred
-   until agent integration patterns stabilize?
-2. What is the minimal crisis seed set that must be pre-populated on first node
-   start?
-3. Should community space group keys be managed by Memarium or by a separate
-   key management component?
-4. What reconciliation frequency is appropriate for Agora sync fact chains?
-5. Should selected `MemariumFact.fields` maps gain structured validation schemas
-   per `FactKind`, or remain open JSON maps throughout v1?
-6. What is the right granularity for `ArtifactKind`? Should it be an open enum
-   or a closed set in v1?
-7. Should observe rules support extract path expressions beyond simple
-   `payload.field` dot-paths (e.g. array indexing, conditional extraction)?
-8. Should observer slots be implementable by out-of-process modules in MVP, or
-   only by in-process trait implementations? (The contract supports both, but
-   the fire-and-forget loopback dispatch path is additional work.)
+1. `MemariumContextEnricher` is a read-only Memarium-domain trait. The daemon
+   keeps it disabled by default; any attached PreInput adapter may annotate but
+   must not mutate, drop, or admit peer messages.
+2. The minimal crisis seed set is owned by Proposal 039 and applied
+   synchronously during daemon startup.
+3. Community group keys are managed outside Memarium. Memarium enforces sealed
+   payload envelopes and records facts; it does not own group-key lifecycle.
+4. Agora sync fact reconciliation is append-only. Agora owns the semantic
+   observe rules; Memarium records submission/confirmation/failure/timeout
+   facts and allows later reconciliation facts without depending on Agora
+   internals.
+5. `MemariumFact.fields` remains open JSON throughout v1 with bounded shape and
+   size. Semantic validation belongs to the domain owner that emits the fact.
+6. `ArtifactKind` is an open token string in v1, not a closed enum.
+7. Observe rule extraction uses simple literal dot paths only. Rule compilation
+   rejects empty, wildcard, and array-index path syntax; missing runtime values
+   are preserved as explicit `null` fields.
+8. Observer slots are supported by both daemon in-process observers and
+   middleware phase/post-chain observer routes. The Memarium runtime consumes
+   the neutral `MemariumObservation` value and never depends on daemon-private
+   peer-message types.
 
 ## Next Actions
 
-1. Keep the daemon-side post-chain adapter and runtime `ObserveRuleCompiler`
-   stratification: `memarium-runtime` must not depend on daemon-private
-   `PostChainEvent` / `PostChainObserver` types.
-2. Keep full WSS peer-supervisor lifecycle coverage for PeerMessageChain/WSS →
-   post-chain observer → Memarium query; the adapter unit path is useful but
-   insufficient as final evidence.
-3. Continue host capability hardening for `memarium.read`, `write`, `index`,
-   `cache`, `promote`, `forget`, `declassify`, `crisis_status`, and
-   `crisis_resolve`.
-4. Keep Agora observe rules bundled with Agora config; Memarium only compiles
-   and executes the declarations.
-5. Add the read sidecar only when scan-based point reads exceed the agreed
-   operator budget.
-6. Update `node/docs/implementation-ledger.toml` with Memarium capability rows.
-7. Align self-custody defaults with proposal 040 §4: a node's Memarium MUST
-    by default retain, indefinitely, the envelopes of its own participant's
-    own Agora-published records, so that proposal 040's custodial
-    redelivery pattern has a guaranteed byte-identical source. Operator
-    override is allowed but must be explicit.
-8. Expose a memarium-to-memarium transfer endpoint for the custody flow
-    defined in proposal 040 §3, honoring the `memarium.custody`
-    capability-passport scope and preserving encrypted payloads as opaque
-    bytes.
+1. Keep deployment telemetry on read-sidecar p95 and per-space row counts; add a
+   lower-level projector only if startup/read catch-up exceeds the operator
+   budget.
+2. Continue production monitoring for the classification strict-mode gate:
+   `StampThenWarn` remains until 2026-06-30 and seven consecutive zero-fallback
+   days.
+3. Treat richer Node UI batch affordances for quarantine, declassification, and
+   archival handoff inspection as UX work, not as blockers for Proposal 036 v1.
