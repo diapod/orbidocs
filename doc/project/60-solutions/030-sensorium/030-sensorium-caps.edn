@@ -1,0 +1,196 @@
+{:component/id :orbiplex/sensorium
+ :component/title "Sensorium"
+ :component/type :constitutional-organ
+ :component/status :done
+
+ :summary
+ "Node-local sensorimotor organ for admitted observations, bounded directives,
+ audit-only directive outcomes, connector dispatch, and reference Sensorium OS
+ integration under host capability policy."
+
+ :must-implement
+ [{:cap/id :sensorium-core-boundary
+   :title "Sensorium Core Boundary"
+   :kind :constitutional-organ
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"
+              "doc/project/60-solutions/000-node/000-node.md"
+              "doc/project/60-solutions/019-middleware/019-middleware.md"]
+   :schemas ["sensorium-observation.v1"
+             "sensorium-directive.v1"
+             "sensorium-directive-result.v1"
+             "sensorium-directive-outcome.v1"]
+   :responsibilities
+   ["Expose the consumer-facing Sensorium host capabilities"
+    "Keep connector dispatch behind `sensorium-core`"
+    "Apply sensitivity, TTL, action catalog, and publish-approval configuration"
+    "Keep Sensorium node-local rather than a public protocol authority"]
+   :status :done}
+
+  {:cap/id :sensorium-observation-admission
+   :title "Observation Admission And Read Model"
+   :kind :local-read-model
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"
+              "doc/project/60-solutions/015-host-owned-module-store/015-host-owned-module-store.md"]
+   :schemas ["sensorium-observation.v1"]
+   :responsibilities
+   ["Admit candidate observations through `sensorium.observe.submit`"
+    "Apply sensitivity allow/quarantine decisions"
+    "Expose bounded query, get, health, and topic-summary surfaces"
+    "Persist admitted observations through the host-owned module store"
+    "Rehydrate observations on daemon restart"]
+   :status :done}
+
+  {:cap/id :sensorium-directive-invocation
+   :title "Directive Invocation And Connector Dispatch"
+   :kind :host-capability
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"
+              "doc/project/40-proposals/048-sensorium-os-connector-action-classes.md"]
+   :schemas ["sensorium-directive.v1"
+             "sensorium-directive-result.v1"]
+   :responsibilities
+   ["Expose `sensorium.directive.invoke` as the public directive capability"
+    "Resolve `action_id` against the Sensorium action catalog"
+    "Validate parameters against the action parameter schema"
+    "Enforce action timing and publish-approval constraints"
+    "Dispatch only through the internal `sensorium.connector.invoke` seam"]
+   :status :done}
+
+  {:cap/id :sensorium-directive-outcome-audit
+   :title "Directive Outcome Audit"
+   :kind :audit
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"]
+   :schemas ["sensorium-directive-outcome.v1"
+             "sensorium-directive-result.v1"]
+   :responsibilities
+   ["Record exactly one outcome for each accepted or rejected directive invocation"
+    "Keep directive outcomes audit-only rather than publishing them as observations"
+    "Expose bounded audit lookup through `sensorium.audit.read`"
+    "Persist outcomes through the host-owned module store"
+    "Link successful outcomes to admitted observations when a connector returns world facts"]
+   :status :done}
+
+  {:cap/id :sensorium-connector-internal-boundary
+   :title "Internal Connector Capability Boundary"
+   :kind :authority-boundary
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"
+              "doc/project/60-solutions/006-capability-binding/006-capability-binding.md"]
+   :schemas ["sensorium-directive.v1"
+             "sensorium-directive-result.v1"]
+   :responsibilities
+   ["Keep `sensorium.connector.invoke` internal to `sensorium-core`"
+    "Keep `sensorium.connector.operation.status` internal to `sensorium-core`"
+    "Keep `sensorium.connector.operation.cancel` internal to `sensorium-core`"
+    "Reject direct connector invocation from ordinary middleware modules"]
+   :status :done}
+
+  {:cap/id :sensorium-os-reference-connector
+   :title "Sensorium OS Reference Connector"
+   :kind :connector-runtime
+   :based-on ["doc/project/40-proposals/048-sensorium-os-connector-action-classes.md"
+              "doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"]
+   :schemas ["sensorium-directive.v1"
+             "sensorium-directive-result.v1"
+             "sensorium-os-error-codes.v1"]
+   :responsibilities
+   ["Run `sensorium-os` as the first supervised Sensorium connector"
+    "Advertise `module_role = sensorium-connector` and connector action metadata"
+    "Implement finite `os.process.spawn-read-only` and `os.script.run` action surfaces"
+    "Execute configured commands without shell interpolation"
+    "Enforce configured workdir, script root, timeout, stdout, stderr, and artifact bounds"]
+   :status :done}
+
+  {:cap/id :sensorium-os-action-catalog-authorization
+   :title "Sensorium OS Action Catalog Authorization"
+   :kind :operator-governance
+   :based-on ["doc/project/40-proposals/048-sensorium-os-connector-action-classes.md"
+              "doc/project/60-solutions/006-capability-binding/006-capability-binding.md"]
+   :schemas []
+   :responsibilities
+   ["Report action catalog hash, sidecar metadata, and effective authorized action ids"
+    "Fail closed when action catalog signature is required and missing or stale"
+    "Let the daemon write operator-signed grant or deny sidecars"
+    "Keep cryptographic key use in the daemon/HostSigner stratum rather than in the connector"]
+   :status :done}
+
+  {:cap/id :sensorium-deferred-actions
+   :title "Deferred Sensorium Actions"
+   :kind :deferred-runtime
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"
+              "doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+              "doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md"]
+   :schemas ["deferred-operation.v1"
+             "deferred-operation-status.v1"
+             "sensorium-directive.v1"
+             "sensorium-directive-result.v1"]
+   :responsibilities
+   ["Allow action catalog entries to opt into bounded async/deferred execution"
+    "Map connector deferred acknowledgements into canonical host deferred operations"
+    "Expose `sensorium.operation.status` and `sensorium.operation.cancel`"
+    "Register Sensorium deferred operations in the host deferred registry"
+    "Preserve explicit non-cancelable and terminal-state behavior"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :sensorium-local-agora-observation-publication
+   :title "Local Agora Observation Publication"
+   :kind :local-eventing
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"
+              "doc/project/40-proposals/046-agora-topic-key-namespace-conventions.md"]
+   :schemas ["sensorium-observation.v1"]
+   :responsibilities
+   ["Publish admitted observations to local-only topics such as `local/sensorium/observations/{signal-kind}`"
+    "Keep public/federated publication out of Sensorium by default"
+    "Let consumers subscribe without coupling to connector implementation details"]
+   :status :partial}
+
+  {:cap/id :sensorium-invasive-connectors
+   :title "Invasive Connector Classes"
+   :kind :future-connector
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"]
+   :schemas ["sensorium-observation.v1"]
+   :responsibilities
+   ["Support camera, microphone, GPS, wearable, or comparable invasive connector classes only after active UI status and explicit operator grants exist"
+    "Surface declared incidental effects before enabling observation or directive flow"
+    "Default to disabled until the operator has accepted the connector posture"]
+   :status :deferred}
+
+  {:cap/id :sensorium-cross-node-readthrough
+   :title "Cross-Node Sensorium Read-Through"
+   :kind :future-protocol
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"]
+   :schemas []
+   :responsibilities
+   ["Define a future trusted-neighbor observation access protocol"
+    "Preserve local consent and minimization rules"
+    "Avoid turning Sensorium into a general remote surveillance API"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Public/federated Sensorium publication by default"
+  "Direct connector invocation by consumers"
+  "Unrestricted OS access"
+  "Long-running daemons, watchers, streams, or model workers inside `sensorium-os`"
+  "Inquirium/model provider policy"
+  "Emergency activation decisions"
+  "Direct network publication of Whisper, Monus, or Arca artifacts"]
+
+ :consumes
+ ["connector module reports"
+  "sensorium-observation.v1 candidates"
+  "sensorium-directive.v1 requests"
+  "host capability bindings"
+  "operator-signed action catalog sidecars"
+  "bounded deferred operation policy"]
+
+ :produces
+ ["sensorium-observation.v1"
+  "sensorium-directive-result.v1"
+  "sensorium-directive-outcome.v1"
+  "deferred-operation.v1"
+  "deferred-operation-status.v1"
+  "Sensorium health, query, topic-summary, directive-list, and audit read models"]
+
+ :notes
+ ["Sensorium is a mediated bus and policy boundary, not an interceptor chain."
+  "Sensorium OS is the first reference connector, not the whole organ."
+  "Model-backed inquiry belongs to Inquirium; Sensorium OS may only run bounded compatibility actions."]}

@@ -131,11 +131,11 @@ because it is convenient. A long-lived connector should not become an in-process
 core handler only because that is faster to write.
 
 Domain organs may use middleware modules without turning those modules into
-organ-specific plugins. Sensorium is the reference case: `sensorium-core` is the
-Sensorium mediator/organ boundary, while `sensorium-os` is a separate connector
-middleware module with its own action catalog. A connector action is not a
-middleware module; it is an operation declared by a connector and mediated by
-the organ's public capability surface.
+organ-specific plugins. [Sensorium](../030-sensorium/030-sensorium.md) is the
+reference case: `sensorium-core` is the Sensorium mediator/organ boundary, while
+`sensorium-os` is a separate connector middleware module with its own action
+catalog. A connector action is not a middleware module; it is an operation
+declared by a connector and mediated by the organ's public capability surface.
 
 JSON-e Flow uses different vocabulary. The `json_e_flow` engine is an executor
 backend; each concrete flow configuration is treated as one operational
