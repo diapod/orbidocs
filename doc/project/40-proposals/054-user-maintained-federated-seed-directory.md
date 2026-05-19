@@ -11,11 +11,14 @@ Based on:
 
 ## Status
 
-Draft
+Accepted
 
 ## Date
 
 2026-05-02
+
+Promoted to:
+- `doc/project/60-solutions/031-seed-directory/031-seed-directory.md`
 
 ## Executive Summary
 

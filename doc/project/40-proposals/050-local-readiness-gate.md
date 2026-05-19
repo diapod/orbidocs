@@ -10,7 +10,7 @@ Based on:
 
 ## Status
 
-Draft
+Accepted
 
 ## Date
 
