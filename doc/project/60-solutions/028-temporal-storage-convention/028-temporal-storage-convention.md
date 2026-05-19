@@ -632,6 +632,8 @@ writes `storage/seed-directory/manifest.json`, exposes temporal
 status/feed/replay-check, and declares `compaction.policy = "bounded-noop"`
 because validity/expiry filtering is the hard-MVP retention boundary for
 accepted public facts.
+The owning solution-level component is
+`doc/project/60-solutions/031-seed-directory/031-seed-directory.md`.
 
 After comparing the pilots, Node now extracts only the genuinely common
 mechanics into `temporal-event-log`: transaction-row insertion, event-row

@@ -396,6 +396,8 @@ A receiver should:
 ## Seed Directory Relationship
 
 Seed Directory publication is optional for communicating capabilities.
+The solution-level Seed Directory responsibilities are defined in
+`doc/project/60-solutions/031-seed-directory/031-seed-directory.md`.
 
 The same capability advertisement may be:
 

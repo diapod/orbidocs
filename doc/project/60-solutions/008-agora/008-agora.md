@@ -238,6 +238,7 @@ Based on:
 - `doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md`
 - `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
 - `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
+- `doc/project/60-solutions/031-seed-directory/031-seed-directory.md`
 
 Related schemas:
 - `agora-record.v1`

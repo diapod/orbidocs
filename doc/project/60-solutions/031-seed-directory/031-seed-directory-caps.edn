@@ -1,0 +1,198 @@
+{:component/id :orbiplex/seed-directory
+ :component/title "Seed Directory"
+ :component/type :runtime
+ :component/status :mvp-ready
+
+ :summary
+ "Discovery facade for node reachability, passport-backed capabilities, revocation feeds, subject routing projections, and user-maintained trusted directory policy."
+
+ :must-implement
+ [{:cap/id :seed-directory-node-advertisement-catalog
+   :title "Node Advertisement Catalog"
+   :kind :discovery
+   :based-on ["doc/project/40-proposals/014-node-transport-and-discovery-mvp.md"
+              "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"
+              "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"]
+   :schemas ["node-advertisement.v1"]
+   :responsibilities
+   ["Accept and store signed node advertisements"
+    "Reject stale or malformed updates"
+    "Expose current node-id to endpoint projections"
+    "Treat advertisements as reachability candidates rather than identity truth"]
+   :status :done}
+
+  {:cap/id :seed-directory-passport-backed-capability-catalog
+   :title "Passport-Backed Capability Catalog"
+   :kind :discovery
+   :based-on ["doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+              "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"
+              "doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md"]
+   :schemas ["capability-advertisement.v1"
+             "capability-passport.v1"
+             "seed-capability-registration.v1"]
+   :responsibilities
+   ["Accept one capability registration per node and capability pair"
+    "Require valid passport evidence for passport-backed capabilities"
+    "Join capability registrations with current node endpoints"
+    "Expose capability-first and capability-many lookup inputs"
+    "Keep final capability verification at the consumer boundary"]
+   :status :done}
+
+  {:cap/id :seed-directory-revocation-feed
+   :title "Revocation Feed"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"
+              "doc/project/40-proposals/032-key-delegation-passports.md"
+              "doc/project/60-solutions/014-key-delegation-passports/014-key-delegation-passports.md"]
+   :schemas ["capability-passport-revocation.v1"]
+   :responsibilities
+   ["Accept issuer- and subject-signed revocation artifacts"
+    "Expose bounded revocation feeds for consumers"
+    "Make revocation monotonic during multi-directory reconciliation"
+    "Feed dispatch gates and capability lookup suppression"]
+   :status :done}
+
+  {:cap/id :seed-directory-bootstrap-capability
+   :title "Seed Directory Bootstrap Capability"
+   :kind :capability-passport
+   :based-on ["doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"
+              "doc/project/60-solutions/CAPABILITY-REGISTRY.en.md"]
+   :schemas ["capability-passport.v1"]
+   :responsibilities
+   ["Model Seed Directory itself as capability seed-directory"
+    "Verify shipped or configured Seed Directory passports at daemon startup"
+    "Degrade to isolated bootstrap mode when no usable directory remains"
+    "Keep static endpoint-only bootstrap explicit"]
+   :status :done}
+
+  {:cap/id :seed-directory-subject-routing-projections
+   :title "Subject and Routing Projections"
+   :kind :routing
+   :based-on ["doc/project/40-proposals/034-node-operator-binding-and-derived-node-assurance.md"
+              "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"
+              "doc/project/60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md"]
+   :schemas ["node-operator-binding.v1"
+             "routing-subject-binding.v1"]
+   :responsibilities
+   ["Expose participant-to-node candidates only for explicit public/operator disclosure"
+    "Accept routing-subject bindings as privacy-preserving delivery projections"
+    "Keep root participant disclosure out of default contact and routing flows"
+    "Support Artifact Delivery participant, routing-subject, org, and contact lookup resolver paths"]
+   :status :done}
+
+  {:cap/id :seed-directory-node-address-attestation
+   :title "Node Address Attestation and Endpoint Evidence"
+   :kind :transport-evidence
+   :based-on ["doc/project/40-proposals/043-node-address-attestation-fallback.md"
+              "doc/project/40-proposals/056-orbiplex-tls-trust-policy.md"
+              "doc/project/60-solutions/024-tls-trust-policy/024-tls-trust-policy.md"]
+   :schemas ["node-address-attestation.v1"]
+   :responsibilities
+   ["Probe candidate endpoints when policy requires fresh reachability evidence"
+    "Produce signed endpoint observations for node-address mappings"
+    "Include TLS leaf evidence where available"
+    "Feed peer supervisor endpoint evidence and TLS trust policy"]
+   :status :done}
+
+  {:cap/id :seed-directory-trusted-agora-replay
+   :title "Trusted Agora Replay"
+   :kind :projection
+   :based-on ["doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas ["agora-record.v1"
+             "node-advertisement.v1"
+             "seed-capability-registration.v1"
+             "capability-passport-revocation.v1"]
+   :responsibilities
+   ["Publish accepted facts after Seed Directory admission"
+    "Replay trusted Agora lanes into local Seed Directory projections"
+    "Keep direct-write and trusted-replay projections equivalent for the same accepted fact stream"
+    "Persist replay cursors and diagnostics per federation and lane"]
+   :status :done}
+
+  {:cap/id :seed-directory-multi-directory-trust-policy
+   :title "Multi-Directory Trust Policy"
+   :kind :policy
+   :based-on ["doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"]
+   :schemas ["seed-directory-trust.v1"]
+   :responsibilities
+   ["Configure trusted directory candidates with trust tier, weight, federation id, policy refs, endorsements, and reputation refs"
+    "Support preferred-directory, quorum, and weighted-trust query modes"
+    "Prevent embedded local directory self-voting unless explicitly enabled"
+    "Reconcile observations deterministically and fail closed for malformed or unverifiable records"]
+   :status :done}
+
+  {:cap/id :seed-directory-query-attestation
+   :title "Query Attestation"
+   :kind :attestation
+   :based-on ["doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"]
+   :schemas ["seed-directory-query-attestation.v1"]
+   :responsibilities
+   ["Optionally attest critical Seed Directory responses on request"
+    "Bind normalized query, canonical response digest, projection high-water mark, issue time, expiry, signer id, and signature"
+    "Leave legacy response shapes unchanged when attestation is not requested"
+    "Clarify that query attestation proves the served view, not global truth"]
+   :status :done}
+
+  {:cap/id :seed-directory-temporal-accepted-fact-store
+   :title "Temporal Accepted-Fact Store"
+   :kind :storage
+   :based-on ["doc/project/40-proposals/062-temporal-storage-convention.md"
+              "doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md"]
+   :schemas ["storage-manifest.v1"]
+   :responsibilities
+   ["Store accepted Seed Directory facts and operator retractions as temporal records"
+    "Treat HTTP/API tables as rebuildable projections"
+    "Expose temporal status, event feed, and replay-check diagnostics"
+    "Keep compaction policy explicit"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :seed-directory-merkle-page-proofs
+   :title "Merkle/Page Proofs for Large Directory Views"
+   :kind :attestation
+   :based-on ["doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"]
+   :schemas ["seed-directory-query-attestation.v1"]
+   :responsibilities
+   ["Extend query attestations with partial page proofs if large multi-directory comparisons require them"]
+   :status :deferred}
+
+  {:cap/id :seed-directory-reputation-backed-scoring
+   :title "Reputation-Backed Directory Scoring"
+   :kind :governance
+   :based-on ["doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
+              "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"]
+   :schemas ["reputation-snapshot.v1"]
+   :responsibilities
+   ["Feed directory operator reputation into local trust policy"
+    "Convert endorsement and reputation references into a future ReputationProjection"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Capability semantics beyond indexing and verification of presented evidence"
+  "Final consumer authorization after a peer connects"
+  "Contact Catalog domain policy or people-directory mappings"
+  "Agora storage semantics"
+  "TLS trust lifecycle beyond endpoint evidence production"
+  "Reputation algorithms for directory operators"]
+
+ :consumes
+ ["node-advertisement.v1"
+  "capability-advertisement.v1"
+  "capability-passport.v1"
+  "capability-passport-revocation.v1"
+  "node-operator-binding.v1"
+  "routing-subject-binding.v1"
+  "agora-record.v1"
+  "seed-directory-trust.v1"]
+
+ :produces
+ ["seed-capability-registration.v1"
+  "seed-directory-query-attestation.v1"
+  "node-address-attestation.v1"
+  "Seed Directory HTTP projections"]
+
+ :notes
+ ["Seed Directory is a directory, not an authority substitute."
+  "Consumers must still verify passports, revocation freshness, peer identity, endpoint evidence, and domain policy at the relevant boundary."]}

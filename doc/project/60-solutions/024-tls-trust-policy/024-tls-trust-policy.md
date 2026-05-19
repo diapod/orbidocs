@@ -16,6 +16,7 @@ Based on:
 - `doc/project/40-proposals/054-user-maintained-federated-seed-directory.md`
 - `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
+- `doc/project/60-solutions/031-seed-directory/031-seed-directory.md`
 - `doc/schemas/service-ca-material.v1.schema.json`
 - `doc/schemas/node-address-attestation.v1.schema.json`
 - `node:network/src/lib.rs`

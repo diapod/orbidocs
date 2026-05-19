@@ -41,6 +41,9 @@ The Node daemon does not learn phone or email semantics; it supervises the
 middleware, exposes host capabilities, and transports artifacts through existing
 planes.
 
+The solution-level Seed Directory boundary is defined separately in
+`doc/project/60-solutions/031-seed-directory/031-seed-directory.md`.
+
 ## Context and Problem Statement
 
 Proposal 058 defines Contact Catalog as a domain catalog separate from Seed
