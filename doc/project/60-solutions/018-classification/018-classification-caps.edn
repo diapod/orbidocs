@@ -5,7 +5,8 @@
 
  :summary
  "Shared classification label and propagation contract for Memarium, Agora,
- archival export, and future peer-forwarding surfaces."
+ Whisper, INAC/private Artifact Delivery, archival export, and future
+ peer-forwarding surfaces."
 
  :must-implement
  [{:cap/id :classification-label-contract
@@ -36,14 +37,18 @@
    :title "Classification Egress Guard"
    :kind :policy-enforcement
    :based-on ["doc/project/40-proposals/047-classification-label-propagation.md"
-              "doc/project/60-solutions/008-agora/008-agora.md"]
+              "doc/project/60-solutions/008-agora/008-agora.md"
+              "doc/project/60-solutions/011-whisper/011-whisper.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"]
    :schemas ["classification.v1"
-             "agora-record.v1"]
+             "agora-record.v1"
+             "whisper-signal.v1"
+             "artifact-delivery-envelope.v1"]
    :responsibilities
    ["Block public publication when effective classification forbids it"
-    "Reuse one helper across Agora, Whisper, INAC, and archival export as those surfaces mature"
+    "Reuse one helper across Agora, Whisper, INAC, and archival export"
     "Keep edge enforcement at the publication/forwarding boundary"]
-   :status :partial}]
+   :status :done}]
 
  :may-implement
  [{:cap/id :operator-classification-ux
@@ -73,4 +78,3 @@
  :notes
  ["This solution exists because classification is now a shared runtime concern, not only a Memarium subsection."
   "Concrete policy thresholds may vary by pseudonymization class and local operator policy."]}
-

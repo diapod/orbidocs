@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `44` | `10` |
 | `30-stories` (Stories) | `15` | `1` |
-| `40-proposals` (Proposals) | `65` | `54` |
+| `40-proposals` (Proposals) | `66` | `55` |
 | `50-requirements` (Requirements) | `16` | `14` |
-| `60-solutions` (Solutions) | `47` | `28` |
+| `60-solutions` (Solutions) | `48` | `29` |
 
-- Total project markdown files: `201`
-- Proposals referencing source material: `54` / `65`
+- Total project markdown files: `203`
+- Proposals referencing source material: `55` / `66`
 - Requirements referencing source material: `14` / `16`
 
 ## Schema Workflow
@@ -41,7 +41,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`answer-room-metadata.v1.schema.json`](schemas-gen/schemas/answer-room-metadata.v1.md) | `16` | `1` | `no` | `yes` | `3` | `1` |
 | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md) | `17` | `16` | `yes` | `yes` | `1` | `1` |
 | [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
-| [`artifact-delivery-envelope.v1.schema.json`](schemas-gen/schemas/artifact-delivery-envelope.v1.md) | `6` | `0` | `yes` | `yes` | `2` | `2` |
+| [`artifact-delivery-envelope.v1.schema.json`](schemas-gen/schemas/artifact-delivery-envelope.v1.md) | `7` | `0` | `yes` | `yes` | `2` | `2` |
 | [`artifact-delivery-recovery.v1.schema.json`](schemas-gen/schemas/artifact-delivery-recovery.v1.md) | `4` | `0` | `yes` | `yes` | `0` | `0` |
 | [`artifact-delivery-result.v1.schema.json`](schemas-gen/schemas/artifact-delivery-result.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
 | [`artifact-delivery-status.v1.schema.json`](schemas-gen/schemas/artifact-delivery-status.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |

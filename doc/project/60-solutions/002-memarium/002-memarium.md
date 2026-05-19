@@ -46,7 +46,7 @@ Responsibilities:
 - record promotion provenance as append-only facts.
 
 Status:
-- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → post-chain observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, the enforced strict-mode gate for classification fallback, and a classification-aware archival export adapter for `archival-package.v1` are now represented in code. Remaining work is operational hardening: concrete Whisper/INAC edge adapters still need to call the shared classification egress helper, contextual forget authorization remains open, and a sidecar read model may be added if datasets outgrow MVP scan budgets.
+- `partial` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → post-chain observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, the enforced strict-mode gate for classification fallback, a classification-aware archival export adapter for `archival-package.v1`, concrete Whisper and INAC/private AD classification egress adapters, contextual personal-space forget delegation, and a SQLite derived read sidecar are now represented in code. Remaining work is operational hardening around richer operator UX, governed community forget, and future remote archivist handoff.
 
 ### Observer-Based Chain Integration
 
@@ -249,21 +249,18 @@ from the dispatch gate map to exactly one audit decision string.
 | `storage_error` | `500 Internal Server Error` | - | no | Non-retryable storage failure. |
 | `internal_error` | `500 Internal Server Error` | - | no | Unexpected host-side state. The response must not leak stack traces or secrets. |
 
-Authorization-level enforcement for `memarium.forget` is A0 in the current
-daemon: modules cannot call it directly even when they hold a passport grant.
-The runtime still gates the actual effect through the space `ForgetPolicy`:
-personal requests erase the read view, public requests tombstone, and
-community/crisis requests are rejected until governed or restricted workflows
-exist. The next authorization hardening step is to replace the coarse
-`is_a0(grant_type)` check with a decision function that considers space,
-expected outcome, caller authority, participant scope, artifact kind, and
-remembered operator approvals. A remembered approval is an explicit operator
-policy fact such as "always allow this participant or module to forget this class
-of personal entries"; it must carry scope, reason, issuer, audit trace, and a
-revocation path.
+Authorization-level enforcement for `memarium.forget` is contextual in the
+daemon. A module caller may request personal-space forget through the normal
+passport gate when its passport grants `memarium/forget` for `personal`.
+Public forget remains operator-only at dispatch and becomes a runtime tombstone;
+community forget remains governed and crisis forget remains operator-only plus
+runtime-restricted. The next authorization hardening step is remembered operator
+approval: an explicit operator policy fact such as "always allow this participant
+or module to forget this class of personal entries"; it must carry scope, reason,
+issuer, audit trace, and a revocation path.
 
 Status:
-- `partial` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, and four revocation sources. For MVP, scan-based point reads are accepted as the correctness fallback because storage `RecordId` is not the Memarium domain id; writes stamp storage `idempotency_key` with `EntryId` / `FactId`, so a future read-model/index sidecar or `get_by_idempotency_key` hook can replace scans without changing Memarium contracts. The launcher now provides the minimum operator CLI over the existing host-capability contract (`memarium quarantine {list,accept,reject}` and `memarium declassify`), while richer node-ui / batch UX remains future work. Open points: contextual autonomy enforcement for `forget` (see above), concrete non-Agora edge adapters for the shared classification helper, and post-MVP sidecar/index work if scan budgets are exceeded.
+- `partial` — all nine capabilities are live over real HTTP with passport-gated dispatch, audit sink, four revocation sources, and contextual personal-space forget delegation. Point reads and policy read views now use a derived SQLite sidecar by default; it rebuilds from the append-only `memarium:{space}:entries` and `memarium:{space}:facts` streams, materializes `memarium_entry_current`, `memarium_fact_current`, and `memarium_policy_current` rows with `as_of_tx_id`, and keeps scan-based reads as the correctness fallback when the sidecar is disabled. The launcher now provides the minimum operator CLI over the existing host-capability contract (`memarium quarantine {list,accept,reject}` and `memarium declassify`), while richer node-ui / batch UX remains future work. Open points: remembered operator approvals for broader forget delegation, governed community forget workflows, and a future background projector if sync-on-read exceeds deployment budgets.
 
 ### Agora Synchronization Tracking
 
@@ -389,7 +386,7 @@ Structured solution capability catalog:
 - `memarium.index` — query index projections (A2+)
 - `memarium.cache` — read-through cache (A1+)
 - `memarium.promote` — cross-space promotion (A0)
-- `memarium.forget` — right-to-forget request (A0, then constrained by space policy)
+- `memarium.forget` — right-to-forget request (personal-space module delegation through passport gate; other spaces operator/governed/restricted, then constrained by space policy)
 - `memarium.declassify` — append-only declassification/quarantine policy facts (A0)
 - `memarium.crisis_status` — crisis seed and active finding view (A1)
 - `memarium.crisis_resolve` — append-only operator force-resolution (A0)
@@ -418,10 +415,23 @@ Implements:
 - Space-to-stream mapping and policy enforcement
 - `MemariumRuntime::observe_dispatch(...)` — neutral post-chain observation port driven by compiled observe rules
 - `ObserveRuleCompiler` — compiles observe rules from merged middleware config
+- `MemariumReadProjection` — narrow hook for derived read models
 - optional `MemariumContextEnricher` semantics over Memarium-domain input; daemon-side chain adapters remain outside this crate
 - Index projection from commit log
 
 Depends on: `memarium`, `storage`, `storage-runtime`. It does not depend on the daemon crate or daemon-private peer-message chain traits.
+
+### `memarium-read-sidecar` crate
+
+Implements a Solution 028-style derived SQLite read projection:
+- source of truth: `memarium:{space}:entries` and `memarium:{space}:facts`
+- technical replay bookkeeping: `memarium_projection_tx` and stream checkpoints
+- current projections: `memarium_entry_current`, `memarium_fact_current`, `memarium_policy_current`
+- replay-equivalence tests against the scan fallback, including forget, declassification, quarantine, rebuild, and privacy checks
+- operator storage diagnostics: `/v1/operator/storage/profiles` reports the
+  sidecar as a non-temporal read model with row counts and stream checkpoints
+
+It implements the runtime-side `MemariumReadProjection` hook. The sidecar is rebuildable from append-only storage and is not a semantic event log.
 
 ### `daemon` integration layer
 

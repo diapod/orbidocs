@@ -170,11 +170,13 @@ Current implementation status:
   `policy`: route/selector allowlists, fan-out and byte caps, delivery timeout,
   retry budget, idempotency, and the privacy-vs-transport invariant that
   `privacy = private | private-direct` can use only adapter schemes explicitly
-  reviewed as private-safe. The reviewed private-safe set is `inac-direct` and
-  `matrix-mailbox`;
-  public/federated or merely unreviewed adapters fail closed. Domain privacy,
-  retention, revocation freshness, and classification semantics remain owned by
-  adapters or domain acceptors and must fail closed if unsupported.
+  reviewed as private-safe. The reviewed private-safe set is `inac-direct`,
+  `matrix-mailbox`, and `object-store-indirect`;
+  public/federated or merely unreviewed adapters fail closed. Envelopes may
+  carry optional top-level `classification`; guarded INAC/private routes require
+  it and apply the shared classification egress guard before transport. Domain
+  retention and revocation freshness semantics remain owned by adapters or
+  domain acceptors and must fail closed if unsupported.
 - Story-005 uses both sides of this path: public candidates go through
   `AD -> agora-default`, while private/direct candidates are signed as
   byte-identical `agora-record.v1` artifacts and transported through
@@ -1152,8 +1154,10 @@ path goes through Agora's own publish/admission policy.
 Do not silently replace a private node delivery request with an Agora publish.
 For `privacy = private | private-direct`, Artifact Delivery denies every adapter
 scheme except those explicitly marked private-safe by the host runtime. Today
-that means `inac-direct`; new adapters are denied under private policy until
-reviewed.
+that means `inac-direct`, `matrix-mailbox`, and `object-store-indirect`; new
+adapters are denied under private policy until reviewed. Guarded INAC/private
+routes also require a first-class `classification` label and reject missing or
+over-restrictive labels before transport dispatch.
 
 ### Relationship to Seed Directory
 

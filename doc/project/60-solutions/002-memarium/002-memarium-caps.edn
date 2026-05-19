@@ -49,7 +49,7 @@
     "Map dispatch-gate denials to stable wire status codes and audit decision strings"
     "Use revocation sources before accepting passport-authorized operations"
     "Keep HTTP DTOs separate from runtime domain types"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :classification-policy-facts
    :title "Classification Policy Facts"
@@ -64,7 +64,7 @@
     "Support operator quarantine accept and reject facts without mutating the source record"
     "Derive effective tier and declassify trail on read/query paths"
     "Reject egress/export attempts that violate effective tier, quarantine, or public bound-subject projection rules"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :crisis-space-loop
    :title "Crisis Space Loop"
@@ -117,10 +117,11 @@
    :based-on ["doc/project/40-proposals/036-memarium.md"]
    :schemas []
    :responsibilities
-   ["Replace MVP scan-based point reads once dataset size or p95 latency exceeds the declared budget"
-    "Index domain ids through write-stamped idempotency keys without changing Memarium contracts"
-    "Remain rebuildable from the append-only storage log"]
-   :status :planned}
+   ["Materialize domain-id addressable entry and fact current projections from append-only Memarium streams"
+    "Materialize forget/declassify/quarantine policy current projections without changing Memarium contracts"
+    "Remain rebuildable from the append-only storage log"
+    "Expose non-temporal operator diagnostics with row counts and stream checkpoints"]
+   :status :done}
 
   {:cap/id :remote-archivist-handoff
    :title "Remote Archivist Handoff"

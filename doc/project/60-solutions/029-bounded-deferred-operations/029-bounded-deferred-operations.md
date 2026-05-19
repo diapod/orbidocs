@@ -456,5 +456,6 @@ Current MVP evidence includes:
 
 This solution deliberately names a horizontal control-plane mechanism rather
 than a domain component. That is why it is not folded into Artifact Delivery,
-Sensorium, Scheduler, or Middleware: each of those consumes the contract, but
-none should own the shared vocabulary for bounded deferred work.
+[Sensorium](../030-sensorium/030-sensorium.md), Scheduler, or Middleware: each
+of those consumes the contract, but none should own the shared vocabulary for
+bounded deferred work.

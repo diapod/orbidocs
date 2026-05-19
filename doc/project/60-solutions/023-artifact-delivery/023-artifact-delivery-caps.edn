@@ -19,6 +19,7 @@
               "doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md"
               "doc/project/60-solutions/019-middleware/019-middleware.md"]
    :schemas ["artifact-delivery-envelope.v1"
+             "classification.v1"
              "artifact-delivery-result.v1"
              "artifact-delivery-status.v1"
              "artifact-delivery-recovery.v1"
@@ -39,7 +40,7 @@
    ["Node now provides artifact-delivery-core, artifact-delivery, JSON schemas, schema-gate validators, daemon config, startup/effective-config validation, artifact.delivery.send, route/status APIs, deterministic ids, an in-memory test ledger, a SQLite runtime ledger at `<node-data-dir>/storage/artifact-delivery.sqlite` with explicit user_version migrations and PRAGMA setup, the Agora publish adapter, local and remote WSS INAC direct-node delivery, INAC WSS stream chunks for payloads above the inline ceiling, inbound acceptor registry conflict detection, pre-acceptor non-empty sha256 and inline byte-identity validation, an `artifact-store:` referenced payload resolver rooted under `<node-data-dir>/storage/artifact-store`, file-backed resolved payloads for larger local/resolved artifacts, receiver-side remote WSS INAC allowlists, a receiver-local inbound admission/refusal ledger, control-plane HTTP admission source adapter allowlists, admission idempotency, admission status APIs/UI, Story-005 public Whisper candidate delivery through AD -> Agora, and regression coverage."
     "Deferred Artifact Delivery is a P055 consumer: `?mode=deferred` returns `deferred-operation.v1` with stable operation metadata, `audit/outcome-ref`, and a canonical operation-status URL; recovery preserves prior attempts in `retry/history` and returns schema-gated `artifact-delivery-recovery.v1`. The daemon also starts a background recovery worker by default, with interval, batch, and pass-deadline policy visible to operators."
     "Referenced payload resolution is registry-based and fail-closed. Production resolvers include `artifact-store:`, public Memarium refs, scoped Memarium refs (`memarium-entry:<space>:<entry-id>`, `memarium-fact:<space>:<fact-id>`) that require outbound component context and the host `memarium.read` passport gate, `agora-record:<record-id>` which fetches through the configured Agora endpoint only when the outbound allow includes that scheme, and `inac-peer-artifact:<node-id>:<artifact-id>` which resolves from the host-owned peer artifact cache and remains digest-bound to the envelope descriptor."
-    "Current runtime records, validates, and reports policy support for the mechanical enforcement subset. Full generic retention/operator-review semantics remain route/adapter/domain-specific until proven reusable."
+    "Current runtime records, validates, and reports policy support for the mechanical enforcement subset. `artifact-delivery-envelope.v1` may carry optional top-level `classification`; guarded INAC/private routes require it and apply the shared classification egress helper with a hard-MVP Community destination budget. Full generic retention/operator-review semantics remain route/adapter/domain-specific until proven reusable."
     "The `memarium-blob.v1` in-process acceptor now has daemon-local custody target-space policy via `artifact_delivery_acceptors.memarium_blob_custody`; default behavior remains `public`, configured `personal`/`community` spaces are allowed, and `crisis` is rejected until a separate crisis-custody contract exists."
     "Artifact Delivery exposes lightweight profiling counters for payload materialization and transport accounting, including inline/file-backed source counts, materialization bytes/time, transport payload bytes, and WSS stream chunk counts without logging payload contents."
     "Read-only observer hooks are present for delivery/admission completion metadata. Observers see ids, status, schema and digest fields only; observer panics are counted and ignored so they never change the authoritative acceptor result."
@@ -52,7 +53,8 @@
               "doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md"
               "doc/project/60-solutions/021-agora-authority/021-agora-authority.md"]
    :schemas ["artifact-delivery-envelope.v1"
-             "artifact-mailbox-sealed.v1"]
+             "artifact-mailbox-sealed.v1"
+             "classification.v1"]
    :responsibilities
    ["Require explicit outbound schema declarations per component"
     "Normalize single-recipient envelopes into delivery plans"
@@ -66,6 +68,7 @@
     "Treat selector allowlists as permissions, not fallback order, and fail malformed or unresolved selector targets before transport execution"
     "Keep route ids stable, carry route versions inside route definitions, and persist expanded normalized plans in the ledger"
     "Resolve capability-first/many, participant, routing-subject, org, and contact-lookup selectors through host-composed resolver adapters"
+    "Require and enforce classification labels for guarded INAC/private egress routes"
     "Deny valid-schema sends when the component lacks an outbound allow"]
    :status :done
    :notes

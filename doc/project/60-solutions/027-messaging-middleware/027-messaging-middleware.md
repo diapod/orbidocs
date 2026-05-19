@@ -103,7 +103,7 @@ The following capabilities are part of the solution boundary:
 | --- | --- | --- |
 | `capability.passport.lookup` | Daemon / Capability Binding | Select or verify a usable `messaging-receive` passport for outbound queue promotion and inbound `passport-ref` admission. |
 | `local-recipient-mailbox.resolve` | Daemon / local participant authority | Resolve an inbound receiver route and optional public handle to an operator or participant mailbox. |
-| `artifact.delivery.send` | Daemon / Artifact Delivery | Send signed `contact-request.v1` via contact lookup and signed `message-envelope.v1` via `private-direct`. |
+| `artifact.delivery.send` | Daemon / Artifact Delivery | Send signed `contact-request.v1` via contact lookup and signed `message-envelope.v1` via `private-direct`; outbound envelopes carry `classification.v1` so INAC/private routes pass the shared classification egress guard. |
 | `signer.sign` | Daemon / signer | Sign outbound contact requests and message envelopes under the `contact-request.v1` and `message-envelope.v1` domains granted to `messaging-service`. |
 | `memarium.write` | Daemon / Memarium | Append bounded Layer 3 messaging facts. |
 | `notification.create` | Daemon / notification center | Notify the operator about newly stored inbound messages. |
@@ -161,6 +161,9 @@ The outbound queue is deterministic and retryable:
    the Pseudonym Vault. If Contact Catalog lookup is the only known recipient
    address, `recipient/route` is omitted; the receiving daemon binds the
    request to its local node id instead of trusting a sender-invented route.
+   The `artifact-delivery-envelope.v1` wrapper is labelled
+   `classification.v1` with `effective_tier = Community`, matching the
+   hard-MVP INAC/private route budget.
    When a `contact-lookup-result.v1` arrives for an outbox item, the service
    promotes only concrete route candidates whose `selected/route.purposes`
    contains `messaging`; `no-match`, `policy-denied`, and `ambiguous` are
@@ -169,7 +172,10 @@ The outbound queue is deterministic and retryable:
    usable `messaging-receive` passport.
 3. `ready-for-delivery` builds and signs `message-envelope.v1`, attaches the
    passport reference or inline passport, and sends it through
-   `artifact.delivery.send` as `private-direct`.
+   `artifact.delivery.send` as `private-direct`. The AD envelope carries the
+   same `Community` classification label before leaving the service boundary;
+   message-body privacy and future per-conversation policy remain separate
+   messaging-domain layers.
 4. `in-flight` becomes `delivered` after a successful host capability call.
 5. Retryable transport/host failures set `next_attempt_at`; terminal schema,
    conflict, or scope failures become `failed-terminal`.

@@ -388,7 +388,9 @@ Marcin accepts the communication channel.
 ### Step 8: Marcin's Node Issues a Messaging Passport
 
 Marcin's node answers Daniel over INAC through Artifact Delivery, also marked
-`privacy = private-direct`.
+`privacy = private-direct`. The AD wrapper carries `classification.v1` with
+`effective_tier = Community`, because INAC/private Artifact Delivery routes now
+require classification before crossing the node boundary.
 
 The response contains a `capability-passport.v1` under the
 `messaging-receive` profile. Its scope covers at least:
@@ -459,8 +461,9 @@ be admitted.
 ### Step 10: Daniel Sends the Message
 
 Daniel's node sends the message over INAC through Artifact Delivery, again
-marked `privacy = private-direct`. The payload is a `message-envelope.v1`
-artifact containing:
+marked `privacy = private-direct` and labelled `classification.v1` with
+`effective_tier = Community` at the AD envelope boundary. The payload is a
+`message-envelope.v1` artifact containing:
 
 - the message body;
 - sender and receiver references;
@@ -805,7 +808,9 @@ artifact and what is still missing.
   - Newly frozen contract: `contact-request.v1` (schema).
   - Story-010 coverage: strict `ad-smoke` now delivers Daniel's signed
     contact request through AD/INAC to Marcin's node and records the
-    operator notification.
+    operator notification. The outbound `artifact-delivery-envelope.v1`
+    includes `classification.v1`, so the shared INAC/private egress guard is
+    exercised on this leg.
   - Remaining post-MVP hardening: broader *supervised multi-process* AD accept/reject tests
     (single-process validation tests with real participant signatures are
     already done per Solution 025), and a sender-handle attestation
@@ -881,7 +886,9 @@ artifact and what is still missing.
     local recovery replay (P060-016 `done`).
   - Story-010 coverage: strict `ad-smoke` now waits for the accepted
     passport to reach Daniel's node, then pumps the outbox until the
-    queued message is delivered.
+    queued message is delivered. The delivered message leg also uses a
+    classification-bearing AD envelope and therefore exercises the same
+    INAC/private egress guard as the contact-request leg.
   - Remaining post-MVP hardening: broader receive-passport recovery matrices
     beyond the hard-MVP sealed local recovery slice (P060-016 `done`).
 

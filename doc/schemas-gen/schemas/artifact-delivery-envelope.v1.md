@@ -36,6 +36,7 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 | [`schema`](#field-schema) | `yes` | const: `artifact-delivery-envelope.v1` |  |
 | [`component/id`](#field-component-id) | `yes` | string |  |
 | [`artifact`](#field-artifact) | `yes` | ref: `#/$defs/artifact` |  |
+| [`classification`](#field-classification) | `no` | ref: `classification.v1.schema.json` |  |
 | [`delivery/plan`](#field-delivery-plan) | `yes` | ref: `#/$defs/deliveryPlan` |  |
 | [`policy`](#field-policy) | `no` | ref: `#/$defs/policy` |  |
 | [`idempotency/key`](#field-idempotency-key) | `no` | string |  |
@@ -70,6 +71,12 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 
 - Required: `yes`
 - Shape: ref: `#/$defs/artifact`
+
+<a id="field-classification"></a>
+## `classification`
+
+- Required: `no`
+- Shape: ref: `classification.v1.schema.json`
 
 <a id="field-delivery-plan"></a>
 ## `delivery/plan`

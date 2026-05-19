@@ -20,7 +20,8 @@ or declassification fact changed the effective tier.
 
 - Represent classification labels as data, not as hidden runtime state.
 - Preserve labels through Memarium entry/fact storage and archival export.
-- Provide edge guards for public egress surfaces such as Agora.
+- Provide edge guards for public and private egress surfaces such as Agora,
+  Whisper, INAC/private Artifact Delivery, and archival export.
 - Keep declassification explicit and append-only through transformation or
   declassification evidence.
 - Allow future public, pseudonymous, private, and peer-forwarding paths to share
@@ -29,8 +30,9 @@ or declassification fact changed the effective tier.
 ## Status
 
 Draft / partial. The `classification.v1` schema and core propagation concepts
-exist, and parts of Memarium and Agora already consume the contract. Broader
-edge enforcement, richer UI, and all downstream forwarding surfaces are still
+exist, and Memarium, Agora, Whisper, INAC/private Artifact Delivery, and local
+archival export now consume the shared egress helper. Richer operator UI,
+production schema freeze, and future downstream forwarding surfaces remain
 implementation work.
 
 ## Related Schemas
@@ -38,4 +40,4 @@ implementation work.
 - `classification.v1`
 - `memarium-host-api.v1`
 - `archival-package.v1`
-
+- `artifact-delivery-envelope.v1`

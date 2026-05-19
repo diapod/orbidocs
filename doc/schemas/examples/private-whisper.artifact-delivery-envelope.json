@@ -8,6 +8,19 @@
     "size/bytes": 2,
     "bytes/base64": "e30="
   },
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": {
+      "kind": "local-space",
+      "space": "Personal"
+    },
+    "bound_subjects": {
+      "personal_or_community": []
+    },
+    "declassify_trail": []
+  },
   "delivery/plan": {
     "route/ref": "private-whisper-default"
   },
