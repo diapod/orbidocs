@@ -69,7 +69,7 @@ Dokument definiuje:
 | Klasa | Nazwa | Zakres | Przykłady | Podstawa konstytucyjna |
 | :--- | :--- | :--- | :--- | :--- |
 | `TC1` | Bezpośrednie zagrożenie życia | Bezpośrednie, osobiste zagrożenie | Przemoc, ryzyko samobójcze, ostry stan medyczny, sytuacja zakładnicza | Art. II.2, II.8 |
-| `TC2` | Kryzys infrastrukturalny | Systemowa awaria infrastruktury krytycznej | Blackout, załamanie sieci, awaria krytycznego systemu, kompromitacja klucza, w tym `council:did:key` | Art. IX.3-5, IV.7 |
+| `TC2` | Kryzys infrastrukturalny | Systemowa awaria infrastruktury krytycznej | Blackout, załamanie sieci, awaria krytycznego systemu, kompromitacja klucza, w tym `council:did:key` | Art. IX.3-5, IV.8 |
 | `TC3` | Kryzys zdrowotny | Zagrożenie zdrowia w skali zbiorowej | Epidemia, zatrucie, skażenie środowiskowe, kontaminacja | Art. II.2, IX.7 |
 | `TC4` | Prześladowanie lub przemoc ukierunkowana | Atak na osoby przez system albo przeciw systemowi | Atak ukierunkowany, doxxing, prześladowanie polityczne, odwet wobec sygnalisty, stalking | Art. X.1-3, II.11 |
 | `TC5` | Kryzys epistemiczny (metaklasa) | Degradacja zdolności systemu do odróżniania sygnału od szumu | Kampania dezinformacyjna, zatrucie oracli, skażenie źródeł, skoordynowana manipulacja narracyjna | Art. XI.1, XI.7-8 |

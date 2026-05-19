@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-SEAL-BOARD-001` |
 | `type` | Implementing act (Level 3 of the normative hierarchy) |
 | `version` | 0.1.0-draft |
-| `basis` | Art. IV.6-9, Art. X.7-13, Art. XVI of the DIA Constitution; `ROOT-IDENTITY-AND-NYMS.en.md`; `ABUSE-DISCLOSURE-PROTOCOL.en.md`; `FIP-MEMBERSHIP-AND-QUORUM.en.md`; `UNSEAL-CASE-MODEL.en.md` |
+| `basis` | Art. IV.7-10, Art. X.7-13, Art. XVI of the DIA Constitution; `ROOT-IDENTITY-AND-NYMS.en.md`; `ABUSE-DISCLOSURE-PROTOCOL.en.md`; `FIP-MEMBERSHIP-AND-QUORUM.en.md`; `UNSEAL-CASE-MODEL.en.md` |
 | `mechanism status` | the governance and threshold model is normative; split-knowledge technique remains deployment-specific |
 
 ---

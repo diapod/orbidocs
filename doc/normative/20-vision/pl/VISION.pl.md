@@ -19,7 +19,8 @@ władzy czy właściciela kapitału.
 
 Rdzeniem roju jest odporny protokół komunikacyjny, który poza bazową funkcją
 zbiorowej inteligencji może włączać dodatkowe organy zdolności, m.in. **memarium**
-(pamięć, która nie znika) i **sensorium** (konektory do świata).
+(pamięć, która nie znika), **sensorium** (konektory do świata) i **inquirium**
+(ograniczone akty zapytywania modeli oraz inferencji).
 
 Nie jest to "alternatywny *chatbot*" ani kolejny rozproszony agent, lecz **publiczna
 infrastruktura sensu i sprawczości**, budowana w duchu wolnego oprogramowania
@@ -234,7 +235,7 @@ zachowań**.
 Operacyjnie traktujemy inteligencję przede wszystkim jako **zdolność formułowania
 trafnych predykcji** i aktualizowania ich po kontakcie z wynikiem.
 
-## Słownik: rój, memarium, sensorium
+## Słownik: rój, memarium, sensorium, inquirium
 
 ### Rój
 
@@ -277,6 +278,24 @@ się czystą retoryką.
 Warto mieć na uwadze warunek brzegowy: użycie sensorium musi pozostawać
 podporządkowane zgodzie, minimalizacji danych, separacji kontekstów i celowi
 ochronnemu. Sensorium nie jest pretekstem do budowy infrastruktury nadzoru.
+
+### Inquirium
+
+**Inquirium** jest organem ograniczonego zapytywania modeli i inferencji:
+
+- generowania kandydującego tekstu lub strukturalnego JSON-u pod jawną polityką,
+- klasyfikowania wejść względem ograniczonego zbioru etykiet,
+- osadzania treści w wektorach dla wyszukiwania i porównywania semantycznego,
+- streszczania wybranego kontekstu,
+- ponownego porządkowania kandydatów względem zadeklarowanego celu.
+
+Inquirium ma jeden cel: **uczynić akty inferencji modelowej jawnymi,
+ograniczonymi i audytowalnymi**, aby modele wspierały osąd, ale nie stawały się
+po cichu władzą.
+
+Warunek brzegowy jest równie ważny: wynik modelu jest dowodem, rekomendacją,
+szkicem albo kandydatem transformacji. Sam z siebie nie jest prawdą,
+uprawnieniem, publikacją, autorytetem routingu ani aktywacją kryzysową.
 
 ## Architektura: warstwy i kontrakty (stratyfikacja w praktyce)
 
@@ -429,7 +448,7 @@ Założyciele pełnią tu rolę architektów warstw i twórców pierwszych kont
 
 - dbają o stratyfikację systemu (mała zmiana → mały skutek),
 - pilnują higieny epistemicznej,
-- budują protokoły (m.in. tożsamość, routing, memarium, sensorium),
+- budują protokoły (m.in. tożsamość, routing, memarium, sensorium, inquirium),
 - trzymają etos: wolność, wzajemna pomoc, brak uzależnienia od dostawcy
   (ang. *vendor lock-in*),
 - piszą teksty, które są nie tylko postulatami, ale praktycznymi instrukcjami

@@ -66,7 +66,7 @@ This document defines:
 | Class | Name | Scope | Examples | Constitutional basis |
 | :--- | :--- | :--- | :--- | :--- |
 | `TC1` | Immediate threat to life | Direct, personal danger | Violence, suicide risk, acute medical emergency, hostage situation | Art. II.2, II.8 |
-| `TC2` | Infrastructure crisis | Systemic failure of critical infrastructure | Blackout, network collapse, critical system failure, key compromise (including council key compromise) | Art. IX.3-5, IV.7 |
+| `TC2` | Infrastructure crisis | Systemic failure of critical infrastructure | Blackout, network collapse, critical system failure, key compromise (including council key compromise) | Art. IX.3-5, IV.8 |
 | `TC3` | Health crisis | Threat to health at scale | Epidemic, poisoning, environmental hazard, contamination | Art. II.2, IX.7 |
 | `TC4` | Persecution or targeted violence | Attack on persons through or against the system | Targeted attack, doxxing, political persecution, whistleblower retaliation, stalking | Art. X.1-3, II.11 |
 | `TC5` | Epistemic crisis (meta-class) | Degradation of the system's ability to distinguish signal from noise | Disinformation campaign, oracle poisoning, source contamination, coordinated narrative manipulation | Art. XI.1, XI.7-8 |

@@ -83,10 +83,14 @@ kryzysu, sukcesu i degeneracji.
 5. `Sensorium` oznacza warstwę konektorów do świata, która dostarcza sygnałów
    ugruntowujących inteligencję w rzeczywistości.
 
-6. `Federacja` oznacza zbiór węzłów współdzielących część polityk, reputacji
+6. `Inquirium` oznacza warstwę ograniczonego zapytywania modeli i inferencji:
+   generowania, klasyfikacji, osadzania, streszczania, ponownego porządkowania
+   i innych aktów modelowych wykonywanych pod jawną polityką.
+
+7. `Federacja` oznacza zbiór węzłów współdzielących część polityk, reputacji
    i interoperacyjności bez utraty prawa do wyjścia.
 
-7. `Wyrocznia` oznacza proceduralne źródło rozstrzygnięcia lub pomiaru, które domyka
+8. `Wyrocznia` oznacza proceduralne źródło rozstrzygnięcia lub pomiaru, które domyka
    pętlę predykcji i aktualizacji modeli.
 
 ## Artykuł I. Misja konstytucyjna
@@ -217,20 +221,23 @@ kryzysu, sukcesu i degeneracji.
 4. Sensorium jest organem kontaktu z rzeczywistością; jego funkcją jest dostarczać
    sygnały, które ograniczają dryf narracyjny i modelowy.
 
-5. Protokół roju jest organem kooperacji; jego funkcją jest zapewnić interoperacyjność
+5. Inquirium jest organem ograniczonego zapytywania modeli; jego funkcją jest czynić
+   inferencję modelową jawną, audytowalną i podporządkowaną polityce.
+
+6. Protokół roju jest organem kooperacji; jego funkcją jest zapewnić interoperacyjność
    bez centralizacji sterowania.
 
-6. Federacja Izb Pieczęciowych jest konstytucyjnym organem wyjątkowym świata
+7. Federacja Izb Pieczęciowych jest konstytucyjnym organem wyjątkowym świata
    rzeczywistego (IRL), którego wyłączną funkcją jest proceduralne rozstrzyganie
    zejścia z warstw pseudonimowych do `custodian_ref` albo `root-identity`.
 
-7. Federacja Izb Pieczęciowych MUSI być redundantna, międzyjurysdykcyjna i pozbawiona
+8. Federacja Izb Pieczęciowych MUSI być redundantna, międzyjurysdykcyjna i pozbawiona
    pojedynczego punktu awarii; pełne odpieczętowanie tożsamości pierwotnej nie może
    zależeć od jednej izby, jednej federacji ani jednego państwa.
 
-8. Żaden organ nie może przejąć pełni funkcji pozostałych.
+9. Żaden organ nie może przejąć pełni funkcji pozostałych.
 
-9. Organy konstytucyjne MUSZĄ mieć jawne kontrakty, granice odpowiedzialności oraz
+10. Organy konstytucyjne MUSZĄ mieć jawne kontrakty, granice odpowiedzialności oraz
    tryby degradacji zamiast totalnego upadku.
 
 ## Artykuł V. Zasady architektury i rzemiosła

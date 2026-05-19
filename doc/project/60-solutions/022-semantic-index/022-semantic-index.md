@@ -10,7 +10,7 @@ source of truth. It is a rebuildable index derived from append-only facts.
 Memarium remains the authoritative local memory organ. Semantic Index is a
 separate projection layer that periodically extracts eligible facts, computes
 embeddings, writes them into a local vector index, and exposes retrieval-oriented
-queries to agents, middleware, and future personal model tooling.
+queries to agents, middleware, Inquirium, and future personal model tooling.
 
 The first production-oriented backend should be SQLite-based, preferably with a
 vector extension such as `sqlite-vec` once the dependency is adopted. Until then,
@@ -100,7 +100,9 @@ The intended default loop is:
 1. Read the last semantic-index cursor.
 2. Pull new or changed eligible Memarium facts.
 3. Apply classification, redaction, and extraction policy.
-4. Compute embeddings through a configured embedding provider.
+4. Compute embeddings through a configured embedding provider; Inquirium is the
+   intended host organ for that provider boundary once proposal 063 is
+   implemented.
 5. Upsert vector rows with deterministic idempotency keys.
 6. Record cursor, skipped/rejected counts, and projection lag.
 
@@ -331,10 +333,11 @@ Status:
 | Model upgrade changes vector space | Mixed embeddings become meaningless | Include `embedding/model-id` and dimensionality in idempotency keys and query filters. |
 | Over-eager indexing contaminates retrieval | Untrusted or unresolved material appears as knowledge | Gate indexing by promotion policy and source classification. |
 | Clustering becomes semantic authority | Derived clusters override facts | Treat clusters as read-model artifacts with provenance, never as source truth. |
+| Inquirium output is mistaken for Memarium fact | Generated summaries or embeddings become false authority | Treat Inquirium outputs as derivatives with source refs, classification, and explicit acceptance policy before any Memarium write. |
 
 ## Open Questions
 
-1. Which embedding provider should be the first local default?
+1. Which Inquirium embedding provider should be the first local default?
 2. Should the first implementation use plain SQLite only, or adopt `sqlite-vec`
    immediately?
 3. What is the initial query API shape: host capability, middleware-local HTTP

@@ -43,15 +43,15 @@ current design corpus, but is not the main line here.
    participation flows. It warns that this profile is for node operations, not for
    the user's personal finances. The user may optionally provide a payout destination
    or billing reference for later surplus settlement.
-6. The user is shown a list of compatible models and capability profiles. They may
-   choose local models, delegated execution, or a mixed profile if the node runs in
-   `hybrid` mode.
+6. The user is shown a list of compatible Inquirium/model capability profiles.
+   They may choose local models, delegated execution, or a mixed profile if the
+   node runs in `hybrid` mode.
 7. The user is prompted to add local directories or knowledge sources for indexing.
    If multiple specializations are selected, the user may map sources to specific
    domains.
 8. The application begins model download or preparation, then starts local ingestion
-   of configured content into retrieval/indexing components used by the local
-   orchestrator.
+   of configured content into retrieval/indexing components used by Inquirium and
+   the local orchestrator.
 9. The node establishes outbound connectivity to the swarm using the current baseline
    transport profile:
    - proxy-friendly `WSS/443`,
@@ -60,7 +60,8 @@ current design corpus, but is not the main line here.
 10. After model readiness and initial ingestion, the user asks a domain-specific
     question through the local assistant, for example: `How should we handle STM
     failures in Clojure under load?`
-11. The local node first performs a sufficiency check against:
+11. The local node first performs an Inquirium/local-orchestrator sufficiency
+    check against:
     - local retrieval context,
     - available models,
     - user constraints,

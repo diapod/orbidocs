@@ -30,7 +30,7 @@ The key boundary is:
 |---|---|---|---|---|
 | FR-001 | The system MAY support `Orbiplex Monus` as a supervised Node-attached middleware module.  | Fact | Proposal 022 | todo |
 | FR-002 | A Node claiming Monus support MUST expose Monus only through explicit host-granted capability contracts rather than through ambient unrestricted access to local state.  | Fact | Proposal 022 | todo |
-| FR-003 | Host-granted Monus capability contracts MUST remain separately grantable for memory/read-model access, local signal intake, model-assisted draft shaping, audit emission, and publication requests.  | Fact | Proposal 022 | todo |
+| FR-003 | Host-granted Monus capability contracts MUST remain separately grantable for memory/read-model access, local signal intake, Inquirium/model-assisted draft shaping, audit emission, and publication requests.  | Fact | Proposal 022 + Proposal 063 | todo |
 | FR-004 | `Monus` MUST be able to operate with only a subset of those host-granted capabilities when deployment policy does not grant the full set.  | Fact | Proposal 022 | todo |
 | FR-005 | `Monus` MUST NOT directly publish outbound `whisper-signal.v1` artifacts onto the network without Node-owned validation and egress.  | Fact | Proposal 022 + Proposal 013 | todo |
 | FR-006 | `Monus` MAY prepare local concern drafts, candidate Whisper drafts, or explicit do-not-publish recommendations.  | Fact | Proposal 022 | todo |
@@ -38,7 +38,7 @@ The key boundary is:
 | FR-008 | `Monus` MUST preserve the distinction between purely user-authored rumor input and middleware-derived rumor preparation.  | Fact | Memo + Proposal 022 | todo |
 | FR-009 | A Monus-capable Node SHOULD retain local audit trace indicating which host-granted capabilities were used in preparing a candidate concern or publication request.  | Inference | Proposal 022 | todo |
 | FR-010 | If a deployment grants Monus memory/query access, that access MUST remain bounded by admitted local scopes rather than unrestricted access to all local storage.  | Fact | Proposal 022 | todo |
-| FR-011 | If a deployment grants Monus model-assisted draft shaping, the draft-shaping path MUST remain host-owned and policy-visible rather than allowing direct vendor side channels from Monus.  | Fact | Proposal 022 + Requirements 010 | todo |
+| FR-011 | If a deployment grants Monus Inquirium/model-assisted draft shaping, the draft-shaping path MUST remain host-owned and policy-visible rather than allowing direct vendor side channels from Monus.  | Fact | Proposal 022 + Proposal 063 + Requirements 010 | todo |
 | FR-012 | If a deployment grants Monus publication-request capability, the request path MUST target a Node-owned or Whisper-owned review/publication contract rather than direct transport egress.  | Fact | Proposal 022 | todo |
 | FR-013 | If a deployment grants Monus communication-signal ingestion, the grant MUST be explicit, user-approved, bounded by local policy, and separately revocable from general memory/query access. | Fact | Proposal 022 | todo |
 | FR-014 | Communication-signal ingestion MUST distinguish source classes such as outgoing message, incoming message, conversation summary, and metadata-only observation. | Fact | Proposal 022 | todo |
@@ -62,5 +62,5 @@ The key boundary is:
 | Monus silently reads more local state than intended | Hidden privacy violation and broken trust boundary | Require explicit host-granted capability contracts and bounded local scope for memory/query access. |
 | Monus treats ordinary messages as ambient observation data | Private communication becomes hidden monitoring input | Require explicit communication-signal grants, source-class filtering, least-disclosure projections, and local audit records. |
 | Monus publishes directly through transport without host validation | Unbounded rumor publication and broken accountability | Keep transport egress Node-owned and Whisper-mediated. |
-| Monus calls external model vendors directly | Hidden side channel and audit gap | Require host-owned model-assisted draft-shaping path. |
+| Monus calls external model vendors directly | Hidden side channel and audit gap | Require host-owned Inquirium/model-assisted draft-shaping path. |
 | Deployment grants only partial capability set | Feature brittleness | Require Monus to degrade gracefully under partial host grants. |

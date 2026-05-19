@@ -19,7 +19,8 @@ vlastníka kapitálu.
 
 Jádrem roje je odolný komunikační protokol, který kromě základní funkce kolektivní
 inteligence může zapojovat další orgány schopností, mimo jiné **memarium**
-(paměť, která nemizí) a **sensorium** (konektory do světa).
+(paměť, která nemizí), **sensorium** (konektory do světa) a **inquirium**
+(omezené dotazování modelů a inference).
 
 Není to „alternativní *chatbot*“ ani další distribuovaný agent, ale **veřejná
 infrastruktura smyslu a schopnosti jednat**, budovaná v duchu svobodného softwaru
@@ -227,7 +228,7 @@ Je to technický projekt, ale hodnoty zde nejsou PR – jsou **kontraktem chová
 Operativně chápeme inteligenci především jako **schopnost formulovat přesné
 predikce** a aktualizovat je po kontaktu s výsledkem.
 
-## Slovník: roj, memarium, sensorium
+## Slovník: roj, memarium, sensorium, inquirium
 
 ### Roj
 
@@ -269,6 +270,24 @@ rétorikou.
 Je třeba mít na paměti hraniční podmínku: použití sensoria musí zůstat podřízeno
 souhlasu, minimalizaci dat, separaci kontextů a ochrannému účelu. Sensorium není
 záminkou pro budování infrastruktury dohledu.
+
+### Inquirium
+
+**Inquirium** je orgán omezeného dotazování modelů a inference:
+
+- generování kandidátního textu nebo strukturovaného JSON pod výslovnou politikou,
+- klasifikace vstupů vůči omezené sadě štítků,
+- vektorové reprezentace obsahu pro sémantické vyhledávání a porovnávání,
+- shrnování vybraného kontextu,
+- přerazování kandidátů vzhledem k deklarovanému účelu.
+
+Inquirium má jediný cíl: **učinit modelovou inferenci explicitní, omezenou
+a auditovatelnou**, aby modely podporovaly úsudek, ale nestávaly se tiše
+autoritou.
+
+Stejně důležitá je hraniční podmínka: výstup modelu je důkazní podklad,
+doporučení, návrh nebo kandidát transformace. Sám o sobě není pravdou,
+oprávněním, publikací, autoritou routingu ani krizovou aktivací.
 
 ## Architektura: vrstvy a kontrakty (stratifikace v praxi)
 
@@ -418,7 +437,7 @@ Zakladatelé zde plní roli architektů vrstev a tvůrců prvních kontraktů:
 
 - pečují o stratifikaci systému (malá změna → malý dopad),
 - hlídají epistemickou hygienu,
-- budují protokoly (mimo jiné identitu, routing, memarium, sensorium),
+- budují protokoly (mimo jiné identitu, routing, memarium, sensorium, inquirium),
 - drží étos: svobodu, vzájemnou pomoc, absenci závislosti na dodavateli
   (*vendor lock-in*),
 - píší texty, které nejsou jen postuláty, ale praktickými instrukcemi

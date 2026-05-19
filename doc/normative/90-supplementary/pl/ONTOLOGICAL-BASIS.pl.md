@@ -111,7 +111,7 @@ bliski enaktywnej autopojezie (Varela, Thompson), ale rozciągnięty na kulturę
 i obiektywność.
 
 **Konsekwencje dla DIA:** cała architektura roju – węzeł, agent, memarium, sensorium,
-protokół – jest zaprojektowana warstwowo w duchu stratyfikacji. Wartość *oddzielania
+inquirium i protokół – jest zaprojektowana warstwowo w duchu stratyfikacji. Wartość *oddzielania
 poziomów* i kontrakt warstw w Orbipleksie są bezpośrednim przeniesieniem tego
 postulatu na inżynierię. Zasada, że "wyższe warstwy nie mogą odklejać się od
 fundamentu", chroni inteligencję zbiorową przed stawaniem się PR-owcem niskich

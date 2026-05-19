@@ -8,7 +8,7 @@ This story assumes the current Orbiplex corpus where:
   generic chat system,
 - rumors are weaker than evidence and must remain marked as such throughout the
   exchange path,
-- the Node may expose model-backed helper services to attached modules,
+- the Node may expose Inquirium/model-backed helper services to attached modules,
 - some outbound privacy or relay capability may exist for relayed or onion-like
   forwarding, but is not required for all Whisper traffic,
 - a separate local module such as `Orbiplex Monus` may prepare candidate rumors
@@ -65,8 +65,8 @@ v1 is simpler:
    workflow if the Whisper module is installed.
 4. The Whisper workflow opens a bounded local task for rumor preparation rather than
    immediately publishing the raw text.
-5. The module asks the Node for an internal model-backed assistance session using a
-   contract appropriate for:
+5. The module asks the Node for an internal Inquirium/model-backed assistance
+   session using a contract appropriate for:
    - anonymization,
    - paraphrase,
    - idiolect flattening,

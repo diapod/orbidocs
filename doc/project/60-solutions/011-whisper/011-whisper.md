@@ -73,14 +73,15 @@ Responsibilities:
   `intake_id + stage`,
 - allow the redaction/sanitization step to be supplied by another configured
   middleware package, so deterministic fixtures, JSON-e/Sensorium actions, and
-  future model-assisted redaction can share the same downstream contract,
+  future Inquirium-backed model-assisted redaction can share the same downstream
+  contract,
 - expose model-assisted redaction through a narrow capability boundary,
   preferably `whisper.redaction.prepare`, where the provider returns a local
   redaction draft and never publishes to Agora or marks a candidate approved,
 - allow `whisper.redaction.prepare` to be implemented by JSON-e Flow backed by a
   bounded Sensorium OS action, so the first implementation can run a
   deterministic script or local model command while preserving a future path to
-  stronger model providers,
+  stronger Inquirium/model-runtime providers,
 - emit `whisper-signal` artifacts with explicit epistemic class, node-scoped
   routing, nym-authored pseudonymous participation, envelope-level
   `author/nym-proof`, and routing/privacy intent,
@@ -111,7 +112,7 @@ Status:
   M4 intentionally stops at a deterministic local provider boundary: JSON-e Flow
   can route `whisper.redaction.prepare` into Sensorium OS, and Sensorium OS can
   run the local fixture or a locally configured model command. Policy for
-  external/model-runtime providers is post-M4.
+  external Inquirium/model-runtime providers is post-M4.
 
 Model-assisted redaction/paraphrase now has a stable host-capability boundary.
 The first concrete M4 provider path is deliberately configuration-driven and
@@ -129,10 +130,11 @@ whisper-intake
 ```
 
 The provider may be JSON-e Flow plus `sensorium.directive.invoke`, where
-Sensorium OS invokes a finite, timeout-governed script or local model command.
-This keeps redaction algorithm choice outside the daemon and Agora. `whisper-core`
-still validates the final candidate posture, so a provider cannot bypass the
-`private-correlation` or direct-only guards.
+[Sensorium](../030-sensorium/030-sensorium.md) OS invokes a finite,
+timeout-governed script or local model command. This keeps redaction algorithm
+choice outside the daemon and Agora. `whisper-core` still validates the final
+candidate posture, so a provider cannot bypass the `private-correlation` or
+direct-only guards.
 
 The boundary uses `whisper-redaction-prepare-request.v1` and
 `whisper-redaction-prepare-response.v1`. In the M4 implementation,
@@ -141,8 +143,8 @@ host-capability call, validates the provider response, persists the returned
 draft locally, and leaves publication blocked until explicit operator approval.
 `raw/private-material` intentionally accepts any JSON value while the
 redaction-preparation contract is still settling across deterministic fixtures,
-JSON-e Flow, Sensorium OS actions, and future model-assisted providers. Once the
-stable provider interface is proven, the field should be narrowed to
+JSON-e Flow, Sensorium OS actions, and future Inquirium-backed model-assisted
+providers. Once the stable provider interface is proven, the field should be narrowed to
 `object|string`; scalar, array, and `null` payloads are compatibility slack, not
 the intended long-term shape.
 When model-assisted preparation is explicitly enabled, missing

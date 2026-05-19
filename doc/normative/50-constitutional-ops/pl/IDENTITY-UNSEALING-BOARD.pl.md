@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-SEAL-BOARD-001` |
 | `typ` | Ustawa wykonawcza (Poziom 3 hierarchii normatywnej) |
 | `wersja` | 0.1.0-draft |
-| `podstawa` | Art. IV.6-9, Art. X.7-13, Art. XVI Konstytucji DIA; `ROOT-IDENTITY-AND-NYMS.pl.md`; `ABUSE-DISCLOSURE-PROTOCOL.pl.md`; `FIP-MEMBERSHIP-AND-QUORUM.pl.md`; `UNSEAL-CASE-MODEL.pl.md` |
+| `podstawa` | Art. IV.7-10, Art. X.7-13, Art. XVI Konstytucji DIA; `ROOT-IDENTITY-AND-NYMS.pl.md`; `ABUSE-DISCLOSURE-PROTOCOL.pl.md`; `FIP-MEMBERSHIP-AND-QUORUM.pl.md`; `UNSEAL-CASE-MODEL.pl.md` |
 | `status mechanizmów` | model governance i progów jest normatywny; technika split-knowledge pozostaje wdrożeniowa |
 
 ---

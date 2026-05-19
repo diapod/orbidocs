@@ -44,7 +44,7 @@ step. Power passes through the human because the human defines the gradient.
 | **Default when** | Actions with low risk and high reversibility that require speed but are not routine. |
 | **Reporting** | Immediate notification with a description of the action, rationale, and reversal instructions. |
 | **Reversal** | Possible within a defined window (default: a federation parameter, e.g. 15 minutes). After the window expires, the action is treated as approved. |
-| **Examples** | Routing a task to another node; updating a memarium cache; answering a low-stakes network query; logging a sensorium event. |
+| **Examples** | Routing a task to another node; updating a memarium cache; answering a low-stakes network query; logging a sensorium event; running a bounded inquirium query. |
 
 ### A2 - Act Within Budget
 
@@ -55,7 +55,7 @@ step. Power passes through the human because the human defines the gradient.
 | **Reporting** | Aggregate report (periodic or after the budget is exhausted) with metrics: number of actions, cost, deviations from the norm. |
 | **Reversal** | Individual actions may be hard to reverse, but the budget limits the scale of harm. |
 | **Budget limits** | Defined in the agent contract: `max_cost`, `max_time`, `max_actions`, `scope_whitelist`, `scope_blacklist`. Exceeding any limit -> automatic stop and operator notification. |
-| **Examples** | Answering routine queries; aggregating sensorium data; maintaining a memarium index; monitoring node health metrics. |
+| **Examples** | Answering routine queries; aggregating sensorium data; maintaining a memarium index; running budgeted inquirium summarization or classification; monitoring node health metrics. |
 
 ### A3 - Emergency Mode
 
@@ -90,6 +90,7 @@ autonomy:
       - "memarium.read"
       - "memarium.index"
       - "sensorium.aggregate"
+      - "inquirium.query"
     scope_blacklist:
       - "policy.modify"
       - "reputation.vote"

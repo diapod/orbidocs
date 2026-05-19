@@ -23,7 +23,7 @@ The main architectural risk is splątanie:
 
 - local observation,
 - memory access,
-- model-assisted draft shaping,
+- Inquirium/model-assisted draft shaping,
 - policy enforcement,
 - and social-signal publication
 
@@ -40,7 +40,7 @@ Instead:
 
 1. `Monus` consumes host-granted capabilities exposed by `Orbiplex Node`,
 2. `Monus` prepares local drafts, recommendations, or concern summaries,
-3. `Node` remains the authority that grants memory/model/signal access,
+3. `Node` remains the authority that grants memory/Inquirium/signal access,
 4. `Whisper` remains the bounded publication layer for outgoing social signals.
 
 ## Goals
@@ -79,7 +79,7 @@ The first useful capability families are:
 - bounded local signal ingestion,
 - bounded communication-signal ingestion from user-approved communication
   surfaces,
-- bounded model-assisted draft shaping,
+- bounded Inquirium/model-assisted draft shaping,
 - local audit/event emission,
 - request submission for Whisper-side review or publication.
 
@@ -176,4 +176,4 @@ was used.
    boundaries.
 2. Add a dedicated Monus solution component under `60-solutions`.
 3. Record in Node solution docs that Monus is a future supervised middleware
-   consumer of host-granted memory/model/publication contracts.
+   consumer of host-granted memory/Inquirium/publication contracts.

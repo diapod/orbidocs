@@ -7,7 +7,8 @@ This story assumes the current Orbiplex corpus where:
 - a Node can expose explicit market-facing or exchange-facing service offers through
   attached middleware modules rather than only through generalized answer-room flows,
 - attached middleware such as `Orbiplex Dator` may declare priced service contracts
-  while still delegating actual model invocation to the Node's model-runtime layer,
+  while still delegating actual model-backed inquiry to the Node's Inquirium
+  layer, which may use `model-runtime` underneath,
 - attached workflow middleware such as `Orbiplex Arca` may compose local and remote
   steps into repeatable orchestration pipelines without becoming the semantic source
   of payment, identity, or transport truth,
@@ -28,8 +29,8 @@ This story assumes the current Orbiplex corpus where:
   `procurement-receipt.v1`, `response-envelope.v1`, `ledger-hold.v1`,
   `ledger-transfer.v1`, and `gateway-receipt.v1`,
 - local or remote model execution remains transport-agnostic from the perspective of
-  the exchange plugin itself: the plugin asks the Node for model-backed work rather
-  than integrating provider APIs on its own.
+  the exchange plugin itself: the plugin asks the Node for Inquirium/model-backed
+  work rather than integrating provider APIs on its own.
 
 This story is not about speculative high-frequency automation or adversarial market
 behavior. It is about a cooperative voluntary exchange where priced services,
@@ -288,8 +289,9 @@ Hard-MVP bridge assumption:
 
 3. Ola configures `Dator` with the local language model `Bielik`. `Dator` does not
    speak to the model directly; instead it proposes a `MiddlewareDecision` that
-   requests model invocation, and the Node's model-runtime layer executes it under
-   the Node's own transport, retention, and trace policies.
+   requests Inquirium/model-backed work, and the Node's Inquirium/model-runtime
+   layer executes it under the Node's own transport, retention, and trace
+   policies.
 
 4. Ola publishes one `service-offer.v1` through `Dator` for Polish text redaction:
 

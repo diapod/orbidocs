@@ -45,7 +45,7 @@ kroku. Moc przechodzi przez człowieka, bo to człowiek definiuje gradient.
 | **Kiedy domyślny** | Akcje o niskim ryzyku i wysokiej odwracalności, które wymagają szybkości, ale nie są rutynowe. |
 | **Raportowanie** | Natychmiastowe powiadomienie z opisem akcji, uzasadnieniem i instrukcją cofnięcia. |
 | **Cofanie** | Możliwe w zdefiniowanym oknie (domyślnie: parametr federacji, np. 15 minut). Po upływie okna akcja jest traktowana jako zatwierdzona. |
-| **Przykłady** | Trasowanie (ang. routing) zadania do innego węzła; aktualizacja pamięci podręcznej (ang. cache) memarium; odpowiedź na zapytanie sieciowe o niskiej stawce; logowanie zdarzenia sensorium. |
+| **Przykłady** | Trasowanie (ang. routing) zadania do innego węzła; aktualizacja pamięci podręcznej (ang. cache) memarium; odpowiedź na zapytanie sieciowe o niskiej stawce; logowanie zdarzenia sensorium; uruchomienie ograniczonego zapytania inquirium. |
 
 ### A2 - Działaj w ramach budżetu (Act Within Budget)
 
@@ -56,7 +56,7 @@ kroku. Moc przechodzi przez człowieka, bo to człowiek definiuje gradient.
 | **Raportowanie** | Raport zbiorczy (okresowy lub po wyczerpaniu budżetu) z metrykami: liczba akcji, koszt, odstępstwa od normy. |
 | **Cofanie** | Poszczególne akcje mogą być trudne do cofnięcia, ale budżet ogranicza skalę szkody. |
 | **Limity budżetu** | Definiowane w kontrakcie agenta: `max_cost`, `max_time`, `max_actions`, `scope_whitelist`, `scope_blacklist`. Przekroczenie dowolnego limitu -> automatyczny stop i powiadomienie operatora. |
-| **Przykłady** | Odpowiadanie na rutynowe zapytania; agregacja danych sensorium; utrzymanie indeksu memarium; monitorowanie metryk zdrowia węzła. |
+| **Przykłady** | Odpowiadanie na rutynowe zapytania; agregacja danych sensorium; utrzymanie indeksu memarium; budżetowane streszczanie lub klasyfikacja przez inquirium; monitorowanie metryk zdrowia węzła. |
 
 ### A3 - Tryb kryzysowy (ang. Emergency Mode)
 
@@ -91,6 +91,7 @@ autonomy:
       - "memarium.read"
       - "memarium.index"
       - "sensorium.aggregate"
+      - "inquirium.query"
     scope_blacklist:
       - "policy.modify"
       - "reputation.vote"

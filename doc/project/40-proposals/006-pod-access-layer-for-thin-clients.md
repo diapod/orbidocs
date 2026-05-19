@@ -108,8 +108,8 @@ Orbiplex should explicitly recognize at least three participation profiles:
 - `full-node` - operator runs a communication-capable node with local execution,
 - `pod-client` - user operates through a thin client backed by a serving node's `pod`
   module,
-- `hybrid` - user keeps some local capabilities (keys, caches, selected tools, maybe
-  some local models) while delegating the rest.
+- `hybrid` - user keeps some local capabilities (keys, caches, selected tools,
+  maybe some local Inquirium/model capability) while delegating the rest.
 
 The same human may move between these profiles over time.
 

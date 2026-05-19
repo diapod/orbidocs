@@ -33,7 +33,7 @@ Its hard-MVP role is to help the host with:
 
 - service publication and service metadata shaping,
 - procurement-facing execution shaping for offered services,
-- model-backed preprocessing or drafting requests routed through the host,
+- Inquirium/model-backed preprocessing or drafting requests routed through the host,
 - response shaping for exchange-visible outputs,
 - queue posture and bounded acceptance posture for service work.
 
@@ -90,7 +90,7 @@ At minimum, `Dator` MUST be able to:
 - shape service-offer publication metadata for exchange-facing work,
 - translate a selected service execution path into host-usable procurement and
   response workflow intent,
-- request model-backed work through the host rather than vendor APIs directly,
+- request Inquirium/model-backed work through the host rather than vendor APIs directly,
 - surface bounded queue pressure or temporary unavailability as host-visible
   middleware outcomes,
 - shape final response payloads without becoming the settlement authority.

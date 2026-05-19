@@ -82,10 +82,14 @@ conditions of pressure, crisis, success, and degeneration.
 5. `Sensorium` means the layer of connectors to the world that provides signals
    grounding intelligence in reality.
 
-6. `Federation` means a set of nodes sharing part of their policies, reputation,
+6. `Inquirium` means the layer of bounded model inquiry and inference: generation,
+   classification, embedding, summarization, reranking, and other model-backed
+   acts performed under explicit policy.
+
+7. `Federation` means a set of nodes sharing part of their policies, reputation,
    and interoperability without losing the right to exit.
 
-7. `Oracle` means a procedural source of resolution or measurement that closes the
+8. `Oracle` means a procedural source of resolution or measurement that closes the
    loop of prediction and model updating.
 
 ## Article I. Constitutional Mission
@@ -220,20 +224,23 @@ conditions of pressure, crisis, success, and degeneration.
 4. Sensorium is the organ of contact with reality; its function is to provide
    signals that limit narrative and model drift.
 
-5. The swarm protocol is the organ of cooperation; its function is to ensure
+5. Inquirium is the organ of bounded model inquiry; its function is to make
+   model-backed inference explicit, auditable, and subordinate to policy.
+
+6. The swarm protocol is the organ of cooperation; its function is to ensure
    interoperability without centralizing control.
 
-6. The Federation of Sealed Chambers is an exceptional constitutional IRL organ
+7. The Federation of Sealed Chambers is an exceptional constitutional IRL organ
    whose exclusive function is to procedurally decide descent from pseudonymous
    layers to `custodian_ref` or `root-identity`.
 
-7. The Federation of Sealed Chambers MUST be redundant, cross-jurisdictional,
+8. The Federation of Sealed Chambers MUST be redundant, cross-jurisdictional,
    and free of a single point of failure; full unsealing of root identity must
    not depend on one chamber, one federation, or one state.
 
-8. No organ may take over the full function of the others.
+9. No organ may take over the full function of the others.
 
-9. Constitutional organs MUST have explicit contracts, responsibility boundaries,
+10. Constitutional organs MUST have explicit contracts, responsibility boundaries,
    and degradation modes instead of total collapse.
 
 ## Article V. Principles of Architecture and Craft

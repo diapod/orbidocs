@@ -37,7 +37,7 @@ This means:
 - `Monus` may inspect host-granted memory or read-model surfaces,
 - `Monus` may consume host-granted local signal feeds or Sensorium-derived
   summaries,
-- `Monus` may ask the host to shape a draft through model-backed or
+- `Monus` may ask the host to shape a draft through Inquirium/model-backed or
   rule-backed local help,
 - but `Monus` should not directly author or publish network artifacts without
   Node approval and Node-owned egress.
@@ -50,7 +50,7 @@ The host may later grant `Monus` a bounded subset of capabilities such as:
 - local signal or Sensorium summary intake,
 - admitted communication-signal intake, such as locally configured access to
   selected outgoing messages, incoming messages, or conversation summaries,
-- local model-assisted draft shaping,
+- local Inquirium/model-assisted draft shaping,
 - local audit-log emission,
 - and a request surface for bounded outgoing `Whisper` publication.
 

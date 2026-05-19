@@ -58,7 +58,7 @@ blocking requests.
 That invariant is correct, but some useful operations are longer than one normal
 request budget:
 
-- local model-assisted redaction or paraphrase,
+- local Inquirium/model-assisted redaction or paraphrase,
 - slow hardware or OS sampling,
 - expensive validation over a large local dataset,
 - connector calls that need to enqueue work into a separately supervised worker,
@@ -467,7 +467,7 @@ sensorium-core validates action execution_mode_support
   -> async-only + sync: reject
 
 sensorium-os action start (for async-capable actions)
-  -> start local model job / OS job / external request
+  -> start Inquirium/model job / OS job / external request
   -> persist operation handle in connector-owned state
   -> return sensorium-connector-deferred.v1
 
@@ -716,8 +716,8 @@ Resolved for MVP:
 6. [done] Use `whisper.redaction.prepare` as the first practical consumer:
    Sensorium OS can accept the action as deferred, persist its connector-owned
    state, report status after restart, and support cancellation while the action
-   is still pending. Model-assisted redaction quality remains provider policy,
-   not P055 runtime semantics.
+   is still pending. Model-assisted redaction quality remains Inquirium/provider
+   policy, not P055 runtime semantics.
 7. [done] Use Artifact Delivery as a clean non-Sensorium consumer:
    `artifact.delivery.send?mode=deferred` persists an accepted delivery and
    returns `deferred-operation.v1`; the AD runtime uses `bounded-work-runtime`
@@ -735,5 +735,5 @@ Resolved for MVP:
 | P055-04 | Sensorium OS reference deferred action | done | Sensorium-core validates action execution mode, maps connector deferred acknowledgements to canonical host deferred operations, polls connector status through `sensorium.operation.status`, and can call `sensorium.operation.cancel` for pending connector work. |
 | P055-05 | JSON-e Flow deferred step status | done | Flow suspends pending deferred outcomes, stores a host-owned persisted continuation, resumes from completed `deferred-operation-status.v1`, and may reject deferred responses via `deferred_response_mode = "reject-as-failure"`. |
 | P055-06 | Operator visibility | done | Daemon owns a shared deferred-operation registry API and Node UI exposes `/admin/deferred-operations` with list/detail, poll, cancel, non-cancelable reason, expiry, retry, source, and redacted continuation/diagnostic digests. |
-| P055-07 | Whisper redaction provider integration | done | `whisper.redaction.prepare` is available through the Sensorium OS deferred path; completed responses return through `deferred-operation-status.v1` and then through existing redaction response validation. Full model policy remains provider-specific. |
+| P055-07 | Whisper redaction provider integration | done | `whisper.redaction.prepare` is available through the Sensorium OS deferred path; completed responses return through `deferred-operation-status.v1` and then through existing redaction response validation. Full model policy belongs to future Inquirium/provider policy. |
 | P055-08 | Artifact Delivery deferred consumer | done | AD can persist a delivery through `submit_deferred` / `artifact.delivery.send?mode=deferred`, return canonical `deferred-operation.v1` with stable operation metadata and `audit/outcome-ref`, expose canonical `deferred-operation-status.v1`, and recover accepted/running/retryable records through its ledger-backed recovery pass. |

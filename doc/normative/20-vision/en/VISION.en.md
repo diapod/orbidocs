@@ -20,8 +20,9 @@ capital owner.
 
 At the core of the swarm is a resilient communication protocol which, beyond the
 baseline function of collective intelligence, can activate additional capability
-organs, including **memarium** (memory that does not disappear) and **sensorium**
-(connectors to the world).
+organs, including **memarium** (memory that does not disappear), **sensorium**
+(connectors to the world), and **inquirium** (bounded model inquiry and
+inference).
 
 This is not an "alternative *chatbot*" nor just another distributed agent, but a
 **public infrastructure of meaning and agency**, built in the spirit of free software
@@ -230,7 +231,7 @@ contract**.
 Operationally, we treat intelligence primarily as the **ability to formulate accurate
 predictions** and update them after contact with outcomes.
 
-## Glossary: Swarm, Memarium, Sensorium
+## Glossary: Swarm, Memarium, Sensorium, Inquirium
 
 ### Swarm
 
@@ -273,6 +274,23 @@ pure rhetoric.
 A boundary condition is important: sensorium use must remain subordinate to consent,
 data minimization, context separation, and protective purpose. Sensorium is not a
 pretext for surveillance infrastructure.
+
+### Inquirium
+
+**Inquirium** is the organ of bounded model inquiry and inference:
+
+- generating candidate text or structured JSON under explicit policy,
+- classifying inputs against a bounded label set,
+- embedding content for semantic search and comparison,
+- summarizing selected context,
+- reranking candidates for a declared purpose.
+
+Inquirium has one purpose: **to make model-backed inquiry explicit, bounded, and
+auditable**, so models support judgment without silently becoming authority.
+
+Its boundary condition is equally important: model output is evidence,
+recommendation, draft, or transformation candidate. It is not truth, permission,
+publication, routing authority, or crisis activation by itself.
 
 ## Architecture: Layers and Contracts (Stratification in Practice)
 
@@ -422,7 +440,7 @@ Founders play the role of layer architects and creators of first contracts:
 
 - keep system stratification (small change -> small effect),
 - protect epistemic hygiene,
-- build protocols (identity, routing, memarium, sensorium),
+- build protocols (identity, routing, memarium, sensorium, inquirium),
 - hold the ethos: freedom, mutual aid, no vendor lock-in,
 - write texts that are not only postulates but practical instructions for living in
   the age of cheap intelligence.

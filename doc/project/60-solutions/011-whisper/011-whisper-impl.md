@@ -61,9 +61,9 @@ status is:
 - Story-005 now has a three-node laptop operator pack and English/Polish
   runbooks that exercise A/B Whisper Intake plus C Agora projection.
 
-Post-M4 work is intentionally narrower: richer external/model-runtime redaction
-policy can be added behind the same `whisper.redaction.prepare` contract without
-changing the Whisper/Agora envelope boundary.
+Post-M4 work is intentionally narrower: richer external Inquirium/model-runtime
+redaction policy can be added behind the same `whisper.redaction.prepare`
+contract without changing the Whisper/Agora envelope boundary.
 
 ## Architectural posture
 

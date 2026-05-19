@@ -366,7 +366,7 @@ Responsibilities:
   as any future replaceable external module,
 - remain the future host-granted capability surface for local modules such as
   `Orbiplex Monus`, including bounded memory/read-model access, local signal
-  summaries, model-assisted draft shaping, and bounded publication requests
+  summaries, Inquirium/model-assisted draft shaping, and bounded publication requests
   without yielding direct transport or publication authority to the middleware.
 
 Status:

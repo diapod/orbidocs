@@ -8,7 +8,7 @@ Its proper role is:
 - observe admitted local signals,
 - weigh them over time,
 - prepare candidate concern drafts or recommendations,
-- and rely on host-granted capability contracts for memory access, model help,
+- and rely on host-granted capability contracts for memory access, Inquirium/model help,
   and bounded publication requests.
 
 `Monus` does not own transport egress. It does not directly publish outgoing
@@ -72,7 +72,7 @@ Related schemas:
 - none frozen yet
 
 Responsibilities:
-- consume only host-granted memory, signal, and draft-shaping capabilities,
+- consume only host-granted memory, signal, and Inquirium/model draft-shaping capabilities,
 - consume communication-signal sources only through explicit host-granted
   policies that name scope, source class, and exposed content mode,
 - degrade gracefully when some capability grants are absent,
@@ -97,7 +97,7 @@ Status:
 - host-granted communication-signal projections, such as selected outgoing
   messages, selected incoming messages, conversation summaries, or metadata-only
   observations
-- host-granted model-assisted draft-shaping services
+- host-granted Inquirium/model-assisted draft-shaping services
 
 ## Produces
 

@@ -1248,6 +1248,9 @@ general-purpose scripting language.
   invariants, cryptography, identity, storage durability, or authority checks.
 - This proposal does not replace story-009 Sensorium OS scripts, model wrappers,
   Git scripts, or connector action declarations.
+- For future non-fixture model work, Inquirium is the intended host organ;
+  JSON-e Flow should call an Inquirium capability rather than embedding
+  model-runtime or provider semantics in templates.
 
 ## Consequences
 

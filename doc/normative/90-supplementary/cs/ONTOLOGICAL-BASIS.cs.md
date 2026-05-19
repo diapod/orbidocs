@@ -101,7 +101,7 @@ through abstractions*, které holarchie nemodelují. Proces budování vrstev je
 enaktivní autopoiesis (Varela, Thompson), ale rozšířený na kulturu a objektivitu.
 
 **Důsledky pro DIA:** celá architektura roje – uzel, agent, memarium, sensorium,
-protokol – je navržena vrstevnatě v duchu stratifikace. Hodnota *oddělování úrovní*
+inquirium a protokol – je navržena vrstevnatě v duchu stratifikace. Hodnota *oddělování úrovní*
 a kontrakt vrstev v Orbiplexu jsou přímým přenesením tohoto postulátu do
 inženýrství. Zásada, že „vyšší vrstvy se nesmějí odlepovat od základu“, chrání
 kolektivní inteligenci před tím, aby se stala PR nástrojem nízkých pohnutek.

@@ -76,6 +76,10 @@ materially different risk and capture shapes:
 - producing captured artifacts too large for a JSON envelope,
 - making outbound network calls under bounded hosts/bytes limits.
 
+After proposal 063, local model wrappers are best treated as compatibility OS
+actions or worker launchers. The canonical host organ for model inquiry is
+Inquirium; Sensorium OS should not become an LLM or model-policy surface.
+
 Handling each as a unique action id forces the connector to encode
 per-program policy and produces an unbounded, auditor-hostile surface. On
 the other hand, a single "spawn" action is too coarse: its envelope must be

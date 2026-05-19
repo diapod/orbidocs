@@ -113,8 +113,8 @@ the idea of *drilling through abstractions*, which holarchies do not model. The
 process of building layers is close to enactive autopoiesis (Varela, Thompson),
 but extended to culture and objectivity.
 
-**Consequences for DIA:** the whole swarm architecture, node, agent, memarium,
-sensorium, protocol, is designed in layers in the spirit of stratification. The
+**Consequences for DIA:** the whole swarm architecture — node, agent, memarium,
+sensorium, inquirium, and protocol — is designed in layers in the spirit of stratification. The
 value of *separating levels* and the layer contract in Orbiplex are direct
 translations of this postulate into engineering. The rule that "higher layers
 must not detach from the foundation" protects collective intelligence from

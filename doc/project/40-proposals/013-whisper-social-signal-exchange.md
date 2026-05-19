@@ -427,8 +427,8 @@ Receiver decision policy MAY be:
   offered whisper automatically,
 - **operator approval** — the node notifies the operator and requests
   only after explicit approval,
-- **advisory automation** — a local advisory model or LLM evaluates the
-  offer against policy and recommends or triggers a request, subject to
+- **advisory automation** — an Inquirium-backed local advisory model evaluates
+  the offer against policy and recommends or triggers a request, subject to
   configured autonomy limits and audit logging.
 
 The offer itself MUST NOT contain raw `signal/text`, raw keywords, or
@@ -701,8 +701,8 @@ that should remain visible as well.
 2. Add one implementation-facing solution component for `Whisper`.
 3. Add one implementation-facing solution component for an outbound privacy
    provider such as `Anon`.
-4. Define the local Node service contract for model-assisted redaction and user
-   approval workflows.
+4. Define the local Node service contract for Inquirium/model-assisted redaction
+   and user approval workflows.
 5. Revisit production threshold policy and derived-nym rules after M4 proves the
    deterministic two-node smoke rule.
 6. Decide whether a future local module such as `Orbiplex Monus` should be allowed

@@ -128,12 +128,11 @@ The same rule applies to language-model use in this story. `llm-research`,
 workflow tasks that reach the model through an allowlisted OS connector action
 wrapping a local script or tool. This gives the reference implementation a
 working model path without adding model-specific code to Arca, Dator,
-Sensorium-core, or the OS connector. A future dedicated LLM Sensorium connector
-may be introduced as a more specialised backend, but it should preserve the
-same stratification: the workflow names the task, the role adapter invokes a
-declared capability/action, and model-specific prompt construction, runtime
-choice, provider credentials, batching, and output shaping live in the
-configured wrapper or connector, not in the orchestration layer.
+Sensorium-core, or the OS connector. Inquirium is the intended future organ for
+that model path: the workflow names the task, the role adapter invokes a declared
+capability/action, and model-specific prompt construction, runtime choice,
+provider credentials, batching, and output shaping live in Inquirium/model-runtime
+or a compatibility wrapper, not in the orchestration layer.
 
 **Action classification and authorization come from proposal 048.**
 This story does not introduce its own trust model, its own allowlist

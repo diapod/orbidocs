@@ -124,13 +124,12 @@ Ta sama reguła dotyczy użycia modeli językowych w tej story. `llm-research`,
 zwykłymi zadaniami workflow, które sięgają po model przez allowlistowaną akcję
 OS connectora opakowującą lokalny skrypt albo narzędzie. Dzięki temu
 implementacja referencyjna ma działającą ścieżkę użycia modeli bez dodawania
-model-specific kodu do Arki, Datora, Sensorium-core ani OS connectora. Przyszły
-dedykowany LLM connector Sensorium może zostać wprowadzony jako bardziej
-wyspecjalizowany backend, ale powinien zachować tę samą stratyfikację: workflow
-nazywa zadanie, adapter roli wywołuje zadeklarowaną capability/action, a
-model-specific konstrukcja promptu, wybór runtime'u, dane dostępowe providera,
-batching i kształtowanie wyniku żyją w skonfigurowanym wrapperze albo
-connectorze, nie w warstwie orkiestracji.
+model-specific kodu do Arki, Datora, Sensorium-core ani OS connectora. Docelowym
+organem dla tej ścieżki modelowej jest Inquirium: workflow nazywa zadanie,
+adapter roli wywołuje zadeklarowaną capability/action, a model-specific
+konstrukcja promptu, wybór runtime'u, dane dostępowe providera, batching
+i kształtowanie wyniku żyją w Inquirium/model-runtime albo compatibility
+wrapperze, nie w warstwie orkiestracji.
 
 **Klasyfikacja i autoryzacja akcji pochodzą z proposal 048.** Ta story nie
 wprowadza własnego modelu zaufania, własnego formatu allowlisty ani osobnej
