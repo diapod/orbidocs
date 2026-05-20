@@ -478,13 +478,23 @@ Memarium integrates with the archival contract family (proposal 012) as follows:
 1. `LearningOutcome` from room correction flows may be promoted to
    `KnowledgeArtifact` and stored as a `MemariumEntry` in the appropriate space.
 2. When an entry is selected for archival handoff, Memarium records the
-   `ArchivalPackage` preparation as a fact and the handoff result
-   (`StorageConfirmation`) as a subsequent fact.
+   `ArchivalPackage` preparation and handoff lifecycle as append-only facts.
+   The Node control implementation preflights package reads before submission,
+   submits package deliveries through Artifact Delivery, and records
+   `archival-handoff-requested` followed by either `archival-handoff-accepted`
+   or `archival-handoff-failed`; failed facts include the failed package index
+   and the indices already submitted, because transport rollback is not part of
+   the v1 handoff contract.
 3. `ArchivistAdvertisement` records received from peer archivists may be cached
    in the community or public space for later archivist selection.
-4. `RetrievalRequest`/`RetrievalResponse` for previously archived material may
-   be served from Memarium's local cache when available, avoiding redundant
-   remote retrieval.
+4. `RetrievalRequest` for previously archived material is a queued outbound
+   control flow: the Node builds a `retrieval-request.v1` artifact, submits it
+   through Artifact Delivery, records `archival-retrieval-requested`, and records
+   `archival-retrieval-unavailable` if the outbound request cannot be queued.
+   `RetrievalResponse` admission and materialization remain a separate future
+   archivist-service path; when added, it must append `found`, `denied`,
+   `unavailable`, or `tombstoned` facts and materialize returned entries only
+   through the normal Memarium write path.
 
 ### 8. Crisis Space Obligations
 

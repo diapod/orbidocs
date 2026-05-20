@@ -125,7 +125,7 @@
    :status :done}
 
   {:cap/id :remote-archivist-handoff
-   :title "Remote Archivist Handoff"
+   :title "Remote Archivist Handoff And Retrieval Request"
    :kind :protocol
    :based-on ["doc/project/30-stories/story-003-remote-memory-preservation.md"
               "doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md"
@@ -137,8 +137,8 @@
    :responsibilities
    ["Discover or select remote archivists under policy"
     "Transmit classification-aware archival packages and retrieval requests through Artifact Delivery / INAC handoff"
-    "Record handoff and retrieval results back into Memarium as append-only facts"
-    "Cache retrieved material locally to avoid redundant remote retrieval"]
+    "Record archival handoff results and queued retrieval requests back into Memarium as append-only facts"
+    "Leave retrieval-response admission and materialization to future archivist-service work"]
    :status :done}]
 
  :out-of-scope
