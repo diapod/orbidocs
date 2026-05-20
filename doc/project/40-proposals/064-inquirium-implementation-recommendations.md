@@ -1734,3 +1734,9 @@ Status values:
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
+| `inq-runtime-catalog-v02` | Move the lower model-runtime catalog to adapter implementations, adapter instances, model bindings, runtime candidates, runtime profiles, and conformance fixtures. | `done` | `node/model-runtime` contract v0.2 validates cross references and rejects missing adapter/model/conformance references. |
+| `inq-http-adapter-instance-handles` | Key HTTP lifecycle handles by adapter instance while invoking by selected runtime candidate. | `done` | `node/model-runtime-http` accepts `RuntimeInvocationContext`, supports one HTTP adapter instance serving multiple runtime candidates, and rejects caller override of host-owned model keys. |
+| `inq-command-stdio-invocation-context` | Apply the same host-built runtime invocation context to command-stdio adapter instances. | `done` | `node/daemon` merges runtime defaults, model binding parameters, and caller body before stdin serialization; caller override of `model` fails closed in daemon lifecycle coverage. |
+| `inq-daemon-runtime-routing` | Supervise adapter instances and route by `runtime/ref` in the daemon. | `done` | Daemon status separates `healthy` from `routable`, reports adapter/model binding refs, and counts only routable candidates. Focused daemon runtime tests pass sequentially. |
+| `inq-nse-use-runtime` | Make NSE choose runtime candidates instead of runtime/model pairs. | `done` | `nse` and `nse-rhai` use `UseRuntime { runtime_id, reason }`; Rhai scripts return `decision: "use-runtime"`. |
+| `inq-direct-data-plane` | Add durable direct data-plane leases, artifact output persistence, conformance report storage, and deferred long operations. | `in-progress` | Contract placeholders and routability hooks exist; daemon lease/artifact/conformance/deferred APIs remain to be implemented. |
