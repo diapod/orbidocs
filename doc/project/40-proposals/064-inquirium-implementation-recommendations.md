@@ -497,6 +497,42 @@ Two providers in the same family must not be assumed to support the same fields,
 streaming behavior, tool calls, multimodal input, structured output, or usage
 accounting. The adapter manifest must say this explicitly.
 
+## Embedding Operation Contracts
+
+`embed` and `batch.embed` should be modeled as separate operation contracts, not
+as hidden variants of chat generation. A direct `embed` request accepts bounded
+inline text inputs and returns bounded inline vectors:
+
+```json
+{
+  "schema": "inquirium.embed.request.v1",
+  "operation": "embed",
+  "model": "provider-facing-model-name",
+  "input": { "texts": ["alpha", "beta"] },
+  "parameters": {
+    "dimensions": 384,
+    "normalize": true,
+    "encoding_format": "float"
+  },
+  "metadata": {}
+}
+```
+
+The matching `inquirium.embed.response.v1` carries `vectors[]` with stable
+source indexes, a required `dimensions` field, provider-neutral `usage`, and
+redacted `diagnostics`. Implementations must reject zero dimensions, empty
+inputs, dimension mismatches, and non-finite vector values. Embeddings inherit
+the retention and egress boundary of their source material; they are derived
+content, not neutral telemetry.
+
+`batch.embed` uses direct data-plane leases. The request carries
+`source_lease_refs[]` and an optional `output_lease_ref`; the response returns
+`inquirium.batch-embed.response.v1` with an `artifact_ref`, `dimensions`,
+optional `item_count`, optional digest, usage, and diagnostics. The host remains
+responsible for issuing leases, validating the produced artifact, writing it
+through the object store, and binding provenance to `runtime/ref`,
+`model.binding/ref`, and the operation id.
+
 ## Fail Closed When Resolving Profile and Runtime
 
 Missing profile, missing candidate, missing configuration, unhealthy runtime,
@@ -1739,4 +1775,6 @@ Status values:
 | `inq-command-stdio-invocation-context` | Apply the same host-built runtime invocation context to command-stdio adapter instances. | `done` | `node/daemon` merges runtime defaults, model binding parameters, and caller body before stdin serialization; caller override of `model` fails closed in daemon lifecycle coverage. |
 | `inq-daemon-runtime-routing` | Supervise adapter instances and route by `runtime/ref` in the daemon. | `done` | Daemon status separates `healthy` from `routable`, reports adapter/model binding refs, and counts only routable candidates. Focused daemon runtime tests pass sequentially. |
 | `inq-nse-use-runtime` | Make NSE choose runtime candidates instead of runtime/model pairs. | `done` | `nse` and `nse-rhai` use `UseRuntime { runtime_id, reason }`; Rhai scripts return `decision: "use-runtime"`. |
+| `inq-python-remote-provider-adapters` | Add first middleware-hosted remote provider adapters while preserving adapter-instance/runtime-candidate stratification. | `done` | `node/middleware-modules/inquirium-openai-adapter` maps neutral Inquirium text generation to OpenAI Responses; `node/middleware-modules/inquirium-anthropic-adapter` maps the same contract to Anthropic Messages; both share `node/middleware-modules/lib/inquirium_adapter`, expose neutral and chat-compatible endpoints, read secrets from env/file config, and have fake-provider unit coverage. `node/model-runtime-http` also starts the OpenAI adapter as a managed process and verifies one adapter instance serving two runtime bindings. |
+| `inq-embedding-contracts` | Add explicit direct and batch embedding request/response contracts. | `done` | `node/model-runtime` exposes `inquirium.embed.{request,response}.v1` and `inquirium.batch-embed.{request,response}.v1` DTOs with validation for schema, operation, dimensions, leases, vector shape, and finite vector values. |
 | `inq-direct-data-plane` | Add durable direct data-plane leases, artifact output persistence, conformance report storage, and deferred long operations. | `in-progress` | Contract placeholders and routability hooks exist; daemon lease/artifact/conformance/deferred APIs remain to be implemented. |
