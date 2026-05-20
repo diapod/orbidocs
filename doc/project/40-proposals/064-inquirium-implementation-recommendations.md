@@ -29,6 +29,10 @@ model-runtime owns lifecycle, health, supervision, and transport mapping.
 Provider workers execute inference but hold no Orbiplex authority.
 ```
 
+Adapters may be middleware-hosted, but middleware hosting is an implementation
+axis, not an authority grant. A middleware-hosted adapter remains an Inquirium
+runtime adapter with a narrow role.
+
 Model output remains candidate evidence, not authority. Every rejection,
 failure, degraded result, fallback, continuation, retry, plan, tool call,
 artifact, and adaptation result must be represented as a typed outcome.
@@ -79,6 +83,122 @@ checkpoint, or other result of adaptation. It is not a runtime adapter.
 
 `provider worker` is a process, local server, remote endpoint, or API that
 executes inference. It has no Orbiplex authority.
+
+`middleware-hosted runtime adapter` is a runtime adapter implemented through the
+Orbiplex middleware hosting fabric. Its executor may be `command_stdio`,
+`local_http_json`, supervised `http_local_json`, an in-process handler, or a
+later compatible executor. This says how the adapter runs; it does not widen what
+the adapter may do.
+
+## Adapter Hosting and Authority Axes
+
+Keep adapter hosting separate from adapter authority. A runtime adapter may be
+delivered as an operator-installed package, a bundled module, an in-process
+component, a one-shot command, an unmanaged local HTTP endpoint, or a supervised
+local HTTP service. Those shapes answer "how does it run?".
+
+The semantic role answers a different question: "what may this component do?".
+An Inquirium runtime adapter may translate requests, invoke a selected provider
+worker, map provider responses into Inquirium outcomes, report health, expose
+conformance metadata, and use explicitly granted lease/artifact/status
+capabilities. It must not claim arbitrary middleware hooks, own workflow
+dispatch, choose model policy outside the host decision, mutate Orbiplex state,
+or turn provider-specific behavior into public Inquirium semantics.
+
+Practical classification:
+
+| Axis | Field or decision | Meaning |
+| --- | --- | --- |
+| Hosting | `hosting/kind` and optional middleware executor config | Process, transport, lifecycle, and packaging shape. |
+| Adapter role | `adapter/kind`, `operations[]`, protocol family | Which Inquirium execution surface is translated. |
+| Authority | `effects/allowed`, leases, egress, sandbox, conformance | What side effects and data paths are allowed for this adapter instance. |
+
+Use the least powerful executor that can express the behavior. A pure mapping can
+be declarative. A one-shot local command can use `command_stdio`. A long-lived
+local model server usually belongs behind `local_http_json` if supervised
+elsewhere, or supervised `http_local_json` when the Node host should own
+readiness, restart, shutdown, and module reporting.
+
+## Adapter Implementation, Instance, and Runtime Candidate
+
+Do not use "adapter" for every layer. The implementation should distinguish:
+
+| Layer | Meaning | Typical cardinality |
+| --- | --- | --- |
+| `adapter/ref` | Reusable code/package for one protocol family or execution interface. | One implementation can support many instances. |
+| `adapter.instance/ref` | Configured and optionally supervised use of that implementation: endpoints, credentials, pools, queues, lifecycle, health, rate limits. | One instance can expose many runtime candidates. |
+| `runtime/ref` | Host-visible routable execution candidate: adapter instance plus model binding, operation support, policies, health, and conformance. | One runtime candidate should point to one model binding. |
+| `runtime.instance/ref` | Materialized live process, loaded model, session, or worker created by host/model-runtime supervision. | Zero or more live instances may back one runtime candidate. |
+| `model.binding/ref` | Provider-facing model handle plus `model/ref`, digest/hash where available, default parameters, and constraints. | One binding may be reused by compatible runtimes, but policy may still split them. |
+| `profile/ref` | Caller-facing policy class for model use. | One profile can select among many runtime candidates. |
+
+The rule is: **adapter per interface, adapter instance per lifecycle/trust
+boundary, runtime candidate per model-configuration**. Do not create one adapter
+implementation per model unless protocol, trust boundary, isolation, or response
+normalization differs. Do not hide two routable models inside one runtime
+candidate merely because they share one server process or API standard.
+
+Examples:
+
+```text
+adapter/openai-compatible-http
+  adapter.instance/remote-provider-a
+    runtime/remote-provider-a-small-chat
+      model.binding/provider-a-small-chat
+    runtime/remote-provider-a-large-chat
+      model.binding/provider-a-large-chat
+
+adapter/local-http-model-server
+  adapter.instance/local-gpu-server
+    runtime/local-gpu-server-llm-a
+      model.binding/llm-a
+    runtime/local-gpu-server-llm-b
+      model.binding/llm-b
+```
+
+The adapter instance may maintain shared HTTP clients, connection pools, queues,
+backpressure state, or a supervised server process. Those are performance and
+lifecycle mechanisms. The host and `model-runtime` still select a `runtime/ref`,
+not a hidden model inside the adapter.
+
+Spawning follows the same rule. An adapter may implement `load`, `spawn`,
+`unload`, or `pool` mechanics, but the decision to materialize a routable
+runtime belongs to host-owned policy and `model-runtime`. A successful spawn or
+load produces an explicit `runtime.instance/ref` or updated runtime candidate
+state with health, model identity, resource budget, and conformance visible to
+Inquirium.
+
+## Correspondence With Common Agent-Orchestrator Layering
+
+Existing agent orchestrators commonly separate provider configuration, model
+selection, execution backend, and interaction channel. Inquirium should treat
+that as a useful implementation pattern, not as its domain model. The mapping is:
+
+| Common orchestrator layer | Inquirium / Orbiplex layer |
+| --- | --- |
+| Provider configuration, auth, discovery, endpoint defaults | `adapter/ref` plus `adapter.instance/ref` |
+| Provider-facing model id and per-model defaults | `model.binding/ref` |
+| Execution backend, local service, CLI wrapper, remote API client, worker pool | `runtime/ref` and `runtime.instance/ref` |
+| Conversation channel, chat ingress, UI, messaging bridge | Host, Flow, Arca, Sensorium, or middleware outside Inquirium |
+
+This correspondence is intentionally not one-to-one. A provider-style adapter
+instance may expose many runtime candidates. A runtime candidate should still
+name one model binding and one policy bundle. A channel should not become the
+place where model selection, data leases, or inference policy are hidden.
+
+When importing ideas from orchestrator designs, keep the invariant:
+
+```text
+provider mechanics are adapter concerns;
+model identity is a model-binding concern;
+routable execution is a runtime-candidate concern;
+conversation orchestration is not an Inquirium adapter concern.
+```
+
+The practical benefit is reuse without flattening. One adapter implementation can
+support multiple configured instances, one instance can reuse clients, process
+supervision, queues, and caches, and the host can still audit and select each
+routable model configuration explicitly.
 
 ## Runtime Candidate Registry as Data
 
@@ -144,7 +264,7 @@ Minimal shape:
 
 ```text
 InquiriumAdapterManifestV1 {
-  adapter/ref
+  adapter/ref   # implementation/package identity
   adapter/kind:
     local-http
     | remote-http
@@ -157,9 +277,17 @@ InquiriumAdapterManifestV1 {
     | artifact-transformer
 
   version
+  hosting/kind:
+    in-process
+    | middleware-hosted
+    | external-endpoint
+  middleware/executor?:
+    in_process
+    | command_stdio
+    | local_http_json
+    | http_local_json
+    | json_e_flow
   implementation/ref?
-  runtime/ref?
-  profile/refs[]
 
   operations[]:
     generate
@@ -238,6 +366,46 @@ InquiriumAdapterManifestV1 {
     last-report/ref?
     required-tests[]
   }
+}
+```
+
+The adapter manifest is implementation-level unless it explicitly states
+otherwise. Adapter instance configuration and runtime candidate configuration
+should be separate records owned by host/model-runtime configuration:
+
+```text
+InquiriumAdapterInstanceV1 {
+  adapter.instance/ref
+  adapter/ref
+  hosting/kind
+  lifecycle/config
+  endpoint/config?
+  auth/ref?
+  egress/policy-ref?
+  resource/policy-ref?
+  health/config?
+  pools/config?
+}
+
+InquiriumRuntimeCandidateV1 {
+  runtime/ref
+  adapter.instance/ref
+  model.binding/ref
+  profile/refs[]
+  operations[]
+  defaults/params
+  policy/refs
+  conformance/ref?
+  health/status
+}
+
+InquiriumModelBindingV1 {
+  model.binding/ref
+  model/ref
+  provider/model-name
+  model/hash?
+  defaults/params
+  constraints
 }
 ```
 
@@ -1548,3 +1716,21 @@ errors such as out-of-space.
 This improves post-failure reasoning. After restart, the host can distinguish
 complete artifacts from temporary leftovers, and the operator can see what is
 safe to remove.
+
+## Implementation Tracking
+
+This section is a lightweight, manually maintained tracker for implementation
+work derived from this proposal. Add rows as implementation tasks start or land.
+Rows marked `done` should point to concrete evidence such as code paths, schema
+fixtures, tests, operator surfaces, or migration notes.
+
+Status values:
+
+- `todo` — not started,
+- `in-progress` — design or implementation has started,
+- `done` — implemented and covered by tests, schema validation, or documented
+  operator evidence,
+- `deferred` — intentionally postponed.
+
+| ID | Work item | Status | Done criteria / evidence |
+| :--- | :--- | :--- | :--- |

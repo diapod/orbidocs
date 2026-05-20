@@ -15,7 +15,8 @@ The main execution and specialization types are:
 - command/stdio middleware,
 - unmanaged local HTTP JSON middleware,
 - supervised HTTP middleware,
-- Sensorium connector middleware.
+- Sensorium connector middleware,
+- middleware-hosted Inquirium runtime adapters.
 
 Distribution is a separate axis: the same execution type may be factory-bundled,
 installed by the operator, or materialized from a profile/config fragment. See
@@ -327,6 +328,79 @@ new module identity and action catalog.
       "output_schema": "sensorium-directive-outcome.v1"
     }
   ]
+}
+```
+
+### Middleware-Hosted Inquirium Runtime Adapter
+
+An Inquirium runtime adapter may be middleware in the execution and hosting
+sense, but semantically it remains an Inquirium runtime adapter. This distinction
+is intentional: the execution type answers "how does this component run?", while
+the Inquirium adapter role answers "which execution translation may this
+component perform?". Such an adapter may run through `command_stdio`, unmanaged
+`local_http_json`, supervised `http_local_json`, an in-process handler, or a later
+compatible executor, but that does not give it general middleware authority over
+routes, hooks, workflows, or model policy.
+
+Inquirium Core remains the owner of operation semantics such as `generate`,
+`embed`, `classify`, `rerank`, `image.generate`, or `train.adapt`.
+`model-runtime` owns the runtime catalog, lifecycle, health, supervision, and
+transport. The adapter translates request/result data and provider protocol
+details, while the model worker executes computation without Orbiplex authority.
+If the adapter needs access to large local data, it should receive explicit
+leases and artifact handles, not ambient filesystem, network, or host capability
+access.
+
+The same adapter does not imply one model. The preferred split is: adapter
+implementation for the interface, adapter instance for lifecycle/trust-boundary
+configuration, and one `runtime/ref` for each routable model configuration. This
+lets one adapter instance keep a shared HTTP pool, queue, process supervisor, or
+client cache, while the host still sees each model as a separate runtime
+candidate with its own policy, health, conformance, and trace.
+
+This mirrors a common agent-orchestrator layering pattern: provider mechanics,
+model identity, execution backend, and interaction channel are separate concerns.
+For middleware classification, only the execution backend may be middleware-hosted.
+Provider mechanics remain adapter concerns, model identity remains a model-binding
+concern, and channel or workflow orchestration remains outside the adapter role.
+
+#### Registration shape
+
+- Inquirium adapter manifest with `adapter/ref`, protocol family, operations,
+  modalities, limits, trace/retention policy, and conformance report.
+- Optional middleware executor configuration such as `command_stdio`,
+  `local_http_json`, or `http_local_json`.
+- Health/status and init/report when the adapter is attachable or supervised.
+- Explicit leases, egress, sandbox, and `effects/allowed` for effectful
+  operations.
+
+#### Use cases
+
+- Bridge to a local model server managed by the operator or by the Node host.
+- One-shot wrapper around a CLI tool that performs bounded inference.
+- Remote API adapter requiring egress policy, secrets, limits, and refusal
+  mapping.
+- Post-training, batch embedding, or audio/vision processing through a worker
+  that reads and writes only through scoped leases.
+
+#### Examples
+
+```json
+{
+  "module_id": "inquirium.local-model-runtime",
+  "kind": "inquirium-runtime-adapter",
+  "executor": "http_local_json",
+  "adapter_manifest": {
+    "adapter/ref": "adapter:local-model-runtime",
+    "hosting/kind": "middleware-hosted",
+    "operations": ["generate", "embed", "batch.embed"],
+    "modalities/input": ["text"],
+    "modalities/output": ["text", "embedding"],
+    "effects/allowed": [
+      { "kind": "fs/read", "lease/ref": "input-lease" },
+      { "kind": "fs/write", "lease/ref": "artifact-output-lease" }
+    ]
+  }
 }
 ```
 

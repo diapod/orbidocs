@@ -16,7 +16,8 @@ Główne typy wykonania i specjalizacji to:
 - middleware command/stdio,
 - niezarządzany lokalny middleware HTTP JSON,
 - supervised HTTP middleware,
-- middleware konektora Sensorium.
+- middleware konektora Sensorium,
+- middleware-hosted runtime adapter Inquirium.
 
 Dystrybucja jest osobną osią: ten sam typ wykonania może być dostarczany
 fabrycznie, instalowany przez operatora albo materializowany z fragmentu profilu
@@ -342,6 +343,79 @@ akcji.
       "output_schema": "sensorium-directive-outcome.v1"
     }
   ]
+}
+```
+
+### Middleware-hosted runtime adapter Inquirium
+
+Adapter runtime Inquirium może być middleware'em w sensie wykonania i hostowania,
+ale semantycznie pozostaje adapterem runtime Inquirium. To rozróżnienie jest
+celowe: typ wykonania odpowiada na pytanie "jak ten komponent działa?", a rola
+adaptera Inquirium odpowiada na pytanie "jakie tłumaczenie wykonania wolno mu
+robić?". Taki adapter może działać przez `command_stdio`, niezarządzany
+`local_http_json`, supervised `http_local_json`, handler w procesie albo późniejszy
+kompatybilny executor, ale nie dostaje przez to ogólnej władzy middleware'u nad
+route'ami, hookami, workflow ani polityką modelu.
+
+Inquirium Core pozostaje właścicielem semantyki operacji takich jak `generate`,
+`embed`, `classify`, `rerank`, `image.generate` albo `train.adapt`. `model-runtime`
+zajmuje się katalogiem runtime'ów, lifecycle, health, supervision i transportem.
+Adapter tłumaczy request/result i szczegóły protokołu providera, a worker modelu
+wykonuje obliczenie bez authority Orbipleksu. Jeżeli adapter potrzebuje dostępu do
+dużych danych lokalnych, powinien dostać jawne lease'y i uchwyty artefaktów, nie
+ambient dostęp do filesystemu, sieci ani host capabilities.
+
+Ten sam adapter nie musi oznaczać jednego modelu. Preferowany podział to:
+implementacja adaptera dla interfejsu, instancja adaptera dla konfiguracji
+lifecycle/trust boundary oraz osobny `runtime/ref` dla każdej routowalnej
+konfiguracji modelu. Dzięki temu jeden adapter instance może utrzymywać wspólną
+pulę HTTP, kolejkę, supervisor procesu albo cache klienta, a host nadal widzi
+każdy model jako osobny runtime candidate z własną polityką, zdrowiem,
+conformance i śladem.
+
+To odpowiada częstemu wzorcowi warstw w agentowych orchestratorach: mechanika
+providera, tożsamość modelu, backend wykonawczy oraz kanał interakcji są osobnymi
+sprawami. Dla klasyfikacji middleware tylko backend wykonawczy może być
+middleware-hosted. Mechanika providera pozostaje sprawą adaptera, tożsamość
+modelu sprawą model binding, a kanał albo workflow orchestration pozostaje poza
+rolą adaptera.
+
+#### Kształt rejestracji
+
+- Manifest adaptera Inquirium z `adapter/ref`, rodziną protokołu, listą operacji,
+  modalnościami, limitami, polityką trace/retention i raportem conformance.
+- Opcjonalna konfiguracja middleware executora, np. `command_stdio`,
+  `local_http_json` albo `http_local_json`.
+- Health/status i init/report, jeżeli adapter jest attachable albo supervised.
+- Jawne lease'y, egress, sandbox i `effects/allowed` dla operacji z efektami.
+
+#### Zastosowania
+
+- Most do lokalnego serwera modelu zarządzanego przez operatora albo host Node'a.
+- Jednorazowe opakowanie narzędzia CLI wykonującego ograniczoną inferencję.
+- Adapter zdalnego API wymagający polityki egress, sekretów, limitów i mapowania
+  odmów.
+- Post-training, batch embedding albo przetwarzanie audio/wizji przez worker, który
+  czyta i zapisuje wyłącznie przez scoped leases.
+
+#### Przykłady
+
+```json
+{
+  "module_id": "inquirium.local-model-runtime",
+  "kind": "inquirium-runtime-adapter",
+  "executor": "http_local_json",
+  "adapter_manifest": {
+    "adapter/ref": "adapter:local-model-runtime",
+    "hosting/kind": "middleware-hosted",
+    "operations": ["generate", "embed", "batch.embed"],
+    "modalities/input": ["text"],
+    "modalities/output": ["text", "embedding"],
+    "effects/allowed": [
+      { "kind": "fs/read", "lease/ref": "input-lease" },
+      { "kind": "fs/write", "lease/ref": "artifact-output-lease" }
+    ]
+  }
 }
 ```
 

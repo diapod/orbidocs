@@ -169,6 +169,86 @@ This keeps the trusted Inquirium core small and auditable while allowing new
 model families, transports, and vendors to be added without changing the
 workflow-facing contract.
 
+#### Adapter Hosting Classification
+
+An Inquirium runtime adapter may be middleware in the implementation and hosting
+sense, but it is not generic middleware in the semantic sense. The precise
+classification has two independent axes:
+
+| Axis | Classification |
+| --- | --- |
+| Implementation / hosting | An adapter may be hosted through a middleware executor such as `command_stdio`, `local_http_json`, supervised `http_local_json`, or an in-process handler. |
+| Semantic role / authority | The same component is an Inquirium runtime adapter: a narrow execution translator below Inquirium Core and `model-runtime`. |
+
+The preferred term is **middleware-hosted runtime adapter**. This avoids saying
+that "an Inquirium adapter is middleware" as an identity claim. It means the
+adapter may use the middleware hosting fabric, init/report, health, lifecycle,
+trace, and executor contracts, while its domain authority remains constrained by
+Inquirium Core and `model-runtime`.
+
+A middleware-hosted runtime adapter may report status, health, conformance,
+supported protocol family, and adapter manifest data. It must not claim arbitrary
+workflow hooks, local routes, peer dispatch surfaces, or host capabilities merely
+because it is implemented as middleware. Its normal conversation partners are
+Inquirium Core, `model-runtime`, provider workers, and explicit host capability
+surfaces for scoped leases, artifacts, status, and diagnostics.
+
+#### Adapter, Runtime, and Model Cardinality
+
+Inquirium should not multiply adapter code merely to run multiple models through
+the same protocol. Reuse belongs at the adapter implementation and adapter
+instance layers; routing, audit, conformance, and policy belong at the runtime
+candidate layer.
+
+The cardinality rule is:
+
+```text
+one adapter implementation -> many adapter instances
+one adapter instance -> many runtime candidates
+one runtime candidate -> one selected model binding and policy bundle
+```
+
+An adapter implementation is the code for a protocol family, such as a local
+HTTP model server protocol or an OpenAI-compatible HTTP protocol. An adapter
+instance is a configured use of that implementation: base URL, auth reference,
+egress class, shared HTTP client, process supervision, queues, health probes,
+and rate limits. A runtime candidate is the host-visible routable option:
+adapter instance plus model binding plus operation support, default parameters,
+resource policy, trace policy, retention policy, and conformance state.
+
+This means a single local-model-server adapter instance may expose two runtime
+candidates for two loaded or loadable models. A single OpenAI-compatible adapter
+implementation may back several adapter instances when egress, credentials,
+trust boundary, rate limits, or failure domain differ; each instance may then
+expose several runtime candidates for different remote models. Creating one
+adapter implementation per model is justified only when the model requires a
+different protocol, isolation boundary, security policy, or response
+normalization contract.
+
+Adapters may implement the mechanics of loading, unloading, spawning, pooling, or
+queueing model workers. The authority to materialize a routable runtime remains
+with the host and `model-runtime`. When a spawn or load operation succeeds, the
+result should become an explicit `runtime/ref` or `runtime.instance/ref` with
+health, model identity, policy, and conformance visible to Inquirium.
+
+#### Relation to Agent-Orchestrator Layering
+
+Many agent orchestrators converge on a pragmatic split between provider, model,
+execution runtime, and channel. Inquirium should preserve the useful part of
+that pattern while making the strata more explicit: provider-facing concerns
+belong to adapter implementations and adapter instances, model identity belongs
+to model bindings, host-visible routing belongs to runtime candidates, and
+conversation ingress/egress belongs outside Inquirium unless explicitly exposed
+through host capabilities.
+
+The important difference is authority. In an agent orchestrator, the execution
+runtime often owns a prepared model loop, tool-call handling, and turn state. In
+Orbiplex, Inquirium is not the agent loop. Inquirium owns bounded inquiry
+semantics, policy enforcement, runtime selection, normalization, tracing, and
+auditing. Flow, Arca, Sensorium, and the host own broader orchestration. This
+keeps inference execution reusable without letting a model adapter become an
+implicit workflow engine.
+
 ### Control Plane and Data Plane
 
 Inquirium should be stricter than a raw provider API, but it does not need to
@@ -314,7 +394,13 @@ Providers must not know Orbiplex domain semantics.
 | Inquirium Core | The host-owned component that validates, authorizes, selects, invokes, normalizes, traces, and audits inference requests. |
 | Model Runtime | The lower substrate for model execution surfaces: profiles, lifecycle, health checks, transports, provider mappings, and resource/egress policy. |
 | Model Profile | A host-defined policy bundle describing desired capability, locality, cost tier, context behavior, and output class. |
+| Adapter Implementation | The reusable code/package that speaks one protocol family or execution interface. |
+| Adapter Instance | A configured and optionally supervised use of an adapter implementation: endpoints, credentials, process lifecycle, pools, limits, and health. |
 | Runtime Adapter | The concrete protocol adapter for local HTTP, command stdio, remote HTTP API, or later transports. |
+| Middleware-hosted Runtime Adapter | A runtime adapter implemented through the middleware hosting fabric while retaining the narrow Inquirium adapter role and authority boundary. |
+| Runtime Candidate | A host-visible routable execution option: adapter instance plus model binding, operation support, policies, health, and conformance. |
+| Runtime Instance | A materialized live process, loaded model, session, or worker instance created under host/model-runtime supervision. |
+| Model Binding | The configured provider-facing model name or handle, mapped to a `model/ref`, optional digest/hash, defaults, and constraints. |
 | Provider Worker | A concrete server, process, or API implementing model execution. It is not an Orbiplex organ and does not own policy. |
 
 #### Responsibilities by Layer
@@ -364,6 +450,13 @@ given context.
 
 Inquirium should be exposed through host capabilities and stable request/result
 contracts, not as a generic supervised HTTP middleware interface.
+
+An Inquirium adapter may nevertheless be implemented as middleware. This is an
+execution-hosting choice, not a semantic promotion. The adapter remains a
+runtime adapter: it translates request/result data and provider protocol details
+for Inquirium and `model-runtime`. It does not become a role middleware, workflow
+engine, Sensorium connector, generic route owner, or authority over model
+selection and retention policy.
 
 Middleware can consume Inquirium:
 
@@ -644,6 +737,8 @@ model assistance, but the model domain no longer lives inside Sensorium.
 | --- | --- |
 | Inquirium becomes a general AI agent with ambient authority. | Capabilities are operation-specific; model output is evidence, not authority; actions remain in workflow/policy/Sensorium/AD layers. |
 | Inquirium becomes a monolithic runtime middleware. | Keep Inquirium as the semantic contract and policy layer; keep provider lifecycle, health, and invocation in `model-runtime` adapters. |
+| A runtime adapter gains broad middleware authority because it is middleware-hosted. | Treat hosting as a separate axis from semantic authority; allow only adapter manifest, status, health, conformance, provider invocation, and explicitly granted lease/artifact/status capabilities. |
+| Multiple models hide behind one runtime candidate. | Keep one host-visible runtime candidate per model binding and policy bundle, even when they share one adapter instance and one server process. |
 | Inquirium copies Sensorium connectors and treats models as sensors/effectors. | Document the ontology split: Sensorium mediates world contact; Inquirium mediates bounded inference over supplied context. |
 | Provider-specific parameters leak into every caller request. | Keep provider details in model profiles and runtime configs; expose only stable inference constraints at the request boundary. |
 | Direct data-plane operations bypass host policy. | Require host-issued dataset/artifact leases, sandbox profiles, egress classes, resource budgets, manifests, provenance, and metadata-only audit records. |
