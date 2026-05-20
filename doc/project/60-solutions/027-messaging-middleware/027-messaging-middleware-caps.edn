@@ -33,12 +33,15 @@
    :kind :service
    :based-on ["doc/project/40-proposals/060-messaging-middleware.md"]
    :schemas ["message-envelope.v1"
-             "messaging.flag.v1"]
+             "messaging.flag.v1"
+             "agora-vault-entry.v1"]
    :responsibilities
    ["Expose authenticated status, inbound accept, outbound queue, mailbox, message, retry, process, pending-fact replay, retention, crisis, and reindex endpoints"
     "Store Layer 1 message bodies in Maildir and Layer 2 indexes in SQLite"
     "Keep outbound bodies as Maildir draft records instead of long SQLite text"
     "Fail closed against receiver-side revocation snapshots before persisting inline messaging-receive passports"
+    "Enforce recorded-message lineage before Maildir write"
+    "Best-effort store recorded message envelopes through agora.vault.put with visible vault status"
     "Run reindex as remote Memarium replay, local Layer 3 replay, Maildir walk, and FTS5 rebuild"
     "Store and replay read/unread state through messaging.flag.v1 and a rebuildable SQLite flag projection"
     "Use PRAGMA user_version migrations for storage evolution"
@@ -141,6 +144,23 @@
     "Render local-contact based unknown-recipient warnings before contact-request flow"
     "Use daemon-proxied /v1/messaging/* APIs rather than duplicating domain logic"
     "Handle mailbox.open notification actions by opening message detail without mutating consent state"]
+   :status :done}
+
+  {:cap/id :recorded-messaging-agora-vault
+   :title "Recorded Messaging via Agora Vault"
+   :kind :policy-and-storage
+   :based-on ["doc/project/40-proposals/060-messaging-middleware.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"]
+   :schemas ["message-envelope.v1"
+             "agora-vault-entry.v1"
+             "agora-vault-ref.v1"]
+   :responsibilities
+   ["Represent recorded intent through optional message-envelope.v1 recording data"
+    "Propagate recorded state for replies and forwards to locally known recorded parents"
+    "Refuse missing recorded lineage as recording-lineage-required before persistence"
+    "Encrypt signed message envelopes as generic Agora Vault artifacts rather than agora-record.v1 records"
+    "Expose vault.pending, vault.stored, vault.failed-retryable, and vault.failed-terminal diagnostics"
+    "Keep vault storage best-effort so delivery is never rolled back by Agora unavailability"]
    :status :done}]
 
  :may-implement
@@ -166,7 +186,7 @@
    :status :deferred}]
 
  :out-of-scope
- ["Body encryption in the first MVP+ slice"
+ ["Maildir body encryption in the first MVP+ slice"
   "HTML rendering and active content"
   "Group messaging, CC, or BCC"
   "Live multi-device read/unread push beyond replay"
@@ -177,6 +197,7 @@
   "contact-request.v1 artifacts"
   "local-contact.v1 contact projections"
   "contact-attestation-request.v1 and contact-attestation-result.v1 artifacts"
+  "agora-vault-entry.v1 artifacts for recorded messages"
   "messaging-receive capability passports"
   "Artifact Delivery private-direct and contact lookup send requests"
   "local participant public-handle evidence"
@@ -194,9 +215,11 @@
   "messaging.crisis-marked.v1 facts"
   "messaging.flag.v1 facts"
   "operator notifications with mailbox.open actions"
-  "private recovery records for contacts membership and receive-passport refs"]
+  "private recovery records for contacts membership and receive-passport refs"
+  "best-effort Agora Vault status for recorded message artifacts"]
 
  :notes
  ["The messaging service owns messaging consent state; the daemon owns authority, signing, and private identity evidence."
   "No generic messaging.fact.v1 wire artifact is introduced in the MVP."
+  "Recorded messaging uses generic Agora Vault entries; it does not turn messages into ordinary Agora topic records."
   "The local participant-handle store is separate from address-book contacts to avoid treating UX labels as consent authority."]}

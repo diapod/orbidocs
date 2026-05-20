@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-vault-ref:v1",
+  "title": "AgoraVaultRef v1",
+  "description": "Plaintext record shape intended to be sealed inside pseudonym-vault.v1. It maps recovered participant or nym material to an opaque Agora Vault subject and capability references.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "ref/id",
+    "agora/provider-ref",
+    "vault/subject",
+    "allowed/artifact-kinds",
+    "capability/refs",
+    "created/at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-vault-ref.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "ref/id": {
+      "type": "string",
+      "pattern": "^agora-vault-ref:[a-z0-9][a-z0-9:-]*$"
+    },
+    "agora/provider-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "vault/subject": {
+      "type": "string",
+      "pattern": "^agora-vault:[a-z0-9][a-z0-9:-]*$",
+      "description": "Opaque storage partition. It must not encode participant or nym ids."
+    },
+    "allowed/artifact-kinds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9._-]*\\.v[0-9]+$"
+      }
+    },
+    "capability/refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^passport:capability:"
+      }
+    },
+    "created/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last/seen-at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

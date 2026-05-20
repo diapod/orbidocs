@@ -921,6 +921,7 @@ the run identifier, and there is no external subject to reference:
 | Retention: age + count | Yes |
 | Retention: size + pin-by-kind | Deferred |
 | Record-level flags and hidden/withdrawn handling | Deferred |
+| `agora-vault-entry.v1` encrypted opaque artifact vault | Yes |
 | E2E-encrypted private topics | Deferred |
 | Kind-specific schema registry | Deferred |
 | Native Orbiplex transport (non-Matrix) | Deferred |
@@ -928,6 +929,76 @@ the run identifier, and there is no external subject to reference:
 
 Deferred items are post-MVP and MUST NOT be implemented before the MVP
 scope is clean and tested.
+
+## Agora Vault
+
+Agora Vault is a separate encrypted-artifact surface, not a topic record
+profile. It exists for cases where the system needs durable,
+admission-controlled opaque storage but must not expose the author,
+participant, nym, topic, or domain metadata that ordinary `agora-record.v1`
+would reveal.
+
+The canonical entry schema is `agora-vault-entry.v1`. Its public shape exposes
+only:
+
+- `vault-entry/id`;
+- opaque `artifact/id`;
+- `artifact/kind`;
+- the cryptographic envelope;
+- ciphertext.
+
+The artifact payload and all domain metadata live inside ciphertext. A vault
+entry that contains plaintext payload fields, lacks ciphertext, or lacks at
+least one key envelope is invalid. Public lookup is `GET
+/v1/agora/vault-artifacts/{artifact_id}` and returns ciphertext-bearing entries
+only. Scoped list/get/delete use `GET|DELETE
+/v1/agora/vaults/{vault_subject}/artifacts...`. In the supervised local Node
+runtime those routes are gated by the Agora service client token and daemon host
+capability dispatch. Federated or remote-provider deployments bind the same
+operations to the frozen `agora-vault@v1` capability/passport profile scoped to
+the opaque `vault_subject`.
+
+The MVP writer used by recorded messaging may emit `key-wrap =
+"dev-key-commitment"`. This is a development custody commitment to the
+discarded symmetric key; it proves that ciphertext was produced but does not
+make the entry decryptable by itself. Production recovery uses recipient key
+wrapping under `x25519-hkdf-sha256+xchacha20-poly1305`.
+
+The implemented MVP runtime exposes these concrete operations:
+
+| Operation | Runtime path | Authorization boundary | Notes |
+|---|---|---|---|
+| Put encrypted artifact | `POST /v1/agora/vaults/{vault_subject}/artifacts` | Agora client token locally; `agora-vault@v1` remotely | Request body is an `agora-vault-entry.v1`; invalid plaintext or missing key envelopes are refused. |
+| List scoped artifacts | `GET /v1/agora/vaults/{vault_subject}/artifacts` | Same scoped vault authority | Response includes list items with `artifact/id`, `artifact/kind`, `vault-entry/id`, `stored/at`, and optional ciphertext digest. |
+| Get scoped artifact | `GET /v1/agora/vaults/{vault_subject}/artifacts/{artifact_id}` | Same scoped vault authority | Returns the full encrypted entry after export schema validation. |
+| Delete scoped artifact | `DELETE /v1/agora/vaults/{vault_subject}/artifacts/{artifact_id}` | Same scoped vault authority | Performs a soft delete; scoped and public reads ignore deleted entries. |
+| Public encrypted lookup | `GET /v1/agora/vault-artifacts/{artifact_id}` | Public lookup by opaque artifact id | Returns filtered ciphertext-bearing entries only and does not reveal `vault_subject`, participant, nym, author, topic, or plaintext domain metadata. |
+
+The supervised `agora-service` stores MVP vault entries in
+`agora-vault.v1.sqlite`. The scoped uniqueness boundary is
+`(vault_subject, artifact_id)`, so the same opaque `artifact/id` may exist in
+multiple vault subjects. Public lookup by artifact id may return more than one
+ciphertext entry, but each entry remains subject-opaque.
+
+The supervised `agora-service` also registers daemon host capability handlers:
+
+- `agora.vault.put`;
+- `agora.vault.list`;
+- `agora.vault.get`;
+- `agora.vault.delete`.
+
+Recovery is deliberately separated from the public Agora record surface.
+`agora-vault-ref.v1` is a plaintext record shape intended to be sealed inside
+`pseudonym-vault.v1`; it maps recovered participant or nym material to the
+provider, opaque `vault/subject`, capability references, and allowed artifact
+kinds. A bare public participant id is not enough to list, get, or delete vault
+contents.
+
+Recorded messaging is the first profile that uses Agora Vault: it stores a
+signed `message-envelope.v1` as a generic encrypted artifact rather than as an
+Agora topic record. Vault writes are best-effort: temporary failure does not
+roll back message delivery, and the messaging outbox worker retries due
+`failed-retryable` vault jobs.
 
 ## Interaction With Existing Proposals
 

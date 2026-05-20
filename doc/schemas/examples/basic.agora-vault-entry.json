@@ -1,0 +1,23 @@
+{
+  "schema": "agora-vault-entry.v1",
+  "schema/v": 1,
+  "vault-entry/id": "agora-vault-entry:story010-recorded",
+  "artifact/id": "message:story010-recorded",
+  "artifact/kind": "message-envelope.v1",
+  "encryption": {
+    "profile": "agora-vault-entry.encrypted-artifact.v1",
+    "aead": "xchacha20-poly1305",
+    "key-wrap": "dev-key-commitment",
+    "nonce": "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0",
+    "aad/profile": "agora-vault-entry.outer-metadata.v1",
+    "ciphertext/sha256": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "key-envelopes": [
+      {
+        "key-envelope/id": "key-envelope:story010-b",
+        "recipient/hint": "recipient-0",
+        "wrapped-key": "d3JhcHBlZC1rZXk"
+      }
+    ]
+  },
+  "ciphertext": "Y2lwaGVydGV4dA"
+}

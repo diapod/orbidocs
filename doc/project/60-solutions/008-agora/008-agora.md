@@ -19,6 +19,13 @@ daemon (`http_local_json`-style executor), reachable on loopback, discovered
 by clients through the Node's host capability API under the capability id
 `agora.relay`.
 
+Agora also exposes a separate **Agora Vault** surface for encrypted opaque
+artifacts. Vault entries are not ordinary `agora-record.v1` records: they do
+not publish author, participant, nym, topic, or domain metadata. The public
+outer shape is `agora-vault-entry.v1`; it exposes only opaque artifact ids and
+the cryptographic envelope. Scoped list/get/delete are controlled by
+`agora-vault@v1` authority over an opaque `vault/subject`.
+
 ## Purpose
 
 The component is responsible for the solution-level execution path of:
@@ -41,9 +48,94 @@ Public contract artifacts:
 
 - `doc/project/60-solutions/008-agora/agora-record-relay.v1.openapi.yaml` is
   the canonical OpenAPI contract for the public Agora HTTP surface.
+- `agora-vault-entry.v1` and `agora-vault-ref.v1` define the generic encrypted
+  artifact vault and its sealed recovery reference.
 - `doc/project/60-solutions/008-agora/008-agora-backlog.md` is the granular
   solution-local implementation backlog for P-items that are too detailed for
   this overview.
+
+## Agora Vault
+
+Agora Vault is the encrypted-artifact sibling of the public Agora record
+relay. It is used when a component needs durable, admission-controlled storage
+and lookup by an opaque artifact id, but ordinary `agora-record.v1` would leak
+too much by design: author identity, participant or nym ids, topic keys, and
+domain metadata.
+
+Vault entries are schema-gated as `agora-vault-entry.v1`. The outer entry is
+intentionally small and may expose only:
+
+- `vault-entry/id`;
+- opaque `artifact/id`;
+- generic `artifact/kind`;
+- encryption envelope metadata;
+- ciphertext.
+
+The encrypted payload contains the artifact itself and all domain metadata.
+Agora MUST reject a vault entry that is not valid JSON, does not validate
+against `agora-vault-entry.v1`, contains plaintext payload fields, lacks
+ciphertext, or lacks at least one key envelope. The runtime currently accepts
+`xchacha20-poly1305` entries and validates the envelope at ingest and export
+boundaries. The MVP recorded-message writer may emit `key-wrap =
+"dev-key-commitment"`; that value is a non-recoverable development custody
+commitment to the discarded symmetric key, not recipient key wrapping. Durable
+recipient recovery requires `x25519-hkdf-sha256+xchacha20-poly1305`.
+
+The public lookup surface is:
+
+- `GET /v1/agora/vault-artifacts/{artifact_id}`.
+
+It returns ciphertext-bearing entries for the opaque artifact id and reports
+the public metadata class as `artifact/id`, `artifact/kind`, `vault-entry/id`,
+`encryption`, and `ciphertext`. It MUST NOT return `vault/subject`,
+participant ids, nym ids, author ids, topic keys, or plaintext payload
+metadata. The reference service filters public lookup entries to that public
+field set even though ingress schema validation already rejects known
+identity/topic metadata keys.
+
+Scoped vault operations are:
+
+- `POST /v1/agora/vaults/{vault_subject}/artifacts`;
+- `GET /v1/agora/vaults/{vault_subject}/artifacts`;
+- `GET /v1/agora/vaults/{vault_subject}/artifacts/{artifact_id}`;
+- `DELETE /v1/agora/vaults/{vault_subject}/artifacts/{artifact_id}`.
+
+`vault_subject` is opaque and currently must use the `agora-vault:` prefix
+with safe id characters. In the supervised local runtime these endpoints are
+gated by the Agora client token. Remote/provider deployments bind the same
+semantic operations to the `agora-vault@v1` capability/passport profile,
+scoped to the opaque `vault/subject` and allowed operations.
+
+The supervised service also exposes daemon-dispatchable host capability
+handlers:
+
+- `agora.vault.put`;
+- `agora.vault.list`;
+- `agora.vault.get`;
+- `agora.vault.delete`.
+
+The reference implementation stores entries in `agora-vault.v1.sqlite` with
+`(vault_subject, artifact_id)` as the scoped uniqueness boundary. Deletion is a
+soft delete: scoped get/list and public lookup ignore deleted entries. The
+same `artifact/id` may exist under more than one `vault_subject`; scoped
+list/get/delete remains subject-bound, while public lookup by artifact id may
+return ciphertext entries from every non-deleted matching subject without
+revealing those subjects.
+
+Recovery metadata is not stored in public Agora records. A node that needs to
+recover vault access seals `agora-vault-ref.v1` records into the Pseudonym
+Vault. Those refs bind a recovered participant or nym context to the opaque
+provider, `vault/subject`, capability references, and allowed artifact kinds.
+Possession of only a public participant id is not sufficient for list/get/delete.
+Recovery requires restored key or recovery material that can open the sealed
+vault reference.
+
+Recorded messaging is the first production profile that uses Agora Vault: a
+recorded `message-envelope.v1` is encrypted as a generic vault artifact and
+stored best-effort through `agora.vault.put`. Delivery of the message is not
+rolled back if the vault write is temporarily unavailable; the messaging layer
+tracks `vault.pending`, `vault.stored`, or failure/retry state and retries
+failed-retryable vault jobs from its outbox worker.
 
 ## Scope
 

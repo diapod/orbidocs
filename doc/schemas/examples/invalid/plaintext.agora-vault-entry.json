@@ -1,0 +1,10 @@
+{
+  "schema": "agora-vault-entry.v1",
+  "schema/v": 1,
+  "vault-entry/id": "agora-vault-entry:bad",
+  "artifact/id": "message:bad",
+  "artifact/kind": "message-envelope.v1",
+  "plaintext": {
+    "body": "this must not be public"
+  }
+}

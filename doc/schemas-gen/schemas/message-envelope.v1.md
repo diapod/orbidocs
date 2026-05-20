@@ -25,6 +25,8 @@ Private personal-message artifact carried by Artifact Delivery and admitted by t
 | [`envelope/id`](#field-envelope-id) | `yes` | string |  |
 | [`message/id`](#field-message-id) | `no` | string |  |
 | [`thread/id`](#field-thread-id) | `no` | string |  |
+| [`parent/message-id`](#field-parent-message-id) | `no` | string | Optional parent message id used by replies and forwards. It is independent from recording metadata so a receiver can reject a reply that drops a required recording flag. |
+| [`recording`](#field-recording) | `no` | object |  |
 | [`sender/subject`](#field-sender-subject) | `yes` | ref: `#/$defs/subject` |  |
 | [`receiver/route`](#field-receiver-route) | `yes` | ref: `#/$defs/subject` |  |
 | [`receiver/public-handle`](#field-receiver-public-handle) | `no` | ref: `#/$defs/public_handle` |  |
@@ -71,6 +73,20 @@ Private personal-message artifact carried by Artifact Delivery and admitted by t
 
 - Required: `no`
 - Shape: string
+
+<a id="field-parent-message-id"></a>
+## `parent/message-id`
+
+- Required: `no`
+- Shape: string
+
+Optional parent message id used by replies and forwards. It is independent from recording metadata so a receiver can reject a reply that drops a required recording flag.
+
+<a id="field-recording"></a>
+## `recording`
+
+- Required: `no`
+- Shape: object
 
 <a id="field-sender-subject"></a>
 ## `sender/subject`

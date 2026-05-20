@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-vault-entry:v1",
+  "title": "AgoraVaultEntry v1",
+  "description": "Generic encrypted Agora Vault artifact entry. The outer shape exposes only opaque artifact identifiers and cryptographic envelope metadata; plaintext artifact payload and domain metadata stay inside ciphertext.",
+  "type": "object",
+  "additionalProperties": false,
+  "propertyNames": {
+    "not": {
+      "pattern": "^(participant/id|participant-id|owner/participant-id|nym/id|routing-subject/id|topic/key|author/participant-id)$"
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/40-proposals/060-messaging-middleware.md",
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "vault-entry/id",
+    "artifact/id",
+    "artifact/kind",
+    "encryption",
+    "ciphertext"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-vault-entry.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "vault-entry/id": {
+      "type": "string",
+      "pattern": "^agora-vault-entry:[a-z0-9][a-z0-9:-]*$"
+    },
+    "artifact/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[a-z0-9][a-z0-9:._-]*$"
+    },
+    "artifact/kind": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]*\\.v[0-9]+$"
+    },
+    "encryption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "aead",
+        "key-wrap",
+        "nonce",
+        "ciphertext/sha256",
+        "key-envelopes"
+      ],
+      "properties": {
+        "profile": {
+          "type": "string",
+          "const": "agora-vault-entry.encrypted-artifact.v1"
+        },
+        "aead": {
+          "type": "string",
+          "enum": ["xchacha20-poly1305"]
+        },
+        "key-wrap": {
+          "type": "string",
+          "enum": ["x25519-hkdf-sha256+xchacha20-poly1305", "dev-key-commitment"]
+        },
+        "nonce": {
+          "$ref": "#/$defs/base64url"
+        },
+        "aad/profile": {
+          "type": "string",
+          "const": "agora-vault-entry.outer-metadata.v1"
+        },
+        "ciphertext/sha256": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "key-envelopes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["key-envelope/id", "recipient/hint", "wrapped-key"],
+            "properties": {
+              "key-envelope/id": {
+                "type": "string",
+                "pattern": "^key-envelope:[a-z0-9][a-z0-9:-]*$"
+              },
+              "recipient/hint": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "description": "Opaque local hint. It must not contain participant, nym, routing-subject, email, or phone identifiers."
+              },
+              "ephemeral/public": {
+                "$ref": "#/$defs/base64url"
+              },
+              "wrapped-key": {
+                "$ref": "#/$defs/base64url"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ciphertext": {
+      "$ref": "#/$defs/base64url"
+    }
+  },
+  "$defs": {
+    "base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    }
+  }
+}

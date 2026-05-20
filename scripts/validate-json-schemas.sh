@@ -122,6 +122,12 @@ schema_for_file() {
     *.message-envelope.json)
       echo "$SCHEMAS_DIR/message-envelope.v1.schema.json"
       ;;
+    *.agora-vault-entry.json)
+      echo "$SCHEMAS_DIR/agora-vault-entry.v1.schema.json"
+      ;;
+    *.agora-vault-ref.json)
+      echo "$SCHEMAS_DIR/agora-vault-ref.v1.schema.json"
+      ;;
     *.contacts.membership-changed.json)
       echo "$SCHEMAS_DIR/contacts.membership-changed.v1.schema.json"
       ;;

@@ -471,6 +471,13 @@ marked `privacy = private-direct` and labelled `classification.v1` with
 - any message id, threading id, timestamps, and content digest required by
   the messaging middleware.
 
+Story-010 now sends two delivered messages in this phase:
+
+1. Daniel's first message is the ordinary "I started using Orbiplex" message.
+2. Daniel's second message is marked recorded. Its `message-envelope.v1`
+   carries `recording.required = true`, and Daniel's client would preserve that
+   flag on replies or forwards derived from the recorded parent.
+
 Authorization is checked in two layers, matching the existing host-owned
 admission contract:
 
@@ -520,6 +527,7 @@ incoming message envelope
   -> Maildir body file                 (Layer 1: immutable per-message bytes)
   -> messaging-middleware SQLite index (Layer 2: rebuildable operational state)
   -> Memarium messaging facts          (Layer 3: bounded semantic/audit facts)
+  -> optional Agora Vault entry        (recorded messages only; best effort)
   -> inbox projection                  (read model fed by Layers 1+2)
 ```
 
@@ -527,6 +535,15 @@ incoming message envelope
 Maildir file under the messaging middleware's data directory. Bodies are
 immutable for the life of the message and are not part of Memarium custody by
 default; the file system is the right primitive for opaque per-message blobs.
+
+**Recorded-message side path.** When `recording.required = true`, the
+messaging service attempts a best-effort `agora.vault.put` after delivery or
+admission. The stored object is a generic `agora-vault-entry.v1`, not an
+`agora-record.v1`; public lookup is possible only by opaque `artifact/id`, and
+the returned value contains ciphertext and cryptographic envelope metadata, not
+participant, nym, topic, mailbox, or plaintext message metadata. Failure to
+store in Agora marks the message `vault.failed-retryable` but does not undo
+delivery.
 
 **Layer 2 — Messaging-middleware-owned SQLite index.** The middleware owns a
 local SQLite database (for example at `<data-dir>/messaging/index.sqlite`)
@@ -1534,8 +1551,10 @@ Already done:
   now covers attestation challenge/redeem, contactability publish,
   supervised Contact Catalog admission, shared lookup, contact request
   delivery, operator accept, `messaging-receive@v1` passport handoff,
-  private-direct `message-envelope.v1` delivery, and delivered
-  inbox/outbox state. The smoke report now also includes non-gating
+  private-direct `message-envelope.v1` delivery, delivered inbox/outbox
+  state, read/unread replay, and a second recorded message stored in
+  Node B's Agora Vault as an encrypted generic artifact. The smoke report now
+  also includes non-gating
   temporal diagnostics for Seed Directory and Messaging so operator
   storage/profile regressions are visible without making them a
   domain-story step (P060-035 `done`; see Solution 028 / Proposal 062)

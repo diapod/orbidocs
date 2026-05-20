@@ -42,6 +42,52 @@
       "type": "string",
       "minLength": 1
     },
+    "parent/message-id": {
+      "type": "string",
+      "pattern": "^message:[a-z0-9][a-z0-9:-]*$",
+      "description": "Optional parent message id used by replies and forwards. It is independent from recording metadata so a receiver can reject a reply that drops a required recording flag."
+    },
+    "recording": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "artifact/kind", "artifact/id"],
+      "properties": {
+        "required": {
+          "type": "boolean",
+          "const": true,
+          "description": "When present and true, recipients are informed that this message is intended for encrypted vault custody."
+        },
+        "artifact/kind": {
+          "type": "string",
+          "const": "message-envelope.v1",
+          "description": "Recorded messaging stores the signed message envelope as a generic Agora Vault artifact."
+        },
+        "artifact/id": {
+          "type": "string",
+          "pattern": "^(message|message-envelope):[a-z0-9][a-z0-9:-]*$",
+          "description": "Opaque artifact id used for Agora Vault lookup. It normally equals `message/id`."
+        },
+        "parent/artifact-id": {
+          "type": "string",
+          "pattern": "^(message|message-envelope):[a-z0-9][a-z0-9:-]*$",
+          "description": "Optional recorded parent message id for reply/forward lineage checks."
+        },
+        "policy/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "default": "recorded-message.v1"
+        },
+        "inherited": {
+          "type": "boolean",
+          "default": false
+        },
+        "vault/profile": {
+          "type": "string",
+          "const": "agora-vault-entry.v1"
+        }
+      }
+    },
     "sender/subject": {
       "$ref": "#/$defs/subject"
     },

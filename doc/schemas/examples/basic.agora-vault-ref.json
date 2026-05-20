@@ -1,0 +1,14 @@
+{
+  "schema": "agora-vault-ref.v1",
+  "schema/v": 1,
+  "ref/id": "agora-vault-ref:story010-node-b",
+  "agora/provider-ref": "agora-provider:story010-node-b",
+  "vault/subject": "agora-vault:story010-node-b",
+  "allowed/artifact-kinds": [
+    "message-envelope.v1"
+  ],
+  "capability/refs": [
+    "passport:capability:agora-vault-story010"
+  ],
+  "created/at": "2026-05-20T12:00:00Z"
+}
