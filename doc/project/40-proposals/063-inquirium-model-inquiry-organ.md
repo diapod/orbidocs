@@ -10,6 +10,9 @@ Based on:
 - `node:model-runtime/README.md`
 - `node:nse/README.md`
 
+Refined by:
+- `doc/project/40-proposals/064-inquirium-implementation-recommendations.md`
+
 ## Status
 
 Accepted
@@ -111,7 +114,17 @@ Inquirium is not responsible for:
 - becoming a general workflow engine;
 - giving models authority to mutate node state;
 - deciding crisis activation, routing, publication, or governance outcomes on
-  its own.
+  its own;
+- acting as a model marketplace or model discovery service;
+- acting as a retrieval/RAG system (context selection is a caller responsibility
+  or a separate stratum; Inquirium consumes prepared context);
+- acting as an agent orchestrator (a small Flow IR exists for multi-step
+  inference, but cross-domain agency lives in workflow/Arca/role middleware);
+- acting as a tool registry or tool authority (Inquirium consumes
+  `allowed/tools` from policy; it does not own the tool catalog);
+- acting as a training platform (`inquirium.train.adapt` is a bounded
+  operation that produces artifacts; lifecycle/governance of training programs
+  lives elsewhere).
 
 ### Runtime Boundary Decision
 
@@ -233,6 +246,18 @@ decision, destination policy, and operator or policy approval appropriate to the
 sensitivity class. Local trusted workers can use lighter leases, but they still
 must not receive ambient authority.
 
+#### Provider-managed conversation state
+
+Some providers retain conversation state, prompt cache, or KV cache on their
+side and offer "continue this session" semantics. Inquirium treats this as a
+distinct trust decision, not as a transparent optimization. A profile must
+explicitly declare `provider-managed-memory: allowed | denied` (default
+**denied**). Where allowed, the trace records that the provider holds
+session state, and retention/egress policy applies to the *fact that state
+exists at the provider*, not only to the local artifacts. A profile without
+this declaration falls back to per-call statelessness and forbids the
+runtime from using provider continuation APIs.
+
 ### Layering
 
 ```mermaid
@@ -292,6 +317,31 @@ Providers must not know Orbiplex domain semantics.
 | Runtime Adapter | The concrete protocol adapter for local HTTP, command stdio, remote HTTP API, or later transports. |
 | Provider Worker | A concrete server, process, or API implementing model execution. It is not an Orbiplex organ and does not own policy. |
 
+#### Responsibilities by Layer
+
+The most common implementation drift puts decisions in the wrong layer. The
+following matrix is the contract:
+
+| Decision / concern | Inquirium Core | model-runtime | Runtime adapter | Provider worker |
+| --- | --- | --- | --- | --- |
+| Caller capability + purpose grant | **owns** | — | — | — |
+| Operation semantics (`generate`, `embed`, …) | **owns** | — | — | — |
+| Policy: locality, egress, retention, trace | **owns** | reads | applies | — |
+| Profile selection (caller-requested or NSE) | **owns** | exposes candidates | — | — |
+| Request/result schema normalization | **owns** | — | maps to/from provider | — |
+| Audit/provenance/artifact manifest | **owns** | — | — | — |
+| Lifecycle, supervision, health probes | calls | **owns** | implements | — |
+| Resource ceilings, sandbox profile | enforces | **owns** | applies | runs under |
+| Transport mapping (HTTP, stdio, …) | — | calls | **owns** | — |
+| Provider protocol details, payload shape | — | — | **owns** | speaks |
+| Actual inference computation | — | — | dispatches | **owns** |
+
+The rule of thumb: if a decision concerns *what an inference act means* or
+*who may do it*, it belongs in Inquirium Core. If it concerns *how a process
+stays alive*, it belongs in model-runtime. If it concerns *which bytes go
+over which wire*, it belongs in the runtime adapter. Provider workers
+execute and return; they own no Orbiplex authority.
+
 ### Relationship to Sensorium
 
 Sensorium remains the sensorimotor contact surface with the world. Its
@@ -329,6 +379,13 @@ Middleware can consume Inquirium:
 This keeps middleware composition declarative while preventing each middleware
 from inventing its own provider adapter and retention policy.
 
+Inquirium requests carry the `correlation_id` of the calling workflow/saga
+(per the temporal storage convention in proposal 062) and propagate it into
+every emitted event (`request.started`, `runtime.selected`, `usage.metrics`,
+`artifact.produced`, …). This lets operators reconstruct a multi-component
+saga — e.g. Whisper intake → Inquirium summarize → Artifact Delivery — by
+joining on one identifier without per-component reconstruction logic.
+
 ### Public Capability Surface
 
 The first capability vocabulary should be small and verb-oriented:
@@ -337,7 +394,7 @@ The first capability vocabulary should be small and verb-oriented:
 | --- | --- |
 | `inquirium.generate` | Generate text or structured JSON from messages/context under a model profile. |
 | `inquirium.classify` | Classify an input against a bounded label set or schema. |
-| `inquirium.embed` | Produce embeddings under an embedding profile. |
+| `inquirium.embed` | Produce embeddings under an embedding profile. Embedding output inherits the retention/egress class of its input — vectors are a lossy encoding of source material, not neutral numbers, and are subject to the same disclosure boundary. |
 | `inquirium.summarize` | Produce a summary under an explicit summary contract. |
 | `inquirium.rerank` | Rank candidate items against a query or purpose. |
 | `inquirium.transform` | Apply a bounded structured transformation where generation is constrained by an output schema. |
@@ -449,6 +506,15 @@ profile or capability class. Inquirium may:
 The model selector should see redacted request metadata and candidate runtime
 metadata. It should not receive full prompt bodies unless explicitly allowed by
 the relevant trace/retention policy.
+
+Model identity is content-addressed, not name-addressed. A profile may
+declare `allowed-model-hashes[]` and/or `disallowed-model-hashes[]`; a
+runtime whose currently-loaded model reports a hash outside the allowed
+set produces a terminal `model-hash-denied` outcome, never a silent
+substitution. This is the explicit defense against the "same model id,
+different weights" failure mode where a provider rotates a model under a
+stable name. Inquirium does not assume that `model/id` alone identifies
+the artifact.
 
 ### Runtime Execution
 
@@ -613,6 +679,14 @@ model assistance, but the model domain no longer lives inside Sensorium.
    paths, object-store prefixes, artifact refs, query handles, or all of them?
 10. Which operation classes may use direct data-plane leases in MVP: batch
    embeddings, local post-training, large media transforms, or only one pilot?
+11. Which sensitivity-class taxonomy does Inquirium apply at the data
+   boundary, and where does that taxonomy live? Inquirium references
+   "sensitivity class", "data classification", and "retention profile"
+   repeatedly, but the canonical enumeration is a cross-cutting concern
+   (Memarium spaces, Pseudonym Vault classes, Whisper privacy levels). The
+   open decision is whether Inquirium imports an existing taxonomy by
+   reference, or whether a new node-wide data-classification proposal
+   becomes a prerequisite.
 
 ## Next Actions
 
