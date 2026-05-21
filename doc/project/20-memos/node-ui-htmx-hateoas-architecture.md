@@ -74,6 +74,23 @@ new runtime dependency is introduced.
 - **Deployment**: separate binary started by the launcher alongside the daemon,
   bound to loopback only.
 
+## Implementation Contract Location
+
+This memo records the architectural choice. Concrete developer contracts for
+the user-facing `node-ui` implementation live in `node:node-ui/README.md`.
+
+That README is the operational source for:
+
+- reusable user-UI primitives such as modal/backdrop fragments,
+- HTMX fragment conventions and stable swap targets,
+- first-run wizard extension points,
+- where to add new user UI routes, handlers, templates, CSS, and small JS
+  helpers.
+
+Keeping those details beside the crate avoids copying implementation mechanics
+into architecture notes. The architecture-level invariant remains: Node UI
+stays server-rendered, HATEOAS-led, and thin over daemon-owned state.
+
 ## Authtok Boundary
 
 The authtok must never reach the browser. The web server reads the authtok from

@@ -32,6 +32,14 @@ daemon HTTP control API and renders HTML fragments. HATEOAS is the navigational
 model. The daemon remains the sole authority; the web server holds no protocol
 state.
 
+Implementation-side UI contracts live with the `node-ui` crate rather than in
+this solution document. Reusable user-UI primitives, fragment contracts, wizard
+extension points, static asset conventions, and examples for adding new
+server-rendered screens are documented in `node:node-ui/README.md`. This keeps
+the solution layer focused on ownership and architecture while preserving a
+single operational source for developers changing concrete templates, handlers,
+and CSS/JS helpers.
+
 ## Middleware Operator UI Extensions
 
 The built-in Node UI should not need compile-time knowledge of every middleware
