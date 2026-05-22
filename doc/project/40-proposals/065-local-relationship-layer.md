@@ -214,7 +214,7 @@ Definition of a relationship class. Operator config, not a fact.
 ```text
 relationship-class.v1
   schema = "relationship-class.v1"
-  class/id                # "contacts" | "friends" | "blocked" | namespaced "vendor.example/book-club"
+  class/id                # "contacts" | "friends" | namespaced "vendor.example/book-club"
   class/state             # "active" | "archived"
   display/label           # operator-facing label
   description?
@@ -230,7 +230,11 @@ relationship-class.v1
 
 #### `relationship-class-changed.v1` (new — append-only event)
 
-Records every transition of a class definition: create, update, archive.
+Records every transition of a class definition: create, update, archive,
+and unarchive. Archive/unarchive are reversible operational lifecycle
+transitions, not deletion. Both require an explicit `reason/code`; archive
+captures only `prior/definition`, while unarchive captures both prior and
+next definition snapshots.
 The current `relationship-class.v1` is the mutable projection over this
 event log.
 
@@ -240,11 +244,11 @@ relationship-class-changed.v1
   fact/id
   class/id
   transition              # "created" | "updated" | "archived" | "unarchived"
-  prior/definition?       # full prior class definition snapshot (for updates/archives)
-  next/definition?        # full next class definition snapshot (for creates/updates/unarchives)
+  prior/definition?       # full prior class definition snapshot (for updates/archives/unarchives)
+  next/definition?        # full next class definition snapshot (for creates/updates/unarchives; absent for archives)
   actor/ref               # operator binding id
   event/at                # RFC3339
-  reason/code?
+  reason/code?            # required for archived/unarchived
   reason/note?
   tx/id                   # transaction id per Proposal 028
 ```
@@ -349,7 +353,7 @@ relationship-policy-predicate.v1
 `effect/scope` is mandatory. A predicate must always be paired with a
 *specific bounded effect*, never with general authority. "Friends may
 accept custody" is incomplete; "friends may accept custody under scope
-`bounded-custody:short-ttl`" is a complete predicate.
+`artifact.custody:short-ttl`" is a complete predicate.
 
 #### `relationship-policy-candidate.v1` (new — host-internal read model)
 
@@ -428,13 +432,15 @@ real authority still flows through capability/passport/admission.
 #### `local-contact.v1` (revised — ownership note only)
 
 The existing schema is preserved for backward compatibility. Its
-*semantic owner* moves to the Local Relationship Layer. The schema
-itself does not change in this iteration; only the schema documentation
-is updated to note:
+documentation is updated to make the split explicit:
 
-> Owner: Local Relationship Layer (Solution 032).  
-> Producer: daemon-internal relationship store API.  
-> Storage: Pseudonym Vault sealed inner entry of kind `local-relationship`.
+> Local Contact Store owns private contact records: raw handles, labels,
+> UX metadata, and contact-continuity annotations.
+> Local Relationship Layer owns relationship classes, membership facts,
+> relationship policy predicates, and pairwise relationship facts.
+
+That split keeps address-book material and relationship-policy material
+adjacent but not conflated.
 
 #### `pseudonym-vault.v1` (extended additively)
 
@@ -632,7 +638,7 @@ the daemon may handle without operator-in-the-loop:
 
 - **Custody acceptance**: AD inbound acceptor for memarium-custody@v1
   requires a predicate match (e.g. remote operator ∈ `friends` of local
-  operator, scoped to `bounded-custody`).
+  operator, scoped to `artifact.custody:short-ttl`).
 - **Crisis assist**: a dedicated `crisis.assist` action kind may use
   `friends`, `guardians`, or `trusted-anchor` as required class. The
   decision is made by a *specific crisis policy*, not by general
@@ -663,7 +669,7 @@ A package manifest may include:
       "required/class-id": "friends",
       "required/status": "active",
       "action/kind": "artifact.custody.accept",
-      "effect/scope": "bounded-custody:short-ttl",
+      "effect/scope": "artifact.custody:short-ttl",
       "failure/mode": "quarantine"
     }
   ]
@@ -698,7 +704,7 @@ Concretely, middleware receives:
   "predicate/ref": "accept-friend-custody",
   "decision": "allow",
   "action/kind": "artifact.custody.accept",
-  "effect/scope": "bounded-custody:short-ttl",
+  "effect/scope": "artifact.custody:short-ttl",
   "evidence/ref": ["...redacted..."]
 }
 ```
@@ -1043,27 +1049,19 @@ horizon. Eventual full removal after consumer audit.
 
 ## Tracking
 
-| ID | Work item | Status | Notes |
-|---|---|---|---|
-| P065-01 | Establish Local Relationship Layer as a distinct host-owned subsystem | draft | This proposal records the boundary. |
-| P065-02 | Define schemas: `relationship-class.v1` + `relationship-class-changed.v1` + `relationship-membership-fact.v1` + `pairwise-nym-binding-fact.v1` + `pairwise-nym-binding.v1` | todo | Class definition (mutable projection) + class change fact (append-only). Membership fact (append-only). Nym binding split into fact + projection. |
-| P065-03 | Extend `pseudonym-vault.v1` additively with `local-relationship` inner-entry kind | todo | Forward-compat, ignore-unknown-kinds rule. |
-| P065-04 | Implement `node/local-relationship-core` (pure) | todo | Types, validation, projection reducer, group resolver. |
-| P065-05 | Implement `LocalRelationshipStore` in daemon | todo | Vault-backed event log + SQLite projection per Solution 028. |
-| P065-06 | Implement Phase 2 bridge in Messaging | todo | Read new, write new + legacy; emit canonical + legacy facts. |
-| P065-07 | Implement bootstrap migration step | todo | One-shot at first start after deploy. |
-| P065-08 | Implement AD `resolve_group` resolver | todo | Translates `selector/kind = "group"` group/id into contact refs. |
-| P065-09 | Clean up Contact Catalog | todo | Remove `friends`, raw handles, local membership. |
-| P065-10 | Operator UI for class management | todo | List/create/archive classes; inspect memberships. |
-| P065-11 | Replay equivalence + privacy regression tests | todo | Per Solution 028 patterns + anti-leak regex. |
-| P065-12 | Phase 3 (writes fully migrated) | deferred | Future iteration; out of scope here. |
-| P065-13 | Phase 4 (legacy deprecation + retention) | deferred | Future iteration. |
-| P065-14 | Public protocol capability for federated consumers | deferred | Not in this iteration; local-authenticated host API only. |
-| P065-15 | SQLite projection encrypted-at-rest | todo | Cell-level AEAD with per-store key derived from vault. Phase 2 may temporarily allow `legacy_plaintext_cache` flag with operator warning. |
-| P065-16 | Read-model level enforcement (`sealed-only` / `operator-visible-summary` / `ui-row`) | todo | Consumers declare level; layer refuses higher detail. |
-| P065-17 | Default class seeds for `contacts` and `friends` | todo | Written via `relationship-class-changed.v1` at first start so seed is auditable. |
-| P065-18 | Define schemas: `relationship-policy-predicate.v1`, `relationship-policy-candidate.v1`, `relationship-policy-decision.v1` | todo | Three-tier separation: declarative condition, host-internal read model, host-bound decision. |
-| P065-19 | Implement host policy evaluator | todo | Composes predicate + membership + node-operator-binding + capability/passport evidence → typed decision. |
-| P065-20 | Middleware package manifest `trust_requirements` declaration mechanism | todo | Parser, operator approval flow, readiness gate enforcement, package install audit event. |
-| P065-21 | Node-operator-binding evidence integration | todo | Predicate evaluation consumes verified `node-operator-binding.v1`; no fallback to string-match on participant id. |
-| P065-22 | `owner/ref` on membership facts + multi-operator query scoping | todo | Default to node primary operator on single-operator nodes; explicit owner for multi-operator. |
+This tracker is milestone-shaped. M1-M6 are the MVP implementation
+slice for Solution 032. Deferred items are post-MVP and require a
+stable release window plus consumer audit before removal of legacy
+paths.
+
+| ID | Milestone | MVP scope | Status | Notes |
+|---|---|---:|---|---|
+| P065-M1 | Contracts | `true` | done | Added relationship class, class-change, membership, pairwise nym, predicate, candidate, and decision schemas; mirrored them to `node/protocol/contracts`; extended `pseudonym-vault.v1` with `local-relationship`; added positive/negative fixtures, including forbidden wildcard scopes and bare `blocked` as a class id. |
+| P065-M2 | Pure core | `true` | done | Added `node/local-relationship-core` with schema-shaped types, validators, replay reducers, active group resolver, predicate evaluator, node-operator-binding evidence checks, owner-scoped membership keys, and read-model filters. No I/O, daemon, SQLite, or async runtime dependency. |
+| P065-M3 | Storage + daemon API | `true` | planned | Next implementation step: daemon-owned `LocalRelationshipStore`, sealed vault event log, SQLite projection per Solution 028, local host capabilities, caller binding gate, default class seeds, and restart/rebuild replay equivalence. |
+| P065-M4 | Operator UI + trust requirements | `true` | planned | Operator class management, membership inspection, predicate approval, decision audit, middleware `trust_requirements[]` parser, readiness gate enforcement for unapproved requirements. |
+| P065-M5 | Messaging bridge + bootstrap migration | `true` | planned | One-shot idempotent migration from legacy contact membership, messaging reads from Relationship Layer, dual-write bridge to legacy cache, canonical relationship facts, legacy projection compatibility, multi-operator owner scoping. |
+| P065-M6 | AD integration + Contact Catalog cleanup + hardening | `true` | planned | AD `selector/kind = "group"` resolver, Contact Catalog public-discovery-only cleanup, privacy regression tests, encrypted projection enforcement, performance smoke, Story-010 and Story-005 cross-component acceptance. |
+| P065-D1 | Phase 3 writes fully migrated | `false` | deferred | Messaging stops writing the legacy table; legacy projection is emitted from the relationship event log only. |
+| P065-D2 | Phase 4 legacy deprecation | `false` | deferred | Legacy table and `contacts.membership-changed.v1` are marked deprecated and retained per Solution 028 horizon until all consumers are swept. |
+| P065-D3 | Public protocol capability | `false` | deferred | Local-authenticated host API remains the MVP boundary. A public/federated capability would need a separate threat model. |

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:relationship-policy-candidate:v1",
+  "title": "RelationshipPolicyCandidate v1",
+  "description": "Host-internal eligibility read model produced while evaluating relationship-derived policy. A candidate is diagnostic input, not authority.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/065-local-relationship-layer.md",
+    "doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "candidate/id",
+    "predicate/ref",
+    "contact/ref",
+    "class/id",
+    "relationship/fact-id",
+    "local/operator-ref",
+    "evidence/ref",
+    "action/kind",
+    "policy/ref",
+    "candidate/effects",
+    "limits",
+    "valid/until",
+    "decision/hint",
+    "as-of-tx/id"
+  ],
+  "properties": {
+    "schema": { "const": "relationship-policy-candidate.v1" },
+    "schema/v": { "const": 1 },
+    "candidate/id": { "type": "string", "pattern": "^relationship-policy-candidate:[a-z0-9][a-z0-9:-]*$" },
+    "predicate/ref": { "type": "string", "pattern": "^relationship-policy-predicate:[a-z0-9][a-z0-9:-]*$" },
+    "contact/ref": { "type": "string", "pattern": "^local-contact:[A-Za-z0-9_-]+$" },
+    "class/id": { "$ref": "relationship-class.v1.schema.json#/$defs/class_id" },
+    "relationship/fact-id": { "type": "string", "pattern": "^fact:relationship-membership:[a-z0-9][a-z0-9:-]*$" },
+    "local/operator-ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "remote/operator-ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "participant/ref": { "type": "string", "pattern": "^participant:" },
+    "node/ref": { "type": "string", "pattern": "^node:" },
+    "node-operator-binding/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "evidence/ref": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+    },
+    "action/kind": { "$ref": "relationship-policy-predicate.v1.schema.json#/$defs/action_kind" },
+    "policy/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "candidate/effects": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/candidate_effect" }
+    },
+    "limits": { "$ref": "relationship-policy-predicate.v1.schema.json#/$defs/limits" },
+    "valid/until": { "type": "string", "format": "date-time" },
+    "decision/hint": { "type": "string", "enum": ["eligible", "quarantine", "deny"] },
+    "as-of-tx/id": { "type": "string", "minLength": 1, "maxLength": 160 }
+  },
+  "$defs": {
+    "candidate_effect": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["effect/scope"],
+      "properties": {
+        "effect/scope": { "$ref": "relationship-policy-predicate.v1.schema.json#/$defs/effect_scope" },
+        "limits": { "$ref": "relationship-policy-predicate.v1.schema.json#/$defs/limits" }
+      }
+    }
+  }
+}

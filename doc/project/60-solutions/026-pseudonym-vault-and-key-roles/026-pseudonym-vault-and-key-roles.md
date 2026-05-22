@@ -93,9 +93,25 @@ Status:
 
 ### Ciphertext-Only Pseudonym Vault
 
+> **Cross-reference to Solution 032:** Solution 032 (Local Relationship
+> Layer) extends `pseudonym-vault.v1` additively with `local-relationship`
+> as an accepted plaintext inner-entry kind. The outer artifact remains
+> ciphertext-only per this section. The forward-compat contract for
+> unknown inner-entry kinds is: readers MAY ignore unknown kinds;
+> importers/resealers MUST preserve unknown entries verbatim;
+> `critical = true` entries fail closed on unknown kind; integrity
+> violations always fail closed regardless of `critical` flag.
+>
+> This makes the vault the canonical home for sealed relationship state
+> (classes, membership facts, pairwise nym bindings, predicate decisions
+> audit). Recovery bundle (this solution §Role-Aware Participant Recovery
+> Bundle) automatically includes relationship state with no further
+> change to recovery semantics.
+
 Based on:
 
 - `doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md`
+- `doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md`
 
 Related schemas:
 
@@ -110,13 +126,19 @@ Responsibilities:
   as valid salt, nonce length, non-empty ciphertext, AEAD integrity, and stable
   AAD profile;
 - store snapshots with `vault/version` and `supersedes` lineage;
-- reject rollback imports and concurrent higher-version conflicts.
+- reject rollback imports and concurrent higher-version conflicts;
+- accept `local-relationship` inner-entry kind additively; preserve unknown
+  inner-entry kinds verbatim on reseal (Solution 032 forward-compat rule).
 
 Status:
 
 - `done` — Node mirrors the schema, gates import/export, stores sealed
   snapshots under the identity storage boundary, and enforces single-writer
   latest semantics with rollback and conflict rejection.
+- `done for Solution 032 M1` — additive `local-relationship` inner-entry
+  kind and forward-compat unknown-kind preservation rule are schema-gated and
+  implemented in the Node pseudonym-vault crate. Daemon-owned relationship
+  event-log storage remains Solution 032 M3 work.
 
 ### Local Nym and Routing-Subject Creation
 

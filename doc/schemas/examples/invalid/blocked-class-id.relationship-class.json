@@ -1,0 +1,9 @@
+{
+  "schema": "relationship-class.v1",
+  "schema/v": 1,
+  "class/id": "blocked",
+  "class/state": "active",
+  "display/label": "Blocked",
+  "default/status": "blocked",
+  "privacy/profile": "sealed-only"
+}

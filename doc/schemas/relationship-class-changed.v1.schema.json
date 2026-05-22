@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:relationship-class-changed:v1",
+  "title": "RelationshipClassChanged v1",
+  "description": "Append-only local fact recording a relationship class definition transition.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/065-local-relationship-layer.md",
+    "doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md"
+  ],
+  "required": ["schema", "schema/v", "fact/id", "class/id", "transition", "actor/ref", "event/at", "tx/id"],
+  "allOf": [
+    {
+      "if": { "properties": { "transition": { "const": "created" } }, "required": ["transition"] },
+      "then": {
+        "required": ["next/definition"],
+        "not": { "required": ["prior/definition"] }
+      }
+    },
+    {
+      "if": { "properties": { "transition": { "const": "updated" } }, "required": ["transition"] },
+      "then": { "required": ["prior/definition", "next/definition"] }
+    },
+    {
+      "if": { "properties": { "transition": { "const": "archived" } }, "required": ["transition"] },
+      "then": {
+        "required": ["prior/definition", "reason/code"],
+        "not": { "required": ["next/definition"] }
+      }
+    },
+    {
+      "if": { "properties": { "transition": { "const": "unarchived" } }, "required": ["transition"] },
+      "then": { "required": ["prior/definition", "next/definition", "reason/code"] }
+    }
+  ],
+  "properties": {
+    "schema": { "const": "relationship-class-changed.v1" },
+    "schema/v": { "const": 1 },
+    "fact/id": { "type": "string", "pattern": "^fact:relationship-class-changed:[a-z0-9][a-z0-9:-]*$" },
+    "class/id": { "$ref": "relationship-class.v1.schema.json#/$defs/class_id" },
+    "transition": { "type": "string", "enum": ["created", "updated", "archived", "unarchived"] },
+    "prior/definition": { "$ref": "relationship-class.v1.schema.json" },
+    "next/definition": { "$ref": "relationship-class.v1.schema.json" },
+    "actor/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "event/at": { "type": "string", "format": "date-time" },
+    "reason/code": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "reason/note": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "tx/id": { "type": "string", "minLength": 1, "maxLength": 160 }
+  }
+}

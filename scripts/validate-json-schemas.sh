@@ -164,6 +164,30 @@ schema_for_file() {
     *.pseudonym-vault.json)
       echo "$SCHEMAS_DIR/pseudonym-vault.v1.schema.json"
       ;;
+    *.relationship-class.json)
+      echo "$SCHEMAS_DIR/relationship-class.v1.schema.json"
+      ;;
+    *.relationship-class-changed.json)
+      echo "$SCHEMAS_DIR/relationship-class-changed.v1.schema.json"
+      ;;
+    *.relationship-membership-fact.json)
+      echo "$SCHEMAS_DIR/relationship-membership-fact.v1.schema.json"
+      ;;
+    *.pairwise-nym-binding-fact.json)
+      echo "$SCHEMAS_DIR/pairwise-nym-binding-fact.v1.schema.json"
+      ;;
+    *.pairwise-nym-binding.json)
+      echo "$SCHEMAS_DIR/pairwise-nym-binding.v1.schema.json"
+      ;;
+    *.relationship-policy-predicate.json)
+      echo "$SCHEMAS_DIR/relationship-policy-predicate.v1.schema.json"
+      ;;
+    *.relationship-policy-candidate.json)
+      echo "$SCHEMAS_DIR/relationship-policy-candidate.v1.schema.json"
+      ;;
+    *.relationship-policy-decision.json)
+      echo "$SCHEMAS_DIR/relationship-policy-decision.v1.schema.json"
+      ;;
     *.node-advertisement.json)
       echo "$SCHEMAS_DIR/node-advertisement.v1.schema.json"
       ;;

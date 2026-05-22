@@ -1,0 +1,18 @@
+{
+  "schema": "pseudonym-vault.v1",
+  "schema/v": 1,
+  "vault/id": "pseudonym-vault:01jzrelationship001",
+  "vault/version": 1,
+  "vault/profile": "participant-private-pseudonyms",
+  "contents/kinds": ["local-relationship"],
+  "created-at": "2026-05-22T10:00:00Z",
+  "sealed-at": "2026-05-22T10:00:01Z",
+  "crypto/kdf": "hkdf-sha256",
+  "crypto/aead": "xchacha20-poly1305",
+  "crypto/wrap-purpose": "participant/vault-wrap",
+  "crypto/aad-profile": "pseudonym-vault.outer-metadata.v1",
+  "salt": "MTIzNDU2Nzg5MGFiY2RlZg",
+  "nonce": "MTIzNDU2Nzg5MGFiY2RlZjEyMzQ1Njc4",
+  "ciphertext": "Y2lwaGVydGV4dA",
+  "ciphertext/digest": "sha256:305531dcc50ebca31cf1d5b31e9fc76ed51f66b3b6dd5a030c6539ae6532f979"
+}

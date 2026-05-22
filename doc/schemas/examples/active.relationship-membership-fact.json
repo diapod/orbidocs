@@ -1,0 +1,14 @@
+{
+  "schema": "relationship-membership-fact.v1",
+  "schema/v": 1,
+  "fact/id": "fact:relationship-membership:01jzalicefriends",
+  "owner/ref": "operator-binding:primary",
+  "contact/ref": "local-contact:alice",
+  "class/id": "friends",
+  "status": "active",
+  "actor/ref": "operator-binding:primary",
+  "event/at": "2026-05-22T10:01:00Z",
+  "tx/id": "tx:local-relationship:01jzalicefriends",
+  "reason/code": "user-action",
+  "context/ref": "operator-ui"
+}

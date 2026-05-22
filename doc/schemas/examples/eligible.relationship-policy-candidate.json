@@ -1,0 +1,35 @@
+{
+  "schema": "relationship-policy-candidate.v1",
+  "schema/v": 1,
+  "candidate/id": "relationship-policy-candidate:alice-friend-custody",
+  "predicate/ref": "relationship-policy-predicate:accept-friend-custody",
+  "contact/ref": "local-contact:alice",
+  "class/id": "friends",
+  "relationship/fact-id": "fact:relationship-membership:01jzalicefriends",
+  "local/operator-ref": "operator-binding:primary",
+  "remote/operator-ref": "operator-binding:alice",
+  "participant/ref": "participant:did:key:z6MkAlice",
+  "node/ref": "node:did:key:z6MkAliceNode",
+  "node-operator-binding/ref": "node-operator-binding:remote-alice",
+  "evidence/ref": ["node-operator-binding:remote-alice", "fact:relationship-membership:01jzalicefriends"],
+  "action/kind": "artifact.custody.accept",
+  "policy/ref": "relationship-policy:friend-custody",
+  "candidate/effects": [
+    {
+      "effect/scope": "artifact.custody:short-ttl",
+      "limits": {
+        "ttl/seconds": 3600,
+        "target/spaces": ["community"],
+        "artifact/schemas": ["memarium-blob.v1"]
+      }
+    }
+  ],
+  "limits": {
+    "ttl/seconds": 3600,
+    "target/spaces": ["community"],
+    "artifact/schemas": ["memarium-blob.v1"]
+  },
+  "valid/until": "2026-05-22T11:00:00Z",
+  "decision/hint": "eligible",
+  "as-of-tx/id": "tx:local-relationship:01jzalicefriends"
+}

@@ -1198,6 +1198,29 @@ its own to store arbitrary unknown artifacts in Memarium. Opaque storage is only
 valid when the envelope kind itself is the contract, such as `memarium-blob.v1`,
 or when a configured custody acceptor explicitly owns that policy.
 
+### Relationship to Local Relationship Layer
+
+Selector `kind = "group"` is resolved against Solution 032 (Local
+Relationship Layer). Artifact Delivery calls
+`local-relationship.group.resolve(group_id)` and receives a list of
+`ResolvedRelationshipCandidate` records carrying `contact/ref`,
+`class/id`, `relationship/fact-id`, and optional route hints. **AD does
+not know what `friends` or `contacts` mean** — it only consumes resolved
+candidates and applies its own passport/capability checks against each.
+
+Group resolution is candidate selection, never authorization.
+Relationship membership is one input to AD policy; the actual delivery
+authority still flows through passports, outbound allows, and admission
+gates. AD inbound acceptors may additionally require relationship-policy
+predicates for autonomous custody / acceptance decisions; the predicate
+evaluator returns a `relationship-policy-decision.v1` that AD treats as
+one decision input alongside its existing checks.
+
+Where Recipient Selector tables and examples in this document mention
+groups like `friends` as illustrative names, the actual class semantics
+live in Solution 032; this document references them but does not own
+them.
+
 ## Must Implement
 
 ### Host-Owned Artifact Delivery Runtime

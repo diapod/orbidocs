@@ -99,13 +99,11 @@
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": [
-          "nym",
-          "routing-subject",
-          "local-contact-recovery"
-        ]
+        "minLength": 1,
+        "maxLength": 120,
+        "pattern": "^[a-z][a-z0-9.-]*(?:/[a-z][a-z0-9.-]*)*$"
       },
-      "description": "Coarse encrypted content class. Specific ids and handles remain inside ciphertext."
+      "description": "Coarse encrypted content class. Known kinds include `nym`, `routing-subject`, `local-contact-recovery`, and `local-relationship`. Readers MAY ignore unknown kinds, but importers and resealers MUST preserve unknown plaintext entries verbatim unless an unknown entry is marked critical."
     },
     "created-at": {
       "type": "string",

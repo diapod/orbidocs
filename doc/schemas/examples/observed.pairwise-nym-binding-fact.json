@@ -1,0 +1,13 @@
+{
+  "schema": "pairwise-nym-binding-fact.v1",
+  "schema/v": 1,
+  "fact/id": "fact:pairwise-nym-binding:01jzaliceobserved",
+  "contact/ref": "local-contact:alice",
+  "context/kind": "messaging",
+  "event/kind": "observed",
+  "nym/value": "contact-nym:alice-2026",
+  "event/at": "2026-05-22T10:02:00Z",
+  "detected/by": "messaging",
+  "evidence/ref": "message:alice:first",
+  "tx/id": "tx:local-relationship:01jzaliceobserved"
+}

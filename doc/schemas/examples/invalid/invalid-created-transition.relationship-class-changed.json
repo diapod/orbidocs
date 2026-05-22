@@ -1,0 +1,19 @@
+{
+  "schema": "relationship-class-changed.v1",
+  "schema/v": 1,
+  "fact/id": "fact:relationship-class-changed:invalidcreated",
+  "class/id": "friends",
+  "transition": "created",
+  "prior/definition": {
+    "schema": "relationship-class.v1",
+    "schema/v": 1,
+    "class/id": "friends",
+    "class/state": "active",
+    "display/label": "Friends",
+    "default/status": "active",
+    "privacy/profile": "sealed-only"
+  },
+  "actor/ref": "operator-binding:primary",
+  "event/at": "2026-05-22T10:00:00Z",
+  "tx/id": "tx:local-relationship:invalidcreated"
+}

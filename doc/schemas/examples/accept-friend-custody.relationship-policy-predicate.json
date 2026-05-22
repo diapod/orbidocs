@@ -1,0 +1,21 @@
+{
+  "schema": "relationship-policy-predicate.v1",
+  "schema/v": 1,
+  "predicate/id": "relationship-policy-predicate:accept-friend-custody",
+  "predicate/kind": "operator-relationship-class",
+  "local/operator-ref": "operator-binding:primary",
+  "remote/operator-binding-ref": "node-operator-binding:remote-alice",
+  "required/class-id": "friends",
+  "required/status": "active",
+  "action/kind": "artifact.custody.accept",
+  "effect/scope": "artifact.custody:short-ttl",
+  "ttl": 3600,
+  "failure/mode": "quarantine",
+  "declared/by": "middleware-package:memarium-custody",
+  "limits": {
+    "ttl/seconds": 3600,
+    "target/spaces": ["community"],
+    "artifact/schemas": ["memarium-blob.v1"],
+    "size/max-bytes": 1048576
+  }
+}

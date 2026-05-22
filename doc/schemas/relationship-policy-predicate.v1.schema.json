@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:relationship-policy-predicate:v1",
+  "title": "RelationshipPolicyPredicate v1",
+  "description": "Declarative relationship-derived policy requirement. Predicates are conditions the host evaluates; they are not authority grants.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/065-local-relationship-layer.md",
+    "doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "predicate/id",
+    "predicate/kind",
+    "required/class-id",
+    "required/status",
+    "action/kind",
+    "effect/scope",
+    "failure/mode",
+    "declared/by"
+  ],
+  "properties": {
+    "schema": { "const": "relationship-policy-predicate.v1" },
+    "schema/v": { "const": 1 },
+    "predicate/id": { "type": "string", "pattern": "^relationship-policy-predicate:[a-z0-9][a-z0-9:-]*$" },
+    "predicate/kind": { "type": "string", "enum": ["operator-relationship-class"] },
+    "local/operator-ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "remote/operator-binding-ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "required/class-id": { "$ref": "relationship-class.v1.schema.json#/$defs/class_id" },
+    "required/status": { "$ref": "relationship-membership-fact.v1.schema.json#/$defs/membership_status" },
+    "action/kind": { "$ref": "#/$defs/action_kind" },
+    "effect/scope": { "$ref": "#/$defs/effect_scope" },
+    "ttl": { "type": "integer", "minimum": 1 },
+    "failure/mode": { "type": "string", "enum": ["deny", "require-operator", "quarantine"] },
+    "declared/by": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "limits": { "$ref": "#/$defs/limits" }
+  },
+  "$defs": {
+    "action_kind": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^[a-z][a-z0-9.-]*(?:/[a-z][a-z0-9.-]*)*$"
+    },
+    "effect_scope": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 160,
+      "pattern": "^(?!any$)(?!all$)(?!unbounded$)(?![*]$)[a-z][a-z0-9.-]*(?:/[a-z][a-z0-9.-]*)*:[a-z][a-z0-9.-]*$"
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "ttl/seconds": { "type": "integer", "minimum": 1 },
+        "target/spaces": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1, "maxLength": 120 }
+        },
+        "artifact/schemas": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1, "maxLength": 160 }
+        },
+        "size/max-bytes": { "type": "integer", "minimum": 1 },
+        "quota/max-count": { "type": "integer", "minimum": 1 },
+        "route/constraints": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1, "maxLength": 160 }
+        }
+      }
+    }
+  }
+}

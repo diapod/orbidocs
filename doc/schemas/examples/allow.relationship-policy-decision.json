@@ -1,0 +1,16 @@
+{
+  "schema": "relationship-policy-decision.v1",
+  "schema/v": 1,
+  "decision/id": "relationship-policy-decision:alice-friend-custody",
+  "predicate/ref": "relationship-policy-predicate:accept-friend-custody",
+  "candidate/ref": "relationship-policy-candidate:alice-friend-custody",
+  "decision": "allow",
+  "reason/code": "matched",
+  "action/kind": "artifact.custody.accept",
+  "effect/scope": "artifact.custody:short-ttl",
+  "evidence/ref": ["node-operator-binding:remote-alice", "fact:relationship-membership:01jzalicefriends"],
+  "valid/until": "2026-05-22T11:00:00Z",
+  "decided/by": "daemon:local-relationship-policy",
+  "decided/at": "2026-05-22T10:03:00Z",
+  "tx/id": "tx:local-relationship:01jzdecision"
+}

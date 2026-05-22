@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:relationship-class:v1",
+  "title": "RelationshipClass v1",
+  "description": "Operator-defined local relationship class definition. A class is policy metadata and never authority by itself.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/065-local-relationship-layer.md",
+    "doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "class/id",
+    "class/state",
+    "display/label",
+    "default/status",
+    "privacy/profile"
+  ],
+  "properties": {
+    "schema": { "const": "relationship-class.v1" },
+    "schema/v": { "const": 1 },
+    "class/id": { "$ref": "#/$defs/class_id" },
+    "class/state": { "type": "string", "enum": ["active", "archived"] },
+    "display/label": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "description": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "default/status": {
+      "type": "string",
+      "enum": ["active", "pending-outgoing", "pending-incoming", "blocked", "revoked"]
+    },
+    "grant-policy/default-allowlist": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/capability_id" },
+      "description": "Capabilities host policy may consider for members. This is not an automatic grant."
+    },
+    "grant-policy/suggested-defaults": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/capability_id" },
+      "description": "Suggested capabilities requiring explicit operator confirmation."
+    },
+    "grant-allowlist": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/capability_id" }
+    },
+    "verification/required": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 160 }
+    },
+    "privacy/profile": {
+      "type": "string",
+      "enum": ["sealed-only", "operator-visible-summary", "public-aggregate"]
+    },
+    "retention/profile-ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "policy/refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+    }
+  },
+  "$defs": {
+    "class_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^(?!blocked$)(?:[a-z][a-z0-9.-]*/)?[a-z][a-z0-9-]*$"
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[~]?[a-z0-9][a-z0-9_./-]*(?:@[a-z]+:did:key:z[1-9A-HJ-NP-Za-km-z]+)?$"
+    }
+  }
+}

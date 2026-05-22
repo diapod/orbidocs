@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:pairwise-nym-binding:v1",
+  "title": "PairwiseNymBinding v1",
+  "description": "Current sealed projection of pairwise nym continuity reduced from pairwise-nym-binding-fact.v1 events.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/065-local-relationship-layer.md",
+    "doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md"
+  ],
+  "required": ["schema", "schema/v", "contact/ref", "context/kind", "nym/current", "nym/history", "as-of-tx/id"],
+  "properties": {
+    "schema": { "const": "pairwise-nym-binding.v1" },
+    "schema/v": { "const": 1 },
+    "contact/ref": { "type": "string", "pattern": "^local-contact:[A-Za-z0-9_-]+$" },
+    "context/kind": { "$ref": "pairwise-nym-binding-fact.v1.schema.json#/$defs/context_kind" },
+    "context/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "nym/current": { "type": ["string", "null"], "minLength": 1, "maxLength": 256 },
+    "nym/history": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/history_entry" }
+    },
+    "as-of-tx/id": { "type": "string", "minLength": 1, "maxLength": 160 }
+  },
+  "$defs": {
+    "history_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nym", "observed-at"],
+      "properties": {
+        "nym": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "observed-at": { "type": "string", "format": "date-time" },
+        "retired-at": { "type": "string", "format": "date-time" },
+        "retired-by-fact-id": { "type": "string", "pattern": "^fact:pairwise-nym-binding:[a-z0-9][a-z0-9:-]*$" }
+      }
+    }
+  }
+}

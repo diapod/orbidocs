@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:relationship-policy-decision:v1",
+  "title": "RelationshipPolicyDecision v1",
+  "description": "Host-bound decision for a concrete relationship-derived policy evaluation. This is the only relationship policy object returned to middleware.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/065-local-relationship-layer.md",
+    "doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "decision/id",
+    "predicate/ref",
+    "decision",
+    "reason/code",
+    "action/kind",
+    "effect/scope",
+    "evidence/ref",
+    "valid/until",
+    "decided/by",
+    "decided/at",
+    "tx/id"
+  ],
+  "properties": {
+    "schema": { "const": "relationship-policy-decision.v1" },
+    "schema/v": { "const": 1 },
+    "decision/id": { "type": "string", "pattern": "^relationship-policy-decision:[a-z0-9][a-z0-9:-]*$" },
+    "predicate/ref": { "type": "string", "pattern": "^relationship-policy-predicate:[a-z0-9][a-z0-9:-]*$" },
+    "candidate/ref": {
+      "type": ["string", "null"],
+      "pattern": "^relationship-policy-candidate:[a-z0-9][a-z0-9:-]*$"
+    },
+    "decision": { "type": "string", "enum": ["allow", "deny", "quarantine", "require-operator"] },
+    "reason/code": {
+      "type": "string",
+      "enum": [
+        "matched",
+        "no-binding",
+        "no-membership",
+        "status-mismatch",
+        "scope-conflict",
+        "expired-evidence",
+        "caller-not-authorized",
+        "operator-approval-required",
+        "policy-denied"
+      ]
+    },
+    "action/kind": { "$ref": "relationship-policy-predicate.v1.schema.json#/$defs/action_kind" },
+    "effect/scope": { "$ref": "relationship-policy-predicate.v1.schema.json#/$defs/effect_scope" },
+    "evidence/ref": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+    },
+    "valid/until": { "type": "string", "format": "date-time" },
+    "decided/by": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "decided/at": { "type": "string", "format": "date-time" },
+    "tx/id": { "type": "string", "minLength": 1, "maxLength": 160 }
+  }
+}

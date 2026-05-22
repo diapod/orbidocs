@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:local-contact:v1",
   "title": "LocalContact v1",
-  "description": "Daemon-local address-book and contact continuity record. It is never published as a Contact Catalog claim and may contain raw handles, labels, UX metadata, and pairwise routing continuity state.",
+  "description": "Daemon-local address-book and contact continuity record. It is never published as a Contact Catalog claim and may contain raw handles, labels, UX metadata, and pairwise routing continuity state. Ownership note: Local Contact Store owns private contact records; Local Relationship Layer owns classes, memberships, relationship policy predicates, and pairwise relationship facts.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",

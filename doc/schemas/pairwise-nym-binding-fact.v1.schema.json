@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:pairwise-nym-binding-fact:v1",
+  "title": "PairwiseNymBindingFact v1",
+  "description": "Append-only local event recording observed pairwise nym continuity for one contact and context.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/065-local-relationship-layer.md",
+    "doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md"
+  ],
+  "required": ["schema", "schema/v", "fact/id", "contact/ref", "context/kind", "event/kind", "nym/value", "event/at", "detected/by", "tx/id"],
+  "properties": {
+    "schema": { "const": "pairwise-nym-binding-fact.v1" },
+    "schema/v": { "const": 1 },
+    "fact/id": { "type": "string", "pattern": "^fact:pairwise-nym-binding:[a-z0-9][a-z0-9:-]*$" },
+    "contact/ref": { "type": "string", "pattern": "^local-contact:[A-Za-z0-9_-]+$" },
+    "context/kind": { "$ref": "#/$defs/context_kind" },
+    "context/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "event/kind": { "type": "string", "enum": ["observed", "rotated-into", "retired"] },
+    "nym/value": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "prior/nym": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "event/at": { "type": "string", "format": "date-time" },
+    "detected/by": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "evidence/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "tx/id": { "type": "string", "minLength": 1, "maxLength": 160 }
+  },
+  "$defs": {
+    "context_kind": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9.-]*(?:/[a-z][a-z0-9.-]*)*$"
+    }
+  }
+}

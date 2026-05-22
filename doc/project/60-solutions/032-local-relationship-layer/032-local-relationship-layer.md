@@ -154,8 +154,12 @@ All schemas land in `orbidocs/doc/schemas` with mirror under
   `grant-policy/*` never grants automatically.
 
 - `relationship-class-changed.v1` — append-only event for every class
-  create/update/archive/unarchive transition; carries prior + next class
-  snapshot. UI reads class projection; audit reads this fact stream.
+  create/update/archive/unarchive transition. Create/update/unarchive
+  carry the next class snapshot; update/archive/unarchive carry the prior
+  snapshot. Archive and unarchive require `reason/code`, and archive
+  forbids `next/definition` so the audit event is an explicit lifecycle
+  transition rather than an implicit definition rewrite. UI reads class
+  projection; audit reads this fact stream.
 
 ### Membership facts (append-only)
 
@@ -211,9 +215,11 @@ All schemas land in `orbidocs/doc/schemas` with mirror under
 
 ### Existing schemas with documentation-only changes
 
-- `local-contact.v1` — schema unchanged. Owner documentation updated to
-  "Local Relationship Layer; produced by daemon-internal relationship
-  store API; stored as vault inner entry of kind `local-relationship`".
+- `local-contact.v1` — schema unchanged. Documentation now states the
+  boundary explicitly: Local Contact Store owns private contact records
+  (raw handles, labels, UX metadata); Local Relationship Layer owns
+  classes, memberships, policy predicates, and pairwise relationship
+  facts.
 
 ## Read Models and Redaction Levels
 
@@ -381,10 +387,10 @@ participant-participant relationship  (local relationship layer)
 
 | Action kind | Required class (example) | Bounded effect scope |
 | --- | --- | --- |
-| `artifact.custody.accept` | `friends` | `bounded-custody:short-ttl` |
+| `artifact.custody.accept` | `friends` | `artifact.custody:short-ttl` |
 | `crisis.assist` | `guardians` or `friends` | `crisis:assist-bounded` |
-| `gossip.accept` | `contacts` | `quarantine-queue-only` |
-| `attestation.accept-routing-hint` | `friends` | `routing-hint-only` |
+| `gossip.accept` | `contacts` | `gossip:quarantine-only` |
+| `attestation.accept-routing-hint` | `friends` | `routing:hint-only` |
 
 `effect/scope` is mandatory and unique per action-kind family. Scopes do
 not compose; "friend" for custody is not "friend" for crisis.
@@ -402,7 +408,7 @@ Middleware declares requirements, not decisions. Package manifest:
       "required/class-id": "friends",
       "required/status": "active",
       "action/kind": "artifact.custody.accept",
-      "effect/scope": "bounded-custody:short-ttl",
+      "effect/scope": "artifact.custody:short-ttl",
       "failure/mode": "quarantine"
     }
   ]
@@ -431,7 +437,7 @@ Middleware sees decision objects only:
   "decision": "allow",
   "predicate/ref": "accept-friend-custody",
   "action/kind": "artifact.custody.accept",
-  "effect/scope": "bounded-custody:short-ttl",
+  "effect/scope": "artifact.custody:short-ttl",
   "evidence/ref": ["...redacted..."]
 }
 ```
@@ -609,12 +615,28 @@ catch up.
 
 ## Tracking
 
+### MVP Milestones
+
+| ID | Milestone | Status | Notes |
+| --- | --- | --- | --- |
+| S032-M1 | Contracts | done | Schemas are present in `orbidocs/doc/schemas`, mirrored into `node/protocol/contracts`, schema-gated with positive/negative fixtures, and include the additive `pseudonym-vault.v1` `local-relationship` kind plus unknown-kind preserve/fail-closed rules. |
+| S032-M2 | Pure core | done | `node/local-relationship-core` provides schema-shaped types, validators, reducers, active group resolution, relationship-derived predicate evaluation, owner-scoped membership keys, and read-model filters without I/O or daemon coupling. |
+| S032-M3 | Storage + daemon API | planned | Daemon-owned sealed `LocalRelationshipStore`, SQLite projection, local host capabilities, caller binding gate, seed classes, and restart replay/rebuild checks. |
+| S032-M4 | Operator UI + trust requirements | planned | Class editor, membership inspector, predicate approval, decision audit, `trust_requirements[]` manifest parser, and readiness gate for unapproved requirements. |
+| S032-M5 | Messaging bridge + bootstrap migration | planned | Idempotent migration from legacy contact membership, messaging read bridge, dual-write compatibility cache, canonical relationship facts, and multi-operator owner scoping. |
+| S032-M6 | AD integration + Contact Catalog cleanup + hardening | planned | AD group resolver, Contact Catalog private-state cleanup, privacy/performance hardening, encrypted projection enforcement, and cross-component acceptance coverage. |
+| S032-D1 | Phase 3 writes fully migrated | deferred | Post-MVP: messaging stops writing legacy tables directly. |
+| S032-D2 | Phase 4 legacy deprecation | deferred | Post-MVP: legacy table and fact deprecation after consumer audit. |
+| S032-D3 | Public protocol capability | deferred | Post-MVP only; the MVP boundary remains local-authenticated host API. |
+
+### Capability Tracker
+
 | ID | Work item | Status | Notes |
 | --- | --- | --- | --- |
-| S032-01 | Schema set: `relationship-class.v1` + `relationship-class-changed.v1` + `relationship-membership-fact.v1` + `pairwise-nym-binding-fact.v1` + `pairwise-nym-binding.v1` | todo | Mutable class projection + append-only class change events + append-only membership + nym binding split into fact + projection. |
-| S032-02 | Schema set: `relationship-policy-predicate.v1` + `relationship-policy-candidate.v1` + `relationship-policy-decision.v1` | todo | Three-tier separation: declarative condition, host-internal read model, host-bound decision. |
-| S032-03 | Extend `pseudonym-vault.v1` additively with `local-relationship` inner-entry kind; forward-compat ignore-but-preserve unknown kinds | todo | Additive enum value; readers MAY ignore; importers MUST preserve verbatim; `critical=true` fails closed on unknown. |
-| S032-04 | Implement `node/local-relationship-core` (pure) | todo | Types, validation, projection reducer, group resolver, predicate evaluator. No I/O. |
+| S032-01 | Schema set: `relationship-class.v1` + `relationship-class-changed.v1` + `relationship-membership-fact.v1` + `pairwise-nym-binding-fact.v1` + `pairwise-nym-binding.v1` | done | Mutable class projection + append-only class change events + append-only membership + nym binding split into fact + projection. |
+| S032-02 | Schema set: `relationship-policy-predicate.v1` + `relationship-policy-candidate.v1` + `relationship-policy-decision.v1` | done | Three-tier separation: declarative condition, host-internal read model, host-bound decision. |
+| S032-03 | Extend `pseudonym-vault.v1` additively with `local-relationship` inner-entry kind; forward-compat ignore-but-preserve unknown kinds | done | Additive kind is schema-gated and implemented in `node/pseudonym-vault`; non-critical unknown entries preserve across reseal, while `critical=true` unknown entries fail closed. |
+| S032-04 | Implement `node/local-relationship-core` (pure) | done | Types, validation, projection reducer, active group resolver, predicate evaluator, read-model filters. No I/O. |
 | S032-05 | Implement `LocalRelationshipStore` in daemon | todo | Vault-backed event log + SQLite projection per Solution 028; encrypted-at-rest target. |
 | S032-06 | Local-authenticated host capabilities + API surface | todo | All `local-relationship.*` capabilities; caller binding required. |
 | S032-07 | Phase 2 bridge in Messaging | todo | Read new, write new + legacy; emit canonical + legacy facts. |
@@ -622,14 +644,14 @@ catch up.
 | S032-09 | AD `resolve_group` resolver | todo | Returns `ResolvedRelationshipCandidate[]`; AD performs own passport/capability checks. |
 | S032-10 | Contact Catalog cleanup | todo | Remove `friends`, raw handles, local annotation. |
 | S032-11 | Operator UI: class management + membership inspection | todo | Three read-model levels; default `operator-visible-summary` for inbox. |
-| S032-12 | Replay equivalence + privacy regression tests | todo | Solution 028 patterns; anti-secret-leak regex over snapshots. |
+| S032-12 | Replay equivalence + privacy regression tests | partial | Pure reducer replay/property coverage and vault unknown-kind roundtrip coverage exist; daemon projection rebuild and full privacy regex pass remain M3/M6 work. |
 | S032-13 | Default class seeds for `contacts` and `friends` | todo | Written via `relationship-class-changed.v1` at first start. |
 | S032-14 | SQLite projection encrypted-at-rest | todo | Cell-level AEAD with per-store key derived from vault. Phase 2 may temporarily allow `legacy_plaintext_cache` flag with operator warning. |
-| S032-15 | Read-model level enforcement | todo | Consumers declare `sealed-only` / `operator-visible-summary` / `ui-row`; layer refuses higher detail. |
-| S032-16 | Host policy evaluator for predicates | todo | Composes predicate + membership + node-operator-binding + capability/passport evidence → typed decision. |
+| S032-15 | Read-model level enforcement | partial | Pure read-model filters exist; daemon/UI/AD enforcement remains M3/M4/M6 work. |
+| S032-16 | Host policy evaluator for predicates | partial | Pure evaluator composes predicate + membership + node-operator-binding evidence into candidate/decision; daemon dispatch integration remains M3/M4 work. |
 | S032-17 | Middleware package manifest `trust_requirements` declaration mechanism | todo | Parser, operator approval flow, readiness gate enforcement, package install audit event. |
-| S032-18 | Node-operator-binding evidence integration | todo | Predicate evaluation consumes verified `node-operator-binding.v1`; no fallback to string-match on participant id. |
-| S032-19 | `owner/ref` multi-operator query scoping | todo | Default to node primary operator binding on single-operator nodes; explicit owner for multi-operator. |
+| S032-18 | Node-operator-binding evidence integration | partial | Pure evaluator requires a node-operator-binding evidence ref and rejects mismatches; verification against the daemon binding store remains M3/M4 work. |
+| S032-19 | `owner/ref` multi-operator query scoping | partial | Pure membership keys and group resolution are owner-scoped; daemon defaults and multi-operator query surfaces remain M3/M5 work. |
 | S032-20 | Phase 3 (writes fully migrated) | deferred | Future iteration. |
 | S032-21 | Phase 4 (legacy deprecation + retention) | deferred | Future iteration. |
 | S032-22 | Public protocol capability for federated consumers | deferred | Not in this iteration; local-authenticated host API only. |

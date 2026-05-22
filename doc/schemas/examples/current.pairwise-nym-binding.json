@@ -1,0 +1,16 @@
+{
+  "schema": "pairwise-nym-binding.v1",
+  "schema/v": 1,
+  "contact/ref": "local-contact:alice",
+  "context/kind": "messaging",
+  "nym/current": "contact-nym:alice-2026",
+  "nym/history": [
+    {
+      "nym": "contact-nym:alice-2025",
+      "observed-at": "2025-12-10T10:00:00Z",
+      "retired-at": "2026-05-22T10:02:00Z",
+      "retired-by-fact-id": "fact:pairwise-nym-binding:01jzaliceobserved"
+    }
+  ],
+  "as-of-tx/id": "tx:local-relationship:01jzaliceobserved"
+}

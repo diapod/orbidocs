@@ -34,7 +34,7 @@ Opaque encrypted local vault snapshot for nym and routing-subject private materi
 | [`vault/id`](#field-vault-id) | `yes` | string | Opaque vault snapshot identifier. It must not encode participant, nym, or routing-subject ids. |
 | [`vault/version`](#field-vault-version) | `yes` | integer | Monotonic local version of this sealed vault snapshot. |
 | [`vault/profile`](#field-vault-profile) | `yes` | enum: `participant-private-pseudonyms` | Declares the plaintext family without exposing plaintext subjects. |
-| [`contents/kinds`](#field-contents-kinds) | `yes` | array | Coarse encrypted content class. Specific ids and handles remain inside ciphertext. |
+| [`contents/kinds`](#field-contents-kinds) | `yes` | array | Coarse encrypted content class. Known kinds include `nym`, `routing-subject`, `local-contact-recovery`, and `local-relationship`. Readers MAY ignore unknown kinds, but importers and resealers MUST preserve unknown plaintext entries verbatim unless an unknown entry is marked critical. |
 | [`created-at`](#field-created-at) | `yes` | string |  |
 | [`sealed-at`](#field-sealed-at) | `yes` | string |  |
 | [`supersedes`](#field-supersedes) | `no` | string | Optional previous vault snapshot id for rollback detection and sync lineage. |
@@ -158,7 +158,7 @@ Declares the plaintext family without exposing plaintext subjects.
 - Required: `yes`
 - Shape: array
 
-Coarse encrypted content class. Specific ids and handles remain inside ciphertext.
+Coarse encrypted content class. Known kinds include `nym`, `routing-subject`, `local-contact-recovery`, and `local-relationship`. Readers MAY ignore unknown kinds, but importers and resealers MUST preserve unknown plaintext entries verbatim unless an unknown entry is marked critical.
 
 <a id="field-created-at"></a>
 ## `created-at`

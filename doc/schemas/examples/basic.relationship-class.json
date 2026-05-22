@@ -1,0 +1,16 @@
+{
+  "schema": "relationship-class.v1",
+  "schema/v": 1,
+  "class/id": "friends",
+  "class/state": "active",
+  "display/label": "Friends",
+  "description": "Operator-managed trusted personal relationship class.",
+  "default/status": "active",
+  "grant-policy/default-allowlist": ["messaging-receive"],
+  "grant-policy/suggested-defaults": ["artifact.delivery.custody"],
+  "grant-allowlist": ["messaging-receive", "artifact.delivery.custody"],
+  "verification/required": ["operator-confirmed"],
+  "privacy/profile": "operator-visible-summary",
+  "retention/profile-ref": "retention-profile:relationship-default",
+  "policy/refs": ["relationship-policy:friends-default"]
+}

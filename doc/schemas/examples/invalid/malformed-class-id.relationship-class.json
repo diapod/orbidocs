@@ -1,0 +1,9 @@
+{
+  "schema": "relationship-class.v1",
+  "schema/v": 1,
+  "class/id": "Bad Class",
+  "class/state": "active",
+  "display/label": "Bad Class",
+  "default/status": "active",
+  "privacy/profile": "sealed-only"
+}

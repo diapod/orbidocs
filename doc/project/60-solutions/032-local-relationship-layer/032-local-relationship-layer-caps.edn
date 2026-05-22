@@ -1,7 +1,7 @@
 {:component/id :orbiplex/local-relationship-layer
  :component/title "Local Relationship Layer"
  :component/type :host-owned-substrate
- :component/status :accepted
+ :component/status :partial
 
  :summary
  "Solution-level host-owned substrate for the user's private relationship
@@ -27,7 +27,7 @@
     "Split pairwise nym binding into append-only fact stream and sealed projection"
     "Reserve well-known class IDs `contacts` and `friends`; require namespace for all other classes"
     "Treat `blocked` as a status on memberships, never a class equivalent to `contacts`/`friends`"]
-   :status :todo}
+   :status :done}
 
   {:cap/id :relationship-policy-predicate-schema-set
    :title "Relationship Policy Predicate Schema Set"
@@ -41,12 +41,12 @@
     "Express host-internal eligibility input as candidates with candidate/effects (never `allowed/effects`)"
     "Express host-bound outcomes as decisions returned to middleware with redacted evidence refs"
     "Enforce three-tier separation: predicate = condition, candidate = input, decision = bound outcome"]
-   :status :todo}
+   :status :done}
 
   {:cap/id :vault-backed-canonical-truth
    :title "Vault-Backed Canonical Truth"
    :kind :storage-contract
-   :based-on ["doc/project/40-proposals/026-pseudonym-vault-and-key-roles.md"
+   :based-on ["doc/project/60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md"
               "doc/project/40-proposals/065-local-relationship-layer.md"]
    :schemas ["pseudonym-vault.v1"]
    :responsibilities
@@ -55,7 +55,7 @@
     "Extend pseudonym-vault.v1 additively with `local-relationship` inner-entry kind"
     "Preserve unknown inner-entry kinds verbatim on reseal; fail closed on critical=true unknown entries"
     "Recover by replaying sealed event log from last good snapshot"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :sqlite-projection-with-privacy-boundary
    :title "SQLite Projection With Privacy Boundary"
@@ -72,6 +72,26 @@
     "Apply performance-profile cadence for snapshot recheckpoint (minimal: 50/30s, balanced: 100/60s, full-audit: 25/15s)"]
    :status :todo}
 
+  {:cap/id :pure-core-semantics
+   :title "Pure Core Semantics"
+   :kind :domain-core
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas ["relationship-class.v1"
+             "relationship-class-changed.v1"
+             "relationship-membership-fact.v1"
+             "pairwise-nym-binding-fact.v1"
+             "pairwise-nym-binding.v1"
+             "relationship-policy-predicate.v1"
+             "relationship-policy-candidate.v1"
+             "relationship-policy-decision.v1"]
+   :responsibilities
+   ["Provide schema-shaped Rust types and runtime validators with no I/O, SQLite, daemon, or async runtime dependency"
+    "Reduce class-change, membership, and pairwise-nym fact streams into current projections"
+    "Resolve active class membership into relationship candidates without treating labels as authority"
+    "Evaluate relationship-policy predicates into host-bound decisions while requiring node-operator-binding evidence"
+    "Provide read-model filters for sealed-only, operator-visible-summary, and ui-row levels"]
+   :status :done}
+
   {:cap/id :read-model-redaction-levels
    :title "Read Model Redaction Levels"
    :kind :privacy-contract
@@ -83,7 +103,7 @@
     "Refuse higher detail than class privacy/profile allows"
     "Default class privacy/profile to sealed-only"
     "Apply level enforcement on every read path including operator UI and AD candidate diagnostic"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :load-bearing-invariants
    :title "Load-Bearing Invariants"
@@ -100,7 +120,7 @@
     "Make class definitions mutable projection with every change emitting an append-only fact"
     "Enforce relationship-derived node trust requires membership + binding + policy + caps + bounded effects"
     "Treat relationship-derived autonomous decisions as local political projection, never trust propagation"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :local-authenticated-host-api
    :title "Local Authenticated Host API"
@@ -133,7 +153,7 @@
     "Return relationship-policy-decision.v1 with closed-enum reason/code and redacted evidence refs"
     "Treat predicate effect/scope as mandatory and unique per (action/kind, effect/scope) family"
     "Refuse duplicate effect/scope from different packages without operator-acknowledged precedence"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :middleware-trust-requirements-declaration
    :title "Middleware Trust Requirements Declaration"
@@ -232,7 +252,7 @@
     "Run anti-secret-leak regex over all snapshots and operator-visible read paths"
     "Verify middleware caller binding fails closed on direct membership list reads"
     "Verify predicate evaluation denies without verified node-operator-binding"]
-   :status :todo}]
+   :status :partial}]
 
  :may-implement
  [{:cap/id :owner-ref-multi-operator-scoping
@@ -244,7 +264,7 @@
    ["Scope membership lookups by (owner/ref, contact/ref, class/id) tuple"
     "Default owner/ref to node primary operator binding on single-operator nodes"
     "Make owner-distinct relationship spaces explicit on multi-operator nodes"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :public-protocol-capability
    :title "Public Protocol Capability"

@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/local-contact.v1.schema.json`](../../schemas/local-contact.v1.schema.json)
 
-Daemon-local address-book and contact continuity record. It is never published as a Contact Catalog claim and may contain raw handles, labels, UX metadata, and pairwise routing continuity state.
+Daemon-local address-book and contact continuity record. It is never published as a Contact Catalog claim and may contain raw handles, labels, UX metadata, and pairwise routing continuity state. Ownership note: Local Contact Store owns private contact records; Local Relationship Layer owns classes, memberships, relationship policy predicates, and pairwise relationship facts.
 
 ## Governing Basis
 

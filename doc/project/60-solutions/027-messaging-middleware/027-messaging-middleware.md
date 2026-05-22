@@ -10,6 +10,30 @@ Date: `2026-05-17`
 
 ## Executive Summary
 
+> **Cross-reference to Solution 032 (Local Relationship Layer):** With
+> Solution 032, the **canonical owner of the `contacts` concept**
+> (relationship classes, membership facts, pairwise nym continuity)
+> moves out of this solution. Messaging becomes a *consumer* of the
+> Local Relationship Layer: it reads active `contacts` class membership
+> for receive consent, triggers membership append through the local
+> host capability `local-relationship.membership.append` on
+> `contact-request.accept`, and emits `messaging-receive@v1` based on
+> relationship state.
+>
+> During Solution 032 Phase 2 bridge, messaging continues to write to
+> the legacy `contacts_membership` table as compatibility cache and
+> continues to emit `contacts.membership-changed.v1` as legacy
+> projection. The canonical fact is now
+> `relationship-membership-fact.v1` (Solution 032).
+>
+> Messaging may declare relationship-derived `trust_requirements` in its
+> package manifest for autonomous decisions outside the operator loop
+> (e.g. accepting a contact-request from a peer whose operator is
+> already in `friends` of the local operator, under bounded scope).
+> Middleware never reads sealed relationship state; it receives
+> `relationship-policy-decision.v1` shapes from the host policy
+> evaluator.
+
 The solution is deliberately stratified:
 
 ```text
@@ -22,10 +46,15 @@ message-envelope.v1 / contact-request.v1
 
 The daemon remains the host and authority layer. It owns signing, Capability
 Binding, revocation freshness, local participant-handle evidence, notification
-actions, Artifact Delivery, Memarium, and Pseudonym Vault access. The
-`messaging-service` owns messaging-domain state: Maildir bodies, the hot SQLite
-index, outbound queue state, `contacts` membership for receive consent, and the
-bounded Layer 3 messaging-fact stream.
+actions, Artifact Delivery, Memarium, Pseudonym Vault access, and (via
+Solution 032) the canonical Local Relationship Layer. The `messaging-service`
+owns messaging-domain state: Maildir bodies, the hot SQLite index, outbound
+queue state, the legacy `contacts_membership` cache (transitional during
+Solution 032 Phase 2), and the bounded Layer 3 messaging-fact stream.
+
+After Solution 032 Phase 2 completes, `contacts` membership read/write goes
+through the local host capability layer; messaging no longer owns the
+relationship concept end-to-end.
 
 ## Scope
 

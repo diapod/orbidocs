@@ -1,0 +1,29 @@
+{
+  "schema": "relationship-class-changed.v1",
+  "schema/v": 1,
+  "fact/id": "fact:relationship-class-changed:archivedwithnext",
+  "class/id": "friends",
+  "transition": "archived",
+  "prior/definition": {
+    "schema": "relationship-class.v1",
+    "schema/v": 1,
+    "class/id": "friends",
+    "class/state": "active",
+    "display/label": "Friends",
+    "default/status": "active",
+    "privacy/profile": "operator-visible-summary"
+  },
+  "next/definition": {
+    "schema": "relationship-class.v1",
+    "schema/v": 1,
+    "class/id": "friends",
+    "class/state": "archived",
+    "display/label": "Friends",
+    "default/status": "active",
+    "privacy/profile": "operator-visible-summary"
+  },
+  "actor/ref": "operator-binding:primary",
+  "event/at": "2026-05-22T10:11:00Z",
+  "reason/code": "operator-archive",
+  "tx/id": "tx:local-relationship:archivedwithnext"
+}

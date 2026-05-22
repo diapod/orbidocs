@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:relationship-membership-fact:v1",
+  "title": "RelationshipMembershipFact v1",
+  "description": "Append-only local fact recording a relationship membership state transition in one owner's private relationship space.",
+  "type": "object",
+  "additionalProperties": true,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/065-local-relationship-layer.md",
+    "doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "fact/id",
+    "owner/ref",
+    "contact/ref",
+    "class/id",
+    "status",
+    "actor/ref",
+    "event/at",
+    "tx/id"
+  ],
+  "properties": {
+    "schema": { "const": "relationship-membership-fact.v1" },
+    "schema/v": { "const": 1 },
+    "fact/id": { "type": "string", "pattern": "^fact:relationship-membership:[a-z0-9][a-z0-9:-]*$" },
+    "owner/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "contact/ref": { "type": "string", "pattern": "^local-contact:[A-Za-z0-9_-]+$" },
+    "class/id": { "$ref": "relationship-class.v1.schema.json#/$defs/class_id" },
+    "status": { "$ref": "#/$defs/membership_status" },
+    "actor/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "event/at": { "type": "string", "format": "date-time" },
+    "tx/id": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "supersedes/fact-id": { "type": "string", "pattern": "^fact:relationship-membership:[a-z0-9][a-z0-9:-]*$" },
+    "reason/code": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "reason/note": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "context/ref": { "type": "string", "minLength": 1, "maxLength": 256 }
+  },
+  "$defs": {
+    "membership_status": {
+      "type": "string",
+      "enum": ["active", "pending-outgoing", "pending-incoming", "blocked", "revoked"]
+    }
+  }
+}
