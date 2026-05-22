@@ -32,6 +32,10 @@ We do not fight AI. We **separate levels**: we restore human steerability and de
 layers and contracts so that tools **do not take over the subject, but strengthen
 it**.
 
+Orbiplex does not remove the boundaries of autonomy. It removes or lowers the
+boundaries of cooperation: cognitive, communicative, infrastructural, economic, and
+reputational.
+
 The swarm operates in at least two complementary baseline relational modes:
 **care** (co-regulation, de-escalation, mediation, restoration of agency - at the
 personal and relational level) and **justice** (procedural accountability,
@@ -154,6 +158,10 @@ As a result, the problem is not only a shortage of reason, but a deficit of
 coordination. DIA responds to this through collective intelligence, which takes over
 part of the burden of analysis and calibration, allowing people to enter a shared
 working model faster and act together more effectively despite their differences.
+
+Orbiplex also exists so that people who differ in views, languages of description,
+status, place, and resources can find one another around real problems, build a
+shared model of action, and cooperate without requiring worldview homogenization.
 
 This also concerns the quality of joint action: DIA is meant to help people organize
 and act together despite differences in views, interpretations, and languages of

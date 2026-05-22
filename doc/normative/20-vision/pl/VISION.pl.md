@@ -30,6 +30,9 @@ Nie walczymy z AI. **Oddzielamy poziomy**: przywracamy ludziom sterowność
 i projektujemy warstwy oraz kontrakty tak, aby narzędzie **nie przejmowało podmiotu,
 lecz go wzmacniało**.
 
+Orbiplex nie usuwa granic autonomii. Usuwa lub obniża granice współdziałania:
+poznawcze, komunikacyjne, infrastrukturalne, ekonomiczne i reputacyjne.
+
 Rój działa co najmniej w dwóch komplementarnych, bazowych trybach relacyjnych:
 **opiekuńczym** (koregulacja, deeskalacja, mediacja, odbudowa sprawczości – na
 poziomie osobistym i relacyjnym) oraz **sprawiedliwościowym** (proceduralna
@@ -156,6 +159,11 @@ W efekcie problemem nie jest tylko niedobór rozumu, lecz deficyt koordynacji. D
 odpowiada na to przez kolektywną inteligencję, która przejmuje część ciężaru
 analizy i kalibracji, dzięki czemu ludzie mogą szybciej wejść we wspólny model
 roboczy i skuteczniej działać razem mimo różnic.
+
+Orbiplex istnieje także po to, aby ludzie, którzy różnią się poglądami, językiem
+opisu, statusem, miejscem i zasobami, mogli odnajdywać się wokół realnych problemów,
+budować wspólny model działania i współpracować bez wymogu światopoglądowej
+homogenizacji.
 
 Dotyczy to także jakości wspólnego działania: DIA ma pomagać ludziom organizować
 się i działać razem mimo różnic poglądów, interpretacji i języków opisu. Służy
