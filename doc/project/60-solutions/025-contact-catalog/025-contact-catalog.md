@@ -89,7 +89,8 @@ Status:
   participant/delegated participant signatures, rejects node-only signatures,
   evaluates `email-control@v1` / `phone-control@v1` passports, and checks
   passport signature, expiry, profile match, and revocation freshness before
-  admission.
+  admission. It also owns shared lookup request/result DTOs and the normalized
+  lookup-index helper used by consumer-side code.
 
 ### Invitation-Only Lookup
 
@@ -128,8 +129,13 @@ Status:
   limits by client fingerprint + digest + purpose, rejects raw handle-like
   lookup inputs, writes redacted lookup audit without raw query values or root
   participant ids, and exposes redacted counters/recent policy events in service
-  status. The daemon consumes canonical v1 route sets for AD `contact-lookup`.
-  The daemon owns an opt-in supervised runtime on stable loopback and a
+  status. Node `contact-catalog-client` is the provider-free consumer adapter:
+  it performs bounded HTTP lookups and parses canonical `contact-lookup-result.v1`
+  without owning provider admission, provider sync, or storage. The daemon uses
+  that client for AD `contact-lookup` and exposes the same consumer path as
+  host capability `contact.lookup`, so a node may consume Contact Catalog
+  providers even when it does not run `contact-catalog-service`. The daemon owns
+  an opt-in supervised runtime on stable loopback and a
   `/v1/contact-catalog/status` proxy; a process smoke starts the real service
   binary and verifies readiness plus projection status through that proxy.
 

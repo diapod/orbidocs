@@ -754,7 +754,7 @@ Implemented recipient selector kinds:
 | `participant` | Resolve an explicitly public/operator participant to one or more reachable node ids under local policy. This is opt-in disclosure, not the privacy-preserving default. | Seed Directory + policy |
 | `org` | Resolve an organization through an explicit host-composed org lookup. The current daemon resolver uses configured org custodians plus Seed Directory participant projections and fails closed when no evidence is available. | Org custody/policy + Seed Directory |
 | `routing-subject` | Resolve a delegated, scoped contact/delivery identity to one or more reachable node ids without publishing the root participant id. | Seed Directory + policy |
-| `contact-lookup` | Resolve a lookup-safe contact index through a host-composed Contact Catalog provider, then normalize the result to a `routing-subject` or concrete `node` target. MVP supports `lookup/mode = invitation-only`, `blinded-digest` or `psi`, `purpose = messaging`, `selector/purpose = contact-request/messaging`, and `max/nodes = 1`. | Contact Catalog + Seed Directory subject lookup |
+| `contact-lookup` | Resolve a lookup-safe contact index through a host-composed Contact Catalog consumer path, then normalize the result to a `routing-subject` or concrete `node` target. MVP supports `lookup/mode = invitation-only`, `blinded-digest` or `psi`, `purpose = messaging`, `selector/purpose = contact-request/messaging`, and `max/nodes = 1`. A node may use a local provider when one is configured, but the consumer role is separate from running `contact-catalog-service`. | `contact.lookup` host capability / Contact Catalog client + Seed Directory subject lookup |
 
 Later recipient selector kinds:
 

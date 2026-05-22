@@ -1,0 +1,315 @@
+{:component/id :orbiplex/local-relationship-layer
+ :component/title "Local Relationship Layer"
+ :component/type :host-owned-substrate
+ :component/status :accepted
+
+ :summary
+ "Solution-level host-owned substrate for the user's private relationship
+ state: relationship classes, append-only membership facts, pairwise nym
+ continuity, and relationship-derived policy predicates. Canonical state
+ lives in the Pseudonym Vault; SQLite projection is rebuildable cache.
+ Replaces partial models in Messaging, Artifact Delivery, and Contact
+ Catalog."
+
+ :must-implement
+ [{:cap/id :relationship-schema-set
+   :title "Relationship Schema Set"
+   :kind :contract
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas ["relationship-class.v1"
+             "relationship-class-changed.v1"
+             "relationship-membership-fact.v1"
+             "pairwise-nym-binding-fact.v1"
+             "pairwise-nym-binding.v1"]
+   :responsibilities
+   ["Separate class definition (mutable projection) from class change facts (append-only)"
+    "Express membership transitions as append-only facts with owner/ref, status, actor/ref, supersedes/fact-id as projection hint"
+    "Split pairwise nym binding into append-only fact stream and sealed projection"
+    "Reserve well-known class IDs `contacts` and `friends`; require namespace for all other classes"
+    "Treat `blocked` as a status on memberships, never a class equivalent to `contacts`/`friends`"]
+   :status :todo}
+
+  {:cap/id :relationship-policy-predicate-schema-set
+   :title "Relationship Policy Predicate Schema Set"
+   :kind :contract
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas ["relationship-policy-predicate.v1"
+             "relationship-policy-candidate.v1"
+             "relationship-policy-decision.v1"]
+   :responsibilities
+   ["Express middleware/operator-declared trust conditions as predicates with mandatory effect/scope"
+    "Express host-internal eligibility input as candidates with candidate/effects (never `allowed/effects`)"
+    "Express host-bound outcomes as decisions returned to middleware with redacted evidence refs"
+    "Enforce three-tier separation: predicate = condition, candidate = input, decision = bound outcome"]
+   :status :todo}
+
+  {:cap/id :vault-backed-canonical-truth
+   :title "Vault-Backed Canonical Truth"
+   :kind :storage-contract
+   :based-on ["doc/project/40-proposals/026-pseudonym-vault-and-key-roles.md"
+              "doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas ["pseudonym-vault.v1"]
+   :responsibilities
+   ["Store sealed event log plus latest sealed snapshot as canonical truth"
+    "Treat snapshot alone as checkpoint accelerator, never alternate authority"
+    "Extend pseudonym-vault.v1 additively with `local-relationship` inner-entry kind"
+    "Preserve unknown inner-entry kinds verbatim on reseal; fail closed on critical=true unknown entries"
+    "Recover by replaying sealed event log from last good snapshot"]
+   :status :todo}
+
+  {:cap/id :sqlite-projection-with-privacy-boundary
+   :title "SQLite Projection With Privacy Boundary"
+   :kind :storage-contract
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"
+              "doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md"]
+   :schemas []
+   :responsibilities
+   ["Maintain rebuildable SQLite projection per Solution 028 three-table shape"
+    "Hold no plaintext relationship state on disk in target state"
+    "Use encrypted-at-rest cell-level AEAD with per-store key derived from vault as first-iteration target"
+    "Permit opaque references with tx/id offsets as acceptable interim shape"
+    "Treat existing `local-contacts.sqlite` plaintext store as labelled transitional only"
+    "Apply performance-profile cadence for snapshot recheckpoint (minimal: 50/30s, balanced: 100/60s, full-audit: 25/15s)"]
+   :status :todo}
+
+  {:cap/id :read-model-redaction-levels
+   :title "Read Model Redaction Levels"
+   :kind :privacy-contract
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas []
+   :responsibilities
+   ["Expose three named read projections: sealed-only, operator-visible-summary, ui-row"
+    "Require consumers to declare needed level"
+    "Refuse higher detail than class privacy/profile allows"
+    "Default class privacy/profile to sealed-only"
+    "Apply level enforcement on every read path including operator UI and AD candidate diagnostic"]
+   :status :todo}
+
+  {:cap/id :load-bearing-invariants
+   :title "Load-Bearing Invariants"
+   :kind :architecture-contract
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas []
+   :responsibilities
+   ["Enforce label != authority: class membership never grants capability by itself"
+    "Keep classes and memberships separate entities; never conflate"
+    "Enforce strictly local-emitted membership facts; no wire-shape inbound"
+    "Reserve class IDs `contacts` and `friends`; require namespace for others"
+    "Treat `blocked` as status, never as class"
+    "Archive classes never delete; facts remain in event log"
+    "Make class definitions mutable projection with every change emitting an append-only fact"
+    "Enforce relationship-derived node trust requires membership + binding + policy + caps + bounded effects"
+    "Treat relationship-derived autonomous decisions as local political projection, never trust propagation"]
+   :status :todo}
+
+  {:cap/id :local-authenticated-host-api
+   :title "Local Authenticated Host API"
+   :kind :api-contract
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas []
+   :responsibilities
+   ["Expose local-relationship.class.{list,upsert,archive} capabilities"
+    "Expose local-relationship.membership.{append,list,latest} and class-members.list"
+    "Expose local-relationship.nym-binding.{upsert,list}"
+    "Expose local-relationship.group.resolve returning ResolvedRelationshipCandidate"
+    "Expose local-relationship.predicate.{list,register,evaluate} and decision.list"
+    "Require caller binding for every capability; fail closed with caller-not-authorized otherwise"
+    "Never appear in public capability matrices; never accept peer signatures"]
+   :status :todo}
+
+  {:cap/id :host-policy-evaluator
+   :title "Host Policy Evaluator"
+   :kind :policy-contract
+   :based-on ["doc/project/40-proposals/043-node-address-attestation-fallback.md"
+              "doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas ["relationship-policy-predicate.v1"
+             "relationship-policy-candidate.v1"
+             "relationship-policy-decision.v1"
+             "node-operator-binding.v1"
+             "node-address-attestation.v1"]
+   :responsibilities
+   ["Compose predicate + membership + node-operator-binding + capability/passport evidence into typed decision"
+    "Require verified node-operator-binding.v1 as subject-to-node evidence; no string-match fallback on participant id"
+    "Return relationship-policy-decision.v1 with closed-enum reason/code and redacted evidence refs"
+    "Treat predicate effect/scope as mandatory and unique per (action/kind, effect/scope) family"
+    "Refuse duplicate effect/scope from different packages without operator-acknowledged precedence"]
+   :status :todo}
+
+  {:cap/id :middleware-trust-requirements-declaration
+   :title "Middleware Trust Requirements Declaration"
+   :kind :integration-contract
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas ["relationship-policy-predicate.v1"
+             "relationship-policy-decision.v1"]
+   :responsibilities
+   ["Parse `trust_requirements` from middleware package manifest at install time"
+    "Materialize requirements into relationship-policy-predicate.v1 records under operator approval"
+    "Refuse package enablement without explicit operator acknowledgement of declared predicates"
+    "Return only relationship-policy-decision.v1 shape to middleware; never expose sealed state"
+    "Refuse direct membership list reads from middleware caller bindings"]
+   :status :todo}
+
+  {:cap/id :ad-group-resolver
+   :title "Artifact Delivery Group Resolver"
+   :kind :integration-contract
+   :based-on ["doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+              "doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas []
+   :responsibilities
+   ["Resolve AD selector/kind = group via resolve_group(group_id)"
+    "Return ResolvedRelationshipCandidate carrying class/id, relationship/fact-id, candidate/status, optional route-hints"
+    "Never expose relationship class semantics to AD; AD performs own passport/capability checks"
+    "Treat group resolution as candidate selection, never as authorization"]
+   :status :todo}
+
+  {:cap/id :messaging-bridge
+   :title "Messaging Bridge (Phase 2)"
+   :kind :integration-contract
+   :based-on ["doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md"
+              "doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas ["relationship-membership-fact.v1"
+             "contacts.membership-changed.v1"]
+   :responsibilities
+   ["Read active contacts membership from Local Relationship Layer for inbound/outbound policy"
+    "On contact-request.accept, trigger relationship membership append through local host API"
+    "Continue writing to legacy contacts_membership table as compatibility cache during Phase 2"
+    "Emit canonical relationship-membership-fact.v1 alongside legacy contacts.membership-changed.v1 projection"
+    "Allow Messaging to declare relationship-derived trust_requirements in package manifest"]
+   :status :todo}
+
+  {:cap/id :contact-catalog-cleanup
+   :title "Contact Catalog Cleanup"
+   :kind :integration-contract
+   :based-on ["doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md"
+              "doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas []
+   :responsibilities
+   ["Remove any local relationship annotation from Contact Catalog"
+    "Retain only public discovery and route-set lookup state in Catalog"
+    "Prevent raw handles or private address-book data from migrating into Catalog from Relationship Layer"
+    "Document the flow: Catalog lookup -> Relationship annotation -> consumer policy"]
+   :status :todo}
+
+  {:cap/id :one-shot-bootstrap-migration
+   :title "One-Shot Bootstrap Migration"
+   :kind :migration-contract
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas ["relationship-membership-fact.v1"]
+   :responsibilities
+   ["Read existing Messaging contacts_membership at first daemon start after deploy"
+    "Emit relationship-membership-fact.v1 for each row with reason/code = migration-bootstrap"
+    "Seal initial vault snapshot"
+    "Stay in migration-pending state until completion"
+    "Emit operator notification on completion via Solution 057"
+    "Make migration idempotent: re-running emits no new facts for already-migrated rows"]
+   :status :todo}
+
+  {:cap/id :default-class-seeds
+   :title "Default Class Seeds"
+   :kind :bootstrap-contract
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas ["relationship-class-changed.v1"]
+   :responsibilities
+   ["Write seeded definitions for `contacts` and `friends` via relationship-class-changed.v1 at first daemon start"
+    "Treat seeds as operator-editable defaults, not magic constants"
+    "Grant nothing automatically via seeds; grant-policy/suggested-defaults requires operator confirmation"
+    "Make seed application uniform with any operator-driven class change for audit purposes"
+    "Seed `contacts` with strictly-communication grant-allowlist (`messaging-receive@v1` only); routine actions belong to `friends` or custom classes"
+    "Seed `friends` with routine opt-in actions (`messaging-receive@v1`, `ad.direct-target`, `agora.private-topic`)"
+    "Document the gradation contacts -> friends -> custom -> predicate in operator UI labels"]
+   :status :todo}
+
+  {:cap/id :replay-equivalence-and-privacy-tests
+   :title "Replay Equivalence and Privacy Tests"
+   :kind :test-contract
+   :based-on ["doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md"
+              "doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas []
+   :responsibilities
+   ["Prove projection replay from sealed event log equals live projection row-by-row"
+    "Cover as-of replay before and after membership transitions"
+    "Cover bootstrap migration from legacy contacts_membership"
+    "Run anti-secret-leak regex over all snapshots and operator-visible read paths"
+    "Verify middleware caller binding fails closed on direct membership list reads"
+    "Verify predicate evaluation denies without verified node-operator-binding"]
+   :status :todo}]
+
+ :may-implement
+ [{:cap/id :owner-ref-multi-operator-scoping
+   :title "Multi-Operator Owner Ref Scoping"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas ["relationship-membership-fact.v1"]
+   :responsibilities
+   ["Scope membership lookups by (owner/ref, contact/ref, class/id) tuple"
+    "Default owner/ref to node primary operator binding on single-operator nodes"
+    "Make owner-distinct relationship spaces explicit on multi-operator nodes"]
+   :status :todo}
+
+  {:cap/id :public-protocol-capability
+   :title "Public Protocol Capability"
+   :kind :deferred
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas []
+   :responsibilities
+   ["Reserved for future iteration if federated consumers ever need exposure"
+    "Local-authenticated host API only in this iteration"]
+   :status :deferred}
+
+  {:cap/id :phase-3-writes-fully-migrated
+   :title "Phase 3 Writes Fully Migrated"
+   :kind :deferred
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
+   :schemas []
+   :responsibilities
+   ["Messaging stops writing to legacy contacts_membership directly"
+    "Legacy projection emitted from sealed event log only"
+    "Legacy contacts.membership-changed.v1 continues for downstream compat"]
+   :status :deferred}
+
+  {:cap/id :phase-4-legacy-deprecation
+   :title "Phase 4 Legacy Deprecation"
+   :kind :deferred
+   :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"
+              "doc/project/40-proposals/062-temporal-storage-convention.md"]
+   :schemas []
+   :responsibilities
+   ["Mark legacy contacts_membership and contacts.membership-changed.v1 as deprecated"
+    "Apply Solution 028 retention horizon"
+    "Audit and remove all consumers before final removal"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Federated relationship state sharing"
+  "Peer-to-peer relationship protocols"
+  "Public discovery / lookup catalog (remains Contact Catalog)"
+  "Capability/passport issuance (remains existing host capability layer)"
+  "Direct middleware reads of sealed relationship state"
+  "Automatic trust propagation from participant relationships to node authority"
+  "Wire-shape inbound for relationship-membership-fact.v1"]
+
+ :consumes
+ ["pseudonym-vault.v1 (sealed inner entries of kind `local-relationship`)"
+  "node-operator-binding.v1 (subject-to-node evidence for predicate evaluation)"
+  "node-address-attestation.v1 (P043 attestation evidence)"
+  "Solution 028 temporal storage convention (event log + projection + replay)"
+  "Solution 057 notifications (operator notifications for migration and class events)"]
+
+ :produces
+ ["relationship-class.v1 (current class definition projection)"
+  "relationship-class-changed.v1 (append-only class transition facts)"
+  "relationship-membership-fact.v1 (append-only membership facts)"
+  "pairwise-nym-binding-fact.v1 (append-only nym continuity facts)"
+  "pairwise-nym-binding.v1 (sealed projection of latest nym binding state)"
+  "relationship-policy-predicate.v1 (declarative trust requirement)"
+  "relationship-policy-candidate.v1 (host-internal eligibility input)"
+  "relationship-policy-decision.v1 (host-bound autonomous decision)"
+  "contacts.membership-changed.v1 (legacy projection during Phase 2)"]
+
+ :notes
+ ["This is the first Pseudonym Vault-backed application of relationship state. Messaging, Artifact Delivery, and Contact Catalog cease to own partial models."
+  "The three-tier predicate/candidate/decision split matches the `label != authority` invariant. Candidate means 'may be basis'; decision means 'host bound a specific bounded effect'; real authority still flows through capability/passport/admission."
+  "Default class seeds for `contacts` and `friends` are operator-editable defaults, not magic constants. They are written via the same `relationship-class-changed.v1` event as any operator-driven change, so audit is uniform."
+  "The middleware boundary (no direct read of sealed state) is the single biggest implementation invariant. Any future capability that would let middleware see membership directly must be rejected at design review."
+  "Phase 1 and Phase 2 are committed in the first iteration. Phase 3 (writes fully migrated) and Phase 4 (legacy deprecation) are deferred."
+  "No new public protocol capability in this iteration. Local Relationship Layer is exposed only through local-authenticated host capabilities consumed by in-process and supervised middleware. A future public capability for federated consumers is explicitly deferred."]}

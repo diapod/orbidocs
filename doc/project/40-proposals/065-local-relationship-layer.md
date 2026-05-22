@@ -1,0 +1,1069 @@
+# Proposal 065: Local Relationship Layer
+
+Based on:
+- `doc/project/20-memos/operator-participation-in-answer-channel.md`
+- `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
+- `doc/project/40-proposals/043-node-address-attestation-fallback.md`
+- `doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md`
+- `doc/project/40-proposals/060-messaging-middleware.md`
+- `doc/project/40-proposals/061-contact-attestation-service.md`
+- `doc/project/40-proposals/062-temporal-storage-convention.md`
+- `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
+- `doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md`
+- `doc/project/60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md`
+- `doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md`
+- `doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md`
+
+## Status
+
+Accepted
+
+## Date
+
+2026-05-19
+
+## Promoted to
+
+`doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md`
+
+This proposal records rationale and decision history. The canonical
+implementation guidance now lives in the promoted solution document.
+
+## Executive Summary
+
+Today the concept "who is this person to me" is implicitly co-owned by three
+subsystems: Messaging defines what a `contact` is, Artifact Delivery has
+opinions about `friends` as a privileged delivery group, and Contact Catalog
+holds both public route discovery and some local annotation. This is
+splątanie: each subsystem grew a partial model of personal relationship state,
+and changes in one ripple into the others through implicit shared assumptions.
+
+This proposal introduces **Local Relationship Layer** as a host-owned,
+vault-backed source of truth for the user's private relationship state:
+relationship classes (`contacts`, `friends`, namespaced custom classes),
+membership facts, status transitions, and pairwise nym continuity per
+context. Messaging, Artifact Delivery, and Contact Catalog become
+**consumers** of this layer; none of them owns the concept anymore.
+
+The architectural rule is:
+
+> A relationship class label classifies a peer. It is never, by itself, a
+> grant of authority. Capability grants are issued through capabilities and
+> passports; membership may inform policy that decides to issue them, but
+> membership alone authorizes nothing.
+
+The first iteration introduces the layer as a local host-owned component
+behind daemon-internal API (no new public host capability), with vault
+snapshot as recovery source of truth and a per-store SQLite projection per
+Proposal 028 convention.
+
+## Context and Problem Statement
+
+The current state has three overlapping models of personal relationship:
+
+1. **Messaging** owns the `contact` concept end to end. The
+   `contacts.membership-changed.v1` Layer 3 fact is described as
+   "Messaging-owned". Membership in the `contacts` set is what gates
+   `messaging-receive@v1`.
+2. **Artifact Delivery** documents `friends` as one of the recipient
+   selector resolver targets. AD does not define what `friends` is, but it
+   expects somebody to define it; in practice this leaked back into
+   Messaging conventions.
+3. **Contact Catalog** publishes route-sets and discovery handles; some
+   local annotation (label, last-seen, trust) accreted onto it.
+
+Several concrete consequences follow:
+
+- Adding a custom relationship class (e.g. `book-club`) has no single home.
+  Messaging would have to extend its contact concept; AD would have to know
+  the new label; Contact Catalog might also need a copy.
+- "Block this person" has two implementations: a Messaging-level block and
+  an AD-level group exclusion. They drift.
+- `pairwise nym continuity` (the fact that "Alice in this conversation" is
+  the same Alice over time, even across nym rotation) has no canonical
+  home. Each consumer reasons about it locally.
+- The Pseudonym Vault (Proposal 026) holds nym seeds and routing-subject
+  seeds, but the personal data *about* peers (annotations, membership,
+  relationship state) is currently outside the vault, scattered across
+  subsystem-specific stores.
+
+Cross-cutting changes (privacy class taxonomy, retention horizon per
+relationship class, operator UI for relationship management) cannot be
+made coherently because there is no layer to make them in.
+
+## Proposed Model / Decision
+
+Introduce a **Local Relationship Layer** as a node-local, host-owned
+component with the following responsibilities:
+
+- own the canonical schema set for relationship classes, membership facts,
+  and pairwise nym bindings;
+- persist the canonical state inside the Pseudonym Vault as a sealed
+  inner-entry kind (`local-relationship`);
+- expose a daemon-internal API for class management, membership append,
+  membership query, group resolution, and pairwise nym binding management;
+- emit canonical Layer 3 facts (`relationship-membership-fact.v1`,
+  `pairwise-nym-binding.v1`) for downstream consumers;
+- bridge to legacy Messaging-owned tables during Phase 2 migration without
+  becoming dependent on them.
+
+Local Relationship Layer is **not**:
+
+- a public host capability surface (first iteration);
+- a peer-to-peer protocol;
+- a discovery / lookup catalog (that remains Contact Catalog);
+- an authority issuer (capabilities and passports remain authoritative);
+- a federated relationship store (relationships are local-only).
+
+### Load-Bearing Invariants
+
+These are non-negotiable. The proposal exists primarily to enforce them.
+
+1. **Label is not authority.** Relationship class membership is never, by
+   itself, a grant of capability. Membership may be:
+   - an INPUT to a host policy that decides whether to issue a grant;
+   - an INPUT to a policy that filters delivery candidates;
+   - an INPUT to UI to surface or rank contacts.
+   Membership MUST NOT be:
+   - a standalone authority to deliver to that contact;
+   - a standalone authority to read/write a memarium scope;
+   - a bypass of any capability/passport check.
+
+2. **Classes and memberships are separate entities.** A relationship class
+   is an operator-defined policy bundle (definition). A membership is an
+   append-only fact saying "contact X is in class Y with status Z as of
+   transaction T". Conflating them produces undefined semantics when a
+   class is archived or modified.
+
+3. **Membership facts are strictly local-emitted.** There is no
+   wire-shape inbound for `relationship-membership-fact.v1`. A peer cannot
+   push a membership into my relationship layer. Other subsystems
+   (Messaging accept, AD authorize) may *trigger* local emission, but the
+   fact is always produced locally with an `actor/ref` of a host-issued
+   operator binding.
+
+4. **Canonical state lives in the Pseudonym Vault.** No relationship
+   state escapes the vault as plaintext on disk. The SQLite projection is
+   a recoverable cache, never authority.
+
+5. **Reserved class IDs and mandatory namespace.** The IDs `contacts` and
+   `friends` are reserved as well-known classes with fixed default
+   policy semantics. All other classes MUST be namespaced
+   (`vendor.example/...`, `operator-local/...`, etc.). A definition
+   collision on a reserved or namespaced ID fails the readiness gate at
+   daemon start; classes are not silently merged.
+
+   **`blocked` is intentionally NOT a reserved class.** Block semantics
+   are a *status* on existing memberships (`status = blocked` on a
+   `contacts` membership fact) or a separate `operator-local/blocklist`
+   policy input — never a relationship class equivalent in standing to
+   `contacts`/`friends`. Mixing block as both class and status would
+   recreate the relationship-state ≠ relationship-class confusion this
+   layer was built to eliminate.
+
+6. **Classes are archived, never deleted.** When a class is retired, its
+   membership facts remain in the event log per Proposal 062 retention.
+   The class transitions to `archived` and is excluded from active resolver
+   results.
+
+7. **Class definitions are mutable projection; every change emits a
+   fact.** The `current class definition` is a mutable projection
+   (operator UI shows the current set of policies and labels), but every
+   class create / update / archive transition emits a
+   `relationship-class-changed.v1` fact into the sealed event log. UX has
+   the current view; audit has the full history. This avoids choosing
+   between mutable-without-audit (loses history) and append-only-only
+   (forces UI to fold over fact log on every read).
+
+8. **Relationship membership may inform autonomous host policy, but
+   never becomes node-node authority by itself.** This is the strongest
+   boundary in this proposal. Participant-participant relationship trust
+   is not automatically inherited by nodes claiming to act on behalf of
+   those participants. A claim "I am Alice's node" is data, not
+   authority; participant-to-node binding requires explicit, verifiable
+   evidence (Seed Directory entries, node-operator-binding passports,
+   node-address attestations, capability advertisements). Only after
+   such evidence is present, may relationship membership be used as one
+   input among several to a *local policy decision* for a *specific
+   action kind*, with *bounded effects*.
+
+   Relationship-derived node trust requires all of:
+   1. local relationship membership (e.g. `participant:Alice ∈ friends`);
+   2. subject-to-node evidence (e.g. verified `node-operator-binding.v1`
+      stating `node:B` is operated by `participant:Alice`);
+   3. explicit local policy declaration for the action kind
+      (`relationship-policy-predicate.v1`);
+   4. normal capability / passport / admission checks;
+   5. bounded effects: quota, TTL, target space, artifact schema, crisis
+      mode.
+
+   This is **local political projection**, never **trust propagation**.
+   The host autonomously interprets a participant-level relationship as
+   permission for a specific node-level action; this interpretation is
+   never automatic, never transitive, and never replaces capability
+   checks.
+
+### Schemas
+
+Four new contracts plus one revised:
+
+#### `relationship-class.v1` (new)
+
+Definition of a relationship class. Operator config, not a fact.
+
+```text
+relationship-class.v1
+  schema = "relationship-class.v1"
+  class/id                # "contacts" | "friends" | "blocked" | namespaced "vendor.example/book-club"
+  class/state             # "active" | "archived"
+  display/label           # operator-facing label
+  description?
+  default-status          # default status when membership is appended without explicit status, typically "active"
+  grant-policy/default-allowlist[]?    # capabilities the host policy MAY grant to members; never automatic
+  grant-policy/suggested-defaults[]?   # capabilities the host policy SUGGESTS but operator must confirm
+  grant-allowlist[]?      # capabilities the operator may grant to members of this class (operator action required)
+  verification/required?  # what proof is required before membership transitions to active
+  privacy/profile         # "sealed-only" | "operator-visible-summary" | "public-aggregate" (defaults to sealed-only)
+  retention/profile-ref?  # reference to retention profile from Proposal 028 (defaults to host default)
+  policy/refs[]?          # additional policy references this class participates in
+```
+
+#### `relationship-class-changed.v1` (new — append-only event)
+
+Records every transition of a class definition: create, update, archive.
+The current `relationship-class.v1` is the mutable projection over this
+event log.
+
+```text
+relationship-class-changed.v1
+  schema = "relationship-class-changed.v1"
+  fact/id
+  class/id
+  transition              # "created" | "updated" | "archived" | "unarchived"
+  prior/definition?       # full prior class definition snapshot (for updates/archives)
+  next/definition?        # full next class definition snapshot (for creates/updates/unarchives)
+  actor/ref               # operator binding id
+  event/at                # RFC3339
+  reason/code?
+  reason/note?
+  tx/id                   # transaction id per Proposal 028
+```
+
+#### `relationship-membership-fact.v1` (new)
+
+Append-only fact: a membership state transition.
+
+```text
+relationship-membership-fact.v1
+  schema = "relationship-membership-fact.v1"
+  fact/id                 # ULID, monotonic per store
+  owner/ref               # operator binding or local participant whose private
+                          #   relationship space this fact belongs to; default for
+                          #   single-operator nodes is the node primary operator binding
+  contact/ref             # reference to local-contact.v1 record
+  class/id                # class membership applies to
+  status                  # "active" | "pending-outgoing" | "pending-incoming" | "blocked" | "revoked"
+  actor/ref               # operator binding id that performed this transition
+  event/at                # RFC3339, wall-clock at commit; consistent naming across all facts in this layer
+  tx/id                   # transaction id per Proposal 028
+  supersedes/fact-id?     # projection hint: the prior membership fact this one supersedes for (owner, contact, class) tuple.
+                          #   Hint only — the prior fact is NEVER deleted; both remain in the event log forever.
+  reason/code?            # closed enum; "user-action" | "messaging-accept" | "messaging-block" | "ad-authorize" | "migration-bootstrap" | "operator-import" | …
+  reason/note?            # free-form, sealed-only
+  context/ref?            # which subsystem triggered the change (messaging/ad/operator-ui)
+```
+
+`owner/ref` answers "whose relationship is this?" — essential on
+multi-operator nodes where Paweł's `friends` and Alicja's `friends` are
+distinct relationship spaces. Membership lookups are scoped by
+`(owner/ref, contact/ref, class/id)`. Single-operator nodes default
+`owner/ref` to the node primary operator binding, so the field is set
+even when not visibly distinguishing.
+
+#### `pairwise-nym-binding-fact.v1` (new — append-only event)
+
+Per-contact, per-context observed event: a nym was first observed, rotated
+into, or retired from a context. Append-only, never mutated.
+
+```text
+pairwise-nym-binding-fact.v1
+  schema = "pairwise-nym-binding-fact.v1"
+  fact/id
+  contact/ref             # which contact this fact is about
+  context/kind            # "messaging" | "ad-direct" | "agora-topic" | "inquirium-session" | …
+  context/ref?            # optional finer context (session id, topic id)
+  event/kind              # "observed" | "rotated-into" | "retired"
+  nym/value               # the nym observed/rotated-into/retired in this event
+  prior/nym?              # for "rotated-into", the prior nym now retired
+  event/at                # RFC3339 wall-clock observation timestamp
+  detected/by             # subsystem that emitted this fact (messaging/ad/operator)
+  evidence/ref?           # optional reference to evidence proving continuity (e.g. session transcript hash)
+  tx/id                   # transaction id per Proposal 028
+```
+
+#### `pairwise-nym-binding.v1` (new — current projection)
+
+Sealed projection of the latest known nym binding state for a contact in
+a context. Reducer over `pairwise-nym-binding-fact.v1` events.
+
+```text
+pairwise-nym-binding.v1
+  schema = "pairwise-nym-binding.v1"
+  contact/ref
+  context/kind
+  context/ref?
+  nym/current             # the active nym; null if context is currently dormant
+  nym/history[]           # ordered list of prior bindings, derived from facts
+    {nym, observed-at, retired-at?, retired-by-fact-id?}
+  as-of-tx/id             # transaction id of the latest fact applied
+```
+
+The split mirrors Solution 028: facts are append-only and authoritative;
+the projection is the rebuilt-from-facts read model. Operator UI shows
+the projection; audit and forensics read facts. History never mutates
+in-place.
+
+#### `relationship-policy-predicate.v1` (new — declarative policy requirement)
+
+Declarative requirement attached to an action kind. Middleware packages,
+acceptors, and operator-defined policies declare predicates; the host
+evaluates them at decision time. Predicates are *not* facts — they are
+*conditions* the host evaluates against current state.
+
+```text
+relationship-policy-predicate.v1
+  schema = "relationship-policy-predicate.v1"
+  predicate/id
+  predicate/kind            # "operator-relationship-class" | future kinds
+  local/operator-ref?       # whose relationship space to evaluate; defaults to current node primary operator
+  remote/operator-binding-ref  # how to identify the remote operator (verified node-operator-binding.v1)
+  required/class-id         # "contacts" | "friends" | namespaced class
+  required/status           # "active" by default
+  action/kind               # "artifact.custody.accept" | "crisis.assist" | "gossip.accept" | …
+  effect/scope              # bounded scope identifier; never "any"
+  ttl?                      # optional bound on decision validity
+  failure/mode              # "deny" | "require-operator" | "quarantine"
+  declared/by               # middleware package id or "operator-local"
+```
+
+`effect/scope` is mandatory. A predicate must always be paired with a
+*specific bounded effect*, never with general authority. "Friends may
+accept custody" is incomplete; "friends may accept custody under scope
+`bounded-custody:short-ttl`" is a complete predicate.
+
+#### `relationship-policy-candidate.v1` (new — host-internal read model)
+
+Outcome shape produced by the host policy evaluator when scanning for
+matches to a predicate. Used for diagnostics, audit trail, AD candidate
+ranking, operator UI explanation. A candidate is *eligibility input*,
+never *authority*.
+
+```text
+relationship-policy-candidate.v1
+  schema = "relationship-policy-candidate.v1"
+  candidate/id
+  predicate/ref
+  contact/ref
+  class/id
+  relationship/fact-id      # the specific membership fact backing this candidate
+  local/operator-ref
+  remote/operator-ref?
+  participant/ref?
+  node/ref?
+  node-operator-binding/ref?  # the verified binding tying remote operator to remote node
+  evidence/ref[]            # additional evidence (passports, attestations) considered
+  action/kind
+  policy/ref
+  candidate/effects[]       # what effects would be permissible under this candidate; NEVER "granted"
+  limits                    # quota, ttl, target space, artifact schema bounds
+  valid/until
+  decision/hint             # "eligible" | "quarantine" | "deny" — non-binding hint
+  as-of-tx/id
+```
+
+Naming choice: `candidate/effects[]` (not `allowed/effects[]`) makes
+clear this is a description of *what would be permissible*, not a
+grant. Only a `relationship-policy-decision.v1` (below) finalizes a
+specific allow/deny.
+
+#### `relationship-policy-decision.v1` (new — host decision outcome)
+
+The host's bound decision for a concrete action. Recorded for audit;
+returned to middleware as the answer to its declared
+`trust_requirements`.
+
+```text
+relationship-policy-decision.v1
+  schema = "relationship-policy-decision.v1"
+  decision/id
+  predicate/ref
+  candidate/ref?            # candidate the decision is based on; null when no candidate matched
+  decision                  # "allow" | "deny" | "quarantine" | "require-operator"
+  reason/code               # closed enum
+  action/kind
+  effect/scope
+  evidence/ref[]            # redacted refs sufficient for audit
+  valid/until
+  decided/by                # daemon component that evaluated the predicate
+  decided/at
+  tx/id
+```
+
+Middleware receives the decision shape directly. It never receives the
+candidate object, the membership fact, or any other sealed relationship
+state.
+
+Three-tier separation:
+
+| Concept | Role |
+| --- | --- |
+| **Predicate** | Declarative *condition* requested by middleware/policy. |
+| **Candidate** | Host-internal *eligibility input* assembled from membership + binding + evidence. |
+| **Decision** | Host-bound *outcome* (allow/deny/quarantine) returned to middleware. |
+
+This matches the `label != authority` invariant: candidate means "may be
+basis for decision"; decision means "host has bound a specific effect";
+real authority still flows through capability/passport/admission.
+
+#### `local-contact.v1` (revised — ownership note only)
+
+The existing schema is preserved for backward compatibility. Its
+*semantic owner* moves to the Local Relationship Layer. The schema
+itself does not change in this iteration; only the schema documentation
+is updated to note:
+
+> Owner: Local Relationship Layer (Solution 032).  
+> Producer: daemon-internal relationship store API.  
+> Storage: Pseudonym Vault sealed inner entry of kind `local-relationship`.
+
+#### `pseudonym-vault.v1` (extended additively)
+
+Add `local-relationship` to the accepted plaintext inner-entry kinds.
+Outer artifact remains ciphertext-only per Proposal 026.
+
+Forward-compat contract for unknown inner-entry kinds:
+
+- **Reader** MAY ignore the semantics of an unknown entry kind. It does
+  not need to know what the entry means.
+- **Importer / resealer** MUST preserve unknown entries verbatim when
+  resealing the vault. Silent dropping of unknown entries during reseal
+  is data loss; this is forbidden.
+- **Critical-flag escape hatch.** An entry may carry `critical = true`
+  (default false). A reader that cannot interpret a `critical = true`
+  entry MUST fail closed rather than proceed with partial understanding.
+- **Integrity violations** (broken AEAD, tampered envelope) always fail
+  closed regardless of `critical` flag.
+
+"Ignore" without "preserve" is a silent data-loss mechanism at recovery
+time. This contract makes "ignore" safe by guaranteeing roundtrip
+preservation.
+
+### Storage Architecture
+
+Three layers with explicit authority order:
+
+1. **Canonical truth: sealed event log + latest sealed snapshot.** The
+   append-only sealed event log carries every relationship transition
+   since the previous checkpoint. The latest sealed snapshot captures
+   the projection state at a known transaction. Together, log + most
+   recent snapshot are the authoritative reconstruction source. Both
+   live as inner entries of a Pseudonym Vault sealed blob.
+
+2. **Checkpoint accelerator: sealed snapshot alone.** A fresh snapshot
+   lets recovery skip log replay before its `tx/id` cutoff. Snapshot is
+   *not* an alternate authority — discarding the snapshot but keeping
+   the event log is recoverable; the inverse is not. This ordering is
+   non-negotiable.
+
+3. **Rebuildable projection: SQLite under
+   `<data-dir>/storage/local-relationships.sqlite`** per Solution 028
+   three-table shape (`relationship_transactions`,
+   `relationship_events`, `relationship_current`). The projection is
+   never an authority and may be deleted at any time; daemon restart
+   rebuilds it from snapshot + event log.
+
+#### Privacy boundary in the SQLite projection
+
+The invariant *no relationship state escapes the vault as plaintext on
+disk* applies in full. The SQLite projection MUST NOT store plaintext
+relationship data. Three permitted shapes:
+
+| Mode | Content | When |
+| --- | --- | --- |
+| Encrypted-at-rest | Cell-level AEAD with per-store key derived from vault | First-iteration target |
+| Opaque references only | Column data = vault-internal opaque ref + `tx/id`; lookups resolve via vault | Acceptable if cell-level AEAD is deferred |
+| Plaintext | Forbidden in target state | Only as a labelled transitional state during Phase 2 bridge, behind explicit `legacy_plaintext_cache` flag, with operator warning at startup |
+
+The current `local-contacts.sqlite` daemon-side store is **plaintext** and
+is treated as a labelled transitional state. Phase 2 bridge does not
+require the new projection to be plaintext; encrypted-at-rest is
+preferred from day one. Phase 4 fully retires the plaintext legacy
+store.
+
+Replay equivalence between event log and projection remains a test gate
+per Solution 028. The replay must reproduce projection rows *bit-for-bit*
+under same key material; this is part of correctness, not optional.
+
+#### Per-fact write granularity: event log + checkpoint
+
+Each membership transition appends a small sealed event record (single
+append + fsync, fast). The vault snapshot is recheckpointed periodically
+(every N facts since last snapshot, or T seconds idle, whichever fires
+first). This decouples per-fact UI latency from vault seal cost.
+
+Concretely:
+
+```text
+write path:
+  1. validate request, resolve class/contact refs
+  2. append membership event to sealed event log (cheap, single fsync)
+  3. update SQLite projection in same transaction (per 028)
+  4. emit relationship-membership-fact.v1 to subscribers
+  5. schedule vault snapshot recheckpoint if threshold reached
+
+snapshot path (background, throttled):
+  1. take consistent read of current projection state
+  2. seal as pseudonym-vault.v1 with contents/kinds = "local-relationship"
+  3. commit atomically; mark prior snapshot as superseded
+```
+
+Snapshot intervals follow performance profile (Solution 028):
+
+| Profile | Recheckpoint after | Recheckpoint idle |
+| --- | --- | --- |
+| `minimal` | 50 events | 30 s |
+| `balanced` | 100 events | 60 s |
+| `full-audit` | 25 events | 15 s |
+
+Crash recovery: replay sealed event log forward from last good snapshot
+to rebuild projection. Snapshot is correctness checkpoint, not latency
+checkpoint.
+
+### Read Models and Redaction Levels
+
+The relationship layer exposes three named read projections, each with a
+distinct privacy contract. Consumers must declare which level they need;
+the layer refuses to return data above the requested level.
+
+| Level | Content | Consumers |
+| --- | --- | --- |
+| `sealed-only` | Full record incl. notes, reasons, history | Recovery, audit, operator forensics under explicit grant |
+| `operator-visible-summary` | Contact display name, class memberships (active), last-event timestamp; no notes/reasons/history | Operator UI inbox, dashboard |
+| `ui-row` | Display name only + opaque contact-ref | Contact list in UI sidebars, AD candidate diagnostic |
+
+The `privacy/profile` field on `relationship-class.v1` (default
+`sealed-only`) sets the upper bound for that class. A class with
+`privacy/profile = ui-row` cannot expose memberships at higher detail
+even to an authorized operator UI without a separate explicit grant.
+
+### Default Class Seeds
+
+The reserved class IDs `contacts` and `friends` ship with default class
+definitions seeded at first daemon start. These are **operator-editable
+defaults**, not magic constants:
+
+The two reserved classes form an intentional gradation:
+
+- `contacts` — soft class: *known, may correspond, no routine action
+  authority*. `grant-allowlist` covers correspondence only. A contact
+  who needs more must be promoted to `friends`, mapped to a custom
+  namespaced class, granted per-person via capability/passport, or
+  authorized situationally through a relationship-policy predicate.
+- `friends` — firmer class: *known, may correspond, plus routine opt-in
+  actions*. `grant-allowlist` permits AD direct target and private
+  topic participation under explicit operator action.
+
+```text
+contacts:
+  default-status: active
+  grant-policy/default-allowlist: []        # no automatic grants
+  grant-policy/suggested-defaults: [messaging-receive@v1]
+  grant-allowlist: [messaging-receive@v1]   # correspondence only — intentionally narrow
+  verification/required: peer-mutual-accept
+  privacy/profile: operator-visible-summary
+
+friends:
+  default-status: active
+  grant-policy/default-allowlist: []
+  grant-policy/suggested-defaults: [messaging-receive@v1, ad.direct-target]
+  grant-allowlist: [messaging-receive@v1, ad.direct-target, agora.private-topic]
+  verification/required: operator-explicit
+  privacy/profile: sealed-only
+```
+
+The seed for `contacts` does not grant `messaging-receive@v1` — it
+suggests it as default for the operator to confirm. Actual reception
+still passes through standard `messaging-receive@v1` capability check.
+Seeds are written via the same `relationship-class-changed.v1` event as
+operator-driven changes, so audit is uniform.
+
+**Crisis flows are intentionally the predicate path, not a hardcoded
+class power.** A `contacts` member may qualify as input to a
+`crisis.assist` predicate with bounded `effect/scope`; `friends` may
+qualify for a wider scope. The class is the eligibility input; the
+predicate scope is the bound. This is orthogonal to `grant-allowlist`:
+the class never grants *routine* crisis authority; the predicate gates
+a *specific bounded* crisis scope through normal capability/passport
+checks.
+
+### Relationship-Derived Policy Predicates
+
+Relationship-derived policy predicates are the **canonical mechanism**
+for autonomous host decisions that need local relationship context. They
+replace any separate "node trust projection" layer. Implementations may
+maintain redacted read models (candidates) for performance, but those
+read models are caches of predicate evaluation inputs — they are not
+authority, and they are not a new source of trust.
+
+The architectural shape:
+
+```text
+participant-participant relationship  (local relationship layer)
+  + subject-to-node evidence          (node-operator-binding.v1, P043 attestations, …)
+  + local policy for action kind      (relationship-policy-predicate.v1)
+  + capability/passport/admission     (existing mechanisms — unchanged)
+  -> bounded host action (allow/deny/quarantine + scoped effects)
+```
+
+#### Autonomous Host Decisions
+
+The host autonomously evaluates predicates when an action arrives that
+the daemon may handle without operator-in-the-loop:
+
+- **Custody acceptance**: AD inbound acceptor for memarium-custody@v1
+  requires a predicate match (e.g. remote operator ∈ `friends` of local
+  operator, scoped to `bounded-custody`).
+- **Crisis assist**: a dedicated `crisis.assist` action kind may use
+  `friends`, `guardians`, or `trusted-anchor` as required class. The
+  decision is made by a *specific crisis policy*, not by general
+  friendship.
+- **Gossip / whisper admission**: inbound gossip from a remote node may
+  be admitted into a quarantine queue when the operator relationship is
+  present. The gossip *content* remains evidence, never truth.
+- **Address fallback**: per Proposal 043, trusted peers may serve
+  `node-address-attestation.v1`. A predicate may declare the trust class
+  required for the receiver to accept the attestation as a routing hint.
+
+Each use case is paired with a specific `effect/scope` — a "friend" for
+custody is not automatically a "friend" for crisis or for address
+fallback. Scopes do not compose; each predicate is a single tightly
+bounded grant.
+
+#### Middleware Trust Requirements Declaration
+
+Middleware packages declare *trust requirements*, not trust decisions.
+A package manifest may include:
+
+```json
+{
+  "trust_requirements": [
+    {
+      "id": "accept-friend-custody",
+      "predicate/kind": "operator-relationship-class",
+      "required/class-id": "friends",
+      "required/status": "active",
+      "action/kind": "artifact.custody.accept",
+      "effect/scope": "bounded-custody:short-ttl",
+      "failure/mode": "quarantine"
+    }
+  ]
+}
+```
+
+The host materializes such declarations into
+`relationship-policy-predicate.v1` records during package install /
+effective-config merge. Operator approval at install time is required;
+the readiness gate refuses to load a package whose trust requirements
+have not been explicitly accepted.
+
+#### Boundary: Middleware Cannot Read Sealed State
+
+This is enforced as a strong invariant:
+
+```text
+INVARIANT (middleware boundary):
+  Middleware MAY declare relationship-derived policy requirements.
+  Middleware MUST NOT directly read sealed relationship state.
+  Middleware MUST NOT turn relationship membership into authority.
+  The host evaluates predicates and returns
+    `relationship-policy-decision.v1` with redacted evidence refs.
+```
+
+Concretely, middleware receives:
+
+```json
+{
+  "schema": "relationship-policy-decision.v1",
+  "decision/id": "...",
+  "predicate/ref": "accept-friend-custody",
+  "decision": "allow",
+  "action/kind": "artifact.custody.accept",
+  "effect/scope": "bounded-custody:short-ttl",
+  "evidence/ref": ["...redacted..."]
+}
+```
+
+or:
+
+```json
+{
+  "schema": "relationship-policy-decision.v1",
+  "predicate/ref": "accept-friend-custody",
+  "decision": "quarantine",
+  "reason/code": "operator-relationship-not-established"
+}
+```
+
+Middleware never receives the list of friends, notes, history, or raw
+membership facts. Even the `candidate/ref` is not exposed by default;
+it is operator-visible diagnostic surface, not middleware-consumable.
+
+#### Evaluation Flow
+
+```text
+remote-action arrives
+  -> verify node-operator-binding.v1 (P043 / capability layer)
+  -> resolve remote operator participant
+  -> look up matching predicate(s) for action/kind
+  -> build candidate(s):
+       fetch membership fact in owner's relationship space
+       gather evidence refs (binding, attestations, passports)
+       check status, valid/until, limits
+  -> capability/passport/admission checks (existing layers)
+  -> emit relationship-policy-decision.v1
+  -> return decision to middleware / autonomous handler
+  -> if allow: execute bounded effect within declared scope
+  -> if quarantine: deferred operator review
+  -> if deny: terminate with reason/code
+```
+
+The flow has explicit stages, each with typed input/output. None of the
+stages alone is sufficient to authorize the action; all must pass.
+
+### Daemon API (Local Host-Owned)
+
+Two distinct concepts that must not be conflated:
+
+- **No new public protocol capability** in this iteration. Local
+  Relationship Layer is not exposed as a network-visible host capability;
+  no peer can invoke it, no federated discovery references it.
+- **Yes, a local authenticated host API for in-process and supervised
+  middleware consumers.** Messaging is a supervised process with its own
+  `contacts_membership` table; AD resolver runs in daemon. Both need to
+  call into the layer through an authenticated, capability-gated host
+  surface. Without this, "Phase 2 bridge reads from new layer" cannot be
+  implemented without hidden coupling.
+
+The local host capabilities are gated through the existing daemon caller
+binding mechanism. Capability ids (host-internal, not protocol-visible):
+
+```text
+local-relationship.class.list
+local-relationship.class.upsert
+local-relationship.class.archive
+
+local-relationship.membership.append
+local-relationship.membership.list
+local-relationship.membership.latest
+local-relationship.class-members.list
+
+local-relationship.nym-binding.upsert
+local-relationship.nym-binding.list
+
+local-relationship.group.resolve
+
+local-relationship.predicate.list
+local-relationship.predicate.register
+local-relationship.predicate.evaluate
+local-relationship.decision.list
+```
+
+Each capability declares allowed callers (Messaging adapter, AD
+resolver, Operator UI, migration tool) in effective host config. A caller
+without an explicit grant cannot reach the API even from within the
+daemon process; this prevents accidental coupling from unrelated
+subsystems. The capabilities are *local-authenticated* — they require a
+caller binding but never a peer signature, and they never appear in
+public capability matrices.
+
+The API surface:
+
+```text
+list_classes(filter?) -> [RelationshipClassV1]
+upsert_class(class) -> RelationshipClassV1
+archive_class(class_id, reason) -> ClassArchiveResult
+
+append_membership(contact_ref, class_id, status, actor_ref, reason_code, context_ref?) -> MembershipFactV1
+list_memberships(filter?) -> [MembershipFactV1]
+latest_membership(contact_ref, class_id) -> Option<MembershipFactV1>
+list_class_members(class_id, status_filter?) -> [(ContactRef, latest_status, latest_fact_id)]
+
+upsert_nym_binding(contact_ref, context_kind, context_ref?, nym, detected_by) -> PairwiseNymBindingV1
+list_nym_bindings(contact_ref?, context_kind?) -> [PairwiseNymBindingV1]
+
+resolve_group(group_id) -> [ResolvedRelationshipCandidate]
+
+list_predicates(filter?) -> [RelationshipPolicyPredicateV1]
+register_predicate(predicate, declared_by, operator_acknowledgement) -> PredicateRegistration
+evaluate_predicate(predicate_ref, action_context) -> RelationshipPolicyDecisionV1
+list_decisions(filter?) -> [RelationshipPolicyDecisionV1]
+```
+
+`resolve_group` is the bridge to Artifact Delivery. Returning a list of
+raw `ContactRef` is too thin: AD needs enough metadata to decide candidate
+ordering, surface in operator diagnostics, and apply its own policy
+without knowing relationship semantics.
+
+```text
+ResolvedRelationshipCandidate {
+  contact/ref               # opaque contact identifier
+  class/id                  # which class this candidate comes from (e.g. "friends")
+  relationship/fact-id      # the membership fact this resolution is based on
+  candidate/status          # "active" — only active memberships resolve into candidates
+  resolved-at-tx/id         # transaction id at resolution time
+  route-hints[]?            # optional Catalog-derived route hints, opaque to AD
+                            #   — never authority, just routing helpers
+}
+```
+
+AD's `selector/kind = "group"` resolver calls `resolve_group(group_id)`
+and gets a typed candidate list. The `group_id` may be a reserved class
+id (`friends`) or a namespaced group reference. AD then performs its own
+passport/capability checks against each candidate before delivery —
+`ResolvedRelationshipCandidate` is *selection metadata*, never authority.
+
+### Phased Migration
+
+The proposal commits to **Phase 1 and Phase 2** in the first iteration.
+Phase 3 and Phase 4 are scheduled but not part of this iteration's
+deliverables.
+
+#### Phase 1: layer exists, no consumer migration
+
+- schemas land;
+- `node/local-relationship-core` crate (pure, no I/O);
+- daemon `LocalRelationshipStore`;
+- vault snapshot integration;
+- SQLite projection;
+- replay equivalence tests;
+- daemon-internal API;
+- operator UI for class management (basic);
+- no behavioral change in Messaging, AD, Contact Catalog.
+
+#### Phase 2: bridge — read new, write legacy + new
+
+On daemon start after Phase 2 deployment, a **one-shot migration** runs:
+
+```text
+1. open existing Messaging contacts_membership table
+2. for each row, emit relationship-membership-fact.v1 with:
+   - reason/code = "migration-bootstrap"
+   - status derived from legacy row
+3. seal initial vault snapshot
+4. mark daemon as migrated_at = <RFC3339>
+5. emit operator notification on completion (Proposal 057)
+```
+
+After migration:
+
+- Messaging accept/block produces relationship membership facts through
+  `LocalRelationshipStore` AND continues to write to
+  `contacts_membership` table as compatibility cache.
+- `contacts.membership-changed.v1` continues to be emitted as legacy
+  projection for any consumer not yet aware of the new layer.
+- `relationship-membership-fact.v1` is the new canonical fact.
+- AD `selector/kind = "group"` calls `resolve_group(...)` against the
+  Local Relationship Layer.
+- Contact Catalog cleanup: remove any local relationship annotation
+  (label, last-interaction, trust scoring, membership state) from
+  Catalog; Catalog retains only public discovery / route-set lookup
+  state. Raw handles or private address-book-like data must not migrate
+  *into* Catalog from Local Relationship Layer — those belong in the
+  vault-backed layer. The expected flow becomes:
+  `Catalog lookup (public discovery) → Local Relationship annotation
+  (private) → consumer policy (passport-gated)`.
+
+Order of writes inside `LocalRelationshipStore`:
+
+1. Append event to vault event log (sealed). Failure here aborts.
+2. Update SQLite projection in same SQL transaction as commit of event
+   log offset.
+3. Write to legacy `contacts_membership` table (best-effort, non-blocking,
+   logged on failure).
+4. Emit `relationship-membership-fact.v1` to subscribers.
+5. Emit legacy `contacts.membership-changed.v1` projection.
+
+A retry record is written if step 3 fails so legacy consumers eventually
+catch up. Steps 1–2 are atomic.
+
+#### Phase 3: writes migrated (future iteration)
+
+Messaging stops writing to `contacts_membership` directly; legacy cache
+is recomputed from event log. `contacts.membership-changed.v1` continues
+to be emitted for legacy projection compat.
+
+#### Phase 4: deprecation (future iteration)
+
+Legacy table and fact marked deprecated; retention per Proposal 062
+horizon. Eventual full removal after consumer audit.
+
+### Relationship to Other Proposals
+
+- **023 Artifact Delivery** — AD `selector/kind = "group"` resolver calls
+  `resolve_group(group_id)` against Local Relationship Layer. AD never
+  knows what `friends` is; it sees only resolved contact refs. Delivery
+  still requires standard passport/capability checks; group resolution is
+  candidate selection, not authorization. AD inbound acceptors may
+  additionally require relationship-policy predicates for autonomous
+  custody / acceptance decisions.
+- **043 Node Address Attestation Fallback** — predicate evaluation
+  consumes `node-address-attestation.v1` as one form of subject-to-node
+  evidence. A predicate may declare that the receiver requires a trusted
+  relationship class for accepting attestations as routing hints.
+  Receiver still makes its own local policy decision per P043 §43.
+- **025 Contact Catalog** — Contact Catalog remains public route-set
+  lookup. After Phase 2, Contact Catalog removes `friends`, raw handles,
+  and any local annotation. Flow: Catalog lookup → local annotation in
+  Relationship Layer → consumer policy.
+- **026 Pseudonym Vault** — Local Relationship Layer state lives as
+  sealed inner entries of kind `local-relationship`. Recovery bundle
+  (P026) automatically includes relationship state. Schema additively
+  extends `pseudonym-vault.v1`.
+- **027 Messaging Middleware** — Messaging becomes a consumer:
+  - reads active `contacts` class membership for inbound/outbound policy;
+  - on `contact-request.accept`, triggers relationship membership append;
+  - emits `messaging-receive@v1` based on relationship state;
+  - stops being canonical owner of `contacts` concept;
+  - may declare `trust_requirements` (relationship-policy predicates) in
+    its package manifest for autonomous decisions outside operator loop.
+- **028 Temporal Storage Convention** — Relationship store uses the
+  full 028 shape: transactions, events, current projection, replay
+  equivalence, performance profile drives snapshot recheckpoint cadence.
+- **057 Notifications** — Operator notifications for class management
+  events (class added/archived, membership migration completed) use
+  notification kinds; contact-specific notification preferences live
+  in Relationship Layer, not Notifications.
+- **062 Temporal Storage Convention (proposal)** — Same as 028
+  reference. Retention horizon, compaction, excision rules apply.
+- **063 Inquirium** — Inquirium `context_refs` resolver may read from
+  Local Relationship Layer for inquiries about peers. Relationship Layer
+  exposes redacted context views per Inquirium retention policy.
+
+## Trade-offs
+
+### Benefits
+
+- single source of truth for "who is this person to me";
+- relationship class extensibility without touching Messaging, AD, or
+  Catalog;
+- pairwise nym continuity has a home;
+- privacy boundary is clear: relationship state never escapes vault as
+  plaintext;
+- AD becomes generic via `resolve_group`; no more `friends`-specific
+  code paths;
+- migration path is concrete, not aspirational.
+
+### Costs
+
+- new layer to learn for operators;
+- two-source-of-truth window during Phase 2 bridge;
+- vault snapshot recheckpoint adds background I/O;
+- migration must run successfully at first start after Phase 2 deploy;
+- schema changes to `pseudonym-vault.v1` (additive, forward-compat) but
+  still a contract surface.
+
+### Constraints
+
+- SQLite still serializes writers; performance benefit comes from short
+  per-fact event append, not concurrent writes;
+- vault seal cost is real; per-fact UI latency depends on event log
+  append speed, not vault seal cadence;
+- Phase 2 bridge depends on Messaging cooperating with the migration step.
+
+## Failure Modes and Mitigations
+
+| Failure mode | Mitigation |
+| --- | --- |
+| Vault seal fails during recheckpoint | Event log remains source of truth; recheckpoint retries with exponential backoff; operator notification on persistent failure. |
+| Migration step fails partway through at first Phase 2 start | Bootstrap migration is idempotent: re-running emits no new facts for already-migrated rows; daemon stays in `migration-pending` until migration completes successfully. |
+| Class collision at startup (two definitions of same class id) | Readiness gate fails; daemon refuses to start with explicit `relationship-class-conflict` error naming both producers. |
+| SQLite projection diverges from event log | Replay equivalence test fires at startup (checksum compare); divergence triggers projection rebuild from event log. |
+| Peer-emitted fact tries to enter relationship layer | Inbound path does not exist by design; subsystem adapter (messaging, AD) translates peer-triggered events into local emissions with `actor/ref` of the operator's binding, not the peer. |
+| Relationship state leaks to logs or traces | Per `privacy/profile` field on each class; default `sealed-only` blocks any non-sealed export; redaction tests in CI per Solution 028 anti-secret-leak pattern. |
+| Operator archives a class with active members | Archive is allowed; members remain in event log; resolver excludes archived class from active queries; operator UI shows "X members of archived class". |
+| Pairwise nym binding records grow unbounded | Per-context retention horizon from performance profile (Solution 028); old bindings compacted to `compacted_snapshot` event past horizon. |
+| Predicate evaluation runs with no node-operator-binding evidence | Evaluator returns `decision = deny` with `reason/code = "operator-binding-missing"`. No fallback to "trust by participant id string match"; binding must be verified evidence, not claim. |
+| Middleware attempts to read sealed relationship state directly | Local host capabilities do not expose membership lists to middleware; only `evaluate_predicate` returns `relationship-policy-decision.v1`. Attempting to list memberships from a middleware caller binding fails closed with `caller-not-authorized`. |
+| Package declares predicate but operator never approved | Readiness gate refuses to enable the package; predicate sits in `registered/pending-operator-approval` state and never evaluates. Operator approval emits `relationship-policy-predicate-acknowledged` audit event. |
+| Predicate scope grows by accretion (one scope used for many actions) | `effect/scope` is mandatory and must be unique per action-kind family. Readiness gate refuses two predicates declaring the same `(action/kind, effect/scope)` from different packages without explicit operator-acknowledged precedence. |
+
+## Open Questions
+
+1. Should `relationship-class.v1` allow per-class operator override of
+   retention horizon (currently inherits from host default via profile-ref),
+   or is the inherited horizon sufficient for first iteration?
+2. Does `pairwise-nym-binding.v1` need additional context kinds beyond
+   the initial set (`messaging`, `ad-direct`, `agora-topic`,
+   `inquirium-session`)? Adding kinds later is forward-compatible, but a
+   complete-enough initial set reduces churn.
+3. Should the Phase 2 bridge migration step be opt-in (operator action)
+   or automatic on first start? Automatic is simpler and matches "one-shot
+   at boot" decision; operator-opt-in gives more control but adds a step.
+4. When does `pairwise nym continuity` evidence get strong enough to be a
+   policy input vs purely informational? This is a follow-up concern about
+   how confidence in continuity flows into trust decisions, deferred to a
+   later proposal.
+
+## Next Actions
+
+1. Promote this proposal to `Solution 032: Local Relationship Layer` with
+   the implementation guidance and storage contract.
+2. Add schemas (`relationship-class.v1`, `relationship-membership-fact.v1`,
+   `pairwise-nym-binding.v1`) to `orbidocs/doc/schemas` and mirror to
+   `node/protocol/contracts`. Extend `pseudonym-vault.v1` additively.
+3. Update `local-contact.v1` schema documentation (ownership note only).
+4. Implement `node/local-relationship-core` crate (pure types,
+   validators, projection reducer).
+5. Implement `LocalRelationshipStore` in daemon with vault-backed event
+   log + SQLite projection per Solution 028.
+6. Implement Phase 2 bridge in Messaging: read from new layer, write to
+   both new and legacy; emit canonical fact alongside legacy projection.
+7. Implement AD group resolver (`selector/kind = "group"` →
+   `resolve_group`).
+8. Clean up Contact Catalog: remove `friends`, raw handles, local
+   membership state.
+9. Implement bootstrap migration step (one-shot at first Phase 2 start).
+10. Add operator UI for class management and membership inspection.
+11. Update cross-referenced docs (023, 025, 026, 027, 028, 043, 057, 060,
+    062, 063) at ownership/cross-reference points only.
+12. Implement relationship-policy predicate schemas, host policy
+    evaluator, and middleware `trust_requirements` declaration mechanism.
+13. Add operator approval flow for predicate registration via package
+    install path.
+
+## Tracking
+
+| ID | Work item | Status | Notes |
+|---|---|---|---|
+| P065-01 | Establish Local Relationship Layer as a distinct host-owned subsystem | draft | This proposal records the boundary. |
+| P065-02 | Define schemas: `relationship-class.v1` + `relationship-class-changed.v1` + `relationship-membership-fact.v1` + `pairwise-nym-binding-fact.v1` + `pairwise-nym-binding.v1` | todo | Class definition (mutable projection) + class change fact (append-only). Membership fact (append-only). Nym binding split into fact + projection. |
+| P065-03 | Extend `pseudonym-vault.v1` additively with `local-relationship` inner-entry kind | todo | Forward-compat, ignore-unknown-kinds rule. |
+| P065-04 | Implement `node/local-relationship-core` (pure) | todo | Types, validation, projection reducer, group resolver. |
+| P065-05 | Implement `LocalRelationshipStore` in daemon | todo | Vault-backed event log + SQLite projection per Solution 028. |
+| P065-06 | Implement Phase 2 bridge in Messaging | todo | Read new, write new + legacy; emit canonical + legacy facts. |
+| P065-07 | Implement bootstrap migration step | todo | One-shot at first start after deploy. |
+| P065-08 | Implement AD `resolve_group` resolver | todo | Translates `selector/kind = "group"` group/id into contact refs. |
+| P065-09 | Clean up Contact Catalog | todo | Remove `friends`, raw handles, local membership. |
+| P065-10 | Operator UI for class management | todo | List/create/archive classes; inspect memberships. |
+| P065-11 | Replay equivalence + privacy regression tests | todo | Per Solution 028 patterns + anti-leak regex. |
+| P065-12 | Phase 3 (writes fully migrated) | deferred | Future iteration; out of scope here. |
+| P065-13 | Phase 4 (legacy deprecation + retention) | deferred | Future iteration. |
+| P065-14 | Public protocol capability for federated consumers | deferred | Not in this iteration; local-authenticated host API only. |
+| P065-15 | SQLite projection encrypted-at-rest | todo | Cell-level AEAD with per-store key derived from vault. Phase 2 may temporarily allow `legacy_plaintext_cache` flag with operator warning. |
+| P065-16 | Read-model level enforcement (`sealed-only` / `operator-visible-summary` / `ui-row`) | todo | Consumers declare level; layer refuses higher detail. |
+| P065-17 | Default class seeds for `contacts` and `friends` | todo | Written via `relationship-class-changed.v1` at first start so seed is auditable. |
+| P065-18 | Define schemas: `relationship-policy-predicate.v1`, `relationship-policy-candidate.v1`, `relationship-policy-decision.v1` | todo | Three-tier separation: declarative condition, host-internal read model, host-bound decision. |
+| P065-19 | Implement host policy evaluator | todo | Composes predicate + membership + node-operator-binding + capability/passport evidence → typed decision. |
+| P065-20 | Middleware package manifest `trust_requirements` declaration mechanism | todo | Parser, operator approval flow, readiness gate enforcement, package install audit event. |
+| P065-21 | Node-operator-binding evidence integration | todo | Predicate evaluation consumes verified `node-operator-binding.v1`; no fallback to string-match on participant id. |
+| P065-22 | `owner/ref` on membership facts + multi-operator query scoping | todo | Default to node primary operator on single-operator nodes; explicit owner for multi-operator. |
