@@ -116,8 +116,7 @@
    :title "Layer 3 Facts and Recovery"
    :kind :recovery
    :based-on ["doc/project/60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md"]
-   :schemas ["contacts.membership-changed.v1"
-             "messaging.passport-issued.v1"
+   :schemas ["messaging.passport-issued.v1"
              "messaging.passport-revoked.v1"
              "messaging.retention-decided.v1"
              "messaging.crisis-marked.v1"
@@ -208,7 +207,6 @@
  ["Maildir message and draft files"
   "SQLite mailbox and outbox indexes"
   "local contact continuity projections"
-  "contacts.membership-changed.v1 facts"
   "messaging.passport-issued.v1 facts"
   "messaging.passport-revoked.v1 facts"
   "messaging.retention-decided.v1 facts"

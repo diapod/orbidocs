@@ -186,21 +186,20 @@
    :status :partial
    :notes "Artifact Delivery now has a host-composed dynamic group selector resolver. The daemon wires it to LocalRelationshipStore for the primary local operator and maps relationship candidates with directly AD-routable contact/ref values (`node:`, `participant:`, `routing:`), or `local-contact:` records carrying a local routing-subject/id or participant remote/subject, into ordinary AD recipient selectors. Story-005/Story-010 acceptance and richer route-hint/nym binding use remain open."}
 
-  {:cap/id :messaging-bridge
-   :title "Messaging Bridge (Phase 2)"
+  {:cap/id :messaging-canonical-integration
+   :title "Messaging Canonical Integration"
    :kind :integration-contract
    :based-on ["doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md"
               "doc/project/40-proposals/065-local-relationship-layer.md"]
-   :schemas ["relationship-membership-fact.v1"
-             "contacts.membership-changed.v1"]
+   :schemas ["relationship-membership-fact.v1"]
    :responsibilities
    ["Read active contacts membership from Local Relationship Layer for inbound/outbound policy"
     "On contact-request.accept, trigger relationship membership append through local host API"
-    "Continue writing to legacy contacts_membership table as compatibility cache during Phase 2"
-    "Emit canonical relationship-membership-fact.v1 alongside legacy contacts.membership-changed.v1 projection"
+    "Append canonical relationship-membership-fact.v1 without a messaging-owned compatibility cache"
+    "Fail closed when relationship owner/ref or host capability client is unavailable"
     "Allow Messaging to declare relationship-derived trust_requirements in package manifest"]
    :status :partial
-   :notes "Daemon `contact-request.accept` appends canonical `contacts` membership and pairwise messaging nym binding. Messaging-service bootstrap migration and read/dual-write bridge remain open."}
+   :notes "Daemon `contact-request.accept` appends canonical `contacts` membership and pairwise messaging nym binding. Messaging-service now reads/writes through point Local Relationship host capabilities; the pre-release legacy cache and bootstrap endpoint were removed."}
 
   {:cap/id :contact-catalog-cleanup
    :title "Contact Catalog Cleanup"
@@ -215,19 +214,16 @@
     "Document the flow: Catalog lookup -> Relationship annotation -> consumer policy"]
    :status :todo}
 
-  {:cap/id :one-shot-bootstrap-migration
-   :title "One-Shot Bootstrap Migration"
+  {:cap/id :pre-release-legacy-removal
+   :title "Pre-Release Legacy Removal"
    :kind :migration-contract
    :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
-   :schemas ["relationship-membership-fact.v1"]
+   :schemas []
    :responsibilities
-   ["Read existing Messaging contacts_membership at first daemon start after deploy"
-    "Emit relationship-membership-fact.v1 for each row with reason/code = migration-bootstrap"
-    "Seal initial vault snapshot"
-    "Stay in migration-pending state until completion"
-    "Emit operator notification on completion via Solution 057"
-    "Make migration idempotent: re-running emits no new facts for already-migrated rows"]
-   :status :todo}
+   ["Drop obsolete Messaging contacts_membership and relationship_migrations tables during pre-release schema migration"
+    "Remove obsolete contacts.membership-changed.v1 pending facts"
+    "Avoid runtime bridge or migration-pending state"]
+   :status :done}
 
   {:cap/id :default-class-seeds
    :title "Default Class Seeds (PGP-Style Trust Gradation)"
@@ -247,7 +243,7 @@
     "Allow custom namespaced classes that shadow reserved names (e.g. `vendor.x/trusted`); namespace makes the distinction explicit"
     "Document the gradation untrusted -> contacts -> friends -> trusted -> custom -> predicate in operator UI labels with visual tier distinction"]
    :status :partial
-   :notes "Default classes are seeded through relationship-class-changed.v1 when an operator participant and writable vault are available. Two-tier seed (contacts, friends) is in place; four-tier PGP-style gradation (untrusted, contacts, friends, trusted) including secondary-confirmation verification for `trusted` and reserved-archive readiness gate remain to be implemented."}
+   :notes "Default classes are seeded through relationship-class-changed.v1 when an operator participant and writable vault are available. Four-tier PGP-style gradation (untrusted, contacts, friends, trusted) is in place, including secondary-confirmation verification metadata for `trusted` and reserved-class archive rejection."}
 
   {:cap/id :replay-equivalence-and-privacy-tests
    :title "Replay Equivalence and Privacy Tests"
@@ -258,7 +254,7 @@
    :responsibilities
    ["Prove projection replay from sealed event log equals live projection row-by-row"
     "Cover as-of replay before and after membership transitions"
-    "Cover bootstrap migration from legacy contacts_membership"
+    "Cover pre-release removal of obsolete legacy relationship tables/facts"
     "Run anti-secret-leak regex over all snapshots and operator-visible read paths"
     "Verify middleware caller binding fails closed on direct membership list reads"
     "Verify predicate evaluation denies without verified node-operator-binding"]
@@ -288,26 +284,22 @@
 
   {:cap/id :phase-3-writes-fully-migrated
    :title "Phase 3 Writes Fully Migrated"
-   :kind :deferred
+   :kind :obsolete
    :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
    :schemas []
    :responsibilities
-   ["Messaging stops writing to legacy contacts_membership directly"
-    "Legacy projection emitted from sealed event log only"
-    "Legacy contacts.membership-changed.v1 continues for downstream compat"]
-   :status :deferred}
+   ["Collapsed before first release: Messaging writes canonical Local Relationship facts only"]
+   :status :obsolete}
 
   {:cap/id :phase-4-legacy-deprecation
    :title "Phase 4 Legacy Deprecation"
-   :kind :deferred
+   :kind :obsolete
    :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"
               "doc/project/40-proposals/062-temporal-storage-convention.md"]
    :schemas []
    :responsibilities
-   ["Mark legacy contacts_membership and contacts.membership-changed.v1 as deprecated"
-    "Apply Solution 028 retention horizon"
-    "Audit and remove all consumers before final removal"]
-   :status :deferred}]
+   ["Collapsed before first release: legacy contact-membership table and fact schema were removed rather than retained"]
+   :status :obsolete}]
 
  :out-of-scope
  ["Federated relationship state sharing"
@@ -334,12 +326,12 @@
   "relationship-policy-predicate.v1 (declarative trust requirement)"
   "relationship-policy-candidate.v1 (host-internal eligibility input)"
   "relationship-policy-decision.v1 (host-bound autonomous decision)"
-  "contacts.membership-changed.v1 (legacy projection during Phase 2)"]
+  ]
 
  :notes
  ["This is the first Pseudonym Vault-backed application of relationship state. Messaging, Artifact Delivery, and Contact Catalog cease to own partial models."
   "The three-tier predicate/candidate/decision split matches the `label != authority` invariant. Candidate means 'may be basis'; decision means 'host bound a specific bounded effect'; real authority still flows through capability/passport/admission."
-  "Default class seeds for `contacts` and `friends` are operator-editable defaults, not magic constants. They are written via the same `relationship-class-changed.v1` event as any operator-driven change, so audit is uniform."
+  "Default class seeds for `untrusted`, `contacts`, `friends`, and `trusted` are operator-editable defaults, not magic constants. They are written via the same `relationship-class-changed.v1` event as any operator-driven change, so audit is uniform."
   "The middleware boundary (no direct read of sealed state) is the single biggest implementation invariant. Any future capability that would let middleware see membership directly must be rejected at design review."
-  "Phase 1 and Phase 2 are committed in the first iteration. Phase 3 (writes fully migrated) and Phase 4 (legacy deprecation) are deferred."
+  "The pre-release bridge/deprecation phases were collapsed into canonical-only Messaging integration; no legacy relationship table or contact-membership fact remains."
   "No new public protocol capability in this iteration. Local Relationship Layer is exposed only through local-authenticated host capabilities consumed by in-process and supervised middleware. A future public capability for federated consumers is explicitly deferred."]}

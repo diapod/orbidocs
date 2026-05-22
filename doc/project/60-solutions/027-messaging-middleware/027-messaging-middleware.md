@@ -20,10 +20,10 @@ Date: `2026-05-17`
 > `contact-request.accept`, and emits `messaging-receive@v1` based on
 > relationship state.
 >
-> During Solution 032 Phase 2 bridge, messaging continues to write to
-> the legacy `contacts_membership` table as compatibility cache and
-> continues to emit `contacts.membership-changed.v1` as legacy
-> projection. The canonical fact is now
+> Because the system is still before first release, the Solution 032
+> compatibility bridge was removed instead of retained. Messaging no
+> longer writes a `contacts_membership` cache and no longer emits
+> `contacts.membership-changed.v1`; the canonical fact is
 > `relationship-membership-fact.v1` (Solution 032).
 >
 > Messaging may declare relationship-derived `trust_requirements` in its
@@ -49,12 +49,9 @@ Binding, revocation freshness, local participant-handle evidence, notification
 actions, Artifact Delivery, Memarium, Pseudonym Vault access, and (via
 Solution 032) the canonical Local Relationship Layer. The `messaging-service`
 owns messaging-domain state: Maildir bodies, the hot SQLite index, outbound
-queue state, the legacy `contacts_membership` cache (transitional during
-Solution 032 Phase 2), and the bounded Layer 3 messaging-fact stream.
-
-After Solution 032 Phase 2 completes, `contacts` membership read/write goes
-through the local host capability layer; messaging no longer owns the
-relationship concept end-to-end.
+queue state, and the bounded Layer 3 messaging-fact stream. `contacts`
+membership read/write goes through the Local Relationship host capability
+layer; messaging no longer owns the relationship concept end-to-end.
 
 ## Scope
 
@@ -146,14 +143,13 @@ Layer 1 is Maildir. It stores message bodies and serialized accepted envelopes
 under the node data directory. Bodies are retained until explicit user/operator
 delete or archive.
 
-Layer 2 is SQLite. It stores mailbox indexes, outbound queue state, contacts
-membership, pending Layer 3 facts, and recovery replay cursors. It is
+Layer 2 is SQLite. It stores mailbox indexes, outbound queue state, pending
+Layer 3 facts, and recovery replay cursors. It is
 rebuildable from Layer 1 plus Layer 3 and vault recovery records.
 
 Layer 3 is Memarium. It receives separate fact schemas, not a generic
 `messaging.fact.v1` artifact:
 
-- `contacts.membership-changed.v1`;
 - `messaging.passport-issued.v1`;
 - `messaging.passport-revoked.v1`;
 - `messaging.retention-decided.v1`;

@@ -250,10 +250,11 @@ vacuum, shard, or fully rebuild Layer 2 without coordinating with any
 other module.
 
 **Layer 3 — Memarium messaging facts.** Bounded by user and policy
-decisions, not by message traffic. The enumerated fact kinds are:
+decisions, not by message traffic. Contact relationship membership is
+owned by Proposal 065 / Solution 032 and is emitted as
+`relationship-membership-fact.v1`, not as a messaging-owned fact. The
+messaging-owned fact kinds are:
 
-- `contacts.membership-changed.v1` — sender subject added, removed, or
-  rotated within `contacts`;
 - `messaging.passport-issued.v1` and `messaging.passport-revoked.v1` —
   joined with the existing revocation feed;
 - `messaging.classification-decided.v1` — per-conversation or
@@ -484,9 +485,9 @@ because the public handle is absent, stale, unknown, or not attested for
 that participant. Otherwise a sender could probe whether a nym belongs
 to a known email address or phone number.
 
-Pairwise `contact-nym` receivers resolve through the local `contacts`
-membership projection. If that projection is absent or ambiguous, the
-same operator-mailbox fallback applies.
+Pairwise `contact-nym` receivers resolve through the Local Relationship
+`contacts` projection. If that projection is absent or ambiguous, the same
+operator-mailbox fallback applies.
 
 The local mapping is owned by the daemon / Contact Catalog authority
 layer, not by the messaging service. It may be backed by canonical route-set
@@ -553,10 +554,10 @@ post-MVP because they require different consent and key-management rules.
 > **Updated by Proposal 065 / Solution 032:** the canonical
 > `contacts` relationship class now belongs to the daemon-owned Local
 > Relationship Layer. This section records the messaging semantics that
-> originally shaped the class. During the bridge period, the messaging
-> service keeps `contacts_membership` as a compatibility cache and
-> emits legacy `contacts.membership-changed.v1` projections, but the
-> canonical membership fact is `relationship-membership-fact.v1`.
+> originally shaped the class. Because Orbiplex is still pre-release,
+> the legacy messaging-owned cache was removed instead of bridged:
+> messaging consumes and appends `relationship-membership-fact.v1`
+> through the Local Relationship host capability surface.
 
 The local `contacts` relationship-class set has the following
 messaging-facing invariants:
@@ -567,8 +568,9 @@ messaging-facing invariants:
   implicitly granted.
 - Membership is bi-directionally projected with issued
   `messaging-receive@v1` passports: issuing a passport adds (or
-  refreshes) membership; revoking the passport removes membership and
-  emits a `contacts.membership-changed.v1` fact into Layer 3.
+  refreshes) membership; revoking the passport updates membership
+  through the Local Relationship Layer and emits
+  `relationship-membership-fact.v1`.
 - Per-class limits (`rate/per-day`, `body/max-bytes`, sender allow /
   deny overrides) are local policy that the messaging acceptor enforces
   alongside the passport's own `limits.*`.
@@ -582,9 +584,9 @@ not only for messaging.
 
 `contacts` membership is not the same row as a human address-book entry.
 The Local Relationship Layer owns the canonical relationship for receive
-consent. Messaging consumes that state for admission and keeps its legacy
-membership table only as a transitional compatibility projection during
-Solution 032 Phase 2. The daemon-owned local contact store may hold labels,
+consent. Messaging consumes that state for admission and keeps no local
+compatibility cache in the pre-release target state. The daemon-owned
+local contact store may hold labels,
 raw handles, pairwise nym mappings, and UX metadata, but it is not the
 source of truth for messaging consent.
 
@@ -868,8 +870,8 @@ boundary.
 | Cross-device sync | Read/unread is synchronized by replayable `messaging.flag.v1` facts and a rebuildable Layer 2 flag projection. | Richer live device-state transport and additional flags. |
 | Mailbox view | Node UI renders mailbox views from `/v1/messaging/*`. | Service-owned fragments if useful. |
 | Receiver public handle | `receiver/public-handle` is optional for admission. If absent on node-id / non-participant-bound routing-subject delivery, the accepted message is routed to the operator mailbox. Participant-bound routes deliver to the participant resolved from the route; a supplied public handle is mapped, verified, or marked suspicious locally, never used as a sender-visible `nym -> email/phone` test. | Later profiles may require the public handle for selected mailbox policies or derive mailbox ownership from stronger private presentations, but must preserve the anti-oracle property. |
-| Layer 3 fact schemas | Messaging-owned Layer 3 events use separate schemas per fact kind: `contacts.membership-changed.v1`, `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`, `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`, and `messaging.flag.v1`. Shared envelope conventions are allowed, but MVP does not introduce `messaging.fact.v1` as a catch-all wire artifact. `classification.v1` remains the reusable classification artifact. | A future aggregation/read-model envelope may summarize these facts without replacing the canonical schemas. |
-| Contacts storage boundary | Solution 032 Local Relationship Layer owns canonical `contacts` class membership for receive consent. During the Phase 2 bridge, messaging reads/writes that layer first and keeps `contacts_membership` only as a compatibility cache/projection. The daemon-owned local contact store may hold labels, raw handles, and pairwise mappings; `pseudonym-vault.v1` mirrors private recovery state. | A future UX may merge address-book and relationship views while preserving Local Relationship as the consent source of truth. |
+| Layer 3 fact schemas | Messaging-owned Layer 3 events use separate schemas per fact kind: `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`, `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`, and `messaging.flag.v1`. Shared envelope conventions are allowed, but MVP does not introduce `messaging.fact.v1` as a catch-all wire artifact. `classification.v1` remains the reusable classification artifact. Contact membership is represented by Solution 032 `relationship-membership-fact.v1`. | A future aggregation/read-model envelope may summarize these facts without replacing the canonical schemas. |
+| Contacts storage boundary | Solution 032 Local Relationship Layer owns canonical `contacts` class membership for receive consent. Messaging reads/writes that layer through point host capabilities and keeps no `contacts_membership` compatibility table. The daemon-owned local contact store may hold labels, raw handles, and pairwise mappings; `pseudonym-vault.v1` mirrors private recovery state. | A future UX may merge address-book and relationship views while preserving Local Relationship as the consent source of truth. |
 | Retention defaults | MVP uses keep-local / no automatic purge. Maildir bodies stay until explicit delete or archive; Layer 2 rows live while bodies exist and are rebuildable; Layer 3 facts follow Memarium retention plus explicit `messaging.retention-decided.v1`. | User/operator retention profiles, auto-expiry, and archival handoff policy. |
 | Inline body threshold | Inline body is allowed up to 64 KiB in MVP; larger bodies use `artifact-store:`. Receiver policy may set a lower limit. | Streaming / attachment-specific profile. |
 | Failed-terminal recovery | User may retry, which creates a new delivery attempt for the same `envelope/id` if the content is unchanged; editing creates a new envelope. | Rich retry scheduling and per-recipient partial success. |
@@ -894,7 +896,7 @@ boundary.
 | `messaging-receive@v1` passport scope and envelope disagree | The messaging acceptor refuses; the refusal is operator-visible as an audit event. |
 | Service crashes mid-write | Layer 1 Maildir write is the durable commit point; Layer 2 / Layer 3 updates are idempotent on retry, keyed by `envelope/id`. |
 | Vault unavailable during startup | Vault runtime is owned by Solution 026 and is `done`; the messaging service treats vault unavailability as a transient daemon condition and waits, surfacing the wait state through `/v1/messaging/status`. New memberships are queued until the vault accepts a snapshot. |
-| `contact-request` revoked after acceptance | Revoking the `messaging-receive@v1` passport on Marcin's side propagates through Capability Binding revocation and `contacts.membership-changed.v1` fact in Layer 3. |
+| `contact-request` revoked after acceptance | Revoking the `messaging-receive@v1` passport on Marcin's side propagates through Capability Binding revocation and a Local Relationship membership fact; messaging does not emit a separate contact-membership fact. |
 
 ## Trade-offs
 
@@ -960,7 +962,8 @@ Goal: make consent local and queryable.
 
 Deliverables:
 
-- `contacts` membership table or store inside the messaging service;
+- point `contacts` membership read/write through the Local Relationship
+  host capability surface;
 - `capability.passport.lookup` host capability with the MVP request /
   response shape from this proposal;
 - `local-recipient-mailbox.resolve` host capability with the MVP request /
@@ -1058,10 +1061,10 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 | P060-005 | Messaging middleware solution document and capability sidecar | done | `doc/project/60-solutions/027-messaging-middleware/` contains the solution document, implementation notes, and `027-messaging-middleware-caps.edn`; generated capability matrices include the component. |
 | P060-006 | Daemon vs service boundary documented (small host/authority layer vs domain service) | done | §1 Component Boundary + Daemon vs Service Boundary section. Mirrors P058 §11 Catalog Provider Role pattern. |
 | P060-007 | Stratified storage contract (Layer 1 Maildir, Layer 2 service SQLite, Layer 3 Memarium facts) frozen | done | §2 Stratified Storage with bounding rule; promoted from story-010 §11 sketch. |
-| P060-008 | `contacts` relationship class model frozen (local set, default "may send messages to me" policy, bi-directional projection with `messaging-receive@v1` passports) | done | §8 `contacts` Relationship Class, updated by Proposal 065 / Solution 032: Local Relationship Layer is canonical owner; messaging keeps legacy projection/cache during the bridge. Implementation tracked separately by P060-013 and Solution 032 M5. |
-| P060-009 | Inbound acceptor: three messaging-specific scope checks + `contacts`-policy gate + recipient mailbox resolution | done | `messaging-service` exposes `POST /v1/artifact-delivery/accept`, schema/domain validation, digest idempotency, Maildir + SQLite writes, passport scope matching, `contacts` membership projection from presented receive passports, generic `contacts-policy-denied` refusal, host `local-recipient-mailbox.resolve`, and inbound notifications. Passport-ref admission uses `capability.passport.lookup`; inline `messaging-receive@v1` passports fail closed against the receiver-side revocation snapshot before Maildir/SQLite writes and record `messaging.passport-revoked.v1` on revocation. Missing host capability access refuses passport-based first contact rather than trusting local-only verification. Story 010 strict smoke exercises this inbound acceptor path over cross-node private-direct delivery. |
+| P060-008 | `contacts` relationship class model frozen (local set, default "may send messages to me" policy, bi-directional projection with `messaging-receive@v1` passports) | done | §8 `contacts` Relationship Class, updated by Proposal 065 / Solution 032: Local Relationship Layer is canonical owner; the pre-release messaging-owned cache/bridge was removed. Implementation tracked separately by P060-013 and Solution 032 M5. |
+| P060-009 | Inbound acceptor: three messaging-specific scope checks + `contacts`-policy gate + recipient mailbox resolution | done | `messaging-service` exposes `POST /v1/artifact-delivery/accept`, schema/domain validation, digest idempotency, Maildir + SQLite writes, passport scope matching, point Local Relationship `contacts` membership lookup, generic `contacts-policy-denied` refusal, host `local-recipient-mailbox.resolve`, and inbound notifications. Passport-ref admission uses `capability.passport.lookup`; inline `messaging-receive@v1` passports fail closed against the receiver-side revocation snapshot before Maildir/SQLite writes and record `messaging.passport-revoked.v1` on revocation. Missing host capability access refuses passport-based first contact rather than trusting local-only verification. Story 010 strict smoke exercises this inbound acceptor path over cross-node private-direct delivery. |
 | P060-010 | Outbound queue state machine | done | §7 Outbound Queue State Machine; implementation tracked separately by P060-013. |
-| P060-011 | Layer 3 messaging-fact kind schemas (`contacts.membership-changed.v1`, `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`, `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`, `messaging.flag.v1`) | done | Schema files, examples where useful, Node protocol mirror, and `schema-gate` export validators exist. Runtime Memarium writes remain tracked by P060-013. |
+| P060-011 | Layer 3 messaging-fact kind schemas (`messaging.passport-issued.v1`, `messaging.passport-revoked.v1`, `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`, `messaging.flag.v1`) | done | Schema files, examples where useful, Node protocol mirror, and `schema-gate` export validators exist. Contact membership moved to Solution 032 `relationship-membership-fact.v1`. Runtime Memarium writes remain tracked by P060-013. |
 | P060-012 | `capability.passport.lookup` host capability surface (symmetric counterpart of the existing issue path) | done | Daemon host capability endpoint validates `capability-passport-lookup.v1`, rejects stale revocation views, scans the shared multi-passport `PassportCache`, filters revoked passports, scope-matches typed profiles, and returns usable/refused lookup states. Solution 019 documents it as a stable host capability bridge rather than a messaging-private helper. |
 | P060-013 | Messaging service implementation (compose + outbound queue + Layer 1 Maildir + Layer 2 SQLite + inbox projection + acceptor + Layer 3 fact writes) | done | Node has `messaging-core` and `messaging-service` crates with host capability client, status, inbound accept, outbound enqueue/outbox/retry/process, contact-lookup-result promotion, mailbox/message read endpoints, Maildir message and draft storage, SQLite `PRAGMA user_version` migrations, temporal outbox transaction/event/attempt tables with `outbox` as the public projection, redacted outbox event snapshots that omit raw recipient handles and subjects, replay-equivalence tests for outbox state, operator temporal diagnostics endpoints for status/redacted events/correlation/replay-check via daemon proxy, signer-derived contact-request/message sender identity, Pseudonym Vault reply-route creation, contact-request dispatch through AD, sender-side lookup against a shared remote Contact Catalog provider, passport lookup promotion, `capability.passport.present` receive-passport handoff, signed message-envelope private-direct delivery, recorded-message lineage refusal, best-effort `agora.vault.put` for recorded messages, kind-specific Layer 3 fact artifacts through `memarium.write`, pending fact replay, retention/crisis/read-flag fact endpoints, revocation-triggered `messaging.passport-revoked.v1`, read/unread projection replay through `messaging.flag.v1`, reindex, and strict Story-010 two-node delivery smoke coverage. Mock-host coverage exercises receiver-side revocation snapshot checks, outbound passport lookup, signer, `artifact.delivery.send`, Agora Vault put, remote Memarium replay, and redacted failure classes. |
 | P060-014 | `mailbox.open` notification action target wired into Node UI mailbox view | done | Messaging inbound notifications include `mailbox.open`; daemon marks the action handled through a host-owned no-domain-mutation target, and Node UI exposes message detail at `/admin/messaging/messages/{message_id}`. |
@@ -1079,7 +1082,7 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 | P060-026 | Failed-terminal outbound recovery UX (manual retry vs re-compose) | done | MVP Decisions: unchanged retry keeps `envelope/id`; edits create a new envelope. |
 | P060-027 | `receiver/public-handle` policy when passport has `scope.public_handle` or receiver is participant-bound | done | MVP Decisions: optional for admission; absent handle on node-id / non-participant-bound routing-subject delivery routes to the operator mailbox, while participant-bound routes deliver by route ownership and treat public-handle verification as local diagnostic context, not a sender-visible correlation oracle. |
 | P060-028 | Layer 3 fact schema shape (generic envelope vs separate schemas) | done | MVP Decisions: separate messaging-owned fact schemas per fact kind; no `messaging.fact.v1` catch-all wire artifact in MVP. |
-| P060-029 | `contacts` membership storage boundary vs local-contact row projection | done | MVP Decisions + §8 `contacts` Relationship Class: Solution 032 Local Relationship Layer owns canonical receive-consent membership. Messaging now consumes/updates that layer through point host capabilities and keeps `contacts_membership` as a Phase 2 compatibility cache; local contacts may project it for UX. |
+| P060-029 | `contacts` membership storage boundary vs local-contact row projection | done | MVP Decisions + §8 `contacts` Relationship Class: Solution 032 Local Relationship Layer owns canonical receive-consent membership. Messaging consumes/updates that layer through point host capabilities and no longer keeps `contacts_membership`; local contacts may project it for UX. |
 | P060-030 | Retention defaults for Maildir, Layer 2, and Layer 3 | done | MVP Decisions + §9 Recovery and Vault Integration: keep-local / no automatic purge; Layer 2 remains rebuildable; Layer 3 follows Memarium retention plus `messaging.retention-decided.v1`. |
 | P060-031 | Recommended implementation slices | done | **Recommended Implementation Slices** defines five thin slices: inbound local accept/store, contacts + passport lookup, outbound queue + AD send, Contact Catalog integration, mailbox UX + recovery. |
 | P060-032 | `local-recipient-mailbox.resolve` host capability and inbound mailbox routing contract | done | Daemon endpoint validates `local-recipient-mailbox-resolve.v1`, uses daemon-owned local participant handle ownership records for public-handle → participant mailbox, reports `verified` only for explicit evidence status, keeps address-book contacts as mapped fallback, and falls back to the operator mailbox without a sender-visible oracle. |

@@ -1308,12 +1308,12 @@ Already done:
   Memarium replay, locally durable Layer 3 fact projection replay from
   `pending_facts`, Maildir walk, and FTS5 rebuild (P060-013 `done`,
   P060-017 `done`)
-- all six Layer 3 fact schemas with examples and `schema-gate`
-  validators: `contacts.membership-changed.v1`,
-  `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`,
+- messaging-owned Layer 3 fact schemas with examples and `schema-gate`
+  validators: `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`,
   `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`,
   `messaging.flag.v1`
-  (P060-011 `done`)
+  (P060-011 `done`); contact membership is now represented by
+  Solution 032 `relationship-membership-fact.v1`
 - kind-specific Layer 3 fact artifacts written through `memarium.write`
   + pending fact replay + retention/crisis fact endpoints +
   revocation-triggered `messaging.passport-revoked.v1` writes

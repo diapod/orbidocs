@@ -36,8 +36,9 @@ it declares trust requirements and receives bound decisions.
 
 Three subsystems currently co-own personal relationship state:
 
-- Messaging defines what a `contact` is; `contacts.membership-changed.v1`
-  is messaging-owned.
+- Messaging previously defined what a `contact` is. Before first release,
+  that ownership was removed; contactability now comes from Local
+  Relationship membership facts.
 - Artifact Delivery references `friends` without owning its definition;
   the leak rests on Messaging conventions.
 - Contact Catalog accreted local annotation onto its public-discovery
@@ -125,10 +126,10 @@ acceptable shapes:
 | --- | --- | --- |
 | Encrypted-at-rest | Cell-level AEAD with per-store key derived from vault | First-iteration target |
 | Opaque references only | Vault-internal opaque refs + `tx/id`; lookups resolve via vault | Acceptable if cell-level AEAD deferred |
-| Plaintext | Forbidden in target state | Transitional only during Phase 2 bridge; explicit `legacy_plaintext_cache` flag; operator warning at startup |
+| Plaintext | Forbidden in target state | Not an accepted Local Relationship projection mode |
 
 The existing `local-contacts.sqlite` daemon-side plaintext store is
-labelled transitional. Phase 4 retires it.
+labelled transitional and is outside this projection boundary.
 
 ### Write Path
 
@@ -527,42 +528,30 @@ remote-action arrives
 
 None of the stages alone is sufficient; all must pass.
 
-## Phased Migration
+## Pre-Release Migration Decision
 
-Phase 1 + Phase 2 commit in first iteration; Phase 3 + Phase 4 deferred.
+Phase 1 + Phase 2 commit in first iteration. Because there is no released
+legacy user data, Phase 3 + Phase 4 are collapsed into a breaking
+pre-release removal of the compatibility bridge.
 
 | Phase | Scope | Status |
 | --- | --- | --- |
 | 1 | Layer exists; no consumer migration | first iteration |
-| 2 | Bridge: read new layer, write new + legacy; one-shot migration at first start after deploy | first iteration |
-| 3 | Messaging stops writing to legacy table; emits legacy projection from event log | deferred |
-| 4 | Legacy table and fact deprecated; Solution 028 retention applies | deferred |
+| 2 | Messaging, AD, and Contact Catalog consume Local Relationship directly; no legacy bridge | first iteration |
+| 3 | Legacy bridge removal | obsolete before release |
+| 4 | Legacy fact/table deprecation | obsolete before release |
 
-### One-shot migration at first start (Phase 2)
-
-```text
-1. open existing Messaging contacts_membership table
-2. for each row, emit relationship-membership-fact.v1 with reason/code = "migration-bootstrap"
-3. seal initial vault snapshot
-4. mark daemon as migrated_at = <RFC3339>
-5. emit operator notification on completion (Solution 057)
-```
-
-Migration is idempotent. Re-running emits no new facts for already-migrated
-rows. Daemon stays in `migration-pending` until success.
-
-### Write order during Phase 2
+### Canonical write order
 
 ```text
 1. append event to sealed event log; failure aborts
 2. update SQLite projection in same transaction
-3. write to legacy contacts_membership (best-effort, non-blocking, retry record on failure)
-4. emit relationship-membership-fact.v1 subscriber notify
-5. emit legacy contacts.membership-changed.v1
+3. emit relationship-membership-fact.v1 subscriber notify
 ```
 
-Steps 1–2 atomic. Step 3 has retry record so legacy consumers eventually
-catch up.
+There is no `contacts_membership` cache, no bootstrap migration endpoint,
+and no `contacts.membership-changed.v1` compatibility fact in the target
+state.
 
 ## Relationship to Other Solutions
 
@@ -611,16 +600,15 @@ catch up.
 ### Costs
 
 - New layer to learn for operators.
-- Two-source-of-truth window during Phase 2 bridge.
 - Vault snapshot recheckpoint adds background I/O.
-- Migration must complete at first start after Phase 2 deploy.
+- Pre-release data stores may be destructively cleaned when legacy
+  relationship tables are present.
 - Schema additively changes `pseudonym-vault.v1`.
 
 ### Constraints
 
 - SQLite still serializes writers; per-fact UI latency depends on event
   log append speed, not snapshot recheckpoint cadence.
-- Phase 2 bridge depends on Messaging cooperation.
 - Predicate evaluation depends on node-operator-binding evidence —
   binding absence ≠ binding deny.
 
@@ -629,7 +617,7 @@ catch up.
 | Failure mode | Mitigation |
 | --- | --- |
 | Vault seal fails during recheckpoint | Event log remains source of truth; recheckpoint retries with exponential backoff; operator notification on persistent failure. |
-| Migration step fails partway through at first Phase 2 start | Bootstrap migration is idempotent; daemon stays in `migration-pending` until successful completion. |
+| Legacy messaging relationship state exists on disk | Pre-release startup migration drops the obsolete tables/facts; there is no runtime bridge or `migration-pending` state. |
 | Class collision at startup | Readiness gate fails with `relationship-class-conflict` naming both producers. |
 | SQLite projection diverges from event log | Replay equivalence checksum compare at startup; divergence triggers projection rebuild from log. |
 | Peer-emitted fact attempts to enter layer | Inbound path does not exist by design; subsystem adapter translates peer-triggered events into local emissions with operator binding `actor/ref`. |
@@ -661,19 +649,17 @@ catch up.
 3. Implement `LocalRelationshipStore` in daemon with vault-backed event
    log + SQLite projection per Solution 028.
 4. Implement local-authenticated host capabilities and API surface.
-5. Implement Phase 2 bridge in Messaging (read new, write new + legacy).
+5. Implement canonical Messaging integration (read/write Local Relationship only).
 6. Implement AD `resolve_group` resolver.
-7. Implement bootstrap migration step (one-shot at first start after
-   deploy).
-8. Clean up Contact Catalog (remove `friends`, raw handles, local
+7. Clean up Contact Catalog (remove `friends`, raw handles, local
    membership).
-9. Implement relationship-policy predicate evaluator and middleware
+8. Implement relationship-policy predicate evaluator and middleware
    `trust_requirements` declaration mechanism.
-10. Add operator approval flow for predicate registration via package
+9. Add operator approval flow for predicate registration via package
     install path.
-11. Add operator UI for class management, membership inspection,
+10. Add operator UI for class management, membership inspection,
     predicate registration, and decision audit.
-12. Replay equivalence tests + privacy regression tests per Solution 028.
+11. Replay equivalence tests + privacy regression tests per Solution 028.
 
 ## Tracking
 
@@ -685,10 +671,9 @@ catch up.
 | S032-M2 | Pure core | done | `node/local-relationship-core` provides schema-shaped types, validators, reducers, active group resolution, relationship-derived predicate evaluation, owner-scoped membership keys, and read-model filters without I/O or daemon coupling. |
 | S032-M3 | Storage + daemon API | partial | Daemon now owns `LocalRelationshipStore`, opens `<data-dir>/storage/local-relationships.sqlite`, replays sealed Pseudonym Vault `local-relationship` records at startup, seeds default `untrusted`/`contacts`/`friends`/`trusted` classes from the pure core when the vault is writable, rejects reserved-class archival with `cannot-archive-reserved-class`, permits operator metadata edits on reserved classes, exposes local control API, and advertises guarded host capabilities. SQLite projection now carries `transactions`, `events`, `current_classes`, `current_memberships`, `current_nym_bindings`, `predicates`, `predicate_class_ids`, and `decisions`; projection encryption and vault-first atomic write hardening remain open. |
 | S032-M4 | Operator UI + trust requirements | partial | Node UI exposes `/admin/local-relationships` for minimal class, membership, predicate, evaluation, and decision-audit workflows. It now distinguishes the four reserved tiers visually, submits predicate requirements as `required/class-ids[]`, validates that at least one class is selected before daemon submission, and uses a typed `trusted` secondary-confirmation modal with bounded lifetime before approving predicates that include the top trust tier. Middleware `trust_requirements[]` parser/approval/readiness enforcement remains open. |
-| S032-M5 | Messaging bridge + bootstrap migration | partial | Daemon `contact-request.accept` now appends canonical `contacts` membership and pairwise messaging nym binding after local contact creation. `messaging-service` now receives the primary operator `owner/ref` from daemon supervision, reads active `contacts` through the point capability `local-relationship.membership.latest`, writes canonical membership through `local-relationship.membership.append` before the legacy cache, exposes an authenticated bootstrap migration endpoint, and records an idempotent migration marker with count/checksum. Startup migration orchestration, operator notification on completion, and wider Story-010 acceptance remain open. |
-| S032-M6 | AD integration + Contact Catalog cleanup + hardening | partial | Artifact Delivery now has a host-composed dynamic group selector hook and daemon wiring to resolve relationship classes for the primary local operator into ordinary AD recipient selectors when `contact/ref` is directly AD-routable (`node:`, `participant:`, `routing:`), or when a `local-contact:` record carries a local `routing-subject/id` or participant `remote/subject`. Relationship membership/candidate contracts now admit directly routable refs while pairwise nym binding contracts remain local-contact scoped. Tests assert empty dynamic groups do not fall back, unroutable relationship groups fail closed, and relationship candidates do not bypass AD outbound authority. Contact Catalog private-state cleanup is documented; privacy/performance hardening, encrypted projection enforcement, and cross-component acceptance coverage remain open. |
-| S032-D1 | Phase 3 writes fully migrated | deferred | Post-MVP: messaging stops writing legacy tables directly. |
-| S032-D2 | Phase 4 legacy deprecation | deferred | Post-MVP: legacy table and fact deprecation after consumer audit. |
+| S032-M5 | Messaging canonical integration | partial | Daemon `contact-request.accept` now appends canonical `contacts` membership and pairwise messaging nym binding after local contact creation. `messaging-service` receives the primary operator `owner/ref` from daemon supervision, reads active `contacts` through `local-relationship.membership.latest`, writes canonical membership through `local-relationship.membership.append`, and fails closed if host/owner configuration is missing. The pre-release `contacts_membership` cache, bootstrap migration endpoint, and `contacts.membership-changed.v1` compatibility fact have been removed. Story-010 strict `ad-smoke` passes over this canonical-only path. |
+| S032-M6 | AD integration + Contact Catalog cleanup + hardening | partial | Artifact Delivery now has a host-composed dynamic group selector hook and daemon wiring to resolve relationship classes for the primary local operator into ordinary AD recipient selectors when `contact/ref` is directly AD-routable (`node:`, `participant:`, `routing:`), or when a `local-contact:` record carries a local `routing-subject/id` or participant `remote/subject`. Relationship membership/candidate contracts now admit directly routable refs while pairwise nym binding contracts remain local-contact scoped. Tests assert empty dynamic groups do not fall back, unroutable relationship groups fail closed, and relationship candidates do not bypass AD outbound authority. Contact Catalog private-state cleanup is documented; Story-005 `ad-smoke` passes the current private AD/INAC path. Remaining work: dedicated `friends` group acceptance, privacy/performance hardening, and encrypted projection enforcement. |
+| S032-D1 | Legacy bridge removal | done | Completed before first release as a breaking change: no legacy Messaging contact-membership table, migration endpoint, or compatibility fact remains. |
 | S032-D3 | Public protocol capability | deferred | Post-MVP only; the MVP boundary remains local-authenticated host API. |
 
 ### Capability Tracker
@@ -701,21 +686,21 @@ catch up.
 | S032-04 | Implement `node/local-relationship-core` (pure) | done | Types, validation, projection reducer, active group resolver, predicate evaluator, read-model filters. No I/O. |
 | S032-05 | Implement `LocalRelationshipStore` in daemon | partial | Store and projection exist with Solution 028-shaped `transactions`, `events`, and `current_*` tables; startup replay from Pseudonym Vault works. Remaining: projection cell-level AEAD, vault-first atomic write path, and broader replay/rebuild tests. |
 | S032-06 | Local-authenticated host capabilities + API surface | partial | Control API and guarded host capabilities exist for membership append/latest, group resolve, and predicate evaluate. Direct middleware membership reads remain forbidden; class/predicate management stays control-plane only for now. |
-| S032-07 | Phase 2 bridge in Messaging | partial | `messaging-service` reads point membership status from Local Relationship when configured and writes canonical membership before the legacy `contacts_membership` cache. It still emits the legacy `contacts.membership-changed.v1` projection for compatibility. Remaining: broader Story-010 bridge coverage and explicit compatibility-mode fallback audit. |
-| S032-08 | One-shot bootstrap migration | partial | `POST /v1/messaging/relationships/bootstrap-migration` supports dry-run, commit, idempotent rerun, and checksum-drift fail-closed behavior. Remaining: automatic startup orchestration, daemon-wide `migration-pending` state, and operator notification on completion. |
-| S032-09 | AD `resolve_group` resolver | partial | AD group resolution is host-composed through Local Relationship classes and still performs normal outbound/admission authority checks after candidate expansion. Current tests cover dynamic override, empty-group fail-closed, direct `node:`/`participant:`/`routing:` refs, `local-contact:` route/participant mapping, unroutable member failure, and candidate-not-authority. Remaining: Story-005 private/direct acceptance through `friends`. |
+| S032-07 | Canonical Messaging integration | partial | `messaging-service` reads point membership status from Local Relationship and writes canonical membership through `local-relationship.membership.append`; missing host/owner configuration fails closed. Story-010 strict `ad-smoke` now covers the canonical-only path; remaining work is narrower multi-operator/owner-scope hardening. |
+| S032-08 | Legacy bootstrap migration removal | done | Removed before first release: no `contacts_membership` table, no `relationship_migrations` marker, no bootstrap endpoint, and no `contacts.membership-changed.v1` compatibility fact. |
+| S032-09 | AD `resolve_group` resolver | partial | AD group resolution is host-composed through Local Relationship classes and still performs normal outbound/admission authority checks after candidate expansion. Current tests cover dynamic override, empty-group fail-closed, direct `node:`/`participant:`/`routing:` refs, `local-contact:` route/participant mapping, unroutable member failure, and candidate-not-authority. Story-005 `ad-smoke` covers the existing private/direct path; remaining work is a dedicated `friends` group acceptance variant. |
 | S032-10 | Contact Catalog cleanup | partial | Proposal/Solution/runbook now state that Contact Catalog owns public/federable route-set discovery only; raw handles stay in Local Contact Store and classes/memberships/predicates live in Local Relationship Layer. Remaining: sweep any future UI wording regressions and add a dedicated privacy regression gate. |
 | S032-11 | Operator UI: class management + membership inspection | partial | Minimal `/admin/local-relationships` screen supports class upsert, membership append, predicate registration/evaluation, and decision audit. Polished read-model level enforcement and richer filters remain open. |
 | S032-12 | Replay equivalence + privacy regression tests | partial | Pure reducer replay/property coverage and vault unknown-kind roundtrip coverage exist; daemon projection rebuild and full privacy regex pass remain M3/M6 work. |
 | S032-13 | Default class seeds for `untrusted`, `contacts`, `friends`, `trusted` (PGP-style trust gradation) | partial | Daemon seeds all four reserved classes via `relationship-class-changed.v1` from `default_class_definitions()` when an operator participant and writable vault are available. `untrusted` seed has empty `grant-allowlist`/`suggested-defaults`; `trusted` seed includes `secondary-confirmation` in `verification/required` and a broader `grant-allowlist` (custody, delegation). Reserved classes cannot be archived through the daemon API. |
-| S032-14 | SQLite projection encrypted-at-rest | todo | Cell-level AEAD with per-store key derived from vault. Phase 2 may temporarily allow `legacy_plaintext_cache` flag with operator warning. |
+| S032-14 | SQLite projection encrypted-at-rest | todo | Cell-level AEAD with per-store key derived from the node/sealer AEAD backend. No legacy plaintext cache is part of the target state. |
 | S032-15 | Read-model level enforcement | partial | Pure read-model filters exist; daemon/UI/AD enforcement remains M3/M4/M6 work. |
 | S032-16 | Host policy evaluator for predicates | partial | Pure evaluator is now callable through daemon control API and the redacted `local-relationship.predicate.evaluate` host capability. Full dispatch-path integration and verified binding-store evidence checks remain open. |
 | S032-17 | Middleware package manifest `trust_requirements` declaration mechanism | todo | Parser, operator approval flow, readiness gate enforcement, package install audit event. |
 | S032-18 | Node-operator-binding evidence integration | partial | Pure evaluator requires a node-operator-binding evidence ref and rejects mismatches; verification against the daemon binding store remains M3/M4 work. |
 | S032-19 | `owner/ref` multi-operator query scoping | partial | Pure membership keys and group resolution are owner-scoped; daemon defaults and multi-operator query surfaces remain M3/M5 work. |
-| S032-20 | Phase 3 (writes fully migrated) | deferred | Future iteration. |
-| S032-21 | Phase 4 (legacy deprecation + retention) | deferred | Future iteration. |
+| S032-20 | Phase 3 (writes fully migrated) | obsolete | Collapsed before first release: messaging writes canonical Local Relationship facts only. |
+| S032-21 | Phase 4 (legacy deprecation + retention) | obsolete | Collapsed before first release: legacy `contacts_membership` / `contacts.membership-changed.v1` support was removed rather than retained. |
 | S032-22 | Public protocol capability for federated consumers | deferred | Not in this iteration; local-authenticated host API only. |
 
 ## Notes

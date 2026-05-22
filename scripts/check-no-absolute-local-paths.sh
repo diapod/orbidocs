@@ -11,7 +11,9 @@ while IFS= read -r path; do
     scripts/check-no-absolute-local-paths.sh)
       ;;
     *.md|*.toml|*.yml|*.yaml|*.json|*.py|*.sh|*.txt|*.edn|*.clj|*.cljs|*.cljc)
-      files+=("$path")
+      if [ -f "$path" ]; then
+        files+=("$path")
+      fi
       ;;
   esac
 done < <(git ls-files)
