@@ -38,7 +38,7 @@ Declarative relationship-derived policy requirement. Predicates are conditions t
 | [`predicate/kind`](#field-predicate-kind) | `yes` | enum: `operator-relationship-class` |  |
 | [`local/operator-ref`](#field-local-operator-ref) | `no` | string |  |
 | [`remote/operator-binding-ref`](#field-remote-operator-binding-ref) | `no` | string |  |
-| [`required/class-id`](#field-required-class-id) | `yes` | ref: `relationship-class.v1.schema.json#/$defs/class_id` |  |
+| [`required/class-ids`](#field-required-class-ids) | `yes` | array | Match succeeds when the candidate membership is in any of these classes. Order is irrelevant; presence in the list is enough. This is how composable trust gradation predicates are expressed without introducing a linear-ordering operator. |
 | [`required/status`](#field-required-status) | `yes` | ref: `relationship-membership-fact.v1.schema.json#/$defs/membership_status` |  |
 | [`action/kind`](#field-action-kind) | `yes` | ref: `#/$defs/action_kind` |  |
 | [`effect/scope`](#field-effect-scope) | `yes` | ref: `#/$defs/effect_scope` |  |
@@ -92,11 +92,13 @@ Declarative relationship-derived policy requirement. Predicates are conditions t
 - Required: `no`
 - Shape: string
 
-<a id="field-required-class-id"></a>
-## `required/class-id`
+<a id="field-required-class-ids"></a>
+## `required/class-ids`
 
 - Required: `yes`
-- Shape: ref: `relationship-class.v1.schema.json#/$defs/class_id`
+- Shape: array
+
+Match succeeds when the candidate membership is in any of these classes. Order is irrelevant; presence in the list is enough. This is how composable trust gradation predicates are expressed without introducing a linear-ordering operator.
 
 <a id="field-required-status"></a>
 ## `required/status`

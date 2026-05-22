@@ -71,11 +71,23 @@ one are non-conformant.
    log + latest sealed snapshot is the recovery source of truth. SQLite
    projection is a rebuildable cache, never authority.
 
-5. **Reserved IDs + mandatory namespace.** `contacts` and `friends` are
-   reserved as well-known classes with seeded default policy. All other
-   classes MUST be namespaced (`vendor.example/...`, `operator-local/...`).
-   `blocked` is intentionally NOT a class — it is a *status* on
-   memberships, never a class equivalent to `contacts`/`friends`.
+5. **Reserved IDs + mandatory namespace.** Four reserved well-known
+   class IDs form a PGP-style trust gradation: `untrusted`, `contacts`,
+   `friends`, `trusted` — each with seeded default policy. All other
+   classes MUST be namespaced (`vendor.example/...`,
+   `operator-local/...`). Custom namespaced classes that visually
+   shadow a reserved name (e.g. `vendor.x/trusted`) are allowed —
+   namespace makes the distinction explicit; `is_reserved_class_id`
+   returns `false` for namespaced variants. `blocked` is intentionally
+   NOT a class — it is a *status* on memberships, never a class. A
+   definition collision on a reserved or namespaced ID fails the
+   readiness gate at daemon start; classes are not silently merged.
+
+   **Reserved classes cannot be archived.** Operator may promote/demote
+   memberships across reserved classes, but `archive_class(<reserved>)`
+   returns `cannot-archive-reserved-class` error. This guarantees
+   recovery from any vault snapshot lands in a consistent state where
+   all four reserved classes exist with their seeded definitions.
 
 6. **Classes are archived, never deleted.** Archive transitions the class
    out of active resolver results; facts remain in the event log.
@@ -190,7 +202,7 @@ All schemas land in `orbidocs/doc/schemas` with mirror under
 - `relationship-policy-predicate.v1` — declarative condition (middleware
   or operator-defined). Fields: `predicate/kind`,
   `local/operator-ref?`, `remote/operator-binding-ref`,
-  `required/class-id`, `required/status`, `action/kind`, `effect/scope`,
+  `required/class-ids[]`, `required/status`, `action/kind`, `effect/scope`,
   `ttl?`, `failure/mode` ∈ {`deny`, `require-operator`, `quarantine`},
   `declared/by`. `effect/scope` is mandatory; predicates never bind
   general authority.
@@ -235,24 +247,49 @@ refuses higher detail than the class `privacy/profile` allows.
 `privacy/profile` on class definition sets upper bound for that class.
 Default `sealed-only`.
 
+## PGP-Style Trust Gradation
+
+Four reserved classes form a familiar trust gradation inspired by PGP
+trust levels (`unknown < marginal < full < ultimate`). The gradation is
+**convention**, not enforced linear ordering: the schema does not
+implement "level ≥ X" comparisons. Each predicate explicitly lists the
+required class IDs in `required/class-ids[]`. This keeps custom
+namespaced classes (`vendor.x/book-club`, `operator-local/inner-circle`)
+living alongside the hierarchy without trying to slot them in.
+
+| Tier | Operator meaning | Verification | Routine actions | Privacy |
+| --- | --- | --- | --- | --- |
+| `untrusted` | Known but explicitly distrusted | none | none (per-action explicit grant required) | operator-visible-summary |
+| `contacts` | Known, partial trust | `peer-mutual-accept` | correspondence | operator-visible-summary |
+| `friends` | Known, full routine trust | `operator-explicit` | correspondence + routine opt-in | sealed-only |
+| `trusted` | Known, ultimate trust | `operator-explicit + secondary-confirmation` | broader scope incl. custody, delegation, governance | sealed-only |
+
+Predicate writers compose against this gradation by listing required
+classes explicitly, e.g. "at least contacts" becomes
+`required/class-ids: ["contacts", "friends", "trusted"]`. There is no
+hidden `>=` operator over class IDs.
+
 ## Default Class Seeds
 
 Reserved classes ship with seeded definitions written via
 `relationship-class-changed.v1` at first daemon start (so seed is
 auditable, not magic).
 
-The two reserved classes form an intentional gradation: `contacts` is
-the soft class (*known, may correspond, no routine action authority*);
-`friends` is the firmer class (*known, may correspond, plus routine
-opt-in actions*).
-
 ```text
+untrusted:
+  default-status: active
+  grant-policy/default-allowlist: []
+  grant-policy/suggested-defaults: []                       # nothing auto
+  grant-allowlist: []                                       # nothing routine
+  verification/required: []                                 # "known and intentionally distrusted"
+  privacy/profile: operator-visible-summary
+
 contacts:
   default-status: active
   grant-policy/default-allowlist: []
   grant-policy/suggested-defaults: [messaging-receive@v1]
   grant-allowlist: [messaging-receive@v1]
-  verification/required: peer-mutual-accept
+  verification/required: [peer-mutual-accept]
   privacy/profile: operator-visible-summary
 
 friends:
@@ -260,43 +297,68 @@ friends:
   grant-policy/default-allowlist: []
   grant-policy/suggested-defaults: [messaging-receive@v1, ad.direct-target]
   grant-allowlist: [messaging-receive@v1, ad.direct-target, agora.private-topic]
-  verification/required: operator-explicit
+  verification/required: [operator-explicit]
+  privacy/profile: sealed-only
+
+trusted:
+  default-status: active
+  grant-policy/default-allowlist: []
+  grant-policy/suggested-defaults: [messaging-receive@v1, ad.direct-target, agora.private-topic]
+  grant-allowlist: [messaging-receive@v1, ad.direct-target, agora.private-topic,
+                    memarium.custody-accept, delegation.receive]
+  verification/required: [operator-explicit, secondary-confirmation]
   privacy/profile: sealed-only
 ```
 
 Seed grants nothing automatically. Operator confirmation at install /
-membership append is the gate.
+membership append is the gate. Reserved classes cannot be archived
+(invariant 5).
 
-### Gradation: `contacts` → `friends` → custom → predicate
+The `untrusted` seed is the strictest in the gradation: every action,
+including `messaging-receive`, requires explicit per-contact operator
+grant. This prevents "known and intentionally distrusted" from
+functionally collapsing into `contacts`.
 
-The `contacts` seed is intentionally narrow: routine `grant-allowlist`
-covers correspondence only. A `contact` becoming an AD direct-target or
-a private-topic participant is not a routine operation — it requires one
-of:
+The `trusted` seed requires **two-step verification**:
+`operator-explicit + secondary-confirmation`. Concrete realisation of
+secondary-confirmation (time-delayed 2-step UI dialog, separate
+session, or stronger flow such as cross-signed passport) is M4 (UI)
+implementation detail — the contract here is that two distinct
+verification steps must succeed before a membership transition into
+`trusted` is committed.
+
+### Gradation: `untrusted` → `contacts` → `friends` → `trusted` → custom → predicate
+
+The four-tier gradation covers the linear trust axis. Departures from
+that axis use:
 
 | Path | When to use |
 | --- | --- |
-| Promote to `friends` | The contact has crossed a personal threshold and the operator wants routine access. One-click operator action, audited via `relationship-class-changed.v1` (membership) + `relationship-membership-fact.v1`. |
-| Custom namespaced class (e.g. `operator-local/inner-circle`) | The operator wants a class semantically distinct from `friends` (different verification, different `privacy/profile`, narrower grants) without touching reserved-class seeds. |
-| Per-person grant via existing capability/passport mechanism | A single peer needs one specific capability without class semantics. Heavier process by design; relationship layer is not the only path. |
-| Relationship-policy predicate with bounded `effect/scope` | Situational, bounded autonomy. E.g. `crisis.assist` predicate accepting `contacts` as input under `effect/scope = crisis:assist-bounded`. Class is the *input*; predicate scope is the *bound*. |
+| Tier promotion / demotion | The contact has moved up or down the trust gradation. Promotion to `trusted` requires secondary-confirmation; promotion to `friends` requires operator-explicit; demotion to `untrusted` is one-click. Each transition emits a `relationship-membership-fact.v1`. |
+| Custom namespaced class (e.g. `operator-local/inner-circle`) | The operator wants a class semantically distinct from the four reserved tiers — different verification, different `privacy/profile`, narrower grants — without touching reserved seeds. Custom classes that visually shadow a reserved name (e.g. `vendor.x/trusted`) are allowed; namespace makes the distinction explicit. |
+| Per-person grant via existing capability/passport mechanism | A single peer needs one specific capability without class semantics. Heavier process by design; relationship layer is not the only path to a grant. |
+| Relationship-policy predicate with bounded `effect/scope` | Situational, bounded autonomy. E.g. `crisis.assist` predicate accepting `contacts` and `friends` and `trusted` as inputs under `effect/scope = crisis:assist-bounded`. Class is the *input*; predicate scope is the *bound*. |
 
 **Crisis flows are explicitly the predicate path, not a hardcoded class
 power.** A predicate may declare that `contacts` qualifies for
-`crisis.assist` while `friends` qualifies for a wider crisis scope — the
-classes provide eligibility input, the predicate scope provides the
-bound. This is orthogonal to `grant-allowlist`: the class never gives
-*routine* crisis authority; the predicate gates a *specific bounded*
-crisis scope through normal capability/passport checks.
+`crisis.assist` while `friends` and `trusted` qualify for a wider crisis
+scope — the classes provide eligibility input, the predicate scope
+provides the bound. This is orthogonal to `grant-allowlist`: the class
+never gives *routine* crisis authority; the predicate gates a *specific
+bounded* crisis scope through normal capability/passport checks.
 
 Operator UI labels SHOULD make the gradation visible:
 
+- **untrusted** — known but explicitly distrusted; per-action accept required
 - **contacts** — known peers; correspondence
 - **friends** — close peers; correspondence + routine opt-in actions
+- **trusted** — fully trusted peers; custody, delegation, governance possible
 
+UI SHOULD color-code or otherwise visually distinguish the four tiers so
+operators can scan a contact list and immediately read the trust posture.
 This wording is part of the operator-visible vocabulary, not the
 machine-readable schema. The schema enforces the policy difference
-through `grant-allowlist` and `verification/required`.
+through `grant-allowlist`, `verification/required`, and class invariants.
 
 ## Daemon API (Local Host-Owned)
 
@@ -405,7 +467,7 @@ Middleware declares requirements, not decisions. Package manifest:
     {
       "id": "accept-friend-custody",
       "predicate/kind": "operator-relationship-class",
-      "required/class-id": "friends",
+      "required/class-ids": ["friends", "trusted"],
       "required/status": "active",
       "action/kind": "artifact.custody.accept",
       "effect/scope": "artifact.custody:short-ttl",
@@ -621,10 +683,10 @@ catch up.
 | --- | --- | --- | --- |
 | S032-M1 | Contracts | done | Schemas are present in `orbidocs/doc/schemas`, mirrored into `node/protocol/contracts`, schema-gated with positive/negative fixtures, and include the additive `pseudonym-vault.v1` `local-relationship` kind plus unknown-kind preserve/fail-closed rules. |
 | S032-M2 | Pure core | done | `node/local-relationship-core` provides schema-shaped types, validators, reducers, active group resolution, relationship-derived predicate evaluation, owner-scoped membership keys, and read-model filters without I/O or daemon coupling. |
-| S032-M3 | Storage + daemon API | partial | Daemon now owns `LocalRelationshipStore`, opens `<data-dir>/storage/local-relationships.sqlite`, replays sealed Pseudonym Vault `local-relationship` records at startup, seeds default `contacts`/`friends` when the vault is writable, exposes local control API, and advertises guarded host capabilities. SQLite projection now carries `transactions`, `events`, `current_classes`, `current_memberships`, `current_nym_bindings`, `predicates`, and `decisions`; projection encryption and vault-first atomic write hardening remain open. |
-| S032-M4 | Operator UI + trust requirements | partial | Node UI exposes `/admin/local-relationships` for minimal class, membership, predicate, evaluation, and decision-audit workflows. Middleware `trust_requirements[]` parser/approval/readiness enforcement remains open. |
-| S032-M5 | Messaging bridge + bootstrap migration | partial | Daemon `contact-request.accept` now appends canonical `contacts` membership and pairwise messaging nym binding after local contact creation. Messaging-service-owned bootstrap migration, relationship read bridge, and dual-write compatibility cache remain open. |
-| S032-M6 | AD integration + Contact Catalog cleanup + hardening | partial | Artifact Delivery now has a host-composed dynamic group selector hook and daemon wiring to resolve relationship classes for the primary local operator into ordinary AD recipient selectors when `contact/ref` is directly AD-routable (`node:`, `participant:`, `routing:`), or when a `local-contact:` record carries a local `routing-subject/id` or participant `remote/subject`. Contact Catalog private-state cleanup, privacy/performance hardening, encrypted projection enforcement, and cross-component acceptance coverage remain open. |
+| S032-M3 | Storage + daemon API | partial | Daemon now owns `LocalRelationshipStore`, opens `<data-dir>/storage/local-relationships.sqlite`, replays sealed Pseudonym Vault `local-relationship` records at startup, seeds default `untrusted`/`contacts`/`friends`/`trusted` classes from the pure core when the vault is writable, rejects reserved-class archival with `cannot-archive-reserved-class`, permits operator metadata edits on reserved classes, exposes local control API, and advertises guarded host capabilities. SQLite projection now carries `transactions`, `events`, `current_classes`, `current_memberships`, `current_nym_bindings`, `predicates`, `predicate_class_ids`, and `decisions`; projection encryption and vault-first atomic write hardening remain open. |
+| S032-M4 | Operator UI + trust requirements | partial | Node UI exposes `/admin/local-relationships` for minimal class, membership, predicate, evaluation, and decision-audit workflows. It now distinguishes the four reserved tiers visually, submits predicate requirements as `required/class-ids[]`, validates that at least one class is selected before daemon submission, and uses a typed `trusted` secondary-confirmation modal with bounded lifetime before approving predicates that include the top trust tier. Middleware `trust_requirements[]` parser/approval/readiness enforcement remains open. |
+| S032-M5 | Messaging bridge + bootstrap migration | partial | Daemon `contact-request.accept` now appends canonical `contacts` membership and pairwise messaging nym binding after local contact creation. `messaging-service` now receives the primary operator `owner/ref` from daemon supervision, reads active `contacts` through the point capability `local-relationship.membership.latest`, writes canonical membership through `local-relationship.membership.append` before the legacy cache, exposes an authenticated bootstrap migration endpoint, and records an idempotent migration marker with count/checksum. Startup migration orchestration, operator notification on completion, and wider Story-010 acceptance remain open. |
+| S032-M6 | AD integration + Contact Catalog cleanup + hardening | partial | Artifact Delivery now has a host-composed dynamic group selector hook and daemon wiring to resolve relationship classes for the primary local operator into ordinary AD recipient selectors when `contact/ref` is directly AD-routable (`node:`, `participant:`, `routing:`), or when a `local-contact:` record carries a local `routing-subject/id` or participant `remote/subject`. Relationship membership/candidate contracts now admit directly routable refs while pairwise nym binding contracts remain local-contact scoped. Tests assert empty dynamic groups do not fall back, unroutable relationship groups fail closed, and relationship candidates do not bypass AD outbound authority. Contact Catalog private-state cleanup is documented; privacy/performance hardening, encrypted projection enforcement, and cross-component acceptance coverage remain open. |
 | S032-D1 | Phase 3 writes fully migrated | deferred | Post-MVP: messaging stops writing legacy tables directly. |
 | S032-D2 | Phase 4 legacy deprecation | deferred | Post-MVP: legacy table and fact deprecation after consumer audit. |
 | S032-D3 | Public protocol capability | deferred | Post-MVP only; the MVP boundary remains local-authenticated host API. |
@@ -639,13 +701,13 @@ catch up.
 | S032-04 | Implement `node/local-relationship-core` (pure) | done | Types, validation, projection reducer, active group resolver, predicate evaluator, read-model filters. No I/O. |
 | S032-05 | Implement `LocalRelationshipStore` in daemon | partial | Store and projection exist with Solution 028-shaped `transactions`, `events`, and `current_*` tables; startup replay from Pseudonym Vault works. Remaining: projection cell-level AEAD, vault-first atomic write path, and broader replay/rebuild tests. |
 | S032-06 | Local-authenticated host capabilities + API surface | partial | Control API and guarded host capabilities exist for membership append/latest, group resolve, and predicate evaluate. Direct middleware membership reads remain forbidden; class/predicate management stays control-plane only for now. |
-| S032-07 | Phase 2 bridge in Messaging | todo | Read new, write new + legacy; emit canonical + legacy facts. |
-| S032-08 | One-shot bootstrap migration | todo | Idempotent; daemon stays in `migration-pending` until success; operator notification on completion. |
-| S032-09 | AD `resolve_group` resolver | todo | Returns `ResolvedRelationshipCandidate[]`; AD performs own passport/capability checks. |
-| S032-10 | Contact Catalog cleanup | todo | Remove `friends`, raw handles, local annotation. |
+| S032-07 | Phase 2 bridge in Messaging | partial | `messaging-service` reads point membership status from Local Relationship when configured and writes canonical membership before the legacy `contacts_membership` cache. It still emits the legacy `contacts.membership-changed.v1` projection for compatibility. Remaining: broader Story-010 bridge coverage and explicit compatibility-mode fallback audit. |
+| S032-08 | One-shot bootstrap migration | partial | `POST /v1/messaging/relationships/bootstrap-migration` supports dry-run, commit, idempotent rerun, and checksum-drift fail-closed behavior. Remaining: automatic startup orchestration, daemon-wide `migration-pending` state, and operator notification on completion. |
+| S032-09 | AD `resolve_group` resolver | partial | AD group resolution is host-composed through Local Relationship classes and still performs normal outbound/admission authority checks after candidate expansion. Current tests cover dynamic override, empty-group fail-closed, direct `node:`/`participant:`/`routing:` refs, `local-contact:` route/participant mapping, unroutable member failure, and candidate-not-authority. Remaining: Story-005 private/direct acceptance through `friends`. |
+| S032-10 | Contact Catalog cleanup | partial | Proposal/Solution/runbook now state that Contact Catalog owns public/federable route-set discovery only; raw handles stay in Local Contact Store and classes/memberships/predicates live in Local Relationship Layer. Remaining: sweep any future UI wording regressions and add a dedicated privacy regression gate. |
 | S032-11 | Operator UI: class management + membership inspection | partial | Minimal `/admin/local-relationships` screen supports class upsert, membership append, predicate registration/evaluation, and decision audit. Polished read-model level enforcement and richer filters remain open. |
 | S032-12 | Replay equivalence + privacy regression tests | partial | Pure reducer replay/property coverage and vault unknown-kind roundtrip coverage exist; daemon projection rebuild and full privacy regex pass remain M3/M6 work. |
-| S032-13 | Default class seeds for `contacts` and `friends` | partial | Daemon seeds both classes via `relationship-class-changed.v1` when an operator participant and writable vault are available. Richer seeded grant-policy defaults remain to be aligned with the full target semantics. |
+| S032-13 | Default class seeds for `untrusted`, `contacts`, `friends`, `trusted` (PGP-style trust gradation) | partial | Daemon seeds all four reserved classes via `relationship-class-changed.v1` from `default_class_definitions()` when an operator participant and writable vault are available. `untrusted` seed has empty `grant-allowlist`/`suggested-defaults`; `trusted` seed includes `secondary-confirmation` in `verification/required` and a broader `grant-allowlist` (custody, delegation). Reserved classes cannot be archived through the daemon API. |
 | S032-14 | SQLite projection encrypted-at-rest | todo | Cell-level AEAD with per-store key derived from vault. Phase 2 may temporarily allow `legacy_plaintext_cache` flag with operator warning. |
 | S032-15 | Read-model level enforcement | partial | Pure read-model filters exist; daemon/UI/AD enforcement remains M3/M4/M6 work. |
 | S032-16 | Host policy evaluator for predicates | partial | Pure evaluator is now callable through daemon control API and the redacted `local-relationship.predicate.evaluate` host capability. Full dispatch-path integration and verified binding-store evidence checks remain open. |

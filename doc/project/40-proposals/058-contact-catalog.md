@@ -370,8 +370,7 @@ The node should distinguish:
 1. **Local contact store**
    - raw address book entries,
    - user labels,
-   - local relationship state,
-   - pairwise nym mappings,
+   - local address-book mappings and UX metadata,
    - never published by default.
 
 2. **Contact Catalog**
@@ -380,7 +379,13 @@ The node should distinguish:
    - contact routes or invitations,
    - query policy and audit.
 
-3. **Seed Directory**
+3. **Local Relationship Layer**
+   - private relationship classes such as `contacts` and `friends`,
+   - membership facts and relationship predicates,
+   - pairwise relationship facts,
+   - never published as catalog state.
+
+4. **Seed Directory**
    - discovery of Contact Catalog providers,
    - endpoint and capability evidence,
    - no people-directory semantics.

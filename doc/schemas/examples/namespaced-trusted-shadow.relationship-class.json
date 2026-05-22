@@ -1,0 +1,13 @@
+{
+  "schema": "relationship-class.v1",
+  "schema/v": 1,
+  "class/id": "vendor.example/trusted",
+  "class/state": "active",
+  "display/label": "Vendor Trusted (custom)",
+  "description": "Custom namespaced class whose name visually shadows the reserved `trusted` tier. Allowed per Solution 032 Invariant 5 — namespace makes the distinction explicit, and `is_reserved_class_id` returns false for namespaced variants. Operator UI must display the full class id to avoid confusion with the reserved well-known `trusted`.",
+  "default/status": "active",
+  "grant-policy/suggested-defaults": ["messaging-receive@v1"],
+  "grant-allowlist": ["messaging-receive@v1"],
+  "verification/required": ["operator-explicit"],
+  "privacy/profile": "operator-visible-summary"
+}

@@ -28,7 +28,7 @@
     "schema/v": { "const": 1 },
     "fact/id": { "type": "string", "pattern": "^fact:relationship-membership:[a-z0-9][a-z0-9:-]*$" },
     "owner/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
-    "contact/ref": { "type": "string", "pattern": "^local-contact:[A-Za-z0-9_-]+$" },
+    "contact/ref": { "type": "string", "pattern": "^(local-contact:[A-Za-z0-9_-]+|node:\\S+|participant:\\S+|routing:\\S+)$" },
     "class/id": { "$ref": "relationship-class.v1.schema.json#/$defs/class_id" },
     "status": { "$ref": "#/$defs/membership_status" },
     "actor/ref": { "type": "string", "minLength": 1, "maxLength": 256 },

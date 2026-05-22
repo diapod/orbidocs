@@ -16,7 +16,7 @@
     "schema/v",
     "predicate/id",
     "predicate/kind",
-    "required/class-id",
+    "required/class-ids",
     "required/status",
     "action/kind",
     "effect/scope",
@@ -30,7 +30,13 @@
     "predicate/kind": { "type": "string", "enum": ["operator-relationship-class"] },
     "local/operator-ref": { "type": "string", "minLength": 1, "maxLength": 256 },
     "remote/operator-binding-ref": { "type": "string", "minLength": 1, "maxLength": 256 },
-    "required/class-id": { "$ref": "relationship-class.v1.schema.json#/$defs/class_id" },
+    "required/class-ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "relationship-class.v1.schema.json#/$defs/class_id" },
+      "description": "Match succeeds when the candidate membership is in any of these classes. Order is irrelevant; presence in the list is enough. This is how composable trust gradation predicates are expressed without introducing a linear-ordering operator."
+    },
     "required/status": { "$ref": "relationship-membership-fact.v1.schema.json#/$defs/membership_status" },
     "action/kind": { "$ref": "#/$defs/action_kind" },
     "effect/scope": { "$ref": "#/$defs/effect_scope" },

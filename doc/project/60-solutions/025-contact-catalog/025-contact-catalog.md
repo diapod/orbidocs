@@ -180,19 +180,17 @@ Status:
 
 > **Ownership note (cross-reference to Solution 032):** With the
 > introduction of the Local Relationship Layer (Solution 032), semantic
-> ownership of the local contact concept — relationship classes,
-> membership state, and pairwise nym continuity — moves to Solution 032.
-> Contact Catalog retains only public discovery / route-set lookup
-> state. The expected flow becomes:
+> relationship state — classes, memberships, relationship predicates,
+> and pairwise relationship facts — moves to Solution 032. Raw handles,
+> UX labels, and local address-book records stay in the daemon Local
+> Contact Store. Contact Catalog retains only public discovery /
+> route-set lookup state. The expected flow becomes:
 > `Catalog lookup (public discovery) → Local Relationship annotation (private) → consumer policy (passport-gated)`.
 >
-> `local-contact.v1` schema is preserved unchanged; its records now live
-> as sealed inner entries of kind `local-relationship` inside the
-> Pseudonym Vault rather than as a standalone plaintext store. The
-> existing `local-contacts.sqlite` daemon-side plaintext store is
-> labelled transitional during Solution 032 Phase 2 bridge and retires
-> in Phase 4. Relationship classes such as `friends` are no longer a
-> Catalog concept; Catalog never sees them.
+> `local-contact.v1` schema is preserved unchanged. Its recovery bundle
+> remains sealed through the Pseudonym Vault, while `local-relationship`
+> vault entries carry relationship facts. Relationship classes such as
+> `friends` are not a Catalog concept; Catalog never sees them.
 
 Based on:
 
@@ -206,17 +204,16 @@ Related schemas:
 
 Responsibilities:
 
-- store raw external handles, labels, local relationship state, and pairwise
-  nym mappings locally;
+- store raw external handles, labels, and local address-book mappings locally;
 - keep the store unpublished by default;
-- persist user-level continuity data needed to restore accepted contacts after
-  nym regeneration or node recovery;
+- persist user-level continuity data needed to restore local contacts after
+  node recovery;
 - expose only redacted or digest-bound references to network artifacts.
 
-> **After Solution 032 Phase 2 completes**, the first three
-> responsibilities transition to Local Relationship Layer; this section
-> remains as a description of the pre-Solution-032 state and the
-> transitional bridge.
+> Solution 032 does not make Contact Catalog the owner of private
+> relationships. It only moves relationship classes, membership facts,
+> predicates, and pairwise relationship facts out of Messaging/AD/Catalog
+> into the Local Relationship Layer.
 
 Status:
 

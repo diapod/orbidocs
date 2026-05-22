@@ -1,11 +1,12 @@
 {
   "schema": "relationship-policy-predicate.v1",
   "schema/v": 1,
-  "predicate/id": "relationship-policy-predicate:missing-scope",
+  "predicate/id": "relationship-policy-predicate:duplicate-class-ids",
   "predicate/kind": "operator-relationship-class",
-  "required/class-ids": ["friends"],
+  "required/class-ids": ["friends", "friends"],
   "required/status": "active",
   "action/kind": "artifact.custody.accept",
+  "effect/scope": "artifact.custody:short-ttl",
   "failure/mode": "quarantine",
   "declared/by": "middleware-package:memarium-custody"
 }

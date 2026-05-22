@@ -5,7 +5,7 @@
   "predicate/kind": "operator-relationship-class",
   "local/operator-ref": "operator-binding:primary",
   "remote/operator-binding-ref": "node-operator-binding:remote-alice",
-  "required/class-id": "friends",
+  "required/class-ids": ["friends", "trusted"],
   "required/status": "active",
   "action/kind": "artifact.custody.accept",
   "effect/scope": "artifact.custody:short-ttl",

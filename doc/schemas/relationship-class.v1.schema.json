@@ -75,7 +75,7 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 256,
-      "pattern": "^[~]?[a-z0-9][a-z0-9_./-]*(?:@[a-z]+:did:key:z[1-9A-HJ-NP-Za-km-z]+)?$"
+      "pattern": "^[~]?[a-z0-9][a-z0-9_./-]*(?:@(?:v[0-9]+|[a-z]+:did:key:z[1-9A-HJ-NP-Za-km-z]+))?$"
     }
   }
 }

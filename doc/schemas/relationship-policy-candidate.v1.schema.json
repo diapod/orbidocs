@@ -34,7 +34,7 @@
     "schema/v": { "const": 1 },
     "candidate/id": { "type": "string", "pattern": "^relationship-policy-candidate:[a-z0-9][a-z0-9:-]*$" },
     "predicate/ref": { "type": "string", "pattern": "^relationship-policy-predicate:[a-z0-9][a-z0-9:-]*$" },
-    "contact/ref": { "type": "string", "pattern": "^local-contact:[A-Za-z0-9_-]+$" },
+    "contact/ref": { "type": "string", "pattern": "^(local-contact:[A-Za-z0-9_-]+|node:\\S+|participant:\\S+|routing:\\S+)$" },
     "class/id": { "$ref": "relationship-class.v1.schema.json#/$defs/class_id" },
     "relationship/fact-id": { "type": "string", "pattern": "^fact:relationship-membership:[a-z0-9][a-z0-9:-]*$" },
     "local/operator-ref": { "type": "string", "minLength": 1, "maxLength": 256 },

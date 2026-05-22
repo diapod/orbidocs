@@ -230,20 +230,24 @@
    :status :todo}
 
   {:cap/id :default-class-seeds
-   :title "Default Class Seeds"
+   :title "Default Class Seeds (PGP-Style Trust Gradation)"
    :kind :bootstrap-contract
    :based-on ["doc/project/40-proposals/065-local-relationship-layer.md"]
    :schemas ["relationship-class-changed.v1"]
    :responsibilities
-   ["Write seeded definitions for `contacts` and `friends` via relationship-class-changed.v1 at first daemon start"
+   ["Write seeded definitions for the four reserved classes (`untrusted`, `contacts`, `friends`, `trusted`) via relationship-class-changed.v1 at first daemon start"
     "Treat seeds as operator-editable defaults, not magic constants"
     "Grant nothing automatically via seeds; grant-policy/suggested-defaults requires operator confirmation"
     "Make seed application uniform with any operator-driven class change for audit purposes"
-    "Seed `contacts` with strictly-communication grant-allowlist (`messaging-receive@v1` only); routine actions belong to `friends` or custom classes"
+    "Seed `untrusted` with empty grant-allowlist and empty suggested-defaults; even messaging-receive requires explicit per-contact operator grant"
+    "Seed `contacts` with strictly-communication grant-allowlist (`messaging-receive@v1` only); routine actions belong to `friends` or `trusted`"
     "Seed `friends` with routine opt-in actions (`messaging-receive@v1`, `ad.direct-target`, `agora.private-topic`)"
-    "Document the gradation contacts -> friends -> custom -> predicate in operator UI labels"]
+    "Seed `trusted` with broader grant-allowlist including `memarium.custody-accept` and `delegation.receive`; verification/required must include `secondary-confirmation`"
+    "Refuse archive of any reserved class via readiness gate; reserved classes always exist"
+    "Allow custom namespaced classes that shadow reserved names (e.g. `vendor.x/trusted`); namespace makes the distinction explicit"
+    "Document the gradation untrusted -> contacts -> friends -> trusted -> custom -> predicate in operator UI labels with visual tier distinction"]
    :status :partial
-   :notes "Default classes are seeded through relationship-class-changed.v1 when an operator participant and writable vault are available. Full seeded grant-policy semantics remain to be tightened."}
+   :notes "Default classes are seeded through relationship-class-changed.v1 when an operator participant and writable vault are available. Two-tier seed (contacts, friends) is in place; four-tier PGP-style gradation (untrusted, contacts, friends, trusted) including secondary-confirmation verification for `trusted` and reserved-archive readiness gate remain to be implemented."}
 
   {:cap/id :replay-equivalence-and-privacy-tests
    :title "Replay Equivalence and Privacy Tests"

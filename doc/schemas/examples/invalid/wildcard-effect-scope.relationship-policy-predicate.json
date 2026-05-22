@@ -3,7 +3,7 @@
   "schema/v": 1,
   "predicate/id": "relationship-policy-predicate:wildcard-scope",
   "predicate/kind": "operator-relationship-class",
-  "required/class-id": "friends",
+  "required/class-ids": ["friends"],
   "required/status": "active",
   "action/kind": "artifact.custody.accept",
   "effect/scope": "*",

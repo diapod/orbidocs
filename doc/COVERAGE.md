@@ -138,11 +138,11 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`public-log-entry.v1.schema.json`](schemas-gen/schemas/public-log-entry.v1.md) | `6` | `6` | `yes` | `yes` | `0` | `0` |
 | [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) | `30` | `30` | `yes` | `yes` | `2` | `2` |
 | [`relationship-class-changed.v1.schema.json`](schemas-gen/schemas/relationship-class-changed.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `3` |
-| [`relationship-class.v1.schema.json`](schemas-gen/schemas/relationship-class.v1.md) | `14` | `2` | `yes` | `yes` | `1` | `2` |
+| [`relationship-class.v1.schema.json`](schemas-gen/schemas/relationship-class.v1.md) | `14` | `2` | `yes` | `yes` | `2` | `2` |
 | [`relationship-membership-fact.v1.schema.json`](schemas-gen/schemas/relationship-membership-fact.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `1` |
 | [`relationship-policy-candidate.v1.schema.json`](schemas-gen/schemas/relationship-policy-candidate.v1.md) | `20` | `0` | `yes` | `yes` | `1` | `0` |
 | [`relationship-policy-decision.v1.schema.json`](schemas-gen/schemas/relationship-policy-decision.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `0` |
-| [`relationship-policy-predicate.v1.schema.json`](schemas-gen/schemas/relationship-policy-predicate.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `2` |
+| [`relationship-policy-predicate.v1.schema.json`](schemas-gen/schemas/relationship-policy-predicate.v1.md) | `14` | `1` | `yes` | `yes` | `1` | `5` |
 | [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md) | `16` | `16` | `yes` | `yes` | `4` | `6` |
 | [`reputation-snapshot.v1.schema.json`](schemas-gen/schemas/reputation-snapshot.v1.md) | `9` | `1` | `yes` | `yes` | `1` | `1` |
 | [`resource-opinion.v1.schema.json`](schemas-gen/schemas/resource-opinion.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `1` |
@@ -447,5 +447,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `145`
 - Generated schema docs: `145`
-- Positive examples: `163`
-- Negative examples: `118`
+- Positive examples: `164`
+- Negative examples: `121`
