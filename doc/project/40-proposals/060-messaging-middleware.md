@@ -550,8 +550,16 @@ post-MVP because they require different consent and key-management rules.
 
 ### 8. `contacts` Relationship Class
 
-The messaging service owns the local `contacts` relationship-class set,
-with the following invariants:
+> **Updated by Proposal 065 / Solution 032:** the canonical
+> `contacts` relationship class now belongs to the daemon-owned Local
+> Relationship Layer. This section records the messaging semantics that
+> originally shaped the class. During the bridge period, the messaging
+> service keeps `contacts_membership` as a compatibility cache and
+> emits legacy `contacts.membership-changed.v1` projections, but the
+> canonical membership fact is `relationship-membership-fact.v1`.
+
+The local `contacts` relationship-class set has the following
+messaging-facing invariants:
 
 - Membership is keyed by the accepted sender subject (participant, nym,
   or routing subject), not by handle.
@@ -573,10 +581,12 @@ distinction is documented for INAC middleware configuration generally,
 not only for messaging.
 
 `contacts` membership is not the same row as a human address-book entry.
-The messaging service owns the canonical relationship for receive consent.
-The daemon-owned local contact store may hold labels, raw handles, pairwise
-nym mappings, and an optional UX projection of the relationship, but it is
-not the source of truth for messaging consent.
+The Local Relationship Layer owns the canonical relationship for receive
+consent. Messaging consumes that state for admission and keeps its legacy
+membership table only as a transitional compatibility projection during
+Solution 032 Phase 2. The daemon-owned local contact store may hold labels,
+raw handles, pairwise nym mappings, and UX metadata, but it is not the
+source of truth for messaging consent.
 
 ### 9. Recovery and Vault Integration
 
@@ -1048,7 +1058,7 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 | P060-005 | Messaging middleware solution document and capability sidecar | done | `doc/project/60-solutions/027-messaging-middleware/` contains the solution document, implementation notes, and `027-messaging-middleware-caps.edn`; generated capability matrices include the component. |
 | P060-006 | Daemon vs service boundary documented (small host/authority layer vs domain service) | done | §1 Component Boundary + Daemon vs Service Boundary section. Mirrors P058 §11 Catalog Provider Role pattern. |
 | P060-007 | Stratified storage contract (Layer 1 Maildir, Layer 2 service SQLite, Layer 3 Memarium facts) frozen | done | §2 Stratified Storage with bounding rule; promoted from story-010 §11 sketch. |
-| P060-008 | `contacts` relationship class model frozen (local set, default "may send messages to me" policy, bi-directional projection with `messaging-receive@v1` passports) | done | §8 `contacts` Relationship Class. Implementation tracked separately by P060-013. |
+| P060-008 | `contacts` relationship class model frozen (local set, default "may send messages to me" policy, bi-directional projection with `messaging-receive@v1` passports) | done | §8 `contacts` Relationship Class, updated by Proposal 065 / Solution 032: Local Relationship Layer is canonical owner; messaging keeps legacy projection/cache during the bridge. Implementation tracked separately by P060-013 and Solution 032 M5. |
 | P060-009 | Inbound acceptor: three messaging-specific scope checks + `contacts`-policy gate + recipient mailbox resolution | done | `messaging-service` exposes `POST /v1/artifact-delivery/accept`, schema/domain validation, digest idempotency, Maildir + SQLite writes, passport scope matching, `contacts` membership projection from presented receive passports, generic `contacts-policy-denied` refusal, host `local-recipient-mailbox.resolve`, and inbound notifications. Passport-ref admission uses `capability.passport.lookup`; inline `messaging-receive@v1` passports fail closed against the receiver-side revocation snapshot before Maildir/SQLite writes and record `messaging.passport-revoked.v1` on revocation. Missing host capability access refuses passport-based first contact rather than trusting local-only verification. Story 010 strict smoke exercises this inbound acceptor path over cross-node private-direct delivery. |
 | P060-010 | Outbound queue state machine | done | §7 Outbound Queue State Machine; implementation tracked separately by P060-013. |
 | P060-011 | Layer 3 messaging-fact kind schemas (`contacts.membership-changed.v1`, `messaging.passport-issued.v1`, `messaging.passport-revoked.v1`, `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`, `messaging.flag.v1`) | done | Schema files, examples where useful, Node protocol mirror, and `schema-gate` export validators exist. Runtime Memarium writes remain tracked by P060-013. |

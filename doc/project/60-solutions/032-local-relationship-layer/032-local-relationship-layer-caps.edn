@@ -55,7 +55,8 @@
     "Extend pseudonym-vault.v1 additively with `local-relationship` inner-entry kind"
     "Preserve unknown inner-entry kinds verbatim on reseal; fail closed on critical=true unknown entries"
     "Recover by replaying sealed event log from last good snapshot"]
-   :status :partial}
+   :status :partial
+   :notes "Daemon startup now replays Pseudonym Vault `local-relationship` entries and seeds default classes when the vault is writable. The current write path still needs vault-first atomic hardening."}
 
   {:cap/id :sqlite-projection-with-privacy-boundary
    :title "SQLite Projection With Privacy Boundary"
@@ -70,7 +71,8 @@
     "Permit opaque references with tx/id offsets as acceptable interim shape"
     "Treat existing `local-contacts.sqlite` plaintext store as labelled transitional only"
     "Apply performance-profile cadence for snapshot recheckpoint (minimal: 50/30s, balanced: 100/60s, full-audit: 25/15s)"]
-   :status :todo}
+   :status :partial
+   :notes "Daemon projection exists with transactions, events, current_classes, current_memberships, current_nym_bindings, predicates, and decisions. Projection cells are not yet encrypted-at-rest, so this remains partial."}
 
   {:cap/id :pure-core-semantics
    :title "Pure Core Semantics"
@@ -135,7 +137,8 @@
     "Expose local-relationship.predicate.{list,register,evaluate} and decision.list"
     "Require caller binding for every capability; fail closed with caller-not-authorized otherwise"
     "Never appear in public capability matrices; never accept peer signatures"]
-   :status :todo}
+   :status :partial
+   :notes "Local control API and selected guarded host capabilities exist. Middleware direct membership reads are restricted; class/predicate management remains control-plane only in this slice."}
 
   {:cap/id :host-policy-evaluator
    :title "Host Policy Evaluator"
@@ -180,7 +183,8 @@
     "Return ResolvedRelationshipCandidate carrying class/id, relationship/fact-id, candidate/status, optional route-hints"
     "Never expose relationship class semantics to AD; AD performs own passport/capability checks"
     "Treat group resolution as candidate selection, never as authorization"]
-   :status :todo}
+   :status :partial
+   :notes "Artifact Delivery now has a host-composed dynamic group selector resolver. The daemon wires it to LocalRelationshipStore for the primary local operator and maps relationship candidates with directly AD-routable contact/ref values (`node:`, `participant:`, `routing:`), or `local-contact:` records carrying a local routing-subject/id or participant remote/subject, into ordinary AD recipient selectors. Story-005/Story-010 acceptance and richer route-hint/nym binding use remain open."}
 
   {:cap/id :messaging-bridge
    :title "Messaging Bridge (Phase 2)"
@@ -195,7 +199,8 @@
     "Continue writing to legacy contacts_membership table as compatibility cache during Phase 2"
     "Emit canonical relationship-membership-fact.v1 alongside legacy contacts.membership-changed.v1 projection"
     "Allow Messaging to declare relationship-derived trust_requirements in package manifest"]
-   :status :todo}
+   :status :partial
+   :notes "Daemon `contact-request.accept` appends canonical `contacts` membership and pairwise messaging nym binding. Messaging-service bootstrap migration and read/dual-write bridge remain open."}
 
   {:cap/id :contact-catalog-cleanup
    :title "Contact Catalog Cleanup"
@@ -237,7 +242,8 @@
     "Seed `contacts` with strictly-communication grant-allowlist (`messaging-receive@v1` only); routine actions belong to `friends` or custom classes"
     "Seed `friends` with routine opt-in actions (`messaging-receive@v1`, `ad.direct-target`, `agora.private-topic`)"
     "Document the gradation contacts -> friends -> custom -> predicate in operator UI labels"]
-   :status :todo}
+   :status :partial
+   :notes "Default classes are seeded through relationship-class-changed.v1 when an operator participant and writable vault are available. Full seeded grant-policy semantics remain to be tightened."}
 
   {:cap/id :replay-equivalence-and-privacy-tests
    :title "Replay Equivalence and Privacy Tests"
