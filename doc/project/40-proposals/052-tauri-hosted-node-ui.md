@@ -24,7 +24,7 @@ Orbiplex Node should add an optional desktop shell built with Tauri.
 
 The shell is not a new application runtime and not a replacement for the
 existing Node UI architecture. It is a thin native host around the current
-web-based operator console:
+web-based Node UI:
 
 - Rust host,
 - system webview,
@@ -35,9 +35,11 @@ web-based operator console:
 The Node already has the right shape for this:
 
 - the core application is Rust,
-- the operator console is web UI served locally,
+- Node UI is served locally as server-rendered HTML,
+- the operator console remains browser-first for routine operator work,
+- the user-facing `/app` surface is the primary desktop window,
 - middleware modules are supervised HTTP services,
-- the browser is only a client of the console.
+- the browser or desktop webview is only a client of those surfaces.
 
 Electron would introduce Node.js as another central runtime even though
 Orbiplex already has a Rust daemon and supervised services. Tauri fits the
@@ -47,20 +49,22 @@ whose semantic authority still lives in the daemon.
 The preferred direction is:
 
 - keep Node UI as HTMX/HATEOAS over server-rendered HTML,
-- host the operator surface in a Tauri-managed main webview,
-- avoid putting untrusted web content into the operator webview,
+- host the user-facing `/app` surface in a Tauri-managed main webview,
+- keep the operator console browser-first unless a specific host-owned surface
+  needs to be opened in desktop mode,
+- avoid putting untrusted web content into trusted Orbiplex webviews,
 - use a separate low-privilege external-content webview or window when a user
   needs to inspect a public URL,
-- consider a custom app protocol for the operator hypermedia space so the
-  desktop UI can present one coherent origin without exposing daemon control
+- use or continue hardening a custom app protocol for the Orbiplex hypermedia
+  space so the desktop UI can present one coherent origin without exposing daemon control
   endpoints as ordinary browser-reachable localhost APIs.
 
 ## Problem
 
 The current browser-based UI works, but it has three frictions:
 
-1. It looks and behaves like a browser tab even when it is the operator's local
-   control panel.
+1. It looks and behaves like a browser tab even when it is the user's local
+   node window or the operator's local control panel.
 2. Localhost control surfaces are easy to overexpose by accident.
 3. Story-008-style resource opinion flows need a convenient way to show or
    inspect an external web resource without merging that external page with the
@@ -68,14 +72,14 @@ The current browser-based UI works, but it has three frictions:
 
 The naive desktop migration would be to embed the existing localhost UI and call
 it done. That keeps the useful development path, but it does not name the
-security boundary. If the same webview can navigate from trusted operator UI to
+security boundary. If the same webview can navigate from trusted Orbiplex UI to
 an arbitrary remote page, then that page can try to reach loopback endpoints,
 trigger browser-mediated requests, probe ports, or exploit weak CORS/CSRF
 settings.
 
 This proposal separates two questions:
 
-- how Orbiplex presents its own operator hypermedia,
+- how Orbiplex presents its own user and operator hypermedia,
 - how Orbiplex previews or comments on foreign web resources.
 
 Those are different trust domains and should be different webviews or windows.
@@ -88,8 +92,8 @@ Those are different trust domains and should be different webviews or windows.
 - Keep daemon and middleware semantics outside the desktop shell.
 - Reduce reliance on browser-exposed localhost as the primary UI origin.
 - Provide a safe path for external web preview/commenting flows.
-- Use Tauri capabilities as explicit boundaries between trusted operator UI and
-  untrusted or semi-trusted content.
+- Use Tauri capabilities as explicit boundaries between trusted Orbiplex UI
+  surfaces and untrusted or semi-trusted content.
 - Keep the desktop shell optional; browser access remains useful for development
   and diagnostics.
 
@@ -150,7 +154,7 @@ of inventing parallel discovery, lifecycle, or credential paths.
 | `orbiplex-node-ui-launcher` | launcher crate | start, stop, restart, and status for the UI target |
 | `orbiplex-node-launcher` | launcher crate | start, stop, restart, and status for the daemon target |
 | `node_ui.start_with_node` config behavior | node control tooling | preserve existing "node brings UI up" operator workflow |
-| Node UI routes | node-ui crate | remain the canonical operator HTML/HATEOAS surface |
+| Node UI routes | node-ui crate | remain the canonical HTML/HATEOAS surface for user and operator views |
 | middleware UI package registry | node-ui crate | continue loading module UI surfaces from `middleware-packages` |
 
 The desktop host should therefore treat `data_dir` as the root of local
@@ -170,8 +174,8 @@ For the first implementation, desktop startup should follow this order:
 4. Query launcher status for the `node-ui` target.
 5. Start `node-ui` through `orbiplex-node-ui-launcher` if it is not running.
 6. Read `<data_dir>/node-ui/bind`.
-7. Load the operator webview from the discovered Node UI URL or from the app
-   protocol bridge that maps to it.
+7. Load the user webview from `/app` through the app protocol bridge or from
+   the discovered Node UI URL during compatibility development.
 
 This keeps the desktop implementation close to today's browser path:
 
@@ -202,14 +206,14 @@ adapters already owned by `launcher`.
 
 The host should distinguish failures before rendering:
 
-| Failure | Detection | Operator surface |
+| Failure | Detection | Desktop/user surface |
 | --- | --- | --- |
 | `daemon-launcher-unreachable` | launcher status/start fails | desktop bootstrap error |
 | `daemon-control-unreachable` | Node UI cannot discover/read daemon health | Node UI degraded status |
 | `node-ui-launcher-unreachable` | UI launcher operation fails | desktop bootstrap error |
 | `node-ui-bind-missing` | no `<data_dir>/node-ui/bind` after timeout | desktop bootstrap error with log pointer |
 | `node-ui-http-unreachable` | bind exists but HTTP connect fails | desktop retry/error panel |
-| `local-readiness-gate` | daemon phase reported through Node UI | normal operator UI state |
+| `local-readiness-gate` | daemon phase reported through Node UI | normal Node UI state |
 
 This split follows the existing project rule: do not conflate launcher state,
 control-plane reachability, and protocol/runtime readiness.
@@ -259,7 +263,7 @@ Node UI in a normal browser.
 
 ## UI Origin Model
 
-The operator UI should appear under one app-owned hypermedia origin:
+Trusted Orbiplex UI should appear under one app-owned hypermedia origin:
 
 ```text
 orbiplex://localhost/...
@@ -272,20 +276,23 @@ tauri://localhost/...
 ```
 
 The exact scheme is an implementation decision. The contract is that the
-operator sees one coherent Orbiplex UI space, while the host can map paths under
-that space to the Node UI server or to embedded static assets.
+the user and operator see one coherent Orbiplex UI space, while the host can map
+paths under that space to the Node UI server or to embedded static assets.
 
 For example:
 
 | Visible UI path | Host-owned mapping |
 | --- | --- |
-| `orbiplex://localhost/` | Node UI index |
+| `orbiplex://localhost/app` | user-facing Node UI `/app` shell |
+| `orbiplex://localhost/__orbiplex/loading` | desktop-owned loading bootstrap |
+| `orbiplex://localhost/__orbiplex/settings` | desktop-owned host settings window |
+| `orbiplex://localhost/` | Node UI index or compatibility redirect |
 | `orbiplex://localhost/executions/...` | Node UI HTMX route |
 | `orbiplex://localhost/local-readiness-gate` | Node UI local readiness view |
 | `orbiplex://localhost/modules/{module_id}/...` | Node UI module extension route |
 | `orbiplex://localhost/assets/...` | bundled or Node UI static asset |
 
-This preserves HATEOAS. Links and forms stay inside the operator hypermedia
+This preserves HATEOAS. Links and forms stay inside the Orbiplex hypermedia
 space. The desktop shell can still proxy or map the request to a localhost
 server under the hood, but the browser-visible contract is not "call the daemon
 on a random loopback port".
@@ -315,10 +322,10 @@ policy checks.
 
 ### IPC Boundary: Do Not Replace Hypermedia with `invoke`
 
-Tauri IPC (`invoke`) should not become the primary routing mechanism for the
-operator console.
+Tauri IPC (`invoke`) should not become the primary routing mechanism for Node UI
+surfaces.
 
-The operator console's main interaction model is still:
+The user and operator surfaces' main interaction model is still:
 
 ```text
 link/form/HTMX request -> URL -> HTML fragment or page
@@ -346,13 +353,13 @@ project is intentionally avoiding:
 The desktop rule is therefore:
 
 ```text
-orbiplex://... / app URL  = operator hypermedia space
+orbiplex://... / app URL  = Orbiplex hypermedia space
 Tauri custom/app protocol = HTTP-shaped bridge for that hypermedia
 Tauri invoke              = side channel for native host capabilities
 ```
 
-The `operator` webview may call `invoke` only for bounded host operations that
-do not duplicate Node UI or daemon semantics.
+Trusted webviews may call `invoke` only for bounded host operations that do not
+duplicate Node UI or daemon semantics.
 
 ### Absolute Path Discipline
 
@@ -385,7 +392,7 @@ posture. In that phase:
 - keep daemon authtok server-side in Node UI,
 - reject broad CORS,
 - use CSRF protection on operator mutations,
-- prevent navigation of the main operator webview to remote URLs,
+- prevent navigation of trusted Orbiplex webviews to remote URLs,
 - open external resources only in a separate low-privilege webview or external
   system browser.
 
@@ -396,11 +403,12 @@ domains.
 
 | Webview | Content | Capability posture |
 | --- | --- | --- |
-| `operator` | Orbiplex Node UI | local app capabilities needed for window/UI integration |
+| `user` | Orbiplex user `/app` shell | local app capabilities needed for window/UI integration |
+| `operator` | Optional Orbiplex operator/admin UI | local app capabilities only when an operator surface is intentionally opened in desktop mode |
 | `external-preview` | arbitrary or allowlisted public URLs | no Tauri IPC, no daemon credentials, no local operator capabilities |
 | `diagnostics` | optional local trace/status panels | read-only unless explicitly granted |
 
-The `operator` webview MUST NOT navigate to arbitrary remote pages. Links to
+Trusted Orbiplex webviews MUST NOT navigate to arbitrary remote pages. Links to
 external resources should either:
 
 - open in `external-preview`, or
@@ -411,20 +419,20 @@ not receive:
 
 - Tauri command permissions,
 - daemon authtok,
-- Node UI session cookies scoped to the operator origin,
+- Node UI session cookies scoped to any trusted Orbiplex origin,
 - ambient access to local files,
 - broad `localhost` exceptions,
 - ability to call operator mutation endpoints.
 
 When Story 008 needs to show `https://randomseed.io/` while composing an opinion,
-the composition form remains in `operator`; the remote page is shown in
-`external-preview`. The action "comment on this resource" is performed by the
-operator UI with an explicit resource reference, not by the remote page.
+the composition form remains in a trusted Node UI surface; the remote page is
+shown in `external-preview`. The action "comment on this resource" is performed
+by the trusted UI with an explicit resource reference, not by the remote page.
 
 ### External Resource Handoff
 
-The external preview should hand resource references to the operator UI as data,
-not as authority.
+The external preview should hand resource references to a trusted Node UI
+surface as data, not as authority.
 
 Minimal handoff shape:
 
@@ -475,9 +483,9 @@ for privileged UI paths.
 - External webviews MUST have no Tauri IPC capability by default.
 - Capabilities MUST be scoped per webview/window label, not globally granted to
   every renderer.
-- Content Security Policy MUST be strict for the operator UI.
+- Content Security Policy MUST be strict for trusted Orbiplex UI surfaces.
 - Remote scripts, CDN assets, and untrusted module UI assets MUST NOT be allowed
-  into the operator origin by default.
+  into the trusted Orbiplex origin by default.
 
 ### Credential and Cookie Rules
 
@@ -489,9 +497,9 @@ Rules:
   launcher/control clients.
 - Agora client tokens remain server-side in Node UI when proxying Agora streams
   or records.
-- The operator webview may use ordinary Node UI session cookies once Node UI
-  has them, but those cookies must be scoped to the operator origin and not sent
-  to external preview pages.
+- Trusted Orbiplex webviews may use ordinary Node UI session cookies once Node
+  UI has them, but those cookies must be scoped to the trusted origin and not
+  sent to external preview pages.
 - The external preview must use a separate data store / browsing context where
   the platform allows it.
 - If the app protocol bridge is used, it should not attach daemon authtok to
@@ -500,7 +508,7 @@ Rules:
 
 ### Navigation Policy
 
-The operator webview should allow only:
+Trusted Orbiplex webviews should allow only:
 
 - app-owned URLs,
 - Node UI compatibility localhost URL in MVP mode,
@@ -526,8 +534,10 @@ and `HX-Redirect` / `HX-Location` responses.
 
 Tauri capabilities should be used as an explicit host boundary:
 
-- the `operator` webview may receive only the minimal commands needed for the
+- the `user` webview may receive only the minimal commands needed for the
   desktop shell,
+- an optional `operator` webview must receive only the minimal commands needed
+  for the explicit operator desktop surface,
 - `external-preview` receives no privileged commands,
 - any future remote-content capability must be separately reviewed and
   allowlisted by URL pattern and operation,
@@ -624,7 +634,7 @@ No desktop shell is required. This stays supported.
 ### Stage B: Tauri Compatibility Shell
 
 ```text
-operator webview -> http://127.0.0.1:{node-ui-bind} -> node-ui -> daemon
+user webview -> http://127.0.0.1:{node-ui-bind}/app -> node-ui -> daemon
 ```
 
 New code:
@@ -639,8 +649,8 @@ No Node UI route changes should be required.
 ### Stage C: App Protocol Reverse Proxy
 
 ```text
-operator webview -> orbiplex://localhost/... -> desktop bridge
-                 -> http://127.0.0.1:{node-ui-bind}/... -> node-ui -> daemon
+user webview -> orbiplex://localhost/app -> desktop bridge
+             -> http://127.0.0.1:{node-ui-bind}/app -> node-ui -> daemon
 ```
 
 New code:
@@ -693,15 +703,30 @@ rendered inline in WKWebView, so file downloads should be treated as an explicit
 host-policy/native-integration surface rather than assumed to behave like
 ordinary browser downloads under a custom protocol.
 
+The current hard-MVP desktop implementation uses the Stage C app-protocol
+shape. The configured Tauri window label is `user`, and the initial URL is:
+
+```text
+orbiplex://localhost/__orbiplex/loading
+```
+
+The desktop host serves that bootstrap page itself, paints the `Orbiplex.AI`
+loading screen before Node UI is reachable, polls `__orbiplex/desktop-ready`,
+stores a prepared `/app` representation, and then performs an iframe handoff to
+the user `/app` shell. A native readiness watchdog in the Rust host repeats the
+readiness poll and signals the bootstrap page if WebView JavaScript timers are
+throttled while the window is backgrounded; it must not navigate the top-level
+webview directly to `/app`.
+
 ### Stage D: Optional Local Transport Hardening
 
 If supported cleanly by Tauri and the Node workspace, the bridge may later talk
 to Node UI over a less browser-addressable transport:
 
 ```text
-operator webview -> orbiplex://localhost/... -> desktop bridge
-                 -> Unix domain socket / named pipe / in-process adapter
-                 -> node-ui service layer -> daemon
+user webview -> orbiplex://localhost/app -> desktop bridge
+             -> Unix domain socket / named pipe / in-process adapter
+             -> node-ui service layer -> daemon
 ```
 
 This is an optimization and hardening step, not an MVP dependency. It should not
@@ -714,13 +739,17 @@ The Tauri host is responsible for:
 
 - starting or attaching to the local Node daemon profile,
 - starting or attaching to the Node UI server,
-- exposing the main operator window,
+- exposing the main user `/app` window,
+- keeping the operator console browser-first while allowing optional trusted
+  operator/admin surfaces in desktop mode when explicitly needed,
 - managing external preview windows or panels,
 - enforcing navigation policy,
 - applying CSP and capability configuration,
 - providing native menus, tray integration, notifications, and file dialogs when
   those are explicitly needed,
 - surfacing daemon unreachable and local readiness gate states early.
+- recording close/quit decisions such as "leave daemon and Node UI running in
+  the background" through host-local control files and exit codes.
 
 The host is not responsible for:
 
@@ -730,6 +759,58 @@ The host is not responsible for:
 - signing Agora records,
 - evaluating middleware semantics,
 - storing canonical protocol state.
+
+## Desktop Host Settings Surface
+
+The Tauri desktop host should provide a separate native settings window for
+host-level configuration and diagnostics. This window is not the operator
+console and should not inherit the user-facing terminal/BBS visual language.
+Its default presentation should be conventional desktop UI: plain light
+background, straightforward controls, and a left-hand tab rail with a main
+settings pane.
+
+The settings surface exists to make local host state visible and adjustable even
+when the main user UI is not the right context. It should therefore be opened as
+a separate Tauri window from the application menu, keyboard shortcut, or a
+host-owned action such as the gear button in the `/app` titlebar. The initial
+shell should be served by the desktop host itself under an app-owned path such as:
+
+```text
+orbiplex://localhost/__orbiplex/settings
+```
+
+The shell may then read data through Tauri `invoke` commands and, when
+available, through the daemon control plane. It should not require a healthy
+`node-ui` process just to display basic host diagnostics, because one of its
+jobs is to explain why `node-ui` is unavailable.
+
+The first settings window should use these tabs:
+
+| Tab | Initial content |
+| --- | --- |
+| `profile` | selected profile, resolved `data_dir` |
+| `state` | daemon state, node-ui state, node-desktop state, WebView/Tauri diagnostics, component state table for built-ins and packages |
+| `settings` | keep-node-running mode, autostart controls |
+| `paths` | log paths and relevant control files |
+| `control` | update, restart, reload, and lifecycle actions |
+| `identity` | local identity and operator-binding context used by the desktop UI |
+
+The boundary is important:
+
+- desktop/window settings, launcher state, app menu behavior, autostart, local
+  paths, and WebView diagnostics belong here;
+- protocol, middleware, readiness policy, relationship, capability, passport,
+  and audit state remain server-rendered Node UI/operator surfaces;
+- actions that mutate daemon or protocol state must still go through the daemon
+  control plane or existing Node UI service layer, not through desktop-only
+  state;
+- Tauri `invoke` is appropriate for host-local facts and actions, but it must
+  not become a parallel router for Node UI operator workflows.
+
+The MVP version can be read-mostly: profile, state, paths, and diagnostics are
+safe first. Write paths such as autostart changes, restart/reload, update flow,
+and identity context switching should be added only after each command has a
+clear host contract, confirmation behavior, failure reporting, and trace event.
 
 ## Trace and Diagnostics
 
@@ -744,10 +825,12 @@ Candidate trace events:
 | `desktop/daemon-start-requested` | shell requested daemon start |
 | `desktop/node-ui-start-requested` | shell requested Node UI start |
 | `desktop/node-ui-bind-observed` | bind file was read successfully |
-| `desktop/operator-navigation-blocked` | operator webview attempted disallowed navigation |
+| `desktop/trusted-navigation-blocked` | trusted Orbiplex webview attempted disallowed navigation |
 | `desktop/external-preview-opened` | external URL opened in preview |
 | `desktop/resource-ref-handoff` | operator accepted a preview URL as a resource reference |
 | `desktop/app-protocol-proxy-error` | app URL bridge failed to reach Node UI |
+| `desktop/loading-watchdog-ready` | native readiness watchdog observed Node UI readiness |
+| `desktop/close-decision-recorded` | close/quit prompt wrote the keep-runtime decision |
 
 These traces should live in a desktop/runtime log under the instance `data_dir`,
 for example:
@@ -760,22 +843,23 @@ They should be exportable and diagnostically useful, but they must not leak
 daemon authtok, Agora client tokens, passphrases, seed material, request bodies
 from sensitive forms, or remote page contents.
 
-## Operator Flows
+## Desktop Flows
 
-### Open Node UI
+### Open User Node UI
 
-1. Operator starts Orbiplex Desktop.
+1. User starts Orbiplex Desktop.
 2. Tauri host starts or discovers the daemon.
 3. Tauri host starts or discovers Node UI.
-4. The main `operator` webview loads the app-owned operator URL.
-5. Node UI renders daemon status, local readiness blockers, and available
-   operator actions.
+4. The main `user` webview loads the app-owned loading URL.
+5. The desktop bootstrap waits for Node UI readiness and transitions into `/app`.
+6. Node UI renders the user shell or setup wizard according to local identity
+   and operator-binding state.
 
 ### Comment on an External Resource
 
 1. Operator opens or pastes an external URL.
 2. Tauri host loads that URL in `external-preview` or the system browser.
-3. Operator invokes "New opinion" from the trusted operator UI.
+3. Operator invokes "New opinion" from the trusted Node UI surface.
 4. Node UI receives the resource reference as data.
 5. Node UI follows the existing Agora/resource-opinion flow.
 6. External content never receives authority to submit the opinion itself.
@@ -783,7 +867,7 @@ from sensitive forms, or remote page contents.
 ### Local Readiness Gate
 
 1. Daemon starts in `local_readiness_gate`.
-2. Tauri host still opens the operator webview.
+2. Tauri host still opens the trusted Node UI surface.
 3. Node UI renders blockers and safe actions.
 4. Operator resolves or rejects blockers.
 5. Daemon restarts or reloads through an explicit control operation.
@@ -801,8 +885,11 @@ understandable.
 - Accept `--data-dir`, optional `--profile`, and lifecycle mode
   `attach|supervise-local`.
 - Reuse launcher contracts to start or discover daemon and Node UI.
-- Wait for `<data_dir>/node-ui/bind` and load the discovered Node UI URL.
-- Deny navigation of the operator webview to remote URLs.
+- Wait for `<data_dir>/node-ui/bind` and load the user-facing `/app` shell.
+- Serve a desktop-owned loading bootstrap before Node UI is ready.
+- Ask on close/quit whether daemon and Node UI should keep running in the
+  background, recording the decision for launcher/control tooling.
+- Deny navigation of trusted Orbiplex webviews to remote URLs.
 - Open remote links in the system browser or a separate preview window.
 - Keep all daemon credentials server-side in Node UI.
 - Add smoke tests for bind discovery and URL policy as pure Rust where possible.
@@ -820,7 +907,7 @@ understandable.
 
 ### Slice 3: App Protocol Bridge
 
-- Serve the operator UI under an app-owned scheme such as
+- Serve trusted Node UI under an app-owned scheme such as
   `orbiplex://localhost/`.
 - Map app URL paths to Node UI routes or bundled assets.
 - Keep HATEOAS links inside the app-owned origin.
@@ -829,6 +916,8 @@ understandable.
 - Test boosted navigation, fragment swaps, form posts, redirects, and downloads.
 - Confirm whether the selected app URL form is raw `orbiplex://localhost/...`
   or a Tauri/platform-specific localhost-shaped app origin.
+- Keep `/__orbiplex/loading` and `/__orbiplex/settings` as host-owned paths,
+  not Node UI routes.
 
 ### Slice 4: Native Integrations
 
@@ -841,7 +930,21 @@ understandable.
 The readiness/task notification semantics should be consumed from Proposal 057
 rather than invented inside the desktop shell.
 
-### Slice 5: Node-Side Ledger and Docs Alignment
+### Slice 5: Desktop Host Settings Window
+
+- Add a separate Tauri settings window with a conventional system-like visual
+  style, left tab rail, and main content pane.
+- Serve the base shell from `node-desktop` under an app-owned host path such as
+  `/__orbiplex/settings`.
+- Implement read-only `profile`, `state`, and `paths` tabs first.
+- Use Tauri `invoke` for host-local diagnostics and control files.
+- Use daemon control-plane reads for daemon/component state when available.
+- Keep Node UI operator/domain settings out of this window unless they are
+  rendered through the existing server-side UI boundary.
+- Add confirmation, trace, and failure contracts before enabling write actions
+  in `settings`, `control`, or `identity`.
+
+### Slice 6: Node-Side Ledger and Docs Alignment
 
 When implementation begins in `node`, update:
 
@@ -879,9 +982,9 @@ not as a new protocol layer.
 
 | # | Criterion | Verification |
 | --- | --- | --- |
-| 1 | Operator UI runs in a Tauri main webview without changing Node UI into a SPA. | Manual desktop smoke test; HTMX flows still work. |
+| 1 | User `/app` shell runs in a Tauri main webview without changing Node UI into a SPA. | Manual desktop smoke test; HTMX flows still work. |
 | 2 | Daemon authtok is never visible to browser JavaScript. | Code review; browser devtools/session inspection. |
-| 3 | Remote URLs cannot load inside the operator webview. | Navigation policy test with `https://example.org/`. |
+| 3 | Remote URLs cannot load inside trusted Orbiplex webviews. | Navigation policy test with `https://example.org/`. |
 | 4 | External preview receives no privileged Tauri capabilities. | Tauri capability configuration review. |
 | 5 | Operator mutations remain protected by Node UI session and CSRF boundary. | Mutation tests from foreign origin fail. |
 | 6 | Story-008 resource opinion composition can use an external URL without giving the remote page authority. | End-to-end resource opinion flow. |
@@ -894,6 +997,25 @@ not as a new protocol layer.
 | 13 | External URL handoff pre-fills an existing Node UI resource opinion flow without a desktop-only publish path. | Story-008 smoke test from preview to signed opinion. |
 | 14 | Tauri `invoke` is limited to native host affordances and does not duplicate Node UI operator routes. | Code review; route/action inventory. |
 | 15 | Selected app URL form supports HTMX over all target desktop webviews. | Cross-platform spike covering `hx-get`, `hx-post`, `HX-*` headers, history, static assets, and downloads. |
+| 16 | Desktop settings opens as a separate Tauri window and shows host-local profile, state, paths, and diagnostics without requiring healthy Node UI. | Manual desktop smoke test; kill Node UI and verify settings still renders host diagnostics. |
+| 17 | Desktop loading starts at `orbiplex://localhost/__orbiplex/loading`, paints `Orbiplex.AI`, and hands off to `/app` without exposing a blank window. | Manual startup smoke; trace review with `ORBIPLEX_NODE_DESKTOP_TRACE=1`. |
+| 18 | Closing or quitting the desktop asks whether daemon and Node UI should remain running and records the decision for control tooling. | Manual close/quit smoke; inspect close-decision marker and controller cleanup behavior. |
+| 19 | Backgrounded startup does not wait for focus before reaching `/app`. | Start desktop in the background and verify native readiness watchdog signals the bootstrap handoff. |
+
+## Tracking
+
+| ID | Feature | Status | Evidence |
+|---|---|---|---|
+| P052-001 | Node desktop edge crate | done | `node/node-desktop` exists as a Tauri v2 crate in the Node workspace and is wired into the control tooling as `node-desktop start|stop|status|restart`. |
+| P052-002 | User `/app` as the desktop main window | done | `node-desktop/tauri.conf.json` defines the main window label as `user`; the desktop README states that the user-facing `/app` shell is the default and the operator console remains browser-first. |
+| P052-003 | App-protocol bridge | done | `orbiplex://localhost/...` is registered by `node-desktop`; the bridge proxies HTTP-shaped requests to the discovered `node-ui` bind address while preserving relevant HTMX request and response headers. |
+| P052-004 | Loading bootstrap and prepared navigation | done | `node-desktop` serves `/__orbiplex/loading`, polls `/__orbiplex/desktop-ready`, stores the prepared `/app` representation, and hands off to the user shell through an iframe path. |
+| P052-005 | Native readiness watchdog | partial | The Rust host now runs a native readiness poll and signals the bootstrap document when Node UI is ready, reducing dependence on foreground WebView timers. Remaining work: repeat the background-window smoke on each supported desktop webview. |
+| P052-006 | Desktop close/quit decision | done | Window close and application quit show a keep-runtime prompt, write a close-decision marker, and use the keep-runtime exit code path consumed by the control tooling. |
+| P052-007 | External preview isolation | planned | The proposal keeps the separate `external-preview` trust domain, but the current hard-MVP desktop shell does not yet implement a dedicated external preview window. |
+| P052-008 | Desktop Host Settings Surface | partial | `node-desktop` now opens a separate system-style settings window under `/__orbiplex/settings` from the application menu, `Cmd+,`, and a host-only gear button in the user shell. The first slice is read-only and host-owned: profile/data-dir, daemon/node-ui/node-desktop state, WebView diagnostics, component rows, paths, and placeholder control/identity tabs. Write actions remain planned. |
+| P052-009 | Native integrations | deferred | Tray/status, OS notifications, file picker integration, deep links, and update flow remain post-MVP until their host contracts are explicit. |
+| P052-010 | Local transport hardening | deferred | The current bridge proxies to the Node UI HTTP bind address. Unix domain socket, named pipe, or in-process service adapter remain optional hardening steps. |
 
 ## References
 
