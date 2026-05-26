@@ -388,10 +388,11 @@ That mode MUST be treated as a compatibility phase, not the final security
 posture. In that phase:
 
 - bind Node UI and daemon control ports to loopback only,
+- require explicit operator authentication for any non-loopback Node UI bind,
 - use unpredictable per-run ports where practical,
 - keep daemon authtok server-side in Node UI,
 - reject broad CORS,
-- use CSRF protection on operator mutations,
+- use same-origin checks and an HTTP-only CSRF cookie on operator mutations,
 - prevent navigation of trusted Orbiplex webviews to remote URLs,
 - open external resources only in a separate low-privilege webview or external
   system browser.
@@ -474,6 +475,7 @@ for privileged UI paths.
 ### Required Invariants
 
 - The daemon authtok MUST NOT be exposed to browser JavaScript.
+- Non-loopback Node UI binds MUST require explicit operator authentication.
 - Operator mutations MUST require a Node UI session boundary and CSRF defense.
 - Daemon control endpoints MUST reject direct browser access unless the caller
   has the expected server-side credential.
@@ -789,7 +791,7 @@ The first settings window should use these tabs:
 | Tab | Initial content |
 | --- | --- |
 | `profile` | selected profile, resolved `data_dir` |
-| `state` | daemon state, node-ui state, node-desktop state, WebView/Tauri diagnostics, component state table for built-ins and packages |
+| `state` | daemon state, node-ui state, node-desktop state, WebView/Tauri diagnostics, component state table for built-ins and packages, bounded `configure` and `dir` actions |
 | `settings` | keep-node-running mode, autostart controls |
 | `paths` | log paths and relevant control files |
 | `control` | update, restart, reload, and lifecycle actions |
@@ -806,6 +808,9 @@ The boundary is important:
   state;
 - Tauri `invoke` is appropriate for host-local facts and actions, but it must
   not become a parallel router for Node UI operator workflows.
+- component `configure` actions should open the operator console in the system
+  browser; component `dir` actions may open only existing configuration
+  directories that canonicalize under the active `data_dir`.
 
 The MVP version can be read-mostly: profile, state, paths, and diagnostics are
 safe first. Write paths such as autostart changes, restart/reload, update flow,
@@ -986,7 +991,7 @@ not as a new protocol layer.
 | 2 | Daemon authtok is never visible to browser JavaScript. | Code review; browser devtools/session inspection. |
 | 3 | Remote URLs cannot load inside trusted Orbiplex webviews. | Navigation policy test with `https://example.org/`. |
 | 4 | External preview receives no privileged Tauri capabilities. | Tauri capability configuration review. |
-| 5 | Operator mutations remain protected by Node UI session and CSRF boundary. | Mutation tests from foreign origin fail. |
+| 5 | Operator mutations remain protected by Node UI session, same-origin checks, and CSRF boundary. | Mutations missing same-origin evidence or a current CSRF cookie fail closed. |
 | 6 | Story-008 resource opinion composition can use an external URL without giving the remote page authority. | End-to-end resource opinion flow. |
 | 7 | Local readiness gate remains visible in desktop mode. | Start daemon with blockers and inspect desktop UI. |
 | 8 | Browser access to Node UI remains available for development/diagnostics. | Existing local browser workflow still works. |
@@ -1013,7 +1018,7 @@ not as a new protocol layer.
 | P052-005 | Native readiness watchdog | partial | The Rust host now runs a native readiness poll and signals the bootstrap document when Node UI is ready, reducing dependence on foreground WebView timers. Remaining work: repeat the background-window smoke on each supported desktop webview. |
 | P052-006 | Desktop close/quit decision | done | Window close and application quit show a keep-runtime prompt, write a close-decision marker, and use the keep-runtime exit code path consumed by the control tooling. |
 | P052-007 | External preview isolation | planned | The proposal keeps the separate `external-preview` trust domain, but the current hard-MVP desktop shell does not yet implement a dedicated external preview window. |
-| P052-008 | Desktop Host Settings Surface | partial | `node-desktop` now opens a separate system-style settings window under `/__orbiplex/settings` from the application menu, `Cmd+,`, and a host-only gear button in the user shell. The first slice is read-only and host-owned: profile/data-dir, daemon/node-ui/node-desktop state, WebView diagnostics, component rows, paths, and placeholder control/identity tabs. Write actions remain planned. |
+| P052-008 | Desktop Host Settings Surface | partial | `node-desktop` now opens a separate system-style settings window under `/__orbiplex/settings` from the application menu, `Cmd+,`, and a host-only gear button in the user shell. The first slice is read-only and host-owned: profile/data-dir, daemon/node-ui/node-desktop state, WebView diagnostics, component rows, bounded `configure`/`dir` component actions, paths, and placeholder control/identity tabs. Write actions remain planned. |
 | P052-009 | Native integrations | deferred | Tray/status, OS notifications, file picker integration, deep links, and update flow remain post-MVP until their host contracts are explicit. |
 | P052-010 | Local transport hardening | deferred | The current bridge proxies to the Node UI HTTP bind address. Unix domain socket, named pipe, or in-process service adapter remain optional hardening steps. |
 

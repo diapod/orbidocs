@@ -60,6 +60,13 @@ The intended shape is stratified, data-driven registration:
   protection, daemon proxy, and route-collision checks,
 - the module owns only the semantics and presentation of its own operator views.
 
+The operator boundary is host-owned. Loopback-only development binds may run
+without operator authentication, but non-loopback Node UI binds must fail closed
+unless explicit operator authentication is configured. Mutating operator routes
+must require same-origin browser evidence and a current HTTP-only CSRF cookie;
+the daemon authtok remains server-side and is never exposed to browser
+JavaScript.
+
 Recommended middleware package layout:
 
 ```text
