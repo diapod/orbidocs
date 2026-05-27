@@ -43,6 +43,11 @@ i veta.
    podział organizacyjny. W sprawach wysokiej stawki i konstytucyjnych są traktowane
    jako **jeden blok głosujący**, dopóki nie wykażą rzeczywistej niezależności
    proceduralnej.
+6. Członkostwo i sponsoring uczestników wewnątrz federacji są mechanizmami
+   polityki wejścia. MOGĄ informować, kto uczestniczy w lokalnych procedurach
+   federacji, ale NIE MOGĄ stać się skrótem omijającym reguły quorum,
+   aktywności, wspólnej kontroli albo zawieszenia w porządku
+   międzyfederacyjnym.
 
 ---
 

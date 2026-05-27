@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:membership-enums:v1",
+  "title": "MembershipSharedEnums v1",
+  "description": "Shared vocabulary definitions for membership, sponsorship, newcomer surface limits, and public adjudication contracts.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "P051",
+    "DIA-MS-001",
+    "R015"
+  ],
+  "$defs": {
+    "subject": {
+      "type": "string",
+      "pattern": "^(participant|node|nym|org|routing):[A-Za-z0-9:._-]+$",
+      "description": "Orbiplex subject reference eligible for membership and sponsorship policy."
+    },
+    "entry_profile_class": {
+      "type": "string",
+      "enum": [
+        "guest",
+        "contactable-participant",
+        "sponsored-candidate",
+        "probationary-member",
+        "full-participant",
+        "public-trust-role"
+      ],
+      "description": "Entry class used by membership policy. `public-trust-role` remains an entry class for high-stakes eligibility, not a surface id."
+    },
+    "surface_id": {
+      "type": "string",
+      "enum": [
+        "local-read",
+        "contactability",
+        "public-comment",
+        "public-publishing",
+        "unsolicited-dm",
+        "broadcast",
+        "marketplace",
+        "custody",
+        "routing",
+        "moderation",
+        "arbitration",
+        "governance",
+        "public-trust"
+      ],
+      "description": "Influence surface id. The public-trust surface is named `public-trust` to avoid colliding with the `public-trust-role` entry class."
+    },
+    "surface_decision": {
+      "type": "string",
+      "enum": [
+        "allow",
+        "deny",
+        "review",
+        "n-sponsors",
+        "probation+attestation"
+      ],
+      "description": "Canonical matrix cell decision for an entry-class x surface rule."
+    },
+    "sanction_intensity": {
+      "type": "string",
+      "enum": [
+        "soft",
+        "hold",
+        "hard",
+        "block"
+      ],
+      "description": "Shared sanction intensity axis. Policies may order it as soft < hold < hard < block."
+    },
+    "sanction_surface": {
+      "type": "string",
+      "enum": [
+        "communication",
+        "marketplace",
+        "reputation",
+        "role",
+        "relationship",
+        "routing",
+        "custody",
+        "governance"
+      ],
+      "description": "Surface group used when expressing sanctions as surface x intensity instead of a single ladder."
+    },
+    "evidence_policy": {
+      "type": "string",
+      "enum": [
+        "evidence-backed-only",
+        "community-policy",
+        "manual-review"
+      ],
+      "description": "Policy for evidence required before membership, sponsorship, or liability effects become actionable."
+    },
+    "sponsorship_template": {
+      "type": "string",
+      "enum": [
+        "light-vouch",
+        "standard-introduction",
+        "strong-vouch",
+        "mentor-with-liability"
+      ],
+      "description": "Named sponsorship template. Templates avoid false precision from ad-hoc numeric exposure parameters."
+    },
+    "sponsor_liability_class": {
+      "type": "string",
+      "enum": [
+        "negligible",
+        "mitigated",
+        "moderate",
+        "serious",
+        "collusive"
+      ],
+      "description": "Ordinal sponsor liability classification derived from trigger evidence."
+    },
+    "due_diligence_kind": {
+      "type": "string",
+      "enum": [
+        "known-in-person",
+        "worked-together",
+        "verified-credential",
+        "community-vouch",
+        "shared-org-membership",
+        "other-documented"
+      ],
+      "description": "Structured due-diligence basis for a sponsorship fact."
+    },
+    "adjudication_lifecycle": {
+      "type": "string",
+      "enum": [
+        "clear",
+        "under-review",
+        "judged",
+        "withdrawn"
+      ],
+      "description": "Primary lifecycle axis for public object adjudication."
+    },
+    "judgment_qualifier": {
+      "type": "string",
+      "enum": [
+        "contested",
+        "subjective",
+        "substantiated",
+        "contaminated"
+      ],
+      "description": "Judgment qualifier axis meaningful for under-review and judged states."
+    },
+    "limit_operation": {
+      "type": "string",
+      "enum": [
+        "public-posting",
+        "unsolicited-dm",
+        "broadcast",
+        "marketplace-value-cap",
+        "links-to-unknown-users",
+        "reputation-weight-outgoing",
+        "governance",
+        "panel-eligibility",
+        "public-trust",
+        "training-ingestion"
+      ],
+      "description": "Operation names shared by entry-policy effective limits and capability-limit runtime hooks."
+    },
+    "limit_decision": {
+      "type": "string",
+      "enum": [
+        "allow",
+        "deny",
+        "limited",
+        "review"
+      ],
+      "description": "Effective runtime limit decision for one operation on one surface."
+    },
+    "scope": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*(\\.[a-z0-9][a-z0-9-]*)*$",
+      "description": "Dotted policy scope such as `community.basic` or `public-comment.low-volume`."
+    },
+    "scopes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/scope"
+      }
+    },
+    "iso8601_duration": {
+      "type": "string",
+      "pattern": "^P(?=\\d|T)(?:\\d+Y)?(?:\\d+M)?(?:\\d+W)?(?:\\d+D)?(?:T(?:\\d+H)?(?:\\d+M)?(?:\\d+(?:\\.\\d+)?S)?)?$",
+      "description": "ISO 8601 duration. Community policy, not schema, sets upper bounds."
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Explicit extension namespace. Consumers MUST NOT treat extension fields as authority unless local policy recognizes them."
+    }
+  }
+}

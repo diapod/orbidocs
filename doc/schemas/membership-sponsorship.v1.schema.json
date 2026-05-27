@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:membership-sponsorship:v1",
+  "title": "MembershipSponsorship v1",
+  "description": "Append-only scoped sponsorship fact. Sponsorship grants candidacy to named surfaces and creates bounded, evidence-backed sponsor exposure; it does not directly grant authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "P051",
+    "DIA-MS-001"
+  ],
+  "required": [
+    "schema/v",
+    "sponsorship/id",
+    "sponsor/subject",
+    "invitee/subject",
+    "scopes",
+    "sponsorship/template",
+    "issued/at",
+    "expires/at",
+    "probation/until",
+    "due-diligence/refs",
+    "revocable",
+    "revocation-tail-duration",
+    "evidence/policy"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1
+    },
+    "sponsorship/id": {
+      "type": "string",
+      "pattern": "^membership-sponsorship:[A-Za-z0-9._:-]+$"
+    },
+    "sponsor/subject": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/subject"
+    },
+    "invitee/subject": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/subject"
+    },
+    "scopes": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/scopes"
+    },
+    "sponsorship/template": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/sponsorship_template"
+    },
+    "liability/class": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/sponsor_liability_class"
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "probation/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "due-diligence/refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/due_diligence_ref"
+      }
+    },
+    "revocable": {
+      "type": "boolean"
+    },
+    "revoked/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revocation-tail-duration": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/iso8601_duration"
+    },
+    "evidence/policy": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/evidence_policy"
+    },
+    "policy/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notes": {
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "due_diligence_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "$ref": "_shared/membership-enums.v1.schema.json#/$defs/due_diligence_kind"
+        },
+        "evidence/ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "other-documented"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "evidence/ref"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

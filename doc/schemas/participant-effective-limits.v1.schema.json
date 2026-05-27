@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:participant-effective-limits:v1",
+  "title": "ParticipantEffectiveLimits v1",
+  "description": "Computed read model for runtime-facing per-surface limits after composing entry policy, surface policy, capability sanctions, and appeal results.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "R015",
+    "DIA-MS-001",
+    "R009"
+  ],
+  "required": [
+    "schema/v",
+    "limits/id",
+    "subject/ref",
+    "issued/at",
+    "source",
+    "composition/rule",
+    "operations"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1
+    },
+    "limits/id": {
+      "type": "string",
+      "pattern": "^participant-effective-limits:[A-Za-z0-9._:-]+$"
+    },
+    "subject/ref": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/subject"
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source_ref"
+      }
+    },
+    "composition/rule": {
+      "type": "string",
+      "enum": [
+        "sanction-overrides-entry-defaults"
+      ]
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/operation_limit"
+      }
+    },
+    "notes": {
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "ref"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "entry-profile",
+            "surface-access-policy",
+            "capability-sanction",
+            "appeal-result"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "operation_limit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "surface/id",
+        "operation/id",
+        "decision"
+      ],
+      "properties": {
+        "surface/id": {
+          "$ref": "_shared/membership-enums.v1.schema.json#/$defs/surface_id"
+        },
+        "operation/id": {
+          "$ref": "_shared/membership-enums.v1.schema.json#/$defs/limit_operation"
+        },
+        "decision": {
+          "$ref": "_shared/membership-enums.v1.schema.json#/$defs/limit_decision"
+        },
+        "limit/value": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "object",
+              "additionalProperties": true
+            }
+          ]
+        },
+        "source/ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason/code": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*(/[a-z0-9][a-z0-9-]*)*$"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema/v": 1,
+  "policy/id": "surface-access-policy:community-default",
+  "issued/at": "2026-05-27T00:20:00Z",
+  "decision/default": "deny",
+  "matrix": [
+    {
+      "entry/profile": "guest",
+      "surface/id": "local-read",
+      "decision": "allow"
+    },
+    {
+      "entry/profile": "contactable-participant",
+      "surface/id": "contactability",
+      "decision": "probation+attestation",
+      "required/attestations": [
+        "contact/email-control"
+      ]
+    },
+    {
+      "entry/profile": "sponsored-candidate",
+      "surface/id": "public-comment",
+      "decision": "n-sponsors",
+      "required/sponsors": {
+        "count": 1,
+        "independent-clusters": 1,
+        "max-single-cluster-share": 1
+      },
+      "default-limits": [
+        {
+          "operation/id": "public-posting",
+          "decision": "limited",
+          "limit/value": "low-rate"
+        }
+      ]
+    },
+    {
+      "entry/profile": "probationary-member",
+      "surface/id": "unsolicited-dm",
+      "decision": "deny",
+      "default-limits": [
+        {
+          "operation/id": "unsolicited-dm",
+          "decision": "deny"
+        }
+      ]
+    },
+    {
+      "entry/profile": "probationary-member",
+      "surface/id": "broadcast",
+      "decision": "deny",
+      "default-limits": [
+        {
+          "operation/id": "broadcast",
+          "decision": "deny"
+        }
+      ]
+    },
+    {
+      "entry/profile": "probationary-member",
+      "surface/id": "marketplace",
+      "decision": "review",
+      "default-limits": [
+        {
+          "operation/id": "marketplace-value-cap",
+          "decision": "limited",
+          "limit/value": "very-low"
+        }
+      ]
+    },
+    {
+      "entry/profile": "full-participant",
+      "surface/id": "broadcast",
+      "decision": "review"
+    },
+    {
+      "entry/profile": "public-trust-role",
+      "surface/id": "public-trust",
+      "decision": "review",
+      "required/attestations": [
+        "ial/high-stakes",
+        "coi/disclosed"
+      ],
+      "required/reputation": {
+        "domain": "procedural",
+        "minimum-score": 0.8,
+        "source-diversity": 5
+      }
+    }
+  ],
+  "appeal/ref": "DIA-PARTICIPANT-COVENANT-001"
+}

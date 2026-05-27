@@ -7,6 +7,10 @@ Based on:
 - `doc/project/20-memos/reputation-signal-v1-invariants.md`
 - `doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md`
 - `doc/normative/50-constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md`
+- `doc/normative/50-constitutional-ops/en/MEMBERSHIP-AND-SPONSORSHIP-POLICY.en.md`
+- `doc/normative/50-constitutional-ops/en/PARTICIPANT-COVENANT.en.md`
+- `doc/normative/50-constitutional-ops/en/ADVOCACY-AND-SOLICITATION-POLICY.en.md`
+- `doc/normative/50-constitutional-ops/en/MARKETPLACE-ANTI-FRAUD-POLICY.en.md`
 
 ## Status
 
@@ -15,6 +19,23 @@ Draft
 ## Date
 
 2026-04-23
+
+## MVP Decisions Frozen on 2026-05-27
+
+The following decisions are frozen for the MVP membership/sponsorship contract.
+Later documents may refine scoring, UX, or federation policy without changing these primitives:
+
+1. Entry is per influence surface, not one global membership bit.
+2. Entry classes are defined by `doc/schemas/_shared/membership-enums.v1.schema.json`.
+3. Influence surfaces are defined by the same shared enum; the high-trust surface is `public-trust`, while `public-trust-role` remains an entry class.
+4. `surface-access-policy.v1` is the canonical policy-axis source of truth.
+5. `participant-entry-profile.v1` is a computed subject read model, not an independent source of per-surface permission truth.
+6. `participant-effective-limits.v1` is the runtime-facing composed read model for entry defaults, surface policies, capability sanctions, and appeal results.
+7. Sponsorship gives candidacy, not authority.
+8. Sponsor liability is one-hop by default and becomes wider only after an anti-collusion process establishes a sponsor ring.
+9. Sponsorship uses named templates and ordinal liability classes instead of ad-hoc numeric exposure parameters.
+10. Public-object adjudication separates alarm, review, mediation/appeal, sanction, and anti-collusion sweep.
+11. Anti-collusion MVP baselines are sponsorship velocity, co-flagging coherence, and closed-loop receipt detection.
 
 ## Executive Summary
 
@@ -131,6 +152,10 @@ pattern, not only as a named faction with stable membership.
 - Separate alarm, review, sanction, and anti-collusion sweep.
 - Define mediation and appeal ordering for bootstrap governance.
 - Make pseudonymization class a first-class parameter of these mechanisms.
+- Define membership as access to bounded influence surfaces rather than as one
+  global "accepted participant" switch.
+- Define newcomer capability slow-start as a default safety posture, not as a
+  permanent caste.
 
 ## Non-Goals
 
@@ -169,6 +194,49 @@ Open self-enrollment is not forbidden forever, but if a community permits it,
 that path SHOULD carry lower initial trust, tighter capability limits, and
 slower eligibility for trust-bearing roles.
 
+The practical rule is:
+
+```text
+Orbiplex does not build a wall around personhood.
+It builds sluices around shared influence.
+```
+
+Membership SHOULD therefore be evaluated per influence surface rather than as a
+single global admission bit. Common surfaces include:
+
+- `local-read`,
+- `contactability`,
+- `public-comment`,
+- `public-publishing`,
+- `unsolicited-dm`,
+- `broadcast`,
+- `marketplace`,
+- `custody`,
+- `routing`,
+- `moderation`,
+- `arbitration`,
+- `governance`,
+- and `public-trust`.
+
+Each surface may have its own threshold: contact attestation, sponsorship,
+probation, reputation, IAL, source diversity, anti-collusion checks, conflict
+disclosure, multisig, or manual review.
+
+The entry class for high-stakes role eligibility remains `public-trust-role`.
+The surface where that authority is exercised is `public-trust`.
+
+The default entry ladder is:
+
+- `guest`,
+- `contactable-participant`,
+- `sponsored-candidate`,
+- `probationary-member`,
+- `full-participant`,
+- `public-trust-role`.
+
+Contact attestation is useful for anti-spam and recovery, but it is not civil
+identity and not a substitute for reputation, IAL, or public-trust screening.
+
 ### 2. Sponsorship Creates Bounded Reputational Exposure
 
 Sponsorship is not a ceremonial marker. It is a bounded reputational relation.
@@ -178,7 +246,7 @@ accumulates serious evidence-backed negative procedural events, the sponsors and
 introducers MAY themselves receive derived reputation events proportional to:
 
 - their proximity to the sponsored participant,
-- the strength of their sponsorship,
+- the sponsorship template and declared scope,
 - the freshness of that sponsorship,
 - and the severity of the resulting harm.
 
@@ -188,6 +256,52 @@ make trust extension carry real care and discernment.
 
 Federation or community policy SHOULD cap how far this derived liability can
 propagate and MUST keep it challengeable by evidence and context.
+
+The sponsor does not guarantee the moral essence of the invitee. The sponsor
+states only:
+
+> I know this subject well enough to introduce it to this Orbiplex surface, in
+> this scope and risk limit, and I accept bounded reputational exposure if that
+> act of trust proves grossly careless or collusive.
+
+Sponsorship gives candidacy, not authority. The sponsored participant must still
+pass the threshold of the target surface.
+
+The first sponsorship artifact is `membership-sponsorship.v1`.
+It SHOULD carry sponsor subject, invitee subject, scopes, `sponsorship/template`,
+issued and expiry times, probation window, structured due-diligence references,
+revocability, revocation-tail duration, and evidence policy.
+
+Sponsorship templates avoid false precision. The first template set is:
+
+- `light-vouch`,
+- `standard-introduction`,
+- `strong-vouch`,
+- `mentor-with-liability`.
+
+Derived liability SHOULD be bounded by policy and classified ordinally rather
+than calculated as a product of local coefficients.
+The first liability classes are:
+
+- `negligible`,
+- `mitigated`,
+- `moderate`,
+- `serious`,
+- `collusive`.
+
+Each liability decision should state the triggered conditions and evidence refs.
+For example, "classified as `serious` because the sponsor ignored three prior
+red flags and continued mass-sponsoring into the same surface" is more
+auditable than an unexplained numeric score.
+
+Derived sponsor liability is one-hop by default. It should propagate further
+only when a separate anti-collusion process establishes an organized
+`sponsor-ring`.
+
+To prevent clan capture, a sponsor SHOULD only sponsor into surfaces where the
+sponsor has sufficient reputation and authority. Higher-risk surfaces SHOULD
+require multiple sponsors from sufficiently independent clusters, active
+sponsorship caps, and anti-sponsor-ring monitoring.
 
 ### 3. First-Run Node Onboarding Should Be a Guided Wizard
 
@@ -285,6 +399,38 @@ Otherwise the system becomes cheap to weaponize by:
 - dynamic meme-driven clustering,
 - or ordinary ideological bubbles.
 
+The default public adjudication flow is:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Clear
+    Clear --> Alarm: effective threshold crossed
+    Alarm --> Review: open first review
+    Review --> Clear: dismiss alert
+    Review --> Contested: concern remains but sanction is not grounded
+    Review --> Mediation: author requests mediation
+    Review --> Substantiation: plural review needed
+    Review --> Contaminated: procedure contaminated
+    Mediation --> Clear: support falls below threshold
+    Mediation --> Contested: disagreement remains
+    Mediation --> Substantiation: mediation fails
+    Substantiation --> JudgedSubjective: subjective dispute
+    Substantiation --> JudgedSubstantiated: substantiated deregulation
+    Substantiation --> Contaminated: contamination found
+    JudgedSubjective --> Appeal: formal appeal
+    JudgedSubstantiated --> Appeal: formal appeal
+    Appeal --> Clear: appeal succeeds
+    Appeal --> JudgedSubstantiated: appeal fails
+    Contaminated --> Council: high-significance or repeated failure
+    Clear --> Withdrawn: author withdrawal
+    Contested --> Withdrawn: author withdrawal
+    JudgedSubjective --> Withdrawn: author withdrawal
+    JudgedSubstantiated --> Withdrawn: author withdrawal
+```
+
+Mediation and council review are branches of one state machine, not parallel
+systems of authority.
+
 ### 7. Public Adjudication Applies to Publicly Indexed User Objects
 
 The protocol described here is intended for public objects in a public or
@@ -306,18 +452,16 @@ adjudication.
 A public object under adjudication SHOULD move through explicit protocol states
 rather than a binary "acceptable / punished" model.
 
-The minimum recommended state set is:
+The minimum recommended state shape is three orthogonal axes:
 
-- `clear`
-- `under-review/deregulation`
-- `contested`
-- `subjective/deregulation`
-- `substantiated/deregulation`
-- `review-contaminated`
-- `withdrawn`
-- `withdrawn-with-reverted-event`
+- `lifecycle`: `clear`, `under-review`, `judged`, `withdrawn`
+- `judgment_qualifier`: `contested`, `subjective`, `substantiated`, `contaminated`
+- `withdrawal_reverts_event`: boolean, meaningful only when `lifecycle = withdrawn`
 
-These states matter because the system must be able to say:
+The equivalent diagnostic labels can be rendered as `judged.substantiated`,
+`under-review.contaminated`, or `withdrawn.reverted` without multiplying the
+wire enum into every possible combination.
+These axes matter because the system must be able to say:
 
 - "this object triggered concern",
 - "this object is controversial",
@@ -540,7 +684,46 @@ long as the resulting process stays:
 This rule applies both to ordinary appeal of participant-level decisions and to
 appeal of public-object adjudication results.
 
-### 17. Governance Council Is Reserved for High-Significance or Contaminated Cases
+### 17. Newcomers Use Slow-Start Capability Limits
+
+A new or low-evidence participant SHOULD receive narrow initial influence
+limits.
+The canonical newcomer fixtures are:
+
+- `doc/schemas/examples/default.surface-access-policy.json`
+- `doc/schemas/examples/newcomer.participant-entry-profile.json`
+- `doc/schemas/examples/newcomer.participant-effective-limits.json`
+
+These limits are not a punishment. They represent influence that has not yet
+been earned. `participant-entry-profile.v1` is a computed subject read model.
+`participant-effective-limits.v1` composes entry defaults, surface policy,
+sanctions, and appeal results into the runtime-facing view.
+A separate `participant-capability-limits.v1` artifact may express sanctions or
+explicit restrictions, but it should not be confused with ordinary newcomer
+entry policy.
+
+### 18. Spam, Solicitation, Advocacy, and Fraud Are Surface-Abuse Classes
+
+Orbiplex SHOULD avoid global worldview bans. It SHOULD instead regulate how
+shared communication and marketplace surfaces are used.
+
+The default abuse rules are:
+
+- no broadcast or unlimited unsolicited DM for fresh participants,
+- no mass import of contacts without relationship or recipient consent,
+- no unsolicited political, ideological, religious, campaign, or financial
+  persuasion outside opt-in surfaces,
+- clear tags for advocacy and campaign content,
+- material conflict-of-interest and sponsorship disclosure,
+- marketplace offers through explicit marketplace/service surfaces, not hidden
+  acquisition funnels,
+- low value caps and escrow/procurement contracts for newcomers,
+- no transferable reputation from self-dealing or closed receipt loops.
+
+This preserves pluralism while defending the surfaces on which pluralism
+depends.
+
+### 19. Governance Council Is Reserved for High-Significance or Contaminated Cases
 
 The governance-council layer SHOULD remain exceptional.
 
@@ -572,7 +755,7 @@ Council decisions SHOULD permit:
 - and doctrinal revision later without forcing retroactive erasure of every old
   case.
 
-### 18. Anti-Collusion Sweep Must Be a Separate Continuous Subsystem
+### 20. Anti-Collusion Sweep Must Be a Separate Continuous Subsystem
 
 Cartel detection should not live only inside one case file. Orbiplex SHOULD run
 it as a separate periodic sweep over many cases.
@@ -596,6 +779,15 @@ Useful sweep inputs include:
 - asymmetry of targeting,
 - and mediation and escalation metadata.
 
+The MVP baseline detectors are deliberately narrow:
+
+- sponsorship: abnormal sponsorship velocity,
+- public adjudication: co-flagging coherence across objects,
+- marketplace: closed-loop receipt detection.
+
+Additional detector families should be added only when a concrete operational
+need appears, so "anti-collusion" does not become an unbounded bucket.
+
 The sweep SHOULD prefer graded outputs such as:
 
 - `low-correlation`
@@ -609,7 +801,7 @@ This again matches the apophatic-enactive caution of the proposal: the system
 should first see dynamic correlated patterns before it reifies them as enduring
 factions.
 
-### 19. Influence Weighting Must Track Independence
+### 21. Influence Weighting Must Track Independence
 
 The effective force of a set of flags or votes SHOULD depend not only on the
 number of accounts but on their independence.
@@ -625,7 +817,7 @@ In practice this weighting should inform:
 This means that 150 accounts from one dense correlation cluster need not count
 as 150 independent judgments.
 
-### 20. Public Agora Nodes May Host Aggregates, Not Final Authority
+### 22. Public Agora Nodes May Host Aggregates, Not Final Authority
 
 Public Agora nodes MAY host public aggregation and query surfaces for
 reputation-relevant artifacts, for example:
@@ -665,7 +857,7 @@ This preserves the stratification:
 - nodes remain free to accept, reject, or down-weight a given public projection
   under local policy.
 
-### 21. Pseudonymization Class Changes the Appropriate Mechanism
+### 23. Pseudonymization Class Changes the Appropriate Mechanism
 
 The concrete membership, sponsorship, reputation, review, mediation, appeal,
 and collusion-handling mechanics MUST depend on the pseudonymization class and
@@ -702,7 +894,7 @@ The more consent-bound and private the context, the stronger the unlinkability d
 This proposal should be implemented in conjunction with the evolving nym and
 root-identity documents, not as an independent identity regime.
 
-### 22. Concrete Mechanisms Remain Community-Policy Objects
+### 24. Concrete Mechanisms Remain Community-Policy Objects
 
 The following items are intentionally left as policy parameters or later
 artifacts:
@@ -724,12 +916,18 @@ must share identical social mechanics.
 
 ## Suggested Future Artifact Families
 
-This proposal does not freeze schemas yet, but the likely future artifact set is
-small and composable:
+This proposal now freezes the first small membership and surface-policy artifact
+family. These are the immediate contracts:
 
 - `membership-invitation.v1`
 - `membership-sponsorship.v1`
 - `membership-acceptance.v1`
+- `participant-entry-profile.v1`
+- `participant-effective-limits.v1`
+- `surface-access-policy.v1`
+
+The broader public adjudication and reputation family remains future work:
+
 - `object-review-case.v1`
 - `object-flag-event.v1`
 - `review-round.v1`
@@ -744,21 +942,42 @@ small and composable:
 The preferred shape is append-only facts plus read models, not mutable
 "membership status" rows as the primary source of truth.
 
+## Resolved Design Decisions
+
+- Sponsor liability is direct and one-hop by default; further propagation is
+  reserved for proven sponsor-ring behavior.
+- Contact attestation unlocks contactability and anti-spam affordances only; it
+  is not legal identity and not public-trust eligibility.
+- Open self-enrollment is allowed only as low-trust entry with tighter limits
+  and slower access to high-impact surfaces.
+- Newcomer limits are entry policy. `participant-capability-limits.v1` remains
+  sanction or restriction policy.
+- `surface-access-policy.v1` is the policy-axis source of truth.
+  `participant-entry-profile.v1` and `participant-effective-limits.v1` are
+  computed read models.
+- Sponsorship uses templates and ordinal liability classes instead of numeric
+  pseudo-precision.
+- Public-object state uses lifecycle, judgment qualifier, and withdrawal-reverts
+  axes instead of one compound enum.
+- The first anti-collusion baselines are sponsorship velocity, co-flagging
+  coherence, and closed-loop receipt detection.
+- Political, ideological, religious, and campaign content is allowed on
+  explicit opt-in surfaces; non-consensual high fan-out persuasion is the abuse
+  class.
+- Marketplace reputation must be evidence-backed through settled interactions,
+  not self-dealing or closed-loop boosting.
+
 ## Open Questions
 
-1. Should sponsor liability be limited to direct sponsors only, or may some
-   community policies propagate one hop further to introducers-of-introducers?
-2. Which evidence classes are strong enough to create high-stakes derived
-   sponsor-liability events?
-3. What minimal diversity constraints should be required before artifact-level
+1. What minimal diversity constraints should be required before artifact-level
    sentiment becomes author-level reputation?
-4. How should random selection for review and appeal groups be seeded and
+2. How should random selection for review and appeal groups be seeded and
    audited without creating a manipulable lottery?
-5. Which contamination heuristics should remain only heuristic signals, and
+3. Which contamination heuristics should remain only heuristic signals, and
    which are strong enough to trigger procedural rollback by default?
-6. Which parts of membership bootstrap belong to the local node wizard, and
+4. Which parts of membership bootstrap belong to the local node wizard, and
    which should remain explicit social actions performed outside the node?
-7. Which bootstrap and dispute artifacts should be portable across communities,
+5. Which bootstrap and dispute artifacts should be portable across communities,
    and which must remain local to the group's policy surface?
 
 ## Implementation Direction

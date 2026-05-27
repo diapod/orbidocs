@@ -118,6 +118,25 @@ following metrics in cycles no longer than 30 days.
   allows repair and reintegration (Art. XVI.4), or whether penalties are de
   facto permanent.
 
+- **M9: Newcomer advancement distribution** - measures whether slow-start
+  limits protect influence surfaces without becoming a caste. Track median time
+  from `participant-entry-profile.v1` creation with newcomer
+  `participant-effective-limits.v1` to probation completion and to first
+  independently validated contribution. Alarm threshold: median time doubles
+  relative to the first validation quarter without a matching abuse reduction.
+
+- **M10: Sponsor concentration and sponsor-ring rate** - measures whether
+  sponsorship becomes clan capture. Track the share of active sponsorships
+  emitted by the top sponsor cluster, abnormal sponsorship velocity, and
+  sponsor-ring findings. Alarm threshold: one cluster controls > 40% of active
+  sponsorships for high-impact surfaces or sponsor-ring findings rise > 3x in
+  one cycle.
+
+- **M11: Surface-denial reversibility** - measures whether entry and capability
+  limits preserve appeal and repair. Track how many denied surface transitions
+  include a reason code, expiry or review time, and appeal path. Alarm
+  threshold: < 95% of denials carry all three.
+
 ---
 
 ## 4. Circuit Breaker

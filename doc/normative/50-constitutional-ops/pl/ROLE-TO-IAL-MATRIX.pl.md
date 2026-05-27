@@ -47,6 +47,17 @@ proceduralnej i nie mnoży wpływu dynamicznie.
    `weak` nie powinny same z siebie odblokowywać ról wysokiej stawki, nawet jeśli
    lokalnie spełniono inne warunki.
 
+6. `IAL` bramkuje powierzchnie wysokiej stawki, ale sam z siebie nie wystarcza.
+   Limity wartości marketplace, kwalifikowalność governance, kwalifikowalność
+   panelowa, publiczne custody, routing i role zaufania publicznego wymagają też
+   właściwej polityki powierzchni: probation, reputacji proceduralnej,
+   dywersyfikacji sponsorów tam, gdzie dotyczy, obsługi COI i przeglądu
+   antykoluzyjnego.
+
+7. Atestacja kanału kontaktu, np. kontrola telefonu albo e-maila, jest pomocą
+   antyspamową i odzyskiwania kontaktu. NIE MOŻE być interpretowana jako
+   tożsamość prawna ani skrót do ról wysokiej stawki.
+
 ---
 
 ## 3. Minimalna macierz
@@ -96,3 +107,5 @@ proceduralnej i nie mnoży wpływu dynamicznie.
 
 - `PANEL-SELECTION-PROTOCOL.pl.md` i `IDENTITY-UNSEALING-BOARD.pl.md` powinny
   korzystać z tej macierzy jako domyślnego minimum dla paneli i izb.
+- `MEMBERSHIP-AND-SPONSORSHIP-POLICY.pl.md` definiuje per-powierzchniowe limity
+  wejścia i sponsoringu, które pozostają odrębne od `IAL`.

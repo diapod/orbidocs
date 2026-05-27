@@ -121,6 +121,25 @@ następujące metryki w cyklach nie dłuższych niż 30 dni.
 - **M8: Czas powrotu po utracie reputacji** - mierzy, czy system pozwala na naprawę
   i reintegrację (Art. XVI.4), czy kary są de facto permanentne.
 
+- **M9: Rozkład awansu newcomerów** - mierzy, czy limity slow-start chronią
+  powierzchnie wpływu bez tworzenia kasty. Mierz medianę czasu od
+  utworzenia `participant-entry-profile.v1` z newcomerową projekcją
+  `participant-effective-limits.v1` do zakończenia probation i do pierwszego
+  niezależnie zwalidowanego wkładu. Próg alarmowy: mediana podwaja się względem
+  pierwszego kwartału walidacji bez odpowiadającej redukcji nadużyć.
+
+- **M10: Koncentracja sponsorów i wskaźnik sponsor-ring** - mierzy, czy
+  sponsoring zmienia się w klanowe przejęcie. Mierz udział aktywnych
+  sponsoringów emitowanych przez największy klaster sponsorów, nietypową
+  prędkość sponsorowania i ustalenia sponsor-ring. Próg alarmowy: jeden klaster
+  kontroluje > 40% aktywnych sponsoringów dla powierzchni wysokiego wpływu albo
+  ustalenia sponsor-ring rosną > 3x w jednym cyklu.
+
+- **M11: Odwracalność odmów powierzchniowych** - mierzy, czy limity wejścia i
+  capability zachowują apelację oraz naprawę. Mierz, ile odmów przejścia na
+  powierzchnię zawiera reason code, expiry albo termin przeglądu i ścieżkę
+  apelacji. Próg alarmowy: < 95% odmów zawiera wszystkie trzy elementy.
+
 ---
 
 ## 4. Bezpiecznik proceduralny (ang. circuit breaker)

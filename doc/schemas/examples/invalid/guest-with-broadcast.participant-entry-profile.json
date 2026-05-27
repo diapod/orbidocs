@@ -1,0 +1,18 @@
+{
+  "schema/v": 1,
+  "profile/id": "participant-entry-profile:invalid:001",
+  "subject/ref": "participant:did:key:z6MkiGuestExample",
+  "profile/class": "guest",
+  "issued/at": "2026-05-27T00:15:00Z",
+  "basis/refs": [
+    "membership-acceptance:guest:001"
+  ],
+  "applicable-policy/refs": [
+    "surface-access-policy:community-default"
+  ],
+  "effective-limits/ref": "participant-effective-limits:guest:001",
+  "limits": {
+    "broadcast": "normal",
+    "note": "Inline limits are invalid because participant-entry-profile is a computed subject view."
+  }
+}

@@ -55,6 +55,11 @@ but it may require a waiting period and anomaly checks.
 | **Maintain operational hygiene** | Take care of keys, updates, and basic node security. | Art. XV.3 |
 | **Be ready to help** | Within your means, without an obligation of transactional settlement. | Art. XV.3 |
 
+The short operational form of these duties for entering shared influence
+surfaces is the `PARTICIPANT-COVENANT.en.md`. The covenant is not an ideological
+test; it is a compact statement of non-harm, anti-Sybil, anti-spam,
+anti-fraud, privacy, appeal, and repair duties.
+
 ## Hierarchy of Values (When Values Conflict)
 
 ```text
@@ -84,6 +89,8 @@ after repair (Art. XVI.1-2).
 **Values and interpretation:** `doc/normative/30-core-values/en/CORE-VALUES.en.md`  
 **Project vision:** `doc/normative/20-vision/en/VISION.en.md`  
 **Agent autonomy gradient:** `AUTONOMY-LEVELS.en.md`
+
+**Participant covenant:** `PARTICIPANT-COVENANT.en.md`
 
 ---
 ---

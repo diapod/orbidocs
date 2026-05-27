@@ -10,9 +10,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | `20-vision` (Vision) | `3` | `1` | `1` | `1` |
 | `30-core-values` (Core Values) | `3` | `1` | `1` | `1` |
 | `40-constitution` (Constitution) | `2` | `1` | `1` | `0` |
-| `50-constitutional-ops` (Constitutional Ops) | `50` | `25` | `25` | `0` |
+| `50-constitutional-ops` (Constitutional Ops) | `58` | `29` | `29` | `0` |
 
-- Total normative markdown files: `64`
+- Total normative markdown files: `72`
 
 ## Project Workflow
 
@@ -22,17 +22,18 @@ Generated coverage snapshot for the current `doc/` structure.
 | `20-memos` (Memos) | `44` | `10` |
 | `30-stories` (Stories) | `15` | `1` |
 | `40-proposals` (Proposals) | `68` | `57` |
-| `50-requirements` (Requirements) | `16` | `14` |
+| `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `50` | `31` |
 
-- Total project markdown files: `207`
+- Total project markdown files: `208`
 - Proposals referencing source material: `57` / `68`
-- Requirements referencing source material: `14` / `16`
+- Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
 
 | Schema | Properties | Described Fields | `x-dia-basis` | Generated Doc | Valid Examples | Invalid Examples |
 |---|---:|---:|---|---|---:|---:|
+| [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md) | `0` | `0` | `yes` | `yes` | `0` | `0` |
 | [`adapter-artifact.v1.schema.json`](schemas-gen/schemas/adapter-artifact.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`agora-authority-policy.v1.schema.json`](schemas-gen/schemas/agora-authority-policy.v1.md) | `11` | `4` | `yes` | `yes` | `1` | `1` |
 | [`agora-public-rejection.v1.schema.json`](schemas-gen/schemas/agora-public-rejection.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
@@ -92,6 +93,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`local-recipient-mailbox-resolve.v1.schema.json`](schemas-gen/schemas/local-recipient-mailbox-resolve.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
 | [`memarium-blob.v1.schema.json`](schemas-gen/schemas/memarium-blob.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`memarium-host-api.v1.schema.json`](schemas-gen/schemas/memarium-host-api.v1.md) | `0` | `0` | `yes` | `yes` | `3` | `0` |
+| [`membership-acceptance.v1.schema.json`](schemas-gen/schemas/membership-acceptance.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `0` |
+| [`membership-invitation.v1.schema.json`](schemas-gen/schemas/membership-invitation.v1.md) | `14` | `1` | `yes` | `yes` | `1` | `0` |
+| [`membership-sponsorship.v1.schema.json`](schemas-gen/schemas/membership-sponsorship.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `1` |
 | [`message-envelope.v1.schema.json`](schemas-gen/schemas/message-envelope.v1.md) | `14` | `1` | `yes` | `yes` | `2` | `1` |
 | [`messaging.crisis-marked.v1.schema.json`](schemas-gen/schemas/messaging.crisis-marked.v1.md) | `9` | `0` | `yes` | `yes` | `0` | `0` |
 | [`messaging.flag.v1.schema.json`](schemas-gen/schemas/messaging.flag.v1.md) | `11` | `0` | `yes` | `yes` | `0` | `0` |
@@ -126,6 +130,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`pairwise-nym-binding.v1.schema.json`](schemas-gen/schemas/pairwise-nym-binding.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `0` |
 | [`participant-bind.v1.schema.json`](schemas-gen/schemas/participant-bind.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`participant-capability-limits.v1.schema.json`](schemas-gen/schemas/participant-capability-limits.v1.md) | `7` | `5` | `yes` | `yes` | `1` | `1` |
+| [`participant-effective-limits.v1.schema.json`](schemas-gen/schemas/participant-effective-limits.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
+| [`participant-entry-profile.v1.schema.json`](schemas-gen/schemas/participant-entry-profile.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |
 | [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | `20` | `19` | `yes` | `yes` | `2` | `1` |
 | [`plain-comment.v1.schema.json`](schemas-gen/schemas/plain-comment.v1.md) | `4` | `4` | `yes` | `yes` | `0` | `0` |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | `32` | `31` | `yes` | `yes` | `2` | `1` |
@@ -167,6 +173,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`signal-marker-envelope.v1.schema.json`](schemas-gen/schemas/signal-marker-envelope.v1.md) | `9` | `8` | `yes` | `yes` | `1` | `1` |
 | [`signal-marker.v1.schema.json`](schemas-gen/schemas/signal-marker.v1.md) | `12` | `8` | `yes` | `yes` | `1` | `1` |
 | [`signal-transform-event.v1.schema.json`](schemas-gen/schemas/signal-transform-event.v1.md) | `15` | `11` | `yes` | `yes` | `0` | `0` |
+| [`surface-access-policy.v1.schema.json`](schemas-gen/schemas/surface-access-policy.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
 | [`training-job.v1.schema.json`](schemas-gen/schemas/training-job.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`transcript-bundle.v1.schema.json`](schemas-gen/schemas/transcript-bundle.v1.md) | `18` | `2` | `no` | `yes` | `3` | `1` |
 | [`transcript-segment.v1.schema.json`](schemas-gen/schemas/transcript-segment.v1.md) | `21` | `6` | `no` | `yes` | `3` | `1` |
@@ -182,6 +189,7 @@ Generated coverage snapshot for the current `doc/` structure.
 
 | Schema | Requirements | Stories |
 |---|---|---|
+| [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md) | [`requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md), [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-009-capability-limits.md`](project/50-requirements/requirements-009-capability-limits.md), [`requirements-015-newcomer-surface-limits.md`](project/50-requirements/requirements-015-newcomer-surface-limits.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`adapter-artifact.v1.schema.json`](schemas-gen/schemas/adapter-artifact.v1.md) | [`requirements-002-peer-learning.md`](project/50-requirements/requirements-002-peer-learning.md), [`requirements-003-memory-archivists.md`](project/50-requirements/requirements-003-memory-archivists.md), [`requirements-004-transcript-curation.md`](project/50-requirements/requirements-004-transcript-curation.md), [`requirements-005-transcript-segments.md`](project/50-requirements/requirements-005-transcript-segments.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-002-federated-peer-learning.md`](project/30-stories/story-002-federated-peer-learning.md), [`story-003-remote-memory-preservation.md`](project/30-stories/story-003-remote-memory-preservation.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md) |
 | [`agora-authority-policy.v1.schema.json`](schemas-gen/schemas/agora-authority-policy.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-008-org-subject-rollout.md`](project/50-requirements/requirements-008-org-subject-rollout.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md) |
 | [`agora-public-rejection.v1.schema.json`](schemas-gen/schemas/agora-public-rejection.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-008-org-subject-rollout.md`](project/50-requirements/requirements-008-org-subject-rollout.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md) |
@@ -241,6 +249,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`local-recipient-mailbox-resolve.v1.schema.json`](schemas-gen/schemas/local-recipient-mailbox-resolve.v1.md) |  |  |
 | [`memarium-blob.v1.schema.json`](schemas-gen/schemas/memarium-blob.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md) |
 | [`memarium-host-api.v1.schema.json`](schemas-gen/schemas/memarium-host-api.v1.md) |  |  |
+| [`membership-acceptance.v1.schema.json`](schemas-gen/schemas/membership-acceptance.v1.md) | [`requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
+| [`membership-invitation.v1.schema.json`](schemas-gen/schemas/membership-invitation.v1.md) | [`requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
+| [`membership-sponsorship.v1.schema.json`](schemas-gen/schemas/membership-sponsorship.v1.md) | [`requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`message-envelope.v1.schema.json`](schemas-gen/schemas/message-envelope.v1.md) |  | [`story-010-message-to-a-friend.md`](project/30-stories/story-010-message-to-a-friend.md) |
 | [`messaging.crisis-marked.v1.schema.json`](schemas-gen/schemas/messaging.crisis-marked.v1.md) |  |  |
 | [`messaging.flag.v1.schema.json`](schemas-gen/schemas/messaging.flag.v1.md) |  |  |
@@ -275,6 +286,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`pairwise-nym-binding.v1.schema.json`](schemas-gen/schemas/pairwise-nym-binding.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md) |
 | [`participant-bind.v1.schema.json`](schemas-gen/schemas/participant-bind.v1.md) |  | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`participant-capability-limits.v1.schema.json`](schemas-gen/schemas/participant-capability-limits.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-009-capability-limits.md`](project/50-requirements/requirements-009-capability-limits.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
+| [`participant-effective-limits.v1.schema.json`](schemas-gen/schemas/participant-effective-limits.v1.md) | [`requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md), [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-009-capability-limits.md`](project/50-requirements/requirements-009-capability-limits.md), [`requirements-015-newcomer-surface-limits.md`](project/50-requirements/requirements-015-newcomer-surface-limits.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
+| [`participant-entry-profile.v1.schema.json`](schemas-gen/schemas/participant-entry-profile.v1.md) | [`requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md), [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-009-capability-limits.md`](project/50-requirements/requirements-009-capability-limits.md), [`requirements-015-newcomer-surface-limits.md`](project/50-requirements/requirements-015-newcomer-surface-limits.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`peer-handshake.v1.schema.json`](schemas-gen/schemas/peer-handshake.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`plain-comment.v1.schema.json`](schemas-gen/schemas/plain-comment.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md) |
 | [`procurement-contract.v1.schema.json`](schemas-gen/schemas/procurement-contract.v1.md) | [`requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md), [`requirements-007-gateway-escrow-mvp.md`](project/50-requirements/requirements-007-gateway-escrow-mvp.md), [`requirements-008-org-subject-rollout.md`](project/50-requirements/requirements-008-org-subject-rollout.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md) |
@@ -316,6 +329,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`signal-marker-envelope.v1.schema.json`](schemas-gen/schemas/signal-marker-envelope.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`signal-marker.v1.schema.json`](schemas-gen/schemas/signal-marker.v1.md) |  |  |
 | [`signal-transform-event.v1.schema.json`](schemas-gen/schemas/signal-transform-event.v1.md) |  |  |
+| [`surface-access-policy.v1.schema.json`](schemas-gen/schemas/surface-access-policy.v1.md) | [`requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md), [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-009-capability-limits.md`](project/50-requirements/requirements-009-capability-limits.md), [`requirements-015-newcomer-surface-limits.md`](project/50-requirements/requirements-015-newcomer-surface-limits.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`training-job.v1.schema.json`](schemas-gen/schemas/training-job.v1.md) | [`requirements-002-peer-learning.md`](project/50-requirements/requirements-002-peer-learning.md), [`requirements-003-memory-archivists.md`](project/50-requirements/requirements-003-memory-archivists.md), [`requirements-004-transcript-curation.md`](project/50-requirements/requirements-004-transcript-curation.md), [`requirements-005-transcript-segments.md`](project/50-requirements/requirements-005-transcript-segments.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-002-federated-peer-learning.md`](project/30-stories/story-002-federated-peer-learning.md), [`story-003-remote-memory-preservation.md`](project/30-stories/story-003-remote-memory-preservation.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md) |
 | [`transcript-bundle.v1.schema.json`](schemas-gen/schemas/transcript-bundle.v1.md) |  |  |
 | [`transcript-segment.v1.schema.json`](schemas-gen/schemas/transcript-segment.v1.md) |  |  |
@@ -331,6 +345,11 @@ Generated coverage snapshot for the current `doc/` structure.
 
 | Governing Doc | Schemas |
 |---|---|
+| [`Membership Policy`](normative/50-constitutional-ops/en/MEMBERSHIP-AND-SPONSORSHIP-POLICY.en.md) | [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md), [`membership-invitation.v1.schema.json`](schemas-gen/schemas/membership-invitation.v1.md), [`membership-sponsorship.v1.schema.json`](schemas-gen/schemas/membership-sponsorship.v1.md), [`participant-effective-limits.v1.schema.json`](schemas-gen/schemas/participant-effective-limits.v1.md), [`participant-entry-profile.v1.schema.json`](schemas-gen/schemas/participant-entry-profile.v1.md), [`surface-access-policy.v1.schema.json`](schemas-gen/schemas/surface-access-policy.v1.md) |
+| [`Participant Covenant`](normative/50-constitutional-ops/en/PARTICIPANT-COVENANT.en.md) | [`membership-acceptance.v1.schema.json`](schemas-gen/schemas/membership-acceptance.v1.md) |
+| [`P051`](project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md) | [`membership-acceptance.v1.schema.json`](schemas-gen/schemas/membership-acceptance.v1.md), [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md), [`membership-invitation.v1.schema.json`](schemas-gen/schemas/membership-invitation.v1.md), [`membership-sponsorship.v1.schema.json`](schemas-gen/schemas/membership-sponsorship.v1.md) |
+| [`R009`](project/50-requirements/requirements-009-capability-limits.md) | [`participant-effective-limits.v1.schema.json`](schemas-gen/schemas/participant-effective-limits.v1.md) |
+| [`R015`](project/50-requirements/requirements-015-newcomer-surface-limits.md) | [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md), [`participant-effective-limits.v1.schema.json`](schemas-gen/schemas/participant-effective-limits.v1.md), [`participant-entry-profile.v1.schema.json`](schemas-gen/schemas/participant-entry-profile.v1.md), [`surface-access-policy.v1.schema.json`](schemas-gen/schemas/surface-access-policy.v1.md) |
 | [`doc/normative/40-constitution/pl/CONSTITUTION.pl.md`](normative/40-constitution/pl/CONSTITUTION.pl.md) | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md), [`signal-marker.v1.schema.json`](schemas-gen/schemas/signal-marker.v1.md), [`signal-transform-event.v1.schema.json`](schemas-gen/schemas/signal-transform-event.v1.md), [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md), [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) |
 | [`doc/normative/50-constitutional-ops/en/EMERGENCY-ACTIVATION-CRITERIA.en.md`](normative/50-constitutional-ops/en/EMERGENCY-ACTIVATION-CRITERIA.en.md) | [`emergency-activation.v1.schema.json`](schemas-gen/schemas/emergency-activation.v1.md), [`emergency-signal.v1.schema.json`](schemas-gen/schemas/emergency-signal.v1.md), [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md) |
 | [`doc/normative/50-constitutional-ops/en/EXCEPTION-POLICY.en.md`](normative/50-constitutional-ops/en/EXCEPTION-POLICY.en.md) | [`emergency-activation.v1.schema.json`](schemas-gen/schemas/emergency-activation.v1.md), [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md) |
@@ -443,7 +462,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/schemas/participant-bind.v1.schema.json`](schemas/participant-bind.v1.schema.json) | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md), [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md), [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 | [`doc/schemas/routing-subject-binding.v1.schema.json`](schemas/routing-subject-binding.v1.schema.json) | [`contact-claim.v1.schema.json`](schemas-gen/schemas/contact-claim.v1.md) |
 
-- Canonical schemas: `144`
-- Generated schema docs: `144`
-- Positive examples: `163`
-- Negative examples: `121`
+- Canonical schemas: `151`
+- Generated schema docs: `151`
+- Positive examples: `169`
+- Negative examples: `124`

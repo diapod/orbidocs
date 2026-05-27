@@ -93,8 +93,17 @@ Dokumenty operacyjne o mocy wiążącej w ramach federacji:
   i reguł `fixed_power_bonus`
 - `FIP-MEMBERSHIP-AND-QUORUM.pl.md` - członkostwo, aktywność i quorum
   Federacji Izb Pieczęciowych
+- `MEMBERSHIP-AND-SPONSORSHIP-POLICY.pl.md` - polityka wejścia per powierzchnia,
+  zakres sponsoringu, probation, odpowiedzialność sponsora, slow-start
+  newcomerów i hamulce przeciw sponsor-ring
+- `PARTICIPANT-COVENANT.pl.md` - krótkie przymierze operacyjne wejścia na
+  wspólne powierzchnie wpływu
 - `PROCEDURAL-REPUTATION-SPEC.pl.md` - specyfikacja domen, sygnałów i przeliczania
   reputacji proceduralnej
+- `ADVOCACY-AND-SOLICITATION-POLICY.pl.md` - wymogi opt-in, ujawnienia i sankcje
+  dla powierzchni perswazji oraz akwizycji
+- `MARKETPLACE-ANTI-FRAUD-POLICY.pl.md` - limity wartości, oczekiwania escrow,
+  reguły antyfraudowe i podstawa reputacji dla powierzchni marketplace
 - `RAW-SIGNAL-POLICY.pl.md` - ochrona surowego sygnału, tryby transformacji stylu,
   metaznaczniki i ślad audytowy
 - `UNIVERSAL-BASIC-COMPUTE.pl.md` - minimalny model Proof-of-Personhood,

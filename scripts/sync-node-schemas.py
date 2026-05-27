@@ -83,8 +83,13 @@ SCHEMA_WHITELIST = (
     "contact-request.v1.schema.json",
     "contact-attestation-request.v1.schema.json",
     "contact-attestation-result.v1.schema.json",
+    "membership-invitation.v1.schema.json",
+    "membership-sponsorship.v1.schema.json",
+    "membership-acceptance.v1.schema.json",
+    "participant-entry-profile.v1.schema.json",
+    "participant-effective-limits.v1.schema.json",
+    "surface-access-policy.v1.schema.json",
     "message-envelope.v1.schema.json",
-    "contacts.membership-changed.v1.schema.json",
     "messaging.passport-issued.v1.schema.json",
     "messaging.passport-revoked.v1.schema.json",
     "messaging.retention-decided.v1.schema.json",
@@ -173,9 +178,14 @@ EXAMPLE_WHITELIST = (
     "basic.local-contact.json",
     "basic.contact-attestation-request.json",
     "issued.contact-attestation-result.json",
+    "community-basic.membership-invitation.json",
+    "community-basic.membership-sponsorship.json",
+    "probationary.membership-acceptance.json",
+    "newcomer.participant-entry-profile.json",
+    "newcomer.participant-effective-limits.json",
+    "default.surface-access-policy.json",
     "messaging.contact-request.json",
     "basic.message-envelope.json",
-    "contacts-added.contacts.membership-changed.json",
     "issued.messaging.passport-issued.json",
     "public-seed-directory.service-ca-material.json",
     "public-seed-directory.service-ca-revocation.json",
@@ -217,6 +227,9 @@ INVALID_EXAMPLE_WHITELIST = (
     "without-basis.community-pool-disbursement.json",
     "missing-via-node.participant-bind.json",
     "blocked-core-messaging.participant-capability-limits.json",
+    "missing-scopes.membership-sponsorship.json",
+    "guest-with-broadcast.participant-entry-profile.json",
+    "unknown-surface.surface-access-policy.json",
     "missing-participant-bind.client-instance-attachment.json",
     "missing-participant-bind.client-instance-detachment.json",
     "missing-detachment-ref.client-instance-recovery.json",
@@ -240,7 +253,23 @@ INVALID_EXAMPLE_WHITELIST = (
 def copy_files(files: tuple[str, ...], source_dir: Path, target_dir: Path) -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
     for name in files:
-        shutil.copy2(source_dir / name, target_dir / name)
+        source = source_dir / name
+        target = target_dir / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+
+
+def copy_shared_schemas(schema_target: Path) -> None:
+    shared_source = SCHEMAS_DIR / "_shared"
+    if not shared_source.exists():
+        return
+    shared_target = schema_target / "_shared"
+    shared_target.mkdir(parents=True, exist_ok=True)
+    for source in shared_source.rglob("*.json"):
+        relative = source.relative_to(shared_source)
+        target = shared_target / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
 
 
 def main() -> int:
@@ -257,6 +286,7 @@ def main() -> int:
     invalid_target = example_target / "invalid"
 
     copy_files(SCHEMA_WHITELIST, SCHEMAS_DIR, schema_target)
+    copy_shared_schemas(schema_target)
     copy_files(EXAMPLE_WHITELIST, EXAMPLES_DIR, example_target)
     copy_files(INVALID_EXAMPLE_WHITELIST, INVALID_EXAMPLES_DIR, invalid_target)
 

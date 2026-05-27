@@ -44,6 +44,10 @@ rights.
    organizational partition. In high-stakes and constitutional matters they are
    treated as **one voting block** until they demonstrate genuine procedural
    independence.
+6. Participant membership and sponsorship inside a federation are entry-policy
+   mechanisms. They MAY inform who can participate in local federation
+   procedures, but they MUST NOT become a shortcut around inter-federation
+   quorum, activity, common-control, or suspension rules.
 
 ---
 

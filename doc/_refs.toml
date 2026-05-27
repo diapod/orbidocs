@@ -1,0 +1,39 @@
+[P051]
+path = "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
+short = "P051"
+
+[DIA-MS-001]
+path = "doc/normative/50-constitutional-ops/en/MEMBERSHIP-AND-SPONSORSHIP-POLICY.en.md"
+short = "Membership Policy"
+
+[DIA-PC-001]
+path = "doc/normative/50-constitutional-ops/en/PARTICIPANT-COVENANT.en.md"
+short = "Participant Covenant"
+
+[DIA-AS-001]
+path = "doc/normative/50-constitutional-ops/en/ADVOCACY-AND-SOLICITATION-POLICY.en.md"
+short = "Advocacy and Solicitation Policy"
+
+[DIA-MAF-001]
+path = "doc/normative/50-constitutional-ops/en/MARKETPLACE-ANTI-FRAUD-POLICY.en.md"
+short = "Marketplace Anti-Fraud Policy"
+
+[R015]
+path = "doc/project/50-requirements/requirements-015-newcomer-surface-limits.md"
+short = "R015"
+
+[P061]
+path = "doc/project/40-proposals/061-contact-attestation-service.md"
+short = "P061"
+
+[R009]
+path = "doc/project/50-requirements/requirements-009-capability-limits.md"
+short = "R009"
+
+[PROCEDURAL-REPUTATION]
+path = "doc/normative/50-constitutional-ops/en/PROCEDURAL-REPUTATION-SPEC.en.md"
+short = "Procedural Reputation"
+
+[ROLE-TO-IAL]
+path = "doc/normative/50-constitutional-ops/en/ROLE-TO-IAL-MATRIX.en.md"
+short = "Role to IAL"

@@ -96,8 +96,17 @@ Operational documents with binding force within federations:
   thresholds and `fixed_power_bonus` rules
 - `FIP-MEMBERSHIP-AND-QUORUM.en.md` - membership, activity, and quorum of the
   Federation of Sealed Chambers
+- `MEMBERSHIP-AND-SPONSORSHIP-POLICY.en.md` - per-surface entry policy,
+  sponsorship scope, probation, sponsor liability, newcomer slow-start, and
+  anti-sponsor-ring constraints
+- `PARTICIPANT-COVENANT.en.md` - short operational covenant for entering shared
+  influence surfaces
 - `PROCEDURAL-REPUTATION-SPEC.en.md` - specification of domains, signals, and
   calculation of procedural reputation
+- `ADVOCACY-AND-SOLICITATION-POLICY.en.md` - opt-in requirements, disclosures,
+  and sanctions for persuasion and solicitation surfaces
+- `MARKETPLACE-ANTI-FRAUD-POLICY.en.md` - value caps, escrow expectations,
+  anti-fraud rules, and reputation basis for marketplace surfaces
 - `RAW-SIGNAL-POLICY.en.md` - raw-signal protection, style-transformation modes,
   meta-markers, and audit trace
 - `UNIVERSAL-BASIC-COMPUTE.en.md` - minimal Proof-of-Personhood model,

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:membership-invitation:v1",
+  "title": "MembershipInvitation v1",
+  "description": "Append-only invitation fact for entering a bounded Orbiplex influence surface. An invitation creates a traceable entry path; it does not itself grant authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "P051",
+    "DIA-MS-001"
+  ],
+  "required": [
+    "schema/v",
+    "invitation/id",
+    "issued/at",
+    "expires/at",
+    "issuer/subject",
+    "entry/profile",
+    "scopes",
+    "status"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1
+    },
+    "invitation/id": {
+      "type": "string",
+      "pattern": "^membership-invitation:[A-Za-z0-9._:-]+$"
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "issuer/subject": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/subject"
+    },
+    "invitee/subject": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/subject"
+    },
+    "invitee/anchor-ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional invitee anchor when the future subject id is not known yet."
+    },
+    "entry/profile": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/entry_profile_class"
+    },
+    "scopes": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/scopes"
+    },
+    "sponsorship/required": {
+      "type": "boolean",
+      "default": false
+    },
+    "policy/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "issued",
+        "accepted",
+        "expired",
+        "revoked"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/extensions"
+    }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "invitee/subject"
+      ]
+    },
+    {
+      "required": [
+        "invitee/anchor-ref"
+      ]
+    }
+  ]
+}

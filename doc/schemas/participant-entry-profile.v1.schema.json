@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:participant-entry-profile:v1",
+  "title": "ParticipantEntryProfile v1",
+  "description": "Computed subject read model describing a participant's current entry class and provenance. It carries no independent per-surface authority; effective limits are projected separately.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "R015",
+    "DIA-MS-001"
+  ],
+  "required": [
+    "schema/v",
+    "profile/id",
+    "subject/ref",
+    "profile/class",
+    "issued/at",
+    "basis/refs",
+    "applicable-policy/refs",
+    "effective-limits/ref"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1
+    },
+    "profile/id": {
+      "type": "string",
+      "pattern": "^participant-entry-profile:[A-Za-z0-9._:-]+$"
+    },
+    "subject/ref": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/subject"
+    },
+    "profile/class": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/entry_profile_class"
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "probation/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "required/independent-interactions": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "required/source-diversity": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "basis/refs": {
+      "$ref": "#/$defs/ref_list"
+    },
+    "applicable-policy/refs": {
+      "$ref": "#/$defs/ref_list"
+    },
+    "sponsorship/refs": {
+      "$ref": "#/$defs/ref_list"
+    },
+    "sanction/refs": {
+      "$ref": "#/$defs/ref_list"
+    },
+    "effective-limits/ref": {
+      "type": "string",
+      "pattern": "^participant-effective-limits:[A-Za-z0-9._:-]+$"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "ref_list": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  }
+}

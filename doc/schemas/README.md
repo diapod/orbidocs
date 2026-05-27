@@ -50,8 +50,22 @@ Recommended shape:
 Notes:
 
 - paths should be repository-relative, from `/orbidocs`,
+- short ids from `doc/_refs.toml` may be used when a document is referenced by
+  many related schemas,
 - prefer the most direct governing sources,
 - keep the list short and specific.
+
+## Shared definitions
+
+Schemas that need common vocabulary MAY use small shared schemas under
+`doc/schemas/_shared/`.
+Shared schemas are contracts too: they are validated, included in generated
+schema docs, and synchronized to `node/protocol/contracts/schemas/_shared/`.
+
+Use shared definitions for stable enum families that would otherwise drift
+across several security-sensitive contracts.
+Do not put domain policy prose or executable policy in `_shared`; keep it to
+reusable data definitions.
 
 ## Authoring rule
 

@@ -14,6 +14,13 @@ These passports prove control of a contact channel. They are not legal identity
 assurance and they do not imply that the channel holder is a particular civil
 person.
 
+They also do not unlock public-trust roles, governance, high-value marketplace
+access, or reputation leverage by themselves. In membership bootstrap they are
+only evidence for contactability, anti-spam policy, recovery paths, and
+contact-catalog admission. Higher influence surfaces still require the relevant
+entry profile, sponsorship, probation, reputation, IAL, and anti-collusion
+checks.
+
 ## Role and Discovery
 
 An attestation service is a role advertised through Seed Directory discovery.

@@ -11,6 +11,7 @@ Based on:
 - `doc/project/50-requirements/requirements-010-middleware-executor.md`
 - `doc/project/50-requirements/requirements-011-dator-arca-contracts.md`
 - `doc/project/60-solutions/000-node/000-node.md`
+- `doc/normative/50-constitutional-ops/en/MARKETPLACE-ANTI-FRAUD-POLICY.en.md`
 
 ## Status
 
@@ -80,6 +81,9 @@ Without explicit `service-offer` and `service-order` artifacts:
 - Preserve organization-bound buying and settlement-aware execution.
 - Keep `Dator` and `Arca` within the existing middleware envelope contract rather
   than adding a second execution protocol.
+- Keep marketplace influence gated by value caps, escrow/procurement contracts,
+  settled receipts, and anti-fraud limits for newcomers or low-evidence
+  participants.
 
 ## Non-Goals
 
@@ -152,6 +156,24 @@ that preserves Node control over:
 - settlement semantics,
 - policy gating,
 - traceability.
+
+### Anti-Fraud Surface Limits
+
+Marketplace access is an influence surface.
+The host-owned bridge SHOULD therefore consume the local entry profile and
+capability-limit policy before converting a service order into procurement.
+
+The hard-MVP baseline is:
+
+- no unsolicited financial offers through DM,
+- low value caps for new or low-evidence participants,
+- escrow or procurement contracts for non-trivial risk,
+- no transferable reputation from self-dealing or closed receipt loops,
+- stronger IAL, procedural reputation, cooling-off, and dispute paths for
+  high-value surfaces.
+
+This keeps `service-offer` and `service-order` useful without turning the
+catalog into an unbounded acquisition channel.
 
 ## Recommended Hard-MVP Shape of `service-offer.v1`
 

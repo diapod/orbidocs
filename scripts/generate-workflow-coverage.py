@@ -7,9 +7,55 @@ import re
 from pathlib import Path
 from typing import Iterable
 
+try:
+    import tomllib
+except ModuleNotFoundError:  # pragma: no cover - keeps scripts usable on Python 3.10.
+    tomllib = None
+
 ROOT = Path(__file__).resolve().parents[1]
 DOC = ROOT / 'doc'
 OUTPUT = DOC / 'COVERAGE.md'
+REFS_PATH = DOC / '_refs.toml'
+
+
+def load_refs() -> dict[str, dict[str, str]]:
+    if not REFS_PATH.exists():
+        return {}
+    if tomllib is not None:
+        with REFS_PATH.open('rb') as fh:
+            data = tomllib.load(fh)
+        return {key: value for key, value in data.items() if isinstance(value, dict)}
+    data: dict[str, dict[str, str]] = {}
+    current: dict[str, str] | None = None
+    for raw_line in REFS_PATH.read_text(encoding='utf-8').splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith('#'):
+            continue
+        if line.startswith('[') and line.endswith(']'):
+            current = {}
+            data[line[1:-1]] = current
+            continue
+        if current is not None and '=' in line:
+            key, value = line.split('=', 1)
+            current[key.strip()] = value.strip().strip('"')
+    return {key: value for key, value in data.items() if isinstance(value, dict)}
+
+
+REFS = load_refs()
+
+
+def resolve_doc_ref(ref: str) -> Path:
+    entry = REFS.get(ref)
+    if entry and entry.get('path'):
+        return ROOT / entry['path']
+    return ROOT / ref
+
+
+def display_doc_ref(ref: str) -> str:
+    entry = REFS.get(ref)
+    if entry:
+        return entry.get('short') or ref
+    return ref
 
 NORMATIVE_STEPS = [
     ('10-ideas', 'Ideas'),
@@ -160,13 +206,13 @@ def project_lineage(seeds: Iterable[Path]) -> dict[str, list[Path]]:
 
 def schema_project_lineage(schema_path: Path) -> dict[str, list[Path]]:
     data = json.loads(schema_path.read_text(encoding='utf-8'))
-    seeds = [ROOT / item for item in data.get('x-dia-basis', [])]
+    seeds = [resolve_doc_ref(item) for item in data.get('x-dia-basis', [])]
     return project_lineage(seeds)
 
 
 normative_files = md_files(DOC / 'normative')
 project_files = md_files(DOC / 'project')
-schema_files = sorted((DOC / 'schemas').glob('*.schema.json'))
+schema_files = sorted((DOC / 'schemas').rglob('*.schema.json'))
 
 lines: list[str] = [
     '# Workflow Coverage',
@@ -252,7 +298,7 @@ if basis_index:
             for schema_name, generated_doc in sorted(basis_index[basis])
         )
         lines.append(
-            f"| [`{basis}`]({rel_from_output(ROOT / basis)}) | {schema_links} |"
+            f"| [`{display_doc_ref(basis)}`]({rel_from_output(resolve_doc_ref(basis))}) | {schema_links} |"
         )
 
 lines.extend([

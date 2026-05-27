@@ -273,6 +273,29 @@ procedural reputation.
 
    - it is auditable and revoked together with the loss of `IAL` eligibility.
 
+### 7.6. Newcomer Surface Limits and Sponsorship Signals
+
+Cold start applies to influence surfaces, not only to aggregate reputation.
+A new or low-evidence subject SHOULD begin with a `participant-entry-profile.v1`
+computed read model and a `participant-effective-limits.v1` runtime projection.
+That projection denies or tightly limits high fan-out surfaces such as
+`unsolicited-dm`, `broadcast`, `marketplace`, `governance`,
+`panel-eligibility`, and `public-trust`.
+
+Sponsorship may accelerate entry into a named surface, but it does not replace
+evidence-backed reputation or IAL gates.
+When a sponsored subject causes evidence-backed harm during the fresh
+sponsorship window, the system MAY emit sponsorship-derived reputation signals
+such as:
+
+- `procedural/sponsorship-negligent`
+- `procedural/sponsorship-mitigated`
+- `procedural/sponsor-ring-suspected`
+
+Such signals MUST be capped, basis-linked, and challengeable.
+They SHOULD land on the sponsor only when the evidence concerns the quality of
+the sponsorship act, not merely every later act of the sponsored subject.
+
 ---
 
 ## 8. Portable Evidence Package
@@ -354,6 +377,19 @@ For a signal to contribute its full weight, the node must have signals from at
 least `min_source_diversity` (default: 5) distinct source nodes in the same
 domain within the rolling window. Below this threshold, signal weight is reduced
 proportionally.
+
+### 9.4. Sponsor-Ring Detection
+
+The cartel sweep SHOULD also inspect sponsorship graphs.
+The MVP baseline is abnormal sponsorship velocity. Additional indicators may
+include repeated sponsorship inside the same dense cluster, sponsor-derived harm
+concentrated in one cluster, and mutual boosting between sponsors and sponsored
+subjects.
+
+Sponsor-ring findings may reduce future sponsorship weight, require additional
+independent sponsors, or trigger review of existing sponsorship facts.
+They SHOULD NOT automatically propagate liability beyond one hop without a
+separate procedural finding.
 
 ---
 

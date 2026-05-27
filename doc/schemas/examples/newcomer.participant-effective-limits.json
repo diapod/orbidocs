@@ -1,0 +1,56 @@
+{
+  "schema/v": 1,
+  "limits/id": "participant-effective-limits:newcomer:001",
+  "subject/ref": "participant:did:key:z6MkiInviteeExample",
+  "issued/at": "2026-05-27T00:15:01Z",
+  "source": [
+    {
+      "kind": "entry-profile",
+      "ref": "participant-entry-profile:newcomer:001"
+    },
+    {
+      "kind": "surface-access-policy",
+      "ref": "surface-access-policy:community-default"
+    }
+  ],
+  "composition/rule": "sanction-overrides-entry-defaults",
+  "operations": [
+    {
+      "surface/id": "public-comment",
+      "operation/id": "public-posting",
+      "decision": "limited",
+      "limit/value": "low-rate",
+      "source/ref": "surface-access-policy:community-default",
+      "reason/code": "newcomer/slow-start"
+    },
+    {
+      "surface/id": "unsolicited-dm",
+      "operation/id": "unsolicited-dm",
+      "decision": "deny",
+      "source/ref": "surface-access-policy:community-default",
+      "reason/code": "newcomer/unknown-recipient"
+    },
+    {
+      "surface/id": "broadcast",
+      "operation/id": "broadcast",
+      "decision": "deny",
+      "source/ref": "surface-access-policy:community-default",
+      "reason/code": "newcomer/broadcast-denied"
+    },
+    {
+      "surface/id": "marketplace",
+      "operation/id": "marketplace-value-cap",
+      "decision": "limited",
+      "limit/value": "very-low",
+      "source/ref": "surface-access-policy:community-default",
+      "reason/code": "newcomer/marketplace-cap"
+    },
+    {
+      "surface/id": "public-trust",
+      "operation/id": "public-trust",
+      "decision": "deny",
+      "source/ref": "surface-access-policy:community-default",
+      "reason/code": "newcomer/public-trust-denied"
+    }
+  ]
+}

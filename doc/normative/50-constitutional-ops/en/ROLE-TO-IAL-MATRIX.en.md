@@ -48,6 +48,16 @@ reputation and does not dynamically multiply influence.
    source. `Weak` sources should not by themselves unlock high-stakes roles,
    even if other local conditions are met.
 
+6. `IAL` gates high-stakes surfaces, but it is not sufficient by itself.
+   Marketplace value caps, governance eligibility, panel eligibility, public
+   custody, routing, and public-trust roles also require the relevant surface
+   policy: probation, procedural reputation, sponsorship diversity when
+   applicable, COI handling, and anti-collusion review.
+
+7. Contact-channel attestation such as phone or email control is an anti-spam
+   and recovery aid. It MUST NOT be interpreted as legal identity or as a
+   shortcut to high-stakes roles.
+
 ---
 
 ## 3. Minimal Matrix
@@ -97,3 +107,5 @@ reputation and does not dynamically multiply influence.
 
 - `PANEL-SELECTION-PROTOCOL.en.md` and `IDENTITY-UNSEALING-BOARD.en.md` should use
   this matrix as the default minimum for panels and chambers.
+- `MEMBERSHIP-AND-SPONSORSHIP-POLICY.en.md` defines per-surface entry and
+  sponsorship limits that remain separate from `IAL`.

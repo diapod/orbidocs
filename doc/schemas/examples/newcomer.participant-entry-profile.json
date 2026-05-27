@@ -1,0 +1,21 @@
+{
+  "schema/v": 1,
+  "profile/id": "participant-entry-profile:newcomer:001",
+  "subject/ref": "participant:did:key:z6MkiInviteeExample",
+  "profile/class": "probationary-member",
+  "issued/at": "2026-05-27T00:15:00Z",
+  "probation/until": "2026-08-25T00:00:00Z",
+  "required/independent-interactions": 5,
+  "required/source-diversity": 3,
+  "basis/refs": [
+    "membership-acceptance:probationary:001",
+    "membership-sponsorship:community-basic:001"
+  ],
+  "applicable-policy/refs": [
+    "surface-access-policy:community-default"
+  ],
+  "sponsorship/refs": [
+    "membership-sponsorship:community-basic:001"
+  ],
+  "effective-limits/ref": "participant-effective-limits:newcomer:001"
+}

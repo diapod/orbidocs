@@ -56,6 +56,11 @@ nymów, ale może wymagać okresu wyczekiwania i kontroli anomalii.
 | **Utrzymuj higienę operacyjną** | Dbaj o klucze, aktualizacje i podstawowe bezpieczeństwo węzła. | Art. XV.4 |
 | **Bądź gotowy do pomocy** | W ramach swoich możliwości - bez obowiązku transakcyjnego rozrachunku. | Art. XV.4 |
 
+Krótką operacyjną formą tych obowiązków przy wejściu na wspólne powierzchnie
+wpływu jest `PARTICIPANT-COVENANT.pl.md`. Przymierze nie jest testem
+ideologicznym; jest zwięzłym zapisem obowiązków niekrzywdzenia, anti-Sybil,
+anti-spam, anti-fraud, prywatności, apelacji i naprawy.
+
 ## Hierarchia wartości (gdy wartości wchodzą w konflikt)
 
 ```text
@@ -85,6 +90,8 @@ naprawie (Art. XVI.1-2).
 **Wartości i wykładnia:** `doc/normative/30-core-values/pl/CORE-VALUES.pl.md`  
 **Wizja projektu:** `doc/normative/20-vision/pl/VISION.pl.md`  
 **Gradient autonomii agentów:** `AUTONOMY-LEVELS.pl.md`
+
+**Przymierze uczestnika:** `PARTICIPANT-COVENANT.pl.md`
 
 ---
 ---

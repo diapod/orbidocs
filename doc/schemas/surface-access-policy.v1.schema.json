@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:surface-access-policy:v1",
+  "title": "SurfaceAccessPolicy v1",
+  "description": "Policy-as-data matrix for deciding access by entry class and influence surface. This is the canonical policy-axis source of truth; participant entry profiles are computed projections.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "R015",
+    "DIA-MS-001"
+  ],
+  "required": [
+    "schema/v",
+    "policy/id",
+    "issued/at",
+    "decision/default",
+    "matrix"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1
+    },
+    "policy/id": {
+      "type": "string",
+      "pattern": "^surface-access-policy:[A-Za-z0-9._:-]+$"
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "decision/default": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/surface_decision"
+    },
+    "matrix": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/matrix_rule"
+      }
+    },
+    "appeal/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notes": {
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "matrix_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry/profile",
+        "surface/id",
+        "decision"
+      ],
+      "properties": {
+        "entry/profile": {
+          "$ref": "_shared/membership-enums.v1.schema.json#/$defs/entry_profile_class"
+        },
+        "surface/id": {
+          "$ref": "_shared/membership-enums.v1.schema.json#/$defs/surface_id"
+        },
+        "decision": {
+          "$ref": "_shared/membership-enums.v1.schema.json#/$defs/surface_decision"
+        },
+        "required/attestations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*(/[a-z0-9][a-z0-9-]*)*$"
+          }
+        },
+        "required/sponsors": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "independent-clusters": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max-single-cluster-share": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "required/reputation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "domain": {
+              "type": "string",
+              "enum": [
+                "contract",
+                "procedural",
+                "incident",
+                "community"
+              ]
+            },
+            "minimum-score": {
+              "type": "number"
+            },
+            "source-diversity": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "default-limits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/default_limit"
+          }
+        },
+        "policy/ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "default_limit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/id",
+        "decision"
+      ],
+      "properties": {
+        "operation/id": {
+          "$ref": "_shared/membership-enums.v1.schema.json#/$defs/limit_operation"
+        },
+        "decision": {
+          "$ref": "_shared/membership-enums.v1.schema.json#/$defs/limit_decision"
+        },
+        "limit/value": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "object",
+              "additionalProperties": true
+            }
+          ]
+        }
+      }
+    }
+  }
+}

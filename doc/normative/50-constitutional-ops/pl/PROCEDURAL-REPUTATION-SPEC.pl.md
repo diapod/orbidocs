@@ -293,6 +293,30 @@ reputacji proceduralnej.
 
    - jest audytowalna i cofana wraz z utratą kwalifikacji `IAL`.
 
+### 7.6. Limity powierzchni newcomera i sygnały sponsoringu
+
+Cold start dotyczy powierzchni wpływu, nie tylko reputacji zagregowanej.
+Nowy albo niskodowodowy podmiot POWINIEN zaczynać z computed read modelem
+`participant-entry-profile.v1` oraz projekcją runtime
+`participant-effective-limits.v1`.
+Ta projekcja odmawia albo silnie ogranicza powierzchnie wysokiego fan-out takie
+jak `unsolicited-dm`, `broadcast`, `marketplace`, `governance`,
+`panel-eligibility` i `public-trust`.
+
+Sponsoring może przyspieszyć wejście na nazwaną powierzchnię, ale nie zastępuje
+reputacji opartej o dowody ani bramek IAL.
+Gdy sponsorowany podmiot wyrządza potwierdzoną dowodowo szkodę w świeżym oknie
+sponsoringu, system MOŻE emitować pochodne sygnały reputacyjne takie jak:
+
+- `procedural/sponsorship-negligent`
+- `procedural/sponsorship-mitigated`
+- `procedural/sponsor-ring-suspected`
+
+Takie sygnały MUSZĄ być limitowane, powiązane z podstawą dowodową i
+zaskarżalne.
+Powinny lądować na sponsorze tylko wtedy, gdy dowód dotyczy jakości aktu
+sponsoringu, a nie każdego późniejszego zachowania sponsorowanego.
+
 ---
 
 ## 8. Przenośny pakiet dowodów
@@ -375,6 +399,20 @@ Aby sygnał wniósł pełną wagę, węzeł musi mieć sygnały od co najmniej
 `min_source_diversity` (domyślnie: 5) różnych węzłów źródłowych w tej samej
 domenie w oknie kroczącym. Poniżej tego progu waga sygnału jest redukowana
 proporcjonalnie.
+
+### 9.4. Detekcja sponsor-ring
+
+Sweep kartelowy POWINIEN badać również grafy sponsoringu.
+Bazowym detektorem MVP jest nietypowa prędkość sponsorowania. Dodatkowe
+wskaźniki mogą obejmować powtarzalne sponsorowanie wewnątrz tego samego gęstego
+klastra, szkody pochodzące od sponsorowanych skoncentrowane w jednym klastrze
+oraz mutual boosting między sponsorami i sponsorowanymi.
+
+Wyniki sponsor-ring mogą obniżać przyszłą wagę sponsoringu, wymagać dodatkowych
+niezależnych sponsorów albo uruchamiać przegląd istniejących faktów
+sponsoringu.
+Nie POWINNY automatycznie propagować odpowiedzialności dalej niż jeden poziom
+bez osobnego ustalenia proceduralnego.
 
 ---
 

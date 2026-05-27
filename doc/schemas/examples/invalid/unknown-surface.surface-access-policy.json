@@ -1,0 +1,13 @@
+{
+  "schema/v": 1,
+  "policy/id": "surface-access-policy:invalid:001",
+  "issued/at": "2026-05-27T00:20:00Z",
+  "decision/default": "deny",
+  "matrix": [
+    {
+      "entry/profile": "guest",
+      "surface/id": "global-membership",
+      "decision": "allow"
+    }
+  ]
+}

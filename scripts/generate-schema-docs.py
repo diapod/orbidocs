@@ -8,11 +8,57 @@ import re
 from pathlib import Path
 from typing import Any
 
+try:
+    import tomllib
+except ModuleNotFoundError:  # pragma: no cover - keeps scripts usable on Python 3.10.
+    tomllib = None
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS_DIR = ROOT / "doc" / "schemas"
 GENERATED_DIR = ROOT / "doc" / "schemas-gen"
 GENERATED_SCHEMAS_DIR = GENERATED_DIR / "schemas"
+REFS_PATH = ROOT / "doc" / "_refs.toml"
+
+
+def load_refs() -> dict[str, dict[str, str]]:
+    if not REFS_PATH.exists():
+        return {}
+    if tomllib is not None:
+        with REFS_PATH.open("rb") as fh:
+            data = tomllib.load(fh)
+        return {key: value for key, value in data.items() if isinstance(value, dict)}
+    data: dict[str, dict[str, str]] = {}
+    current: dict[str, str] | None = None
+    for raw_line in REFS_PATH.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("[") and line.endswith("]"):
+            current = {}
+            data[line[1:-1]] = current
+            continue
+        if current is not None and "=" in line:
+            key, value = line.split("=", 1)
+            current[key.strip()] = value.strip().strip('"')
+    return {key: value for key, value in data.items() if isinstance(value, dict)}
+
+
+REFS = load_refs()
+
+
+def resolve_doc_ref(ref: str) -> Path:
+    entry = REFS.get(ref)
+    if entry and entry.get("path"):
+        return ROOT / entry["path"]
+    return ROOT / ref
+
+
+def display_doc_ref(ref: str) -> str:
+    entry = REFS.get(ref)
+    if entry:
+        return entry.get("short") or ref
+    return ref
 
 
 def slugify(value: str) -> str:
@@ -86,9 +132,9 @@ def basis_lines(basis: Any, from_dir: Path) -> str:
         return ""
     links = []
     for item in basis:
-        target = ROOT / item
+        target = resolve_doc_ref(item)
         href = rel_link(from_dir, target)
-        links.append(f"- [`{item}`]({href})")
+        links.append(f"- [`{display_doc_ref(item)}`]({href})")
     return "\n".join(links)
 
 
@@ -228,6 +274,7 @@ def summarize_condition(index: int, condition: dict[str, Any]) -> str:
 
 def generate_schema_doc(schema_path: Path) -> tuple[str, str]:
     data = json.loads(schema_path.read_text(encoding="utf-8"))
+    schema_rel_to_dir = schema_path.relative_to(SCHEMAS_DIR).as_posix()
     doc_stem = schema_path.name.removesuffix(".schema.json")
     out_path = GENERATED_SCHEMAS_DIR / f"{doc_stem}.md"
     from_dir = out_path.parent
@@ -240,12 +287,12 @@ def generate_schema_doc(schema_path: Path) -> tuple[str, str]:
     defs = data.get("$defs", {})
     all_of = data.get("allOf", [])
     basis = data.get("x-dia-basis", [])
-    lineage = project_lineage_lines([ROOT / item for item in basis], from_dir)
+    lineage = project_lineage_lines([resolve_doc_ref(item) for item in basis], from_dir)
 
     lines = [
         f"# {title}",
         "",
-        f"Source schema: [`doc/schemas/{schema_path.name}`]({schema_rel})",
+        f"Source schema: [`doc/schemas/{schema_rel_to_dir}`]({schema_rel})",
         "",
     ]
     if description:
@@ -285,7 +332,7 @@ def generate_schema_doc(schema_path: Path) -> tuple[str, str]:
             lines.extend([render_def_section(name, spec, from_dir), ""])
 
     out_path.write_text("\n".join(lines).strip() + "\n", encoding="utf-8")
-    return schema_path.name, out_path.name
+    return schema_rel_to_dir, out_path.name
 
 
 
@@ -305,7 +352,7 @@ def generate_index(rows: list[tuple[str, str]]) -> None:
         basis = data.get("x-dia-basis", [])
         if basis:
           basis_links = ", ".join(
-              f"[`{Path(item).name}`]({rel_link(out_path.parent, ROOT / item)})" for item in basis
+              f"[`{display_doc_ref(item)}`]({rel_link(out_path.parent, resolve_doc_ref(item))})" for item in basis
           )
         else:
           basis_links = ""
@@ -319,7 +366,7 @@ def generate_index(rows: list[tuple[str, str]]) -> None:
 def main() -> int:
     GENERATED_SCHEMAS_DIR.mkdir(parents=True, exist_ok=True)
     rows: list[tuple[str, str]] = []
-    for schema_path in sorted(SCHEMAS_DIR.glob("*.schema.json")):
+    for schema_path in sorted(SCHEMAS_DIR.rglob("*.schema.json")):
         rows.append(generate_schema_doc(schema_path))
     generate_index(rows)
     return 0

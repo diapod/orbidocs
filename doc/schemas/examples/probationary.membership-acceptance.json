@@ -1,0 +1,15 @@
+{
+  "schema/v": 1,
+  "acceptance/id": "membership-acceptance:probationary:001",
+  "participant/subject": "participant:did:key:z6MkiInviteeExample",
+  "accepted/at": "2026-05-27T00:10:00Z",
+  "entry/profile": "probationary-member",
+  "invitation/ref": "membership-invitation:community-basic:001",
+  "sponsorship/refs": [
+    "membership-sponsorship:community-basic:001"
+  ],
+  "covenant/ref": "DIA-PARTICIPANT-COVENANT-001",
+  "surface-policy/ref": "surface-access-policy:community-basic",
+  "probation/until": "2026-08-25T00:00:00Z",
+  "status": "probationary"
+}

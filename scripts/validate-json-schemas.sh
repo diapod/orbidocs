@@ -128,9 +128,6 @@ schema_for_file() {
     *.agora-vault-ref.json)
       echo "$SCHEMAS_DIR/agora-vault-ref.v1.schema.json"
       ;;
-    *.contacts.membership-changed.json)
-      echo "$SCHEMAS_DIR/contacts.membership-changed.v1.schema.json"
-      ;;
     *.messaging.passport-issued.json)
       echo "$SCHEMAS_DIR/messaging.passport-issued.v1.schema.json"
       ;;
@@ -247,6 +244,24 @@ schema_for_file() {
       ;;
     *.participant-capability-limits.json)
       echo "$SCHEMAS_DIR/participant-capability-limits.v1.schema.json"
+      ;;
+    *.membership-invitation.json)
+      echo "$SCHEMAS_DIR/membership-invitation.v1.schema.json"
+      ;;
+    *.membership-sponsorship.json)
+      echo "$SCHEMAS_DIR/membership-sponsorship.v1.schema.json"
+      ;;
+    *.membership-acceptance.json)
+      echo "$SCHEMAS_DIR/membership-acceptance.v1.schema.json"
+      ;;
+    *.participant-entry-profile.json)
+      echo "$SCHEMAS_DIR/participant-entry-profile.v1.schema.json"
+      ;;
+    *.participant-effective-limits.json)
+      echo "$SCHEMAS_DIR/participant-effective-limits.v1.schema.json"
+      ;;
+    *.surface-access-policy.json)
+      echo "$SCHEMAS_DIR/surface-access-policy.v1.schema.json"
       ;;
     *.coi-declaration.json)
       echo "$SCHEMAS_DIR/coi-declaration.v1.schema.json"
@@ -406,6 +421,14 @@ validate_with_ajv() {
   data_file=$2
 
   case "$schema_file" in
+    *membership-invitation.v1.schema.json|*membership-sponsorship.v1.schema.json|*membership-acceptance.v1.schema.json|*participant-entry-profile.v1.schema.json|*participant-effective-limits.v1.schema.json|*surface-access-policy.v1.schema.json)
+      ajv validate \
+        --spec=draft2020 \
+        --strict=false \
+        -s "$schema_file" \
+        -r "$SCHEMAS_DIR/_shared/membership-enums.v1.schema.json" \
+        -d "$data_file" >/dev/null
+      ;;
     *transcript-bundle.v1.schema.json)
       ajv validate \
         --spec=draft2020 \

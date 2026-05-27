@@ -1,0 +1,27 @@
+{
+  "schema/v": 1,
+  "sponsorship/id": "membership-sponsorship:community-basic:001",
+  "sponsor/subject": "participant:did:key:z6MkiSponsorExample",
+  "invitee/subject": "participant:did:key:z6MkiInviteeExample",
+  "scopes": [
+    "community.basic",
+    "public-comment.low-volume"
+  ],
+  "sponsorship/template": "standard-introduction",
+  "liability/class": "moderate",
+  "issued/at": "2026-05-27T00:00:00Z",
+  "expires/at": "2026-08-25T00:00:00Z",
+  "probation/until": "2026-08-25T00:00:00Z",
+  "due-diligence/refs": [
+    {
+      "kind": "known-in-person"
+    },
+    {
+      "kind": "worked-together"
+    }
+  ],
+  "revocable": true,
+  "revocation-tail-duration": "P30D",
+  "evidence/policy": "evidence-backed-only",
+  "policy/ref": "DIA-MEMBERSHIP-SPONSORSHIP-001"
+}

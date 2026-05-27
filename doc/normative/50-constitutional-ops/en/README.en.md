@@ -21,6 +21,8 @@ This directory contains constitutional operational acts that refine and operatio
 - [Identity Unsealing Board](IDENTITY-UNSEALING-BOARD.en.md)
 - [Unseal Case Model](UNSEAL-CASE-MODEL.en.md)
 - [Role to IAL Matrix](ROLE-TO-IAL-MATRIX.en.md)
+- [Membership and Sponsorship Policy](MEMBERSHIP-AND-SPONSORSHIP-POLICY.en.md)
+- [Participant Covenant](PARTICIPANT-COVENANT.en.md)
 
 ## Reputation and Governance
 
@@ -28,6 +30,8 @@ This directory contains constitutional operational acts that refine and operatio
 - [Reputation Validation Protocol](REPUTATION-VALIDATION-PROTOCOL.en.md)
 - [Panel Selection Protocol](PANEL-SELECTION-PROTOCOL.en.md)
 - [Abuse Disclosure Protocol](ABUSE-DISCLOSURE-PROTOCOL.en.md)
+- [Advocacy and Solicitation Policy](ADVOCACY-AND-SOLICITATION-POLICY.en.md)
+- [Marketplace Anti-Fraud Policy](MARKETPLACE-ANTI-FRAUD-POLICY.en.md)
 
 ## Signal and Economy
 

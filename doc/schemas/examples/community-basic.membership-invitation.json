@@ -1,0 +1,16 @@
+{
+  "schema/v": 1,
+  "invitation/id": "membership-invitation:community-basic:001",
+  "issued/at": "2026-05-27T00:00:00Z",
+  "expires/at": "2026-06-26T00:00:00Z",
+  "issuer/subject": "participant:did:key:z6MkiIssuerExample",
+  "invitee/anchor-ref": "contact-digest:sha256:2f7b8c",
+  "entry/profile": "sponsored-candidate",
+  "scopes": [
+    "community.basic",
+    "public-comment.low-volume"
+  ],
+  "sponsorship/required": true,
+  "policy/ref": "surface-access-policy:community-basic",
+  "status": "issued"
+}

@@ -21,6 +21,8 @@ Ten katalog zbiera akty wykonawcze rozwijające Konstytucję DIA/Orbiplex.
 - [Izby Pieczęciowe i unsealing](IDENTITY-UNSEALING-BOARD.pl.md)
 - [Model sprawy unsealingu](UNSEAL-CASE-MODEL.pl.md)
 - [Matryca ról do IAL](ROLE-TO-IAL-MATRIX.pl.md)
+- [Polityka członkostwa i sponsoringu](MEMBERSHIP-AND-SPONSORSHIP-POLICY.pl.md)
+- [Przymierze uczestnika](PARTICIPANT-COVENANT.pl.md)
 
 ## Reputacja i governance
 
@@ -28,6 +30,8 @@ Ten katalog zbiera akty wykonawcze rozwijające Konstytucję DIA/Orbiplex.
 - [Walidacja reputacji](REPUTATION-VALIDATION-PROTOCOL.pl.md)
 - [Protokół doboru panelu](PANEL-SELECTION-PROTOCOL.pl.md)
 - [Ujawnianie nadużyć](ABUSE-DISCLOSURE-PROTOCOL.pl.md)
+- [Polityka perswazji i akwizycji](ADVOCACY-AND-SOLICITATION-POLICY.pl.md)
+- [Polityka antyfraudowa marketplace](MARKETPLACE-ANTI-FRAUD-POLICY.pl.md)
 
 ## Sygnał i ekonomia
 

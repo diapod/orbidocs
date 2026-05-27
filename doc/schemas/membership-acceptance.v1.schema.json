@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:membership-acceptance:v1",
+  "title": "MembershipAcceptance v1",
+  "description": "Append-only acceptance fact showing that a subject accepted entry into a bounded Orbiplex policy surface and covenant. Acceptance is not a universal authority grant.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "P051",
+    "DIA-PC-001"
+  ],
+  "required": [
+    "schema/v",
+    "acceptance/id",
+    "participant/subject",
+    "accepted/at",
+    "entry/profile",
+    "covenant/ref",
+    "surface-policy/ref",
+    "status"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1
+    },
+    "acceptance/id": {
+      "type": "string",
+      "pattern": "^membership-acceptance:[A-Za-z0-9._:-]+$"
+    },
+    "participant/subject": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/subject"
+    },
+    "accepted/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "entry/profile": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/entry_profile_class"
+    },
+    "invitation/ref": {
+      "type": "string",
+      "pattern": "^membership-invitation:[A-Za-z0-9._:-]+$"
+    },
+    "sponsorship/refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^membership-sponsorship:[A-Za-z0-9._:-]+$"
+      }
+    },
+    "covenant/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "surface-policy/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "probation/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "probationary",
+        "completed",
+        "withdrawn",
+        "revoked"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "_shared/membership-enums.v1.schema.json#/$defs/extensions"
+    }
+  }
+}
