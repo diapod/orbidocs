@@ -12,6 +12,11 @@ component-facing delivery abstraction belongs to Artifact Delivery:
 - INAC is the private/direct node-to-node transport adapter under that plane.
 - Memarium remains the local custody store.
 
+Implementation boundary: the `ad-host` in-process composer may ask for delivery
+through INAC, but it does not own WSS sockets, peer sessions, INAC
+authorization, invitation ledger state, or offer/push semantics. Those remain
+the responsibility of the peer runtime / INAC host side of the node.
+
 The current solution status is **partial / MVP scaffold**. Proposal 042 defines
 the semantic contract; the implementation guideline in this directory
 decomposes the work into schemas, peer-message registration, authorization,

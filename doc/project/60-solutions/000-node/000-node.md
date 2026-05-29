@@ -25,6 +25,15 @@ keeps operator surfaces and lifecycle. `host-vocabulary` is a leaf DTO crate for
 future host-service seams; it must stay free of Axum/Tokio/SQLite and daemon
 dependencies.
 
+`ad-host` is the next extracted host-service seam. It is still in-process Rust,
+but it owns Artifact Delivery runtime composition, recovery worker ownership,
+Matrix mailbox worker ownership, route/status snapshots, and AD-owned transport
+cache status. The daemon remains the kernel for config, lifecycle, local HTTP,
+and capability boundaries; it calls `AdHostRuntime` rather than reaching into
+Artifact Delivery runtime internals. Future `peer-runtime` and `inac-host`
+components may implement the consumer-side traits declared by `ad-host`, while
+socket/session ownership stays outside Artifact Delivery.
+
 Acceptance rule: a new host-service crate is not considered extracted if it
 imports daemon types such as `EndpointRuntimeContext` or `DaemonConfig`.
 

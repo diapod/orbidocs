@@ -83,6 +83,16 @@ Current implementation status:
   The SQLite ledger uses explicit `user_version` migrations, `busy_timeout`,
   `foreign_keys`, and WAL-oriented pragmas; idempotent retry preserves the
   original submission timestamp.
+- `node/ad-host` is the in-process host-service composer for Artifact Delivery.
+  It owns the composed runtime handle, the background recovery worker, Matrix
+  mailbox worker ownership, AD route/status snapshots, and AD-owned transport
+  cache status. It does not know daemon HTTP routes, `EndpointRuntimeContext`, or
+  daemon config types; the daemon maps layered config into `AdHostConfig`, owns
+  lifecycle/local HTTP, and supplies future peer/INAC/middleware/object-store
+  seams through consumer-side traits rather than reverse dependencies. The
+  token-protected object-store fetch path is likewise mediated through the
+  `ad-host` object-store seam, so AD HTTP routes do not reach into daemon store
+  internals directly.
 - The daemon exposes `artifact.delivery.send`,
   `GET /v1/artifact-delivery/routes`,
   `GET /v1/artifact-delivery/deliveries`, and per-delivery lookup.
@@ -165,6 +175,9 @@ Current implementation status:
   truth. `inac-peer-artifact:<node-id>:<artifact-id>` is also available as an
   explicit opt-in resolver backed by the host-owned peer artifact cache; it is a
   digest-bound local cache lookup, not a remote fetcher and not a trust source.
+  The peer artifact cache is an AD transport cache, not Memarium and not a
+  temporal/fact store: it carries no provenance, may be evicted by TTL/count/byte
+  policy, and is reconstructable from the transport source.
   Other schemes such as `http:` or `file:` are not implicitly enabled.
 - The runtime records, validates, and enforces the mechanical subset of
   `policy`: route/selector allowlists, fan-out and byte caps, delivery timeout,
