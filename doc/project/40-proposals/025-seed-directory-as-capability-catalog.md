@@ -712,6 +712,11 @@ Conditional fields:
   inside the daemon process. It keeps the same HTTP surface and SQLite schema as
   the earlier sidecar design so deployments can still treat it as the same
   logical service.
+- Node-side Seed Directory consumption is split from the daemon host into a
+  `seed-directory-client` host-service crate. That crate owns source
+  eligibility, bounded capability/revocation fetch, multi-directory
+  reconciliation, and monotonic revocation suppression; the daemon maps local
+  config into it and keeps HTTP routing, lifecycle, and operator surfaces.
 - The Seed Directory persistence layer gains capability and subject-specific
   tables: `capability_registrations`, `capability_passports`, `revocations`, and
   `routing_subject_bindings`.

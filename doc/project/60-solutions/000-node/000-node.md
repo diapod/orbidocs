@@ -11,6 +11,23 @@ The Node's middleware chain (`PeerMessageChain`) is a trait-based pipeline, not 
 
 Both patterns implement the same trait interface and produce the same decision outcomes. The choice is a deployment concern per handler, not a property of the chain architecture. A constitutional organ like Memarium may participate as an in-process chain handler to guarantee co-lifecycle with the daemon while observing and enriching the full message flow.
 
+## Host-Service Boundaries
+
+The Node daemon is the host/kernel: it owns config loading, lifecycle,
+composition, local HTTP routing, and capability-boundary enforcement. Domain
+mechanics should move into host-service crates only when there is a real
+contract that can be tested without importing the daemon.
+
+The first split is `seed-directory-client`: it owns Seed Directory source
+eligibility, bounded capability/revocation fetch, multi-directory reconcile,
+and revocation suppression. The daemon maps layered config into that client and
+keeps operator surfaces and lifecycle. `host-vocabulary` is a leaf DTO crate for
+future host-service seams; it must stay free of Axum/Tokio/SQLite and daemon
+dependencies.
+
+Acceptance rule: a new host-service crate is not considered extracted if it
+imports daemon types such as `EndpointRuntimeContext` or `DaemonConfig`.
+
 ## Purpose
 
 The Node is responsible for the solution-level execution path of:
