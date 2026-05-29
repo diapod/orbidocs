@@ -27,12 +27,29 @@ dependencies.
 
 `ad-host` is the next extracted host-service seam. It is still in-process Rust,
 but it owns Artifact Delivery runtime composition, recovery worker ownership,
-Matrix mailbox worker ownership, route/status snapshots, and AD-owned transport
-cache status. The daemon remains the kernel for config, lifecycle, local HTTP,
-and capability boundaries; it calls `AdHostRuntime` rather than reaching into
-Artifact Delivery runtime internals. Future `peer-runtime` and `inac-host`
-components may implement the consumer-side traits declared by `ad-host`, while
-socket/session ownership stays outside Artifact Delivery.
+Matrix mailbox transport/worker/chunk-store ownership, route/status snapshots,
+AD-owned transport cache status, the `inac-direct`, `agora-publish`, Matrix
+mailbox, and `object-store-indirect` transport adapters, the `agora-record:`
+and `inac-peer-artifact:` payload resolvers, the peer-artifact transport cache,
+the AD tracing observer, and inbound acceptor construction. The daemon remains
+the kernel for config, lifecycle, local HTTP, and capability boundaries; it
+calls `AdHost` rather than reaching into Artifact Delivery runtime internals,
+and supplies `PeerSender`, `InacAdmissionBridge`, middleware, Memarium,
+contact-request, object-store, and Matrix sealing shims for today's host-owned
+effects. Future `peer-runtime` and `inac-host` components may implement those
+consumer-side traits natively, while socket/session ownership stays outside
+Artifact Delivery.
+
+The follow-up split is incremental, not a rewrite. `host-capabilities` now owns
+the daemon-free trace/projection vocabulary used by host capability dispatch;
+`peer-runtime` starts as the daemon-free home for peer endpoint-evidence
+store/snapshot/pin types before it grows into full socket/session ownership.
+Daemon HTTP routing is being cut into domain modules (`artifact_delivery`,
+`operator_storage`, `peer`, `middleware`, `host_capabilities`, `inac`, and
+`notifications`) so route code can depend on the kernel context only for auth,
+parsing, and the relevant host handle. A route module split is organizational;
+a host-service crate is accepted only when the crate itself has a daemon-free
+contract and tests.
 
 Acceptance rule: a new host-service crate is not considered extracted if it
 imports daemon types such as `EndpointRuntimeContext` or `DaemonConfig`.

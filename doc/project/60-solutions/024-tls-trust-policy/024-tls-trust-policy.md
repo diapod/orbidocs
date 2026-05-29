@@ -203,7 +203,7 @@ The route id is advisory and contextual:
   protocol-validated as Ed25519 did:key material before being accepted as
   endpoint evidence;
 - the peer supervisor compares it with route evidence or local seed config;
-- Artifact Delivery's daemon-composed `routing-subject` lookup requires
+- Artifact Delivery's host-composed `routing-subject` lookup requires
   `endpoint/certificate.advisory/route-id` to match the requested
   `routing:did:key:...` before a direct target is emitted;
 - mismatch rejects the connection before protocol payload exchange;

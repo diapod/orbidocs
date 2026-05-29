@@ -85,14 +85,25 @@ Current implementation status:
   original submission timestamp.
 - `node/ad-host` is the in-process host-service composer for Artifact Delivery.
   It owns the composed runtime handle, the background recovery worker, Matrix
-  mailbox worker ownership, AD route/status snapshots, and AD-owned transport
-  cache status. It does not know daemon HTTP routes, `EndpointRuntimeContext`, or
-  daemon config types; the daemon maps layered config into `AdHostConfig`, owns
-  lifecycle/local HTTP, and supplies future peer/INAC/middleware/object-store
-  seams through consumer-side traits rather than reverse dependencies. The
-  token-protected object-store fetch path is likewise mediated through the
-  `ad-host` object-store seam, so AD HTTP routes do not reach into daemon store
-  internals directly.
+  mailbox transport/worker/chunk-store ownership, AD route/status snapshots,
+  AD-owned transport cache status, and inbound acceptor construction. It does
+  not know daemon HTTP routes, `EndpointRuntimeContext`, or daemon config types;
+  the daemon maps layered config into `AdHostConfig`, owns lifecycle/local HTTP,
+  and supplies future peer/INAC/middleware/object-store seams through
+  consumer-side traits rather than reverse dependencies. The token-protected
+  object-store fetch path is likewise mediated through the `ad-host`
+  object-store seam, so AD HTTP routes do not reach into daemon store internals
+  directly. The `inac-direct`, `agora-publish`, Matrix mailbox, and
+  `object-store-indirect` transport adapters, `agora-record:` and
+  `inac-peer-artifact:` payload resolvers, peer-artifact transport cache,
+  tracing observer, supervised HTTP acceptor, in-process acceptors, and
+  JSON-e Flow acceptors now live behind this boundary; the daemon supplies only
+  consumer-side `PeerSender`, `ArtifactObjectStore`, `ArtifactObjectFetchIssuer`,
+  `InacAdmissionBridge`, middleware, Memarium, contact-request, and Matrix
+  sealing shims until future host-service crates take over their native seams.
+  The daemon-local AD HTTP routes are now a domain route module over the
+  `AdHost` API, not a place where transport adapters, recovery workers,
+  acceptors, or object-store internals are composed.
 - The daemon exposes `artifact.delivery.send`,
   `GET /v1/artifact-delivery/routes`,
   `GET /v1/artifact-delivery/deliveries`, and per-delivery lookup.
@@ -111,13 +122,16 @@ Current implementation status:
   nym fixture only when the middleware is started with an explicit acceptance
   mode guard. That fixture certificate is topic-scoped and short-lived, and is
   not a production signing path.
-- The daemon also has an `inac-direct` adapter. Local targets use the local
-  `InacRuntime` short-circuit; remote targets use the peer supervisor's
-  authenticated WSS peer-message session with `msg = "inac.v1"`. Matrix mailbox
-  is the first store-and-forward fallback transport and is enabled only through
-  explicit routes/fallbacks.
+- `ad-host` owns the `inac-direct` adapter. Local targets use the local
+  `InacRuntime` short-circuit; remote targets use the daemon-supplied
+  `PeerSender` seam over the peer supervisor's authenticated WSS peer-message
+  session with `msg = "inac.v1"`. `ad-host` also owns the Matrix mailbox
+  store-and-forward transport, inbound worker, and sealed chunk store; the
+  daemon supplies only the concrete node-key sealer shim and Matrix sink
+  configuration. Matrix mailbox is enabled only through explicit
+  routes/fallbacks.
   Remote WSS inbound `offer`/`push` frames are fail-closed by default and must
-  match `artifact_delivery_adapters.inac_peer_transport.inbound_allowed_peers`
+  match `inac_peer_transport.inbound_allowed_peers`
   before they reach Artifact Delivery admission. A configured-but-unavailable
   peer session is retryable; a disabled peer transport is a permanent delivery
   configuration failure.
@@ -147,9 +161,12 @@ Current implementation status:
   for `size/bytes` and non-empty `sha256:*` byte identity before an acceptor is
   invoked. Exact content-type acceptors may coexist with one wildcard acceptor
   for the same schema; exact matches win and the wildcard remains the fallback.
-  The daemon now has concrete host/component acceptor adapters for supervised
-  HTTP middleware, in-process `inac.push`, and explicitly configured pure
-  JSON-e Flow acceptors, plus `POST /v1/artifact-delivery/admissions` as the
+  `ad-host` now owns concrete host/component acceptor adapters for supervised
+  HTTP middleware, in-process `inac.push`, `agora-record.v1`,
+  `memarium-blob.v1`, `contact-request.v1`, and explicitly configured pure
+  JSON-e Flow acceptors. The daemon supplies only the effect shims for
+  middleware calls, Memarium custody, contact-request persistence/notification,
+  and local INAC admission. `POST /v1/artifact-delivery/admissions` remains the
   shared inbound admission path. Remote INAC WSS peer messages feed this same
   admission path on the receiver.
 - Current production adapters can resolve referenced payloads through an
@@ -285,13 +302,15 @@ The daemon-level knobs are intentionally small:
   optional `content_type`, `invoke_path`, request timeout, and response size
   limit. The referenced component must exist in the daemon middleware config at
   startup;
-- `artifact_delivery_acceptors.in_process` declares daemon-composed acceptors;
-  the MVP supports `invoke = "inac.push"`.
+- `artifact_delivery_acceptors.in_process` declares host-composed acceptors
+  built by `ad-host`; the daemon supplies only effect shims. The MVP supports
+  `invoke = "inac.push"`, `invoke = "agora-record.ingest"`,
+  `invoke = "memarium-blob.accept"`, and `invoke = "contact-request.receive"`.
 - `artifact_delivery_acceptors.json_e_flow` declares pure JSON-e Flow inbound
   acceptors. These flows are compiled once at daemon startup, must contain a
   `respond` step that yields an `InboundAdmissionResult`, and cannot declare host
   capability calls.
-- `artifact_delivery_adapters.inac_peer_transport.inbound_allowed_peers` is the
+- `inac_peer_transport.inbound_allowed_peers` is the
   receiver-side remote WSS INAC allowlist. Empty means deny-all; this prevents
   ambient authority unless a later INAC gate accepts an invitation or capability
   passport.
@@ -796,7 +815,7 @@ Contact lookup is not the Contact Catalog synchronization channel. It performs
 one recipient-resolution lookup for a delivery plan. Provider-to-provider
 Contact Catalog sync belongs to the catalog/provider surface: host-authorized
 control plane, direct catalog data plane, and no Agora publication path. The
-daemon-composed AD resolver first tries the local Contact Catalog lookup
+host-composed AD resolver first tries the local Contact Catalog lookup
 surface and may fall back to trusted remote Contact Catalog providers discovered
 through Seed Directory when the local provider is unavailable. Remote fallback
 is mode-aware: the provider passport must advertise the requested
@@ -997,14 +1016,15 @@ The implementation should be stratified into four layers:
    deadlines are cooperative for synchronous adapters: every transport adapter
    must set its own I/O timeout or explicitly honor the deadline passed through
    the bounded work context.
-3. **Transport/admission adapters**: narrow edge implementations for INAC, Agora
-   publish, Matrix mailbox delivery, supervised HTTP acceptors,
-   in-process acceptors, and explicitly configured JSON-e Flow acceptors. These
-   adapters live in daemon/middleware-runtime or domain integration crates, not
-   inside the pure Artifact Delivery runtime crate when they require host
-   lifecycle knowledge.
+3. **Host-service composition**: `ad-host` owns narrow edge implementations for
+   INAC, Agora publish, Matrix mailbox delivery, supervised HTTP acceptors,
+   in-process acceptors, explicitly configured JSON-e Flow acceptors, recovery
+   workers, and AD-owned transport caches. It receives daemon-owned effects
+   through consumer-side traits instead of importing daemon types.
 4. **Daemon composition**: effective config loading, module-report ingestion,
-   readiness diagnostics, host capability exposure, operator APIs, and UI.
+   readiness diagnostics, host capability exposure, operator APIs, UI, and
+   concrete shims for middleware, Memarium, contact-request, Matrix sealing,
+   object-store, peer, and INAC effects.
 
 The pure core pipeline should be explicit:
 
@@ -1382,11 +1402,13 @@ Status:
   operator UI coverage, and a daemon-owned `POST
   /v1/artifact-delivery/admissions` ingress for explicitly allowlisted
   control-plane transport adapters. Concrete
-  host/component acceptor adapters remain outside the pure runtime: the daemon
-  currently composes supervised HTTP middleware acceptors, an in-process
-  `inac.push` acceptor, and explicit pure JSON-e Flow acceptors, while the pure
-  Artifact Delivery runtime still owns no loopback HTTP client, supervised
-  process lifecycle, or middleware auth logic.
+  host/component acceptor adapters remain outside the pure runtime: `ad-host`
+  currently composes supervised HTTP middleware acceptors, in-process
+  `inac.push`, `agora-record.v1`, `memarium-blob.v1`, `contact-request.v1`
+  acceptors, and explicit pure JSON-e Flow acceptors, while the pure Artifact
+  Delivery runtime still owns no loopback HTTP client, supervised process
+  lifecycle, or middleware auth logic. The daemon supplies the concrete effect
+  shims; it no longer owns the AD acceptor implementations.
 
 ### Transport Adapter Registry
 

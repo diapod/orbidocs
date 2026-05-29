@@ -13,9 +13,11 @@ component-facing delivery abstraction belongs to Artifact Delivery:
 - Memarium remains the local custody store.
 
 Implementation boundary: the `ad-host` in-process composer may ask for delivery
-through INAC, but it does not own WSS sockets, peer sessions, INAC
-authorization, invitation ledger state, or offer/push semantics. Those remain
-the responsibility of the peer runtime / INAC host side of the node.
+through INAC through its consumer-side `PeerSender` trait, and inbound INAC
+frames enter AD through an `InacAdmissionBridge`. `ad-host` still does not own
+WSS sockets, peer sessions, INAC authorization, invitation ledger state, or
+offer/push semantics. Those remain the responsibility of the peer runtime /
+INAC host side of the node.
 
 The current solution status is **partial / MVP scaffold**. Proposal 042 defines
 the semantic contract; the implementation guideline in this directory
@@ -156,7 +158,7 @@ matching `offer`; rejecting records the local decision without minting
 authority. This notification flow is a local UX that issues a passport; it is
 not a second INAC authority system and does not replace Artifact Delivery
 admission. The receiver-issued invitation passport TTL is daemon policy
-(`artifact_delivery_adapters.inac_peer_transport.invitation_passport_ttl_seconds`,
+(`inac_peer_transport.invitation_passport_ttl_seconds`,
 default 3600 seconds). Repeating `Accept` after the offer is already accepted
 is idempotent and does not issue a replacement passport.
 

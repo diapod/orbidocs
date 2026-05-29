@@ -56,18 +56,19 @@ in as explicit inbound acceptors, not as fan-out chains.
 The first remote WSS implementation is deliberately fail-closed: authenticated
 peer session establishment is not sufficient authority to send AD-bound INAC
 frames. The receiver applies a host-owned allowlist
-(`artifact_delivery_adapters.inac_peer_transport.inbound_allowed_peers`) before
+(`inac_peer_transport.inbound_allowed_peers`) before
 answering `offer` or accepting `push`. An empty list means deny-all. This is a
 minimal production guard until the full invitation/passport/revocation freshness
 gate is wired.
 
 Matrix mailbox is the first asynchronous store-and-forward transport adapter,
-not an INAC authority system. A mailbox event must carry the same envelope/INAC
-authorization proof that WSS would require. Plaintext/JSON payloads are sealed
-before posting as `artifact-mailbox-sealed.v1` encrypted to the recipient key;
-oversized sealed payloads are split into `artifact-mailbox-chunk.v1` events in
-the same deterministic mailbox room. The receiver reassembles chunks only after
-TTL, count, size, duplicate, per-chunk digest, and total sealed digest
+owned by the `ad-host` composition layer, not an INAC authority system. A
+mailbox event must carry the same envelope/INAC authorization proof that WSS
+would require. Plaintext/JSON payloads are sealed before posting as
+`artifact-mailbox-sealed.v1` encrypted to the recipient key; oversized sealed
+payloads are split into `artifact-mailbox-chunk.v1` events in the same
+deterministic mailbox room. The receiver reassembles chunks only after TTL,
+count, size, duplicate, per-chunk digest, and total sealed digest
 validation, unseals the envelope, then validates the original descriptor
 (`size/bytes`, `sha256:*`, schema, content type) before the ordinary Artifact
 Delivery inbound admission path. Deterministic mailbox room ensure/repair is a
@@ -133,7 +134,7 @@ INAC operations are peer messages under the `PeerMessageChain`
 | Register `inac.v1` as a `msg` kind in the reference peer-message registry | ✅ implemented for WSS peer sessions |
 | Document the message envelope under `peer-message-invoke.v1` forwarding rules | ❌ not started |
 | Feed received artifacts into Artifact Delivery inbound admission | ✅ implemented for WSS `push` frames |
-| Project middleware and in-process component acceptor declarations into the Artifact Delivery route table | 🟡 partial — daemon config supports supervised HTTP, in-process, and pure JSON-e Flow Artifact Delivery acceptors; projection from module reports remains later |
+| Project middleware and in-process component acceptor declarations into the Artifact Delivery route table | 🟡 partial — daemon config maps supervised HTTP, in-process, and pure JSON-e Flow Artifact Delivery acceptor declarations into `ad-host`; projection from module reports remains later |
 
 ## Layer 2 — Control protocol
 
@@ -240,7 +241,7 @@ as described in proposal 042 §5.
 | Custody-passport verifier path (enforces `max_bytes`, `max_records`, `duration` from scope) | ✅ implemented for receiver-side WSS `push` through `capability-binding::authorize`, the built-in `memarium-custody@v1` evaluator, byte-limit enforcement, and durable `max_records` consumption in the INAC ledger |
 | Invitation-passport verifier path (expiry, revocation freshness, single-use consumption log, scope match) | ✅ implemented for receiver-side WSS `push` before Artifact Delivery admission; missing revocation source is a fail-closed `not-authorized` condition |
 | Attestation-only fallback (for `offer` and for per-kind policies that allow unsolicited accept) | ❌ not started |
-| Per-peer/per-kind budgets (for `offer` vs `push`, schema, content type, size, and per-minute rate) | ✅ implemented as receiver-side `artifact_delivery_adapters.inac_peer_transport.inbound_budgets`; budget refusals are recorded before AD admission and before invitation notifications; `max_per_minute = 0` is an explicit `policy-denied` deny rule, not a transient quota state |
+| Per-peer/per-kind budgets (for `offer` vs `push`, schema, content type, size, and per-minute rate) | ✅ implemented as receiver-side `inac_peer_transport.inbound_budgets`; budget refusals are recorded before AD admission and before invitation notifications; `max_per_minute = 0` is an explicit `policy-denied` deny rule, not a transient quota state |
 
 ## Layer 5 — Kind dispatch and storage targets
 
@@ -296,7 +297,7 @@ Distinctive traits expressed through scope fields:
 | Component | State |
 |---|---|
 | `inac.invitation` scope grammar | ✅ implemented as `inac-invitation@v1` with `inac/push`, `peer_node_ids`, `artifact_schemas`, optional `artifact_ids`, optional `content_types`, and `single_use` defaulting to `true` |
-| Issuer-side: passport builder for invitations | ✅ generic `capability.passport.sign` exists; Story-005 bootstrap can install A↔B invitation passports, and receiver-side notification Accept can issue a narrow `inac.invitation` passport for a pending offer; receiver-issued notification passports use `artifact_delivery_adapters.inac_peer_transport.invitation_passport_ttl_seconds` (default 3600 seconds) |
+| Issuer-side: passport builder for invitations | ✅ generic `capability.passport.sign` exists; Story-005 bootstrap can install A↔B invitation passports, and receiver-side notification Accept can issue a narrow `inac.invitation` passport for a pending offer; receiver-issued notification passports use `inac_peer_transport.invitation_passport_ttl_seconds` (default 3600 seconds) |
 | Receiver-side: single-use consumption log | ✅ implemented in the local INAC SQLite ledger under `<data-dir>/storage/inac.sqlite`; repeated use of the same single-use passport for a different transfer is refused before AD admission |
 | Receiver-side authorization core | ✅ implemented through the shared `capability-binding::authorize` path using `OperationRequest::InacPush`, a synthetic remote-node caller binding, the built-in `inac-invitation@v1` evaluator, and the receiver revocation view |
 | Revocation channel (reuse of proposal 024 passport revocation) | ✅ receiver gate requires a revocation view source, checks the current revocation view and freshness budget, and fails closed when the view is missing or stale; invitation-specific rate-limit policy remains a later policy layer |
@@ -309,7 +310,7 @@ local refusal. Accept is idempotent for an already accepted offer and does not
 issue another passport on a repeated action. Active pending offers are capped
 per remote node before another notification is created. Accept also creates a
 durable local contact projection in the INAC SQLite ledger when
-`artifact_delivery_adapters.inac_peer_transport.contact_creation_after_accept`
+`inac_peer_transport.contact_creation_after_accept`
 is enabled. That contact is an operator-visible local relationship read model;
 it does not grant authority, publish to Seed Directory or Agora, or replace the
 broader public Contact Catalog authority surface.

@@ -454,7 +454,7 @@ through the shared capability-binding authorization path.
 
 Receiver-issued invitation passports are short-lived by policy. The current
 daemon default is one hour, configurable as
-`artifact_delivery_adapters.inac_peer_transport.invitation_passport_ttl_seconds`.
+`inac_peer_transport.invitation_passport_ttl_seconds`.
 Accepting the same pending offer is idempotent and MUST NOT issue a new
 passport after the offer is already accepted. Receivers SHOULD cap active
 pending offers per remote node before creating operator notifications, so

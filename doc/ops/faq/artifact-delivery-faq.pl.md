@@ -107,9 +107,10 @@ i przyjmowanie artefaktów między nimi.
   INAC oraz zdalnego delivery INAC po uwierzytelnionych sesjach peer-message WSS.
 - Zdalne ramki WSS INAC `push` zasilają Artifact Delivery inbound admission po
   stronie odbiorcy.
-- Supervised HTTP middleware, in-process daemon acceptors oraz jawnie
-  skonfigurowane czyste acceptory JSON-e Flow mogą przyjmować przychodzące
-  artefakty przez rejestr acceptorów.
+- Supervised HTTP middleware, in-process acceptory budowane przez `ad-host` oraz
+  jawnie skonfigurowane czyste acceptory JSON-e Flow mogą przyjmować
+  przychodzące artefakty przez rejestr acceptorów. Daemon dostarcza shimy
+  efektów, ale nie posiada implementacji acceptorów AD.
 - Node UI udostępnia `/admin/artifact-delivery` jako widok operatora na trasy,
   adaptery, recovery, dostarczenia i admission.
 
@@ -130,12 +131,14 @@ Artifact Delivery bezpośrednio z module report.
 
 ### Built-in Rust middleware
 
-Wbudowane komponenty Rust mogą być spięte bezpośrednio przez daemon, gdy zachowanie
+Wbudowane komponenty Rust mogą być spięte bezpośrednio przez host, gdy zachowanie
 jest host-owned i zasługuje na życie w zaufanym procesie. Dla delivery
-wychodzącego kod Rust komponowany przez daemon może zbudować `DeliveryEnvelope` i
+wychodzącego kod Rust komponowany przez host może zbudować `DeliveryEnvelope` i
 wywołać runtime albo tę samą ścieżkę host capability, której używa middleware. Dla
-delivery przychodzącego MVP obsługuje daemon-composed in-process acceptors przez
-`artifact_delivery_acceptors.in_process`.
+delivery przychodzącego `ad-host` buduje in-process acceptory z
+`artifact_delivery_acceptors.in_process`; daemon dostarcza tylko konkretne shimy
+efektów, takie jak lokalna admisja INAC, Memarium custody, zapis/powiadomienie
+contact-request oraz wywołania powierzchni middleware.
 
 Obecnie obsługiwanym celem wywołania in-process acceptora jest `inac.push`. Służy
 on do przekazania przyjętych artefaktów do lokalnego runtime INAC bez przechodzenia
@@ -299,12 +302,16 @@ daemona zaakceptowanej przez operatora.
   artefaktu i przez które klasy selektorów, route refs, docelowe node ids,
   rozmiar fan-outu, liczbę fallbacków i maksymalny rozmiar bajtów.
 
-`artifact_delivery_adapters` konfiguruje zachowanie konkretnych adapterów.
+`artifact_delivery_adapters` konfiguruje zachowanie konkretnych adapterów AD.
 
 - `agora_publish.endpoint` opcjonalnie nadpisuje endpoint lokalnej usługi Agora.
 - `agora_publish.auth_header` opcjonalnie nadpisuje nazwę nagłówka auth.
 - `agora_publish.auth_token_file` opcjonalnie wskazuje token używany przez
   adapter publikacji Agora.
+
+`inac_peer_transport` konfiguruje receiver-side politykę zdalnego transportu WSS
+INAC.
+
 - `inac_peer_transport.enabled` kontroluje, czy zdalny transport WSS INAC może
   być używany przez cele `inac-direct`.
 - `inac_peer_transport.inbound_allowed_peers` jest allowlistą po stronie odbiorcy
@@ -327,7 +334,9 @@ daemona zaakceptowanej przez operatora.
   tej ścieżki HTTP control-plane.
 - `supervised_http` rejestruje loopback HTTP middleware acceptors.
 - `json_e_flow` rejestruje czyste JSON-e Flow acceptors.
-- `in_process` rejestruje daemon-composed acceptors takie jak `inac.push`.
+- `in_process` rejestruje acceptory budowane przez `ad-host`, takie jak
+  `inac.push`, `agora-record.ingest`, `memarium-blob.accept` i
+  `contact-request.receive`; kod daemonowy dostarcza tylko shimy efektów.
 
 Runtime tworzy także host-owned storage pod katalogiem danych node'a:
 `storage/artifact-delivery.sqlite` dla delivery ledger oraz
@@ -471,7 +480,7 @@ dokładnym content-type wygrywają z rejestracjami wildcard.
 6. Adapter opakowuje artefakt w ramkę `inac-control.v1` `push` i wysyła ją jako
    peer message `msg = "inac.v1"`.
 7. Node B odbiera peer message i sprawdza
-   `artifact_delivery_adapters.inac_peer_transport.inbound_allowed_peers`.
+   `inac_peer_transport.inbound_allowed_peers`.
 8. Jeżeli peer jest dozwolony, Node B zamienia ramkę na żądanie Artifact Delivery
    inbound admission.
 9. Admission sprawdza tożsamość bajtową, idempotencję i dostępność acceptora.
@@ -504,4 +513,3 @@ dokładnym content-type wygrywają z rejestracjami wildcard.
 6. Delivery można sprawdzić przez
    `/v1/artifact-delivery/deliveries/{delivery-id}` oraz
    `/v1/artifact-delivery/deliveries/{delivery-id}/operation-status`.
-

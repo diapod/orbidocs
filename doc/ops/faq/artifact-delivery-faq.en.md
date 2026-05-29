@@ -102,9 +102,10 @@ admission of artifacts between them.
   delivery and remote INAC delivery over authenticated WSS peer-message sessions.
 - Remote WSS INAC `push` frames feed Artifact Delivery inbound admission on the
   receiver.
-- Supervised HTTP middleware, in-process daemon acceptors, and explicitly
-  configured pure JSON-e Flow acceptors can receive inbound artifacts through the
-  acceptor registry.
+- Supervised HTTP middleware, `ad-host` in-process acceptors, and explicitly
+  configured pure JSON-e Flow acceptors can receive inbound artifacts through
+  the acceptor registry. The daemon supplies effect shims, but does not own the
+  AD acceptor implementations.
 - Node UI exposes `/admin/artifact-delivery` for route, adapter, recovery,
   delivery, and admission visibility.
 
@@ -125,12 +126,14 @@ module report.
 
 ### Built-in Rust middleware
 
-Built-in Rust components can be wired directly by the daemon when the behavior is
+Built-in Rust components can be wired directly by the host when the behavior is
 host-owned and deserves to live in the trusted process. For outbound delivery,
-daemon-composed Rust code can build a `DeliveryEnvelope` and call the runtime or
-the same host-capability path used by middleware. For inbound delivery, the MVP
-supports daemon-composed in-process acceptors through
-`artifact_delivery_acceptors.in_process`.
+host-composed Rust code can build a `DeliveryEnvelope` and call the runtime or
+the same host-capability path used by middleware. For inbound delivery, `ad-host`
+builds in-process acceptors from `artifact_delivery_acceptors.in_process`; the
+daemon supplies only concrete effect shims such as local INAC admission,
+Memarium custody, contact-request persistence/notification, and middleware
+surface calls.
 
 The currently supported in-process acceptor invoke target is `inac.push`. It is
 used to feed admitted artifacts into the local INAC runtime without going through
@@ -292,12 +295,15 @@ that the operator accepts.
   through which selector classes, route refs, target node ids, fan-out size,
   fallback count, and maximum bytes.
 
-`artifact_delivery_adapters` configures concrete adapter behavior.
+`artifact_delivery_adapters` configures concrete AD adapter behavior.
 
 - `agora_publish.endpoint` optionally overrides the local Agora service endpoint.
 - `agora_publish.auth_header` optionally overrides the auth header name.
 - `agora_publish.auth_token_file` optionally points to the token used by the
   Agora publish adapter.
+
+`inac_peer_transport` configures receiver-side remote WSS INAC transport policy.
+
 - `inac_peer_transport.enabled` controls whether remote WSS INAC transport can
   be used by `inac-direct` targets.
 - `inac_peer_transport.inbound_allowed_peers` is the receiver-side allowlist for
@@ -318,7 +324,9 @@ that the operator accepts.
   control-plane path.
 - `supervised_http` registers loopback HTTP middleware acceptors.
 - `json_e_flow` registers pure JSON-e Flow acceptors.
-- `in_process` registers daemon-composed acceptors such as `inac.push`.
+- `in_process` registers `ad-host` built acceptors such as `inac.push`,
+  `agora-record.ingest`, `memarium-blob.accept`, and
+  `contact-request.receive`; daemon-owned code supplies only the effect shims.
 
 The runtime also creates host-owned storage under the node data directory:
 `storage/artifact-delivery.sqlite` for the delivery ledger and
@@ -460,7 +468,7 @@ win over wildcard registrations.
 6. The adapter wraps the artifact in an `inac-control.v1` `push` frame and sends
    it as peer message `msg = "inac.v1"`.
 7. Node B receives the peer message and checks
-   `artifact_delivery_adapters.inac_peer_transport.inbound_allowed_peers`.
+   `inac_peer_transport.inbound_allowed_peers`.
 8. If the peer is allowed, Node B converts the frame into an Artifact Delivery
    inbound admission request.
 9. Admission checks byte identity, idempotency, and acceptor availability.
@@ -494,4 +502,3 @@ win over wildcard registrations.
 6. The delivery can be inspected through
    `/v1/artifact-delivery/deliveries/{delivery-id}` and
    `/v1/artifact-delivery/deliveries/{delivery-id}/operation-status`.
-
