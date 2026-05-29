@@ -598,6 +598,11 @@ new message.
   communication (Proposal 058 §6). `messaging-receive` passport scope
   should accordingly name a `routing:did:key:...` or a pairwise `contact_nym`
   on the receiver side, never a bare `participant:did:key`.
+- User-mode onboarding may start messaging in `pseudonymous-only` mode. The
+  wizard creates or reuses a local routing subject for contactability, but it
+  does not create a global messaging nym. The first pairwise contact nym is
+  generated only when a contact request or relationship is accepted; per-thread
+  nyms are post-MVP.
 - Messaging contact acceptance is narrower than F2F friendship. It should be
   represented as `contacts`-class membership plus a scoped passport, not as
   a global relationship-class upgrade.
@@ -692,6 +697,11 @@ artifact and what is still missing.
     cap `:contactability-and-local-contacts` is `done` for hard-MVP, and
     Solution 025 Local Contact Store provides daemon-side
     `local-contacts.sqlite` plus sealed recovery replay.
+  - User-mode onboarding now has a smaller MVP path before full publication:
+    the welcome wizard can save explicit `pseudonymous-only` contactability
+    with a local routing subject and no public handle. E-mail/SMS remains an
+    optional draft until the full messaging surface performs attestation and
+    Contact Catalog publication.
   - Newly frozen contracts: `local-contact.v1` schema file exists at
     `doc/schemas/local-contact.v1.schema.json` (closing the previous
     schema-file gap).
@@ -1056,9 +1066,10 @@ artifact and what is still missing.
 - **`contacts` relationship class (default policy: "may send messages to me")
   kept distinct from `friends`:** `[done]` — model frozen
   (P060-008 `done`) and storage boundary decided (P060-029 `done`):
-  messaging service owns canonical receive-consent membership; local
-  contacts may project it for UX. `contacts` membership is projected
-  from presented receive passports at admission time (P060-009 `done`).
+  Local Relationship Layer owns canonical receive-consent membership; local
+  contacts may annotate it for UX. `contacts` membership is appended on
+  contact-request acceptance and read by messaging through point host
+  capabilities (P060-009 `done`).
   Remaining post-MVP polish: per-class limit configuration surface beyond
   passport `limits.*`.
 
@@ -1084,6 +1095,9 @@ Already done:
   contactability draft/options/attest/publish endpoints, contact-control
   evidence binding, signed `contact-claim.v1` construction, and supervised
   Contact Catalog admission (P060-033 `done`)
+- user-mode welcome wizard messaging setup with explicit `pseudonymous-only`
+  draft mode, optional public-handle draft mode, and routing-subject creation
+  before Contact Catalog publication
 - basic participant / nym / routing-subject route-kind picker in the
   `/admin/messaging` contactability form; the route value is saved into
   the contactability draft used by publish

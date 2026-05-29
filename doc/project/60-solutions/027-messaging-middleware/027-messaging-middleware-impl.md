@@ -9,9 +9,11 @@ queue-state names, refusal classes, mailbox-resolution DTOs, and
 `messaging-receive@v1` scope matching.
 
 `messaging-service` is the supervised middleware. It owns Maildir bodies,
-SQLite indexes, outbound queue transitions, `contacts` membership, pending
-facts, and service status. It calls host capabilities for authority decisions
-and side effects outside the messaging domain.
+SQLite indexes, outbound queue transitions, pending facts, and service status.
+It consumes Local Relationship point capabilities for `contacts` membership
+checks/appends; it does not own a canonical contacts table. It calls host
+capabilities for authority decisions and side effects outside the messaging
+domain.
 
 `daemon` is the host and authority layer. It owns signing, Capability Binding,
 revocation view checks, Artifact Delivery, notification dispatch, local
@@ -25,6 +27,16 @@ state and forwards compose/action requests.
 The bundled messaging service remains disabled by default. Enabling it starts a
 loopback supervised HTTP service and injects the standard host capability
 environment variables into the child process.
+
+In user-mode desktop profiles, the welcome wizard has a messaging setup step
+after participant identity and operator binding. That step may enable the
+service, verify the Local Relationship owner/ref and storage readiness, check
+the local `messaging-send` readiness gate, issue a missing local
+`messaging-send` passport when it is listed by the daemon's local-readiness
+requirements, create or reuse a messaging routing-subject, and store either a
+`pseudonymous-only` contactability marker or an optional public-handle draft.
+The wizard-issued passport uses a bounded bootstrap lifetime and the wizard is
+intentionally not an attestation or Contact Catalog publication flow.
 
 ## Local Data
 
@@ -124,3 +136,7 @@ Additional hardening now covered by focused tests:
   message delivery, and delivered inbox/outbox state. The preauthorized
   peer-allowlist scaffold remains available only through an explicit acceptance
   debug flag.
+- Node UI user-mode wizard tests cover the new messaging setup step selection
+  and pseudonymous-only contactability marker parsing; daemon tests cover saving
+  a pseudonymous-only contactability draft with no public handle and a messaging
+  routing subject.

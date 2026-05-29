@@ -63,6 +63,10 @@ This solution implements the MVP+ personal messaging path:
 - the canonical `messaging-receive@v1` passport profile;
 - the local contactability draft surface used by Story-010 before Contact
   Catalog publication is fully automated;
+- user-mode readiness wiring: after participant identity and operator binding,
+  the user wizard prepares messaging by enabling `messaging-service`, checking
+  Local Relationship ownership/storage readiness, and saving either a
+  pseudonymous-only contactability route or an optional public-handle draft;
 - local participant mailbox resolution through a daemon-owned authority store;
 - Layer 1 Maildir bodies, Layer 2 SQLite indexes, and Layer 3 Memarium facts;
 - degraded operation when Memarium or host capabilities are temporarily
@@ -136,6 +140,35 @@ The following capabilities are part of the solution boundary:
 | `identity.routing-subject.create` | Daemon / Pseudonym Vault | Create a private reply route for outbound contact requests. |
 | `identity.messaging-recovery.mirror` | Daemon / Pseudonym Vault | Persist private recovery mirror records for membership and receive-passport references. |
 | `agora.vault.put/list/get/delete` | Agora service / daemon host bridge | Store and recover encrypted generic vault artifacts for recorded messages without exposing message metadata as Agora topic records. |
+
+## User-Mode Readiness
+
+The user desktop wizard treats messaging readiness as an application-level
+requirement after participant identity and operator binding. This gate is for
+the user-mode app and messaging surface; operator/headless nodes may keep
+messaging disabled and report it as a degraded or unavailable capability
+without blocking the whole node.
+
+The MVP wizard has one messaging setup screen. It checks or prepares:
+
+- Local Relationship Store readiness and owner/ref configuration;
+- `messaging-service` enabled/running status;
+- the local `messaging-send` readiness/passport gate, issuing the missing local
+  passport with a bounded bootstrap lifetime when the daemon exposes it as a
+  pending local-readiness requirement;
+- Maildir/SQLite/Temporal storage paths reported by the service;
+- a contactability draft with a messaging routing subject.
+
+Public e-mail or SMS is optional at this stage. The default mode is
+`pseudonymous-only`: the daemon creates or reuses a Pseudonym Vault
+`routing-subject` for messaging contactability and stores an explicit draft
+marker with no public handles. The alternate `public-handle-draft` mode stores
+an e-mail/SMS draft routed through the same routing subject; attestation and
+Contact Catalog publication remain in the full messaging surface.
+
+This setup does not create a global "messaging nym". Contactability names a
+local routing subject, and pairwise contact nyms are created only when a
+contact request or relationship is accepted.
 
 ## Storage Model
 
@@ -251,8 +284,8 @@ submits a signed `contact-claim.v1` admission to the supervised Contact Catalog.
 Local contacts are a daemon-owned UX and continuity projection. They may carry
 labels, local metadata, and the active pairwise `contact-nym` mapping used for
 operator-facing continuity, but they are not network evidence. The canonical
-receive-consent state remains the messaging service's `contacts` membership plus
-the corresponding `messaging-receive@v1` passport.
+receive-consent state is Local Relationship `contacts` membership plus the
+corresponding `messaging-receive@v1` passport.
 
 `mailbox.open` is a host-owned notification action target. It opens
 `/admin/messaging/messages/{message_id}` and may mark the notification handled
@@ -269,6 +302,7 @@ delivery state.
 | S027-004 | Contact attestation service dependency | done | Node adds `attestation-core`, supervised opt-in `attestation-service`, contact attestation schemas/examples, schema-gate validators, `email-attestation` / `phone-attestation` capability ids, local/dev delivery, SMTP email delivery, SMS webhook delivery, attempt limits, challenge TTL, quotas, and delivery audit. Daemon contactability options discover trusted/fresh `role/email-attestation` / `role/phone-attestation` providers through Seed Directory, expose provider status in Node UI, and start/redeem challenges through daemon contactability endpoints. Story-010 now uses that runtime path for e-mail-control acquisition. |
 | S027-005 | Node UI messaging surface | done | Node UI renders `/admin/messaging` with contactability draft controls, provider challenge/redeem controls, compose, local-contact based unknown-recipient warning, inbox, read/unread actions, outbox, diagnostics, and message detail. |
 | S027-006 | Story-010 acceptance pack | done | `node/tools/acceptance/story-010-operator/` provides two-node profile generation, launchers, UI helpers, `story-smoke`, and self-contained `ad-smoke`. Strict `ad-smoke` now defaults to the no-scaffold path: INAC transport is approved through the receiver's operator notification before contact-request AD admission. It also covers Attestation Service challenge/redeem, daemon contactability publish, supervised Contact Catalog admission, shared remote lookup, contact request delivery, operator accept, `messaging-receive@v1` passport handoff, private-direct `message-envelope.v1` delivery, delivered inbox/outbox state, `messaging.flag.v1` read/unread replay, and a second recorded message stored as an encrypted generic artifact in Node B's Agora Vault. The old peer allowlist/preissued transport passport path is retained only as an explicit acceptance debug flag. |
+| S027-007 | User-mode messaging readiness wizard | done | Node UI adds a third welcome step after participant identity and operator binding. The step can enable `messaging-service`, checks Local Relationship owner/storage readiness and `messaging-send` readiness, creates/reuses a Pseudonym Vault routing subject, and saves either explicit `pseudonymous-only` contactability or a `public-handle-draft`. It does not mint a global messaging nym; pairwise contact nyms remain acceptance-time relationship facts. |
 
 ## References
 
