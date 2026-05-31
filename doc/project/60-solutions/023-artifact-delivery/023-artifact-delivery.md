@@ -130,6 +130,11 @@ Current implementation status:
   daemon supplies only the concrete node-key sealer shim and Matrix sink
   configuration. Matrix mailbox is enabled only through explicit
   routes/fallbacks.
+  The `inac/authorization.mode` carried by an AD target is explicit and
+  mode-bound: `invitation-passport` for receiver-issued invitation passports,
+  `capability-passport` for generic capability-scoped pushes such as
+  `messaging-receive@v1`, and `custody-passport` for Memarium custody pushes.
+  AD forwards this proof; INAC remains the receiver-side authority gate.
   Remote WSS inbound `offer`/`push` frames are fail-closed by default and must
   match `inac_peer_transport.inbound_allowed_peers`
   before they reach Artifact Delivery admission. A configured-but-unavailable
@@ -140,10 +145,12 @@ Current implementation status:
   `inac-control.v1` frame as `artifact-mailbox-sealed.v1` to the recipient
   node, and posts it as a Matrix event. The receiver unseals, revalidates size
   and `sha256:*`, feeds the frame through the same INAC/Artifact Delivery
-  admission path used by WSS, and only caches inline payload bytes in the
-  host-owned peer artifact store after the frame is accepted. Replay protection
-  is not delegated to Matrix ordering: it relies on AD idempotency keys and INAC
-  invitation/passport consumption semantics. The inbound worker exposes bounded
+  admission path used by WSS, including the same explicit
+  invitation/capability/custody passport modes, and only caches inline payload
+  bytes in the host-owned peer artifact store after the frame is accepted.
+  Replay protection is not delegated to Matrix ordering: it relies on AD
+  idempotency keys and INAC invitation/passport consumption semantics. The
+  inbound worker exposes bounded
   operator-visible status (`enabled`, `running`, received/accepted/rejected
   counters, panic count, cache write failures, last error, last event time)
   through the AD status surface without exposing payloads, passport bodies, or

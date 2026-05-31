@@ -41,14 +41,30 @@ consumer-side traits natively, while socket/session ownership stays outside
 Artifact Delivery.
 
 The follow-up split is incremental, not a rewrite. `host-capabilities` now owns
-the daemon-free trace/projection vocabulary used by host capability dispatch;
-`peer-runtime` starts as the daemon-free home for peer endpoint-evidence
-store/snapshot/pin types before it grows into full socket/session ownership.
-Daemon HTTP routing is being cut into domain modules (`artifact_delivery`,
-`operator_storage`, `peer`, `middleware`, `host_capabilities`, `inac`, and
-`notifications`) so route code can depend on the kernel context only for auth,
-parsing, and the relevant host handle. A route module split is organizational;
-a host-service crate is accepted only when the crate itself has a daemon-free
+the daemon-free dispatch vocabulary and route-level host contract used by host
+capability routing. `peer-runtime` now owns peer endpoint evidence, session
+worker registries, pending responses, the WSS session worker loop, listener and
+dialer lifecycle, TLS pin/advisory enforcement, peer snapshots, and the native
+peer-message sender seam used by AD. `middleware-supervisor` now owns the
+daemon-free route contract and the peer-message sidecar wrappers installed into
+that chain; peer transport asks for route/observer specs rather than rebuilding
+middleware semantics itself. `memarium-host` is now the Memarium host boundary
+and concrete implementation used by AD custody, local backup snapshots, and
+host-capability dispatch; the daemon maps configuration and supplies Memarium
+runtime, data-dir, and policy inputs as explicit dependencies rather than
+keeping Memarium host policy or backup mechanics in daemon route/context code.
+The daemon-local `crypto_host` handle wraps signer, sealer,
+service-CA trust, and dispatch-passport sources so route/context code no longer
+carries raw crypto fields.
+
+The daemon composes these in-process services once at startup and exposes them
+to route modules as durable host handles rather than borrowed wrappers over
+`EndpointRuntimeContext`. Daemon HTTP routing is cut into domain modules plus a
+shared `common` HTTP helper module so route code can depend on the kernel
+context only for auth, parsing, and the relevant host handle; the former
+`endpoint_routes.rs` monolith is now a module registrar/re-export surface
+rather than a body holder. A route module split is organizational; a
+host-service crate is accepted only when the crate itself has a daemon-free
 contract and tests.
 
 Acceptance rule: a new host-service crate is not considered extracted if it

@@ -91,7 +91,10 @@ transport reliability concern and does not add authority.
 3. **One passport format.** All three authorization-bearing paths
    (general capability, custody, invitation) are
    `capability-passport.v1` instances distinguished by
-   `capability_id`. No parallel credential class.
+   `capability_id`. Artifact Delivery carries the path as an explicit
+   `inac/authorization.mode` (`capability-passport`,
+   `custody-passport`, or `invitation-passport`), but the credential
+   shape remains one schema. No parallel credential class.
 
 4. **Control plane is cheap; payload is separate.** Control
    messages (`offer`, `request`, `push`, responses) stay small
@@ -237,7 +240,7 @@ as described in proposal 042 §5.
 |---|---|
 | Attestation-gate crate (shared with Agora) | ❌ not started |
 | `PassportResolutionCache` (shared with Agora) | ❌ not started |
-| General-capability-passport verifier path | ✅ implemented for receiver-side WSS `push` through `capability-binding::authorize`, `OperationRequest::InacPush`, and the built-in `inac-push@v1` evaluator |
+| General-capability-passport verifier path | ✅ implemented for receiver-side WSS `push` through `capability-binding::authorize`; generic pushes use `OperationRequest::InacPush` and the built-in `inac-push@v1` evaluator, while message delivery uses the same passport path with `OperationRequest::MessagingReceive` and the `messaging-receive@v1` profile extracted from the signed message envelope |
 | Custody-passport verifier path (enforces `max_bytes`, `max_records`, `duration` from scope) | ✅ implemented for receiver-side WSS `push` through `capability-binding::authorize`, the built-in `memarium-custody@v1` evaluator, byte-limit enforcement, and durable `max_records` consumption in the INAC ledger |
 | Invitation-passport verifier path (expiry, revocation freshness, single-use consumption log, scope match) | ✅ implemented for receiver-side WSS `push` before Artifact Delivery admission; missing revocation source is a fail-closed `not-authorized` condition |
 | Attestation-only fallback (for `offer` and for per-kind policies that allow unsolicited accept) | ❌ not started |
