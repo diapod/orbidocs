@@ -46,9 +46,11 @@ capability routing. `peer-runtime` now owns peer endpoint evidence, session
 worker registries, pending responses, the WSS session worker loop, listener and
 dialer lifecycle, TLS pin/advisory enforcement, peer snapshots, and the native
 peer-message sender seam used by AD. `middleware-supervisor` now owns the
-daemon-free route contract and the peer-message sidecar wrappers installed into
-that chain; peer transport asks for route/observer specs rather than rebuilding
-middleware semantics itself. `memarium-host` is now the Memarium host boundary
+daemon-free route contract, the HTTP-local process/runtime adapter, and the
+peer-message sidecar wrappers installed into that chain; peer transport asks
+for route/observer specs rather than rebuilding middleware semantics itself,
+and the daemon supplies storage/SSE effects through explicit handles rather
+than owning middleware process mechanics. `memarium-host` is now the Memarium host boundary
 and concrete implementation used by AD custody, local backup snapshots, and
 host-capability dispatch; the daemon maps configuration and supplies Memarium
 runtime, data-dir, and policy inputs as explicit dependencies rather than
