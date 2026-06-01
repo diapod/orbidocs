@@ -59,6 +59,16 @@ The daemon-local `crypto_host` handle wraps signer, sealer,
 service-CA trust, and dispatch-passport sources so route/context code no longer
 carries raw crypto fields.
 
+The domain integration seams that used to be hidden in the daemon request
+context are now explicit daemon-local host handles as well. Identity,
+relationship, catalog, settlement, workflow, scheduler, control, and execution
+routes delegate through their respective host boundary instead of reaching into
+mutable runtime maps or storage helpers directly. Control is backed by a durable
+`DaemonControlHost` rather than an `EndpointRuntimeContext` trait implementation.
+This is an implementation boundary, not a new protocol surface: domain core
+crates remain the semantic owners, while the daemon hosts wiring, HTTP mapping,
+and lifecycle composition.
+
 The daemon composes these in-process services once at startup and exposes them
 to route modules as durable host handles rather than borrowed wrappers over
 `EndpointRuntimeContext`. Daemon HTTP routing is cut into domain modules plus a
