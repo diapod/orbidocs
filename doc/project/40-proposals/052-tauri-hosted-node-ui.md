@@ -817,6 +817,92 @@ safe first. Write paths such as autostart changes, restart/reload, update flow,
 and identity context switching should be added only after each command has a
 clear host contract, confirmation behavior, failure reporting, and trace event.
 
+## Desktop Host Sealed Secret Unlock Surface
+
+The Tauri desktop host provides a small native askpass-style unlock
+surface for sealed local secrets needed by the user-mode UI. This is a host UI
+mechanism, not a new cryptographic primitive. The daemon and signer/sealer
+layers remain the authority for passphrase verification, rate limiting, unlock
+TTL, audit, and in-memory secret cache behavior.
+
+The unlock prompt is a separate centered Tauri window, visually simple
+and independent from the terminal/BBS user shell:
+
+```text
+Unlock key
+
+<key-ref or secret-ref>
+
+Tries: 0/5
+
+[ passphrase input ]
+```
+
+The passphrase field accepts by pressing `Enter`. The window submits the
+passphrase to the appropriate host endpoint, receives only a success/failure
+response, updates the attempt counter, and closes only after successful unlock
+or explicit cancellation. The passphrase must not be persisted, logged, echoed
+into traces, stored in browser-accessible state, or sent to Node UI JavaScript.
+
+The host should select the endpoint by locked-secret kind:
+
+| Secret kind | Endpoint | Request shape |
+| --- | --- | --- |
+| Participant signing key used by identity flows | `POST /v1/host/identity/session/unlock` | `{ "participant_id": "...", "passphrase": "..." }` |
+| Generic signer key ref | `POST /v1/host/capabilities/signer.unlock` | `{ "key_ref": ..., "passphrase": "...", "ttl_seconds": ?, "scope": "session/per-caller/single-use" }` |
+| Sealer master key, passphrase-only envelope | `POST /v1/host/capabilities/sealer.unlock` | `{ "version_id": "...", "passphrase": "...", "ttl_seconds": ?, "scope": "session/per-caller/single-use" }` |
+
+The sealer endpoint also supports a `step_up_secret` field for step-up protected
+master envelopes. The first desktop askpass slice intentionally keeps the
+descriptor passphrase-only; a step-up sealer prompt should be added as a typed
+extension rather than by allowing arbitrary request bodies from webview
+JavaScript.
+
+The signer backend already exposes an in-memory unlock cache with default TTL
+and maximum TTL clamping. A successful signer unlock returns an unlock token;
+for session-scoped unlocks, later signer operations may use the host-held
+session default rather than exposing the token to browser JavaScript. The
+sealer backend likewise owns passphrase verification, rate limiting, and unlock
+cache behavior for sealer master versions. The desktop prompt should therefore
+be a thin requester and status presenter only.
+
+Prompt invocation should be driven by stable locked responses:
+
+- signer operations returning HTTP `423` with `status = "key_locked"` and
+  `hint = "POST /v1/host/capabilities/signer.unlock"`;
+- participant identity flows returning HTTP `423` with
+  `status = "participant_key_locked"` or `status = "key_locked"` and
+  `hint = "POST /v1/host/identity/session/unlock"`;
+- sealer operations returning locked or rate-limited key-source errors from
+  the sealer capability layer.
+
+The desktop host exposes the bounded Tauri command
+`desktop_open_unlock_secret(request)` to open this window. That command accepts
+only a typed locked-secret descriptor produced by trusted Node UI/daemon
+responses. It does not accept arbitrary URLs, arbitrary endpoint paths, or raw
+request bodies from page JavaScript. The command stores the descriptor in
+host-owned state and opens an
+`orbiplex://localhost/__orbiplex/unlock/<prompt-id>` window. The password form
+submits directly to the desktop app-protocol
+`/__orbiplex/unlock/<prompt-id>/submit` route, so Node UI JavaScript never reads
+or forwards the passphrase. The host constructs the daemon request itself, sends
+it through the trusted local control path with the daemon authtok kept inside
+the Tauri process, and returns only unlock status to the prompt window. Daemon
+unlock response bodies, including signer unlock tokens, are not serialized back
+to browser JavaScript.
+
+Unlock UX requirements:
+
+- show the stable key identifier or version id being unlocked;
+- show `Tries: N/5` locally for the current prompt session, while still
+  respecting daemon-provided `unlock_rate_limited` / `retry_after_secs`;
+- submit on `Enter`;
+- return focus to the requesting window on success or cancellation;
+- allow cancellation without retrying the original operation;
+- avoid opening multiple unlock prompts for the same key at once;
+- never expose passphrase, unlock token, daemon authtok, or sealer material to
+  webview JavaScript.
+
 ## Trace and Diagnostics
 
 The desktop host should produce local operational traces, but not protocol
@@ -836,6 +922,8 @@ Candidate trace events:
 | `desktop/app-protocol-proxy-error` | app URL bridge failed to reach Node UI |
 | `desktop/loading-watchdog-ready` | native readiness watchdog observed Node UI readiness |
 | `desktop/close-decision-recorded` | close/quit prompt wrote the keep-runtime decision |
+| `desktop/secret-unlock-prompt-opened` | native askpass prompt opened for a locked secret, with key ref redacted or hashed |
+| `desktop/secret-unlock-result` | native askpass prompt finished with success, cancellation, failure, or rate-limit, without passphrase or token data |
 
 These traces should live in a desktop/runtime log under the instance `data_dir`,
 for example:
@@ -1006,6 +1094,7 @@ not as a new protocol layer.
 | 17 | Desktop loading starts at `orbiplex://localhost/__orbiplex/loading`, paints `Orbiplex.AI`, and hands off to `/app` without exposing a blank window. | Manual startup smoke; trace review with `ORBIPLEX_NODE_DESKTOP_TRACE=1`. |
 | 18 | Closing or quitting the desktop asks whether daemon and Node UI should remain running and records the decision for control tooling. | Manual close/quit smoke; inspect close-decision marker and controller cleanup behavior. |
 | 19 | Backgrounded startup does not wait for focus before reaching `/app`. | Start desktop in the background and verify native readiness watchdog signals the bootstrap handoff. |
+| 20 | Locked participant/signer/sealer secrets can trigger a native askpass-style unlock prompt without exposing passphrases or unlock tokens to webview JavaScript. | Unit-test endpoint selection and redaction; manual smoke with a locked participant key and `signer.unlock`. |
 
 ## Tracking
 
@@ -1021,6 +1110,7 @@ not as a new protocol layer.
 | P052-008 | Desktop Host Settings Surface | partial | `node-desktop` now opens a separate system-style settings window under `/__orbiplex/settings` from the application menu, `Cmd+,`, and a host-only gear button in the user shell. The first slice is read-only and host-owned: profile/data-dir, daemon/node-ui/node-desktop state, WebView diagnostics, component rows, bounded `configure`/`dir` component actions, paths, and placeholder control/identity tabs. Write actions remain planned. |
 | P052-009 | Native integrations | deferred | Tray/status, OS notifications, file picker integration, deep links, and update flow remain post-MVP until their host contracts are explicit. |
 | P052-010 | Local transport hardening | deferred | The current bridge proxies to the Node UI HTTP bind address. Unix domain socket, named pipe, or in-process service adapter remain optional hardening steps. |
+| P052-011 | Native sealed-secret unlock prompt | done | `node-desktop` now exposes `desktop_open_unlock_secret` and `desktop_cancel_unlock_secret`, serves the askpass window under `/__orbiplex/unlock/<prompt-id>`, accepts password form submissions through the desktop app-protocol `/__orbiplex/unlock/<prompt-id>/submit` route, maps participant/signer/sealer descriptors to the fixed daemon endpoints, keeps daemon authtok and unlock response bodies inside the Tauri process, and unit-tests endpoint selection plus unlock-token redaction. The user shell exposes a thin `window.OrbiplexDesktop.openUnlockPrompt(...)` bridge for trusted fragments. |
 
 ## References
 

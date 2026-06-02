@@ -75,8 +75,10 @@ Key decisions:
   excluded.
 - Both paths independently implement key loading, canonical payload
   construction, and signature emission.
-- Proposal 031 defines passphrase lock but its unlock/lock endpoints target
-  `participant` specifically (`POST /v1/host/identity/participant/unlock`).
+- Proposal 031 defines passphrase lock. Its canonical user-facing unlock path
+  is now `POST /v1/host/identity/session/unlock`, while
+  `POST /v1/host/identity/participant/unlock` remains a narrow compatibility
+  path for the participant signing key only.
 - Proposal 032 defines proxy keys but routing a signature to a proxy key rather
   than a participant key is buried inside the capability passport issuance
   flow; no generic "sign with this key_ref" surface exists.
@@ -584,8 +586,9 @@ contract are taken verbatim from proposal 031. This proposal adds only:
   call.
 - **Shared cache for in-process and HTTP callers**: one `UnlockCache` instance;
   both trait calls and HTTP calls see the same unlocked keys. An unlock done
-  via `/v1/host/identity/participant/unlock` (031) remains valid for a
-  subsequent `signer.sign` call for the same key.
+  via `/v1/host/identity/session/unlock` (031) or the narrower compatibility
+  `/v1/host/identity/participant/unlock` remains valid for a subsequent
+  `signer.sign` call for the same key.
 
 ### Audit
 
@@ -892,8 +895,10 @@ Phase 1 — introduce the signer:
 1. Land `signer-core`, `signer-service`, `signer-http` crates.
 2. Wire `SignerEngine` in daemon startup.
 3. Register `/v1/host/capabilities/signer.*` routes in the daemon.
-4. Add `unlock_token` acceptance to existing `/v1/host/identity/participant/unlock`
-   (alias pointing at the same engine) so proposal 031 clients keep working.
+4. Keep `/v1/host/identity/session/unlock` as the operator-facing unlock and add
+   `unlock_token` acceptance to existing `/v1/host/identity/participant/unlock`
+   (compatibility alias pointing at the same signing engine) so older proposal
+   031 clients keep working.
 
 Phase 2 — migrate passport signing:
 
@@ -947,9 +952,11 @@ HTTP 423 contract. This proposal reuses all of that; its only addition on the
 lock/unlock surface is generic `KeyRef` addressing (so the same unlock cache
 serves primary participant and proxy keys) and optional unlock scoping.
 
-The existing endpoint `POST /v1/host/identity/participant/unlock` remains
-supported as an alias for `signer.unlock` with `key_ref =
-PrimaryParticipant`.
+The canonical operator endpoint is `POST /v1/host/identity/session/unlock`,
+which can unlock the participant signing key together with sibling local
+session secrets. The existing endpoint
+`POST /v1/host/identity/participant/unlock` remains supported as a narrow alias
+for `signer.unlock` with `key_ref = PrimaryParticipant`.
 
 ### Proposal 032 (Key Delegation Passports)
 
