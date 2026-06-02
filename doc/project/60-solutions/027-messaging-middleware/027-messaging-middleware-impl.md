@@ -92,9 +92,12 @@ idempotent through `POST /v1/messaging/pending-facts/replay`.
 Recovery mirroring is host-owned. The service requests
 `identity.messaging-recovery.mirror` for membership and receive-passport
 reference records. The daemon persists those records in a durable local
-recovery mirror table; sealed Pseudonym Vault startup replay is still a later
-layer. The messaging service can accept replayed records through its recovery
-endpoint or startup replay path.
+recovery mirror table and seals/replays local recovery bundles through
+`pseudonym-vault.v1`. Operational-vault-key startup replay is the normal
+unattended path; root-only remains recovery/migration-only, and
+`root+local-passphrase` replay requires explicit operator passphrase input. The
+messaging service can accept replayed records through its recovery endpoint or
+startup replay path.
 
 ## Verification
 

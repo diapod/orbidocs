@@ -5,7 +5,7 @@ turns Proposal 059 into runtime responsibilities for participant role derivation
 private nym continuity, cryptographic routing-subject continuity, and
 role-aware recovery.
 
-Status: `partial`
+Status: `hard-mvp-done`
 
 Date: `2026-05-17`
 
@@ -17,8 +17,11 @@ This component owns one narrow identity-storage boundary:
 participant mnemonic / recovery root
   -> stable participant signing identity
   -> participant role derivation
-  -> participant/vault-wrap
   -> participant/recovery-wrap
+  -> recovery/import-only vault unwrap
+
+operational vault secret
+  -> participant/vault-wrap operational profile
   -> ciphertext-only pseudonym-vault.v1 snapshots
   -> private nym and routing-subject seed recovery
 ```
@@ -26,15 +29,18 @@ participant mnemonic / recovery root
 The MVP profile is intentionally conservative:
 
 - keep `orbiplex-participant-seed-v1` stable;
-- keep the participant root implicit behind recovery flows;
+- keep the participant root implicit behind recovery, genesis, import, and
+  legacy-migration flows rather than the normal pseudonym hot path;
 - derive `participant/dh`, `participant/vault-wrap`, and
   `participant/recovery-wrap` without changing the public participant id;
 - keep `participant/dh` local-only and never publish it as a standing discovery
   artifact;
 - store nym and `routing:did:key:...` seeds inside a private encrypted vault;
-- support `root-only` vault wrapping by default and optional
-  `root+local-passphrase` wrapping when the operator wants a second local
-  factor;
+- use `operational-vault-key` as the default local write profile so creating
+  nyms or routing subjects does not require the mnemonic/recovery root;
+- preserve `root-only` only for legacy import/recovery migration and keep
+  `root+local-passphrase` as an explicit operator-selected recovery/import
+  profile, not as the unattended hot-path default;
 - synchronize only opaque `pseudonym-vault.v1` snapshots;
 - accept only single-writer linear vault updates;
 - reject participant recovery-recipient leakage in pseudonymous or routing
@@ -52,7 +58,9 @@ The solution must preserve four boundaries:
 
 - participant signing identity remains backward compatible;
 - `participant/vault-wrap` is private storage material, not a public wire
-  identity;
+  identity; in the hard-MVP implementation, local writes are wrapped by an
+  operational vault secret rather than by repeatedly deriving from the recovery
+  root;
 - `route:...` stays an advisory routing identifier, while
   `routing:did:key:...` is a cryptographic routing subject;
 - public envelopes must not reveal `nym -> participant` or
@@ -82,14 +90,16 @@ Responsibilities:
   direct/sealed protocols, but not discoverable;
 - expose `participant/recovery-wrap` as an internal-wrap purpose for local
   sealed recovery bundles;
-- fail closed when only raw signing-key material is available and a role-root
-  operation requires mnemonic or recovery-root material.
+- fail closed when only raw signing-key material is available and a recovery,
+  import, genesis, or legacy-migration operation requires mnemonic or
+  recovery-root material.
 
 Status:
 
 - `done` — Node derives the Proposal 059 role purposes while preserving the
   existing participant signing identity path. Pseudonym-vault and recovery
-  bundle operations fail closed for raw signing-key-only participants.
+  bundle operations fail closed for raw signing-key-only participants when
+  recovery-root material is actually required.
 
 ### Ciphertext-Only Pseudonym Vault
 
@@ -133,8 +143,10 @@ Responsibilities:
 Status:
 
 - `done` — Node mirrors the schema, gates import/export, stores sealed
-  snapshots under the identity storage boundary, and enforces single-writer
-  latest semantics with rollback and conflict rejection.
+  snapshots under the identity storage boundary, seals new local writes with
+  `operational-vault-key`, preserves legacy root-derived entries as sealed
+  vault material during migration, and enforces single-writer latest semantics
+  with rollback and conflict rejection.
 - `done for Solution 032 M1` — additive `local-relationship` inner-entry
   kind and forward-compat unknown-kind preservation rule are schema-gated and
   implemented in the Node pseudonym-vault crate. Daemon-owned relationship
@@ -168,7 +180,9 @@ Status:
 
 - `done` — Node exposes local nym and `routing-subject` creation through the
   host identity control plane and persists the resulting private seeds only
-  inside sealed vault snapshots.
+  inside sealed vault snapshots. New writes use `operational-vault-key` by
+  default, so the user wizard and messaging setup can create routing subjects
+  without requiring the mnemonic after participant identity exists.
 
 ### Role-Aware Participant Recovery Bundle
 
@@ -184,8 +198,8 @@ Related schemas:
 
 Responsibilities:
 
-- export enough mnemonic/recovery-root material to restore participant role
-  derivation where policy allows export;
+- export enough recovery material to restore participant role derivation and
+  latest vault snapshots where policy allows export;
 - support a legacy full-root export profile for compatibility;
 - support a sealed-local profile whose payload is wrapped by
   `participant/recovery-wrap` and whose import requires the mnemonic/recovery
@@ -201,7 +215,8 @@ Status:
 - `done` — Node has a role-aware participant recovery bundle import/export path
   that restores mnemonic-backed role derivation and latest sealed vault
   snapshots, supports legacy full-root and sealed-local profiles, and
-  fail-closes when only raw signing-key material is present.
+  fail-closes when only raw signing-key material is present for full role
+  recovery.
 
 ### Pseudonymous and Routing Metadata Privacy Guard
 
@@ -259,7 +274,9 @@ Responsibilities:
 Status:
 
 - `done` — Node exposes `participant/dh` only as a local role-purpose catalog
-  row and derives the key on demand from mnemonic/recovery-root material.
+  row. It remains non-discoverable and outside vault outer metadata; operations
+  that require role-root material still fail closed when only raw signing-key
+  recovery is available.
 
 ### Recovery-Wrap Profile
 
@@ -297,15 +314,24 @@ Related schemas:
 
 Responsibilities:
 
-- add an optional second local factor or hardware-backed wrapping mode;
-- preserve root-only `participant/vault-wrap` as the MVP compatibility profile;
+- keep `operational-vault-key` as the default local write profile;
+- reject new `root-only` local write requests and preserve `root-only` only for
+  recovery import and legacy migration;
+- keep `root+local-passphrase` as an explicit operator-selected profile whose
+  unattended startup replay is not allowed without the passphrase;
+- add future hardware-backed wrapping modes without changing the
+  `pseudonym-vault.v1` outer contract;
 - make profile selection explicit in the vault metadata and import policy.
 
 Status:
 
-- `partial` — Node implements the opt-in `root+local-passphrase` profile in
-  `pseudonym-vault.v1` metadata and runtime import/export; hardware-backed
-  wrapping remains deferred.
+- `done for hard-MVP` — Node implements `operational-vault-key` for default
+  local writes, rejects new `root-only` write requests, preserves root-only for
+  recovery/import migration, and supports explicit `root+local-passphrase`
+  import/export/replay. The hard-MVP daemon stores the headless/file
+  operational secret as a sealed local node-AEAD record; hardware-backed
+  wrapping and platform keychain-backed operational secret providers remain
+  deferred hardening.
 
 ### Multi-Device Vault Merge
 
@@ -342,6 +368,7 @@ Status:
 ## Consumes
 
 - `orbiplex-participant-seed-v1` mnemonic/recovery material
+- sealed local operational vault secret
 - `participant-key-envelope.v1`
 - `pseudonym-vault.v1` import snapshots
 - local nym and routing-subject creation requests
@@ -351,7 +378,8 @@ Status:
 
 - stable `participant:did:key:...` signing identities
 - local `participant/dh` role material
-- local `participant/vault-wrap` AEAD wrapping material
+- local `participant/vault-wrap` AEAD wrapping material backed by the
+  operational vault secret for normal writes
 - local `participant/recovery-wrap` AEAD wrapping material
 - local `nym:did:key:...` signing and DH material
 - local `routing:did:key:...` signing and DH material

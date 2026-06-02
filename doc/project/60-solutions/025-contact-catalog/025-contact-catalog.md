@@ -231,10 +231,11 @@ Status:
   without reactivating revoked or archived pairwise mappings.
   `pseudonym-vault.v1` can carry a sealed
   `local-contact-recovery-bundle.v1`; vault import replays that bundle, and
-  daemon startup replays the latest root-only sealed vault snapshot. Explicit
-  operator replay/export hooks accept `local_passphrase` for
-  `root+local-passphrase` vaults without opening those vaults during unattended
-  startup or weakening their wrap profile.
+  daemon startup replays the latest operational-vault-key sealed vault
+  snapshot. Legacy root-only snapshots are migration/recovery inputs, not the
+  normal hot-path profile. Explicit operator replay/export hooks accept
+  `local_passphrase` for `root+local-passphrase` vaults without opening those
+  vaults during unattended startup or weakening their wrap profile.
 
 ## May Implement
 

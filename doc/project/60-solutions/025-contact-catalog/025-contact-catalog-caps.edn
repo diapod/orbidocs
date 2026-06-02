@@ -145,7 +145,7 @@
    :implemented ["Daemon local contacts can export and replay a recovery bundle for local contacts, pairwise mappings, and messaging recovery mirror records"
                  "pseudonym-vault.v1 can carry a sealed local-contact-recovery-bundle.v1"
                  "Replay preserves terminal pairwise mapping lifecycle and refuses to reactivate revoked or archived mappings"
-                 "Daemon startup replays the latest root-only sealed vault snapshot"
+                 "Daemon startup replays the latest operational-vault-key sealed vault snapshot; root-only is restricted to recovery import and legacy migration"
                  "Operator replay/export accepts local_passphrase for root+local-passphrase vaults without unattended startup unlock"]
    :remaining ["Broaden restart and recovery coverage as production deployment evidence accumulates"]
    :status :done}]

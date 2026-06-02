@@ -67,6 +67,25 @@
           ]
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "crypto/wrap-profile": {
+            "const": "operational-vault-key"
+          }
+        },
+        "required": [
+          "crypto/wrap-profile"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "crypto/passphrase-kdf"
+          ]
+        }
+      }
     }
   ],
   "properties": {
@@ -141,10 +160,11 @@
       "type": "string",
       "enum": [
         "root-only",
-        "root+local-passphrase"
+        "root+local-passphrase",
+        "operational-vault-key"
       ],
       "default": "root-only",
-      "description": "Local wrap-strength profile. `root-only` preserves the Proposal 059 compatibility profile; `root+local-passphrase` additionally requires a local passphrase at open/import time."
+      "description": "Local wrap-strength profile. `root-only` preserves the Proposal 059 recovery compatibility profile; `root+local-passphrase` additionally requires a local passphrase at open/import time; `operational-vault-key` is the non-mnemonic hot-path profile."
     },
     "crypto/passphrase-kdf": {
       "type": "object",

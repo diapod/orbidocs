@@ -1,7 +1,7 @@
 {:component/id :orbiplex/pseudonym-vault-and-key-roles
  :component/title "Pseudonym Vault and Key Roles"
  :component/type :node-attached-runtime
- :component/status :partial
+ :component/status :hard-mvp-done
 
  :summary
  "Node-attached identity runtime for Proposal 059: stable participant signing
@@ -9,8 +9,11 @@
  snapshots, local nym and routing-subject seed continuity, role-aware recovery
  bundles, and privacy guards that prevent participant recovery-recipient leakage
  in pseudonymous or routing metadata. The MVP runtime is implemented with
- local-only participant/dh, local sealed participant/recovery-wrap, and optional
- root+local-passphrase vault wrapping. Multi-device merge remains post-MVP."
+ local-only participant/dh, local sealed participant/recovery-wrap,
+ operational-vault-key hot-path wrapping, explicit root+local-passphrase
+ import/replay, and root-only compatibility restricted to recovery import and
+ legacy migration. Multi-device merge and platform keychain-backed operational
+ secret providers remain post-MVP hardening."
 
  :must-implement
  [{:cap/id :stable-participant-role-derivation
@@ -25,7 +28,7 @@
     "Expose participant/signing, participant/dh, and participant/vault-wrap as distinct purposes"
     "Keep participant/dh local-only and non-discoverable"
     "Expose participant/recovery-wrap as an internal-wrap purpose for local sealed recovery bundles"
-    "Fail closed when a role-root operation is attempted for a raw signing-key-only participant"]
+    "Fail closed when recovery, import, genesis, or legacy-migration role-root operations are attempted for a raw signing-key-only participant"]
    :status :done}
 
   {:cap/id :ciphertext-only-pseudonym-vault
@@ -38,6 +41,7 @@
     "Keep the outer artifact free of participant, nym, and routing-subject public identifiers"
     "Enforce runtime crypto semantics for salt, nonce, ciphertext, AEAD integrity, and AAD profile"
     "Store snapshots with vault/version and supersedes lineage"
+    "Seal new local writes with operational-vault-key rather than requiring mnemonic/recovery-root material on the hot path"
     "Reject rollback imports and concurrent higher-version conflicts"]
    :status :done}
 
@@ -66,7 +70,7 @@
               "doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
    :schemas ["pseudonym-vault.v1"]
    :responsibilities
-   ["Export enough mnemonic or recovery-root material to restore participant role derivation where policy allows export"
+   ["Export enough recovery material to restore participant role derivation and latest vault snapshots where policy allows export"
     "Support the legacy full-root recovery export profile for compatibility"
     "Support a sealed-local recovery profile wrapped by participant/recovery-wrap and requiring mnemonic separately on import"
     "Include latest sealed pseudonym-vault snapshots as opaque ciphertext blobs"
@@ -98,7 +102,7 @@
    :based-on ["doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
    :schemas []
    :responsibilities
-   ["Derive participant/dh from the implicit participant root on demand for controlled direct/sealed protocols"
+   ["Keep participant/dh local-only for controlled direct/sealed protocols"
     "Keep participant/dh out of Seed Directory records, node advertisements, capability advertisements, vault outer metadata, and recovery bundle metadata"
     "Expose only role-purpose catalog metadata showing that participant/dh is local-only"]
    :status :done}
@@ -121,10 +125,13 @@
    :based-on ["doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]
    :schemas ["pseudonym-vault.v1"]
    :responsibilities
-   ["Add an optional second local factor or hardware-backed wrapping mode"
-    "Preserve root-only participant/vault-wrap as the MVP compatibility profile"
+   ["Use operational-vault-key as the default local write profile"
+    "Reject new root-only local write requests while preserving root-only for recovery import and legacy migration"
+    "Keep root+local-passphrase as an explicit operator-selected import/replay profile"
+    "Store the hard-MVP headless/file operational secret as a sealed local node-AEAD record"
+    "Add future hardware-backed wrapping modes without changing the pseudonym-vault.v1 outer contract"
     "Make profile selection explicit in vault metadata and import policy"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :multi-device-vault-merge
    :title "Multi-Device Vault Merge"
@@ -148,6 +155,7 @@
 
  :consumes
  ["orbiplex-participant-seed-v1 mnemonic/recovery material"
+  "sealed local operational vault secret"
   "participant-key-envelope.v1"
   "pseudonym-vault.v1 import snapshots"
   "Local nym and routing-subject creation requests"
@@ -156,7 +164,7 @@
  :produces
  ["stable participant:did:key signing identities"
  "local participant/dh role material"
- "local participant/vault-wrap AEAD wrapping material"
+ "local participant/vault-wrap AEAD wrapping material backed by the operational vault secret for normal writes"
  "local participant/recovery-wrap AEAD wrapping material"
  "local nym:did:key signing and DH material"
   "local routing:did:key signing and DH material"
