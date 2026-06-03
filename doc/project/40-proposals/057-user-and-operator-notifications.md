@@ -357,6 +357,12 @@ Minimum MVP rules:
   authenticated local identity.
 - If no matching local caller binding exists, user and pod-user notification
   routes fail closed instead of treating the route parameter as authority.
+- A first-run local operator binding may be created after daemon startup. The
+  runtime may refresh that operator caller binding from the durable
+  participant/operator store into the shared in-memory resolver and retry the
+  notification caller lookup once. This is a startup-snapshot repair, not an
+  authority fallback: if the durable binding is absent or does not match, the
+  notification route still fails closed.
 - Every read/open/handled/action-submit audit fact records the actor identity.
 - Store v3 keeps routing metadata queryable in plaintext, but seals title,
   body, body refs, actions, and body digests per recipient before persistence.
@@ -867,5 +873,5 @@ The first implementation should include tests for:
 | P057-008 | Privacy-minimal SSE ping | done | Daemon publishes only `notification-state-changed.v1` payloads; title, body, kind, subject, and action details are excluded. |
 | P057-009 | Inline action execution registry | done | Daemon action execution dispatches wired refs including `contact-request.accept`, `contact-request.reject`, INAC invitation actions, and `mailbox.open`; unknown refs return `action-target-not-implemented`. Node UI renders active controls for wired refs and disabled controls for unwired/expired refs. Action audit facts record the bound actor identity. |
 | P057-010 | Rate limiting per sender/kind | done | `NotificationAllow` carries `rate/per-minute`; daemon runtime enforces it per `(sender/id, notification/kind)` before queue/idempotency write, and internal daemon producers use their own configured minute cap. |
-| P057-011 | Cross-recipient user inboxes | partial | Recipient class/id are first-class in model and store; daemon exposes user and pod-user scoped read/action routes; Node UI has user and pod-user inbox list surfaces; Store v3 seals notification payload per recipient; daemon read/action routes now require a matching authenticated caller binding and fail closed without one. Remaining work: first-class pod-user session/auth UX. |
+| P057-011 | Cross-recipient user inboxes | partial | Recipient class/id are first-class in model and store; daemon exposes user and pod-user scoped read/action routes; Node UI has user and pod-user inbox list surfaces; Store v3 seals notification payload per recipient; daemon read/action routes now require a matching authenticated caller binding and fail closed without one. First-run operator bindings created after daemon startup can be refreshed from the durable participant/operator store into the shared in-memory caller-binding resolver, so notification reads/actions do not require a restart after wizard setup; missing durable bindings still fail closed. Remaining work: first-class pod-user session/auth UX. |
 | P057-012 | OS notifications | deferred | Explicitly post-MVP; no desktop-shell adapter is implemented. |

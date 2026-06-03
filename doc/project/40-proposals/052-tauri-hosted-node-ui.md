@@ -315,6 +315,15 @@ For each request under the app-owned UI origin, the bridge should preserve:
   `HX-Push-Url`, `HX-Replace-Url`, `HX-Trigger`, `HX-Retarget`, and
   `HX-Reswap`.
 
+For app-protocol desktop mode, the bridge also owns a bounded server-side Node
+UI cookie cache. It should remember Node UI `Set-Cookie` values observed during
+readiness prefetch, ordinary proxied requests, and same-origin redirect hops,
+then inject the resulting `Cookie` header into later proxied requests. This is
+part of the bridge contract rather than a browser-visible credential: custom
+scheme webviews cannot be assumed to round-trip Node UI `SameSite=Strict`
+session and CSRF cookies reliably, while wizard POSTs and operator mutations
+still need the ordinary Node UI session boundary.
+
 The bridge may rewrite the visible origin, but it should not rewrite Node UI
 application semantics. In particular, it should not parse operator forms,
 interpret daemon JSON, or inspect protocol records except for generic security
@@ -502,6 +511,10 @@ Rules:
 - Trusted Orbiplex webviews may use ordinary Node UI session cookies once Node
   UI has them, but those cookies must be scoped to the trusted origin and not
   sent to external preview pages.
+- In app-protocol desktop mode, the desktop bridge may keep a host-side cache of
+  those Node UI cookies and replay them only to the discovered Node UI loopback
+  origin for trusted Orbiplex requests. The cache must not be exposed to webview
+  JavaScript, external preview pages, desktop traces, or daemon-facing requests.
 - The external preview must use a separate data store / browsing context where
   the platform allows it.
 - If the app protocol bridge is used, it should not attach daemon authtok to
@@ -1085,7 +1098,7 @@ not as a new protocol layer.
 | 8 | Browser access to Node UI remains available for development/diagnostics. | Existing local browser workflow still works. |
 | 9 | Desktop startup reuses `<data_dir>/node-ui/bind` rather than hard-coding the UI port. | Start Node UI on a non-default port and open desktop. |
 | 10 | Desktop lifecycle operations delegate to launcher contracts. | Code review; launcher contract tests remain the lifecycle authority. |
-| 11 | App protocol bridge preserves HTMX headers and status codes. | Bridge tests for boosted navigation, form POST, fragment swap, and redirect. |
+| 11 | App protocol bridge preserves HTMX headers, status codes, and Node UI session/CSRF cookie continuity across prepared navigation, live form POSTs, and same-origin redirects. | Bridge tests for boosted navigation, form POST, fragment swap, redirect, and cookie replay. |
 | 12 | Middleware UI package surfaces still render through Node UI in desktop mode. | Install a package manifest under `middleware-packages` and inspect nav/routes. |
 | 13 | External URL handoff pre-fills an existing Node UI resource opinion flow without a desktop-only publish path. | Story-008 smoke test from preview to signed opinion. |
 | 14 | Tauri `invoke` is limited to native host affordances and does not duplicate Node UI operator routes. | Code review; route/action inventory. |
@@ -1102,7 +1115,7 @@ not as a new protocol layer.
 |---|---|---|---|
 | P052-001 | Node desktop edge crate | done | `node/node-desktop` exists as a Tauri v2 crate in the Node workspace and is wired into the control tooling as `node-desktop start|stop|status|restart`. |
 | P052-002 | User `/app` as the desktop main window | done | `node-desktop/tauri.conf.json` defines the main window label as `user`; the desktop README states that the user-facing `/app` shell is the default and the operator console remains browser-first. |
-| P052-003 | App-protocol bridge | done | `orbiplex://localhost/...` is registered by `node-desktop`; the bridge proxies HTTP-shaped requests to the discovered `node-ui` bind address while preserving relevant HTMX request and response headers. |
+| P052-003 | App-protocol bridge | done | `orbiplex://localhost/...` is registered by `node-desktop`; the bridge proxies HTTP-shaped requests to the discovered `node-ui` bind address while preserving relevant HTMX request and response headers. The desktop host also keeps a server-side Node UI cookie cache, records `Set-Cookie` from prefetch/proxy/redirect responses, and replays participant session and CSRF cookies into trusted proxied requests so app-protocol wizard POSTs keep the same Node UI session boundary as browser access. |
 | P052-004 | Loading bootstrap and prepared navigation | done | `node-desktop` serves `/__orbiplex/loading`, polls `/__orbiplex/desktop-ready`, stores the prepared `/app` representation, and hands off to the user shell through an iframe path. |
 | P052-005 | Native readiness watchdog | partial | The Rust host now runs a native readiness poll and signals the bootstrap document when Node UI is ready, reducing dependence on foreground WebView timers. Remaining work: repeat the background-window smoke on each supported desktop webview. |
 | P052-006 | Desktop close/quit decision | done | Window close and application quit show a keep-runtime prompt, write a close-decision marker, and use the keep-runtime exit code path consumed by the control tooling. |
