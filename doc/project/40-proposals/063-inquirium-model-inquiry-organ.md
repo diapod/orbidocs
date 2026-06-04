@@ -12,6 +12,7 @@ Based on:
 
 Refined by:
 - `doc/project/40-proposals/064-inquirium-implementation-recommendations.md`
+- `doc/project/40-proposals/066-inquirium-assistant-channel.md`
 
 ## Status
 
