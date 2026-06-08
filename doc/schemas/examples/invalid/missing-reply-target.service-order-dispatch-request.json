@@ -1,0 +1,37 @@
+{
+  "schema": "service-order.dispatch.request.v1",
+  "request_id": "remote-execution:arca-run-redaction:draft:a1",
+  "order": {
+    "schema/v": 1,
+    "order/id": "order:arca-run-redaction-draft-a1",
+    "created-at": "2026-04-01T06:05:00Z",
+    "buyer/node-id": "node:did:key:z6MkRomanBuyerNode111111111111111111111111111",
+    "buyer/subject-kind": "participant",
+    "buyer/subject-id": "participant:did:key:z6MkRomanParticipant11111111111111111111111",
+    "provider/node-id": "node:did:key:z6MkOlaNode11111111111111111111111111111111111",
+    "provider/participant-id": "participant:did:key:z6MkOlaParticipant11111111111111111111111111",
+    "offer/id": "offer:ola-redaction-01",
+    "offer/seq": 1,
+    "service/type": "text/redaction",
+    "request/units": 1,
+    "request/input": { "language": "pl", "text": "Tekst roboczy do redakcji." },
+    "pricing/max-amount": 1000,
+    "pricing/currency": "ORC",
+    "signature": { "alg": "ed25519", "value": "base64url:arca-redaction-order-signature" }
+  },
+  "dispatch_payload": {
+    "schema_version": "v1",
+    "capability_id": "service_dispatch_execute",
+    "dispatch": {
+      "dispatch/id": "dispatch:arca-run-redaction:draft:remote:a1",
+      "service_type": "text/redaction",
+      "request/input": { "language": "pl", "text": "Tekst roboczy do redakcji." }
+    }
+  },
+  "service_type": "text/redaction",
+  "request/input": { "language": "pl", "text": "Tekst roboczy do redakcji." },
+  "workflow/run-id": "arca-run:redaction",
+  "workflow/phase-id": "draft",
+  "correlation/id": "arca-run:redaction",
+  "delivery_deadline": "2026-04-01T07:05:00Z"
+}

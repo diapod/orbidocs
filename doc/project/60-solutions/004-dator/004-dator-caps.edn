@@ -62,31 +62,43 @@
     "Return pointer-sized service-dispatch responses suitable for Arca and procurement inspection"]
    :status :done}
 
-  {:cap/id :dator-peer-service-order-dispatch-responder
-   :title "Peer Service-Order Dispatch Responder"
+  {:cap/id :dator-service-order-artifact-delivery-acceptor
+   :title "Remote Service-Order Dispatch over Artifact Delivery"
    :kind :integration
    :based-on ["doc/project/30-stories/story-009-bielik-blog-arca.md"
-              "doc/project/40-proposals/027-middleware-peer-message-dispatch.md"]
-   :schemas []
+              "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"]
+   :schemas ["service-order.dispatch.request.v1"
+             "service-order.result.v1"
+             "artifact-delivery-envelope.v1"]
    :responsibilities
-   ["Accept inbound peer service-order.dispatch.request"
+   ["Accept inbound AD service-order.dispatch.request.v1 artifacts through one supervised acceptor"
+    "Authorize and deduplicate requests before effects by request_id plus buyer/order identity"
     "Execute the enclosed dispatch payload through the same local role-module path used by local provider dispatch"
     "Correlate the response by request_id"
-    "Return service-order.dispatch.response without changing the domain dispatch contract"]
-   :status :done}
+    "Return terminal service-order.result.v1 artifacts through reply/delivery_plan when present, otherwise through reply/target"
+    "Keep legacy peer-message service-order handling as a deprecated compatibility surface, not the default completion path"]
+   :status :partial
+   :notes ["Implemented in node/middleware-modules/dator/service.py for Story-009 AD-only profiles"
+           "Large result payloads require an object-store-indirect target in the reply delivery plan"]}
 
   {:cap/id :dator-host-capability-bridge-consumer
    :title "Host Capability Bridge Consumer"
    :kind :integration
    :based-on ["doc/project/20-memos/node-middleware-init-and-capability-reporting.md"
               "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
-              "doc/project/40-proposals/027-middleware-peer-message-dispatch.md"]
-   :schemas []
+              "doc/project/40-proposals/027-middleware-peer-message-dispatch.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"]
+   :schemas ["middleware-init.schema.json"
+             "middleware-module-report.schema.json"
+             "local-input-invoke.v1.schema.json"
+             "peer-message-invoke.v1.schema.json"
+             "artifact-delivery-envelope.v1"]
    :responsibilities
    ["Run as a supervised http_local_json middleware module under the daemon"
     "Consume the host-owned authtok and middleware_home env contract"
     "Declare handled service types and inbound routes through middleware-init/module-report"
-    "Use host capabilities for passport issuance, peer dispatch, and role capability invocation"
+    "Use host capabilities for passport issuance, peer dispatch, artifact.delivery.send, and role capability invocation"
     "Never open its own peer transport sockets"]
    :status :done}]
 
@@ -155,13 +167,16 @@
  :consumes
  ["service-offer.v1"
   "service-offer-relay.v1"
+  "service-order.dispatch.request.v1"
   "service-dispatch-request.schema.json"
+  "artifact-delivery-envelope.v1"
   "peer-message-invoke.v1.schema.json"
   "middleware-init.schema.json"]
 
  :produces
  ["service-offer.v1"
   "service-dispatch-response.schema.json"
+  "service-order.result.v1"
   "service-order.dispatch.response"]
 
  :notes

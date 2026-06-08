@@ -1,0 +1,11 @@
+{
+  "schema": "service-order.result.v1",
+  "request_id": "remote-execution:arca-run-redaction:draft:a1",
+  "workflow/run-id": "arca-run:redaction",
+  "workflow/phase-id": "draft",
+  "service_type": "text/redaction",
+  "status": "running",
+  "provider/node-id": "node:did:key:z6MkOlaNode11111111111111111111111111111111111",
+  "provider/participant-id": "participant:did:key:z6MkOlaParticipant11111111111111111111111111",
+  "responded_at": "2026-04-01T06:08:00Z"
+}

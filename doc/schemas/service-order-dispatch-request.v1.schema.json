@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:service-order-dispatch-request:v1",
+  "title": "ServiceOrderDispatchRequest v1",
+  "description": "Terminal-provider dispatch artifact sent by Arca to Dator through Artifact Delivery. The artifact carries a P021 service-order.v1 payload plus execution, correlation, reply-routing, and deadline fields. It is a domain artifact, not an AD transport envelope.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md",
+    "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+  ],
+  "required": [
+    "schema",
+    "request_id",
+    "order",
+    "dispatch_payload",
+    "service_type",
+    "request/input",
+    "workflow/run-id",
+    "workflow/phase-id",
+    "correlation/id",
+    "reply/target",
+    "delivery_deadline"
+  ],
+  "properties": {
+    "schema": {
+      "const": "service-order.dispatch.request.v1"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9:_./-]+$",
+      "description": "Buyer-scoped idempotency key for this provider dispatch."
+    },
+    "order": {
+      "$ref": "service-order.v1.schema.json"
+    },
+    "dispatch_payload": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Existing Dator service_dispatch_execute payload shape used by provider-side execution."
+    },
+    "service_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "request/input": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "workflow/run-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "workflow/phase-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "correlation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "reply/target": {
+      "$ref": "#/$defs/replyTarget",
+      "description": "Privacy-aware AD recipient selector that Dator must use when sending service-order.result.v1 back to Arca."
+    },
+    "reply/delivery_plan": {
+      "$ref": "#/$defs/deliveryPlan",
+      "description": "Optional privacy-aware AD delivery plan for the service-order.result.v1 reply. When present, Dator must use this complete plan instead of deriving a single-stage plan from reply/target."
+    },
+    "delivery_deadline": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "order/payment-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "settlement/refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    },
+    "policy_annotations": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "replyTarget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "routing-subject/id"],
+          "properties": {
+            "selector/kind": { "const": "routing-subject" },
+            "routing-subject/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "max/nodes": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "participant/id"],
+          "properties": {
+            "selector/kind": { "const": "participant" },
+            "participant/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "max/nodes": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector/kind", "node/id"],
+          "properties": {
+            "selector/kind": { "const": "node" },
+            "node/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        }
+      ]
+    },
+    "deliveryPlan": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["mode", "stages"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["sequence", "parallel"]
+        },
+        "stages": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": ["stage/id", "mode", "targets", "success/policy"],
+            "properties": {
+              "stage/id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mode": {
+                "type": "string",
+                "enum": ["sequence", "parallel"]
+              },
+              "targets": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/$defs/deliverySelector"
+                }
+              },
+              "success/policy": {
+                "type": "string",
+                "minLength": 1
+              },
+              "on/failure": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "deliverySelector": {
+      "oneOf": [
+        { "$ref": "#/$defs/replyTarget" },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["selector/kind", "node/id"],
+          "properties": {
+            "selector/kind": { "const": "object-store-indirect" },
+            "node/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "inac/authorization": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      ]
+    }
+  }
+}

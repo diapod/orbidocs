@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:service-order-result:v1",
+  "title": "ServiceOrderResult v1",
+  "description": "Terminal service-order result artifact sent by Dator to Arca through Artifact Delivery. This artifact reports only completed, failed, or rejected outcomes; non-terminal provider progress belongs to a separate future event schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md",
+    "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+  ],
+  "required": [
+    "schema",
+    "request_id",
+    "workflow/run-id",
+    "workflow/phase-id",
+    "correlation/id",
+    "service_type",
+    "status",
+    "provider/node-id",
+    "provider/participant-id",
+    "responded_at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "service-order.result.v1"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9:_./-]+$"
+    },
+    "workflow/run-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "workflow/phase-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "correlation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "service_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "status": {
+      "type": "string",
+      "enum": ["completed", "failed", "rejected"]
+    },
+    "output": {
+      "description": "Provider output for completed results. Large output may be represented by result/artifact-digest plus AD object-store indirect payload.",
+      "type": ["object", "array", "string", "number", "boolean", "null"]
+    },
+    "error": {
+      "$ref": "#/$defs/error"
+    },
+    "provider/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "provider/participant-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "provider/metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "settlement/refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    },
+    "receipt/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "hold/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "result/artifact-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$"
+    },
+    "responded_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "completed" } },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["output"],
+        "not": { "required": ["error"] }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "enum": ["failed", "rejected"] } },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["error"],
+        "not": { "required": ["output"] }
+      }
+    }
+  ],
+  "$defs": {
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "tracking/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    }
+  }
+}

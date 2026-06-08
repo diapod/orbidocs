@@ -32,8 +32,14 @@ The component is responsible for the solution-level execution path of:
 - accepting `service_dispatch_execute` payloads for local provider
   work,
 - routing executable offers to configured local role modules,
-- answering peer `service-order.dispatch.request` by executing the same
-  local role-module path and returning `service-order.dispatch.response`,
+- accepting `service-order.dispatch.request.v1` through Artifact
+  Delivery, executing the same local role-module path, and sending a
+  terminal `service-order.result.v1` back through the request
+  `reply/delivery_plan` when present, otherwise through the request
+  `reply/target`,
+- keeping the older peer `service-order.dispatch.request` /
+  `service-order.dispatch.response` handler as a deprecated
+  compatibility surface, not as the Story-009/default completion path,
 - refreshing its own `offer-catalog` capability passport through host
   capabilities.
 
@@ -148,27 +154,53 @@ Responsibilities:
 Status:
 - `done` for the hard-MVP local and story-009 role-module path.
 
-### Peer Service-Order Dispatch Responder
+### Remote Service-Order Dispatch over Artifact Delivery
 
 Based on:
 - `doc/project/30-stories/story-009-bielik-blog-arca.md`
 - `doc/project/40-proposals/027-middleware-peer-message-dispatch.md`
+- `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 
 Related schemas:
 - `service-dispatch-request.schema.json`
 - `service-dispatch-response.schema.json`
+- `service-order.dispatch.request.v1`
+- `service-order.result.v1`
+- `artifact-delivery-envelope.v1`
 - `peer-message-invoke.v1.schema.json`
 
 Responsibilities:
-- accept inbound peer `service-order.dispatch.request`,
+- accept inbound AD `service-order.dispatch.request.v1` artifacts
+  through Dator's single supervised acceptor,
+- authorize and deduplicate before effects by `request_id` plus
+  buyer/order identity,
 - execute the enclosed dispatch payload through the same local
   role-module path used by local provider dispatch,
 - correlate the response by `request_id`,
-- return `service-order.dispatch.response` without changing the domain
-  dispatch contract.
+- build terminal `service-order.result.v1` artifacts and deliver them
+  back to Arca using the request's `reply/delivery_plan` when present,
+  otherwise using the request's `reply/target`,
+- return AD admission status separately from provider-side execution
+  completion,
+- keep inbound peer `service-order.dispatch.request` and
+  `service-order.dispatch.response` as a deprecated compatibility
+  surface without adding new semantics there.
 
 Status:
-- `done` for the current peer-message remote-provider slice.
+- `partial` — the direct node-to-node Artifact Delivery thin slice is
+  implemented in the bundled Dator module. Dator admits private inline
+  JSON `service-order.dispatch.request.v1` artifacts, rejects
+  conflicting replays, returns `already-present` for identical
+  admitted requests without executing twice, runs the existing
+  role-module dispatch path, and sends terminal `service-order.result.v1`
+  artifacts back through AD. When a request carries
+  `reply/delivery_plan`, Dator uses that complete AD plan for the
+  result, enabling direct-node-to-private-safe staged fallback without
+  adding a Dator-owned retry loop. Large result payloads fail closed
+  unless that reply plan includes an `object-store-indirect` target. The
+  legacy peer-message remote-provider handler remains only as a
+  deprecated compatibility surface; Story-009/default remote execution
+  is AD-only. Durable provider queueing remains a later layer.
 
 ### Host Capability Bridge Consumer
 
@@ -176,12 +208,14 @@ Based on:
 - `doc/project/20-memos/node-middleware-init-and-capability-reporting.md`
 - `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
 - `doc/project/40-proposals/027-middleware-peer-message-dispatch.md`
+- `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 
 Related schemas:
 - `middleware-init.schema.json`
 - `middleware-module-report.schema.json`
 - `local-input-invoke.v1.schema.json`
 - `peer-message-invoke.v1.schema.json`
+- `artifact-delivery-envelope.v1`
 
 Responsibilities:
 - run as a supervised `http_local_json` middleware module under the
@@ -308,13 +342,16 @@ Status:
 - `service-offer.v1`
 - `service-offer-relay.v1`
 - `service-dispatch-request.schema.json`
+- `service-order.dispatch.request.v1`
 - `peer-message-invoke.v1.schema.json`
 - `middleware-init.schema.json`
+- `artifact-delivery-envelope.v1`
 
 ## Produces
 
 - `service-offer.v1`
 - `service-dispatch-response.schema.json`
+- `service-order.result.v1`
 - `service-order.dispatch.response`
 
 ## Notes
@@ -326,5 +363,9 @@ Status:
 - `service_type` names the concrete marketplace service offered by
   Dator. `task_type` remains an Arca/workflow-side selector that may
   resolve to a service type during provider selection.
+- Remote provider execution now prefers Artifact Delivery for
+  service-order transport: AD owns delivery, retry, admission, and
+  route trace, while Dator owns provider-side execution state and
+  result construction.
 - Queueing is the main remaining Dator completeness gap for provider
   execution hardening.

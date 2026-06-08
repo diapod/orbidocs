@@ -1,0 +1,20 @@
+{
+  "schema": "service-order.result.v1",
+  "request_id": "remote-execution:arca-run-redaction:draft:a1",
+  "workflow/run-id": "arca-run:redaction",
+  "workflow/phase-id": "draft",
+  "correlation/id": "arca-run:redaction",
+  "service_type": "text/redaction",
+  "status": "completed",
+  "output": {
+    "answer/content": "Zredagowany tekst.",
+    "answer/format": "markdown"
+  },
+  "provider/node-id": "node:did:key:z6MkOlaNode11111111111111111111111111111111111",
+  "provider/participant-id": "participant:did:key:z6MkOlaParticipant11111111111111111111111111",
+  "provider/metadata": {
+    "confidence/signal": 0.91,
+    "provenance/origin-classes": ["local-module"]
+  },
+  "responded_at": "2026-04-01T06:10:00Z"
+}

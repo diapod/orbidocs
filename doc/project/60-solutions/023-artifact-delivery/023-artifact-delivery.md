@@ -1007,6 +1007,32 @@ bound to a concrete JSON-e Flow instance/template. A valid schema alone never
 injects an artifact into JSON-e Flow. The operator-visible route table must show
 which instance accepts a given schema/content-type class.
 
+### Arca/Dator Service-Order Transport Consumer
+
+The first marketplace consumer pair for Artifact Delivery is Arca/Dator remote
+service-order execution:
+
+- Arca sends private `service-order.dispatch.request.v1` artifacts through
+  `artifact.delivery.send?mode=deferred` and records the deferred operation,
+  status href, audit reference, request id, and correlation id on the workflow
+  step.
+- Dator owns the single `service-order.dispatch.request.v1` supervised acceptor,
+  admits and deduplicates by `request_id` plus buyer/order identity, and starts
+  provider-side execution only after admission gates pass.
+- Dator sends terminal `service-order.result.v1` artifacts back to the request's
+  domain `reply/target`.
+- Arca owns the single `service-order.result.v1` supervised acceptor, correlates
+  by `(workflow/run-id, workflow/phase-id, request_id)`, treats identical
+  redelivery as `already-present`, rejects conflicting result digests, and closes
+  the workflow step exactly once.
+
+Status: the direct node-to-node, inline-JSON thin slice is implemented in the
+Node reference Arca and Dator modules. Private-safe staged fallback
+(`matrix-mailbox` / `object-store-indirect`) and object-store-indirect result
+payloads for this specific service-order path remain later hardening layers.
+The older peer-message service-order dispatch path remains as a compatibility
+fallback, not as the source of new transport semantics.
+
 ### Implementation Guidance
 
 The implementation should be stratified into four layers:

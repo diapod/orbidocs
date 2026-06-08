@@ -221,6 +221,12 @@ schema_for_file() {
     *.service-order.json)
       echo "$SCHEMAS_DIR/service-order.v1.schema.json"
       ;;
+    *.service-order-dispatch-request.json)
+      echo "$SCHEMAS_DIR/service-order-dispatch-request.v1.schema.json"
+      ;;
+    *.service-order-result.json)
+      echo "$SCHEMAS_DIR/service-order-result.v1.schema.json"
+      ;;
     *.peer-handshake.json)
       echo "$SCHEMAS_DIR/peer-handshake.v1.schema.json"
       ;;

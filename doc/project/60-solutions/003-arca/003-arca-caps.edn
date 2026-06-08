@@ -37,6 +37,28 @@
            "Arca observes host terminal run statuses such as deadline_exceeded and step_timeout, but ordinary non-fan-out service-order steps do not yet enforce WorkflowDefinition timing.timeout in the Arca loop"
            "target.resolve=task_type without fan_in stays on the ordinary service-order path; host-managed fan-out requires an explicit fan_in block"]}
 
+  {:cap/id :remote-service-order-artifact-delivery
+   :title "Remote Service-Order Transport over Artifact Delivery"
+   :kind :integration
+   :based-on ["doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"]
+   :schemas ["service-order.v1"
+             "service-order.dispatch.request.v1"
+             "service-order.result.v1"
+             "artifact-delivery-envelope.v1"
+             "deferred-operation.v1"]
+   :responsibilities
+   ["Build service-order.dispatch.request.v1 artifacts for remote provider execution"
+    "Include reply/target and optional reply/delivery_plan as data instead of relying on an implicit peer response path"
+    "Submit request artifacts through artifact.delivery.send?mode=deferred"
+    "Persist AD operation, status, and audit references in workflow step details"
+    "Own one supervised inbound acceptor for service-order.result.v1"
+    "Correlate terminal results by workflow/run-id, workflow/phase-id, and request_id"
+    "Ignore legacy peer-message service-order responses instead of completing steps through them"]
+   :status :partial
+   :notes ["Implemented in node/middleware-modules/arca/service.py for Story-009 AD-only profiles"
+           "Private-safe fallback is configuration-driven through request_fallback_targets and reply_fallback_targets"]}
+
   {:cap/id :observed-catalog-discovery
    :title "Observed Offer Catalog and Discovery"
    :kind :runtime
@@ -60,16 +82,18 @@
    :kind :integration
    :based-on ["doc/project/20-memos/node-middleware-init-and-capability-reporting.md"
               "doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md"
-              "doc/project/40-proposals/027-middleware-peer-message-dispatch.md"]
+              "doc/project/40-proposals/027-middleware-peer-message-dispatch.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"]
    :schemas ["middleware-init.schema.json"
              "middleware-module-report.schema.json"
              "peer-message-invoke.v1.schema.json"
-             "local-input-invoke.v1.schema.json"]
+             "local-input-invoke.v1.schema.json"
+             "artifact-delivery-envelope.v1"]
    :responsibilities
    ["Run as a supervised http_local_json middleware module under the daemon"
     "Declare input_chains for inbound-local routes (GET service-catalog, POST catalog/remote-query) and inbound-peer message types (offer-catalog.fetch.response, offer-catalog.push)"
     "Consume host-owned authtok and middleware_home env contract"
-    "Use host capability endpoints for all peer transport, never opening its own outbound peer sockets"]
+    "Use host capability endpoints for peer catalog transport and artifact.delivery.send, never opening its own outbound peer sockets"]
    :status :done}]
 
  :may-implement
@@ -153,6 +177,8 @@
  :consumes
  ["service-offer-relay.v1"
   "trusted-provider.v1"
+  "service-order.result.v1"
+  "artifact-delivery-envelope.v1"
   "workflow.fanout.request"
   "peer-message-invoke.v1"
   "local-input-invoke.v1"
@@ -160,6 +186,7 @@
 
  :produces
  ["service-order.v1"
+  "service-order.dispatch.request.v1"
   "workflow.fanout.response"
   "catalog-local-query-request.schema.json"
   "catalog-local-query-response.schema.json"]

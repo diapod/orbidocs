@@ -47,8 +47,8 @@ The component is responsible for the solution-level execution path of:
   observed remote offers,
 - consuming host capabilities (`offers.local.query`,
   `seed.directory.query`, `peer.session.establish`,
-  `peer.message.dispatch`) for all peer transport and discovery,
-  rather than opening its own peer sockets.
+  `peer.message.dispatch`, `artifact.delivery.send`) for all peer
+  transport and discovery, rather than opening its own peer sockets.
 
 ## Scope
 
@@ -164,6 +164,55 @@ Status:
   is rejected on template instantiation. Full non-fan-out
   `timing.timeout` enforcement is still pending.
 
+### Remote Service-Order Transport over Artifact Delivery
+
+Based on:
+- `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
+- `doc/project/40-proposals/027-middleware-peer-message-dispatch.md`
+- `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
+
+Related schemas:
+- `service-order.v1`
+- `service-order.dispatch.request.v1`
+- `service-order.result.v1`
+- `artifact-delivery-envelope.v1`
+- `deferred-operation.v1`
+
+Responsibilities:
+- build `service-order.dispatch.request.v1` artifacts for remote
+  provider execution, carrying the P021 `service-order.v1`, dispatch
+  payload, workflow lineage, correlation id, delivery deadline, and a
+  privacy-aware `reply/target` plus optional `reply/delivery_plan`,
+- send those artifacts through the host-owned
+  `artifact.delivery.send?mode=deferred` capability rather than a
+  domain-owned peer waiter loop,
+- persist the returned deferred operation/status/audit references in
+  workflow step details and keep the step in the existing
+  `awaiting_execution` state until a terminal result artifact arrives,
+- own the single supervised inbound acceptor for
+  `service-order.result.v1`,
+- correlate results by `(workflow/run-id, workflow/phase-id,
+  request_id)`, reject conflicting replays, and close the step exactly
+  once,
+- ignore legacy peer-message `service-order.dispatch.response` frames;
+  remote service-order completion is closed only by the AD result
+  acceptor.
+
+Status:
+- `partial` — the direct node-to-node Artifact Delivery thin slice is
+  implemented in the bundled Arca module. Arca sends private inline
+  JSON request artifacts to Dator through AD deferred mode, stores the
+  operation/status/audit trace on the workflow step, and accepts
+  terminal `service-order.result.v1` artifacts through a single result
+  acceptor. Identical result replays are idempotent; conflicting
+  result digests are rejected. The current slice defaults to direct
+  node delivery, exposes AD trace links in the run-step operator view,
+  can attach configured private-safe fallback stages to request and
+  reply delivery plans. Story-009/default profiles do not configure a
+  legacy peer-message service-order waiter; late legacy peer responses
+  are ignored. Activating `object-store-indirect` fallback still
+  requires host AD routes and explicit INAC authorization material.
+
 ### Observed Offer Catalog and Discovery
 
 Based on:
@@ -213,12 +262,14 @@ Based on:
 - `doc/project/20-memos/node-middleware-init-and-capability-reporting.md`
 - `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
 - `doc/project/40-proposals/027-middleware-peer-message-dispatch.md`
+- `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 
 Related schemas:
 - `middleware-init.schema.json`
 - `middleware-module-report.schema.json`
 - `peer-message-invoke.v1.schema.json`
 - `local-input-invoke.v1.schema.json`
+- `artifact-delivery-envelope.v1`
 
 Responsibilities:
 - run as a supervised `http_local_json` middleware module under the
@@ -377,10 +428,13 @@ Status:
 - `peer-message-invoke.v1`
 - `local-input-invoke.v1`
 - `middleware-init.schema.json`
+- `artifact-delivery-envelope.v1`
+- `service-order.result.v1`
 
 ## Produces
 
 - `service-order.v1`
+- `service-order.dispatch.request.v1`
 - `catalog-local-query-request.schema.json`
 - `catalog-local-query-response.schema.json`
 
