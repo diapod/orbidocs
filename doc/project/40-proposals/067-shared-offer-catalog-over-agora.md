@@ -164,10 +164,19 @@ The local `Dator` catalog remains the provider-side source of truth.
 
 `Arca` should remain the buyer-side workflow orchestrator:
 
+- consume a (read-only) catalog API to discover offers;
 - select an offer for a workflow step;
-- fund/order/dispatch work;
-- track execution and fulfillment;
-- consume a catalog API.
+- fund the order;
+- dispatch the order and receive the result over **Artifact Delivery** (a separate,
+  private transport plane — not the catalog and not a catalog-adjacent peer protocol);
+- track execution and fulfillment.
+
+This is the key separation: **offer discovery (catalog, read-only) and order
+fulfilment (Artifact Delivery, private transport) are different planes.** The catalog
+never carries a `service-order` or a result; once `Arca`/`Dator` move procurement onto
+Artifact Delivery, the catalog code left in `Arca` is purely publication-facing
+(observed offers, replay, admission, query), which is exactly what this proposal
+extracts.
 
 `Arca` may retain a local cache for availability and performance, but it should
 not be the public shared catalog role.
@@ -214,7 +223,7 @@ Shared Offer Catalog
 Arca
   buyer workflow orchestration
   offer selection from catalog API
-  service-order and remote dispatch
+  service-order construction and AD dispatch/result handling
 ```
 
 **Topic naming note.** The current code publishes to
@@ -468,7 +477,20 @@ This proposal reduces ontology drift:
 It also avoids moving domain catalog state into the daemon and avoids making
 Agora responsible for offer semantics. The system keeps simple strata: facts in
 Agora, domain projection in catalog middleware, procurement decisions in Arca,
-execution authority in Dator.
+execution authority in Dator, and **order/result transport on Artifact Delivery**.
+
+**Relationship to Artifact Delivery (enabler, not precondition).** Moving `Arca`/`Dator`
+service-order dispatch and result return onto Artifact Delivery (a private transport
+plane; see solution 023 / the `arca-dator-ad` migration) is a *companion* change that
+sharpens this proposal's stratification: with fulfilment transport gone to AD, the
+catalog code left in `Arca` is purely publication/projection/query, so the extraction
+lands clean with no transport responsibility to disentangle. It also makes Agora-replay
+the natural catalog path and the bespoke `offer-catalog.fetch`/`push` clearly legacy.
+The two efforts are sequencing-independent — neither blocks the other — but the AD
+migration reduces the coupling this proposal then removes. This proposal still owns the
+real work: extracting observed-offers / replay / admission / query out of `Arca` into a
+separate `middleware-modules/offer-catalog`, then switching `Arca` to consume that module
+instead of owning the projection.
 
 **Note on a generic catalog substrate (direction, not mandate).** The shape
 "replay a topic/source → admission → projection → query" now recurs across Seed
@@ -500,6 +522,9 @@ evidence) · `[!]` blocked/needs decision.
   as diagnostic), never admit. Verify: admission default branch rejects.
 - **Agora-primary** — replay from the Agora offer-catalog topic is the federated
   source of record; `fetch`/`push` is fallback only (Decision 1).
+- **Plane separation** — catalog APIs carry offer discovery/projection data only.
+  They must not carry `service-order` artifacts, dispatch requests, or execution
+  results. Remote fulfilment stays on Artifact Delivery.
 - **Reuse the shared Python catalog lib, do not reimplement** — the module drives
   `middleware-modules/lib/catalog.py` (`SqliteCatalog`, `CatalogCodec`, sequence
   upsert, expiry), the same lib `Arca`/`Dator`/`recovery-service` already import. Do
@@ -575,7 +600,8 @@ evidence) · `[!]` blocked/needs decision.
 - [ ] `merge_catalog_snapshots` thins to "merge buyer-local Dator offers (if any)
   with catalog-API results"; the observed half comes from the module.
 - [ ] Arca's remaining responsibility is the buyer brain only: workflow
-  orchestration, offer selection, `service-order`, dispatch, settlement.
+  orchestration, offer selection, `service-order` construction, AD dispatch/result
+  wait, settlement.
 - [ ] Confirm net reduction: Arca no longer *declares* the ~catalog-ish half of its
   functions; it *imports* them. (Baseline: ~6061 LOC, roughly half catalog-domain.)
 
