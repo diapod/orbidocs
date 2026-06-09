@@ -931,40 +931,101 @@ explicit success criterion for retiring the Sensorium OS model actions.
    policy/authority. Adapters are language-agnostic (Python/C++/HTTP) behind the
    `command_stdio` worker seam, registered via a signed runtime-adapter manifest. See
    *Runtime Boundary Decision → Core placement*.
-2. What is the minimal schema set for MVP: only `inquirium-request.v1` and
-   `inquirium-result.v1`, or separate operation-specific schemas for generate,
-   classify, embed, summarize, and rerank?
-3. Should `profile/ref` be mandatory for all callers, or may callers request an
-   operation class and let host policy choose the profile entirely?
-4. Which model parameters are stable request-level constraints and which belong
-   only to host-owned runtime/profile configuration?
-5. How should Inquirium expose prompt/context redaction failures: hard reject,
-   degraded request, or deferred operator remediation?
-6. Should embeddings be stored only by consuming components such as Semantic
-   Index, or should Inquirium have a local embedding cache?
-7. How much of NSE `select-llm-model` input may include prompt-derived metadata
-   under default privacy policy?
-8. What is the first practical consumer: Semantic Index embeddings, Whisper
-   redaction, story-role generation, Monus summaries, or operator diagnostics?
-9. What is the minimal lease schema for direct data-plane operations: scoped
-   paths, object-store prefixes, artifact refs, query handles, or all of them?
-10. Which operation classes may use direct data-plane leases in MVP: batch
-   embeddings, local post-training, large media transforms, or only one pilot?
-11. Which sensitivity-class taxonomy does Inquirium apply at the data
-   boundary, and where does that taxonomy live? Inquirium references
-   "sensitivity class", "data classification", and "retention profile"
-   repeatedly, but the canonical enumeration is a cross-cutting concern
-   (Memarium spaces, Pseudonym Vault classes, Whisper privacy levels). The
-   open decision is whether Inquirium imports an existing taxonomy by
-   reference, or whether a new node-wide data-classification proposal
-   becomes a prerequisite.
+2. ~~What is the minimal schema set for MVP: only `inquirium-request.v1` and
+   `inquirium-result.v1`, or separate operation-specific schemas?~~ **Resolved:
+   per-operation request/response schemas** `inquirium.<operation>.request.v1` /
+   `inquirium.<operation>.response.v1`, not one generic discriminated envelope. This
+   matches what is already implemented (`inquirium-core` ships
+   `inquirium.generate.request.v1` / `.response.v1`) and the `inquirium.embed.*` naming in
+   Proposal 066; a loose discriminated union would be the *more* complected option, since
+   each operation gets a precise, independently validatable contract. A shared header
+   convention may carry common fields (operation id, optional `profile/ref`,
+   `classification`, trace ids), but the operation payload is its own schema.
+   `AdapterImplementation` declares supported operation classes. MVP: `generate` then
+   `embed`; `classify`/`summarize`/`rerank`/`transform`/image follow as their own
+   contracts.
+3. ~~Should `profile/ref` be mandatory for all callers, or may callers request an
+   operation class and let host policy choose the profile?~~ **Resolved: operation class
+   is mandatory; `profile/ref` is optional (the caller may pin).** Absent a pin, host
+   policy — optionally via NSE `select-llm-model` — selects the profile; if no profile
+   can be selected for the operation class, the request **fails closed** (never a silent
+   pick). Selection authority stays host-owned while pinning is allowed; `profile/ref`
+   already exists in `model-runtime` as a stable reference.
+4. ~~Which model parameters are stable request-level constraints and which belong only
+   to host-owned runtime/profile configuration?~~ **Resolved: a small host-bounded
+   request-level allowlist; everything else is host/profile config.** Request-level
+   params are a small operation-meaningful set (e.g. `temperature`, `max_tokens`) bounded
+   from above by host-owned `ModelBindingConstraints` / `ModelInvocationDefaults`; a
+   request may only *narrow within* host-permitted ranges, never expand them.
+   Provider-specific knobs are host/profile config; unsupported params are rejected
+   (`422`), not ignored. Already reflected in `lib/inquirium_adapter/core.py` (param
+   allowlist + `reject_unsupported_*`).
+5. ~~How should Inquirium expose prompt/context redaction failures: hard reject,
+   degraded request, or deferred operator remediation?~~ **Resolved: hard reject,
+   fail-closed.** A redaction failure on prompt/context yields a typed terminal failure
+   (`terminal-redaction-failed`) plus a retained diagnostic; the request is **never sent
+   to the model**. The model call is an irreversible egress, so degraded/deferred
+   satisfaction is unsafe — operator remediation is a separate follow-up path, not a
+   substitute. Per `DEV-GUIDELINES.md` §2 (Missing Authority Means Denial) and the
+   Authority Boundary.
+6. ~~Should embeddings be stored only by consuming components, or should Inquirium have
+   a local embedding cache?~~ **Resolved: consumers store embeddings (Semantic Index /
+   Memarium); Inquirium owns no embedding store.** Inquirium is an inquiry organ, not a
+   storage organ; a private store would complect inference with persistence and mint a
+   second store. An optional, off-by-default, content-addressed *result* cache (key:
+   model-hash + input digest) is allowed purely as an idempotency/cost optimization,
+   never as authoritative storage. (Mirrors Proposal 066: facts → Memarium, not a bespoke
+   store.)
+7. ~~How much of NSE `select-llm-model` input may include prompt-derived metadata under
+   default privacy policy?~~ **Resolved: non-content signals plus a cryptographic content
+   digest; no raw or semantic content.** The default selection input carries operation
+   class, sensitivity tier, size buckets, required capabilities, and locality/egress
+   constraints — **plus a content-address digest of the canonicalized input** (`sha256:*`)
+   for audit correlation (decision ↔ input without storing content) and duplicate/replay
+   detection. The digest is a one-way content address, **not** a semantic/fuzzy hash, so
+   it carries no similarity leakage. Raw prompt text and derived semantic content stay
+   excluded under default policy (content in selection requires explicit opt-in + a
+   classification gate). Because a bare digest of low-entropy prompts is a confirmation
+   oracle, when the selection input crosses into a less-trusted evaluator (e.g. an NSE
+   `rhai` hook) or into exported traces, use a **host-keyed / domain-separated digest**
+   (HMAC), not a bare hash; the trusted core may use the plain content-address internally.
+8. ~~What is the first practical consumer: Semantic Index embeddings, Whisper
+   redaction, story-role generation, Monus summaries, or operator diagnostics?~~
+   **Resolved: story-role generation (story-009) first, Semantic Index embeddings
+   second.** Story-009 is already the named migration target (P063-08): it exercises the
+   full `generate` path, the deterministic stub, and the Sensorium-action-replacement
+   parity goal end-to-end — a real vertical slice tied to work in flight. Semantic Index
+   embeddings follow as the second consumer (high-volume, validates `embed` plus the
+   data-plane lease pilot below).
+9. ~~What is the minimal lease schema for direct data-plane operations?~~ **Resolved:
+   scoped paths, object-store prefixes / artifact refs, and query handles** — all three as
+   host-issued, scoped, time-boxed, audited lease shapes (the Artifact Delivery lease
+   model). Query handles are **included in the plan** (not deferred) so query-backed
+   operations — e.g. batch embeddings over a result set — are expressible from the start.
+   Each lease grants only its named scope; no ambient data access, fail-closed on an
+   unresolved or over-broad scope.
+10. ~~Which operation classes may use direct data-plane leases in MVP: batch
+   embeddings, local post-training, large media transforms, or only one pilot?~~
+   **Resolved: one pilot — batch embeddings.** It is the clearest case where streaming
+   large inputs through the host payload path is wasteful, and it pairs with the second
+   consumer (Semantic Index, Q8). Local post-training and large media transforms stay out
+   of MVP — heavier authority/lifecycle. The single pilot validates the lease contract
+   (Q9) before any generalization.
+11. ~~Which sensitivity-class taxonomy does Inquirium apply at the data boundary, and
+   where does that taxonomy live?~~ **Resolved: import the existing taxonomy by reference;
+   no new prerequisite proposal.** Inquirium applies `classification.v1` from
+   `node/classification` (`Tier { Public, Community, Personal }`, `Classified<T>`, the
+   `Join` lattice), with label propagation governed by Proposal 047 (Memarium-touching
+   data) — the same `classification.v1` object already carried in the Artifact Delivery
+   envelope. Unknown/absent tier fails closed to the most restrictive (`Personal`). No
+   parallel taxonomy is minted.
 
 ## Next Actions
 
 1. Define the canonical Inquirium capability vocabulary and decide which
    operation classes are MVP.
-2. Add schemas for `inquirium-request.v1` and `inquirium-result.v1`, or split
-   them into operation-specific schemas if the contracts diverge.
+2. Add operation-specific request/result schemas, starting with
+   `inquirium.generate.*` and `inquirium.embed.*`.
 3. Refactor documentation around model use so Sensorium OS model wrappers are
    described as compatibility actions, not the canonical LLM boundary.
 4. Define a small `InquiriumCore` implementation surface that wraps the existing
@@ -986,12 +1047,14 @@ explicit success criterion for retiring the Sensorium OS model actions.
 |---|---|---|---|
 | P063-01 | Establish Inquirium as a separate model inquiry organ | accepted | This proposal defines the boundary and is now accepted for implementation planning. |
 | P063-02 | Reframe `model-runtime` as Inquirium substrate | accepted | Existing Node crates are useful lower layers, but should not be workflow-facing. |
-| P063-03 | Define Inquirium capability vocabulary | todo | Start with generate, classify, embed, summarize, rerank, transform, and runtime status. |
-| P063-04 | Define request/result schemas | todo | Decide between one generic contract and operation-specific schemas. |
-| P063-05 | Implement Inquirium Core wrapper over model-runtime | todo | Should preserve `model-runtime` independence from Inquirium and Sensorium. |
-| P063-06 | Integrate NSE model selection | todo | Use `select-llm-model` as optional policy, not as domain truth. |
-| P063-07 | Add host capability gate and audit | todo | Inference authority must be granted explicitly; model output is not authority. |
-| P063-08 | Migrate one existing model-adjacent path | todo | First target: story-009 text/image generation (replace Sensorium OS `draft_compose`/`image_place` model half). |
+| P063-03 | Define Inquirium capability vocabulary | partial | `model-runtime` now carries structured operation classes including generate/embed/batch-embed and routing capabilities; the workflow-facing Inquirium vocabulary still needs the remaining helper names and operator-facing phrasing. |
+| P063-04 | Define request/result schemas | partial | First operation-specific contracts are implemented in `inquirium-core` as `inquirium.generate.request.v1` and `inquirium.generate.response.v1`, including optional `profile/ref` and a narrow request-parameter allowlist; classify/transform/image contracts remain future work. |
+| P063-05 | Implement Inquirium Core wrapper over model-runtime | partial | First `generate` vertical slice is wired: daemon exposes a Rust `inquirium.generate` host surface, local control-plane HTTP host capability ingress, optional `profile/ref` candidate pinning, and JSON-e Flow call-step ingress through the same host surface. Broader operation wrappers remain future work. |
+| P063-06 | Integrate NSE model selection | done | `inquirium.generate` can build a prompt-free `select-llm-model` request over host-filtered routable runtime candidates; NSE returns `UseRuntime { runtime/ref, reason }`, and the daemon validates the selected runtime against the host candidate set before invocation. |
+| P063-07 | Add host capability gate and audit | partial | `POST /v1/host/capabilities/inquirium.generate` requires local control-plane auth or an explicit JSON-e/module inference grant; `allowed_calls` alone is not authority, and grants bound request size plus optional runtime/profile refs. Discovery advertises a ready provider only for routable candidates backed by an implemented handler. The implemented `generate` path enforces classification at the host boundary, writes metadata-only trace records under `trace/inquirium/generate`, exports only host-keyed/domain-separated HMAC request digests, and includes candidate-handler/content-address diagnostics without prompt or output content. Broader operation audit remains future work. |
+| P063-08 | Migrate one existing model-adjacent path | done | Story-009 JSON-e Flow roles now use `inquirium.generate` preflight for the migrated text/model-adjacent path; remote Arca/Dator service-order dispatch uses explicit Artifact Delivery and INAC admission boundaries. Dedicated image-generation remains a separate future operation. |
 | P063-09 | Confirm Inquirium Core as built-in Rust organ | accepted | Resolves Open Question 1; constitutional organ owning non-bypassable policy/authority. |
-| P063-10 | Language-agnostic adapter seam + signed manifest | todo | `command_stdio` worker + local/remote HTTP adapters; runtime-adapter manifest with worker hash (parity with sensorium action catalog); local-server lifecycle reuses the supervised-process fabric (no second supervisor); remote adapters are stateless. |
-| P063-11 | Deterministic stub runtime | todo | Acceptance bootstrap analogous to `static_draft_body`; default when no real adapter configured. |
+| P063-10 | Language-agnostic adapter seam + signed manifest | partial | `command_stdio`, local HTTP, remote HTTP, bundled Python provider adapters, and the new `deterministic_stub` transport are present; signed runtime-adapter manifests remain pending. |
+| P063-11 | Deterministic stub runtime | done | Implemented as an explicit `deterministic_stub` adapter-instance transport with daemon `inquirium.generate` execution and focused contract/daemon tests; it is opt-in catalog data, not an ambient production fallback. |
+| P063-12 | Apply classification taxonomy by reference | done | `inquirium.generate.request.v1` imports `classification.v1`; missing classification defaults fail-closed to Personal/quarantine, and daemon policy permits Personal data only through local-only/strict-local runtime candidates. Future operation surfaces should reuse the same boundary. |
+| P063-13 | Data-plane lease schema + pilot | todo | Resolves Open Questions 9 and 10: scoped paths + object-store prefixes/artifact refs + query handles, host-issued/time-boxed/audited, fail-closed on over-broad scope; single MVP pilot is batch embeddings (Semantic Index), other classes deferred. |
