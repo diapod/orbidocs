@@ -6,7 +6,7 @@
  :summary
  "Node-attached supply-side marketplace module bundled as a supervised
  middleware service. Owns local standing-offer publication, provider-side
- offer-catalog responses, and provider-side service dispatch. Counterpart
+ local-offer-catalog responses, offer-snapshot publication, and provider-side service dispatch. Counterpart
  of Arca: Dator supplies and executes, Arca observes, selects, and
  orchestrates."
 
@@ -41,7 +41,7 @@
    ["Answer inbound offer-catalog.fetch.request with local offers only"
     "Keep responder behavior supply-side and stateless with respect to observed remote catalogs"
     "Expose POST /v1/enact/offers/snapshot for daemon-side local dispatch lookups"
-    "Refresh the provider's offer-catalog capability passport through the host"
+    "Refresh the provider's local-offer-catalog capability passport through the host"
     "Avoid peer discovery and background pull responsibility"]
    :status :done}
 

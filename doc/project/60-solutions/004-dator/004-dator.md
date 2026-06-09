@@ -40,8 +40,10 @@ The component is responsible for the solution-level execution path of:
 - keeping the older peer `service-order.dispatch.request` /
   `service-order.dispatch.response` handler as a deprecated
   compatibility surface, not as the Story-009/default completion path,
-- refreshing its own `offer-catalog` capability passport through host
-  capabilities.
+- refreshing its own `local-offer-catalog` capability passport through
+  host capabilities,
+- publishing signed `offer-snapshot` records under the
+  `offer-snapshot-publisher` role when Agora publication is configured.
 
 ## Scope
 
@@ -50,8 +52,10 @@ component.
 
 It does not define:
 
-- observed-offer storage, trusted-provider policy, peer catalog
-  discovery, or combined buyer catalog reads — those belong to `Arca`,
+- observed-offer storage, shared/federated offer-catalog projection,
+  trusted-provider policy, peer catalog discovery, or combined buyer
+  catalog reads — those belong to `Arca` and the shared
+  `offer-catalog` module,
 - peer session establishment, generic peer message dispatch, passport
   issuance, and participant signing — those are daemon host
   capabilities,
@@ -119,7 +123,7 @@ Responsibilities:
   observed remote catalogs,
 - expose `POST /v1/enact/offers/snapshot` for daemon-side local dispatch
   lookups,
-- refresh the provider's `offer-catalog` capability passport through
+- refresh the provider's `local-offer-catalog` capability passport through
   the host,
 - avoid peer discovery and background pull responsibility.
 

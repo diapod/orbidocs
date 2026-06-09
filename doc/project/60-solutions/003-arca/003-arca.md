@@ -1,12 +1,13 @@
 # Orbiplex Arca
 
 `Orbiplex Arca` is a Node-attached, demand-side solution component
-that provides a **buyer-side workflow orchestrator** and the
-**observed offer catalog** for buyer-side discovery. It is the
+that provides a **buyer-side workflow orchestrator** and an embedded
+buyer-local offer-catalog cache for discovery. It is the
 counterpart of `Dator` (the supply-side component); together the two
 form the Orbiplex marketplace runtime split: `Dator` owns publication
-and the responder side, `Arca` owns observation, discovery, and
-buyer-side workflow orchestration.
+and the responder side, the shared `offer-catalog` module owns the
+public/federated projection role, and `Arca` owns buyer-side workflow
+orchestration plus local cache consumption.
 
 Arca does not author signed protocol artifacts. Service-orders,
 procurement contracts, settlement holds, and peer transport all
@@ -37,8 +38,9 @@ The component is responsible for the solution-level execution path of:
   `abort_workflow`) when the retry budget is exhausted,
 - emitting operator notifications and persisting final artifacts
   through host-owned module APIs,
-- maintaining a local SQLite-backed observed offer catalog populated
-  through periodic background sync against discovered catalog peers,
+- embedding the shared Python offer-catalog runtime as a local
+  SQLite-backed observed-offer cache populated through Agora replay,
+  periodic background sync against discovered shared catalog peers,
   inbound `offer-catalog.fetch.response` and `offer-catalog.push`
   peer messages, and on-demand remote queries correlated through a
   `threading.Event` handle,
@@ -219,6 +221,7 @@ Based on:
 - `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
 - `doc/project/30-stories/story-007-settlement-capable-node.md`
 - `doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md`
+- `doc/project/40-proposals/067-shared-offer-catalog-over-agora.md`
 
 Related schemas:
 - `service-offer-relay.v1`
@@ -227,34 +230,31 @@ Related schemas:
 - `trusted-provider.v1`
 
 Responsibilities:
-- persist observed remote offers in a local SQLite-backed catalog
-  with a per-source trust level,
-- discover offer-catalog peers through the daemon host capability
+- embed the shared Python offer-catalog runtime as a buyer-local
+  SQLite-backed cache with per-source trust metadata,
+- discover shared-offer-catalog peers through the daemon host capability
   surface (`offers.local.query`, `seed.directory.query`,
   `peer.session.establish`, `peer.message.dispatch`),
-- run a periodic background sync against discovered catalog peers
-  (`peer_sync_interval_sec`),
+- run a periodic background sync against discovered shared catalog peers
+  (`peer_sync_interval_sec`) and Agora replay when configured,
 - accept inbound `offer-catalog.fetch.response` and
-  `offer-catalog.push` peer messages, validate them, and upsert,
+  `offer-catalog.push` peer messages during migration,
 - issue on-demand remote catalog queries (`POST catalog/remote-query`)
   and correlate the asynchronous responses through a
   `threading.Event` handle,
 - serve the combined participant-facing catalog view at
   `GET /v1/enact/service-catalog` merging local snapshots with
   observed remote offers,
-- apply `trusted_providers` policy when admitting observed offers.
+- delegate shared projection, replay diagnostics, and signature
+  verification mechanics to the shared `offer_catalog` runtime.
 
 Status:
-- `done` in the bundled middleware module. Observed catalog storage,
-  trusted-provider policy, peer discovery and background sync,
-  fetch.response / push admission, on-demand remote query, and the
-  combined catalog view are live (see
-  `node/docs/IMPLEMENTATION-LEDGER.md` proposal 023 row). The shared catalog
-  crate now also has an Agora projection adapter: replayed
-  `offer-snapshot` records carrying `service-offer.v1` can be admitted into
-  `ObservedCatalogStore` after the same domain validation and trust-level
-  assignment. Arca still reads the materialized catalog surface rather than raw
-  Agora topics.
+- `done` in the bundled middleware module as a buyer-local cache over the
+  shared Python `offer_catalog` runtime. Peer discovery and background
+  sync, legacy fetch.response / push compatibility, on-demand remote
+  query, and the combined catalog view are live. Agora replay now uses
+  the shared offer-catalog projection code rather than Arca-local
+  signature/projection mechanics.
 
 ### Host Capability Bridge Consumer
 

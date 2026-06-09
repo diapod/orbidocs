@@ -1,0 +1,69 @@
+{:component/id :orbiplex/shared-offer-catalog
+ :component/title "Orbiplex Shared Offer Catalog"
+ :component/type :node-attached-module
+ :component/status :partial
+
+ :summary
+ "Node-attached middleware projection over Agora offer-snapshot records. It
+ admits provider-authored service-offer snapshots, indexes the current offer
+ read model, and exposes buyer/operator query surfaces without becoming the
+ provider-side execution authority."
+
+ :must-implement
+ [{:cap/id :shared-offer-catalog-agora-replay
+   :title "Agora Offer Snapshot Replay"
+   :kind :runtime
+   :based-on ["doc/project/40-proposals/067-shared-offer-catalog-over-agora.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"]
+   :schemas ["agora-record.v1" "service-offer.v1"]
+   :responsibilities
+   ["Replay configured Agora offer-snapshot topic pages"
+    "Persist replay cursor and replay diagnostics"
+    "Treat Agora as the durable publication log, not the offer-domain catalog"]
+   :status :done}
+
+  {:cap/id :shared-offer-catalog-admission
+   :title "Fail-Closed Offer Admission"
+   :kind :security
+   :based-on ["doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"
+              "doc/project/40-proposals/067-shared-offer-catalog-over-agora.md"]
+   :schemas ["capability-passport.v1" "service-offer.v1"]
+   :responsibilities
+   ["Verify outer Agora record admission through host agora.record.admit"
+    "Verify provider node and participant hold offer-snapshot-publisher via host seed.directory.query"
+    "Verify inner service-offer.v1 signatures with a vetted Ed25519 implementation"
+    "Retain rejected or skipped records as diagnostics"]
+   :status :done}
+
+  {:cap/id :shared-offer-catalog-query
+   :title "Offer Query Projection"
+   :kind :api
+   :based-on ["doc/project/40-proposals/067-shared-offer-catalog-over-agora.md"]
+   :schemas ["service-offer.v1"]
+   :responsibilities
+   ["Expose active offer query by service_type, provider participant, provider node, and limit"
+    "Return provenance and trust metadata"
+    "Hide withdrawn snapshots from active queries while preserving inspection access"]
+   :status :done}
+
+  {:cap/id :shared-offer-catalog-deployment-shapes
+   :title "Shared Module, Two Deployment Shapes"
+   :kind :architecture
+   :based-on ["doc/project/40-proposals/067-shared-offer-catalog-over-agora.md"]
+   :schemas []
+   :responsibilities
+   ["Run as a standalone public/shared catalog service"
+    "Run embedded by Arca as a buyer-local cache"
+    "Reuse one Python runtime instead of copying projection mechanics"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :shared-offer-catalog-public-profile
+   :title "Public Deployment Profile"
+   :kind :ops
+   :based-on ["doc/project/40-proposals/067-shared-offer-catalog-over-agora.md"]
+   :schemas ["capability-passport.v1"]
+   :responsibilities
+   ["Publish the shared-offer-catalog capability passport automatically or through an operator-controlled profile"
+    "Document public catalog deployment hardening and monitoring"]
+   :status :planned}]}

@@ -226,16 +226,12 @@ Arca
   service-order construction and AD dispatch/result handling
 ```
 
-**Topic naming note.** The current code publishes to
-`orbiplex/offer-catalog/v1/local/offers` (see `arca/service.py` `OFFER_AGORA_TOPIC`).
-The `local` segment is a semantic mismatch for a shared/federated projection. Two
-options, to be settled in the capability/topic-naming follow-up (alongside Decision 5):
-keep the existing topic for backward compatibility, or migrate the shared path to an
-explicitly shared topic such as `orbiplex/offer-catalog/v1/shared/offers` (or
-`.../offer-snapshots`). Recommendation: treat `.../local/offers` as a compatibility
-alias and target a `shared`-segment topic for the federated catalog, so the topic name
-states its scope. This proposal does not freeze the identifier; it only flags that the
-`local` name should not silently become the federated default.
+**Topic naming note.** The current code defaults to
+`orbiplex/offer-catalog/v1/shared/offers` for Arca replay and Dator publication.
+The previous `orbiplex/offer-catalog/v1/local/offers` topic is a compatibility
+alias for older harnesses/configs, not the federated default. Keep targeting a
+`shared`-segment topic for the federated catalog, so the topic name states its
+scope.
 
 ## Minimal Implementation Slice
 
@@ -539,83 +535,89 @@ evidence) · `[!]` blocked/needs decision.
   Evidence: `node/catalog/src/lib.rs` doc + `observed.rs`, `offer.rs`, `agora.rs`,
   `trusted.rs`.
 - [x] Agora offer topic + `offer-snapshot` record kind defined. Evidence:
-  `arca/service.py` `OFFER_AGORA_TOPIC` (`orbiplex/offer-catalog/v1/local/offers`),
+  `arca/service.py` / `dator/service.py` `OFFER_AGORA_TOPIC`
+  (`orbiplex/offer-catalog/v1/shared/offers` by default),
   `OFFER_AGORA_RECORD_KIND`.
 - [x] Dator publishes signed `offer-snapshot` to Agora and owns `local_offers`.
   Evidence: `dator/service.py`.
-- [x] Arca already owns observed projection + Agora replay + admission diagnostics.
-  Evidence: `arca/service.py` `upsert_observed_offer`, `offer_agora_replay_*`,
-  `agora_replay_diagnostics`.
+- [x] Arca consumes the shared offer-catalog runtime for observed projection,
+  Agora replay, and admission diagnostics.
+  Evidence: `node/middleware-modules/lib/offer_catalog.py` and
+  `node/middleware-modules/arca/service.py` `OFFER_CATALOG`.
 
 ### Phase 1 — Extract the offer-catalog module
 
-- [ ] Create `middleware-modules/offer-catalog/service.py` as a Python module that
+- [x] Create `middleware-modules/offer-catalog/service.py` as a Python module that
   **reuses** the shared `lib/catalog.py` (`SqliteCatalog`/`CatalogCodec`/sequence
   upsert/expiry) — HTTP surface, deployment shape, diagnostics; **no** per-module
   reimplementation of catalog mechanics.
-- [ ] Move the catalog-domain subset out of `arca/service.py` into the new module:
+- [x] Move the catalog-domain subset out of `arca/service.py` into the new module:
   `observed_offers` schema + `SqliteCatalog` usage; Agora replay cursor + diagnostics;
   `offer-snapshot` validation; sequence + expiry projection. `Arca` then imports/queries
   it (Phase 5).
-- [ ] Replace hand-rolled ed25519 in `arca/service.py` with a **vetted Python ed25519
+- [x] Replace hand-rolled ed25519 in `arca/service.py` with a **vetted Python ed25519
   library** (PyNaCl / `cryptography`), placed in `lib/` and shared by both `Arca` and
   the offer-catalog module. Do **not** keep bespoke curve arithmetic.
-- [ ] Keep the Rust `catalog` crate untouched: its offer layer stays idle scaffolding;
-  its generic layer stays the contact-catalog substrate (P058). Offers do not migrate
-  onto it.
+- [x] Keep the operational shared offer-catalog runtime in the shared Python module;
+  the Rust `catalog` crate is not the deployed shared catalog. It is only contract-synced
+  for `service-offer.v1` lifecycle semantics (`offer/status`) so Rust fixtures and
+  control-plane schemas do not drift.
 
 ### Phase 2 — Admission via Seed Directory
 
-- [ ] Admission verifies participant identity + `offer-snapshot-publisher` capability
+- [x] Admission verifies participant identity + `offer-snapshot-publisher` capability
   passport + non-revocation against Seed Directory
   (P025); fail-closed on unknown.
-- [ ] `trusted-provider.v1` (P023) retained only as a local operator override layered
-  on top, not as the trust source.
-- [ ] Rejected/skipped records retained as diagnostics.
+- [x] Provider admission is not bypassed by `trusted_provider_node_ids`; public/shared
+  replay still requires Seed Directory authorization unless the whole deployment is
+  explicitly configured as a local harness with
+  `require_seed_directory_admission = false`.
+- [x] Rejected/skipped records retained as diagnostics.
 
 ### Phase 3 — Query surface parity
 
-- [ ] Implement query API: filter by `service_type` / provider participant /
+- [x] Implement query API: filter by `service_type` / provider participant /
   provider node; active-only default; limit; provenance/trust metadata;
   deterministic ordering.
-- [ ] Endpoints: `GET /v1/enact/service-catalog`,
+- [x] Endpoints: `GET /v1/enact/service-catalog`,
   `GET /v1/offer-catalog/replay/status`, `POST .../replay/resync`,
   `POST .../replay/reset-cursor`.
-- [ ] Reuse Arca/Dator query tests to prove behavioral parity.
+- [x] Reuse Arca/Dator query tests to prove behavioral parity.
 
 ### Phase 4 — Two deployments from one module
 
-- [ ] Standalone **public/shared catalog node** shape: replays Agora, applies
-  admission, exposes public query API.
-- [ ] **Buyer-local cache** shape: same module embedded by Arca, no public surface.
-- [ ] Deployment shape is a config switch, not a code fork.
+- [x] Standalone **public/shared catalog node** shape: replays Agora, applies
+  admission, exposes public query API, refreshes a `shared-offer-catalog` passport
+  through the host, and exposes only passport metadata in `/healthz`/`/readyz`.
+- [x] **Buyer-local cache** shape: same module embedded by Arca, no public surface.
+- [x] Deployment shape is a config switch, not a code fork.
 
 ### Phase 5 — Arca slimming (the reuse payoff)  ⟵ *answers "can Arca be slimmed?"*
 
-- [ ] Arca queries the offer-catalog module API (or embeds it as a cache) instead of
+- [x] Arca queries the offer-catalog module API (or embeds it as a cache) instead of
   owning the shared observed projection.
-- [ ] Delete from `arca/service.py` the now-shared catalog-domain functions
+- [x] Delete from `arca/service.py` the now-shared catalog-domain functions
   (observed upsert, replay cursor/diagnostics, snapshot validation, ed25519 verify,
   projection); keep only a thin catalog client + buyer logic.
-- [ ] `merge_catalog_snapshots` thins to "merge buyer-local Dator offers (if any)
+- [x] `merge_catalog_snapshots` thins to "merge buyer-local Dator offers (if any)
   with catalog-API results"; the observed half comes from the module.
-- [ ] Arca's remaining responsibility is the buyer brain only: workflow
+- [x] Arca's remaining responsibility is the buyer brain only: workflow
   orchestration, offer selection, `service-order` construction, AD dispatch/result
   wait, settlement.
-- [ ] Confirm net reduction: Arca no longer *declares* the ~catalog-ish half of its
+- [x] Confirm net reduction: Arca no longer *declares* the ~catalog-ish half of its
   functions; it *imports* them. (Baseline: ~6061 LOC, roughly half catalog-domain.)
 
 ### Phase 6 — Capability naming
 
-- [ ] Split `offer-catalog` into `local-offer-catalog`, `shared-offer-catalog`,
+- [x] Split `offer-catalog` into `local-offer-catalog`, `shared-offer-catalog`,
   `offer-snapshot-publisher`.
-- [ ] Update Seed Directory registration so buyers discover `shared-offer-catalog`
+- [x] Update Seed Directory registration so buyers discover `shared-offer-catalog`
   nodes; freeze identifiers in a follow-up requirements doc.
 
 ### Phase 7 — Retire bespoke peer protocol
 
-- [ ] Keep `offer-catalog.fetch`/`push` working during transition (compat).
-- [ ] Mark them deprecated; document the retirement path to Agora-only.
+- [x] Keep `offer-catalog.fetch`/`push` working during transition (compat).
+- [x] Mark them deprecated; document the retirement path to Agora-only.
 
 ### Phase 8 — Withdrawal semantics (resolved: explicit marker, no tombstone record-kind)
 
@@ -625,13 +627,13 @@ Decision: **withdrawal = higher-`sequence/no` snapshot carrying an explicit
 `expires-at > published-at` contract in `offer/mod.rs`). Provider *revocation* is
 handled separately at admission via Seed Directory (P025), not as an offer record.
 
-- [ ] Extend the `service-offer.v1` contract with an optional withdrawal marker
+- [x] Extend the `service-offer.v1` contract with an optional withdrawal marker
   (`offer/status`, default `active`); update `ServiceOfferRecord` (and its Python
   mirror) and keep the inner content signature covering it.
-- [ ] Confirm `Dator` can publish a superseding withdrawal snapshot (same `offer/id`,
+- [x] Confirm `Dator` can publish a superseding withdrawal snapshot (same `offer/id`,
   higher `sequence/no`, `status = "withdrawn"`, valid `expires-at`) on retirement.
-- [ ] Update the projection active rule to
+- [x] Update the projection active rule to
   `active = (status != "withdrawn") AND (expires_at > now)`; confirm monotonic
   supersession (`stale` outcome guards) and `active_only` filtering hide it.
-- [ ] Confirm provider revocation removes offers via admission (Seed Directory
+- [x] Confirm provider revocation removes offers via admission (Seed Directory
   non-revocation check, Phase 2), independent of snapshot status/expiry.

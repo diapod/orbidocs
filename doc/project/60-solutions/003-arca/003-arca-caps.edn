@@ -6,10 +6,11 @@
  :summary
  "Buyer-side, demand-side workflow module bundled as a supervised
   middleware service. Orchestrates multi-step service-order workflows
-  through host-owned procurement, and owns the observed offer catalog
-  for buyer-side discovery. Does not own supply-side publication
-  (Dator) and is explicitly not a protocol or settlement authority —
-  all signed acts go through host capabilities."
+  through host-owned procurement, and embeds the shared offer-catalog
+  runtime as a buyer-local cache for discovery. Does not own supply-side
+  publication (Dator), the public/shared catalog role
+  (Shared Offer Catalog), or protocol/settlement authority — all signed
+  acts go through host capabilities."
 
  :must-implement
  [{:cap/id :workflow-run-orchestrate
@@ -59,22 +60,24 @@
    :notes ["Implemented in node/middleware-modules/arca/service.py for Story-009 AD-only profiles"
            "Private-safe fallback is configuration-driven through request_fallback_targets and reply_fallback_targets"]}
 
-  {:cap/id :observed-catalog-discovery
-   :title "Observed Offer Catalog and Discovery"
+  {:cap/id :buyer-local-offer-catalog-consumption
+   :title "Buyer-Local Offer Catalog Consumption"
    :kind :runtime
    :based-on ["doc/project/30-stories/story-006-voluntary-swarm-exchange.md"
               "doc/project/30-stories/story-007-settlement-capable-node.md"
-              "doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md"]
+              "doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md"
+              "doc/project/40-proposals/067-shared-offer-catalog-over-agora.md"]
    :schemas ["service-offer-relay.v1"
-             "trusted-provider.v1"]
+             "trusted-provider.v1"
+             "service-offer.v1"]
    :responsibilities
-   ["Persist observed remote offers in a local SQLite-backed catalog with trust level per source"
-    "Discover offer-catalog peers through the daemon host capability surface (offers.local.query, seed.directory.query, peer.session.establish, peer.message.dispatch)"
-    "Run a periodic background sync against discovered catalog peers (peer_sync_interval_sec)"
-    "Accept inbound offer-catalog.fetch.response and offer-catalog.push peer messages, validate, and upsert"
+   ["Embed the shared Python offer-catalog runtime as a buyer-local cache"
+    "Discover shared-offer-catalog peers through the daemon host capability surface"
+    "Run periodic background sync against discovered catalog peers and Agora replay when configured"
+    "Accept legacy inbound offer-catalog.fetch.response and offer-catalog.push peer messages during migration"
     "Issue on-demand remote catalog queries (POST catalog/remote-query) and correlate the asynchronous responses through a threading.Event handle"
     "Serve a combined participant-facing catalog view at GET /v1/enact/service-catalog merging local snapshots with observed remote offers"
-    "Apply trusted_providers policy when admitting observed offers"]
+    "Delegate shared projection, replay diagnostics, and signature verification mechanics to the shared offer_catalog runtime"]
    :status :done}
 
   {:cap/id :host-capability-bridge-consumer
