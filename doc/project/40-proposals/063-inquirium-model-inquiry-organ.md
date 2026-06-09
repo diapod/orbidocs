@@ -480,6 +480,56 @@ every emitted event (`request.started`, `runtime.selected`, `usage.metrics`,
 saga — e.g. Whisper intake → Inquirium summarize → Artifact Delivery — by
 joining on one identifier without per-component reconstruction logic.
 
+### Architectural Style For Operators And Extension Developers
+
+Inquirium should be implemented as a declarative model-inquiry surface for
+operators and extension developers, not as a provider-specific programming API.
+An operator or extension author should be able to express model-backed flows by
+combining Inquirium configuration, adapter-instance configuration, and JSON-e /
+JSON-e Flow definitions, without learning provider protocols or embedding model
+selection logic inside their component.
+
+The intended style is:
+
+```text
+operator/developer intent -> JSON-e Flow / component configuration
+Inquirium configuration -> operation, profile, policy, trace, retention, output contract
+adapter configuration -> provider endpoint, credentials, lifecycle, protocol mapping
+model-runtime -> routable candidate selection and invocation
+```
+
+This allows models connected through Inquirium adapters to participate in
+resource-producing and decision-support flows. For example, a Dator service may
+use `inquirium.generate`, `inquirium.transform`, `inquirium.classify`, or
+`inquirium.embed` to draft an artifact, prepare a structured resource, evaluate
+a candidate output, enrich metadata, or produce evidence for an operator-visible
+decision. The model participates in the flow, but it does not own the service
+workflow, publication decision, settlement logic, routing decision, or governance
+outcome.
+
+The design goal is that extension developers compose model use through stable
+Inquirium operations and JSON-e Flow steps, while operators control the
+environment through profiles, adapter instances, runtime candidates, policy
+bundles, leases, retention, and trace settings. Provider-specific parameters stay
+behind host-owned model bindings and adapter configuration. Workflow intent stays
+in JSON-e / JSON-e Flow. Authority remains with the host, policy layer, and
+operator.
+
+Practical guardrails:
+
+- extension code should call Inquirium capabilities, not provider APIs directly;
+- JSON-e Flow should describe the desired inference act and resource flow, not
+  adapter mechanics;
+- adapter-instance configuration should describe transport, credentials,
+  lifecycle, health, and provider protocol details;
+- Inquirium configuration should describe operation semantics, model profile,
+  locality, egress, retention, trace, output contract, and resource policy;
+- model output may become input to resource creation or decision support, but it
+  is evidence or a draft unless a separate host-owned capability turns it into an
+  effect;
+- Dator, Arca, role middleware, Sensorium, and other components own their domain
+  workflows; Inquirium owns bounded model inquiry within those workflows.
+
 ### Public Capability Surface
 
 The first capability vocabulary should be small and verb-oriented:
