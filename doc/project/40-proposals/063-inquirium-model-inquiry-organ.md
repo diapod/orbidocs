@@ -157,6 +157,45 @@ A model is not treated as a sensor or an effector merely because it is reached
 through an adapter. Its output is an inference artifact over supplied context,
 not a direct observation of the world and not an authorized action by itself.
 
+**Core placement (resolved): built-in Rust; adapters are language-agnostic.**
+Inquirium Core is a **built-in Rust organ** in the node, not a supervised middleware
+module. This is deliberate: Inquirium is a constitutional organ expressed as a
+technical mechanism — it owns model selection authority, egress/retention/trace policy,
+content-addressed model identity, capability grants, and the "output is evidence, not
+authority" invariant. Those are non-bypassable, auditable boundaries and therefore
+belong in the minimal trusted core, the same way Artifact Delivery's runtime is
+host-owned Rust.
+
+The **adapters are intentionally plural and language-neutral.** Most ready-made LLM API
+clients and locally-started inference engines are written in Python (some in C++), so
+the design must let an operator or extension author wrap such an engine quickly without
+linking Rust to every model library. One low-ceremony seam is the `command_stdio` worker contract
+(see Runtime Execution): a worker reads one normalized `model-runtime` request on stdin
+and writes one normalized response on stdout — nothing else. This is the same low-
+ceremony "drop a script" experience as a Sensorium OS action, minus the provider/policy
+boilerplate, because selection, policy, trace, and authority stay in the Rust core.
+
+Two boundaries make "easy" also safe and trustworthy:
+
+- **No ambient authority for adapters/workers** (already required by *Python and Model
+  Libraries*): a worker receives only a normalized request and returns a bounded
+  response; it gets no host capabilities, identity, publication, routing, or storage,
+  and uses host-issued leases for large inputs.
+- **Integrity parity with Sensorium's signed action catalog.** Adapter authoring is
+  low-ceremony, but a runtime-adapter/worker is **registered through a signed/hashed
+  manifest** (a runtime-adapter manifest analogous to the `sensorium.os.action-catalog`
+  sidecar), so "wrap an engine in a Python script" never means "run unsigned arbitrary
+  code in the operator's trust domain". The manifest declares adapter implementation
+  identity, worker hash, protocol family, supported operation classes, declared
+  capabilities, and optional candidate templates. **Host/`model-runtime` configuration
+  materializes the routable runtime candidates, model bindings, and policy bundles** —
+  the manifest may seed/template them but is not their authoritative source. This keeps
+  selection and policy authority host-owned, not adapter-owned.
+
+So the split is: **Rust core = constitutional authority and contract; agnostic adapters
+= replaceable execution limbs**, registered as signed data, invoked through a
+language-neutral worker/HTTP seam.
+
 The practical rule is:
 
 ```text
@@ -193,6 +232,22 @@ workflow hooks, local routes, peer dispatch surfaces, or host capabilities merel
 because it is implemented as middleware. Its normal conversation partners are
 Inquirium Core, `model-runtime`, provider workers, and explicit host capability
 surfaces for scoped leases, artifacts, status, and diagnostics.
+
+**Process supervision reuses the existing fabric — no second supervisor.** Where an
+adapter needs process lifecycle (a local HTTP model server such as Ollama/vLLM, or a
+`command_stdio` worker), `model-runtime` drives the **existing supervised-process fabric**
+(the `middleware-supervisor` / supervised `http_local_json` executor that already starts,
+stops, and health-checks supervised servers), rather than introducing a parallel model
+process supervisor. The "model runtime supervisor" named in the layering is a thin
+lifecycle/invocation coordinator over that shared fabric, not a duplicate of it. Two
+consequences follow:
+
+- **Local HTTP model servers** are supervised exactly like other supervised middleware
+  processes; process supervision, health probes, and lifecycle are adapter-instance
+  configuration (see Cardinality), reusing one supervisor.
+- **Remote HTTP API adapters** have **no process lifecycle to supervise** — a stateless
+  instance (base URL, auth reference, egress class, shared HTTP client, rate limits).
+  They must not be forced through a process-supervision path that has nothing to manage.
 
 #### Adapter, Runtime, and Model Cardinality
 
@@ -678,6 +733,20 @@ This lower layer may supervise processes, probe health, map requests and
 responses, enforce resource ceilings, and apply egress restrictions. It should
 not know whether the caller is Arca, Sensorium, Monus, or a role middleware.
 
+**Deterministic stub runtime (acceptance bootstrap).** `model-runtime` must ship a
+first-class **deterministic/echo runtime** — a near-zero-config candidate that returns
+canned or rule-derived output for a profile, with no provider, network, or credentials.
+This is the direct analog of today's `static_draft_body` fallback in the Sensorium OS
+`draft_compose` action: it keeps acceptance tests (e.g. story-009) deterministic and
+runnable without wiring a real model, and it makes `inquirium.generate`/`image.generate`
+as easy to stand up as a static script. The stub is a real runtime candidate behind the
+same contract, so swapping in a live adapter later is a config change, not a code change.
+The acceptance/test profile should default to the stub when no real adapter is
+configured. **Production profiles must opt into the stub explicitly and must not
+silently satisfy a request that asked for a live model** — an operator who believes a
+model is wired must never get echo/canned output by default. Absent an opt-in and a
+configured adapter, a live request fails closed rather than degrading to the stub.
+
 ### Python and Model Libraries
 
 The proposal explicitly allows model execution to live in Python, external
@@ -782,6 +851,58 @@ JSON-e Flow -> inquirium.generate/classify/embed -> model-runtime -> model
 Sensorium may still call Inquirium internally when a Sensorium action needs
 model assistance, but the model domain no longer lives inside Sensorium.
 
+### Story-009 Replacement: Sensorium OS Model Actions
+
+Story-009 currently generates text (and places images) through Sensorium OS action
+scripts (`story009_draft_compose.py`, `story009_image_place.py`) that embed the model
+call inline (e.g. an OpenRouter request with a static fallback). Inquirium replaces the
+*model* half of those actions. Three points make the migration concrete and keep it at
+least as easy for operators and extension authors:
+
+**1. Decompose generation from effect — not a 1:1 script swap.** Today
+`draft_compose` complects two concerns: it *generates* the draft and it *commits* it to
+git. Inquirium only replaces generation. The split is:
+
+```text
+inquirium.generate         -> produces a draft/candidate artifact (evidence, not effect)
+domain/host effect step    -> Dator (or Artifact Delivery / a Sensorium effect) commits,
+                              publishes, or signs that artifact
+```
+
+This follows the Authority Boundary: model output is a draft until a separate host-owned
+capability turns it into an effect. Implementers should not port the git/commit logic
+into an adapter; it stays in the domain workflow. The reusable OpenRouter call from
+`draft_compose` becomes a `model-runtime` adapter; the static fallback becomes the
+deterministic stub runtime.
+
+**2. Image path: contract + stub parity, live adapter as a separate milestone.**
+`inquirium.image.generate` / `image.edit` cover the graphics side. For the Story-009
+migration target, image generation must reach parity with text **at the contract and
+deterministic-stub level** — the operation classes and an image stub runtime must exist
+so the image action is not dropped. A **live** image provider adapter may remain a
+separate implementation milestone, unless the MVP explicitly selects Story-009 image
+generation as its first real provider path. This keeps images in scope without making a
+live image adapter a blocker for the whole Inquirium MVP.
+
+**3. Ergonomics thesis: equal or easier than a Sensorium action.** Adding a model-backed
+generation to Dator should be no harder than adding a signed OS action — and for the
+model dimension it is easier:
+
+| What the author/operator does | Sensorium OS action (today) | Inquirium |
+|---|---|---|
+| Model/provider wiring | provider HTTP code inside each signed script | reusable **adapter manifest** (config), no per-action code |
+| Add a new model | new script + new catalog hash/signature | new adapter manifest; consumers unchanged |
+| Call site | `sensorium.directive.invoke{action_id, params}` | `inquirium.generate` JSON-e Flow step |
+| Policy/retention/trace | hand-rolled per script | declarative Inquirium profile/policy |
+| Domain effect (git/publish) | inline in the same script | stays a separate domain/host step |
+| Integrity gate | signed action catalog | signed runtime-adapter manifest (parity) |
+| Acceptance stub | `static_draft_body` in-script | deterministic stub runtime (config) |
+
+The net is fewer moving parts per model use (provider details centralized in adapters,
+not duplicated per action) while preserving the "drop a worker script" path for wrapping
+a new engine. The replacement is acceptable only if this parity holds — it is the
+explicit success criterion for retiring the Sensorium OS model actions.
+
 ## Failure Modes and Mitigations
 
 | Failure mode | Mitigation |
@@ -803,9 +924,13 @@ model assistance, but the model domain no longer lives inside Sensorium.
 
 ## Open Questions
 
-1. Should the first Inquirium implementation be in-process Rust in the daemon, a
+1. ~~Should the first Inquirium implementation be in-process Rust in the daemon, a
    supervised local middleware module, or a Rust organ embedded similarly to
-   `sensorium-core`?
+   `sensorium-core`?~~ **Resolved: Inquirium Core is a built-in Rust organ** (like
+   `sensorium-core`), because it is a constitutional organ owning non-bypassable
+   policy/authority. Adapters are language-agnostic (Python/C++/HTTP) behind the
+   `command_stdio` worker seam, registered via a signed runtime-adapter manifest. See
+   *Runtime Boundary Decision → Core placement*.
 2. What is the minimal schema set for MVP: only `inquirium-request.v1` and
    `inquirium-result.v1`, or separate operation-specific schemas for generate,
    classify, embed, summarize, and rerank?
@@ -848,8 +973,12 @@ model assistance, but the model domain no longer lives inside Sensorium.
 6. Connect NSE `select-llm-model` as the optional model selection policy hook.
 7. Add operator diagnostics for configured profiles, candidate runtimes, health,
    and last selection decisions.
-8. Migrate one existing bounded model-adjacent flow from Sensorium OS script
-   invocation to Inquirium.
+8. Migrate the story-009 text/image generation from Sensorium OS script invocation
+   to Inquirium (`inquirium.generate` / `inquirium.image.generate`), keeping git
+   commit/publish as a separate domain effect step.
+9. Ship the deterministic stub runtime and the language-agnostic adapter seam
+   (`command_stdio` worker + signed runtime-adapter manifest) so the acceptance path
+   stays deterministic and new engines are easy and safe to wrap.
 
 ## Tracking
 
@@ -862,4 +991,7 @@ model assistance, but the model domain no longer lives inside Sensorium.
 | P063-05 | Implement Inquirium Core wrapper over model-runtime | todo | Should preserve `model-runtime` independence from Inquirium and Sensorium. |
 | P063-06 | Integrate NSE model selection | todo | Use `select-llm-model` as optional policy, not as domain truth. |
 | P063-07 | Add host capability gate and audit | todo | Inference authority must be granted explicitly; model output is not authority. |
-| P063-08 | Migrate one existing model-adjacent path | todo | Candidate paths: Whisper redaction, Semantic Index embedding, story-role generation, or Monus summary. |
+| P063-08 | Migrate one existing model-adjacent path | todo | First target: story-009 text/image generation (replace Sensorium OS `draft_compose`/`image_place` model half). |
+| P063-09 | Confirm Inquirium Core as built-in Rust organ | accepted | Resolves Open Question 1; constitutional organ owning non-bypassable policy/authority. |
+| P063-10 | Language-agnostic adapter seam + signed manifest | todo | `command_stdio` worker + local/remote HTTP adapters; runtime-adapter manifest with worker hash (parity with sensorium action catalog); local-server lifecycle reuses the supervised-process fabric (no second supervisor); remote adapters are stateless. |
+| P063-11 | Deterministic stub runtime | todo | Acceptance bootstrap analogous to `static_draft_body`; default when no real adapter configured. |
