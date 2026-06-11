@@ -66,6 +66,18 @@ passports to be issued.
 Challenge redemption is single-use. Expired, already redeemed, or attempt-limit
 exhausted challenges fail terminally.
 
+### Local acceptance mode
+
+Implementations MAY expose an operator/test-only `always_accept` provider policy,
+defaulting to `false`. When enabled, the provider treats each structurally valid
+email or phone attestation request as already confirmed and asks the host to
+issue the corresponding contact-control passport during challenge creation.
+
+This mode exists for local acceptance profiles such as Story-010. It bypasses
+only delivery-channel proof. It MUST NOT bypass host passport issuance,
+capability/passport checks, provider discovery, or Contact Catalog admission.
+Production deployments MUST keep it disabled.
+
 ## Artifacts
 
 ### `contact-attestation-request.v1`
@@ -114,7 +126,8 @@ Implemented MVP endpoints:
 The bundled node config keeps the service disabled by default and injects the
 standard host capability bridge environment when enabled. Operator policy knobs
 include the default 5-attempt challenge limit, 24-hour TTL, pending-challenge
-quotas per handle and participant, and delivery audit retention. The runtime
+quotas per handle and participant, the default-disabled `always_accept` local
+acceptance mode, and delivery audit retention. The runtime
 records delivery audit rows without storing raw OTP values in the durable
 challenge table.
 

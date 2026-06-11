@@ -70,7 +70,8 @@ The story also reuses these existing mechanism documents:
 - **Solution 019** (Middleware) for supervised middleware attachment patterns
   and host-owned component boundaries used by a future messaging acceptor;
 - **Proposal 061** (Contact Attestation Service) for the email- and
-  phone-control attestation provider role, OTP / link flow, and the
+  phone-control attestation provider role, OTP / link flow, local acceptance
+  mode for Story-010 profiles, and the
   `contact-attestation-request.v1` / `contact-attestation-result.v1`
   acquisition-side artifacts that mint `email-control@v1` /
   `phone-control@v1` passports consumed by Steps 2 and 6.
@@ -667,8 +668,10 @@ new message.
   terminal pairwise mappings, P060-016).
 - Keep contactability acquisition on the daemon runtime path: Story-010 now
   discovers trusted/fresh `role/email-attestation` /
-  `role/phone-attestation` providers through Seed Directory and starts /
-  redeems attestation challenges through daemon endpoints (P060-034 `done`).
+  `role/phone-attestation` providers through Seed Directory and starts
+  attestation challenges through daemon endpoints; local Story-010 profiles may
+  receive an immediate `always_accept` result, while non-local profiles redeem
+  the challenge through the same daemon endpoint (P060-034 `done`).
 - Add first-class pod-user session / auth UX on top of the now
   fail-closed P057-011 user / pod-user notification route binding.
 - Keep the executable Story-010 two-node strict smoke green as the
@@ -733,10 +736,11 @@ artifact and what is still missing.
     default freshness window; production SMTP email + SMS webhook
     delivery adapters implemented.
   - Story-010 now selects the provider through daemon contactability
-    options, starts a challenge through the daemon, and redeems it through
-    the daemon before publishing contactability. The helper no longer calls
-    the attestation service directly except for reading the dev OTP in the
-    local acceptance profile.
+    options and starts the attestation request through the daemon before
+    publishing contactability. Local profiles use Proposal 061
+    `always_accept` to receive the passport result immediately; non-local
+    profiles redeem the challenge through the daemon. The helper no longer
+    depends on reading a dev OTP for the local acceptance profile.
 
 - **Step 3 — Marcin publishes contact claims to the Contact Catalog:** `[done]`
   - Closest artifacts: Solution 025 (Contact Catalog) is hard-MVP complete
@@ -1018,7 +1022,8 @@ artifact and what is still missing.
   `phone-attestation` provider roles, schema-gated request/result
   artifacts, dev/SMTP/SMS-webhook delivery modes, attempt limits, TTL,
   quotas, delivery audit, Story-010 Seed Directory provider discovery, and
-  daemon-mediated challenge/redeem through the discovered provider. P060-034
+  daemon-mediated challenge/redeem or local `always_accept` issuance through
+  the discovered provider. P060-034
   is `done` for hard-MVP; remaining work is post-MVP provider policy UX
   refinement.
 - **Messaging middleware with stratified storage (compose, outbound queue,
@@ -1135,6 +1140,9 @@ Already done:
   production SMTP email + SMS webhook adapters wired
 - challenge attempt limits + TTL + quotas + delivery audit
 - OTP / link verification flow specification in Proposal 061
+- Story-010 local profiles enable Proposal 061 `always_accept` mode so local
+  acceptance can issue contact-control passports without SMTP/SMS or manual OTP
+  handling; production profiles keep this mode disabled.
 
 Still outstanding:
 
@@ -1562,7 +1570,7 @@ Already done:
 - Story-010 two-node acceptance scaffold including `story-smoke` and
   self-contained `ad-smoke` for the Seed Directory + Attestation
   Service + Contact Catalog + Messaging topology; strict `ad-smoke`
-  now covers attestation challenge/redeem, contactability publish,
+  now covers local `always_accept` attestation acquisition, contactability publish,
   supervised Contact Catalog admission, shared lookup, contact request
   delivery, operator accept, `messaging-receive@v1` passport handoff,
   private-direct `message-envelope.v1` delivery, delivered inbox/outbox

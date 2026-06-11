@@ -832,6 +832,15 @@ produces `routing-subject` or `node` delivery candidates. It does not authorize
 the eventual push; INAC/AD passport and admission gates still decide whether the
 artifact is accepted.
 
+The daemon exposes the same Contact Catalog consumer path to the user UI through
+the host `contact.lookup` capability, but that path is a discovery/read-model
+surface rather than a delivery admission surface. It may surface a
+`routing-subject` match whose Seed Directory binding has no fresh
+`endpoint/certificate` evidence yet, so the operator can see that the contact is
+known. Direct AD delivery to a `routing-subject` remains stricter: the delivery
+resolver still requires usable endpoint evidence with
+`endpoint/certificate.advisory/route-id` matching the requested routing subject.
+
 The current capability selector filter is intentionally narrow: it supports
 `target/node-ids` as a local allowlist/intersection filter. Issuer,
 endorsement, and passport-profile filters belong to the next policy iteration;
