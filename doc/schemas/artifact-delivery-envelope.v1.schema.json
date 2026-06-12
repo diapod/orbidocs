@@ -230,7 +230,10 @@
       "additionalProperties": false,
       "required": ["mode", "passport"],
       "properties": {
-        "mode": { "const": "invitation-passport" },
+        "mode": {
+          "type": "string",
+          "enum": ["invitation-passport", "capability-passport"]
+        },
         "passport": {
           "type": "object",
           "required": ["schema"],

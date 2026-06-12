@@ -783,7 +783,7 @@ artifact and what is still missing.
   - Closest artifacts: Solution 027 (Messaging Middleware) exists
     with component status `hard-mvp-done`; Node has `messaging-core` and
     `messaging-service` crates implementing outbound enqueue / outbox /
-    retry / process, Maildir message and draft storage, and signed
+    retry / process, Maildir message and outbox body storage, and signed
     `message-envelope.v1` private-direct delivery. Node UI exposes
     `/admin/messaging` compose, status, inbox, outbox, diagnostics, and
     message detail (P060-015 `done`). Solution 019 (`Orbiplex
@@ -948,8 +948,7 @@ artifact and what is still missing.
 
 - **Step 11 — Marcin's middleware stores the message:** `[done]`
   - Closest artifacts: Solution 027 messaging service has the full
-    stratified-storage spine in place — Maildir message and draft
-    storage, SQLite with `PRAGMA user_version` migrations, kind-specific
+    stratified-storage spine in place — Maildir message and outbox body storage, SQLite with `PRAGMA user_version` migrations, kind-specific
     Layer 3 fact artifacts written through `memarium.write`, pending
     fact replay, retention/crisis fact endpoints, revocation-triggered
     `messaging.passport-revoked.v1` writes, and a `reindex` flow that
@@ -1180,7 +1179,7 @@ Already done:
   [Solution 027 Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md),
   P060-005)
 - `messaging-core` and `messaging-service` crates with outbound enqueue,
-  outbox, retry, process, Maildir drafts, and `/admin/messaging` compose
+  outbox, retry, process, Maildir outbox body storage, and `/admin/messaging` compose
   surface (P060-013 `done`, P060-015 `done`)
 - outbound queue state machine including `waiting-for-contact-permission`
   and `ready-for-delivery` (P060-010 `done`)
@@ -1323,7 +1322,7 @@ Already done:
 
 - Solution 027 (Messaging Middleware) solution doc + capability sidecar
   (P060-005)
-- Layer 1 Maildir body store + drafts under
+- Layer 1 Maildir body store + outbox body files under
   `<node-data-dir>/storage/messaging/...` (P060-013 `done`)
 - Layer 2 middleware-owned SQLite operational index with
   `PRAGMA user_version` migrations, `reindex` endpoint doing remote

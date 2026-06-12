@@ -125,11 +125,13 @@ Status:
 
 - `done` — Node `contact-catalog-service` exposes public invitation-only,
   blinded-digest and PSI-mode `POST /v1/contact-catalog/lookups`, returns
-  `contact-lookup-result.v1` with `result/routes[]` and `selected/route`, rate
-  limits by client fingerprint + digest + purpose, rejects raw handle-like
-  lookup inputs, writes redacted lookup audit without raw query values or root
-  participant ids, and exposes redacted counters/recent policy events in service
-  status. Node `contact-catalog-client` is the provider-free consumer adapter:
+  `contact-lookup-result.v1` with `result/routes[]`, optional `route/id`
+  mirrors, `routing-subject` / `contact-nym` / `invitation-route` / `node`
+  route candidates, and `selected/route`, rate limits by client fingerprint +
+  digest + purpose, rejects raw handle-like lookup inputs, writes redacted
+  lookup audit without raw query values or root participant ids, and exposes
+  redacted counters/recent policy events in service status. Node
+  `contact-catalog-client` is the provider-free consumer adapter:
   it performs bounded HTTP lookups and parses canonical `contact-lookup-result.v1`
   without owning provider admission, provider sync, or storage. The daemon uses
   that client for AD `contact-lookup` and exposes the same consumer path as

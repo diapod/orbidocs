@@ -313,7 +313,8 @@ contact-lookup-result.v1
   lookup/mode                  # invitation-only | blinded-digest | psi
   match/class                  # invitation-available | ambiguous | no-match | policy-denied | rate-limited
   result/routes[]
-    route/type                 # routing-subject | contact-nym | invitation-route
+    route/type                 # routing-subject | contact-nym | invitation-route | node
+    route/id?                  # stable route mirror for local UI/forms
     routing-subject/id?
     contact-nym/id?
     node/id?
@@ -838,7 +839,7 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | ID | Feature | Status | Evidence |
 |---|---|---|---|
 | P058-001 | `contact-claim.v1` schema (fields per §4, signing key class decision, route-set v1) | done | `doc/schemas/contact-claim.v1.schema.json` defines the canonical route-set contract with ordered `owner/routes[]`. The earlier route-candidate v1 draft was replaced before public freeze and is not a supported public contract. MVP signer rule is frozen in the 2026-05-16 decisions; canonical v1 keeps the current participant-signature domain until the proof contract carries an explicit domain. |
-| P058-002 | `contact-lookup-result.v1` schema (fields per §5, route-set v1) | done | `doc/schemas/contact-lookup-result.v1.schema.json` defines the active route-set result with `result/routes[]` and `selected/route`. The earlier route-candidate v1 draft was replaced before public freeze and is not a supported public contract. |
+| P058-002 | `contact-lookup-result.v1` schema (fields per §5, route-set v1) | done | `doc/schemas/contact-lookup-result.v1.schema.json` defines the active route-set result with `result/routes[]`, optional `route/id` mirrors for local UI/forms, `node` route candidates, and `selected/route`. The earlier route-candidate v1 draft was replaced before public freeze and is not a supported public contract. |
 | P058-003 | `contact-catalog` capability id and minimal profile registered in the Capability Registry | done | `contact-catalog` is registered in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md` / `.pl.md` with wire name `role/contact-catalog`. |
 | P058-004 | `catalog_kind: contact` registration through the existing `catalog_endpoints` plug-in pattern | done | Node `contact-catalog-service` issues a daemon-managed `contact-catalog` passport with `catalog_kind = "contact"`, `catalog_endpoints`, `lookup_modes = ["invitation-only", "blinded-digest", "psi"]`, and schema refs for `contact-claim.v1` / `contact-lookup-result.v1`. Daemon `/v1/contact-catalog/status` proxies service state, `/admin/contact-catalog` exposes discovered providers and provider trust controls, and Story 010 strict smoke discovers the provider through Seed Directory before lookup. |
 | P058-005 | Contact Catalog admission policy (attestation freshness, signature, expiry, purpose allowlist, TTL recommendation) | done | Node `contact-catalog-core` validates canonical route-set `contact-claim.v1`, verifies participant/delegated participant claim signatures, rejects node-only signatures, requires first-class `email-control@v1` / `phone-control@v1` `capability-passport.v1` profiles, checks passport signatures, expiry, profile match, and revocation freshness. |

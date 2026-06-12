@@ -38,7 +38,7 @@
    :responsibilities
    ["Expose authenticated status, inbound accept, outbound queue, mailbox, message, retry, process, pending-fact replay, retention, crisis, and reindex endpoints"
     "Store Layer 1 message bodies in Maildir and Layer 2 indexes in SQLite"
-    "Keep outbound bodies as Maildir draft records instead of long SQLite text"
+    "Keep outbound bodies as Maildir outbox body files instead of long SQLite text"
     "Fail closed against receiver-side revocation snapshots before persisting inline messaging-receive passports"
     "Enforce recorded-message lineage before Maildir write"
     "Best-effort store recorded message envelopes through agora.vault.put with visible vault status"
@@ -204,7 +204,7 @@
   "Pseudonym Vault recovery mirror capability"]
 
  :produces
- ["Maildir message and draft files"
+ ["Maildir message and outbox body files"
   "SQLite mailbox and outbox indexes"
   "local contact continuity projections"
   "messaging.passport-issued.v1 facts"

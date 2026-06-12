@@ -80,7 +80,12 @@
       "properties": {
         "route/type": {
           "type": "string",
-          "enum": ["routing-subject", "contact-nym", "invitation-route"]
+          "enum": ["routing-subject", "contact-nym", "invitation-route", "node"]
+        },
+        "route/id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable route identifier mirror for clients that need to carry the selected route through local UI forms. Typed identifiers remain authoritative when present."
         },
         "routing-subject/id": {
           "type": "string",
@@ -133,6 +138,13 @@
             "required": ["route/type"]
           },
           "then": { "required": ["invitation/ref", "node/id"] }
+        },
+        {
+          "if": {
+            "properties": { "route/type": { "const": "node" } },
+            "required": ["route/type"]
+          },
+          "then": { "required": ["node/id"] }
         }
       ]
     }
