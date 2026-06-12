@@ -47,12 +47,23 @@ storage/messaging/
   index.sqlite
   maildir/
     <mailbox-id>/{tmp,new,cur}
-    drafts/{tmp,new,cur}
+    outbox/body/{tmp,new,cur}
+  projections/maildir-eml/
+    .orbiplex-projection
+    <mailbox-id>/{tmp,new,cur}
 ```
 
-Outbound compose writes the body to the `drafts` Maildir before queueing the
-Layer 2 row. SQLite stores the digest, size, routing metadata, state, host
-delivery ids, retry diagnostics, and draft path.
+Outbound compose writes a native Orbiplex EML profile v1 file under
+`maildir/outbox/body/` before queueing the Layer 2 row. SQLite stores the
+digest, size, routing metadata, state, host delivery ids, retry diagnostics,
+and EML path. The body digest and size remain computed over the EML body
+bytes, not over the full RFC 5322 container.
+
+Inbound accepted `message-envelope.v1` artifacts remain canonical signed JSON
+under `<mailbox-id>/new/*.json`. The service also writes a regenerable EML
+sidecar projection under `projections/maildir-eml/` for MUA/import tooling;
+deleting that projection loses no authority state because `reindex` rebuilds
+it from the canonical Maildir JSON.
 
 ## Outbound Processor
 
