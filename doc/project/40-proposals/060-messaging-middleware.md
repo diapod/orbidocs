@@ -286,6 +286,65 @@ The bounding rule, in one line:
 > Layer 2. If it is a user-or-policy decision with non-zero audit
 > weight, it goes to Layer 3. Bodies stay in Layer 1.
 
+### 2.1 Mailbox and Conversation Read Models
+
+The canonical mailbox store remains the messaging-service Maildir plus
+SQLite index. User-facing conversation views, including the contact chat
+modal in Node UI, are read models over the same substrate; they are not a
+second message store and they do not alter transport or admission.
+
+The contact conversation read model is intentionally UI-neutral:
+
+- derive an identity-key set from the selected local contact record
+  (public handle, routing subject, contact nym, participant id, node id
+  when present);
+- list bounded inbound mailbox rows and bounded outbound outbox rows;
+- normalize both row shapes before filtering, because mailbox rows and
+  outbox rows are not symmetric;
+- match only exact canonical route keys. Labels, display names, and fuzzy
+  comparisons are never identity evidence;
+- merge, sort by `(sent/at, envelope/id)`, and window the result;
+- hydrate text bodies through bounded body-read endpoints that verify
+  `body/size` and `body/sha256` before rendering.
+
+The body-read surfaces are local/operator HTTP views, not wire artifacts:
+
+```text
+GET /v1/messaging/mailboxes/{mailbox_id}/messages/{envelope_id}/body
+GET /v1/messaging/outbox/{envelope_id}/body
+```
+
+They return bounded metadata plus text for `text/*` bodies and never leak a
+filesystem path. Non-text, oversized, missing, or digest-mismatched bodies are
+rendered as typed placeholders/errors by the UI.
+
+Read state remains fact-based. Opening or refreshing a conversation is
+effect-free. Marking messages as read is a separate command that recomputes the
+conversation membership, intersects submitted message ids with unread inbound
+rows actually visible in that conversation, and then writes `messaging.flag.v1`
+facts idempotently. The contact rail unread count is derived from the existing
+mailbox aggregation; there is no separate counter state.
+
+Live refresh is an invalidation mechanism. The daemon publishes an id-only
+`messaging-mailbox-changed` SSE event after successful mutating messaging
+proxy calls, and Node UI re-fetches through authenticated HTTP. Message content
+never appears in SSE frames, logs, or diagnostics.
+
+Planned hardening stays below this contract:
+
+- extract route-key handling into a pure shared module used by send,
+  add-contact, and conversation filtering, with regression tests proving that a
+  sendable contact's keys intersect with the recipient shape produced by
+  compose;
+- add a dedicated messaging-service conversation SQL query only if profiling
+  shows UI-side filtering is hot;
+- add a redacted `trace-delivery --envelope-id` diagnostic that correlates
+  outbox state, body metadata, AD delivery ledger, INAC/passport decisions, and
+  conversation route-key matching without printing message bodies;
+- validate stored passports on authority read paths such as
+  `capability.passport.lookup`, so malformed pre-release or obsolete active
+  passport rows fail closed with stable data-quality diagnostics.
+
 ### 3. `message-envelope.v1` Artifact
 
 The wire envelope carrying a personal message between nodes:

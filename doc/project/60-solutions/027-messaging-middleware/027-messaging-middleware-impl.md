@@ -65,6 +65,51 @@ sidecar projection under `projections/maildir-eml/` for MUA/import tooling;
 deleting that projection loses no authority state because `reindex` rebuilds
 it from the canonical Maildir JSON.
 
+## Contact Conversation Read Model
+
+The Node UI contact chat modal is a read model over existing service surfaces,
+not a message store. The backend derives a local contact identity-key set from
+handle, routing-subject, contact-nym, participant, and node references already
+present on the local contact record. It then lists bounded inbound mailbox rows
+and outbound outbox rows, normalizes their asymmetric shapes, filters by exact
+canonical route-key intersection, sorts by `(sent/at, envelope/id)`, and
+hydrates only the bounded rendered window.
+
+Body hydration uses the local body endpoints for mailbox and outbox rows. Those
+endpoints verify size and digest before returning text and never return
+filesystem paths. Non-text, oversized, missing, or digest-mismatched bodies are
+reported as placeholders or typed error rows in the UI.
+
+The modal is effect-free on read. Mark-as-read is a separate CSRF-protected
+command that recomputes the conversation, intersects submitted ids with visible
+unread inbound rows, and writes `messaging.flag.v1` facts idempotently. Live
+refresh uses id-only `messaging-mailbox-changed` SSE as an invalidation signal
+plus notification/polling fallbacks; message content is read only through the
+authenticated HTTP surfaces.
+
+Deferred hardening is explicit: route-key extraction should become a small
+pure module shared by send/add-contact/history filtering; a service-side
+conversation query should replace UI-side filtering only if profiling shows the
+bounded list path is hot; a redacted `trace-delivery --envelope-id` diagnostic
+should correlate outbox, AD, INAC/passport, and route-key decisions; and
+authority read paths should revalidate stored passports before treating a cached
+row as usable.
+
+## MUA Profile
+
+Operators may inspect local message history with a standard MUA through the
+Orbiplex EML profile. Point the MUA at the disposable
+`storage/messaging/projections/maildir-eml/` tree for inbound mailboxes and at
+`storage/messaging/maildir/outbox/body/` for outbox body records. The inbound
+projection may be deleted and rebuilt by `reindex`; the canonical inbound
+authority is still the signed JSON Maildir under `storage/messaging/maildir`.
+Outbox `.eml` files are durable local records and carry enough
+`X-Orbiplex-*` headers to reconstruct outbox rows when SQLite is absent.
+Reindex reports `outbox/recovered` ids and `outbox/errors` per-file failures;
+malformed outbox EML does not abort the whole rebuild. A recovered outbox file
+with no recipient route and no recipient handle is fail-closed as
+`failed-terminal` with `last_error = "recovered without addressing"`.
+
 ## Outbound Processor
 
 `POST /v1/messaging/outbox/process` runs a bounded deterministic batch. The

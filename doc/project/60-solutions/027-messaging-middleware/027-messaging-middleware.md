@@ -299,6 +299,26 @@ corresponding `messaging-receive@v1` passport.
 or the local read UX state; it does not mutate messaging-domain consent or
 delivery state.
 
+The user contact chat modal is a narrow read-model over the same mailbox and
+outbox stores. It derives route keys from the selected local contact, normalizes
+inbound and outbound rows before matching, and only matches exact canonical
+keys. Human labels and display names are presentation data, not identity
+evidence. The modal fetches at most a bounded recent window, hydrates text
+bodies through the bounded body endpoints, and renders non-text, oversized,
+missing, or digest-mismatched bodies as placeholders or typed error rows.
+Opening or refreshing the modal has no write effects. Read state changes only
+through the explicit mark-read command, which recomputes conversation
+membership and writes `messaging.flag.v1` facts for visible unread inbound
+messages. `messaging-mailbox-changed` SSE carries only id-like invalidation
+data; the UI then re-reads through authenticated HTTP and preserves the composer
+while swapping the history fragment.
+
+For operator/MUA tooling, inbound signed JSON envelopes remain the authority.
+The `projections/maildir-eml/` tree is a disposable Maildir projection marked
+with `.orbiplex-projection`; a MUA may rename files or set Maildir flags there
+without mutating canonical messaging state. Outbox bodies are native Orbiplex
+EML profile v1 files and can be used for outbox recovery during `reindex`.
+
 ## Implementation Tracker
 
 | ID | Feature | Status | Evidence |
