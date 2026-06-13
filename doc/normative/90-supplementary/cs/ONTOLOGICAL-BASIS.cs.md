@@ -339,7 +339,9 @@ obětuje orgány, celek přestává dobře fungovat. Ekonomika aktérské vzáje
 tak doktrínou rozdělování, jako spíše přirozeným důsledkem hygieny vrstev: dbá o to, aby
 nižší vrstva aktérství zůstala živá a vyšší jí sloužily, místo aby ji nahrazovaly.
 
-## Nejbližší filosofické tradice
+## Související proudy a tradice
+
+### Nejbližší filosofické tradice
 
 Pro čtenáře, kteří chtějí výše uvedené postuláty zasadit do známé krajiny:
 
@@ -370,7 +372,7 @@ systémovou sílu. Toto spojení je specifické pro projekt DIA/Orbiplex a vyrů
 z praxe na průsečíku softwarového inženýrství, bezpečnosti systémů a kontemplativní
 introspekce.
 
-## Nejbližší tradice informační architektury
+### Nejbližší koncepce informační architektury
 
 Pro čtenáře, kteří chtějí výše uvedené důsledky pro systém zpracování informací zasadit do
 známé krajiny systémového inženýrství:
@@ -407,7 +409,7 @@ odpovědnost. Identifikátor je úchyt, nikoli esence; typ je lokální kontrakt
 metafyzika; událost je stopa procesu, nikoli absolutní pravda; modul je role v toku, nikoli
 substance.
 
-## Nejbližší ekonomické tradice
+### Nejbližší ekonomické směry
 
 Pro čtenáře, kteří chtějí ekonomiku aktérské vzájemnosti zasadit do známé krajiny
 ekonomického myšlení:

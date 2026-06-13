@@ -240,42 +240,43 @@ When the enactive and processual approach is stratified into a working system, w
 get more than deferred data processing. We get a design discipline in which
 concretization is conscious and local.
 
-1. **Contracts instead of premature classes of entities.** First we ask: "what
-   transition, permission, observation, or decision is happening here?", and only
-   then: "does this need a type?". This leads to small artifacts at the
-   communication level and thin interfaces.
+1. **Contracts instead of premature classes of entities.**  
+   First we ask: "what transition, permission, observation, or decision is happening
+   here?", and only then: "does this need a type?". This leads to small artifacts at
+   the communication level and thin interfaces.
 
-2. **Identity as a handle, not an essence.** An `id` does not say what something
-   "really is". It is a stable point of correlation in a process. Meaning lives
-   in the layer, history, contract, and current context.
+2. **Identity as a handle, not an essence.**  
+   An `id` does not say what something "really is". It is a stable point of
+   correlation in a process. Meaning lives in the layer, history, contract, and
+   current context.
 
-3. **Modules as roles in a flow, not ontological substances.** A component should
-   not need to know that it is talking to "this concrete thing" when a behavior
-   contract is enough. This protects against coupling.
+3. **Modules as roles in a flow, not ontological substances.**  
+   A component should not need to know that it is talking to "this concrete thing"
+   when a behavior contract is enough. This protects against coupling.
 
-4. **Layer boundaries as boundaries of meaning.** The same event can have a
-   different projection in different layers. A low layer sees bytes, a higher
-   layer sees a decision, and an even higher layer sees a social fact. The error
-   begins when one layer steals the ontology of another.
+4. **Layer boundaries as boundaries of meaning.**  
+   The same event can have a different projection in different layers. A low layer
+   sees bytes, a higher layer sees a decision, and an even higher layer sees a social
+   fact. The error begins when one layer steals the ontology of another.
 
-5. **Boundary validation as a ritual of concretization.** Data flows as
-   potentially richer and looser, but at the boundary of a concrete contract we
-   say: "here, for this operation, we accept this shape". This is healthy
+5. **Boundary validation as a ritual of concretization.**  
+   Data flows as potentially richer and looser, but at the boundary of a concrete
+   contract we say: "here, for this operation, we accept this shape". This is healthy
    concretization, not premature concretization.
 
-6. **Polymorphism and dispatch as deliberate postponement of decisions.** We do
-   not freeze "who will perform" inside a data structure if the proper place for
-   the decision comes later: at the context, capability, profile, evaluator,
+6. **Polymorphism and dispatch as deliberate postponement of decisions.**  
+   We do not freeze "who will perform" inside a data structure if the proper place
+   for the decision comes later: at the context, capability, profile, evaluator,
    registry, or passport verifier.
 
-7. **Events and facts instead of mutating things.** Append-only facts fit the
-   process well: we record what happened instead of pretending that we have one
-   durable thing that simply "changed state".
+7. **Events and facts instead of mutating things.**  
+   Append-only facts fit the process well: we record what happened instead of
+   pretending that we have one durable thing that simply "changed state".
 
-8. **Architecture less vulnerable to naming hypnosis.** In systems, a name often
-   creates a false substance: User, Agent, Passport, Connector, Account. The
-   processual question is: "what processes and relations does this name only
-   locally abbreviate?".
+8. **Architecture less vulnerable to naming hypnosis.**  
+   In systems, a name often creates a false substance: User, Agent, Passport,
+   Connector, Account. The processual question is: "what processes and relations does
+   this name only locally abbreviate?".
 
 We recognize that we are susceptible to premature concretization, and knowing
 this, we can build systems that adapt to this property of our organisms and
@@ -306,7 +307,7 @@ responsibility, and exchange. This is not a doctrine glued onto the ontology —
 from it in the same way that the discipline of information processing follows from the
 refusal of premature concretization.
 
-1. **Property is not a substance, but an operational name for a relation.**
+1. **Property is not a substance, but an operational name for a relation.**  
    The same refusal of reification that does not let an `id` declare what something
    "really is" also does not let a title of property declare "whose something always is".
    The first question is not "who has it?", but: who uses it, who bears the consequences,
@@ -316,7 +317,7 @@ refusal of premature concretization.
    participation, responsibility, and the right of exit, not a metaphysical title of
    domination.
 
-2. **Personal property is an organ of the person, not a resource of the organism.**
+2. **Personal property is an organ of the person, not a resource of the organism.**  
    From enactive participation it follows that the body, tools, data, keys, local memory,
    AI agents, and working environment are not "resources" whose owner would be a superior
    subject — a corporation, a state, or a collective. They are an extension of the
@@ -325,7 +326,7 @@ refusal of premature concretization.
    every form of associated property.
 
 3. **Higher forms of property grow out of personal relations of agency; they do not stand
-   above them.**
+   above them.**  
    In stratification, the concretes of lower layers become the building material of higher
    ones, and the higher cannot detach from the foundation. Transferred to property, this
    means that capital, organizational, communal, institutional, and state property are
@@ -338,7 +339,7 @@ refusal of premature concretization.
    person and the small community handle themselves.
 
 4. **A badly set gradient of incentives distorts intentions even without ill will, so the
-   economy aims at agency, not accumulation.**
+   economy aims at agency, not accumulation.**  
    Since a funding structure that rewards profit can distort intentions without an overt
    will to harm, the goal of the internal economy cannot be the endless multiplication of
    resources, but the sustaining of the capacity to act. An advantage should not turn into
@@ -346,14 +347,14 @@ refusal of premature concretization.
    exchange not converted into reputation, and the market treated as a protocol, not as a
    god.
 
-5. **Gift and exchange are two modes, neither of which appropriates the whole.**
+5. **Gift and exchange are two modes, neither of which appropriates the whole.**  
    Gift is the default mode of help, and voluntary exchange an explicit contractual
    service. Reducing the whole economy to gift exploits altruism; reducing it to the
    market dissolves the ethos of community. That is why the name carries "reciprocity":
    exchange, contract, and remuneration exist, but do not become the ontology of the world
    or a source of status and power.
 
-6. **Scale weakens natural regulation, so decision stays low.**
+6. **Scale weakens natural regulation, so decision stays low.**  
    Local reputation, opinion, and personal responsibility — the natural mechanisms of
    correction — weaken as the community grows in size; large collectives must replace them
    with "prostheses" that easily detach from living users. This is another reason why
@@ -375,7 +376,9 @@ is therefore not so much a doctrine of distribution as a natural consequence of 
 hygiene of layers: it ensures that the lower layer of agency stays alive, and that the
 higher ones serve it instead of replacing it.
 
-## Closest philosophical traditions
+## Related currents and traditions
+
+### Closest philosophical traditions
 
 For the reader who wants to place the above postulates within a more familiar
 landscape:
@@ -411,7 +414,7 @@ systemic force. That combination is specific to the DIA / Orbiplex project and
 emerges from practice at the intersection of software engineering, systems
 security, and contemplative introspection.
 
-## Closest information-architecture traditions
+### Closest information-architecture concepts
 
 For the reader who wants to place the above consequences for information processing
 systems within a familiar landscape of systems engineering:
@@ -452,7 +455,7 @@ takes responsibility for them. An identifier is a handle, not an essence; a type
 local contract, not a metaphysics; an event is a trace of a process, not an absolute
 truth; a module is a role in a flow, not a substance.
 
-## Closest economic traditions
+### Closest economic directions
 
 For the reader who wants to place the economy of agentic mutuality within a familiar
 landscape of economic thought:
