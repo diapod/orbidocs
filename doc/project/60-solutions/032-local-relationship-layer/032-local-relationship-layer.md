@@ -203,7 +203,10 @@ It creates or reuses a local routing subject for contactability. A pairwise nym
 binding is created when a contact request or relationship is accepted, with
 `context/kind = messaging` and a contact-scoped context. The MVP default is one
 pairwise nym per accepted contact; per-thread nyms remain a post-MVP privacy
-layer.
+layer. Messaging treats that pairwise nym as the preferred per-contact receiver
+subject. Transport delivery may still resolve it through a private binding or
+projection to a node or routing subject; a separate per-contact routing subject
+is a fallback receive-route profile, not the default relationship identity.
 
 ### Relationship-derived policy
 

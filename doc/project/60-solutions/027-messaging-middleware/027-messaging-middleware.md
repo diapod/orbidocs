@@ -116,6 +116,13 @@ routes, but it does not automatically carry pairwise contact-nym, relationship,
 reputation, or recovery semantics. Those semantics are added only by an
 explicit binding/profile or by Local Relationship state.
 
+The preferred private post-accept receiver subject is the pairwise
+`contact-nym` created for the accepted messaging relationship. Its transport
+reachability is resolved through a private binding or projection to node or
+routing-subject delivery targets, without exposing a root participant id. A
+dedicated per-contact routing subject is only the fallback receive-route
+profile when `contact-nym` delivery is not available.
+
 The passport may be presented inline or by reference, but the service never
 owns private keys and never mints the passport directly.
 

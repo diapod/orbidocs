@@ -451,7 +451,13 @@ Three properties of this profile matter:
    routing nym at the transport/application boundary, but it is not
    automatically a participant nym or pairwise contact nym. It gains fuller
    nym semantics only through an explicit profile, binding, or Local
-   Relationship mapping that says so.
+   Relationship mapping that says so. When a pairwise `contact-nym` exists for
+   an accepted messaging contact, it is the preferred per-contact receiver
+   subject. Its transport reachability is provided by a private binding or
+   projection to a concrete node/routing-subject target; it must not require
+   returning a root participant id. A dedicated per-contact `routing:did:key:...`
+   receiver route is therefore a fallback profile for deployments where
+   `contact-nym` routing is not available, not a parallel requirement.
 2. `scope.sender` may be a participant (most stable) or a nym
    (privacy-preserving). Nym rotation is supported through the
    `key-delegation.v1` grant label defined below.
