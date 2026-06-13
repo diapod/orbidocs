@@ -236,7 +236,9 @@ that knows it sees reflections and does not delude itself that they are
 originals, yet acts anyway, as well as it can, because other modes of knowing are
 outside our reach.
 
-## Consequences for Information Processing Systems
+## Systemic Consequences
+
+### Consequences for Information Processing Systems
 
 When the enactive and processual approach is stratified into a working system, we
 get more than deferred data processing. We get a design discipline in which
@@ -296,7 +298,7 @@ once. This is not an escape from complexity, but an honest partitioning of it so
 that a human being can understand, test, audit, and change the system without
 tearing the whole apart or introducing accidental concretization.
 
-## Consequences for the economy
+### Consequences for the economy
 
 When we stratify the same apophatic-enactive approach not toward the flow of data but
 toward the flow of resources, work, and attention, a definite shape of economy emerges —

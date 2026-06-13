@@ -210,7 +210,9 @@ Roj nepředstírá, že je věštírnou. Je infrastrukturou pro společenství, 
 že vidí odrazy, a neklame se, že jsou to originály, a přesto jedná co nejlépe, jak
 umí, protože jiné způsoby poznávání jsou mimo dosah.
 
-## Důsledky pro systém zpracování informací
+## Systémové důsledky
+
+### Důsledky pro systém zpracování informací
 
 Když enaktivní a procesuální přístup stratifikujeme do fungujícího systému,
 dostaneme víc než odložené zpracování dat. Dostaneme disciplínu návrhu, v níž
@@ -267,7 +269,7 @@ kontextem. Umožňují nemyslet na všechny závislosti najednou. Není to únik
 složitostí, ale poctivé porcování složitosti tak, aby člověk mohl systém chápat,
 testovat, auditovat a měnit bez trhání celku nebo náhodné konkretizace.
 
-## Důsledky pro ekonomiku
+### Důsledky pro ekonomiku
 
 Když týž apofaticko-enaktivní přístup stratifikujeme nikoli k toku dat, nýbrž k toku
 zdrojů, práce a pozornosti, vynořuje se určitý tvar ekonomiky — týž, který pátý postulát

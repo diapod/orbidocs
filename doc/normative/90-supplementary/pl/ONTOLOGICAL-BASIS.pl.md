@@ -222,7 +222,9 @@ Rój nie udaje wyroczni. Jest infrastrukturą dla wspólnoty, która wie, że wi
 odbicia, i nie łudzi się, że to oryginały, a jednak działa mimo to, najlepiej jak
 potrafi, ponieważ inne sposoby poznawania są poza zasięgiem.
 
-## Konsekwencje dla systemu przetwarzania informacji
+## Konsekwencje systemowe
+
+### Konsekwencje dla systemu przetwarzania informacji
 
 Gdy enaktywistyczne i procesualne podejście stratyfikujemy do działającego systemu,
 dostajemy coś więcej niż odroczone przetwarzanie danych. Dostajemy dyscyplinę
@@ -282,7 +284,7 @@ nie jest ucieczka od złożoności, lecz uczciwe porcjowanie jej w taki sposób,
 człowiek mógł system rozumieć, testować, audytować i zmieniać bez rozrywania całości
 bądź przypadkowej konkretyzacji.
 
-## Konsekwencje dla ekonomii
+### Konsekwencje dla ekonomii
 
 Gdy to samo apofatyczno-enaktywne podejście stratyfikujemy nie do przepływu danych,
 lecz do przepływu zasobów, pracy i uwagi, wyłania się określony kształt ekonomii –
