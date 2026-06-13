@@ -446,7 +446,12 @@ Three properties of this profile matter:
    A profile may be route-only: `contact_nym_id` is optional and, when
    present, is a narrowing constraint that must be a `contact-nym:*` id.
    A wizard-created `routing:did:key:...` receive route does not become a
-   contact nym merely because it is used for messaging.
+   contact nym merely because it is used for messaging. In this proposal a
+   routing subject is a routable pseudonymous subject: it may behave like a
+   routing nym at the transport/application boundary, but it is not
+   automatically a participant nym or pairwise contact nym. It gains fuller
+   nym semantics only through an explicit profile, binding, or Local
+   Relationship mapping that says so.
 2. `scope.sender` may be a participant (most stable) or a nym
    (privacy-preserving). Nym rotation is supported through the
    `key-delegation.v1` grant label defined below.

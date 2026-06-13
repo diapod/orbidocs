@@ -110,6 +110,12 @@ Binding has verified the passport signature and freshness:
   profiles for a `routing:did:key:...` receiver intentionally omit it;
 - the purpose must include `messaging`.
 
+For this solution, a routing subject is a routable pseudonymous subject rather
+than a full participant nym. It can act as a routing nym for delivery and reply
+routes, but it does not automatically carry pairwise contact-nym, relationship,
+reputation, or recovery semantics. Those semantics are added only by an
+explicit binding/profile or by Local Relationship state.
+
 The passport may be presented inline or by reference, but the service never
 owns private keys and never mints the passport directly.
 
