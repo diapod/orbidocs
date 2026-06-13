@@ -116,6 +116,30 @@ parallel tracks so wealth cannot become power and poverty cannot strip agency.
 Service exchange is a practical dimension of swarm reciprocity, but not its core;
 that core remains collective intelligence and support for human flourishing.
 
+## Property as Process, Not Title
+
+What we described operationally above — gift and voluntary exchange, credits that do
+not mix with reputation, sufficiency over accumulation — has one coherent shape. We
+call it the **economy of agentic mutuality**. Its core is simple: property is not an
+absolute substance or a title of domination, but a relation of participation bounded by
+contract, responsibility, and the right of exit — the question "who uses it, who bears
+the consequences, who has the right to leave", not "whose is it really".
+
+Hence a clear ordering. Personal property — body, data, keys, local memory, tools,
+agents, working environment — is an extension of the person's process, so it has
+priority of protection. Capital, organizational, communal, institutional, and state
+forms are higher layers: they must be legitimized by living relations of use, work,
+responsibility, and consent. Neither a corporation, an office, nor a collective stands
+above the relation of agentic use-right. We call this principle of service
+**agentic subsidiarity**.
+
+Figuratively: a healthy organism needs healthy organs; no organ should waste resources
+or try to replace another. We accept neither a model in which the title of capital
+takes precedence over the agency of persons, nor a model in which the state or the
+collective is reified as a higher subject able to replace living users. The full
+derivation of this principle from ontological assumptions is described in [Ontological
+Basis](../90-supplementary/en/ONTOLOGICAL-BASIS.en.md#consequences-for-the-economy).
+
 ## The Problem We Address
 
 ### Imbalance of Power

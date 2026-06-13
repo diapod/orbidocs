@@ -152,7 +152,7 @@ spolupráce. Hodnota multiparadigmatismu – svět není jedna ontologie; systé
 mnoho poznávacích režimů bez ideologické války. Hodnota anti-sektářství – projekt
 volí hygienu místo kultu.
 
-### 5. Intence jako systémová síla
+### Intence jako systémová síla
 
 Intence není morální nálepka, ale vektor organizující systém – analogicky ke směru
 ve fyzice. Působí vždy, bez ohledu na to, zda je uvědomovaná: konstrukce financování,
@@ -197,7 +197,7 @@ kontrakty a datová schémata:
   multiparadigmatismus, pluralismus, anti-sektářství;
 
 * postulát 5 (intence jako systémová síla):  
-  transparentnost schopnosti jednat, ekonomika reciprocity, epistemická odvaha.
+  transparentnost schopnosti jednat, ekonomika aktérské vzájemnosti, epistemická odvaha.
 
 V praxi to znamená jediné návrhové kritérium: **architektura má podporovat vědomé
 přebývání v interpretaci** – se smyčkami korekce, odmítnutím reifikace pravdy jako
@@ -265,6 +265,80 @@ kontextem. Umožňují nemyslet na všechny závislosti najednou. Není to únik
 složitostí, ale poctivé porcování složitosti tak, aby člověk mohl systém chápat,
 testovat, auditovat a měnit bez trhání celku nebo náhodné konkretizace.
 
+## Důsledky pro ekonomiku
+
+Když týž apofaticko-enaktivní přístup stratifikujeme nikoli k toku dat, nýbrž k toku
+zdrojů, práce a pozornosti, vynořuje se určitý tvar ekonomiky — týž, který pátý postulát
+ohlašoval jako *vzájemnost bez účetnictví*, avšak pojmenovaný plněji.
+
+Není to ani kult trhu, ani jeho zrušení, nýbrž **ekonomika aktérské vzájemnosti**
+(*economy of agentic mutuality*): řád, v němž se vlastnictví stává vrstveným protokolem
+aktérství, užívání, odpovědnosti a výměny. Není to doktrína přilepená k ontologii —
+vyplývá z ní stejně jako disciplína zpracování informací vyplývá z odmítnutí předčasné
+konkretizace.
+
+1. **Vlastnictví není substance, nýbrž operační název vztahu.**
+   Totéž odmítnutí reifikace, které nedovolí, aby `id` určovalo, čím něco „opravdu je“,
+   nedovolí ani titulu vlastnictví určovat, „čí něco vždy je“. První otázka nezní „kdo
+   má?“, nýbrž: kdo užívá, kdo nese důsledky, kdo to potřebuje k přežití, podle jakého
+   kontraktu a s jakým právem odejít. Takto chápaný vztah nazýváme **vztahem aktérského
+   užívání** (*agentic use-right*): vlastnictví není popřeno, ale akcent se přesouvá na
+   jeho funkci — na lokálně určený kontrakt účasti, odpovědnosti a práva odejít, nikoli na
+   metafyzický titul nadvlády.
+
+2. **Osobní vlastnictví je orgánem osoby, nikoli zdrojem organismu.**
+   Z enaktivní účasti plyne, že tělo, nástroje, data, klíče, lokální paměť, agenti AI a
+   pracovní prostředí nejsou „zdroje“, jejichž vlastníkem by měl být nadřazený subjekt —
+   korporace, stát či kolektiv. Jsou prodloužením procesu osoby. Jelikož největší moc
+   systému prochází člověkem, osobní vlastnictví, jakožto prodloužení jeho aktérství, má
+   přednost ochrany před každou formou sdruženého vlastnictví.
+
+3. **Vyšší formy vlastnictví vyrůstají z osobních vztahů aktérství; nestojí nad nimi.**
+   Ve stratifikaci se konkréta nižších vrstev stávají stavebním materiálem vyšších a vyšší
+   se nesmějí odlepit od základu. Přeneseno na vlastnictví to znamená, že kapitálové,
+   organizační, komunitní, institucionální a státní vlastnictví jsou vyššími abstrakty,
+   které musí být legitimizovány živými vztahy užívání, práce, odpovědnosti a souhlasu — a
+   tuto závislost dědí. Chyba začíná tam, kde jedna vrstva „krade“ ontologii druhé: když si
+   fond, úřad, společnost, platforma či kolektiv nárokuje moc silnější než živý vztah
+   užívání, práce a odpovědnosti. Zásadu, která tomu předchází, nazýváme **aktérskou
+   subsidiaritou** (*agentic subsidiarity*): vyšší vrstva působí vůči nižší pomocně a nikdy
+   nenahrazuje to, co osoba a malé společenství zvládají samy.
+
+4. **Špatně nastavený gradient pobídek pokřivuje intence i bez zlé vůle, takže ekonomika
+   míří k aktérství, nikoli k akumulaci.**
+   Jelikož konstrukce financování odměňující zisk dokáže pokřivit intence i bez zjevné vůle
+   ublížit, cílem vnitřní ekonomiky nemůže být nekonečné rozmnožování zdrojů, nýbrž
+   udržování schopnosti jednat. Převaha by se neměla měnit v trvalou nadvládu nad
+   ekosystémem. Odtud „dostatek nad akumulací“, prostředky výměny nepřepočítávané na
+   reputaci a trh chápaný jako protokol, nikoli jako bůh.
+
+5. **Dar a výměna jsou dva režimy, z nichž žádný si nepřivlastňuje celek.**
+   Dar je výchozím režimem pomoci, dobrovolná výměna pak zjevnou kontraktovou službou.
+   Redukce celé ekonomiky na dar vykořisťuje altruismus; redukce na trh rozkládá étos
+   společenství. Proto v názvu stojí „vzájemnost“: výměna, kontrakt a odměna existují, ale
+   nestávají se ontologií světa ani zdrojem statusu a moci.
+
+6. **Měřítko oslabuje přirozenou regulaci, takže rozhodnutí zůstává nízko.**
+   Lokální reputace, mínění a osobní odpovědnost — přirozené mechanismy korekce — slábnou s
+   růstem početnosti společenství; velké kolektivy je musí nahrazovat „protézami“, které se
+   snadno odlepují od živých uživatelů. To je další důvod, proč subsidiarita drží rozhodnutí
+   co nejblíže osobě a malému společenství, namísto vynášení k abstraktnímu centru, jež
+   vyžaduje abstraktní mechanismy regulace nahrávající byrokracii a vyhýbání se
+   odpovědnosti.
+
+Jde vědomě o „střední cestu“, v témže smyslu, v němž madhjamaka odmítá krajnosti existence
+a neexistence. Nepřijímáme ani model, v němž má titul kapitálu přednost před relačním
+aktérstvím osob, ani model, v němž je stát či kolektiv reifikován jako vyšší subjekt
+schopný nahradit živé uživatele.
+
+Výše uvedené nejstručněji vystihuje metafora organismu. Zdravý organismus potřebuje zdravé
+orgány a žádný by neměl plýtvat zdroji ani se pokoušet nahradit jiný. V této analogii je
+osobní vlastnictví orgánem — zdrojovým a chráněným; kapitálové, organizační, komunitní,
+institucionální a státní formy jsou soustavami tohoto organismu. Když některá soustava
+obětuje orgány, celek přestává dobře fungovat. Ekonomika aktérské vzájemnosti tedy není ani
+tak doktrínou rozdělování, jako spíše přirozeným důsledkem hygieny vrstev: dbá o to, aby
+nižší vrstva aktérství zůstala živá a vyšší jí sloužily, místo aby ji nahrazovaly.
+
 ## Nejbližší filosofické tradice
 
 Pro čtenáře, kteří chtějí výše uvedené postuláty zasadit do známé krajiny:
@@ -295,3 +369,71 @@ v poli pozornosti, detronizaci intelektu jako podmínku spolupráce a intenci ja
 systémovou sílu. Toto spojení je specifické pro projekt DIA/Orbiplex a vyrůstá
 z praxe na průsečíku softwarového inženýrství, bezpečnosti systémů a kontemplativní
 introspekce.
+
+## Nejbližší tradice informační architektury
+
+Pro čtenáře, kteří chtějí výše uvedené důsledky pro systém zpracování informací zasadit do
+známé krajiny systémového inženýrství:
+
+**Vrstvený návrh / stratified design** (Abelson, Sussman) – systém je uspořádáním
+následných vrstev abstrakce, v nichž má každá vrstva vlastní jazyk, primitiva a způsoby
+skládání. Náš přístup sdílí tento důraz na vrstvenost, ale přidává ontologické kritérium:
+hranice vrstev jsou rovněž hranicemi smyslu. Vyšší vrstva by neměla krást ontologii nižší a
+nižší by neměla předstírat, že vysvětluje celý smysl vrstvy vyšší.
+
+**Domain-Driven Design a bounded contexts** (Evans, Fowler) – model má lokální rozsah
+platnosti a tytéž pojmy mohou v různých kontextech znamenat něco jiného. Přístup
+DIA/Orbiplex tuto intuici rozvíjí šíře: identifikátory, typy, role agentů, fakta, události a
+oprávnění získávají smysl teprve uvnitř určeného kontraktu vrstvy. Význam není globální
+substancí, nýbrž lokálním vztahem užívání, odpovědnosti a interpretace.
+
+**Kontraktový, behaviorální a capability-based návrh** (Meyer, Liskov/Wing, Miller, Hewitt) –
+komponent není definován názvem, třídou ani deklarovanou esencí, nýbrž chováním, závazky,
+podmínkami užití a skutečnými oprávněními. Náš přístup sdílí tuto orientaci na kontrakty,
+role a schopnosti jednat, ale kontrakt nepojímá jako konečnou definici bytí, nýbrž jako
+lokální rituál konkretizace: říká, co v dané operaci uznáváme za dostatečně určené.
+
+**Event sourcing, logy faktů a neměnné architektury** (Fowler, Young) – stav systému není
+jednou substancí mutovanou na místě, nýbrž projekcí historie událostí. Přístup Orbiplexu
+sdílí tuto nedůvěru vůči magické mutaci: je lepší zapisovat stopy procesu než předstírat
+přímý přístup ke „skutečnému stavu věcí“. Append-only fakta umožňují audit, rekonstrukci,
+temporální dotazy a korekci bez vymazávání historie.
+
+Žádná z těchto tradic není totožná s naším přístupem. Nejblíže mu je k jejich průsečíku:
+vrstvený návrh, *bounded contexts*, behaviorální kontrakty, object-capabilities, model
+aktorů a *event sourcing*. Vlastní akcent Orbiplexu spočívá v tom, že tyto techniky jsou
+podřízeny jedné disciplíně: věci vznikají teprve tam, kde za ně konkrétní vrstva přebírá
+odpovědnost. Identifikátor je úchyt, nikoli esence; typ je lokální kontrakt, nikoli
+metafyzika; událost je stopa procesu, nikoli absolutní pravda; modul je role v toku, nikoli
+substance.
+
+## Nejbližší ekonomické tradice
+
+Pro čtenáře, kteří chtějí ekonomiku aktérské vzájemnosti zasadit do známé krajiny
+ekonomického myšlení:
+
+**Ekonomie společných statků a policentrické vládnutí** (Elinor Ostrom) – společné zdroje
+nemusí být odsouzeny ani k privatizaci, ani k centrální státní správě. Mohou být udržovány
+uživateli prostřednictvím lokálních pravidel, monitoringu, řešení sporů a adaptivních
+institucí. Ekonomika aktérské vzájemnosti sdílí tento důraz na společenství uživatelů,
+lokální znalost a víceúrovňové vládnutí, avšak přesouvá akcent ze samotné trvanlivosti
+zdroje na ochranu a posilování aktérství osob, uzlů a společenství.
+
+**Přístup schopností / capability approach** (Amartya Sen) – blahobyt není redukcí na
+příjem, užitek ani vlastněné zdroje, nýbrž závisí na reálných možnostech jednat a žít,
+které daná osoba může skutečně uskutečnit. Ekonomika aktérské vzájemnosti sdílí tento primát
+reálného aktérství nad abstraktním bohatstvím, avšak převádí jej do návrhu vlastnických
+vztahů, protokolů, agentů, dat a digitální infrastruktury.
+
+**Společensky zakořeněná ekonomie** (Karl Polanyi) – hospodářství není autonomním tržním
+strojem, nýbrž zůstává ponořeno ve společenských vztazích, normách, institucích a formách
+vzájemnosti. Ekonomika aktérské vzájemnosti sdílí kritiku trhu jako nadřazené ontologie
+společenského života, avšak namísto toho, aby trhu stavěla na odpor jediné politické
+centrum, navrhuje vrstvenou, federativní a auditovatelnou infrastrukturu daru, výměny,
+užívání a sdílené péče.
+
+Žádná z těchto tradic není totožná s ekonomikou aktérské vzájemnosti. Nejblíže jí je k
+jejich průsečíku: ostromovskému spoluspravování společných statků, senovskému aktérství a
+polanyiovskému zakořenění hospodářství ve společenských vztazích. Její vlastní akcent
+spočívá v tom, že vlastnictví, výměna a společné zdroje jsou pojímány jako protokoly
+posilování aktérství, nikoli jako autonomní tituly nadvlády.

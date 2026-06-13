@@ -692,6 +692,30 @@ passes.
 
 ## Swarm Community and Reciprocity Economics
 
+### Property as a Layer of Agency
+
+DIA treats property not as an absolute substance or a title of domination, but as a
+layered protocol of agency: a relation of participation bounded by contract,
+responsibility, and the right of exit. The first question is not "whose is it really?",
+but: who uses it, who bears the consequences, who needs it for survival, and with what
+right of exit they may leave the relation. We call this relation the **relation of
+agentic use-right**.
+
+Hence the priority of personal property — body, data, keys, local memory, tools,
+agents, and working environment — as an extension of the person's process; this is a
+generalization of "User and Data Sovereignty" to all expressions of human agency.
+Capital, organizational, communal, institutional, and state forms are higher layers:
+they must be legitimized by living relations of use, work, responsibility, and consent.
+The principle that a higher layer serves the lower and never replaces it we call
+**agentic subsidiarity**. Its expression in organizational order is "Scaling Through
+Local Accountability".
+
+The values of this section — gift and exchange, reciprocity, sufficiency over
+accumulation, the minimum of survival, and access without tribute — compose one derived
+whole, which we call the **economy of agentic mutuality**. Its full derivation from
+ontological assumptions is described in [Ontological Basis — Consequences for the
+economy](../90-supplementary/en/ONTOLOGICAL-BASIS.en.md#consequences-for-the-economy).
+
 ### Culture of Cooperation
 
 DIA should be infrastructure for a community of creators and users: sharing tools,

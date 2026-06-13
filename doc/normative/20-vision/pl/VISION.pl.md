@@ -114,6 +114,30 @@ aby bogactwo nie stawało się władzą, a ubóstwo nie odbierało sprawczości
 usług jest praktycznym wymiarem wzajemności roju, ale nie jego rdzeniem; ten stanowi
 kolektywna inteligencja i wspieranie człowieczeństwa.
 
+## Własność jako proces, nie tytuł
+
+To, co wyżej opisaliśmy operacyjnie — dar i dobrowolną wymianę, kredyty
+niemieszające się z reputacją, dostatek ponad akumulację — ma jeden spójny kształt.
+Nazywamy go **ekonomią sprawczej wzajemności**. Jej rdzeń jest prosty: własność nie
+jest absolutną substancją ani tytułem dominacji, lecz relacją uczestnictwa ograniczoną
+kontraktem, odpowiedzialnością i prawem wyjścia — pytaniem "kto używa, kto ponosi
+skutki, kto może odejść", a nie "czyje to naprawdę jest".
+
+Stąd wyraźna kolejność. Własność osobista — ciało, dane, klucze, lokalna pamięć,
+narzędzia, agenci, środowisko pracy — jest przedłużeniem procesu człowieka, więc ma
+pierwszeństwo ochrony. Formy kapitałowe, organizacyjne, wspólnotowe, instytucjonalne
+i państwowe są warstwami wyższymi: muszą być legitymizowane przez żywe relacje
+używania, pracy, odpowiedzialności i zgody. Ani korporacja, ani urząd, ani kolektyw
+nie stoją wyżej niż relacja sprawczego użytkowania. Zasadę tej służebności nazywamy
+**subsydiarnością sprawczości**.
+
+Obrazowo: zdrowy organizm potrzebuje zdrowych organów; żaden organ nie powinien
+marnotrawić zasobów ani próbować zastępować innego. Nie przyjmujemy ani modelu,
+w którym tytuł kapitału ma pierwszeństwo przed sprawczością osób, ani modelu, w którym
+państwo lub kolektyw zostaje zreifikowany jako wyższy podmiot zdolny zastąpić żywych
+użytkowników. Pełne wyprowadzenie tej zasady z założeń ontologicznych opisuje [Podstawa
+ontologiczna](../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md#konsekwencje-dla-ekonomii).
+
 ## Problem, na który odpowiadamy
 
 ### Nierównowaga władzy

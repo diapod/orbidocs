@@ -692,12 +692,35 @@ procedur i szacunku wobec tego, co odchodzi.
 
 ## Wspólnota roju i ekonomia wzajemności
 
+### Własność jako warstwa sprawczości
+
+DIA traktuje własność nie jako absolutną substancję ani tytuł dominacji, lecz jako
+warstwowy protokół sprawczości: relację uczestnictwa ograniczoną kontraktem,
+odpowiedzialnością i prawem wyjścia. Pierwsze pytanie nie brzmi "czyje to naprawdę
+jest?", lecz: kto używa, kto ponosi skutki, kto wymaga tego dla przetrwania i z jakim
+prawem może wyjść z relacji. Tę relację nazywamy **relacją sprawczego użytkowania**.
+
+Stąd pierwszeństwo własności osobistej — ciała, danych, kluczy, lokalnej pamięci,
+narzędzi, agentów i środowiska pracy – jako przedłużenia procesu osoby; jest to
+uogólnienie "Suwerenności użytkownika i jego danych" na wszystkie ekspresje
+sprawczości człowieka. Formy kapitałowe, organizacyjne, wspólnotowe, instytucjonalne
+i państwowe są warstwami wyższymi: muszą być legitymizowane przez żywe relacje
+używania, pracy, odpowiedzialności i zgody. Zasadę, że wyższa warstwa służy niższej
+i nigdy jej nie zastępuje, nazywamy **subsydiarnością sprawczości**. Jej wyrazem
+w ładzie organizacyjnym jest "Skalowanie przez lokalną odpowiedzialność".
+
+Wartości tej sekcji – dar i wymiana, wzajemność, dostatek ponad akumulację, minimum
+przetrwania i dostęp bez trybutu – składają się na jedną wyprowadzoną całość, którą
+nazywamy **ekonomią sprawczej wzajemności**. Jej pełne wyprowadzenie z założeń
+ontologicznych opisuje [Podstawa ontologiczna — Konsekwencje dla
+ekonomii](../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md#konsekwencje-dla-ekonomii).
+
 ### Kultura współdziałania
 
 DIA ma być infrastrukturą dla wspólnoty twórców i użytkowników: dzielenie się
-narzędziami, praktykami i perspektywami jest częścią produktu. To nie jest romantyzm,
+narzędziami, praktykami i perspektywami jest częścią produktu. To nie jest romantyzm,
 lecz strategia odporności: gdy wiedza krąży, system jest mniej kruchy, a jakość
-rośnie. Warto projektować ścieżki, w których wkład społeczności (reguły, konektory,
+rośnie. Warto projektować ścieżki, w których wkład społeczności (reguły, konektory,
 polityki, prompty, testy) jest naturalny i nagradzany uznaniem.
 
 ### Współpraca ponad dominacją intelektu
@@ -706,18 +729,18 @@ DIA zakłada, że zbyt silna identyfikacja z własnym intelektem może blokować
 współdziałanie: człowiek przywiązany do własnej mapy świata często odkłada wspólne
 działanie, dopóki inni nie uznają jego interpretacji, priorytetów lub języka opisu.
 Rój może tę dynamikę rozluźniać, przejmując część ciężaru analizy, porównywania
-hipotez, utrzymywania złożoności i pilnowania procedury.
+hipotez, utrzymywania złożoności i pilnowania procedury.
 
 Nie jest to antyintelektualizm, lecz detronizacja intelektu jako narzędzia dominacji.
 Pokora epistemiczna staje się tu praktyką operacyjną: nawet bardzo inteligentne
 jednostki mogą bez utraty twarzy delegować część rozumowania do kolektywnej
-inteligencji i oprzeć współpracę na wspólnym modelu roboczym, śladzie decyzji oraz
+inteligencji i oprzeć współpracę na wspólnym modelu roboczym, śladzie decyzji oraz
 możliwości korekty, a nie na wcześniejszym wymuszeniu zgodności poglądów.
 
-W takim odciążeniu powstaje przestrzeń dla obecności, relacji i działania
+W takim odciążeniu powstaje przestrzeń dla obecności, relacji i działania
 wspólnotowego – często niedostępna ludziom przeciążonym ciągłym przetwarzaniem
-złożoności. DIA ceni więc współpracę, w której różnica nie jest przeszkodą do ruchu,
-lecz materiałem do koordynacji, a rój pomaga ludziom wychodzić z zamknięcia "we
+złożoności. DIA ceni więc współpracę, w której różnica nie jest przeszkodą do ruchu,
+lecz materiałem do koordynacji, a rój pomaga ludziom wychodzić z zamknięcia "we
 własnej głowie" do wspólnego działania.
 
 ### Opieka i sprawiedliwość jako dwa tryby relacyjne

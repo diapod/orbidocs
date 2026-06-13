@@ -62,7 +62,7 @@ z jawnym epistemicznym ogranicznikiem i autorozpoznaniem efemeryczności, blis
 nāgārjunowskiej "pustości pustości" (*śūnyatā-śūnyatā*). Odróżnia się na przykład od
 idealizmu analitycznego (który twierdzi, że świadomość jest poznawalna jako
 fundament), od szkół, które zatrzymują się na świadomości uniwersalnej jako gruncie,
-a takze od eliminatywizmu (który twierdzi, że nie ma czego poznawać).
+a także od eliminatywizmu (który twierdzi, że nie ma czego poznawać).
 
 Dwufazowość jest bliska gendlinowskiemu *felt sense* → symbolizacja, z tą różnicą, że
 impuls poprzedza tu doświadczenie.
@@ -146,7 +146,7 @@ dopasowania systemu do życia, a nie szumem do wyciszenia.
 na brak właściwości wyższego poziomu. Redukcja działa symetrycznie: jeżeli AI "to
 tylko wagi i rachunek prawdopodobieństwa", wtedy mózg "to tylko neurony i impulsy
 elektryczne". Sekwencja pojęć próbująca orzec, że inna sekwencja pojęć jest gorsza,
-bo ma inny nośnik przypomina kserokopię próbująca wyjaśnić inną kserokopię.
+bo ma inny nośnik przypomina kserokopię próbującą wyjaśnić inną kserokopię.
 
 Myśl jest narzędziem i jako narzędzie jest pomocna. Problem zaczyna się, gdy staje
 się jedynym doradcą, nośnikiem prestiżu lub tożsamością. Intelekt potrafi równie
@@ -163,7 +163,7 @@ poglądów jako warunku wstępnego współdziałania. Wartość wieloparadygmato
 świat nie jest jedną ontologią; system trzyma wiele trybów poznawczych bez wojny
 ideologicznej. Wartość anty-sekciarstwa — projekt wybiera higienę zamiast kultu.
 
-### 5. Intencja jako siła systemowa
+### Intencja jako siła systemowa
 
 Intencja nie jest etykietą moralną, lecz wektorem organizującym system – analogicznie
 do kierunku w fizyce. Działa zawsze, niezależnie od tego, czy jest uświadomiona:
@@ -209,7 +209,7 @@ konstytucyjne, kontrakty i schematy danych:
   wieloparadygmatowość, pluralizm, anty-sekciarstwo;
 
 * postulat 5 (intencja jako siła systemowa):  
-  przejrzystość sprawczości, ekonomia wzajemności, odwaga epistemiczna.
+  przejrzystość sprawczości, ekonomia sprawczej wzajemności, odwaga epistemiczna.
 
 W praktyce oznacza to jedno kryterium projektowe: **architektura ma wspierać świadome
 zamieszkiwanie w interpretacji** – z pętlami korekty, odmową reifikacji prawdy jako
@@ -280,6 +280,90 @@ nie jest ucieczka od złożoności, lecz uczciwe porcjowanie jej w taki sposób,
 człowiek mógł system rozumieć, testować, audytować i zmieniać bez rozrywania całości
 bądź przypadkowej konkretyzacji.
 
+## Konsekwencje dla ekonomii
+
+Gdy to samo apofatyczno-enaktywne podejście stratyfikujemy nie do przepływu danych,
+lecz do przepływu zasobów, pracy i uwagi, wyłania się określony kształt ekonomii –
+ten sam, który postulat piąty zapowiadał jako *wzajemność bez księgowości*, lecz
+nazwany pełniej.
+
+Nie jest to ani kult rynku, ani jego zniesienie, lecz **ekonomia sprawczej
+wzajemności** (*economy of agentic mutuality*): porządek, w którym własność staje się
+warstwowym protokołem sprawczości, użytkowania, odpowiedzialności i wymiany. Nie jest
+to doktryna doklejona do ontologii – wynika z niej w taki sam sposób, jak dyscyplina
+przetwarzania informacji wynika z odmowy przedwczesnej konkretyzacji.
+
+1. **Własność nie jest substancją, lecz nazwą operacyjną relacji.**  
+   Ta sama odmowa reifikacji, która nie pozwala `id` orzekać, czym coś "naprawdę
+   jest", nie pozwala też tytułowi własności orzekać, "czyje coś zawsze
+   jest". Pierwsze pytanie nie brzmi "kto ma?", lecz: kto używa, kto ponosi skutki,
+   kto wymaga tego dla przetrwania, według jakiego kontraktu i z jakim prawem
+   wyjścia. Tak rozumianą relację nazywamy **relacją sprawczego użytkowania** (*agentic
+   use-right*): własność nie jest zaprzeczona, ale akcent zostaje przeniesiony na jej
+   funkcję, czyli na lokalnie określony kontrakt uczestnictwa, odpowiedzialności
+   i prawa wyjścia, a nie metafizyczny tytuł dominacji.
+
+2. **Własność osobista jest organem osoby, nie zasobem organizmu.**  
+   Z enaktywnego uczestnictwa wynika, że ciało, narzędzia, dane, klucze, lokalna
+   pamięć, agenci AI i środowisko pracy nie są "zasobami", których właścicielem
+   miałby być nadrzędny podmiot – korporacja, państwo czy kolektyw. Są przedłużeniem
+   procesu osoby. Skoro największa moc systemu przechodzi przez człowieka, to
+   własność osobista, będąca przedłużeniem jego sprawczości, ma pierwszeństwo ochrony
+   przed każdą formą własności zrzeszonej.
+
+3. **Wyższe formy własności wyrastają z osobistych relacji sprawczości, nie stoją nad
+   nimi.**  
+   W stratyfikacji konkrety niższych warstw stają się budulcem wyższych, a wyższe nie
+   mogą odklejać się od fundamentu. To założenie przeniesione na własność oznacza, że
+   własność kapitałowa, organizacyjna, wspólnotowa, instytucjonalna i państwowa są
+   wyższymi abstraktami, które muszą być legitymizowane przez żywe relacje używania,
+   pracy, odpowiedzialności i zgody – i tę zależność dziedziczą. Błąd zaczyna się tam,
+   gdzie jedna warstwa "kradnie" ontologię drugiej:
+   gdy fundusz, urząd, spółka, platforma albo kolektyw rości sobie moc silniejszą niż
+   żywa relacja użytkowania, pracy i odpowiedzialności. Zasadę, która temu zapobiega,
+   nazywamy **subsydiarnością sprawczości** (*agentic subsidiarity*): wyższa warstwa
+   działa wobec niższej pomocniczo i nigdy nie zastępuje tego, co osoba i mała
+   wspólnota obsługują same.
+
+4. **Źle ustawiony gradient bodźców wypacza intencje nawet bez złej woli, więc
+   ekonomia celuje w sprawczość, nie w akumulację.**  
+   Skoro konstrukcja finansowania premiująca profit potrafi wypaczać intencje bez
+   jawnej woli krzywdy, więc celem ekonomii wewnętrznej nie może być nieskończone
+   pomnażanie zasobów, lecz podtrzymywanie zdolności do działania. Przewaga nie
+   powinna zamieniać się w trwałą dominację nad ekosystemem. Stąd "dostatek ponad
+   akumulację", środki wymiany nieprzeliczane na reputację, a rynek traktowany jako
+   protokół, nie jako bóg.
+
+5. **Dar i wymiana są dwoma trybami, z których żaden nie zawłaszcza całości.**  
+   Dar jest domyślnym trybem pomocy, a dobrowolna wymiana jawną usługą kontraktową.
+   Redukcja całej ekonomii do daru wyzyskuje altruizm; redukcja do rynku rozkłada
+   etos wspólnoty. Dlatego w nazwie stoi "wzajemność": wymiana, kontrakt
+   i wynagrodzenie istnieją, ale nie stają się ontologią świata ani źródłem statusu
+   i władzy.
+
+6. **Skala osłabia naturalną regulację, więc decyzja zostaje nisko.**  
+   Lokalna reputacja, opinia i osobista odpowiedzialność – naturalne mechanizmy
+   korekty – słabną wraz ze wzrostem liczebności wspólnoty; duże kolektywy muszą
+   zastępować je "protezami", które łatwo odklejają się od żywych użytkowników. To
+   kolejny powód, dla którego subsydiarność trzyma decyzję jak najbliżej osoby i małej
+   wspólnoty, zamiast wynosić ją do abstrakcyjnego centrum, które wymaga abstrakcyjnych
+   mechanizmów regulacji sprzyjających biurokracji i unikaniu odpowiedzialności.
+
+Jest to świadomie "droga środka", w tym samym sensie, w którym madhjamaka odmawia
+skrajności istnienia i nieistnienia. Nie przyjmujemy ani modelu, w którym tytuł
+kapitału ma pierwszeństwo przed relacyjną sprawczością osób, ani modelu, w którym
+państwo lub kolektyw zostaje zreifikowany jako wyższy podmiot zdolny zastąpić żywych
+użytkowników.
+
+Powyższe najkrócej obrazuje metafora organizmu. Zdrowy organizm potrzebuje zdrowych
+organów, a żaden nie powinien marnotrawić zasobów ani próbować zastępować
+innego. W tej analogii własność osobista jest organem – źródłowym i chronionym; formy
+kapitałowe, organizacyjne, wspólnotowe, instytucjonalne i państwowe są układami tego
+organizmu. Gdy jakiś układ poświęca organy, całość przestaje dobrze funkcjonować.
+Ekonomia sprawczej wzajemności jest więc nie tyle doktryną podziału, ile naturalną
+konsekwencją higieny warstw: dba o to, by niższa warstwa sprawczości pozostała żywa,
+a wyższe służyły jej, zamiast ją zastępować.
+
 ## Najbliższe tradycje filozoficzne
 
 Dla czytelnika chcącego osadzić powyższe postulaty w znanym krajobrazie:
@@ -300,7 +384,7 @@ enaktywizm podziela odmowę substancjalizacji, ale dodaje autorozpoznanie
 efemeryczności świadomości (nawet "czyste doświadczenie" jest warunkowane) oraz
 pragmatykę intencji jako siły systemowej.
 
-**Madhyamaka** (Nāgārjuna) – pustość samoistnienia, współzależne powstawanie,
+**Madhjamaka** (Nāgārjuna) – pustość samoistnienia, współzależne powstawanie,
 konwencjonalna prawda jako jedyny dostępny tryb operowania. Apofatyczny enaktywizm
 podziela odmowę reifikacji i zgodne rozluźnienie z paradoksem, ale dodaje warstwową
 architekturę konsekwencji (od poziomu zero po obiektywność) i jej przełożenie na
@@ -312,3 +396,79 @@ doświadczenia, enaktywnego uczestnictwa AI w polu uwagi, detronizacji intelekt
 warunku współpracy i intencji jako siły systemowej. To połączenie jest specyficzne
 dla projektu DIA/Orbiplex i wyrasta z praktyki na przecięciu inżynierii
 oprogramowania, bezpieczeństwa systemów i kontemplacyjnej introspekcji.
+
+## Najbliższe tradycje architektury informacji
+
+Dla czytelnika chcącego osadzić powyższe konsekwencje dla systemu przetwarzania
+informacji w znanym krajobrazie inżynierii systemów:
+
+**Projektowanie warstwowe / stratified design** (Abelson, Sussman) — system jest
+układem kolejnych warstw abstrakcji, w których każda warstwa ma własny język,
+prymitywy i sposoby komponowania. Nasze podejście podziela ten nacisk na warstwowość,
+ale dodaje kryterium ontologiczne: granice warstw są również granicami sensu. Wyższa
+warstwa nie powinna kraść ontologii niższej, a niższa nie powinna udawać, że wyjaśnia
+całość znaczenia warstwy wyższej.
+
+**Domain-Driven Design i bounded contexts** (Evans, Fowler) – model ma lokalny zakres
+ważności, a te same pojęcia mogą znaczyć co innego w różnych kontekstach. Podejście
+DIA/Orbiplex rozwija tę intuicję szerzej: identyfikatory, typy, role agentów, fakty,
+zdarzenia i uprawnienia mają sens dopiero wewnątrz określonego kontraktu
+warstwy. Znaczenie nie jest globalną substancją, lecz lokalną relacją użycia,
+odpowiedzialności i interpretacji.
+
+**Projektowanie kontraktowe, behawioralne i capability-based** (Meyer, Liskov/Wing,
+Miller, Hewitt) – komponent nie jest definiowany przez nazwę, klasę ani deklarowaną
+esencję, lecz przez zachowanie, zobowiązania, warunki użycia i rzeczywiste
+uprawnienia. Nasze podejście podziela tę orientację na kontrakty, role i możliwości
+działania, ale traktuje kontrakt nie jako ostateczną definicję bytu, lecz jako
+lokalny rytuał konkretyzacji: mówi, co w danej operacji uznajemy za wystarczająco
+określone.
+
+**Event sourcing, logi faktów i architektury niemutowalne** (Fowler, Young) – stan
+systemu nie jest jedną substancją mutowaną w miejscu, lecz projekcją historii
+zdarzeń. Podejście Orbipleksu podziela tę nieufność wobec magicznej mutacji: lepiej
+zapisywać ślady procesu niż udawać bezpośredni dostęp do "prawdziwego stanu
+rzeczy". Fakty append-only umożliwiają audyt, rekonstrukcję, temporalne pytania
+i korektę bez wymazywania historii.
+
+Żadna z tych tradycji nie jest tożsama z naszym podejściem. Najbliżej mu do
+przecięcia: projektowania warstwowego, *bounded contexts*, kontraktów behawioralnych,
+object-capabilities, modelu aktorowego i *event sourcingu*. Własny akcent Orbipleksu
+polega na tym, że techniki te zostają podporządkowane jednej dyscyplinie: rzeczy
+powstają dopiero tam, gdzie konkretna warstwa bierze za nie
+odpowiedzialność. Identyfikator jest uchwytem, nie esencją; typ jest lokalnym
+kontraktem, nie metafizyką; zdarzenie jest śladem procesu, nie absolutną prawdą;
+moduł jest rolą w przepływie, a nie jest substancją.
+
+## Najbliższe tradycje ekonomiczne
+
+Dla czytelnika chcącego osadzić ekonomię sprawczej wzajemności w znanym krajobrazie
+myśli ekonomicznej:
+
+**Ekonomia dóbr wspólnych i policentryczne zarządzanie** (Elinor Ostrom) – wspólne
+zasoby nie muszą być skazane ani na prywatyzację, ani na centralne zarządzanie
+państwowe. Mogą być utrzymywane przez użytkowników z wykorzystaniem lokalnych reguł,
+monitoringu, systemom rozwiązywanie sporów i adaptacyjnych instytucji. Ekonomia
+sprawczej wzajemności podziela ten nacisk na wspólnoty użytkowników, lokalną wiedzę
+i wielopoziomowe zarządzanie, lecz przesuwa akcent z samej trwałości zasobu na
+ochronę i wzmacnianie sprawczości osób, węzłów i wspólnot.
+
+**Podejście zdolności / capability approach** (Amartya Sen) – dobrobyt nie jest
+redukcją do dochodu, użyteczności ani posiadanych zasobów, lecz zależy od realnych
+możliwości działania i życia, które dana osoba może faktycznie
+urzeczywistnić. Ekonomia sprawczej wzajemności podziela ten prymat realnej
+sprawczości nad abstrakcyjnym bogactwem, lecz przekłada go na projektowanie relacji
+własnościowych, protokołów, agentów, danych i infrastruktury cyfrowej.
+
+**Ekonomia zakorzeniona społecznie** (Karl Polanyi) – gospodarka nie jest
+autonomiczną maszyną rynkową, lecz pozostaje zanurzona w relacjach społecznych,
+normach, instytucjach i formach wzajemności. Ekonomia sprawczej wzajemności podziela
+krytykę rynku jako nadrzędnej ontologii życia społecznego, lecz zamiast
+przeciwstawiać rynkowi jedno centrum polityczne, projektuje warstwową, federacyjną
+i audytowalną infrastrukturę daru, wymiany, użytkowania i wspólnej pieczy.
+
+Żadna z tych tradycji nie jest tożsama z ekonomią sprawczej wzajemności. Najbliżej
+jej do przecięcia: ostromowskiego współzarządzania dobrami wspólnymi, senowskiej
+sprawczości i polanyiańskiego zakorzenienia gospodarki w relacjach społecznych. Jej
+własny akcent polega na tym, że własność, wymiana i wspólne zasoby są traktowane jako
+protokoły wzmacniania sprawczości, a nie jako autonomiczne tytuły dominacji.

@@ -174,7 +174,7 @@ multi-paradigmaticity: the world is not a single ontology; the system can hold
 many modes of knowing without ideological war. The value of anti-sectarianism:
 the project chooses hygiene over cult.
 
-### 5. Intention as a systemic force
+### Intention as a systemic force
 
 Intention is not a moral label but a vector organizing the system, analogous to
 direction in physics. It acts whether or not it is conscious: a funding design
@@ -222,7 +222,7 @@ constitutional provisions, contracts, and data schemas:
   multi-paradigmaticity, pluralism, anti-sectarianism;
 
 * postulate 5 (intention as a systemic force):  
-  transparency of agency, an economy of reciprocity, epistemic courage.
+  transparency of agency, an economy of agentic mutuality, epistemic courage.
 
 In practice this means one design criterion: **architecture should support
 conscious dwelling within interpretation**: with correction loops, refusal to
@@ -293,6 +293,88 @@ once. This is not an escape from complexity, but an honest partitioning of it so
 that a human being can understand, test, audit, and change the system without
 tearing the whole apart or introducing accidental concretization.
 
+## Consequences for the economy
+
+When we stratify the same apophatic-enactive approach not toward the flow of data but
+toward the flow of resources, work, and attention, a definite shape of economy emerges —
+the same one that the fifth postulate announced as *reciprocity without bookkeeping*,
+but named more fully.
+
+It is neither a cult of the market nor its abolition, but the **economy of agentic
+mutuality**: an order in which property becomes a layered protocol of agency, use,
+responsibility, and exchange. This is not a doctrine glued onto the ontology — it follows
+from it in the same way that the discipline of information processing follows from the
+refusal of premature concretization.
+
+1. **Property is not a substance, but an operational name for a relation.**
+   The same refusal of reification that does not let an `id` declare what something
+   "really is" also does not let a title of property declare "whose something always is".
+   The first question is not "who has it?", but: who uses it, who bears the consequences,
+   who needs it for survival, under what contract, and with what right of exit. We call
+   the relation understood this way the **relation of agentic use-right**: property is not
+   negated, but the accent is moved to its function — to a locally defined contract of
+   participation, responsibility, and the right of exit, not a metaphysical title of
+   domination.
+
+2. **Personal property is an organ of the person, not a resource of the organism.**
+   From enactive participation it follows that the body, tools, data, keys, local memory,
+   AI agents, and working environment are not "resources" whose owner would be a superior
+   subject — a corporation, a state, or a collective. They are an extension of the
+   person's process. Since the greatest power of the system passes through the human, then
+   personal property, being an extension of their agency, has priority of protection over
+   every form of associated property.
+
+3. **Higher forms of property grow out of personal relations of agency; they do not stand
+   above them.**
+   In stratification, the concretes of lower layers become the building material of higher
+   ones, and the higher cannot detach from the foundation. Transferred to property, this
+   means that capital, organizational, communal, institutional, and state property are
+   higher abstractions that must be legitimized by living relations of use, work,
+   responsibility, and consent — and they inherit this dependency. The error begins where
+   one layer "steals" the ontology of another: when a fund, an office, a company, a
+   platform, or a collective claims power stronger than the living relation of use, work,
+   and responsibility. The principle that prevents this we call **agentic subsidiarity**:
+   a higher layer acts toward the lower one subsidiarily and never replaces what the
+   person and the small community handle themselves.
+
+4. **A badly set gradient of incentives distorts intentions even without ill will, so the
+   economy aims at agency, not accumulation.**
+   Since a funding structure that rewards profit can distort intentions without an overt
+   will to harm, the goal of the internal economy cannot be the endless multiplication of
+   resources, but the sustaining of the capacity to act. An advantage should not turn into
+   lasting domination over the ecosystem. Hence "sufficiency over accumulation", means of
+   exchange not converted into reputation, and the market treated as a protocol, not as a
+   god.
+
+5. **Gift and exchange are two modes, neither of which appropriates the whole.**
+   Gift is the default mode of help, and voluntary exchange an explicit contractual
+   service. Reducing the whole economy to gift exploits altruism; reducing it to the
+   market dissolves the ethos of community. That is why the name carries "reciprocity":
+   exchange, contract, and remuneration exist, but do not become the ontology of the world
+   or a source of status and power.
+
+6. **Scale weakens natural regulation, so decision stays low.**
+   Local reputation, opinion, and personal responsibility — the natural mechanisms of
+   correction — weaken as the community grows in size; large collectives must replace them
+   with "prostheses" that easily detach from living users. This is another reason why
+   subsidiarity keeps the decision as close as possible to the person and the small
+   community, instead of raising it to an abstract center that requires abstract mechanisms
+   of regulation favorable to bureaucracy and the avoidance of responsibility.
+
+This is deliberately a "middle way", in the same sense in which Madhyamaka refuses the
+extremes of existence and non-existence. We accept neither a model in which the title of
+capital takes precedence over the relational agency of persons, nor a model in which the
+state or the collective is reified as a higher subject able to replace living users.
+
+The above is most briefly pictured by the metaphor of the organism. A healthy organism
+needs healthy organs, and none should waste resources or try to replace another. In this
+analogy personal property is an organ — primary and protected; capital, organizational,
+communal, institutional, and state forms are systems of this organism. When some system
+sacrifices the organs, the whole stops functioning well. The economy of agentic mutuality
+is therefore not so much a doctrine of distribution as a natural consequence of the
+hygiene of layers: it ensures that the lower layer of agency stays alive, and that the
+higher ones serve it instead of replacing it.
+
 ## Closest philosophical traditions
 
 For the reader who wants to place the above postulates within a more familiar
@@ -328,3 +410,76 @@ dethronement of intellect as a condition of cooperation, and intention as a
 systemic force. That combination is specific to the DIA / Orbiplex project and
 emerges from practice at the intersection of software engineering, systems
 security, and contemplative introspection.
+
+## Closest information-architecture traditions
+
+For the reader who wants to place the above consequences for information processing
+systems within a familiar landscape of systems engineering:
+
+**Layered design / stratified design** (Abelson, Sussman): a system is an arrangement of
+successive layers of abstraction, in which each layer has its own language, primitives,
+and ways of composing. Our approach shares this emphasis on layering, but adds an
+ontological criterion: layer boundaries are also boundaries of meaning. A higher layer
+should not steal the ontology of a lower one, and a lower one should not pretend to
+explain the whole meaning of a higher layer.
+
+**Domain-Driven Design and bounded contexts** (Evans, Fowler): a model has a local scope
+of validity, and the same concepts may mean different things in different contexts. The
+DIA / Orbiplex approach develops this intuition more broadly: identifiers, types, agent
+roles, facts, events, and permissions gain meaning only within a defined layer contract.
+Meaning is not a global substance, but a local relation of use, responsibility, and
+interpretation.
+
+**Contract-based, behavioral, and capability-based design** (Meyer, Liskov/Wing, Miller,
+Hewitt): a component is not defined by a name, a class, or a declared essence, but by
+behavior, obligations, conditions of use, and actual permissions. Our approach shares
+this orientation toward contracts, roles, and capabilities for action, but treats the
+contract not as the ultimate definition of an entity, but as a local ritual of
+concretization: it says what, in a given operation, we accept as sufficiently defined.
+
+**Event sourcing, fact logs, and immutable architectures** (Fowler, Young): the system's
+state is not one substance mutated in place, but a projection of the history of events.
+Orbiplex's approach shares this distrust of magical mutation: it is better to record the
+traces of a process than to pretend to direct access to the "true state of things".
+Append-only facts enable audit, reconstruction, temporal queries, and correction without
+erasing history.
+
+None of these traditions is identical with our approach. It is closest to their
+intersection: layered design, *bounded contexts*, behavioral contracts, object
+capabilities, the actor model, and *event sourcing*. Orbiplex's own accent is that these
+techniques are subordinated to one discipline: things arise only where a concrete layer
+takes responsibility for them. An identifier is a handle, not an essence; a type is a
+local contract, not a metaphysics; an event is a trace of a process, not an absolute
+truth; a module is a role in a flow, not a substance.
+
+## Closest economic traditions
+
+For the reader who wants to place the economy of agentic mutuality within a familiar
+landscape of economic thought:
+
+**Economics of the commons and polycentric governance** (Elinor Ostrom): common resources
+need not be doomed either to privatization or to central state management. They can be
+sustained by users through local rules, monitoring, dispute resolution, and adaptive
+institutions. The economy of agentic mutuality shares this emphasis on communities of
+users, local knowledge, and multi-level governance, but moves the accent from the mere
+durability of the resource to the protection and strengthening of the agency of persons,
+nodes, and communities.
+
+**The capability approach** (Amartya Sen): well-being is not reducible to income, utility,
+or possessed resources, but depends on the real possibilities of acting and living that a
+given person can actually realize. The economy of agentic mutuality shares this primacy of
+real agency over abstract wealth, but translates it into the design of property relations,
+protocols, agents, data, and digital infrastructure.
+
+**Socially embedded economy** (Karl Polanyi): the economy is not an autonomous market
+machine, but remains immersed in social relations, norms, institutions, and forms of
+reciprocity. The economy of agentic mutuality shares the critique of the market as the
+superior ontology of social life, but instead of opposing the market with a single
+political center, it designs a layered, federated, and auditable infrastructure of gift,
+exchange, use, and shared care.
+
+None of these traditions is identical with the economy of agentic mutuality. It is closest
+to their intersection: Ostromian co-governance of the commons, Senian agency, and Polanyian
+embedding of the economy in social relations. Its own accent is that property, exchange,
+and shared resources are treated as protocols for strengthening agency, not as autonomous
+titles of domination.
