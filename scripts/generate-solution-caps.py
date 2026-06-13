@@ -160,7 +160,11 @@ def schema_doc_link(from_path: Path, schema_name: str) -> str:
 
 
 def doc_link(from_path: Path, rel_doc: str) -> str:
+    if not rel_doc.startswith("doc/"):
+        return f"`{rel_doc}`"
     target = ROOT / rel_doc
+    if not target.exists():
+        return f"`{rel_doc}`"
     return f"[`{Path(rel_doc).name}`]({rel_link_safe(from_path, target)})"
 
 

@@ -150,7 +150,7 @@ when the source and issuer are named by local policy for the exact capability
 and scope.
 
 Operational issuance and activation steps are documented in
-[`doc/ops/memarium-passport-issuance.md`](../../ops/memarium-passport-issuance.md).
+[`doc/ops/memarium-passport-issuance.md`](../../../ops/memarium-passport-issuance.md).
 
 #### Host API Wire Contract
 
