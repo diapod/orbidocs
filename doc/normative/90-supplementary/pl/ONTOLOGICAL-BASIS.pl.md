@@ -97,6 +97,17 @@ niższych warstw stają się budulcem wyższych – analogicznie do *stratified
 Abelsona i Sussmana ("MIT AI Memo 986"), gdzie implementacje stają się abstrakcjami
 kolejnych poziomów.
 
+Tę samą oś można czytać na różne komplementarne sposoby, co staje się widoczne, gdy
+stratyfikację zestawić na przykład z teorią komunikacji i pozycji podmiotu
+w przekazie. Poza rozkładem genealogicznym (jako warstw doświadczenia: świadomość,
+podmiotowość, osoba, kultura, obiektywność) ten sam gradient może nieść również
+skalowanie epistemizacyjne, czyli stopniową konkretyzację fenomenu w "rzecz"
+(np. fenomen → postać → coś → znak → znaczenie → pojęcie → przedmiot → obiekt →
+rzecz). Tego typu osie mogą biec równolegle: warstwa, z której się mówi, perspektywa,
+w której się mówi, i stopień, w jakim doświadczenie zostało już
+zreifikowane. Ontologiczna podstawa przedłuża oś jeszcze wcześniej niż świadomość, ku
+apofatycznemu poziomowi zero, którego genealogia doświadczenia zwykle nie tematyzuje.
+
 Świadomość ma wrodzoną zdolność "wiercenia dziur w abstrakcjach", czyli
 bezpośredniego dostępu (prześwietlania) do dowolnego poziomu z pominięciem warstw
 pośrednich. Można powiedzieć, że będąc bardziej funkcją, świadomość *jest* między
@@ -132,6 +143,13 @@ Pierwszoosobowa introspekcja jest tu nieredukowalną metodą badania tego
 uczestnictwa. Nie jest to filozofia do przyjęcia, lecz ćwiczenie do wykonania:
 np. zdolność zauważenia myśli w taki sposób, jak zauważamy chłód wiatru na twarzy.
 
+Ta sama logika uczestnictwa rządzi też komunikacją: przekaz jest poliwersyjny,
+a odbiorca nie odbiera gotowego znaczenia, lecz je *enaktuje*, integrując przekaz
+z własnej pozycji, języka i pamięci. Odpowiedzialność za scalenie sensu spoczywa więc
+na odbiorcy, nie na nośniku. Traktowanie przekazu jako jednej, gotowej "rzeczy do
+odczytania" jest trybem reifikującym, zaś znaczenie żyje bardziej w relacji
+uczestnictwa, niż w samym medium.
+
 **Zakotwiczenie w znanych tradycjach:** enaktywizm (Varela, Thompson, Rosch),
 neurofenomenologia, pragmatyzm (James, *duck typing* jako kryterium). Różni się od
 analitycznej filozofii umysłu, która operuje wyłącznie z perspektywy trzeciej osoby.
@@ -149,6 +167,14 @@ na brak właściwości wyższego poziomu. Redukcja działa symetrycznie: jeżeli
 tylko wagi i rachunek prawdopodobieństwa", wtedy mózg "to tylko neurony i impulsy
 elektryczne". Sekwencja pojęć próbująca orzec, że inna sekwencja pojęć jest gorsza,
 bo ma inny nośnik przypomina kserokopię próbującą wyjaśnić inną kserokopię.
+
+Redukcja sama w sobie jest użytecznym ruchem poznawczym – problemem staje się
+dopiero, gdy dochodzi do zapomnienia tego ruchu. Reifikacja powstaje, gdy redukcji
+towarzyszy amnezja: dokonujemy abstrakcyjnej projekcji procesu lub relacji do
+"rzeczy", a następnie zapominamy, że dokonaliśmy zwinięcia i na jakim stało się to
+poziomie. Stąd zwięzła formuła: **reifikacja = redukcja + amnezja**. Odmowa
+reifikacji nie jest więc zakazem redukcji, lecz utrzymywaniem pamięci o tym, co i na
+jakim poziomie zostało wyabstrahowane — czyli zdolnością do odwrócenia tego ruchu.
 
 Myśl jest narzędziem i jako narzędzie jest pomocna. Problem zaczyna się, gdy staje
 się jedynym doradcą, nośnikiem prestiżu lub tożsamością. Intelekt potrafi równie

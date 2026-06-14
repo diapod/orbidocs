@@ -100,6 +100,19 @@ the concretes of the lower layers become the building material of the higher
 ones, analogously to Abelson and Sussman's *stratified design* ("MIT AI Memo
 986"), in which implementations become abstractions for subsequent levels.
 
+The same axis can be read in several complementary ways, which becomes visible
+when stratification is placed, for example, beside communication theory and the
+position of the subject within a transmission. Beyond the genealogical
+decomposition (as layers of experience: consciousness, subjectivity, person,
+culture, objectivity), the same gradient may also carry epistemizing scaling:
+the gradual concretization of a phenomenon into a "thing" (for example:
+phenomenon → figure → something → sign → meaning → concept → item → object →
+thing). Such axes may run in parallel: the layer from which one speaks, the
+perspective in which one speaks, and the degree to which experience has already
+been reified. The ontological basis extends the axis even earlier than
+consciousness, toward the apophatic level zero that the genealogy of experience
+usually does not thematize.
+
 Consciousness has an innate ability to "drill through abstractions," that is,
 to access any level directly without going through the intermediate layers. One
 might say that, being more function-like, consciousness *is*, among other
@@ -137,6 +150,14 @@ participation. This is not a philosophy to be accepted, but an exercise to be
 done: for example, noticing a thought in the same way we notice the coolness of
 wind on the face.
 
+The same logic of participation also governs communication: a transmission is
+polyversional, and the receiver does not receive a ready-made meaning, but
+*enacts* it by integrating the transmission from their own position, language,
+and memory. Responsibility for integrating meaning therefore rests with the
+receiver, not with the carrier. Treating a transmission as one ready-made "thing
+to be read" is a reifying mode, while meaning lives more in the relation of
+participation than in the medium itself.
+
 **Anchoring in known traditions:** enactivism (Varela, Thompson, Rosch),
 neurophenomenology, pragmatism (James, and even "duck typing" as a criterion).
 It differs from analytic philosophy of mind, which operates exclusively from the
@@ -158,6 +179,15 @@ calculation," then the brain is "only neurons and electrical impulses." A
 sequence of concepts attempting to declare another sequence of concepts inferior
 because it has a different substrate resembles one photocopy trying to explain
 another photocopy.
+
+Reduction itself is a useful cognitive move; it becomes a problem only when
+that move is forgotten. Reification arises when reduction is accompanied by
+amnesia: we make an abstract projection of a process or relation into a
+"thing" and then forget that we performed the folding, and at what level it
+happened. Hence the concise formula: **reification = reduction + amnesia**.
+Refusing reification is therefore not a ban on reduction, but the maintenance
+of memory about what was abstracted, and at what level — that is, the ability
+to reverse the move.
 
 Thought is a tool and as a tool it is useful. The problem begins when it becomes
 the only adviser, a carrier of prestige, or an identity. Intellect can serve

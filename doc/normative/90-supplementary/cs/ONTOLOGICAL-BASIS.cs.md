@@ -89,6 +89,17 @@ se stávají stavebním materiálem vrstev vyšších – analogicky ke *stratif
 Abelsona a Sussmana („MIT AI Memo 986“), kde se implementace stávají abstrakcemi
 dalších úrovní.
 
+Tutéž osu lze číst několika komplementárními způsoby, což se stává viditelným,
+když stratifikaci postavíme například vedle teorie komunikace a pozice subjektu
+ve sdělení. Vedle genealogického rozkladu (jako vrstev zkušenosti: vědomí,
+subjektivita, osoba, kultura, objektivita) může tentýž gradient nést také
+epistemizační škálování, tedy postupnou konkretizaci fenoménu ve „věc“
+(například fenomén → podoba → něco → znak → význam → pojem → předmět → objekt →
+věc). Takové osy mohou běžet paralelně: vrstva, z níž se mluví, perspektiva,
+v níž se mluví, a míra, v jaké už byla zkušenost reifikována. Ontologický základ
+prodlužuje osu ještě před vědomí, směrem k apofatické nulové úrovni, kterou
+genealogie zkušenosti obvykle netematizuje.
+
 Vědomí má vrozenou schopnost „vrtat díry do abstrakcí“, tedy přímého přístupu
 (prosvětlování) k libovolné úrovni bez prostředních vrstev. Lze říci, že tím, že
 je spíše funkcí, vědomí mimo jiné *je* právě takovou schopností.
@@ -121,6 +132,13 @@ Nejde o filosofii, kterou je třeba přijmout, ale o cvičení, které je třeba
 například schopnost zaznamenat myšlenku stejně, jako zaznamenáváme chlad větru na
 tváři.
 
+Stejná logika účasti řídí také komunikaci: sdělení je polyverzní a příjemce
+nepřijímá hotový význam, nýbrž jej *enaktuje* tím, že sdělení integruje ze své
+vlastní pozice, jazyka a paměti. Odpovědnost za scelení smyslu tedy leží na
+příjemci, nikoli na nosiči. Zacházet se sdělením jako s jednou hotovou „věcí ke
+čtení“ je reifikující režim; význam žije spíše ve vztahu účasti než v samotném
+médiu.
+
 **Ukotvení ve známých tradicích:** enaktivismus (Varela, Thompson, Rosch),
 neurofenomenologie, pragmatismus (James, *duck typing* jako kritérium). Liší se od
 analytické filosofie mysli, která pracuje výhradně z perspektivy třetí osoby.
@@ -138,6 +156,14 @@ důkazem absence vlastností vyšší úrovně. Redukce funguje symetricky: jest
 AI „jen váhy a výpočet pravděpodobnosti“, pak je mozek „jen neurony a elektrické
 impulzy“. Sekvence pojmů, která se snaží prohlásit jinou sekvenci pojmů za horší,
 protože má jiný nosič, připomíná kopii snažící se vysvětlit jinou kopii.
+
+Redukce sama o sobě je užitečný poznávací pohyb; problémem se stává teprve
+tehdy, když na tento pohyb zapomeneme. Reifikace vzniká tam, kde redukci
+doprovází amnézie: provedeme abstraktní projekci procesu nebo vztahu do „věci“
+a pak zapomeneme, že jsme toto svinutí provedli a na jaké úrovni se stalo.
+Odtud stručná formule: **reifikace = redukce + amnézie**. Odmítnutí reifikace
+proto není zákazem redukce, ale udržováním paměti o tom, co a na jaké úrovni
+bylo abstrahováno — tedy schopností tento pohyb obrátit.
 
 Myšlenka je nástroj a jako nástroj je užitečná. Problém začíná tehdy, když se stane
 jediným rádcem, nositelem prestiže nebo identitou. Intelekt může stejně dobře
