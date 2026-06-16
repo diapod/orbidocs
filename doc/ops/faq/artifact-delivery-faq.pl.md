@@ -316,6 +316,11 @@ INAC.
   być używany przez cele `inac-direct`.
 - `inac_peer_transport.inbound_allowed_peers` jest allowlistą po stronie odbiorcy
   dla zdalnych ramek WSS INAC Artifact Delivery. Pusta lista oznacza deny-all.
+- `inac_peer_transport.contact_requests` jest schema-scoped polityką
+  publicznego admission dla `contact-request.v1`. Świeże konfiguracje
+  service/headless trzymają ją wyłączoną z `unknown_peer_mode = "deny"`;
+  materializacja konfiguracji user-mode jawnie włącza wąski przepływ
+  `auto-admit` dla contact-request.
 - `inac_peer_transport.response_timeout_ms` ogranicza oczekiwanie na odpowiedź
   peer.
 

@@ -995,9 +995,11 @@ an acceptor: it can deny cheaply or attach non-authoritative hints, but it
 cannot accept an artifact, create domain state, issue passports, create
 notifications, or fetch remote `artifact/ref` payloads. The runtime passes only
 the artifact descriptor and inline bytes that fit the hook's declared
-`max_input_bytes` budget. This lets domains such as Messaging add fast block,
-quota, or logical-dedupe checks without teaching AD/INAC the semantics of
-`contact-request.v1` or `message-envelope.v1`.
+`max_input_bytes` budget, plus an explicit payload availability state so hooks
+can distinguish inline bytes from missing or oversized payloads. This lets
+domains such as Messaging add fast block, quota, or logical-dedupe checks
+without teaching AD/INAC the semantics of `contact-request.v1` or
+`message-envelope.v1`.
 
 Before invoking an acceptor, the runtime validates the local artifact boundary:
 schema and content type must be non-empty, the digest must be a non-empty

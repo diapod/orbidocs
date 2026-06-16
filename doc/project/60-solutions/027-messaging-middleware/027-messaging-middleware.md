@@ -123,13 +123,22 @@ routing-subject delivery targets, without exposing a root participant id. A
 dedicated per-contact routing subject is only the fallback receive-route
 profile when `contact-nym` delivery is not available.
 
+Messaging keeps two precedence orders explicit. Relationship/conversation
+subject selection prefers `contact-nym/id`, then `participant/id`, before
+falling back to transport fields. Delivery target selection keeps the transport
+order: `routing-subject/id`, `node/id`, then `participant/id`. This prevents a
+routable subject from silently hiding a participant identity in relationship
+matching while preserving the existing delivery path for AD/INAC targets.
+
 Sender-side passport lookup keeps those two axes separate. When the queued
 recipient route is a transport subject such as `routing:did:key:...`,
 `capability.passport.lookup` requires that transport receiver and must not
 send the sender-local `contact-nym/id` as an additional scope requirement. If
 the returned `messaging-receive@v1` passport is pairwise-nym scoped, the
 sender records that receiver-issued `contact-nym/id` in the effective route
-context before delivery.
+context before delivery. Passport route context may refresh the pairwise
+`contact-nym/id`, but it must not overwrite the current queued transport route;
+transport fields from the passport only fill missing address fields.
 
 The passport may be presented inline or by reference, but the service never
 owns private keys and never mints the passport directly.
@@ -265,7 +274,10 @@ The outbound queue is deterministic and retryable:
    contains `messaging`; `no-match`, `policy-denied`, and `ambiguous` are
    terminal failures, while stale or rate-limited results stay retryable.
 2. `waiting-for-contact-permission` calls `capability.passport.lookup` for a
-   usable `messaging-receive` passport.
+   usable `messaging-receive` passport. Repeated equivalent contact requests
+   use a logical local-state id derived from sender, recipient route, requested
+   capability and purposes, so retries collapse the visible pending prompt while
+   preserving the original wire `request/id` in the stored request JSON.
 3. `ready-for-delivery` builds and signs `message-envelope.v1`, attaches the
    passport reference or inline passport, and sends it through
    `artifact.delivery.send` as `private-direct`. The AD envelope carries the
@@ -334,6 +346,23 @@ messages. `messaging-mailbox-changed` SSE carries only id-like invalidation
 data; the UI then re-reads through authenticated HTTP and preserves the composer
 while swapping the history fragment.
 
+The local contact route-key index is active-contact only. `handle.kind =
+"other"` remains a display/local-continuity handle, not a Contact Catalog lookup
+handle; when its value is itself a typed route subject (`routing:*`,
+`participant:*`, `node:*`, `contact-nym:*`), the index records the corresponding
+typed route key so contact-request repair and conversation matching can reuse
+the existing contact. The index is rebuildable: opening an upgraded local
+contact store backfills missing route-key index rows from stored contact records
+before matching uses it. `state = blocked` contacts are excluded from active
+matching, and existing schema-safe `pairwise/contact-nym-id` values are
+preserved during contact-request repair instead of being replaced by fallback
+nyms. If a repair replaces a legacy non-schema-safe nym, the daemon emits a
+typed audit trace with an explicit `legacy-contact-nym-not-schema-safe` reason.
+The user contact rail excludes local receive `routing-subject` keys from its
+dedupe set but keeps participant and `contact-nym` keys, so route rotation does
+not hide a distinct contact while stable pairwise identity still collapses
+duplicates.
+
 For operator/MUA tooling, inbound signed JSON envelopes remain the authority.
 The `projections/maildir-eml/` tree is a disposable Maildir projection marked
 with `.orbiplex-projection`; a MUA may rename files or set Maildir flags there
@@ -348,7 +377,7 @@ EML profile v1 files and can be used for outbox recovery during `reindex`.
 | S027-002 | Messaging service runtime | done | `messaging-service` covers inbound accept, outbox, contact-lookup-result promotion, sender-side lookup against a shared remote Contact Catalog provider, receive-passport handoff, private-direct delivery, native EML outbox body storage, canonical inbound JSON Maildir storage with disposable EML sidecar projection, SQLite storage, bounded body-read endpoints for inbound mailbox rows and outbound outbox rows, temporal outbox transaction/event/attempt tables with `outbox` as the public projection, redacted outbox event snapshots that omit raw recipient handles and subjects, replay-equivalence tests, operator temporal diagnostics endpoints for status/redacted events/correlation/replay-check via daemon proxy, recorded-message lineage enforcement, best-effort Agora Vault storage diagnostics and retryable vault-job replay, kind-specific Layer 3 fact artifacts, pending Memarium replay, recovery mirroring, receiver-side revocation snapshot checks for inline `messaging-receive@v1` passports, fail-closed no-host behavior for passport-based first contact, revocation-triggered `messaging.passport-revoked.v1`, read/unread sync through `messaging.flag.v1`, reindex with remote Memarium replay + local Layer 3 replay + native EML outbox recovery + canonical inbound Maildir JSON + disposable EML sidecar rebuild + FTS5 rebuild, and strict Story-010 cross-node delivery smoke coverage. Mock-host coverage covers inline revocation, outbound passport lookup, signer, `artifact.delivery.send`, `agora.vault.put`, redacted failure classes, and remote replay. |
 | S027-003 | Contactability and local contacts | done | Daemon exposes contactability draft/options/attest/publish endpoints, requires contact-control passport evidence at publish time, binds the published owner participant to the draft route or attestation passport subject, signs canonical route-set `contact-claim.v1`, admits it to the supervised Contact Catalog, validates `local-contact.v1` import/export, stores local contact labels/metadata, tracks pairwise mapping lifecycle, and exposes `/v1/local-contacts/resolve`. Local contact and messaging recovery bundles seal into `pseudonym-vault.v1`, replay on import and operational-vault-key startup, preserve terminal pairwise mapping states, treat root-only as recovery/migration-only, and explicit operator passphrase replay covers `root+local-passphrase` local-contact recovery snapshots. |
 | S027-004 | Contact attestation service dependency | done | Node adds `attestation-core`, supervised opt-in `attestation-service`, contact attestation schemas/examples, schema-gate validators, `email-attestation` / `phone-attestation` capability ids, local/dev delivery, SMTP email delivery, SMS webhook delivery, attempt limits, challenge TTL, quotas, delivery audit, and a default-disabled `always_accept` provider policy for local acceptance profiles. Daemon contactability options discover trusted/fresh `role/email-attestation` / `role/phone-attestation` providers through Seed Directory, expose provider status in Node UI, start challenges through daemon contactability endpoints, import immediate `always_accept` passport results when returned, and retain challenge redeem for non-local profiles. Story-010 now uses that runtime path for e-mail-control acquisition without manual OTP handling in local profiles. |
-| S027-005 | Node UI messaging surface | done | Node UI renders `/admin/messaging` with contactability draft controls, provider challenge/redeem controls, compose, local-contact based unknown-recipient warning, inbox, read/unread actions, outbox, diagnostics, and message detail. User UI also renders a contact chat modal as a bounded read-model over the messaging-service mailbox/outbox stores: it hydrates text bodies through bounded body endpoints, merges inbound and outbound rows through the shared `local-relationship-core::route_key` canonicalizer, refreshes history through `messaging-mailbox-changed` SSE plus polling fallback, and marks rendered unread inbound rows through an explicit mailbox-scoped flag mutation. |
+| S027-005 | Node UI messaging surface | done | Node UI renders `/admin/messaging` with contactability draft controls, provider challenge/redeem controls, compose, local-contact based unknown-recipient warning, inbox, read/unread actions, outbox, diagnostics, and message detail. User UI also renders a contact chat modal as a bounded read-model over the messaging-service mailbox/outbox stores: it hydrates text bodies through bounded body endpoints, merges inbound and outbound rows through the shared `local-relationship-core::route_key` canonicalizer, refreshes history through `messaging-mailbox-changed` SSE plus polling fallback, and marks rendered unread inbound rows through an explicit mailbox-scoped flag mutation. Relationship/conversation subject precedence is separated from delivery-route precedence so `participant/id` is not hidden by a transport route, and active local-contact route-key matching preserves schema-safe pairwise contact nyms while excluding blocked contacts. |
 | S027-006 | Story-010 acceptance pack | done | `node/tools/acceptance/story-010-operator/` provides two-node profile generation, launchers, UI helpers, `story-smoke`, and self-contained `ad-smoke`. Strict `ad-smoke` now defaults to the no-scaffold path: `contact-request.v1` is admitted through the schema-scoped INAC preflight/policy gate, then the receiver sees the contact-request notification and explicitly accepts the relationship before any `message-envelope.v1` delivery authority exists. It also covers local `always_accept` Attestation Service acquisition through daemon contactability endpoints, daemon contactability publish, supervised Contact Catalog admission, shared remote lookup, contact request delivery, operator accept, `messaging-receive@v1` passport handoff, private-direct `message-envelope.v1` delivery, delivered inbox/outbox state, `messaging.flag.v1` read/unread replay, and a second recorded message stored as an encrypted generic artifact in Node B's Agora Vault. The old peer allowlist/preissued transport passport path and explicit INAC operator-approval path are retained only as acceptance debug/policy variants. |
 | S027-007 | User-mode messaging readiness wizard | done | Node UI adds a third welcome step after participant identity and operator binding. The step can enable `messaging-service`, checks Local Relationship owner/storage readiness and `messaging-send` readiness, creates/reuses a Pseudonym Vault routing subject, and saves either explicit `pseudonymous-only` contactability or a `public-handle-draft`. It does not mint a global messaging nym; pairwise contact nyms remain acceptance-time relationship facts. |
 

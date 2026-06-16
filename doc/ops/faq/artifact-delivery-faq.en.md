@@ -308,6 +308,10 @@ that the operator accepts.
   be used by `inac-direct` targets.
 - `inac_peer_transport.inbound_allowed_peers` is the receiver-side allowlist for
   remote WSS INAC Artifact Delivery frames. Empty means deny-all.
+- `inac_peer_transport.contact_requests` is a schema-scoped public
+  `contact-request.v1` admission policy. Fresh service/headless configs keep it
+  disabled with `unknown_peer_mode = "deny"`; user-mode config materialization
+  explicitly enables the narrow `auto-admit` contact-request flow.
 - `inac_peer_transport.response_timeout_ms` bounds the wait for a peer response.
 
 `artifact_delivery_recovery` configures deferred delivery recovery.
