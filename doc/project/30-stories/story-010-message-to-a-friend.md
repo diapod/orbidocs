@@ -208,7 +208,7 @@ boundary:
 
 ```text
 contact handle proof
-  -> normalized or blinded lookup index
+  -> normalized or blinded lookup index (kind-domain-separated before hashing)
   -> route candidate
   -> routing subject / contact nym / invitation-required result
 ```

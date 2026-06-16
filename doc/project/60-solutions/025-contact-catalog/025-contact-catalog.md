@@ -90,7 +90,9 @@ Status:
   evaluates `email-control@v1` / `phone-control@v1` passports, and checks
   passport signature, expiry, profile match, and revocation freshness before
   admission. It also owns shared lookup request/result DTOs and the normalized
-  lookup-index helper used by consumer-side code.
+  lookup-index helper used by consumer-side code. Normalized lookup indexes are
+  versioned and domain-separated by contact kind before hashing, so
+  `email`, `phone`, and future handle kinds do not share a raw digest namespace.
 
 ### Invitation-Only Lookup
 

@@ -497,6 +497,10 @@ for privileged UI paths.
 - Content Security Policy MUST be strict for trusted Orbiplex UI surfaces.
 - Remote scripts, CDN assets, and untrusted module UI assets MUST NOT be allowed
   into the trusted Orbiplex origin by default.
+- User-action audit records MUST NOT contain passphrases, tokens, seeds, daemon
+  authtok, private keys, raw client IP values, or raw user-agent values.
+- Optional audit mirroring to Memarium `user-action.v1` MUST remain an audit
+  sink only; it MUST NOT authorize, block, or otherwise change UI actions.
 
 ### Credential and Cookie Rules
 
@@ -520,6 +524,36 @@ Rules:
 - If the app protocol bridge is used, it should not attach daemon authtok to
   requests originating from arbitrary webviews; only the Node UI server process
   should talk to daemon control endpoints.
+
+### User-Action Audit and Retention
+
+Node UI owns a local, participant-scoped user-action audit boundary for
+user-mode actions such as session start, local key unlock, operator binding,
+messaging setup, and authentication failures. The audit record is a local fact,
+not an authority mechanism.
+
+Rules:
+
+- Node UI writes `node-ui-user-action-audit.local.v1` JSONL under the node data
+  directory with action kind, participant id, trust tier, result, reason,
+  timestamp, and salted hashes of client IP hints and user-agent values.
+- Passphrases, unlock tokens, CSRF tokens, session tokens, daemon authtok,
+  mnemonic seeds, private keys, and raw client IP/user-agent values must never
+  appear in the JSONL file, SQLite projection, Memarium mirror, operator HTML,
+  or traces.
+- When the daemon Memarium host capability is available, Node UI may mirror the
+  same event best-effort as a Personal-space Memarium `user-action.v1` fact.
+  Mirror failure is an audit-sink degradation; it must not fail, permit, deny,
+  or retry the underlying UI action.
+- Node UI compacts the JSONL stream into
+  `<data-dir>/node-ui/security-audit.v1.sqlite` as a local query projection.
+  Startup and event writes enforce a 90-day retention window, prune older
+  projection rows, and rewrite the JSONL stream from retained rows.
+- Malformed JSONL lines are skipped while building the projection and are not
+  preserved by compaction.
+- Operators can inspect the retained local audit through the read-only
+  `/admin/audit/user-actions` view with bounded filters for Unix millisecond
+  time range, action kind, trust tier, result, participant id, and limit.
 
 ### Navigation Policy
 
@@ -1108,6 +1142,7 @@ not as a new protocol layer.
 | 18 | Closing or quitting the desktop asks whether daemon and Node UI should remain running and records the decision for control tooling. | Manual close/quit smoke; inspect close-decision marker and controller cleanup behavior. |
 | 19 | Backgrounded startup does not wait for focus before reaching `/app`. | Start desktop in the background and verify native readiness watchdog signals the bootstrap handoff. |
 | 20 | Locked participant/signer/sealer secrets can trigger a native askpass-style unlock prompt without exposing passphrases or unlock tokens to webview JavaScript. | Unit-test endpoint selection and redaction; manual smoke with a locked participant key and `signer.unlock`. |
+| 21 | User-mode actions are locally auditable without leaking secrets, queryable through `/admin/audit/user-actions`, bounded by 90-day retention, and optionally mirrorable to Memarium `user-action.v1`. | Unit tests for audit redaction, SQLite retention, query filters, and fail-open Memarium sink behavior; operator route smoke. |
 
 ## Tracking
 
@@ -1124,6 +1159,7 @@ not as a new protocol layer.
 | P052-009 | Native integrations | deferred | Tray/status, OS notifications, file picker integration, deep links, and update flow remain post-MVP until their host contracts are explicit. |
 | P052-010 | Local transport hardening | deferred | The current bridge proxies to the Node UI HTTP bind address. Unix domain socket, named pipe, or in-process service adapter remain optional hardening steps. |
 | P052-011 | Native sealed-secret unlock prompt | done | `node-desktop` now exposes `desktop_open_unlock_secret` and `desktop_cancel_unlock_secret`, serves the askpass window under `/__orbiplex/unlock/<prompt-id>`, accepts password form submissions through the desktop app-protocol `/__orbiplex/unlock/<prompt-id>/submit` route, maps participant/signer/sealer descriptors to the fixed daemon endpoints, keeps daemon authtok and unlock response bodies inside the Tauri process, and unit-tests endpoint selection plus unlock-token redaction. The user shell exposes a thin `window.OrbiplexDesktop.openUnlockPrompt(...)` bridge for trusted fragments. |
+| P052-012 | User-action audit view and retention | done | Node UI writes local redacted `node-ui-user-action-audit.local.v1` events, compacts them into `security-audit.v1.sqlite` with 90-day retention, exposes `/admin/audit/user-actions` for operator inspection, and can mirror best-effort Personal-space Memarium `user-action.v1` facts without changing UI action authority. |
 
 ## References
 

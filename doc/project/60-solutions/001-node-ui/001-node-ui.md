@@ -67,6 +67,32 @@ must require same-origin browser evidence and a current HTTP-only CSRF cookie;
 the daemon authtok remains server-side and is never exposed to browser
 JavaScript.
 
+The same server process may host public onboarding, user, pod-user, middleware,
+and operator surfaces, but those surfaces are not one security context. The
+implementation uses physically separate Axum router strata for public
+onboarding, user-mode, pod-user, and operator/admin routes. Public onboarding is
+limited to setup flows, user-mode routes require a participant session after
+local key unlock, pod-user routes fail closed until a pod-user auth context
+exists, and operator/middleware administration remains behind operator auth.
+The route classifier remains only a defensive helper and testable policy table;
+it is not the sole boundary.
+
+User-action audit is local-first. Node UI writes
+`node-ui-user-action-audit.local.v1` JSONL under the node data directory with
+action kind, participant id, trust tier, result, reason, and salted hashes of
+client IP hints and user-agent values. When the daemon Memarium host capability
+is available, the same event may be mirrored best-effort as a Personal-space
+Memarium `user-action.v1` fact. That mirror is optional and fail-open for UI
+actions; passphrases, tokens, seeds, daemon authtok, and key material must never
+appear in either sink. The local audit is compacted into
+`<data-dir>/node-ui/security-audit.v1.sqlite` as a rebuildable query projection;
+startup and event writes enforce a 90-day retention window, prune older rows,
+and rewrite the JSONL from retained projection rows. Operators can inspect this
+local audit through `/admin/audit/user-actions`, a read-only HTML view over the
+SQLite projection with bounded filters for Unix millisecond time, action kind,
+trust tier, result, participant id, and result limit. Malformed JSONL lines are
+skipped while building the projection and discarded during compaction.
+
 Recommended middleware package layout:
 
 ```text
