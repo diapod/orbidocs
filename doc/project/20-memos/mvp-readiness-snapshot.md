@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-06-13.
+Snapshot date: 2026-06-16.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -8,12 +8,13 @@ Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implement
 
 Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
 
-Change basis: this refresh incorporates the current worktree state on 2026-06-13 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, and the new Proposal 066 / Proposal 067 / Solution 033 trackers.
+Change basis: this refresh incorporates the current worktree state on 2026-06-16 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, and the new Proposal 066 / Proposal 067 / Solution 033 trackers.
 
 Recent component deltas:
 
 - Artifact Delivery moved from "MVP transport foundation" to hard-MVP complete: Memarium custody target-space policy, profiling counters, metadata-only observers, Matrix mailbox hardening, and `object-store-indirect` fetch/rehydrate through `artifact-object-pointer.v1` are now documented and implemented. Lower-level zero-copy and Matrix media variants remain post-MVP optimization layers.
 - Notifications now have a local durable MVP foundation: schema-gated `notification.create`, temporal SQLite event log, derived queue projection, JSONL audit mirror, SSE state ping, operator UI, legacy `notify_emit` adapter, first daemon-owned actions, profile-aware manifests, and destructive temporal compaction for local notification history. They remain partial because pod-user UX, OS notifications, and cross-node aggregation are later layers.
+- Node UI security readiness advanced: Solution 001 now documents and implements physically separate public/user/pod-user/operator router strata, participant-session enforcement for user-mode routes, header-first reflective CSRF without the legacy CSRF header alias, local user-action audit JSONL, `security-audit.v1.sqlite` query projection with 90-day retention, `/admin/audit/user-actions`, and optional best-effort Memarium `user-action.v1` mirroring. Proposal 052 now carries the same audit/redaction/retention contract for the Tauri-hosted shell. Node UI remains partial because richer desktop settings writes, external preview isolation, pod-user auth, and native integration hardening are still later product/runtime layers.
 - Contact Catalog hard-MVP is tracker-complete: Proposal 058 and Solution 025 now report the implemented route-set `contact-claim.v1` / `contact-lookup-result.v1` runtime, supervised service, local contact recovery, tombstone/revocation replay, PSI/blinded lookup, provider sync, provider trust controls, and contact-control-vs-identity wording as done for the hard-MVP slice.
 - Messaging hard-MVP is tracker-complete: Proposal 060 and Solution 027 now report supervised messaging runtime, daemon-mediated contactability provider discovery/challenge/redeem, Contact Catalog lookup/contact-request handoff, classification-bearing private-direct AD/INAC delivery, `messaging.flag.v1` read/unread replay, recorded-message lineage plus best-effort encrypted Agora Vault storage, Node UI controls, user-mode wizard readiness for pseudonymous-only or public-handle-draft messaging setup, and Story 010 strict `ad-smoke` as done for the hard-MVP slice. Latest hardening adds EML body/profile recovery, route-key normalization, mark-read routing fixes, readiness/routing retry gates, SSE mutation guards, and conversation diagnostics. Production privacy/federation expansion, receive-passport restoration matrices beyond the current sealed local recovery path, Maildir body encryption, richer per-recipient vault key wrapping, HTML rendering, group messaging, and live multi-device push remain post-MVP work.
 - Inquirium moved from a mostly conceptual organ to an implemented substrate slice. Proposal 063 now has a first `generate` vertical through `inquirium-core`, daemon `inquirium.generate`, JSON-e Flow ingress/preflight, NSE runtime selection, deterministic stub runtime, classification-aware request validation, and metadata-only trace records. Proposal 064's runtime-adapter recommendations are mostly implemented across model-runtime catalog v0.2, runtime-candidate routing, HTTP/stdio adapters, remote provider adapters, and embedding contracts; durable direct data-plane leases remain in progress. Proposal 066 is intentionally kept low because the assistant-channel surface is documented but not end-to-end implemented.
@@ -100,7 +101,7 @@ Recent component deltas:
 | [Proposal 049: JSON-e Middleware Transformer Executor](../40-proposals/049-json-e-middleware-transformer-executor.md) | `true` | `true` | `false` | `82` |
 | [Proposal 050: Local Readiness Gate](../40-proposals/050-local-readiness-gate.md) | `true` | `true` | `false` | `85` |
 | [Proposal 051: Swarm Membership, Reputation Bootstrap, and Public Adjudication](../40-proposals/051-swarm-membership-and-reputation-bootstrap.md) | `false` | `false` | `false` | `25` |
-| [Proposal 052: Tauri-Hosted Node UI](../40-proposals/052-tauri-hosted-node-ui.md) | `false` | `false` | `false` | `70` |
+| [Proposal 052: Tauri-Hosted Node UI](../40-proposals/052-tauri-hosted-node-ui.md) | `false` | `false` | `false` | `82` |
 | [Proposal 053: Raw Signal Access for Middleware Flows](../40-proposals/053-raw-signal-access.md) | `true` | `true` | `false` | `100` |
 | [Proposal 054: User-Maintained Federated Seed Directory](../40-proposals/054-user-maintained-federated-seed-directory.md) | `true` | `true` | `false` | `100` |
 | [Proposal 055: Bounded Deferred Operation Contract](../40-proposals/055-bounded-deferred-operation-contract.md) | `true` | `true` | `false` | `100` |
@@ -122,7 +123,7 @@ Recent component deltas:
 | Document | part of MVP | MVP ready | post-MVP ready | readiness % |
 |---|---:|---:|---:|---:|
 | [Orbiplex Node](../60-solutions/000-node/000-node.md) | `true` | `true` | `false` | `85` |
-| [Orbiplex Node UI](../60-solutions/001-node-ui/001-node-ui.md) | `true` | `false` | `false` | `82` |
+| [Orbiplex Node UI](../60-solutions/001-node-ui/001-node-ui.md) | `true` | `false` | `false` | `88` |
 | [Orbiplex Memarium](../60-solutions/002-memarium/002-memarium.md) | `true` | `true` | `true` | `100` |
 | [Orbiplex Arca](../60-solutions/003-arca/003-arca.md) | `true` | `true` | `false` | `88` |
 | [Orbiplex Dator](../60-solutions/004-dator/004-dator.md) | `true` | `true` | `false` | `100` |
