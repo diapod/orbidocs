@@ -87,13 +87,60 @@ refresh uses id-only `messaging-mailbox-changed` SSE as an invalidation signal
 plus notification/polling fallbacks; message content is read only through the
 authenticated HTTP surfaces.
 
-Deferred hardening is explicit: route-key extraction should become a small
-pure module shared by send/add-contact/history filtering; a service-side
-conversation query should replace UI-side filtering only if profiling shows the
-bounded list path is hot; a redacted `trace-delivery --envelope-id` diagnostic
-should correlate outbox, AD, INAC/passport, and route-key decisions; and
-authority read paths should revalidate stored passports before treating a cached
-row as usable.
+The hardening path is now explicit in code: route-key extraction lives in the
+pure `local-relationship-core::route_key` module shared by
+send/add-contact/history filtering, the chat surface uses the service-side
+conversation query instead of UI-side global filtering, the redacted
+`trace-delivery --envelope-id` diagnostic correlates outbox, AD,
+INAC/passport, and route-key decisions, and authority read paths revalidate
+stored passports before treating a cached row as usable.
+
+Accepted contact requests materialize a local-contact projection for UX and
+conversation continuity. The `contact-request:<id>` remains source/audit
+correlation, not a usable reply handle. The local-contact record uses the
+sender reply route when one is disclosed, otherwise the sender subject, and
+the chat composer ignores technical `handle/kind = other` values when a real
+route is present.
+
+The compose path keeps transport reachability and pairwise relationship identity
+separate. A local contact recipient may carry both a transport route, such as
+`routing-subject/id`, and an authorization context, such as `contact-nym/id`.
+The outbox stores both values as one recipient route context. Artifact Delivery
+targets the transport route, while the signed `message-envelope.v1` receiver
+route uses the `contact-nym/id` when the resolved `messaging-receive@v1`
+passport profile is contact-nym scoped. This is a guardrail against split-brain
+contacts: sending to an accepted contact must reuse the pairwise nym established
+by contact acceptance instead of silently falling back to a different
+source/receiver route.
+
+The sender-local pairwise nym is never a passport lookup requirement for a
+transport receiver. For a queued `routing-subject/id`, `node/id`, or
+`participant/id` route, the lookup asks for that transport receiver only; a
+returned passport may then contribute the receiver-issued `contact-nym/id`.
+Only a queued `contact-nym:*` receiver asks lookup to match `contact-nym/id`
+directly.
+
+Contact consent remains directional because each side issues its own narrow
+`messaging-receive@v1` passport. For usability, a reciprocal
+`contact-request.v1` from a sender that already matches an active local
+contact may be auto-accepted by the daemon. Auto-accept still uses the normal
+acceptance path: it materializes the local contact projection, writes the
+Local Relationship membership and pairwise nym binding, signs a scoped
+`messaging-receive@v1` passport, and hands the passport back to the source
+peer. It skips only the redundant operator notification.
+
+When a contact request is accepted, the daemon first tries to match the request
+against existing active local contacts through the shared canonical
+`route_key` set. A match updates that contact in place with the pairwise
+`contact-nym` and any missing remote subject data instead of creating a second
+route-only contact. This keeps the user-visible contact, conversation history,
+and passport authorization context aligned.
+
+The sender-side outbox MUST NOT treat a completed Artifact Delivery transport
+record for `contact-request.v1` as proof that contact permission exists. The
+proof is the later `messaging-receive@v1` passport lookup. If that passport
+does not appear after the contact-request delivery marker becomes stale, the
+outbox reissues the same logical contact request instead of waiting forever.
 
 ## MUA Profile
 

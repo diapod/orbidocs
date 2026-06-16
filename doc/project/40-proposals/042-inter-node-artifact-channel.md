@@ -385,6 +385,11 @@ Model:
    the same acceptor through host/effective config. The registration says:
    *"this component is the authoritative admission surface for this
    schema/content-type class."*
+   Domains may also register weaker `ArtifactAdmissionPreflight` hooks for the
+   same schema/content-type class. A preflight can deny cheaply or attach
+   diagnostic hints before payload resolution, but it cannot accept an artifact
+   and cannot create domain state; a configured acceptor remains the only
+   positive admission surface.
 3. **Kind discovery at the peer level** happens inside `offer` and
    the optional INAC session handshake: an `offer` with a
    `schema` the receiver does not handle yields

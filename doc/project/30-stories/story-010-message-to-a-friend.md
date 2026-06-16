@@ -332,6 +332,12 @@ By default, Daniel's node includes:
 - a reply nym, routing subject, or participant id;
 - the delivery material Marcin's node needs to answer the request.
 
+When Marcin accepts the request, his node may project Daniel into the local
+contact store. That projection keeps the `contact-request:<id>` as source
+correlation, but it MUST NOT use that id as the reply handle. Replies use the
+disclosed reply nym/routing subject/participant subject, with the reply route
+preferred when available.
+
 The contact request is evaluated by Marcin's node before it reaches any
 user-facing inbox. The transport session authenticates the node path, while
 the attached passports and policy determine whether this request can create a
@@ -383,6 +389,12 @@ that subject to send messages to the Marcin route named in the request. The
 default `contacts` policy is "may send messages to me"; nothing else is
 implicitly granted. Rejecting records the local decision without minting any
 authority, exactly as `inac.invitation.reject` does today.
+
+If Marcin later sends a reciprocal contact request and Daniel's node already
+has Marcin as an active local contact, Daniel's node may auto-accept that
+reciprocal request through the same passport-issuing path. This keeps
+`messaging-receive@v1` consent directional while avoiding a second redundant
+operator click for an already established contact.
 
 Marcin accepts the communication channel.
 
@@ -838,10 +850,12 @@ artifact and what is still missing.
     purpose, bad signature, and redacted notification wording.
   - Newly frozen contract: `contact-request.v1` (schema).
   - Story-010 coverage: strict `ad-smoke` now delivers Daniel's signed
-    contact request through AD/INAC to Marcin's node and records the
-    operator notification. The outbound `artifact-delivery-envelope.v1`
-    includes `classification.v1`, so the shared INAC/private egress guard is
-    exercised on this leg.
+    contact request through AD/INAC to Marcin's node through the
+    schema-scoped `contact-request.v1` preflight/policy gate, then records
+    the contact-request operator notification. The outbound
+    `artifact-delivery-envelope.v1` includes `classification.v1`, so the
+    shared INAC/private egress guard is exercised on this leg without
+    turning contact-request admission into message-delivery authority.
   - Remaining post-MVP hardening: broader *supervised multi-process* AD accept/reject tests
     (single-process validation tests with real participant signatures are
     already done per Solution 025), and a sender-handle attestation
@@ -853,9 +867,10 @@ artifact and what is still missing.
   `[done]`
   - Closest artifacts: Proposal 057 notifications are landed —
     `notification.create` host capability, durable store, operator UI inbox,
-    rate limiting (`done`); INAC invitation flow already issues passports
-    through `inac.invitation.accept` / `inac.invitation.reject` actions on
-    the shared notification queue. Solution 025 Contact Request Admission
+    rate limiting (`done`); the explicit INAC invitation/approval flow remains
+    available for non-default transport policy cases through
+    `inac.invitation.accept` / `inac.invitation.reject` actions on the shared
+    notification queue. Solution 025 Contact Request Admission
     closes the messaging-specific loop: durable
     `contact-request.received` notifications with accept / reject actions
     are created, acceptance issues a narrow `messaging-receive@v1`

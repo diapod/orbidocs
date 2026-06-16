@@ -330,18 +330,18 @@ Live refresh is an invalidation mechanism. The daemon publishes an id-only
 proxy calls, and Node UI re-fetches through authenticated HTTP. Message content
 never appears in SSE frames, logs, or diagnostics.
 
-Planned hardening stays below this contract:
+Implemented hardening below this contract:
 
-- extract route-key handling into a pure shared module used by send,
-  add-contact, and conversation filtering, with regression tests proving that a
-  sendable contact's keys intersect with the recipient shape produced by
-  compose;
-- add a dedicated messaging-service conversation SQL query only if profiling
-  shows UI-side filtering is hot;
-- add a redacted `trace-delivery --envelope-id` diagnostic that correlates
+- route-key handling lives in `local-relationship-core::route_key` and is
+  shared by send, add-contact, conversation filtering, and diagnostics, with
+  regression tests proving that a sendable contact's keys intersect with the
+  recipient shape produced by compose;
+- a dedicated messaging-service conversation SQL query backs the chat read
+  model and replaces UI-side global mailbox/outbox filtering;
+- a redacted `trace-delivery --envelope-id` diagnostic correlates
   outbox state, body metadata, AD delivery ledger, INAC/passport decisions, and
   conversation route-key matching without printing message bodies;
-- validate stored passports on authority read paths such as
+- stored passports are validated on authority read paths such as
   `capability.passport.lookup`, so malformed pre-release or obsolete active
   passport rows fail closed with stable data-quality diagnostics.
 
@@ -864,9 +864,12 @@ This proposal adds one grant label, `signing/messaging-send`.
 ### Contact Catalog (Solution 025) and Proposal 058
 
 Contact Catalog owns: contact discovery (Invitation-Only Lookup),
-contact-claim admission, the `contact.request` acceptor, durable
+contact-claim admission, the schema-scoped `contact-request.v1` INAC/AD
+preflight, the `contact.request` acceptor, durable
 `contact-request.received` notifications, and `messaging-receive@v1`
-passport issuance. The messaging middleware *consumes* the issued
+passport issuance. The preflight may admit the request artifact so the local
+participant can decide; it does not create a relationship or authorize
+`message-envelope.v1` delivery. The messaging middleware *consumes* the issued
 passports and does not duplicate any of those responsibilities.
 
 The contact-lookup recipient selector kind (P058-019) is the preferred
@@ -1149,7 +1152,7 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 | P060-010 | Outbound queue state machine | done | §7 Outbound Queue State Machine; implementation tracked separately by P060-013. |
 | P060-011 | Layer 3 messaging-fact kind schemas (`messaging.passport-issued.v1`, `messaging.passport-revoked.v1`, `messaging.retention-decided.v1`, `messaging.crisis-marked.v1`, `messaging.flag.v1`) | done | Schema files, examples where useful, Node protocol mirror, and `schema-gate` export validators exist. Contact membership moved to Solution 032 `relationship-membership-fact.v1`. Runtime Memarium writes remain tracked by P060-013. |
 | P060-012 | `capability.passport.lookup` host capability surface (symmetric counterpart of the existing issue path) | done | Daemon host capability endpoint validates `capability-passport-lookup.v1`, rejects stale revocation views, scans the shared multi-passport `PassportCache`, filters revoked passports, scope-matches typed profiles, and returns usable/refused lookup states. Solution 019 documents it as a stable host capability bridge rather than a messaging-private helper. |
-| P060-013 | Messaging service implementation (compose + outbound queue + Layer 1 Maildir + Layer 2 SQLite + inbox projection + acceptor + Layer 3 fact writes) | done | Node has `messaging-core` and `messaging-service` crates with host capability client, status, inbound accept, outbound enqueue/outbox/retry/process, contact-lookup-result promotion, mailbox/message read endpoints, native EML outbox body storage, canonical inbound JSON Maildir storage with disposable EML sidecar projection, SQLite `PRAGMA user_version` migrations, temporal outbox transaction/event/attempt tables with `outbox` as the public projection, redacted outbox event snapshots that omit raw recipient handles and subjects, replay-equivalence tests for outbox state, operator temporal diagnostics endpoints for status/redacted events/correlation/replay-check via daemon proxy, signer-derived contact-request/message sender identity, Pseudonym Vault reply-route creation, contact-request dispatch through AD, sender-side lookup against a shared remote Contact Catalog provider, passport lookup promotion, `capability.passport.present` receive-passport handoff, signed message-envelope private-direct delivery, recorded-message lineage refusal, best-effort `agora.vault.put` for recorded messages, kind-specific Layer 3 fact artifacts through `memarium.write`, pending fact replay, retention/crisis/read-flag fact endpoints, revocation-triggered `messaging.passport-revoked.v1`, read/unread projection replay through `messaging.flag.v1`, reindex, and strict Story-010 two-node delivery smoke coverage. Mock-host coverage exercises receiver-side revocation snapshot checks, outbound passport lookup, signer, `artifact.delivery.send`, Agora Vault put, remote Memarium replay, and redacted failure classes. |
+| P060-013 | Messaging service implementation (compose + outbound queue + Layer 1 Maildir + Layer 2 SQLite + inbox projection + acceptor + Layer 3 fact writes) | done | Node has `messaging-core` and `messaging-service` crates with host capability client, status, inbound accept, outbound enqueue/outbox/retry/process, contact-lookup-result promotion, mailbox/message read endpoints, native EML outbox body storage, canonical inbound JSON Maildir storage with disposable EML sidecar projection, SQLite `PRAGMA user_version` migrations, temporal outbox transaction/event/attempt tables with `outbox` as the public projection, indexed conversation read model using shared `local-relationship-core::route_key`, redacted outbox event snapshots that omit raw recipient handles and subjects, replay-equivalence tests for outbox state, operator temporal diagnostics endpoints for status/redacted events/correlation/replay-check via daemon proxy, signer-derived contact-request/message sender identity, Pseudonym Vault reply-route creation, contact-request dispatch through AD, sender-side lookup against a shared remote Contact Catalog provider, route-key matched reciprocal contact-request auto-accept for already active local contacts, passport lookup promotion, `capability.passport.present` receive-passport handoff, signed message-envelope private-direct delivery, recorded-message lineage refusal, best-effort `agora.vault.put` for recorded messages, kind-specific Layer 3 fact artifacts through `memarium.write`, pending fact replay, retention/crisis/read-flag fact endpoints, revocation-triggered `messaging.passport-revoked.v1`, read/unread projection replay through `messaging.flag.v1`, reindex, and strict Story-010 two-node delivery smoke coverage. Mock-host coverage exercises receiver-side revocation snapshot checks, outbound passport lookup, signer, `artifact.delivery.send`, Agora Vault put, remote Memarium replay, and redacted failure classes. |
 | P060-014 | `mailbox.open` notification action target wired into Node UI mailbox view | done | Messaging inbound notifications include `mailbox.open`; daemon marks the action handled through a host-owned no-domain-mutation target, and Node UI exposes message detail at `/admin/messaging/messages/{message_id}`. |
 | P060-015 | `/admin/messaging` operator UI surface and `/v1/messaging/status` daemon proxy | done | Daemon proxies `/v1/messaging/status`, contactability draft/options/attest/challenge/redeem/publish, outbound, outbox, outbox process, pending-facts replay, reindex, retry, mailbox, message read/write, and message flag surfaces; Node UI exposes `/admin/messaging` contactability draft/provider controls, compose, status, inbox, read/unread actions, outbox, diagnostics, unknown-recipient warning, and message detail. |
 | P060-016 | Recovery: `contacts` membership + issued `messaging-receive@v1` passports persisted in `pseudonym-vault.v1` | done | `messaging-service` mirrors contacts membership records through the daemon host capability `identity.messaging-recovery.mirror`; the daemon validates accepted record kinds and persists them in a durable local recovery mirror table. The local contact store exports/replays a recovery bundle covering local contacts, pairwise mappings, and messaging recovery mirror records, and replay refuses to reactivate `revoked` / `archived` pairwise mappings. The daemon can seal that bundle into `pseudonym-vault.v1`, import/replay it explicitly, and replay the latest root-only sealed local-contact recovery snapshot at startup. Broader receive-passport restoration matrices remain hardening, not missing MVP persistence. |

@@ -710,9 +710,13 @@ to a `routing-subject` or concrete `node` target. MVP accepts `lookup/mode =
 left side names the selector use case, while the right side names the domain
 capability being approached. This is intentionally more specific than the
 Contact Catalog `purpose = "messaging"` field, because future subsystems may
-have their own contact-request flows. MVP policy should allow
-`contact-request/messaging` only for small `contact-request.v1` artifacts, not
-for full message delivery before a `messaging-receive` passport exists.
+have their own contact-request flows. MVP policy allows
+`contact-request/messaging` only for small `contact-request.v1` artifacts
+through a schema-scoped INAC/AD preflight gate, not for full message delivery
+before a `messaging-receive` passport exists. That gate is configurable through
+`inac_peer_transport.contact_requests` and checks Local Relationship
+`status = blocked` candidates before surfacing the contact-request
+notification.
 
 ## Relationship to Existing Mechanisms
 

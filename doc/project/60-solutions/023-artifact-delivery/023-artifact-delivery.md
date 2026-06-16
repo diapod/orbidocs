@@ -832,6 +832,14 @@ produces `routing-subject` or `node` delivery candidates. It does not authorize
 the eventual push; INAC/AD passport and admission gates still decide whether the
 artifact is accepted.
 
+For the inbound side of the same first-contact flow, AD/INAC runs a
+schema-registered `contact-request.v1` preflight before the contact-request
+acceptor. The hook is deliberately narrow: it can opt out by local config,
+extract block candidates from the request, deny candidates that match Local
+Relationship `status = blocked`, and attach a logical dedupe hint. It cannot
+accept the artifact by itself, cannot create a relationship, and does not widen
+unknown-peer admission for `message-envelope.v1` or other schemas.
+
 The daemon exposes the same Contact Catalog consumer path to the user UI through
 the host `contact.lookup` capability, but that path is a discovery/read-model
 surface rather than a delivery admission surface. It may surface a
@@ -980,6 +988,16 @@ The `artifact-delivery` runtime crate owns the admission registry, idempotency,
 ledger, and status model. It must not own loopback HTTP clients, supervised
 process lifecycle, or middleware auth details; those belong to daemon
 composition.
+
+Before payload resolution and acceptor invocation, the runtime may run
+schema-registered `ArtifactAdmissionPreflight` hooks. A preflight is weaker than
+an acceptor: it can deny cheaply or attach non-authoritative hints, but it
+cannot accept an artifact, create domain state, issue passports, create
+notifications, or fetch remote `artifact/ref` payloads. The runtime passes only
+the artifact descriptor and inline bytes that fit the hook's declared
+`max_input_bytes` budget. This lets domains such as Messaging add fast block,
+quota, or logical-dedupe checks without teaching AD/INAC the semantics of
+`contact-request.v1` or `message-envelope.v1`.
 
 Before invoking an acceptor, the runtime validates the local artifact boundary:
 schema and content type must be non-empty, the digest must be a non-empty
