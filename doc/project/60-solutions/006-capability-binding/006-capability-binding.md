@@ -152,7 +152,11 @@ Status:
 - `done` in the Node reference implementation. `orbiplex-node-capability-binding`
   implements `PassportAuthorizationInput`, `RevocationView`,
   `ProfileRegistry`, OR-composition over recognized profiles, allowed-caller
-  enforcement, strict revocation freshness, and typed denial reasons.
+  enforcement, strict revocation freshness, typed denial reasons, and bounded
+  signature/profile/authorization caches whose regression tests cover exact
+  proof reuse, operation/scope/passport-digest misses, revocation-view-bound
+  expiry, reason-coded negative entries, and the invariant that relationship
+  labels cannot replace verified passport proof.
 
 ### Service Policy Adapters
 
@@ -343,13 +347,28 @@ Defines:
 - `SealerPolicy` and `SignerPolicy` adapters (feature-gated per service),
 - `AuthorizationAuditSink` trait with a no-op default implementation,
 - canonical digest computation for `passport_digest` (SHA-256 over the
-  canonical JSON produced by the `capability` crate).
+  canonical JSON produced by the `capability` crate),
+- bounded in-process authorization caches for exact proof reuse: passport
+  signature verification, profile evaluation, and final authorization
+  decisions keyed by caller binding, operation, passport digest, revocation
+  view fingerprint, and freshness boundary.
 
 Depends on: `caller-binding`, `capability`, `signer-core`.
 
 Rationale: this is the composition layer. It is the only place where
 caller resolution, passport verification, and revocation freshness come
 together into one decision.
+
+The caches are verifier-local read models, not policy facts. They may reuse an
+already verified passport signature or authorization decision only for the same
+passport artifact digest, caller binding fingerprint, operation request,
+revocation view fingerprint, and freshness budget. They MUST NOT cache
+relationship trust, broad contact allow decisions, or any domain-specific
+admission result. Positive decision entries expire with the effective
+revocation freshness window; negative entries are reason-coded and short-lived
+where caching is useful. A cache hit still returns through the ordinary
+`AuthorizationDecision` and audit path, and it does not bypass downstream
+Artifact Delivery or INAC acceptor registration.
 
 ## Notes
 

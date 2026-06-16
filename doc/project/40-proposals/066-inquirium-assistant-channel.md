@@ -1114,6 +1114,9 @@ Status values:
   operator evidence;
 - `deferred` — intentionally postponed.
 
+The earlier root-level `assistant-channel-advisory.md` tracker is mirrored here.
+That advisory remains only a working note; this table is the canonical backlog.
+
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
 | `assistant-affordance-render-only` | Add assistant as a UI affordance, not a contact record. | `todo` | Node UI renders assistant entry without writing Local Relationship or Messaging state. |
@@ -1131,8 +1134,12 @@ Status values:
 | `assistant-transcript-retention` | Inquirium declares retention; Memarium enforces. | `todo` | Transcript is not a messaging thread; retention is `ClassKeyed` (Decision 6) applied by the governed store. |
 | `assistant-turn-trace-stream` | Add operational assistant-turn trace stream. | `todo` | Append `daemon/inquirium-assistant-turn-trace.v1` records to `trace/inquirium-assistant-turns`; default trace shape contains metadata/decisions/effects only, with no prompt or response content. |
 | `assistant-default-empty-scope` | Keep Phase 1 context scope empty. | `todo` | Tests prove no relationship, Memarium, messaging, artifact, or dataset context is read. |
+| `assistant-local-only-e2e-gate` | Add Phase 1 end-to-end guard for the isolated assistant surface. | `todo` | E2E proves the assistant conversation works locally, produces no remote egress, and reads no node data beyond the assistant inquiry transcript. |
 | `assistant-context-assembly` | Add operator-granted context assembly for Phase 2. | `todo` | JSON-e Flow describes requested context; host resolves through existing gates and attaches classification. |
+| `assistant-context-source-grants` | Require explicit operator grants per context source and session. | `todo` | Relationship, Memarium, messaging, artifact, dataset, or other source access is unavailable unless the operator approved that source for the assistant session/scope. |
 | `assistant-model-acceptance-policy` | Add classification-aware model acceptance policy. | `todo` | Inquirium can include/declassify/drop/fail per context element; unknown classification fails closed. |
+| `assistant-model-egress-ack` | Validate high-sensitivity model acceptance and remote egress. | `todo` | Remote provider plus high `accepts_max_tier` is rejected unless an explicit operator acknowledgement exists; model locality remains a consequence of accepted classification bounds. |
+| `assistant-context-decision-tracing` | Trace each context element's policy decision. | `todo` | Trace records source, full classification, include/declassify/drop/fail decision, model-egress outcome, and reason without storing protected prompt/output content by default. |
 | `class-keyed-mechanism-in-classification` | Put generic `ClassKeyed<T>` mechanism (resolve + monotonicity validator) in the `classification` crate, beside `Classified<T>`. | `todo` | Mechanism lives with the lattice; safety resolution implemented once; shared `LatticeKeyed` kernel may back `ClassKeyed` and `ModeKeyed`. |
 | `assistant-class-keyed-config` | Inquirium class-keyed config schemas in `inquirium-core` (Inquirium as first consumer). | `todo` | Schemas (prompt/KV/retention/redaction/params) use the `classification`-crate mechanism; most-restrictive fallback + monotonic validation for safety axes. |
 | `assistant-observability-feed` | Add optional Activity feed over Inquirium traces. | `todo` | Feed is read-only, local-only, distinct from transcript, and has honest provenance labels. |
@@ -1155,3 +1162,5 @@ Status values:
 | `assistant-baseline-minimum` | Declare Phase 1 local-only as non-withdrawable `baseline-assistant`. | `todo` | Baseline works offline and without economic gating; remote is additive, not a precondition. |
 | `assistant-nondopamine-ux` | Enforce non-dopamine UI invariants. | `todo` | No unsolicited initiation/streak/nudge; advisory framing; "suggests" vs "I decided" separated; covered by tests. |
 | `assistant-agentic-effects` | Add opt-in action capability surface. | `deferred` | Actions are capability-gated, protocol-gated, operator-accountable, and auditable. |
+| `assistant-human-in-loop-governance` | Keep relationship, governance, and egress actions human-in-the-loop. | `deferred` | Agentic proposals that affect relationships, external publication, or governance require explicit operator approval before any effect is committed. |
+| `assistant-feed-intervention-controls` | Add approve/revoke controls from the Activity feed only through the agentic gate. | `deferred` | Feed intervention creates capability-gated operations with audit records; the read-only feed itself never mutates state. |
