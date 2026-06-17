@@ -1,7 +1,7 @@
 {:component/id :orbiplex/whisper
  :component/title "Orbiplex Whisper"
  :component/type :node-attached-module
- :component/status :partial
+ :component/status :done
 
  :summary
  "Node-attached social-signal exchange component for rumor intake, redaction,

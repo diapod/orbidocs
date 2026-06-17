@@ -59,11 +59,14 @@ status is:
   from two eligible public signals, sign derived records through the host signer,
   ingest them through the ordinary Agora path, and prevent derived-record loops.
 - Story-005 now has a three-node laptop operator pack and English/Polish
-  runbooks that exercise A/B Whisper Intake plus C Agora projection.
+  runbooks that exercise A/B Whisper Intake plus C Agora projection. The hard-MVP
+  readiness snapshot treats this Story-005/M4 path as complete.
 
-Post-M4 work is intentionally narrower: richer external Inquirium/model-runtime
-redaction policy can be added behind the same `whisper.redaction.prepare`
-contract without changing the Whisper/Agora envelope boundary.
+Post-M4 work is tracked in `rumor-impl.md` at the workspace root. It covers
+richer external Inquirium/model-runtime redaction policy, outbound privacy
+realization, production correlation, association-room lifecycle, production
+Monus/Sensorium source integration, and explicit public-gossip promotion behind
+the same Whisper/Agora envelope boundary.
 
 ## Architectural posture
 

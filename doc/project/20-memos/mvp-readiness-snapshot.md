@@ -37,7 +37,7 @@ Recent component deltas:
 | [Story 002: Federated Peer Learning and Consensus Correction](../30-stories/story-002-federated-peer-learning.md) | `true` | `true` | `false` | `90` |
 | [Story 003: Remote Memory Preservation, Archivists, and Vault Publication](../30-stories/story-003-remote-memory-preservation.md) | `false` | `false` | `false` | `38` |
 | [Story 004: Pod-Client Onboarding and Delegated Federated Answer Procurement](../30-stories/story-004-pod-client-onboarding.md) | `false` | `false` | `false` | `65` |
-| [Story 005: Whisper Rumor Intake, Redaction, and Thresholded Association Bootstrap](../30-stories/story-005-whisper-rumor-intake.md) | `true` | `true` | `false` | `96` |
+| [Story 005: Whisper Rumor Intake, Redaction, and Thresholded Association Bootstrap](../30-stories/story-005-whisper-rumor-intake.md) | `true` | `true` | `false` | `100` |
 | [Story 006 Buyer Node Components for Arca](../30-stories/story-006-buyer-node-components.md) | `true` | `true` | `false` | `90` |
 | [Story 006: Voluntary Swarm Service Exchange for Cooperative Content Production](../30-stories/story-006-voluntary-swarm-exchange.md) | `true` | `true` | `false` | `90` |
 | [Story 007: Settlement-Capable Node as the Authoritative ORC Ledger](../30-stories/story-007-settlement-capable-node.md) | `false` | `false` | `false` | `82` |

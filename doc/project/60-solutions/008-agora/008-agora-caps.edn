@@ -189,7 +189,7 @@
     "Create an association-room proposal without automatic human enrollment"
     "Keep Matrix-backed Agora sync parity as a separate M4 test from the three-node HTTP smoke"
     "Keep Story-009 Agora-primary smoke green while adding the Story-005 smoke"]
-   :status :planned}
+   :status :done}
 
   {:cap/id :agora-relay-passport
    :title "Agora Relay Capability Passport"
