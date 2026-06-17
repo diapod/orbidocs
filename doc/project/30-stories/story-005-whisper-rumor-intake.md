@@ -217,6 +217,26 @@ proves the public/federated correlation path and the consent boundary; it does n
 require full onion routing, private holder redistribution, or final case-management
 UX.
 
+## Post-M4 Productization Contract
+
+The post-M4 implementation tracker for this story is `rumor-impl.md` in the
+workspace root. Its closed slice adds a secretless Inquirium simulator acceptance
+path and the production-shaped Whisper contracts needed by later runtime work.
+
+The simulator is not a daemon shortcut and not a story-specific model name. It is
+an opt-in middleware-hosted Inquirium adapter, supervised as a local HTTP adapter
+instance, selected through `runtime/ref`, and bound to the provider-facing
+simulated model through host-owned `model.binding/ref`. This proves that Story
+005 can consume model assistance through the same Inquirium/model-runtime route
+that real local or remote providers will use.
+
+The same productization slice keeps later Whisper work stratified. Core policy
+data now has explicit source classes, routing failure modes, forwarding budgets,
+outbound privacy resolution, correlation policy explanations, association-room
+proposal transitions, and public-gossip promotion decisions. Concrete UI and
+relay transports may implement those contracts later without changing the M4
+smoke semantics.
+
 ## Example Signal Classes
 
 - Workers in the same large company reporting similar retaliation or organizational
@@ -250,3 +270,7 @@ The last two examples should still be separated carefully:
 - Which parts of the later human-room lifecycle belong in Whisper itself and which
   should move into a dedicated association module. M4 stops at the
   `association-room-proposal` and explicit opt-in boundary.
+- Concrete production UI and relay transport implementations for the
+  productization contracts: the post-M4 slice defines the data contracts and
+  acceptance seams, while final operator/user workflows and real relay execution
+  remain separate runtime/product layers.

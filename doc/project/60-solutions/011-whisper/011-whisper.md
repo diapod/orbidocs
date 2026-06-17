@@ -111,8 +111,11 @@ Status:
   Story-005 profiles can enable it without manual binary wiring.
   M4 intentionally stops at a deterministic local provider boundary: JSON-e Flow
   can route `whisper.redaction.prepare` into Sensorium OS, and Sensorium OS can
-  run the local fixture or a locally configured model command. Policy for
-  external Inquirium/model-runtime providers is post-M4.
+  run the local fixture or a locally configured model command. The post-M4
+  productization slice adds the host-owned provider-policy shape for
+  Inquirium/model-runtime providers and a secretless local Inquirium simulator
+  acceptance bridge. Production remote model deployments remain an operator
+  configuration and runtime concern.
 
 Model-assisted redaction/paraphrase now has a stable host-capability boundary.
 The first concrete M4 provider path is deliberately configuration-driven and
@@ -150,6 +153,14 @@ the intended long-term shape.
 When model-assisted preparation is explicitly enabled, missing
 `whisper.redaction.prepare` support should fail closed through readiness rather
 than presenting a misleading prepare button.
+
+Post-M4 productization is tracked in the workspace-root `rumor-impl.md`. The
+closed productization slice keeps Whisper's domain contract separate from model
+adapters: callers still ask for `whisper.redaction.prepare`, while host policy
+selects local deterministic, local model, supervised HTTP model-adapter, or
+external model-adapter providers. Inquirium/model-runtime provider calls are
+authorized by host-owned `runtime/ref` or profile policy and must not accept a
+caller-supplied raw model name as an override.
 
 ### Interest and Threshold Coordination
 
@@ -303,3 +314,10 @@ When `Monus` is present, Whisper should treat it as an upstream local draft
 preparation module rather than as a peer publication authority. Monus may prepare
 candidate concern drafts, but Whisper and the host still own the bounded outgoing
 publication path.
+
+`whisper-core` now carries production-shaped policy primitives for source class,
+routing failure mode, relay evidence, forwarding budget, privacy downgrade
+decisions, correlation policy explanations, association-room proposal lifecycle,
+and public-gossip promotion. These are data contracts and pure decision helpers;
+concrete UI affordances and real relay execution belong in later runtime/product
+layers that consume the same data rather than changing Whisper's core semantics.
