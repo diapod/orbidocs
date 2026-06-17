@@ -1,7 +1,7 @@
 {:component/id :orbiplex/local-relationship-layer
  :component/title "Local Relationship Layer"
  :component/type :host-owned-substrate
- :component/status :partial
+ :component/status :done
 
  :summary
  "Solution-level host-owned substrate for the user's private relationship
@@ -55,8 +55,8 @@
     "Extend pseudonym-vault.v1 additively with `local-relationship` inner-entry kind"
     "Preserve unknown inner-entry kinds verbatim on reseal; fail closed on critical=true unknown entries"
     "Recover by replaying sealed event log from last good snapshot"]
-   :status :partial
-   :notes "Daemon startup replays Pseudonym Vault `local-relationship` entries and seeds default classes when the vault is writable. Control writes are vault-first: prepare record, append sealed vault entry as commit point, then apply projection. Projection failures after vault commit mark `pending-vault-rebuild`; production projection-only mutation helpers are not part of the non-test API. Broader restart/rebuild and performance gates remain open."}
+   :status :done
+   :notes "Daemon startup replays Pseudonym Vault `local-relationship` entries and seeds default classes when the vault is writable. Control writes are vault-first: prepare record, append sealed vault entry as commit point, then apply projection. Projection failures after vault commit mark `pending-vault-rebuild`; production projection-only mutation helpers are not part of the non-test API. Hard-MVP replay-equivalence coverage proves projector rebuild from canonical records."}
 
   {:cap/id :sqlite-projection-with-privacy-boundary
    :title "SQLite Projection With Privacy Boundary"
@@ -105,8 +105,8 @@
     "Refuse higher detail than class privacy/profile allows"
     "Default class privacy/profile to sealed-only"
     "Apply level enforcement on every read path including operator UI and AD candidate diagnostic"]
-   :status :partial
-   :notes "Middleware predicate evaluation now returns redacted decision data and omits host-internal candidates; direct middleware membership listing remains unavailable. Broader UI/audit-log privacy checks remain open."}
+   :status :done
+   :notes "Middleware predicate evaluation returns redacted decision data and omits host-internal candidates; direct middleware membership listing remains unavailable. Operator queue and projection privacy regression tests cover the hard-MVP read surfaces; broader UI/audit-log sweeps remain post-MVP hardening."}
 
   {:cap/id :load-bearing-invariants
    :title "Load-Bearing Invariants"
@@ -123,7 +123,7 @@
     "Make class definitions mutable projection with every change emitting an append-only fact"
     "Enforce relationship-derived node trust requires membership + binding + policy + caps + bounded effects"
     "Treat relationship-derived autonomous decisions as local political projection, never trust propagation"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :local-authenticated-host-api
    :title "Local Authenticated Host API"
@@ -138,8 +138,8 @@
     "Expose local-relationship.predicate.{list,register,evaluate} and decision.list"
     "Require caller binding for every capability; fail closed with caller-not-authorized otherwise"
     "Never appear in public capability matrices; never accept peer signatures"]
-   :status :partial
-   :notes "Local control API and selected guarded host capabilities exist. Middleware direct membership reads are restricted; class/predicate management remains control-plane only in this slice."}
+   :status :done
+   :notes "Local control API and selected guarded host capabilities exist. Middleware direct membership reads are restricted; class/predicate management remains control-plane only for hard-MVP."}
 
   {:cap/id :host-policy-evaluator
    :title "Host Policy Evaluator"
@@ -157,8 +157,8 @@
     "Return relationship-policy-decision.v1 with closed-enum reason/code and redacted evidence refs"
     "Treat predicate effect/scope as mandatory and unique per (action/kind, effect/scope) family"
     "Refuse duplicate effect/scope from different packages without operator-acknowledged precedence"]
-   :status :partial
-   :notes "Pure evaluator is exposed through control API and a redacted host capability; decisions are appended to the canonical local-relationship log. Host capability responses omit host-internal candidates and redact evidence refs. Daemon evaluation verifies available node-operator-binding evidence against the local binding store; remote-disclosed binding import remains open."}
+   :status :done
+   :notes "Pure evaluator is exposed through control API and a redacted host capability; decisions are appended to the canonical local-relationship log. Host capability responses omit host-internal candidates and redact evidence refs. Daemon evaluation verifies available node-operator-binding evidence against the local binding store, including verified `remote-disclosed` node-operator-binding imports."}
 
   {:cap/id :middleware-trust-requirements-declaration
    :title "Middleware Trust Requirements Declaration"
@@ -172,8 +172,8 @@
     "Refuse package enablement without explicit operator acknowledgement of declared predicates"
     "Return only relationship-policy-decision.v1 shape to middleware; never expose sealed state"
     "Refuse direct membership list reads from middleware caller bindings"]
-   :status :partial
-   :notes "Parser and readiness gate are implemented for signed middleware packages: unapproved trust requirements block startup until the referenced predicate is approved; rejected predicates block with `predicate-rejected`. Approval/rejection is recorded as vaulted Local Relationship audit state. Richer dedicated pending queue and package-install audit navigation remain open."}
+   :status :done
+   :notes "Parser, readiness gate, and operator queue are implemented for signed middleware packages: unapproved trust requirements block startup until the referenced predicate is approved; rejected predicates block with `predicate-rejected`. Approval/rejection is recorded as vaulted Local Relationship audit state and exposed with latest/history context."}
 
   {:cap/id :ad-group-resolver
    :title "Artifact Delivery Group Resolver"
@@ -186,8 +186,8 @@
     "Return ResolvedRelationshipCandidate carrying class/id, relationship/fact-id, candidate/status, optional route-hints"
     "Never expose relationship class semantics to AD; AD performs own passport/capability checks"
     "Treat group resolution as candidate selection, never as authorization"]
-   :status :partial
-   :notes "Artifact Delivery has a host-composed dynamic group selector resolver. The daemon wires it to LocalRelationshipStore for the primary local operator and maps relationship candidates with directly AD-routable contact/ref values (`node:`, `participant:`, `routing:`), or `local-contact:` records carrying a local routing-subject/id or participant remote/subject, into ordinary AD recipient selectors. Story-010 tooling now has a `--relationship-group-delivery` variant; CI execution and broader delivery-path acceptance remain open."}
+   :status :done
+   :notes "Artifact Delivery has a host-composed dynamic group selector resolver. The daemon wires it to LocalRelationshipStore for the primary local operator and maps relationship candidates with directly AD-routable contact/ref values (`node:`, `participant:`, `routing:`), or `local-contact:` records carrying a local routing-subject/id or participant remote/subject, into ordinary AD recipient selectors. Story-010 tooling now has a repeatable relationship acceptance runner covering strict canonical, relationship-group delivery, and multi-operator owner-scope variants."}
 
   {:cap/id :messaging-canonical-integration
    :title "Messaging Canonical Integration"
@@ -201,7 +201,7 @@
     "Append canonical relationship-membership-fact.v1 without a messaging-owned compatibility cache"
     "Fail closed when relationship owner/ref or host capability client is unavailable"
     "Allow Messaging to declare relationship-derived trust_requirements in package manifest"]
-   :status :partial
+   :status :done
    :notes "Daemon `contact-request.accept` appends canonical `contacts` membership and pairwise messaging nym binding. Messaging-service now reads/writes through point Local Relationship host capabilities; the pre-release legacy cache and bootstrap endpoint were removed."}
 
   {:cap/id :contact-catalog-cleanup
@@ -215,8 +215,8 @@
     "Retain only public discovery and route-set lookup state in Catalog"
     "Prevent raw handles or private address-book data from migrating into Catalog from Relationship Layer"
     "Document the flow: Catalog lookup -> Relationship annotation -> consumer policy"]
-   :status :partial
-   :notes "Proposal/Solution docs now keep Catalog as public/federable route-set discovery and assign raw handles to Local Contact Store plus classes/memberships/predicates to Local Relationship. A dedicated regression sweep for future UI wording remains open."}
+   :status :done
+   :notes "Proposal/Solution docs keep Catalog as public/federable route-set discovery and assign raw handles to Local Contact Store plus classes/memberships/predicates to Local Relationship. Future UI wording sweeps are ordinary regression hardening, not a hard-MVP blocker."}
 
   {:cap/id :pre-release-legacy-removal
    :title "Pre-Release Legacy Removal"
@@ -246,8 +246,8 @@
     "Refuse archive of any reserved class via readiness gate; reserved classes always exist"
     "Allow custom namespaced classes that shadow reserved names (e.g. `vendor.x/trusted`); namespace makes the distinction explicit"
     "Document the gradation untrusted -> contacts -> friends -> trusted -> custom -> predicate in operator UI labels with visual tier distinction"]
-   :status :partial
-   :notes "Default classes are seeded through relationship-class-changed.v1 when an operator participant and writable vault are available. Four-tier PGP-style gradation (untrusted, contacts, friends, trusted) is in place, including secondary-confirmation verification metadata for `trusted` and reserved-class archive rejection."}
+   :status :done
+   :notes "Default classes are seeded through relationship-class-changed.v1 when an operator participant and writable vault are available. Four-tier PGP-style gradation (untrusted, contacts, friends, trusted) is in place, including secondary-confirmation verification metadata for `trusted`, editable reserved metadata, and reserved-class archive rejection."}
 
   {:cap/id :replay-equivalence-and-privacy-tests
    :title "Replay Equivalence and Privacy Tests"
@@ -262,7 +262,7 @@
     "Run anti-secret-leak regex over all snapshots and operator-visible read paths"
     "Verify middleware caller binding fails closed on direct membership list reads"
     "Verify predicate evaluation denies without verified node-operator-binding"]
-   :status :partial}]
+   :status :done}]
 
  :may-implement
  [{:cap/id :owner-ref-multi-operator-scoping
@@ -274,8 +274,8 @@
   ["Scope membership lookups by (owner/ref, contact/ref, class/id) tuple"
    "Default owner/ref to node primary operator binding on single-operator nodes"
    "Make owner-distinct relationship spaces explicit on multi-operator nodes"]
-   :status :partial
-   :notes "Daemon injects primary operator owner/ref into supervised messaging, tests prove owner A membership does not satisfy owner B group resolution, and Story-010 tooling has a `--multi-operator-scope` variant. Richer multi-operator UI remains open."}
+   :status :done
+   :notes "Daemon injects primary operator owner/ref into supervised messaging, tests prove owner A membership does not satisfy owner B group resolution, and Story-010 tooling has repeatable `--multi-operator-scope` coverage. Richer multi-operator UI remains post-MVP polish."}
 
   {:cap/id :public-protocol-capability
    :title "Public Protocol Capability"
