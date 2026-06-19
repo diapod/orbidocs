@@ -15,8 +15,8 @@ SOURCE_DOC_DIR = ROOT / "doc"
 STYLES_DIR = ROOT / "styles"
 I18N_TEMPLATE_CONFIG = ROOT / "mkdocs.i18n.yml"
 I18N_GENERATED_CONFIG = ROOT / "mkdocs.i18n.generated.yml"
-LOCALES = ("pl", "en")
-LOCALE_SUFFIX_RE = re.compile(r"\.(pl|en)\.md$")
+LOCALES = ("pl", "en", "cs")
+LOCALE_SUFFIX_RE = re.compile(r"\.(pl|en|cs)\.md$")
 SHARED_ROOT_MARKDOWN: tuple[str, ...] = ()
 EXCLUDED_DOCS = {
     Path("normative/10-ideas/COLLABORATION.md"),
@@ -30,6 +30,10 @@ PROJECT_NAV_MARKERS = {
         "          # BEGIN GENERATED PROJECT NAV PL",
         "          # END GENERATED PROJECT NAV PL",
     ),
+    "cs": (
+        "          # BEGIN GENERATED PROJECT NAV CS",
+        "          # END GENERATED PROJECT NAV CS",
+    ),
 }
 FAQ_NAV_MARKERS = {
     "en": (
@@ -39,6 +43,10 @@ FAQ_NAV_MARKERS = {
     "pl": (
         "          # BEGIN GENERATED FAQ NAV PL",
         "          # END GENERATED FAQ NAV PL",
+    ),
+    "cs": (
+        "          # BEGIN GENERATED FAQ NAV CS",
+        "          # END GENERATED FAQ NAV CS",
     ),
 }
 PROJECT_LABELS = {
@@ -64,6 +72,17 @@ PROJECT_LABELS = {
             "60-solutions": "Rozwiązania",
         },
     },
+    "cs": {
+        "root": "Projekt",
+        "sections": {
+            "10-challenges": "Výzvy",
+            "20-memos": "Mema a poznámky",
+            "30-stories": "Stories",
+            "40-proposals": "Návrhy",
+            "50-requirements": "Požadavky",
+            "60-solutions": "Řešení",
+        },
+    },
 }
 PROJECT_SECTION_ORDER = (
     "10-challenges",
@@ -76,10 +95,12 @@ PROJECT_SECTION_ORDER = (
 FAQ_LABEL = {
     "en": "(FAQ)",
     "pl": "(FAQ)",
+    "cs": "(FAQ)",
 }
 LOCALE_INDEX = {
     "pl": """# Dokumentacja Orbiplex\n\nTo jest polska strona startowa dokumentacji Orbiplex.\n\nTłumaczenia: [English](/)\n\n## Sekcje\n\n- [Wizja](doc/normative/20-vision/VISION.md)\n- [Wartości podstawowe](doc/normative/30-core-values/CORE-VALUES.md)\n- [Konstytucja](doc/normative/40-constitution/CONSTITUTION.md)\n- [Akty wykonawcze](doc/normative/50-constitutional-ops/README.md)\n- [Podstawa ontologiczna](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Workflow projektowy](doc/project/PROJECTS.md)\n- [Pokrycie workflowów](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n""",
     "en": """# Orbiplex Documentation\n\nThis is the English start page for Orbiplex documentation.\n\nTranslations: [Polski](/pl/)\n\n## Sections\n\n- [Vision](doc/normative/20-vision/VISION.md)\n- [Core Values](doc/normative/30-core-values/CORE-VALUES.md)\n- [Constitution](doc/normative/40-constitution/CONSTITUTION.md)\n- [Constitutional Ops](doc/normative/50-constitutional-ops/README.md)\n- [Ontological Basis](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Project Workflow](doc/project/PROJECTS.md)\n- [Workflow Coverage](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n""",
+    "cs": """# Dokumentace Orbiplex\n\nToto je česká úvodní stránka dokumentace Orbiplex.\n\nPřeklady: [English](/) · [Polski](/pl/)\n\n## Sekce\n\n- [Vize](doc/normative/20-vision/VISION.md)\n- [Základní hodnoty](doc/normative/30-core-values/CORE-VALUES.md)\n- [Konstituce](doc/normative/40-constitution/CONSTITUTION.md)\n- [Prováděcí akty](doc/normative/50-constitutional-ops/README.md)\n- [Ontologický základ](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Projektový workflow](doc/project/PROJECTS.md)\n- [Pokrytí workflowů](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n""",
 }
 FENCE_RE = re.compile(r"^[ \t]{0,3}(```+|~~~+)")
 LABEL_RE = re.compile(
@@ -99,8 +120,8 @@ def iter_source_files(root: Path):
 
 
 def rewrite_markdown_links(text: str) -> str:
-    text = re.sub(r"([A-Za-z0-9_./-]+)/(pl|en)/([^/]+)\.(pl|en)\.md\b", r"\1/\3.md", text)
-    text = re.sub(r"([A-Za-z0-9_./-]+)\.(pl|en)\.md\b", r"\1.md", text)
+    text = re.sub(r"([A-Za-z0-9_./-]+)/(pl|en|cs)/([^/]+)\.(pl|en|cs)\.md\b", r"\1/\3.md", text)
+    text = re.sub(r"([A-Za-z0-9_./-]+)\.(pl|en|cs)\.md\b", r"\1.md", text)
     replacements = {
         'src="styles/': 'src="/styles/',
         "src='styles/": "src='/styles/",
@@ -282,11 +303,14 @@ def collect_project_section_files(locale: str, section_dir: str) -> list[Path]:
     seen: set[Path] = set()
 
     for pattern in patterns:
-        matched = sorted(
-            path
-            for path in section_root.iterdir()
-            if path.is_file() and fnmatch(path.name, pattern)
-        )
+        if "/" in pattern:
+            matched = sorted(path for path in section_root.glob(pattern) if path.is_file())
+        else:
+            matched = sorted(
+                path
+                for path in section_root.iterdir()
+                if path.is_file() and fnmatch(path.name, pattern)
+            )
         for path in matched:
             if path not in seen:
                 seen.add(path)
@@ -309,6 +333,8 @@ def render_project_nav(locale: str) -> str:
     for section_dir in PROJECT_SECTION_ORDER:
         section_label = labels["sections"][section_dir]
         files = collect_project_section_files(locale, section_dir)
+        if not files:
+            continue
         lines.append(f"{section_indent}- {section_label}:")
         for index, path in enumerate(files):
             rel = path.relative_to(BUILD_DIR / locale).as_posix()

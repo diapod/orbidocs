@@ -369,7 +369,7 @@ V praxi to znamená screening po vrstvách, úměrný sázce:
 
 1. Transparentní zveřejnění konfliktů zájmů a souhlas s vyloučeními.
 2. Ověření procedurálních kompetencí – práce s důkazy, redakce dat,
-   retence, publikační standard.
+    retence, publikační standard.
 3. Procedurální reputaci – dodržování kontraktů a oddělování rolí.
 4. Zkušební období a eskalaci oprávnění v souladu se zásadou least privilege.
 
@@ -1286,29 +1286,29 @@ mají přednost před „vítěznými“ optimalizacemi.
 Zásady správy, které tuto hodnotu materializují:
 
 1. **Důsledky nad intencemi**  
-   Každé důležité politické nebo architektonické rozhodnutí musí mít popis
-   předpokládaných důsledků a způsob jejich ověřování v čase a po zavedení prochází
-   retrospektivou opřenou o data, incidenty a odvolání.
+    Každé důležité politické nebo architektonické rozhodnutí musí mít popis
+    předpokládaných důsledků a způsob jejich ověřování v čase a po zavedení prochází
+    retrospektivou opřenou o data, incidenty a odvolání.
 
 2. **Nejmenší škoda, nejvyšší reverzibilita**  
-   Když jsou hodnoty v konfliktu, preferuje se řešení s nejmenší možnou újmou
-   a nejvyšší reverzibilitou; výjimky jsou dočasné, omezené a mají podmínky
-   automatického vypnutí.
+    Když jsou hodnoty v konfliktu, preferuje se řešení s nejmenší možnou újmou
+    a nejvyšší reverzibilitou; výjimky jsou dočasné, omezené a mají podmínky
+    automatického vypnutí.
 
 3. **Panperspektivnost s hranicí důstojnosti**  
-   Pluralismus je chráněn procedurálně, ale praxe, která eskaluje násilí,
-   dehumanizaci nebo zneužití moci, ochranu ztrácí a podléhá omezením bez ohledu na
-   svou narativní „pravdu“.
+    Pluralismus je chráněn procedurálně, ale praxe, která eskaluje násilí,
+    dehumanizaci nebo zneužití moci, ochranu ztrácí a podléhá omezením bez ohledu na
+    svou narativní „pravdu“.
 
 4. **Rozptýlená a auditovatelná moc**  
-   Kritická oprávnění (orákula, zúčtování, sankce, výjimky) jsou rozdělena mezi
-   role a rozhodnutí zanechávají stopu, aby se žádný subjekt nemohl stát
-   nezpochybnitelným arbitrem smyslu nebo pravdy.
+    Kritická oprávnění (orákula, zúčtování, sankce, výjimky) jsou rozdělena mezi
+    role a rozhodnutí zanechávají stopu, aby se žádný subjekt nemohl stát
+    nezpochybnitelným arbitrem smyslu nebo pravdy.
 
 5. **Pobídky odolné vůči patologiím**  
-   Ekonomika, reputace a odměňovací mechanismy jsou navrhovány tak, aby se
-   nevyplácelo škodit, farmit zneužití ani destabilizovat komunitu; objeví-li se
-   důkaz patologie, politika se aktualizuje a vedlejší účinky se otevřeně reportují.
+    Ekonomika, reputace a odměňovací mechanismy jsou navrhovány tak, aby se
+    nevyplácelo škodit, farmit zneužití ani destabilizovat komunitu; objeví-li se
+    důkaz patologie, politika se aktualizuje a vedlejší účinky se otevřeně reportují.
 
 ## Konflikty hodnot
 

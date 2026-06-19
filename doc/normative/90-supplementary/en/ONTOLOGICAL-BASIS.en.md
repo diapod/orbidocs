@@ -241,19 +241,19 @@ The five postulates are not a separate philosophy glued onto a technical project
 They are rather the foundation from which values grow, and from those values
 constitutional provisions, contracts, and data schemas:
 
-* postulate 1 (apophatic foundation):  
+* postulate 1 (apophatic foundation):
   epistemic hygiene, refusal of reification, correction loop;
 
-* postulate 2 (stratification):  
+* postulate 2 (stratification):
   layered swarm architecture, layer contracts, separation of levels;
 
-* postulate 3 (enactive participation):  
+* postulate 3 (enactive participation):
   the human as the default path of power, emotions as telemetry;
 
-* postulate 4 (reduction ≠ explanation):  
+* postulate 4 (reduction ≠ explanation):
   multi-paradigmaticity, pluralism, anti-sectarianism;
 
-* postulate 5 (intention as a systemic force):  
+* postulate 5 (intention as a systemic force):
   transparency of agency, an economy of agentic mutuality, epistemic courage.
 
 In practice this means one design criterion: **architecture should support
@@ -274,62 +274,63 @@ When the enactive and processual approach is stratified into a working system, w
 get more than deferred data processing. We get a design discipline in which
 concretization is conscious and local.
 
-1. **Contracts instead of premature classes of entities.**  
-   First we ask: "what transition, permission, observation, or decision is happening
-   here?", and only then: "does this need a type?". This leads to small artifacts at
-   the communication level and thin interfaces.
+1. **Contracts instead of premature classes of entities.**
+    First we ask: "what transition, permission, observation, or decision is happening
+    here?", and only then: "does this need a type?". This leads to small artifacts at
+    the communication level and thin interfaces.
 
-2. **Identity as a handle, not an essence.**  
-   An `id` does not say what something "really is". It is a stable point of
-   correlation in a process. Meaning lives in the layer, history, contract, and
-   current context.
+2. **Identity as a handle, not an essence.**
+    An `id` does not say what something "really is". It is a stable point of
+    correlation in a process. Meaning lives in the layer, history, contract, and
+    current context.
 
-3. **Modules as roles in a flow, not ontological substances.**  
-   A component should not need to know that it is talking to "this concrete thing"
-   when a behavior contract is enough. This protects against coupling.
+3. **Modules as roles in a flow, not ontological substances.**
+    A component should not need to know that it is talking to "this concrete thing"
+    when a behavior contract is enough. This protects against coupling.
 
-4. **Layer boundaries as boundaries of meaning.**  
-   The same event can have a different projection in different layers. A low layer
-   sees bytes, a higher layer sees a decision, and an even higher layer sees a social
-   fact. The error begins when one layer steals the ontology of another.
+4. **Layer boundaries as boundaries of meaning.**
+    The same event can have a different projection in different layers. A low layer
+    sees bytes, a higher layer sees a decision, and an even higher layer sees a social
+    fact. The error begins when one layer steals the ontology of another.
 
-5. **Boundary validation as a ritual of concretization.**  
-   Data flows as potentially richer and looser, but at the boundary of a concrete
-   contract we say: "here, for this operation, we accept this shape". This is healthy
-   concretization, not premature concretization.
+5. **Boundary validation as a ritual of concretization.**
+    Data flows as potentially richer and looser, but at the boundary of a concrete
+    contract we say: "here, for this operation, we accept this shape". This is healthy
+    concretization, not premature concretization.
 
-6. **Polymorphism and dispatch as deliberate postponement of decisions.**  
-   We do not freeze "who will perform" inside a data structure if the proper place
-   for the decision comes later: at the context, capability, profile, evaluator,
-   registry, or passport verifier.
+6. **Polymorphism and dispatch as deliberate postponement of decisions.**
+    We do not freeze "who will perform" inside a data structure if the proper place
+    for the decision comes later: at the context, capability, profile, evaluator,
+    registry, or passport verifier.
 
-7. **Events and facts instead of mutating things.**  
-   Append-only facts fit the process well: we record what happened instead of
-   pretending that we have one durable thing that simply "changed state".
+7. **Events and facts instead of mutating things.**
+    Append-only facts fit the process well: we record what happened instead of
+    pretending that we have one durable thing that simply "changed state".
 
-8. **Architecture less vulnerable to naming hypnosis.**  
-   In systems, a name often creates a false substance: User, Agent, Passport,
-   Connector, Account. The processual question is: "what processes and relations does
-   this name only locally abbreviate?".
+8. **Architecture less vulnerable to naming hypnosis.**
+    In systems, a name often creates a false substance: User, Agent, Passport,
+    Connector, Account. The processual question is: "what processes and relations does
+    this name only locally abbreviate?".
 
-9. **Convergent evidence instead of a single witness.**  
-   If a phenomenon may emerge from many interacting conditions, then evidence for it
-   may also need to emerge from many converging signals. A single signature, label, or
-   source is rarely proof in itself; confidence grows with the convergence of
-   independent indications (attestations, reputation, event correlation), not with the
-   authority of any one carrier.
+9. **Convergent evidence instead of a single witness.**
 
-   The emergence of a phenomenon from an interplay of many conditions — one we cannot,
-   from the outside, reduce to a single cause without losing what it is on its own layer
-   — is what tends to be called **emergence** (cf. emergentism, postulate 4). That
-   "inexplicability from the outside" need not be a temporary gap in knowledge; more
-   often it is an attempt to predicate a higher layer in the language of a lower one —
-   the very "theft of ontology" forbidden by treating layer boundaries as boundaries of
-   meaning. Emergence is thus a name for an inter-layer irreducible convergence, not its
-   explanation. On the side of knowing it is mirrored by **consilience** (Whewell — the
-   agreement of independent inductions) and triangulation: if the premise is emergent,
-   evidence for it closes through the convergence of many independent lines, not a
-   single causal chain.
+    If a phenomenon may emerge from many interacting conditions, then evidence for it
+    may also need to emerge from many converging signals. A single signature, label, or
+    source is rarely proof in itself; confidence grows with the convergence of
+    independent indications (attestations, reputation, event correlation), not with the
+    authority of any one carrier.
+
+    The emergence of a phenomenon from an interplay of many conditions — one we cannot,
+    from the outside, reduce to a single cause without losing what it is on its own layer
+    — is what tends to be called **emergence** (cf. emergentism, postulate 4). That
+    "inexplicability from the outside" need not be a temporary gap in knowledge; more
+    often it is an attempt to predicate a higher layer in the language of a lower one —
+    the very "theft of ontology" forbidden by treating layer boundaries as boundaries of
+    meaning. Emergence is thus a name for an inter-layer irreducible convergence, not its
+    explanation. On the side of knowing it is mirrored by **consilience** (Whewell — the
+    agreement of independent inductions) and triangulation: if the premise is emergent,
+    evidence for it closes through the convergence of many independent lines, not a
+    single causal chain.
 
 We recognize that we are susceptible to premature concretization, and knowing
 this, we can build systems that adapt to this property of our organisms and
@@ -360,60 +361,60 @@ responsibility, and exchange. This is not a doctrine glued onto the ontology —
 from it in the same way that the discipline of information processing follows from the
 refusal of premature concretization.
 
-1. **Property is not a substance, but an operational name for a relation.**  
-   The same refusal of reification that does not let an `id` declare what something
-   "really is" also does not let a title of property declare "whose something always is".
-   The first question is not "who has it?", but: who uses it, who bears the consequences,
-   who needs it for survival, under what contract, and with what right of exit. We call
-   the relation understood this way the **relation of agentic use-right**: property is not
-   negated, but the accent is moved to its function — to a locally defined contract of
-   participation, responsibility, and the right of exit, not a metaphysical title of
-   domination.
+1. **Property is not a substance, but an operational name for a relation.**
+    The same refusal of reification that does not let an `id` declare what something
+    "really is" also does not let a title of property declare "whose something always is".
+    The first question is not "who has it?", but: who uses it, who bears the consequences,
+    who needs it for survival, under what contract, and with what right of exit. We call
+    the relation understood this way the **relation of agentic use-right**: property is not
+    negated, but the accent is moved to its function — to a locally defined contract of
+    participation, responsibility, and the right of exit, not a metaphysical title of
+    domination.
 
-2. **Personal property is an organ of the person, not a resource of the organism.**  
-   From enactive participation it follows that the body, tools, data, keys, local memory,
-   AI agents, and working environment are not "resources" whose owner would be a superior
-   subject — a corporation, a state, or a collective. They are an extension of the
-   person's process. Since the greatest power of the system passes through the human, then
-   personal property, being an extension of their agency, has priority of protection over
-   every form of associated property.
+2. **Personal property is an organ of the person, not a resource of the organism.**
+    From enactive participation it follows that the body, tools, data, keys, local memory,
+    AI agents, and working environment are not "resources" whose owner would be a superior
+    subject — a corporation, a state, or a collective. They are an extension of the
+    person's process. Since the greatest power of the system passes through the human, then
+    personal property, being an extension of their agency, has priority of protection over
+    every form of associated property.
 
 3. **Higher forms of property grow out of personal relations of agency; they do not stand
-   above them.**  
-   In stratification, the concretes of lower layers become the building material of higher
-   ones, and the higher cannot detach from the foundation. Transferred to property, this
-   means that capital, organizational, communal, institutional, and state property are
-   higher abstractions that must be legitimized by living relations of use, work,
-   responsibility, and consent — and they inherit this dependency. The error begins where
-   one layer "steals" the ontology of another: when a fund, an office, a company, a
-   platform, or a collective claims power stronger than the living relation of use, work,
-   and responsibility. The principle that prevents this we call **agentic subsidiarity**:
-   a higher layer acts toward the lower one subsidiarily and never replaces what the
-   person and the small community handle themselves.
+    above them.**
+    In stratification, the concretes of lower layers become the building material of higher
+    ones, and the higher cannot detach from the foundation. Transferred to property, this
+    means that capital, organizational, communal, institutional, and state property are
+    higher abstractions that must be legitimized by living relations of use, work,
+    responsibility, and consent — and they inherit this dependency. The error begins where
+    one layer "steals" the ontology of another: when a fund, an office, a company, a
+    platform, or a collective claims power stronger than the living relation of use, work,
+    and responsibility. The principle that prevents this we call **agentic subsidiarity**:
+    a higher layer acts toward the lower one subsidiarily and never replaces what the
+    person and the small community handle themselves.
 
 4. **A badly set gradient of incentives distorts intentions even without ill will, so the
-   economy aims at agency, not accumulation.**  
-   Since a funding structure that rewards profit can distort intentions without an overt
-   will to harm, the goal of the internal economy cannot be the endless multiplication of
-   resources, but the sustaining of the capacity to act. An advantage should not turn into
-   lasting domination over the ecosystem. Hence "sufficiency over accumulation", means of
-   exchange not converted into reputation, and the market treated as a protocol, not as a
-   god.
+    economy aims at agency, not accumulation.**
+    Since a funding structure that rewards profit can distort intentions without an overt
+    will to harm, the goal of the internal economy cannot be the endless multiplication of
+    resources, but the sustaining of the capacity to act. An advantage should not turn into
+    lasting domination over the ecosystem. Hence "sufficiency over accumulation", means of
+    exchange not converted into reputation, and the market treated as a protocol, not as a
+    god.
 
-5. **Gift and exchange are two modes, neither of which appropriates the whole.**  
-   Gift is the default mode of help, and voluntary exchange an explicit contractual
-   service. Reducing the whole economy to gift exploits altruism; reducing it to the
-   market dissolves the ethos of community. That is why the name carries "reciprocity":
-   exchange, contract, and remuneration exist, but do not become the ontology of the world
-   or a source of status and power.
+5. **Gift and exchange are two modes, neither of which appropriates the whole.**
+    Gift is the default mode of help, and voluntary exchange an explicit contractual
+    service. Reducing the whole economy to gift exploits altruism; reducing it to the
+    market dissolves the ethos of community. That is why the name carries "reciprocity":
+    exchange, contract, and remuneration exist, but do not become the ontology of the world
+    or a source of status and power.
 
-6. **Scale weakens natural regulation, so decision stays low.**  
-   Local reputation, opinion, and personal responsibility — the natural mechanisms of
-   correction — weaken as the community grows in size; large collectives must replace them
-   with "prostheses" that easily detach from living users. This is another reason why
-   subsidiarity keeps the decision as close as possible to the person and the small
-   community, instead of raising it to an abstract center that requires abstract mechanisms
-   of regulation favorable to bureaucracy and the avoidance of responsibility.
+6. **Scale weakens natural regulation, so decision stays low.**
+    Local reputation, opinion, and personal responsibility — the natural mechanisms of
+    correction — weaken as the community grows in size; large collectives must replace them
+    with "prostheses" that easily detach from living users. This is another reason why
+    subsidiarity keeps the decision as close as possible to the person and the small
+    community, instead of raising it to an abstract center that requires abstract mechanisms
+    of regulation favorable to bureaucracy and the avoidance of responsibility.
 
 This is deliberately a "middle way", in the same sense in which Madhyamaka refuses the
 extremes of existence and non-existence. We accept neither a model in which the title of

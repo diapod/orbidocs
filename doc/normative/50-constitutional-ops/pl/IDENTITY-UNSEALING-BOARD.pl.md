@@ -33,21 +33,21 @@ punktu nacisku, odwetu lub przejęcia.
 
 2. Domyślną ścieżką egzekwowania są:
 
-   - środki lokalne na poziomie `nymu`,
+    - środki lokalne na poziomie `nymu`,
 
-   - sankcje infrastrukturalne na poziomie `node-id`.
+    - sankcje infrastrukturalne na poziomie `node-id`.
 
 3. `root-identity` wolno odkrywać tylko wtedy, gdy:
 
-   - sama identyfikacja `node-id` nie wystarcza do ochrony ludzi, wspólnoty lub
+    - sama identyfikacja `node-id` nie wystarcza do ochrony ludzi, wspólnoty lub
      integralności procedury,
 
-   - istnieje obowiązek prawny albo próg szkody najwyższej stawki,
+    - istnieje obowiązek prawny albo próg szkody najwyższej stawki,
 
-   - decyzja przejdzie przez Federację Izb Pieczęciowych.
+    - decyzja przejdzie przez Federację Izb Pieczęciowych.
 
 4. Żadna pojedyncza izba nie może być jedynym depozytariuszem pełnej zdolności
-   odpieczętowania.
+    odpieczętowania.
 
 ---
 
@@ -85,10 +85,10 @@ Izba nie może:
 1. `FIP` POWINNA składać się z wielu izb globalnie.
 
 2. Odpieczętowanie `root-identity` MUSI wymagać małego quorum ad-hoc złożonego z
-   kilku izb, a nie działania całej federacji naraz.
+    kilku izb, a nie działania całej federacji naraz.
 
 3. Konkretne minima członkostwa, statusów i quorum określa
-   `FIP-MEMBERSHIP-AND-QUORUM.pl.md`.
+    `FIP-MEMBERSHIP-AND-QUORUM.pl.md`.
 
 4. Federacja MOŻE zaostrzyć te minima, ale nie może ich poluzować.
 
@@ -209,28 +209,28 @@ Jeżeli izba jest niedostępna, zastraszana albo objęta odwetem:
 ## 6. Split knowledge
 
 1. Mapowanie `node-id -> root-identity` NIE POWINNO być dostępne w całości jednej
-   izbie.
+    izbie.
 
 2. System POWINIEN stosować model podzielonej wiedzy, np.:
 
-   - threshold encryption,
+    - threshold encryption,
 
-   - secret sharing,
+    - secret sharing,
 
-   - escrow wielostronny.
+    - escrow wielostronny.
 
 3. Kompromitacja pojedynczej izby nie może sama z siebie umożliwiać poznania
-   `root-identity`.
+    `root-identity`.
 
 4. Techniczna implementacja split-knowledge jest wymienna, ale MUSI zapewniać:
 
-   - brak pojedynczego punktu odczytu,
+    - brak pojedynczego punktu odczytu,
 
-   - możliwość rotacji udziałów,
+    - możliwość rotacji udziałów,
 
-   - ślad użycia udziałów,
+    - ślad użycia udziałów,
 
-   - możliwość wycofania izby z systemu.
+    - możliwość wycofania izby z systemu.
 
 ---
 
@@ -262,7 +262,7 @@ Izba wejściowa sprawdza:
 1. `U1` może być rozstrzygany wewnątrz federacji bez udziału `FIP`.
 
 2. `U2` może wymagać udziału jednej izby jako nadzorcy proceduralnego, jeśli
-   federacja tak stanowi.
+    federacja tak stanowi.
 
 3. `U3` wymaga quorum `FIP`.
 
@@ -333,19 +333,19 @@ seal_quorum_decision:
 1. Decyzja `U3` MUSI podlegać odwołaniu.
 
 2. Odwołanie rozpoznaje nowe quorum, bez izb uczestniczących w decyzji
-   pierwotnej.
+    pierwotnej.
 
 3. Odwołanie może opierać się na:
 
-   - kontr-dowodzie,
+    - kontr-dowodzie,
 
-   - błędzie proceduralnym,
+    - błędzie proceduralnym,
 
-   - konflikcie interesów,
+    - konflikcie interesów,
 
-   - nieproporcjonalności zakresu ujawnienia,
+    - nieproporcjonalności zakresu ujawnienia,
 
-   - naruszeniu reguł dywersyfikacji quorum.
+    - naruszeniu reguł dywersyfikacji quorum.
 
 ---
 

@@ -35,24 +35,24 @@ Dokument konkretyzuje:
 ## 2. Zasada bazowa
 
 1. Bez wiarygodnego sygnału teraźniejszego NIE prowadzi się ogólnej retrospekcji
-   przeszłości użytkownika ani operatora.
+    przeszłości użytkownika ani operatora.
 
 2. Wiarygodny sygnał teraźniejszy obejmuje co najmniej jedno z poniższych:
-   - kontynuację nadużycia,
-   - ukrywanie śladów lub dowodów,
-   - odwet, zastraszanie lub próbę deanonimizacji,
-   - wzorzec przemocy, korupcji albo sabotażu,
-   - trwanie skutków ciężkiego nadużycia,
-   - dalsze czerpanie korzyści z wcześniejszego nadużycia,
-   - albo kompromitację zaufanego toru odpieczętowania lub emisji nymów, jeżeli
+    - kontynuację nadużycia,
+    - ukrywanie śladów lub dowodów,
+    - odwet, zastraszanie lub próbę deanonimizacji,
+    - wzorzec przemocy, korupcji albo sabotażu,
+    - trwanie skutków ciężkiego nadużycia,
+    - dalsze czerpanie korzyści z wcześniejszego nadużycia,
+    - albo kompromitację zaufanego toru odpieczętowania lub emisji nymów, jeżeli
      zagraża ona ochronie ludzi, integralności dowodów lub prawu do wyjścia.
 
 3. Po spełnieniu warunku z pkt 2 system MOŻE badać pełną genezę sprawy i cały łańcuch
-   działań, także historycznych, o ile pozostaje to związane ze sprawą.
+    działań, także historycznych, o ile pozostaje to związane ze sprawą.
 
 4. Im większa rola władcza, dostęp do danych wrażliwych albo wpływ na reputację,
-   routing i bezpieczeństwo innych, tym surowszy standard odpowiedzialności oraz
-   dłuższy dopuszczalny horyzont oceny.
+    routing i bezpieczeństwo innych, tym surowszy standard odpowiedzialności oraz
+    dłuższy dopuszczalny horyzont oceny.
 
 ---
 
@@ -83,50 +83,50 @@ Dokument konkretyzuje:
 1. Wejście w pełną historię sprawy wymaga co najmniej `S2` i `E2`.
 
 2. Ujawnienie tożsamości, faktów albo odpowiedzialności poza torem wewnętrznym wymaga
-   co najmniej `S3` i `E3`.
+    co najmniej `S3` i `E3`.
 
 3. Notyfikacja prawna wymaga co najmniej `S3` i `E3`, jeżeli sprawa dotyczy ciężkiego
-   czynu naruszającego ludzi, wspólnotę, infrastrukturę, integralność dowodów albo
-   procedur, w szczególności przemocy, poważnej korupcji, wyłudzenia, kradzieży,
-   wymuszenia, odwetu wobec sygnalisty, deanonimizacji albo sabotażu. Dla pozostałych
-   przypadków próg domyślny wynosi `S4` i `E3`, chyba że prawo właściwe wymaga
-   niższego progu dla obowiązkowego zawiadomienia.
+    czynu naruszającego ludzi, wspólnotę, infrastrukturę, integralność dowodów albo
+    procedur, w szczególności przemocy, poważnej korupcji, wyłudzenia, kradzieży,
+    wymuszenia, odwetu wobec sygnalisty, deanonimizacji albo sabotażu. Dla pozostałych
+    przypadków próg domyślny wynosi `S4` i `E3`, chyba że prawo właściwe wymaga
+    niższego progu dla obowiązkowego zawiadomienia.
 
 4. Dla ról zaufania publicznego oraz operatorów z dostępem do danych lub routingu próg
-   wejścia w pełną historię sprawy może zostać obniżony do `S2` i `E2`, ale próg
-   ujawnienia zewnętrznego pozostaje nie niższy niż `S3` i `E3`.
+    wejścia w pełną historię sprawy może zostać obniżony do `S2` i `E2`, ale próg
+    ujawnienia zewnętrznego pozostaje nie niższy niż `S3` i `E3`.
 
 ---
 
 ## 4. Role i wymóg współpodpisu
 
 1. Każda sprawa MUSI mieć przypisane co najmniej role:
-   - `Triage`,
-   - `Evidence`,
-   - `RedTeam`.
+    - `Triage`,
+    - `Evidence`,
+    - `RedTeam`.
 
 2. Dla ujawnienia zewnętrznego, sankcji `S3+` albo notyfikacji prawnej wymagany jest
-   współpodpis co najmniej dwóch z trzech ról:
-   - `Evidence`,
-   - `RedTeam`,
-   - `Governance` lub `Legal`, jeżeli rola istnieje w federacji.
+    współpodpis co najmniej dwóch z trzech ról:
+    - `Evidence`,
+    - `RedTeam`,
+    - `Governance` lub `Legal`, jeżeli rola istnieje w federacji.
 
 3. Osoba z konfliktem interesów, relacją zależności, osobistym sporem lub interesem
-   finansowym w sprawie MUSI zostać wyłączona.
+    finansowym w sprawie MUSI zostać wyłączona.
 
 4. Brak dostępnej roli `Legal` nie blokuje sprawy, ale blokuje notyfikację prawną,
-   chyba że federacja ma ustawowy obowiązek zawiadomienia.
+    chyba że federacja ma ustawowy obowiązek zawiadomienia.
 
 5. Zejście `nym -> node-id` dla sankcji infrastrukturalnych jest dopuszczalne przy
-   progu `U1` określonym w `IDENTITY-UNSEALING-BOARD.pl.md` i nie stanowi jeszcze
-   odpieczętowania `root-identity`.
+    progu `U1` określonym w `IDENTITY-UNSEALING-BOARD.pl.md` i nie stanowi jeszcze
+    odpieczętowania `root-identity`.
 
 6. Jeżeli sprawa dotyczy kompromitacji zaufanego anchoru council dla nymów,
-   federacja POWINNA traktować ją jako incydent infrastrukturalny wysokiej stawki:
+    federacja POWINNA traktować ją jako incydent infrastrukturalny wysokiej stawki:
 
-   - możliwe jest natychmiastowe zamrożenie trapdooru lub ścieżki odnowień,
-   - rotacja klucza council staje się środkiem ochronnym, nie zwykłą operacją,
-   - a audyt powinien zostać przekazany do panelu ad-hoc z zachowaniem zasady
+    - możliwe jest natychmiastowe zamrożenie trapdooru lub ścieżki odnowień,
+    - rotacja klucza council staje się środkiem ochronnym, nie zwykłą operacją,
+    - a audyt powinien zostać przekazany do panelu ad-hoc z zachowaniem zasady
      minimalnego ujawniania.
 
 ---
@@ -168,10 +168,10 @@ Każda sprawa MUSI posiadać minimalny rekord:
 1. Zakres ujawnienia MUSI być związany ze sprawą, proporcjonalny i minimalny.
 
 2. Zakazane jest ujawnianie materiału obyczajowego, relacyjnego lub prywatnego bez
-   bezpośredniego związku z ocenianym nadużyciem.
+    bezpośredniego związku z ocenianym nadużyciem.
 
 3. Sam fakt pełnienia roli zaufania nie znosi zasady minimalnego ujawniania; zwiększa
-   wyłącznie zakres odpowiedzialności i wymóg transparentności proceduralnej.
+    wyłącznie zakres odpowiedzialności i wymóg transparentności proceduralnej.
 
 ---
 
@@ -186,53 +186,53 @@ Każda sprawa MUSI posiadać minimalny rekord:
 | `I4` | odcięcie trasowania, blokada federacyjna lub izolacja węzła |
 
 1. Sankcja MUSI odpowiadać poziomowi `stake-level`, odwracalności szkody i jakości
-   dowodów.
+    dowodów.
 
 2. Sankcja `I4` wymaga co najmniej `S3`, `E3` i współpodpisu zgodnie z pkt 4.
 
 3. Sankcja może zostać nałożona przed publikacją zewnętrzną, jeśli wymaga tego ochrona
-   ludzi albo integralności dowodów.
+    ludzi albo integralności dowodów.
 
 ---
 
 ## 8. Retencja i dane
 
 1. Dane sprawy wolno gromadzić wyłącznie w zakresie koniecznym do weryfikacji sygnału,
-   ochrony ludzi, zachowania integralności dowodów i wykonania obowiązków prawnych.
+    ochrony ludzi, zachowania integralności dowodów i wykonania obowiązków prawnych.
 
 2. Klasy retencji:
-   - `R0` - sprawa odrzucona: 90 dni,
-   - `R1` - sprawa zamknięta bez sankcji ciężkiej: 2 lata,
-   - `R2` - sprawa z sankcją `I3-I4`: 7 lat,
-   - `R3` - sprawa objęta legal hold lub torem prawnym: do zakończenia postępowania + 7 lat.
+    - `R0` - sprawa odrzucona: 90 dni,
+    - `R1` - sprawa zamknięta bez sankcji ciężkiej: 2 lata,
+    - `R2` - sprawa z sankcją `I3-I4`: 7 lat,
+    - `R3` - sprawa objęta legal hold lub torem prawnym: do zakończenia postępowania + 7 lat.
 
 3. Materiał wykraczający poza zakres sprawy MUSI zostać zredagowany lub usunięty bez
-   zbędnej zwłoki.
+    zbędnej zwłoki.
 
 4. Korelaty danych wolno wykorzystywać wyłącznie wtedy, gdy ich związek ze sprawą został
-   jawnie opisany w `scope-justification`.
+    jawnie opisany w `scope-justification`.
 
 ---
 
 ## 9. Tryb odwołania
 
 1. Osoba objęta ujawnieniem lub sankcją MUSI otrzymać:
-   - opis zarzutu,
-   - informację o materiale dowodowym w zakresie nieszkodzącym ofierze, sygnaliście
+    - opis zarzutu,
+    - informację o materiale dowodowym w zakresie nieszkodzącym ofierze, sygnaliście
      lub integralności sprawy,
-   - termin i ścieżkę odwoławczą.
+    - termin i ścieżkę odwoławczą.
 
 2. Minimalne `appeal-window` wynosi 14 dni, chyba że bezpośrednie zagrożenie wymaga
-   wcześniejszej izolacji.
+    wcześniejszej izolacji.
 
 3. Odwołanie rozpoznaje nowy skład, z wyłączeniem osób uczestniczących w decyzji
-   pierwotnej.
+    pierwotnej.
 
 4. Odwołanie może opierać się wyłącznie na:
-   - kontr-dowodzie,
-   - wykazaniu błędu proceduralnego,
-   - wykazaniu konfliktu interesów w zespole sprawy,
-   - wykazaniu nieproporcjonalności zakresu ujawnienia.
+    - kontr-dowodzie,
+    - wykazaniu błędu proceduralnego,
+    - wykazaniu konfliktu interesów w zespole sprawy,
+    - wykazaniu nieproporcjonalności zakresu ujawnienia.
 
 ---
 
@@ -241,22 +241,22 @@ Każda sprawa MUSI posiadać minimalny rekord:
 1. `notification-mode = none` jest wartością domyślną.
 
 2. Notyfikacja prawna jest dopuszczalna wyłącznie wtedy, gdy łącznie:
-   - czyn spełnia próg z pkt 3.3,
-   - istnieje dająca się wskazać jurysdykcja właściwa,
-   - notyfikacja nie narusza silniejszego obowiązku ochrony ofiary, sygnalisty albo
+    - czyn spełnia próg z pkt 3.3,
+    - istnieje dająca się wskazać jurysdykcja właściwa,
+    - notyfikacja nie narusza silniejszego obowiązku ochrony ofiary, sygnalisty albo
      toczącego się postępowania,
-   - decyzja została współpodpisana zgodnie z pkt 4.
+    - decyzja została współpodpisana zgodnie z pkt 4.
 
 3. Federacja POWINNA preferować tryb udokumentowanego przekazania materiału do
-   właściwego organu nad publicznym ogłoszeniem, jeśli lepiej chroni to ludzi i
-   integralność sprawy.
+    właściwego organu nad publicznym ogłoszeniem, jeśli lepiej chroni to ludzi i
+    integralność sprawy.
 
 4. Każda notyfikacja MUSI zostawić ślad zawierający:
-   - `jurisdiction`,
-   - `legal-basis`,
-   - `notified-at`,
-   - `notified-by`,
-   - `payload-hash`.
+    - `jurisdiction`,
+    - `legal-basis`,
+    - `notified-at`,
+    - `notified-by`,
+    - `payload-hash`.
 
 ---
 

@@ -28,35 +28,35 @@ reputation and does not dynamically multiply influence.
 1. `IAL` primarily acts as a gate to role and decision classes.
 
 2. Higher `IAL` cannot by itself replace the required threshold of reputation,
-   experience, or role screening.
+    experience, or role screening.
 
 3. Any `fixed_power_bonus` MUST be:
 
-   - explicitly defined in federation policy,
+    - explicitly defined in federation policy,
 
-   - fixed for the whole system or a given federation,
+    - fixed for the whole system or a given federation,
 
-   - limited to `<= 1%`,
+    - limited to `<= 1%`,
 
-   - disableable for the highest-stake roles if a federation chooses a model with
+    - disableable for the highest-stake roles if a federation chooses a model with
      no premium whatsoever for stronger anchoring.
 
 4. High-stake roles SHOULD require not only `IAL`, but also a probation period,
-   procedural reputation, and conflict-of-interest checks.
+    procedural reputation, and conflict-of-interest checks.
 
 5. The `IAL` ceiling also depends on the attestation class of the identity
-   source. `Weak` sources should not by themselves unlock high-stakes roles,
-   even if other local conditions are met.
+    source. `Weak` sources should not by themselves unlock high-stakes roles,
+    even if other local conditions are met.
 
 6. `IAL` gates high-stakes surfaces, but it is not sufficient by itself.
-   Marketplace value caps, governance eligibility, panel eligibility, public
-   custody, routing, and public-trust roles also require the relevant surface
-   policy: probation, procedural reputation, sponsorship diversity when
-   applicable, COI handling, and anti-collusion review.
+    Marketplace value caps, governance eligibility, panel eligibility, public
+    custody, routing, and public-trust roles also require the relevant surface
+    policy: probation, procedural reputation, sponsorship diversity when
+    applicable, COI handling, and anti-collusion review.
 
 7. Contact-channel attestation such as phone or email control is an anti-spam
-   and recovery aid. It MUST NOT be interpreted as legal identity or as a
-   shortcut to high-stakes roles.
+    and recovery aid. It MUST NOT be interpreted as legal identity or as a
+    shortcut to high-stakes roles.
 
 ---
 
@@ -84,15 +84,15 @@ reputation and does not dynamically multiply influence.
 1. A federation MAY raise `IAL` thresholds for its own roles.
 
 2. A federation MAY NOT lower thresholds for roles that fall within `U2`, `U3`,
-   whistleblower protection, or high-stake governance.
+    whistleblower protection, or high-stake governance.
 
 3. If a role combines several functions, the highest required `IAL` applies.
 
 4. If a case is inter-federation, the higher of the participating thresholds applies.
 
 5. If the attestation source has class `weak`, a federation MAY NOT, through the
-   matrix alone, assign a role level above the ceiling permitted by
-   `ATTESTATION-PROVIDERS.en.md`.
+    matrix alone, assign a role level above the ceiling permitted by
+    `ATTESTATION-PROVIDERS.en.md`.
 
 ---
 

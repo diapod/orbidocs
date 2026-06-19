@@ -30,24 +30,24 @@ i veta.
 ## 2. Zasady ogólne
 
 1. W ładzie międzyfederacyjnym (ang. governance) liczą się wyłącznie **federacje
-   uprawnione do głosu**.
+    uprawnione do głosu**.
 2. **Jedna aktywna federacja uprawniona do głosu = jeden głos**. Kapitał, liczba
-   węzłów, ruch, przychód, moc obliczeniowa ani pozycja infrastrukturalna nie
-   zwiększają wagi głosu.
+    węzłów, ruch, przychód, moc obliczeniowa ani pozycja infrastrukturalna nie
+    zwiększają wagi głosu.
 3. Prawo głosu i veto wynika z **żywej odpowiedzialności proceduralnej**, a nie z
-   historycznego faktu istnienia federacji.
+    historycznego faktu istnienia federacji.
 4. Sposób wypracowania stanowiska **wewnątrz** federacji jest sprawą lokalnej
-   polityki, ale głos zewnętrzny MUSI pozostawiać ślad, właściciela procesu i podpis
-   właściwej roli lub ról.
+    polityki, ale głos zewnętrzny MUSI pozostawiać ślad, właściciela procesu i podpis
+    właściwej roli lub ról.
 5. Federacje pozostające pod **wspólną kontrolą** nie mogą mnożyć wpływu przez sam
-   podział organizacyjny. W sprawach wysokiej stawki i konstytucyjnych są traktowane
-   jako **jeden blok głosujący**, dopóki nie wykażą rzeczywistej niezależności
-   proceduralnej.
+    podział organizacyjny. W sprawach wysokiej stawki i konstytucyjnych są traktowane
+    jako **jeden blok głosujący**, dopóki nie wykażą rzeczywistej niezależności
+    proceduralnej.
 6. Członkostwo i sponsoring uczestników wewnątrz federacji są mechanizmami
-   polityki wejścia. MOGĄ informować, kto uczestniczy w lokalnych procedurach
-   federacji, ale NIE MOGĄ stać się skrótem omijającym reguły quorum,
-   aktywności, wspólnej kontroli albo zawieszenia w porządku
-   międzyfederacyjnym.
+    polityki wejścia. MOGĄ informować, kto uczestniczy w lokalnych procedurach
+    federacji, ale NIE MOGĄ stać się skrótem omijającym reguły quorum,
+    aktywności, wspólnej kontroli albo zawieszenia w porządku
+    międzyfederacyjnym.
 
 ---
 
@@ -102,11 +102,11 @@ Federacja uzyskuje albo utrzymuje status `active` wyłącznie wtedy, gdy łączn
 2. posiada działający `governance_endpoint` oraz `fallback_contact`,
 3. wysłała ważny heartbeat w oknie `heartbeat_ttl`,
 4. potwierdziła odbiór co najmniej jednego formalnego zawiadomienia lub wykonała
-   co najmniej jedną audytowalną czynność dotyczącą ładu organizacyjnego (ang.
-   governance) w oknie `activity_ttl`,
+    co najmniej jedną audytowalną czynność dotyczącą ładu organizacyjnego (ang.
+    governance) w oknie `activity_ttl`,
 5. nie jest objęta aktywnym zawieszeniem proceduralnym,
 6. nie pozostaje w nierozstrzygniętym sporze o wspólną kontrolę, który wymaga
-   agregacji głosu z inną federacją.
+    agregacji głosu z inną federacją.
 
 Status `candidate` może zostać podniesiony do `active` po spełnieniu wszystkich
 powyższych warunków oraz po zakończeniu okresu próbnego `candidate_min_age`.
@@ -131,11 +131,11 @@ warunków:
 
 1. heartbeat wygasł,
 2. federacja nie potwierdziła odbioru `missed_notice_limit` kolejnych formalnych
-   zawiadomień,
+    zawiadomień,
 3. `governance_endpoint` i `fallback_contact` są niedostępne przez pełne okno
-   zawiadomienia,
+    zawiadomienia,
 4. rekord federacji jest nieaktualny albo niespójny i nie został naprawiony w oknie
-   naprawczym.
+    naprawczym.
 
 ### 6.3. `active` lub `dormant` -> `suspended`
 
@@ -144,7 +144,7 @@ Przejście następuje, gdy:
 1. istnieje aktywny środek tymczasowy lub `injunction`,
 2. zachodzi incydent bezpieczeństwa dotyczący kluczy `governance`,
 3. występuje twardy sygnał przejęcia sterowania (ang. capture), fałszywego przedstawienia tożsamości lub
-   manipulacji procesem głosowania.
+    manipulacji procesem głosowania.
 
 ### 6.4. `dormant` lub `suspended` -> `active`
 
@@ -242,14 +242,14 @@ heartbeat przez pół roku ani skracać okresu wejścia do zera.
 ## 10. Utrata prawa veta przez martwą federację
 
 1. Federacja nieposiadająca statusu `active` w chwili tworzenia migawki elektoratu
-   **nie ma prawa veta**.
+    **nie ma prawa veta**.
 2. Federacja, która utraciła status `active`, nie blokuje kolejnych procesów
-   konstytucyjnych ani zwykłych tylko dlatego, że historycznie należała do federacji.
+    konstytucyjnych ani zwykłych tylko dlatego, że historycznie należała do federacji.
 3. Federacja, która milczy w procesie wymagającym jednomyślności, może zablokować
-   **ten konkretny proces**, jeśli była `active` w migawce, ale po przekroczeniu
-   `missed_notice_limit` przechodzi do `dormant` i traci veto w procesach kolejnych.
+    **ten konkretny proces**, jeśli była `active` w migawce, ale po przekroczeniu
+    `missed_notice_limit` przechodzi do `dormant` i traci veto w procesach kolejnych.
 4. Jawne wyjście z ładu międzyfederacyjnego (ang. governance) działa natychmiast na
-   przyszłość: federacja przechodzi do `retired` i nie jest już liczona do quorum.
+    przyszłość: federacja przechodzi do `retired` i nie jest już liczona do quorum.
 
 Zasada jest prosta: **veto przysługuje żywej odpowiedzialności, nie cieniowi po niej**.
 
@@ -268,9 +268,9 @@ Za sygnały wspólnej kontroli uważa się co najmniej:
 Jeżeli istnieje wiarygodny spór o wspólną kontrolę:
 
 1. federacje są tymczasowo grupowane do jednego bloku głosującego w sprawach
-   `high_stake` i `entrenched_core`,
+    `high_stake` i `entrenched_core`,
 2. spór jest śledzony jako problem domniemania konfliktu interesów przy braku
-   danych (COI-by-default),
+    danych (COI-by-default),
 3. przywrócenie osobnych głosów wymaga wykazania odrębności proceduralnej.
 
 Ta reguła nie służy budowie centrum. Służy temu, by kapitał lub aparat organizacyjny

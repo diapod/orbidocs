@@ -240,31 +240,31 @@ To jest projekt techniczny, lecz wartości nie są tu PR-em – są **kontrakte
 zachowań**.
 
 1. **Suwerenność** – użytkownik może odejść z danymi w 5 minut (formaty otwarte,
-   eksport, migracja).
+    eksport, migracja).
 
 2. **Lokalność jako tryb domyślny** (ang. *local-first*) – preferujemy obliczenia
-   i pamięć lokalnie; sieć jest dodatkiem, nie warunkiem.
+    i pamięć lokalnie; sieć jest dodatkiem, nie warunkiem.
 
 3. **Minimalizm bodźców** – żadnych mechanizmów uzależniających, żadnego
-   "dopaminowego UX".
+    "dopaminowego UX".
 
 4. **Prywatność jako godność** – model zagrożeń jest częścią architektury, nie
-   dodatkiem.
+    dodatkiem.
 
 5. **Wzajemna pomoc** – sieć wzmacnia najsłabszych, nie tylko najszybszych.
 
 6. **Dostatek ponad akumulację** – ekonomia roju ma podtrzymywać zdolność do
-   działania; nadwyżki nie służą trwałej dominacji, lecz wracają do wspólnego
-   obiegu i wzmacniają słabsze lub infrastrukturalne ogniwa.
+    działania; nadwyżki nie służą trwałej dominacji, lecz wracają do wspólnego
+    obiegu i wzmacniają słabsze lub infrastrukturalne ogniwa.
 
 7. **Uniwersalne minimum przetrwania** – zweryfikowana obecność człowieka w sieci
-   powinna gwarantować nieodbieralne minimum mocy obliczeniowej dla komunikacji,
-   orientacji oraz trybów ratunkowych i opiekuńczych, niezależnie od chwilowego
-   wkładu reputacyjnego lub ekonomicznego, a także bez strukturalnej przemocy
-   polegającej na pobieraniu opłat w walucie godności.
+    powinna gwarantować nieodbieralne minimum mocy obliczeniowej dla komunikacji,
+    orientacji oraz trybów ratunkowych i opiekuńczych, niezależnie od chwilowego
+    wkładu reputacyjnego lub ekonomicznego, a także bez strukturalnej przemocy
+    polegającej na pobieraniu opłat w walucie godności.
 
 8. **Higiena epistemiczna** – oddzielamy poziomy: opis, redukcję, wyjaśnienie,
-   doświadczenie, kulturę.
+    doświadczenie, kulturę.
 
 Operacyjnie traktujemy inteligencję przede wszystkim jako **zdolność formułowania
 trafnych predykcji** i aktualizowania ich po kontakcie z wynikiem.
@@ -496,13 +496,13 @@ wynikać z jakości pracy, trafności decyzji i zaufania wspólnoty – nie z
 ## Kamienie milowe (droga od wizji do rzeczy)
 
 1. **Minimalny węzeł**: środowisko uruchomieniowe agentów + jeden lub więcej
-   modeli + opcjonalnie lokalne memarium.
+    modeli + opcjonalnie lokalne memarium.
 
 2. **Protokół wymiany**: zadania, wyniki, tożsamości; w późniejszych fazach –
-   walidowana reputacja proceduralna.
+    walidowana reputacja proceduralna.
 
 3. **Sensorium starter kit**: temperatura + mikrofon alarmowy + kamera
-   (opcjonalnie).
+    (opcjonalnie).
 
 4. **Tryb kryzysowy**: podręczna pamięć wiedzy, procedury, walidacja informacji.
 

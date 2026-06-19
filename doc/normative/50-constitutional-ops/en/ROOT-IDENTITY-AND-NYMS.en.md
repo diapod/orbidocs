@@ -294,25 +294,25 @@ Three strength classes exist for assurance sources:
 Rules:
 
 1. A `weak` attestation SHOULD normally top out at `IAL1`, and only
-   exceptionally at `IAL2` if the federation adds safeguards against takeover
-   and influence multiplication.
+    exceptionally at `IAL2` if the federation adds safeguards against takeover
+    and influence multiplication.
 
 2. A `strong` attestation may unlock `IAL3` and `IAL4`, according to federation
-   policy and role requirements.
+    policy and role requirements.
 
 3. A `sovereign` designation confers `IAL5` and is orthogonal to the attestation
-   chain. It cannot be reached by upgrading from any attestation-based level. It
-   cannot be used to satisfy minimum `IAL` requirements for roles that specify
-   `IAL1`–`IAL4` — those roles require real-world identity anchoring, which
-   `IAL5` does not provide. Roles that specifically require `IAL5` must name it
-   explicitly.
+    chain. It cannot be reached by upgrading from any attestation-based level. It
+    cannot be used to satisfy minimum `IAL` requirements for roles that specify
+    `IAL1`–`IAL4` — those roles require real-world identity anchoring, which
+    `IAL5` does not provide. Roles that specifically require `IAL5` must name it
+    explicitly.
 
 4. A `weak -> strong` upgrade SHOULD NOT create a new `anchor-identity` if the
-   user can simultaneously:
+    user can simultaneously:
 
-   - prove control over the existing anchor,
+    - prove control over the existing anchor,
 
-   - provide a new strong attestation.
+    - provide a new strong attestation.
 
 ### 7.3. IAL as Gate, Not Multiplier
 
@@ -322,13 +322,13 @@ Rules:
 
 3. A federation MAY grant higher-IAL identities a small fixed procedural bonus (`fixed_power_bonus`), but only if:
 
-   - the bonus is described explicitly,
+    - the bonus is described explicitly,
 
-   - it does not exceed `0.01` (`1%`) of the total power of the given mechanism,
+    - it does not exceed `0.01` (`1%`) of the total power of the given mechanism,
 
-   - it does not bypass reputation thresholds or domain thresholds,
+    - it does not bypass reputation thresholds or domain thresholds,
 
-   - it can be audited and revoked.
+    - it can be audited and revoked.
 
 ---
 
@@ -426,7 +426,7 @@ Root identity may be disclosed only:
 3. A panel, audit process, or legal track may access root identity only when people cannot otherwise be protected, accountability cannot otherwise be resolved, or a legal duty cannot otherwise be fulfilled.
 
 4. Unsealing leaves a separate audit trace with:
-   `reason`, `scope`, `owner`, `legal_basis`, `expiry`.
+    `reason`, `scope`, `owner`, `legal_basis`, `expiry`.
 
 ---
 

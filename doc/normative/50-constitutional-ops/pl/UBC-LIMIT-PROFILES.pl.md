@@ -29,17 +29,17 @@ Niniejszy dokument wypełnia tę lukę.
 ## 2. Zasada ogólna
 
 1. Profil limitów jest nazwanym kontraktem danych, a nie lokalnym zwyczajem
-   implementacyjnym.
+    implementacyjnym.
 2. Profil przenośności określa, jaki minimalny zakres `UBC` jest honorowany
-   lokalnie, między federacjami oraz przez minimalny most `FIP`.
+    lokalnie, między federacjami oraz przez minimalny most `FIP`.
 3. Uznawanie trans-federacyjne może przebiegać:
-   - przez bezpośrednie uznanie federacyjne,
-   - przez minimalny rejestr/most `FIP`,
-   - przez kombinację obu ścieżek.
+    - przez bezpośrednie uznanie federacyjne,
+    - przez minimalny rejestr/most `FIP`,
+    - przez kombinację obu ścieżek.
 4. Most `FIP` gwarantuje wyłącznie profil `bridge_minimum`, chyba że federacja
-   jawnie zadeklaruje rozszerzenie.
+    jawnie zadeklaruje rozszerzenie.
 5. Federacja może podnosić limity albo dodawać profile, lecz nie może zejść
-   poniżej minimum określonego w tym dokumencie.
+    poniżej minimum określonego w tym dokumencie.
 
 ---
 
@@ -163,9 +163,9 @@ System nie spełnia tej polityki, jeżeli:
 
 1. most `FIP` deklaruje uznawanie PoP, ale nie dostarcza profilu `bridge_minimum`,
 2. federacja opisuje profil jako `trans_federation_limited`, lecz nie zapewnia
-   jawnych limitów dla komunikacji i pomocy,
+    jawnych limitów dla komunikacji i pomocy,
 3. profil ratunkowy posiada `hard_stop` albo praktyczny limit uniemożliwiający
-   wezwanie pomocy,
+    wezwanie pomocy,
 4. rozszerzenie federacyjne usuwa jedną z trzech minimalnych klas dostępu,
 5. implementacja używa lokalnych, niejawnych limitów zamiast nazwanych profili.
 

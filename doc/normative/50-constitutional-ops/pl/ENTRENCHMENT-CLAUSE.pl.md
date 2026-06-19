@@ -52,25 +52,25 @@ z rdzenia nienegocjowalnego wymaga **jednoczesnego** spełnienia wszystkich poni
 warunków:
 
 1. **Jednomyślność federacji** - zgoda wszystkich federacji uczestniczących w procesie
-   zmiany. Jedna federacja = jedno veto. Brak głosu nie jest traktowany jako zgoda.
+    zmiany. Jedna federacja = jedno veto. Brak głosu nie jest traktowany jako zgoda.
 
 2. **Niezależny kontradyktoryjny przegląd (ang. adversarial review)** - panel
-   zespołu kontrtestującego (ang. red-team) złożony z co najmniej trzech węzłów o
-   wysokiej reputacji proceduralnej, niebędących inicjatorami zmiany i
-   nieposiadających konfliktu interesów z przedmiotem zmiany. Panel publikuje jawne
-   uzasadnienie poparcia lub sprzeciwu.
+    zespołu kontrtestującego (ang. red-team) złożony z co najmniej trzech węzłów o
+    wysokiej reputacji proceduralnej, niebędących inicjatorami zmiany i
+    nieposiadających konfliktu interesów z przedmiotem zmiany. Panel publikuje jawne
+    uzasadnienie poparcia lub sprzeciwu.
 
 3. **Okres refleksji** - minimum 90 dni między formalnym zgłoszeniem propozycji a
-   głosowaniem. W tym czasie propozycja jest publicznie dostępna, a każdy węzeł może
-   zgłosić kontr-argumenty.
+    głosowaniem. W tym czasie propozycja jest publicznie dostępna, a każdy węzeł może
+    zgłosić kontr-argumenty.
 
 4. **Analiza skutków** - pisemna analiza obejmująca: przewidywane skutki dla godności,
-   bezpieczeństwa, suwerenności i prawa do wyjścia; scenariusze nadużyć; warunki
-   odwracalności.
+    bezpieczeństwa, suwerenności i prawa do wyjścia; scenariusze nadużyć; warunki
+    odwracalności.
 
 5. **Jawność procesu** - pełny ślad procesu decyzyjnego (propozycja, argumenty,
-   kontr-argumenty, głosy, uzasadnienia) jest trwale archiwizowany i publicznie
-   dostępny.
+    kontr-argumenty, głosy, uzasadnienia) jest trwale archiwizowany i publicznie
+    dostępny.
 
 ### 2.3. Czego klauzula wieczności nie blokuje
 
@@ -129,14 +129,14 @@ z Art. VII. Zamiast tego:
 **Powołanie panelu:**
 
 1. Po przyjęciu zgłoszenia system losuje **3 lub więcej węzłów** z puli węzłów
-   spełniających kryteria:
-   - wysoka reputacja proceduralna (nie techniczna - Art. VII.4),
-   - brak konfliktu interesów z przedmiotem sprawy (domniemanie konfliktu
+    spełniających kryteria:
+    - wysoka reputacja proceduralna (nie techniczna - Art. VII.4),
+    - brak konfliktu interesów z przedmiotem sprawy (domniemanie konfliktu
      interesów przy braku danych, COI-by-default, Art. VII.6),
-   - brak powiązań ze stronami sporu.
+    - brak powiązań ze stronami sporu.
 
 2. Strony sporu mogą zgłosić **po jednym veto** wobec wylosowanych węzłów
-   (z uzasadnieniem), po czym losowanie jest powtarzane dla odrzuconych pozycji.
+    (z uzasadnieniem), po czym losowanie jest powtarzane dla odrzuconych pozycji.
 
 3. Panel działa kolegialnie; decyzje zapadają większością głosów.
 
@@ -144,10 +144,10 @@ z Art. VII. Zamiast tego:
 
 1. Panel ma **30 dni** na wydanie rozstrzygnięcia (w trybie `critical` - 7 dni).
 2. Panel bada zgodność target z Konstytucją, korzystając z Źródeł wykładni
-   (Poziom 2 hierarchii normatywnej) i zasad interpretacji z sekcji "Moc normatywna
-   i wykładnia".
+    (Poziom 2 hierarchii normatywnej) i zasad interpretacji z sekcji "Moc normatywna
+    i wykładnia".
 3. Panel publikuje **uzasadnienie** zawierające: stan faktyczny, analizę prawną,
-   rozstrzygnięcie i ewentualne zalecenia.
+    rozstrzygnięcie i ewentualne zalecenia.
 
 **Skutki rozstrzygnięcia:**
 
@@ -165,11 +165,11 @@ szkodę - zgłaszający może wnioskować o **środek tymczasowy**:
 
 1. Wniosek wymaga wskazania, jaka szkoda jest nieodwracalna i dlaczego.
 2. Decyzję o środku tymczasowym podejmują **2 z 3** wylosowanych członków panelu
-   w ciągu **48 godzin**.
+    w ciągu **48 godzin**.
 3. Środek tymczasowy **zawiesza** kwestionowane działanie do czasu pełnego
-   rozstrzygnięcia.
+    rozstrzygnięcia.
 4. Środek tymczasowy jest sam śledzony jako wyjątek konstytucyjny i musi zawierać
-   `reason`, `risk-level`, `expiry` i `owner`, zgodnie z Art. XIV Konstytucji.
+    `reason`, `risk-level`, `expiry` i `owner`, zgodnie z Art. XIV Konstytucji.
 
 ### 3.4. Odwołanie
 

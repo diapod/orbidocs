@@ -33,21 +33,21 @@ rights.
 
 1. In inter-federation governance, only **voting-eligible federations** count.
 2. **One active voting-eligible federation = one vote**. Capital, node count,
-   traffic, revenue, computing power, or infrastructure position do not increase
-   vote weight.
+    traffic, revenue, computing power, or infrastructure position do not increase
+    vote weight.
 3. Voting and veto rights arise from **living procedural responsibility**, not
-   from the historical fact that a federation once existed.
+    from the historical fact that a federation once existed.
 4. How a position is produced **inside** a federation is a matter of local policy,
-   but the external vote MUST leave a trace, an owner of the process, and a
-   signature of the proper role or roles.
+    but the external vote MUST leave a trace, an owner of the process, and a
+    signature of the proper role or roles.
 5. Federations under **common control** may not multiply influence merely through
-   organizational partition. In high-stakes and constitutional matters they are
-   treated as **one voting block** until they demonstrate genuine procedural
-   independence.
+    organizational partition. In high-stakes and constitutional matters they are
+    treated as **one voting block** until they demonstrate genuine procedural
+    independence.
 6. Participant membership and sponsorship inside a federation are entry-policy
-   mechanisms. They MAY inform who can participate in local federation
-   procedures, but they MUST NOT become a shortcut around inter-federation
-   quorum, activity, common-control, or suspension rules.
+    mechanisms. They MAY inform who can participate in local federation
+    procedures, but they MUST NOT become a shortcut around inter-federation
+    quorum, activity, common-control, or suspension rules.
 
 ---
 
@@ -103,10 +103,10 @@ A federation obtains or retains `active` status only when it jointly:
 2. has a functioning `governance_endpoint` and `fallback_contact`,
 3. has sent a valid heartbeat within the `heartbeat_ttl` window,
 4. has acknowledged at least one formal notice or performed at least one
-   auditable governance action within the `activity_ttl` window,
+    auditable governance action within the `activity_ttl` window,
 5. is not covered by an active procedural suspension,
 6. is not in an unresolved common-control dispute requiring aggregation of its
-   vote with another federation.
+    vote with another federation.
 
 A `candidate` status may be raised to `active` after all the above conditions are
 met and the probation period `candidate_min_age` has ended.
@@ -131,11 +131,11 @@ following conditions appears:
 
 1. heartbeat expired,
 2. the federation failed to acknowledge `missed_notice_limit` consecutive formal
-   notices,
+    notices,
 3. `governance_endpoint` and `fallback_contact` are unavailable for the full
-   notice window,
+    notice window,
 4. the federation record is stale or inconsistent and was not repaired within the
-   remediation window.
+    remediation window.
 
 ### 6.3. `active` or `dormant` -> `suspended`
 
@@ -144,7 +144,7 @@ Transition occurs when:
 1. there is an active interim measure or injunction,
 2. there is a security incident concerning governance keys,
 3. there is a hard signal of capture, false identity representation, or
-   manipulation of the voting process.
+    manipulation of the voting process.
 
 ### 6.4. `dormant` or `suspended` -> `active`
 
@@ -242,17 +242,17 @@ without a heartbeat for half a year or reduce the entry period to zero.
 ## 10. Loss of Veto Right by a Dead Federation
 
 1. A federation that does not have `active` status at the moment the electorate
-   snapshot is created **has no veto right**.
+    snapshot is created **has no veto right**.
 2. A federation that lost `active` status does not block subsequent
-   constitutional or ordinary processes merely because it historically belonged
-   to the federation set.
+    constitutional or ordinary processes merely because it historically belonged
+    to the federation set.
 3. A federation that remains silent in a process requiring unanimity may block
-   **that concrete process** if it was `active` in the snapshot, but after
-   crossing `missed_notice_limit` it moves to `dormant` and loses veto in later
-   processes.
+    **that concrete process** if it was `active` in the snapshot, but after
+    crossing `missed_notice_limit` it moves to `dormant` and loses veto in later
+    processes.
 4. An explicit exit from inter-federation governance acts immediately for the
-   future: the federation moves to `retired` and is no longer counted toward
-   quorum.
+    future: the federation moves to `retired` and is no longer counted toward
+    quorum.
 
 The rule is simple: **veto belongs to living responsibility, not to its shadow**.
 
@@ -271,7 +271,7 @@ The following count at minimum as signals of common control:
 If there is a credible dispute about common control:
 
 1. the federations are temporarily grouped into one voting block in matters of
-   `high_stake` and `entrenched_core`,
+    `high_stake` and `entrenched_core`,
 2. the dispute is tracked as a COI-by-default problem,
 3. restoration of separate votes requires proof of procedural separateness.
 

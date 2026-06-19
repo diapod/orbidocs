@@ -26,18 +26,18 @@ make the exception a **first-class audit object**.
 ## 2. General Rule
 
 1. An exception is permissible only when it:
-   - does not violate the non-negotiable core,
-   - is limited in scope and time,
-   - has an owner responsible for its effects,
-   - has an explicit disable condition,
-   - leads to a defined fail-closed state.
+    - does not violate the non-negotiable core,
+    - is limited in scope and time,
+    - has an owner responsible for its effects,
+    - has an explicit disable condition,
+    - leads to a defined fail-closed state.
 2. An exception may not become the default mode or a permanent feature of the
-   architecture.
+    architecture.
 3. An exception MUST NOT suspend the ban on demanding humiliation, self-abasement,
-   or emotional dependency as a condition of access to critical goods, help,
-   protective procedures, or basic system resources.
+    or emotional dependency as a condition of access to critical goods, help,
+    protective procedures, or basic system resources.
 4. A frequently repeated exception is a signal that a rule, contract, or new
-   operational path is missing.
+    operational path is missing.
 
 ---
 
@@ -115,25 +115,25 @@ Examples:
 
 1. The initiator creates an exception record with the full data model.
 2. The exception must be approved by at least two roles, one of which is not the
-   direct beneficiary of the exception.
+    direct beneficiary of the exception.
 3. For `high` and `critical` exceptions, multisig and an explicit indication of
-   monitoring metrics apply.
+    monitoring metrics apply.
 4. After approval, the exception gains the status `active`.
 
 ### 5.2. Emergency Exception
 
 1. It may be activated by an operator or automatically by a defined trigger.
 2. Activation creates the exception record immediately or no later than together
-   with the first action trace.
+    with the first action trace.
 3. The maximum lifetime of an emergency exception is a federation parameter, but
-   after expiry the system MUST return to the fail-closed state.
+    after expiry the system MUST return to the fail-closed state.
 4. Post-hoc review is mandatory and must begin no later than 72 hours after
-   activation, unless the federation is still in crisis mode.
+    activation, unless the federation is still in crisis mode.
 
 ### 5.3. Protective / Constitutional Exception
 
 1. It is activated by an ad-hoc panel or another procedural body authorized by
-   the Constitution.
+    the Constitution.
 2. It must indicate the irreversible harm that is threatened.
 3. It expires automatically after the full ruling or when `expiry` is reached.
 4. It may not be extended without a new decision and a new trace of rationale.
@@ -157,7 +157,7 @@ An exception MUST be automatically suspended or rolled back if:
 4. the condition that justified activation has disappeared,
 5. the exception begins to function as a permanent architectural backdoor,
 6. the exception begins to condition access to help, protective procedures, or
-   critical goods on humiliation, self-abasement, or emotional dependency.
+    critical goods on humiliation, self-abasement, or emotional dependency.
 
 ---
 

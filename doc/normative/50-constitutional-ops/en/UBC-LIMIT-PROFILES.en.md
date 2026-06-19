@@ -30,15 +30,15 @@ This document closes that gap.
 
 1. A limit profile is a named data contract, not a local implementation custom.
 2. A portability profile defines what minimum scope of `UBC` is honored locally,
-   across federations, and through the minimal `FIP` bridge.
+    across federations, and through the minimal `FIP` bridge.
 3. Cross-federation recognition may run:
-   - through direct federation recognition,
-   - through the minimal `FIP` registry/bridge,
-   - through a combination of both paths.
+    - through direct federation recognition,
+    - through the minimal `FIP` registry/bridge,
+    - through a combination of both paths.
 4. The `FIP` bridge guarantees only the `bridge_minimum` profile unless a
-   federation explicitly declares an extension.
+    federation explicitly declares an extension.
 5. A federation may raise limits or add profiles, but may not go below the
-   minimum defined in this document.
+    minimum defined in this document.
 
 ---
 
@@ -162,7 +162,7 @@ The system does not satisfy this policy if:
 
 1. the `FIP` bridge claims PoP recognition but does not deliver the `bridge_minimum` profile,
 2. a federation labels a profile as `trans_federation_limited` yet does not provide
-   explicit limits for communication and care,
+    explicit limits for communication and care,
 3. the emergency profile contains a `hard_stop` or a practical quota that blocks asking for help,
 4. a federation extension removes one of the three minimum access classes,
 5. the implementation uses local, implicit quotas instead of named profiles.

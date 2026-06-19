@@ -43,43 +43,43 @@ sobie albo współistniejących rekordów poświadczenia, o różnej sile (`weak
 
 1. `anchor-identity` MUSI być wywodzona z:
 
-   - znormalizowanych danych tożsamościowych użytych przy pierwszym poświadczeniu,
+    - znormalizowanych danych tożsamościowych użytych przy pierwszym poświadczeniu,
 
-   - sekretu odzyskiwania wyprowadzanego z frazy słów,
+    - sekretu odzyskiwania wyprowadzanego z frazy słów,
 
-   - losowego `salt`,
+    - losowego `salt`,
 
-   - jawnych parametrów KDF.
+    - jawnych parametrów KDF.
 
 2. `salt` **nie jest sekretem**. Ma różnicować wyprowadzenie i chronić przed
-   prekomputacją. System POWINIEN przechowywać go samodzielnie, tak aby użytkownik
-   nie musiał go pamiętać.
+    prekomputacją. System POWINIEN przechowywać go samodzielnie, tak aby użytkownik
+    nie musiał go pamiętać.
 
 3. Fraza odzyskiwania jest sekretem użytkownika. System NIE MOŻE przechowywać jej
-   wprost ani w postaci odwracalnej.
+    wprost ani w postaci odwracalnej.
 
 4. Po poprawnym pierwszym poświadczeniu system POWINIEN pamiętać, że dana
-   `anchor-identity` została już zakotwiczona metodą o określonym poziomie `IAL`.
-   Późniejsze odzyskiwanie NIE MUSI wymagać ponownego użycia `DigitalID`,
-   `mObywatel`, podpisu kwalifikowanego ani vouchingu, o ile ciągłość
-   kryptograficzna i status poświadczenia pozostają ważne.
+    `anchor-identity` została już zakotwiczona metodą o określonym poziomie `IAL`.
+    Późniejsze odzyskiwanie NIE MUSI wymagać ponownego użycia `DigitalID`,
+    `mObywatel`, podpisu kwalifikowanego ani vouchingu, o ile ciągłość
+    kryptograficzna i status poświadczenia pozostają ważne.
 
 5. System NIE POWINIEN przechowywać pełnych danych cywilnych, jeżeli wystarcza:
 
-   - referencja do poświadczenia,
+    - referencja do poświadczenia,
 
-   - `lookup_tag`,
+    - `lookup_tag`,
 
-   - `salt`,
+    - `salt`,
 
-   - parametry KDF,
+    - parametry KDF,
 
-   - status ważności i poziom `IAL`.
+    - status ważności i poziom `IAL`.
 
 6. Upgrade `weak -> strong` POWINIEN podnosić siłę i maksymalny `IAL`
-   istniejącej `anchor-identity`, a nie tworzyć nową kotwicę, o ile użytkownik
-   udowodni kontrolę nad dotychczasową kotwicą i dostarczy nowe poświadczenie
-   mocne.
+    istniejącej `anchor-identity`, a nie tworzyć nową kotwicę, o ile użytkownik
+    udowodni kontrolę nad dotychczasową kotwicą i dostarczy nowe poświadczenie
+    mocne.
 
 ---
 
@@ -145,9 +145,9 @@ Przy pierwszym poświadczeniu użytkownik dostarcza:
 
 4. Wyliczana jest `anchor-identity`:
 
-   - przez KDF odporny na zgadywanie i kosztowny obliczeniowo,
+    - przez KDF odporny na zgadywanie i kosztowny obliczeniowo,
 
-   - z wejścia `normalized_claims + recovery_secret + salt + kdf_params`.
+    - z wejścia `normalized_claims + recovery_secret + salt + kdf_params`.
 
 5. Tworzony jest rekord poświadczenia i rekord `anchor-identity`.
 
@@ -244,10 +244,10 @@ federacjami albo domenami. Jeżeli `pepper` jest stosowany:
 3. NIE MOŻE być eksportowany razem z pakietem odzyskiwania.
 
 4. Zmiana `pepper` MUSI uruchamiać reindeksację `lookup_tag` albo okres
-   przejściowy, w którym uznawane są co najmniej dwie wersje `pepper`.
+    przejściowy, w którym uznawane są co najmniej dwie wersje `pepper`.
 
 5. Surowy `lookup_tag` NIE POWINIEN być przenoszony między federacjami jako
-   artefakt interoperacyjny.
+    artefakt interoperacyjny.
 
 ---
 
@@ -279,7 +279,7 @@ poświadczenia.
 6. System porównuje wynik z zapisanym rekordem.
 
 7. Jeżeli rekord poświadczenia pozostaje ważny, użytkownik odzyskuje ciągłość
-   bez ponownego pełnego poświadczenia `root-identity`.
+    bez ponownego pełnego poświadczenia `root-identity`.
 
 ### 6.3. Kiedy wymagane jest ponowne poświadczenie
 
@@ -317,10 +317,10 @@ recovery_bundle:
 1. Pakiet odzyskiwania NIE zawiera frazy odzyskiwania.
 
 2. Utrata pakietu nie może sama z siebie uniemożliwiać odzyskania, jeśli system
-   zachował rekord pamięci.
+    zachował rekord pamięci.
 
 3. Posiadanie pakietu bez frazy i bez poprawnych claimów tożsamościowych nie daje
-   prawa do przejęcia tożsamości.
+    prawa do przejęcia tożsamości.
 
 ---
 
@@ -362,21 +362,21 @@ wymagać:
 
 2. System łączy:
 
-   - starą `anchor-identity`,
+    - starą `anchor-identity`,
 
-   - nowy zestaw `normalized_claims`,
+    - nowy zestaw `normalized_claims`,
 
-   - ważne lub odświeżone poświadczenie.
+    - ważne lub odświeżone poświadczenie.
 
 3. Powstaje:
 
-   - nowy rekord pamięci poświadczenia,
+    - nowy rekord pamięci poświadczenia,
 
-   - ewentualne oznaczenie poprzedniego poświadczenia jako `superseded`,
+    - ewentualne oznaczenie poprzedniego poświadczenia jako `superseded`,
 
-   - ślad migracji,
+    - ślad migracji,
 
-   - zachowanie ciągłości odpowiedzialności i reputacji.
+    - zachowanie ciągłości odpowiedzialności i reputacji.
 
 ### 8.2. Zasada
 
@@ -391,8 +391,8 @@ reputacji, ani jako wystarczająca podstawa do utworzenia nowego, niespowiązane
 2. `node-id` i `persistent_nym` mogą pozostać bez zmian.
 
 3. Efemeryczne nymy, certyfikaty stacji i materiały sesyjne MOGĄ zostać
-   odświeżone tak, aby dalsza komunikacja odwoływała się już do mocniejszego
-   zakotwiczenia.
+    odświeżone tak, aby dalsza komunikacja odwoływała się już do mocniejszego
+    zakotwiczenia.
 
 4. Historia wcześniejszego poświadczenia `weak` pozostaje w łańcuchu audytowym.
 
@@ -433,43 +433,43 @@ Odwołanie może powodować:
 ### 9.4. Macierz rotacji
 
 1. Kompromitacja stacji (`C4`) nie powinna sama z siebie wymuszać rotacji
-   `node-id` ani `anchor-identity`.
+    `node-id` ani `anchor-identity`.
 
 2. Kompromitacja `node-key` (`C3`) POWINNA prowadzić do:
 
-   - nowego `node-id`,
+    - nowego `node-id`,
 
-   - rotacji aktywnych nymów,
+    - rotacji aktywnych nymów,
 
-   - odnowienia certyfikatów stacji,
+    - odnowienia certyfikatów stacji,
 
-   - zachowania ciągłości odpowiedzialności przez wspólną `anchor-identity`.
+    - zachowania ciągłości odpowiedzialności przez wspólną `anchor-identity`.
 
 3. Kompromitacja frazy odzyskiwania (`C2`) POWINNA prowadzić do:
 
-   - odwołania starego toru odzyskiwania,
+    - odwołania starego toru odzyskiwania,
 
-   - wygenerowania nowej frazy,
+    - wygenerowania nowej frazy,
 
-   - nowego `salt`,
+    - nowego `salt`,
 
-   - nowej `anchor-identity`,
+    - nowej `anchor-identity`,
 
-   - kontrolowanego przepięcia aktywnych `node-id` albo ich rotacji zgodnie z
+    - kontrolowanego przepięcia aktywnych `node-id` albo ich rotacji zgodnie z
      polityką federacji.
 
 4. Fałszywe poświadczenie albo kompromitacja kanału poświadczającego (`C5`)
-   POWINNY być traktowane jak naruszenie warstwy zakotwiczenia i mogą wymagać:
+    POWINNY być traktowane jak naruszenie warstwy zakotwiczenia i mogą wymagać:
 
-   - pełnego ponownego poświadczenia,
+    - pełnego ponownego poświadczenia,
 
-   - zamrożenia ról wysokiej stawki,
+    - zamrożenia ról wysokiej stawki,
 
-   - unieważnienia pochodnych `node-id`.
+    - unieważnienia pochodnych `node-id`.
 
 5. Każda rotacja MUSI zostawić ślad łączący starą i nową warstwę tożsamości na
-   torze audytowym, ale NIE MUSI tworzyć publicznej korelacji między starą i nową
-   maską operacyjną.
+    torze audytowym, ale NIE MUSI tworzyć publicznej korelacji między starą i nową
+    maską operacyjną.
 
 ---
 
@@ -496,20 +496,20 @@ danego profilu.
 
 3. Podniesienie profilu KDF POWINNO następować:
 
-   - przy udanym odzyskaniu,
+    - przy udanym odzyskaniu,
 
-   - przy istotnej zmianie roli lub poziomu `IAL`,
+    - przy istotnej zmianie roli lub poziomu `IAL`,
 
-   - przy planowej migracji bezpieczeństwa federacji.
+    - przy planowej migracji bezpieczeństwa federacji.
 
 4. System NIE MOŻE automatycznie obniżać profilu KDF dla już istniejącej
-   tożsamości.
+    tożsamości.
 
 5. Jeżeli rekord ma profil słabszy niż wymagany dla aktualnej roli, federacja
-   POWINNA wymusić migrację przed dopuszczeniem do tej roli.
+    POWINNA wymusić migrację przed dopuszczeniem do tej roli.
 
 6. Migracja KDF NIE POWINNA sama z siebie zmieniać `anchor-identity`, o ile nie
-   zmieniają się `normalized_claims`, fraza odzyskiwania albo `salt`.
+    zmieniają się `normalized_claims`, fraza odzyskiwania albo `salt`.
 
 ### 10.3. Parametry KDF
 

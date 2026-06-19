@@ -31,27 +31,27 @@ This document operationalizes those obligations.
 ## 2. General Rule
 
 1. `Universal Basic Compute` (`UBC`) is a floor of participation and protection,
-   not a reward for status, reputation, or capital.
+    not a reward for status, reputation, or capital.
 2. The lack of current reputational or economic contribution MUST NOT by itself
-   cut a person off from the basic ability to communicate with the swarm, orient
-   themselves in their situation, and use emergency and care modes.
+    cut a person off from the basic ability to communicate with the swarm, orient
+    themselves in their situation, and use emergency and care modes.
 3. Access to `UBC` and its protective modes MUST NOT be conditioned on humiliation,
-   self-abasement, emotional dependency, or arbitrary personal favor from an
-   operator.
+    self-abasement, emotional dependency, or arbitrary personal favor from an
+    operator.
 4. Eligibility for `UBC` is grounded in a constitutionally admissible
-   `Proof-of-Personhood`, by default without full de-anonymization.
+    `Proof-of-Personhood`, by default without full de-anonymization.
 5. A local federation MAY grant a broader `UBC` profile, but it may not go below
-   the minimum defined in this document.
+    the minimum defined in this document.
 6. Cross-federation recognition of `Proof-of-Personhood` is limited by default and
-   may run through federations or the minimal `FIP` bridge/registry:
-   - emergency modes MUST be available without limit,
-   - communication MUST be available under a limited profile,
-   - care modes MUST be available under a limited profile.
+    may run through federations or the minimal `FIP` bridge/registry:
+    - emergency modes MUST be available without limit,
+    - communication MUST be available under a limited profile,
+    - care modes MUST be available under a limited profile.
 7. Federations MAY broaden cross-federation recognition and raise limits, and the
-   `FIP` bridge MAY guarantee only the minimum portability profile; neither path may
-   narrow recognition below the above minimum.
+    `FIP` bridge MAY guarantee only the minimum portability profile; neither path may
+    narrow recognition below the above minimum.
 8. `UBC` may not be used as a hidden path to constitutional advantage,
-   privileged high-stakes routing, or bypass of reputation requirements.
+    privileged high-stakes routing, or bypass of reputation requirements.
 
 ---
 
@@ -168,17 +168,17 @@ ubc_settlement:
 
 1. The minimum condition of eligibility is a valid `proof_of_personhood_attestation`.
 2. A federation MUST NOT require full de-anonymization as the ordinary condition of
-   entering `UBC`, unless a constitutional exception applies under the relevant
-   procedure.
+    entering `UBC`, unless a constitutional exception applies under the relevant
+    procedure.
 3. A federation MAY require periodic refresh of the attestation, but may not use
-   that process as a covert tool for excluding poor, weaker, or temporarily inactive
-   operators.
+    that process as a covert tool for excluding poor, weaker, or temporarily inactive
+    operators.
 4. The entry, refresh, or review procedure MUST NOT require humiliation,
-   self-abasement, emotional dependency, or a gatekeeper's personal satisfaction as
-   a condition of access.
+    self-abasement, emotional dependency, or a gatekeeper's personal satisfaction as
+    a condition of access.
 5. `UBC` does not depend on reward balance, reputational standing, or commercial
-   activity, although a federation may condition expanded limits on additional
-   criteria.
+    activity, although a federation may condition expanded limits on additional
+    criteria.
 
 ---
 
@@ -215,7 +215,7 @@ The `FIP` bridge/registry:
 1. MAY recognize cross-federation `Proof-of-Personhood` for the purpose of the minimum profile,
 2. MUST NOT reduce limits below the minimum,
 3. SHOULD NOT grant a profile broader than `bridge_minimum` unless it operates
-   under an explicit federation extension.
+    under an explicit federation extension.
 
 ---
 
@@ -223,13 +223,13 @@ The `FIP` bridge/registry:
 
 1. `UBC` MUST have a public contribution model.
 2. The minimum catalog of funding sources includes:
-   - `business_nodes`,
-   - `high_margin_instances`,
-   - `surplus_recirculation`,
-   - `voluntary_operator_surplus`.
+    - `business_nodes`,
+    - `high_margin_instances`,
+    - `surplus_recirculation`,
+    - `voluntary_operator_surplus`.
 3. A federation MAY add other sources, but may not hide them from audit.
 4. Funding of `UBC` may not depend solely on voluntary donations if the federation
-   declares a constitutional minimum.
+    declares a constitutional minimum.
 
 ---
 
@@ -241,11 +241,11 @@ The system does not satisfy this policy if it:
 2. cuts a person with a valid `Proof-of-Personhood` off from emergency modes,
 3. leaves no `ubc_allocation` or `ubc_settlement` trace,
 4. conditions access on humiliation, self-abasement, emotional dependency, or
-   arbitrary operator favor,
+    arbitrary operator favor,
 5. makes the basic allocation depend on reputation, balance, or capital position,
 6. uses `UBC` as a hidden channel for buying constitutional advantage,
 7. recognizes cross-federation PoP only nominally, without a real minimum of
-   communication and care/support.
+    communication and care/support.
 
 ---
 

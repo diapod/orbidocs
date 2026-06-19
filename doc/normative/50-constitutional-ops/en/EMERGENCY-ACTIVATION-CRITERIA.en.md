@@ -38,24 +38,24 @@ This document defines:
 ## 2. Design Principles
 
 1. **A3 accelerates, it does not create new powers**. Emergency mode allows
-   faster action within existing permissions; it does not grant permissions that
-   the agent contract does not contain (Art. V.10, V.13).
+    faster action within existing permissions; it does not grant permissions that
+    the agent contract does not contain (Art. V.10, V.13).
 
 2. **Fail-closed by default**. Expiry of any time limit returns the system to
-   A0. Extending emergency mode requires fresh evidence and an explicit decision.
+    A0. Extending emergency mode requires fresh evidence and an explicit decision.
 
 3. **Full trace, no exceptions**. Every action taken under A3 generates an
-   unredacted trace (AUTONOMY-LEVELS 5.1). The trace is the price of speed.
+    unredacted trace (AUTONOMY-LEVELS 5.1). The trace is the price of speed.
 
 4. **Mandatory review**. Every A3 activation undergoes post-crisis review
-   (AUTONOMY-LEVELS 5.3). Review results feed back into reputation signals.
+    (AUTONOMY-LEVELS 5.3). Review results feed back into reputation signals.
 
 5. **TC5 is a meta-class, not a direct activator**. An epistemic crisis (TC5)
-   cannot independently activate A3. It activates heightened monitoring and
-   operator alerts. A3 requires manifestation through TC1-TC4.
+    cannot independently activate A3. It activates heightened monitoring and
+    operator alerts. A3 requires manifestation through TC1-TC4.
 
 6. **Proportionality**. The response MUST be proportional to the threat.
-   Emergency powers are not a shortcut for convenience or political advantage.
+    Emergency powers are not a shortcut for convenience or political advantage.
 
 ---
 
@@ -91,14 +91,14 @@ environment.
 **TC5 activates:**
 
 1. **Heightened monitoring** — all sensorium signals tagged with increased
-   uncertainty; automated credibility scoring enters `degraded_trust` mode.
+    uncertainty; automated credibility scoring enters `degraded_trust` mode.
 2. **Operator alert** — all federation operators receive an explicit alert with
-   the TC5 classification and supporting evidence.
+    the TC5 classification and supporting evidence.
 3. **Signal pre-qualification** — signals that would normally auto-activate at
-   C3+ (section 4) require manual operator confirmation while TC5 is active.
+    C3+ (section 4) require manual operator confirmation while TC5 is active.
 4. **Oracle quarantine** — oracles flagged as potentially compromised are
-   quarantined: their outputs are still collected but excluded from automated
-   decision paths.
+    quarantined: their outputs are still collected but excluded from automated
+    decision paths.
 
 **TC5 escalation to A3** occurs only when an epistemic crisis **manifests
 through** TC1-TC4. Example: oracle poisoning (TC5) leads to a routing failure
@@ -111,18 +111,18 @@ The compromise of a `council:did:key` (as defined in the nym protocol) is a
 TC2 infrastructure crisis with specific consequences:
 
 1. **Trapdoor freeze** — the council's nym-to-participant binding trapdoor is
-   immediately frozen. No deanonymization requests are processed until the
-   compromise is resolved.
+    immediately frozen. No deanonymization requests are processed until the
+    compromise is resolved.
 2. **Emergency key rotation** — a new `council:did:key` is generated and
-   distributed. Existing nym certificates remain valid until their TTL expires
-   but cannot be renewed with the compromised key.
+    distributed. Existing nym certificates remain valid until their TTL expires
+    but cannot be renewed with the compromised key.
 3. **Ad-hoc audit panel** — a panel is composed under
-   `PANEL-SELECTION-PROTOCOL` to audit the scope of the compromise: which
-   bindings were exposed, which trapdoor operations were performed, and whether
-   any deanonymization occurred without authorization.
+    `PANEL-SELECTION-PROTOCOL` to audit the scope of the compromise: which
+    bindings were exposed, which trapdoor operations were performed, and whether
+    any deanonymization occurred without authorization.
 4. **Nym chain continuity** — participants may request accelerated nym renewal
-   using the new council key. The leniency window of existing certificates
-   ensures continuity during transition.
+    using the new council key. The leniency window of existing certificates
+    ensures continuity during transition.
 
 This subclass connects the identity infrastructure (GENYM design) with the
 constitutional crisis framework.
@@ -163,12 +163,12 @@ heightened monitoring, but A3 requires manifestation through TC1-TC4.
 For a signal to count as "independent" for credibility scoring:
 
 1. The sources MUST be operated by **different operators** (distinct
-   `node:did:key` with distinct operator identity).
+    `node:did:key` with distinct operator identity).
 2. The sources MUST derive from **different data feeds** (not mirrors of the
-   same upstream).
+    same upstream).
 3. Temporal proximity (signals within `correlation_window`, default: 15 min) is
-   treated as corroborating, not independent, unless the sources can demonstrate
-   independent causal paths.
+    treated as corroborating, not independent, unless the sources can demonstrate
+    independent causal paths.
 
 ---
 
@@ -268,20 +268,20 @@ emergency_activation:
 ### 6.2. Extension Rules
 
 1. Each extension MUST create a new entry in the `extensions` array of the
-   activation record, containing:
-   - `extended_by`: operator identity,
-   - `extended_at`: timestamp,
-   - `new_expires_at`: new expiry,
-   - `justification`: rationale with reference to fresh evidence,
-   - `evidence_refs`: references to new evidence.
+    activation record, containing:
+    - `extended_by`: operator identity,
+    - `extended_at`: timestamp,
+    - `new_expires_at`: new expiry,
+    - `justification`: rationale with reference to fresh evidence,
+    - `evidence_refs`: references to new evidence.
 
 2. Extensions beyond `max_extension` are **prohibited**. If the threat persists,
-   a new activation cycle begins with a new exception record and a fresh
-   evidence evaluation. This prevents indefinite emergency mode.
+    a new activation cycle begins with a new exception record and a fresh
+    evidence evaluation. This prevents indefinite emergency mode.
 
 3. The `max_extension` values are **absolute ceilings**, not cumulative. A TC1
-   activation with initial TTL of 4h may be extended to at most 24h total, not
-   4h + 24h = 28h.
+    activation with initial TTL of 4h may be extended to at most 24h total, not
+    4h + 24h = 28h.
 
 ### 6.3. Fail-Closed Return
 
@@ -291,7 +291,7 @@ When TTL expires without extension:
 2. The activation record is marked `deactivated_at` with reason `ttl_expired`.
 3. The post-crisis review clock starts (72h).
 4. If the threat is still present, the operator MUST initiate a new activation
-   cycle with fresh evidence.
+    cycle with fresh evidence.
 
 ---
 
@@ -314,14 +314,14 @@ eligible classes):
 
 1. **Primary operator** receives the alert with full signal data.
 2. If no response within the timeout:
-   - alert escalates to **federation-level emergency operator** (a designated
+    - alert escalates to **federation-level emergency operator** (a designated
      backup role).
 3. If the federation-level operator also does not respond within one additional
-   timeout period:
-   - for TC1 and TC4 (immediate human safety): **auto-activation** with
+    timeout period:
+    - for TC1 and TC4 (immediate human safety): **auto-activation** with
      `activation_path: "escalation_auto"` and enhanced trace. Review is
      mandatory within 24h instead of the usual 72h.
-   - for TC2, TC3, TC5: the signal is broadcast to **all federation operators**
+    - for TC2, TC3, TC5: the signal is broadcast to **all federation operators**
      with `urgency: critical`. No auto-activation without operator.
 
 ### 7.3. Operator Accountability
@@ -347,14 +347,14 @@ begin within **24 hours**.
 The review covers:
 
 1. **Adequacy** — Was the trigger class correctly identified? Was the
-   credibility assessment accurate?
+    credibility assessment accurate?
 2. **Proportionality** — Were the actions taken proportional to the threat?
-   Were less invasive alternatives available?
+    Were less invasive alternatives available?
 3. **Side effects** — What unintended consequences occurred? Were any rights
-   violated?
+    violated?
 4. **Trace completeness** — Is the action trace complete and unredacted?
 5. **Calibration recommendations** — Should activation thresholds,
-   credibility scoring, or timeout values be adjusted?
+    credibility scoring, or timeout values be adjusted?
 
 ### 8.3. Review Body
 
@@ -412,21 +412,21 @@ When multiple trigger classes are active simultaneously:
 ### 10.1. Rules
 
 1. Each trigger class creates a **separate exception record**. Crises are not
-   merged into a single activation.
+    merged into a single activation.
 
 2. The combined TTL equals the **longest individual TTL**, not the sum. A
-   simultaneous TC1 (4h) + TC3 (24h) has a combined ceiling of 24h, not 28h.
+    simultaneous TC1 (4h) + TC3 (24h) has a combined ceiling of 24h, not 28h.
 
 3. Powers do not stack. A3 is the maximum; two concurrent A3 activations do not
-   create "A4". The scope of each activation is the union of the individual
-   scopes.
+    create "A4". The scope of each activation is the union of the individual
+    scopes.
 
 4. Deactivation is **per trigger**. When TC1 resolves but TC3 persists, the TC1
-   record is closed and reviewed independently.
+    record is closed and reviewed independently.
 
 5. If a cascading crisis involves TC5, the TC5 `degraded_trust` mode applies to
-   the credibility evaluation of all concurrent triggers (section 3.2, point 3:
-   auto-activation requires manual confirmation).
+    the credibility evaluation of all concurrent triggers (section 3.2, point 3:
+    auto-activation requires manual confirmation).
 
 ### 10.2. Cascade Detection
 
@@ -441,24 +441,24 @@ review.
 Emergency activation may interact with the abuse disclosure framework:
 
 1. **Whistleblower protection under crisis** (Art. X.1-3): If a TC4 activation
-   involves a whistleblower under active threat, the emergency response includes
-   securing the whistleblower's communication channel
-   (`ABUSE-DISCLOSURE-PROTOCOL` section 4).
+    involves a whistleblower under active threat, the emergency response includes
+    securing the whistleblower's communication channel
+    (`ABUSE-DISCLOSURE-PROTOCOL` section 4).
 
 2. **Abuse as trigger** (Art. X.4-X.8): Discovery of ongoing severe abuse
-   (meeting `S3+` and `E3+` thresholds from `ABUSE-DISCLOSURE-PROTOCOL`) may
-   constitute a TC4 trigger if there is active persecution or targeted violence
-   against the reporter or affected persons.
+    (meeting `S3+` and `E3+` thresholds from `ABUSE-DISCLOSURE-PROTOCOL`) may
+    constitute a TC4 trigger if there is active persecution or targeted violence
+    against the reporter or affected persons.
 
 3. **Emergency does not bypass disclosure procedure**. A3 activation does not
-   grant authority to perform disclosure (D1-D4) without following the
-   multi-role co-signing and evidence requirements of
-   `ABUSE-DISCLOSURE-PROTOCOL`. Emergency mode accelerates the timeline but does
-   not relax the evidentiary standard.
+    grant authority to perform disclosure (D1-D4) without following the
+    multi-role co-signing and evidence requirements of
+    `ABUSE-DISCLOSURE-PROTOCOL`. Emergency mode accelerates the timeline but does
+    not relax the evidentiary standard.
 
 4. **Art. III.9 boundary**: Privacy does not shield abuse from emergency
-   response. However, the emergency pipeline MUST respect the principle of
-   minimal disclosure: only data directly relevant to the threat is accessed.
+    response. However, the emergency pipeline MUST respect the principle of
+    minimal disclosure: only data directly relevant to the threat is accessed.
 
 ---
 
@@ -509,27 +509,27 @@ Emergency activation may interact with the abuse disclosure framework:
 ## 14. Open Questions
 
 1. **Credibility scoring automation**: How exactly should C-level be computed
-   from raw signals? The current spec describes thresholds qualitatively. A
-   quantitative model needs simulation (similar to the reputation scoring
-   `[hypothesis]` in `PROCEDURAL-REPUTATION-SPEC`).
+    from raw signals? The current spec describes thresholds qualitatively. A
+    quantitative model needs simulation (similar to the reputation scoring
+    `[hypothesis]` in `PROCEDURAL-REPUTATION-SPEC`).
 
 2. **Sensorium connector taxonomy**: What types of sensorium connectors exist
-   and what signal types do they produce? This document assumes the existence of
-   sensorium signals but does not define the connector interface. A separate
-   `SENSORIUM-CONNECTOR-SPEC` may be needed.
+    and what signal types do they produce? This document assumes the existence of
+    sensorium signals but does not define the connector interface. A separate
+    `SENSORIUM-CONNECTOR-SPEC` may be needed.
 
 3. **Cross-federation emergency coordination**: When a crisis spans multiple
-   federations (e.g., a network-wide TC2), how are activations coordinated?
-   The current spec handles federation-local activation only.
+    federations (e.g., a network-wide TC2), how are activations coordinated?
+    The current spec handles federation-local activation only.
 
 4. **TC5 quantification**: What measurable indicators define an epistemic
-   crisis? Oracle output variance? Signal-to-noise ratio? Consensus divergence?
-   Currently TC5 activation is operator-assessed.
+    crisis? Oracle output variance? Signal-to-noise ratio? Consensus divergence?
+    Currently TC5 activation is operator-assessed.
 
 5. **Legal obligations**: Some jurisdictions may require mandatory reporting for
-   certain TC1/TC4 scenarios. The interaction between emergency activation and
-   `ABUSE-DISCLOSURE-PROTOCOL` section 10 (jurisdictional notifications) needs
-   further specification.
+    certain TC1/TC4 scenarios. The interaction between emergency activation and
+    `ABUSE-DISCLOSURE-PROTOCOL` section 10 (jurisdictional notifications) needs
+    further specification.
 
 ---
 

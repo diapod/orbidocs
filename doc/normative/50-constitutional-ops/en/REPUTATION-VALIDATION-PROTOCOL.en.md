@@ -173,7 +173,7 @@ situations occurs:
 1. Any core metric (M1-M5) exceeds the circuit breaker threshold.
 2. Two or more core metrics simultaneously exceed the alarm threshold.
 3. Metric M4 (reputation-quality correlation) drops below 0 (reputation is an
-   anti-signal).
+    anti-signal).
 
 ### 4.4. Effects of the Circuit Breaker
 
@@ -227,10 +227,10 @@ After successful completion of Phase 2:
 1. Publication of a validation report (data, metrics, anomalies, conclusions).
 2. Adversarial review of the report (independent red team).
 3. Proposal of formalization: change of mechanism status from
-   `[mechanism - hypothesis]` to `[mechanism - validated]` in
-   `doc/normative/30-core-values/en/CORE-VALUES.en.md`.
+    `[mechanism - hypothesis]` to `[mechanism - validated]` in
+    `doc/normative/30-core-values/en/CORE-VALUES.en.md`.
 4. Federation decision on formal adoption (Art. XVI procedure for medium-stakes
-   changes).
+    changes).
 
 ---
 

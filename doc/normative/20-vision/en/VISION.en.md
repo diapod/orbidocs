@@ -238,10 +238,10 @@ This is a technical project, but values here are not PR - they are a **behaviora
 contract**.
 
 1. **Sovereignty** - a user can leave with data in 5 minutes (open formats, export,
-   migration).
+    migration).
 
 2. **Locality as the default mode** (*local-first*) - we prefer local compute and
-   local memory; the network is an addition, not a condition.
+    local memory; the network is an addition, not a condition.
 
 3. **Minimal stimulus** - no addictive mechanisms, no "dopamine UX."
 
@@ -250,17 +250,17 @@ contract**.
 5. **Mutual aid** - the network strengthens the most vulnerable, not only the fastest.
 
 6. **Sufficiency over accumulation** - swarm economics should sustain the capacity to
-   act; surpluses should not become lasting domination, but return to common
-   circulation and strengthen weaker or infrastructural links.
+    act; surpluses should not become lasting domination, but return to common
+    circulation and strengthen weaker or infrastructural links.
 
 7. **Universal minimum of survival** - verified personhood in the network should
-   guarantee a non-withdrawable minimum of compute for communication, orientation,
-   and emergency/care modes, regardless of temporary reputational or economic
-   contribution, and without structural violence in the form of charging fees in the
-   currency of dignity.
+    guarantee a non-withdrawable minimum of compute for communication, orientation,
+    and emergency/care modes, regardless of temporary reputational or economic
+    contribution, and without structural violence in the form of charging fees in the
+    currency of dignity.
 
 8. **Epistemic hygiene** - we separate levels: description, reduction, explanation,
-   experience, culture.
+    experience, culture.
 
 Operationally, we treat intelligence primarily as the **ability to formulate accurate
 predictions** and update them after contact with outcomes.
@@ -489,14 +489,14 @@ and community trust - not personality cult.
 1. **Minimal node**: agent runtime + one or more models + optional local memarium.
 
 2. **Exchange protocol**: tasks, results, identities; later phases add validated
-   procedural reputation.
+    procedural reputation.
 
 3. **Sensorium starter kit**: temperature + alarm microphone + camera (optional).
 
 4. **Crisis mode**: portable knowledge cache, procedures, information validation.
 
 5. **Federation of communities**: small swarms connect into larger ones without
-   losing autonomy.
+    losing autonomy.
 
 ## Closing
 

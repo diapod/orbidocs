@@ -42,43 +42,43 @@ coexisting attestation records over time, with different strengths (`weak` /
 
 1. `anchor-identity` MUST be derived from:
 
-   - normalized identity data used during the first attestation,
+    - normalized identity data used during the first attestation,
 
-   - a recovery secret derived from a word phrase,
+    - a recovery secret derived from a word phrase,
 
-   - random `salt`,
+    - random `salt`,
 
-   - explicit KDF parameters.
+    - explicit KDF parameters.
 
 2. `salt` **is not a secret**. It differentiates derivation and protects against
-   precomputation. The system SHOULD store it itself so that the user does not
-   need to remember it.
+    precomputation. The system SHOULD store it itself so that the user does not
+    need to remember it.
 
 3. The recovery phrase is the user's secret. The system MUST NOT store it in
-   plaintext or in a reversible form.
+    plaintext or in a reversible form.
 
 4. After a successful first attestation, the system SHOULD remember that a given
-   `anchor-identity` has already been anchored by a method with a defined `IAL`.
-   Later recovery NEED NOT require repeated use of `DigitalID`, `mObywatel`,
-   qualified signature, or vouching, provided cryptographic continuity and
-   attestation validity remain intact.
+    `anchor-identity` has already been anchored by a method with a defined `IAL`.
+    Later recovery NEED NOT require repeated use of `DigitalID`, `mObywatel`,
+    qualified signature, or vouching, provided cryptographic continuity and
+    attestation validity remain intact.
 
 5. The system SHOULD NOT store full civil data if the following are sufficient:
 
-   - a reference to the attestation,
+    - a reference to the attestation,
 
-   - `lookup_tag`,
+    - `lookup_tag`,
 
-   - `salt`,
+    - `salt`,
 
-   - KDF parameters,
+    - KDF parameters,
 
-   - validity status and `IAL`.
+    - validity status and `IAL`.
 
 6. A `weak -> strong` attestation upgrade SHOULD raise the strength and maximum
-   `IAL` of an existing `anchor-identity`, rather than create a new anchor,
-   provided the user proves control over the current anchor and supplies a new
-   strong attestation.
+    `IAL` of an existing `anchor-identity`, rather than create a new anchor,
+    provided the user proves control over the current anchor and supplies a new
+    strong attestation.
 
 ---
 
@@ -143,9 +143,9 @@ During first attestation, the user provides:
 
 4. `anchor-identity` is computed:
 
-   - by a KDF resistant to guessing and costly to evaluate,
+    - by a KDF resistant to guessing and costly to evaluate,
 
-   - from `normalized_claims + recovery_secret + salt + kdf_params`.
+    - from `normalized_claims + recovery_secret + salt + kdf_params`.
 
 5. An attestation record and an `anchor-identity` record are created.
 
@@ -240,10 +240,10 @@ federations or domains. If `pepper` is used:
 3. It MUST NOT be exported with the recovery bundle.
 
 4. Changing `pepper` MUST trigger either reindexing of `lookup_tag` or a grace
-   period during which at least two `pepper` versions are accepted.
+    period during which at least two `pepper` versions are accepted.
 
 5. Raw `lookup_tag` SHOULD NOT be transferred across federations as an
-   interoperability artifact.
+    interoperability artifact.
 
 ---
 
@@ -274,7 +274,7 @@ memory record.
 6. The system compares the result with the stored record.
 
 7. If the attestation record remains valid, the user regains continuity without
-   repeated full `root-identity` attestation.
+    repeated full `root-identity` attestation.
 
 ### 6.3. When Re-attestation Is Required
 
@@ -312,10 +312,10 @@ recovery_bundle:
 1. The recovery bundle does NOT contain the recovery phrase.
 
 2. Loss of the bundle must not, by itself, make recovery impossible if the
-   system preserved the memory record.
+    system preserved the memory record.
 
 3. Possession of the bundle without the phrase and without correct identity
-   claims does not grant the right to take over the identity.
+    claims does not grant the right to take over the identity.
 
 ---
 
@@ -356,21 +356,21 @@ require:
 
 2. The system links:
 
-   - the old `anchor-identity`,
+    - the old `anchor-identity`,
 
-   - the new set of `normalized_claims`,
+    - the new set of `normalized_claims`,
 
-   - a valid or refreshed attestation.
+    - a valid or refreshed attestation.
 
 3. This produces:
 
-   - a new attestation memory record,
+    - a new attestation memory record,
 
-   - possible marking of the prior attestation as `superseded`,
+    - possible marking of the prior attestation as `superseded`,
 
-   - a migration trace,
+    - a migration trace,
 
-   - continuity of accountability and reputation.
+    - continuity of accountability and reputation.
 
 ### 8.2. Rule
 
@@ -384,7 +384,7 @@ reputation or as sufficient grounds to create a new, unrelated `anchor-identity`
 2. `node-id` and `persistent_nym` may remain unchanged.
 
 3. Ephemeral nyms, station certificates, and session material MAY be refreshed so
-   that further communication points to the stronger anchoring.
+    that further communication points to the stronger anchoring.
 
 4. The history of the earlier `weak` attestation remains in the audit chain.
 
@@ -425,43 +425,43 @@ Revocation may cause:
 ### 9.4. Rotation Matrix
 
 1. Station compromise (`C4`) should not by itself force rotation of `node-id` or
-   `anchor-identity`.
+    `anchor-identity`.
 
 2. `node-key` compromise (`C3`) SHOULD lead to:
 
-   - a new `node-id`,
+    - a new `node-id`,
 
-   - rotation of active nyms,
+    - rotation of active nyms,
 
-   - renewal of station certificates,
+    - renewal of station certificates,
 
-   - preserved continuity of accountability through the common `anchor-identity`.
+    - preserved continuity of accountability through the common `anchor-identity`.
 
 3. Recovery-phrase compromise (`C2`) SHOULD lead to:
 
-   - revocation of the old recovery track,
+    - revocation of the old recovery track,
 
-   - generation of a new phrase,
+    - generation of a new phrase,
 
-   - a new `salt`,
+    - a new `salt`,
 
-   - a new `anchor-identity`,
+    - a new `anchor-identity`,
 
-   - controlled rebinding of active `node-id` values or their rotation according
+    - controlled rebinding of active `node-id` values or their rotation according
      to federation policy.
 
 4. False attestation or compromise of the attestation channel (`C5`) SHOULD be
-   treated as a breach of the anchoring layer and may require:
+    treated as a breach of the anchoring layer and may require:
 
-   - full re-attestation,
+    - full re-attestation,
 
-   - freezing of high-stakes roles,
+    - freezing of high-stakes roles,
 
-   - invalidation of derived `node-id` values.
+    - invalidation of derived `node-id` values.
 
 5. Every rotation MUST leave an audit-track trace linking the old and new
-   identity layers, but NEED NOT create a public correlation between old and new
-   operational masks.
+    identity layers, but NEED NOT create a public correlation between old and new
+    operational masks.
 
 ---
 
@@ -488,20 +488,20 @@ profile.
 
 3. Upgrading the KDF profile SHOULD happen:
 
-   - on successful recovery,
+    - on successful recovery,
 
-   - on a significant change of role or `IAL`,
+    - on a significant change of role or `IAL`,
 
-   - during planned federation security migration.
+    - during planned federation security migration.
 
 4. The system MUST NOT automatically downgrade the KDF profile for an existing
-   identity.
+    identity.
 
 5. If the record uses a weaker profile than required for the current role, the
-   federation SHOULD require migration before allowing that role.
+    federation SHOULD require migration before allowing that role.
 
 6. KDF migration SHOULD NOT by itself change `anchor-identity`, unless
-   `normalized_claims`, the recovery phrase, or `salt` also change.
+    `normalized_claims`, the recovery phrase, or `salt` also change.
 
 ### 10.3. KDF Parameters
 

@@ -32,10 +32,10 @@ poświadczenia źródła tożsamości.
 2. Ta sama `anchor-identity` może mieć w czasie wiele poświadczeń o różnej sile.
 
 3. Upgrade `weak -> strong` POWINIEN zachowywać `anchor-identity`, `node-id` i
-   `persistent_nym`, o ile istnieje dowód ciągłości kontroli.
+    `persistent_nym`, o ile istnieje dowód ciągłości kontroli.
 
 4. Maksymalny `IAL` z danej metody jest sufitem domyślnym; federacja może go
-   obniżyć, ale nie powinna go podwyższać bez jawnej procedury walidacyjnej.
+    obniżyć, ale nie powinna go podwyższać bez jawnej procedury walidacyjnej.
 
 ---
 
@@ -58,7 +58,7 @@ poświadczenia źródła tożsamości.
 ## 4. Reguły szczególne dla numeru telefonu
 
 1. Potwierdzony numer telefonu jest wygodnym wejściem, ale NIE POWINIEN sam z
-   siebie odblokowywać ról wysokiej stawki.
+    siebie odblokowywać ról wysokiej stawki.
 
 2. Dla `source_class = phone` federacja POWINNA co najmniej ograniczyć:
 
@@ -68,7 +68,7 @@ poświadczenia źródła tożsamości.
 - operacje wymagające `U2` lub `U3`.
 
 3. Federacja MOŻE dopuścić `phone -> IAL2` wyłącznie przez jawną politykę opt-in
-   i tylko wtedy, gdy istnieją dodatkowo:
+    i tylko wtedy, gdy istnieją dodatkowo:
 
 - dłuższy okres dojrzewania reputacyjnego,
 - detekcja anomalii przejęcia,
@@ -76,8 +76,8 @@ poświadczenia źródła tożsamości.
 - możliwość szybkiego downgrade po sygnale kompromitacji.
 
 4. Upgrade `phone -> strong` POWINIEN przechodzić przez okres wyczekiwania
-   (`phone_upgrade_cooldown`) oraz kontrolę anomalii zgodną z
-   `IDENTITY-UPGRADE-ANOMALY-SIGNALS.pl.md`.
+    (`phone_upgrade_cooldown`) oraz kontrolę anomalii zgodną z
+    `IDENTITY-UPGRADE-ANOMALY-SIGNALS.pl.md`.
 
 Domyślny profil bezpieczny:
 
@@ -109,7 +109,7 @@ Domyślny profil bezpieczny:
 - poprzednie poświadczenie pozostaje w łańcuchu audytowym jako `superseded` albo `expired`.
 
 3. Jeżeli upgrade rozpoczyna się z `source_class = phone`, federacja POWINNA
-   uruchomić co najmniej:
+    uruchomić co najmniej:
 
 - kontrolę wieku poświadczenia telefonu,
 - kontrolę churnu urządzeń i stacji,

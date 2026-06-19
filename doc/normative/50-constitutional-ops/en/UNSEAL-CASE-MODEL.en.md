@@ -43,26 +43,26 @@ The `unseal_case` model covers:
 
 1. `unseal_case`
 
-   A procedural case in which a participant or body requests descent from a more
-   shielding identity layer to a less shielding one.
+    A procedural case in which a participant or body requests descent from a more
+    shielding identity layer to a less shielding one.
 
 2. `requested_scope`
 
-   The requested descent scope: `node_id`, `custodian_ref`, or `root_identity`.
+    The requested descent scope: `node_id`, `custodian_ref`, or `root_identity`.
 
 3. `requestor_ref`
 
-   The procedural identifier of the requesting party.
+    The procedural identifier of the requesting party.
 
 4. `affected_ref`
 
-   The identifier of the affected party at the layer currently known to the
-   system, such as `nym_id` or `node_id`.
+    The identifier of the affected party at the layer currently known to the
+    system, such as `nym_id` or `node_id`.
 
 5. `case_state`
 
-   The lifecycle state of the case: `draft`, `submitted`, `screened`, `active`,
-   `decided`, `appealed`, `stayed`, `expired`, `closed`.
+    The lifecycle state of the case: `draft`, `submitted`, `screened`, `active`,
+    `decided`, `appealed`, `stayed`, `expired`, `closed`.
 
 ---
 
@@ -76,21 +76,21 @@ The `unseal_case` model covers:
 
 4. Every case MUST distinguish between:
 
-   - signals,
+    - signals,
 
-   - indications,
+    - indications,
 
-   - evidence,
+    - evidence,
 
-   - decisions,
+    - decisions,
 
-   - enforcement effects.
+    - enforcement effects.
 
 5. Changing scope from `U1` to `U2` or `U3` MUST create a new decision in the same
-   case, rather than overwrite history.
+    case, rather than overwrite history.
 
 6. A case MUST have an explicit `appeal_window` and `expiry` if the decision is
-   time-bounded.
+    time-bounded.
 
 ---
 
@@ -168,13 +168,13 @@ decision_record:
 ## 7. Retention Rules
 
 1. An `unseal_case` MUST have a retention profile adequate to its stakes and
-   effects.
+    effects.
 
 2. Cases closed with denial and no further effects SHOULD have shorter retention
-   than cases closed at `U2` or `U3`.
+    than cases closed at `U2` or `U3`.
 
 3. A `U3` decision record MUST be covered by at least `legal_hold` retention or an
-   equivalent secured archive mode.
+    equivalent secured archive mode.
 
 ---
 

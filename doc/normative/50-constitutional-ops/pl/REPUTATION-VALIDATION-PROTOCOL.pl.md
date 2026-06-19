@@ -177,7 +177,7 @@ sytuacji wystąpi:
 1. Którakolwiek metryka podstawowa (M1-M5) przekracza próg bezpiecznika proceduralnego.
 2. Dwie lub więcej metryk podstawowych jednocześnie przekraczają próg alarmowy.
 3. Metryka M4 (korelacja reputacja-jakość) spada poniżej 0 (reputacja jest
-   antysygnałem).
+    antysygnałem).
 
 ### 4.4. Skutki bezpiecznika proceduralnego
 
@@ -195,7 +195,7 @@ Reaktywacja dźwigni reputacyjnej po zadziałaniu bezpiecznika proceduralnego wy
 2. Korekty parametrów mechanizmu.
 3. Ponownej walidacji przez co najmniej 30 dni z metrykami poniżej progów alarmowych.
 4. Jawnej decyzji dotyczącej ładu organizacyjnego (ang. governance) ze
-   współpodpisem (ang. multisig) (Art. VII.9).
+    współpodpisem (ang. multisig) (Art. VII.9).
 
 ---
 
@@ -233,11 +233,11 @@ Po pomyślnym przejściu Fazy 2:
 
 1. Publikacja raportu walidacyjnego (dane, metryki, anomalie, wnioski).
 2. Kontradyktoryjny przegląd (ang. adversarial review) raportu przez niezależny
-   zespół kontrtestujący (ang. red-team).
+    zespół kontrtestujący (ang. red-team).
 3. Propozycja formalizacji: zmiana statusu mechanizmów z `[mechanizm - hipoteza]`
-   na `[mechanizm - zwalidowany]` w `doc/normative/30-core-values/pl/CORE-VALUES.pl.md`.
+    na `[mechanizm - zwalidowany]` w `doc/normative/30-core-values/pl/CORE-VALUES.pl.md`.
 4. Decyzja federacji o formalnym przyjęciu (procedura z Art. XVI dla zmian o
-   średniej stawce).
+    średniej stawce).
 
 ---
 

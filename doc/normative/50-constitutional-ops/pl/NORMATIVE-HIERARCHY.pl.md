@@ -158,13 +158,13 @@ Dokument Poziomu 5:
 
 1. W razie sprzeczności między poziomami - poziom wyższy ma pierwszeństwo.
 2. W razie sprzeczności w ramach tego samego poziomu - stosuje się procedurę z Art.
-   XIV Konstytucji (test odwracalności, proporcjonalności, jawności).
+    XIV Konstytucji (test odwracalności, proporcjonalności, jawności).
 3. W razie sprzeczności między wersjami językowymi tego samego dokumentu -
-   pierwszeństwo ma wersja polska, o ile nie wykazano, że rozbieżność wynika z błędu
-   tłumaczenia.
+    pierwszeństwo ma wersja polska, o ile nie wykazano, że rozbieżność wynika z błędu
+    tłumaczenia.
 4. Dokument niższego poziomu, który faktycznie narusza wyższy poziom, jest **nieważny
-   w zakresie naruszenia** od momentu stwierdzenia naruszenia, nie od momentu
-   publikacji.
+    w zakresie naruszenia** od momentu stwierdzenia naruszenia, nie od momentu
+    publikacji.
 
 ---
 

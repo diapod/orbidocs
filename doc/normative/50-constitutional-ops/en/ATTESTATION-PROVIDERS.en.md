@@ -29,15 +29,15 @@ attestation of the identity source.
 ## 2. General Rules
 
 1. `weak`, `strong`, and `sovereign` are properties of the assurance source,
-   not of personhood.
+    not of personhood.
 
 2. The same `anchor-identity` may have many attestations of different strength over time.
 
 3. A `weak -> strong` upgrade SHOULD preserve `anchor-identity`, `node-id`, and
-   `persistent_nym` if proof of continuity of control exists.
+    `persistent_nym` if proof of continuity of control exists.
 
 4. The maximum `IAL` of a method is the default ceiling; a federation may lower
-   it, but should not raise it without an explicit validation procedure.
+    it, but should not raise it without an explicit validation procedure.
 
 ---
 
@@ -69,7 +69,7 @@ explicitly names `IAL5` or `sovereign` trust anchor status.
 ## 4. Special Rules for Phone Numbers
 
 1. A verified phone number is convenient for entry, but SHOULD NOT by itself
-   unlock high-stakes roles.
+    unlock high-stakes roles.
 
 2. For `source_class = phone`, a federation SHOULD at minimum restrict:
 
@@ -79,7 +79,7 @@ explicitly names `IAL5` or `sovereign` trust anchor status.
 - operations requiring `U2` or `U3`.
 
 3. A federation MAY allow `phone -> IAL2` only through an explicit opt-in
-   policy and only when there are additionally:
+    policy and only when there are additionally:
 
 - a longer reputational maturation period,
 - takeover-anomaly detection,
@@ -87,8 +87,8 @@ explicitly names `IAL5` or `sovereign` trust anchor status.
 - the ability to downgrade quickly after a compromise signal.
 
 4. A `phone -> strong` upgrade SHOULD pass through a waiting period
-   (`phone_upgrade_cooldown`) and anomaly checks consistent with
-   `IDENTITY-UPGRADE-ANOMALY-SIGNALS.en.md`.
+    (`phone_upgrade_cooldown`) and anomaly checks consistent with
+    `IDENTITY-UPGRADE-ANOMALY-SIGNALS.en.md`.
 
 Default safe profile:
 
@@ -120,7 +120,7 @@ Default safe profile:
 - the prior attestation remains in the audit chain as `superseded` or `expired`.
 
 3. If the upgrade starts from `source_class = phone`, a federation SHOULD at
-   minimum trigger:
+    minimum trigger:
 
 - age check of the phone attestation,
 - device and station churn check,

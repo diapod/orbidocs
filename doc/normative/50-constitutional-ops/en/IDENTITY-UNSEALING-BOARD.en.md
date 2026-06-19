@@ -33,18 +33,18 @@ retaliation, or capture.
 
 2. The default enforcement path is:
 
-   - local measures at the `nym` level,
+    - local measures at the `nym` level,
 
-   - infrastructure sanctions at the `node-id` level.
+    - infrastructure sanctions at the `node-id` level.
 
 3. `root-identity` may be discovered only when:
 
-   - identification of `node-id` alone is insufficient to protect people, the
+    - identification of `node-id` alone is insufficient to protect people, the
      community, or procedural integrity,
 
-   - a legal obligation exists or the harm threshold is of the highest stake,
+    - a legal obligation exists or the harm threshold is of the highest stake,
 
-   - the decision passes through the Federation of Sealed Chambers.
+    - the decision passes through the Federation of Sealed Chambers.
 
 4. No single chamber may be the sole holder of full unsealing capability.
 
@@ -84,10 +84,10 @@ A chamber may not:
 1. `FSC` SHOULD consist of many chambers globally.
 
 2. Unsealing `root-identity` MUST require a small ad-hoc quorum composed of
-   several chambers, not action by the entire federation at once.
+    several chambers, not action by the entire federation at once.
 
 3. The concrete minima for membership, statuses, and quorum are defined by
-   `FIP-MEMBERSHIP-AND-QUORUM.en.md`.
+    `FIP-MEMBERSHIP-AND-QUORUM.en.md`.
 
 4. A federation MAY tighten these minima, but may not loosen them.
 
@@ -208,29 +208,29 @@ If a chamber is unavailable, intimidated, or under retaliation:
 ## 6. Split Knowledge
 
 1. The mapping `node-id -> root-identity` SHOULD NOT be fully available to a
-   single chamber.
+    single chamber.
 
 2. The system SHOULD use a split-knowledge model, such as:
 
-   - threshold encryption,
+    - threshold encryption,
 
-   - secret sharing,
+    - secret sharing,
 
-   - multi-party escrow.
+    - multi-party escrow.
 
 3. Compromise of a single chamber must not by itself enable disclosure of
-   `root-identity`.
+    `root-identity`.
 
 4. The technical implementation of split knowledge is replaceable, but MUST
-   provide:
+    provide:
 
-   - no single point of read access,
+    - no single point of read access,
 
-   - ability to rotate shares,
+    - ability to rotate shares,
 
-   - trace of share use,
+    - trace of share use,
 
-   - ability to remove a chamber from the system.
+    - ability to remove a chamber from the system.
 
 ---
 
@@ -262,7 +262,7 @@ The intake chamber verifies:
 1. `U1` may be decided within the federation without `FSC`.
 
 2. `U2` may require one chamber as a procedural supervisor if federation policy
-   so provides.
+    so provides.
 
 3. `U3` requires `FSC` quorum.
 
@@ -333,19 +333,19 @@ seal_quorum_decision:
 1. A `U3` decision MUST be appealable.
 
 2. The appeal is heard by a new quorum without chambers that participated in the
-   original decision.
+    original decision.
 
 3. The appeal may be based on:
 
-   - counter-evidence,
+    - counter-evidence,
 
-   - procedural error,
+    - procedural error,
 
-   - conflict of interest,
+    - conflict of interest,
 
-   - disproportionate disclosure scope,
+    - disproportionate disclosure scope,
 
-   - violation of quorum diversification rules.
+    - violation of quorum diversification rules.
 
 ---
 

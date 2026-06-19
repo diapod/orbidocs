@@ -224,19 +224,19 @@ Pięć postulatów nie jest oddzielną "filozofią" przyklejoną do projektu tec
 Są one raczej fundamentem, z którego wyrastają wartości, a z nich zapisy
 konstytucyjne, kontrakty i schematy danych:
 
-* postulat 1 (apofatyczny fundament):  
+* postulat 1 (apofatyczny fundament):
   higiena epistemiczna, odmowa reifikacji, pętla korekty;
 
-* postulat 2 (stratyfikacja):  
+* postulat 2 (stratyfikacja):
   architektura warstwowa roju, kontrakty warstw, separacja poziomów;
 
-* postulat 3 (enaktywne uczestnictwo):  
+* postulat 3 (enaktywne uczestnictwo):
   człowiek jako domyślna ścieżka mocy, emocje jako telemetria;
 
-* postulat 4 (redukcja ≠ wyjaśnienie):  
+* postulat 4 (redukcja ≠ wyjaśnienie):
   wieloparadygmatowość, pluralizm, anty-sekciarstwo;
 
-* postulat 5 (intencja jako siła systemowa):  
+* postulat 5 (intencja jako siła systemowa):
   przejrzystość sprawczości, ekonomia sprawczej wzajemności, odwaga epistemiczna.
 
 W praktyce oznacza to jedno kryterium projektowe: **architektura ma wspierać świadome
@@ -256,61 +256,62 @@ Gdy enaktywistyczne i procesualne podejście stratyfikujemy do działającego s
 dostajemy coś więcej niż odroczone przetwarzanie danych. Dostajemy dyscyplinę
 projektowania, w której konkretyzacja jest świadoma i lokalna.
 
-1. **Kontrakty zamiast przedwczesnych klas bytów.**  
-   Najpierw pytamy: "jakie przejście, uprawnienie, obserwacja albo decyzja tu
-   zachodzi?", a dopiero potem: "czy to potrzebuje typu?". To prowadzi do małych
-   artefaktów na poziomie komunikacji i cienkich interfejsów.
+1. **Kontrakty zamiast przedwczesnych klas bytów.**
+    Najpierw pytamy: "jakie przejście, uprawnienie, obserwacja albo decyzja tu
+    zachodzi?", a dopiero potem: "czy to potrzebuje typu?". To prowadzi do małych
+    artefaktów na poziomie komunikacji i cienkich interfejsów.
 
-2. **Tożsamość jako uchwyt, nie esencja.**  
+2. **Tożsamość jako uchwyt, nie esencja.**
   `id` nie mówi, czym coś "naprawdę jest". Jest stabilnym punktem korelacji
    w procesie. Znaczenie jest w warstwie, historii, kontrakcie i aktualnym
    kontekście.
 
-3. **Moduły jako role w przepływie, nie ontologiczne substancje.**  
-   Komponent nie powinien wiedzieć, że rozmawia z "tym konkretnym czymś", jeżeli
-   wystarczy mu kontrakt zachowania. To chroni przed sprzężeniem.
+3. **Moduły jako role w przepływie, nie ontologiczne substancje.**
+    Komponent nie powinien wiedzieć, że rozmawia z "tym konkretnym czymś", jeżeli
+    wystarczy mu kontrakt zachowania. To chroni przed sprzężeniem.
 
-4. **Granice warstw jako granice sensu.**  
-   To samo zdarzenie może mieć inną projekcję w różnych warstwach. Niska warstwa
-   widzi bajty, wyższa widzi decyzję, jeszcze wyższa widzi fakt społeczny. Błąd
-   zaczyna się wtedy, gdy jedna warstwa "kradnie" ontologię drugiej.
+4. **Granice warstw jako granice sensu.**
+    To samo zdarzenie może mieć inną projekcję w różnych warstwach. Niska warstwa
+    widzi bajty, wyższa widzi decyzję, jeszcze wyższa widzi fakt społeczny. Błąd
+    zaczyna się wtedy, gdy jedna warstwa "kradnie" ontologię drugiej.
 
-5. **Walidacja na brzegach jako rytuał konkretyzacji.**  
-   Dane płyną jako potencjalnie bogatsze i luźniejsze, ale na brzegu konkretnego
-   kontraktu mówimy: "tu, dla tej operacji, uznajemy taki kształt". To jest zdrowa
-   konkretyzacja, nie przedwczesna.
+5. **Walidacja na brzegach jako rytuał konkretyzacji.**
+    Dane płyną jako potencjalnie bogatsze i luźniejsze, ale na brzegu konkretnego
+    kontraktu mówimy: "tu, dla tej operacji, uznajemy taki kształt". To jest zdrowa
+    konkretyzacja, nie przedwczesna.
 
-6. **Polimorfizm i dyspozycja jako świadome opóźnienie decyzji.**  
-   Nie zamrażamy "kto wykona" w strukturze danych, jeżeli właściwe miejsce decyzji
-   jest później: przy kontekście, *capability*, profilu, ewaluatorze, rejestrze albo
-   weryfikatorze paszportu zdolności.
+6. **Polimorfizm i dyspozycja jako świadome opóźnienie decyzji.**
+    Nie zamrażamy "kto wykona" w strukturze danych, jeżeli właściwe miejsce decyzji
+    jest później: przy kontekście, *capability*, profilu, ewaluatorze, rejestrze albo
+    weryfikatorze paszportu zdolności.
 
-7. **Zdarzenia i fakty zamiast mutowania rzeczy.**  
-   *Append-only facts* dobrze pasują do procesu: zapisujemy to, co zaszło, zamiast
-   udawać, że mamy jedną trwałą rzecz, która po prostu "zmieniła stan".
+7. **Zdarzenia i fakty zamiast mutowania rzeczy.**
+    *Append-only facts* dobrze pasują do procesu: zapisujemy to, co zaszło, zamiast
+    udawać, że mamy jedną trwałą rzecz, która po prostu "zmieniła stan".
 
-8. **Architektura mniej podatna na nazewniczą hipnozę.**  
-   W systemach często nazwa tworzy fałszywą substancję: User, Agent, Passport,
-   Connector, Account.  Procesualne pytanie brzmi: "jakie procesy i relacje ta nazwa
-   tylko lokalnie skraca?".
+8. **Architektura mniej podatna na nazewniczą hipnozę.**
+    W systemach często nazwa tworzy fałszywą substancję: User, Agent, Passport,
+    Connector, Account.  Procesualne pytanie brzmi: "jakie procesy i relacje ta nazwa
+    tylko lokalnie skraca?".
 
-9. **Dowód współzależny zamiast pojedynczego świadka.**  
-   Skoro zjawisko może wyłaniać się ze zbiegu wielu współdziałających warunków, to
-   i świadectwo o nim często musi wyłaniać się ze zbieżności wielu sygnałów. Pojedynczy
-   podpis, etykieta albo źródło rzadko są dowodem same w sobie; pewność rośnie wraz ze
-   zbieżnością niezależnych przesłanek (atestacje, reputacja, korelacja zdarzeń), nie
-   wraz z autorytetem jednego nośnika.
-   
-   Wyłanianie się zjawiska ze splotu wielu warunków – takie, którego z zewnątrz nie
-   da się sprowadzić do jednej przyczyny bez utraty tego, czym ono jest na własnej
-   warstwie – bywa nazywane **emergencją** (por. emergentyzm, postulat 4). Owa
-   "niewyjaśnialność z zewnątrz" nie musi być chwilowym brakiem wiedzy; bywa raczej
-   próbą orzekania o wyższej warstwie językiem niższej – tą samą "kradzieżą
-   ontologii", której zakazuje granica warstw jako granica sensu. Emergencja jest
-   więc nazwą na zbieżność nieredukowalną międzywarstwowo, a nie jej wyjaśnieniem.
-   Po stronie poznania odpowiada jej **konsiliencja** (Whewell – zgodność niezależnych
-   indukcji) i triangulacja: skoro przesłanka jest emergentna, świadectwo o niej
-   domyka się zbieżnością wielu niezależnych linii, nie pojedynczym łańcuchem przyczyn.
+9. **Dowód współzależny zamiast pojedynczego świadka.**
+
+    Skoro zjawisko może wyłaniać się ze zbiegu wielu współdziałających warunków, to
+    i świadectwo o nim często musi wyłaniać się ze zbieżności wielu sygnałów. Pojedynczy
+    podpis, etykieta albo źródło rzadko są dowodem same w sobie; pewność rośnie wraz ze
+    zbieżnością niezależnych przesłanek (atestacje, reputacja, korelacja zdarzeń), nie
+    wraz z autorytetem jednego nośnika.
+
+    Wyłanianie się zjawiska ze splotu wielu warunków – takie, którego z zewnątrz nie
+    da się sprowadzić do jednej przyczyny bez utraty tego, czym ono jest na własnej
+    warstwie – bywa nazywane **emergencją** (por. emergentyzm, postulat 4). Owa
+    "niewyjaśnialność z zewnątrz" nie musi być chwilowym brakiem wiedzy; bywa raczej
+    próbą orzekania o wyższej warstwie językiem niższej – tą samą "kradzieżą
+    ontologii", której zakazuje granica warstw jako granica sensu. Emergencja jest
+    więc nazwą na zbieżność nieredukowalną międzywarstwowo, a nie jej wyjaśnieniem.
+    Po stronie poznania odpowiada jej **konsiliencja** (Whewell – zgodność niezależnych
+    indukcji) i triangulacja: skoro przesłanka jest emergentna, świadectwo o niej
+    domyka się zbieżnością wielu niezależnych linii, nie pojedynczym łańcuchem przyczyn.
 
 Zdajemy sobie sprawę, że jesteśmy podatni na przedwczesną konkretyzację, a wiedząc
 o tym, możemy budować systemy, które adaptują się do tej właściwości naszych
@@ -341,61 +342,61 @@ warstwowym protokołem sprawczości, użytkowania, odpowiedzialności i wymiany
 to doktryna doklejona do ontologii – wynika z niej w taki sam sposób, jak dyscyplina
 przetwarzania informacji wynika z odmowy przedwczesnej konkretyzacji.
 
-1. **Własność nie jest substancją, lecz nazwą operacyjną relacji.**  
-   Ta sama odmowa reifikacji, która nie pozwala `id` orzekać, czym coś "naprawdę
-   jest", nie pozwala też tytułowi własności orzekać, "czyje coś zawsze
-   jest". Pierwsze pytanie nie brzmi "kto ma?", lecz: kto używa, kto ponosi skutki,
-   kto wymaga tego dla przetrwania, według jakiego kontraktu i z jakim prawem
-   wyjścia. Tak rozumianą relację nazywamy **relacją sprawczego użytkowania** (*agentic
-   use-right*): własność nie jest zaprzeczona, ale akcent zostaje przeniesiony na jej
-   funkcję, czyli na lokalnie określony kontrakt uczestnictwa, odpowiedzialności
-   i prawa wyjścia, a nie metafizyczny tytuł dominacji.
+1. **Własność nie jest substancją, lecz nazwą operacyjną relacji.**
+    Ta sama odmowa reifikacji, która nie pozwala `id` orzekać, czym coś "naprawdę
+    jest", nie pozwala też tytułowi własności orzekać, "czyje coś zawsze
+    jest". Pierwsze pytanie nie brzmi "kto ma?", lecz: kto używa, kto ponosi skutki,
+    kto wymaga tego dla przetrwania, według jakiego kontraktu i z jakim prawem
+    wyjścia. Tak rozumianą relację nazywamy **relacją sprawczego użytkowania** (*agentic
+    use-right*): własność nie jest zaprzeczona, ale akcent zostaje przeniesiony na jej
+    funkcję, czyli na lokalnie określony kontrakt uczestnictwa, odpowiedzialności
+    i prawa wyjścia, a nie metafizyczny tytuł dominacji.
 
-2. **Własność osobista jest organem osoby, nie zasobem organizmu.**  
-   Z enaktywnego uczestnictwa wynika, że ciało, narzędzia, dane, klucze, lokalna
-   pamięć, agenci AI i środowisko pracy nie są "zasobami", których właścicielem
-   miałby być nadrzędny podmiot – korporacja, państwo czy kolektyw. Są przedłużeniem
-   procesu osoby. Skoro największa moc systemu przechodzi przez człowieka, to
-   własność osobista, będąca przedłużeniem jego sprawczości, ma pierwszeństwo ochrony
-   przed każdą formą własności zrzeszonej.
+2. **Własność osobista jest organem osoby, nie zasobem organizmu.**
+    Z enaktywnego uczestnictwa wynika, że ciało, narzędzia, dane, klucze, lokalna
+    pamięć, agenci AI i środowisko pracy nie są "zasobami", których właścicielem
+    miałby być nadrzędny podmiot – korporacja, państwo czy kolektyw. Są przedłużeniem
+    procesu osoby. Skoro największa moc systemu przechodzi przez człowieka, to
+    własność osobista, będąca przedłużeniem jego sprawczości, ma pierwszeństwo ochrony
+    przed każdą formą własności zrzeszonej.
 
 3. **Wyższe formy własności wyrastają z osobistych relacji sprawczości, nie stoją nad
-   nimi.**  
-   W stratyfikacji konkrety niższych warstw stają się budulcem wyższych, a wyższe nie
-   mogą odklejać się od fundamentu. To założenie przeniesione na własność oznacza, że
-   własność kapitałowa, organizacyjna, wspólnotowa, instytucjonalna i państwowa są
-   wyższymi abstraktami, które muszą być legitymizowane przez żywe relacje używania,
-   pracy, odpowiedzialności i zgody – i tę zależność dziedziczą. Błąd zaczyna się tam,
-   gdzie jedna warstwa "kradnie" ontologię drugiej:
-   gdy fundusz, urząd, spółka, platforma albo kolektyw rości sobie moc silniejszą niż
-   żywa relacja użytkowania, pracy i odpowiedzialności. Zasadę, która temu zapobiega,
-   nazywamy **subsydiarnością sprawczości** (*agentic subsidiarity*): wyższa warstwa
-   działa wobec niższej pomocniczo i nigdy nie zastępuje tego, co osoba i mała
-   wspólnota obsługują same.
+    nimi.**
+    W stratyfikacji konkrety niższych warstw stają się budulcem wyższych, a wyższe nie
+    mogą odklejać się od fundamentu. To założenie przeniesione na własność oznacza, że
+    własność kapitałowa, organizacyjna, wspólnotowa, instytucjonalna i państwowa są
+    wyższymi abstraktami, które muszą być legitymizowane przez żywe relacje używania,
+    pracy, odpowiedzialności i zgody – i tę zależność dziedziczą. Błąd zaczyna się tam,
+    gdzie jedna warstwa "kradnie" ontologię drugiej:
+    gdy fundusz, urząd, spółka, platforma albo kolektyw rości sobie moc silniejszą niż
+    żywa relacja użytkowania, pracy i odpowiedzialności. Zasadę, która temu zapobiega,
+    nazywamy **subsydiarnością sprawczości** (*agentic subsidiarity*): wyższa warstwa
+    działa wobec niższej pomocniczo i nigdy nie zastępuje tego, co osoba i mała
+    wspólnota obsługują same.
 
 4. **Źle ustawiony gradient bodźców wypacza intencje nawet bez złej woli, więc
-   ekonomia celuje w sprawczość, nie w akumulację.**  
-   Skoro konstrukcja finansowania premiująca profit potrafi wypaczać intencje bez
-   jawnej woli krzywdy, więc celem ekonomii wewnętrznej nie może być nieskończone
-   pomnażanie zasobów, lecz podtrzymywanie zdolności do działania. Przewaga nie
-   powinna zamieniać się w trwałą dominację nad ekosystemem. Stąd "dostatek ponad
-   akumulację", środki wymiany nieprzeliczane na reputację, a rynek traktowany jako
-   protokół, nie jako bóg.
+    ekonomia celuje w sprawczość, nie w akumulację.**
+    Skoro konstrukcja finansowania premiująca profit potrafi wypaczać intencje bez
+    jawnej woli krzywdy, więc celem ekonomii wewnętrznej nie może być nieskończone
+    pomnażanie zasobów, lecz podtrzymywanie zdolności do działania. Przewaga nie
+    powinna zamieniać się w trwałą dominację nad ekosystemem. Stąd "dostatek ponad
+    akumulację", środki wymiany nieprzeliczane na reputację, a rynek traktowany jako
+    protokół, nie jako bóg.
 
-5. **Dar i wymiana są dwoma trybami, z których żaden nie zawłaszcza całości.**  
-   Dar jest domyślnym trybem pomocy, a dobrowolna wymiana jawną usługą kontraktową.
-   Redukcja całej ekonomii do daru wyzyskuje altruizm; redukcja do rynku rozkłada
-   etos wspólnoty. Dlatego w nazwie stoi "wzajemność": wymiana, kontrakt
-   i wynagrodzenie istnieją, ale nie stają się ontologią świata ani źródłem statusu
-   i władzy.
+5. **Dar i wymiana są dwoma trybami, z których żaden nie zawłaszcza całości.**
+    Dar jest domyślnym trybem pomocy, a dobrowolna wymiana jawną usługą kontraktową.
+    Redukcja całej ekonomii do daru wyzyskuje altruizm; redukcja do rynku rozkłada
+    etos wspólnoty. Dlatego w nazwie stoi "wzajemność": wymiana, kontrakt
+    i wynagrodzenie istnieją, ale nie stają się ontologią świata ani źródłem statusu
+    i władzy.
 
-6. **Skala osłabia naturalną regulację, więc decyzja zostaje nisko.**  
-   Lokalna reputacja, opinia i osobista odpowiedzialność – naturalne mechanizmy
-   korekty – słabną wraz ze wzrostem liczebności wspólnoty; duże kolektywy muszą
-   zastępować je "protezami", które łatwo odklejają się od żywych użytkowników. To
-   kolejny powód, dla którego subsydiarność trzyma decyzję jak najbliżej osoby i małej
-   wspólnoty, zamiast wynosić ją do abstrakcyjnego centrum, które wymaga abstrakcyjnych
-   mechanizmów regulacji sprzyjających biurokracji i unikaniu odpowiedzialności.
+6. **Skala osłabia naturalną regulację, więc decyzja zostaje nisko.**
+    Lokalna reputacja, opinia i osobista odpowiedzialność – naturalne mechanizmy
+    korekty – słabną wraz ze wzrostem liczebności wspólnoty; duże kolektywy muszą
+    zastępować je "protezami", które łatwo odklejają się od żywych użytkowników. To
+    kolejny powód, dla którego subsydiarność trzyma decyzję jak najbliżej osoby i małej
+    wspólnoty, zamiast wynosić ją do abstrakcyjnego centrum, które wymaga abstrakcyjnych
+    mechanizmów regulacji sprzyjających biurokracji i unikaniu odpowiedzialności.
 
 Jest to świadomie "droga środka", w tym samym sensie, w którym madhjamaka odmawia
 skrajności istnienia i nieistnienia. Nie przyjmujemy ani modelu, w którym tytuł

@@ -83,7 +83,7 @@ cases, but may remain part of audits of earlier cases.
 5. the chamber passes periodic procedural audit,
 
 6. the chamber is not under the dominant control of a single entity that also
-   controls other chambers in the given quorum.
+    controls other chambers in the given quorum.
 
 ---
 
@@ -125,10 +125,10 @@ only if:
 1. Every `U2-U3` case MUST have an `fip_snapshot_id`.
 
 2. The composition snapshot MUST freeze the list of eligible chambers at the time
-   quorum is built.
+    quorum is built.
 
 3. A chamber with conflict of interest is excluded from the case, but does not
-   thereby automatically lose global `active` status.
+    thereby automatically lose global `active` status.
 
 ---
 

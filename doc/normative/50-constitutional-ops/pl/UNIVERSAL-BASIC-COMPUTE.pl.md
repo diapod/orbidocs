@@ -31,26 +31,26 @@ Niniejszy dokument operacjonalizuje te obowiązki.
 ## 2. Zasada ogólna
 
 1. `Universal Basic Compute` (`UBC`) jest progiem uczestnictwa i ochrony, a nie
-   nagrodą za status, reputację ani kapitał.
+    nagrodą za status, reputację ani kapitał.
 2. Brak bieżącego wkładu reputacyjnego lub ekonomicznego NIE MOŻE sam przez się
-   odcinać człowieka od podstawowej zdolności do komunikacji z rojem, orientacji
-   w sytuacji oraz korzystania z trybów ratunkowych i opiekuńczych.
+    odcinać człowieka od podstawowej zdolności do komunikacji z rojem, orientacji
+    w sytuacji oraz korzystania z trybów ratunkowych i opiekuńczych.
 3. Dostęp do `UBC` i jego trybów ochronnych NIE MOŻE być warunkowany upokorzeniem,
-   uniżeniem, zależnością emocjonalną ani arbitralną łaską operatora.
+    uniżeniem, zależnością emocjonalną ani arbitralną łaską operatora.
 4. Kwalifikacja do `UBC` opiera się na konstytucyjnie dopuszczalnym
-   `Proof-of-Personhood`, domyślnie bez pełnej deanonimizacji.
+    `Proof-of-Personhood`, domyślnie bez pełnej deanonimizacji.
 5. Federacja lokalna MOŻE przyznawać szerszy zakres `UBC`, ale nie może zejść
-   poniżej minimum określonego w tym dokumencie.
+    poniżej minimum określonego w tym dokumencie.
 6. Uznawanie `Proof-of-Personhood` między federacjami jest domyślnie ograniczone i
-   może odbywać się przez federacje albo minimalny most/rejestr `FIP`:
-   - tryby ratunkowe MUSZĄ być dostępne bez limitu,
-   - komunikacja MUSI być dostępna w profilu limitowanym,
-   - tryby pomocowe MUSZĄ być dostępne w profilu limitowanym.
+    może odbywać się przez federacje albo minimalny most/rejestr `FIP`:
+    - tryby ratunkowe MUSZĄ być dostępne bez limitu,
+    - komunikacja MUSI być dostępna w profilu limitowanym,
+    - tryby pomocowe MUSZĄ być dostępne w profilu limitowanym.
 7. Federacje MOGĄ rozszerzać uznawanie trans-federacyjne i podnosić limity, a most
-   `FIP` MOŻE gwarantować wyłącznie minimalny profil przenośności; żadna z tych
-   ścieżek nie może zejść poniżej powyższego minimum.
+    `FIP` MOŻE gwarantować wyłącznie minimalny profil przenośności; żadna z tych
+    ścieżek nie może zejść poniżej powyższego minimum.
 8. `UBC` nie może być używane jako ukryta ścieżka do przewagi ustrojowej,
-   priorytetowego routingu wysokiej stawki ani obejścia wymagań reputacyjnych.
+    priorytetowego routingu wysokiej stawki ani obejścia wymagań reputacyjnych.
 
 ---
 
@@ -167,16 +167,16 @@ ubc_settlement:
 
 1. Minimalnym warunkiem kwalifikacji jest ważne `proof_of_personhood_attestation`.
 2. Federacja NIE MOŻE wymagać pełnej deanonimizacji jako warunku zwykłego wejścia do
-   `UBC`, chyba że zachodzi konstytucyjny wyjątek zgodny z odpowiednią procedurą.
+    `UBC`, chyba że zachodzi konstytucyjny wyjątek zgodny z odpowiednią procedurą.
 3. Federacja MOŻE wymagać okresowego odświeżania poświadczenia, ale nie może używać
-   tej procedury jako ukrytego narzędzia wykluczania ubogich, słabszych lub
-   czasowo nieaktywnych operatorów.
+    tej procedury jako ukrytego narzędzia wykluczania ubogich, słabszych lub
+    czasowo nieaktywnych operatorów.
 4. Procedura wejścia, odświeżania lub review NIE MOŻE wymagać upokorzenia,
-   uniżenia, zależności emocjonalnej ani osobistego zadowolenia gatekeepera jako
-   warunku dostępu.
+    uniżenia, zależności emocjonalnej ani osobistego zadowolenia gatekeepera jako
+    warunku dostępu.
 5. `UBC` nie zależy od salda nagród, pozycji reputacyjnej ani aktywności
-   komercyjnej, choć federacja może warunkować rozszerzone limity dodatkowymi
-   kryteriami.
+    komercyjnej, choć federacja może warunkować rozszerzone limity dodatkowymi
+    kryteriami.
 
 ---
 
@@ -213,7 +213,7 @@ Most/rejestr `FIP`:
 1. MOŻE uznawać trans-federacyjne `Proof-of-Personhood` dla celów minimalnego profilu,
 2. NIE MOŻE samodzielnie obniżać limitów poniżej minimum,
 3. NIE POWINIEN przyznawać profilu szerszego niż `bridge_minimum`, chyba że działa
-   na podstawie jawnego rozszerzenia federacyjnego.
+    na podstawie jawnego rozszerzenia federacyjnego.
 
 ---
 
@@ -221,13 +221,13 @@ Most/rejestr `FIP`:
 
 1. `UBC` MUSI mieć jawny model składkowy.
 2. Minimalny katalog źródeł finansowania obejmuje:
-   - `business_nodes`,
-   - `high_margin_instances`,
-   - `surplus_recirculation`,
-   - `voluntary_operator_surplus`.
+    - `business_nodes`,
+    - `high_margin_instances`,
+    - `surplus_recirculation`,
+    - `voluntary_operator_surplus`.
 3. Federacja MOŻE dodać inne źródła, ale nie może ukrywać ich poza audytem.
 4. Finansowanie `UBC` nie może być uzależnione wyłącznie od dobrowolnych darów,
-   jeżeli federacja deklaruje konstytucyjne minimum.
+    jeżeli federacja deklaruje konstytucyjne minimum.
 
 ---
 
@@ -239,11 +239,11 @@ System nie spełnia tej polityki, jeżeli:
 2. odcina osobę z ważnym `Proof-of-Personhood` od trybów ratunkowych,
 3. nie pozostawia śladu `ubc_allocation` albo `ubc_settlement`,
 4. warunkuje dostęp upokorzeniem, uniżeniem, zależnością emocjonalną albo
-   arbitralną łaską operatora,
+    arbitralną łaską operatora,
 5. uzależnia podstawowy przydział od reputacji, salda lub pozycji kapitałowej,
 6. używa `UBC` jako ukrytego kanału kupowania przewagi proceduralnej,
 7. uznaje trans-federacyjne PoP tylko deklaratywnie, bez realnego minimum
-   komunikacyjnego i pomocowego.
+    komunikacyjnego i pomocowego.
 
 ---
 

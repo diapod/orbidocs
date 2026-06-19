@@ -43,28 +43,28 @@ Niniejszy dokument definiuje taki model.
 1. W komunikacji roju **uczestniczą nymy**, nie cywilna tożsamość pierwotna.
 
 2. Tożsamość pierwotna służy do **zakotwiczenia, poświadczenia i ewentualnego
-   odpieczętowania** tożsamości pochodnych, a nie do ciągłej ekspozycji w protokole.
+    odpieczętowania** tożsamości pochodnych, a nie do ciągłej ekspozycji w protokole.
 
 3. **Im większy wpływ na innych, dane wrażliwe, reputację lub decyzje
-   governance, tym wyższy wymagany poziom pewności tożsamości i tym większy
-   zakres ujawnienia proceduralnego.**
+    governance, tym wyższy wymagany poziom pewności tożsamości i tym większy
+    zakres ujawnienia proceduralnego.**
 
 4. Wiele `node-id` lub nymów wywiedzionych z jednej tożsamości pierwotnej **nie
-   może samo w sobie mnożyć wpływu**. Anty-Sybil liczy źródło zakotwiczenia, nie
-   liczbę masek.
+    może samo w sobie mnożyć wpływu**. Anty-Sybil liczy źródło zakotwiczenia, nie
+    liczbę masek.
 
 5. Jeden człowiek lub jeden podmiot może działać przez wiele urządzeń i wiele
-   agentów, ale nie oznacza to automatycznie wielu niezależnych tożsamości
-   reputacyjnych.
+    agentów, ale nie oznacza to automatycznie wielu niezależnych tożsamości
+    reputacyjnych.
 
 6. System preferuje **pseudonimowość operacyjną i jawność proceduralną**, a nie
-   anonimowość bez odpowiedzialności ani pełną jawność cywilną jako tryb domyślny.
+    anonimowość bez odpowiedzialności ani pełną jawność cywilną jako tryb domyślny.
 
 7. `IAL` służy przede wszystkim jako **bramka kwalifikacyjna** do klas ról,
-   decyzji i zakresów działania. Federacja MOŻE przyznać silniej zweryfikowanej
-   tożsamości niewielką, stałą dźwignię proceduralną, ale nigdy w formie
-   mnożnika reputacji i nigdy powyżej `1%` całkowitej mocy decyzyjnej danego
-   mechanizmu.
+    decyzji i zakresów działania. Federacja MOŻE przyznać silniej zweryfikowanej
+    tożsamości niewielką, stałą dźwignię proceduralną, ale nigdy w formie
+    mnożnika reputacji i nigdy powyżej `1%` całkowitej mocy decyzyjnej danego
+    mechanizmu.
 
 ---
 
@@ -224,28 +224,28 @@ nie na łańcuchu nymów o ograniczonej linkowalności.
 ### 5.5. Reguły
 
 1. `node-id` MUSI mieć jawny rekord pochodzenia: czy jest wywiedziony z
-   `anchor-identity`, poświadczony federacyjnie, czy delegowany z innego
-   podmiotu odpowiedzialności.
+    `anchor-identity`, poświadczony federacyjnie, czy delegowany z innego
+    podmiotu odpowiedzialności.
 
 2. Nym MUSI mieć jawny rekord pochodzenia: czy jest wystawiony przez `node-id`,
-   delegowany z innego nymu, czy poświadczony federacyjnie.
+    delegowany z innego nymu, czy poświadczony federacyjnie.
 
 3. Federacja MOŻE ograniczyć liczbę aktywnych `node-id` lub nymów jednego źródła
-   zakotwiczenia w danych klasach ról.
+    zakotwiczenia w danych klasach ról.
 
 4. `node-id` używany do ról o podwyższonej stawce MUSI mieć poziom pewności
-   odpowiedni dla tej roli (sekcja 7).
+    odpowiedni dla tej roli (sekcja 7).
 
 5. Nym używany do roli o podwyższonej stawce komunikacyjnej MUSI być delegowany z
-   `node-id`, który spełnia próg `IAL` odpowiedni dla tej roli.
+    `node-id`, który spełnia próg `IAL` odpowiedni dla tej roli.
 
 6. Panelista, członek governance albo inna rola proceduralna wysokiej stawki NIE
-   MOŻE opierać swojej służby wyłącznie na nymie. Prywatność proceduralna takich
-   ról ma być realizowana przez proceduralny pseudonim per-sprawa, a nie przez
-   nym chain.
+    MOŻE opierać swojej służby wyłącznie na nymie. Prywatność proceduralna takich
+    ról ma być realizowana przez proceduralny pseudonim per-sprawa, a nie przez
+    nym chain.
 
 7. Reset nymu nie resetuje automatycznie historii odpowiedzialności, jeśli
-   zachodzą przesłanki wspólnego źródła zakotwiczenia lub obejścia sankcji.
+    zachodzą przesłanki wspólnego źródła zakotwiczenia lub obejścia sankcji.
 
 ---
 
@@ -269,15 +269,15 @@ Każda stacja POWINNA mieć:
 ### 6.2. Zasady
 
 1. Wiele stacji pod jednym `node-id` **nie tworzy wielu niezależnych głosów ani wielu
-   niezależnych reputacji**, chyba że odrębna procedura nada im rozdzielną
-   podmiotowość.
+    niezależnych reputacji**, chyba że odrębna procedura nada im rozdzielną
+    podmiotowość.
 
 2. Kompromitacja jednej stacji POWINNA domyślnie prowadzić do odwołania certyfikatu
-   tej stacji, a nie do rotacji całego `node-id`, `anchor-identity` ani
-   `root-identity`, chyba że istnieją przesłanki szerszego naruszenia.
+    tej stacji, a nie do rotacji całego `node-id`, `anchor-identity` ani
+    `root-identity`, chyba że istnieją przesłanki szerszego naruszenia.
 
 3. Ślady operacyjne i analiza incydentów MOGĄ być prowadzone na poziomie
-   `station-id`, nawet jeśli reputacja główna liczona jest na poziomie `node-id`.
+    `station-id`, nawet jeśli reputacja główna liczona jest na poziomie `node-id`.
 
 ---
 
@@ -314,37 +314,37 @@ Federacja MUSI dokumentować, jakie mechanizmy mapują się na który poziom `IA
 ### 7.2.a. Sufit `IAL` zależny od siły poświadczenia
 
 1. Poświadczenie `weak` POWINNO domyślnie kończyć się na `IAL1`, a wyjątkowo na
-   `IAL2`, jeśli federacja wprowadzi dodatkowe zabezpieczenia przeciw przejęciu i
-   mnożeniu wpływu.
+    `IAL2`, jeśli federacja wprowadzi dodatkowe zabezpieczenia przeciw przejęciu i
+    mnożeniu wpływu.
 
 2. Poświadczenie `strong` może odblokowywać `IAL3` i `IAL4`, zgodnie z polityką
-   federacyjną i wymogami roli.
+    federacyjną i wymogami roli.
 
 3. Upgrade `weak -> strong` NIE POWINIEN tworzyć nowej `anchor-identity`, jeżeli
-   użytkownik potrafi jednocześnie:
+    użytkownik potrafi jednocześnie:
 
-   - udowodnić kontrolę nad istniejącą kotwicą,
+    - udowodnić kontrolę nad istniejącą kotwicą,
 
-   - dostarczyć nowe mocne poświadczenie.
+    - dostarczyć nowe mocne poświadczenie.
 
 ### 7.3. IAL jako bramka, nie mnożnik
 
 1. `IAL` służy do odblokowywania klas ról, decyzji i uprawnień, a nie do
-   liniowego wzmacniania reputacji.
+    liniowego wzmacniania reputacji.
 
 2. Federacja NIE MOŻE używać `IAL` jako mnożnika wyniku reputacyjnego ani jako
-   otwartego wzmacniacza siły głosu.
+    otwartego wzmacniacza siły głosu.
 
 3. Federacja MOŻE przyznać tożsamościom o wyższym `IAL` niewielką, stałą premię
-   proceduralną (`fixed_power_bonus`), ale tylko wtedy, gdy:
+    proceduralną (`fixed_power_bonus`), ale tylko wtedy, gdy:
 
-   - premia jest jawnie opisana,
+    - premia jest jawnie opisana,
 
-   - nie przekracza `0.01` (`1%`) całkowitej mocy danego mechanizmu,
+    - nie przekracza `0.01` (`1%`) całkowitej mocy danego mechanizmu,
 
-   - nie omija progów reputacyjnych ani progów domenowych,
+    - nie omija progów reputacyjnych ani progów domenowych,
 
-   - może być audytowana i cofnięta.
+    - może być audytowana i cofnięta.
 
 ---
 
@@ -442,17 +442,17 @@ Tożsamość pierwotna może zostać ujawniona wyłącznie:
 ### 10.1. Reguły
 
 1. Sam fakt posiadania root-identity nie oznacza prawa do jej automatycznego
-   żądania przez innych uczestników.
+    żądania przez innych uczestników.
 
 2. Ujawnienie root-identity poza torem wewnętrznym wymaga tego samego lub wyższego
-   rygoru co ujawnienie odpowiedzialności za ciężkie nadużycie.
+    rygoru co ujawnienie odpowiedzialności za ciężkie nadużycie.
 
 3. Panel, audyt albo tryb prawny mogą uzyskać dostęp do tożsamości pierwotnej tylko
-   wtedy, gdy bez tego nie da się ochronić ludzi, rozstrzygnąć odpowiedzialności albo
-   wykonać obowiązku prawnego.
+    wtedy, gdy bez tego nie da się ochronić ludzi, rozstrzygnąć odpowiedzialności albo
+    wykonać obowiązku prawnego.
 
 4. Odpieczętowanie pozostawia osobny ślad audytowy z:
-   `reason`, `scope`, `owner`, `legal_basis`, `expiry`.
+    `reason`, `scope`, `owner`, `legal_basis`, `expiry`.
 
 ---
 

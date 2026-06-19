@@ -35,22 +35,22 @@ This document defines:
 ## 2. General Rule
 
 1. Swarm economics serves the maintenance of the capacity to act of people, nodes,
-   and the community, not endless accumulation.
+    and the community, not endless accumulation.
 2. Voluntary contractual exchange among participants is an admissible mode of
-   reciprocity alongside gift, but its economic traces may not by themselves act as
-   a shortcut to reputational, procedural, or constitutional force.
+    reciprocity alongside gift, but its economic traces may not by themselves act as
+    a shortcut to reputational, procedural, or constitutional force.
 3. A federation MUST design rewards so that, once sufficiency is reached, further
-   gain is diminishing or automatically redirected into common circulation.
+    gain is diminishing or automatically redirected into common circulation.
 4. No economic mechanism may make compensation depend primarily on the inflow of
-   new participants instead of auditable use, impact, maintenance of value, or real
-   protective/helpful action.
+    new participants instead of auditable use, impact, maintenance of value, or real
+    protective/helpful action.
 5. Economic reward is not a path for bypassing rules of procedural reputation,
-   routing, quorum, exceptions, or eligibility for high-stakes roles; this also
-   applies to balance, exchange history, and the mere fact of entering into or
-   performing a contract.
+    routing, quorum, exceptions, or eligibility for high-stakes roles; this also
+    applies to balance, exchange history, and the mere fact of entering into or
+    performing a contract.
 6. Verified personhood in the network may by itself be a sufficient basis for a
-   non-withdrawable minimum of compute resources for communication, orientation, and
-   emergency/care modes, regardless of temporary reputation or economic contribution.
+    non-withdrawable minimum of compute resources for communication, orientation, and
+    emergency/care modes, regardless of temporary reputation or economic contribution.
 
 ---
 
@@ -146,19 +146,19 @@ minimum standard for exchangeable or quasi-exchangeable mechanisms.
 The sufficiency threshold MUST pass all three tests at once:
 
 1. **Upkeep test**: the threshold is enough for safe and stable upkeep of the node
-   and its operator in ordinary operation.
+    and its operator in ordinary operation.
 2. **Non-domination test**: the threshold may not be set so high that it
-   effectively disables concentration brakes for a small privileged group.
+    effectively disables concentration brakes for a small privileged group.
 3. **Transparency test**: the method of setting the threshold can be described,
-   recalculated, and challenged procedurally.
+    recalculated, and challenged procedurally.
 
 ### 5.2. Minimum Rules
 
 1. The sufficiency threshold MUST be reviewed periodically.
 2. A change in the threshold MUST leave a decision trace, rationale, and effective
-   date.
+    date.
 3. A federation may use different cost profiles for different node classes, but it
-   may not use them to covertly privilege its own operators or public-trust roles.
+    may not use them to covertly privilege its own operators or public-trust roles.
 
 ---
 
@@ -189,7 +189,7 @@ An economic mechanism does NOT pass the constitutional test if any of the follow
 holds:
 
 1. the dominant part of payouts for earlier participants comes from the inflow of
-   new participants rather than auditable use or value,
+    new participants rather than auditable use or value,
 2. seniority by itself creates a lasting bonus without decay,
 3. loss of new-participant inflow causes structural collapse of baseline payouts.
 
@@ -202,7 +202,7 @@ holds:
 At least the following classes MUST be served by `surplus_policy`:
 
 1. `basic_survival_floor` - the minimum allocation for verified persons without
-   sufficient current reputational or economic contribution,
+    sufficient current reputational or economic contribution,
 2. `bootstrap` - new nodes and entry into the ecosystem,
 3. `weaker_links` - nodes with lower operational capacity,
 4. `temporary_harm` - nodes or operators temporarily harmed,
@@ -216,7 +216,7 @@ infrastructural classes at once.
 1. Surplus MUST be settled periodically, not ad hoc by sympathy.
 2. The allocation rule MUST be public or expressed as a public algorithm.
 3. Funds routed into common circulation may not return in the same round to the
-   source beneficiary through a hidden channel.
+    source beneficiary through a hidden channel.
 4. Redistribution MUST leave an auditable trace per period.
 
 ### 7.3. Minimal Settlement Record
@@ -242,14 +242,14 @@ surplus_settlement:
 ## 8. Barrier Against Conversion into Constitutional Power
 
 1. Token, credit, or other economic-reward balances may not be a direct input into
-   calculation of voting weight, panel eligibility, oracle force, or access to
-   exceptions.
+    calculation of voting weight, panel eligibility, oracle force, or access to
+    exceptions.
 2. A federation may not sell or grant shortcuts into public-trust roles in
-   exchange for economic reward.
+    exchange for economic reward.
 3. If the system uses both economic rewards and reputation, their accrual paths
-   MUST be separated and auditable.
+    MUST be separated and auditable.
 4. Any attempt to circumvent the conversion barrier through an indirect benefit is
-   treated as a constitutional violation, not as ordinary economic optimization.
+    treated as a constitutional violation, not as ordinary economic optimization.
 
 ---
 
@@ -274,11 +274,11 @@ is a signal of institutional pathology and should trigger review of economic pol
 ## 10. Exceptions and Relation to Other Documents
 
 1. Bypassing concentration brakes may occur only through an exception compliant
-   with `EXCEPTION-POLICY.en.md`.
+    with `EXCEPTION-POLICY.en.md`.
 2. An exception may not suspend the barrier against converting economic reward into
-   procedural power.
+    procedural power.
 3. Every exception concerning the sufficiency threshold or redistribution MUST
-   specify: `reason`, `expiry`, `owner`, `risk-level`, and side-effect metrics.
+    specify: `reason`, `expiry`, `owner`, `risk-level`, and side-effect metrics.
 
 Document relations:
 

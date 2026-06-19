@@ -151,6 +151,65 @@ plugins:
                     - Whisper Interest v1: doc/schemas-gen/schemas/whisper-interest.v1.md
                     - Whisper Signal v1: doc/schemas-gen/schemas/whisper-signal.v1.md
                     - Whisper Threshold Reached v1: doc/schemas-gen/schemas/whisper-threshold-reached.v1.md
+        - locale: cs
+          name: Česky
+          build: true
+          site_name: Orbiplex
+          theme:
+            language: cs
+          nav:
+            - Přehled:
+                - Start: index.md
+                - Pokrytí workflowů: doc/COVERAGE.md
+            - Normativní:
+                - Vize: doc/normative/20-vision/VISION.md
+                - Základní hodnoty: doc/normative/30-core-values/CORE-VALUES.md
+                - Konstituce: doc/normative/40-constitution/CONSTITUTION.md
+                - Prováděcí akty:
+                    - doc/normative/50-constitutional-ops/README.md
+                    - Abuse Disclosure Protocol: doc/normative/50-constitutional-ops/ABUSE-DISCLOSURE-PROTOCOL.md
+                    - Advocacy and Solicitation Policy: doc/normative/50-constitutional-ops/ADVOCACY-AND-SOLICITATION-POLICY.md
+                    - Attestation Providers: doc/normative/50-constitutional-ops/ATTESTATION-PROVIDERS.md
+                    - Autonomy Levels: doc/normative/50-constitutional-ops/AUTONOMY-LEVELS.md
+                    - Entrenchment Clause: doc/normative/50-constitutional-ops/ENTRENCHMENT-CLAUSE.md
+                    - Exception Policy: doc/normative/50-constitutional-ops/EXCEPTION-POLICY.md
+                    - Federation Membership and Quorum: doc/normative/50-constitutional-ops/FEDERATION-MEMBERSHIP-AND-QUORUM.md
+                    - FIP Membership and Quorum: doc/normative/50-constitutional-ops/FIP-MEMBERSHIP-AND-QUORUM.md
+                    - Identity Attestation and Recovery: doc/normative/50-constitutional-ops/IDENTITY-ATTESTATION-AND-RECOVERY.md
+                    - Identity Unsealing Board: doc/normative/50-constitutional-ops/IDENTITY-UNSEALING-BOARD.md
+                    - Identity Upgrade Anomaly Signals: doc/normative/50-constitutional-ops/IDENTITY-UPGRADE-ANOMALY-SIGNALS.md
+                    - Implementation Gaps: doc/normative/50-constitutional-ops/IMPLEMENTATION-GAPS.md
+                    - Marketplace Anti-Fraud Policy: doc/normative/50-constitutional-ops/MARKETPLACE-ANTI-FRAUD-POLICY.md
+                    - Membership and Sponsorship Policy: doc/normative/50-constitutional-ops/MEMBERSHIP-AND-SPONSORSHIP-POLICY.md
+                    - Node Rights Card: doc/normative/50-constitutional-ops/NODE-RIGHTS-CARD.md
+                    - Normative Hierarchy: doc/normative/50-constitutional-ops/NORMATIVE-HIERARCHY.md
+                    - Panel Selection Protocol: doc/normative/50-constitutional-ops/PANEL-SELECTION-PROTOCOL.md
+                    - Participant Covenant: doc/normative/50-constitutional-ops/PARTICIPANT-COVENANT.md
+                    - Procedural Reputation Spec: doc/normative/50-constitutional-ops/PROCEDURAL-REPUTATION-SPEC.md
+                    - Raw Signal Policy: doc/normative/50-constitutional-ops/RAW-SIGNAL-POLICY.md
+                    - Reputation Validation Protocol: doc/normative/50-constitutional-ops/REPUTATION-VALIDATION-PROTOCOL.md
+                    - Role to IAL Matrix: doc/normative/50-constitutional-ops/ROLE-TO-IAL-MATRIX.md
+                    - Root Identity and Nyms: doc/normative/50-constitutional-ops/ROOT-IDENTITY-AND-NYMS.md
+                    - Swarm Economy Sufficiency: doc/normative/50-constitutional-ops/SWARM-ECONOMY-SUFFICIENCY.md
+                    - UBC Limit Profiles: doc/normative/50-constitutional-ops/UBC-LIMIT-PROFILES.md
+                    - Universal Basic Compute: doc/normative/50-constitutional-ops/UNIVERSAL-BASIC-COMPUTE.md
+                    - Unseal Case Model: doc/normative/50-constitutional-ops/UNSEAL-CASE-MODEL.md
+                - Doplňkové:
+                    - doc/normative/90-supplementary/SUPPLEMENTARY.md
+                    - Ontologický základ DIA / Orbiplex: doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md
+          # BEGIN GENERATED PROJECT NAV CS
+          # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
+          # END GENERATED PROJECT NAV CS
+          # BEGIN GENERATED FAQ NAV CS
+          # FAQ nav is generated into mkdocs.i18n.generated.yml from doc/ops/faq/*-faq.*.md.
+          # END GENERATED FAQ NAV CS
+            - Diagramy:
+                - Architektura:
+                    - Mapa hlavních komponent Orbiplex: doc/diagrams/architecture/orbiplex-root-component-map.md
+                    - Vrstvy autorizace host capabilities: doc/diagrams/architecture/host-capability-authorization-strata.md
+            - Schémata:
+                - Konvence metadat schémat: doc/schemas/README.md
+                - Generovaný index: doc/schemas-gen/schema-index.md
         - locale: pl
           name: Polski
           build: true

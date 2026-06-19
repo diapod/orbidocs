@@ -165,13 +165,13 @@ A Level 5 document:
 
 1. In case of conflict between levels, the higher level prevails.
 2. In case of conflict within the same level, the procedure from Constitution Art.
-   XIV applies (tests of reversibility, proportionality, and publicity).
+    XIV applies (tests of reversibility, proportionality, and publicity).
 3. In case of conflict between language versions of the same document, the Polish
-   version prevails unless it is shown that the difference results from a
-   translation error.
+    version prevails unless it is shown that the difference results from a
+    translation error.
 4. A lower-level document that in fact violates a higher level is **invalid to the
-   extent of the violation** from the moment the violation is established, not
-   from the moment of publication.
+    extent of the violation** from the moment the violation is established, not
+    from the moment of publication.
 
 ---
 

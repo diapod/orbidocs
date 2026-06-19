@@ -27,17 +27,17 @@ wyjątku **obiektem pierwszej kategorii audytu**.
 ## 2. Zasada ogólna
 
 1. Wyjątek jest dopuszczalny wyłącznie wtedy, gdy:
-   - nie narusza rdzenia nienegocjowalnego,
-   - jest ograniczony zakresem i czasem,
-   - ma właściciela odpowiedzialnego za jego skutki,
-   - ma jawny warunek wyłączenia,
-   - prowadzi do zdefiniowanego stanu bezpiecznego domknięcia (ang. fail-closed).
+    - nie narusza rdzenia nienegocjowalnego,
+    - jest ograniczony zakresem i czasem,
+    - ma właściciela odpowiedzialnego za jego skutki,
+    - ma jawny warunek wyłączenia,
+    - prowadzi do zdefiniowanego stanu bezpiecznego domknięcia (ang. fail-closed).
 2. Wyjątek nie może być trybem domyślnym ani stałą cechą architektury.
 3. Wyjątek NIE MOŻE zawieszać zakazu wymuszania upokorzenia, uniżenia lub
-   zależności emocjonalnej jako warunku dostępu do dóbr krytycznych, pomocy,
-   procedur ochronnych lub podstawowych zasobów systemu.
+    zależności emocjonalnej jako warunku dostępu do dóbr krytycznych, pomocy,
+    procedur ochronnych lub podstawowych zasobów systemu.
 4. Często powtarzający się wyjątek jest sygnałem, że brakuje reguły, kontraktu albo
-   nowej ścieżki operacyjnej.
+    nowej ścieżki operacyjnej.
 
 ---
 
@@ -116,27 +116,27 @@ Przykłady:
 
 1. Inicjator tworzy rekord wyjątku z pełnym modelem danych.
 2. Wyjątek musi być zatwierdzony przez co najmniej dwie role, z których jedna nie
-   jest bezpośrednim beneficjentem wyjątku.
+    jest bezpośrednim beneficjentem wyjątku.
 3. Dla wyjątków `high` i `critical` obowiązuje współpodpis (ang. multisig) oraz
-   jawne wskazanie metryk monitorowania.
+    jawne wskazanie metryk monitorowania.
 4. Po zatwierdzeniu wyjątek uzyskuje status `active`.
 
 ### 5.2. Wyjątek awaryjny
 
 1. Może być aktywowany przez operatora albo automatycznie przez zdefiniowany
-   wyzwalacz (ang. trigger).
+    wyzwalacz (ang. trigger).
 2. Aktywacja tworzy rekord wyjątku natychmiast albo najpóźniej razem z pierwszym
-   śladem działania.
+    śladem działania.
 3. Maksymalny czas życia wyjątku awaryjnego jest parametrem federacji, ale po
-   wygaśnięciu system MUSI wrócić do stanu bezpiecznego domknięcia (ang.
-   fail-closed).
+    wygaśnięciu system MUSI wrócić do stanu bezpiecznego domknięcia (ang.
+    fail-closed).
 4. Rewizja post-hoc jest obowiązkowa i musi się rozpocząć nie później niż 72 godziny
-   po aktywacji, chyba że federacja jest nadal w trybie kryzysowym.
+    po aktywacji, chyba że federacja jest nadal w trybie kryzysowym.
 
 ### 5.3. Wyjątek ochronny / konstytucyjny
 
 1. Jest aktywowany przez panel ad-hoc albo inny uprawniony organ proceduralny
-   określony przez Konstytucję.
+    określony przez Konstytucję.
 2. Musi zawierać wskazanie grożącej szkody nieodwracalnej.
 3. Wygasa automatycznie po pełnym rozstrzygnięciu albo po osiągnięciu `expiry`.
 4. Nie może zostać przedłużony bez nowej decyzji i nowego śladu uzasadnienia.
@@ -160,7 +160,7 @@ Wyjątek MUSI zostać automatycznie zawieszony albo cofnięty, jeżeli:
 4. zniknął warunek, który uzasadniał jego uruchomienie,
 5. wyjątek zaczyna działać jak trwała furtka architektoniczna,
 6. wyjątek zaczyna uzależniać dostęp do pomocy, procedur ochronnych albo dóbr
-   krytycznych od upokorzenia, uniżenia lub zależności emocjonalnej.
+    krytycznych od upokorzenia, uniżenia lub zależności emocjonalnej.
 
 ---
 

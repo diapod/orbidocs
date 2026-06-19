@@ -187,9 +187,9 @@ wciąż w użyciu) zachowują minimalny próg zaniku 0.3, dopóki korzyść trwa
 ### 4.4. Limity koncentracji
 
 1. Żaden pojedynczy typ sygnału nie może wnieść więcej niż 40% pozytywnego wyniku
-   domeny.
+    domeny.
 2. Żaden pojedynczy węzeł źródłowy nie może wnieść więcej niż 20% sygnałów innego
-   węzła w żadnej domenie.
+    węzła w żadnej domenie.
 3. Naruszenie tych limitów wyzwala `concentration_warning` i obcina nadwyżkę.
 
 ---
@@ -200,9 +200,9 @@ Węzeł jest `active` do celów reputacyjnych, jeśli spełnia wszystkie poniżs
 warunki:
 
 1. Wygenerował co najmniej `min_signals_per_period` (domyślnie: 3) audytowalnych
-   sygnałów w `activity_window` (domyślnie: 90 dni).
+    sygnałów w `activity_window` (domyślnie: 90 dni).
 2. Odpowiada na sygnały heartbeat federacji (spójnie z kryteriami aktywności
-   z `FEDERATION-MEMBERSHIP-AND-QUORUM`).
+    z `FEDERATION-MEMBERSHIP-AND-QUORUM`).
 3. Nie jest aktualnie `suspended` ani `retired`.
 
 Nieaktywne węzły zachowują historyczne wyniki, ale **nie mogą ich używać do
@@ -218,14 +218,14 @@ Węzły pełniące role zaufania publicznego (Art. VII.8) podlegają surowszym
 standardom:
 
 1. Waga sygnałów **negatywnych** jest mnożona przez `asymmetry_factor`
-   (domyślnie: 1.5).
+    (domyślnie: 1.5).
 2. Waga sygnałów **pozytywnych nie jest redukowana** -- asymetria działa tylko
-   w dół.
+    w dół.
 3. Zbiór ról zaufania publicznego zostanie zdefiniowany w przyszłym dokumencie
-   `ROLE-REGISTRY`. Do tego czasu kwalifikują się: członek panelu, operator
-   federacji, głosujący z wagą, operator wyroczni.
+    `ROLE-REGISTRY`. Do tego czasu kwalifikują się: członek panelu, operator
+    federacji, głosujący z wagą, operator wyroczni.
 4. Asymetria zaczyna działać natychmiast po objęciu roli i utrzymuje się przez
-   `asymmetry_tail_days` (domyślnie: 90) po jej opuszczeniu.
+    `asymmetry_tail_days` (domyślnie: 90) po jej opuszczeniu.
 
 ---
 
@@ -266,32 +266,32 @@ reputacji proceduralnej.
 ### 7.4. Bramka poziomu pewności tożsamości
 
 1. Wysoka reputacja proceduralna nie daje sama z siebie dostępu do ról wysokiego
-   zaufania.
+    zaufania.
 
 2. Federacja MUSI sprawdzać kwalifikowalność jako iloczyn dwóch warunków:
 
-   - próg reputacyjny,
+    - próg reputacyjny,
 
-   - minimalny poziom `IAL` dla danej roli lub procedury.
+    - minimalny poziom `IAL` dla danej roli lub procedury.
 
 3. Dla paneli ad-hoc, operatorów federacji, wyroczni i podobnych ról system
-   POWINIEN przechowywać w rekordzie reputacji migawkę bieżącego poziomu
-   `assurance_level`.
+    POWINIEN przechowywać w rekordzie reputacji migawkę bieżącego poziomu
+    `assurance_level`.
 
 ### 7.5. Delikatna dźwignia stała dla wyższych poziomów IAL
 
 1. Federacja NIE MOŻE mnożyć wyniku reputacyjnego przez poziom `IAL`.
 
 2. Federacja MOŻE przyznać węzłowi o wyższym `IAL` niewielką, stałą premię
-   proceduralną (`fixed_power_bonus`), ale tylko wtedy, gdy:
+    proceduralną (`fixed_power_bonus`), ale tylko wtedy, gdy:
 
-   - premia jest jawnie opisana w polityce federacji,
+    - premia jest jawnie opisana w polityce federacji,
 
-   - nie przekracza `0.01` (`1%`) całkowitej mocy danego mechanizmu,
+    - nie przekracza `0.01` (`1%`) całkowitej mocy danego mechanizmu,
 
-   - nie zastępuje progu reputacyjnego ani progów domenowych,
+    - nie zastępuje progu reputacyjnego ani progów domenowych,
 
-   - jest audytowalna i cofana wraz z utratą kwalifikacji `IAL`.
+    - jest audytowalna i cofana wraz z utratą kwalifikacji `IAL`.
 
 ### 7.6. Limity powierzchni newcomera i sygnały sponsoringu
 
@@ -363,12 +363,12 @@ Federacja przyjmująca:
 
 1. **Importuje** historię sygnałów jako dowody.
 2. **Przelicza** wynik węzła według własnych parametrów (funkcja wzrostu, zanik,
-   progi).
+    progi).
 3. **Nie akceptuje** wyniku federacji źródłowej jako własnego.
 4. **Może** zastosować `foreign_signal_discount` (domyślnie: 0.8) do
-   importowanych sygnałów, odzwierciedlając ograniczoną weryfikowalność.
+    importowanych sygnałów, odzwierciedlając ograniczoną weryfikowalność.
 5. Traktuje importowany pakiet jako **przyspieszony rozruch**, nie transfer
-   reputacji.
+    reputacji.
 
 ---
 
@@ -519,25 +519,25 @@ z `REPUTATION-VALIDATION-PROTOCOL`:
 ## 14. Otwarte pytania
 
 1. **Dokładna postać funkcji podliniowej**: `ln`, `sqrt` czy `tanh`? Wymaga
-   symulacji (Faza 0 z REPUTATION-VALIDATION-PROTOCOL). Obecnie parametr
-   federacyjny.
+    symulacji (Faza 0 z REPUTATION-VALIDATION-PROTOCOL). Obecnie parametr
+    federacyjny.
 
 2. **Wyniki ujemne**: Czy domena `incident` powinna dopuszczać wyniki poniżej 0.0
-   (tj. `[-1.0, 1.0]`), aby uchwycić "netto szkodliwy"? Obecny projekt: wyniki
-   w `[0.0, 1.0]`.
+    (tj. `[-1.0, 1.0]`), aby uchwycić "netto szkodliwy"? Obecny projekt: wyniki
+    w `[0.0, 1.0]`.
 
 3. **Waga sygnałów wyroczni**: Czy sygnały generowane przez wyrocznie powinny mieć
-   mnożnik wyższy niż 1.0? Argument za: są zweryfikowane wynikiem. Argument
-   przeciw: zaufanie do wyroczni jest zmienną.
+    mnożnik wyższy niż 1.0? Argument za: są zweryfikowane wynikiem. Argument
+    przeciw: zaufanie do wyroczni jest zmienną.
 
 4. **Rejestr ról**: Asymetryczna odpowiedzialność zależy od listy ról zaufania
-   publicznego. Do czasu napisania `ROLE-REGISTRY` obowiązuje tymczasowa lista
-   z sekcji 6.3.
+    publicznego. Do czasu napisania `ROLE-REGISTRY` obowiązuje tymczasowa lista
+    z sekcji 6.3.
 
 5. **Interakcja międzydomenowa**: Czy ciężkie sygnały negatywne w `incident`
-   powinny wpływać na domenę `procedural`? Obecny projekt: domeny są niezależne.
-   Argument za kontaminacją: węzeł ukrywający incydenty nie powinien służyć
-   w panelach.
+    powinny wpływać na domenę `procedural`? Obecny projekt: domeny są niezależne.
+    Argument za kontaminacją: węzeł ukrywający incydenty nie powinien służyć
+    w panelach.
 
 ---
 

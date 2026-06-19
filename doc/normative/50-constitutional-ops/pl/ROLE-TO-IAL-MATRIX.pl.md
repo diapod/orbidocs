@@ -27,36 +27,36 @@ proceduralnej i nie mnoży wpływu dynamicznie.
 1. `IAL` działa przede wszystkim jako bramka do klas ról i decyzji.
 
 2. Wyższy `IAL` nie może sam z siebie zastąpić wymaganego progu reputacji,
-   doświadczenia ani wyniku screeningu roli.
+    doświadczenia ani wyniku screeningu roli.
 
 3. Ewentualny `fixed_power_bonus` MUSI być:
 
-   - jawnie zdefiniowany w polityce federacyjnej,
+    - jawnie zdefiniowany w polityce federacyjnej,
 
-   - stały dla całego systemu lub danej federacji,
+    - stały dla całego systemu lub danej federacji,
 
-   - ograniczony do `<= 1%`,
+    - ograniczony do `<= 1%`,
 
-   - wyłączalny dla ról najwyższej stawki, jeśli federacja wybierze model bez
+    - wyłączalny dla ról najwyższej stawki, jeśli federacja wybierze model bez
      jakiejkolwiek premii za silniejsze zakotwiczenie.
 
 4. Role wysokiej stawki POWINNY wymagać nie tylko `IAL`, ale też okresu próbnego,
-   reputacji proceduralnej i kontroli konfliktów interesów.
+    reputacji proceduralnej i kontroli konfliktów interesów.
 
 5. Sufit `IAL` wynika również z klasy poświadczenia źródła tożsamości. Źródła
-   `weak` nie powinny same z siebie odblokowywać ról wysokiej stawki, nawet jeśli
-   lokalnie spełniono inne warunki.
+    `weak` nie powinny same z siebie odblokowywać ról wysokiej stawki, nawet jeśli
+    lokalnie spełniono inne warunki.
 
 6. `IAL` bramkuje powierzchnie wysokiej stawki, ale sam z siebie nie wystarcza.
-   Limity wartości marketplace, kwalifikowalność governance, kwalifikowalność
-   panelowa, publiczne custody, routing i role zaufania publicznego wymagają też
-   właściwej polityki powierzchni: probation, reputacji proceduralnej,
-   dywersyfikacji sponsorów tam, gdzie dotyczy, obsługi COI i przeglądu
-   antykoluzyjnego.
+    Limity wartości marketplace, kwalifikowalność governance, kwalifikowalność
+    panelowa, publiczne custody, routing i role zaufania publicznego wymagają też
+    właściwej polityki powierzchni: probation, reputacji proceduralnej,
+    dywersyfikacji sponsorów tam, gdzie dotyczy, obsługi COI i przeglądu
+    antykoluzyjnego.
 
 7. Atestacja kanału kontaktu, np. kontrola telefonu albo e-maila, jest pomocą
-   antyspamową i odzyskiwania kontaktu. NIE MOŻE być interpretowana jako
-   tożsamość prawna ani skrót do ról wysokiej stawki.
+    antyspamową i odzyskiwania kontaktu. NIE MOŻE być interpretowana jako
+    tożsamość prawna ani skrót do ról wysokiej stawki.
 
 ---
 
@@ -83,16 +83,16 @@ proceduralnej i nie mnoży wpływu dynamicznie.
 1. Federacja MOŻE podnosić progi `IAL` dla własnych ról.
 
 2. Federacja NIE MOŻE obniżać progów dla ról, które wchodzą w zakres `U2`, `U3`,
-   ochrony sygnalistów albo wysokostawkowego governance.
+    ochrony sygnalistów albo wysokostawkowego governance.
 
 3. Jeżeli rola łączy kilka funkcji, obowiązuje najwyższy wymagany `IAL`.
 
 4. Jeżeli sprawa ma charakter międzyfederacyjny, obowiązuje wyższy z progów stron
-   uczestniczących.
+    uczestniczących.
 
 5. Jeżeli źródło poświadczenia ma klasę `weak`, federacja NIE MOŻE przyznać przez
-   samą macierz roli poziomu wyższego niż dopuszczalny sufit z
-   `ATTESTATION-PROVIDERS.pl.md`.
+    samą macierz roli poziomu wyższego niż dopuszczalny sufit z
+    `ATTESTATION-PROVIDERS.pl.md`.
 
 ---
 

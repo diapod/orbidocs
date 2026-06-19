@@ -36,35 +36,35 @@ Niniejszy dokument definiuje:
 ## 2. Zasady projektowe
 
 1. **Losowanie równomierne, nie ważone reputacją**. Reputacja jest progiem
-   kwalifikowalności, a nie wagą selekcji. W obrębie kwalifikowalnej puli każdy
-   węzeł ma takie samo prawdopodobieństwo wyboru. Selekcja ważona reputacją
-   tworzyłaby faktyczną kastę sędziowską, sprzeczną z Art. VII.1 (ład
-   organizacyjny bez kapłanów).
+    kwalifikowalności, a nie wagą selekcji. W obrębie kwalifikowalnej puli każdy
+    węzeł ma takie samo prawdopodobieństwo wyboru. Selekcja ważona reputacją
+    tworzyłaby faktyczną kastę sędziowską, sprzeczną z Art. VII.1 (ład
+    organizacyjny bez kapłanów).
 
 2. **Konflikt interesów jako domyślny punkt wyjścia** (ang. COI-by-default)
-   (Art. VII.6). Brak deklaracji konfliktu interesów oznacza brak danych, a nie
-   brak konfliktu. Ciężar dowodu spoczywa na kandydacie, nie na stronie
-   kwestionującej.
+    (Art. VII.6). Brak deklaracji konfliktu interesów oznacza brak danych, a nie
+    brak konfliktu. Ciężar dowodu spoczywa na kandydacie, nie na stronie
+    kwestionującej.
 
 3. **Rozdział ról** (Art. VII.3). Węzeł nie może jednocześnie być stroną,
-   arbitrem i wyrocznią w tej samej sprawie. Panelista, który odkryje konflikt
-   ról w trakcie postępowania, MUSI niezwłocznie się wyłączyć.
+    arbitrem i wyrocznią w tej samej sprawie. Panelista, który odkryje konflikt
+    ról w trakcie postępowania, MUSI niezwłocznie się wyłączyć.
 
 4. **Entropia ponad autorytetem**. Ziarno losowania jest generowane kolektywnie;
-   żaden pojedynczy węzeł nie kontroluje wyniku selekcji.
+    żaden pojedynczy węzeł nie kontroluje wyniku selekcji.
 
 5. **Proporcjonalne ujawnianie**. Ekspozycja tożsamości rośnie wraz z potrzebą:
-   pełna dla audytu, pseudonimowa dla stron, niejawna dla opinii publicznej.
+    pełna dla audytu, pseudonimowa dla stron, niejawna dla opinii publicznej.
 
 6. **Jedna rodzina kryptograficzna**. Mechanizmy commit-reveal, VRF oraz podpisy
-   artefaktów panelowych POWINNY używać tego samego stosu co reszta protokołu:
-   Ed25519 lub bezpośrednio zgodna rodzina Edwards25519, separatory domen
-   `"<type>-v1\\x00" || deterministic_cbor(payload)` oraz identyfikatory zgodne z
-   `did:key`.
+    artefaktów panelowych POWINNY używać tego samego stosu co reszta protokołu:
+    Ed25519 lub bezpośrednio zgodna rodzina Edwards25519, separatory domen
+    `"<type>-v1\\x00" || deterministic_cbor(payload)` oraz identyfikatory zgodne z
+    `did:key`.
 
 7. **Panelista służy jako `participant:did:key`, nie jako nym**. Prywatność
-   panelowa jest realizowana przez proceduralny pseudonim per-sprawa, a nie przez
-   łańcuch nymów. Nym layer nie uczestniczy w pipeline governance.
+    panelowa jest realizowana przez proceduralny pseudonim per-sprawa, a nie przez
+    łańcuch nymów. Nym layer nie uczestniczy w pipeline governance.
 
 ---
 
@@ -97,23 +97,23 @@ semantycznie, nawet jeśli w MVP oba identyfikatory są oparte o ten sam klucz.
 ### 3.1. Procedura kontroli COI
 
 1. Przed losowaniem każdy węzeł z kwalifikowalnej puli otrzymuje **zaślepione
-   streszczenie sprawy** (strony zanonimizowane, przedmiot opisany na poziomie
-   kategorii).
+    streszczenie sprawy** (strony zanonimizowane, przedmiot opisany na poziomie
+    kategorii).
 
 2. Każdy węzeł MUSI zadeklarować w ciągu `coi_declaration_window` (domyślnie: 24
-   godziny; 4 godziny dla spraw `critical`):
+    godziny; 4 godziny dla spraw `critical`):
 
-   - `brak konfliktu` (w postaci podpisanego `coi-declaration.v1`), albo
+    - `brak konfliktu` (w postaci podpisanego `coi-declaration.v1`), albo
 
-   - `konflikt istnieje` (w postaci podpisanego `coi-declaration.v1` z kategorią,
+    - `konflikt istnieje` (w postaci podpisanego `coi-declaration.v1` z kategorią,
      ale bez szczegółów), albo
 
-   - brak odpowiedzi (traktowany jako niezadeklarowany COI -- węzeł jest
+    - brak odpowiedzi (traktowany jako niezadeklarowany COI -- węzeł jest
      wykluczony).
 
 3. Węzły deklarujące konflikt albo nieodpowiadające są wykluczane z losowania dla
-   tej sprawy. Brak odpowiedzi generuje negatywny sygnał `procedural`
-   (`governance_inaction`) w `PROCEDURAL-REPUTATION-SPEC`.
+    tej sprawy. Brak odpowiedzi generuje negatywny sygnał `procedural`
+    (`governance_inaction`) w `PROCEDURAL-REPUTATION-SPEC`.
 
 4. Odkrycie COI po selekcji wyzwala wyłączenie danego członka panelu (sekcja 10).
 
@@ -144,26 +144,26 @@ post-hoc, generuje sygnał `coi_undeclared` o wyższej wadze niż zwykłe milcze
 ### 3.2. Bramka pewności tożsamości
 
 1. Każdy kandydat do panelu MUSI przed selekcją ujawnić systemowi swój bieżący
-   `assurance_level` oraz referencję do poświadczenia zakotwiczenia.
+    `assurance_level` oraz referencję do poświadczenia zakotwiczenia.
 
 2. Dla zwykłych paneli wysokiej stawki minimalny poziom domyślny to `IAL3`.
 
 3. Dla paneli, które mogą:
 
-   - decydować o ujawnieniu identyfikującym,
+    - decydować o ujawnieniu identyfikującym,
 
-   - wchodzić w tor notyfikacji prawnej,
+    - wchodzić w tor notyfikacji prawnej,
 
-   - rozstrzygać sprawy publicznych ról zaufania o najwyższej stawce,
+    - rozstrzygać sprawy publicznych ról zaufania o najwyższej stawce,
 
-   federacja POWINNA wymagać `IAL4`.
+    federacja POWINNA wymagać `IAL4`.
 
 4. Strony nie otrzymują automatycznie root-identity panelistów. Poziom `IAL`
-   jest bramką kwalifikacyjną, nie trybem pełnego ujawnienia.
+    jest bramką kwalifikacyjną, nie trybem pełnego ujawnienia.
 
 5. Macierzą domyślną dla minimów `IAL` jest `ROLE-TO-IAL-MATRIX.pl.md`; federacja
-   może ją jedynie zaostrzać.
-   jest warunkiem kwalifikowalności, a nie trybem pełnej jawności.
+    może ją jedynie zaostrzać.
+    jest warunkiem kwalifikowalności, a nie trybem pełnej jawności.
 
 ---
 
@@ -183,7 +183,7 @@ czyli rodziny Edwards25519 zgodnej z Ed25519 używanym w reszcie stosu.
 ### 4.1. Faza commit
 
 1. Po ustaleniu kwalifikowalnej puli wszystkie kwalifikowalne węzły są
-   zapraszane do udziału w generowaniu ziarna.
+    zapraszane do udziału w generowaniu ziarna.
 
 2. Każdy uczestniczący węzeł generuje losowy nonce i wysyła zobowiązanie:
 
@@ -195,26 +195,26 @@ commit = H("panel-commit-v1\x00" || deterministic_cbor({
 ```
 
 3. Okno commit: `commit_window` (domyślnie: 24 godziny; 4 godziny dla spraw
-   `critical`).
+    `critical`).
 
 4. Minimalna liczba uczestników: co najmniej `min_commit_participants`
-   (domyślnie: 5) węzłów MUSI przesłać commit, aby losowanie mogło się odbyć.
-   Poniżej tego progu stosuje się sekcję 8 (eskalacja).
+    (domyślnie: 5) węzłów MUSI przesłać commit, aby losowanie mogło się odbyć.
+    Poniżej tego progu stosuje się sekcję 8 (eskalacja).
 
 ### 4.2. Faza reveal
 
 1. Po zamknięciu okna commit wszystkie węzły, które złożyły commit, ujawniają
-   swój nonce.
+    swój nonce.
 
 2. Okno reveal: `reveal_window` (domyślnie: 12 godzin; 2 godziny dla spraw
-   `critical`).
+    `critical`).
 
 3. Commit bez ujawnienia: węzeł zostaje wykluczony z losowania, a dodatkowo
-   generowany jest negatywny sygnał `procedural` (`protocol_violation`). Ujawnione
-   nonce są przetwarzane bez brakujących wkładów.
+    generowany jest negatywny sygnał `procedural` (`protocol_violation`). Ujawnione
+    nonce są przetwarzane bez brakujących wkładów.
 
 4. Jeśli liczba ujawnionych nonce spadnie poniżej `min_commit_participants`,
-   losowanie zaczyna się od nowej fazy commit.
+    losowanie zaczyna się od nowej fazy commit.
 
 ### 4.3. Konstrukcja ziarna
 
@@ -248,17 +248,17 @@ poprawność jego wyprowadzenia.
 ### 4.4. Selekcja z puli
 
 1. Kwalifikowalna pula (po wykluczeniach COI) jest sortowana według
-   deterministycznego porządku kanonicznego (np. leksykograficzne `node_id`).
+    deterministycznego porządku kanonicznego (np. leksykograficzne `node_id`).
 
 2. Ziarno jest używane do wygenerowania `panel_size` (domyślnie: 3) +
-   `reserve_count` (domyślnie: 2) indeksów przez deterministyczny generator
-   pseudolosowy zasilony wynikiem VRF.
+    `reserve_count` (domyślnie: 2) indeksów przez deterministyczny generator
+    pseudolosowy zasilony wynikiem VRF.
 
 3. Pierwsze `panel_size` indeksów wyznaczają skład podstawowy; pozostałe
-   `reserve_count` to rezerwowi.
+    `reserve_count` to rezerwowi.
 
 4. Całe losowanie jest reprodukowalne: każdy węzeł dysponujący dowodem VRF i
-   listą kwalifikowalnej puli może zweryfikować wynik selekcji.
+    listą kwalifikowalnej puli może zweryfikować wynik selekcji.
 
 ---
 
@@ -297,17 +297,17 @@ Każda strona sporu może zgłosić **jedno veto** wobec wylosowanego panelisty.
 ### 6.2. Procedura veta
 
 1. Po ogłoszeniu składu panelu każda strona ma `veto_window` (domyślnie: 48
-   godzin; 12 godzin dla spraw `critical`) na użycie veta albo rezygnację z niego.
+    godzin; 12 godzin dla spraw `critical`) na użycie veta albo rezygnację z niego.
 
 2. Veto MUSI zawierać pisemne uzasadnienie. Uzasadnienie jest rejestrowane, ale
-   samo prawo ma charakter bezwarunkowy: strona nie musi udowadniać stronniczości.
+    samo prawo ma charakter bezwarunkowy: strona nie musi udowadniać stronniczości.
 
 3. Panelista objęty vetem jest zastępowany przez kolejnego rezerwowego. Jeśli
-   rezerwowi się wyczerpali, dla tego miejsca uruchamia się częściowe losowanie
-   uzupełniające (sekcja 10.3).
+    rezerwowi się wyczerpali, dla tego miejsca uruchamia się częściowe losowanie
+    uzupełniające (sekcja 10.3).
 
 4. Panelista objęty vetem nie otrzymuje negatywnego sygnału reputacyjnego. Sam
-   fakt objęcia vetem nie jest proceduralnym uchybieniem.
+    fakt objęcia vetem nie jest proceduralnym uchybieniem.
 
 ### 6.3. Ograniczenia
 
@@ -459,11 +459,11 @@ Panelista jest wymieniany, gdy wystąpi:
 
 1. Wolne miejsce zajmuje kolejny niewykorzystany rezerwowy.
 2. Jeśli wszyscy rezerwowi się wyczerpali, uruchamiane jest częściowe losowanie
-   uzupełniające (sekcja 10.3).
+    uzupełniające (sekcja 10.3).
 3. Zastępczy panelista dziedziczy materiały sprawy, ale dokonuje własnego,
-   niezależnego przeglądu.
+    niezależnego przeglądu.
 4. Harmonogram wydłuża się o `replacement_extension` (domyślnie: 7 dni; 2 dni
-   dla `critical`), aby umożliwić nowemu członkowi zapoznanie się ze sprawą.
+    dla `critical`), aby umożliwić nowemu członkowi zapoznanie się ze sprawą.
 
 ### 10.3. Częściowe losowanie uzupełniające
 
@@ -544,22 +544,22 @@ stosuje się identycznie.
 ## 14. Otwarte pytania
 
 1. **Wybór koordynatora losowania**: Koordynator jest opisany jako rola rotacyjna.
-   Mechanizm rotacji (round-robin, reputacyjny, losowy) nie został jeszcze
-   zdefiniowany.
+    Mechanizm rotacji (round-robin, reputacyjny, losowy) nie został jeszcze
+    zdefiniowany.
 
 2. **Zaufanie międzyfederacyjne przy służbie panelowej**: Gdy węzeł służy w panelu
-   innej federacji, jakie obowiązują założenia zaufania? Przenośny pakiet
-   dowodów (`PROCEDURAL-REPUTATION-SPEC` sekcja 8) dostarcza materiału, ale model
-   zaufania dla adjudykacji międzyfederacyjnej wymaga dalszej specyfikacji.
+    innej federacji, jakie obowiązują założenia zaufania? Przenośny pakiet
+    dowodów (`PROCEDURAL-REPUTATION-SPEC` sekcja 8) dostarcza materiału, ale model
+    zaufania dla adjudykacji międzyfederacyjnej wymaga dalszej specyfikacji.
 
 3. **Protokół deliberacji**: Ten dokument określa skład, ale nie format
-   deliberacji (synchroniczny / asynchroniczny, debata ustrukturyzowana, zasady
-   składania dowodów). Może być potrzebny osobny `PANEL-DELIBERATION-PROTOCOL`.
+    deliberacji (synchroniczny / asynchroniczny, debata ustrukturyzowana, zasady
+    składania dowodów). Może być potrzebny osobny `PANEL-DELIBERATION-PROTOCOL`.
 
 4. **Wynagrodzenie za służbę panelową**: Czy paneliści powinni otrzymywać
-   wynagrodzenie (token, bonus reputacyjny albo inne)? Obecny projekt:
-   zakończenie służby generuje pozytywny sygnał `procedural`
-   (`panel_completed`), który jest jedyną zachętą.
+    wynagrodzenie (token, bonus reputacyjny albo inne)? Obecny projekt:
+    zakończenie służby generuje pozytywny sygnał `procedural`
+    (`panel_completed`), który jest jedyną zachętą.
 
 ---
 

@@ -31,12 +31,12 @@ Niniejszy dokument operacjonalizuje te obowiązki.
 
 1. Surowy sygnał użytkownika jest dobrem chronionym.
 2. Domyślnym trybem pracy systemu jest zachowanie charakterystyki wypowiedzi, a nie
-   jej wygładzanie, profesjonalizowanie ani estetyzowanie.
+    jej wygładzanie, profesjonalizowanie ani estetyzowanie.
 3. Transformacja wypowiedzi może nastąpić wyłącznie na podstawie:
-   - jawnego żądania użytkownika,
-   - jawnej polityki użytkownika,
-   - minimalnie koniecznej redakcji ochronnej,
-   - wyjątku zgodnego z `EXCEPTION-POLICY.pl.md`.
+    - jawnego żądania użytkownika,
+    - jawnej polityki użytkownika,
+    - minimalnie koniecznej redakcji ochronnej,
+    - wyjątku zgodnego z `EXCEPTION-POLICY.pl.md`.
 4. Brak podstawy proceduralnej oznacza zakaz transformacji.
 
 ---
@@ -169,7 +169,7 @@ System nie spełnia tej polityki, jeżeli zachodzi którykolwiek z warunków:
 3. używa trybu `structured` do ukrycia realnej zmiany tonu lub stylu,
 4. nie pozostawia `basis_ref` dla transformacji niebędącej trybem `raw`,
 5. traktuje surową formę wypowiedzi jako domyślny powód obniżenia praw lub
-   wiarygodności użytkownika.
+    wiarygodności użytkownika.
 
 ---
 

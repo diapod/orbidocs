@@ -43,26 +43,26 @@ Model `unseal_case` obejmuje:
 
 1. `unseal_case`
 
-   Sprawa proceduralna, w której uczestnik lub organ wnosi o zejście z warstwy
-   bardziej osłonowej do mniej osłonowej tożsamości.
+    Sprawa proceduralna, w której uczestnik lub organ wnosi o zejście z warstwy
+    bardziej osłonowej do mniej osłonowej tożsamości.
 
 2. `requested_scope`
 
-   Zakres żądanego zejścia: `node_id`, `custodian_ref` albo `root_identity`.
+    Zakres żądanego zejścia: `node_id`, `custodian_ref` albo `root_identity`.
 
 3. `requestor_ref`
 
-   Proceduralny identyfikator podmiotu inicjującego sprawę.
+    Proceduralny identyfikator podmiotu inicjującego sprawę.
 
 4. `affected_ref`
 
-   Identyfikator podmiotu, którego dotyczy sprawa na warstwie aktualnie znanej
-   w systemie, np. `nym_id` albo `node_id`.
+    Identyfikator podmiotu, którego dotyczy sprawa na warstwie aktualnie znanej
+    w systemie, np. `nym_id` albo `node_id`.
 
 5. `case_state`
 
-   Stan sprawy w cyklu życia: `draft`, `submitted`, `screened`, `active`,
-   `decided`, `appealed`, `stayed`, `expired`, `closed`.
+    Stan sprawy w cyklu życia: `draft`, `submitted`, `screened`, `active`,
+    `decided`, `appealed`, `stayed`, `expired`, `closed`.
 
 ---
 
@@ -76,21 +76,21 @@ Model `unseal_case` obejmuje:
 
 4. Każda sprawa MUSI rozróżniać:
 
-   - sygnały,
+    - sygnały,
 
-   - poszlaki,
+    - poszlaki,
 
-   - dowody,
+    - dowody,
 
-   - decyzje,
+    - decyzje,
 
-   - skutki wykonawcze.
+    - skutki wykonawcze.
 
 5. Zmiana zakresu z `U1` do `U2` lub `U3` MUSI tworzyć nową decyzję w tej samej
-   sprawie, a nie nadpisywać historii.
+    sprawie, a nie nadpisywać historii.
 
 6. Sprawa MUSI mieć jawny `appeal_window` oraz `expiry`, jeśli decyzja ma charakter
-   czasowy.
+    czasowy.
 
 ---
 
@@ -170,10 +170,10 @@ decision_record:
 1. `unseal_case` MUSI mieć profil retencji adekwatny do stawki i skutków.
 
 2. Sprawy zakończone odmową i bez dalszych skutków POWINNY mieć krótszą retencję
-   niż sprawy zakończone `U2` albo `U3`.
+    niż sprawy zakończone `U2` albo `U3`.
 
 3. Rekord decyzji `U3` MUSI być objęty retencją co najmniej `legal_hold` albo
-   równoważnym trybem archiwum zabezpieczonego.
+    równoważnym trybem archiwum zabezpieczonego.
 
 ---
 

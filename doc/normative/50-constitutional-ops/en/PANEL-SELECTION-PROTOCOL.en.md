@@ -35,23 +35,23 @@ This document defines:
 ## 2. Design Principles
 
 1. **Uniform draw, not reputation-weighted**. Reputation is a qualification gate,
-   not a selection weight. Within the eligible pool, every node has an equal
-   probability of selection. Reputation-weighted selection would create a de facto
-   judiciary class, inconsistent with Art. VII.1 (governance without priests).
+    not a selection weight. Within the eligible pool, every node has an equal
+    probability of selection. Reputation-weighted selection would create a de facto
+    judiciary class, inconsistent with Art. VII.1 (governance without priests).
 
 2. **COI-by-default** (Art. VII.6). Absence of conflict-of-interest disclosure
-   means absence of data, not absence of conflict. The burden of proof lies with
-   the candidate, not the challenger.
+    means absence of data, not absence of conflict. The burden of proof lies with
+    the candidate, not the challenger.
 
 3. **Separation of roles** (Art. VII.3). A node may not simultaneously be a party,
-   arbiter, and oracle in the same matter. A panelist who discovers a role conflict
-   during proceedings MUST recuse immediately.
+    arbiter, and oracle in the same matter. A panelist who discovers a role conflict
+    during proceedings MUST recuse immediately.
 
 4. **Entropy over authority**. The draw seed is generated collectively; no single
-   node controls the selection outcome.
+    node controls the selection outcome.
 
 5. **Proportional disclosure**. Identity exposure scales with the need: full for
-   audit, pseudonymous for parties, opaque for the public.
+    audit, pseudonymous for parties, opaque for the public.
 
 ---
 
@@ -76,43 +76,43 @@ reputation but too low an `IAL` level does not qualify for a high-stakes panel.
 ### 3.1. COI Check Procedure
 
 1. Before draw, every node in the eligible pool receives a **blinded case
-   summary** (parties anonymized, subject described at category level).
+    summary** (parties anonymized, subject described at category level).
 
 2. Each node MUST declare within `coi_declaration_window` (default: 24 hours;
-   4 hours for `critical` cases):
-   - "no conflict" (with cryptographic attestation), or
-   - "conflict exists" (with category but not detail), or
-   - no response (treated as undeclared COI -- node is excluded).
+    4 hours for `critical` cases):
+    - "no conflict" (with cryptographic attestation), or
+    - "conflict exists" (with category but not detail), or
+    - no response (treated as undeclared COI -- node is excluded).
 
 3. Nodes declaring conflict or failing to respond are excluded from the draw for
-   that case. Non-response generates a negative `procedural` signal
-   (`governance_inaction`) in `PROCEDURAL-REPUTATION-SPEC`.
+    that case. Non-response generates a negative `procedural` signal
+    (`governance_inaction`) in `PROCEDURAL-REPUTATION-SPEC`.
 
 4. A post-selection COI discovery triggers panel dissolution for the affected
-   member (section 10).
+    member (section 10).
 
 ### 3.2. Identity-Assurance Gate
 
 1. Before selection, every panel candidate MUST disclose to the system its current
-   `assurance_level` and a reference to its anchoring attestation.
+    `assurance_level` and a reference to its anchoring attestation.
 
 2. For ordinary high-stakes panels, the default minimum level is `IAL3`.
 
 3. For panels that may:
 
-   - decide on identifying disclosure,
+    - decide on identifying disclosure,
 
-   - enter a legal-notification track,
+    - enter a legal-notification track,
 
-   - adjudicate the highest-stakes cases involving public-trust roles,
+    - adjudicate the highest-stakes cases involving public-trust roles,
 
-   the federation SHOULD require `IAL4`.
+    the federation SHOULD require `IAL4`.
 
 4. Parties do not automatically receive panelists' root identities. `IAL` is an
-   eligibility gate, not a mode of full disclosure.
+    eligibility gate, not a mode of full disclosure.
 
 5. `ROLE-TO-IAL-MATRIX.en.md` is the default matrix for minimum `IAL` thresholds;
-   a federation may only tighten it.
+    a federation may only tighten it.
 
 ---
 
@@ -124,30 +124,30 @@ prevent manipulation of the selection seed.
 ### 4.1. Commit Phase
 
 1. After the eligible pool is established, all eligible nodes are invited to
-   participate in seed generation.
+    participate in seed generation.
 
 2. Each participating node generates a random nonce and submits a commitment:
-   `H(nonce || node_id)`.
+    `H(nonce || node_id)`.
 
 3. Commitment window: `commit_window` (default: 24 hours; 4 hours for `critical`
-   cases).
+    cases).
 
 4. Minimum participation: at least `min_commit_participants` (default: 5) nodes
-   must commit for the draw to proceed. Below this, see section 8 (escalation).
+    must commit for the draw to proceed. Below this, see section 8 (escalation).
 
 ### 4.2. Reveal Phase
 
 1. After the commit window closes, all committed nodes reveal their nonce.
 
 2. Reveal window: `reveal_window` (default: 12 hours; 2 hours for `critical`
-   cases).
+    cases).
 
 3. Non-revealed commitments: the node is excluded from the draw, and a negative
-   `procedural` signal (`protocol_violation`) is generated. The revealed nonces
-   proceed without the missing ones.
+    `procedural` signal (`protocol_violation`) is generated. The revealed nonces
+    proceed without the missing ones.
 
 4. If the number of revealed nonces drops below `min_commit_participants`, the
-   draw restarts with a new commit phase.
+    draw restarts with a new commit phase.
 
 ### 4.3. Seed Construction
 
@@ -176,16 +176,16 @@ the seed was correctly derived.
 ### 4.4. Selection from the Pool
 
 1. The eligible pool (post-COI exclusion) is sorted by a deterministic canonical
-   order (e.g., lexicographic `node_id`).
+    order (e.g., lexicographic `node_id`).
 
 2. The seed is used to generate `panel_size` (default: 3) + `reserve_count`
-   (default: 2) indices via a deterministic PRNG seeded with the VRF output.
+    (default: 2) indices via a deterministic PRNG seeded with the VRF output.
 
 3. The first `panel_size` indices are the primary panelists; the remaining
-   `reserve_count` are alternates.
+    `reserve_count` are alternates.
 
 4. The entire draw is reproducible: any node with the VRF proof and the eligible
-   pool list can verify the selection.
+    pool list can verify the selection.
 
 ---
 
@@ -222,17 +222,17 @@ Each party to the dispute may raise **one veto** against a drawn panelist.
 ### 6.2. Veto Process
 
 1. After the panel composition is announced, each party has `veto_window`
-   (default: 48 hours; 12 hours for `critical` cases) to exercise or waive
-   their veto.
+    (default: 48 hours; 12 hours for `critical` cases) to exercise or waive
+    their veto.
 
 2. A veto MUST include a written justification. The justification is recorded
-   but the right itself is unconditional: a party does not need to prove bias.
+    but the right itself is unconditional: a party does not need to prove bias.
 
 3. A vetoed panelist is replaced by the next alternate. If alternates are
-   exhausted, a partial redraw (section 10.3) occurs for the vetoed slot.
+    exhausted, a partial redraw (section 10.3) occurs for the vetoed slot.
 
 4. Vetoed panelists receive no negative reputation signal. Being vetoed is not a
-   procedural failing.
+    procedural failing.
 
 ### 6.3. Limits
 
@@ -379,9 +379,9 @@ A panelist is replaced when:
 1. The affected slot is filled by the next unused alternate.
 2. If all alternates are exhausted, a partial redraw (section 10.3) occurs.
 3. The replacement panelist inherits the case materials but reviews them
-   independently.
+    independently.
 4. The timeline is extended by `replacement_extension` (default: 7 days;
-   2 days for `critical`) to allow the replacement to review.
+    2 days for `critical`) to allow the replacement to review.
 
 ### 10.3. Partial Redraw
 
@@ -460,27 +460,27 @@ identically.
 ## 14. Open Questions
 
 1. **VRF implementation**: Which VRF scheme? ECVRF (RFC 9381) is a candidate,
-   but the choice depends on the cryptographic stack. Currently a design
-   parameter, not specified.
+    but the choice depends on the cryptographic stack. Currently a design
+    parameter, not specified.
 
 2. **Draw coordinator selection**: The coordinator is described as a rotating
-   role. The rotation mechanism (round-robin, reputation-based, random) is not
-   yet defined.
+    role. The rotation mechanism (round-robin, reputation-based, random) is not
+    yet defined.
 
 3. **Inter-federation trust for panel service**: When a node serves on another
-   federation's panel, what trust assumptions apply? The reputation export
-   package (`PROCEDURAL-REPUTATION-SPEC` section 8) provides evidence, but the
-   trust model for inter-federation adjudication needs further specification.
+    federation's panel, what trust assumptions apply? The reputation export
+    package (`PROCEDURAL-REPUTATION-SPEC` section 8) provides evidence, but the
+    trust model for inter-federation adjudication needs further specification.
 
 4. **Deliberation protocol**: This document specifies composition but not the
-   deliberation format (synchronous / asynchronous, structured debate,
-   evidence submission rules). A separate `PANEL-DELIBERATION-PROTOCOL` may
-   be needed.
+    deliberation format (synchronous / asynchronous, structured debate,
+    evidence submission rules). A separate `PANEL-DELIBERATION-PROTOCOL` may
+    be needed.
 
 5. **Compensation for panel service**: Should panelists receive compensation
-   (token, reputation bonus, or other)? Current design: panel completion
-   generates a positive `procedural` signal (`panel_completed`), which is the
-   only incentive.
+    (token, reputation bonus, or other)? Current design: panel completion
+    generates a positive `procedural` signal (`panel_completed`), which is the
+    only incentive.
 
 ---
 

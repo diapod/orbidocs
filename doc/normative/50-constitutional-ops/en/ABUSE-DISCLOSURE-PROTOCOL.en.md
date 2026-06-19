@@ -35,23 +35,23 @@ The document specifies:
 ## 2. Base Principle
 
 1. Without a credible present-day signal, no general investigation of the user's or
-   operator's past is conducted.
+    operator's past is conducted.
 
 2. A credible present-day signal includes at least one of the following:
-   - continuation of abuse,
-   - concealment of traces or evidence,
-   - retaliation, intimidation, or attempted deanonymization,
-   - a pattern of violence, corruption, or sabotage,
-   - persistence of severe abuse effects,
-   - continued benefit from earlier abuse.
+    - continuation of abuse,
+    - concealment of traces or evidence,
+    - retaliation, intimidation, or attempted deanonymization,
+    - a pattern of violence, corruption, or sabotage,
+    - persistence of severe abuse effects,
+    - continued benefit from earlier abuse.
 
 3. Once the condition in item 2 is met, the system MAY examine the full genesis of
-   the case and the entire chain of actions, including historical ones, provided this
-   remains related to the case.
+    the case and the entire chain of actions, including historical ones, provided this
+    remains related to the case.
 
 4. The greater the governing role, access to sensitive data, or influence over
-   others' reputation, routing, and safety, the stricter the accountability standard
-   and the longer the permissible assessment horizon.
+    others' reputation, routing, and safety, the stricter the accountability standard
+    and the longer the permissible assessment horizon.
 
 ---
 
@@ -82,43 +82,43 @@ The document specifies:
 1. Entering the full history of a case requires at least `S2` and `E2`.
 
 2. Disclosure of identity, facts, or responsibility outside the internal track
-   requires at least `S3` and `E3`.
+    requires at least `S3` and `E3`.
 
 3. Legal notification requires at least `S3` and `E3` if the case concerns a severe
-   act violating people, the community, infrastructure, or the integrity of evidence
-   or procedures, in particular violence, serious corruption, fraud, theft, extortion,
-   retaliation against a whistleblower, deanonymization, or sabotage. For all other
-   cases, the default threshold is `S4` and `E3`, unless the applicable law requires a
-   lower threshold for mandatory notice.
+    act violating people, the community, infrastructure, or the integrity of evidence
+    or procedures, in particular violence, serious corruption, fraud, theft, extortion,
+    retaliation against a whistleblower, deanonymization, or sabotage. For all other
+    cases, the default threshold is `S4` and `E3`, unless the applicable law requires a
+    lower threshold for mandatory notice.
 
 4. For public-trust roles and operators with access to data or routing, the threshold
-   for entering the full history of a case may be lowered to `S2` and `E2`, but the
-   threshold for external disclosure remains no lower than `S3` and `E3`.
+    for entering the full history of a case may be lowered to `S2` and `E2`, but the
+    threshold for external disclosure remains no lower than `S3` and `E3`.
 
 ---
 
 ## 4. Roles and Co-Signing Requirement
 
 1. Every case MUST have at least the following roles assigned:
-   - `Triage`,
-   - `Evidence`,
-   - `RedTeam`.
+    - `Triage`,
+    - `Evidence`,
+    - `RedTeam`.
 
 2. External disclosure, `S3+` sanctions, or legal notification require co-signing by
-   at least two of the following three roles:
-   - `Evidence`,
-   - `RedTeam`,
-   - `Governance` or `Legal`, if the role exists in the federation.
+    at least two of the following three roles:
+    - `Evidence`,
+    - `RedTeam`,
+    - `Governance` or `Legal`, if the role exists in the federation.
 
 3. A person with a conflict of interest, dependency relation, personal dispute, or
-   financial interest in the case MUST be recused.
+    financial interest in the case MUST be recused.
 
 4. Absence of the `Legal` role does not block the case, but it does block legal
-   notification, unless the federation is under a statutory duty to notify.
+    notification, unless the federation is under a statutory duty to notify.
 
 5. Descent `nym -> node-id` for infrastructure sanctions is permitted at the
-   `U1` threshold defined in `IDENTITY-UNSEALING-BOARD.en.md` and does not yet
-   constitute unsealing of `root-identity`.
+    `U1` threshold defined in `IDENTITY-UNSEALING-BOARD.en.md` and does not yet
+    constitute unsealing of `root-identity`.
 
 ---
 
@@ -159,11 +159,11 @@ Every case MUST have a minimum record:
 1. Scope of disclosure MUST be case-related, proportional, and minimal.
 
 2. Disclosure of personal, relational, or lifestyle material without direct relation
-   to the assessed abuse is prohibited.
+    to the assessed abuse is prohibited.
 
 3. The mere fact of holding a public-trust role does not cancel the principle of
-   minimal disclosure; it only increases the scope of accountability and the
-   requirement of procedural transparency.
+    minimal disclosure; it only increases the scope of accountability and the
+    requirement of procedural transparency.
 
 ---
 
@@ -178,54 +178,54 @@ Every case MUST have a minimum record:
 | `I4` | routing cut-off, federation block, or node isolation |
 
 1. A sanction MUST correspond to `stake-level`, reversibility of harm, and quality of
-   evidence.
+    evidence.
 
 2. `I4` requires at least `S3`, `E3`, and co-signing under section 4.
 
 3. A sanction may be imposed before external publication if protection of people or
-   integrity of evidence requires it.
+    integrity of evidence requires it.
 
 ---
 
 ## 8. Retention and Data
 
 1. Case data may be collected only to the extent necessary for signal verification,
-   protection of people, preservation of evidence integrity, and performance of legal
-   duties.
+    protection of people, preservation of evidence integrity, and performance of legal
+    duties.
 
 2. Retention classes:
-   - `R0` - dismissed case: 90 days,
-   - `R1` - closed case without severe sanction: 2 years,
-   - `R2` - case with `I3-I4` sanction: 7 years,
-   - `R3` - case under legal hold or legal track: until end of proceedings + 7 years.
+    - `R0` - dismissed case: 90 days,
+    - `R1` - closed case without severe sanction: 2 years,
+    - `R2` - case with `I3-I4` sanction: 7 years,
+    - `R3` - case under legal hold or legal track: until end of proceedings + 7 years.
 
 3. Material beyond the scope of the case MUST be redacted or deleted without undue
-   delay.
+    delay.
 
 4. Data correlates may be used only when their relation to the case is explicitly
-   described in `scope-justification`.
+    described in `scope-justification`.
 
 ---
 
 ## 9. Appeal Mode
 
 1. A person covered by disclosure or sanction MUST receive:
-   - description of the allegation,
-   - information about the evidentiary material to the extent that it does not harm the
+    - description of the allegation,
+    - information about the evidentiary material to the extent that it does not harm the
      victim, whistleblower, or integrity of the case,
-   - deadline and appeal path.
+    - deadline and appeal path.
 
 2. Minimum `appeal-window` is 14 days, unless a direct threat requires earlier
-   isolation.
+    isolation.
 
 3. The appeal is heard by a new composition, excluding people who participated in the
-   original decision.
+    original decision.
 
 4. An appeal may be based only on:
-   - counter-evidence,
-   - demonstration of procedural error,
-   - demonstration of conflict of interest in the case team,
-   - demonstration of disproportionality of disclosure scope.
+    - counter-evidence,
+    - demonstration of procedural error,
+    - demonstration of conflict of interest in the case team,
+    - demonstration of disproportionality of disclosure scope.
 
 ---
 
@@ -234,22 +234,22 @@ Every case MUST have a minimum record:
 1. `notification-mode = none` is the default value.
 
 2. Legal notification is permissible only when all of the following hold:
-   - the act meets the threshold under section 3.3,
-   - an applicable jurisdiction can be indicated,
-   - notification does not violate a stronger duty to protect the victim,
+    - the act meets the threshold under section 3.3,
+    - an applicable jurisdiction can be indicated,
+    - notification does not violate a stronger duty to protect the victim,
      whistleblower, or ongoing proceedings,
-   - the decision has been co-signed under section 4.
+    - the decision has been co-signed under section 4.
 
 3. A federation SHOULD prefer the mode of documented transfer of material to the
-   competent authority over public announcement if this better protects people and
-   case integrity.
+    competent authority over public announcement if this better protects people and
+    case integrity.
 
 4. Every notification MUST leave a trace containing:
-   - `jurisdiction`,
-   - `legal-basis`,
-   - `notified-at`,
-   - `notified-by`,
-   - `payload-hash`.
+    - `jurisdiction`,
+    - `legal-basis`,
+    - `notified-at`,
+    - `notified-by`,
+    - `payload-hash`.
 
 ---
 

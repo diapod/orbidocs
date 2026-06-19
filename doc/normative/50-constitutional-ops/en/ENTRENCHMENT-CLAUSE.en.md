@@ -52,25 +52,25 @@ the non-negotiable core requires **simultaneous** fulfillment of all the followi
 conditions:
 
 1. **Unanimity of federations** - consent of all federations participating in the
-   amendment process. One federation = one veto. No vote is not treated as
-   consent.
+    amendment process. One federation = one veto. No vote is not treated as
+    consent.
 
 2. **Independent adversarial review** - a red-team panel composed of at least
-   three nodes with high procedural reputation, not being initiators of the
-   change and having no conflict of interest regarding the subject of the change.
-   The panel publishes a public rationale in support or opposition.
+    three nodes with high procedural reputation, not being initiators of the
+    change and having no conflict of interest regarding the subject of the change.
+    The panel publishes a public rationale in support or opposition.
 
 3. **Reflection period** - at least 90 days between formal submission of the
-   proposal and the vote. During this period the proposal is publicly available
-   and every node may submit counter-arguments.
+    proposal and the vote. During this period the proposal is publicly available
+    and every node may submit counter-arguments.
 
 4. **Impact analysis** - a written analysis covering: predicted effects on dignity,
-   safety, sovereignty, and the right to exit; abuse scenarios; reversibility
-   conditions.
+    safety, sovereignty, and the right to exit; abuse scenarios; reversibility
+    conditions.
 
 5. **Transparency of the process** - the full trace of the decision process
-   (proposal, arguments, counter-arguments, votes, rationales) is permanently
-   archived and publicly accessible.
+    (proposal, arguments, counter-arguments, votes, rationales) is permanently
+    archived and publicly accessible.
 
 ### 2.3. What the Entrenchment Clause Does Not Block
 
@@ -129,14 +129,14 @@ centralization inconsistent with Art. VII. Instead:
 **Panel appointment:**
 
 1. After accepting the submission, the system draws **3 or more nodes** from the
-   pool of nodes meeting the criteria:
-   - high procedural reputation (not technical - Art. VII.4),
-   - no conflict of interest with the subject of the case (COI-by-default, Art.
+    pool of nodes meeting the criteria:
+    - high procedural reputation (not technical - Art. VII.4),
+    - no conflict of interest with the subject of the case (COI-by-default, Art.
      VII.6),
-   - no ties to the parties in the dispute.
+    - no ties to the parties in the dispute.
 
 2. The parties to the dispute may each raise **one veto** against the drawn nodes
-   (with rationale), after which the draw is repeated for the rejected slots.
+    (with rationale), after which the draw is repeated for the rejected slots.
 
 3. The panel works collegially; decisions are made by majority vote.
 
@@ -144,10 +144,10 @@ centralization inconsistent with Art. VII. Instead:
 
 1. The panel has **30 days** to issue a ruling (`critical` mode - 7 days).
 2. The panel examines conformity of the target with the Constitution, using the
-   Sources of Interpretation (Level 2 of the normative hierarchy) and the rules
-   of interpretation from the section "Normative Force and Interpretation."
+    Sources of Interpretation (Level 2 of the normative hierarchy) and the rules
+    of interpretation from the section "Normative Force and Interpretation."
 3. The panel publishes a **rationale** containing: facts, legal analysis, ruling,
-   and any recommendations.
+    and any recommendations.
 
 **Effects of the ruling:**
 
@@ -165,11 +165,11 @@ challenger may request an **interim measure**:
 
 1. The request must indicate what harm is irreversible and why.
 2. The decision on the interim measure is taken by **2 of 3** drawn panel members
-   within **48 hours**.
+    within **48 hours**.
 3. The interim measure **suspends** the challenged action until the full ruling.
 4. The interim measure is itself tracked as a constitutional exception and must
-   contain `reason`, `risk-level`, `expiry`, and `owner`, in accordance with
-   Constitution Art. XIV.
+    contain `reason`, `risk-level`, `expiry`, and `owner`, in accordance with
+    Constitution Art. XIV.
 
 ### 3.4. Appeal
 

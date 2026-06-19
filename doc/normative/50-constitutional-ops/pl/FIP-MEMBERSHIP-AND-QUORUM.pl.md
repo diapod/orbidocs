@@ -83,7 +83,7 @@ pozostawać stroną audytu spraw wcześniejszych.
 5. izba przechodzi okresowy audyt proceduralny,
 
 6. izba nie jest pod dominującą kontrolą jednego podmiotu, który kontroluje też
-   inne izby w danym quorum.
+    inne izby w danym quorum.
 
 ---
 
@@ -129,7 +129,7 @@ ale tylko gdy:
 2. Migawka składu MUSI zamrażać listę izb kwalifikowalnych na moment budowy quorum.
 
 3. Izba objęta konfliktem interesów jest wyłączana ze sprawy, ale nie traci przez
-   to automatycznie statusu `active` globalnie.
+    to automatycznie statusu `active` globalnie.
 
 ---
 

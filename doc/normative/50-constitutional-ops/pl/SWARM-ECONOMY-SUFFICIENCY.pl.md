@@ -34,23 +34,23 @@ Niniejszy dokument definiuje:
 ## 2. Zasada ogólna
 
 1. Ekonomia roju służy utrzymaniu zdolności do działania ludzi, węzłów i wspólnoty,
-   a nie nieskończonej akumulacji.
+    a nie nieskończonej akumulacji.
 2. Dobrowolna wymiana kontraktowa między uczestnikami jest dopuszczalnym trybem
-   wzajemności obok daru, ale jej ślady ekonomiczne nie mogą same przez się działać
-   jako skrót do siły reputacyjnej, proceduralnej ani ustrojowej.
+    wzajemności obok daru, ale jej ślady ekonomiczne nie mogą same przez się działać
+    jako skrót do siły reputacyjnej, proceduralnej ani ustrojowej.
 3. Federacja MUSI projektować nagrody tak, aby po osiągnięciu dostatku dalszy
-   przyrost korzyści był malejący albo automatycznie kierowany do wspólnego obiegu.
+    przyrost korzyści był malejący albo automatycznie kierowany do wspólnego obiegu.
 4. Żaden mechanizm ekonomiczny nie może uzależniać wynagrodzenia przede wszystkim od
-   napływu nowych uczestników zamiast od audytowalnego użycia, wpływu, utrzymania
-   wartości lub realnego działania pomocowego.
+    napływu nowych uczestników zamiast od audytowalnego użycia, wpływu, utrzymania
+    wartości lub realnego działania pomocowego.
 5. Nagroda ekonomiczna nie jest ścieżką obejścia zasad reputacji proceduralnej,
-   routingu, quorum, wyjątków ani kwalifikowalności ról wysokiej stawki; dotyczy to
-   również salda, historii wymiany oraz samego faktu zawarcia lub wykonania
-   kontraktu.
+    routingu, quorum, wyjątków ani kwalifikowalności ról wysokiej stawki; dotyczy to
+    również salda, historii wymiany oraz samego faktu zawarcia lub wykonania
+    kontraktu.
 6. Zweryfikowana obecność człowieka w sieci może stanowić samodzielną podstawę do
-   przyznania nieodbieralnego minimum zasobów obliczeniowych dla komunikacji,
-   orientacji oraz trybów ratunkowych i opiekuńczych, niezależnie od chwilowego
-   poziomu reputacji lub wkładu ekonomicznego.
+    przyznania nieodbieralnego minimum zasobów obliczeniowych dla komunikacji,
+    orientacji oraz trybów ratunkowych i opiekuńczych, niezależnie od chwilowego
+    poziomu reputacji lub wkładu ekonomicznego.
 
 ---
 
@@ -147,19 +147,19 @@ standardu dla mechanizmów wymienialnych lub quasi-wymienialnych.
 Próg dostatku MUSI przejść jednocześnie trzy testy:
 
 1. **Test utrzymania**: próg wystarcza do bezpiecznego i stabilnego utrzymania
-   węzła oraz jego operatora w trybie zwykłego działania.
+    węzła oraz jego operatora w trybie zwykłego działania.
 2. **Test nie-dominacji**: próg nie może być ustawiony tak wysoko, by de facto
-   wyłączał hamulce koncentracji dla małej liczby uprzywilejowanych podmiotów.
+    wyłączał hamulce koncentracji dla małej liczby uprzywilejowanych podmiotów.
 3. **Test jawności**: sposób wyznaczenia progu da się opisać, przeliczyć i
-   zakwestionować proceduralnie.
+    zakwestionować proceduralnie.
 
 ### 5.2. Reguły minimalne
 
 1. Próg dostatku MUSI być przeglądany okresowo.
 2. Zmiana progu dostatku MUSI pozostawiać ślad decyzji, uzasadnienie i datę wejścia
-   w życie.
+    w życie.
 3. Federacja może stosować różne profile kosztowe dla różnych klas węzłów, ale nie
-   może używać ich do ukrytego premiowania własnych operatorów lub ról zaufania.
+    może używać ich do ukrytego premiowania własnych operatorów lub ról zaufania.
 
 ---
 
@@ -190,10 +190,10 @@ Mechanizm ekonomiczny NIE przechodzi testu konstytucyjnego, jeżeli spełnia
 którykolwiek z warunków:
 
 1. dominująca część wypłat dla wcześniejszych uczestników pochodzi z napływu nowych
-   uczestników, a nie z audytowalnego użycia lub wartości,
+    uczestników, a nie z audytowalnego użycia lub wartości,
 2. starszeństwo samo przez się generuje trwały bonus bez wygasania,
 3. utrata napływu nowych uczestników powoduje strukturalne załamanie wypłat
-   podstawowych.
+    podstawowych.
 
 ---
 
@@ -204,7 +204,7 @@ którykolwiek z warunków:
 Co najmniej następujące klasy MUSZĄ być obsługiwane przez `surplus_policy`:
 
 1. `basic_survival_floor` - minimalny przydział dla zweryfikowanych osób bez
-   wystarczającego bieżącego wkładu reputacyjnego lub ekonomicznego,
+    wystarczającego bieżącego wkładu reputacyjnego lub ekonomicznego,
 2. `bootstrap` - nowe węzły i wejście do ekosystemu,
 3. `weaker_links` - węzły o niższej zdolności operacyjnej,
 4. `temporary_harm` - węzły lub operatorzy czasowo poszkodowani,
@@ -218,7 +218,7 @@ infrastrukturalnych jednocześnie.
 1. Nadwyżka MUSI być rozliczana okresowo, nie ad hoc według sympatii.
 2. Reguła podziału MUSI być jawna albo wyrażona jako jawny algorytm.
 3. Środki przeznaczone do wspólnego obiegu nie mogą wracać w tej samej rundzie do
-   źródłowego beneficjenta przez ukryty kanał.
+    źródłowego beneficjenta przez ukryty kanał.
 4. Redystrybucja MUSI pozostawiać ślad audytowy per okres.
 
 ### 7.3. Minimalny rekord rozliczenia
@@ -244,14 +244,14 @@ surplus_settlement:
 ## 8. Bariera konwersji na władzę ustrojową
 
 1. Saldo tokenów, kredytów lub innych nagród ekonomicznych nie może być bezpośrednim
-   wejściem do obliczania wagi głosu, kwalifikowalności panelowej, siły wyroczni ani
-   prawa do wyjątków.
+    wejściem do obliczania wagi głosu, kwalifikowalności panelowej, siły wyroczni ani
+    prawa do wyjątków.
 2. Federacja nie może sprzedawać ani przyznawać za nagrodę ekonomiczną skrótów do
-   ról zaufania publicznego.
+    ról zaufania publicznego.
 3. Jeżeli system używa jednocześnie nagród ekonomicznych i reputacji, ścieżki
-   naliczania MUSZĄ być rozdzielone i audytowalne.
+    naliczania MUSZĄ być rozdzielone i audytowalne.
 4. Każda próba obejścia bariery konwersji przez benefit pośredni podlega ocenie jak
-   naruszenie konstytucyjne, a nie jak zwykła optymalizacja ekonomiczna.
+    naruszenie konstytucyjne, a nie jak zwykła optymalizacja ekonomiczna.
 
 ---
 
@@ -277,11 +277,11 @@ patologii ustrojowej i powinien uruchamiać przegląd polityki ekonomicznej.
 ## 10. Wyjątki i relacja do innych dokumentów
 
 1. Obejście hamulców koncentracji może nastąpić wyłącznie przez wyjątek zgodny z
-   `EXCEPTION-POLICY.pl.md`.
+    `EXCEPTION-POLICY.pl.md`.
 2. Wyjątek nie może znosić bariery konwersji nagrody ekonomicznej na władzę
-   proceduralną.
+    proceduralną.
 3. Każdy wyjątek dotyczący progu dostatku lub redystrybucji MUSI wskazywać:
-   `reason`, `expiry`, `owner`, `risk-level` oraz metryki skutków ubocznych.
+    `reason`, `expiry`, `owner`, `risk-level` oraz metryki skutków ubocznych.
 
 Relacje dokumentowe:
 

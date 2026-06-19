@@ -168,11 +168,11 @@ still in use) retain a minimum decay floor of 0.3 until the benefit ceases.
 ### 4.4. Concentration Limits
 
 1. No single signal type may contribute more than 40% of a domain's positive
-   score.
+    score.
 2. No single source node may contribute more than 20% of another node's signals
-   in any domain.
+    in any domain.
 3. Violation of these limits triggers a `concentration_warning` and caps the
-   excess.
+    excess.
 
 ---
 
@@ -181,9 +181,9 @@ still in use) retain a minimum decay floor of 0.3 until the benefit ceases.
 A node is `active` for reputation purposes if it meets all of the following:
 
 1. It has produced at least `min_signals_per_period` (default: 3) auditable
-   signals within `activity_window` (default: 90 days).
+    signals within `activity_window` (default: 90 days).
 2. It responds to federation heartbeats (consistent with
-   `FEDERATION-MEMBERSHIP-AND-QUORUM` activity criteria).
+    `FEDERATION-MEMBERSHIP-AND-QUORUM` activity criteria).
 3. It is not currently `suspended` or `retired`.
 
 Inactive nodes retain their historical scores but **cannot use them for governance
@@ -197,14 +197,14 @@ requires meeting the activity threshold for one full `activity_window`.
 Nodes holding public-trust roles (Art. VII.8) are subject to stricter standards:
 
 1. The weight of **negative** signals is multiplied by `asymmetry_factor`
-   (default: 1.5).
+    (default: 1.5).
 2. The weight of **positive** signals is **not reduced** -- asymmetry applies only
-   to the downside.
+    to the downside.
 3. The set of public-trust roles is defined in the future `ROLE-REGISTRY`
-   document. Until then, the following roles qualify: panel member, federation
-   operator, governance voter with weighted vote, oracle operator.
+    document. Until then, the following roles qualify: panel member, federation
+    operator, governance voter with weighted vote, oracle operator.
 4. Asymmetry takes effect immediately upon assuming the role and persists for
-   `asymmetry_tail_days` (default: 90) after leaving the role.
+    `asymmetry_tail_days` (default: 90) after leaving the role.
 
 ---
 
@@ -245,33 +245,33 @@ procedural reputation.
 ### 7.4. Identity-Assurance Gate
 
 1. High procedural reputation does not, by itself, grant access to high-trust
-   roles.
+    roles.
 
 2. A federation MUST evaluate eligibility as the conjunction of two conditions:
 
-   - reputation threshold,
+    - reputation threshold,
 
-   - minimum `IAL` level for the given role or procedure.
+    - minimum `IAL` level for the given role or procedure.
 
 3. For ad-hoc panels, federation operators, oracles, and similar roles, the
-   system SHOULD store a snapshot of the current `assurance_level` in the
-   reputation record.
+    system SHOULD store a snapshot of the current `assurance_level` in the
+    reputation record.
 
 ### 7.5. Slight Fixed Leverage for Higher IAL Levels
 
 1. A federation MUST NOT multiply a reputation score by the `IAL` level.
 
 2. A federation MAY grant a node with a higher `IAL` a small fixed procedural
-   bonus (`fixed_power_bonus`), but only when:
+    bonus (`fixed_power_bonus`), but only when:
 
-   - the bonus is explicitly described in federation policy,
+    - the bonus is explicitly described in federation policy,
 
-   - it does not exceed `0.01` (`1%`) of the total power of the given
+    - it does not exceed `0.01` (`1%`) of the total power of the given
      mechanism,
 
-   - it does not replace the reputation threshold or domain thresholds,
+    - it does not replace the reputation threshold or domain thresholds,
 
-   - it is auditable and revoked together with the loss of `IAL` eligibility.
+    - it is auditable and revoked together with the loss of `IAL` eligibility.
 
 ### 7.6. Newcomer Surface Limits and Sponsorship Signals
 
@@ -342,12 +342,12 @@ The receiving federation:
 
 1. **Imports** the signal history as evidence.
 2. **Re-scores** the node using its own parameters (growth function, decay,
-   thresholds).
+    thresholds).
 3. **Does not** accept the source federation's score as its own.
 4. **May** apply a `foreign_signal_discount` (default: 0.8) to imported signals,
-   reflecting reduced verifiability.
+    reflecting reduced verifiability.
 5. Treats the imported package as a **faster cold start**, not a reputation
-   transfer.
+    transfer.
 
 ---
 
@@ -494,24 +494,24 @@ consume:
 ## 14. Open Questions
 
 1. **Exact sublinear function**: `ln`, `sqrt`, or `tanh`? Needs simulation (Phase
-   0 of REPUTATION-VALIDATION-PROTOCOL). Currently a federation parameter.
+    0 of REPUTATION-VALIDATION-PROTOCOL). Currently a federation parameter.
 
 2. **Negative scores**: Should the `incident` domain allow scores below 0.0 (i.e.
-   `[-1.0, 1.0]`) to capture "net harmful"? Current design: scores are `[0.0,
-   1.0]`.
+    `[-1.0, 1.0]`) to capture "net harmful"? Current design: scores are `[0.0,
+    1.0]`.
 
 3. **Oracle signal weighting**: Should oracle-generated signals receive a higher
-   weight multiplier than 1.0? Argument for: they are outcome-verified. Argument
-   against: oracle trust is itself a variable.
+    weight multiplier than 1.0? Argument for: they are outcome-verified. Argument
+    against: oracle trust is itself a variable.
 
 4. **Role registry**: Asymmetric accountability depends on a list of public-trust
-   roles. Until `ROLE-REGISTRY` is written, the interim list in section 6.3
-   applies.
+    roles. Until `ROLE-REGISTRY` is written, the interim list in section 6.3
+    applies.
 
 5. **Cross-domain interaction**: Should severe negative signals in `incident`
-   affect the `procedural` domain? Current design: domains are independent.
-   Argument for cross-contamination: a node concealing incidents should not serve
-   on panels.
+    affect the `procedural` domain? Current design: domains are independent.
+    Argument for cross-contamination: a node concealing incidents should not serve
+    on panels.
 
 ---
 

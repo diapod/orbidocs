@@ -31,12 +31,12 @@ This document operationalizes those duties.
 
 1. The user's raw signal is a protected good.
 2. The default operating mode of the system is preservation of the character of the
-   utterance, not its smoothing, professionalization, or aestheticization.
+    utterance, not its smoothing, professionalization, or aestheticization.
 3. Transformation of an utterance may occur only on the basis of:
-   - an explicit user request,
-   - an explicit user policy,
-   - minimally necessary protective redaction,
-   - an exception compliant with `EXCEPTION-POLICY.en.md`.
+    - an explicit user request,
+    - an explicit user policy,
+    - minimally necessary protective redaction,
+    - an exception compliant with `EXCEPTION-POLICY.en.md`.
 4. Absence of a procedural basis means transformation is forbidden.
 
 ---
@@ -169,7 +169,7 @@ The system is non-compliant with this policy if any of the following occurs:
 3. it uses mode `structured` to conceal a real change of tone or style,
 4. it leaves no `basis_ref` for a transformation that is not `raw`,
 5. it treats the raw form of expression as a default reason to lower the user's
-   rights or credibility.
+    rights or credibility.
 
 ---
 
