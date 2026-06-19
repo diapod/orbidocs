@@ -312,7 +312,7 @@ concretization is conscious and local.
    Connector, Account. The processual question is: "what processes and relations does
    this name only locally abbreviate?".
 
-9. **Convergent evidence instead of a single witness.**
+9. **Convergent evidence instead of a single witness.**  
    If a phenomenon may emerge from many interacting conditions, then evidence for it
    may also need to emerge from many converging signals. A single signature, label, or
    source is rarely proof in itself; confidence grows with the convergence of

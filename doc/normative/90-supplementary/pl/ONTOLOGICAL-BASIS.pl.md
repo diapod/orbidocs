@@ -294,13 +294,13 @@ projektowania, w której konkretyzacja jest świadoma i lokalna.
    Connector, Account.  Procesualne pytanie brzmi: "jakie procesy i relacje ta nazwa
    tylko lokalnie skraca?".
 
-9. **Dowód współzależny zamiast pojedynczego świadka.**
+9. **Dowód współzależny zamiast pojedynczego świadka.**  
    Skoro zjawisko może wyłaniać się ze zbiegu wielu współdziałających warunków, to
    i świadectwo o nim często musi wyłaniać się ze zbieżności wielu sygnałów. Pojedynczy
    podpis, etykieta albo źródło rzadko są dowodem same w sobie; pewność rośnie wraz ze
    zbieżnością niezależnych przesłanek (atestacje, reputacja, korelacja zdarzeń), nie
    wraz z autorytetem jednego nośnika.
-
+   
    Wyłanianie się zjawiska ze splotu wielu warunków – takie, którego z zewnątrz nie
    da się sprowadzić do jednej przyczyny bez utraty tego, czym ono jest na własnej
    warstwie – bywa nazywane **emergencją** (por. emergentyzm, postulat 4). Owa
