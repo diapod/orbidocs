@@ -264,7 +264,7 @@ projektowania, w której konkretyzacja jest świadoma i lokalna.
 
 2. **Tożsamość jako uchwyt, nie esencja.**
 
-   `id` nie mówi, czym coś "naprawdę jest". Jest stabilnym punktem korelacji
+    `id` nie mówi, czym coś "naprawdę jest". Jest stabilnym punktem korelacji
     w procesie. Znaczenie jest w warstwie, historii, kontrakcie i aktualnym
     kontekście.
 
