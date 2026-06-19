@@ -78,11 +78,13 @@ smyčky korekce.
 
 Lidská zkušenost má vrstvenou architekturu:
 
-0. (vědomí)
-0.1. (subjektivita)
-0.1.1. osoba
-0.1.1.1. kultura
-0.1.1.1.1. objektivita
+* 0 (báze)
+    * 0.1 (vědomí)
+        * 0.1.1. (subjektivita)
+            * 0.1.1.1. osoba
+                * 0.1.1.1.1. kultura
+                    * 0.1.1.1.1.1. objektivita
+
 
 Každá vrstva vyrůstá z hlubší jako její abstrakt a konkrétní prvky nižších vrstev
 se stávají stavebním materiálem vrstev vyšších – analogicky ke *stratified design*
