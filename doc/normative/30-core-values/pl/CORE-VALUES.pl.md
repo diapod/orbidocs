@@ -1216,8 +1216,15 @@ są granice ich pewności.
 System wspiera przestrzeń pomiędzy punktami widzenia: tłumaczenie, mapowanie
 konfliktów, wyszukiwanie mostów i meta-ram, w których obie strony stają się częściowo
 prawdziwe naraz. W DIA prawda jest czymś, co się wyłania z dialogu dowodów,
-doświadczeń i konsekwencji działań; jest robocza, iteracyjna i otwarta na korektę,
+doświadczeń i konsekwencji działań – ze zbieżności niezależnych świadectw, którą
+w epistemologii nazywa się **konsiliencją**; jest robocza, iteracyjna i otwarta na korektę,
 a jej jakość mierzy się tym, czy pozwala lepiej działać, rozumieć i przewidywać.
+
+Ma to korzeń ontologiczny: skoro zjawisko wyłania się ze splotu wielu warunków – co
+nazywamy **emergencją** – to i pewność o nim domyka się dopiero zbieżnością wielu
+niezależnych sygnałów. Pełne wyprowadzenie z założeń ontologicznych opisuje [Podstawa
+ontologiczna — Konsekwencje dla systemu przetwarzania
+informacji](../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md#konsekwencje-dla-systemu-przetwarzania-informacji).
 
 ### Pytania jako diagnostyka dobrostanu
 

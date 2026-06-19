@@ -312,6 +312,25 @@ concretization is conscious and local.
    Connector, Account. The processual question is: "what processes and relations does
    this name only locally abbreviate?".
 
+9. **Convergent evidence instead of a single witness.**
+   If a phenomenon may emerge from many interacting conditions, then evidence for it
+   may also need to emerge from many converging signals. A single signature, label, or
+   source is rarely proof in itself; confidence grows with the convergence of
+   independent indications (attestations, reputation, event correlation), not with the
+   authority of any one carrier.
+
+   The emergence of a phenomenon from an interplay of many conditions — one we cannot,
+   from the outside, reduce to a single cause without losing what it is on its own layer
+   — is what tends to be called **emergence** (cf. emergentism, postulate 4). That
+   "inexplicability from the outside" need not be a temporary gap in knowledge; more
+   often it is an attempt to predicate a higher layer in the language of a lower one —
+   the very "theft of ontology" forbidden by treating layer boundaries as boundaries of
+   meaning. Emergence is thus a name for an inter-layer irreducible convergence, not its
+   explanation. On the side of knowing it is mirrored by **consilience** (Whewell — the
+   agreement of independent inductions) and triangulation: if the premise is emergent,
+   evidence for it closes through the convergence of many independent lines, not a
+   single causal chain.
+
 We recognize that we are susceptible to premature concretization, and knowing
 this, we can build systems that adapt to this property of our organisms and
 cognitive apparatuses. One practical method is stratification, that is,

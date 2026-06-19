@@ -280,6 +280,22 @@ je konkretizace vědomá a lokální.
    Procesuální otázka zní: „jaké procesy a vztahy tento název pouze lokálně
    zkracuje?“.
 
+9. **Sbíhavý důkaz místo jediného svědka.** Může-li se jev vynořovat ze souběhu
+   mnoha spolupůsobících podmínek, pak i svědectví o něm se často musí vynořovat ze
+   sbíhavosti mnoha signálů. Jediný podpis, štítek či zdroj jsou jen zřídka důkazem
+   samy o sobě; jistota roste se sbíhavostí nezávislých indicií (atestace, reputace,
+   korelace událostí), nikoli s autoritou jediného nosiče.
+
+   Vynořování jevu ze souhry mnoha podmínek – takové, které zvenčí nedokážeme převést
+   na jedinou příčinu, aniž bychom ztratili to, čím jev je na své vrstvě – se obvykle
+   nazývá **emergence** (srov. emergentismus, postulát 4). Ona „nevysvětlitelnost
+   zvenčí“ nemusí být dočasným nedostatkem vědění; častěji je pokusem vypovídat o vyšší
+   vrstvě jazykem nižší – touž „krádeží ontologie“, kterou zapovídá hranice vrstev jako
+   hranice smyslu. Emergence je tedy jméno pro mezivrstevně neredukovatelnou sbíhavost,
+   nikoli její vysvětlení. Na straně poznání jí odpovídá **konsilience** (Whewell –
+   shoda nezávislých indukcí) a triangulace: je-li premisa emergentní, svědectví o ní se
+   uzavírá sbíhavostí mnoha nezávislých linií, nikoli jediným příčinným řetězcem.
+
 Uvědomujeme si, že jsme náchylní k předčasné konkretizaci, a s tímto vědomím
 můžeme budovat systémy, které se přizpůsobují této vlastnosti našich organismů a
 poznávacích aparátů. Jednou z praktických metod je stratifikace, tedy vědomě

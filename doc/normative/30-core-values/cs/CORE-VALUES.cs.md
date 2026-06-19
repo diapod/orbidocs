@@ -694,7 +694,7 @@ Hodnoty této sekce — dar a výměna, vzájemnost, dostatek nad akumulací, mi
 a přístup bez tributu — tvoří jeden vyvozený celek, který nazýváme **ekonomikou
 aktérské vzájemnosti**. Její úplné vyvození z ontologických předpokladů popisuje
 [Ontologický základ — Důsledky pro
-ekonomiku](../../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md#dusledky-pro-ekonomiku).
+ekonomiku](../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md#dusledky-pro-ekonomiku).
 
 ### Kultura spolupráce
 
@@ -1172,9 +1172,16 @@ jistoty.
 
 Systém podporuje prostor mezi stanovisky: překlad, mapování konfliktů, hledání mostů
 a meta-rámců, v nichž se obě strany stávají současně částečně pravdivými. V DIA je
-pravda něčím, co se vynořuje z dialogu důkazů, zkušeností a důsledků jednání;
-je pracovní, iterativní a otevřená korekci a její kvalita se měří tím, zda umožňuje
-lépe jednat, rozumět a předvídat.
+pravda něčím, co se vynořuje z dialogu důkazů, zkušeností a důsledků jednání –
+ze sbíhavosti nezávislých svědectví, které se v epistemologii říká
+**konsilience**; je pracovní, iterativní a otevřená korekci a její kvalita se měří
+tím, zda umožňuje lépe jednat, rozumět a předvídat.
+
+Má to ontologický kořen: jestliže se jev vynořuje ze spleti mnoha podmínek – čemu
+říkáme **emergence** – pak se i jistota o něm uzavírá teprve sbíhavostí mnoha
+nezávislých signálů. Úplné odvození z ontologických předpokladů popisuje
+[Ontologický základ — Důsledky pro systém zpracování
+informací](../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md#dusledky-pro-system-zpracovani-informaci).
 
 ### Otázky jako diagnostika blahobytu
 

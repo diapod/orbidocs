@@ -294,6 +294,24 @@ projektowania, w której konkretyzacja jest świadoma i lokalna.
    Connector, Account.  Procesualne pytanie brzmi: "jakie procesy i relacje ta nazwa
    tylko lokalnie skraca?".
 
+9. **Dowód współzależny zamiast pojedynczego świadka.**
+   Skoro zjawisko może wyłaniać się ze zbiegu wielu współdziałających warunków, to
+   i świadectwo o nim często musi wyłaniać się ze zbieżności wielu sygnałów. Pojedynczy
+   podpis, etykieta albo źródło rzadko są dowodem same w sobie; pewność rośnie wraz ze
+   zbieżnością niezależnych przesłanek (atestacje, reputacja, korelacja zdarzeń), nie
+   wraz z autorytetem jednego nośnika.
+
+   Wyłanianie się zjawiska ze splotu wielu warunków – takie, którego z zewnątrz nie
+   da się sprowadzić do jednej przyczyny bez utraty tego, czym ono jest na własnej
+   warstwie – bywa nazywane **emergencją** (por. emergentyzm, postulat 4). Owa
+   "niewyjaśnialność z zewnątrz" nie musi być chwilowym brakiem wiedzy; bywa raczej
+   próbą orzekania o wyższej warstwie językiem niższej – tą samą "kradzieżą
+   ontologii", której zakazuje granica warstw jako granica sensu. Emergencja jest
+   więc nazwą na zbieżność nieredukowalną międzywarstwowo, a nie jej wyjaśnieniem.
+   Po stronie poznania odpowiada jej **konsiliencja** (Whewell – zgodność niezależnych
+   indukcji) i triangulacja: skoro przesłanka jest emergentna, świadectwo o niej
+   domyka się zbieżnością wielu niezależnych linii, nie pojedynczym łańcuchem przyczyn.
+
 Zdajemy sobie sprawę, że jesteśmy podatni na przedwczesną konkretyzację, a wiedząc
 o tym, możemy budować systemy, które adaptują się do tej właściwości naszych
 organizmów i aparatów poznawczych. Jedną z praktycznych metod jest stratyfikacja,

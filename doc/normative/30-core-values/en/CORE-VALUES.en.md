@@ -1217,9 +1217,16 @@ certainty are.
 The system supports the space between viewpoints: translation, conflict mapping,
 searching for bridges and meta-frames in which both sides become partially true at
 once. In DIA, truth is something that emerges from dialogue between evidence,
-experience, and consequences of action; it is working, iterative, and open to
-correction, and its quality is measured by whether it allows better action,
+experience, and consequences of action — from the convergence of independent
+witnesses, which epistemology calls **consilience**; it is working, iterative, and
+open to correction, and its quality is measured by whether it allows better action,
 understanding, and prediction.
+
+This has an ontological root: if a phenomenon emerges from the weave of many
+conditions — what we call **emergence** — then confidence about it also closes only
+through the convergence of many independent signals. The full derivation from the
+ontological assumptions is described in [Ontological Basis — Consequences for
+Information Processing Systems](../90-supplementary/en/ONTOLOGICAL-BASIS.en.md#consequences-for-information-processing-systems).
 
 ### Questions as Well-being Diagnostics
 
