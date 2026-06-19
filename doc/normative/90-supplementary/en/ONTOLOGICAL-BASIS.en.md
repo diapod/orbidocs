@@ -275,39 +275,47 @@ get more than deferred data processing. We get a design discipline in which
 concretization is conscious and local.
 
 1. **Contracts instead of premature classes of entities.**
+
     First we ask: "what transition, permission, observation, or decision is happening
     here?", and only then: "does this need a type?". This leads to small artifacts at
     the communication level and thin interfaces.
 
 2. **Identity as a handle, not an essence.**
+
     An `id` does not say what something "really is". It is a stable point of
     correlation in a process. Meaning lives in the layer, history, contract, and
     current context.
 
 3. **Modules as roles in a flow, not ontological substances.**
+
     A component should not need to know that it is talking to "this concrete thing"
     when a behavior contract is enough. This protects against coupling.
 
 4. **Layer boundaries as boundaries of meaning.**
+
     The same event can have a different projection in different layers. A low layer
     sees bytes, a higher layer sees a decision, and an even higher layer sees a social
     fact. The error begins when one layer steals the ontology of another.
 
 5. **Boundary validation as a ritual of concretization.**
+
     Data flows as potentially richer and looser, but at the boundary of a concrete
     contract we say: "here, for this operation, we accept this shape". This is healthy
     concretization, not premature concretization.
 
 6. **Polymorphism and dispatch as deliberate postponement of decisions.**
+
     We do not freeze "who will perform" inside a data structure if the proper place
     for the decision comes later: at the context, capability, profile, evaluator,
     registry, or passport verifier.
 
 7. **Events and facts instead of mutating things.**
+
     Append-only facts fit the process well: we record what happened instead of
     pretending that we have one durable thing that simply "changed state".
 
 8. **Architecture less vulnerable to naming hypnosis.**
+
     In systems, a name often creates a false substance: User, Agent, Passport,
     Connector, Account. The processual question is: "what processes and relations does
     this name only locally abbreviate?".
@@ -362,6 +370,7 @@ from it in the same way that the discipline of information processing follows fr
 refusal of premature concretization.
 
 1. **Property is not a substance, but an operational name for a relation.**
+
     The same refusal of reification that does not let an `id` declare what something
     "really is" also does not let a title of property declare "whose something always is".
     The first question is not "who has it?", but: who uses it, who bears the consequences,
@@ -372,6 +381,7 @@ refusal of premature concretization.
     domination.
 
 2. **Personal property is an organ of the person, not a resource of the organism.**
+
     From enactive participation it follows that the body, tools, data, keys, local memory,
     AI agents, and working environment are not "resources" whose owner would be a superior
     subject — a corporation, a state, or a collective. They are an extension of the
@@ -381,6 +391,7 @@ refusal of premature concretization.
 
 3. **Higher forms of property grow out of personal relations of agency; they do not stand
     above them.**
+
     In stratification, the concretes of lower layers become the building material of higher
     ones, and the higher cannot detach from the foundation. Transferred to property, this
     means that capital, organizational, communal, institutional, and state property are
@@ -394,6 +405,7 @@ refusal of premature concretization.
 
 4. **A badly set gradient of incentives distorts intentions even without ill will, so the
     economy aims at agency, not accumulation.**
+
     Since a funding structure that rewards profit can distort intentions without an overt
     will to harm, the goal of the internal economy cannot be the endless multiplication of
     resources, but the sustaining of the capacity to act. An advantage should not turn into
@@ -402,6 +414,7 @@ refusal of premature concretization.
     god.
 
 5. **Gift and exchange are two modes, neither of which appropriates the whole.**
+
     Gift is the default mode of help, and voluntary exchange an explicit contractual
     service. Reducing the whole economy to gift exploits altruism; reducing it to the
     market dissolves the ethos of community. That is why the name carries "reciprocity":
@@ -409,6 +422,7 @@ refusal of premature concretization.
     or a source of status and power.
 
 6. **Scale weakens natural regulation, so decision stays low.**
+
     Local reputation, opinion, and personal responsibility — the natural mechanisms of
     correction — weaken as the community grows in size; large collectives must replace them
     with "prostheses" that easily detach from living users. This is another reason why

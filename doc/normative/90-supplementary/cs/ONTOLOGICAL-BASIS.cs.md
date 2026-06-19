@@ -245,38 +245,46 @@ dostaneme víc než odložené zpracování dat. Dostaneme disciplínu návrhu, 
 je konkretizace vědomá a lokální.
 
 1. **Kontrakty místo předčasných tříd entit.**
+
     Nejprve se ptáme: „jaký přechod, oprávnění, pozorování nebo rozhodnutí se tu
     odehrává?“, a teprve potom: „potřebuje to typ?“. To vede k malým artefaktům na
     úrovni komunikace a k tenkým rozhraním.
 
 2. **Identita jako úchyt, ne esence.**
+
     `id` neříká, čím něco „opravdu je“. Je stabilním korelačním bodem v
     procesu. Význam leží ve vrstvě, historii, kontraktu a aktuálním kontextu.
 
 3. **Moduly jako role v toku, ne ontologické substance.**
+
     Komponent nemá potřebovat vědět, že mluví s „touto konkrétní věcí“, pokud mu stačí
     kontrakt chování. To chrání před provázáním.
 
 4. **Hranice vrstev jako hranice smyslu.**
+
     Stejná událost může mít v různých vrstvách jinou projekci. Nízká vrstva vidí
     bajty, vyšší vidí rozhodnutí a ještě vyšší vidí společenský fakt. Chyba začíná
     tehdy, když jedna vrstva „krade“ ontologii druhé.
 
 5. **Validace na hranách jako rituál konkretizace.**
+
     Data plynou jako potenciálně bohatší a volnější, ale na hraně konkrétního
     kontraktu říkáme: „zde, pro tuto operaci, přijímáme tento tvar“. To je zdravá
     konkretizace, ne předčasná.
 
 6. **Polymorfismus a dispatch jako vědomé odložení rozhodnutí.**
+
     Nezmrazujeme „kdo vykoná“ v datové struktuře, pokud správné místo rozhodnutí
     přichází později: u kontextu, capability, profilu, evaluatoru, registry nebo
     passport verifieru.
 
 7. **Události a fakta místo mutování věcí.**
+
     Append-only facts dobře odpovídají procesu: zapisujeme, co se stalo, místo abychom
     předstírali, že máme jednu trvalou věc, která prostě „změnila stav“.
 
 8. **Architektura méně náchylná k hypnóze pojmenování.**
+
     V systémech název často vytváří falešnou substanci: User, Agent, Passport,
     Connector, Account.  Procesuální otázka zní: „jaké procesy a vztahy tento název
     pouze lokálně zkracuje?“.
@@ -327,6 +335,7 @@ vyplývá z ní stejně jako disciplína zpracování informací vyplývá z odm
 konkretizace.
 
 1. **Vlastnictví není substance, nýbrž operační název vztahu.**
+
     Totéž odmítnutí reifikace, které nedovolí, aby `id` určovalo, čím něco „opravdu je“,
     nedovolí ani titulu vlastnictví určovat, „čí něco vždy je“. První otázka nezní „kdo
     má?“, nýbrž: kdo užívá, kdo nese důsledky, kdo to potřebuje k přežití, podle jakého
@@ -336,13 +345,16 @@ konkretizace.
     metafyzický titul nadvlády.
 
 2. **Osobní vlastnictví je orgánem osoby, nikoli zdrojem organismu.**
+
     Z enaktivní účasti plyne, že tělo, nástroje, data, klíče, lokální paměť, agenti AI a
     pracovní prostředí nejsou „zdroje“, jejichž vlastníkem by měl být nadřazený subjekt —
     korporace, stát či kolektiv. Jsou prodloužením procesu osoby. Jelikož největší moc
     systému prochází člověkem, osobní vlastnictví, jakožto prodloužení jeho aktérství, má
     přednost ochrany před každou formou sdruženého vlastnictví.
 
-3. **Vyšší formy vlastnictví vyrůstají z osobních vztahů aktérství; nestojí nad nimi.**
+3. **Vyšší formy vlastnictví vyrůstají z osobních vztahů aktérství; nestojí nad
+   nimi.**
+
     Ve stratifikaci se konkréta nižších vrstev stávají stavebním materiálem vyšších a vyšší
     se nesmějí odlepit od základu. Přeneseno na vlastnictví to znamená, že kapitálové,
     organizační, komunitní, institucionální a státní vlastnictví jsou vyššími abstrakty,
@@ -355,6 +367,7 @@ konkretizace.
 
 4. **Špatně nastavený gradient pobídek pokřivuje intence i bez zlé vůle, takže ekonomika
     míří k aktérství, nikoli k akumulaci.**
+
     Jelikož konstrukce financování odměňující zisk dokáže pokřivit intence i bez zjevné vůle
     ublížit, cílem vnitřní ekonomiky nemůže být nekonečné rozmnožování zdrojů, nýbrž
     udržování schopnosti jednat. Převaha by se neměla měnit v trvalou nadvládu nad
@@ -362,12 +375,14 @@ konkretizace.
     reputaci a trh chápaný jako protokol, nikoli jako bůh.
 
 5. **Dar a výměna jsou dva režimy, z nichž žádný si nepřivlastňuje celek.**
+
     Dar je výchozím režimem pomoci, dobrovolná výměna pak zjevnou kontraktovou službou.
     Redukce celé ekonomiky na dar vykořisťuje altruismus; redukce na trh rozkládá étos
     společenství. Proto v názvu stojí „vzájemnost“: výměna, kontrakt a odměna existují, ale
     nestávají se ontologií světa ani zdrojem statusu a moci.
 
 6. **Měřítko oslabuje přirozenou regulaci, takže rozhodnutí zůstává nízko.**
+
     Lokální reputace, mínění a osobní odpovědnost — přirozené mechanismy korekce — slábnou s
     růstem početnosti společenství; velké kolektivy je musí nahrazovat „protézami“, které se
     snadno odlepují od živých uživatelů. To je další důvod, proč subsidiarita drží rozhodnutí
