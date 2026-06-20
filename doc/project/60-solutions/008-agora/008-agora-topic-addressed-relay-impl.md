@@ -407,7 +407,9 @@ Keep these restrictions explicit in both code and docs:
 - `doc/project/60-solutions/008-agora/008-agora-backlog.md` — granular P1–P13 backlog (source of truth for
   status of implementation tasks).
 - `doc/project/60-solutions/008-agora/agora-record-relay.v1.openapi.yaml` —
-  public Agora HTTP OpenAPI contract.
+  legacy test/reference fixture for the pre-P068 standalone Agora HTTP surface;
+  canonical OpenAPI projection is daemon-owned and served through
+  `GET /v1/openapi.json`.
 - `node/docs/implementation-ledger.toml` — per-crate implementation status.
 - `doc/project/40-proposals/032-key-delegation-passports.md` — source
   proposal for the P12 delegated-signing layer.

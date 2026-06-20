@@ -47,7 +47,9 @@ The component is responsible for the solution-level execution path of:
 Public contract artifacts:
 
 - `doc/project/60-solutions/008-agora/agora-record-relay.v1.openapi.yaml` is
-  the canonical OpenAPI contract for the public Agora HTTP surface.
+  a legacy test/reference fixture for the pre-P068 standalone Agora HTTP
+  surface. Canonical OpenAPI projection is daemon-owned and served through
+  `GET /v1/openapi.json`.
 - `agora-vault-entry.v1` and `agora-vault-ref.v1` define the generic encrypted
   artifact vault and its sealed recovery reference.
 - `doc/project/60-solutions/008-agora/008-agora-backlog.md` is the granular

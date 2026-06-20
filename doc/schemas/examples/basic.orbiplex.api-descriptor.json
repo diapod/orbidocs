@@ -1,0 +1,35 @@
+{
+  "schema": "orbiplex.api-descriptor.v1",
+  "component/id": "daemon",
+  "base/path": "/v1",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/v1/receipts/{receipt_id}",
+      "summary": "Read committed procurement receipt",
+      "tags": ["receipts"],
+      "surface": "protocol",
+      "path/owner": "daemon-proxy",
+      "path/exposure": "host-public",
+      "path/params": [
+        {
+          "name": "receipt_id",
+          "required": true,
+          "schema": { "type": "string" }
+        }
+      ],
+      "request": { "schema_ref": null },
+      "responses": {
+        "200": { "schema_ref": "urn:orbiplex:schema:procurement-receipt:v1" },
+        "404": { "schema_ref": "urn:orbiplex:schema:error-local:v1" }
+      },
+      "x-orbiplex-auth": "operator-session",
+      "x-orbiplex-effect": "read-only",
+      "x-orbiplex-classification": {
+        "schema_ref": "urn:orbiplex:schema:classification:v1",
+        "tier": "Community"
+      },
+      "x-orbiplex-authority": "descriptive-only"
+    }
+  ]
+}

@@ -193,7 +193,7 @@ Local Relationship SQLite projection and the readiness-gate views.
       "x-orbiplex-capability": "notification.create",
       "x-orbiplex-effect": "mutates-state",
       "x-orbiplex-idempotency": "required",
-      "x-orbiplex-classification": { "schema_ref": "urn:orbiplex:schema:classification:v1", "tier": "operator-local" },
+      "x-orbiplex-classification": { "schema_ref": "urn:orbiplex:schema:classification:v1", "tier": "Community" },
       "x-orbiplex-authority": "descriptive-only"
     },
     {
@@ -571,6 +571,8 @@ Constraints:
      handler; `do_GET`/`do_POST` dispatch from it **and** the descriptor
      generates from it, so dispatch and description cannot drift (one table, two
      uses). The current `if path == …` chains are refactored into the table.
+     Operational authoring guidance and copyable examples live in
+     `doc/ops/faq/middleware-faq.en.md` / `doc/ops/faq/middleware-faq.pl.md`.
    - *Assembly is runtime, not build-time codegen:* the registry/table is read
      at startup and the aggregator merges generated descriptors with
      runtime-registered manual external descriptors at the same point — runtime
@@ -605,20 +607,20 @@ Status values: `pending`, `partial`, `done`, `deferred`.
 
 | ID | Work item | Status | Notes |
 | --- | --- | --- | --- |
-| P068-01 | `orbiplex.api-descriptor.v1` schema + schema-gate fixtures (incl. `path`↔`path/params` invariant validation) | pending | lands with P068-09; `schema_ref` xor `inline` per response |
-| P068-02 | Python shared route table (dispatch + descriptor from one table); Inquirium adapter seam first | pending | PR-per-adapter (simulator, dator, recovery-service, agora-verifier, sensorium-os, …); keep `if self.path == …` as migration-window fallback; separate shared `ROUTE_TABLE` from handler-specific dispatch so a module can keep its own handler without inheriting; coverage test per dispatch path |
-| P068-03 | Rust daemon explicit route registry + **hierarchical** coverage test | pending | dispatch is a multi-layer tree (`endpoint_routes/*`, `host_capabilities_host::dispatch`, `catalog_host`, `peer_runtime_host::dispatch_peer_message_request`, inbound-local in `lib.rs`); parity per layer, not one flat router |
-| P068-04 | Daemon aggregator + `GET /v1/openapi.json` (OpenAPI 3.1; `schema_ref` URN → local `#/components/schemas`) | pending | one runtime; URN resolution from canonical registry; `?include=` surface toggle + `?include=configured` lifecycle; `Cache-Control: no-store` |
-| P068-05 | Manual-registration path for external components | pending | same descriptor shape, daemon-ingested |
+| P068-01 | `orbiplex.api-descriptor.v1` schema + schema-gate fixtures (incl. `path`↔`path/params` invariant validation) | done | landed with P068-09; `schema_ref` xor `inline` per response; dynamic `path`↔`path/params` invariant is enforced by typed boundary validation |
+| P068-02 | Python shared route table (dispatch + descriptor from one table); Inquirium adapter seam first | done | landed for the shared Inquirium adapter handler; `/v1/inquirium/invoke` reports neutral invoke/response `schema_ref` bindings, while the OpenAI-compatible shim remains inline compatibility shape; simulator inherits the same surface; other Python middleware can migrate PR-per-adapter without blocking MVP |
+| P068-03 | Rust daemon explicit route registry + **hierarchical** coverage test | done | landed for the read-only/control MVP layer as `READ_ONLY_API_SURFACE_ROUTES` co-located with `read_only_health_response`; daemon descriptor generation and registry-size/protocol-surface tests prevent a parallel hand list |
+| P068-04 | Daemon aggregator + `GET /v1/openapi.json` (OpenAPI 3.1; `schema_ref` URN → local `#/components/schemas`) | done | daemon-owned runtime projection; `?include=` supports non-default surfaces, `?include=configured` includes persisted configured reports, and direct HTTP response carries `Cache-Control: no-store` |
+| P068-05 | Manual-registration path for external components | done | daemon ingests validated JSON sidecars from `<data_dir>/api-descriptors`; invalid sidecars are quarantined as projection warnings without leaking absolute paths |
 | P068-06 | Optional Swagger UI `GET /v1/docs` | deferred | no daemon authtok in JS; mutations ride Node-UI CSRF/operator-auth; no auto-execute of mutating endpoints |
-| P068-07 | Drift/contract test — registry↔dispatch parity (no effect) + **inline schemas validated via schema-gate** + `path`↔`path/params` invariant + response-shape in isolated harness only; never probe mutating routes live | pending | the "matches reality" gate, mirroring schema-gate |
-| P068-08 | Non-authoritative banner + privacy scrub | pending | projection, not authority; no secret/sealed leakage |
-| P068-09 | Extend `middleware-module-report.schema.json` with optional additive `api/surface` (sibling of `adapter_manifest`) → `orbiplex.api-descriptor.v1` (absence legal); keep `additionalProperties: false` + explicit property; update schema-gate fixtures; verify all in-flight reports still validate; CI signal if anyone adds a field without a PR here | pending | lands with P068-01 |
-| P068-10 | Freeze `schema_ref` resolution: URN `$id` → single registry → local `#/components/schemas`; no aliases, no filename refs | pending | **gated on P068-15**; prevents a second mini-registry |
-| P068-11 | `surface` taxonomy (`protocol`/`operator`/`developer`/`internal-loopback`/`external-component`) + host-exposed vs `loopback/path` separation | pending | only `protocol` projected by default |
-| P068-12 | Path/method conflict policy: explicit "compatible" rule (same `request.schema_ref`, same `x-orbiplex-effect`, non-colliding responses); fail-closed for protocol/operator | pending | no silent last-writer-wins |
-| P068-13 | Agora `agora-record-relay.v1.openapi.yaml`: retire or repurpose as aggregator test oracle/fixture; not a parallel contract | pending | no backward-compat owed |
-| P068-14 | Canonical path templates (`{snake_case}`) enforced both sides + `path/params` data + two-key (display/shape) conflict detection | pending | no framework-native syntax in descriptors; normalize helper is lint/migration only |
-| P068-15 | Backfill non-URN schema `$id`s to `urn:orbiplex:schema:<name>:v<n>` (`inac-control.v1`, `memarium-blob.v1`, audit the full set) | pending | **prerequisite commit before P068-10**; URL-form `$id` would be silently missed |
+| P068-07 | Drift/contract test — registry↔dispatch parity (no effect) + **inline schemas validated via schema-gate** + `path`↔`path/params` invariant + response-shape in isolated harness only; never probe mutating routes live | done | schema-gate covers descriptor fixtures and nested module reports; typed validation enforces `path`↔`path/params`; daemon tests cover registry-derived descriptor and conflict policy without probing mutating routes |
+| P068-08 | Non-authoritative banner + privacy scrub | done | projection carries `x-orbiplex-authority: descriptive-only`, descriptive auth labels only, no token values, no sealed payloads, and sidecar warnings use filenames rather than local absolute paths |
+| P068-09 | Extend `middleware-module-report.schema.json` with optional additive `api/surface` (sibling of `adapter_manifest`) → `orbiplex.api-descriptor.v1` (absence legal); keep `additionalProperties: false` + explicit property; update schema-gate fixtures; verify all in-flight reports still validate; CI signal if anyone adds a field without a PR here | done | landed with P068-01; `api/surface` is optional and absent reports remain valid |
+| P068-10 | Freeze `schema_ref` resolution: URN `$id` → single registry → local `#/components/schemas`; no aliases, no filename refs | done | daemon projection resolves through `SCHEMA_REGISTRY`; tests verify each embedded schema `$id` matches its URN |
+| P068-11 | `surface` taxonomy (`protocol`/`operator`/`developer`/`internal-loopback`/`external-component`) + host-exposed vs `loopback/path` separation | done | descriptor schema and typed DTOs freeze the taxonomy; projection includes only `protocol` by default, with opt-in `include=` for other surfaces; middleware-direct loopback paths stay explicit metadata |
+| P068-12 | Path/method conflict policy: explicit "compatible" rule (same `request.schema_ref`, same `x-orbiplex-effect`, non-colliding responses); fail-closed for protocol/operator | done | aggregator rejects shape conflicts and incompatible duplicate contributions; compatible duplicates collapse with a warning; unit tests cover semantic drift rejection |
+| P068-13 | Agora `agora-record-relay.v1.openapi.yaml`: retire or repurpose as aggregator test oracle/fixture; not a parallel contract | done | source docs now call the YAML a legacy test/reference fixture; canonical OpenAPI projection is daemon-owned at `GET /v1/openapi.json` |
+| P068-14 | Canonical path templates (`{snake_case}`) enforced both sides + `path/params` data + two-key (display/shape) conflict detection | done | typed descriptor validation rejects framework-native/partial-segment params and enforces exact `path`↔`path/params`; aggregation tracks both display and parameter-erased shape keys |
+| P068-15 | Backfill non-URN schema `$id`s to `urn:orbiplex:schema:<name>:v<n>` (`inac-control.v1`, `memarium-blob.v1`, audit the full set) | done | prerequisite for P068-10 complete; audited `node/protocol/contracts/schemas` and `orbidocs/doc/schemas` for URL-form `$id`s |
 | P068-16 | `semantic-refs` vocabulary registry for `path/params.semantic/ref` | deferred | only needed if aliases are introduced; MVP emits one canonical param name and omits `semantic/ref` |
-| P068-17 | `x-orbiplex-classification` references `classification.v1` (`schema_ref` + enum `tier`), never a free string | pending | prevents drift from the canonical classification taxonomy |
+| P068-17 | `x-orbiplex-classification` references `classification.v1` (`schema_ref` + enum `tier`), never a free string | done | descriptor schema and typed validation require `schema_ref = urn:orbiplex:schema:classification:v1` and `tier ∈ {Personal, Community, Public}` |

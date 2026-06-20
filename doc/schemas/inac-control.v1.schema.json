@@ -1,10 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.orbiplex.org/inac-control.v1.schema.json",
+  "$id": "urn:orbiplex:schema:inac-control:v1",
   "title": "INAC control frame",
   "description": "Control-plane frame for Inter-Node Artifact Channel offer/request/push/response exchanges. The frame is transport-neutral; concrete transports must preserve the byte identity of inline artifact bytes.",
   "type": "object",
-  "required": ["schema", "operation"],
+  "required": [
+    "schema",
+    "operation"
+  ],
   "properties": {
     "schema": {
       "const": "inac-control.v1"
@@ -68,17 +71,79 @@
   "allOf": [
     {
       "if": {
-        "properties": { "operation": { "const": "offer" } },
-        "required": ["operation"]
+        "properties": {
+          "operation": {
+            "const": "offer"
+          }
+        },
+        "required": [
+          "operation"
+        ]
       },
       "then": {
-        "required": ["artifact"],
+        "required": [
+          "artifact"
+        ],
         "properties": {
           "artifact": {
             "oneOf": [
-              { "required": ["bytes/base64url"], "not": { "anyOf": [{ "required": ["artifact/ref"] }, { "required": ["artifact/href"] }] } },
-              { "required": ["artifact/ref"], "not": { "anyOf": [{ "required": ["bytes/base64url"] }, { "required": ["artifact/href"] }] } },
-              { "required": ["artifact/href"], "not": { "anyOf": [{ "required": ["bytes/base64url"] }, { "required": ["artifact/ref"] }] } }
+              {
+                "required": [
+                  "bytes/base64url"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "artifact/ref"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "artifact/href"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "artifact/ref"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "bytes/base64url"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "artifact/href"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "artifact/href"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "bytes/base64url"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "artifact/ref"
+                      ]
+                    }
+                  ]
+                }
+              }
             ]
           }
         }
@@ -86,40 +151,74 @@
     },
     {
       "if": {
-        "properties": { "operation": { "const": "push" } },
-        "required": ["operation"]
+        "properties": {
+          "operation": {
+            "const": "push"
+          }
+        },
+        "required": [
+          "operation"
+        ]
       },
       "then": {
-        "required": ["artifact"]
-      }
-    },
-    {
-      "if": {
-        "properties": { "operation": { "const": "request" } },
-        "required": ["operation"]
-      },
-      "then": {
-        "required": ["request"]
+        "required": [
+          "artifact"
+        ]
       }
     },
     {
       "if": {
         "properties": {
           "operation": {
-            "enum": ["accept", "decline", "defer", "ingested", "already-present", "refused", "partial"]
+            "const": "request"
           }
         },
-        "required": ["operation"]
+        "required": [
+          "operation"
+        ]
       },
       "then": {
-        "required": ["response"]
+        "required": [
+          "request"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "enum": [
+              "accept",
+              "decline",
+              "defer",
+              "ingested",
+              "already-present",
+              "refused",
+              "partial"
+            ]
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "required": [
+          "response"
+        ]
       }
     }
   ],
   "$defs": {
     "artifact": {
       "type": "object",
-      "required": ["schema", "content/type", "artifact/id", "digest", "size/bytes"],
+      "required": [
+        "schema",
+        "content/type",
+        "artifact/id",
+        "digest",
+        "size/bytes"
+      ],
       "properties": {
         "schema": {
           "type": "string",
@@ -159,7 +258,10 @@
     },
     "request": {
       "type": "object",
-      "required": ["schema", "content/type"],
+      "required": [
+        "schema",
+        "content/type"
+      ],
       "properties": {
         "schema": {
           "type": "string",
@@ -185,7 +287,11 @@
       "properties": {
         "mode": {
           "type": "string",
-          "enum": ["inline", "stream", "out-of-band"]
+          "enum": [
+            "inline",
+            "stream",
+            "out-of-band"
+          ]
         },
         "stream/id": {
           "type": "string",
@@ -200,15 +306,22 @@
     },
     "authorization": {
       "type": "object",
-      "required": ["mode", "passport"],
+      "required": [
+        "mode",
+        "passport"
+      ],
       "properties": {
         "mode": {
           "type": "string",
-          "enum": ["invitation-passport"]
+          "enum": [
+            "invitation-passport"
+          ]
         },
         "passport": {
           "type": "object",
-          "required": ["schema"],
+          "required": [
+            "schema"
+          ],
           "properties": {
             "schema": {
               "const": "capability-passport.v1"
@@ -221,11 +334,21 @@
     },
     "response": {
       "type": "object",
-      "required": ["status"],
+      "required": [
+        "status"
+      ],
       "properties": {
         "status": {
           "type": "string",
-          "enum": ["accepted", "declined", "deferred", "ingested", "already-present", "refused", "partial"]
+          "enum": [
+            "accepted",
+            "declined",
+            "deferred",
+            "ingested",
+            "already-present",
+            "refused",
+            "partial"
+          ]
         },
         "refusal/code": {
           "type": "string",

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.orbiplex.org/memarium-blob.v1.schema.json",
+  "$id": "urn:orbiplex:schema:memarium-blob:v1",
   "title": "MemariumBlob v1",
   "description": "Machine-readable schema for a signed, content-addressed Memarium-native artifact envelope. It is used for artifacts that are not Agora records but still need byte-identical custody and transfer, including small out-of-band passport handoffs, encrypted notes, action-trace archives, backup bundles, and INAC payloads.",
   "type": "object",

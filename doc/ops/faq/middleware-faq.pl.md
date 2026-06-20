@@ -300,6 +300,128 @@ class Handler(BaseHTTPRequestHandler):
             self.wfile.write(b'{"module_id":"example.supervised","status":"ready"}')
 ```
 
+### Jak sprawić, żeby endpoint middleware był widoczny w OpenAPI / Swaggerze?
+
+Nie uruchamiaj osobnego serwera Swaggera wewnątrz middleware'u. Node daemon
+posiada jedną opisową projekcję OpenAPI 3.1 pod `GET /v1/openapi.json`;
+opcjonalny Swagger UI czyta tę projekcję daemona. Middleware dostarcza dane, a
+nie drugi runtime dokumentacyjny.
+
+Dla supervised HTTP middleware dodaj sekcję `api/surface` do raportu modułu
+zwracanego przez `POST /v1/middleware/init`. Sekcja musi być zgodna z
+`orbiplex.api-descriptor.v1`.
+
+Minimalny fragment raportu modułu:
+
+```json
+{
+  "schema_version": "v1",
+  "module_id": "example.inquirium",
+  "module_name": "Example Inquirium Adapter",
+  "api/surface": {
+    "schema": "orbiplex.api-descriptor.v1",
+    "component/id": "example.inquirium",
+    "base/path": "/",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/v1/inquirium/invoke",
+        "summary": "Invoke the adapter through the host-owned Inquirium contract.",
+        "tags": ["inquirium", "middleware"],
+        "surface": "internal-loopback",
+        "path/owner": "middleware-direct",
+        "path/exposure": "internal-loopback",
+        "loopback/path": "/v1/inquirium/invoke",
+        "path/params": [],
+        "request": {
+          "schema_ref": "urn:orbiplex:schema:inquirium-adapter-invoke:v1"
+        },
+        "responses": {
+          "200": {
+            "schema_ref": "urn:orbiplex:schema:inquirium-adapter-response:v1"
+          }
+        },
+        "x-orbiplex-auth": "module-authtok",
+        "x-orbiplex-effect": "mutates-state",
+        "x-orbiplex-idempotency": "optional",
+        "x-orbiplex-authority": "descriptive-only"
+      }
+    ]
+  }
+}
+```
+
+Dla middleware'u w Pythonie preferuj jedną współdzieloną tabelę route'ów używaną
+zarówno przez dispatch, jak i przez generowanie deskryptora:
+
+```python
+ROUTES = (
+    {
+        "method": "POST",
+        "path": "/v1/inquirium/invoke",
+        "handler": handle_inquirium_invoke,
+        "summary": "Invoke the adapter through the host-owned Inquirium contract.",
+        "tags": ["inquirium", "middleware"],
+        "surface": "internal-loopback",
+        "path_owner": "middleware-direct",
+        "path_exposure": "internal-loopback",
+        "request_schema_ref": "urn:orbiplex:schema:inquirium-adapter-invoke:v1",
+        "response_schema_ref": "urn:orbiplex:schema:inquirium-adapter-response:v1",
+    },
+)
+
+def api_surface_descriptor(module_id):
+    return {
+        "schema": "orbiplex.api-descriptor.v1",
+        "component/id": module_id,
+        "base/path": "/",
+        "endpoints": [
+            {
+                "method": route["method"],
+                "path": route["path"],
+                "summary": route["summary"],
+                "tags": route["tags"],
+                "surface": route["surface"],
+                "path/owner": route["path_owner"],
+                "path/exposure": route["path_exposure"],
+                "loopback/path": route["path"],
+                "path/params": [],
+                "request": {"schema_ref": route["request_schema_ref"]},
+                "responses": {"200": {"schema_ref": route["response_schema_ref"]}},
+                "x-orbiplex-auth": "module-authtok",
+                "x-orbiplex-effect": "mutates-state",
+                "x-orbiplex-idempotency": "optional",
+                "x-orbiplex-authority": "descriptive-only",
+            }
+            for route in ROUTES
+        ],
+    }
+```
+
+Reguły praktyczne:
+
+- `path` to ścieżka eksponowana przez hosta i widoczna w projekcji daemona.
+- `loopback/path` to surowa lokalna ścieżka middleware'u; jest wymagana dla
+  ekspozycji `internal-loopback`.
+- Parametry ścieżki używają kanonicznych segmentów OpenAPI `{snake_case}`, a
+  każdy parametr ścieżki musi też występować w `path/params`.
+- Używaj `schema_ref` tylko dla schematów zapisanych w kanonicznym rejestrze.
+  Mały schemat `inline` zostaw dla tymczasowych powierzchni kompatybilności.
+- Nigdy nie umieszczaj w `api/surface` wartości tokenów auth, sekretów, promptów,
+  sealed payloads ani lokalnych ścieżek absolutnych.
+- `x-orbiplex-auth` jest opisową etykietą typu `module-authtok`, nie samym
+  tokenem.
+- `x-orbiplex-authority` ma zawsze wartość `descriptive-only`; OpenAPI opisuje
+  kształt, nie autorytet ani pełną politykę bezpieczeństwa.
+- Domyślna projekcja OpenAPI obejmuje tylko wpisy z powierzchni `protocol`.
+  Inspekcja developerska/operatorska może jawnie dołączyć inne powierzchnie przez
+  `?include=operator,developer,internal-loopback`.
+
+Dla zewnętrznie zarządzanych albo instalowanych pakietowo komponentów HTTP,
+które nie zwracają raportu modułu, daemon może też ładować zwalidowane sidecary
+deskryptorów z `<data-dir>/api-descriptors/`. Preferuj ścieżkę init-report, gdy
+komponent jest nadzorowany przez node.
+
 ### Konektor Sensorium
 
 Konektor Sensorium jest osobnym modułem middleware, który implementuje akcje za

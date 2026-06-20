@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-adapter-invoke:v1",
+  "title": "Inquirium Adapter Invoke v1",
+  "description": "Neutral text-generation invocation payload accepted by middleware-hosted Inquirium adapters.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema", "operation", "model", "input"],
+  "properties": {
+    "schema": { "const": "inquirium.adapter.invoke.v1" },
+    "operation": {
+      "type": "string",
+      "enum": ["text.generate", "text.respond", "chat.completion"]
+    },
+    "model": { "type": "string", "minLength": 1 },
+    "input": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["messages"],
+      "properties": {
+        "messages": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/message" }
+        }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "max_tokens": { "type": "integer", "minimum": 1 },
+        "temperature": { "type": "number" },
+        "top_p": { "type": "number" },
+        "stop": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } },
+            { "type": "null" }
+          ]
+        },
+        "metadata": { "type": "object", "additionalProperties": true },
+        "service_tier": { "type": "string" }
+      }
+    },
+    "metadata": { "type": "object", "additionalProperties": true }
+  },
+  "$defs": {
+    "message": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["role", "content"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": ["system", "developer", "user", "assistant"]
+        },
+        "content": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/$defs/textBlock" }
+            }
+          ]
+        }
+      }
+    },
+    "textBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": { "const": "text" },
+        "text": { "type": "string" }
+      }
+    }
+  }
+}

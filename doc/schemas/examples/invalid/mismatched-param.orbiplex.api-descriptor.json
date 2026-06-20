@@ -1,0 +1,24 @@
+{
+  "schema": "orbiplex.api-descriptor.v1",
+  "component/id": "daemon",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/v1/receipts/{receipt_id}",
+      "surface": "protocol",
+      "path/owner": "daemon-proxy",
+      "path/exposure": "host-public",
+      "path/params": [
+        {
+          "name": "id",
+          "required": true,
+          "schema": { "type": "string" }
+        }
+      ],
+      "responses": {
+        "200": { "schema_ref": "urn:orbiplex:schema:procurement-receipt:v1" }
+      },
+      "x-orbiplex-authority": "descriptive-only"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-adapter-response:v1",
+  "title": "Inquirium Adapter Response v1",
+  "description": "Neutral text-generation response emitted by middleware-hosted Inquirium adapters.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema", "provider", "output", "usage", "diagnostics"],
+  "properties": {
+    "schema": { "const": "inquirium.adapter.response.v1" },
+    "provider": { "type": "string", "minLength": 1 },
+    "provider_request_id": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "model": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "output": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/outputChunk" }
+    },
+    "stop_reason": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "usage": { "type": "object", "additionalProperties": true },
+    "diagnostics": { "type": "object", "additionalProperties": true }
+  },
+  "$defs": {
+    "outputChunk": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["type", "text"],
+      "properties": {
+        "type": { "const": "text" },
+        "text": { "type": "string" }
+      }
+    }
+  }
+}

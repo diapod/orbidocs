@@ -1,3 +1,7 @@
+# Legacy test/reference fixture for the pre-P068 standalone Agora HTTP surface.
+# The canonical OpenAPI projection is daemon-owned and served through
+# `GET /v1/openapi.json`; this file must not be maintained as a parallel
+# contract.
 openapi: "3.1.0"
 info:
   title: "Orbiplex Agora Record Relay"

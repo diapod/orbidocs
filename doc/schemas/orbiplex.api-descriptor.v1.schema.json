@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:orbiplex-api-descriptor:v1",
+  "title": "Orbiplex API Descriptor",
+  "description": "Descriptor contributed by a daemon route registry or middleware component for aggregated OpenAPI projection. It is descriptive, not authoritative.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "component/id", "endpoints"],
+  "properties": {
+    "schema": { "const": "orbiplex.api-descriptor.v1" },
+    "component/id": { "type": "string", "minLength": 1 },
+    "base/path": { "$ref": "#/$defs/pathTemplate" },
+    "endpoints": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/endpoint" }
+    }
+  },
+  "$defs": {
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "path",
+        "surface",
+        "path/owner",
+        "path/exposure",
+        "path/params",
+        "responses",
+        "x-orbiplex-authority"
+      ],
+      "properties": {
+        "method": { "type": "string", "pattern": "^[A-Z]+$" },
+        "path": { "$ref": "#/$defs/pathTemplate" },
+        "summary": { "type": "string", "minLength": 1 },
+        "tags": {
+          "type": "array",
+          "default": [],
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "surface": {
+          "type": "string",
+          "enum": ["protocol", "operator", "developer", "internal-loopback", "external-component"]
+        },
+        "path/owner": {
+          "type": "string",
+          "enum": ["daemon-proxy", "middleware-direct", "external"]
+        },
+        "path/exposure": {
+          "type": "string",
+          "enum": ["host-public", "operator", "internal-loopback"]
+        },
+        "loopback/path": { "$ref": "#/$defs/pathTemplate" },
+        "path/params": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/pathParam" }
+        },
+        "request": { "$ref": "#/$defs/schemaBinding" },
+        "responses": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "pattern": "^(default|[0-9]{3})$" },
+          "additionalProperties": { "$ref": "#/$defs/schemaBinding" }
+        },
+        "x-orbiplex-auth": { "type": "string", "minLength": 1 },
+        "x-orbiplex-capability": { "type": "string", "minLength": 1 },
+        "x-orbiplex-effect": {
+          "type": "string",
+          "enum": ["read-only", "mutates-state"]
+        },
+        "x-orbiplex-idempotency": {
+          "type": "string",
+          "enum": ["required", "optional", "not-applicable"]
+        },
+        "x-orbiplex-classification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["schema_ref", "tier"],
+          "properties": {
+            "schema_ref": { "const": "urn:orbiplex:schema:classification:v1" },
+            "tier": { "type": "string", "enum": ["Personal", "Community", "Public"] }
+          }
+        },
+        "x-orbiplex-authority": { "const": "descriptive-only" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "path/exposure": { "const": "internal-loopback" } },
+            "required": ["path/exposure"]
+          },
+          "then": { "required": ["loopback/path"] }
+        }
+      ]
+    },
+    "pathParam": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "required", "schema"],
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "required": { "const": true },
+        "schema": { "type": "object" },
+        "semantic/ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "schemaBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_ref": { "type": ["string", "null"], "minLength": 1 },
+        "inline": { "type": "object" }
+      },
+      "not": { "required": ["schema_ref", "inline"] }
+    },
+    "pathTemplate": {
+      "type": "string",
+      "pattern": "^/(?:[A-Za-z0-9._~-]+|\\{[a-z][a-z0-9_]*\\})(?:/(?:[A-Za-z0-9._~-]+|\\{[a-z][a-z0-9_]*\\}))*$|^/$"
+    }
+  }
+}
