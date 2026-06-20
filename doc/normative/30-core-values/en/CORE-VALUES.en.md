@@ -98,7 +98,8 @@ communication destroy authenticity, because they create illusory thresholds of
 belonging and mask the real characteristics of participants. That is why DIA
 privileges the raw signal over artificially smoothed messages that protect the
 appearance of correctness more than contact with what a person is actually trying
-to convey.
+to convey. This is *reverse adaptation* at the level of style: instead of tuning the
+tool to the person, the person is tuned to the forms the machine can conveniently handle.
 
 Beautifying, smoothing, or standardizing operations must be explicitly requested by
 the user, not enabled by default. If AI interferes with style, tone, structure, or
@@ -117,6 +118,16 @@ Communication predates the artifact. The networked era inherited an accidental
 binding of every utterance to one author, one location, and indefinite persistence,
 and then mistook that cost of early implementation for the nature of communication
 itself. Orbiplex does not accept this binding as the default.
+
+This mechanism — where the forms and ends of human communication adjust to the
+limitations of the tool rather than the other way around — tends to be called *reverse
+adaptation* (Langdon Winner, *Autonomous Technology*, 1977). The Internet as a medium has
+a character that, combined with economic trends and human behavior, gravitates toward
+**star topologies** at the level of topology and **data cartels** at the level of
+communication artifacts. This is not the ill will of the designers of the TCP/IP stack,
+of routing mechanisms, or even an assumption of the designers of higher-layer protocols
+(e.g. HTTP), but an **omitted risk** worth handling once we name it: knowledge bound to a
+location, an opinion that has an owner, an utterance that has one durable address.
 
 An utterance is a candidate for circulation, not a notarized act. Authorship,
 publication location, and persistence are optional, contextual, and earned

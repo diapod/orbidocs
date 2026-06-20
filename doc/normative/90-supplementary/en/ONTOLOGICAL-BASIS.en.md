@@ -356,6 +356,16 @@ once. This is not an escape from complexity, but an honest partitioning of it so
 that a human being can understand, test, audit, and change the system without
 tearing the whole apart or introducing accidental concretization.
 
+On the socio-technical scale the same error tends to be called *reverse adaptation*
+(Langdon Winner, *Autonomous Technology*): the ends and forms of human action adjust to
+the limitations of the tool, as if those limitations were the nature of the domain. The
+same pattern appears beyond communication: domain logic congealed into the names of
+classes and interfaces (code as a de facto relational database), prefab housing that
+enforces low privacy, the star topology of the network. This is accidental reification
+spread across medium, economy, and habit — not the failure of a single layer, but the
+stiffening of the whole stack. Deliberate concretization works the other way: it
+re-fluidizes what reverse adaptation has stiffened.
+
 ### Consequences for the economy
 
 When we stratify the same apophatic-enactive approach not toward the flow of data but

@@ -159,6 +159,29 @@ In the long run, we cannot avoid correlating information in large datasets built
 our preferences and behavior, but together we can become stewards of such information
 and use it directly so it serves us rather than singular centers of power.
 
+### Reverse Adaptation: Technology That Quietly Shapes Relations
+
+When we let technology develop organically from its assumptions at the bottom, without
+conscious recognition of the consequences of use, its incidental limitations can, by
+accident, give character to human relations, communication, and well-being. This
+mechanism tends to be called *reverse adaptation* (Langdon Winner): the ends adjust to
+the means, not the means to the ends. The Internet, combined with today's economy and
+human tendencies, gravitates toward a star topology and the enclosure of data — not from
+the ill will of the designers of the network stack, but as an omitted risk of the
+inherited technical layer.
+
+Orbiplex responds with a deliberate counter-move, known in the literature as *democratic
+rationalization* (Andrew Feenberg): since technology is neither neutral nor autonomous,
+its *technical code* can be consciously re-opened and re-decided, inscribing into it
+values previously left out. For us, however, this is not a separate intervention bolted
+onto a finished system, but a consequence of **structural ethics**: we design on a value
+base from the foundation upward, so that countering reverse adaptation falls out of the
+architecture itself. This converges with *value sensitive design* (Batya Friedman), with
+the difference that there values enter through a design method, while for us they are the
+building material of the lower layers propagating upward — that is, more bottom-up. The
+operational expression of this principle is described in [Core Values — Speech Before
+Document](../30-core-values/en/CORE-VALUES.en.md#speech-before-document).
+
 ### Crisis of Authority and Public-Trust Roles
 
 Media pluralization, the pragmatization of social communication, the shortening of

@@ -158,6 +158,29 @@ tworzonych na podstawie naszych preferencji i zachowań, lecz wspólnie możemy
 dysponentami takich informacji i korzystać z nich bezpośrednio, aby służyły nam,
 a nie pojedynczym ośrodkom.
 
+### Reverse adaptation: technika, która po cichu kształtuje relacje
+
+Gdy pozwolimy technice rozwijać się organicznie z założeń u spodu, bez świadomego
+rozpoznania konsekwencji użycia, jej przygodne ograniczenia potrafią przez przypadek
+nadać charakter ludzkim relacjom, komunikacji i dobrostanowi. Mechanizm ten bywa
+nazywany *reverse adaptation* (Langdon Winner): to cele dostrajają się do środka,
+a nie środek do celów. Internet w połączeniu z dzisiejszą ekonomią i ludzkimi
+tendencjami ciąży ku topologii gwiaździstej i uwłaszczaniu danych – nie ze złej woli
+projektantów stosu sieciowego, lecz jako pominięte ryzyko zastanej warstwy
+technicznej.
+
+Orbiplex odpowiada świadomym przeciwruchem, który w literaturze nosi nazwę
+*democratic rationalization* (Andrew Feenberg): skoro technika nie jest ani
+neutralna, ani autonomiczna, jej *technical code* można świadomie przedyskutować
+i rozstrzygnąć na nowo, wpisując weń wartości wcześniej pominięte. U nas nie jest to
+jednak osobna interwencja doklejona do gotowego systemu, lecz konsekwencja
+**strukturalnej etyki**: projektujemy na bazie wartości, od fundamentu w górę, więc
+przeciwdziałanie *reverse adaptation* wynika z architektury. Jest to zbieżne z *value
+sensitive design* (Batya Friedman), z tą różnicą, że tam wartości wchodzą przez
+metodę projektową, a u nas są budulcem dolnych warstw propagującym ku
+górze. Operacyjny wyraz tej zasady opisują [Wartości podstawowe — Mowa przed
+dokumentem](../30-core-values/pl/CORE-VALUES.pl.md#mowa-przed-dokumentem).
+
 ### Kryzys autorytetów i ról zaufania publicznego
 
 Pluralizacja medialnego przekazu, pragmatyzacja komunikacji społecznej, skrócenie

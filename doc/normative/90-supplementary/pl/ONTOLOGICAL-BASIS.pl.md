@@ -337,6 +337,17 @@ nie jest ucieczka od złożoności, lecz uczciwe porcjowanie jej w taki sposób,
 człowiek mógł system rozumieć, testować, audytować i zmieniać bez rozrywania całości
 bądź przypadkowej konkretyzacji.
 
+Na skali społeczno-technicznej ten sam błąd bywa nazywany *reverse adaptation*
+(Langdon Winner, "Autonomous Technology"): cele i formy ludzkiego działania
+dostrajają się do ograniczeń narzędzia, jak gdyby te ograniczenia były naturą
+dziedziny. Ten sam wzorzec widać poza komunikacją: logika domenowa zakrzepła
+w nazwach klas i interfejsów (kod jako *de facto* relacyjna baza danych w niektórych
+językach zorientowanych obiektowo), prefabrykowane osiedla wymuszające niską
+prywatność, gwiaździsta topologia sieci. To przypadkowa reifikacja rozłożona na
+medium, ekonomię i nawyk – nie awaria pojedynczej warstwy, lecz zastygnięcie całego
+stosu. Świadoma konkretyzacja działa w drugą stronę: upłynnia to, co *reverse
+adaptation* zdążyła usztywnić.
+
 ### Konsekwencje dla ekonomii
 
 Gdy to samo apofatyczno-enaktywne podejście stratyfikujemy nie do przepływu danych,

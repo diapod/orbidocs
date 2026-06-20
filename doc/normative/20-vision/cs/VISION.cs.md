@@ -153,6 +153,27 @@ vytvářených na základě našich preferencí a chování, ale společně se m
 správci takových informací a používat je přímo tak, aby sloužily nám, a ne
 jednotlivým centrům.
 
+### Reverse adaptation: technika, která potichu formuje vztahy
+
+Když necháme techniku, aby se organicky rozvíjela z předpokladů u dna, bez vědomého
+rozpoznání důsledků užití, její nahodilá omezení mohou náhodou vtisknout charakter
+lidským vztahům, komunikaci a blahobytu. Tento mechanismus se obvykle nazývá *reverse
+adaptation* (Langdon Winner): cíle se přizpůsobují prostředku, nikoli prostředek cílům.
+Internet ve spojení s dnešní ekonomikou a lidskými sklony tíhne ke hvězdicové topologii
+a k přivlastňování dat – nikoli ze zlé vůle tvůrců síťového zásobníku, nýbrž jako
+opomenuté riziko zděděné technické vrstvy.
+
+Orbiplex odpovídá vědomým protipohybem, který se v literatuře nazývá *democratic
+rationalization* (Andrew Feenberg): protože technika není ani neutrální, ani autonomní,
+lze její *technical code* znovu vědomě otevřít a přerozhodnout a vepsat do něj dříve
+opomenuté hodnoty. U nás to však není zvláštní zásah přilepený k hotovému systému, nýbrž
+důsledek **strukturální etiky**: navrhujeme na základě hodnot od základu vzhůru, takže
+protipůsobení reverse adaptation vyplývá ze samotné architektury. To se shoduje s *value
+sensitive design* (Batya Friedman), s tím rozdílem, že tam hodnoty vstupují skrze
+návrhovou metodu, zatímco u nás jsou stavebním materiálem nižších vrstev propagujícím
+vzhůru – tedy více zdola nahoru. Operační vyjádření této zásady popisují [Základní
+hodnoty — Řeč před dokumentem](../30-core-values/cs/CORE-VALUES.cs.md#rec-pred-dokumentem).
+
 ### Krize autorit a rolí veřejné důvěry
 
 Pluralizace mediálního sdělení, pragmatizace společenské komunikace, zkrácení

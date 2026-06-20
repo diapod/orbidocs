@@ -94,7 +94,9 @@ Vynucená estetizace a požadavek profesionalizace mezilidské komunikace ničí
 autentičnost, protože vytvářejí iluzorní prahy příslušnosti a maskují skutečnou
 charakteristiku účastníků. Proto DIA zvýhodňuje syrový signál před uměle
 uhlazenými sděleními, která chrání spíše zdání správnosti než kontakt s tím,
-co chce člověk skutečně sdělit.
+co chce člověk skutečně sdělit. Je to *reverse adaptation* na úrovni stylu: místo aby se
+nástroj přizpůsobil člověku, přizpůsobuje se člověk formám, které stroj umí pohodlně
+zpracovat.
 
 Operace zkrášlování, uhlazování nebo standardizace reality musí být výslovně
 vyžádány uživatelem, nikoli zapnuty jako výchozí. Pokud AI zasahuje do stylu,
@@ -113,6 +115,16 @@ Komunikace předchází artefaktu. Síťová éra zdědila nahodilé svázání 
 s jedním autorem, jedním místem a neurčitou trvalostí a poté si tuto cenu rané
 implementace spletla s povahou komunikace samé. Orbiplex toto svázání nepřijímá
 jako výchozí.
+
+Tento mechanismus – když se formy a cíle lidské komunikace přizpůsobují omezením
+nástroje, a nikoli naopak – se nazývá *reverse adaptation* (Langdon Winner, *Autonomous
+Technology*, 1977). Internet jako médium má charakteristiku, která ve spojení
+s ekonomickými trendy a lidským chováním tíhne ke **hvězdicovým topologiím** na úrovni
+topologie a k **datovým kartelům** na úrovni komunikačních artefaktů. Není to zlá vůle
+tvůrců zásobníku TCP/IP, směrovacích mechanismů, ani předpoklad tvůrců protokolů vyšších
+vrstev (např. HTTP), nýbrž **opomenuté riziko**, které stojí za to ošetřit, jakmile ho
+pojmenujeme: znalost přivázaná k místu, názor, který má vlastníka, výpověď, která má
+jednu trvalou adresu.
 
 Výpověď je kandidátem na oběh, nikoli notářským aktem. Autorství, místo publikace
 a trvalost jsou volitelné, kontextové a zasloužené vlastnosti: mají se objevovat

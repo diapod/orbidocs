@@ -324,6 +324,15 @@ kontextem. Umožňují nemyslet na všechny závislosti najednou. Není to únik
 složitostí, ale poctivé porcování složitosti tak, aby člověk mohl systém chápat,
 testovat, auditovat a měnit bez trhání celku nebo náhodné konkretizace.
 
+Na sociotechnické škále se tatáž chyba obvykle nazývá *reverse adaptation* (Langdon
+Winner, *Autonomous Technology*): cíle a formy lidského jednání se přizpůsobují omezením
+nástroje, jako by tato omezení byla povahou domény. Tentýž vzorec vidíme i mimo
+komunikaci: doménová logika ztuhlá v názvech tříd a rozhraní (kód jako de facto relační
+databáze), prefabrikovaná sídliště vynucující nízké soukromí, hvězdicová topologie sítě.
+Je to náhodná reifikace rozprostřená přes médium, ekonomiku a návyk – nikoli selhání
+jediné vrstvy, nýbrž ztuhnutí celého vrstvení. Vědomá konkretizace působí opačně: znovu
+zkapalňuje to, co reverse adaptation stačila ztužit.
+
 ### Důsledky pro ekonomiku
 
 Když týž apofaticko-enaktivní přístup stratifikujeme nikoli k toku dat, nýbrž k toku

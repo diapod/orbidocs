@@ -96,7 +96,9 @@ Przymusowa estetyzacja i wymóg profesjonalizacji w komunikacji międzyludzkiej
 niszczą autentyczność, bo wytwarzają iluzoryczne progi przynależności i maskują
 realną charakterystykę uczestników. Dlatego DIA premiuje surowy sygnał ponad
 sztucznie wygładzone komunikaty, które bardziej chronią pozór poprawności niż
-kontakt z tym, co człowiek rzeczywiście chce przekazać.
+kontakt z tym, co człowiek rzeczywiście chce przekazać. Jest to *reverse adaptation*
+na poziomie stylu: zamiast dostroić narzędzie do człowieka, dostraja się człowieka
+do form, które maszyna umie wygodnie obsłużyć.
 
 Operacje upiększające, wygładzające lub standaryzujące rzeczywistość muszą być
 jawnie zażądane przez użytkownika, a nie włączane domyślnie. Jeżeli AI ingeruje w
@@ -115,6 +117,16 @@ Komunikacja jest wcześniejsza niż artefakt. Era sieci odziedziczyła przypadko
 wiązanie każdej wypowiedzi z jednym autorem, jednym miejscem i nieokreśloną
 trwałością, a następnie pomyliła ten koszt wczesnej implementacji z naturą
 komunikacji. Orbiplex nie przyjmuje tego wiązania jako domyślnego.
+
+Mechanizm ten – gdy formy i cele ludzkiej komunikacji dostrajają się do ograniczeń
+narzędzia, a nie odwrotnie – bywa nazywany *reverse adaptation* (Langdon Winner,
+"Autonomous Technology", 1977). Internet jako medium ma charakterystykę, która
+w połączeniu z trendami ekonomicznymi i ludzkimi zachowaniami ciąży ku **strukturom
+gwiaździstym** na poziomie topologii i ku **kartelom danych** na poziomie artefaktów
+komunikacji. Nie jest to zła wola projektantów stosu TCP/IP, mechanizmów routingu ani
+nawet założenie twórców protokołów warstw wyższych (np. HTTP), lecz **pominięte
+ryzyko**, które warto obsłużyć, gdy już je nazwiemy: wiedza przywiązana do
+lokalizacji, opinia mająca właściciela, wypowiedź mająca jeden trwały adres.
 
 Wypowiedź jest kandydatem do obiegu, nie aktem notarialnym. Autorstwo, miejsce
 publikacji i trwałość są właściwościami opcjonalnymi, kontekstowymi i zasłużonymi:
