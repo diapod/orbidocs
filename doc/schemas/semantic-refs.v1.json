@@ -1,0 +1,25 @@
+{
+  "schema": "semantic-refs.v1",
+  "entries": [
+    {
+      "id": "participant-id",
+      "canonical_param": "participant_id"
+    },
+    {
+      "id": "record-id",
+      "canonical_param": "record_id"
+    },
+    {
+      "id": "envelope-id",
+      "canonical_param": "envelope_id"
+    },
+    {
+      "id": "question-id",
+      "canonical_param": "question_id"
+    },
+    {
+      "id": "contract-id",
+      "canonical_param": "contract_id"
+    }
+  ]
+}

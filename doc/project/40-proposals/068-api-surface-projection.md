@@ -166,7 +166,7 @@ Local Relationship SQLite projection and the readiness-gate views.
       "path/owner": "daemon-proxy",   # daemon-proxy | middleware-direct | external
       "path/exposure": "host-public", # host-public | operator | internal-loopback
       "loopback/path": "/v1/messaging/outbox/{envelope_id}/body",  # raw middleware path behind the proxy
-      "path/params": [               # canonical {snake_case}; params are data; semantic/ref omitted in MVP (P068-16)
+      "path/params": [               # canonical {snake_case}; params are data; optional semantic/ref must be a known P068-16 vocabulary entry
         { "name": "envelope_id", "required": true,
           "schema": { "type": "string" } }
       ],
@@ -283,8 +283,8 @@ clean; if it is a parallel description, it is not.
   effect**; *response shape* is checked only in an isolated test harness/daemon,
   never against a live operator daemon. `POST`/`DELETE`/`release`/`cancel`/
   `passport.issue` and anything `x-orbiplex-effect: mutates-state` are excluded
-  from any live smoke. A live Swagger UI, if present, is operator-gated and does
-  not auto-execute mutating endpoints.
+  from any live smoke. The Swagger UI is operator-gated and disables request
+  execution entirely.
 - **Existing static OpenAPI is not maintained in parallel.** The current hand
   written, inline-schema file
   `orbidocs/doc/project/60-solutions/008-agora/agora-record-relay.v1.openapi.yaml`
@@ -329,11 +329,32 @@ clean; if it is a parallel description, it is not.
   downgrade to a warning unless namespaced by a distinct `path/owner`. Never
   silently last-writer-wins.
 - **Swagger UI boundary (security).** `/v1/openapi.json` is the MVP artifact;
-  `/v1/docs` (Swagger UI) is an optional developer/operator convenience. The UI
-  is **not** handed a daemon authtok in client JS; any mutating call from the UI
-  rides the **same CSRF / operator-auth boundary as Node UI** (reflective CSRF,
-  operator session), not a privileged side channel. The UI never auto-executes
-  mutating endpoints.
+  `/v1/docs` (Swagger UI) is a developer/operator convenience. The daemon builds
+  the projection server-side and embeds the resulting OpenAPI JSON into the HTML
+  shell, so client JS is **not** handed a daemon authtok and does not perform a
+  privileged second fetch. Request execution is disabled (`supportedSubmitMethods:
+  []`); the UI is descriptive, not a mutation console. The inline bootstrap
+  script is gated by a per-request CSP nonce, and `frame-ancestors 'none'`
+  blocks clickjacking embeds.
+- **External-asset hardening (the remaining gap).** `/v1/docs` currently loads
+  the Swagger UI JS/CSS from a public CDN (unpkg). No tokens leak, but this is
+  the one place the node reaches the public internet, which is incoherent with
+  the offline-first / no-phone-home stance: an air-gapped or offline node renders
+  a blank docs page, and the page beacons to a third party on open. The driver is
+  architectural coherence, not acute exploitability. Two tiers:
+  - *cheap stopgap (done):* pin the exact Swagger UI version, add Subresource
+    Integrity (`integrity=`) to the CDN `<script>`/`<link>`, and keep script
+    execution behind a per-request CSP nonce plus `frame-ancestors 'none'`.
+    This closes the supply-chain/integrity hole (a substituted/MITM'd asset
+    cannot inject different JS into the operator-auth context) and avoids
+    arbitrary inline script execution. The current node pins
+    `swagger-ui-dist@5.32.6` with SHA-384 SRI. This does not fix offline.
+  - *full hardening (low-priority post-MVP, P068-06 follow-up):* vendor the
+    pinned Swagger UI dist and serve it from the daemon's own origin, which fixes
+    offline + supply-chain + phone-home at once and lets `/v1/docs` keep a strict
+    `self`-only CSP that loads nothing external. A smaller single-file bundle
+    (e.g. Redoc) is an acceptable substitute if asset size matters. Tracks the
+    pinned version for CVEs.
 
 ## Path Template Normalization
 
@@ -362,12 +383,12 @@ Canonical path rules:
 
 **Parameters are data, not just a name in the path.** Each templated parameter
 is declared explicitly so the OpenAPI generator has `parameters` to emit and
-neither language guesses meaning from the name. `semantic/ref` is **optional and
-post-MVP**: it exists only to support the alias collapse rule below, and MVP
-avoids aliases entirely by making producers emit one canonical parameter name.
-When `semantic/ref` is used, it MUST resolve through a declared vocabulary (a
-`semantic-refs` registry, tracked as deferred `P068-16`); an unresolved
-`semantic/ref` is a validation failure, never a free-form label:
+neither language guesses meaning from the name. `semantic/ref` is **optional**
+(MVP descriptors omit it and emit one canonical parameter name; it exists to
+carry cross-component parameter meaning and to support the alias collapse rule
+below). **When present, `semantic/ref` MUST be a known entry in the
+`semantic-refs` vocabulary registry (P068-16)** — an unknown or free-form value
+is a validation failure, never an ad-hoc label.
 
 ```text
 {
@@ -375,13 +396,50 @@ When `semantic/ref` is used, it MUST resolve through a declared vocabulary (a
   "path": "/v1/receipts/{receipt_id}",
   "path/params": [
     { "name": "receipt_id", "required": true,
-      "schema": { "type": "string" } }
+      "schema": { "type": "string" },
+      "semantic/ref": "record-id" }      /* optional; if present, a known vocabulary entry */
   ]
 }
 ```
 
-For post-MVP alias support, `P068-16` may add a `semantic/ref` such as
-`procurement-receipt/id`; MVP examples intentionally omit it.
+### Semantic Refs Vocabulary (P068-16)
+
+`semantic/ref` values are not free strings; they are drawn from one closed,
+extensible registry so the same conceptual identifier reads identically across
+components (and so the alias collapse rule can equate `{receipt_id}` with `{id}`
+only when both declare the same `semantic/ref`).
+
+- **Entry shape.** Each registry entry carries both the `semantic/ref` id and
+  the **canonical parameter name** the alias-collapse rule emits (validation
+  needs only the id; alias collapse needs `canonical_param`, so both are
+  declared up front):
+
+  ```text
+  {
+    "schema": "semantic-refs.v1",
+    "entries": [
+      { "id": "participant-id", "canonical_param": "participant_id" },
+      { "id": "record-id",      "canonical_param": "record_id" },
+      { "id": "envelope-id",    "canonical_param": "envelope_id" },
+      { "id": "question-id",    "canonical_param": "question_id" },
+      { "id": "contract-id",    "canonical_param": "contract_id" }
+    ]
+  }
+  ```
+
+  `id` form: `^[a-z][a-z0-9-]*$` (hyphenated, e.g. `envelope-id`, not
+  `message-envelope/id`). `canonical_param` form: the path-template
+  `{snake_case}` rule, `^[a-z][a-z0-9_]*$`. The set is extensible by reviewed PR.
+- **Rule:** a descriptor's `semantic/ref` MUST match a registered `id`; the
+  aggregator and schema-gate reject an unregistered value (boundary parsers must
+  not swallow corruption). New concepts are added to the registry first, in a
+  reviewed change, before a descriptor may reference them — the same
+  no-aliases / one-id discipline used for schema `$id`s. Alias collapse uses the
+  entry's `canonical_param`; an entry without one fails the build rather than
+  guessing.
+- **Storage:** the registry is a single declared list
+  (`node/protocol/contracts/schemas/semantic-refs.v1.json`) resolved the same way
+  the schema registry resolves URNs — one source of truth, no second mini-list.
 
 **Hard invariant — `path` and `path/params` must agree exactly.** Every
 `{param}` segment in `path` has **exactly one** matching entry in `path/params`,
@@ -418,10 +476,10 @@ Because OpenAPI 3.1 forbids two paths that differ only in parameter name, an
 allowed alias is a **descriptor-level convenience only**, never two paths in the
 output. When an alias is permitted (same `semantic/ref`, explicit alias rule),
 the aggregator MUST collapse the aliased entries into **exactly one** canonical
-path in the output. The winning parameter name is deterministic: the canonical
-name declared by the `semantic/ref` registry (e.g. `procurement-receipt/id` →
-`receipt_id`); if the registry declares no canonical name, the build fails
-rather than guessing. Aliases therefore live in lint/migration tooling and in
+path in the output. The winning parameter name is deterministic: the
+`canonical_param` declared for that `semantic/ref` entry in the vocabulary
+registry (e.g. `record-id` → `record_id`); if the entry declares no
+`canonical_param`, the build fails rather than guessing. Aliases therefore live in lint/migration tooling and in
 the merge step, never as two `paths` entries. There is no MVP need to introduce
 aliases at all — prefer making producers emit the one canonical name.
 
@@ -447,9 +505,9 @@ daemon aggregator
   -> collects descriptors via the existing init/health seam
   -> resolves schema_ref against the canonical schema registry (2020-12)
   -> assembles one OpenAPI 3.1 document
-  -> GET /v1/openapi.json  (+ optional GET /v1/docs Swagger UI)
+  -> GET /v1/openapi.json  (+ GET /v1/docs Swagger UI)
 developer / third-party client author
-  -> browses surface, tries flows live, generates a client
+  -> browses surface and generates a client
   -> contract still lives in schemas + semantics, not in this view
 ```
 
@@ -474,7 +532,7 @@ developer / third-party client author
    the same shape for external components; merge identically. Inline schemas in
    manual descriptors are validated through schema-gate (positive/negative
    fixtures), not trusted as-is.
-5. **Optional Swagger UI** at `GET /v1/docs`, dev/operator-gated.
+5. **Swagger UI** at `GET /v1/docs`, dev/operator-gated and descriptive-only.
 6. **Drift/contract test.** Assert every `schema_ref` URN resolves, every inline
    schema validates through schema-gate, the `path`↔`path/params` invariant
    holds, and registry↔dispatch parity holds — **without live-probing mutating
@@ -591,15 +649,28 @@ when the Rust registry coverage test and the Python table refactor land.
 
 ## Next Actions
 
-1. Define `orbiplex.api-descriptor.v1` schema + fixtures (incl. canonical
-   path-template + `path/params` validation).
-2. Extend `middleware-module-report.schema.json` with the optional additive
-   `api/surface` field (P068-09).
-3. Prototype the shared-layer generation for the Inquirium adapter seam (it
-   already centralizes the handler) as the first contributor, emitting the
-   `api/surface` section into its init report (resolved seam).
-4. Add the daemon aggregator + `GET /v1/openapi.json` (URN → local
-   `#/components/schemas`, two-key conflict detection).
+The MVP and post-MVP closure slice (P068-01..17) has landed; see Implementation
+Tracking. The remaining, forward-looking work:
+
+1. **Broaden Rust route registry coverage opportunistically.** Extend the Rust
+   registry beyond the read-only MVP layer to other dispatch layers as those
+   routes are made stable enough for projection, under the existing hierarchical
+   coverage test.
+2. **Keep future middleware adapters route-table-derived.** New Python
+   middleware should use the shared descriptor helper rather than re-declaring a
+   parallel OpenAPI surface by hand.
+3. **Replace explicit untyped response placeholders.** The five Python
+   contributors now make untyped response debt explicit, but their routes should
+   gain concrete `response_schema_ref` or `response_inline_schema` values as
+   those middleware contracts freeze.
+4. **Swagger UI offline/vendor hardening (P068-06a follow-up, low priority).**
+   `/v1/docs` is live but still loads assets from a public CDN (unpkg) — the
+   only spot the node reaches the internet. The stopgap is done: exact version +
+   SRI `integrity=`, nonce-based `script-src`, and `frame-ancestors 'none'`.
+   Full hardening later: vendor the pinned dist from the daemon origin with a
+   strict `self`-only CSP (or a smaller Redoc bundle), restoring
+   offline/air-gapped coherence and removing the third-party beacon. Driver is
+   offline-first consistency, not acute exploitability.
 
 ## Implementation Tracking
 
@@ -608,11 +679,12 @@ Status values: `pending`, `partial`, `done`, `deferred`.
 | ID | Work item | Status | Notes |
 | --- | --- | --- | --- |
 | P068-01 | `orbiplex.api-descriptor.v1` schema + schema-gate fixtures (incl. `path`↔`path/params` invariant validation) | done | landed with P068-09; `schema_ref` xor `inline` per response; dynamic `path`↔`path/params` invariant is enforced by typed boundary validation |
-| P068-02 | Python shared route table (dispatch + descriptor from one table); Inquirium adapter seam first | done | landed for the shared Inquirium adapter handler; `/v1/inquirium/invoke` reports neutral invoke/response `schema_ref` bindings, while the OpenAI-compatible shim remains inline compatibility shape; simulator inherits the same surface; other Python middleware can migrate PR-per-adapter without blocking MVP |
+| P068-02 | Python shared route table (dispatch + descriptor from one table); Inquirium adapter seam first | done | landed for the shared Inquirium adapter handler; `/v1/inquirium/invoke` reports neutral invoke/response `schema_ref` bindings, while the OpenAI-compatible shim remains inline compatibility shape; simulator inherits the same surface; Dator, recovery-service, Agora verifier, Sensorium OS, and offer-catalog now contribute `api/surface` through the shared Python helper; untyped response placeholders are now explicit opt-in debt rather than a hidden helper fallback |
 | P068-03 | Rust daemon explicit route registry + **hierarchical** coverage test | done | landed for the read-only/control MVP layer as `READ_ONLY_API_SURFACE_ROUTES` co-located with `read_only_health_response`; daemon descriptor generation and registry-size/protocol-surface tests prevent a parallel hand list |
 | P068-04 | Daemon aggregator + `GET /v1/openapi.json` (OpenAPI 3.1; `schema_ref` URN → local `#/components/schemas`) | done | daemon-owned runtime projection; `?include=` supports non-default surfaces, `?include=configured` includes persisted configured reports, and direct HTTP response carries `Cache-Control: no-store` |
 | P068-05 | Manual-registration path for external components | done | daemon ingests validated JSON sidecars from `<data_dir>/api-descriptors`; invalid sidecars are quarantined as projection warnings without leaking absolute paths |
-| P068-06 | Optional Swagger UI `GET /v1/docs` | deferred | no daemon authtok in JS; mutations ride Node-UI CSRF/operator-auth; no auto-execute of mutating endpoints |
+| P068-06 | Optional Swagger UI `GET /v1/docs` | done | landed as an operator-gated descriptive shell; the daemon embeds the generated OpenAPI projection server-side, no daemon authtok is present in JS, and Swagger request execution is disabled |
+| P068-06a | Swagger UI external-asset hardening | partial | stopgap landed: `swagger-ui-dist@5.32.6` is pinned, both CDN assets carry SHA-384 SRI plus `crossorigin=anonymous`, inline bootstrap uses a per-request CSP nonce, and `frame-ancestors 'none'` blocks embedding; remaining full hardening is to vendor the pinned dist from daemon origin + strict `self`-only CSP (or a smaller Redoc bundle), restoring offline/air-gapped coherence and removing the third-party beacon |
 | P068-07 | Drift/contract test — registry↔dispatch parity (no effect) + **inline schemas validated via schema-gate** + `path`↔`path/params` invariant + response-shape in isolated harness only; never probe mutating routes live | done | schema-gate covers descriptor fixtures and nested module reports; typed validation enforces `path`↔`path/params`; daemon tests cover registry-derived descriptor and conflict policy without probing mutating routes |
 | P068-08 | Non-authoritative banner + privacy scrub | done | projection carries `x-orbiplex-authority: descriptive-only`, descriptive auth labels only, no token values, no sealed payloads, and sidecar warnings use filenames rather than local absolute paths |
 | P068-09 | Extend `middleware-module-report.schema.json` with optional additive `api/surface` (sibling of `adapter_manifest`) → `orbiplex.api-descriptor.v1` (absence legal); keep `additionalProperties: false` + explicit property; update schema-gate fixtures; verify all in-flight reports still validate; CI signal if anyone adds a field without a PR here | done | landed with P068-01; `api/surface` is optional and absent reports remain valid |
@@ -622,5 +694,5 @@ Status values: `pending`, `partial`, `done`, `deferred`.
 | P068-13 | Agora `agora-record-relay.v1.openapi.yaml`: retire or repurpose as aggregator test oracle/fixture; not a parallel contract | done | source docs now call the YAML a legacy test/reference fixture; canonical OpenAPI projection is daemon-owned at `GET /v1/openapi.json` |
 | P068-14 | Canonical path templates (`{snake_case}`) enforced both sides + `path/params` data + two-key (display/shape) conflict detection | done | typed descriptor validation rejects framework-native/partial-segment params and enforces exact `path`↔`path/params`; aggregation tracks both display and parameter-erased shape keys |
 | P068-15 | Backfill non-URN schema `$id`s to `urn:orbiplex:schema:<name>:v<n>` (`inac-control.v1`, `memarium-blob.v1`, audit the full set) | done | prerequisite for P068-10 complete; audited `node/protocol/contracts/schemas` and `orbidocs/doc/schemas` for URL-form `$id`s |
-| P068-16 | `semantic-refs` vocabulary registry for `path/params.semantic/ref` | deferred | only needed if aliases are introduced; MVP emits one canonical param name and omits `semantic/ref` |
+| P068-16 | `semantic-refs.v1.json` vocabulary registry for `path/params.semantic/ref`: entries `{id, canonical_param}` (`participant-id`→`participant_id`, `record-id`→`record_id`, `envelope-id`→`envelope_id`, `question-id`→`question_id`, `contract-id`→`contract_id`); `id` form `^[a-z][a-z0-9-]*$`, `canonical_param` form `^[a-z][a-z0-9_]*$`; a present `semantic/ref` MUST match a registered `id`, else validation fails; alias collapse emits `canonical_param` | done | landed with `semantic-refs.v1.json` mirrored to node/orbidocs, typed registry validation, schema-gate fixtures for unknown/bad refs, and daemon alias normalization before OpenAPI merge |
 | P068-17 | `x-orbiplex-classification` references `classification.v1` (`schema_ref` + enum `tier`), never a free string | done | descriptor schema and typed validation require `schema_ref = urn:orbiplex:schema:classification:v1` and `tier ∈ {Personal, Community, Public}` |
