@@ -35,3 +35,8 @@ nav:
   - "027-messaging-middleware/027-messaging-middleware.md"
   - "028-temporal-storage-convention/028-temporal-storage-convention.md"
   - "029-bounded-deferred-operations/029-bounded-deferred-operations.md"
+  - "030-sensorium/030-sensorium.md"
+  - "031-seed-directory/031-seed-directory.md"
+  - "032-local-relationship-layer/032-local-relationship-layer.md"
+  - "033-shared-offer-catalog/033-shared-offer-catalog.md"
+  - "034-api-surface-projection/034-api-surface-projection.md"

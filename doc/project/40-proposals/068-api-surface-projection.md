@@ -10,7 +10,10 @@ Based on:
 
 ## Status
 
-Draft
+Promoted to Solution
+
+Promoted solution:
+`doc/project/60-solutions/034-api-surface-projection/034-api-surface-projection.md`.
 
 ## Date
 
@@ -659,11 +662,7 @@ Tracking. The remaining, forward-looking work:
 2. **Keep future middleware adapters route-table-derived.** New Python
    middleware should use the shared descriptor helper rather than re-declaring a
    parallel OpenAPI surface by hand.
-3. **Replace explicit untyped response placeholders.** The five Python
-   contributors now make untyped response debt explicit, but their routes should
-   gain concrete `response_schema_ref` or `response_inline_schema` values as
-   those middleware contracts freeze.
-4. **Swagger UI offline/vendor hardening (P068-06a follow-up, low priority).**
+3. **Swagger UI offline/vendor hardening (P068-06a follow-up, low priority).**
    `/v1/docs` is live but still loads assets from a public CDN (unpkg) — the
    only spot the node reaches the internet. The stopgap is done: exact version +
    SRI `integrity=`, nonce-based `script-src`, and `frame-ancestors 'none'`.
@@ -671,6 +670,9 @@ Tracking. The remaining, forward-looking work:
    strict `self`-only CSP (or a smaller Redoc bundle), restoring
    offline/air-gapped coherence and removing the third-party beacon. Driver is
    offline-first consistency, not acute exploitability.
+4. **Broaden Rust route registry coverage opportunistically.** Continue expanding
+   projection coverage as additional daemon dispatch layers stabilize; keep new
+   surfaces registry-derived and schema-bound.
 
 ## Implementation Tracking
 
@@ -679,7 +681,7 @@ Status values: `pending`, `partial`, `done`, `deferred`.
 | ID | Work item | Status | Notes |
 | --- | --- | --- | --- |
 | P068-01 | `orbiplex.api-descriptor.v1` schema + schema-gate fixtures (incl. `path`↔`path/params` invariant validation) | done | landed with P068-09; `schema_ref` xor `inline` per response; dynamic `path`↔`path/params` invariant is enforced by typed boundary validation |
-| P068-02 | Python shared route table (dispatch + descriptor from one table); Inquirium adapter seam first | done | landed for the shared Inquirium adapter handler; `/v1/inquirium/invoke` reports neutral invoke/response `schema_ref` bindings, while the OpenAI-compatible shim remains inline compatibility shape; simulator inherits the same surface; Dator, recovery-service, Agora verifier, Sensorium OS, and offer-catalog now contribute `api/surface` through the shared Python helper; untyped response placeholders are now explicit opt-in debt rather than a hidden helper fallback |
+| P068-02 | Python shared route table (dispatch + descriptor from one table); Inquirium adapter seam first | done | landed for the shared Inquirium adapter handler; `/v1/inquirium/invoke` reports neutral invoke/response `schema_ref` bindings, while the OpenAI-compatible shim remains inline compatibility shape; simulator inherits the same surface; Dator, recovery-service, Agora verifier, Sensorium OS, and offer-catalog now contribute `api/surface` through the shared Python helper with concrete response bindings (`schema_ref` where a canonical resolvable schema exists, named inline schemas for module-local status/decision/admission views); hidden untyped response fallback remains rejected by default |
 | P068-03 | Rust daemon explicit route registry + **hierarchical** coverage test | done | landed for the read-only/control MVP layer as `READ_ONLY_API_SURFACE_ROUTES` co-located with `read_only_health_response`; daemon descriptor generation and registry-size/protocol-surface tests prevent a parallel hand list |
 | P068-04 | Daemon aggregator + `GET /v1/openapi.json` (OpenAPI 3.1; `schema_ref` URN → local `#/components/schemas`) | done | daemon-owned runtime projection; `?include=` supports non-default surfaces, `?include=configured` includes persisted configured reports, and direct HTTP response carries `Cache-Control: no-store` |
 | P068-05 | Manual-registration path for external components | done | daemon ingests validated JSON sidecars from `<data_dir>/api-descriptors`; invalid sidecars are quarantined as projection warnings without leaking absolute paths |
@@ -696,3 +698,4 @@ Status values: `pending`, `partial`, `done`, `deferred`.
 | P068-15 | Backfill non-URN schema `$id`s to `urn:orbiplex:schema:<name>:v<n>` (`inac-control.v1`, `memarium-blob.v1`, audit the full set) | done | prerequisite for P068-10 complete; audited `node/protocol/contracts/schemas` and `orbidocs/doc/schemas` for URL-form `$id`s |
 | P068-16 | `semantic-refs.v1.json` vocabulary registry for `path/params.semantic/ref`: entries `{id, canonical_param}` (`participant-id`→`participant_id`, `record-id`→`record_id`, `envelope-id`→`envelope_id`, `question-id`→`question_id`, `contract-id`→`contract_id`); `id` form `^[a-z][a-z0-9-]*$`, `canonical_param` form `^[a-z][a-z0-9_]*$`; a present `semantic/ref` MUST match a registered `id`, else validation fails; alias collapse emits `canonical_param` | done | landed with `semantic-refs.v1.json` mirrored to node/orbidocs, typed registry validation, schema-gate fixtures for unknown/bad refs, and daemon alias normalization before OpenAPI merge |
 | P068-17 | `x-orbiplex-classification` references `classification.v1` (`schema_ref` + enum `tier`), never a free string | done | descriptor schema and typed validation require `schema_ref = urn:orbiplex:schema:classification:v1` and `tier ∈ {Personal, Community, Public}` |
+| P068-18 | Stabilize shared middleware response schemas currently represented as inline projection schemas: health/readiness/status middleware, middleware decision response, Artifact Delivery admission response, and offer-catalog query/status | done | Landed as canonical schemas with stable URN `$id`s mirrored in node/orbidocs, daemon `SCHEMA_REGISTRY` entries, protocol parse coverage, schema-gate validation coverage, and `response_schema_ref` route bindings in Dator, recovery-service, Agora verifier, Sensorium OS, and offer-catalog; remaining inline schemas are narrower module-local response views |

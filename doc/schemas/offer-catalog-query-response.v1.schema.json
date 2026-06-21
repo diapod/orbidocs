@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:offer-catalog-query-response:v1",
+  "title": "Offer Catalog Query Response v1",
+  "description": "Shared response shape for local and shared offer-catalog query endpoints.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["offers"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "capability_id": {"type": "string"},
+    "offers": {
+      "type": "array",
+      "items": {"type": "object", "additionalProperties": true}
+    },
+    "local_offers": {
+      "type": "array",
+      "items": {"type": "object", "additionalProperties": true}
+    },
+    "observed_offers": {
+      "type": "array",
+      "items": {"type": "object", "additionalProperties": true}
+    },
+    "counts": {"type": "object", "additionalProperties": true},
+    "message": {"type": ["string", "null"]}
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/068-api-surface-projection.md"
+  ]
+}

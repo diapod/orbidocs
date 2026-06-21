@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-status-response:v1",
+  "title": "Middleware Status Response v1",
+  "description": "Shared local HTTP health, readiness, and simple status response returned by supervised middleware services.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["status"],
+  "properties": {
+    "schema": {"type": "string"},
+    "status": {"type": "string", "minLength": 1},
+    "module_id": {"type": "string", "minLength": 1},
+    "module_name": {"type": "string", "minLength": 1},
+    "description": {"type": "string"},
+    "data_dir": {"type": ["string", "null"]},
+    "db_path": {"type": ["string", "null"]},
+    "error": {"type": ["string", "null"]}
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/068-api-surface-projection.md"
+  ]
+}

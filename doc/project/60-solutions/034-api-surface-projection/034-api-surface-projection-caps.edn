@@ -1,0 +1,117 @@
+{:component/id :orbiplex/api-surface-projection
+ :component/title "API Surface Projection"
+ :component/type :control-plane
+ :component/status :done
+
+ :summary
+ "Daemon-owned descriptive API map for Orbiplex Node deployments. It aggregates daemon routes, middleware module-report surfaces, and external descriptor sidecars into one OpenAPI 3.1 projection without becoming the source of contract authority."
+
+ :must-implement
+ [{:cap/id :api-descriptor-contract
+   :title "API Descriptor Contract"
+   :kind :schema-contract
+   :based-on ["doc/project/40-proposals/068-api-surface-projection.md"]
+   :schemas ["orbiplex.api-descriptor.v1" "classification.v1" "semantic-refs.v1"]
+   :responsibilities
+   ["Define the data contribution shape for daemon, middleware, and external API surfaces"
+    "Enforce schema_ref xor inline schema bindings"
+    "Enforce canonical {snake_case} path templates and path/params consistency"
+    "Keep classification and semantic refs as schema-bound data rather than free strings"]
+   :status :done}
+
+  {:cap/id :daemon-openapi-projection
+   :title "Daemon OpenAPI Projection"
+   :kind :control-plane
+   :based-on ["doc/project/40-proposals/068-api-surface-projection.md"
+              "doc/project/60-solutions/000-node/000-node.md"]
+   :schemas ["orbiplex.api-descriptor.v1"]
+   :responsibilities
+   ["Serve GET /v1/openapi.json from the daemon"
+    "Merge daemon registry entries, ready middleware reports, and configured external sidecars"
+    "Include protocol surfaces by default and expose other surfaces only through explicit include flags"
+    "Reject incompatible duplicate path/method contributions and collapse compatible duplicates with warnings"]
+   :status :done}
+
+  {:cap/id :urn-schema-registry
+   :title "URN Schema Registry"
+   :kind :schema-resolution
+   :based-on ["doc/project/40-proposals/068-api-surface-projection.md"]
+   :schemas ["middleware-module-report.v1"
+             "middleware-status-response.v1"
+             "middleware-decision-response.v1"
+             "artifact-delivery-admission-response.v1"
+             "offer-catalog-query-response.v1"
+             "offer-catalog-status-response.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Resolve schema_ref URNs through one closed embedded daemon registry"
+    "Emit local OpenAPI components without filename refs or URL aliases"
+    "Require urn:orbiplex:schema:<name>:v<n> registry identifiers"
+    "Verify embedded schema $id values match registry keys"]
+   :status :done}
+
+  {:cap/id :middleware-api-surface-contribution
+   :title "Middleware API Surface Contribution"
+   :kind :extension-contract
+   :based-on ["doc/project/40-proposals/068-api-surface-projection.md"
+              "doc/project/60-solutions/019-middleware/019-middleware.md"]
+   :schemas ["middleware-module-report.v1"
+             "orbiplex.api-descriptor.v1"]
+   :responsibilities
+   ["Carry optional api/surface data in middleware module reports"
+    "Derive Python middleware descriptors from the same route tables used for dispatch"
+    "Reject untyped response placeholders by default"
+    "Use canonical schema_ref values for shared response shapes and named inline schemas for narrower unfrozen views"]
+   :status :done}
+
+  {:cap/id :swagger-docs-shell
+   :title "Operator Swagger Docs Shell"
+   :kind :developer-ops-ui
+   :based-on ["doc/project/40-proposals/068-api-surface-projection.md"]
+   :schemas ["orbiplex.api-descriptor.v1"]
+   :responsibilities
+   ["Serve operator-gated GET /v1/docs"
+    "Embed the generated OpenAPI projection server-side without exposing daemon authtok to JavaScript"
+    "Disable request execution so the UI remains descriptive/read-only"
+    "Pin external Swagger UI assets by exact version and SRI until vendored from daemon origin"]
+   :status :done}
+
+  {:cap/id :projection-privacy-scrub
+   :title "Projection Privacy Scrub"
+   :kind :security
+   :based-on ["doc/project/40-proposals/068-api-surface-projection.md"]
+   :schemas []
+   :responsibilities
+   ["Expose descriptive auth labels instead of token values"
+    "Avoid sealed payloads and raw private bodies in the projection"
+    "Avoid local absolute paths in warnings and descriptor output"
+    "Mark the projection as descriptive-only rather than authoritative"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :offline-swagger-assets
+   :title "Offline Swagger UI Assets"
+   :kind :hardening
+   :based-on ["doc/project/40-proposals/068-api-surface-projection.md"]
+   :schemas []
+   :responsibilities
+   ["Vendor the pinned Swagger UI bundle from daemon origin"
+    "Replace public-CDN allowances with a self-only CSP for air-gapped deployments"]
+   :status :planned}
+
+  {:cap/id :broader-daemon-route-coverage
+   :title "Broader Daemon Route Coverage"
+   :kind :coverage
+   :based-on ["doc/project/40-proposals/068-api-surface-projection.md"]
+   :schemas ["orbiplex.api-descriptor.v1"]
+   :responsibilities
+   ["Expand the daemon route registry beyond the current stable MVP protocol/operator subset"
+    "Keep new route descriptors co-located with dispatch data rather than hand-maintained OpenAPI"]
+   :status :planned}]
+
+ :consumes []
+ :produces ["GET /v1/openapi.json" "GET /v1/docs"]
+
+ :notes
+ ["Proposal 068 is promoted into this solution after the hard-MVP and post-MVP slices landed in the Node workspace."
+  "The projection remains descriptive-only; canonical authority stays with schemas, route/runtime code, capability policy, classification policy, and solution documents."]}

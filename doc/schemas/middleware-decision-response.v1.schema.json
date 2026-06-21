@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-decision-response:v1",
+  "title": "Middleware Decision Response v1",
+  "description": "Host-facing decision returned by middleware chain handlers.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["decision", "reason"],
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": ["allow", "annotate", "rewrite", "route", "return", "drop", "defer", "reject"]
+    },
+    "reason": {"type": "string"},
+    "annotations": {"type": "object", "additionalProperties": true},
+    "patch_strategy": {"type": ["string", "null"]},
+    "patch": true,
+    "route": {"type": ["object", "null"], "additionalProperties": true},
+    "next_step": {"type": ["string", "null"]},
+    "diagnostics": {"type": "object", "additionalProperties": true}
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/068-api-surface-projection.md"
+  ]
+}

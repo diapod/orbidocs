@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-delivery-admission-response:v1",
+  "title": "Artifact Delivery Admission Response v1",
+  "description": "Response returned by an Artifact Delivery acceptor after admission or fail-closed rejection of an artifact.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["status", "acceptor/id"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["accepted", "already-present", "rejected", "retryable"]
+    },
+    "acceptor/id": {"type": "string", "minLength": 1},
+    "idempotency/key": {"type": ["string", "null"]},
+    "artifact/ref": {"type": "string"},
+    "reason": {"type": "string"},
+    "diagnostic": {"type": "object", "additionalProperties": true}
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/068-api-surface-projection.md"
+  ]
+}

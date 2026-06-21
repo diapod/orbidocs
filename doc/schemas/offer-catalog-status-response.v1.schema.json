@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:offer-catalog-status-response:v1",
+  "title": "Offer Catalog Status Response v1",
+  "description": "Shared replay/status response for offer-catalog middleware surfaces.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema", "enabled"],
+  "properties": {
+    "schema": {"type": "string", "minLength": 1},
+    "enabled": {"type": "boolean"},
+    "source_mode": {"type": "string"},
+    "base_url": {"type": "string"},
+    "topic_key": {"type": "string"},
+    "record_kind": {"type": "string"},
+    "limit": {"type": "integer", "minimum": 1},
+    "trust_level": {"type": "string"},
+    "cursor": {"type": ["string", "null"]},
+    "last_replay_started_at": {"type": ["string", "null"]},
+    "last_replay_finished_at": {"type": ["string", "null"]},
+    "last_error": {"type": ["string", "null"]},
+    "records_seen": {"type": "integer", "minimum": 0},
+    "records_applied": {"type": "integer", "minimum": 0},
+    "records_skipped": {"type": "integer", "minimum": 0},
+    "cursor_pruned_at": {"type": ["string", "null"]},
+    "last_query_attestation": {"type": ["object", "null"], "additionalProperties": true},
+    "updated_at": {"type": ["string", "null"]}
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/068-api-surface-projection.md"
+  ]
+}
