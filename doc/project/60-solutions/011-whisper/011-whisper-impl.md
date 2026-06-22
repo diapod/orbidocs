@@ -1,4 +1,6 @@
-# Solution 013: Whisper — Social Signal Exchange — Implementation Guidelines
+# Solution 011: Whisper — Social Signal Exchange — Implementation Guidelines
+
+(Solution `011-whisper`; based on Proposal `013-whisper-social-signal-exchange`.)
 
 Proposal: `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
 
@@ -94,6 +96,25 @@ correlation path.
    reach public Agora topics. `hard-fail + onion-relayed` must refuse when no
    onion-capable path exists. Providers may draft or diagnose, but may not
    approve, publish, or widen disclosure scope.
+   - **Preflight decision binds to the exact candidate bytes (no TOCTOU).**
+     `whisper-intake` computes a canonical `candidate_digest` for the candidate
+     being preflighted, checks the existing private preflight-fact count before
+     appending another fact, stores that digest in the private preflight fact, and
+     requires any operator downgrade acknowledgement to carry the same digest. Publish
+     re-checks that the signed Agora record content still matches the preflighted
+     digest; a mismatch voids the ack and refuses publication. Relay evidence is
+     point-in-time: publish re-resolves `agora.relay` evidence and re-computes the
+     preflight from the current candidate rather than trusting a stale `Route`
+     decision. Expiring or one-time downgrade ACK tokens are post-MVP hardening
+     for multi-console replay resistance; hard-MVP binds ACK scope to candidate
+     bytes and preserves retryability for the same candidate digest.
+   - **Empty relay evidence is a valid fail-closed input.** When no
+     passport-scoped `agora.relay` evidence is discoverable, `relayed`/`onion-relayed`
+     with `hard-fail` MUST refuse and with `soft-fail` MUST downgrade visibly — the
+     preflight ships without any relay infrastructure, it does not silently allow.
+   - **The refuse path also leaves a fact.** Per *Facts before views*, a refused
+     publish records a `privacy resolution attempted` / `signal refused` fact with
+     the reason, not just a blocked call.
 4. **Domain capability before provider mechanism.** The caller-facing redaction
    contract remains `whisper.redaction.prepare`. JSON-e Flow, Sensorium OS,
    Inquirium/model-runtime, simulator adapters, and remote model adapters are
@@ -166,7 +187,7 @@ Status values:
 | Relay capability discovery based on capability evidence | partial | `whisper-intake` now reads host-owned `agora.relay` capability provider evidence for publish preflight and requires passport-scoped relay class data rather than deriving classes from module labels. Federation-scale relay discovery and Anon relay routing remain Node/Anon runtime work. |
 | Derived forwarding nym scope, TTL, replay, and idempotency rules | partial | Scope contract exists in the Anon/Whisper implementation ledger row; concrete relay runtime consumption remains partial. |
 | First derived-nym relay transport path for Whisper egress | not-started | Required post-MVP Anon runtime work. |
-| Operator/user visibility for privacy downgrade before publication | partial | `whisper-intake` returns operator-visible preflight reasons, writes a private preflight fact through host `memarium.write`, validates host signing/write responses, and requires explicit downgrade acknowledgement before publish. Richer UI remains product work. |
+| Operator/user visibility for privacy downgrade before publication | partial | `whisper-intake` returns operator-visible preflight reasons, queries existing preflight facts through host `memarium.read`, enforces a per-intake preflight fact limit, writes a private preflight fact through host `memarium.write`, binds downgrade acknowledgement to the canonical candidate digest, validates host signing/write responses, and requires explicit downgrade acknowledgement before publish. Richer UI plus expiring/one-time ACK tokens remain product hardening. |
 | Acceptance proving `soft-fail` and `hard-fail` egress behavior end to end | partial | Core behavior and `whisper-intake` preflight behavior are covered; full Anon relay runtime acceptance remains pending. |
 
 ### Production correlation policy
@@ -185,11 +206,63 @@ Status values:
 
 ### Association-room lifecycle
 
+#### Association-room transport and replication decision
+
+Status: accepted for post-MVP implementation.
+
+An association room MUST NOT be modeled as a room that lives on one Agora
+server, Matrix room, or any other single transport host. The room's source of
+truth is a verified, append-only room event log. Local room state is a
+projection rebuilt from signed room events that may be fetched from multiple
+replicas.
+
+Implications:
+
+- Association-room servers, Agora relays, Matrix mailbox rooms, and object-store
+  fetch surfaces are carriers or caches, not semantic authorities.
+- Future room artifacts should be shaped as signed events such as
+  `association-room-event.v1`, `association-room-message.v1`,
+  `association-room-membership.v1`, and
+  `association-room-moderation-event.v1`.
+- Room messages and lifecycle events should be transported through Artifact
+  Delivery so the same idempotency, retry, admission, route policy, and
+  operator trace machinery applies to room traffic.
+- Multi-Agora availability should be achieved by fanout to several Agora relay
+  targets and by read-side merge of verified events from several replicas.
+  A relay outage must not redefine room state.
+- A replica may advertise bounded retention, for example "last N days" or
+  "last N events". It MUST expose a compact retention/status view that tells
+  clients where the retained log starts and how many room events are currently
+  available, so operators can distinguish a complete room history from a
+  bounded window.
+- Privacy remains `private-correlation`: Agora-visible room data should be
+  encrypted envelopes, opaque refs, or minimal metadata. Plain room transcripts
+  do not belong on public Agora topics.
+- Membership and moderation consequences must be derived from signed room
+  events plus current membership/capability policy, not from the server that
+  happened to deliver an event.
+- Events that continue an exchange should carry both the predecessor event id
+  and the predecessor digest. This is a per-thread or per-lineage integrity
+  link, not a global linear blockchain for the whole room. It lets a receiver
+  prove that a reply chain is complete within the retained window or up to a
+  known checkpoint, and detect missing, substituted, or reordered predecessor
+  events. If a predecessor falls before a replica's retention boundary, the
+  replica should report the lineage as pruned rather than complete.
+
+The initial implementation may start with best-effort fanout and local retry.
+Stronger `k-of-n` write visibility, per-epoch room keys, and richer replica
+selection are later hardening layers.
+
 | Work item | Status | Evidence / remaining work |
 |---|---|---|
 | Decide module ownership: Whisper proposal semantics vs dedicated association runtime | partial | Whisper owns proposal semantics; `agora-projections` now owns the first local association-room read model and lifecycle fact seed. Dedicated room/case-management runtime remains later work. |
 | Define room lifecycle facts | partial | `association-room-proposal.v1` exists; Node now persists bounded local `association_room_lifecycle_facts` for room state transitions with FK-backed proposal references. Richer room/case facts remain pending. |
 | Invite/accept/reject/expire transitions | partial | Node now exposes minimal operator-driven transitions using the `whisper-core` FSM, with authenticated actor binding and path/request bounds on the operator control route. Enrollment UX and expiration scheduler remain pending. |
+| Define association-room signed event log and replica model | not-started | Decision accepted above: room state is a projection over verified signed events from multiple carriers, not a server-hosted room. Event schemas and runtime are pending. |
+| Transport room events through Artifact Delivery | not-started | Required so association-room traffic reuses AD idempotency, retry, route policy, admission, and trace machinery. |
+| Multi-Agora fanout and read-side merge | not-started | Required to avoid a single Agora relay as room availability/source-of-truth bottleneck. |
+| Replica retention and log-range status | not-started | Replicas may keep bounded windows such as last N days or last N events, but must expose retained-log start and event-count status so clients can reason about completeness. |
+| Per-thread predecessor id + digest links | not-started | Message/continuation events should link to predecessor event id and digest for lineage integrity without imposing one global room chain. Completeness is scoped to retained windows or explicit checkpoints; older missing predecessors must be reported as pruned. |
 | Moderation/witness policy data | not-started | Required room/runtime policy work. |
 | Room transcript/storage classification policy | not-started | Required before real case-management rooms. |
 | Operator/user UI for opt-in enrollment | partial | Operator HTTP API can transition proposals into rooms; full user enrollment UX is not built. |
@@ -293,21 +366,40 @@ threshold detection will silently diverge.
    §Layer 7) MUST carry the **same** envelope bytes. No re-signing
    on surface migration; `record/id` is stable.
 
+## Historical build plan (Layers 0–8) — NOT authoritative for current status
+
+> **Read this before trusting any status below.** The per-layer tables in
+> Layers 0–8, the "Open decisions blocking implementation", and the
+> "Recommended commit order" are the **original greenfield build plan** kept for
+> historical sequencing. Their `❌ not started` / `🟡` / "new crate" markers are
+> **stale and contradict the current status and the post-M4 tracker above**,
+> which are authoritative. Examples of layer statuses that are now wrong:
+> `whisper-core` exists (it is not a "new crate" suggestion and is consumed by
+> the privacy preflight), `whisper-signal.v1` is done, the threshold/proposal
+> path and projection-authority emission are implemented, `whisper-intake` is a
+> built supervised middleware, and the outbound-privacy resolver is wired. Do
+> **not** re-plan or re-decide from this section; use the *Current
+> implementation status* and *Post-M4 productization tracker* sections as the
+> source of truth. This section should be pruned or folded into the tracker on
+> the next pass; until then, treat every status marker here as historical only.
+
 ## Layer 0 — JSON Schemas
 
-Canonical schemas:
+Canonical schemas (historical shape — inline statuses removed as stale;
+this lists schema *shape and purpose*, not build state, which lives in
+the Post-M4 tracker above):
 
-- `whisper-signal.v1` — content body (**done**, content-body-only
-  rewrite complete after proposal 013 Next Action #7).
+- `whisper-signal.v1` — content body (content-body-only after
+  proposal 013 Next Action #7).
 - `whisper-interest.v1` — interest registration artifact for
-  threshold detection (**not started**; fields and lifecycle are an
-  open decision, see §Open Decisions).
+  threshold detection (fields and lifecycle are an open decision,
+  see §Open decisions).
 - `whisper-threshold-reached.v1` — aggregate notice after threshold
-  crossing (**not started**).
+  crossing.
 - `association-room-proposal.v1` — bootstrap artifact for opt-in
-  association rooms (**not started**).
-- `nym-certificate.v1` — reused from proposal 015 (exists).
-- `agora-record.v1` — reused from proposal 035 (exists).
+  association rooms.
+- `nym-certificate.v1` — reused from proposal 015.
+- `agora-record.v1` — reused from proposal 035.
 
 Publication: schemas are served through the daemon's schema surface
 (same style as `key-delegation`). Schema names are stable; surface
@@ -315,24 +407,22 @@ Publication: schemas are served through the daemon's schema surface
 
 ### Status
 
-| Schema | State |
-|---|---|
-| `whisper-signal.v1` | ✅ done |
-| `whisper-interest.v1` | ❌ not started |
-| `whisper-threshold-reached.v1` | ❌ not started |
-| `association-room-proposal.v1` | ❌ not started |
+_Per-component status table removed as stale — see the Post-M4
+productization tracker above for authoritative status._
 
 ## Layer 1 — Kind registration
 
 Whisper must be registered as a first-class kind in every substrate
 that carries or stores it.
 
-| Where | What to register | State |
-|---|---|---|
-| Agora kinds table (proposal 035 §3) | `whisper-signal.v1` + topic convention for `ai.orbiplex.whispers/<topic-class>` | 🟡 convention resolved in 046; kind registration still pending |
-| Agora kinds table | `whisper-durable.v1` for threshold-promoted whispers | 🟡 mentioned in 013 §5, kind not yet registered |
-| Artifact Delivery inbound acceptor for INAC-carried private/direct artifacts | `whisper-signal.v1` acceptor + authorization modes allowed | ❌ not started (INAC and Artifact Delivery not started) |
-| Memarium observe rules | capture envelope byte-identically + action-trace for whisper lifecycle | ❌ not started |
+_(Status columns removed as stale — see the Post-M4 tracker above.)_
+
+| Where | What to register |
+|---|---|
+| Agora kinds table (proposal 035 §3) | `whisper-signal.v1` + topic convention for `ai.orbiplex.whispers/<topic-class>` |
+| Agora kinds table | `whisper-durable.v1` for threshold-promoted whispers |
+| Artifact Delivery inbound acceptor for INAC-carried private/direct artifacts | `whisper-signal.v1` acceptor + authorization modes allowed |
+| Memarium observe rules | capture envelope byte-identically + action-trace for whisper lifecycle |
 
 ## Layer 2 — Envelope builder and canonicalization
 
@@ -368,12 +458,11 @@ validation and the nym-or-participant authorship choice.
 
 ### Status
 
-| Component | State |
-|---|---|
-| `build_whisper_envelope` | ❌ not started |
-| Whisper content validator against `whisper-signal.v1` | ❌ not started |
-| Nym-authorship binding check (envelope `signature` key vs `nym:` in `author/participant-id`) | ❌ not started |
-| Golden vectors for whisper canonical bytes and `record/id` | ❌ not started |
+_Per-component status table removed as stale — see the Post-M4
+productization tracker above for authoritative status. (Note: the
+canonicalization, `record/id`, and signing responsibilities described
+here are realized in the `whisper-core` crate; the "golden vectors"
+testing note still stands as future work.)_
 
 ## Layer 3 — Authoring flow (whisper-core)
 
@@ -396,13 +485,8 @@ envelope. Stages:
 
 ### Status
 
-| Stage | State |
-|---|---|
-| Intake adapter trait (pluggable per `source/class`) | ❌ not started |
-| Redaction/sanitization pipeline | ❌ not started |
-| Approval step wired to Memarium action-trace | ❌ not started |
-| Content validator | ❌ not started |
-| Envelope builder | ❌ not started (Layer 2) |
+_Per-component status table removed as stale — see the Post-M4
+productization tracker above for authoritative status._
 
 ## Layer 4 — Distribution routing
 
@@ -416,6 +500,14 @@ route_whisper(envelope, content) =
     (_, "relayed" | "onion-relayed")  → Agora::publish(topic = envelope.topic_key)
 ```
 
+> **This pseudocode does NOT reflect the implemented routing.** The
+> production model is `whisper-core::resolve_outbound_privacy`
+> (`OutboundPrivacyDecision::{Route, Refuse}` + `RoutabilityState` +
+> relay capability evidence), which is strictly richer than this
+> `(disclosure_scope, routing_profile)` match — the match models no
+> relay evidence at all. Do not copy this block as a contract; read it
+> only for the failure-mode prose below, which remains accurate.
+
 Both paths share the same envelope bytes. The router also enforces
 `routing/failure-mode`:
 
@@ -427,12 +519,9 @@ Both paths share the same envelope bytes. The router also enforces
 
 ### Status
 
-| Component | State |
-|---|---|
-| Router predicate table | ❌ not started |
-| Agora publisher (HTTP POST to `/v1/agora/topics/{key…}/records`) | 🟡 Agora HTTP API exists; whisper-specific client wrapper not started |
-| INAC publisher | ❌ not started (INAC not implemented) |
-| `routing/failure-mode` enforcement | ❌ not started |
+_Per-component status table removed as stale — see the Post-M4
+productization tracker above for authoritative status (routing and
+`routing/failure-mode` enforcement are realized in `whisper-core`)._
 
 ## Layer 5 — Reception
 
@@ -467,13 +556,11 @@ Receiver-side ingest is split across the two surfaces but uses the
 
 ### Status
 
-| Component | State |
-|---|---|
-| Attestation-gate crate | ❌ not started |
-| `PassportResolutionCache` shared with Agora | ❌ not started |
-| Nym-certificate resolver | 🟡 certificate schema exists; resolver not started |
-| Whisper-specific ingest predicates (`disclosure_scope_in`, `content_field_in`, …) | ❌ not started (open decision in proposal 041) |
-| Matrix federation bridge for whisper topics | 🟡 generic bridge exists; topic-pattern allowlist for `ai.orbiplex.whispers/*` not configured |
+_Per-component status table removed as stale — see the Post-M4
+productization tracker above for authoritative status. The
+attestation-gate, shared passport cache, nym-certificate resolver, and
+ingest-predicate grammar remain design targets; the predicate grammar
+is an open decision in proposal 041 (see §Open decisions)._
 
 ## Layer 6 — Memarium integration
 
@@ -481,13 +568,19 @@ Memarium is the local authoritative archive for every whisper the
 node authored or received (proposal 013 §Distribution →
 §Memarium as local storage).
 
-| Concern | State |
-|---|---|
-| Store envelope byte-identically (autor i receiver) | 🟡 Memarium has byte-identical storage primitive; whisper-specific observe rule not written |
-| Action-trace for whisper lifecycle (draft, redact, approve, publish, forward, interest-count, threshold-crossing) | ❌ not started |
-| Per-whisper privacy policy (replay, forward, expose) | ❌ not started (new policy class) |
-| Indefinite self-custody default for own whispers | ✅ inherited from proposal 040 §4 |
-| Retention policy for received whispers (receiver's own choice) | 🟡 generic Memarium retention applies; whisper-specific defaults not set |
+Concerns (status tracked in the Post-M4 tracker above, not here):
+
+- Store envelope byte-identically (author and receiver) — Memarium has
+  the byte-identical storage primitive; a whisper-specific observe rule
+  is still a design target.
+- Action-trace for whisper lifecycle (draft, redact, approve, publish,
+  forward, interest-count, threshold-crossing).
+- Per-whisper privacy policy (replay, forward, expose) — a new policy
+  class.
+- Indefinite self-custody default for own whispers (inherited from
+  proposal 040 §4).
+- Retention policy for received whispers (receiver's own choice) —
+  generic Memarium retention applies; whisper-specific defaults unset.
 
 ## Layer 7 — Threshold detection and durable promotion
 
@@ -495,27 +588,34 @@ From proposal 013 §5: when enough whispers correlate on
 `topic/class` + `context/facets`, the signal may be promoted to
 durable public presence as `whisper-durable.v1`.
 
-| Component | State |
-|---|---|
-| Local correlation index over `topic/class` + `context/facets` (computed from Memarium) | ❌ not started |
-| Threshold policy (count, time window, per-federation variance) | ❌ not started (policy decision, not protocol) |
-| `whisper-interest.v1` registration flow | ❌ not started (schema also missing) |
-| `whisper-threshold-reached.v1` emission on crossing | ❌ not started |
-| Explicit consent step before durable promotion (013 §6) | ❌ not started |
-| `whisper-durable.v1` content schema | ❌ not started |
-| Agora kind registration for `whisper-durable.v1` | ❌ not started |
-| Cross-surface migration (same envelope bytes, different surface; §Invariant 6) | ❌ not started |
+Components (status tracked in the Post-M4 tracker above, not here;
+note that `whisper-core` already carries threshold/promotion primitives
+such as `threshold_ids` and `public_gossip_*`):
+
+- Local correlation index over `topic/class` + `context/facets`
+  (computed from Memarium).
+- Threshold policy (count, time window, per-federation variance) — a
+  policy decision, not protocol.
+- `whisper-interest.v1` registration flow (schema also pending).
+- `whisper-threshold-reached.v1` emission on crossing.
+- Explicit consent step before durable promotion (013 §6).
+- `whisper-durable.v1` content schema.
+- Agora kind registration for `whisper-durable.v1`.
+- Cross-surface migration (same envelope bytes, different surface;
+  §Invariant 6).
 
 ## Layer 8 — Source integrations
 
-| Source | Integration contract | State |
-|---|---|---|
-| Direct user (compose UI) | Node UI composer → whisper-core intake adapter | ❌ not started |
-| Pod-user | Pod → daemon whisper submit endpoint → intake adapter | ❌ not started |
-| Operator-observed | Operator middleware → intake adapter with `operator-observed` source/class | ❌ not started |
-| Derived-local | Local producer → intake adapter with `derived-local` | ❌ not started |
-| Monus | Monus host capability → draft producer → intake adapter with `monus-derived` | ❌ not started |
-| Monus + Sensorium | Sensorium → Monus → intake adapter with `monus-sensorium-derived` | ❌ not started |
+_(Status column removed as stale — see the Post-M4 tracker above.)_
+
+| Source | Integration contract |
+|---|---|
+| Direct user (compose UI) | Node UI composer → whisper-core intake adapter |
+| Pod-user | Pod → daemon whisper submit endpoint → intake adapter |
+| Operator-observed | Operator middleware → intake adapter with `operator-observed` source/class |
+| Derived-local | Local producer → intake adapter with `derived-local` |
+| Monus | Monus host capability → draft producer → intake adapter with `monus-derived` |
+| Monus + Sensorium | Sensorium → Monus → intake adapter with `monus-sensorium-derived` |
 
 ## Open decisions blocking implementation
 
@@ -552,6 +652,14 @@ Layer 1+ can be built coherently.
 
 ## MVP boundaries
 
+> **Note:** these are the *original* MVP boundaries, and this section
+> sits outside the "Historical build plan" banner above. Several have
+> been overtaken by the M4 path in the authoritative status at the top
+> (e.g. `whisper-threshold-reached.v1` and `association-room-proposal.v1`
+> are implemented for the Agora M4 path). The still-live constraints are
+> the design restrictions below; the schema-scope bullet is corrected to
+> match the tracker.
+
 Keep these restrictions explicit in both code and docs during MVP:
 
 - one author per whisper; no co-signatures,
@@ -565,8 +673,12 @@ Keep these restrictions explicit in both code and docs during MVP:
   gossip of interest counts,
 - durable promotion requires an explicit user consent step; no
   automatic promotion in MVP,
-- `whisper-interest.v1` and `whisper-threshold-reached.v1` are MVP
-  scope but `association-room-proposal.v1` is post-MVP.
+- `whisper-threshold-reached.v1` and `association-room-proposal.v1`
+  are implemented on the Agora M4 path (association-room as schema +
+  bounded local lifecycle facts; richer room/case facts still pending).
+  `whisper-interest.v1` remains an open decision (fields and lifecycle,
+  §Open decisions), so its registration flow is the one still-pending
+  schema here.
 
 ## Recommended commit order
 
