@@ -4,7 +4,7 @@
   "title": "ParticipantCapabilityLimits v1",
   "description": "Machine-readable schema for a participant-scoped layered restriction state. The record freezes always-on soft degradation knobs and optional hard blocked operations without collapsing the participant into transport-layer peer quality or permanent exclusion.",
   "type": "object",
-  "additionalProperties": true,
+  "additionalProperties": false,
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [

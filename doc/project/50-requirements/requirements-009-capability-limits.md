@@ -106,6 +106,18 @@ paper-only.
 | FR-015 | Participant restriction state MUST complement rather than replace transport-facing peer governor state.  | Fact | Proposal 018 + Proposal 014 | implemented |
 | FR-016 | Runtime traces and operator-visible diagnostics SHOULD make it possible to distinguish blocked privileged operations from protected floor operations and from cooldown rejections.  | Inference | Proposal 018 + project values | implemented |
 | FR-017 | Participant-side `response/accept` and `response/reject` MUST be exposed through a participant-scoped daemon control contract rather than through infrastructure-operator action endpoints.  | Fact | Proposal 018 | implemented |
+| FR-018 | Imported participant capability limit records MUST be durable across daemon restart. | Inference | Proposal 018 + MVP readiness review | implemented |
+| FR-019 | The daemon SHOULD expose local operator control-plane surfaces to import, list, inspect, and clear participant capability limits. | Inference | Proposal 018 + MVP readiness review | implemented |
+| FR-020 | The daemon MUST reject imported hard restrictions whose `hard.expires-at` is not later than `recorded-at`. | Inference | Proposal 018 + code review | implemented |
+| FR-021 | The daemon MUST reject imported hard restrictions whose `hard.expires-at` has already passed at local import time. | Inference | Proposal 018 + code review | implemented |
+| FR-022 | The daemon MUST prevent an imported participant restriction record with an older `recorded-at` from overwriting a newer local read-model record for the same participant. | Inference | Proposal 018 + code review | implemented |
+| FR-023 | The local clear operation SHOULD accept an optional `reason/ref` and preserve it in the durable clear tombstone and operator response. | Inference | Proposal 018 + code review | implemented |
+| FR-024 | Import and clear operations SHOULD emit metadata-only operator refresh events without exposing sanction payload internals beyond participant id, action, and clear reason. | Inference | Proposal 018 + operator visibility review | implemented |
+| FR-025 | The daemon MUST preserve clear tombstones as monotonic local read-model state and reject later imports whose `recorded-at` is not after the latest clear for the same participant. | Inference | Proposal 018 + code review | implemented |
+| FR-026 | The clear path MUST validate the full canonical participant id shape rather than accepting only the `participant:did:key:` prefix. | Inference | Proposal 018 + code review | implemented |
+| FR-027 | Operator list/detail export paths SHOULD validate emitted `participant-capability-limits.v1` records through schema-gate before returning JSON. | Inference | Proposal 018 + boundary validation review | implemented |
+| FR-028 | The runtime SHOULD enforce defense-in-depth checks for soft factors and `reason/ref` bounds in addition to JSON Schema validation. | Inference | Proposal 018 + boundary validation review | implemented |
+| FR-029 | Local operator import and clear request bodies SHOULD have a small bounded size appropriate for control-plane artifacts. | Inference | Proposal 018 + DoS review | implemented |
 
 ## Non-Functional Requirements
 
@@ -129,16 +141,13 @@ paper-only.
 
 ## Open Questions
 
-1. When should `rate-limit-factor` become a generic throttle hook beyond procurement?
-2. Should the initial cooldown grain stay at `(participant, operation)` or later move toward `(participant, operation, question)` for concurrent contracts?
-3. Should a later rollout add a sibling org-scoped restriction artifact or generalize this one to `subject/kind`?
-4. Which blocked operations should be elevated into a more formal registry first?
-5. Which review or case artifact should become the long-term normative companion of this restriction record?
+1. Should the initial cooldown grain stay at `(participant, operation)` or later move toward `(participant, operation, question)` for concurrent contracts?
+2. Should a later rollout add a sibling org-scoped restriction artifact or generalize this one to `subject/kind`?
+3. Which blocked operations should be elevated into a more formal registry first?
+4. Which review or case artifact should become the long-term normative companion of this restriction record?
 
 ## Next Actions
 
-1. Sync `participant-capability-limits.v1` into the Node protocol contract mirror.
-2. Add Node-side import validation for the new artifact.
-3. Wire the first procurement and messaging hooks against it.
-4. Keep launcher-facing participant decision flows on a distinct control surface from operator actions.
-4. Revisit generic throttling after the operation-facing governor grows beyond the first MVP hooks.
+1. Monitor whether the current cooldown grain `(participant, operation)` is sufficient under concurrent high-volume contracts.
+2. Decide whether org-scoped restrictions should use a sibling artifact or a future generalized subject restriction family.
+3. Elevate stable blocked-operation identifiers into a registry when more subsystems start consuming this policy layer.

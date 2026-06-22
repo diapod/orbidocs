@@ -104,7 +104,17 @@
         "schema": { "type": "object" },
         "semantic/ref": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "enum": [
+            "receipt/id",
+            "record/id",
+            "question/id",
+            "workflow/run-id",
+            "delivery/id",
+            "admission/id",
+            "component/id",
+            "participant/id",
+            "node/id"
+          ]
         }
       }
     },

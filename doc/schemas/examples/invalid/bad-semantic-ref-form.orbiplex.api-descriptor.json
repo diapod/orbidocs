@@ -13,7 +13,7 @@
           "name": "record_id",
           "required": true,
           "schema": { "type": "string" },
-          "semantic/ref": "record/id"
+          "semantic/ref": "record/id/extra"
         }
       ],
       "responses": {

@@ -32,6 +32,7 @@ Machine-readable schema for one standing exchange-facing service offer published
 |---|---|---|---|
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`offer/id`](#field-offer-id) | `yes` | string | Stable identifier of this standing service offer. |
+| [`offer/status`](#field-offer-status) | `no` | enum: `active`, `withdrawn` | Provider-attested lifecycle marker. Missing means `active`; a superseding `withdrawn` snapshot keeps the offer auditable while removing it from active-only catalog views. |
 | [`created-at`](#field-created-at) | `yes` | string | Timestamp when the offer record became auditable. |
 | [`published-at`](#field-published-at) | `yes` | string | Timestamp when the offer was last published to the exchange-visible channel. |
 | [`expires-at`](#field-expires-at) | `yes` | string | Timestamp after which the offer should be treated as stale. |
@@ -110,6 +111,14 @@ Schema version.
 - Shape: string
 
 Stable identifier of this standing service offer.
+
+<a id="field-offer-status"></a>
+## `offer/status`
+
+- Required: `no`
+- Shape: enum: `active`, `withdrawn`
+
+Provider-attested lifecycle marker. Missing means `active`; a superseding `withdrawn` snapshot keeps the offer auditable while removing it from active-only catalog views.
 
 <a id="field-created-at"></a>
 ## `created-at`

@@ -51,6 +51,8 @@ def resolve_doc_ref(ref: str) -> Path:
     entry = REFS.get(ref)
     if entry and entry.get("path"):
         return ROOT / entry["path"]
+    if ref.startswith("orbidocs:"):
+        return ROOT / ref.removeprefix("orbidocs:")
     return ROOT / ref
 
 
@@ -58,6 +60,8 @@ def display_doc_ref(ref: str) -> str:
     entry = REFS.get(ref)
     if entry:
         return entry.get("short") or ref
+    if ref.startswith("orbidocs:"):
+        return ref.removeprefix("orbidocs:")
     return ref
 
 
@@ -82,7 +86,11 @@ def rel_link(from_dir: Path, target: Path) -> str:
 
 
 
-def json_type(schema: dict[str, Any]) -> str:
+def json_type(schema: Any) -> str:
+    if schema is True:
+        return "any"
+    if schema is False:
+        return "never"
     if "$ref" in schema:
         return f"ref: `{schema['$ref']}`"
     if "const" in schema:
@@ -218,7 +226,25 @@ def project_lineage_lines(seeds: list[Path], from_dir: Path) -> str:
 
 
 
-def render_field_section(name: str, spec: dict[str, Any], required: bool, from_dir: Path) -> str:
+def schema_description(spec: Any) -> str:
+    if isinstance(spec, dict):
+        return spec.get("description", "")
+    return ""
+
+
+def schema_basis(spec: Any) -> Any:
+    if isinstance(spec, dict):
+        return spec.get("x-dia-basis")
+    return None
+
+
+def schema_comment(spec: Any) -> Any:
+    if isinstance(spec, dict):
+        return spec.get("$comment")
+    return None
+
+
+def render_field_section(name: str, spec: Any, required: bool, from_dir: Path) -> str:
     anchor = slugify(name)
     lines = [
         f'<a id="field-{anchor}"></a>',
@@ -227,20 +253,20 @@ def render_field_section(name: str, spec: dict[str, Any], required: bool, from_d
         f"- Required: `{'yes' if required else 'no'}`",
         f"- Shape: {json_type(spec)}",
     ]
-    desc = spec.get("description")
+    desc = schema_description(spec)
     if desc:
         lines.extend(["", desc])
-    basis = spec.get("x-dia-basis")
+    basis = schema_basis(spec)
     if basis:
         lines.extend(["", "Governing basis:", basis_lines(basis, from_dir)])
-    comment = spec.get("$comment")
+    comment = schema_comment(spec)
     if comment:
         lines.extend(["", f"Maintainer note: {comment}"])
     return "\n".join(lines)
 
 
 
-def render_def_section(name: str, spec: dict[str, Any], from_dir: Path) -> str:
+def render_def_section(name: str, spec: Any, from_dir: Path) -> str:
     anchor = slugify(name)
     lines = [
         f'<a id="def-{anchor}"></a>',
@@ -248,10 +274,10 @@ def render_def_section(name: str, spec: dict[str, Any], from_dir: Path) -> str:
         "",
         f"- Shape: {json_type(spec)}",
     ]
-    desc = spec.get("description")
+    desc = schema_description(spec)
     if desc:
         lines.extend(["", desc])
-    basis = spec.get("x-dia-basis")
+    basis = schema_basis(spec)
     if basis:
         lines.extend(["", "Governing basis:", basis_lines(basis, from_dir)])
     return "\n".join(lines)
@@ -305,7 +331,7 @@ def generate_schema_doc(schema_path: Path) -> tuple[str, str]:
     lines.extend(["## Fields", "", "| Field | Required | Shape | Description |", "|---|---|---|---|"])
     for name, spec in properties.items():
         anchor = slugify(name)
-        desc = md_escape(spec.get("description", ""))
+        desc = md_escape(schema_description(spec))
         lines.append(
             f"| [`{name}`](#field-{anchor}) | `{'yes' if name in required else 'no'}` | {md_escape(json_type(spec))} | {desc} |"
         )
@@ -314,7 +340,7 @@ def generate_schema_doc(schema_path: Path) -> tuple[str, str]:
         lines.extend(["", "## Definitions", "", "| Definition | Shape | Description |", "|---|---|---|"])
         for name, spec in defs.items():
             anchor = slugify(name)
-            desc = md_escape(spec.get("description", ""))
+            desc = md_escape(schema_description(spec))
             lines.append(f"| [`{name}`](#def-{anchor}) | {md_escape(json_type(spec))} | {desc} |")
 
     if all_of:

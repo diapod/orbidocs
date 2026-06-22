@@ -170,7 +170,23 @@ The first Node runtime rollout should stay small but real:
     dedicated participant-scoped daemon control contract instead of reusing
     operator action endpoints.
 
-Discovery visibility, broader operation coverage, and richer graduated governor
+The MVP rollout also persists imported restriction records in the daemon commit
+log, replays them into the local read model after restart, exposes local
+operator import/list/detail/clear control surfaces, and records clear operations
+as daemon-local tombstones with optional `reason/ref`. The daemon keeps a
+monotonic `last_cleared_at` read model so imports with `recorded-at` at or before
+the latest clear tombstone cannot resurrect stale sanctions, including after
+commit-log replay. Import rejects already-dead hard blocks where
+`hard.expires-at <= recorded-at` or where `hard.expires-at` has already passed at
+import time, rejects stale `recorded-at` overwrites of a newer local record, and
+applies Rust-side defense-in-depth validation for participant id shape,
+`reason/ref` bounds, and soft factors in `(0.0, 1.0]`. List/detail export paths
+validate each emitted record through the same schema-gate family before returning
+operator JSON, while import/clear bodies are bounded to a small local control
+payload size. Import and clear also emit a metadata-only
+`participant-capability-limits-changed` SSE event so operator surfaces can
+refresh without scraping the commit log. Discovery visibility, broader operation
+coverage, maximum hard-block renewal policy, and richer graduated governor
 policies remain deferred to later work.
 
 ## Trade-offs
@@ -200,23 +216,25 @@ policies remain deferred to later work.
 
 ## Open Questions
 
-1. When should `rate-limit-factor` become a generic per-operation governor hook
-   rather than a stored-but-lightly-used field?
-2. Should the first cooldown grain stay at `(participant, operation)`, or move
+1. Should the first cooldown grain stay at `(participant, operation)`, or move
    later toward `(participant, operation, question)` for multi-contract
    concurrency?
-3. Which artifact should carry later review history: this restriction record
+2. Which artifact should carry later review history: this restriction record
    directly, or a separate review/case family?
-4. Should `org` eventually use a sibling artifact or the same family with
+3. Should `org` eventually use a sibling artifact or the same family with
    `subject/kind`?
-5. Which operation ids should be elevated into a more formal registry first?
+4. Which operation ids should be elevated into a more formal registry first?
 
-## Next Actions
+## Implementation Status
 
-1. Add `participant-capability-limits.v1` to the synchronized contract mirror.
-2. Add Node-side import validation for that artifact.
-3. Wire the first procurement and messaging hooks against the new artifact.
-4. Revisit generic rate limiting only after the operation-facing governor layer
-   is ready.
-5. Keep launcher-facing participant lifecycle decisions on a distinct control
-   surface from infrastructure-operator actions.
+| ID | Feature | Status | Notes |
+|---|---|---|---|
+| P018-01 | Canonical `participant-capability-limits.v1` schema and Node contract mirror | done | The schema is synchronized into Node protocol contracts and closed at the top-level security gate. |
+| P018-02 | Schema-gated daemon import | done | Invalid JSON, oversized local bodies, invalid restriction records, already-dead or already-expired hard blocks, stale `recorded-at` overwrites, stale imports behind a clear tombstone, invalid participant ids, unsafe `reason/ref` values, and out-of-range soft factors are rejected before mutating runtime state. |
+| P018-03 | Hard-block enforcement for first privileged operation set | done | Procurement and response operations fail closed when an active hard block matches the operation. |
+| P018-04 | Protected-floor enforcement | done | `core/messaging`, `keepalive`, `dispute/file`, `ubc/claim`, and `signal-marker/send` are rejected at schema level as hard-block targets; runtime keeps `signal-marker/send` and participant-side `dispute/file` admissible. |
+| P018-05 | Soft `priority-factor` ranking penalty | done | Procurement offer scoring consumes the imported participant restriction state deterministically. |
+| P018-06 | Soft `rate-limit-factor` cooldown hook | done | The daemon applies per-participant operation cooldowns for the current admitted operation set. |
+| P018-07 | Durable daemon replay | done | Imports and clear tombstones are appended to the daemon commit log; replay preserves monotonic `recorded-at` and `last_cleared_at` read models. |
+| P018-08 | Operator control-plane surface | done | Local HTTP exposes import, schema-gated list/detail export, and clear operations; clear accepts optional bounded `reason/ref`, and import/clear emit metadata-only SSE refresh events. |
+| P018-09 | Participant-scoped lifecycle controls stay separate from operator execution actions | done | Participant accept/dispute/reject surfaces remain distinct from infrastructure-operator execution controls. |

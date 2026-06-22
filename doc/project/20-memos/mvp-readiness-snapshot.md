@@ -12,6 +12,21 @@ Change basis: this refresh incorporates the current worktree state on 2026-06-17
 
 Recent component deltas:
 
+- Proposal 018 is no longer a low-coverage placeholder. Code review on
+  2026-06-22 confirmed schema-gated `participant-capability-limits.v1`
+  import/export, durable daemon replay, operator HTTP import/list/detail/clear,
+  hard-block enforcement for the current procurement/response operation set,
+  protected-floor behavior for `signal-marker/send` and `dispute/file`,
+  procurement ranking penalties through `priority-factor`, and per-participant
+  cooldown through `rate-limit-factor`. Follow-up hardening added reasoned clear
+  tombstones, dead/already-expired hard-block import rejection, stale
+  `recorded-at` overwrite rejection, monotonic `last_cleared_at` replay so old
+  records cannot reappear after clear, full participant-id validation on clear,
+  schema-gated list/detail export, bounded local control bodies, runtime
+  soft-factor and `reason/ref` validation, and metadata-only operator SSE
+  refresh events for import/clear.
+  P018 is now hard-MVP complete; remaining questions are post-MVP scope expansion
+  and registry/policy refinement.
 - Artifact Delivery moved from "MVP transport foundation" to hard-MVP complete: Memarium custody target-space policy, profiling counters, metadata-only observers, Matrix mailbox hardening, and `object-store-indirect` fetch/rehydrate through `artifact-object-pointer.v1` are now documented and implemented. Lower-level zero-copy and Matrix media variants remain post-MVP optimization layers.
 - Notifications now have a local durable MVP foundation: schema-gated `notification.create`, temporal SQLite event log, derived queue projection, JSONL audit mirror, SSE state ping, operator UI, legacy `notify_emit` adapter, first daemon-owned actions, profile-aware manifests, and destructive temporal compaction for local notification history. They remain partial because pod-user UX, OS notifications, and cross-node aggregation are later layers.
 - Node UI security readiness advanced: Solution 001 now documents and implements physically separate public/user/pod-user/operator router strata, participant-session enforcement for user-mode routes, header-first reflective CSRF without the legacy CSRF header alias, local user-action audit JSONL, `security-audit.v1.sqlite` query projection with 90-day retention, `/admin/audit/user-actions`, and optional best-effort Memarium `user-action.v1` mirroring. Proposal 052 now carries the same audit/redaction/retention contract for the Tauri-hosted shell. Node UI remains partial because richer desktop settings writes, external preview isolation, pod-user auth, and native integration hardening are still later product/runtime layers.
@@ -67,7 +82,7 @@ Recent component deltas:
 | [Nym Certificates and Renewal Baseline](../40-proposals/015-nym-certificates-and-renewal-baseline.md) | `false` | `false` | `false` | `25` |
 | [Supervised Prepaid Gateway and Escrow MVP](../40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md) | `true` | `false` | `false` | `65` |
 | [Proposal 017: Organization Subjects and org:did:key](../40-proposals/017-organization-subjects-and-org-did-key.md) | `true` | `true` | `false` | `88` |
-| [Proposal 018: Layered capability_limited Participant Restrictions](../40-proposals/018-layered-capability-limited-participant-restrictions.md) | `true` | `false` | `false` | `25` |
+| [Proposal 018: Layered capability_limited Participant Restrictions](../40-proposals/018-layered-capability-limited-participant-restrictions.md) | `true` | `true` | `false` | `100` |
 | [Proposal 019: Supervised http_local_json Middleware Executor](../40-proposals/019-supervised-local-http-json-middleware-executor.md) | `true` | `true` | `false` | `100` |
 | [Proposal 020: Bundled Python Middleware Modules for Hard MVP](../40-proposals/020-bundled-python-middleware-modules.md) | `true` | `true` | `false` | `100` |
 | [Proposal 021: Service Offers, Service Orders, and the Host-Owned Procurement Bridge](../40-proposals/021-service-offers-orders-and-procurement-bridge.md) | `true` | `true` | `false` | `88` |

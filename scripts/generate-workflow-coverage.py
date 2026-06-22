@@ -48,6 +48,8 @@ def resolve_doc_ref(ref: str) -> Path:
     entry = REFS.get(ref)
     if entry and entry.get('path'):
         return ROOT / entry['path']
+    if ref.startswith('orbidocs:'):
+        return ROOT / ref.removeprefix('orbidocs:')
     return ROOT / ref
 
 
@@ -55,6 +57,8 @@ def display_doc_ref(ref: str) -> str:
     entry = REFS.get(ref)
     if entry:
         return entry.get('short') or ref
+    if ref.startswith('orbidocs:'):
+        return ref.removeprefix('orbidocs:')
     return ref
 
 NORMATIVE_STEPS = [

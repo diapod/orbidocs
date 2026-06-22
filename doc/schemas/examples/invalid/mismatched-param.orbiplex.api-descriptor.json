@@ -10,7 +10,7 @@
       "path/exposure": "host-public",
       "path/params": [
         {
-          "name": "id",
+          "name": "receipt-id",
           "required": true,
           "schema": { "type": "string" }
         }

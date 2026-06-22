@@ -311,6 +311,9 @@ schema_for_file() {
     *.signal-marker.json)
       echo "$SCHEMAS_DIR/signal-marker.v1.schema.json"
       ;;
+    *.orbiplex.api-descriptor.json)
+      echo "$SCHEMAS_DIR/orbiplex.api-descriptor.v1.schema.json"
+      ;;
     *.model-card.json)
       echo "$SCHEMAS_DIR/model-card.v1.schema.json"
       ;;

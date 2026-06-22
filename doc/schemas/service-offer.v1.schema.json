@@ -45,6 +45,15 @@
       "pattern": "^offer:[A-Za-z0-9][A-Za-z0-9:-]*$",
       "description": "Stable identifier of this standing service offer."
     },
+    "offer/status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "withdrawn"
+      ],
+      "default": "active",
+      "description": "Provider-attested lifecycle marker. Missing means `active`; a superseding `withdrawn` snapshot keeps the offer auditable while removing it from active-only catalog views."
+    },
     "created-at": {
       "type": "string",
       "format": "date-time",
