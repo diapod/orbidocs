@@ -160,14 +160,14 @@ Status values:
 
 | Work item | Status | Evidence / remaining work |
 |---|---|---|
-| Host-owned outbound privacy resolver contract | partial | `whisper-core` parses routing failure mode, relay constraints, forwarding hops, and forwarding budget; runtime consumption is not complete. |
+| Host-owned outbound privacy resolver contract | done | `whisper-core` parses routing failure mode, relay constraints, forwarding hops, and forwarding budget; `whisper-intake` now consumes the resolver before public/private publish. |
 | Represent `direct`, `relayed`, and `onion-relayed` routability states | done | `whisper-core` carries typed posture data. |
 | Fail closed for `hard-fail + onion-relayed` without an onion-capable path | done | Core contract and tests cover refusal semantics. |
-| Relay capability discovery based on capability evidence | partial | Capability-evidence matching exists at the contract/core level; concrete discovery integration remains Node/Anon runtime work. |
+| Relay capability discovery based on capability evidence | partial | `whisper-intake` now reads host-owned `agora.relay` capability provider evidence for publish preflight and requires passport-scoped relay class data rather than deriving classes from module labels. Federation-scale relay discovery and Anon relay routing remain Node/Anon runtime work. |
 | Derived forwarding nym scope, TTL, replay, and idempotency rules | partial | Scope contract exists in the Anon/Whisper implementation ledger row; concrete relay runtime consumption remains partial. |
 | First derived-nym relay transport path for Whisper egress | not-started | Required post-MVP Anon runtime work. |
-| Operator/user visibility for privacy downgrade before publication | not-started | Needs UI/control surface consuming resolver outcomes. |
-| Acceptance proving `soft-fail` and `hard-fail` egress behavior end to end | partial | Core behavior is covered; full relay runtime acceptance remains pending. |
+| Operator/user visibility for privacy downgrade before publication | partial | `whisper-intake` returns operator-visible preflight reasons, writes a private preflight fact through host `memarium.write`, validates host signing/write responses, and requires explicit downgrade acknowledgement before publish. Richer UI remains product work. |
+| Acceptance proving `soft-fail` and `hard-fail` egress behavior end to end | partial | Core behavior and `whisper-intake` preflight behavior are covered; full Anon relay runtime acceptance remains pending. |
 
 ### Production correlation policy
 
@@ -187,13 +187,13 @@ Status values:
 
 | Work item | Status | Evidence / remaining work |
 |---|---|---|
-| Decide module ownership: Whisper proposal semantics vs dedicated association runtime | partial | Whisper owns proposal semantics; concrete room runtime remains undecided/not built. |
-| Define room lifecycle facts | partial | `association-room-proposal.v1` exists; full room fact set remains pending. |
-| Invite/accept/reject/expire transitions | not-started | Required room runtime work. |
+| Decide module ownership: Whisper proposal semantics vs dedicated association runtime | partial | Whisper owns proposal semantics; `agora-projections` now owns the first local association-room read model and lifecycle fact seed. Dedicated room/case-management runtime remains later work. |
+| Define room lifecycle facts | partial | `association-room-proposal.v1` exists; Node now persists bounded local `association_room_lifecycle_facts` for room state transitions with FK-backed proposal references. Richer room/case facts remain pending. |
+| Invite/accept/reject/expire transitions | partial | Node now exposes minimal operator-driven transitions using the `whisper-core` FSM, with authenticated actor binding and path/request bounds on the operator control route. Enrollment UX and expiration scheduler remain pending. |
 | Moderation/witness policy data | not-started | Required room/runtime policy work. |
 | Room transcript/storage classification policy | not-started | Required before real case-management rooms. |
-| Operator/user UI for opt-in enrollment | not-started | M4 proves no auto-enrollment, but enrollment UX is not built. |
-| Close/leave/retention semantics | not-started | Required room lifecycle work. |
+| Operator/user UI for opt-in enrollment | partial | Operator HTTP API can transition proposals into rooms; full user enrollment UX is not built. |
+| Close/leave/retention semantics | partial | The FSM supports close/leave and Node persists transitions; retention policy and room transcript storage remain pending. |
 | Acceptance proving no automatic human enrollment from threshold/proposal | done | M4 threshold/proposal smoke stops at proposal state. |
 
 ### Monus/Sensorium production sources
@@ -202,10 +202,10 @@ Status values:
 |---|---|---|
 | Source-class validation in `whisper-core` | done | `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived`, and `monus-sensorium-derived` are parsed. |
 | `monus-derived` draft submission contract | not-started | Monus remains planned/partial; no production handoff runtime. |
-| `monus-sensorium-derived` evidence requirement for Sensorium host capability at author time | partial | Requirement is documented and source class exists; enforcement against live Sensorium evidence remains pending. |
+| `monus-sensorium-derived` evidence requirement for Sensorium host capability at author time | partial | `whisper-intake` now requires a source evidence ref before publishing `monus-sensorium-derived` candidates. Live Sensorium evidence verification remains pending. |
 | Protocol-visible evidence refs, schema sync, and schema-gate fixtures if needed | not-started | Add only when evidence refs become wire-visible. |
 | Stricter review defaults for machine-derived signals | not-started | Needs Whisper intake policy/UI work. |
-| Help-mode/emergency diversion policy | not-started | Documented as a safety boundary; not yet implemented as runtime policy. |
+| Help-mode/emergency diversion policy | partial | `whisper-intake` now fails closed for Monus-derived candidates that indicate help-mode diversion. Full emergency/help workflow remains pending. |
 | Preserve source class through candidate and public signal metadata | partial | Content schema/core can carry it; complete source integrations remain pending. |
 | UI indicators for machine-derived and sensor-informed drafts | not-started | Product/UI work. |
 
@@ -213,11 +213,11 @@ Status values:
 
 | Work item | Status | Evidence / remaining work |
 |---|---|---|
-| Promotion proposal fact from room/case state to `public-gossip.v1` draft | not-started | Requires association-room/case runtime first. |
+| Promotion proposal fact from room/case state to `public-gossip.v1` draft | partial | Node now stores explicit public-gossip promotion drafts from accepted association rooms with bounded opaque lineage refs. Publication remains a separate act. |
 | Approval policy: participant quorum, moderator approval, or local governance policy | not-started | Required before promotion runtime. |
 | Final redaction review at promotion time | not-started | Required before `public-gossip.v1` publication from rooms. |
 | Publish `public-gossip.v1` only as a separate explicit act | done | Story/Solution semantics forbid automatic threshold/proposal promotion. |
-| Lineage refs to threshold/proposal/room decision without leaking private rumor text | not-started | Needs promotion fact schema/implementation. |
+| Lineage refs to threshold/proposal/room decision without leaking private rumor text | partial | Promotion drafts now persist opaque lineage refs. Schema-level public promotion artifacts and tombstone semantics remain pending. |
 | Refusal, withdrawal, and tombstone semantics | not-started | Required public-gossip lifecycle work. |
 | Acceptance proving threshold/proposal does not automatically emit public gossip | done | M4 smoke asserts threshold/proposal stops below public gossip. |
 
