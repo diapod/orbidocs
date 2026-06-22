@@ -30,7 +30,7 @@ Machine-readable schema for signed question publication on the procurement event
 | [`created-at`](#field-created-at) | `yes` | string | Publication timestamp of the question envelope. |
 | [`sender/node-id`](#field-sender-node-id) | `yes` | string | Swarm-facing routing and hosting identity of the Node that published the envelope. |
 | [`sender/participant-id`](#field-sender-participant-id) | `no` | string | Participation-role identity that authored or initiated the question publication. In the MVP baseline this may be role-distinct but key-equal to the local `node-id`. This is the authored participation identity, not the network routing identity. |
-| [`sender/federation-id`](#field-sender-federation-id) | `no` | string | Federation scope of the sender when publication is federation-bound. |
+| [`sender/federation-id`](#field-sender-federation-id) | `no` | string | Federation scope of the sender when publication is federation-bound. The reserved value `federation:local` is for host-owned local bridge artifacts; peer-facing runtime paths MUST validate federation authority and routing policy separately from this schema. |
 | [`sender/pod-user-id`](#field-sender-pod-user-id) | `no` | string | Hosted-user identity when publication is delegated through a later pod-backed client flow. This is additive to, not a replacement for, `sender/participant-id`, and it is not part of the networking routing contract. |
 | [`sender/public-nym`](#field-sender-public-nym) | `no` | string | Optional public-facing pseudonym shown at protocol boundaries where policy allows it. This is optional presentation metadata, not a routing identity. |
 | [`author/nym`](#field-author-nym) | `no` | string | Visible authored pseudonym when the envelope uses a nym-authored path instead of disclosing `sender/participant-id`. |
@@ -43,7 +43,7 @@ Machine-readable schema for signed question publication on the procurement event
 | [`delivery/scope`](#field-delivery-scope) | `yes` | enum: `private-to-swarm`, `federation-local`, `cross-federation`, `global` | Transport-level dissemination scope derived from the chosen exposure policy. |
 | [`delivery/response-channel-id`](#field-delivery-response-channel-id) | `yes` | string | Room or channel identifier bound to the same question lifecycle. |
 | [`follow-ups/allowed`](#field-follow-ups-allowed) | `no` | boolean | Whether responders may expect iterative clarification or debate after initial publication. |
-| [`request/exposure-mode`](#field-request-exposure-mode) | `yes` | enum: `private-to-swarm`, `federation-local`, `public-call-for-help` | User-facing exposure policy chosen before submission. |
+| [`request/exposure-mode`](#field-request-exposure-mode) | `yes` | enum: `private-to-swarm`, `federation-local`, `selected-responder`, `public-call-for-help` | User-facing exposure policy chosen before submission. |
 | [`room-policy/profile`](#field-room-policy-profile) | `no` | enum: `none`, `mediated-only`, `direct-live-allowed` | Requested room policy profile for the answer room created from this envelope. |
 | [`responder/min-reputation`](#field-responder-min-reputation) | `no` | number | Minimum reputation threshold for eligible responders. |
 | [`models/require`](#field-models-require) | `no` | array | Required model or capability labels. |
@@ -212,6 +212,38 @@ When:
 ```json
 {
   "properties": {
+    "request/exposure-mode": {
+      "const": "selected-responder"
+    }
+  },
+  "required": [
+    "request/exposure-mode"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "delivery/scope": {
+      "const": "federation-local"
+    }
+  },
+  "required": [
+    "sender/federation-id"
+  ]
+}
+```
+
+### Rule 6
+
+When:
+
+```json
+{
+  "properties": {
     "reward/mode": {
       "const": "procurement"
     }
@@ -282,7 +314,7 @@ Participation-role identity that authored or initiated the question publication.
 - Required: `no`
 - Shape: string
 
-Federation scope of the sender when publication is federation-bound.
+Federation scope of the sender when publication is federation-bound. The reserved value `federation:local` is for host-owned local bridge artifacts; peer-facing runtime paths MUST validate federation authority and routing policy separately from this schema.
 
 <a id="field-sender-pod-user-id"></a>
 ## `sender/pod-user-id`
@@ -384,7 +416,7 @@ Whether responders may expect iterative clarification or debate after initial pu
 ## `request/exposure-mode`
 
 - Required: `yes`
-- Shape: enum: `private-to-swarm`, `federation-local`, `public-call-for-help`
+- Shape: enum: `private-to-swarm`, `federation-local`, `selected-responder`, `public-call-for-help`
 
 User-facing exposure policy chosen before submission.
 

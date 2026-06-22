@@ -4,7 +4,7 @@
   "question/id": "question:01K0FEDPROC1",
   "created-at": "2026-03-22T18:12:00Z",
   "expires-at": "2026-03-22T18:25:00Z",
-  "responder/node-id": "node:ch-gva-ml-22",
+  "responder/node-id": "node:did:key:z6MkResponderNode22",
   "responder/participant-id": "participant:did:key:z6MkQ4kqExsLKRb2p7rxDabm6U7pJQvF8V4xAjr6wW3G4H8N",
   "responder/federation-id": "fed:orbiplex-ch",
   "responder/public-key-ref": "ed25519:responder-22",

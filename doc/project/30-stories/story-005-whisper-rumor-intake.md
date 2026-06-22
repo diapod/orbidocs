@@ -219,9 +219,10 @@ UX.
 
 ## Post-M4 Productization Contract
 
-The post-M4 implementation tracker for this story is `rumor-impl.md` in the
-workspace root. Its closed slice adds a secretless Inquirium simulator acceptance
-path and the production-shaped Whisper contracts needed by later runtime work.
+The post-M4 implementation tracker for this story lives in
+`doc/project/60-solutions/011-whisper/011-whisper-impl.md`. Its closed slice adds
+a secretless Inquirium simulator acceptance path and the production-shaped
+Whisper contracts needed by later runtime work.
 
 The simulator is not a daemon shortcut and not a story-specific model name. It is
 an opt-in middleware-hosted Inquirium adapter, supervised as a local HTTP adapter
@@ -233,9 +234,11 @@ that real local or remote providers will use.
 The same productization slice keeps later Whisper work stratified. Core policy
 data now has explicit source classes, routing failure modes, forwarding budgets,
 outbound privacy resolution, correlation policy explanations, association-room
-proposal transitions, and public-gossip promotion decisions. Concrete UI and
-relay transports may implement those contracts later without changing the M4
-smoke semantics.
+proposal transitions, and public-gossip promotion decisions. The remaining
+`partial` and `not-started` productization tasks are tracked in the Whisper
+implementation note so they stay with the solution rather than in a workspace
+root draft file. Concrete UI and relay transports may implement those contracts
+later without changing the M4 smoke semantics.
 
 ## Example Signal Classes
 

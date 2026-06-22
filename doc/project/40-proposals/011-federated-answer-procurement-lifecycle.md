@@ -253,6 +253,50 @@ The recommended v1 schema filenames are:
 
 These should become the canonical machine boundary for the procurement lifecycle.
 
+## MVP Implementation Profile
+
+The hard-MVP implementation covers the selected-responder procurement slice of this
+proposal:
+
+- `question-envelope.v1`, `procurement-offer.v1`, and `response-envelope.v1` are
+  synchronized into `node/protocol/contracts` and validated by `schema-gate` at
+  daemon ingress.
+- `procurement-contract.v1` and `procurement-receipt.v1` are synchronized protocol
+  contracts and are materialized by the daemon as first-class committed records.
+- The daemon collects offers, ranks them deterministically, selects one responder,
+  forms one contract, accepts one response, and commits one receipt.
+- Zero-price execution uses the same contract/receipt join points without creating
+  a settlement hold.
+- Paid execution is settlement-aware: it creates local holds through the deployment
+  ledger, then releases, refunds, freezes, expires, cancels, or records disputes
+  through committed procurement facts.
+- The host-owned service-order bridge derives a full schema-valid
+  `question-envelope.v1` plus `procurement-offer.v1` pair for local marketplace
+  execution instead of smuggling marketplace-specific fields into procurement wire
+  contracts.
+- `selected-responder` names the question exposure profile: the asker is opening a
+  narrowed procurement path. `single-responder` names the offer execution mode: a
+  responder proposes to execute the narrowed path alone rather than through a
+  collaborative room.
+- `response-envelope.v1` may carry `contract/id` before `receipt/id` exists; the
+  receipt is a later audit and settlement artifact produced by the procurement
+  lifecycle.
+- The current runtime gate is a daemon control-plane boundary: JSON artifacts are
+  schema-gated before daemon decoding and the HTTP mutation surface still requires
+  the local control token. Domain-level Ed25519 verification of participant and
+  nym signatures remains a separate post-MVP trust-boundary step before these
+  artifacts may be accepted directly from untrusted peers.
+
+Still out of scope for this MVP slice:
+
+- collaborative many-responder answer rooms,
+- a general federated procurement event bus,
+- a full dispute/appeal lifecycle beyond the current first-class dispute record,
+- a dedicated procurement-contract projector when execution inspection and receipt
+  joins are sufficient,
+- final signature-container standardization and cryptographic verification across
+  all participation profiles.
+
 ## Trade-offs
 
 1. Explicit artifacts vs simpler chat-only flow:
@@ -277,9 +321,25 @@ These should become the canonical machine boundary for the procurement lifecycle
 
 ## Next Actions
 
-1. Add v1 JSON Schemas for the five lifecycle artifacts.
-2. Add positive and negative examples for each artifact.
+1. Keep the five v1 JSON Schemas as the canonical machine boundary for this lifecycle.
+2. Extend positive and negative fixtures as new participation profiles become runtime
+   surfaces.
 3. Bind future offer-scoring and dispute proposals to these identifiers instead of
    inventing parallel payload families.
-4. Update requirements and tests to validate this lifecycle as the preferred machine
-   boundary for answer procurement.
+4. Add collaborative-room procurement tests only when the P003 room/event transport
+   profile becomes an implementation target.
+5. Add participant/nym signature verification before accepting procurement artifacts
+   from peer-facing or otherwise untrusted ingress surfaces.
+
+## Tracking
+
+| ID | Feature | Status | Evidence |
+|---|---|---|---|
+| P011-01 | v1 schema set for question, offer, contract, receipt, and response artifacts | done | Canonical schemas exist in `doc/schemas/` and selected contracts are synchronized into `node/protocol/contracts`. |
+| P011-02 | Schema-gated daemon ingress for question, offer, and response artifacts | done | `schema-gate` validates `question-envelope.v1`, `procurement-offer.v1`, and `response-envelope.v1` before daemon decoding. |
+| P011-03 | Deterministic selected-responder offer collection and ranking | done | Daemon tests cover deterministic offer scoring and priority-factor penalties. |
+| P011-04 | First-class procurement contracts and receipts | done | Contracts and receipts are committed through append-only daemon storage and exposed through execution/receipt inspection. |
+| P011-05 | Zero-price and paid settlement-aware closure | done | Runtime tests cover zero-price closure, paid acceptance, settlement receipts, expiry, cancel, and dispute persistence. |
+| P011-06 | Host-owned marketplace/service-order bridge into procurement | done | Service-order bridge derives schema-valid question and offer artifacts and preserves marketplace lineage outside procurement wire contracts. |
+| P011-07 | Collaborative many-responder room lifecycle | post-MVP | P003 room/event transport remains deferred; MVP uses selected-responder execution. |
+| P011-08 | Full dispute/appeal lifecycle | post-MVP | MVP persists first-class dispute records; broader appeal workflow remains a separate lifecycle family. |

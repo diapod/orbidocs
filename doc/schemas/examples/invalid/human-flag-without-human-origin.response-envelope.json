@@ -3,7 +3,7 @@
   "response/id": "response:bad-01",
   "question/id": "question:01K0FEDPROC1",
   "created-at": "2026-03-22T18:59:00Z",
-  "source/node-id": "node:ch-gva-ml-22",
+  "source/node-id": "node:did:key:z6MkResponderNode22",
   "answer/content": "This answer claims no human help.",
   "answer/format": "markdown",
   "confidence/signal": 0.62,

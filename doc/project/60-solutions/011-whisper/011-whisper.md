@@ -154,13 +154,16 @@ When model-assisted preparation is explicitly enabled, missing
 `whisper.redaction.prepare` support should fail closed through readiness rather
 than presenting a misleading prepare button.
 
-Post-M4 productization is tracked in the workspace-root `rumor-impl.md`. The
-closed productization slice keeps Whisper's domain contract separate from model
+Post-M4 productization is tracked in
+`doc/project/60-solutions/011-whisper/011-whisper-impl.md`. The closed
+productization slice keeps Whisper's domain contract separate from model
 adapters: callers still ask for `whisper.redaction.prepare`, while host policy
 selects local deterministic, local model, supervised HTTP model-adapter, or
 external model-adapter providers. Inquirium/model-runtime provider calls are
 authorized by host-owned `runtime/ref` or profile policy and must not accept a
-caller-supplied raw model name as an override.
+caller-supplied raw model name as an override. The remaining productization
+tracker lives with the Whisper implementation note rather than in a workspace
+root draft file.
 
 ### Interest and Threshold Coordination
 

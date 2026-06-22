@@ -3,7 +3,7 @@
   "offer/id": "offer:bad-01",
   "question/id": "question:01K0FEDPROC1",
   "created-at": "2026-03-22T18:12:00Z",
-  "responder/node-id": "node:ch-gva-ml-22",
+  "responder/node-id": "node:did:key:z6MkResponderNode22",
   "price/amount": -10,
   "price/currency": "PLN",
   "deadline-at": "2026-03-22T19:00:00Z",

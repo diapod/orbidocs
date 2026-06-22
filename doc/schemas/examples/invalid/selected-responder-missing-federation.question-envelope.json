@@ -1,0 +1,21 @@
+{
+  "schema/v": 1,
+  "question/id": "question:bad-selected-responder-01",
+  "created-at": "2026-03-22T18:10:00Z",
+  "sender/node-id": "node:pl-wro-full-7f3c",
+  "sender/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "ttl-sec": 1800,
+  "question/text": "This selected-responder request is missing its federation scope.",
+  "question/tags": ["procurement", "selected-responder"],
+  "delivery/scope": "federation-local",
+  "delivery/response-channel-id": "question:bad-selected-responder-01",
+  "request/exposure-mode": "selected-responder",
+  "reward/mode": "procurement",
+  "procurement/max-price-amount": 1500,
+  "procurement/price-currency": "PLN",
+  "procurement/max-wait-sec": 3600,
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:MEUCIselectedresponderbad"
+  }
+}

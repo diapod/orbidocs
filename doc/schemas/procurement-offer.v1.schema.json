@@ -4,14 +4,15 @@
   "title": "ProcurementOffer v1",
   "description": "Machine-readable schema for responder offers attached to a published procurement-capable question.",
   "type": "object",
-  "additionalProperties": true,
+  "additionalProperties": false,
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
     "doc/project/30-stories/story-001-swarm-node-onboarding.md",
     "doc/project/30-stories/story-004-pod-client-onboarding.md",
     "doc/project/50-requirements/requirements-001-node-onboarding.md",
-    "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
+    "doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md",
+    "doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md"
   ],
   "required": [
     "schema/v",
@@ -53,13 +54,13 @@
     },
     "responder/node-id": {
       "type": "string",
-      "minLength": 1,
-      "description": "Responding node that would host, route, or execute the answer path."
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Responding node that would host, route, or execute the answer path. In v1 this MUST use canonical `node:did:key:z...` form."
     },
     "responder/participant-id": {
       "type": "string",
-      "minLength": 1,
-      "description": "Participation-role identity that stands behind the offer and would own the responder-side participation semantics."
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Participation-role identity that stands behind the offer and would own the responder-side participation semantics. In v1 this MUST use canonical `participant:did:key:z...` form."
     },
     "responder/federation-id": {
       "type": "string",
@@ -90,12 +91,12 @@
     "answer/min-length": {
       "type": "integer",
       "minimum": 1,
-      "description": "Lower answer-length bound the responder is willing to contract against."
+      "description": "Lower answer-length bound the responder is willing to contract against. Runtime MUST reject offers where `answer/max-length` is lower than this value."
     },
     "answer/max-length": {
       "type": "integer",
       "minimum": 1,
-      "description": "Upper answer-length bound the responder is willing to contract against."
+      "description": "Upper answer-length bound the responder is willing to contract against. Runtime MUST reject offers where this value is lower than `answer/min-length`."
     },
     "answer/format": {
       "type": "string",
@@ -130,7 +131,7 @@
     },
     "confirmation/mode": {
       "type": "string",
-      "enum": ["arbiter-confirmed", "self-confirmed", "manual-review-only"],
+      "enum": ["arbiter-confirmed", "self-confirmed", "manual-review-only", "no-confirmation"],
       "description": "Confirmation model proposed by the responder for later contract formation."
     },
     "reputation/evidence": {
@@ -162,19 +163,5 @@
       "type": "object",
       "additionalProperties": true
     }
-  },
-  "allOf": [
-    {
-      "if": {
-        "required": ["answer/min-length", "answer/max-length"]
-      },
-      "then": {
-        "properties": {
-          "answer/max-length": {
-            "minimum": 1
-          }
-        }
-      }
-    }
-  ]
+  }
 }

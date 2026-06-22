@@ -29,7 +29,9 @@ It exists to:
   to start,
 - enumerate the open decisions that must be resolved before
   implementation can meaningfully proceed,
-- give a stable commit order when shaping the whisper stack.
+- give a stable commit order when shaping the whisper stack,
+- own the post-M4 productization tracker formerly kept as a workspace-root draft
+  note.
 
 ## Current implementation status
 
@@ -62,11 +64,162 @@ status is:
   runbooks that exercise A/B Whisper Intake plus C Agora projection. The hard-MVP
   readiness snapshot treats this Story-005/M4 path as complete.
 
-Post-M4 work is tracked in `rumor-impl.md` at the workspace root. It covers
-richer external Inquirium/model-runtime redaction policy, outbound privacy
-realization, production correlation, association-room lifecycle, production
-Monus/Sensorium source integration, and explicit public-gossip promotion behind
-the same Whisper/Agora envelope boundary.
+Post-M4 productization is tracked below in this document. It covers richer
+external Inquirium/model-runtime redaction policy, outbound privacy realization,
+production correlation, association-room lifecycle, production Monus/Sensorium
+source integration, and explicit public-gossip promotion behind the same
+Whisper/Agora envelope boundary.
+
+## Post-M4 productization invariants
+
+These invariants apply to every later productization slice. They are stricter
+than the current M4 smoke because the M4 smoke proves only the minimal public
+correlation path.
+
+1. **Host-owned authority.** Whisper may request redaction, routing,
+   correlation, or publication, but host policy decides provider selection,
+   privacy resolution, projection authority, and final publication authority.
+   Model/runtime selection goes through Inquirium/model-runtime routing, not a
+   caller-supplied raw model name. Outbound privacy is resolved by host policy,
+   not by a caller naming a concrete relay.
+2. **Facts before views.** Meaningful transitions should leave append-only
+   facts before any read-model or UI view is updated: raw intake accepted,
+   redaction requested, draft produced, candidate approved/rejected/quarantined,
+   privacy resolution attempted, signal published/refused, threshold observed,
+   room proposal created, participant invited/accepted/rejected/left, and
+   public-gossip promotion proposed/approved/published/refused.
+3. **Privacy is a policy boundary.** `routing/profile`,
+   `routing/failure-mode`, `disclosure/scope`, and `classification` are not
+   decorative metadata. Private-correlation and direct-only signals must not
+   reach public Agora topics. `hard-fail + onion-relayed` must refuse when no
+   onion-capable path exists. Providers may draft or diagnose, but may not
+   approve, publish, or widen disclosure scope.
+4. **Domain capability before provider mechanism.** The caller-facing redaction
+   contract remains `whisper.redaction.prepare`. JSON-e Flow, Sensorium OS,
+   Inquirium/model-runtime, simulator adapters, and remote model adapters are
+   provider mechanisms behind that boundary. Neutral adapter output must be
+   translated back into `whisper-redaction-prepare-response.v1` before Whisper
+   consumes it.
+5. **Deterministic smoke, richer production.** M4 deterministic matching remains
+   the replayable baseline. Production correlation may add semantic features,
+   trust-tier diversity, source-class weighting, and richer threshold policy,
+   but every threshold decision must remain reconstructable from source facts
+   and an explicit policy version.
+
+## Post-M4 productization dependency map
+
+The slice names are topical, not a strict build order.
+
+- **Already closed for M4:** deterministic public/federated correlation over
+  `topic/class + signal/similarity-key`, projection-authority threshold/proposal
+  emission, the secretless Inquirium simulator adapter, and the Story-005 local
+  profile acceptance bridge.
+- **Hard prerequisite for model-backed redaction providers:** daemon
+  `inquirium.generate` must invoke HTTP adapter instances through host-owned
+  `runtime/ref` and `model.binding/ref`. This is implemented for the simulator
+  and remote-provider adapter seam.
+- **Independent contract tracks:** redaction provider policy, outbound privacy
+  resolver data, semantic correlation policy data, source-class validation, and
+  public-gossip promotion facts may evolve independently as long as they preserve
+  the invariants above.
+- **Strict runtime ordering:** association-room lifecycle runtime must exist
+  before public-gossip promotion from room/case state can be productized.
+  Monus/Sensorium source-class carry-through must exist before correlation can
+  weight or exclude those sources.
+- **Continuous hygiene:** any schema-visible source/evidence field must be
+  mirrored into `node/protocol/contracts/schemas` and schema-gated before code
+  starts enforcing it. Tracker status changes must update this document, the
+  Node implementation ledger, and the MVP readiness snapshot when readiness
+  interpretation changes.
+
+## Post-M4 productization tracker
+
+Status values:
+
+- `done` — implemented and covered by tests, schema validation, or documented
+  operator evidence;
+- `partial` — contract or primitive exists, but runtime/UI/product behavior is
+  incomplete;
+- `not-started` — not yet implemented beyond conceptual documentation;
+- `deferred` — intentionally postponed beyond the current productization pass.
+
+### Redaction provider policy and simulator bridge
+
+| Work item | Status | Evidence / remaining work |
+|---|---|---|
+| Keep `whisper.redaction.prepare` as the domain boundary above provider mechanisms | done | Solution text and Story-005 docs preserve the boundary; adapters do not become publication authorities. |
+| Host-owned provider policy for local deterministic, local model, supervised HTTP adapter, and external model adapter classes | partial | Policy shape is documented and the simulator/remote adapter substrate exists; full operator-facing provider policy UX and remote deployment profiles remain later work. |
+| Inquirium/model-runtime provider selection by `runtime/ref` or profile, not raw caller model name | done | Daemon `inquirium.generate` routes through host-owned runtime/model-binding context and rejects model override. |
+| Translate neutral adapter or `GenerateResponse` output into `whisper-redaction-prepare-response.v1` | partial | Boundary requirement is documented; deterministic provider path is implemented. Full model-backed redaction bridge for production providers remains a later slice. |
+| Metadata-only diagnostics for provider calls | partial | Inquirium trace records are metadata-only; Whisper-specific provider-call diagnostic views remain product work. |
+| JSON-e Flow inference grants for `inquirium.generate` provider bridges | done | Host capability path fails closed without explicit inference grants. |
+| Secretless supervised Inquirium simulator adapter | done | Story-005 simulator is opt-in, egress-free, exposes simulated bindings, rejects unknown bindings, and is tested through daemon Host API. |
+| Story-005 simulator local profile and acceptance checks | done | Local profile enables the simulator explicitly, verifies routability, generation, fail-closed unknown binding, stop/start non-routability, and restoration. |
+
+### Anon / outbound privacy realization
+
+| Work item | Status | Evidence / remaining work |
+|---|---|---|
+| Host-owned outbound privacy resolver contract | partial | `whisper-core` parses routing failure mode, relay constraints, forwarding hops, and forwarding budget; runtime consumption is not complete. |
+| Represent `direct`, `relayed`, and `onion-relayed` routability states | done | `whisper-core` carries typed posture data. |
+| Fail closed for `hard-fail + onion-relayed` without an onion-capable path | done | Core contract and tests cover refusal semantics. |
+| Relay capability discovery based on capability evidence | partial | Capability-evidence matching exists at the contract/core level; concrete discovery integration remains Node/Anon runtime work. |
+| Derived forwarding nym scope, TTL, replay, and idempotency rules | partial | Scope contract exists in the Anon/Whisper implementation ledger row; concrete relay runtime consumption remains partial. |
+| First derived-nym relay transport path for Whisper egress | not-started | Required post-MVP Anon runtime work. |
+| Operator/user visibility for privacy downgrade before publication | not-started | Needs UI/control surface consuming resolver outcomes. |
+| Acceptance proving `soft-fail` and `hard-fail` egress behavior end to end | partial | Core behavior is covered; full relay runtime acceptance remains pending. |
+
+### Production correlation policy
+
+| Work item | Status | Evidence / remaining work |
+|---|---|---|
+| Keep M4 deterministic rule as `correlation_policy = deterministic-m4` | done | M4 projection uses deterministic `topic/class + signal/similarity-key`. |
+| Policy fact schema for richer threshold configuration | partial | Production-shaped policy primitives exist; durable policy-fact lifecycle remains product work. |
+| Trust-tier diversity option | partial | Schema fields expose trust summaries/tiers; runtime threshold weighting remains pending. |
+| Semantic feature extraction contract without raw rumor-text exposure | not-started | Needs explicit feature/digest contract and provider path. |
+| Treat embeddings as derived sensitive content with bounded persistence | not-started | Must be defined with Inquirium embedding/data-plane policy. |
+| Semantic correlation explainability surface | not-started | Needs threshold explanation read model and operator diagnostics. |
+| Source-class weighting and exclusion rules | partial | `source/class` is carried and parsed; weighting/exclusion policy is not productized. |
+| Version policy used by every threshold decision | partial | Deterministic M4 is replayable; richer policy-version facts remain pending. |
+| Replay-equivalence tests across policy versions | not-started | Required once richer policy facts exist. |
+
+### Association-room lifecycle
+
+| Work item | Status | Evidence / remaining work |
+|---|---|---|
+| Decide module ownership: Whisper proposal semantics vs dedicated association runtime | partial | Whisper owns proposal semantics; concrete room runtime remains undecided/not built. |
+| Define room lifecycle facts | partial | `association-room-proposal.v1` exists; full room fact set remains pending. |
+| Invite/accept/reject/expire transitions | not-started | Required room runtime work. |
+| Moderation/witness policy data | not-started | Required room/runtime policy work. |
+| Room transcript/storage classification policy | not-started | Required before real case-management rooms. |
+| Operator/user UI for opt-in enrollment | not-started | M4 proves no auto-enrollment, but enrollment UX is not built. |
+| Close/leave/retention semantics | not-started | Required room lifecycle work. |
+| Acceptance proving no automatic human enrollment from threshold/proposal | done | M4 threshold/proposal smoke stops at proposal state. |
+
+### Monus/Sensorium production sources
+
+| Work item | Status | Evidence / remaining work |
+|---|---|---|
+| Source-class validation in `whisper-core` | done | `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived`, and `monus-sensorium-derived` are parsed. |
+| `monus-derived` draft submission contract | not-started | Monus remains planned/partial; no production handoff runtime. |
+| `monus-sensorium-derived` evidence requirement for Sensorium host capability at author time | partial | Requirement is documented and source class exists; enforcement against live Sensorium evidence remains pending. |
+| Protocol-visible evidence refs, schema sync, and schema-gate fixtures if needed | not-started | Add only when evidence refs become wire-visible. |
+| Stricter review defaults for machine-derived signals | not-started | Needs Whisper intake policy/UI work. |
+| Help-mode/emergency diversion policy | not-started | Documented as a safety boundary; not yet implemented as runtime policy. |
+| Preserve source class through candidate and public signal metadata | partial | Content schema/core can carry it; complete source integrations remain pending. |
+| UI indicators for machine-derived and sensor-informed drafts | not-started | Product/UI work. |
+
+### Public-gossip promotion
+
+| Work item | Status | Evidence / remaining work |
+|---|---|---|
+| Promotion proposal fact from room/case state to `public-gossip.v1` draft | not-started | Requires association-room/case runtime first. |
+| Approval policy: participant quorum, moderator approval, or local governance policy | not-started | Required before promotion runtime. |
+| Final redaction review at promotion time | not-started | Required before `public-gossip.v1` publication from rooms. |
+| Publish `public-gossip.v1` only as a separate explicit act | done | Story/Solution semantics forbid automatic threshold/proposal promotion. |
+| Lineage refs to threshold/proposal/room decision without leaking private rumor text | not-started | Needs promotion fact schema/implementation. |
+| Refusal, withdrawal, and tombstone semantics | not-started | Required public-gossip lifecycle work. |
+| Acceptance proving threshold/proposal does not automatically emit public gossip | done | M4 smoke asserts threshold/proposal stops below public gossip. |
 
 ## Architectural posture
 

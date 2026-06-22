@@ -1,0 +1,15 @@
+{
+  "schema/v": 1,
+  "response/id": "response:01K0FEDPROC1:PRESETTLEMENT",
+  "question/id": "question:01K0FEDPROC1",
+  "room/id": "question:01K0FEDPROC1/execution/A",
+  "contract/id": "contract:01K0FEDPROC1:A",
+  "created-at": "2026-03-22T18:58:00Z",
+  "source/node-id": "node:did:key:z6MkResponderNode22",
+  "source/participant-id": "participant:did:key:z6MkResponderAuthor22",
+  "answer/content": "This response references the selected contract before the settlement receipt has been produced.",
+  "answer/format": "markdown",
+  "confidence/signal": 0.78,
+  "human-linked-participation": false,
+  "provenance/origin-classes": ["node-generated"]
+}

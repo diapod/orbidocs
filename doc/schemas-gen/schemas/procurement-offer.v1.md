@@ -10,6 +10,7 @@ Machine-readable schema for responder offers attached to a published procurement
 - [`doc/project/30-stories/story-004-pod-client-onboarding.md`](../../project/30-stories/story-004-pod-client-onboarding.md)
 - [`doc/project/50-requirements/requirements-001-node-onboarding.md`](../../project/50-requirements/requirements-001-node-onboarding.md)
 - [`doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md`](../../project/40-proposals/011-federated-answer-procurement-lifecycle.md)
+- [`doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md`](../../project/40-proposals/018-layered-capability-limited-participant-restrictions.md)
 
 ## Project Lineage
 
@@ -31,51 +32,23 @@ Machine-readable schema for responder offers attached to a published procurement
 | [`question/id`](#field-question-id) | `yes` | string | Question lifecycle identifier to which the offer responds. |
 | [`created-at`](#field-created-at) | `yes` | string | Offer creation timestamp. |
 | [`expires-at`](#field-expires-at) | `no` | string | Optional offer-expiry timestamp before which the asker must decide. |
-| [`responder/node-id`](#field-responder-node-id) | `yes` | string | Responding node that would host, route, or execute the answer path. |
-| [`responder/participant-id`](#field-responder-participant-id) | `yes` | string | Participation-role identity that stands behind the offer and would own the responder-side participation semantics. |
+| [`responder/node-id`](#field-responder-node-id) | `yes` | string | Responding node that would host, route, or execute the answer path. In v1 this MUST use canonical `node:did:key:z...` form. |
+| [`responder/participant-id`](#field-responder-participant-id) | `yes` | string | Participation-role identity that stands behind the offer and would own the responder-side participation semantics. In v1 this MUST use canonical `participant:did:key:z...` form. |
 | [`responder/federation-id`](#field-responder-federation-id) | `no` | string | Federation identity of the responder when relevant to routing or trust. |
 | [`responder/public-key-ref`](#field-responder-public-key-ref) | `no` | string | Reference to the responder's encryption or signature key material. |
 | [`price/amount`](#field-price-amount) | `yes` | integer | Proposed price in minor units. When `price/currency = ORC`, the value uses ORC minor units with fixed scale `2`. |
 | [`price/currency`](#field-price-currency) | `yes` | string | Currency or settlement unit symbol for the proposed price. |
 | [`deadline-at`](#field-deadline-at) | `yes` | string | Latest timestamp by which the responder expects to deliver or conclude. |
-| [`answer/min-length`](#field-answer-min-length) | `yes` | integer | Lower answer-length bound the responder is willing to contract against. |
-| [`answer/max-length`](#field-answer-max-length) | `yes` | integer | Upper answer-length bound the responder is willing to contract against. |
+| [`answer/min-length`](#field-answer-min-length) | `yes` | integer | Lower answer-length bound the responder is willing to contract against. Runtime MUST reject offers where `answer/max-length` is lower than this value. |
+| [`answer/max-length`](#field-answer-max-length) | `yes` | integer | Upper answer-length bound the responder is willing to contract against. Runtime MUST reject offers where this value is lower than `answer/min-length`. |
 | [`answer/format`](#field-answer-format) | `no` | enum: `plain-text`, `markdown`, `json`, `edn`, `mixed` | Preferred answer representation. |
 | [`execution/mode`](#field-execution-mode) | `yes` | enum: `room-collaboration`, `single-responder` | Whether the responder expects collaborative discussion or a narrowed single-responder path. |
 | [`specialization/tags`](#field-specialization-tags) | `yes` | array | Tags used to justify topical fit of the offer. |
 | [`models/used`](#field-models-used) | `no` | array | Models or capability labels the responder expects to use. |
 | [`operator-participation/may-occur`](#field-operator-participation-may-occur) | `no` | boolean | Whether the responder expects possible operator consultation or live human presence under allowed room policy. |
-| [`confirmation/mode`](#field-confirmation-mode) | `no` | enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only` | Confirmation model proposed by the responder for later contract formation. |
+| [`confirmation/mode`](#field-confirmation-mode) | `no` | enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only`, `no-confirmation` | Confirmation model proposed by the responder for later contract formation. |
 | [`reputation/evidence`](#field-reputation-evidence) | `yes` | array | Evidence references advertised to justify responder trust. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
-
-## Conditional Rules
-
-### Rule 1
-
-When:
-
-```json
-{
-  "required": [
-    "answer/min-length",
-    "answer/max-length"
-  ]
-}
-```
-
-Then:
-
-```json
-{
-  "properties": {
-    "answer/max-length": {
-      "minimum": 1
-    }
-  }
-}
-```
-
 ## Field Semantics
 
 <a id="field-schema-v"></a>
@@ -124,7 +97,7 @@ Optional offer-expiry timestamp before which the asker must decide.
 - Required: `yes`
 - Shape: string
 
-Responding node that would host, route, or execute the answer path.
+Responding node that would host, route, or execute the answer path. In v1 this MUST use canonical `node:did:key:z...` form.
 
 <a id="field-responder-participant-id"></a>
 ## `responder/participant-id`
@@ -132,7 +105,7 @@ Responding node that would host, route, or execute the answer path.
 - Required: `yes`
 - Shape: string
 
-Participation-role identity that stands behind the offer and would own the responder-side participation semantics.
+Participation-role identity that stands behind the offer and would own the responder-side participation semantics. In v1 this MUST use canonical `participant:did:key:z...` form.
 
 <a id="field-responder-federation-id"></a>
 ## `responder/federation-id`
@@ -180,7 +153,7 @@ Latest timestamp by which the responder expects to deliver or conclude.
 - Required: `yes`
 - Shape: integer
 
-Lower answer-length bound the responder is willing to contract against.
+Lower answer-length bound the responder is willing to contract against. Runtime MUST reject offers where `answer/max-length` is lower than this value.
 
 <a id="field-answer-max-length"></a>
 ## `answer/max-length`
@@ -188,7 +161,7 @@ Lower answer-length bound the responder is willing to contract against.
 - Required: `yes`
 - Shape: integer
 
-Upper answer-length bound the responder is willing to contract against.
+Upper answer-length bound the responder is willing to contract against. Runtime MUST reject offers where this value is lower than `answer/min-length`.
 
 <a id="field-answer-format"></a>
 ## `answer/format`
@@ -234,7 +207,7 @@ Whether the responder expects possible operator consultation or live human prese
 ## `confirmation/mode`
 
 - Required: `no`
-- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only`
+- Shape: enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only`, `no-confirmation`
 
 Confirmation model proposed by the responder for later contract formation.
 

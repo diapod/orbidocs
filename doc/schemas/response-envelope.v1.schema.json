@@ -66,13 +66,13 @@
     },
     "source/node-id": {
       "type": "string",
-      "minLength": 1,
-      "description": "Primary remote responder or gateway node at the protocol boundary. This is the routing or hosting identity, not the authored participation identity."
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Primary remote responder or gateway node at the protocol boundary. This is the routing or hosting identity, not the authored participation identity. In v1 this MUST use canonical `node:did:key:z...` form."
     },
     "source/participant-id": {
       "type": "string",
-      "minLength": 1,
-      "description": "Participation-role identity that authored, endorsed, or stood behind the returned answer payload. In v1 this remains the accountable authored identity rather than being replaced by a pseudonymous nym path."
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Participation-role identity that authored, endorsed, or stood behind the returned answer payload. In v1 this remains the accountable authored identity rather than being replaced by a pseudonymous nym path and MUST use canonical `participant:did:key:z...` form."
     },
     "gateway/node-id": {
       "type": "string",
@@ -122,14 +122,6 @@
     }
   },
   "allOf": [
-    {
-      "if": {
-        "required": ["contract/id"]
-      },
-      "then": {
-        "required": ["receipt/id"]
-      }
-    },
     {
       "if": {
         "properties": {

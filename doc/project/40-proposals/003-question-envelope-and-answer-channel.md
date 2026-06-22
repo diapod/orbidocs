@@ -118,6 +118,41 @@ For authored identity at the envelope layer:
 This pseudonymous path remains above the transport boundary and does not change
 the node-scoped session model.
 
+## MVP Implementation Profile
+
+The implemented hard-MVP slice is narrower than the full split-transport vision.
+It does not yet provide a general `NATS / JetStream` event bus or Matrix-backed
+collaborative answer rooms. Instead, Node currently implements the selected-responder
+procurement profile used by the hard-MVP stories:
+
+- `question-envelope.v1` is synchronized into `node/protocol/contracts` and
+  schema-gated at daemon ingress before a question execution is opened.
+- `request/exposure-mode = "selected-responder"` is admitted as a host-owned
+  procurement bridge profile with `delivery/scope = "federation-local"`.
+- `question-envelope.v1` ingress currently opens one local execution record with
+  durable transition facts and operator-visible inspection.
+- Open many-participant collaborative room execution remains explicitly deferred.
+- The answer-channel read model is derived from execution inspection for MVP; a
+  dedicated room projector remains post-MVP.
+- `procurement-offer.v1` and `response-envelope.v1` are also schema-gated on the
+  same execution path, so the P003 opening artifact now composes with the P011
+  procurement lifecycle instead of being only a documentation contract.
+
+The full P003 transport decision remains the post-MVP direction for federated
+room-based collaboration. The MVP-ready claim covers only this schema-gated,
+selected-responder execution slice.
+
+## Tracking
+
+| ID | Feature | Status | Evidence |
+|---|---|---|---|
+| P003-01 | Canonical question envelope contract | done | `question-envelope.v1.schema.json` is synchronized into `node/protocol/contracts`. |
+| P003-02 | Schema-gated question ingress | done | Daemon validates raw question JSON through `schema-gate` before opening execution state. |
+| P003-03 | Selected-responder execution profile | done | Node admits the schema-valid `selected-responder` / `federation-local` profile and opens durable execution records. |
+| P003-04 | Derived answer-channel read model | done | Hard-MVP answer-room metadata is derived from execution inspection rather than a separate projector. |
+| P003-05 | General event-bus publication and replay | post-MVP | The NATS / JetStream layer remains a transport target, not the current hard-MVP runtime. |
+| P003-06 | Matrix-backed collaborative answer rooms | post-MVP | The many-participant room lifecycle is deferred beyond selected-responder procurement. |
+
 ## Proposed Model
 
 ### 1. Layer split

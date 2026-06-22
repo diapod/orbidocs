@@ -57,7 +57,7 @@
     "sender/federation-id": {
       "type": "string",
       "minLength": 1,
-      "description": "Federation scope of the sender when publication is federation-bound."
+      "description": "Federation scope of the sender when publication is federation-bound. The reserved value `federation:local` is for host-owned local bridge artifacts; peer-facing runtime paths MUST validate federation authority and routing policy separately from this schema."
     },
     "sender/pod-user-id": {
       "type": "string",
@@ -135,6 +135,7 @@
       "enum": [
         "private-to-swarm",
         "federation-local",
+        "selected-responder",
         "public-call-for-help"
       ],
       "description": "User-facing exposure policy chosen before submission."
@@ -324,6 +325,28 @@
             ]
           }
         }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request/exposure-mode": {
+            "const": "selected-responder"
+          }
+        },
+        "required": [
+          "request/exposure-mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "delivery/scope": {
+            "const": "federation-local"
+          }
+        },
+        "required": [
+          "sender/federation-id"
+        ]
       }
     },
     {
