@@ -502,7 +502,8 @@ attestation is not a live join denial reason by itself; it is the evidence the l
 adapter uses to deny.
 
 Attestations are short-lived. The default cache TTL is one minute for closed/private
-rooms and MAY be shorter when revocation sensitivity is high. Any membership-changing
+rooms and MAY be shorter when revocation sensitivity is high. The MVP runtime caps
+requested membership-attestation TTL at five minutes, and any membership-changing
 record invalidates cached attestations for the affected room.
 
 ### Migration Plan
@@ -636,6 +637,11 @@ projection keyed by `room/id` with a per-room high-water `seq/no`.
 }
 ```
 
+The signature payload is the canonical JSON serialization of the full attestation
+object with the top-level `signature` field removed. Verifiers therefore check the
+room id, subject, granted rights, high-water sequence, source refs, signer ref, and
+validity window as one signed value; the signature never signs itself.
+
 ## Implementation Tracker
 
 Status legend: `[ ]` not started · `[~]` in progress · `[x]` done (with code
@@ -646,29 +652,47 @@ evidence) · `[!]` blocked/needs decision.
 - [~] Complete the Implementation Entry Criteria: canonical schemas, examples,
   schema-gate tests, Agora topic namespace fixture, policy fixtures, and live transport
   conformance test harness. Schemas, examples, schema-gate ingress coverage, and the
-  canonical topic-key fixture exist; live transport conformance and the positive
-  deterministic projection golden vector are still pending.
+  canonical topic-key fixture exist; the positive deterministic projection golden
+  vector is exercised by `room-core` and the runtime Agora projection adapter; live
+  transport conformance is still pending.
 - [x] Define `room.v1`, `room-membership.v1`, `room-event.v1`, `room-policy.v1`
   (subject-addressed, signed, `seq/no`, access list). Implemented as canonical
   schemas plus `orbiplex-node-room-core` DTOs.
-- [~] Define the Agora topic namespace, record kinds, signer authority, and high-water
-  ordering. Topic/record-kind constants and high-water projection are implemented;
-  `room-core` validates record signer authority against the projected authority subject.
-  Cryptographic verification remains a carrier/host boundary responsibility.
-- [ ] Add the positive projection golden vector: identical durable record sets on two
+- [x] Define the Agora topic namespace, record kinds, signer authority, and high-water
+  ordering. Topic/record-kind constants, persisted fact replay in `agora-projections`,
+  and high-water projection are implemented; `room-core` validates record signer
+  authority against the projected authority subject. Cryptographic verification remains
+  a carrier/host boundary responsibility.
+- [x] Add the positive projection golden vector: identical durable record sets on two
   nodes must produce byte-identical canonical membership views and equal projection
-  digests, including expiry evaluation under an explicit skew tolerance.
-- [ ] Add schema-gate ingress/export coverage for Agora-visible `room-policy.v1` and
-  `room-membership-attestation.v1` records.
+  digests, including expiry evaluation under an explicit skew tolerance. The golden
+  vector is shared between `room-core` and `agora-projections`.
+- [~] Add schema-gate ingress/export coverage for Agora-visible Room records.
+  `room.v1`, `room-membership.v1`, and `room-event.v1` have Agora content ingress
+  coverage, and `room-policy.v1` / `room-membership-attestation.v1` schemas are
+  mirrored into node schema-gate contracts with positive/negative examples. Dedicated
+  export helper APIs for `room-policy.v1` and `room-membership-attestation.v1` remain
+  pending.
 
 ### Phase 1 — Membership projection and query attestation
 
 - [x] Deterministic membership/lifecycle projection from durable records. Implemented
-  in `orbiplex-node-room-core` with duplicate, gap, conflict, close, and expiry tests.
-- [~] Attested membership/authority query results (signer, high-water, grants).
-  `room-membership-attestation.v1` is defined and `room-core` provides a pure
-  `attest_membership` factory with explicit failure modes; no signer-backed daemon query
-  API exists yet.
+  in `orbiplex-node-room-core` with duplicate, gap, conflict, close, and expiry tests;
+  `orbiplex-node-agora-projections` persists `room.v1`, `room-membership.v1`, and
+  `room-event.v1` facts and rebuilds the runtime Room read-model from ordered Agora
+  records.
+- [x] Attested membership/authority query results (signer, high-water, grants).
+  `room-membership-attestation.v1` is defined, `room-core` provides a pure
+  `attest_membership` factory with explicit failure modes, and `agora-service`
+  exposes authenticated projection queries:
+  `GET /v1/agora/projections/rooms/{room_id}` and
+  `GET /v1/agora/projections/rooms/{room_id}/membership-attestation`.
+  The attestation path signs canonical attestation bytes through the host signer under
+  `room-membership-attestation.v1`; repeated grant parameters are intentionally not a
+  query language, so callers request multiple grants with comma-separated `grants`.
+  The shared `room-core` contract bounds subject identifiers, signer refs, signature
+  values, durable digest inputs, local clock-skew tolerance, and attestation TTL; it
+  also normalizes requested grants before membership checks and signing.
 
 ### Phase 2 — Live transport contract
 

@@ -167,7 +167,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`room-live-message.v1.schema.json`](schemas-gen/schemas/room-live-message.v1.md) | `12` | `1` | `yes` | `yes` | `1` | `1` |
 | [`room-membership-attestation.v1.schema.json`](schemas-gen/schemas/room-membership-attestation.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `0` |
 | [`room-membership.v1.schema.json`](schemas-gen/schemas/room-membership.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `1` |
-| [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
+| [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
 | [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md) | `17` | `1` | `yes` | `yes` | `1` | `0` |
 | [`seed-capability-registration.v1.schema.json`](schemas-gen/schemas/seed-capability-registration.v1.md) | `4` | `3` | `yes` | `yes` | `1` | `0` |
@@ -501,4 +501,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `167`
 - Generated schema docs: `167`
 - Positive examples: `180`
-- Negative examples: `132`
+- Negative examples: `133`

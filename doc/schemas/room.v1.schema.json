@@ -41,9 +41,10 @@
       "properties": {
         "kind": {
           "type": "string",
+          "maxLength": 64,
           "enum": ["nym", "participant", "node", "routing-subject", "organization"]
         },
-        "id": { "type": "string", "minLength": 1 }
+        "id": { "type": "string", "minLength": 1, "maxLength": 4096 }
       }
     },
     "grant": {

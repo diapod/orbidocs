@@ -21,11 +21,113 @@ Room access, exposure and retention policy referenced by room.v1.
 | [`access/closed`](#field-access-closed) | `yes` | boolean |  |
 | [`access/list`](#field-access-list) | `yes` | array |  |
 | [`exposure`](#field-exposure) | `yes` | enum: `private-to-swarm`, `federation-local`, `cross-federation`, `global` |  |
+| [`policy/profile`](#field-policy-profile) | `yes` | enum: `none`, `mediated-only`, `direct-live-allowed` |  |
+| [`human/linked-messages`](#field-human-linked-messages) | `yes` | enum: `denied`, `allowed-via-node-mediation`, `allowed` |  |
+| [`human/live-participation`](#field-human-live-participation) | `yes` | enum: `denied`, `allowed` |  |
 | [`live/retention`](#field-live-retention) | `yes` | enum: `non-retained`, `member-local-capture-only`, `public-policy-defined` |  |
 | [`max/live-message-bytes`](#field-max-live-message-bytes) | `no` | integer |  |
 | [`created-at`](#field-created-at) | `yes` | string |  |
 | [`expires-at`](#field-expires-at) | `no` | string |  |
 | [`extensions`](#field-extensions) | `no` | ref: `room.v1.schema.json#/$defs/extensions` |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "policy/profile": {
+      "const": "none"
+    }
+  },
+  "required": [
+    "policy/profile"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "human/linked-messages": {
+      "const": "denied"
+    },
+    "human/live-participation": {
+      "const": "denied"
+    }
+  }
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "properties": {
+    "policy/profile": {
+      "const": "mediated-only"
+    }
+  },
+  "required": [
+    "policy/profile"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "human/linked-messages": {
+      "const": "allowed-via-node-mediation"
+    },
+    "human/live-participation": {
+      "const": "denied"
+    }
+  }
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "policy/profile": {
+      "const": "direct-live-allowed"
+    }
+  },
+  "required": [
+    "policy/profile"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "human/linked-messages": {
+      "const": "allowed"
+    },
+    "human/live-participation": {
+      "const": "allowed"
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema-v"></a>
@@ -57,6 +159,24 @@ Room access, exposure and retention policy referenced by room.v1.
 
 - Required: `yes`
 - Shape: enum: `private-to-swarm`, `federation-local`, `cross-federation`, `global`
+
+<a id="field-policy-profile"></a>
+## `policy/profile`
+
+- Required: `yes`
+- Shape: enum: `none`, `mediated-only`, `direct-live-allowed`
+
+<a id="field-human-linked-messages"></a>
+## `human/linked-messages`
+
+- Required: `yes`
+- Shape: enum: `denied`, `allowed-via-node-mediation`, `allowed`
+
+<a id="field-human-live-participation"></a>
+## `human/live-participation`
+
+- Required: `yes`
+- Shape: enum: `denied`, `allowed`
 
 <a id="field-live-retention"></a>
 ## `live/retention`

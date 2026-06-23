@@ -1,0 +1,50 @@
+{
+  "schema": "room-projection-golden-input.v1",
+  "room/id": "room:test:golden",
+  "evaluation/at": "2026-06-23T10:30:03Z",
+  "clock/skew-tolerance-seconds": 5,
+  "facts": [
+    {
+      "kind": "room.v1",
+      "record/id": "room-fact:golden-open",
+      "signer": "nym:did:key:opener",
+      "value": {
+        "schema/v": 1,
+        "room/id": "room:test:golden",
+        "opener/subject": {
+          "kind": "nym",
+          "id": "nym:did:key:opener"
+        },
+        "authority/subject": {
+          "kind": "nym",
+          "id": "nym:did:key:opener"
+        },
+        "policy/ref": "room-policy:golden",
+        "seq/no": 0,
+        "created-at": "2026-06-23T10:00:00Z",
+        "expires-at": "2026-06-23T10:30:00Z"
+      }
+    },
+    {
+      "kind": "room-membership.v1",
+      "record/id": "room-fact:golden-grant-p1",
+      "signer": "nym:did:key:opener",
+      "value": {
+        "schema/v": 1,
+        "room/id": "room:test:golden",
+        "subject": {
+          "kind": "nym",
+          "id": "nym:did:key:p1"
+        },
+        "op": "grant",
+        "grants": ["vote", "speak"],
+        "authority/subject": {
+          "kind": "nym",
+          "id": "nym:did:key:opener"
+        },
+        "seq/no": 1,
+        "created-at": "2026-06-23T10:02:00Z"
+      }
+    }
+  ]
+}

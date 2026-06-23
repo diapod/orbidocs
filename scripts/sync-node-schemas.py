@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS_DIR = ROOT / "doc" / "schemas"
 EXAMPLES_DIR = SCHEMAS_DIR / "examples"
 INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
+GOLDEN_DIR = SCHEMAS_DIR / "golden"
 
 SCHEMA_WHITELIST = (
     "node-identity.v1.schema.json",
@@ -262,6 +263,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "public-with-full-subjects.classification.json",
     "success-without-draft.whisper-redaction-prepare-response.json",
     "grant-without-grants.room-membership.json",
+    "mediated-policy-with-live.room-policy.json",
     "live-message-without-session.room-live-message.json",
     "inac-push-missing-artifact.inac-control.json",
     "raw-handle.contact-lookup.artifact-delivery-envelope.json",
@@ -272,6 +274,20 @@ INVALID_EXAMPLE_WHITELIST = (
     "memarium-blob-without-signature.memarium-blob.json",
     "no-scope.service-ca-material.json",
     "missing-signature.seed-directory-query-attestation.json",
+)
+
+GOLDEN_WHITELIST = (
+    "golden-room-projection-input.json",
+    "golden-room-projection-output.json",
+)
+
+SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
+    "room.v1.schema.json",
+    "room-membership.v1.schema.json",
+    "room-event.v1.schema.json",
+    "room-policy.v1.schema.json",
+    "room-live-message.v1.schema.json",
+    "room-membership-attestation.v1.schema.json",
 )
 
 
@@ -309,11 +325,15 @@ def main() -> int:
     schema_target = contracts_root / "schemas"
     example_target = contracts_root / "examples"
     invalid_target = example_target / "invalid"
+    golden_target = contracts_root / "golden"
+    schema_gate_agora_target = node_root / "schema-gate" / "contracts" / "schemas" / "agora"
 
     copy_files(SCHEMA_WHITELIST, SCHEMAS_DIR, schema_target)
     copy_shared_schemas(schema_target)
+    copy_files(SCHEMA_GATE_AGORA_SCHEMA_WHITELIST, SCHEMAS_DIR, schema_gate_agora_target)
     copy_files(EXAMPLE_WHITELIST, EXAMPLES_DIR, example_target)
     copy_files(INVALID_EXAMPLE_WHITELIST, INVALID_EXAMPLES_DIR, invalid_target)
+    copy_files(GOLDEN_WHITELIST, GOLDEN_DIR, golden_target)
 
     return 0
 

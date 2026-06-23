@@ -14,6 +14,9 @@
     "access/closed",
     "access/list",
     "exposure",
+    "policy/profile",
+    "human/linked-messages",
+    "human/live-participation",
     "live/retention",
     "created-at"
   ],
@@ -30,6 +33,18 @@
       "type": "string",
       "enum": ["private-to-swarm", "federation-local", "cross-federation", "global"]
     },
+    "policy/profile": {
+      "type": "string",
+      "enum": ["none", "mediated-only", "direct-live-allowed"]
+    },
+    "human/linked-messages": {
+      "type": "string",
+      "enum": ["denied", "allowed-via-node-mediation", "allowed"]
+    },
+    "human/live-participation": {
+      "type": "string",
+      "enum": ["denied", "allowed"]
+    },
     "live/retention": {
       "type": "string",
       "enum": ["non-retained", "member-local-capture-only", "public-policy-defined"]
@@ -38,5 +53,43 @@
     "created-at": { "type": "string", "format": "date-time" },
     "expires-at": { "type": "string", "format": "date-time" },
     "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "policy/profile": { "const": "none" } },
+        "required": ["policy/profile"]
+      },
+      "then": {
+        "properties": {
+          "human/linked-messages": { "const": "denied" },
+          "human/live-participation": { "const": "denied" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "policy/profile": { "const": "mediated-only" } },
+        "required": ["policy/profile"]
+      },
+      "then": {
+        "properties": {
+          "human/linked-messages": { "const": "allowed-via-node-mediation" },
+          "human/live-participation": { "const": "denied" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "policy/profile": { "const": "direct-live-allowed" } },
+        "required": ["policy/profile"]
+      },
+      "then": {
+        "properties": {
+          "human/linked-messages": { "const": "allowed" },
+          "human/live-participation": { "const": "allowed" }
+        }
+      }
+    }
+  ]
 }

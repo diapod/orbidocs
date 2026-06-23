@@ -38,14 +38,19 @@
     },
     "attested-at": { "type": "string", "format": "date-time" },
     "expires-at": { "type": "string", "format": "date-time" },
-    "signer/ref": { "type": "string", "minLength": 1 },
+    "signer/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^(nym|participant|node|routing-subject|organization):.+$"
+    },
     "signature": {
       "type": "object",
       "additionalProperties": false,
       "required": ["alg", "value"],
       "properties": {
         "alg": { "const": "ed25519" },
-        "value": { "type": "string", "minLength": 1 }
+        "value": { "type": "string", "minLength": 1, "maxLength": 256 }
       }
     },
     "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }

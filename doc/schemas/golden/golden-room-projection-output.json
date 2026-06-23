@@ -1,0 +1,28 @@
+{
+  "room/id": "room:test:golden",
+  "status": "active",
+  "lifecycle": "opened",
+  "policy/ref": "room-policy:golden",
+  "expires-at": "2026-06-23T10:30:00Z",
+  "opener/subject": {
+    "kind": "nym",
+    "id": "nym:did:key:opener"
+  },
+  "authority/subject": {
+    "kind": "nym",
+    "id": "nym:did:key:opener"
+  },
+  "high-water/seq-no": 1,
+  "members": {
+    "nym:did:key:p1": {
+      "subject": {
+        "kind": "nym",
+        "id": "nym:did:key:p1"
+      },
+      "grants": ["speak", "vote"],
+      "updated-at": "2026-06-23T10:02:00Z",
+      "source/seq-no": 1
+    }
+  },
+  "source/refs": ["room-fact:golden-open", "room-fact:golden-grant-p1"]
+}

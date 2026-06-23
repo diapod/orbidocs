@@ -109,7 +109,7 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | AD deferred + fan-out + single-owner acceptors (023) | MVP procurement | partial, usable |
 | Offer catalog + Dator offers (003/004/067) | MVP discovery | partial, usable |
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
-| **Room primitive (P070)** | live deliberation (post-MVP) | **partial: durable contracts and projection core exist; live plane not built** |
+| **Room primitive (P070)** | live deliberation (post-MVP) | **partial: durable contracts, projection core, and Agora runtime projection adapter exist; live plane not built** |
 | **Inquirium thread/session runtime** (extends P066) | live multi-turn reasoning (post-MVP) | **not built** |
 
 The MVP depends only on the first three rows. The live-deliberation layer is
@@ -958,8 +958,9 @@ runtime, no N-way settlement.
 
 #### Phase 5 — Room consolidation `[~] partial P070 foundation`
 
-- [~] Land the generic Room primitive (P070). Durable room schemas and the pure
-  projection core exist; Corpus live-room code still waits for P070 live-plane runtime
+- [~] Land the generic Room primitive (P070). Durable room schemas, the pure
+  projection core, and the Agora runtime projection adapter exist; Corpus live-room
+  code still waits for P070 live-plane runtime
   integrations. Corpus contributes the transport requirements (low latency, no
   retention, small participant count) to P070's live-transport profile.
 
