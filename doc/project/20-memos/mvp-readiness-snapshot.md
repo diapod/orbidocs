@@ -50,16 +50,19 @@ Recent component deltas:
   still draft and Corpus-specific canonical schemas, schema-gate sync, topic resolver,
   offer extension runtime, AD query/bid handling, and acceptance coverage are not yet
   implemented. P070 now provides durable Room contracts, Agora-backed projection
-  replay, and signer-backed membership attestations; post-MVP live deliberation
-  remains blocked by the unfinished P070 live plane/runtime integrations and the
-  full Inquirium thread/session runtime.
+  replay, signer-backed membership attestations, and the live-plane substrates needed
+  by future Corpus deliberation. Corpus remains blocked by its own runtime, settlement,
+  and Inquirium thread/session integration work rather than by Room.
 - Room primitive is now tracked explicitly through Proposal 070. The current code
   implements the durable Room skeleton, deterministic projection over Agora facts,
   signer-backed short-lived membership attestations, bounded Room contract validation,
-  golden projection vectors, and authenticated Agora query surfaces. It is not yet
-  MVP-ready as a complete Room runtime because WSS/Matrix live transport, room-scoped
-  passport enforcement, full live cleanup, and dedicated export helpers for
-  `room-policy.v1` / `room-membership-attestation.v1` remain pending.
+  golden projection vectors, authenticated Agora query surfaces, schema-gate import/
+  export helpers, room-scoped live authorization, host-owned Room lifecycle service,
+  bounded WebSocket pub/sub live carrier, Matrix live carrier with cleanup redaction,
+  and compatibility consolidation for answer-room/association-room projections.
+  P070 is now complete for its standalone MVP and post-MVP primitive scope; remaining
+  work belongs to consumers such as Corpus and richer collaborative answer-room
+  products.
 - Sensorium Workbench is now tracked through Proposal 071 as a post-MVP actuator
   foundation. The current code contains unwired Rust foundations for the shared
   Sensorium actuation core (`sensorium-actuation-core`) and the host-owned
@@ -167,7 +170,7 @@ Recent component deltas:
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `15` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `90` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `15` |
-| [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `false` | `false` | `58` |
+| [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `18` |
 
 ## Solutions

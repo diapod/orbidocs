@@ -354,6 +354,10 @@ Room must reuse host-owned primitives instead of building a second control plane
   replay diagnostics.
 - **Middleware (019)** may host external transport adapters, but adapter processes do not
   own membership or authority semantics.
+- **TLS/WSS termination** belongs to the listener/transport layer. A Room WebSocket
+  adapter may be tested as local `ws://` while still satisfying the Room live-plane
+  contract; deployments that expose it off-host must place it behind the existing
+  WSS/TLS listener policy rather than minting Room-specific trust roots.
 
 ### Implementation Entry Criteria
 
@@ -468,7 +472,11 @@ health(room_id) -> status
 Each operation has mandatory bounds: timeout, maximum response bytes, retry policy,
 backoff with jitter, concurrency limit per room, and failure class
 (`retryable | terminal | degraded`). Defaults live in local policy and may be tightened
-per deployment; unbounded adapter calls are invalid.
+per deployment; unbounded adapter calls are invalid. The reference runtime uses a
+5 second default clock-skew tolerance for live join attestations/passports, a 1 MiB
+pre-parse frame/event ceiling for WSS and Matrix carrier inputs, a 1024 open-room
+ceiling, and a 256 subscribers-per-room ceiling. Session refs are host-generated from
+a canonical digest of `room/id`, not from a lossy path-safe rewrite of the room id.
 
 Adapters must not decide membership or authority themselves. They receive an already
 validated projection/attestation from the Room runtime and enforce it at the live
@@ -482,7 +490,8 @@ The default closed/private room live plane is non-retained:
   buffers on close/expiry.
 - Matrix MUST be configured as a transient carrier: no public history, bounded retention,
   redaction on close/expiry, and cleanup diagnostics when server-side deletion is
-  delayed or partial.
+  delayed or partial. Redaction is a single close/expiry responsibility; cleanup must be
+  idempotent and must not repeatedly redact the same carrier events.
 - Any member-local capture is outside the shared protocol and must be classified under
   that member's own retention policy.
 - Durable room records MAY mention live session refs and high-water lifecycle facts, but
@@ -649,12 +658,12 @@ evidence) · `[!]` blocked/needs decision.
 
 ### Phase 0 — Durable skeleton contracts
 
-- [~] Complete the Implementation Entry Criteria: canonical schemas, examples,
+- [x] Complete the Implementation Entry Criteria: canonical schemas, examples,
   schema-gate tests, Agora topic namespace fixture, policy fixtures, and live transport
-  conformance test harness. Schemas, examples, schema-gate ingress coverage, and the
-  canonical topic-key fixture exist; the positive deterministic projection golden
-  vector is exercised by `room-core` and the runtime Agora projection adapter; live
-  transport conformance is still pending.
+  conformance test harness. Schemas, examples, schema-gate ingress/export coverage,
+  canonical topic-key fixtures, deterministic projection golden vectors, and shared
+  live transport conformance are implemented across `room-core`, `schema-gate`, the
+  bounded WebSocket adapter, and the Matrix adapter.
 - [x] Define `room.v1`, `room-membership.v1`, `room-event.v1`, `room-policy.v1`
   (subject-addressed, signed, `seq/no`, access list). Implemented as canonical
   schemas plus `orbiplex-node-room-core` DTOs.
@@ -667,12 +676,14 @@ evidence) · `[!]` blocked/needs decision.
   nodes must produce byte-identical canonical membership views and equal projection
   digests, including expiry evaluation under an explicit skew tolerance. The golden
   vector is shared between `room-core` and `agora-projections`.
-- [~] Add schema-gate ingress/export coverage for Agora-visible Room records.
+- [x] Add schema-gate ingress/export coverage for Agora-visible Room records.
   `room.v1`, `room-membership.v1`, and `room-event.v1` have Agora content ingress
   coverage, and `room-policy.v1` / `room-membership-attestation.v1` schemas are
   mirrored into node schema-gate contracts with positive/negative examples. Dedicated
-  export helper APIs for `room-policy.v1` and `room-membership-attestation.v1` remain
-  pending.
+  helper APIs now validate `room-policy.v1` import/export,
+  `room-live-message.v1` ingress/egress, and
+  `room-membership-attestation.v1` export, while Agora content ingress accepts durable
+  policy and attestation publication.
 
 ### Phase 1 — Membership projection and query attestation
 
@@ -696,30 +707,45 @@ evidence) · `[!]` blocked/needs decision.
 
 ### Phase 2 — Live transport contract
 
-- [~] Define `room-live-message.v1` and the transport contract (auth via room-scoped
+- [x] Define `room-live-message.v1` and the transport contract (auth via room-scoped
   passport, revocation drop, presence, retry, expiry, cleanup, sequence). The schema
-  exists; transport conformance tests and runtime adapters are not implemented.
-- [ ] Implement both MVP substrates: WSS pub/sub and Matrix with enforced
-  non-retention/redaction. Both adapters must satisfy the same auth, revocation,
-  sequencing, retry, expiry, cleanup, and retention contract.
+  exists and `room-core` now owns the typed live-frame DTO, room-scoped passport
+  projection gate, join/send/drop/close/cleanup contract, per-sender `seq/no`
+  duplicate suppression, and shared conformance tests.
+- [x] Implement both MVP substrates: WSS pub/sub and Matrix with enforced
+  non-retention/redaction. Both adapters satisfy the same auth, revocation, sequencing,
+  expiry, cleanup, and retention contract. `room-wss` provides the bounded WebSocket
+  pub/sub adapter over the shared Room live contract, including pre-parse frame limits.
+  `agora-matrix-client` provides the Matrix carrier adapter over `MatrixEventSink`,
+  including bounded subscriptions, oversized event refusal before JSON projection, and
+  close/expiry redaction with idempotent cleanup.
 
 ### Phase 3 — Access, exposure, lifecycle
 
-- [ ] Enforce access list / closed rooms via INAC room-scoped passports.
-- [~] Wire exposure modes (P009) and room policy profiles (P005). `room-policy.v1`
+- [x] Enforce access list / closed rooms via INAC room-scoped passports. The live
+  contract accepts a normalized `RoomScopedPassport` or a signed membership
+  attestation, but durable Room projection membership remains decisive so stale or
+  revoked passports cannot rejoin.
+- [x] Wire exposure modes (P009) and room policy profiles (P005). `room-policy.v1`
   now uses the room-level P009/P070 exposure mapping and documents the explicit P005
-  profile-to-policy table; schema/runtime enforcement of `policy/profile` remains
-  pending.
-- [~] Implement open/ready/close/expiry lifecycle with transport cleanup. Durable
-  projection supports open/close/expiry; live transport cleanup remains pending.
+  profile-to-policy table; schema and `room-core` runtime validation reject profile
+  field drift.
+- [x] Implement open/ready/close/expiry lifecycle with transport cleanup. Durable
+  projection supports open/close/expiry; `room-service` owns open/join/send/drop/close
+  and cleanup over live transports, and Matrix close/expiry redacts live frames while
+  cleanup remains idempotent.
 
 ### Phase 4 — Consolidation
 
-- [~] Eagerly re-express answer-room (P003) as a `room.v1` projection. Execution
-  inspection now exposes a `RoomProjection`; a persisted answer-room projector is still
-  deferred.
-- [~] Re-express association-room (P013) onto the membership/event family. The
+- [x] Eagerly re-express answer-room (P003) as a `room.v1` projection. Execution
+  inspection exposes a `RoomProjection` rather than a bespoke room type. Historical
+  selected-responder executions remain a compatibility-derived projection with
+  `high-water/seq-no = 0`; future collaborative answer-room writes should use Room
+  facts directly.
+- [x] Re-express association-room (P013) onto the membership/event family. The
   association-room lifecycle FSM is now owned by `orbiplex-node-room-core` and reused
-  by Whisper/Agora projections; the stored records are not yet the full P070
-  membership/event family.
-- [ ] Provide the live plane needed by Corpus (P069) deliberation.
+  by Whisper/Agora projections. Legacy association-room proposal records remain
+  provenance; new live/durable implementations should use the Room family directly.
+- [x] Provide the live plane needed by Corpus (P069) deliberation. The P070 live-plane
+  runtime contract, bounded WebSocket pub/sub adapter, and Matrix adapter now exist;
+  Corpus can build deliberation on Room without inventing a third room model.
