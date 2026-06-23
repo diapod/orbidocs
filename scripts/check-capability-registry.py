@@ -19,7 +19,7 @@ MAP_RE = re.compile(
     r"pub static CAPABILITY_ADVERTISEMENT_MAP: &\[\(&str, &str\)\] = &\[(.*?)\];",
     re.S,
 )
-ENTRY_RE = re.compile(r'\(\s*([A-Z0-9_]+|"[^"]+")\s*,\s*"([^"]+)"\s*\)')
+ENTRY_RE = re.compile(r'\(\s*([A-Z0-9_]+|"[^"]+")\s*,\s*"([^"]+)"\s*,?\s*\)')
 
 
 def load_runtime_capabilities(path: Path, protocol_path: Path) -> dict[str, str]:

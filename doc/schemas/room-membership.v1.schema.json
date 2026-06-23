@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-membership:v1",
+  "title": "RoomMembership v1",
+  "description": "Durable room membership grant, join, leave or revoke payload carried by an Agora record envelope.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070"],
+  "required": [
+    "schema/v",
+    "room/id",
+    "subject",
+    "op",
+    "authority/subject",
+    "seq/no",
+    "created-at"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "op": { "type": "string", "enum": ["grant", "revoke", "join", "leave"] },
+    "grants": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "room.v1.schema.json#/$defs/grant" }
+    },
+    "authority/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "seq/no": { "type": "integer", "minimum": 0 },
+    "created-at": { "type": "string", "format": "date-time" },
+    "reason/ref": { "type": "string", "minLength": 1 },
+    "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "op": { "enum": ["grant", "join"] } }, "required": ["op"] },
+      "then": { "required": ["grants"], "properties": { "grants": { "minItems": 1 } } }
+    }
+  ]
+}

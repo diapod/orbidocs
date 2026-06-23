@@ -1,0 +1,16 @@
+{
+  "schema/v": 1,
+  "room/id": "room:participant:did:key:z6MkAuthority:01JROOM",
+  "subject": {
+    "kind": "nym",
+    "id": "nym:did:key:z6MkMember"
+  },
+  "op": "grant",
+  "grants": ["speak", "vote"],
+  "authority/subject": {
+    "kind": "participant",
+    "id": "participant:did:key:z6MkAuthority"
+  },
+  "seq/no": 1,
+  "created-at": "2026-06-23T10:01:00Z"
+}

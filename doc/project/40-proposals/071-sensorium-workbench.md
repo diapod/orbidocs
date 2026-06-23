@@ -682,6 +682,23 @@ GET  /v1/sensorium/workbench/environments/{sandbox_ref}
 POST /v1/sensorium/workbench/environments/{sandbox_ref}/close
 ```
 
+Those paths are loopback-private connector surfaces. They are not public node APIs and
+MUST bind through the bounded local server runtime only. Host/module authentication is
+still required because loopback is not authority.
+
+| Endpoint family | Capability id | Required grant / caller posture |
+|---|---|---|
+| terminal session create/read/close | `sensorium.workbench.terminal` | Explicit Workbench terminal grant; operator-approved by default. |
+| structured terminal command | `sensorium.workbench.terminal` | Directive grant plus command profile admission; generated commands use argv data, not shell interpolation. |
+| raw terminal input / signal / resize | `sensorium.workbench.terminal` | Operator-only in MVP. |
+| terminal events / screen snapshots | `sensorium.workbench.terminal` | Read grant scoped to session ref and classification. |
+| file snapshot/read | `sensorium.workbench.file` | Bounded read grant scoped to workspace/root/path lease. |
+| patch apply | `sensorium.workbench.patch` | Write/patch grant plus digest/provenance checks; operator approval unless an explicit lease allows auto-apply. |
+| watches | `interaction-broker.watch` | Host broker grant scoped to observation source, cursor window, TTL, and classification. |
+| waits | `interaction-broker.wait` | Host broker grant scoped to observation source, deadline, and idempotency key. |
+| probes | `interaction-broker.probe` | Host broker grant scoped to target source and diagnostic purpose. |
+| environment create/read/close | `sensorium.workbench.env` | Environment grant scoped to backend, roots, teardown policy, and resource caps. |
+
 Sensorium Core may wrap these as `sensorium.directive.invoke` actions so
 ordinary consumers do not need to speak directly to the connector.
 
@@ -767,6 +784,11 @@ creating private equivalents:
 - Host-Owned Module Store for installing and activating Workbench connector
   packages, tool profiles, and future backend modules.
 
+Process termination is never broker-owned. When a wait or probe reports `maybe_hung`,
+timeout, or no progress, the Interaction Broker emits the diagnostic outcome only; the
+Workbench connector or operator decides whether to cancel, signal, kill, ask the user,
+or keep observing.
+
 ### 11. Relationship To Existing Sensorium OS
 
 Sensorium OS remains the generic OS action connector for allowlisted one-shot
@@ -815,6 +837,38 @@ artifact during deliberation. That use remains mediated by host policy:
 deliberation proposes the act, Workbench executes only after Sensorium grants,
 and the resulting observation is not a durable fact unless admitted.
 
+## Storage And Recovery Contract
+
+Workbench and the host Interaction Broker are stateful enough to require the
+same store discipline as other daemon-owned ledgers. Any session, wait, watch,
+probe, sandbox, approval, idempotency, or cleanup store must follow the Temporal
+Storage Convention / Storage and Database Schema Design contract: explicit
+`user_version` migrations, WAL-oriented pragmas where SQLite is used,
+`busy_timeout`, foreign keys where relationships exist, stable idempotency keys,
+bounded retention, and replay or projection diagnostics. Short-lived caches may
+remain disposable, but the decision to make a store disposable must be explicit.
+
+Daemon restart recovery is part of the safety contract, not an operator
+afterthought. On startup the Workbench runtime must run one authoritative
+recovery sweep before accepting new PTY, file, patch, or environment requests:
+
+1. enumerate runtime-owned child processes, PTY sessions, reader tasks,
+   temporary workspace/sandbox roots, active waits, and watch cursors from the
+   previous process generation;
+2. terminate or quarantine residual child processes and PTY resources using the
+   connector's cleanup policy;
+3. remove or quarantine temporary roots that are not explicitly retained by
+   policy;
+4. mark interrupted sessions, waits, watches, and probes as `failed-retryable`,
+   `failed`, or `degraded` according to the persisted state and cleanup outcome;
+5. append metadata-only recovery facts and expose cleanup failures in operator
+   status.
+
+This mirrors the Artifact Delivery recovery rule: a previous-process `running`
+state is not silently trusted after restart. There is one source of truth for
+recovery state, and no hidden background shell is allowed to survive merely
+because the daemon crashed.
+
 ## Trade-offs
 
 | Choice | Benefit | Cost / constraint |
@@ -837,6 +891,7 @@ and the resulting observation is not a durable fact unless admitted.
 | Path traversal or symlink escape reaches outside the workspace. | Canonicalize every path under `root/ref + relative/path`; reject traversal, NUL bytes, empty invalid paths, and symlink escape. |
 | PTY output leaks secrets into generic traces. | Store only metadata by default; capture raw bytes only as classified artifacts or facts. |
 | Long-running process survives session close. | Make cleanup part of the state machine; report degraded cleanup failures to operator status. |
+| Daemon restarts while PTY sessions or sandboxes are active. | Run a startup recovery sweep that terminates or quarantines residual child processes, reader tasks, PTY resources, and temporary roots before accepting new Workbench requests. |
 | Workflow blocks on a long-running operation. | Use Bounded Deferred Operations for work that can outlive one HTTP request. |
 | Client invents private polling or watcher loops. | Provide host-owned watch/wait/probe refs with deadlines, cursors, caps, and outcomes. |
 | Quiet terminal is misclassified as hung. | Separate `quiescent`, `waiting_for_input`, `no_progress`, `maybe_hung`, and `probe_failed` states under policy. |
@@ -846,6 +901,14 @@ and the resulting observation is not a durable fact unless admitted.
 | Workbench grows into a second orchestration core. | Keep Workbench as an actuator: no policy selection, no model routing, no workflow ownership. |
 
 ## Adversarial Actuator Test Matrix
+
+This matrix is a release gate for any Workbench runtime that can write files,
+spawn PTYs, apply patches, create sandboxes, or expose brokered waits across a
+process boundary. The cases must be encoded as golden vectors in
+`sensorium-actuation-core` and run by both the Rust Workbench implementation and
+Python Sensorium OS conformance tests. The required posture is refusal-first:
+every negative vector must fail before the corresponding runtime surface can be
+enabled by default.
 
 | Class | Required negative or stress cases |
 | --- | --- |
@@ -882,6 +945,11 @@ shape: `schema`, `source_tier`, `effective_tier`, `provenance`,
 | `sensorium-workbench-patch.v1` | Patch proposal artifact and metadata. |
 | `sensorium-workbench-patch-apply-result.v1` | Applied/rejected patch result with changed files and digests. |
 | `sensorium-workbench-outcome.v1` | Host audit fact linking directive id, grant, caller, session/environment refs, status, timing, byte counts, and artifacts. |
+
+Phase 0 schema ownership belongs to the Workbench implementation owner. The owner must
+publish JSON Schema files and positive/negative examples before any corresponding
+cross-process connector route is exposed. Rust DTOs may precede schemas only while they
+remain in-process and unwired.
 
 ## Security Invariants
 
@@ -940,66 +1008,109 @@ grants, raw terminal input for model-driven commands, or autonomous multi-step
 agent loops. It also does not need WebSockets; polling or bounded long-polling
 is enough if cursor and outcome semantics are stable.
 
-## Open Questions
+### Phase Release Gates
 
-1. Should Workbench start as a separate supervised module immediately, or as an
-   optional capability group inside Sensorium OS with a migration path?
-   Recommendation: start as a separate supervised connector if implementation
-   time allows; otherwise keep a separate Workbench contract even when reusing
-   Sensorium OS internals.
-2. What is the smallest terminal screen model that is useful to LLMs without
-   leaking entire transcripts?
-3. Should patch application use unified diff only, or admit structured edit
-   operations later?
-4. What default approval profile should local filesystem writes use?
-5. Should terminal sessions produce Memarium facts only on explicit capture, or
-   should outcome summaries always be mirrored?
-6. Which sandbox backend should be first after host-local workspaces:
-   container, microVM, or fixture-only virtual workspace?
-7. How should Workbench expose file trees to models: direct snapshots,
-   artifact-index refs, or a query-style lease?
-8. Should raw PTY input be operator-only in the MVP, or may narrow built-in
-   workflows use it under a stronger approval profile?
-9. Which command profile fields are required before the first implementation:
-   executable identity, argv schema, cwd policy, env policy, timeout, egress,
-   and output capture policy?
-10. Which wait conditions should be guaranteed in the MVP versus left as
-    component-specific probes?
-11. What bounded replay window is sufficient for watch cursors in local-only
-    Workbench sessions?
-12. Should `maybe_hung` be purely diagnostic, or may policy automatically
-    escalate it into an operator question?
-13. Should the host-owned interaction broker be promoted into its own solution
-    document before Workbench implementation, or first appear as a daemon
-    primitive consumed by Sensorium?
-14. What are the default PTY concurrency caps for a local laptop profile:
-    active sessions, reader tasks, input queue depth, and event buffer depth?
-15. Are `deferred-operation-status.v1.extensions` sufficient for early async
-    wait diagnostics, or should a small common wait/probe extension be promoted
-    before implementation?
-16. Should the existing Python Sensorium OS connector consume the shared Rust
-    `sensorium-actuation-core` through a binding/RPC path, or should the shared
-    core first be consumed only by the future Workbench connector while the
-    Sensorium OS implementation remains a separately audited reference?
-17. Which Workbench and interaction-broker DTOs need JSON Schema projections
-    before the first cross-process boundary is exposed? Candidate schemas are
-    watch request, wait request, wait outcome, probe request, command profile,
-    command intent, relative path address, and PTY resource caps.
-18. Should timeout policy ever authorize kill-on-timeout from the host
-    interaction broker, or should process termination remain exclusively a
-    connector/operator directive separate from wait outcome semantics?
-19. Should the host interaction broker keep validating only the basic
-    `deferred:<operation_kind>:<deterministic_id>` shape, or should the exact
-    deterministic-id validator be shared with the deferred-operation registry
-    before cross-process broker APIs are exposed?
-20. Should relative path syntax validation move into a smaller shared utility
-    crate consumed by both `sensorium-actuation-core` and
-    `interaction-broker-core`, or should the current duplication remain
-    intentional because the broker is a horizontal primitive and must not
-    depend on actuation-specific code?
-21. Should the Workbench foundation appear in hard-MVP implementation docs as a
-    planned post-MVP seed, or only in proposal and implementation-ledger
-    tracking until a connector or host runtime surface exists?
+Phase 1 may begin only when Phase 0 has frozen schemas/examples for the specific
+surfaces being exposed, capability ids are registered, the storage/recovery contract is
+documented, and the adversarial matrix has executable golden vectors for path and
+command-intent refusal. PTY creation may not be enabled by default until PTY lifecycle,
+cleanup, oversized-output, orphan-after-crash, and credential-egress vectors pass.
+
+Phase 2 may begin only when the local connector produces metadata-only outcomes,
+operator-visible status, and bounded recovery facts for Phase 1 effects. Sensorium Core
+must consume Workbench through grants/directives, not by reaching into connector-local
+HTTP details.
+
+Phase 3/4 integration with room, Corpus, or agent loops may begin only after Workbench
+has a stable refusal-first conformance suite shared with Python Sensorium OS and after
+watch/wait/probe replay semantics are backed by bounded retention.
+
+## Resolved Decisions
+
+1. **Workbench packaging.** Workbench starts as a separate supervised connector. It may
+   reuse Sensorium OS internals, but its operational identity, capability declarations,
+   limits, traces, and lifecycle are distinct.
+2. **Terminal screen model.** The default LLM-facing terminal observation is a bounded
+   viewport snapshot with cursor position and a digest/ref for omitted backlog. It does
+   not expose full transcripts unless explicitly captured under a separate policy.
+3. **Patch model.** Patch application supports both unified diff and structured edit
+   operations. Unified diff remains the human-readable lowest common denominator;
+   structured edits exist for machine-authored, schema-checked transformations.
+4. **Filesystem writes.** Local filesystem writes require explicit approval by default.
+   Writes inside an already granted leased workspace may be auto-allowed only when the
+   lease and policy say so; outside that lease, approval remains required.
+5. **Terminal-to-Memarium capture.** Terminal sessions create Memarium facts only on
+   explicit capture. Outcome summaries are not mirrored automatically.
+6. **First sandbox backend.** After host-local workspaces, the first sandbox backend is
+   a fixture-only virtual workspace. Containers and microVMs are later substrate
+   implementations.
+7. **File tree exposure.** Workbench exposes file trees to models through query-style
+   leases. A lease is narrower and easier to revoke than a full direct snapshot.
+8. **Raw PTY input.** Raw PTY input is operator-only in MVP. Model-driven workflows use
+   structured command/file intents, not arbitrary terminal keystrokes.
+9. **Command profile completeness.** The first implementation requires executable
+   identity, argv schema, cwd policy, env policy, timeout, egress, and output capture
+   policy before a command profile can be accepted.
+10. **MVP wait conditions.** MVP waits cover process exit, stdout/stderr pattern, file
+   exists/changes, and timeout. Component-specific probes can be added later.
+11. **Watch replay window.** Local Workbench watch cursors keep a bounded replay window
+   by both count and time, with the laptop profile defaulting to 1,000 events or 10
+   minutes unless policy overrides it. The eventual watch request schema must carry both
+   event/byte caps and a time-window or TTL axis; the broker enforces the narrowest
+   applicable bound.
+12. **`maybe_hung`.** `maybe_hung` is diagnostic only. It does not automatically create
+   operator questions or kill processes.
+13. **Interaction Broker status.** The host-owned interaction broker should be promoted
+   into its own solution document before Workbench implementation exposes a cross-process
+   runtime surface.
+14. **Laptop PTY caps.** The default local laptop profile is conservative: 2 active PTY
+   sessions, 4 reader tasks, input queue depth 256, and event buffer depth 1,000. These
+   caps are policy-configurable.
+15. **Async wait diagnostics.** Early async wait diagnostics use
+   `deferred-operation-status.v1.extensions`; no separate common wait/probe extension is
+   promoted before implementation.
+16. **Workbench DTO schema gate.** All candidate Workbench and interaction-broker DTOs
+   need JSON Schema projections before the first cross-process boundary is exposed:
+   watch request, wait request, wait outcome, probe request, command profile, command
+   intent, relative path address, and PTY resource caps.
+17. **Timeout termination.** Timeout policy does not authorize kill-on-timeout from the
+   host interaction broker. Process termination remains a connector/operator directive
+   separate from wait outcome semantics.
+18. **Deferred id validation.** The host interaction broker must share the exact
+   deterministic-id validator with the deferred-operation registry before cross-process
+   broker APIs are exposed. Broker acceptance of an operation-done condition must call
+   the deferred-operation validator, not merely check the `deferred:` prefix.
+19. **Relative path validation.** Relative path syntax validation moves into a small
+   shared utility crate consumed by both `sensorium-actuation-core` and
+   `interaction-broker-core`.
+20. **Hard-MVP documentation visibility.** Workbench foundation appears in hard-MVP
+   implementation docs as a planned post-MVP seed. This keeps the runtime boundary
+   visible to implementers without claiming that Workbench itself is part of hard-MVP.
+21. **Shared actuation core adoption.** The first implementation keeps Python Sensorium
+   OS as a separately audited reference connector and lets Workbench consume
+   `sensorium-actuation-core` natively. The shared core is the contract plus golden
+   vectors from day zero, not merely the Rust crate. Canonical rules for path
+   canonicalization, symlink escape refusal, allowlists, command profiles, and
+   classification must be expressed as data/reference rules with golden vectors. The
+   Rust `sensorium-actuation-core` carries those vectors as the reference
+   implementation; Python Sensorium OS must run the same conformance vectors now,
+   without FFI. Direct Python consumption of the Rust core is a tracked later phase,
+   adopted only when the FFI/IPC cost is justified.
+22. **Capability registration.** The reserved capability ids are
+    `sensorium.workbench.terminal`, `sensorium.workbench.file`,
+    `sensorium.workbench.patch`, `sensorium.workbench.env`,
+    `interaction-broker.wait`, `interaction-broker.watch`, and
+    `interaction-broker.probe`. They are registered before runtime work so that
+    Workbench and broker authority does not appear as untracked informal module power.
+23. **State-store discipline.** Workbench and Interaction Broker stores must follow
+    the Temporal Storage Convention / Storage and Database Schema Design contract:
+    explicit migrations, WAL-oriented SQLite pragmas, `busy_timeout`, foreign keys,
+    idempotency keys, bounded retention, and replay/projection diagnostics.
+24. **Restart recovery sweep.** A Workbench runtime must enumerate and terminate or
+    quarantine residual child processes, PTY resources, reader tasks, and temporary
+    sandbox roots on daemon restart before accepting new requests. Interrupted
+    sessions and waits must become explicit failed/degraded records, never invisible
+    live residue.
 
 ## Next Actions And Implementation Tracker
 
@@ -1008,27 +1119,40 @@ evidence) · `[!]` blocked/needs decision.
 
 ### Phase 0 - Contract Freeze
 
-- [ ] Decide whether first implementation is a separate Workbench connector or
-  an optional capability group inside Sensorium OS.
-- [~] Decide whether the host-owned interaction broker is promoted to a
-  separate solution before implementation or first lands as a daemon primitive.
-  Initial unwired Rust foundation exists in
-  `node/interaction-broker-core`; daemon ownership and public solution status
-  are still undecided.
+- [x] Decide whether first implementation is a separate Workbench connector or
+  an optional capability group inside Sensorium OS. Decision: separate supervised
+  Workbench connector.
+- [~] Promote the host-owned interaction broker into a separate solution before
+  implementation exposes a cross-process runtime surface. Initial unwired Rust
+  foundation exists in `node/interaction-broker-core`; solution promotion remains
+  pending.
 - [~] Define the shared actuation core boundary consumed by Sensorium OS and
   Workbench. Initial unwired Rust foundation exists in
   `node/sensorium-actuation-core`; Sensorium OS and Workbench do not consume it
-  yet.
+  yet. Decision: share contract and golden vectors from day zero; Workbench consumes the
+  Rust core first, while Python Sensorium OS runs conformance tests against the same
+  vectors without FFI.
 - [ ] Define `sensorium-workbench-environment.v1`.
-- [ ] Define terminal session/command/raw-input/event/snapshot schemas.
+- [ ] Define terminal session/command/raw-input/event/snapshot schemas. The accepted
+  terminal observation model is a bounded viewport snapshot with cursor and backlog
+  digest/ref.
 - [~] Define watch/wait/probe schemas, status values, cursor rules, and timeout
   semantics. The initial host-owned watch/wait/probe contract lives in
   `node/interaction-broker-core`, including bounded caps, deadlines,
   correlation ids, no-progress vocabulary, and deferred-operation projection.
 - [ ] Require `schema` and `schema/v` on every top-level Workbench schema while
   preserving embedded `classification.v1` as schema-only.
-- [ ] Define file snapshot/read and patch apply schemas.
+- [ ] Assign Phase 0 schema ownership and publish JSON Schema files plus
+  positive/negative examples before exposing any corresponding cross-process connector
+  route.
+- [ ] Define file snapshot/read and patch apply schemas. Patch apply supports both
+  unified diff and structured edit operations.
 - [ ] Define operator-visible status fields and audit outcome shape.
+- [ ] Define the Workbench/Interaction Broker storage contract and startup recovery
+  sweep. Stores must use explicit migrations, WAL-oriented SQLite pragmas,
+  `busy_timeout`, foreign keys where applicable, idempotency keys, and
+  metadata-only recovery facts; restart recovery must kill or quarantine orphan
+  PTY/child processes and temp roots before new requests are admitted.
 - [~] Define command profile fields and normalized argv digest rules. The
   initial unwired contract lives in `node/sensorium-actuation-core`, including
   argv-as-data validation, environment policy, timeout/output caps, workspace
@@ -1039,10 +1163,19 @@ evidence) · `[!]` blocked/needs decision.
   wait outcome as the result projection, not as a parallel status model.
   `node/interaction-broker-core` contains the initial conversion helper; host
   registry integration is still not wired.
-- [ ] Decide MVP policy for raw PTY input.
-- [ ] Decide MVP wait conditions and no-progress vocabulary.
-- [ ] Define the adversarial actuator test matrix as a required acceptance
-  suite.
+- [x] Decide MVP policy for raw PTY input. Decision: operator-only in MVP.
+- [x] Decide MVP wait conditions and no-progress vocabulary. MVP waits cover process
+  exit, stdout/stderr pattern, file exists/changes, and timeout; `maybe_hung` is
+  diagnostic only.
+- [~] Define the adversarial actuator test matrix as a required acceptance
+  suite. The matrix is now specified as a refusal-first release gate and must be
+  encoded as `sensorium-actuation-core` golden vectors plus Python Sensorium OS
+  conformance tests before write/PTY runtime surfaces are enabled.
+- [ ] Enforce the Phase Release Gates before Phase 1+ runtime work: frozen schemas for
+  exposed surfaces, registered capabilities, documented storage/recovery contract, and
+  executable refusal-first golden vectors for the relevant effect classes.
+- [ ] Track later direct Python Sensorium OS consumption of `sensorium-actuation-core`
+  through binding/RPC only after the Rust core and conformance vectors prove stable.
 
 ### Phase 1 - Local Workbench Connector
 

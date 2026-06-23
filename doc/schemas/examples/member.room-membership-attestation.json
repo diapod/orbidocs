@@ -1,0 +1,22 @@
+{
+  "schema/v": 1,
+  "room/id": "room:participant:did:key:z6MkAuthority:01JROOM",
+  "subject": {
+    "kind": "nym",
+    "id": "nym:did:key:z6MkMember"
+  },
+  "member": true,
+  "grants": ["speak", "vote"],
+  "high-water/seq-no": 2,
+  "source/refs": [
+    "room.v1:sha256:open",
+    "room-membership.v1:sha256:grant"
+  ],
+  "attested-at": "2026-06-23T10:03:00Z",
+  "expires-at": "2026-06-23T10:04:00Z",
+  "signer/ref": "participant:did:key:z6MkAuthority",
+  "signature": {
+    "alg": "ed25519",
+    "value": "5Jp3ew-uYV3foRz3LeLwz5N5Jp3ewuYV3foRz3LeLwz5N5Jp3ewuYV3foRz3LeLwz5N5Jp3ew"
+  }
+}

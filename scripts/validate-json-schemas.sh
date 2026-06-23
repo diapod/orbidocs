@@ -392,6 +392,24 @@ schema_for_file() {
     *.association-room-proposal.json)
       echo "$SCHEMAS_DIR/association-room-proposal.v1.schema.json"
       ;;
+    *.room-membership-attestation.json)
+      echo "$SCHEMAS_DIR/room-membership-attestation.v1.schema.json"
+      ;;
+    *.room-live-message.json)
+      echo "$SCHEMAS_DIR/room-live-message.v1.schema.json"
+      ;;
+    *.room-membership.json)
+      echo "$SCHEMAS_DIR/room-membership.v1.schema.json"
+      ;;
+    *.room-event.json)
+      echo "$SCHEMAS_DIR/room-event.v1.schema.json"
+      ;;
+    *.room-policy.json)
+      echo "$SCHEMAS_DIR/room-policy.v1.schema.json"
+      ;;
+    *.room.json)
+      echo "$SCHEMAS_DIR/room.v1.schema.json"
+      ;;
     *.proof-of-personhood-attestation.json)
       echo "$SCHEMAS_DIR/proof-of-personhood-attestation.v1.schema.json"
       ;;

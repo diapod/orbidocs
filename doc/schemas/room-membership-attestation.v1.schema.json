@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-membership-attestation:v1",
+  "title": "RoomMembershipAttestation v1",
+  "description": "Short-lived signed projection answer for room membership and grant checks.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070"],
+  "required": [
+    "schema/v",
+    "room/id",
+    "subject",
+    "member",
+    "grants",
+    "high-water/seq-no",
+    "source/refs",
+    "attested-at",
+    "expires-at",
+    "signer/ref",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "member": { "type": "boolean" },
+    "grants": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "room.v1.schema.json#/$defs/grant" }
+    },
+    "high-water/seq-no": { "type": "integer", "minimum": 0 },
+    "source/refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "attested-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "signer/ref": { "type": "string", "minLength": 1 },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": { "const": "ed25519" },
+        "value": { "type": "string", "minLength": 1 }
+      }
+    },
+    "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
+  }
+}

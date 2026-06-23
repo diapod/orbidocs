@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "room/id": "room:participant:did:key:z6MkAuthority:01JROOM",
+  "event": "closed",
+  "authority/subject": {
+    "kind": "participant",
+    "id": "participant:did:key:z6MkAuthority"
+  },
+  "seq/no": 2,
+  "created-at": "2026-06-23T10:30:00Z",
+  "reason/ref": "operator:closed-after-deliberation"
+}

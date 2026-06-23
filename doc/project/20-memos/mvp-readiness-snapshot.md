@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-06-22.
+Snapshot date: 2026-06-23.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -8,7 +8,7 @@ Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implement
 
 Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
 
-Change basis: this refresh incorporates the current worktree state on 2026-06-22 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, and the selected-responder P003/P011 schema-gated procurement closure.
+Change basis: this refresh incorporates the current worktree state on 2026-06-23 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Proposal 071 Sensorium Workbench, and the selected-responder P003/P011 schema-gated procurement closure.
 
 Recent component deltas:
 
@@ -43,6 +43,22 @@ Recent component deltas:
 - Inquirium moved from a mostly conceptual organ to an implemented substrate slice. Proposal 063 now has a first `generate` vertical through `inquirium-core`, daemon `inquirium.generate`, JSON-e Flow ingress/preflight, NSE runtime selection, deterministic stub runtime, classification-aware request validation, and metadata-only trace records. Proposal 064's runtime-adapter recommendations are mostly implemented across model-runtime catalog v0.2, runtime-candidate routing, HTTP/stdio adapters, remote provider adapters, and embedding contracts; durable direct data-plane leases remain in progress. Proposal 066 is intentionally kept low because the assistant-channel surface is documented but not end-to-end implemented.
 - Story 005 remains hard-MVP complete, and its post-M4 productization tracker now lives in the Whisper implementation note instead of a workspace-root draft file. The closed slice has a CI-runnable Inquirium acceptance bridge: an opt-in supervised simulator adapter is routed only through model-runtime/Inquirium by `runtime/ref` and host-owned `model.binding/ref`. `whisper-core` carries the production-shaped policy primitives for routing failure mode, source class, outbound privacy resolution, correlation policy explanation, association-room proposal lifecycle, and public-gossip promotion. The current Node worktree now consumes those primitives in the publish path: `whisper-intake` performs outbound privacy preflight before public/private publish using host-owned `agora.relay` evidence with passport-scoped relay class data, queries and bounds private preflight facts, persists and validates the new preflight fact, validates host signing responses, blocks hard-fail refusals, and requires explicit operator acknowledgement bound to the canonical candidate digest for soft-fail downgrades. It also enforces source-class safety gates for `monus-sensorium-derived` evidence refs and Monus-derived help-mode diversion. `agora-projections` and `agora-service` now provide a minimal local association-room lifecycle seed plus public-gossip promotion drafts from accepted rooms, with authenticated actor binding, bounded lifecycle facts, FK-backed proposal refs, and bounded opaque lineage refs. These move Proposal 013 closer to post-M4 productization while preserving the readiness interpretation for unfinished product/runtime surfaces such as real Anon relay transport, production semantic correlation, full association-room case management on the accepted signed room-event log over Artifact Delivery with multi-Agora fanout/merge, bounded replica retention status, and per-thread predecessor digest links, final public-gossip publication runtime, live Monus/Sensorium source verification, richer UI, and remote model deployment.
 - Shared Offer Catalog is now a concrete middleware solution track. Proposal 067 and Solution 033 document the extracted shared Python offer-catalog runtime, Agora replay, fail-closed Agora/Seed Directory admission, Arca embedded-cache reuse, query parity, withdrawal active filtering, and public/shared catalog deployment shape. The remaining work is operational passport publication/profile hardening rather than the core projection runtime.
+- Corpus is now tracked as a hard-MVP candidate through Proposal 069. Its MVP slice is
+  intentionally narrow: topic taxonomy/resolution, topic-scoped offer discovery,
+  `question-envelope.v1`-decorated query broadcast, bid-state aggregation, and a
+  single-provider P011/P016 settlement path. Readiness is low because the document is
+  still draft and Corpus-specific canonical schemas, schema-gate sync, topic resolver,
+  offer extension runtime, AD query/bid handling, and acceptance coverage are not yet
+  implemented. Post-MVP live deliberation remains blocked by the unfinished P070 live
+  plane/runtime integrations and the full Inquirium thread/session runtime.
+- Sensorium Workbench is now tracked through Proposal 071 as a post-MVP actuator
+  foundation. The current code contains unwired Rust foundations for the shared
+  Sensorium actuation core (`sensorium-actuation-core`) and the host-owned
+  interaction broker (`interaction-broker-core`), covering path, command, and PTY caps,
+  watch/wait/probe contracts, bounded deadlines, correlation ids, and
+  deferred-operation projection. Readiness remains low because no supervised
+  Workbench connector, Sensorium routing, grants, operator status, filesystem
+  snapshots, patch apply path, or virtualized backend is wired yet.
 - Local Relationship Layer is now hard-MVP complete for the Node-owned slice: Proposal 065 and Solution 032 have contracts, pure core, vault-first daemon storage, sealed rebuildable SQLite projection, local control/host capabilities, operator class/membership/predicate/decision audit UI, package trust queue with approval history, canonical Messaging consumption, dynamic Artifact Delivery group resolution, repeatable Story-010 relationship acceptance runner, projection replay/privacy regression gates, and verified `remote-disclosed` node-operator-binding import through the identity control surface. Public federated Local Relationship capability, richer multi-operator UX, CI-provider wiring for the runner, revocation-view invalidation for imported binding evidence, and performance profiling under real relationship cardinalities remain post-MVP work.
 - Replay Scheduler M1 is now fully closed for the hard-MVP slice: the generic bounded scheduler, durable launch ledger, host-owned job-source merge, authority gate, cooperative shutdown, Agora projection replay action, and operator status/control surface are all documented as implemented. Richer Agora-domain panels and non-Agora maintenance jobs are post-M1 extensions.
 - Agora gained a generic encrypted-artifact Vault surface: `agora-vault-entry.v1` exposes only opaque artifact ids, kind, ciphertext, and cryptographic envelope metadata; supervised local routes are client-auth / daemon-dispatch gated, while remote provider deployments bind the same operations to the frozen `agora-vault@v1` passport profile.
@@ -141,6 +157,8 @@ Recent component deltas:
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `15` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `90` |
+| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `15` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `18` |
 
 ## Solutions
 

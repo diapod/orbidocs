@@ -1,0 +1,19 @@
+{
+  "schema/v": 1,
+  "policy/id": "room-policy:closed-private-v1",
+  "access/closed": true,
+  "access/list": [
+    {
+      "kind": "participant",
+      "id": "participant:did:key:z6MkAuthority"
+    },
+    {
+      "kind": "nym",
+      "id": "nym:did:key:z6MkMember"
+    }
+  ],
+  "exposure": "private-to-swarm",
+  "live/retention": "non-retained",
+  "max/live-message-bytes": 4096,
+  "created-at": "2026-06-23T09:59:00Z"
+}

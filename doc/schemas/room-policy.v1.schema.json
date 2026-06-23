@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-policy:v1",
+  "title": "RoomPolicy v1",
+  "description": "Room access, exposure and retention policy referenced by room.v1.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070", "P009", "P005"],
+  "required": [
+    "schema/v",
+    "policy/id",
+    "access/closed",
+    "access/list",
+    "exposure",
+    "live/retention",
+    "created-at"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "policy/id": { "type": "string", "pattern": "^room-policy:[A-Za-z0-9._:/=-]+$" },
+    "access/closed": { "type": "boolean" },
+    "access/list": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "room.v1.schema.json#/$defs/subject" }
+    },
+    "exposure": {
+      "type": "string",
+      "enum": ["private-to-swarm", "federation-local", "cross-federation", "global"]
+    },
+    "live/retention": {
+      "type": "string",
+      "enum": ["non-retained", "member-local-capture-only", "public-policy-defined"]
+    },
+    "max/live-message-bytes": { "type": "integer", "minimum": 1 },
+    "created-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
+  }
+}

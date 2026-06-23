@@ -1,3 +1,15 @@
+[P005]
+path = "doc/project/40-proposals/005-operator-participation-room-policy-profiles.md"
+short = "P005"
+
+[P009]
+path = "doc/project/40-proposals/009-communication-exposure-modes.md"
+short = "P009"
+
+[P070]
+path = "doc/project/40-proposals/070-room-primitive.md"
+short = "P070"
+
 [P051]
 path = "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
 short = "P051"

@@ -170,7 +170,8 @@ For example:
 - `private-to-swarm` -> minimal eligible room membership + strict retention profile,
 - `federation-local` -> federation-bounded envelope dissemination and room discovery,
 - `public-call-for-help` -> cross-federation or global dissemination according to room
-  and federation policy.
+  and federation policy. P070 resolves the room-level split as `cross-federation` by
+  default and `global` only under explicit consent or federation policy.
 
 This keeps UX stable while preserving architectural flexibility.
 
@@ -198,10 +199,11 @@ This keeps UX stable while preserving architectural flexibility.
    - Benefit: stronger sovereignty and dignity protection.
    - Cost: high-stakes local policy may still need to restrict or widen behavior.
 
-## Open Questions
+## Resolved And Open Questions
 
-1. Should `public-call-for-help` split into `cross-federation` and `global` as
-   separate user-facing modes later?
+1. Resolved for Room policy by P070: `public-call-for-help` remains the user-facing
+   request label, while room-level policy splits it into `cross-federation` and
+   `global`.
 2. Should exposure mode be mutable only by the asker, or also by a secretary under
    bounded policy?
 3. How should exposure mode interact with transcript monitors and archivist defaults?

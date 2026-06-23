@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room:v1",
+  "title": "Room v1",
+  "description": "Durable room opening payload carried inside an Agora record envelope. The Agora envelope owns record id, topic, author and signature; this payload owns only room-domain fields.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070"],
+  "required": [
+    "schema/v",
+    "room/id",
+    "opener/subject",
+    "authority/subject",
+    "policy/ref",
+    "seq/no",
+    "created-at"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "room/id": { "$ref": "#/$defs/room_id" },
+    "opener/subject": { "$ref": "#/$defs/subject" },
+    "authority/subject": { "$ref": "#/$defs/subject" },
+    "policy/ref": { "type": "string", "pattern": "^room-policy:[A-Za-z0-9._:/=-]+$" },
+    "seq/no": { "type": "integer", "minimum": 0 },
+    "created-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "source/ref": { "type": "string", "minLength": 1 },
+    "extensions": { "$ref": "#/$defs/extensions" }
+  },
+  "$defs": {
+    "room_id": {
+      "type": "string",
+      "pattern": "^room:[A-Za-z0-9._:=-]+$"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["nym", "participant", "node", "routing-subject", "organization"]
+        },
+        "id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "grant": {
+      "type": "string",
+      "enum": ["speak", "vote", "answer", "observe", "moderate", "delegate"]
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

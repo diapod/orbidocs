@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-event:v1",
+  "title": "RoomEvent v1",
+  "description": "Durable room lifecycle or authority event payload carried by an Agora record envelope.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070"],
+  "required": ["schema/v", "room/id", "event", "authority/subject", "seq/no", "created-at"],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "event": {
+      "type": "string",
+      "enum": [
+        "opened",
+        "delegated",
+        "delegation-revoked",
+        "member-granted",
+        "member-revoked",
+        "ready",
+        "expired",
+        "closed"
+      ]
+    },
+    "authority/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "seq/no": { "type": "integer", "minimum": 0 },
+    "created-at": { "type": "string", "format": "date-time" },
+    "reason/ref": { "type": "string", "minLength": 1 },
+    "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
+  }
+}

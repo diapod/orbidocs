@@ -1,0 +1,16 @@
+{
+  "schema/v": 1,
+  "room/id": "room:participant:did:key:z6MkAuthority:01JROOM",
+  "session/ref": "room-session:01JROOMSESSION",
+  "from/subject": {
+    "kind": "nym",
+    "id": "nym:did:key:z6MkMember"
+  },
+  "seq/no": 1,
+  "nonce": "uYV3foRz3LeLwz5N5Jp3ew",
+  "size/bytes": 12,
+  "content/type": "text/plain",
+  "content": "hello room",
+  "content/digest": "sha256:V1StGXR8_Z5jdHi6B-myT94S3t3ooFoH-oYNgwHqcf0",
+  "sent-at": "2026-06-23T10:02:00Z"
+}

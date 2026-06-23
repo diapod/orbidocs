@@ -1,0 +1,16 @@
+{
+  "schema/v": 1,
+  "room/id": "room:participant:did:key:z6MkAuthority:01JROOM",
+  "opener/subject": {
+    "kind": "participant",
+    "id": "participant:did:key:z6MkAuthority"
+  },
+  "authority/subject": {
+    "kind": "participant",
+    "id": "participant:did:key:z6MkAuthority"
+  },
+  "policy/ref": "room-policy:closed-private-v1",
+  "seq/no": 0,
+  "created-at": "2026-06-23T10:00:00Z",
+  "expires-at": "2026-06-23T10:30:00Z"
+}

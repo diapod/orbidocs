@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `44` | `10` |
 | `30-stories` (Stories) | `15` | `1` |
-| `40-proposals` (Proposals) | `71` | `60` |
+| `40-proposals` (Proposals) | `74` | `63` |
 | `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `52` | `31` |
 
-- Total project markdown files: `213`
-- Proposals referencing source material: `60` / `71`
+- Total project markdown files: `216`
+- Proposals referencing source material: `63` / `74`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
@@ -163,6 +163,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) | `18` | `17` | `yes` | `yes` | `2` | `1` |
 | [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
+| [`room-event.v1.schema.json`](schemas-gen/schemas/room-event.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `0` |
+| [`room-live-message.v1.schema.json`](schemas-gen/schemas/room-live-message.v1.md) | `12` | `1` | `yes` | `yes` | `1` | `1` |
+| [`room-membership-attestation.v1.schema.json`](schemas-gen/schemas/room-membership-attestation.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `0` |
+| [`room-membership.v1.schema.json`](schemas-gen/schemas/room-membership.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `1` |
+| [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
+| [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md) | `17` | `1` | `yes` | `yes` | `1` | `0` |
 | [`seed-capability-registration.v1.schema.json`](schemas-gen/schemas/seed-capability-registration.v1.md) | `4` | `3` | `yes` | `yes` | `1` | `0` |
 | [`seed-directory-query-attestation.v1.schema.json`](schemas-gen/schemas/seed-directory-query-attestation.v1.md) | `15` | `13` | `yes` | `yes` | `1` | `1` |
@@ -329,6 +335,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) |  | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md) |
 | [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md) | [`requirements-002-peer-learning.md`](project/50-requirements/requirements-002-peer-learning.md), [`requirements-003-memory-archivists.md`](project/50-requirements/requirements-003-memory-archivists.md), [`requirements-004-transcript-curation.md`](project/50-requirements/requirements-004-transcript-curation.md), [`requirements-005-transcript-segments.md`](project/50-requirements/requirements-005-transcript-segments.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-002-federated-peer-learning.md`](project/30-stories/story-002-federated-peer-learning.md), [`story-003-remote-memory-preservation.md`](project/30-stories/story-003-remote-memory-preservation.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md) |
 | [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) | [`requirements-002-peer-learning.md`](project/50-requirements/requirements-002-peer-learning.md), [`requirements-003-memory-archivists.md`](project/50-requirements/requirements-003-memory-archivists.md), [`requirements-004-transcript-curation.md`](project/50-requirements/requirements-004-transcript-curation.md), [`requirements-005-transcript-segments.md`](project/50-requirements/requirements-005-transcript-segments.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-002-federated-peer-learning.md`](project/30-stories/story-002-federated-peer-learning.md), [`story-003-remote-memory-preservation.md`](project/30-stories/story-003-remote-memory-preservation.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md) |
+| [`room-event.v1.schema.json`](schemas-gen/schemas/room-event.v1.md) |  |  |
+| [`room-live-message.v1.schema.json`](schemas-gen/schemas/room-live-message.v1.md) |  |  |
+| [`room-membership-attestation.v1.schema.json`](schemas-gen/schemas/room-membership-attestation.v1.md) |  |  |
+| [`room-membership.v1.schema.json`](schemas-gen/schemas/room-membership.v1.md) |  |  |
+| [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) |  |  |
+| [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) |  |  |
 | [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md) |
 | [`seed-capability-registration.v1.schema.json`](schemas-gen/schemas/seed-capability-registration.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md) |
 | [`seed-directory-query-attestation.v1.schema.json`](schemas-gen/schemas/seed-directory-query-attestation.v1.md) |  |  |
@@ -367,7 +379,10 @@ Generated coverage snapshot for the current `doc/` structure.
 |---|---|
 | [`Membership Policy`](normative/50-constitutional-ops/en/MEMBERSHIP-AND-SPONSORSHIP-POLICY.en.md) | [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md), [`membership-invitation.v1.schema.json`](schemas-gen/schemas/membership-invitation.v1.md), [`membership-sponsorship.v1.schema.json`](schemas-gen/schemas/membership-sponsorship.v1.md), [`participant-effective-limits.v1.schema.json`](schemas-gen/schemas/participant-effective-limits.v1.md), [`participant-entry-profile.v1.schema.json`](schemas-gen/schemas/participant-entry-profile.v1.md), [`surface-access-policy.v1.schema.json`](schemas-gen/schemas/surface-access-policy.v1.md) |
 | [`Participant Covenant`](normative/50-constitutional-ops/en/PARTICIPANT-COVENANT.en.md) | [`membership-acceptance.v1.schema.json`](schemas-gen/schemas/membership-acceptance.v1.md) |
+| [`P005`](project/40-proposals/005-operator-participation-room-policy-profiles.md) | [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) |
+| [`P009`](project/40-proposals/009-communication-exposure-modes.md) | [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) |
 | [`P051`](project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md) | [`membership-acceptance.v1.schema.json`](schemas-gen/schemas/membership-acceptance.v1.md), [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md), [`membership-invitation.v1.schema.json`](schemas-gen/schemas/membership-invitation.v1.md), [`membership-sponsorship.v1.schema.json`](schemas-gen/schemas/membership-sponsorship.v1.md) |
+| [`P070`](project/40-proposals/070-room-primitive.md) | [`room-event.v1.schema.json`](schemas-gen/schemas/room-event.v1.md), [`room-live-message.v1.schema.json`](schemas-gen/schemas/room-live-message.v1.md), [`room-membership-attestation.v1.schema.json`](schemas-gen/schemas/room-membership-attestation.v1.md), [`room-membership.v1.schema.json`](schemas-gen/schemas/room-membership.v1.md), [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md), [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) |
 | [`R009`](project/50-requirements/requirements-009-capability-limits.md) | [`participant-effective-limits.v1.schema.json`](schemas-gen/schemas/participant-effective-limits.v1.md) |
 | [`R015`](project/50-requirements/requirements-015-newcomer-surface-limits.md) | [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md), [`participant-effective-limits.v1.schema.json`](schemas-gen/schemas/participant-effective-limits.v1.md), [`participant-entry-profile.v1.schema.json`](schemas-gen/schemas/participant-entry-profile.v1.md), [`surface-access-policy.v1.schema.json`](schemas-gen/schemas/surface-access-policy.v1.md) |
 | [`doc/normative/40-constitution/pl/CONSTITUTION.pl.md`](normative/40-constitution/pl/CONSTITUTION.pl.md) | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md), [`signal-marker.v1.schema.json`](schemas-gen/schemas/signal-marker.v1.md), [`signal-transform-event.v1.schema.json`](schemas-gen/schemas/signal-transform-event.v1.md), [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md), [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) |
@@ -483,7 +498,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/schemas/routing-subject-binding.v1.schema.json`](schemas/routing-subject-binding.v1.schema.json) | [`contact-claim.v1.schema.json`](schemas-gen/schemas/contact-claim.v1.md) |
 | [`doc/project/40-proposals/068-api-surface-projection.md`](project/40-proposals/068-api-surface-projection.md) | [`artifact-delivery-admission-response.v1.schema.json`](schemas-gen/schemas/artifact-delivery-admission-response.v1.md), [`middleware-decision-response.v1.schema.json`](schemas-gen/schemas/middleware-decision-response.v1.md), [`middleware-status-response.v1.schema.json`](schemas-gen/schemas/middleware-status-response.v1.md), [`offer-catalog-query-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-query-response.v1.md), [`offer-catalog-status-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-status-response.v1.md) |
 
-- Canonical schemas: `161`
-- Generated schema docs: `161`
-- Positive examples: `174`
-- Negative examples: `130`
+- Canonical schemas: `167`
+- Generated schema docs: `167`
+- Positive examples: `180`
+- Negative examples: `132`

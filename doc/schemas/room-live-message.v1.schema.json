@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-live-message:v1",
+  "title": "RoomLiveMessage v1",
+  "description": "Ephemeral live-room frame. It is validated at the live transport boundary and is not a durable room fact.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070"],
+  "required": [
+    "schema/v",
+    "room/id",
+    "session/ref",
+    "from/subject",
+    "seq/no",
+    "nonce",
+    "size/bytes",
+    "content/type",
+    "content"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "session/ref": { "type": "string", "pattern": "^room-session:[A-Za-z0-9._:-]+$" },
+    "from/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "seq/no": { "type": "integer", "minimum": 0 },
+    "nonce": {
+      "type": "string",
+      "description": "Base64url-encoded cryptographically random nonce, at least 128 bits before encoding.",
+      "pattern": "^[A-Za-z0-9_-]{22,256}$"
+    },
+    "size/bytes": { "type": "integer", "minimum": 0 },
+    "content/type": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "content": { "type": "string" },
+    "content/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "sent-at": { "type": "string", "format": "date-time" },
+    "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
+  }
+}
