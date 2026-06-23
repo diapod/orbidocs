@@ -1,0 +1,25 @@
+{
+  "schema/v": 1,
+  "request/mode": "member-self",
+  "requester/subject": {
+    "kind": "nym",
+    "id": "nym:did:key:z6MkMember"
+  },
+  "subject": {
+    "kind": "nym",
+    "id": "nym:did:key:z6MkMember"
+  },
+  "requested/grants": ["speak"],
+  "ttl/seconds": 60,
+  "authorization": {
+    "kind": "room-scoped-passport",
+    "passport/ref": "passport:room:member-self:01JROOM",
+    "room/id": "room:participant:did:key:z6MkAuthority:01JROOM",
+    "subject": {
+      "kind": "nym",
+      "id": "nym:did:key:z6MkMember"
+    },
+    "grants": ["speak"],
+    "expires-at": "2026-06-23T10:15:00Z"
+  }
+}

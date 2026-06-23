@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-attestation-audit:v1",
+  "title": "RoomAttestationAudit v1",
+  "description": "Operator-visible metadata-only audit event emitted when a room membership attestation request is issued, refused, deduplicated, or rate-limited.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070"],
+  "required": [
+    "schema/v",
+    "audit/id",
+    "room/id",
+    "request/mode",
+    "requester/subject",
+    "subject/ref",
+    "decision",
+    "reason/code",
+    "observed-at"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "audit/id": {
+      "type": "string",
+      "pattern": "^room-attestation-audit:[A-Za-z0-9._:/=-]+$"
+    },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "request/mode": {
+      "type": "string",
+      "enum": ["invitee-first-join", "member-self", "authority-roster"]
+    },
+    "requester/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "subject/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Digest or stable redacted reference for the requested subject; the audit event must not disclose closed-room roster contents to unauthorized viewers."
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["issued", "refused", "deduplicated", "rate-limited"]
+    },
+    "reason/code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "exposure": {
+      "type": "string",
+      "enum": [
+        "private-to-swarm",
+        "federation-local",
+        "cross-federation",
+        "global"
+      ],
+      "description": "Effective room exposure used for attestation policy evaluation. If the room policy is unavailable, producers may emit the conservative private-to-swarm fallback."
+    },
+    "ttl/requested": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 900,
+      "description": "TTL requested by the caller before endpoint caps are applied."
+    },
+    "ttl/granted": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 900,
+      "description": "TTL granted by the endpoint after exposure-specific caps are applied."
+    },
+    "high-water/seq-no": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "attestation/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "dedup/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "rate-limit/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "observed-at": { "type": "string", "format": "date-time" },
+    "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
+  }
+}

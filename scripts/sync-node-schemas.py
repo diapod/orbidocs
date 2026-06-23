@@ -43,6 +43,8 @@ SCHEMA_WHITELIST = (
     "room-policy.v1.schema.json",
     "room-live-message.v1.schema.json",
     "room-membership-attestation.v1.schema.json",
+    "room-membership-attestation-request.v1.schema.json",
+    "room-attestation-audit.v1.schema.json",
     "whisper-interest.v1.schema.json",
     "whisper-signal.v1.schema.json",
     "whisper-threshold-reached.v1.schema.json",
@@ -203,6 +205,9 @@ EXAMPLE_WHITELIST = (
     "closed-private.room-policy.json",
     "basic.room-live-message.json",
     "member.room-membership-attestation.json",
+    "member-self.room-membership-attestation-request.json",
+    "issued.room-attestation-audit.json",
+    "refused.room-attestation-audit.json",
     "messaging.contact-request.json",
     "basic.message-envelope.json",
     "issued.messaging.passport-issued.json",
@@ -288,6 +293,8 @@ SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
     "room-policy.v1.schema.json",
     "room-live-message.v1.schema.json",
     "room-membership-attestation.v1.schema.json",
+    "room-membership-attestation-request.v1.schema.json",
+    "room-attestation-audit.v1.schema.json",
 )
 
 

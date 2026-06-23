@@ -1,0 +1,20 @@
+{
+  "schema/v": 1,
+  "audit/id": "room-attestation-audit:sha256:issued-example",
+  "room/id": "room:participant:did:key:z6MkAuthority:01JROOM",
+  "request/mode": "member-self",
+  "requester/subject": {
+    "kind": "nym",
+    "id": "nym:did:key:z6MkMember"
+  },
+  "subject/ref": "sha256:0b7b54d5d834db29d1f928e4c6f4f0d847a3e80a9a4fbf9279869450e7787f53",
+  "decision": "issued",
+  "reason/code": "issued",
+  "exposure": "private-to-swarm",
+  "ttl/requested": 60,
+  "ttl/granted": 60,
+  "high-water/seq-no": 1,
+  "attestation/ref": "sha256:77e8fb2cf78c71d138c75887f01fefc01e3d127d7e765d43131c88b53867f6e6",
+  "dedup/key": "sha256:member-self-example",
+  "observed-at": "2026-06-23T10:00:00Z"
+}

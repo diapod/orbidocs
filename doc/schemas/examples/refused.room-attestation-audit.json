@@ -1,0 +1,16 @@
+{
+  "schema/v": 1,
+  "audit/id": "room-attestation-audit:sha256:refused-example",
+  "room/id": "room:participant:did:key:z6MkAuthority:01JROOM",
+  "request/mode": "member-self",
+  "requester/subject": {
+    "kind": "nym",
+    "id": "nym:did:key:z6MkRequester"
+  },
+  "subject/ref": "sha256:ef2121b1ee0c92775ae58c7bb9d0eb1ec87eb0a5f8e459c5b5c4bd7c4c0d2cd2",
+  "decision": "refused",
+  "reason/code": "no-disclosure",
+  "exposure": "private-to-swarm",
+  "dedup/key": "sha256:no-disclosure-example",
+  "observed-at": "2026-06-23T10:01:00Z"
+}

@@ -395,6 +395,12 @@ schema_for_file() {
     *.room-membership-attestation.json)
       echo "$SCHEMAS_DIR/room-membership-attestation.v1.schema.json"
       ;;
+    *.room-membership-attestation-request.json)
+      echo "$SCHEMAS_DIR/room-membership-attestation-request.v1.schema.json"
+      ;;
+    *.room-attestation-audit.json)
+      echo "$SCHEMAS_DIR/room-attestation-audit.v1.schema.json"
+      ;;
     *.room-live-message.json)
       echo "$SCHEMAS_DIR/room-live-message.v1.schema.json"
       ;;

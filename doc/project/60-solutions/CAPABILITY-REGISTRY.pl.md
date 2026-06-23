@@ -18,9 +18,13 @@ Rejestr obejmuje capability IDs używane jako:
 - identyfikatory w `capability-advertisement.v1`,
 - kryteria routingu lub odkrywania capability w Node.
 
-Nie obejmuje host-local capabilities typu `recovery.sign` czy
-`catalog.local.query`. Te należą do lokalnej powierzchni hosta, nie do
-federacyjnego rejestru capability IDs.
+Historycznie nie obejmował host-local capabilities typu `recovery.sign` czy
+`catalog.local.query`. Ta granica jest już nieaktualna: rejestr zawiera dziś wiersze
+host-local (np. `interaction-broker.*`, `sensorium.workbench.*`), a **Proposal 072 czyni
+jeden rejestr — z dyskryminatorem `surface` — egzekwowanym źródłem prawdy dla zdolności
+federacyjnych i host-local.** Do czasu wdrożenia P072 traktuj ten dokument jako
+**ludzką projekcję w oczekiwaniu na P072**, nie jako wyczerpujący ani autorytatywny
+runtime allow-set.
 
 ## Warstwy deklarowania capability
 

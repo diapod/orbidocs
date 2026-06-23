@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-06-23.
+Snapshot date: 2026-06-24.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -8,7 +8,7 @@ Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implement
 
 Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
 
-Change basis: this refresh incorporates the current worktree state on 2026-06-23 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Proposal 071 Sensorium Workbench, and the selected-responder P003/P011 schema-gated procurement closure.
+Change basis: this refresh incorporates the current worktree state on 2026-06-24 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Proposal 071 Sensorium Workbench, the selected-responder P003/P011 schema-gated procurement closure, and the P070 Phase 5 attestation-policy hardening from code review 89.
 
 Recent component deltas:
 
@@ -55,14 +55,20 @@ Recent component deltas:
   and Inquirium thread/session integration work rather than by Room.
 - Room primitive is now tracked explicitly through Proposal 070. The current code
   implements the durable Room skeleton, deterministic projection over Agora facts,
-  signer-backed short-lived membership attestations, bounded Room contract validation,
-  golden projection vectors, authenticated Agora query surfaces, schema-gate import/
-  export helpers, room-scoped live authorization, host-owned Room lifecycle service,
-  bounded WebSocket pub/sub live carrier, Matrix live carrier with cleanup redaction,
-  and compatibility consolidation for answer-room/association-room projections.
-  P070 is now complete for its standalone MVP and post-MVP primitive scope; remaining
-  work belongs to consumers such as Corpus and richer collaborative answer-room
-  products.
+  signer-backed short-lived membership attestations, explicit POST attestation request
+  contracts, no-disclosure request modes, per-exposure TTL caps, rate-limit/dedup,
+  metadata-only attestation audit, bounded Room contract validation, golden projection
+  vectors, authenticated Agora query surfaces, schema-gate import/export helpers,
+  room-scoped live authorization, host-owned Room lifecycle service, bounded WebSocket
+  pub/sub live carrier, Matrix live carrier with cleanup redaction, and compatibility
+  consolidation for answer-room/association-room projections. The latest hardening
+  makes the attestation endpoint skew-tolerant for authorization expiry, rejects
+  over-cap TTL instead of silently clamping it, scopes rate-limit buckets by room, and
+  records audit facts with `exposure`, `ttl/requested`, and `ttl/granted` while schema
+  tests reject raw payload and passport bodies. P070 is now complete for
+  its standalone MVP and post-MVP primitive scope including Phase 5 attestation policy;
+  remaining work belongs to consumers such as Corpus and richer collaborative
+  answer-room products.
 - Sensorium Workbench is now tracked through Proposal 071 as a post-MVP actuator
   foundation. The current code contains unwired Rust foundations for the shared
   Sensorium actuation core (`sensorium-actuation-core`) and the host-owned

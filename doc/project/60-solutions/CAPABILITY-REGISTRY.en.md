@@ -18,9 +18,13 @@ This registry covers capability IDs used as:
 - identifiers in `capability-advertisement.v1`,
 - routing or discovery predicates in the Node runtime.
 
-It does not cover host-local capabilities such as `recovery.sign` or
-`catalog.local.query`. Those belong to the host's local capability surface, not
-to the federated capability ID registry.
+Historically it excluded host-local capabilities such as `recovery.sign` or
+`catalog.local.query`. That boundary is now superseded: this registry already lists
+host-local rows (e.g. `interaction-broker.*`, `sensorium.workbench.*`), and **Proposal
+072 makes one registry — with a `surface` discriminator — the enforced source of truth
+for both federated and host-local capabilities.** Until P072 lands, treat this document
+as the **human projection pending P072**, not an exhaustive or authoritative runtime
+allow-set.
 
 ## Assertion Layers
 

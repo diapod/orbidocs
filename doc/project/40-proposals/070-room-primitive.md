@@ -224,6 +224,8 @@ primitive instead of maintaining a compatibility projection first.
 | `room-policy.v1` | new | Access list, exposure, expiry; reuses P009/P005 vocabularies. |
 | `room-live-message.v1` | new (ephemeral wire) | Validated live frame: session boundary, `seq/no`, max size, replay handling. Validated but not persisted; not a fact. |
 | `room-membership-attestation.v1` | new | Signed projection answering membership/authority queries (subject, grants, signer, high-water). |
+| `room-membership-attestation-request.v1` | new | Explicit request contract for runtime attestation issuance: request mode, requester, subject, requested grants, TTL, and room-scoped authorization. |
+| `room-attestation-audit.v1` | new | Metadata-only operator-visible audit fact for issued, refused, deduplicated, and rate-limited attestation requests. |
 
 ## Relationship to Existing Mechanisms
 
@@ -364,8 +366,9 @@ Room must reuse host-owned primitives instead of building a second control plane
 Runtime work MUST NOT begin until the first contract gate exists:
 
 1. canonical schemas and examples for `room.v1`, `room-membership.v1`,
-   `room-event.v1`, `room-policy.v1`, `room-live-message.v1`, and
-   `room-membership-attestation.v1`;
+   `room-event.v1`, `room-policy.v1`, `room-live-message.v1`,
+   `room-membership-attestation.v1`, `room-membership-attestation-request.v1`,
+   and `room-attestation-audit.v1`;
 2. positive and negative schema-gate/admission tests for invalid signatures, old
    canonicalization, clock skew, missing `author/nym-proof`, sequence gaps,
    duplicate `seq/no` with different digest, invalid authority, revoked membership,
@@ -511,9 +514,80 @@ attestation is not a live join denial reason by itself; it is the evidence the l
 adapter uses to deny.
 
 Attestations are short-lived. The default cache TTL is one minute for closed/private
-rooms and MAY be shorter when revocation sensitivity is high. The MVP runtime caps
-requested membership-attestation TTL at five minutes, and any membership-changing
-record invalidates cached attestations for the affected room.
+rooms and MAY be shorter when revocation sensitivity is high. Requested TTL is capped
+per exposure mode (see *Attestation Endpoint Policy*), and any membership-changing
+record invalidates cached attestations for the affected room (revocation freshness
+beats TTL).
+
+### Attestation Endpoint Policy (exposure-governed)
+
+The attestation produced by `attest_membership` is the credential a live adapter
+consumes to admit a join — it is the live-join evidence, not a mere read-model. The
+endpoint therefore signs, on demand, room-authority assertions that other nodes trust
+for access; it is an **authorization surface**, governed default-deny by the room's
+exposure mode, not an open query. This one rule resolves CR-87/CR-88 findings P1-I
+(TTL inconsistency), P1-J (endpoint auth), P2-9 (rate-limit/dedup), and P2-10 (audit).
+
+- **Authentication (default-deny), three request modes.** Unauthenticated requests are
+  denied, and the endpoint never reveals whether a room or subject exists beyond what the
+  requester is entitled to learn. The request MUST present a room-scoped authorization
+  claim whose `kind`, subject, room id, grants, and expiry are validated by this surface;
+  deployments that expose the endpoint beyond the local trusted service boundary MUST
+  back that claim with the shared `capability.passport.verify` / capability-binding
+  verifier. The authorization *kind* bounds what it may obtain:
+  - **invitee first-join** — an invitee presenting the room-scoped **invitation** passport
+    the authority already issued obtains a *self-scoped* attestation sufficient for its
+    first join. This breaks the chicken-and-egg loop: you need not already be a member to
+    attest the membership the invitation grants.
+  - **member self-attestation** — an existing member, with its membership/capability
+    passport, attests only its own membership and grants.
+  - **authority roster attestation** — the room authority (or a delegated role) attests
+    another subject or the roster, within the disclosure scope below.
+
+  (Same INAC material as join, Solution 017/014; the invitation mode is what keeps the
+  first legal join reachable.)
+- **Wire surface.** Runtime issuance is a `POST` with an explicit request body:
+  `POST /v1/agora/projections/rooms/{room_id}/membership-attestation` carrying
+  `room-membership-attestation-request.v1`. The path room id and request room id must
+  match. The old `GET /v1/agora/projections/rooms/{room_id}/membership-attestation`
+  query surface is deprecated and may return `410 Gone`; no compatibility guarantee is
+  required at this stage.
+- **Disclosure scope by role.** A member MAY attest only its own membership/grants; the
+  room authority (or a delegated role) MAY attest the roster. For `private-to-swarm`
+  and `federation-local` rooms, other members' presence is not disclosed to a
+  non-authority requester, and a closed-room roster is never enumerable by a non-member.
+- **TTL cap by exposure** (replaces any flat cap; the endpoint MUST reject a requested
+  TTL above the cap):
+
+  | Exposure | Max attestation TTL |
+  |---|---|
+  | `private-to-swarm` | 60 s |
+  | `federation-local` | 300 s |
+  | `cross-federation` | 900 s |
+  | `global` | per federation policy, default 900 s |
+
+  Any membership-changing record invalidates cached attestations for the affected room
+  (revocation freshness beats TTL). These are *policy* caps applied by the endpoint; the
+  pure `room-core` enforces one absolute *technical* max that MUST be ≥ the largest
+  per-exposure cap above. Decision: raise `ROOM_ATTESTATION_MAX_TTL_SECONDS` to `900 s`
+  when implementing this phase, so the core can carry the documented
+  `cross-federation` / `global` rows while endpoint policy still applies lower caps for
+  private and federation-local rooms.
+- **Rate-limit and dedup.** Requests are rate-limited per requester and per room, and
+  identical `(room, subject, requested-grants, high-water)` requests are deduplicated,
+  so the endpoint cannot be used as a signing-work amplifier.
+- **Audit.** Every issued attestation and every refusal is an operator-visible audit
+  fact. `room-attestation-audit.v1` carries `requester/subject`, `room/id`,
+  `subject/ref`, `requested/grants`, `decision`, `reason/code`, `exposure`,
+  `ttl/requested`, `ttl/granted`, `projection/high-water`, and `attestation/ref` when
+  issued. It never carries payload or passport bodies. `agora-service` persists these
+  facts in its local attestation audit store and exposes the recent read model through
+  `GET /v1/agora/operator/room-attestation-audit` for operator inspection.
+
+The same policy applies wherever the endpoint is hosted, **including `agora-service`**:
+that surface MUST adopt the per-exposure TTL cap (resolving the room-core 60 s vs
+`agora-service` 3600 s divergence), the passport auth gate, the rate-limit, and the
+audit trail before it is reachable outside fixtures.
 
 ### Migration Plan
 
@@ -678,12 +752,14 @@ evidence) · `[!]` blocked/needs decision.
   vector is shared between `room-core` and `agora-projections`.
 - [x] Add schema-gate ingress/export coverage for Agora-visible Room records.
   `room.v1`, `room-membership.v1`, and `room-event.v1` have Agora content ingress
-  coverage, and `room-policy.v1` / `room-membership-attestation.v1` schemas are
+  coverage, and `room-policy.v1`, `room-membership-attestation.v1`,
+  `room-membership-attestation-request.v1`, and `room-attestation-audit.v1` schemas are
   mirrored into node schema-gate contracts with positive/negative examples. Dedicated
   helper APIs now validate `room-policy.v1` import/export,
-  `room-live-message.v1` ingress/egress, and
-  `room-membership-attestation.v1` export, while Agora content ingress accepts durable
-  policy and attestation publication.
+  `room-live-message.v1` ingress/egress, `room-membership-attestation.v1` export,
+  `room-membership-attestation-request.v1` ingress, and `room-attestation-audit.v1`
+  export, while Agora content ingress accepts durable policy and attestation
+  publication.
 
 ### Phase 1 — Membership projection and query attestation
 
@@ -697,13 +773,15 @@ evidence) · `[!]` blocked/needs decision.
   `attest_membership` factory with explicit failure modes, and `agora-service`
   exposes authenticated projection queries:
   `GET /v1/agora/projections/rooms/{room_id}` and
-  `GET /v1/agora/projections/rooms/{room_id}/membership-attestation`.
-  The attestation path signs canonical attestation bytes through the host signer under
-  `room-membership-attestation.v1`; repeated grant parameters are intentionally not a
-  query language, so callers request multiple grants with comma-separated `grants`.
-  The shared `room-core` contract bounds subject identifiers, signer refs, signature
-  values, durable digest inputs, local clock-skew tolerance, and attestation TTL; it
-  also normalizes requested grants before membership checks and signing.
+  `POST /v1/agora/projections/rooms/{room_id}/membership-attestation`.
+  The deprecated `GET` attestation surface returns a deprecation response instead of
+  minting a credential. The POST path validates `room-membership-attestation-request.v1`,
+  applies the three request modes, signs canonical attestation bytes through the host
+  signer under `room-membership-attestation.v1`, and records
+  `room-attestation-audit.v1` facts. The shared `room-core` contract bounds subject
+  identifiers, signer refs, signature values, durable digest inputs, local clock-skew
+  tolerance, and attestation TTL; it also normalizes requested grants before membership
+  checks and signing.
 
 ### Phase 2 — Live transport contract
 
@@ -749,3 +827,25 @@ evidence) · `[!]` blocked/needs decision.
 - [x] Provide the live plane needed by Corpus (P069) deliberation. The P070 live-plane
   runtime contract, bounded WebSocket pub/sub adapter, and Matrix adapter now exist;
   Corpus can build deliberation on Room without inventing a third room model.
+
+### Phase 5 — Attestation Endpoint Policy enforcement
+
+The previous service-authenticated `GET` query is deprecated. Runtime issuance now
+uses `room-membership-attestation-request.v1` over POST and treats attestation minting
+as an authorization surface.
+
+- [x] Passport-shaped room authorization with the three request modes (invitee
+  first-join, member self-attestation, authority roster attestation); default-deny
+  otherwise. The current `agora-service` endpoint validates the room-scoped
+  authorization claim at the local trusted service boundary; deployments exposing this
+  outside that boundary must bind it to capability-passport verification.
+- [x] Disclosure-scope enforcement by role and exposure (closed-room roster not
+  enumerable by a non-authority requester).
+- [x] Raise `ROOM_ATTESTATION_MAX_TTL_SECONDS` to `900 s` and enforce the per-exposure
+  endpoint caps from the table above.
+- [x] Per-requester / per-room rate-limit and `(room, request-mode, subject, grants,
+  high-water, ttl)` dedup.
+- [x] Define and emit `room-attestation-audit.v1` fact on issue, refusal,
+  deduplication, and rate-limit decisions (no payload/passport bodies).
+- [x] `agora-service` adopts the same auth gate, TTL caps, rate-limit, and audit before
+  the endpoint is reachable outside fixtures.

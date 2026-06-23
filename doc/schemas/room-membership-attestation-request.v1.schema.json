@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-membership-attestation-request:v1",
+  "title": "RoomMembershipAttestationRequest v1",
+  "description": "Explicit POST request contract for asking a room authority projection to issue a short-lived membership attestation.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070"],
+  "required": [
+    "schema/v",
+    "request/mode",
+    "requester/subject",
+    "subject",
+    "requested/grants",
+    "authorization"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "request/mode": {
+      "type": "string",
+      "enum": ["invitee-first-join", "member-self", "authority-roster"]
+    },
+    "requester/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "requested/grants": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "room.v1.schema.json#/$defs/grant" }
+    },
+    "ttl/seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 900
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "passport/ref", "room/id", "subject", "grants", "expires-at"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["room-invitation", "room-scoped-passport"]
+        },
+        "passport/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+        "subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+        "grants": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "room.v1.schema.json#/$defs/grant" }
+        },
+        "expires-at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
+  }
+}
