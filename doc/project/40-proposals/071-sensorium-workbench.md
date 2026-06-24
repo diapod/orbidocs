@@ -1080,6 +1080,15 @@ Phase 3/4 integration with room, Corpus, or agent loops may begin only after Wor
 has a stable refusal-first conformance suite shared with Python Sensorium OS and after
 watch/wait/probe replay semantics are backed by bounded retention.
 
+## Open Questions
+
+1. **Command profile validation source.** Should the Python Workbench connector
+   call `sensorium-actuation-core` through a thin Rust CLI/RPC/FFI wrapper for
+   command-profile validation, or should Python keep a deliberately mirrored
+   validator with golden vectors as the single cross-language source of truth?
+   The current implementation uses the mirrored fail-closed validator and should
+   stay synchronized with Rust tests until this is decided.
+
 ## Resolved Decisions
 
 1. **Workbench packaging.** Workbench starts as a separate supervised connector. It may
@@ -1282,27 +1291,39 @@ evidence) · `[!]` blocked/needs decision.
   `sensorium-workbench-environment.v1`; missing, unavailable, relative,
   duplicate, empty, or filesystem-root workspace roots make `/readyz` fail
   closed with typed diagnostics.
-- [~] Implement terminal session create/commands/events/resize/signal/close.
-  Terminal endpoints and Sensorium action ids exist only as fail-closed gates in
-  the first slice.
-- [~] Enforce PTY session, reader-task, input queue, and event buffer caps with
-  explicit overload/refusal outcomes. Laptop defaults are declared in config and
-  refusal diagnostics; no PTY runtime is enabled yet.
+- [x] Implement terminal session create/commands/events/resize/signal/close.
+  The opt-in Python Workbench connector now creates bounded terminal sessions,
+  spawns structured argv commands through a PTY without shell interpolation,
+  admits variable arguments only through explicit `allowed_argv_prefixes`,
+  hard-denies dangerous environment override keys, records terminal events in
+  SQLite, exposes event cursors, and supports resize/signal/close under explicit
+  terminal grants. Factory config keeps the runtime disabled until an operator
+  sets `terminal_enabled: true` and provides command profiles.
+- [x] Enforce PTY session, reader-task, input queue, and event buffer caps with
+  explicit overload/refusal outcomes. Laptop defaults remain `2` sessions,
+  `4` reader tasks, queue depth `256`, and event buffer `1000`; the connector
+  also caps command timeout and output bytes.
 - [~] Implement watch cursors for terminal events and operation outcomes. The
-  current connector exposes bounded synthetic/local event cursors for
-  environment/read/probe events; terminal and operation watches remain future.
-- [ ] Implement short bounded waits for command done, terminal quiescence,
-  environment ready, file exists, and artifact present.
-- [~] Implement active probes for process liveness, environment readiness, file
-  existence/digest, and artifact presence. Environment readiness and file
-  existence/digest probes are implemented; process and artifact probes remain
+  connector exposes bounded synthetic/local event cursors for environment/read/probe
+  events and per-session terminal event cursors; generalized operation outcome
+  watches remain tied to later host-broker runtime work.
+- [~] Implement short bounded waits for command done, terminal quiescence,
+  environment ready, file exists, and artifact present. The connector now has a
+  synchronous bounded wait pilot over probe conditions, including
+  `terminal-command-done`; terminal quiescence and artifact-present waits remain
   future source-provider work.
+- [~] Implement active probes for process liveness, environment readiness, file
+  existence/digest, and artifact presence. Environment readiness, file
+  existence/digest, process-alive, and terminal-command-done probes are
+  implemented; artifact probes remain future source-provider work.
 - [x] Keep raw PTY input disabled or operator-only until an explicit policy is
-  accepted. Raw PTY input is a fail-closed gate in the current connector.
+  accepted. Raw PTY input is implemented only as an operator-confirmed grant
+  path; model-driven raw input remains denied.
 - [~] Implement TTL, idle timeout, byte caps, process cleanup, and refusal
-  diagnostics. Request body caps, file read byte caps, oversized-file refusal,
-  and refusal diagnostics exist; process cleanup and idle timeout await
-  PTY/runtime work.
+  diagnostics. Request body caps, file read byte caps, terminal command timeout,
+  command output byte caps, session caps, process termination on close/timeout,
+  startup orphan process signaling, event payload caps, SQLite retention cleanup,
+  and typed refusal diagnostics exist; idle-timeout policy remains future work.
 - [x] Implement file snapshot and bounded file read. Snapshot lists symlinks as
   metadata without following them; reads refuse symlink traversal and files over
   the host read cap.
@@ -1311,26 +1332,43 @@ evidence) · `[!]` blocked/needs decision.
   mechanics: artifact-ref input, unified diff/structured edits, no deletes by
   default, digest checks, provenance, and approval policy.
 - [ ] Use Bounded Deferred Operations for environment setup or command runs that
-  outlive one HTTP request.
-- [ ] Run the adversarial actuator test matrix before enabling write or PTY
-  features by default.
+  outlive one HTTP request. The current terminal command endpoint returns
+  `202 accepted` and exposes event/wait polling, but it is still connector-local
+  rather than registered as a host Bounded Deferred Operation.
+- [~] Run the adversarial actuator test matrix before enabling write or PTY
+  features by default. The current test slice covers traversal, root self,
+  symlink traversal, oversized files, grant-required mediated read, command
+  profile denial including variable argv beyond a fixed prefix, dangerous env
+  override stripping, operator-only raw input denial, retired session refs, and a
+  PTY happy path; broader residual-child, egress, credential, replay, and
+  patch-write vectors remain.
 
 ### Phase 2 - Sensorium Integration
 
-- [~] Add Sensorium Core capability routing for Workbench directives. The
+- [x] Add Sensorium Core capability routing for Workbench directives. The
   connector exposes `/v1/sensorium/connector/invoke` and Workbench action ids
-  for Sensorium Core mediated routing; grant/policy wiring in Sensorium Core
-  remains future.
+  for Sensorium Core mediated routing; Sensorium Core already dispatches
+  allowlisted connector directives with directive metadata and idempotency.
 - [ ] Route cross-source waits through the host interaction broker rather than
   making Sensorium Core own AD, Memarium, approval, or deferred-operation joins.
-- [ ] Add grant and policy checks for terminal command, terminal raw input,
-  file snapshot, file read, and patch apply.
-- [~] Record directive outcomes and metadata-only traces. Refused PTY and patch
-  gates return `sensorium-workbench-outcome.v1`; durable outcome storage remains
+- [~] Add grant and policy checks for terminal command, terminal raw input,
+  file snapshot, file read, and patch apply. The connector enforces explicit
+  grant envelopes for mediated file/probe/watch/wait actions and terminal
+  actions; raw input, resize, and signal additionally require operator
+  confirmation. Full host-side cryptographic grant issuance remains future.
+- [~] Record directive outcomes and metadata-only traces. Patch gates still
+  return `sensorium-workbench-outcome.v1`; terminal runtime now records sessions,
+  commands, and events durably in connector SQLite. Host audit projection of
+  those facts remains future. Session refs are retired after first use to keep
+  the audit trail unambiguous.
+- [x] Add operator status/control surfaces for active sessions and sandboxes.
+  `/v1/status` reports terminal enablement, PTY caps, active session count, and
+  session summaries; session close is an explicit control surface. Sandboxes
+  remain future virtualized backend work.
+- [~] Expose active waits, watches, deadlines, and suspected no-progress states
+  in operator status. Event cursors and command status are exposed; active wait
+  registry, deadlines, no-progress classification, and host-broker status remain
   future.
-- [ ] Add operator status/control surfaces for active sessions and sandboxes.
-- [ ] Expose active waits, watches, deadlines, and suspected no-progress states
-  in operator status.
 - [ ] Link captured outputs through Artifact Delivery or Memarium only under
   explicit classification and retention policy.
 
