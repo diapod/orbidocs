@@ -415,6 +415,37 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
     runtime with tools, not a minimal single-call or minimal open/continue/close surface,
     because the component is strategically required beyond Corpus.
 
+## Open Questions
+
+1. **Shared semantic validators.** Should `schema-gate` depend on
+   `orbiplex-node-corpus-core` for taxonomy/query semantic validation, or should it keep
+   independent edge validators synchronized by golden vectors? Reusing `corpus-core`
+   reduces drift and keeps one implementation of tree/digest semantics, but it makes the
+   edge validator depend on a domain kernel. Independent validators preserve a narrower
+   schema-gate dependency surface, but every semantic rule must be maintained twice.
+2. **Empty bid-state representation.** Should `corpus-reasoning-bid-state.v1` allow
+   `candidates: []` when discovery or AD dispatch fails before any candidate is selected,
+   or should the requester emit a synthetic `unreachable`/`delivery-failed` candidate row?
+   Allowing an empty list is the simplest read-model representation. A synthetic row keeps
+   operator UI and audit timelines uniform, but risks inventing a candidate that was never
+   actually selected.
+3. **`extensions` byte budgets.** What maximum canonical JSON byte size should be allowed
+   for Corpus `extensions` fields on query, bid, taxonomy, and resolution artifacts? The
+   runtime currently treats extensions as ordinary JSON data; before network exposure,
+   admission should cap them to prevent fan-out amplification and digest/materialization
+   overhead.
+4. **Trusted taxonomy loader boundary.** Should Corpus offer admission be performed only
+   through a taxonomy-aware loader/verifier path, or should the generic service-offer
+   catalog become taxonomy-context-aware for `corpus.provider` records? The first option
+   keeps the generic catalog reusable and makes Corpus admission an explicit higher-layer
+   gate. The second option prevents invalid Corpus offers from ever entering the shared
+   catalog, but couples the generic catalog store to Corpus governance material.
+5. **Taxonomy issuer trust policy.** `corpus/taxonomy-issuer` is now preserved in the
+   runtime scope, but the exact trust source is not yet frozen. Should issuer acceptance
+   come from local node policy, Seed Directory governance facts, Agora authority records,
+   or a composed trust policy? This must be decided before Dator or another provider can
+   publish Corpus offers as production-admissible facts.
+
 ## Implementation Contract
 
 This section is the execution bridge between the proposal and code. Runtime work MUST
@@ -913,11 +944,19 @@ runtime, no N-way settlement.
 
 #### Phase 0 — Preconditions
 
-- [ ] Confirm AD deferred mode, `capability-many`, single-owner acceptors usable for a
-  second marketplace consumer.
-- [ ] Confirm P011 artifacts + P016 escrow reachable for a single contracting provider.
-- [ ] Extract the language-neutral normative profile from `node/canonical-json` for
-  Corpus signatures and idempotency keys.
+- [x] Confirm AD deferred mode, `capability-many`, single-owner acceptors usable for a
+  second marketplace consumer. Evidence: Artifact Delivery supports `capability-many`
+  recipient selectors, private/direct policy checks, deferred delivery status, and
+  single-owner acceptor admission; Corpus uses those seams rather than adding a
+  transport authority.
+- [~] Confirm P011 artifacts + P016 escrow reachable for a single contracting provider.
+  The existing procurement/settlement path is reusable, and Corpus now exports the
+  selected embedded `procurement-offer.v1`; the Corpus-specific daemon bridge into
+  contract/receipt closing is still open.
+- [~] Extract the language-neutral normative profile from `node/canonical-json` for
+  Corpus signatures and idempotency keys. The Rust canonical JSON implementation is
+  reused by Corpus digests and idempotency keys; a standalone normative profile remains
+  documentation work.
 - [x] Complete the MVP Contract Gate: canonical schemas, positive/negative examples,
   node schema sync, schema-gate validation, and admission constrainers for the MVP
   procurement slice. Evidence: `topic-taxonomy.v1`, `topic-resolution.v1`,
@@ -932,22 +971,31 @@ runtime, no N-way settlement.
 - [x] Define signed `topic-taxonomy.v1` (issuer key, validity, supersession proof,
   federation id, versioning scheme, unique terms/labels) and signed `topic-resolution.v1`
   (epsilon, matched/labels, resolver/version).
-- [ ] Implement the pure deterministic weighted matcher with `ambiguous`/`unresolved`.
-- [~] Ship the fixtures (§E) and a byte-stable CI test. Positive/negative schema
-  fixtures exist and are validated; byte-stable resolver/digest vectors still wait
-  for the pure topic resolver.
-- [ ] Implement canonical `taxonomy/digest` / `topic/term` hashing per Resolved
-  Decision 5.
+- [x] Implement the pure deterministic weighted matcher with `ambiguous`/`unresolved`.
+  Evidence: `orbiplex-node-corpus-core` owns the deterministic resolver and tests exact,
+  ambiguous, and unresolved cases.
+- [x] Ship the fixtures (§E) and a byte-stable CI test. Evidence:
+  `orbiplex-node-corpus-core` validates the synchronized taxonomy/query/bid fixtures and
+  asserts the canonical taxonomy digest plus deterministic resolver output.
+- [x] Implement canonical `taxonomy/digest` / `topic/term` hashing per Resolved
+  Decision 5. Evidence: `TopicTaxonomy::canonical_digest()` recomputes the pinned
+  `sha256:` digest over canonical JSON with host-owned fields removed.
 
 #### Phase 2 — Topic-scoped offers + catalog indexing
 
 - [~] Add the `corpus` extension to `service-offer.v1` (model-class enum, taxonomy
-  digest + issuer); Dator publishes one multi-topic offer. Schema extension and
-  examples exist; Dator publication is not implemented yet.
-- [~] Offer/catalog admission constrainer: `corpus/topics ⊆ terms(taxonomy/digest)`;
-  missing or untrusted taxonomy material fails closed. Schema-gate exposes a
-  trusted-taxonomy subset constrainer; offer-catalog runtime integration remains open.
-- [ ] Offer-catalog topic index + supersession/partial-withdrawal (P067).
+  digest + issuer); Dator publishes one multi-topic offer. Schema extension, Rust offer
+  model fields, and examples exist; Dator publication remains open.
+- [x] Offer/catalog admission constrainer: `corpus/topics ⊆ terms(taxonomy/digest)`;
+  missing or untrusted taxonomy material fails closed. Evidence: schema-gate exposes a
+  trusted-taxonomy subset constrainer, and `node/catalog::validate_corpus_offer_scope`
+  applies the same check to catalog records; Corpus topic-index construction fails closed
+  instead of silently hiding invalid `corpus.provider` records.
+- [~] Offer-catalog topic index + supersession/partial-withdrawal (P067). Evidence:
+  `node/catalog::corpus_topic_index_from_entries` and
+  `corpus_topic_index_from_observed` project active Corpus-capable offers by topic;
+  Dator publication and full supersession/partial-withdrawal operator flow are still
+  open.
 
 #### Phase 3 — Procurement round over AD
 
@@ -956,12 +1004,23 @@ runtime, no N-way settlement.
   `corpus-reasoning-bid.v1` (envelope + embedded `procurement-offer.v1`; `decision`
   enum; TTL), `corpus-reasoning-bid-state.v1` (timestamps, reason,
   `delivery/attempt-id`).
-- [ ] Implement broadcast fan-out, the bid-state read-model, and local selection.
+- [~] Implement broadcast fan-out, the bid-state read-model, and local selection.
+  Evidence: `orbiplex-node-corpus-core` builds a schema-valid
+  `artifact-delivery-envelope.v1` for `capability-many` fan-out, materializes the
+  requester-owned `corpus-reasoning-bid-state.v1`, validates bid/query price semantics,
+  enforces `bidder/node-id == procurement-offer.responder/node-id`, exposes the default
+  bid idempotency key, preserves `decline` as refusal even after bid TTL, and selects
+  the cheapest valid accepted/countered bid with longer `bid/valid-until` as the
+  price-tie breaker. Daemon persistence, provider bid acceptor runtime, and
+  notification/UI surfaces remain open.
 
 #### Phase 4 — Single-provider answer + settlement
 
-- [ ] Single contracting provider answers; bid → `procurement-offer.v1`; close via
-  `procurement-contract.v1` / `procurement-receipt.v1` with host-owned escrow.
+- [~] Single contracting provider answers; bid → `procurement-offer.v1`; close via
+  `procurement-contract.v1` / `procurement-receipt.v1` with host-owned escrow. Evidence:
+  `orbiplex-node-corpus-core::settlement_selection` exports the selected embedded
+  `procurement-offer.v1` with bid digest and selected provider node; the daemon bridge
+  that opens/closes the actual P011/P016 contract remains open.
 
 ### Post-MVP — Live deliberation
 

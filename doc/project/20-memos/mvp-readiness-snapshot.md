@@ -50,9 +50,14 @@ Recent component deltas:
   slice implemented: canonical schemas and examples for topic taxonomy/resolution,
   query, bid and bid-state; the `service-offer.v1` Corpus extension; node schema sync;
   and schema-gate validation including query price-bracket and service-offer
-  topic-subset constrainers. Readiness is still below MVP because the pure resolver,
-  Dator/offer-catalog runtime indexing, AD query/bid dispatch, bid-state storage,
-  settlement bridge, and acceptance coverage are not yet implemented. P070 now
+  topic-subset constrainers. The latest Node slice adds `orbiplex-node-corpus-core`
+  as the pure semantic kernel: deterministic taxonomy digesting, topic resolution,
+  topic-scoped offer indexing helpers, schema-valid AD `capability-many` query
+  envelope construction, bid-state projection, bid/query price validation, and
+  single-provider settlement selection over the embedded `procurement-offer.v1`.
+  Readiness is still below MVP because Dator publication, daemon-owned bid-state
+  persistence, provider bid acceptor runtime, P011/P016 contract closing, operator
+  visibility, and acceptance coverage remain open. P070 now
   provides durable Room contracts, Agora-backed projection
   replay, signer-backed membership attestations, and the live-plane substrates needed
   by future Corpus deliberation. Corpus remains blocked by its own runtime, settlement,
@@ -179,7 +184,7 @@ Recent component deltas:
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `15` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `90` |
-| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `32` |
+| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `60` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `18` |
 
