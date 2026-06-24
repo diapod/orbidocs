@@ -93,17 +93,21 @@ Recent component deltas:
   `sensorium-workbench` connector with `seed_config = false`, readiness/lifecycle
   endpoints, allowlisted workspace environment status, bounded file
   snapshot/read with capped request/read bodies and strict workspace-root
-  validation, local file/environment/terminal probes, synthetic/local watch
-  cursors, a connector-local SQLite store, operator status for active terminal
-  sessions, and an opt-in PTY/structured-command runtime guarded by grants and
-  command profiles. The runtime now hard-denies dangerous env overrides, refuses
-  variable argv beyond an admitted profile prefix, retires session refs after use,
-  records PID metadata, limits event payloads, applies SQLite retention cleanup,
-  and best-effort signals remembered orphan process groups at startup. Readiness
+  validation, local file/environment/process/terminal probes, synthetic/local
+  watch cursors, per-session terminal event cursors, a synchronous bounded wait
+  pilot over probe conditions, connector-mediated Sensorium action routing, a
+  connector-local SQLite store, operator status for active terminal sessions,
+  and an opt-in PTY/structured-command runtime guarded by grants and command
+  profiles. The runtime now hard-denies dangerous env overrides, refuses
+  variable argv beyond an admitted profile prefix, keeps raw PTY input, resize,
+  and signal operator-confirmed, retires session refs after use, records PID
+  metadata, limits event payloads, applies SQLite retention cleanup, and
+  best-effort signals remembered orphan process groups at startup. Readiness
   remains below MVP because patch execution, host Bounded Deferred Operation
   registration for long commands, daemon interaction broker runtime, durable
   host audit projection, full cryptographic grant issuance, source-provider
-  registry, and virtualized backends are not wired yet.
+  registry, captured-output publication, idle-timeout policy, and virtualized
+  backends are not wired yet.
 - Local Relationship Layer is now hard-MVP complete for the Node-owned slice: Proposal 065 and Solution 032 have contracts, pure core, vault-first daemon storage, sealed rebuildable SQLite projection, local control/host capabilities, operator class/membership/predicate/decision audit UI, package trust queue with approval history, canonical Messaging consumption, dynamic Artifact Delivery group resolution, repeatable Story-010 relationship acceptance runner, projection replay/privacy regression gates, and verified `remote-disclosed` node-operator-binding import through the identity control surface. Public federated Local Relationship capability, richer multi-operator UX, CI-provider wiring for the runner, revocation-view invalidation for imported binding evidence, and performance profiling under real relationship cardinalities remain post-MVP work.
 - Replay Scheduler M1 is now fully closed for the hard-MVP slice: the generic bounded scheduler, durable launch ledger, host-owned job-source merge, authority gate, cooperative shutdown, Agora projection replay action, and operator status/control surface are all documented as implemented. Richer Agora-domain panels and non-Agora maintenance jobs are post-M1 extensions.
 - Agora gained a generic encrypted-artifact Vault surface: `agora-vault-entry.v1` exposes only opaque artifact ids, kind, ciphertext, and cryptographic envelope metadata; supervised local routes are client-auth / daemon-dispatch gated, while remote provider deployments bind the same operations to the frozen `agora-vault@v1` passport profile.
@@ -204,7 +208,7 @@ Recent component deltas:
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `90` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `65` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
-| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `52` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `58` |
 
 ## Solutions
 
