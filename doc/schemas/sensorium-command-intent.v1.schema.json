@@ -16,7 +16,7 @@
     "schema/v": { "const": 1 },
     "command/id": {
       "$ref": "#/$defs/ref",
-      "description": "Optional host-assigned command identity. When present, implementations must preserve it for terminal-command correlation."
+      "description": "Optional command identity. The host assigns it when missing and preserves it when present and valid, so terminal-command records keep correlation identity."
     },
     "command.profile/ref": { "$ref": "#/$defs/ref" },
     "argv": {

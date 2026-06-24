@@ -34,7 +34,7 @@ Caller-supplied command intent after host policy/model merge. The intent carries
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `sensorium-command-intent.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`command/id`](#field-command-id) | `no` | ref: `#/$defs/ref` | Optional host-assigned command identity. When present, implementations must preserve it for terminal-command correlation. |
+| [`command/id`](#field-command-id) | `no` | ref: `#/$defs/ref` | Optional command identity. The host assigns it when missing and preserves it when present and valid, so terminal-command records keep correlation identity. |
 | [`command.profile/ref`](#field-command-profile-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`argv`](#field-argv) | `yes` | array |  |
 | [`cwd`](#field-cwd) | `yes` | ref: `sensorium-relative-path-address.v1.schema.json` |  |
@@ -67,7 +67,7 @@ Caller-supplied command intent after host policy/model merge. The intent carries
 - Required: `no`
 - Shape: ref: `#/$defs/ref`
 
-Optional host-assigned command identity. When present, implementations must preserve it for terminal-command correlation.
+Optional command identity. The host assigns it when missing and preserves it when present and valid, so terminal-command records keep correlation identity.
 
 <a id="field-command-profile-ref"></a>
 ## `command.profile/ref`

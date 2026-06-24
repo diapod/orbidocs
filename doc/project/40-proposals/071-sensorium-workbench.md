@@ -1163,21 +1163,19 @@ watch/wait/probe replay semantics are backed by bounded retention.
     Empty filesystem authority is a profile error, not a wildcard. Empty
     `allowed_arg_prefixes` means no variable argv atoms are allowed beyond
     executable plus `fixed_args`; it never means allow arbitrary argv.
-
-## Open Questions
-
-1. **Command identity admission.** Should `command/id` become required at
-   cross-process command-intent admission, or should the host assign it when an
-   incoming intent omits it and preserve the assigned value in
-   `sensorium-terminal-command.v1`?
-2. **Empty environment defaults.** Should `EnvPolicy::Allowlisted.defaults`
-   permit empty string values as intentional environment assignments, or should
-   empty defaults be rejected unless a future unset/clear operation is modeled
-   explicitly?
-3. **Terminal command scope binding.** In Phase 2, should
-   `TerminalCommandDone.command/id` be validated against the persisted
-   `terminal.session/ref -> command/id` relation before a broker source provider
-   accepts the wait condition?
+26. **Command identity admission.** `command/id` may be omitted on incoming
+    command intent. The host assigns it when missing, preserves it when present
+    and valid, and records the resulting value on `sensorium-terminal-command.v1`
+    for correlation and audit.
+27. **Empty environment defaults.** Empty strings in
+    `EnvPolicy::Allowlisted.defaults` are explicit environment values, not
+    unset/clear operations. If Workbench later needs unset semantics, it must
+    model them as a separate explicit operation.
+28. **Terminal command scope binding.** A broker source provider must validate
+    that `TerminalCommandDone.command/id` belongs to the persisted
+    `terminal.session/ref -> command/id` relation before accepting the wait
+    condition. The host broker validates the generic shape and scope; the source
+    provider owns the Workbench-specific binding check.
 
 ## Next Actions And Implementation Tracker
 
@@ -1207,7 +1205,8 @@ evidence) · `[!]` blocked/needs decision.
   semantics. The initial host-owned watch/wait/probe contract lives in
   `node/interaction-broker-core`, including bounded caps, deadlines,
   correlation ids, no-progress vocabulary, deferred-operation projection, and
-  published JSON Schemas/examples.
+  source-provider validation for persisted `terminal.session/ref -> command/id`
+  bindings, plus published JSON Schemas/examples.
 - [x] Require `schema` and `schema/v` on every top-level Workbench schema while
   preserving embedded `classification.v1` as schema-only.
 - [x] Assign Phase 0 schema ownership and publish JSON Schema files plus
@@ -1225,7 +1224,9 @@ evidence) · `[!]` blocked/needs decision.
   initial unwired contract lives in `node/sensorium-actuation-core`, including
   argv-as-data validation, environment policy, timeout/output caps, workspace
   root policy, default-deny workspace roots, empty-prefix-as-no-variable-argv,
-  canonical JSON argv digest, and published schema/examples.
+  host assignment or preservation of valid `command/id`, explicit empty
+  environment defaults, canonical JSON argv digest, and published
+  schema/examples.
 - [x] Define `correlation/id` threading across directive, events, wait outcome,
   artifacts, and next directive.
 - [x] Define async wait status as `deferred-operation-status.v1` with Workbench

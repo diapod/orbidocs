@@ -94,6 +94,7 @@
             },
             "defaults": {
               "type": "object",
+              "description": "Profile-provided environment values. Empty strings are explicit values and do not mean unset.",
               "additionalProperties": {
                 "type": "string",
                 "not": { "pattern": "\\u0000" }
