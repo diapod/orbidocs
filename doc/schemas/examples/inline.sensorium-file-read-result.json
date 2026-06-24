@@ -1,0 +1,26 @@
+{
+  "schema": "sensorium-file-read-result.v1",
+  "schema/v": 1,
+  "read/ref": "read:story009-node-readme",
+  "address": {
+    "schema": "sensorium-relative-path-address.v1",
+    "schema/v": 1,
+    "workspace/ref": "workspace:story009-local",
+    "root/ref": "root:repo",
+    "relative/path": "node/README.md"
+  },
+  "result/kind": "inline-text",
+  "text": "# Node\n",
+  "size/bytes": 7,
+  "content/sha256": "sha256:readmeDigestExample",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:did:key:z6MkpaWelsPersonalSubject" }]
+    },
+    "declassify_trail": []
+  }
+}

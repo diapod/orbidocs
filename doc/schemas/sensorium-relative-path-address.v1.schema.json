@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-relative-path-address:v1",
+  "title": "Sensorium Relative Path Address v1",
+  "description": "Relative path address below a host-owned workspace root. This is syntax only; canonical containment, symlink refusal, and atomic file effects belong to the actuation boundary.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md"
+  ],
+  "required": ["schema", "schema/v", "workspace/ref", "root/ref", "relative/path"],
+  "properties": {
+    "schema": { "const": "sensorium-relative-path-address.v1" },
+    "schema/v": { "const": 1 },
+    "workspace/ref": { "$ref": "#/$defs/ref" },
+    "root/ref": { "$ref": "#/$defs/ref" },
+    "relative/path": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.\\.($|/)" },
+          { "pattern": "^\\./" },
+          { "pattern": "/\\.(/|$)" },
+          { "pattern": "\\u0000" }
+        ]
+      },
+      "description": "A relative path string. The exact `.` may name the allowlisted root; concrete operations may still reject root self-access."
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "\\u0000" }
+    }
+  }
+}

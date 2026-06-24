@@ -1,0 +1,9 @@
+{
+  "schema": "sensorium-pty-resource-caps.v1",
+  "schema/v": 1,
+  "sessions/max": 2,
+  "sessions/per-workspace-max": 2,
+  "reader-tasks/max": 4,
+  "input-queue/max-depth": 256,
+  "event-buffer/max-depth": 1000
+}

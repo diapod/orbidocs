@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-terminal-event:v1",
+  "title": "Sensorium Terminal Event v1",
+  "description": "Append-only terminal event emitted by a Workbench PTY/session resource.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "terminal.session/ref", "event.seq/no", "event/kind", "observed_at", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-terminal-event.v1" },
+    "schema/v": { "const": 1 },
+    "terminal.session/ref": { "$ref": "#/$defs/ref" },
+    "command/id": { "$ref": "#/$defs/ref" },
+    "event.seq/no": { "type": "integer", "minimum": 0 },
+    "event/kind": { "enum": ["stdout", "stderr", "status", "exit", "signal", "resize", "input-accepted", "input-rejected"] },
+    "bytes/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "bytes/count": { "type": "integer", "minimum": 0 },
+    "exit/code": { "type": "integer" },
+    "status": { "enum": ["running", "done", "failed", "maybe-hung", "waiting-for-input", "no-progress"] },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "capture/ref": { "$ref": "#/$defs/ref" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

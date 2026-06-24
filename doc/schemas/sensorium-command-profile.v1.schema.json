@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-command-profile:v1",
+  "title": "Sensorium Command Profile v1",
+  "description": "Declarative command profile for local Sensorium actuation. The profile describes argv-as-data admission, cwd roots, env policy, and bounded output/timeout limits; it does not execute commands.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/40-proposals/048-sensorium-os-connector-action-classes.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "command.profile/ref",
+    "executable",
+    "allowed_workspace_roots",
+    "env",
+    "limits"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-command-profile.v1" },
+    "schema/v": { "const": 1 },
+    "command.profile/ref": { "$ref": "#/$defs/ref" },
+    "executable": { "$ref": "#/$defs/argvAtom" },
+    "fixed_args": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/argvAtom" },
+      "default": []
+    },
+    "allowed_arg_prefixes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/argvAtom" },
+      "default": [],
+      "description": "Allowed prefixes for variable argv atoms after executable and fixed_args. An empty list means no variable argv atoms are allowed."
+    },
+    "allowed_workspace_roots": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/ref" },
+      "description": "Explicit allowlist of workspace root refs. The list is required to be non-empty; filesystem authority is default-deny."
+    },
+    "env": { "$ref": "#/$defs/envPolicy" },
+    "limits": { "$ref": "#/$defs/commandLimits" }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "\\u0000" }
+    },
+    "argvAtom": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "\\u0000" },
+          { "pattern": "[\\n\\r]" }
+        ]
+      }
+    },
+    "envKey": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "\\u0000" },
+          { "pattern": "=" }
+        ]
+      }
+    },
+    "envPolicy": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode"],
+          "properties": {
+            "mode": { "const": "profile-defaults-only" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "keys"],
+          "properties": {
+            "mode": { "const": "allowlisted" },
+            "keys": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/envKey" }
+            },
+            "defaults": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "not": { "pattern": "\\u0000" }
+              },
+              "default": {}
+            }
+          }
+        }
+      ]
+    },
+    "commandLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_timeout_ms",
+        "max_timeout_ms",
+        "stdout_bytes",
+        "stderr_bytes"
+      ],
+      "properties": {
+        "default_timeout_ms": { "type": "integer", "minimum": 1 },
+        "max_timeout_ms": { "type": "integer", "minimum": 1 },
+        "stdout_bytes": { "type": "integer", "minimum": 1 },
+        "stderr_bytes": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

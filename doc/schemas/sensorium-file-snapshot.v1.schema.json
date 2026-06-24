@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-file-snapshot:v1",
+  "title": "Sensorium File Snapshot v1",
+  "description": "Bounded file or directory metadata snapshot under an allowlisted Workbench root.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "snapshot/ref", "address", "entries", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-file-snapshot.v1" },
+    "schema/v": { "const": 1 },
+    "snapshot/ref": { "$ref": "#/$defs/ref" },
+    "address": { "$ref": "sensorium-relative-path-address.v1.schema.json" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["relative/path", "kind"],
+        "properties": {
+          "relative/path": { "$ref": "#/$defs/relativePath" },
+          "kind": { "enum": ["file", "directory", "symlink", "other"] },
+          "size/bytes": { "type": "integer", "minimum": 0 },
+          "content/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+          "modified_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "classification": { "$ref": "classification.v1.schema.json" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.\\.($|/)" },
+          { "pattern": "^\\./" },
+          { "pattern": "/\\.(/|$)" },
+          { "pattern": "\\u0000" }
+        ]
+      }
+    }
+  }
+}

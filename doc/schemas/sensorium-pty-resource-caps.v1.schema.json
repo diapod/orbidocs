@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-pty-resource-caps:v1",
+  "title": "Sensorium PTY Resource Caps v1",
+  "description": "Bounded PTY/session resource caps for Workbench-like connectors.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "sessions/max",
+    "sessions/per-workspace-max",
+    "reader-tasks/max",
+    "input-queue/max-depth",
+    "event-buffer/max-depth"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-pty-resource-caps.v1" },
+    "schema/v": { "const": 1 },
+    "sessions/max": { "type": "integer", "minimum": 1 },
+    "sessions/per-workspace-max": { "type": "integer", "minimum": 1 },
+    "reader-tasks/max": { "type": "integer", "minimum": 1 },
+    "input-queue/max-depth": { "type": "integer", "minimum": 1 },
+    "event-buffer/max-depth": { "type": "integer", "minimum": 1 }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-command-intent:v1",
+  "title": "Sensorium Command Intent v1",
+  "description": "Caller-supplied command intent after host policy/model merge. The intent carries argv as data, never a raw shell string.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md"
+  ],
+  "required": ["schema", "schema/v", "command.profile/ref", "argv", "cwd"],
+  "properties": {
+    "schema": { "const": "sensorium-command-intent.v1" },
+    "schema/v": { "const": 1 },
+    "command/id": {
+      "$ref": "#/$defs/ref",
+      "description": "Optional host-assigned command identity. When present, implementations must preserve it for terminal-command correlation."
+    },
+    "command.profile/ref": { "$ref": "#/$defs/ref" },
+    "argv": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/argvAtom" }
+    },
+    "cwd": { "$ref": "sensorium-relative-path-address.v1.schema.json" },
+    "env": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "not": { "pattern": "\\u0000" }
+      },
+      "default": {}
+    },
+    "timeout_ms": { "type": "integer", "minimum": 1 }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "\\u0000" }
+    },
+    "argvAtom": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "\\u0000" },
+          { "pattern": "[\\n\\r]" }
+        ]
+      }
+    }
+  }
+}

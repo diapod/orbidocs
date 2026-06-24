@@ -1,0 +1,30 @@
+{
+  "schema": "sensorium-terminal-session.v1",
+  "schema/v": 1,
+  "terminal.session/ref": "terminal-session:story009-abc",
+  "environment/ref": "environment:story009-local",
+  "workspace/ref": "workspace:story009-local",
+  "command.profile/ref": "command-profile:cargo-test",
+  "status": "running",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:did:key:z6MkpaWelsPersonalSubject" }]
+    },
+    "declassify_trail": []
+  },
+  "caps": {
+    "schema": "sensorium-pty-resource-caps.v1",
+    "schema/v": 1,
+    "sessions/max": 2,
+    "sessions/per-workspace-max": 2,
+    "reader-tasks/max": 4,
+    "input-queue/max-depth": 256,
+    "event-buffer/max-depth": 1000
+  },
+  "created_at": "2026-06-24T10:00:00Z",
+  "last_event.seq/no": 7
+}

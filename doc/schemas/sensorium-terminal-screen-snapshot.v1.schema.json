@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-terminal-screen-snapshot:v1",
+  "title": "Sensorium Terminal Screen Snapshot v1",
+  "description": "Bounded model/UI viewport over recent terminal state. Full transcripts require explicit classified capture.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "terminal.session/ref", "from.seq/no", "to.seq/no", "viewport", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-terminal-screen-snapshot.v1" },
+    "schema/v": { "const": 1 },
+    "terminal.session/ref": { "$ref": "#/$defs/ref" },
+    "from.seq/no": { "type": "integer", "minimum": 0 },
+    "to.seq/no": { "type": "integer", "minimum": 0 },
+    "viewport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rows", "cols", "text"],
+      "properties": {
+        "rows": { "type": "integer", "minimum": 1 },
+        "cols": { "type": "integer", "minimum": 1 },
+        "cursor.row": { "type": "integer", "minimum": 0 },
+        "cursor.col": { "type": "integer", "minimum": 0 },
+        "text": { "type": "string" }
+      }
+    },
+    "omitted-backlog/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "classification": { "$ref": "classification.v1.schema.json" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

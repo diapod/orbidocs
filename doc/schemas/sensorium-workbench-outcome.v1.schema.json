@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-workbench-outcome:v1",
+  "title": "Sensorium Workbench Outcome v1",
+  "description": "Metadata-only audit fact linking Workbench directives, grants, sessions, waits, artifacts, and terminal status.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "outcome/ref", "status", "directive/ref", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-workbench-outcome.v1" },
+    "schema/v": { "const": 1 },
+    "outcome/ref": { "$ref": "#/$defs/ref" },
+    "directive/ref": { "$ref": "#/$defs/ref" },
+    "grant/ref": { "$ref": "#/$defs/ref" },
+    "correlation/id": { "$ref": "#/$defs/ref" },
+    "terminal.session/ref": { "$ref": "#/$defs/ref" },
+    "environment/ref": { "$ref": "#/$defs/ref" },
+    "wait/ref": { "$ref": "#/$defs/ref" },
+    "watch/ref": { "$ref": "#/$defs/ref" },
+    "probe/ref": { "$ref": "#/$defs/ref" },
+    "artifact/refs": { "type": "array", "items": { "$ref": "#/$defs/ref" }, "default": [] },
+    "status": { "enum": ["completed", "refused", "failed", "timed-out", "cancelled", "degraded"] },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "byte_counts": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+    "diagnostics": { "type": "array", "items": { "type": "object", "additionalProperties": true }, "default": [] },
+    "classification": { "$ref": "classification.v1.schema.json" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "interaction-broker-probe.v1",
+  "schema/v": 1,
+  "probe/ref": "probe:story009-terminal-alive",
+  "correlation/id": "corr:story009-loop",
+  "idempotency/key": "idem:story009-terminal-alive",
+  "source": {
+    "source/kind": "terminal-session",
+    "terminal.session/ref": "terminal-session:story009-abc"
+  },
+  "condition": {
+    "kind": "terminal-process-alive",
+    "terminal.session/ref": "terminal-session:story009-abc"
+  },
+  "timeout_ms": 1000
+}

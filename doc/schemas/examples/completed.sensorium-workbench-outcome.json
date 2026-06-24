@@ -1,0 +1,26 @@
+{
+  "schema": "sensorium-workbench-outcome.v1",
+  "schema/v": 1,
+  "outcome/ref": "workbench-outcome:story009-command",
+  "directive/ref": "sensorium-directive:story009-command",
+  "grant/ref": "grant:sensorium-workbench-terminal",
+  "correlation/id": "corr:story009-loop",
+  "terminal.session/ref": "terminal-session:story009-abc",
+  "status": "completed",
+  "duration_ms": 2048,
+  "byte_counts": {
+    "stdout": 42,
+    "stderr": 0
+  },
+  "diagnostics": [],
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:did:key:z6MkpaWelsPersonalSubject" }]
+    },
+    "declassify_trail": []
+  }
+}

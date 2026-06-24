@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-workbench-patch-apply-result:v1",
+  "title": "Sensorium Workbench Patch Apply Result v1",
+  "description": "Applied or rejected patch result with changed file digests and refusal diagnostics.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "patch/ref", "result/ref", "status", "changed", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-workbench-patch-apply-result.v1" },
+    "schema/v": { "const": 1 },
+    "patch/ref": { "$ref": "#/$defs/ref" },
+    "result/ref": { "$ref": "#/$defs/ref" },
+    "status": { "enum": ["applied", "rejected", "failed"] },
+    "changed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["relative/path", "after/sha256"],
+        "properties": {
+          "relative/path": { "$ref": "#/$defs/relativePath" },
+          "before/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+          "after/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" }
+        }
+      }
+    },
+    "diagnostics": { "type": "array", "items": { "type": "object", "additionalProperties": true }, "default": [] },
+    "classification": { "$ref": "classification.v1.schema.json" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.\\.($|/)" },
+          { "pattern": "^\\./" },
+          { "pattern": "/\\.(/|$)" },
+          { "pattern": "\\u0000" }
+        ]
+      }
+    }
+  }
+}

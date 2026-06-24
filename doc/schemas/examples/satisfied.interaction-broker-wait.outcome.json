@@ -1,0 +1,13 @@
+{
+  "schema": "interaction-broker-wait.outcome.v1",
+  "schema/v": 1,
+  "wait/ref": "wait:story009-file-ready",
+  "correlation/id": "corr:story009-loop",
+  "condition/status": "satisfied",
+  "observed": {
+    "relative/path": "node/README.md",
+    "size/bytes": 1234
+  },
+  "duration_ms": 204,
+  "diagnostics": []
+}

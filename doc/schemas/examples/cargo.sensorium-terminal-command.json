@@ -1,0 +1,35 @@
+{
+  "schema": "sensorium-terminal-command.v1",
+  "schema/v": 1,
+  "command/id": "command:story009-cargo-test",
+  "terminal.session/ref": "terminal-session:story009-abc",
+  "intent": {
+    "schema": "sensorium-command-intent.v1",
+    "schema/v": 1,
+    "command/id": "command:story009-cargo-test",
+    "command.profile/ref": "command-profile:cargo-test",
+    "argv": ["cargo", "test", "-p", "orbiplex-node-nse"],
+    "cwd": {
+      "schema": "sensorium-relative-path-address.v1",
+      "schema/v": 1,
+      "workspace/ref": "workspace:story009-local",
+      "root/ref": "root:repo",
+      "relative/path": "node"
+    },
+    "env": {},
+    "timeout_ms": 60000
+  },
+  "normalized-argv/sha256": "sha256:argvDigestExample",
+  "idempotency/key": "idem:story009-cargo-test",
+  "correlation/id": "corr:story009-loop",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:did:key:z6MkpaWelsPersonalSubject" }]
+    },
+    "declassify_trail": []
+  }
+}

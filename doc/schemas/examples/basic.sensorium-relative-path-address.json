@@ -1,0 +1,7 @@
+{
+  "schema": "sensorium-relative-path-address.v1",
+  "schema/v": 1,
+  "workspace/ref": "workspace:story009-local",
+  "root/ref": "root:repo",
+  "relative/path": "node/README.md"
+}

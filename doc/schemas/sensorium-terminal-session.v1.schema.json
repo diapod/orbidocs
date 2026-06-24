@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-terminal-session:v1",
+  "title": "Sensorium Terminal Session v1",
+  "description": "Bounded PTY/session descriptor owned by Sensorium Workbench.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "terminal.session/ref", "environment/ref", "workspace/ref", "command.profile/ref", "status", "classification", "caps"],
+  "properties": {
+    "schema": { "const": "sensorium-terminal-session.v1" },
+    "schema/v": { "const": 1 },
+    "terminal.session/ref": { "$ref": "#/$defs/ref" },
+    "environment/ref": { "$ref": "#/$defs/ref" },
+    "workspace/ref": { "$ref": "#/$defs/ref" },
+    "command.profile/ref": { "$ref": "#/$defs/ref" },
+    "status": { "enum": ["created", "running", "idle", "closing", "closed", "failed", "quarantined"] },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "caps": { "$ref": "sensorium-pty-resource-caps.v1.schema.json" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "last_event.seq/no": { "type": "integer", "minimum": 0 }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

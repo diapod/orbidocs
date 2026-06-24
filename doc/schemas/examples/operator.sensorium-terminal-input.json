@@ -1,0 +1,20 @@
+{
+  "schema": "sensorium-terminal-input.v1",
+  "schema/v": 1,
+  "input/id": "terminal-input:story009-operator",
+  "terminal.session/ref": "terminal-session:story009-abc",
+  "input/kind": "raw-pty-bytes",
+  "bytes/base64": "Cg",
+  "bytes/sha256": "sha256:inputDigestExample",
+  "operator-only": true,
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:did:key:z6MkpaWelsPersonalSubject" }]
+    },
+    "declassify_trail": []
+  }
+}

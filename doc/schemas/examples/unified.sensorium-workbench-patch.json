@@ -1,0 +1,21 @@
+{
+  "schema": "sensorium-workbench-patch.v1",
+  "schema/v": 1,
+  "patch/ref": "patch:story009-readme",
+  "workspace/ref": "workspace:story009-local",
+  "patch/kind": "unified-diff",
+  "unified_diff": "--- a/node/README.md\n+++ b/node/README.md\n@@\n-Old\n+New\n",
+  "provenance": {
+    "correlation/id": "corr:story009-loop"
+  },
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:did:key:z6MkpaWelsPersonalSubject" }]
+    },
+    "declassify_trail": []
+  }
+}

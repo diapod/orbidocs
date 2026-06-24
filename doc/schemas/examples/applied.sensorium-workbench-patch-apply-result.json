@@ -1,0 +1,25 @@
+{
+  "schema": "sensorium-workbench-patch-apply-result.v1",
+  "schema/v": 1,
+  "patch/ref": "patch:story009-readme",
+  "result/ref": "patch-result:story009-readme",
+  "status": "applied",
+  "changed": [
+    {
+      "relative/path": "node/README.md",
+      "before/sha256": "sha256:beforeDigestExample",
+      "after/sha256": "sha256:afterDigestExample"
+    }
+  ],
+  "diagnostics": [],
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:did:key:z6MkpaWelsPersonalSubject" }]
+    },
+    "declassify_trail": []
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-workbench-environment:v1",
+  "title": "Sensorium Workbench Environment v1",
+  "description": "Workbench environment descriptor for an allowlisted local workspace or later sandbox backend.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "environment/ref", "backend", "workspace/ref", "roots", "locality", "status", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-workbench-environment.v1" },
+    "schema/v": { "const": 1 },
+    "environment/ref": { "$ref": "#/$defs/ref" },
+    "workspace/ref": { "$ref": "#/$defs/ref" },
+    "backend": { "enum": ["host-local-workspace", "fixture-virtual-workspace", "container", "microvm"] },
+    "roots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["root/ref", "mode"],
+        "properties": {
+          "root/ref": { "$ref": "#/$defs/ref" },
+          "mode": { "enum": ["read-only", "read-write"] },
+          "classification": { "$ref": "classification.v1.schema.json" }
+        }
+      }
+    },
+    "locality": { "enum": ["local-only", "remote-sandbox"] },
+    "egress": { "enum": ["none", "allowlisted", "unrestricted"], "default": "none" },
+    "status": { "enum": ["created", "ready", "degraded", "closing", "closed", "failed"] },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "limits": { "type": "object", "additionalProperties": true },
+    "cleanup/status": { "enum": ["not-needed", "pending", "completed", "failed", "quarantined"] }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

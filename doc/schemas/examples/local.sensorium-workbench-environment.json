@@ -1,0 +1,34 @@
+{
+  "schema": "sensorium-workbench-environment.v1",
+  "schema/v": 1,
+  "environment/ref": "environment:story009-local",
+  "backend": "host-local-workspace",
+  "workspace/ref": "workspace:story009-local",
+  "roots": [
+    {
+      "root/ref": "root:repo",
+      "mode": "read-only"
+    }
+  ],
+  "locality": "local-only",
+  "egress": "none",
+  "status": "ready",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": {
+      "kind": "local-space",
+      "space": "Personal"
+    },
+    "bound_subjects": {
+      "personal_or_community": [
+        {
+          "kind": "person",
+          "id": "participant:did:key:z6MkpaWelsPersonalSubject"
+        }
+      ]
+    },
+    "declassify_trail": []
+  }
+}

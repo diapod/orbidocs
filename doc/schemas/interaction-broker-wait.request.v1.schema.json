@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:interaction-broker-wait.request:v1",
+  "title": "Interaction Broker Wait Request v1",
+  "description": "Declarative bounded wait over one primary observation source.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md"
+  ],
+  "required": ["schema", "schema/v", "wait/ref", "idempotency/key", "scope", "condition", "deadline_ms", "on_timeout"],
+  "properties": {
+    "schema": { "const": "interaction-broker-wait.request.v1" },
+    "schema/v": { "const": 1 },
+    "wait/ref": { "$ref": "#/$defs/ref" },
+    "correlation/id": { "$ref": "#/$defs/ref" },
+    "idempotency/key": { "$ref": "#/$defs/ref" },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source"],
+      "properties": {
+        "source": { "$ref": "#/$defs/observationSource" }
+      }
+    },
+    "condition": { "$ref": "#/$defs/waitCondition" },
+    "deadline_ms": { "type": "integer", "minimum": 1, "maximum": 900000 },
+    "on_timeout": { "enum": ["return-not-kill", "cancel-if-cancelable"] }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.\\.($|/)" },
+          { "pattern": "(^|/)\\.($|/).+" },
+          { "pattern": "\\u0000" }
+        ]
+      }
+    },
+    "sha256Ref": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "deferredOperationId": {
+      "type": "string",
+      "pattern": "^deferred:[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*:[A-Za-z0-9_-]+$"
+    },
+    "observationSource": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "terminal.session/ref"],
+          "properties": {
+            "source/kind": { "const": "terminal-session" },
+            "terminal.session/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "operation/id"],
+          "properties": {
+            "source/kind": { "const": "deferred-operation" },
+            "operation/id": { "$ref": "#/$defs/deferredOperationId" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "artifact/ref"],
+          "properties": {
+            "source/kind": { "const": "artifact" },
+            "artifact/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "environment/ref"],
+          "properties": {
+            "source/kind": { "const": "environment" },
+            "environment/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "workspace/ref", "root/ref"],
+          "properties": {
+            "source/kind": { "const": "file-tree" },
+            "workspace/ref": { "$ref": "#/$defs/ref" },
+            "root/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "approval/ref"],
+          "properties": {
+            "source/kind": { "const": "approval" },
+            "approval/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "query/ref"],
+          "properties": {
+            "source/kind": { "const": "memarium-query" },
+            "query/ref": { "$ref": "#/$defs/ref" }
+          }
+        }
+      ]
+    },
+    "waitCondition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "terminal.session/ref", "after.seq/no"],
+          "properties": {
+            "kind": { "const": "terminal-output-since" },
+            "terminal.session/ref": { "$ref": "#/$defs/ref" },
+            "after.seq/no": { "type": "integer", "minimum": 0 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "terminal.session/ref", "after.seq/no", "quiet_ms", "require_process_alive"],
+          "properties": {
+            "kind": { "const": "terminal-quiescent" },
+            "terminal.session/ref": { "$ref": "#/$defs/ref" },
+            "after.seq/no": { "type": "integer", "minimum": 0 },
+            "quiet_ms": { "type": "integer", "minimum": 1 },
+            "require_process_alive": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "terminal.session/ref", "command/id"],
+          "properties": {
+            "kind": { "const": "terminal-command-done" },
+            "terminal.session/ref": { "$ref": "#/$defs/ref" },
+            "command/id": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "terminal.session/ref"],
+          "properties": {
+            "kind": { "enum": ["terminal-process-alive"] },
+            "terminal.session/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "terminal.session/ref", "idle_ms"],
+          "properties": {
+            "kind": { "const": "terminal-no-progress" },
+            "terminal.session/ref": { "$ref": "#/$defs/ref" },
+            "idle_ms": { "type": "integer", "minimum": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "workspace/ref", "root/ref", "relative/path"],
+          "properties": {
+            "kind": { "const": "file-exists" },
+            "workspace/ref": { "$ref": "#/$defs/ref" },
+            "root/ref": { "$ref": "#/$defs/ref" },
+            "relative/path": { "$ref": "#/$defs/relativePath" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "workspace/ref", "root/ref", "relative/path", "from/sha256"],
+          "properties": {
+            "kind": { "const": "file-digest-changed" },
+            "workspace/ref": { "$ref": "#/$defs/ref" },
+            "root/ref": { "$ref": "#/$defs/ref" },
+            "relative/path": { "$ref": "#/$defs/relativePath" },
+            "from/sha256": { "$ref": "#/$defs/sha256Ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "artifact/ref"],
+          "properties": {
+            "kind": { "const": "artifact-present" },
+            "artifact/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "environment/ref"],
+          "properties": {
+            "kind": { "const": "environment-ready" },
+            "environment/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "operation/id"],
+          "properties": {
+            "kind": { "const": "operation-done" },
+            "operation/id": { "$ref": "#/$defs/deferredOperationId" }
+          }
+        }
+      ]
+    }
+  }
+}

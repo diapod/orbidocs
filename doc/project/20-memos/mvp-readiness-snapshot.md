@@ -8,7 +8,7 @@ Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implement
 
 Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
 
-Change basis: this refresh incorporates the current worktree state on 2026-06-24 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Proposal 071 Sensorium Workbench, the selected-responder P003/P011 schema-gated procurement closure, and the P070 Phase 5 attestation-policy hardening from code review 89.
+Change basis: this refresh incorporates the current worktree state on 2026-06-24 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, and the P070 Phase 5 attestation-policy hardening from code review 89.
 
 Recent component deltas:
 
@@ -83,13 +83,16 @@ Recent component deltas:
   remaining work belongs to consumers such as Corpus and richer collaborative
   answer-room products.
 - Sensorium Workbench is now tracked through Proposal 071 as a post-MVP actuator
-  foundation. The current code contains unwired Rust foundations for the shared
-  Sensorium actuation core (`sensorium-actuation-core`) and the host-owned
-  interaction broker (`interaction-broker-core`), covering path, command, and PTY caps,
-  watch/wait/probe contracts, bounded deadlines, correlation ids, and
-  deferred-operation projection. Readiness remains low because no supervised
+  foundation. The current code contains unwired Rust foundations for shared
+  relative-path syntax validation (`relative-path-core`), the shared Sensorium
+  actuation core (`sensorium-actuation-core`), and the host-owned interaction
+  broker (`interaction-broker-core`). The phase-0 contract layer now has JSON
+  Schemas, positive examples, traversal-negative examples, a published relative
+  path golden vector, shared deferred-operation id validation, and a dedicated
+  Interaction Broker solution. Readiness remains low because no supervised
   Workbench connector, Sensorium routing, grants, operator status, filesystem
-  snapshots, patch apply path, or virtualized backend is wired yet.
+  snapshots, patch apply path, daemon broker store, source-provider registry, or
+  virtualized backend is wired yet.
 - Local Relationship Layer is now hard-MVP complete for the Node-owned slice: Proposal 065 and Solution 032 have contracts, pure core, vault-first daemon storage, sealed rebuildable SQLite projection, local control/host capabilities, operator class/membership/predicate/decision audit UI, package trust queue with approval history, canonical Messaging consumption, dynamic Artifact Delivery group resolution, repeatable Story-010 relationship acceptance runner, projection replay/privacy regression gates, and verified `remote-disclosed` node-operator-binding import through the identity control surface. Public federated Local Relationship capability, richer multi-operator UX, CI-provider wiring for the runner, revocation-view invalidation for imported binding evidence, and performance profiling under real relationship cardinalities remain post-MVP work.
 - Replay Scheduler M1 is now fully closed for the hard-MVP slice: the generic bounded scheduler, durable launch ledger, host-owned job-source merge, authority gate, cooperative shutdown, Agora projection replay action, and operator status/control surface are all documented as implemented. Richer Agora-domain panels and non-Agora maintenance jobs are post-M1 extensions.
 - Agora gained a generic encrypted-artifact Vault surface: `agora-vault-entry.v1` exposes only opaque artifact ids, kind, ciphertext, and cryptographic envelope metadata; supervised local routes are client-auth / daemon-dispatch gated, while remote provider deployments bind the same operations to the frozen `agora-vault@v1` passport profile.
@@ -190,7 +193,7 @@ Recent component deltas:
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `90` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `65` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
-| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `18` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `28` |
 
 ## Solutions
 
@@ -230,3 +233,5 @@ Recent component deltas:
 | [Seed Directory](../60-solutions/031-seed-directory/031-seed-directory.md) | `true` | `true` | `false` | `100` |
 | [Local Relationship Layer](../60-solutions/032-local-relationship-layer/032-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Shared Offer Catalog](../60-solutions/033-shared-offer-catalog/033-shared-offer-catalog.md) | `true` | `true` | `false` | `90` |
+| [API Surface Projection](../60-solutions/034-api-surface-projection/034-api-surface-projection.md) | `false` | `true` | `true` | `100` |
+| [Interaction Broker](../60-solutions/035-interaction-broker/035-interaction-broker.md) | `false` | `false` | `false` | `25` |

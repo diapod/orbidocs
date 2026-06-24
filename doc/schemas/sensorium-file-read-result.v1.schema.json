@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-file-read-result:v1",
+  "title": "Sensorium File Read Result v1",
+  "description": "Bounded file read result. Large or sensitive contents should be returned as artifact references.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "read/ref", "address", "result/kind", "size/bytes", "content/sha256", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-file-read-result.v1" },
+    "schema/v": { "const": 1 },
+    "read/ref": { "$ref": "#/$defs/ref" },
+    "address": { "$ref": "sensorium-relative-path-address.v1.schema.json" },
+    "result/kind": { "enum": ["inline-text", "inline-base64", "artifact-ref", "refused"] },
+    "text": { "type": "string" },
+    "bytes/base64": { "type": "string" },
+    "artifact/ref": { "$ref": "#/$defs/ref" },
+    "size/bytes": { "type": "integer", "minimum": 0 },
+    "content/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "classification": { "$ref": "classification.v1.schema.json" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

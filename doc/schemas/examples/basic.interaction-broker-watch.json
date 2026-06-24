@@ -1,0 +1,16 @@
+{
+  "schema": "interaction-broker-watch.v1",
+  "schema/v": 1,
+  "watch/ref": "watch:story009-terminal",
+  "correlation/id": "corr:story009-loop",
+  "idempotency/key": "idem:story009-terminal-watch",
+  "source": {
+    "source/kind": "terminal-session",
+    "terminal.session/ref": "terminal-session:story009-abc"
+  },
+  "caps": {
+    "events/max": 64,
+    "bytes/max": 65536
+  },
+  "ttl_ms": 600000
+}

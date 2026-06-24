@@ -1,0 +1,46 @@
+{
+  "schema": "sensorium-actuation-relative-path-golden.v1",
+  "schema/v": 1,
+  "cases": [
+    {
+      "name": "simple nested file",
+      "relative/path": "node/README.md",
+      "valid": true
+    },
+    {
+      "name": "exact root marker",
+      "relative/path": ".",
+      "valid": true
+    },
+    {
+      "name": "parent traversal",
+      "relative/path": "../secret.txt",
+      "valid": false,
+      "error": "parent-traversal"
+    },
+    {
+      "name": "embedded current dir",
+      "relative/path": "./README.md",
+      "valid": false,
+      "error": "current-dir-component"
+    },
+    {
+      "name": "trailing current dir",
+      "relative/path": "node/.",
+      "valid": false,
+      "error": "current-dir-component"
+    },
+    {
+      "name": "absolute path",
+      "relative/path": "/tmp/secret.txt",
+      "valid": false,
+      "error": "absolute-path"
+    },
+    {
+      "name": "nul byte",
+      "relative/path": "safe\u0000name",
+      "valid": false,
+      "error": "nul-byte"
+    }
+  ]
+}

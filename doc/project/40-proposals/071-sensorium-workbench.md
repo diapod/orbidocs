@@ -18,6 +18,7 @@ Based on:
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 - `doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md`
 - `doc/project/60-solutions/030-sensorium/030-sensorium.md`
+- `doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md`
 
 ## Status
 
@@ -848,6 +849,50 @@ Storage Convention / Storage and Database Schema Design contract: explicit
 bounded retention, and replay or projection diagnostics. Short-lived caches may
 remain disposable, but the decision to make a store disposable must be explicit.
 
+The first daemon implementation should use two separate stores so that local
+actuation lifecycle and horizontal coordination do not become one accidental
+database:
+
+- `<data-dir>/storage/sensorium-workbench.sqlite` for Workbench-owned sessions,
+  command intents, terminal events metadata, workspace roots, patch attempts,
+  cleanup records, and idempotency decisions;
+- `<data-dir>/storage/interaction-broker.sqlite` for host-owned waits, watches,
+  probes, cursor bindings, source refs, deadlines, final outcomes, and
+  idempotency decisions.
+
+Both stores are metadata-first. They must not store raw terminal transcripts,
+file contents, prompts, credentials, or source blobs by default. Large or
+sensitive bytes move through classified artifact/object-store handles or through
+explicit capture facts with retention policy.
+
+Minimum Workbench tables or equivalent records:
+
+- `environments`: `environment/ref`, workspace refs, root refs, backend,
+  status, classification digest, limits digest, cleanup status;
+- `terminal_sessions`: `terminal.session/ref`, environment ref, command profile
+  ref, state, caps digest, last event sequence, opened/closed timestamps;
+- `terminal_events`: session ref, sequence number, event kind, byte count,
+  optional byte digest/ref, status, classification digest, retention class;
+- `command_intents`: command id, session ref, idempotency key, normalized argv
+  digest, cwd address, timeout, outcome ref;
+- `file_snapshots` and `patch_attempts`: metadata, digests, artifact refs, and
+  refusal/apply diagnostics;
+- `cleanup_records`: previous process generation, discovered resource, action
+  taken, terminal cleanup status.
+
+Minimum Interaction Broker tables or equivalent records:
+
+- `broker_sources`: source kind, source ref, provider component, classification
+  digest, retention window;
+- `watches`: watch ref, source ref, cursor, TTL, caps, idempotency key, status;
+- `waits`: wait ref, source ref, condition digest, deadline, idempotency key,
+  deferred operation id, condition status, final outcome digest/ref;
+- `probes`: probe ref, source ref, condition digest, timeout, idempotency key,
+  outcome digest/ref;
+- `cursor_replay`: source ref, sequence/cursor, event digest/ref, retained until;
+- `recovery_records`: previous generation resources and explicit recovery
+  outcomes.
+
 Daemon restart recovery is part of the safety contract, not an operator
 afterthought. On startup the Workbench runtime must run one authoritative
 recovery sweep before accepting new PTY, file, patch, or environment requests:
@@ -867,7 +912,9 @@ recovery sweep before accepting new PTY, file, patch, or environment requests:
 This mirrors the Artifact Delivery recovery rule: a previous-process `running`
 state is not silently trusted after restart. There is one source of truth for
 recovery state, and no hidden background shell is allowed to survive merely
-because the daemon crashed.
+because the daemon crashed. Recovery status values should be boring and
+operator-readable: `recovered`, `terminated`, `quarantined`,
+`failed-retryable`, `failed-permanent`, `expired`, and `unknown`.
 
 ## Trade-offs
 
@@ -897,6 +944,7 @@ because the daemon crashed.
 | Quiet terminal is misclassified as hung. | Separate `quiescent`, `waiting_for_input`, `no_progress`, `maybe_hung`, and `probe_failed` states under policy. |
 | Watch cursor is lost during component restart. | Keep bounded replay windows and explicit cursors for watch sources. |
 | Event producer overwhelms a consumer. | Enforce byte/event caps, cursor windows, truncation markers, and backpressure/overload status. |
+| Wait outcome overwhelms deferred-operation consumers. | Bound `observed` and `diagnostics` by schema shape and by host-owned serialized byte/count caps before projection into `deferred-operation-status.v1`. |
 | Agent adapter bypasses Sensorium tools. | Reject adapters that own their own terminal/filesystem authority outside host grants. |
 | Workbench grows into a second orchestration core. | Keep Workbench as an actuator: no policy selection, no model routing, no workflow ownership. |
 
@@ -1111,6 +1159,25 @@ watch/wait/probe replay semantics are backed by bounded retention.
     sandbox roots on daemon restart before accepting new requests. Interrupted
     sessions and waits must become explicit failed/degraded records, never invisible
     live residue.
+25. **Command profile default-deny.** `allowed_workspace_roots` must be non-empty.
+    Empty filesystem authority is a profile error, not a wildcard. Empty
+    `allowed_arg_prefixes` means no variable argv atoms are allowed beyond
+    executable plus `fixed_args`; it never means allow arbitrary argv.
+
+## Open Questions
+
+1. **Command identity admission.** Should `command/id` become required at
+   cross-process command-intent admission, or should the host assign it when an
+   incoming intent omits it and preserve the assigned value in
+   `sensorium-terminal-command.v1`?
+2. **Empty environment defaults.** Should `EnvPolicy::Allowlisted.defaults`
+   permit empty string values as intentional environment assignments, or should
+   empty defaults be rejected unless a future unset/clear operation is modeled
+   explicitly?
+3. **Terminal command scope binding.** In Phase 2, should
+   `TerminalCommandDone.command/id` be validated against the persisted
+   `terminal.session/ref -> command/id` relation before a broker source provider
+   accepts the wait condition?
 
 ## Next Actions And Implementation Tracker
 
@@ -1122,47 +1189,51 @@ evidence) · `[!]` blocked/needs decision.
 - [x] Decide whether first implementation is a separate Workbench connector or
   an optional capability group inside Sensorium OS. Decision: separate supervised
   Workbench connector.
-- [~] Promote the host-owned interaction broker into a separate solution before
-  implementation exposes a cross-process runtime surface. Initial unwired Rust
-  foundation exists in `node/interaction-broker-core`; solution promotion remains
-  pending.
+- [x] Promote the host-owned interaction broker into a separate solution before
+  implementation exposes a cross-process runtime surface. Solution 035 now
+  defines Interaction Broker as a horizontal host primitive; the initial unwired
+  Rust foundation exists in `node/interaction-broker-core`.
 - [~] Define the shared actuation core boundary consumed by Sensorium OS and
   Workbench. Initial unwired Rust foundation exists in
   `node/sensorium-actuation-core`; Sensorium OS and Workbench do not consume it
   yet. Decision: share contract and golden vectors from day zero; Workbench consumes the
   Rust core first, while Python Sensorium OS runs conformance tests against the same
   vectors without FFI.
-- [ ] Define `sensorium-workbench-environment.v1`.
-- [ ] Define terminal session/command/raw-input/event/snapshot schemas. The accepted
+- [x] Define `sensorium-workbench-environment.v1`.
+- [x] Define terminal session/command/raw-input/event/snapshot schemas. The accepted
   terminal observation model is a bounded viewport snapshot with cursor and backlog
   digest/ref.
-- [~] Define watch/wait/probe schemas, status values, cursor rules, and timeout
+- [x] Define watch/wait/probe schemas, status values, cursor rules, and timeout
   semantics. The initial host-owned watch/wait/probe contract lives in
   `node/interaction-broker-core`, including bounded caps, deadlines,
-  correlation ids, no-progress vocabulary, and deferred-operation projection.
-- [ ] Require `schema` and `schema/v` on every top-level Workbench schema while
+  correlation ids, no-progress vocabulary, deferred-operation projection, and
+  published JSON Schemas/examples.
+- [x] Require `schema` and `schema/v` on every top-level Workbench schema while
   preserving embedded `classification.v1` as schema-only.
-- [ ] Assign Phase 0 schema ownership and publish JSON Schema files plus
+- [x] Assign Phase 0 schema ownership and publish JSON Schema files plus
   positive/negative examples before exposing any corresponding cross-process connector
   route.
-- [ ] Define file snapshot/read and patch apply schemas. Patch apply supports both
+- [x] Define file snapshot/read and patch apply schemas. Patch apply supports both
   unified diff and structured edit operations.
-- [ ] Define operator-visible status fields and audit outcome shape.
-- [ ] Define the Workbench/Interaction Broker storage contract and startup recovery
+- [x] Define operator-visible status fields and audit outcome shape.
+- [x] Define the Workbench/Interaction Broker storage contract and startup recovery
   sweep. Stores must use explicit migrations, WAL-oriented SQLite pragmas,
   `busy_timeout`, foreign keys where applicable, idempotency keys, and
   metadata-only recovery facts; restart recovery must kill or quarantine orphan
   PTY/child processes and temp roots before new requests are admitted.
-- [~] Define command profile fields and normalized argv digest rules. The
+- [x] Define command profile fields and normalized argv digest rules. The
   initial unwired contract lives in `node/sensorium-actuation-core`, including
   argv-as-data validation, environment policy, timeout/output caps, workspace
-  root policy, and canonical JSON argv digest.
-- [ ] Define `correlation/id` threading across directive, events, wait outcome,
+  root policy, default-deny workspace roots, empty-prefix-as-no-variable-argv,
+  canonical JSON argv digest, and published schema/examples.
+- [x] Define `correlation/id` threading across directive, events, wait outcome,
   artifacts, and next directive.
-- [~] Define async wait status as `deferred-operation-status.v1` with Workbench
+- [x] Define async wait status as `deferred-operation-status.v1` with Workbench
   wait outcome as the result projection, not as a parallel status model.
-  `node/interaction-broker-core` contains the initial conversion helper; host
-  registry integration is still not wired.
+  `node/interaction-broker-core` contains the conversion helper and consumes the
+  shared deferred-operation id validator. Wait outcomes are bounded by host
+  serialized byte/count caps before projection; host registry integration is
+  still not wired.
 - [x] Decide MVP policy for raw PTY input. Decision: operator-only in MVP.
 - [x] Decide MVP wait conditions and no-progress vocabulary. MVP waits cover process
   exit, stdout/stderr pattern, file exists/changes, and timeout; `maybe_hung` is
@@ -1170,8 +1241,9 @@ evidence) · `[!]` blocked/needs decision.
 - [~] Define the adversarial actuator test matrix as a required acceptance
   suite. The matrix is now specified as a refusal-first release gate and must be
   encoded as `sensorium-actuation-core` golden vectors plus Python Sensorium OS
-  conformance tests before write/PTY runtime surfaces are enabled.
-- [ ] Enforce the Phase Release Gates before Phase 1+ runtime work: frozen schemas for
+  conformance tests before write/PTY runtime surfaces are enabled. Initial
+  relative-path golden vectors are published and consumed by Rust tests.
+- [~] Enforce the Phase Release Gates before Phase 1+ runtime work: frozen schemas for
   exposed surfaces, registered capabilities, documented storage/recovery contract, and
   executable refusal-first golden vectors for the relevant effect classes.
 - [ ] Track later direct Python Sensorium OS consumption of `sensorium-actuation-core`

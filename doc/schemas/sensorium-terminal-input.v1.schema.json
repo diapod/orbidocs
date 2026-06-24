@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-terminal-input:v1",
+  "title": "Sensorium Terminal Input v1",
+  "description": "Bounded raw input event to an existing PTY session. Operator-only in the MVP policy.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "input/id", "terminal.session/ref", "input/kind", "bytes/base64", "bytes/sha256", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-terminal-input.v1" },
+    "schema/v": { "const": 1 },
+    "input/id": { "$ref": "#/$defs/ref" },
+    "terminal.session/ref": { "$ref": "#/$defs/ref" },
+    "input/kind": { "enum": ["raw-pty-bytes"] },
+    "bytes/base64": { "type": "string", "minLength": 1 },
+    "bytes/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "operator-only": { "const": true },
+    "classification": { "$ref": "classification.v1.schema.json" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

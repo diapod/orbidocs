@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-workbench-patch:v1",
+  "title": "Sensorium Workbench Patch v1",
+  "description": "Patch proposal artifact for a Workbench workspace. It may carry a human-readable unified diff or structured edit operations.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "patch/ref", "workspace/ref", "patch/kind", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-workbench-patch.v1" },
+    "schema/v": { "const": 1 },
+    "patch/ref": { "$ref": "#/$defs/ref" },
+    "workspace/ref": { "$ref": "#/$defs/ref" },
+    "patch/kind": { "enum": ["unified-diff", "structured-edits"] },
+    "unified_diff": { "type": "string" },
+    "edits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["op", "path"],
+        "properties": {
+          "op": { "enum": ["create", "replace", "append", "delete"] },
+          "path": { "$ref": "sensorium-relative-path-address.v1.schema.json" }
+        }
+      }
+    },
+    "provenance": { "type": "object", "additionalProperties": true },
+    "classification": { "$ref": "classification.v1.schema.json" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

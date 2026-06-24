@@ -65,6 +65,63 @@ schema_for_file() {
     *.deferred-operation-status.json)
       echo "$SCHEMAS_DIR/deferred-operation-status.v1.schema.json"
       ;;
+    *.interaction-broker-watch.json)
+      echo "$SCHEMAS_DIR/interaction-broker-watch.v1.schema.json"
+      ;;
+    *.interaction-broker-wait.request.json)
+      echo "$SCHEMAS_DIR/interaction-broker-wait.request.v1.schema.json"
+      ;;
+    *.interaction-broker-wait.outcome.json)
+      echo "$SCHEMAS_DIR/interaction-broker-wait.outcome.v1.schema.json"
+      ;;
+    *.interaction-broker-probe.json)
+      echo "$SCHEMAS_DIR/interaction-broker-probe.v1.schema.json"
+      ;;
+    *.sensorium-relative-path-address.json)
+      echo "$SCHEMAS_DIR/sensorium-relative-path-address.v1.schema.json"
+      ;;
+    *.sensorium-command-profile.json)
+      echo "$SCHEMAS_DIR/sensorium-command-profile.v1.schema.json"
+      ;;
+    *.sensorium-command-intent.json)
+      echo "$SCHEMAS_DIR/sensorium-command-intent.v1.schema.json"
+      ;;
+    *.sensorium-pty-resource-caps.json)
+      echo "$SCHEMAS_DIR/sensorium-pty-resource-caps.v1.schema.json"
+      ;;
+    *.sensorium-workbench-environment.json)
+      echo "$SCHEMAS_DIR/sensorium-workbench-environment.v1.schema.json"
+      ;;
+    *.sensorium-terminal-session.json)
+      echo "$SCHEMAS_DIR/sensorium-terminal-session.v1.schema.json"
+      ;;
+    *.sensorium-terminal-command.json)
+      echo "$SCHEMAS_DIR/sensorium-terminal-command.v1.schema.json"
+      ;;
+    *.sensorium-terminal-input.json)
+      echo "$SCHEMAS_DIR/sensorium-terminal-input.v1.schema.json"
+      ;;
+    *.sensorium-terminal-event.json)
+      echo "$SCHEMAS_DIR/sensorium-terminal-event.v1.schema.json"
+      ;;
+    *.sensorium-terminal-screen-snapshot.json)
+      echo "$SCHEMAS_DIR/sensorium-terminal-screen-snapshot.v1.schema.json"
+      ;;
+    *.sensorium-file-snapshot.json)
+      echo "$SCHEMAS_DIR/sensorium-file-snapshot.v1.schema.json"
+      ;;
+    *.sensorium-file-read-result.json)
+      echo "$SCHEMAS_DIR/sensorium-file-read-result.v1.schema.json"
+      ;;
+    *.sensorium-workbench-patch.json)
+      echo "$SCHEMAS_DIR/sensorium-workbench-patch.v1.schema.json"
+      ;;
+    *.sensorium-workbench-patch-apply-result.json)
+      echo "$SCHEMAS_DIR/sensorium-workbench-patch-apply-result.v1.schema.json"
+      ;;
+    *.sensorium-workbench-outcome.json)
+      echo "$SCHEMAS_DIR/sensorium-workbench-outcome.v1.schema.json"
+      ;;
     *.inac-control.json)
       echo "$SCHEMAS_DIR/inac-control.v1.schema.json"
       ;;

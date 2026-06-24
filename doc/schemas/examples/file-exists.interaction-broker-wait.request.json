@@ -1,0 +1,22 @@
+{
+  "schema": "interaction-broker-wait.request.v1",
+  "schema/v": 1,
+  "wait/ref": "wait:story009-file-ready",
+  "correlation/id": "corr:story009-loop",
+  "idempotency/key": "idem:story009-file-ready",
+  "scope": {
+    "source": {
+      "source/kind": "file-tree",
+      "workspace/ref": "workspace:story009-local",
+      "root/ref": "root:repo"
+    }
+  },
+  "condition": {
+    "kind": "file-exists",
+    "workspace/ref": "workspace:story009-local",
+    "root/ref": "root:repo",
+    "relative/path": "node/README.md"
+  },
+  "deadline_ms": 10000,
+  "on_timeout": "return-not-kill"
+}

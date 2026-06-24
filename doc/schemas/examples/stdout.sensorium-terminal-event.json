@@ -1,0 +1,21 @@
+{
+  "schema": "sensorium-terminal-event.v1",
+  "schema/v": 1,
+  "terminal.session/ref": "terminal-session:story009-abc",
+  "command/id": "command:story009-cargo-test",
+  "event.seq/no": 8,
+  "event/kind": "stdout",
+  "bytes/sha256": "sha256:stdoutDigestExample",
+  "bytes/count": 42,
+  "observed_at": "2026-06-24T10:00:01Z",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:did:key:z6MkpaWelsPersonalSubject" }]
+    },
+    "declassify_trail": []
+  }
+}

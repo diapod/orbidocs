@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-terminal-command:v1",
+  "title": "Sensorium Terminal Command v1",
+  "description": "Structured terminal command intent bound to an existing Workbench terminal session.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "command/id", "terminal.session/ref", "intent", "normalized-argv/sha256", "idempotency/key", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-terminal-command.v1" },
+    "schema/v": { "const": 1 },
+    "command/id": { "$ref": "#/$defs/ref" },
+    "terminal.session/ref": { "$ref": "#/$defs/ref" },
+    "intent": { "$ref": "sensorium-command-intent.v1.schema.json" },
+    "normalized-argv/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "idempotency/key": { "$ref": "#/$defs/ref" },
+    "correlation/id": { "$ref": "#/$defs/ref" },
+    "classification": { "$ref": "classification.v1.schema.json" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

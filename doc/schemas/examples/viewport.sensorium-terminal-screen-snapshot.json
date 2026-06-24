@@ -1,0 +1,25 @@
+{
+  "schema": "sensorium-terminal-screen-snapshot.v1",
+  "schema/v": 1,
+  "terminal.session/ref": "terminal-session:story009-abc",
+  "from.seq/no": 1,
+  "to.seq/no": 8,
+  "viewport": {
+    "rows": 24,
+    "cols": 80,
+    "cursor.row": 3,
+    "cursor.col": 12,
+    "text": "running tests..."
+  },
+  "omitted-backlog/sha256": "sha256:backlogDigestExample",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:did:key:z6MkpaWelsPersonalSubject" }]
+    },
+    "declassify_trail": []
+  }
+}

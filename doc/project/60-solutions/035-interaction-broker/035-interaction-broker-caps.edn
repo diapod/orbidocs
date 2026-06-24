@@ -1,0 +1,84 @@
+{:component/id :orbiplex/interaction-broker
+ :component/title "Interaction Broker"
+ :component/type :host-control-plane
+ :component/status :partial
+
+ :summary
+ "Host-owned coordination primitive for bounded waits, watches, and probes across registered observation sources. It prevents private polling loops and keeps long waits in the bounded deferred-operation control plane."
+
+ :must-implement
+ [{:cap/id :interaction-broker-contract-core
+   :title "Broker Contract Core"
+   :kind :schema-contract
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"
+              "doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md"]
+   :schemas ["interaction-broker-watch.v1"
+             "interaction-broker-wait.request.v1"
+             "interaction-broker-wait.outcome.v1"
+             "interaction-broker-probe.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Define observation sources, watch cursors, wait scopes, conditions, caps, deadlines, and timeout behavior"
+    "Reject cursor/source mismatch, wait scope mismatch, traversal paths, and malformed deferred operation ids"
+    "Reject oversized wait outcome observed and diagnostics payloads before deferred-operation projection"
+    "Project completed async waits into deferred-operation-status.v1 result payloads"]
+   :status :partial}
+
+  {:cap/id :host-broker-runtime
+   :title "Host Broker Runtime"
+   :kind :daemon-service
+   :based-on ["doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md"
+              "doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md"]
+   :schemas ["interaction-broker-watch.v1"
+             "interaction-broker-wait.request.v1"
+             "interaction-broker-wait.outcome.v1"
+             "interaction-broker-probe.v1"
+             "deferred-operation.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Own daemon admission, grant checks, idempotency, deadlines, persistence, and bounded replay windows"
+    "Register async waits in the host deferred-operation registry"
+    "Expose operator-visible status for active and terminal broker resources"
+    "Recover interrupted waits, watches, and probes explicitly on daemon startup"]
+   :status :planned}
+
+  {:cap/id :source-provider-registry
+   :title "Source Provider Registry"
+   :kind :host-extension-point
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"]
+   :schemas []
+   :responsibilities
+   ["Let Workbench, Artifact Delivery, Memarium, approvals, and deferred-operation registry provide bounded observation/probe adapters"
+    "Keep source facts and concrete probe mechanics owned by their domain component"
+    "Prevent broker code from reaching into component-private stores"]
+   :status :planned}]
+
+ :may-implement
+ [{:cap/id :cross-source-joins
+   :title "Cross-Source Joins"
+   :kind :future-coordination
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"]
+   :schemas ["interaction-broker-wait.request.v1"]
+   :responsibilities
+   ["Evaluate waits over multiple registered sources only after single-source replay windows and source adapters are stable"
+    "Keep composed joins host-owned rather than embedding AD, Memarium, approval, or Workbench semantics in Sensorium Core"]
+   :status :deferred}]
+
+ :consumes
+ ["registered observation sources"
+  "host capability grants"
+  "deferred-operation registry"
+  "Temporal Storage Convention"]
+
+ :produces
+ ["interaction-broker-watch.v1"
+  "interaction-broker-wait.outcome.v1"
+  "interaction-broker-probe.v1"
+  "deferred-operation.v1"
+  "deferred-operation-status.v1"
+  "operator-visible wait/watch/probe status"]
+
+ :notes
+ ["Interaction Broker is horizontal host coordination, not a Sensorium Core feature."
+  "Timeouts and suspected hangs are diagnostics; process termination remains a connector/operator directive."
+  "The current Node implementation is an unwired core crate, not a daemon runtime."]}

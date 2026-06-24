@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:interaction-broker-wait.outcome:v1",
+  "title": "Interaction Broker Wait Outcome v1",
+  "description": "Domain result/projection for a satisfied or terminal wait condition. Async lifecycle state remains deferred-operation-status.v1.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md"
+  ],
+  "required": ["schema", "schema/v", "wait/ref", "condition/status", "duration_ms"],
+  "properties": {
+    "schema": { "const": "interaction-broker-wait.outcome.v1" },
+    "schema/v": { "const": 1 },
+    "wait/ref": { "$ref": "#/$defs/ref" },
+    "correlation/id": { "$ref": "#/$defs/ref" },
+    "condition/status": {
+      "enum": ["satisfied", "timed-out", "cancelled", "failed", "maybe-hung", "waiting-for-input", "no-progress", "probe-failed"]
+    },
+    "observed": {
+      "type": "object",
+      "additionalProperties": true,
+      "maxProperties": 64,
+      "propertyNames": { "maxLength": 256 },
+      "description": "Bounded provider observation. Runtime validation also applies a serialized byte cap before projection into deferred-operation-status.v1."
+    },
+    "duration_ms": { "type": "integer", "minimum": 1 },
+    "diagnostics": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "maxProperties": 32,
+        "propertyNames": { "maxLength": 256 }
+      },
+      "default": []
+    }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

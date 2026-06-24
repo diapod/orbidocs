@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:interaction-broker-probe:v1",
+  "title": "Interaction Broker Probe v1",
+  "description": "Active bounded probe request against one registered observation source.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md"
+  ],
+  "required": ["schema", "schema/v", "probe/ref", "idempotency/key", "source", "condition", "timeout_ms"],
+  "properties": {
+    "schema": { "const": "interaction-broker-probe.v1" },
+    "schema/v": { "const": 1 },
+    "probe/ref": { "$ref": "#/$defs/ref" },
+    "correlation/id": { "$ref": "#/$defs/ref" },
+    "idempotency/key": { "$ref": "#/$defs/ref" },
+    "source": { "$ref": "interaction-broker-wait.request.v1.schema.json#/$defs/observationSource" },
+    "condition": { "$ref": "interaction-broker-wait.request.v1.schema.json#/$defs/waitCondition" },
+    "timeout_ms": { "type": "integer", "minimum": 1, "maximum": 900000 }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}
