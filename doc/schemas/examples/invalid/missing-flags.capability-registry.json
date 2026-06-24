@@ -1,0 +1,12 @@
+{
+  "schema/v": "capability-registry.v1",
+  "entries": [
+    {
+      "capability/id": "core/messaging",
+      "owner": "Node protocol",
+      "surfaces": ["federated"],
+      "wire/name": "core/messaging",
+      "status": "active"
+    }
+  ]
+}

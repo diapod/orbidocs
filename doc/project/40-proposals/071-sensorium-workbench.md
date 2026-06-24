@@ -746,6 +746,13 @@ model output may be:
 - automatically executable in a disposable sandbox;
 - automatically executable in a local workspace under narrow allowlists.
 
+P072 continuation note: this section is the current seed for the deferred
+authorization-policy-as-data track in Proposal 072. When Workbench grants,
+required caller posture, conflict-of-interest rules, and autonomy levels are
+promoted from prose/imperative checks into registry-consumable policy data, the
+implementation tracker in P072 Phase 4 should be updated to point at that
+follow-up proposal or solution.
+
 ### 10. Trace And Memory
 
 Workbench traces must be useful without leaking unnecessary content.
@@ -1356,6 +1363,10 @@ evidence) · `[!]` blocked/needs decision.
   grant envelopes for mediated file/probe/watch/wait actions and terminal
   actions; raw input, resize, and signal additionally require operator
   confirmation. Full host-side cryptographic grant issuance remains future.
+- [ ] Extract Workbench grant/autonomy policy into the future
+  authorization-policy-as-data track. This is the P071 seed referenced by P072
+  Phase 4; when implemented, update P072 to mark the deferred policy-data
+  continuation as landed.
 - [~] Record directive outcomes and metadata-only traces. Patch gates still
   return `sensorium-workbench-outcome.v1`; terminal runtime now records sessions,
   commands, and events durably in connector SQLite. Host audit projection of

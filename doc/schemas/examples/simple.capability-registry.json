@@ -1,0 +1,21 @@
+{
+  "schema/v": "capability-registry.v1",
+  "entries": [
+    {
+      "capability/id": "core/messaging",
+      "owner": "Node protocol",
+      "surfaces": ["federated"],
+      "wire/name": "core/messaging",
+      "status": "active",
+      "flags": {
+        "dispatchable": false,
+        "advertisable": true,
+        "passport/eligible": true,
+        "signing-domain": false,
+        "host-route": false,
+        "federated-discovery": false
+      },
+      "docs": { "human-registry": true }
+    }
+  ]
+}

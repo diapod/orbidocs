@@ -16,7 +16,7 @@ Based on:
 
 ## Status
 
-`draft`
+`implemented`
 
 ## Date
 
@@ -232,17 +232,29 @@ The former Q1 (source direction) and Q2 (one registry vs two) are **decided in �
 single repo-checked-in source with a generated docs projection, one registry with a
 `surfaces` set — because leaving them open would undercut P072's purpose.
 
-The former Q3 (grandfathering migration), Q4 (authorization-policy-as-data), and Q5
-(federation-extension governance) are also decided:
+The former Q3 (grandfathering migration), Q4 (authorization-policy-as-data), Q5
+(federation-extension governance), and the CR-97 follow-up questions are also decided:
 
 1. **Grandfathering migration.** Seed every currently known capability as `active` in
    the first registry and fail closed immediately for any new unregistered capability.
    Backward compatibility is not required at this stage, and preserving the warning-only
    gap would undercut the registry's purpose.
 2. **Authorization-policy-as-data.** Create a separate proposal when this becomes the
-   next implementation slice.
+   next implementation slice. It is intentionally out of P072 implementation scope.
 3. **Federation-extension governance.** Create a separate governance proposal for
-   namespace allocation, registration authority, and revocation.
+   namespace allocation, registration authority, and revocation. It is intentionally out
+   of P072 implementation scope.
+4. **Legacy Rust projection.** `node:capability/src/lib.rs` may retain
+   `CAPABILITY_ADVERTISEMENT_MAP` as a transitional projection for older callers,
+   provided it is mechanically checked for completeness over registry entries with
+   `advertisable = true`. The machine registry remains the source of truth.
+5. **Versioning policy for this change.** The fail-closed removal of lenient fallback
+   in `capability_id_from_advertisement` is documented as a migration note rather than
+   a crate version bump for now, because `orbiplex-node-capability` is still an
+   internal `0.1.0` crate in this workspace.
+6. **Reserved-name catalog visibility.** `reserved` entries may be visible in the
+   human registry when that protects a namespace or gives developers useful guidance;
+   admission still refuses them until their machine status changes.
 
 ## Implementation Recommendations
 
@@ -274,91 +286,95 @@ structural integrity before the daemon serves any capability surface.
 ## Implementation Tracker
 
 Status legend: `[ ]` not started · `[~]` in progress · `[x]` done (with code
-evidence) · `[!]` blocked/needs decision.
+evidence) · `[d]` deliberately deferred out of this proposal's implementation scope.
 
 ### Current implementation coverage audit
 
-Audited on `2026-06-24`.
+Audited on `2026-06-24` after implementation.
 
-What exists today:
+Implemented now:
 
-- `node:capability/src/lib.rs` has a static `CAPABILITY_ADVERTISEMENT_MAP` and
-  formal constants for the P069/P070/P071 capability IDs.
-- `orbidocs:doc/project/60-solutions/CAPABILITY-REGISTRY.en.md` and `.pl.md`
-  already include host-local rows such as `sensorium.workbench.*` and
-  `interaction-broker.*`.
-- `orbidocs:scripts/check-capability-registry.py` plus `make
-  check-capability-registry` validate the human registry tables against the node
-  runtime capability map and core protocol capability constants.
+- `node:capability/capability-registry.v1.json` is the checked-in machine source
+  of truth for federated and host-local capabilities.
+- `node:capability/src/registry.rs` validates the registry, canonical id grammar,
+  unique `wire/name`, status semantics, derived `surfaces`, and use-specific
+  eligibility flags.
+- The legacy Rust `CAPABILITY_ADVERTISEMENT_MAP` is retained only as a
+  transitional runtime projection and is checked for coverage of all registry
+  entries with `advertisable = true`; it is not a second authority.
+- Capability advertisement signing/verification, capability passport validation,
+  daemon host-capability dispatch/routing, literal control-plane `POST /v1/host/capabilities/*` routes, and supervised middleware module-report
+  admission fail closed for unregistered or ineligible formal capability ids.
+- Dynamic middleware reports are rejected before routing when they claim
+  unregistered or ineligible host capability handlers.
+- `capability-registry.v1` has mirrored schemas/examples in `orbidocs` and
+  `node/protocol/contracts`; schema validation covers positive and negative
+  registry examples.
+- `orbidocs:scripts/check-capability-registry.py` validates the machine registry
+  against the legacy Rust projection, including `advertisable` coverage, human EN/PL registry tables, and
+  `capability-advertisement.v1`, `capability-passport-present.v1`, and
+  `seed-capability-registration.v1` fixtures.
 
-What does **not** exist yet:
+Still out of P072 implementation scope:
 
-- no checked-in `capability-registry.v1` machine-readable source of truth;
-- no `surfaces` set or eligibility flags consumed by runtime code;
-- no daemon admission gate that derives dispatchable / advertisable /
-  passport-eligible sets from that registry;
-- no registry check for `capability-passport.v1` or
-  `capability-advertisement.v1` fixtures beyond the current docs↔node map
-  drift check;
-- no fail-closed rejection for every unregistered formal capability ID. Current
-  advertisement mapping still supports generic and sovereign IDs, and host-local
-  routing is provider-source based rather than registry-derived.
+- authorization-policy-as-data per capability;
+- federation-extension governance and public namespace allocation.
+
+Those are intentionally separate proposal tracks, as decided in §2.
 
 ### Phase 0 — Enumerate and seed
 
-- [~] Enumerate every capability the node currently advertises, requests, or dispatches
+- [x] Enumerate every capability the node currently advertises, requests, or dispatches
   (federated **and** host-local, including `/v1/host/capabilities/*`). Evidence:
-  interim enumeration exists in `CAPABILITY_ADVERTISEMENT_MAP`,
-  `CAPABILITY-REGISTRY.*.md`, and host capability provider sources; it is not yet
-  exhaustive or machine-authoritative for all `/v1/host/capabilities/*` routes.
-- [ ] Seed `capability-registry.v1`; grandfather every currently known capability as
-  `active`, then fail closed immediately for new unregistered capabilities. No
-  `capability-registry.v1` source exists yet.
+  `node:capability/capability-registry.v1.json` contains the canonical active/reserved
+  entries and preserves the legacy Rust advertisement projection as a checked subset.
+- [x] Seed `capability-registry.v1`; grandfather every currently known capability as
+  `active`, then fail closed immediately for new unregistered capabilities. Evidence:
+  `node:capability/src/registry.rs` and `cargo test -p orbiplex-node-capability`.
 
 ### Phase 1 — Enforce (fail-closed)
 
-- [ ] Daemon derives its dispatchable and advertisable sets from the registry. Current
-  daemon routing derives host-local providers from runtime sources, not from a
-  canonical registry.
-- [ ] Unregistered capability → denied at dispatch, advertisement, and passport gate.
-  Current code validates shapes and some identity bindings, but it does not apply
-  a registry-admission gate for all formal capability IDs.
-- [ ] Load-time readiness fail-closed: a missing/malformed `capability-registry.v1` fails
-  daemon readiness with a diagnostic, never a silent empty or open allow-set.
-- [ ] Two-layer completeness: a build-time checker validates static declarations against
-  the registry, and runtime readiness/admission validates dynamic provider reports,
-  JSON-e bindings, and config against the registry before routing them, so neither a
-  static nor a dynamic capability is admitted unregistered.
+- [x] Daemon derives dispatchable/host-route admission from the registry before
+  dispatching host capability calls or exposing simple host capability routes.
+- [x] Unregistered capability → denied at dispatch, advertisement, and passport gate.
+  Evidence: capability passport validation, network advertisement sign/verify gates,
+  daemon host-capability registry admission tests, and middleware supervisor report
+  admission tests.
+- [x] Load-time fail-closed for the checked-in static registry: malformed registry
+  material fails the embedded registry parser/tests before runtime surfaces can treat it
+  as an allow-set.
+- [x] Two-layer completeness: build-time/static checks validate code/docs/fixtures plus literal daemon host-capability POST routes
+  against the registry, including completeness of the legacy Rust projection for
+  `advertisable` entries, and runtime admission validates dynamic middleware
+  reports before routing. JSON-e binding policy-as-data remains separate authorization scope.
 
 ### Phase 2 — CI drift gate
 
-- [~] Validate the docs projection, node allow-set, and passport/advertisement fixtures
-  against the registry; drift fails the build. Evidence: `make
-  check-capability-registry` validates `CAPABILITY-REGISTRY.en.md` and `.pl.md`
-  against `node:capability/src/lib.rs` plus core protocol constants. Missing:
-  validation against `capability-registry.v1`, eligibility flags, and
-  passport/advertisement fixtures.
+- [x] Validate the docs projection, node allow-set, and passport/advertisement fixtures
+  against the registry; drift fails the build. Evidence: `make check-capability-registry`
+  now validates `capability-registry.v1`, eligibility flags, EN/PL human projection,
+  the Rust projection and its `advertisable` coverage, literal daemon
+  host-capability POST routes, and passport/advertisement/Seed Directory fixtures.
 
 ### Phase 3 — Register new capabilities (P069/P070/P071 prerequisite)
 
 - [x] `room.open` / `room.join` / `room.membership-query` (P070). Registered in
-  `node:capability/src/lib.rs` and `CAPABILITY-REGISTRY.*.md`; enforcement still
-  waits for Phase 1.
-- [x] `sensorium.workbench.*` (P071). Registered in `node:capability/src/lib.rs`
-  and `CAPABILITY-REGISTRY.*.md`; enforcement still waits for Phase 1.
+  `capability-registry.v1` and covered by registry admission/drift gates.
+- [x] `sensorium.workbench.*` (P071). Registered in `capability-registry.v1` and
+  covered by registry admission/drift gates.
 - [x] `corpus.*` (P069). `corpus.provider` is registered in
-  `node:capability/src/lib.rs` and `CAPABILITY-REGISTRY.*.md`; enforcement still
-  waits for Phase 1.
+  `capability-registry.v1` and covered by registry admission/drift gates.
 - [x] host `interaction-broker.wait` / `.watch` / `.probe` (P071). Registered in
-  `node:capability/src/lib.rs` and `CAPABILITY-REGISTRY.*.md`; enforcement still
-  waits for Phase 1.
+  `capability-registry.v1` and covered by registry admission/drift gates.
 
-### Phase 4 — Authorization-policy-as-data `[!] separate proposal`
+### Phase 4 — Authorization-policy-as-data `[d] separate proposal track`
 
-- [!] Express required grants / COI / autonomy levels as registry data in a separate
-  proposal (seed: P071 §9).
+- [d] Express required grants / COI / autonomy levels as registry data in a separate
+  proposal (seed: P071 §9). This is intentionally out of P072 implementation scope;
+  P072 is complete for registry identity/admission.
 
-### Phase 5 — Federation-extension governance `[!] separate proposal`
+### Phase 5 — Federation-extension governance `[d] separate proposal track`
 
-- [!] Federation namespace allocation, registration authority, and revocation in a
-  separate governance proposal.
+- [d] Federation namespace allocation, registration authority, and revocation belong in
+  a separate governance proposal. P072 intentionally does not implement governance over
+  public namespace authority.

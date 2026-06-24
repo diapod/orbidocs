@@ -19,12 +19,9 @@ This registry covers capability IDs used as:
 - routing or discovery predicates in the Node runtime.
 
 Historically it excluded host-local capabilities such as `recovery.sign` or
-`catalog.local.query`. That boundary is now superseded: this registry already lists
-host-local rows (e.g. `interaction-broker.*`, `sensorium.workbench.*`), and **Proposal
-072 makes one registry — with a `surface` discriminator — the enforced source of truth
-for both federated and host-local capabilities.** Until P072 lands, treat this document
-as the **human projection pending P072**, not an exhaustive or authoritative runtime
-allow-set.
+`catalog.local.query`. That boundary is now superseded: `node/capability/capability-registry.v1.json`
+is the enforced machine source of truth for both federated and host-local capabilities,
+and this document is its human-facing, CI-validated projection.
 
 ## Assertion Layers
 
@@ -79,23 +76,31 @@ closed-deployment rule for the `offer-catalog` passports on node B/C.
 
 ## Sources of Truth
 
-This document should remain synchronized at least with:
+The source of truth is:
 
-- `node:capability/src/lib.rs`
-- `orbidocs:doc/project/60-solutions/000-node/000-node.md`
-- `orbidocs:doc/project/60-solutions/CAPABILITY-MATRIX.en.md`
-- the relevant capability or attached-role proposals
+- `node:capability/capability-registry.v1.json`
+
+This document, the legacy Rust projection in `node:capability/src/lib.rs`, and the
+passport/advertisement fixtures are checked against that source by
+`orbidocs:scripts/check-capability-registry.py`.
 
 If any of the following changes:
 
 - `capability_id`,
 - wire name,
 - capability semantics,
+- eligibility flags,
 - or the primary runtime owner,
 
-then this registry should be updated as well.
+then update the machine registry first and let the human projection follow it.
 
 ## Capability Registry
+
+The `Passport in MVP` column is an implementation/readiness note, not the
+machine registry status. Canonical machine status is `active`, `deprecated`, or
+`reserved` in `node:capability/capability-registry.v1.json`; `reserved` entries
+are visible here only to prevent namespace squatting and remain denied at
+admission.
 
 | capability_id | Wire name | Class | Semantic role | Typical runtime owner | Passport in MVP | Notes |
 |---|---|---|---|---|---|---|
@@ -119,15 +124,15 @@ then this registry should be updated as well.
 | `room.open` | `app/room.open` | application coordination | authority to open a durable Room skeleton and initial room policy projection | Room primitive / daemon room host | planned | This is a room-domain capability, not a transport adapter grant. WSS and Matrix live-plane adapters consume the resulting room projection. |
 | `room.join` | `app/room.join` | application coordination | authority to request or accept membership in an existing Room under its policy | Room primitive / daemon room host | planned | Join authority is evaluated against room policy, grants, expiry, and attested membership; it does not imply live-message send authority by itself. |
 | `room.membership-query` | `app/room.membership-query` | application query | authority to request signer-backed Room membership or grant attestations | Room primitive / daemon room host | yes | Implemented as authenticated `agora-service` projection queries backed by the local host signer; middleware does not mint attestations directly. |
-| `sensorium.workbench.terminal` | `sensorium/workbench.terminal` | local actuation | bounded PTY/session capability for Sensorium Workbench | Sensorium Workbench connector | partial | High-risk effect surface; the current connector keeps terminal disabled by factory config, then allows bounded PTY sessions and structured argv commands only after explicit grants and configured command profiles. Raw input, resize, and signal are operator-confirmed paths. |
-| `sensorium.workbench.file` | `sensorium/workbench.file` | local actuation | bounded file snapshot/read surface under leased workspace roots | Sensorium Workbench connector | partial | First opt-in connector slice implements allowlisted workspace snapshot/read with capped request/read bytes plus traversal, root-self, symlink-traversal, oversized-file, and invalid-root-config refusal; it is not ambient filesystem authority. |
-| `sensorium.workbench.patch` | `sensorium/workbench.patch` | local actuation | bounded patch application surface under leased workspace roots | Sensorium Workbench connector | planned | Current connector exposes a fail-closed patch gate; execution still requires artifact-ref input, provenance, digest checks, policy gates, and operator approval unless an explicit lease permits it. |
-| `sensorium.workbench.env` | `sensorium/workbench.env` | local actuation | bounded environment/sandbox lifecycle surface for Workbench sessions | Sensorium Workbench connector | partial | First opt-in connector slice reports allowlisted host-local workspace environments; lifecycle create/close and cleanup/recovery are still future. |
+| `sensorium.workbench.terminal` | `sensorium/workbench.terminal` | local actuation | bounded PTY/session capability for Sensorium Workbench | Sensorium Workbench connector | partial | High-risk effect surface; the current connector keeps terminal disabled by factory config, then allows bounded PTY sessions and structured argv commands only after explicit grants and configured command profiles. Raw input, resize, and signal are operator-confirmed paths. Registry flags allow both host-route visibility and supervised middleware dispatch for this handler. |
+| `sensorium.workbench.file` | `sensorium/workbench.file` | local actuation | bounded file snapshot/read surface under leased workspace roots | Sensorium Workbench connector | partial | First opt-in connector slice implements allowlisted workspace snapshot/read with capped request/read bytes plus traversal, root-self, symlink-traversal, oversized-file, and invalid-root-config refusal; it is not ambient filesystem authority. Registry flags allow both host-route visibility and supervised middleware dispatch for this handler. |
+| `sensorium.workbench.patch` | `sensorium/workbench.patch` | local actuation | bounded patch application surface under leased workspace roots | Sensorium Workbench connector | planned | Current connector exposes a fail-closed patch gate; execution still requires artifact-ref input, provenance, digest checks, policy gates, and operator approval unless an explicit lease permits it. This registry entry is visible and passport-eligible, but not dispatchable until a supervised patch handler is admitted. |
+| `sensorium.workbench.env` | `sensorium/workbench.env` | local actuation | bounded environment/sandbox lifecycle surface for Workbench sessions | Sensorium Workbench connector | partial | First opt-in connector slice reports allowlisted host-local workspace environments; lifecycle create/close and cleanup/recovery are still future. Registry flags allow both host-route visibility and supervised middleware dispatch for this handler. |
 | `interaction-broker.wait` | `host/interaction-broker.wait` | host coordination | host-owned bounded wait over registered observation sources | daemon interaction broker | planned | Waits are control-plane coordination with deadlines and idempotency; they do not authorize termination or domain effects. |
 | `interaction-broker.watch` | `host/interaction-broker.watch` | host coordination | host-owned bounded watch/replay cursor over registered observation sources | daemon interaction broker | planned | Watch replay windows are bounded by count/time and carry metadata-safe events only. |
 | `interaction-broker.probe` | `host/interaction-broker.probe` | host coordination | host-owned active probe for progress, liveness, file state, or artifact presence | daemon interaction broker | planned | Probes produce diagnostics or outcomes; effectful remediation remains with the owning connector/operator path. |
 | `escrow` | `role/escrow` | attached supervisory role | supervisor of hold, release, refund, freeze, and dispute paths for settlement contracts | escrow supervisor node or attached service | yes | This capability governs the lifecycle of reserved funds for a contract, not full ledger authority. |
-| `oracle` | `plugin/oracle` | attached role / plugin | bounded external judgment, verification, or adjudication surface | future oracle service | planned | At this stage it is a reserved identifier and extension direction rather than a full hard-MVP runtime slice. |
+| `oracle` | `plugin/oracle` | attached role / plugin | bounded external judgment, verification, or adjudication surface | future oracle service | planned | Machine status: `reserved`. At this stage it is a namespace reservation and extension direction rather than an admissible runtime capability or full hard-MVP runtime slice. |
 
 ## Semantic Distinctions
 

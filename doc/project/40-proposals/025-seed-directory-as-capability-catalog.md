@@ -91,6 +91,11 @@ solves this without introducing a separate hard-coded lookup mechanism.
 - This proposal does not define OpenAPI, ETag headers, or rate-limiting headers
   for the extended Seed Directory. Those may be added without a new proposal.
 - This proposal does not define multi-federation capability directories.
+- This proposal does not define federation-extension governance for the formal
+  capability namespace: who may register new federation-scoped capability ids,
+  how public namespace allocation works, or how a namespace-level registration
+  authority is revoked. P025 supplies the registration/revocation transport
+  mechanics; the governance decision remains the deferred P072 Phase 5 track.
 
 ## Decision
 
@@ -803,6 +808,11 @@ Conditional fields:
 - Multiple capabilities per Node are first-class, not an afterthought.
 - Self-revocation (`signed_by: "subject"`) allows clean node decommissioning
   without requiring the sovereign operator to be online.
+- P072 continuation is explicit: when a separate federation-extension governance
+  proposal defines public capability namespace allocation, registration
+  authority, and namespace-level revocation, it should state how its authority
+  records flow into this Seed Directory capability-registration surface and then
+  update P072 Phase 5 from deferred to landed.
 
 ### Negative
 

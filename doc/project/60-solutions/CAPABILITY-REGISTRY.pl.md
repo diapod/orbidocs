@@ -1,7 +1,7 @@
 # Rejestr capability IDs
 
-Ten dokument jest ludzkoczytelnym rejestrem capability IDs używanych na granicy
-Node <-> Node oraz Node <-> Seed Directory.
+Ten dokument jest rejestrem capability IDs używanych na granicy Node <-> Node
+oraz Node <-> Seed Directory, zapisanym w postaci zrozumiałej dla człowieka.
 
 Nie jest to pełna macierz zdolności rozwiązania. To węższy artefakt:
 
@@ -19,12 +19,10 @@ Rejestr obejmuje capability IDs używane jako:
 - kryteria routingu lub odkrywania capability w Node.
 
 Historycznie nie obejmował host-local capabilities typu `recovery.sign` czy
-`catalog.local.query`. Ta granica jest już nieaktualna: rejestr zawiera dziś wiersze
-host-local (np. `interaction-broker.*`, `sensorium.workbench.*`), a **Proposal 072 czyni
-jeden rejestr — z dyskryminatorem `surface` — egzekwowanym źródłem prawdy dla zdolności
-federacyjnych i host-local.** Do czasu wdrożenia P072 traktuj ten dokument jako
-**ludzką projekcję w oczekiwaniu na P072**, nie jako wyczerpujący ani autorytatywny
-runtime allow-set.
+`catalog.local.query`. Ta granica jest już nieaktualna: `node/capability/capability-registry.v1.json`
+jest egzekwowanym maszynowym źródłem prawdy dla capabilities federacyjnych i
+host-local, a ten dokument jest jego walidowaną w CI projekcją w postaci
+zrozumiałej dla człowieka.
 
 ## Warstwy deklarowania capability
 
@@ -80,23 +78,31 @@ Story-009 używa tej zamkniętej reguły deploymentowej dla passportów
 
 ## Źródła prawdy
 
-Ten dokument ma pozostać zsynchronizowany co najmniej z:
+Źródłem prawdy jest:
 
-- `node:capability/src/lib.rs`
-- `orbidocs:doc/project/60-solutions/000-node/000-node.md`
-- `orbidocs:doc/project/60-solutions/CAPABILITY-MATRIX.pl.md`
-- odpowiednimi proposalami capability lub attached roles
+- `node:capability/capability-registry.v1.json`
+
+Ten dokument, legacy projekcja Rust w `node:capability/src/lib.rs` oraz fixture'y
+passport/advertisement są sprawdzane względem tego źródła przez
+`orbidocs:scripts/check-capability-registry.py`.
 
 Jeżeli zmienia się:
 
 - `capability_id`,
 - wire name,
 - semantyka capability,
+- eligibility flags,
 - albo jej główny owner runtime,
 
-to ten rejestr również powinien zostać zaktualizowany.
+to najpierw aktualizujemy maszynowy registry, a dopiero potem jego ludzką projekcję.
 
 ## Capability Registry
+
+Kolumna `Passport w MVP` jest notą implementacyjną/readiness, a nie maszynowym
+statusem registry. Kanoniczny status maszynowy to `active`, `deprecated` albo
+`reserved` w `node:capability/capability-registry.v1.json`; wpisy `reserved`
+są tutaj widoczne tylko po to, aby zapobiec zajęciu namespace, i nadal są
+odrzucane na admission gate.
 
 | capability_id | Wire name | Klasa | Rola semantyczna | Typowy owner runtime | Passport w MVP | Uwagi |
 |---|---|---|---|---|---|---|
@@ -120,15 +126,15 @@ to ten rejestr również powinien zostać zaktualizowany.
 | `room.open` | `app/room.open` | koordynacja aplikacyjna | authority do otwarcia trwałego szkieletu Room i początkowej projekcji polityki pokoju | Room primitive / daemon room host | planowane | To capability domeny Room, nie grant adaptera transportowego. Adaptery live-plane WSS i Matrix konsumują wynikową projekcję pokoju. |
 | `room.join` | `app/room.join` | koordynacja aplikacyjna | authority do żądania albo zaakceptowania członkostwa w istniejącym Room zgodnie z jego polityką | Room primitive / daemon room host | planowane | Join authority jest oceniana względem polityki pokoju, grantów, expiry i atestowanego członkostwa; sama z siebie nie oznacza prawa wysyłania live-message. |
 | `room.membership-query` | `app/room.membership-query` | zapytanie aplikacyjne | authority do żądania signer-backed atestacji członkostwa albo grantów w Room | Room primitive / daemon room host | tak | Zaimplementowane jako uwierzytelnione query projekcji `agora-service` wspierane lokalnym host signerem; middleware nie mintują atestacji bezpośrednio. |
-| `sensorium.workbench.terminal` | `sensorium/workbench.terminal` | lokalna aktuacja | ograniczona capability PTY/sesji dla Sensorium Workbench | Sensorium Workbench connector | częściowe | Powierzchnia efektów wysokiego ryzyka; obecny connector domyślnie wyłącza terminal w factory config, a po jawnym włączeniu dopuszcza ograniczone sesje PTY i komendy argv tylko z grantem oraz skonfigurowanym profilem komend. Raw input, resize i signal wymagają potwierdzenia operatora. |
-| `sensorium.workbench.file` | `sensorium/workbench.file` | lokalna aktuacja | ograniczony snapshot/read plików pod leased workspace roots | Sensorium Workbench connector | częściowe | Pierwszy opt-in slice connectora implementuje allowlisted workspace snapshot/read z limitami request/read bytes oraz odmową traversal, root-self, symlink-traversal, oversized-file i invalid-root-config; nie jest ambient filesystem authority. |
-| `sensorium.workbench.patch` | `sensorium/workbench.patch` | lokalna aktuacja | ograniczone stosowanie patchy pod leased workspace roots | Sensorium Workbench connector | planowane | Obecny connector wystawia fail-closed patch gate; wykonanie nadal wymaga artifact-ref input, provenance, sprawdzeń digestu, bramek polityki i zgody operatora, chyba że jawna dzierżawa pozwala inaczej. |
-| `sensorium.workbench.env` | `sensorium/workbench.env` | lokalna aktuacja | ograniczona powierzchnia lifecycle środowiska/sandboxu dla sesji Workbench | Sensorium Workbench connector | częściowe | Pierwszy opt-in slice connectora raportuje allowlisted host-local workspace environments; lifecycle create/close i cleanup/recovery są nadal przyszłe. |
+| `sensorium.workbench.terminal` | `sensorium/workbench.terminal` | lokalna aktuacja | ograniczona capability PTY/sesji dla Sensorium Workbench | Sensorium Workbench connector | częściowe | Powierzchnia efektów wysokiego ryzyka; obecny connector domyślnie wyłącza terminal w factory config, a po jawnym włączeniu dopuszcza ograniczone sesje PTY i komendy argv tylko z grantem oraz skonfigurowanym profilem komend. Raw input, resize i signal wymagają potwierdzenia operatora. Flagi registry dopuszczają zarówno widoczność host-route, jak i dispatch przez nadzorowany handler middleware. |
+| `sensorium.workbench.file` | `sensorium/workbench.file` | lokalna aktuacja | ograniczony snapshot/read plików pod leased workspace roots | Sensorium Workbench connector | częściowe | Pierwszy opt-in slice connectora implementuje allowlisted workspace snapshot/read z limitami request/read bytes oraz odmową traversal, root-self, symlink-traversal, oversized-file i invalid-root-config; nie jest ambient filesystem authority. Flagi registry dopuszczają zarówno widoczność host-route, jak i dispatch przez nadzorowany handler middleware. |
+| `sensorium.workbench.patch` | `sensorium/workbench.patch` | lokalna aktuacja | ograniczone stosowanie patchy pod leased workspace roots | Sensorium Workbench connector | planowane | Obecny connector wystawia fail-closed patch gate; wykonanie nadal wymaga artifact-ref input, provenance, sprawdzeń digestu, bramek polityki i zgody operatora, chyba że jawna dzierżawa pozwala inaczej. Ten wpis registry jest widoczny i passport-eligible, ale nie jest dispatchable, dopóki nie zostanie dopuszczony nadzorowany handler patch. |
+| `sensorium.workbench.env` | `sensorium/workbench.env` | lokalna aktuacja | ograniczona powierzchnia lifecycle środowiska/sandboxu dla sesji Workbench | Sensorium Workbench connector | częściowe | Pierwszy opt-in slice connectora raportuje allowlisted host-local workspace environments; lifecycle create/close i cleanup/recovery są nadal przyszłe. Flagi registry dopuszczają zarówno widoczność host-route, jak i dispatch przez nadzorowany handler middleware. |
 | `interaction-broker.wait` | `host/interaction-broker.wait` | koordynacja hosta | host-owned ograniczony wait nad zarejestrowanymi źródłami obserwacji | daemon interaction broker | planowane | Waits są control-plane coordination z deadline i idempotency; nie autoryzują terminacji ani efektów domenowych. |
 | `interaction-broker.watch` | `host/interaction-broker.watch` | koordynacja hosta | host-owned ograniczony watch/replay cursor nad zarejestrowanymi źródłami obserwacji | daemon interaction broker | planowane | Watch replay windows są ograniczone przez liczbę/czas i niosą wyłącznie metadata-safe events. |
 | `interaction-broker.probe` | `host/interaction-broker.probe` | koordynacja hosta | host-owned aktywny probe postępu, żywotności, stanu pliku albo obecności artefaktu | daemon interaction broker | planowane | Probes tworzą diagnostykę albo outcomes; efektowna remediation pozostaje po stronie właścicielskiego connectora/operator path. |
 | `escrow` | `role/escrow` | attached supervisory role | nadzorca hold, release, refund, freeze i dispute path dla settlement kontraktów | escrow supervisor node lub attached service | tak | Capability oznacza nadzór nad losem środków zarezerwowanych dla kontraktu, nie pełny autorytet całej księgi. |
-| `oracle` | `plugin/oracle` | attached role / plugin | bounded external judgment, verification lub adjudication surface | przyszły oracle service | planowane | Na obecnym etapie to zarezerwowany identyfikator i kierunek rozszerzenia, nie pełny hard-MVP runtime slice. |
+| `oracle` | `plugin/oracle` | attached role / plugin | bounded external judgment, verification lub adjudication surface | przyszły oracle service | planowane | Status maszynowy: `reserved`. Na obecnym etapie to rezerwacja namespace i kierunek rozszerzenia, nie dopuszczalna capability runtime ani pełny hard-MVP runtime slice. |
 
 ## Rozróżnienie semantyczne
 

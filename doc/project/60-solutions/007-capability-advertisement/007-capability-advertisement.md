@@ -356,8 +356,9 @@ The following invariants are mandatory:
 3. `node/id` in the advertisement matches the node-self signer identity.
 4. `published-at` is checked against the ingress freshness window defined by
    the networking requirements.
-5. Unknown `capability/id` values are tolerated by quarantine or ignore policy;
-   they must not break the peer relationship by default.
+5. Formal non-sovereign `capability/id` values must be registered and eligible
+   in `capability-registry.v1`; unregistered or ineligible formal ids are rejected
+   fail-closed. Sovereign/custom ids remain locally policy-gated.
 6. `schema/ref` is an integrity anchor; fetched schema content is hash-verified
    before use.
 7. The `capability_id -> wire/name` mapping mirrors the capability registry.

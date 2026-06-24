@@ -365,6 +365,9 @@ schema_for_file() {
     *.client-instance-recovery.json)
       echo "$SCHEMAS_DIR/client-instance-recovery.v1.schema.json"
       ;;
+    *.capability-registry.json)
+      echo "$SCHEMAS_DIR/capability-registry.v1.schema.json"
+      ;;
     *.capability-advertisement.json)
       echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
       ;;

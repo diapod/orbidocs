@@ -8,7 +8,7 @@ Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implement
 
 Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`, `story-011`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
 
-Change basis: this refresh incorporates the current worktree state on 2026-06-24 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, and the P070 Phase 5 attestation-policy hardening from code review 89.
+Change basis: this refresh incorporates the current worktree state on 2026-06-24 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, and the implemented P072 enforced capability registry.
 
 Recent component deltas:
 
@@ -20,6 +20,7 @@ Recent component deltas:
   responses, receipts, disputes, and settlement-aware closure. The full P003
   NATS/JetStream plus Matrix collaborative-room transport remains post-MVP, and
   P011's broader collaborative/dispute lifecycle remains a later extension.
+- Proposal 072 is now implemented for the hard-MVP scope: `capability-registry.v1` is the machine source of truth, formal capability ids are checked for canonical grammar, status, wire-name uniqueness, derived surfaces, and use-specific eligibility, and capability advertisement, passport validation, host capability dispatch/routing, literal control-plane `POST /v1/host/capabilities/*` routes, and supervised middleware reports fail closed for unregistered or ineligible formal ids. Authorization-policy-as-data and federation namespace governance remain separate post-P072 proposal tracks.
 - Proposal 018 is no longer a low-coverage placeholder. Code review on
   2026-06-22 confirmed schema-gated `participant-capability-limits.v1`
   import/export, durable daemon replay, operator HTTP import/list/detail/clear,
@@ -120,7 +121,7 @@ Recent component deltas:
 
 | Document | part of MVP | MVP ready | post-MVP ready | readiness % |
 |---|---:|---:|---:|---:|
-| [Story 000: Two Nodes See Each Other](../30-stories/story-000-two-nodes-see-each-other.md) | `true` | `true` | `false` | `95` |
+| [Story 000: Two Nodes See Each Other](../30-stories/story-000-two-nodes-see-each-other.md) | `true` | `true` | `false` | `96` |
 | [Story 001: Swarm Node Onboarding and Federated Answer Procurement](../30-stories/story-001-swarm-node-onboarding.md) | `false` | `false` | `false` | `65` |
 | [Story 002: Federated Peer Learning and Consensus Correction](../30-stories/story-002-federated-peer-learning.md) | `true` | `true` | `false` | `90` |
 | [Story 003: Remote Memory Preservation, Archivists, and Vault Publication](../30-stories/story-003-remote-memory-preservation.md) | `false` | `false` | `false` | `38` |
@@ -209,6 +210,7 @@ Recent component deltas:
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `82` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `58` |
+| [Proposal 072: Capability Registry — Enforced Core, Deferred Authorization Policy](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 
 ## Solutions
 
@@ -221,7 +223,7 @@ Recent component deltas:
 | [Orbiplex Dator](../60-solutions/004-dator/004-dator.md) | `true` | `true` | `false` | `100` |
 | [Orbiplex Sealer](../60-solutions/005-sealer/005-sealer.md) | `true` | `true` | `false` | `96` |
 | [Orbiplex Capability Binding](../60-solutions/006-capability-binding/006-capability-binding.md) | `true` | `true` | `true` | `95` |
-| [Capability Advertisement](../60-solutions/007-capability-advertisement/007-capability-advertisement.md) | `true` | `true` | `false` | `94` |
+| [Capability Advertisement](../60-solutions/007-capability-advertisement/007-capability-advertisement.md) | `true` | `true` | `false` | `96` |
 | [Orbiplex Agora](../60-solutions/008-agora/008-agora.md) | `true` | `true` | `false` | `93` |
 | [Orbiplex Monus](../60-solutions/009-monus/009-monus.md) | `false` | `false` | `false` | `15` |
 | [Orbiplex Anon](../60-solutions/010-anon/010-anon.md) | `false` | `false` | `false` | `10` |
