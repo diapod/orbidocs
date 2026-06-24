@@ -683,6 +683,13 @@ GET  /v1/sensorium/workbench/environments/{sandbox_ref}
 POST /v1/sensorium/workbench/environments/{sandbox_ref}/close
 ```
 
+The first Python connector slice intentionally exposes narrower loopback-private
+paths such as `/v1/workbench/file/read` and a mediated
+`/v1/sensorium/connector/invoke` entrypoint. The `/v1/sensorium/workbench/...`
+shape above is the host/Sensorium-facing projection to keep stable as daemon
+grant routing matures; it is not permission to bypass Sensorium Core by dialing
+connector-local HTTP from flows, UI clients, or Inquirium adapters.
+
 Those paths are loopback-private connector surfaces. They are not public node APIs and
 MUST bind through the bounded local server runtime only. Host/module authentication is
 still required because loopback is not authority.
@@ -1176,6 +1183,11 @@ watch/wait/probe replay semantics are backed by bounded retention.
     `terminal.session/ref -> command/id` relation before accepting the wait
     condition. The host broker validates the generic shape and scope; the source
     provider owns the Workbench-specific binding check.
+29. **Host-local workspace root admission.** The first Workbench connector slice
+    admits only explicitly configured, absolute, existing directory roots and
+    refuses empty paths, relative paths, duplicate `(workspace/ref, root/ref)`
+    pairs, and the filesystem root itself. This does not make the connector a
+    general filesystem broker; workspace roots remain operator-scoped grants.
 
 ## Next Actions And Implementation Tracker
 
@@ -1243,7 +1255,9 @@ evidence) · `[!]` blocked/needs decision.
   suite. The matrix is now specified as a refusal-first release gate and must be
   encoded as `sensorium-actuation-core` golden vectors plus Python Sensorium OS
   conformance tests before write/PTY runtime surfaces are enabled. Initial
-  relative-path golden vectors are published and consumed by Rust tests.
+  relative-path golden vectors are published and consumed by Rust and the Python
+  Workbench connector tests; they reject traversal, embedded current-directory
+  components, trailing slash forms, and backslash separators.
 - [~] Enforce the Phase Release Gates before Phase 1+ runtime work: frozen schemas for
   exposed surfaces, registered capabilities, documented storage/recovery contract, and
   executable refusal-first golden vectors for the relevant effect classes.
@@ -1252,24 +1266,50 @@ evidence) · `[!]` blocked/needs decision.
 
 ### Phase 1 - Local Workbench Connector
 
-- [ ] Add a supervised local Workbench connector module.
-- [ ] Consume the shared actuation core instead of reimplementing path,
-  command-profile, allowlist, classification, and argv rules.
-- [ ] Implement host-local allowlisted workspace environment.
-- [ ] Implement terminal session create/commands/events/resize/signal/close.
-- [ ] Enforce PTY session, reader-task, input queue, and event buffer caps with
-  explicit overload/refusal outcomes.
-- [ ] Implement watch cursors for terminal events and operation outcomes.
+- [x] Add a supervised local Workbench connector module. Node now ships the
+  opt-in `middleware-modules/sensorium-workbench` Python connector with
+  `/healthz`, `/readyz`, `/shutdownz`, `/v1/middleware/init`, status/config,
+  factory config, and daemon factory/inventory coverage. It uses
+  `seed_config: false` and remains disabled until an operator configures it.
+- [~] Consume the shared actuation core instead of reimplementing path,
+  command-profile, allowlist, classification, and argv rules. The current
+  connector follows the same conservative path/refusal semantics in Python and
+  is tested against shared relative-path golden vectors plus traversal,
+  root-self, and symlink-traversal refusal; direct binding/RPC to the Rust core
+  remains a later stability step.
+- [x] Implement host-local allowlisted workspace environment. The connector
+  exposes configured `workspace_roots` as
+  `sensorium-workbench-environment.v1`; missing, unavailable, relative,
+  duplicate, empty, or filesystem-root workspace roots make `/readyz` fail
+  closed with typed diagnostics.
+- [~] Implement terminal session create/commands/events/resize/signal/close.
+  Terminal endpoints and Sensorium action ids exist only as fail-closed gates in
+  the first slice.
+- [~] Enforce PTY session, reader-task, input queue, and event buffer caps with
+  explicit overload/refusal outcomes. Laptop defaults are declared in config and
+  refusal diagnostics; no PTY runtime is enabled yet.
+- [~] Implement watch cursors for terminal events and operation outcomes. The
+  current connector exposes bounded synthetic/local event cursors for
+  environment/read/probe events; terminal and operation watches remain future.
 - [ ] Implement short bounded waits for command done, terminal quiescence,
   environment ready, file exists, and artifact present.
-- [ ] Implement active probes for process liveness, environment readiness, file
-  existence/digest, and artifact presence.
-- [ ] Keep raw PTY input disabled or operator-only until an explicit policy is
-  accepted.
-- [ ] Implement TTL, idle timeout, byte caps, process cleanup, and refusal
-  diagnostics.
-- [ ] Implement file snapshot and bounded file read.
-- [ ] Implement patch apply from artifact ref with digest/provenance.
+- [~] Implement active probes for process liveness, environment readiness, file
+  existence/digest, and artifact presence. Environment readiness and file
+  existence/digest probes are implemented; process and artifact probes remain
+  future source-provider work.
+- [x] Keep raw PTY input disabled or operator-only until an explicit policy is
+  accepted. Raw PTY input is a fail-closed gate in the current connector.
+- [~] Implement TTL, idle timeout, byte caps, process cleanup, and refusal
+  diagnostics. Request body caps, file read byte caps, oversized-file refusal,
+  and refusal diagnostics exist; process cleanup and idle timeout await
+  PTY/runtime work.
+- [x] Implement file snapshot and bounded file read. Snapshot lists symlinks as
+  metadata without following them; reads refuse symlink traversal and files over
+  the host read cap.
+- [~] Implement patch apply from artifact ref with digest/provenance. Patch
+  apply is represented as a fail-closed gate that names required future
+  mechanics: artifact-ref input, unified diff/structured edits, no deletes by
+  default, digest checks, provenance, and approval policy.
 - [ ] Use Bounded Deferred Operations for environment setup or command runs that
   outlive one HTTP request.
 - [ ] Run the adversarial actuator test matrix before enabling write or PTY
@@ -1277,12 +1317,17 @@ evidence) · `[!]` blocked/needs decision.
 
 ### Phase 2 - Sensorium Integration
 
-- [ ] Add Sensorium Core capability routing for Workbench directives.
+- [~] Add Sensorium Core capability routing for Workbench directives. The
+  connector exposes `/v1/sensorium/connector/invoke` and Workbench action ids
+  for Sensorium Core mediated routing; grant/policy wiring in Sensorium Core
+  remains future.
 - [ ] Route cross-source waits through the host interaction broker rather than
   making Sensorium Core own AD, Memarium, approval, or deferred-operation joins.
 - [ ] Add grant and policy checks for terminal command, terminal raw input,
   file snapshot, file read, and patch apply.
-- [ ] Record directive outcomes and metadata-only traces.
+- [~] Record directive outcomes and metadata-only traces. Refused PTY and patch
+  gates return `sensorium-workbench-outcome.v1`; durable outcome storage remains
+  future.
 - [ ] Add operator status/control surfaces for active sessions and sandboxes.
 - [ ] Expose active waits, watches, deadlines, and suspected no-progress states
   in operator status.

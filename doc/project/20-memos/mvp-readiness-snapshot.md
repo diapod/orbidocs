@@ -89,10 +89,16 @@ Recent component deltas:
   broker (`interaction-broker-core`). The phase-0 contract layer now has JSON
   Schemas, positive examples, traversal-negative examples, a published relative
   path golden vector, shared deferred-operation id validation, and a dedicated
-  Interaction Broker solution. Readiness remains low because no supervised
-  Workbench connector, Sensorium routing, grants, operator status, filesystem
-  snapshots, patch apply path, daemon broker store, source-provider registry, or
-  virtualized backend is wired yet.
+  Interaction Broker solution. Node now also ships the first opt-in supervised
+  `sensorium-workbench` connector with `seed_config = false`, readiness/lifecycle
+  endpoints, allowlisted workspace environment status, bounded file
+  snapshot/read with capped request/read bodies and strict workspace-root
+  validation, local file/environment probes, synthetic/local watch cursors, and
+  fail-closed PTY/command/raw-input/patch gates. Readiness remains low because
+  durable Workbench stores, grant and policy enforcement, operator status,
+  PTY/command execution, patch execution, daemon broker runtime,
+  source-provider registry, recovery sweep, and virtualized backends are not
+  wired yet.
 - Local Relationship Layer is now hard-MVP complete for the Node-owned slice: Proposal 065 and Solution 032 have contracts, pure core, vault-first daemon storage, sealed rebuildable SQLite projection, local control/host capabilities, operator class/membership/predicate/decision audit UI, package trust queue with approval history, canonical Messaging consumption, dynamic Artifact Delivery group resolution, repeatable Story-010 relationship acceptance runner, projection replay/privacy regression gates, and verified `remote-disclosed` node-operator-binding import through the identity control surface. Public federated Local Relationship capability, richer multi-operator UX, CI-provider wiring for the runner, revocation-view invalidation for imported binding evidence, and performance profiling under real relationship cardinalities remain post-MVP work.
 - Replay Scheduler M1 is now fully closed for the hard-MVP slice: the generic bounded scheduler, durable launch ledger, host-owned job-source merge, authority gate, cooperative shutdown, Agora projection replay action, and operator status/control surface are all documented as implemented. Richer Agora-domain panels and non-Agora maintenance jobs are post-M1 extensions.
 - Agora gained a generic encrypted-artifact Vault surface: `agora-vault-entry.v1` exposes only opaque artifact ids, kind, ciphertext, and cryptographic envelope metadata; supervised local routes are client-auth / daemon-dispatch gated, while remote provider deployments bind the same operations to the frozen `agora-vault@v1` passport profile.
@@ -193,7 +199,7 @@ Recent component deltas:
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `90` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `65` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
-| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `28` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `38` |
 
 ## Solutions
 

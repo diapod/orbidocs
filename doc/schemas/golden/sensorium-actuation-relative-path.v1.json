@@ -31,6 +31,18 @@
       "error": "current-dir-component"
     },
     {
+      "name": "trailing slash",
+      "relative/path": "node/",
+      "valid": false,
+      "error": "current-dir-component"
+    },
+    {
+      "name": "backslash separator",
+      "relative/path": "node\\README.md",
+      "valid": false,
+      "error": "current-dir-component"
+    },
+    {
       "name": "absolute path",
       "relative/path": "/tmp/secret.txt",
       "valid": false,
