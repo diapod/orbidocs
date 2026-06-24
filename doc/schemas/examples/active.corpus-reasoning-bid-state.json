@@ -1,0 +1,35 @@
+{
+  "schema/v": 1,
+  "query/id": "query:cpp-sort-001",
+  "owner/node-id": "node:did:key:z6MkCorpusRequesterNode111111111111111111",
+  "updated-at": "2026-06-23T12:00:00Z",
+  "candidates": [
+    {
+      "node/id": "node:did:key:z6MkCorpusProviderNode11111111111111111111",
+      "state": "bid-received",
+      "received-at": "2026-06-23T11:05:10Z",
+      "updated-at": "2026-06-23T11:05:10Z",
+      "delivery/attempt-id": "delivery:cpp-sort-001:P1",
+      "bid/id": "bid:cpp-sort-provider-001",
+      "bid/digest": "sha256:corpusBidDigestProvider001"
+    },
+    {
+      "node/id": "node:did:key:z6MkCorpusProviderNode22222222222222222222",
+      "state": "declined",
+      "received-at": "2026-06-23T11:06:00Z",
+      "updated-at": "2026-06-23T11:06:00Z",
+      "reason": "no-capacity",
+      "delivery/attempt-id": "delivery:cpp-sort-001:P2",
+      "bid/id": "bid:cpp-sort-provider-002",
+      "bid/digest": "sha256:corpusBidDigestProvider002"
+    },
+    {
+      "node/id": "node:did:key:z6MkCorpusProviderNode33333333333333333333",
+      "state": "timed-out",
+      "received-at": null,
+      "updated-at": "2026-06-23T12:00:00Z",
+      "reason": "no bid before deadline",
+      "delivery/attempt-id": "delivery:cpp-sort-001:P3"
+    }
+  ]
+}

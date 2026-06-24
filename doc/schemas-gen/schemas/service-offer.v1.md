@@ -54,6 +54,11 @@ Machine-readable schema for one standing exchange-facing service offer published
 | [`hybrid`](#field-hybrid) | `yes` | boolean | Whether this service involves human intervention beyond pure automated model execution. |
 | [`model-first`](#field-model-first) | `no` | boolean | Whether model-backed processing is intended to happen before human intervention when `hybrid` is true. |
 | [`confirmation/mode`](#field-confirmation-mode) | `no` | enum: `arbiter-confirmed`, `self-confirmed`, `manual-review-only` | Provider-declared preferred confirmation mode intended to map directly into procurement contract confirmation semantics. |
+| [`corpus/topics`](#field-corpus-topics) | `no` | array | Corpus provider topic scopes pinned to `corpus/taxonomy-digest`. Runtime admission MUST reject any topic not present in the trusted taxonomy material. |
+| [`corpus/taxonomy-digest`](#field-corpus-taxonomy-digest) | `no` | ref: `#/$defs/sha256_digest` | Digest of the trusted topic taxonomy used to interpret `corpus/topics`. |
+| [`corpus/taxonomy-issuer`](#field-corpus-taxonomy-issuer) | `no` | string | Accountable issuer of the taxonomy material. This is a governance/provenance identifier, not a provider identity. |
+| [`corpus/model-class`](#field-corpus-model-class) | `no` | enum: `local-llm`, `remote-llm`, `human-curated`, `hybrid-llm-curated` | Provider-declared reasoning backend class for Corpus procurement routing. |
+| [`corpus/reasoning`](#field-corpus-reasoning) | `no` | object | Optional Corpus-specific bounded reasoning posture. It does not replace base service offer pricing or delivery promises. |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object | Optional marketplace-local or federation-local annotations that do not redefine the core standing-offer semantics. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` |  |
 
@@ -61,6 +66,8 @@ Machine-readable schema for one standing exchange-facing service offer published
 
 | Definition | Shape | Description |
 |---|---|---|
+| [`sha256_digest`](#def-sha256-digest) | string |  |
+| [`corpus_topic_term`](#def-corpus-topic-term) | string |  |
 | [`signature`](#def-signature) | object |  |
 
 ## Conditional Rules
@@ -91,6 +98,36 @@ Then:
       "const": false
     }
   }
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "properties": {
+    "service/type": {
+      "const": "corpus.provider"
+    }
+  },
+  "required": [
+    "service/type"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "corpus/topics",
+    "corpus/taxonomy-digest",
+    "corpus/taxonomy-issuer",
+    "corpus/model-class"
+  ]
 }
 ```
 
@@ -288,6 +325,46 @@ Whether model-backed processing is intended to happen before human intervention 
 
 Provider-declared preferred confirmation mode intended to map directly into procurement contract confirmation semantics.
 
+<a id="field-corpus-topics"></a>
+## `corpus/topics`
+
+- Required: `no`
+- Shape: array
+
+Corpus provider topic scopes pinned to `corpus/taxonomy-digest`. Runtime admission MUST reject any topic not present in the trusted taxonomy material.
+
+<a id="field-corpus-taxonomy-digest"></a>
+## `corpus/taxonomy-digest`
+
+- Required: `no`
+- Shape: ref: `#/$defs/sha256_digest`
+
+Digest of the trusted topic taxonomy used to interpret `corpus/topics`.
+
+<a id="field-corpus-taxonomy-issuer"></a>
+## `corpus/taxonomy-issuer`
+
+- Required: `no`
+- Shape: string
+
+Accountable issuer of the taxonomy material. This is a governance/provenance identifier, not a provider identity.
+
+<a id="field-corpus-model-class"></a>
+## `corpus/model-class`
+
+- Required: `no`
+- Shape: enum: `local-llm`, `remote-llm`, `human-curated`, `hybrid-llm-curated`
+
+Provider-declared reasoning backend class for Corpus procurement routing.
+
+<a id="field-corpus-reasoning"></a>
+## `corpus/reasoning`
+
+- Required: `no`
+- Shape: object
+
+Optional Corpus-specific bounded reasoning posture. It does not replace base service offer pricing or delivery promises.
+
 <a id="field-policy-annotations"></a>
 ## `policy_annotations`
 
@@ -303,6 +380,16 @@ Optional marketplace-local or federation-local annotations that do not redefine 
 - Shape: ref: `#/$defs/signature`
 
 ## Definition Semantics
+
+<a id="def-sha256-digest"></a>
+## `$defs.sha256_digest`
+
+- Shape: string
+
+<a id="def-corpus-topic-term"></a>
+## `$defs.corpus_topic_term`
+
+- Shape: string
 
 <a id="def-signature"></a>
 ## `$defs.signature`

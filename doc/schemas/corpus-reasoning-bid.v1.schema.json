@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-bid:v1",
+  "title": "CorpusReasoningBid v1",
+  "description": "Provider response envelope for one Corpus reasoning query. Accepted and counter bids embed an ordinary procurement-offer.v1 instead of defining a parallel pricing contract.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md"
+  ],
+  "required": [
+    "schema/v",
+    "bid/id",
+    "query/id",
+    "correlation/id",
+    "bidder/node-id",
+    "decision",
+    "created-at",
+    "bid/valid-until",
+    "policy/digest",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "bid/id": {
+      "type": "string",
+      "pattern": "^bid:[A-Za-z0-9][A-Za-z0-9:-]*$"
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[A-Za-z0-9][A-Za-z0-9:-]*$"
+    },
+    "correlation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "bidder/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["accept", "decline", "counter"]
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "bid/valid-until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policy/digest": { "$ref": "#/$defs/sha256_digest" },
+    "procurement-offer": { "$ref": "procurement-offer.v1.schema.json" },
+    "decline/reason": {
+      "type": "string",
+      "enum": [
+        "no-capacity",
+        "out-of-policy",
+        "topic-mismatch",
+        "price-too-low",
+        "unavailable",
+        "other"
+      ]
+    },
+    "diagnostic/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "signature": { "$ref": "#/$defs/signature" },
+    "extensions": { "$ref": "#/$defs/extensions" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "decision": { "enum": ["accept", "counter"] } },
+        "required": ["decision"]
+      },
+      "then": {
+        "required": ["procurement-offer"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "decision": { "const": "decline" } },
+        "required": ["decision"]
+      },
+      "then": {
+        "required": ["decline/reason"],
+        "not": { "required": ["procurement-offer"] }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256_digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{16,128}$"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": { "const": "ed25519" },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key/public": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

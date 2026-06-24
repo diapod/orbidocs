@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-query:v1",
+  "title": "CorpusReasoningQuery v1",
+  "description": "MVP Corpus procurement query. It decorates an existing question-envelope.v1 with a resolved topic, buyer price bracket, reply target, and fan-out bounds.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md"
+  ],
+  "required": [
+    "schema/v",
+    "query/id",
+    "correlation/id",
+    "idempotency/key",
+    "requester/node-id",
+    "requester/participant-id",
+    "topic/term",
+    "corpus/taxonomy-digest",
+    "query/keywords",
+    "question",
+    "pricing/min-amount",
+    "pricing/max-amount",
+    "pricing/currency",
+    "max/candidates",
+    "created-at",
+    "deadline-at",
+    "reply/target"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[A-Za-z0-9][A-Za-z0-9:-]*$"
+    },
+    "correlation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "idempotency/key": { "$ref": "#/$defs/sha256_digest" },
+    "requester/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "requester/participant-id": {
+      "type": "string",
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "topic/term": { "$ref": "#/$defs/topic_term" },
+    "corpus/taxonomy-digest": { "$ref": "#/$defs/sha256_digest" },
+    "query/keywords": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      }
+    },
+    "question": { "$ref": "question-envelope.v1.schema.json" },
+    "pricing/min-amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Minimum acceptable buyer price in minor units."
+    },
+    "pricing/max-amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum acceptable buyer price in minor units."
+    },
+    "pricing/currency": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 16
+    },
+    "max/candidates": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 128
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "deadline-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reply/target": { "$ref": "#/$defs/reply_target" },
+    "extensions": { "$ref": "#/$defs/extensions" }
+  },
+  "$defs": {
+    "sha256_digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{16,128}$"
+    },
+    "topic_term": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9:._+/-]*$"
+    },
+    "reply_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selector/kind"],
+      "properties": {
+        "selector/kind": {
+          "type": "string",
+          "enum": ["node", "routing-subject", "artifact-delivery-reply"]
+        },
+        "node/id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "routing-subject/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "reply/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

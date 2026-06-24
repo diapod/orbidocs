@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:topic-taxonomy:v1",
+  "title": "TopicTaxonomy v1",
+  "description": "Signed, versioned taxonomy material used by Corpus topic resolution and topic-scoped service-offer indexing. The taxonomy is protocol mechanics, not federation-local preference text.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md"
+  ],
+  "required": [
+    "schema/v",
+    "taxonomy/id",
+    "federation/id",
+    "version",
+    "versioning/scheme",
+    "digest",
+    "issuer/nym",
+    "valid/from",
+    "valid/until",
+    "nodes",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "taxonomy/id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "federation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "versioning/scheme": {
+      "type": "string",
+      "enum": ["calver", "semver", "sequence"]
+    },
+    "digest": { "$ref": "#/$defs/sha256_digest" },
+    "issuer/nym": {
+      "type": "string",
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "issuer/public-key-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "valid/from": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "supersedes": { "$ref": "#/$defs/sha256_digest" },
+    "supersession/proof": { "$ref": "#/$defs/signature" },
+    "extension/policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "allow-federation-subtrees": { "type": "boolean" },
+        "override": {
+          "type": "string",
+          "enum": ["issuer-only", "federation-scoped", "none"]
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4096,
+      "items": { "$ref": "#/$defs/topic_node" }
+    },
+    "signature": { "$ref": "#/$defs/signature" },
+    "extensions": { "$ref": "#/$defs/extensions" }
+  },
+  "$defs": {
+    "sha256_digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{16,128}$"
+    },
+    "topic_term": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9:._+/-]*$"
+    },
+    "topic_node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["term", "parent", "labels"],
+      "properties": {
+        "term": { "$ref": "#/$defs/topic_term" },
+        "parent": {
+          "oneOf": [
+            { "$ref": "#/$defs/topic_term" },
+            { "type": "null" }
+          ]
+        },
+        "labels": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": { "const": "ed25519" },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key/public": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

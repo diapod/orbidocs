@@ -1,0 +1,37 @@
+{
+  "schema/v": 1,
+  "taxonomy/id": "orbiplex.core",
+  "federation/id": "orbiplex",
+  "version": "2026.06.0",
+  "versioning/scheme": "calver",
+  "digest": "sha256:X3Kx_xpp_HThI6CvN4s13iXs8tMhEpl9m7GgK0vOhK0",
+  "issuer/nym": "nym:did:key:z6MkCrpsTaxnmySgnr1111111111111111111111",
+  "issuer/public-key-ref": "key:did:key:z6MkCrpsTaxnmySgnr1111111111111111111111",
+  "valid/from": "2026-06-01T00:00:00Z",
+  "valid/until": "2027-06-01T00:00:00Z",
+  "extension/policy": {
+    "allow-federation-subtrees": true,
+    "override": "issuer-only"
+  },
+  "nodes": [
+    {
+      "term": "IT",
+      "parent": null,
+      "labels": ["IT", "informatyka"]
+    },
+    {
+      "term": "IT:programming",
+      "parent": "IT",
+      "labels": ["programming", "programowanie", "coding"]
+    },
+    {
+      "term": "IT:programming:C++",
+      "parent": "IT:programming",
+      "labels": ["C++", "cpp", "cplusplus"]
+    }
+  ],
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:topic-taxonomy-signature"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-bid-state:v1",
+  "title": "CorpusReasoningBidState v1",
+  "description": "Requester-owned read model for Corpus procurement candidates. This projection is operator-visible state, not an authority or provider wire artifact.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md"
+  ],
+  "required": [
+    "schema/v",
+    "query/id",
+    "owner/node-id",
+    "updated-at",
+    "candidates"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[A-Za-z0-9][A-Za-z0-9:-]*$"
+    },
+    "owner/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "updated-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": { "$ref": "#/$defs/candidate_state" }
+    },
+    "selected/bid-id": {
+      "type": "string",
+      "pattern": "^bid:[A-Za-z0-9][A-Za-z0-9:-]*$"
+    },
+    "extensions": { "$ref": "#/$defs/extensions" }
+  },
+  "$defs": {
+    "candidate_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node/id", "state", "updated-at", "delivery/attempt-id"],
+      "properties": {
+        "node/id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "candidate-selected",
+            "query-sent",
+            "bid-received",
+            "declined",
+            "countered",
+            "timed-out",
+            "delivery-failed",
+            "unreachable",
+            "retry-scheduled",
+            "selected",
+            "rejected",
+            "settled"
+          ]
+        },
+        "received-at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "updated-at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "diagnostic/code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "delivery/attempt-id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "bid/id": {
+          "type": "string",
+          "pattern": "^bid:[A-Za-z0-9][A-Za-z0-9:-]*$"
+        },
+        "bid/digest": { "$ref": "#/$defs/sha256_digest" }
+      }
+    },
+    "sha256_digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{16,128}$"
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

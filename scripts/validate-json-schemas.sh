@@ -200,6 +200,21 @@ schema_for_file() {
     *.service-offer.json)
       echo "$SCHEMAS_DIR/service-offer.v1.schema.json"
       ;;
+    *.topic-taxonomy.json)
+      echo "$SCHEMAS_DIR/topic-taxonomy.v1.schema.json"
+      ;;
+    *.topic-resolution.json)
+      echo "$SCHEMAS_DIR/topic-resolution.v1.schema.json"
+      ;;
+    *.corpus-reasoning-query.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-query.v1.schema.json"
+      ;;
+    *.corpus-reasoning-bid.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-bid.v1.schema.json"
+      ;;
+    *.corpus-reasoning-bid-state.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-bid-state.v1.schema.json"
+      ;;
     *.service-offer-relay.json)
       echo "$SCHEMAS_DIR/service-offer-relay.v1.schema.json"
       ;;

@@ -1,0 +1,29 @@
+{
+  "schema/v": 1,
+  "offer/id": "offer:corpus:bad-taxonomy-issuer",
+  "created-at": "2026-06-23T09:00:00Z",
+  "published-at": "2026-06-23T09:00:01Z",
+  "expires-at": "2026-07-23T09:00:00Z",
+  "sequence/no": 1,
+  "provider/node-id": "node:did:key:z6MkCorpusProviderNode11111111111111111111",
+  "provider/participant-id": "participant:did:key:z6MkCorpusProvider111111111111111111111",
+  "service/type": "corpus.provider",
+  "service/description": "Invalid Corpus offer with a non-DID taxonomy issuer.",
+  "pricing/amount": 4,
+  "pricing/currency": "ORC",
+  "pricing/unit": "1 answer",
+  "pricing/unit-kind": "per-item",
+  "delivery/max-duration-sec": 600,
+  "queue/auto-accept": false,
+  "queue/max-depth": 8,
+  "hybrid": false,
+  "model-first": false,
+  "corpus/topics": ["IT:programming:C++"],
+  "corpus/taxonomy-digest": "sha256:X3Kx_xpp_HThI6CvN4s13iXs8tMhEpl9m7GgK0vOhK0",
+  "corpus/taxonomy-issuer": "nym:plain-text-issuer",
+  "corpus/model-class": "local-llm",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:invalid-corpus-offer"
+  }
+}

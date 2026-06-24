@@ -1,0 +1,33 @@
+{
+  "schema/v": 1,
+  "resolution/id": "topic-resolution:systems-ambiguous-001",
+  "taxonomy/digest": "sha256:X3Kx_xpp_HThI6CvN4s13iXs8tMhEpl9m7GgK0vOhK0",
+  "resolver/version": "matcher-1.0.0",
+  "epsilon": 1.0,
+  "query/keywords": ["programowanie", "systems"],
+  "result": "ambiguous",
+  "matched/labels": [
+    {
+      "keyword": "programowanie",
+      "term": "IT:programming",
+      "kind": "alias"
+    }
+  ],
+  "candidates": [
+    {
+      "topic/term": "IT:programming",
+      "score": 4.0
+    },
+    {
+      "topic/term": "IT",
+      "score": 3.5
+    }
+  ],
+  "ambiguous/reason": "top scores within epsilon",
+  "issued-at": "2026-06-23T11:00:02Z",
+  "resolver/node-id": "node:did:key:z6MkCrpsRsvr11111111111111111111111111111",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:ambiguous-topic-signature"
+  }
+}

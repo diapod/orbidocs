@@ -918,31 +918,40 @@ runtime, no N-way settlement.
 - [ ] Confirm P011 artifacts + P016 escrow reachable for a single contracting provider.
 - [ ] Extract the language-neutral normative profile from `node/canonical-json` for
   Corpus signatures and idempotency keys.
-- [ ] Complete the MVP Contract Gate: canonical schemas, positive/negative examples,
+- [x] Complete the MVP Contract Gate: canonical schemas, positive/negative examples,
   node schema sync, schema-gate validation, and admission constrainers for the MVP
-  procurement slice.
+  procurement slice. Evidence: `topic-taxonomy.v1`, `topic-resolution.v1`,
+  `corpus-reasoning-query.v1`, `corpus-reasoning-bid.v1`, and
+  `corpus-reasoning-bid-state.v1` exist in `doc/schemas/`, are synced to
+  `node/protocol/contracts/`, and are covered by `orbiplex-node-schema-gate`
+  Corpus tests, including query price-bracket and service-offer topic-subset
+  constrainers.
 
 #### Phase 1 — Topic taxonomy + resolver
 
-- [ ] Define signed `topic-taxonomy.v1` (issuer key, validity, supersession proof,
+- [x] Define signed `topic-taxonomy.v1` (issuer key, validity, supersession proof,
   federation id, versioning scheme, unique terms/labels) and signed `topic-resolution.v1`
   (epsilon, matched/labels, resolver/version).
 - [ ] Implement the pure deterministic weighted matcher with `ambiguous`/`unresolved`.
-- [ ] Ship the fixtures (§E) and a byte-stable CI test.
+- [~] Ship the fixtures (§E) and a byte-stable CI test. Positive/negative schema
+  fixtures exist and are validated; byte-stable resolver/digest vectors still wait
+  for the pure topic resolver.
 - [ ] Implement canonical `taxonomy/digest` / `topic/term` hashing per Resolved
   Decision 5.
 
 #### Phase 2 — Topic-scoped offers + catalog indexing
 
-- [ ] Add the `corpus` extension to `service-offer.v1` (model-class enum, taxonomy
-  digest + issuer); Dator publishes one multi-topic offer.
-- [ ] Offer/catalog admission constrainer: `corpus/topics ⊆ terms(taxonomy/digest)`;
-  missing or untrusted taxonomy material fails closed.
+- [~] Add the `corpus` extension to `service-offer.v1` (model-class enum, taxonomy
+  digest + issuer); Dator publishes one multi-topic offer. Schema extension and
+  examples exist; Dator publication is not implemented yet.
+- [~] Offer/catalog admission constrainer: `corpus/topics ⊆ terms(taxonomy/digest)`;
+  missing or untrusted taxonomy material fails closed. Schema-gate exposes a
+  trusted-taxonomy subset constrainer; offer-catalog runtime integration remains open.
 - [ ] Offer-catalog topic index + supersession/partial-withdrawal (P067).
 
 #### Phase 3 — Procurement round over AD
 
-- [ ] Define `corpus-reasoning-query.v1` as a decorator over `question-envelope.v1`
+- [x] Define `corpus-reasoning-query.v1` as a decorator over `question-envelope.v1`
   (requester ids, keywords, `max/candidates`, bracket, deadline; invariants),
   `corpus-reasoning-bid.v1` (envelope + embedded `procurement-offer.v1`; `decision`
   enum; TTL), `corpus-reasoning-bid-state.v1` (timestamps, reason,

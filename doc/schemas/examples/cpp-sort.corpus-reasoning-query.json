@@ -1,0 +1,43 @@
+{
+  "schema/v": 1,
+  "query/id": "query:cpp-sort-001",
+  "correlation/id": "corr:cpp-sort-001",
+  "idempotency/key": "sha256:cppSortQueryIdempotencyKey001",
+  "requester/node-id": "node:did:key:z6MkCorpusRequesterNode111111111111111111",
+  "requester/participant-id": "participant:did:key:z6MkCorpusRequester1111111111111111111",
+  "topic/term": "IT:programming:C++",
+  "corpus/taxonomy-digest": "sha256:X3Kx_xpp_HThI6CvN4s13iXs8tMhEpl9m7GgK0vOhK0",
+  "query/keywords": ["programowanie", "C++", "sortowanie"],
+  "question": {
+    "schema/v": 1,
+    "question/id": "query:cpp-sort-001",
+    "created-at": "2026-06-23T11:00:00Z",
+    "sender/node-id": "node:did:key:z6MkCorpusRequesterNode111111111111111111",
+    "sender/participant-id": "participant:did:key:z6MkCorpusRequester1111111111111111111",
+    "sender/federation-id": "fed:orbiplex-pl",
+    "ttl-sec": 3600,
+    "question/text": "Explain why my C++ stable_sort comparator crashes and propose a safe fix.",
+    "question/tags": ["corpus", "C++", "sorting"],
+    "delivery/scope": "federation-local",
+    "delivery/response-channel-id": "query:cpp-sort-001",
+    "request/exposure-mode": "selected-responder",
+    "reward/mode": "procurement",
+    "procurement/max-price-amount": 10,
+    "procurement/price-currency": "ORC",
+    "procurement/max-wait-sec": 3600,
+    "signature": {
+      "alg": "ed25519",
+      "value": "base64url:corpus-question-signature"
+    }
+  },
+  "pricing/min-amount": 1,
+  "pricing/max-amount": 10,
+  "pricing/currency": "ORC",
+  "max/candidates": 5,
+  "created-at": "2026-06-23T11:00:00Z",
+  "deadline-at": "2026-06-23T12:00:00Z",
+  "reply/target": {
+    "selector/kind": "node",
+    "node/id": "node:did:key:z6MkCorpusRequesterNode111111111111111111"
+  }
+}

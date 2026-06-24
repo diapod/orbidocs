@@ -1,0 +1,18 @@
+{
+  "schema/v": 1,
+  "resolution/id": "topic-resolution:unknown-001",
+  "taxonomy/digest": "sha256:X3Kx_xpp_HThI6CvN4s13iXs8tMhEpl9m7GgK0vOhK0",
+  "resolver/version": "matcher-1.0.0",
+  "epsilon": 1.0,
+  "query/keywords": ["unmapped-token"],
+  "result": "unresolved",
+  "matched/labels": [],
+  "candidates": [],
+  "ambiguous/reason": null,
+  "issued-at": "2026-06-23T11:00:03Z",
+  "resolver/node-id": "node:did:key:z6MkCrpsRsvr11111111111111111111111111111",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:unresolved-topic-signature"
+  }
+}

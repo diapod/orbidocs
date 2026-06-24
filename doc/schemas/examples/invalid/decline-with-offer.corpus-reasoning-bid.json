@@ -1,0 +1,34 @@
+{
+  "schema/v": 1,
+  "bid/id": "bid:cpp-sort-invalid-decline",
+  "query/id": "query:cpp-sort-001",
+  "correlation/id": "corr:cpp-sort-001",
+  "bidder/node-id": "node:did:key:z6MkCorpusProviderNode11111111111111111111",
+  "decision": "decline",
+  "created-at": "2026-06-23T11:05:00Z",
+  "bid/valid-until": "2026-06-23T12:30:00Z",
+  "policy/digest": "sha256:corpusProviderPolicyDigest001",
+  "decline/reason": "no-capacity",
+  "procurement-offer": {
+    "schema/v": 1,
+    "offer/id": "offer:po:cpp-sort-invalid",
+    "question/id": "query:cpp-sort-001",
+    "created-at": "2026-06-23T11:05:00Z",
+    "expires-at": "2026-06-23T12:30:00Z",
+    "responder/node-id": "node:did:key:z6MkCorpusProviderNode11111111111111111111",
+    "responder/participant-id": "participant:did:key:z6MkCorpusProvider111111111111111111111",
+    "responder/federation-id": "fed:orbiplex-pl",
+    "price/amount": 4,
+    "price/currency": "ORC",
+    "deadline-at": "2026-06-23T12:00:00Z",
+    "answer/min-length": 200,
+    "answer/max-length": 4000,
+    "answer/format": "markdown",
+    "execution/mode": "single-responder",
+    "confirmation/mode": "self-confirmed"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:invalid-corpus-decline-bid"
+  }
+}

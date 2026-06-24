@@ -1,0 +1,33 @@
+{
+  "schema/v": 1,
+  "offer/id": "offer:corpus:cpp-reasoning-01",
+  "created-at": "2026-06-23T09:00:00Z",
+  "published-at": "2026-06-23T09:00:01Z",
+  "expires-at": "2026-07-23T09:00:00Z",
+  "sequence/no": 7,
+  "provider/node-id": "node:did:key:z6MkCorpusProviderNode11111111111111111111",
+  "provider/participant-id": "participant:did:key:z6MkCorpusProvider111111111111111111111",
+  "service/type": "corpus.provider",
+  "service/description": "Collaborative C++ reasoning by a local LLM expert.",
+  "pricing/amount": 4,
+  "pricing/currency": "ORC",
+  "pricing/unit": "1 answer",
+  "pricing/unit-kind": "per-item",
+  "delivery/max-duration-sec": 600,
+  "queue/auto-accept": false,
+  "queue/max-depth": 8,
+  "hybrid": false,
+  "model-first": false,
+  "corpus/topics": ["IT:programming:C++", "IT:programming"],
+  "corpus/taxonomy-digest": "sha256:X3Kx_xpp_HThI6CvN4s13iXs8tMhEpl9m7GgK0vOhK0",
+  "corpus/taxonomy-issuer": "nym:did:key:z6MkCrpsTaxnmySgnr1111111111111111111111",
+  "corpus/model-class": "local-llm",
+  "corpus/reasoning": {
+    "max-steps": 8,
+    "languages": ["pl", "en"]
+  },
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:corpus-service-offer-signature"
+  }
+}

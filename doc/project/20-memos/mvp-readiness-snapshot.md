@@ -46,10 +46,14 @@ Recent component deltas:
 - Corpus is now tracked as a hard-MVP candidate through Proposal 069. Its MVP slice is
   intentionally narrow: topic taxonomy/resolution, topic-scoped offer discovery,
   `question-envelope.v1`-decorated query broadcast, bid-state aggregation, and a
-  single-provider P011/P016 settlement path. Readiness is low because the document is
-  still draft and Corpus-specific canonical schemas, schema-gate sync, topic resolver,
-  offer extension runtime, AD query/bid handling, and acceptance coverage are not yet
-  implemented. P070 now provides durable Room contracts, Agora-backed projection
+  single-provider P011/P016 settlement path. Corpus now has the first contract-gate
+  slice implemented: canonical schemas and examples for topic taxonomy/resolution,
+  query, bid and bid-state; the `service-offer.v1` Corpus extension; node schema sync;
+  and schema-gate validation including query price-bracket and service-offer
+  topic-subset constrainers. Readiness is still below MVP because the pure resolver,
+  Dator/offer-catalog runtime indexing, AD query/bid dispatch, bid-state storage,
+  settlement bridge, and acceptance coverage are not yet implemented. P070 now
+  provides durable Room contracts, Agora-backed projection
   replay, signer-backed membership attestations, and the live-plane substrates needed
   by future Corpus deliberation. Corpus remains blocked by its own runtime, settlement,
   and Inquirium thread/session integration work rather than by Room.
@@ -175,7 +179,7 @@ Recent component deltas:
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `15` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `90` |
-| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `15` |
+| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `32` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `18` |
 
