@@ -746,12 +746,11 @@ model output may be:
 - automatically executable in a disposable sandbox;
 - automatically executable in a local workspace under narrow allowlists.
 
-P072 continuation note: this section is the current seed for the deferred
-authorization-policy-as-data track in Proposal 072. When Workbench grants,
-required caller posture, conflict-of-interest rules, and autonomy levels are
-promoted from prose/imperative checks into registry-consumable policy data, the
-implementation tracker in P072 Phase 4 should be updated to point at that
-follow-up proposal or solution.
+P072 continuation note: this section seeded the first implemented
+authorization-policy-as-data slice. `capability-authorization-policy.v1` now
+projects the Workbench and Interaction Broker grant/posture/approval/autonomy
+rows into registry-consumable policy sidecar data, while `capability-registry.v1`
+remains the source for capability identity and eligibility.
 
 ### 10. Trace And Memory
 
@@ -1007,6 +1006,7 @@ shape: `schema`, `source_tier`, `effective_tier`, `provenance`,
 | `sensorium-workbench-patch.v1` | Patch proposal artifact and metadata. |
 | `sensorium-workbench-patch-apply-result.v1` | Applied/rejected patch result with changed files and digests. |
 | `sensorium-workbench-outcome.v1` | Host audit fact linking directive id, grant, caller, session/environment refs, status, timing, byte counts, and artifacts. |
+| `capability-authorization-policy.v1` | P072 Phase 4 sidecar for per-capability required grants, caller posture, approval mode, autonomy floor, and COI policy for Workbench and Interaction Broker capability ids. |
 
 Phase 0 schema ownership belongs to the Workbench implementation owner. The owner must
 publish JSON Schema files and positive/negative examples before any corresponding
@@ -1363,10 +1363,11 @@ evidence) · `[!]` blocked/needs decision.
   grant envelopes for mediated file/probe/watch/wait actions and terminal
   actions; raw input, resize, and signal additionally require operator
   confirmation. Full host-side cryptographic grant issuance remains future.
-- [ ] Extract Workbench grant/autonomy policy into the future
-  authorization-policy-as-data track. This is the P071 seed referenced by P072
-  Phase 4; when implemented, update P072 to mark the deferred policy-data
-  continuation as landed.
+- [x] Extract Workbench grant/autonomy policy into the
+  authorization-policy-as-data sidecar. `capability-authorization-policy.v1`
+  now carries required grants, caller posture, approval mode, autonomy floor, and
+  COI policy for the P071 Workbench and Interaction Broker capability ids; P072
+  Phase 4 is marked landed against this contract.
 - [~] Record directive outcomes and metadata-only traces. Patch gates still
   return `sensorium-workbench-outcome.v1`; terminal runtime now records sessions,
   commands, and events durably in connector SQLite. Host audit projection of

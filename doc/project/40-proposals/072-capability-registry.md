@@ -1,4 +1,4 @@
-# Proposal 072: Capability Registry — Enforced Core, Deferred Authorization Policy
+# Proposal 072: Capability Registry — Enforced Core and Policy Sidecar
 
 Based on:
 
@@ -50,10 +50,11 @@ is a separate product decision" is only half true:
   ("Missing Authority Means Denial", "Identifiers Must Be Explicit And Canonical"), not
   a product call. It is what actually closes CR-87/88 P0-1; the GET endpoint stays as a
   read surface only.
-- **Deferred product/governance decision (a real fork).** Authorization-policy-as-data
-  per capability (required grants, COI rules, autonomy levels) and federation-extension
-  governance (who may register federation-scoped capabilities, namespace allocation,
-  revocation). These get their own track and SHOULD become a separate proposal.
+- **Policy/governance split.** Authorization-policy-as-data per capability is now
+  represented as a checked sidecar (`capability-authorization-policy.v1`) for the P071
+  Workbench and Interaction Broker seed capabilities. Federation-extension governance
+  (who may register federation-scoped capabilities, namespace allocation, revocation)
+  remains a separate governance track.
 
 ## Context and Problem Statement
 
@@ -83,12 +84,12 @@ is a separate product decision" is only half true:
 
 ## Non-Goals
 
-- Not (yet) authorization-policy-as-data per capability — deferred (see Resolved Decisions).
 - Not federation-extension governance — deferred.
 - Not a redesign of `capability-passport.v1` / `capability-advertisement.v1`; this
   registers their IDs canonically and gates them, nothing more.
 - Not a replacement for host policy: the registry adds canonical identity and
-  fail-closed registration; imperative authorization gates remain until §2 lands.
+  fail-closed registration; the policy sidecar adds checked required-grant/posture
+  metadata, while runtime enforcement still lives at host policy boundaries.
 
 ## Decision
 
@@ -189,20 +190,23 @@ is a separate product decision" is only half true:
   **retroactive registration + conformance** item, not a precondition blocking
   already-built code; the enumeration-by-construction check above catches it.
 
-### 2. Deferred product / governance decision (the real fork)
+### 2. Policy sidecar and deferred governance
 
 - **Authorization-policy-as-data per capability** — required grants, COI-by-default
-  rules, and autonomy levels (the table in P071 §9 is the seed) expressed as registry
-  data rather than scattered imperative checks. Decision: this gets its own proposal, so
-  P072 remains the small registry identity/admission core rather than becoming the policy
-  engine.
+  rules, and autonomy levels (the table in P071 §9 is the seed) expressed as checked
+  sidecar data rather than scattered prose. Decision: keep this as
+  `capability-authorization-policy.v1`, referenced by the registry/tooling but not
+  embedded in `capability-registry.v1`, so P072 keeps the registry identity/admission
+  layer separate from runtime policy enforcement.
 - **Federation-extension governance** — who may register federation-scoped
   capabilities, how namespaces are allocated, and how a federation capability is revoked.
   Decision: this also gets its own proposal, because it is governance over public
   namespace authority, not merely registry storage.
-- Until both land, host policy keeps gating authorization imperatively; the enforced
-  core (§1) only adds canonical identity and fail-closed registration, which is safe to
-  ship independently.
+- Host policy keeps gating authorization at runtime; the sidecar supplies checked
+  required-grant/posture/approval/autonomy/COI data for consumers and drift checks.
+  It is not the runtime enforcement engine: the current implemented sidecar covers
+  the P071 Workbench and Interaction Broker seed set, and broader per-capability
+  enforcement remains owned by the consuming host-policy boundaries.
 
 ## Data Contracts
 
@@ -239,8 +243,10 @@ The former Q3 (grandfathering migration), Q4 (authorization-policy-as-data), Q5
    the first registry and fail closed immediately for any new unregistered capability.
    Backward compatibility is not required at this stage, and preserving the warning-only
    gap would undercut the registry's purpose.
-2. **Authorization-policy-as-data.** Create a separate proposal when this becomes the
-   next implementation slice. It is intentionally out of P072 implementation scope.
+2. **Authorization-policy-as-data.** Keep policy as a checked sidecar rather than
+   embedding it into `capability-registry.v1`. The first landed sidecar is
+   `capability-authorization-policy.v1`, seeded from P071 §9 and validated against the
+   registry plus the P071 Workbench/Interaction Broker capability set.
 3. **Federation-extension governance.** Create a separate governance proposal for
    namespace allocation, registration authority, and revocation. It is intentionally out
    of P072 implementation scope.
@@ -312,12 +318,15 @@ Implemented now:
   registry examples.
 - `orbidocs:scripts/check-capability-registry.py` validates the machine registry
   against the legacy Rust projection, including `advertisable` coverage, human EN/PL registry tables, and
-  `capability-advertisement.v1`, `capability-passport-present.v1`, and
-  `seed-capability-registration.v1` fixtures.
+  `capability-advertisement.v1`, `capability-passport-present.v1`,
+  `seed-capability-registration.v1`, and `capability-authorization-policy.v1` fixtures
+  plus the P071 policy coverage sidecar. The sidecar is intentionally seed-scoped
+  rather than complete over the whole registry: it covers the P071 Workbench and
+  Interaction Broker capabilities that need checked authorization metadata in this
+  phase.
 
 Still out of P072 implementation scope:
 
-- authorization-policy-as-data per capability;
 - federation-extension governance and public namespace allocation.
 
 Those are intentionally separate proposal tracks, as decided in §2.
@@ -367,11 +376,16 @@ Those are intentionally separate proposal tracks, as decided in §2.
 - [x] host `interaction-broker.wait` / `.watch` / `.probe` (P071). Registered in
   `capability-registry.v1` and covered by registry admission/drift gates.
 
-### Phase 4 — Authorization-policy-as-data `[d] separate proposal track`
+### Phase 4 — Authorization-policy-as-data `[x] policy sidecar landed`
 
-- [d] Express required grants / COI / autonomy levels as registry data in a separate
-  proposal (seed: P071 §9). This is intentionally out of P072 implementation scope;
-  P072 is complete for registry identity/admission.
+- [x] Express required grants / COI / autonomy levels as registry-consumable sidecar
+  data. `node:capability/capability-authorization-policy.v1.json` carries the P071
+  Workbench/Interaction Broker seed policy; `orbiplex-node-capability` parses and
+  validates it; daemon startup preflight now validates both registry and authorization
+  policy; Orbidocs schema/examples are mirrored into node protocol contracts; and `make
+  check-capability-registry` validates sidecar shape, registered capability refs, mirror
+  sync, and P071 seed coverage. Runtime enforcement of those sidecar grants remains a
+  host-policy consumer responsibility, not an extra P072 registry gate.
 
 ### Phase 5 — Federation-extension governance `[d] separate proposal track`
 

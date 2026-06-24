@@ -1,0 +1,70 @@
+{
+  "schema/v": "capability-authorization-policy.v1",
+  "policy/id": "policy:capability-authorization:p071-workbench-mvp",
+  "registry/ref": "capability-registry.v1",
+  "entries": [
+    {
+      "capability/id": "sensorium.workbench.terminal",
+      "required/grants": ["grant/workbench.terminal"],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "proposed-effect",
+      "coi/policy": "operator-review-required",
+      "notes": "Terminal sessions and structured commands require an explicit Workbench terminal grant; raw input remains operator-only in MVP."
+    },
+    {
+      "capability/id": "sensorium.workbench.file",
+      "required/grants": ["grant/workbench.file-read"],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "auto-with-grant",
+      "autonomy/floor": "read-only",
+      "coi/policy": "declaration-required",
+      "notes": "File snapshot/read is bounded by workspace/root/path lease, classification, and byte caps."
+    },
+    {
+      "capability/id": "sensorium.workbench.patch",
+      "required/grants": ["grant/workbench.patch-write"],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "proposed-effect",
+      "coi/policy": "operator-review-required",
+      "notes": "Patch/write authority requires explicit write grant, digest/provenance checks, and approval unless a narrow policy lease says otherwise."
+    },
+    {
+      "capability/id": "sensorium.workbench.env",
+      "required/grants": ["grant/workbench.environment"],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "bounded-auto",
+      "coi/policy": "declaration-required",
+      "notes": "Environment access is scoped to backend, workspace roots, teardown policy, and resource caps; egress and credentials stay denied unless separately granted."
+    },
+    {
+      "capability/id": "interaction-broker.wait",
+      "required/grants": ["grant/interaction.wait"],
+      "caller/posture": "host-broker-grant-required",
+      "approval/mode": "auto-with-grant",
+      "autonomy/floor": "observation-only",
+      "coi/policy": "not-applicable",
+      "notes": "Wait authority is scoped to source, deadline, cursor/condition, classification, and idempotency key."
+    },
+    {
+      "capability/id": "interaction-broker.watch",
+      "required/grants": ["grant/interaction.watch"],
+      "caller/posture": "host-broker-grant-required",
+      "approval/mode": "auto-with-grant",
+      "autonomy/floor": "observation-only",
+      "coi/policy": "not-applicable",
+      "notes": "Watch authority is scoped to observation source, cursor retention window, TTL, caps, and classification."
+    },
+    {
+      "capability/id": "interaction-broker.probe",
+      "required/grants": ["grant/interaction.probe"],
+      "caller/posture": "host-broker-grant-required",
+      "approval/mode": "auto-with-grant",
+      "autonomy/floor": "observation-only",
+      "coi/policy": "not-applicable",
+      "notes": "Probe authority is scoped to diagnostic target, source ownership, deadline, and result-size caps."
+    }
+  ]
+}

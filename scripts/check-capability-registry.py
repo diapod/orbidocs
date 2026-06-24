@@ -14,9 +14,20 @@ NODE_ROOT = ROOT.parent / "node"
 NODE_CAPABILITY = NODE_ROOT / "capability" / "src" / "lib.rs"
 NODE_PROTOCOL = NODE_ROOT / "protocol" / "src" / "lib.rs"
 MACHINE_REGISTRY = NODE_ROOT / "capability" / "capability-registry.v1.json"
+AUTHORIZATION_POLICY = NODE_ROOT / "capability" / "capability-authorization-policy.v1.json"
+NODE_AUTHORIZATION_POLICY_EXAMPLE = (
+    NODE_ROOT
+    / "protocol"
+    / "contracts"
+    / "examples"
+    / "p071-workbench.capability-authorization-policy.json"
+)
 REGISTRY_EN = ROOT / "doc" / "project" / "60-solutions" / "CAPABILITY-REGISTRY.en.md"
 REGISTRY_PL = ROOT / "doc" / "project" / "60-solutions" / "CAPABILITY-REGISTRY.pl.md"
 EXAMPLES_ROOT = ROOT / "doc" / "schemas" / "examples"
+AUTHORIZATION_POLICY_EXAMPLE = (
+    EXAMPLES_ROOT / "p071-workbench.capability-authorization-policy.json"
+)
 DAEMON_HOST_CAPABILITY_ROUTE_FILES = (
     NODE_ROOT / "daemon" / "src" / "endpoint_routes" / "common.rs",
     NODE_ROOT / "daemon" / "src" / "endpoint_routes" / "module_capability.rs",
@@ -47,6 +58,36 @@ FLAG_KEYS = {
     "signing-domain",
     "host-route",
     "federated-discovery",
+}
+POLICY_CALLER_POSTURES = {
+    "host-grant-required",
+    "operator-confirmation-required",
+    "host-broker-grant-required",
+}
+POLICY_APPROVAL_MODES = {
+    "auto-with-grant",
+    "operator-approved-by-default",
+    "operator-only",
+}
+POLICY_AUTONOMY_FLOORS = {
+    "read-only",
+    "observation-only",
+    "proposed-effect",
+    "bounded-auto",
+}
+POLICY_COI_POLICIES = {
+    "not-applicable",
+    "declaration-required",
+    "operator-review-required",
+}
+P071_AUTHZ_POLICY_CAPABILITIES = {
+    "sensorium.workbench.terminal",
+    "sensorium.workbench.file",
+    "sensorium.workbench.patch",
+    "sensorium.workbench.env",
+    "interaction-broker.wait",
+    "interaction-broker.watch",
+    "interaction-broker.probe",
 }
 
 
@@ -142,6 +183,94 @@ def load_machine_registry() -> dict[str, dict[str, Any]]:
     if errors:
         raise RegistryError("\n".join(errors))
     return by_id
+
+
+def validate_authorization_policy(registry: dict[str, dict[str, Any]]) -> list[str]:
+    errors: list[str] = []
+    try:
+        raw = json.loads(AUTHORIZATION_POLICY.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return [f"{AUTHORIZATION_POLICY}: {exc}"]
+
+    for mirror_path in (AUTHORIZATION_POLICY_EXAMPLE, NODE_AUTHORIZATION_POLICY_EXAMPLE):
+        try:
+            mirror = json.loads(mirror_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"{mirror_path}: {exc}")
+            continue
+        if mirror != raw:
+            errors.append(f"{mirror_path}: must mirror {AUTHORIZATION_POLICY}")
+
+    if raw.get("schema/v") != "capability-authorization-policy.v1":
+        errors.append("authorization policy schema/v must be capability-authorization-policy.v1")
+    policy_id = raw.get("policy/id")
+    if not isinstance(policy_id, str) or not policy_id.startswith(
+        "policy:capability-authorization:"
+    ):
+        errors.append(
+            "authorization policy policy/id must start with policy:capability-authorization:"
+        )
+    if raw.get("registry/ref") != "capability-registry.v1":
+        errors.append("authorization policy registry/ref must be capability-registry.v1")
+
+    entries = raw.get("entries")
+    if not isinstance(entries, list) or not entries:
+        errors.append("authorization policy entries must be a non-empty array")
+        entries = []
+
+    seen: set[str] = set()
+    for index, entry in enumerate(entries):
+        prefix = f"authorization policy entry[{index}]"
+        if not isinstance(entry, dict):
+            errors.append(f"{prefix}: entry must be an object")
+            continue
+        capability_id = entry.get("capability/id")
+        if not isinstance(capability_id, str) or not capability_id:
+            errors.append(f"{prefix}: capability/id must be a non-empty string")
+            continue
+        if capability_id in seen:
+            errors.append(f"{prefix}: duplicate capability/id {capability_id!r}")
+        seen.add(capability_id)
+
+        registry_entry = registry.get(capability_id)
+        if registry_entry is None:
+            errors.append(
+                f"{AUTHORIZATION_POLICY}: unregistered policy capability {capability_id!r}"
+            )
+        elif registry_entry.get("status") == "reserved":
+            errors.append(
+                f"{AUTHORIZATION_POLICY}: reserved policy capability {capability_id!r}"
+            )
+
+        grants = entry.get("required/grants")
+        if not isinstance(grants, list) or not grants:
+            errors.append(f"{prefix}: required/grants must be a non-empty array")
+        else:
+            if len(set(grants)) != len(grants):
+                errors.append(f"{prefix}: required/grants must be unique")
+            for grant in grants:
+                if not isinstance(grant, str) or not re.fullmatch(r"grant/\S+", grant):
+                    errors.append(f"{prefix}: invalid required grant {grant!r}")
+
+        if entry.get("caller/posture") not in POLICY_CALLER_POSTURES:
+            errors.append(
+                f"{prefix}: invalid caller/posture {entry.get('caller/posture')!r}"
+            )
+        if entry.get("approval/mode") not in POLICY_APPROVAL_MODES:
+            errors.append(f"{prefix}: invalid approval/mode {entry.get('approval/mode')!r}")
+        if entry.get("autonomy/floor") not in POLICY_AUTONOMY_FLOORS:
+            errors.append(
+                f"{prefix}: invalid autonomy/floor {entry.get('autonomy/floor')!r}"
+            )
+        if entry.get("coi/policy") not in POLICY_COI_POLICIES:
+            errors.append(f"{prefix}: invalid coi/policy {entry.get('coi/policy')!r}")
+
+    missing = sorted(P071_AUTHZ_POLICY_CAPABILITIES - seen)
+    if missing:
+        errors.append(
+            "authorization policy is missing P071 seed capability ids: " + ", ".join(missing)
+        )
+    return errors
 
 
 def load_runtime_capability_projection(path: Path, protocol_path: Path) -> dict[str, str]:
@@ -356,6 +485,7 @@ def main() -> int:
 
     errors.extend(validate_static_host_capability_routes(registry))
     errors.extend(validate_capability_examples(registry))
+    errors.extend(validate_authorization_policy(registry))
 
     if errors:
         for error in errors:

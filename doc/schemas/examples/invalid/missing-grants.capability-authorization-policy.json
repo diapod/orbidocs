@@ -1,0 +1,15 @@
+{
+  "schema/v": "capability-authorization-policy.v1",
+  "policy/id": "policy:capability-authorization:invalid-missing-grants",
+  "registry/ref": "capability-registry.v1",
+  "entries": [
+    {
+      "capability/id": "sensorium.workbench.terminal",
+      "required/grants": [],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "proposed-effect",
+      "coi/policy": "operator-review-required"
+    }
+  ]
+}

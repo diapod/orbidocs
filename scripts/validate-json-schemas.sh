@@ -368,6 +368,9 @@ schema_for_file() {
     *.capability-registry.json)
       echo "$SCHEMAS_DIR/capability-registry.v1.schema.json"
       ;;
+    *.capability-authorization-policy.json)
+      echo "$SCHEMAS_DIR/capability-authorization-policy.v1.schema.json"
+      ;;
     *.capability-advertisement.json)
       echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
       ;;
