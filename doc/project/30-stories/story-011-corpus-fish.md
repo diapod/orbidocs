@@ -1,0 +1,74 @@
+# Story 011: Corpus answers the fish-water question
+
+## Summary
+
+As a node operator, I want one node to ask a bounded biological question and two
+other nodes to collaborate on a shared live channel so the requester can stop the
+process once the answer is satisfactory.
+
+The concrete question is:
+
+> Do fish drink water?
+
+Node A is the requester. Node B and node C are Corpus-capable providers. Node B
+also hosts the Seed Directory and an offer-catalog profile with a biology
+taxonomy. The story uses Corpus as the topic-routed reasoning layer over the
+existing question, service-offer, procurement, and room primitives.
+
+## Actors
+
+- **Node A** asks the question, creates the Corpus query, aggregates bids, selects
+  a provider, and may close the round as `requester-satisfied`.
+- **Node B** publishes a `corpus.provider` offer for the biology taxonomy, runs
+  the Seed Directory role in the profile, and participates in the shared channel.
+- **Node C** publishes a second `corpus.provider` offer for the same taxonomy and
+  participates in the shared channel.
+
+## Flow
+
+1. Node B exposes a remote offer catalog and Seed Directory profile.
+2. Node B and node C publish `corpus.provider` offers with the same
+   `corpus/taxonomy-digest` and `corpus/topics`.
+3. Node A creates a `corpus-reasoning-query.v1` around a `question-envelope.v1`
+   whose text is `Do fish drink water?`.
+4. The query carries a Matrix room id as the intended collaboration channel.
+5. Node B and node C produce `corpus-reasoning-bid.v1` responses.
+6. Node A builds a requester-owned bid-state read model and selects the cheapest
+   valid accepted bid.
+7. Once the shared channel contains a satisfactory answer and rationale, node A
+   can stop the round by marking it `requester-satisfied`.
+
+The intended answer distinguishes freshwater and saltwater fish: freshwater fish
+gain water osmotically and mostly do not need to drink, while many marine fish
+drink seawater and excrete salts.
+
+## Acceptance Pack
+
+The initial operator-facing pack lives in:
+
+```text
+node/tools/acceptance/story-011-corpus-fish/
+```
+
+It renders three local daemon profiles, imports Corpus-capable offers for B and
+C, creates the A-side query, asks B and C for provider bids, registers those bids
+on A, selects the cheapest valid bid, and verifies that A can stop the round as
+`requester-satisfied`.
+
+The pack currently treats Matrix as a protocol field carried by the query and
+reply target. It does not start a real Matrix homeserver. A homeserver-backed
+transport fixture should be layered onto the same story once the Matrix live
+transport profile is ready.
+
+## Done When
+
+- The local three-node acceptance pack initializes all profiles with valid daemon
+  configuration.
+- The managed smoke starts A, B, and C and completes the Corpus query/bid/select
+  path.
+- B is selected when it offers the lower valid price.
+- A closes the round with `round/status = requester-satisfied`.
+- The query and answer path preserve the Matrix room id as the intended shared
+  channel.
+- Operator documentation states clearly whether the run uses a real Matrix
+  homeserver or only validates the protocol field.

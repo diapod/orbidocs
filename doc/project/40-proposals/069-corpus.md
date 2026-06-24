@@ -938,10 +938,11 @@ runtime, no N-way settlement.
   recipient selectors, private/direct policy checks, deferred delivery status, and
   single-owner acceptor admission; Corpus uses those seams rather than adding a
   transport authority.
-- [~] Confirm P011 artifacts + P016 escrow reachable for a single contracting provider.
-  The existing procurement/settlement path is reusable, and Corpus now exports the
-  selected embedded `procurement-offer.v1`; the Corpus-specific daemon bridge into
-  contract/receipt closing is still open.
+- [x] Confirm P011 artifacts + P016 escrow reachable for a single contracting provider.
+  Evidence: Corpus exports the selected embedded `procurement-offer.v1`, and the daemon
+  `/v1/corpus/rounds/{query_id}/settle` bridge opens the selected-responder execution,
+  registers the selected procurement offer, selects it, and accepts the resulting
+  contract through the existing execution/procurement host path.
 - [~] Extract the language-neutral normative profile from `node/canonical-json` for
   Corpus signatures and idempotency keys. The Rust canonical JSON implementation is
   reused by Corpus digests and idempotency keys; a standalone normative profile remains
@@ -975,9 +976,12 @@ runtime, no N-way settlement.
 
 #### Phase 2 — Topic-scoped offers + catalog indexing
 
-- [~] Add the `corpus` extension to `service-offer.v1` (model-class enum, taxonomy
-  digest + issuer); Dator publishes one multi-topic offer. Schema extension, Rust offer
-  model fields, and examples exist; Dator publication remains open.
+- [x] Add the `corpus` extension to `service-offer.v1` (model-class enum, taxonomy
+  digest + issuer); Dator publishes one multi-topic offer. Evidence: Dator maps
+  configured Corpus offer fields onto the canonical wire keys and rejects incomplete
+  `corpus.provider` offers before publication; daemon/catalog snapshots preserve
+  `corpus/topics`, `corpus/taxonomy-digest`, `corpus/taxonomy-issuer`,
+  `corpus/model-class`, and optional `corpus/reasoning`.
 - [x] Offer/catalog admission constrainer: `corpus/topics ⊆ terms(taxonomy/digest)`;
   missing or untrusted taxonomy material fails closed. Evidence: schema-gate exposes a
   trusted-taxonomy subset constrainer, and `node/catalog::validate_corpus_offer_scope`
@@ -1004,9 +1008,15 @@ runtime, no N-way settlement.
   requester-owned `corpus-reasoning-bid-state.v1`, validates bid/query price semantics,
   enforces `bidder/node-id == procurement-offer.responder/node-id`, exposes the default
   bid idempotency key, preserves `decline` as refusal even after bid TTL, and selects
-  the cheapest valid accepted/countered bid with longer `bid/valid-until` as the
-  price-tie breaker. Daemon persistence, provider bid acceptor runtime, and
-  notification/UI surfaces remain open.
+  the cheapest valid accepted/countered bid with longer `bid/valid-until` as the price
+  tie-breaker. The daemon now persists Corpus rounds, registers query/bid facts,
+  restores bid-state read models, exposes local provider bid acceptor endpoints, signs
+  generated local bids with the node Ed25519 identity key, matches exact topics plus
+  parent-topic fallback, rejects offers outside the query price bracket rather than
+  mutating their price, and has operator round visibility plus Story-011 acceptance
+  coverage. The remaining open part is the actual AD `capability-many` runtime fan-out
+  and P057 notifications; Story-011 currently drives the same contract through direct
+  daemon endpoints.
 
 #### Phase 4 — Single-provider answer + settlement
 
@@ -1014,7 +1024,11 @@ runtime, no N-way settlement.
   `procurement-contract.v1` / `procurement-receipt.v1` with host-owned escrow. Evidence:
   `orbiplex-node-corpus-core::settlement_selection` exports the selected embedded
   `procurement-offer.v1` with bid digest and selected provider node; the daemon bridge
-  that opens/closes the actual P011/P016 contract remains open.
+  now opens the selected-responder execution, registers/selects the offer, and accepts
+  the contract. Bridge failures after selection mark the Corpus round
+  `settlement-failed` for operator-visible recovery. The answer/result and final
+  receipt production path remains tied to the selected responder execution runtime and
+  is not yet exercised by Story-011.
 
 ### Post-MVP — Live deliberation
 

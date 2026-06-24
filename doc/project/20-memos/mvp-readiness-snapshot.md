@@ -6,9 +6,9 @@ This table is an estimated cross-document readiness snapshot for canonical Story
 
 Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implementation notes, coding guides, and generated registries are excluded. Solution rows use the main `NNN-*/NNN-*.md` document for each component.
 
-Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
+Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`, `story-011`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
 
-Change basis: this refresh incorporates the current worktree state on 2026-06-24 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, and the P070 Phase 5 attestation-policy hardening from code review 89.
+Change basis: this refresh incorporates the current worktree state on 2026-06-24 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, and the P070 Phase 5 attestation-policy hardening from code review 89.
 
 Recent component deltas:
 
@@ -43,29 +43,28 @@ Recent component deltas:
 - Inquirium moved from a mostly conceptual organ to an implemented substrate slice. Proposal 063 now has a first `generate` vertical through `inquirium-core`, daemon `inquirium.generate`, JSON-e Flow ingress/preflight, NSE runtime selection, deterministic stub runtime, classification-aware request validation, and metadata-only trace records. Proposal 064's runtime-adapter recommendations are mostly implemented across model-runtime catalog v0.2, runtime-candidate routing, HTTP/stdio adapters, remote provider adapters, and embedding contracts; durable direct data-plane leases remain in progress. Proposal 066 is intentionally kept low because the assistant-channel surface is documented but not end-to-end implemented.
 - Story 005 remains hard-MVP complete, and its post-M4 productization tracker now lives in the Whisper implementation note instead of a workspace-root draft file. The closed slice has a CI-runnable Inquirium acceptance bridge: an opt-in supervised simulator adapter is routed only through model-runtime/Inquirium by `runtime/ref` and host-owned `model.binding/ref`. `whisper-core` carries the production-shaped policy primitives for routing failure mode, source class, outbound privacy resolution, correlation policy explanation, association-room proposal lifecycle, and public-gossip promotion. The current Node worktree now consumes those primitives in the publish path: `whisper-intake` performs outbound privacy preflight before public/private publish using host-owned `agora.relay` evidence with passport-scoped relay class data, queries and bounds private preflight facts, persists and validates the new preflight fact, validates host signing responses, blocks hard-fail refusals, and requires explicit operator acknowledgement bound to the canonical candidate digest for soft-fail downgrades. It also enforces source-class safety gates for `monus-sensorium-derived` evidence refs and Monus-derived help-mode diversion. `agora-projections` and `agora-service` now provide a minimal local association-room lifecycle seed plus public-gossip promotion drafts from accepted rooms, with authenticated actor binding, bounded lifecycle facts, FK-backed proposal refs, and bounded opaque lineage refs. These move Proposal 013 closer to post-M4 productization while preserving the readiness interpretation for unfinished product/runtime surfaces such as real Anon relay transport, production semantic correlation, full association-room case management on the accepted signed room-event log over Artifact Delivery with multi-Agora fanout/merge, bounded replica retention status, and per-thread predecessor digest links, final public-gossip publication runtime, live Monus/Sensorium source verification, richer UI, and remote model deployment.
 - Shared Offer Catalog is now a concrete middleware solution track. Proposal 067 and Solution 033 document the extracted shared Python offer-catalog runtime, Agora replay, fail-closed Agora/Seed Directory admission, Arca embedded-cache reuse, query parity, withdrawal active filtering, and public/shared catalog deployment shape. The remaining work is operational passport publication/profile hardening rather than the core projection runtime.
-- Corpus is now tracked as a hard-MVP candidate through Proposal 069. Its MVP slice is
+- Corpus is tracked as a hard-MVP candidate through Proposal 069. Its MVP slice is
   intentionally narrow: topic taxonomy/resolution, topic-scoped offer discovery,
   `question-envelope.v1`-decorated query broadcast, bid-state aggregation, and a
-  single-provider P011/P016 settlement path. Corpus now has the first contract-gate
-  slice implemented: canonical schemas and examples for topic taxonomy/resolution,
-  query, bid and bid-state; the `service-offer.v1` Corpus extension; node schema sync;
-  and schema-gate validation including query price-bracket and service-offer
-  topic-subset constrainers. The latest Node slice makes `orbiplex-node-corpus-core`
-  the shared semantic kernel consumed by `schema-gate`, adds the empty bid-state
-  representation for pre-selection dispatch failures, enforces a 16 KiB canonical JSON
-  budget for Corpus `extensions`, and introduces trusted taxonomy policy/evidence
-  wrappers so Corpus indexing fails closed without trusted taxonomy material. It also
-  covers deterministic taxonomy digesting, topic resolution, topic-scoped offer indexing
-  helpers, schema-valid AD `capability-many` query envelope construction, bid-state
-  projection, bid/query price validation, and single-provider settlement selection over
-  the embedded `procurement-offer.v1`.
-  Readiness is still below MVP because Dator publication, daemon-owned bid-state
-  persistence, provider bid acceptor runtime, P011/P016 contract closing, operator
-  visibility, and acceptance coverage remain open. P070 now
-  provides durable Room contracts, Agora-backed projection
-  replay, signer-backed membership attestations, and the live-plane substrates needed
-  by future Corpus deliberation. Corpus remains blocked by its own runtime, settlement,
-  and Inquirium thread/session integration work rather than by Room.
+  single-provider P011/P016 settlement path. The contract gate is implemented:
+  canonical schemas and examples for topic taxonomy/resolution, query, bid and
+  bid-state; the `service-offer.v1` Corpus extension; node schema sync; schema-gate
+  validation including query price-bracket and service-offer topic-subset
+  constrainers; deterministic taxonomy digesting; topic resolution; topic-scoped offer
+  indexing helpers; schema-valid AD `capability-many` query envelope construction;
+  bid-state projection; bid/query price validation; and single-provider settlement
+  selection over the embedded `procurement-offer.v1`. The latest Node slice adds Dator
+  Corpus offer projection, daemon-owned Corpus round persistence, query/bid
+  registration APIs, provider-side bid acceptor runtime, unique provider-scoped bid
+  ids, real node-identity Ed25519 signatures on generated local bids, exact-plus-parent
+  topic matching, price-bracket rejection without silent offer-price mutation, the
+  selected-offer bridge into the P011 procurement path, operator-visible
+  `settlement-failed` recovery state for bridge failures after selection, operator
+  visibility under `/admin/corpus/rounds`, and Story-011 acceptance coverage. Readiness is still
+  below full MVP because actual AD `capability-many` runtime fan-out, P057
+  notifications, final answer/receipt exercise, and real Matrix live transport remain
+  open; P070 provides the durable room substrate, but Corpus still waits for live
+  transport and Inquirium session integration.
 - Room primitive is now tracked explicitly through Proposal 070. The current code
   implements the durable Room skeleton, deterministic projection over Agora facts,
   signer-backed short-lived membership attestations, explicit POST attestation request
@@ -133,6 +132,7 @@ Recent component deltas:
 | [Story 008: Leaving an Opinion on a Website via the Local Node](../30-stories/story-008-cool-site-comment.md) | `true` | `true` | `false` | `100` |
 | [Story 009: The magazine publishes itself — a three-node blogging pipeline about Bielik, conducted by Arca](../30-stories/story-009-bielik-blog-arca.md) | `false` | `false` | `false` | `90` |
 | [Story 010: Message to a Friend](../30-stories/story-010-message-to-a-friend.md) | `true` | `true` | `false` | `100` |
+| [Story 011: Corpus answers the fish-water question](../30-stories/story-011-corpus-fish.md) | `true` | `true` | `false` | `85` |
 
 ## Proposals
 
@@ -206,7 +206,7 @@ Recent component deltas:
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `15` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `90` |
-| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `65` |
+| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `82` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `58` |
 
