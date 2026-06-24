@@ -73,7 +73,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`contact-lookup-result.v1.schema.json`](schemas-gen/schemas/contact-lookup-result.v1.md) | `11` | `0` | `yes` | `yes` | `2` | `1` |
 | [`contact-request.v1.schema.json`](schemas-gen/schemas/contact-request.v1.md) | `18` | `4` | `yes` | `yes` | `1` | `0` |
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
-| [`corpus-reasoning-bid-state.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-bid-state.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `0` |
+| [`corpus-reasoning-bid-state.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-bid-state.v1.md) | `7` | `1` | `yes` | `yes` | `1` | `0` |
 | [`corpus-reasoning-bid.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-bid.v1.md) | `14` | `0` | `yes` | `yes` | `2` | `3` |
 | [`corpus-reasoning-query.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-query.v1.md) | `18` | `2` | `yes` | `yes` | `1` | `1` |
 | [`curation-decision.v1.schema.json`](schemas-gen/schemas/curation-decision.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
@@ -196,7 +196,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`signal-transform-event.v1.schema.json`](schemas-gen/schemas/signal-transform-event.v1.md) | `15` | `11` | `yes` | `yes` | `0` | `0` |
 | [`surface-access-policy.v1.schema.json`](schemas-gen/schemas/surface-access-policy.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
 | [`topic-resolution.v1.schema.json`](schemas-gen/schemas/topic-resolution.v1.md) | `16` | `0` | `yes` | `yes` | `3` | `0` |
-| [`topic-taxonomy.v1.schema.json`](schemas-gen/schemas/topic-taxonomy.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `0` |
+| [`topic-taxonomy.v1.schema.json`](schemas-gen/schemas/topic-taxonomy.v1.md) | `16` | `1` | `yes` | `yes` | `1` | `0` |
 | [`training-job.v1.schema.json`](schemas-gen/schemas/training-job.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`transcript-bundle.v1.schema.json`](schemas-gen/schemas/transcript-bundle.v1.md) | `18` | `2` | `no` | `yes` | `3` | `1` |
 | [`transcript-segment.v1.schema.json`](schemas-gen/schemas/transcript-segment.v1.md) | `21` | `6` | `no` | `yes` | `3` | `1` |

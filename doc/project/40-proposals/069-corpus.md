@@ -414,37 +414,26 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
 11. **Inquirium session surface.** Phase 2 targets a full Inquirium thread/session
     runtime with tools, not a minimal single-call or minimal open/continue/close surface,
     because the component is strategically required beyond Corpus.
-
-## Open Questions
-
-1. **Shared semantic validators.** Should `schema-gate` depend on
-   `orbiplex-node-corpus-core` for taxonomy/query semantic validation, or should it keep
-   independent edge validators synchronized by golden vectors? Reusing `corpus-core`
-   reduces drift and keeps one implementation of tree/digest semantics, but it makes the
-   edge validator depend on a domain kernel. Independent validators preserve a narrower
-   schema-gate dependency surface, but every semantic rule must be maintained twice.
-2. **Empty bid-state representation.** Should `corpus-reasoning-bid-state.v1` allow
-   `candidates: []` when discovery or AD dispatch fails before any candidate is selected,
-   or should the requester emit a synthetic `unreachable`/`delivery-failed` candidate row?
-   Allowing an empty list is the simplest read-model representation. A synthetic row keeps
-   operator UI and audit timelines uniform, but risks inventing a candidate that was never
-   actually selected.
-3. **`extensions` byte budgets.** What maximum canonical JSON byte size should be allowed
-   for Corpus `extensions` fields on query, bid, taxonomy, and resolution artifacts? The
-   runtime currently treats extensions as ordinary JSON data; before network exposure,
-   admission should cap them to prevent fan-out amplification and digest/materialization
-   overhead.
-4. **Trusted taxonomy loader boundary.** Should Corpus offer admission be performed only
-   through a taxonomy-aware loader/verifier path, or should the generic service-offer
-   catalog become taxonomy-context-aware for `corpus.provider` records? The first option
-   keeps the generic catalog reusable and makes Corpus admission an explicit higher-layer
-   gate. The second option prevents invalid Corpus offers from ever entering the shared
-   catalog, but couples the generic catalog store to Corpus governance material.
-5. **Taxonomy issuer trust policy.** `corpus/taxonomy-issuer` is now preserved in the
-   runtime scope, but the exact trust source is not yet frozen. Should issuer acceptance
-   come from local node policy, Seed Directory governance facts, Agora authority records,
-   or a composed trust policy? This must be decided before Dator or another provider can
-   publish Corpus offers as production-admissible facts.
+12. **Shared semantic validators.** `schema-gate` depends on
+    `orbiplex-node-corpus-core` for Corpus taxonomy/query semantic validation. This keeps
+    tree, digest, topic, price, and bid-state invariants in one semantic kernel rather
+    than maintaining an independent edge-validator copy.
+13. **Empty bid-state representation.** `corpus-reasoning-bid-state.v1` may represent
+    discovery or dispatch failure before candidate selection as `candidates: []`.
+    Requesters should not invent synthetic candidate rows for providers that were never
+    selected.
+14. **`extensions` byte budgets.** Corpus `extensions` fields on query, bid, taxonomy,
+    and resolution artifacts have a maximum canonical JSON size of 16 KiB per field.
+    Admission must reject larger extension payloads before network fan-out or digest
+    materialization.
+15. **Trusted taxonomy loader boundary.** Corpus offer admission is performed through a
+    taxonomy-aware loader/verifier path. The generic service-offer catalog remains
+    reusable and does not become a Corpus governance authority; Corpus indexing and
+    production admission fail closed when trusted taxonomy material is missing.
+16. **Taxonomy issuer trust policy.** Taxonomy issuer acceptance uses a composed trust
+    policy: local node policy is authoritative for local use, while Seed Directory
+    governance facts and/or Agora authority records may supply scoped trust evidence.
+    No single published fact becomes a trust decision without local policy acceptance.
 
 ## Implementation Contract
 
@@ -963,8 +952,11 @@ runtime, no N-way settlement.
   `corpus-reasoning-query.v1`, `corpus-reasoning-bid.v1`, and
   `corpus-reasoning-bid-state.v1` exist in `doc/schemas/`, are synced to
   `node/protocol/contracts/`, and are covered by `orbiplex-node-schema-gate`
-  Corpus tests, including query price-bracket and service-offer topic-subset
-  constrainers.
+  Corpus tests. `schema-gate` now delegates Corpus semantic validation to
+  `orbiplex-node-corpus-core`, including taxonomy tree/digest checks, topic resolution
+  invariants, query price brackets, bid-state invariants, and the 16 KiB canonical
+  byte budget for `extensions`. `corpus-reasoning-bid-state.v1` explicitly allows an
+  empty `candidates` list for dispatch failures before provider selection.
 
 #### Phase 1 — Topic taxonomy + resolver
 
@@ -989,8 +981,10 @@ runtime, no N-way settlement.
 - [x] Offer/catalog admission constrainer: `corpus/topics ⊆ terms(taxonomy/digest)`;
   missing or untrusted taxonomy material fails closed. Evidence: schema-gate exposes a
   trusted-taxonomy subset constrainer, and `node/catalog::validate_corpus_offer_scope`
-  applies the same check to catalog records; Corpus topic-index construction fails closed
-  instead of silently hiding invalid `corpus.provider` records.
+  applies the same check to catalog records through `TrustedTopicTaxonomy`; Corpus
+  topic-index construction fails closed instead of silently hiding invalid
+  `corpus.provider` records. Generic catalog storage remains neutral and is not a Corpus
+  authority.
 - [~] Offer-catalog topic index + supersession/partial-withdrawal (P067). Evidence:
   `node/catalog::corpus_topic_index_from_entries` and
   `corpus_topic_index_from_observed` project active Corpus-capable offers by topic;

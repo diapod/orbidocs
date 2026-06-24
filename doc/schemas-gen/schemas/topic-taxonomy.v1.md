@@ -23,7 +23,7 @@ Signed, versioned taxonomy material used by Corpus topic resolution and topic-sc
 | [`issuer/nym`](#field-issuer-nym) | `yes` | string |  |
 | [`issuer/public-key-ref`](#field-issuer-public-key-ref) | `no` | string |  |
 | [`valid/from`](#field-valid-from) | `yes` | string |  |
-| [`valid/until`](#field-valid-until) | `yes` | string |  |
+| [`valid/until`](#field-valid-until) | `yes` | string | Exclusive validity upper bound. Runtime trust verification rejects the taxonomy when now >= valid/until. |
 | [`supersedes`](#field-supersedes) | `no` | ref: `#/$defs/sha256_digest` |  |
 | [`supersession/proof`](#field-supersession-proof) | `no` | ref: `#/$defs/signature` |  |
 | [`extension/policy`](#field-extension-policy) | `no` | object |  |
@@ -101,6 +101,8 @@ Signed, versioned taxonomy material used by Corpus topic resolution and topic-sc
 
 - Required: `yes`
 - Shape: string
+
+Exclusive validity upper bound. Runtime trust verification rejects the taxonomy when now >= valid/until.
 
 <a id="field-supersedes"></a>
 ## `supersedes`

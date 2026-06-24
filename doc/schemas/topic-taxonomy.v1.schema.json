@@ -59,7 +59,8 @@
     },
     "valid/until": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Exclusive validity upper bound. Runtime trust verification rejects the taxonomy when now >= valid/until."
     },
     "supersedes": { "$ref": "#/$defs/sha256_digest" },
     "supersession/proof": { "$ref": "#/$defs/signature" },

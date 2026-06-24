@@ -18,7 +18,7 @@ Requester-owned read model for Corpus procurement candidates. This projection is
 | [`query/id`](#field-query-id) | `yes` | string |  |
 | [`owner/node-id`](#field-owner-node-id) | `yes` | string |  |
 | [`updated-at`](#field-updated-at) | `yes` | string |  |
-| [`candidates`](#field-candidates) | `yes` | array |  |
+| [`candidates`](#field-candidates) | `yes` | array | May be empty when discovery or AD dispatch fails before any provider candidate is selected. |
 | [`selected/bid-id`](#field-selected-bid-id) | `no` | string |  |
 | [`extensions`](#field-extensions) | `no` | ref: `#/$defs/extensions` |  |
 
@@ -60,6 +60,8 @@ Requester-owned read model for Corpus procurement candidates. This projection is
 
 - Required: `yes`
 - Shape: array
+
+May be empty when discovery or AD dispatch fails before any provider candidate is selected.
 
 <a id="field-selected-bid-id"></a>
 ## `selected/bid-id`
