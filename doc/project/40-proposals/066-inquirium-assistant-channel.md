@@ -82,17 +82,25 @@ As of 2026-06-03, the following facts are relevant:
   `embed`, `batch_embed`, and related model operations.
 - `node:model-runtime` already has explicit embedding DTOs following the
   `inquirium.embed.*` and `inquirium.batch-embed.*` schema pattern.
-- A generate/chat DTO family is still missing and should be added before the
-  assistant surface becomes a stable API.
-- `node:daemon/model_runtime_host.rs` and the model-runtime host path already
-  provide selected runtime invocation machinery.
+- `node:inquirium-core` owns `inquirium.generate.request.v1`,
+  `inquirium.generate.response.v1`, and the first
+  `inquirium.assistant.turn.{request,response}.v1` DTOs.
+- `node:daemon/model_runtime_host.rs` and the model-runtime host path provide
+  selected runtime invocation machinery, including the host capability surfaces
+  `inquirium.generate`, `inquirium.assistant.turn`, and the local-only
+  `inquirium.assistant.activity.feed`.
+- The current assistant implementation writes a local transcript fallback stream
+  and metadata-only `daemon/inquirium-assistant-turn-trace.v1` records to
+  `trace/inquirium-assistant-turns`; trace/feed records carry turn and
+  participant audit keys but do not carry prompt, response, or transcript refs.
 - `node:node-ui` can synthesize rail entries at render time; a pinned assistant
   section does not require persistence in the relationship store.
 - Messaging middleware is not the correct route for the assistant, because it
   is designed for peer message delivery with relationship and transport gates.
 
-These are implementation facts, not guarantees that the assistant channel is
-already implemented end to end.
+These are implementation facts, not guarantees that the UI affordance,
+Memarium-backed transcript implementation, baseline-assistant conformance, or
+agentic effect surface is complete.
 
 ## Proposed Model / Decision
 
@@ -832,6 +840,53 @@ daemon depend on `inquirium-core`. The important properties are:
 - typed denials are first-class outcomes;
 - trace references are returned without leaking protected context.
 
+### Assistant Turn Host Capability
+
+The assistant channel itself is exposed as a narrower host capability over the
+generate substrate:
+
+```text
+POST /v1/host/capabilities/inquirium.assistant.turn
+GET /v1/host/capabilities/inquirium.assistant.turn
+POST /v1/host/capabilities/inquirium.assistant.activity.feed
+POST /v1/host/capabilities/inquirium.assistant.transcript.excise
+```
+
+Minimal request:
+
+```json
+{
+  "schema": "inquirium.assistant.turn.request.v1",
+  "session/ref": "assistant-session:local",
+  "participant/ref": "participant:did:key:...",
+  "turn": {
+    "role": "user",
+    "content": [{ "type": "text", "text": "Help me think this through." }]
+  },
+  "parameters": {},
+  "policy": {
+    "locality": "local_only",
+    "trust_mode": "strict_local",
+    "scope": "assistant-session-only",
+    "on_context_denied": "fail_closed",
+    "plurality": "preserve"
+  },
+  "metadata": {}
+}
+```
+
+The host assigns `turn/id` when absent, preserves a valid caller-supplied
+`turn/id`, maps the request to `inquirium.generate.request.v1` only after
+assistant policy validation, persists transcript facts only through the
+transcript boundary, and appends a metadata-only trace record to
+`trace/inquirium-assistant-turns`. Module callers require explicit
+`inference_grants[]` for `inquirium.assistant.turn`; the activity feed is
+restricted to local control. Completed assistant output is capped by host policy
+before it is written into the transcript; truncation is explicit in diagnostics
+and epistemic caveats. Transcript excision is a local-control-only capability
+that appends an audit-preserving `session_excised` marker rather than deleting
+history.
+
 ### Implementation Notes (Phase 1 seam)
 
 Code-grounded guidance verified against the current node, so the contract maps to
@@ -1079,28 +1134,39 @@ Done criteria:
    host-owned operator prompt) only for operator-decision / sustained-degradation
    / boundary-risk / pre-egress-confirmation / crisis-candidate; threshold is
    `ModeKeyed`. Model proposes a question, host shapes it.
+8. What should be the long-term principal source for local-control assistant
+   turns on multi-operator hosts? **Sensible default:** bind to the authenticated
+   local-control session participant when that boundary carries one; until then,
+   use the configured sovereign participant, and if none exists use a
+   data-dir-scoped `local-control:*` principal. The request body's
+   `participant/ref` is not authoritative and may only be retained as requested
+   metadata for diagnostics. Options: keep the sovereign-participant fallback
+   for all local-control calls; require an authenticated local-control
+   participant before assistant transcript persistence; or support per-UI-profile
+   local principals that later reconcile to participant identities.
+9. What cursor model should the assistant Activity feed expose once local trace
+   history becomes large? **Sensible default:** reuse the storage/trace cursor
+   vocabulary with `limit`, `before/ref`, and newest-first ordering, while the
+   Phase 1 UI exposes only a bounded `limit` selector. Options: keep bounded
+   latest-only feed; add cursor pagination over trace records; or materialize a
+   separate read model if cross-stream filtering becomes necessary.
 
 ## Next Actions
 
-1. Add `inquirium.generate.request.v1` and `inquirium.generate.response.v1` DTOs
-   in the same style as the embedding contracts.
-2. Add a host capability endpoint for local assistant inquiry.
-3. Add a Node UI assistant affordance that is composed at render time and does
+1. Add a Node UI assistant affordance that is composed at render time and does
    not touch Local Relationship storage.
-4. Implement Phase 1 routing with strict local-only runtime selection and typed
-   `handler-unavailable` denial.
-5. Add tests proving no Messaging dispatch, no relationship record creation, no
-   Memarium read, and no remote egress in Phase 1.
-6. Design the Phase 2 context assembly envelope with `Classified<Element>`
+2. Complete the `inquirium-core` vocabulary split by moving embedding DTOs out
+   of `model-runtime`.
+3. Add broader tests proving no Messaging dispatch, no relationship record
+   creation, no Memarium read, and no remote egress in Phase 1.
+4. Design the Phase 2 context assembly envelope with `Classified<Element>`
    propagation and model acceptance policy.
-7. Decide whether the observability feed belongs in the first UI iteration or
-   remains a later read projection.
-8. Add an `xtask` dependency-direction lint: `inquirium-core` depends only on
+5. Add an `xtask` dependency-direction lint: `inquirium-core` depends only on
    `classification`; `model-runtime`/`model-runtime-http`/`daemon` depend on
    `inquirium-core`; `inquirium-core` must not import the substrate. Mirror it with
    a lint that no `trace/inquirium-assistant-turns` consumer imports
    `memarium-runtime` (transcript reads go through a separate capability).
-9. Define `inquirium.operator-question.request.v1` and the
+6. Define `inquirium.operator-question.request.v1` and the
    `RegisteredQuestionKinds` registry, then derive notification actions from that
    host-owned interaction contract.
 
@@ -1119,44 +1185,47 @@ That advisory remains only a working note; this table is the canonical backlog.
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
-| `assistant-affordance-render-only` | Add assistant as a UI affordance, not a contact record. | `todo` | Node UI renders assistant entry without writing Local Relationship or Messaging state. |
-| `assistant-generate-contract` | Add `inquirium.generate.request/response.v1`. | `todo` | DTOs validate operation, turns, local-only policy, typed denials, trace refs, and output shape. |
-| `assistant-host-capability` | Add operator-bound host capability endpoint for assistant inquiry. | `todo` | Node UI calls daemon endpoint; caller binding is local operator; missing authority fails closed. |
-| `assistant-local-only-routing` | Route Phase 1 through local-only Inquirium selection. | `todo` | Healthy local runtime succeeds; missing local runtime returns typed unavailability; no remote fallback. |
+| `assistant-affordance-render-only` | Add assistant as a UI affordance, not a contact record. | `done` | Node UI renders `/admin/inquirium/assistant`, submits only `inquirium.assistant.turn`, reads the metadata-only activity feed, exposes local transcript excision as an explicit operator action, and template tests assert no Local Relationship or Messaging action route is present. |
+| `assistant-generate-contract` | Add `inquirium.generate.request/response.v1`. | `done` | DTOs validate operation, turns, local-only policy, typed denials, trace refs, and output shape. |
+| `assistant-host-capability` | Add operator-bound host capability endpoint for assistant inquiry. | `done` | `inquirium.assistant.turn` is a host capability; module callers require explicit inference authority; local-control E2E passes. |
+| `assistant-local-only-routing` | Route Phase 1 through local-only Inquirium selection. | `done` | Assistant turn maps through local-only/strict-local `inquirium.generate`; healthy local deterministic runtime succeeds and no remote fallback path is used. |
 | `assistant-local-runtime-target` | First target: Ollama via `http_local` + OpenAI-compatible chat; baseline anchored to `llama.cpp`-class runtime. | `todo` | Adapter fixes protocol not vendor (generalizes to `llama-server`/LM Studio); `inquirium.generate.*` stays provider-neutral; model is catalog config. |
-| `inquirium-core-contract-crate` | Create `inquirium-core` (thin contract crate); move `inquirium.embed.*` there; `inquirium.generate.*` lands there. | `todo` | DTOs/schema-ids/policy enums/traits live in `inquirium-core` (deps only `classification`); model-runtime + daemon depend on it; `inquirium.*` vocabulary not split across crates. |
-| `assistant-transcript-store-contract` | Define `InquiryTranscriptStore` trait (append fact, query, retention, excise; classification first-class). | `todo` | Inquirium depends on the trait, not on Memarium concretely; classification is a first-class field. |
-| `assistant-history-per-participant` | Scope assistant history to the participant. | `todo` | History maps to the participant's Memarium space; survives device/UI change; multi-tenant isolation; local, non-egressing. |
+| `inquirium-core-contract-crate` | Create `inquirium-core` (thin contract crate); move `inquirium.embed.*` there; `inquirium.generate.*` lands there. | `in-progress` | `inquirium-core` now owns generate and assistant-turn DTOs plus policy/trace/transcript traits; embedding DTOs still live in `model-runtime`, so the vocabulary split is not fully closed. |
+| `assistant-transcript-store-contract` | Define `InquiryTranscriptStore` trait (append fact, query, retention, excise; classification first-class). | `done` | `inquirium-core` exposes the transcript trait and fact/receipt/query DTOs with classification fields and principal-scoped query/excision shape. |
+| `assistant-history-per-participant` | Scope assistant history to the participant. | `in-progress` | Daemon fallback transcript refs are principal-scoped and request-body `participant/ref` is not authoritative; Memarium space mapping and cross-device survival remain later work. |
 | `assistant-transcript-memarium-impl` | Memarium-default impl via `memarium.write` op `write_fact`. | `todo` | Turn/result facts (`inquirium.inquiry-turn.v1`/`inquiry-result.v1`) with provenance + classification; behind capability/passport + space/classification policy. |
-| `assistant-transcript-baseline-fallback` | Degenerate local transcript store when `memarium_enabled` is false. | `todo` | `baseline-assistant` keeps a local, participant-scoped, non-federating transcript without Memarium via the same trait; migration/export is explicit. |
+| `assistant-transcript-baseline-fallback` | Degenerate local transcript store when `memarium_enabled` is false. | `done` | Daemon implements the `InquiryTranscriptStore` boundary with a local non-federating transcript stream keyed by host principal and session, including query and local-control-only metadata excision markers; participant-scoped Memarium migration/export semantics remain later work. |
 | `assistant-transcript-blob-ref` | Bulk/binary content to object-store; only descriptor/provenance/ref in Memarium. | `todo` | `memarium.write` stays a fact-plane; no bulk content pushed through the governed append log. |
 | `assistant-transcript-projection` | Search + semantic/thematic tagging as a projection over Memarium streams. | `todo` | Read model over `memarium:{space}:entries`/`:facts`; rebuildable by replay; not a second source of truth. |
-| `assistant-transcript-retention` | Inquirium declares retention; Memarium enforces. | `todo` | Transcript is not a messaging thread; retention is `ClassKeyed` (Decision 6) applied by the governed store. |
-| `assistant-turn-trace-stream` | Add operational assistant-turn trace stream. | `todo` | Append `daemon/inquirium-assistant-turn-trace.v1` records to `trace/inquirium-assistant-turns`; default trace shape contains metadata/decisions/effects only, with no prompt or response content. |
-| `assistant-default-empty-scope` | Keep Phase 1 context scope empty. | `todo` | Tests prove no relationship, Memarium, messaging, artifact, or dataset context is read. |
-| `assistant-local-only-e2e-gate` | Add Phase 1 end-to-end guard for the isolated assistant surface. | `todo` | E2E proves the assistant conversation works locally, produces no remote egress, and reads no node data beyond the assistant inquiry transcript. |
+| `assistant-transcript-retention` | Inquirium declares retention; Memarium enforces. | `in-progress` | `AssistantRetentionPolicy` is class-keyed in `inquirium-core` and daemon honors transcript on/off for the local fallback; Memarium enforcement remains later work. |
+| `assistant-turn-trace-stream` | Add operational assistant-turn trace stream. | `done` | Daemon appends `daemon/inquirium-assistant-turn-trace.v1` records to `trace/inquirium-assistant-turns`; test proves the trace/feed omit prompt, response, and transcript refs. |
+| `assistant-default-empty-scope` | Keep Phase 1 context scope empty. | `done` | Assistant context is empty by default and supplied context fails closed unless explicitly class-accepted. |
+| `assistant-local-only-e2e-gate` | Add Phase 1 end-to-end guard for the isolated assistant surface. | `done` | Daemon E2E verifies a local deterministic runtime assistant turn, transcript persistence, metadata-only trace, read-only feed, and local transcript excision marker. |
 | `assistant-context-assembly` | Add operator-granted context assembly for Phase 2. | `todo` | JSON-e Flow describes requested context; host resolves through existing gates and attaches classification. |
 | `assistant-context-source-grants` | Require explicit operator grants per context source and session. | `todo` | Relationship, Memarium, messaging, artifact, dataset, or other source access is unavailable unless the operator approved that source for the assistant session/scope. |
-| `assistant-model-acceptance-policy` | Add classification-aware model acceptance policy. | `todo` | Inquirium can include/declassify/drop/fail per context element; unknown classification fails closed. |
+| `assistant-model-acceptance-policy` | Add classification-aware model acceptance policy. | `in-progress` | `ContextAcceptancePolicy` supports class-keyed include/drop/fail-closed decisions; declassification and remote-egress acknowledgement remain later work. |
 | `assistant-model-egress-ack` | Validate high-sensitivity model acceptance and remote egress. | `todo` | Remote provider plus high `accepts_max_tier` is rejected unless an explicit operator acknowledgement exists; model locality remains a consequence of accepted classification bounds. |
-| `assistant-context-decision-tracing` | Trace each context element's policy decision. | `todo` | Trace records source, full classification, include/declassify/drop/fail decision, model-egress outcome, and reason without storing protected prompt/output content by default. |
+| `assistant-context-decision-tracing` | Trace each context element's policy decision. | `done` | Assistant trace and transcript facts carry context decision records without protected content; full source/classification/reason/model-egress enrichment remains later work. |
 | `class-keyed-mechanism-in-classification` | Put generic `ClassKeyed<T>` mechanism (resolve + monotonicity validator) in the `classification` crate, beside `Classified<T>`. | `todo` | Mechanism lives with the lattice; safety resolution implemented once; shared `LatticeKeyed` kernel may back `ClassKeyed` and `ModeKeyed`. |
-| `assistant-class-keyed-config` | Inquirium class-keyed config schemas in `inquirium-core` (Inquirium as first consumer). | `todo` | Schemas (prompt/KV/retention/redaction/params) use the `classification`-crate mechanism; most-restrictive fallback + monotonic validation for safety axes. |
-| `assistant-observability-feed` | Add optional Activity feed over Inquirium traces. | `todo` | Feed is read-only, local-only, distinct from transcript, and has honest provenance labels. |
-| `assistant-no-swarm-gossip` | Keep assistant transcript/activity/trace local by default. | `todo` | No default publication to Agora, Seed Directory, Messaging, or swarm gossip; any export uses an explicit later contract. |
+| `assistant-class-keyed-config` | Inquirium class-keyed config schemas in `inquirium-core` (Inquirium as first consumer). | `in-progress` | `ClassKeyed<T>` is present in `inquirium-core` and used for retention/context policy; generic classification-crate mechanism and monotonic validators remain open. |
+| `assistant-observability-feed` | Add optional Activity feed over Inquirium traces. | `done` | `inquirium.assistant.activity.feed` returns metadata-only assistant trace items; module callers are denied, Node UI has a bounded limit selector, and local-control test covers the path. |
+| `assistant-no-swarm-gossip` | Keep assistant transcript/activity/trace local by default. | `done` | Assistant transcript, trace, and feed are local storage/control surfaces only; no Agora, Seed Directory, Messaging, or swarm publication path is wired. |
+| `assistant-principal-boundary` | Bind assistant audit and transcript namespace to host-authenticated principal, not request body. | `done` | Daemon derives `principal/ref` from the caller/module or configured local operator, scopes transcript refs by `(principal, session)`, and records request-body participant only as non-authoritative metadata. |
+| `assistant-turn-idempotency` | Add idempotency for `inquirium.assistant.turn`. | `done` | `AssistantTurnRequest` accepts `idempotency/key`; daemon replays the prior principal/session-scoped result and records duplicate traces without appending duplicate transcript facts. |
+| `assistant-output-boundary` | Cap assistant response output before transcript persistence. | `done` | Daemon truncates completed assistant text output at the host boundary, preserving UTF-8 validity and recording diagnostics plus epistemic caveats when truncation happens. |
 | `assistant-escalation-policy` | `ModeKeyed` escalation threshold (feed → notification). | `todo` | Default feed-only; escalation governed by P057 delivery policy; threshold is `ModeKeyed`/`ClassKeyed`, not a fixed list; never an engagement vector. |
 | `assistant-operator-question` | Host-owned `inquirium.operator-question.request.v1` (blocking operator prompt). | `todo` | Model proposes; host validates/shapes (allow-listed answers, no secrets, classification-gated, timeout-fail-closed, names unblocked operation); lifecycle is `pending -> answered | timed_out | cancelled | superseded`; widget from registered kind, not model JSON. |
 | `assistant-interaction-notification-projection` | Derive notification actions from operator-question interactions. | `todo` | Host maps question/operation/prompt/reason/widget/response fields into `notification-create.v1`; interaction remains the authoritative blocker. |
 | `assistant-crisis-candidate` | Inquirium emits `crisis-candidate` to the host crisis layer. | `todo` | Inquirium never declares crisis as authority; formal status owned by `daemon/crisis_detectors`. |
 | `inquirium-core-dep-direction-lint` | `xtask` lint: `inquirium-core` deps only `classification`; substrate depends on core, not vice versa; trace consumers don't import `memarium-runtime`. | `todo` | CI fails if the organ crate imports the substrate or a trace consumer reaches the transcript store directly. |
-| `epistemic-schema-gate` | Schema gate forbids `stance: authoritative` and any `effects` on `generate.response.v1`; `plurality` default `preserve`; negative fixtures. | `todo` | `authoritative`/`effects` payloads rejected by schema validation, not by convention. |
+| `epistemic-schema-gate` | Schema gate forbids `stance: authoritative` and any `effects` on `generate.response.v1`; `plurality` default `preserve`; negative fixtures. | `done` | `authoritative` stance is unrepresentable, unknown effect fields are rejected by `deny_unknown_fields`, and core tests cover both paths. |
 | `lattice-keyed-shared-resolve` | Shared `resolve()` mechanism (free fn / `LatticeKeyedResolver`) for `ClassKeyed` and `ModeKeyed`; no generic `LatticeKeyed<Axis,T>` type. | `todo` | Two distinct types, one resolution implementation; two independent monotonicity tests. |
 | `operator-question-widget-kinds` | `widget/kind` enum + `RegisteredQuestionKinds` registry in `inquirium-core`; no raw model-supplied input schema. | `todo` | Unknown kind / free-text-without-allowlist / raw-schema payloads rejected; widget input schemas registered in core. |
 | `baseline-assistant-conformance` | `BaselineAssistantProfile` (requires/guarantees, UBC-anchored) + conformance suite; runtimes are instances. | `todo` | At least one runtime passes conformance on CI; `baseline-assistant` selected only among conformance-positive runtimes. |
-| `trace-transcript-one-way-refs` | Fact→`trace/ref` forward only; trace carries `turn/id`/`participant/ref`, not `transcript/ref`; `persist/prompt` and `persist/response` default to false. | `todo` | Join needs both capabilities; trace cannot read itself into a transcript; no content in trace by default. |
+| `trace-transcript-one-way-refs` | Fact→`trace/ref` forward only; trace carries `turn/id`/`participant/ref`, not `transcript/ref`; `persist/prompt` and `persist/response` default to false. | `in-progress` | Assistant trace now carries `turn/id`/`participant/ref` and omits `transcript/ref`, prompt, and response; transcript fact → trace forward refs still need to be added. |
 | `participant-identity-single-format` | One `participant:did:key:...` format shared by `memarium` space alloc, `caller-binding`, `local-relationship-core`, assistant scope. | `todo` | Same identity string resolves consistently across the four consumers. |
-| `assistant-epistemic-block` | Add `epistemic` block to `generate.response.v1` (stance/confidence/grounded_in/caveats). | `todo` | Output never marked `authoritative`; stance defaults to `advisory`; no field promotes output to a direct effect. |
-| `assistant-plurality-default` | Add `plurality: preserve\|collapse` to request policy. | `todo` | Default is `preserve`; multiple viable answers are surfaced, not collapsed. |
+| `assistant-epistemic-block` | Add `epistemic` block to `generate.response.v1` (stance/confidence/grounded_in/caveats). | `done` | Output never marked `authoritative`; stance defaults to `advisory`; no field promotes output to a direct effect. |
+| `assistant-plurality-default` | Add `plurality: preserve\|collapse` to request policy. | `done` | Default is `preserve`; multiple viable answers are surfaced, not collapsed. |
 | `assistant-feedback-loop` | Add `inquirium.inquiry-feedback.v1` (verified/refuted/amended). | `todo` | Operator-driven correction recorded with the session; no silent self-update. |
 | `assistant-mode-rigor` | Add `ModeKeyed<T>` (commons/crisis/support) with monotone rigor. | `todo` | More severe mode only tightens; validated like `ClassKeyed`; most-restrictive fallback. |
 | `assistant-baseline-minimum` | Declare Phase 1 local-only as non-withdrawable `baseline-assistant`. | `todo` | Baseline works offline and without economic gating; remote is additive, not a precondition. |
