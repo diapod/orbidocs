@@ -16,7 +16,9 @@ Based on:
 
 ## Status
 
-`draft`
+`promoted`
+
+Promoted to: `doc/project/60-solutions/036-room/036-room.md`
 
 ## Date
 

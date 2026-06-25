@@ -1,0 +1,97 @@
+{:component/id :orbiplex/capability-registry
+ :component/title "Capability Registry"
+ :component/type :governance-contract
+ :component/status :done
+
+ :summary
+ "Canonical machine-readable source of Orbiplex capability identifiers,
+ lifecycle status, wire names, surface eligibility, and checked policy-sidecar
+ metadata."
+
+ :must-implement
+ [{:cap/id :machine-capability-registry
+   :title "Machine Capability Registry"
+   :kind :schema-contract
+   :based-on ["doc/project/40-proposals/072-capability-registry.md"]
+   :schemas ["capability-registry.v1"]
+   :responsibilities
+   ["Keep the checked-in registry as the canonical machine source of capability ids"
+    "Validate capability id grammar, unique wire names, lifecycle status, and surface eligibility flags"
+    "Reject malformed static registry material before runtime surfaces treat it as an allow-set"
+    "Preserve legacy runtime projections only as checked projections, not second authorities"]
+   :status :done}
+
+  {:cap/id :capability-registry-admission-gates
+   :title "Runtime Admission Gates"
+   :kind :admission-control
+   :based-on ["doc/project/40-proposals/072-capability-registry.md"
+              "doc/project/60-solutions/006-capability-binding/006-capability-binding.md"
+              "doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md"]
+   :schemas ["capability-advertisement.v1"
+             "capability-passport-present.v1"
+             "seed-capability-registration.v1"]
+   :responsibilities
+   ["Deny unregistered or ineligible capability ids at advertisement, passport, host dispatch, host-route, and middleware report gates"
+    "Derive dispatchable and host-route admission from registry flags"
+    "Require dynamic middleware reports to claim only registered and eligible host capability handlers"
+    "Keep authorization separate from registry existence"]
+   :status :done}
+
+  {:cap/id :capability-registry-drift-checks
+   :title "Drift and Documentation Checks"
+   :kind :ci-contract
+   :based-on ["doc/project/40-proposals/072-capability-registry.md"]
+   :schemas ["capability-registry.v1"
+             "capability-authorization-policy.v1"]
+   :responsibilities
+   ["Validate human EN/PL registry projections against the machine registry"
+    "Validate passport, advertisement, Seed Directory, and authorization-policy fixtures against registered capability refs"
+    "Validate literal daemon host-capability POST routes against the registry"
+    "Fail CI or local checks on code/docs/fixture drift"]
+   :status :done}
+
+  {:cap/id :capability-authorization-policy-sidecar
+   :title "Capability Authorization Policy Sidecar"
+   :kind :policy-data
+   :based-on ["doc/project/40-proposals/072-capability-registry.md"
+              "doc/project/40-proposals/071-sensorium-workbench.md"]
+   :schemas ["capability-authorization-policy.v1"]
+   :responsibilities
+   ["Express required grants, caller posture, approval mode, autonomy floor, and COI policy as checked data"
+    "Validate policy entries against registered capability ids"
+    "Seed policy coverage for Sensorium Workbench and Interaction Broker capabilities"
+    "Leave runtime grant issuance and enforcement to host-policy consumers"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :federation-capability-namespace-governance
+   :title "Federation Namespace Governance"
+   :kind :future-governance
+   :based-on ["doc/project/40-proposals/072-capability-registry.md"]
+   :schemas ["capability-registry.v1"]
+   :responsibilities
+   ["Define public namespace allocation and registration authority"
+    "Define federation-extension revocation and supersession policy"
+    "Keep governance outside the node-local registry enforcement slice until a separate proposal accepts it"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Deciding whether a caller has a concrete grant for one operation"
+  "Replacing capability passports or operator approvals"
+  "Owning federation namespace governance in this solution slice"
+  "Treating the legacy Rust projection as a second source of truth"
+  "Embedding workflow policy in the registry"]
+
+ :consumes
+ ["capability-registry.v1"
+  "human capability registry tables"
+  "capability advertisement/passport/Seed Directory fixtures"
+  "daemon host-route declarations"
+  "middleware module reports"]
+
+ :produces
+ ["fail-closed registry admission decisions"
+  "checked capability registry projections"
+  "capability-authorization-policy.v1 validation"
+  "drift-check diagnostics"]}
+

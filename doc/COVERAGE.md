@@ -23,9 +23,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | `30-stories` (Stories) | `16` | `1` |
 | `40-proposals` (Proposals) | `75` | `64` |
 | `50-requirements` (Requirements) | `17` | `15` |
-| `60-solutions` (Solutions) | `53` | `32` |
+| `60-solutions` (Solutions) | `55` | `34` |
 
-- Total project markdown files: `219`
+- Total project markdown files: `221`
 - Proposals referencing source material: `64` / `75`
 - Requirements referencing source material: `15` / `17`
 
@@ -53,10 +53,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`artifact-object-pointer.v1.schema.json`](schemas-gen/schemas/artifact-object-pointer.v1.md) | `14` | `2` | `yes` | `yes` | `1` | `1` |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
+| [`capability-authorization-policy.v1.schema.json`](schemas-gen/schemas/capability-authorization-policy.v1.md) | `4` | `0` | `no` | `no` | `1` | `1` |
 | [`capability-passport-lookup.v1.schema.json`](schemas-gen/schemas/capability-passport-lookup.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
 | [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md) | `2` | `2` | `yes` | `yes` | `5` | `0` |
 | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md) | `13` | `12` | `yes` | `yes` | `0` | `0` |
 | [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | `14` | `13` | `yes` | `yes` | `0` | `0` |
+| [`capability-registry.v1.schema.json`](schemas-gen/schemas/capability-registry.v1.md) | `2` | `0` | `no` | `no` | `1` | `1` |
 | [`capability-schema-present.v1.schema.json`](schemas-gen/schemas/capability-schema-present.v1.md) | `4` | `4` | `yes` | `yes` | `1` | `0` |
 | [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `0` |
 | [`classification.v1.schema.json`](schemas-gen/schemas/classification.v1.md) | `7` | `7` | `yes` | `yes` | `4` | `4` |
@@ -251,10 +253,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`artifact-object-pointer.v1.schema.json`](schemas-gen/schemas/artifact-object-pointer.v1.md) |  |  |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) |  | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md) |
 | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
+| [`capability-authorization-policy.v1.schema.json`](schemas-gen/schemas/capability-authorization-policy.v1.md) |  |  |
 | [`capability-passport-lookup.v1.schema.json`](schemas-gen/schemas/capability-passport-lookup.v1.md) |  |  |
 | [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md) |
 | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md) |
 | [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md) |
+| [`capability-registry.v1.schema.json`](schemas-gen/schemas/capability-registry.v1.md) |  |  |
 | [`capability-schema-present.v1.schema.json`](schemas-gen/schemas/capability-schema-present.v1.md) |  |  |
 | [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md) |
 | [`classification.v1.schema.json`](schemas-gen/schemas/classification.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md) |
@@ -553,7 +557,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/schemas/routing-subject-binding.v1.schema.json`](schemas/routing-subject-binding.v1.schema.json) | [`contact-claim.v1.schema.json`](schemas-gen/schemas/contact-claim.v1.md) |
 | [`doc/project/40-proposals/068-api-surface-projection.md`](project/40-proposals/068-api-surface-projection.md) | [`artifact-delivery-admission-response.v1.schema.json`](schemas-gen/schemas/artifact-delivery-admission-response.v1.md), [`middleware-decision-response.v1.schema.json`](schemas-gen/schemas/middleware-decision-response.v1.md), [`middleware-status-response.v1.schema.json`](schemas-gen/schemas/middleware-status-response.v1.md), [`offer-catalog-query-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-query-response.v1.md), [`offer-catalog-status-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-status-response.v1.md) |
 
-- Canonical schemas: `193`
+- Canonical schemas: `195`
 - Generated schema docs: `193`
-- Positive examples: `211`
-- Negative examples: `141`
+- Positive examples: `213`
+- Negative examples: `143`

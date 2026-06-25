@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-06-24.
+Snapshot date: 2026-06-25.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -8,7 +8,7 @@ Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implement
 
 Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`, `story-011`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
 
-Change basis: this refresh incorporates the current worktree state on 2026-06-24 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, and the implemented P072 enforced capability registry plus authorization policy sidecar.
+Change basis: this refresh incorporates the current worktree state on 2026-06-25 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate and assistant-channel documentation, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, and the promotion of P072 to Solution 037 Capability Registry.
 
 Recent component deltas:
 
@@ -20,7 +20,7 @@ Recent component deltas:
   responses, receipts, disputes, and settlement-aware closure. The full P003
   NATS/JetStream plus Matrix collaborative-room transport remains post-MVP, and
   P011's broader collaborative/dispute lifecycle remains a later extension.
-- Proposal 072 is now implemented for the hard-MVP scope: `capability-registry.v1` is the machine source of truth, formal capability ids are checked for canonical grammar, status, wire-name uniqueness, derived surfaces, and use-specific eligibility, and capability advertisement, passport validation, host capability dispatch/routing, literal control-plane `POST /v1/host/capabilities/*` routes, and supervised middleware reports fail closed for unregistered or ineligible formal ids. `capability-authorization-policy.v1` adds the checked P071 Workbench/Interaction Broker authorization-policy sidecar for required grants, caller posture, approval mode, autonomy floor, and COI policy; daemon startup preflight validates both registry and policy, while runtime grant enforcement remains host-policy owned. Federation namespace governance remains a separate post-P072 proposal track.
+- Proposal 072 is now implemented and promoted to Solution 037 for the hard-MVP scope: `capability-registry.v1` is the machine source of truth, formal capability ids are checked for canonical grammar, status, wire-name uniqueness, derived surfaces, and use-specific eligibility, and capability advertisement, passport validation, host capability dispatch/routing, literal control-plane `POST /v1/host/capabilities/*` routes, and supervised middleware reports fail closed for unregistered or ineligible formal ids. `capability-authorization-policy.v1` adds the checked P071 Workbench/Interaction Broker authorization-policy sidecar for required grants, caller posture, approval mode, autonomy floor, and COI policy; daemon startup preflight validates both registry and policy, while runtime grant enforcement remains host-policy owned. Federation namespace governance remains a separate post-P072 proposal track.
 - Proposal 018 is no longer a low-coverage placeholder. Code review on
   2026-06-22 confirmed schema-gated `participant-capability-limits.v1`
   import/export, durable daemon replay, operator HTTP import/list/detail/clear,
@@ -63,10 +63,12 @@ Recent component deltas:
   `settlement-failed` recovery state for bridge failures after selection, operator
   visibility under `/admin/corpus/rounds`, and Story-011 acceptance coverage. Readiness is still
   below full MVP because actual AD `capability-many` runtime fan-out, P057
-  notifications, final answer/receipt exercise, and real Matrix live transport remain
-  open; P070 provides the durable room substrate, but Corpus still waits for live
-  transport and Inquirium session integration.
-- Room primitive is now tracked explicitly through Proposal 070. The current code
+  notifications, final answer/receipt exercise, and Corpus-specific live deliberation
+  policy/invite integration remain open. P070 no longer blocks Corpus at the generic
+  Room substrate level; the remaining live-deliberation blocker is the full Inquirium
+  thread/session runtime plus Corpus-owned room policy, invite, chair, answer, and
+  settlement extension work.
+- Room primitive is now tracked explicitly through Proposal 070 and Solution 036. The current code
   implements the durable Room skeleton, deterministic projection over Agora facts,
   signer-backed short-lived membership attestations, explicit POST attestation request
   contracts, no-disclosure request modes, per-exposure TTL caps, rate-limit/dedup,
@@ -79,9 +81,10 @@ Recent component deltas:
   over-cap TTL instead of silently clamping it, scopes rate-limit buckets by room, and
   records audit facts with `exposure`, `ttl/requested`, and `ttl/granted` while schema
   tests reject raw payload and passport bodies. P070 is now complete for
-  its standalone MVP and post-MVP primitive scope including Phase 5 attestation policy;
-  remaining work belongs to consumers such as Corpus and richer collaborative
-  answer-room products.
+  its functional standalone Room foundation, including the live plane required by
+  Corpus at the primitive layer. CR-88/CR-89 security hardening remains tracked as a
+  separate follow-up stream, and remaining product work belongs to consumers such as
+  Corpus and richer collaborative answer-room products.
 - Sensorium Workbench is now tracked through Proposal 071 as a post-MVP actuator
   foundation. The current code contains unwired Rust foundations for shared
   relative-path syntax validation (`relative-path-core`), the shared Sensorium
@@ -102,12 +105,13 @@ Recent component deltas:
   variable argv beyond an admitted profile prefix, keeps raw PTY input, resize,
   and signal operator-confirmed, retires session refs after use, records PID
   metadata, limits event payloads, applies SQLite retention cleanup, and
-  best-effort signals remembered orphan process groups at startup. Readiness
-  remains below MVP because patch execution, host Bounded Deferred Operation
-  registration for long commands, daemon interaction broker runtime, durable
-  host audit projection, full cryptographic grant issuance, source-provider
-  registry, captured-output publication, idle-timeout policy, and virtualized
-  backends are not wired yet.
+  best-effort signals remembered orphan process groups at startup. Patch apply is
+  now implemented as an artifact-backed, digest-verified, operator-confirmed path with
+  provenance and rollback for structured partial-write failures. Readiness remains
+  below MVP because host Bounded Deferred Operation registration for long commands,
+  daemon interaction broker runtime, durable host audit projection, full cryptographic
+  grant issuance, source-provider registry, AD/Memarium handoff for captured outputs,
+  idle-timeout policy, and virtualized backends are not wired yet.
 - Local Relationship Layer is now hard-MVP complete for the Node-owned slice: Proposal 065 and Solution 032 have contracts, pure core, vault-first daemon storage, sealed rebuildable SQLite projection, local control/host capabilities, operator class/membership/predicate/decision audit UI, package trust queue with approval history, canonical Messaging consumption, dynamic Artifact Delivery group resolution, repeatable Story-010 relationship acceptance runner, projection replay/privacy regression gates, and verified `remote-disclosed` node-operator-binding import through the identity control surface. Public federated Local Relationship capability, richer multi-operator UX, CI-provider wiring for the runner, revocation-view invalidation for imported binding evidence, and performance profiling under real relationship cardinalities remain post-MVP work.
 - Replay Scheduler M1 is now fully closed for the hard-MVP slice: the generic bounded scheduler, durable launch ledger, host-owned job-source merge, authority gate, cooperative shutdown, Agora projection replay action, and operator status/control surface are all documented as implemented. Richer Agora-domain panels and non-Agora maintenance jobs are post-M1 extensions.
 - Agora gained a generic encrypted-artifact Vault surface: `agora-vault-entry.v1` exposes only opaque artifact ids, kind, ciphertext, and cryptographic envelope metadata; supervised local routes are client-auth / daemon-dispatch gated, while remote provider deployments bind the same operations to the frozen `agora-vault@v1` passport profile.
@@ -207,9 +211,9 @@ Recent component deltas:
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `15` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `90` |
-| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `82` |
+| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `85` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
-| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `58` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `76` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 
 ## Solutions
@@ -252,3 +256,5 @@ Recent component deltas:
 | [Shared Offer Catalog](../60-solutions/033-shared-offer-catalog/033-shared-offer-catalog.md) | `true` | `true` | `false` | `90` |
 | [API Surface Projection](../60-solutions/034-api-surface-projection/034-api-surface-projection.md) | `false` | `true` | `true` | `100` |
 | [Interaction Broker](../60-solutions/035-interaction-broker/035-interaction-broker.md) | `false` | `false` | `false` | `25` |
+| [Room](../60-solutions/036-room/036-room.md) | `true` | `true` | `true` | `100` |
+| [Capability Registry](../60-solutions/037-capability-registry/037-capability-registry.md) | `true` | `true` | `false` | `100` |

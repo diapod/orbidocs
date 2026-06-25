@@ -40,3 +40,6 @@ nav:
   - "032-local-relationship-layer/032-local-relationship-layer.md"
   - "033-shared-offer-catalog/033-shared-offer-catalog.md"
   - "034-api-surface-projection/034-api-surface-projection.md"
+  - "035-interaction-broker/035-interaction-broker.md"
+  - "036-room/036-room.md"
+  - "037-capability-registry/037-capability-registry.md"

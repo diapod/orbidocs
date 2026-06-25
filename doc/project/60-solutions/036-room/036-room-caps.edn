@@ -1,0 +1,110 @@
+{:component/id :orbiplex/room
+ :component/title "Room"
+ :component/type :protocol-primitive
+ :component/status :done
+
+ :summary
+ "Generic subject-addressed collaboration primitive with functional foundations
+ for durable room facts, deterministic membership projection, signed membership
+ attestation, and bounded non-retentive live transport; security hardening is
+ tracked separately."
+
+ :must-implement
+ [{:cap/id :room-durable-record-family
+   :title "Durable Room Record Family"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/070-room-primitive.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas ["room.v1"
+             "room-membership.v1"
+             "room-event.v1"
+             "room-policy.v1"]
+   :responsibilities
+   ["Define subject-addressed room identity, policy, lifecycle, and durable event records"
+    "Publish and replay room records through Agora-addressed topics"
+    "Preserve signer authority, sequence ordering, high-water sequence, and expiry"
+    "Validate room policy profiles and exposure fields"
+    "Produce byte-stable deterministic projections from identical durable record sets"]
+   :status :done}
+
+  {:cap/id :room-membership-projection-attestation
+   :title "Membership Projection and Attestation"
+   :kind :authority-projection
+   :based-on ["doc/project/40-proposals/070-room-primitive.md"]
+   :schemas ["room-membership.v1"
+             "room-membership-attestation.v1"
+             "room-membership-attestation-request.v1"
+             "room-attestation-audit.v1"]
+   :responsibilities
+   ["Compute deterministic membership and lifecycle projections"
+    "Issue signed membership attestations through POST request contracts"
+    "Enforce invitee first-join, member self-attestation, and authority roster modes"
+    "Apply TTL caps, exposure-aware disclosure rules, deduplication, and rate limits"
+    "Use a 900 second core technical TTL maximum with stricter exposure-specific endpoint caps where applicable"
+    "Emit metadata-only audit facts for issue, refusal, deduplication, and rate-limit outcomes"]
+   :status :done}
+
+  {:cap/id :room-live-transport
+   :title "Live Room Transport"
+   :kind :transport-contract
+   :based-on ["doc/project/40-proposals/070-room-primitive.md"
+              "doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md"]
+   :schemas ["room-live-message.v1"
+             "room-membership-attestation.v1"]
+   :responsibilities
+   ["Define carrier-neutral live room frames"
+    "Admit joins and sends through room-scoped passports or membership attestations"
+    "Reject stale or revoked live credentials against durable projection membership"
+    "Enforce per-sender sequence duplicate suppression and bounded frame size"
+    "Keep bounded WebSocket and Matrix adapters behaviorally equivalent under conformance tests"
+    "Keep CR-88/CR-89 security-hardening findings visible as a separate follow-up stream"]
+   :status :done}
+
+  {:cap/id :room-consolidation-surface
+   :title "Room Consolidation Surface"
+   :kind :architecture
+   :based-on ["doc/project/40-proposals/070-room-primitive.md"
+              "doc/project/40-proposals/069-corpus.md"]
+   :schemas ["room.v1"
+             "room-membership.v1"
+             "room-event.v1"]
+   :responsibilities
+   ["Expose historical answer-room state as a Room projection"
+    "Express association-room lifecycle on the shared membership/event family"
+    "Provide the live plane expected by Corpus deliberation without adding a third room model"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :corpus-deliberation-rooms
+   :title "Corpus Deliberation Rooms"
+   :kind :domain-consumer
+   :based-on ["doc/project/40-proposals/069-corpus.md"
+              "doc/project/40-proposals/070-room-primitive.md"]
+   :schemas ["room.v1"
+             "room-policy.v1"
+             "room-live-message.v1"]
+   :responsibilities
+   ["Let Corpus define domain-specific room policy and invitations above Room"
+    "Keep reasoning, chairing, settlement, and contribution allocation outside Room Core"
+    "Reuse Room live transport rather than adding a Corpus-only chat substrate"]
+   :status :planned}]
+
+ :out-of-scope
+ ["Owning Corpus reasoning or answer synthesis"
+  "Owning procurement, settlement, contribution allocation, or payment"
+  "Treating live messages as archival facts by default"
+  "Bypassing durable room membership projection with live transport credentials"]
+
+ :consumes
+ ["Agora durable record pages"
+  "INAC or membership-attestation authorization material"
+  "room-policy.v1"
+  "host signing for membership attestations"]
+
+ :produces
+ ["room.v1"
+  "room-membership.v1"
+  "room-event.v1"
+  "room-live-message.v1"
+  "room-membership-attestation.v1"
+  "room-attestation-audit.v1"]}

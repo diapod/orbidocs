@@ -16,7 +16,9 @@ Based on:
 
 ## Status
 
-`implemented`
+`promoted`
+
+Promoted to: `doc/project/60-solutions/037-capability-registry/037-capability-registry.md`
 
 ## Date
 
