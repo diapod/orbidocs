@@ -700,10 +700,12 @@ still required because loopback is not authority.
 | structured terminal command | `sensorium.workbench.terminal` | Directive grant plus command profile admission; generated commands use argv data, not shell interpolation. |
 | raw terminal input / signal / resize | `sensorium.workbench.terminal` | Operator-only in MVP. |
 | terminal events / screen snapshots | `sensorium.workbench.terminal` | Read grant scoped to session ref and classification. |
+| terminal capture to artifact | `sensorium.workbench.terminal` + `sensorium.workbench.patch` | Terminal grant scoped to the session plus artifact-write grant; capture persists state and is not a read-only terminal action. |
 | file snapshot/read | `sensorium.workbench.file` | Bounded read grant scoped to workspace/root/path lease. |
 | patch apply | `sensorium.workbench.patch` | Write/patch grant plus digest/provenance checks; operator approval unless an explicit lease allows auto-apply. |
 | watches | `interaction-broker.watch` | Host broker grant scoped to observation source, cursor window, TTL, and classification. |
 | waits | `interaction-broker.wait` | Host broker grant scoped to observation source, deadline, and idempotency key. |
+| operation status | `interaction-broker.wait` | Status reads require an explicit wait grant; possession of an operation id is not authority. |
 | probes | `interaction-broker.probe` | Host broker grant scoped to target source and diagnostic purpose. |
 | environment create/read/close | `sensorium.workbench.env` | Environment grant scoped to backend, roots, teardown policy, and resource caps. |
 
@@ -1089,12 +1091,7 @@ watch/wait/probe replay semantics are backed by bounded retention.
 
 ## Open Questions
 
-1. **Command profile validation source.** Should the Python Workbench connector
-   call `sensorium-actuation-core` through a thin Rust CLI/RPC/FFI wrapper for
-   command-profile validation, or should Python keep a deliberately mirrored
-   validator with golden vectors as the single cross-language source of truth?
-   The current implementation uses the mirrored fail-closed validator and should
-   stay synchronized with Rust tests until this is decided.
+No open questions remain for the current local Workbench foundation slice.
 
 ## Resolved Decisions
 
@@ -1204,6 +1201,29 @@ watch/wait/probe replay semantics are backed by bounded retention.
     refuses empty paths, relative paths, duplicate `(workspace/ref, root/ref)`
     pairs, and the filesystem root itself. This does not make the connector a
     general filesystem broker; workspace roots remain operator-scoped grants.
+30. **Command profile validation source.** The Python Workbench connector keeps
+    a deliberately mirrored fail-closed validator in this slice, tightly coupled
+    to shared command-profile golden vectors also consumed by
+    `sensorium-actuation-core`. A Rust CLI/RPC/FFI validator remains a later
+    implementation option, adopted only when the runtime cost and packaging
+    surface are justified by evidence.
+31. **Terminal capture authorization.** Terminal capture is a terminal read plus
+    an artifact write. The session event read requires a
+    `sensorium.workbench.terminal` grant scoped to the session, while the
+    persisted capture artifact requires a separate `sensorium.workbench.patch`
+    artifact-write grant. Capability reports may use the patch capability as
+    the primary persisted-effect capability, but handlers must enforce both
+    sides.
+32. **Connector idempotency admission.** Connector-mediated probes, watches,
+    waits, terminal mutations, terminal capture, artifact writes, and patch
+    apply must carry a valid `idempotency/key`. The first local implementation
+    enforces presence at the connector boundary and de-duplicates async waits by
+    this key; broader host-issued replay tokens remain a later host-broker
+    layer.
+33. **Operation status authorization.** Deferred operation status is not public
+    by operation id. Status reads require an explicit capability grant for the
+    relevant operation family, with the local Workbench wait pilot using
+    `interaction-broker.wait`.
 
 ## Next Actions And Implementation Tracker
 
@@ -1219,12 +1239,13 @@ evidence) · `[!]` blocked/needs decision.
   implementation exposes a cross-process runtime surface. Solution 035 now
   defines Interaction Broker as a horizontal host primitive; the initial unwired
   Rust foundation exists in `node/interaction-broker-core`.
-- [~] Define the shared actuation core boundary consumed by Sensorium OS and
+- [x] Define the shared actuation core boundary consumed by Sensorium OS and
   Workbench. Initial unwired Rust foundation exists in
-  `node/sensorium-actuation-core`; Sensorium OS and Workbench do not consume it
-  yet. Decision: share contract and golden vectors from day zero; Workbench consumes the
-  Rust core first, while Python Sensorium OS runs conformance tests against the same
-  vectors without FFI.
+  `node/sensorium-actuation-core`. Decision for this slice: keep Python as a
+  deliberately mirrored validator, but bind it tightly to shared golden vectors.
+  Rust and the Python Workbench connector now both consume the relative-path and
+  command-profile golden vectors; direct FFI/RPC consumption remains a later
+  tracked stability step rather than the first boundary.
 - [x] Define `sensorium-workbench-environment.v1`.
 - [x] Define terminal session/command/raw-input/event/snapshot schemas. The accepted
   terminal observation model is a bounded viewport snapshot with cursor and backlog
@@ -1271,9 +1292,11 @@ evidence) · `[!]` blocked/needs decision.
   suite. The matrix is now specified as a refusal-first release gate and must be
   encoded as `sensorium-actuation-core` golden vectors plus Python Sensorium OS
   conformance tests before write/PTY runtime surfaces are enabled. Initial
-  relative-path golden vectors are published and consumed by Rust and the Python
-  Workbench connector tests; they reject traversal, embedded current-directory
-  components, trailing slash forms, and backslash separators.
+  relative-path and command-profile golden vectors are published and consumed by
+  Rust and the Python Workbench connector tests; they reject traversal, embedded
+  current-directory components, trailing slash forms, backslash separators,
+  missing fixed argv prefixes, disallowed executables, and variable argv atoms
+  outside explicit allowlisted prefixes.
 - [~] Enforce the Phase Release Gates before Phase 1+ runtime work: frozen schemas for
   exposed surfaces, registered capabilities, documented storage/recovery contract, and
   executable refusal-first golden vectors for the relevant effect classes.
@@ -1287,12 +1310,14 @@ evidence) · `[!]` blocked/needs decision.
   `/healthz`, `/readyz`, `/shutdownz`, `/v1/middleware/init`, status/config,
   factory config, and daemon factory/inventory coverage. It uses
   `seed_config: false` and remains disabled until an operator configures it.
-- [~] Consume the shared actuation core instead of reimplementing path,
+- [x] Consume the shared actuation core instead of reimplementing path,
   command-profile, allowlist, classification, and argv rules. The current
   connector follows the same conservative path/refusal semantics in Python and
-  is tested against shared relative-path golden vectors plus traversal,
-  root-self, and symlink-traversal refusal; direct binding/RPC to the Rust core
-  remains a later stability step.
+  is tested against shared relative-path and command-profile golden vectors plus
+  traversal, root-self, symlink-traversal refusal, oversized reads, dangerous env
+  stripping, and command-profile denial. This is the accepted first implementation
+  shape: a mirrored Python validator tightly coupled to golden vectors; direct
+  binding/RPC to the Rust core remains a later stability step.
 - [x] Implement host-local allowlisted workspace environment. The connector
   exposes configured `workspace_roots` as
   `sensorium-workbench-environment.v1`; missing, unavailable, relative,
@@ -1312,17 +1337,18 @@ evidence) · `[!]` blocked/needs decision.
   also caps command timeout and output bytes.
 - [~] Implement watch cursors for terminal events and operation outcomes. The
   connector exposes bounded synthetic/local event cursors for environment/read/probe
-  events and per-session terminal event cursors; generalized operation outcome
-  watches remain tied to later host-broker runtime work.
-- [~] Implement short bounded waits for command done, terminal quiescence,
+  events and per-session terminal event cursors; local deferred wait status is
+  visible through `/v1/workbench/operation/status`, while generalized operation
+  outcome watches remain tied to later host-broker runtime work.
+- [x] Implement short bounded waits for command done, terminal quiescence,
   environment ready, file exists, and artifact present. The connector now has a
-  synchronous bounded wait pilot over probe conditions, including
-  `terminal-command-done`; terminal quiescence and artifact-present waits remain
-  future source-provider work.
-- [~] Implement active probes for process liveness, environment readiness, file
+  bounded wait path over probe conditions for each MVP condition. Short waits run
+  synchronously up to `sync_wait_max_ms`; explicit async waits return
+  `deferred-operation.v1` and project through `deferred-operation-status.v1`.
+- [x] Implement active probes for process liveness, environment readiness, file
   existence/digest, and artifact presence. Environment readiness, file
-  existence/digest, process-alive, and terminal-command-done probes are
-  implemented; artifact probes remain future source-provider work.
+  existence/digest, process-alive, terminal-command-done, terminal-quiescent,
+  terminal-no-progress, and artifact-present probes are implemented.
 - [x] Keep raw PTY input disabled or operator-only until an explicit policy is
   accepted. Raw PTY input is implemented only as an operator-confirmed grant
   path; model-driven raw input remains denied.
@@ -1334,21 +1360,35 @@ evidence) · `[!]` blocked/needs decision.
 - [x] Implement file snapshot and bounded file read. Snapshot lists symlinks as
   metadata without following them; reads refuse symlink traversal and files over
   the host read cap.
-- [~] Implement patch apply from artifact ref with digest/provenance. Patch
-  apply is represented as a fail-closed gate that names required future
-  mechanics: artifact-ref input, unified diff/structured edits, no deletes by
-  default, digest checks, provenance, and approval policy.
-- [ ] Use Bounded Deferred Operations for environment setup or command runs that
+- [x] Implement patch apply from artifact ref with digest/provenance. Patch
+  apply is now an opt-in artifact-backed path behind
+  `sensorium.workbench.patch` plus operator confirmation. It verifies artifact
+  digest and size, supports structured create/replace/append plus a narrow
+  single-file unified-diff path, refuses deletes by default, plans structured
+  edits before applying them, rolls back previously applied structured writes
+  on later write failure, records metadata-only outcomes, and uses the same
+  workspace containment and symlink checks as reads.
+- [~] Use Bounded Deferred Operations for environment setup or command runs that
   outlive one HTTP request. The current terminal command endpoint returns
-  `202 accepted` and exposes event/wait polling, but it is still connector-local
-  rather than registered as a host Bounded Deferred Operation.
+  `202 accepted` and exposes event/wait polling. Async waits now return the
+  canonical `deferred-operation.v1` / `deferred-operation-status.v1` shapes,
+  require an explicit wait grant for status reads, de-duplicate by
+  `idempotency/key`, and mark interrupted pending/running wait operations as
+  failed with retry diagnostics on startup, but they are still connector-local
+  rather than registered in the daemon host Bounded Deferred Operation registry.
 - [~] Run the adversarial actuator test matrix before enabling write or PTY
   features by default. The current test slice covers traversal, root self,
   symlink traversal, oversized files, grant-required mediated read, command
   profile denial including variable argv beyond a fixed prefix, dangerous env
   override stripping, operator-only raw input denial, retired session refs, and a
-  PTY happy path; broader residual-child, egress, credential, replay, and
-  patch-write vectors remain.
+  PTY happy path. It now also covers artifact digest mismatch, terminal capture
+  to artifact, terminal-capture artifact-write grant refusal, delete-forbidden
+  patch apply, successful structured patch apply, structured patch rollback on
+  partial write failure, connector-local deferred wait projection, operation
+  status grant refusal, connector idempotency-key refusal, interrupted operation
+  recovery, and the daemon rule that Inquirium cannot directly invoke Sensorium
+  connectors. Broader residual-child, egress, credential, replay, and
+  virtualized-backend vectors remain.
 
 ### Phase 2 - Sensorium Integration
 
@@ -1362,38 +1402,50 @@ evidence) · `[!]` blocked/needs decision.
   file snapshot, file read, and patch apply. The connector enforces explicit
   grant envelopes for mediated file/probe/watch/wait actions and terminal
   actions; raw input, resize, and signal additionally require operator
-  confirmation. Full host-side cryptographic grant issuance remains future.
+  confirmation; terminal capture requires both terminal-session and
+  artifact-write grants; and operation status reads require an explicit wait
+  grant. Full host-side cryptographic grant issuance remains future.
 - [x] Extract Workbench grant/autonomy policy into the
   authorization-policy-as-data sidecar. `capability-authorization-policy.v1`
   now carries required grants, caller posture, approval mode, autonomy floor, and
   COI policy for the P071 Workbench and Interaction Broker capability ids; P072
   Phase 4 is marked landed against this contract.
-- [~] Record directive outcomes and metadata-only traces. Patch gates still
-  return `sensorium-workbench-outcome.v1`; terminal runtime now records sessions,
-  commands, and events durably in connector SQLite. Host audit projection of
-  those facts remains future. Session refs are retired after first use to keep
-  the audit trail unambiguous.
+- [~] Record directive outcomes and metadata-only traces. Terminal runtime now
+  records sessions, commands, events, terminal captures, local artifacts,
+  connector-local deferred waits, patch applications, and metadata-only outcomes
+  durably in connector SQLite. Host audit projection of those facts remains
+  future. Session refs are retired after first use to keep the audit trail
+  unambiguous.
 - [x] Add operator status/control surfaces for active sessions and sandboxes.
   `/v1/status` reports terminal enablement, PTY caps, active session count, and
   session summaries; session close is an explicit control surface. Sandboxes
   remain future virtualized backend work.
 - [~] Expose active waits, watches, deadlines, and suspected no-progress states
-  in operator status. Event cursors and command status are exposed; active wait
-  registry, deadlines, no-progress classification, and host-broker status remain
-  future.
-- [ ] Link captured outputs through Artifact Delivery or Memarium only under
-  explicit classification and retention policy.
+  in operator status. Event cursors, command status, connector-local active wait
+  count/status, and no-progress probe diagnostics are exposed; full host-broker
+  status remains future.
+- [~] Link captured outputs through Artifact Delivery or Memarium only under
+  explicit classification and retention policy. Terminal capture now writes a
+  bounded local artifact descriptor with classification and provenance; AD or
+  Memarium admission remains a separate explicit future handoff.
 
 ### Phase 3 - Inquirium/JSON-e Flow Integration
 
-- [ ] Add JSON-e Flow example: inspect terminal output through bounded snapshot.
-- [ ] Add JSON-e Flow example: model proposes command, host validates, Workbench
+- [x] Add JSON-e Flow example: inspect terminal output through bounded snapshot.
+  Implemented under
+  `node/middleware-runtime/fixtures/json-e-flow/sensorium-workbench/`.
+- [x] Add JSON-e Flow example: model proposes command, host validates, Workbench
   executes.
-- [ ] Add JSON-e Flow example: wait for a Workbench condition without private
+- [x] Add JSON-e Flow example: wait for a Workbench condition without private
   polling in the flow step.
-- [ ] Add Inquirium assistant-channel guidance for Workbench-backed tool use.
-- [ ] Add negative tests proving Inquirium cannot directly invoke Workbench
-  without grants.
+- [x] Add Inquirium assistant-channel guidance for Workbench-backed tool use.
+  The Workbench README and JSON-e Flow examples document the non-authoritative
+  Inquirium proposal path: model output becomes intent, while Sensorium grants
+  and Workbench execute.
+- [x] Add negative tests proving Inquirium cannot directly invoke Workbench
+  without grants. The daemon dispatch regression now explicitly asserts that
+  `inquirium-core` cannot dispatch `sensorium.connector.invoke`; only
+  `sensorium-core` may reach connector-local invoke.
 
 ### Phase 4 - Virtualized Backends
 
