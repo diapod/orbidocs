@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `44` | `10` |
 | `30-stories` (Stories) | `16` | `1` |
-| `40-proposals` (Proposals) | `75` | `64` |
+| `40-proposals` (Proposals) | `77` | `65` |
 | `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `55` | `34` |
 
-- Total project markdown files: `221`
-- Proposals referencing source material: `64` / `75`
+- Total project markdown files: `223`
+- Proposals referencing source material: `65` / `77`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
@@ -53,12 +53,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`artifact-object-pointer.v1.schema.json`](schemas-gen/schemas/artifact-object-pointer.v1.md) | `14` | `2` | `yes` | `yes` | `1` | `1` |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
-| [`capability-authorization-policy.v1.schema.json`](schemas-gen/schemas/capability-authorization-policy.v1.md) | `4` | `0` | `no` | `no` | `1` | `1` |
+| [`capability-authorization-policy.v1.schema.json`](schemas-gen/schemas/capability-authorization-policy.v1.md) | `4` | `0` | `no` | `yes` | `1` | `1` |
 | [`capability-passport-lookup.v1.schema.json`](schemas-gen/schemas/capability-passport-lookup.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
 | [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md) | `2` | `2` | `yes` | `yes` | `5` | `0` |
 | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md) | `13` | `12` | `yes` | `yes` | `0` | `0` |
 | [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | `14` | `13` | `yes` | `yes` | `0` | `0` |
-| [`capability-registry.v1.schema.json`](schemas-gen/schemas/capability-registry.v1.md) | `2` | `0` | `no` | `no` | `1` | `1` |
+| [`capability-registry.v1.schema.json`](schemas-gen/schemas/capability-registry.v1.md) | `2` | `0` | `no` | `yes` | `1` | `1` |
 | [`capability-schema-present.v1.schema.json`](schemas-gen/schemas/capability-schema-present.v1.md) | `4` | `4` | `yes` | `yes` | `1` | `0` |
 | [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `0` |
 | [`classification.v1.schema.json`](schemas-gen/schemas/classification.v1.md) | `7` | `7` | `yes` | `yes` | `4` | `4` |
@@ -558,6 +558,6 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/068-api-surface-projection.md`](project/40-proposals/068-api-surface-projection.md) | [`artifact-delivery-admission-response.v1.schema.json`](schemas-gen/schemas/artifact-delivery-admission-response.v1.md), [`middleware-decision-response.v1.schema.json`](schemas-gen/schemas/middleware-decision-response.v1.md), [`middleware-status-response.v1.schema.json`](schemas-gen/schemas/middleware-status-response.v1.md), [`offer-catalog-query-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-query-response.v1.md), [`offer-catalog-status-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-status-response.v1.md) |
 
 - Canonical schemas: `195`
-- Generated schema docs: `193`
+- Generated schema docs: `195`
 - Positive examples: `213`
 - Negative examples: `143`

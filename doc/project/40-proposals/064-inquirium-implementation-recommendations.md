@@ -1344,6 +1344,24 @@ PromptLayer {
 }
 ```
 
+Lower scopes use `PromptAssemblyPolicyAdjustment`, not a second full policy:
+
+```text
+PromptAssemblyPolicyAdjustment {
+  narrow/layer-ids[]           # may remove only parent layers marked narrowable
+  extend/layers[]              # new layers owned by the adjustment scope
+}
+```
+
+The daemon resolves adjustments in increasing specificity: selected
+`profile/ref`, selected `model.binding/ref`, then selected
+`adapter.instance/ref`. An extended layer must declare the origin matching its
+catalog scope, so an adapter instance cannot mint a `host-root` layer. A
+narrowing attempt against `fixed`, `required`, or merely `extendable` layers is
+rejected fail-closed. A single scoped adjustment may append at most 32 layers in
+the foundation implementation, keeping misconfigured catalogs from producing
+unbounded prompt-policy expansion at startup or invocation time.
+
 `position` is what makes "always send before / after the prompt" first-class:
 `preamble` layers render ahead of caller turns, `postamble` layers (output
 contract, refusal reminders, format guards) render after them.
@@ -1384,19 +1402,31 @@ AssembledPrompt {
   protocol/epoch
   hierarchy/version
   caller-turns/count
-  accepted_layers[]
+  accepted_layers[]            # + content/source: inline-text
+                               #   | resolved-content-ref
   adapted_layers[]             # + rendered_as: layer kept but re-rendered to a
                                #   supported role/format (e.g. developer -> system)
+                               #   + content/source
   rejected_layers[]            # + reason: cap-exceeded | narrowed-away
                                #            | override-denied
 }
 ```
 
-`instruction/hash` is computed over canonical JSON for the host-owned
-instruction material, accepted/adapted layer identity, and the caller turn count.
-It deliberately does **not** hash caller text or rejected layers; audit/replay
-must supply caller turns separately and use the accepted/adapted/rejected layer
-lists to explain the assembly decision.
+`instruction/hash` is computed over NFC-normalized canonical JSON for the
+host-owned instruction material, accepted/adapted layer identity, content source,
+and the caller turn count. It deliberately does **not** hash caller text or
+rejected layers; audit/replay must supply caller turns separately and use the
+accepted/adapted/rejected layer lists to explain the assembly decision. NFC
+normalization is part of the prompt-assembly hash profile because prompt layers
+are human-authored text that may arrive from different editors, clipboards, and
+operating systems with different Unicode composition behavior.
+
+Prompt instruction caps are enforced with a deterministic host estimator rather
+than a provider tokenizer in this foundation slice: non-whitespace Unicode scalar
+values are counted as approximately one token per four characters, rounded up.
+This is a bounded approximation for admission and audit, not a claim that every
+adapter uses the same tokenizer. Adapter-specific tokenizers and exact metering
+belong to the later budget/metering layer.
 
 `inquirium_generate_adapter_body` then consumes `AssembledPrompt.messages`
 instead of raw `request.turns`. Prompt assembly applies only to instructional and
@@ -1428,6 +1458,12 @@ rejection. `rejected_layers[]` is reserved for layers actually dropped
 (cap-exceeded, narrowed-away, override-denied). The adapter manifest declares
 `supports/instruction-roles[]` so folding is a host decision, not an execution
 detail.
+
+Implementation note: the daemon projects the signed adapter-manifest role
+claim into the typed model-runtime catalog as `adapter_implementations[*].
+instruction_roles`. If prompt layers exist and a selected adapter implementation
+has no declared instruction roles, prompt assembly fails closed instead of
+assuming an all-role adapter.
 
 This makes the always-before/always-after content auditable end to end: one
 `instruction/hash` per request, a stable `protocol/epoch`, and an explicit
@@ -2320,7 +2356,7 @@ Status values:
 | `inq-embed-host-surface` | Expose direct embedding through the same host capability and audit model as text generation. | `done` | Daemon exposes `POST /v1/host/capabilities/inquirium.embed`, advertises it through host capability discovery when an implemented handler is routable, requires explicit inference grants for module callers, selects `embed` runtime candidates by host-owned model binding, and writes metadata-only traces under `trace/inquirium/embed` with host-keyed request digests and no input text or vector values. The first handler is local deterministic-stub coverage; provider-backed embedding adapters remain future work. |
 | `inq-direct-data-plane` | Add durable direct data-plane leases, artifact output persistence, and deferred long operations. | `done` | Daemon persists model-runtime leases in SQLite, exposes local lease create/read APIs, rejects remote raw file leases, hides expired leases, restricts caller metadata, admits `batch.embed` through `DeferredOperationRegistry`, and verifies/writes pilot output artifacts through the object store with selected-binding and operation-bound write-lease provenance. |
 | `inq-conformance-runner` | Add conformance fixture execution, durable reports, and report-backed routability. | `done` | Daemon persists conformance reports in SQLite, exposes `run-conformance` as a component action for `model-runtime:{runtime/ref}`, evaluates generate fixtures with required/forbidden JSON pointers and max duration, and keeps candidates that require conformance non-routable until the current fixture digest has a passing report. |
-| `inq-prompt-assembly-policy` | Add a host-owned, layered prompt/instruction assembly stage (see *Configurable Prompt Assembly Policy*): configurable globally and explicitly extended or narrowed per profile, model-binding, and adapter-instance, feeding adapters an already-rendered explicit message stack. | `in-progress` | `node/inquirium-core` now owns `PromptAssemblyPolicy`/`PromptLayer`/`AssembledPrompt` with preamble/postamble positions, `class/key` selection, unique `layer/id` validation, bounded layer/token caps, role-fold adaptation trace, rejected-layer trace, canonical-JSON-backed `instruction/hash`, `caller-turns/count`, and a host-supplied resolver path for `content/ref`. `node/daemon` now runs the default trace-only assembly stage before `inquirium_generate_adapter_body`, forwards `AssembledPrompt.messages`, and attaches prompt-assembly trace metadata. Tests cover override-above-host-root ordering, duplicate layer ids, required cap-exceeded fail-closed, conservative character-count cap, role-fold-recorded-as-adapted-not-rejected, content-ref materialization, caller boundary count in the hash, daemon adapter-body trace projection, and `embed` rejecting text prompt-assembly payloads. Remaining work: load and merge real global/profile/model-binding/adapter-instance prompt policy, use adapter manifest `supports/instruction-roles[]` instead of default all roles, and enforce full extend/narrow adjustment semantics for configured lower scopes. |
+| `inq-prompt-assembly-policy` | Add a host-owned, layered prompt/instruction assembly stage (see *Configurable Prompt Assembly Policy*): configurable globally and explicitly extended or narrowed per profile, model-binding, and adapter-instance, feeding adapters an already-rendered explicit message stack. | `in-progress` | `node/inquirium-core` now owns `PromptAssemblyPolicy`/`PromptAssemblyPolicyAdjustment`/`PromptLayer`/`AssembledPrompt` with preamble/postamble positions, `class/key` selection, unique `layer/id` validation, scoped `extend/layers` and `narrow/layer-ids`, fixed/required/narrowable enforcement, bounded layer/token caps, a 32-layer cap per scoped adjustment, role-fold adaptation trace, rejected-layer trace, NFC-normalized canonical-JSON-backed `instruction/hash`, `caller-turns/count`, `content/source` on accepted/adapted layers, fail-closed unknown-field handling for layer content, and a host-supplied resolver path for `content/ref`. `node/daemon` now owns a real `inquirium.prompt_assembly` sourcechain (`host_root` -> `organ` -> `operation.generate`) with a default fixed host-root boundary layer, non-empty host_root enforcement, startup validation for origin monotonicity, required/fixed host-root and organ layers, and fail-closed unknown operation keys; the effective generate policy is stamped into `node/model-runtime` catalog `prompt_assembly`. `node/model-runtime` also carries scoped prompt adjustments on runtime profiles/model bindings/adapter instances and adapter implementation `instruction_roles`; `node/daemon` validates configured `generate` runtime candidates, including profile-specific sourcechains, during config loading so misordered or unsupported layers fail before the daemon accepts the catalog. `node/daemon` resolves profile -> model-binding -> adapter-instance adjustments into `RuntimeInvocationContext.prompt_assembly`, refuses prompt layers when the selected adapter implementation has no manifest-declared roles, runs the resolved assembly stage before `inquirium_generate_adapter_body`, forwards `AssembledPrompt.messages`, and attaches prompt-assembly trace metadata. Bundled Python adapter manifests now declare `supports/instruction-roles[]`. Unit and golden tests, including `node/protocol/contracts/golden/inquirium-prompt-assembly-resolved.v1.json`, cover override-above-host-root ordering, duplicate layer ids, required cap-exceeded fail-closed, fixed-layer narrow denial, scoped origin mismatch, sourcechain ordering, empty-base extension, adapter-instance scoped extension, per-adjustment extend cap, profile/binding/adapter merge, manifest role requirement, resolved policy wire shape, resolved message order, daemon config sourcechain loading, candidate sourcechain startup denial, spoofed stratum-origin denial, unknown operation-key denial, empty host-root denial, default host-root framing through HTTP adapters, four-character token-estimator cap, role-fold-recorded-as-adapted-not-rejected, content-ref materialization/source trace, caller boundary count in the hash, Unicode-normalized instruction hashing, layer-content unknown-field rejection, daemon adapter-body trace projection, and `embed` rejecting text prompt-assembly payloads. Remaining work: wire a real host content-ref materializer and extend operation-specific policy loading when future text-generative operations need it. |
 | `inq-io-schema-contract` | Host-owned Output Schema Contract: broadcast a `schema/ref`, enforce it at the strongest available tier, validate, pre-parse, and bound repair (see *I/O Contract*). | `todo` | `inquirium-core` carries the output `schema/ref`, tier selection (`native`/`primed`/`validated`), and `ParsedEnvelope`/`io.repair` shapes; host emits `Invalid { schema/ref, violations[] }` with JSON Pointers, uses `native + validated` for effect-gating schemas, caps repair attempts (default 1), and bounds byte size, nesting depth, arrays, and object members before tolerant parsing; constrainable-schema declarations include explicit maximum depth/properties/enum values/formats/recursion support; grammar-capable runtimes must pass a termination conformance fixture before routability; the constrained-grammar artifact is cached by `(schema-hash, tokenizer/model)`; trace records tier, repair count, and cache reuse. |
 | `inq-adapter-capability-negotiation` | Let adapters declare structured-I/O capabilities so the host chooses I/O strategy instead of each adapter reimplementing it. | `todo` | Adapter manifest declares `supports/json-mode`, `supports/json-schema` (+ constrainable subset and limits), `supports/grammar`, `supports/tool-call`, `supports/system-role`, `supports/developer-role`, `supports/native-rails`, `supports/streaming`, and `max-output-tokens`; host selects schema tier and instruction-role folding from these; effective output tokens are the minimum of request, runtime/profile budget, and adapter maximum; missing required limits deny safety-critical operations; a safety-relevant declared capability is not trusted until a conformance fixture proves it; declarations are versioned. |
 | `inq-comm-dialect-envelope` | Add the canonical content/control communication envelope so model output is typed at the boundary. | `todo` | `inquirium-core` defines `GenerateOutputEnvelope { content, epistemic, params, control }`; existing `output[]` text blocks are the simplest `content` projection; `content` is always data and never auto-interpreted as instructions; empty content is legal only for explicit degraded/refusal/control-only outcomes; the closed `control` channel is host-validated and capability-gated so a model-asserted control item is a request, not a self-executing effect; adapters map provider output into the envelope; tests cover injection attempts through `content`. |
