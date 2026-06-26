@@ -6,6 +6,8 @@
   <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiplex Logo" width="240">
 </p>
 
+> *Agency does not exist in a vacuum — it is born in relationships that lead us to act together. Orbiplex's relational agency is sovereign AI nodes in service of community.*
+
 ## Sovereignty of Intelligence and Knowledge
 
 This document describes a swarm of free artificial-intelligence models - an

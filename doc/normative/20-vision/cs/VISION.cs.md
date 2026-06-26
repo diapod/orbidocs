@@ -6,6 +6,8 @@
   <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiplex Logo" width="240">
 </p>
 
+> *Schopnost jednat neexistuje ve vakuu — rodí se ve vztazích, které nás vedou ke společnému jednání. Relační schopnost jednat Orbiplexu jsou suverénní uzly AI ve službě společenství.*
+
 ## Suverenita inteligence a vědění
 
 Tento dokument popisuje roj svobodných modelů umělé inteligence – infrastrukturu,

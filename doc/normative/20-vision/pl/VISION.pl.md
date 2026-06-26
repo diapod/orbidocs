@@ -6,6 +6,8 @@
   <img src="styles/img/dia-logo-tr-sm.png" alt="DIA/Orbiplex Logo" width="240">
 </p>
 
+> *Sprawczość nie istnieje w próżni — rodzi się w relacjach, które prowadzą nas do wspólnego działania. Relacyjna sprawczość Orbipleksu to suwerenne węzły AI w służbie wspólnoty.*
+
 ## Suwerenność inteligencji i wiedzy
 
 Ten dokument opisuje rój wolnych modeli sztucznej inteligencji – infrastrukturę,
