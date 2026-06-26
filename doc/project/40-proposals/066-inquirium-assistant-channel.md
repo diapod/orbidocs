@@ -266,19 +266,17 @@ Guardrails:
 - prompt-per-class is behavior shaping, not enforcement;
 - every resolved variant should be traceable.
 
-**Home (resolves Open Question 6).** The generic *mechanism* — `ClassKeyed<T>`
-plus `resolve(classification)` (most-restrictive fallback) and the
-monotonicity validator — lives in the `classification` crate, beside
-`Classified<T>` and the lattice. Rationale: it is the configuration dual of an
-already node-wide primitive; its correctness depends on the classification
-lattice (`is_at_least_as_restrictive_as`, `Join`) and must be uniform — a
-safety-critical rule that must not be re-implemented per consumer; and it is tiny
-and pure, so the shared home adds no heavy dependency. This is not premature
-generalization: it places the dual where the original lives, with Inquirium as
-its **first** consumer. Other consumers (e.g. Memarium's classification-aware
-retention/declassification, which is already `ClassKeyed`-shaped) adopt it **when
-touched**, not by anticipation. The class-keyed config *schemas* (prompt, KV,
-retention, redaction, adapter params) stay in `inquirium-core`.
+**Home (resolves Open Question 6).** The generic *mechanism* — ordered-axis
+ranking plus shared resolution for closed ranked axes — lives in the
+`classification` crate, beside `Classified<T>` and the lattice. The concrete
+`ClassKeyed<T>` and `ModeKeyed<T>` DTOs stay in `inquirium-core`, where their
+domain meaning is owned. Rationale: the reusable part is the tiny, pure
+fallback resolver; the class-keyed schemas and monotonicity rules remain
+domain-specific. This is not premature generalization: it places the common
+mechanic where the original classification axis lives, with Inquirium as its
+**first** consumer. Other consumers adopt the mechanism **when touched**, not by
+anticipation. The class-keyed config *schemas* (prompt, KV, retention,
+redaction, adapter params) stay in `inquirium-core`.
 
 `ModeKeyed<T>` (Decision 8.4) remains a **separate named idiom** but shares the
 same resolution **mechanism**: both are an ordered-axis keyed config with
@@ -289,6 +287,21 @@ a shared *type*; a generic "any lattice + any config" type would invite a fifth 
 sixth axis (`TrustKeyed`, `TimeKeyed`, …) creeping into a safety primitive. The
 shared `resolve()` is implemented once; `ClassKeyed` and `ModeKeyed` stay distinct
 concrete types.
+
+Implementation ownership: the shared ordered-axis resolver mechanism lives in the
+`classification` crate as a tiny pure primitive (for example a free function or
+trait over ranked keys). `inquirium-core` owns the concrete `ClassKeyed<T>` and
+`ModeKeyed<T>` DTOs and calls that mechanism. "Most restrictive" is axis-specific: for
+classification it means `Public < Community < Personal`; for assistant mode it
+means `Commons < Support < Crisis`. The shared mechanism is the ordered fallback
+and monotone validation pattern, not a claim that the two axes have the same
+domain semantics. If no value exists on any configured tier, resolution fails
+closed with a typed configuration error rather than panicking or inventing a
+default.
+
+Monotonicity is enforced both when keyed configuration is accepted and when it is
+resolved for use. A stale or hand-edited config file must not bypass the guard
+merely because validation happened earlier in the lifecycle.
 
 ### Decision 7: Observability Is A Read Projection, Not A Chat Transcript
 
@@ -362,16 +375,26 @@ append-only fact (facts over overwrite) — recorded with the inquiry session. N
 hidden auto-learning; correction is an explicit operator act. This realizes "truth
 as a feedback loop: prediction → outcome → update".
 
+Feedback projections use latest-valid-fact-wins for display while preserving the
+full append-only history. A feedback fact may become a training candidate only
+when it carries an explicit training-candidate flag and a separate operator grant;
+unknown training-related fields are rejected at the schema boundary rather than
+silently interpreted.
+
 **8.4 Mode-aware rigor (`ModeKeyed<T>`).** `ModeKeyed<T>` is a **separate idiom**
 from `ClassKeyed<T>`, not a merged key: the two axes are orthogonal —
 classification is *what the data is*, mode is *which regime the node operates in*.
 A given config may be `ClassKeyed`, `ModeKeyed`, or both, resolved independently.
 Modes follow the vision work classes: `commons` (normal), `crisis`
 (`disaster`/`war`/`blackout`), `support` (`shelter`/`food`/`legal`/`medical`).
+For the assistant rigor axis, `support` is treated as stricter than `commons`,
+and `crisis` as stricter than `support`; deployments that need a different
+ordering must define a new mode policy rather than silently reordering this one.
 Rigor is **monotone in mode severity**: a more severe mode may only tighten (more
 verification, stricter egress, lower default `confidence` assertion), never
-loosen. `resolve(mode)` shares the most-restrictive-fallback semantics and
-monotonicity guard of `ClassKeyed`.
+loosen. `resolve(mode)` shares the most-restrictive-fallback mechanism and
+monotonicity guard of `ClassKeyed`, while the two axes remain semantically
+separate.
 
 **8.5 Baseline assistant as universal minimum.** The Phase 1 local-only profile
 is declared a **non-withdrawable baseline** (`baseline-assistant`): it must
@@ -394,11 +417,33 @@ LM Studio, a future MLX/edge runtime) is an **instance** that passes a
 first conformant instance, not the definition. Inquirium selects `baseline-assistant`
 only among conformance-positive runtimes.
 
+Minimum profile for the first conformance suite:
+
+- `generate` support with at least a 2048-token effective context window;
+- local transport only: `in_process`, `command_stdio`, or supervised/unmanaged
+  loopback HTTP; no remote HTTP API candidate;
+- no tool surface, no MCP bridge, no provider-managed tool execution;
+- output capped at 16 KiB before transcript persistence, matching the current
+  host-enforced assistant output boundary;
+- no telemetry, vendor logging, or network egress beyond the local runtime
+  boundary;
+- no remote fallback when the local candidate is unavailable.
+
 A runtime is not selectable as `baseline-assistant` by configuration label alone.
 The current node environment must have a fresh passing
-`BaselineAssistantProfile` conformance report for that runtime candidate. A stale
-or missing report makes the candidate unavailable for the baseline profile, even
-if ordinary non-baseline routing could still consider it.
+`BaselineAssistantProfile` conformance report for that runtime candidate. Fresh
+means the report is for the current fixture digest, current runtime candidate,
+current host class, and is no older than the configured baseline TTL (default:
+seven days). A stale or missing report makes the candidate unavailable for the
+baseline profile, even if ordinary non-baseline routing could still consider it.
+This does not contradict non-withdrawability: the **profile and right to a local
+baseline** are non-withdrawable; a concrete runtime still has to prove that it
+currently satisfies the profile.
+
+The baseline profile is not an ordinary operator-toggleable config item. Its
+definition is deployment/constitutional surface: an operator may disable a
+broken runtime candidate, but removing the `baseline-assistant` profile itself
+requires the same level of change control as other universal-minimum guarantees.
 
 **8.6 Non-dopamine UX (schema, not convention).** The assistant surface must not
 use engagement-maximizing patterns: no unsolicited initiation, no streak/nudge/
@@ -407,6 +452,11 @@ suggests" from "I decided". These are encoded in the assistant UI-preferences
 schema — e.g. `streak_count` and `nudge_after` are forbidden fields, `initiation`
 is an enum whose only value is `never` — and asserted by a CI test that the
 preferences conform. Schema over convention, so the invariant cannot quietly drift.
+The forbidden-pattern list is intentionally non-exhaustive and should also reject
+equivalent fields such as leaderboards, achievements, attention scores, and
+"things waiting for you" counters on the assistant surface. This gate is scoped
+to the assistant UI; it does not define every possible notification policy for
+other surfaces.
 
 Guardrails:
 
@@ -452,6 +502,12 @@ non-federating, and limited to the baseline assistant. It must not grow into a
 second Memarium or an alternate source of transcript truth. When Memarium later
 becomes available, any migration or export is an explicit operator-visible
 operation, not an automatic background merge.
+
+Consequence: local fallback facts stay local-only until such an explicit
+operator migration or export. The fallback path must not publish transcript facts
+to Agora, Messaging, Seed Directory, federation, or any other swarm-visible
+surface. This keeps "baseline assistant works without Memarium" separate from
+"assistant transcript is a federated fact plane".
 
 **Nomenclature:** transcript facts are `inquirium.inquiry-turn.v1` and
 `inquirium.inquiry-result.v1` — *not* `observation` (observation is Sensorium's
@@ -587,6 +643,15 @@ A join requires the right to read *both* the trace stream and the Memarium space
 so the trace can never read itself into a transcript. `persist/prompt: false` /
 `persist/response: false` are **schema defaults**, not adapter conventions.
 
+The trace `policy` block records the **resolved effective policy** used for the
+turn, not merely the caller-requested policy. Requested policy may be retained in
+the transcript or request audit where classification permits, but trace readers
+must be able to explain why the host admitted, narrowed, or denied the turn by
+looking at the resolved policy alone. Optional diagnostics are omitted when
+absent rather than represented as required `null` fields. Trace records are
+bounded; oversize diagnostic values are summarized by digest/ref and never force
+prompt or response content into the trace stream.
+
 **Naming convention.** Record type in a storage stream is
 `<owner-component>/<artefact>.<vN>` (e.g. `daemon/inquirium-assistant-turn-trace.v1`);
 payload schema in the record body is `<organ-domain>.<artefact>.<vN>` (e.g.
@@ -720,9 +785,12 @@ widget for a "type your passphrase" one).
 pending -> answered | timed_out | cancelled | superseded
 ```
 
-Only `answered` may unblock the operation with operator-provided input.
-`timed_out`, `cancelled`, and `superseded` fail closed unless the request declares
-an explicit safe default such as `default/on-timeout`.
+Only `answered` may unblock the operation with operator-provided input. The
+request is always the `ask` phase; answers use a separate host route/contract and
+the model cannot answer its own prompt. `timed_out`, `cancelled`, and
+`superseded` fail closed; only an explicitly declared safe default such as
+`default/on-timeout` may unblock, and that default must be conservative for the
+operation (normally `no`, `deny`, or `do-not-egress`).
 
 **Interaction contract ≠ notification contract.** The interaction request is the
 blocking primitive. The host MAY *derive* a `notification-create.v1` with
@@ -749,10 +817,14 @@ host-owned interaction. It may also point to a dedicated interaction page. In bo
 cases the interaction record remains the authoritative object that blocks and
 unblocks the workflow.
 
-**Phase staging.** Phase 1 escalations are minimal (baseline unavailable,
-sustained degradation). Policy-approval prompts (remote-runtime / egress approval)
-arrive with Phase 2 context/egress. Action-gating prompts belong to Phase 3
-(agency) and require capability + Protocol Gate; a timeout there fails closed.
+**Phase staging.** Phase 1 escalations are minimal and concrete: baseline
+unavailable, repeated local runtime failures, and stale or expired baseline
+conformance. "Sustained" means a configured threshold rather than a single
+transient failure; a practical default is three consecutive failed attempts or
+one expired required conformance report. Policy-approval prompts (remote-runtime
+/ egress approval) arrive with Phase 2 context/egress. Action-gating prompts
+belong to Phase 3 (agency) and require capability + Protocol Gate; a timeout
+there fails closed.
 
 Resolution text:
 
@@ -1026,6 +1098,11 @@ Done criteria:
 
 Goal: allow actions only when explicitly enabled and capability-gated.
 
+These effects are realized through the Agent organ (Proposal 073), which owns the
+bounded controller, lifecycle, budget, and spawn/stop semantics. The assistant is
+one operator-facing surface that may drive an Agent under explicit capability and
+human-in-the-loop; it never becomes an ambient agent of its own.
+
 Tasks:
 
 - define action capabilities and protocol gates;
@@ -1192,7 +1269,7 @@ That advisory remains only a working note; this table is the canonical backlog.
 | `assistant-transcript-store-contract` | Define `InquiryTranscriptStore` trait (append fact, query, retention, excise; classification first-class). | `done` | `inquirium-core` exposes the transcript trait and fact/receipt/query DTOs with classification fields and principal-scoped query/excision shape. |
 | `assistant-history-per-participant` | Scope assistant history to the participant. | `in-progress` | Daemon fallback transcript refs are principal-scoped and request-body `participant/ref` is not authoritative; Memarium space mapping and cross-device survival remain later work. |
 | `assistant-transcript-memarium-impl` | Memarium-default impl via `memarium.write` op `write_fact`. | `done` | Daemon transcript writes first try host-owned `memarium.write` facts (`inquirium.inquiry-turn.v1`, `inquirium.inquiry-result.v1`, and audit excision markers) with classification-derived space mapping, provenance fields, tags, and idempotency keys; the local non-federating stream remains the bounded fallback/read-index when Memarium is disabled or rejects the write. |
-| `assistant-transcript-baseline-fallback` | Degenerate local transcript store when `memarium_enabled` is false. | `done` | Daemon implements the `InquiryTranscriptStore` boundary with a local non-federating transcript stream keyed by host principal and session, including query and local-control-only metadata excision markers; participant-scoped Memarium migration/export semantics remain later work. |
+| `assistant-transcript-baseline-fallback` | Degenerate local transcript store when `memarium_enabled` is false. | `done` | Daemon implements the `InquiryTranscriptStore` boundary with a local non-federating transcript stream keyed by host principal and session, including query and local-control-only metadata excision markers; it has no automatic Agora/Messaging/Seed Directory/federation publication or background merge path; participant-scoped Memarium migration/export semantics remain later work. |
 | `assistant-transcript-blob-ref` | Bulk/binary content to object-store; only descriptor/provenance/ref in Memarium. | `todo` | `memarium.write` stays a fact-plane; no bulk content pushed through the governed append log. |
 | `assistant-transcript-projection` | Search + semantic/thematic tagging as a projection over Memarium streams. | `todo` | Read model over `memarium:{space}:entries`/`:facts`; rebuildable by replay; not a second source of truth. |
 | `assistant-transcript-retention` | Inquirium declares retention; Memarium enforces. | `in-progress` | `AssistantRetentionPolicy` is class-keyed in `inquirium-core` and daemon honors transcript on/off for the local fallback; Memarium enforcement remains later work. |
@@ -1204,30 +1281,30 @@ That advisory remains only a working note; this table is the canonical backlog.
 | `assistant-model-acceptance-policy` | Add classification-aware model acceptance policy. | `in-progress` | `ContextAcceptancePolicy` supports class-keyed include/drop/fail-closed decisions; declassification and remote-egress acknowledgement remain later work. |
 | `assistant-model-egress-ack` | Validate high-sensitivity model acceptance and remote egress. | `todo` | Remote provider plus high `accepts_max_tier` is rejected unless an explicit operator acknowledgement exists; model locality remains a consequence of accepted classification bounds. |
 | `assistant-context-decision-tracing` | Trace each context element's policy decision. | `done` | Assistant trace and transcript facts carry prompt-free context decision records with `context/ref`, source metadata, grant ref, effective tier, and include/drop/fail decision; model-egress enrichment remains later work. |
-| `class-keyed-mechanism-in-classification` | Put generic `ClassKeyed<T>` mechanism (resolve + monotonicity validator) in the `classification` crate, beside `Classified<T>`. | `todo` | Mechanism lives with the lattice; safety resolution implemented once; shared `LatticeKeyed` kernel may back `ClassKeyed` and `ModeKeyed`. |
-| `assistant-class-keyed-config` | Inquirium class-keyed config schemas in `inquirium-core` (Inquirium as first consumer). | `in-progress` | `ClassKeyed<T>` is present in `inquirium-core` and used for retention/context policy; generic classification-crate mechanism and monotonic validators remain open. |
+| `class-keyed-mechanism-in-classification` | Put the shared ordered-axis resolve mechanism in the `classification` crate, beside `Classified<T>`. | `in-progress` | `classification` now owns `OrderedAxisRank`, `OrderedAxisKey`, and `resolve_ordered_axis`; `inquirium-core` `ClassKeyed<T>` and `ModeKeyed<T>` both use that resolver. Concrete DTOs remain in `inquirium-core` as decided above. Remaining work: shared monotonicity helper coverage for class-keyed policies when new class-keyed config families are accepted. |
+| `assistant-class-keyed-config` | Inquirium class-keyed config schemas in `inquirium-core` (Inquirium as first consumer). | `in-progress` | `ClassKeyed<T>` is present in `inquirium-core` and used for retention/context policy over the shared `classification` ordered-axis resolver. The per-classification prompt template named here is realized through `PromptLayer.class/key` in the host-owned `PromptAssemblyPolicy` (P064, *Configurable Prompt Assembly Policy* / tracker `inq-prompt-assembly-policy`), so the assistant does not grow a second prompt-shaping path. |
 | `assistant-observability-feed` | Add optional Activity feed over Inquirium traces. | `done` | `inquirium.assistant.activity.feed` returns metadata-only assistant trace items; module callers are denied, Node UI has a bounded limit selector, and local-control test covers the path. |
 | `assistant-no-swarm-gossip` | Keep assistant transcript/activity/trace local by default. | `done` | Assistant transcript, trace, and feed are local storage/control surfaces only; no Agora, Seed Directory, Messaging, or swarm publication path is wired. |
 | `assistant-principal-boundary` | Bind assistant audit and transcript namespace to host-authenticated principal, not request body. | `done` | Daemon derives `principal/ref` from the caller/module or configured local operator, scopes transcript refs by `(principal, session)`, and records request-body participant only as non-authoritative metadata. |
 | `assistant-turn-idempotency` | Add idempotency for `inquirium.assistant.turn`. | `done` | `AssistantTurnRequest` accepts `idempotency/key`; daemon replays the prior principal/session-scoped result and records duplicate traces without appending duplicate transcript facts. |
 | `assistant-output-boundary` | Cap assistant response output before transcript persistence. | `done` | Daemon truncates completed assistant text output at the host boundary, preserving UTF-8 validity and recording diagnostics plus epistemic caveats when truncation happens. |
-| `assistant-escalation-policy` | `ModeKeyed` escalation threshold (feed → notification). | `in-progress` | `inquirium-core` now has typed escalation reasons and conservative default levels for feed/notification/operator-prompt decisions; full `ModeKeyed`/`ClassKeyed` policy configuration and P057 delivery integration remain later work. |
-| `assistant-operator-question` | Host-owned `inquirium.operator-question.request.v1` (blocking operator prompt). | `in-progress` | `inquirium-core` now validates the typed request contract with operation refs, classification, provenance, timeout default, and registered widget kinds; daemon persistence and the `pending -> answered | timed_out | cancelled | superseded` lifecycle remain later work. |
+| `assistant-escalation-policy` | `ModeKeyed` escalation threshold (feed → notification). | `in-progress` | `inquirium-core` now has typed escalation reasons and conservative default levels for feed/notification/operator-prompt decisions; Phase 1 escalates only baseline unavailable, repeated local runtime failure, and stale/expired baseline conformance; full `ModeKeyed`/`ClassKeyed` policy configuration and P057 delivery integration remain later work. |
+| `assistant-operator-question` | Host-owned `inquirium.operator-question.request.v1` (blocking operator prompt). | `in-progress` | `inquirium-core` now validates the typed request contract with operation refs, classification, provenance, timeout default, and registered widget kinds; requests are the `ask` phase only, answers use a separate host route/contract, and timeouts/cancels/supersedes fail closed unless a conservative explicit default is declared; daemon persistence and the `pending -> answered | timed_out | cancelled | superseded` lifecycle remain later work. |
 | `assistant-interaction-notification-projection` | Derive notification actions from operator-question interactions. | `in-progress` | `inquirium-core` can derive a notification-action projection with a registered input schema ref from the operator-question contract; daemon-side `notification-create.v1` emission and interaction store linkage remain later work. |
 | `assistant-crisis-candidate` | Inquirium emits `crisis-candidate` to the host crisis layer. | `todo` | Inquirium never declares crisis as authority; formal status owned by `daemon/crisis_detectors`. |
-| `inquirium-core-dep-direction-lint` | Dependency lint: `inquirium-core` deps only `classification` plus narrow serde/error helpers; substrate depends on core, not vice versa; trace consumers don't import `memarium-runtime`. | `partial` | `node:tools/check-inquirium-core-deps.py` is wired into CI and fails if `inquirium-core` imports model-runtime, daemon, HTTP, async runtime, or SQLite substrate crates. The separate trace-consumer/import lint remains future work. |
+| `inquirium-core-dep-direction-lint` | Dependency lint: `inquirium-core` deps only contract primitives (`classification`, canonical JSON) plus narrow serde/error helpers; substrate depends on core, not vice versa; trace consumers don't import `memarium-runtime`. | `partial` | `node:tools/check-inquirium-core-deps.py` is wired into CI and fails if `inquirium-core` imports model-runtime, daemon, HTTP, async runtime, or SQLite substrate crates. The canonical JSON dependency is allowed as a deterministic contract utility for prompt-assembly digests. The separate trace-consumer/import lint remains future work. |
 | `epistemic-schema-gate` | Schema gate forbids `stance: authoritative` and any `effects` on `generate.response.v1`; `plurality` default `preserve`; negative fixtures. | `done` | `authoritative` stance is unrepresentable, unknown effect fields are rejected by `deny_unknown_fields`, and core tests cover both paths. |
-| `lattice-keyed-shared-resolve` | Shared `resolve()` mechanism (free fn / `LatticeKeyedResolver`) for `ClassKeyed` and `ModeKeyed`; no generic `LatticeKeyed<Axis,T>` type. | `in-progress` | `ClassKeyed<T>` and `ModeKeyed<T>` are distinct types sharing the same rank-based resolver in `inquirium-core`; class-axis monotonicity remains with the future generic classification-crate mechanism. |
+| `lattice-keyed-shared-resolve` | Shared `resolve()` mechanism (free fn / `LatticeKeyedResolver`) for `ClassKeyed` and `ModeKeyed`; no generic `LatticeKeyed<Axis,T>` type. | `done` | `classification` now owns the tiny pure ordered-axis resolver (`OrderedAxisRank`, `OrderedAxisKey`, `resolve_ordered_axis`), and `inquirium-core` keeps `ClassKeyed<T>` and `ModeKeyed<T>` as distinct DTOs that both use it. Axis semantics and monotonicity checks remain concrete to classification and assistant mode. |
 | `operator-question-widget-kinds` | `widget/kind` enum + `RegisteredQuestionKinds` registry in `inquirium-core`; no raw model-supplied input schema. | `done` | `inquirium-core` registers `confirm`, `single-choice`, `multi-choice`, and `free-text-with-allowlist` schemas; tests reject unknown kinds, free text without allow-list, raw schema fields, duplicate choice values, and kind/payload mismatches. |
-| `baseline-assistant-conformance` | `BaselineAssistantProfile` (requires/guarantees, UBC-anchored) + conformance suite; runtimes are instances. | `todo` | Next foundation priority: at least one runtime passes conformance on CI; `baseline-assistant` selected only among conformance-positive runtimes. |
-| `trace-transcript-one-way-refs` | Fact→`trace/ref` forward only; trace carries `turn/id`/`participant/ref`, not `transcript/ref`; `persist/prompt` and `persist/response` default to false. | `in-progress` | Assistant trace now carries `turn/id`/`participant/ref` and omits `transcript/ref`, prompt, and response; transcript fact → trace forward refs still need to be added. |
+| `baseline-assistant-conformance` | `BaselineAssistantProfile` (requires/guarantees, UBC-anchored) + conformance suite; runtimes are instances. | `todo` | Next foundation priority: at least one runtime passes conformance on CI with local-only transport, no tools, no telemetry/egress, at least a 2048-token effective context window, 16 KiB output cap before transcript persistence matching the host-enforced assistant output boundary, and a fresh report for the current fixture digest/host class within the baseline TTL; `baseline-assistant` selected only among conformance-positive runtimes. |
+| `trace-transcript-one-way-refs` | Fact→`trace/ref` forward only; trace carries `turn/id`/`participant/ref`, not `transcript/ref`; `persist/prompt` and `persist/response` default to false. | `in-progress` | Assistant trace now carries `turn/id`/`participant/ref`, resolved effective policy, and prompt-free bounded diagnostics, while omitting `transcript/ref`, prompt, and response; transcript fact → trace forward refs still need to be added. |
 | `participant-identity-single-format` | One `participant:did:key:...` format shared by `memarium` space alloc, `caller-binding`, `local-relationship-core`, assistant scope. | `todo` | Same identity string resolves consistently across the four consumers. |
 | `assistant-epistemic-block` | Add `epistemic` block to `generate.response.v1` (stance/confidence/grounded_in/caveats). | `done` | Output never marked `authoritative`; stance defaults to `advisory`; no field promotes output to a direct effect. |
 | `assistant-plurality-default` | Add `plurality: preserve\|collapse` to request policy. | `done` | Default is `preserve`; multiple viable answers are surfaced, not collapsed. |
-| `assistant-feedback-loop` | Add `inquirium.inquiry-feedback.v1` (verified/refuted/amended). | `in-progress` | `inquirium-core` now validates classified feedback facts with `verified/refuted/amended`, grounding refs, and required operator note/correction for refuted or amended feedback; daemon persistence beside the session remains later work. |
+| `assistant-feedback-loop` | Add `inquirium.inquiry-feedback.v1` (verified/refuted/amended). | `in-progress` | `inquirium-core` now validates classified feedback facts with `verified/refuted/amended`, grounding refs, and required operator note/correction for refuted or amended feedback; read-side display uses latest valid fact wins while append history remains intact; training-candidate use requires an explicit flag plus separate operator grant; daemon persistence beside the session remains later work. |
 | `assistant-mode-rigor` | Add `ModeKeyed<T>` (commons/crisis/support) with monotone rigor. | `done` | `inquirium-core` now exposes distinct `ModeKeyed<T>`, `AssistantMode`, and `AssistantRigorPolicy`; tests prove commons/support/crisis resolution and reject weaker crisis/support rigor. |
-| `assistant-baseline-minimum` | Declare Phase 1 local-only as non-withdrawable `baseline-assistant`. | `todo` | Baseline works offline and without economic gating; remote is additive, not a precondition. |
-| `assistant-nondopamine-ux` | Enforce non-dopamine UI invariants. | `todo` | No unsolicited initiation/streak/nudge; advisory framing; "suggests" vs "I decided" separated; covered by tests. |
-| `assistant-agentic-effects` | Add opt-in action capability surface. | `deferred` | Actions are capability-gated, protocol-gated, operator-accountable, and auditable. |
+| `assistant-baseline-minimum` | Declare Phase 1 local-only as non-withdrawable `baseline-assistant`. | `todo` | Baseline works offline and without economic gating; the profile/right is non-withdrawable, while each concrete runtime must still prove fresh conformance; remote is additive and never a fallback precondition. |
+| `assistant-nondopamine-ux` | Enforce non-dopamine UI invariants. | `todo` | No unsolicited initiation, streaks, nudges, leaderboards, achievements, attention scores, or "things waiting for you" counters on the assistant surface; advisory framing and "suggests" vs "I decided" remain separated; covered by schema and UI tests. |
+| `assistant-agentic-effects` | Add opt-in action capability surface. | `deferred` | Actions are capability-gated, protocol-gated, operator-accountable, and auditable; realized through the Agent organ (Proposal 073), which owns the bounded controller, lifecycle, and budget. |
 | `assistant-human-in-loop-governance` | Keep relationship, governance, and egress actions human-in-the-loop. | `deferred` | Agentic proposals that affect relationships, external publication, or governance require explicit operator approval before any effect is committed. |
 | `assistant-feed-intervention-controls` | Add approve/revoke controls from the Activity feed only through the agentic gate. | `deferred` | Feed intervention creates capability-gated operations with audit records; the read-only feed itself never mutates state. |

@@ -200,6 +200,20 @@ support multiple configured instances, one instance can reuse clients, process
 supervision, queues, and caches, and the host can still audit and select each
 routable model configuration explicitly.
 
+## Agent Loop Lives Above Inquirium
+
+The agentic mode — a stateful entity that binds a model, remembers a session,
+holds parameters, and can be spawned, forked, or stopped — is a real need, but it
+is **not** an Inquirium concern. It lives in the Agent organ (Proposal 073),
+which sits above Inquirium and composes it: the Agent calls `inquirium.generate`
+(and future operations) as an ordinary host-capability caller, and Inquirium
+holds no knowledge of agents. This keeps the Proposal 063 invariant intact —
+"Inquirium is not the agent loop" — while giving the loop a durable, host-owned,
+bounded home. The Flow IR `bounded controller` defined later in this proposal is
+the seed of that contract; the Agent organ generalizes it into a durable,
+addressable, forkable entity with monotone-narrowing spawn, enforced budget, and
+no self-authorization.
+
 ## Runtime Candidate Registry as Data
 
 Inquirium should separate the registry of execution candidates from the
@@ -1254,6 +1268,171 @@ Different runtimes may receive different formats, but callers see stable
 semantics: which context was admitted and which part of the result may leave
 Inquirium.
 
+## Configurable Prompt Assembly Policy
+
+The instruction hierarchy above defines *precedence*; this section defines
+*where each layer is configured* and *who may adjust it*. Today the daemon
+assembles the adapter body essentially from `request.turns` plus
+`max_tokens/temperature/top_p`. There is no host-owned layer that says "always
+send X before (or after) every prompt", configurable once for the whole organ
+and explicitly narrowed or extended per adapter. The correct shape is not a
+prefix/suffix string inside the adapter — that leaks policy and audit into the
+execution layer — but a host-owned assembly stage that hands the adapter an
+already-rendered, explicit message stack.
+
+### Layered Configuration Sources
+
+Prompt assembly is configured as data, composed in increasing specificity:
+
+```text
+host-root prompt policy        (built-in, non-droppable)
+> organ prompt policy          (Inquirium-owned defaults)
+> operation prompt policy      (per generate/classify/transform/...)
+> protocol profile             (protocol/model family adjustments)
+> model-binding adjustment     (provider/model compatibility tweaks)
+> adapter-instance adjustment  (per running adapter instance)
+> caller turns + context       (request body)
+```
+
+A global Inquirium config provides the default policy. Profiles, model bindings,
+and adapter instances do not redefine it; they reference it and may only apply
+bounded adjustments. This keeps stratification intact: a change in the host-root
+or organ policy propagates downward, while lower scopes specialize without
+subverting policy.
+
+### Monotone Adjustment Rule
+
+Each lower scope may only do what the parent layer explicitly permits:
+
+- **append** new layers into slots the parent marked `extendable`;
+- **narrow** (drop or shorten) layers the parent marked `narrowable`;
+- never edit, reorder, or remove layers marked `required`/`fixed`;
+- never insert a layer above `host-root` or `organ` policy.
+
+This mirrors the `ClassKeyed`/`ModeKeyed` monotonicity discipline (P066): an
+adjustment can make the instruction stack stricter or more specific for one
+adapter, never weaker than the host root. A rejected adjustment is recorded, not
+silently dropped.
+
+### `PromptAssemblyPolicy` Contract (`inquirium-core`)
+
+The configured policy (input) is distinct from `InstructionAssembly` (the trace
+output). `inquirium-core` should own the input contract:
+
+```text
+PromptAssemblyPolicy {
+  protocol/epoch
+  layers[] : PromptLayer
+  caps {
+    max-layers
+    max-instruction-tokens
+    allowed-roles[]            # system | developer | user | assistant
+    adjustable-by[]            # which lower scopes may extend/narrow
+  }
+}
+
+PromptLayer {
+  layer/id
+  origin                       # host-root | organ | operation | profile
+                               #   | model-binding | adapter-instance
+  position                     # preamble | postamble
+  role                         # system | developer | user | assistant
+  content/ref | text
+  class/key?                   # ClassKeyed selector (P066), optional
+  required                     # host-root/organ layers are non-droppable
+  adjust                       # fixed | extendable | narrowable
+}
+```
+
+`position` is what makes "always send before / after the prompt" first-class:
+`preamble` layers render ahead of caller turns, `postamble` layers (output
+contract, refusal reminders, format guards) render after them.
+
+`layer/id` values are unique within one resolved policy. Duplicate layer ids are
+configuration errors, not last-writer-wins overrides. `content/ref` is a
+pre-materialization handle: `inquirium-core` can assemble it only when the host
+passes an explicit resolver, so unresolved content refs fail closed as
+`content-not-materialized`.
+
+The ownership split is deliberate. `inquirium-core` owns the contract and a pure,
+dependency-light resolver/renderer for layer ordering, monotone adjustment
+validation, cap enforcement, role-fold decisions, and instruction hashing. The
+daemon owns configuration loading, runtime/profile/model-binding lookup, adapter
+capability lookup, operation admission, and trace writes. This keeps
+`inquirium-core` free of daemon, HTTP, SQLite, async-runtime, and model-runtime
+dependencies. It may use shared contract utilities such as canonical JSON
+serialization for stable digests. This still prevents each adapter or daemon
+route from reinventing prompt rendering.
+
+Host-root caps such as `max-layers`, `max-instruction-tokens`, required layer
+ids, and non-droppable host-root/organ layers are stamped by host-root policy and
+cannot be widened by operation, profile, model-binding, adapter-instance, or
+caller configuration.
+
+### Daemon Assembly Stage
+
+A host-owned assembly stage runs **before** `inquirium_generate_adapter_body`.
+It resolves the effective policy (global default + permitted adjustments for the
+selected profile/model-binding/adapter-instance), applies `ClassKeyed` selection
+against the request classification, enforces `caps`, and renders an explicit,
+provider-neutral message stack:
+
+```text
+AssembledPrompt {
+  messages[]                   # explicit, role-tagged, ordered
+  instruction/hash
+  protocol/epoch
+  hierarchy/version
+  caller-turns/count
+  accepted_layers[]
+  adapted_layers[]             # + rendered_as: layer kept but re-rendered to a
+                               #   supported role/format (e.g. developer -> system)
+  rejected_layers[]            # + reason: cap-exceeded | narrowed-away
+                               #            | override-denied
+}
+```
+
+`instruction/hash` is computed over canonical JSON for the host-owned
+instruction material, accepted/adapted layer identity, and the caller turn count.
+It deliberately does **not** hash caller text or rejected layers; audit/replay
+must supply caller turns separately and use the accepted/adapted/rejected layer
+lists to explain the assembly decision.
+
+`inquirium_generate_adapter_body` then consumes `AssembledPrompt.messages`
+instead of raw `request.turns`. Prompt assembly applies only to instructional and
+generative operations; the assistant-turn surface reuses this stage. `embed` does
+**not** run text assembly: adding a preamble or postamble to embedding input
+changes the vector and breaks the "embed this exact input" contract, so embedding
+may consume only the policy, metadata, and trace parts of the stage. Any required
+transformation of embedding input is a separate, explicit pre-processing
+operation, never an implicit instruction layer.
+
+Caller turns are inserted after preamble layers and before postamble layers in
+their original order. Empty caller turns are legal only for operation/profile
+contracts that explicitly allow a no-input inquiry, such as a health or
+conformance fixture; ordinary `generate` requests still require at least one
+caller turn at the request schema boundary. The boundary is represented in the
+trace by `caller-turns/count`; host prompt layers remain separate turns around
+the caller range, while caller content is not copied into prompt-assembly trace
+metadata.
+
+### Adapter Contract
+
+The adapter receives the assembled `messages` plus `instruction/hash` and
+`protocol/epoch`, and only maps them to the provider wire format. The adapter
+**must not** append hidden instructions. If the manifest does not declare a role
+(for example `developer`), the host folds that layer into the nearest supported
+role (typically `system`) and records it in `adapted_layers[]` with `rendered_as`
+— the instruction is still sent, only re-rendered, so this is adaptation, not
+rejection. `rejected_layers[]` is reserved for layers actually dropped
+(cap-exceeded, narrowed-away, override-denied). The adapter manifest declares
+`supports/instruction-roles[]` so folding is a host decision, not an execution
+detail.
+
+This makes the always-before/always-after content auditable end to end: one
+`instruction/hash` per request, a stable `protocol/epoch`, and an explicit
+accepted/adapted/rejected layer list, with no policy living inside the adapter.
+
 ## Structured Output and Schema-Constrained Results
 
 For `classify`, `transform`, `rerank`, tool planning, and protocol conformance,
@@ -1302,6 +1481,333 @@ Invariant: `Plan` as return requires the adapter manifest to declare
 `returns/plan: true`. Without that, the host rejects a Plan response as
 `Invalid`. Even with that capability, the plan remains `CandidatePlan` for host
 acceptance, not a self-executing program.
+
+## I/O Contract: Output Schema, Dialect, and Capability Negotiation
+
+The projection above is the *result* contract. This section makes the
+surrounding I/O behavior — how a schema is broadcast, reminded, validated,
+pre-parsed, and how the model is asked to communicate — a host-owned data
+contract too, so adapter authors declare capabilities and the host chooses
+strategy. The goal is faster adapter authoring and typed data at the boundary,
+without each adapter reinventing prompt shaping, parsing, or validation.
+
+Each mechanism below pairs a contract with a short note on a known failure mode
+and the guardrail Inquirium adopts against it.
+
+### Output Schema Contract
+
+A request, profile, or capability may carry an output `schema/ref`. The host
+enforces it at the strongest tier the selected adapter declares, degrading
+explicitly:
+
+```text
+native     — provider constrains generation to the schema
+             (strict JSON-schema mode, GBNF/grammar-constrained decoding,
+              or a forced single-tool call); strongest
+primed     — schema + 1–2 exemplars injected as PromptAssemblyPolicy preamble
+             layers ("respond only with JSON for this schema"); cheap, soft,
+             never sufficient alone
+validated  — host parses and validates the output, emitting
+             Invalid { schema/ref, violations[] } with a JSON Pointer to each
+             failing location
+```
+
+Tiers compose: `native + validated` is the default for any schema that gates a
+downstream effect — constrain *and* verify. The chosen tier, `schema/ref`, and
+any repair are recorded in trace.
+
+Pitfalls others hit, and the guardrails:
+
+- **Format tax on quality.** Forcing strict structure too early can reduce
+  reasoning accuracy. Allow an optional bounded, user-visible `rationale` field
+  *before* the constrained payload — not a hidden chain-of-thought trace and not
+  persisted as one — or a two-phase reason-then-format step; never wrap a task in
+  JSON when free text would do — dialect is opt-in per operation, not a global
+  mandate.
+- **JSON mode is not schema conformance.** Provider "JSON mode" guarantees
+  syntactic JSON, not your fields, and left un-prompted can emit an unbounded
+  whitespace stream until `max_tokens` (a documented provider footgun). `primed`
+  always accompanies bare JSON mode, and `validated` is mandatory unless `native`
+  strict is proven.
+- **Not every schema is constrainable.** Native constraint engines support only
+  a subset of JSON Schema (bounded nesting, `additionalProperties:false`,
+  recursion limits, restricted `pattern`/`format`). Declare a `constrainable`
+  profile with explicit limits such as max depth, max properties, max enum
+  entries, supported `format` values, and whether recursion is allowed; schemas
+  outside it fall back to `primed + validated` and are flagged, not silently
+  downgraded.
+- **Non-terminating grammars.** A grammar that never admits the stop token plus a
+  high token budget runs away. Every constrained run carries a bounded
+  `max_tokens`, and the grammar must admit termination. Conformance fixtures for
+  grammar-capable adapters include a bounded termination check before the
+  capability is trusted for routability.
+
+### Schema Reminder and Bounded Recall
+
+The schema is available on demand, not only at the start. A stable `schema/ref`
+lets the host re-surface the schema (or a glossary, tool list, constitution) as a
+reminder on a repair attempt or when the model drifts, and lets the model
+*request* it through the dialect control channel — but only from a host-pinned
+allowlist of refs, never an arbitrary fetch.
+
+Pitfall: re-injecting the schema in the middle of the context invalidates
+prompt/KV cache and triggers "lost in the middle" attention loss. Keep the schema
+in the stable cached prefix (front) or append the reminder as a `postamble`; do
+not splice it mid-context. See *Performance and Resource Hardening*.
+
+### Pre-Parse and Bounded Repair
+
+Before full validation the host bounds the raw output by byte size, nesting
+budget, and array/object limits, then runs a tolerant structural pre-parse: strip
+markdown fences and prose wrappers ("Here is the JSON:"), locate the envelope,
+and produce typed `ParsedEnvelope { content, params, schema/ref }`. Downstream
+flows consume typed data immediately; every normalization is recorded, never a
+silent semantic fix (no guessing missing fields). The host cannot validate JSON
+Schema before parsing JSON, but it must enforce size/depth limits before parsing
+and validate semantics immediately after parsing.
+
+On a schema violation the host may `repair-once`, bounded by policy:
+
+```text
+io.repair { max-attempts (default 1), include-violations: true,
+            mark: Repairable -> repaired-in-trace }
+```
+
+Pitfalls:
+
+- **Repair loops blow up cost/latency and often re-fail identically.** Output-fixer
+  experience across libraries shows more than one or two repairs rarely helps.
+  Prefer `native` over repair, cap attempts low, always feed the exact violation,
+  and count repairs in trace and budget.
+- **Parsing untrusted output is an attack surface.** Deeply nested or oversized
+  model JSON can exhaust the parser (billion-laughs class). Bound depth, size, and
+  array length *before* parsing (schema-as-gate); for streaming, use an
+  incremental/partial-JSON parser rather than waiting for a closing brace.
+
+### Input and Output Rails
+
+`io.rails` are boundary rules independent of the model: required fields, max
+sizes, deny patterns, content-class limits, and redaction, applied to the
+assembled input before send and to the output after receive. The manifest
+declares which rails the provider enforces natively; the host always enforces the
+safety-critical ones regardless.
+
+Pitfall: trusting provider-native moderation alone leaves coverage that varies by
+provider and version; double-enforcing every rail wastes tokens and latency.
+Host-enforce the safety-critical rails unconditionally, and use the native
+declaration only to *skip redundant* non-critical checks, never to drop a
+critical one. The first safety-critical rail set is closed and host-owned:
+bounded size/depth, secret-pattern detection, explicit PII classes configured by
+policy, egress-class compatibility, and schema-required redaction. Domain-specific
+redaction is schema-aware: redact fields by contract and classification, not by
+blind string replacement over the whole output.
+
+### Communication Dialect
+
+`io.dialect` declares *how* the model communicates, separating a content channel
+from a control channel in one canonical envelope:
+
+```text
+GenerateOutputEnvelope {
+  content
+  epistemic
+  params
+  control
+}
+  content   : the answer — DATA, never interpreted as instructions
+  epistemic : stance/confidence/grounded_in/caveats (generate.response.v1)
+  params    : model-carried metadata (language, tags, score)
+  control   : model requests (recall schema/ref, propose tool-call)
+```
+
+Adapters map provider output into this envelope; callers see one stable shape
+across models. Existing `output[]` text blocks are the simplest `content`
+projection. The envelope does not make `output[]` and structured output mutually
+exclusive; it gives them one canonical home. A `null` or empty `content` is
+allowed only as an explicit degraded/refusal/control-only outcome and is
+projected as `Degraded { reason: "empty-content" }` or `Refusal`, not as a
+successful answer.
+
+Pitfall: if a `control` field can trigger effects, injected text in `content` may
+try to forge it. The control channel is host-validated and capability-gated; a
+model-asserted control item is a *request* authorized by policy, never
+self-executing (mirrors *Missing Authority Means Denial*). `content` is always
+data. `control` starts as a closed enum: `recall-schema`, `recall-glossary`,
+`propose-tool-call`, `ask-operator`, and `revise-output`; each item carries a
+host-pinned ref or capability ref and is admitted per operation, never globally.
+
+### Adapter Capability Negotiation
+
+The adapter manifest declares structured-I/O capabilities; the host reads them to
+choose tiers and role folding:
+
+```text
+supports/json-mode, supports/json-schema (+ constrainable subset),
+supports/grammar, supports/tool-call,
+supports/system-role, supports/developer-role,
+supports/native-rails, supports/streaming, max-output-tokens
+```
+
+This is the lever that makes adapters cheap to write: authors declare facts; the
+host orchestrates.
+
+Pitfall: a manifest may claim `json-schema` while the provider version honors only
+a subset, or drift as provider APIs change. A declared safety-relevant capability
+is not trusted until a conformance fixture proves it (tie to *Adapter Conformance
+Before Routability* / `inq-conformance-runner`); capability declarations are
+versioned. Runtime request budgets and manifest limits combine by taking the most
+restrictive value: effective output tokens are `min(request.max_tokens,
+adapter.max-output-tokens, runtime/profile budget)`, with missing required limits
+treated as denial for safety-critical operations.
+
+### Session and Memory Policy
+
+Inquirium owns durable conversation state; provider session/cache is an
+optimization, not the source of truth. A `MemoryPolicy` declares what survives a
+turn:
+
+```text
+MemoryPolicy {
+  pinned-facts[]     # re-injected as stable preamble; never auto-summarized
+  rolling-summary?   # bounded, lossy; excludes pinned facts
+  recall-refs[]      # host-pinned allowlist (schema, glossary, tools)
+  window/limit, drop-policy
+}
+```
+
+This reuses *Projection Mode for Long-Lived Sessions* and *Prompt Cache and KV
+Cache as Controlled Resources* rather than adding a second state model.
+
+Pitfalls:
+
+- **Lossy compaction erodes critical facts ("context rot") and summaries drift.**
+  Tiered-memory systems show pinned facts must be explicit and exempt from
+  summarization. `pinned-facts` are host-owned and never compacted away; the
+  summary is bounded and reconstructable; provider-side session state is never
+  relied on for durability.
+- **Unbounded session growth means linear cost and quadratic attention.** Bound the
+  window with summary plus pinned facts, and let token estimation (next section)
+  gate turn admission.
+
+## Performance and Resource Hardening for Prompt and Schema Layers
+
+The mechanisms above add always-on preambles, schema constraints, validation, and
+per-turn memory. Left naive, these are exactly where model systems pay in latency,
+tokens, and server memory. The cross-cutting rules, each from a problem real
+deployments have paid for:
+
+- **Cache-prefix discipline.** A persistent preamble (host-root + organ + schema +
+  exemplars) only amortizes if it is a *byte-stable prefix*; any change near the
+  front invalidates the whole cache. Order `PromptAssemblyPolicy` layers
+  most-stable-first, volatile content (caller turns, context) last, and place
+  reminders as `postamble`. Respect provider realities: caches impose a
+  provider-specific minimum cacheable size and a short TTL, and a cache write
+  costs more than a read — so do not cache tiny or rarely-reused preambles. Treat
+  the size and TTL as configuration validated against the active provider.
+- **Constrained-decoding compile cost.** Compiling a grammar/FSM from a schema is
+  expensive on first use and cheap thereafter. Compile lazily and cache the
+  compiled artifact keyed by `(schema-hash, tokenizer/model)`; never recompile per
+  request.
+- **KV-cache memory is finite.** Shared long prefixes pin server KV memory and
+  trade memory for compute. Treat the preamble budget as a managed resource with
+  eviction; very large pinned contexts compete with request concurrency.
+- **Format tax vs accuracy.** Strict structure can cost reasoning quality; reserve
+  hard constraint for effect-gating schemas and allow a pre-payload bounded
+  `rationale` field elsewhere. (Stated per mechanism; here as a global budget
+  rule.)
+- **Lost in the middle.** Long contexts attend worst to the middle; keep
+  schema/instructions at the front (and cached) or near the end, never buried
+  mid-context.
+- **Retry and repair storms.** Schema-repair and conformance retries multiply load
+  under stress. Bound repair attempts, apply jittered backoff, route through the
+  existing *Backpressure and Output Sink Availability* limits, and stop a repair
+  that re-fails identically rather than looping.
+- **Validation is bounded before it runs.** Depth, size, and array caps precede
+  parsing so a hostile or runaway output cannot exhaust the validator.
+
+Every choice here is recorded — tier used, cache hit/miss, repair count, compile
+reuse — so cost and behavior stay reproducible and auditable rather than folklore.
+
+## Temporal and Locale Context
+
+Two context inputs are trivial to omit and visibly break behavior when missing.
+
+**Temporal context.** A model does not know the current time. The host injects a
+`temporal` layer (a host-owned `PromptAssemblyPolicy` preamble) carrying the
+current date, time, and timezone, plus the model's stated knowledge-cutoff where
+known, so freshness-sensitive answers and "as of" reasoning are correct. The
+value is host-supplied data, never inferred by the model. To avoid invalidating
+the prompt cache on every call, the cache-stable prefix carries only a coarse
+value (for example rounded to the day); finer granularity goes in a volatile
+postamble.
+
+**Locale.** Instruction language and content language are distinct. A `locale`
+policy declares the operator/caller response language and formatting conventions,
+surfaced through `dialect.params.language`; schema field names stay canonical
+while `content` is localized. Default is the operator locale; callers may narrow,
+not silently switch the instruction language.
+
+## Model Snapshot and Prompt Versioning for Reproducibility
+
+Determinism is already best-effort (`supports-seed?`); reproducibility needs two
+more records that are easy to forget.
+
+**Model snapshot.** Providers silently update a model behind a stable alias, so
+the same `model/binding-ref` can drift in quality. The host records the
+provider-reported resolved model snapshot (for example a dated version id) in the
+inference trace beside `runtime/ref` and the effective sampling parameters.
+Without it, "why did quality change?" is undiagnosable and a run cannot be
+reproduced. This is distinct from the dataset build's `config-snapshot-hash`,
+which pins training inputs, not the inference model version.
+
+**Prompt as a versioned artifact.** `instruction/hash` and `protocol/epoch`
+identify an assembly; they should also be governed like code. The assembled
+instruction stack is a versioned, reviewable artifact with diffable layers and
+rollback, and a change to any host/organ/profile layer is gated by a regression
+check against a golden set before it becomes the active epoch. This is distinct
+from *Eval Before Route* (which gates the runtime, not the prompt): here a
+preamble tweak cannot silently regress quality, because the prompt change is
+reviewed and measured like any other change.
+
+## Deterministic Response Cache
+
+Separate from the prompt/KV cache: the host may cache the full result, keyed by
+`(assembled-input-hash, model-snapshot, sampling-params)`, but only when the
+result is genuinely reproducible. Embeddings are the natural case. Classification
+qualifies only conditionally: the runtime must declare a deterministic mode,
+sampling must be deterministic (`temperature 0`, and a fixed seed where the
+runtime honors it), and the full assembled prompt plus model snapshot must be in
+the key. Because the assembled prompt includes any volatile temporal or context
+layer, those layers change the key and invalidate stale entries — a cache hit
+must never outlive the inputs it was computed from.
+
+The cache is opt-in and must be refused for sampled generation (`temperature >
+0`), where identical input legitimately yields different output, so a hit never
+masks intended variation. Cache hits are recorded in trace, and the model
+snapshot in the key means a provider update invalidates stale results.
+
+## Output Safety Rail
+
+Output rails (`io.rails`) should include a host-owned safety classification of the
+model output before it reaches a user surface or an effect: leak, toxic,
+self-harm, or policy-class content. This generalizes the assistant-specific
+`crisis-candidate` (P066) into a boundary rail available to every operation. The
+classification is host-owned and capability-gated, never the adapter's
+improvisation, and a failed safety rail produces a typed `Unsafe { policy/ref,
+reason }` rather than passing content through. The first implementation may use
+deterministic rules for secrets, explicit PII classes, and schema-level policy
+markers; model-backed critics are allowed only as separately conformed evaluator
+runtimes under a signed/versioned host-owned policy registry.
+
+## Enforced Token and Cost Budget
+
+Capability metadata already carries `budgets`/`cost/class` and dispatch policy
+carries a `time budget`; this makes the budget an enforced contract rather than a
+hint. Each operation and session has metered token and cost ceilings with a hard
+cap; on exhaustion the host returns a typed `BudgetExceeded { scope, limit,
+spent }` instead of an unbounded bill. Metering counts assembled-prompt tokens,
+output tokens, repair attempts, and cache writes, and the spend is recorded in
+trace so cost is attributable per caller, operation, and session.
 
 ## Token Estimation Before and After Context Assembly
 
@@ -1474,6 +1980,16 @@ By default, flow is a DAG. Controlled agent loops are allowed only as a
 `termination_condition`, and explicit review policy. Anything with dependency,
 cost, retry, tool call, or output artifact should exist as a node/edge in Flow
 IR rather than hidden call stack.
+
+Ownership is host-first. An adapter may return a `Plan` only as a
+`CandidatePlan` when its manifest declares `returns/plan: true`; the host then
+compiles or rejects that candidate into `InquiryFlowV1`. The adapter never emits
+an executable flow. The host-owned compiler applies schema validation,
+capability/tool grants, budget limits, effect policy, and loop bounds before any
+node can run. A loop whose termination condition is not reached exits as
+`Cancelled { reason: "max-steps-exceeded" | "max-cost-exceeded" |
+"max-time-exceeded" }`, not as a hidden retry. Flow traces carry secret refs and
+artifact refs, never secret values or raw protected payloads.
 
 ## Adapter Conformance Before Routability
 
@@ -1760,6 +2276,29 @@ work derived from this proposal. Add rows as implementation tasks start or land.
 Rows marked `done` should point to concrete evidence such as code paths, schema
 fixtures, tests, operator surfaces, or migration notes.
 
+Implementation order matters for the open items. The natural dependency front is:
+
+```text
+class-keyed-mechanism-in-classification
+  -> inq-prompt-assembly-policy
+       -> inq-temporal-context
+       -> inq-model-snapshot-trace
+       -> inq-prompt-versioning-regression
+       -> inq-io-schema-contract
+
+inq-io-schema-contract
+  -> inq-comm-dialect-envelope
+  -> inq-adapter-capability-negotiation
+  -> inq-io-rails
+       -> inq-output-safety-rail
+
+inq-flow-ir
+  depends on prompt assembly, I/O schema contract, and conformance evidence.
+```
+
+Rows may be implemented incrementally, but dependent rows should not be marked
+`done` before their prerequisite contracts exist and have fixtures.
+
 Status values:
 
 - `todo` — not started,
@@ -1781,3 +2320,17 @@ Status values:
 | `inq-embed-host-surface` | Expose direct embedding through the same host capability and audit model as text generation. | `done` | Daemon exposes `POST /v1/host/capabilities/inquirium.embed`, advertises it through host capability discovery when an implemented handler is routable, requires explicit inference grants for module callers, selects `embed` runtime candidates by host-owned model binding, and writes metadata-only traces under `trace/inquirium/embed` with host-keyed request digests and no input text or vector values. The first handler is local deterministic-stub coverage; provider-backed embedding adapters remain future work. |
 | `inq-direct-data-plane` | Add durable direct data-plane leases, artifact output persistence, and deferred long operations. | `done` | Daemon persists model-runtime leases in SQLite, exposes local lease create/read APIs, rejects remote raw file leases, hides expired leases, restricts caller metadata, admits `batch.embed` through `DeferredOperationRegistry`, and verifies/writes pilot output artifacts through the object store with selected-binding and operation-bound write-lease provenance. |
 | `inq-conformance-runner` | Add conformance fixture execution, durable reports, and report-backed routability. | `done` | Daemon persists conformance reports in SQLite, exposes `run-conformance` as a component action for `model-runtime:{runtime/ref}`, evaluates generate fixtures with required/forbidden JSON pointers and max duration, and keeps candidates that require conformance non-routable until the current fixture digest has a passing report. |
+| `inq-prompt-assembly-policy` | Add a host-owned, layered prompt/instruction assembly stage (see *Configurable Prompt Assembly Policy*): configurable globally and explicitly extended or narrowed per profile, model-binding, and adapter-instance, feeding adapters an already-rendered explicit message stack. | `in-progress` | `node/inquirium-core` now owns `PromptAssemblyPolicy`/`PromptLayer`/`AssembledPrompt` with preamble/postamble positions, `class/key` selection, unique `layer/id` validation, bounded layer/token caps, role-fold adaptation trace, rejected-layer trace, canonical-JSON-backed `instruction/hash`, `caller-turns/count`, and a host-supplied resolver path for `content/ref`. `node/daemon` now runs the default trace-only assembly stage before `inquirium_generate_adapter_body`, forwards `AssembledPrompt.messages`, and attaches prompt-assembly trace metadata. Tests cover override-above-host-root ordering, duplicate layer ids, required cap-exceeded fail-closed, conservative character-count cap, role-fold-recorded-as-adapted-not-rejected, content-ref materialization, caller boundary count in the hash, daemon adapter-body trace projection, and `embed` rejecting text prompt-assembly payloads. Remaining work: load and merge real global/profile/model-binding/adapter-instance prompt policy, use adapter manifest `supports/instruction-roles[]` instead of default all roles, and enforce full extend/narrow adjustment semantics for configured lower scopes. |
+| `inq-io-schema-contract` | Host-owned Output Schema Contract: broadcast a `schema/ref`, enforce it at the strongest available tier, validate, pre-parse, and bound repair (see *I/O Contract*). | `todo` | `inquirium-core` carries the output `schema/ref`, tier selection (`native`/`primed`/`validated`), and `ParsedEnvelope`/`io.repair` shapes; host emits `Invalid { schema/ref, violations[] }` with JSON Pointers, uses `native + validated` for effect-gating schemas, caps repair attempts (default 1), and bounds byte size, nesting depth, arrays, and object members before tolerant parsing; constrainable-schema declarations include explicit maximum depth/properties/enum values/formats/recursion support; grammar-capable runtimes must pass a termination conformance fixture before routability; the constrained-grammar artifact is cached by `(schema-hash, tokenizer/model)`; trace records tier, repair count, and cache reuse. |
+| `inq-adapter-capability-negotiation` | Let adapters declare structured-I/O capabilities so the host chooses I/O strategy instead of each adapter reimplementing it. | `todo` | Adapter manifest declares `supports/json-mode`, `supports/json-schema` (+ constrainable subset and limits), `supports/grammar`, `supports/tool-call`, `supports/system-role`, `supports/developer-role`, `supports/native-rails`, `supports/streaming`, and `max-output-tokens`; host selects schema tier and instruction-role folding from these; effective output tokens are the minimum of request, runtime/profile budget, and adapter maximum; missing required limits deny safety-critical operations; a safety-relevant declared capability is not trusted until a conformance fixture proves it; declarations are versioned. |
+| `inq-comm-dialect-envelope` | Add the canonical content/control communication envelope so model output is typed at the boundary. | `todo` | `inquirium-core` defines `GenerateOutputEnvelope { content, epistemic, params, control }`; existing `output[]` text blocks are the simplest `content` projection; `content` is always data and never auto-interpreted as instructions; empty content is legal only for explicit degraded/refusal/control-only outcomes; the closed `control` channel is host-validated and capability-gated so a model-asserted control item is a request, not a self-executing effect; adapters map provider output into the envelope; tests cover injection attempts through `content`. |
+| `inq-io-rails` | Make input/output rails explicit boundary data independent of the model. | `todo` | `io.rails` express required fields, size/depth caps, deny patterns, explicit PII/secret classes, egress-class limits, content-class limits, and schema-aware redaction applied pre-send and post-receive; the manifest declares provider-native rails; the host unconditionally enforces the safety-critical rail set and uses the native declaration only to skip redundant non-critical checks, never to drop a critical one; tests prove host enforcement when the provider claims native coverage. |
+| `inq-session-memory-policy` | Add a host-owned `MemoryPolicy` for durable session state, reusing Projection Mode and Prompt Cache. | `todo` | `MemoryPolicy` carries `pinned-facts[]` (exempt from compaction), a bounded `rolling-summary`, a host-pinned `recall-refs[]` allowlist, and `window/limit`/`drop-policy`; pinned facts are never auto-summarized; provider session/cache is treated as optimization, not source of truth; token estimation gates turn admission; no second state model is introduced. |
+| `inq-temporal-context` | Inject host-owned current date/time/timezone (and known knowledge-cutoff) as a prompt layer so freshness-sensitive reasoning is correct. | `todo` | A `temporal` `PromptAssemblyPolicy` layer supplies host-sourced date/time/timezone, never model-inferred; the cache-stable prefix carries a coarse (day-rounded) value and finer granularity goes in a volatile postamble so the prompt cache is not invalidated per call; the value appears in trace. |
+| `inq-model-snapshot-trace` | Record the provider-resolved model snapshot and effective sampling parameters in the inference trace. | `todo` | Trace records the provider-reported model snapshot/version id beside `runtime/ref`, `model/binding-ref`, seed, and effective sampling params, so quality drift from silent provider model updates is diagnosable and runs are reproducible; distinct from the dataset build `config-snapshot-hash`. |
+| `inq-prompt-versioning-regression` | Treat the assembled instruction stack as a versioned, reviewable artifact gated by golden-set regression. | `todo` | `instruction/hash`/`protocol/epoch` back a diffable, rollback-able prompt artifact; a change to any host/organ/profile layer is gated by a regression check against a golden set before it becomes the active epoch; distinct from `Eval Before Route`, which gates the runtime rather than the prompt. |
+| `inq-response-cache` | Add an opt-in, deterministic-only response cache keyed by assembled input, model snapshot, and params. | `todo` | Host caches full results keyed by `(assembled-input-hash, model-snapshot, sampling-params)`; embeddings are the natural case, classification only when the runtime declares a deterministic mode with deterministic sampling and the full assembled prompt (including volatile temporal/context layers) plus snapshot are in the key; refused for sampled generation (`temperature > 0`) so a hit never masks intended variation; hits recorded in trace; a provider model update invalidates stale entries through the snapshot in the key. |
+| `inq-output-safety-rail` | Add a host-owned output safety classification rail producing a typed unsafe outcome. | `todo` | An `io.rails` output stage classifies model output (leak/toxic/self-harm/policy-class) before it reaches a user surface or effect, generalizing the assistant `crisis-candidate` (P066) to every operation; first implementation uses deterministic host rules for secrets, explicit PII classes, and schema-level policy markers; model-backed critics may be added only as separately conformed evaluator runtimes under signed/versioned host policy; host-owned and capability-gated, never adapter-improvised; a failed rail returns `Unsafe { policy/ref, reason }` rather than passing content through. |
+| `inq-flow-ir` | Treat model-authored multi-step plans as candidate data compiled by the host, never as executable flows emitted by an adapter. | `todo` | `inquirium-core` defines `CandidatePlan` and host-owned `InquiryFlowV1`; adapters may return candidate plans only when their manifest declares `returns/plan: true`; the host compiler validates schema, grants, budgets, loop bounds, and effect policy before execution; non-terminating loops end as typed `Cancelled` outcomes; traces carry artifact/secret refs, never raw protected payloads. |
+| `inq-cost-budget-enforcement` | Make token and cost budgets enforced contracts with metering and a typed exhaustion outcome. | `todo` | Per-operation and per-session token/cost ceilings have hard caps; metering counts assembled-prompt tokens, output tokens, repair attempts, and cache writes; exhaustion returns `BudgetExceeded { scope, limit, spent }`; spend is recorded in trace and attributable per caller/operation/session; tightens the existing `budgets`/`cost/class`/`time budget` metadata into enforcement. |
+| `inq-locale-policy` | Declare the operator/caller response locale distinct from the instruction language. | `todo` | A `locale` policy sets response language and formatting through `dialect.params.language` while schema field names stay canonical and `content` is localized; default is the operator locale; callers may narrow but not silently switch the instruction language. |
