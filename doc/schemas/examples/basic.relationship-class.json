@@ -11,6 +11,6 @@
   "grant-allowlist": ["messaging-receive", "artifact.delivery.custody"],
   "verification/required": ["operator-confirmed"],
   "privacy/profile": "operator-visible-summary",
-  "retention/profile-ref": "retention-profile:relationship-default",
+  "retention/profile-ref": "local-relationship/default",
   "policy/refs": ["relationship-policy:friends-default"]
 }

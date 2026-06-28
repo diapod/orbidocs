@@ -30,7 +30,8 @@
   "$defs": {
     "context_kind": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9.-]*(?:/[a-z][a-z0-9.-]*)*$"
+      "enum": ["messaging", "ad-direct", "agora-topic", "inquirium-session"],
+      "description": "Registered pairwise nym continuity context kind. Unknown contexts fail closed; callers cannot create ad-hoc continuity semantics by spelling a new string."
     }
   }
 }

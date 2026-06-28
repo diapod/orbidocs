@@ -57,7 +57,13 @@
       "type": "string",
       "enum": ["sealed-only", "operator-visible-summary", "public-aggregate"]
     },
-    "retention/profile-ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "retention/profile-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[a-z][a-z0-9.-]*(?:/[a-z][a-z0-9.-]*)*$",
+      "description": "Optional reference to a host-owned Local Relationship retention profile. Absence means inherit `local-relationship/default`; inline retention windows or deletion rules are not part of relationship-class.v1."
+    },
     "policy/refs": {
       "type": "array",
       "uniqueItems": true,
