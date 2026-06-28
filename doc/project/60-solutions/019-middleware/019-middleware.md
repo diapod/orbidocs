@@ -50,6 +50,14 @@ middleware fallback for valid unknown schema refs, terminal
 `schema-unavailable` fallback, and out-of-process phase/post-chain observer
 registration through `middleware-module-report`.
 
+Hard-MVP closure note: the extension points described here are deliberate
+future growth seams, not missing MVP runtime. The Node reference implementation
+has the host-owned lifecycle, readiness, dispatch, claimed-route, host
+capability, observer/audit, raw-signal, and schema-presentation surfaces needed
+by the current hard-MVP stories. New executor classes or richer module-specific
+operator products should be tracked by their owning proposals rather than
+holding the common Middleware solution below `done`.
+
 ## Purpose
 
 Middleware is the Node extension-host layer. It lets a local daemon attach

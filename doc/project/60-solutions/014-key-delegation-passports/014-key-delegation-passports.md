@@ -147,7 +147,13 @@ Responsibilities:
 - flow delegation revocations through the same revocation feed as passport revocations, carrying `target_id` cleanly.
 
 Status:
-- `partial`
+- `done`
+
+Implementation note: `seed-directory` exposes `PUT /key/{delegation_id}`,
+`GET /key/{delegation_id}`, and `GET /key?...` for proxy-key,
+participant, and grant-aware discovery. Focused handler coverage verifies
+signed delegation publication, get/query readback, and fail-closed rejection
+of `max_chain_depth > 0` for the MVP single-hop guard.
 
 ### Delegation Cache and Background Sync
 
@@ -178,7 +184,14 @@ Responsibilities:
 - keep daemon contract stable before adding Node UI delegation views.
 
 Status:
-- `partial`
+- `done`
+
+Implementation note: daemon local-control routes expose proxy-key generate,
+import, list, unlock, export, delete, delegation issue, active-delegation
+lookup, issued-delegation list/detail, publish, and revoke. Node MVP tracking
+marks the operator-visible active/revoked/expired read model and Seed Directory
+publication/sync path as done; richer Node UI screens remain a product-layer
+iteration, not a solution blocker.
 
 ## May Implement
 

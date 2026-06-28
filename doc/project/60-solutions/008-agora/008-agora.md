@@ -19,6 +19,13 @@ daemon (`http_local_json`-style executor), reachable on loopback, discovered
 by clients through the Node's host capability API under the capability id
 `agora.relay`.
 
+Hard-MVP closure note: the public record relay, content addressing,
+signature verification, local store, subject index, SSE subscription,
+Matrix-backed relay, Agora Vault, daemon supervision, and Story-008 resource
+opinion path are implemented in the reference Node runtime. Aggregate status
+surfaces and hot-path optimizations remain product-layer or scale-driven
+extensions; they are not prerequisites for the hard-MVP Agora deployment.
+
 Agora also exposes a separate **Agora Vault** surface for encrypted opaque
 artifacts. Vault entries are not ordinary `agora-record.v1` records: they do
 not publish author, participant, nym, topic, or domain metadata. The public

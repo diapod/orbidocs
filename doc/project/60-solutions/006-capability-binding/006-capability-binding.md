@@ -15,6 +15,13 @@ Sealer and Signer). The entire purpose is to keep passport semantics out of
 the cryptographic services and out of the daemon's transport layer, so that
 each layer stays readable on its own terms.
 
+Hard-MVP closure note: the Node reference implementation uses Capability
+Binding as the common authorization organ through the daemon dispatch gate and
+the Sealer integration. The `Service Policy Adapters`, `Binding Cache`, and
+`Decision Cache` sections below are extension seams for alternate embeddings or
+profiled hot paths. They are not missing hard-MVP runtime requirements and MUST
+NOT be treated as prerequisites for the current Node deployment path.
+
 ## Purpose
 
 The component is responsible for the solution-level execution path of:
@@ -314,6 +321,33 @@ Likewise, a local revocation decision for a host capability is not automatically
 a Seed Directory event. Publishing a signed revocation artifact to a federated
 directory is a separate operation, used only when other nodes may rely on the
 artifact being revoked.
+
+## Optional Adapter Seams
+
+The Node reference deployment authorizes Sealer and Memarium operations at the
+daemon dispatch boundary before the cryptographic or storage service performs
+its local effect. This is the canonical hard-MVP path: authorization is checked
+once at the host boundary, audit is emitted there, and lower cryptographic
+services stay small.
+
+Service-local adapters MAY be implemented later, but only when at least one of
+these triggers appears:
+
+- a second embedding needs to call Sealer, Signer, or another passport-gated
+  service without going through daemon dispatch;
+- profiling shows that dispatch-boundary authorization has become the hot path
+  and an engine-local adapter can remove measurable overhead without weakening
+  audit;
+- a service must run in a separately deployed process that cannot reuse the
+  daemon's caller-binding registry directly;
+- a formal conformance suite exists that proves the adapter returns the same
+  `AuthorizationDecision` variants as the common `capability-binding` pipeline.
+
+Binding and decision caches follow the same rule. They are verifier-local read
+models for exact proof reuse, not policy facts. Implement them only with a
+measured need, a revocation-view fingerprint in the cache key, freshness-bound
+expiry, and audit-preserving cache-hit behavior. Until those triggers exist,
+the dispatch-layer gate remains simpler and safer.
 
 ## Crate Boundary
 

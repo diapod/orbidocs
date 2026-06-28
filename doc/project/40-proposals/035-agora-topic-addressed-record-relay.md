@@ -930,6 +930,13 @@ the run identifier, and there is no external subject to reference:
 Deferred items are post-MVP and MUST NOT be implemented before the MVP
 scope is clean and tested.
 
+Hard-MVP closure note: the implemented Node runtime covers every `Yes` row in
+the table above for the reference deployment, including local signing/ingest,
+query, SSE subscription, Matrix-backed federation, retention, subject indexing,
+and Agora Vault. The later "deferred or limited" ingest invariants remain
+explicit post-MVP hardening or deployment-policy choices; they MUST NOT keep the
+P035 hard-MVP tracker below completion.
+
 ## Agora Vault
 
 Agora Vault is a separate encrypted-artifact surface, not a topic record
@@ -1297,6 +1304,28 @@ in this proposal and are not blocking for the first deployment:
 - **Room-to-topic name mapping** (section 6, rule 2): the relay does
   not yet maintain a human-readable room-name mapping for operator
   tooling.
+
+#### Post-MVP hardening queue
+
+The hard-MVP relay is complete without these items, but production hardening
+SHOULD track them explicitly rather than rediscovering them from prose:
+
+- `authored/at` skew policy: decide the local/federated skew budget and reject
+  records outside it at the relay boundary.
+- Delegated-signature proof enforcement: replace the permissive default
+  `CapabilityDelegationVerifier` with the `agora-capability-bridge` checker in
+  hardened deployments.
+- `record/about` structural validation: validate each resource reference
+  against `resource-ref.v1` before subject-index admission.
+- Schema-pattern parity: ensure relay-side schema-gate rejects malformed
+  `record/kind`, `content/schema`, and `record/id` values before verification
+  library calls.
+- Topic-key NFC admission: decide whether the relay rejects non-NFC topic keys
+  or normalizes them before ingest diagnostics.
+- Federation ingress parent/supersedes policy: decide whether Matrix/federated
+  ingress stays warn-only or gains a stricter reference-resolution mode.
+- Operator status product: expose federation lane diagnostics, ingest rejection
+  counters, retention sweeps, and relay role health in the Node UI.
 
 ## Consequences
 

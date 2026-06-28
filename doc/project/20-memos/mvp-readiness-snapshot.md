@@ -132,12 +132,17 @@ Recent component deltas:
 - Sensorium has been promoted to Solution 030 as a constitutional organ. Its MVP slice is implemented for `sensorium-core` observation admission/query, directive invocation, audit-only outcomes, internal connector dispatch, the supervised Sensorium OS reference connector, action-catalog sidecar authorization, and deferred Sensorium actions. Local Agora observation publication remains partial because runtime support currently exposes topic metadata and read surfaces rather than a complete local subscription bus.
 - Proposal 054 is hard-MVP complete: `seed-directory-query-attestation.v1` is schema-gated, Seed Directory can attach opt-in signed response attestations, daemon can opt into trusted Agora replay for `adv`, `cap`, and `revocations` lanes, replay follows paginated Agora result pages, replay cursors/status are persisted in the embedded store, projection equivalence tests include revocation effects, and daemon-owned Seed Directory discovery now applies one strict multi-directory policy (`preferred-directory`, `quorum`, or `weighted-trust`) across host queries, AD/capability routing, subject lookup, and Contact Catalog provider discovery, with cross-directory revocation suppression for revoked capability passports. `/v1/seed-directory` and Node UI expose safe trusted-directory diagnostics, local endorsement/reputation policy inputs, replay state, and skip reasons.
 - Memarium Proposal 036 and Solution 002 are now implementation-complete for v1: neutral `MemariumObservation` bridges post-chain and phase observers without daemon-private runtime dependencies, observe-rule paths are validated with explicit-null extraction semantics, governed community forget accepts explicit governance references, the read sidecar performs startup catch-up while retaining scan fallback, local backup packages can be submitted through operator remote-archivist handoff/retrieval control surfaces over Artifact Delivery, and Story-005 smoke confirms the classification-bearing private AD/INAC path used by Memarium-adjacent archival/export boundaries. Richer Node UI batch UX remains a product layer, not a Proposal 036 blocker.
+- Story 000 is now hard-MVP complete: the minimal two-node operator acceptance pack under `node/tools/acceptance/story-000-operator/` was hardened to keep all non-story middleware disabled by real module id and its `ad-smoke` path passes with two local WSS peer sessions, connected peer read models, running peer supervisors, and metadata-only daemon status.
+- Key Delegation Passports are now hard-MVP complete at solution level: Seed Directory `/key` publication/query surfaces have focused signed-artifact coverage, daemon operator routes already expose proxy-key and delegation lifecycle management, and remaining multi-hop delegation plus richer Node UI screens are explicitly post-MVP/product-layer work.
+- Middleware is now counted as hard-MVP complete: Solution 019 already covers the implemented host-owned lifecycle, readiness, dispatch, claimed-route, host capability, observer/audit, raw-signal, and schema-presentation surfaces, while additional executor classes or product-specific module UX are future extension points owned by their specific proposals.
+- Capability Binding is now counted as hard-MVP complete: the reference runtime uses the shared `capability-binding` organ through daemon dispatch and Sealer integration, while solution-level service adapters and caches remain optional seams for alternate embeddings or profiled hot paths rather than MVP blockers.
+- Agora/P035 is now counted as hard-MVP complete: the reference runtime covers the public record relay, content addressing, signing/ingest, query/readback, SSE subscription, Matrix-backed federation, retention, subject indexing, Agora Vault, and Story-008 resource-opinion path. Remaining ingest-policy tightening and hot-path/status-product work stay post-MVP and are listed in Proposal 035's hardening queue.
 
 ## Stories
 
 | Document | part of MVP | MVP ready | post-MVP ready | readiness % |
 |---|---:|---:|---:|---:|
-| [Story 000: Two Nodes See Each Other](../30-stories/story-000-two-nodes-see-each-other.md) | `true` | `true` | `false` | `96` |
+| [Story 000: Two Nodes See Each Other](../30-stories/story-000-two-nodes-see-each-other.md) | `true` | `true` | `false` | `100` |
 | [Story 001: Swarm Node Onboarding and Federated Answer Procurement](../30-stories/story-001-swarm-node-onboarding.md) | `false` | `false` | `false` | `65` |
 | [Story 002: Federated Peer Learning and Consensus Correction](../30-stories/story-002-federated-peer-learning.md) | `true` | `true` | `false` | `90` |
 | [Story 003: Remote Memory Preservation, Archivists, and Vault Publication](../30-stories/story-003-remote-memory-preservation.md) | `false` | `false` | `false` | `38` |
@@ -189,7 +194,7 @@ Recent component deltas:
 | [Proposal 032: Key Delegation Passports](../40-proposals/032-key-delegation-passports.md) | `true` | `true` | `false` | `100` |
 | [Proposal 033: Workflow Fan-Out and Temporal Orchestration](../40-proposals/033-workflow-fan-out-and-temporal-orchestration.md) | `true` | `true` | `false` | `77` |
 | [Proposal 034: Node Operator Binding and Derived Node Assurance](../40-proposals/034-node-operator-binding-and-derived-node-assurance.md) | `true` | `true` | `false` | `90` |
-| [Proposal 035: Agora — Topic-Addressed Record Relay and Shared Record Substrate](../40-proposals/035-agora-topic-addressed-record-relay.md) | `true` | `true` | `false` | `92` |
+| [Proposal 035: Agora — Topic-Addressed Record Relay and Shared Record Substrate](../40-proposals/035-agora-topic-addressed-record-relay.md) | `true` | `true` | `false` | `100` |
 | [Proposal 036: Memarium — Local Memory Organ for the Orbiplex Node](../40-proposals/036-memarium.md) | `true` | `true` | `true` | `100` |
 | [Proposal 037: Generic Signing Service](../40-proposals/037-generic-signing-service.md) | `true` | `true` | `false` | `100` |
 | [Proposal 038: Key Roles and Key Use Taxonomy](../40-proposals/038-key-roles-and-key-use-taxonomy.md) | `true` | `true` | `false` | `100` |
@@ -239,20 +244,20 @@ Recent component deltas:
 | [Orbiplex Arca](../60-solutions/003-arca/003-arca.md) | `true` | `true` | `false` | `88` |
 | [Orbiplex Dator](../60-solutions/004-dator/004-dator.md) | `true` | `true` | `false` | `100` |
 | [Orbiplex Sealer](../60-solutions/005-sealer/005-sealer.md) | `true` | `true` | `false` | `100` |
-| [Orbiplex Capability Binding](../60-solutions/006-capability-binding/006-capability-binding.md) | `true` | `true` | `true` | `95` |
+| [Orbiplex Capability Binding](../60-solutions/006-capability-binding/006-capability-binding.md) | `true` | `true` | `true` | `100` |
 | [Capability Advertisement](../60-solutions/007-capability-advertisement/007-capability-advertisement.md) | `true` | `true` | `false` | `100` |
-| [Orbiplex Agora](../60-solutions/008-agora/008-agora.md) | `true` | `true` | `false` | `93` |
+| [Orbiplex Agora](../60-solutions/008-agora/008-agora.md) | `true` | `true` | `false` | `100` |
 | [Orbiplex Monus](../60-solutions/009-monus/009-monus.md) | `false` | `false` | `false` | `15` |
 | [Orbiplex Anon](../60-solutions/010-anon/010-anon.md) | `false` | `false` | `false` | `10` |
 | [Orbiplex Whisper](../60-solutions/011-whisper/011-whisper.md) | `true` | `true` | `false` | `100` |
 | [Ferment](../60-solutions/012-ferment/012-ferment.md) | `false` | `false` | `false` | `15` |
 | [Raw Signal Access](../60-solutions/013-raw-signal-access/013-raw-signal-access.md) | `true` | `true` | `false` | `90` |
-| [Orbiplex Key Delegation Passports](../60-solutions/014-key-delegation-passports/014-key-delegation-passports.md) | `true` | `true` | `false` | `95` |
+| [Orbiplex Key Delegation Passports](../60-solutions/014-key-delegation-passports/014-key-delegation-passports.md) | `true` | `true` | `false` | `100` |
 | [Host-Owned Module Store](../60-solutions/015-host-owned-module-store/015-host-owned-module-store.md) | `true` | `true` | `false` | `90` |
 | [Bounded Local Server Runtime](../60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md) | `true` | `true` | `false` | `90` |
 | [Inter-Node Artifact Channel (INAC)](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md) | `true` | `true` | `false` | `88` |
 | [Classification](../60-solutions/018-classification/018-classification.md) | `true` | `false` | `false` | `76` |
-| [Middleware](../60-solutions/019-middleware/019-middleware.md) | `true` | `true` | `false` | `94` |
+| [Middleware](../60-solutions/019-middleware/019-middleware.md) | `true` | `true` | `false` | `100` |
 | [Replay Scheduler](../60-solutions/020-scheduler/020-scheduler.md) | `true` | `true` | `false` | `100` |
 | [Solution 021: Agora Authority](../60-solutions/021-agora-authority/021-agora-authority.md) | `false` | `false` | `false` | `77` |
 | [Orbiplex Semantic Index](../60-solutions/022-semantic-index/022-semantic-index.md) | `false` | `false` | `false` | `15` |
