@@ -461,6 +461,20 @@ relocated.
   withdrawn" (provider-attested, mechanical) cleanly separate from "provider revoked"
   (federated trust, social).
 
+- ~~Should the public shared catalog renew and republish its
+  `shared-offer-catalog` capability passport in-process before
+  `passport_expires_in_sec`, or is supervisor-driven restart the correct operational
+  boundary for this role?~~ **Resolved:** supervisor-driven restart is the default
+  operational boundary. The middleware publishes the passport at start; automatic
+  in-process renewal remains optional future hardening, not the baseline contract.
+- ~~Should public shared catalog deployments require HTTPS/TLS for non-loopback
+  `agora.base_url`, and how should local reverse-proxy deployments declare an
+  intentional exception?~~ **Resolved:** non-loopback `agora.base_url` must use
+  HTTPS/TLS. Loopback HTTP (`127.0.0.1`, `localhost`, `[::1]`) remains allowed for
+  local smoke, dev, and reverse-proxy topologies where the public TLS boundary is
+  outside the middleware process. The Node shared catalog middleware enforces this
+  before public/shared replay.
+
 ## Consequences
 
 This proposal reduces ontology drift:

@@ -1,7 +1,7 @@
 {:component/id :orbiplex/shared-offer-catalog
  :component/title "Orbiplex Shared Offer Catalog"
  :component/type :node-attached-module
- :component/status :partial
+ :component/status :done
 
  :summary
  "Node-attached middleware projection over Agora offer-snapshot records. It
@@ -65,5 +65,5 @@
    :schemas ["capability-passport.v1"]
    :responsibilities
    ["Publish the shared-offer-catalog capability passport automatically or through an operator-controlled profile"
-    "Document public catalog deployment hardening and monitoring"]
-   :status :planned}]}
+    "Document public catalog profile, readiness semantics, and the local smoke check"]
+   :status :done}]}
