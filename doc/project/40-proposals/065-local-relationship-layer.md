@@ -1020,17 +1020,22 @@ There is no `contacts_membership` compatibility cache and no
 
 ## Open Questions
 
-1. Should `relationship-class.v1` allow per-class operator override of
-   retention horizon (currently inherits from host default via profile-ref),
-   or is the inherited horizon sufficient for first iteration?
-2. Does `pairwise-nym-binding.v1` need additional context kinds beyond
-   the initial set (`messaging`, `ad-direct`, `agora-topic`,
-   `inquirium-session`)? Adding kinds later is forward-compatible, but a
-   complete-enough initial set reduces churn.
-3. When does `pairwise nym continuity` evidence get strong enough to be a
-   policy input vs purely informational? This is a follow-up concern about
-   how confidence in continuity flows into trust decisions, deferred to a
-   later proposal.
+No unresolved questions remain for this slice. The decisions below record the
+approved defaults.
+
+1. `relationship-class.v1` retention horizon inherits from the host profile for
+   the first iteration. Per-class operator override is intentionally deferred to
+   avoid multiplying lifecycle policy before the canonical relationship event
+   log and projection have settled.
+2. `pairwise-nym-binding.v1` uses a registry-driven context-kind set rather than
+   a permanently closed initial list. The first registry entries should cover
+   `messaging`, `ad-direct`, `agora-topic`, and `inquirium-session`, but the
+   contract should validate against the registry so future contexts can be added
+   without changing the schema shape.
+3. `pairwise nym continuity` evidence is informational only in this slice. It
+   must not raise trust or grant authority yet; any future use as a policy input
+   requires a separate proposal defining thresholds, revocation handling,
+   recency, and failure semantics.
 
 ## Next Actions
 
@@ -1075,3 +1080,5 @@ track.
 | P065-M6 | AD integration + Contact Catalog cleanup + hardening | `true` | done | Artifact Delivery has a host-composed dynamic group selector hook and daemon wiring to resolve relationship classes for the primary local operator into ordinary AD recipient selectors when `contact/ref` is directly AD-routable (`node:`, `participant:`, `routing:`), or when a `local-contact:` record carries a local `routing-subject/id` or participant `remote/subject`. Relationship membership/candidate contracts admit directly routable refs while pairwise nym binding contracts remain local-contact scoped. Tests assert empty dynamic groups do not fall back, unroutable relationship groups fail closed, and relationship candidates do not bypass AD outbound authority. Host predicate evaluation verifies available node-operator-binding evidence from the daemon binding store and redacts candidate/evidence detail before returning to middleware. Contact Catalog private-state cleanup is documented. Story-010 acceptance tooling has one repeatable relationship runner covering strict canonical delivery, relationship-group delivery, and multi-operator owner-scope checks. AD config validation permits late-bound group references, so Local Relationship groups do not need static placeholder groups. The daemon identity store imports verified `remote-disclosed` `node-operator-binding.v1` evidence with provenance, rejects inactive or tampered imports, and refuses to overwrite local-issued binding records; revocation-view invalidation for imported binding evidence remains post-MVP hardening. |
 | P065-D1 | Legacy bridge removal | `true` | done | Completed before first release as a breaking change: no `contacts_membership` cache, no bootstrap migration endpoint, and no `contacts.membership-changed.v1` contract remain. |
 | P065-D3 | Public protocol capability | `false` | deferred | Local-authenticated host API remains the MVP boundary. A public/federated capability would need a separate threat model. |
+| P065-D4 | Registry-driven pairwise nym context kinds | `false` | todo | Follow-up from the resolved context-kind decision. `pairwise-nym-binding-fact.v1` and `pairwise-nym-binding.v1` currently validate `context/kind` as a path id; add a local registry/admission layer seeded with `messaging`, `ad-direct`, `agora-topic`, and `inquirium-session`, and validate nym binding writes/projections against that registry so future context kinds can be added without changing schema shape. Completion requires schema/docs update, pure-core validation path, daemon/config or seed source, and tests proving unknown kinds fail closed unless registered. |
+| P065-D5 | Relationship retention profile inheritance | `false` | todo | Follow-up from the resolved retention decision. The contract already contains optional `relationship-class.v1` `retention/profile-ref`, while the approved first iteration says class retention inherits from the host profile and per-class operator override is deferred. Keep this field non-authoritative until the host-profile retention source is implemented, or define a narrow interpretation that cannot create per-class lifecycle policy yet. Completion requires schema/docs clarification, daemon/API/UI behavior review, and tests proving class writes do not activate unsupported per-class retention overrides. |

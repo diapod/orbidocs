@@ -641,13 +641,17 @@ state.
 
 ## Open Questions
 
-1. Should `relationship-class.v1` allow per-class operator override of
-   retention horizon (currently inherits from host default via
-   `retention/profile-ref`)?
-2. Does `pairwise-nym-binding-fact.v1` need context kinds beyond initial
-   set (`messaging`, `ad-direct`, `agora-topic`, `inquirium-session`)?
-3. When does pairwise nym continuity evidence get strong enough to be a
-   policy input (deferred to a later proposal)?
+No unresolved questions remain for the current local relationship slice.
+
+Decisions inherited from Proposal 065:
+
+1. `relationship-class.v1` retention horizon inherits from the host profile for
+   the first iteration; per-class retention override is deferred.
+2. Pairwise nym `context/kind` should become registry-driven, seeded initially
+   with `messaging`, `ad-direct`, `agora-topic`, and `inquirium-session`.
+3. Pairwise nym continuity evidence is informational only in this slice and must
+   not raise trust or grant authority until a later proposal defines thresholds
+   and failure semantics.
 
 ## Next Actions
 
@@ -712,6 +716,8 @@ state.
 | S032-20 | Phase 3 (writes fully migrated) | obsolete | Collapsed before first release: messaging writes canonical Local Relationship facts only. |
 | S032-21 | Phase 4 (legacy deprecation + retention) | obsolete | Collapsed before first release: legacy `contacts_membership` / `contacts.membership-changed.v1` support was removed rather than retained. |
 | S032-22 | Public protocol capability for federated consumers | deferred | Not in this iteration; local-authenticated host API only. |
+| S032-23 | Registry-driven pairwise nym context kinds | todo | Follow-up from the resolved Proposal 065 decision. Current code validates `context/kind` as a path id; add a registry/admission layer seeded with `messaging`, `ad-direct`, `agora-topic`, and `inquirium-session`, and require pairwise nym binding writes/projections to use registered kinds. Completion requires schema/docs update, pure-core validation support, daemon/config or seed source, and fail-closed tests for unknown context kinds. |
+| S032-24 | Relationship retention profile inheritance | todo | Follow-up from the resolved Proposal 065 retention decision. The schema and pure type contain optional `relationship-class.v1` `retention/profile-ref`, but the first supported behavior is host-profile inheritance, not per-class operator override. Keep the field non-authoritative until host-profile retention is implemented, or define a narrow interpretation that preserves inheritance semantics. Completion requires schema/docs clarification, daemon/API/UI behavior review, and tests proving class writes do not activate unsupported per-class retention overrides. |
 
 ## Notes
 
