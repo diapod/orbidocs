@@ -152,14 +152,16 @@ Responsibilities:
 - record every accepted, denied, and failed operation into an injected
   `SealerAuditSink`,
 - record audit events without exposing plaintext, key material, or raw AAD
-  (hash AAD before logging),
+  (hash AAD before logging); backend-internal key-source failures are
+  redacted to a generic internal reason at the audit/HTTP boundary,
 - deny-by-default: missing policy entries produce a typed not-authorized
   decision, not `Allowed`.
 
 Status:
 
-- `partial`: engine-local policy/audit exists, and the deployed daemon
-  authorizes HTTP calls through capability binding before engine invocation.
+- `done` in the Node reference implementation. The engine-local policy/audit
+  seam remains for in-process invariants and tests, while the deployed daemon
+  owns the production passport-aware dispatch gate before engine invocation.
 
 ### Passport-Aware Policy (Key-Use Authorization)
 
@@ -316,6 +318,9 @@ Responsibilities:
   with bytes encoded as base64url-without-padding,
 - map `SealerError` to stable HTTP status codes and a uniform error
   envelope `{ "status": "<code>", "reason": "<message>" }`,
+- keep cryptographic `OpenFailed` responses opaque on the HTTP boundary and
+  redact backend-internal `KeySourceError::Internal` details from the error
+  envelope,
 - keep the HTTP shim free of HTTP-framework dependencies (no `axum`, no
   `hyper`) — the daemon adapts the `(u16, String)` outcome to its own
   dispatch format.

@@ -1,13 +1,14 @@
 {:component/id :orbiplex/sealer
  :component/title "Orbiplex Sealer"
  :component/type :host-capability
- :component/status :partial
+ :component/status :done
 
  :summary
  "Local authenticated-encryption capability for opaque byte buffers. Sealer owns
  AEAD suite selection, envelope production, key-source derivation boundaries,
  engine audit, and daemon dispatch integration while keeping passport semantics
- outside the crypto engine."
+ outside the crypto engine. The hard-MVP Node path is passport-gated at the
+ daemon dispatch layer and keeps the core engine policy-agnostic."
 
  :must-implement
  [{:cap/id :opaque-aead

@@ -411,9 +411,9 @@ The Seed Directory indexes capabilities it accepts under its own policy. It is a
 discovery and caching surface, not the only authority that makes a capability
 claim visible.
 
-## Implementation Status and Open Edges
+## Hard-MVP Implementation Status
 
-The Node implementation already covers the baseline exchange:
+The Node implementation covers the hard-MVP baseline exchange:
 
 - local advertisement assembly from passport-backed presented capabilities,
 - routing projection derivation,
@@ -422,15 +422,28 @@ The Node implementation already covers the baseline exchange:
 - outer signature verification,
 - ingress freshness checks,
 - schema-present request handling,
-- and monotonic cache replacement for peer advertisements.
+- monotonic cache replacement for peer advertisements,
+- and Capability Registry-backed fail-closed admission for unregistered or
+  ineligible advertised capability ids.
 
-The remaining implementation edges are:
+This is the `done` boundary for the hard-MVP `Capability Advertisement` solution:
+receivers no longer treat loose capability labels as authority, advertisement
+ingress and egress stay schema-gated, and Proposal 072 / Solution 037 supplies
+the registry-backed fail-closed behavior for unregistered or ineligible formal
+capability ids.
+
+## Post-MVP Hardening Edges
+
+The following edges are intentionally deferred hardening, not blockers for the
+hard-MVP `done` status:
 
 1. **Per-passport ingress verification.** The outer advertisement signature
    verifies the transport artifact. Each embedded passport still needs typed
    verification, delegated issuer proof handling when present, revocation
    checks, capability-profile authority checks, and receiver-local policy.
-   Unknown capability ids should be quarantined rather than rejected globally.
+   The hard-MVP registry gate rejects unregistered or ineligible formal ids;
+   richer passport quarantine and authority policy remain the next trust-policy
+   layer.
 2. **Pluggable schema store.** The current daemon-local schema lookup is a
    minimum store. A future store should key by `schema/ref`, optionally index by
    `schema/id`, and leave hash verification to the consumer so the store remains
@@ -438,15 +451,19 @@ The remaining implementation edges are:
 3. **Lifecycle-driven rebuilds.** Rebuild and re-sign on startup, relevant
    transport/config changes, newly accepted or removed passports, revocations
    invalidating presented passports, and delegated signer rotation that changes
-   inline issuer-delegation proofs.
+   inline issuer-delegation proofs. Startup and local advertisement refresh are
+   covered by the current runtime; passport/revocation/signer-rotation-triggered
+   rebuilds are post-MVP lifecycle hardening.
 4. **Reusable outbound schema retrieval.** The inbound
    `capability.schema.present.request` path exists; reusable client-side
    request/correlation/hash-verification helpers should be factored when a
    second caller needs them.
 5. **Seed Directory reconciliation.** Direct peer advertisements remain the live
    presentation. Seed Directory `PUT /cap` and `GET /cap` flows are indexing and
-   discovery surfaces, not trust anchors, and must preserve the same local
-   verification model.
+   discovery surfaces, not trust anchors. The current registry-backed admission
+   rule comes from Proposal 072 / Solution 037; later Seed Directory
+   reconciliation must preserve the same local verification model rather than
+   treating directory presence as trust.
 
 ## Consumes
 
