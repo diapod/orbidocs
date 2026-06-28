@@ -160,7 +160,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`public-log-entry.v1.schema.json`](schemas-gen/schemas/public-log-entry.v1.md) | `6` | `6` | `yes` | `yes` | `0` | `0` |
 | [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) | `30` | `30` | `yes` | `yes` | `3` | `3` |
 | [`relationship-class-changed.v1.schema.json`](schemas-gen/schemas/relationship-class-changed.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `3` |
-| [`relationship-class.v1.schema.json`](schemas-gen/schemas/relationship-class.v1.md) | `14` | `2` | `yes` | `yes` | `2` | `2` |
+| [`relationship-class.v1.schema.json`](schemas-gen/schemas/relationship-class.v1.md) | `14` | `3` | `yes` | `yes` | `2` | `2` |
 | [`relationship-membership-fact.v1.schema.json`](schemas-gen/schemas/relationship-membership-fact.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `1` |
 | [`relationship-policy-candidate.v1.schema.json`](schemas-gen/schemas/relationship-policy-candidate.v1.md) | `20` | `0` | `yes` | `yes` | `1` | `0` |
 | [`relationship-policy-decision.v1.schema.json`](schemas-gen/schemas/relationship-policy-decision.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `0` |

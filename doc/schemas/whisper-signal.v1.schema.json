@@ -40,9 +40,9 @@
       "type": "string",
       "enum": [
         "problem",
-        "inspiration"
+        "idea"
       ],
-      "description": "Fundamental polarity of the whisper signal. `problem` describes a distributed harm, failure, or dignity risk that may require correlation and protective response. `inspiration` describes a convergent idea, creative discovery, or emerging approach that may justify co-creation. Emergency handling MUST NOT be triggered solely by an `inspiration` signal."
+      "description": "Fundamental polarity of the whisper signal. `problem` describes a distributed harm, failure, or dignity risk that may require correlation and protective response. `idea` describes a convergent idea, creative discovery, or emerging approach that may justify co-creation. Emergency handling MUST NOT be triggered solely by an `idea` signal."
     },
     "epistemic/class": {
       "type": "string",
@@ -135,7 +135,7 @@
         "high",
         "critical"
       ],
-      "description": "Signal salience grade. For `problem` signals this grades protective risk and urgency. For `inspiration` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal/polarity`."
+      "description": "Signal salience grade. For `problem` signals this grades protective risk and urgency. For `idea` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal/polarity`."
     },
     "routing/profile": {
       "type": "string",

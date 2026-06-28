@@ -45,8 +45,8 @@ is a bounded way for nodes to share socially meaningful weak signals such as:
 - "independent inventors in different countries appear to be converging on the same technical approach without prior contact",
 - "several communities have independently bootstrapped structurally similar solutions to an unmet need".
 
-The second class of signal — inspiration convergence — is as important as the first.
-Where problem signals serve early detection and collective response, inspiration signals
+The second class of signal — idea convergence — is as important as the first.
+Where problem signals serve early detection and collective response, idea signals
 serve co-creation: connecting people who have independently arrived at a similar idea
 before their paths diverge irrecoverably. Both polarities deserve first-class support.
 
@@ -114,7 +114,7 @@ A `whisper-signal` carries one of two fundamental polarities:
   collective response or protective action. The signal grade expresses protective
   risk and urgency. Emergency assistance
   paths may be triggered.
-- **`inspiration`** — the signal describes a convergent idea, creative discovery, or
+- **`idea`** — the signal describes a convergent idea, creative discovery, or
   emerging approach that multiple people or groups appear to have independently
   reached. The lifecycle goal is to propose co-creation or collaboration between
   parties who have not yet found one another. The signal grade expresses convergence
@@ -126,7 +126,7 @@ share the same lifecycle but differ in urgency, redaction posture, and the natur
 the resulting association room:
 
 - problem → support, coordination, or protective response room,
-- inspiration → co-creation or collaboration room.
+- idea → co-creation or collaboration room.
 
 ### 1. Rumor semantics remain explicit
 
@@ -604,7 +604,7 @@ envelope (proposal 035) and for the same envelope used in direct
 node-to-node exchange (see "Distribution and Local Storage"). The
 content body carries whisper-level semantics only:
 
-- `signal/polarity` (`problem` | `inspiration`),
+- `signal/polarity` (`problem` | `idea`),
 - `epistemic/class`, `signal/text`, `topic/class`, `context/facets`,
 - optional `signal/similarity-key` for deterministic threshold smoke and explicit
   policy-defined matching,
@@ -667,31 +667,39 @@ that should remain visible as well.
    - Benefit: more federated and less monopolistic.
    - Cost: more care needed in threshold and quorum design.
 
-## Open Questions
+## Resolved Questions
 
-1. Should `inspiration` signals use a different threshold function than `problem`
-   signals (e.g. lower count, broader geographic diversity requirement)?
-2. **Resolved for M4, open for production policy** — M4 uses two distinct eligible
-   nodes with the same `topic/class` and `signal/similarity-key` inside a bounded
-   time window. Production policy may later add trust-tier weighting or diversity
-   constraints.
-3. What exact structure should a rumor nym and derived forwarding nym have?
-4. Should `whisper-threshold-reached` include aggregate statistics only, or also
-   bounded witness references?
-5. Should some classes of rumor be forbidden from any rebroadcast without a
-   suitable outbound privacy capability present?
-6. Which parts of association bootstrap belong to Whisper and which should later
-   move into a more specialized association module?
-7. **Resolved** — resolved in proposal 026 §2.4: curation verdicts
-   are expressed as `resource-opinion.v1` with
+1. `idea` signals use the same threshold function as `problem` signals in v1.
+   This keeps the threshold contract deterministic and avoids a second policy
+   surface before production evidence shows a need for divergence.
+2. The M4 threshold rule remains the production baseline for v1: two distinct
+   eligible nodes with the same `topic/class` and `signal/similarity-key` inside
+   a bounded time window. Trust-tier weighting and source-diversity constraints
+   are later overlays, not v1 requirements.
+3. Rumor nyms and derived forwarding nyms are deterministic per rumor context.
+   This gives stable correlation inside one rumor context without introducing
+   global cross-context linkage.
+4. `whisper-threshold-reached` includes aggregate statistics only. Bounded
+   witness references are omitted from the public threshold artifact to minimize
+   correlation and disclosure risk.
+5. Sensitive rumor classes fail closed for rebroadcast unless a suitable
+   outbound privacy capability is present. Classification and redaction are not
+   enough by themselves for those classes.
+6. Whisper emits threshold and association proposal artifacts. Association-room
+   lifecycle, enrollment, moderation, transcript/case management, and later
+   room runtime belong to a specialized association/room layer.
+7. Curation verdicts are expressed as `resource-opinion.v1` with
    `opinion/subject-kind: "rumor"` plus the `rumor-opinion.overlay.v1`
    fields (`rumor/credibility` in `1..5`; `rumor/rejection-reason`
-   as a closed enum). No new opinion subtype is introduced. Still
-   open: should the substrate define a minimum aggregation rule
-   (e.g. K independent `rumor/rejection-reason = spam` verdicts from
-   trusted peers) that a receiving node's default policy treats as
-   an automatic propagation suppressor, and how is "trusted peer"
-   scoped for that purpose?
+   as a closed enum). No new opinion subtype is introduced. The default v1
+   propagation policy suppresses after K independent trusted-peer spam verdicts,
+   where K and trusted-peer scope are local policy parameters.
+
+## Open Questions
+
+None for the v1/M4 hard-MVP slice. Future production deployments may reopen
+threshold weighting, source diversity, witness-reference disclosure, and richer
+association-room lifecycle policy as post-MVP questions.
 
 ## Next Actions
 

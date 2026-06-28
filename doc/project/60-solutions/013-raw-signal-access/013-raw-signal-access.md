@@ -10,7 +10,7 @@ Based on:
 
 ## Status
 
-Implemented MVP
+Implemented
 
 ## Purpose
 
@@ -131,8 +131,43 @@ The runtime appends a component input only when a remaining executor declares
 `requires_component_io_trace`. If no remaining executor can consume it, the
 runtime does not keep growing the trace.
 
-The MVP stores the input payload and leaves `input_digest` empty. Redaction,
-digest-only traces, and size-aware truncation are follow-up hardening work.
+Each receiving executor's declaration bounds the exposed trace view. If
+`max_trace_entry_bytes` is set and a prior input snapshot is larger than that
+limit, the host replaces the exposed `input` with a redacted metadata object
+and sets `input_digest` to a `sha256:` digest of the original JSON bytes.
+
+The MVP bounds each exposed raw value by byte size. It does not yet impose a
+separate maximum number of component I/O trace entries. Deep or dynamically
+expanded workflows should keep `requires_component_io_trace` narrow; a future
+`max_component_io_trace_entries` policy can cap trace length if profiling shows
+that entry count, not entry size, is the operational risk.
+
+The host may still hold the original input in memory for the current passage.
+That value is not written to Memarium, the daemon module store, JSON-e-flow
+traces, or the final envelope.
+
+## Size Limits And Digest-Only Projection
+
+Raw access uses per-receiver bounds:
+
+- `max_raw_signal_bytes` limits the exposed initial `raw_signal`,
+- `max_trace_entry_bytes` limits each exposed component input trace entry.
+
+When an exposed value exceeds its bound, the executor receives:
+
+```json
+{
+  "redacted": true,
+  "reason": "raw-signal-size-limit",
+  "original/sha256": "sha256:...",
+  "original/bytes": 49152,
+  "limit/bytes": 32768
+}
+```
+
+This keeps the mechanism useful for causality debugging while preventing a
+component from receiving unbounded raw payloads just because another component
+needed preservation.
 
 ## Boundaries
 
@@ -155,5 +190,8 @@ The MVP is covered by runtime tests that verify:
 
 - only the declaring executor receives raw signal,
 - only the declaring executor receives component I/O trace,
+- oversized raw signal and component input trace values are exposed only as
+  digest metadata,
 - JSON-e can project exposed raw signal through `context_projection`,
+- direct JSON-e-flow dispatch receives the same bounded projection semantics,
 - final envelopes do not leak `trace.raw_signal_access`.

@@ -50,7 +50,7 @@ Append-only local event recording observed pairwise nym continuity for one conta
 
 | Definition | Shape | Description |
 |---|---|---|
-| [`context_kind`](#def-context-kind) | string |  |
+| [`context_kind`](#def-context-kind) | enum: `messaging`, `ad-direct`, `agora-topic`, `inquirium-session` | Registered pairwise nym continuity context kind. Unknown contexts fail closed; callers cannot create ad-hoc continuity semantics by spelling a new string. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -136,4 +136,6 @@ Append-only local event recording observed pairwise nym continuity for one conta
 <a id="def-context-kind"></a>
 ## `$defs.context_kind`
 
-- Shape: string
+- Shape: enum: `messaging`, `ad-direct`, `agora-topic`, `inquirium-session`
+
+Registered pairwise nym continuity context kind. Unknown contexts fail closed; callers cannot create ad-hoc continuity semantics by spelling a new string.

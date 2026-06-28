@@ -44,7 +44,7 @@ Operator-defined local relationship class definition. A class is policy metadata
 | [`grant-allowlist`](#field-grant-allowlist) | `no` | array |  |
 | [`verification/required`](#field-verification-required) | `no` | array |  |
 | [`privacy/profile`](#field-privacy-profile) | `yes` | enum: `sealed-only`, `operator-visible-summary`, `public-aggregate` |  |
-| [`retention/profile-ref`](#field-retention-profile-ref) | `no` | string |  |
+| [`retention/profile-ref`](#field-retention-profile-ref) | `no` | string | Optional reference to a host-owned Local Relationship retention profile. Absence means inherit `local-relationship/default`; inline retention windows or deletion rules are not part of relationship-class.v1. |
 | [`policy/refs`](#field-policy-refs) | `no` | array |  |
 
 ## Definitions
@@ -136,6 +136,8 @@ Suggested capabilities requiring explicit operator confirmation.
 
 - Required: `no`
 - Shape: string
+
+Optional reference to a host-owned Local Relationship retention profile. Absence means inherit `local-relationship/default`; inline retention windows or deletion rules are not part of relationship-class.v1.
 
 <a id="field-policy-refs"></a>
 ## `policy/refs`

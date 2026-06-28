@@ -12,7 +12,10 @@ Directory, Agora service, and daemon peer listener. Python supervised
 middleware uses the analogous `bounded_http.py` helper around the stdlib
 `ThreadingHTTPServer`. Every server surface governed by these primitives gets
 bounded accepts or active-request permits, fast overload rejection, and
-first-class shutdown drain or daemon-supervised shutdown with metrics.
+first-class shutdown drain or daemon-supervised shutdown with metrics. The
+daemon health endpoint also exposes a local `health_server.max_connections`
+configuration knob so integration tests and constrained deployments can verify
+the same overload behavior used in production.
 
 ## Context and Problem Statement
 
@@ -119,4 +122,7 @@ remaining process rather than hiding it as a successful shutdown.
 - [x] Migrate bundled Python middleware to `BoundedThreadingHTTPServer`.
 - [x] Expose daemon resource pressure in runtime metrics and Node UI status.
 - [x] Add bounded Python HTTP helper test for fast 503 rejection.
-- [ ] Add integration test that verifies 503 under load in a real daemon context.
+- [x] Add integration test that verifies 503 under load in a real daemon context.
+- [ ] Post-MVP: keep an explicit audit inventory for any production local
+      listener that is not backed by `bounded-server`,
+      `BoundedThreadingHTTPServer`, or a documented equivalent bounded adapter.

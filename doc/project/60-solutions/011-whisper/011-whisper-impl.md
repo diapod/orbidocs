@@ -72,6 +72,20 @@ production correlation, association-room lifecycle, production Monus/Sensorium
 source integration, and explicit public-gossip promotion behind the same
 Whisper/Agora envelope boundary.
 
+## Migration: `signal/polarity` enum rename
+
+Date: 2026-06-28.
+
+`whisper-signal.v1` now uses `signal/polarity = "idea"` instead of the earlier
+draft value `signal/polarity = "inspiration"`. This is a pre-compatibility
+wire-contract rename, not a runtime migration with a grace period. Producers
+MUST emit `idea`; schema gates MAY reject new `inspiration` records.
+
+Existing historical records are not rewritten by this solution. Any replay or
+import path that intentionally consumes old draft records must normalize
+`inspiration -> idea` before validation, or handle those records as legacy data
+outside the current public Whisper contract.
+
 ## Post-M4 productization invariants
 
 These invariants apply to every later productization slice. They are stricter
@@ -712,7 +726,7 @@ Each step should leave the tree in a compiling state.
 
 - **Golden vectors** for `canonical_signed_bytes` and `record/id`
   in `whisper-core/tests/` — one vector per representative
-  whisper shape (rumor vs weak-signal; problem vs inspiration
+  whisper shape (rumor vs weak-signal; problem vs idea
   polarity; participant vs nym authorship). These vectors are a
   federation-level contract.
 - **Round-trip tests** for content-body-only validation:

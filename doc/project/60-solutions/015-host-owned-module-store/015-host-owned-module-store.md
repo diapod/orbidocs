@@ -8,7 +8,7 @@ Based on:
 
 ## Status
 
-Implemented thin slice in `orbiplex-node`.
+Implemented in `orbiplex-node`.
 
 ## Date
 
@@ -56,9 +56,19 @@ module_store_delete
 
 as `capability_id`.
 
-The MVP wire contract is enforced by typed Rust request/response structures in
-`middleware/src/module_store.rs`. JSON Schema gate files are intentionally
-deferred until module-store record kinds become schema-gated.
+The MVP wire contract is enforced twice at the local host boundary:
+
+- `middleware/schemas/module-store-*-request.schema.json` and
+  `middleware/schemas/module-store-*-response.schema.json` reject malformed raw
+  JSON before typed decoding and before host responses leave the daemon route.
+- `middleware/src/module_store.rs` keeps the semantic typed contract, including
+  capability ids, bounded identifiers, required records for successful
+  put/get outcomes, a maximum `module_store_list` limit of 500 returned
+  records, and non-empty diagnostics.
+
+The schema gate intentionally validates the generic host capability envelope and
+record snapshot shape. Module-specific `payload` semantics remain owned by the
+module unless a later schema-gated record-kind registry is introduced.
 
 ## Record Contract
 
@@ -129,15 +139,19 @@ Do not use it for:
 The first implementation lives in `orbiplex-node`:
 
 - `middleware/src/module_store.rs` defines typed request/response contracts,
+- `middleware-runtime/src/schema_gate.rs` validates module-store request and
+  response JSON against committed local middleware schemas,
 - `daemon/src/endpoint_context.rs` owns live projection operations,
-- `daemon/src/endpoint_routes.rs` exposes the four host capability endpoints,
+- `daemon/src/endpoint_routes/module_store.rs` exposes the four host capability
+  endpoints and validates both request and response shapes,
 - `daemon/src/state_checkpoint.rs` persists and replays the live projection,
-- daemon tests cover replay upsert/tombstone behavior,
-- middleware tests cover typed contract validation and serde roundtrip.
+- daemon tests cover replay upsert/tombstone behavior and Story-009 supervised
+  module-store replay through real daemon processes,
+- middleware tests cover typed contract validation and serde roundtrip,
+- middleware-runtime tests cover the committed schema-gate contracts.
 
-## Deferred
+## Post-MVP Extensions
 
-- JSON Schema gate files for the new module-store wire contracts.
 - Generic operator UI for inspecting module store records.
 - Optional schema-gated record kinds.
 - Explicit publish/export path from module store records to Agora or Dator.

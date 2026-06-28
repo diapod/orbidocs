@@ -12,6 +12,21 @@ Change basis: this refresh incorporates the current worktree state on 2026-06-28
 
 Recent component deltas:
 
+- Raw Signal Access is now hard-MVP complete as both proposal and solution:
+  hook-chain runtime and direct JSON-e-flow dispatch preserve raw context only
+  in memory, expose it only to declaring executors, strip it from final
+  envelopes, and now enforce declared raw-signal / component-trace byte limits
+  by replacing oversized exposures with `sha256:` digest metadata.
+- Bounded Local Server Runtime is now hard-MVP complete: the shared Rust and
+  Python bounded-server primitives were already migrated across the production
+  local server surfaces, and the remaining daemon-context overload gap is closed
+  by a real health-endpoint integration test that forces `max_connections = 1`
+  and observes fast HTTP 503 rejection.
+- Host-Owned Module Store is now hard-MVP complete: the four module-store host
+  capabilities have committed local schema-gate contracts, daemon routes
+  validate raw request and response JSON before and after typed dispatch, and
+  Story-009 verifies supervised module-store writes plus daemon restart/replay
+  through real processes.
 - Sealer, Capability Advertisement, and Pseudonym Vault / Key Roles are now
   aligned with their component trackers as hard-MVP complete solution slices.
   Sealer's hard-MVP `done` status is backed by the daemon passport-aware
@@ -251,10 +266,10 @@ Recent component deltas:
 | [Orbiplex Anon](../60-solutions/010-anon/010-anon.md) | `false` | `false` | `false` | `10` |
 | [Orbiplex Whisper](../60-solutions/011-whisper/011-whisper.md) | `true` | `true` | `false` | `100` |
 | [Ferment](../60-solutions/012-ferment/012-ferment.md) | `false` | `false` | `false` | `15` |
-| [Raw Signal Access](../60-solutions/013-raw-signal-access/013-raw-signal-access.md) | `true` | `true` | `false` | `90` |
+| [Raw Signal Access](../60-solutions/013-raw-signal-access/013-raw-signal-access.md) | `true` | `true` | `false` | `100` |
 | [Orbiplex Key Delegation Passports](../60-solutions/014-key-delegation-passports/014-key-delegation-passports.md) | `true` | `true` | `false` | `100` |
-| [Host-Owned Module Store](../60-solutions/015-host-owned-module-store/015-host-owned-module-store.md) | `true` | `true` | `false` | `90` |
-| [Bounded Local Server Runtime](../60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md) | `true` | `true` | `false` | `90` |
+| [Host-Owned Module Store](../60-solutions/015-host-owned-module-store/015-host-owned-module-store.md) | `true` | `true` | `false` | `100` |
+| [Bounded Local Server Runtime](../60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md) | `true` | `true` | `false` | `100` |
 | [Inter-Node Artifact Channel (INAC)](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md) | `true` | `true` | `false` | `88` |
 | [Classification](../60-solutions/018-classification/018-classification.md) | `true` | `false` | `false` | `76` |
 | [Middleware](../60-solutions/019-middleware/019-middleware.md) | `true` | `true` | `false` | `100` |
