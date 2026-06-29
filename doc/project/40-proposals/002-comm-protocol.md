@@ -4,7 +4,8 @@ Based on: `doc/project/10-challenges/002-sybil.md`
 
 ## Status
 
-Proposed (Draft)
+Baseline vision — partially superseded. See *Current Status and Superseded-By
+Mapping* below for the implemented sources of truth.
 
 ## Date
 
@@ -13,6 +14,29 @@ Proposed (Draft)
 ## Executive Summary
 
 This proposal defines the node-to-node communication architecture for the Orbiplex Swarm, designed for mixed environments (consumer networks + corporate networks with mandatory proxy/TLS inspection). The design is built around Ed25519 identity, a proxy-friendly WSS transport, optional message-level E2E encryption with PFS, and untrusted Edge relay nodes. Three security profiles (`CORP_COMPLIANT`, `E2E_PREFERRED`, `E2E_REQUIRED`) allow nodes to operate under different governance constraints without breaking connectivity.
+
+## Current Status and Superseded-By Mapping
+
+P002 remains the **baseline vision** for Orbiplex node-to-node communication: the
+problem framing (mixed corporate/consumer networks, transport-vs-confidentiality
+separation, governance-aware profiles, Sybil/DoS posture) and the directional
+model still hold. It is **not** the frozen source of truth for the implemented
+runtime. Much of what it described has since been specified in detail and
+implemented elsewhere, so this proposal has become directional where those layers
+took over. Read P002 for the *why* and the shape; for anything you intend to
+build or freeze, follow the mapped source. If a mapped source and P002 disagree,
+the mapped source wins and P002 is read as historical intent.
+
+| P002 area | Current source(s) of truth | Status note |
+| --- | --- | --- |
+| Transport, discovery, handshake, sessions, keepalive/reconnect (§1, §4, §7) | P014 Node Transport and Discovery MVP; Solution 000 Node; requirements-006 node networking | Specified and largely implemented; P014 owns the frozen MVP slice. |
+| Control-plane **Envelope** (§6) | Concrete schema families in `node:protocol/contracts/schemas`: `node-identity.v1`, `node-advertisement.v1`, `peer-handshake.v1`, `capability-advertisement.v1`, `signal-marker-envelope.v1`, `peer-status.v1`, `node-succession.v1` | The generic `Envelope` is **not** the frozen runtime contract; per-purpose schema families are. P002's envelope stays illustrative. |
+| Identity model: base identity, session keys, multi-station, contextual nyms, stratification (§2) | P007 Pod Identity and Tenancy Model; P059 Participant/Nym/Routing-Subject Key-Role Derivation; P015 Nym Certificates and Renewal Baseline; P014 identity baseline; Solution 000 | Specified and partly implemented downstream; P002's identity section is the vision, not the contract. |
+| Transport vs E2E crypto; TLS / certificates / inspection (§4, §9 TLS) | P056 Orbiplex TLS Trust Policy; Solution 024 TLS Trust Policy; route-id / local-CA / endpoint-evidence implementation | P002's "system trust store / corporate TLS" is now over-simplified; P056 + Solution 024 govern TLS trust. |
+| Security profiles `CORP_COMPLIANT` / `E2E_PREFERRED` / `E2E_REQUIRED` (§5) | (policy concept) — nearest runtime expressions: P056 TLS trust policy; locality/trust modes in transport and host policy | A good policy concept, but **not** a closed runtime switch in the current implementation. Directional until a profile contract is frozen. |
+| Edge relaying as public backbone (§8) | Peer runtime + WSS listener/dialer (P014); P054 Seed Directory / Solution 031; endpoint evidence + TLS trust (P056); P042 INAC / Solution 017; Solution 023 Artifact Delivery | The single "Edge relay" model is superseded in practice by peer-runtime + Seed Directory + AD/INAC. Edge relay remains a sensible future option, not the current backbone. |
+| Large payloads; group messaging (Open Questions) | Solution 023 Artifact Delivery; P042 INAC / Solution 017; object-store indirect; P060 Messaging Middleware; P070 Room | These open questions are now answered by AD/INAC (large/binary), object-store indirect, messaging (P060), and Room (P070). |
+| Sybil resistance; DoS "expensive before you believe" (§3) | `doc/project/10-challenges/002-sybil.md`; capability passports/binding; admission and rate-limit gates across transport and AD/INAC | Posture preserved; concrete enforcement now lives in capability and admission mechanisms rather than one protocol section. |
 
 ## Context and Problem Statement
 
@@ -180,6 +204,9 @@ Because corporate proxy can MITM transport, real privacy requires:
 
 ### 5. Security profiles (client policy knob)
 
+> Status: a policy concept, **not** a frozen runtime switch in the current
+> implementation. See *Current Status and Superseded-By Mapping*.
+
 #### `CORP_COMPLIANT` (default for corporate environments)
 - Must use **system proxy only** (PAC/NTLM/Kerberos).
 - Must use **system trust store** (proxy MITM is treated as "legitimate").
@@ -313,6 +340,10 @@ Then subsequent messages carry:
 
 ### 8. Edge relaying (routing by node-id, no trust in Edge)
 
+> Status: the single Edge-relay backbone is superseded in practice by peer-runtime
+> + Seed Directory (P054) + AD/INAC (P042, Solution 023). Retained as a future
+> option, not the current backbone. See *Current Status and Superseded-By Mapping*.
+
 #### Model
 - Edge is a **rendezvous + relay**, not a trusted party.
 - Edge can:
@@ -373,6 +404,11 @@ already proven end to end.
 
 ### 9. `CORP_COMPLIANT` governance checklist
 
+> Status: TLS, certificate, and inspection specifics are now governed by P056
+> Orbiplex TLS Trust Policy and Solution 024 (route-id / local CA / endpoint
+> evidence). This checklist remains a governance reference. See *Current Status
+> and Superseded-By Mapping*.
+
 Use this as a policy checklist for corporate governance / security review.
 
 #### Network egress / proxy
@@ -432,24 +468,53 @@ Use this as a policy checklist for corporate governance / security review.
 | Canonicalization mismatch | Signature verification fails across implementations | Specify canonical form precisely (sorted keys, UTF-8 NFC, no trailing whitespace) |
 | Clock skew beyond TTL window | Legitimate messages rejected | Bounded tolerance (e.g., 30s); NTP requirement for nodes; `ttl_s` as tunable |
 
-## Open Questions
+## Resolved Questions
 
-1. **Canonicalization family alignment**: the networking MVP now freezes deterministic CBOR for signed Node identity, advertisement, and handshake artifacts. A remaining question is whether broader envelope families should converge on the same canonicalization strategy or deliberately allow more than one family-specific canonical form.
-2. **Metadata privacy**: Should a metadata-wrapping layer be specified for `E2E_REQUIRED` mode, or is metadata exposure to Edge acceptable?
-3. **Group messaging**: Current envelope supports `group-id` in `to`, but group key management (e.g., sender keys, MLS-style) is unspecified.
-4. **Large payload transfer**: Data-plane for large payloads is mentioned (content-hash references) but not specified. Needs a separate proposal or extension.
-5. **Edge incentives**: What motivates operators to run Edge nodes? Token rewards, reputation, altruism? Ties into the broader economics model.
-6. **Admission bootstrap**: How does the first node get admitted when no sponsors exist yet? Genesis ceremony or initial trust set?
+1. **Group messaging**: Current envelope supports `group-id` in `to`, but group
+   key management (for example sender keys or MLS-style designs) is not owned by
+   P002 anymore. It is resolved by P070 Room and P060 Messaging; group-key
+   management belongs to those layers.
+2. **Large payload transfer**: Data-plane for large payloads is resolved by
+   Artifact Delivery (Solution 023), INAC (P042), and object-store indirect.
+   P002 no longer owns a separate large-payload extension.
+
+## Remaining Questions
+
+None for this baseline vision document. Open implementation questions should be
+tracked in the mapped runtime proposals and solutions.
+
+## Resolved Decisions
+
+1. **Canonicalization family alignment**: per-purpose canonicalization remains
+   allowed. Deterministic CBOR stays frozen where P014 already uses it, while
+   other signed artifact families may retain their own explicit canonical forms.
+   A universal canonicalization mandate would be cleaner in the abstract, but it
+   is not worth the migration risk at this stage.
+2. **Metadata privacy**: `E2E_REQUIRED` means payload confidentiality for now.
+   Metadata wrapping is a future privacy-hardening layer, not a requirement of
+   the current baseline.
+3. **Edge / relay / rendezvous incentives**: if a public relay, seed, or
+   rendezvous role returns, the default incentive model is reputation and
+   public-service posture first. Cost reimbursement or marketplace offers may
+   be added later, but the baseline does not require token rewards.
+4. **Admission bootstrap / genesis trust set**: first-network admission should
+   use an explicit, versioned genesis trust set. Static seeds provide
+   reachability, but the initial authority set must be auditable and later
+   replaceable by normal governance.
 
 ## Next Actions
 
-1. **Specify canonical envelope format** (EDN vs JSON, canonicalization rules, signing algorithm details) as a sub-document or appendix.
-2. **Implement MVP transport**: WSS/HTTP2 over 443 via system proxy with Edge relay (no E2E initially).
-3. **Implement Edge presence + relay** (no-trust pipe, rate limiting, presence table).
-4. **Add E2E mode** (`E2E_PREFERRED` first, then `E2E_REQUIRED`) with rekey schedule.
-5. **Add admission control** (invite/sponsor tokens) + DoS gates.
-6. **Add optional direct/UDP paths** later (optimization only).
-7. **Write story and requirements** for group messaging and large payload transfer scenarios.
+> These are the original 2026-02 draft actions, retained as historical intent.
+> Most are now realized or superseded by the mapped sources above; status tags are
+> inline.
+
+1. **Specify canonical envelope format** (EDN vs JSON, canonicalization rules, signing algorithm details) as a sub-document or appendix. → Realized differently: per-purpose schema families + deterministic CBOR (P014).
+2. **Implement MVP transport**: WSS/HTTP2 over 443 via system proxy with Edge relay (no E2E initially). → Realized: WSS transport + peer-runtime (P014, Solution 000).
+3. **Implement Edge presence + relay** (no-trust pipe, rate limiting, presence table). → Superseded: peer-runtime + Seed Directory (P054) + AD/INAC instead of an Edge-relay backbone.
+4. **Add E2E mode** (`E2E_PREFERRED` first, then `E2E_REQUIRED`) with rekey schedule. → Partial: encrypted session frames are implemented; E2E security profiles are not a frozen runtime switch.
+5. **Add admission control** (invite/sponsor tokens) + DoS gates. → Partial: capability-based admission and rate-limit gates exist; sponsor-token bootstrap remains open.
+6. **Add optional direct/UDP paths** later (optimization only). → Open (post-MVP optimization).
+7. **Write story and requirements** for group messaging and large payload transfer scenarios. → Realized: Messaging (P060), Room (P070), AD/INAC; Story 010 messaging acceptance.
 
 ## Fact / Inference / Speculation Notes
 
