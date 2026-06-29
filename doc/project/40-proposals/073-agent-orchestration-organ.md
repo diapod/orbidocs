@@ -108,6 +108,13 @@ The boundary is hard: Inquirium has **zero knowledge of agents**. The Agent call
 subject to the same classification, inference grants, and trace discipline as any
 other caller. Inquirium output remains *evidence*, never authority.
 
+The same boundary applies to collaborative rooms. A model-backed participant in a
+Room or Corpus deliberation is represented by an Agent controlled by an
+accountable subject or node role; a raw Inquirium adapter or model runtime is not
+a room member. If a deployment wants a one-shot model respondent, it should use a
+degenerate Agent profile with one step and an explicit budget rather than admit
+the adapter as a speaking actor.
+
 ### 2. Lifecycle: spawn, fork, suspend, resume, stop
 
 Lifecycle operations are **host capabilities**, not Inquirium operations. Each is
