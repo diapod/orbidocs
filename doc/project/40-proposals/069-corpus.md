@@ -233,6 +233,37 @@ acts as chair); a fallback/revocation policy is required even for that case. Ful
 **election** (eligibility, COI, quorum, deadline, tie-break, revocation, fallback) is a
 later layer.
 
+**Agent as chair delegate.** The requester MAY appoint its own host-owned Agent
+(P073) as the chair delegate for the room, but this does not make the Agent a new
+authority root. The room policy still names the accountable chair subject
+(`chair/nym` + `chair/credentials`) and may additionally reference
+`chair/agent-ref`; the host remains responsible for the Agent's budget,
+lifecycle, grants, and stop/resume controls. An Agent-chair may coordinate the
+discussion, propose turns, detect conflicts, request summaries, and propose the
+final answer, but it cannot self-authorize publication, settlement, membership
+changes, or effects outside the grants accepted by the host and the room policy.
+
+**Room participants are subjects or Agents, not raw model adapters.** A Corpus
+deliberation room may contain human participants, participant-controlled Agents,
+or node/service roles represented by Agents. A raw Inquirium adapter or model
+runtime MUST NOT appear as a room member. Inquirium is invoked by an Agent or by
+another host-owned flow as bounded inference; it does not own room identity,
+memory, lifecycle, budget, stop/resume semantics, or accountability. A
+single-turn model response MAY be represented as a degenerate Agent profile with
+one step, no fork, no durable autonomous memory, and an explicit budget.
+
+**Participant roles and instruction overlays.** The chair MAY assign
+deliberation roles to participants (for example `cxx-implementer`,
+`code-reviewer`, `adversarial-critic`, `domain-summarizer`) through explicit
+room/Corpus policy facts. These roles are not ambient authority and do not
+override local node policy. They are task-shaping metadata consumed by each
+participant's local Inquirium prompt-assembly policy. The chair MAY also propose
+per-role or per-turn instruction overlays, but remote nodes treat them as
+suggestions or bounded instruction profiles that must be locally accepted,
+validated, classified, and budgeted before they enter the participant's prompt.
+This prevents coordinator-controlled prompt injection while still allowing the
+room to organize expert perspectives.
+
 ### 6. Answer Contract (concrete, content-addressed, signed)
 
 Convergence yields one `corpus-reasoning-answer.v1`: `answer/id`, `query/id`, `room/id`,
@@ -321,6 +352,8 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 | `corpus-reasoning-bid-state.v1` | new | MVP | Asker read-model: per-candidate state + timestamps + reason + AD `delivery/attempt-id`. |
 | `corpus-reasoning-room-policy.v1` | new | post-MVP | Exposure, acceptance, chair + credentials, quorum, budgets (incl. tokens). |
 | `corpus-reasoning-room-invite.v1` | new | post-MVP | Room subject + live-transport binding + policy digest. |
+| `corpus-reasoning-role-assignment.v1` | new | post-MVP | Chair-issued participant role assignment with local-acceptance semantics. |
+| `corpus-reasoning-instruction-overlay.v1` | new | post-MVP | Suggested per-role/per-turn instruction overlay consumed only through local prompt policy. |
 | `corpus-reasoning-arbiter-nomination.v1` | new | later (Tracker P8) | Arbiter nomination (durable room record). |
 | `corpus-reasoning-arbiter-vote.v1` | new | later (Tracker P8) | Arbiter vote (durable room record). |
 | `corpus-reasoning-answer.v1` | new | post-MVP | Content-addressed signed answer incl. `policy/digest` (required), `contributor/weights[]`. |
@@ -650,8 +683,20 @@ Post-MVP live deliberation must use P070 instead of inventing a Corpus room:
 
 - `corpus-reasoning-room-policy.v1` is a Corpus decorator over `room-policy.v1`; it adds
   chair/acceptance/quorum/budget fields but does not replace room access policy.
+- `chair/agent-ref` may name a requester-owned Agent acting as the chair delegate, but
+  the accountable chair subject and credentials remain explicit in the room policy.
+- Live-room speakers are accountable subjects or Agents. Raw Inquirium adapters and
+  model runtimes are inference providers only and must not be admitted as room members;
+  single-turn model participation is represented as a degenerate Agent profile.
 - `corpus-reasoning-room-invite.v1` references `room.v1`, the live transport binding, and
   the room access list; actual join decisions rely on P070 membership attestations.
+- `corpus-reasoning-role-assignment.v1` records task roles for participants. A role is
+  valid only after local participant acceptance or local policy acceptance, and it cannot
+  widen the participant's authority, classification ceiling, or grants.
+- `corpus-reasoning-instruction-overlay.v1` records suggested prompt/instruction
+  overlays for a role or turn. It is never injected directly into a remote model prompt;
+  each participant's local Inquirium prompt-assembly policy decides whether and how to
+  apply it.
 - `corpus-reasoning-answer.v1` cites `room/id`, `room-event/high-water`, policy digest,
   and relevant provenance refs. It must not embed live chat content.
 - room authority, revocation, retention, live transport, and membership projection remain
@@ -1058,6 +1103,14 @@ runtime, no N-way settlement.
 
 - [ ] Requester-appointed chair resolves conflicts; signed `corpus-reasoning-answer.v1`
   (content-addressed, classification, contributor/weights, attestation/evidence).
+- [ ] Support requester-owned Agent as `chair/agent-ref`, with host-owned budget,
+  lifecycle, grants, and stop/resume controls; the Agent coordinates but does not
+  self-authorize publication, settlement, membership changes, or effects.
+- [ ] Define `corpus-reasoning-role-assignment.v1` for task roles such as implementer,
+  reviewer, adversarial critic, or summarizer, with local participant acceptance.
+- [ ] Define `corpus-reasoning-instruction-overlay.v1` for per-role/per-turn suggested
+  instructions consumed through local Inquirium prompt-assembly policy, never direct
+  remote prompt injection.
 - [ ] Later: arbiter election (`corpus-reasoning-arbiter-nomination.v1` / `…-vote.v1`)
   with eligibility, COI, quorum, deadline, tie-break, revocation, fallback.
 
