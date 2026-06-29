@@ -194,7 +194,9 @@ adds, not replaces. Decisions:
    `deadline-at`.
 2. Each provider's single `corpus-reasoning-query.v1` acceptor replies with a signed
    `corpus-reasoning-bid.v1` (§4.1) to `reply/target`, correlated by `correlation/id` +
-   `query/id`.
+   `query/id`. The bid signature must be checked before a bid can affect selection; the
+   daemon MVP verifies its `local-runtime-assertion` against `key/public` and binds that
+   key to `bidder/node-id`.
 3. The asker maintains a timestamped `corpus-reasoning-bid-state.v1` read-model so
    silence is not conflated with refusal (§4.2), then selects a subset.
 
@@ -482,6 +484,28 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
     policy: local node policy is authoritative for local use, while Seed Directory
     governance facts and/or Agora authority records may supply scoped trust evidence.
     No single published fact becomes a trust decision without local policy acceptance.
+17. **AD-mediated answer delivery.** The MVP receipt path remains the current local
+    `/settle` plus requester `satisfy` bridge. AD-mediated `corpus.answer` delivery is
+    the first post-MVP answer-artifact phase rather than an MVP blocker.
+18. **Zero-bid operator notification.** `no-routable-candidates` and `no-provider-bids`
+    stay synchronous dispatch diagnostics by default. P057 notifications are emitted
+    only when Corpus policy explicitly enables retry/escalation visibility for such
+    zero-bid states.
+19. **Story-011 trust hardening.** Story-011 should run under full `sovereign-policy`
+    verification rather than `signature-only`; acceptance coverage should exercise the
+    production trust mode instead of the shortcut fixture mode.
+20. **Direct bid registration surface.** `POST /v1/corpus/bids` remains a local-control
+    operator/test helper, requires bid signature verification, and is not a remote
+    federation surface.
+21. **Classification propagation.** `corpus-reasoning-query.v1` should grow a
+    first-class classification field before Personal or higher-tier Corpus queries are
+    supported; `build_query_dispatch_envelope` should copy that field into AD instead of
+    relying on the current host-selected Corpus-query classification default.
+
+## Open Questions
+
+No open questions remain for the hard-MVP procurement slice. Post-MVP live
+deliberation questions are tracked under the Room/Inquirium/Agent phases below.
 
 ## Implementation Contract
 
@@ -909,6 +933,12 @@ expertise belongs in offer/passport data (`corpus/topics`, `corpus/taxonomy-dige
 `corpus/model-class`) and in the topic index. Do not mint capability IDs such as
 `corpus.provider.cpp`; that would mix routing authority with evolving domain taxonomy.
 
+Provider status is opt-in and conjunctive. A node is a Corpus provider only when it
+publishes a Corpus-capable `service-offer.v1`, carries or publishes an accepted
+`corpus.provider` capability passport, and exposes a Corpus query acceptor. A generic
+daemon that merely has the code installed must not auto-publish `corpus.provider` nor
+accept Corpus queries by default.
+
 ### Dispatch and Bid-State Ownership
 
 AD owns delivery attempts; Corpus owns the interpretation of those attempts for one
@@ -1315,7 +1345,7 @@ runtime, no N-way settlement.
   `corpus-reasoning-bid.v1` (envelope + embedded `procurement-offer.v1`; `decision`
   enum; TTL), `corpus-reasoning-bid-state.v1` (timestamps, reason,
   `delivery/attempt-id`).
-- [~] Implement broadcast fan-out, the bid-state read-model, and local selection.
+- [x] Implement broadcast fan-out, the bid-state read-model, and local selection.
   Evidence: `orbiplex-node-corpus-core` builds a schema-valid
   `artifact-delivery-envelope.v1` for `capability-many` fan-out, materializes the
   requester-owned `corpus-reasoning-bid-state.v1`, validates bid/query price semantics,
@@ -1323,25 +1353,31 @@ runtime, no N-way settlement.
   bid idempotency key, preserves `decline` as refusal even after bid TTL, and selects
   the cheapest valid accepted/countered bid with longer `bid/valid-until` as the price
   tie-breaker. The daemon now persists Corpus rounds, registers query/bid facts,
-  restores bid-state read models, exposes local provider bid acceptor endpoints, signs
-  generated local bids with the node Ed25519 identity key, matches exact topics plus
-  parent-topic fallback, rejects offers outside the query price bracket rather than
-  mutating their price, and has operator round visibility plus Story-011 acceptance
-  coverage. The remaining open part is the actual AD `capability-many` runtime fan-out
-  and P057 notifications; Story-011 currently drives the same contract through direct
-  daemon endpoints.
+  restores bid-state read models, exposes local provider bid acceptor endpoints and an
+  AD inbound Corpus query acceptor, signs generated local bids with the node Ed25519
+  identity key, verifies admitted bid signatures against `bidder/node-id`, filters
+  dispatch candidates by taxonomy digest plus exact/parent topic support, rejects offers
+  outside the query price bracket rather than mutating their price, dispatches requester
+  queries through AD `capability-many` over INAC, collects accepted bids from INAC
+  admission diagnostics, emits P057 operator notifications for bid readiness, and has
+  operator round visibility plus passing Story-011 acceptance coverage.
+- [~] Move Story-011 Corpus fan-out smoke from `signature-only` capability lookup to full
+  `sovereign-policy` verification. Decision 19 requires acceptance coverage to exercise
+  the production trust mode; the current story still uses the shortcut fixture mode and
+  needs Seed Directory/capability passport trust material wired so the smoke remains
+  deterministic.
 
 #### Phase 4 — Single-provider answer + settlement
 
-- [~] Single contracting provider answers; bid → `procurement-offer.v1`; close via
+- [x] Single contracting provider answers; bid → `procurement-offer.v1`; close via
   `procurement-contract.v1` / `procurement-receipt.v1` with host-owned escrow. Evidence:
   `orbiplex-node-corpus-core::settlement_selection` exports the selected embedded
   `procurement-offer.v1` with bid digest and selected provider node; the daemon bridge
   now opens the selected-responder execution, registers/selects the offer, and accepts
   the contract. Bridge failures after selection mark the Corpus round
-  `settlement-failed` for operator-visible recovery. The answer/result and final
-  receipt production path remains tied to the selected responder execution runtime and
-  is not yet exercised by Story-011.
+  `settlement-failed` for operator-visible recovery. Story-011 now exercises the
+  selection, settlement, and requester-satisfied close path over AD/INAC. Rich final
+  answer artifacts and multi-provider contribution receipts remain post-MVP.
 
 ### Post-MVP — Live deliberation
 

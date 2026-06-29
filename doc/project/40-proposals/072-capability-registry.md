@@ -147,7 +147,7 @@ is a separate product decision" is only half true:
   `wire/name` is the on-the-wire canonical form and is a **semantic** namespace mapping,
   not a mechanical transform of `capability/id`: the prefix is the capability's wire
   namespace (`app/`, `host/`, `role/`, `plugin/`, `core/`), e.g. `corpus.provider` →
-  `app/corpus.provider`, `room.join` → `app/room.join`, `interaction-broker.wait` →
+  `app/corpus-provider`, `room.join` → `app/room.join`, `interaction-broker.wait` →
   `host/interaction-broker.wait`, `core/messaging` → `core/messaging`. Each entry states
   its `wire/name` explicitly; the registry validates that it is unique and uses a known
   namespace prefix. A default derivation MAY be a helper for new entries, but it is not a
@@ -286,7 +286,7 @@ semantic wire form. One host-local entry:
 
 A federated entry (`corpus.provider`) instead sets `advertisable`, `passport/eligible`,
 and `federated-discovery` true (⇒ `surfaces = { federated }`), with
-`wire/name = app/corpus.provider`. A `reserved` entry carries its id and flags but
+`wire/name = app/corpus-provider`. A `reserved` entry carries its id and flags but
 `status = "reserved"`, so the gate holds the name while refusing use. The registry file
 is repo-checked-in; git history is its change authority, and the load-time check verifies
 structural integrity before the daemon serves any capability surface.

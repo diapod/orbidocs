@@ -146,15 +146,16 @@ Recent component deltas:
   registration APIs, provider-side bid acceptor runtime, unique provider-scoped bid
   ids, real node-identity Ed25519 signatures on generated local bids, exact-plus-parent
   topic matching, price-bracket rejection without silent offer-price mutation, the
-  selected-offer bridge into the P011 procurement path, operator-visible
+  selected-offer bridge into the P011 procurement path, AD `capability-many` runtime
+  fan-out over INAC with taxonomy-digest candidate filtering, opt-in provider-side
+  Corpus AD query admission, admitted-bid signature verification bound to
+  `bidder/node-id`, P057 notifications for bid readiness/requester-satisfied/settlement failure, operator-visible
   `settlement-failed` recovery state for bridge failures after selection, operator
-  visibility under `/admin/corpus/rounds`, and Story-011 acceptance coverage. Readiness is still
-  below full MVP because actual AD `capability-many` runtime fan-out, P057
-  notifications, final answer/receipt exercise, and Corpus-specific live deliberation
-  policy/invite integration remain open. P070 no longer blocks Corpus at the generic
-  Room substrate level; the remaining live-deliberation blocker is the full Inquirium
-  thread/session runtime plus Corpus-owned room policy, invite, chair, answer, and
-  settlement extension work.
+  visibility under `/admin/corpus/rounds`, and passing Story-011 acceptance coverage.
+  P069 is now hard-MVP ready for the procurement slice. Post-MVP work remains for
+  real Matrix homeserver transport, rich final answer artifacts, full Inquirium
+  thread/session runtime, Corpus-owned room policy/invite/chair integration, and
+  N-way settlement extension work.
 - Room primitive is now tracked explicitly through Proposal 070 and Solution 036. The current code
   implements the durable Room skeleton, deterministic projection over Agora facts,
   signer-backed short-lived membership attestations, explicit POST attestation request
@@ -242,7 +243,7 @@ Recent component deltas:
 | [Story 008: Leaving an Opinion on a Website via the Local Node](../30-stories/story-008-cool-site-comment.md) | `true` | `true` | `false` | `100` |
 | [Story 009: The magazine publishes itself — a three-node blogging pipeline about Bielik, conducted by Arca](../30-stories/story-009-bielik-blog-arca.md) | `false` | `false` | `false` | `90` |
 | [Story 010: Message to a Friend](../30-stories/story-010-message-to-a-friend.md) | `true` | `true` | `false` | `100` |
-| [Story 011: Corpus answers the fish-water question](../30-stories/story-011-corpus-fish.md) | `true` | `true` | `false` | `85` |
+| [Story 011: Corpus answers the fish-water question](../30-stories/story-011-corpus-fish.md) | `true` | `true` | `false` | `100` |
 
 ## Proposals
 
@@ -316,7 +317,7 @@ Recent component deltas:
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `81` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
-| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `85` |
+| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `92` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `76` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
