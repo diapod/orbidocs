@@ -52,7 +52,7 @@ The flow has two phases of different nature and **different readiness**:
 Corpus is a thin role plus a small protocol that **composes** existing strata and adds
 a topic-taxonomy resolver, a topic field on offers, and a deliberation policy. It
 explicitly depends on two prerequisites not yet complete: the generic **Room** primitive
-(P070) and the full **Inquirium thread/session runtime** (extending P066). The MVP needs
+(P070) and the **Agent organ** (P073) that provides the bounded reasoning session. The MVP needs
 neither.
 
 The live in-room chat is *reasoning*, not protocol facts: the protocol does not persist
@@ -110,20 +110,31 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | Offer catalog + Dator offers (003/004/067) | MVP discovery | partial, usable |
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
 | **Room primitive (P070)** | live deliberation (post-MVP) | **partial: durable contracts, projection core, and Agora runtime projection adapter exist; live plane not built** |
-| **Inquirium thread/session runtime** (extends P066) | live multi-turn reasoning (post-MVP) | **not built** |
+| **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **proposal exists (P073); `agent-core` contract scaffolded; daemon runtime not built** |
 
 The MVP depends only on the first three rows. The live-deliberation layer is
-**blocked-by** P070's live plane/runtime integrations and the Inquirium
-thread/session runtime, stated explicitly rather
-than assuming a live room exists.
+**blocked-by** P070's live plane/runtime integrations and the Agent organ (P073)
+runtime, stated explicitly rather than assuming a live room exists.
 
-### Inquirium thread/session runtime
+Room is a generic swarm primitive, not a Corpus-owned subsystem. Corpus depends
+on Room; Room must not depend on Corpus or import Corpus reasoning semantics.
+`Corpus-on-Room` is therefore a domain protocol layered over a neutral room:
+Corpus may decorate room policy, invite, role, and answer facts, but membership,
+presence, live transport, lifecycle, attestations, and room projections remain
+owned by the Room layer.
+
+### Bounded reasoning session (Agent organ, P073)
 
 Full Corpus needs a multi-turn reasoning session bound to a room, with bounded
-steps/deadline/tokens, context ingestion, tool support, and explicit draft boundaries.
-This proposal should consume the full Inquirium thread/session runtime rather than
-define a smaller Corpus-only LLM surface. Until that runtime exists, only the MVP
-procurement slice is implementable.
+steps/deadline/tokens, context ingestion, and explicit draft boundaries. That is
+exactly the **Agent organ (P073)**: a host-owned, bounded, stateful controller
+with a budget (`steps` / `deadline` / `tokens`), Memarium-backed session context,
+and no self-authorization. Corpus should consume the Agent organ as its
+deliberation session — its deliberation `budget` maps directly onto the Agent
+budget/controller contract — rather than define a smaller Corpus-only LLM surface
+or a parallel "Inquirium thread/session runtime". Until the Agent runtime is built
+(the `agent-core` contract is scaffolded; the daemon-side runtime is not), only
+the MVP procurement slice is implementable.
 
 ## Proposed Model / Decision
 
@@ -217,8 +228,12 @@ Default selection treats only `bid-received` as eligible.
 The deliberation runs entirely on **Room** (P070): the asker opens a `room.v1`, attaches
 a `corpus-reasoning-room-policy.v1`, and invites selected nodes under the room access
 list (`corpus-reasoning-room-invite.v1`). Participants join the room's ephemeral live
-plane and reason synchronously through the Inquirium thread/session runtime. The chat
+plane and reason synchronously through the Agent organ (P073) bounded reasoning session. The chat
 is ephemeral reasoning, never a protocol fact (P070 §1).
+
+This is a use of the generic Room primitive, not a special Corpus room family.
+Room provides the neutral substrate for many workflows; Corpus supplies only the
+topic-expert deliberation protocol layered on top of that substrate.
 
 `corpus-reasoning-room-policy.v1`: `exposure` (enum bound to P009 exposure modes, not a
 new namespace), `answer/acceptance` (enum `chair-signed | n-of-m | unanimous`),
@@ -515,8 +530,8 @@ The MVP procurement slice may start only after these contract artifacts exist:
    supersession, duplicate idempotency keys with different payloads, and offer
    withdrawal between discovery and dispatch.
 
-The post-MVP live-deliberation slice has a separate gate: P070 Room contracts, the full
-Inquirium thread/session runtime, `corpus-reasoning-room-policy.v1`,
+The post-MVP live-deliberation slice has a separate gate: P070 Room contracts, the
+Agent organ (P073) bounded reasoning session, `corpus-reasoning-room-policy.v1`,
 `corpus-reasoning-room-invite.v1`, and `corpus-reasoning-answer.v1`.
 
 ### Host Runtime Reuse
@@ -681,6 +696,9 @@ AD reports diagnostics but does not decide Corpus retry semantics.
 
 Post-MVP live deliberation must use P070 instead of inventing a Corpus room:
 
+- Room is independent infrastructure. It owns room identity, membership,
+  presence, lifecycle, live transport, attestations, projections, and generic
+  room events. Corpus is only one consumer.
 - `corpus-reasoning-room-policy.v1` is a Corpus decorator over `room-policy.v1`; it adds
   chair/acceptance/quorum/budget fields but does not replace room access policy.
 - `chair/agent-ref` may name a requester-owned Agent acting as the chair delegate, but
@@ -747,8 +765,258 @@ The first acceptance pack should prove the narrow MVP without rooms:
 
 ## Implementation Recommendations
 
-Non-normative shapes. Field names follow §Schema Conventions; final schemas are gated in
-`doc/schemas/` and the node schema-gate. `…` elides obvious values.
+These recommendations are implementation guidance for the Corpus role and protocol.
+They are intentionally more concrete than the architecture model above, but they do not
+replace the canonical schemas, schema-gate checks, or tracker. Field names in examples
+follow §Schema Conventions; final schemas are gated in `doc/schemas/` and the node
+schema-gate. `…` elides obvious values.
+
+### Design Commitments
+
+Corpus is a thin domain layer over existing host-owned strata. It MUST NOT become a
+second marketplace, a second delivery system, a second room system, or a second LLM
+session runtime. Its implementation should add only the domain vocabulary needed for
+topic-routed collaborative reasoning: topic taxonomy, topic resolution, Corpus-extended
+offers, query/bid facts, requester-local bid state, and later Corpus-specific room
+decorators.
+
+The MVP implementation should optimize for contract clarity over clever routing. Each
+state transition should be explainable as data: taxonomy material is verified, keywords
+resolve to a topic, topic-scoped offers project into an index, one AD fan-out is planned,
+bids are admitted or rejected, bid-state is updated, and one accepted bid bridges into
+the existing procurement path. Hidden in-memory shortcuts are acceptable only as caches
+over these facts, never as the source of authority.
+
+### Primary Rule: Compose Existing Authorities
+
+Corpus coordinates expertise; it does not own the authority of adjacent systems. Artifact
+Delivery owns delivery attempts and transport diagnostics. Dator/offer catalog owns
+service offers and topic projections. P011/P016 own procurement, contracts, escrow, and
+receipts. Room owns room identity, membership, live transport, presence, and room
+projection. Inquirium owns model inquiry through host-selected runtime candidates.
+
+Implementation should therefore pass typed data across those boundaries rather than
+calling through private APIs. For example, a Corpus query dispatcher may build an AD
+delivery envelope, but it must not directly mutate AD delivery state. A Corpus settlement
+bridge may export the selected embedded `procurement-offer.v1`, but it must not create a
+parallel settlement ledger. This keeps Corpus understandable as a role and protocol
+instead of a hidden orchestration subsystem.
+
+### Reuse Map (existing components, do not reinvent)
+
+The Primary Rule is operationalized by reusing these existing strata rather than
+rebuilding them inside Corpus:
+
+| Corpus need | Reuse | Note |
+| --- | --- | --- |
+| Bounded reasoning session (deliberation) | Agent organ (P073); `agent-core` budget/controller | Deliberation `budget` (`time-ms`/`steps`/`tokens`) is the Agent budget contract, not a Corpus-local one. |
+| `corpus.provider` capability id + admission | Capability Registry (P072 / Solution 037) | Register `corpus.provider`; admission is fail-closed via the registry, not a Corpus allow-set. |
+| Taxonomy / resolution / answer signing | `agora-core` canonical (deterministic, domain-separated) | Same canonicalization discipline as `node-advertisement.v1`; no Corpus-specific canonical form. |
+| Query dispatch + bid collection to a deadline | Bounded Deferred Operations (Solution 029) | Operation id, status, cancellation, deadline — not a Corpus-private task queue. |
+| `retry-scheduled` dispatch retries | Replay Scheduler (Solution 020) | Backoff/jitter/launch accounting — not a private timing loop. |
+| Answer provenance / durable facts | Memarium fact-plane; object-store / AD for large content (`content/ref`) | Answer facts are Memarium facts; bulk content stays by reference. |
+| Answer acceptance (verified / refuted / amended) | `inquirium.inquiry-feedback.v1` (P066) | Reuse the inquiry-feedback contract pattern for chair-signed acceptance. |
+| Deliberation room + attestation | Room (P070) "Corpus Deliberation Rooms" hook (Solution 036); high-water attestation | Already reused (`room-event/high-water`); decorate room policy, do not fork a room model. |
+| Delivery / settlement / escrow | AD (Solution 023); P011 procurement; P016 escrow | Bridge to these; never a parallel ledger. |
+
+**Stratify Corpus the same way as the other organs.** The pipeline stages below
+are pure functions and narrow ports, so Corpus should follow the `<organ>-core` /
+daemon template (DEV-GUIDELINES Layering 5) already used by `inquirium-core` and
+`agent-core`: a thin `corpus-core` crate owning the contracts, the deterministic
+resolver, the pipeline stages, the typed failure taxonomy, and the effect-intent
+values (`DispatchPlan`, `BidAdmissionDecision`, `SelectionDecision`,
+`SettlementBridgeIntent`); the daemon performs effects (AD dispatch, persistence,
+settlement bridge) and supplies the read-ports. Guard the crate with a
+dependency-direction lint mirroring `check-inquirium-core-deps.py`, so Corpus
+never accretes daemon coupling. Decisions are values; the daemon is the imperative
+shell.
+
+### Corpus Vocabulary and Strata
+
+Use the following implementation vocabulary consistently:
+
+- **taxonomy artifact**: signed, content-addressed taxonomy material;
+- **trusted taxonomy**: a host-loaded taxonomy value that has passed issuer, signature,
+  validity, supersession, and digest checks;
+- **topic resolution**: deterministic resolver output for one keyword set under one
+  trusted taxonomy digest;
+- **Corpus-capable offer**: a normal `service-offer.v1` with a valid Corpus extension;
+- **topic index entry**: read-model projection from active Corpus-capable offers;
+- **Corpus query**: requester-owned question decorator plus topic and pricing bracket;
+- **Corpus bid**: provider response envelope around an embedded procurement offer;
+- **bid state**: requester-local temporal read-model, never a federated authority;
+- **selected bid**: one admitted bid chosen by local selection policy;
+- **settlement bridge**: conversion from selected bid to the existing P011/P016 path;
+- **Corpus-on-Room**: post-MVP deliberation protocol layered on generic Room.
+
+These names should appear in code modules, tests, operator status, and tracker evidence.
+Avoid names such as `room_for_corpus`, `corpus_delivery`, or `corpus_contract` when they
+suggest ownership that belongs to Room, AD, or procurement.
+
+### Phase Boundary: Procurement First, Live Deliberation Later
+
+The MVP procurement slice must remain shippable without Room live transport and without
+the Agent organ (P073) reasoning session. It should prove that a requester can discover
+topic experts, solicit bids, select one provider, and enter the existing settlement path.
+That is the first useful vertical slice and the least entangled one.
+
+Live deliberation is a later layer. It should start only after P070 live-plane runtime
+integration and the Agent organ (P073) runtime exist. Corpus should not fill
+that gap with a smaller ad-hoc chat loop, temporary room model, or direct model adapter
+membership. The boundary is important: MVP Corpus procurement can mature independently,
+while Room and Inquirium continue to harden as reusable primitives.
+
+### Request Pipeline as Explicit Stages
+
+Implement the MVP request path as explicit stages with stable intermediate values:
+
+1. **Load taxonomy**: resolve trusted taxonomy material by digest and issuer policy.
+2. **Resolve topic**: transform keywords into `topic-resolution.v1`.
+3. **Select offers**: query the topic index under the chosen taxonomy digest.
+4. **Plan dispatch**: construct one bounded AD fan-out plan.
+5. **Admit bids**: validate bid envelope, embedded procurement offer, deadline, price,
+   requester/provider identities, taxonomy digest, and idempotency key.
+6. **Update bid-state**: append or recompute requester-local projection facts.
+7. **Select bid**: choose from eligible accepted/countered bids using local policy.
+8. **Bridge settlement**: hand the selected procurement offer to P011/P016.
+
+Each stage should be testable as a pure function or a narrow port. The daemon or host
+composition root may perform persistence and side effects, but domain decisions should
+remain data-driven and replayable from inputs.
+
+### Taxonomy Loader and Resolver
+
+The taxonomy loader is a trust boundary. It should accept only signed, valid,
+content-addressed taxonomy artifacts from configured issuers or governance roots. It
+should return immutable trusted taxonomy values to downstream code; downstream code
+should never re-parse untrusted taxonomy JSON from arbitrary Corpus payloads.
+
+The resolver should be pure and deterministic. Unicode normalization, label matching,
+weighting, epsilon comparison, ranking, and tie-breaks must be pinned by tests and
+fixtures. `ambiguous` is a normal outcome requiring requester choice; it must not be
+silently collapsed to the first candidate. `unresolved` is a terminal no-route result
+unless the requester changes keywords or taxonomy.
+
+### Offer Projection and Capability Boundary
+
+The Corpus offer index should be a read-model over ordinary `service-offer.v1` records.
+Only offers with `service/type = "corpus.provider"` and a valid Corpus extension enter
+the topic index. Invalid Corpus extensions should fail closed for Corpus indexing while
+leaving the base offer record available to non-Corpus consumers if it is otherwise valid.
+
+The `corpus.provider` capability identifies the service class, not the topic. Topic
+expertise belongs in offer/passport data (`corpus/topics`, `corpus/taxonomy-digest`,
+`corpus/model-class`) and in the topic index. Do not mint capability IDs such as
+`corpus.provider.cpp`; that would mix routing authority with evolving domain taxonomy.
+
+### Dispatch and Bid-State Ownership
+
+AD owns delivery attempts; Corpus owns the interpretation of those attempts for one
+reasoning query. The bid-state projection should distinguish `declined`, `timed-out`,
+`delivery-failed`, `unreachable`, and `retry-scheduled`. Silence is not refusal, and a
+delivery failure is not a provider judgment.
+
+Bid-state should be append/recompute friendly. Persist enough stable keys to make replay
+idempotent: `(query/id, candidate node/id, delivery/attempt-id)` and the canonical bid
+digest when present. A duplicate idempotency key with the same canonical digest is a
+replay; the same key with a different digest is an admission failure.
+
+### Selection and Settlement Boundary
+
+Selection is requester-local policy over admitted bids. It should never mutate a
+provider's embedded `procurement-offer.v1`; if the price is outside the bracket, reject
+or counter according to the bid decision contract. The first implementation may choose
+the cheapest valid accepted bid with deterministic tie-breaks, but the selection
+decision should be recorded as a fact or operator-visible transition.
+
+After selection, Corpus should hand off to the existing procurement path. The settlement
+bridge should export the selected embedded offer, selected bid digest, provider identity,
+and query id. It should not create Corpus-specific escrow, receipt, dispute, or contract
+records. If settlement fails after selection, the round should move to an explicit
+operator-visible recovery state instead of silently selecting another provider.
+
+### Room and Inquirium Composition
+
+Post-MVP Corpus deliberation should compose Room and Inquirium as independent strata.
+Room supplies accountable participants, membership, access policy, live transport,
+presence, revocation, and high-water attestations. Inquirium supplies bounded inference
+through host-selected runtime candidates and prompt assembly policy. Corpus supplies
+topic-expert roles, deliberation policy, answer acceptance, and answer provenance.
+
+The implementation must not admit raw model adapters as room participants. If a model
+participates in deliberation, it does so through the host-owned Agent organ (P073), or a
+degenerate single-turn Agent profile, with explicit budget and accountability; the
+deliberation budget is the Agent budget/controller contract, not a Corpus-local one.
+Corpus instruction overlays are suggestions consumed by each participant's local Inquirium
+policy; they are not remote prompt injection.
+
+### Operator Status and Observability
+
+Expose Corpus progress as operator-facing state rather than logs only. A useful MVP
+status shape includes: `query/id`, topic resolution result, taxonomy digest, selected
+candidate count, delivery attempts by state, admitted bid count, selected bid, settlement
+state, and next operator action if blocked. Do not include full question text in generic
+operator traces when a digest/ref is enough.
+
+Trace records should preserve causality: keyword resolution, offer index snapshot,
+dispatch plan, delivery attempt ids, bid admission decisions, selection decision, and
+settlement bridge outcome. Payloads that may contain private question text, answer text,
+or provider-specific details should be referenced by digest or artifact ref and governed
+by classification.
+
+### Failure Taxonomy
+
+Use typed failure classes instead of free-form strings at boundaries. At minimum:
+`taxonomy-untrusted`, `taxonomy-expired`, `topic-unresolved`, `topic-ambiguous`,
+`offer-invalid`, `offer-withdrawn`, `dispatch-failed`, `bid-invalid`, `bid-stale`,
+`price-out-of-bracket`, `duplicate-conflict`, `selection-empty`,
+`settlement-unavailable`, and `settlement-failed`.
+
+Each failure class should declare whether it is retryable, operator-actionable, or
+terminal for the current query. For example, `topic-ambiguous` is operator-actionable,
+`dispatch-failed` may be retryable, and `duplicate-conflict` is fail-closed until the
+conflict is inspected.
+
+### Conformance, Golden Fixtures, and Test Gates
+
+Before runtime wiring, ship schema and semantic gates for every Corpus payload. Positive
+fixtures should include the happy-path procurement slice. Negative fixtures should cover
+invalid taxonomy signatures, duplicate terms/labels, invalid supersession, ambiguous and
+unresolved resolution, invalid topic references in offers, stale deadlines, price
+bracket violations, bidder/responder mismatch, duplicate idempotency conflicts, and
+invalid bid-state transitions.
+
+The acceptance pack should exercise one requester and two providers end to end without
+requiring Room. It should prove that a decline is distinct from timeout, that repeated
+dispatch is idempotent, that withdrawn offers are not selected, and that only an
+admitted selected bid can reach settlement. The later live-deliberation pack should be
+separate and blocked on P070/Inquirium readiness.
+
+### Performance and Resource Hardening
+
+Corpus paths are fan-out paths, so default limits matter. Cap taxonomy size, label count,
+keyword count, candidate count, AD target count, bid-state rows per query, response
+bytes, and settlement retry attempts. Catalog queries should page before target
+expansion, and the dispatcher should never create unbounded per-provider tasks.
+
+All payload byte budgets should be checked before canonicalization where possible and
+again after canonicalization where the digest/idempotency contract depends on bytes.
+Large answer content belongs in the artifact store by reference, not inline in Corpus
+state or bid-state projections.
+
+### Adoption Strategy
+
+Adopt Corpus by adding projections and contracts, not by migrating historical records.
+Existing offers remain valid. Providers opt in by publishing Corpus-capable offers.
+Operators can stage rollout by first enabling trusted taxonomy loading and topic-index
+projection, then requester-side query dispatch, then provider bid acceptors, and finally
+the settlement bridge.
+
+The first production-ready switch should be conservative: no live rooms, no N-way
+settlement, no automatic fallback to untrusted taxonomy material, no implicit provider
+selection after settlement failure, and no direct model orchestration outside Inquirium.
+
+### Reference Wire Shapes
 
 ### A. Signed Topic Taxonomy and Deterministic Resolver
 
@@ -1085,9 +1353,9 @@ runtime, no N-way settlement.
   integrations. Corpus contributes the transport requirements (low latency, no
   retention, small participant count) to P070's live-transport profile.
 
-#### Phase 6 — Inquirium thread/session runtime `[!] blocked-by: Inquirium (extends P066)`
+#### Phase 6 — Agent organ reasoning session `[!] blocked-by: Agent organ (P073)`
 
-- [!] Land the full Inquirium thread/session runtime with tool support, budgets,
+- [!] Land the Agent organ (P073) reasoning session with tool support, budgets,
   deadlines, context windows, and explicit draft boundaries. Corpus should consume that
   runtime rather than define a smaller Corpus-only LLM session surface.
 
