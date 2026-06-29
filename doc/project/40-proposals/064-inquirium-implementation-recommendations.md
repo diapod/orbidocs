@@ -2390,6 +2390,22 @@ current vocabulary remains public, validated data and the daemon continues to
 execute trace, transcript, and budget effects through its existing
 composition-root paths.
 
+### Baseline Assistant Conformance Runner Scope
+
+Decision: implement `BaselineAssistantProfile` conformance as an extension of
+the existing report-backed model-runtime conformance runner, not as a separate
+assistant-only gate.
+
+The baseline assistant is a profile-level contract over runtime candidates. The
+runner should therefore reuse the same fixture digest, durable report store, and
+routability semantics already used by runtime conformance, adding profile-aware
+fixture suites rather than a parallel certification path. A candidate is
+baseline-selectable only when the current node has a fresh passing report for
+`profile/baseline-assistant`, the selected `runtime/ref`, the current fixture
+digest, and the current host class within the configured baseline TTL. Missing,
+stale, or failing reports deny baseline routing fail-closed, and the assistant
+must not fall back to a remote runtime.
+
 ## Implementation Tracking
 
 This section is a lightweight, manually maintained tracker for implementation

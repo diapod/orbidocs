@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:node-succession:v1",
+  "title": "NodeSuccession v1",
+  "description": "Local proof that one node identity key explicitly names a successor node identity key. The proof is a signed fact, not an automatic transfer of endpoint evidence, TLS pins, routing trust, or operator acceptance.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/project/50-requirements/requirements-006-node-networking-mvp.md",
+    "doc/project/60-solutions/000-node/000-node.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "succession/id",
+    "old/node-id",
+    "old/key-public",
+    "new/node-id",
+    "new/key-public",
+    "succession/mode",
+    "issued-at",
+    "expires-at",
+    "proof/old",
+    "proof/new"
+  ],
+  "properties": {
+    "schema": {
+      "const": "node-succession.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "succession/id": {
+      "type": "string",
+      "pattern": "^node-succession:sha256:[A-Za-z0-9_-]+$",
+      "description": "Digest-derived identifier of the signed payload."
+    },
+    "old/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "old/key-public": {
+      "type": "string",
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "new/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "new/key-public": {
+      "type": "string",
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "succession/mode": {
+      "type": "string",
+      "enum": [
+        "planned-rotation",
+        "emergency-rotation",
+        "operator-rekey"
+      ]
+    },
+    "issued-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reason/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revocation/ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proof/old": {
+      "$ref": "#/$defs/proof"
+    },
+    "proof/new": {
+      "$ref": "#/$defs/proof"
+    }
+  },
+  "$defs": {
+    "proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      }
+    }
+  }
+}

@@ -15,6 +15,7 @@ GOLDEN_DIR = SCHEMAS_DIR / "golden"
 SCHEMA_WHITELIST = (
     "node-identity.v1.schema.json",
     "node-advertisement.v1.schema.json",
+    "node-succession.v1.schema.json",
     "peer-handshake.v1.schema.json",
     "capability-advertisement.v1.schema.json",
     "capability-passport-present.v1.schema.json",
@@ -142,6 +143,7 @@ EXAMPLE_WHITELIST = (
     "bootstrap.node-identity.json",
     "seed-wss.node-advertisement.json",
     "vector-signed.node-advertisement.json",
+    "basic.node-succession.json",
     "bootstrap.hello.peer-handshake.json",
     "bootstrap.ack.peer-handshake.json",
     "base-node.capability-advertisement.json",
@@ -275,6 +277,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "missing-storage-ref.node-identity.json",
     "inline-secret.node-identity.json",
     "no-endpoints.node-advertisement.json",
+    "missing-new-proof.node-succession.json",
     "ack-without-reference.peer-handshake.json",
     "no-core-caps.capability-advertisement.json",
     "missing-grants.capability-authorization-policy.json",

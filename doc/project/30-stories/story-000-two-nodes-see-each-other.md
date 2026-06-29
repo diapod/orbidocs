@@ -238,6 +238,13 @@ The session is maintained via periodic `ping/pong` messages:
 | 7 | Canonical identity contract exports `key/storage-ref` only; secret key material remains in a separate local signing-key record | daemon export/load test + file inspection |
 | 8 | Full action trace exists in `trace/network` and includes identity, handshake, session, capability, signal-marker, and keepalive events | log inspection after test run |
 
+The Node acceptance pack also exposes a post-MVP `rotation-smoke` command for
+the NT-018 node-key rotation/succession seam. That command is intentionally
+separate from the hard-MVP smoke and now exercises `node-succession.v1`, dual
+old/new node signatures, operator import/accept, successor identity activation,
+and a second two-way peer smoke. It also asserts that endpoint evidence is not
+transferred automatically by succession acceptance.
+
 ## What This Story Does NOT Cover
 
 - **Hosted users and richer post-channel participant attachment** — Story 000
@@ -249,6 +256,9 @@ The session is maintained via periodic `ping/pong` messages:
 - **Question routing and answer procurement** — this is Story 001.
 - **Full peer governor policy** beyond the minimal `cold/hot/cooldown/blocked`
   runtime baseline and replay-driven blocking.
+- **Federated node-key succession publication** — the Story 000
+  `rotation-smoke` covers the local NT-018 lifecycle, but Seed Directory
+  publication/replay of succession proofs remains outside this story.
 - **Bloom filter gossip** — future optimization.
 
 ## Architectural Significance

@@ -245,6 +245,9 @@ schema_for_file() {
     *.node-advertisement.json)
       echo "$SCHEMAS_DIR/node-advertisement.v1.schema.json"
       ;;
+    *.node-succession.json)
+      echo "$SCHEMAS_DIR/node-succession.v1.schema.json"
+      ;;
     *.node-address-attestation.json)
       echo "$SCHEMAS_DIR/node-address-attestation.v1.schema.json"
       ;;

@@ -1,0 +1,21 @@
+{
+  "schema": "node-succession.v1",
+  "schema/v": 1,
+  "succession/id": "node-succession:sha256:exampleDigestForSchemaValidation",
+  "old/node-id": "node:did:key:z6Mku111111111111111111111111111111111111111",
+  "old/key-public": "z6Mku111111111111111111111111111111111111111",
+  "new/node-id": "node:did:key:z6Mku222222222222222222222222222222222222222",
+  "new/key-public": "z6Mku222222222222222222222222222222222222222",
+  "succession/mode": "planned-rotation",
+  "issued-at": "2026-06-29T12:00:00Z",
+  "expires-at": "2026-06-30T12:00:00Z",
+  "reason/ref": "operator:planned-key-rotation",
+  "proof/old": {
+    "alg": "ed25519",
+    "value": "oldSignatureExample"
+  },
+  "proof/new": {
+    "alg": "ed25519",
+    "value": "newSignatureExample"
+  }
+}

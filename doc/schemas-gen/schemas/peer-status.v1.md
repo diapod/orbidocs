@@ -32,9 +32,9 @@ Operator-facing local read model for one peer's transport temperature, lifecycle
 | [`quality_status`](#field-quality-status) | `yes` | enum: `healthy`, `degraded`, `capability_limited`, `cooling_down`, `benchlisted`, `blocked` |  |
 | [`score`](#field-score) | `yes` | integer |  |
 | [`supported_capabilities`](#field-supported-capabilities) | `yes` | array |  |
-| [`missing_capabilities`](#field-missing-capabilities) | `yes` | array |  |
-| [`capability_missing_count`](#field-capability-missing-count) | `yes` | integer |  |
-| [`failure_count`](#field-failure-count) | `yes` | integer |  |
+| [`missing_capabilities`](#field-missing-capabilities) | `yes` | array | Currently missing capabilities according to the latest known transcript or verification result. |
+| [`capability_missing_count`](#field-capability-missing-count) | `yes` | integer | Current count of missing capabilities; it is not a lifetime accumulator. |
+| [`failure_count`](#field-failure-count) | `yes` | integer | Current consecutive transport failure count since the last successful session establishment or quality unblock. |
 | [`replay_incidents`](#field-replay-incidents) | `yes` | integer |  |
 | [`cooldown_remaining_ms`](#field-cooldown-remaining-ms) | `yes` | integer \| null |  |
 | [`blocked_remaining_ms`](#field-blocked-remaining-ms) | `yes` | integer \| null |  |
@@ -101,17 +101,23 @@ Operator-facing local read model for one peer's transport temperature, lifecycle
 - Required: `yes`
 - Shape: array
 
+Currently missing capabilities according to the latest known transcript or verification result.
+
 <a id="field-capability-missing-count"></a>
 ## `capability_missing_count`
 
 - Required: `yes`
 - Shape: integer
 
+Current count of missing capabilities; it is not a lifetime accumulator.
+
 <a id="field-failure-count"></a>
 ## `failure_count`
 
 - Required: `yes`
 - Shape: integer
+
+Current consecutive transport failure count since the last successful session establishment or quality unblock.
 
 <a id="field-replay-incidents"></a>
 ## `replay_incidents`

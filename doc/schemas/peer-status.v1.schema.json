@@ -68,8 +68,8 @@
     },
     "score": {
       "type": "integer",
-      "minimum": -10000,
-      "maximum": 10000
+      "minimum": 0,
+      "maximum": 100
     },
     "supported_capabilities": {
       "type": "array",
@@ -77,10 +77,19 @@
     },
     "missing_capabilities": {
       "type": "array",
+      "description": "Currently missing capabilities according to the latest known transcript or verification result.",
       "items": { "type": "string", "minLength": 1, "maxLength": 256 }
     },
-    "capability_missing_count": { "type": "integer", "minimum": 0 },
-    "failure_count": { "type": "integer", "minimum": 0 },
+    "capability_missing_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Current count of missing capabilities; it is not a lifetime accumulator."
+    },
+    "failure_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Current consecutive transport failure count since the last successful session establishment or quality unblock."
+    },
     "replay_incidents": { "type": "integer", "minimum": 0 },
     "cooldown_remaining_ms": { "type": ["integer", "null"], "minimum": 0 },
     "blocked_remaining_ms": { "type": ["integer", "null"], "minimum": 0 },
