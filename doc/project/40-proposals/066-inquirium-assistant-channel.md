@@ -420,22 +420,26 @@ only among conformance-positive runtimes.
 Minimum profile for the first conformance suite:
 
 - `generate` support with at least a 2048-token effective context window;
-- local transport only: `in_process`, `command_stdio`, or supervised/unmanaged
-  loopback HTTP; no remote HTTP API candidate;
+- local transport only through an explicitly reviewed allowlist: host-local
+  in-process/deterministic execution or supervised/unmanaged loopback HTTP; no
+  command-stdio or remote HTTP/API candidate in the first baseline suite;
 - no tool surface, no MCP bridge, no provider-managed tool execution;
 - output capped at 16 KiB before transcript persistence, matching the current
   host-enforced assistant output boundary;
 - no telemetry, vendor logging, or network egress beyond the local runtime
-  boundary;
+  boundary; the runtime candidate and adapter instance must both declare
+  `offline_ok`;
 - no remote fallback when the local candidate is unavailable.
 
 A runtime is not selectable as `baseline-assistant` by configuration label alone.
 The current node environment must have a fresh passing
 `BaselineAssistantProfile` conformance report for that runtime candidate. Fresh
 means the report is for the current fixture digest, current runtime candidate,
-current host class, and is no older than the configured baseline TTL (default:
-seven days). A stale or missing report makes the candidate unavailable for the
-baseline profile, even if ordinary non-baseline routing could still consider it.
+current deployment-controlled `host-class/...` value, and is no older than the
+configured baseline TTL (default: seven days). The reference is supplied by the
+host configuration, with `host-class/local-node` as the default. A stale or
+missing report makes the candidate unavailable for the baseline profile, even
+if ordinary non-baseline routing could still consider it.
 This does not contradict non-withdrawability: the **profile and right to a local
 baseline** are non-withdrawable; a concrete runtime still has to prove that it
 currently satisfies the profile.
@@ -1296,14 +1300,14 @@ That advisory remains only a working note; this table is the canonical backlog.
 | `epistemic-schema-gate` | Schema gate forbids `stance: authoritative` and any `effects` on `generate.response.v1`; `plurality` default `preserve`; negative fixtures. | `done` | `authoritative` stance is unrepresentable, unknown effect fields are rejected by `deny_unknown_fields`, and core tests cover both paths. |
 | `lattice-keyed-shared-resolve` | Shared `resolve()` mechanism (free fn / `LatticeKeyedResolver`) for `ClassKeyed` and `ModeKeyed`; no generic `LatticeKeyed<Axis,T>` type. | `done` | `classification` now owns the tiny pure ordered-axis resolver (`OrderedAxisRank`, `OrderedAxisKey`, `resolve_ordered_axis`), and `inquirium-core` keeps `ClassKeyed<T>` and `ModeKeyed<T>` as distinct DTOs that both use it. Axis semantics and monotonicity checks remain concrete to classification and assistant mode. |
 | `operator-question-widget-kinds` | `widget/kind` enum + `RegisteredQuestionKinds` registry in `inquirium-core`; no raw model-supplied input schema. | `done` | `inquirium-core` registers `confirm`, `single-choice`, `multi-choice`, and `free-text-with-allowlist` schemas; tests reject unknown kinds, free text without allow-list, raw schema fields, duplicate choice values, and kind/payload mismatches. |
-| `baseline-assistant-conformance` | `BaselineAssistantProfile` (requires/guarantees, UBC-anchored) + conformance suite; runtimes are instances. | `todo` | Next foundation priority: at least one runtime passes conformance on CI with local-only transport, no tools, no telemetry/egress, at least a 2048-token effective context window, 16 KiB output cap before transcript persistence matching the host-enforced assistant output boundary, and a fresh report for the current fixture digest/host class within the baseline TTL; `baseline-assistant` selected only among conformance-positive runtimes. |
+| `baseline-assistant-conformance` | `BaselineAssistantProfile` (requires/guarantees, UBC-anchored) + conformance suite; runtimes are instances. | `done` | `node/model-runtime` and `node/daemon` now carry profile-scoped conformance fixtures and reports. The daemon runner verifies local-only/strict-local baseline requirements, an allowlisted local transport shape, no declared egress domains, explicit `offline_ok` at the candidate and adapter-instance levels, at least a 2048-token effective context window, the 16 KiB host-visible assistant output cap, and a fresh passing report for the current fixture digest, deployment-controlled `host-class/...`, and `profile/baseline-assistant` scope within the baseline TTL. Candidate requirement failures emit schema-gated `inquirium.conformance.candidate-requirements.v1` diagnostics. CI-covered daemon tests prove missing/failing/stale reports, remote and command-stdio transports, non-offline candidates, oversized outputs, unrepresentable TTLs, and profile mismatches deny baseline routing fail-closed and the local HTTP baseline target succeeds only after `run-conformance`. |
 | `trace-transcript-one-way-refs` | Fact→`trace/ref` forward only; trace carries `turn/id`/`participant/ref`, not `transcript/ref`; `persist/prompt` and `persist/response` default to false. | `in-progress` | Assistant trace now carries `turn/id`/`participant/ref`, resolved effective policy, and prompt-free bounded diagnostics, while omitting `transcript/ref`, prompt, and response; transcript fact → trace forward refs still need to be added. |
 | `participant-identity-single-format` | One `participant:did:key:...` format shared by `memarium` space alloc, `caller-binding`, `local-relationship-core`, assistant scope. | `todo` | Same identity string resolves consistently across the four consumers. |
 | `assistant-epistemic-block` | Add `epistemic` block to `generate.response.v1` (stance/confidence/grounded_in/caveats). | `done` | Output never marked `authoritative`; stance defaults to `advisory`; no field promotes output to a direct effect. |
 | `assistant-plurality-default` | Add `plurality: preserve\|collapse` to request policy. | `done` | Default is `preserve`; multiple viable answers are surfaced, not collapsed. |
 | `assistant-feedback-loop` | Add `inquirium.inquiry-feedback.v1` (verified/refuted/amended). | `in-progress` | `inquirium-core` now validates classified feedback facts with `verified/refuted/amended`, grounding refs, and required operator note/correction for refuted or amended feedback; read-side display uses latest valid fact wins while append history remains intact; training-candidate use requires an explicit flag plus separate operator grant; daemon persistence beside the session remains later work. |
 | `assistant-mode-rigor` | Add `ModeKeyed<T>` (commons/crisis/support) with monotone rigor. | `done` | `inquirium-core` now exposes distinct `ModeKeyed<T>`, `AssistantMode`, and `AssistantRigorPolicy`; tests prove commons/support/crisis resolution and reject weaker crisis/support rigor. |
-| `assistant-baseline-minimum` | Declare Phase 1 local-only as non-withdrawable `baseline-assistant`. | `todo` | Baseline works offline and without economic gating; the profile/right is non-withdrawable, while each concrete runtime must still prove fresh conformance; remote is additive and never a fallback precondition. |
+| `assistant-baseline-minimum` | Declare Phase 1 local-only as non-withdrawable `baseline-assistant`. | `in-progress` | `inquirium-core` now defines the baseline profile ref, default TTL, and minimum context window constants, and daemon routing refuses `profile/baseline-assistant` candidates that lack required fresh conformance. Remote is additive and never a fallback precondition. Remaining work is distribution/change-control enforcement that ensures every hard-MVP node profile actually provisions at least one baseline-capable local runtime. |
 | `assistant-nondopamine-ux` | Enforce non-dopamine UI invariants. | `todo` | No unsolicited initiation, streaks, nudges, leaderboards, achievements, attention scores, or "things waiting for you" counters on the assistant surface; advisory framing and "suggests" vs "I decided" remain separated; covered by schema and UI tests. |
 | `assistant-agentic-effects` | Add opt-in action capability surface. | `deferred` | Actions are capability-gated, protocol-gated, operator-accountable, and auditable; realized through the Agent organ (Proposal 073), which owns the bounded controller, lifecycle, and budget. |
 | `assistant-human-in-loop-governance` | Keep relationship, governance, and egress actions human-in-the-loop. | `deferred` | Agentic proposals that affect relationships, external publication, or governance require explicit operator approval before any effect is committed. |
