@@ -117,7 +117,11 @@ Recent component deltas:
   coverage, profile-scoped baseline-assistant conformance/freshness gating with
   deployment-controlled `host-class/...` scope, local-transport allowlisting,
   16 KiB host-visible output-cap assertion, and schema-gated
-  candidate-requirement diagnostics, render-only Node UI affordance under
+  candidate-requirement diagnostics, hard-MVP readiness gating through
+  `inquirium.baseline_assistant_required`, operator-visible
+  `inquirium.baseline-assistant` status with `registry-error` and stable
+  failure reason projection, `run-conformance` bootstrap paths,
+  render-only Node UI affordance under
   `/admin/inquirium/assistant`, typed context-assembly/source-grant contracts,
   operator-question widget registry/projection contracts, inquiry-feedback
   contract, mode-keyed rigor policy, and the shared ordered-axis resolver in
@@ -308,9 +312,9 @@ Recent component deltas:
 | [Proposal 061: Contact Attestation Service](../40-proposals/061-contact-attestation-service.md) | `true` | `true` | `false` | `78` |
 | [Proposal 062: Temporal Storage Convention](../40-proposals/062-temporal-storage-convention.md) | `false` | `true` | `false` | `100` |
 | [Proposal 063: Inquirium as a Model Inquiry Organ](../40-proposals/063-inquirium-model-inquiry-organ.md) | `false` | `false` | `false` | `86` |
-| [Proposal 064: Inquirium Implementation Recommendations](../40-proposals/064-inquirium-implementation-recommendations.md) | `false` | `false` | `false` | `87` |
+| [Proposal 064: Inquirium Implementation Recommendations](../40-proposals/064-inquirium-implementation-recommendations.md) | `false` | `false` | `false` | `88` |
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
-| [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `78` |
+| [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `81` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `false` | `false` | `85` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |

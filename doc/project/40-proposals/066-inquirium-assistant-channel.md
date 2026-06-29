@@ -444,6 +444,21 @@ This does not contradict non-withdrawability: the **profile and right to a local
 baseline** are non-withdrawable; a concrete runtime still has to prove that it
 currently satisfies the profile.
 
+Hard-MVP node profiles should additionally set a host readiness requirement for
+the baseline. In the reference implementation this is the distributor/operator
+configuration flag `inquirium.baseline_assistant_required = true`. When enabled,
+the node reports not-ready unless at least one `profile/baseline-assistant`
+candidate is currently routable with a fresh passing report. Operator status
+should expose this as a separate baseline component with states such as
+`ready`, `missing`, `registry-error`, `stale-conformance`,
+`failed-conformance`, and `unavailable`, plus stable failure reason codes and
+the host-owned `run-conformance` action path for each candidate. Readiness
+failure causes may be retryable in the health-loop sense: the daemon will
+re-evaluate after operator or runtime changes, but `missing` still requires
+provisioning a baseline candidate. Deterministic or simulator-backed runtimes
+may satisfy CI and smoke profiles, but a user-facing hard-MVP profile should
+provision a real local model runtime behind the same conformance gate.
+
 The baseline profile is not an ordinary operator-toggleable config item. Its
 definition is deployment/constitutional surface: an operator may disable a
 broken runtime candidate, but removing the `baseline-assistant` profile itself
@@ -1229,6 +1244,14 @@ Done criteria:
    vocabulary with `limit`, `before/ref`, and newest-first ordering. Phase 1 UI
    may expose only a bounded `limit` selector; cursor pagination should be added
    when older trace navigation becomes a real operator workflow.
+10. What change-control level should apply when a hard-MVP profile disables
+    `inquirium.baseline_assistant_required`? The baseline profile is
+    non-withdrawable, but the current implementation intentionally exposes the
+    readiness gate as distributor/operator configuration. Sensible default:
+    treat disabling the gate in hard-MVP distributions as a deployment/change
+    control event that requires the same level of confirmation as other
+    universal-minimum guarantees, while keeping ordinary development and CI
+    profiles opt-in.
 
 ## Next Actions
 
@@ -1307,7 +1330,7 @@ That advisory remains only a working note; this table is the canonical backlog.
 | `assistant-plurality-default` | Add `plurality: preserve\|collapse` to request policy. | `done` | Default is `preserve`; multiple viable answers are surfaced, not collapsed. |
 | `assistant-feedback-loop` | Add `inquirium.inquiry-feedback.v1` (verified/refuted/amended). | `in-progress` | `inquirium-core` now validates classified feedback facts with `verified/refuted/amended`, grounding refs, and required operator note/correction for refuted or amended feedback; read-side display uses latest valid fact wins while append history remains intact; training-candidate use requires an explicit flag plus separate operator grant; daemon persistence beside the session remains later work. |
 | `assistant-mode-rigor` | Add `ModeKeyed<T>` (commons/crisis/support) with monotone rigor. | `done` | `inquirium-core` now exposes distinct `ModeKeyed<T>`, `AssistantMode`, and `AssistantRigorPolicy`; tests prove commons/support/crisis resolution and reject weaker crisis/support rigor. |
-| `assistant-baseline-minimum` | Declare Phase 1 local-only as non-withdrawable `baseline-assistant`. | `in-progress` | `inquirium-core` now defines the baseline profile ref, default TTL, and minimum context window constants, and daemon routing refuses `profile/baseline-assistant` candidates that lack required fresh conformance. Remote is additive and never a fallback precondition. Remaining work is distribution/change-control enforcement that ensures every hard-MVP node profile actually provisions at least one baseline-capable local runtime. |
+| `assistant-baseline-minimum` | Declare Phase 1 local-only as non-withdrawable `baseline-assistant`. | `done` | `inquirium-core` defines the baseline profile ref, default TTL, minimum context window, and output cap constants. Daemon routing refuses `profile/baseline-assistant` candidates that lack required fresh conformance, and hard-MVP profiles can set `inquirium.baseline_assistant_required = true` so readiness fails closed until at least one baseline candidate is fresh and routable. Operator status exposes `inquirium.baseline-assistant` with `ready`, `missing`, `registry-error`, `stale-conformance`, `failed-conformance`, or `unavailable` plus stable failure reasons and `run-conformance` paths. Remote is additive and never a fallback precondition. |
 | `assistant-nondopamine-ux` | Enforce non-dopamine UI invariants. | `todo` | No unsolicited initiation, streaks, nudges, leaderboards, achievements, attention scores, or "things waiting for you" counters on the assistant surface; advisory framing and "suggests" vs "I decided" remain separated; covered by schema and UI tests. |
 | `assistant-agentic-effects` | Add opt-in action capability surface. | `deferred` | Actions are capability-gated, protocol-gated, operator-accountable, and auditable; realized through the Agent organ (Proposal 073), which owns the bounded controller, lifecycle, and budget. |
 | `assistant-human-in-loop-governance` | Keep relationship, governance, and egress actions human-in-the-loop. | `deferred` | Agentic proposals that affect relationships, external publication, or governance require explicit operator approval before any effect is committed. |
