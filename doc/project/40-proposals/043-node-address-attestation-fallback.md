@@ -9,7 +9,14 @@ Based on:
 
 ## Status
 
-Draft
+Accepted / hard-MVP implemented.
+
+The hard-MVP slice is implemented through `node-address-attestation.v1`, Seed
+Directory attestation endpoints, daemon Seed Directory candidate enrichment,
+endpoint-evidence import into the peer supervisor, TLS leaf/SPKI pin checks,
+and advisory route-id enforcement. The current production path is
+Seed-Directory-sourced evidence; peer-relayed endpoint evidence over INAC
+remains post-MVP fallback work.
 
 ## Date
 
@@ -304,15 +311,21 @@ Negative / watch items:
 
 ## Follow-Up / Next Actions
 
-1. Implement runtime validation and local policy classification for
-   `node-address-attestation.v1`.
-2. Add a refusal/reason vocabulary for address fallback:
+1. Done: implement runtime validation and local policy classification for
+   `node-address-attestation.v1` in the Seed Directory, daemon enrichment, and
+   peer supervisor trust path.
+2. Done for the primary path: use the TLS Trust Policy / peer supervisor
+   refusal vocabulary for stale, mismatched, expired, or unobservable endpoint
+   evidence. Post-MVP peer-relayed fallback may add a narrower address-fallback
+   vocabulary:
    `address-evidence-expired`, `address-evidence-self-only`,
    `address-collision-quarantine`, `address-evidence-untrusted`,
    `address-fallback-budget-exhausted`.
-3. Extend proposal 025 with the reconciliation rule: Seed Directory
-   view wins over peer-only fallback evidence.
-4. Extend proposal 014 with degraded address resolution semantics and
-   probe-budget constraints.
-5. Add INAC kind registration notes once proposal 042 is promoted to
-   requirements.
+3. Done in Solution 031 / TLS Trust Policy: Seed Directory endpoint evidence
+   feeds peer supervisor pinning and remains the primary source for direct
+   delivery.
+4. Done for the primary path: degraded address resolution is bounded by
+   endpoint evidence freshness, TLS pinning, and disabled-by-default
+   handshake-only fallback.
+5. Post-MVP: add INAC peer-relayed endpoint evidence import only after the
+   Seed-Directory-sourced evidence path remains stable in operation.

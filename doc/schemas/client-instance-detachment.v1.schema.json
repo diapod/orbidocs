@@ -2,11 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:client-instance-detachment:v1",
   "title": "ClientInstanceDetachment v1",
-  "description": "Machine-readable schema for a pod-layer artifact that detaches a concrete client instance from a serving-node session using the same participant-over-channel boundary as `client-instance-attachment.v1`.",
+  "description": "Machine-readable schema for a hosted-client artifact that detaches a concrete client instance from a serving-node session using the same participant-over-channel boundary as `client-instance-attachment.v1`.",
   "type": "object",
-  "additionalProperties": true,
+  "additionalProperties": false,
   "x-dia-workflow": "project",
-  "x-dia-status": "draft",
+  "x-dia-status": "accepted",
+  "x-dia-migration-note": "NT-014 freezes this v1 contract as a closed top-level admission shape. Producers must not send ad-hoc top-level fields; future extensions require an explicit schema field or a formal v1-compatible extension point.",
   "x-dia-basis": [
     "doc/project/40-proposals/006-pod-access-layer-for-thin-clients.md",
     "doc/project/40-proposals/007-pod-identity-and-tenancy-model.md",
@@ -101,7 +102,7 @@
           "minLength": 1
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
     }
   }
 }

@@ -302,6 +302,9 @@ schema_for_file() {
     *.peer-handshake.json)
       echo "$SCHEMAS_DIR/peer-handshake.v1.schema.json"
       ;;
+    *.peer-status.json)
+      echo "$SCHEMAS_DIR/peer-status.v1.schema.json"
+      ;;
     *.nym-issue-request.json)
       echo "$SCHEMAS_DIR/nym-issue-request.v1.schema.json"
       ;;

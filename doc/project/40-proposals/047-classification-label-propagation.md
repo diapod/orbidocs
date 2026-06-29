@@ -12,7 +12,21 @@ Based on:
 
 ## Status
 
-Draft
+Accepted / hard-MVP implemented.
+
+The hard-MVP slice is implemented as the shared `classification.v1` data
+contract plus the `orbiplex-node-classification` crate. The crate owns the
+small `Public < Community < Personal` lattice, effective-tier derivation,
+projection-aware bound subjects, declassification-trail semantics, quarantine
+markers, stable denial codes, and the shared `authorize_egress` helper.
+
+Current runtime consumers include Memarium classification fallback and
+declassification gates, archival export/backup preservation, Agora public
+publish guards for Memarium-derived content, Whisper disclosure-scope
+projection checks, INAC/private Artifact Delivery egress checks, and
+classification-bearing Inquirium/assistant boundaries. Full whole-program IFC,
+per-field labels, historical backfill of every pre-classification fact, and
+richer operator UI remain post-MVP work.
 
 ## Date
 

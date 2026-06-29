@@ -6,7 +6,7 @@ Based on:
 - `doc/project/60-solutions/000-node/000-node.md`
 
 Date: `2026-03-23`
-Status: Draft
+Status: Accepted / hard-MVP implemented
 
 ## Executive Summary
 
@@ -52,6 +52,25 @@ higher-layer identity, room, or federation semantics.
 - `Seed Directory`: an optional minimal service that returns current endpoint advertisements and may accept advertisement publication.
 - `Remote Peer`: another Node that validates advertisements, handshake material, and capability claims.
 
+## Implementation Reconciliation
+
+Reconciled on 2026-06-29 against P014, Solution 000, `node/docs/MVP.md`,
+`node/docs/implementation-ledger.toml`, and the current Node code. The hard-MVP
+requirement cut is implemented: all functional and non-functional rows below
+are treated as `done` for the baseline transport seed.
+
+This does not mean the entire future transport program is complete. The
+following remain post-MVP extensions:
+
+- live node-id succession / continuity semantics beyond the current overlap
+  preparation and non-authoritative `succession` hint;
+- richer federation-level peer-governor policy beyond the current local
+  `peer-status.v1` read model, replay guard, quality scoring, cooldown, and
+  block/unblock path;
+- richer hosted-user policy, UI/read-models, and federated continuity above the
+  minimal participant-bind/client-instance lifecycle;
+- additional transports, NAT traversal, and broader discovery-product policy.
+
 ### Core Data Contracts (normative)
 
 - `NodeIdentity`:
@@ -81,94 +100,94 @@ higher-layer identity, room, or federation semantics.
 
 | ID | Requirement | Type | Source | Status |
 |---|---|---|---|---|
-| FR-001 | Every network-participating Node MUST have a stable locally persisted identity with a long-lived keypair.  | Fact | Proposal 014 | in progress |
-| FR-001a | The persisted `NodeIdentity` record MUST expose public identity material and MUST include a resolver-friendly private key reference (`key/storage-ref`) instead of inline private key material.  | Fact | Proposal 014 | in progress |
-| FR-001b | The MVP baseline MUST support `local-file:` as the first concrete `key/storage-ref` resolver scheme, with the secret record stored locally under the node data directory.  | Fact | Freeze note | in progress |
-| FR-001c | The persisted `NodeIdentity` record MUST also carry a stable `participant-id` role identifier even in the one-operator-per-node MVP baseline.  | Fact | Proposal 014 | in progress |
-| FR-002 | `node-id` MUST be derived from the Node public key and MUST be stable across restarts until explicit rotation occurs.  | Inference | Proposal 014 | in progress |
-| FR-002a | The canonical v1 `node-id` string MUST be `node:did:key:z<base58btc(0xed01 |  | raw_ed25519_public_key)>`. Parsers MUST be strict, and alternative textual variants MUST be rejected for v1. | in progress |
-| FR-002b | Rotating the Ed25519 node keypair MUST produce a new `node-id`; v1 does not attempt continuity by reusing the old `node-id` across keys.  | Fact | Freeze note | in progress |
-| FR-002c | The MVP operational layer MAY prepare a local overlap bundle linking the current and successor `node-id` values through dual signatures, but such preparation MUST NOT by itself grant automatic continuity semantics to discovery, routing, or peer trust state.  | Fact | Freeze note | in progress |
-| FR-003 | The baseline protocol semantics MUST distinguish Node infrastructure identity from participant identity, and both MUST remain distinct from later pod-user or contextual nym layers.  | Inference | Proposal 014 | in progress |
-| FR-003a | The canonical v1 `participant-id` string MUST be `participant:did:key:z<base58btc(0xed01 |  | raw_ed25519_public_key)>`. Parsers MUST be strict, and alternative textual variants MUST be rejected for v1. | in progress |
-| FR-003b | In the MVP baseline, `node-id` and `participant-id` MAY share the same underlying Ed25519 `did:key` fingerprint and signing material, but protocol implementations MUST NOT assume that role equality follows from shared key material.  | Fact | Freeze note | in progress |
-| FR-003c | Networking-layer implementations for the MVP baseline MUST depend only on `node-id`, `participant-id`, and the signing or verification material needed for those roles. They MUST NOT require `anchor-identity`, `pod-user-id`, `nym`, or federation continuity bindings as part of the networking contract.  | Inference | Freeze note | in progress |
-| FR-003d | Networking-layer implementations MUST NOT require `nym` resolution or `nym` signature verification as part of transport, advertisement, handshake, keepalive, or reconnect behavior. Those remain application-layer concerns above the established encrypted session.  | Fact | Freeze note | in progress |
-| FR-004 | A Node MUST support signed endpoint advertisements with TTL-bounded freshness.  | Fact | Proposal 014 | in progress |
-| FR-004a | A signed `node-advertisement.v1` payload MUST include both `advertised-at` and a monotonic `sequence/no`.  | Fact | Freeze note | in progress |
-| FR-004b | The signing input for `node-advertisement.v1` MUST be domain-separated as `node-advertisement.v1\\x00 |  | deterministic_cbor(payload_without_signature)`. | in progress |
-| FR-004c | Transport-mutable per-hop metadata MUST NOT be part of the `node-advertisement.v1` signed surface; if such metadata exists later, it MUST live outside the semantic advertisement payload.  | Inference | Freeze note | in progress |
-| FR-004d | Discovery state in v1 MUST treat `node-advertisement.v1` as one current advertisement per `node-id`; a newer `sequence/no` replaces the previous one, while stale or equal sequence numbers MUST be rejected as non-current.  | Fact | Freeze note | in progress |
-| FR-004f | Required done state for the networking MVP MUST include a durable current-advertisement cache keyed by `node-id`; interoperable `WSS` client/server behavior alone is insufficient.  | Fact | Freeze note | in progress |
-| FR-004e | `node-advertisement.v1` MAY carry an optional future-facing `succession` object naming a successor `node-id` and later proof slots, but the MVP runtime MUST treat it only as non-authoritative seed data for a later rotation layer.  | Fact | Freeze note | in progress |
-| FR-005 | Endpoint discovery for MVP MUST target `node-id -> current endpoint advertisement`, not `nym -> IP:port`.  | Fact | Proposal 014 | in progress |
-| FR-006 | Every Node MUST support bootstrap from one or more statically configured seed peers.  | Fact | Proposal 014 | in progress |
-| FR-006a | Static seed-peer configuration MAY carry operator-facing local labels or names in addition to `node-id` and bootstrap address, but such labels MUST remain non-identifying operational metadata outside signed network identity.  | Inference | Freeze note | in progress |
-| FR-007 | A Node MAY support a minimal seed directory in addition to static seed peers, but the MVP implementation baseline does not require a seed directory before static seed bootstrap is working.  | Fact | Freeze note | in progress |
-| FR-007a | If a minimal seed directory is present, it SHOULD support `PUT /adv/{node-id}` for publish-or-update, `GET /adv/{node-id}` for fetch-by-node, and incremental `GET /adv?since={cursor}` batch synchronization.  | Fact | Freeze note | in progress |
-| FR-007b | A minimal seed directory SHOULD remain open for reads, and open for signed writes from any node, while enforcing freshness checks and per-publisher rate limits.  | Inference | Freeze note | in progress |
-| FR-007c | A minimal seed directory MUST NOT require an explicit delete operation for advertisements; expiry and removal SHOULD be driven by advertisement freshness and TTL sweep.  | Fact | Freeze note | in progress |
-| FR-008 | The MVP baseline transport MUST support `WSS` over TCP `443`.  | Fact | Proposal 014 | in progress |
-| FR-008b | In the MVP baseline, `WSS/TLS` MUST be treated as a carrier layer: TLS server authentication protects endpoint reachability and channel confidentiality/integrity, while peer identity authentication still happens through signed `peer-handshake.v1` artifacts rather than client-certificate semantics.  | Fact | Freeze note | in progress |
-| FR-008c | For public `wss://` endpoints, a Node SHOULD validate the presented server certificate against the advertised endpoint hostname using normal WebPKI rules.  | Inference | Freeze note | in progress |
-| FR-008d | Controlled or private deployments MAY configure additional local trust roots out of band, but such trust anchors MUST remain deployment-local and MUST NOT be encoded as protocol semantics or carried inside `node-advertisement.v1` in the MVP baseline.  | Fact | Freeze note | in progress |
-| FR-008a | When multiple endpoints are advertised, a Node SHOULD first filter unsupported transports and then respect sender-advertised endpoint priority among the remaining compatible endpoints, unless stronger local constraints override that hint.  | Inference | Freeze note | in progress |
-| FR-009 | Direct TCP, UDP traversal, and richer relay topologies MAY be added later but MUST NOT be prerequisites for the first interoperable Node.  | Inference | Proposal 014 | in progress |
-| FR-010 | A Node MUST support a signed peer handshake before application-level message exchange begins.  | Fact | Proposal 014 | in progress |
-| FR-010a | The signing input for `peer-handshake.v1` MUST be domain-separated as `peer-handshake.v1\\x00 |  | deterministic_cbor(payload_without_signature)`. | in progress |
-| FR-010b | `ack/of-handshake-id`, when present, MUST be part of the signed handshake payload.  | Fact | Freeze note | in progress |
-| FR-010c | `protocol/version` SHOULD be treated as interpretation context and domain-separation input rather than as mutable handshake business data.  | Inference | Freeze note | in progress |
-| FR-010d | Per-hop `transport/profile` metadata MUST NOT be part of the signed payload unless it is being asserted as a capability claim rather than carried as framing.  | Inference | Freeze note | in progress |
-| FR-010e | `peer-handshake.v1` MUST carry a fresh per-handshake ephemeral X25519 public key in `session/pub`, encoded as raw unpadded base64url for the 32-byte public key, without `did:key` wrapping or multicodec prefixes.  | Fact | Freeze note | in progress |
-| FR-010f | The long-lived static key-agreement contribution for the handshake MAY be deterministically derived from the Ed25519 `node:did:key` identity, so no extra static X25519 advertisement field is required in `node-identity.v1` or `node-advertisement.v1` for MVP.  | Inference | Freeze note | in progress |
-| FR-010g | `peer-handshake.v1` MUST remain node-scoped in the MVP baseline and MUST NOT require `participant-id`; participant authentication belongs to application messages sent over the established encrypted channel rather than to the transport-session handshake itself.  | Fact | Freeze note | in progress |
-| FR-010h | `peer-handshake.v1` MUST NOT require or interpret higher identity-layer concepts such as `anchor-identity`, `pod-user-id`, or `nym`.  | Inference | Freeze note | in progress |
-| FR-011 | The handshake MUST include enough information to validate peer identity, protocol version, and transport profile.  | Inference | Proposed model | in progress |
-| FR-012 | The baseline v1 handshake flow MUST be `hello -> ack`; a third explicit challenge message MUST NOT be required for the first interoperable Node.  | Fact | Freeze note | in progress |
-| FR-012a | The handshake family MUST remain symmetric at schema level: `hello` and `ack` are artifacts of the same `peer-handshake.v1` family, while `ack/of-handshake-id` binds the acknowledgment to one prior initiation attempt.  | Inference | Freeze note | in progress |
-| FR-012b | v1 replay protection MUST include a clock-skew window of `+-30s`, a per-peer nonce retention window of roughly `120s`, and a pending-handshake timeout of `30s` for unanswered local `hello` attempts.  | Fact | Freeze note | in progress |
-| FR-012c | Forward secrecy in the v1 baseline SHOULD rely primarily on fresh ephemeral X25519 keys and the ephemeral-ephemeral DH term, not solely on identity-derived static DH terms.  | Inference | Freeze note | in progress |
-| FR-012d | Local identity records with `identity/status` other than `active` MUST be rejected by the MVP runtime; richer status handling such as `rotating` or `retired` is deferred.  | Fact | Freeze note | in progress |
-| FR-013 | After handshake, a Node MUST support capability advertisement exchange.  | Fact | Proposal 014 | in progress |
-| FR-014 | Capability advertisement MUST include at least transport profiles, narrow core protocol capability projection, and passport-form presented capabilities. Attached roles and plugin-process surfaces MUST remain optional in MVP.  | Inference | Proposal 014 | in progress |
-| FR-014a | `capabilities/core` MUST be interpreted as a schematic wire-name projection derived from presented capability assertions, not as a free-form implementation description or the authoritative trust proof.  | Inference | Proposal 014 | in progress |
-| FR-014b | Every MVP Node MUST advertise `core/messaging` as the minimal explicit core capability proving that the established session is usable for post-handshake message exchange, and MUST include a matching item in `capabilities/presented`.  | Fact | Freeze note | in progress |
-| FR-014d | `capabilities/presented` MUST carry passport-form assertions with at least `capability/id`, `wire/name`, `assertion/kind`, and `passport`, so a Node can broadcast or answer its capabilities without requiring a Seed Directory lookup.  | Fact | Freeze note | in progress |
-| FR-014e | Custom or sovereign capabilities SHOULD use the passport capability-id namespace, including identity-anchored forms such as `audio-transcription@participant:did:key:...` or informal `~audio-transcription@participant:did:key:...`, rather than inventing unscoped global names.  | Inference | Capability Passport alignment | in progress |
-| FR-014c | The first participant-scoped application envelope family in the MVP MUST be canonically shared as `signal-marker-envelope.v1`, distinct from the separately visible `signal-marker.v1` artifact it may reference.  | Fact | Freeze note | in progress |
-| FR-014f | Capabilities that are already implicit in a successful signed handshake, such as baseline protocol participation or the ability to sign the handshake itself, SHOULD NOT be modeled as separate mandatory advertised core capabilities in v1.  | Inference | Freeze note | in progress |
-| FR-014g | A capability MAY carry human-readable profile metadata and a content-addressed `schema/ref`; if it advertises `schema/ref`, the Node SHOULD make the referenced `capability-schema.v1` artifact available through the authenticated peer-message channel rather than requiring an external URL.  | Inference | Capability schema exchange | in progress |
-| FR-014h | `capability.schema.present.request` and `capability.schema.present.response` SHOULD be the well-known peer message kinds for retrieving capability schemas by `schema/ref`. Receivers MUST verify the returned content against `schema/ref` before using it for validation or negotiation.  | Inference | Capability schema exchange | in progress |
-| FR-015 | A Node MUST support liveness maintenance through `ping/pong` or an equivalent keepalive flow.  | Fact | Proposal 014 | in progress |
-| FR-016 | A Node MUST support reconnect behavior after transient peer or transport failure.  | Fact | Proposal 014 | in progress |
-| FR-016a | Reconnect after transient transport failure SHOULD establish a fresh carrier connection and repeat the signed `peer-handshake.v1` flow rather than assuming protocol continuity from TLS session resumption alone.  | Inference | Freeze note | in progress |
-| FR-016b | Transport-layer rate limiting and backpressure SHOULD be enforced per `node-id`, not per `participant-id` or `nym`; remote abuse through many nyms therefore degrades node-level relationship quality rather than forcing pseudonym resolution into the networking slice.  | Inference | Freeze note | in progress |
-| FR-017 | The first supported application-level slice MUST include `signal-marker` as a signed application message that can be sent, validated, and traced end to end.  | Fact | Proposal 014 | in progress |
-| FR-017a | The first application-level slice SHOULD already be modeled as participant-scoped rather than infrastructure-scoped, even when MVP currently uses one operator-participant per Node.  | Inference | Freeze note | in progress |
-| FR-017b | Participant authentication in the MVP baseline SHOULD therefore occur through participant-scoped application artifacts over an already established node-scoped session, not by extending the handshake to enumerate or reveal participant identities.  | Inference | Freeze note | in progress |
-| FR-017c | For application-level message families such as `procurement-*` and `response-envelope`, `node-id` SHOULD remain the routing or hosting identity while `participant-id` remains the authored participation identity. Higher identity layers MAY appear only as optional payload metadata.  | Inference | Freeze note | in progress |
-| FR-017d | Some application-level message families, beginning with `whisper-signal` and optionally `question-envelope`, MAY use a nym-authored path instead of disclosing `participant-id` on the wire. In those cases `node-id` still routes the artifact, while authored participation is expressed through a `nym`, attached `nym-certificate`, and `nym` signature verified above the session layer.  | Inference | Freeze note | in progress |
-| FR-018 | Nodes MUST reject or quarantine malformed, expired, or signature-invalid advertisements and handshakes.  | Inference | Contract integrity | in progress |
-| FR-019 | The baseline capability surface SHOULD be small enough that heterogeneous Node implementations can interoperate without sharing one runtime or language stack.  | Inference | Architecture principles | in progress |
-| FR-020 | The MVP runtime MUST emit trace events for identity load/generation, advertisement publish/fetch/reject, peer discovered/connect/disconnect, handshake start/accept/reject, session establishment, capability exchange, keepalive lost/restored, signal-marker sent/received, and `error/occurred`.  | Fact | Freeze note | in progress |
-| FR-021 | Every networking trace event MUST carry at least `trace/id`, `event/type`, `ts`, and `node/self`; `peer` and `detail` SHOULD be present whenever the event is peer-scoped or diagnostically relevant.  | Fact | Freeze note | in progress |
-| FR-022 | The MVP runtime MUST freeze and use the following machine-readable boundary error codes: `E_TRANSPORT_UNAVAILABLE`, `E_TRANSPORT_REJECTED`, `E_ADV_EXPIRED`, `E_ADV_STALE_SEQ`, `E_SIG_INVALID`, `E_SIG_UNKNOWN_SIGNER`, `E_HS_REPLAY`, `E_HS_UNKNOWN_REF`, `E_PROTO_VERSION`, `E_PROTO_INVALID`, and `E_PROTO_CAP_MISSING`.  | Fact | Freeze note | in progress |
-| FR-023 | `error/occurred` trace events MUST classify failures through one of the frozen boundary error classes: `transport/unavailable`, `transport/rejected`, `advertisement/expired`, `advertisement/stale-sequence`, `signature/invalid`, `signature/unknown-signer`, `handshake/replay-suspected`, `handshake/unknown-ref`, `protocol/version-mismatch`, `protocol/invalid-contract`, or `protocol/capability-missing`.  | Fact | Freeze note | in progress |
-| FR-024 | `schema-gate` in the MVP runtime MUST validate both network ingress/egress payloads and local `node-identity.v1` import/export payloads as required edge boundaries.  | Fact | Freeze note | in progress |
+| FR-001 | Every network-participating Node MUST have a stable locally persisted identity with a long-lived keypair.  | Fact | Proposal 014 | done |
+| FR-001a | The persisted `NodeIdentity` record MUST expose public identity material and MUST include a resolver-friendly private key reference (`key/storage-ref`) instead of inline private key material.  | Fact | Proposal 014 | done |
+| FR-001b | The MVP baseline MUST support `local-file:` as the first concrete `key/storage-ref` resolver scheme, with the secret record stored locally under the node data directory.  | Fact | Freeze note | done |
+| FR-001c | The persisted `NodeIdentity` record MUST also carry a stable `participant-id` role identifier even in the one-operator-per-node MVP baseline.  | Fact | Proposal 014 | done |
+| FR-002 | `node-id` MUST be derived from the Node public key and MUST be stable across restarts until explicit rotation occurs.  | Inference | Proposal 014 | done |
+| FR-002a | The canonical v1 `node-id` string MUST be `node:did:key:z<base58btc(multicodec_ed25519_pub_prefix + raw_ed25519_public_key)>`. Parsers MUST be strict, and alternative textual variants MUST be rejected for v1. | Fact | Freeze note | done |
+| FR-002b | Rotating the Ed25519 node keypair MUST produce a new `node-id`; v1 does not attempt continuity by reusing the old `node-id` across keys.  | Fact | Freeze note | done |
+| FR-002c | The MVP operational layer MAY prepare a local overlap bundle linking the current and successor `node-id` values through dual signatures, but such preparation MUST NOT by itself grant automatic continuity semantics to discovery, routing, or peer trust state.  | Fact | Freeze note | done |
+| FR-003 | The baseline protocol semantics MUST distinguish Node infrastructure identity from participant identity, and both MUST remain distinct from later pod-user or contextual nym layers.  | Inference | Proposal 014 | done |
+| FR-003a | The canonical v1 `participant-id` string MUST be `participant:did:key:z<base58btc(multicodec_ed25519_pub_prefix + raw_ed25519_public_key)>`. Parsers MUST be strict, and alternative textual variants MUST be rejected for v1. | Fact | Freeze note | done |
+| FR-003b | In the MVP baseline, `node-id` and `participant-id` MAY share the same underlying Ed25519 `did:key` fingerprint and signing material, but protocol implementations MUST NOT assume that role equality follows from shared key material.  | Fact | Freeze note | done |
+| FR-003c | Networking-layer implementations for the MVP baseline MUST depend only on `node-id`, `participant-id`, and the signing or verification material needed for those roles. They MUST NOT require `anchor-identity`, `pod-user-id`, `nym`, or federation continuity bindings as part of the networking contract.  | Inference | Freeze note | done |
+| FR-003d | Networking-layer implementations MUST NOT require `nym` resolution or `nym` signature verification as part of transport, advertisement, handshake, keepalive, or reconnect behavior. Those remain application-layer concerns above the established encrypted session.  | Fact | Freeze note | done |
+| FR-004 | A Node MUST support signed endpoint advertisements with TTL-bounded freshness.  | Fact | Proposal 014 | done |
+| FR-004a | A signed `node-advertisement.v1` payload MUST include both `advertised-at` and a monotonic `sequence/no`.  | Fact | Freeze note | done |
+| FR-004b | The signing input for `node-advertisement.v1` MUST be domain-separated as `node-advertisement.v1\\x00 + deterministic_cbor(payload_without_signature)`. | Fact | Freeze note | done |
+| FR-004c | Transport-mutable per-hop metadata MUST NOT be part of the `node-advertisement.v1` signed surface; if such metadata exists later, it MUST live outside the semantic advertisement payload.  | Inference | Freeze note | done |
+| FR-004d | Discovery state in v1 MUST treat `node-advertisement.v1` as one current advertisement per `node-id`; a newer `sequence/no` replaces the previous one, while stale or equal sequence numbers MUST be rejected as non-current.  | Fact | Freeze note | done |
+| FR-004f | Required done state for the networking MVP MUST include a durable current-advertisement cache keyed by `node-id`; interoperable `WSS` client/server behavior alone is insufficient.  | Fact | Freeze note | done |
+| FR-004e | `node-advertisement.v1` MAY carry an optional future-facing `succession` object naming a successor `node-id` and later proof slots, but the MVP runtime MUST treat it only as non-authoritative seed data for a later rotation layer.  | Fact | Freeze note | done |
+| FR-005 | Endpoint discovery for MVP MUST target `node-id -> current endpoint advertisement`, not `nym -> IP:port`.  | Fact | Proposal 014 | done |
+| FR-006 | Every Node MUST support bootstrap from one or more statically configured seed peers.  | Fact | Proposal 014 | done |
+| FR-006a | Static seed-peer configuration MAY carry operator-facing local labels or names in addition to `node-id` and bootstrap address, but such labels MUST remain non-identifying operational metadata outside signed network identity.  | Inference | Freeze note | done |
+| FR-007 | A Node MAY support a minimal seed directory in addition to static seed peers, but the MVP implementation baseline does not require a seed directory before static seed bootstrap is working.  | Fact | Freeze note | done |
+| FR-007a | If a minimal seed directory is present, it SHOULD support `PUT /adv/{node-id}` for publish-or-update, `GET /adv/{node-id}` for fetch-by-node, and incremental `GET /adv?since={cursor}` batch synchronization.  | Fact | Freeze note | done |
+| FR-007b | A minimal seed directory SHOULD remain open for reads, and open for signed writes from any node, while enforcing freshness checks and per-publisher rate limits.  | Inference | Freeze note | done |
+| FR-007c | A minimal seed directory MUST NOT require an explicit delete operation for advertisements; expiry and removal SHOULD be driven by advertisement freshness and TTL sweep.  | Fact | Freeze note | done |
+| FR-008 | The MVP baseline transport MUST support `WSS` over TCP `443`.  | Fact | Proposal 014 | done |
+| FR-008b | In the MVP baseline, `WSS/TLS` MUST be treated as a carrier layer: TLS server authentication protects endpoint reachability and channel confidentiality/integrity, while peer identity authentication still happens through signed `peer-handshake.v1` artifacts rather than client-certificate semantics.  | Fact | Freeze note | done |
+| FR-008c | For public `wss://` endpoints, a Node SHOULD validate the presented server certificate against the advertised endpoint hostname using normal WebPKI rules.  | Inference | Freeze note | done |
+| FR-008d | Controlled or private deployments MAY configure additional local trust roots out of band, but such trust anchors MUST remain deployment-local and MUST NOT be encoded as protocol semantics or carried inside `node-advertisement.v1` in the MVP baseline.  | Fact | Freeze note | done |
+| FR-008a | When multiple endpoints are advertised, a Node SHOULD first filter unsupported transports and then respect sender-advertised endpoint priority among the remaining compatible endpoints, unless stronger local constraints override that hint.  | Inference | Freeze note | done |
+| FR-009 | Direct TCP, UDP traversal, and richer relay topologies MAY be added later but MUST NOT be prerequisites for the first interoperable Node.  | Inference | Proposal 014 | done |
+| FR-010 | A Node MUST support a signed peer handshake before application-level message exchange begins.  | Fact | Proposal 014 | done |
+| FR-010a | The signing input for `peer-handshake.v1` MUST be domain-separated as `peer-handshake.v1\\x00 + deterministic_cbor(payload_without_signature)`. | Fact | Freeze note | done |
+| FR-010b | `ack/of-handshake-id`, when present, MUST be part of the signed handshake payload.  | Fact | Freeze note | done |
+| FR-010c | `protocol/version` SHOULD be treated as interpretation context and domain-separation input rather than as mutable handshake business data.  | Inference | Freeze note | done |
+| FR-010d | Per-hop `transport/profile` metadata MUST NOT be part of the signed payload unless it is being asserted as a capability claim rather than carried as framing.  | Inference | Freeze note | done |
+| FR-010e | `peer-handshake.v1` MUST carry a fresh per-handshake ephemeral X25519 public key in `session/pub`, encoded as raw unpadded base64url for the 32-byte public key, without `did:key` wrapping or multicodec prefixes.  | Fact | Freeze note | done |
+| FR-010f | The long-lived static key-agreement contribution for the handshake MAY be deterministically derived from the Ed25519 `node:did:key` identity, so no extra static X25519 advertisement field is required in `node-identity.v1` or `node-advertisement.v1` for MVP.  | Inference | Freeze note | done |
+| FR-010g | `peer-handshake.v1` MUST remain node-scoped in the MVP baseline and MUST NOT require `participant-id`; participant authentication belongs to application messages sent over the established encrypted channel rather than to the transport-session handshake itself.  | Fact | Freeze note | done |
+| FR-010h | `peer-handshake.v1` MUST NOT require or interpret higher identity-layer concepts such as `anchor-identity`, `pod-user-id`, or `nym`.  | Inference | Freeze note | done |
+| FR-011 | The handshake MUST include enough information to validate peer identity, protocol version, and transport profile.  | Inference | Proposed model | done |
+| FR-012 | The baseline v1 handshake flow MUST be `hello -> ack`; a third explicit challenge message MUST NOT be required for the first interoperable Node.  | Fact | Freeze note | done |
+| FR-012a | The handshake family MUST remain symmetric at schema level: `hello` and `ack` are artifacts of the same `peer-handshake.v1` family, while `ack/of-handshake-id` binds the acknowledgment to one prior initiation attempt.  | Inference | Freeze note | done |
+| FR-012b | v1 replay protection MUST include a clock-skew window of `+-30s`, a per-peer nonce retention window of roughly `120s`, and a pending-handshake timeout of `30s` for unanswered local `hello` attempts.  | Fact | Freeze note | done |
+| FR-012c | Forward secrecy in the v1 baseline SHOULD rely primarily on fresh ephemeral X25519 keys and the ephemeral-ephemeral DH term, not solely on identity-derived static DH terms.  | Inference | Freeze note | done |
+| FR-012d | Local identity records with `identity/status` other than `active` MUST be rejected by the MVP runtime; richer status handling such as `rotating` or `retired` is deferred.  | Fact | Freeze note | done |
+| FR-013 | After handshake, a Node MUST support capability advertisement exchange.  | Fact | Proposal 014 | done |
+| FR-014 | Capability advertisement MUST include at least transport profiles, narrow core protocol capability projection, and passport-form presented capabilities. Attached roles and plugin-process surfaces MUST remain optional in MVP.  | Inference | Proposal 014 | done |
+| FR-014a | `capabilities/core` MUST be interpreted as a schematic wire-name projection derived from presented capability assertions, not as a free-form implementation description or the authoritative trust proof.  | Inference | Proposal 014 | done |
+| FR-014b | Every MVP Node MUST advertise `core/messaging` as the minimal explicit core capability proving that the established session is usable for post-handshake message exchange, and MUST include a matching item in `capabilities/presented`.  | Fact | Freeze note | done |
+| FR-014d | `capabilities/presented` MUST carry passport-form assertions with at least `capability/id`, `wire/name`, `assertion/kind`, and `passport`, so a Node can broadcast or answer its capabilities without requiring a Seed Directory lookup.  | Fact | Freeze note | done |
+| FR-014e | Custom or sovereign capabilities SHOULD use the passport capability-id namespace, including identity-anchored forms such as `audio-transcription@participant:did:key:...` or informal `~audio-transcription@participant:did:key:...`, rather than inventing unscoped global names.  | Inference | Capability Passport alignment | done |
+| FR-014c | The first participant-scoped application envelope family in the MVP MUST be canonically shared as `signal-marker-envelope.v1`, distinct from the separately visible `signal-marker.v1` artifact it may reference.  | Fact | Freeze note | done |
+| FR-014f | Capabilities that are already implicit in a successful signed handshake, such as baseline protocol participation or the ability to sign the handshake itself, SHOULD NOT be modeled as separate mandatory advertised core capabilities in v1.  | Inference | Freeze note | done |
+| FR-014g | A capability MAY carry human-readable profile metadata and a content-addressed `schema/ref`; if it advertises `schema/ref`, the Node SHOULD make the referenced `capability-schema.v1` artifact available through the authenticated peer-message channel rather than requiring an external URL.  | Inference | Capability schema exchange | done |
+| FR-014h | `capability.schema.present.request` and `capability.schema.present.response` SHOULD be the well-known peer message kinds for retrieving capability schemas by `schema/ref`. Receivers MUST verify the returned content against `schema/ref` before using it for validation or negotiation.  | Inference | Capability schema exchange | done |
+| FR-015 | A Node MUST support liveness maintenance through `ping/pong` or an equivalent keepalive flow.  | Fact | Proposal 014 | done |
+| FR-016 | A Node MUST support reconnect behavior after transient peer or transport failure.  | Fact | Proposal 014 | done |
+| FR-016a | Reconnect after transient transport failure SHOULD establish a fresh carrier connection and repeat the signed `peer-handshake.v1` flow rather than assuming protocol continuity from TLS session resumption alone.  | Inference | Freeze note | done |
+| FR-016b | Transport-layer rate limiting and backpressure SHOULD be enforced per `node-id`, not per `participant-id` or `nym`; remote abuse through many nyms therefore degrades node-level relationship quality rather than forcing pseudonym resolution into the networking slice.  | Inference | Freeze note | done |
+| FR-017 | The first supported application-level slice MUST include `signal-marker` as a signed application message that can be sent, validated, and traced end to end.  | Fact | Proposal 014 | done |
+| FR-017a | The first application-level slice SHOULD already be modeled as participant-scoped rather than infrastructure-scoped, even when MVP currently uses one operator-participant per Node.  | Inference | Freeze note | done |
+| FR-017b | Participant authentication in the MVP baseline SHOULD therefore occur through participant-scoped application artifacts over an already established node-scoped session, not by extending the handshake to enumerate or reveal participant identities.  | Inference | Freeze note | done |
+| FR-017c | For application-level message families such as `procurement-*` and `response-envelope`, `node-id` SHOULD remain the routing or hosting identity while `participant-id` remains the authored participation identity. Higher identity layers MAY appear only as optional payload metadata.  | Inference | Freeze note | done |
+| FR-017d | Some application-level message families, beginning with `whisper-signal` and optionally `question-envelope`, MAY use a nym-authored path instead of disclosing `participant-id` on the wire. In those cases `node-id` still routes the artifact, while authored participation is expressed through a `nym`, attached `nym-certificate`, and `nym` signature verified above the session layer.  | Inference | Freeze note | done |
+| FR-018 | Nodes MUST reject or quarantine malformed, expired, or signature-invalid advertisements and handshakes.  | Inference | Contract integrity | done |
+| FR-019 | The baseline capability surface SHOULD be small enough that heterogeneous Node implementations can interoperate without sharing one runtime or language stack.  | Inference | Architecture principles | done |
+| FR-020 | The MVP runtime MUST emit trace events for identity load/generation, advertisement publish/fetch/reject, peer discovered/connect/disconnect, handshake start/accept/reject, session establishment, capability exchange, keepalive lost/restored, signal-marker sent/received, and `error/occurred`.  | Fact | Freeze note | done |
+| FR-021 | Every networking trace event MUST carry at least `trace/id`, `event/type`, `ts`, and `node/self`; `peer` and `detail` SHOULD be present whenever the event is peer-scoped or diagnostically relevant.  | Fact | Freeze note | done |
+| FR-022 | The MVP runtime MUST freeze and use the following machine-readable boundary error codes: `E_TRANSPORT_UNAVAILABLE`, `E_TRANSPORT_REJECTED`, `E_ADV_EXPIRED`, `E_ADV_STALE_SEQ`, `E_SIG_INVALID`, `E_SIG_UNKNOWN_SIGNER`, `E_HS_REPLAY`, `E_HS_UNKNOWN_REF`, `E_PROTO_VERSION`, `E_PROTO_INVALID`, and `E_PROTO_CAP_MISSING`.  | Fact | Freeze note | done |
+| FR-023 | `error/occurred` trace events MUST classify failures through one of the frozen boundary error classes: `transport/unavailable`, `transport/rejected`, `advertisement/expired`, `advertisement/stale-sequence`, `signature/invalid`, `signature/unknown-signer`, `handshake/replay-suspected`, `handshake/unknown-ref`, `protocol/version-mismatch`, `protocol/invalid-contract`, or `protocol/capability-missing`.  | Fact | Freeze note | done |
+| FR-024 | `schema-gate` in the MVP runtime MUST validate both network ingress/egress payloads and local `node-identity.v1` import/export payloads as required edge boundaries.  | Fact | Freeze note | done |
 
 ## Non-Functional Requirements
 
 | ID | Requirement | Type | Source | Status |
 |---|---|---|---|---|
-| NFR-001 | Networking contracts MUST remain implementation-agnostic across Rust, Python, JVM, and other future runtimes.  | Inference | Architecture principles | in progress |
-| NFR-002 | All baseline networking artifacts MUST be versioned and suitable for validation at the edge.  | Inference | Contract-first design | in progress |
-| NFR-003 | The baseline MUST prefer real-world reachability over protocol purity; `WSS/443` is chosen primarily for practical network traversal.  | Fact | Proposal 014 | in progress |
-| NFR-004 | The baseline MUST fail closed on signature mismatch, unsupported protocol version, or expired advertisement freshness.  | Inference | Security + interoperability | in progress |
-| NFR-005 | Networking traces MUST remain small, machine-matchable, and operator-useful: the stable event label and error code are for automation, while contextual detail remains bounded and human-readable.  | Fact | Freeze note | in progress |
-| NFR-006 | Discovery and session establishment SHOULD tolerate partial failures without forcing full local identity regeneration.  | Inference | Resilience | in progress |
-| NFR-007 | The baseline MUST avoid introducing a mandatory global public registry or federation-wide trust fabric before the first Node can operate.  | Fact | Proposal 014 | in progress |
-| NFR-008 | The first seed-directory synchronization surface SHOULD prefer incremental cursor-based advertisement fetch over full topology dump to reduce scraping and unnecessary bandwidth.  | Inference | Freeze note | in progress |
-| NFR-009 | A single malformed advertisement, capability message, or handshake SHOULD NOT necessarily destroy an otherwise healthy peer session unless the failure falls into a hard-rejection class such as invalid signature or unsupported protocol version.  | Fact | Freeze note | in progress |
+| NFR-001 | Networking contracts MUST remain implementation-agnostic across Rust, Python, JVM, and other future runtimes.  | Inference | Architecture principles | done |
+| NFR-002 | All baseline networking artifacts MUST be versioned and suitable for validation at the edge.  | Inference | Contract-first design | done |
+| NFR-003 | The baseline MUST prefer real-world reachability over protocol purity; `WSS/443` is chosen primarily for practical network traversal.  | Fact | Proposal 014 | done |
+| NFR-004 | The baseline MUST fail closed on signature mismatch, unsupported protocol version, or expired advertisement freshness.  | Inference | Security + interoperability | done |
+| NFR-005 | Networking traces MUST remain small, machine-matchable, and operator-useful: the stable event label and error code are for automation, while contextual detail remains bounded and human-readable.  | Fact | Freeze note | done |
+| NFR-006 | Discovery and session establishment SHOULD tolerate partial failures without forcing full local identity regeneration.  | Inference | Resilience | done |
+| NFR-007 | The baseline MUST avoid introducing a mandatory global public registry or federation-wide trust fabric before the first Node can operate.  | Fact | Proposal 014 | done |
+| NFR-008 | The first seed-directory synchronization surface SHOULD prefer incremental cursor-based advertisement fetch over full topology dump to reduce scraping and unnecessary bandwidth.  | Inference | Freeze note | done |
+| NFR-009 | A single malformed advertisement, capability message, or handshake SHOULD NOT necessarily destroy an otherwise healthy peer session unless the failure falls into a hard-rejection class such as invalid signature or unsupported protocol version.  | Fact | Freeze note | done |
 
 ## Trade-offs
 

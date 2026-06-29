@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/client-instance-detachment.v1.schema.json`](../../schemas/client-instance-detachment.v1.schema.json)
 
-Machine-readable schema for a pod-layer artifact that detaches a concrete client instance from a serving-node session using the same participant-over-channel boundary as `client-instance-attachment.v1`.
+Machine-readable schema for a hosted-client artifact that detaches a concrete client instance from a serving-node session using the same participant-over-channel boundary as `client-instance-attachment.v1`.
 
 ## Governing Basis
 

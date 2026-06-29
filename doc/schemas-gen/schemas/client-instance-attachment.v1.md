@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/client-instance-attachment.v1.schema.json`](../../schemas/client-instance-attachment.v1.schema.json)
 
-Machine-readable schema for the first pod-layer artifact that attaches a concrete client instance to a live serving-node session using an embedded participant bind. This remains above `peer-handshake.v1` and is intended for post-MVP thin-client or hosted-user flows.
+Machine-readable schema for the first hosted-client artifact that attaches a concrete client instance to a live serving-node session using an embedded participant bind. This remains above `peer-handshake.v1`; the minimal runtime admits attachment facts, while richer hosted-user policy and read-models remain higher-layer work.
 
 ## Governing Basis
 

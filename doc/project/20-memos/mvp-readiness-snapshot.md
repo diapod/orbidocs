@@ -145,9 +145,20 @@ Recent component deltas:
 - Temporal Storage Convention is now hard-MVP complete: notification-store is the full-compaction-required adopter, while messaging outbox and Seed Directory accepted facts are converged bounded/no-op adopters with manifests, temporal status/feed/replay-check, and explicit `compaction.policy = "bounded-noop"` diagnostics.
 - Bounded Deferred Operations were promoted from Proposal 055 to Solution 029 as a horizontal host control-plane component. The MVP slice is complete: shared wire contracts, host registry, poll/cancel surfaces, JSON-e Flow persisted continuation, Sensorium OS deferred state, operator visibility, and AD consumer integration.
 - Sensorium has been promoted to Solution 030 as a constitutional organ. Its MVP slice is implemented for `sensorium-core` observation admission/query, directive invocation, audit-only outcomes, internal connector dispatch, the supervised Sensorium OS reference connector, action-catalog sidecar authorization, and deferred Sensorium actions. Local Agora observation publication remains partial because runtime support currently exposes topic metadata and read surfaces rather than a complete local subscription bus.
+- Node Address Attestation Fallback is now counted as hard-MVP ready through the Seed Directory / TLS Trust path: `node-address-attestation.v1` exists, Seed Directory can issue signed endpoint evidence, daemon consumers import usable evidence, peer supervisor enforces endpoint pins, and TLS leaf/SPKI plus advisory route-id checks are wired. Peer-relayed endpoint evidence over INAC remains a post-MVP fallback extension.
+- Classification is now counted as hard-MVP ready at proposal and solution level. `classification.v1` and `orbiplex-node-classification` provide the common lattice, egress helper, quarantine/declassification vocabulary, and projection-aware bound-subject handling consumed by Memarium, Agora, Whisper, INAC/private Artifact Delivery, archival export, and adjacent host boundaries. Whole-program IFC, per-field labels, complete historical backfill, and richer quarantine UI remain post-MVP work.
 - Proposal 054 is hard-MVP complete: `seed-directory-query-attestation.v1` is schema-gated, Seed Directory can attach opt-in signed response attestations, daemon can opt into trusted Agora replay for `adv`, `cap`, and `revocations` lanes, replay follows paginated Agora result pages, replay cursors/status are persisted in the embedded store, projection equivalence tests include revocation effects, and daemon-owned Seed Directory discovery now applies one strict multi-directory policy (`preferred-directory`, `quorum`, or `weighted-trust`) across host queries, AD/capability routing, subject lookup, and Contact Catalog provider discovery, with cross-directory revocation suppression for revoked capability passports. `/v1/seed-directory` and Node UI expose safe trusted-directory diagnostics, local endorsement/reputation policy inputs, replay state, and skip reasons.
 - Memarium Proposal 036 and Solution 002 are now implementation-complete for v1: neutral `MemariumObservation` bridges post-chain and phase observers without daemon-private runtime dependencies, observe-rule paths are validated with explicit-null extraction semantics, governed community forget accepts explicit governance references, the read sidecar performs startup catch-up while retaining scan fallback, local backup packages can be submitted through operator remote-archivist handoff/retrieval control surfaces over Artifact Delivery, and Story-005 smoke confirms the classification-bearing private AD/INAC path used by Memarium-adjacent archival/export boundaries. Richer Node UI batch UX remains a product layer, not a Proposal 036 blocker.
 - Story 000 is now hard-MVP complete: the minimal two-node operator acceptance pack under `node/tools/acceptance/story-000-operator/` was hardened to keep all non-story middleware disabled by real module id and its `ad-smoke` path passes with two local WSS peer sessions, connected peer read models, running peer supervisors, and metadata-only daemon status.
+- Proposal 014 / Node Transport and Discovery is now counted as hard-MVP ready:
+  P014, Requirements 006, Solution 000, `node/docs/MVP.md`, and the Node
+  implementation ledger were reconciled against the current `protocol`,
+  `network`, `peer-runtime`, daemon, and Story 000 acceptance implementation.
+  Live node-id succession, richer federation-wide peer-governor policy, and
+  additional transports remain post-MVP expansion rather than blockers for the
+  transport seed. The local peer-governor slice is now seeded through
+  `peer-status.v1`, daemon-configurable quality thresholds, and operator-visible
+  peer scorecards.
 - Key Delegation Passports are now hard-MVP complete at solution level: Seed Directory `/key` publication/query surfaces have focused signed-artifact coverage, daemon operator routes already expose proxy-key and delegation lifecycle management, and remaining multi-hop delegation plus richer Node UI screens are explicitly post-MVP/product-layer work.
 - Middleware is now counted as hard-MVP complete: Solution 019 already covers the implemented host-owned lifecycle, readiness, dispatch, claimed-route, host capability, observer/audit, raw-signal, and schema-presentation surfaces, while additional executor classes or product-specific module UX are future extension points owned by their specific proposals.
 - Capability Binding is now counted as hard-MVP complete: the reference runtime uses the shared `capability-binding` organ through daemon dispatch and Sealer integration, while solution-level service adapters and caches remain optional seams for alternate embeddings or profiled hot paths rather than MVP blockers.
@@ -188,7 +199,7 @@ Recent component deltas:
 | [Federated Answer Procurement Lifecycle Artifacts](../40-proposals/011-federated-answer-procurement-lifecycle.md) | `true` | `true` | `false` | `90` |
 | [Learning Outcomes, Knowledge Artifacts, and Archival Contracts](../40-proposals/012-learning-outcomes-and-archival-contracts.md) | `false` | `false` | `false` | `38` |
 | [Whisper Social-Signal Exchange and Threshold Bootstrap](../40-proposals/013-whisper-social-signal-exchange.md) | `true` | `true` | `false` | `92` |
-| [Node Transport and Discovery MVP](../40-proposals/014-node-transport-and-discovery-mvp.md) | `true` | `false` | `false` | `69` |
+| [Node Transport and Discovery MVP](../40-proposals/014-node-transport-and-discovery-mvp.md) | `true` | `true` | `false` | `92` |
 | [Nym Certificates and Renewal Baseline](../40-proposals/015-nym-certificates-and-renewal-baseline.md) | `false` | `false` | `false` | `25` |
 | [Supervised Prepaid Gateway and Escrow MVP](../40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md) | `true` | `false` | `false` | `65` |
 | [Proposal 017: Organization Subjects and org:did:key](../40-proposals/017-organization-subjects-and-org-did-key.md) | `true` | `true` | `false` | `88` |
@@ -218,11 +229,11 @@ Recent component deltas:
 | [Proposal 040: Custodial Redelivery and Tombstones for Agora Records](../40-proposals/040-custodial-redelivery-and-tombstones.md) | `false` | `false` | `false` | `38` |
 | [Proposal 041: Agora Ingest Attestation and Tiered Access](../40-proposals/041-agora-ingest-attestation.md) | `false` | `false` | `false` | `65` |
 | [Proposal 042: Inter-Node Artifact Channel (F2F Memarium Exchange)](../40-proposals/042-inter-node-artifact-channel.md) | `true` | `true` | `false` | `88` |
-| [Proposal 043: Node Address Attestation Fallback](../40-proposals/043-node-address-attestation-fallback.md) | `true` | `false` | `false` | `65` |
+| [Proposal 043: Node Address Attestation Fallback](../40-proposals/043-node-address-attestation-fallback.md) | `true` | `true` | `false` | `86` |
 | [Proposal 044: Host-Owned Generic Module Store](../40-proposals/044-host-owned-generic-module-store.md) | `true` | `true` | `false` | `100` |
-| [Proposal 045: Sensorium as a Local Enaction Stratum](../40-proposals/045-sensorium-local-enaction-stratum.md) | `true` | `false` | `false` | `65` |
+| [Proposal 045: Sensorium as a Local Enaction Stratum](../40-proposals/045-sensorium-local-enaction-stratum.md) | `true` | `true` | `false` | `92` |
 | [Proposal 046: Agora Topic-Key Namespace Conventions](../40-proposals/046-agora-topic-key-namespace-conventions.md) | `false` | `false` | `false` | `100` |
-| [Proposal 047: Classification Label Propagation for Memarium-Touching Data](../40-proposals/047-classification-label-propagation.md) | `true` | `false` | `false` | `74` |
+| [Proposal 047: Classification Label Propagation for Memarium-Touching Data](../40-proposals/047-classification-label-propagation.md) | `true` | `true` | `false` | `88` |
 | [Proposal 048: Sensorium OS Connector Action Classes](../40-proposals/048-sensorium-os-connector-action-classes.md) | `true` | `false` | `false` | `55` |
 | [Proposal 049: JSON-e Middleware Transformer Executor](../40-proposals/049-json-e-middleware-transformer-executor.md) | `true` | `true` | `false` | `82` |
 | [Proposal 050: Local Readiness Gate](../40-proposals/050-local-readiness-gate.md) | `true` | `true` | `false` | `85` |
@@ -271,7 +282,7 @@ Recent component deltas:
 | [Host-Owned Module Store](../60-solutions/015-host-owned-module-store/015-host-owned-module-store.md) | `true` | `true` | `false` | `100` |
 | [Bounded Local Server Runtime](../60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md) | `true` | `true` | `false` | `100` |
 | [Inter-Node Artifact Channel (INAC)](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md) | `true` | `true` | `false` | `88` |
-| [Classification](../60-solutions/018-classification/018-classification.md) | `true` | `false` | `false` | `76` |
+| [Classification](../60-solutions/018-classification/018-classification.md) | `true` | `true` | `false` | `88` |
 | [Middleware](../60-solutions/019-middleware/019-middleware.md) | `true` | `true` | `false` | `100` |
 | [Replay Scheduler](../60-solutions/020-scheduler/020-scheduler.md) | `true` | `true` | `false` | `100` |
 | [Solution 021: Agora Authority](../60-solutions/021-agora-authority/021-agora-authority.md) | `false` | `false` | `false` | `77` |

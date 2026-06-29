@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/client-instance-recovery.v1.schema.json`](../../schemas/client-instance-recovery.v1.schema.json)
 
-Machine-readable schema for a pod-layer artifact that recovers client access after a detachment, device loss, migration, or other interruption, while reusing the same participant-over-channel boundary as the attachment and detachment artifacts.
+Machine-readable schema for a hosted-client artifact that recovers client access after a detachment, device loss, migration, or other interruption, while reusing the same participant-over-channel boundary as the attachment and detachment artifacts.
 
 ## Governing Basis
 

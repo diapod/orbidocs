@@ -7,8 +7,19 @@ Based on:
 
 ## Status
 
-Partially implemented in the Node transport/discovery baseline; succession,
-peer-governor semantics, and richer federation policy remain deferred.
+Accepted / hard-MVP implemented in the Node transport/discovery baseline.
+
+The implemented cut includes stable node and participant identity, signed
+endpoint advertisements, WSS/TLS carrier sessions, signed peer handshakes,
+encrypted session frames, capability advertisement exchange, keepalive and
+reconnect behavior, durable peer/advertisement state, network traces, and the
+participant-scoped `signal-marker-envelope.v1` first application slice.
+
+Post-MVP work remains for live node-id continuity/succession policy, richer
+federation-wide peer-governor policy, richer hosted-user policy/read-models and
+federated continuity above the minimal client-instance lifecycle, and broader
+discovery-policy productization. Those layers extend the transport seed; they
+are not blockers for the P014 hard-MVP baseline.
 
 ## Date
 
@@ -265,6 +276,13 @@ The first concrete schema seed for that later layer now lives in:
 
 - `doc/schemas/participant-bind.v1.schema.json`
 
+That schema is now an accepted, closed admission contract: unknown top-level
+fields and unknown signature fields are rejected by schema validation before any
+post-channel runtime may treat it as authority.
+There is no lenient unknown-field compatibility mode for this freeze; producers
+that need additional metadata must add an explicit schema field or a formal
+extension point first.
+
 The first concrete post-MVP consumer of that bind is expected to be the thin-client
 or hosted-user attachment artifact:
 
@@ -278,6 +296,12 @@ The next post-MVP lifecycle companion may recover client access after loss or
 migration through:
 
 - `doc/schemas/client-instance-recovery.v1.schema.json`
+
+The three `client-instance-*` schemas are also accepted, closed admission
+contracts and are schema-gated as post-channel lifecycle artifacts. They remain
+above the established session and embedded participant bind; they are not
+handshake fields. As with `participant-bind.v1`, ad-hoc top-level metadata is
+rejected rather than silently ignored.
 
 Rotation is also deferred as a richer operational layer. In v1:
 
@@ -487,10 +511,13 @@ connections to all known peers. A healthier default is:
 This gives redundancy without turning discovery into an always-connected flood
 of idle TCP/WSS sessions.
 
-The MVP does not yet standardize a full peer-health or peer-governor policy,
-but it should leave room for one. A later runtime layer may classify peers as
-`cold`, `warm`, `hot`, or `blocked` based on observed session quality,
-repeated failures, explicit local policy, and operator decisions.
+The MVP leaves room for a federation-wide peer-health or peer-governor policy.
+The current local runtime already exposes `peer-status.v1` as an
+operator-facing read model and classifies peers as `cold`, `warm`, `hot`, or
+`blocked` from observed session quality, repeated failures, explicit local
+policy, and operator decisions. Cross-directory or reputation-weighted peer
+governance remains a later policy layer rather than a transport-handshake
+concern.
 
 For abuse control at this layer, rate limiting and backpressure should remain
 per-node rather than per-participant or per-nym. If one node emits too much
@@ -832,19 +859,19 @@ That means:
 
 ## MVP Seed Checklist
 
-1. Define local Node identity file format.
-2. Freeze `node-id` derivation rule as strict `node:did:key`.
-3. Define signed endpoint advertisement shape.
-4. Define peer handshake shape.
-5. Define capability advertisement shape.
-6. Define keepalive and reconnect behavior.
-7. Define seed peer / seed directory configuration.
-8. Implement load-or-generate local identity.
-9. Implement WSS bootstrap connection to a seed peer.
-10. Implement signed handshake and handshake acknowledgment.
-11. Implement capability advertisement exchange.
-12. Implement `ping/pong`.
-13. Implement `signal-marker` end to end as the first signed application message.
+1. Define local Node identity file format. **Done.**
+2. Freeze `node-id` derivation rule as strict `node:did:key`. **Done.**
+3. Define signed endpoint advertisement shape. **Done.**
+4. Define peer handshake shape. **Done.**
+5. Define capability advertisement shape. **Done.**
+6. Define keepalive and reconnect behavior. **Done.**
+7. Define seed peer / seed directory configuration. **Done.**
+8. Implement load-or-generate local identity. **Done.**
+9. Implement WSS bootstrap connection to a seed peer. **Done.**
+10. Implement signed handshake and handshake acknowledgment. **Done.**
+11. Implement capability advertisement exchange. **Done.**
+12. Implement `ping/pong` / equivalent keepalive. **Done.**
+13. Implement `signal-marker` end to end as the first signed application message. **Done.**
 14. Add required network traces and diagnostics for:
     - identity load/generation,
     - advertisement publish/fetch/reject,
@@ -855,8 +882,46 @@ That means:
     - keepalive lost/restored,
     - signal-marker send/receive,
     - and `error/occurred`.
-15. Freeze the eleven MVP boundary error classes and their stable wire-visible codes.
-16. Treat advertisement persistence cache and identity import/export schema validation as part of required done state, not later polish.
+    **Done.**
+15. Freeze the eleven MVP boundary error classes and their stable wire-visible codes. **Done.**
+16. Treat advertisement persistence cache and identity import/export schema validation as part of required done state, not later polish. **Done.**
+
+## Implementation Reconciliation
+
+Reconciled on 2026-06-29 against:
+
+- `node:docs/MVP.md`
+- `node:docs/implementation-ledger.toml`
+- `node:protocol`
+- `node:network`
+- `node:peer-runtime`
+- `node:daemon`
+- `node:tools/acceptance/story-000-operator`
+
+The hard-MVP interpretation is that P014 closes the minimal transport seed, not
+the entire future networking program. In that interpretation:
+
+- identity import/export, strict role ids, `local-file:` key storage, and active
+  identity checks are present;
+- signed `node-advertisement.v1` publication, replacement, expiry, and durable
+  cache behavior are present;
+- WSS/TLS carrier handling, signed `peer-handshake.v1`, 3DH-derived encrypted
+  frames, replay protection, keepalive, reconnect, peer supervisor lifecycle,
+  peer quality scorecards, and manual block/unblock are present;
+- `capability-advertisement.v1` exchange is present and tied into the checked
+  capability registry / authorization policy path;
+- `signal-marker-envelope.v1` is implemented as the first participant-scoped
+  signed message above the encrypted session;
+- Story 000 provides the operator-facing two-node smoke path for the baseline.
+
+The open work is now post-MVP expansion:
+
+- live succession/continuity semantics for changing `node-id`;
+- richer federation-level peer-governor policy and cross-directory discovery
+  reconciliation;
+- richer hosted-user policy, UI/read-models, and federated continuity above the
+  minimal post-channel participant-bind/client-instance lifecycle;
+- additional transports or NAT traversal beyond the WSS seed.
 
 ## Document Seed Needed Next
 
@@ -866,14 +931,16 @@ The next minimal schema set should likely be:
 2. `node-advertisement.v1`
 3. `peer-handshake.v1`
 4. `capability-advertisement.v1`
+5. `participant-bind.v1`
+6. `client-instance-{attachment,detachment,recovery}.v1`
 
-Optionally later:
+Operator-local read models:
 
 5. `peer-status.v1`
 
-This later layer may formalize peer-health tracking and governor-oriented
-transitions such as `cold -> warm -> hot -> blocked`, but those semantics are
-intentionally deferred beyond the MVP baseline.
+This read model formalizes local peer-health tracking and governor-oriented
+transitions such as `cold -> warm -> hot -> blocked`. It is not a handshake
+field and does not make federation-wide trust decisions.
 
 ## Trade-offs
 
@@ -892,17 +959,25 @@ intentionally deferred beyond the MVP baseline.
 
 ## Remaining Open Questions
 
-1. Should MVP implementation stop at static seed peers first, or also include a minimal read-write seed directory?
+None for the hard-MVP transport seed. Static seed peers are sufficient for the
+baseline, and the implemented Seed Directory path is an optional discovery
+extension above that seed.
+
+Post-MVP hosted-client lifecycle still has one open policy decision:
+
+1. Should `client-instance-recovery.v1` admission require a local detachment
+   read-model proof that `recovery/from-detachment-id` is known to the serving
+   node and belongs to the same `client-instance/id`? The recommended default is
+   yes: the schema already requires a detachment reference, but the runtime needs
+   a local lifecycle read-model before that reference can become authority rather
+   than documentation.
 
 ## Next Actions
 
-1. Add one Node requirement for networking baseline.
-2. Add the first schema quartet:
-   - `node-identity.v1`
-   - `node-advertisement.v1`
-   - `peer-handshake.v1`
-   - `capability-advertisement.v1`
-3. Extend `doc/project/60-solutions/000-node/000-node.md`
-   with the networking baseline as a first-class Node capability.
-4. Extend the Node implementation ledger with the same baseline capability.
-5. Add the frozen trace-event and boundary-error contract to the first implementation slice.
+1. Keep `NodeIdentity`, `NodeAdvertisement`, `PeerHandshake`, and
+   `CapabilityAdvertisement` aligned as one versioned networking family.
+2. Keep Solution 000, Requirements 006, `node/docs/MVP.md`, and the Node
+   implementation ledger synchronized when transport ownership or scope changes.
+3. Track live succession, richer peer-governor policy, richer hosted-user
+   policy/read-models, and additional transports as post-MVP extensions rather
+   than as blockers for P014.

@@ -1,0 +1,18 @@
+{
+  "schema": "peer-status.v1",
+  "node_id": "node:did:key:z6MkPeer",
+  "display_name": "seed-alpha",
+  "selected_endpoint_url": "wss://seed-alpha.orbiplex.example/peer",
+  "temperature": "warm",
+  "lifecycle": "connected",
+  "quality_status": "capability_limited",
+  "score": 72,
+  "supported_capabilities": ["core/discovery"],
+  "missing_capabilities": ["core/messaging"],
+  "capability_missing_count": 2,
+  "failure_count": 1,
+  "replay_incidents": 0,
+  "cooldown_remaining_ms": null,
+  "blocked_remaining_ms": null,
+  "last_failure_reason": "required capability missing"
+}

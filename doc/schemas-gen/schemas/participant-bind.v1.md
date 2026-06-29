@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/participant-bind.v1.schema.json`](../../schemas/participant-bind.v1.schema.json)
 
-Schema seed for a participant-scoped authorization artifact carried over an already established encrypted node-to-node session. This artifact remains above `peer-handshake.v1` and is intended for later hosted-user or multi-participant flows.
+Participant-scoped authorization artifact carried over an already established encrypted node-to-node session. This artifact remains above `peer-handshake.v1`; the minimal runtime admits it as the first post-networking participant boundary, while richer hosted-user policy and read-models remain higher-layer work.
 
 ## Governing Basis
 

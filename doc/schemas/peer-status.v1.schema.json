@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:peer-status:v1",
+  "title": "PeerStatus v1",
+  "description": "Operator-facing local read model for one peer's transport temperature, lifecycle, and quality-governor state.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/project/50-requirements/requirements-006-node-networking-mvp.md"
+  ],
+  "required": [
+    "schema",
+    "node_id",
+    "display_name",
+    "selected_endpoint_url",
+    "temperature",
+    "lifecycle",
+    "quality_status",
+    "score",
+    "supported_capabilities",
+    "missing_capabilities",
+    "capability_missing_count",
+    "failure_count",
+    "replay_incidents",
+    "cooldown_remaining_ms",
+    "blocked_remaining_ms",
+    "last_failure_reason"
+  ],
+  "properties": {
+    "schema": { "const": "peer-status.v1" },
+    "node_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^node:did:key:z.+$"
+    },
+    "display_name": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "selected_endpoint_url": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "temperature": {
+      "type": "string",
+      "enum": ["cold", "warm", "hot", "blocked"]
+    },
+    "lifecycle": {
+      "type": "string",
+      "enum": ["idle", "dialing", "connected", "cooldown", "blocked"]
+    },
+    "quality_status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "degraded",
+        "capability_limited",
+        "cooling_down",
+        "benchlisted",
+        "blocked"
+      ]
+    },
+    "score": {
+      "type": "integer",
+      "minimum": -10000,
+      "maximum": 10000
+    },
+    "supported_capabilities": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+    },
+    "missing_capabilities": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+    },
+    "capability_missing_count": { "type": "integer", "minimum": 0 },
+    "failure_count": { "type": "integer", "minimum": 0 },
+    "replay_incidents": { "type": "integer", "minimum": 0 },
+    "cooldown_remaining_ms": { "type": ["integer", "null"], "minimum": 0 },
+    "blocked_remaining_ms": { "type": ["integer", "null"], "minimum": 0 },
+    "last_failure_reason": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "maxLength": 2048
+    }
+  }
+}

@@ -2,11 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:participant-bind:v1",
   "title": "ParticipantBind v1",
-  "description": "Schema seed for a participant-scoped authorization artifact carried over an already established encrypted node-to-node session. This artifact remains above `peer-handshake.v1` and is intended for later hosted-user or multi-participant flows.",
+  "description": "Participant-scoped authorization artifact carried over an already established encrypted node-to-node session. This artifact remains above `peer-handshake.v1`; the minimal runtime admits it as the first post-networking participant boundary, while richer hosted-user policy and read-models remain higher-layer work.",
   "type": "object",
-  "additionalProperties": true,
+  "additionalProperties": false,
   "x-dia-workflow": "project",
-  "x-dia-status": "draft",
+  "x-dia-status": "accepted",
+  "x-dia-migration-note": "NT-014 freezes this v1 contract as a closed top-level admission shape. Producers must not send ad-hoc top-level fields; future extensions require an explicit schema field or a formal v1-compatible extension point.",
   "x-dia-basis": [
     "doc/project/40-proposals/007-pod-identity-and-tenancy-model.md",
     "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md"
@@ -95,7 +96,7 @@
           "minLength": 1
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
     }
   }
 }

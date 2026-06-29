@@ -210,11 +210,15 @@ Note:
 - In the MVP baseline, thin clients or remote UI sessions are delegated operator sessions of that same participant role, not independent hosted users with their own continuity layer.
 
 Status:
-- `partial` — the Node reference implementation has stable node and participant
-  identity, signed advertisements and handshakes, encrypted WSS sessions,
-  advertisement cache, peer supervisor, replay guard, capability downgrade, and
-  participant restriction import. Remaining work is continuity/client-instance
-  hardening and policy granularity recorded in the Node implementation ledger.
+- `done for hard-MVP` — the Node reference implementation has stable node and
+  participant identity, signed advertisements and handshakes, encrypted WSS
+  sessions, advertisement cache, peer supervisor, replay guard, capability
+  downgrade, participant restriction import, durable trace/network coverage, and
+  the participant-scoped `signal-marker-envelope.v1` first application slice.
+  Remaining live succession, richer hosted-user policy/read-models above the
+  minimal participant-bind/client-instance lifecycle, richer federation policy,
+  and additional transport work is post-MVP extension work rather than a blocker
+  for the P014 transport seed.
 
 ### Host Signer and Key-Use Boundary
 

@@ -16,7 +16,18 @@ Based on:
 
 ## Status
 
-Draft
+Accepted / hard-MVP implemented.
+
+The current implementation status is owned by
+`doc/project/60-solutions/030-sensorium/030-sensorium.md`. The hard-MVP slice is
+complete for Sensorium Core admission/query, directive invocation, audit-only
+outcomes, internal connector dispatch, the supervised Sensorium OS reference
+connector, action-catalog sidecar authorization, and deferred Sensorium actions.
+
+The remaining local Agora observation publication/subscription bus is a
+post-MVP integration layer. The runtime already records `publish_topics`
+metadata and exposes read surfaces; Sensorium MVP does not require Sensorium to
+become a public or federated publication authority.
 
 ## Date
 
@@ -897,7 +908,8 @@ Sensorium is responsible for:
 - storing recent observations or forwarding them to Memarium under policy,
 - deriving read models such as timelines, topic summaries, and connector status,
 - exposing host-granted query and summary capabilities,
-- publishing admitted observations to local Agora topics under policy,
+- recording local topic metadata for admitted observations and, in the post-MVP
+  subscription-bus layer, publishing them to local Agora topics under policy,
 - emitting audit records for admission, rejection, query, and redaction.
 
 Sensorium SHOULD NOT embed connector-specific parsers in its core. If a source
@@ -1186,7 +1198,9 @@ Because the v1 schema describes the admitted record, not the pre-admission
 connector submission, `admission.store` and `admission.publish_topics` are
 required. `admission.store` carries the Node-owned module-store reference and
 TTL metadata; `admission.publish_topics` carries the local Agora topic or topics
-on which the observation was made available under ACL.
+on which the observation is eligible to be made available under ACL. The
+hard-MVP runtime records this metadata and serves read models; actual local
+Agora publication/subscription is the later subscription-bus integration.
 
 `confidence.class` in this proposal is Sensorium-local and intentionally not the
 same contract as the emergency `C0`-`C4` credibility scale. A promotion rule may
@@ -1290,7 +1304,7 @@ Suggested behavior:
 Subject timelines are a query profile, not a separate v1 capability, unless a
 real consumer later needs a distinct optimized surface.
 
-#### Consumer-side push subscriptions
+#### Consumer-side push subscriptions (post-MVP)
 
 Consumer -> local Agora:
 
@@ -1298,7 +1312,8 @@ Consumer -> local Agora:
 subscribe local/sensorium/observations/{signal-kind}
 ```
 
-After admission, consumers may subscribe to local Agora topics such as
+After the local subscription-bus integration is enabled, consumers may subscribe
+to local Agora topics such as
 `local/sensorium/observations/github-release` or
 `local/sensorium/observations/feed-item`.
 This uses the existing Agora topic-addressed pub/sub substrate and SSE
@@ -1541,10 +1556,12 @@ The following decisions close the v1 design questions:
 3. The first reference connector class is `OS`: an allowlisted operating-system
    connector. It opens practical access to network tools, git, feeds, and local
    commands without defining one connector class per external source in Phase 1.
-4. Local observation publication uses per-kind local Agora topics. The topic
-   shape is `local/sensorium/observations/{signal-kind}`, following proposal
-   046. Sensorium observations are never published to public/federated topics by
-   default. The v1 observation schema validates this topic shape.
+4. Local observation publication metadata uses per-kind local Agora topics. The
+   topic shape is `local/sensorium/observations/{signal-kind}`, following
+   proposal 046. Sensorium observations are never published to public/federated
+   topics by default. The hard-MVP runtime records and validates this topic
+   shape; actual local Agora publication/subscription is a post-MVP integration
+   layer.
 5. Story 009 Phase 1 uses Sensorium only for research facts, queried by
    `subject/kind`, `subject/id`, `signal/kind`, and freshness. Commit/push
    remains on the Arca task path and may later invoke the OS connector to run
@@ -1580,12 +1597,13 @@ The following decisions close the v1 design questions:
 
 ## Implementation Acceptance Checks
 
-The schemas are promoted, but the implementation still needs to prove the
-contracts in a narrow end-to-end path:
+The schemas are promoted, and the hard-MVP implementation has proven the
+contracts in the narrow local path:
 
-- `sensorium-observation.v1`: connector -> `sensorium-core` admission -> Node-owned
-  module store with TTL -> local Agora topic
-  `local/sensorium/observations/{signal-kind}`.
+- `sensorium-observation.v1`: connector -> `sensorium-core` admission ->
+  Node-owned module store with TTL -> query/topic-summary read models. Local
+  Agora topic publication to `local/sensorium/observations/{signal-kind}` is a
+  post-MVP subscription-bus integration, not a hard-MVP gate.
 - `sensorium-directive.v1`: consumer -> `sensorium.directive.invoke` ->
   allowlist resolution by `action_id` -> internal `sensorium.connector.invoke`.
 - `sensorium-directive-outcome.v1`: exactly one audit-only outcome per directive,
@@ -1603,35 +1621,39 @@ contracts in a narrow end-to-end path:
 
 Phase 0:
 
-- create a supervised Sensorium module skeleton,
-- define the module report extension for `module_role: "sensorium-connector"`
+- [x] create the Sensorium Core boundary and supervised connector skeleton,
+- [x] define the module report extension for `module_role: "sensorium-connector"`
   and connector metadata,
-- implement connector list/status and health,
-- implement `sensorium.observe.submit` with in-memory admission,
-- implement no-sensorium degradation behavior for consumers,
-- adopt the v1 schemas for `sensorium-observation.v1`,
+- [x] implement connector list/status and health,
+- [x] implement `sensorium.observe.submit` admission,
+- [x] implement no-sensorium degradation behavior for consumers,
+- [x] adopt the v1 schemas for `sensorium-observation.v1`,
   `sensorium-directive.v1`, `sensorium-directive-result.v1`, and
   `sensorium-directive-outcome.v1`,
-- adopt proposal 046 topic naming for admitted observations:
+- [x] adopt proposal 046 topic naming metadata for admitted observations:
   `local/sensorium/observations/{signal-kind}`.
 
 Phase 1:
 
-- persist admitted observations in the Node-owned generic module store with TTL,
-- expose bounded query, get, topic summary, and local Agora subscription paths,
-- implement `sensorium.directive.invoke` (consumer-facing) and the internal
+- [x] persist admitted observations in the Node-owned generic module store with TTL,
+- [x] expose bounded query, get, and topic summary read surfaces,
+- [ ] post-MVP: expose local Agora subscription paths for admitted observations,
+- [x] implement `sensorium.directive.invoke` (consumer-facing) and the internal
   `sensorium.connector.invoke` dispatch for the OS connector,
-- represent OS connector definitions and signed action allowlist entries as
+- [x] represent OS connector definitions and signed action allowlist entries as
   host-owned module store records,
-- add audit events for submit/query/get,
-- publish admitted observations to
+- [x] add audit/outcome records for directive and observation flows,
+- [ ] post-MVP: publish admitted observations to
   `local/sensorium/observations/{signal-kind}` with local ACL and retention
   policy,
-- satisfy story-009 research input through observation queries over facts
+- [x] satisfy story-009 research input through bounded Sensorium OS actions and
+  Sensorium-mediated directive flow,
+- [ ] post-MVP: satisfy more story-009 research input through observation queries over facts
   produced by observation-only connectors where possible,
-- implement the reference OS action `os.process.spawn-read-only` for a bounded
-  `git fetch origin <branch>` path, with `connector_incidental_effects` including
-  disk metadata changes and network egress.
+- [x] implement reference bounded OS action classes through Sensorium OS,
+  including process/script execution without shell interpolation, bounded
+  workdir/script roots, stdout/stderr caps, timeout policy, artifact references,
+  and connector incidental-effect declarations.
 
 Phase 2:
 

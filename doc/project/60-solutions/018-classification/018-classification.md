@@ -29,11 +29,17 @@ or declassification fact changed the effective tier.
 
 ## Status
 
-Draft / partial. The `classification.v1` schema and core propagation concepts
-exist, and Memarium, Agora, Whisper, INAC/private Artifact Delivery, and local
-archival export now consume the shared egress helper. Richer operator UI,
-production schema freeze, and future downstream forwarding surfaces remain
-implementation work.
+Implemented hard-MVP. The `classification.v1` schema and
+`orbiplex-node-classification` crate provide the shared label vocabulary,
+effective-tier derivation, projection-aware bound subjects, quarantine markers,
+stable denial codes, and the common egress helper used by Memarium, Agora,
+Whisper, INAC/private Artifact Delivery, local archival export, and adjacent
+host boundaries.
+
+Post-MVP work remains deliberately outside this solution slice: whole-program
+information-flow control, per-field labels, complete historical backfill,
+richer quarantine/operator UI, and future downstream forwarding surfaces that
+need stronger product affordances.
 
 ## Related Schemas
 
