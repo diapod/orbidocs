@@ -992,32 +992,53 @@ covered by Story 000 `rotation-smoke`. Seed Directory publication/replay of
 succession proofs and automatic endpoint-evidence migration are deliberately
 not part of this slice.
 
-Open questions after the local NT-018 slice:
+Decisions after the local NT-018 slice:
 
-1. Should `accepted_by`, `accepted_at`, and `policy_ref` for
-   `/v1/operator/node-succession/{succession_id}/accept` become entirely
-   server-derived from the authenticated operator context and effective local
-   policy, with the request body carrying only an optional operator reason? The
-   recommended default is yes before any federated or multi-operator deployment;
-   the current local slice accepts explicit values because the control authtok
-   surface is single-operator and acceptance is not yet a federated authority
-   statement.
-2. Should the `accept-node-succession:*` policy reference resolve against a
-   local policy registry before the peer governor or discovery resolver may use
-   a successor candidate for routing? The recommended default is yes for the
-   next runtime policy slice. Story 000 currently asserts the minimal invariant:
-   accepting a succession proof does not create successor peer routing state or
-   transfer endpoint evidence before the successor identity is explicitly
-   activated.
+1. `/v1/operator/node-succession/{succession_id}/accept` derives
+   `accepted_by`, `accepted_at`, and `policy_ref` from the host. The request body
+   may carry only optional operator rationale. Even in the local single-operator
+   slice, the acceptance fact is consumed by later routing policy, so host-attested
+   provenance is required and caller-supplied provenance is rejected.
+2. `/v1/operator/node-succession/{succession_id}/reject` follows the same
+   provenance rule: `rejected_by` and `rejected_at` are host-derived, and the
+   request body may carry only the rejection reason. Reject facts are audit
+   facts, not caller-authored claims.
+3. `accept-node-succession:*` must resolve through the local policy registry
+   before the peer governor or discovery resolver may use a successor candidate
+   for routing. The succession fact remains immutable history; routing eligibility
+   is a live, revocable policy resolution. Reuse the existing Capability Registry /
+   `capability-authorization-policy.v1` sidecar path rather than introducing a
+   succession-specific allow-set.
 
-Post-MVP hosted-client lifecycle still has one open policy decision:
+Post-MVP hosted-client lifecycle decision:
 
-1. Should `client-instance-recovery.v1` admission require a local detachment
-   read-model proof that `recovery/from-detachment-id` is known to the serving
-   node and belongs to the same `client-instance/id`? The recommended default is
-   yes: the schema already requires a detachment reference, but the runtime needs
-   a local lifecycle read-model before that reference can become authority rather
-   than documentation.
+1. `client-instance-recovery.v1` admission requires a local detachment read-model
+   proof that `recovery/from-detachment-id` is known to the serving node, belongs
+   to the same `client-instance/id`, and was authorized by the same participant
+   that is attempting recovery. Without that local lifecycle read model, recovery
+   must fail closed rather than treating the bare detachment reference as
+   authority.
+2. The local lifecycle read model is a bounded cache of admitted detachment facts,
+   not a new source of authority. Replayed detachments are idempotent and do not
+   overwrite the first admitted record for a `detachment/id`; evicted detachments
+   become unknown, so dependent recovery fails closed.
+
+Test hardening backlog:
+
+1. Add a daemon-level WSS/local-control acceptance test for
+   `client-instance-detachment.v1` followed by `client-instance-recovery.v1`
+   once the test harness has a stable way to bind participant lifecycle payloads
+   to the live peer-session id. The hard admission rule is currently covered in
+   `peer-runtime`; the remaining gap is end-to-end daemon wiring coverage.
+
+Runtime gate tracker:
+
+1. Before node succession affects peer-governor, discovery, dialer, or routing
+   selection, implement the live gate:
+   `accept-node-succession:*` resolves through Capability Registry plus the
+   local `capability-authorization-policy.v1` sidecar. Until that gate exists,
+   accepted succession facts may remain audit and operator state, but MUST NOT
+   change routing eligibility.
 
 ## Next Actions
 
@@ -1028,3 +1049,6 @@ Post-MVP hosted-client lifecycle still has one open policy decision:
 3. Track federated succession publication/replay, richer peer-governor policy,
    richer hosted-user policy/read-models, and additional transports as post-MVP
    extensions rather than as blockers for P014.
+4. Keep the `accept-node-succession:*` Capability Registry gate ahead of any
+   future successor-routing consumer; missing policy resolution must fail closed
+   rather than honoring an accepted succession fact directly.

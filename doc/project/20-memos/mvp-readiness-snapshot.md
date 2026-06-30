@@ -222,8 +222,12 @@ Recent component deltas:
   rather than blockers for the transport seed. The local peer-governor slice is
   now seeded through `peer-status.v1`, daemon-configurable quality thresholds,
   and operator-visible peer scorecards. The local NT-018 node-succession
-  lifecycle is implemented through `node-succession.v1`, operator
-  import/accept, successor identity activation, and Story 000 `rotation-smoke`.
+  lifecycle is implemented through `node-succession.v1`, host-derived operator
+  import/accept/reject provenance, successor identity activation, and Story 000
+  `rotation-smoke`; future successor routing eligibility remains a live local
+  policy-registry resolution rather than a mutation of the accepted fact. The
+  local client-instance recovery read model is now bounded and replay-idempotent,
+  so evicted or unknown detachment references fail closed.
 - Key Delegation Passports are now hard-MVP complete at solution level: Seed Directory `/key` publication/query surfaces have focused signed-artifact coverage, daemon operator routes already expose proxy-key and delegation lifecycle management, and remaining multi-hop delegation plus richer Node UI screens are explicitly post-MVP/product-layer work.
 - Middleware is now counted as hard-MVP complete: Solution 019 already covers the implemented host-owned lifecycle, readiness, dispatch, claimed-route, host capability, observer/audit, raw-signal, and schema-presentation surfaces, while additional executor classes or product-specific module UX are future extension points owned by their specific proposals.
 - Capability Binding is now counted as hard-MVP complete: the reference runtime uses the shared `capability-binding` organ through daemon dispatch and Sealer integration, while solution-level service adapters and caches remain optional seams for alternate embeddings or profiled hot paths rather than MVP blockers.
