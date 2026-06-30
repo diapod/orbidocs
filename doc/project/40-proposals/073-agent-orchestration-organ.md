@@ -489,26 +489,25 @@ guardrail Agent adopts against each:
 - The first controller runtime is **daemon-owned** and may use Flow IR for
   bounded sub-steps; Flow IR is not the lifecycle owner.
 - The first runtime slice is **node-local only**; cross-node/federated agents are
-  deferred to a separate proposal.
+  deferred to a separate proposal after the node-local lifecycle, budget, trace,
+  and effect-proposal model is proven.
 - The first live working set is an **in-memory / ephemeral projection**. Memarium
-  remains the durable fact plane, not a cache; a dedicated projection cache can
-  be evaluated later.
-- The first profile uses conservative, configurable developer defaults:
+  remains the durable fact plane, not a cache; a dedicated projection cache can be
+  evaluated later after real profiling data and clear lifecycle requirements.
+- Production fan-out and budget profiles are **operator-defined**, not limited to
+  a fixed preset catalog. The implementation still provides conservative,
+  configurable developer defaults:
   `max_steps = 8`, `max_depth = 1`, `max_children = 0 or 1`,
   `max_concurrent = 1`, and a short deployment-configured wall-time TTL.
 
 ## Open Questions
 
-None block the first node-local implementation slice.
+None remain for the first node-local implementation slice.
 
-Deferred questions:
-
-1. Cross-node / federated agents: define in a separate proposal after the
-   node-local lifecycle, budget, trace, and effect-proposal model is proven.
-2. Dedicated live projection cache: evaluate after the in-memory working set has
-   real profiling data and clear lifecycle requirements.
-3. Production fan-out/budget profiles: define after the conservative developer
-   profile has operational evidence.
+Deferred work is scoped, not unresolved: cross-node/federated agents require a
+separate proposal; a dedicated projection cache waits for profiling data and a
+clear lifecycle; and production fan-out/budget profiles are operator-defined with
+the conservative developer defaults above as the initial built-in profile.
 
 ## Implementation Tracker
 
@@ -521,7 +520,7 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 | `agent-inquirium-boundary-docs` | Document that the durable agent loop lives above Inquirium and that assistant agentic effects are realized through Agent. | `done` | Proposal 064 now has the *Agent Loop Lives Above Inquirium* boundary note, Proposal 066 Phase 3 points agentic effects at Proposal 073, and this proposal owns the lifecycle/controller/budget tracker. |
 | `agent-lifecycle-capabilities` | Add `agent.spawn/fork/suspend/resume/stop/status` host capabilities. | `todo` | Registered in Capability Registry; fail-closed admission; request/response schemas for spawn/fork/suspend/resume/stop/status; budget-metered; decision ledger entries; local-control E2E. |
 | `agent-monotone-fork` | Enforce monotone narrowing and budget split on `fork`. | `todo` | Child grants/classification/autonomy/tools ⊆ parent; parent budget is split not duplicated; negative tests for widening and self-authorization. |
-| `agent-bounded-fanout` | Enforce `max_steps/max_depth/max_children/max_concurrent/aggregate_budget` and mandatory `termination_condition`. | `todo` | An agent without a terminator is rejected; fork-bomb test stays bounded; watchdog stops runaway loops. |
+| `agent-bounded-fanout` | Enforce `max_steps/max_depth/max_children/max_concurrent/aggregate_budget` and mandatory `termination_condition`. | `todo` | An agent without a terminator is rejected; fork-bomb test stays bounded; watchdog stops runaway loops; operator-defined profiles can override the built-in conservative developer defaults. |
 | `agent-durable-state` | Persist session context and lifecycle as Memarium-backed durable facts with replay/recovery. | `todo` | `agent.state.v1`/`agent.session.v1` facts; `resume` and crash recovery rebuild from facts; `as of` query works. |
 | `agent-memory-projection` | Build the working set as a projection of durable Memarium facts via `MemoryPolicy`, with fail-closed degradation. | `todo` | Working set is rebuilt per step from facts (pinned + bounded summary + recall), kept off the hot Memarium path; only meaningful facts (turn/result/decision/observation) are written, never the KV cache; with Memarium disabled the agent runs on a local ephemeral working set plus a local non-federating fallback, and durability/audit/federation resume when Memarium returns. |
 | `agent-controller-step-records` | Persist each controller step as an auditable `agent.step.v1` fact. | `todo` | Each step records inference call ref, evidence digest, proposed effect ref, decision, budget delta, and causal predecessor; replay can reconstruct the trajectory without prompt/output content. |
