@@ -313,6 +313,76 @@ Minimum test matrix for the first slices:
 - prompt-free step/status traces contain refs, digests, budget deltas, and
   decisions, but not prompt text, model output, or raw context.
 
+### Controller as a functional core (`agent-host`)
+
+The "daemon-owned controller" above should follow the same functional-core /
+imperative-shell split already used by `inquirium-host`: the per-step controller
+*decision* is a pure value computed in an `agent-host` service stratum, and the
+daemon performs the effects. Each tick produces an `agent.step-decision.v1`:
+
+```text
+agent.step-decision.v1 {
+  step/no
+  action            # call-inquirium {request-ref} | propose-effect {proposal-ref}
+                    #   | spawn-child {child-spec-ref} | await-human | complete | fail
+  budget-charge
+  termination-satisfied
+}
+```
+
+The daemon executes the chosen action and feeds the result back; the decision
+itself is replayable and unit-testable without sinks. This keeps the agent loop
+from accreting daemon coupling, mirroring the Inquirium decoupling. Stratify as
+`agent-core` (contracts + state machine) → `agent-host` (pure step decisions plus
+read-ports) → daemon (effects, persistence, budget metering), guarded by a
+dependency-direction lint.
+
+Lifecycle requests carry an `idempotency/key`: a retried `spawn`/`fork` must
+replay the prior result, not create a second agent or a second child.
+
+### Consumer binding (Corpus chair, assistant, Flow node)
+
+Agent is driven by domain consumers, not invoked bare. The recurring shape is one
+binding contract, `agent.binding.v1`, that attaches an agent to a consumer's
+session and output sink under narrowed authority:
+
+```text
+agent.binding.v1 {
+  binding/id, agent/ref
+  consumer/kind                 # corpus-chair | assistant-channel | flow-node
+  consumer/ref                  # query/id (Corpus) | session/ref (assistant) | flow/node-ref
+  session-source/ref            # room/ref | transcript/ref | dataset/ref  (ref vocabulary)
+  output-sink/kind              # corpus-answer-draft | assistant-response-draft | flow-result
+  grants[]                      # MUST be a subset of the consumer's own grants
+  budget                        # from the consumer policy (deliberation budget / assistant rigor)
+  participant/ref?              # host-minted accountable principal; never model identity or model-supplied
+  membership-attestation/ref?   # room-membership-attestation.v1 for corpus-chair
+  human-in-loop                 # approval policy for effect proposals
+}
+```
+
+Invariants:
+
+- **Grants are monotone-narrowing from the consumer.** A consumer cannot grant the
+  agent more authority than it holds — the same discipline as `fork`
+  (`validate_fork_from`). Corpus and the assistant narrow; they never widen.
+- **The agent is a Room participant, never a raw model adapter.** For
+  `corpus-chair`, the agent joins the deliberation room through
+  `room-membership-attestation.v1` (Solution 036); its contributions are room facts
+  signed by its principal, satisfying Proposal 069's "no raw model adapters as room
+  participants".
+- **Output is a draft, not an effect.** The agent produces a content-addressed
+  product (`agent.outcome.v1`); the consumer admits it (Corpus answer acceptance is
+  chair-signed; the assistant surfaces a response draft). The agent never publishes
+  or settles on its own.
+
+Reuse, do not reinvent: agent context comes through the existing
+`inquirium.context-assembly.request.v1` plus context-source grants and
+`MemoryPolicy` (Proposals 064/066), so the agent reads context through the same
+classification/grant gates rather than raw; human-in-the-loop for an effect
+proposal reuses `inquirium.operator-question.request.v1` (Proposal 066) rather than
+a new approval surface; durable facts use the `memarium.write` fact plane.
+
 ## Data Contracts
 
 - `agent.spec.v1` — declarative agent specification (model-selection, params,
@@ -320,8 +390,10 @@ Minimum test matrix for the first slices:
 - `agent.state.v1` — lifecycle transition fact (state, reason, at, by).
 - `agent.session.v1` — Memarium-backed session context envelope (pinned facts,
   summary ref, recall refs).
-- `agent.step.v1` — one controller step record (inference call ref, evidence
-  digest, proposed effect ref, decision).
+- `agent.step.v1` — the durable step **fact after** execution or denial: the
+  decision taken, the effect outcome, budget spent, evidence/effect refs, and the
+  causal predecessor step. Distinct from `agent.step-decision.v1`, which is the pure
+  decision computed *before* the effect.
 - `agent.spawn.request.v1` / `agent.fork.request.v1` /
   `agent.suspend.request.v1` / `agent.resume.request.v1` /
   `agent.stop.request.v1` — lifecycle mutation request bodies.
@@ -329,6 +401,24 @@ Minimum test matrix for the first slices:
 - `agent.step-trace.v1` — prompt-free operational trace (step count, budget spent,
   model snapshot, instruction hash, spawn/effect refs; no prompt, output, or
   context content).
+- `agent.binding.v1` — how a domain consumer (Corpus chair, assistant, Flow node)
+  attaches an agent to a session source and output sink under narrowed grants (see
+  *Consumer binding*).
+- `agent.effect-proposal.v1` — an agent's **immutable** request to invoke a host
+  capability: `proposal/id`, `capability/id`, `args/digest`, `classification/ref`,
+  prompt-free `justification/ref`, `requires-human-in-loop`. The proposal is a fact
+  and is never mutated.
+- `agent.effect-proposal-outcome.v1` — a separate host-authored fact, joined to the
+  proposal by `proposal/ref`, recording the decision: `outcome`
+  (`admitted` | `denied` | `deferred` | `superseded`), `decided-by`, `at`, and an
+  optional `reason/ref`. The outcome is a fact *about* the proposal, not a field
+  inside it (facts over overwriting).
+- `agent.outcome.v1` — the terminal product a consumer picks up: terminal state,
+  `product/kind`, content-addressed `product/ref` (a draft, never inline),
+  `budget-spent`, and `trace/ref`.
+- `agent.step-decision.v1` — the pure, replayable controller decision computed by
+  `agent-host` from read-ports **before** any effect; the daemon executes the chosen
+  action and records the result as an `agent.step.v1` fact.
 
 All requests reject unknown fields at the boundary; classification defaults
 fail-closed; identifiers are explicit and canonical.
@@ -355,6 +445,12 @@ fail-closed; identifiers are explicit and canonical.
   explicit capability and human-in-the-loop, drive an Agent from the assistant
   surface. The assistant is one operator-facing surface over Agent, not the Agent
   itself.
+- **Corpus (069).** Corpus live deliberation drives an Agent as the host-owned
+  reasoning **chair** bound to a Room (`agent.binding.v1`,
+  `consumer/kind = corpus-chair`); the chair Agent participates via Room membership
+  attestation, and its answer-draft product feeds Corpus answer acceptance. Corpus
+  owns reasoning, chairing, and settlement semantics; the Agent owns the bounded
+  session.
 - **Enforced budget (064 `inq-cost-budget-enforcement`).** Agent budgets reuse the
   same metering and `BudgetExceeded` contract at agent and spawn-tree scope.
 
@@ -434,6 +530,10 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 | `agent-step-trace` | Add prompt-free `agent.step-trace.v1` with model snapshot, instruction hash, and decision. | `todo` | Trace omits prompt/output/context content; records step count, budget spent, spawn/effect refs; reproducibility fields present. |
 | `agent-reaper` | Add a TTL reaper for orphaned/stale agents that releases leases. | `todo` | Agents past TTL are stopped and their leases released; reaper is idempotent and recorded. |
 | `agent-assistant-surface` | Let the assistant (P066) drive an Agent under explicit capability and human-in-loop. | `deferred` | Assistant stays advise-only baseline; agentic escalation requires capability + operator approval; no ambient initiation. |
+| `agent-host-stratum` | Add an `agent-host` service stratum so the controller step decision is a pure value and the daemon performs effects. | `todo` | `agent.step-decision.v1` computed in `agent-host` from read-ports; the daemon executes actions; a dependency-direction lint mirrors `check-inquirium-host-deps.py`; controller logic is unit-testable without sinks. |
+| `agent-binding-contract` | Add `agent.binding.v1` so consumers (Corpus chair, assistant, Flow node) drive an agent under narrowed grants. | `todo` | Binding carries `consumer/kind`, session-source, output-sink, monotone-narrowed grants, consumer budget, and optional Room `participant/ref`/attestation; grants ⊆ consumer; output is a content-addressed draft (`agent.outcome.v1`), never a self-published effect. |
+| `agent-effect-proposal` | Add an immutable `agent.effect-proposal.v1` plus a separate `agent.effect-proposal-outcome.v1` fact joined by `proposal/ref`, with operator-question human-in-loop. | `todo` | Proposal carries proposal id, capability id, args digest, classification, prompt-free justification, and `requires-human-in-loop`, and is never mutated; the outcome is a separate host-authored fact (`admitted`/`denied`/`deferred`/`superseded`) joined by `proposal/ref`; sensitive classes route through `inquirium.operator-question.request.v1`. |
+| `agent-corpus-chair` | Let Corpus (069) drive an Agent as the deliberation chair bound to a Room. | `deferred` | Chair Agent joins via `room-membership-attestation.v1`; its answer-draft feeds Corpus answer acceptance; blocked on the live-deliberation slice (P069/P070). |
 
 ## Next Actions
 
@@ -449,6 +549,8 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 - capabilities: `agent.spawn`, `agent.fork`, `agent.suspend`, `agent.resume`,
   `agent.stop`, `agent.status`.
 - schemas: `agent.spec.v1`, `agent.state.v1`, `agent.session.v1`,
-  `agent.step.v1`, `agent.spawn.request.v1`, `agent.fork.request.v1`,
-  `agent.suspend.request.v1`, `agent.resume.request.v1`,
-  `agent.stop.request.v1`, `agent.status.response.v1`, `agent.step-trace.v1`.
+  `agent.step.v1`, `agent.step-decision.v1`, `agent.spawn.request.v1`,
+  `agent.fork.request.v1`, `agent.suspend.request.v1`, `agent.resume.request.v1`,
+  `agent.stop.request.v1`, `agent.status.response.v1`, `agent.step-trace.v1`,
+  `agent.binding.v1`, `agent.effect-proposal.v1`,
+  `agent.effect-proposal-outcome.v1`, `agent.outcome.v1`.
