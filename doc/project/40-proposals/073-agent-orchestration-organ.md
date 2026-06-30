@@ -117,9 +117,13 @@ the adapter as a speaking actor.
 
 ### 2. Lifecycle: spawn, fork, suspend, resume, stop
 
-Lifecycle operations are **host capabilities**, not Inquirium operations. Each is
-registered in the Capability Registry (Proposal 072), authorized by the host,
-metered against budget, and recorded in a decision ledger.
+Lifecycle operations are **host capabilities**, not Inquirium operations. The
+first implemented slice registers only `agent.spawn`, `agent.status`, and
+`agent.stop` in the Capability Registry (Proposal 072). `agent.fork`,
+`agent.suspend`, and `agent.resume` remain planned vocabulary until their budget,
+persistence, and lifecycle semantics are implemented. Implemented lifecycle
+operations are authorized by the host; durable budget metering and decision-ledger
+facts are tracked below as follow-up work.
 
 ```text
 agent.spawn   { spec | template/ref, budget, grants }       -> Agent (pending)
@@ -136,10 +140,13 @@ State machine:
 pending -> running -> { suspended <-> running } -> completed | stopped | failed
 ```
 
-`stop` is authoritative and idempotent: it cancels in-flight Inquirium/Sensorium
-operations, releases data leases, frees budget, and writes a terminal fact.
-`suspend` freezes the controller while preserving session context; `resume`
-continues from the last durable checkpoint, not a replayed prompt.
+In the current node-local slice, `stop` is authoritative and idempotent for the
+in-memory runtime projection: repeated stops of a terminal agent return
+`stopped=false` without appending duplicate state. The full durable form must
+also cancel in-flight Inquirium/Sensorium operations, release leases, free budget,
+and write terminal facts before `fork`/`suspend`/`resume` are enabled. `suspend`
+freezes the controller while preserving session context; `resume` continues from
+the last durable checkpoint, not a replayed prompt.
 
 ### 3. Multiplication is monotone narrowing with bounded fan-out
 
@@ -283,6 +290,17 @@ and any admitted local facts. A dedicated projection cache may be introduced
 later if profiling shows the need, but it should be a rebuildable optimization
 with clear lifecycle, not a second source of truth.
 
+The current implemented slice is intentionally narrower than the final contract:
+the daemon runtime is in-memory, spawn idempotency keys do not survive daemon
+restart, and `agent.state.v1`/`agent.session.v1` are not yet replayed from
+Memarium-backed durable facts. Active lifecycle capabilities are local-control
+only in this slice: module callers are denied until an explicit Agent lifecycle
+grant model exists. Local-control lifecycle mutations are attributed as
+`local-control`; future module-authorized calls must preserve the concrete
+caller module id in `agent.state.v1` facts. Operators should treat the slice as
+a local control-plane foundation for development, not as a crash-recoverable
+Agent organ.
+
 Use conservative, overridable developer defaults for the first profile:
 
 ```text
@@ -394,10 +412,13 @@ a new approval surface; durable facts use the `memarium.write` fact plane.
   decision taken, the effect outcome, budget spent, evidence/effect refs, and the
   causal predecessor step. Distinct from `agent.step-decision.v1`, which is the pure
   decision computed *before* the effect.
-- `agent.spawn.request.v1` / `agent.fork.request.v1` /
+- `agent.spawn.request.v1` / `agent.spawn.response.v1` /
+  `agent.fork.request.v1` /
   `agent.suspend.request.v1` / `agent.resume.request.v1` /
-  `agent.stop.request.v1` — lifecycle mutation request bodies.
-- `agent.status.response.v1` — read-only lifecycle and budget projection.
+  `agent.stop.request.v1` / `agent.stop.response.v1` — lifecycle mutation
+  request/response bodies.
+- `agent.status.request.v1` / `agent.status.response.v1` — read-only lifecycle
+  and budget projection.
 - `agent.step-trace.v1` — prompt-free operational trace (step count, budget spent,
   model snapshot, instruction hash, spawn/effect refs; no prompt, output, or
   context content).
@@ -500,14 +521,33 @@ guardrail Agent adopts against each:
   `max_steps = 8`, `max_depth = 1`, `max_children = 0 or 1`,
   `max_concurrent = 1`, and a short deployment-configured wall-time TTL.
 
-## Open Questions
+### Additional Decisions For Durable Runtime Slice
 
-None remain for the first node-local implementation slice.
+The first node-local slice is decision-complete. These choices govern the next
+durable/runtime slice:
 
-Deferred work is scoped, not unresolved: cross-node/federated agents require a
-separate proposal; a dedicated projection cache waits for profiling data and a
-clear lifecycle; and production fan-out/budget profiles are operator-defined with
-the conservative developer defaults above as the initial built-in profile.
+1. `agent.spawn`, `agent.status`, and `agent.stop` remain host-local lifecycle
+   capabilities. Their Capability Registry shape stays
+   `dispatchable=true`, `surfaces=["host-local"]`, and
+   `passport/eligible=false`. Any future federated agent request surface requires
+   a separate proposal and a distinct authorization model.
+2. `budget_remaining` in `agent.status.response.v1` is derived only from
+   daemon-owned metering records. Controllers, adapters, or models may report
+   usage as evidence, but the daemon validates and records the spend before it
+   affects status.
+3. `agent/id` remains an opaque ref. Locality is enforced by storage, routing,
+   and host registry boundaries rather than by embedding a node namespace into
+   the identifier format.
+4. Production Agent profiles are loaded from daemon/operator configuration.
+   `agent-host` provides reusable DTOs, validation, and the conservative
+   developer default; it must not gain compile-time production profile presets
+   that move deployment policy into the functional core.
+
+Deferred work that does not require a new decision is already tracked below:
+cross-node/federated agents require a separate proposal; a dedicated projection
+cache waits for profiling data and a clear lifecycle; and production fan-out/
+budget profiles are operator-defined with the conservative developer defaults
+above as the initial built-in profile.
 
 ## Implementation Tracker
 
@@ -515,21 +555,21 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
-| `agent-core-crate` | Create thin `agent-core` contract crate with Agent/controller/budget/grant DTOs and the lifecycle state machine. | `in-progress` | `node/agent-core` scaffolded and compiling: `AgentSpec`/`AgentParams`/`AgentBudget`/`ControllerPolicy`/`TerminationCondition`/`CapabilityGrant` DTOs with `deny_unknown_fields` and `validate()`, fail-closed classification ceiling, the `AgentLifecycleState::apply` state machine, the `validate_fork_from` monotone-narrowing validator, and lifecycle request DTOs; 8 unit tests pass and the crate is clippy/rustdoc clean under `-D warnings`. Runtime budget metering, fork budget split, and durable wiring remain. |
-| `agent-dep-direction-lint` | Add a dependency-direction lint so `agent-core` cannot import substrate. | `in-progress` | `node/tools/check-agent-core-deps.py` mirrors the `inquirium-core` guard (bans daemon/model-runtime/HTTP/async/SQLite via `cargo tree`) and is wired into `.github/workflows/docs.yml`; the check passes for the current scaffold. An `xtask`-level lint may later replace the standalone script. |
+| `agent-core-crate` | Create thin `agent-core` contract crate with Agent/controller/budget/grant DTOs and the lifecycle state machine. | `done` | `node/agent-core` compiles as a substrate-free contract crate: `AgentSpec`/`AgentParams`/`AgentBudget`/`ControllerPolicy`/`TerminationCondition`/`CapabilityGrant` DTOs with `deny_unknown_fields` and `validate()`, fail-closed classification ceiling, conservative developer defaults, `idempotency/key` on spawn, `agent.step-decision.v1`, `agent.spawn.response.v1`, `agent.status.request.v1`, `agent.status.response.v1`, `agent.stop.response.v1`, the `AgentLifecycleState::apply` state machine, and the `validate_fork_from` monotone-narrowing validator. Evidence: `cargo test -p orbiplex-node-agent-core`, `cargo clippy -p orbiplex-node-agent-core -- -D warnings`, and `python3 tools/check-agent-core-deps.py` pass. Runtime budget metering, fork budget split, and durable wiring are tracked separately below. |
+| `agent-dep-direction-lint` | Add a dependency-direction lint so `agent-core` cannot import substrate. | `done` | `node/tools/check-agent-core-deps.py` mirrors the `inquirium-core` guard (bans daemon/model-runtime/HTTP/async/SQLite via `cargo tree`) and is wired into `.github/workflows/docs.yml`; the check passes for the current contract crate. An `xtask`-level lint may later replace the standalone script. |
 | `agent-inquirium-boundary-docs` | Document that the durable agent loop lives above Inquirium and that assistant agentic effects are realized through Agent. | `done` | Proposal 064 now has the *Agent Loop Lives Above Inquirium* boundary note, Proposal 066 Phase 3 points agentic effects at Proposal 073, and this proposal owns the lifecycle/controller/budget tracker. |
-| `agent-lifecycle-capabilities` | Add `agent.spawn/fork/suspend/resume/stop/status` host capabilities. | `todo` | Registered in Capability Registry; fail-closed admission; request/response schemas for spawn/fork/suspend/resume/stop/status; budget-metered; decision ledger entries; local-control E2E. |
+| `agent-lifecycle-capabilities` | Add `agent.spawn/fork/suspend/resume/stop/status` host capabilities. | `in-progress` | Minimal node-local slice is implemented for `agent.spawn`, `agent.status`, and `agent.stop`: formal capability ids are active in `capability-registry.v1`, host routing and table-driven dispatch are daemon-owned, request/status/stop DTOs live in `agent-core`, and `node/daemon/src/agent_runtime.rs` provides fail-closed in-memory lifecycle with idempotent spawn replay. The Agent dispatch table now enforces local-control-only caller policy for these lifecycle capabilities, so a module without a future explicit Agent lifecycle grant cannot spawn, inspect, or stop agents through `allowed_calls` alone; local-control lifecycle mutations are recorded with `by = "local-control"`. `agent.fork`, `agent.suspend`, and `agent.resume` remain planned ids and are not registered as dispatchable capabilities yet. Evidence: `cargo test -p orbiplex-node-daemon agent_runtime --lib` and the daemon Agent capability registration test pass. Remaining lifecycle work: durable state/idempotency replay, explicit module lifecycle grant vocabulary, `fork`, `suspend`, `resume`, durable decision ledger entries, and local-control E2E. |
 | `agent-monotone-fork` | Enforce monotone narrowing and budget split on `fork`. | `todo` | Child grants/classification/autonomy/tools ⊆ parent; parent budget is split not duplicated; negative tests for widening and self-authorization. |
-| `agent-bounded-fanout` | Enforce `max_steps/max_depth/max_children/max_concurrent/aggregate_budget` and mandatory `termination_condition`. | `todo` | An agent without a terminator is rejected; fork-bomb test stays bounded; watchdog stops runaway loops; operator-defined profiles can override the built-in conservative developer defaults. |
+| `agent-bounded-fanout` | Enforce `max_steps/max_depth/max_children/max_concurrent/aggregate_budget` and mandatory `termination_condition`. | `in-progress` | `agent-core` rejects unbounded/zero-step specs and validates conservative developer defaults; `agent-host` exposes the conservative profile (`max_steps=8`, `max_depth=1`, `max_children=1`, `max_concurrent=1`, short wall-time TTL) and stops pure step decisions when step budget is exhausted. Remaining work: daemon-configurable profiles, fork-bomb tests, concurrent execution caps, watchdog/reaper enforcement, and aggregate tree budgets. |
 | `agent-durable-state` | Persist session context and lifecycle as Memarium-backed durable facts with replay/recovery. | `todo` | `agent.state.v1`/`agent.session.v1` facts; `resume` and crash recovery rebuild from facts; `as of` query works. |
 | `agent-memory-projection` | Build the working set as a projection of durable Memarium facts via `MemoryPolicy`, with fail-closed degradation. | `todo` | Working set is rebuilt per step from facts (pinned + bounded summary + recall), kept off the hot Memarium path; only meaningful facts (turn/result/decision/observation) are written, never the KV cache; with Memarium disabled the agent runs on a local ephemeral working set plus a local non-federating fallback, and durability/audit/federation resume when Memarium returns. |
 | `agent-controller-step-records` | Persist each controller step as an auditable `agent.step.v1` fact. | `todo` | Each step records inference call ref, evidence digest, proposed effect ref, decision, budget delta, and causal predecessor; replay can reconstruct the trajectory without prompt/output content. |
 | `agent-effects-as-proposals` | Route effects through Sensorium/AD capability gates with human-in-loop for sensitive classes. | `todo` | Agent never self-executes; sensitive-class effects require operator approval; every effect is an auditable fact. |
 | `agent-budget-enforcement` | Reuse the enforced token/cost budget at agent and spawn-tree scope. | `todo` | Per-agent and per-tree caps; typed `BudgetExceeded`; spend attributable in trace; shares the `inq-cost-budget-enforcement` contract. |
-| `agent-step-trace` | Add prompt-free `agent.step-trace.v1` with model snapshot, instruction hash, and decision. | `todo` | Trace omits prompt/output/context content; records step count, budget spent, spawn/effect refs; reproducibility fields present. |
+| `agent-step-trace` | Add prompt-free `agent.step-trace.v1` with model snapshot, instruction hash, and decision. | `in-progress` | Minimal runtime status carries prompt-free trace refs for spawn, stop, and pure step-decision events, and the daemon never stores prompt/output content in this slice. Remaining work: durable `agent.step-trace.v1` fact schema, model snapshot/instruction hash fields, budget delta attribution, effect refs, and replay-oriented persistence. |
 | `agent-reaper` | Add a TTL reaper for orphaned/stale agents that releases leases. | `todo` | Agents past TTL are stopped and their leases released; reaper is idempotent and recorded. |
 | `agent-assistant-surface` | Let the assistant (P066) drive an Agent under explicit capability and human-in-loop. | `deferred` | Assistant stays advise-only baseline; agentic escalation requires capability + operator approval; no ambient initiation. |
-| `agent-host-stratum` | Add an `agent-host` service stratum so the controller step decision is a pure value and the daemon performs effects. | `todo` | `agent.step-decision.v1` computed in `agent-host` from read-ports; the daemon executes actions; a dependency-direction lint mirrors `check-inquirium-host-deps.py`; controller logic is unit-testable without sinks. |
+| `agent-host-stratum` | Add an `agent-host` service stratum so the controller step decision is a pure value and the daemon performs effects. | `done` | `node/agent-host` computes `agent.step-decision.v1` as a pure value over `agent-core` contracts, exposes the conservative developer profile, contains no storage/HTTP/async/runtime substrate, and is guarded by `node/tools/check-agent-host-deps.py` in CI. Evidence: `cargo test -p orbiplex-node-agent-core -p orbiplex-node-agent-host`, `cargo clippy -p orbiplex-node-agent-host -- -D warnings`, and agent core/host dependency checks pass. The daemon executes actions in later tracker items. |
 | `agent-binding-contract` | Add `agent.binding.v1` so consumers (Corpus chair, assistant, Flow node) drive an agent under narrowed grants. | `todo` | Binding carries `consumer/kind`, session-source, output-sink, monotone-narrowed grants, consumer budget, and optional Room `participant/ref`/attestation; grants ⊆ consumer; output is a content-addressed draft (`agent.outcome.v1`), never a self-published effect. |
 | `agent-effect-proposal` | Add an immutable `agent.effect-proposal.v1` plus a separate `agent.effect-proposal-outcome.v1` fact joined by `proposal/ref`, with operator-question human-in-loop. | `todo` | Proposal carries proposal id, capability id, args digest, classification, prompt-free justification, and `requires-human-in-loop`, and is never mutated; the outcome is a separate host-authored fact (`admitted`/`denied`/`deferred`/`superseded`) joined by `proposal/ref`; sensitive classes route through `inquirium.operator-question.request.v1`. |
 | `agent-corpus-chair` | Let Corpus (069) drive an Agent as the deliberation chair bound to a Room. | `deferred` | Chair Agent joins via `room-membership-attestation.v1`; its answer-draft feeds Corpus answer acceptance; blocked on the live-deliberation slice (P069/P070). |
@@ -538,18 +578,20 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 
 1. Land `agent-core` with the Agent/controller/budget DTOs and the
    monotone-narrowing validator behind the dependency lint.
-2. Add the `agent.spawn/stop/status` minimal lifecycle slice with durable facts
-   and budget metering, before `fork`/effects.
-3. Register the `agent.*` capabilities in the Capability Registry and keep the
-   P064/P066 boundary notes in sync as the first implementation slice lands.
+2. Add durable facts, durable idempotency replay, and budget metering for the
+   implemented `agent.spawn/stop/status` minimal lifecycle slice before
+   `fork`/effects.
+3. Register the planned `agent.fork/suspend/resume` capabilities only when their
+   lifecycle semantics, persistence, and budget split rules are implemented.
 
 ## Related Capability Data
 
-- capabilities: `agent.spawn`, `agent.fork`, `agent.suspend`, `agent.resume`,
-  `agent.stop`, `agent.status`.
+- implemented capabilities: `agent.spawn`, `agent.stop`, `agent.status`.
+- planned capabilities: `agent.fork`, `agent.suspend`, `agent.resume`.
 - schemas: `agent.spec.v1`, `agent.state.v1`, `agent.session.v1`,
   `agent.step.v1`, `agent.step-decision.v1`, `agent.spawn.request.v1`,
-  `agent.fork.request.v1`, `agent.suspend.request.v1`, `agent.resume.request.v1`,
-  `agent.stop.request.v1`, `agent.status.response.v1`, `agent.step-trace.v1`,
+  `agent.spawn.response.v1`, `agent.fork.request.v1`, `agent.suspend.request.v1`,
+  `agent.resume.request.v1`, `agent.stop.request.v1`, `agent.stop.response.v1`,
+  `agent.status.request.v1`, `agent.status.response.v1`, `agent.step-trace.v1`,
   `agent.binding.v1`, `agent.effect-proposal.v1`,
   `agent.effect-proposal-outcome.v1`, `agent.outcome.v1`.

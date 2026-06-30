@@ -110,7 +110,7 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | Offer catalog + Dator offers (003/004/067) | MVP discovery | partial, usable |
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
 | **Room primitive (P070)** | live deliberation (post-MVP) | **partial: durable contracts, projection core, and Agora runtime projection adapter exist; live plane not built** |
-| **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **proposal exists (P073); `agent-core` contract scaffolded; daemon runtime not built** |
+| **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **partial: `agent-core`/`agent-host` exist and the daemon has a node-local `spawn/status/stop` runtime; fork, persistence, Room chair binding, and effect proposals are not built** |
 
 The MVP depends only on the first three rows. The live-deliberation layer is
 **blocked-by** P070's live plane/runtime integrations and the Agent organ (P073)
@@ -132,9 +132,11 @@ with a budget (`steps` / `deadline` / `tokens`), Memarium-backed session context
 and no self-authorization. Corpus should consume the Agent organ as its
 deliberation session — its deliberation `budget` maps directly onto the Agent
 budget/controller contract — rather than define a smaller Corpus-only LLM surface
-or a parallel "Inquirium thread/session runtime". Until the Agent runtime is built
-(the `agent-core` contract is scaffolded; the daemon-side runtime is not), only
-the MVP procurement slice is implementable.
+or a parallel "Inquirium thread/session runtime". The current Agent slice is
+enough to create, inspect, and stop a bounded node-local agent, but it is not yet
+the Corpus deliberation runtime: durable Memarium-backed state, fork/suspend/resume,
+Room chair binding, and effect-proposal routing remain post-MVP work. Until those
+parts land, only the MVP procurement slice is implementable.
 
 ## Proposed Model / Decision
 
