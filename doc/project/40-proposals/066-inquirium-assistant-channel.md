@@ -417,6 +417,20 @@ LM Studio, a future MLX/edge runtime) is an **instance** that passes a
 first conformant instance, not the definition. Inquirium selects `baseline-assistant`
 only among conformance-positive runtimes.
 
+Implementation note: when the local provider already exposes an
+OpenAI-compatible chat-completions HTTP endpoint, the reference path is direct
+`http_local` invocation with the host-owned `openai_chat_completions`
+request/response mapping. A Python middleware adapter is not required merely to
+proxy loopback HTTP to loopback HTTP; middleware-hosted adapters remain useful
+when there is real provider translation, remote egress policy, or simulator
+logic to own.
+
+The mapping pair is validated fail-closed. Both `request_mapping.format` and
+`response_mapping.format` may be absent only for provider-native passthrough, or
+both must be set to the same supported format such as
+`openai_chat_completions`. Half-mapped configuration is not a degraded mode; it
+is an invalid adapter-instance configuration.
+
 Minimum profile for the first conformance suite:
 
 - `generate` support with at least a 2048-token effective context window;
@@ -1257,8 +1271,9 @@ Done criteria:
 
 1. Extend conformance fixture coverage beyond the current `generate` and `embed`
    runner slice as new operation contracts graduate into `inquirium-core`.
-2. Implement the first real `baseline-assistant` local target through an
-   OpenAI-compatible local HTTP adapter over an Ollama/`llama.cpp`-class server.
+2. Package and document deployment profiles around the implemented local
+   OpenAI-compatible baseline target, including local model artifact lifecycle
+   and operator installation guidance.
 3. Keep the `inquirium-core` dependency-direction gate in CI as the vocabulary
    split grows beyond generate/embed/batch-embed.
 4. Add broader tests proving no Messaging dispatch, no relationship record
@@ -1291,7 +1306,7 @@ That advisory remains only a working note; this table is the canonical backlog.
 | `assistant-generate-contract` | Add `inquirium.generate.request/response.v1`. | `done` | DTOs validate operation, turns, local-only policy, typed denials, trace refs, and output shape. |
 | `assistant-host-capability` | Add operator-bound host capability endpoint for assistant inquiry. | `done` | `inquirium.assistant.turn` is a host capability; module callers require explicit inference authority; local-control E2E passes. |
 | `assistant-local-only-routing` | Route Phase 1 through local-only Inquirium selection. | `done` | Assistant turn maps through local-only/strict-local `inquirium.generate`; healthy local deterministic runtime succeeds and no remote fallback path is used. |
-| `assistant-local-runtime-target` | First target: OpenAI-compatible local HTTP over Ollama/`llama.cpp`-class server; baseline anchored to `llama.cpp`-class runtime. | `done` | Daemon coverage now proves `inquirium.assistant.turn` can pin `profile/baseline-assistant` and route through a local `http_local` OpenAI-compatible adapter/runtime candidate with host-owned model binding injection; the contract stays protocol-first and vendor-neutral. |
+| `assistant-local-runtime-target` | First target: OpenAI-compatible local HTTP over Ollama/`llama.cpp`-class server; baseline anchored to `llama.cpp`-class runtime. | `done` | Daemon coverage now proves `inquirium.assistant.turn` can pin `profile/baseline-assistant`, run the required conformance action, and route through a local unmanaged `http_local` OpenAI-compatible runtime candidate using the built-in `openai_chat_completions` request/response mapping with host-owned model binding injection. `node/config/examples/60-inquirium-baseline-ollama.json` is the reference catalog override; the contract stays protocol-first and vendor-neutral and does not add a Python HTTP proxy for local chat-completions servers. |
 | `inquirium-core-contract-crate` | Create `inquirium-core` (thin contract crate); move `inquirium.embed.*` there; `inquirium.generate.*` lands there. | `done` | `inquirium-core` now owns generate, embed, batch-embed, assistant-turn, policy, trace, transcript, operator-question, feedback, and rigor DTOs; request DTOs reject unknown fields; direct embed is bounded to 1024 text items, 32 KiB per UTF-8 text item, and 4096 requested dimensions; `model-runtime` re-exports the embedding DTOs only for runtime-facing compatibility. |
 | `assistant-transcript-store-contract` | Define `InquiryTranscriptStore` trait (append fact, query, retention, excise; classification first-class). | `done` | `inquirium-core` exposes the transcript trait and fact/receipt/query DTOs with classification fields and principal-scoped query/excision shape. |
 | `assistant-history-per-participant` | Scope assistant history to the participant. | `in-progress` | Daemon fallback transcript refs are principal-scoped and request-body `participant/ref` is not authoritative; Memarium space mapping and cross-device survival remain later work. |

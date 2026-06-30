@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-06-28.
+Snapshot date: 2026-06-29.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -8,7 +8,7 @@ Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implement
 
 Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`, `story-011`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
 
-Change basis: this refresh incorporates the current worktree state on 2026-06-28 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, and the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium.
+Change basis: this refresh incorporates the current worktree state on 2026-06-29 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, and the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target.
 
 Recent component deltas:
 
@@ -113,8 +113,9 @@ Recent component deltas:
   assistant turn capability, host-capped assistant output, principal-scoped
   transcript fallback with local-control excision markers, Memarium-backed
   transcript fact attempts with local fallback/read-index, idempotent turn
-  replay, metadata-only assistant trace/feed, baseline local assistant target
-  coverage, profile-scoped baseline-assistant conformance/freshness gating with
+  replay, metadata-only assistant trace/feed, direct local OpenAI-compatible
+  baseline assistant target coverage with a validated operator override,
+  profile-scoped baseline-assistant conformance/freshness gating with
   deployment-controlled `host-class/...` scope, local-transport allowlisting,
   16 KiB host-visible output-cap assertion, and schema-gated
   candidate-requirement diagnostics, hard-MVP readiness gating through
@@ -125,7 +126,8 @@ Recent component deltas:
   `/admin/inquirium/assistant`, typed context-assembly/source-grant contracts,
   operator-question widget registry/projection contracts, inquiry-feedback
   contract, mode-keyed rigor policy, and the shared ordered-axis resolver in
-  `classification`; it remains below MVP because full context source resolvers,
+  `classification`; it remains below MVP because local model packaging/artifact
+  lifecycle, full context source resolvers,
   remote egress acknowledgement, daemon prompt lifecycle/notification emission,
   feedback persistence, and agentic effect governance are still open.
 - Proposal 073 introduces Agent as the bounded stateful orchestration organ above Inquirium. It is intentionally post-MVP and has no code slice yet: the document defines `agent-core`, host lifecycle capabilities, monotone fork/budget/fan-out rules, Memarium-backed durable agent state, Sensorium/AD effect proposal routing, prompt-free step traces, and an assistant surface handoff. Its main readiness value today is architectural closure: Inquirium remains bounded inquiry, while durable spawn/fork/suspend/resume/stop loops have a separate host-owned home and tracker.
@@ -313,9 +315,9 @@ Recent component deltas:
 | [Proposal 061: Contact Attestation Service](../40-proposals/061-contact-attestation-service.md) | `true` | `true` | `false` | `78` |
 | [Proposal 062: Temporal Storage Convention](../40-proposals/062-temporal-storage-convention.md) | `false` | `true` | `false` | `100` |
 | [Proposal 063: Inquirium as a Model Inquiry Organ](../40-proposals/063-inquirium-model-inquiry-organ.md) | `false` | `false` | `false` | `86` |
-| [Proposal 064: Inquirium Implementation Recommendations](../40-proposals/064-inquirium-implementation-recommendations.md) | `false` | `false` | `false` | `88` |
+| [Proposal 064: Inquirium Implementation Recommendations](../40-proposals/064-inquirium-implementation-recommendations.md) | `false` | `false` | `false` | `89` |
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
-| [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `81` |
+| [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `83` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `92` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
