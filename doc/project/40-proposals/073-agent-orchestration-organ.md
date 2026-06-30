@@ -240,6 +240,79 @@ daemon (substrate)
   - capability gating, lease lifecycle, decision ledger, trace
 ```
 
+## Implementation Recommendations
+
+Implement Agent as a stratified host organ, not as an Inquirium operation, model
+adapter, Flow shortcut, or ambient daemon side loop. The first runtime slice
+should use a **daemon-owned controller** that may call Flow IR for bounded
+sub-steps, but the controller lifecycle, authority checks, budget metering, and
+stop/suspend/resume semantics remain host-owned. This keeps one orchestration
+substrate responsible for live agent state while still allowing declarative Flow
+plans to be one of the things an agent executes.
+
+Build the implementation in layers:
+
+1. Keep `agent-core` as the substrate-free contract crate: DTOs, validation,
+   lifecycle state machine, monotone fork validator, and schema constants only.
+   It must not gain daemon, model-runtime, HTTP, async runtime, SQLite, or store
+   dependencies.
+2. Add the daemon host facade and local-control surfaces for the smallest useful
+   lifecycle: `agent.spawn`, `agent.status`, and `agent.stop`. `fork`,
+   `suspend`, `resume`, effects, and assistant escalation come after this slice
+   can create, inspect, stop, and audit a bounded local agent.
+3. Persist lifecycle transitions as append-only facts. The live controller may
+   keep an in-memory working projection, but that projection is cache-like and
+   disposable. It is not Memarium, not authority, and not required for crash
+   recovery semantics.
+4. Add budget/fan-out enforcement before enabling `fork` or effect proposal
+   routing. A fork without budget split and monotone narrowing is not an agent
+   feature; it is a fork bomb waiting for policy.
+5. Route effects only as proposals through Sensorium / Artifact Delivery and
+   existing host capabilities. Agent output may ask for an effect; the host and
+   operator remain the authority that admits, denies, delays, or scopes it.
+
+The first implementation slice is **node-local only**. Cross-node or federated
+agents are explicitly deferred to a later proposal and must not leak into the
+first controller through remote spawn, remote resume, or federated state
+replication. A local agent may call existing federated organs through explicit
+capabilities, but the agent lifecycle itself is local.
+
+Memarium is the durable fact plane, not the live cache. The first working set
+should be an **in-memory / ephemeral projection** derived from the agent request
+and any admitted local facts. A dedicated projection cache may be introduced
+later if profiling shows the need, but it should be a rebuildable optimization
+with clear lifecycle, not a second source of truth.
+
+Use conservative, overridable developer defaults for the first profile:
+
+```text
+max_steps       = 8
+max_depth       = 1
+max_children    = 0 or 1
+max_concurrent  = 1
+wall_time_ttl   = short, deployment-configured
+```
+
+These defaults are a safety floor, not a constitutional constant. Distributors
+and operators may override them in agent configuration, but widening must remain
+explicit, validated, and visible in status/trace. The default profile should
+reject agents without a termination condition, agents with unbounded budget,
+unknown capability grants, or effects that try to execute without a host grant.
+
+Minimum test matrix for the first slices:
+
+- lifecycle state-machine transitions, including invalid transition denial;
+- `spawn/status/stop` local-control E2E with idempotent `stop`;
+- unknown fields and missing termination condition fail closed;
+- classification ceiling defaults fail closed;
+- no ambient capability: an agent without a grant cannot invoke Inquirium or
+  propose Sensorium/AD effects;
+- monotone fork denial for widened grants, classification, autonomy, tool set,
+  or budget once `fork` is enabled;
+- bounded fan-out defaults prevent more than the configured children/concurrency;
+- prompt-free step/status traces contain refs, digests, budget deltas, and
+  decisions, but not prompt text, model output, or raw context.
+
 ## Data Contracts
 
 - `agent.spec.v1` — declarative agent specification (model-selection, params,
@@ -317,17 +390,29 @@ guardrail Agent adopts against each:
 - Authority is **host-owned**; agents never self-authorize and fork only narrows.
 - Agent state is **durable facts** (Memarium), not mutated objects.
 - The contract lives in a thin `agent-core` crate guarded by a dependency lint.
+- The first controller runtime is **daemon-owned** and may use Flow IR for
+  bounded sub-steps; Flow IR is not the lifecycle owner.
+- The first runtime slice is **node-local only**; cross-node/federated agents are
+  deferred to a separate proposal.
+- The first live working set is an **in-memory / ephemeral projection**. Memarium
+  remains the durable fact plane, not a cache; a dedicated projection cache can
+  be evaluated later.
+- The first profile uses conservative, configurable developer defaults:
+  `max_steps = 8`, `max_depth = 1`, `max_children = 0 or 1`,
+  `max_concurrent = 1`, and a short deployment-configured wall-time TTL.
 
 ## Open Questions
 
-1. Should the controller runtime live in the daemon or be expressed as a Flow IR
-   execution mode? **Leaning:** daemon-owned controller that *uses* Flow IR for
-   sub-steps, so there is one orchestration substrate, not two.
-2. Cross-node / federated agents (an agent that spawns work on another node) —
-   **deferred** to a separate proposal; this slice is node-local.
-3. Persistence backend for the live controller cache (the durable facts are
-   Memarium; the working set may want a local projection store).
-4. Default `aggregate_budget` and fan-out caps for the first profile.
+None block the first node-local implementation slice.
+
+Deferred questions:
+
+1. Cross-node / federated agents: define in a separate proposal after the
+   node-local lifecycle, budget, trace, and effect-proposal model is proven.
+2. Dedicated live projection cache: evaluate after the in-memory working set has
+   real profiling data and clear lifecycle requirements.
+3. Production fan-out/budget profiles: define after the conservative developer
+   profile has operational evidence.
 
 ## Implementation Tracker
 
