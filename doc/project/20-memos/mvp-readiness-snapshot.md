@@ -162,10 +162,14 @@ Recent component deltas:
   propagation, provider signature verification, selected-bid binding, policy-digest
   binding, and append-only federation metadata through `supersedes` plus optional
   `revision/no` while local snapshots remain latest read-models.
-  P069 is now hard-MVP ready for the procurement slice. Post-MVP work remains for
-  real Matrix homeserver transport, full Inquirium thread/session runtime,
-  Corpus-owned room policy/invite/chair integration, multi-provider final answer
-  composition, and N-way settlement extension work.
+  The remaining hard-MVP closure is now covered as well: P069 specifies the
+  `orbiplex-canonical-json-jcs-v1` profile for Corpus signatures/idempotency, and the
+  Shared Offer Catalog exposes a path-first Corpus topic-index query surface with
+  bounded pagination, HATEOAS-style navigation links, invalid-digest refusal, and
+  partial-withdrawal supersession tests. P069 is now hard-MVP ready for the procurement
+  slice. Post-MVP work remains for real Matrix homeserver transport, full Inquirium
+  thread/session runtime, Corpus-owned room policy/invite/chair integration,
+  multi-provider final answer composition, and N-way settlement extension work.
 - Room primitive is now tracked explicitly through Proposal 070 and Solution 036. The current code
   implements the durable Room skeleton, deterministic projection over Agora facts,
   signer-backed short-lived membership attestations, explicit POST attestation request
@@ -331,7 +335,7 @@ Recent component deltas:
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `83` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
-| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `98` |
+| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `76` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |

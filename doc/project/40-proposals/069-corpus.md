@@ -184,7 +184,10 @@ adds, not replaces. Decisions:
   (P067). **There is no per-topic withdrawal:** removing a single topic is a
   supersession — publish a new offer revision with a higher `sequence/no` and the
   reduced `corpus/topics`; the index replaces the prior revision. A full withdrawal
-  marker removes all of the offer's topic-index entries.
+  marker removes all of the offer's topic-index entries. `record/supersedes` is not the
+  offer-catalog revision authority for this flow; it remains available on Agora
+  envelopes, while the catalog read-model reconciles offers by `offer/id`, monotonic
+  `sequence/no`, status, and expiry.
 
 ### 4. Procurement over Artifact Delivery (the MVP)
 
@@ -346,10 +349,16 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 - **Signatures** (one canonical form): `signature: { alg: "ed25519", value: "…" }` for a
   single signer; `signatures: [ { by: "<did>", alg: "ed25519", value: "…" } ]` for
   multi-signer (the answer). Do not mix in `auth/nym-signature` for these contracts.
-- **Canonicalization**: every signature and idempotency key is computed over the
-  canonical JSON form produced by `node/canonical-json`
-  (`agora-core::canonical::canonical_json_string`) — the same rule already used for Agora
-  records — to make replay protection real and cross-implementation stable.
+- **Canonicalization**: every signature and idempotency key is computed over
+  `orbiplex-canonical-json-jcs-v1`, the language-neutral Corpus profile implemented by
+  `node/canonical-json` as `CanonicalJsonProfile::JcsV1`. It sorts object keys
+  recursively using JSON Canonicalization Scheme ordering, preserves array order,
+  preserves string code points without NFC folding, emits the shortest stable JSON form
+  without insignificant whitespace, and does not strip or transform fields unless the
+  calling artifact contract explicitly defines a pre-canonicalization pruning step.
+  Implementations MUST NOT perform Unicode normalization before canonicalization; UTF-8
+  bytes are derived from the original JSON string code points. This makes replay
+  protection real and cross-implementation stable.
 - **Idempotency-key derivation**: default
   `idempotency/key = "sha256:" + base64url(sha256(canonical_json_string(<domain tuple>)))`,
   e.g. for a bid the tuple is `(query/id, bidder/node-id, decision, bid/valid-until)`.
@@ -449,11 +458,11 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
 
 1. **Identifier governance.** `query:` / `room:` / `answer:` prefix allocation is a core
    protocol registry concern, not a per-federation policy surface.
-2. **JSON canonicalization across implementations.** The
-   `agora-core::canonical::canonical_json_string` rule is promoted as the normative
-   Orbiplex canonical JSON profile for Corpus signatures and idempotency keys. A
-   language-neutral specification must be extracted before non-Rust implementations
-   become authoritative signers.
+2. **JSON canonicalization across implementations.** Corpus uses
+   `orbiplex-canonical-json-jcs-v1` for signatures, digests, and idempotency keys. The
+   Rust implementation is `node/canonical-json::CanonicalJsonProfile::JcsV1`, and the
+   profile is specified here as a language-neutral contract rather than as a Rust-only
+   behavior.
 3. **Taxonomy migration between versions.** Providers and requesters may resolve against
    both the old and new taxonomy only when a valid supersession proof links the two
    digests. Without such proof, exact digest mismatch fails closed.
@@ -561,9 +570,20 @@ Corpus separates domain payloads from their durable carrier:
 - `record/id`, `author/participant-id`, `author/nym-proof`, `record/parent`,
   `record/supersedes`, relay metadata, and envelope signatures remain Agora envelope
   concerns when the payload is published through Agora;
-- all Corpus signatures, digests, idempotency keys, and content-addressed refs use the
-  Orbiplex canonical JSON profile implemented today by
-  `agora-core::canonical::canonical_json_string`.
+- all Corpus signatures, digests, idempotency keys, and content-addressed refs use
+  `orbiplex-canonical-json-jcs-v1`, whose Corpus test vector is:
+
+```json
+{
+  "input": {"z": [3, 2, 1], "a": {"b": true, "a": "ą"}, "n": 1},
+  "canonical": "{\"a\":{\"a\":\"ą\",\"b\":true},\"n\":1,\"z\":[3,2,1]}",
+  "digest": "sha256:r2bAYdhk5FfM2FDmWq2HlGY4jDKM2Dcg6SG84tw7g7o"
+}
+```
+
+Artifact-specific host-owned fields, such as `taxonomy/digest`, are removed only when
+the artifact contract says so before canonicalization. The canonical JSON profile itself
+does not know domain fields.
 
 The first contract gate must define which Corpus payloads are public/federated Agora
 facts and which are local control-plane projections. The expected default is:
@@ -694,7 +714,14 @@ MVP implementation should be stratified into small components:
 2. **Deterministic topic resolver**: pure weighted matcher over a taxonomy value,
    returning `topic-resolution.v1`.
 3. **Offer-catalog topic index**: projects active `service-offer.v1` records into
-   `topic/term -> offer refs`, including parent-term fallback and supersession.
+   `topic/term -> offer refs`, including parent-term fallback and supersession. The
+   public query surface is path-first:
+   `GET /v1/offer-catalog/corpus/taxonomies/{taxonomy_digest}/topics/{topic}/offers`.
+   Runtime toggles that would make the path noisy or inefficient stay in query
+   parameters, for example `limit`, `offset`, and `active=false`. The response exposes
+   `has_more` and HATEOAS-style `links.self` / `links.next` / `links.prev` where
+   applicable. `service/type = "corpus.provider"` is fixed by the `corpus` path segment,
+   not a caller-selected query parameter.
 4. **Corpus query dispatcher**: builds a `question-envelope.v1` + Corpus decorator,
    selects candidate targets from the catalog-rich index, and submits one AD fan-out.
 5. **Provider bid acceptor**: validates query authority, deadline, taxonomy digest,
@@ -1326,10 +1353,11 @@ runtime, no N-way settlement.
   `/v1/corpus/rounds/{query_id}/settle` bridge opens the selected-responder execution,
   registers the selected procurement offer, selects it, and accepts the resulting
   contract through the existing execution/procurement host path.
-- [~] Extract the language-neutral normative profile from `node/canonical-json` for
-  Corpus signatures and idempotency keys. The Rust canonical JSON implementation is
-  reused by Corpus digests and idempotency keys; a standalone normative profile remains
-  documentation work.
+- [x] Extract the language-neutral normative profile from `node/canonical-json` for
+  Corpus signatures and idempotency keys. Evidence: this proposal now names and specifies
+  `orbiplex-canonical-json-jcs-v1`; `orbiplex-node-corpus-core` has a byte-stable
+  canonical JSON and digest vector for the profile, and Corpus digests/idempotency keys
+  use `CanonicalJsonProfile::JcsV1`.
 - [x] Complete the MVP Contract Gate: canonical schemas, positive/negative examples,
   node schema sync, schema-gate validation, and admission constrainers for the MVP
   procurement slice. Evidence: `topic-taxonomy.v1`, `topic-resolution.v1`,
@@ -1372,11 +1400,14 @@ runtime, no N-way settlement.
   topic-index construction fails closed instead of silently hiding invalid
   `corpus.provider` records. Generic catalog storage remains neutral and is not a Corpus
   authority.
-- [~] Offer-catalog topic index + supersession/partial-withdrawal (P067). Evidence:
+- [x] Offer-catalog topic index + supersession/partial-withdrawal (P067). Evidence:
   `node/catalog::corpus_topic_index_from_entries` and
-  `corpus_topic_index_from_observed` project active Corpus-capable offers by topic;
-  Dator publication and full supersession/partial-withdrawal operator flow are still
-  open.
+  `corpus_topic_index_from_observed` project active Corpus-capable offers by topic; the
+  shared Offer Catalog exposes the path-first
+  `/v1/offer-catalog/corpus/taxonomies/{taxonomy_digest}/topics/{topic}/offers` surface;
+  its observed snapshot projection preserves `corpus/*` fields and tests cover taxonomy
+  filtering plus partial withdrawal by replacing an older multi-topic revision with a
+  newer reduced-topic revision.
 
 #### Phase 3 — Procurement round over AD
 
