@@ -75,7 +75,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`contact-lookup-result.v1.schema.json`](schemas-gen/schemas/contact-lookup-result.v1.md) | `11` | `0` | `yes` | `yes` | `2` | `1` |
 | [`contact-request.v1.schema.json`](schemas-gen/schemas/contact-request.v1.md) | `18` | `4` | `yes` | `yes` | `1` | `0` |
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
-| [`corpus-reasoning-answer.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-answer.v1.md) | `17` | `0` | `yes` | `yes` | `1` | `0` |
+| [`corpus-reasoning-answer.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-answer.v1.md) | `19` | `3` | `yes` | `yes` | `1` | `0` |
 | [`corpus-reasoning-bid-state.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-bid-state.v1.md) | `7` | `1` | `yes` | `yes` | `1` | `0` |
 | [`corpus-reasoning-bid.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-bid.v1.md) | `14` | `0` | `yes` | `yes` | `2` | `3` |
 | [`corpus-reasoning-query.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-query.v1.md) | `18` | `2` | `yes` | `yes` | `1` | `1` |

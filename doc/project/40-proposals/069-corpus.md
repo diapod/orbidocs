@@ -287,7 +287,7 @@ Convergence yields one `corpus-reasoning-answer.v1`: `answer/id`, `query/id`, `r
 `topic/term`, `corpus/taxonomy-digest`, `content/ref` **or** inline `content` **plus
 `content/digest`** (so a verifier can confirm the inline content matches what was
 signed), `answer/format` (`plain-text | markdown | json | edn`), `classification`
-(a `classification.v1` object/ref, not a bare string), `policy/digest` (required),
+(the small `classification.v1` lattice tier `Public | Community | Personal`, expanded to a full `classification.v1` object at the AD answer-envelope boundary; see Resolved Decision 21), `policy/digest` (required),
 `provenance/refs`, `contribution/refs`, `contributor/weights[]` (present even though
 N-way settlement is post-MVP, so a later settlement can use the same answer),
 `attestation/evidence` (e.g. the deliberation `room-event.v1` high-water mark, proving
@@ -359,9 +359,10 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
   - `corpus/topics ⊆ terms(corpus/taxonomy-digest)`;
   - taxonomy `term` unique; per-term `labels` `uniqueItems`;
   - `content/digest` matches the inline `content` when inline.
-- **Classification**: reference `classification.v1` (Proposal 047 /
-  `classification.v1.schema.json`) through `classification/ref` or an inline
-  `classification` object; never use a bare string.
+- **Classification**: the answer carries the small `classification.v1` lattice tier
+  (`Public | Community | Personal`); the AD answer envelope maps it to a full
+  `classification.v1` object (Proposal 047 / `classification.v1.schema.json`) with
+  tier-correct `bound_subjects` at the envelope boundary. See Resolved Decision 21.
 - **Privacy/retention**: room durability and retention for `room.v1` /
   `room-membership.v1` / `room-event.v1` are governed by **P070** policy; Corpus does not
   define its own retention and explicitly defers to P070's per-exposure retention rules.
@@ -405,7 +406,8 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
 - **Inquirium (P063/P064/P066)**: per-participant model access via a full
   thread/session runtime with tool support is the target prerequisite for phase 2.
 - **P011 / story-006 / P016**: procurement lifecycle and escrow.
-- **Classification (047)**: the answer carries a `classification.v1`.
+- **Classification (047)**: the answer carries a small `classification.v1` lattice
+  tier, mapped to a full `classification.v1` object at the AD answer envelope.
 - **P057 notifications**: requester/operator notifications for bids, readiness, answer.
 
 ## Failure Modes and Mitigations
@@ -493,9 +495,12 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
     policy: local node policy is authoritative for local use, while Seed Directory
     governance facts and/or Agora authority records may supply scoped trust evidence.
     No single published fact becomes a trust decision without local policy acceptance.
-17. **AD-mediated answer delivery.** The MVP receipt path remains the current local
-    `/settle` plus requester `satisfy` bridge. AD-mediated `corpus.answer` delivery is
-    the first post-MVP answer-artifact phase rather than an MVP blocker.
+17. **AD-mediated answer delivery.** Production provider answer delivery uses a normal
+    `artifact-delivery-envelope.v1` carrying `corpus-reasoning-answer.v1`; Corpus does
+    not define a separate `corpus.answer` transport. The local
+    `POST /v1/corpus/rounds/{query_id}/answers` surface remains operator/test/admin
+    control-plane only, while requester nodes admit provider answers through the
+    in-process AD `corpus.answer` acceptor.
 18. **Zero-bid operator notification.** `no-routable-candidates` and `no-provider-bids`
     stay synchronous dispatch diagnostics by default. P057 notifications are emitted
     only when Corpus policy explicitly enables retry/escalation visibility for such
@@ -506,24 +511,35 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
 20. **Direct bid registration surface.** `POST /v1/corpus/bids` remains a local-control
     operator/test helper, requires bid signature verification, and is not a remote
     federation surface.
-21. **Classification propagation.** `corpus-reasoning-query.v1` should grow a
-    first-class classification field before Personal or higher-tier Corpus queries are
-    supported; `build_query_dispatch_envelope` should copy that field into AD instead of
-    relying on the current host-selected Corpus-query classification default.
+21. **Classification propagation.** `corpus-reasoning-answer.v1` carries the small
+    `classification.v1` lattice tier (`Public`, `Community`, or `Personal`) and the AD
+    answer envelope maps it to a full `classification.v1` object with tier-correct
+    `bound_subjects` supplied by the provider/requester context. `Confidential` is
+    intentionally not a Corpus answer tier in this phase: confidential deliberation is
+    modeled by room/private capture and local policy, while a final answer artifact must
+    stay in the Public/Community/Personal lattice. Missing answer classification is
+    treated as `Public` only for legacy/admin compatibility; production providers SHOULD
+    set it explicitly. `corpus-reasoning-query.v1` should still grow a first-class
+    classification field before Personal or higher-tier Corpus queries are supported.
+22. **Answer revision validation.** A local answer read-model may replace an answer by
+    the same `answer/id` or by a new answer whose `supersedes` points at an existing
+    answer from the same responder. If `revision/no` is present, the first revision is
+    `1` and a superseding revision must be greater than the superseded revision. The
+    counter is advisory for humans and diagnostics; append-only fact order plus the
+    `supersedes` edge remains authoritative.
 
 ## Open Questions
 
 No open questions remain for the hard-MVP procurement slice. Post-MVP live
 deliberation questions are tracked under the Room/Inquirium/Agent phases below.
 
-1. **Answer replacement semantics.** The current daemon read-model treats repeated
-   `answer/id` as idempotent replacement inside one round, after signature, selected-bid,
-   and policy-digest validation. Before answer facts become federation-published
-   durable artifacts, decide whether this remains the canonical behavior, whether
-   duplicate `answer/id` should be rejected, or whether answer updates become append-only
-   revisions with `supersedes`, received-at audit, and an explicit finalization marker.
-   Sensible default: keep idempotent replacement only for the local MVP read-model and
-   require append-only revisions for federated answer publication.
+Resolved answer publication decision: local daemon round snapshots may replace a repeated
+`answer/id` or a superseded answer as a latest read-model convenience, after signature,
+selected-bid, and policy-digest validation. Federated answer publication is append-only:
+an updated answer is a new `corpus-reasoning-answer.v1` fact with `supersedes` and
+optional `revision/no`, not an overwrite. Local validation rejects dangling
+`supersedes` references, cross-responder supersession, and non-monotonic advisory
+revision numbers.
 
 ## Implementation Contract
 
@@ -1403,10 +1419,11 @@ runtime, no N-way settlement.
   answer-text digest binding, daemon round persistence, provider-local
   `inquirium.generate` drafting through the deterministic local runtime, selected-bid
   responder binding, answer signature verification, policy-digest binding to the round
-  taxonomy digest, bounded answer storage, chronological answer ordering, and Story-011
-  smoke coverage.
-  Provider-originated AD answer delivery and multi-provider contribution receipts remain
-  post-MVP.
+  taxonomy digest, bounded answer storage, chronological answer ordering,
+  provider-originated AD answer delivery through the in-process `corpus.answer` acceptor,
+  AD answer envelope construction, tier-correct answer classification propagation, local
+  latest-read-model replacement for superseded revisions, and Story-011 smoke coverage.
+  Multi-provider contribution receipts remain post-MVP.
 
 ### Post-MVP — Live deliberation
 

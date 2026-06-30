@@ -45,6 +45,16 @@
       "type": "string",
       "pattern": "^bid:[A-Za-z0-9][A-Za-z0-9:-]*$"
     },
+    "supersedes": {
+      "type": "string",
+      "pattern": "^answer:[A-Za-z0-9][A-Za-z0-9:-]*$",
+      "description": "Optional previous answer revision replaced by this answer in local latest read-models. Federated publication remains append-only: a superseding answer is a new fact, not an overwrite."
+    },
+    "revision/no": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Optional human-facing revision counter. Ordering authority remains append-only fact order plus supersedes links, not this advisory counter alone."
+    },
     "room/id": {
       "type": "string",
       "minLength": 1,
@@ -67,7 +77,8 @@
     "policy/digest": { "$ref": "#/$defs/sha256_digest" },
     "classification": {
       "type": "string",
-      "enum": ["Public", "Community", "Personal", "Confidential"]
+      "enum": ["Public", "Community", "Personal"],
+      "description": "Optional classification.v1 tier. If omitted by a legacy/admin producer, the AD answer envelope is treated as Public; production providers should set this explicitly."
     },
     "contributor/weights": {
       "type": "array",

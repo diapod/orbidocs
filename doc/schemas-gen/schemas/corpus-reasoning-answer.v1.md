@@ -20,13 +20,15 @@ Signed final answer artifact for one Corpus reasoning query. This is the post-pr
 | [`correlation/id`](#field-correlation-id) | `yes` | string |  |
 | [`responder/node-id`](#field-responder-node-id) | `yes` | string |  |
 | [`selected/bid-id`](#field-selected-bid-id) | `no` | string |  |
+| [`supersedes`](#field-supersedes) | `no` | string | Optional previous answer revision replaced by this answer in local latest read-models. Federated publication remains append-only: a superseding answer is a new fact, not an overwrite. |
+| [`revision/no`](#field-revision-no) | `no` | integer | Optional human-facing revision counter. Ordering authority remains append-only fact order plus supersedes links, not this advisory counter alone. |
 | [`room/id`](#field-room-id) | `no` | string |  |
 | [`room-event/high-water`](#field-room-event-high-water) | `no` | integer |  |
 | [`created-at`](#field-created-at) | `yes` | string |  |
 | [`answer/text`](#field-answer-text) | `yes` | string |  |
 | [`answer/digest`](#field-answer-digest) | `yes` | ref: `#/$defs/sha256_digest` |  |
 | [`policy/digest`](#field-policy-digest) | `yes` | ref: `#/$defs/sha256_digest` |  |
-| [`classification`](#field-classification) | `no` | enum: `Public`, `Community`, `Personal`, `Confidential` |  |
+| [`classification`](#field-classification) | `no` | enum: `Public`, `Community`, `Personal` | Optional classification.v1 tier. If omitted by a legacy/admin producer, the AD answer envelope is treated as Public; production providers should set this explicitly. |
 | [`contributor/weights`](#field-contributor-weights) | `no` | array |  |
 | [`evidence/refs`](#field-evidence-refs) | `no` | array |  |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` |  |
@@ -78,6 +80,22 @@ Signed final answer artifact for one Corpus reasoning query. This is the post-pr
 - Required: `no`
 - Shape: string
 
+<a id="field-supersedes"></a>
+## `supersedes`
+
+- Required: `no`
+- Shape: string
+
+Optional previous answer revision replaced by this answer in local latest read-models. Federated publication remains append-only: a superseding answer is a new fact, not an overwrite.
+
+<a id="field-revision-no"></a>
+## `revision/no`
+
+- Required: `no`
+- Shape: integer
+
+Optional human-facing revision counter. Ordering authority remains append-only fact order plus supersedes links, not this advisory counter alone.
+
 <a id="field-room-id"></a>
 ## `room/id`
 
@@ -118,7 +136,9 @@ Signed final answer artifact for one Corpus reasoning query. This is the post-pr
 ## `classification`
 
 - Required: `no`
-- Shape: enum: `Public`, `Community`, `Personal`, `Confidential`
+- Shape: enum: `Public`, `Community`, `Personal`
+
+Optional classification.v1 tier. If omitted by a legacy/admin producer, the AD answer envelope is treated as Public; production providers should set this explicitly.
 
 <a id="field-contributor-weights"></a>
 ## `contributor/weights`
