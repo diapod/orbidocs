@@ -1,0 +1,28 @@
+{
+  "schema/v": 1,
+  "answer/id": "answer:fish-water-001",
+  "query/id": "query:fish-water-001",
+  "correlation/id": "corr:story-011-fish-water",
+  "responder/node-id": "node:did:key:z6MkqdVBP2HbeG7pQdWrBcycy7D5irUrAWXtUrJVaaVovoBu",
+  "selected/bid-id": "bid:fish-water-001",
+  "room/id": "!story011-fish:orbiplex.local",
+  "created-at": "2026-05-30T12:00:00Z",
+  "answer/text": "Freshwater fish absorb water osmotically; saltwater fish drink seawater and excrete salts.",
+  "answer/digest": "sha256:VI4OGCid267h0UZ9oWSXXwoFdPdWO3q9n2sCBKTK_uo",
+  "policy/digest": "sha256:X3Kx_xpp_HThI6CvN4s13iXs8tMhEpl9m7GgK0vOhK0",
+  "classification": "Public",
+  "contributor/weights": [
+    {
+      "contributor/ref": "node:did:key:z6MkqdVBP2HbeG7pQdWrBcycy7D5irUrAWXtUrJVaaVovoBu",
+      "weight": 1
+    }
+  ],
+  "evidence/refs": [
+    "corpus-round:query:fish-water-001"
+  ],
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "base64url:story-011-corpus-answer-signature",
+    "key/public": "z6MkqdVBP2HbeG7pQdWrBcycy7D5irUrAWXtUrJVaaVovoBu"
+  }
+}

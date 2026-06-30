@@ -153,9 +153,13 @@ Recent component deltas:
   Corpus AD query admission, admitted-bid signature verification bound to
   `bidder/node-id`, P057 notifications for bid readiness/requester-satisfied/settlement failure, operator-visible
   `settlement-failed` recovery state for bridge failures after selection, operator
-  visibility under `/admin/corpus/rounds`, and passing Story-011 acceptance coverage.
+  visibility under `/admin/corpus/rounds`, and passing Story-011 acceptance coverage
+  under full Seed Directory `sovereign-policy` capability lookup. The current slice also
+  adds `corpus-reasoning-answer.v1` as a validated, digest-bound final answer artifact
+  that can be attached to the requester-owned round read model after provider-local
+  `inquirium.generate` drafting.
   P069 is now hard-MVP ready for the procurement slice. Post-MVP work remains for
-  real Matrix homeserver transport, rich final answer artifacts, full Inquirium
+  real Matrix homeserver transport, provider-originated AD answer delivery, full Inquirium
   thread/session runtime, Corpus-owned room policy/invite/chair integration, and
   N-way settlement extension work.
 - Room primitive is now tracked explicitly through Proposal 070 and Solution 036. The current code
@@ -323,7 +327,7 @@ Recent component deltas:
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `83` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
-| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `92` |
+| [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `96` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `76` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |

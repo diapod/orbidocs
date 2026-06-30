@@ -272,6 +272,9 @@ schema_for_file() {
     *.corpus-reasoning-bid.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-bid.v1.schema.json"
       ;;
+    *.corpus-reasoning-answer.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-answer.v1.schema.json"
+      ;;
     *.corpus-reasoning-bid-state.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-bid-state.v1.schema.json"
       ;;

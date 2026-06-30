@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-answer:v1",
+  "title": "CorpusReasoningAnswer v1",
+  "description": "Signed final answer artifact for one Corpus reasoning query. This is the post-procurement result fact; live deliberation, if any, remains outside this artifact.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md"
+  ],
+  "required": [
+    "schema/v",
+    "answer/id",
+    "query/id",
+    "correlation/id",
+    "responder/node-id",
+    "created-at",
+    "answer/text",
+    "answer/digest",
+    "policy/digest",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "answer/id": {
+      "type": "string",
+      "pattern": "^answer:[A-Za-z0-9][A-Za-z0-9:-]*$"
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[A-Za-z0-9][A-Za-z0-9:-]*$"
+    },
+    "correlation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "responder/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "selected/bid-id": {
+      "type": "string",
+      "pattern": "^bid:[A-Za-z0-9][A-Za-z0-9:-]*$"
+    },
+    "room/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "room-event/high-water": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "created-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "answer/text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 65536
+    },
+    "answer/digest": { "$ref": "#/$defs/sha256_digest" },
+    "policy/digest": { "$ref": "#/$defs/sha256_digest" },
+    "classification": {
+      "type": "string",
+      "enum": ["Public", "Community", "Personal", "Confidential"]
+    },
+    "contributor/weights": {
+      "type": "array",
+      "maxItems": 128,
+      "items": { "$ref": "#/$defs/contributor_weight" }
+    },
+    "evidence/refs": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    },
+    "signature": { "$ref": "#/$defs/signature" },
+    "extensions": { "$ref": "#/$defs/extensions" }
+  },
+  "$defs": {
+    "sha256_digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{16,128}$"
+    },
+    "contributor_weight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contributor/ref", "weight"],
+      "properties": {
+        "contributor/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": { "enum": ["ed25519", "ed25519+domain-v1"] },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key/public": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

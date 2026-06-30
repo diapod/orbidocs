@@ -294,6 +294,15 @@ N-way settlement is post-MVP, so a later settlement can use the same answer),
 the answer came from the room and not a single responder), and `signatures[]` per
 `answer/acceptance`.
 
+The first implemented single-provider slice uses a narrower but stricter contract:
+`corpus-reasoning-answer.v1` is accepted only after schema validation, content digest
+verification, signature verification, and round binding. The signer key must derive the
+same `node:did:key` as `responder/node-id`; `responder/node-id` must match the provider
+of the selected bid; `selected/bid-id`, when present, must match the round's selected
+bid; and `policy/digest` must equal the round's `corpus/taxonomy-digest`. This makes
+the answer a provider-originated fact attached to a selected round, not a requester-local
+JSON note.
+
 ### 7. Settlement Bridge (single contracting provider for MVP)
 
 For the MVP and first live layer there is **one contracting party** — a single
@@ -373,7 +382,7 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 | `corpus-reasoning-instruction-overlay.v1` | new | post-MVP | Suggested per-role/per-turn instruction overlay consumed only through local prompt policy. |
 | `corpus-reasoning-arbiter-nomination.v1` | new | later (Tracker P8) | Arbiter nomination (durable room record). |
 | `corpus-reasoning-arbiter-vote.v1` | new | later (Tracker P8) | Arbiter vote (durable room record). |
-| `corpus-reasoning-answer.v1` | new | post-MVP | Content-addressed signed answer incl. `policy/digest` (required), `contributor/weights[]`. |
+| `corpus-reasoning-answer.v1` | new | post-MVP, first slice implemented | Content-addressed signed answer incl. `policy/digest` (required), `contributor/weights[]`. |
 | `contribution-allocation.v1` | future (reserved) | post-MVP | N-way settlement split (separate proposal). |
 
 Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
@@ -507,6 +516,15 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
 No open questions remain for the hard-MVP procurement slice. Post-MVP live
 deliberation questions are tracked under the Room/Inquirium/Agent phases below.
 
+1. **Answer replacement semantics.** The current daemon read-model treats repeated
+   `answer/id` as idempotent replacement inside one round, after signature, selected-bid,
+   and policy-digest validation. Before answer facts become federation-published
+   durable artifacts, decide whether this remains the canonical behavior, whether
+   duplicate `answer/id` should be rejected, or whether answer updates become append-only
+   revisions with `supersedes`, received-at audit, and an explicit finalization marker.
+   Sensible default: keep idempotent replacement only for the local MVP read-model and
+   require append-only revisions for federated answer publication.
+
 ## Implementation Contract
 
 This section is the execution bridge between the proposal and code. Runtime work MUST
@@ -569,6 +587,10 @@ machinery:
   that cannot complete synchronously.
 - **Replay Scheduler (020)** owns periodic cleanup/retry wakeups for bid-state and
   catalog projections.
+- **Inquirium (063/064/066)** may be used by a provider as a local model executor for
+  drafting an answer, but it is not a Corpus room participant, chair, or settlement
+  authority. The provider host turns local Inquirium output into a signed
+  `corpus-reasoning-answer.v1` fact.
 - **Temporal Storage Convention (028)** owns retention, compaction, and bounded replay
   rules for local bid-state projections.
 - **Middleware (019)** is the extension surface for supervised provider acceptors; it
@@ -1361,11 +1383,11 @@ runtime, no N-way settlement.
   queries through AD `capability-many` over INAC, collects accepted bids from INAC
   admission diagnostics, emits P057 operator notifications for bid readiness, and has
   operator round visibility plus passing Story-011 acceptance coverage.
-- [~] Move Story-011 Corpus fan-out smoke from `signature-only` capability lookup to full
-  `sovereign-policy` verification. Decision 19 requires acceptance coverage to exercise
-  the production trust mode; the current story still uses the shortcut fixture mode and
-  needs Seed Directory/capability passport trust material wired so the smoke remains
-  deterministic.
+- [x] Move Story-011 Corpus fan-out smoke from `signature-only` capability lookup to full
+  `sovereign-policy` verification. The managed Story-011 `ad-smoke` path now creates
+  B/C participants, pins them as Node A's sovereign capability passport issuers,
+  restarts Node A, and exercises Seed Directory provider lookup through the production
+  trust mode.
 
 #### Phase 4 — Single-provider answer + settlement
 
@@ -1376,8 +1398,15 @@ runtime, no N-way settlement.
   now opens the selected-responder execution, registers/selects the offer, and accepts
   the contract. Bridge failures after selection mark the Corpus round
   `settlement-failed` for operator-visible recovery. Story-011 now exercises the
-  selection, settlement, and requester-satisfied close path over AD/INAC. Rich final
-  answer artifacts and multi-provider contribution receipts remain post-MVP.
+  selection, settlement, `corpus-reasoning-answer.v1` attachment, and requester-satisfied
+  close path over AD/INAC. The first answer slice includes schema-gate validation,
+  answer-text digest binding, daemon round persistence, provider-local
+  `inquirium.generate` drafting through the deterministic local runtime, selected-bid
+  responder binding, answer signature verification, policy-digest binding to the round
+  taxonomy digest, bounded answer storage, chronological answer ordering, and Story-011
+  smoke coverage.
+  Provider-originated AD answer delivery and multi-provider contribution receipts remain
+  post-MVP.
 
 ### Post-MVP — Live deliberation
 
@@ -1393,7 +1422,10 @@ runtime, no N-way settlement.
 
 - [!] Land the Agent organ (P073) reasoning session with tool support, budgets,
   deadlines, context windows, and explicit draft boundaries. Corpus should consume that
-  runtime rather than define a smaller Corpus-only LLM session surface.
+  runtime rather than define a smaller Corpus-only LLM session surface. The current
+  provider-local Inquirium slice proves only the lower boundary: a provider can ask
+  Inquirium for a draft answer, while durable orchestration, multi-turn coordination,
+  stop/resume, and chair authority stay above Inquirium in Agent/Room.
 
 #### Phase 7 — Deliberation room policy + invite + join `[!] blocked-by: P070, Phase 6`
 
