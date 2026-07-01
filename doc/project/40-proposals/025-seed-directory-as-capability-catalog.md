@@ -25,13 +25,15 @@ The Seed Directory defined in Proposal 014 is a signed cache for
 `node:did:key:...`, what are its current endpoints?
 
 This proposal extends the Seed Directory to also answer: which Nodes currently
-hold a given infrastructure capability, verified by a sovereign-signed passport?
+hold a given infrastructure capability — backed by a `capability-passport.v1`
+(capability *scope*) plus, for federation-official services, a
+`federation-service-endorsement.v1` (the federation's vouch, Proposal 076 §6)?
 
 The extension adds two complementary surfaces to the Seed Directory:
 
-1. a **capability registration surface** — Nodes with sovereign-issued passports
-   register per-capability, and the directory verifies each passport before
-   storing it,
+1. a **capability registration surface** — Nodes register per-capability with a
+   passport-backed scope claim and an optional federation-service endorsement,
+   and the directory verifies each artifact before storing it,
 2. a **federated revocation surface** — sovereign operators publish revocations
    for artifacts whose validity may be relied on by other Nodes; consumers poll
    for them.
@@ -118,7 +120,10 @@ independence allows:
 The `PUT /cap/{node-id}/{capability-id}` request body MUST carry:
 
 - a signed `capability-advertisement.v1` artifact for the Node,
-- a `capability-passport.v1` artifact for the specific `capability_id`.
+- a `capability-passport.v1` artifact for the specific `capability_id` (capability
+  *scope*),
+- optionally, a `federation-service-endorsement.v1` when registering the entry as
+  **federation-official** (Proposal 076 §6).
 
 The Seed Directory MUST verify before storing:
 
@@ -126,22 +131,62 @@ The Seed Directory MUST verify before storing:
    participant public key recovered from `issuer/participant_id`; passports
    with `issuer_delegation` first verify that inline proof against the issuer
    participant, then verify the passport with `issuer_delegation.proxy_key`,
-2. `issuer/participant_id` is recognized as a sovereign operator. For
-   federation-official capabilities this MUST resolve against the directory's
-   *active* `federation-root.v1` `identity.sovereign_subject_refs[]` (Proposal
-   076 §6), not merely an ungrounded local key list: a participant subject
-   matches directly, while an org subject additionally requires the passport to
-   satisfy that org's `federation-root` custody threshold. A local sovereign key
-   set MAY still recognize non-federation (deployment-local) operators, but only
-   a federation-root subject yields a *federation-endorsed* result,
+2. `issuer/participant_id` is a valid, self-consistent issuer for the passport
+   (for `sovereign/...`-namespaced custom capabilities, an issuer recognized
+   under local policy). **The passport proves capability *scope*, not official
+   status** — federation-official / federation-endorsed status is never conferred
+   by the passport issuer; it comes solely from a `federation-service-endorsement.v1`
+   (see below and Proposal 076 §6),
 3. `passport.node_id == {node-id}` in the URL path,
 4. `passport.capability_id == {capability-id}` in the URL path,
 5. `passport.expires_at` is either absent or in the future,
 6. `passport_id` is not present in the directory's revocation log.
+7. the **advertisement `signature`** cryptographically verifies against the
+   public key recovered from `advertisement.node_id` (not merely the structural
+   `validate()`), and the advertisement is fresh (a recent `published_at`/sequence,
+   not a replayed stale one the node has since retracted). This makes registration
+   a **joint act** — the node itself signed a claim to the capability (its
+   `capabilities_core` must include the capability's wire-name, per the naming
+   convention in §7) and a
+   sovereign separately endorses it — so a sovereign operator (or, since `PUT /cap`
+   is unauthenticated, anyone) cannot register or flood the catalog with services
+   on nodes that never advertised them.
 
-If any check fails, the directory MUST return `403 Forbidden` with a
-machine-readable reason string. Self-reported capability advertisements without
-a passport are accepted only for non-critical capabilities (see Section 7).
+When a `federation-service-endorsement.v1` is present, the directory MUST verify
+it per Proposal 076 §6 (resolve `endorser_subject_ref` in the active
+`sovereign_subject_refs[]`; participant = its key, org = custody met) before
+marking the entry **federation-official**. A registration without a valid
+endorsement is stored as an ordinary scope-only entry, never as official.
+
+Endorsement delivery is **two-phase**: the endorsement does not have to arrive
+in the same request as the registration. A sovereign (typically from a separate
+high-attestation node, per Proposal 076 P076-013) MAY later submit a standalone
+`federation-service-endorsement.v1` for `(node_id, capability_id)`. The
+directory MUST accept such an endorsement-attach **only when a scope entry with
+a node-signed advertisement covering that capability already exists** (§2 step
+7) — an endorsement for a node that never advertised the capability is refused,
+so a sovereign cannot conjure official services onto unwilling or unaware nodes.
+
+That refusal MUST be classified as **retryable**, not terminal: the directory
+returns a machine-readable reason (e.g. `scope-entry-missing`) distinct from
+signature/custody failures, because the endorsement may simply have raced ahead
+of the node's own registration. A submitter SHOULD retry with a bounded backoff
+schedule (e.g. `5s → 30s → 120s → 360s`) before concluding the target node has
+not (yet) claimed the capability and giving up. Cryptographic failures
+(signature, custody, expiry, revocation) remain terminal and MUST NOT be
+retried on an unchanged artifact.
+
+On successful verification the existing entry is upgraded to
+federation-official; the stored endorsement replaces an older one only under the
+directory's normal replacement semantics (freshness/expiry).
+
+If any *terminal* check fails (signature, custody, expiry, revocation, URL
+mismatch), the directory MUST return `403 Forbidden` with a machine-readable
+reason string. The one deliberate exception is the endorsement-attach
+`scope-entry-missing` case above, which returns a **retryable** `409 Conflict`
+(§3) — it reflects ordering, not a refusal of authority. Self-reported
+capability advertisements without a passport are accepted only for non-critical
+capabilities (see Section 7).
 
 The directory stores the passport alongside the capability entry so that
 consumers can retrieve it directly.
@@ -154,8 +199,10 @@ The Seed Directory does not rely on bearer-token authentication for capability
 catalog operations. Discovery reads are open, and write authorization is derived
 solely from signed artifacts:
 
-- `PUT /cap` is accepted only when the embedded `capability-passport.v1`
-  verifies and its sovereign issuer policy passes.
+- `PUT /cap` is accepted only when the node-signed advertisement and the
+  embedded `capability-passport.v1` (scope) verify; an embedded or
+  later-attached `federation-service-endorsement.v1` is additionally verified
+  per Proposal 076 §6 before the entry is marked official.
 - `POST /revoke` is accepted only when the
   `capability-passport-revocation.v1` verifies under either the `issuer` or
   `subject` authority path.
@@ -166,13 +213,24 @@ solely from signed artifacts:
 # Capability registration (one per node+capability pair)
 PUT  /cap/{node-id}/{capability-id}
      Body: { "advertisement": capability-advertisement.v1,
-             "passport":      capability-passport.v1 }
+             "passport":      capability-passport.v1,
+             "endorsement":   federation-service-endorsement.v1 (optional) }
      → 201 Created | 200 OK (replace) | 403 Forbidden | 409 Conflict (stale)
+
+# Two-phase endorsement attach (scope entry must already exist)
+PUT  /cap/{node-id}/{capability-id}/endorsement
+     Body: federation-service-endorsement.v1
+     → 200 OK (entry upgraded to federation-official)
+     | 409 Conflict + { "reason": "scope-entry-missing", "retryable": true }
+       (no node-signed scope entry yet; submitter SHOULD back off and retry)
+     | 403 Forbidden (terminal: signature/custody/expiry/revocation failure;
+       MUST NOT be retried on an unchanged artifact)
 
 # Query: all capabilities of one node
 GET  /cap/{node-id}
      → { node_id, endpoints[], capabilities: [ { capability_id, passport,
-                                                  published_at, expires_at } ] }
+             official, endorsement,       # endorsement artifact when official
+             published_at, expires_at } ] }
      → 404 if node not found
 
 # Query: all nodes with a given capability
@@ -182,13 +240,16 @@ GET  /cap?capability={capability-id-or-wire-name}
         [&include_sovereign_formal=true|false]
         [&include_sovereign_informal=true|false]
         [&include_sovereign=true|false]
+        [&official=true|false]
      → { items: [ { node_id, endpoints[], capability_id, passport,
+                    official, endorsement,
                     published_at, expires_at, anchor_identity, informal } ],
           next, max-items }
 
 # Revocation log
 POST /revoke
      Body: capability-passport-revocation.v1
+           | federation-service-endorsement revocation entry (see §5)
      → 200 OK | 403 Forbidden (bad revocation signature)
 
 GET  /revocations?since={cursor}
@@ -267,18 +328,46 @@ A Node consuming a passport-backed service MUST:
    - `passport.node_id` matches the `node:did:key:...` of the peer session,
    - `passport.capability_id` matches the capability being consumed,
    - `expires_at` is absent or in the future.
-6. Cache the passport locally with TTL equal to `expires_at` (or a configured
-   maximum if `expires_at` is absent).
-7. Reject the connection if any verification step fails.
+6. If the consumer requires a **federation-official** service: obtain the
+   `federation-service-endorsement.v1` (from the directory response's
+   `endorsement` field, or from the serving Node) and verify it independently
+   per Proposal 076 §6 — resolve `endorser_subject_ref` in the *active*
+   `identity.sovereign_subject_refs[]` (participant subject = its key is the
+   sole signer; org subject = signer set satisfies that org's custody policy),
+   apply the local `endorsement-multiplicity` policy, and check `expires_at`
+   plus that `endorsement_id` is not revoked. Passport verification alone
+   (step 5) MUST NOT be treated as official status; without a verifying
+   endorsement the service is at most community/scope-only.
+7. Cache the passport (and endorsement, when present) locally with TTL equal
+   to `expires_at` (or a configured maximum if `expires_at` is absent).
+   Endorsement acceptance is re-checked against the active federation root on
+   every use — sovereign rotation lapses it without any cache invalidation.
+8. Reject the connection if any scope verification step fails. A failed
+   *endorsement* check downgrades the service to community/scope-only instead
+   of terminating an otherwise valid scope connection — unless the consumer's
+   policy requires official, in which case it rejects.
 
-Step 5 is the critical independence guarantee: the consumer does not trust the
-Seed Directory's copy of the passport. It trusts only what the serving Node
-presents and what the locally-pinned sovereign key can verify.
+Steps 5–6 are the critical independence guarantee: the consumer does not trust
+the Seed Directory's copy of either artifact. It trusts only what it verifies
+against the peer session and the locally loaded federation root.
 
 ### 5. Revocation Artifact and Polling
 
-Revocation is expressed as a `capability-passport-revocation.v1` artifact.
-Two signing authorities are recognised, discriminated by the `signed_by` field:
+Passport revocation is expressed as a `capability-passport-revocation.v1`
+artifact. The same federated log also carries **endorsement revocations**: a
+log entry gains an `artifact_family` discriminator (`capability-passport` |
+`federation-service-endorsement`), and an endorsement revocation targets
+`endorsement_id`. Revocation authority for an endorsement is deliberately
+asymmetric to issuance: a participant endorsing subject revokes with its own
+key, and for an org subject **any single authorized custodian key** of that
+org's custody policy may revoke — revocation narrows trust, so unilateral
+withdrawal is fail-safe even though issuance requires the threshold. Consumers
+poll the same `GET /revocations` feed. (Independently, dropping the endorsing
+subject from the active federation root lapses its endorsements without any
+revocation entry.)
+
+For `capability-passport-revocation.v1`, two signing authorities are
+recognised, discriminated by the `signed_by` field:
 
 **`signed_by: "issuer"`** — sovereign operator revocation. The same participant
 who issued the original passport declares it void. Semantics: *"I withdraw the
@@ -356,7 +445,11 @@ they detect that a cached passport is approaching expiry.
 
 The Seed Directory is itself modeled as a capability to unify the bootstrap
 chain. A Node acting as a Seed Directory holds a `capability-passport.v1` with
-`capability_id = "seed-directory"`.
+`capability_id = "seed-directory"` for capability *scope*, and — to be trusted as
+a **federation-official** directory — a corresponding
+`federation-service-endorsement.v1` (Proposal 076 §6). The passport alone
+establishes only that the node offers the capability, never that the federation
+vouches for it.
 
 These passports are shipped with the software distribution, equivalent to TLS
 root trust anchors:
@@ -365,24 +458,28 @@ root trust anchors:
 # Shipped in the default node configuration
 
 [[network.seed_directory]]
-node_id  = "node:did:key:z6Mk..."
-endpoint = "https://seed-01.orbiplex.example"
-passport = """{ ... capability-passport.v1 for seed-directory ... }"""
+node_id     = "node:did:key:z6Mk..."
+endpoint    = "https://seed-01.orbiplex.example"
+passport    = """{ ... capability-passport.v1 for seed-directory (scope) ... }"""
+endorsement = """{ ... federation-service-endorsement.v1 (official) ... }"""
 
 [[network.seed_directory]]
-node_id  = "node:did:key:z6Mk..."
-endpoint = "https://seed-02.orbiplex.example"
-passport = """{ ... }"""
+node_id     = "node:did:key:z6Mk..."
+endpoint    = "https://seed-02.orbiplex.example"
+passport    = """{ ... }"""
+endorsement = """{ ... }"""
 ```
 
-At daemon startup, each seed directory passport MUST be verified:
+At daemon startup, each seed directory entry MUST be verified:
 
-1. signature valid,
-2. issuer sovereign under local policy — for a federation-official directory the
-   issuer MUST resolve to a sovereign operator of the active `federation-root.v1`
-   (Proposal 076 §6), with org subjects held to their custody threshold,
-3. `capability_id == "seed-directory"`,
-4. `node_id` matches the configured endpoint's Node.
+1. the `capability-passport.v1` signature is valid, `capability_id ==
+   "seed-directory"`, and `node_id` matches the configured endpoint's Node — this
+   establishes *scope* only;
+2. to treat the directory as **federation-official**, a corresponding
+   `federation-service-endorsement.v1` MUST be present and verify per Proposal
+   076 §6 (resolve `endorser_subject_ref` in the active `sovereign_subject_refs[]`;
+   participant = its key, org = custody met). Without it the entry is at most a
+   local/community directory, never federation-official.
 
 A seed directory entry whose passport fails verification MUST be skipped with
 a logged warning. If no valid seed directory entry remains, the Node starts in
@@ -731,11 +828,20 @@ Conditional fields:
   reconciliation, and monotonic revocation suppression; the daemon maps local
   config into it and keeps HTTP routing, lifecycle, and operator surfaces.
 - The Seed Directory persistence layer gains capability and subject-specific
-  tables: `capability_registrations`, `capability_passports`, `revocations`, and
+  tables: `capability_registrations`, `capability_passports`,
+  `federation_service_endorsements`, `revocations`, and
   `routing_subject_bindings`.
 - `capability_registrations` indexes `(node_id, capability_id)` as primary key
   with `published_at`, `expires_at`, and a foreign key to the passport record.
-- `revocations` stores `revocation_id`, `passport_id`, `node_id`,
+- `federation_service_endorsements` stores the verified endorsement artifact
+  keyed by `endorsement_id`, with `(node_id, capability_id)` as a foreign key
+  into `capability_registrations`; at most one **active** endorsement per
+  `(node_id, capability_id)` (a newer valid endorsement replaces an older one
+  under the normal freshness semantics). The read-model `official` flag is a
+  projection of this relation, never an independently settable column.
+- `revocations` stores `revocation_id`, `artifact_family`
+  (`capability-passport` | `federation-service-endorsement`), the per-family
+  target (`passport_id` or `endorsement_id`), `node_id`,
   `capability_id`, `revoked_at`, and `signed_by`. The signer identity
   (`issuer/participant_id` or `node_id`) is recoverable from the stored
   `passport_id` and `signed_by` columns; it need not be duplicated.
@@ -755,7 +861,9 @@ Conditional fields:
   compaction must be explicit, operator-visible, and must not silently change
   the meaning of the accepted fact log.
 - `GET /cap?capability` joins `capability_registrations` with
-  `node_advertisements` to return current endpoints.
+  `node_advertisements` to return current endpoints, and with
+  `federation_service_endorsements` to project `official` plus the stored
+  endorsement artifact.
 - `GET /participant/{participant-id}` projects accepted
   `node-operator-binding.v1` entries into node candidates.
 - `PUT /routing-subject/{routing-subject-id}/{binding-id}` stores verified
@@ -855,8 +963,10 @@ polling is simpler and easier to audit.
 
 | ID | Task | Status | Notes |
 |---|---|---|---|
-| P025-001 | Resolve issuer sovereignty against the active federation root | todo | **High priority.** Wire the federation-endorsement resolver (Proposal 076 §6, task P076-016) into this proposal's three sovereignty checks — §2 step 2 (registration admission), §4 step 5 (consumer verification), and §6 step 2 (seed-directory startup): resolve `issuer/participant_id` against the active `federation-root.v1` `identity.sovereign_subject_refs[]`, hold org subjects to their `federation-root` custody threshold, and mark the result `federation-endorsed` vs `self-issued`. An "official" `seed-directory`/`offer-catalog` entry lacking a resolvable federation endorsement downgrades to an unendorsed community pointer, never fail-open to "official". Negative tests: single-custodian org issuance rejected, rotated-out issuer lapses, unendorsed official entry downgraded. |
-| P025-002 | Consume `federation-service-endorsement.v1` for org-subject official services | todo | **High priority.** For federations whose sovereign subject is an org, "official" status for a `seed-directory`/`offer-catalog` is proven by the threshold `federation-service-endorsement.v1` (Proposal 076 §6, task P076-017), not a single-issuer passport. §4 consumer verification and §6 startup accept either the participant single-issuer passport or the org threshold endorsement, applying the local `endorsement-multiplicity` policy; unmet requirement downgrades the entry to a community pointer rather than failing open to "official". |
+| P025-001 | ~~Resolve issuer sovereignty against the active federation root~~ | superseded | Written before the scope/official split. It grounded *passport issuer* sovereignty as the official-status check in §2/§4/§6; after the model change the passport is scope-only and never confers official status, so resolving its issuer against `sovereign_subject_refs[]` is no longer the official-status mechanism. The intent (federation-grounded verification in §2 registration, §4 consumption, §6 startup) is carried entirely by **P025-002** (endorsement as the sole official-status proof, incl. two-phase attach) on top of **P076-016/P076-017**. |
+| P025-002 | Consume `federation-service-endorsement.v1` as the sole official-status proof | todo | **High priority.** "Official" status for a `seed-directory`/`offer-catalog` — for both participant (`M=1`) and org (`M`-of-N) sovereign subjects — is proven by a single `federation-service-endorsement.v1` (Proposal 076 §6, tasks P076-017/P076-021), never by a single-issuer `capability-passport.v1` alone. §2 registration accepts and multi-sig-verifies the endorsement — **including the two-phase flow**: a standalone endorsement-attach submitted later (e.g. from a sovereign's separate high-attestation node) is accepted only when a scope entry with a node-signed advertisement covering the capability already exists, and upgrades that entry to federation-official. §4 consumer verification plus §6 startup verify the endorsement's `signatures[]` against the active `sovereign_subject_refs[]` (resolving `endorser_subject_ref`; participant = its key, org = custody met) under the local `endorsement-multiplicity` policy; an unmet requirement downgrades the entry to a community pointer rather than failing open to "official". Tests: endorsement-attach without a prior node-signed scope entry refused with a **retryable** `scope-entry-missing` class (submitter backoff `5s → 30s → 120s → 360s`, then give up; crypto failures stay terminal); attach after registration upgrades to official; attach racing ahead of registration succeeds on a later retry. The attach endpoint is `PUT /cap/{node-id}/{capability-id}/endorsement` (§3), and the `GET /cap*` read surface projects `official` plus the stored endorsement artifact so consumers can verify independently (§4 step 6). |
+| P025-003 | Cryptographically verify the node advertisement signature at `PUT /cap` | todo | **High priority (security).** The Seed Directory currently validates the `capability-advertisement.v1` only structurally (`validate()` = non-empty + `node_id`/wire-name match); its `signature` is **not** cryptographically verified (`seed-directory/src/verify.rs::validate_capability_advertisement`), and `PUT /cap` is unauthenticated. Verify the advertisement signature against the key recovered from `advertisement.node_id` and bind to a fresh advertisement (§2 step 7). Without it, a sovereign — or anyone — can register/endorse capabilities for nodes that never advertised them: a catalog-spam / impersonation DDoS vector. Makes registration a joint node-consent + sovereign-endorsement act. |
+| P025-004 | Extend the federated revocation log to `federation-service-endorsement.v1` | todo | **High priority.** Add the `artifact_family` discriminator (`capability-passport` \| `federation-service-endorsement`) and the `endorsement_id` target to the revocation log (§5). Endorsement revocation authority is asymmetric to issuance: participant subject = its own key; org subject = any single authorized custodian key (unilateral withdrawal is fail-safe; issuance keeps the threshold). Consumers poll the same `GET /revocations` feed; a revoked `endorsement_id` is a terminal verifier failure. Storage: `federation_service_endorsements` table with the at-most-one-active relation and the `official` projection (§Storage). Rides alongside P025-002. |
 
 ## Open Questions
 
@@ -866,3 +976,9 @@ polling is simpler and easier to audit.
 - Should the Seed Directory enforce a maximum registration count per Node?
 - Should `capability-passport-present.v1` be defined in this proposal or in a
   separate transport memo?
+- **[Open — not a task]** Beyond Seed Directory registration, should
+  `federation-service-endorsement.v1` also gain config-install and
+  peer-presentation delivery surfaces (as `capability-passport.v1` has), or is
+  directory registration sufficient? Directory-only suffices for the offer-catalog
+  case; the other surfaces are optional robustness for when the directory is
+  unreachable.
