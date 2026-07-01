@@ -1,0 +1,17 @@
+{
+  "schema": "capability-passport.v1",
+  "passport_id": "passport:capability:node-primary-operator:bad-account-scope",
+  "node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "capability_id": "node-primary-operator",
+  "scope": {
+    "account_namespaces": ["orc:orbiplex-main:*"]
+  },
+  "issued_at": "2026-06-01T00:00:00Z",
+  "issuer/participant_id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "issuer/node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "revocation_ref": null,
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:signature"
+  }
+}

@@ -313,6 +313,12 @@ Receivers MUST tolerate unknown `scope` keys, but they MUST validate the minimal
 omits it. A full ledger scope model — richer account selectors, per-operation
 limits, hold lifetime, receipt classes, and policy refs — is post-MVP work.
 
+`scope.account_namespaces[]` is reserved to the `network-ledger` profile. A
+passport for any other `capability_id` MUST NOT carry it, even though scope
+objects otherwise remain open for capability-specific extension keys. This keeps
+account grants from being smuggled into unrelated passports where a future
+consumer might misread them as ledger authority.
+
 ### 4a. Sovereign Capability Identifiers
 
 Capability ids now distinguish two classes:
@@ -621,10 +627,8 @@ passport ties capability delegation to canonical participant and Node identity.
 
 Open as of 2026-07-01:
 
-1. Should `scope.account_namespaces[]` remain required only for
-   `capability_id = "network-ledger"` in hard-MVP, or should additional
-   capability-specific scope requirements be frozen now for other infrastructure
-   capabilities?
+1. Which additional capability-specific scope requirements should be frozen for
+   other infrastructure capabilities after `network-ledger`?
 2. What maximum staleness/TTL must a local revocation view satisfy before startup
    may trust it for `network-ledger` passport admission?
 3. If the revocation source is unavailable at startup, should `network-ledger`
@@ -641,6 +645,9 @@ Resolved 2026-07-01:
 3. Future multi-sig issuance is modeled as a separate endorsement or custody
    bundle attached to the passport, not as multiple unrelated signatures on the
    passport payload itself.
+4. `scope.account_namespaces[]` is reserved to `capability_id = "network-ledger"`.
+   The schema requires it for `network-ledger` and rejects it for all other
+   capability ids to avoid scope confusion.
 
 ## Implementation Tracker
 
@@ -650,7 +657,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 |---|---|---|---|
 | P024-001 | Freeze `capability-passport.v1` and revocation schemas | done | `capability-passport.v1`, `capability-passport-present.v1`, and `capability-passport-revocation.v1` exist in `doc/schemas/` and are mirrored into `node/protocol/contracts`. |
 | P024-002 | Implement passport signing, verification, presentation, and revocation foundation | done | Node `capability` and daemon surfaces verify signed passports, present passports through capability advertisements, and consume revocation artifacts through local revocation views. |
-| P024-003 | Enforce `network-ledger.scope.account_namespaces[]` in hard-MVP | done | `capability-passport.v1` schema and Node runtime reject `network-ledger` passports without non-empty `scope.account_namespaces[]`; daemon settlement bootstrap additionally requires the selected federation namespace `orc:<federation_id>:*`. |
+| P024-003 | Enforce `network-ledger.scope.account_namespaces[]` in hard-MVP | done | `capability-passport.v1` schema and Node runtime reject `network-ledger` passports without non-empty `scope.account_namespaces[]`; the schema also rejects `scope.account_namespaces[]` on passports for any other `capability_id`; daemon settlement bootstrap additionally requires the selected federation namespace `orc:<federation_id>:*`. |
 | P024-004 | Check network-ledger passport revocation at startup | done | `settlement.mode = network` now rejects a configured ledger passport when the local revocation view revokes its `passport_id`, `revocation_ref`, or inline issuer-delegation id. |
 | P024-005 | Define the full ledger scope model | todo | Post-MVP: richer account selectors, per-operation limits, maximum hold lifetime, accepted receipt classes, and settlement policy refs. |
 | P024-006 | Define multi-sig/custody issuance bundle for infrastructure passports | deferred | Resolved direction: separate endorsement/custody bundle attached to the passport, not multiple unrelated signatures on the passport payload itself. |

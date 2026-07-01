@@ -6,7 +6,7 @@
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
-  "x-dia-status": "draft",
+  "x-dia-status": "accepted",
   "x-dia-basis": [
     "doc/project/40-proposals/076-federation-identity-and-network-selector.md",
     "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",

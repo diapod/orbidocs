@@ -58,7 +58,7 @@
     "scope": {
       "type": "object",
       "additionalProperties": true,
-      "description": "Capability-specific parameters constraining the delegation. Receivers MUST tolerate unknown keys. `network-ledger` passports MUST declare `account_namespaces[]`; other non-key-use passports (e.g. `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization.",
+      "description": "Capability-specific parameters constraining the delegation. Receivers MUST tolerate unknown keys, but reserved typed keys keep profile-specific ownership. `network-ledger` passports MUST declare `account_namespaces[]`; passports for any other capability MUST NOT carry `account_namespaces[]` to avoid account-scope confusion. Other non-key-use passports (e.g. `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization.",
       "properties": {
         "account_namespaces": {
           "type": "array",
@@ -540,6 +540,21 @@
           }
         },
         "required": ["scope"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "capability_id": { "not": { "const": "network-ledger" } }
+        },
+        "required": ["capability_id"]
+      },
+      "then": {
+        "properties": {
+          "scope": {
+            "not": { "required": ["account_namespaces"] }
+          }
+        }
       }
     },
     {

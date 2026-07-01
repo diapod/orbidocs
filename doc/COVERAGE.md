@@ -57,7 +57,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`capability-passport-lookup.v1.schema.json`](schemas-gen/schemas/capability-passport-lookup.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
 | [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md) | `2` | `2` | `yes` | `yes` | `5` | `0` |
 | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md) | `13` | `12` | `yes` | `yes` | `0` | `0` |
-| [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | `14` | `13` | `yes` | `yes` | `0` | `0` |
+| [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md) | `14` | `13` | `yes` | `yes` | `0` | `1` |
 | [`capability-registry.v1.schema.json`](schemas-gen/schemas/capability-registry.v1.md) | `2` | `0` | `no` | `yes` | `1` | `1` |
 | [`capability-schema-present.v1.schema.json`](schemas-gen/schemas/capability-schema-present.v1.md) | `4` | `4` | `yes` | `yes` | `1` | `0` |
 | [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md) | `18` | `17` | `yes` | `yes` | `1` | `0` |
@@ -569,4 +569,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `199`
 - Generated schema docs: `199`
 - Positive examples: `217`
-- Negative examples: `147`
+- Negative examples: `148`

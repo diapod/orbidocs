@@ -389,6 +389,9 @@ schema_for_file() {
     *.capability-passport-present.json)
       echo "$SCHEMAS_DIR/capability-passport-present.v1.schema.json"
       ;;
+    *.capability-passport.json)
+      echo "$SCHEMAS_DIR/capability-passport.v1.schema.json"
+      ;;
     *.capability-schema-present.json)
       echo "$SCHEMAS_DIR/capability-schema-present.v1.schema.json"
       ;;
