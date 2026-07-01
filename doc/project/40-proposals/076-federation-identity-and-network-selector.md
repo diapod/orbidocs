@@ -472,6 +472,72 @@ entry, or an offer-catalog recommended by a seed directory) that carries no
 resolvable sovereign endorsement MUST be treated as an unendorsed community
 pointer, not as an official service.
 
+#### Sovereign subjects are governance-authored, not signature-derived
+
+Membership of `identity.sovereign_subject_refs[]` is authored in the pack's
+`attestation_roots[]` and only then signed; it is not derived from who signed.
+The loader enforces the reverse constraint (every signature must tie back to an
+attestation root or its custody policy — no stranger signatures), but signing a
+pack never by itself confers standing sovereign-operator authority. A custodian
+of an org root is a fraction of that org's authority, not an independent
+sovereign subject, unless the pack also lists that identity as its own
+`participant`-kind root. This keeps the sovereign-operator roster a deliberate
+governance decision, immune to "signer creep".
+
+Two issuance shapes therefore follow directly from subject kind:
+
+- **participant subject → single-issuer.** The subject signs one
+  `capability-passport.v1` for the service capability (the existing Proposal 025
+  §2/§4 flow); a verifier resolves it as *federation-endorsed* under §6.
+- **org subject → joint issuance.** No single custodian can issue officially;
+  the endorsement is a threshold-cosigned `federation-service-endorsement.v1`
+  (below).
+
+#### `federation-service-endorsement.v1` (joint issuance)
+
+A thin, multi-signature artifact — the same signature shape as
+`federation-root.v1`, a distinct domain — by which a federation's sovereign
+circle vouches for an official service. It stays separate from the service's
+operational `capability-passport.v1`: the passport carries *scope*, the
+endorsement carries *the federation's vouch*.
+
+Minimal contract sketch:
+
+- binds `federation_id`, service `node_id`, `capability_id`
+  (`seed-directory` | `offer-catalog` | ...), `issued_at`, `expires_at`,
+  optional `policy_ref`, and an `endorsement_id`;
+- `signatures[]` — one `{key_public, value}` per co-signer, each over
+  `federation-service-endorsement.v1\x00 || deterministic_cbor(payload_without_signatures)`
+  (domain separator distinct from `federation-root.v1`, so a root-pack signature
+  can never be replayed as an endorsement, or vice versa);
+- `additionalProperties: false`; unknown top-level fields rejected.
+
+Verifier acceptance:
+
+1. each signature verifies over the canonical payload;
+2. the co-signer set — restricted to signers currently in the active
+   `identity.sovereign_subject_refs[]` — satisfies the applicable multiplicity
+   requirement (below); for an org subject that means its `federation-root`
+   custody policy. Rotation that drops signers below the requirement lapses the
+   endorsement (re-check on every use, no cross-pack caching);
+3. `capability_id`/`node_id` match the service being consumed, `expires_at` is
+   in the future, and `endorsement_id` is not revoked.
+
+#### Endorsement multiplicity policy (verifier-local)
+
+A consuming node (and a Seed Directory at registration) MAY require *more* than
+the subject-kind default through a local `endorsement-multiplicity` policy:
+
+- `subject-default` — participant subject = 1, org subject = its custody
+  threshold (the §6 default);
+- `mirror-root-threshold` — require the federation root's own custody threshold
+  regardless of subject kind;
+- `explicit-N` — require at least `N` distinct sovereign co-signers.
+
+Policy raises, never lowers, the bar. An "official" service whose available
+endorsement does not meet the effective requirement downgrades to an unendorsed
+community pointer; it never fails open to "official".
+
 ## Relationship to Existing Proposals
 
 - **Proposal 054 / Solution 031 (Seed Directory).** This proposal elevates
@@ -640,6 +706,10 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-009 | Update Proposal 074's harness to pin distinct federation-root files per test node | todo | Enables a testnet-style, multi-federation harness profile. |
 | P076-015 | Ground "sovereign operator" in the federation root and define official-service endorsement | todo | **High priority.** Add the §6 definition to `capability-passport.v1`'s issuer-authority note: for federation-official profiles (`seed-directory`, `offer-catalog`, `network-ledger`) a passport is *federation-endorsed* only when `issuer/participant_id` resolves to a sovereign operator of the active federation (participant subject = direct match; org subject = must meet the `federation-root` custody threshold). Cross-reference Proposal 025 §2/§4/§6. Contract sketch in §6. |
 | P076-016 | Enforce federation-endorsement resolution in the loader and `capability-binding` | todo | **High priority.** Resolve issuer against the active `identity.sovereign_subject_refs[]`; for org subjects reuse `validate_org_federation_root` custody evaluation over the passport signer set; re-check on every use (no cross-pack caching — rotation lapses endorsement); emit `federation-endorsed` only on success, else downgrade to `self-issued`, never fail open to "official". Negative tests: single-custodian org issuance rejected, rotated-out issuer lapses, unendorsed official pointer downgraded. |
+| P076-017 | Define `federation-service-endorsement.v1` (multi-sig joint-issuance endorsement) | todo | **High priority.** Thin artifact binding `federation_id`/service `node_id`/`capability_id`/`issued_at`/`expires_at`/`endorsement_id` with a `signatures[]` array under its own domain separator (`federation-service-endorsement.v1\x00 || …`), separate from the service's operational `capability-passport.v1`. Verifier: signatures valid; co-signer set (restricted to current `sovereign_subject_refs[]`) meets the multiplicity requirement (org subject = its `federation-root` custody threshold); re-check per use (rotation lapses). Adds the verifier-local `endorsement-multiplicity` policy (`subject-default \| mirror-root-threshold \| explicit-N`). §6. |
+| P076-018 | New offline ceremony process for joint-issuance endorsements | todo | **High priority.** A ceremony command/sibling producing a threshold-cosigned `federation-service-endorsement.v1`, reusing the digest → collect-detached-signatures → assemble → verify *pattern* of the federation-root ceremony but with the endorsement's own domain separator and payload. Extends P076-014 tooling; the MVP path for the Option-1 decision. Note: the current ceremony signs only `federation-root` payloads, so this is new tooling surface, not reuse of an existing command. |
+| P076-019 | Post-MVP remote co-signing protocol for endorsements | deferred | Transport-agnostic protocol letting sovereign signers add detached signatures over a shared endorsement digest without an in-person ceremony. Guardrails: every signer verifies the exact digest/payload before signing (no "trust and sign"); deterministic assembly; the channel carries detached signatures, not authority. Transport is undecided — messaging plus an attachment primitive is one candidate, not a commitment; any attachment primitive would need its own bounded spec first. |
+| P076-020 | Ceremony option to author `attestation_roots[]`/`sovereign_subject_refs[]` from supplied keys | todo | Operator-owned follow-up (tracked for visibility). Let the ceremony optionally author `participant`-kind roots from a supplied key set instead of requiring the roots to be hand-authored in the pack beforehand. Must preserve the governance-authored guarantee: the resulting roster stays an explicit, signed decision, never silently signature-derived. |
 
 ## Next Actions
 
