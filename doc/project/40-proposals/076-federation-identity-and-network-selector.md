@@ -358,6 +358,16 @@ the distributed software:
   threshold. Concrete custodian names, ceremony, rotation, and appeal mechanics
   remain out of this proposal's schema scope and block treating `orbiplex-main`
   as production-trustworthy until documented.
+- Federation-root custodian identities SHOULD be dedicated operational
+  identities used only for root-pack approval, rotation, and recovery
+  ceremonies. They SHOULD live in separate custodian `data-dir`s rather than in
+  the same `data-dir` as the same person's ordinary participant/node activity.
+  The reason is structural privacy and audit separation: `signatures[].key_public`
+  and custody-policy authorized signer sets are public, stable correlation
+  handles. Reusing a day-to-day participant identity would link root governance
+  participation with unrelated Orbiplex activity by construction. Dedicated
+  custodian identities remain accountable without making ordinary activity
+  correlateable through the federation root.
 
 ### 5. Federation vs. Group
 
@@ -468,6 +478,7 @@ Directory's already-used "community" trust tier.
 | Two `data-dir`s point at overlapping storage (for example a shared object-store path) | Cross-federation data leakage | Detect and refuse at startup; never silently merge. |
 | `orbiplex-main` default pack signature invalid or missing at distribution time | Node trusts an unverifiable default network | Refuse network participation beyond fully local/offline operation. |
 | Operator assumes changing `federation_id` in a running config reloads trust | Stale keys/directories remain active | `federation_id` changes require a new `data-dir`; document and enforce that a live config reload MUST NOT silently accept a `federation_id` change. |
+| Root custodian reuses an ordinary participant identity or ordinary node `data-dir` | Public root signatures become a correlation handle for unrelated Orbiplex activity | Use dedicated root-custodian participant identities and separate custodian `data-dir`s for federation-root ceremonies; do not use nyms, ordinary operator identities, or day-to-day participant keys as root custodians. |
 
 ## Open Questions
 
@@ -527,6 +538,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-010 | Ground Memarium's `ReplicationScope::Federated` in `federation_id` | done | Proposal 036 section 3.1/3.2 now defines `Federated` as bounded to peers sharing the node's `federation_id`, and section 3.3 states that cross-federation Community sharing is the existing explicit Community-to-Public promotion, never implicit group/Room membership. |
 | P076-011 | Add an org-kind sovereign root surface (`identity.sovereign_subject_refs[]`) | done | Node config now has `identity.sovereign_subject_refs[]` with participant/org kind, optional custody metadata, purpose refs, and a participant-only compatibility projection into `identity.sovereign_participant_ids[]`. Org entries are representable and validated for custody metadata; org federation-root signature evaluation is implemented through self-contained `custody_policies[]` rather than being a config-shape blocker. |
 | P076-012 | Verify federation-root signatures and custody policies at startup | done | The daemon canonicalizes the federation-root payload without `signatures[]`, verifies Ed25519 signatures, requires participant roots to have a matching self-signature, evaluates org roots with `any-authorized` or `threshold` custody rules for `purpose = federation-root`, rejects empty explicit packs when the bundled fixture is disabled, pins/migrates the data-dir state digest, and keeps the bundled `orbiplex-main` fixture behind `federation.allow_bundled_fixture_root` so production deployments can require an explicit signed data-dir pack. |
+| P076-013 | Document root custodian operational separation | done | Production federation-root custodians should use dedicated participant identities and separate custodian `data-dir`s for root-pack approval, rotation, and recovery ceremony work. Public `signatures[].key_public` values and custody-policy signer sets are stable correlation handles, so ordinary participant identities, ordinary node data-dirs, and nyms must not be reused as federation-root custodians when privacy separation matters. Node-side ceremony tooling documents this operational guardrail. |
+| P076-014 | Provide hard-MVP federation-root ceremony tooling | done | Node-side tooling can derive public ceremony identities from node participant mnemonics, sign root packs with PEM keys, mnemonics, plaintext participant key records, plaintext data-dirs, or encrypted participant signing keys opened through the narrow Rust unlock helper. The tool supports manifest digest verification, strict pre-assembly signature checks, per-root custody threshold verification, and an end-to-end smoke test that covers encrypted data-dir signing. This remains MVP multisig custody, not FROST/DKG threshold signing. |
 | P076-008 | Define the `alliance` cross-federation cooperation concept | todo | Name resolved in this proposal; a follow-up artifact should define policy semantics only when Room/Whisper/Corpus need more than the name and boundary rule. |
 | P076-009 | Update Proposal 074's harness to pin distinct federation-root files per test node | todo | Enables a testnet-style, multi-federation harness profile. |
 
