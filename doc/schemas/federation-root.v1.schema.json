@@ -79,7 +79,7 @@
       "type": "array",
       "minItems": 1,
       "items": { "$ref": "#/$defs/Signature" },
-      "description": "Signatures over the canonical payload (every field above, excluding `signatures` itself). A local, self-authored federation-root file is still signed by its own operator-held root key(s) — 'self-signed' is a valid case, 'unsigned' is not. Which keys and how many are required is governed by whatever custody mode/policy applies to this federation's `attestation_roots[]` entries (see Proposal 076 section 4 and Open Question 2), not by this schema."
+      "description": "Signatures over the canonical payload (every field above, excluding `signatures` itself). A local, self-authored federation-root file is still signed by its own operator-held root key(s) — 'self-signed' is a valid case, 'unsigned' is not. Which keys and how many are required is governed by whatever custody mode/policy applies to this federation's `attestation_roots[]` entries (see Proposal 076 section 4 and its resolved custody-mode decision), not by this schema. Runtime threshold evaluation is over unique signing keys, not over externally asserted people or organizations."
     }
   },
   "$defs": {

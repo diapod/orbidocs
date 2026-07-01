@@ -45,7 +45,7 @@ Data-dir-scoped root config file (the 'federation pack') loaded at daemon startu
 | [`custody_policies`](#field-custody-policies) | `no` | array | Self-contained organization custody policies referenced by `attestation_roots[].custody_policy_ref`. MVP loaders resolve policy refs inside this same federation-root pack, so bootstrap does not depend on an external policy registry. |
 | [`policy_ref`](#field-policy-ref) | `no` | string | Optional reference to the policy document governing this federation's root and bootstrap decisions. |
 | [`endorsement_refs`](#field-endorsement-refs) | `no` | array | Optional references to endorsement facts supporting this pack's trust claims (for example community-elected public-service recognition), carried via the existing `reputation-signal.v1` mechanism rather than a new primitive. |
-| [`signatures`](#field-signatures) | `yes` | array | Signatures over the canonical payload (every field above, excluding `signatures` itself). A local, self-authored federation-root file is still signed by its own operator-held root key(s) — 'self-signed' is a valid case, 'unsigned' is not. Which keys and how many are required is governed by whatever custody mode/policy applies to this federation's `attestation_roots[]` entries (see Proposal 076 section 4 and Open Question 2), not by this schema. |
+| [`signatures`](#field-signatures) | `yes` | array | Signatures over the canonical payload (every field above, excluding `signatures` itself). A local, self-authored federation-root file is still signed by its own operator-held root key(s) — 'self-signed' is a valid case, 'unsigned' is not. Which keys and how many are required is governed by whatever custody mode/policy applies to this federation's `attestation_roots[]` entries (see Proposal 076 section 4 and its resolved custody-mode decision), not by this schema. Runtime threshold evaluation is over unique signing keys, not over externally asserted people or organizations. |
 
 ## Definitions
 
@@ -145,7 +145,7 @@ Optional references to endorsement facts supporting this pack's trust claims (fo
 - Required: `yes`
 - Shape: array
 
-Signatures over the canonical payload (every field above, excluding `signatures` itself). A local, self-authored federation-root file is still signed by its own operator-held root key(s) — 'self-signed' is a valid case, 'unsigned' is not. Which keys and how many are required is governed by whatever custody mode/policy applies to this federation's `attestation_roots[]` entries (see Proposal 076 section 4 and Open Question 2), not by this schema.
+Signatures over the canonical payload (every field above, excluding `signatures` itself). A local, self-authored federation-root file is still signed by its own operator-held root key(s) — 'self-signed' is a valid case, 'unsigned' is not. Which keys and how many are required is governed by whatever custody mode/policy applies to this federation's `attestation_roots[]` entries (see Proposal 076 section 4 and its resolved custody-mode decision), not by this schema. Runtime threshold evaluation is over unique signing keys, not over externally asserted people or organizations.
 
 ## Definition Semantics
 
