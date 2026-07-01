@@ -14,7 +14,8 @@
       "schema/media-type": "application/schema+json"
     },
     "scope": {
-      "federation/id": "orbiplex-devnet"
+      "federation/id": "orbiplex-devnet",
+      "account_namespaces": ["orc:orbiplex-devnet:*"]
     },
     "issued_at": "2026-03-23T18:11:00Z",
     "expires_at": null,

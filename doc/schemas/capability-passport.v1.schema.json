@@ -58,8 +58,17 @@
     "scope": {
       "type": "object",
       "additionalProperties": true,
-      "description": "Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Non-key-use passports (e.g. `network-ledger`, `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization.",
+      "description": "Capability-specific parameters constraining the delegation. Receivers MUST tolerate unknown keys. `network-ledger` passports MUST declare `account_namespaces[]`; other non-key-use passports (e.g. `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization.",
       "properties": {
+        "account_namespaces": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Network-ledger account namespace grants, e.g. `orc:orbiplex-main:*`. Required when `capability_id` is `network-ledger`."
+        },
         "allowed_callers": {
           "type": "array",
           "minItems": 1,
@@ -517,6 +526,22 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "capability_id": { "const": "network-ledger" }
+        },
+        "required": ["capability_id"]
+      },
+      "then": {
+        "properties": {
+          "scope": {
+            "required": ["account_namespaces"]
+          }
+        },
+        "required": ["scope"]
+      }
+    },
     {
       "description": "passport_id must begin with `passport:capability:` — enforced via pattern above, redundant allOf kept for explicitness.",
       "if": {

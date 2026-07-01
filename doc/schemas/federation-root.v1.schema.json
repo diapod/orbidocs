@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:federation-root:v1",
   "title": "FederationRoot v1",
-  "description": "Data-dir-scoped root config file (the 'federation pack') loaded at daemon startup and merged into runtime configuration. It is the local, signed source of truth for exactly four daemon configuration surfaces: `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, and `identity.sovereign_participant_ids[]`. This is a config-registry artifact (same family as `seed-directory-trust.v1`), not a peer-to-peer wire envelope (contrast `node-advertisement.v1`), so it follows that family's snake_case field convention rather than the `noun/attribute` convention used by signed inter-node messages. A federation-root file that carries any field outside this schema MUST be rejected, not silently ignored.",
+  "description": "Data-dir-scoped root config file (the 'federation pack') loaded at daemon startup and merged into runtime configuration. It is the local, signed source of truth for exactly four daemon configuration surfaces: `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, and the sovereign identity-root surface (`identity.sovereign_subject_refs[]` plus the participant-only compatibility projection `identity.sovereign_participant_ids[]`). This is a config-registry artifact (same family as `seed-directory-trust.v1`), not a peer-to-peer wire envelope (contrast `node-advertisement.v1`), so it follows that family's snake_case field convention rather than the `noun/attribute` convention used by signed inter-node messages. A federation-root file that carries any field outside this schema MUST be rejected, not silently ignored.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
@@ -90,7 +90,7 @@
         "kind": {
           "type": "string",
           "enum": ["participant", "org"],
-          "description": "Mirrors `AgoraAuthorityRootKind` and the future `identity.sovereign_subject_refs[]` shape (Proposal 076 tracker P076-011)."
+          "description": "Mirrors `AgoraAuthorityRootKind` and `identity.sovereign_subject_refs[]` (Proposal 076 tracker P076-011)."
         },
         "custody_mode": {
           "type": "string",
@@ -105,7 +105,7 @@
         "purposes": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 },
-          "description": "Optional purpose scoping, mirroring `AgoraAuthorityRootConfig.purposes`. Informational only in v1: today's `identity.sovereign_participant_ids[]` is a bare `Vec<String>` with no per-entry metadata, so this field cannot yet be enforced at the config-loading boundary. It becomes enforceable once the richer `identity.sovereign_subject_refs[]` surface (P076-011) ships."
+          "description": "Optional purpose scoping, mirroring `AgoraAuthorityRootConfig.purposes`. Runtime loaders preserve it on `identity.sovereign_subject_refs[]`; the narrower `identity.sovereign_participant_ids[]` compatibility projection remains a bare participant-id list and therefore cannot carry purpose metadata."
         },
         "valid_from": {
           "type": "string",
@@ -140,7 +140,7 @@
           },
           "then": {
             "required": ["custody_mode", "custody_policy_ref"],
-            "$comment": "Accepted by this schema for forward-compatibility only. No shipping daemon version can load a kind: org entry yet — identity.sovereign_participant_ids[] fail-closed rejects anything not prefixed participant:did:key: (identity/src/lib.rs:35, daemon/src/config.rs:3043-3046). Blocked on the identity.sovereign_subject_refs[] surface, Proposal 076 tracker P076-011. A loader MUST reject a kind: org entry with an explicit 'not yet supported' error, never silently drop it or coerce it."
+            "$comment": "Org roots are represented through identity.sovereign_subject_refs[]. Runtime custody-threshold verification is a semantic loader/policy concern and is not expressible as JSON Schema."
           }
         }
       ]

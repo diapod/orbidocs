@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/federation-root.v1.schema.json`](../../schemas/federation-root.v1.schema.json)
 
-Data-dir-scoped root config file (the 'federation pack') loaded at daemon startup and merged into runtime configuration. It is the local, signed source of truth for exactly four daemon configuration surfaces: `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, and `identity.sovereign_participant_ids[]`. This is a config-registry artifact (same family as `seed-directory-trust.v1`), not a peer-to-peer wire envelope (contrast `node-advertisement.v1`), so it follows that family's snake_case field convention rather than the `noun/attribute` convention used by signed inter-node messages. A federation-root file that carries any field outside this schema MUST be rejected, not silently ignored.
+Data-dir-scoped root config file (the 'federation pack') loaded at daemon startup and merged into runtime configuration. It is the local, signed source of truth for exactly four daemon configuration surfaces: `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, and the sovereign identity-root surface (`identity.sovereign_subject_refs[]` plus the participant-only compatibility projection `identity.sovereign_participant_ids[]`). This is a config-registry artifact (same family as `seed-directory-trust.v1`), not a peer-to-peer wire envelope (contrast `node-advertisement.v1`), so it follows that family's snake_case field convention rather than the `noun/attribute` convention used by signed inter-node messages. A federation-root file that carries any field outside this schema MUST be rejected, not silently ignored.
 
 ## Governing Basis
 

@@ -40,7 +40,7 @@ Signed capability or consent artifact naming a capability profile for a target N
 | [`node_id`](#field-node-id) | `yes` | string | Target Node receiving the delegated capability. MUST match the `node:did:key:z...` canonical format. |
 | [`capability_id`](#field-capability-id) | `yes` | string | Capability identifier. Formal global profiles use bare kebab-case identifiers such as `network-ledger`, `seed-directory`, `escrow`, or `node-primary-operator`. Sovereign/private profiles may add an identity anchor, e.g. `audio-transcription@participant:did:key:z...`, with an optional leading `~` for informal profiles. See Proposal 024 and Proposal 025 for naming and advertisement projection. |
 | [`capability_profile`](#field-capability-profile) | `no` | ref: `#/$defs/capabilityProfile` | Optional human and machine description of the capability profile. This is signed with the passport when present, but it is metadata: trust still derives from passport verification and local policy. |
-| [`scope`](#field-scope) | `yes` | object | Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Non-key-use passports (e.g. `network-ledger`, `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization. |
+| [`scope`](#field-scope) | `yes` | object | Capability-specific parameters constraining the delegation. Receivers MUST tolerate unknown keys. `network-ledger` passports MUST declare `account_namespaces[]`; other non-key-use passports (e.g. `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization. |
 | [`issued_at`](#field-issued-at) | `yes` | string | RFC 3339 timestamp at which this passport was issued. |
 | [`expires_at`](#field-expires-at) | `no` | string \| null | RFC 3339 timestamp after which this passport MUST be treated as expired. `null` means no explicit expiry; receivers SHOULD apply a locally configured maximum TTL. |
 | [`issuer/participant_id`](#field-issuer-participant-id) | `yes` | string | Canonical `participant:did:key:z...` identifier of the issuing participant. The required authority level is determined by the capability profile. Infrastructure profiles such as `network-ledger` and `seed-directory` usually require a software-pinned sovereign operator; the `node-primary-operator` consent profile requires this participant to match the operator named by the binding policy and to be accepted by the target Node. |
@@ -67,6 +67,40 @@ Signed capability or consent artifact naming a capability profile for a target N
 ## Conditional Rules
 
 ### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "capability_id": {
+      "const": "network-ledger"
+    }
+  },
+  "required": [
+    "capability_id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "scope": {
+      "required": [
+        "account_namespaces"
+      ]
+    }
+  },
+  "required": [
+    "scope"
+  ]
+}
+```
+
+### Rule 2
 
 When:
 
@@ -138,7 +172,7 @@ Optional human and machine description of the capability profile. This is signed
 - Required: `yes`
 - Shape: object
 
-Capability-specific parameters constraining the delegation. MAY be empty (`{}`). Receivers MUST tolerate unknown keys. Non-key-use passports (e.g. `network-ledger`, `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization.
+Capability-specific parameters constraining the delegation. Receivers MUST tolerate unknown keys. `network-ledger` passports MUST declare `account_namespaces[]`; other non-key-use passports (e.g. `node-primary-operator`) MAY continue to use free-form scope fields such as `federation/id`. Key-use passports (Sealer, Memarium space, community key) SHOULD populate the typed `allowed_callers[]` and `profiles[]` fields defined below; this schema validates their shape when present, but does not require them at the envelope level. Key-use verifiers (`capability-binding`) semantically require both a matching `allowed_callers[]` entry and at least one authorizing recognized profile in `profiles[]` before emitting `AuthorizationDecision::Authorized`. See proposal 038 §Tightened `capability-passport.v1` Scope for Key-Use Authorization.
 
 <a id="field-issued-at"></a>
 ## `issued_at`

@@ -485,7 +485,11 @@ At daemon startup the Node MUST:
 3. verify the issuer participant is sovereign under local policy,
 4. verify `capability_id == "network-ledger"`,
 5. verify that the target `node_id` matches the configured remote ledger node,
-6. reject startup if verification fails.
+6. verify that `scope.account_namespaces[]` grants the selected federation's
+   ORC namespace, e.g. `orc:<federation_id>:*`,
+7. verify the local revocation view does not revoke the passport id,
+   `revocation_ref`, or inline issuer-delegation id,
+8. reject startup if verification fails.
 
 This keeps failure explicit and early. If the remote ledger passport cannot be
 trusted, the Node must not start in `settlement.mode = "network"`.
@@ -544,14 +548,18 @@ A receiver MUST reject the passport if any of the following holds:
 - the issuer does not satisfy the policy for that `capability_id` (for
   `network-ledger`, this means sovereign under local policy),
 - `expires_at` is present and already elapsed,
-- the passport's `capability_id` does not match the role being configured.
+- the passport's `capability_id` does not match the role being configured,
+- the passport is explicitly revoked by `passport_id`, `revocation_ref`, or
+  issuer-delegation id in the local revocation view,
+- the passport is for `network-ledger` and omits a non-empty
+  `scope.account_namespaces[]`,
+- the passport is for `network-ledger` and does not grant the selected
+  federation's ORC namespace, e.g. `orc:<federation_id>:*`.
 
 Receivers MAY additionally reject passports by local policy, such as:
 
 - disallowed `issuer/node_id`,
 - disallowed `scope`,
-- missing or empty `scope.account_namespaces[]` for `network-ledger`,
-- explicitly revoked `passport_id`,
 - mismatched endpoint-to-node mapping.
 
 ## Implementation Notes
@@ -611,7 +619,17 @@ passport ties capability delegation to canonical participant and Node identity.
 
 ## Open Questions
 
-None for this proposal revision.
+Open as of 2026-07-01:
+
+1. Should `scope.account_namespaces[]` remain required only for
+   `capability_id = "network-ledger"` in hard-MVP, or should additional
+   capability-specific scope requirements be frozen now for other infrastructure
+   capabilities?
+2. What maximum staleness/TTL must a local revocation view satisfy before startup
+   may trust it for `network-ledger` passport admission?
+3. If the revocation source is unavailable at startup, should `network-ledger`
+   mode fail closed immediately, or may it start from a cached revocation view
+   that is still within the accepted maximum staleness window?
 
 Resolved 2026-07-01:
 
@@ -623,6 +641,19 @@ Resolved 2026-07-01:
 3. Future multi-sig issuance is modeled as a separate endorsement or custody
    bundle attached to the passport, not as multiple unrelated signatures on the
    passport payload itself.
+
+## Implementation Tracker
+
+Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
+
+| ID | Item | Status | Notes |
+|---|---|---|---|
+| P024-001 | Freeze `capability-passport.v1` and revocation schemas | done | `capability-passport.v1`, `capability-passport-present.v1`, and `capability-passport-revocation.v1` exist in `doc/schemas/` and are mirrored into `node/protocol/contracts`. |
+| P024-002 | Implement passport signing, verification, presentation, and revocation foundation | done | Node `capability` and daemon surfaces verify signed passports, present passports through capability advertisements, and consume revocation artifacts through local revocation views. |
+| P024-003 | Enforce `network-ledger.scope.account_namespaces[]` in hard-MVP | done | `capability-passport.v1` schema and Node runtime reject `network-ledger` passports without non-empty `scope.account_namespaces[]`; daemon settlement bootstrap additionally requires the selected federation namespace `orc:<federation_id>:*`. |
+| P024-004 | Check network-ledger passport revocation at startup | done | `settlement.mode = network` now rejects a configured ledger passport when the local revocation view revokes its `passport_id`, `revocation_ref`, or inline issuer-delegation id. |
+| P024-005 | Define the full ledger scope model | todo | Post-MVP: richer account selectors, per-operation limits, maximum hold lifetime, accepted receipt classes, and settlement policy refs. |
+| P024-006 | Define multi-sig/custody issuance bundle for infrastructure passports | deferred | Resolved direction: separate endorsement/custody bundle attached to the passport, not multiple unrelated signatures on the passport payload itself. |
 
 ## Post-MVP Todo
 
