@@ -126,8 +126,14 @@ The Seed Directory MUST verify before storing:
    participant public key recovered from `issuer/participant_id`; passports
    with `issuer_delegation` first verify that inline proof against the issuer
    participant, then verify the passport with `issuer_delegation.proxy_key`,
-2. `issuer/participant_id` is recognized as a sovereign operator under the
-   directory's own local sovereign key set,
+2. `issuer/participant_id` is recognized as a sovereign operator. For
+   federation-official capabilities this MUST resolve against the directory's
+   *active* `federation-root.v1` `identity.sovereign_subject_refs[]` (Proposal
+   076 §6), not merely an ungrounded local key list: a participant subject
+   matches directly, while an org subject additionally requires the passport to
+   satisfy that org's `federation-root` custody threshold. A local sovereign key
+   set MAY still recognize non-federation (deployment-local) operators, but only
+   a federation-root subject yields a *federation-endorsed* result,
 3. `passport.node_id == {node-id}` in the URL path,
 4. `passport.capability_id == {capability-id}` in the URL path,
 5. `passport.expires_at` is either absent or in the future,
@@ -372,7 +378,9 @@ passport = """{ ... }"""
 At daemon startup, each seed directory passport MUST be verified:
 
 1. signature valid,
-2. issuer sovereign under local policy,
+2. issuer sovereign under local policy — for a federation-official directory the
+   issuer MUST resolve to a sovereign operator of the active `federation-root.v1`
+   (Proposal 076 §6), with org subjects held to their custody threshold,
 3. `capability_id == "seed-directory"`,
 4. `node_id` matches the configured endpoint's Node.
 
@@ -842,6 +850,12 @@ deployment footprint needed.
 Deferred. Gossip is appropriate for eventual consistency at scale; for hard-MVP
 with a small known set of infrastructure nodes, a single trusted directory with
 polling is simpler and easier to audit.
+
+## Implementation Tracker
+
+| ID | Task | Status | Notes |
+|---|---|---|---|
+| P025-001 | Resolve issuer sovereignty against the active federation root | todo | **High priority.** Wire the federation-endorsement resolver (Proposal 076 §6, task P076-016) into this proposal's three sovereignty checks — §2 step 2 (registration admission), §4 step 5 (consumer verification), and §6 step 2 (seed-directory startup): resolve `issuer/participant_id` against the active `federation-root.v1` `identity.sovereign_subject_refs[]`, hold org subjects to their `federation-root` custody threshold, and mark the result `federation-endorsed` vs `self-issued`. An "official" `seed-directory`/`offer-catalog` entry lacking a resolvable federation endorsement downgrades to an unendorsed community pointer, never fail-open to "official". Negative tests: single-custodian org issuance rejected, rotated-out issuer lapses, unendorsed official entry downgraded. |
 
 ## Open Questions
 

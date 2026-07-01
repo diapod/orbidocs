@@ -401,6 +401,77 @@ explicit cooperation relationship across federation boundaries, distinct from
 both "federation" (this proposal's `data-dir`-scoped network selector) and Seed
 Directory's already-used "community" trust tier.
 
+### 6. Sovereign Operator Identity and Official-Service Endorsement
+
+Infrastructure capability profiles (`network-ledger`, `seed-directory`,
+`offer-catalog`) already require a *sovereign operator* issuer
+(`capability-passport.v1`, Proposal 025 §2/§4/§6). This proposal grounds that
+previously deployment-local notion in the federation root:
+
+> **Sovereign operator.** A sovereign operator of federation `F` is an identity
+> present in the *active* `federation-root.v1` `identity.sovereign_subject_refs[]`
+> for `F` (equivalently: one of `F`'s `attestation_roots[]`). It is defined by
+> the sovereign *subject*, not by a raw signing key.
+
+The subject-not-key distinction is what keeps threshold custody intact:
+
+- a **participant** sovereign subject issues service passports directly with its
+  single key;
+- an **org** sovereign subject inherits its `custody_mode`/`custody_policy_ref`,
+  so issuing "as the org" MUST satisfy the same `federation-root` custody
+  threshold — either by the required unique authorized keys co-signing the
+  passport, or by a proxy issuing key that was itself established under that
+  threshold and carried in `capability-passport.v1`'s `issuer_delegation`. A
+  single custodian key is a fraction of org authority, never a sovereign
+  operator on its own (consistent with Open Questions §Resolved 2: threshold is
+  M-of-N unique keys, not M-of-N people).
+
+An **official service** is one a federation vouches for cryptographically, not
+only by address. Reachability and endorsement stay stratified (Proposal 014:
+address evidence is not capability authorization):
+
+- the **address** stays a rotatable pointer (`seed_directory_bootstrap[]` here,
+  or `node-address-attestation.v1`);
+- the **endorsement** is a `capability-passport.v1` for the service capability
+  whose issuer is a sovereign operator as defined above.
+
+Because the issuer is checked against the *active* pack, key rotation is free
+revocation: when a new `pack_version` drops a subject, passports issued by its
+keys silently stop being federation-endorsed. Verifiers therefore MUST re-check
+issuer membership on every use and MUST NOT cache an endorsement decision across
+pack updates.
+
+#### Minimal contract sketch
+
+`capability-passport.v1` issuer-authority note (to add to the schema
+description):
+
+> For federation-official capability profiles (`seed-directory`,
+> `offer-catalog`, `network-ledger`), a verifier accepts the passport as
+> *federation-endorsed* only when `issuer/participant_id` resolves to a
+> sovereign operator of the verifier's active federation (Proposal 076 §6): for
+> a participant subject, `issuer/participant_id` equals the subject; for an org
+> subject, the passport must additionally satisfy that org's `federation-root`
+> custody policy. Passports failing this resolve as at most self-issued, never
+> federation-endorsed.
+
+Verifier rule (federation-root loader + `capability-binding`):
+
+1. resolve `issuer/participant_id` (or the `issuer_delegation` root) against the
+   active `identity.sovereign_subject_refs[]`;
+2. if the matched subject is `kind = org`, evaluate the referenced
+   `custody_policies[]` `federation-root` rule over the passport's signer set
+   exactly as `validate_org_federation_root` already does (unique authorized
+   keys ≥ threshold);
+3. check `capability_id`, `expires_at`, and revocation as today;
+4. emit `federation-endorsed` only if 1–3 pass; otherwise downgrade to
+   `self-issued` (an unendorsed pointer), never fail-open to "official".
+
+An official-service pointer in `federation-root.v1` (a `seed_directory_bootstrap[]`
+entry, or an offer-catalog recommended by a seed directory) that carries no
+resolvable sovereign endorsement MUST be treated as an unendorsed community
+pointer, not as an official service.
+
 ## Relationship to Existing Proposals
 
 - **Proposal 054 / Solution 031 (Seed Directory).** This proposal elevates
@@ -476,6 +547,10 @@ Directory's already-used "community" trust tier.
   federation's bootstrap list populates this registry on first run.
 - Reused unchanged: `capability-authorization-policy.v1`, `key-delegation.v1`,
   and the Agora Authority organization-root configuration shape.
+- `capability-passport.v1` (existing, Proposals 024/025) — reused as the
+  official-service *endorsement* artifact (§6). No envelope field changes are
+  required beyond the issuer-authority note; the federation binding is a
+  verifier rule, not a new schema.
 
 ## Failure Modes and Guardrails
 
@@ -490,6 +565,8 @@ Directory's already-used "community" trust tier.
 | Local attacker can write `federation-root.state.v1.json` | Anti-rollback state can be edited down | State guard is an operational guard against honest mistakes, not tamper-proof storage. Signature/custody verification remains the trust boundary; protect `data-dir` with host filesystem controls. |
 | Operator assumes changing `federation_id` in a running config reloads trust | Stale keys/directories remain active | `federation_id` changes require a new `data-dir`; document and enforce that a live config reload MUST NOT silently accept a `federation_id` change. |
 | Root custodian reuses an ordinary participant identity or ordinary node `data-dir` | Public root signatures become a correlation handle for unrelated Orbiplex activity | Use dedicated root-custodian participant identities and separate custodian `data-dir`s for federation-root ceremonies; do not use nyms, ordinary operator identities, or day-to-day participant keys as root custodians. |
+| An "official" `seed-directory`/`offer-catalog` is trusted from its address alone, with no resolvable sovereign endorsement | Address authority is mistaken for federation authority; a swapped pointer inherits "official" trust | Treat an official-service pointer without a federation-endorsed `capability-passport.v1` (issuer ∈ active `sovereign_subject_refs[]`, org custody met) as an unendorsed community pointer; never fail open to "official" (§6). |
+| A sovereign subject is rotated out but its previously issued service passports keep being honored | Stale endorsement outlives the federation's trust in that key | Verifiers resolve issuer against the *active* pack on every use and MUST NOT cache an endorsement decision across `pack_version` updates; rotation lapses endorsement for free (§6). |
 
 ## Open Questions
 
@@ -504,6 +581,12 @@ Open as of 2026-07-01:
 3. When `orbiplex-main` moves from hard-MVP bootstrap fixture to production root,
    which exact signer roster, custody threshold, rotation ceremony, and appeal
    path become part of the signed pack release process?
+4. For an official-service pointer in `federation-root.v1`, should a resolvable
+   federation-endorsement `capability-passport.v1` be *required* (fail-closed:
+   an unendorsed "official" entry refuses to load) or *advisory* (loads but is
+   marked an unendorsed community pointer)? §6 recommends advisory for
+   community/address-only directories and required for anything the pack labels
+   "official"; the exact default per capability profile is open.
 
 Resolved 2026-07-01:
 
@@ -555,6 +638,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-014 | Provide hard-MVP federation-root ceremony tooling | done | Node-side tooling can derive public ceremony identities from node participant mnemonics, sign root packs with PEM keys, mnemonics, plaintext participant key records, plaintext data-dirs, or encrypted participant signing keys opened through the narrow Rust unlock helper. The tool supports manifest digest verification, strict pre-assembly signature checks, per-root custody threshold verification, and an end-to-end smoke test that covers encrypted data-dir signing. This remains MVP multisig custody, not FROST/DKG threshold signing. |
 | P076-008 | Define the `alliance` cross-federation cooperation concept | todo | Name resolved in this proposal; a follow-up artifact should define policy semantics only when Room/Whisper/Corpus need more than the name and boundary rule. |
 | P076-009 | Update Proposal 074's harness to pin distinct federation-root files per test node | todo | Enables a testnet-style, multi-federation harness profile. |
+| P076-015 | Ground "sovereign operator" in the federation root and define official-service endorsement | todo | **High priority.** Add the §6 definition to `capability-passport.v1`'s issuer-authority note: for federation-official profiles (`seed-directory`, `offer-catalog`, `network-ledger`) a passport is *federation-endorsed* only when `issuer/participant_id` resolves to a sovereign operator of the active federation (participant subject = direct match; org subject = must meet the `federation-root` custody threshold). Cross-reference Proposal 025 §2/§4/§6. Contract sketch in §6. |
+| P076-016 | Enforce federation-endorsement resolution in the loader and `capability-binding` | todo | **High priority.** Resolve issuer against the active `identity.sovereign_subject_refs[]`; for org subjects reuse `validate_org_federation_root` custody evaluation over the passport signer set; re-check on every use (no cross-pack caching — rotation lapses endorsement); emit `federation-endorsed` only on success, else downgrade to `self-issued`, never fail open to "official". Negative tests: single-custodian org issuance rejected, rotated-out issuer lapses, unendorsed official pointer downgraded. |
 
 ## Next Actions
 
@@ -567,3 +652,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 3. Decide whether P076-001 should gain additional conformance fixtures for
    org-threshold positive examples, even though cryptographic/custody truth is
    already covered by node runtime tests rather than JSON Schema.
+4. Implement P076-015 then P076-016 (high priority): ground "sovereign operator"
+   in the federation root and enforce official-service endorsement resolution in
+   the loader and `capability-binding`, so `seed-directory`/`offer-catalog` trust
+   rests on a verifiable federation endorsement (Proposal 025 §2/§4/§6), not
+   address alone.
