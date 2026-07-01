@@ -42,6 +42,7 @@ Data-dir-scoped root config file (the 'federation pack') loaded at daemon startu
 | [`attestation_roots`](#field-attestation-roots) | `yes` | array | This federation's OWN canonical top-level anchor(s). NOT a copy of any relay's local Agora Authority `authority_roots[]` (Solution 021) — those are narrower, per-namespace, per-relay policy that MAY adopt an entry here as their namespace default, but are never required to equal this list. |
 | [`bootstrap_seed_peers`](#field-bootstrap-seed-peers) | `no` | array | This federation's static WSS seed peers (Proposal 014's 'mandatory first bootstrap layer'), resolving to `peer_discovery.seeds[]`. Deliberately flat — one endpoint per entry, no priority/enabled toggle — to match today's `DaemonSeedPeerConfig` exactly; richer multi-endpoint peer entries would require enriching that struct first, which this schema does not assume. |
 | [`seed_directory_bootstrap`](#field-seed-directory-bootstrap) | `no` | array | This federation's own canonical default trusted Seed Directories. Each entry fans out to two existing daemon config surfaces at load time: `network.seed_directory[]` (endpoint/node_id/passport) and `network.seed_directory_trust[]` (trust_level/weight/passport_ref/policy_ref/endorsement_refs/reputation_ref/enabled). The loader MUST fill `network.seed_directory_trust[].federation_id` from this pack's own top-level `federation_id`; it is not repeated per entry here. |
+| [`custody_policies`](#field-custody-policies) | `no` | array | Self-contained organization custody policies referenced by `attestation_roots[].custody_policy_ref`. MVP loaders resolve policy refs inside this same federation-root pack, so bootstrap does not depend on an external policy registry. |
 | [`policy_ref`](#field-policy-ref) | `no` | string | Optional reference to the policy document governing this federation's root and bootstrap decisions. |
 | [`endorsement_refs`](#field-endorsement-refs) | `no` | array | Optional references to endorsement facts supporting this pack's trust claims (for example community-elected public-service recognition), carried via the existing `reputation-signal.v1` mechanism rather than a new primitive. |
 | [`signatures`](#field-signatures) | `yes` | array | Signatures over the canonical payload (every field above, excluding `signatures` itself). A local, self-authored federation-root file is still signed by its own operator-held root key(s) — 'self-signed' is a valid case, 'unsigned' is not. Which keys and how many are required is governed by whatever custody mode/policy applies to this federation's `attestation_roots[]` entries (see Proposal 076 section 4 and Open Question 2), not by this schema. |
@@ -53,6 +54,8 @@ Data-dir-scoped root config file (the 'federation pack') loaded at daemon startu
 | [`AttestationRoot`](#def-attestationroot) | object |  |
 | [`BootstrapSeedPeer`](#def-bootstrapseedpeer) | object | Mirrors `DaemonSeedPeerConfig` field-for-field (daemon/src/config.rs:761). |
 | [`SeedDirectoryBootstrap`](#def-seeddirectorybootstrap) | object | Fans out to `DaemonSeedDirectoryConfig` (daemon/src/config.rs:528) and `DaemonSeedDirectoryTrustConfig` (daemon/src/config.rs:551) at load time. |
+| [`CustodyPolicy`](#def-custodypolicy) | object |  |
+| [`CustodyRule`](#def-custodyrule) | object |  |
 | [`Signature`](#def-signature) | object |  |
 ## Field Semantics
 
@@ -112,6 +115,14 @@ This federation's static WSS seed peers (Proposal 014's 'mandatory first bootstr
 
 This federation's own canonical default trusted Seed Directories. Each entry fans out to two existing daemon config surfaces at load time: `network.seed_directory[]` (endpoint/node_id/passport) and `network.seed_directory_trust[]` (trust_level/weight/passport_ref/policy_ref/endorsement_refs/reputation_ref/enabled). The loader MUST fill `network.seed_directory_trust[].federation_id` from this pack's own top-level `federation_id`; it is not repeated per entry here.
 
+<a id="field-custody-policies"></a>
+## `custody_policies`
+
+- Required: `no`
+- Shape: array
+
+Self-contained organization custody policies referenced by `attestation_roots[].custody_policy_ref`. MVP loaders resolve policy refs inside this same federation-root pack, so bootstrap does not depend on an external policy registry.
+
 <a id="field-policy-ref"></a>
 ## `policy_ref`
 
@@ -156,6 +167,16 @@ Mirrors `DaemonSeedPeerConfig` field-for-field (daemon/src/config.rs:761).
 - Shape: object
 
 Fans out to `DaemonSeedDirectoryConfig` (daemon/src/config.rs:528) and `DaemonSeedDirectoryTrustConfig` (daemon/src/config.rs:551) at load time.
+
+<a id="def-custodypolicy"></a>
+## `$defs.CustodyPolicy`
+
+- Shape: object
+
+<a id="def-custodyrule"></a>
+## `$defs.CustodyRule`
+
+- Shape: object
 
 <a id="def-signature"></a>
 ## `$defs.Signature`

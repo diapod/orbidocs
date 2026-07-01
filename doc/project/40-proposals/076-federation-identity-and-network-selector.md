@@ -217,11 +217,16 @@ federation-root.v1 {
                           #   identity.sovereign_participant_ids[].
                           # kind: org — adds required custody_mode
                           #   (any-authorized | threshold) and custody_policy_ref.
-                          #   Accepted by the schema for forward-compatibility;
-                          #   no shipping daemon can load it yet — requires
-                          #   identity.sovereign_subject_refs[] (P076-011); a
-                          #   loader MUST reject it explicitly, not silently drop
-                          #   it. NOT a copy of any relay's Agora authority_roots[].
+                          #   Loaded through identity.sovereign_subject_refs[]
+                          #   (P076-011), not silently projected into the
+                          #   participant-only compatibility list. NOT a copy of
+                          #   any relay's Agora authority_roots[].
+  custody_policies[]      # optional, self-contained org custody rules referenced
+                          #   by attestation_roots[].custody_policy_ref. MVP
+                          #   runtime evaluates only purpose=federation-root,
+                          #   exactly one rule per policy,
+                          #   mode=any-authorized|threshold, and authorized
+                          #   participant/key signer sets.
   bootstrap_seed_peers[]  # this federation's static WSS seed peers (Proposal 014's
                           #   "mandatory first bootstrap layer"), matching
                           #   DaemonSeedPeerConfig field-for-field (one endpoint_url
@@ -242,10 +247,10 @@ federation-root.v1 {
 ```
 
 `purposes[]` on an `attestation_roots[]` entry mirrors
-`AgoraAuthorityRootConfig.purposes`, but is informational only in v1:
-`identity.sovereign_participant_ids[]` is a bare `Vec<String>` with no per-entry
-metadata, so nothing enforces it yet at the config-loading boundary. It becomes
-enforceable once `identity.sovereign_subject_refs[]` (P076-011) ships. Per-root
+`AgoraAuthorityRootConfig.purposes`. The generalized
+`identity.sovereign_subject_refs[]` surface preserves this metadata; the older
+`identity.sovereign_participant_ids[]` remains only a participant-id compatibility
+projection and intentionally cannot carry per-root purpose metadata. Per-root
 `valid_from`/`valid_until` live on each `attestation_roots[]` entry, not the whole
 pack, mirroring `AgoraAuthorityRootConfig` exactly — different roots in one pack
 may rotate on independent schedules. `assurance` and `namespaces[]` are
@@ -269,27 +274,26 @@ Artifact Delivery bindings). Nothing else in daemon configuration is federation
 material; a federation-root file that tries to carry any other field is
 rejected, not silently ignored.
 
-**Known gap: `attestation_roots[].kind = org` has no runtime surface today.**
-`identity.sovereign_participant_ids[]` validates, fail-closed, that every entry
-starts with `PARTICIPANT_ID_PREFIX` (`"participant:did:key:"`,
-`identity/src/lib.rs:35`, enforced at `daemon/src/config.rs:3043-3046`) — an
-`org:did:key` value is rejected, not merely unusual. So today an
-`attestation_roots[]` entry can only be `kind: participant`; an org-kind
-federation root (the corporate case this proposal was motivated by, and the
-natural fit for `threshold` custody per section 4) is **not yet representable**
-by any existing runtime config surface. Closing this requires a new surface,
-tentatively `identity.sovereign_subject_refs[]`, generalizing to `{id, kind
-(participant | org), custody_policy_ref?}` the same way
-`AgoraAuthorityRootConfig.kind` and Room's `RoomSubject` already do; existing
-`identity.sovereign_participant_ids[]` would remain as the narrower,
-participant-only, backward-compatible case, not be removed. This is now the
-selected runtime direction and is tracked by P076-011; it blocks `P076-004`
-because `orbiplex-main`'s selected root shape is org-kind threshold custody.
-The schema itself already
-accepts `kind: org` for forward-compatibility — the gap is deliberately encoded
-as a loader-side, not a schema-side, restriction (see the `$comment` on
-`AttestationRoot` in `federation-root.v1.schema.json`), so packs do not need to
-be rewritten once `identity.sovereign_subject_refs[]` ships.
+**Runtime surface.** `identity.sovereign_subject_refs[]` is the canonical runtime
+projection for federation attestation roots. It accepts both `participant` and
+`org` roots with optional custody metadata, while
+`identity.sovereign_participant_ids[]` remains the narrower participant-only
+compatibility projection. The loader validates this shape at startup; an
+org-kind root without `custody_mode`/`custody_policy_ref`, or a participant root
+with custody metadata, is rejected rather than silently coerced.
+
+For production-trust packs, runtime verification now goes beyond schema shape:
+the daemon canonicalizes the payload excluding `signatures[]`, verifies Ed25519
+signatures, requires participant roots to be self-signed by the corresponding
+participant key, and evaluates org roots against self-contained
+`custody_policies[]` rules for `purpose = federation-root`. The schema catches
+local shape errors such as `kind`/`id` prefix mismatch and multiple custody rules
+per policy; parity between `attestation_roots[].custody_mode` and the referenced
+policy rule mode remains a runtime invariant because portable JSON Schema cannot
+express that cross-array reference cleanly. The bundled `orbiplex-main` pack is
+still a hard-MVP fixture gated by
+`federation.allow_bundled_fixture_root`; explicit data-dir packs always require
+real signatures.
 
 `attestation_roots[]` is **not** the same list as Agora Authority's own
 `authority_roots[]` (Solution 021, `AgoraAuthorityRootConfig`). Agora Authority's
@@ -443,9 +447,10 @@ Directory's already-used "community" trust tier.
 ## Data Contracts
 
 - `federation-root.v1` (new) — the `data-dir`-scoped root config file:
-  `federation_id`, `attestation_roots[]` (participant or, forward-compatibly,
-  org + custody mode), `bootstrap_seed_peers[]`, `seed_directory_bootstrap[]`,
-  `signatures[]`, optional `policy_ref`/`endorsement_refs[]`. Schema:
+  `federation_id`, `attestation_roots[]` (participant or org + custody mode),
+  optional self-contained `custody_policies[]`,
+  `bootstrap_seed_peers[]`, `seed_directory_bootstrap[]`, `signatures[]`,
+  optional `policy_ref`/`endorsement_refs[]`. Schema:
   [`doc/schemas/federation-root.v1.schema.json`](../../schemas/federation-root.v1.schema.json);
   example: [`doc/schemas/examples/orbiplex-main.federation-root.json`](../../schemas/examples/orbiplex-main.federation-root.json);
   negative fixtures under [`doc/schemas/examples/invalid/`](../../schemas/examples/invalid/).
@@ -512,24 +517,27 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 | ID | Item | Status | Notes |
 |---|---|---|---|
-| P076-001 | Define `federation-root.v1` schema | done | `doc/schemas/federation-root.v1.schema.json`; covers exactly `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, `identity.sovereign_participant_ids[]`, plus `federation_id`, `pack_version`, and attestation-root/custody refs; `additionalProperties: false` at every level; `tls_certificate_sha256` and `key_public` patterns matched to the real runtime formats (base64url digest, bare multibase fingerprint); wired into `scripts/validate-json-schemas.sh` (`*.federation-root.json` mapping, next to `*.seed-directory-trust.json`); `make validate-schemas` passes. Positive example plus three negative fixtures under `doc/schemas/examples/` (schema-shape only — signature-validity and custody-threshold checks are runtime, not JSON-Schema-expressible; still needed, see Next Actions). |
+| P076-001 | Define `federation-root.v1` schema | done | `doc/schemas/federation-root.v1.schema.json`; covers exactly `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, `identity.sovereign_subject_refs[]`, the participant-only compatibility projection `identity.sovereign_participant_ids[]`, plus `federation_id`, `pack_version`, attestation-root/custody refs, and self-contained `custody_policies[]`; `additionalProperties: false` at every level; `kind` constrains attestation-root id prefixes; custody policy v1 allows exactly one `federation-root` rule; `tls_certificate_sha256` and `key_public` patterns matched to the real runtime formats (base64url digest, bare multibase fingerprint); wired into `scripts/validate-json-schemas.sh` (`*.federation-root.json` mapping, next to `*.seed-directory-trust.json`); `make validate-schemas` passes. Positive example plus three negative schema-shape fixtures under `doc/schemas/examples/`; signature-validity, referenced-policy mode parity, and custody-threshold failures are covered by node runtime tests because JSON Schema cannot express cryptographic truth or clean cross-array references. |
 | P076-002 | Promote `federation_id` from per-entry tag to node-wide config | done | Node runtime now has a node-wide `federation.federation_id` config surface and includes it in the daemon config snapshot. Config-selected non-default federation ids must match the loaded `federation-root.v1`, so `federation_id` is no longer only an attribute of individual Seed Directory trust entries. |
-| P076-003 | Load `federation-root.v1` from `data-dir` at daemon startup | partial | Node startup now schema-gates and loads `<data-dir>/federation-root.v1.json` when present, or the bundled `orbiplex-main` pack when absent, and projects seed peers, Seed Directory bootstrap/trust, and sovereign identity roots into daemon config. The loader fails closed on schema and semantic errors and rejects state downgrade/mismatch. Production cryptographic signature verification and org custody-threshold evaluation remain tied to P076-004's signer roster/ceremony. |
+| P076-003 | Load `federation-root.v1` from `data-dir` at daemon startup | done | Node startup now schema-gates and loads `<data-dir>/federation-root.v1.json` when present, or the bundled `orbiplex-main` pack when absent, and projects seed peers, Seed Directory bootstrap/trust, and sovereign identity roots into daemon config. Explicit data-dir packs require real Ed25519 signatures over canonical payloads, participant roots must be self-signed, org roots are evaluated against self-contained `custody_policies[]`, and the loader fails closed on schema/semantic/signature/custody errors plus state downgrade/mismatch. |
 | P076-004 | Ship a signed `orbiplex-main` default federation pack | partial | Node now ships a bundled `orbiplex-main` federation-root fixture that exercises the runtime path and populates the four surfaces. Treat it as a hard-MVP bootstrap fixture, not production root authority, until the governance charter names concrete custodians, signer roster, rotation, and threshold ceremony. |
 | P076-005 | Add a startup guard against overlapping `data-dir`/storage paths | done | Node writes a local `federation-root.state.v1.json` under the selected `data-dir` and rejects startup if the stored federation differs, if the root digest changes unexpectedly, or if the accepted `pack_version` would roll back. This preserves the "one federation per `data-dir`" invariant. |
 | P076-006 | Cross-reference Room's `federation-local`/`cross-federation` exposure docs with this proposal's node-level definition | todo | No semantic change expected; add explicit cross-reference in Solution 036. |
 | P076-007 | Update Proposal 075's "Federated Homeserver Deployment" framing | done | Renamed to "Matrix as an Inter-Federation Carrier"; Executive Summary and Non-Goals now state explicitly that Matrix's homeserver-to-homeserver federation protocol is a separate mechanism from Orbiplex's own federation identity, and that adopting it is not a goal. |
 | P076-010 | Ground Memarium's `ReplicationScope::Federated` in `federation_id` | done | Proposal 036 section 3.1/3.2 now defines `Federated` as bounded to peers sharing the node's `federation_id`, and section 3.3 states that cross-federation Community sharing is the existing explicit Community-to-Public promotion, never implicit group/Room membership. |
-| P076-011 | Add an org-kind sovereign root surface (`identity.sovereign_subject_refs[]`) | done | Node config now has `identity.sovereign_subject_refs[]` with participant/org kind, optional custody metadata, purpose refs, and a participant-only compatibility projection into `identity.sovereign_participant_ids[]`. Org entries are representable and validated for custody metadata; full org threshold signature evaluation remains a policy/signature concern under P076-004 rather than a config-shape blocker. |
+| P076-011 | Add an org-kind sovereign root surface (`identity.sovereign_subject_refs[]`) | done | Node config now has `identity.sovereign_subject_refs[]` with participant/org kind, optional custody metadata, purpose refs, and a participant-only compatibility projection into `identity.sovereign_participant_ids[]`. Org entries are representable and validated for custody metadata; org federation-root signature evaluation is implemented through self-contained `custody_policies[]` rather than being a config-shape blocker. |
+| P076-012 | Verify federation-root signatures and custody policies at startup | done | The daemon canonicalizes the federation-root payload without `signatures[]`, verifies Ed25519 signatures, requires participant roots to have a matching self-signature, evaluates org roots with `any-authorized` or `threshold` custody rules for `purpose = federation-root`, rejects empty explicit packs when the bundled fixture is disabled, pins/migrates the data-dir state digest, and keeps the bundled `orbiplex-main` fixture behind `federation.allow_bundled_fixture_root` so production deployments can require an explicit signed data-dir pack. |
 | P076-008 | Define the `alliance` cross-federation cooperation concept | todo | Name resolved in this proposal; a follow-up artifact should define policy semantics only when Room/Whisper/Corpus need more than the name and boundary rule. |
 | P076-009 | Update Proposal 074's harness to pin distinct federation-root files per test node | todo | Enables a testnet-style, multi-federation harness profile. |
 
 ## Next Actions
 
-1. Finish production-trust P076-004: cryptographic signature verification for
-   `federation-root.v1` and org custody-threshold evaluation.
-2. Add runtime-level negative fixtures that no JSON Schema can express: invalid
-   signature bytes, unmet custody threshold, digest mismatch, and downgrade.
-3. Convene the `orbiplex-main` governance charter to name custodians, signer
+1. Convene the `orbiplex-main` governance charter to name custodians, signer
    roster, rotation, and appeal mechanics before treating the default federation
    as production-trustworthy.
+2. Replace the bundled hard-MVP fixture with a real `orbiplex-main` signed pack
+   once the governance charter is approved, then set production packaging to
+   disable `federation.allow_bundled_fixture_root`.
+3. Decide whether P076-001 should gain additional conformance fixtures for
+   org-threshold positive examples, even though cryptographic/custody truth is
+   already covered by node runtime tests rather than JSON Schema.

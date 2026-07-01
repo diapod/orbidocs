@@ -58,6 +58,12 @@
       "items": { "$ref": "#/$defs/SeedDirectoryBootstrap" },
       "description": "This federation's own canonical default trusted Seed Directories. Each entry fans out to two existing daemon config surfaces at load time: `network.seed_directory[]` (endpoint/node_id/passport) and `network.seed_directory_trust[]` (trust_level/weight/passport_ref/policy_ref/endorsement_refs/reputation_ref/enabled). The loader MUST fill `network.seed_directory_trust[].federation_id` from this pack's own top-level `federation_id`; it is not repeated per entry here."
     },
+    "custody_policies": {
+      "type": "array",
+      "default": [],
+      "items": { "$ref": "#/$defs/CustodyPolicy" },
+      "description": "Self-contained organization custody policies referenced by `attestation_roots[].custody_policy_ref`. MVP loaders resolve policy refs inside this same federation-root pack, so bootstrap does not depend on an external policy registry."
+    },
     "policy_ref": {
       "type": "string",
       "minLength": 1,
@@ -125,6 +131,9 @@
             "required": ["kind"]
           },
           "then": {
+            "properties": {
+              "id": { "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$" }
+            },
             "not": {
               "anyOf": [
                 { "required": ["custody_mode"] },
@@ -139,8 +148,11 @@
             "required": ["kind"]
           },
           "then": {
+            "properties": {
+              "id": { "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$" }
+            },
             "required": ["custody_mode", "custody_policy_ref"],
-            "$comment": "Org roots are represented through identity.sovereign_subject_refs[]. Runtime custody-threshold verification is a semantic loader/policy concern and is not expressible as JSON Schema."
+            "$comment": "Org roots are represented through identity.sovereign_subject_refs[]. Runtime custody-threshold verification and custody_mode-to-policy mode parity are semantic loader/policy concerns and are not expressible as portable JSON Schema cross-array references."
           }
         }
       ]
@@ -233,6 +245,77 @@
           "description": "Populates `DaemonSeedDirectoryTrustConfig.enabled`."
         }
       }
+    },
+    "CustodyPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy/ref", "org/id", "rules"],
+      "properties": {
+        "policy/ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable policy reference used by `attestation_roots[].custody_policy_ref`."
+        },
+        "org/id": {
+          "type": "string",
+          "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Organization root governed by this policy."
+        },
+        "rules": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "$comment": "Exactly one rule is allowed in v1 because the only supported purpose is federation-root; runtime also rejects duplicate policy refs.",
+          "items": { "$ref": "#/$defs/CustodyRule" }
+        }
+      }
+    },
+    "CustodyRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose", "mode"],
+      "properties": {
+        "purpose": {
+          "type": "string",
+          "enum": ["federation-root"],
+          "description": "MVP federation-root custody evaluation supports only federation-root signing."
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["any-authorized", "threshold"]
+        },
+        "threshold/min_signers": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Required when mode is `threshold`. Duplicate signer keys count once."
+        },
+        "authorized/participant_ids": {
+          "type": "array",
+          "default": [],
+          "items": { "type": "string", "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$" }
+        },
+        "authorized/key_publics": {
+          "type": "array",
+          "default": [],
+          "items": { "type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$" }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "const": "threshold" } }, "required": ["mode"] },
+          "then": { "required": ["threshold/min_signers"] }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "any-authorized" } }, "required": ["mode"] },
+          "then": { "not": { "required": ["threshold/min_signers"] } }
+        },
+        {
+          "anyOf": [
+            { "required": ["authorized/participant_ids"] },
+            { "required": ["authorized/key_publics"] }
+          ]
+        }
+      ]
     },
     "Signature": {
       "type": "object",
