@@ -267,7 +267,7 @@ shared storage boundary.
 | Space | Purpose | Encryption | Replication | Retention | Right to Forget |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Personal** | Notes, world models, private idiolect, personal knowledge artifacts | Mandatory, operator-held key | Never leaves node without explicit export | Operator-controlled | Immediate on operator request |
-| **Community** | Survival guides, legal knowledge, first-contact protocols, shared group knowledge | Mandatory, group-held key | Federated among trusted peers (future) | Group policy | Group-governed procedure |
+| **Community** | Survival guides, legal knowledge, first-contact protocols, shared group knowledge | Mandatory, group-held key | Federated: bounded to peers sharing the local node's `federation_id` (Proposal 076); never crosses a federation boundary implicitly (future) | Group policy | Group-governed procedure |
 | **Public** | Culture, texts, recordings, maps, libraries, Agora sync status | Optional (integrity-only by default) | May use Agora as remote substrate | Policy-controlled, defaults to durable | Tombstone with trace |
 | **Crisis** | Emergency caches, triage procedures, survival knowledge, escape kits | Mandatory, operator-held key | Explicit crisis-replication policy | Constitutional minimum: must not expire without operator action | Restricted: crisis material persists unless operator overrides |
 
@@ -289,6 +289,17 @@ The storage layer sees opaque `StreamId` values. Memarium maps
 `(SpaceId, artifact_kind)` to stream naming conventions and attaches policy
 metadata through `RecordMetadata.policy_refs` and `RecordMetadata.attributes`.
 
+`ReplicationScope::Federated` resolves against the local node's configured
+`federation_id` (Proposal 076): a peer is in scope only when it shares that
+`federation_id`, verified through the same root trust the node already uses for
+discovery, never through an ad hoc trusted-peer allowlist. This is a hard
+ceiling, not a default that a "group" concept may widen — a lighter,
+cross-cutting cooperation concept that spans federations (Proposal 076 Open
+Question 1) operates at the Room/Whisper/Corpus layer and must not cause
+Community-space replication to cross a federation boundary on its own. See
+*Space Boundaries Are Enforcement Points* below for how such sharing happens
+instead.
+
 #### 3.3. Space Boundaries Are Enforcement Points
 
 Cross-space operations (e.g., promoting a personal artifact to community or
@@ -298,6 +309,13 @@ become public by accident. Promotion requires:
 - explicit operator or agent action with sufficient autonomy level,
 - policy validation at the target space boundary,
 - a new Memarium fact recording the promotion with provenance.
+
+The same discipline covers federation boundaries. Community-space knowledge
+does not cross into another federation by accident, either: if a
+cross-federation group (Proposal 076) needs to share it, that is the same
+explicit Community-to-Public promotion, riding Agora's federation-agnostic
+substrate, with the same policy validation and provenance fact — never a
+side effect of shared Room/group membership.
 
 ### 4. Domain Types
 

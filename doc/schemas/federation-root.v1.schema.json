@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:federation-root:v1",
+  "title": "FederationRoot v1",
+  "description": "Data-dir-scoped root config file (the 'federation pack') loaded at daemon startup and merged into runtime configuration. It is the local, signed source of truth for exactly four daemon configuration surfaces: `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, and `identity.sovereign_participant_ids[]`. This is a config-registry artifact (same family as `seed-directory-trust.v1`), not a peer-to-peer wire envelope (contrast `node-advertisement.v1`), so it follows that family's snake_case field convention rather than the `noun/attribute` convention used by signed inter-node messages. A federation-root file that carries any field outside this schema MUST be rejected, not silently ignored.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-federation-identity-and-network-selector.md",
+    "doc/project/40-proposals/014-node-transport-and-discovery-mvp.md",
+    "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md",
+    "doc/project/60-solutions/021-agora-authority/021-agora-authority.md"
+  ],
+  "required": [
+    "schema",
+    "federation_id",
+    "pack_version",
+    "attestation_roots",
+    "signatures"
+  ],
+  "properties": {
+    "schema": {
+      "const": "federation-root.v1",
+      "description": "Schema discriminator."
+    },
+    "federation_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Network selector this pack describes (chain-id analogy: mainnet/testnet). Distinct from the wire-envelope `federation/id` used by `node-advertisement.v1` and Corpus taxonomy records — see Proposal 076 Open Question 3. A running node has exactly one active `federation_id`, bound to its `data-dir`; it is never a multi-valued or per-request field here."
+    },
+    "pack_version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Monotonic revision counter for this federation's pack, analogous to `node-advertisement.v1`'s `sequence/no`. A loader MUST reject a pack whose `pack_version` is lower than the last one it accepted for this `federation_id`, to prevent downgrade/replay of a revoked or superseded pack."
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional timestamp when this pack revision was produced. Diagnostic only; `pack_version` is the authoritative ordering, not this timestamp."
+    },
+    "attestation_roots": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/AttestationRoot" },
+      "description": "This federation's OWN canonical top-level anchor(s). NOT a copy of any relay's local Agora Authority `authority_roots[]` (Solution 021) — those are narrower, per-namespace, per-relay policy that MAY adopt an entry here as their namespace default, but are never required to equal this list."
+    },
+    "bootstrap_seed_peers": {
+      "type": "array",
+      "default": [],
+      "items": { "$ref": "#/$defs/BootstrapSeedPeer" },
+      "description": "This federation's static WSS seed peers (Proposal 014's 'mandatory first bootstrap layer'), resolving to `peer_discovery.seeds[]`. Deliberately flat — one endpoint per entry, no priority/enabled toggle — to match today's `DaemonSeedPeerConfig` exactly; richer multi-endpoint peer entries would require enriching that struct first, which this schema does not assume."
+    },
+    "seed_directory_bootstrap": {
+      "type": "array",
+      "default": [],
+      "items": { "$ref": "#/$defs/SeedDirectoryBootstrap" },
+      "description": "This federation's own canonical default trusted Seed Directories. Each entry fans out to two existing daemon config surfaces at load time: `network.seed_directory[]` (endpoint/node_id/passport) and `network.seed_directory_trust[]` (trust_level/weight/passport_ref/policy_ref/endorsement_refs/reputation_ref/enabled). The loader MUST fill `network.seed_directory_trust[].federation_id` from this pack's own top-level `federation_id`; it is not repeated per entry here."
+    },
+    "policy_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional reference to the policy document governing this federation's root and bootstrap decisions."
+    },
+    "endorsement_refs": {
+      "type": "array",
+      "default": [],
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Optional references to endorsement facts supporting this pack's trust claims (for example community-elected public-service recognition), carried via the existing `reputation-signal.v1` mechanism rather than a new primitive."
+    },
+    "signatures": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/Signature" },
+      "description": "Signatures over the canonical payload (every field above, excluding `signatures` itself). A local, self-authored federation-root file is still signed by its own operator-held root key(s) — 'self-signed' is a valid case, 'unsigned' is not. Which keys and how many are required is governed by whatever custody mode/policy applies to this federation's `attestation_roots[]` entries (see Proposal 076 section 4 and Open Question 2), not by this schema."
+    }
+  },
+  "$defs": {
+    "AttestationRoot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Root identity. For `kind: participant`, MUST use the `participant:did:key:` form accepted by `identity.sovereign_participant_ids[]`. For `kind: org`, uses the `org:did:key:` form."
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["participant", "org"],
+          "description": "Mirrors `AgoraAuthorityRootKind` and the future `identity.sovereign_subject_refs[]` shape (Proposal 076 tracker P076-011)."
+        },
+        "custody_mode": {
+          "type": "string",
+          "enum": ["any-authorized", "threshold"],
+          "description": "Required and meaningful only for `kind: org`, mirroring `OrgCustodyMode`. Forbidden for `kind: participant`, where custody is inherently single-key."
+        },
+        "custody_policy_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Required only for `kind: org`, mirroring `AgoraAuthorityRootConfig.custody_policy_ref`. Forbidden for `kind: participant`."
+        },
+        "purposes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Optional purpose scoping, mirroring `AgoraAuthorityRootConfig.purposes`. Informational only in v1: today's `identity.sovereign_participant_ids[]` is a bare `Vec<String>` with no per-entry metadata, so this field cannot yet be enforced at the config-loading boundary. It becomes enforceable once the richer `identity.sovereign_subject_refs[]` surface (P076-011) ships."
+        },
+        "valid_from": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional per-root validity window start, mirroring `AgoraAuthorityRootConfig.valid_from`. Deliberately per-root, not a whole-pack field — different roots in the same pack may rotate on different schedules."
+        },
+        "valid_until": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional per-root validity window end, mirroring `AgoraAuthorityRootConfig.valid_until`."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "participant" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                { "required": ["custody_mode"] },
+                { "required": ["custody_policy_ref"] }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "kind": { "const": "org" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["custody_mode", "custody_policy_ref"],
+            "$comment": "Accepted by this schema for forward-compatibility only. No shipping daemon version can load a kind: org entry yet — identity.sovereign_participant_ids[] fail-closed rejects anything not prefixed participant:did:key: (identity/src/lib.rs:35, daemon/src/config.rs:3043-3046). Blocked on the identity.sovereign_subject_refs[] surface, Proposal 076 tracker P076-011. A loader MUST reject a kind: org entry with an explicit 'not yet supported' error, never silently drop it or coerce it."
+          }
+        }
+      ]
+    },
+    "BootstrapSeedPeer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_id", "endpoint_url"],
+      "description": "Mirrors `DaemonSeedPeerConfig` field-for-field (daemon/src/config.rs:761).",
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Stable peer identity."
+        },
+        "endpoint_url": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "description": "Single bootstrap endpoint URL, for example `wss://seed.orbiplex.ai/peer`. `DaemonSeedPeerConfig` carries exactly one endpoint per entry, not a list."
+        },
+        "tls_certificate_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "description": "Optional pinned SHA-256 fingerprint of the endpoint leaf certificate DER, in `sha256:<base64url-digest>` form — unpadded base64url of the raw 32-byte digest (43 characters), matching `validate_sha256_fingerprint` in `daemon/src/lib.rs`. Not hex."
+        },
+        "tls_advisory_route_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional advisory route id expected in the peer TLS certificate CN. Not a substitute for certificate verification or peer-handshake identity."
+        }
+      }
+    },
+    "SeedDirectoryBootstrap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_id", "endpoint", "trust_level", "weight"],
+      "description": "Fans out to `DaemonSeedDirectoryConfig` (daemon/src/config.rs:528) and `DaemonSeedDirectoryTrustConfig` (daemon/src/config.rs:551) at load time.",
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Required here even though `DaemonSeedDirectoryConfig.node_id` alone is optional, because this entry also populates the required `DaemonSeedDirectoryTrustConfig.node_id`."
+        },
+        "endpoint": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "description": "HTTP(S) endpoint of the Seed Directory API."
+        },
+        "passport": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional passport populating `DaemonSeedDirectoryConfig.passport`."
+        },
+        "trust_level": {
+          "type": "string",
+          "enum": ["personal", "community", "federation-endorsed"],
+          "description": "Local trust tier, populating `DaemonSeedDirectoryTrustConfig.trust_level`."
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Positive local trust weight, populating `DaemonSeedDirectoryTrustConfig.weight`."
+        },
+        "passport_ref": {
+          "type": "string",
+          "pattern": "^passport:capability:",
+          "description": "Optional reference to the capability passport proving the directory may act as `seed-directory`, populating `DaemonSeedDirectoryTrustConfig.passport_ref`."
+        },
+        "policy_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional policy reference, populating `DaemonSeedDirectoryTrustConfig.policy_ref`."
+        },
+        "endorsement_refs": {
+          "type": "array",
+          "default": [],
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Optional endorsement references, populating `DaemonSeedDirectoryTrustConfig.endorsement_refs`."
+        },
+        "reputation_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional reputation reference, populating `DaemonSeedDirectoryTrustConfig.reputation_ref`."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Populates `DaemonSeedDirectoryTrustConfig.enabled`."
+        }
+      }
+    },
+    "Signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "key_public", "value"],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "enum": ["ed25519"]
+        },
+        "key_public": {
+          "type": "string",
+          "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Bare multibase key fingerprint (no `participant:did:key:`/`org:did:key:` prefix), mirroring the `node/id` vs `key/public` split in `node-advertisement.v1`. For a self-signed pack this is expected to equal the fingerprint suffix of one of `attestation_roots[].id` (i.e. `attestation_roots[].id` with its `participant:did:key:`/`org:did:key:` prefix stripped), not the full prefixed id itself. For a custodian-share signature under threshold custody it is one of the shares named by `custody_policy_ref`."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

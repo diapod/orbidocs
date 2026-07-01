@@ -51,6 +51,17 @@ Orbiplex identity is proven by Orbiplex protocol handshakes and signed artifacts
 Authorization remains in passports, capabilities, and local policy.
 ```
 
+A publicly trusted WebPKI certificate is therefore sufficient only for the
+ordinary HTTPS/WSS transport question. It is not, by itself, an Orbiplex
+authority decision. Federation membership, Seed Directory authority, service
+authority, and node identity MUST be grounded in Orbiplex-controlled trust
+material: `federation-root.v1`, locally accepted service CA material, signed
+endpoint evidence, pinned endpoint fingerprints, peer handshakes, capability
+passports, and local operator policy. A federation MAY use its own private or
+self-signed trust anchor; the important property is that the anchor is explicit,
+scoped, signed/accepted, and auditable, not that it chains to a public browser
+CA.
+
 ## Context and Problem Statement
 
 The current implementation already uses X.509 primarily at transport
@@ -107,6 +118,12 @@ CA.
 The public key or root certificate of that CA may be bundled with the
 distribution and referenced by configuration independently of the host operating
 system trust store.
+
+The Orbiplex Public Service CA, if used, is a scoped Orbiplex trust anchor, not a
+request to be signed by an external public CA. Public WebPKI MAY still be used
+for browser and CLI compatibility, but public WebPKI MUST NOT be the sole source
+of truth for accepting a Seed Directory, federation root, service capability, or
+node identity.
 
 This CA is intended for:
 

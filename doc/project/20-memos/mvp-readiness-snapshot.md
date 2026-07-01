@@ -1,12 +1,26 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-06-30.
+Snapshot date: 2026-07-01.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
 Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implementation notes, coding guides, and generated registries are excluded. Solution rows use the main `NNN-*/NNN-*.md` document for each component.
 
-Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`, `story-011`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP set; `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
+Estimation basis: `node/docs/MVP.md` defines the hard-MVP story set (`story-000`, `story-002`, `story-005`, `story-006`, `story-008`, `story-010`, `story-011`); `doc/project/60-solutions/CAPABILITY-MATRIX.en.md` provides coarse implementation status; each document text is used as fallback when no capability row exists. `part of MVP` tracks the hard-MVP story set plus explicitly promoted release-blocking proposals/contracts, and is treated as a release-blocker flag: a row with `part of MVP = true` must be ready before the hard-MVP release can be called closed. `MVP ready` may still be `true` for a post-hard-MVP document when its own MVP slice is implemented. Percentages are engineering estimates, not release-signoff facts.
+
+Hard-MVP release-blocking stories:
+
+- `story-000`
+- `story-002`
+- `story-005`
+- `story-006`
+- `story-008`
+- `story-010`
+- `story-011`
+
+Hard-MVP release-blocking proposals/contracts:
+
+- `proposal-076` / `federation-root.v1`
 
 Change basis: this refresh incorporates the current worktree state on 2026-06-30 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, and the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target and the first node-local Agent `spawn/status/stop` implementation slice.
 
@@ -47,6 +61,13 @@ Recent component deltas:
   NATS/JetStream plus Matrix collaborative-room transport remains post-MVP, and
   P011's broader collaborative/dispute lifecycle remains a later extension.
 - Proposal 072 is now implemented and promoted to Solution 037 for the hard-MVP scope: `capability-registry.v1` is the machine source of truth, formal capability ids are checked for canonical grammar, status, wire-name uniqueness, derived surfaces, and use-specific eligibility, and capability advertisement, passport validation, host capability dispatch/routing, literal control-plane `POST /v1/host/capabilities/*` routes, and supervised middleware reports fail closed for unregistered or ineligible formal ids. `capability-authorization-policy.v1` adds the checked P071 Workbench/Interaction Broker authorization-policy sidecar for required grants, caller posture, approval mode, autonomy floor, and COI policy; daemon startup preflight validates both registry and policy, while runtime grant enforcement remains host-policy owned. Federation namespace governance remains a separate post-P072 proposal track.
+- Proposal 076 / `federation-root.v1` is now a hard-MVP release blocker. The
+  contract defines the `data-dir`-scoped federation root used to select
+  `federation_id`, bootstrap seed peers, seed-directory endpoints,
+  seed-directory trust, and sovereign participant ids before the node enters the
+  network. The schema and fixtures exist, but runtime readiness remains false
+  until node-wide federation config, startup loading, signed `orbiplex-main`
+  defaults, path-overlap guards, and harness/Room cross-references are closed.
 - Proposal 018 is no longer a low-coverage placeholder. Code review on
   2026-06-22 confirmed schema-gated `participant-capability-limits.v1`
   import/export, durable daemon replay, operator HTTP import/list/detail/clear,
@@ -133,7 +154,7 @@ Recent component deltas:
 - Proposal 073 introduces Agent as the bounded stateful orchestration organ above Inquirium. It is intentionally post-MVP, but it now has a first node-local implementation slice: `agent-core` owns the substrate-free contracts and lifecycle state machine, `agent-host` owns pure step decisions, and the daemon exposes table-driven `agent.spawn`, `agent.status`, and `agent.stop` host-capability dispatch over an in-memory runtime with idempotent spawn replay during one daemon process lifetime. Fork/suspend/resume, durable idempotency replay, Memarium-backed durable state, Room chair binding, effect proposals, and durable prompt-free step traces remain open. Its main readiness value today is architectural closure: Inquirium remains bounded inquiry, while durable agent loops have a separate host-owned home and tracker.
 - Story 005 remains hard-MVP complete, and its post-M4 productization tracker now lives in the Whisper implementation note instead of a workspace-root draft file. The closed slice has a CI-runnable Inquirium acceptance bridge: an opt-in supervised simulator adapter is routed only through model-runtime/Inquirium by `runtime/ref` and host-owned `model.binding/ref`. `whisper-core` carries the production-shaped policy primitives for routing failure mode, source class, outbound privacy resolution, correlation policy explanation, association-room proposal lifecycle, and public-gossip promotion. The current Node worktree now consumes those primitives in the publish path: `whisper-intake` performs outbound privacy preflight before public/private publish using host-owned `agora.relay` evidence with passport-scoped relay class data, queries and bounds private preflight facts, persists and validates the new preflight fact, validates host signing responses, blocks hard-fail refusals, and requires explicit operator acknowledgement bound to the canonical candidate digest for soft-fail downgrades. It also enforces source-class safety gates for `monus-sensorium-derived` evidence refs and Monus-derived help-mode diversion. `agora-projections` and `agora-service` now provide a minimal local association-room lifecycle seed plus public-gossip promotion drafts from accepted rooms, with authenticated actor binding, bounded lifecycle facts, FK-backed proposal refs, and bounded opaque lineage refs. These move Proposal 013 closer to post-M4 productization while preserving the readiness interpretation for unfinished product/runtime surfaces such as real Anon relay transport, production semantic correlation, full association-room case management on the accepted signed room-event log over Artifact Delivery with multi-Agora fanout/merge, bounded replica retention status, and per-thread predecessor digest links, final public-gossip publication runtime, live Monus/Sensorium source verification, richer UI, and remote model deployment.
 - Shared Offer Catalog is now hard-MVP complete. Proposal 067 and Solution 033 document the extracted shared Python offer-catalog runtime, Agora replay, fail-closed Agora/Seed Directory admission, Arca embedded-cache reuse, query parity, withdrawal active filtering, public/shared catalog deployment profile (`node/middleware-modules/offer-catalog/config/profiles/public-shared-catalog.json`), automatic `shared-offer-catalog` passport publication readiness with classified pending reasons, redacted Host Agora and Seed Directory admission diagnostics, and a local public-profile smoke runner (`node/tools/acceptance/shared-offer-catalog-public-smoke.py`) covering authorized replay, bad-signature refusal, unknown-provider refusal, withdrawn-offer inspection semantics, and the HTTP query surface. The remaining public-profile operating policy is now resolved and enforced where applicable: passport renewal is supervisor-driven by default, and non-loopback Agora URLs must use HTTPS/TLS with Node fail-closed replay validation. Remaining work is post-MVP production hardening such as broader monitoring matrices and eventual legacy peer-message retirement.
-- Corpus is tracked as a hard-MVP candidate through Proposal 069. Its MVP slice is
+- Corpus and Story 011 are tracked as hard-MVP blockers through Proposal 069. Its MVP slice is
   intentionally narrow: topic taxonomy/resolution, topic-scoped offer discovery,
   `question-envelope.v1`-decorated query broadcast, bid-state aggregation, and a
   single-provider P011/P016 settlement path. The contract gate is implemented:
@@ -340,6 +361,7 @@ Recent component deltas:
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `76` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `false` | `false` | `false` | `35` |
+| [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `false` | `false` | `35` |
 
 ## Solutions
 

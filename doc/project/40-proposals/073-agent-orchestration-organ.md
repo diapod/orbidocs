@@ -290,6 +290,13 @@ and any admitted local facts. A dedicated projection cache may be introduced
 later if profiling shows the need, but it should be a rebuildable optimization
 with clear lifecycle, not a second source of truth.
 
+Explicit non-goal: **do not dump the in-memory runtime cache to disk and reload
+it verbatim on restart.** That would make the ephemeral projection a second
+source of truth by the back door. The only sanctioned path to surviving a
+restart is `agent-durable-state` (append-only `agent.state.v1`/`agent.session.v1`
+facts) plus `agent-memory-projection` (rebuilding the working set *from* those
+facts) — never a serialized snapshot of the cache itself.
+
 The current implemented slice is intentionally narrower than the final contract:
 the daemon runtime is in-memory, spawn idempotency keys do not survive daemon
 restart, and `agent.state.v1`/`agent.session.v1` are not yet replayed from

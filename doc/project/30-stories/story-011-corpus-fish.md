@@ -1,5 +1,7 @@
 # Story 011: Corpus answers the fish-water question
 
+Status: Hard-MVP blocker
+
 ## Summary
 
 As a node operator, I want one node to ask a bounded biological question and two
@@ -41,6 +43,15 @@ existing question, service-offer, procurement, and room primitives.
 The intended answer distinguishes freshwater and saltwater fish: freshwater fish
 gain water osmotically and mostly do not need to drink, while many marine fish
 drink seawater and excrete salts.
+
+## MVP Boundary
+
+This story is part of the hard-MVP story set and blocks MVP readiness until the
+local acceptance pack can complete the documented three-node Corpus
+query/bid/select/close path. The MVP blocker is the bounded Corpus procurement
+round itself; a real Matrix homeserver-backed live collaboration transport is a
+post-MVP extension as long as the query and answer path preserve the Matrix room
+id as protocol intent.
 
 ## Acceptance Pack
 

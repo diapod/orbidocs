@@ -1,0 +1,39 @@
+{
+  "schema": "federation-root.v1",
+  "federation_id": "orbiplex-main",
+  "pack_version": 1,
+  "issued_at": "2026-06-01T00:00:00Z",
+  "attestation_roots": [
+    {
+      "id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+      "kind": "participant",
+      "purposes": ["orbiplex-main-bootstrap"]
+    }
+  ],
+  "bootstrap_seed_peers": [
+    {
+      "node_id": "node:did:key:z6MkfriQhxNaqUYnLGrCYRVvSEcHnHRhwvHVXJ7ktx7xQ8sE",
+      "endpoint_url": "wss://seed.orbiplex.ai/peer",
+      "tls_certificate_sha256": "sha256:47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU"
+    }
+  ],
+  "seed_directory_bootstrap": [
+    {
+      "node_id": "node:did:key:z6MkrJVnaZkeFzdQyMZu1cgjg7k1pZZ6pvBQ7XJPt4swbTQ2",
+      "endpoint": "https://directory.orbiplex.ai",
+      "trust_level": "federation-endorsed",
+      "weight": 100,
+      "passport_ref": "passport:capability:seed-directory:orbiplex-main-directory",
+      "enabled": true
+    }
+  ],
+  "policy_ref": "doc/project/40-proposals/076-federation-identity-and-network-selector.md#section-4",
+  "endorsement_refs": [],
+  "signatures": [
+    {
+      "alg": "ed25519",
+      "key_public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+      "value": "3n8XxV2yQwertyuiopasdfghjklzxcvbnm1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    }
+  ]
+}

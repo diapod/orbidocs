@@ -1,0 +1,525 @@
+# Proposal 076: Federation Identity and Network Selector
+
+Based on:
+
+- `doc/project/40-proposals/032-key-delegation-passports.md`
+- `doc/project/40-proposals/054-user-maintained-federated-seed-directory.md`
+- `doc/project/40-proposals/069-corpus.md`
+- `doc/project/40-proposals/070-room-primitive.md`
+- `doc/project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md`
+- `doc/project/40-proposals/075-matrix-homeserver-runtime-profile.md`
+- `doc/project/60-solutions/021-agora-authority/021-agora-authority.md`
+- `doc/project/60-solutions/031-seed-directory/031-seed-directory.md`
+- `doc/project/60-solutions/036-room/036-room.md`
+
+## Status
+
+Draft
+
+## Date
+
+2026-07-01
+
+## Executive Summary
+
+Orbiplex already uses `federation_id` as a data field (Seed Directory trust
+entries, Corpus taxonomy artifacts) and already has a Room exposure ladder that
+assumes federations are countable, distinguishable things (`federation-local`
+vs `cross-federation/global`). None of that is grounded in one concrete answer
+to "what, operationally, is a federation."
+
+This proposal promotes `federation_id` from descriptive metadata on individual
+trust-registry entries to a **node-wide network selector**, in the sense that
+`mainnet`/`testnet` are network selectors in existing distributed-ledger
+systems: a value resolved once, before the node does anything else, that
+determines which root trust and which default services apply.
+
+The central rule is:
+
+```text
+A federation is a separate operational identity: separate data-dir, separate
+root trust, separate default services. Cooperation across federations is a
+property of what participants explicitly do together (a room, a query, a
+gossip promotion) — never an automatic consequence of running the same
+software.
+```
+
+Unconfigured nodes default to `orbiplex-main`, the reference public network. An
+operator who wants full structural isolation (for example, a company or a
+closed group of friends whose top-level attestation keys must never mix with
+the public network) configures a distinct `federation_id`, backed by its own
+`data-dir` and its own root trust file. This proposal deliberately narrows
+"federation" to that operational sense, and leaves broader cross-federation
+cooperation to the separate, lighter `alliance` concept.
+
+This root trust file is also the boundary between Orbiplex authority and
+ordinary transport compatibility. Public WebPKI can protect an HTTPS/WSS
+connection to a public endpoint, but it is not the source of federation
+authority. A node accepts Seed Directory authority, top-level attestation roots,
+service roots, and bootstrap peers because they are present in or derived from
+the signed `federation-root.v1` pack and local policy, not merely because an
+endpoint presents a certificate chaining to a public browser CA. A private or
+self-signed federation root is valid when it is explicit, scoped to the
+federation, signed/accepted, and auditable.
+
+## Context and Problem Statement
+
+`federation_id` already appears in the documentation and in code, in two
+places, neither of which defines it as a node identity:
+
+- `seed-directory-trust.v1` (Proposal 054) carries `federation_id` as an
+  optional field on *individual trusted-directory entries* — descriptive
+  metadata about which federation a given directory claims to serve, not a
+  property of the node consulting that registry.
+- `daemon/src/config.rs` implements exactly that: `federation_id` lives on
+  `DaemonSeedDirectoryTrustConfig`, one field among several on one trust-registry
+  row.
+- Corpus taxonomy artifacts (Proposal 069) carry a `federation/id` field
+  (distinct from that same artifact's own `taxonomy/id`, for example
+  `"taxonomy/id": "orbiplex.core"` alongside `"federation/id": "orbiplex"`)
+  identifying which federation owns/signs a taxonomy, again as a property of
+  one artifact, not of the node.
+
+Meanwhile, Room (Proposal 070 / Solution 036) already has a policy axis that
+presumes federations are first-class, countable things: room TTL policy
+distinguishes `federation-local` rooms from `cross-federation/global` rooms.
+That distinction is meaningless without a concrete answer to "which federation
+is *this* room, or *this* node, actually in."
+
+The practical trigger for this proposal was a Matrix homeserver profile
+discussion (Proposal 075): without a clear definition, "federation" risked
+quietly becoming "whatever Matrix's own homeserver-to-homeserver federation
+protocol provides" — importing a transport's trust model into a concept that
+must remain transport-independent (see Proposal 075's Authority Boundary rule,
+which this proposal extends one level up: a carrier must not become an
+authority, and neither should a specific federation's infrastructure become
+*the* definition of federation for everyone else).
+
+A second, independent trigger is operational: an organization (a company, a
+closed group) wants to run Orbiplex entirely on its own root of trust, with a
+structural guarantee — not a configuration convention — that its data can never
+mix with the public default network.
+
+## Goals
+
+- Define `federation_id` as a node-wide, pre-runtime network selector,
+  analogous to a chain id (`mainnet`/`testnet`/custom) in existing distributed
+  systems.
+- Default to `orbiplex-main` when unconfigured, so a zero-config node safely
+  joins the reference public network.
+- Bind federation identity, root trust keys, and Seed Directory bootstrap state
+  to one `data-dir`-scoped root-config file, merged into runtime config at
+  startup.
+- Guarantee structural (filesystem-level) non-leakage between differently
+  configured federations — no shared mutable state across two `data-dir`s.
+- Preserve cross-federation cooperation as an explicit, higher-layer concept
+  realized by Room/Whisper/Corpus, not eliminate it or fold it back into node
+  identity.
+- Reuse existing primitives — Agora Authority's organization root and custody
+  modes, `key-delegation.v1`, Seed Directory's trust-tier model — rather than
+  inventing a parallel trust mechanism.
+
+## Non-Goals
+
+- Not a redefinition of Room's existing `federation-local` /
+  `cross-federation/global` exposure vocabulary. Those terms are correct; this
+  proposal gives them a concrete node-level referent.
+- Not a full specification of the lighter, cross-cutting cooperation concept
+  named `alliance` in this proposal. `Alliance` is the vocabulary for explicit
+  cross-federation cooperation; its richer policy model belongs in a follow-up
+  artifact if and when Room/Whisper/Corpus need it.
+- Not a reputation or ranking system for federations.
+- Not a requirement that every deployment explicitly configure a federation —
+  the unconfigured `orbiplex-main` default path must stay safe and zero-config.
+- Not a global registry or arbitration authority for `federation_id` strings;
+  identifiers remain self-declared, consistent with Seed Directory's own
+  anti-monopoly stance ("must not become one global source of truth").
+- Not a live migration or merge tool for moving a running node between
+  federations.
+- Not the governance charter for the `orbiplex-main` root itself. This proposal
+  selects an org-kind threshold root as the required shape, but concrete
+  custodian selection, rotation ceremony, appeal path, and production signer
+  roster remain governance artifacts rather than schema mechanics.
+
+## Proposed Model
+
+### 1. Federation as a Network Selector
+
+`federation_id` becomes one node-wide configuration value, resolved before any
+other subsystem starts:
+
+- Default: `orbiplex-main` — the reference public network, inferred when no
+  federation is explicitly configured.
+- Alternative: any operator-chosen string (for example `acme-org`), resolved
+  only from an explicit root-config file (section 3) — never inferred, never
+  guessed from environment.
+- A `federation_id` is self-declared data, not a globally arbitrated registry
+  entry. Two unrelated operators may pick the same string; implementations
+  distinguish them by explicit local pinning of root-pack digest and root keys,
+  not by first-seen string ownership.
+
+### 2. `data-dir` as the Isolation Boundary
+
+A running node instance is bound to exactly one federation for the full
+lifetime of that `data-dir`.
+
+- Changing federation means pointing at a different `--data-dir`, not a runtime
+  toggle or a config hot-reload.
+- No code path may share mutable state — identity keys, Room projections, Agora
+  authority cache, Seed Directory trust registry, capability passports — across
+  two `data-dir`s.
+- This is not a new isolation primitive. One-daemon-one-`data-dir` already
+  implies this; this proposal makes federation scope explicitly co-located with
+  it, so isolation is a structural property of "which directory did you point
+  at," not an accident of careful configuration.
+
+**Operating in more than one federation is switching, never concurrent use.**
+An operator who genuinely needs both — for example, participating in the
+public `orbiplex-main` network and running a closed corporate federation —
+runs two entirely separate `data-dir`s, each with its own root config, its own
+`peer_discovery.seeds[]` / `network.seed_directory[]` /
+`network.seed_directory_trust[]` / `identity.sovereign_participant_ids[]`, and
+its own local storage. The
+operator switches which one is active by choosing which `data-dir` to start the
+daemon against. There is no mode where one running node instance is
+simultaneously a member of two federations; that would reopen exactly the
+leakage risk this proposal exists to close.
+
+### 3. Root Config File (Federation Pack, Local Form)
+
+A `data-dir`-scoped file, merged into runtime configuration at startup the same
+way other config overlays already are (for example the model-runtime catalog
+override pattern), carries the fields below. This is now a real, checkable
+artifact rather than a pseudo-block:
+[`doc/schemas/federation-root.v1.schema.json`](../../schemas/federation-root.v1.schema.json),
+with a positive example at
+[`doc/schemas/examples/orbiplex-main.federation-root.json`](../../schemas/examples/orbiplex-main.federation-root.json)
+and negative fixtures under
+[`doc/schemas/examples/invalid/`](../../schemas/examples/invalid/)
+(`org-without-custody.federation-root.json`, `unsigned.federation-root.json`,
+`unknown-field.federation-root.json`). Field names are snake_case throughout,
+deliberately matching `seed-directory-trust.v1` rather than the `noun/attribute`
+convention of signed inter-node wire messages (`node-advertisement.v1`,
+Corpus taxonomy records) — see the schema's own top-level `description` and
+the resolved field-naming decision below. Shape, in outline:
+
+```text
+federation-root.v1 {
+  schema                  # const "federation-root.v1"
+  federation_id
+  pack_version            # monotonic; a loader rejects a lower pack_version
+                          #   than the last one accepted for this federation_id
+  issued_at?
+  attestation_roots[]     # this federation's OWN canonical top-level anchor(s).
+                          # kind: participant — { id (participant:did:key),
+                          #   purposes[]? (informational only, see below),
+                          #   valid_from?, valid_until? }, feeding
+                          #   identity.sovereign_participant_ids[].
+                          # kind: org — adds required custody_mode
+                          #   (any-authorized | threshold) and custody_policy_ref.
+                          #   Accepted by the schema for forward-compatibility;
+                          #   no shipping daemon can load it yet — requires
+                          #   identity.sovereign_subject_refs[] (P076-011); a
+                          #   loader MUST reject it explicitly, not silently drop
+                          #   it. NOT a copy of any relay's Agora authority_roots[].
+  bootstrap_seed_peers[]  # this federation's static WSS seed peers (Proposal 014's
+                          #   "mandatory first bootstrap layer"), matching
+                          #   DaemonSeedPeerConfig field-for-field (one endpoint_url
+                          #   per entry, no priority/enabled — richer multi-endpoint
+                          #   peers would need that struct enriched first)
+  seed_directory_bootstrap[]
+                          # this federation's own canonical default trusted
+                          #   directories; each entry fans out to BOTH
+                          #   network.seed_directory[] and
+                          #   network.seed_directory_trust[] at load time — the
+                          #   latter's federation_id is filled from this pack's
+                          #   own federation_id, not repeated per entry
+  policy_ref?
+  endorsement_refs[]?
+  signatures[]            # required; "self-signed by the pack's own root" is
+                          #   valid, "unsigned" is not
+}
+```
+
+`purposes[]` on an `attestation_roots[]` entry mirrors
+`AgoraAuthorityRootConfig.purposes`, but is informational only in v1:
+`identity.sovereign_participant_ids[]` is a bare `Vec<String>` with no per-entry
+metadata, so nothing enforces it yet at the config-loading boundary. It becomes
+enforceable once `identity.sovereign_subject_refs[]` (P076-011) ships. Per-root
+`valid_from`/`valid_until` live on each `attestation_roots[]` entry, not the whole
+pack, mirroring `AgoraAuthorityRootConfig` exactly — different roots in one pack
+may rotate on independent schedules. `assurance` and `namespaces[]` are
+deliberately NOT part of `attestation_roots[]`: those are Agora Authority's own
+local, per-relay, per-namespace policy vocabulary (Solution 021); a federation
+root becomes Agora's *default* root for its reserved namespace (see below), and
+Agora assigns its own assurance/namespace values when adopting it, rather than
+this federation-wide pack carrying Agora-specific fields.
+
+This is the concrete, local shape of the "federation pack" already named
+(but not specified) in Proposal 054. This proposal defines its file shape and
+load-time binding; it does not introduce a new kind of trust artifact.
+
+Loading this file resolves, and where present overrides, exactly four existing
+daemon configuration surfaces: `peer_discovery.seeds[]` (static WSS bootstrap
+peers, Proposal 014), `network.seed_directory[]` and `network.seed_directory_trust[]`
+(Seed Directory query targets and trust tiers, Proposal 054), and
+`identity.sovereign_participant_ids[]` (the root/sovereign issuer list consumed
+by capability-passport-chain verification, Seed Directory admission, and
+Artifact Delivery bindings). Nothing else in daemon configuration is federation
+material; a federation-root file that tries to carry any other field is
+rejected, not silently ignored.
+
+**Known gap: `attestation_roots[].kind = org` has no runtime surface today.**
+`identity.sovereign_participant_ids[]` validates, fail-closed, that every entry
+starts with `PARTICIPANT_ID_PREFIX` (`"participant:did:key:"`,
+`identity/src/lib.rs:35`, enforced at `daemon/src/config.rs:3043-3046`) — an
+`org:did:key` value is rejected, not merely unusual. So today an
+`attestation_roots[]` entry can only be `kind: participant`; an org-kind
+federation root (the corporate case this proposal was motivated by, and the
+natural fit for `threshold` custody per section 4) is **not yet representable**
+by any existing runtime config surface. Closing this requires a new surface,
+tentatively `identity.sovereign_subject_refs[]`, generalizing to `{id, kind
+(participant | org), custody_policy_ref?}` the same way
+`AgoraAuthorityRootConfig.kind` and Room's `RoomSubject` already do; existing
+`identity.sovereign_participant_ids[]` would remain as the narrower,
+participant-only, backward-compatible case, not be removed. This is now the
+selected runtime direction and is tracked by P076-011; it blocks `P076-004`
+because `orbiplex-main`'s selected root shape is org-kind threshold custody.
+The schema itself already
+accepts `kind: org` for forward-compatibility — the gap is deliberately encoded
+as a loader-side, not a schema-side, restriction (see the `$comment` on
+`AttestationRoot` in `federation-root.v1.schema.json`), so packs do not need to
+be rewritten once `identity.sovereign_subject_refs[]` ships.
+
+`attestation_roots[]` is **not** the same list as Agora Authority's own
+`authority_roots[]` (Solution 021, `AgoraAuthorityRootConfig`). Agora Authority's
+roots are deliberately narrower and more local: each entry is scoped to specific
+Agora topic-namespace prefixes (`namespaces[]` is required and non-empty), and
+Solution 021 is explicit that this configuration is local relay policy, not a
+public federation contract that other relays must honor. This proposal's
+`attestation_roots[]` answers a different, more foundational question — "what is
+this federation's own top-level anchor" — and is meant to be canonical for every
+node that joins the federation (via distribution defaults or a corporate root
+file), not a per-relay variant.
+
+The relationship is layering, not replacement: a federation's root naturally
+becomes the *default* entry Agora Authority (and Seed Directory's own sovereign-
+issuer policy, per Proposal 054 section 4) recognizes for the federation's own
+reserved namespace, using the same `{id, kind, custody mode}` shape. Agora
+Authority remains free to configure additional, narrower, purpose-scoped
+`authority_roots[]` entries locally — for specific sub-namespaces, moderation
+records, or delegated purposes — layered on top of, never in place of, the
+federation root.
+
+Absent file: the node runs as `orbiplex-main` under distribution defaults
+(section 4) — the distributed software package itself populates these four
+surfaces for `orbiplex-main`, so a zero-config node is not merely "safe", it is
+actually able to discover peers and directories out of the box. Present file:
+it is authoritative for that `data-dir` and **replaces**, not merges with, the
+distribution defaults for these four surfaces — this is precisely how a closed
+deployment (for example a corporate installation) locally overrides the public
+`orbiplex-main` values with its own. A parse, signature, or custody-threshold
+failure fails the node closed rather than falling back to `orbiplex-main`
+defaults — falling back silently would quietly weaken exactly the isolation
+guarantee an operator configured this file to get.
+
+### 4. Distribution Defaults (`orbiplex-main`)
+
+**Current state, verified in code.** Today all four surfaces default to empty
+or inert: `peer_discovery.seeds` (`DaemonPeerDiscoveryConfig::default()`),
+`network.seed_directory`, and `network.seed_directory_trust` (both
+`DaemonNetworkConfig::default()`) all default to `Vec::new()`
+(`daemon/src/config.rs`), and
+`identity.sovereign_participant_ids` ships exactly one hardcoded placeholder
+(`daemon/src/config.rs:341`) whose matching private key does not appear
+anywhere else in the codebase — it functions as schema filler, not a working
+root of trust. A fresh, unconfigured node cannot discover any peer or directory
+today. This proposal changes that default from "safe but inert" to "safe and
+actually able to join `orbiplex-main`."
+
+The reference public federation ships as a signed default pack bundled with
+the distributed software:
+
+- Only the *verification key(s)* for this default pack are embedded/pinned in
+  distributed code.
+- Pack *content* (bootstrap directory list, thresholds, endorsements) can be
+  updated by shipping a newer signed pack without re-baking a new binary for
+  routine changes, using `key-delegation.v1` so the cold root key is rarely
+  touched.
+- Root custody for `orbiplex-main` SHOULD be `threshold`, not
+  `any-authorized`, per the high-stakes-mechanism guardrails in
+  `DEV-GUIDELINES.md` (multisig/threshold review, appeal path, audit trace).
+  The selected shape is an org-kind threshold root, with `3-of-5` as the
+  conservative initial target unless the governance charter chooses a stricter
+  threshold. Concrete custodian names, ceremony, rotation, and appeal mechanics
+  remain out of this proposal's schema scope and block treating `orbiplex-main`
+  as production-trustworthy until documented.
+
+### 5. Federation vs. Group
+
+"Federation" in this proposal is deliberately narrow: an operational,
+`data-dir`-scoped identity, one per running node instance.
+
+Cross-federation cooperation — a Room whose membership spans participants
+configured under different `federation_id`s, a Whisper public-gossip
+promotion, a Corpus deliberation that solicits bids beyond one federation — is
+a property of what participants deliberately do *together*, realized at the
+Room/Whisper/Corpus layer. It is never a silent consequence of a node
+belonging to two federations at once, because under this model it cannot: a
+node has exactly one `federation_id`.
+
+This grounds, without changing, Solution 036's existing Room exposure tiers:
+
+- `federation-local` — bounded to participants who share the acting node's
+  configured `federation_id`.
+- `cross-federation/global` — a room whose membership is not bounded that way.
+
+The lighter, cross-cutting concept is named `alliance`. An `alliance` is an
+explicit cooperation relationship across federation boundaries, distinct from
+both "federation" (this proposal's `data-dir`-scoped network selector) and Seed
+Directory's already-used "community" trust tier.
+
+## Relationship to Existing Proposals
+
+- **Proposal 054 / Solution 031 (Seed Directory).** This proposal elevates
+  `federation_id` from a per-trust-entry tag to a node-wide selector, and gives
+  concrete shape to the "federation pack" / "distribution defaults" language
+  already present there. Seed Directory's own trust-tier model
+  (personal/community/federation-endorsed) is unchanged; a federation's
+  bootstrap directory list is what a fresh node under that federation starts
+  from.
+- **Solution 021 (Agora Authority).** Reused for its custody-mode pattern
+  (`any-authorized`/`threshold`, `AgoraAuthorityRootConfig`) and
+  `key-delegation.v1`; this proposal adds no new key-authority mechanism. Agora
+  Authority's own `authority_roots[]` remain a distinct, narrower, per-relay,
+  namespace-scoped configuration — explicitly local policy, not a federation-wide
+  contract (Solution 021: "MUST NOT be used as a policy input by other relays").
+  This proposal's `attestation_roots[]` is the federation's own canonical anchor,
+  which naturally becomes the default root Agora Authority recognizes for the
+  federation's reserved namespace; it does not replace Agora Authority's ability
+  to configure additional, narrower roots locally.
+- **Proposal 070 / Solution 036 (Room).** Grounds the existing
+  `federation-local` / `cross-federation/global` exposure tiers in a concrete
+  node-level definition without changing them.
+- **Proposal 074 (Multi-Node Federation Harness).** Can pin distinct,
+  structurally isolated `federation-root.v1` files per test node — a
+  "testnet"-style harness federation, distinct from `orbiplex-main`, instead of
+  ad hoc per-test configuration.
+- **Proposal 014 (Node Transport and Discovery MVP).** `peer_discovery.seeds[]`
+  is exactly P014's static seed peer list, "the mandatory first bootstrap layer."
+  This proposal's distribution defaults are what let that layer be non-empty
+  for `orbiplex-main` out of the box, instead of requiring every fresh node to
+  be told about a first peer manually.
+- **Proposal 075 (Matrix Homeserver Runtime Profile).** P075's "Matrix as an
+  Inter-Federation Carrier" profile is Matrix used as an optional carrier for
+  moving federation-relevant data between two Orbiplex federations. Matrix's
+  own homeserver-to-homeserver federation protocol is not what this proposal
+  means by federation and must not become a stand-in definition for it — the
+  same carrier-is-not-authority rule P075 already applies to Room/Agora/AD,
+  applied one level up to the concept of federation itself.
+- **Proposal 069 (Corpus).** Taxonomy artifacts already carry `federation/id`
+  identifying the owning/signing federation for a namespace. This proposal's
+  node-level `federation_id` is what a node uses to decide whether it treats an
+  artifact's asserted `federation/id` as its own or as an explicitly recognized
+  foreign one. Field-naming convention differs today (`federation/id` in
+  taxonomy fixtures vs. `federation_id` in Seed Directory config) is deliberate:
+  config/runtime registry artifacts use `federation_id`, while wire/domain
+  artifacts may keep `federation/id`.
+- **`federation_unavailable` crisis detector** (daemon configuration). Already
+  monitors peer/Seed Directory reachability. Should be read as monitoring
+  reachability of the node's *configured* federation's infrastructure
+  specifically, which this proposal makes an explicit, named thing rather than
+  an implicit global assumption.
+- **Proposal 036 (Memarium).** The Community memory space's
+  `ReplicationScope::Federated` (documented, not yet implemented) resolves
+  against this proposal's `federation_id`: replication is bounded to peers
+  sharing the local node's federation, a hard ceiling that a cross-federation
+  alliance must not widen. Sharing Community-space knowledge
+  across a federation boundary remains the existing explicit
+  Community-to-Public promotion (Memarium section 3.3), riding Agora's
+  federation-agnostic substrate — never an implicit consequence of shared
+  Room/group membership.
+
+## Data Contracts
+
+- `federation-root.v1` (new) — the `data-dir`-scoped root config file:
+  `federation_id`, `attestation_roots[]` (participant or, forward-compatibly,
+  org + custody mode), `bootstrap_seed_peers[]`, `seed_directory_bootstrap[]`,
+  `signatures[]`, optional `policy_ref`/`endorsement_refs[]`. Schema:
+  [`doc/schemas/federation-root.v1.schema.json`](../../schemas/federation-root.v1.schema.json);
+  example: [`doc/schemas/examples/orbiplex-main.federation-root.json`](../../schemas/examples/orbiplex-main.federation-root.json);
+  negative fixtures under [`doc/schemas/examples/invalid/`](../../schemas/examples/invalid/).
+- `seed-directory-trust.v1` (existing, Proposal 054) — unchanged; a
+  federation's bootstrap list populates this registry on first run.
+- Reused unchanged: `capability-authorization-policy.v1`, `key-delegation.v1`,
+  and the Agora Authority organization-root configuration shape.
+
+## Failure Modes and Guardrails
+
+| Failure | Risk | Mitigation |
+|---|---|---|
+| Root-config file missing/unreadable for a non-default federation | Node silently runs under wrong trust | Fail closed: refuse to start as that federation rather than falling back to `orbiplex-main`. |
+| Root-config file present but signature/custody threshold not met | Unauthorized root trust accepted | Fail closed at startup, not a degraded-mode warning. |
+| Two `data-dir`s point at overlapping storage (for example a shared object-store path) | Cross-federation data leakage | Detect and refuse at startup; never silently merge. |
+| `orbiplex-main` default pack signature invalid or missing at distribution time | Node trusts an unverifiable default network | Refuse network participation beyond fully local/offline operation. |
+| Operator assumes changing `federation_id` in a running config reloads trust | Stale keys/directories remain active | `federation_id` changes require a new `data-dir`; document and enforce that a live config reload MUST NOT silently accept a `federation_id` change. |
+
+## Open Questions
+
+None for this proposal revision.
+
+Resolved 2026-07-01:
+
+1. The lighter, cross-cutting cooperation concept is named `alliance`.
+2. `orbiplex-main` uses an org-kind threshold root; `3-of-5` is the conservative
+   initial target unless the governance charter chooses a stricter threshold.
+   Concrete custodian names, rotation ceremony, appeal path, and production
+   signer roster remain governance deliverables, not schema questions.
+3. `federation-root.v1` uses `federation_id` (snake_case), deliberately matching
+   its closest sibling artifact `seed-directory-trust.v1`. Config/runtime
+   registry artifacts use `federation_id`; wire/domain artifacts such as Corpus
+   taxonomy records may keep `federation/id`.
+4. ~~Should a node ever hold root-config files for more than one federation and
+   switch which is "active" without a full `data-dir` change, or should "one
+   federation per `data-dir`, no exceptions" remain absolute?~~ **Resolved:**
+   "one federation per `data-dir`, no exceptions" is absolute. An operator
+   needing more than one federation (for example public + corporate) runs one
+   `data-dir` per federation and switches which is active by choosing which to
+   start the daemon against; a running instance is never concurrently a member
+   of two federations. See section 2.
+5. `federation_id` collisions are handled by explicit local pinning of the root
+   pack digest and root keys. The string is not a global ownership claim, and
+   first-seen-wins is not a trust rule.
+6. Runtime should add `identity.sovereign_subject_refs[]` now, preserving
+   `identity.sovereign_participant_ids[]` as the narrower participant-only
+   compatibility projection. This lets an org-kind `orbiplex-main` threshold
+   root be represented from the start instead of shipping a participant-only
+   root that must be semantically migrated later.
+
+## Implementation Tracker
+
+Status values: `todo`, `in-progress`, `done`, `deferred`.
+
+| ID | Item | Status | Notes |
+|---|---|---|---|
+| P076-001 | Define `federation-root.v1` schema | done | `doc/schemas/federation-root.v1.schema.json`; covers exactly `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, `identity.sovereign_participant_ids[]`, plus `federation_id`, `pack_version`, and attestation-root/custody refs; `additionalProperties: false` at every level; `tls_certificate_sha256` and `key_public` patterns matched to the real runtime formats (base64url digest, bare multibase fingerprint); wired into `scripts/validate-json-schemas.sh` (`*.federation-root.json` mapping, next to `*.seed-directory-trust.json`); `make validate-schemas` passes. Positive example plus three negative fixtures under `doc/schemas/examples/` (schema-shape only — signature-validity and custody-threshold checks are runtime, not JSON-Schema-expressible; still needed, see Next Actions). |
+| P076-002 | Promote `federation_id` from per-entry tag to node-wide config | todo | Today it exists only as `DaemonSeedDirectoryTrustConfig.federation_id` (`daemon/src/config.rs:559`); needs a node-level federation config surface. |
+| P076-003 | Load `federation-root.v1` from `data-dir` at daemon startup | todo | Absent file → `orbiplex-main` distribution defaults populate the four surfaces; present file → replaces (not merges with) the defaults for those four surfaces; fail closed on parse/signature/threshold failure. |
+| P076-004 | Ship a signed `orbiplex-main` default federation pack | todo | Populates `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, and the sovereign root surface with real, working defaults (replacing today's empty/inert values, `daemon/src/config.rs:341`). The pack's selected shape is org-kind threshold custody; therefore this is blocked on P076-011 and the governance charter's concrete signer roster/rotation ceremony. |
+| P076-005 | Add a startup guard against overlapping `data-dir`/storage paths | todo | Fail closed; never silently merge two federations' storage. |
+| P076-006 | Cross-reference Room's `federation-local`/`cross-federation` exposure docs with this proposal's node-level definition | todo | No semantic change expected; add explicit cross-reference in Solution 036. |
+| P076-007 | Update Proposal 075's "Federated Homeserver Deployment" framing | done | Renamed to "Matrix as an Inter-Federation Carrier"; Executive Summary and Non-Goals now state explicitly that Matrix's homeserver-to-homeserver federation protocol is a separate mechanism from Orbiplex's own federation identity, and that adopting it is not a goal. |
+| P076-010 | Ground Memarium's `ReplicationScope::Federated` in `federation_id` | done | Proposal 036 section 3.1/3.2 now defines `Federated` as bounded to peers sharing the node's `federation_id`, and section 3.3 states that cross-federation Community sharing is the existing explicit Community-to-Public promotion, never implicit group/Room membership. |
+| P076-011 | Add an org-kind sovereign root surface (`identity.sovereign_subject_refs[]`) | todo | `identity.sovereign_participant_ids[]` fail-closed rejects anything not prefixed `participant:did:key:` (`identity/src/lib.rs:35`, `daemon/src/config.rs:3043-3046`), so `org:did:key` attestation roots are not representable today. New surface generalizes to `{id, kind, custody_policy_ref?}`, mirroring `AgoraAuthorityRootConfig`/`RoomSubject`; `sovereign_participant_ids[]` remains as the narrower participant-only compatibility projection. Required before shipping an org-kind `orbiplex-main` threshold root. |
+| P076-008 | Define the `alliance` cross-federation cooperation concept | todo | Name resolved in this proposal; a follow-up artifact should define policy semantics only when Room/Whisper/Corpus need more than the name and boundary rule. |
+| P076-009 | Update Proposal 074's harness to pin distinct federation-root files per test node | todo | Enables a testnet-style, multi-federation harness profile. |
+
+## Next Actions
+
+1. Implement P076-011 so org-kind threshold roots can be loaded at runtime.
+2. Schema shape is done (P076-001). Remaining: runtime-level negative fixtures
+   that no JSON Schema can express — missing file at startup, invalid signature
+   bytes, unmet custody threshold — as part of implementing P076-003's loader.
+3. Convene the `orbiplex-main` governance charter to name custodians, signer
+   roster, rotation, and appeal mechanics before treating the default federation
+   as production-trustworthy.

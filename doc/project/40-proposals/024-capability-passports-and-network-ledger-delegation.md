@@ -115,9 +115,12 @@ What is missing is one general artifact that says:
 - This proposal does not redefine `node-identity.v1` or participant/org
   identity contracts.
 - This proposal does not define organization-level multisig issuance of
-  passports. One sovereign operator is sufficient for hard-MVP.
+  passports. Future multi-sig issuance is modeled as a separate endorsement or
+  custody bundle attached to the passport, not as multiple unrelated signatures
+  pasted onto one passport.
 - This proposal does not define passport transparency logs or revocation
-  gossip. Revocation is local-policy driven in this phase.
+  gossip. Revocation's durable source of truth is an append-only revocation
+  fact; short-lived denylists are allowed only as projections/caches.
 
 ## Decision
 
@@ -286,16 +289,29 @@ Semantics:
 - remote Nodes interact with it through a network adapter boundary rather than
   through their own local ledger state.
 
-The capability-specific `scope` for `network-ledger` MAY be empty in hard-MVP.
-Future phases MAY add fields such as:
+The capability-specific `scope` for `network-ledger` MUST include minimal
+account namespace constraints in hard-MVP. A settlement-capable node is a
+high-impact infrastructure role; a passport that delegates "all ledger
+authority everywhere" by using `{}` is too broad for the default profile.
 
-- allowed account namespaces,
+The minimum hard-MVP scope shape is:
+
+```json
+{
+  "account_namespaces": ["orc:orbiplex-main:*"]
+}
+```
+
+Future phases MAY add richer fields such as:
+
 - top-up policy refs,
 - maximum hold lifetime,
 - accepted receipt classes.
 
-Receivers MUST tolerate unknown `scope` keys and MUST validate only the fields
-they understand.
+Receivers MUST tolerate unknown `scope` keys, but they MUST validate the minimal
+`account_namespaces[]` constraint and reject a `network-ledger` passport that
+omits it. A full ledger scope model — richer account selectors, per-operation
+limits, hold lifetime, receipt classes, and policy refs — is post-MVP work.
 
 ### 4a. Sovereign Capability Identifiers
 
@@ -500,7 +516,9 @@ Example:
   "passport_id": "passport:capability:network-ledger:01hznx...",
   "node_id": "node:did:key:z6MkTargetLedgerNode",
   "capability_id": "network-ledger",
-  "scope": {},
+  "scope": {
+    "account_namespaces": ["orc:orbiplex-main:*"]
+  },
   "issued_at": "2026-03-31T19:20:00Z",
   "expires_at": null,
   "issuer/participant_id": "participant:did:key:z6MkSovereignOperator",
@@ -532,6 +550,7 @@ Receivers MAY additionally reject passports by local policy, such as:
 
 - disallowed `issuer/node_id`,
 - disallowed `scope`,
+- missing or empty `scope.account_namespaces[]` for `network-ledger`,
 - explicitly revoked `passport_id`,
 - mismatched endpoint-to-node mapping.
 
@@ -592,9 +611,21 @@ passport ties capability delegation to canonical participant and Node identity.
 
 ## Open Questions
 
-- Should future revocation use an append-only `capability-passport-revocation`
-  fact or a short-lived denylist cache?
-- Should `scope` for `network-ledger` stay opaque longer, or should the first
-  hard-MVP include explicit account namespace constraints?
-- Should future multi-sig issuance be modeled as multiple signatures on one
-  passport or as a separate endorsement bundle?
+None for this proposal revision.
+
+Resolved 2026-07-01:
+
+1. Revocation uses an append-only `capability-passport-revocation` fact as the
+   durable source of truth. A short-lived denylist cache is allowed only as a
+   projection of those facts, not as the authority itself.
+2. `network-ledger` scope includes minimal explicit account namespace constraints
+   in hard-MVP. The full ledger scope model remains post-MVP work.
+3. Future multi-sig issuance is modeled as a separate endorsement or custody
+   bundle attached to the passport, not as multiple unrelated signatures on the
+   passport payload itself.
+
+## Post-MVP Todo
+
+- Define the full `network-ledger` scope model: richer account selectors,
+  per-operation limits, maximum hold lifetime, accepted receipt classes, and
+  settlement policy refs.

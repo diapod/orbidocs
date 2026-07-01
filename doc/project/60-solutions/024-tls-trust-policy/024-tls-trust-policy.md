@@ -54,6 +54,16 @@ For node-generated listener certificates, the privacy-preserving default is to
 use an opaque `route:` identifier in the TLS subject rather than the stable
 `node:did:key:...`. The peer handshake remains the source of node identity.
 
+The implemented boundary is explicit: public WebPKI can be used as carrier
+compatibility for public HTTPS/WSS endpoints, but it is not the Orbiplex
+authority layer. A publicly trusted certificate alone does not admit a Seed
+Directory, establish federation membership, grant a service capability, or prove
+node identity. Those decisions are made from Orbiplex-controlled material:
+`federation-root.v1`, scoped service CA acceptance, endpoint evidence and pins,
+peer handshakes, capability passports, and local operator policy. Private or
+self-signed federation/service roots are valid when they are explicit, scoped,
+accepted by local policy, and auditable.
+
 ## Context and Problem Statement
 
 Orbiplex nodes are expected to run on laptops, home nodes, VPS instances,
