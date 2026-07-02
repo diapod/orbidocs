@@ -28,7 +28,7 @@
     "federation_id": {
       "type": "string",
       "minLength": 1,
-      "description": "Network selector this pack describes (chain-id analogy: mainnet/testnet). Distinct from the wire-envelope `federation/id` used by `node-advertisement.v1` and Corpus taxonomy records — see Proposal 076 Open Question 3. A running node has exactly one active `federation_id`, bound to its `data-dir`; it is never a multi-valued or per-request field here."
+      "description": "Network selector this pack describes (chain-id analogy: mainnet/testnet). Distinct from the wire-envelope `federation/id` used by `node-advertisement.v1` and Corpus taxonomy records \u2014 see Proposal 076 Open Question 3. A running node has exactly one active `federation_id`, bound to its `data-dir`; it is never a multi-valued or per-request field here."
     },
     "pack_version": {
       "type": "integer",
@@ -43,25 +43,33 @@
     "attestation_roots": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/$defs/AttestationRoot" },
-      "description": "This federation's OWN canonical top-level anchor(s). NOT a copy of any relay's local Agora Authority `authority_roots[]` (Solution 021) — those are narrower, per-namespace, per-relay policy that MAY adopt an entry here as their namespace default, but are never required to equal this list."
+      "items": {
+        "$ref": "#/$defs/AttestationRoot"
+      },
+      "description": "This federation's OWN canonical top-level anchor(s). NOT a copy of any relay's local Agora Authority `authority_roots[]` (Solution 021) \u2014 those are narrower, per-namespace, per-relay policy that MAY adopt an entry here as their namespace default, but are never required to equal this list."
     },
     "bootstrap_seed_peers": {
       "type": "array",
       "default": [],
-      "items": { "$ref": "#/$defs/BootstrapSeedPeer" },
-      "description": "This federation's static WSS seed peers (Proposal 014's 'mandatory first bootstrap layer'), resolving to `peer_discovery.seeds[]`. Deliberately flat — one endpoint per entry, no priority/enabled toggle — to match today's `DaemonSeedPeerConfig` exactly; richer multi-endpoint peer entries would require enriching that struct first, which this schema does not assume."
+      "items": {
+        "$ref": "#/$defs/BootstrapSeedPeer"
+      },
+      "description": "This federation's static WSS seed peers (Proposal 014's 'mandatory first bootstrap layer'), resolving to `peer_discovery.seeds[]`. Deliberately flat \u2014 one endpoint per entry, no priority/enabled toggle \u2014 to match today's `DaemonSeedPeerConfig` exactly; richer multi-endpoint peer entries would require enriching that struct first, which this schema does not assume."
     },
     "seed_directory_bootstrap": {
       "type": "array",
       "default": [],
-      "items": { "$ref": "#/$defs/SeedDirectoryBootstrap" },
+      "items": {
+        "$ref": "#/$defs/SeedDirectoryBootstrap"
+      },
       "description": "This federation's own canonical default trusted Seed Directories. Each entry fans out to two existing daemon config surfaces at load time: `network.seed_directory[]` (endpoint/node_id/passport) and `network.seed_directory_trust[]` (trust_level/weight/passport_ref/policy_ref/endorsement_refs/reputation_ref/enabled). The loader MUST fill `network.seed_directory_trust[].federation_id` from this pack's own top-level `federation_id`; it is not repeated per entry here."
     },
     "custody_policies": {
       "type": "array",
       "default": [],
-      "items": { "$ref": "#/$defs/CustodyPolicy" },
+      "items": {
+        "$ref": "#/$defs/CustodyPolicy"
+      },
       "description": "Self-contained organization custody policies referenced by `attestation_roots[].custody_policy_ref`. MVP loaders resolve policy refs inside this same federation-root pack, so bootstrap does not depend on an external policy registry."
     },
     "policy_ref": {
@@ -72,21 +80,29 @@
     "endorsement_refs": {
       "type": "array",
       "default": [],
-      "items": { "type": "string", "minLength": 1 },
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
       "description": "Optional references to endorsement facts supporting this pack's trust claims (for example community-elected public-service recognition), carried via the existing `reputation-signal.v1` mechanism rather than a new primitive."
     },
     "signatures": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/$defs/Signature" },
-      "description": "Signatures over the canonical payload (every field above, excluding `signatures` itself). A local, self-authored federation-root file is still signed by its own operator-held root key(s) — 'self-signed' is a valid case, 'unsigned' is not. Which keys and how many are required is governed by whatever custody mode/policy applies to this federation's `attestation_roots[]` entries (see Proposal 076 section 4 and its resolved custody-mode decision), not by this schema. Runtime threshold evaluation is over unique signing keys, not over externally asserted people or organizations."
+      "items": {
+        "$ref": "#/$defs/Signature"
+      },
+      "description": "Signatures over the canonical payload (every field above, excluding `signatures` itself). A local, self-authored federation-root file is still signed by its own operator-held root key(s) \u2014 'self-signed' is a valid case, 'unsigned' is not. Which keys and how many are required is governed by whatever custody mode/policy applies to this federation's `attestation_roots[]` entries (see Proposal 076 section 4 and its resolved custody-mode decision), not by this schema. Runtime threshold evaluation is over unique signing keys, not over externally asserted people or organizations."
     }
   },
   "$defs": {
     "AttestationRoot": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "kind"],
+      "required": [
+        "id",
+        "kind"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -95,12 +111,18 @@
         },
         "kind": {
           "type": "string",
-          "enum": ["participant", "org"],
+          "enum": [
+            "participant",
+            "org"
+          ],
           "description": "Mirrors `AgoraAuthorityRootKind` and `identity.sovereign_subject_refs[]` (Proposal 076 tracker P076-011)."
         },
         "custody_mode": {
           "type": "string",
-          "enum": ["any-authorized", "threshold"],
+          "enum": [
+            "any-authorized",
+            "threshold"
+          ],
           "description": "Required and meaningful only for `kind: org`, mirroring `OrgCustodyMode`. Forbidden for `kind: participant`, where custody is inherently single-key."
         },
         "custody_policy_ref": {
@@ -110,13 +132,16 @@
         },
         "purposes": {
           "type": "array",
-          "items": { "type": "string", "minLength": 1 },
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
           "description": "Optional purpose scoping, mirroring `AgoraAuthorityRootConfig.purposes`. Runtime loaders preserve it on `identity.sovereign_subject_refs[]`; the narrower `identity.sovereign_participant_ids[]` compatibility projection remains a bare participant-id list and therefore cannot carry purpose metadata."
         },
         "valid_from": {
           "type": "string",
           "format": "date-time",
-          "description": "Optional per-root validity window start, mirroring `AgoraAuthorityRootConfig.valid_from`. Deliberately per-root, not a whole-pack field — different roots in the same pack may rotate on different schedules."
+          "description": "Optional per-root validity window start, mirroring `AgoraAuthorityRootConfig.valid_from`. Deliberately per-root, not a whole-pack field \u2014 different roots in the same pack may rotate on different schedules."
         },
         "valid_until": {
           "type": "string",
@@ -127,31 +152,58 @@
       "allOf": [
         {
           "if": {
-            "properties": { "kind": { "const": "participant" } },
-            "required": ["kind"]
+            "properties": {
+              "kind": {
+                "const": "participant"
+              }
+            },
+            "required": [
+              "kind"
+            ]
           },
           "then": {
             "properties": {
-              "id": { "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$" }
+              "id": {
+                "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+              }
             },
             "not": {
               "anyOf": [
-                { "required": ["custody_mode"] },
-                { "required": ["custody_policy_ref"] }
+                {
+                  "required": [
+                    "custody_mode"
+                  ]
+                },
+                {
+                  "required": [
+                    "custody_policy_ref"
+                  ]
+                }
               ]
             }
           }
         },
         {
           "if": {
-            "properties": { "kind": { "const": "org" } },
-            "required": ["kind"]
+            "properties": {
+              "kind": {
+                "const": "org"
+              }
+            },
+            "required": [
+              "kind"
+            ]
           },
           "then": {
             "properties": {
-              "id": { "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$" }
+              "id": {
+                "pattern": "^org:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+              }
             },
-            "required": ["custody_mode", "custody_policy_ref"],
+            "required": [
+              "custody_mode",
+              "custody_policy_ref"
+            ],
             "$comment": "Org roots are represented through identity.sovereign_subject_refs[]. Runtime custody-threshold verification and custody_mode-to-policy mode parity are semantic loader/policy concerns and are not expressible as portable JSON Schema cross-array references."
           }
         }
@@ -160,7 +212,10 @@
     "BootstrapSeedPeer": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["node_id", "endpoint_url"],
+      "required": [
+        "node_id",
+        "endpoint_url"
+      ],
       "description": "Mirrors `DaemonSeedPeerConfig` field-for-field (daemon/src/config.rs:761).",
       "properties": {
         "node_id": {
@@ -177,7 +232,7 @@
         "tls_certificate_sha256": {
           "type": "string",
           "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
-          "description": "Optional pinned SHA-256 fingerprint of the endpoint leaf certificate DER, in `sha256:<base64url-digest>` form — unpadded base64url of the raw 32-byte digest (43 characters), matching `validate_sha256_fingerprint` in `daemon/src/lib.rs`. Not hex."
+          "description": "Optional pinned SHA-256 fingerprint of the endpoint leaf certificate DER, in `sha256:<base64url-digest>` form \u2014 unpadded base64url of the raw 32-byte digest (43 characters), matching `validate_sha256_fingerprint` in `daemon/src/lib.rs`. Not hex."
         },
         "tls_advisory_route_id": {
           "type": "string",
@@ -189,7 +244,13 @@
     "SeedDirectoryBootstrap": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["node_id", "endpoint", "trust_level", "weight"],
+      "required": [
+        "node_id",
+        "endpoint",
+        "trust_level",
+        "weight",
+        "enabled"
+      ],
       "description": "Fans out to `DaemonSeedDirectoryConfig` (daemon/src/config.rs:528) and `DaemonSeedDirectoryTrustConfig` (daemon/src/config.rs:551) at load time.",
       "properties": {
         "node_id": {
@@ -210,7 +271,11 @@
         },
         "trust_level": {
           "type": "string",
-          "enum": ["personal", "community", "federation-endorsed"],
+          "enum": [
+            "personal",
+            "community",
+            "federation-endorsed"
+          ],
           "description": "Local trust tier, populating `DaemonSeedDirectoryTrustConfig.trust_level`."
         },
         "weight": {
@@ -231,7 +296,10 @@
         "endorsement_refs": {
           "type": "array",
           "default": [],
-          "items": { "type": "string", "minLength": 1 },
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
           "description": "Optional endorsement references, populating `DaemonSeedDirectoryTrustConfig.endorsement_refs`."
         },
         "reputation_ref": {
@@ -241,15 +309,22 @@
         },
         "enabled": {
           "type": "boolean",
-          "default": true,
           "description": "Populates `DaemonSeedDirectoryTrustConfig.enabled`."
+        },
+        "endorsement": {
+          "$ref": "#/$defs/FederationServiceEndorsement",
+          "description": "Optional inline `federation-service-endorsement.v1` artifact. When present and verified by the loader against the active federation root, this is the sole proof that the bootstrap Seed Directory has federation-official status. `endorsement_refs[]` remain non-authoritative metadata."
         }
       }
     },
     "CustodyPolicy": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["policy/ref", "org/id", "rules"],
+      "required": [
+        "policy/ref",
+        "org/id",
+        "rules"
+      ],
       "properties": {
         "policy/ref": {
           "type": "string",
@@ -266,23 +341,33 @@
           "minItems": 1,
           "maxItems": 1,
           "$comment": "Exactly one rule is allowed in v1 because the only supported purpose is federation-root; runtime also rejects duplicate policy refs.",
-          "items": { "$ref": "#/$defs/CustodyRule" }
+          "items": {
+            "$ref": "#/$defs/CustodyRule"
+          }
         }
       }
     },
     "CustodyRule": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["purpose", "mode"],
+      "required": [
+        "purpose",
+        "mode"
+      ],
       "properties": {
         "purpose": {
           "type": "string",
-          "enum": ["federation-root"],
+          "enum": [
+            "federation-root"
+          ],
           "description": "MVP federation-root custody evaluation supports only federation-root signing."
         },
         "mode": {
           "type": "string",
-          "enum": ["any-authorized", "threshold"]
+          "enum": [
+            "any-authorized",
+            "threshold"
+          ]
         },
         "threshold/min_signers": {
           "type": "integer",
@@ -292,27 +377,69 @@
         "authorized/participant_ids": {
           "type": "array",
           "default": [],
-          "items": { "type": "string", "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$" }
+          "items": {
+            "type": "string",
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          }
         },
         "authorized/key_publics": {
           "type": "array",
           "default": [],
-          "items": { "type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$" }
+          "items": {
+            "type": "string",
+            "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+          }
         }
       },
       "allOf": [
         {
-          "if": { "properties": { "mode": { "const": "threshold" } }, "required": ["mode"] },
-          "then": { "required": ["threshold/min_signers"] }
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "threshold"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "threshold/min_signers"
+            ]
+          }
         },
         {
-          "if": { "properties": { "mode": { "const": "any-authorized" } }, "required": ["mode"] },
-          "then": { "not": { "required": ["threshold/min_signers"] } }
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "any-authorized"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "threshold/min_signers"
+              ]
+            }
+          }
         },
         {
           "anyOf": [
-            { "required": ["authorized/participant_ids"] },
-            { "required": ["authorized/key_publics"] }
+            {
+              "required": [
+                "authorized/participant_ids"
+              ]
+            },
+            {
+              "required": [
+                "authorized/key_publics"
+              ]
+            }
           ]
         }
       ]
@@ -320,11 +447,17 @@
     "Signature": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["alg", "key_public", "value"],
+      "required": [
+        "alg",
+        "key_public",
+        "value"
+      ],
       "properties": {
         "alg": {
           "type": "string",
-          "enum": ["ed25519"]
+          "enum": [
+            "ed25519"
+          ]
         },
         "key_public": {
           "type": "string",
@@ -334,6 +467,94 @@
         "value": {
           "type": "string",
           "minLength": 1
+        }
+      }
+    },
+    "FederationServiceEndorsement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "endorsement_id",
+        "federation_id",
+        "node_id",
+        "capability_id",
+        "endorser_subject_ref",
+        "issued_at",
+        "expires_at",
+        "signatures"
+      ],
+      "properties": {
+        "schema": {
+          "const": "federation-service-endorsement.v1"
+        },
+        "endorsement_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^federation-service-endorsement:"
+        },
+        "federation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node_id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "capability_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "endorser_subject_ref": {
+          "type": "string",
+          "pattern": "^(participant|org):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "policy_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revocation_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signatures": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/FederationServiceEndorsementSignature"
+          }
+        }
+      },
+      "description": "Embedded form of `federation-service-endorsement.v1` used only so a bootstrap Seed Directory can be verified before any directory is trusted. Runtime verification still enforces signature, custody, time, federation, node, and capability invariants."
+    },
+    "FederationServiceEndorsementSignature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "key_public",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "key_public": {
+          "type": "string",
+          "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$"
         }
       }
     }

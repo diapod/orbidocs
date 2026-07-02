@@ -57,6 +57,8 @@ Data-dir-scoped root config file (the 'federation pack') loaded at daemon startu
 | [`CustodyPolicy`](#def-custodypolicy) | object |  |
 | [`CustodyRule`](#def-custodyrule) | object |  |
 | [`Signature`](#def-signature) | object |  |
+| [`FederationServiceEndorsement`](#def-federationserviceendorsement) | object | Embedded form of `federation-service-endorsement.v1` used only so a bootstrap Seed Directory can be verified before any directory is trusted. Runtime verification still enforces signature, custody, time, federation, node, and capability invariants. |
+| [`FederationServiceEndorsementSignature`](#def-federationserviceendorsementsignature) | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -180,5 +182,17 @@ Fans out to `DaemonSeedDirectoryConfig` (daemon/src/config.rs:528) and `DaemonSe
 
 <a id="def-signature"></a>
 ## `$defs.Signature`
+
+- Shape: object
+
+<a id="def-federationserviceendorsement"></a>
+## `$defs.FederationServiceEndorsement`
+
+- Shape: object
+
+Embedded form of `federation-service-endorsement.v1` used only so a bootstrap Seed Directory can be verified before any directory is trusted. Runtime verification still enforces signature, custody, time, federation, node, and capability invariants.
+
+<a id="def-federationserviceendorsementsignature"></a>
+## `$defs.FederationServiceEndorsementSignature`
 
 - Shape: object
