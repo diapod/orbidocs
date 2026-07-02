@@ -87,7 +87,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md) | `17` | `16` | `yes` | `yes` | `1` | `1` |
 | [`eval-report.v1.schema.json`](schemas-gen/schemas/eval-report.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md) | `22` | `22` | `yes` | `yes` | `3` | `5` |
-| [`federation-root.v1.schema.json`](schemas-gen/schemas/federation-root.v1.md) | `11` | `11` | `yes` | `yes` | `2` | `6` |
+| [`federation-root.v1.schema.json`](schemas-gen/schemas/federation-root.v1.md) | `12` | `12` | `yes` | `yes` | `2` | `6` |
 | [`federation-service-endorsement.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md) | `20` | `19` | `yes` | `yes` | `1` | `1` |
 | [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md) | `23` | `22` | `yes` | `yes` | `1` | `1` |

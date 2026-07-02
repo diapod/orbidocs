@@ -42,6 +42,7 @@ Data-dir-scoped root config file (the 'federation pack') loaded at daemon startu
 | [`attestation_roots`](#field-attestation-roots) | `yes` | array | This federation's OWN canonical top-level anchor(s). NOT a copy of any relay's local Agora Authority `authority_roots[]` (Solution 021) — those are narrower, per-namespace, per-relay policy that MAY adopt an entry here as their namespace default, but are never required to equal this list. |
 | [`bootstrap_seed_peers`](#field-bootstrap-seed-peers) | `no` | array | This federation's static WSS seed peers (Proposal 014's 'mandatory first bootstrap layer'), resolving to `peer_discovery.seeds[]`. Deliberately flat — one endpoint per entry, no priority/enabled toggle — to match today's `DaemonSeedPeerConfig` exactly; richer multi-endpoint peer entries would require enriching that struct first, which this schema does not assume. |
 | [`seed_directory_bootstrap`](#field-seed-directory-bootstrap) | `no` | array | This federation's own canonical default trusted Seed Directories. Each entry fans out to two existing daemon config surfaces at load time: `network.seed_directory[]` (endpoint/node_id/passport) and `network.seed_directory_trust[]` (trust_level/weight/passport_ref/policy_ref/endorsement_refs/reputation_ref/enabled). The loader MUST fill `network.seed_directory_trust[].federation_id` from this pack's own top-level `federation_id`; it is not repeated per entry here. |
+| [`federation_service_endorsement_revocations`](#field-federation-service-endorsement-revocations) | `no` | array | Optional signed `federation-service-endorsement-revocation.v1` artifacts known at root-pack activation time. Loaders use these revocations when deciding whether inline Seed Directory bootstrap endorsements may confer federation-official status. |
 | [`custody_policies`](#field-custody-policies) | `no` | array | Self-contained organization custody policies referenced by `attestation_roots[].custody_policy_ref`. MVP loaders resolve policy refs inside this same federation-root pack, so bootstrap does not depend on an external policy registry. |
 | [`policy_ref`](#field-policy-ref) | `no` | string | Optional reference to the policy document governing this federation's root and bootstrap decisions. |
 | [`endorsement_refs`](#field-endorsement-refs) | `no` | array | Optional references to endorsement facts supporting this pack's trust claims (for example community-elected public-service recognition), carried via the existing `reputation-signal.v1` mechanism rather than a new primitive. |
@@ -58,6 +59,7 @@ Data-dir-scoped root config file (the 'federation pack') loaded at daemon startu
 | [`CustodyRule`](#def-custodyrule) | object |  |
 | [`Signature`](#def-signature) | object |  |
 | [`FederationServiceEndorsement`](#def-federationserviceendorsement) | object | Embedded form of `federation-service-endorsement.v1` used only so a bootstrap Seed Directory can be verified before any directory is trusted. Runtime verification still enforces signature, custody, time, federation, node, and capability invariants. |
+| [`FederationServiceEndorsementRevocation`](#def-federationserviceendorsementrevocation) | object | Embedded startup-time endorsement revocation. Runtime Seed Directory verification remains authoritative for live feeds; this root-pack form lets startup bootstrap apply known withdrawals before trusting inline official-service proofs. |
 | [`FederationServiceEndorsementSignature`](#def-federationserviceendorsementsignature) | object |  |
 ## Field Semantics
 
@@ -116,6 +118,14 @@ This federation's static WSS seed peers (Proposal 014's 'mandatory first bootstr
 - Shape: array
 
 This federation's own canonical default trusted Seed Directories. Each entry fans out to two existing daemon config surfaces at load time: `network.seed_directory[]` (endpoint/node_id/passport) and `network.seed_directory_trust[]` (trust_level/weight/passport_ref/policy_ref/endorsement_refs/reputation_ref/enabled). The loader MUST fill `network.seed_directory_trust[].federation_id` from this pack's own top-level `federation_id`; it is not repeated per entry here.
+
+<a id="field-federation-service-endorsement-revocations"></a>
+## `federation_service_endorsement_revocations`
+
+- Required: `no`
+- Shape: array
+
+Optional signed `federation-service-endorsement-revocation.v1` artifacts known at root-pack activation time. Loaders use these revocations when deciding whether inline Seed Directory bootstrap endorsements may confer federation-official status.
 
 <a id="field-custody-policies"></a>
 ## `custody_policies`
@@ -191,6 +201,13 @@ Fans out to `DaemonSeedDirectoryConfig` (daemon/src/config.rs:528) and `DaemonSe
 - Shape: object
 
 Embedded form of `federation-service-endorsement.v1` used only so a bootstrap Seed Directory can be verified before any directory is trusted. Runtime verification still enforces signature, custody, time, federation, node, and capability invariants.
+
+<a id="def-federationserviceendorsementrevocation"></a>
+## `$defs.FederationServiceEndorsementRevocation`
+
+- Shape: object
+
+Embedded startup-time endorsement revocation. Runtime Seed Directory verification remains authoritative for live feeds; this root-pack form lets startup bootstrap apply known withdrawals before trusting inline official-service proofs.
 
 <a id="def-federationserviceendorsementsignature"></a>
 ## `$defs.FederationServiceEndorsementSignature`
