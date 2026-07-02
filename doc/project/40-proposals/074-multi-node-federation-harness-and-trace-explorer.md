@@ -404,7 +404,8 @@ can become nightly gates once stable.
 
 ### Phase 1: Harness Core
 
-- Add pure scenario/run/node/topology DTOs.
+- Add Rust `federation-harness-core` contracts for pure
+  scenario/run/node/topology DTOs.
 - Add deterministic port and data-dir planning.
 - Add validation for role/service combinations.
 - Add golden examples for Story 000 and Story 010.
@@ -414,12 +415,14 @@ can become nightly gates once stable.
 - Add process spawn/stop/wait/cleanup.
 - Add readiness wait primitives.
 - Add local TLS material setup.
-- Add optional Matrix fixture lifecycle.
-- Wrap at least one existing story acceptance pack.
+- Add optional Matrix fixture lifecycle as a profile, not as the hard-MVP
+  baseline.
+- Wrap Story 010 as the first generic harness target.
 
 ### Phase 3: Trace Explorer Core
 
-- Add normalized `trace-event.v1` and `trace-link.v1`.
+- Add canonical `trace-event.v1` and `trace-link.v1` schemas under
+  `doc/schemas/`.
 - Add adapters for AD, INAC, Messaging temporal logs, Agora records, and Seed
   Directory state.
 - Add deterministic correlation and partial-order sorting.
@@ -429,6 +432,8 @@ can become nightly gates once stable.
 
 - Add `collect`, `timeline`, `explain`, and `bundle` commands.
 - Add JSON bundle fixture tests.
+- Start with trace bundle import/read from disk; daemon collection APIs are a
+  later extension after source adapters stabilize.
 - Extend or replace the current focused `xtask trace-delivery` path with the
   generic explorer.
 
@@ -471,37 +476,19 @@ the stores already used by that story.
 
 ## Open Questions
 
-1. Should the first harness implementation live as Rust crates
-   (`federation-harness-core`, `federation-harness-runtime`) or as Python tooling
-   beside existing acceptance packs?
+None for the current proposal revision.
 
-   Sensible default: Rust core for contracts and planning, Python or Rust
-   runtime wrapper only where it can reuse existing acceptance code without a
-   rewrite.
+Resolved 2026-07-02:
 
-2. Should `trace-event.v1` and `trace-link.v1` become canonical schemas in
-   `doc/schemas/` immediately, or begin as internal node tooling contracts?
-
-   Sensible default: canonical schemas early, because trace bundles will become
-   support artifacts.
-
-3. Should operator UI read trace bundles from disk, call daemon collection APIs,
-   or support both?
-
-   Sensible default: start with bundle import/read from disk, then add daemon
-   collection APIs after the source adapters stabilize.
-
-4. Which story should be the first generic harness target?
-
-   Sensible default: Story 010, because it exercises Contact Catalog,
-   Messaging, AD/INAC, Seed Directory, passports, revocation freshness, and
-   operator notifications without requiring the full Story 009 workflow stack.
-
-5. Should Matrix fixture support be part of hard MVP?
-
-   Sensible default: no. The hard MVP should support a local direct transport
-   scenario first, with Matrix fixture support as the next federated-smoke
-   profile.
+1. The first harness implementation uses a Rust core for contracts and
+   deterministic planning. Runtime wrappers may reuse existing acceptance code
+   where that avoids a rewrite.
+2. `trace-event.v1` and `trace-link.v1` are canonical schemas from the start
+   because trace bundles are support/audit artifacts.
+3. Operator UI starts with trace bundle import/read from disk. Daemon collection
+   APIs are deferred until the source adapters stabilize.
+4. Story 010 is the first generic harness target.
+5. Matrix support is an optional smoke profile, not a hard-MVP blocker.
 
 ## Next Actions
 
@@ -514,5 +501,18 @@ the stores already used by that story.
 4. Generalize `xtask trace-delivery` into the first trace explorer adapter set.
 5. Add a read-only CLI that can produce one trace bundle for an existing Story
    010 acceptance run.
-6. Add tracker rows after the first implementation slice is scoped.
+6. Add optional Matrix smoke profile support after the local/direct Story 010
+   profile is stable.
 
+## Implementation Tracker
+
+Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
+
+| ID | Item | Status | Notes |
+|---|---|---|---|
+| P074-001 | Create Rust `federation-harness-core` contracts and deterministic planning | todo | Scenario/run/node/topology DTOs, deterministic port/data-dir planning, and role/service validation. |
+| P074-002 | Wrap Story 010 as the first generic harness target | todo | Reuse existing acceptance code where practical; Story 010 is the first integration target because it exercises the broadest federated surface without the Story 009 workflow stack. |
+| P074-003 | Define canonical trace schemas | todo | Add `federation-run.v1`, `federation-node.v1`, `trace-event.v1`, and `trace-link.v1` under `doc/schemas/`. |
+| P074-004 | Add disk-bundle trace explorer import/read path | todo | Operator/read-only tooling starts from support bundles on disk; daemon collection APIs remain post-adapter-stabilization. |
+| P074-005 | Add trace adapters for first Story 010 sources | todo | AD, INAC, Messaging temporal logs, Agora records, and Seed Directory state with redaction tests. |
+| P074-006 | Add optional Matrix smoke profile | todo | Matrix fixture support is optional for smoke coverage and not a hard-MVP blocker. |

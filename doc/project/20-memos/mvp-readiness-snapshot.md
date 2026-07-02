@@ -320,7 +320,7 @@ Recent component deltas:
 | [Proposal 022: Monus as Host-Granted Local Observation Middleware](../40-proposals/022-monus-as-host-granted-local-observation-middleware.md) | `false` | `false` | `false` | `15` |
 | [Proposal 023: Federated Offer Distribution and Catalog Listener](../40-proposals/023-federated-offer-distribution-and-catalog-listener.md) | `true` | `true` | `false` | `100` |
 | [Proposal 024: Capability Passports and Network Ledger Delegation](../40-proposals/024-capability-passports-and-network-ledger-delegation.md) | `true` | `true` | `false` | `85` |
-| [Proposal 025: Seed Directory as Capability Catalog](../40-proposals/025-seed-directory-as-capability-catalog.md) | `true` | `true` | `false` | `100` |
+| [Proposal 025: Seed Directory as Capability Catalog](../40-proposals/025-seed-directory-as-capability-catalog.md) | `true` | `false` | `false` | `85` |
 | [Proposal 026: Resource Opinions and Discussion Surfaces](../40-proposals/026-resource-opinions-and-discussion-surfaces.md) | `false` | `false` | `false` | `100` |
 | [Proposal 027: Middleware Peer-Message Dispatch](../40-proposals/027-middleware-peer-message-dispatch.md) | `true` | `true` | `true` | `100` |
 | [Proposal 028: Service Schema Catalog](../40-proposals/028-service-schema-catalog.md) | `false` | `false` | `false` | `25` |
