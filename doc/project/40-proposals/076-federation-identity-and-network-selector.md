@@ -679,7 +679,21 @@ one artifact; that is out of scope for v1.
 
 ## Open Questions
 
-None for the current proposal revision.
+Open as of 2026-07-02:
+
+1. **Bootstrap endorsement delivery and the "official" label for
+   `seed_directory_bootstrap[]` entries.** Resolved question #4 (2026-07-02)
+   makes official-labelled pointers fail closed without a resolvable
+   `federation-service-endorsement.v1`, but a bootstrap entry today carries
+   only `endorsement_refs[]` — *references*, which cannot be resolved before
+   the directory they point at is trusted (circularity). Two coupled choices
+   are open: (a) how the artifact reaches the loader — scoped `config-install`
+   (P025-009) or a new optional inline `endorsement` field next to `passport`
+   in the bootstrap entry; (b) what marks an entry as official — presence of a
+   resolvable endorsement, or an explicit per-entry flag. Until decided,
+   bootstrap entries load as advisory community pointers (see Implementation
+   Recommendations, P076-021), so the fail-closed rule is not yet exercisable
+   for bootstrap-listed directories.
 
 Resolved 2026-07-01:
 
@@ -747,14 +761,14 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-008 | Define the `alliance` cross-federation cooperation concept | todo | Name resolved in this proposal; a follow-up artifact should define policy semantics only when Room/Whisper/Corpus need more than the name and boundary rule. |
 | P076-009 | Update Proposal 074's harness to pin distinct federation-root files per test node | todo | Enables a testnet-style, multi-federation harness profile. |
 | P076-015 | Ground "sovereign operator" in the federation root | done | The §6 definition now treats a sovereign operator of federation `F` as a subject in `F`'s active `identity.sovereign_subject_refs[]`; participant subjects vouch with their own key and org subjects are held to their `federation-root` custody policy. Proposal 025 §2/§4/§6 now uses this split: `capability-passport.v1` is scope-only, while official-service status is carried by `federation-service-endorsement.v1`. |
-| P076-016 | Enforce federation-endorsement resolution in the loader and `capability-binding` | partial | `capability-binding` contains the pure verifier core for `federation-service-endorsement.v1`, and daemon config now derives a runtime-only `FederationSovereignSubjectSnapshot` from the verified active `federation-root.v1` pack. Embedded Seed Directory receives that snapshot and uses it to verify endorsement attach/revocation before mutating official-status state; `GET /cap*` downgrades to community/unofficial when no active verified endorsement is present. Remaining work: consumer-side per-use re-verification against the reader's active root, rotation-triggered re-checks, and broader non-Seed-Directory official consumers. |
+| P076-016 | Enforce federation-endorsement resolution in the loader and `capability-binding` | partial | `capability-binding` contains the pure verifier core for `federation-service-endorsement.v1`, and daemon config now derives a runtime-only `FederationSovereignSubjectSnapshot` from the verified active `federation-root.v1` pack. Embedded Seed Directory receives a live authority snapshot source and uses it to verify endorsement attach/revocation before mutating official-status state; `GET /cap*` downgrades to community/unofficial when no active verified endorsement is present, and attach responses expose a typed `OfficialStatusDecision`. Remaining work: consumer-side per-use re-verification against the reader's active root, full root-activation workflow wiring, and broader non-Seed-Directory official consumers. |
 | P076-017 | Define `federation-service-endorsement.v1` (single endorsement artifact, 1..M signatures) | done | `doc/schemas/federation-service-endorsement.v1.schema.json` defines the single endorsement artifact with `additionalProperties: false`, explicit `endorser_subject_ref`, `federation_id`, `node_id`, `capability_id`, validity window, optional policy/revocation refs, and `signatures[]`. Positive and negative fixtures are synced into `node/protocol/contracts`; `schema-gate` exposes dedicated ingress/export validators and rejects import-boundary use. The node verifier core uses the same domain separator and canonical JSON/JCS signing payload. §6. |
 | P076-018 | New offline ceremony process for joint-issuance endorsements | todo | **High priority.** A ceremony command/sibling producing a threshold-cosigned `federation-service-endorsement.v1`, reusing the digest → collect-detached-signatures → assemble → verify *pattern* of the federation-root ceremony but with the endorsement's own domain separator and payload. Extends P076-014 tooling; the MVP path for the Option-1 decision. Note: the current ceremony signs only `federation-root` payloads, so this is new tooling surface, not reuse of an existing command. |
 | P076-019 | Post-MVP remote co-signing protocol for endorsements | deferred | Transport-agnostic protocol letting sovereign signers add detached signatures over a shared endorsement digest without an in-person ceremony. Guardrails: every signer verifies the exact digest/payload before signing (no "trust and sign"); deterministic assembly; the channel carries detached signatures, not authority. Transport is undecided — messaging plus an attachment primitive is one candidate, not a commitment; any attachment primitive would need its own bounded spec first. |
 | P076-020 | Ceremony option to author `attestation_roots[]`/`sovereign_subject_refs[]` from supplied keys | todo | Operator-owned follow-up (tracked for visibility). Let the ceremony optionally author `participant`-kind roots from a supplied key set instead of requiring the roots to be hand-authored in the pack beforehand. Must preserve the governance-authored guarantee: the resulting roster stays an explicit, signed decision, never silently signature-derived. |
 | P076-021 | Make `federation-service-endorsement.v1` the sole proof of "official" status | todo | **High priority.** Consumers, Seed Directory registration, and the loader accept ONLY a valid `federation-service-endorsement.v1` (participant `M=1`, org `M`-of-N under custody plus local `endorsement-multiplicity`) as conferring official / federation-endorsed status; a single-issuer `capability-passport.v1` is scope/advertisement only and never confers "official" on its own. Official-service pointers fail closed without endorsement; community/address-only pointers may load advisory but never official. Update Proposal 025 §2/§4/§6 and any `capability-binding` path accordingly. Negative test: a lone single-issuer seed-directory passport is not treated as official, and an official-labelled pointer without endorsement refuses official loading/use. |
 | P076-022 | Operator UI for issuing official-service endorsements for non-own services | todo | **High priority.** The node has local passport issuance and capability-advertisement publication surfaces, but no operator flow for a *sovereign* to endorse someone else's service. Add an operator UI/API surface where a sovereign operator enters (or picks) a target `node_id`, selects the official capability from a menu (`seed-directory`, `offer-catalog`, …), and the node builds the `federation-service-endorsement.v1` (participant subject signs locally; org subject hands off to the P076-018 ceremony), then announces it via the Seed Directory attach endpoint (`PUT /cap/{node-id}/{capability-id}/endorsement`, P025 §3) with the retryable `scope-entry-missing` backoff (`5s → 30s → 120s → 360s`). Preconditions surfaced in the UI: the local identity resolves to an active sovereign subject; the target node has (or will have) a node-signed scope entry. |
-| P076-023 | Endorsed-node periodic endorsement fetch and local cache | partial | Seed Directory fetch/cache now carries endorsement material through the existing capability discovery cache: `SeedDirectoryCapabilityEntry` has `official` plus `endorsement`, reconciliation/cache preserves the full entry, and `presented_capability_from_seed_entry` projects the stored endorsement into `capability-advertisement.v1` `capabilities_presented[].endorsements[]`. Remaining work: a bounded persisted own-node endorsement fetcher with jitter, lapsed/verified facts, TTL by `expires_at`, and explicit refusal traces for failed verification. |
+| P076-023 | Endorsed-node periodic endorsement fetch and local cache | partial | Seed Directory fetch/cache now carries endorsement material through the existing capability discovery cache: `SeedDirectoryCapabilityEntry` has `official` plus `endorsement`, reconciliation/cache preserves the full entry, `build_presented_capability_with_endorsements` is the shared projection bridge, and `presented_capability_from_seed_entry` projects the stored endorsement into `capability-advertisement.v1` `capabilities_presented[].endorsements[]`. Remaining work: a bounded persisted own-node endorsement fetcher with jitter, lapsed/verified facts, TTL by `expires_at`, and explicit refusal traces for failed verification. |
 | P076-024 | Keep federation-root activation restart-only | todo | Runtime/config reload paths must not apply a new `federation-root.v1` to a running daemon. Operators may validate a candidate pack, but activation requires restart against the selected `data-dir`. |
 | P076-025 | Require explicit `seed_directory_bootstrap[].enabled` | todo | Schema/runtime should reject omitted `enabled` in bootstrap entries so there is no hidden admission default. |
 | P076-026 | Freeze the production `orbiplex-main` ceremony shape | todo | Document or implement ceremony checks for digest, detached multi-signature collection, deterministic assembly, verification before publication, rotation overlap, and appeal reference. Concrete roster/keys remain governance-authored. |
@@ -796,20 +810,15 @@ without a daemon.
 
 ### P076-016 — runtime verification in the daemon
 
-- Build the authority snapshot **once per loaded pack**, in the same place the
-  loader already projects `attestation_roots[]`:
-
-  ```rust
-  // daemon: derived alongside identity.sovereign_subject_refs projection
-  FederationSovereignSubjectSnapshot::try_new(
-      federation_id,
-      subjects, // Participant { id } | Org { id, policy: mode + authorized_* }
-  )
-  ```
-
-  Map `custody_policies[]` rules (purpose `federation-root`) into
-  `FederationSovereignOrgPolicy` exactly as `validate_org_federation_root`
-  reads them — one source of custody truth, two consumers.
+- *Landed:* the authority snapshot is derived **once per loaded pack**
+  (`daemon` config carries a runtime-only `federation_service_authority_snapshot`
+  built from the verified pack, alongside the `sovereign_subject_refs`
+  projection), and the embedded Seed Directory receives it for attach/revocation
+  verification. Custody truth has one source, two consumers
+  (`validate_org_federation_root` and the snapshot mapping) — keep it that way.
+- *Remaining:* consumer-side per-use re-verification against the *reader's*
+  active root, rotation-triggered re-checks, and non-Seed-Directory official
+  consumers.
 - Surface the outcome as a **typed decision**, not a bool or string:
 
   ```rust
@@ -875,6 +884,15 @@ without a daemon.
 - Gate the flip behind a config default so a deployment can stage it; the
   negative test "lone single-issuer passport ≠ official" is the cutover's
   definition of done.
+- **Bootstrap delivery gap (resolve before the fail-closed flip):**
+  `seed_directory_bootstrap[]` carries `endorsement_refs[]` — *references*, not
+  artifacts — and a reference cannot be resolved before the directory it points
+  at is trusted (circularity). For an official-labelled bootstrap entry to fail
+  closed satisfiably, the endorsement artifact must be locally available at
+  load time: either via scoped `config-install` (P025-009) or a new optional
+  inline `endorsement` field next to `passport` in the bootstrap entry. Decide
+  which before flipping; until then, bootstrap entries load as advisory
+  community pointers (per Resolved 2026-07-02 #4).
 
 ### P076-022 — operator UI for endorsing non-own services
 
@@ -901,9 +919,14 @@ without a daemon.
 
 ### P076-023 — endorsed-node fetch and cache
 
-- Bounded periodic worker (default ~30 min, jittered like the peer-runtime
-  backoff helpers), querying configured Seed Directories for endorsements
-  targeting the node's own `node_id`.
+- *Landed:* the discovery cache carries `official` + `endorsement` end to end
+  (`SeedDirectoryCapabilityEntry`), and `presented_capability_from_seed_entry`
+  projects the stored artifact into
+  `capabilities_presented[].endorsements[]`.
+- *Remaining:* the bounded periodic worker (default ~30 min, jittered like the
+  peer-runtime backoff helpers) querying configured Seed Directories for
+  endorsements targeting the node's **own** `node_id`, with persistence, facts,
+  and refusal traces.
 - Verify **before** storing, against the node's active root. Suggested cache
   row (storage layer, byte-preserving):
 
@@ -926,6 +949,38 @@ without a daemon.
   interval on failure (back off instead); cache anything that failed
   verification; treat a directory outage as loss of official status (the
   cached, unexpired endorsement keeps serving).
+
+### P076-024 — restart-only federation-root activation
+
+- Enforce at the config-reload boundary: any reload path that would change the
+  effective `federation-root.v1` (different digest for the same
+  `federation_id`, or a new `pack_version`) refuses with a clear "restart
+  required" error. A validate-only operator command ("would this pack load?")
+  is fine and useful; *applying* it live is not.
+- **Do not** special-case "small" pack changes (e.g. only
+  `seed_directory_bootstrap[]` edits) as hot-reloadable — the pack is one
+  signed unit; partial application splits value from time.
+
+### P076-025 — explicit `seed_directory_bootstrap[].enabled`
+
+- Two coordinated changes: add `enabled` to the entry's `required` list in
+  `federation-root.v1.schema.json` (today it is optional), and make the loader
+  reject omitted values instead of defaulting. This is a **breaking pack
+  change**: bump `pack_version` guidance and update the bundled fixture plus
+  every example in the same change.
+- **Do not** paper over it with `#[serde(default)]` on the Rust side — a
+  silent default is exactly the hidden admission the resolution forbids.
+
+### P076-026 — freeze the `orbiplex-main` ceremony shape
+
+- The shape is documented (digest → detached signatures → deterministic
+  assembly → verify → publish, rotation overlap, appeal reference); this task
+  turns it into *checks*: ceremony tooling refuses to assemble/verify a
+  production `orbiplex-main` pack that lacks the frozen elements (threshold
+  custody policy, appeal `policy_ref`, rotation overlap metadata where
+  applicable).
+- Keep roster/keys out of the checks — they are governance-authored inputs, not
+  tool-verifiable constants.
 
 ### P076-019 (deferred) — remote co-signing
 

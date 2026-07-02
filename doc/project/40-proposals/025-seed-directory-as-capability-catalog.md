@@ -249,11 +249,18 @@ GET  /cap?capability={capability-id-or-wire-name}
                     published_at, expires_at, anchor_identity, informal } ],
           next, max-items }
 
-# Revocation log
+# Revocation log (passports)
 POST /revoke
      Body: capability-passport-revocation.v1
-           | federation-service-endorsement revocation entry (see §5)
      → 200 OK | 403 Forbidden (bad revocation signature)
+
+# Endorsement revocation (current split surface; converges per §5 / P025-004)
+POST /revoke/endorsement
+     Body: federation-service-endorsement-revocation.v1
+     → 200 OK | 403 Forbidden (bad signature / unauthorized revoker)
+GET  /revocations/endorsement?since={cursor}
+     → paged endorsement-revocation feed (poll alongside /revocations until
+       the shared artifact_family log lands)
 
 GET  /revocations?since={cursor}
      → { items: [ { passport_id, node_id, capability_id, revoked_at } ],
@@ -379,17 +386,25 @@ against the peer session and the locally loaded federation root.
 ### 5. Revocation Artifact and Polling
 
 Passport revocation is expressed as a `capability-passport-revocation.v1`
-artifact. The same federated log also carries **endorsement revocations**: a
-log entry gains an `artifact_family` discriminator (`capability-passport` |
-`federation-service-endorsement`), and an endorsement revocation targets
+artifact. Endorsement revocation is expressed as a
+`federation-service-endorsement-revocation.v1` artifact targeting
 `endorsement_id`. Revocation authority for an endorsement is deliberately
 asymmetric to issuance: a participant endorsing subject revokes with its own
 key, and for an org subject **any single authorized custodian key** of that
 org's custody policy may revoke — revocation narrows trust, so unilateral
-withdrawal is fail-safe even though issuance requires the threshold. Consumers
-poll the same `GET /revocations` feed. (Independently, dropping the endorsing
-subject from the active federation root lapses its endorsements without any
-revocation entry.)
+withdrawal is fail-safe even though issuance requires the threshold.
+(Independently, dropping the endorsing subject from the active federation root
+lapses its endorsements without any revocation entry.)
+
+> **Current state vs convergence target (P025-004).** The implementation ships
+> endorsement revocation as a *separate* surface: `POST /revoke/endorsement`
+> plus a paged `GET /revocations/endorsement` feed and its own storage. The
+> convergence target is one federated log shape with an `artifact_family`
+> discriminator (`capability-passport` | `federation-service-endorsement`)
+> polled through a single `GET /revocations` feed, plus a frozen shared
+> schema/fixtures for the revocation artifact. Until convergence, endorsement
+> consumers MUST poll the endorsement feed as well — polling only
+> `/revocations` does not cover endorsement withdrawals.
 
 For `capability-passport-revocation.v1`, two signing authorities are
 recognised, discriminated by the `signed_by` field:
@@ -870,6 +885,9 @@ Conditional fields:
   `capability_id`, `revoked_at`, and `signed_by`. The signer identity
   (`issuer/participant_id` or `node_id`) is recoverable from the stored
   `passport_id` and `signed_by` columns; it need not be duplicated.
+  *Current implementation state:* endorsement revocations live in a separate
+  `federation_service_endorsement_revocations` table; merging into the
+  `artifact_family` shape above is P025-004 convergence work.
 - The `revocations` table is the Seed Directory's federated publication log. It
   is not a required storage backend for node-local revocations whose effect is
   limited to one Node's dispatch gate.
@@ -992,9 +1010,9 @@ polling is simpler and easier to audit.
 | ID | Task | Status | Notes |
 |---|---|---|---|
 | P025-001 | ~~Resolve issuer sovereignty against the active federation root~~ | superseded | Written before the scope/official split. It grounded *passport issuer* sovereignty as the official-status check in §2/§4/§6; after the model change the passport is scope-only and never confers official status, so resolving its issuer against `sovereign_subject_refs[]` is no longer the official-status mechanism. The intent (federation-grounded verification in §2 registration, §4 consumption, §6 startup) is carried entirely by **P025-002** (endorsement as the sole official-status proof, incl. two-phase attach) on top of **P076-016/P076-017**. |
-| P025-002 | Consume `federation-service-endorsement.v1` as the sole official-status proof | partial | Node now wires the verifier core into Seed Directory attach/read: `PUT /cap/{node-id}/{capability-id}` requires a cryptographically valid node-signed `capability-advertisement.v1`; `PUT /cap/{node-id}/{capability-id}/endorsement` requires an existing active scope entry, an active federation authority snapshot derived from `federation-root.v1`, and a valid `federation-service-endorsement.v1` for the expected node/capability before storing it. The Seed Directory stores `federation_service_endorsements` as an at-most-one-active relation and `GET /cap*` projects `official` plus the stored endorsement artifact. The Seed Directory client carries `official`/`endorsement` through the discovery cache and can build a `PresentedCapability` with `capabilities_presented[].endorsements[]`. Remaining work: consumer-side independent re-verification on every official-status use, exact retry class/backoff surface for `scope-entry-missing`, and broader operator issuance UX. |
+| P025-002 | Consume `federation-service-endorsement.v1` as the sole official-status proof | partial | Node now wires the verifier core into Seed Directory attach/read: `PUT /cap/{node-id}/{capability-id}` requires a cryptographically valid node-signed `capability-advertisement.v1`; `PUT /cap/{node-id}/{capability-id}/endorsement` requires an existing active scope entry, an active federation authority snapshot derived from `federation-root.v1`, and a valid `federation-service-endorsement.v1` for the expected node/capability before storing it. The Seed Directory stores `federation_service_endorsements` as an at-most-one-active relation and `GET /cap*` projects `official` plus the stored endorsement artifact. Attach responses now include a typed `official_status` decision (`official` or retryable `scope-only` for `scope-entry-missing`). Re-issue is intentionally per endorsement artifact: revoking one `endorsement_id` does not automatically block a later separately signed endorsement for the same `(node_id, capability_id)`. The Seed Directory client carries `official`/`endorsement` through the discovery cache and can build a `PresentedCapability` with `capabilities_presented[].endorsements[]` via the shared presentation builder. Remaining work: consumer-side independent re-verification on every official-status use, exact retry class/backoff surface for `scope-entry-missing`, and broader operator issuance UX. |
 | P025-003 | Cryptographically verify the node advertisement signature at `PUT /cap` | done | Seed Directory `validate_capability_advertisement` now calls the network verifier for `capability-advertisement.v1`, verifying the Ed25519 signature against the key recovered from `advertisement.node_id` before accepting the scope registration. A focused regression test mutates a signed field after signing and expects rejection. |
-| P025-004 | Extend the federated revocation log to `federation-service-endorsement.v1` | partial | Node now has signed endorsement revocation storage and projection: `POST /revoke/endorsement` accepts `federation-service-endorsement-revocation.v1`, verifies the revoker against the active federation authority snapshot, treats org revocation as fail-safe unilateral withdrawal by any authorized custodian, stores `federation_service_endorsement_revocations`, hides revoked endorsements from `official` projections, and exposes a paged `GET /revocations/endorsement` feed. Remaining work: converge this with the common `/revocations` feed shape and freeze a shared schema/fixtures for the revocation artifact. |
+| P025-004 | Extend the federated revocation log to `federation-service-endorsement.v1` | partial | Node now has signed endorsement revocation storage and projection: `POST /revoke/endorsement` accepts `federation-service-endorsement-revocation.v1`, verifies the revoker against the active federation authority snapshot through the shared sovereign-subject signature verifier, treats org revocation as fail-safe unilateral withdrawal by any authorized custodian regardless of issuance threshold, stores `federation_service_endorsement_revocations`, hides revoked endorsements from `official` projections, exposes a paged `GET /revocations/endorsement` feed, and provides best-effort publisher hooks for endorsement and endorsement-revocation facts. Remaining work: converge this with the common `/revocations` feed shape and freeze a shared schema/fixtures for the revocation artifact. |
 | P025-005 | Use `sequence/no` as capability-registration replacement ordering | todo | `PUT /cap/{node-id}/{capability-id}` must order replacements by monotonic `sequence/no`, matching `/adv`; `expires_at` only controls validity. |
 | P025-006 | Filter expired capability registrations from runtime reads | todo | `GET /cap/{node-id}` and capability queries should omit expired registrations by default. A future operator/debug include-expired mode may exist, but runtime discovery receives active entries only. |
 | P025-007 | Enforce a policy-tunable max active registrations per Node | todo | Default limit: 64 active capability registrations per Node. Federation policy may tune it, but public directories must not be unbounded. |
