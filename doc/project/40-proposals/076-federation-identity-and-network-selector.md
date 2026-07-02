@@ -241,6 +241,9 @@ federation-root.v1 {
                           #   own federation_id, not repeated per entry.
                           #   Each entry MUST carry explicit enabled=true|false;
                           #   there is no implicit admission default.
+                          #   P076-021 adds optional inline endorsement? per
+                          #   entry as the sole bootstrap official-status proof;
+                          #   endorsement_refs[] remain metadata only.
   policy_ref?
   endorsement_refs[]?
   signatures[]            # required; "self-signed by the pack's own root" is
@@ -459,6 +462,13 @@ Community/address-only pointers MAY still load as advisory unendorsed pointers,
 but they MUST NOT inherit official status by address, naming, or placement in a
 bootstrap list. The endorsement contract and verifier rule are defined below.
 
+For `seed_directory_bootstrap[]`, "resolvable" means the entry carries an
+optional inline `endorsement` artifact that verifies against the active
+`federation-root.v1` at load time. `endorsement_refs[]` MAY remain as
+audit/discovery metadata, but it is not sufficient for bootstrap official
+status because a reference cannot be resolved before the referenced directory is
+trusted.
+
 #### Sovereign subjects are governance-authored, not signature-derived
 
 Membership of `identity.sovereign_subject_refs[]` is authored in the pack's
@@ -646,7 +656,10 @@ one artifact; that is out of scope for v1.
   `federation_id`, `attestation_roots[]` (participant or org + custody mode),
   optional self-contained `custody_policies[]`,
   `bootstrap_seed_peers[]`, `seed_directory_bootstrap[]`, `signatures[]`,
-  optional `policy_ref`/`endorsement_refs[]`. Schema:
+  optional `policy_ref`/`endorsement_refs[]`. P076-021 resolves that
+  `seed_directory_bootstrap[].endorsement` is the MVP official-status proof to
+  add to the schema/runtime; `endorsement_refs[]` remain non-authoritative
+  metadata. Schema:
   [`doc/schemas/federation-root.v1.schema.json`](../../schemas/federation-root.v1.schema.json);
   example: [`doc/schemas/examples/orbiplex-main.federation-root.json`](../../schemas/examples/orbiplex-main.federation-root.json);
   negative fixtures under [`doc/schemas/examples/invalid/`](../../schemas/examples/invalid/).
@@ -679,21 +692,21 @@ one artifact; that is out of scope for v1.
 
 ## Open Questions
 
-Open as of 2026-07-02:
+None for the current proposal revision.
+
+Resolved 2026-07-02:
 
 1. **Bootstrap endorsement delivery and the "official" label for
-   `seed_directory_bootstrap[]` entries.** Resolved question #4 (2026-07-02)
-   makes official-labelled pointers fail closed without a resolvable
-   `federation-service-endorsement.v1`, but a bootstrap entry today carries
-   only `endorsement_refs[]` — *references*, which cannot be resolved before
-   the directory they point at is trusted (circularity). Two coupled choices
-   are open: (a) how the artifact reaches the loader — scoped `config-install`
-   (P025-009) or a new optional inline `endorsement` field next to `passport`
-   in the bootstrap entry; (b) what marks an entry as official — presence of a
-   resolvable endorsement, or an explicit per-entry flag. Until decided,
-   bootstrap entries load as advisory community pointers (see Implementation
-   Recommendations, P076-021), so the fail-closed rule is not yet exercisable
-   for bootstrap-listed directories.
+   `seed_directory_bootstrap[]` entries.** Official bootstrap status is derived
+   from an inline optional `endorsement` artifact on the bootstrap entry. The
+   entry is official only when that `federation-service-endorsement.v1` artifact
+   is present and verifies against the active `federation-root.v1`; otherwise
+   it loads only as a community/advisory pointer. `endorsement_refs[]` may
+   remain as audit/discovery metadata, but it is not sufficient for bootstrap
+   official status because references cannot be resolved before the referenced
+   directory is trusted. MVP does not add a separate `official` flag; official
+   status is derived from the verified endorsement artifact to avoid redundant
+   state and flag/artifact inconsistency.
 
 Resolved 2026-07-01:
 
@@ -884,15 +897,14 @@ without a daemon.
 - Gate the flip behind a config default so a deployment can stage it; the
   negative test "lone single-issuer passport ≠ official" is the cutover's
   definition of done.
-- **Bootstrap delivery gap (resolve before the fail-closed flip):**
+- **Bootstrap endorsement delivery:**
   `seed_directory_bootstrap[]` carries `endorsement_refs[]` — *references*, not
   artifacts — and a reference cannot be resolved before the directory it points
-  at is trusted (circularity). For an official-labelled bootstrap entry to fail
-  closed satisfiably, the endorsement artifact must be locally available at
-  load time: either via scoped `config-install` (P025-009) or a new optional
-  inline `endorsement` field next to `passport` in the bootstrap entry. Decide
-  which before flipping; until then, bootstrap entries load as advisory
-  community pointers (per Resolved 2026-07-02 #4).
+  at is trusted (circularity). The resolved MVP shape is an optional inline
+  `endorsement` field next to `passport` in the bootstrap entry. Official
+  bootstrap status is derived only from that verified artifact; entries without
+  it remain advisory community pointers, and no separate `official` flag is
+  introduced.
 
 ### P076-022 — operator UI for endorsing non-own services
 
