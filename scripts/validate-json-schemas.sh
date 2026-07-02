@@ -290,6 +290,9 @@ schema_for_file() {
     *.federation-root.json)
       echo "$SCHEMAS_DIR/federation-root.v1.schema.json"
       ;;
+    *.federation-service-endorsement.json)
+      echo "$SCHEMAS_DIR/federation-service-endorsement.v1.schema.json"
+      ;;
     *.seed-directory-query-attestation.json)
       echo "$SCHEMAS_DIR/seed-directory-query-attestation.v1.schema.json"
       ;;

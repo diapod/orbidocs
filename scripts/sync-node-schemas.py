@@ -23,6 +23,7 @@ SCHEMA_WHITELIST = (
     "capability-passport.v1.schema.json",
     "capability-authorization-policy.v1.schema.json",
     "seed-capability-registration.v1.schema.json",
+    "federation-service-endorsement.v1.schema.json",
     "seed-directory-query-attestation.v1.schema.json",
     "capability-schema-present.v1.schema.json",
     "capability-schema.v1.schema.json",
@@ -152,6 +153,7 @@ EXAMPLE_WHITELIST = (
     "sealer-access.capability-passport-present.json",
     "memarium-space-access.capability-passport-present.json",
     "offer-catalog.seed-capability-registration.json",
+    "seed-directory.federation-service-endorsement.json",
     "capability.seed-directory-query-attestation.json",
     "memarium-declassify.capability-passport-present.json",
     "community-key-access.capability-passport-present.json",
@@ -348,6 +350,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "missing-signature.message-envelope.json",
     "memarium-blob-without-signature.memarium-blob.json",
     "no-scope.service-ca-material.json",
+    "missing-endorser.federation-service-endorsement.json",
     "missing-signature.seed-directory-query-attestation.json",
 )
 

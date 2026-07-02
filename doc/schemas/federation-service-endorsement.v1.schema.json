@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:federation-service-endorsement:v1",
+  "title": "FederationServiceEndorsement v1",
+  "description": "Signed federation-level vouch that a service node is official for one capability in one federation. This artifact is the official-status proof; `capability-passport.v1` remains the scope/advertisement artifact. The endorsement names the sovereign subject explicitly through `endorser_subject_ref` so verifiers know which active federation-root subject and custody policy to evaluate. Runtime verification checks signatures, active `identity.sovereign_subject_refs[]`, participant/org custody semantics, expiry, revocation, and local endorsement-multiplicity policy.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-federation-identity-and-network-selector.md",
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"
+  ],
+  "required": [
+    "schema",
+    "endorsement_id",
+    "federation_id",
+    "node_id",
+    "capability_id",
+    "endorser_subject_ref",
+    "issued_at",
+    "expires_at",
+    "signatures"
+  ],
+  "properties": {
+    "schema": {
+      "const": "federation-service-endorsement.v1",
+      "description": "Schema discriminator. MUST be exactly `federation-service-endorsement.v1`."
+    },
+    "endorsement_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^federation-service-endorsement:",
+      "description": "Stable identifier for this endorsement. Revocation records target this value."
+    },
+    "federation_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Federation selector whose active federation-root is used to resolve `endorser_subject_ref`."
+    },
+    "node_id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Service node being endorsed. MUST match the capability registration / service being consumed."
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Capability for which this node is federation-official, e.g. `seed-directory`, `offer-catalog`, or `network-ledger`."
+    },
+    "endorser_subject_ref": {
+      "type": "string",
+      "pattern": "^(participant|org):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Sovereign subject from the active federation root that vouches for the service. Participant subjects require their own key as the sole signer; org subjects require the signer set to satisfy that org's federation-root custody policy."
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 issuance timestamp. Diagnostic; expiry and revocation determine validity."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 expiry timestamp. Verifiers MUST reject endorsements at or after this time."
+    },
+    "policy_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional policy document governing this endorsement. Informational unless a local verifier policy binds it."
+    },
+    "revocation_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional revocation feed reference where endorsement revocations are expected to appear."
+    },
+    "signatures": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/Signature" },
+      "description": "One or more Ed25519 signatures over the canonical endorsement payload with `signatures` omitted. Runtime verification enforces unique signing keys and participant/org custody thresholds."
+    }
+  },
+  "$defs": {
+    "Signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "key_public", "value"],
+      "properties": {
+        "alg": {
+          "const": "ed25519",
+          "description": "Signature algorithm. MUST be `ed25519` in v1."
+        },
+        "key_public": {
+          "type": "string",
+          "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Bare Ed25519 did:key multibase fingerprint, without `participant:did:key:` or `org:did:key:` prefix."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Base64url-no-padding Ed25519 signature over `federation-service-endorsement.v1\\x00 || canonical_json(payload_without_signatures)`."
+        }
+      }
+    }
+  }
+}

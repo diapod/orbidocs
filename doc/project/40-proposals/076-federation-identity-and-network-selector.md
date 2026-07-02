@@ -486,14 +486,15 @@ Minimal contract sketch:
 
 - binds `federation_id`, service `node_id`, `capability_id`
   (`seed-directory` | `offer-catalog` | ...), `issued_at`, `expires_at`,
-  optional `policy_ref`, and an `endorsement_id`;
+  optional `policy_ref`, optional `revocation_ref` (where endorsement
+  revocations are expected to appear), and an `endorsement_id`;
 - names the **endorsing sovereign subject** in `endorser_subject_ref`
   (`(participant|org):did:key:...`), which MUST be present in the verifier's
   active `identity.sovereign_subject_refs[]`. The artifact names the subject
   explicitly rather than inferring it from the signers, so the verifier knows
   *which* custody policy applies even with several org roots or overlapping keys;
 - `signatures[]` — one `{key_public, value}` per co-signer, each over
-  `federation-service-endorsement.v1\x00 || deterministic_cbor(payload_without_signatures)`
+  `federation-service-endorsement.v1\x00 || canonical JSON/JCS payload_without_signatures`
   (domain separator distinct from `federation-root.v1`, so a root-pack signature
   can never be replayed as an endorsement, or vice versa);
 - `additionalProperties: false`; unknown top-level fields rejected.
@@ -528,6 +529,14 @@ the subject-kind default through a local `endorsement-multiplicity` policy:
 Policy raises, never lowers, the bar. An "official" service whose available
 endorsement does not meet the effective requirement downgrades to an unendorsed
 community pointer; it never fails open to "official".
+
+Multiplicity counts **signers within the named `endorser_subject_ref`**, not
+distinct sovereign subjects: a participant subject always yields exactly one
+accepted signer, so `explicit-N` with `N > 1` deliberately makes
+participant-endorsed services unacceptable under that local policy. A future
+policy that requires vouches from several *distinct* sovereigns would count
+distinct valid endorsement artifacts (one per subject), not signatures inside
+one artifact; that is out of scope for v1.
 
 ## Relationship to Existing Proposals
 
@@ -697,13 +706,15 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-014 | Provide hard-MVP federation-root ceremony tooling | done | Node-side tooling can derive public ceremony identities from node participant mnemonics, sign root packs with PEM keys, mnemonics, plaintext participant key records, plaintext data-dirs, or encrypted participant signing keys opened through the narrow Rust unlock helper. The tool supports manifest digest verification, strict pre-assembly signature checks, per-root custody threshold verification, and an end-to-end smoke test that covers encrypted data-dir signing. This remains MVP multisig custody, not FROST/DKG threshold signing. |
 | P076-008 | Define the `alliance` cross-federation cooperation concept | todo | Name resolved in this proposal; a follow-up artifact should define policy semantics only when Room/Whisper/Corpus need more than the name and boundary rule. |
 | P076-009 | Update Proposal 074's harness to pin distinct federation-root files per test node | todo | Enables a testnet-style, multi-federation harness profile. |
-| P076-015 | Ground "sovereign operator" in the federation root | todo | **High priority.** Land the §6 definition in Proposal 025 and the relevant schema descriptions: a sovereign operator of federation `F` is an identity in `F`'s active `identity.sovereign_subject_refs[]` (participant subject, or org subject held to its `federation-root` custody threshold). This grounds the previously deployment-local "sovereign operator" notion. Official-service *endorsement* itself is the separate `federation-service-endorsement.v1` artifact (P076-017), never a `capability-passport.v1`. Cross-reference Proposal 025 §2/§4/§6. |
-| P076-016 | Enforce federation-endorsement resolution in the loader and `capability-binding` | todo | **High priority.** Resolve the endorsement's `endorser_subject_ref` in the active `identity.sovereign_subject_refs[]` (else reject); if `kind = participant`, its key must be the sole signer; if `kind = org`, reuse `validate_org_federation_root` custody evaluation of the signer set against *that org's* policy (custodians sign on behalf of the org, **not** as subjects — no signer creep); apply the local `endorsement-multiplicity` policy; re-check on every use (no cross-pack caching — rotation lapses endorsement); emit `federation-endorsed` only on success, else `self-issued`, never fail open to "official". Negative tests: sub-threshold org endorsement rejected, rotated-out subject/signer lapses, lone single-issuer `capability-passport.v1` not treated as official. |
-| P076-017 | Define `federation-service-endorsement.v1` (single endorsement artifact, 1..M signatures) | todo | **High priority.** One thin artifact for both subject kinds — participant = `signatures[]` length 1, org = `M`-of-N — binding `federation_id`/service `node_id`/`capability_id`/`issued_at`/`expires_at`/`endorsement_id` plus an explicit `endorser_subject_ref` (`(participant|org):did:key:...`), with a `signatures[]` array under its own domain separator (`federation-service-endorsement.v1\x00 || …`), separate from the service's operational `capability-passport.v1`. Verifier: resolve `endorser_subject_ref` in current `sovereign_subject_refs[]`; participant = its key is the sole signer, org = signer set satisfies that org's `federation-root` custody policy (custodians sign on behalf of the org, not as subjects); apply `endorsement-multiplicity`; re-check per use (rotation lapses). Adds the verifier-local `endorsement-multiplicity` policy (`subject-default \| mirror-root-threshold \| explicit-N`). §6. |
+| P076-015 | Ground "sovereign operator" in the federation root | done | The §6 definition now treats a sovereign operator of federation `F` as a subject in `F`'s active `identity.sovereign_subject_refs[]`; participant subjects vouch with their own key and org subjects are held to their `federation-root` custody policy. Proposal 025 §2/§4/§6 now uses this split: `capability-passport.v1` is scope-only, while official-service status is carried by `federation-service-endorsement.v1`. |
+| P076-016 | Enforce federation-endorsement resolution in the loader and `capability-binding` | partial | `capability-binding` now contains the pure verifier core for `federation-service-endorsement.v1`: it resolves `endorser_subject_ref` against a supplied active sovereign-subject snapshot, verifies domain-separated Ed25519 signatures over canonical JSON/JCS payloads, enforces participant sole-signer and org custody-threshold semantics, rejects duplicate signer inflation, checks revocation/time/node/capability context, and applies verifier-local `endorsement-multiplicity`. Remaining work: wire this core into loader/Seed Directory consumers and official/community projections, with rotation-triggered re-checks on every use. |
+| P076-017 | Define `federation-service-endorsement.v1` (single endorsement artifact, 1..M signatures) | done | `doc/schemas/federation-service-endorsement.v1.schema.json` defines the single endorsement artifact with `additionalProperties: false`, explicit `endorser_subject_ref`, `federation_id`, `node_id`, `capability_id`, validity window, optional policy/revocation refs, and `signatures[]`. Positive and negative fixtures are synced into `node/protocol/contracts`; `schema-gate` exposes dedicated ingress/export validators and rejects import-boundary use. The node verifier core uses the same domain separator and canonical JSON/JCS signing payload. §6. |
 | P076-018 | New offline ceremony process for joint-issuance endorsements | todo | **High priority.** A ceremony command/sibling producing a threshold-cosigned `federation-service-endorsement.v1`, reusing the digest → collect-detached-signatures → assemble → verify *pattern* of the federation-root ceremony but with the endorsement's own domain separator and payload. Extends P076-014 tooling; the MVP path for the Option-1 decision. Note: the current ceremony signs only `federation-root` payloads, so this is new tooling surface, not reuse of an existing command. |
 | P076-019 | Post-MVP remote co-signing protocol for endorsements | deferred | Transport-agnostic protocol letting sovereign signers add detached signatures over a shared endorsement digest without an in-person ceremony. Guardrails: every signer verifies the exact digest/payload before signing (no "trust and sign"); deterministic assembly; the channel carries detached signatures, not authority. Transport is undecided — messaging plus an attachment primitive is one candidate, not a commitment; any attachment primitive would need its own bounded spec first. |
 | P076-020 | Ceremony option to author `attestation_roots[]`/`sovereign_subject_refs[]` from supplied keys | todo | Operator-owned follow-up (tracked for visibility). Let the ceremony optionally author `participant`-kind roots from a supplied key set instead of requiring the roots to be hand-authored in the pack beforehand. Must preserve the governance-authored guarantee: the resulting roster stays an explicit, signed decision, never silently signature-derived. |
 | P076-021 | Make `federation-service-endorsement.v1` the sole proof of "official" status | todo | **High priority.** Consumers, Seed Directory registration, and the loader accept ONLY a valid `federation-service-endorsement.v1` (participant `M=1`, org `M`-of-N under custody plus local `endorsement-multiplicity`) as conferring official / federation-endorsed status; a single-issuer `capability-passport.v1` is scope/advertisement only and never confers "official" on its own. Update Proposal 025 §2/§4/§6 and any `capability-binding` path accordingly. Negative test: a lone single-issuer seed-directory passport is not treated as official. |
+| P076-022 | Operator UI for issuing official-service endorsements for non-own services | todo | **High priority.** The node has local passport issuance and capability-advertisement publication surfaces, but no operator flow for a *sovereign* to endorse someone else's service. Add an operator UI/API surface where a sovereign operator enters (or picks) a target `node_id`, selects the official capability from a menu (`seed-directory`, `offer-catalog`, …), and the node builds the `federation-service-endorsement.v1` (participant subject signs locally; org subject hands off to the P076-018 ceremony), then announces it via the Seed Directory attach endpoint (`PUT /cap/{node-id}/{capability-id}/endorsement`, P025 §3) with the retryable `scope-entry-missing` backoff (`5s → 30s → 120s → 360s`). Preconditions surfaced in the UI: the local identity resolves to an active sovereign subject; the target node has (or will have) a node-signed scope entry. |
+| P076-023 | Endorsed-node periodic endorsement fetch and local cache | todo | **High priority.** A node that is the *subject* of an endorsement should not depend on Seed Directory availability to prove "I am an official service". Add a bounded periodic task (default ~30 min, jittered) that queries the configured Seed Directories for endorsements targeting the node's own `node_id` (+ advertised official capabilities), verifies each via `capability-binding::verify_federation_service_endorsement` against the active federation root, and caches verified artifacts locally (persisted, TTL-bounded by `expires_at`). The cached endorsement is then presentable to peers directly (independent proof), while acceptance on the consumer side still re-checks against *their* active root on every use. Facts for fetched/verified/lapsed endorsements; refusal to cache anything that fails verification. |
 
 ## Next Actions
 
@@ -718,10 +729,11 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
    already covered by node runtime tests rather than JSON Schema.
 4. Implement the official-service endorsement chain in dependency order (high
    priority): **P076-015** (ground the definition in docs/schema notes) →
-   **P076-017** (the `federation-service-endorsement.v1` contract; prerequisite
-   for both branches) → then in parallel **P076-018** (ceremony tooling that
-   produces endorsements) and **P076-016** (runtime verification in the loader
-   and `capability-binding`) → **P025-003** (node-signed advertisement at
+   **P076-017** (the `federation-service-endorsement.v1` contract; now done)
+   → then in parallel **P076-018** (ceremony tooling that produces
+   endorsements) and the remaining **P076-016** wiring (loader/Seed Directory
+   consumers; verifier core in `capability-binding` is done) → **P025-003**
+   (node-signed advertisement at
    `PUT /cap`; independent, can start any time — precondition of the attach
    rule) → **P025-002** (Seed Directory registration/consumption incl. two-phase
    endorsement-attach and the official/endorsement read-surface projection;

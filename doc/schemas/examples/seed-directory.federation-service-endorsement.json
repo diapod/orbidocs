@@ -1,0 +1,19 @@
+{
+  "schema": "federation-service-endorsement.v1",
+  "endorsement_id": "federation-service-endorsement:orbiplex-main:seed-directory:seed-01:2026q3",
+  "federation_id": "orbiplex-main",
+  "node_id": "node:did:key:z6Mku7KQsKnCnmyyMbq5ifWSXcLYuZBNoJfEA8xTRWwF94j8",
+  "capability_id": "seed-directory",
+  "endorser_subject_ref": "participant:did:key:z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+  "issued_at": "2026-07-01T12:00:00Z",
+  "expires_at": "2026-10-01T12:00:00Z",
+  "policy_ref": "policy:federation-service:orbiplex-main:seed-directory",
+  "revocation_ref": "seed-directory:revocations:orbiplex-main",
+  "signatures": [
+    {
+      "alg": "ed25519",
+      "key_public": "z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+      "value": "uXJ6lVB3_7b60gD5v8pAB9SvFiP4KPhdgN9fE3CxwG6a1BjBltAUXwG5Aocp9mn88pSrChP7XjFq65pcDOuKCQ"
+    }
+  ]
+}
