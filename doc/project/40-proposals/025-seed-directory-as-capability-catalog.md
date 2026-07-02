@@ -1034,7 +1034,94 @@ polling is simpler and easier to audit.
 | P025-006 | Filter expired capability registrations from runtime reads | done | `GET /cap/{node-id}` and capability queries omit expired registrations by default through active-read predicates. A future operator/debug include-expired mode may exist, but runtime discovery receives active entries only. |
 | P025-007 | Enforce a policy-tunable max active registrations per Node | done | The Seed Directory store enforces a configurable `max_active_capability_registrations_per_node`; the daemon uses the safe default of 64 active registrations per Node, and new entries over the limit return `429 capability-registration-limit-exceeded`. |
 | P025-008 | Define `capability-passport-present.v1` in the Seed Directory capability-catalog contract | done | `capability-passport-present.v1` is part of the synchronized node protocol contracts and remains the minimal post-handshake/fallback wrapper used to refresh or present the capability passport used by this catalog. |
-| P025-009 | Add scoped `config-install` delivery for `federation-service-endorsement.v1` | todo | In addition to Seed Directory registration, support explicit scoped config-install for endorsement artifacts. Peer-presentation delivery remains deferred until a concrete offline/disconnected use case requires it. |
+| P025-009 | Add scoped `config-install` delivery for `federation-service-endorsement.v1` | todo | In addition to Seed Directory registration, support explicit scoped config-install for endorsement artifacts. This gives operators a local, auditable way to install federation-service endorsements without depending on directory propagation. |
+| P025-010 | Add peer-presentation delivery for capability proof refresh | todo | Direct peer sessions should be able to present or refresh `capability-passport-present.v1` and relevant `federation-service-endorsement.v1` artifacts during first contact or degraded discovery. Delivery channels: the WSS session capability exchange (first contact), plus Artifact Delivery and INAC acceptors so one transfer can carry passports and endorsements together (see §Implementation Recommendations). The peer is only a delivery channel: consumers still verify node binding, capability binding, expiry, revocation freshness, federation root policy, and endorsement multiplicity locally. |
+
+## Implementation Recommendations
+
+Task-level guidance, aligned with `node/DEV-GUIDELINES.md`. The node-side
+endorsement chain guidance lives in Proposal 076 §Implementation
+Recommendations; this section covers the P025-010 peer-presentation delivery
+surface.
+
+### P025-010 — peer-presentation delivery
+
+**What "at handshake" means (layering).** `peer-handshake.v1` stays clean —
+P014 keeps it node-scoped transport authentication, and capability claims live
+in the exchange immediately *after* the handshake. The one-shot delivery point
+is that capability exchange: a node-signed `capability-advertisement.v1`
+already carries, per capability, the `passport` **and** `endorsements[]` in one
+message (P076 §6, single-exchange verification). **Do not** add passport or
+endorsement fields to `peer-handshake.v1` itself.
+
+**Two directions, two shapes.** Peer-presentation is not one flow:
+
+1. *Presentation (service → consumer).* The primary carrier is the node-signed
+   `capability-advertisement.v1` — it already **is** the bundle (scope passport
+   + official endorsement per capability). `capability-passport-present.v1`
+   (P025-008) stays the single-passport refresh fallback; **do not** widen it
+   into a bundle via its `additionalProperties: true`.
+2. *Delivery (sovereign or relay peer → the endorsed node).* A freshly issued
+   `federation-service-endorsement.v1` pushed to its subject node so it can
+   cache and later present it (P076-023). The sender cannot sign the subject's
+   advertisement, so no bundle is possible or needed here — deliver the raw,
+   self-verifying endorsement artifact alone.
+
+**Artifact Delivery / INAC wiring.** Follow the established acceptor pattern
+(the same one used for `agora-record.v1` and `memarium-blob.v1`):
+
+- register inbound acceptors for `capability-passport.v1`,
+  `capability-passport-present.v1`, and `federation-service-endorsement.v1` in
+  the Artifact Delivery acceptor registry, and matching entries in INAC's
+  fail-closed handler registry;
+- processing order per artifact: **byte-identity verification of the envelope →
+  schema-gate ingress validation → domain verification** (passport chain via
+  `capability-binding`; endorsement via `verify_federation_service_endorsement`
+  against the active authority snapshot) → only then store;
+- INAC push authorization (e.g. `inac.invitation` for direct delivery, or a
+  dedicated `capability-presentation@v1` mode) decides **who may push**;
+  artifact verification decides **what is true**. Never derive artifact trust
+  from channel authorization;
+- one INAC/AD transfer MAY carry several artifacts (advertisement + passport +
+  endorsement); the receiver processes each independently and idempotently —
+  a partially valid batch stores the valid artifacts and leaves refusal facts
+  for the rest, rather than all-or-nothing rejection.
+
+**Storage and idempotency.** Peer-delivered artifacts land in the **same**
+caches as directory-fetched ones (the P076-023 endorsement cache; the
+session-bound presented-passport cache) — one cache, many delivery surfaces,
+one verifier. Store byte-identical artifact bytes keyed by
+`endorsement_id`/`passport_id`, so replayed delivery is an idempotent no-op.
+Never extend usable lifetime beyond `expires_at`.
+
+**Facts.** `presentation/received`, `presentation/verified`,
+`presentation/refused` (with the machine-readable reason), `cache/updated`.
+A refusal MUST leave a fact — silent drops make degraded-discovery debugging
+impossible.
+
+**Channel generalization (why this list is not closed).** Because these
+artifacts are self-verifying and acquisition is source-agnostic (P076 §6),
+*any* byte channel is already a potential carrier — including ones not wired
+here (INAC's Matrix mailbox store-and-forward carries them with zero extra
+work, and config-install covers every out-of-band medium: file, USB, QR).
+Adding a new first-class channel is therefore purely additive per-channel
+wiring — acceptor, push authorization, the same verifier, the same cache,
+facts — never a schema or trust-model change. Conversely, do not wire
+person-to-person messaging as an infrastructure-artifact channel (communication
+semantics ≠ artifact custody), and full artifact gossip via Agora stays
+deferred (§Alternatives Considered) — the existing fact republication already
+provides the transparency log.
+
+**Do not:**
+
+- put capability or endorsement material into `peer-handshake.v1` (transport
+  layer stays free of application claims — P014 §1.1);
+- let peer-presented artifacts bypass the verifier path used for
+  directory-fetched ones (single admission path, as with the INAC local/peer
+  ingress convergence);
+- treat INAC/AD channel authorization as artifact authority;
+- invent a new bundle artifact — the node-signed `capability-advertisement.v1`
+  already serves that role for the presentation direction.
 
 ## Open Questions
 

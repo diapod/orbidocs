@@ -373,12 +373,15 @@ Responsibilities:
 - feed directory operator reputation into local trust policy;
 - convert endorsement and reputation references into a future
   `ReputationProjection`.
+- support future peer-presentation delivery of capability passport and
+  federation-service endorsement proofs as a degraded-discovery channel, while
+  keeping local verification authoritative.
 
 Status:
 
 - `deferred` — MVP supports `endorsement_refs`, `reputation_ref`, and
   `required_directory_endorsements` as local policy inputs, while full
-  reputation projection remains a later governance layer.
+  reputation projection and peer-presentation delivery remain later layers.
 
 ## Consumes
 

@@ -791,7 +791,9 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 Task-level guidance for the tracker entries above, aligned with
 `node/DEV-GUIDELINES.md`. The goal is a smooth, layered implementation with no
 entanglement surprises. Registration-surface details live in Proposal 025
-(P025-002/003/004); this section covers the node-side chain.
+(P025-002/003/004), and peer-presentation delivery over WSS/Artifact
+Delivery/INAC lives in Proposal 025 §Implementation Recommendations
+(P025-010); this section covers the node-side chain.
 
 ### Layering map for the endorsement chain
 
