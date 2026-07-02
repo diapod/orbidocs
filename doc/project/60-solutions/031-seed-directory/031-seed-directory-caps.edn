@@ -4,7 +4,7 @@
  :component/status :mvp-ready
 
  :summary
- "Discovery facade for node reachability, passport-backed capabilities, revocation feeds, subject routing projections, and user-maintained trusted directory policy."
+ "Discovery facade for node reachability, passport-backed capabilities, official-service endorsements, revocation feeds, subject routing projections, and user-maintained trusted directory policy."
 
  :must-implement
  [{:cap/id :seed-directory-node-advertisement-catalog
@@ -48,12 +48,29 @@
    :based-on ["doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"
               "doc/project/40-proposals/032-key-delegation-passports.md"
               "doc/project/60-solutions/014-key-delegation-passports/014-key-delegation-passports.md"]
-   :schemas ["capability-passport-revocation.v1"]
+   :schemas ["capability-passport-revocation.v1"
+             "federation-service-endorsement-revocation.v1"]
    :responsibilities
    ["Accept issuer- and subject-signed revocation artifacts"
     "Expose bounded revocation feeds for consumers"
     "Make revocation monotonic during multi-directory reconciliation"
     "Feed dispatch gates and capability lookup suppression"]
+   :status :done}
+
+  {:cap/id :seed-directory-official-service-endorsements
+   :title "Official-Service Endorsements"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"
+              "doc/project/40-proposals/076-federation-identity-and-network-selector.md"]
+   :schemas ["federation-service-endorsement.v1"
+             "federation-service-endorsement-revocation.v1"
+             "capability-proof-presentation-batch.v1"]
+   :responsibilities
+   ["Accept scoped endorsement attach for existing capability registrations"
+    "Project official status only from verified active federation-service endorsements"
+    "Expose endorsement revocations through the shared revocation feed shape"
+    "Support metadata-only proof presentation facts for peer-delivered endorsement and passport refresh"
+    "Keep final official-status verification at the consumer boundary"]
    :status :done}
 
   {:cap/id :seed-directory-bootstrap-capability
@@ -186,6 +203,9 @@
   "capability-advertisement.v1"
   "capability-passport.v1"
   "capability-passport-revocation.v1"
+  "federation-service-endorsement.v1"
+  "federation-service-endorsement-revocation.v1"
+  "capability-proof-presentation-batch.v1"
   "node-operator-binding.v1"
   "routing-subject-binding.v1"
   "agora-record.v1"

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-proof-presentation-batch:v1",
+  "title": "CapabilityProofPresentationBatch v1",
+  "description": "Mixed capability proof presentation envelope. It lets a peer or relay present several independently verifiable capability proof artifacts in one transfer while preserving partial-success semantics: each item is validated, admitted, refused, and audited independently.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/project/40-proposals/076-federation-identity-and-network-selector.md"
+  ],
+  "required": [
+    "schema",
+    "batch/id",
+    "presented/at",
+    "items"
+  ],
+  "properties": {
+    "schema": {
+      "const": "capability-proof-presentation-batch.v1",
+      "description": "Schema discriminator. MUST be exactly `capability-proof-presentation-batch.v1`."
+    },
+    "batch/id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^capability-proof-presentation-batch:",
+      "description": "Stable idempotency/correlation handle for this presentation attempt."
+    },
+    "presented/at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp supplied by the presenter. Receivers use their own clock for validity decisions."
+    },
+    "correlation/id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Optional self-declared presenter node id. Transport-observed source remains the stronger local signal when available."
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "$ref": "#/$defs/Item"
+      }
+    }
+  },
+  "$defs": {
+    "Item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item/id",
+        "artifact/schema",
+        "artifact"
+      ],
+      "properties": {
+        "item/id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact/schema": {
+          "enum": [
+            "capability-passport-present.v1",
+            "federation-service-endorsement.v1"
+          ],
+          "description": "Schema of the embedded proof artifact. v1 intentionally excludes revocations; live revocation authority stays with Seed Directory revocation feeds and root packs."
+        },
+        "idempotency/key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "description": "Receiver-local idempotency key for this item. It is bounded so it can be safely carried into audit and storage indexes."
+        },
+        "artifact": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Embedded proof artifact. Receivers MUST schema-gate and domain-verify it through the same admission path used by single-artifact presentation."
+        }
+      }
+    }
+  }
+}

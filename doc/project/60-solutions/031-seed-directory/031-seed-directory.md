@@ -22,9 +22,9 @@ signed domain artifacts
 ```
 
 It indexes signed `node-advertisement.v1`, passport-backed capability
-registrations, capability revocations, node-address attestations, and the
-public/operator subject projections needed by routing, Artifact Delivery,
-Contact Catalog, and capability consumers.
+registrations, official-service endorsements, capability revocations,
+node-address attestations, and the public/operator subject projections needed
+by routing, Artifact Delivery, Contact Catalog, and capability consumers.
 
 The component is deliberately a semantic facade. Agora can relay accepted Seed
 Directory facts, and daemon consumers can query multiple trusted directories,
@@ -45,6 +45,8 @@ Seed Directory owns:
 
 - node advertisement admission and lookup;
 - passport-backed capability registration and lookup;
+- official-service endorsement attach/projection and endorsement revocation
+  feeds;
 - capability passport revocation admission and feed projection;
 - optional `node-address-attestation.v1` evidence;
 - Seed Directory bootstrap as capability `seed-directory`;
@@ -129,6 +131,44 @@ Status:
   capability resolver consumers for daemon, middleware, and Artifact Delivery
   paths.
 
+### Official-Service Endorsements
+
+Based on:
+
+- `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
+- `doc/project/40-proposals/076-federation-identity-and-network-selector.md`
+
+Related schemas:
+
+- `federation-service-endorsement.v1`
+- `federation-service-endorsement-revocation.v1`
+- `capability-proof-presentation-batch.v1`
+
+Responsibilities:
+
+- accept scoped endorsement attach for an existing capability registration;
+- project `official` status only from verified active
+  `federation-service-endorsement.v1` artifacts;
+- expose endorsement revocations through the shared revocation feed shape;
+- support metadata-only proof presentation facts for peer-delivered
+  endorsement/passport refresh;
+- record the ingress-enforced install `source`; caller-supplied provenance is
+  optional `source/detail`, never a replacement for the audited acquisition
+  surface;
+- require explicit bounded `max/bytes` on outbound
+  `capability-proof-presentation-batch.v1` allows, capped by daemon validation
+  at 256 KiB;
+- keep final official-status verification at the consumer boundary.
+
+Status:
+
+- `done` — Seed Directory attach/read consumes `federation-service-endorsement.v1`
+  as the sole official-status proof, daemon consumers re-verify official status
+  before use, endorsement revocations flow through the shared revocation feed,
+  participant-sovereign operators can issue non-own endorsements through the
+  daemon API, and Artifact Delivery can admit mixed proof refresh batches via
+  `capability-proof-presentation-batch.v1`.
+
 ### Revocation Feed
 
 Based on:
@@ -140,6 +180,7 @@ Based on:
 Related schemas:
 
 - `capability-passport-revocation.v1`
+- `federation-service-endorsement-revocation.v1`
 
 Responsibilities:
 
@@ -389,6 +430,9 @@ Status:
 - `capability-advertisement.v1`
 - `capability-passport.v1`
 - `capability-passport-revocation.v1`
+- `federation-service-endorsement.v1`
+- `federation-service-endorsement-revocation.v1`
+- `capability-proof-presentation-batch.v1`
 - `node-operator-binding.v1`
 - `routing-subject-binding.v1`
 - `agora-record.v1`

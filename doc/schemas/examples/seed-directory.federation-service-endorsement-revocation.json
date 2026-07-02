@@ -1,0 +1,18 @@
+{
+  "schema": "federation-service-endorsement-revocation.v1",
+  "revocation_id": "federation-service-endorsement-revocation:orbiplex-main:seed-directory:seed-01:2026q3:withdraw-01",
+  "endorsement_id": "federation-service-endorsement:orbiplex-main:seed-directory:seed-01:2026q3",
+  "federation_id": "orbiplex-main",
+  "node_id": "node:did:key:z6Mku7KQsKnCnmyyMbq5ifWSXcLYuZBNoJfEA8xTRWwF94j8",
+  "capability_id": "seed-directory",
+  "revoker_subject_ref": "participant:did:key:z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+  "revoked_at": "2026-07-02T12:00:00Z",
+  "reason": "operator-withdrawal",
+  "signatures": [
+    {
+      "alg": "ed25519",
+      "key_public": "z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+      "value": "uXJ6lVB3_7b60gD5v8pAB9SvFiP4KPhdgN9fE3CxwG6a1BjBltAUXwG5Aocp9mn88pSrChP7XjFq65pcDOuKCQ"
+    }
+  ]
+}

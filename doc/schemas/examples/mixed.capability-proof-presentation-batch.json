@@ -1,0 +1,69 @@
+{
+  "schema": "capability-proof-presentation-batch.v1",
+  "batch/id": "capability-proof-presentation-batch:example:seed-directory:01",
+  "presented/at": "2026-07-02T12:05:00Z",
+  "correlation/id": "trace:capability-proof-example",
+  "items": [
+    {
+      "item/id": "item:passport:network-ledger",
+      "artifact/schema": "capability-passport-present.v1",
+      "idempotency/key": "capability-proof-example:passport",
+      "artifact": {
+        "schema": "capability-passport-present.v1",
+        "passport": {
+          "schema": "capability-passport.v1",
+          "passport_id": "passport:capability:network-ledger:01JQNODECAP001",
+          "node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+          "capability_id": "network-ledger",
+          "capability_profile": {
+            "display/name": "Network ledger",
+            "description": "Allows a Node to participate in the federation-recognized network ledger surface.",
+            "lang": "en",
+            "schema/id": "urn:orbiplex:capability-profile:network-ledger:v1",
+            "schema/ref": "orbiplex:blob:sha256:networkLedgerCapabilitySchemaV1",
+            "schema/media-type": "application/schema+json"
+          },
+          "scope": {
+            "federation/id": "orbiplex-devnet",
+            "account_namespaces": [
+              "orc:orbiplex-devnet:*"
+            ]
+          },
+          "issued_at": "2026-03-23T18:11:00Z",
+          "expires_at": null,
+          "issuer/participant_id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+          "issuer/node_id": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+          "revocation_ref": null,
+          "signature": {
+            "alg": "ed25519",
+            "value": "base64url:network-ledger-capability-passport-signature"
+          }
+        }
+      }
+    },
+    {
+      "item/id": "item:endorsement:seed-directory",
+      "artifact/schema": "federation-service-endorsement.v1",
+      "idempotency/key": "capability-proof-example:endorsement",
+      "artifact": {
+        "schema": "federation-service-endorsement.v1",
+        "endorsement_id": "federation-service-endorsement:orbiplex-main:seed-directory:seed-01:2026q3",
+        "federation_id": "orbiplex-main",
+        "node_id": "node:did:key:z6Mku7KQsKnCnmyyMbq5ifWSXcLYuZBNoJfEA8xTRWwF94j8",
+        "capability_id": "seed-directory",
+        "endorser_subject_ref": "participant:did:key:z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+        "issued_at": "2026-07-01T12:00:00Z",
+        "expires_at": "2026-10-01T12:00:00Z",
+        "policy_ref": "policy:federation-service:orbiplex-main:seed-directory",
+        "revocation_ref": "seed-directory:revocations:orbiplex-main",
+        "signatures": [
+          {
+            "alg": "ed25519",
+            "key_public": "z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+            "value": "uXJ6lVB3_7b60gD5v8pAB9SvFiP4KPhdgN9fE3CxwG6a1BjBltAUXwG5Aocp9mn88pSrChP7XjFq65pcDOuKCQ"
+          }
+        ]
+      }
+    }
+  ]
+}

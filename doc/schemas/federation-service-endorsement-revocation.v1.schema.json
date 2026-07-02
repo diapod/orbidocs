@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:federation-service-endorsement-revocation:v1",
+  "title": "FederationServiceEndorsementRevocation v1",
+  "description": "Signed federation-level withdrawal of one `federation-service-endorsement.v1` artifact. The revocation targets one endorsement id and repeats its federation, node, and capability coordinates so verifiers can refuse cross-scope revocation attempts before signature evaluation.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md",
+    "doc/project/40-proposals/076-federation-identity-and-network-selector.md"
+  ],
+  "required": [
+    "schema",
+    "revocation_id",
+    "endorsement_id",
+    "federation_id",
+    "node_id",
+    "capability_id",
+    "revoker_subject_ref",
+    "revoked_at",
+    "signatures"
+  ],
+  "properties": {
+    "schema": {
+      "const": "federation-service-endorsement-revocation.v1",
+      "description": "Schema discriminator. MUST be exactly `federation-service-endorsement-revocation.v1`."
+    },
+    "revocation_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^federation-service-endorsement-revocation:",
+      "description": "Stable id for this revocation fact."
+    },
+    "endorsement_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^federation-service-endorsement:",
+      "description": "The exact endorsement artifact being withdrawn."
+    },
+    "federation_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Federation whose active sovereign subjects authorize this withdrawal."
+    },
+    "node_id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Service node named by the revoked endorsement."
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Capability named by the revoked endorsement."
+    },
+    "revoker_subject_ref": {
+      "type": "string",
+      "pattern": "^(participant|org):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Sovereign participant or org subject authorized by the active federation root to withdraw the endorsement."
+    },
+    "revoked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp when the revoker issued this withdrawal."
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional operator-facing reason reference or terse reason code."
+    },
+    "signatures": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/Signature"
+      },
+      "description": "One or more Ed25519 signatures over `federation-service-endorsement-revocation.v1\\x00 || canonical_json(payload_without_signatures)`. Org revocation is fail-safe: one authorized custodian may withdraw official status."
+    }
+  },
+  "$defs": {
+    "Signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "key_public",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "key_public": {
+          "type": "string",
+          "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      }
+    }
+  }
+}

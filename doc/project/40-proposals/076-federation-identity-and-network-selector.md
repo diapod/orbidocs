@@ -779,8 +779,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-018 | New offline ceremony process for joint-issuance endorsements | todo | **High priority.** A ceremony command/sibling producing a threshold-cosigned `federation-service-endorsement.v1`, reusing the digest → collect-detached-signatures → assemble → verify *pattern* of the federation-root ceremony but with the endorsement's own domain separator and payload. Extends P076-014 tooling; the MVP path for the Option-1 decision. Note: the current ceremony signs only `federation-root` payloads, so this is new tooling surface, not reuse of an existing command. |
 | P076-019 | Post-MVP remote co-signing protocol for endorsements | deferred | Transport-agnostic protocol letting sovereign signers add detached signatures over a shared endorsement digest without an in-person ceremony. Guardrails: every signer verifies the exact digest/payload before signing (no "trust and sign"); deterministic assembly; the channel carries detached signatures, not authority. Transport is undecided — messaging plus an attachment primitive is one candidate, not a commitment; any attachment primitive would need its own bounded spec first. |
 | P076-020 | Ceremony option to author `attestation_roots[]`/`sovereign_subject_refs[]` from supplied keys | todo | Operator-owned follow-up (tracked for visibility). Let the ceremony optionally author `participant`-kind roots from a supplied key set instead of requiring the roots to be hand-authored in the pack beforehand. Must preserve the governance-authored guarantee: the resulting roster stays an explicit, signed decision, never silently signature-derived. |
-| P076-021 | Make `federation-service-endorsement.v1` the sole proof of "official" status | partial | Node now implements the bootstrap slice: `federation-root.v1` accepts optional inline `seed_directory_bootstrap[].endorsement`, the daemon loader verifies that `federation-service-endorsement.v1` against the active root with expected `node_id` and `seed-directory` capability before projecting `federation-endorsed`, and a bootstrap entry without inline endorsement is downgraded to community/advisory even if the pack asked for `federation-endorsed`. Invalid inline endorsements fail closed for the whole root pack; this is deliberate because a signed root pack that carries a malformed official-status proof should not be partially trusted. No separate `official` flag exists, and `endorsement_refs[]` remain non-authoritative metadata. Root-pack endorsement revocations are applied before bootstrap projection, so a bundled or data-dir root can withdraw an inline official proof at activation time. Existing Seed Directory attach/read also consumes endorsements as the official-status proof and returns typed `official_status` decisions for official, scope-only, and rejected outcomes. Runtime tests cover missing inline endorsement, endorsement refs alone, foreign node, wrong capability, unknown endorser, invalid signature, expired inline endorsement, and revoked inline endorsement. Consumer-side runtime tests now also cover valid endorsement verification, revoked endorsement rejection, missing-proof downgrade, foreign-node rejection, expired endorsement rejection, unknown-sovereign rejection, and malformed-claim rejection at daemon cache boundaries. Remaining work: broader official-service consumers beyond Seed Directory/bootstrap and operator issuance UX. |
-| P076-022 | Operator UI for issuing official-service endorsements for non-own services | todo | **High priority.** The node has local passport issuance and capability-advertisement publication surfaces, but no operator flow for a *sovereign* to endorse someone else's service. Add an operator UI/API surface where a sovereign operator enters (or picks) a target `node_id`, selects the official capability from a menu (`seed-directory`, `offer-catalog`, …), and the node builds the `federation-service-endorsement.v1` (participant subject signs locally; org subject hands off to the P076-018 ceremony), then announces it via the Seed Directory attach endpoint (`PUT /cap/{node-id}/{capability-id}/endorsement`, P025 §3) with the retryable `scope-entry-missing` backoff (`5s → 30s → 120s → 360s`). Preconditions surfaced in the UI: the local identity resolves to an active sovereign subject; the target node has (or will have) a node-signed scope entry. |
+| P076-021 | Make `federation-service-endorsement.v1` the sole proof of "official" status | partial | Node now implements the bootstrap slice: `federation-root.v1` accepts optional inline `seed_directory_bootstrap[].endorsement`, the daemon loader verifies that `federation-service-endorsement.v1` against the active root with expected `node_id` and `seed-directory` capability before projecting `federation-endorsed`, and a bootstrap entry without inline endorsement is downgraded to community/advisory even if the pack asked for `federation-endorsed`. Invalid inline endorsements fail closed for the whole root pack; this is deliberate because a signed root pack that carries a malformed official-status proof should not be partially trusted. No separate `official` flag exists, and `endorsement_refs[]` remain non-authoritative metadata. Root-pack endorsement revocations are applied before bootstrap projection, so a bundled or data-dir root can withdraw an inline official proof at activation time. Existing Seed Directory attach/read also consumes endorsements as the official-status proof and returns typed `official_status` decisions for official, scope-only, and rejected outcomes. Runtime tests cover missing inline endorsement, endorsement refs alone, foreign node, wrong capability, unknown endorser, invalid signature, expired inline endorsement, and revoked inline endorsement. Consumer-side runtime tests now also cover valid endorsement verification, revoked endorsement rejection, missing-proof downgrade, foreign-node rejection, expired endorsement rejection, unknown-sovereign rejection, and malformed-claim rejection at daemon cache boundaries. The operator API can now issue non-own participant-sovereign endorsements. Remaining work: broader official-service consumers beyond Seed Directory/bootstrap and root-rotation-triggered rechecks. |
+| P076-022 | Operator UI for issuing official-service endorsements for non-own services | done | Daemon exposes `POST /v1/operator/federation-service-endorsements/issue` as the thin operator API for non-own official-service endorsement issuance. A sovereign participant operator can provide a target `node_id`, official `capability_id`, optional validity/policy/revocation refs, and idempotency key; retries with the same key reuse the already installed endorsement, while reuse for different coordinates fails closed; the node builds and signs `federation-service-endorsement.v1` through the host signer, schema-gates the artifact, installs it through the same scoped verifier/storage path used by config-install, and returns a percent-encoded Seed Directory attach hint for `PUT /cap/{node-id}/{capability-id}/endorsement`. If the active sovereign subject is org-governed, the API fails closed with `ceremony-required` and points to P076-018 rather than pretending one custodian can issue. |
 | P076-023 | Endorsed-node periodic endorsement fetch and local cache | partial | Seed Directory fetch/cache now carries endorsement material through the existing capability discovery cache, but daemon consumers locally re-verify every claimed official endorsement before preserving it in cache-derived projections. `SeedDirectoryCapabilityEntry` has `official` plus `endorsement`; valid endorsements may be projected into `capability-advertisement.v1` `capabilities_presented[].endorsements[]`, missing proof downgrades to scope-only, revoked proof is rejected, and invalid proof is rejected with explicit refusal traces. Remaining work: a bounded persisted own-node endorsement fetcher with jitter, lapsed/verified facts, and TTL by `expires_at`. |
 | P076-024 | Keep federation-root activation restart-only | todo | Runtime/config reload paths must not apply a new `federation-root.v1` to a running daemon. Operators may validate a candidate pack, but activation requires restart against the selected `data-dir`. |
 | P076-025 | Require explicit `seed_directory_bootstrap[].enabled` | done | `federation-root.v1` schema now requires `enabled` on every `seed_directory_bootstrap[]` entry, the root-loader struct has no default for that field, and negative fixtures/tests reject omitted `enabled`. Generic layered daemon config may still keep its own compatibility defaults outside the root-pack import boundary. |
@@ -919,9 +919,11 @@ without a daemon.
   startup/bootstrap revocation application for inline official proofs. Remaining
   P076-021 work is broader official-service consumers.
 
-### P076-022 — operator UI for endorsing non-own services
+### P076-022 — operator API for endorsing non-own services
 
-- Thin UI over a host API; the request DTO is closed:
+- Landed as a thin host API. A UI may wrap it, but the authority boundary is the
+  daemon endpoint and host signer, not browser-held key material. The request DTO
+  is intentionally small:
 
   ```
   { "node_id": "node:did:key:z...",         // target service node
@@ -931,16 +933,19 @@ without a daemon.
     "policy_ref": "..." (optional) }
   ```
 
-- Participant subject: sign through the signer service (UI never holds keys).
-  Org subject: emit an *unsigned* endorsement + ceremony manifest for
-  P076-018 instead of signing inline — the UI must not pretend one custodian
-  can issue.
-- Submit via the P025 attach endpoint honoring the retryable
-  `scope-entry-missing` backoff (`5s → 30s → 120s → 360s`); terminal `403` is
-  surfaced to the operator, never retried.
-- Leave facts: `endorsement/drafted`, `signed`, `submitted`, `attach-retried`,
-  `attach-gave-up` — the operator must be able to reconstruct why an
-  endorsement did or did not land.
+- Participant subject: signs through the signer service; the endpoint also
+  immediately installs the resulting artifact through the scoped P025 verifier.
+  Org subject: returns `ceremony-required` and hands off to P076-018 instead of
+  signing inline — one custodian cannot issue an org-governed endorsement.
+- The response includes a Seed Directory attach hint for
+  `PUT /cap/{node-id}/{capability-id}/endorsement`; operators or future UI code
+  still need to respect the retryable `scope-entry-missing` backoff
+  (`5s → 30s → 120s → 360s`) when attaching to a remote directory. Terminal
+  `403` is surfaced to the operator, never retried.
+- Operator-visible facts are currently the local installation record plus the
+  returned issue/install response. Richer `endorsement/drafted`, `signed`,
+  `submitted`, `attach-retried`, and `attach-gave-up` UI events can be added
+  around remote attach automation without changing the endorsement artifact.
 
 ### P076-023 — endorsed-node fetch and cache
 
@@ -1024,18 +1029,10 @@ the channel carries signatures — never authority.
 3. Decide whether P076-001 should gain additional conformance fixtures for
    org-threshold positive examples, even though cryptographic/custody truth is
    already covered by node runtime tests rather than JSON Schema.
-4. Implement the official-service endorsement chain in dependency order (high
-   priority): **P076-015** (ground the definition in docs/schema notes) →
-   **P076-017** (the `federation-service-endorsement.v1` contract; now done)
-   → then in parallel **P076-018** (ceremony tooling that produces
-   endorsements) and the remaining **P076-016** wiring (loader/Seed Directory
-   consumers; verifier core in `capability-binding` is done) → **P025-003**
-   (node-signed advertisement at
-   `PUT /cap`; independent, can start any time — precondition of the attach
-   rule) → **P025-002** (Seed Directory registration/consumption incl. two-phase
-   endorsement-attach and the official/endorsement read-surface projection;
-   needs P076-016/017 and P025-003) with **P025-004** (endorsement revocation in
-   the shared revocation log) riding alongside → **P076-021** (cutover:
-   endorsement becomes the sole proof of "official"). **P076-020** is an
-   independent operator-owned ceremony ergonomics task; **P076-019** stays
-   deferred post-MVP.
+4. Continue the remaining official-service hardening after the P025/P076 chain:
+   **P076-018** (org/threshold endorsement ceremony tooling), **P076-020**
+   (optional root authoring ergonomics), **P076-024** (restart-only
+   federation-root activation enforcement), and **P076-026** (production
+   `orbiplex-main` ceremony checks). P025-002/003/004/010 and P076-022 are now
+   implemented for the participant-sovereign path; P076-019 stays deferred
+   post-MVP.

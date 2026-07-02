@@ -293,6 +293,9 @@ schema_for_file() {
     *.federation-service-endorsement.json)
       echo "$SCHEMAS_DIR/federation-service-endorsement.v1.schema.json"
       ;;
+    *.federation-service-endorsement-revocation.json)
+      echo "$SCHEMAS_DIR/federation-service-endorsement-revocation.v1.schema.json"
+      ;;
     *.seed-directory-query-attestation.json)
       echo "$SCHEMAS_DIR/seed-directory-query-attestation.v1.schema.json"
       ;;
@@ -391,6 +394,9 @@ schema_for_file() {
       ;;
     *.capability-passport-present.json)
       echo "$SCHEMAS_DIR/capability-passport-present.v1.schema.json"
+      ;;
+    *.capability-proof-presentation-batch.json)
+      echo "$SCHEMAS_DIR/capability-proof-presentation-batch.v1.schema.json"
       ;;
     *.capability-passport.json)
       echo "$SCHEMAS_DIR/capability-passport.v1.schema.json"
