@@ -319,8 +319,12 @@ A Node consuming a passport-backed service MUST:
 1. Query the Seed Directory: `GET /cap?capability={capability-id}`.
 2. Select a candidate Node from the response.
 3. Connect to the candidate Node via the standard inter-node transport.
-4. Request the capability passport directly from the serving Node via a
-   post-handshake artifact exchange (`capability-passport-present.v1`).
+4. Read the passport — and any endorsement — from the capability advertisement
+   already exchanged during session establishment (Proposal 014 §4):
+   `capabilities_presented[].{passport, endorsements[]}` arrive in one message.
+   Request `capability-passport-present.v1` only as a fallback or refresh when
+   the advertisement did not carry them; the normal path adds **no extra
+   round-trips** beyond the P014 session baseline.
 5. Verify the passport independently:
    - valid Ed25519 signature; for delegated passports, first verify inline
      `issuer_delegation`, then verify the passport with the proof's `proxy_key`;
@@ -329,8 +333,12 @@ A Node consuming a passport-backed service MUST:
    - `passport.capability_id` matches the capability being consumed,
    - `expires_at` is absent or in the future.
 6. If the consumer requires a **federation-official** service: obtain the
-   `federation-service-endorsement.v1` (from the directory response's
-   `endorsement` field, or from the serving Node) and verify it independently
+   `federation-service-endorsement.v1` from **any** available source — a local
+   cache (still unexpired), the directory response's `endorsement` field, or
+   the serving Node itself (the `capability-advertisement.v1`
+   `capabilities_presented[].endorsements[]` slot carries it over the
+   post-handshake capability exchange). The artifact is self-verifying, so the
+   source carries no authority; verify it identically
    per Proposal 076 §6 — resolve `endorser_subject_ref` in the *active*
    `identity.sovereign_subject_refs[]` (participant subject = its key is the
    sole signer; org subject = signer set satisfies that org's custody policy),

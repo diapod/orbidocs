@@ -515,6 +515,40 @@ Verifier acceptance:
 3. `capability_id`/`node_id` match the service being consumed, `expires_at` is
    in the future, and `endorsement_id` is not revoked.
 
+#### Endorsement acquisition is source-agnostic
+
+The endorsement is a self-verifying artifact, so **where a consumer got it
+carries no authority**. A consumer verifying an official service MAY rely on
+whichever copy is available:
+
+1. a **locally cached** endorsement (obtained earlier, still unexpired),
+2. the **Seed Directory** read surface (`GET /cap*` `endorsement` field,
+   Proposal 025 §3),
+3. the **serving node itself** — the existing
+   `capability-advertisement.v1` `capabilities_presented[].endorsements[]`
+   slot already carries "federation or issuer endorsement artifacts" over the
+   post-handshake capability exchange (Proposal 014 §4), so the service can
+   present its own proof without any directory round-trip.
+
+Verification is **identical regardless of source**: resolve
+`endorser_subject_ref` in the consumer's *active* root, check signer set,
+expiry, and revocation. Provenance never substitutes for verification, and a
+copy from a "more trusted" source grants nothing extra — freshness, revocation,
+and the active root are the only discriminators.
+
+**Single-exchange verification (no connect-time round-trips).** The normal
+path is: the client connects, and the P014 session baseline already delivers
+everything in one capability exchange — `capabilities_presented[]` carries the
+`passport` *and* `endorsements[]` in the same message. From there,
+official-status verification is **pure local computation**: the active
+federation root (loaded from the `data-dir`), the local revocation view
+(background-polled per Proposal 025 §5, bounded staleness by design), and the
+clock. A consumer MUST NOT need a live Seed Directory query to decide official
+status at connect time — the directory is discovery and revocation *feed*, not
+per-connection authority. Service nodes SHOULD therefore include their current
+endorsement in every capability advertisement for their official capabilities
+(the P076-023 cache keeps it at hand).
+
 #### Endorsement multiplicity policy (verifier-local)
 
 A consuming node (and a Seed Directory at registration) MAY require *more* than
@@ -714,7 +748,181 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-020 | Ceremony option to author `attestation_roots[]`/`sovereign_subject_refs[]` from supplied keys | todo | Operator-owned follow-up (tracked for visibility). Let the ceremony optionally author `participant`-kind roots from a supplied key set instead of requiring the roots to be hand-authored in the pack beforehand. Must preserve the governance-authored guarantee: the resulting roster stays an explicit, signed decision, never silently signature-derived. |
 | P076-021 | Make `federation-service-endorsement.v1` the sole proof of "official" status | todo | **High priority.** Consumers, Seed Directory registration, and the loader accept ONLY a valid `federation-service-endorsement.v1` (participant `M=1`, org `M`-of-N under custody plus local `endorsement-multiplicity`) as conferring official / federation-endorsed status; a single-issuer `capability-passport.v1` is scope/advertisement only and never confers "official" on its own. Update Proposal 025 §2/§4/§6 and any `capability-binding` path accordingly. Negative test: a lone single-issuer seed-directory passport is not treated as official. |
 | P076-022 | Operator UI for issuing official-service endorsements for non-own services | todo | **High priority.** The node has local passport issuance and capability-advertisement publication surfaces, but no operator flow for a *sovereign* to endorse someone else's service. Add an operator UI/API surface where a sovereign operator enters (or picks) a target `node_id`, selects the official capability from a menu (`seed-directory`, `offer-catalog`, …), and the node builds the `federation-service-endorsement.v1` (participant subject signs locally; org subject hands off to the P076-018 ceremony), then announces it via the Seed Directory attach endpoint (`PUT /cap/{node-id}/{capability-id}/endorsement`, P025 §3) with the retryable `scope-entry-missing` backoff (`5s → 30s → 120s → 360s`). Preconditions surfaced in the UI: the local identity resolves to an active sovereign subject; the target node has (or will have) a node-signed scope entry. |
-| P076-023 | Endorsed-node periodic endorsement fetch and local cache | todo | **High priority.** A node that is the *subject* of an endorsement should not depend on Seed Directory availability to prove "I am an official service". Add a bounded periodic task (default ~30 min, jittered) that queries the configured Seed Directories for endorsements targeting the node's own `node_id` (+ advertised official capabilities), verifies each via `capability-binding::verify_federation_service_endorsement` against the active federation root, and caches verified artifacts locally (persisted, TTL-bounded by `expires_at`). The cached endorsement is then presentable to peers directly (independent proof), while acceptance on the consumer side still re-checks against *their* active root on every use. Facts for fetched/verified/lapsed endorsements; refusal to cache anything that fails verification. |
+| P076-023 | Endorsed-node periodic endorsement fetch and local cache | todo | **High priority.** A node that is the *subject* of an endorsement should not depend on Seed Directory availability to prove "I am an official service". Add a bounded periodic task (default ~30 min, jittered) that queries the configured Seed Directories for endorsements targeting the node's own `node_id` (+ advertised official capabilities), verifies each via `capability-binding::verify_federation_service_endorsement` against the active federation root, and caches verified artifacts locally (persisted, TTL-bounded by `expires_at`). The cached endorsement is then presentable to peers directly (independent proof), while acceptance on the consumer side still re-checks against *their* active root on every use. Facts for fetched/verified/lapsed endorsements; refusal to cache anything that fails verification. Presentation to peers uses the existing `capability-advertisement.v1` `capabilities_presented[].endorsements[]` slot (source-agnostic acquisition, §6) rather than widening `capability-passport-present.v1`. |
+
+## Implementation Recommendations
+
+Task-level guidance for the tracker entries above, aligned with
+`node/DEV-GUIDELINES.md`. The goal is a smooth, layered implementation with no
+entanglement surprises. Registration-surface details live in Proposal 025
+(P025-002/003/004); this section covers the node-side chain.
+
+### Layering map for the endorsement chain
+
+```
+protocol/contracts        schema + fixtures (federation-service-endorsement.v1)
+  → schema-gate           ingress/export boundary validation (shape only)
+  → capability-binding    pure verifier: no IO, no clock ownership, no config
+  → daemon                host adapters: authority snapshot from the loaded
+                          federation root, decision surface, facts, cache
+  → seed-directory        registration / attach / read projection (P025 §2–§3)
+  → node-ui / operator    thin surface over host APIs; never touches keys
+```
+
+Keep the verifier **pure**: `capability-binding::federation_endorsement` takes
+an explicit `now_rfc3339`, an explicit authority snapshot, and an explicit
+revocation set. It must never read config, storage, or the system clock —
+callers own time and state. This is what makes threshold semantics testable
+without a daemon.
+
+### P076-015 — grounding the definition (done; invariant to preserve)
+
+- The definition landed in the schema descriptions and `x-dia-basis`. If ever
+  revisiting those descriptions, keep the pointers: the §6 note in
+  `capability-passport.v1.schema.json` and the §6 pointer next to
+  `seed_directory_bootstrap`/`endorsement_refs` in
+  `federation-root.v1.schema.json`.
+- **Do not** add new envelope fields to `capability-passport.v1`. It stays a
+  scope artifact; the federation binding is a verifier rule, not schema shape.
+
+### P076-016 — runtime verification in the daemon
+
+- Build the authority snapshot **once per loaded pack**, in the same place the
+  loader already projects `attestation_roots[]`:
+
+  ```rust
+  // daemon: derived alongside identity.sovereign_subject_refs projection
+  FederationSovereignSubjectSnapshot::try_new(
+      federation_id,
+      subjects, // Participant { id } | Org { id, policy: mode + authorized_* }
+  )
+  ```
+
+  Map `custody_policies[]` rules (purpose `federation-root`) into
+  `FederationSovereignOrgPolicy` exactly as `validate_org_federation_root`
+  reads them — one source of custody truth, two consumers.
+- Surface the outcome as a **typed decision**, not a bool or string:
+
+  ```rust
+  enum OfficialStatusDecision {
+      FederationEndorsed { endorsement_id: String, endorser_subject_ref: String },
+      ScopeOnly { reason: OfficialStatusRefusal },  // community pointer
+  }
+  ```
+
+  Downgrade is data, not an error branch — consumers route on it.
+- Re-verify **on every use**. If profiling ever justifies a cache, key it by
+  `(endorsement_id, pack_digest)` so a pack update invalidates implicitly.
+- **Do not**: cache across `pack_version`; treat custodian keys as subjects;
+  expose the verifier to module callers directly (host-owned surface, same
+  posture as the Agent lifecycle capabilities); let a failed endorsement check
+  abort an otherwise valid scope connection unless local policy demands it.
+
+### P076-017 — the artifact contract (verifier core landed)
+
+- Fixture wiring is covered: the positive and `invalid/missing-endorser`
+  fixtures are exercised by `schema-gate/tests/networking_contracts.rs`.
+  Remaining: add an `invalid/` fixture per rejection class the runtime
+  distinguishes (tampered payload, duplicate signer, sub-threshold).
+- Signing input stays `federation-service-endorsement.v1\x00 ||
+  canonical_json(JcsV1, payload_without_signatures)` — config-registry family,
+  like `federation-root.v1`. **Do not** switch to the CBOR wire-envelope
+  family or reuse the root domain separator.
+- **Do not** put endpoints, addresses, or TLS material into the endorsement —
+  reachability stays in advertisements (§6 stratification).
+- The verifier uses a 30s clock-skew tolerance for `issued_at`
+  (`ISSUED_AT_CLOCK_SKEW_TOLERANCE`, mirroring the P014 handshake window);
+  `expires_at` stays exact. Keep that asymmetry — skew absorbs issuance races,
+  never extends validity.
+
+### P076-018 — offline ceremony for endorsements
+
+- Sibling command set in `tools/federation-root-ceremony`, reusing the
+  digest → collect detached signatures → assemble → verify *pattern* with:
+  - its **own** manifest schema string and the endorsement domain separator,
+  - passphrases via stdin only (as the unlock helper enforces), never argv,
+  - a signer-side sanity resolve of `endorser_subject_ref` against a provided
+    root pack **before** signing (fail early), while authoritative truth stays
+    verifier-side.
+- **Do not**: reuse the `federation-root-ceremony-manifest.v1` schema string;
+  sign before `endorser_subject_ref` and all payload fields are final (any
+  later mutation invalidates signatures — TOCTOU discipline as in the whisper
+  preflight); auto-derive the endorser subject from whichever key signs.
+
+### P076-020 — authoring roots from supplied keys (operator-owned)
+
+- Explicit flag (e.g. `--author-participant-roots key1,key2`), echo the
+  resulting roster, require confirmation, and write `attestation_roots[]`
+  **before** computing the manifest digest (the payload changes it).
+- **Do not** derive the roster from signature files discovered on disk — that
+  reintroduces signature-derived authority.
+
+### P076-021 — cutover to endorsement-only official status
+
+- Land read/verify paths (P076-016/017, P025 read surface) before flipping any
+  consumer to *require* endorsements; existing scope-only registrations remain
+  valid community entries — the cutover changes what "official" means, not
+  what is stored.
+- Gate the flip behind a config default so a deployment can stage it; the
+  negative test "lone single-issuer passport ≠ official" is the cutover's
+  definition of done.
+
+### P076-022 — operator UI for endorsing non-own services
+
+- Thin UI over a host API; the request DTO is closed:
+
+  ```
+  { "node_id": "node:did:key:z...",         // target service node
+    "capability_id": "seed-directory",      // from a closed menu of official
+                                            // profiles, never free text
+    "expires_at": "...",                    // bounded default, e.g. 90 days
+    "policy_ref": "..." (optional) }
+  ```
+
+- Participant subject: sign through the signer service (UI never holds keys).
+  Org subject: emit an *unsigned* endorsement + ceremony manifest for
+  P076-018 instead of signing inline — the UI must not pretend one custodian
+  can issue.
+- Submit via the P025 attach endpoint honoring the retryable
+  `scope-entry-missing` backoff (`5s → 30s → 120s → 360s`); terminal `403` is
+  surfaced to the operator, never retried.
+- Leave facts: `endorsement/drafted`, `signed`, `submitted`, `attach-retried`,
+  `attach-gave-up` — the operator must be able to reconstruct why an
+  endorsement did or did not land.
+
+### P076-023 — endorsed-node fetch and cache
+
+- Bounded periodic worker (default ~30 min, jittered like the peer-runtime
+  backoff helpers), querying configured Seed Directories for endorsements
+  targeting the node's own `node_id`.
+- Verify **before** storing, against the node's active root. Suggested cache
+  row (storage layer, byte-preserving):
+
+  ```
+  endorsement_id (PK) | node_id | capability_id | endorser_subject_ref
+  | expires_at | verified_at | pack_digest_at_verification | raw_artifact_bytes
+  ```
+
+  `raw_artifact_bytes` byte-identical for re-presentation; `pack_digest` so a
+  root update triggers re-verification of every cached row.
+- Presenting from cache is fine — consumers re-verify against *their* root
+  anyway (P025 §4 step 6), so the cache is availability, not authority. The
+  wire slot already exists: present the cached artifact through
+  `capability-advertisement.v1` `capabilities_presented[].endorsements[]`
+  (§6, "source-agnostic"). **Do not** smuggle it through
+  `capability-passport-present.v1`'s `additionalProperties: true` — that slot
+  is a single-passport contract; widening it silently is exactly the
+  silent-laxity anti-pattern.
+- **Do not**: extend usable lifetime beyond `expires_at`; tighten the poll
+  interval on failure (back off instead); cache anything that failed
+  verification; treat a directory outage as loss of official status (the
+  cached, unexpired endorsement keeps serving).
+
+### P076-019 (deferred) — remote co-signing
+
+Keep transport-agnostic. Whatever carries detached signatures, each signer
+verifies the exact digest before signing, assembly stays deterministic, and
+the channel carries signatures — never authority.
 
 ## Next Actions
 
