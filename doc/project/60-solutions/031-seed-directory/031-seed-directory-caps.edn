@@ -32,6 +32,10 @@
              "seed-capability-registration.v1"]
    :responsibilities
    ["Accept one capability registration per node and capability pair"
+    "Order replacements with request-level sequence/no"
+    "Keep identical passport and sequence republishes idempotent"
+    "Omit expired registrations from runtime lookup projections"
+    "Enforce the bounded active-registration limit per node"
     "Require valid passport evidence for passport-backed capabilities"
     "Join capability registrations with current node endpoints"
     "Expose capability-first and capability-many lookup inputs"

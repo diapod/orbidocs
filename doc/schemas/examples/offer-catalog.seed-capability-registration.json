@@ -2,6 +2,7 @@
   "schema": "seed-capability-registration.v1",
   "node/id": "node:did:key:z6Mku7KQsKnCnmyyMbq5ifWSXcLYuZBNoJfEA8xTRWwF94j8",
   "capability/id": "offer-catalog",
+  "sequence/no": 1,
   "passport": {
     "schema": "capability-passport.v1",
     "passport_id": "passport:capability:example-offer-catalog",

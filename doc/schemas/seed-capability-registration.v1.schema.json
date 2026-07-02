@@ -16,6 +16,7 @@
     "schema",
     "node/id",
     "capability/id",
+    "sequence/no",
     "passport"
   ],
   "properties": {
@@ -33,6 +34,11 @@
       "type": "string",
       "minLength": 1,
       "description": "Capability id under which the passport was accepted. Must match `passport.capability_id`."
+    },
+    "sequence/no": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonic replacement sequence for the accepted (node/id, capability/id) registration. Direct PUT registration supplies this as capability-catalog control-plane metadata; it is not part of capability-advertisement.v1."
     },
     "passport": {
       "type": "object",

@@ -186,7 +186,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
 | [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md) | `17` | `1` | `yes` | `yes` | `1` | `0` |
-| [`seed-capability-registration.v1.schema.json`](schemas-gen/schemas/seed-capability-registration.v1.md) | `4` | `3` | `yes` | `yes` | `1` | `0` |
+| [`seed-capability-registration.v1.schema.json`](schemas-gen/schemas/seed-capability-registration.v1.md) | `5` | `4` | `yes` | `yes` | `1` | `0` |
 | [`seed-directory-query-attestation.v1.schema.json`](schemas-gen/schemas/seed-directory-query-attestation.v1.md) | `15` | `13` | `yes` | `yes` | `1` | `1` |
 | [`seed-directory-trust.v1.schema.json`](schemas-gen/schemas/seed-directory-trust.v1.md) | `4` | `4` | `yes` | `yes` | `1` | `2` |
 | [`sensorium-command-intent.v1.schema.json`](schemas-gen/schemas/sensorium-command-intent.v1.md) | `8` | `1` | `yes` | `yes` | `1` | `0` |

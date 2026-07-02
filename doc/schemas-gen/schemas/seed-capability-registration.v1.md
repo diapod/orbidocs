@@ -35,6 +35,7 @@ Accepted Seed Directory capability-registration fact carried as the `content` of
 | [`schema`](#field-schema) | `yes` | const: `seed-capability-registration.v1` | Schema discriminator for the accepted capability-registration fact. |
 | [`node/id`](#field-node-id) | `yes` | string | Target node for which the capability passport was accepted. Must match `passport.node_id`. |
 | [`capability/id`](#field-capability-id) | `yes` | string | Capability id under which the passport was accepted. Must match `passport.capability_id`. |
+| [`sequence/no`](#field-sequence-no) | `yes` | integer | Monotonic replacement sequence for the accepted (node/id, capability/id) registration. Direct PUT registration supplies this as capability-catalog control-plane metadata; it is not part of capability-advertisement.v1. |
 | [`passport`](#field-passport) | `yes` | object |  |
 ## Field Semantics
 
@@ -61,6 +62,14 @@ Target node for which the capability passport was accepted. Must match `passport
 - Shape: string
 
 Capability id under which the passport was accepted. Must match `passport.capability_id`.
+
+<a id="field-sequence-no"></a>
+## `sequence/no`
+
+- Required: `yes`
+- Shape: integer
+
+Monotonic replacement sequence for the accepted (node/id, capability/id) registration. Direct PUT registration supplies this as capability-catalog control-plane metadata; it is not part of capability-advertisement.v1.
 
 <a id="field-passport"></a>
 ## `passport`

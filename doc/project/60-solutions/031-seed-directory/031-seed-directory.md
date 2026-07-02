@@ -106,6 +106,13 @@ Related schemas:
 Responsibilities:
 
 - accept one capability registration per `(node_id, capability_id)` pair;
+- order replacements with positive request-level `sequence/no`, expose the
+  accepted sequence in read projections, reject stale conflicts with
+  `current/sequence-no` and `submitted/sequence-no`, and keep identical
+  `(passport_id, sequence/no)` republishes idempotent;
+- omit expired capability registrations from runtime lookup projections;
+- enforce a bounded active-registration limit per node, with `64` as the
+  daemon hard-MVP default;
 - require valid passport evidence for passport-backed capabilities;
 - join capability registrations with current node endpoints;
 - expose capability lookup for `capability-first` and `capability-many`
@@ -115,9 +122,12 @@ Responsibilities:
 
 Status:
 
-- `done` — Node implements capability registration, capability lookup,
-  bootstrap capability passport verification, capability sync, and capability
-  resolver consumers for daemon, middleware, and Artifact Delivery paths.
+- `done` — Node implements capability registration, monotonic replacement,
+  stale-sequence diagnostics, daemon-side sequence counters with retry
+  advancement, active-read filtering, bounded active entries, capability
+  lookup, bootstrap capability passport verification, capability sync, and
+  capability resolver consumers for daemon, middleware, and Artifact Delivery
+  paths.
 
 ### Revocation Feed
 

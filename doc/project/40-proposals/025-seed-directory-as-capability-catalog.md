@@ -120,6 +120,8 @@ independence allows:
 The `PUT /cap/{node-id}/{capability-id}` request body MUST carry:
 
 - a signed `capability-advertisement.v1` artifact for the Node,
+- a capability-catalog control-plane `sequence/no` used as monotonic
+  replacement ordering for this `(node_id, capability_id)` entry,
 - a `capability-passport.v1` artifact for the specific `capability_id` (capability
   *scope*),
 - optionally, a `federation-service-endorsement.v1` when registering the entry as
@@ -179,9 +181,10 @@ retried on an unchanged artifact.
 On successful verification the existing entry is upgraded to
 federation-official; the stored endorsement replaces an older one only under the
 directory's normal replacement semantics. Capability registrations use
-`sequence/no`, aligned with `/adv`, as the primary replacement-ordering
-authority. `expires_at` remains a validity boundary, not the update-ordering
-mechanism.
+`sequence/no`, with the same monotonic replacement semantics as `/adv`, as the
+primary replacement-ordering authority. For direct `PUT /cap` this value is
+request control-plane metadata; it is not embedded in `capability-advertisement.v1`.
+`expires_at` remains a validity boundary, not the update-ordering mechanism.
 
 If any *terminal* check fails (signature, custody, expiry, revocation, URL
 mismatch), the directory MUST return `403 Forbidden` with a machine-readable
@@ -216,6 +219,7 @@ solely from signed artifacts:
 # Capability registration (one per node+capability pair)
 PUT  /cap/{node-id}/{capability-id}
      Body: { "advertisement": capability-advertisement.v1,
+             "sequence/no":   positive integer,
              "passport":      capability-passport.v1,
              "endorsement":   federation-service-endorsement.v1 (optional) }
      → 201 Created | 200 OK (replace) | 403 Forbidden | 409 Conflict (stale)
@@ -233,7 +237,7 @@ PUT  /cap/{node-id}/{capability-id}/endorsement
 GET  /cap/{node-id}
      → { node_id, endpoints[], capabilities: [ { capability_id, passport,
              official, endorsement,       # endorsement artifact when official
-             published_at, expires_at } ] }
+             sequence/no, published_at, expires_at } ] }
      → 404 if node not found
 
 # Query: all nodes with a given capability
@@ -773,9 +777,21 @@ Conditional fields:
 ```json
 {
   "advertisement": { /* capability-advertisement.v1 */ },
+  "sequence/no": 1,
   "passport":      { /* capability-passport.v1 */ }
 }
 ```
+
+`sequence/no` is a positive, request-level control-plane sequence for the
+accepted `(node/id, capability/id)` registration. It is not embedded in the
+passport and is not part of `capability-advertisement.v1`. A registration with
+the same `(passport_id, sequence/no)` is idempotent. A lower sequence, or the
+same sequence with a different passport, is rejected with `409 stale-sequence`
+and a body containing `current/sequence-no` and `submitted/sequence-no`.
+Writers SHOULD retry stale-sequence conflicts with `current/sequence-no + 1`
+after preserving their own append-only audit trail. Runtime read projections
+include the accepted `sequence/no` so operators and clients can diagnose the
+current ordering state.
 
 ### `GET /cap?capability=network-ledger` Response
 
@@ -792,6 +808,7 @@ Conditional fields:
       ],
       "capability_id": "network-ledger",
       "passport": { /* capability-passport.v1 */ },
+      "sequence/no": 1,
       "published_at": "2026-04-01T10:00:00Z",
       "expires_at":   "2027-04-01T10:00:00Z",
       "anchor_identity": null,
@@ -1010,13 +1027,13 @@ polling is simpler and easier to audit.
 | ID | Task | Status | Notes |
 |---|---|---|---|
 | P025-001 | ~~Resolve issuer sovereignty against the active federation root~~ | superseded | Written before the scope/official split. It grounded *passport issuer* sovereignty as the official-status check in §2/§4/§6; after the model change the passport is scope-only and never confers official status, so resolving its issuer against `sovereign_subject_refs[]` is no longer the official-status mechanism. The intent (federation-grounded verification in §2 registration, §4 consumption, §6 startup) is carried entirely by **P025-002** (endorsement as the sole official-status proof, incl. two-phase attach) on top of **P076-016/P076-017**. |
-| P025-002 | Consume `federation-service-endorsement.v1` as the sole official-status proof | partial | Node now wires the verifier core into Seed Directory attach/read: `PUT /cap/{node-id}/{capability-id}` requires a cryptographically valid node-signed `capability-advertisement.v1`; `PUT /cap/{node-id}/{capability-id}/endorsement` requires an existing active scope entry, an active federation authority snapshot derived from `federation-root.v1`, and a valid `federation-service-endorsement.v1` for the expected node/capability before storing it. The Seed Directory stores `federation_service_endorsements` as an at-most-one-active relation and `GET /cap*` projects `official` plus the stored endorsement artifact. Attach responses now include a typed `official_status` decision (`official`, retryable `scope-only` for `scope-entry-missing`, or `rejected` on invalid endorsement proof). Re-issue is intentionally per endorsement artifact: revoking one `endorsement_id` does not automatically block a later separately signed endorsement for the same `(node_id, capability_id)`. The Seed Directory client carries `official`/`endorsement` through the discovery cache and owns the consumer-side official-status decision primitive: daemon consumers re-verify claimed official status against their active federation root before cache, routing, `seed.directory.query`, Artifact Delivery capability lookup, Contact Catalog provider discovery, or `capabilities_presented[].endorsements[]` projection can treat the endorsement as valid. Missing proof or missing root authority degrades to scope-only; invalid proof rejects the claimed official entry; consumer checks also union fresh Seed Directory endorsement-revocation feeds with the daemon revocation snapshot before accepting official status. Federation-root bootstrap now also treats inline `seed_directory_bootstrap[].endorsement` as the only official Seed Directory bootstrap proof; `endorsement_refs[]` alone stay advisory metadata. Remaining work: exact retry class/backoff surface for `scope-entry-missing`, startup/bootstrap revocation application for inline official proofs, and broader operator issuance UX. |
+| P025-002 | Consume `federation-service-endorsement.v1` as the sole official-status proof | partial | Node now wires the verifier core into Seed Directory attach/read: `PUT /cap/{node-id}/{capability-id}` requires a cryptographically valid node-signed `capability-advertisement.v1`; `PUT /cap/{node-id}/{capability-id}/endorsement` requires an existing active scope entry, an active federation authority snapshot derived from `federation-root.v1`, and a valid `federation-service-endorsement.v1` for the expected node/capability before storing it. The Seed Directory stores `federation_service_endorsements` as an at-most-one-active relation and `GET /cap*` projects `official` plus the stored endorsement artifact. Attach responses now include a typed `official_status` decision (`official`, retryable `scope-only` for `scope-entry-missing`, or `rejected` on invalid endorsement proof); the missing-scope case is a `409 Conflict` with `retryable = true`, `retry_after_seconds = 5`, and the bounded retry schedule `5s -> 30s -> 120s -> 360s`. Re-issue is intentionally per endorsement artifact: revoking one `endorsement_id` does not automatically block a later separately signed endorsement for the same `(node_id, capability_id)`. The Seed Directory client carries `official`/`endorsement` through the discovery cache and owns the consumer-side official-status decision primitive: daemon consumers re-verify claimed official status against their active federation root before cache, routing, `seed.directory.query`, Artifact Delivery capability lookup, Contact Catalog provider discovery, or `capabilities_presented[].endorsements[]` projection can treat the endorsement as valid. Missing proof or missing root authority degrades to scope-only; invalid proof rejects the claimed official entry; consumer checks also union fresh Seed Directory endorsement-revocation feeds with the daemon revocation snapshot before accepting official status. Federation-root bootstrap now also treats inline `seed_directory_bootstrap[].endorsement` as the only official Seed Directory bootstrap proof; `endorsement_refs[]` alone stay advisory metadata. Remaining work: startup/bootstrap revocation application for inline official proofs and broader operator issuance UX. |
 | P025-003 | Cryptographically verify the node advertisement signature at `PUT /cap` | done | Seed Directory `validate_capability_advertisement` now calls the network verifier for `capability-advertisement.v1`, verifying the Ed25519 signature against the key recovered from `advertisement.node_id` before accepting the scope registration. A focused regression test mutates a signed field after signing and expects rejection. |
 | P025-004 | Extend the federated revocation log to `federation-service-endorsement.v1` | partial | Node now has signed endorsement revocation storage and projection: `POST /revoke/endorsement` accepts `federation-service-endorsement-revocation.v1`, verifies the revoker against the active federation authority snapshot through the shared sovereign-subject signature verifier, treats org revocation as fail-safe unilateral withdrawal by any authorized custodian regardless of issuance threshold, stores `federation_service_endorsement_revocations`, hides revoked endorsements from `official` projections, exposes a paged `GET /revocations/endorsement` feed, and provides best-effort publisher hooks for endorsement and endorsement-revocation facts. Remaining work: converge this with the common `/revocations` feed shape and freeze a shared schema/fixtures for the revocation artifact. |
-| P025-005 | Use `sequence/no` as capability-registration replacement ordering | todo | `PUT /cap/{node-id}/{capability-id}` must order replacements by monotonic `sequence/no`, matching `/adv`; `expires_at` only controls validity. |
-| P025-006 | Filter expired capability registrations from runtime reads | todo | `GET /cap/{node-id}` and capability queries should omit expired registrations by default. A future operator/debug include-expired mode may exist, but runtime discovery receives active entries only. |
-| P025-007 | Enforce a policy-tunable max active registrations per Node | todo | Default limit: 64 active capability registrations per Node. Federation policy may tune it, but public directories must not be unbounded. |
-| P025-008 | Define `capability-passport-present.v1` in the Seed Directory capability-catalog contract | todo | Keep the minimal post-handshake/fallback wrapper here rather than in a separate transport memo, because it exists to refresh or present the capability passport used by this catalog. |
+| P025-005 | Use `sequence/no` as capability-registration replacement ordering | done | `PUT /cap/{node-id}/{capability-id}` now orders replacements by positive monotonic request-level `sequence/no`; the store primary key is `(node_id, capability_id)`, identical `(passport_id, sequence/no)` republishes are idempotent, stale/equal conflicting replacements return `409 stale-sequence` with `current/sequence-no` and `submitted/sequence-no`, runtime projections include the accepted `sequence/no`, daemon publishers keep a local sequence counter and retry stale conflicts with an advanced sequence, and `expires_at` only controls validity. |
+| P025-006 | Filter expired capability registrations from runtime reads | done | `GET /cap/{node-id}` and capability queries omit expired registrations by default through active-read predicates. A future operator/debug include-expired mode may exist, but runtime discovery receives active entries only. |
+| P025-007 | Enforce a policy-tunable max active registrations per Node | done | The Seed Directory store enforces a configurable `max_active_capability_registrations_per_node`; the daemon uses the safe default of 64 active registrations per Node, and new entries over the limit return `429 capability-registration-limit-exceeded`. |
+| P025-008 | Define `capability-passport-present.v1` in the Seed Directory capability-catalog contract | done | `capability-passport-present.v1` is part of the synchronized node protocol contracts and remains the minimal post-handshake/fallback wrapper used to refresh or present the capability passport used by this catalog. |
 | P025-009 | Add scoped `config-install` delivery for `federation-service-endorsement.v1` | todo | In addition to Seed Directory registration, support explicit scoped config-install for endorsement artifacts. Peer-presentation delivery remains deferred until a concrete offline/disconnected use case requires it. |
 
 ## Open Questions
