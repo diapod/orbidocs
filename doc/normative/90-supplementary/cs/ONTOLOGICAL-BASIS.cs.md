@@ -482,7 +482,7 @@ obětuje orgány, celek přestává dobře fungovat. Ekonomika aktérské vzáje
 tak doktrínou rozdělování, jako spíše přirozeným důsledkem hygieny vrstev: dbá o to, aby
 nižší vrstva aktérství zůstala živá a vyšší jí sloužily, místo aby ji nahrazovaly.
 
-### Nejbližší ekonomické směry
+#### Nejbližší ekonomické směry
 
 Pro čtenáře, kteří chtějí ekonomiku aktérské vzájemnosti zasadit do známé krajiny
 ekonomického myšlení:

@@ -33,7 +33,7 @@ This is not an "alternative *chatbot*" nor just another distributed agent, but a
 software](../../30-core-values/en/CORE-VALUES.en.md#anti-lock-in-as-a-protocol-property-not-marketing)
 and mutual support.
 
-We do not fight AI. We **[separate levels](../../90-supplementary/en/ONTOLOGICAL-BASIS.en.md)**: we restore human steerability and design
+We do not fight AI. We [**separate levels**](../../90-supplementary/en/ONTOLOGICAL-BASIS.en.md): we restore human steerability and design
 layers and contracts so that tools **do not take over the subject, but strengthen
 it**.
 

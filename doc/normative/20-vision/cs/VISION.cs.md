@@ -31,7 +31,7 @@ infrastruktura [smyslu a schopnosti jednat](../../90-supplementary/cs/ONTOLOGICA
 softwaru](../../30-core-values/cs/CORE-VALUES.cs.md#anti-lock-in-jako-vlastnost-protokolu-ne-marketingu)
 a vzájemné podpory.
 
-Nebojujeme proti AI. **[Oddělujeme úrovně](../../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md)**: vracíme lidem možnost řízení
+Nebojujeme proti AI. [**Oddělujeme úrovně**](../../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md): vracíme lidem možnost řízení
 a navrhujeme vrstvy a kontrakty tak, aby nástroj **nepřebíral subjekt, ale
 posiloval jej**.
 

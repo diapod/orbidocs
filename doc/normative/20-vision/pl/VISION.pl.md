@@ -31,7 +31,7 @@ infrastruktura [sensu i sprawczości](../../90-supplementary/pl/ONTOLOGICAL-BAS
 oprogramowania](../../30-core-values/pl/CORE-VALUES.pl.md#anti-lock-in-jako-cecha-protokou-nie-marketingu)
 i wzajemnego wsparcia.
 
-Nie walczymy z AI. **[Oddzielamy poziomy](../../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md)**: przywracamy ludziom sterowność
+Nie walczymy z AI. [**Oddzielamy poziomy**](../../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md): przywracamy ludziom sterowność
 i projektujemy warstwy oraz kontrakty tak, aby narzędzie **nie przejmowało podmiotu,
 lecz go wzmacniało**.
 

@@ -530,7 +530,7 @@ is therefore not so much a doctrine of distribution as a natural consequence of 
 hygiene of layers: it ensures that the lower layer of agency stays alive, and that the
 higher ones serve it instead of replacing it.
 
-### Closest economic directions
+#### Closest economic directions
 
 For the reader who wants to place the economy of agentic mutuality within a familiar
 landscape of economic thought:

@@ -514,7 +514,7 @@ Ekonomia sprawczej wzajemności jest więc nie tyle doktryną podziału, ile nat
 konsekwencją higieny warstw: dba o to, by niższa warstwa sprawczości pozostała żywa,
 a wyższe służyły jej, zamiast ją zastępować.
 
-### Najbliższe kierunki ekonomiczne
+#### Najbliższe kierunki ekonomiczne
 
 Dla czytelnika chcącego osadzić ekonomię sprawczej wzajemności w znanym krajobrazie
 myśli ekonomicznej:
