@@ -14,6 +14,9 @@ Refined by:
 - `doc/project/40-proposals/064-inquirium-implementation-recommendations.md`
 - `doc/project/40-proposals/066-inquirium-assistant-channel.md`
 
+Related:
+- `doc/project/40-proposals/078-weak-signal-harvester.md`
+
 ## Status
 
 Accepted
@@ -523,6 +526,9 @@ Middleware can consume Inquirium:
 - Arca may use Inquirium for planning support, draft review, or task
   fulfillment evidence.
 - Monus may use Inquirium to form local concern drafts from selected inputs.
+- Weak Signal Harvester may use Inquirium to classify, redact, summarize, or
+  group candidate findings, but the model result remains advisory and cannot
+  authorize publication.
 - Semantic Index may use Inquirium embedding profiles.
 
 This keeps middleware composition declarative while preventing each middleware

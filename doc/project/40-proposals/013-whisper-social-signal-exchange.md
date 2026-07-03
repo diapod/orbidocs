@@ -5,6 +5,9 @@ Based on:
 - `doc/project/20-memos/orbiplex-anon.md`
 - `doc/project/30-stories/story-005-whisper-rumor-intake.md`
 
+Related:
+- `doc/project/40-proposals/078-weak-signal-harvester.md`
+
 ## Status
 
 Proposed (Draft)
@@ -80,6 +83,9 @@ The system needs a middle layer:
 - This proposal does not require onion-style transport for every Whisper message.
 - This proposal does not define the full relay/privacy provider contract beyond its
   boundary with Whisper.
+- This proposal does not define source-corpus harvesting from documents, mail,
+  or configured feeds. Weak Signal Harvester (Proposal 078) is the upstream
+  discovery tool that may prepare reviewed local findings before Whisper intake.
 
 ## Decision
 
@@ -145,6 +151,12 @@ This is a semantic safety boundary. The system must not let a rumor become
 ### 2. Local redaction before publication
 
 The raw text entered by a user or operator should remain local by default.
+
+A local Weak Signal Harvester (Proposal 078) may prepare candidate findings from
+documents, mail, or other configured sources before this step. Such findings are
+not Whisper artifacts. They enter Whisper only after local import, grouping,
+review, and explicit user/operator action. The Harvester must not publish
+`whisper-signal.v1` directly.
 
 Before publication, Whisper should run a bounded local workflow for:
 

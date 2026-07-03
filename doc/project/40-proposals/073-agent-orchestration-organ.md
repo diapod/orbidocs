@@ -463,6 +463,10 @@ fail-closed; identifiers are explicit and canonical.
   Agent sessions: human-in-the-loop gates *effects, budgets, and acceptance* —
   never individual conversational turns. What agents may do unattended is
   reason; what they may not do unattended is commit.
+- **Weak Signal Harvester (078).** A bounded Agent may orchestrate a harvesting
+  pass: scan configured sources, request Inquirium grouping/redaction, emit
+  finding files, and stop. It must not widen source grants, bypass the findings
+  directory, or publish Whisper/network artifacts directly.
 - **Inquirium (063/064).** Agent is the consumer that 063 names ("Flow … and the
   host own broader orchestration"). The Flow IR `bounded controller` (064) is the
   seed; Agent generalizes it into a durable, addressable, forkable entity. The

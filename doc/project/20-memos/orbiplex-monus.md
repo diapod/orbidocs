@@ -9,6 +9,13 @@ opening side channels to memory, transport, or publication.
 
 The point is not diagnosis, hidden behavioral scoring, or paternalistic automation. The point is to help the user notice meaningful patterns early enough that they can decide whether a bounded social signal should be published through `Whisper`.
 
+Proposal 078 (`doc/project/40-proposals/078-weak-signal-harvester.md`) generalizes
+one adjacent pattern: a Weak Signal Harvester may scan configured documents, mail,
+or later network sources and deposit candidate findings into a node-visible
+directory for review. `Monus` remains narrower: wellbeing and tension-oriented
+local pattern noticing. The two may compose, but neither should publish network
+artifacts directly.
+
 ## Candidate role
 
 `Monus` could aggregate and weigh local signals such as:

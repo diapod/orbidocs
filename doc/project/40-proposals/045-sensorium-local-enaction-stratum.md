@@ -11,6 +11,7 @@ Based on:
 - `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
 - `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
 - `doc/project/40-proposals/022-monus-as-host-granted-local-observation-middleware.md`
+- `doc/project/40-proposals/078-weak-signal-harvester.md`
 - `doc/project/60-solutions/000-node/000-node.md`
 - `doc/project/60-solutions/009-monus/009-monus.md`
 
@@ -1412,6 +1413,14 @@ Acute personal emergencies should still prefer local help or emergency-assistanc
 paths before Whisper. Whisper is for correlation-worthy distributed patterns, not
 the first response to likely cardiac arrest, fire, collapse, or comparable direct
 danger.
+
+### 13. Relationship to Weak Signal Harvester
+
+Weak Signal Harvester (Proposal 078) may consume configured Sensorium outputs as
+source material, but Sensorium does not own harvesting. Sensorium is the node's
+bounded contact surface with the world; the Harvester indexes, groups, and emits
+candidate findings into a review directory. Any later Whisper publication remains
+Node/Whisper-owned and approval-gated.
 
 ## Policy and Safety
 
