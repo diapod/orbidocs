@@ -66,6 +66,13 @@ C, creates the A-side query, asks B and C for provider bids, registers those bid
 on A, selects the cheapest valid bid, and verifies that A can stop the round as
 `requester-satisfied`.
 
+The managed smoke uses the same federation-root trust seam as runtime
+consumers: after first boot it reads real node IDs, creates B/C provider
+participants, rewrites the signed runtime `federation-root.v1` with Node B's
+official Seed Directory endorsement and B/C participant attestation roots,
+restarts all daemons, asserts Node A's active `/v1/seed-directory` trust view,
+and only then issues/publishes provider capability passports.
+
 The pack currently treats Matrix as a protocol field carried by the query and
 reply target. It does not start a real Matrix homeserver. A homeserver-backed
 transport fixture should be layered onto the same story once the Matrix live
@@ -77,6 +84,9 @@ transport profile is ready.
   configuration.
 - The managed smoke starts A, B, and C and completes the Corpus query/bid/select
   path.
+- The managed smoke refreshes the signed runtime federation root after first
+  boot and proves that Node A sees Node B as an active `federation-endorsed`
+  Seed Directory source before provider passport discovery.
 - B is selected when it offers the lower valid price.
 - A closes the round with `round/status = requester-satisfied`.
 - The query and answer path preserve the Matrix room id as the intended shared

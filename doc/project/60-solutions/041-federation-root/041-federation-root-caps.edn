@@ -59,6 +59,8 @@
    ["Write explicit signed federation-root packs into acceptance profile data dirs"
     "Refresh placeholder bootstrap node ids to runtime node:did:key values after first daemon boot"
     "Embed signed seed-directory endorsements for bootstrap Seed Directory entries that claim federation-endorsed"
+    "Keep local acceptance seed-directory endorsements bounded in time and refresh them by rerunning the profile seeder or managed smoke"
+    "Embed runtime-created participant attestation roots with matching self-signatures when an acceptance flow needs root-backed provider passport issuance"
     "Allow pre-first-boot roots to omit Seed Directory bootstrap entries until runtime DID node ids are known"
     "Keep local acceptance roots separate from production org/threshold custody roots"
     "Avoid loose trust-list shortcuts as a substitute for root-backed authority"]

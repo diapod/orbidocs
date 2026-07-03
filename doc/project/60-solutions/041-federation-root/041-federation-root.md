@@ -184,6 +184,13 @@ Responsibilities:
   first daemon boot;
 - embed signed `seed-directory` endorsements for bootstrap Seed Directory
   entries that claim `federation-endorsed`;
+- keep those local acceptance endorsements bounded in time and refresh them by
+  rerunning the profile seeder or managed smoke, instead of treating acceptance
+  fixtures as long-lived production authority;
+- support acceptance roots that include runtime-created participant attestation
+  roots with matching self-signatures, so local provider passport issuance and
+  requester verification exercise the active federation-root sovereign
+  projection rather than an unsigned config override;
 - keep pre-first-boot roots allowed to omit Seed Directory bootstrap entries
   until runtime DID node ids are known;
 - keep local acceptance roots separate from production org/threshold custody

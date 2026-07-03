@@ -85,7 +85,12 @@ Recent component deltas:
   local root packs and embed signed Seed Directory official-service
   endorsements for federation-endorsed bootstrap entries, so local Story-005,
   Story-009, Story-010, and Story-011 profiles exercise the same root-backed
-  authority chain as runtime consumers. Production ceremony governance, appeal
+  authority chain as runtime consumers. Story-011 now also proves the provider
+  side of the projection: its managed smoke creates provider participants during
+  first boot, inserts B/C participant attestation roots with matching
+  self-signatures into the refreshed runtime root, restarts, asserts active
+  `/v1/seed-directory` trust for Node B, and only then issues/publishes
+  `corpus.provider` capability passports. Production ceremony governance, appeal
   path, alliance semantics, optional remote co-signing/FROST-style threshold
   protocols, and broader multi-federation matrix polish remain post-MVP
   governance/testnet follow-ups, not release blockers for the runtime contract.
@@ -202,7 +207,8 @@ Recent component deltas:
   `bidder/node-id`, P057 notifications for bid readiness/requester-satisfied/settlement failure, operator-visible
   `settlement-failed` recovery state for bridge failures after selection, operator
   visibility under `/admin/corpus/rounds`, and passing Story-011 acceptance coverage
-  under full Seed Directory `sovereign-policy` capability lookup. The current slice also
+  under full Seed Directory `sovereign-policy` capability lookup backed by a
+  refreshed signed federation root. The current slice also
   adds `corpus-reasoning-answer.v1` as a validated, digest-bound final answer artifact
   that can be attached to the requester-owned round read model after provider-local
   `inquirium.generate` drafting; answer admission now uses ordinary Artifact Delivery
