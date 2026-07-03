@@ -1,7 +1,7 @@
 # Proposal 057: User and Operator Notifications
 
 Date: `2026-05-15`
-Status: Draft
+Status: `promoted`
 
 Based on:
 
@@ -14,6 +14,10 @@ Based on:
 - `doc/project/40-proposals/052-tauri-hosted-node-ui.md`
 - `doc/project/40-proposals/056-orbiplex-tls-trust-policy.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
+
+Promoted to:
+
+- `doc/project/60-solutions/039-notifications/039-notifications.md`
 
 ## Executive Summary
 

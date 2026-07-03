@@ -10,9 +10,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | `20-vision` (Vision) | `3` | `1` | `1` | `1` |
 | `30-core-values` (Core Values) | `3` | `1` | `1` | `1` |
 | `40-constitution` (Constitution) | `2` | `1` | `1` | `0` |
-| `50-constitutional-ops` (Constitutional Ops) | `58` | `29` | `29` | `0` |
+| `50-constitutional-ops` (Constitutional Ops) | `60` | `30` | `30` | `0` |
 
-- Total normative markdown files: `72`
+- Total normative markdown files: `74`
 
 ## Project Workflow
 
@@ -23,9 +23,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | `30-stories` (Stories) | `16` | `1` |
 | `40-proposals` (Proposals) | `81` | `69` |
 | `50-requirements` (Requirements) | `17` | `15` |
-| `60-solutions` (Solutions) | `55` | `34` |
+| `60-solutions` (Solutions) | `59` | `38` |
 
-- Total project markdown files: `228`
+- Total project markdown files: `232`
 - Proposals referencing source material: `69` / `81`
 - Requirements referencing source material: `15` / `17`
 

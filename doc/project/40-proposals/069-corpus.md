@@ -19,9 +19,13 @@ Based on:
 - `doc/project/30-stories/story-002-federated-peer-learning.md`
 - `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
 
+Promoted to:
+
+- `doc/project/60-solutions/038-corpus/038-corpus.md`
+
 ## Status
 
-`draft`
+`promoted`
 
 ## Date
 

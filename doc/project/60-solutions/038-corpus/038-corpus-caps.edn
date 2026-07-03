@@ -1,0 +1,123 @@
+{:component/id :orbiplex/corpus
+ :component/title "Corpus"
+ :component/type :protocol-component
+ :component/status :done
+
+ :summary
+ "Topic-routed collaborative reasoning layer that composes taxonomy resolution,
+ Shared Offer Catalog topic indexing, Artifact Delivery query fan-out,
+ procurement selection, and later Room/Agent deliberation."
+
+ :must-implement
+ [{:cap/id :corpus-topic-taxonomy-resolution
+   :title "Topic Taxonomy and Resolution"
+   :kind :governance-contract
+   :based-on ["doc/project/40-proposals/069-corpus.md"]
+   :schemas ["topic-taxonomy.v1" "topic-resolution.v1"]
+   :responsibilities
+   ["Define signed versioned federation-scoped taxonomy artifacts"
+    "Resolve keywords to canonical topic terms or explicit ambiguity"
+    "Keep resolution deterministic and auditable"
+    "Reject arbitrary topic strings outside the pinned taxonomy"]
+   :status :done}
+
+  {:cap/id :corpus-offer-topic-index
+   :title "Corpus-Capable Offer Indexing"
+   :kind :read-model
+   :based-on ["doc/project/40-proposals/069-corpus.md"
+              "doc/project/60-solutions/033-shared-offer-catalog/033-shared-offer-catalog.md"]
+   :schemas ["service-offer.v1" "topic-taxonomy.v1"]
+   :responsibilities
+   ["Treat Corpus provider offers as normal service-offer.v1 records with a Corpus extension"
+    "Index active offers by canonical topic term and taxonomy digest"
+    "Apply supersession full withdrawal expiry and partial-topic removal as offer-catalog read-model rules"
+    "Expose topic-index query surfaces without making Corpus a second catalog"]
+   :status :done}
+
+  {:cap/id :corpus-query-bid-flow
+   :title "Query, Bid, and Bid-State Flow"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/069-corpus.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"]
+   :schemas ["corpus-reasoning-query.v1"
+             "corpus-reasoning-bid.v1"
+             "corpus-reasoning-bid-state.v1"
+             "question-envelope.v1"
+             "procurement-offer.v1"]
+   :responsibilities
+   ["Send Corpus queries as bounded Artifact Delivery fan-out"
+    "Keep corpus-reasoning-query.v1 as a decorator over question-envelope.v1"
+    "Represent bids as signed envelopes around procurement-offer.v1"
+    "Keep requester bid state as a local read model so silence refusal policy denial timeout and delivery failure are not conflated"]
+   :status :done}
+
+  {:cap/id :corpus-procurement-bridge
+   :title "Procurement Bridge"
+   :kind :integration
+   :based-on ["doc/project/40-proposals/011-federated-answer-procurement-lifecycle.md"
+              "doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md"
+              "doc/project/40-proposals/069-corpus.md"]
+   :schemas ["procurement-offer.v1"
+             "procurement-contract.v1"
+             "procurement-receipt.v1"]
+   :responsibilities
+   ["Convert a selected Corpus bid into the ordinary procurement contract path"
+    "Keep price currency unit contract and receipt semantics owned by procurement"
+    "Reject counter prices outside the query bracket unless explicitly selected by the requester"
+    "Preserve query and correlation identifiers through the settlement path"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :corpus-live-deliberation-room
+   :title "Live Deliberation on Room"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/069-corpus.md"
+              "doc/project/60-solutions/036-room/036-room.md"]
+   :schemas ["room.v1"
+             "room-policy.v1"
+             "corpus-reasoning-room-policy.v1"
+             "corpus-reasoning-room-invite.v1"
+             "corpus-reasoning-answer.v1"]
+   :responsibilities
+   ["Open a Room for selected Corpus participants"
+    "Bind deliberation policy access list role assignments and answer acceptance to Room records"
+    "Keep live chat ephemeral by default"
+    "Emit a signed content-addressed answer as the durable reasoning artifact"]
+   :status :post-mvp}
+
+  {:cap/id :corpus-agent-chairing
+   :title "Agent-Assisted Chairing"
+   :kind :future-integration
+   :based-on ["doc/project/40-proposals/069-corpus.md"
+              "doc/project/40-proposals/073-agent-orchestration-organ.md"]
+   :schemas ["corpus-reasoning-role-assignment.v1"
+             "corpus-reasoning-instruction-overlay.v1"
+             "corpus-reasoning-answer.v1"]
+   :responsibilities
+   ["Allow the requester to appoint its own bounded Agent as chair delegate"
+    "Keep the accountable chair subject explicit in Room policy"
+    "Let Agent/Inquirium assist reasoning without becoming the authority root"
+    "Route sensitive effects through host-owned human-in-loop gates"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Owning the curated/training corpus-entry.v1 corpus"
+  "Replacing Room membership presence live transport or attestation"
+  "Replacing Inquirium or Agent runtime semantics"
+  "Defining N-way contribution settlement"
+  "Persisting live deliberation chatter as a protocol fact by default"]
+
+ :consumes
+ ["topic-taxonomy.v1"
+  "topic-resolution.v1"
+  "service-offer.v1"
+  "artifact-delivery-envelope.v1"
+  "procurement-offer.v1"
+  "procurement-contract.v1"
+  "room.v1"]
+
+ :produces
+ ["corpus-reasoning-query.v1"
+  "corpus-reasoning-bid.v1"
+  "corpus-reasoning-bid-state.v1"
+  "corpus-reasoning-answer.v1"]}

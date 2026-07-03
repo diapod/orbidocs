@@ -1,5 +1,11 @@
 # Proposal 018: Layered `capability_limited` Participant Restrictions
 
+## Status
+
+`promoted`
+
+Promoted to: `doc/project/60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md`
+
 ## Context
 
 The current Node runtime already uses `capability_limited` as a peer-quality

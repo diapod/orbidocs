@@ -1,0 +1,121 @@
+{:component/id :orbiplex/federation-root
+ :component/title "Federation Root and Network Selector"
+ :component/type :trust-policy
+ :component/status :done
+
+ :summary
+ "Federation-scoped trust anchor and network selector: active federation root
+ material, official-service endorsement verification, Seed Directory bootstrap
+ projection, and restart-only root activation."
+
+ :must-implement
+ [{:cap/id :federation-root-contract
+   :title "Federation Root Contract"
+   :kind :schema-contract
+   :based-on ["doc/project/40-proposals/076-federation-identity-and-network-selector.md"]
+   :schemas ["federation-root.v1"]
+   :responsibilities
+   ["Define the federation id sovereign subject refs bootstrap entries and policy roots"
+    "Require explicit seed_directory_bootstrap enabled flags"
+    "Reject malformed root material before runtime consumers can use it"
+    "Keep activation fingerprint stable for the process lifetime"]
+   :status :done}
+
+  {:cap/id :federation-official-service-endorsements
+   :title "Official-Service Endorsements"
+   :kind :trust-verification
+   :based-on ["doc/project/40-proposals/076-federation-identity-and-network-selector.md"
+              "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"]
+   :schemas ["federation-service-endorsement.v1"
+             "federation-service-endorsement-revocation.v1"]
+   :responsibilities
+   ["Make federation-service-endorsement.v1 the sole proof of official-service status"
+    "Verify endorsement signatures validity windows signer authority node id and capability id against the active root"
+    "Apply endorsement revocations before projecting official status"
+    "Preserve scope-only capability passports as non-official unless an active endorsement is present"]
+   :status :done}
+
+  {:cap/id :federation-seed-directory-bootstrap
+   :title "Seed Directory Bootstrap and Discovery Policy"
+   :kind :discovery-policy
+   :based-on ["doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"
+              "doc/project/40-proposals/076-federation-identity-and-network-selector.md"
+              "doc/project/60-solutions/031-seed-directory/031-seed-directory.md"]
+   :schemas ["federation-root.v1" "seed-directory-query-attestation.v1"]
+   :responsibilities
+   ["Project enabled Seed Directory bootstrap entries from the active root"
+    "Downgrade bootstrap entries without verified official endorsement to community/advisory status"
+    "Apply one strict multi-directory policy across host queries AD/capability routing subject lookup and Contact Catalog provider discovery"
+    "Expose safe trusted-directory diagnostics and replay status"]
+   :status :done}
+
+  {:cap/id :federation-acceptance-profile-seeding
+   :title "Acceptance Profile Root Seeding"
+   :kind :acceptance-harness
+   :based-on ["doc/project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md"
+              "doc/project/40-proposals/076-federation-identity-and-network-selector.md"]
+   :schemas ["federation-root.v1" "federation-service-endorsement.v1"]
+   :responsibilities
+   ["Write explicit signed federation-root packs into acceptance profile data dirs"
+    "Refresh placeholder bootstrap node ids to runtime node:did:key values after first daemon boot"
+    "Embed signed seed-directory endorsements for bootstrap Seed Directory entries that claim federation-endorsed"
+    "Allow pre-first-boot roots to omit Seed Directory bootstrap entries until runtime DID node ids are known"
+    "Keep local acceptance roots separate from production org/threshold custody roots"
+    "Avoid loose trust-list shortcuts as a substitute for root-backed authority"]
+   :status :done}
+
+  {:cap/id :federation-root-ceremony-tooling
+   :title "Root-Ceremony and Endorsement Tooling"
+   :kind :operator-tooling
+   :based-on ["doc/project/40-proposals/076-federation-identity-and-network-selector.md"]
+   :schemas ["federation-root.v1" "federation-service-endorsement.v1"]
+   :responsibilities
+   ["Support offline digest detached signing deterministic assembly and verify commands for root and endorsement artifacts"
+    "Allow participant mnemonic data-dir and key-record signing variants"
+    "Reject unknown or unauthorized signers in strict mode"
+    "Keep org-governed issuance ceremony-bound rather than pretending one custodian can issue"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :federation-endorsement-remote-cosigning
+   :title "Remote Co-Signing Protocol"
+   :kind :future-protocol
+   :based-on ["doc/project/40-proposals/076-federation-identity-and-network-selector.md"]
+   :schemas ["federation-service-endorsement.v1"]
+   :responsibilities
+   ["Let sovereign signers add detached signatures over a shared digest through a bounded protocol"
+    "Preserve verify-before-sign behavior"
+    "Keep transport separate from authority"]
+   :status :deferred}
+
+  {:cap/id :federation-seed-directory-tls-pinning
+   :title "Seed Directory TLS Pinning"
+   :kind :transport-hardening
+   :based-on ["doc/project/40-proposals/076-federation-identity-and-network-selector.md"
+              "doc/project/60-solutions/024-tls-trust-policy/024-tls-trust-policy.md"]
+   :schemas ["federation-root.v1"]
+   :responsibilities
+   ["Optionally carry a Seed Directory transport certificate pin in bootstrap entries"
+    "Treat the pin as transport privacy/integrity material never service authority"
+    "Coordinate schema loader fixtures and compatibility notes in one change"]
+   :status :todo}]
+
+ :out-of-scope
+ ["Treating WebPKI or a Seed Directory response as federation authority by itself"
+  "Switching active federation roots during hot reload"
+  "Making capability passports official without endorsements"
+  "Deciding all cross-federation policy"
+  "Replacing TLS trust policy or Seed Directory replay semantics"]
+
+ :consumes
+ ["federation-root.v1"
+  "federation-service-endorsement.v1"
+  "federation-service-endorsement-revocation.v1"
+  "Seed Directory bootstrap configuration"
+  "TLS trust and endpoint evidence policy"]
+
+ :produces
+ ["active federation authority snapshots"
+  "official-service verification decisions"
+  "trusted directory and bootstrap projections"
+  "root activation diagnostics"]}

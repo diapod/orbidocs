@@ -1,0 +1,90 @@
+{:component/id :orbiplex/capability-limited-restrictions
+ :component/title "Capability-Limited Restrictions"
+ :component/type :policy-enforcement
+ :component/status :done
+
+ :summary
+ "Host-owned enforcement layer for participant-scoped operational restrictions:
+ schema-gated capability limits, durable clear tombstones, hard blocks, soft
+ ranking penalties, and cooldown modifiers."
+
+ :must-implement
+ [{:cap/id :participant-capability-limits-contract
+   :title "Capability Limits Contract"
+   :kind :schema-contract
+   :based-on ["doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md"]
+   :schemas ["participant-capability-limits.v1"]
+   :responsibilities
+   ["Define the canonical restriction artifact"
+    "Reject unsafe or unknown hard-block targets"
+    "Keep protected floor operations unblocked"
+    "Validate participant ids reason refs expiry windows and soft factors"]
+   :status :done}
+
+  {:cap/id :participant-capability-limits-import-clear
+   :title "Schema-Gated Import and Clear"
+   :kind :operator-api
+   :based-on ["doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md"]
+   :schemas ["participant-capability-limits.v1"]
+   :responsibilities
+   ["Reject invalid oversized stale already-dead or already-expired imports"
+    "Preserve monotonic recorded-at and last_cleared_at semantics"
+    "Accept optional bounded reason/ref when clearing restrictions"
+    "Emit clear tombstones instead of deleting history"]
+   :status :done}
+
+  {:cap/id :participant-capability-limits-enforcement
+   :title "Operation Enforcement Hooks"
+   :kind :runtime-enforcement
+   :based-on ["doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md"]
+   :schemas ["participant-capability-limits.v1"]
+   :responsibilities
+   ["Enforce hard blocks on the first privileged operation set"
+    "Apply priority-factor penalties in procurement ranking"
+    "Apply rate-limit-factor cooldowns at admitted operation gates"
+    "Keep participant-side accept/dispute/reject controls separate from operator execution controls"]
+   :status :done}
+
+  {:cap/id :participant-capability-limits-replay-visibility
+   :title "Durable Replay and Operator Visibility"
+   :kind :auditability
+   :based-on ["doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md"]
+   :schemas ["participant-capability-limits.v1"]
+   :responsibilities
+   ["Append imports and clear tombstones to the daemon commit log"
+    "Replay the current read model deterministically"
+    "Expose import list detail/export and clear routes"
+    "Emit metadata-only refresh events for operator surfaces"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :newcomer-effective-limits-projection
+   :title "Newcomer Effective-Limits Projection"
+   :kind :policy-projection
+   :based-on ["doc/project/50-requirements/requirements-015-newcomer-surface-limits.md"
+              "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"]
+   :schemas ["participant-effective-limits.v1" "surface-access-policy.v1"]
+   :responsibilities
+   ["Project entry profile surface access policy sanctions and appeals into one effective-limits read model"
+    "Keep social membership policy outside the enforcement primitive"
+    "Allow newcomer defaults and sanctions to share operation vocabulary without sharing authority"]
+   :status :post-mvp}]
+
+ :out-of-scope
+ ["Moral classification of participants"
+  "Global federation ban semantics"
+  "Deciding membership or sponsorship status"
+  "Replacing capability passports or operation-specific authorization"
+  "Blocking protected floor operations"]
+
+ :consumes
+ ["participant-capability-limits.v1"
+  "clear tombstones"
+  "operation admission context"
+  "procurement ranking inputs"]
+
+ :produces
+ ["hard-block decisions"
+  "soft ranking/cooldown modifiers"
+  "durable replay state"
+  "metadata-only operator refresh events"]}

@@ -1,0 +1,108 @@
+{:component/id :orbiplex/notifications
+ :component/title "Notifications"
+ :component/type :host-ui-service
+ :component/status :done
+
+ :summary
+ "Local attention-management layer for users and operators: schema-backed
+ notification requests, durable recipient queues, policy evaluation, action
+ dispatch, and privacy-minimal state-change pings."
+
+ :must-implement
+ [{:cap/id :notification-contracts-policy
+   :title "Notification Contracts and Policy"
+   :kind :schema-contract
+   :based-on ["doc/project/40-proposals/057-user-and-operator-notifications.md"]
+   :schemas ["notification.v1"
+             "notification-create.v1"
+             "notification-allow.v1"
+             "notification-delivery-policy.v1"]
+   :responsibilities
+   ["Define typed notification queue records and create requests"
+    "Scope idempotency by sender/id and idempotency/key"
+    "Enforce NotificationAllow for external middleware"
+    "Evaluate local delivery policy before interrupting or pinging recipients"
+    "Keep structured body/input transient and out of durable storage"]
+   :status :done}
+
+  {:cap/id :notification-durable-queue-audit
+   :title "Durable Queue and Audit"
+   :kind :storage
+   :based-on ["doc/project/40-proposals/057-user-and-operator-notifications.md"]
+   :schemas ["notification.v1"]
+   :responsibilities
+   ["Persist notifications across daemon and UI restarts"
+    "Keep a temporal event log as the recovery source of truth"
+    "Maintain a current queue projection for low-latency reads"
+    "Keep JSONL audit as a redacted diagnostic/export mirror"
+    "Support opened handled snoozed delete collapse supersede and idempotency conflict paths"]
+   :status :done}
+
+  {:cap/id :notification-host-capability
+   :title "Host Capability and Legacy Bridge"
+   :kind :host-capability
+   :based-on ["doc/project/40-proposals/057-user-and-operator-notifications.md"]
+   :schemas ["notification-create.v1"]
+   :responsibilities
+   ["Expose notification.create as the canonical middleware entry point"
+    "Bind sender identity to authenticated component identity"
+    "Adapt legacy notify_emit into the same queue and policy path"
+    "Deny unknown or unauthorized sender kind recipient combinations fail-closed"]
+   :status :done}
+
+  {:cap/id :notification-recipient-surfaces
+   :title "Operator and User Presentation Surfaces"
+   :kind :api-ui
+   :based-on ["doc/project/40-proposals/057-user-and-operator-notifications.md"
+              "doc/project/40-proposals/006-pod-access-layer-for-thin-clients.md"]
+   :schemas ["notification.v1" "notification-state-changed.v1"]
+   :responsibilities
+   ["Expose list detail opened handled snooze and delete routes"
+    "Render operator and admin inboxes"
+    "Expose user and pod-user scoped read/action routes with caller-binding isolation"
+    "Publish privacy-minimal SSE pings and refresh read models after reconnect"]
+   :status :done}
+
+  {:cap/id :notification-schema-actions
+   :title "Schema-Defined Actions"
+   :kind :interaction
+   :based-on ["doc/project/40-proposals/057-user-and-operator-notifications.md"]
+   :schemas ["notification-action.v1" "notification-action-result.v1"]
+   :responsibilities
+   ["Render only schema-defined action widgets"
+    "Dispatch registered action refs through daemon-owned handlers"
+    "Reject expired replayed stale-version unauthorized or unwired actions"
+    "Record action-submitted audit facts with bound actor identity"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :notification-native-os-adapter
+   :title "Native OS Notifications"
+   :kind :presentation-adapter
+   :based-on ["doc/project/40-proposals/052-tauri-hosted-node-ui.md"
+              "doc/project/40-proposals/057-user-and-operator-notifications.md"]
+   :schemas ["notification-state-changed.v1"]
+   :responsibilities
+   ["Project local notification state into native desktop notification APIs"
+    "Preserve redaction and quiet-hours policy"
+    "Never make OS delivery the source of notification authority"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Arbitrary HTML/HTMX fragments supplied by middleware"
+  "Cross-node notification aggregation"
+  "Using notification action buttons as direct domain authority"
+  "Persisting raw body/input"
+  "Treating SSE as a full event replay log in MVP"]
+
+ :consumes
+ ["notification-create.v1"
+  "local attention and authorization policy"
+  "recipient/caller binding state"
+  "node facts and diagnostic refs"]
+
+ :produces
+ ["notification.v1"
+  "notification-state-changed.v1"
+  "notification-action-result.v1"
+  "redacted notification audit facts"]}
