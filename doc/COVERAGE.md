@@ -88,7 +88,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md) | `17` | `16` | `yes` | `yes` | `1` | `1` |
 | [`eval-report.v1.schema.json`](schemas-gen/schemas/eval-report.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md) | `22` | `22` | `yes` | `yes` | `3` | `5` |
-| [`federation-root.v1.schema.json`](schemas-gen/schemas/federation-root.v1.md) | `12` | `12` | `yes` | `yes` | `2` | `6` |
+| [`federation-root.v1.schema.json`](schemas-gen/schemas/federation-root.v1.md) | `12` | `12` | `yes` | `yes` | `2` | `7` |
 | [`federation-service-endorsement-revocation.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement-revocation.v1.md) | `10` | `10` | `yes` | `yes` | `1` | `0` |
 | [`federation-service-endorsement.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md) | `20` | `19` | `yes` | `yes` | `1` | `1` |
@@ -575,4 +575,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `202`
 - Generated schema docs: `202`
 - Positive examples: `221`
-- Negative examples: `153`
+- Negative examples: `154`

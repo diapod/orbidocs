@@ -99,8 +99,11 @@
    :responsibilities
    ["Optionally carry a Seed Directory transport certificate pin in bootstrap entries"
     "Treat the pin as transport privacy/integrity material never service authority"
+    "Require HTTPS when the pin is present and verify the peer leaf certificate digest on source-aware Seed Directory client paths"
+    "Reject duplicate manual Seed Directory endpoint entries whose pins differ within bootstrap entries, within trust entries, or across both surfaces"
+    "Use one active pin per endpoint in MVP; certificate rotation requires a higher pack_version a new signed root pack and daemon restart"
     "Coordinate schema loader fixtures and compatibility notes in one change"]
-   :status :todo}]
+   :status :done}]
 
  :out-of-scope
  ["Treating WebPKI or a Seed Directory response as federation authority by itself"

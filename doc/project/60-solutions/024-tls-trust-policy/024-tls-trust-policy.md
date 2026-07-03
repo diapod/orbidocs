@@ -196,6 +196,15 @@ Evidence may use `sha256-leaf-der` or `sha256-spki`; a connection is acceptable
 when at least one active expected digest method matches the observed
 certificate material and any advisory route-id requirement also matches.
 
+Seed Directory bootstrap TLS pins are a narrower root-pack projection of the
+same leaf-DER evidence model. `federation-root.v1`
+`seed_directory_bootstrap[].tls_certificate_sha256` uses
+`sha256:<base64url-43>` over the raw peer leaf certificate DER and protects only
+the transport channel to that directory. It does not confer official service
+authority. In MVP, the field carries one active pin per endpoint; certificate
+rotation is handled by publishing a higher-version signed federation root and
+restarting nodes against it.
+
 ### Advisory Route ID
 
 The default generated listener certificate uses a `route:` identifier in the

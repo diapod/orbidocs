@@ -25,10 +25,10 @@ Related schemas:
 Implemented hard-MVP solution foundation.
 
 Federation root activation, official-service endorsement verification, Seed
-Directory bootstrap projection, and restart-only root changes are implemented.
-Remote co-signing, optional root-authoring convenience, optional Seed Directory
-TLS pinning, and finalized production ceremony packaging remain post-MVP
-hardening.
+Directory bootstrap projection, optional Seed Directory bootstrap TLS pinning,
+and restart-only root changes are implemented. Remote co-signing, optional
+root-authoring convenience, and finalized production ceremony packaging remain
+post-MVP hardening.
 
 Production trust in `orbiplex-main` is additionally gated by governance, not
 only code: the root charter (`DIA-ROOT-001`,
@@ -266,11 +266,18 @@ Responsibilities:
   entries;
 - treat the pin as transport privacy/integrity material, never as service
   authority;
+- require HTTPS when the pin is present and verify the peer leaf certificate
+  digest on source-aware Seed Directory client paths;
+- reject duplicate manual Seed Directory endpoint entries whose pins differ
+  within bootstrap entries, within trust entries, or across the bootstrap and
+  trust surfaces;
+- use a single active pin per endpoint in MVP; certificate rotation requires a
+  higher `pack_version`, a new signed root pack, and daemon restart;
 - coordinate schema, loader, fixtures, and compatibility notes in one change.
 
 Status:
 
-- `todo`
+- `done`
 
 ## Out of Scope
 

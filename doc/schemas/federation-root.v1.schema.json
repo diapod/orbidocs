@@ -272,6 +272,11 @@
           "minLength": 1,
           "description": "HTTP(S) endpoint of the Seed Directory API."
         },
+        "tls_certificate_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "description": "Optional pinned SHA-256 fingerprint of the Seed Directory endpoint leaf certificate DER, in `sha256:<base64url-digest>` form. Runtime loaders require HTTPS when this pin is present. The pin protects the transport channel only; official Seed Directory authority still comes from the signed federation-service endorsement/root policy."
+        },
         "passport": {
           "type": "string",
           "minLength": 1,

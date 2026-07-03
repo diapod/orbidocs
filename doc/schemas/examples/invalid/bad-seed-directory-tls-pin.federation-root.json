@@ -46,7 +46,7 @@
           }
         ]
       },
-      "tls_certificate_sha256": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o"
+      "tls_certificate_sha256": "sha256:short"
     }
   ],
   "policy_ref": "doc/project/40-proposals/076-federation-identity-and-network-selector.md#section-4",
