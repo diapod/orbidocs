@@ -312,6 +312,7 @@ each clause is one of:
 | `topic_match` | `{"topic_match":"ai.orbiplex.opinions/*"}` | glob on `topic/key` |
 | `record_kind` | `{"record_kind":"opinion"}` | exact on `record/kind` |
 | `content_schema` | `{"content_schema":"resource-opinion.v1"}` | exact |
+| `disclosure_scope_in` | `{"disclosure_scope_in":["public","federation-public"]}` | specialised allowlist over `disclosure/scope`; used by Whisper relays to refuse `private-correlation` without adding a generic content-field predicate |
 | `subject_kind` | `{"subject_kind":"url"}` | exact on `record/about[0].resource/kind` |
 | `passport_capability` | `{"passport_capability":"agora.ingest"}` | `capability_id` of the attestation passport |
 | `assurance_at_least` | `{"assurance_at_least":"A2"}` | requires derived-node-assurance (proposal 034) |
@@ -598,6 +599,19 @@ Tradeoffs:
   freezing one global taxonomy.
 
 ## Open Questions
+
+Resolved 2026-07-03:
+
+1. **Whisper `disclosure/scope` filtering predicate (§5 grammar
+   extension; raised by Solution 011 / Proposal 013).** The grammar
+   gains the **specialised `disclosure_scope_in(values)`** predicate,
+   not a generic `content_field_in(path, values)`. Rationale: the
+   attestation gate is a security boundary — a minimal, enumerable
+   predicate surface keeps it auditable, and any future filter over a
+   different content field is a deliberate, explicit gate-contract
+   change rather than a free-form path configured into existence.
+   Public relays use it to refuse `private-correlation` whispers at
+   ingest without custom code.
 
 - Should `agora-attestation-proof.v1` and `agora-author-proof.v1`
   (proposal 040 §5) be unified into one short-lived self-proof

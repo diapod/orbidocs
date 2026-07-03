@@ -2444,6 +2444,38 @@ Status values:
   operator evidence,
 - `deferred` — intentionally postponed.
 
+**Invariants to preserve (landed decisions with sharp edges).** These are
+implemented and easy to break in a well-meaning refactor; treat each change as
+a migration event, not a tweak:
+
+1. The instruction hash is canonical JSON under `JcsNfcStringsV1`
+   (NFC-normalized strings) and includes the caller-turn count
+   (`caller_turns_count` in the digest material; projected as
+   `caller-turns/count` in the public prompt assembly shape); the golden
+   vector `inquirium-prompt-assembly-resolved.v1.json` is the replay contract.
+   Changing the canonical profile, the layer serialization, or the hash inputs
+   requires a new golden vector and an explicit migration note — a silent
+   "equivalent" change breaks trace replay across every recorded turn.
+2. The instruction token estimator is exactly `non_whitespace_chars.div_ceil(4)`
+   (minimum 1 for non-empty text). Configured token caps are priced against
+   this function; swapping in a "better" estimator re-prices every cap.
+3. The baseline-assistant local transport check is an **allowlist**
+   (`is_allowed_baseline_local_transport`) — a newly added transport variant
+   fails closed until explicitly allowed. Do not revert it to a
+   deny-known-remote list; that silently admits future variants.
+4. Conformance freshness fails closed end to end: unrepresentable TTLs deny,
+   and stale/missing/failed reports all make the candidate non-routable. The
+   16 KiB host-visible output cap is asserted *in the conformance runner*, not
+   only enforced at the host boundary — removing the runner assertion because
+   "the host enforces it anyway" reopens the silent-regression gap it closed.
+5. The default host-root boundary prompt is versioned
+   (`DEFAULT_HOST_ROOT_INQUIRIUM_BOUNDARY_PROMPT_V1`); editing its text changes
+   every downstream instruction hash. Version-bump and note it — never edit in
+   place.
+6. Role folding is recorded as *adapted*, never *rejected* — trace consumers
+   distinguish "reshaped for this adapter" from "refused"; collapsing the two
+   changes the meaning of recorded turns.
+
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
 | `inq-runtime-catalog-v02` | Move the lower model-runtime catalog to adapter implementations, adapter instances, model bindings, runtime candidates, runtime profiles, and conformance fixtures. | `done` | `node/model-runtime` contract v0.2 validates cross references and rejects missing adapter/model/conformance references. |

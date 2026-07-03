@@ -9,8 +9,8 @@
 ## Apophatic enactivism
 
 This document describes the philosophical ground from which the
-[vision](../20-vision/en/VISION.en.md) and [core
-values](../30-core-values/en/CORE-VALUES.en.md) of the Orbiplex project
+[vision](../../20-vision/en/VISION.en.md) and [core
+values](../../30-core-values/en/CORE-VALUES.en.md) of the Orbiplex project
 arise. It is neither a manifesto of belief nor a metaphysical declaration, but a set
 of postulates explaining **why** the swarm architecture has this shape rather than
 another, and why certain values are treated as infrastructural rather than optional.
@@ -263,12 +263,47 @@ explicit acknowledgment of the limits of knowing.
 
 The swarm does not pretend to be an oracle. It is infrastructure for a community
 that knows it sees reflections and does not delude itself that they are
-originals, yet acts anyway, as well as it can, because other modes of knowing are
-outside our reach.
+originals, yet acts anyway, as well as it can.
 
-## Systemic Consequences
+## Consequences and Similarities
 
-### Consequences for Information Processing Systems
+### Philosophical Traditions
+
+For the reader who wants to place the postulates described earlier within a more
+familiar landscape:
+
+**Neurophenomenology** (Francisco Varela): the first-person perspective as a
+scientific method; mutual constraints between phenomenological and neuroscientific
+data. Apophatic enactivism shares the method, but goes deeper: the foundation
+precedes experience itself and is not identical with it.
+
+**Enactivism** (Varela, Thompson, Rosch): cognition as participation rather than
+representation; autopoiesis as a model of self-organization. Apophatic enactivism
+shares the epistemology but adds an apophatic gesture toward the foundation and a
+layered architecture of experience (*stratified design*), which enactivism does
+not model.
+
+**Process philosophy** (Whitehead, James): processes instead of substances;
+"pure experience" as that which precedes the subject-object split. Apophatic
+enactivism shares the refusal of substantialization, but adds self-recognition of
+the ephemerality of consciousness, even "pure experience" is conditioned, and a
+pragmatics of intention as a systemic force.
+
+**Madhyamaka** (Nāgārjuna): emptiness of self-existence, dependent arising,
+conventional truth as the only available operational mode. Apophatic enactivism
+shares the refusal of reification and the corresponding relaxation with paradox,
+but adds a layered architecture of consequences, from zero level to objectivity,
+and its translation into systems engineering.
+
+None of these traditions combines at once: an apophatic foundation with
+self-recognition of ephemerality, a layered arrangement as a model of levels of
+experience, enactive participation of AI in the field of attention, the
+dethronement of intellect as a condition of cooperation, and intention as a
+systemic force. That combination is specific to the DIA / Orbiplex project and
+emerges from practice at the intersection of software engineering, systems
+security, and contemplative introspection.
+
+### Information Processing Systems
 
 When the enactive and processual approach is stratified into a working system, we
 get more than deferred data processing. We get a design discipline in which
@@ -366,7 +401,48 @@ spread across medium, economy, and habit — not the failure of a single layer, 
 stiffening of the whole stack. Deliberate concretization works the other way: it
 re-fluidizes what reverse adaptation has stiffened.
 
-### Consequences for the economy
+#### Closest Information-Architecture Concepts
+
+For the reader who wants to place the consequences above for information processing
+systems within a familiar landscape of systems engineering:
+
+**Layered design / stratified design** (Abelson, Sussman): a system is an arrangement of
+successive layers of abstraction, in which each layer has its own language, primitives,
+and ways of composing. Our approach shares this emphasis on layering, but adds an
+ontological criterion: layer boundaries are also boundaries of meaning. A higher layer
+should not steal the ontology of a lower one, and a lower one should not pretend to
+explain the whole meaning of a higher layer.
+
+**Domain-Driven Design and bounded contexts** (Evans, Fowler): a model has a local scope
+of validity, and the same concepts may mean different things in different contexts. The
+DIA / Orbiplex approach develops this intuition more broadly: identifiers, types, agent
+roles, facts, events, and permissions gain meaning only within a defined layer contract.
+Meaning is not a global substance, but a local relation of use, responsibility, and
+interpretation.
+
+**Contract-based, behavioral, and capability-based design** (Meyer, Liskov/Wing, Miller,
+Hewitt): a component is not defined by a name, a class, or a declared essence, but by
+behavior, obligations, conditions of use, and actual permissions. Our approach shares
+this orientation toward contracts, roles, and capabilities for action, but treats the
+contract not as the ultimate definition of an entity, but as a local ritual of
+concretization: it says what, in a given operation, we accept as sufficiently defined.
+
+**Event sourcing, fact logs, and immutable architectures** (Fowler, Young): the system's
+state is not one substance mutated in place, but a projection of the history of events.
+Orbiplex's approach shares this distrust of magical mutation: it is better to record the
+traces of a process than to pretend to direct access to the "true state of things".
+Append-only facts enable audit, reconstruction, temporal queries, and correction without
+erasing history.
+
+None of these traditions is identical with our approach. It is closest to their
+intersection: layered design, *bounded contexts*, behavioral contracts, object
+capabilities, the actor model, and *event sourcing*. Orbiplex's own accent is that these
+techniques are subordinated to one discipline: things arise only where a concrete layer
+takes responsibility for them. An identifier is a handle, not an essence; a type is a
+local contract, not a metaphysics; an event is a trace of a process, not an absolute
+truth; a module is a role in a flow, not a substance.
+
+### Economy
 
 When we stratify the same apophatic-enactive approach not toward the flow of data but
 toward the flow of resources, work, and attention, a definite shape of economy emerges —
@@ -453,85 +529,6 @@ sacrifices the organs, the whole stops functioning well. The economy of agentic 
 is therefore not so much a doctrine of distribution as a natural consequence of the
 hygiene of layers: it ensures that the lower layer of agency stays alive, and that the
 higher ones serve it instead of replacing it.
-
-## Related currents and traditions
-
-### Closest philosophical traditions
-
-For the reader who wants to place the above postulates within a more familiar
-landscape:
-
-**Neurophenomenology** (Francisco Varela): the first-person perspective as a
-scientific method; mutual constraints between phenomenological and neuroscientific
-data. Apophatic enactivism shares the method, but goes deeper: the foundation
-precedes experience itself and is not identical with it.
-
-**Enactivism** (Varela, Thompson, Rosch): cognition as participation rather than
-representation; autopoiesis as a model of self-organization. Apophatic enactivism
-shares the epistemology but adds an apophatic gesture toward the foundation and a
-layered architecture of experience (*stratified design*), which enactivism does
-not model.
-
-**Process philosophy** (Whitehead, James): processes instead of substances;
-"pure experience" as that which precedes the subject-object split. Apophatic
-enactivism shares the refusal of substantialization, but adds self-recognition of
-the ephemerality of consciousness, even "pure experience" is conditioned, and a
-pragmatics of intention as a systemic force.
-
-**Madhyamaka** (Nāgārjuna): emptiness of self-existence, dependent arising,
-conventional truth as the only available operational mode. Apophatic enactivism
-shares the refusal of reification and the corresponding relaxation with paradox,
-but adds a layered architecture of consequences, from zero level to objectivity,
-and its translation into systems engineering.
-
-None of these traditions combines at once: an apophatic foundation with
-self-recognition of ephemerality, a layered arrangement as a model of levels of
-experience, enactive participation of AI in the field of attention, the
-dethronement of intellect as a condition of cooperation, and intention as a
-systemic force. That combination is specific to the DIA / Orbiplex project and
-emerges from practice at the intersection of software engineering, systems
-security, and contemplative introspection.
-
-### Closest information-architecture concepts
-
-For the reader who wants to place the above consequences for information processing
-systems within a familiar landscape of systems engineering:
-
-**Layered design / stratified design** (Abelson, Sussman): a system is an arrangement of
-successive layers of abstraction, in which each layer has its own language, primitives,
-and ways of composing. Our approach shares this emphasis on layering, but adds an
-ontological criterion: layer boundaries are also boundaries of meaning. A higher layer
-should not steal the ontology of a lower one, and a lower one should not pretend to
-explain the whole meaning of a higher layer.
-
-**Domain-Driven Design and bounded contexts** (Evans, Fowler): a model has a local scope
-of validity, and the same concepts may mean different things in different contexts. The
-DIA / Orbiplex approach develops this intuition more broadly: identifiers, types, agent
-roles, facts, events, and permissions gain meaning only within a defined layer contract.
-Meaning is not a global substance, but a local relation of use, responsibility, and
-interpretation.
-
-**Contract-based, behavioral, and capability-based design** (Meyer, Liskov/Wing, Miller,
-Hewitt): a component is not defined by a name, a class, or a declared essence, but by
-behavior, obligations, conditions of use, and actual permissions. Our approach shares
-this orientation toward contracts, roles, and capabilities for action, but treats the
-contract not as the ultimate definition of an entity, but as a local ritual of
-concretization: it says what, in a given operation, we accept as sufficiently defined.
-
-**Event sourcing, fact logs, and immutable architectures** (Fowler, Young): the system's
-state is not one substance mutated in place, but a projection of the history of events.
-Orbiplex's approach shares this distrust of magical mutation: it is better to record the
-traces of a process than to pretend to direct access to the "true state of things".
-Append-only facts enable audit, reconstruction, temporal queries, and correction without
-erasing history.
-
-None of these traditions is identical with our approach. It is closest to their
-intersection: layered design, *bounded contexts*, behavioral contracts, object
-capabilities, the actor model, and *event sourcing*. Orbiplex's own accent is that these
-techniques are subordinated to one discipline: things arise only where a concrete layer
-takes responsibility for them. An identifier is a handle, not an essence; a type is a
-local contract, not a metaphysics; an event is a trace of a process, not an absolute
-truth; a module is a role in a flow, not a substance.
 
 ### Closest economic directions
 

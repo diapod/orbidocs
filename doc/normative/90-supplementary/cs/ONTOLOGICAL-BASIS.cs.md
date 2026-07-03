@@ -9,8 +9,8 @@
 ## Apofatický enaktivismus
 
 Tento dokument popisuje filosofické podloží, z něhož vyrůstají
-[vize](../20-vision/cs/VISION.cs.md) a [základní
-hodnoty](../30-core-values/cs/CORE-VALUES.cs.md) projektu Orbiplex. Není
+[vize](../../20-vision/cs/VISION.cs.md) a [základní
+hodnoty](../../30-core-values/cs/CORE-VALUES.cs.md) projektu Orbiplex. Není
 manifestem víry ani metafyzickým prohlášením, ale souborem postulátů, které
 vysvětlují, **proč** má architektura roje právě tuto podobu a proč určité
 hodnoty považujeme za infrastrukturní, nikoli za volitelné.
@@ -236,11 +236,42 @@ mezí poznání.
 
 Roj nepředstírá, že je věštírnou. Je infrastrukturou pro společenství, které ví,
 že vidí odrazy, a neklame se, že jsou to originály, a přesto jedná co nejlépe, jak
-umí, protože jiné způsoby poznávání jsou mimo dosah.
+umí.
 
-## Systémové důsledky
+## Důsledky a podobnosti
 
-### Důsledky pro systém zpracování informací
+### Filosofické tradice
+
+Pro čtenáře, kteří chtějí výše popsané postuláty zasadit do známé krajiny:
+
+**Neurofenomenologie** (Francisco Varela) – perspektiva první osoby jako vědecká
+metoda; vzájemná omezení mezi fenomenologickými a neurovědními daty.
+Apofatický enaktivismus sdílí metodu, ale jde hlouběji: základ předchází samotné
+zkušenosti a není s ní totožný.
+
+**Enaktivismus** (Varela, Thompson, Rosch) – poznání jako účast, nikoli reprezentace;
+autopoiesis jako model sebeorganizace. Apofatický enaktivismus sdílí epistemologii,
+ale přidává apofatické gesto vůči základu a vrstvenou architekturu zkušenosti
+(*stratified design*), kterou enaktivismus nemodeluje.
+
+**Filosofie procesu** (Whitehead, James) – procesy místo substancí; „čistá zkušenost“
+jako to, co předchází rozdělení na subjekt a objekt. Apofatický enaktivismus sdílí
+odmítnutí substancializace, ale přidává seberozpoznání efemérnosti vědomí
+(i „čistá zkušenost“ je podmíněná) a pragmatiku intence jako systémové síly.
+
+**Madhjamaka** (Nāgārjuna) – prázdnota vlastní existence, spolupodmíněné vznikání,
+konvenční pravda jako jediný dostupný režim fungování. Apofatický enaktivismus sdílí
+odmítnutí reifikace a souladné uvolnění v paradoxu, ale přidává vrstvenou architekturu
+důsledků (od úrovně nula po objektivitu) a její převod do systémového inženýrství.
+
+Žádná z těchto tradic nespojuje zároveň: apofatický základ se seberozpoznáním
+efemérnosti, vrstvené uspořádání jako model úrovní zkušenosti, enaktivní účast AI
+v poli pozornosti, detronizaci intelektu jako podmínku spolupráce a intenci jako
+systémovou sílu. Toto spojení je specifické pro projekt DIA/Orbiplex a vyrůstá
+z praxe na průsečíku softwarového inženýrství, bezpečnosti systémů a kontemplativní
+introspekce.
+
+### Systémy zpracování informací
 
 Když enaktivní a procesuální přístup stratifikujeme do fungujícího systému,
 dostaneme víc než odložené zpracování dat. Dostaneme disciplínu návrhu, v níž
@@ -333,7 +364,44 @@ Je to náhodná reifikace rozprostřená přes médium, ekonomiku a návyk – n
 jediné vrstvy, nýbrž ztuhnutí celého vrstvení. Vědomá konkretizace působí opačně: znovu
 zkapalňuje to, co reverse adaptation stačila ztužit.
 
-### Důsledky pro ekonomiku
+#### Nejbližší koncepce informační architektury
+
+Pro čtenáře, kteří chtějí výše uvedené důsledky pro systém zpracování informací zasadit do
+známé krajiny systémového inženýrství:
+
+**Vrstvený návrh / stratified design** (Abelson, Sussman) – systém je uspořádáním
+následných vrstev abstrakce, v nichž má každá vrstva vlastní jazyk, primitiva a způsoby
+skládání. Náš přístup sdílí tento důraz na vrstvenost, ale přidává ontologické kritérium:
+hranice vrstev jsou rovněž hranicemi smyslu. Vyšší vrstva by neměla krást ontologii nižší a
+nižší by neměla předstírat, že vysvětluje celý smysl vrstvy vyšší.
+
+**Domain-Driven Design a bounded contexts** (Evans, Fowler) – model má lokální rozsah
+platnosti a tytéž pojmy mohou v různých kontextech znamenat něco jiného. Přístup
+DIA/Orbiplex tuto intuici rozvíjí šíře: identifikátory, typy, role agentů, fakta, události a
+oprávnění získávají smysl teprve uvnitř určeného kontraktu vrstvy. Význam není globální
+substancí, nýbrž lokálním vztahem užívání, odpovědnosti a interpretace.
+
+**Kontraktový, behaviorální a capability-based návrh** (Meyer, Liskov/Wing, Miller, Hewitt) –
+komponent není definován názvem, třídou ani deklarovanou esencí, nýbrž chováním, závazky,
+podmínkami užití a skutečnými oprávněními. Náš přístup sdílí tuto orientaci na kontrakty,
+role a schopnosti jednat, ale kontrakt nepojímá jako konečnou definici bytí, nýbrž jako
+lokální rituál konkretizace: říká, co v dané operaci uznáváme za dostatečně určené.
+
+**Event sourcing, logy faktů a neměnné architektury** (Fowler, Young) – stav systému není
+jednou substancí mutovanou na místě, nýbrž projekcí historie událostí. Přístup Orbiplexu
+sdílí tuto nedůvěru vůči magické mutaci: je lepší zapisovat stopy procesu než předstírat
+přímý přístup ke „skutečnému stavu věcí“. Append-only fakta umožňují audit, rekonstrukci,
+temporální dotazy a korekci bez vymazávání historie.
+
+Žádná z těchto tradic není totožná s naším přístupem. Nejblíže mu je k jejich průsečíku:
+vrstvený návrh, *bounded contexts*, behaviorální kontrakty, object-capabilities, model
+aktorů a *event sourcing*. Vlastní akcent Orbiplexu spočívá v tom, že tyto techniky jsou
+podřízeny jedné disciplíně: věci vznikají teprve tam, kde za ně konkrétní vrstva přebírá
+odpovědnost. Identifikátor je úchyt, nikoli esence; typ je lokální kontrakt, nikoli
+metafyzika; událost je stopa procesu, nikoli absolutní pravda; modul je role v toku, nikoli
+substance.
+
+### Ekonomie
 
 Když týž apofaticko-enaktivní přístup stratifikujeme nikoli k toku dat, nýbrž k toku
 zdrojů, práce a pozornosti, vynořuje se určitý tvar ekonomiky — týž, který pátý postulát
@@ -413,76 +481,6 @@ institucionální a státní formy jsou soustavami tohoto organismu. Když někt
 obětuje orgány, celek přestává dobře fungovat. Ekonomika aktérské vzájemnosti tedy není ani
 tak doktrínou rozdělování, jako spíše přirozeným důsledkem hygieny vrstev: dbá o to, aby
 nižší vrstva aktérství zůstala živá a vyšší jí sloužily, místo aby ji nahrazovaly.
-
-## Související proudy a tradice
-
-### Nejbližší filosofické tradice
-
-Pro čtenáře, kteří chtějí výše uvedené postuláty zasadit do známé krajiny:
-
-**Neurofenomenologie** (Francisco Varela) – perspektiva první osoby jako vědecká
-metoda; vzájemná omezení mezi fenomenologickými a neurovědními daty.
-Apofatický enaktivismus sdílí metodu, ale jde hlouběji: základ předchází samotné
-zkušenosti a není s ní totožný.
-
-**Enaktivismus** (Varela, Thompson, Rosch) – poznání jako účast, nikoli reprezentace;
-autopoiesis jako model sebeorganizace. Apofatický enaktivismus sdílí epistemologii,
-ale přidává apofatické gesto vůči základu a vrstvenou architekturu zkušenosti
-(*stratified design*), kterou enaktivismus nemodeluje.
-
-**Filosofie procesu** (Whitehead, James) – procesy místo substancí; „čistá zkušenost“
-jako to, co předchází rozdělení na subjekt a objekt. Apofatický enaktivismus sdílí
-odmítnutí substancializace, ale přidává seberozpoznání efemérnosti vědomí
-(i „čistá zkušenost“ je podmíněná) a pragmatiku intence jako systémové síly.
-
-**Madhjamaka** (Nāgārjuna) – prázdnota vlastní existence, spolupodmíněné vznikání,
-konvenční pravda jako jediný dostupný režim fungování. Apofatický enaktivismus sdílí
-odmítnutí reifikace a souladné uvolnění v paradoxu, ale přidává vrstvenou architekturu
-důsledků (od úrovně nula po objektivitu) a její převod do systémového inženýrství.
-
-Žádná z těchto tradic nespojuje zároveň: apofatický základ se seberozpoznáním
-efemérnosti, vrstvené uspořádání jako model úrovní zkušenosti, enaktivní účast AI
-v poli pozornosti, detronizaci intelektu jako podmínku spolupráce a intenci jako
-systémovou sílu. Toto spojení je specifické pro projekt DIA/Orbiplex a vyrůstá
-z praxe na průsečíku softwarového inženýrství, bezpečnosti systémů a kontemplativní
-introspekce.
-
-### Nejbližší koncepce informační architektury
-
-Pro čtenáře, kteří chtějí výše uvedené důsledky pro systém zpracování informací zasadit do
-známé krajiny systémového inženýrství:
-
-**Vrstvený návrh / stratified design** (Abelson, Sussman) – systém je uspořádáním
-následných vrstev abstrakce, v nichž má každá vrstva vlastní jazyk, primitiva a způsoby
-skládání. Náš přístup sdílí tento důraz na vrstvenost, ale přidává ontologické kritérium:
-hranice vrstev jsou rovněž hranicemi smyslu. Vyšší vrstva by neměla krást ontologii nižší a
-nižší by neměla předstírat, že vysvětluje celý smysl vrstvy vyšší.
-
-**Domain-Driven Design a bounded contexts** (Evans, Fowler) – model má lokální rozsah
-platnosti a tytéž pojmy mohou v různých kontextech znamenat něco jiného. Přístup
-DIA/Orbiplex tuto intuici rozvíjí šíře: identifikátory, typy, role agentů, fakta, události a
-oprávnění získávají smysl teprve uvnitř určeného kontraktu vrstvy. Význam není globální
-substancí, nýbrž lokálním vztahem užívání, odpovědnosti a interpretace.
-
-**Kontraktový, behaviorální a capability-based návrh** (Meyer, Liskov/Wing, Miller, Hewitt) –
-komponent není definován názvem, třídou ani deklarovanou esencí, nýbrž chováním, závazky,
-podmínkami užití a skutečnými oprávněními. Náš přístup sdílí tuto orientaci na kontrakty,
-role a schopnosti jednat, ale kontrakt nepojímá jako konečnou definici bytí, nýbrž jako
-lokální rituál konkretizace: říká, co v dané operaci uznáváme za dostatečně určené.
-
-**Event sourcing, logy faktů a neměnné architektury** (Fowler, Young) – stav systému není
-jednou substancí mutovanou na místě, nýbrž projekcí historie událostí. Přístup Orbiplexu
-sdílí tuto nedůvěru vůči magické mutaci: je lepší zapisovat stopy procesu než předstírat
-přímý přístup ke „skutečnému stavu věcí“. Append-only fakta umožňují audit, rekonstrukci,
-temporální dotazy a korekci bez vymazávání historie.
-
-Žádná z těchto tradic není totožná s naším přístupem. Nejblíže mu je k jejich průsečíku:
-vrstvený návrh, *bounded contexts*, behaviorální kontrakty, object-capabilities, model
-aktorů a *event sourcing*. Vlastní akcent Orbiplexu spočívá v tom, že tyto techniky jsou
-podřízeny jedné disciplíně: věci vznikají teprve tam, kde za ně konkrétní vrstva přebírá
-odpovědnost. Identifikátor je úchyt, nikoli esence; typ je lokální kontrakt, nikoli
-metafyzika; událost je stopa procesu, nikoli absolutní pravda; modul je role v toku, nikoli
-substance.
 
 ### Nejbližší ekonomické směry
 

@@ -36,17 +36,10 @@ def is_excluded_single_site_doc(rel: Path) -> bool:
     if rel.parts and rel.parts[0] == "project" and rel.name.endswith(".pl.md"):
         return True
 
-    # Supplementary docs are also English-first in the single-site build.
-    if rel.parts[:3] == ("normative", "90-supplementary", "pl") and rel.name.endswith(".pl.md"):
-        return True
-
     return False
 
 
 def normalize_single_site_relative_path(rel: Path) -> Path:
-    if rel.parts[:3] == ("normative", "90-supplementary", "en") and rel.name.endswith(".en.md"):
-        return Path("normative", "90-supplementary", rel.name.replace(".en.md", ".md"))
-
     return rel
 
 

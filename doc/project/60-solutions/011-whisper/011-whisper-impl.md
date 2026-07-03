@@ -643,26 +643,35 @@ Layer 1+ can be built coherently.
    and MUST NOT be submitted to Agora.
 
 2. **Predicate grammar for `disclosure/scope` filtering in
-   attestation-gate.** Proposal 041 §5 needs a
-   `content_field_in(path, values)` predicate (or specialised
-   `disclosure_scope_in`), so public relays can refuse
-   `private-correlation` at ingest without custom code. Decision
-   lives in proposal 041 §5 grammar extension.
+   attestation-gate.** **Resolved 2026-07-03:** the specialised
+   `disclosure_scope_in(values)` predicate, not the generic
+   `content_field_in(path, values)` — minimal trusted core and fast
+   audit of a security gate; any future filter over another field is
+   a deliberate, explicit gate-contract change. Canonical record in
+   proposal 041 §5.
 
-3. **`whisper-interest.v1` contract.** Fields, lifecycle, whether
-   it is a signed Agora record or an INAC-only artifact, whether
-   counting is per-node or per-nym-with-scope-protection. Decision
-   lives in a new proposal (likely 043) or an extension of 013.
+3. **`whisper-interest.v1` contract.** **Resolved 2026-07-03:**
+   counting/deduplication is **per-node with a diversity guard**
+   (consistent with P014 per-node rate limiting; threshold policy MAY
+   require source diversity — e.g. minimum distinct federations or
+   trust tiers — post-MVP to resist single-operator inflation), and
+   the artifact is **scope-driven on both surfaces**, mirroring
+   `whisper-signal.v1`: `disclosure/scope` selects Agora (signed
+   record) vs INAC (private artifact). Fields/lifecycle details land
+   with the schema.
 
-4. **`whisper-durable.v1` content schema shape.** Whether it
-   carries the original `whisper-signal.v1` content body verbatim
-   plus aggregate metadata, or whether it is a separate
-   aggregate-only shape. Decision informs Layer 7.
+4. **`whisper-durable.v1` content schema shape.** **Resolved
+   2026-07-03:** **aggregates plus a content-addressed ref** to the
+   original `whisper-signal.v1` — the durable artifact stays light,
+   content is verifiably linked rather than republished, and text
+   redacted under one scope is never re-published under another.
 
-5. **Threshold policy home.** Whether threshold parameters (count,
-   window) are per-topic-class defaults in the kind registry, or
-   per-federation configuration, or per-node operator knobs.
-   Affects where the policy lives and who can tune it.
+5. **Threshold policy home.** **Resolved 2026-07-03:** **layered —
+   per-topic-class defaults in the kind registry with a per-node
+   operator override.** Sensible defaults travel with the kind
+   definition; the operator keeps the local last word; both layers
+   are explicit and auditable. Federation-pack-level tuning was
+   rejected as too heavy a change cycle for a tuning parameter.
 
 ## MVP boundaries
 
@@ -690,18 +699,20 @@ Keep these restrictions explicit in both code and docs during MVP:
 - `whisper-threshold-reached.v1` and `association-room-proposal.v1`
   are implemented on the Agora M4 path (association-room as schema +
   bounded local lifecycle facts; richer room/case facts still pending).
-  `whisper-interest.v1` remains an open decision (fields and lifecycle,
-  §Open decisions), so its registration flow is the one still-pending
-  schema here.
+  `whisper-interest.v1` is no longer blocked on a direction decision:
+  the per-node counting, diversity-guard, and scope-driven surface choices
+  in §Open decisions are resolved; the still-pending work is the concrete
+  schema and registration flow.
 
 ## Recommended commit order
 
 Each step should leave the tree in a compiling state.
 
-1. **Resolve open decisions 1 (topic key) and 2 (predicate
-   grammar).** Cheap; unblocks schemas and gate.
-2. **Layer 0.** `whisper-interest.v1` schema (open decision 3
-   first).
+1. **Apply resolved predicate grammar.** Add the specialised
+   `disclosure_scope_in(values)` predicate from proposal 041 §5 to the
+   attestation-gate implementation and negative tests.
+2. **Layer 0.** `whisper-interest.v1` schema using the resolved per-node
+   counting, diversity-guard, and scope-driven surface choices.
 3. **Layer 2 — envelope builder.** `whisper-core` crate with
    content validator + envelope sign adapter. Golden vectors.
 4. **Attestation-gate (dependency, proposal 041).** Cross-cutting

@@ -7,6 +7,11 @@ Based on:
 - `doc/project/40-proposals/038-key-roles-and-key-use-taxonomy.md` (`key_ref` taxonomy)
 - `doc/project/60-solutions/002-memarium/002-memarium.md` (Crisis Space Management)
 
+Advisory companion: Proposal 077 (Swarm Broadcast Assistance) — the
+network-facing request-for-help path that may surround a crisis. Crisis Space
+remains the data-custody side, and assistance never substitutes for the
+host-owned crisis authority.
+
 ## Status
 
 Signed off for implementation.

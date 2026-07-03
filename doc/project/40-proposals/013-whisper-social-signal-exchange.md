@@ -590,6 +590,12 @@ local help-mode or emergency-assistance path. Whisper is for correlation-worthy
 distributed patterns, not as the default first response to a likely cardiac arrest
 or comparable collapse.
 
+Advisory companion: Proposal 077 (Swarm Broadcast Assistance) defines the
+assistance path that Whisper deliberately is not — a scoped, user-initiated
+broadcast for help — and, together with
+`doc/project/20-memos/whisper-corpus-composition.md`, how a Whisper-born
+association room may later hire collective expertise.
+
 ## Candidate Artifacts
 
 The likely first contract family is:

@@ -1,5 +1,8 @@
 # Swarm Broadcast Assistance
 
+Promoted to:
+- `doc/project/40-proposals/077-swarm-broadcast-assistance.md`
+
 A node user may open a communication window to the swarm as a whole and broadcast an issue that matters to them, such as a personal problem, a technical blockage, a safety concern, or a request for orientation.
 
 The swarm should treat such a broadcast as a shared assistance request rather than a point-to-point message. It may gather relevant memory, route sub-questions to capable nodes, request clarification, and converge on a helpful response or action plan.

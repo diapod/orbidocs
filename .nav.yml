@@ -19,8 +19,6 @@ nav:
       - Supplementary:
           - Supplementary PL: doc/normative/90-supplementary/pl/SUPPLEMENTARY.pl.md
           - Supplementary EN: doc/normative/90-supplementary/en/SUPPLEMENTARY.en.md
-          - AI Manifesto PL: doc/normative/90-supplementary/pl/AI-MANIFESTO.pl.md
-          - AI Manifesto EN: doc/normative/90-supplementary/en/AI-MANIFESTO.en.md
           - Ontological Basis PL: doc/normative/90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md
           - Ontological Basis EN: doc/normative/90-supplementary/en/ONTOLOGICAL-BASIS.en.md
           - Ontological Basis CS: doc/normative/90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md

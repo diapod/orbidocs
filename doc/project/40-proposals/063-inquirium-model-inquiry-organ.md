@@ -1022,8 +1022,14 @@ explicit success criterion for retiring the Sensorium OS model actions.
 
 ## Next Actions
 
-1. Implement the first real `baseline-assistant` local runtime target through an
-   OpenAI-compatible local HTTP adapter over an Ollama/`llama.cpp`-class server.
+1. ~~Implement the first real `baseline-assistant` local runtime target through
+   an OpenAI-compatible local HTTP adapter over an Ollama/`llama.cpp`-class
+   server.~~ **Landed** — the local `http_local` baseline target is E2E-tested
+   (conformance before `inquirium.assistant.turn`) and
+   `node/config/examples/60-inquirium-baseline-ollama.json` is validated as a
+   real daemon override (see Proposal 064 `inq-conformance-runner`, Proposal 066
+   `assistant-local-runtime-target`). The remaining productization is
+   packaging/deployment-profile work, tracked as Proposal 066 Next Action 2.
 2. Add broader operation wrappers beyond `generate`, especially image/transform
    surfaces where workflow-facing callers still need an Inquirium boundary.
 3. Continue assistant-channel Phase 2 work: Memarium-backed transcripts,

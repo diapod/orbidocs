@@ -403,6 +403,12 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
 
 ## Relationship to Existing Mechanisms
 
+- **Swarm Broadcast Assistance (077, advisory companion)**: an assistance
+  request may hire a Corpus deliberation as one of its resolution steps, and a
+  Whisper-born association room may use Corpus repeatedly (sponsored or
+  gift-priced) — see `doc/project/20-memos/whisper-corpus-composition.md` for
+  the composition decisions (side-room first, in-room later; the community-work
+  marker stays coarse and never identifies the room).
 - **Artifact Delivery (023)**: carries MVP procurement (query/bid), the room invite, and
   the final answer. Corpus is a second marketplace-style AD consumer after Arca/Dator. It
   does **not** carry the live chat.

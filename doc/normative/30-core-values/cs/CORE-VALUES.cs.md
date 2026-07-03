@@ -706,7 +706,7 @@ Hodnoty této sekce — dar a výměna, vzájemnost, dostatek nad akumulací, mi
 a přístup bez tributu — tvoří jeden vyvozený celek, který nazýváme **ekonomikou
 aktérské vzájemnosti**. Její úplné vyvození z ontologických předpokladů popisuje
 [Ontologický základ — Důsledky pro
-ekonomiku](../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md#dusledky-pro-ekonomiku).
+ekonomiku](../../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md#ekonomie).
 
 ### Kultura spolupráce
 
@@ -1193,7 +1193,7 @@ Má to ontologický kořen: jestliže se jev vynořuje ze spleti mnoha podmínek
 říkáme **emergence** – pak se i jistota o něm uzavírá teprve sbíhavostí mnoha
 nezávislých signálů. Úplné odvození z ontologických předpokladů popisuje
 [Ontologický základ — Důsledky pro systém zpracování
-informací](../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md#dusledky-pro-system-zpracovani-informaci).
+informací](../../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md#systemy-zpracovani-informaci).
 
 ### Otázky jako diagnostika blahobytu
 

@@ -727,7 +727,7 @@ The values of this section — gift and exchange, reciprocity, sufficiency over
 accumulation, the minimum of survival, and access without tribute — compose one derived
 whole, which we call the **economy of agentic mutuality**. Its full derivation from
 ontological assumptions is described in [Ontological Basis — Consequences for the
-economy](../90-supplementary/en/ONTOLOGICAL-BASIS.en.md#consequences-for-the-economy).
+economy](../../90-supplementary/en/ONTOLOGICAL-BASIS.en.md#economy).
 
 ### Culture of Cooperation
 
@@ -1237,7 +1237,7 @@ This has an ontological root: if a phenomenon emerges from the weave of many
 conditions — what we call **emergence** — then confidence about it also closes only
 through the convergence of many independent signals. The full derivation from the
 ontological assumptions is described in [Ontological Basis — Consequences for
-Information Processing Systems](../90-supplementary/en/ONTOLOGICAL-BASIS.en.md#consequences-for-information-processing-systems).
+Information Processing Systems](../../90-supplementary/en/ONTOLOGICAL-BASIS.en.md#information-processing-systems).
 
 ### Questions as Well-being Diagnostics
 

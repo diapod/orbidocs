@@ -458,6 +458,11 @@ fail-closed; identifiers are explicit and canonical.
 
 ## Relationship to Existing Mechanisms
 
+- **Swarm Broadcast Assistance (077, advisory companion).** Assistance
+  decomposition/routing and unattended multi-agent deliberation ride bounded
+  Agent sessions: human-in-the-loop gates *effects, budgets, and acceptance* —
+  never individual conversational turns. What agents may do unattended is
+  reason; what they may not do unattended is commit.
 - **Inquirium (063/064).** Agent is the consumer that 063 names ("Flow … and the
   host own broader orchestration"). The Flow IR `bounded controller` (064) is the
   seed; Agent generalizes it into a durable, addressable, forkable entity. The

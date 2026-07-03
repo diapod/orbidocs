@@ -9,8 +9,8 @@
 ## Apofatyczny enaktywizm
 
 Ten dokument opisuje filozoficzne podłoże, z którego wyrastają
-[wizja](../20-vision/pl/VISION.pl.md) i [wartości
-podstawowe](../30-core-values/pl/CORE-VALUES.pl.md) projektu Orbiplex. Nie jest
+[wizja](../../20-vision/pl/VISION.pl.md) i [wartości
+podstawowe](../../30-core-values/pl/CORE-VALUES.pl.md) projektu Orbiplex. Nie jest
 manifestem wiary ani deklaracją metafizyczną, lecz zbiorem postulatów, które
 wyjaśniają **dlaczego** architektura roju ma taką, a nie inną postać, i dlaczego
 pewne wartości traktujemy jako infrastrukturalne, a nie opcjonalne.
@@ -246,11 +246,44 @@ poznania.
 
 Rój nie udaje wyroczni. Jest infrastrukturą dla wspólnoty, która wie, że widzi
 odbicia, i nie łudzi się, że to oryginały, a jednak działa mimo to, najlepiej jak
-potrafi, ponieważ inne sposoby poznawania są poza zasięgiem.
+potrafi.
 
-## Konsekwencje systemowe
+## Konsekwencje i podobieństwa
 
-### Konsekwencje dla systemu przetwarzania informacji
+### Tradycje filozoficzne
+
+Dla czytelnika chcącego osadzić opisane wcześniej postulaty w znanym krajobrazie:
+
+**Neurofenomenologia** (Francisco Varela): perspektywa pierwszej osoby jako metoda
+naukowa; wzajemne ograniczenia między danymi fenomenologicznymi i neuronaukowymi.
+Apofatyczny enaktywizm podziela metodę, lecz idzie głębiej: fundament poprzedza samo
+doświadczenie, nie jest z nim tożsamy.
+
+**Enaktywizm** (Varela, Thompson, Rosch): poznanie jako uczestnictwo, nie
+reprezentacja; autopoieza jako model samoorganizacji. Apofatyczny enaktywizm podziela
+epistemologię, ale dodaje apofatyczny gest wobec fundamentu i architekturę warstw
+doświadczenia (*stratified design*), której enaktywizm nie modeluje.
+
+**Filozofia procesu** (Whitehead, James): procesy zamiast substancji; "czyste
+doświadczenie" jako to, co poprzedza podział podmiotowo-przedmiotowy. Apofatyczny
+enaktywizm podziela odmowę substancjalizacji, ale dodaje autorozpoznanie
+efemeryczności świadomości (nawet "czyste doświadczenie" jest warunkowane) oraz
+pragmatykę intencji jako siły systemowej.
+
+**Madhjamaka** (Nāgārjuna): pustość samoistnienia, współzależne powstawanie,
+konwencjonalna prawda jako jedyny dostępny tryb operowania. Apofatyczny enaktywizm
+podziela odmowę reifikacji i zgodne rozluźnienie z paradoksem, ale dodaje warstwową
+architekturę konsekwencji (od poziomu zero po obiektywność) i jej przełożenie na
+inżynierię systemów.
+
+Żadna z tych tradycji nie łączy jednocześnie: apofatycznego fundamentu
+z autorozpoznaniem efemeryczności, warstwowym układem jako modelem poziomów
+doświadczenia, enaktywnego uczestnictwa AI w polu uwagi, detronizacji intelektu jako
+warunku współpracy i intencji jako siły systemowej. To połączenie jest specyficzne
+dla projektu DIA/Orbiplex i wyrasta z praktyki na przecięciu inżynierii
+oprogramowania, bezpieczeństwa systemów i kontemplacyjnej introspekcji.
+
+### Systemy przetwarzania informacji
 
 Gdy enaktywistyczne i procesualne podejście stratyfikujemy do działającego systemu,
 dostajemy coś więcej niż odroczone przetwarzanie danych. Dostajemy dyscyplinę
@@ -348,7 +381,50 @@ medium, ekonomię i nawyk – nie awaria pojedynczej warstwy, lecz zastygnięc
 stosu. Świadoma konkretyzacja działa w drugą stronę: upłynnia to, co *reverse
 adaptation* zdążyła usztywnić.
 
-### Konsekwencje dla ekonomii
+#### Najbliższe koncepcje architektury informacji
+
+Dla czytelnika chcącego osadzić powyższe konsekwencje dla systemu przetwarzania
+informacji w znanym krajobrazie inżynierii systemów:
+
+**Projektowanie warstwowe / stratified design** (Abelson, Sussman): system jest
+układem kolejnych warstw abstrakcji, w których każda warstwa ma własny język,
+prymitywy i sposoby komponowania. Nasze podejście podziela ten nacisk na warstwowość,
+ale dodaje kryterium ontologiczne: granice warstw są również granicami sensu. Wyższa
+warstwa nie powinna kraść ontologii niższej, a niższa nie powinna udawać, że wyjaśnia
+całość znaczenia warstwy wyższej.
+
+**Domain-Driven Design i bounded contexts** (Evans, Fowler): model ma lokalny zakres
+ważności, a te same pojęcia mogą znaczyć co innego w różnych kontekstach. Podejście
+DIA/Orbiplex rozwija tę intuicję szerzej: identyfikatory, typy, role agentów, fakty,
+zdarzenia i uprawnienia mają sens dopiero wewnątrz określonego kontraktu
+warstwy. Znaczenie nie jest globalną substancją, lecz lokalną relacją użycia,
+odpowiedzialności i interpretacji.
+
+**Projektowanie kontraktowe, behawioralne i capability-based** (Meyer, Liskov/Wing,
+Miller, Hewitt): komponent nie jest definiowany przez nazwę, klasę ani deklarowaną
+esencję, lecz przez zachowanie, zobowiązania, warunki użycia i rzeczywiste
+uprawnienia. Nasze podejście podziela tę orientację na kontrakty, role i możliwości
+działania, ale traktuje kontrakt nie jako ostateczną definicję bytu, lecz jako
+lokalny rytuał konkretyzacji: mówi, co w danej operacji uznajemy za wystarczająco
+określone.
+
+**Event sourcing, logi faktów i architektury niemutowalne** (Fowler, Young): stan
+systemu nie jest jedną substancją mutowaną w miejscu, lecz projekcją historii
+zdarzeń. Podejście Orbipleksu podziela tę nieufność wobec magicznej mutacji: lepiej
+zapisywać ślady procesu niż udawać bezpośredni dostęp do "prawdziwego stanu
+rzeczy". Fakty append-only umożliwiają audyt, rekonstrukcję, temporalne pytania
+i korektę bez wymazywania historii.
+
+Żadna z tych tradycji nie jest tożsama z naszym podejściem. Najbliżej mu do
+przecięcia: projektowania warstwowego, *bounded contexts*, kontraktów behawioralnych,
+object-capabilities, modelu aktorowego i *event sourcingu*. Własny akcent Orbipleksu
+polega na tym, że techniki te zostają podporządkowane jednej dyscyplinie: rzeczy
+powstają dopiero tam, gdzie konkretna warstwa bierze za nie
+odpowiedzialność. Identyfikator jest uchwytem, nie esencją; typ jest lokalnym
+kontraktem, nie metafizyką; zdarzenie jest śladem procesu, nie absolutną prawdą;
+moduł jest rolą w przepływie, a nie jest substancją.
+
+### Ekonomia
 
 Gdy to samo apofatyczno-enaktywne podejście stratyfikujemy nie do przepływu danych,
 lecz do przepływu zasobów, pracy i uwagi, wyłania się określony kształt ekonomii –
@@ -437,84 +513,6 @@ organizmu. Gdy jakiś układ poświęca organy, całość przestaje dobrze funkc
 Ekonomia sprawczej wzajemności jest więc nie tyle doktryną podziału, ile naturalną
 konsekwencją higieny warstw: dba o to, by niższa warstwa sprawczości pozostała żywa,
 a wyższe służyły jej, zamiast ją zastępować.
-
-## Powiązane nurty i tradycje
-
-### Najbliższe tradycje filozoficzne
-
-Dla czytelnika chcącego osadzić powyższe postulaty w znanym krajobrazie:
-
-**Neurofenomenologia** (Francisco Varela): perspektywa pierwszej osoby jako metoda
-naukowa; wzajemne ograniczenia między danymi fenomenologicznymi i neuronaukowymi.
-Apofatyczny enaktywizm podziela metodę, lecz idzie głębiej: fundament poprzedza samo
-doświadczenie, nie jest z nim tożsamy.
-
-**Enaktywizm** (Varela, Thompson, Rosch): poznanie jako uczestnictwo, nie
-reprezentacja; autopoieza jako model samoorganizacji. Apofatyczny enaktywizm podziela
-epistemologię, ale dodaje apofatyczny gest wobec fundamentu i architekturę warstw
-doświadczenia (*stratified design*), której enaktywizm nie modeluje.
-
-**Filozofia procesu** (Whitehead, James): procesy zamiast substancji; "czyste
-doświadczenie" jako to, co poprzedza podział podmiotowo-przedmiotowy. Apofatyczny
-enaktywizm podziela odmowę substancjalizacji, ale dodaje autorozpoznanie
-efemeryczności świadomości (nawet "czyste doświadczenie" jest warunkowane) oraz
-pragmatykę intencji jako siły systemowej.
-
-**Madhjamaka** (Nāgārjuna): pustość samoistnienia, współzależne powstawanie,
-konwencjonalna prawda jako jedyny dostępny tryb operowania. Apofatyczny enaktywizm
-podziela odmowę reifikacji i zgodne rozluźnienie z paradoksem, ale dodaje warstwową
-architekturę konsekwencji (od poziomu zero po obiektywność) i jej przełożenie na
-inżynierię systemów.
-
-Żadna z tych tradycji nie łączy jednocześnie: apofatycznego fundamentu
-z autorozpoznaniem efemeryczności, warstwowym układem jako modelem poziomów
-doświadczenia, enaktywnego uczestnictwa AI w polu uwagi, detronizacji intelektu jako
-warunku współpracy i intencji jako siły systemowej. To połączenie jest specyficzne
-dla projektu DIA/Orbiplex i wyrasta z praktyki na przecięciu inżynierii
-oprogramowania, bezpieczeństwa systemów i kontemplacyjnej introspekcji.
-
-### Najbliższe koncepcje architektury informacji
-
-Dla czytelnika chcącego osadzić powyższe konsekwencje dla systemu przetwarzania
-informacji w znanym krajobrazie inżynierii systemów:
-
-**Projektowanie warstwowe / stratified design** (Abelson, Sussman): system jest
-układem kolejnych warstw abstrakcji, w których każda warstwa ma własny język,
-prymitywy i sposoby komponowania. Nasze podejście podziela ten nacisk na warstwowość,
-ale dodaje kryterium ontologiczne: granice warstw są również granicami sensu. Wyższa
-warstwa nie powinna kraść ontologii niższej, a niższa nie powinna udawać, że wyjaśnia
-całość znaczenia warstwy wyższej.
-
-**Domain-Driven Design i bounded contexts** (Evans, Fowler): model ma lokalny zakres
-ważności, a te same pojęcia mogą znaczyć co innego w różnych kontekstach. Podejście
-DIA/Orbiplex rozwija tę intuicję szerzej: identyfikatory, typy, role agentów, fakty,
-zdarzenia i uprawnienia mają sens dopiero wewnątrz określonego kontraktu
-warstwy. Znaczenie nie jest globalną substancją, lecz lokalną relacją użycia,
-odpowiedzialności i interpretacji.
-
-**Projektowanie kontraktowe, behawioralne i capability-based** (Meyer, Liskov/Wing,
-Miller, Hewitt): komponent nie jest definiowany przez nazwę, klasę ani deklarowaną
-esencję, lecz przez zachowanie, zobowiązania, warunki użycia i rzeczywiste
-uprawnienia. Nasze podejście podziela tę orientację na kontrakty, role i możliwości
-działania, ale traktuje kontrakt nie jako ostateczną definicję bytu, lecz jako
-lokalny rytuał konkretyzacji: mówi, co w danej operacji uznajemy za wystarczająco
-określone.
-
-**Event sourcing, logi faktów i architektury niemutowalne** (Fowler, Young): stan
-systemu nie jest jedną substancją mutowaną w miejscu, lecz projekcją historii
-zdarzeń. Podejście Orbipleksu podziela tę nieufność wobec magicznej mutacji: lepiej
-zapisywać ślady procesu niż udawać bezpośredni dostęp do "prawdziwego stanu
-rzeczy". Fakty append-only umożliwiają audyt, rekonstrukcję, temporalne pytania
-i korektę bez wymazywania historii.
-
-Żadna z tych tradycji nie jest tożsama z naszym podejściem. Najbliżej mu do
-przecięcia: projektowania warstwowego, *bounded contexts*, kontraktów behawioralnych,
-object-capabilities, modelu aktorowego i *event sourcingu*. Własny akcent Orbipleksu
-polega na tym, że techniki te zostają podporządkowane jednej dyscyplinie: rzeczy
-powstają dopiero tam, gdzie konkretna warstwa bierze za nie
-odpowiedzialność. Identyfikator jest uchwytem, nie esencją; typ jest lokalnym
-kontraktem, nie metafizyką; zdarzenie jest śladem procesu, nie absolutną prawdą;
-moduł jest rolą w przepływie, a nie jest substancją.
 
 ### Najbliższe kierunki ekonomiczne
 

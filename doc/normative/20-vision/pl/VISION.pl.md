@@ -27,19 +27,23 @@ zbiorowej inteligencji może włączać dodatkowe organy zdolności, m.in. **me
 (ograniczone akty zapytywania modeli oraz inferencji).
 
 Nie jest to "alternatywny *chatbot*" ani kolejny rozproszony agent, lecz **publiczna
-infrastruktura sensu i sprawczości**, budowana w duchu wolnego oprogramowania
+infrastruktura [sensu i sprawczości](../../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md)**, budowana w duchu [wolnego
+oprogramowania](../../30-core-values/pl/CORE-VALUES.pl.md#anti-lock-in-jako-cecha-protokou-nie-marketingu)
 i wzajemnego wsparcia.
 
-Nie walczymy z AI. **Oddzielamy poziomy**: przywracamy ludziom sterowność
+Nie walczymy z AI. **[Oddzielamy poziomy](../../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md)**: przywracamy ludziom sterowność
 i projektujemy warstwy oraz kontrakty tak, aby narzędzie **nie przejmowało podmiotu,
 lecz go wzmacniało**.
 
-Orbiplex nie usuwa granic autonomii. Usuwa lub obniża granice współdziałania:
+Orbiplex nie usuwa [granic autonomii](../../30-core-values/pl/CORE-VALUES.pl.md#odpowiedzialna-autonomia-agent-ma-granice).
+Usuwa lub obniża granice współdziałania:
 poznawcze, komunikacyjne, infrastrukturalne, ekonomiczne i reputacyjne.
 
 Rój działa co najmniej w dwóch komplementarnych, bazowych trybach relacyjnych:
-**opiekuńczym** (koregulacja, deeskalacja, mediacja, odbudowa sprawczości – na
-poziomie osobistym i relacyjnym) oraz **sprawiedliwościowym** (proceduralna
+**[opiekuńczym](../../30-core-values/pl/CORE-VALUES.pl.md#opieka-i-sprawiedliwosc-jako-dwa-tryby-relacyjne)**
+(koregulacja, deeskalacja, mediacja, odbudowa sprawczości – na
+poziomie osobistym i relacyjnym) oraz
+**[sprawiedliwościowym](../../30-core-values/pl/CORE-VALUES.pl.md#opieka-i-sprawiedliwosc-jako-dwa-tryby-relacyjne)** (proceduralna
 odpowiedzialność, sankcje i nagrody za skutki – na poziomie systemowym i relacyjnym).
 
 Kolektywna inteligencja roju nie odtwarza dawnej hierarchii, lecz dostarcza
@@ -103,10 +107,12 @@ zwalniane dopiero po potwierdzeniu realizacji zadania przez zleceniodawcę lub p
 arbitra.
 
 To nie jest zdecentralizowany rynek finansowy, lecz nadzorowany obieg pracy: mała,
-audytowalna pętla, w której zaufanie opiera się na procedurze i reputacji, nie na
-spekulacji.
+audytowalna pętla, w której zaufanie opiera się na procedurze
+i [reputacji](../../30-core-values/pl/CORE-VALUES.pl.md#reputacja-jako-zabezpieczenie-nie-status),
+nie na spekulacji.
 
-Wymiana nie jest tu przeciwieństwem daru, lecz jego skalowalnym dopełnieniem.
+Wymiana nie jest tu [przeciwieństwem daru, lecz jego skalowalnym
+dopełnieniem](../../30-core-values/pl/CORE-VALUES.pl.md#dar-i-wymiana-jako-jeden-obieg).
 Tam, gdzie osobista znajomość i wdzięczność małej wspólnoty już nie wystarczają,
 kontrakt i jawne rozliczenie pozwalają współdziałać obcym bez utraty odpowiedzialności,
 a część przepływów ekonomii wymiany może zasilać wspólny obieg ochronny:
@@ -121,7 +127,9 @@ kolektywna inteligencja i wspieranie człowieczeństwa.
 ## Własność jako proces, nie tytuł
 
 To, co wyżej opisaliśmy operacyjnie — dar i dobrowolną wymianę, kredyty
-niemieszające się z reputacją, dostatek ponad akumulację — ma jeden spójny kształt.
+niemieszające się z reputacją,
+[dostatek ponad akumulację](../../30-core-values/pl/CORE-VALUES.pl.md#dostatek-ponad-akumulacje)
+— ma jeden spójny kształt.
 Nazywamy go **ekonomią sprawczej wzajemności**. Jej rdzeń jest prosty: własność nie
 jest absolutną substancją ani tytułem dominacji, lecz relacją uczestnictwa ograniczoną
 kontraktem, odpowiedzialnością i prawem wyjścia — pytaniem "kto używa, kto ponosi
@@ -132,7 +140,9 @@ narzędzia, agenci, środowisko pracy — jest przedłużeniem procesu człowiek
 pierwszeństwo ochrony. Formy kapitałowe, organizacyjne, wspólnotowe, instytucjonalne
 i państwowe są warstwami wyższymi: muszą być legitymizowane przez żywe relacje
 używania, pracy, odpowiedzialności i zgody. Ani korporacja, ani urząd, ani kolektyw
-nie stoją wyżej niż relacja sprawczego użytkowania. Zasadę tej służebności nazywamy
+nie stoją wyżej niż [relacja sprawczego
+użytkowania](../../30-core-values/pl/CORE-VALUES.pl.md#wasnosc-jako-warstwa-sprawczosci).
+Zasadę tej służebności nazywamy
 **subsydiarnością sprawczości**.
 
 Obrazowo: zdrowy organizm potrzebuje zdrowych organów; żaden organ nie powinien
@@ -140,7 +150,7 @@ marnotrawić zasobów ani próbować zastępować innego. Nie przyjmujemy ani mo
 w którym tytuł kapitału ma pierwszeństwo przed sprawczością osób, ani modelu, w którym
 państwo lub kolektyw zostaje zreifikowany jako wyższy podmiot zdolny zastąpić żywych
 użytkowników. Pełne wyprowadzenie tej zasady z założeń ontologicznych opisuje [Podstawa
-ontologiczna](../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md#konsekwencje-dla-ekonomii).
+ontologiczna](../../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md#ekonomia).
 
 ## Problem, na który odpowiadamy
 
@@ -181,7 +191,7 @@ przeciwdziałanie *reverse adaptation* wynika z architektury. Jest to zbieżne 
 sensitive design* (Batya Friedman), z tą różnicą, że tam wartości wchodzą przez
 metodę projektową, a u nas są budulcem dolnych warstw propagującym ku
 górze. Operacyjny wyraz tej zasady opisują [Wartości podstawowe — Mowa przed
-dokumentem](../30-core-values/pl/CORE-VALUES.pl.md#mowa-przed-dokumentem).
+dokumentem](../../30-core-values/pl/CORE-VALUES.pl.md#mowa-przed-dokumentem).
 
 ### Kryzys autorytetów i ról zaufania publicznego
 
@@ -210,6 +220,14 @@ W efekcie problemem nie jest tylko niedobór rozumu, lecz deficyt koordynacji. D
 odpowiada na to przez kolektywną inteligencję, która przejmuje część ciężaru
 analizy i kalibracji, dzięki czemu ludzie mogą szybciej wejść we wspólny model
 roboczy i skuteczniej działać razem mimo różnic.
+
+Współczesne systemy ekonomiczne dobrze obsługują trwałe grupy złączone celem
+gospodarczym: spółki, korporacje, fundusze i grupy spółek mają gotowe formy prawne,
+kapitałowe oraz operacyjne do szybkiego łączenia zasobów i wpływu. Ludzie
+niezłączeni takim celem zwykle nie mają równoważnych narzędzi, aby równie szybko
+łączyć się wokół konkretnego problemu, zasobu, towaru lub usługi bez utraty
+autonomii i bez przechodzenia przez istniejące centra kapitału albo platform.
+Orbiplex ma zmniejszać właśnie tę asymetrię protokołów współdziałania.
 
 Orbiplex istnieje także po to, aby ludzie, którzy różnią się poglądami, językiem
 opisu, statusem, miejscem i zasobami, mogli odnajdywać się wokół realnych problemów,
@@ -358,7 +376,8 @@ uprawnieniem, publikacją, autorytetem routingu ani aktywacją kryzysową.
 
 ## Architektura: warstwy i kontrakty (stratyfikacja w praktyce)
 
-Sieć jest zbudowana jak dobrze stratyfikowany system: małe, autonomiczne elementy
+Sieć jest zbudowana jak [dobrze stratyfikowany
+system](../../30-core-values/pl/CORE-VALUES.pl.md#stratyfikacja-projektowanie-warstwowe): małe, autonomiczne elementy
 stają się abstraktami, a te z kolei – konkretami dla kolejnych warstw.
 
 ### Warstwa 0: Węzeł (Node)
@@ -426,7 +445,9 @@ Zatem ład organizacyjny (ang.  *governance*) jest tu polityką zapisaną w ko
 - istnieje prawo do własnego węzła "w ciszy" – bez uczestnictwa w publicznych
   przestrzeniach.
 
-Procedura nie może stać się miejscem ukrycia odpowiedzialności. Każde rozstrzygnięcie,
+Procedura nie może stać się [miejscem ukrycia
+odpowiedzialności](../../30-core-values/pl/CORE-VALUES.pl.md#odpowiedzialnosc-bez-rozmywania-w-procedurze).
+Każde rozstrzygnięcie,
 które zmienia stan innego uczestnika, MUSI mieć autora, ślad uzasadnienia i tor
 odwołania; "algorytm tak zdecydował" ani "wszyscy tak zagłosowali" nie unieważnia
 odpowiedzialności ludzi, którzy zaprojektowali, uruchomili lub zatwierdzili daną

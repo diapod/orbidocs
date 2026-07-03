@@ -120,6 +120,14 @@ def iter_source_files(root: Path):
 
 
 def rewrite_markdown_links(text: str) -> str:
+    # Source normative translations live under section/locale/file.locale.md.
+    # The i18n build removes the locale directory and suffix, so cross-section
+    # normative links need one fewer ".." segment after normalization.
+    text = re.sub(
+        r"\.\./\.\./(20-vision|30-core-values|40-constitution|50-constitutional-ops|90-supplementary)/(pl|en|cs)/([^/)#]+)\.(pl|en|cs)\.md\b",
+        r"../\1/\3.md",
+        text,
+    )
     text = re.sub(r"([A-Za-z0-9_./-]+)/(pl|en|cs)/([^/]+)\.(pl|en|cs)\.md\b", r"\1/\3.md", text)
     text = re.sub(r"([A-Za-z0-9_./-]+)\.(pl|en|cs)\.md\b", r"\1.md", text)
     replacements = {
