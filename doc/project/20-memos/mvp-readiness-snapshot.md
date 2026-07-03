@@ -166,8 +166,9 @@ Recent component deltas:
   `/admin/inquirium/assistant`, typed context-assembly/source-grant contracts,
   first daemon `operator_inline` context resolver with fail-closed unresolved
   protected sources and minimal egress-ack metadata validation, operator-question
-  widget registry/projection contracts plus a durable daemon registry and
-  notification-store projection path, inquiry-feedback contract, mode-keyed rigor
+  widget registry/projection contracts plus a bounded durable daemon registry,
+  source-component-scoped notification ids, and idempotent notification-store
+  projection path, inquiry-feedback contract, mode-keyed rigor
   policy, and the shared ordered-axis resolver in `classification`; it remains
   below MVP because local model packaging/artifact lifecycle, full context source
   resolvers, full remote egress acknowledgement, operator-question timeout/
