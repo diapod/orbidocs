@@ -310,6 +310,43 @@ personal data, trade secrets, privileged material, or dangerous files. The
 Harvester finding should carry only the minimum summary, source refs, digests,
 and review metadata needed to decide whether the material is correlation-worthy.
 
+#### Collector-submitted corroboration
+
+The API intake profile may also accept findings from organization-operated
+collectors. In the recommended model, those collectors are run by an umbrella
+organization to corroborate or contextualize phenomena that people have already
+submitted or reviewers have already accepted as worth checking. They are not the
+default mechanism for discovering "what society thinks".
+
+Recommended flow:
+
+```text
+human-submitted weak signal
+  -> reviewer accepts candidate phenomenon
+  -> umbrella collector runs a bounded corroboration query
+  -> collector submits corroboration finding
+  -> reviewer/projection links it as supporting / contradicting / inconclusive
+```
+
+The collector-submitted finding should carry:
+
+- `collector/id` and `operator/org-id`,
+- `phenomenon/ref`, `finding/group-key`, or another reviewer-approved anchor,
+- declared source scope and sampling method,
+- query time window and budget,
+- raw-source retention policy,
+- result class: `supporting`, `contradicting`, `inconclusive`, or
+  `context-only`,
+- source refs, digests, bounded snippets, or aggregate indicators rather than
+  unrestricted raw scraped content.
+
+This mode should preserve the human-first epistemic boundary. A collector may
+help answer "is there external public corroboration for this reported pattern?"
+It should not automatically create a new phenomenon, raise a Whisper threshold,
+or generate reputation effects. If a federation wants early public anomaly
+scanning without a human/reviewer anchor, that is a separate, explicitly enabled
+policy profile with a higher surveillance and abuse risk.
+
 ## Trade-offs
 
 - A directory handoff is less elegant than a direct host capability, but it is
@@ -334,6 +371,7 @@ and review metadata needed to decide whether the material is correlation-worthy.
 | Public gateway accepts hostile attachments | Malware, parser exploits, zip bombs, or tracking payloads enter trusted tools | Quarantine first; scan size, MIME, archives, metadata, and malware before preview, model processing, or promotion. |
 | Public submitter assumes emergency response | Harm escalates while waiting for review | Submission UI must state non-emergency scope and direct acute cases to local emergency channels. |
 | Whistleblower identity leaks through metadata | Retaliation or deanonymization risk | Strip or warn on EXIF, document authors, mail headers, filenames, and other reconstructive metadata before finding promotion. |
+| Umbrella collector becomes mass social surveillance | Organization turns corroboration tooling into a general population sonar | Collector runs should be anchored to accepted phenomena or reviewer-approved queries; unanchored public anomaly scanning requires a separate explicit policy profile. |
 
 ## Open Questions
 
@@ -368,6 +406,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P078-006 | Inquirium/Agent-assisted grouping profile | deferred | Bounded model-assisted clustering and summarization; model output remains advisory. |
 | P078-007 | Network-capable Harvester profile | deferred | Explicitly configured remote sources; still findings-only. |
 | P078-008 | Public Harvester Gateway profile | deferred | Public web/API intake, attachment quarantine, receipt tokens, redacted finding promotion, and reviewer queue. |
+| P078-009 | Collector-submitted corroboration profile | deferred | Umbrella-operated collectors submit supporting/contradicting/context findings anchored to accepted phenomena or reviewer-approved queries. |
 
 ## Next Actions
 
