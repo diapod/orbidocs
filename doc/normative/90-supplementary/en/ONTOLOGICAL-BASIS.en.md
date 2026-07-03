@@ -32,6 +32,14 @@ The combination of these two gestures captures the project's specific position:
 the foundation is radically objectless, yet the consequences of such a
 recognition are practical, architectural, and social.
 
+The apophatic ground, precisely because it cannot be enclosed in an object or a
+description, opens the capacity to recognize every phenomenon and to avoid
+excluding in advance any level of experience or reasoning. It therefore becomes
+a condition for the enactive account, which adds that each such level operates
+in a relation of participation. In the architecture we translate this into a
+requirement of transparency: the level should be visible as a stratum, a
+relation, an interpretation, and a possible point of correction.
+
 ## Five postulates
 
 ### Apophatic foundation and two-phase presumption

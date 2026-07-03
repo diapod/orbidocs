@@ -30,6 +30,13 @@ Spojení těchto dvou gest vyjadřuje specifickou pozici projektu: základ je ra
 bezpředmětný, ale důsledky takového rozpoznání jsou praktické, architektonické
 a společenské.
 
+Apofatický základ právě proto, že jej nelze uzavřít do předmětu ani popisu,
+otevírá schopnost rozpoznávat každý jev a předem nevylučovat žádnou úroveň
+zkušenosti ani uvažování. Stává se tak podmínkou enaktivního pojetí, které
+dodává, že každá taková úroveň působí ve vztahu účasti. V architektuře to
+překládáme do požadavku průhlednosti: úroveň má být viditelná jako vrstva,
+vztah, interpretace a možný bod korekce.
+
 ## Pět postulátů
 
 ### Apofatický základ a dvoufázové domnívání

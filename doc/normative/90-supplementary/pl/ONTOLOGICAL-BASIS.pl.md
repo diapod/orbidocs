@@ -30,6 +30,13 @@ Zestawienie tych dwóch gestów oddaje specyficzną pozycję projektu: fundament
 radykalnie bezprzedmiotowy, ale konsekwencje takiego rozpoznania są praktyczne,
 architektoniczne i społeczne.
 
+Apofatyczny grunt, właśnie dlatego że nie daje się zamknąć w przedmiocie ani opisie,
+otwiera zdolność rozpoznawania każdego zjawiska i niewykluczania z góry żadnego
+poziomu doświadczenia ani rozumowania. Staje się więc warunkiem enaktywnego ujęcia,
+które dopowiada, że każdy taki poziom działa w relacji uczestnictwa. W architekturze
+przekładamy to na wymóg przezroczystości: poziom ma być widoczny jako warstwa,
+relacja, interpretacja i możliwy punkt korekty.
+
 ## Pięć postulatów
 
 ### Apofatyczny fundament i dwufazowe domniemywanie
