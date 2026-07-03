@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-07-01.
+Snapshot date: 2026-07-03.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -22,7 +22,7 @@ Hard-MVP release-blocking proposals/contracts:
 
 - `proposal-076` / `federation-root.v1`
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-01 and the last 20 commits in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target and the first node-local Agent `spawn/status/stop` implementation slice, and the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust.
+Change basis: this refresh incorporates the current worktree state on 2026-07-03 and the latest P076/P025/P054 Seed Directory and federation-root implementation slices in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target and the first node-local Agent `spawn/status/stop` implementation slice, and the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust.
 
 Recent component deltas:
 
@@ -61,21 +61,30 @@ Recent component deltas:
   NATS/JetStream plus Matrix collaborative-room transport remains post-MVP, and
   P011's broader collaborative/dispute lifecycle remains a later extension.
 - Proposal 072 is now implemented and promoted to Solution 037 for the hard-MVP scope: `capability-registry.v1` is the machine source of truth, formal capability ids are checked for canonical grammar, status, wire-name uniqueness, derived surfaces, and use-specific eligibility, and capability advertisement, passport validation, host capability dispatch/routing, literal control-plane `POST /v1/host/capabilities/*` routes, and supervised middleware reports fail closed for unregistered or ineligible formal ids. `capability-authorization-policy.v1` adds the checked P071 Workbench/Interaction Broker authorization-policy sidecar for required grants, caller posture, approval mode, autonomy floor, and COI policy; daemon startup preflight validates both registry and policy, while runtime grant enforcement remains host-policy owned. Federation namespace governance remains a separate post-P072 proposal track.
-- Proposal 076 / `federation-root.v1` is now hard-MVP ready while remaining a
+- Proposal 076 / `federation-root.v1` is hard-MVP ready while remaining a
   release blocker. The contract defines the `data-dir`-scoped federation root
-  used to select `federation_id`, bootstrap seed peers, seed-directory endpoints,
-  seed-directory trust, and sovereign subject refs before the node enters the
-  network. Node runtime now has the node-wide federation selector, startup
-  schema-gated loading from explicit data-dir packs, Ed25519 signature
-  verification, participant self-signature checks, org custody-policy evaluation
-  for `any-authorized` / `threshold`, key-counted threshold semantics,
-  same-federation data-dir state guards, rollback/digest-swap refusal, a
-  fail-closed default when no explicit root pack exists, and a raw-digest-pinned
-  bundled `orbiplex-main` dev/demo fixture behind explicit
-  `federation.allow_bundled_fixture_root = true`. Production custodian roster,
-  ceremony, appeal path, alliance semantics, and multi-federation harness polish
-  remain post-MVP governance/testnet follow-ups, not release blockers for the
-  runtime contract.
+  used to select `federation_id`, bootstrap seed peers, Seed Directory
+  endpoints/trust, sovereign subject refs, and official-service endorsement
+  authority before the node enters the network. Node runtime now has the
+  node-wide federation selector, startup schema-gated loading from explicit
+  data-dir packs, Ed25519 signature verification, participant self-signature
+  checks, org custody-policy evaluation for `any-authorized` / `threshold`,
+  key-counted threshold semantics, same-federation data-dir state guards,
+  rollback/digest-swap refusal, a fail-closed default when no explicit root pack
+  exists, and a raw-digest-pinned bundled `orbiplex-main` dev/demo fixture behind
+  explicit `federation.allow_bundled_fixture_root = true`. The hard-MVP slice now
+  also includes `federation-service-endorsement.v1` as the sole official-service
+  proof, participant/org verifier core, root-pack endorsement revocations,
+  Seed Directory attach/read/revoke surfaces, own-node endorsement fetch/install
+  cache, capability-advertisement endorsement projection with per-use
+  re-verification, a thin participant-sovereign operator issuance API, offline
+  MVP multisig ceremony tooling for root packs and endorsements, strict
+  rejection of unauthorized excess endorsement signatures, and restart-only
+  federation-root activation with specific first-activation/removal/change reload
+  events. Production ceremony governance, appeal path, alliance semantics,
+  optional remote co-signing/FROST-style threshold protocols, and
+  multi-federation harness polish remain post-MVP governance/testnet follow-ups,
+  not release blockers for the runtime contract.
 - Proposal 018 is no longer a low-coverage placeholder. Code review on
   2026-06-22 confirmed schema-gated `participant-capability-limits.v1`
   import/export, durable daemon replay, operator HTTP import/list/detail/clear,
