@@ -14,6 +14,7 @@
    :title "Durable Room Record Family"
    :kind :protocol
    :based-on ["doc/project/40-proposals/070-room-primitive.md"
+              "doc/project/40-proposals/076-federation-identity-and-network-selector.md"
               "doc/project/60-solutions/008-agora/008-agora.md"]
    :schemas ["room.v1"
              "room-membership.v1"
@@ -21,6 +22,7 @@
              "room-policy.v1"]
    :responsibilities
    ["Define subject-addressed room identity, policy, lifecycle, and durable event records"
+    "Ground federation-local and cross-federation exposure in the active federation_id selected by federation-root.v1"
     "Publish and replay room records through Agora-addressed topics"
     "Preserve signer authority, sequence ordering, high-water sequence, and expiry"
     "Validate room policy profiles and exposure fields"

@@ -81,7 +81,8 @@ Recent component deltas:
   MVP multisig ceremony tooling for root packs and endorsements, strict
   rejection of unauthorized excess endorsement signatures, production
   `orbiplex-main` ceremony profile checks for manifest digest/threshold parity,
-  strict deterministic assembly, org-threshold shape, governance/appeal
+  explicit-roster root draft authoring, strict deterministic assembly,
+  org-threshold shape, governance/appeal
   `policy_ref`, at least a 2-of-3 unique signer-key threshold, and rejected
   signature refusal, optional
   `seed_directory_bootstrap[].tls_certificate_sha256` projection into
@@ -101,7 +102,10 @@ Recent component deltas:
   final charter adoption and appeal body seating, alliance semantics, optional
   remote co-signing/FROST-style threshold protocols, and broader
   multi-federation matrix polish remain post-MVP governance/testnet follow-ups,
-  not release blockers for the runtime contract.
+  not release blockers for the runtime contract. Room/Solution 036 now explicitly
+  grounds `federation-local`, `cross-federation`, and `global` exposure in the
+  active P076 `federation_id` instead of letting any carrier define federation
+  authority.
 - Proposal 018 / Solution 040 is no longer a low-coverage placeholder. Code review on
   2026-06-22 confirmed schema-gated `participant-capability-limits.v1`
   import/export, durable daemon replay, operator HTTP import/list/detail/clear,

@@ -1,0 +1,49 @@
+{
+  "schema": "federation-root.v1",
+  "federation_id": "orbiplex-example",
+  "pack_version": 1,
+  "issued_at": "2026-07-03T00:00:00Z",
+  "attestation_roots": [
+    {
+      "id": "org:did:key:z6Mkf8T12FuYFXTjWQLn3ZE2krGdGANs9X7ZH6aVR5R1PZ1T",
+      "kind": "org",
+      "custody_mode": "threshold",
+      "custody_policy_ref": "org-custody:example-root:v1"
+    }
+  ],
+  "bootstrap_seed_peers": [],
+  "seed_directory_bootstrap": [],
+  "custody_policies": [
+    {
+      "policy/ref": "org-custody:example-root:v1",
+      "org/id": "org:did:key:z6Mkf8T12FuYFXTjWQLn3ZE2krGdGANs9X7ZH6aVR5R1PZ1T",
+      "rules": [
+        {
+          "purpose": "federation-root",
+          "mode": "threshold",
+          "threshold/min_signers": 2,
+          "authorized/key_publics": [
+            "z6Mkf8T12FuYFXTjWQLn3ZE2krGdGANs9X7ZH6aVR5R1PZ1T",
+            "z6MkfCNJAZNYqpkxeVbHUrYx3j3PWKb4paoNqWF9UTTc8tLA"
+          ],
+          "authorized/participant_ids": [
+            "participant:did:key:z6MkfGHbJrqZS84Bnaqnv9ssLbp9kUoGVeVCPuuoXqWCtDes"
+          ]
+        }
+      ]
+    }
+  ],
+  "policy_ref": "governance:example-federation-root:v1#appeals",
+  "signatures": [
+    {
+      "alg": "ed25519",
+      "key_public": "z6Mkf8T12FuYFXTjWQLn3ZE2krGdGANs9X7ZH6aVR5R1PZ1T",
+      "value": "base64url-example-signature-a"
+    },
+    {
+      "alg": "ed25519",
+      "key_public": "z6MkfCNJAZNYqpkxeVbHUrYx3j3PWKb4paoNqWF9UTTc8tLA",
+      "value": "base64url-example-signature-b"
+    }
+  ]
+}

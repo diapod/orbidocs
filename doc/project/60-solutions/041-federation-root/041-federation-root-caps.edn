@@ -74,6 +74,7 @@
    :responsibilities
    ["Support offline digest detached signing deterministic assembly and verify commands for root and endorsement artifacts"
     "Enforce the production orbiplex-main ceremony profile for manifest assembly and verification"
+    "Author unsigned root drafts from explicit participant-root or org-threshold rosters before manifest digesting"
     "Allow participant mnemonic data-dir and key-record signing variants"
     "Reject unknown or unauthorized signers in strict mode"
     "Keep org-governed issuance ceremony-bound rather than pretending one custodian can issue"]

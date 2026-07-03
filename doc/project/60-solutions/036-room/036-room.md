@@ -3,6 +3,7 @@
 Based on:
 
 - `doc/project/40-proposals/070-room-primitive.md`
+- `doc/project/40-proposals/076-federation-identity-and-network-selector.md`
 - `doc/project/60-solutions/008-agora/008-agora.md`
 - `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
@@ -87,6 +88,27 @@ Membership query is an authorization surface. Runtime issuance uses
 `room-membership-attestation-request.v1` over POST and returns signed
 `room-membership-attestation.v1`; issue, refusal, deduplication, and rate-limit
 decisions emit `room-attestation-audit.v1` facts without leaking passport bodies.
+
+### Federation Exposure Boundary
+
+Room's exposure vocabulary is grounded in Proposal 076's node-level federation
+selector.
+
+- `federation-local` means the room is scoped to subjects whose relevant node,
+  service, or authority material resolves under the same active `federation_id`
+  selected from the local `federation-root.v1` pack.
+- `cross-federation` means participants or services rooted in different
+  `federation_id` values cooperate through an explicit higher-layer admission
+  policy. It is not inferred merely because a carrier, Matrix homeserver, Seed
+  Directory, or relay can reach both sides.
+- `global` remains an explicit publication/exposure decision above Room's
+  durable membership projection. It is never the default fallback for an
+  unknown or missing federation selector.
+
+This keeps Room carrier-neutral: bounded WebSocket, Matrix, and future live
+substrates may carry room traffic, but they do not define Orbiplex federation
+authority. The active federation root defines the local authority context; Room
+policy decides how, and whether, another federation is admitted.
 
 ## Must Implement
 
