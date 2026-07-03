@@ -787,7 +787,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-011 | Add an org-kind sovereign root surface (`identity.sovereign_subject_refs[]`) | done | Node config now has `identity.sovereign_subject_refs[]` with participant/org kind, optional custody metadata, purpose refs, and a participant-only compatibility projection into `identity.sovereign_participant_ids[]`. Org entries are representable and validated for custody metadata; org federation-root signature evaluation is implemented through self-contained `custody_policies[]` rather than being a config-shape blocker. |
 | P076-012 | Verify federation-root signatures and custody policies at startup | done | The daemon canonicalizes the federation-root payload without `signatures[]`, verifies Ed25519 signatures, requires participant roots to have a matching self-signature, evaluates org roots with `any-authorized` or `threshold` custody rules for `purpose = federation-root`, counts threshold over unique authorized keys, rejects empty/missing explicit packs by default, pins/migrates the data-dir state digest, and keeps the bundled `orbiplex-main` fixture behind explicit `federation.allow_bundled_fixture_root = true` plus a raw-digest-pinned bypass so production deployments require an explicit signed data-dir pack. |
 | P076-013 | Document root custodian operational separation | done | Production federation-root custodians should use dedicated participant identities and separate custodian `data-dir`s for root-pack approval, rotation, and recovery ceremony work. Public `signatures[].key_public` values and custody-policy signer sets are stable correlation handles, so ordinary participant identities, ordinary node data-dirs, and nyms must not be reused as federation-root custodians when privacy separation matters. Node-side ceremony tooling documents this operational guardrail. |
-| P076-014 | Provide hard-MVP federation-root ceremony tooling | done | Node-side tooling can derive public ceremony identities from node participant mnemonics, sign root packs with PEM keys, mnemonics, plaintext participant key records, plaintext data-dirs, or encrypted participant signing keys opened through the narrow Rust unlock helper. The tool supports manifest digest verification, strict pre-assembly signature checks, per-root custody threshold verification, and an end-to-end smoke test that covers encrypted data-dir signing. This remains MVP multisig custody, not FROST/DKG threshold signing. |
+| P076-014 | Provide hard-MVP federation-root ceremony tooling | done | Node-side tooling can derive public ceremony identities from node participant mnemonics, sign root packs with PEM keys, mnemonics, plaintext participant key records, plaintext data-dirs, or encrypted participant signing keys opened through the narrow Rust unlock helper. The tool supports manifest digest verification, strict pre-assembly signature checks, per-root custody threshold verification, production `orbiplex-main` profile checks, and an end-to-end smoke test that covers encrypted data-dir signing plus production-profile positive/negative cases. This remains MVP multisig custody, not FROST/DKG threshold signing. |
 | P076-008 | Define the `alliance` cross-federation cooperation concept | todo | Name resolved in this proposal; a follow-up artifact should define policy semantics only when Room/Whisper/Corpus need more than the name and boundary rule. |
 | P076-009 | Update Proposal 074's harness to pin distinct federation-root files per test node | done | Node acceptance seeders now write explicit signed `federation-root.v1` packs into local profile data dirs, refresh placeholder node ids to runtime `node:did:key` values after first boot where needed, and embed signed `federation-service-endorsement.v1` artifacts for Seed Directory bootstrap entries that claim `federation-endorsed`. Pre-first-boot roots may intentionally omit Seed Directory bootstrap entries until real runtime DID node ids exist, instead of giving official status to placeholders. Story-011 additionally creates provider participants during first boot, inserts B/C participant attestation roots with matching self-signatures into the refreshed runtime root, restarts, asserts `/v1/seed-directory` active trust, and then exercises capability passport issue/publish through the active root projection. Story-005, Story-009, Story-010, and Story-011 no longer rely on loose trust-list shortcuts for official local Seed Directory bootstrap. These local roots are acceptance fixtures, not production org/threshold ceremony roots; Story-011 may include additional local participant roots only to exercise root-backed runtime projection. Broader multi-federation matrix polish remains a future P074/testnet extension. |
 | P076-015 | Ground "sovereign operator" in the federation root | done | The §6 definition now treats a sovereign operator of federation `F` as a subject in `F`'s active `identity.sovereign_subject_refs[]`; participant subjects vouch with their own key and org subjects are held to their `federation-root` custody policy. Proposal 025 §2/§4/§6 now uses this split: `capability-passport.v1` is scope-only, while official-service status is carried by `federation-service-endorsement.v1`. |
@@ -802,7 +802,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-023 | Endorsed-node periodic endorsement fetch and local cache | done | Seed Directory fetch/cache carries endorsement material through the existing capability discovery cache, and daemon consumers locally re-verify every claimed official endorsement before preserving it in cache-derived projections. The periodic seed-sync worker now builds its fetch set from hard-MVP capability ids plus currently local capability passports, fetches configured Seed Directories, applies official-status verification, and installs endorsements targeting the local `node_id` through the existing scoped `federation-service-endorsement` verifier/storage path. Installed, unexpired, non-revoked endorsements are re-verified against the active root before being projected into `capability-advertisement.v1` `capabilities_presented[].endorsements[]`. Missing proof downgrades to scope-only, revoked/invalid proof is rejected, refusal/installation traces are emitted, and a directory outage does not delete a still-valid local cached endorsement. |
 | P076-024 | Keep federation-root activation restart-only | done | Resolved daemon config now carries the active root activation fingerprint (`federation_id`, `pack_version`, digest). Runtime reload validates candidate config but refuses to continue when that fingerprint differs from the currently running daemon, logging a specific first-activation/removal/change restart-required event and keeping the existing runtime. Operators may still validate candidate packs through config checks, but applying a different `federation-root.v1` requires restart against the selected `data-dir`. |
 | P076-025 | Require explicit `seed_directory_bootstrap[].enabled` | done | `federation-root.v1` schema now requires `enabled` on every `seed_directory_bootstrap[]` entry, the root-loader struct has no default for that field, and negative fixtures/tests reject omitted `enabled`. Generic layered daemon config may still keep its own compatibility defaults outside the root-pack import boundary. |
-| P076-026 | Freeze the production `orbiplex-main` ceremony shape | todo | Document or implement ceremony checks for digest, detached multi-signature collection, deterministic assembly, verification before publication, rotation overlap, and appeal reference. Concrete roster/keys remain governance-authored. |
+| P076-026 | Freeze the production `orbiplex-main` ceremony shape | done | Implemented 2026-07-03 in the node ceremony tooling as an explicit `--production-orbiplex-main` profile for manifest, assemble, and verify commands. The profile requires `federation_id = orbiplex-main`, exactly one org-kind threshold attestation root, a self-contained `federation-root` custody policy, at least a 2-of-3 unique signer-key threshold with duplicate signer refs rejected, top-level governance/appeal `policy_ref`, manifest digest/threshold parity, strict deterministic assembly, threshold satisfaction before writing, and hard failure on unauthorized or invalid signatures. `federation-root.v1` has no dedicated rotation-overlap field yet, so the checker records that as `not-representable-in-federation-root.v1` rather than inventing an unofficial field. Concrete roster/keys remain governance-authored. |
 
 ## Implementation Recommendations
 
@@ -1028,12 +1028,22 @@ without a daemon.
 
 ### P076-026 — freeze the `orbiplex-main` ceremony shape
 
-- The shape is documented (digest → detached signatures → deterministic
-  assembly → verify → publish, rotation overlap, appeal reference); this task
-  turns it into *checks*: ceremony tooling refuses to assemble/verify a
-  production `orbiplex-main` pack that lacks the frozen elements (threshold
-  custody policy, appeal `policy_ref`, rotation overlap metadata where
-  applicable).
+- Implemented as an explicit `--production-orbiplex-main` ceremony profile for
+  manifest, assemble, and verify commands. Production assembly requires
+  `--strict`, checks the root custody threshold before writing, and rejects
+  unauthorized or invalid detached signatures even when the threshold would
+  otherwise be satisfied.
+- The checker enforces the production shape: `federation_id = orbiplex-main`,
+  exactly one org-kind threshold root, a self-contained `federation-root`
+  custody policy, at least a 2-of-3 unique signer-key threshold, top-level
+  governance/appeal `policy_ref`, and manifest digest/threshold parity.
+  Duplicate signer refs across `authorized/key_publics[]` and
+  `authorized/participant_ids[]` are rejected fail-closed instead of merely
+  deduplicated.
+- `federation-root.v1` has no dedicated rotation-overlap field yet. The checker
+  records this as `not-representable-in-federation-root.v1`; if the schema gets
+  an explicit rotation-overlap field later, the production profile must enforce
+  it.
 - Keep roster/keys out of the checks — they are governance-authored inputs, not
   tool-verifiable constants.
 
@@ -1076,10 +1086,7 @@ the channel carries signatures — never authority.
 3. Decide whether P076-001 should gain additional conformance fixtures for
    org-threshold positive examples, even though cryptographic/custody truth is
    already covered by node runtime tests rather than JSON Schema.
-4. Continue the remaining official-service hardening after the P025/P076 chain:
-   **P076-018** (org/threshold endorsement ceremony tooling), **P076-020**
-   (optional root authoring ergonomics), **P076-024** (restart-only
-   federation-root activation enforcement), and **P076-026** (production
-   `orbiplex-main` ceremony checks). P025-002/003/004/010 and P076-022 are now
-   implemented for the participant-sovereign path; P076-019 stays deferred
-   post-MVP.
+4. Continue the remaining P076 ergonomics and post-MVP protocol tracks:
+   **P076-020** (optional root authoring ergonomics), **P076-006** (Room
+   cross-reference), **P076-008** (`alliance` policy semantics when needed),
+   and **P076-019** (remote co-signing) as deferred post-MVP work.

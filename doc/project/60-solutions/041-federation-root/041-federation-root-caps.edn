@@ -73,6 +73,7 @@
    :schemas ["federation-root.v1" "federation-service-endorsement.v1"]
    :responsibilities
    ["Support offline digest detached signing deterministic assembly and verify commands for root and endorsement artifacts"
+    "Enforce the production orbiplex-main ceremony profile for manifest assembly and verification"
     "Allow participant mnemonic data-dir and key-record signing variants"
     "Reject unknown or unauthorized signers in strict mode"
     "Keep org-governed issuance ceremony-bound rather than pretending one custodian can issue"]

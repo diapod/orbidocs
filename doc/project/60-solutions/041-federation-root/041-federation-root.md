@@ -26,9 +26,9 @@ Implemented hard-MVP solution foundation.
 
 Federation root activation, official-service endorsement verification, Seed
 Directory bootstrap projection, optional Seed Directory bootstrap TLS pinning,
-and restart-only root changes are implemented. Remote co-signing, optional
-root-authoring convenience, and finalized production ceremony packaging remain
-post-MVP hardening.
+restart-only root changes, and production `orbiplex-main` ceremony profile
+checks are implemented. Remote co-signing, optional root-authoring convenience,
+and final production roster/packaging remain governance and post-MVP hardening.
 
 Production trust in `orbiplex-main` is additionally gated by governance, not
 only code: the root charter (`DIA-ROOT-001`,
@@ -216,6 +216,8 @@ Responsibilities:
 
 - support offline digest, detached signing, deterministic assembly, and verify
   commands for root and endorsement artifacts;
+- enforce the production `orbiplex-main` ceremony profile for manifest,
+  assembly, and verification;
 - allow participant mnemonic, data-dir, and key-record signing variants;
 - reject unknown or unauthorized signers in strict mode;
 - keep org-governed issuance ceremony-bound rather than pretending one
@@ -223,8 +225,8 @@ Responsibilities:
 
 Status:
 
-- `done` for the implemented ceremony tooling; production publication checklist
-  remains hardening.
+- `done` for the implemented ceremony tooling and production `orbiplex-main`
+  profile checks; concrete production roster/keys remain governance-authored.
 
 ## May Implement
 

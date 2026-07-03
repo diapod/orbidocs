@@ -22,7 +22,7 @@ Hard-MVP release-blocking proposals/contracts:
 
 - `proposal-076` / `federation-root.v1`
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-03 and the latest P076/P025/P054 Seed Directory and federation-root implementation slices in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target, the first node-local Agent `spawn/status/stop` implementation slice, per-agent Inquirium budget metering, and the first HIL-gated effect-proposal skeleton, the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust, optional Seed Directory bootstrap TLS pins as source-aware transport hardening, and the new Proposal 077 Swarm Broadcast Assistance draft as a post-MVP assistance-choreography track.
+Change basis: this refresh incorporates the current worktree state on 2026-07-03 and the latest P076/P025/P054 Seed Directory and federation-root implementation slices in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target, the first node-local Agent `spawn/status/stop` implementation slice, per-agent Inquirium budget metering, and the first HIL-gated effect-proposal skeleton, the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust, optional Seed Directory bootstrap TLS pins as source-aware transport hardening, production orbiplex-main ceremony profile checks, and the new Proposal 077 Swarm Broadcast Assistance draft as a post-MVP assistance-choreography track.
 
 Recent component deltas:
 
@@ -79,7 +79,11 @@ Recent component deltas:
   cache, capability-advertisement endorsement projection with per-use
   re-verification, a thin participant-sovereign operator issuance API, offline
   MVP multisig ceremony tooling for root packs and endorsements, strict
-  rejection of unauthorized excess endorsement signatures, optional
+  rejection of unauthorized excess endorsement signatures, production
+  `orbiplex-main` ceremony profile checks for manifest digest/threshold parity,
+  strict deterministic assembly, org-threshold shape, governance/appeal
+  `policy_ref`, at least a 2-of-3 unique signer-key threshold, and rejected
+  signature refusal, optional
   `seed_directory_bootstrap[].tls_certificate_sha256` projection into
   Seed Directory sources with HTTPS-only runtime enforcement and peer leaf
   certificate digest verification, and restart-only federation-root activation
@@ -93,10 +97,11 @@ Recent component deltas:
   first boot, inserts B/C participant attestation roots with matching
   self-signatures into the refreshed runtime root, restarts, asserts active
   `/v1/seed-directory` trust for Node B, and only then issues/publishes
-  `corpus.provider` capability passports. Production ceremony governance, appeal
-  path, alliance semantics, optional remote co-signing/FROST-style threshold
-  protocols, and broader multi-federation matrix polish remain post-MVP
-  governance/testnet follow-ups, not release blockers for the runtime contract.
+  `corpus.provider` capability passports. Concrete production roster/keys,
+  final charter adoption and appeal body seating, alliance semantics, optional
+  remote co-signing/FROST-style threshold protocols, and broader
+  multi-federation matrix polish remain post-MVP governance/testnet follow-ups,
+  not release blockers for the runtime contract.
 - Proposal 018 / Solution 040 is no longer a low-coverage placeholder. Code review on
   2026-06-22 confirmed schema-gated `participant-capability-limits.v1`
   import/export, durable daemon replay, operator HTTP import/list/detail/clear,
