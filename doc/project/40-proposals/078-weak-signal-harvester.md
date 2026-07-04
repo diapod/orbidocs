@@ -375,22 +375,34 @@ policy profile with a higher surveillance and abuse risk.
 
 ## Open Questions
 
-1. Should `weak-signal-finding.v1` be introduced immediately as a canonical
+No unresolved questions remain for this proposal's MVP contract.
+
+1. ~~Should `weak-signal-finding.v1` be introduced immediately as a canonical
    schema, or should the first implementation use a documented JSONL shape and
-   freeze the schema after one prototype?
-2. Should node import watch a directory continuously, or should import be an
-   explicit operator action in the MVP?
-3. Should findings be imported into Memarium as local private facts, or should
+   freeze the schema after one prototype?~~ **Resolved:** introduce
+   `weak-signal-finding.v1` immediately as a canonical schema.
+2. ~~Should node import watch a directory continuously, or should import be an
+   explicit operator action in the MVP?~~ **Resolved:** MVP import is an
+   explicit operator action. A continuous directory watch may be added later as
+   an opt-in profile after the bounded import contract is stable.
+3. ~~Should findings be imported into Memarium as local private facts, or should
    the node keep a dedicated Harvester review store until the user accepts an
-   action?
-4. What is the first source adapter for acceptance testing: Maildir, filesystem
-   Markdown/text, or exported mbox?
-5. Should a future network-capable Harvester use Artifact Delivery for remote
+   action?~~ **Resolved:** keep a dedicated Harvester review store first.
+   Accepted/promoted findings may later write Memarium/private facts through an
+   explicit user action.
+4. ~~What is the first source adapter for acceptance testing: Maildir,
+   filesystem Markdown/text, or exported mbox?~~ **Resolved:** filesystem
+   Markdown/text is the first acceptance source adapter.
+5. ~~Should a future network-capable Harvester use Artifact Delivery for remote
    source handoff, or remain outside node transport and only write local
-   findings?
-6. Should Public Harvester Gateway be a profile of this proposal, or should it
+   findings?~~ **Resolved:** a future network-capable Harvester may use
+   Artifact Delivery for explicitly configured remote source handoff, preserving
+   bounded/quarantined findings-only semantics.
+6. ~~Should Public Harvester Gateway be a profile of this proposal, or should it
    become a separate proposal once quarantine, receipts, and reviewer workflow
-   are ready for implementation?
+   are ready for implementation?~~ **Resolved:** P078 defines only the hook
+   shape. Public Harvester Gateway should become a separate proposal once
+   quarantine, receipts, reviewer workflow, and redaction semantics are ready.
 
 ## Implementation Tracker
 
@@ -399,19 +411,19 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | ID | Task | Status | Notes |
 |---|---|---|---|
 | P078-001 | Define findings directory convention | todo | Include incoming/accepted/rejected/archive semantics, immutable write rule, and import digest behavior. |
-| P078-002 | Define `weak-signal-finding.v1` candidate schema | todo | May be delayed until Open Question 1 is resolved; must include source refs, group key, confidence, and privacy flags. |
-| P078-003 | Node import and review read-model | todo | Import from directory, expose grouped findings, and record review outcomes without publication. |
+| P078-002 | Define `weak-signal-finding.v1` candidate schema | todo | Introduce immediately as a canonical schema; must include source refs, group key, confidence, and privacy flags. |
+| P078-003 | Node import and review read-model | todo | MVP import is an explicit operator action into a dedicated Harvester review store; continuous directory watch is a later opt-in profile. |
 | P078-004 | Whisper draft handoff | todo | Accepted finding can create a local Whisper draft, not publish directly. |
-| P078-005 | First source adapter acceptance fixture | todo | Choose Maildir, filesystem text/Markdown, or mbox after Open Question 4. |
+| P078-005 | First source adapter acceptance fixture | todo | Use filesystem Markdown/text as the first acceptance source adapter. |
 | P078-006 | Inquirium/Agent-assisted grouping profile | deferred | Bounded model-assisted clustering and summarization; model output remains advisory. |
-| P078-007 | Network-capable Harvester profile | deferred | Explicitly configured remote sources; still findings-only. |
-| P078-008 | Public Harvester Gateway profile | deferred | Public web/API intake, attachment quarantine, receipt tokens, redacted finding promotion, and reviewer queue. |
+| P078-007 | Network-capable Harvester profile | deferred | Future Artifact Delivery handoff profile for explicitly configured remote sources; still findings-only and bounded/quarantined. |
+| P078-008 | Public Harvester Gateway profile | deferred | Separate future proposal for public web/API intake, attachment quarantine, receipt tokens, redacted finding promotion, and reviewer queue; P078 only keeps hook compatibility. |
 | P078-009 | Collector-submitted corroboration profile | deferred | Umbrella-operated collectors submit supporting/contradicting/context findings anchored to accepted phenomena or reviewer-approved queries. |
 
 ## Next Actions
 
-1. Resolve Open Questions 1-4.
-2. Add the first `weak-signal-finding.v1` schema or prototype JSONL contract.
-3. Implement a tiny filesystem-text Harvester fixture and node import smoke.
+1. Draft `weak-signal-finding.v1`.
+2. Implement explicit operator import into the dedicated Harvester review store.
+3. Add the filesystem Markdown/text source adapter and acceptance fixture.
 4. Wire accepted finding -> local Whisper draft, preserving the separate
    publication approval gate.

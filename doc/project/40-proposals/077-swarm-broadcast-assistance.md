@@ -158,13 +158,22 @@ the concrete offer-field shape lands in the owning contracts when picked up.
 
 ## Open Questions
 
-1. Does `assistance-request.v1` need its own schema, or is a P003
-   question-envelope profile (like `selected-responder`) sufficient for MVP?
-2. What is the minimal case read-model (open assistance cases, states,
-   handoffs) and where does it live — assistant channel surface or a
-   dedicated host capability?
-3. How does an association room formally raise an assistance request —
-   sponsor-as-asker only (MVP), or a room-scoped asker identity later?
+No unresolved questions remain for this proposal's MVP contract.
+
+1. ~~Does `assistance-request.v1` need its own schema, or is a P003
+   question-envelope profile (like `selected-responder`) sufficient for
+   MVP?~~ **Resolved:** MVP uses a P003 `question-envelope` assistance profile.
+   A separate `assistance-request.v1` may be introduced only after the
+   lifecycle diverges enough to need its own contract family.
+2. ~~What is the minimal case read-model (open assistance cases, states,
+   handoffs) and where does it live — assistant channel surface or a dedicated
+   host capability?~~ **Resolved:** the minimal assistance case read-model
+   lives behind a dedicated host capability. Assistant Channel may consume and
+   present it, but does not own the assistance state.
+3. ~~How does an association room formally raise an assistance request —
+   sponsor-as-asker only (MVP), or a room-scoped asker identity
+   later?~~ **Resolved:** MVP uses sponsor-as-asker. Room-scoped asker identity
+   is a later extension once association-room identity surfaces are stronger.
 
 ## Implementation Tracker
 
@@ -172,7 +181,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 | ID | Task | Status | Notes |
 |---|---|---|---|
-| P077-001 | Define the assistance profile on the P003 envelope family | todo | Scope, urgency, follow-up policy, TTL, coarse `context/class` marker; decide Open Question 1 first. |
+| P077-001 | Define the assistance profile on the P003 envelope family | todo | Scope, urgency, follow-up policy, TTL, coarse `context/class` marker; MVP uses a P003 `question-envelope` profile rather than a separate `assistance-request.v1` schema. |
 | P077-002 | Assistance case lifecycle facts and read-model | todo | opened/decomposed/responded/clarified/resolved/handed-off; every transition is a fact. |
 | P077-003 | Crisis-candidate emission from assistance processing | todo | Rides P066 `assistant-crisis-candidate`; never declares crisis; host crisis layer owns status. |
 | P077-004 | Corpus-as-resolution-step choreography | todo | Side-room first, per the composition memo; signed answer posted back into the case. |
@@ -180,9 +189,10 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 ## Next Actions
 
-1. Decide Open Question 1 (dedicated schema vs P003 profile) — it gates
-   P077-001 and the schema-gate wiring.
-2. Wire the advisory cross-references (013, 039, 069, 073) — done at
+1. Define the P003 `question-envelope` assistance profile and schema-gate
+   expectations.
+2. Define the dedicated host-capability assistance case read-model.
+3. Wire the advisory cross-references (013, 039, 069, 073) — done at
    promotion time.
-3. Revisit after the Whisper association-room lifecycle slice lands, so the
-   room→assistance path (Open Question 3) has a concrete anchor.
+4. Revisit after the Whisper association-room lifecycle slice lands, so the
+   room→assistance path can grow beyond sponsor-as-asker when needed.

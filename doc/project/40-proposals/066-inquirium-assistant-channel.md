@@ -1206,6 +1206,8 @@ Done criteria:
 
 ## Open Questions
 
+No unresolved questions remain for this proposal's MVP contract.
+
 1. ~~Should `inquirium.generate.*` live in `model-runtime` or a future
    `inquirium-core` crate?~~ **Resolved:** `inquirium-core` from the start (thin
    contract crate, deps only `classification`); existing `inquirium.embed.*` move
@@ -1258,14 +1260,12 @@ Done criteria:
    vocabulary with `limit`, `before/ref`, and newest-first ordering. Phase 1 UI
    may expose only a bounded `limit` selector; cursor pagination should be added
    when older trace navigation becomes a real operator workflow.
-10. What change-control level should apply when a hard-MVP profile disables
-    `inquirium.baseline_assistant_required`? The baseline profile is
-    non-withdrawable, but the current implementation intentionally exposes the
-    readiness gate as distributor/operator configuration. Sensible default:
-    treat disabling the gate in hard-MVP distributions as a deployment/change
-    control event that requires the same level of confirmation as other
-    universal-minimum guarantees, while keeping ordinary development and CI
-    profiles opt-in.
+10. ~~What change-control level should apply when a hard-MVP profile disables
+    `inquirium.baseline_assistant_required`?~~ **Resolved:** disabling the gate
+    in hard-MVP distributions is a deployment/change-control event that
+    requires the same level of confirmation as other universal-minimum
+    guarantees. Ordinary development and CI profiles may remain
+    opt-in/configurable.
 
 ## Next Actions
 

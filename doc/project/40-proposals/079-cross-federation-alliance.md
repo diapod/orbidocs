@@ -298,21 +298,19 @@ Schema and fixtures:
 
 ## Open Questions
 
-The concept and minimal policy contract frozen here are resolved. Runtime
-distribution and remote-root acquisition questions remain tracked here and as
-deferred implementation rows below.
+No unresolved questions remain for this proposal's current runtime contract.
 
-1. **Remote root acquisition for member verification.** How does a verifier
-   obtain and refresh another member federation's active `federation-root.v1`
-   when resolving `members[].sovereign_subject_ref` at use time? Sensible
-   default for the first runtime slice: local-only import/export of trusted root
-   snapshots, with Seed Directory or public distribution deferred until P079-005.
-2. **First distribution and revocation profile.** Should P079-005 start with a
-   daemon-local import/export store for `alliance-policy.v1` halves and local
-   revocation views, or jump directly to Seed Directory/public publication?
-   Sensible default: local-only import/export first, because private alliances
-   are valid and consumer hooks can test the resolver without adding a public
-   distribution authority.
+1. ~~How does a verifier obtain and refresh another member federation's active
+   `federation-root.v1` when resolving `members[].sovereign_subject_ref` at use
+   time?~~ **Resolved:** the first slice uses local-only import/export of
+   trusted root snapshots. Seed Directory-based acquisition/refresh is the next
+   profile, and public distribution remains deferred.
+2. ~~Should P079-005 start with a daemon-local import/export store for
+   `alliance-policy.v1` halves and local revocation views, or jump directly to
+   Seed Directory/public publication?~~ **Resolved:** start with daemon-local
+   import/export of `alliance-policy.v1` halves plus local revocation views.
+   Seed Directory publication/acquisition follows as the next profile; public
+   publication remains later.
 
 ## Implementation Tracker
 
@@ -324,14 +322,14 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P079-002 | Define `alliance-policy.v1` schema and fixtures | done | Minimal unilateral policy-half contract with snake_case fields, stable member subject pins, evidence-only root digest/version, closed scope registry, `sequence_no`, publication mode, and deny-overrides-allow semantics. |
 | P079-003 | Runtime verifier for one policy half | done | Node `capability-binding` now verifies one unilateral half with `alliance-policy.v1\0` domain separation, canonical payload with `signatures` omitted, deterministic `alliance_id` derivation, issuer federation/subject binding, active-root participant/org custody verification through the shared sovereign-subject verifier, `expires_at > issued_at`, skew-tolerant `issued_at`, boundary-instant expiry, local revocation hook, sequence rollback floor, duplicate-signer rejection, and no cross-pack decision cache. |
 | P079-004 | Active alliance resolver | done | Node `capability-binding` now resolves already verified halves by selecting the highest valid sequence per issuer, rejecting same-sequence semantic conflicts, requiring matching member sets, reporting missing halves or empty effective scope as explicit inactive states, and computing effective scope as intersection of allowed scopes minus denied scopes. |
-| P079-005 | Distribution and revocation profile | deferred | Decide whether first runtime transport is local-only import/export, Seed Directory metadata, federation-root-adjacent refs, or public publication. |
+| P079-005 | Distribution and revocation profile | deferred | First runtime transport is daemon-local import/export of `alliance-policy.v1` halves plus local revocation views. Seed Directory publication/acquisition follows as the next profile; public publication remains later. |
 | P079-006 | Room consumer integration | deferred | Room may consume active alliance decisions for `cross-federation` admission, while still verifying room membership/policy independently. |
 | P079-007 | Whisper, Corpus, Artifact Delivery, INAC, and Agora consumers | deferred | Each consumer must map its own operation to the closed scope registry and still verify its own artifacts/capabilities. |
 | P079-008 | MVP readiness follow-through | done | P076-008 is closed as concept plus minimal policy contract; the one-half verifier and active-alliance resolver are implemented, while distribution and consumer-specific admission enforcement remain post-MVP follow-up work and are not hard-MVP release blockers. |
 
 ## Next Actions
 
-1. Choose the first distribution profile (likely local-only import/export for a
-   small pilot) and only then wire Seed Directory or public publication.
+1. Implement daemon-local import/export for `alliance-policy.v1` halves, local
+   revocation views, and trusted member-root snapshots.
 2. Add consumer-specific tests that prove alliance is an admission input, not a
    substitute for artifact, capability, or membership verification.
