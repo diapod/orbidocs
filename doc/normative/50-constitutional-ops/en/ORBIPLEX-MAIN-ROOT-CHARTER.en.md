@@ -125,7 +125,9 @@ because unilateral withdrawal narrows trust and is fail-safe.
 Amendments to this charter require the custody threshold in force and MUST
 respect `ENTRENCHMENT-CLAUSE.en.md`. The charter version is bumped on every
 amendment; the root pack's `policy_ref` SHOULD reference the charter version
-under which it was signed.
+under which it was signed. The hard-MVP production ceremony profile enforces
+the machine-readable convention `policy:dia-root-001@<charter-version>`, for
+example `policy:dia-root-001@1.0.0#appeals`.
 
 ## 11. Adoption Status
 

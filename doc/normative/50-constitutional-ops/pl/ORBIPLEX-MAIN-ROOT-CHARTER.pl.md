@@ -128,7 +128,9 @@ odwołać, ponieważ jednostronne wycofanie zawęża zaufanie i jest fail-safe.
 Poprawki tej karty wymagają obowiązującego progu custody i MUSZĄ respektować
 `ENTRENCHMENT-CLAUSE.pl.md`. Wersja karty rośnie przy każdej poprawce;
 `policy_ref` root-packa POWINIEN wskazywać wersję karty, pod którą pack
-został podpisany.
+został podpisany. Profil ceremonii produkcyjnej hard-MVP egzekwuje
+maszynowo-czytelną konwencję `policy:dia-root-001@<charter-version>`, na
+przykład `policy:dia-root-001@1.0.0#appeals`.
 
 ## 11. Status przyjęcia
 

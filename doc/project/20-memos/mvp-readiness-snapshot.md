@@ -82,7 +82,7 @@ Recent component deltas:
   rejection of unauthorized excess endorsement signatures, production
   `orbiplex-main` ceremony profile checks for manifest digest/threshold parity,
   explicit-roster root draft authoring, strict deterministic assembly,
-  org-threshold shape, governance/appeal
+  org-threshold shape, charter-version
   `policy_ref`, at least a 2-of-3 unique signer-key threshold, and rejected
   signature refusal, optional
   `seed_directory_bootstrap[].tls_certificate_sha256` projection into
