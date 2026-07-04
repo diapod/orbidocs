@@ -148,6 +148,12 @@ The client should avoid silently becoming a second hidden runtime. If it grows m
 execution responsibilities, that should be treated as movement toward `hybrid` or
 `full-node`, not as accidental client bloat.
 
+The thin client retains one local authority: a minimal device signing or approval
+key. Sensitive actions such as signing, payments, identity recovery, and high-risk
+publishing require explicit live confirmation from that device. The device does not
+hold the full hosted-user identity or recovery material; those remain under pod-host
+policy and export/recovery controls.
+
 ### 4. Identity and tenancy model
 
 At minimum, a `pod`-hosted user needs:
@@ -230,6 +236,9 @@ This implies server-side session state with bounded retention and explicit expor
 lost phone should not imply loss of the user's entire participation history, but a
 serving node should also not keep indefinite undeclared memory by default.
 
+The default retention shape is a bounded recent history window. Full indefinite
+history is an explicit policy choice, not the baseline for pod hosting.
+
 ### 7. Degraded and offline behavior
 
 A thin client cannot match the resilience of a full node, but it should still degrade
@@ -259,6 +268,10 @@ A `pod`-hosted user should be able to:
 
 The access layer fails its purpose if convenience for hosted users turns into hidden
 capture.
+
+`pod-user-id` remains host-local by default. Cross-host continuity is an explicit
+portability opt-in, carried by a migration or continuity bundle rather than inferred
+from ordinary hosting.
 
 ### 9. Minimal contract sketch
 
@@ -363,28 +376,52 @@ Failure:
 Mitigation:
 - auditable hosting policy,
 - export and migration rights,
-- reputation and governance constraints on serving nodes,
+- a distinct `pod-hosting` reputation domain rather than only generic node
+  reputation,
+- stronger user attestation profiles before one pod host serves pseudonymous
+  multi-user communities,
 - possibility of federation-specific trust thresholds for `pod` hosts.
 
 ## Open Questions
 
-1. What minimum local secret material must stay on-device for a `pod-client` user?
-2. Should a single `pod` host be allowed to serve pseudonymous multi-user communities,
-   or should some federations require stronger user attestation?
-3. Which actions must be impossible without explicit live confirmation from the user
-   device?
-4. How much user history should a `pod` host retain by default?
-5. Should `pod` hosting reputation be separate from general node reputation?
-6. Should `pod-user-id` be a strictly host-local identity, or should federations allow
-   portable cross-host continuity by default?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-04:
+
+1. A `pod-client` user keeps a minimal device signing or approval key on-device.
+   The device must retain enough local authority to approve sensitive actions
+   without holding the full identity or recovery material.
+2. A single `pod` host may serve pseudonymous multi-user communities only under
+   profiles that require stronger user attestation. The attestation may remain
+   scoped and privacy-preserving, but the host must not become an unaccountable
+   mass pseudonymity surface.
+3. Signing, payments, identity/recovery operations, and high-risk publishing
+   require explicit live confirmation from the user device.
+4. A `pod` host retains a bounded recent history window by default, governed by
+   user policy. Full indefinite history is not the default.
+5. `pod` hosting reputation is a separate reputation domain from general node
+   reputation. It may later feed aggregate node views, but it remains visible as
+   its own trust surface.
+6. `pod-user-id` is host-local by default. Cross-host continuity is an explicit
+   portability opt-in rather than the baseline.
 
 ## Next Actions
 
 1. Define `pod` module requirements: tenancy, export, migration, retention, and trace
    semantics.
-2. Define thin-client requirements for mobile and desktop profiles.
+2. Define thin-client requirements for mobile and desktop profiles, including the
+   minimal device signing/approval key and explicit live confirmation requirements.
 3. Define trust-boundary UX requirements so delegated execution is always explicit.
 4. Define migration stories: `pod-client -> another pod`, `pod-client -> hybrid`,
    `pod-client -> full-node`.
 5. Define a dedicated identity and responsibility model for `pod-user-id` and
    `client-instance-id`.
+6. Define the bounded recent history window contract for `pod` hosts; full
+   indefinite history is not the default and must be opted into.
+7. Define the `pod-hosting` reputation domain split. It may feed aggregate node
+   views later, but it remains visible as its own trust surface.
+8. Define `pod-user-id` portability: host-local by default, cross-host continuity as
+   explicit opt-in.
+9. Define stronger user attestation profiles required for pseudonymous multi-user
+   `pod` hosting.

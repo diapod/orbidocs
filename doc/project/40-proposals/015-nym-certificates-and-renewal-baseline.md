@@ -107,6 +107,9 @@ The certificate carries:
 - optional predecessor and succession proof for public continuity,
 - council signature.
 
+Public continuation is the default renewal mode for this baseline. Private reset is
+a mode within the same contract family rather than a separate artifact family.
+
 Receivers verify:
 
 1. canonical council identity and whether it is present in the local trusted
@@ -201,6 +204,9 @@ Phase 1 supports a public continuation path with bounded grace semantics:
 - after `expires-at` but before `leniency-until`, the old `nym` is only valid
   for succession-related continuity work,
 - after `leniency-until`, the old line is dead.
+
+`leniency-until` appears only when grace semantics are granted. Absence of the field
+means no leniency period; consumers must treat absence as strict mode.
 
 This gives a simple operational way to:
 
@@ -299,11 +305,31 @@ Reusable receiver-side verification guidance now lives in:
 
 - `doc/project/20-memos/nym-authored-payload-verification.md`
 
+Messaging, contact, and Corpus application families should inherit this
+artifact-local embedding pattern wherever artifacts are nym-authored. Each adoption
+should remain schema-gated in its own family rather than introducing a generic shared
+nym envelope prematurely.
+
 ## Open Questions
 
-1. Should public continuation be the default renewal mode, or should public
-   continuation and private reset become two separate contract families?
-2. Should Phase 1 certificates always carry `leniency-until`, or should that
-   field become optional when no grace semantics are granted?
-3. Which later application families, besides Whisper, should inherit the same
-   nym-certificate embedding pattern?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-04:
+
+1. Public continuation is the default renewal mode. Private reset remains a mode
+   within the same contract family rather than a separate artifact family for
+   this baseline.
+2. Phase 1 certificates carry `leniency-until` only when grace semantics are
+   granted. Absence of the field means no leniency period.
+3. Messaging, contact, and Corpus application families should inherit the same
+   nym-certificate embedding pattern where artifacts are nym-authored.
+
+## Next Actions
+
+1. Document `public-continuation` as the default renewal mode in `nym-certificate.v1`
+   schema docs; `private-reset` remains a mode within the same contract family.
+2. Add the `leniency-until` schema invariant: field presence implies grace, field
+   absence implies no leniency.
+3. Apply the artifact-local embedding pattern to messaging, contact, and Corpus
+   nym-authored artifact families as separate schema-gate tasks.

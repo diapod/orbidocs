@@ -106,6 +106,10 @@ Purpose:
 It should remain local- or federation-portable data, not an implementation-specific
 vector index record.
 
+`KnowledgeArtifact` carries an explicit promotion scope in v1, distinguishing
+`local-only` from `federation-shareable` material. Promotion is a deliberate state
+transition with audit, not ambient federation behavior.
+
 ### 3. `ArchivalPackage`
 
 Purpose:
@@ -116,6 +120,10 @@ Purpose:
 - remain generic enough to wrap summaries, transcript bundles, corpus candidates, or
   promoted knowledge artifacts.
 
+`ArchivalPackage` is a manifest and audit surface. In v1 it supports stable content
+references only, not inline payload containers; inline content belongs in referenced
+artifacts under their own contracts.
+
 ### 4. `ArchivistAdvertisement`
 
 Purpose:
@@ -123,6 +131,10 @@ Purpose:
 - let archivists advertise what scopes and artifact classes they accept,
 - declare default retrieval and retention posture,
 - optionally expose whether settlement or negotiated terms are required.
+
+Where an archivist commits to replication, the advertisement exposes explicit
+replication guarantees. Where it only describes expected behavior, the field must be
+classified as a policy hint rather than a guarantee.
 
 ### 5. Retrieval contracts
 
@@ -162,10 +174,20 @@ Purpose:
 
 ## Open Questions
 
-1. Should `LearningOutcome` remain generic, or later split into room-summary and response-correction specializations?
-2. Should `KnowledgeArtifact` distinguish local-only from federation-shareable promotion more strongly in v1?
-3. Should `ArchivalPackage` support inline payloads in v1, or only stable content references?
-4. Should archivist advertisements expose replication guarantees explicitly in v1 or only policy hints?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-04:
+
+1. `LearningOutcome` remains generic in v1. Room-summary and
+   response-correction specializations may be added later if their semantics
+   diverge in practice.
+2. `KnowledgeArtifact` distinguishes local-only from federation-shareable
+   promotion through an explicit promotion scope in v1.
+3. `ArchivalPackage` supports only stable content references in v1. It is a
+   manifest and audit surface, not an inline payload container.
+4. Archivist advertisements expose explicit replication guarantees where the
+   archivist commits to them, and policy hints otherwise.
 
 ## Next Actions
 
@@ -173,3 +195,9 @@ Purpose:
 2. Add positive and negative examples for each schema family.
 3. Align validator mappings and generated schema docs.
 4. Revisit curation and training proposal set after these contracts stabilize.
+5. Define `KnowledgeArtifact.promotion-scope`; local-only to federation-shareable
+   promotion is an explicit audited transition.
+6. Define `ArchivalPackage` as content-reference-only in v1 and reject inline
+   payloads at the schema boundary.
+7. Define the archivist advertisement distinction between `replication-guarantee`
+   and `policy-hint`.

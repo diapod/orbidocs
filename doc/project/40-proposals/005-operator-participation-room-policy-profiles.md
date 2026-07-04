@@ -115,7 +115,9 @@ Implications:
 
 - direct human-origin flags are mandatory,
 - room moderation and transcript policy must handle live human-linked input explicitly,
-- archival and training policy will usually be stricter than for purely node-generated material.
+- archival and training policy will usually be stricter than for purely node-generated material,
+- secretary presence or a stronger moderator profile is required before this profile
+  may be activated.
 
 Use when:
 
@@ -140,6 +142,10 @@ Rationale:
 
 This is a recommendation, not a hard prohibition. Federations may choose stricter or looser defaults, but they should justify departures and surface them clearly.
 
+`global` rooms may use `direct-live-allowed` only through audited exception
+profiles. The exception profile must be named and logged; a generic global-room
+classification is not enough to enable direct live human participation.
+
 ## Policy Contract
 
 At minimum, room metadata should expose:
@@ -161,11 +167,16 @@ For `direct-live-allowed`, the minimum contract becomes:
   "room-policy/profile": "direct-live-allowed",
   "operator-consultation/allowed": true,
   "operator-direct-live/allowed": true,
+  "direct-live/accountability-profile": "secretary-present",
   "human-live/origin-flag-required": true,
   "summary/human-provenance-required": true,
-  "transcript/human-origin-preserved": true
+  "transcript/human-origin-preserved": true,
+  "retention/defaults-ref": "retention-profile:room-default"
 }
 ```
+
+`retention/defaults-ref` is optional profile metadata. Concrete retention policy
+may override it; participation semantics and storage semantics remain separate.
 
 ## Upgrade and Downgrade Rules
 
@@ -192,9 +203,20 @@ Rules:
 
 ## Open Questions
 
-1. Should `direct-live-allowed` require stronger room moderators or secretary presence?
-2. Should `global` rooms ever allow `direct-live-allowed` under exception profiles?
-3. Should room profiles bind retention defaults as well, or remain strictly participation-only?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-04:
+
+1. `direct-live-allowed` requires either secretary presence or a stronger room
+   moderator profile. The profile must make the accountability layer visible to
+   operators and participants.
+2. `global` rooms may allow `direct-live-allowed` only through audited exception
+   profiles. The exception profile must be explicit rather than inferred from a
+   generic global room classification.
+3. Room profiles may bind optional retention defaults. Concrete retention
+   policy may still override those defaults, so participation semantics and
+   storage semantics remain separable.
 
 ## Next Actions
 
@@ -202,3 +224,10 @@ Rules:
 2. Bind transcript schema fields to these profiles.
 3. Define client UX rules for displaying and filtering human-linked contributions.
 4. Define federation override policy and exception logging for profile changes.
+5. Define audited exception profiles for any `global` room that enables
+   `direct-live-allowed`.
+6. Define validation for `direct-live/accountability-profile`, requiring either
+   secretary presence or a stronger moderator profile before direct live human
+   participation is admitted.
+7. Define optional retention defaults bound to room profiles while preserving
+   concrete retention policy as the final storage authority.

@@ -265,6 +265,8 @@ proposal:
   contracts and are materialized by the daemon as first-class committed records.
 - The daemon collects offers, ranks them deterministically, selects one responder,
   forms one contract, accepts one response, and commits one receipt.
+- Equal composite offer scores are resolved by the deterministic precedence tuple
+  `(lower price, earlier deadline, higher provider reputation, lexical offer/id)`.
 - Zero-price execution uses the same contract/receipt join points without creating
   a settlement hold.
 - Paid execution is settlement-aware: it creates local holds through the deployment
@@ -281,6 +283,9 @@ proposal:
 - `response-envelope.v1` may carry `contract/id` before `receipt/id` exists; the
   receipt is a later audit and settlement artifact produced by the procurement
   lifecycle.
+- `response-envelope.v1` carries both a composite confidence value and decomposed
+  factors such as retrieval coverage and arbiter outcome. The composite is a
+  convenience projection; the decomposed factors are the audit carrier.
 - The current runtime gate is a daemon control-plane boundary: JSON artifacts are
   schema-gated before daemon decoding and the HTTP mutation surface still requires
   the local control token. Domain-level Ed25519 verification of participant and
@@ -311,13 +316,22 @@ Still out of scope for this MVP slice:
 
 ## Open Questions
 
-1. What exact deterministic tie-break order should be used when offers score equally?
-2. Should `response-envelope` carry composite confidence only, or also decomposed
-   factors such as retrieval coverage and arbiter outcome?
-3. Should a future `dispute-case` artifact be attached to `procurement-receipt`, or
-   should it live as a separate lifecycle family?
-4. Which fields should remain mandatory for `pod-client` delegated publication versus
-   transport-specific wrappers outside the core artifact?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-04:
+
+1. Equal offer scores are resolved by a deterministic tuple: lower price, earlier
+   deadline, higher provider reputation, then lexical `offer/id`.
+2. `response-envelope` carries both composite confidence and decomposed factors
+   such as retrieval coverage and arbiter outcome. The composite value is the
+   convenience view; the factors are the audit view.
+3. A future `dispute-case` artifact lives as a separate lifecycle family with
+   references to the procurement receipt. The receipt remains a settlement
+   artifact rather than the container for the whole dispute process.
+4. The core artifact remains minimal for `pod-client` delegated publication.
+   Transport-specific fields belong in transport wrappers outside the core
+   artifact.
 
 ## Next Actions
 
@@ -330,6 +344,11 @@ Still out of scope for this MVP slice:
    profile becomes an implementation target.
 5. Add participant/nym signature verification before accepting procurement artifacts
    from peer-facing or otherwise untrusted ingress surfaces.
+6. Add conformance fixtures for equal-score offer ranking that exercise each
+   deterministic tiebreak level: price, deadline, provider reputation, and lexical
+   `offer/id`.
+7. Add the decomposed confidence-factor field family to `response-envelope.v1`;
+   composite confidence remains a derived convenience view.
 
 ## Tracking
 

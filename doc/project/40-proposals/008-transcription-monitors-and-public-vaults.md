@@ -117,6 +117,10 @@ Purpose:
 - advertise retrieval and replication capability,
 - expose vault material under declared publication scope.
 
+Archivists replicate raw bundles and redacted bundles as separate artifacts under
+separate policies. Raw and redacted material must not share one indistinct custody
+surface; each artifact carries its own retention, access-control, and audit trail.
+
 ### 2. Preservation targets
 
 Transcript preservation should retain:
@@ -154,6 +158,10 @@ The system should support at least three publication timing profiles:
 `curator-gated` should be the safest default for high-sensitivity or human-linked
 material.
 
+`live-mirror` outside tightly scoped rooms is allowed only for emergency profiles or
+explicitly public event profiles. The room must make live onward transmission visible
+before it starts.
+
 ### 5. Selection and non-surveillance rule
 
 Transcript preservation is not ambient logging.
@@ -169,6 +177,9 @@ If a monitor cannot establish whether archival export is allowed, it may preserv
 the minimum internal evidence needed for later authorized review, not publish by
 default.
 
+Monitor observation always requires room-visible declaration. Federation policy may
+authorize the monitor, but visibility is the participation and consent boundary.
+
 ## Trade-offs
 
 1. Stronger cultural memory vs higher privacy burden:
@@ -183,15 +194,31 @@ default.
 
 ## Open Questions
 
-1. When should live-mirror mode ever be allowed outside tightly scoped rooms?
-2. Should archivists replicate raw and redacted bundles separately?
-3. What minimum curator quorum, if any, is needed before public-vault promotion?
-4. Should monitors be permitted to observe by federation policy alone, or always by
-   room-visible declaration?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-04:
+
+1. Live-mirror mode is allowed outside tightly scoped rooms only for emergency
+   profiles or explicitly public event profiles. The room must make live onward
+   transmission visible before it begins.
+2. Archivists replicate raw bundles and redacted bundles as separate artifacts
+   under separate policies. Raw and redacted material must not share one
+   indistinct custody surface.
+3. Public-vault promotion requires a minimum `2-of-3` curator quorum. A single
+   curator is insufficient for default public promotion.
+4. Monitor observation always requires a room-visible declaration. Federation
+   policy may authorize the monitor, but visible declaration is the participation
+   and consent boundary.
 
 ## Next Actions
 
 1. Align transcript role semantics with `requirements-004-transcript-curation.md`.
 2. Define publication-state vocabulary for transcript bundles and vault promotion.
-3. Define archivist advertisement and replication contract.
+3. Define archivist advertisement and replication contract, including separate raw
+   and redacted artifact families under separate policies.
 4. Define curator review and redaction workflow for public-vault promotion.
+5. Define the `2-of-3` curator quorum contract for public-vault promotion; a single
+   curator is insufficient for default public promotion.
+6. Define the room-visible monitor declaration contract and fail-closed behavior when
+   declaration or publication permission is missing.

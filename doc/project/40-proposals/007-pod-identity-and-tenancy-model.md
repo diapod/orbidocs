@@ -123,6 +123,10 @@ At minimum, `pod-user-id` should have:
 - revocation / suspension state,
 - optional linkage to stronger identity roots.
 
+The baseline preserves pseudonymous operation. `pod-user-id` becomes mappable to
+`anchor-identity` only when a stronger federation profile explicitly selects that
+accountability mode.
+
 Device authorization for a hosted user MUST require the hosted user's own key
 material, not only the serving node's key. Otherwise `pod-user-id` collapses into
 a host-owned sub-identity of the operator instead of remaining a distinct
@@ -207,6 +211,10 @@ Default reputation behavior should be:
 - device trust signals attach to `client-instance-id` but do not become public
   reputation by default.
 
+Reputation transfer across pod hosts is never automatic in the baseline. It requires
+review or an explicit import policy so that migration preserves continuity without
+turning hosting history into an ambient trust grant.
+
 This prevents two opposite errors:
 
 - punishing every hosted user for operator failure,
@@ -220,12 +228,14 @@ A hosted user may need one or more public-facing pseudonyms.
 The baseline rule should be:
 
 - public rooms and protocol events may show `nym` rather than `pod-user-id`,
+- one `pod-user-id` may hold multiple scoped public `nym`s at once,
 - the serving node must still maintain a procedural mapping from that public face to
   the hosted identity,
 - federations may restrict how many simultaneously active public `nym`s one hosted
   user may maintain in sensitive roles.
 
-This keeps public participation workable without losing internal accountability.
+Scopes are the accountability boundary. This keeps public participation workable
+without losing internal accountability.
 
 ### 7. Portability profiles
 
@@ -333,15 +343,32 @@ Mitigation:
 - layered escalation only on evidence,
 - session and device trace separation.
 
+Device/session restrictions, rate limits, and attachment revocation are the
+sanctions allowed at `client-instance-id` level. Broader reputation sanctions attach
+to `pod-user-id` or a higher subject, not to the device identifier.
+
 ## Open Questions
 
-1. Should `pod-user-id` always be mappable to `anchor-identity`, or only in stronger
-   federation profiles?
-2. Can one `pod-user-id` hold multiple scoped public `nym`s at once?
-3. Should federations allow transfer of reputation across `pod` hosts automatically or
-   only after review?
-4. Which sanctions should be allowed at `client-instance-id` level only?
-5. How much of `pod-user-id` continuity should be visible to other swarm participants?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-04:
+
+1. `pod-user-id` is mappable to `anchor-identity` only in stronger federation
+   profiles. The baseline preserves pseudonymous operation unless a stronger
+   accountability profile is explicitly selected.
+2. One `pod-user-id` may hold multiple scoped public `nym`s at once. The scopes
+   are the accountability boundary and must remain visible in the relevant
+   artifacts.
+3. Reputation transfer across `pod` hosts is allowed only through review or an
+   explicit import policy. There is no automatic cross-host reputation transfer
+   in the baseline.
+4. Device/session restrictions, rate limits, and attachment revocation are the
+   sanctions allowed at `client-instance-id` level only. Broader reputation
+   sanctions must attach to the appropriate higher subject.
+5. Other swarm participants may see only a minimal continuity attestation for a
+   `pod-user-id`, without host history. This preserves useful continuity while
+   avoiding routine migration or hosting disclosure.
 
 ## Next Actions
 
@@ -352,3 +379,10 @@ Mitigation:
 3. Define requirements for hosted-user export and migration bundles.
 4. Define how `pod-user-id` interacts with public `nym` issuance and role thresholds.
 5. Define federation policies for anti-Sybil aggregation of hosted users.
+6. Define reputation transfer policy across `pod` hosts: review or explicit import
+   only, never automatic.
+7. Define the minimal continuity attestation exposed to other swarm participants for
+   `pod-user-id`; it must not disclose host history by default.
+8. Define sanctions scope explicitly: device/session restrictions, rate limits, and
+   attachment revocation at `client-instance-id` level only; broader reputation
+   sanctions attach to `pod-user-id` or a higher subject.

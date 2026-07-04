@@ -367,6 +367,7 @@ Semantic minimum:
 In MVP this artifact should remain narrow:
 
 - approved only by canonical `council:did:key:...`,
+- council-signed only; federation treasury co-signing is post-MVP,
 - limited to `ubc-subsidy`, `infrastructure-support`, and `emergency-relief`,
 - explicitly not used for governance rewards, creator credits, or reputation.
 
@@ -438,6 +439,10 @@ they should form a separate council-approved flow:
 3. one `ledger-transfer.v1` records the actual outflow,
 4. the disbursement artifact points back to that transfer.
 
+The MVP lifecycle ends at `procurement-receipt.v1`. Payout to external money is
+deferred until a separate compliance review; the first MVP supports top-up only and
+keeps egress fee explicitly `null`.
+
 ## Dispute Window and Timeout Cascade
 
 MVP should explicitly support the following operational sequence:
@@ -447,6 +452,10 @@ MVP should explicitly support the following operational sequence:
 with a dispute branch:
 
 `hold -> delivered -> dispute -> arbiter review -> release/refund`
+
+The MVP dispute policy is the smallest acceptable arbiter policy: one arbiter, an
+appeal path, and an audit trail. Multi-arbiter or federation-level arbiter policy is
+post-MVP.
 
 The timeout cascade should be explicit and contract-bound:
 
@@ -539,16 +548,21 @@ when its practical impact is auditable through settlement-facing disclosures.
 
 ## Open Questions
 
-1. Should payout to external money be permitted from day one, or only top-up into
-   the system with later payout enabled after compliance review?
-2. Should egress fee remain explicitly `null` through the first MVP, or should a
-   separate later patch define payout-side fees after the inbound path stabilizes?
-3. Should the first community-pool remain council-controlled only, or should the
-   next phase introduce a multi-approver treasury path?
-4. Should `community-pool-disbursement.v1` stay council-signed only, or should a
-   later phase admit federation treasury co-signing?
-5. What is the smallest acceptable arbiter policy for disputes under `host-ledger`
-   settlement?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-04:
+
+1. MVP permits top-up into the system only. Payout to external money is deferred
+   until after a separate compliance review.
+2. Egress fee remains explicitly `null` through the first MVP. A later payout-fee
+   patch defines payout-side fees after the inbound path stabilizes.
+3. The first community-pool remains council-controlled for MVP. A
+   multi-approver treasury path is a next-phase extension.
+4. `community-pool-disbursement.v1` stays council-signed in MVP. Federation
+   treasury co-signing may be admitted in a later phase.
+5. The smallest acceptable arbiter policy for disputes under `host-ledger`
+   settlement is a single arbiter with an appeal path and audit trail.
 
 ## Next Actions
 
@@ -560,3 +574,9 @@ when its practical impact is auditable through settlement-facing disclosures.
 4. Write concrete engineering requirements for the supervised settlement MVP.
 5. Later, open a separate identity workstream for organization subjects and
    `org:did:key:...`.
+6. Document the MVP boundary as top-up only, no payout, and `egress-fee = null`;
+   payout and payout-fee require a later compliance-reviewed slice.
+7. Document the MVP arbiter policy as single arbiter plus appeal path plus audit
+   trail.
+8. Document the `community-pool` MVP constraint as council-controlled and
+   council-signed only; federation treasury co-signing is a later phase.

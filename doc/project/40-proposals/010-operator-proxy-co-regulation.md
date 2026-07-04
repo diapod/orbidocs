@@ -107,6 +107,12 @@ A node may open or suggest opening the channel when:
 
 Triggers should be logged as inference or operator request, not disguised as certainty.
 
+Opening the channel without an explicit operator request requires high-confidence
+repeated conflict signals. A single weak signal is insufficient. Federations may
+require stronger operator consent before inference-triggered co-regulation starts;
+that requirement is modeled as an opt-in profile rather than as hidden runtime
+discretion.
+
 ### 3. Output classes
 
 Valid output classes include:
@@ -178,6 +184,10 @@ The system should preserve:
 Audit should preserve rationale and boundary compliance, not expose unnecessary private
 content.
 
+Durable transcript storage defaults to metadata and explicitly accepted excerpts.
+A fuller transcript is allowed only as user opt-in encrypted material that only the
+user can later unseal.
+
 ## Trade-offs
 
 1. Better relational support vs paternalism risk:
@@ -192,13 +202,22 @@ content.
 
 ## Open Questions
 
-1. What minimum conflict-signal threshold should justify opening a proxy dialogue
-   without explicit operator request?
-2. Should some federations require stronger operator consent before inference-triggered
-   co-regulation starts?
-3. How much of proxy-channel output, if any, may enter durable transcripts?
-4. Should repeated refusal of care-channel suggestions influence later moderation or
-   safety heuristics?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-04:
+
+1. Opening a proxy dialogue without an explicit operator request requires
+   high-confidence repeated conflict signals. A single weak signal is not enough
+   to initiate the channel.
+2. Federations may require stronger operator consent before inference-triggered
+   co-regulation starts, and this is modeled as an opt-in profile.
+3. Durable transcripts may contain metadata and explicitly accepted excerpts by
+   default. A user may additionally opt in to a fuller transcript encrypted for
+   that user, which only the user can later unseal.
+4. Repeated refusal of care-channel suggestions does not influence moderation or
+   safety heuristics unless an independent abuse pattern is present. Refusal is
+   not itself a safety violation.
 
 ## Next Actions
 
@@ -206,3 +225,7 @@ content.
 2. Define safe default trigger thresholds and disable rules.
 3. Define audit fields for proxy-channel opening, suggestion class, and closure.
 4. Decide whether this channel needs dedicated client UX distinct from ordinary chat.
+5. Define the encrypted fuller-transcript opt-in artifact; default durable transcript
+   storage remains metadata plus accepted excerpts only.
+6. Document the safety invariant that refusal of care-channel suggestions is not
+   itself a moderation or safety violation unless an independent abuse pattern exists.

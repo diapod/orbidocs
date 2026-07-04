@@ -208,14 +208,35 @@ For mediated contributions:
 
 ## Open Questions
 
-1. Should `human-live` messages be allowed in global-scope rooms or only federation-local ones?
-2. What minimum consent basis is needed before direct human live messages may enter archival corpora?
-3. Should client UX expose `human-origin?` as a badge, a filter, or both?
-4. Can a federation require secretary confirmation before human-linked content is promoted into summaries?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-04:
+
+1. `human-live` messages may enter global-scope rooms only through explicit
+   exception profiles. Such profiles must bind consent, retention, moderation,
+   and audit requirements before live human participation is exposed beyond a
+   federation-local trust context.
+2. Direct `human-live` messages require explicit per-room consent before they
+   may enter archival corpora. Per-message consent may be added later for
+   higher-risk profiles, but it is not the baseline.
+3. Client UX exposes `human-origin?` both as a visible badge and as a filter.
+   The badge carries immediate context; the filter lets users and tools select
+   or exclude human-origin material.
+4. A federation may require secretary confirmation before human-linked content
+   is promoted into summaries. This is the default safeguard for turning live
+   human participation into a derived durable artifact.
 
 ## Next Actions
 
 1. Extend transcript requirements to preserve `origin/class` and `operator-presence/mode`.
 2. Extend curation requirements so human-linked material has explicit eligibility gates.
-3. Define room-policy profiles for `none`, `mediated-only`, and `direct-live-allowed`.
+3. Define room-policy profiles for `none`, `mediated-only`, and
+   `direct-live-allowed`, including the explicit exception profile needed before
+   `human-live` may enter global-scope rooms.
 4. Define transcript and summary schemas that preserve gateway-node provenance.
+5. Define client UX rules that expose `human-origin?` both as a visible badge and
+   as a filter.
+6. Define the secretary-confirmation gate for promotion of human-linked content
+   into summaries. Summary promotion must carry the relevant confirmation and
+   `consent/policy-basis` evidence rather than inferring it from room scope.
