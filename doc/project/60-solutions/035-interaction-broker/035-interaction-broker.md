@@ -40,10 +40,16 @@ operator-visible outcomes, and audit. Domain components such as Sensorium
 Workbench, Artifact Delivery, Memarium, approvals, and the deferred-operation
 registry remain the owners of their own facts, effects, and state.
 
-The current implementation state is an unwired Rust foundation in
-`node:interaction-broker-core`. Cross-process broker routes, daemon
-persistence, source registration, operator status, and retention-backed replay
-are not implemented yet.
+The current Node implementation has the contract core in
+`node:interaction-broker-core` and a daemon-owned runtime wired to the host
+capabilities `interaction-broker.wait`, `interaction-broker.watch`, and
+`interaction-broker.probe`. The daemon persists broker resources in
+`<data-dir>/storage/interaction-broker.sqlite`, seeds a source-provider registry
+for the deferred-operation registry and pending Workbench terminal/file
+providers, exposes operator read APIs, and registers broker-owned async waits in
+the host Bounded Deferred Operation registry. Workbench live provider adapters,
+grant-context admission, audit projection, recovery pass, and retention-backed
+replay remain incomplete.
 
 ## Context And Problem Statement
 
@@ -233,7 +239,9 @@ Responsibilities:
 
 Status:
 
-- `partial`: `node:interaction-broker-core` exists and is unwired.
+- `partial`: `node:interaction-broker-core` exists and the daemon wires a first
+  runtime slice for wait/watch/probe admission, broker persistence, operator
+  read APIs, and deferred-operation-backed `OperationDone` waits.
 
 ### Host Broker Runtime
 
@@ -258,7 +266,14 @@ Responsibilities:
 
 Status:
 
-- `planned`.
+- `partial`: the daemon owns an in-process broker runtime, SQLite broker store,
+  host capability dispatch, operator status/read APIs, and Bounded Deferred
+  Operation registration/polling for broker-owned async waits. Broker-level
+  capability readiness means the daemon can validate and dispatch broker
+  requests; source-level availability remains visible per provider at
+  `/v1/interaction-broker/providers`, where Workbench terminal/file providers
+  stay `adapter-pending` until their live adapters are wired. Grant-context
+  admission, full recovery, and retention-backed replay remain incomplete.
 
 ### Source Provider Registry
 
@@ -271,7 +286,9 @@ Responsibilities:
 
 Status:
 
-- `planned`.
+- `partial`: the daemon seeds source-provider registry rows for the
+  deferred-operation registry and pending Workbench terminal/file providers.
+  Dynamic provider registration and Workbench live adapters remain incomplete.
 
 ## May Implement
 
@@ -287,23 +304,31 @@ Status:
 
 ## Open Questions
 
-1. Which source provider should be the first runtime consumer after Workbench:
-   Artifact Delivery artifact presence, approvals, or deferred-operation
-   registry?
+1. Which source provider should be the first runtime consumer after the
+   deferred-operation registry and Workbench terminal/file adapters: Artifact
+   Delivery artifact presence, approvals, or Memarium query state?
 2. Should broker watches use polling only in the first daemon runtime, or should
    source providers be able to push events into the broker store?
 3. What is the smallest operator UI shape that makes pending waits useful
    without exposing raw terminal or file content?
+4. What retry/backoff policy should broker-owned deferred waits expose after the
+   first daemon slice: fixed one-second retry hints, bounded exponential backoff,
+   or source-provider supplied retry advice?
+5. Should an `interaction-broker.wait` grant be sufficient for observing an
+   operation owned by another capability, or must the caller also hold an
+   intersecting grant for the observed operation's source/effect domain?
+6. Should broker wait `deadline_at` remain a separate broker-resource admission
+   field beside deferred-operation `expires_at`, or should one timestamp become
+   authoritative for async waits?
 
 ## Next Actions
 
-- Add daemon storage migrations and an unwired broker service skeleton.
-- Define the broker-owned source-provider registration contract and the
-  Workbench-owned terminal/file provider adapter responsibilities for the first
-  Workbench source provider.
-- Wire broker resources to the daemon Bounded Deferred Operation registry for
-  async waits.
-- Add operator status/read APIs after persistence and recovery semantics are
-  implemented.
-- Extend conformance tests from the existing core-level schema and validation
-  coverage into daemon admission, grant, recovery, and replay behavior.
+- Wire the Workbench-owned terminal/file provider adapters into the
+  broker-owned source-provider registry.
+- Add explicit grant-context admission and host audit projection for
+  wait/watch/probe dispatch.
+- Add daemon startup recovery and retention-backed replay semantics for broker
+  resources.
+- Extend conformance tests from core-level schema validation and
+  deferred-operation-backed waits into provider recovery, watch cursors, grants,
+  retention, replay, and Workbench adapter failure behavior.

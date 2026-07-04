@@ -42,12 +42,11 @@ Related schemas:
 
 Partial implementation foundation.
 
-The contract, schema, conformance-vector, capability-registration, and opt-in
-local connector foundation exist. The remaining solution work is the
-daemon-owned Interaction Broker runtime, host-issued grant context, host audit
-projection, host Bounded Deferred Operation registration for longer Workbench
-operations, broader adversarial actuator coverage, and future virtualized
-backends.
+The contract, schema, conformance-vector, capability-registration, opt-in local
+connector foundation, and daemon-owned Interaction Broker runtime slice exist.
+The remaining solution work is Workbench live terminal/file provider adapter
+registration with the broker, host-issued grant context, host audit projection,
+broader adversarial actuator coverage, and future virtualized backends.
 
 ## Date
 
@@ -309,9 +308,12 @@ Responsibilities:
 Status:
 
 - `partial`: connector-local waits/probes/watches and deferred status
-  projection exist. Daemon-owned Interaction Broker runtime, durable broker
-  store, source-provider registry, Workbench provider-adapter registration, and
-  host Bounded Deferred Operation registration remain future work.
+  projection exist. The daemon-owned Interaction Broker runtime now provides
+  host capability dispatch, durable broker resource storage, seeded provider
+  registry rows, operator read APIs, and host Bounded Deferred Operation
+  registration/polling for broker-owned waits. Workbench live terminal/file
+  provider-adapter registration, grant-context admission, and host audit
+  projection remain future work.
 
 ### Storage, Recovery, and Operator Visibility
 

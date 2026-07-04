@@ -106,7 +106,7 @@
     "Require explicit status-read grants"
     "Prevent wait timeout or maybe_hung diagnostics from authorizing process termination"]
    :status :partial
-   :status-detail "Connector-local waits/probes/watches and deferred status projection exist; daemon broker runtime, source-provider registration, and host BDO registration remain future work."}
+   :status-detail "Connector-local waits/probes/watches and deferred status projection exist. The daemon now owns the Interaction Broker runtime slice with durable broker resource storage, seeded provider registry rows, operator read APIs, and BDO registration/polling for broker-owned waits; Workbench live terminal/file adapters, grant-context admission, and host audit projection remain future work."}
 
   {:cap/id :sensorium-workbench-storage-recovery-status
    :title "Storage, Recovery, and Operator Visibility"

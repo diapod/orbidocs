@@ -40,7 +40,8 @@
     "Register async waits in the host deferred-operation registry"
     "Expose operator-visible status for active and terminal broker resources"
     "Recover interrupted waits, watches, and probes explicitly on daemon startup"]
-   :status :planned}
+   :status :partial
+   :status-detail "The daemon now wires an in-process broker runtime, SQLite resource store, host capability dispatch, operator read APIs, and BDO registration/polling for broker-owned async waits. Capability-provider readiness here reflects broker dispatch liveness; concrete source-provider readiness is reported separately by /v1/interaction-broker/providers, where Workbench terminal/file providers remain adapter-pending. Grant-context admission, full recovery, and retention-backed replay remain incomplete."}
 
   {:cap/id :source-provider-registry
    :title "Source Provider Registry"
@@ -51,7 +52,8 @@
    ["Let Workbench, Artifact Delivery, Memarium, approvals, and deferred-operation registry provide bounded observation/probe adapters"
     "Keep source facts and concrete probe mechanics owned by their domain component"
     "Prevent broker code from reaching into component-private stores"]
-   :status :planned}]
+   :status :partial
+   :status-detail "The daemon seeds provider rows for the deferred-operation registry and pending Workbench terminal/file adapters; dynamic provider registration and live Workbench adapters remain incomplete."}]
 
  :may-implement
  [{:cap/id :cross-source-joins
@@ -81,4 +83,4 @@
  :notes
  ["Interaction Broker is horizontal host coordination, not a Sensorium Core feature."
   "Timeouts and suspected hangs are diagnostics; process termination remains a connector/operator directive."
-  "The current Node implementation is an unwired core crate, not a daemon runtime."]}
+  "The current Node implementation includes a daemon runtime slice for wait/watch/probe admission, broker persistence, operator read APIs, and deferred-operation-backed waits; live Workbench adapters and full recovery/replay remain future work."]}
