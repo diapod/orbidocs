@@ -1,0 +1,29 @@
+{
+  "schema": "weak-signal-finding.v1",
+  "finding/id": "finding:filesystem-retaliation-001",
+  "created/at": "2026-07-04T12:00:00Z",
+  "source/classes": ["filesystem-text", "markdown"],
+  "signal/polarity": "problem",
+  "topic/class": "workplace-retaliation",
+  "finding/summary": "Several local notes mention similar retaliation patterns after escalation.",
+  "finding/confidence": "low",
+  "finding/group-key": "sha256:8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4",
+  "finding/supersedes": [],
+  "source/refs": [
+    {
+      "source/ref": "file:notes/workplace/escalation.md",
+      "source/digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "source/title": "Escalation notes",
+      "source/snippet/redacted": "Three notes describe similar retaliation patterns after escalation.",
+      "source/observed-at": "2026-07-04T11:58:00Z"
+    }
+  ],
+  "privacy/review-required": true,
+  "privacy/flags": ["contains-sensitive-context", "raw-source-local-only", "redaction-required"],
+  "suggested/actions": ["whisper-draft", "local-note"],
+  "harvester/ref": "harvester:local-filesystem-text",
+  "metadata": {
+    "adapter": "filesystem-markdown-text",
+    "scan_id": "scan:2026-07-04T12:00:00Z"
+  }
+}

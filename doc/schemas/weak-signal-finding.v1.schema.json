@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.orbiplex.ai/weak-signal-finding.v1.schema.json",
+  "title": "Weak Signal Finding v1",
+  "description": "Candidate weak-signal finding emitted by a local Harvester and imported into node review. This is not a publication artifact and does not authorize Whisper publication by itself.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/20-memos/orbiplex-whisper.md",
+    "doc/project/20-memos/orbiplex-monus.md",
+    "doc/project/40-proposals/078-weak-signal-harvester.md"
+  ],
+  "required": [
+    "schema",
+    "finding/id",
+    "created/at",
+    "source/classes",
+    "finding/summary",
+    "finding/confidence",
+    "finding/group-key",
+    "source/refs",
+    "privacy/review-required",
+    "suggested/actions"
+  ],
+  "properties": {
+    "schema": { "const": "weak-signal-finding.v1" },
+    "finding/id": {
+      "type": "string",
+      "pattern": "^finding:[A-Za-z0-9._:-]{6,160}$"
+    },
+    "created/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source/classes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["document", "mail", "note", "filesystem-text", "markdown", "mbox", "maildir", "sensorium", "manual"]
+      }
+    },
+    "signal/polarity": {
+      "type": "string",
+      "enum": ["problem", "idea", "question", "context", "mixed"]
+    },
+    "topic/class": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "finding/summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "finding/confidence": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "finding/group-key": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "finding/supersedes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^finding:[A-Za-z0-9._:-]{6,160}$"
+      }
+    },
+    "source/refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/source_ref" }
+    },
+    "privacy/review-required": { "const": true },
+    "privacy/flags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "contains-personal-data",
+          "contains-sensitive-context",
+          "metadata-stripped",
+          "raw-source-local-only",
+          "redaction-required",
+          "whistleblower-risk"
+        ]
+      }
+    },
+    "suggested/actions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["whisper-draft", "local-note", "ignore", "assistance-request"]
+      }
+    },
+    "harvester/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "number", "integer", "boolean", "null"]
+      },
+      "maxProperties": 32
+    }
+  },
+  "$defs": {
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source/ref", "source/digest"],
+      "properties": {
+        "source/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "source/digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "source/snippet/redacted": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "source/title": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "source/observed-at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

@@ -107,6 +107,14 @@ Recent component deltas:
   grounds `federation-local`, `cross-federation`, and `global` exposure in the
   active P076 `federation_id` instead of letting any carrier define federation
   authority.
+- Proposal 078 now has its local post-hard-MVP intake spine implemented: the
+  canonical `weak-signal-finding.v1` schema and fixtures are schema-gated at
+  import/export, daemon exposes explicit operator import/list/detail/review
+  endpoints, a dedicated SQLite Harvester review store owns review state, the
+  first filesystem Markdown/text adapter is bounded under the node data-dir, and
+  accepted findings can create local Whisper draft stubs without publishing.
+  Directory-watch automation, network-capable harvesting, public gateway intake,
+  and collector corroboration remain deferred profiles.
 - Proposal 018 / Solution 040 is no longer a low-coverage placeholder. Code review on
   2026-06-22 confirmed schema-gated `participant-capability-limits.v1`
   import/export, durable daemon replay, operator HTTP import/list/detail/clear,
@@ -410,7 +418,7 @@ Recent component deltas:
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `false` | `false` | `false` | `42` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
 | [Proposal 077: Swarm Broadcast Assistance](../40-proposals/077-swarm-broadcast-assistance.md) | `false` | `false` | `false` | `15` |
-| [Proposal 078: Weak Signal Harvester](../40-proposals/078-weak-signal-harvester.md) | `false` | `false` | `false` | `15` |
+| [Proposal 078: Weak Signal Harvester](../40-proposals/078-weak-signal-harvester.md) | `false` | `true` | `false` | `68` |
 | [Proposal 079: Cross-Federation Alliance](../40-proposals/079-cross-federation-alliance.md) | `false` | `false` | `false` | `45` |
 
 ## Solutions

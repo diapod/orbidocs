@@ -138,8 +138,9 @@ node owns the review state and audit facts.
 
 ### 3. Candidate finding shape
 
-The eventual schema should be `weak-signal-finding.v1`. The minimal semantic
-shape is:
+The canonical schema is
+[`weak-signal-finding.v1.schema.json`](../../schemas/weak-signal-finding.v1.schema.json).
+The minimal semantic shape is:
 
 ```json
 {
@@ -207,6 +208,34 @@ action. Possible review outcomes:
 Approval of a finding is not approval to publish. It only authorizes the next
 local draft or workflow step. Whisper still owns redaction, disclosure posture,
 and publication approval.
+
+#### MVP implementation decisions
+
+The Node MVP implementation freezes these operational choices:
+
+- `POST /v1/weak-signal-harvester/import` accepts either a direct
+  `weak-signal-finding.v1` artifact or an operator wrapper carrying
+  `finding` plus optional `import/source`; both paths enter the same
+  schema-gated import function.
+- `POST /v1/weak-signal-harvester/filesystem-text/import` reads only
+  Markdown/text sources under `<data-dir>/weak-signal-harvester/sources`.
+  The runtime canonicalizes the source root and candidate path before reading
+  and rejects symlinks or other resolutions that escape the sources root.
+- The filesystem adapter is intentionally redaction-light: it normalizes and
+  bounds `source/snippet/redacted`, but it also sets `redaction-required`.
+  Human/model redaction remains a later review or Whisper publication gate.
+- `accepted` review creates a local Whisper draft stub by default unless the
+  operator request sets `create/whisper-draft = false`. The draft carries
+  `publication/state = "not-published"` and has no publication authority.
+- Repeating the same terminal review outcome is idempotent and returns a
+  `review/no-op = true` receipt rather than mutating `reviewed/by` or
+  `review/note`.
+- Listing findings with an unknown `status` query value is rejected with
+  `400 Bad Request`; empty result sets are reserved for valid statuses that
+  currently have no rows.
+- The status directories under `findings/{incoming,accepted,rejected,archived}`
+  are convention markers and future export/materialization roots. The dedicated
+  review store remains the source of truth in the MVP.
 
 ### 6. Relationship to Whisper
 
@@ -410,11 +439,11 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 | ID | Task | Status | Notes |
 |---|---|---|---|
-| P078-001 | Define findings directory convention | todo | Include incoming/accepted/rejected/archive semantics, immutable write rule, and import digest behavior. |
-| P078-002 | Define `weak-signal-finding.v1` candidate schema | todo | Introduce immediately as a canonical schema; must include source refs, group key, confidence, and privacy flags. |
-| P078-003 | Node import and review read-model | todo | MVP import is an explicit operator action into a dedicated Harvester review store; continuous directory watch is a later opt-in profile. |
-| P078-004 | Whisper draft handoff | todo | Accepted finding can create a local Whisper draft, not publish directly. |
-| P078-005 | First source adapter acceptance fixture | todo | Use filesystem Markdown/text as the first acceptance source adapter. |
+| P078-001 | Define findings directory convention | done | Node creates `<data-dir>/weak-signal-harvester/findings/{incoming,accepted,rejected,archived}` plus a controlled `sources/` root; imported findings are digest-addressed and review state is node-owned. |
+| P078-002 | Define `weak-signal-finding.v1` candidate schema | done | Canonical schema and positive/negative fixtures exist; schema-gate validates import/export and enforces source refs, group key, confidence, privacy flags, and mandatory review. |
+| P078-003 | Node import and review read-model | done | Daemon exposes explicit operator import/list/detail/review endpoints backed by a dedicated SQLite Harvester review store; continuous directory watch remains a later opt-in profile. |
+| P078-004 | Whisper draft handoff | done | Accepted findings can create a local `weak-signal-whisper-draft.local.v1` stub with `publication/state = not-published`; Whisper publication remains a separate approval gate. |
+| P078-005 | First source adapter acceptance fixture | done | Filesystem Markdown/text import is the first adapter: it reads only under the configured Harvester `sources/` root, bounds source size/snippets, and emits schema-valid findings. |
 | P078-006 | Inquirium/Agent-assisted grouping profile | deferred | Bounded model-assisted clustering and summarization; model output remains advisory. |
 | P078-007 | Network-capable Harvester profile | deferred | Future Artifact Delivery handoff profile for explicitly configured remote sources; still findings-only and bounded/quarantined. |
 | P078-008 | Public Harvester Gateway profile | deferred | Separate future proposal for public web/API intake, attachment quarantine, receipt tokens, redacted finding promotion, and reviewer queue; P078 only keeps hook compatibility. |
@@ -422,8 +451,9 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 ## Next Actions
 
-1. Draft `weak-signal-finding.v1`.
-2. Implement explicit operator import into the dedicated Harvester review store.
-3. Add the filesystem Markdown/text source adapter and acceptance fixture.
-4. Wire accepted finding -> local Whisper draft, preserving the separate
-   publication approval gate.
+1. Add an operator UI surface for reviewing imported findings and local Whisper
+   draft stubs.
+2. Decide whether a bounded directory-watch import profile is worth adding
+   before public gateway work.
+3. Keep network-capable and public gateway profiles deferred until their
+   quarantine, receipt, and reviewer contracts are first-class.

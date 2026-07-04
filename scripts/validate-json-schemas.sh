@@ -299,6 +299,9 @@ schema_for_file() {
     *.alliance-policy.json)
       echo "$SCHEMAS_DIR/alliance-policy.v1.schema.json"
       ;;
+    *.weak-signal-finding.json)
+      echo "$SCHEMAS_DIR/weak-signal-finding.v1.schema.json"
+      ;;
     *.seed-directory-query-attestation.json)
       echo "$SCHEMAS_DIR/seed-directory-query-attestation.v1.schema.json"
       ;;

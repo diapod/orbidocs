@@ -1,0 +1,17 @@
+{
+  "schema": "weak-signal-finding.v1",
+  "finding/id": "finding:no-review-001",
+  "created/at": "2026-07-04T12:00:00Z",
+  "source/classes": ["filesystem-text"],
+  "finding/summary": "This invalid finding skips review.",
+  "finding/confidence": "low",
+  "finding/group-key": "sha256:8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4",
+  "source/refs": [
+    {
+      "source/ref": "file:notes/private.md",
+      "source/digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    }
+  ],
+  "privacy/review-required": false,
+  "suggested/actions": ["whisper-draft"]
+}
