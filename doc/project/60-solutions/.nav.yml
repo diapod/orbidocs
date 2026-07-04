@@ -43,3 +43,8 @@ nav:
   - "035-interaction-broker/035-interaction-broker.md"
   - "036-room/036-room.md"
   - "037-capability-registry/037-capability-registry.md"
+  - "038-corpus/038-corpus.md"
+  - "039-notifications/039-notifications.md"
+  - "040-capability-limited-restrictions/040-capability-limited-restrictions.md"
+  - "041-federation-root/041-federation-root.md"
+  - "042-sensorium-workbench/042-sensorium-workbench.md"

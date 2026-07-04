@@ -1,4 +1,4 @@
-# Solution 042: Inter-Node Artifact Channel (INAC) — Implementation Guidelines
+# Proposal 042 Implementation Guidelines: Inter-Node Artifact Channel (INAC)
 
 Proposal: `doc/project/40-proposals/042-inter-node-artifact-channel.md`
 

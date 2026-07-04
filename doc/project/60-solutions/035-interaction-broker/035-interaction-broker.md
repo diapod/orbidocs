@@ -3,6 +3,7 @@
 Based on:
 
 - `doc/project/40-proposals/071-sensorium-workbench.md`
+- `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`
 - `doc/project/40-proposals/055-bounded-deferred-operation-contract.md`
 - `doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md`
 - `doc/project/60-solutions/030-sensorium/030-sensorium.md`
@@ -61,8 +62,9 @@ pending status. That would couple domains that should stay independent and make
 operator diagnosis hard.
 
 Proposal 071 names Sensorium Workbench as the first concrete pressure point for
-this primitive, but the broker is deliberately horizontal. Workbench is only one
-observation source family.
+this primitive, and the promoted Sensorium Workbench solution now owns that
+actuator boundary. The broker remains deliberately horizontal. Workbench is only
+one observation source family.
 
 ## Proposed Model / Decision
 
@@ -138,6 +140,14 @@ cross-source wait/watch/probe admission and operator-visible wait state.
 Workbench may satisfy a simple connector-local short wait directly only when it
 does not span other components and does not outlive the request. Any cross-source
 join belongs to the host broker.
+
+Source-provider ownership is split deliberately: Interaction Broker owns the
+registration contract, admission checks, source registry, wait/watch/probe
+store, and replay semantics; Workbench owns the terminal/file provider adapter
+that produces observations and probe answers for Workbench-controlled
+resources. The first Workbench terminal/file source provider is therefore a
+joint integration point, not a transfer of Workbench runtime ownership into the
+broker.
 
 Process termination is never broker-owned. If a wait or probe reports
 `maybe_hung`, `no_progress`, `waiting_for_input`, timeout, or probe failure, the
@@ -287,8 +297,13 @@ Status:
 
 ## Next Actions
 
-- Publish JSON Schemas and examples for the current broker DTOs.
 - Add daemon storage migrations and an unwired broker service skeleton.
-- Wire the broker to the shared deferred-operation deterministic id validator.
-- Add conformance tests for cursor/source mismatch, scope mismatch, deadline
-  clamp, malformed deferred ids, and path traversal refusal.
+- Define the broker-owned source-provider registration contract and the
+  Workbench-owned terminal/file provider adapter responsibilities for the first
+  Workbench source provider.
+- Wire broker resources to the daemon Bounded Deferred Operation registry for
+  async waits.
+- Add operator status/read APIs after persistence and recovery semantics are
+  implemented.
+- Extend conformance tests from the existing core-level schema and validation
+  coverage into daemon admission, grant, recovery, and replay behavior.

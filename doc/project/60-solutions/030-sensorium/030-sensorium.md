@@ -320,3 +320,9 @@ Sensorium OS is only the first reference connector. A deployment may replace it
 or run several Sensorium connector middleware modules with different action
 catalogs and grants. Consumers should depend on Sensorium capabilities and
 action contracts, not on a concrete connector module.
+
+Sensorium Workbench is the separate high-impact connector/runtime component for
+terminal sessions, workspace file views, patch application, and local
+interactive work. Its solution-level boundary is owned by
+`doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`
+rather than by this core Sensorium organ document.

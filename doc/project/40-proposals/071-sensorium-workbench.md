@@ -19,10 +19,17 @@ Based on:
 - `doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md`
 - `doc/project/60-solutions/030-sensorium/030-sensorium.md`
 - `doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md`
+- `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`
 
 ## Status
 
-Draft
+Accepted / partial implementation foundation.
+
+The settled solution surface is promoted to
+`doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`.
+This proposal remains the rationale, design history, resolved-decision log, and
+implementation tracker for Workbench. The promoted solution component owns the
+current solution-level responsibility boundary.
 
 ## Date
 
@@ -423,7 +430,7 @@ Waits and probes must be host-owned resources with refs, deadlines,
 classification, idempotency keys, caller identity, grant context, byte caps, and
 explicit outcomes. A wait that can outlive one HTTP request must become a
 Bounded Deferred Operation. `deferred-operation-status.v1` remains the
-canonical lifecycle status model; `sensorium-workbench-wait.outcome.v1` is the
+canonical lifecycle status model; `interaction-broker-wait.outcome.v1` is the
 domain result/projection carried directly by a short synchronous wait or under
 `deferred-operation-status.v1.result` for async waits.
 
@@ -431,7 +438,7 @@ Candidate wait request:
 
 ```json
 {
-  "schema": "sensorium-workbench-wait.request.v1",
+  "schema": "interaction-broker-wait.request.v1",
   "schema/v": 1,
   "wait/ref": "wait:story009-command-ready",
   "correlation/id": "workbench-loop:story009-001",
@@ -454,7 +461,7 @@ Candidate wait outcome:
 
 ```json
 {
-  "schema": "sensorium-workbench-wait.outcome.v1",
+  "schema": "interaction-broker-wait.outcome.v1",
   "schema/v": 1,
   "wait/ref": "wait:story009-command-ready",
   "correlation/id": "workbench-loop:story009-001",
@@ -494,11 +501,11 @@ shape:
   "schema": "deferred-operation-status.v1",
   "schema/v": 1,
   "status": "completed",
-  "operation/id": "deferred:sensorium.workbench.wait:story009-command-ready",
-  "operation/kind": "sensorium.workbench.wait",
+  "operation/id": "deferred:interaction-broker.wait:story009-command-ready",
+  "operation/kind": "interaction-broker.wait",
   "updated_at": "2026-06-23T12:00:00Z",
   "result": {
-    "schema": "sensorium-workbench-wait.outcome.v1",
+    "schema": "interaction-broker-wait.outcome.v1",
     "schema/v": 1,
     "wait/ref": "wait:story009-command-ready",
     "correlation/id": "workbench-loop:story009-001",
@@ -999,10 +1006,10 @@ shape: `schema`, `source_tier`, `effective_tier`, `provenance`,
 | `sensorium-terminal-input.v1` | Bounded raw input event to an existing session. |
 | `sensorium-terminal-event.v1` | Append-only output/status event. |
 | `sensorium-terminal-screen-snapshot.v1` | Bounded model/UI view over recent terminal state. |
-| `sensorium-workbench-watch.v1` | Cursor-bound subscription over a Workbench event source with caps, TTL, and classification. |
-| `sensorium-workbench-wait.request.v1` | Declarative bounded condition over observations, with deadline and idempotency key. |
-| `sensorium-workbench-wait.outcome.v1` | Domain result/projection for a satisfied or terminal wait condition; async lifecycle status is still `deferred-operation-status.v1`. |
-| `sensorium-workbench-probe.v1` | Active bounded check for liveness, readiness, file state, artifact presence, or progress. |
+| `interaction-broker-watch.v1` | Cursor-bound subscription over a registered source provider with caps, TTL, and classification. |
+| `interaction-broker-wait.request.v1` | Declarative bounded condition over observations, with deadline and idempotency key. |
+| `interaction-broker-wait.outcome.v1` | Domain result/projection for a satisfied or terminal wait condition; async lifecycle status is still `deferred-operation-status.v1`. |
+| `interaction-broker-probe.v1` | Active bounded check for liveness, readiness, file state, artifact presence, or progress. |
 | `sensorium-file-snapshot.v1` | Directory/file metadata snapshot under an allowlisted root. |
 | `sensorium-file-read-result.v1` | Bounded file content or artifact ref. |
 | `sensorium-workbench-patch.v1` | Patch proposal artifact and metadata. |

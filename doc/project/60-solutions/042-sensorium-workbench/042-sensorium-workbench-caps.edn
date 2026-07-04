@@ -1,0 +1,200 @@
+{:component/id :orbiplex/sensorium-workbench
+ :component/title "Sensorium Workbench"
+ :component/type :node-attached-actuator
+ :component/status :partial
+
+ :summary
+ "High-impact local workbench actuator for bounded terminal sessions,
+ workspace file views, artifact-backed patch application, waits/probes, and
+ metadata-first recovery under Sensorium and host policy."
+
+ :must-implement
+ [{:cap/id :sensorium-workbench-capability-boundary
+   :title "Workbench Capability Boundary"
+   :kind :authority-boundary
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"
+              "doc/project/60-solutions/030-sensorium/030-sensorium.md"
+              "doc/project/60-solutions/037-capability-registry/037-capability-registry.md"]
+   :schemas ["capability-authorization-policy.v1"
+             "sensorium-workbench-outcome.v1"]
+   :responsibilities
+   ["Register terminal file patch and environment Workbench capability ids"
+    "Keep Workbench authority separate from Sensorium OS grants"
+    "Expose Workbench actions only through Sensorium-mediated connector routing"
+    "Preserve the rule that Inquirium proposes intents but cannot invoke connectors directly"
+    "Bind effect classes to grants caller posture approval mode autonomy floor and COI policy"]
+   :status :partial
+   :status-detail "Capability ids and policy sidecars exist; daemon-issued cryptographic grant context remains future runtime work."}
+
+  {:cap/id :sensorium-workbench-shared-actuation-core
+   :title "Shared Actuation Core"
+   :kind :safety-core
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"
+              "doc/project/40-proposals/048-sensorium-os-connector-action-classes.md"]
+   :schemas ["sensorium-relative-path-address.v1"
+             "sensorium-command-profile.v1"
+             "sensorium-command-intent.v1"
+             "sensorium-pty-resource-caps.v1"]
+   :responsibilities
+   ["Provide reusable path syntax and containment rules"
+    "Reject traversal NUL bytes symlink escape invalid root access and root mismatch"
+    "Validate command profiles as argv data rather than shell strings"
+    "Enforce default-deny workspace roots and variable argv prefix behavior"
+    "Publish golden vectors consumed by Rust and Python conformance tests"]
+   :status :partial
+   :status-detail "Shared Rust cores, schemas, examples, and golden vectors exist; direct Python FFI/RPC consumption remains deferred."}
+
+  {:cap/id :sensorium-workbench-local-connector-runtime
+   :title "Local Workbench Connector Runtime"
+   :kind :connector-runtime
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"
+              "doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md"
+              "doc/project/60-solutions/019-middleware/019-middleware.md"]
+   :schemas ["sensorium-workbench-environment.v1"
+             "sensorium-terminal-session.v1"
+             "sensorium-terminal-command.v1"
+             "sensorium-terminal-event.v1"
+             "sensorium-terminal-screen-snapshot.v1"
+             "sensorium-file-snapshot.v1"
+             "sensorium-file-read-result.v1"
+             "sensorium-workbench-outcome.v1"]
+   :responsibilities
+   ["Run as an opt-in supervised middleware connector"
+    "Admit only explicitly configured host-local workspace roots"
+    "Expose bounded file snapshot and read without ambient filesystem access"
+    "Create bounded PTY sessions only when terminal runtime is explicitly enabled"
+    "Execute structured command intents without shell interpolation"
+    "Keep raw terminal input resize and signal operator-only in the foundation slice"]
+   :status :partial
+   :status-detail "The opt-in connector runtime exists for host-local workspaces; lifecycle integration, recovery projection, and broader runtime hardening remain future work."}
+
+  {:cap/id :sensorium-workbench-patch-artifact-writes
+   :title "Patch and Artifact-Mediated Writes"
+   :kind :effect-boundary
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"]
+   :schemas ["sensorium-workbench-patch.v1"
+             "sensorium-workbench-patch-apply-result.v1"
+             "sensorium-file-read-result.v1"]
+   :responsibilities
+   ["Require patch apply to consume artifact refs rather than raw model output"
+    "Verify artifact digest and size before application"
+    "Support structured edits and narrow unified-diff application"
+    "Reject deletes by default"
+    "Enforce the same workspace containment and symlink rules as reads"
+    "Record metadata-only outcomes and rollback partial structured writes when possible"]
+   :status :partial
+   :status-detail "Artifact-backed patch apply exists behind grants and operator confirmation; host Artifact Delivery or Memarium handoff remains future work."}
+
+  {:cap/id :sensorium-workbench-interaction-deferred-coordination
+   :title "Interaction and Deferred Coordination"
+   :kind :coordination
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"
+              "doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md"
+              "doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md"]
+   :schemas ["interaction-broker-watch.v1"
+             "interaction-broker-wait.request.v1"
+             "interaction-broker-wait.outcome.v1"
+             "interaction-broker-probe.v1"
+             "deferred-operation.v1"
+             "deferred-operation-status.v1"]
+   :responsibilities
+   ["Expose short waits and probes for command file artifact environment and no-progress conditions"
+    "Implement the Workbench-owned terminal and file source-provider adapter for the broker-owned source registry"
+    "Keep cross-source waits watches and probes host-owned through Interaction Broker"
+    "Project long waits through deferred-operation-status.v1"
+    "Require explicit status-read grants"
+    "Prevent wait timeout or maybe_hung diagnostics from authorizing process termination"]
+   :status :partial
+   :status-detail "Connector-local waits/probes/watches and deferred status projection exist; daemon broker runtime, source-provider registration, and host BDO registration remain future work."}
+
+  {:cap/id :sensorium-workbench-storage-recovery-status
+   :title "Storage, Recovery, and Operator Visibility"
+   :kind :temporal-storage
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"
+              "doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md"]
+   :schemas ["sensorium-terminal-event.v1"
+             "sensorium-workbench-outcome.v1"
+             "interaction-broker-wait.outcome.v1"]
+   :responsibilities
+   ["Keep Workbench and broker stores metadata-first"
+    "Avoid storing raw terminal transcripts file contents prompts source blobs or credentials by default"
+    "Use migrations WAL busy_timeout foreign keys idempotency keys retention windows and replay diagnostics"
+    "Run startup recovery before accepting new local effects"
+    "Surface residual children cleanup failures interrupted waits and degraded recovery facts to operator status"]
+   :status :partial
+   :status-detail "Connector metadata storage and cleanup/recovery facts exist; host/operator projection of recovery telemetry remains future work."}
+
+  {:cap/id :sensorium-workbench-adversarial-conformance
+   :title "Adversarial Actuator Conformance"
+   :kind :conformance-suite
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"]
+   :schemas ["sensorium-relative-path-address.v1"
+             "sensorium-command-profile.v1"
+             "sensorium-terminal-command.v1"
+             "sensorium-workbench-patch-apply-result.v1"]
+   :responsibilities
+   ["Maintain refusal-first golden vectors for path command PTY network credential cleanup idempotency replay broker patch and artifact cases"
+    "Run vectors against shared Rust cores and Python connector tests"
+    "Refuse enabling write or PTY features by default until relevant negative vectors pass"
+    "Keep the conformance suite as the cross-language contract"]
+   :status :partial
+   :status-detail "Initial refusal vectors exist for path, command, patch, artifact, grants, raw input, idempotency, and local waits; broader runtime vectors remain future work."}]
+
+ :may-implement
+ [{:cap/id :sensorium-workbench-virt-backends
+   :title "Sensorium Virt Backends"
+   :kind :future-backend
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"]
+   :schemas ["sensorium-workbench-environment.v1"
+             "sensorium-terminal-session.v1"]
+   :responsibilities
+   ["Interpret the same environment terminal file artifact and teardown contracts over virtualized backends"
+    "Declare locality network policy filesystem roots credential policy teardown policy artifact export policy and resource limits"
+    "Preserve Workbench contracts across backend changes"]
+   :status :deferred}
+
+  {:cap/id :sensorium-workbench-agent-corpus-tool-use
+   :title "Agent and Corpus Tool Use"
+   :kind :future-integration
+   :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"
+              "doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/038-corpus/038-corpus.md"]
+   :schemas ["sensorium-command-intent.v1"
+             "sensorium-workbench-outcome.v1"]
+   :responsibilities
+   ["Let Agent Corpus or Room workflows request bounded Workbench tool use through host policy"
+    "Keep all effects mediated by Sensorium and Workbench grants"
+    "Reject adapters that own terminal or filesystem authority outside the Workbench boundary"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Direct model-to-terminal or model-to-filesystem authority"
+  "Treating Workbench as a new constitutional organ"
+  "Replacing Sensorium Core Sensorium OS Interaction Broker Artifact Delivery Inquirium or Agent"
+  "Public or federated Workbench execution"
+  "Network egress credentials clipboard keychain SSH agent browser profile desktop automation or GUI event injection by default"
+  "Making raw terminal transcripts or file contents durable facts by default"
+  "Using broker waits or probes to kill processes"]
+
+ :consumes
+ ["sensorium-directive.v1"
+  "capability-authorization-policy.v1"
+  "sensorium-command-profile.v1"
+  "sensorium-command-intent.v1"
+  "sensorium-workbench-patch.v1"
+  "interaction-broker-wait.request.v1"
+  "interaction-broker-watch.v1"
+  "interaction-broker-probe.v1"
+  "deferred-operation.v1"]
+
+ :produces
+ ["sensorium-workbench-environment.v1"
+  "sensorium-terminal-session.v1"
+  "sensorium-terminal-event.v1"
+  "sensorium-terminal-screen-snapshot.v1"
+  "sensorium-file-snapshot.v1"
+  "sensorium-file-read-result.v1"
+  "sensorium-workbench-patch-apply-result.v1"
+  "sensorium-workbench-outcome.v1"
+  "interaction-broker-wait.outcome.v1"]}
