@@ -89,10 +89,11 @@
    :schemas ["alliance-policy.v1"]
    :responsibilities
    ["Treat alliance-policy.v1 as a unilateral cross-federation policy half"
+    "Verify one policy half against the issuer federation root and custody policy"
     "Resolve active alliances by matching fresh halves and intersecting allowed scopes minus denied scopes"
     "Keep alliances as local admission inputs never replacements for artifact capability membership or official-service verification"
     "Allow local-only alliances as valid policy artifacts"]
-   :status :deferred}
+   :status :partial}
 
   {:cap/id :federation-endorsement-remote-cosigning
    :title "Remote Co-Signing Protocol"

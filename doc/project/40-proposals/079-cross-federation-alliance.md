@@ -37,9 +37,10 @@ when every involved federation holds a fresh, matching declaration half. The
 effective scope is the intersection of the halves' `allowed_scopes`, with
 `denied_scopes` overriding any allow.
 
-Runtime enforcement is deferred. The schema and semantics are frozen now so
-future consumers do not invent incompatible meanings for cross-federation
-cooperation.
+The schema, one-half verifier, and active-alliance resolver are now implemented
+as runtime primitives. Distribution, remote root acquisition, revocation
+profile, and consumer-specific admission enforcement remain deferred so future
+consumers do not invent incompatible meanings for cross-federation cooperation.
 
 ## Context and Problem Statement
 
@@ -76,7 +77,7 @@ would be different authority systems hiding under one word.
 
 ## Non-Goals
 
-- Not a cross-federation runtime verifier implementation.
+- Not a consumer-specific runtime admission implementation.
 - Not a remote co-signing or joint ceremony protocol.
 - Not a Seed Directory authority transfer. Seed Directory authority remains
   federation-local unless independently endorsed and verified.
@@ -297,14 +298,21 @@ Schema and fixtures:
 
 ## Open Questions
 
-The concept and minimal policy contract frozen here have no open questions.
-Runtime questions remain tracked as deferred implementation rows below.
+The concept and minimal policy contract frozen here are resolved. Runtime
+distribution and remote-root acquisition questions remain tracked here and as
+deferred implementation rows below.
 
 1. **Remote root acquisition for member verification.** How does a verifier
    obtain and refresh another member federation's active `federation-root.v1`
    when resolving `members[].sovereign_subject_ref` at use time? Sensible
    default for the first runtime slice: local-only import/export of trusted root
    snapshots, with Seed Directory or public distribution deferred until P079-005.
+2. **First distribution and revocation profile.** Should P079-005 start with a
+   daemon-local import/export store for `alliance-policy.v1` halves and local
+   revocation views, or jump directly to Seed Directory/public publication?
+   Sensible default: local-only import/export first, because private alliances
+   are valid and consumer hooks can test the resolver without adding a public
+   distribution authority.
 
 ## Implementation Tracker
 
@@ -314,18 +322,16 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 |---|---|---|---|
 | P079-001 | Define canonical alliance concept and invariants | done | Alliance is cross-federation cooperation above P076's single-federation selector; non-transitive; no Seed Directory authority transfer; no Memarium widening; admission input only. |
 | P079-002 | Define `alliance-policy.v1` schema and fixtures | done | Minimal unilateral policy-half contract with snake_case fields, stable member subject pins, evidence-only root digest/version, closed scope registry, `sequence_no`, publication mode, and deny-overrides-allow semantics. |
-| P079-003 | Runtime verifier for one policy half | deferred | Should reuse the P076 endorsement verifier shape: domain-separated canonical payload, issuer root/custody resolution, issuer subject matching the issuer member entry, `expires_at > issued_at`, unique signer keys, expiry, revocation, sequence rollback refusal, and no cross-pack decision cache. |
-| P079-004 | Active alliance resolver | deferred | Collect matching halves, select highest valid sequence per issuer, verify same member set, compute scope intersection minus denied scopes, and expose local admission decision. Empty effective scope is an explicit auditable state, not silent failure. |
+| P079-003 | Runtime verifier for one policy half | done | Node `capability-binding` now verifies one unilateral half with `alliance-policy.v1\0` domain separation, canonical payload with `signatures` omitted, deterministic `alliance_id` derivation, issuer federation/subject binding, active-root participant/org custody verification through the shared sovereign-subject verifier, `expires_at > issued_at`, skew-tolerant `issued_at`, boundary-instant expiry, local revocation hook, sequence rollback floor, duplicate-signer rejection, and no cross-pack decision cache. |
+| P079-004 | Active alliance resolver | done | Node `capability-binding` now resolves already verified halves by selecting the highest valid sequence per issuer, rejecting same-sequence semantic conflicts, requiring matching member sets, reporting missing halves or empty effective scope as explicit inactive states, and computing effective scope as intersection of allowed scopes minus denied scopes. |
 | P079-005 | Distribution and revocation profile | deferred | Decide whether first runtime transport is local-only import/export, Seed Directory metadata, federation-root-adjacent refs, or public publication. |
 | P079-006 | Room consumer integration | deferred | Room may consume active alliance decisions for `cross-federation` admission, while still verifying room membership/policy independently. |
 | P079-007 | Whisper, Corpus, Artifact Delivery, INAC, and Agora consumers | deferred | Each consumer must map its own operation to the closed scope registry and still verify its own artifacts/capabilities. |
-| P079-008 | MVP readiness follow-through | done | P076-008 is closed as concept plus minimal policy contract; runtime enforcement remains deferred here and is not a hard-MVP release blocker. |
+| P079-008 | MVP readiness follow-through | done | P076-008 is closed as concept plus minimal policy contract; the one-half verifier and active-alliance resolver are implemented, while distribution and consumer-specific admission enforcement remain post-MVP follow-up work and are not hard-MVP release blockers. |
 
 ## Next Actions
 
-1. When a runtime consumer needs alliance enforcement, implement P079-003 and
-   P079-004 before touching consumer-specific policy.
-2. Choose the first distribution profile (likely local-only import/export for a
+1. Choose the first distribution profile (likely local-only import/export for a
    small pilot) and only then wire Seed Directory or public publication.
-3. Add consumer-specific tests that prove alliance is an admission input, not a
+2. Add consumer-specific tests that prove alliance is an admission input, not a
    substitute for artifact, capability, or membership verification.

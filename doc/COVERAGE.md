@@ -41,7 +41,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md) | `19` | `19` | `yes` | `yes` | `7` | `0` |
 | [`agora-vault-entry.v1.schema.json`](schemas-gen/schemas/agora-vault-entry.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `1` |
 | [`agora-vault-ref.v1.schema.json`](schemas-gen/schemas/agora-vault-ref.v1.md) | `9` | `1` | `no` | `yes` | `1` | `0` |
-| [`alliance-policy.v1.schema.json`](schemas-gen/schemas/alliance-policy.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `4` |
+| [`alliance-policy.v1.schema.json`](schemas-gen/schemas/alliance-policy.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `5` |
 | [`answer-room-metadata.v1.schema.json`](schemas-gen/schemas/answer-room-metadata.v1.md) | `16` | `1` | `no` | `yes` | `3` | `1` |
 | [`archival-package.v1.schema.json`](schemas-gen/schemas/archival-package.v1.md) | `17` | `16` | `yes` | `yes` | `1` | `1` |
 | [`archivist-advertisement.v1.schema.json`](schemas-gen/schemas/archivist-advertisement.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
@@ -578,4 +578,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `203`
 - Generated schema docs: `203`
 - Positive examples: `223`
-- Negative examples: `158`
+- Negative examples: `159`

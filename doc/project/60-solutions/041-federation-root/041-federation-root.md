@@ -23,8 +23,9 @@ Related schemas:
 
 Adjacent policy contracts:
 
-- `alliance-policy.v1` (canonical cross-federation admission input; runtime
-  enforcement deferred in Proposal 079)
+- `alliance-policy.v1` (canonical cross-federation admission input; one-half
+  verifier and active-alliance resolver live in Proposal 079; consumer-specific
+  admission enforcement remains deferred)
 
 ## Status
 
@@ -59,10 +60,12 @@ bootstrap candidates, Seed Directory trust, and federation-scoped discovery.
 Runtime consumers still verify artifacts at each use site.
 
 Cross-federation cooperation is deliberately above this component. Proposal
-079's `alliance-policy.v1` may become an admission input for Room, Whisper,
-Corpus, Artifact Delivery, INAC, or Agora bridging, but it does not change the
-single active `federation_id` selected by this solution and does not substitute
-for federation-root or official-service verification.
+079's `alliance-policy.v1` runtime foundation can verify unilateral policy
+halves and resolve an active alliance from matching fresh halves. It may become
+an admission input for Room, Whisper, Corpus, Artifact Delivery, INAC, or Agora
+bridging, but it does not change the single active `federation_id` selected by
+this solution and does not substitute for federation-root or official-service
+verification.
 
 ## Context and Problem Statement
 
@@ -299,9 +302,10 @@ Status:
   itself;
 - switching active federation roots during hot reload;
 - making capability passports official without endorsements;
-- enforcing all cross-federation policy at runtime; Proposal 079 defines the
-  minimal alliance policy contract, while consumer-specific admission remains a
-  future layer;
+- enforcing consumer-specific cross-federation admission; Proposal 079 defines
+  the minimal alliance policy contract plus runtime verifier/resolver
+  foundation, while Room/Whisper/Corpus/AD/INAC/Agora hooks remain future
+  layers;
 - replacing TLS trust policy or Seed Directory replay semantics.
 
 ## Consumes

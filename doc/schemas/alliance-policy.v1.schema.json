@@ -19,7 +19,8 @@
       "doc/schemas/examples/invalid/duplicate-signature.alliance-policy.json",
       "doc/schemas/examples/invalid/unknown-scope.alliance-policy.json",
       "doc/schemas/examples/invalid/non-goals-field.alliance-policy.json",
-      "doc/schemas/examples/invalid/root-digest-as-required-pin.alliance-policy.json"
+      "doc/schemas/examples/invalid/root-digest-as-required-pin.alliance-policy.json",
+      "doc/schemas/examples/invalid/whitespace-federation-id.alliance-policy.json"
     ]
   },
   "required": [
@@ -48,7 +49,8 @@
     "issuer_federation_id": {
       "type": "string",
       "minLength": 1,
-      "description": "Federation that authored this unilateral policy half. MUST be one of `members[].federation_id`; runtime enforces the cross-field invariant."
+      "pattern": "^\\S+$",
+      "description": "Federation that authored this unilateral policy half. Whitespace is forbidden so deterministic alliance id derivation and issuer/member matching remain unambiguous. MUST be one of `members[].federation_id`; runtime enforces the cross-field invariant."
     },
     "issuer_subject_ref": {
       "$ref": "#/$defs/SovereignSubjectRef",
@@ -139,7 +141,8 @@
         "federation_id": {
           "type": "string",
           "minLength": 1,
-          "description": "Member federation id."
+          "pattern": "^\\S+$",
+          "description": "Member federation id. Whitespace is forbidden so deterministic alliance id derivation remains unambiguous."
         },
         "sovereign_subject_ref": {
           "$ref": "#/$defs/SovereignSubjectRef",

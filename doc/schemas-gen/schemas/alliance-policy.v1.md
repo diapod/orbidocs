@@ -41,6 +41,7 @@ Unilateral cross-federation alliance declaration. A cooperation relationship is 
 - [`doc/schemas/examples/invalid/unknown-scope.alliance-policy.json`](../../schemas/examples/invalid/unknown-scope.alliance-policy.json)
 - [`doc/schemas/examples/invalid/non-goals-field.alliance-policy.json`](../../schemas/examples/invalid/non-goals-field.alliance-policy.json)
 - [`doc/schemas/examples/invalid/root-digest-as-required-pin.alliance-policy.json`](../../schemas/examples/invalid/root-digest-as-required-pin.alliance-policy.json)
+- [`doc/schemas/examples/invalid/whitespace-federation-id.alliance-policy.json`](../../schemas/examples/invalid/whitespace-federation-id.alliance-policy.json)
 
 ## Fields
 
@@ -48,7 +49,7 @@ Unilateral cross-federation alliance declaration. A cooperation relationship is 
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `alliance-policy.v1` | Schema discriminator. MUST be exactly `alliance-policy.v1`. |
 | [`alliance_id`](#field-alliance-id) | `yes` | string | Deterministic alliance id derived from the sorted member federation ids and the alliance-policy v1 domain label. |
-| [`issuer_federation_id`](#field-issuer-federation-id) | `yes` | string | Federation that authored this unilateral policy half. MUST be one of `members[].federation_id`; runtime enforces the cross-field invariant. |
+| [`issuer_federation_id`](#field-issuer-federation-id) | `yes` | string | Federation that authored this unilateral policy half. Whitespace is forbidden so deterministic alliance id derivation and issuer/member matching remain unambiguous. MUST be one of `members[].federation_id`; runtime enforces the cross-field invariant. |
 | [`issuer_subject_ref`](#field-issuer-subject-ref) | `yes` | ref: `#/$defs/SovereignSubjectRef` | Sovereign subject in the issuer federation's active root whose custody policy authorizes this declaration. Runtime MUST verify that this subject matches the `members[]` entry for `issuer_federation_id`. |
 | [`sequence_no`](#field-sequence-no) | `yes` | integer | Monotonic sequence number per `(issuer_federation_id, alliance_id)`. Older sequence numbers are rollback candidates. |
 | [`members`](#field-members) | `yes` | array | Federations participating in the alliance. Runtime treats the member set as unordered and requires every active half to name the same set. |
@@ -95,7 +96,7 @@ Deterministic alliance id derived from the sorted member federation ids and the 
 - Required: `yes`
 - Shape: string
 
-Federation that authored this unilateral policy half. MUST be one of `members[].federation_id`; runtime enforces the cross-field invariant.
+Federation that authored this unilateral policy half. Whitespace is forbidden so deterministic alliance id derivation and issuer/member matching remain unambiguous. MUST be one of `members[].federation_id`; runtime enforces the cross-field invariant.
 
 <a id="field-issuer-subject-ref"></a>
 ## `issuer_subject_ref`
