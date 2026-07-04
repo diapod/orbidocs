@@ -4,6 +4,9 @@
 
 Proposal: `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
 
+Cross-federation policy reference:
+`doc/project/40-proposals/079-cross-federation-alliance.md`
+
 Solution: `doc/project/60-solutions/011-whisper/011-whisper.md`
 
 Capability catalog: `doc/project/60-solutions/011-whisper/011-whisper-caps.edn`
@@ -693,7 +696,9 @@ Keep these restrictions explicit in both code and docs during MVP:
   `hard-fail` + `onion-relayed` on a node without such capability
   MUST refuse to publish,
 - threshold detection is local-only in MVP; no cross-federation
-  gossip of interest counts,
+  gossip of interest counts. Any future cross-federation interest exchange
+  must use Proposal 079 alliance policy as an admission input without replacing
+  Whisper's author/disclosure/publication checks,
 - durable promotion requires an explicit user consent step; no
   automatic promotion in MVP,
 - `whisper-threshold-reached.v1` and `association-room-proposal.v1`

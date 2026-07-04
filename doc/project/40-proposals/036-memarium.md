@@ -7,6 +7,7 @@ Based on:
 - `doc/project/30-stories/story-003-remote-memory-preservation.md` (remote memory preservation)
 - `doc/project/40-proposals/012-learning-outcomes-and-archival-contracts.md` (archival contract family)
 - `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md` (Agora orthogonality)
+- `doc/project/40-proposals/079-cross-federation-alliance.md` (cross-federation alliance policy)
 - `doc/project/50-requirements/requirements-003-memory-archivists.md` (archival handoff requirements)
 - `doc/project/60-solutions/000-node/000-node.md` (node-attached roles, archivist/vault handoff)
 - `doc/project/60-solutions/SOLUTIONS.en.md` (memarium provider as attached role)
@@ -312,10 +313,12 @@ become public by accident. Promotion requires:
 
 The same discipline covers federation boundaries. Community-space knowledge
 does not cross into another federation by accident, either: if a
-cross-federation group (Proposal 076) needs to share it, that is the same
-explicit Community-to-Public promotion, riding Agora's federation-agnostic
-substrate, with the same policy validation and provenance fact — never a
-side effect of shared Room/group membership.
+cross-federation group or alliance (Proposal 079) needs to share it, that is
+the same explicit Community-to-Public promotion, riding Agora's
+federation-agnostic substrate, with the same policy validation and provenance
+fact. `alliance-policy.v1` may be an admission input for cross-federation
+cooperation, but it never widens Memarium Federated replication and never
+promotes memory as a side effect of shared Room/group membership.
 
 ### 4. Domain Types
 

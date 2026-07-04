@@ -296,6 +296,9 @@ schema_for_file() {
     *.federation-service-endorsement-revocation.json)
       echo "$SCHEMAS_DIR/federation-service-endorsement-revocation.v1.schema.json"
       ;;
+    *.alliance-policy.json)
+      echo "$SCHEMAS_DIR/alliance-policy.v1.schema.json"
+      ;;
     *.seed-directory-query-attestation.json)
       echo "$SCHEMAS_DIR/seed-directory-query-attestation.v1.schema.json"
       ;;

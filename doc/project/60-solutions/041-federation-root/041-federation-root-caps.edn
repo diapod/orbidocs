@@ -81,7 +81,20 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :federation-endorsement-remote-cosigning
+ [{:cap/id :federation-alliance-policy-contract
+   :title "Cross-Federation Alliance Policy"
+   :kind :future-policy-contract
+   :based-on ["doc/project/40-proposals/076-federation-identity-and-network-selector.md"
+              "doc/project/40-proposals/079-cross-federation-alliance.md"]
+   :schemas ["alliance-policy.v1"]
+   :responsibilities
+   ["Treat alliance-policy.v1 as a unilateral cross-federation policy half"
+    "Resolve active alliances by matching fresh halves and intersecting allowed scopes minus denied scopes"
+    "Keep alliances as local admission inputs never replacements for artifact capability membership or official-service verification"
+    "Allow local-only alliances as valid policy artifacts"]
+   :status :deferred}
+
+  {:cap/id :federation-endorsement-remote-cosigning
    :title "Remote Co-Signing Protocol"
    :kind :future-protocol
    :based-on ["doc/project/40-proposals/076-federation-identity-and-network-selector.md"]
@@ -111,7 +124,7 @@
  ["Treating WebPKI or a Seed Directory response as federation authority by itself"
   "Switching active federation roots during hot reload"
   "Making capability passports official without endorsements"
-  "Deciding all cross-federation policy"
+  "Enforcing all cross-federation policy at runtime; Proposal 079 owns the minimal alliance policy contract"
   "Replacing TLS trust policy or Seed Directory replay semantics"]
 
  :consumes

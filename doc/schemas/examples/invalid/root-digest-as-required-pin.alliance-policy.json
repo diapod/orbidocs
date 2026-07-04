@@ -1,0 +1,29 @@
+{
+  "schema": "alliance-policy.v1",
+  "alliance_id": "alliance:sha256:N2sh1phgCwAsO32ycGctTm8Zgc4sUlfgt1fiaJmqgPw",
+  "issuer_federation_id": "orbiplex-main",
+  "issuer_subject_ref": "org:did:key:z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+  "sequence_no": 1,
+  "members": [
+    {
+      "federation_id": "orbiplex-main",
+      "sovereign_subject_ref": "org:did:key:z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+      "root_digest": "sha256:oKVEGxVaiaQNqBmbeFHRyysV_ClQ86iF4fTU6GELZsM"
+    },
+    {
+      "federation_id": "research-eu",
+      "sovereign_subject_ref": "org:did:key:z6MkfCNJAZNYqpkxeVbHUrYx3j3PWKb4paoNqWF9UTTc8tLA"
+    }
+  ],
+  "allowed_scopes": ["room/cross-federation"],
+  "publication": { "mode": "local-only" },
+  "issued_at": "2026-07-04T00:00:00Z",
+  "expires_at": "2026-10-04T00:00:00Z",
+  "signatures": [
+    {
+      "alg": "ed25519",
+      "key_public": "z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+      "value": "uXJ6lVB3_7b60gD5v8pAB9SvFiP4KPhdgN9fE3CxwG6a1BjBltAUXwG5Aocp9mn88pSrChP7XjFq65pcDOuKCQ"
+    }
+  ]
+}

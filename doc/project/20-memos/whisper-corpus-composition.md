@@ -125,5 +125,7 @@ No schema changes are made here. When implementation picks this up, the
 concrete artifacts land in their owning contracts: the community-affinity
 offer field (offer catalog / Corpus P069), the coarse `context/class` marker on
 Corpus queries (P069), and the room artifact-post used by path (a) (Room P070).
-Path (b), crisis-path composition, and cross-federation (`alliance`) usage
-remain open.
+Path (b) and crisis-path composition remain open. Cross-federation
+(`alliance`) semantics are now frozen in Proposal 079 as a unilateral
+`alliance-policy.v1` contract, while concrete Whisper/Corpus runtime use
+remains deferred there.

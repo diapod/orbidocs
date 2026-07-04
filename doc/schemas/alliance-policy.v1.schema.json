@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:alliance-policy:v1",
+  "title": "AlliancePolicy v1",
+  "description": "Unilateral cross-federation alliance declaration. A cooperation relationship is operationally active only when all member federations hold fresh matching halves; the effective scope is the intersection of allowed_scopes minus any denied_scopes. Member root digests are evidence only, not validity pins. Runtime verification must re-check issuer and member subjects against active federation roots before use.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/079-cross-federation-alliance.md",
+    "doc/project/40-proposals/076-federation-identity-and-network-selector.md"
+  ],
+  "x-dia-fixtures": {
+    "valid": [
+      "doc/schemas/examples/orbiplex-main-research-eu.alliance-policy.json"
+    ],
+    "invalid": [
+      "doc/schemas/examples/invalid/duplicate-signature.alliance-policy.json",
+      "doc/schemas/examples/invalid/unknown-scope.alliance-policy.json",
+      "doc/schemas/examples/invalid/non-goals-field.alliance-policy.json",
+      "doc/schemas/examples/invalid/root-digest-as-required-pin.alliance-policy.json"
+    ]
+  },
+  "required": [
+    "schema",
+    "alliance_id",
+    "issuer_federation_id",
+    "issuer_subject_ref",
+    "sequence_no",
+    "members",
+    "allowed_scopes",
+    "publication",
+    "issued_at",
+    "expires_at",
+    "signatures"
+  ],
+  "properties": {
+    "schema": {
+      "const": "alliance-policy.v1",
+      "description": "Schema discriminator. MUST be exactly `alliance-policy.v1`."
+    },
+    "alliance_id": {
+      "type": "string",
+      "pattern": "^alliance:sha256:[A-Za-z0-9_-]{43}$",
+      "description": "Deterministic alliance id derived from the sorted member federation ids and the alliance-policy v1 domain label."
+    },
+    "issuer_federation_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Federation that authored this unilateral policy half. MUST be one of `members[].federation_id`; runtime enforces the cross-field invariant."
+    },
+    "issuer_subject_ref": {
+      "$ref": "#/$defs/SovereignSubjectRef",
+      "description": "Sovereign subject in the issuer federation's active root whose custody policy authorizes this declaration. Runtime MUST verify that this subject matches the `members[]` entry for `issuer_federation_id`."
+    },
+    "sequence_no": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonic sequence number per `(issuer_federation_id, alliance_id)`. Older sequence numbers are rollback candidates."
+    },
+    "members": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/Member"
+      },
+      "description": "Federations participating in the alliance. Runtime treats the member set as unordered and requires every active half to name the same set."
+    },
+    "allowed_scopes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/AllianceScope"
+      },
+      "description": "Scopes this issuer allows. Active alliance scope is the intersection across all matching halves."
+    },
+    "denied_scopes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/AllianceScope"
+      },
+      "description": "Scopes this issuer explicitly denies. Deny overrides allow across all matching halves."
+    },
+    "publication": {
+      "$ref": "#/$defs/Publication",
+      "description": "Where this policy half may be stored or advertised. Publication surface never substitutes for signature/root verification."
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 issuance timestamp. Diagnostic and replay context; sequence/expiry/revocation govern replacement."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 expiry timestamp. Verifiers MUST reject the half at or after this time. Runtime MUST also enforce `expires_at > issued_at` because portable JSON Schema does not support cross-field date comparison."
+    },
+    "policy_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional local or governance policy reference explaining why this declaration was authorized."
+    },
+    "revocation_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional revocation feed or local revocation view reference. Runtime profile decides how it is resolved."
+    },
+    "signatures": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/Signature"
+      },
+      "description": "One or more Ed25519 signatures over the canonical payload with `signatures` omitted. `uniqueItems` rejects exact duplicate signature objects; runtime still enforces issuer subject custody semantics and unique signing keys."
+    }
+  },
+  "$defs": {
+    "SovereignSubjectRef": {
+      "type": "string",
+      "pattern": "^(participant|org):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "Sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "Member": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "federation_id",
+        "sovereign_subject_ref"
+      ],
+      "properties": {
+        "federation_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Member federation id."
+        },
+        "sovereign_subject_ref": {
+          "$ref": "#/$defs/SovereignSubjectRef",
+          "description": "Stable subject expected to resolve in the member federation's active root. This is the validity anchor."
+        },
+        "root_digest_at_issuance": {
+          "$ref": "#/$defs/Sha256Digest",
+          "description": "Evidence of the root pack observed at issuance. It is not a hard validity pin; routine pack rotation MUST NOT by itself invalidate the alliance."
+        },
+        "root_pack_version_at_issuance": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Evidence of the root-pack version observed at issuance. Runtime still re-resolves the subject against the active root at use time."
+        }
+      }
+    },
+    "AllianceScope": {
+      "type": "string",
+      "enum": [
+        "room/cross-federation",
+        "whisper/cross-federation",
+        "corpus/cross-federation",
+        "artifact-delivery/cross-federation",
+        "inac/cross-federation",
+        "agora/topic-bridge"
+      ],
+      "description": "Closed v1 scope registry. Unknown scopes fail closed."
+    },
+    "Publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "local-only",
+            "seed-directory",
+            "federation-root-ref",
+            "public"
+          ],
+          "description": "Allowed publication surface for this half. `local-only` is valid because alliance existence can be sensitive."
+        },
+        "refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Optional publication references or local policy handles. Their meaning is profile-specific."
+        }
+      }
+    },
+    "Signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "key_public",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519",
+          "description": "Signature algorithm. MUST be `ed25519` in v1."
+        },
+        "key_public": {
+          "type": "string",
+          "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+          "description": "Bare Ed25519 did:key multibase fingerprint, without a `participant:did:key:` or `org:did:key:` prefix."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Base64url-no-padding Ed25519 signature over `alliance-policy.v1\\x00 || canonical_json(payload_without_signatures)`."
+        }
+      }
+    }
+  }
+}

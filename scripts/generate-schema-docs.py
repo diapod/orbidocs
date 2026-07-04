@@ -244,6 +244,38 @@ def schema_comment(spec: Any) -> Any:
     return None
 
 
+def schema_fixtures(spec: Any) -> dict[str, list[str]]:
+    if not isinstance(spec, dict):
+        return {}
+    raw = spec.get("x-dia-fixtures")
+    if not isinstance(raw, dict):
+        return {}
+    fixtures: dict[str, list[str]] = {}
+    for key in ("valid", "invalid"):
+        value = raw.get(key)
+        if isinstance(value, list):
+            fixtures[key] = [item for item in value if isinstance(item, str)]
+    return fixtures
+
+
+def fixture_lines(fixtures: dict[str, list[str]], from_dir: Path) -> str:
+    if not fixtures:
+        return ""
+    labels = (("valid", "Valid Fixtures"), ("invalid", "Invalid Fixtures"))
+    lines = ["## Fixtures", ""]
+    for key, label in labels:
+        paths = fixtures.get(key, [])
+        if not paths:
+            continue
+        lines.extend([f"### {label}", ""])
+        for item in paths:
+            target = ROOT / item
+            href = rel_link(from_dir, target)
+            lines.append(f"- [`{item}`]({href})")
+        lines.append("")
+    return "\n".join(lines).rstrip()
+
+
 def render_field_section(name: str, spec: Any, required: bool, from_dir: Path) -> str:
     anchor = slugify(name)
     lines = [
@@ -314,6 +346,7 @@ def generate_schema_doc(schema_path: Path) -> tuple[str, str]:
     all_of = data.get("allOf", [])
     basis = data.get("x-dia-basis", [])
     lineage = project_lineage_lines([resolve_doc_ref(item) for item in basis], from_dir)
+    fixtures = fixture_lines(schema_fixtures(data), from_dir)
 
     lines = [
         f"# {title}",
@@ -327,6 +360,8 @@ def generate_schema_doc(schema_path: Path) -> tuple[str, str]:
         lines.extend(["## Governing Basis", "", basis_lines(basis, from_dir), ""])
     if lineage:
         lines.extend([lineage, ""])
+    if fixtures:
+        lines.extend([fixtures, ""])
 
     lines.extend(["## Fields", "", "| Field | Required | Shape | Description |", "|---|---|---|---|"])
     for name, spec in properties.items():

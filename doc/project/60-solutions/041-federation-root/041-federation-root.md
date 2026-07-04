@@ -6,6 +6,7 @@ Based on:
 - `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
 - `doc/project/40-proposals/054-user-maintained-federated-seed-directory.md`
 - `doc/project/40-proposals/056-orbiplex-tls-trust-policy.md`
+- `doc/project/40-proposals/079-cross-federation-alliance.md`
 - `doc/project/60-solutions/031-seed-directory/031-seed-directory.md`
 - `doc/project/60-solutions/024-tls-trust-policy/024-tls-trust-policy.md`
 - `doc/normative/50-constitutional-ops/en/ORBIPLEX-MAIN-ROOT-CHARTER.en.md`
@@ -19,6 +20,11 @@ Related schemas:
 - `seed-directory-query-attestation.v1`
 - `capability-passport-present.v1`
 - `capability-advertisement.v1`
+
+Adjacent policy contracts:
+
+- `alliance-policy.v1` (canonical cross-federation admission input; runtime
+  enforcement deferred in Proposal 079)
 
 ## Status
 
@@ -51,6 +57,12 @@ The root does not make remote facts true by itself. It defines which local
 policy material may be used to evaluate official-service endorsements,
 bootstrap candidates, Seed Directory trust, and federation-scoped discovery.
 Runtime consumers still verify artifacts at each use site.
+
+Cross-federation cooperation is deliberately above this component. Proposal
+079's `alliance-policy.v1` may become an admission input for Room, Whisper,
+Corpus, Artifact Delivery, INAC, or Agora bridging, but it does not change the
+single active `federation_id` selected by this solution and does not substitute
+for federation-root or official-service verification.
 
 ## Context and Problem Statement
 
@@ -287,7 +299,9 @@ Status:
   itself;
 - switching active federation roots during hot reload;
 - making capability passports official without endorsements;
-- deciding all cross-federation policy;
+- enforcing all cross-federation policy at runtime; Proposal 079 defines the
+  minimal alliance policy contract, while consumer-specific admission remains a
+  future layer;
 - replacing TLS trust policy or Seed Directory replay semantics.
 
 ## Consumes

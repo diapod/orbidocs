@@ -7,6 +7,7 @@ Based on:
 
 Related:
 - `doc/project/40-proposals/078-weak-signal-harvester.md`
+- `doc/project/40-proposals/079-cross-federation-alliance.md`
 
 ## Status
 
@@ -311,6 +312,11 @@ Agora distribution is appropriate when:
   topic,
 - the relay operators' ingest policies (proposal 041 §4–§5) match the
   whisper's risk and routing posture.
+
+For `cross-federation` disclosure, Proposal 079's `alliance-policy.v1` may be
+one local admission input. It does not replace Whisper's own author,
+disclosure, redaction, or publication checks, and it does not transfer Seed
+Directory or Agora authority.
 
 Agora distribution is NOT appropriate for whispers whose
 `disclosure/scope` is `private-correlation`; those SHOULD travel via

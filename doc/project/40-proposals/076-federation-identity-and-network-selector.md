@@ -130,8 +130,8 @@ mix with the public default network.
   proposal gives them a concrete node-level referent.
 - Not a full specification of the lighter, cross-cutting cooperation concept
   named `alliance` in this proposal. `Alliance` is the vocabulary for explicit
-  cross-federation cooperation; its richer policy model belongs in a follow-up
-  artifact if and when Room/Whisper/Corpus need it.
+  cross-federation cooperation; its minimal policy contract is frozen in
+  Proposal 079 (`alliance-policy.v1`) and runtime enforcement is tracked there.
 - Not a reputation or ranking system for federations.
 - Not a requirement that every deployment explicitly configure a federation —
   the unconfigured `orbiplex-main` default path must stay safe and zero-config.
@@ -411,7 +411,12 @@ This grounds, without changing, Solution 036's existing Room exposure tiers:
 The lighter, cross-cutting concept is named `alliance`. An `alliance` is an
 explicit cooperation relationship across federation boundaries, distinct from
 both "federation" (this proposal's `data-dir`-scoped network selector) and Seed
-Directory's already-used "community" trust tier.
+Directory's already-used "community" trust tier. Proposal 079 defines the
+minimal `alliance-policy.v1` contract: unilateral policy halves, stable member
+subject pins rather than root-pack digest pins, scope intersection, explicit
+denials, local-only publication, and the invariant that an alliance is only an
+input to local admission, never a substitute for artifact or service-authority
+verification.
 
 ### 6. Sovereign Operator Identity and Official-Service Endorsement
 
@@ -788,7 +793,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-012 | Verify federation-root signatures and custody policies at startup | done | The daemon canonicalizes the federation-root payload without `signatures[]`, verifies Ed25519 signatures, requires participant roots to have a matching self-signature, evaluates org roots with `any-authorized` or `threshold` custody rules for `purpose = federation-root`, counts threshold over unique authorized keys, rejects empty/missing explicit packs by default, pins/migrates the data-dir state digest, and keeps the bundled `orbiplex-main` fixture behind explicit `federation.allow_bundled_fixture_root = true` plus a raw-digest-pinned bypass so production deployments require an explicit signed data-dir pack. |
 | P076-013 | Document root custodian operational separation | done | Production federation-root custodians should use dedicated participant identities and separate custodian `data-dir`s for root-pack approval, rotation, and recovery ceremony work. Public `signatures[].key_public` values and custody-policy signer sets are stable correlation handles, so ordinary participant identities, ordinary node data-dirs, and nyms must not be reused as federation-root custodians when privacy separation matters. Node-side ceremony tooling documents this operational guardrail. |
 | P076-014 | Provide hard-MVP federation-root ceremony tooling | done | Node-side tooling can derive public ceremony identities from node participant mnemonics, sign root packs with PEM keys, mnemonics, plaintext participant key records, plaintext data-dirs, or encrypted participant signing keys opened through the narrow Rust unlock helper. The tool supports manifest digest verification, strict pre-assembly signature checks, per-root custody threshold verification, production `orbiplex-main` profile checks, and an end-to-end smoke test that covers encrypted data-dir signing plus production-profile positive/negative cases. This remains MVP multisig custody, not FROST/DKG threshold signing. |
-| P076-008 | Define the `alliance` cross-federation cooperation concept | todo | Name resolved in this proposal; a follow-up artifact should define policy semantics only when Room/Whisper/Corpus need more than the name and boundary rule. |
+| P076-008 | Define the `alliance` cross-federation cooperation concept | done | Concept plus minimal unilateral policy contract are frozen in Proposal 079 as `alliance-policy.v1`; runtime enforcement is deferred and tracked in P079 rather than hidden inside P076. |
 | P076-009 | Update Proposal 074's harness to pin distinct federation-root files per test node | done | Node acceptance seeders now write explicit signed `federation-root.v1` packs into local profile data dirs, refresh placeholder node ids to runtime `node:did:key` values after first boot where needed, and embed signed `federation-service-endorsement.v1` artifacts for Seed Directory bootstrap entries that claim `federation-endorsed`. Pre-first-boot roots may intentionally omit Seed Directory bootstrap entries until real runtime DID node ids exist, instead of giving official status to placeholders. Story-011 additionally creates provider participants during first boot, inserts B/C participant attestation roots with matching self-signatures into the refreshed runtime root, restarts, asserts `/v1/seed-directory` active trust, and then exercises capability passport issue/publish through the active root projection. Story-005, Story-009, Story-010, and Story-011 no longer rely on loose trust-list shortcuts for official local Seed Directory bootstrap. These local roots are acceptance fixtures, not production org/threshold ceremony roots; Story-011 may include additional local participant roots only to exercise root-backed runtime projection. Broader multi-federation matrix polish remains a future P074/testnet extension. |
 | P076-015 | Ground "sovereign operator" in the federation root | done | The §6 definition now treats a sovereign operator of federation `F` as a subject in `F`'s active `identity.sovereign_subject_refs[]`; participant subjects vouch with their own key and org subjects are held to their `federation-root` custody policy. Proposal 025 §2/§4/§6 now uses this split: `capability-passport.v1` is scope-only, while official-service status is carried by `federation-service-endorsement.v1`. |
 | P076-016 | Enforce federation-endorsement resolution in the loader and `capability-binding` | done | `capability-binding` contains the pure verifier core for `federation-service-endorsement.v1`, and daemon config now derives a runtime-only `FederationSovereignSubjectSnapshot` from the verified active `federation-root.v1` pack. Embedded Seed Directory receives a live authority snapshot source and uses it to verify endorsement attach/revocation before mutating official-status state; `GET /cap*` downgrades to community/unofficial when no active verified endorsement is present, and attach responses expose a typed `OfficialStatusDecision`. Daemon consumers perform per-use official-status re-verification against the reader's active root for seed sync cache admission, host `seed.directory.query`, Artifact Delivery capability lookup, Contact Catalog provider discovery, local own-node endorsement installation, and `capability-advertisement.v1` endorsement projection. Missing proof or missing active root degrades to scope-only; invalid proof rejects the claimed official entry and emits `official_status_rejected` or self-fetch refusal tracing. Consumer checks union fresh Seed Directory endorsement-revocation feeds with the daemon revocation snapshot. Startup applies root-pack endorsement revocations before accepting inline official Seed Directory bootstrap proofs, and runtime reload refuses any changed root activation fingerprint so root changes require restart. Future official-service consumers must reuse this same per-use verifier rather than treating local cache state as authority. |
@@ -1095,7 +1100,6 @@ the channel carries signatures — never authority.
 2. Replace the bundled hard-MVP fixture with a real `orbiplex-main` signed pack
    once the governance charter is approved, then set production packaging to
    disable `federation.allow_bundled_fixture_root`.
-3. Continue the remaining P076 post-MVP protocol tracks: **P076-008**
-   (`alliance` policy semantics when Room/Whisper/Corpus need more than the
-   name and boundary rule) and **P076-019** (remote co-signing) as deferred
-   post-MVP work.
+3. Continue the remaining P076 post-MVP protocol track: **P076-019**
+   (remote co-signing) as deferred post-MVP work. Alliance runtime enforcement
+   now belongs to Proposal 079.

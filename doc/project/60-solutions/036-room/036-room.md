@@ -4,6 +4,7 @@ Based on:
 
 - `doc/project/40-proposals/070-room-primitive.md`
 - `doc/project/40-proposals/076-federation-identity-and-network-selector.md`
+- `doc/project/40-proposals/079-cross-federation-alliance.md`
 - `doc/project/60-solutions/008-agora/008-agora.md`
 - `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
@@ -101,6 +102,10 @@ selector.
   `federation_id` values cooperate through an explicit higher-layer admission
   policy. It is not inferred merely because a carrier, Matrix homeserver, Seed
   Directory, or relay can reach both sides.
+- `alliance-policy.v1` (Proposal 079) is one possible cross-federation
+  admission input for Room. It does not grant membership by itself; Room still
+  verifies room policy, membership projection, attestations, and live
+  credentials.
 - `global` remains an explicit publication/exposure decision above Room's
   durable membership projection. It is never the default fallback for an
   unknown or missing federation selector.
