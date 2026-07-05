@@ -432,20 +432,26 @@ Hard-MVP consumers SHOULD tolerate:
 
 ## Open Questions
 
-- Should `resource/kind` remain semi-open forever, or should some kinds become
-  schema-governed later?
-- Should `node` and `org` resource opinions require explicit anti-harassment,
-  appeal, or moderation rules before they appear in public aggregates?
-- Should `gps` be represented as raw `lat,lon`, geohash, or a
-  precision-bounded location key?
-- Should one author have at most one active opinion per resource, with
-  append-only revisions through `supersedes`?
-- Should text and rating stay in one artifact family, or split when moderation
-  policy becomes richer?
-- Should the first attached discussion medium be ephemeral chat-like channels or
-  archival forum threads?
-- How should future discussion artifacts mark human-authored versus
-  agent-authored contributions?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-05:
+
+1. `resource/kind` remains semi-open now, with reserved kinds becoming
+   schema-governed later when interoperability or safety requires it.
+2. `node` and `org` resource opinions require explicit anti-harassment, appeal,
+   or moderation rules before they appear in public aggregates.
+3. `gps` resources use a precision-bounded location key. Raw `lat,lon` is not
+   the default public resource identifier.
+4. One author has at most one active opinion per resource. Revisions are
+   append-only and linked through `supersedes`.
+5. Text and rating stay in one artifact family for v1. They may split later if
+   their moderation policies diverge.
+6. The first attached discussion medium is an archival forum/thread reference,
+   not an ephemeral chat-like channel.
+7. Future discussion artifacts mark human-authored versus agent-authored
+   contributions through explicit authorship/origin flags reusing the P004/P011
+   provenance pattern.
 
 ## Consequences
 
@@ -485,3 +491,19 @@ If adopted, the next artifacts should be:
    survive relay data loss and how participants place copies with other
    nodes under capability-passport-backed custody; opinion-specific
    retention or right-to-forget flows build on that substrate.
+5. Document the `resource/kind` lifecycle: kinds remain semi-open now, while a
+   reserved list may graduate to schema-governed status when interoperability or
+   safety requires it.
+6. Add moderation prerequisites for `resource/kind = node` and
+   `resource/kind = org`: explicit anti-harassment, appeal, or moderation rules
+   must exist before public aggregates are exposed.
+7. Specify the precision-bounded GPS key contract for `resource/kind = gps`; raw
+   `lat,lon` is not the default public resource identifier.
+8. Document one-active-opinion-per-author semantics: revisions are append-only,
+   linked through `supersedes`, and projected as the latest active opinion plus
+   append-only history.
+9. Reaffirm v1 unification: `opinion/text` and `opinion/rating` remain in one
+   artifact family unless moderation policies later diverge.
+10. Require future forum/thread/channel discussion artifacts to mark human-authored
+    versus agent-authored contributions through explicit authorship/origin flags,
+    reusing the P004/P011 provenance pattern.

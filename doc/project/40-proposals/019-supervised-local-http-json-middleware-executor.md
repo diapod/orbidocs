@@ -621,15 +621,22 @@ same class of fact.
 The following should be considered required for the first real rollout:
 
 1. new executor kind `http_local_json`,
-2. host-owned process launch,
-3. bounded readiness wait,
-4. bounded stop and kill fallback,
-5. minimal restart policy (`never`, `on_failure`),
-6. daemon component exposure,
-7. middleware init and module report integration,
-8. reuse of existing `WorkflowEnvelope` and `MiddlewareDecision`,
-9. reuse of current sandbox-profile surface,
-10. stable operator-visible health/state.
+2. fixed configured loopback endpoint; child-selected ephemeral ports are deferred,
+3. host-owned process launch,
+4. bounded readiness wait,
+5. bounded stop and kill fallback,
+6. minimal restart policy (`never`, `on_failure`),
+7. daemon component exposure,
+8. middleware init and module report integration through a dedicated lifecycle path,
+9. lifecycle facts stream for at least start, ready, health-change, crash, restart,
+   and config-digest-change,
+10. preflight checks for executable, working directory, and sandbox profile before
+    hook dispatch,
+11. reuse of existing `WorkflowEnvelope` and `MiddlewareDecision`,
+12. reuse of current sandbox-profile surface,
+13. stable operator-visible health/state,
+14. shared local-service supervisor invariants usable by both model-runtime
+    `http_local` and middleware `http_local_json`.
 
 The following are explicitly outside the hard MVP:
 
@@ -717,21 +724,31 @@ Mitigation:
 
 ## Open Questions
 
-1. Should the first MVP config allow the child to bind an ephemeral port and report
-   it back, or should MVP require a fixed configured endpoint?
-2. Should `middleware-init` use the same invoke endpoint with a typed envelope, or
-   should it use a dedicated module-lifecycle path?
-3. Should the future daemon extract one shared local-service supervisor usable by
-   both model-runtime `http_local` and middleware `http_local_json`?
-4. Which lifecycle facts deserve their own persisted stream instead of just component
-   status snapshots?
-5. Should supervised middleware services participate in daemon preflight checks when
-   their executable or working directory is missing?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-05:
+
+1. The MVP requires a fixed configured endpoint for supervised
+   `http_local_json` middleware. Child-selected ephemeral ports are deferred
+   until a lifecycle handshake is justified.
+2. `middleware-init` uses a dedicated module-lifecycle path, not the normal
+   invoke endpoint. Lifecycle traffic and domain dispatch remain separate.
+3. The daemon should extract one shared local-service supervisor usable by both
+   model-runtime `http_local` and middleware `http_local_json`. Runtime-specific
+   adapters may differ, but lifecycle invariants should be shared.
+4. The lifecycle facts that deserve their own persisted stream are start,
+   ready, health-change, crash, restart, and config-digest-change.
+5. Supervised middleware services participate in daemon preflight checks. Missing
+   executables or working directories must surface as failed or degraded
+   readiness before dispatch.
 
 ## Next Actions
 
 1. Add one implementation-side memo or README note in the Node workspace aligning
-   middleware supervision with the existing `http_local` model-runtime pattern.
+   middleware supervision with the existing `http_local` model-runtime pattern and
+   identifying lifecycle invariants that should be promoted to a shared
+   local-service supervisor.
 2. Add a typed runtime contract in the Node middleware-runtime crate for
    `http_local_json`.
 3. Add daemon-owned supervised component lifecycle for that executor kind.
@@ -747,3 +764,7 @@ Mitigation:
    - clean shutdown,
    - invalid module decision responses,
    - bundled Dator and Arca startup under supervised `http_local_json`.
+8. Extract the shared local-service supervisor from the initial
+   middleware-specific implementation so the same supervisor can serve
+   `http_local` model-runtime instances and `http_local_json` middleware services
+   with runtime-specific adapters.

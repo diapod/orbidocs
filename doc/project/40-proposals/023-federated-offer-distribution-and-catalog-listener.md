@@ -261,9 +261,13 @@ Minimum fields:
 - `offer` — the full embedded `service-offer.v1` payload, including its
   original `signature`
 
-The relay envelope itself is NOT signed by the relay node in this phase. Trust
-derives from the inner offer's signature (provider-signed) plus the
-`relay/origin-node-id` against the buyer's peer store and whitelist.
+For `relay/hops <= 1`, the relay envelope itself is not signed by the relay node in
+this phase. Trust derives from the inner offer's signature (provider-signed) plus
+the `relay/origin-node-id` against the buyer's peer store and whitelist.
+
+For the later multi-hop path, once `relay/hops > 1`, the relay envelope must carry a
+relay node signature so each relay step remains accountable. Relays still MUST drop
+envelopes that would exceed the `relay/hops` maximum.
 
 If this envelope is later represented as an Agora `offer-snapshot`, the
 replacement MUST preserve enough provenance for the buyer to make the same
@@ -286,9 +290,6 @@ intent to the next catalog boundary, but does not itself enforce transport
 behavior. `relay/intended-node-id` is reserved for the later mediated-relay
 case where one Node is asked to forward the offer to another catalog Node; the
 current phase only preserves that hint.
-
-A later phase may add relay node signing to the envelope to support
-multi-hop accountability.
 
 ### `trusted-provider.v1`
 
@@ -521,15 +522,38 @@ The catalog service URL is operator-configured per Node. There is no protocol
 mechanism in this phase for catalog service discovery; that is intentionally
 deferred.
 
+## Implementation Guidance
+
+1. Add relay node signature support to `service-offer-relay.v1` when
+   `relay/hops > 1`; keep the current unsigned envelope only for direct or
+   single-hop relay admission.
+2. Define a bounded historical snapshot for `ObservedCatalogStore`, including
+   capacity, retention policy, and audit-access pattern. The store must not retain
+   unbounded full history.
+3. Keep hard-MVP catalog refresh pull-based. Long-poll or SSE-style buyer
+   notification is a later push-style extension.
+4. Preserve the no-transitive-trust rule: federation trust admits direct known
+   peers only; one-hop transitive re-acceptance requires explicit policy after
+   peer-governor semantics stabilize.
+5. Add provider Node key-rotation gate: when `provider/participant-id` remains
+   stable but the signing key changes, re-acceptance requires binding or succession
+   proof.
+
 ## Open Questions (Deferred)
 
-- Whether the relay envelope should carry a relay node signature for multi-hop
-  accountability once `relay/hops` exceeds `1`.
-- Whether `ObservedCatalogStore` should retain a bounded historical snapshot
-  for audit and reputation purposes, or only keep currently active offers.
-- Whether the catalog service should expose a subscription or long-poll
-  endpoint for push-style buyer notification rather than periodic pull.
-- Whether federation trust should expand to one-hop transitive peers once the
-  peer governor semantics are more stable.
-- How the catalog service should handle provider Node key rotation when
-  `provider/participant-id` is stable but the signing key changes.
+No unresolved deferred questions remain for this proposal slice. The decisions
+below record the approved post-MVP direction.
+
+Resolved 2026-07-05:
+
+1. Relay envelopes carry a relay node signature for multi-hop accountability
+   once `relay/hops` exceeds `1`.
+2. `ObservedCatalogStore` retains a bounded historical snapshot for audit and
+   reputation purposes. It does not retain unbounded full history.
+3. MVP keeps periodic pull. Long-poll or SSE-style buyer notification is the
+   later push-style extension path.
+4. Federation trust does not expand to one-hop transitive peers in MVP.
+   Transitive trust may be revisited only after peer governor semantics are
+   stable.
+5. Provider Node key rotation is accepted only with binding or succession proof
+   when `provider/participant-id` is stable but the signing key changes.

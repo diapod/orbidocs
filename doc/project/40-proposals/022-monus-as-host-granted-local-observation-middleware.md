@@ -161,14 +161,21 @@ was used.
 
 ## Open Questions
 
-1. Which local memory surfaces should Monus be allowed to query directly, and
-   which only through pre-filtered host views?
-2. Should the first Monus baseline emit its own local draft artifact, or only
-   in-memory middleware decisions?
-3. Which capability grants should be mandatory for a Node deployment claiming
-   Monus support?
-4. How should acute emergency patterns be split between Monus, Sensorium, and
-   emergency/help flows?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-05:
+
+1. Monus uses pre-filtered host views for most local memory surfaces. Direct
+   query is allowed only for explicit low-risk surfaces.
+2. The first Monus baseline emits a local draft artifact and may also return
+   in-memory middleware decisions. The draft remains local unless another policy
+   promotes it.
+3. A Node deployment claiming Monus support must grant read access to filtered
+   views, local draft emission, and operator-attention requests.
+4. Acute emergency handling is layered: Monus detects and classifies patterns,
+   Sensorium observes the environment, and emergency/help flows perform
+   escalation.
 
 ## Next Actions
 
@@ -177,3 +184,13 @@ was used.
 2. Add a dedicated Monus solution component under `60-solutions`.
 3. Record in Node solution docs that Monus is a future supervised middleware
    consumer of host-granted memory/Inquirium/publication contracts.
+4. Document the local draft artifact surface that Monus emits, plus the conditions
+   under which in-memory middleware decisions may also be returned.
+5. Specify the minimum host-granted capability contract for deployments claiming
+   Monus support: filtered view reads, local draft emission, and
+   operator-attention requests. Direct query remains restricted to explicit
+   low-risk surfaces.
+6. Add a layered emergency-handling note: Monus classifies patterns, Sensorium
+   observes the environment, and emergency/help flows perform escalation. This
+   proposal owns the classification side and references the other layers without
+   redesigning them here.

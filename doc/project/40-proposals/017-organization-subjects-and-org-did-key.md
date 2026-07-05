@@ -89,6 +89,10 @@ The custody upgrade path should remain open:
 - later: multiple custodians with threshold policy,
 - later still: policy-bound board, panel, or delegated operating roles.
 
+The smallest planned threshold-custody extension is a simple `k-of-n` custody
+policy reference plus signer set. Full governance workflows remain outside the MVP
+threshold-custody extension.
+
 ### 3. Accountability Scope
 
 Organization subjects MAY be used as:
@@ -173,12 +177,24 @@ Deferred for later:
 
 ## Open Questions
 
-1. Which governance artifacts should admit `subject/kind = org` in the first rollout?
-2. Should procurement contracts grow explicit `payer/kind` and `payee/kind` fields,
-   or is account ownership enough for MVP?
-3. What is the smallest threshold-custody extension that does not overfit MVP?
-4. Which constitutional-ops document should become the long-term normative home for
-   organization accountability limits?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-05:
+
+1. The first rollout admits `subject/kind = org` only in custody, procurement,
+   and governance accountability artifacts. Organization subjects are introduced
+   where the organization is an accountable party, not as a blanket replacement
+   for participant subjects.
+2. Procurement contracts grow explicit `payer/kind` and `payee/kind` fields.
+   Account ownership is not the only source of party semantics.
+3. The smallest threshold-custody extension is a simple `k-of-n` custody policy
+   reference plus signer set. Full governance workflows remain outside the MVP
+   threshold-custody extension.
+4. Organization accountability limits should move into a dedicated
+   constitutional-ops act for Organization Accountability. Role-to-IAL and
+   federation quorum documents may reference that act, but should not become the
+   primary home for organization accountability semantics.
 
 ## Next Actions
 
@@ -188,3 +204,9 @@ Deferred for later:
    rollout order.
 4. Update `reputation-signal.v1` only after the organization subject invariants are
    frozen.
+5. Extend procurement contract work to carry explicit `payer/kind` and
+   `payee/kind`; account ownership is not enough to express party semantics.
+6. Add the minimal `k-of-n` custody policy reference plus signer-set seam to the
+   threshold-custody follow-up, without pulling full governance workflows into MVP.
+7. Open the constitutional-ops Organization Accountability act as the long-term
+   normative home for organization accountability limits.

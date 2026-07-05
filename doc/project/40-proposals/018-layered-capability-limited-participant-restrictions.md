@@ -222,14 +222,22 @@ policies remain deferred to later work.
 
 ## Open Questions
 
-1. Should the first cooldown grain stay at `(participant, operation)`, or move
-   later toward `(participant, operation, question)` for multi-contract
-   concurrency?
-2. Which artifact should carry later review history: this restriction record
-   directly, or a separate review/case family?
-3. Should `org` eventually use a sibling artifact or the same family with
-   `subject/kind`?
-4. Which operation ids should be elevated into a more formal registry first?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-05:
+
+1. The first cooldown grain remains `(participant, operation)`. A later
+   `(participant, operation, question)` grain may be introduced only when
+   multi-contract concurrency requires it.
+2. Later review history belongs to a separate review/case family. The
+   restriction record remains the active restriction fact rather than the full
+   procedural history.
+3. Organization restrictions use the same artifact family with `subject/kind`.
+   This keeps the evaluator and read model shared across participant and
+   organization subjects.
+4. The first operation ids to elevate into a formal registry are messaging,
+   broadcast, marketplace, governance, and public-publish operations.
 
 ## Implementation Status
 
@@ -244,3 +252,5 @@ policies remain deferred to later work.
 | P018-07 | Durable daemon replay | done | Imports and clear tombstones are appended to the daemon commit log; replay preserves monotonic `recorded-at` and `last_cleared_at` read models. |
 | P018-08 | Operator control-plane surface | done | Local HTTP exposes import, schema-gated list/detail export, and clear operations; clear accepts optional bounded `reason/ref`, and import/clear emit metadata-only SSE refresh events. |
 | P018-09 | Participant-scoped lifecycle controls stay separate from operator execution actions | done | Participant accept/dispute/reject surfaces remain distinct from infrastructure-operator execution controls. |
+| P018-10 | `subject/kind = org` support using the same artifact family | deferred | Organization restrictions share evaluator and read-model semantics with participant restrictions; trigger this after P017 organization subject invariants are frozen. |
+| P018-11 | Review/case history moves to a separate artifact family | deferred | The active restriction record remains the authoritative restriction fact; procedural review history must not bloat this artifact. |

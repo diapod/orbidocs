@@ -390,24 +390,38 @@ The following is the minimum viable scope for the first implementation sprint:
 | `WorkflowStepDispatch` commit log records | Yes |
 | Background deadline enforcement tick | Yes |
 | `Arca` sees only canonical fan-in output | Yes |
+| `policy = "all"` fan-in output as `{ "responses": [...] }` | Yes |
+| Unreachable dispatch targets excluded from quorum `min_responses` denominator | Deferred with reserved semantics |
+| `resolve = "capability"` uses `DelegationCache` / `PassportCache` only | Yes |
 
 Deferred items are post-MVP and MUST NOT be implemented before the MVP scope is
 clean and tested.
 
 ---
 
+## Next Actions
+
+1. Validate `WorkflowStepDispatch` accounting for unreachable targets against
+   `min_responses` semantics in quorum-focused tests before enabling quorum.
+2. Document and fixture the `responses[]` output shape for `policy = "all"`; `Arca`
+   selects from the array and the host does not pick a domain winner.
+3. Confirm the `DelegationCache` / `PassportCache` sync interval semantics in the
+   capability resolution cache note; dispatch must not issue an additional Seed
+   Directory query.
+
 ## Open Questions
 
-1. **Fan-in output shape** — when `policy = "any_one"`, the step output is the
-   first response.  When `policy = "all"`, should it be an array of responses or
-   should the host pick one?  Proposed: `all` returns an array under a
-   `responses` key; `Arca` is responsible for selecting from it.
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
 
-2. **Dispatch cancellation on peer unavailability** — if a target is unreachable
-   at dispatch time, should it count against `min_responses` for `quorum`?
-   Proposed: unreachable targets are excluded from the denominator.
+Resolved 2026-07-05:
 
-3. **Capability resolution caching** — should `resolve = "capability"` always
-   re-query Seed Directory at step execution time, or is a short TTL cache
-   acceptable?  Proposed: reuse the existing `DelegationCache`/`PassportCache`
-   sync interval; no additional query at dispatch time.
+1. **Fan-in output shape.** When `policy = "all"`, the step output is an array
+   under a `responses` key. `Arca` is responsible for selecting from it; the host
+   does not pick a domain winner.
+2. **Dispatch cancellation on peer unavailability.** If a target is unreachable
+   at dispatch time, it is excluded from the denominator for `min_responses` in
+   `quorum` evaluation.
+3. **Capability resolution caching.** `resolve = "capability"` reuses the
+   existing `DelegationCache` / `PassportCache` sync interval. There is no
+   additional Seed Directory query at dispatch time.

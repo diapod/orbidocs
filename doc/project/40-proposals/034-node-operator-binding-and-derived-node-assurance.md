@@ -337,20 +337,30 @@ Constraints:
 
 ## Open Questions
 
-- Should v2 support multiple active operators with threshold control?
-- Should organization-owned nodes use `org/custodian-ref` plus one or more
-  participant operator bindings?
-- Should creator-credit payout require `IAL1`, Proof-of-Personhood, or a
-  stronger federation-defined threshold?
-- Should community-pool mutual-aid disbursement use a lower gate than
-  recognition-grant disbursement?
-- Should `node-identity.v1` embed a current binding reference, or should bindings
-  remain separate append-only records?
-- Should Seed Directory support a dedicated `operator-binding` surface, or should
-  this use the existing passport-backed capability catalog with profile-specific
-  verification?
-- Should peers receive the whole binding bundle, or should a later version add a
-  smaller `node-operator-binding-presentation.v1` proof wrapper?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-05:
+
+1. v2 should support multiple active operators with threshold control as a
+   post-MVP extension. MVP remains single-operator where needed, but the model
+   preserves the threshold direction.
+2. Organization-owned nodes use `org/custodian-ref` plus one or more participant
+   operator bindings. The organization is the custody subject; people remain
+   accountable operators.
+3. Creator-credit payout requires `IAL1` plus policy-defined payout checks.
+   Proof-of-Personhood or stronger federation thresholds may be required by
+   specific profiles, but are not the baseline.
+4. Community-pool mutual-aid disbursement may use a lower gate than
+   recognition-grant disbursement when bounded by value limits.
+5. `node-identity.v1` does not embed a current binding reference. Bindings remain
+   separate append-only records.
+6. Seed Directory uses the existing passport-backed capability catalog with
+   profile-specific verification for operator binding visibility, not a
+   dedicated `operator-binding` surface in the baseline.
+7. A later version should add a smaller
+   `node-operator-binding-presentation.v1` proof wrapper. Peers should not need
+   the whole binding bundle for routine verification.
 
 ## Next Actions
 
@@ -359,5 +369,15 @@ Constraints:
    node acceptance, storing the bundle, and optionally publishing it.
 3. Add requirements when the reward/grant policy is promoted from concept to
    implementation.
-3. Decide whether current Node identity creation should emit this binding during
+4. Decide whether current Node identity creation should emit this binding during
    onboarding or only after participant attestation exists.
+5. Add Seed Directory integration through the existing passport-backed capability
+   catalog with profile-specific verification for operator binding visibility; do
+   not introduce a dedicated `operator-binding` surface in the baseline.
+6. Confirm that `node-identity.v1` does not embed a current binding reference;
+   bindings remain separate append-only records.
+7. Document the organization-owned node custody pattern:
+   `org/custodian-ref` plus one or more participant operator bindings. The
+   organization is the custody subject; people remain accountable operators.
+8. Plan a smaller `node-operator-binding-presentation.v1` proof wrapper so peers do
+   not need the full binding bundle for routine verification.

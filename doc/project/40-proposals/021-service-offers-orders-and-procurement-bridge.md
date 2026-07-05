@@ -378,16 +378,24 @@ The same assumption applies to catalog and escrow runtime placement:
 
 ## Open Questions
 
-1. Should provider-side standing-offer updates be represented only by
-   `sequence/no` replacement, or should hard MVP also admit explicit withdrawal?
-2. Should `service-order.v1` carry one explicit settlement mode hint, or should
-   that remain fully host-derived from the standing offer plus policy?
-3. Should the host expose the derived procurement offer in operator trace, or keep
-   it implicit as an internal bridge product?
-4. Which subset of catalog search and filtering is required for hard MVP, beyond
-   simple active-offer listing?
-5. What exact public shape should the host-owned bridge result expose to `Arca`
-   for classified pre-procurement rejection outcomes?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-05:
+
+1. Provider-side standing-offer updates use `sequence/no` replacement and hard
+   MVP also admits explicit withdrawal. Withdrawal must be an auditable action,
+   not only an absence from the active projection.
+2. `service-order.v1` carries an explicit settlement mode hint. The host may
+   still validate the hint against the standing offer and policy.
+3. The host exposes the derived procurement offer in a redacted operator trace.
+   The trace must be sufficient for diagnostics without leaking secrets or
+   internal-only policy material.
+4. Hard MVP catalog search/filtering includes active offers by capability,
+   provider, price/currency, and tags/topic.
+5. Classified pre-procurement rejection outcomes exposed to `Arca` use a typed
+   rejection class, reason code, and retryability flag, without raw host
+   internals.
 
 ## Next Actions
 
@@ -398,3 +406,7 @@ The same assumption applies to catalog and escrow runtime placement:
    bridge boundary.
 5. Let Node implementation planning proceed only after those artifacts are
    reviewed.
+6. Extend the bridge note with settlement mode hint validation in `service-order.v1`
+   against the standing offer, redacted operator trace of the derived procurement
+   offer, and classified pre-procurement rejection outcomes surfaced to `Arca` as
+   `{rejection_class, reason_code, retryable}` without leaking raw host internals.

@@ -167,12 +167,19 @@ Costs:
 
 ## Open Questions
 
-1. Should the release bundle ship one shared Python runtime for both modules, or
-   two isolated module-local runtimes?
-2. Which module version metadata should be surfaced through `middleware-init`
-   versus release metadata?
-3. Should the first MVP support disabling bundled modules individually at install
-   time, or only at runtime?
+No unresolved questions remain for this proposal slice. The decisions below
+record the approved defaults.
+
+Resolved 2026-07-05:
+
+1. The release bundle uses module-local Python runtimes for bundled Python
+   middleware modules. Dependency isolation is preferred over a smaller shared
+   runtime.
+2. `middleware-init` surfaces runtime/module self-report metadata. Release
+   metadata carries build provenance. The two layers must not be collapsed into
+   one authority.
+3. The first MVP supports disabling bundled modules at runtime only. Install-time
+   per-module selection is deferred.
 
 ## Next Actions
 
@@ -182,3 +189,8 @@ Costs:
 3. Add build and CI steps that materialize host-launchable Python entrypoints.
 4. Add integration tests proving bundled startup under the supervised
    `http_local_json` executor.
+5. Document the module-local Python runtime boundary: each bundled module ships
+   its own runtime or dependency closure; MVP must not collapse Dator and Arca onto
+   one shared ambient Python install.
+6. Add operator-facing runtime disable controls for `middleware.dator` and
+   `middleware.arca`; install-time per-module selection is explicitly deferred.
