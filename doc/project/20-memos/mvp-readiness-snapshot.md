@@ -26,6 +26,12 @@ Change basis: this refresh incorporates the current worktree state on 2026-07-06
 
 Recent component deltas:
 
+- Communication Protocol Baseline is now hard-MVP ready as a historical baseline:
+  Proposal 002 explicitly maps its implemented or superseded areas to the current
+  runtime owners (P014/Solution 000 transport, P056/Solution 024 TLS trust,
+  Seed Directory/Federation Root discovery trust, Capability Registry/Binding
+  admission, AD/INAC payload transport, and Messaging/Room group semantics) and
+  no longer carries independent hard-MVP implementation blockers.
 - Raw Signal Access is now hard-MVP complete as both proposal and solution:
   hook-chain runtime and direct JSON-e-flow dispatch preserve raw context only
   in memory, expose it only to declaring executors, strip it from final
@@ -356,7 +362,7 @@ Recent component deltas:
 | Document | part of MVP | MVP ready | post-MVP ready | readiness % |
 |---|---:|---:|---:|---:|
 | [Licensing Baseline for Orbiplex Swarm Components](../40-proposals/001-licensing-proposal.md) | `false` | `false` | `false` | `25` |
-| [Communication Protocol Baseline for Orbiplex Swarm](../40-proposals/002-comm-protocol.md) | `true` | `false` | `false` | `65` |
+| [Communication Protocol Baseline for Orbiplex Swarm](../40-proposals/002-comm-protocol.md) | `true` | `true` | `false` | `90` |
 | [Question Envelope and Answer-Channel Transport for Orbiplex Swarm](../40-proposals/003-question-envelope-and-answer-channel.md) | `true` | `true` | `false` | `82` |
 | [Human-Origin Flags and Operator Participation in Answer Channels](../40-proposals/004-human-origin-flags-and-operator-participation.md) | `false` | `false` | `false` | `65` |
 | [Operator Participation Room Policy Profiles](../40-proposals/005-operator-participation-room-policy-profiles.md) | `false` | `false` | `false` | `25` |
