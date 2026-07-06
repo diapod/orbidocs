@@ -540,6 +540,34 @@ exception, below).
 > consumer appears. This proposal only codifies the rules for OS
 > connectors; it does not forbid wider reuse.
 
+#### Interactive operator consent for catalog deltas
+
+The hard-MVP catalog remains file-backed and sidecar-authorized. A later
+operator-facing UI may ask a node operator whether a proposed action should be
+allowed, but that prompt must reuse the host-owned operator-question and
+notification primitives rather than creating a Sensorium-OS-specific approval
+channel.
+
+The intended split is:
+
+- the host owns the prompt lifecycle, runtime-auth-session validation against an
+  active `node-operator-binding.v1`, timeout, answer validation, audit record,
+  and revocation/list visibility;
+- the prompt is represented as `inquirium.operator-question.request.v1` and
+  displayed through durable notifications and registered notification actions;
+- the OS connector owns only the binding from a granted decision into an
+  action-catalog delta shaped like this proposal's action declarations;
+- the connector must not add entries to its own authority merely because it
+  produced the prompt.
+
+For Sensorium OS the durable sidecar projection remains action-catalog shaped:
+action class, executable/script root, argv shape, parameter schema, result
+contract, `result_pointer_fields`, timeout and output limits, sensitivity, and
+availability constraints. This is intentionally different from the Workbench
+command-profile projection, which is argv-prefix, workspace, environment,
+egress, PTY, and output-cap oriented. Reusing one generic allowlist format would
+hide security-relevant differences between the adapters.
+
 #### What is signed
 
 Orbiplex middleware configurations are typically merged from multiple
@@ -1007,7 +1035,10 @@ audit coverage.
 - Any program-family specific allowlist guidance (those belong in
   separate operator playbooks, not here).
 - Long-running local services.
-- Operator-in-the-loop approval flows (reserved as `operator-gated-spawn`).
+- Runtime implementation of operator-in-the-loop approval flows. The contract
+  reserves this as `operator-gated-spawn` and the interactive consent section
+  above defines the host-owned prompt/notification reuse pattern for a later
+  implementation.
 - Artifact promotion details beyond the existing Sensorium artifact lane
   contract.
 - Federation of allowlist entries across nodes.
@@ -1054,6 +1085,57 @@ Verification evidence:
 Post-MVP work is not a hard-MVP blocker for this proposal: richer process
 isolation for binary C1, real platform enforcement for C3/C4/C5, composed C6
 dispatch, and operator-gated C7 approval remain later runtime/sandbox slices.
+Interactive catalog approval should reuse `inquirium.operator-question.request.v1`
+and durable notifications for the prompt/answer state machine, then project a
+granted decision into a host-audited Sensorium OS action-catalog sidecar delta.
+
+### Post-MVP implementation steps: operator consent catalog deltas
+
+- [ ] Reuse the P071 host-owned operator-consent registry instead of adding a
+  Sensorium-OS-local approval queue. Sensorium OS may request consent for an
+  eligible action-catalog delta, but the host owns prompt lifecycle,
+  runtime-auth-session validation against an active `node-operator-binding.v1`,
+  deduplication, timeout, audit, and revocation.
+- [ ] Define the Sensorium OS consent descriptor that is safe to show to an
+  operator. It should contain action id, class, executable/script-root summary,
+  argv shape, parameter schema ref or digest, result contract summary,
+  `result_pointer_fields`, declared sensitivity, timeout/output limits, and the
+  reason why the action is not currently allowed. It must not include secrets or
+  raw large payloads.
+- [ ] Promote that descriptor to `sensorium-os.consent-descriptor.v1` instead
+  of carrying an untyped inline blob inside the operator-question payload. The
+  descriptor should mirror the action-declaration vocabulary and carry only
+  redacted, digestible review material.
+- [ ] Generate host-shaped consent options. The first safe set is `deny`,
+  `allow-once` for this directive only, and `remember-action-catalog-entry`.
+  Broader templates such as "allow all actions under this script root" remain
+  disabled unless a separate host policy/capability gate enables them.
+- [ ] Project a granted durable decision into an action-catalog sidecar delta
+  using the same declaration vocabulary as this proposal. The projection should
+  carry approval ref, operator ref, issued/at, expires/at, revocation ref,
+  provenance, and the canonical digest of the reviewed delta.
+  The digest must cover the concrete consent intent: capability id, operation
+  digest, action id/class, executable or script-root summary, argv shape,
+  parameter/result contract refs, `result_pointer_fields`, declared
+  sensitivity, and safety caps. It must not depend on mutable audit metadata.
+- [ ] Compose the effective catalog from main config plus sidecar deltas and
+  run the existing catalog validation after merge. A sidecar delta may append
+  an action or tighten an existing declaration, but it must not silently lower
+  sensitivity, widen executable roots, widen egress, raise timeout/output caps,
+  or bypass `result_pointer_fields` validation. Sidecar deltas whose
+  `operator/ref` points to a revoked or expired `node-operator-binding.v1` must
+  be inactive in the effective catalog. The post-merge validation must reuse
+  the same action-catalog validator used for the main effective config; do not
+  add a second custom merge-only validator with different semantics.
+- [ ] Expose operator-visible catalog approval status: pending prompts,
+  granted deltas, denied attempts, expired approvals, revoked approvals,
+  effective catalog hash, operator ref, issued/at, expires/at, revocation/ref,
+  delta/digest, and diagnostics explaining why a sidecar entry is not active.
+- [ ] Add tests covering Sensorium-OS-specific consent behavior: deny,
+  allow-once without catalog mutation, durable catalog delta, active
+  node-operator-binding enforcement, stale/inactive sidecar rejection,
+  revocation, duplicate prompt collapse via the P071/P066 host path, and
+  refusal of deltas that loosen security caps.
 
 Resolved 2026-07-06:
 

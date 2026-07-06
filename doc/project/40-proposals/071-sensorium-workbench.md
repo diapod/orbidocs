@@ -6,6 +6,7 @@ Based on:
 - `doc/project/40-proposals/048-sensorium-os-connector-action-classes.md`
 - `doc/project/40-proposals/049-json-e-middleware-transformer-executor.md`
 - `doc/project/40-proposals/055-bounded-deferred-operation-contract.md`
+- `doc/project/40-proposals/057-user-and-operator-notifications.md`
 - `doc/project/40-proposals/063-inquirium-model-inquiry-organ.md`
 - `doc/project/40-proposals/064-inquirium-implementation-recommendations.md`
 - `doc/project/40-proposals/066-inquirium-assistant-channel.md`
@@ -19,6 +20,7 @@ Based on:
 - `doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md`
 - `doc/project/60-solutions/030-sensorium/030-sensorium.md`
 - `doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md`
+- `doc/project/60-solutions/039-notifications/039-notifications.md`
 - `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`
 
 ## Status
@@ -761,6 +763,126 @@ projects the Workbench and Interaction Broker grant/posture/approval/autonomy
 rows into registry-consumable policy sidecar data, while `capability-registry.v1`
 remains the source for capability identity and eligibility.
 
+#### Operator Consent Prompting
+
+Workbench and Sensorium OS may later offer an interactive "ask the operator and
+remember the answer" path for effects that are **not yet allowed, but are
+eligible for operator approval**. This path must reuse the existing host-owned
+operator-question and notification primitives instead of creating a
+Workbench-specific notification handler.
+
+The consent state machine belongs to the host:
+
+1. A Sensorium adapter or host workflow submits a typed
+   `inquirium.operator-question.request.v1` with `recipient/class = operator`,
+   a fail-closed `default/on-timeout`, a concrete `operation/ref`, and a
+   host-shaped `widget/kind`.
+2. The daemon projects the pending question to `notification-create.v1` and
+   renders schema-defined notification actions for the operator UI.
+3. A node operator answers through the registered notification action target.
+   The submitting runtime-auth session must be bound to an active
+   `node-operator-binding.v1` whose capability profile is
+   `node-primary-operator` (Proposal 034). Ordinary participant
+   acknowledgement is not enough to mutate execution policy or persistent
+   allowlists.
+4. The host records the answer as an auditable operator-question outcome and,
+   when granted, emits a domain-specific `operator-consent-decision.v1` record
+   that the relevant adapter binding can project into its own allowlist
+   sidecar.
+
+The notification is only the presentation and wake-up layer. It does not become
+domain authority, and an adapter must not grant itself new authority merely
+because it produced the question. The host validates both the runtime-auth
+session and its active node-operator binding, records the decision, owns
+revocation/list visibility, and controls whether a decision is one-shot or
+durable.
+
+The consent lifecycle is layered over the P066 operator-question lifecycle. The
+operator question remains `pending -> answered | timed_out | cancelled |
+superseded`. The consent decision derived from it is `pending -> granted |
+denied | expired`, and a previously granted consent may later become `revoked`
+through the host-owned consent registry. `revoked` is therefore a consent-layer
+state, not a synonym for P066 `cancelled`.
+
+The minimal decision shape is:
+
+```json
+{
+  "schema": "operator-consent-decision.v1",
+  "schema/v": 1,
+  "approval/ref": "approval:consent:sha256:<base64url>",
+  "operation/ref": "operator-question:<id>",
+  "operator/ref": "node-operator-binding:<id>",
+  "consent/decision": "granted",
+  "consent/scope": "remember-exact-argv",
+  "issued/at": "2026-07-06T00:00:00Z",
+  "expires/at": "2026-07-07T00:00:00Z",
+  "revocation/ref": null,
+  "delta/digest": "sha256:<base64url>",
+  "provenance": {
+    "source/component": "sensorium-workbench",
+    "requested/by": "component:sensorium-workbench",
+    "reason/code": "command-profile-missing"
+  }
+}
+```
+
+`delta/digest` covers the concrete intent, not mutable audit metadata:
+capability id, operation digest, workspace/root refs when present, proposed
+scope, argv/action shape, and safety caps such as timeout, output bytes,
+egress, credential policy, and result pointer constraints. This prevents the
+same command or action shape from colliding across different workspaces,
+capabilities, or safety envelopes.
+`approval/ref` is derived deterministically by prefixing the exact
+`delta/digest` with `approval:consent:`, so a digest
+`sha256:<base64url>` becomes `approval:consent:sha256:<base64url>`.
+
+For Workbench terminal commands, host-shaped choices should be ordered from
+narrow to broad:
+
+- `deny` - fail closed and optionally suppress repeated identical prompts for a
+  bounded cooldown;
+- `allow-once` - allow this exact command intent once without changing durable
+  policy;
+- `remember-exact-argv` - admit the exact argv, cwd/workspace, capability, and
+  profile context as a durable sidecar delta;
+- `remember-argv-prefix` - admit a bounded argv prefix plus explicitly declared
+  variable-argument prefixes, both capped by host policy;
+- `remember-executable-any-args` - a high-risk option that is disabled by
+  default and available only under an explicit host policy/capability gate
+  registered before implementation. Without that gate the consent layer must
+  not render this option even when the widget kind permits it.
+
+For Sensorium OS, the same consent state machine may approve a concrete action
+catalog delta, but the binding remains connector-specific: Sensorium OS action
+entries use action class, executable, result contract, and
+`result_pointer_fields`; Workbench command profiles use argv prefixes, cwd,
+environment, egress, timeout, and PTY/output caps. A single generic allowlist
+format would hide these differences and should not be introduced.
+
+The recommended persistence shape is hybrid:
+
+- the host keeps a capability-scoped approval ledger/index for list, revoke,
+  audit, deduplication, and policy reasoning;
+- each adapter receives or materializes an adapter-specific sidecar projection
+  that stores only the delta required by that adapter;
+- the effective configuration is `main config + sidecar projection`, validated
+  after merge before execution;
+- sidecars may append admissible entries, but must not silently override safety
+  caps such as egress denial, credential policy, maximum timeout, maximum bytes,
+  or workspace-root boundaries unless a separate explicit policy says so.
+
+Audit export for this flow is redacted by default. Full argv, parameter
+schemas, and action descriptors may be retained only under their classification
+policy; exported audit should prefer digest, capability id, source component,
+operator binding ref, selected scope, and redacted summaries. Secrets, tokens,
+passwords, and raw environment values are never audit payload.
+
+Revoking or expiring a `node-operator-binding.v1` does not rewrite historical
+consent facts. The effective sidecar projection must, however, treat any
+durable consent whose `operator/ref` points to a revoked or expired binding as
+inactive and surface `consent-operator-binding-inactive` in diagnostics.
+
 ### 10. Trace And Memory
 
 Workbench traces must be useful without leaking unnecessary content.
@@ -1099,7 +1221,8 @@ watch/wait/probe replay semantics are backed by bounded retention.
 
 ## Open Questions
 
-No open questions remain for the current local Workbench foundation slice.
+No unresolved questions remain for the current local Workbench foundation and
+Phase 3A operator-consent slices.
 
 ## Resolved Decisions
 
@@ -1232,6 +1355,40 @@ No open questions remain for the current local Workbench foundation slice.
     by operation id. Status reads require an explicit capability grant for the
     relevant operation family, with the local Workbench wait pilot using
     `interaction-broker.wait`.
+34. **Operator consent prompting.** Interactive approval for new Sensorium OS or
+    Workbench operations reuses host-owned `inquirium.operator-question.request.v1`
+    projected through durable notifications. The host owns the state machine,
+    runtime-auth session validation against an active
+    `node-operator-binding.v1`, audit, revocation/list visibility, and durable
+    approval ledger. Adapters own only the binding from a granted decision into
+    their adapter-specific sidecar projection; they may request consent but must
+    not mutate their own authority outside the host approval path.
+    Durable grants amplify authority and therefore require an explicit
+    affirmative operator action from an active runtime-auth session bound to an
+    active `node-operator-binding.v1`, plus a host grantability
+    policy/capability gate for the requested consent scope. A detached operator
+    signature may be added later for high-risk or long-lived consent classes,
+    but it is not required for the MVP path.
+    If one runtime-auth session can present more than one active operator
+    binding, one applicable `node-primary-operator` binding is sufficient; the
+    selected binding must be deterministic or explicitly selected by the host
+    and recorded as `operator/ref`.
+35. **Consent revocation authority.** Revoking a durable consent in the MVP
+    requires an authenticated active node-operator runtime session bound to an
+    active `node-operator-binding.v1`; it does not require a fresh detached
+    operator signature. This is acceptable because revocation reduces authority.
+    The audit record must still capture the runtime session ref, operator
+    binding ref, timestamp, target consent, and reason.
+    Revocation uses a dedicated operator surface,
+    `POST /v1/operator-consents/{approval_ref}/revoke`, with `approval_ref`
+    URL-encoded. It is not represented as another
+    `inquirium.operator-question.respond` answer, because it acts on an already
+    materialized durable consent rather than on a pending question.
+36. **Effective sidecar merge timing.** Effective sidecar projections are cached
+    with deterministic invalidation on consent grant, revocation, expiry,
+    main-config changes, and node restart/warm-recovery. Dispatch consumes the
+    validated cached projection and its hash diagnostics rather than recomputing
+    `main config + sidecar` on every operation.
 
 ## Next Actions And Implementation Tracker
 
@@ -1502,6 +1659,95 @@ evidence) · `[!]` blocked/needs decision.
   Python connector against shared relative-path and command-profile golden
   vectors plus runtime refusal invariants for command profile, no-egress, and
   credential-env denial.
+
+### Phase 3A - Host-Owned Operator Consent For Allowlist Deltas
+
+- [ ] Define `operator-consent-core` as a pure host-owned contract layer. It
+  should model consent requests, operation descriptors, selectable scope
+  options, deduplication keys, TTLs, fail-closed timeout defaults, decision
+  statuses (`pending`, `granted`, `denied`, `expired`, `revoked`), and the
+  distinction between `operator_confirmed` authority and ordinary
+  `user_acknowledged` visibility. It should also define the
+  `operator-consent-decision.v1` payload shape and the mapping from P066
+  operator-question lifecycle states to consent decision states. It must define
+  `approval/ref` as `approval:consent:<delta/digest>`, e.g.
+  `approval:consent:sha256:<base64url>`.
+- [ ] Add a daemon-owned consent registry and audit ledger under the node
+  data-dir. The natural key should include capability id, source component,
+  operation digest, workspace/root ref when present, proposed scope, and
+  requester. The registry must support idempotent request replay, list, detail,
+  revoke, expiry sweep, duplicate suppression, and redacted audit export.
+  Revocation is authorized by an authenticated active node-operator runtime
+  session bound to an active `node-operator-binding.v1`; it does not require a
+  fresh detached operator signature in the MVP.
+  Redacted export must omit secret material and raw environment values, and
+  should prefer digests plus redacted summaries for argv, parameters, and
+  action descriptors.
+- [ ] Reuse `inquirium.operator-question.request.v1` and durable notifications
+  for the prompt/answer surface. The consent layer should build a typed
+  operator question with `recipient/class = operator`, registered widget kind
+  `single-choice`, a fail-closed `default/on-timeout`, and a response target
+  owned by the daemon. No Sensorium adapter should create its own notification
+  action handler.
+- [ ] Reuse the P066 notification projection and answer routing
+  (`assistant-interaction-notification-projection` and action target
+  `inquirium.operator-question.respond`) instead of adding another notification
+  handler. The consent answer handler should validate that the submitting
+  runtime-auth session is bound to an active `node-operator-binding.v1` with
+  `node-primary-operator` and that the requested durable grant passes the host
+  grantability policy/capability gate, then translate the selected option into
+  an `operator-consent-decision` record without letting the adapter mutate
+  policy directly.
+- [ ] Define Workbench consent scope choices. The first supported options are
+  `deny`, `allow-once`, `remember-exact-argv`, and
+  `remember-argv-prefix`. `remember-executable-any-args` is a high-risk
+  optional policy extension and must remain disabled unless an explicit
+  host policy/capability gate enables it; the gate must be registered before
+  runtime implementation and the option must be hidden when the gate is absent.
+  `remember-argv-prefix` must have host-policy caps for maximum fixed prefix
+  length and maximum variable-prefix entries.
+- [ ] Implement the Workbench sidecar projection. A granted durable decision
+  should append a command-profile delta scoped by workspace/root, cwd policy,
+  argv exact/prefix data, allowed variable prefixes, environment policy,
+  egress policy, timeout/output caps, approval ref, operator ref, expiry, and
+  revocation ref. The projection must not raise safety caps or loosen egress,
+  credential, workspace, timeout, or byte limits beyond the main policy.
+  Its approval digest must cover capability id, operation digest,
+  workspace/root refs, proposed argv scope, and safety caps, not just argv text.
+  The reviewed Workbench consent descriptor should be promoted to
+  `sensorium-workbench.consent-descriptor.v1`.
+- [ ] Define the Sensorium OS action-catalog sidecar projection. A granted
+  Sensorium OS decision should materialize a catalog delta shaped like P048
+  action declarations: action class, executable or script root, argv shape,
+  parameter schema, limits, result contract, `result_pointer_fields`,
+  sensitivity, approval ref, operator ref, expiry, and revocation ref. The
+  consent descriptor should be promoted to its own schema rather than an
+  untyped inline blob inside the operator-question request.
+- [ ] Add a shared sidecar merge primitive for adapter config deltas. It should
+  live beside the existing path/config utility strata, support append-only
+  allowlist deltas first, report the merge provenance, and require schema
+  validation after `main config + sidecar` is composed. Avoid generic
+  deep-override semantics for security-sensitive caps. Sidecar entries whose
+  `operator/ref` points to a revoked or expired node-operator binding must be
+  inactive in the effective projection. The effective projection should be
+  cached with deterministic invalidation on consent grant, revocation, expiry,
+  main-config changes, and node restart/warm-recovery, and should expose an
+  effective projection hash for diagnostics.
+- [ ] Add operator UI/API surfaces for consent visibility and revocation:
+  pending requests, answered decisions, durable sidecar entries, expiry,
+  selected scope, operation digest, source component, operator ref, issued/at,
+  expires/at, revocation/ref, delta/digest, and revoke/deny actions. Revocation
+  uses `POST /v1/operator-consents/{approval_ref}/revoke`, not the
+  operator-question answer endpoint. The UI should make it clear which entries
+  are one-shot, durable, expired, or revoked.
+- [ ] Add integration tests and fixtures. P066-owned primitives cover request
+  deduplication, timeout fail-closed, widget contract validation, and duplicate
+  answer replay metadata. P071-owned tests should cover deny, allow-once
+  without sidecar mutation, remember-exact argv, remember-prefix, active
+  node-operator-binding enforcement, participant-only denial of consent,
+  sidecar merge validation, stale/inactive operator binding diagnostics,
+  revocation removal from the effective projection, and refusal of attempts to
+  loosen safety caps.
 
 ### Phase 4 - Virtualized Backends
 

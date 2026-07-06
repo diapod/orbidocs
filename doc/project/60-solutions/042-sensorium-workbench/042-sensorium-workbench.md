@@ -180,12 +180,20 @@ Responsibilities:
   connectors directly;
 - bind effect classes to required grants, caller posture, approval mode,
   autonomy floor, and conflict-of-interest policy.
+- keep future interactive operator consent host-owned: Workbench may request
+  approval for an eligible command/profile delta, but the daemon must use
+  `inquirium.operator-question.request.v1` projected through durable
+  notifications for the prompt/answer state machine before any adapter-specific
+  sidecar projection is materialized.
 
 Status:
 
 - `partial`: capability ids and policy sidecars exist; JSON-e/module broker
   calls request host grants through `bindings.host_grant_requests`, and the
-  daemon mints host-local HMAC grant material before dispatch.
+  daemon mints host-local HMAC grant material before dispatch. Interactive
+  "ask and remember" consent for command profiles remains future work; it must
+  reuse host-owned operator questions and notifications rather than a
+  Workbench-private approval UI.
 
 ### Shared Actuation Core
 

@@ -198,6 +198,10 @@ Responsibilities:
 - fail closed when action catalog signature is required and missing or stale,
 - let the daemon write operator-signed grant or deny sidecars from the operator
   surface,
+- keep any future interactive operator consent path host-owned: prompts should
+  reuse `inquirium.operator-question.request.v1` projected through durable
+  notifications, while Sensorium OS receives only an audited action-catalog
+  sidecar delta after the operator grants consent,
 - keep cryptographic key use in the daemon/HostSigner stratum rather than in
   the connector.
 
@@ -335,3 +339,14 @@ terminal sessions, workspace file views, patch application, and local
 interactive work. Its solution-level boundary is owned by
 `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`
 rather than by this core Sensorium organ document.
+
+Interactive consent for adding new Sensorium OS actions or Workbench command
+profiles is also host-owned. Sensorium connectors may request a decision, but
+the prompt/answer state machine belongs to the daemon's operator-question and
+notification layers; adapters receive only validated consent outcomes projected
+into their own sidecar formats.
+
+This solution owns the host-side consent state machine boundary and the shared
+sidecar-merge rule; adapter-specific projection shapes are owned by their
+respective solution/proposal documents, such as Sensorium OS action-catalog
+deltas and Workbench command-profile deltas.
