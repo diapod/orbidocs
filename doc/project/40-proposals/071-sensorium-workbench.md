@@ -1388,9 +1388,11 @@ evidence) · `[!]` blocked/needs decision.
   `idempotency/key`, mark interrupted pending/running wait operations as failed
   with retry diagnostics on startup, and mark previously starting/running
   terminal commands plus failed terminal-command spawn attempts as failed for
-  bounded post-restart/idempotent replay. Command runs are still
-  connector-local rather than registered in the daemon host Bounded Deferred
-  Operation registry.
+  bounded post-restart/idempotent replay. Terminal command runs invoked through
+  the daemon host capability surface now register daemon-owned
+  `sensorium-workbench.terminal-command` Bounded Deferred Operations and poll
+  command state through the host Interaction Broker terminal provider. Daemon
+  cancel/signal wiring for those command BDOs remains future work.
 - [~] Run the adversarial actuator test matrix before enabling write or PTY
   features by default. The current test slice covers traversal, root self,
   symlink traversal, oversized files, grant-required mediated read, command
@@ -1408,7 +1410,10 @@ evidence) · `[!]` blocked/needs decision.
   terminal command/capture/artifact/patch effects, an executable PTY story
   smoke, a Python Workbench actuation conformance runner against shared golden
   vectors, and the daemon rule that Inquirium cannot directly invoke Sensorium
-  connectors. Broader virtualized-backend vectors remain.
+  connectors. It now also covers a `virtualized-workspace` backend fixture that
+  keeps bounded file source-provider reads/probes adversarial while refusing
+  PTY, patch, and write effects fail-closed. Concrete virtualized executor
+  backends remain future work.
 
 ### Phase 2 - Sensorium Integration
 
@@ -1424,8 +1429,11 @@ evidence) · `[!]` blocked/needs decision.
   `OperationDone` waits host-owned, and wires live Workbench file-tree plus
   terminal providers for file probes, file waits, file-tree watch batches,
   terminal liveness/progress probes, terminal waits, and terminal watch batches.
-  Dynamic non-Workbench provider registration/status APIs now exist, while
-  executable AD, Memarium, approval, and other non-Workbench provider joins
+  Dynamic non-Workbench provider registration/status APIs now exist with
+  bounded observed-state joins for artifact, environment, approval, and
+  Memarium-query providers, including `approval-state` and
+  `memarium-query-state` wait conditions. Domain-native AD, Memarium, approval,
+  and other non-Workbench provider adapters beyond this dynamic join surface
   remain open.
 - [~] Add grant and policy checks for terminal command, terminal raw input,
   file snapshot, file read, and patch apply. The connector enforces explicit

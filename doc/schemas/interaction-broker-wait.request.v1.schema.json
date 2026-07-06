@@ -32,6 +32,7 @@
   },
   "$defs": {
     "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } },
+    "statusToken": { "type": "string", "pattern": "^[a-z][a-z0-9_-]{0,40}$" },
     "relativePath": {
       "type": "string",
       "minLength": 1,
@@ -209,6 +210,26 @@
           "properties": {
             "kind": { "const": "environment-ready" },
             "environment/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "approval/ref", "approval/status"],
+          "properties": {
+            "kind": { "const": "approval-state" },
+            "approval/ref": { "$ref": "#/$defs/ref" },
+            "approval/status": { "$ref": "#/$defs/statusToken" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "query/ref", "query/status"],
+          "properties": {
+            "kind": { "const": "memarium-query-state" },
+            "query/ref": { "$ref": "#/$defs/ref" },
+            "query/status": { "$ref": "#/$defs/statusToken" }
           }
         },
         {

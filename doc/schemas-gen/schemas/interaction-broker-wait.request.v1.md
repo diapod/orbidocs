@@ -48,6 +48,7 @@ Declarative bounded wait over one primary observation source.
 | Definition | Shape | Description |
 |---|---|---|
 | [`ref`](#def-ref) | string |  |
+| [`statusToken`](#def-statustoken) | string |  |
 | [`relativePath`](#def-relativepath) | string |  |
 | [`sha256Ref`](#def-sha256ref) | string |  |
 | [`deferredOperationId`](#def-deferredoperationid) | string |  |
@@ -113,6 +114,11 @@ Declarative bounded wait over one primary observation source.
 
 <a id="def-ref"></a>
 ## `$defs.ref`
+
+- Shape: string
+
+<a id="def-statustoken"></a>
+## `$defs.statusToken`
 
 - Shape: string
 

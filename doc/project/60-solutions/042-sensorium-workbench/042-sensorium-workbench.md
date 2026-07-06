@@ -51,10 +51,15 @@ through daemon-issued host-local HMAC grant material requested by
 providers are live through the broker for file probes, file waits, file-tree
 watch event batches, terminal liveness/progress probes, terminal waits, and
 terminal watch event batches. The daemon also projects admitted broker
-wait/watch/probe submissions into metadata-only audit events. The remaining
-solution work is virtualized-backend adversarial actuator coverage, future
-virtualized backends, executable non-Workbench source-provider adapters/joins,
-and richer daemon-level operator recovery telemetry.
+wait/watch/probe submissions into metadata-only audit events. The current
+implementation also covers virtualized-backend adversarial source-provider
+fixtures, daemon BDO registration/polling for long-running Workbench terminal
+commands, broker projection of Workbench provider operator status, and dynamic
+observed-state joins for artifact, environment, approval, and Memarium-query
+providers. The remaining solution work is concrete virtualized executor
+backends, daemon cancel/signal semantics for command BDOs, domain-native
+AD/Memarium/approval adapters beyond dynamic observed-state joins, and shared
+actuation-core binding for the Python connector.
 
 ## Date
 
@@ -253,8 +258,11 @@ Status:
 
 - `partial`: the opt-in Python connector exists with host-local workspace,
   file, probe, wait, watch, PTY, capture, idempotency replay with bounded TTLs,
-  idle-timeout, and read-only status surfaces. Daemon-owned status integration
-  and virtualized-backend adversarial runtime coverage remain incomplete.
+  idle-timeout, read-only status surfaces, and a `virtualized-workspace`
+  adversarial backend fixture that keeps bounded file source-provider
+  reads/probes available while PTY, patch, and write effects fail closed.
+  Concrete virtualized executor backends and shared actuation-core binding for
+  the Python connector remain incomplete.
 
 ### Patch and Artifact-Mediated Writes
 
@@ -330,9 +338,12 @@ Status:
   live Workbench file-tree plus terminal provider adapters. File probes, file
   waits, file-tree watch batches, terminal liveness/progress probes, terminal
   waits, and terminal watch batches can now flow through the broker. Dynamic
-  non-Workbench provider registration/status APIs, broker startup recovery, and
-  bounded broker retention are now implemented; executable AD, Memarium,
-  approval, and other non-Workbench provider adapters remain future work.
+  non-Workbench provider registration/status APIs, dynamic observed-state joins
+  for artifact, environment, approval, and Memarium-query providers, broker
+  startup recovery, bounded broker retention, Workbench provider operator-status
+  projection, and daemon BDO polling for Workbench terminal commands are now
+  implemented. Domain-native AD, Memarium, approval, and other non-Workbench
+  provider adapters beyond dynamic observed-state joins remain future work.
 
 ### Storage, Recovery, and Operator Visibility
 
@@ -372,8 +383,10 @@ Status:
   orphan signaling, session retirement, interrupted operation/command marking,
   failed-spawn command marking, idempotency replay records with bounded TTLs,
   idle-session cleanup on terminal admission paths, and connector-local
-  recovery/lifecycle status diagnostics. Daemon-level host/operator projection
-  of recovery telemetry remains future work.
+  recovery/lifecycle status diagnostics. The daemon broker status now projects
+  Workbench provider operator status from connector `/v1/status`; richer
+  operator UX and remediation controls over those diagnostics remain future
+  work.
 
 ### Adversarial Actuator Conformance
 
