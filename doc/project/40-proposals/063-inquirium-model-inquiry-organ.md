@@ -947,9 +947,10 @@ explicit success criterion for retiring the Sensorium OS model actions.
    each operation gets a precise, independently validatable contract. A shared header
    convention may carry common fields (operation id, optional `profile/ref`,
    `classification`, trace ids), but the operation payload is its own schema.
-   `AdapterImplementation` declares supported operation classes. MVP: `generate` then
-   `embed`; `classify`/`summarize`/`rerank`/`transform`/image follow as their own
-   contracts.
+   `AdapterImplementation` declares supported operation classes. MVP started with
+   `generate`, then `embed` and `batch-embed`; `classify` and `rerank` now exist as
+   operation contracts in `inquirium-core`, while summarize/transform/image follow as
+   their own contracts.
 3. ~~Should `profile/ref` be mandatory for all callers, or may callers request an
    operation class and let host policy choose the profile?~~ **Resolved: operation class
    is mandatory; `profile/ref` is optional (the caller may pin).** Absent a pin, host
@@ -1036,8 +1037,9 @@ explicit success criterion for retiring the Sensorium OS model actions.
    real daemon override (see Proposal 064 `inq-conformance-runner`, Proposal 066
    `assistant-local-runtime-target`). The remaining productization is
    packaging/deployment-profile work, tracked as Proposal 066 Next Action 2.
-2. Add broader operation wrappers beyond `generate`, especially image/transform
-   surfaces where workflow-facing callers still need an Inquirium boundary.
+2. Add broader operation wrappers beyond `generate`/`embed`, starting with the
+   newly defined `classify` and `rerank` contracts, then image/transform surfaces
+   where workflow-facing callers still need an Inquirium boundary.
 3. Continue assistant-channel Phase 2 work: Memarium-backed transcripts,
    operator-granted context assembly, operator-question widgets, feedback, and
    non-dopamine UX invariants.
@@ -1048,9 +1050,9 @@ explicit success criterion for retiring the Sensorium OS model actions.
 |---|---|---|---|
 | P063-01 | Establish Inquirium as a separate model inquiry organ | accepted | This proposal defines the boundary and is now accepted for implementation planning. |
 | P063-02 | Reframe `model-runtime` as Inquirium substrate | accepted | Existing Node crates are useful lower layers, but should not be workflow-facing. |
-| P063-03 | Define Inquirium capability vocabulary | partial | `model-runtime` now carries structured operation classes including generate/embed/batch-embed and routing capabilities; the workflow-facing Inquirium vocabulary still needs the remaining helper names and operator-facing phrasing. |
-| P063-04 | Define request/result schemas | partial | First operation-specific contracts are implemented in `inquirium-core`: `inquirium.generate.{request,response}.v1`, `inquirium.embed.{request,response}.v1`, and `inquirium.batch-embed.{request,response}.v1`. Generate includes optional `profile/ref` and a narrow request-parameter allowlist; embedding contracts cover inline vectors plus lease-backed batch artifact output. Classify/transform/image contracts remain future work. |
-| P063-05 | Implement Inquirium Core wrapper over model-runtime | partial | The `generate` vertical slice is wired: daemon exposes a Rust `inquirium.generate` host surface, local control-plane HTTP host capability ingress, optional `profile/ref` candidate pinning, JSON-e Flow call-step ingress, and HTTP adapter-instance invocation through the same host surface. The first direct embedding wrapper is also present as `inquirium.embed`, selecting local-only/strict-local routable runtime candidates with matching model bindings and a deterministic stub handler for contract/smoke coverage. Story 005 now exercises the generate path with an opt-in supervised Inquirium simulator runtime. Classify/transform/image wrappers and provider-backed embedding adapters remain future work. |
+| P063-03 | Define Inquirium capability vocabulary | partial | `model-runtime` now carries structured operation classes including generate/embed/batch-embed/classify/rerank and routing capabilities; the workflow-facing Inquirium vocabulary still needs the remaining helper names and operator-facing phrasing. |
+| P063-04 | Define request/result schemas | partial | Operation-specific contracts are implemented in `inquirium-core` for `inquirium.generate.{request,response}.v1`, `inquirium.embed.{request,response}.v1`, `inquirium.batch-embed.{request,response}.v1`, `inquirium.classify.{request,response}.v1`, and `inquirium.rerank.{request,response}.v1`. Generate includes optional `profile/ref` and a narrow request-parameter allowlist; embedding contracts cover inline vectors plus lease-backed batch artifact output; classify/rerank contracts cover bounded text, simple classification label tokens, closed label/candidate sets, normalized confidence/relevance, duplicate-free results, request/response pair invariants, and `top_k`/`top_n` ceilings. Summarize/transform/image contracts remain future work. |
+| P063-05 | Implement Inquirium Core wrapper over model-runtime | partial | The `generate` vertical slice is wired: daemon exposes a Rust `inquirium.generate` host surface, local control-plane HTTP host capability ingress, optional `profile/ref` candidate pinning, JSON-e Flow call-step ingress, and HTTP adapter-instance invocation through the same host surface. The first direct embedding wrapper is also present as `inquirium.embed`, selecting local-only/strict-local routable runtime candidates with matching model bindings and a deterministic stub handler for contract/smoke coverage. Story 005 now exercises the generate path with an opt-in supervised Inquirium simulator runtime. Classify/rerank are contract-only in the current slice: no daemon host capability, model-runtime catalog wrapper, or provider adapter execution path is wired yet. Transform/image wrappers and provider-backed embedding adapters remain future work. |
 | P063-06 | Integrate NSE model selection | done | `inquirium.generate` can build a prompt-free `select-llm-model` request over host-filtered routable runtime candidates; NSE returns `UseRuntime { runtime/ref, reason }`, and the daemon validates the selected runtime against the host candidate set before invocation. |
 | P063-07 | Add host capability gate and audit | partial | `POST /v1/host/capabilities/inquirium.generate` and `POST /v1/host/capabilities/inquirium.embed` require local control-plane auth or an explicit JSON-e/module inference grant; `allowed_calls` alone is not authority, and grants bound request size plus optional runtime/profile refs. Discovery advertises a ready provider only for routable candidates backed by an implemented handler. The implemented `generate` path enforces classification at the host boundary and writes metadata-only trace records under `trace/inquirium/generate`; the implemented `embed` path writes metadata-only trace records under `trace/inquirium/embed`. Both export only host-keyed/domain-separated HMAC request digests and avoid storing prompt/input text, model output, or vector values. Broader operation audit remains future work. |
 | P063-08 | Migrate one existing model-adjacent path | done | Story-009 JSON-e Flow roles now use `inquirium.generate` preflight for the migrated text/model-adjacent path; remote Arca/Dator service-order dispatch uses explicit Artifact Delivery and INAC admission boundaries. Dedicated image-generation remains a separate future operation. |

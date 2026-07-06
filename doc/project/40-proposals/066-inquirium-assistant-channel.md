@@ -752,6 +752,8 @@ validates and shapes it before any operator sees it.
   "operation/ref": "operation/inquirium/op-7f3a",
   "recipient/class": "operator",
   "reason/code": "operator-approval-required",
+  "escalation/reason": "operator-decision-required",
+  "escalation/level": "operator-prompt",
   "prompt": {
     "kind": "single-choice",
     "text": "Use remote runtime for this public-only context?"
@@ -759,17 +761,26 @@ validates and shapes it before any operator sees it.
   "widget/kind": "single-choice",
   "widget/payload": {
     "options": [
-      { "value": "yes", "title": "Yes" },
-      { "value": "no", "title": "No" }
+      { "value": "yes", "label": "Yes" },
+      { "value": "no", "label": "No" }
     ]
   },
   "default/on-timeout": {
     "answer": "no",
     "reason/code": "timeout-fail-closed"
   },
+  "expires/at": "2026-07-06T12:30:00Z",
   "classification": {
-    "input": "public",
-    "output": "public"
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": {
+      "kind": "local-space",
+      "space": "inquirium.operator-question"
+    },
+    "bound_subjects": {
+      "personal_or_community": []
+    }
   },
   "subject": {
     "runtime/ref": "...",
@@ -825,6 +836,14 @@ the model cannot answer its own prompt. `timed_out`, `cancelled`, and
 `default/on-timeout` may unblock, and that default must be conservative for the
 operation (normally `no`, `deny`, or `do-not-egress`).
 
+The current node slice detects expiry lazily at the host boundary: registry open
+performs recovery sweep, new question submission sweeps existing pending rows,
+and a late answer to an expired question first applies the timeout default and
+then rejects the late action. It also projects `expires/at` to notification and
+action expiry fields so UI/read models can hide stale prompts. A scheduler-backed
+periodic sweep remains a host-integration improvement, not a hidden private
+timer inside the operator-question registry.
+
 **Interaction contract ≠ notification contract.** The interaction request is the
 blocking primitive. The host MAY *derive* a `notification-create.v1` with
 `actions[]` (P057 `notification-action.v1`) as the attention vehicle, but the
@@ -844,6 +863,7 @@ Projection from interaction request to notification is mechanical and host-owned
 | `widget/payload` | `actions[].input/schema` projection or host-rendered widget model |
 | `response.target/ref` | `actions[].target/ref` |
 | `default/on-timeout` | Host-enforced timeout behavior, not a rendered answer |
+| `expires/at` | `expires/at` and `actions[].action/expires-at` |
 
 The notification may expose an inline action only as a bounded projection of the
 host-owned interaction. It may also point to a dedicated interaction page. In both
@@ -1283,9 +1303,12 @@ No unresolved questions remain for this proposal's MVP contract.
 6. Add a second dependency-direction lint proving no
    `trace/inquirium-assistant-turns` consumer imports `memarium-runtime`
    directly; transcript reads go through a separate capability.
-7. Wire daemon-side operator-question persistence, answer handling, timeout
-   handling, and `notification-create.v1` emission from the host-owned
-   interaction contract.
+7. Continue the operator-question lifecycle after the implemented persistence,
+   answer handling, timeout default, lazy/recovery expiry sweep, and
+   `notification-create.v1` emission by adding explicit `cancelled` and
+   `superseded` transitions, notification update events, and optionally a
+   scheduler-owned periodic sweep job if operator UX needs non-lazy timeout
+   surfacing.
 
 ## Implementation Tracking
 
@@ -1307,7 +1330,7 @@ That advisory remains only a working note; this table is the canonical backlog.
 | `assistant-host-capability` | Add operator-bound host capability endpoint for assistant inquiry. | `done` | `inquirium.assistant.turn` is a host capability; module callers require explicit inference authority; local-control E2E passes. |
 | `assistant-local-only-routing` | Route Phase 1 through local-only Inquirium selection. | `done` | Assistant turn maps through local-only/strict-local `inquirium.generate`; healthy local deterministic runtime succeeds and no remote fallback path is used. |
 | `assistant-local-runtime-target` | First target: OpenAI-compatible local HTTP over Ollama/`llama.cpp`-class server; baseline anchored to `llama.cpp`-class runtime. | `done` | Daemon coverage now proves `inquirium.assistant.turn` can pin `profile/baseline-assistant`, run the required conformance action, and route through a local unmanaged `http_local` OpenAI-compatible runtime candidate using the built-in `openai_chat_completions` request/response mapping with host-owned model binding injection. `node/config/examples/60-inquirium-baseline-ollama.json` is the reference catalog override; the contract stays protocol-first and vendor-neutral and does not add a Python HTTP proxy for local chat-completions servers. |
-| `inquirium-core-contract-crate` | Create `inquirium-core` (thin contract crate); move `inquirium.embed.*` there; `inquirium.generate.*` lands there. | `done` | `inquirium-core` now owns generate, embed, batch-embed, assistant-turn, policy, trace, transcript, operator-question, feedback, and rigor DTOs; request DTOs reject unknown fields; direct embed is bounded to 1024 text items, 32 KiB per UTF-8 text item, and 4096 requested dimensions; `model-runtime` re-exports the embedding DTOs only for runtime-facing compatibility. |
+| `inquirium-core-contract-crate` | Create `inquirium-core` (thin contract crate); move `inquirium.embed.*` there; `inquirium.generate.*` lands there. | `done` | `inquirium-core` now owns generate, embed, batch-embed, classify, rerank, assistant-turn, policy, trace, transcript, operator-question, feedback, and rigor DTOs; request DTOs reject unknown fields; direct embed is bounded to 1024 text items, 32 KiB per UTF-8 text item, and 4096 requested dimensions; classify/rerank requests bound text inputs, simple classification label tokens, closed label/candidate sets, normalized confidence/relevance thresholds, duplicate-free outputs, request/response pair invariants, and `top_k`/`top_n` ceilings; `model-runtime` re-exports the embedding DTOs only for runtime-facing compatibility. |
 | `assistant-transcript-store-contract` | Define `InquiryTranscriptStore` trait (append fact, query, retention, excise; classification first-class). | `done` | `inquirium-core` exposes the transcript trait and fact/receipt/query DTOs with classification fields and principal-scoped query/excision shape. |
 | `assistant-history-per-participant` | Scope assistant history to the participant. | `in-progress` | Daemon fallback transcript refs are principal-scoped and request-body `participant/ref` is not authoritative; Memarium space mapping and cross-device survival remain later work. |
 | `assistant-transcript-memarium-impl` | Memarium-default impl via `memarium.write` op `write_fact`. | `done` | Daemon transcript writes first try host-owned `memarium.write` facts (`inquirium.inquiry-turn.v1`, `inquirium.inquiry-result.v1`, and audit excision markers) with classification-derived space mapping, provenance fields, tags, and idempotency keys; the local non-federating stream remains the bounded fallback/read-index when Memarium is disabled or rejects the write. |
@@ -1331,8 +1354,8 @@ That advisory remains only a working note; this table is the canonical backlog.
 | `assistant-turn-idempotency` | Add idempotency for `inquirium.assistant.turn`. | `done` | `AssistantTurnRequest` accepts `idempotency/key`; daemon replays the prior principal/session-scoped result and records duplicate traces without appending duplicate transcript facts. |
 | `assistant-output-boundary` | Cap assistant response output before transcript persistence. | `done` | `node/inquirium-host` applies the completed-output cap as a value-level host policy operation, preserving UTF-8 validity and recording diagnostics plus epistemic caveats when truncation happens; daemon supplies the configured cap and persists only the capped response. |
 | `assistant-escalation-policy` | `ModeKeyed` escalation threshold (feed → notification). | `in-progress` | `inquirium-core` now has typed escalation reasons and conservative default levels for feed/notification/operator-prompt decisions; Phase 1 escalates only baseline unavailable, repeated local runtime failure, and stale/expired baseline conformance; full `ModeKeyed`/`ClassKeyed` policy configuration and P057 delivery integration remain later work. |
-| `assistant-operator-question` | Host-owned `inquirium.operator-question.request.v1` (blocking operator prompt). | `in-progress` | `inquirium-core` validates the typed request contract with operation refs, classification, provenance, timeout default, registered widget kinds, and host-side answer validation against the selected widget. `node/daemon` now owns a durable `storage/inquirium-operator-questions.sqlite` registry, consumes `GenerateControlKind::OperatorQuestion` items from the closed response control channel, stores bounded `pending` questions, caps stored request JSON before deserialize, accepts idempotent `answered` transitions through the notification action target `inquirium.operator-question.respond`, reports duplicate submit of an already answered question as replay metadata, and rejects answers outside the widget contract. Remaining work: automatic `timed_out`, `cancelled`, and `superseded` transitions with conservative timeout defaults and recovery sweep. |
-| `assistant-interaction-notification-projection` | Derive notification actions from operator-question interactions. | `in-progress` | `inquirium-core` derives a notification-action projection with a registered input schema ref from the operator-question contract. `node/daemon` now projects newly persisted pending questions to durable `notification-create.v1` records in `NotificationStore`, keeps the question ref as notification subject/collapse key, scopes notification ids by source component plus question ref, skips duplicate notification creation on submit replay, carries the full typed question as `body/input`, and routes notification action answers back into the operator-question registry before marking the notification handled. Remaining work: richer UI rendering for widget payloads and timeout/cancel/supersede notification updates. |
+| `assistant-operator-question` | Host-owned `inquirium.operator-question.request.v1` (blocking operator prompt). | `in-progress` | `inquirium-core` validates the typed request contract with operation refs, classification, provenance, `expires/at`, timeout default, registered widget kinds, and host-side answer validation against the selected widget. `node/daemon` now owns a durable `storage/inquirium-operator-questions.sqlite` registry, consumes `GenerateControlKind::OperatorQuestion` items from the closed response control channel, stores bounded `pending` questions, caps stored request JSON before deserialize, accepts idempotent `answered` transitions through the notification action target `inquirium.operator-question.respond`, reports duplicate submit of an already answered question as replay metadata, rejects answers outside the widget contract, rejects newly submitted expired or malformed-expiry questions, applies `timed_out` with the conservative `default/on-timeout` answer after `expires/at`, and runs lazy expiry sweeps at registry open, before new submits, and on late answers. Remaining work: explicit `cancelled` and `superseded` transitions plus optional scheduler-owned periodic sweep if non-lazy timeout surfacing becomes required. |
+| `assistant-interaction-notification-projection` | Derive notification actions from operator-question interactions. | `in-progress` | `inquirium-core` derives a notification-action projection with a registered input schema ref from the operator-question contract. `node/daemon` now projects newly persisted pending questions to durable `notification-create.v1` records in `NotificationStore`, keeps the question ref as notification subject/collapse key, scopes notification ids by source component plus question ref, skips duplicate notification creation on submit replay, carries the full typed question as `body/input`, projects `expires/at` to notification and action expiry fields, and routes notification action answers back into the operator-question registry before marking the notification handled. Remaining work: richer UI rendering for widget payloads and explicit cancel/supersede notification update events. |
 | `assistant-crisis-candidate` | Inquirium emits `crisis-candidate` to the host crisis layer. | `todo` | Inquirium never declares crisis as authority; formal status owned by `daemon/crisis_detectors`. |
 | `inquirium-core-dep-direction-lint` | Dependency lint: `inquirium-core` deps only contract primitives (`classification`, canonical JSON) plus narrow serde/error helpers; substrate depends on core, not vice versa; trace consumers don't import `memarium-runtime`. | `partial` | `node:tools/check-inquirium-core-deps.py` is wired into CI and fails if `inquirium-core` imports model-runtime, daemon, HTTP, async runtime, or SQLite substrate crates. The canonical JSON dependency is allowed as a deterministic contract utility for prompt-assembly digests. The separate trace-consumer/import lint remains future work. |
 | `epistemic-schema-gate` | Schema gate forbids `stance: authoritative` and any `effects` on `generate.response.v1`; `plurality` default `preserve`; negative fixtures. | `done` | `authoritative` stance is unrepresentable, unknown effect fields are rejected by `deny_unknown_fields`, and core tests cover both paths. |
