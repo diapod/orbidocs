@@ -94,9 +94,13 @@
    :responsibilities
    ["Run `sensorium-os` as the first supervised Sensorium connector"
     "Advertise `module_role = sensorium-connector` and connector action metadata"
-    "Implement finite `os.process.spawn-read-only` and `os.script.run` action surfaces"
+    "Implement finite script-backed C1/C2 Sensorium OS actions and expose the P048 action-class catalog"
     "Execute configured commands without shell interpolation"
-    "Enforce configured workdir, script root, timeout, stdout, stderr, and artifact bounds"]
+    "Enforce configured workdir, script root, timeout, stdout, stderr, and artifact bounds"
+    "Report per-action class availability and fail closed for unavailable C3-C7 classes"
+    "Use the authorized action catalog entry as the canonical executable source and reject request-local allowlist or host-policy overrides"
+    "Enforce `result_pointer_fields` exact/prefix result contracts"
+    "Reject invalid action ids, invalid result pointer identifiers, and allowlist-local sensitivity override or unknown sensitivity keys"]
    :status :done}
 
   {:cap/id :sensorium-os-action-catalog-authorization
@@ -106,7 +110,7 @@
               "doc/project/60-solutions/006-capability-binding/006-capability-binding.md"]
    :schemas []
    :responsibilities
-   ["Report action catalog hash, sidecar metadata, and effective authorized action ids"
+   ["Report action catalog hash, sidecar metadata, per-action availability, catalog diagnostics, authorized action ids, and runtime-available action ids"
     "Fail closed when action catalog signature is required and missing or stale"
     "Let the daemon write operator-signed grant or deny sidecars"
     "Keep cryptographic key use in the daemon/HostSigner stratum rather than in the connector"]

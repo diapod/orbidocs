@@ -214,9 +214,13 @@ to let a role flow or supervised middleware call Sensorium, receive the action
 result, build an artifact envelope, and then call `artifact.delivery.send`.
 
 This keeps the OS action focused on local sensing or execution while the host
-keeps delivery, authorization, route selection, and retry semantics. If an action
-needs to produce deliverable content, return bounded JSON or bytes to its caller;
-the caller should wrap that output in a schema-bound artifact and use AD.
+keeps delivery, authorization, route selection, and retry semantics. In the
+hard-MVP runtime, `sensorium-os` only executes script-backed C1/C2 entries from
+the authorized catalog. Artifact-producing, filesystem-write, network-egress,
+composed, or operator-gated action classes remain visible but unavailable and
+fail closed until their enforcement envelopes exist. If an available action
+returns deliverable content, return bounded JSON or bytes to its caller; the
+caller should wrap that output in a schema-bound artifact and use AD.
 
 ```text
 JSON-e Flow or supervised role middleware

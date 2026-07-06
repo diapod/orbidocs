@@ -219,10 +219,14 @@ na tym, że role flow albo supervised middleware wywołuje Sensorium, odbiera wy
 akcji, buduje kopertę artefaktu, a następnie wywołuje `artifact.delivery.send`.
 
 Dzięki temu OS action pozostaje skupiona na lokalnym sensing albo wykonaniu, a
-host zachowuje delivery, autoryzację, wybór trasy i semantykę retry. Jeżeli akcja
-ma wytworzyć dostarczalną treść, powinna zwrócić ograniczony JSON albo bajty do
-swojego callera; caller powinien opakować ten wynik w artefakt związany ze
-schematem i użyć AD.
+host zachowuje delivery, autoryzację, wybór trasy i semantykę retry. W runtime
+hard-MVP `sensorium-os` wykonuje tylko skryptowe wpisy C1/C2 z autoryzowanego
+katalogu. Klasy akcji produkujące artefakty, zapisujące do systemu plików,
+wychodzące do sieci, złożone albo bramkowane przez operatora pozostają widoczne,
+ale niedostępne i fail-closed do czasu istnienia ich enforcement envelopes.
+Jeżeli dostępna akcja zwraca dostarczalną treść, powinna zwrócić ograniczony JSON
+albo bajty do swojego callera; caller powinien opakować ten wynik w artefakt
+związany ze schematem i użyć AD.
 
 ```text
 JSON-e Flow albo supervised role middleware

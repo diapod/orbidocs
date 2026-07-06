@@ -10,7 +10,7 @@ Based on:
 
 ## Status
 
-Draft / decision baseline resolved. Hard-MVP closure decision pending.
+Implemented for hard-MVP minimal runtime. Post-MVP class expansion remains.
 
 ## Date
 
@@ -394,7 +394,18 @@ small:
 field MAY end in `.*` to admit one prefix namespace such as `metrics.*`; the
 prefix MUST still be explicit, bounded by output-size limits, and treated as a
 summary contract rather than an arbitrary data channel. Unbounded wildcards such
-as `*` or nested catch-all patterns are forbidden.
+as `*` or nested catch-all patterns are forbidden. Exact names and wildcard
+prefixes MUST be bounded identifiers matching `[A-Za-z_][A-Za-z0-9_.-]*`, with
+one optional Lisp-style namespace separator such as `verification/status`.
+
+`action_id` uses the same bounded identifier shape and is capped at 128 UTF-8
+bytes. Surrounding whitespace, spaces inside the identifier, shell-like text, and
+empty values are structural errors, not normalized aliases.
+
+Allowlist-local `sensitivity` may declare only the canonical `class` key or the
+legacy `default_class` alias. Any override, downgrade, loosen, relax, or unknown
+sensitivity key is forbidden because narrower effective sensitivity must come
+from host-owned policy outside the connector allowlist.
 
 Emergency posture is a host-policy gate. When the node is in elevated emergency
 posture, host policy MUST fail closed for C3 (`scoped-fs-write`), C4
@@ -421,7 +432,15 @@ declarations. The operator adds, removes, or adjusts entries by editing
 the file; the connector reloads the catalog on supervised restart. No
 source-code change is required to expose a new command set.
 
-The connector validates the catalog at load time:
+The authorized catalog entry is the canonical dispatch source. A connector
+request MAY repeat `allowlist_entry.action_id` only as a consistency hint; it
+MUST NOT provide request-local executable, cwd, schema, hash, environment,
+limit, sensitivity, or policy fields that could override the signed catalog.
+Request-level `host_policy` is likewise forbidden. Host policy may be supplied
+by the mediated directive or module configuration only.
+
+The connector validates the catalog at load/report time and again before
+dispatch:
 
 - each declaration MUST name exactly one `class`;
 - each declaration MUST satisfy the class-specific invariants (executable
@@ -433,9 +452,12 @@ The connector validates the catalog at load time:
 - each `result_contract.signal_kind` MUST match the Sensorium signal-kind
   pattern.
 
-Declarations that fail validation are rejected at startup; the connector
-refuses to run with a partial catalog. This is intentional: a silent
-dropped action is a harder operator failure mode than a refusing module.
+Declarations that fail structural validation are not part of the effective
+runtime catalog and are rejected before dispatch. Classes that are known but
+cannot be enforced on the current platform are reported as unavailable per
+action/class and every execution attempt fails closed. This lets the connector
+start, show the operator an auditable catalog status, and avoid pretending that
+a weaker envelope is equivalent to the declared class.
 
 Per-action result contracts may additionally declare a bounded
 `result_pointer_fields` list. For exact entries, every listed field MUST be
@@ -456,11 +478,24 @@ v1 vocabulary is intentionally small and implementation-facing:
 
 - `action-catalog-unauthorized`
 - `action-not-allowlisted`
+- `catalog-entry-missing`
 - `script-hash-mismatch`
 - `working-directory-forbidden`
 - `parameters-schema-invalid`
 - `result-schema-invalid`
 - `result-pointer-missing`
+- `result-pointer-field-invalid`
+- `action-class-unknown`
+- `action-class-unavailable`
+- `emergency-policy-blocked`
+- `action-id-missing`
+- `action-id-format-invalid`
+- `action-id-duplicate`
+- `host-policy-request-forbidden`
+- `allowlist-catalog-mismatch`
+- `script-executable-missing`
+- `sensitivity-override-forbidden`
+- `sensitivity-keys-forbidden`
 - `action-timeout`
 - `directive-missing`
 - `parameters-invalid`
@@ -958,8 +993,10 @@ and what shape of result to expect. That is the intended experience.
 
 Proposal 045 introduced a single reference action (`os.process.spawn-read-only`).
 Under this proposal that action becomes the canonical `read-only-spawn`
-(C1) entry and keeps its behavior unchanged. No existing caller is
-affected. New actions declare their class explicitly. The connector
+(C1) class. The hard-MVP reference connector supports C1 only through the
+same bounded script-backed runner used for C2; binary C1 process isolation is
+a later sandbox slice. Existing Sensorium callers remain addressed by stable
+`action_id`; new actions declare their class explicitly. The connector
 version MAY advertise the catalog it understands through
 `middleware-module-report`'s `connector_actions` array so operators can
 audit coverage.
@@ -977,9 +1014,46 @@ audit coverage.
 
 ## Open Questions
 
-One closure question remains: whether the resolved action-class baseline is
-enough to mark P048 hard-MVP ready, or whether hard-MVP still requires a fuller
-sandbox specification before closure.
+No unresolved hard-MVP questions remain.
+
+## Implementation Status
+
+Hard-MVP minimal runtime is implemented in
+`node/middleware-modules/sensorium-os/`:
+
+- the action catalog accepts class-aware declarations with `class`,
+  `executable`, schema refs/inline schemas, limits, result contract metadata,
+  and `result_pointer_fields`;
+- C1/C2 are runtime-available only for the current script-backed runner shape:
+  `executable.kind = "script"` under allowlisted script roots, with no shell
+  interpolation and bounded stdout/stderr capture;
+- C1 with `executable.kind = "binary"` is recognized as C1 but unavailable with
+  reason `binary-executable-not-isolated` until binary process isolation exists;
+- C3/C4/C5/C6/C7 are recognized by name but reported unavailable unless their
+  enforcement envelope exists; dispatch fails closed with an
+  `action-class-unavailable` diagnostic rather than weakening the class;
+- elevated emergency posture blocks C3/C4/C5 and the current unavailable C6
+  composed class before execution unless host policy supplies an explicit
+  emergency exception;
+- allowlist-local sensitivity overrides are rejected; any narrower effective
+  sensitivity must come from host-owned policy outside the connector allowlist;
+- `result_pointer_fields` supports exact fields and explicit prefix wildcards
+  such as `metrics.*`; one optional Lisp-style namespace separator such as
+  `verification/status` is admitted; unbounded `*`, inner wildcards, whitespace,
+  and deeper namespace paths are rejected;
+- connector dispatch uses the authorized catalog entry as the only executable
+  source and rejects request-local allowlist or host-policy overrides;
+- `/v1/sensorium/os/catalog/status` reports authorization, per-action
+  availability, catalog diagnostics, authorized ids, and available ids.
+
+Verification evidence:
+
+- `python3 node/middleware-modules/sensorium-os/test_service.py`
+- `python3 -m py_compile node/middleware-modules/sensorium-os/service.py`
+
+Post-MVP work is not a hard-MVP blocker for this proposal: richer process
+isolation for binary C1, real platform enforcement for C3/C4/C5, composed C6
+dispatch, and operator-gated C7 approval remain later runtime/sandbox slices.
 
 Resolved 2026-07-06:
 
@@ -995,7 +1069,10 @@ Resolved 2026-07-06:
    wildcards remain forbidden.
 4. **Relationship to emergency activation.** Host policy fails closed for
    C3/C4/C5 under elevated emergency posture unless the action has an explicit
-   emergency exception in host policy or an approved overlay.
+   emergency exception in host policy or an approved overlay. The hard-MVP
+   reference runtime also blocks the currently unavailable C6 composed class
+   under emergency posture so composed actions cannot bypass the strictest
+   included-effect semantics before their full envelope exists.
 
 ## Non-Goals
 

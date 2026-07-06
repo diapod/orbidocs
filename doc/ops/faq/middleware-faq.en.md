@@ -418,10 +418,17 @@ daemon and connector action catalogs; the connector itself, such as
 middleware module: it is an operation declared by the connector and mediated by
 Sensorium Core. This shape is appropriate when a module needs controlled contact
 with the operating system, local applications, sensors, tools, or other enacted
-surfaces. Consumers should depend on Sensorium capability and action contracts,
-not on a hard-coded connector implementation. A specialized deployment may clone
-or replace a connector as a new middleware module, but that should be visible as a
-new module identity and action catalog.
+surfaces. Consumers should depend on Sensorium capability, action-class, and
+action-catalog contracts, not on a hard-coded connector implementation. A
+specialized deployment may clone or replace a connector as a new middleware
+module, but that should be visible as a new module identity and action catalog.
+
+For the current hard-MVP `sensorium-os` connector, the available runtime surface
+is intentionally narrow: script-backed C1/C2 actions can run through the signed
+catalog, while binary C1 and C3-C7 actions are reported as unavailable and fail
+closed until their enforcement envelopes exist. The authorized catalog entry is
+the executable source of truth; request-local allowlist entries or host-policy
+overrides are rejected.
 
 #### Registration shape
 
@@ -432,8 +439,9 @@ new module identity and action catalog.
 
 #### Use cases
 
-- OS-level actions such as file creation, image generation wrappers, Git actions,
-  or local application integration.
+- OS-level actions such as bounded Git checks, deterministic local scripts, or
+  deployment-specific wrappers whose action class and result contract are
+  explicit in the catalog.
 - Safe mediation between declarative role middleware and powerful local effects.
 - Deployment-specific connectors with a restricted action catalog.
 
@@ -445,7 +453,8 @@ new module identity and action catalog.
   "kind": "sensorium-connector",
   "actions": [
     {
-      "action_id": "sensorium.os.write-file",
+      "action_id": "story009.publication.verify",
+      "class": "allowlisted-script",
       "input_schema": "sensorium-directive.v1",
       "output_schema": "sensorium-directive-outcome.v1"
     }

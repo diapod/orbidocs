@@ -163,11 +163,20 @@ Related schemas:
 Responsibilities:
 - run `sensorium-os` as the first supervised Sensorium connector,
 - advertise `module_role = sensorium-connector` and connector action metadata,
-- implement finite `os.process.spawn-read-only` and `os.script.run` action
-  surfaces,
+- implement finite script-backed C1/C2 Sensorium OS actions and expose the P048
+  action-class catalog,
 - execute configured commands without shell interpolation,
 - enforce configured working directory, script root, timeout, stdout, stderr,
   and artifact bounds,
+- report per-action class availability and fail closed for unavailable C3-C7
+  classes until their enforcement envelopes exist,
+- use the authorized action catalog entry as the canonical executable source and
+  reject request-local allowlist or host-policy overrides,
+- enforce `result_pointer_fields` exact/prefix result contracts,
+- reject invalid action ids, invalid result pointer identifiers, and
+  allowlist-local sensitivity override or unknown sensitivity keys,
+- distinguish missing or invalid authorized catalog entries from ordinary
+  not-allowlisted requests with stable diagnostic codes,
 - return structured results and artifact references without embedding large
   payloads into directive envelopes.
 
@@ -184,8 +193,8 @@ Related schemas:
 - none frozen
 
 Responsibilities:
-- report action catalog hash, sidecar metadata, and effective authorized action
-  ids,
+- report action catalog hash, sidecar metadata, per-action availability, catalog
+  diagnostics, authorized action ids, and runtime-available action ids,
 - fail closed when action catalog signature is required and missing or stale,
 - let the daemon write operator-signed grant or deny sidecars from the operator
   surface,

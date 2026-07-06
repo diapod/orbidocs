@@ -431,11 +431,18 @@ middleware'em. Akcja konektora nie jest osobnym modułem middleware: jest operac
 zadeklarowaną przez konektor i mediowaną przez Sensorium Core. Ten kształt jest
 właściwy, gdy moduł potrzebuje kontrolowanego kontaktu z systemem operacyjnym,
 lokalnymi aplikacjami, sensorami, narzędziami albo innymi enactowanymi
-powierzchniami. Konsumenci powinni zależeć od capability Sensorium i kontraktów
-akcji, nie od twardo zakodowanej implementacji konkretnego konektora.
-Specjalizowany deployment może sklonować albo zastąpić konektor jako nowy moduł
-middleware, ale powinno to być widoczne jako nowa tożsamość modułu i katalog
-akcji.
+powierzchniami. Konsumenci powinni zależeć od capability Sensorium, klas akcji i
+kontraktów katalogu akcji, nie od twardo zakodowanej implementacji konkretnego
+konektora. Specjalizowany deployment może sklonować albo zastąpić konektor jako
+nowy moduł middleware, ale powinno to być widoczne jako nowa tożsamość modułu i
+katalog akcji.
+
+Dla obecnego hard-MVP konektora `sensorium-os` dostępna powierzchnia runtime jest
+celowo wąska: skryptowe akcje C1/C2 mogą działać przez podpisany katalog,
+natomiast binarne C1 oraz C3-C7 są raportowane jako niedostępne i fail-closed do
+czasu istnienia ich enforcement envelopes. Autoryzowany wpis katalogu jest
+źródłem prawdy dla wykonania; lokalne wpisy allowlisty albo override'y
+`host_policy` z żądania są odrzucane.
 
 #### Kształt rejestracji
 
@@ -446,8 +453,9 @@ akcji.
 
 #### Zastosowania
 
-- Akcje na poziomie systemu operacyjnego, takie jak tworzenie plików, wrappery
-  generowania obrazów, akcje Git albo integracja lokalnych aplikacji.
+- Akcje na poziomie systemu operacyjnego, takie jak ograniczone sprawdzenia Git,
+  deterministyczne lokalne skrypty albo wrappery specyficzne dla deploymentu,
+  których klasa akcji i kontrakt wyniku są jawne w katalogu.
 - Bezpieczna mediacja między deklaratywnym middleware roli a silnymi lokalnymi
   efektami.
 - Konektory specyficzne dla deploymentu z ograniczonym katalogiem akcji.
@@ -460,7 +468,8 @@ akcji.
   "kind": "sensorium-connector",
   "actions": [
     {
-      "action_id": "sensorium.os.write-file",
+      "action_id": "story009.publication.verify",
+      "class": "allowlisted-script",
       "input_schema": "sensorium-directive.v1",
       "output_schema": "sensorium-directive-outcome.v1"
     }
