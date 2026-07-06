@@ -1403,15 +1403,24 @@ evidence) · `[!]` blocked/needs decision.
   connector exposes `/v1/sensorium/connector/invoke` and Workbench action ids
   for Sensorium Core mediated routing; Sensorium Core already dispatches
   allowlisted connector directives with directive metadata and idempotency.
-- [ ] Route cross-source waits through the host interaction broker rather than
+- [~] Route cross-source waits through the host interaction broker rather than
   making Sensorium Core own AD, Memarium, approval, or deferred-operation joins.
+  The daemon broker now owns grant-context admission for JSON-e/module
+  wait/watch/probe calls through daemon-issued host-local HMAC grant material
+  requested by `bindings.host_grant_requests`, keeps deferred-operation
+  `OperationDone` waits host-owned, and wires live Workbench file-tree plus
+  terminal providers for file probes, file waits, file-tree watch batches,
+  terminal liveness/progress probes, terminal waits, and terminal watch batches.
+  AD, Memarium, approval, and dynamic non-Workbench provider joins remain open.
 - [~] Add grant and policy checks for terminal command, terminal raw input,
   file snapshot, file read, and patch apply. The connector enforces explicit
   grant envelopes for mediated file/probe/watch/wait actions and terminal
   actions; raw input, resize, and signal additionally require operator
   confirmation; terminal capture requires both terminal-session and
-  artifact-write grants; and operation status reads require an explicit wait
-  grant. Full host-side cryptographic grant issuance remains future.
+  artifact-write grants; operation status reads require an explicit wait grant;
+  and daemon broker dispatch now requires JSON-e/module callers to request the
+  relevant broker grant in `bindings.host_grant_requests`, then admits the call
+  only after daemon-issued host-local HMAC grant material is minted and verified.
 - [x] Extract Workbench grant/autonomy policy into the
   authorization-policy-as-data sidecar. `capability-authorization-policy.v1`
   now carries required grants, caller posture, approval mode, autonomy floor, and
@@ -1429,8 +1438,9 @@ evidence) · `[!]` blocked/needs decision.
   remain future virtualized backend work.
 - [~] Expose active waits, watches, deadlines, and suspected no-progress states
   in operator status. Event cursors, command status, connector-local active wait
-  count/status, and no-progress probe diagnostics are exposed; full host-broker
-  status remains future.
+  count/status, no-progress probe diagnostics, and host-broker status/providers/
+  resource read APIs are exposed. Rich operator UX over host-broker state
+  remains future.
 - [~] Link captured outputs through Artifact Delivery or Memarium only under
   explicit classification and retention policy. Terminal capture now writes a
   bounded local artifact descriptor with classification and provenance; AD or

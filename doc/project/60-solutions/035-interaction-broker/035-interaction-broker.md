@@ -45,11 +45,16 @@ The current Node implementation has the contract core in
 capabilities `interaction-broker.wait`, `interaction-broker.watch`, and
 `interaction-broker.probe`. The daemon persists broker resources in
 `<data-dir>/storage/interaction-broker.sqlite`, seeds a source-provider registry
-for the deferred-operation registry and pending Workbench terminal/file
+for the deferred-operation registry and Workbench terminal/file
 providers, exposes operator read APIs, and registers broker-owned async waits in
-the host Bounded Deferred Operation registry. Workbench live provider adapters,
-grant-context admission, audit projection, recovery pass, and retention-backed
-replay remain incomplete.
+the host Bounded Deferred Operation registry. The daemon treats JSON-e
+`bindings.host_grant_requests` as grant requests, mints host-local HMAC grant
+material before dispatch, and writes metadata-only audit events for admitted
+wait/watch/probe calls. It wires live Workbench file-tree and terminal provider
+adapters for file probes, file waits, file-tree watch event batches, terminal
+liveness/progress probes, terminal waits, and terminal watch event batches.
+Full recovery policy, retention-backed replay, and non-Workbench source
+providers remain incomplete.
 
 ## Context And Problem Statement
 
@@ -271,9 +276,13 @@ Status:
   Operation registration/polling for broker-owned async waits. Broker-level
   capability readiness means the daemon can validate and dispatch broker
   requests; source-level availability remains visible per provider at
-  `/v1/interaction-broker/providers`, where Workbench terminal/file providers
-  stay `adapter-pending` until their live adapters are wired. Grant-context
-  admission, full recovery, and retention-backed replay remain incomplete.
+  `/v1/interaction-broker/providers`, where the Workbench file-tree and terminal
+  providers become `ready` when the Workbench HTTP-local probe/watch handlers
+  are registered and ready. Grant-context admission is enforced for
+  JSON-e/module broker dispatch through daemon-issued host-local HMAC grant
+  material requested by `bindings.host_grant_requests`; admitted submissions
+  are projected into metadata-only audit events. Full recovery and
+  retention-backed replay remain incomplete.
 
 ### Source Provider Registry
 
@@ -287,8 +296,13 @@ Responsibilities:
 Status:
 
 - `partial`: the daemon seeds source-provider registry rows for the
-  deferred-operation registry and pending Workbench terminal/file providers.
-  Dynamic provider registration and Workbench live adapters remain incomplete.
+  deferred-operation registry and Workbench terminal/file providers. The
+  deferred-operation provider is executable for `OperationDone` waits, and the
+  Workbench file-tree provider is live through the Workbench HTTP-local
+  `interaction-broker.probe` and `interaction-broker.watch` handlers. The
+  Workbench terminal provider is live through the same handlers for liveness and
+  progress probes, terminal waits, and terminal watch batches. Dynamic provider
+  registration and non-Workbench source providers remain incomplete.
 
 ## May Implement
 
@@ -323,10 +337,6 @@ Status:
 
 ## Next Actions
 
-- Wire the Workbench-owned terminal/file provider adapters into the
-  broker-owned source-provider registry.
-- Add explicit grant-context admission and host audit projection for
-  wait/watch/probe dispatch.
 - Add daemon startup recovery and retention-backed replay semantics for broker
   resources.
 - Extend conformance tests from core-level schema validation and

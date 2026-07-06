@@ -24,7 +24,7 @@
     "Preserve the rule that Inquirium proposes intents but cannot invoke connectors directly"
     "Bind effect classes to grants caller posture approval mode autonomy floor and COI policy"]
    :status :partial
-   :status-detail "Capability ids and policy sidecars exist; daemon-issued cryptographic grant context remains future runtime work."}
+   :status-detail "Capability ids and policy sidecars exist; JSON-e/module broker calls now request host grants through bindings.host_grant_requests and the daemon mints host-local HMAC grant material before dispatch."}
 
   {:cap/id :sensorium-workbench-shared-actuation-core
    :title "Shared Actuation Core"
@@ -106,7 +106,7 @@
     "Require explicit status-read grants"
     "Prevent wait timeout or maybe_hung diagnostics from authorizing process termination"]
    :status :partial
-   :status-detail "Connector-local waits/probes/watches and deferred status projection exist. The daemon now owns the Interaction Broker runtime slice with durable broker resource storage, seeded provider registry rows, operator read APIs, and BDO registration/polling for broker-owned waits; Workbench live terminal/file adapters, grant-context admission, and host audit projection remain future work."}
+   :status-detail "Connector-local waits/probes/watches and deferred status projection exist. The daemon now owns the Interaction Broker runtime slice with durable broker resource storage, seeded provider registry rows, operator read APIs, BDO registration/polling for broker-owned waits, JSON-e/module grant-context admission through daemon-issued host-local HMAC grant material requested by host_grant_requests, metadata-only broker audit projection, and live Workbench file-tree plus terminal provider adapters."}
 
   {:cap/id :sensorium-workbench-storage-recovery-status
    :title "Storage, Recovery, and Operator Visibility"

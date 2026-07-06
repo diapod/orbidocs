@@ -44,9 +44,16 @@ Partial implementation foundation.
 
 The contract, schema, conformance-vector, capability-registration, opt-in local
 connector foundation, and daemon-owned Interaction Broker runtime slice exist.
-The remaining solution work is Workbench live terminal/file provider adapter
-registration with the broker, host-issued grant context, host audit projection,
-broader adversarial actuator coverage, and future virtualized backends.
+The daemon now admits broker wait/watch/probe calls from JSON-e/module callers
+through daemon-issued host-local HMAC grant material requested by
+`bindings.host_grant_requests`, and the Workbench file-tree and terminal
+providers are live through the broker for file probes, file waits, file-tree
+watch event batches, terminal liveness/progress probes, terminal waits, and
+terminal watch event batches. The daemon also projects admitted broker
+wait/watch/probe submissions into metadata-only audit events. The remaining
+solution work is broader adversarial actuator coverage, future virtualized
+backends, richer recovery/retention semantics, and non-Workbench source-provider
+joins.
 
 ## Date
 
@@ -169,8 +176,9 @@ Responsibilities:
 
 Status:
 
-- `partial`: capability ids and policy sidecars exist; cryptographic
-  daemon-issued grant context remains future runtime work.
+- `partial`: capability ids and policy sidecars exist; JSON-e/module broker
+  calls request host grants through `bindings.host_grant_requests`, and the
+  daemon mints host-local HMAC grant material before dispatch.
 
 ### Shared Actuation Core
 
@@ -310,10 +318,15 @@ Status:
 - `partial`: connector-local waits/probes/watches and deferred status
   projection exist. The daemon-owned Interaction Broker runtime now provides
   host capability dispatch, durable broker resource storage, seeded provider
-  registry rows, operator read APIs, and host Bounded Deferred Operation
-  registration/polling for broker-owned waits. Workbench live terminal/file
-  provider-adapter registration, grant-context admission, and host audit
-  projection remain future work.
+  registry rows, operator read APIs, host Bounded Deferred Operation
+  registration/polling for broker-owned waits, JSON-e/module grant-context
+  admission through daemon-issued host-local HMAC grant material requested by
+  `bindings.host_grant_requests`, metadata-only broker audit projection, and
+  live Workbench file-tree plus terminal provider adapters. File probes, file
+  waits, file-tree watch batches, terminal liveness/progress probes, terminal
+  waits, and terminal watch batches can now flow through the broker. Dynamic
+  non-Workbench provider registration and deeper recovery/retention behavior
+  remain future work.
 
 ### Storage, Recovery, and Operator Visibility
 
