@@ -10,7 +10,7 @@ Based on:
 
 ## Status
 
-Draft
+Draft / decision baseline resolved. Hard-MVP closure decision pending.
 
 ## Date
 
@@ -145,6 +145,12 @@ Unless noted otherwise, every class imposes this **universal baseline**:
 - exit code, duration, and argv recorded in the outcome;
 - unknown or unresolved `action_id` is a hard reject before any spawn.
 
+Classes that require platform-specific enforcement primitives MUST fail closed
+per class/action, not by pretending a weaker envelope is equivalent. The
+connector MAY start on a platform where a required primitive is unavailable, but
+it MUST publish the affected class/action as unavailable and refuse every
+attempt to execute it until the enforcement primitive is present.
+
 ### C1: `read-only-spawn`
 
 - **Effect profile.** Process may read from the filesystem and system-level
@@ -211,7 +217,9 @@ Unless noted otherwise, every class imposes this **universal baseline**:
   platform-appropriate mechanism (per-process firewall, network
   namespace + reverse proxy, or equivalent). DNS resolution MUST respect
   the same allowlist. Total egress byte cap and per-connection byte cap
-  are declared by the allowlist entry and enforced by the connector.
+  are declared by the allowlist entry and enforced by the connector. When
+  no platform mechanism can enforce those bounds, the connector MUST mark
+  the class/action unavailable and refuse execution.
 - **Capture shape.** As in `read-only-spawn`, plus a network transcript:
   list of `(host, port, protocol, bytes_sent, bytes_received,
   duration_ms)` tuples. No payload bodies are captured in the directive
@@ -251,8 +259,11 @@ Unless noted otherwise, every class imposes this **universal baseline**:
   named category the corresponding parameters from C1..C5 MUST be
   supplied (e.g. `write_root` if `scoped-fs-write` is named,
   `network_allowlist` if `egress-network` is named). Sensitivity
-  baseline is the **strictest** of the included classes. Incidental
-  effects are the **union** of the included classes' baselines.
+  baseline is the **strictest** of the included classes unless a
+  host-owned policy engine supplies an explicit audited override outside
+  the connector allowlist. The connector allowlist itself MUST NOT lower
+  sensitivity. Incidental effects are the **union** of the included
+  classes' baselines.
 - **Capture shape.** Union of the capture shapes of the named
   categories.
 - **Baseline incidental effects.** Union of baselines of named
@@ -379,6 +390,19 @@ small:
   caller-supplied executable path is outside this contract and MUST be
   rejected.
 
+`result_pointer_fields` is an allowlist. Exact field names are preferred. A
+field MAY end in `.*` to admit one prefix namespace such as `metrics.*`; the
+prefix MUST still be explicit, bounded by output-size limits, and treated as a
+summary contract rather than an arbitrary data channel. Unbounded wildcards such
+as `*` or nested catch-all patterns are forbidden.
+
+Emergency posture is a host-policy gate. When the node is in elevated emergency
+posture, host policy MUST fail closed for C3 (`scoped-fs-write`), C4
+(`egress-network-spawn`), and C5 (`artifact-producing-spawn`) unless the action
+has an explicit emergency exception in the host policy or approved overlay. The
+connector reports the refusal as policy-driven; it does not infer emergency
+semantics from program names.
+
 The optional `signing` block does not make the connector a signing oracle.
 It describes a scoped, per-directive signer grant under proposal 037:
 domains are enumerated, key scope is explicit, and `max_signatures`
@@ -413,14 +437,16 @@ Declarations that fail validation are rejected at startup; the connector
 refuses to run with a partial catalog. This is intentional: a silent
 dropped action is a harder operator failure mode than a refusing module.
 
-Per-action result contracts may additionally declare a closed
-`result_contract.pointer_fields` list. For such actions, every listed field
-MUST be present in the structured JSON result returned by the script. A missing
-field is a contract failure, not an optional omission: the connector returns a
-structured diagnostic (`result-pointer-missing`) and Sensorium records an
-action-invalid observation. This prevents latent corruption where a script and a
-role module silently drift on names such as `review_commit` vs
-`reviewed_commit`.
+Per-action result contracts may additionally declare a bounded
+`result_pointer_fields` list. For exact entries, every listed field MUST be
+present in the structured JSON result returned by the script. For prefix entries
+ending in `.*`, at least one result field MUST match the prefix and every
+propagated field under that prefix remains subject to the action's output-size
+limits. A missing exact field or empty prefix match is a contract failure, not an
+optional omission: the connector returns a structured diagnostic
+(`result-pointer-missing`) and Sensorium records an action-invalid observation.
+This prevents latent corruption where a script and a role module silently drift
+on names such as `review_commit` vs `reviewed_commit`.
 
 ### Diagnostic Code Vocabulary
 
@@ -951,20 +977,25 @@ audit coverage.
 
 ## Open Questions
 
-- **Platform enforcement mechanism per class.** C3 and C4 need sandboxing
-  primitives that differ by platform. Should the connector refuse to
-  start on a platform where required primitives are unavailable, or run
-  with a prominent downgrade notice?
-- **Composed-spawn sensitivity arithmetic.** Maximum-of-components is a
-  safe default, but some workloads may legitimately need a narrower
-  declared class. Add a `sensitivity.override` field in the allowlist
-  entry gated by operator signature?
-- **Result pointer enumeration.** `result_pointer_fields` is strict
-  enumeration. Should wildcards be permitted for dynamic output shapes?
-  Preference: no — explicit enumeration is a feature, not a limitation.
-- **Relationship to emergency activation.** When a node is in an
-  elevated emergency posture, should certain classes (C3, C4, C5) be
-  automatically refused? Proposal-level hook left for a follow-up.
+One closure question remains: whether the resolved action-class baseline is
+enough to mark P048 hard-MVP ready, or whether hard-MVP still requires a fuller
+sandbox specification before closure.
+
+Resolved 2026-07-06:
+
+1. **Platform enforcement mechanism per class.** The connector may start when a
+   platform lacks an enforcement primitive, but the affected class/action is
+   unavailable and execution fails closed.
+2. **Composed-spawn sensitivity arithmetic.** The default sensitivity remains
+   the strictest included effect. A narrower effective class may be supplied
+   only by a host-owned policy engine outside the connector allowlist; the
+   allowlist itself cannot lower sensitivity.
+3. **Result pointer enumeration.** Prefix wildcards such as `metrics.*` are
+   admitted, but only as explicit bounded prefixes. Unbounded catch-all
+   wildcards remain forbidden.
+4. **Relationship to emergency activation.** Host policy fails closed for
+   C3/C4/C5 under elevated emergency posture unless the action has an explicit
+   emergency exception in host policy or an approved overlay.
 
 ## Non-Goals
 
