@@ -4,8 +4,9 @@ Based on: `doc/project/10-challenges/002-sybil.md`
 
 ## Status
 
-Baseline vision — partially superseded. See *Current Status and Superseded-By
-Mapping* below for the implemented sources of truth.
+Baseline vision — superseded as an implementation source by the proposals and
+solutions mapped below. Hard-MVP ready as a historical baseline: P002 now owns
+the problem framing, not the frozen runtime contracts.
 
 ## Date
 
@@ -13,7 +14,15 @@ Mapping* below for the implemented sources of truth.
 
 ## Executive Summary
 
-This proposal defines the node-to-node communication architecture for the Orbiplex Swarm, designed for mixed environments (consumer networks + corporate networks with mandatory proxy/TLS inspection). The design is built around Ed25519 identity, a proxy-friendly WSS transport, optional message-level E2E encryption with PFS, and untrusted Edge relay nodes. Three security profiles (`CORP_COMPLIANT`, `E2E_PREFERRED`, `E2E_REQUIRED`) allow nodes to operate under different governance constraints without breaking connectivity.
+This proposal defines the original node-to-node communication architecture for
+the Orbiplex Swarm, designed for mixed environments (consumer networks +
+corporate networks with mandatory proxy/TLS inspection). The design was built
+around Ed25519 identity, a proxy-friendly WSS transport, optional message-level
+E2E encryption with PFS, and untrusted Edge relay nodes. Later hard-MVP work kept
+the core direction but moved the frozen contracts into narrower owners:
+transport and discovery into P014 / Solution 000, TLS trust into P056 / Solution
+024, discovery trust into Seed Directory and Federation Root, large payloads
+into Artifact Delivery / INAC, and group/user messaging into Messaging and Room.
 
 ## Current Status and Superseded-By Mapping
 
@@ -27,16 +36,46 @@ took over. Read P002 for the *why* and the shape; for anything you intend to
 build or freeze, follow the mapped source. If a mapped source and P002 disagree,
 the mapped source wins and P002 is read as historical intent.
 
+As of 2026-07-06, P002 has no live hard-MVP implementation blockers of its own.
+The remaining concrete work belongs either to mapped runtime owners or to
+post-MVP hardening tracks. This document is ready when it accurately points to
+those owners.
+
 | P002 area | Current source(s) of truth | Status note |
 | --- | --- | --- |
-| Transport, discovery, handshake, sessions, keepalive/reconnect (§1, §4, §7) | P014 Node Transport and Discovery MVP; Solution 000 Node; requirements-006 node networking | Specified and largely implemented; P014 owns the frozen MVP slice. |
-| Control-plane **Envelope** (§6) | Concrete schema families in `node:protocol/contracts/schemas`: `node-identity.v1`, `node-advertisement.v1`, `peer-handshake.v1`, `capability-advertisement.v1`, `signal-marker-envelope.v1`, `peer-status.v1`, `node-succession.v1` | The generic `Envelope` is **not** the frozen runtime contract; per-purpose schema families are. P002's envelope stays illustrative. |
-| Identity model: base identity, session keys, multi-station, contextual nyms, stratification (§2) | P007 Pod Identity and Tenancy Model; P059 Participant/Nym/Routing-Subject Key-Role Derivation; P015 Nym Certificates and Renewal Baseline; P014 identity baseline; Solution 000 | Specified and partly implemented downstream; P002's identity section is the vision, not the contract. |
-| Transport vs E2E crypto; TLS / certificates / inspection (§4, §9 TLS) | P056 Orbiplex TLS Trust Policy; Solution 024 TLS Trust Policy; route-id / local-CA / endpoint-evidence implementation | P002's "system trust store / corporate TLS" is now over-simplified; P056 + Solution 024 govern TLS trust. |
-| Security profiles `CORP_COMPLIANT` / `E2E_PREFERRED` / `E2E_REQUIRED` (§5) | (policy concept) — nearest runtime expressions: P056 TLS trust policy; locality/trust modes in transport and host policy | A good policy concept, but **not** a closed runtime switch in the current implementation. Directional until a profile contract is frozen. |
-| Edge relaying as public backbone (§8) | Peer runtime + WSS listener/dialer (P014); P054 Seed Directory / Solution 031; endpoint evidence + TLS trust (P056); P042 INAC / Solution 017; Solution 023 Artifact Delivery | The single "Edge relay" model is superseded in practice by peer-runtime + Seed Directory + AD/INAC. Edge relay remains a sensible future option, not the current backbone. |
-| Large payloads; group messaging (Open Questions) | Solution 023 Artifact Delivery; P042 INAC / Solution 017; object-store indirect; P060 Messaging Middleware; P070 Room | These open questions are now answered by AD/INAC (large/binary), object-store indirect, messaging (P060), and Room (P070). |
-| Sybil resistance; DoS "expensive before you believe" (§3) | `doc/project/10-challenges/002-sybil.md`; capability passports/binding; admission and rate-limit gates across transport and AD/INAC | Posture preserved; concrete enforcement now lives in capability and admission mechanisms rather than one protocol section. |
+| Transport, discovery, handshake, sessions, keepalive/reconnect (§1, §4, §7) | [P014 Node Transport and Discovery MVP](014-node-transport-and-discovery-mvp.md); [Solution 000 Node](../60-solutions/000-node/000-node.md); [requirements-006 node networking](../50-requirements/requirements-006-node-networking-mvp.md) | Implemented for the hard-MVP transport seed. P014 owns signed node advertisement, peer handshake, static seed peers, WSS listener/dialer, keepalive/reconnect, peer status, and the narrower transport contract. |
+| Control-plane **Envelope** and signing canonicalization (§6) | Concrete schema families in `node:protocol/contracts/schemas`: `node-identity.v1`, `node-advertisement.v1`, `peer-handshake.v1`, `capability-advertisement.v1`, `signal-marker-envelope.v1`, `peer-status.v1`, `node-succession.v1`; [P014](014-node-transport-and-discovery-mvp.md); [P037 Generic Signing Service](037-generic-signing-service.md); [P038 Key Roles and Key Use Taxonomy](038-key-roles-and-key-use-taxonomy.md) | The generic `Envelope` is **not** the frozen runtime contract. Per-purpose signed artifacts and their explicit canonicalization/domain-separation rules are implemented where needed. P002's envelope remains illustrative. |
+| Identity model: base identity, session keys, multi-station, contextual nyms, stratification (§2) | [P059 Participant/Nym/Routing-Subject Key-Role Derivation](059-participant-and-nym-key-role-derivation.md); [Solution 026 Pseudonym Vault and Key Roles](../60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md); [P014 identity baseline](014-node-transport-and-discovery-mvp.md); [Solution 000 Node](../60-solutions/000-node/000-node.md); [P076 Federation Identity and Network Selector](076-federation-identity-and-network-selector.md); [Solution 041 Federation Root](../60-solutions/041-federation-root/041-federation-root.md) | Node identity, participant/nym/routing-subject key roles, pseudonym vault storage, and federation-root sovereign subject selection are implemented in the downstream owners. P002's identity section is the conceptual layering. |
+| Capability advertisement, admission, Sybil posture, and DoS gates (§3) | [P024 Capability Passports](024-capability-passports-and-network-ledger-delegation.md); [P025 Seed Directory as Capability Catalog](025-seed-directory-as-capability-catalog.md); [P072 Capability Registry](072-capability-registry.md); [Solution 006 Capability Binding](../60-solutions/006-capability-binding/006-capability-binding.md); [Solution 037 Capability Registry](../60-solutions/037-capability-registry/037-capability-registry.md); [Solution 031 Seed Directory](../60-solutions/031-seed-directory/031-seed-directory.md) | The posture is preserved, but concrete enforcement is no longer one protocol section. Capability ids, passports, official-service endorsements, registry eligibility, and runtime grant/admission checks carry the implemented hard-MVP gates. Sponsor-token bootstrap remains a later membership/governance track rather than a P002 blocker. |
+| Transport vs E2E crypto; TLS / certificates / inspection (§4, §9 TLS) | [P056 Orbiplex TLS Trust Policy](056-orbiplex-tls-trust-policy.md); [Solution 024 TLS Trust Policy](../60-solutions/024-tls-trust-policy/024-tls-trust-policy.md); [P043 Node Address Attestation Fallback](043-node-address-attestation-fallback.md); [P076 Federation Identity and Network Selector](076-federation-identity-and-network-selector.md) | P002's original "system trust store / corporate TLS" wording is now too broad. P056 + Solution 024 own route-id, local CA, endpoint evidence, and TLS pin/policy semantics. Message-level E2E profile switches remain a future policy layer. |
+| Security profiles `CORP_COMPLIANT` / `E2E_PREFERRED` / `E2E_REQUIRED` (§5) | Policy concept; nearest runtime expressions are P056/S024 TLS trust policy, P014 locality/trust modes, host policy, and signed artifact admission | The profile names remain useful governance vocabulary, but they are **not** implemented as one closed runtime switch. Runtime owners implement narrower policy facts instead. |
+| Edge relaying as public backbone (§8) | P014 peer runtime + WSS listener/dialer; [P054 User-Maintained Federated Seed Directory](054-user-maintained-federated-seed-directory.md); [Solution 031 Seed Directory](../60-solutions/031-seed-directory/031-seed-directory.md); P056/S024 endpoint evidence and TLS trust; [P042 INAC](042-inter-node-artifact-channel.md); [Solution 017 INAC](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md); [Solution 023 Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md) | The single "Edge relay" model is superseded in practice by peer-runtime + Seed Directory + AD/INAC. Edge relay remains a sensible future option, not the current backbone. |
+| Large payload transfer | [Solution 023 Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md); [P042 INAC](042-inter-node-artifact-channel.md); [Solution 017 INAC](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md); object-store indirect | Implemented for the hard-MVP data-plane path. P002 no longer owns a separate large-payload extension. |
+| User messaging, group scopes, and room semantics | [P060 Messaging Middleware](060-messaging-middleware.md); [Solution 027 Messaging Middleware](../60-solutions/027-messaging-middleware/027-messaging-middleware.md); [P070 Room](070-room-primitive.md); [Solution 036 Room](../60-solutions/036-room/036-room.md) | Story-facing messaging and group/room semantics are implemented in Messaging and Room. P002 does not own group-key or room lifecycle semantics. |
+| Federation genesis trust set and network selector | [P076 Federation Identity and Network Selector](076-federation-identity-and-network-selector.md); [Solution 041 Federation Root](../60-solutions/041-federation-root/041-federation-root.md); P054/S031 Seed Directory | The "genesis trust set" decision is implemented through `federation-root.v1`, signed root packs, bootstrap seed peers, Seed Directory bootstrap/trust projections, and restart-only root activation. |
+| Sybil resistance and anti-abuse posture | [challenge 002 Sybil](../10-challenges/002-sybil.md); P024/P025/P072; Solution 006/Solution 037; rate limits in transport, Agora, Seed Directory, AD/INAC, and middleware surfaces | P002 preserves the posture. Concrete anti-abuse mechanisms live at each boundary and should be reviewed in the relevant owner document. |
+
+### Implemented / Transferred Reference Inventory
+
+- **Transport and peer runtime**: P014 and Solution 000 own the hard-MVP node
+  networking baseline: node identity, signed advertisements, peer handshake,
+  static seed peers, WSS listener/dialer, keepalive/reconnect, and peer status.
+- **TLS and endpoint trust**: P056 and Solution 024 replace the original broad
+  corporate TLS checklist with route-id, local CA, endpoint evidence, and
+  source-aware TLS trust semantics.
+- **Discovery trust and federation bootstrap**: P054/Solution 031 and
+  P076/Solution 041 own Seed Directory discovery, official-service endorsement
+  proofs, signed federation-root packs, bootstrap seed peers, and genesis trust
+  set replacement.
+- **Capability admission and anti-Sybil boundary**: P024, P025, P072,
+  Solution 006, and Solution 037 own capability passports, capability registry
+  eligibility, official-service endorsement verification, and runtime
+  capability binding.
+- **Data-plane payloads**: P042/Solution 017 and Solution 023 own large or
+  indirect payload delivery, including hard-MVP object-store-indirect delivery.
+- **Messaging and group/room semantics**: P060/Solution 027 and
+  P070/Solution 036 own user messaging, private delivery, group/room scope, and
+  room lifecycle semantics.
 
 ## Context and Problem Statement
 
