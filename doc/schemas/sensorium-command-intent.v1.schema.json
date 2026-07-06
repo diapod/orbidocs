@@ -33,6 +33,11 @@
       },
       "default": {}
     },
+    "network": {
+      "$ref": "#/$defs/networkPolicy",
+      "default": "none",
+      "description": "Explicit command-level network policy. The Workbench hard-MVP contract admits only no-egress/local-only policy values; any future egress grant must use a separate capability contract."
+    },
     "timeout_ms": { "type": "integer", "minimum": 1 }
   },
   "$defs": {
@@ -50,6 +55,22 @@
           { "pattern": "[\\n\\r]" }
         ]
       }
+    },
+    "networkPolicy": {
+      "oneOf": [
+        { "type": "null" },
+        { "const": false },
+        { "type": "string", "enum": ["", "none", "disabled", "deny", "denied", "local-only", "block", "blocked"] },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mode": { "$ref": "#/$defs/networkPolicy" },
+            "policy": { "$ref": "#/$defs/networkPolicy" },
+            "egress": { "$ref": "#/$defs/networkPolicy" }
+          }
+        }
+      ]
     }
   }
 }

@@ -43,6 +43,11 @@
       "description": "Explicit allowlist of workspace root refs. The list is required to be non-empty; filesystem authority is default-deny."
     },
     "env": { "$ref": "#/$defs/envPolicy" },
+    "network": {
+      "$ref": "#/$defs/networkPolicy",
+      "default": "none",
+      "description": "Profile-level network policy. The Workbench hard-MVP contract admits only no-egress/local-only policy values; any future egress grant must use a separate capability contract."
+    },
     "limits": { "$ref": "#/$defs/commandLimits" }
   },
   "$defs": {
@@ -120,6 +125,22 @@
         "stdout_bytes": { "type": "integer", "minimum": 1 },
         "stderr_bytes": { "type": "integer", "minimum": 1 }
       }
+    },
+    "networkPolicy": {
+      "oneOf": [
+        { "type": "null" },
+        { "const": false },
+        { "type": "string", "enum": ["", "none", "disabled", "deny", "denied", "local-only", "block", "blocked"] },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mode": { "$ref": "#/$defs/networkPolicy" },
+            "policy": { "$ref": "#/$defs/networkPolicy" },
+            "egress": { "$ref": "#/$defs/networkPolicy" }
+          }
+        }
+      ]
     }
   }
 }

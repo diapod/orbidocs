@@ -26,6 +26,7 @@ Related schemas:
 - `sensorium-workbench-patch.v1`
 - `sensorium-workbench-patch-apply-result.v1`
 - `sensorium-workbench-outcome.v1`
+- `sensorium-workbench-error-codes.v1`
 - `sensorium-relative-path-address.v1`
 - `sensorium-command-profile.v1`
 - `sensorium-command-intent.v1`
@@ -51,9 +52,9 @@ providers are live through the broker for file probes, file waits, file-tree
 watch event batches, terminal liveness/progress probes, terminal waits, and
 terminal watch event batches. The daemon also projects admitted broker
 wait/watch/probe submissions into metadata-only audit events. The remaining
-solution work is broader adversarial actuator coverage, future virtualized
-backends, executable non-Workbench source-provider adapters/joins, and richer
-operator recovery telemetry.
+solution work is replay and virtualized-backend adversarial actuator coverage,
+future virtualized backends, executable non-Workbench source-provider
+adapters/joins, and richer daemon-level operator recovery telemetry.
 
 ## Date
 
@@ -162,6 +163,7 @@ Related schemas:
 
 - `capability-authorization-policy.v1`
 - `sensorium-workbench-outcome.v1`
+- `sensorium-workbench-error-codes.v1`
 
 Responsibilities:
 
@@ -230,6 +232,7 @@ Related schemas:
 - `sensorium-file-snapshot.v1`
 - `sensorium-file-read-result.v1`
 - `sensorium-workbench-outcome.v1`
+- `sensorium-workbench-error-codes.v1`
 
 Responsibilities:
 
@@ -248,8 +251,8 @@ Status:
 
 - `partial`: the opt-in Python connector exists with host-local workspace,
   file, probe, wait, watch, PTY, capture, and status surfaces. Idle timeout,
-  daemon-owned status integration, and broader adversarial runtime coverage
-  remain incomplete.
+  daemon-owned status integration, and replay/virtualized-backend adversarial
+  runtime coverage remain incomplete.
 
 ### Patch and Artifact-Mediated Writes
 
@@ -388,9 +391,9 @@ Responsibilities:
 Status:
 
 - `partial`: initial path, command-profile, patch, artifact, grant, raw-input,
-  idempotency, and connector-local deferred wait vectors exist. Residual-child,
-  egress, credential, replay, and virtualized-backend vectors remain broader
-  runtime work.
+  idempotency, connector-local deferred wait, residual-child recovery,
+  no-egress, and credential-env refusal vectors exist. Replay and
+  virtualized-backend vectors remain broader runtime work.
 
 ## May Implement
 

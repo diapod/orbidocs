@@ -1006,6 +1006,7 @@ shape: `schema`, `source_tier`, `effective_tier`, `provenance`,
 | `sensorium-terminal-input.v1` | Bounded raw input event to an existing session. |
 | `sensorium-terminal-event.v1` | Append-only output/status event. |
 | `sensorium-terminal-screen-snapshot.v1` | Bounded model/UI view over recent terminal state. |
+| `sensorium-workbench-error-codes.v1` | Shared runtime diagnostic code vocabulary for Workbench refusal, recovery, patch, artifact, file, terminal, wait, and configuration failures. |
 | `interaction-broker-watch.v1` | Cursor-bound subscription over a registered source provider with caps, TTL, and classification. |
 | `interaction-broker-wait.request.v1` | Declarative bounded condition over observations, with deadline and idempotency key. |
 | `interaction-broker-wait.outcome.v1` | Domain result/projection for a satisfied or terminal wait condition; async lifecycle status is still `deferred-operation-status.v1`. |
@@ -1387,15 +1388,16 @@ evidence) · `[!]` blocked/needs decision.
   features by default. The current test slice covers traversal, root self,
   symlink traversal, oversized files, grant-required mediated read, command
   profile denial including variable argv beyond a fixed prefix, dangerous env
-  override stripping, operator-only raw input denial, retired session refs, and a
-  PTY happy path. It now also covers artifact digest mismatch, terminal capture
+  override stripping, credential-like env override refusal before command start,
+  request/profile egress refusal, operator-only raw input denial, retired
+  session refs, residual-child startup recovery status diagnostics, and a PTY
+  happy path. It now also covers artifact digest mismatch, terminal capture
   to artifact, terminal-capture artifact-write grant refusal, delete-forbidden
   patch apply, successful structured patch apply, structured patch rollback on
   partial write failure, connector-local deferred wait projection, operation
   status grant refusal, connector idempotency-key refusal, interrupted operation
   recovery, and the daemon rule that Inquirium cannot directly invoke Sensorium
-  connectors. Broader residual-child, egress, credential, replay, and
-  virtualized-backend vectors remain.
+  connectors. Broader replay and virtualized-backend vectors remain.
 
 ### Phase 2 - Sensorium Integration
 
@@ -1472,4 +1474,6 @@ evidence) · `[!]` blocked/needs decision.
   abstractions.
 - [ ] Implement first disposable sandbox backend.
 - [ ] Add artifact export and teardown tests.
-- [ ] Add policy tests for denied egress and denied credential access.
+- [x] Add local-runtime policy tests for denied egress and denied credential
+  env override access. Broader virtualized-backend policy tests remain tied to
+  the future Sensorium Virt backend contract.

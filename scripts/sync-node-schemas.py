@@ -114,6 +114,7 @@ SCHEMA_WHITELIST = (
     "sensorium-workbench-patch.v1.schema.json",
     "sensorium-workbench-patch-apply-result.v1.schema.json",
     "sensorium-workbench-outcome.v1.schema.json",
+    "sensorium-workbench-error-codes.v1.schema.json",
     "inac-control.v1.schema.json",
     "notification.v1.schema.json",
     "notification-create.v1.schema.json",

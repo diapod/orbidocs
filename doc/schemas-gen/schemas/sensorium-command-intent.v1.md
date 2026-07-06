@@ -39,6 +39,7 @@ Caller-supplied command intent after host policy/model merge. The intent carries
 | [`argv`](#field-argv) | `yes` | array |  |
 | [`cwd`](#field-cwd) | `yes` | ref: `sensorium-relative-path-address.v1.schema.json` |  |
 | [`env`](#field-env) | `no` | object |  |
+| [`network`](#field-network) | `no` | ref: `#/$defs/networkPolicy` | Explicit command-level network policy. The Workbench hard-MVP contract admits only no-egress/local-only policy values; any future egress grant must use a separate capability contract. |
 | [`timeout_ms`](#field-timeout-ms) | `no` | integer |  |
 
 ## Definitions
@@ -47,6 +48,7 @@ Caller-supplied command intent after host policy/model merge. The intent carries
 |---|---|---|
 | [`ref`](#def-ref) | string |  |
 | [`argvAtom`](#def-argvatom) | string |  |
+| [`networkPolicy`](#def-networkpolicy) | unspecified |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -93,6 +95,14 @@ Optional command identity. The host assigns it when missing and preserves it whe
 - Required: `no`
 - Shape: object
 
+<a id="field-network"></a>
+## `network`
+
+- Required: `no`
+- Shape: ref: `#/$defs/networkPolicy`
+
+Explicit command-level network policy. The Workbench hard-MVP contract admits only no-egress/local-only policy values; any future egress grant must use a separate capability contract.
+
 <a id="field-timeout-ms"></a>
 ## `timeout_ms`
 
@@ -110,3 +120,8 @@ Optional command identity. The host assigns it when missing and preserves it whe
 ## `$defs.argvAtom`
 
 - Shape: string
+
+<a id="def-networkpolicy"></a>
+## `$defs.networkPolicy`
+
+- Shape: unspecified

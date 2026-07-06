@@ -41,6 +41,7 @@ Declarative command profile for local Sensorium actuation. The profile describes
 | [`allowed_arg_prefixes`](#field-allowed-arg-prefixes) | `no` | array | Allowed prefixes for variable argv atoms after executable and fixed_args. An empty list means no variable argv atoms are allowed. |
 | [`allowed_workspace_roots`](#field-allowed-workspace-roots) | `yes` | array | Explicit allowlist of workspace root refs. The list is required to be non-empty; filesystem authority is default-deny. |
 | [`env`](#field-env) | `yes` | ref: `#/$defs/envPolicy` |  |
+| [`network`](#field-network) | `no` | ref: `#/$defs/networkPolicy` | Profile-level network policy. The Workbench hard-MVP contract admits only no-egress/local-only policy values; any future egress grant must use a separate capability contract. |
 | [`limits`](#field-limits) | `yes` | ref: `#/$defs/commandLimits` |  |
 
 ## Definitions
@@ -52,6 +53,7 @@ Declarative command profile for local Sensorium actuation. The profile describes
 | [`envKey`](#def-envkey) | string |  |
 | [`envPolicy`](#def-envpolicy) | unspecified |  |
 | [`commandLimits`](#def-commandlimits) | object |  |
+| [`networkPolicy`](#def-networkpolicy) | unspecified |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -106,6 +108,14 @@ Explicit allowlist of workspace root refs. The list is required to be non-empty;
 - Required: `yes`
 - Shape: ref: `#/$defs/envPolicy`
 
+<a id="field-network"></a>
+## `network`
+
+- Required: `no`
+- Shape: ref: `#/$defs/networkPolicy`
+
+Profile-level network policy. The Workbench hard-MVP contract admits only no-egress/local-only policy values; any future egress grant must use a separate capability contract.
+
 <a id="field-limits"></a>
 ## `limits`
 
@@ -138,3 +148,8 @@ Explicit allowlist of workspace root refs. The list is required to be non-empty;
 ## `$defs.commandLimits`
 
 - Shape: object
+
+<a id="def-networkpolicy"></a>
+## `$defs.networkPolicy`
+
+- Shape: unspecified

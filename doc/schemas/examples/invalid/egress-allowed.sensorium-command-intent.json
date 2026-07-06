@@ -1,0 +1,16 @@
+{
+  "schema": "sensorium-command-intent.v1",
+  "schema/v": 1,
+  "command/id": "command:egress-denied",
+  "command.profile/ref": "command-profile:cargo-test",
+  "argv": ["cargo", "test"],
+  "cwd": {
+    "schema": "sensorium-relative-path-address.v1",
+    "schema/v": 1,
+    "workspace/ref": "workspace:story009-local",
+    "root/ref": "root:repo",
+    "relative/path": "node"
+  },
+  "env": {},
+  "network": { "allow": ["example.test"] }
+}
