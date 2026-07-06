@@ -52,9 +52,9 @@ providers are live through the broker for file probes, file waits, file-tree
 watch event batches, terminal liveness/progress probes, terminal waits, and
 terminal watch event batches. The daemon also projects admitted broker
 wait/watch/probe submissions into metadata-only audit events. The remaining
-solution work is replay and virtualized-backend adversarial actuator coverage,
-future virtualized backends, executable non-Workbench source-provider
-adapters/joins, and richer daemon-level operator recovery telemetry.
+solution work is virtualized-backend adversarial actuator coverage, future
+virtualized backends, executable non-Workbench source-provider adapters/joins,
+and richer daemon-level operator recovery telemetry.
 
 ## Date
 
@@ -244,15 +244,17 @@ Responsibilities:
 - execute structured command intents without shell interpolation;
 - bound terminal events, output bytes, input queues, reader tasks, active
   sessions, idle/TTL policy, and close semantics;
+- replay terminal command, terminal capture, artifact-write, and patch-apply
+  effects by `idempotency/key` without repeating local side effects;
 - keep raw terminal input, resize, and signal operator-only in the foundation
   slice.
 
 Status:
 
 - `partial`: the opt-in Python connector exists with host-local workspace,
-  file, probe, wait, watch, PTY, capture, and status surfaces. Idle timeout,
-  daemon-owned status integration, and replay/virtualized-backend adversarial
-  runtime coverage remain incomplete.
+  file, probe, wait, watch, PTY, capture, idempotency replay with bounded TTLs,
+  idle-timeout, and read-only status surfaces. Daemon-owned status integration
+  and virtualized-backend adversarial runtime coverage remain incomplete.
 
 ### Patch and Artifact-Mediated Writes
 
@@ -355,14 +357,23 @@ Responsibilities:
   replay/projection diagnostics;
 - run startup recovery before accepting new PTY, file, patch, wait, or
   environment requests;
-- surface residual children, failed cleanup, interrupted waits, and degraded
-  recovery facts to operator status.
+- mark previously starting/running terminal commands failed so post-restart
+  idempotency replay returns terminal command state rather than an unbounded
+  running record;
+- mark failed terminal-command spawn attempts as failed so idempotent replay
+  cannot return an accepted command that never started;
+- surface residual children, failed cleanup, interrupted waits, interrupted
+  terminal commands, idle-closed sessions, and degraded recovery facts to
+  operator status.
 
 Status:
 
 - `partial`: the connector has a metadata SQLite store, retention cleanup,
-  orphan signaling, session retirement, and interrupted operation marking.
-  Host/operator projection of recovery telemetry remains future work.
+  orphan signaling, session retirement, interrupted operation/command marking,
+  failed-spawn command marking, idempotency replay records with bounded TTLs,
+  idle-session cleanup on terminal admission paths, and connector-local
+  recovery/lifecycle status diagnostics. Daemon-level host/operator projection
+  of recovery telemetry remains future work.
 
 ### Adversarial Actuator Conformance
 
@@ -383,6 +394,8 @@ Responsibilities:
   network/credential denial, cleanup, idempotency, replay, broker scope, patch,
   and artifact cases;
 - run those vectors against shared Rust cores and Python connector tests;
+- keep an executable PTY story smoke and Python-side Workbench actuation
+  conformance runner in the Node workspace;
 - refuse enabling write or PTY features by default until the relevant negative
   vectors pass;
 - keep the conformance suite as the cross-language contract, not an
@@ -392,8 +405,10 @@ Status:
 
 - `partial`: initial path, command-profile, patch, artifact, grant, raw-input,
   idempotency, connector-local deferred wait, residual-child recovery,
-  no-egress, and credential-env refusal vectors exist. Replay and
-  virtualized-backend vectors remain broader runtime work.
+  interrupted-command recovery, failed-spawn command replay, no-egress,
+  credential-env refusal, local replay, replay TTL cleanup, PTY story, and
+  Python conformance vectors exist. Virtualized-backend vectors remain broader
+  runtime work.
 
 ## May Implement
 

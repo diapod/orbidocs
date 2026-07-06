@@ -1364,7 +1364,11 @@ evidence) · `[!]` blocked/needs decision.
   diagnostics. Request body caps, file read byte caps, terminal command timeout,
   command output byte caps, session caps, process termination on close/timeout,
   startup orphan process signaling, event payload caps, SQLite retention cleanup,
-  and typed refusal diagnostics exist; idle-timeout policy remains future work.
+  typed refusal diagnostics, and opt-in `terminal_idle_timeout_ms` idle cleanup
+  for open non-running sessions on terminal admission paths exist. `/v1/status`
+  remains a read-only projection and does not close sessions. Running commands
+  remain governed by `command_timeout_ms`, explicit close, or operator signal
+  rather than idle sweep.
 - [x] Implement file snapshot and bounded file read. Snapshot lists symlinks as
   metadata without following them; reads refuse symlink traversal and files over
   the host read cap.
@@ -1381,9 +1385,12 @@ evidence) · `[!]` blocked/needs decision.
   `202 accepted` and exposes event/wait polling. Async waits now return the
   canonical `deferred-operation.v1` / `deferred-operation-status.v1` shapes,
   require an explicit wait grant for status reads, de-duplicate by
-  `idempotency/key`, and mark interrupted pending/running wait operations as
-  failed with retry diagnostics on startup, but they are still connector-local
-  rather than registered in the daemon host Bounded Deferred Operation registry.
+  `idempotency/key`, mark interrupted pending/running wait operations as failed
+  with retry diagnostics on startup, and mark previously starting/running
+  terminal commands plus failed terminal-command spawn attempts as failed for
+  bounded post-restart/idempotent replay. Command runs are still
+  connector-local rather than registered in the daemon host Bounded Deferred
+  Operation registry.
 - [~] Run the adversarial actuator test matrix before enabling write or PTY
   features by default. The current test slice covers traversal, root self,
   symlink traversal, oversized files, grant-required mediated read, command
@@ -1395,9 +1402,13 @@ evidence) · `[!]` blocked/needs decision.
   to artifact, terminal-capture artifact-write grant refusal, delete-forbidden
   patch apply, successful structured patch apply, structured patch rollback on
   partial write failure, connector-local deferred wait projection, operation
-  status grant refusal, connector idempotency-key refusal, interrupted operation
-  recovery, and the daemon rule that Inquirium cannot directly invoke Sensorium
-  connectors. Broader replay and virtualized-backend vectors remain.
+  status grant refusal, connector idempotency-key refusal/conflict, interrupted
+  operation recovery, interrupted terminal-command recovery, failed-spawn
+  terminal-command replay, TTL cleanup for replay records, idempotent replay for
+  terminal command/capture/artifact/patch effects, an executable PTY story
+  smoke, a Python Workbench actuation conformance runner against shared golden
+  vectors, and the daemon rule that Inquirium cannot directly invoke Sensorium
+  connectors. Broader virtualized-backend vectors remain.
 
 ### Phase 2 - Sensorium Integration
 
@@ -1432,14 +1443,19 @@ evidence) · `[!]` blocked/needs decision.
   Phase 4 is marked landed against this contract.
 - [~] Record directive outcomes and metadata-only traces. Terminal runtime now
   records sessions, commands, events, terminal captures, local artifacts,
-  connector-local deferred waits, patch applications, and metadata-only outcomes
-  durably in connector SQLite. Host audit projection of those facts remains
+  connector-local deferred waits, patch applications, idempotency replay
+  records with bounded replay TTLs, startup recovery diagnostics, lifecycle
+  diagnostics, and metadata-only outcomes durably in connector SQLite or bounded
+  in-process operator status. Host audit projection of those facts remains
   future. Session refs are retired after first use to keep the audit trail
   unambiguous.
 - [x] Add operator status/control surfaces for active sessions and sandboxes.
-  `/v1/status` reports terminal enablement, PTY caps, active session count, and
-  session summaries; session close is an explicit control surface. Sandboxes
-  remain future virtualized backend work.
+  `/v1/status` reports terminal enablement, PTY caps, active session count,
+  session summaries, startup recovery diagnostics, lifecycle diagnostics, and
+  idle-closed session diagnostics when admission paths sweep sessions under
+  configured `terminal_idle_timeout_ms`; the status endpoint itself stays
+  read-only. Session close is an explicit control surface. Sandboxes remain
+  future virtualized backend work.
 - [~] Expose active waits, watches, deadlines, and suspected no-progress states
   in operator status. Event cursors, command status, connector-local active wait
   count/status, no-progress probe diagnostics, and host-broker status/providers/
@@ -1467,6 +1483,17 @@ evidence) · `[!]` blocked/needs decision.
   without grants. The daemon dispatch regression now explicitly asserts that
   `inquirium-core` cannot dispatch `sensorium.connector.invoke`; only
   `sensorium-core` may reach connector-local invoke.
+- [x] Add story-level Workbench PTY acceptance smoke. Implemented as
+  `node:tools/acceptance/workbench-pty-story.py`; it creates a terminal
+  session, runs allowlisted argv through the PTY, waits for command completion,
+  reads bounded terminal events, captures them to an artifact, replays
+  idempotent command/capture calls, and checks fail-closed command-profile and
+  raw-input refusal paths.
+- [x] Add shared Workbench actuation conformance runner. Implemented as
+  `node:tools/conformance/workbench_actuation_conformance.py`; it validates the
+  Python connector against shared relative-path and command-profile golden
+  vectors plus runtime refusal invariants for command profile, no-egress, and
+  credential-env denial.
 
 ### Phase 4 - Virtualized Backends
 
