@@ -1411,7 +1411,9 @@ evidence) · `[!]` blocked/needs decision.
   `OperationDone` waits host-owned, and wires live Workbench file-tree plus
   terminal providers for file probes, file waits, file-tree watch batches,
   terminal liveness/progress probes, terminal waits, and terminal watch batches.
-  AD, Memarium, approval, and dynamic non-Workbench provider joins remain open.
+  Dynamic non-Workbench provider registration/status APIs now exist, while
+  executable AD, Memarium, approval, and other non-Workbench provider joins
+  remain open.
 - [~] Add grant and policy checks for terminal command, terminal raw input,
   file snapshot, file read, and patch apply. The connector enforces explicit
   grant envelopes for mediated file/probe/watch/wait actions and terminal

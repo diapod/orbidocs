@@ -52,8 +52,8 @@ watch event batches, terminal liveness/progress probes, terminal waits, and
 terminal watch event batches. The daemon also projects admitted broker
 wait/watch/probe submissions into metadata-only audit events. The remaining
 solution work is broader adversarial actuator coverage, future virtualized
-backends, richer recovery/retention semantics, and non-Workbench source-provider
-joins.
+backends, executable non-Workbench source-provider adapters/joins, and richer
+operator recovery telemetry.
 
 ## Date
 
@@ -325,8 +325,9 @@ Status:
   live Workbench file-tree plus terminal provider adapters. File probes, file
   waits, file-tree watch batches, terminal liveness/progress probes, terminal
   waits, and terminal watch batches can now flow through the broker. Dynamic
-  non-Workbench provider registration and deeper recovery/retention behavior
-  remain future work.
+  non-Workbench provider registration/status APIs, broker startup recovery, and
+  bounded broker retention are now implemented; executable AD, Memarium,
+  approval, and other non-Workbench provider adapters remain future work.
 
 ### Storage, Recovery, and Operator Visibility
 

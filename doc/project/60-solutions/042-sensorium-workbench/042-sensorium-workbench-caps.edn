@@ -106,7 +106,7 @@
     "Require explicit status-read grants"
     "Prevent wait timeout or maybe_hung diagnostics from authorizing process termination"]
    :status :partial
-   :status-detail "Connector-local waits/probes/watches and deferred status projection exist. The daemon now owns the Interaction Broker runtime slice with durable broker resource storage, seeded provider registry rows, operator read APIs, BDO registration/polling for broker-owned waits, JSON-e/module grant-context admission through daemon-issued host-local HMAC grant material requested by host_grant_requests, metadata-only broker audit projection, and live Workbench file-tree plus terminal provider adapters."}
+   :status-detail "Connector-local waits/probes/watches and deferred status projection exist. The daemon now owns the Interaction Broker runtime slice with durable broker resource storage, seeded provider registry rows, operator read APIs, BDO registration/polling for broker-owned waits, JSON-e/module grant-context admission through daemon-issued host-local HMAC grant material requested by host_grant_requests, metadata-only broker audit projection, startup recovery/retention, dynamic non-Workbench provider registration/status APIs, and live Workbench file-tree plus terminal provider adapters."}
 
   {:cap/id :sensorium-workbench-storage-recovery-status
    :title "Storage, Recovery, and Operator Visibility"
@@ -123,7 +123,7 @@
     "Run startup recovery before accepting new local effects"
     "Surface residual children cleanup failures interrupted waits and degraded recovery facts to operator status"]
    :status :partial
-   :status-detail "Connector metadata storage and cleanup/recovery facts exist; host/operator projection of recovery telemetry remains future work."}
+   :status-detail "Connector metadata storage and cleanup/recovery facts exist, and the daemon broker now recovers expired/failed-retryable/unknown resources with bounded retention cleanup; richer host/operator projection of recovery telemetry remains future work."}
 
   {:cap/id :sensorium-workbench-adversarial-conformance
    :title "Adversarial Actuator Conformance"

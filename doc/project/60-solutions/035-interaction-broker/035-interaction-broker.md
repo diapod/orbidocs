@@ -53,8 +53,12 @@ material before dispatch, and writes metadata-only audit events for admitted
 wait/watch/probe calls. It wires live Workbench file-tree and terminal provider
 adapters for file probes, file waits, file-tree watch event batches, terminal
 liveness/progress probes, terminal waits, and terminal watch event batches.
-Full recovery policy, retention-backed replay, and non-Workbench source
-providers remain incomplete.
+Startup recovery now classifies interrupted broker resources as `expired`,
+`failed-retryable`, or `unknown`, idempotency replay can return recovered
+terminal outcomes, bounded retention preserves active work while pruning old
+terminal records/audit events, and local-control APIs can register/update
+dynamic non-Workbench source-provider metadata. Executable AD, Memarium,
+approval, and other non-Workbench source adapters remain incomplete.
 
 ## Context And Problem Statement
 
@@ -281,8 +285,10 @@ Status:
   are registered and ready. Grant-context admission is enforced for
   JSON-e/module broker dispatch through daemon-issued host-local HMAC grant
   material requested by `bindings.host_grant_requests`; admitted submissions
-  are projected into metadata-only audit events. Full recovery and
-  retention-backed replay remain incomplete.
+  are projected into metadata-only audit events. Startup recovery classifies
+  interrupted broker resources as `expired`, `failed-retryable`, or `unknown`,
+  recovered terminal resources replay idempotently, and the retention sweep
+  removes old terminal resources/audit events without deleting active work.
 
 ### Source Provider Registry
 
@@ -301,8 +307,10 @@ Status:
   Workbench file-tree provider is live through the Workbench HTTP-local
   `interaction-broker.probe` and `interaction-broker.watch` handlers. The
   Workbench terminal provider is live through the same handlers for liveness and
-  progress probes, terminal waits, and terminal watch batches. Dynamic provider
-  registration and non-Workbench source providers remain incomplete.
+  progress probes, terminal waits, and terminal watch batches. Dynamic
+  non-Workbench provider registration/status APIs exist for bounded metadata
+  and readiness reporting; executable AD, Memarium, approval, and other
+  non-Workbench provider adapters remain incomplete.
 
 ## May Implement
 
@@ -337,8 +345,9 @@ Status:
 
 ## Next Actions
 
-- Add daemon startup recovery and retention-backed replay semantics for broker
-  resources.
+- Implement the first executable non-Workbench provider adapter, likely Artifact
+  Delivery artifact presence or approval-state observation.
 - Extend conformance tests from core-level schema validation and
   deferred-operation-backed waits into provider recovery, watch cursors, grants,
-  retention, replay, and Workbench adapter failure behavior.
+  retention, replay, dynamic provider registration, and Workbench adapter
+  failure behavior.
