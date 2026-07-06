@@ -185,11 +185,20 @@ The broker store records active and recently completed waits, watches, probes,
 cursor bindings, source refs, deadlines, final outcomes, and idempotency
 decisions. It must not store raw terminal output, file content, prompt text, or
 secrets unless a separate classified artifact capture explicitly authorizes it.
+Broker audit projection stores correlation digests rather than plaintext
+correlation ids, so exported audit rows remain joinable inside the host without
+becoming a raw cross-log correlation channel.
 
 On startup, the daemon must run a broker recovery pass before accepting new
 broker resources. Interrupted waits, watches, and probes become explicit
 `failed-retryable`, `expired`, or `unknown` records according to policy; they do
 not silently disappear.
+
+The daemon also runs a bounded retention sweep during broker startup. Terminal
+resources age by `updated_at`, because recovery and terminal status transitions
+refresh the resource. Audit events age by append-only `created_at`, but audit
+events linked to active `pending` or `accepted` resources are preserved until
+the resource terminates.
 
 ## Trade-Offs
 
@@ -311,6 +320,38 @@ Status:
   non-Workbench provider registration/status APIs exist for bounded metadata
   and readiness reporting; executable AD, Memarium, approval, and other
   non-Workbench provider adapters remain incomplete.
+
+### Operator Surface
+
+The daemon exposes a local-control operator surface for broker inspection and
+maintenance:
+
+- `GET /v1/interaction-broker/status` reports broker runtime status.
+- `GET /v1/interaction-broker/providers` lists source-provider readiness and
+  declared bounded capabilities.
+- `GET /v1/interaction-broker/resources` lists active and terminal broker
+  resources.
+- `POST /v1/interaction-broker/providers` registers or updates a dynamic
+  non-Workbench provider. The request uses
+  `interaction-broker.provider-registration.v1` fields:
+  `provider_id`, `source_kind`, `component_id`, `status`, and `capabilities`.
+- `POST /v1/interaction-broker/providers/{provider_id}/status` updates only a
+  dynamic provider status and returns `{provider_id, status, updated_at}`.
+- `POST /v1/interaction-broker/retention/run` runs the bounded retention sweep
+  immediately and returns deleted resource/audit counts plus batch counts.
+
+Dynamic provider ids must be `provider:<ascii-alnum-dot-underscore-dash>`.
+Built-in provider ids cannot be registered or status-updated through the
+dynamic API. Dynamic source kinds are limited to non-Workbench sources currently
+known to the broker registry: `artifact`, `environment`, `approval`, and
+`memarium-query`.
+
+Dynamic provider `capabilities` must be a non-empty JSON object with only
+`wait`, `probe`, and `watch` keys. Each value is a non-empty array of known
+condition identifiers for the declared `source_kind`; unknown keys, unknown
+condition ids, non-string entries, and oversized serialized capability blobs
+are rejected with `422 Unprocessable Entity`. Malformed JSON is `400`, unknown
+provider ids are `404`, and storage/runtime failures are `500`.
 
 ## May Implement
 

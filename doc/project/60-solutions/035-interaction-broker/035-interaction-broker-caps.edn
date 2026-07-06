@@ -53,7 +53,7 @@
     "Keep source facts and concrete probe mechanics owned by their domain component"
     "Prevent broker code from reaching into component-private stores"]
    :status :partial
-   :status-detail "The daemon seeds provider rows for the deferred-operation registry and live Workbench terminal/file adapters. Dynamic non-Workbench provider registration/status APIs exist for bounded metadata and readiness reporting; executable AD, Memarium, approval, and other non-Workbench source adapters remain incomplete."}]
+   :status-detail "The daemon seeds provider rows for the deferred-operation registry and live Workbench terminal/file adapters. Dynamic non-Workbench provider registration/status APIs exist for bounded metadata and readiness reporting with built-in provider mutation protection plus source-kind and capability declaration validation; executable AD, Memarium, approval, and other non-Workbench source adapters remain incomplete."}]
 
  :may-implement
  [{:cap/id :cross-source-joins
@@ -83,4 +83,4 @@
  :notes
  ["Interaction Broker is horizontal host coordination, not a Sensorium Core feature."
   "Timeouts and suspected hangs are diagnostics; process termination remains a connector/operator directive."
-  "The current Node implementation includes a daemon runtime slice for wait/watch/probe admission, broker persistence, operator read APIs, deferred-operation-backed waits, live Workbench file/terminal adapters, explicit recovery statuses, retention cleanup, and dynamic source-provider metadata registration."]}
+  "The current Node implementation includes a daemon runtime slice for wait/watch/probe admission, broker persistence, operator read APIs, deferred-operation-backed waits, live Workbench file/terminal adapters, explicit recovery statuses, startup/operator retention cleanup, dynamic source-provider metadata registration, and validated dynamic provider declarations."]}
