@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-os.action-catalog-delta:v1",
+  "title": "sensorium-os.action-catalog-delta.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "approval/ref",
+    "operator/ref",
+    "issued/at",
+    "expires/at",
+    "revocation/ref",
+    "delta/digest",
+    "provenance",
+    "action"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-os.action-catalog-delta.v1" },
+    "schema/v": { "const": 1 },
+    "approval/ref": { "$ref": "operator-consent-binding.v1.schema.json#/$defs/ref" },
+    "operator/ref": { "$ref": "operator-consent-binding.v1.schema.json#/$defs/ref" },
+    "issued/at": { "$ref": "operator-consent-binding.v1.schema.json#/$defs/timestamp" },
+    "expires/at": {
+      "anyOf": [
+        { "$ref": "operator-consent-binding.v1.schema.json#/$defs/timestamp" },
+        { "type": "null" }
+      ]
+    },
+    "revocation/ref": {
+      "anyOf": [
+        { "$ref": "operator-consent-binding.v1.schema.json#/$defs/ref" },
+        { "type": "null" }
+      ]
+    },
+    "delta/digest": { "$ref": "operator-consent-binding.v1.schema.json#/$defs/digest" },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "source/component",
+        "requested/by",
+        "reason/code"
+      ],
+      "properties": {
+        "source/component": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "requested/by": { "type": "string", "minLength": 1, "maxLength": 240 },
+        "reason/code": { "type": "string", "minLength": 1, "maxLength": 120 }
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "action_id",
+        "class",
+        "parameter_transport",
+        "result_contract",
+        "limits",
+        "sensitivity",
+        "operator_consent"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z_][A-Za-z0-9_.-]*$"
+        },
+        "class": {
+          "enum": [
+            "read-only-spawn",
+            "allowlisted-script",
+            "scoped-fs-write",
+            "egress-network-spawn",
+            "artifact-producing-spawn",
+            "composed-spawn",
+            "operator-gated-spawn"
+          ]
+        },
+        "executable": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "executable_summary": { "type": "string" },
+        "parameter_transport": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "parameters_schema": {
+          "anyOf": [
+            { "type": "string", "minLength": 1, "maxLength": 240 },
+            { "type": "object", "additionalProperties": true }
+          ]
+        },
+        "result_contract": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "sensitivity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["class"],
+          "properties": {
+            "class": { "type": "string", "minLength": 1, "maxLength": 80 }
+          }
+        },
+        "operator_consent": { "$ref": "operator-consent-binding.v1.schema.json" }
+      }
+    }
+  }
+}

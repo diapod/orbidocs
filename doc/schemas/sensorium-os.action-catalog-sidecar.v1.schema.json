@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-os.action-catalog-sidecar:v1",
+  "title": "sensorium-os.action-catalog-sidecar.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "entries",
+    "diagnostics"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-os.action-catalog-sidecar.v1" },
+    "schema/v": { "const": 1 },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "sensorium-os.action-catalog-delta.v1.schema.json" }
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "level": { "type": "string" },
+          "code": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}

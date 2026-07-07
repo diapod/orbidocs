@@ -65,6 +65,15 @@
       "autonomy/floor": "observation-only",
       "coi/policy": "not-applicable",
       "notes": "Probe authority is scoped to diagnostic target, source ownership, deadline, and result-size caps."
+    },
+    {
+      "capability/id": "sensorium.connector.os.action",
+      "required/grants": ["grant/sensorium.os.action"],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "proposed-effect",
+      "coi/policy": "operator-review-required",
+      "notes": "Durable Sensorium OS action-catalog deltas require explicit operator consent and remain constrained by the action class, catalog validator, and host policy."
     }
   ]
 }

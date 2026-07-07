@@ -906,9 +906,9 @@ Implementation status 2026-07-07:
   `<data-dir>/storage/operator-consents.sqlite`, exposes submit/list/detail/
   revoke APIs, projects pending requests into P066 operator questions and
   durable notifications, and translates answered operator-question actions into
-  `operator-consent-decision.v1`. Operator-consent read and Workbench sidecar
-  projection endpoints are operator surfaces; module callers are rejected
-  fail-closed. Revocation also requires an active local
+  `operator-consent-decision.v1`. Operator-consent read and Workbench/Sensorium
+  OS sidecar projection endpoints are operator surfaces; module callers are
+  rejected fail-closed. Revocation also requires an active local
   `node-operator-binding.v1` and records the active binding ref as the
   revoking operator.
 - The P066 notification action dispatcher rejects non-operator callers for
@@ -934,9 +934,13 @@ Implementation status 2026-07-07:
   `consent-capability-not-grantable` diagnostics for those skipped entries, and
   the Workbench connector imports sidecar diagnostics into its operator-visible
   config diagnostics.
-- `sensorium-os.consent-descriptor.v1` is published as the reviewed descriptor
-  contract for the later Sensorium OS action-catalog sidecar slice; the
-  Sensorium OS runtime does not yet materialize consent-driven catalog deltas.
+- Sensorium OS uses the same host-owned consent registry for
+  `remember-action-catalog-entry` durable decisions. The daemon projects
+  granted Sensorium OS decisions into `sensorium-os.action-catalog-sidecar.v1`
+  deltas, writes that sidecar to the Sensorium OS middleware config tree,
+  applies the same expired/inactive-binding/no-longer-grantable filters, and
+  the connector appends valid non-overriding deltas into its effective action
+  catalog while importing projection diagnostics.
 
 ### 10. Trace And Memory
 
@@ -1788,26 +1792,30 @@ evidence) · `[!]` blocked/needs decision.
   durable consent and reports `consent-capability-not-grantable`, and leaves
   those diagnostics visible to the Workbench connector; argv-prefix sidecars
   remain future work.
-- [ ] Define the Sensorium OS action-catalog sidecar projection. A granted
+- [x] Define the Sensorium OS action-catalog sidecar projection. A granted
   Sensorium OS decision should materialize a catalog delta shaped like P048
   action declarations: action class, executable or script root, argv shape,
   parameter schema, limits, result contract, `result_pointer_fields`,
   sensitivity, approval ref, operator ref, expiry, and revocation ref. The
   consent descriptor should be promoted to its own schema rather than an
   untyped inline blob inside the operator-question request. The descriptor
-  schema is published; runtime catalog-delta materialization remains a later
-  Sensorium OS slice.
+  schema is published. The implemented daemon projection emits
+  `sensorium-os.action-catalog-sidecar.v1`, publishes the binding/delta/sidecar
+  schemas, writes the sidecar to the Sensorium OS middleware config tree,
+  reuses the same effective durable filters as Workbench, and the connector
+  loads append-only non-overriding deltas before running its existing
+  action-catalog validator.
 - [ ] Add a shared sidecar merge primitive for adapter config deltas. It should
   live beside the existing path/config utility strata, support append-only
   allowlist deltas first, report the merge provenance, and require schema
   validation after `main config + sidecar` is composed. Avoid generic
   deep-override semantics for security-sensitive caps. Sidecar entries whose
   `operator/ref` points to a revoked or expired node-operator binding must be
-  inactive in the effective projection. The exact-argv projection now enforces
-  that inactivity rule, omits expired durable consent, and surfaces diagnostics;
-  a reusable merge primitive, deterministic cache invalidation across all
-  adapter sidecars, and effective projection hashes remain future shared
-  infrastructure.
+  inactive in the effective projection. The Workbench exact-argv projection and
+  Sensorium OS action-catalog projection now enforce that inactivity rule, omit
+  expired durable consent, and surface diagnostics; a reusable merge primitive,
+  deterministic cache invalidation across all adapter sidecars, and effective
+  projection hashes remain future shared infrastructure.
 - [ ] Add operator UI/API surfaces for consent visibility and revocation:
   pending requests, answered decisions, durable sidecar entries, expiry,
   selected scope, operation digest, source component, operator ref, issued/at,

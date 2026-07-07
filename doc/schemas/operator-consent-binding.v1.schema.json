@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-consent-binding:v1",
+  "title": "operator-consent-binding.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "approval/ref",
+    "operator/ref",
+    "issued/at",
+    "delta/digest",
+    "operation/ref",
+    "capability/id"
+  ],
+  "properties": {
+    "schema": { "const": "operator-consent-binding.v1" },
+    "schema/v": { "const": 1 },
+    "approval/ref": { "$ref": "#/$defs/ref" },
+    "operator/ref": { "$ref": "#/$defs/ref" },
+    "issued/at": { "$ref": "#/$defs/timestamp" },
+    "expires/at": {
+      "anyOf": [
+        { "$ref": "#/$defs/timestamp" },
+        { "type": "null" }
+      ]
+    },
+    "revocation/ref": {
+      "anyOf": [
+        { "$ref": "#/$defs/ref" },
+        { "type": "null" }
+      ]
+    },
+    "delta/digest": { "$ref": "#/$defs/digest" },
+    "operation/ref": { "$ref": "#/$defs/ref" },
+    "capability/id": { "$ref": "#/$defs/capability_id" }
+  },
+  "$defs": {
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$"
+    },
+    "digest": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 160,
+      "pattern": "^sha256:[A-Za-z0-9_-]+$"
+    },
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "timestamp": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 64
+    }
+  }
+}

@@ -74,13 +74,16 @@ authorization policy, and omits expired exact-argv sidecar entries or entries
 whose `operator/ref` points to an inactive binding, or whose capability is no
 longer durable-grantable, while surfacing `consent-expired`,
 `consent-operator-binding-inactive`, or `consent-capability-not-grantable`
-diagnostics. The Workbench connector imports those host sidecar diagnostics into its
-operator-visible config diagnostics. The remaining solution work is
+diagnostics. The Workbench connector imports those host sidecar diagnostics into
+its operator-visible config diagnostics. The same host-owned spine now also
+projects granted Sensorium OS `remember-action-catalog-entry` decisions into
+`sensorium-os.action-catalog-sidecar.v1`, writes that sidecar to the Sensorium
+OS middleware config tree, and the Sensorium OS connector loads valid
+non-overriding deltas into its effective action catalog. The remaining solution work is
 concrete virtualized executor backends, daemon cancel/signal semantics for
 command BDOs, domain-native AD/Memarium/approval adapters beyond dynamic
 observed-state joins, shared actuation-core binding for the Python connector,
-Workbench argv-prefix consent, dedicated node-ui consent screens, and Sensorium
-OS catalog-delta consent.
+Workbench argv-prefix consent, and dedicated node-ui consent screens.
 
 ## Date
 
@@ -222,7 +225,11 @@ Status:
   authority, durable-grant grantability policy, expired-consent filtering,
   host-policy revalidation for effective durable sidecars, inactive-binding
   sidecar diagnostics, and connector import of host sidecar diagnostics. Broader
-  prefix/executable consent and dedicated UI remain future work.
+  prefix/executable consent and dedicated UI remain future work. Sensorium OS
+  action-catalog consent deltas also use this spine: granted durable decisions
+  are projected into a host-authored sidecar, filtered by the same authority and
+  grantability rules, and loaded by the Sensorium OS connector as append-only
+  non-overriding action declarations.
 
 ### Shared Actuation Core
 

@@ -202,6 +202,9 @@ Responsibilities:
   reuse `inquirium.operator-question.request.v1` projected through durable
   notifications, while Sensorium OS receives only an audited action-catalog
   sidecar delta after the operator grants consent,
+- load host-projected `sensorium-os.action-catalog-sidecar.v1` consent deltas as
+  append-only, non-overriding action declarations and expose their diagnostics
+  through the catalog status surface,
 - keep cryptographic key use in the daemon/HostSigner stratum rather than in
   the connector.
 
@@ -344,7 +347,12 @@ Interactive consent for adding new Sensorium OS actions or Workbench command
 profiles is also host-owned. Sensorium connectors may request a decision, but
 the prompt/answer state machine belongs to the daemon's operator-question and
 notification layers; adapters receive only validated consent outcomes projected
-into their own sidecar formats.
+into their own sidecar formats. The first Sensorium OS projection now exists:
+durable `remember-action-catalog-entry` grants are materialized into
+`sensorium-os.action-catalog-sidecar.v1` after daemon-side expiry, operator
+binding, and durable-grantability checks, written to the Sensorium OS middleware
+config tree, then merged by the connector only as valid non-overriding action
+entries.
 
 This solution owns the host-side consent state machine boundary and the shared
 sidecar-merge rule; adapter-specific projection shapes are owned by their

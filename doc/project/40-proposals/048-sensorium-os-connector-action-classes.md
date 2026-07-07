@@ -1103,12 +1103,32 @@ Implementation status 2026-07-07:
   P066 notification/answer reuse, deterministic approval refs, expiry sweep,
   durable-grant grantability gates, active node-operator-binding enforcement,
   expiry-aware effective projection, host-policy revalidation for effective
-  durable sidecars, and Workbench sidecar projection.
+  durable sidecars, Workbench sidecar projection, and Sensorium OS
+  action-catalog sidecar projection.
 - `sensorium-os.consent-descriptor.v1` is published as the reviewed, typed
-  descriptor contract for future Sensorium OS catalog-delta prompts.
-- Sensorium OS does not yet materialize action-catalog sidecar deltas from
-  granted consents; that remains the next Sensorium-OS-specific implementation
-  step after the shared consent spine.
+  descriptor contract for Sensorium OS catalog-delta prompts.
+- The daemon now materializes granted `remember-action-catalog-entry` decisions
+  into `sensorium-os.action-catalog-sidecar.v1` deltas, writes the sidecar to
+  `operator_consent.sidecar_path` or the default
+  `<config-dir>/.operator-consent/sensorium-os.action-catalog-sidecar.json`,
+  and exposes an operator refresh endpoint at
+  `POST /v1/operator-consents/projections/sensorium-os/action-catalog/write`.
+  The projection omits expired decisions, decisions whose `operator/ref` no
+  longer has an active
+  `node-operator-binding.v1`, and decisions whose capability is no longer
+  durable-grantable by host policy, surfacing `consent-expired`,
+  `consent-operator-binding-inactive`, or
+  `consent-capability-not-grantable` diagnostics.
+- `operator-consent-binding.v1`,
+  `sensorium-os.action-catalog-delta.v1`, and
+  `sensorium-os.action-catalog-sidecar.v1` are published schema contracts for
+  the daemon-to-connector consent projection.
+- The `sensorium-os` connector can load an operator-consent action-catalog
+  sidecar with a bounded TTL/mtime cache, append valid non-overriding deltas to
+  the effective catalog, expose their operator-visible status, and dispatch a
+  consent-authorized action even when the configured base catalog itself is not
+  authorized. Consent sidecars do not override configured catalog entries, and
+  duplicate `approval/ref` values are refused.
 
 ### Post-MVP implementation steps: operator consent catalog deltas
 
@@ -1131,7 +1151,7 @@ Implementation status 2026-07-07:
   `allow-once` for this directive only, and `remember-action-catalog-entry`.
   Broader templates such as "allow all actions under this script root" remain
   disabled unless a separate host policy/capability gate enables them.
-- [ ] Project a granted durable decision into an action-catalog sidecar delta
+- [x] Project a granted durable decision into an action-catalog sidecar delta
   using the same declaration vocabulary as this proposal. The projection should
   carry approval ref, operator ref, issued/at, expires/at, revocation ref,
   provenance, and the canonical digest of the reviewed delta.
@@ -1139,7 +1159,10 @@ Implementation status 2026-07-07:
   digest, action id/class, executable or script-root summary, argv shape,
   parameter/result contract refs, `result_pointer_fields`, declared
   sensitivity, and safety caps. It must not depend on mutable audit metadata.
-- [ ] Compose the effective catalog from main config plus sidecar deltas and
+- [x] Materialize the host-owned Sensorium OS consent projection to the
+  connector-readable sidecar path while the daemon is running, and expose an
+  operator-only refresh endpoint for explicit sidecar rewrites.
+- [x] Compose the effective catalog from main config plus sidecar deltas and
   run the existing catalog validation after merge. A sidecar delta may append
   an action or tighten an existing declaration, but it must not silently lower
   sensitivity, widen executable roots, widen egress, raise timeout/output caps,
@@ -1148,6 +1171,11 @@ Implementation status 2026-07-07:
   be inactive in the effective catalog. The post-merge validation must reuse
   the same action-catalog validator used for the main effective config; do not
   add a second custom merge-only validator with different semantics.
+- [x] The implemented compose path is append-only for consent deltas: entries
+  whose `action_id` already exists in the configured catalog are refused with
+  `operator-consent-sidecar-entry-refused` rather than treated as an implicit
+  tightening operation. A later tightening primitive may be added only with
+  explicit monotonicity checks.
 - [ ] Expose operator-visible catalog approval status: pending prompts,
   granted deltas, denied attempts, expired approvals, revoked approvals,
   effective catalog hash, operator ref, issued/at, expires/at, revocation/ref,
