@@ -38,6 +38,10 @@ Related schemas:
 - `deferred-operation.v1`
 - `deferred-operation-status.v1`
 - `capability-authorization-policy.v1`
+- `operator-consent.request.v1`
+- `operator-consent-decision.v1`
+- `sensorium-workbench.consent-descriptor.v1`
+- `sensorium-os.consent-descriptor.v1`
 
 ## Status
 
@@ -56,10 +60,19 @@ implementation also covers virtualized-backend adversarial source-provider
 fixtures, daemon BDO registration/polling for long-running Workbench terminal
 commands, broker projection of Workbench provider operator status, and dynamic
 observed-state joins for artifact, environment, approval, and Memarium-query
-providers. The remaining solution work is concrete virtualized executor
-backends, daemon cancel/signal semantics for command BDOs, domain-native
-AD/Memarium/approval adapters beyond dynamic observed-state joins, and shared
-actuation-core binding for the Python connector.
+providers. The first host-owned operator consent spine is also implemented for
+exact Workbench terminal commands: the daemon owns consent requests, P066
+operator-question/notification projection, answer-to-decision translation,
+list/detail/revoke APIs, and a Workbench exact-argv command-profile sidecar
+projection. Operator-consent read/projection APIs reject module callers
+fail-closed, duplicate requests replay by semantic request equality, and the
+Workbench connector refreshes sidecar profiles through a bounded TTL instead of
+freezing the startup snapshot. The remaining solution work is concrete
+virtualized executor backends, daemon cancel/signal semantics for command BDOs,
+domain-native AD/Memarium/approval adapters beyond dynamic observed-state joins,
+shared actuation-core binding for the Python connector, Workbench argv-prefix
+consent, dedicated node-ui consent screens, and Sensorium OS catalog-delta
+consent.
 
 ## Date
 
@@ -180,20 +193,26 @@ Responsibilities:
   connectors directly;
 - bind effect classes to required grants, caller posture, approval mode,
   autonomy floor, and conflict-of-interest policy.
-- keep future interactive operator consent host-owned: Workbench may request
+- keep interactive operator consent host-owned: Workbench may request
   approval for an eligible command/profile delta, but the daemon must use
   `inquirium.operator-question.request.v1` projected through durable
   notifications for the prompt/answer state machine before any adapter-specific
-  sidecar projection is materialized.
+  sidecar projection is materialized;
+- project exact-argv `remember-exact-argv` decisions into a Workbench
+  command-profile sidecar without loosening workspace, egress, credential,
+  timeout, or output-byte caps.
 
 Status:
 
 - `partial`: capability ids and policy sidecars exist; JSON-e/module broker
   calls request host grants through `bindings.host_grant_requests`, and the
-  daemon mints host-local HMAC grant material before dispatch. Interactive
-  "ask and remember" consent for command profiles remains future work; it must
-  reuse host-owned operator questions and notifications rather than a
-  Workbench-private approval UI.
+  daemon mints host-local HMAC grant material before dispatch. Exact-argv
+  "ask and remember" command consent now reuses host-owned operator questions
+  and notifications, persists host-owned consent decisions, and projects a
+  bounded exact-argv sidecar that the connector refreshes with a bounded TTL.
+  Broader prefix/executable consent, explicit durable-grant
+  grantability gates, inactive operator-binding diagnostics, and dedicated UI
+  remain future work.
 
 ### Shared Actuation Core
 
@@ -427,6 +446,7 @@ Status:
 - `partial`: initial path, command-profile, patch, artifact, grant, raw-input,
   idempotency, connector-local deferred wait, residual-child recovery,
   interrupted-command recovery, failed-spawn command replay, no-egress,
+  operator-consent disabled-denial and dynamic sidecar-refresh,
   credential-env refusal, local replay, replay TTL cleanup, PTY story, and
   Python conformance vectors exist. Virtualized-backend vectors remain broader
   runtime work.

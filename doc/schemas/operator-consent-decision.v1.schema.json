@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-consent-decision:v1",
+  "title": "operator-consent-decision.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "approval/ref",
+    "operation/ref",
+    "operator/ref",
+    "consent/decision",
+    "consent/scope",
+    "issued/at",
+    "delta/digest",
+    "provenance"
+  ],
+  "properties": {
+    "schema": { "const": "operator-consent-decision.v1" },
+    "schema/v": { "const": 1 },
+    "approval/ref": { "$ref": "#/$defs/ref" },
+    "operation/ref": { "$ref": "#/$defs/ref" },
+    "operator/ref": { "$ref": "#/$defs/ref" },
+    "consent/decision": { "enum": ["pending", "granted", "denied", "expired", "revoked"] },
+    "consent/scope": { "$ref": "#/$defs/scope" },
+    "issued/at": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "expires/at": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "revocation/ref": { "$ref": "#/$defs/ref" },
+    "delta/digest": { "$ref": "#/$defs/sha256" },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source/component", "requested/by", "reason/code"],
+      "properties": {
+        "source/component": { "$ref": "#/$defs/ref" },
+        "requested/by": { "$ref": "#/$defs/ref" },
+        "reason/code": { "$ref": "#/$defs/token" }
+      }
+    }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 256, "not": { "pattern": "\\u0000" } },
+    "token": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9.:_/-]+$" },
+    "sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "scope": {
+      "enum": [
+        "deny",
+        "allow-once",
+        "remember-exact-argv",
+        "remember-argv-prefix",
+        "remember-action-catalog-entry"
+      ]
+    }
+  },
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/40-proposals/048-sensorium-os-connector-action-classes.md"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-os.consent-descriptor:v1",
+  "title": "sensorium-os.consent-descriptor.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "reason/code",
+    "action/id",
+    "action/class",
+    "executable/summary",
+    "argv/shape",
+    "parameters/schema-ref",
+    "result/contract",
+    "result/pointer-fields",
+    "sensitivity",
+    "limits"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-os.consent-descriptor.v1" },
+    "schema/v": { "const": 1 },
+    "reason/code": { "$ref": "#/$defs/token" },
+    "action/id": { "$ref": "#/$defs/token" },
+    "action/class": {
+      "enum": [
+        "read-only-spawn",
+        "allowlisted-script",
+        "scoped-fs-write",
+        "egress-network-spawn",
+        "artifact-producing-spawn",
+        "composed-spawn",
+        "operator-gated-spawn"
+      ]
+    },
+    "executable/summary": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "argv/shape": { "type": "object" },
+    "parameters/schema-ref": { "$ref": "#/$defs/ref" },
+    "result/contract": { "type": "object" },
+    "result/pointer-fields": {
+      "type": "array",
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/token" }
+    },
+    "sensitivity": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "limits": { "type": "object" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 256, "not": { "pattern": "\\u0000" } },
+    "token": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9.:_/-]+$" }
+  },
+  "x-dia-basis": ["doc/project/40-proposals/048-sensorium-os-connector-action-classes.md"]
+}

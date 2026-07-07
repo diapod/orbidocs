@@ -31,7 +31,13 @@ The settled solution surface is promoted to
 `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`.
 This proposal remains the rationale, design history, resolved-decision log, and
 implementation tracker for Workbench. The promoted solution component owns the
-current solution-level responsibility boundary.
+current solution-level responsibility boundary. The first host-owned operator
+consent spine is implemented for exact Workbench terminal commands: a pure
+`operator-consent-core` contract crate, daemon-owned consent registry and
+operator APIs, P066 notification/answer reuse, `operator-consent.request.v1`,
+`operator-consent-decision.v1`, `sensorium-workbench.consent-descriptor.v1`,
+and a Workbench exact-argv runtime admission/sidecar path with bounded sidecar
+refresh.
 
 ## Date
 
@@ -883,6 +889,32 @@ consent facts. The effective sidecar projection must, however, treat any
 durable consent whose `operator/ref` points to a revoked or expired binding as
 inactive and surface `consent-operator-binding-inactive` in diagnostics.
 
+Implementation status 2026-07-07:
+
+- `node:operator-consent-core` defines the host-owned request/decision data
+  model, fail-closed timeout requirement, deterministic `delta/digest`, and
+  `approval:consent:<delta/digest>` derivation.
+- The daemon persists pending/answered/expired/revoked consent records under
+  `<data-dir>/storage/operator-consents.sqlite`, exposes submit/list/detail/
+  revoke APIs, projects pending requests into P066 operator questions and
+  durable notifications, and translates answered operator-question actions into
+  `operator-consent-decision.v1`. Operator-consent read and Workbench sidecar
+  projection endpoints are operator surfaces; module callers are rejected
+  fail-closed.
+- The P066 notification action dispatcher rejects non-operator callers for
+  `inquirium.operator-question.respond`; fuller policy checks for binding
+  revocation/expiry and durable-grant grantability remain a hardening slice.
+- Workbench emits `sensorium-workbench.consent-descriptor.v1` for
+  `command-profile-missing`, accepts `allow-once` and
+  `remember-exact-argv` decisions whose descriptor matches the current command
+  exactly, and can load a host-projected exact-argv command-profile sidecar
+  without loosening egress, credential, timeout, or output-byte caps. The
+  connector refreshes the sidecar through a bounded TTL, validates sidecar entry
+  schemas, and validates inline consent descriptor schemas before admission.
+- `sensorium-os.consent-descriptor.v1` is published as the reviewed descriptor
+  contract for the later Sensorium OS action-catalog sidecar slice; the
+  Sensorium OS runtime does not yet materialize consent-driven catalog deltas.
+
 ### 10. Trace And Memory
 
 Workbench traces must be useful without leaking unnecessary content.
@@ -1386,9 +1418,11 @@ Phase 3A operator-consent slices.
     materialized durable consent rather than on a pending question.
 36. **Effective sidecar merge timing.** Effective sidecar projections are cached
     with deterministic invalidation on consent grant, revocation, expiry,
-    main-config changes, and node restart/warm-recovery. Dispatch consumes the
-    validated cached projection and its hash diagnostics rather than recomputing
-    `main config + sidecar` on every operation.
+    main-config changes, and node restart/warm-recovery when the shared sidecar
+    merge primitive owns the projection. The current Workbench connector
+    implementation uses a bounded sidecar refresh TTL, validates the refreshed
+    sidecar before use, and consumes the validated projection rather than
+    treating a startup snapshot as final.
 
 ## Next Actions And Implementation Tracker
 
@@ -1662,7 +1696,7 @@ evidence) · `[!]` blocked/needs decision.
 
 ### Phase 3A - Host-Owned Operator Consent For Allowlist Deltas
 
-- [ ] Define `operator-consent-core` as a pure host-owned contract layer. It
+- [x] Define `operator-consent-core` as a pure host-owned contract layer. It
   should model consent requests, operation descriptors, selectable scope
   options, deduplication keys, TTLs, fail-closed timeout defaults, decision
   statuses (`pending`, `granted`, `denied`, `expired`, `revoked`), and the
@@ -1672,7 +1706,7 @@ evidence) · `[!]` blocked/needs decision.
   operator-question lifecycle states to consent decision states. It must define
   `approval/ref` as `approval:consent:<delta/digest>`, e.g.
   `approval:consent:sha256:<base64url>`.
-- [ ] Add a daemon-owned consent registry and audit ledger under the node
+- [x] Add a daemon-owned consent registry and audit ledger under the node
   data-dir. The natural key should include capability id, source component,
   operation digest, workspace/root ref when present, proposed scope, and
   requester. The registry must support idempotent request replay, list, detail,
@@ -1683,7 +1717,7 @@ evidence) · `[!]` blocked/needs decision.
   Redacted export must omit secret material and raw environment values, and
   should prefer digests plus redacted summaries for argv, parameters, and
   action descriptors.
-- [ ] Reuse `inquirium.operator-question.request.v1` and durable notifications
+- [x] Reuse `inquirium.operator-question.request.v1` and durable notifications
   for the prompt/answer surface. The consent layer should build a typed
   operator question with `recipient/class = operator`, registered widget kind
   `single-choice`, a fail-closed `default/on-timeout`, and a response target
@@ -1697,7 +1731,9 @@ evidence) · `[!]` blocked/needs decision.
   `node-primary-operator` and that the requested durable grant passes the host
   grantability policy/capability gate, then translate the selected option into
   an `operator-consent-decision` record without letting the adapter mutate
-  policy directly.
+  policy directly. Baseline reuse is implemented; remaining hardening is
+  explicit binding revocation/expiry validation and durable-grant gate checks
+  before broadening beyond exact-argv consent.
 - [ ] Define Workbench consent scope choices. The first supported options are
   `deny`, `allow-once`, `remember-exact-argv`, and
   `remember-argv-prefix`. `remember-executable-any-args` is a high-risk
@@ -1705,8 +1741,10 @@ evidence) · `[!]` blocked/needs decision.
   host policy/capability gate enables it; the gate must be registered before
   runtime implementation and the option must be hidden when the gate is absent.
   `remember-argv-prefix` must have host-policy caps for maximum fixed prefix
-  length and maximum variable-prefix entries.
-- [ ] Implement the Workbench sidecar projection. A granted durable decision
+  length and maximum variable-prefix entries. Baseline runtime currently
+  renders and admits `deny`, `allow-once`, and `remember-exact-argv`; prefix
+  consent remains disabled until host caps are implemented.
+- [x] Implement the Workbench sidecar projection. A granted durable decision
   should append a command-profile delta scoped by workspace/root, cwd policy,
   argv exact/prefix data, allowed variable prefixes, environment policy,
   egress policy, timeout/output caps, approval ref, operator ref, expiry, and
@@ -1715,14 +1753,20 @@ evidence) · `[!]` blocked/needs decision.
   Its approval digest must cover capability id, operation digest,
   workspace/root refs, proposed argv scope, and safety caps, not just argv text.
   The reviewed Workbench consent descriptor should be promoted to
-  `sensorium-workbench.consent-descriptor.v1`.
+  `sensorium-workbench.consent-descriptor.v1`. The implemented projection is
+  intentionally exact-argv only, validates command-profile sidecar entry schema
+  ids, rejects inline decisions whose descriptor schema is not
+  `sensorium-workbench.consent-descriptor.v1`, and refreshes the sidecar
+  through a bounded TTL; argv-prefix sidecars remain future work.
 - [ ] Define the Sensorium OS action-catalog sidecar projection. A granted
   Sensorium OS decision should materialize a catalog delta shaped like P048
   action declarations: action class, executable or script root, argv shape,
   parameter schema, limits, result contract, `result_pointer_fields`,
   sensitivity, approval ref, operator ref, expiry, and revocation ref. The
   consent descriptor should be promoted to its own schema rather than an
-  untyped inline blob inside the operator-question request.
+  untyped inline blob inside the operator-question request. The descriptor
+  schema is published; runtime catalog-delta materialization remains a later
+  Sensorium OS slice.
 - [ ] Add a shared sidecar merge primitive for adapter config deltas. It should
   live beside the existing path/config utility strata, support append-only
   allowlist deltas first, report the merge provenance, and require schema
@@ -1739,7 +1783,8 @@ evidence) · `[!]` blocked/needs decision.
   expires/at, revocation/ref, delta/digest, and revoke/deny actions. Revocation
   uses `POST /v1/operator-consents/{approval_ref}/revoke`, not the
   operator-question answer endpoint. The UI should make it clear which entries
-  are one-shot, durable, expired, or revoked.
+  are one-shot, durable, expired, or revoked. The daemon API surface exists;
+  dedicated node-ui screens remain future UX work.
 - [ ] Add integration tests and fixtures. P066-owned primitives cover request
   deduplication, timeout fail-closed, widget contract validation, and duplicate
   answer replay metadata. P071-owned tests should cover deny, allow-once
@@ -1747,7 +1792,12 @@ evidence) · `[!]` blocked/needs decision.
   node-operator-binding enforcement, participant-only denial of consent,
   sidecar merge validation, stale/inactive operator binding diagnostics,
   revocation removal from the effective projection, and refusal of attempts to
-  loosen safety caps.
+  loosen safety caps. Current coverage includes core digest/timeout validation,
+  registry request/answer/replay/projection behavior, semantic duplicate
+  request replay after deny/grant/revoke, Workbench consent denial,
+  exact-decision admission, consent-disabled denial, operator-read endpoint
+  module-caller denial, sidecar schema validation, dynamic sidecar refresh, and
+  sidecar cap-refusal tests.
 
 ### Phase 4 - Virtualized Backends
 

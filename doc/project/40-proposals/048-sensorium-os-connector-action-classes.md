@@ -1089,20 +1089,32 @@ Interactive catalog approval should reuse `inquirium.operator-question.request.v
 and durable notifications for the prompt/answer state machine, then project a
 granted decision into a host-audited Sensorium OS action-catalog sidecar delta.
 
+Implementation status 2026-07-07:
+
+- The shared P071 host-owned operator-consent spine exists in the node daemon:
+  `operator-consent-core`, persisted registry, submit/list/detail/revoke APIs,
+  P066 notification/answer reuse, deterministic approval refs, expiry sweep,
+  and Workbench sidecar projection.
+- `sensorium-os.consent-descriptor.v1` is published as the reviewed, typed
+  descriptor contract for future Sensorium OS catalog-delta prompts.
+- Sensorium OS does not yet materialize action-catalog sidecar deltas from
+  granted consents; that remains the next Sensorium-OS-specific implementation
+  step after the shared consent spine.
+
 ### Post-MVP implementation steps: operator consent catalog deltas
 
-- [ ] Reuse the P071 host-owned operator-consent registry instead of adding a
+- [x] Reuse the P071 host-owned operator-consent registry instead of adding a
   Sensorium-OS-local approval queue. Sensorium OS may request consent for an
   eligible action-catalog delta, but the host owns prompt lifecycle,
   runtime-auth-session validation against an active `node-operator-binding.v1`,
   deduplication, timeout, audit, and revocation.
-- [ ] Define the Sensorium OS consent descriptor that is safe to show to an
+- [x] Define the Sensorium OS consent descriptor that is safe to show to an
   operator. It should contain action id, class, executable/script-root summary,
   argv shape, parameter schema ref or digest, result contract summary,
   `result_pointer_fields`, declared sensitivity, timeout/output limits, and the
   reason why the action is not currently allowed. It must not include secrets or
   raw large payloads.
-- [ ] Promote that descriptor to `sensorium-os.consent-descriptor.v1` instead
+- [x] Promote that descriptor to `sensorium-os.consent-descriptor.v1` instead
   of carrying an untyped inline blob inside the operator-question payload. The
   descriptor should mirror the action-declaration vocabulary and carry only
   redacted, digestible review material.

@@ -23,7 +23,7 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-048` / Sensorium OS action-class runtime
 - `proposal-076` / `federation-root.v1`
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-06 and the latest P076/P025/P054 Seed Directory and federation-root implementation slices in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target, the first node-local Agent `spawn/status/stop` implementation slice, per-agent Inquirium budget metering, and the first HIL-gated effect-proposal skeleton, the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust, optional Seed Directory bootstrap TLS pins as source-aware transport hardening, production orbiplex-main ceremony profile checks, Proposal 077 Swarm Broadcast Assistance as a post-MVP assistance-choreography track, Proposal 078 Weak Signal Harvester as a post-MVP findings-directory intake track, Proposal 079 Cross-Federation Alliance as the canonical post-MVP `alliance-policy.v1` contract track that closes P076-008 at concept/schema level and now has a node-side one-half verifier plus active-alliance resolver while deferring distribution and consumer-specific admission enforcement, Solution 042 Sensorium Workbench as the promoted solution-level owner for the P071 local actuator foundation, the Interaction Broker grant-runtime, host-audit projection, Workbench terminal provider, Workbench file-tree provider, startup recovery/retention, dynamic source-provider registration slices, the P048 Sensorium OS action-class runtime, and the latest P063/P066 tracker sync for Inquirium classify/rerank contracts plus operator-question timeout lifecycle hardening.
+Change basis: this refresh incorporates the current worktree state on 2026-07-06 and the latest P076/P025/P054 Seed Directory and federation-root implementation slices in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target, the first node-local Agent `spawn/status/stop` implementation slice, per-agent Inquirium budget metering, and the first HIL-gated effect-proposal skeleton, the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust, optional Seed Directory bootstrap TLS pins as source-aware transport hardening, production orbiplex-main ceremony profile checks, Proposal 077 Swarm Broadcast Assistance as a post-MVP assistance-choreography track, Proposal 078 Weak Signal Harvester as a post-MVP findings-directory intake track, Proposal 079 Cross-Federation Alliance as the canonical post-MVP `alliance-policy.v1` contract track that closes P076-008 at concept/schema level and now has a node-side one-half verifier plus active-alliance resolver while deferring distribution and consumer-specific admission enforcement, Solution 042 Sensorium Workbench as the promoted solution-level owner for the P071 local actuator foundation, the Interaction Broker grant-runtime, host-audit projection, Workbench terminal provider, Workbench file-tree provider, startup recovery/retention, dynamic source-provider registration slices, the Workbench exact-argv operator-consent spine, the P048 Sensorium OS action-class runtime, the `sensorium-os.consent-descriptor.v1` contract for later catalog-delta consent, and the latest P063/P066 tracker sync for Inquirium classify/rerank contracts plus operator-question timeout lifecycle hardening.
 
 Recent component deltas:
 
@@ -40,6 +40,19 @@ Recent component deltas:
   and prefix `result_pointer_fields`, blocks C3/C4/C5 under emergency posture
   without an explicit host-policy exception, and fails closed for unavailable
   C3-C7 classes until their enforcement envelopes exist.
+- Proposal 071 / Solution 042 now have the first host-owned operator-consent
+  spine for exact Workbench terminal commands: typed request/decision schemas,
+  daemon persistence and submit/list/detail/revoke/projection APIs, P066-backed
+  operator questions and durable notifications, Workbench
+  `sensorium-workbench.consent-descriptor.v1`, matching `allow-once` admission,
+  and `remember-exact-argv` sidecar projection that refuses to loosen egress,
+  credential, timeout, or output-byte caps. The latest hardening also makes
+  operator-consent read/projection APIs reject module callers, replays duplicate
+  consent requests by semantic request equality, validates Workbench consent
+  descriptor and sidecar entry schemas, and refreshes Workbench sidecar profiles
+  through a bounded TTL. Prefix grants, dedicated node-ui screens, inactive
+  operator-binding diagnostics, virtualized executors, and Sensorium OS
+  action-catalog sidecar materialization remain post-hard-MVP work.
 - Raw Signal Access is now hard-MVP complete as both proposal and solution:
   hook-chain runtime and direct JSON-e-flow dispatch preserve raw context only
   in memory, expose it only to declaring executors, strip it from final
@@ -319,7 +332,9 @@ Recent component deltas:
   dynamic non-Workbench provider metadata/status registration. The latest
   review hardening also rejects dynamic built-in provider mutation, validates
   provider ids and capability declarations more strictly, runs broker retention
-  at startup and in bounded batches, and documents the operator surface.
+  at startup and in bounded batches, keeps operator-consent read/projection APIs
+  operator-only, validates Workbench consent sidecar schemas, and refreshes the
+  Workbench sidecar projection through a bounded TTL.
   Readiness remains below MVP because AD/Memarium handoff for captured outputs,
   idle-timeout policy, virtualized backends, and executable
   AD/Memarium/approval provider joins are not wired yet.
@@ -447,7 +462,7 @@ Recent component deltas:
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
-| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `90` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `92` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `false` | `false` | `false` | `42` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
@@ -501,4 +516,4 @@ Recent component deltas:
 | [Notifications](../60-solutions/039-notifications/039-notifications.md) | `true` | `true` | `false` | `90` |
 | [Capability-Limited Restrictions](../60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md) | `true` | `true` | `false` | `100` |
 | [Federation Root and Network Selector](../60-solutions/041-federation-root/041-federation-root.md) | `true` | `true` | `false` | `92` |
-| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `90` |
+| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `92` |

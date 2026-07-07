@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-consent.request:v1",
+  "title": "operator-consent.request.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "operation/ref",
+    "capability/id",
+    "source/component",
+    "requested/by",
+    "requester/ref",
+    "operation/digest",
+    "descriptor",
+    "options",
+    "default/on-timeout",
+    "expires/at"
+  ],
+  "properties": {
+    "schema": { "const": "operator-consent.request.v1" },
+    "operation/ref": { "$ref": "#/$defs/ref" },
+    "capability/id": { "$ref": "#/$defs/token" },
+    "source/component": { "$ref": "#/$defs/ref" },
+    "requested/by": { "$ref": "#/$defs/ref" },
+    "requester/ref": { "$ref": "#/$defs/ref" },
+    "operation/digest": { "$ref": "#/$defs/sha256" },
+    "workspace/ref": { "$ref": "#/$defs/ref" },
+    "root/ref": { "$ref": "#/$defs/ref" },
+    "descriptor": {
+      "type": "object",
+      "description": "Adapter-specific redacted consent descriptor. Concrete descriptors are typed by their own schema."
+    },
+    "options": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["consent/scope", "label"],
+        "properties": {
+          "consent/scope": { "$ref": "#/$defs/scope" },
+          "label": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "description": { "type": "string", "minLength": 1, "maxLength": 512 }
+        }
+      }
+    },
+    "default/on-timeout": { "const": "deny" },
+    "expires/at": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "metadata": { "type": "object" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 256, "not": { "pattern": "\\u0000" } },
+    "token": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9.:_/-]+$" },
+    "sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "scope": {
+      "enum": [
+        "deny",
+        "allow-once",
+        "remember-exact-argv",
+        "remember-argv-prefix",
+        "remember-action-catalog-entry"
+      ]
+    }
+  },
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/40-proposals/048-sensorium-os-connector-action-classes.md"
+  ]
+}
