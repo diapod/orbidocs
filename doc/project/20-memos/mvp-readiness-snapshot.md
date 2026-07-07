@@ -50,8 +50,15 @@ Recent component deltas:
   operator-consent read/projection APIs reject module callers, replays duplicate
   consent requests by semantic request equality, validates Workbench consent
   descriptor and sidecar entry schemas, and refreshes Workbench sidecar profiles
-  through a bounded TTL. Prefix grants, dedicated node-ui screens, inactive
-  operator-binding diagnostics, virtualized executors, and Sensorium OS
+  through a bounded TTL. It now also requires active
+  `node-operator-binding.v1` authority for consent answers and revocation,
+  gates durable answers through host capability authorization policy, and
+  filters expired entries, inactive operator-binding entries, and capabilities
+  no longer durable-grantable by host policy from the effective sidecar with
+  `consent-expired`, `consent-operator-binding-inactive`, or
+  `consent-capability-not-grantable` diagnostics, which the Workbench connector
+  now imports into operator-visible config diagnostics. Prefix grants,
+  dedicated node-ui screens, virtualized executors, and Sensorium OS
   action-catalog sidecar materialization remain post-hard-MVP work.
 - Raw Signal Access is now hard-MVP complete as both proposal and solution:
   hook-chain runtime and direct JSON-e-flow dispatch preserve raw context only
@@ -462,7 +469,7 @@ Recent component deltas:
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
-| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `92` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `94` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `false` | `false` | `false` | `42` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
@@ -516,4 +523,4 @@ Recent component deltas:
 | [Notifications](../60-solutions/039-notifications/039-notifications.md) | `true` | `true` | `false` | `90` |
 | [Capability-Limited Restrictions](../60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md) | `true` | `true` | `false` | `100` |
 | [Federation Root and Network Selector](../60-solutions/041-federation-root/041-federation-root.md) | `true` | `true` | `false` | `92` |
-| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `92` |
+| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `94` |

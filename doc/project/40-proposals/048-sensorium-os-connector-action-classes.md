@@ -560,6 +560,13 @@ The intended split is:
 - the connector must not add entries to its own authority merely because it
   produced the prompt.
 
+If host authorization policy later removes durable consent grantability for the
+relevant Sensorium OS capability, already recorded durable consent facts remain
+auditable history but stop contributing authority. Effective catalog sidecar
+projection must fail closed by omitting those deltas and surfacing
+`consent-capability-not-grantable` diagnostics rather than deleting the
+historical consent record.
+
 For Sensorium OS the durable sidecar projection remains action-catalog shaped:
 action class, executable/script root, argv shape, parameter schema, result
 contract, `result_pointer_fields`, timeout and output limits, sensitivity, and
@@ -1094,7 +1101,9 @@ Implementation status 2026-07-07:
 - The shared P071 host-owned operator-consent spine exists in the node daemon:
   `operator-consent-core`, persisted registry, submit/list/detail/revoke APIs,
   P066 notification/answer reuse, deterministic approval refs, expiry sweep,
-  and Workbench sidecar projection.
+  durable-grant grantability gates, active node-operator-binding enforcement,
+  expiry-aware effective projection, host-policy revalidation for effective
+  durable sidecars, and Workbench sidecar projection.
 - `sensorium-os.consent-descriptor.v1` is published as the reviewed, typed
   descriptor contract for future Sensorium OS catalog-delta prompts.
 - Sensorium OS does not yet materialize action-catalog sidecar deltas from

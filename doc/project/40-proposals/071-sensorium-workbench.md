@@ -37,7 +37,9 @@ consent spine is implemented for exact Workbench terminal commands: a pure
 operator APIs, P066 notification/answer reuse, `operator-consent.request.v1`,
 `operator-consent-decision.v1`, `sensorium-workbench.consent-descriptor.v1`,
 and a Workbench exact-argv runtime admission/sidecar path with bounded sidecar
-refresh.
+refresh, active `node-operator-binding.v1` enforcement for answers and
+revocation, durable-grant grantability checks, and inactive-binding diagnostics
+in the effective sidecar projection.
 
 ## Date
 
@@ -888,6 +890,12 @@ Revoking or expiring a `node-operator-binding.v1` does not rewrite historical
 consent facts. The effective sidecar projection must, however, treat any
 durable consent whose `operator/ref` points to a revoked or expired binding as
 inactive and surface `consent-operator-binding-inactive` in diagnostics.
+Likewise, an expired durable consent fact remains auditable history but is not
+effective authority; Workbench projections omit it and surface
+`consent-expired`. If host authorization policy later removes durable
+grantability for the consent capability, the fact likewise remains audit
+history, but the effective projection omits it and surfaces
+`consent-capability-not-grantable`.
 
 Implementation status 2026-07-07:
 
@@ -900,10 +908,18 @@ Implementation status 2026-07-07:
   durable notifications, and translates answered operator-question actions into
   `operator-consent-decision.v1`. Operator-consent read and Workbench sidecar
   projection endpoints are operator surfaces; module callers are rejected
-  fail-closed.
+  fail-closed. Revocation also requires an active local
+  `node-operator-binding.v1` and records the active binding ref as the
+  revoking operator.
 - The P066 notification action dispatcher rejects non-operator callers for
-  `inquirium.operator-question.respond`; fuller policy checks for binding
-  revocation/expiry and durable-grant grantability remain a hardening slice.
+  `inquirium.operator-question.respond`. Consent answers additionally require
+  the answering operator participant to own an active local
+  `node-operator-binding.v1` with the `node-primary-operator` capability
+  profile, and durable answers fail closed unless the target capability is
+  grantable under host capability authorization policy. If that host policy
+  later removes durable grantability for a capability, existing durable consent
+  facts are not deleted, but future effective projections omit them with
+  `consent-capability-not-grantable`.
 - Workbench emits `sensorium-workbench.consent-descriptor.v1` for
   `command-profile-missing`, accepts `allow-once` and
   `remember-exact-argv` decisions whose descriptor matches the current command
@@ -911,6 +927,13 @@ Implementation status 2026-07-07:
   without loosening egress, credential, timeout, or output-byte caps. The
   connector refreshes the sidecar through a bounded TTL, validates sidecar entry
   schemas, and validates inline consent descriptor schemas before admission.
+  The daemon omits expired durable decisions, decisions signed by inactive
+  operator bindings, and decisions whose capability is no longer grantable for
+  durable consent from the effective sidecar projection, emits
+  `consent-expired`, `consent-operator-binding-inactive`, or
+  `consent-capability-not-grantable` diagnostics for those skipped entries, and
+  the Workbench connector imports sidecar diagnostics into its operator-visible
+  config diagnostics.
 - `sensorium-os.consent-descriptor.v1` is published as the reviewed descriptor
   contract for the later Sensorium OS action-catalog sidecar slice; the
   Sensorium OS runtime does not yet materialize consent-driven catalog deltas.
@@ -1723,7 +1746,7 @@ evidence) · `[!]` blocked/needs decision.
   `single-choice`, a fail-closed `default/on-timeout`, and a response target
   owned by the daemon. No Sensorium adapter should create its own notification
   action handler.
-- [ ] Reuse the P066 notification projection and answer routing
+- [x] Reuse the P066 notification projection and answer routing
   (`assistant-interaction-notification-projection` and action target
   `inquirium.operator-question.respond`) instead of adding another notification
   handler. The consent answer handler should validate that the submitting
@@ -1731,9 +1754,9 @@ evidence) · `[!]` blocked/needs decision.
   `node-primary-operator` and that the requested durable grant passes the host
   grantability policy/capability gate, then translate the selected option into
   an `operator-consent-decision` record without letting the adapter mutate
-  policy directly. Baseline reuse is implemented; remaining hardening is
-  explicit binding revocation/expiry validation and durable-grant gate checks
-  before broadening beyond exact-argv consent.
+  policy directly. The implemented exact-argv path performs active binding
+  validation at answer time and fails closed for durable scopes whose
+  capability is not grantable by host capability authorization policy.
 - [ ] Define Workbench consent scope choices. The first supported options are
   `deny`, `allow-once`, `remember-exact-argv`, and
   `remember-argv-prefix`. `remember-executable-any-args` is a high-risk
@@ -1757,7 +1780,14 @@ evidence) · `[!]` blocked/needs decision.
   intentionally exact-argv only, validates command-profile sidecar entry schema
   ids, rejects inline decisions whose descriptor schema is not
   `sensorium-workbench.consent-descriptor.v1`, and refreshes the sidecar
-  through a bounded TTL; argv-prefix sidecars remain future work.
+  through a bounded TTL. The effective daemon projection filters entries whose
+  `operator/ref` no longer points to an active local
+  `node-operator-binding.v1` and reports
+  `consent-operator-binding-inactive`, filters expired durable consent and
+  reports `consent-expired`, filters capabilities no longer grantable for
+  durable consent and reports `consent-capability-not-grantable`, and leaves
+  those diagnostics visible to the Workbench connector; argv-prefix sidecars
+  remain future work.
 - [ ] Define the Sensorium OS action-catalog sidecar projection. A granted
   Sensorium OS decision should materialize a catalog delta shaped like P048
   action declarations: action class, executable or script root, argv shape,
@@ -1773,10 +1803,11 @@ evidence) · `[!]` blocked/needs decision.
   validation after `main config + sidecar` is composed. Avoid generic
   deep-override semantics for security-sensitive caps. Sidecar entries whose
   `operator/ref` points to a revoked or expired node-operator binding must be
-  inactive in the effective projection. The effective projection should be
-  cached with deterministic invalidation on consent grant, revocation, expiry,
-  main-config changes, and node restart/warm-recovery, and should expose an
-  effective projection hash for diagnostics.
+  inactive in the effective projection. The exact-argv projection now enforces
+  that inactivity rule, omits expired durable consent, and surfaces diagnostics;
+  a reusable merge primitive, deterministic cache invalidation across all
+  adapter sidecars, and effective projection hashes remain future shared
+  infrastructure.
 - [ ] Add operator UI/API surfaces for consent visibility and revocation:
   pending requests, answered decisions, durable sidecar entries, expiry,
   selected scope, operation digest, source component, operator ref, issued/at,
@@ -1796,8 +1827,9 @@ evidence) · `[!]` blocked/needs decision.
   registry request/answer/replay/projection behavior, semantic duplicate
   request replay after deny/grant/revoke, Workbench consent denial,
   exact-decision admission, consent-disabled denial, operator-read endpoint
-  module-caller denial, sidecar schema validation, dynamic sidecar refresh, and
-  sidecar cap-refusal tests.
+  module-caller denial, active-binding revoke authority, expired durable
+  projection filtering, sidecar schema validation, dynamic sidecar refresh,
+  imported sidecar diagnostics, and sidecar cap-refusal tests.
 
 ### Phase 4 - Virtualized Backends
 

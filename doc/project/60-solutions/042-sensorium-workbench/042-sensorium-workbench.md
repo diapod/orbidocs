@@ -67,12 +67,20 @@ list/detail/revoke APIs, and a Workbench exact-argv command-profile sidecar
 projection. Operator-consent read/projection APIs reject module callers
 fail-closed, duplicate requests replay by semantic request equality, and the
 Workbench connector refreshes sidecar profiles through a bounded TTL instead of
-freezing the startup snapshot. The remaining solution work is concrete
-virtualized executor backends, daemon cancel/signal semantics for command BDOs,
-domain-native AD/Memarium/approval adapters beyond dynamic observed-state joins,
-shared actuation-core binding for the Python connector, Workbench argv-prefix
-consent, dedicated node-ui consent screens, and Sensorium OS catalog-delta
-consent.
+freezing the startup snapshot. The same spine now enforces active
+`node-operator-binding.v1` authority for consent answers and revoke calls,
+fails durable answers closed unless the target capability is grantable by host
+authorization policy, and omits expired exact-argv sidecar entries or entries
+whose `operator/ref` points to an inactive binding, or whose capability is no
+longer durable-grantable, while surfacing `consent-expired`,
+`consent-operator-binding-inactive`, or `consent-capability-not-grantable`
+diagnostics. The Workbench connector imports those host sidecar diagnostics into its
+operator-visible config diagnostics. The remaining solution work is
+concrete virtualized executor backends, daemon cancel/signal semantics for
+command BDOs, domain-native AD/Memarium/approval adapters beyond dynamic
+observed-state joins, shared actuation-core binding for the Python connector,
+Workbench argv-prefix consent, dedicated node-ui consent screens, and Sensorium
+OS catalog-delta consent.
 
 ## Date
 
@@ -210,9 +218,11 @@ Status:
   "ask and remember" command consent now reuses host-owned operator questions
   and notifications, persists host-owned consent decisions, and projects a
   bounded exact-argv sidecar that the connector refreshes with a bounded TTL.
-  Broader prefix/executable consent, explicit durable-grant
-  grantability gates, inactive operator-binding diagnostics, and dedicated UI
-  remain future work.
+  The implemented exact-argv path enforces active node-operator-binding
+  authority, durable-grant grantability policy, expired-consent filtering,
+  host-policy revalidation for effective durable sidecars, inactive-binding
+  sidecar diagnostics, and connector import of host sidecar diagnostics. Broader
+  prefix/executable consent and dedicated UI remain future work.
 
 ### Shared Actuation Core
 
@@ -446,10 +456,10 @@ Status:
 - `partial`: initial path, command-profile, patch, artifact, grant, raw-input,
   idempotency, connector-local deferred wait, residual-child recovery,
   interrupted-command recovery, failed-spawn command replay, no-egress,
-  operator-consent disabled-denial and dynamic sidecar-refresh,
-  credential-env refusal, local replay, replay TTL cleanup, PTY story, and
-  Python conformance vectors exist. Virtualized-backend vectors remain broader
-  runtime work.
+  operator-consent disabled-denial, dynamic sidecar-refresh, host sidecar
+  diagnostics import, credential-env refusal, local replay, replay TTL cleanup,
+  PTY story, and Python conformance vectors exist. Virtualized-backend vectors
+  remain broader runtime work.
 
 ## May Implement
 
