@@ -1,0 +1,6 @@
+ignore:
+  - "*.pl.md"
+
+nav:
+  - HOWTO.en.md
+  - "*-howto.en.md"

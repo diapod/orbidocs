@@ -101,6 +101,9 @@ plugins:
           # BEGIN GENERATED FAQ NAV EN
           # FAQ nav is generated into mkdocs.i18n.generated.yml from doc/ops/faq/*-faq.*.md.
           # END GENERATED FAQ NAV EN
+          # BEGIN GENERATED HOWTO NAV EN
+          # HOWTO nav is generated into mkdocs.i18n.generated.yml from doc/ops/howto/*-howto.*.md.
+          # END GENERATED HOWTO NAV EN
             - Diagrams:
                 - Architecture:
                     - Orbiplex Root Component Map: doc/diagrams/architecture/orbiplex-root-component-map.md
@@ -203,6 +206,9 @@ plugins:
           # BEGIN GENERATED FAQ NAV CS
           # FAQ nav is generated into mkdocs.i18n.generated.yml from doc/ops/faq/*-faq.*.md.
           # END GENERATED FAQ NAV CS
+          # BEGIN GENERATED HOWTO NAV CS
+          # HOWTO nav is generated into mkdocs.i18n.generated.yml from doc/ops/howto/*-howto.*.md.
+          # END GENERATED HOWTO NAV CS
             - Diagramy:
                 - Architektura:
                     - Mapa hlavních komponent Orbiplex: doc/diagrams/architecture/orbiplex-root-component-map.md
@@ -262,6 +268,9 @@ plugins:
           # BEGIN GENERATED FAQ NAV PL
           # FAQ nav is generated into mkdocs.i18n.generated.yml from doc/ops/faq/*-faq.*.md.
           # END GENERATED FAQ NAV PL
+          # BEGIN GENERATED HOWTO NAV PL
+          # HOWTO nav is generated into mkdocs.i18n.generated.yml from doc/ops/howto/*-howto.*.md.
+          # END GENERATED HOWTO NAV PL
             - Diagramy:
                 - Architektura:
                     - Mapa głównych komponentów Orbiplex: doc/diagrams/architecture/orbiplex-root-component-map.md

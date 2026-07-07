@@ -49,6 +49,20 @@ FAQ_NAV_MARKERS = {
         "          # END GENERATED FAQ NAV CS",
     ),
 }
+HOWTO_NAV_MARKERS = {
+    "en": (
+        "          # BEGIN GENERATED HOWTO NAV EN",
+        "          # END GENERATED HOWTO NAV EN",
+    ),
+    "pl": (
+        "          # BEGIN GENERATED HOWTO NAV PL",
+        "          # END GENERATED HOWTO NAV PL",
+    ),
+    "cs": (
+        "          # BEGIN GENERATED HOWTO NAV CS",
+        "          # END GENERATED HOWTO NAV CS",
+    ),
+}
 PROJECT_LABELS = {
     "en": {
         "root": "Project",
@@ -97,10 +111,15 @@ FAQ_LABEL = {
     "pl": "(FAQ)",
     "cs": "(FAQ)",
 }
+HOWTO_LABEL = {
+    "en": "(HOWTO)",
+    "pl": "(HOWTO)",
+    "cs": "(HOWTO)",
+}
 LOCALE_INDEX = {
-    "pl": """# Dokumentacja Orbiplex\n\nTo jest polska strona startowa dokumentacji Orbiplex.\n\nTłumaczenia: [English](/)\n\n## Sekcje\n\n- [Wizja](doc/normative/20-vision/VISION.md)\n- [Wartości podstawowe](doc/normative/30-core-values/CORE-VALUES.md)\n- [Konstytucja](doc/normative/40-constitution/CONSTITUTION.md)\n- [Akty wykonawcze](doc/normative/50-constitutional-ops/README.md)\n- [Podstawa ontologiczna](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Workflow projektowy](doc/project/PROJECTS.md)\n- [Pokrycie workflowów](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n""",
-    "en": """# Orbiplex Documentation\n\nThis is the English start page for Orbiplex documentation.\n\nTranslations: [Polski](/pl/)\n\n## Sections\n\n- [Vision](doc/normative/20-vision/VISION.md)\n- [Core Values](doc/normative/30-core-values/CORE-VALUES.md)\n- [Constitution](doc/normative/40-constitution/CONSTITUTION.md)\n- [Constitutional Ops](doc/normative/50-constitutional-ops/README.md)\n- [Ontological Basis](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Project Workflow](doc/project/PROJECTS.md)\n- [Workflow Coverage](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n""",
-    "cs": """# Dokumentace Orbiplex\n\nToto je česká úvodní stránka dokumentace Orbiplex.\n\nPřeklady: [English](/) · [Polski](/pl/)\n\n## Sekce\n\n- [Vize](doc/normative/20-vision/VISION.md)\n- [Základní hodnoty](doc/normative/30-core-values/CORE-VALUES.md)\n- [Konstituce](doc/normative/40-constitution/CONSTITUTION.md)\n- [Prováděcí akty](doc/normative/50-constitutional-ops/README.md)\n- [Ontologický základ](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Projektový workflow](doc/project/PROJECTS.md)\n- [Pokrytí workflowů](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n""",
+    "pl": """# Dokumentacja Orbiplex\n\nTo jest polska strona startowa dokumentacji Orbiplex.\n\nTłumaczenia: [English](/)\n\n## Sekcje\n\n- [Wizja](doc/normative/20-vision/VISION.md)\n- [Wartości podstawowe](doc/normative/30-core-values/CORE-VALUES.md)\n- [Konstytucja](doc/normative/40-constitution/CONSTITUTION.md)\n- [Akty wykonawcze](doc/normative/50-constitutional-ops/README.md)\n- [Podstawa ontologiczna](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Workflow projektowy](doc/project/PROJECTS.md)\n- [Pokrycie workflowów](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n- [HOWTO](doc/ops/howto/HOWTO.md)\n""",
+    "en": """# Orbiplex Documentation\n\nThis is the English start page for Orbiplex documentation.\n\nTranslations: [Polski](/pl/)\n\n## Sections\n\n- [Vision](doc/normative/20-vision/VISION.md)\n- [Core Values](doc/normative/30-core-values/CORE-VALUES.md)\n- [Constitution](doc/normative/40-constitution/CONSTITUTION.md)\n- [Constitutional Ops](doc/normative/50-constitutional-ops/README.md)\n- [Ontological Basis](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Project Workflow](doc/project/PROJECTS.md)\n- [Workflow Coverage](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n- [HOWTO](doc/ops/howto/HOWTO.md)\n""",
+    "cs": """# Dokumentace Orbiplex\n\nToto je česká úvodní stránka dokumentace Orbiplex.\n\nPřeklady: [English](/) · [Polski](/pl/)\n\n## Sekce\n\n- [Vize](doc/normative/20-vision/VISION.md)\n- [Základní hodnoty](doc/normative/30-core-values/CORE-VALUES.md)\n- [Konstituce](doc/normative/40-constitution/CONSTITUTION.md)\n- [Prováděcí akty](doc/normative/50-constitutional-ops/README.md)\n- [Ontologický základ](doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md)\n\n<!-- project-workflow -->\n\n- [Projektový workflow](doc/project/PROJECTS.md)\n- [Pokrytí workflowů](doc/COVERAGE.md)\n\n- [FAQ](doc/ops/faq/FAQ.md)\n- [HOWTO](doc/ops/howto/HOWTO.md)\n""",
 }
 FENCE_RE = re.compile(r"^[ \t]{0,3}(```+|~~~+)")
 LABEL_RE = re.compile(
@@ -356,32 +375,40 @@ def render_project_nav(locale: str) -> str:
     return "\n".join(lines)
 
 
-def collect_faq_files(locale: str) -> list[Path]:
-    faq_root = BUILD_DIR / locale / "doc" / "ops" / "faq"
-    if not faq_root.exists():
+def collect_ops_files(locale: str, section: str, suffix: str) -> list[Path]:
+    section_root = BUILD_DIR / locale / "doc" / "ops" / section
+    if not section_root.exists():
         return []
     return [
         path
-        for path in sorted(faq_root.glob("*-faq.md"))
+        for path in sorted(section_root.glob(f"*-{suffix}.md"))
         if path.is_file() and not path.name.startswith(".")
     ]
 
 
-def render_faq_nav(locale: str) -> str:
+def render_ops_nav(locale: str, section: str, suffix: str, label: str, index_name: str) -> str:
     root_indent = " " * 12
     item_indent = " " * 16
 
     lines = [
-        f"{root_indent}- {FAQ_LABEL[locale]}:",
-        f"{item_indent}- doc/ops/faq/FAQ.md",
+        f"{root_indent}- {label}:",
+        f"{item_indent}- doc/ops/{section}/{index_name}.md",
     ]
 
-    for path in collect_faq_files(locale):
+    for path in collect_ops_files(locale, section, suffix):
         rel = path.relative_to(BUILD_DIR / locale).as_posix()
         title = read_markdown_title(path)
         lines.append(f"{item_indent}- {yaml_string(title)}: {rel}")
 
     return "\n".join(lines)
+
+
+def render_faq_nav(locale: str) -> str:
+    return render_ops_nav(locale, "faq", "faq", FAQ_LABEL[locale], "FAQ")
+
+
+def render_howto_nav(locale: str) -> str:
+    return render_ops_nav(locale, "howto", "howto", HOWTO_LABEL[locale], "HOWTO")
 
 
 def replace_marked_block(text: str, begin_marker: str, end_marker: str, content: str) -> str:
@@ -411,6 +438,13 @@ def write_generated_i18n_config() -> None:
             faq_begin_marker,
             faq_end_marker,
             render_faq_nav(locale),
+        )
+        howto_begin_marker, howto_end_marker = HOWTO_NAV_MARKERS[locale]
+        rendered = replace_marked_block(
+            rendered,
+            howto_begin_marker,
+            howto_end_marker,
+            render_howto_nav(locale),
         )
 
     I18N_GENERATED_CONFIG.write_text(rendered, encoding="utf-8")
