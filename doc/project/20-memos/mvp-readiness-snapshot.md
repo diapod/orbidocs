@@ -340,7 +340,12 @@ Recent component deltas:
   batches. The broker also now recovers interrupted resources as `expired`,
   `failed-retryable`, or `unknown`, runs bounded retention without deleting
   active work, replays recovered terminal outcomes idempotently, and accepts
-  dynamic non-Workbench provider metadata/status registration. The latest
+  dynamic non-Workbench provider metadata/status registration. Workbench
+  terminal-command BDOs are now daemon-cancelable through a host-owned
+  operator-confirmed Workbench terminal command cancel action, with terminated
+  connector commands projected as canonical BDO `cancelled` status and
+  `command.done` payloads carrying `signal_origin` for timeout vs operator
+  cancel vs ordinary process exit. The latest
   review hardening also rejects dynamic built-in provider mutation, validates
   provider ids and capability declarations more strictly, runs broker retention
   at startup and in bounded batches, keeps operator-consent read/projection APIs
@@ -348,7 +353,7 @@ Recent component deltas:
   Workbench sidecar projection through a bounded TTL. Sensorium OS
   operator-consent sidecar materialization is now daemon-owned and schema-backed.
   Readiness remains below MVP because AD/Memarium handoff for captured outputs,
-  idle-timeout policy, virtualized backends, and executable
+  virtualized backends, and executable
   AD/Memarium/approval provider joins are not wired yet.
 - Local Relationship Layer is now hard-MVP complete for the Node-owned slice: Proposal 065 and Solution 032 have contracts, pure core, vault-first daemon storage, sealed rebuildable SQLite projection, local control/host capabilities, operator class/membership/predicate/decision audit UI, package trust queue with approval history, canonical Messaging consumption, dynamic Artifact Delivery group resolution, repeatable Story-010 relationship acceptance runner with a local CI wrapper, projection replay/privacy regression gates, verified `remote-disclosed` node-operator-binding import through the identity control surface, durable revocation invalidation for imported binding evidence, registry-driven pairwise nym context-kind admission, and relationship-class retention profile inheritance. Public federated Local Relationship capability, richer multi-operator UX, hosted CI-provider wiring for the runner, and performance profiling under real relationship cardinalities remain post-MVP work.
 - Replay Scheduler M1 is now fully closed for the hard-MVP slice: the generic bounded scheduler, durable launch ledger, host-owned job-source merge, authority gate, cooperative shutdown, Agora projection replay action, and operator status/control surface are all documented as implemented. Richer Agora-domain panels and non-Agora maintenance jobs are post-M1 extensions.
@@ -474,7 +479,7 @@ Recent component deltas:
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
-| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `94` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `96` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `false` | `false` | `false` | `42` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
@@ -528,4 +533,4 @@ Recent component deltas:
 | [Notifications](../60-solutions/039-notifications/039-notifications.md) | `true` | `true` | `false` | `90` |
 | [Capability-Limited Restrictions](../60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md) | `true` | `true` | `false` | `100` |
 | [Federation Root and Network Selector](../60-solutions/041-federation-root/041-federation-root.md) | `true` | `true` | `false` | `92` |
-| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `94` |
+| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `96` |

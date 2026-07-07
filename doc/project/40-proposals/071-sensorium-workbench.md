@@ -1610,7 +1610,14 @@ evidence) · `[!]` blocked/needs decision.
   the daemon host capability surface now register daemon-owned
   `sensorium-workbench.terminal-command` Bounded Deferred Operations and poll
   command state through the host Interaction Broker terminal provider. Daemon
-  cancel/signal wiring for those command BDOs remains future work.
+  cancel for those command BDOs now calls the Workbench
+  `sensorium.workbench.terminal.command.cancel` action with a host-owned
+  operator-confirmed grant, maps the connector transition through
+  `cancel_requested` / `signaled` / `terminated` / `cancel_failed`, and projects
+  terminated commands as canonical BDO `cancelled` status. Terminal
+  `command.done` events now carry `signal_origin` so timeout-driven `SIGTERM`,
+  operator cancel, and ordinary process exit remain distinguishable in the event
+  stream.
 - [~] Run the adversarial actuator test matrix before enabling write or PTY
   features by default. The current test slice covers traversal, root self,
   symlink traversal, oversized files, grant-required mediated read, command
@@ -1625,7 +1632,7 @@ evidence) · `[!]` blocked/needs decision.
   status grant refusal, connector idempotency-key refusal/conflict, interrupted
   operation recovery, interrupted terminal-command recovery, failed-spawn
   terminal-command replay, TTL cleanup for replay records, idempotent replay for
-  terminal command/capture/artifact/patch effects, an executable PTY story
+  terminal command/cancel/capture/artifact/patch effects, an executable PTY story
   smoke, a Python Workbench actuation conformance runner against shared golden
   vectors, and the daemon rule that Inquirium cannot directly invoke Sensorium
   connectors. It now also covers a `virtualized-workspace` backend fixture that

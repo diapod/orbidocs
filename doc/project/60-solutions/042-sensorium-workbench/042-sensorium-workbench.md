@@ -385,8 +385,8 @@ Status:
   non-Workbench provider registration/status APIs, dynamic observed-state joins
   for artifact, environment, approval, and Memarium-query providers, broker
   startup recovery, bounded broker retention, Workbench provider operator-status
-  projection, and daemon BDO polling for Workbench terminal commands are now
-  implemented. Domain-native AD, Memarium, approval, and other non-Workbench
+  projection, and daemon BDO polling/cancel for Workbench terminal commands are
+  now implemented. Domain-native AD, Memarium, approval, and other non-Workbench
   provider adapters beyond dynamic observed-state joins remain future work.
 
 ### Storage, Recovery, and Operator Visibility
@@ -417,6 +417,12 @@ Responsibilities:
   running record;
 - mark failed terminal-command spawn attempts as failed so idempotent replay
   cannot return an accepted command that never started;
+- expose a host-owned cancel path for daemon-registered Workbench terminal
+  command BDOs, mapping cancel to the connector's operator-confirmed
+  `sensorium.workbench.terminal.command.cancel` action and projecting
+  terminated commands as canonical BDO `cancelled` status while terminal
+  `command.done` payloads carry `signal_origin` to distinguish timeout,
+  operator cancel, and ordinary process exit;
 - surface residual children, failed cleanup, interrupted waits, interrupted
   terminal commands, idle-closed sessions, and degraded recovery facts to
   operator status.
