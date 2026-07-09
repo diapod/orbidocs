@@ -35,14 +35,15 @@ Federation root activation, official-service endorsement verification, Seed
 Directory bootstrap projection, optional Seed Directory bootstrap TLS pinning,
 restart-only root changes, production `orbiplex-main` ceremony profile checks,
 and explicit-roster root draft authoring are implemented. Remote co-signing and
-final production roster/packaging remain governance and post-MVP hardening.
+final production roster/packaging remain activation and post-MVP hardening.
 
 Production trust in `orbiplex-main` is additionally gated by governance, not
 only code: the root charter (`DIA-ROOT-001`,
 `doc/normative/50-constitutional-ops/en/ORBIPLEX-MAIN-ROOT-CHARTER.en.md`)
-must be adopted at version ≥ 1.0.0 with a filled custodian roster and keys
-before the bundled fixture is replaced by a production pack and
-`federation.allow_bundled_fixture_root` is disabled (P076-004).
+is adopted at version 0.1.0, but production activation still requires a filled
+custodian roster and keys before the bundled fixture is replaced by a
+production pack and `federation.allow_bundled_fixture_root` is disabled
+(P076-004).
 
 ## Date
 
@@ -233,15 +234,22 @@ Responsibilities:
   commands for root and endorsement artifacts;
 - enforce the production `orbiplex-main` ceremony profile for manifest,
   assembly, and verification;
+- generate passphrase-encrypted PEM custodian keys by default, with plaintext
+  PEM output limited to explicit disposable fixtures;
 - allow participant mnemonic, data-dir, and key-record signing variants;
 - reject unknown or unauthorized signers in strict mode;
 - keep org-governed issuance ceremony-bound rather than pretending one
   custodian can issue.
+- keep custodian identity and operator identity stratified: a custodian key may
+  attest or authorize a separate operator identity through an explicit binding,
+  but tooling MUST NOT convert, promote, or derive that key into a full operator
+  identity.
 
 Status:
 
 - `done` for the implemented ceremony tooling and production `orbiplex-main`
-  profile checks; concrete production roster/keys remain governance-authored.
+  profile checks; the root charter is adopted, while concrete production
+  roster/keys remain activation-authored.
 
 ## May Implement
 
@@ -302,6 +310,7 @@ Status:
   itself;
 - switching active federation roots during hot reload;
 - making capability passports official without endorsements;
+- deriving full operator identities from federation-root custodian keys;
 - enforcing consumer-specific cross-federation admission; Proposal 079 defines
   the minimal alliance policy contract plus runtime verifier/resolver
   foundation, while Room/Whisper/Corpus/AD/INAC/Agora hooks remain future
