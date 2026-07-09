@@ -8,9 +8,18 @@ Based on:
 - `node:middleware-runtime/README.md`
 - `node:model-runtime/README.md`
 
+Post-MVP successor:
+
+- `doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`
+
 ## Status
 
 Proposed (Draft)
+
+The supervised HTTP baseline described here is implemented. Proposal 080 defines
+the additive migration of eligible host-only loopback modules to a shared,
+middleware-initiated WebSocket session. This document remains the source for the
+legacy `http_local_json` lifecycle and for the reasons supervision is host-owned.
 
 ## Date
 

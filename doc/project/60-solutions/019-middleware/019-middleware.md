@@ -3,6 +3,7 @@
 Based on:
 
 - `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
+- `doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`
 - `doc/project/40-proposals/020-bundled-python-middleware-modules.md`
 - `doc/project/40-proposals/027-middleware-peer-message-dispatch.md`
 - `doc/project/40-proposals/036-memarium.md`
@@ -57,6 +58,10 @@ capability, observer/audit, raw-signal, and schema-presentation surfaces needed
 by the current hard-MVP stories. New executor classes or richer module-specific
 operator products should be tracked by their owning proposals rather than
 holding the common Middleware solution below `done`.
+
+Post-MVP transport evolution is tracked by Proposal 080. It introduces the planned
+`channel_json` executor and migration from per-module host-only HTTP listeners; this
+does not reopen the completed hard-MVP middleware contract.
 
 ## Purpose
 
@@ -121,6 +126,7 @@ It may be:
 - a bounded command/stdio executor,
 - an unmanaged local HTTP JSON endpoint,
 - a supervised local HTTP JSON service,
+- a supervised multiplexed channel service,
 - a bundled module distributed with Node,
 - an operator-installed module package with UI assets and route claims.
 
@@ -368,10 +374,26 @@ alter dispatch.
 | `command_stdio` | Medium/high | One-shot command process with bounded input/output. |
 | `local_http_json` | High | Unmanaged loopback HTTP adapter. |
 | `http_local_json` | High | Supervised loopback HTTP service with readiness, restart, init/report, and module lifecycle. |
+| `channel_json` (planned) | High | Supervised module-initiated WebSocket session multiplexing host dispatch, host-capability calls, lifecycle control, and host-mediated module HTTP/UI requests over one shared listener. |
 
 The executor class is not the authority boundary by itself. Authority comes
 from host-owned grants: module authtok, capability passport, local config,
 dispatch gate, schema validation, timeout, size limits, and audit policy.
+
+### Multiplexed Channel Direction
+
+Proposal 080 plans `channel_json` as a transport replacement for eligible
+`http_local_json` modules. One shared loopback WebSocket listener is host-owned;
+each supervised module initiates one authenticated session and receives independent
+logical calls correlated by request id. Existing invoke payloads, decisions, module
+reports, hooks, and host-capability gates remain authoritative.
+
+The session is not a grant and is not a durable work queue. Disconnect fails
+in-flight calls with typed retryability; domain retries still require their existing
+idempotency or Deferred Operation contracts. Public, peer-facing, browser-facing, or
+provider-facing service listeners remain outside this migration. Node UI reaches
+channel-backed `server-html` surfaces through a daemon-owned bridge rather than by
+learning module transport endpoints.
 
 ## Module Init And Report
 
