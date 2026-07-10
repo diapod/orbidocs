@@ -378,9 +378,10 @@ Conceptual apply report:
 }
 ```
 
-The hard-MVP digest profile is `canonical-sequence-sha256-v1`: digest the canonical,
-profile-ordered sequence of `(item-id, artifact-digest, item-kind)`. Merkle range
-proofs are a compatible later profile, not a first-slice requirement.
+The hard-MVP digest profile is `canonical-sequence-sha256-v1`: reuse each artifact's
+canonical digest and digest the profile-ordered sequence of
+`(item-id, artifact-digest, item-kind)`. Merkle range proofs are a compatible later
+profile, not a first-slice requirement.
 
 ### 4. Scoped Claims Prove Predicates Without Becoming Capabilities
 
@@ -595,7 +596,7 @@ Costs:
 | Replication framework absorbs domain semantics | Generic core handles summary/delta/bounds only; profile and sink own validation and merge. |
 | A valid batch signature launders invalid facts | Verify and admit every item independently; apply report supports partial success. |
 | Cursor or epoch rollback resurrects stale state | Persist highest accepted epoch/cursor per source and profile; reject rollback before apply. |
-| Retention gap is mistaken for an empty delta | Return `retention-gap` with current floor and require snapshot or operator policy. |
+| Retention gap is mistaken for an empty delta | Return `retention-gap` with current floor and stop hard-MVP delta application; snapshot recovery belongs to a domain-owned or post-MVP profile. |
 | Sync loop amplifies traffic | Preserve origin and path metadata, reject self-originated items, cap hops and retries. |
 | Claim presentation is replayed in another context | Require nonce, request ref, audience, context, short expiry, and bounded replay cache. |
 | Scoped nullifier becomes globally correlatable | Domain-separate it by audience and context; reject wider-than-requested linkability. |
@@ -619,6 +620,29 @@ Costs:
 10. Proof verification and admission policy remain separate calls and data types.
 11. Stronger anonymous-credential and non-revocation suites are post-MVP.
 12. The hard-MVP acceptance pack is multi-node and exercises all three families.
+
+## Resolved Deferred Decisions
+
+Resolved on 2026-07-10:
+
+1. `execution-receipt.v1` emission is selective. Hard-MVP receipts are emitted at
+   authority boundaries, external effects, retry/cancel transitions, and terminal
+   states. Components MAY keep richer local diagnostics, but P081 does not require a
+   receipt for every internal diagnostic transition.
+2. `replication/retention-gap` in hard MVP is a typed refusal/recovery condition,
+   not an automatic data-repair flow. Snapshot transfer or other recovery policy is
+   post-MVP unless a consuming domain already owns a stricter profile.
+3. Runtime promotion after implementation should create three separate solution or
+   capability surfaces for causal context, bounded replication, and scoped claims,
+   after at least two consumers prove each boundary. P081 remains the umbrella
+   proposal, not a monolithic runtime component.
+4. Scoped-claim nonce replay cache retention is `expires/at` plus configured
+   clock-skew, and the cache is durable across daemon restart for that window.
+5. The first scoped-claim consumers are the nym-authored Agora ingest path and the
+   Room admission path.
+6. `canonical-sequence-sha256-v1` reuses the existing artifact canonical digest. The
+   replication profile defines only the ordered sequence of
+   `(item-id, artifact-digest, item-kind)`.
 
 ## Open Questions
 
@@ -705,6 +729,11 @@ pub trait ExecutionReceiptSink {
 It does not inspect domain payloads. Receipt sinks append to the owning component's
 temporal log or commit log; they do not all write to one database.
 
+Receipt emission is intentionally selective. The hard-MVP minimum is: append receipts
+at authority boundaries, external effects, retry/cancel transitions, and terminal
+states. Domains may emit additional local diagnostics, but P081 does not turn every
+internal state transition into a shared protocol receipt.
+
 Adapters should map existing fields without destructive migration:
 
 ```text
@@ -753,6 +782,15 @@ The source trait may gain an async adapter at the service layer, but the profile
 comparison logic should remain pure. HTTP, INAC, Artifact Delivery, or Matrix are
 transports under the same contract, not part of the profile semantics.
 
+The hard-MVP digest profile, `canonical-sequence-sha256-v1`, reuses each artifact's
+canonical digest and canonicalizes only the profile-ordered sequence of
+`(item-id, artifact-digest, item-kind)`. P081 does not define a second artifact
+canonicalization system.
+
+`replication/retention-gap` is a typed outcome that stops hard-MVP delta application.
+Automatic snapshot transfer is not part of the shared hard-MVP core unless a
+consuming domain already defines and owns that recovery profile.
+
 Persist per `(profile-id, dataset-id, source-node-id)`:
 
 - highest accepted dataset epoch;
@@ -791,6 +829,10 @@ pub trait ClaimAdmissionPolicy {
 named `authorize`. The admission adapter combines verified claims with current
 restrictions, revocation freshness, federation policy, Room policy, passport state,
 and caller binding as required by the consuming operation.
+
+The first consumers are the nym-authored Agora ingest path and the Room admission
+path. Both consume `VerifiedClaims` as evidence and then call their own admission
+policy; neither path treats a verified claim as an authorization grant.
 
 The first suite adapter should reuse existing nym certificate verification and map
 only:
@@ -835,9 +877,9 @@ claim/linkability-too-wide
 ```
 
 Retryability is explicit. Retention gaps, stale revocation state, and transient source
-unavailability may be retryable after refresh or snapshot transfer. Invalid proof,
-digest mismatch, rollback, actor spoofing, and unsupported profiles are not retried
-without a changed input or policy.
+unavailability may be retryable after refresh or a domain-owned snapshot transfer.
+Invalid proof, digest mismatch, rollback, actor spoofing, and unsupported profiles
+are not retried without a changed input or policy.
 
 ### Storage, Replay, and Bounds
 
@@ -847,8 +889,8 @@ without a changed input or policy.
   component-local projections.
 - Replication cursors and summaries are durable operational state, but replicated
   domain facts remain in domain-owned stores.
-- Nonce replay state is bounded by request expiry plus skew allowance and survives
-  daemon restart for the accepted hard-MVP proof window.
+- Nonce replay state is bounded by `expires/at` plus configured clock-skew and
+  survives daemon restart for that proof window.
 - All arrays have explicit item caps; all artifacts have byte caps; all remote work
   has deadlines and bounded retries.
 - Trace exports redact proof material, credential bodies, private artifacts, and raw
@@ -890,10 +932,10 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 | P081-011 | Add Seed Directory capability/revocation replication profiles | todo | Signed fact batches, multi-directory source identity, rollback, revocation dominance, and restart replay are covered. |
 | P081-012 | Implement scoped-claim verifier registry and bounded durable nonce replay cache | todo | Unknown suites fail closed; nonce state survives restart for the proof window; verification returns evidence values, not authorization. |
 | P081-013 | Implement `orbiplex.nym-ed25519-cert.v1` scoped-claim adapter | todo | Adapter proves only certificate-supported predicates and fails on audience/context mismatch, expiry, stale revocation evidence, and widened claims. |
-| P081-014 | Adopt scoped-claim verification in one Agora nym-authorship path and one Room admission path | todo | Both consumers call the same verifier core and then their own local policy; valid proof can still be denied by policy. |
+| P081-014 | Adopt scoped-claim verification in the nym-authored Agora ingest path and one Room admission path | todo | Both consumers call the same verifier core and then their own local policy; valid proof can still be denied by policy. |
 | P081-015 | Add repeatable multi-node P081 acceptance smoke and failure matrix | todo | Clean-profile runner covers the seven acceptance points above and emits a redacted trace bundle. |
 | P081-016 | Synchronize affected proposals, Node implementation ledger/MVP tracker, architecture map, and MVP readiness snapshot | todo | Every affected proposal records its adopted boundary; generated docs and cross-repo trackers are in sync with implementation evidence. |
-| P081-017 | Promote stable runtime ownership into a solution component and capability sidecar | todo | Promotion occurs after at least two consumers prove each shared boundary; no speculative component shell. |
+| P081-017 | Promote stable runtime ownership into solution components and capability sidecars | todo | Promotion creates separate causal-context, bounded-replication, and scoped-claims surfaces after at least two consumers prove each boundary; no speculative component shell. |
 | P081-018 | Add Agora cross-relay mesh and range/Merkle digest profiles | deferred | Post-MVP resilience layer after bounded canonical-sequence profile measurements. |
 | P081-019 | Add stronger anonymous-credential and non-revocation suites | deferred | Requires independent cryptographic review, conformance vectors, migration plan, and explicit privacy analysis. |
 | P081-020 | Migrate additional Room, Marketplace, Contact Catalog, Messaging, Reputation, Governance, and Memarium consumers | deferred | Domain-by-domain post-MVP adoption; no blanket migration. |

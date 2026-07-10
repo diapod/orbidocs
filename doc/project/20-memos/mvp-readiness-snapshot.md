@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-07-09.
+Snapshot date: 2026-07-10.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -24,7 +24,14 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-076` / `federation-root.v1`
 - `proposal-081` / horizontal causal, replication, and scoped-nym-proof primitives
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-09 and the latest P076/P025/P054 Seed Directory and federation-root implementation slices in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target, the first node-local Agent `spawn/status/stop` implementation slice, per-agent Inquirium budget metering, and the first HIL-gated effect-proposal skeleton, the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust, optional Seed Directory bootstrap TLS pins as source-aware transport hardening, production orbiplex-main ceremony profile checks, Proposal 077 Swarm Broadcast Assistance as a post-MVP assistance-choreography track, Proposal 078 Weak Signal Harvester as a post-MVP findings-directory intake track, Proposal 079 Cross-Federation Alliance as the canonical post-MVP `alliance-policy.v1` contract track that closes P076-008 at concept/schema level and now has a node-side one-half verifier plus active-alliance resolver while deferring distribution and consumer-specific admission enforcement, Solution 042 Sensorium Workbench as the promoted solution-level owner for the P071 local actuator foundation, the Interaction Broker grant-runtime, host-audit projection, Workbench terminal provider, Workbench file-tree provider, startup recovery/retention, dynamic source-provider registration slices, the Workbench exact-argv operator-consent spine, the P048 Sensorium OS action-class runtime, the `sensorium-os.consent-descriptor.v1` contract, Sensorium OS action-catalog consent sidecar projection, the latest P063/P066 tracker sync for Inquirium classify/rerank contracts plus operator-question timeout lifecycle hardening, and Proposal 081 as a new hard-MVP blocker for canonical causal context, bounded federated synchronization, and suite-neutral scoped nym claims.
+Change basis: this refresh incorporates the current worktree state on 2026-07-10 and the latest P076/P025/P054 Seed Directory and federation-root implementation slices in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target, the first node-local Agent `spawn/status/stop` implementation slice, per-agent Inquirium budget metering, and the first HIL-gated effect-proposal skeleton, the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust, optional Seed Directory bootstrap TLS pins as source-aware transport hardening, production orbiplex-main ceremony profile checks, Proposal 077 Swarm Broadcast Assistance as a post-MVP assistance-choreography track, Proposal 078 Weak Signal Harvester as a post-MVP findings-directory intake track, Proposal 079 Cross-Federation Alliance as the canonical post-MVP `alliance-policy.v1` contract track that closes P076-008 at concept/schema level and now has a node-side one-half verifier plus active-alliance resolver while deferring distribution and consumer-specific admission enforcement, Solution 042 Sensorium Workbench as the promoted solution-level owner for the P071 local actuator foundation, the Interaction Broker grant-runtime, host-audit projection, Workbench terminal provider, Workbench file-tree provider, startup recovery/retention, dynamic source-provider registration slices, the Workbench exact-argv operator-consent spine, the P048 Sensorium OS action-class runtime, the `sensorium-os.consent-descriptor.v1` contract, Sensorium OS action-catalog consent sidecar projection, the latest P063/P066 tracker sync for Inquirium classify/rerank contracts plus operator-question timeout lifecycle hardening, and Proposal 081 as a new hard-MVP blocker for canonical causal context, bounded federated synchronization, and suite-neutral scoped nym claims.
+
+The Inquirium refresh in this snapshot additionally includes executable
+classify/rerank verticals, provider-native structured output under host
+validation, prompt-epoch promotion gating, baseline profile rendering,
+host-derived context-grant binding, complete local context resolvers,
+operator-question cancel/supersede, and transcript blob/projection/feedback
+durability.
 
 The Workbench refresh in this snapshot also includes native non-Workbench
 broker providers, explicit artifact handoff, bounded argv-prefix consent and
@@ -196,11 +203,11 @@ Recent component deltas:
   selection, deterministic stub runtime, classification-aware request
   validation, metadata-only trace records, direct embedding, report-backed
   conformance, and the direct data-plane lease/batch-embed pilot for
-  lease-backed work. It also now has contract-only `inquirium.classify` and
-  `inquirium.rerank` request/response DTOs with bounded text inputs, closed
-  label/candidate sets, duplicate-free outputs, normalized scores, and
-  `top_k`/`top_n` ceilings; daemon host capabilities, model-runtime wrappers,
-  and provider execution for those operations remain future slices. Proposal
+  lease-backed work. `inquirium.classify` and `inquirium.rerank` now continue
+  from bounded pair-validated contracts through inference-granted host
+  capabilities, runtime/model-binding selection, deterministic and local
+  HTTP/simulator execution, shared budgets, host-keyed metadata-only traces,
+  and conformance fixtures. Proposal
   064's core runtime-adapter foundation is
   implemented across model-runtime catalog v0.2, runtime-candidate routing,
   HTTP/stdio adapters, remote provider adapters, embedding contracts, durable
@@ -235,8 +242,11 @@ Recent component deltas:
   protection, scoped per-principal/per-session/per-operation/per-agent budget
   preflight and final-charge enforcement, and shared daemon artifact-output
   intent execution).
-  Provider-native structured-output mappings, full schema ecosystem features
-  such as dynamic refs/recursion/combinators/grammar artifact caching,
+  OpenAI and Anthropic adapters now compile the admitted schema subset into
+  provider-native structured-output requests; native selection intersects
+  adapter and selected runtime/model declarations, and host schema/rail checks
+  still run. Full schema ecosystem features such as dynamic
+  refs/recursion/combinators/grammar artifact caching,
   schema-aware redaction/evaluator critics, deterministic caches, full
   session/cost metering, Flow IR/Agent boundaries, and broader
   operation-specific surfaces remain open. Proposal 066 now has a local-only
@@ -253,20 +263,25 @@ Recent component deltas:
   `inquirium.baseline-assistant` status with `registry-error` and stable
   failure reason projection, `run-conformance` bootstrap paths,
   render-only Node UI affordance under
-  `/admin/inquirium/assistant`, typed context-assembly/source-grant contracts,
-  first daemon `operator_inline` context resolver with fail-closed unresolved
-  protected sources and minimal egress-ack metadata validation, operator-question
+  `/admin/inquirium/assistant`, a durable participant/session/source-bound
+  context grant registry, host-owned operator-inline/Relationship/Memarium/
+  Query/Messaging/Artifact/Dataset resolvers with classification ceilings and
+  exact egress-ack binding, operator-question
   widget registry/projection contracts plus a bounded durable daemon registry
   with `expires/at`, conservative `default/on-timeout`, lazy/recovery timeout
   sweeps, fail-closed late-answer handling, and notification/action expiry
   projection, source-component-scoped notification ids, and idempotent
-  notification-store projection path, inquiry-feedback contract, mode-keyed rigor
-  policy, and the shared ordered-axis resolver in `classification`; it remains
-  below MVP because local model packaging/artifact lifecycle, full context source
-  resolvers, full remote egress acknowledgement, operator-question
-  cancel/supersede transitions, optional scheduler-owned periodic timeout
-  surfacing, feedback persistence, and agentic effect governance are
-  still open.
+  notification-store projection path, explicit cancel/supersede transitions
+  with paired notification closure, digest/size-verified transcript object
+  descriptors and replay hydration, participant-scoped text/tag projection,
+  inquiry-feedback persistence, mode-keyed rigor policy, and the shared
+  ordered-axis resolver. The baseline profile renderer now emits loopback
+  Ollama or managed digest-pinned `llama-server` operator config without an
+  extra proxy. The proposal remains below full product MVP because actual
+  provider/model installation UX, Memarium retention execution, context-grant
+  revocation, verified training-grant consumption, richer widget UX, optional
+  scheduler-owned periodic timeout surfacing, and agentic effect governance
+  remain open.
 - Proposal 073 introduces Agent as the bounded stateful orchestration organ above Inquirium. It is intentionally post-MVP, but it now has a first node-local implementation slice: `agent-core` owns the substrate-free contracts and lifecycle state machine, `agent-host` owns pure step decisions, and the daemon exposes table-driven `agent.spawn`, `agent.status`, and `agent.stop` host-capability dispatch over an in-memory runtime with idempotent spawn replay during one daemon process lifetime. The slice now also reuses Inquirium `BudgetCharge` records for per-agent token/cost metering and carries immutable `agent.effect-proposal.v1` / `agent.effect-proposal-outcome.v1` contracts with an in-memory HIL-gated proposal registry that checks Agent capability grants and records only prompt-free trace refs. Fork/suspend/resume, durable idempotency replay, Memarium-backed durable state, Room chair binding, durable effect admission/outcomes, and durable prompt-free step traces remain open. Its main readiness value today is architectural closure: Inquirium remains bounded inquiry, while durable agent loops have a separate host-owned home and tracker.
 - Story 005 remains hard-MVP complete, and its post-M4 productization tracker now lives in the Whisper implementation note instead of a workspace-root draft file. The closed slice has a CI-runnable Inquirium acceptance bridge: an opt-in supervised simulator adapter is routed only through model-runtime/Inquirium by `runtime/ref` and host-owned `model.binding/ref`. `whisper-core` carries the production-shaped policy primitives for routing failure mode, source class, outbound privacy resolution, correlation policy explanation, association-room proposal lifecycle, and public-gossip promotion. The current Node worktree now consumes those primitives in the publish path: `whisper-intake` performs outbound privacy preflight before public/private publish using host-owned `agora.relay` evidence with passport-scoped relay class data, queries and bounds private preflight facts, persists and validates the new preflight fact, validates host signing responses, blocks hard-fail refusals, and requires explicit operator acknowledgement bound to the canonical candidate digest for soft-fail downgrades. It also enforces source-class safety gates for `monus-sensorium-derived` evidence refs and Monus-derived help-mode diversion. `agora-projections` and `agora-service` now provide a minimal local association-room lifecycle seed plus public-gossip promotion drafts from accepted rooms, with authenticated actor binding, bounded lifecycle facts, FK-backed proposal refs, and bounded opaque lineage refs. These move Proposal 013 closer to post-M4 productization while preserving the readiness interpretation for unfinished product/runtime surfaces such as real Anon relay transport, production semantic correlation, full association-room case management on the accepted signed room-event log over Artifact Delivery with multi-Agora fanout/merge, bounded replica retention status, and per-thread predecessor digest links, final public-gossip publication runtime, live Monus/Sensorium source verification, richer UI, and remote model deployment.
 - Shared Offer Catalog is now hard-MVP complete. Proposal 067 and Solution 033 document the extracted shared Python offer-catalog runtime, Agora replay, fail-closed Agora/Seed Directory admission, Arca embedded-cache reuse, query parity, withdrawal active filtering, public/shared catalog deployment profile (`node/middleware-modules/offer-catalog/config/profiles/public-shared-catalog.json`), automatic `shared-offer-catalog` passport publication readiness with classified pending reasons, redacted Host Agora and Seed Directory admission diagnostics, and a local public-profile smoke runner (`node/tools/acceptance/shared-offer-catalog-public-smoke.py`) covering authorized replay, bad-signature refusal, unknown-provider refusal, withdrawn-offer inspection semantics, and the HTTP query surface. The remaining public-profile operating policy is now resolved and enforced where applicable: passport renewal is supervisor-driven by default, and non-loopback Agora URLs must use HTTPS/TLS with Node fail-closed replay validation. Remaining work is post-MVP production hardening such as broader monitoring matrices and eventual legacy peer-message retirement.
@@ -472,10 +487,10 @@ Recent component deltas:
 | [Proposal 060: Messaging Middleware and Personal Message Delivery](../40-proposals/060-messaging-middleware.md) | `true` | `true` | `false` | `100` |
 | [Proposal 061: Contact Attestation Service](../40-proposals/061-contact-attestation-service.md) | `true` | `true` | `false` | `78` |
 | [Proposal 062: Temporal Storage Convention](../40-proposals/062-temporal-storage-convention.md) | `false` | `true` | `false` | `100` |
-| [Proposal 063: Inquirium as a Model Inquiry Organ](../40-proposals/063-inquirium-model-inquiry-organ.md) | `false` | `false` | `false` | `88` |
-| [Proposal 064: Inquirium Implementation Recommendations](../40-proposals/064-inquirium-implementation-recommendations.md) | `false` | `false` | `false` | `90` |
+| [Proposal 063: Inquirium as a Model Inquiry Organ](../40-proposals/063-inquirium-model-inquiry-organ.md) | `false` | `false` | `false` | `92` |
+| [Proposal 064: Inquirium Implementation Recommendations](../40-proposals/064-inquirium-implementation-recommendations.md) | `false` | `false` | `false` | `94` |
 | [Proposal 065: Local Relationship Layer](../40-proposals/065-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
-| [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `88` |
+| [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `false` | `false` | `93` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
