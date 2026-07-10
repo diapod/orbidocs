@@ -871,10 +871,23 @@ are required before migrating modules that expose those surfaces.
 
 ## Open Questions
 
-No question blocks the first implementation phases. Before final removal of bundled
-`http_local_json` defaults, the project should decide how long operator-installed
-legacy packages remain supported and whether a later persistent-stdio adapter should
-share the same channel contract.
+No question blocks the implemented foundation. The following policy choices remain
+open for their owning later phases:
+
+1. Before P080-010, should `observer/queue-capacity` bound only fire-and-forget
+   `middleware.observe` traffic with drop-and-count overload semantics, or should
+   observers receive a distinct replayable delivery contract? The former keeps the
+   channel ephemeral; the latter would require a durable mechanism outside the
+   session queue.
+2. Before P080-012, should one long-lived launch credential remain valid until
+   process stop/restart, or should the host rotate it during a live launch? Live
+   rotation requires an explicit re-authentication/rebind protocol; a wall-clock TTL
+   without that protocol would break healthy long-lived sessions and bounded
+   reconnect.
+
+Before final removal of bundled `http_local_json` defaults, the project should also
+decide how long operator-installed legacy packages remain supported and whether a
+later persistent-stdio adapter should share the same channel contract.
 
 ## Implementation Tracker
 
@@ -884,15 +897,15 @@ share the same channel contract.
 | P080-002 | Inventory `http_local_json` listeners as host-only, mixed, or intentional network service surfaces | done | The checked Node inventory covers all 16 bundled factory modules and fails CI on missing, stale, duplicate, non-loopback, or contradictory entries. |
 | P080-003 | Add canonical channel hello, accepted, frame, control payload, host-capability call/result, and module HTTP bridge schemas with fixtures | done | Ten strict schemas, positive/negative fixtures, host-boundary schema-gate coverage, and cross-language semantic golden vectors are synchronized from Orbidocs into Node protocol contracts. Control frames bind explicit cancel, heartbeat, and shutdown payload contracts. |
 | P080-004 | Add Rust channel contract/state/correlation core and schema-gate integration | done | `middleware-channel-core` owns typed DTOs, schema-gated host boundaries, deterministic limit negotiation, direction checks, JSON-safe sequence bounds, bounded request-id history, and refusal-first correlation tests without WebSocket or supervisor dependencies. |
-| P080-005 | Add bounded shared WebSocket listener and session registry | todo | Reuse `tungstenite` and Bounded Local Server Runtime patterns. |
-| P080-006 | Add shared Python `channel_json` client/runtime and cross-language golden vectors | todo | One reader, bounded workers, bounded writer queues, no unbounded thread-per-request behavior. |
-| P080-007 | Add `channel_json` config projection, launch instance credentials, init/report attach, heartbeat, reconnect, and shutdown lifecycle | todo | Session readiness replaces per-module HTTP readiness polling. |
-| P080-008 | Introduce transport-neutral `MiddlewareDispatchTarget` and remove common `invoke_url` assumptions | todo | No supervisor mutex may be held while waiting for a reply. |
-| P080-009 | Factor host-capability dispatch beneath HTTP and channel adapters | todo | Authorization, revocation, scope, policy, error tracking, and audit remain one implementation path. |
-| P080-010 | Implement bounded multiplexing, per-direction in-flight limits, cancellation, fairness, overload, and typed failure semantics | todo | Control, RPC, and observer traffic receive separate bounded treatment. |
+| P080-005 | Add bounded shared WebSocket listener and session registry | done | `middleware-channel-transport` combines the Bounded Local Server Runtime with `tungstenite`, rejects non-loopback/origin/extensions/bad launch auth, and exposes credential-free session handles outside the registry lock. |
+| P080-006 | Add shared Python `channel_json` client/runtime and cross-language golden vectors | done | The standard-library runtime uses one reader, one bounded writer queue, a bounded worker pool, host-negotiated limits, fail-closed correlation, and a behavior-free conformance peer exercised through a real WebSocket handshake. |
+| P080-007 | Add `channel_json` config projection, launch instance credentials, init/report attach, heartbeat, reconnect, and shutdown lifecycle | done | The shared supervisor launches a process with file-backed per-launch credentials, derives readiness from schema-gated init/report plus an application heartbeat, allows bounded same-launch reconnect, applies the existing restart policy, and escalates shutdown through graceful channel control, terminate, then kill. |
+| P080-008 | Introduce transport-neutral `MiddlewareDispatchTarget` and remove common `invoke_url` assumptions | done | Daemon config accepts `middleware_channel_services`; the daemon-owned supervisor starts and stops them beside HTTP middleware, resolves declared service types to an HTTP-or-channel sum type, and waits through cloned credential-free handles outside the supervisor lock. A daemon smoke test proves config -> attach -> channel dispatch. |
+| P080-009 | Factor host-capability dispatch beneath HTTP and channel adapters | done | Daemon composition supplies `HostCapabilityChannelInboundHandler`, provisions channel modules in host-capability admission bindings, and delegates authenticated calls to `HostCapabilitiesHost::dispatch_response`, preserving caller identity and the common authorization/revocation/scope/policy/audit path. |
+| P080-010 | Implement bounded multiplexing, per-direction in-flight limits, cancellation, fairness, overload, and typed failure semantics | todo | Implement the currently contract-only `request.cancel` path and give control, RPC, and `middleware.observe` traffic separate bounded treatment; resolve the observer-queue Open Question before marking done. |
 | P080-011 | Add daemon module HTTP/UI bridge and migrate Node UI away from direct module endpoints | todo | Required before migrating `server-html` modules. |
 | P080-012 | Add operator session status, metrics, redacted lifecycle facts, and component controls | todo | Session state is ephemeral; audit facts and module reports are durable. |
-| P080-013 | Add fixture/conformance suite for concurrency, refusal, reconnect, shutdown, and port inventory | todo | Include cross-language Rust/Python behavior equivalence. |
+| P080-013 | Add fixture/conformance suite for concurrency, refusal, reconnect, shutdown, and port inventory | todo | Extend the current daemon composition smoke and Python handshake/admission tests with reconnect epoch, old-session refusal, cancellation, observer overflow, oversized/binary frame, and concurrent-attachment cases. |
 | P080-014 | Pilot one observer, one host-capability caller, and one module HTTP/UI surface on `channel_json` | todo | Keep explicit rollback to `http_local_json` during pilot. |
 | P080-015 | Migrate Dator and Arca and pass Story-009 acceptance | todo | Covers role/workflow dispatch and host-capability use. |
 | P080-016 | Migrate eligible Inquirium and Sensorium modules | todo | Preserve external model-provider and OS actuation boundaries. |
@@ -907,10 +920,9 @@ share the same channel contract.
    their listener ownership changes.
 2. Keep the P080-003 schemas, fixtures, and semantic golden vectors synchronized
    through the Orbidocs-to-Node mirror and schema gate.
-3. Build P080-005's bounded shared listener and session registry on the completed
-   pure channel core, then add one end-to-end fixture.
-4. Add the shared Python client/runtime and cross-language conformance checks.
-5. Refactor dispatch targets and host-capability invocation before migrating a real
-   module.
-6. Migrate the three pilot behavior classes, review the resulting traces and failure
+3. Complete bounded multiplexing, cancellation, fairness, overload, lifecycle facts,
+   metrics, and operator controls in P080-010 through P080-013.
+4. Add the daemon-owned module HTTP/UI bridge before migrating any module whose
+   product surface must remain HTTP-visible.
+5. Migrate the three pilot behavior classes, review the resulting traces and failure
    modes, and only then move bundled module cohorts.

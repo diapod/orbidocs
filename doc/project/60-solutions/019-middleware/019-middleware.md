@@ -377,7 +377,7 @@ alter dispatch.
 | `command_stdio` | Medium/high | One-shot command process with bounded input/output. |
 | `local_http_json` | High | Unmanaged loopback HTTP adapter. |
 | `http_local_json` | High | Supervised loopback HTTP service with readiness, restart, init/report, and module lifecycle. |
-| `channel_json` (foundation implemented) | High | Strict contracts and pure bounded session/correlation core exist; the planned supervised module-initiated WebSocket runtime will multiplex host dispatch, host-capability calls, lifecycle control, and host-mediated module HTTP/UI requests over one shared listener. |
+| `channel_json` (runtime foundation implemented) | High | Strict contracts, bounded session/correlation core, shared WebSocket listener, supervised Python runtime, lifecycle attach/readiness/reconnect/shutdown, transport-neutral service dispatch, and common host-capability dispatch are implemented. Bounded fairness/cancellation, operator facts, module HTTP/UI bridging, and bundled-module migration remain in Proposal 080. |
 
 The executor class is not the authority boundary by itself. Authority comes
 from host-owned grants: module authtok, capability passport, local config,
@@ -398,11 +398,18 @@ provider-facing service listeners remain outside this migration. Node UI reaches
 channel-backed `server-html` surfaces through a daemon-owned bridge rather than by
 learning module transport endpoints.
 
-The first implementation slice is deliberately transport-free:
-`middleware-channel-core` validates the synchronized contracts through the Node schema
-gate, negotiates the most restrictive limits, and enforces launch identity, direction,
-sequence, bounded request-id history, in-flight, duplicate-request, and unknown-reply
-invariants. WebSocket I/O and daemon lifecycle ownership begin with P080-005.
+The transport-free `middleware-channel-core` validates synchronized contracts through
+the Node schema gate and owns limit, identity, direction, sequence, in-flight, and
+correlation invariants. The implemented runtime layers add one bounded shared
+WebSocket listener, per-launch file-backed credentials, schema-gated init/report,
+heartbeat readiness, bounded reconnect, supervised shutdown, and a reusable Python
+client. The daemon consumes `middleware_channel_services`, owns the channel
+supervisor beside the HTTP supervisor, resolves declared service types to an
+HTTP-or-channel target, and provisions channel modules through the existing
+host-capability admission boundary. Channel host-capability calls delegate to the
+same host dispatcher used by HTTP. Later P080 phases still own observer semantics,
+fairness/cancellation hardening, operator lifecycle facts, module HTTP/UI bridging,
+and migration of bundled modules.
 
 ## Module Init And Report
 
