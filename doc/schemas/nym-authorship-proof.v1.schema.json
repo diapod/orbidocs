@@ -57,7 +57,19 @@
     },
     "nym/certificate": {
       "$ref": "#/$defs/nymCertificate"
+    },
+    "scoped-claim/request": {
+      "$ref": "scoped-claim-request.v1.schema.json",
+      "description": "Optional P081 request binding this authorship evidence to one concrete Agora ingest candidate. It MUST appear together with scoped-claim/presentation."
+    },
+    "scoped-claim/presentation": {
+      "$ref": "scoped-claim-presentation.v1.schema.json",
+      "description": "Optional P081 presentation verified before Agora applies its independent local publish policy. It MUST appear together with scoped-claim/request."
     }
+  },
+  "dependentRequired": {
+    "scoped-claim/request": ["scoped-claim/presentation"],
+    "scoped-claim/presentation": ["scoped-claim/request"]
   },
   "$defs": {
     "stringList": {

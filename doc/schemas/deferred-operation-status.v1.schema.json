@@ -68,6 +68,10 @@
       "format": "date-time",
       "description": "Current absolute expiry deadline, if still applicable."
     },
+    "causal/context": {
+      "$ref": "causal-context.v1.schema.json",
+      "description": "Optional canonical P081 causal context preserved on status and continuation responses."
+    },
     "result": {
       "description": "Domain result only for completed status. It MUST be validated by the owning operation kind before downstream use."
     },

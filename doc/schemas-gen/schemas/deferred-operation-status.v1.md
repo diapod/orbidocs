@@ -22,6 +22,7 @@ Status payload for an operation previously accepted as deferred-operation.v1. Pe
 | [`updated_at`](#field-updated-at) | `yes` | string | RFC 3339 timestamp at which this status was produced. |
 | [`retry_after_seconds`](#field-retry-after-seconds) | `no` | integer | Host-clamped lower bound before the next poll/resume attempt. Required by convention for pending/running statuses that are not immediately resumable. |
 | [`expires_at`](#field-expires-at) | `no` | string | Current absolute expiry deadline, if still applicable. |
+| [`causal/context`](#field-causal-context) | `no` | ref: `causal-context.v1.schema.json` | Optional canonical P081 causal context preserved on status and continuation responses. |
 | [`result`](#field-result) | `no` | unspecified | Domain result only for completed status. It MUST be validated by the owning operation kind before downstream use. |
 | [`diagnostics`](#field-diagnostics) | `no` | array | Optional diagnostics for operator and caller visibility. |
 | [`extensions`](#field-extensions) | `no` | object | Open extension map for experimental or deployment-local metadata. Stable protocol fields MUST be promoted to first-class schema properties. |
@@ -120,6 +121,14 @@ Host-clamped lower bound before the next poll/resume attempt. Required by conven
 - Shape: string
 
 Current absolute expiry deadline, if still applicable.
+
+<a id="field-causal-context"></a>
+## `causal/context`
+
+- Required: `no`
+- Shape: ref: `causal-context.v1.schema.json`
+
+Optional canonical P081 causal context preserved on status and continuation responses.
 
 <a id="field-result"></a>
 ## `result`

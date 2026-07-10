@@ -310,6 +310,22 @@ artifact-local embedding pattern wherever artifacts are nym-authored. Each adopt
 should remain schema-gated in its own family rather than introducing a generic shared
 nym envelope prematurely.
 
+## P081 Scoped-Claim Adoption
+
+The certificate baseline now has one reusable, suite-neutral verification adapter in
+Solution 043. `orbiplex.nym-ed25519-cert.v1` verifies an allowlisted council
+signature, certificate validity, possession of the certified nym key, supported
+predicate scope, and fresh local revocation evidence before returning scoped claim
+evidence. It does not turn the certificate into a capability and does not claim zero
+knowledge.
+
+The first adapter emits only `nym/certificate-current` and, when the certificate
+explicitly supports it, `nym/context-authorized`. Its durable nonce runtime binds a
+presentation to request digest, audience, context, expiry, and linkability. The first
+suite rejects nullifiers because this certificate profile cannot prove their domain
+separation. Stronger unlinkable suites and richer verifier-local non-revocation remain
+post-MVP work under P081 rather than hidden extensions of this certificate baseline.
+
 ## Open Questions
 
 No unresolved questions remain for this proposal slice. The decisions below

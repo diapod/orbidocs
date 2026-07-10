@@ -24,7 +24,7 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-076` / `federation-root.v1`
 - `proposal-081` / horizontal causal, replication, and scoped-nym-proof primitives
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-10 and the latest P076/P025/P054 Seed Directory and federation-root implementation slices in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target, the first node-local Agent `spawn/status/stop` implementation slice, per-agent Inquirium budget metering, and the first HIL-gated effect-proposal skeleton, the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust, optional Seed Directory bootstrap TLS pins as source-aware transport hardening, production orbiplex-main ceremony profile checks, Proposal 077 Swarm Broadcast Assistance as a post-MVP assistance-choreography track, Proposal 078 Weak Signal Harvester as a post-MVP findings-directory intake track, Proposal 079 Cross-Federation Alliance as the canonical post-MVP `alliance-policy.v1` contract track that closes P076-008 at concept/schema level and now has a node-side one-half verifier plus active-alliance resolver while deferring distribution and consumer-specific admission enforcement, Solution 042 Sensorium Workbench as the promoted solution-level owner for the P071 local actuator foundation, the Interaction Broker grant-runtime, host-audit projection, Workbench terminal provider, Workbench file-tree provider, startup recovery/retention, dynamic source-provider registration slices, the Workbench exact-argv operator-consent spine, the P048 Sensorium OS action-class runtime, the `sensorium-os.consent-descriptor.v1` contract, Sensorium OS action-catalog consent sidecar projection, the latest P063/P066 tracker sync for Inquirium classify/rerank contracts plus operator-question timeout lifecycle hardening, and Proposal 081 as a new hard-MVP blocker for canonical causal context, bounded federated synchronization, and suite-neutral scoped nym claims.
+Change basis: this refresh incorporates the current worktree state on 2026-07-10 and the latest P076/P025/P054 Seed Directory and federation-root implementation slices in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target, the first node-local Agent `spawn/status/stop` implementation slice, per-agent Inquirium budget metering, and the first HIL-gated effect-proposal skeleton, the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust, optional Seed Directory bootstrap TLS pins as source-aware transport hardening, production orbiplex-main ceremony profile checks, Proposal 077 Swarm Broadcast Assistance as a post-MVP assistance-choreography track, Proposal 078 Weak Signal Harvester as a post-MVP findings-directory intake track, Proposal 079 Cross-Federation Alliance as the canonical post-MVP `alliance-policy.v1` contract track that closes P076-008 at concept/schema level and now has a node-side one-half verifier plus active-alliance resolver while deferring distribution and consumer-specific admission enforcement, Solution 042 Sensorium Workbench as the promoted solution-level owner for the P071 local actuator foundation, the Interaction Broker grant-runtime, host-audit projection, Workbench terminal provider, Workbench file-tree provider, startup recovery/retention, dynamic source-provider registration slices, the Workbench exact-argv operator-consent spine, the P048 Sensorium OS action-class runtime, the `sensorium-os.consent-descriptor.v1` contract, Sensorium OS action-catalog consent sidecar projection, the latest P063/P066 tracker sync for Inquirium classify/rerank contracts plus operator-question timeout lifecycle hardening, and Proposal 081 / Solution 043 as a completed hard-MVP implementation of canonical causal context and receipts, bounded Contact Catalog and Seed Directory replication, durable scoped nym claims, Agora/Room evidence consumers, and the redacted 13-check acceptance runner.
 
 The Inquirium refresh in this snapshot additionally includes executable
 classify/rerank verticals, provider-native structured output under host
@@ -32,6 +32,14 @@ validation, prompt-epoch promotion gating, baseline profile rendering,
 host-derived context-grant binding, complete local context resolvers,
 operator-question cancel/supersede, and transcript blob/projection/feedback
 durability.
+
+The P081 review closure additionally distinguishes non-canonical causation from
+operation-id conflicts, unifies component-domain-separated receipt identifiers
+across the four first consumers, strengthens durable nonce concurrency and Room
+boundary tests, and bounds Agora proof clock skew. These are hardening changes;
+P081 and Solution 043 remain at `100` for the hard-MVP slice, while Inquirium
+adoption and signed revocation-snapshot admission remain explicit post-MVP
+questions.
 
 The Workbench refresh in this snapshot also includes native non-Workbench
 broker providers, explicit artifact handoff, bounded argv-prefix consent and
@@ -41,13 +49,16 @@ Agent/Corpus/Room tool-request lineage.
 
 Recent component deltas:
 
-- Proposal 081 is a new hard-MVP release blocker. Its bounded closure contract is
-  accepted schemas and Node mirrors for canonical causal context/receipts,
-  transport-neutral bounded replication with Contact Catalog and Seed Directory as
-  the first profiles, suite-neutral scoped nym claims using the existing Ed25519
-  certificate suite, named first-consumer integrations, and one multi-node acceptance
-  smoke. Stronger zero-knowledge suites, Agora cross-relay mesh, federated Memarium
-  replication, and universal consumer migration remain explicitly post-MVP.
+- Proposal 081 / Solution 043 are hard-MVP ready. Canonical causal context and
+  receipt contracts are consumed by Scheduler, Bounded Deferred Operations,
+  Artifact Delivery, Sensorium, and redacted P074 trace adapters. Contact Catalog
+  and Seed Directory consume the bounded replication core with domain-owned trust
+  and merge policy. The durable scoped-claim runtime, Ed25519 nym-certificate
+  adapter, and Agora/Room consumers are implemented with replay, expiry, candidate
+  binding, and stale-revocation refusal. The repeatable 13-check acceptance runner
+  passes and emits a metadata-only trace bundle. Stronger zero-knowledge suites,
+  Agora cross-relay mesh, federated Memarium replication, and universal consumer
+  migration remain explicitly post-MVP.
 - Communication Protocol Baseline is now hard-MVP ready as a historical baseline:
   Proposal 002 explicitly maps its implemented or superseded areas to the current
   runtime owners (P014/Solution 000 transport, P056/Solution 024 TLS trust,
@@ -501,7 +512,7 @@ Recent component deltas:
 | [Proposal 077: Swarm Broadcast Assistance](../40-proposals/077-swarm-broadcast-assistance.md) | `false` | `false` | `false` | `15` |
 | [Proposal 078: Weak Signal Harvester](../40-proposals/078-weak-signal-harvester.md) | `false` | `true` | `false` | `68` |
 | [Proposal 079: Cross-Federation Alliance](../40-proposals/079-cross-federation-alliance.md) | `false` | `false` | `false` | `45` |
-| [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `false` | `false` | `18` |
+| [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 
 ## Solutions
 
@@ -550,3 +561,4 @@ Recent component deltas:
 | [Capability-Limited Restrictions](../60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md) | `true` | `true` | `false` | `100` |
 | [Federation Root and Network Selector](../60-solutions/041-federation-root/041-federation-root.md) | `true` | `true` | `false` | `92` |
 | [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `98` |
+| [Horizontal Protocol Primitives](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |

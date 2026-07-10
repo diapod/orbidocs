@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:trace-link:v1",
+  "title": "Trace Link v1",
+  "description": "P074 read-model edge between two normalized trace events.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "from/event-id", "to/event-id", "relation", "confidence", "basis"],
+  "properties": {
+    "schema": { "const": "trace-link.v1" },
+    "schema/v": { "const": 1 },
+    "from/event-id": { "$ref": "#/$defs/event_id" },
+    "to/event-id": { "$ref": "#/$defs/event_id" },
+    "relation": { "type": "string", "enum": ["caused-by", "continued-by", "parent-of"] },
+    "confidence": { "type": "string", "enum": ["strong", "medium", "weak"] },
+    "basis": { "type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 120 } }
+  },
+  "$defs": {
+    "event_id": { "type": "string", "pattern": "^trace-event:[A-Za-z0-9_-]+$", "maxLength": 180 }
+  }
+}

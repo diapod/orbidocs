@@ -7,6 +7,7 @@ Based on:
 - `doc/project/40-proposals/045-sensorium-local-enaction-stratum.md`
 - `doc/project/40-proposals/048-sensorium-os-connector-action-classes.md`
 - `doc/project/40-proposals/049-json-e-middleware-transformer-executor.md`
+- `doc/project/40-proposals/081-horizontal-protocol-primitives.md`
 - `doc/project/60-solutions/020-scheduler/020-scheduler.md`
 
 Promoted to:
@@ -555,10 +556,19 @@ Recommended fields:
 
 - `cancel_href`,
 - `correlation/id`,
+- `causal/context`,
 - `audit/outcome-ref`,
 - `owner_module_id`,
 - `capability_id`,
 - `diagnostics`.
+
+`causal/context` is the optional P081 canonical causal context for the deferred
+operation. It preserves operation lineage across continuation, polling, retry,
+and recovery without making P055 itself a global trace or transaction registry.
+When present, terminal `deferred-operation-status.v1` values can be projected
+into P081 `execution-receipt.v1` records. The P055 `operation/id` remains the
+local deferred handle, while the P081 receipt uses
+`causal/context.operation/id` as the causal operation identity.
 
 `audit/outcome-ref` links the quick `202 Accepted` control response back to
 the host/runtime outcome record that made the acceptance decision. This keeps
@@ -580,6 +590,9 @@ properties.
 - Deferred operations are cancelable or explicitly non-cancelable.
 - Operator diagnostics must not leak raw private payloads by default.
 - Long-lived workers remain behind a supervised middleware/service boundary.
+- If `causal/context` is present, the host must preserve it across continuation
+  and status projection. Caller-supplied causal metadata is lineage evidence, not
+  actor authority.
 
 ## Trade-offs
 
@@ -724,6 +737,11 @@ Resolved for MVP:
    for transport retry/backoff/deadline mechanics, exposes a canonical
    `deferred-operation-status.v1` status URL, and provides a manual recovery
    pass for recoverable delivery records.
+8. [done] Adopt the first P081 causal-context bridge:
+   `deferred-operation.v1` and `deferred-operation-status.v1` may carry
+   `causal/context`, and the Node `deferred-operation` crate can project a
+   terminal deferred status into a P081 `execution-receipt.v1` using the
+   canonical causal operation id.
 
 ## Tracking
 
@@ -737,3 +755,4 @@ Resolved for MVP:
 | P055-06 | Operator visibility | done | Daemon owns a shared deferred-operation registry API and Node UI exposes `/admin/deferred-operations` with list/detail, poll, cancel, non-cancelable reason, expiry, retry, source, and redacted continuation/diagnostic digests. |
 | P055-07 | Whisper redaction provider integration | done | `whisper.redaction.prepare` is available through the Sensorium OS deferred path; completed responses return through `deferred-operation-status.v1` and then through existing redaction response validation. Full model policy belongs to future Inquirium/provider policy. |
 | P055-08 | Artifact Delivery deferred consumer | done | AD can persist a delivery through `submit_deferred` / `artifact.delivery.send?mode=deferred`, return canonical `deferred-operation.v1` with stable operation metadata and `audit/outcome-ref`, expose canonical `deferred-operation-status.v1`, and recover accepted/running/retryable records through its ledger-backed recovery pass. |
+| P055-09 | P081 causal-context bridge | done | `deferred-operation.v1` and `deferred-operation-status.v1` accept optional `causal/context`; Node `deferred-operation` serializes that context through schema-gate and can build a P081 `execution-receipt.v1` from terminal status without changing the local P055 operation handle. |

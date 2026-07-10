@@ -1,0 +1,23 @@
+{
+  "schema": "replication-delta-request.v1",
+  "schema/v": 1,
+  "request/id": "replication-request:01K081REQ",
+  "dataset/id": "seed-directory:revocations",
+  "known/summary-ref": "replication-summary:01K080SUMMARY",
+  "after/cursor": "cursor:opaque:revocations-00040",
+  "limits": {
+    "max/items": 256,
+    "max/bytes": 262144
+  },
+  "include/tombstones": true,
+  "causal/context": {
+    "schema": "causal-context.v1",
+    "schema/v": 1,
+    "context/id": "causal-context:01K081REPLCTX",
+    "correlation/id": "corr:replication:revocations",
+    "operation/id": "operation:01K081REPL",
+    "causation/refs": [],
+    "origin/actor-ref": "component:seed-directory-sync",
+    "created/at": "2026-07-09T12:00:00Z"
+  }
+}

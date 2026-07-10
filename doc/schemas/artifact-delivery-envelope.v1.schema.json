@@ -18,6 +18,10 @@
     "component/id": { "type": "string", "minLength": 1, "maxLength": 256 },
     "artifact": { "$ref": "#/$defs/artifact" },
     "classification": { "$ref": "classification.v1.schema.json" },
+    "causal/context": {
+      "$ref": "causal-context.v1.schema.json",
+      "description": "Optional upstream P081 causal context. The receiving host derives its own Artifact Delivery operation context from this evidence."
+    },
     "delivery/plan": { "$ref": "#/$defs/deliveryPlan" },
     "policy": { "$ref": "#/$defs/policy" },
     "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 }

@@ -1,0 +1,29 @@
+{
+  "schema": "trace-event.v1",
+  "schema/v": 1,
+  "trace/event-id": "trace-event:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "run/id": "federation-run:p081-smoke",
+  "node/ref": "node-a",
+  "source/store": "replay-scheduler",
+  "component/id": "replay-scheduler",
+  "event/time": "2026-07-10T12:00:00Z",
+  "event/kind": "execution-receipt",
+  "status": "completed",
+  "causal/context": {
+    "schema": "causal-context.v1",
+    "schema/v": 1,
+    "context/id": "causal-context:root:aaaaaaaaaaaaaaaaaaaa",
+    "correlation/id": "scheduler-job:p081-smoke",
+    "operation/id": "operation:scheduler:p081-smoke",
+    "causation/refs": [],
+    "origin/actor-ref": "component:replay-scheduler",
+    "created/at": "2026-07-10T12:00:00Z"
+  },
+  "receipt/ref": "execution-receipt:p081-smoke",
+  "effect/refs": ["scheduler-launch:p081-smoke"],
+  "outcome/refs": ["scheduled-job-outcome:p081-smoke"],
+  "detail/redacted": {
+    "capability/id": "p081.smoke",
+    "attempt/no": 1
+  }
+}

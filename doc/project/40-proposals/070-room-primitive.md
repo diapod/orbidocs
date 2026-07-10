@@ -784,6 +784,12 @@ evidence) · `[!]` blocked/needs decision.
   identifiers, signer refs, signature values, durable digest inputs, local clock-skew
   tolerance, and attestation TTL; it also normalizes requested grants before membership
   checks and signing.
+- [x] Consume P081 scoped nym claims at one live admission boundary without making
+  claim verification membership authority. `room-service` schema-gates and verifies a
+  paired scoped request/presentation through the shared durable runtime, binds the
+  evidence to `room-membership-admission`, the exact room id, the joining nym, and a
+  current-certificate claim, then calls independent local policy and the existing live
+  transport authorization. Tests prove a valid proof can still be denied by Room policy.
 
 ### Phase 2 — Live transport contract
 

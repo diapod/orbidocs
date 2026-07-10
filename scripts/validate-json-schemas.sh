@@ -65,6 +65,39 @@ schema_for_file() {
     *.deferred-operation-status.json)
       echo "$SCHEMAS_DIR/deferred-operation-status.v1.schema.json"
       ;;
+    *.causal-context.json)
+      echo "$SCHEMAS_DIR/causal-context.v1.schema.json"
+      ;;
+    *.execution-receipt.json)
+      echo "$SCHEMAS_DIR/execution-receipt.v1.schema.json"
+      ;;
+    *.replication-summary.json)
+      echo "$SCHEMAS_DIR/replication-summary.v1.schema.json"
+      ;;
+    *.replication-delta-request.json)
+      echo "$SCHEMAS_DIR/replication-delta-request.v1.schema.json"
+      ;;
+    *.replication-delta-batch.json)
+      echo "$SCHEMAS_DIR/replication-delta-batch.v1.schema.json"
+      ;;
+    *.replication-apply-report.json)
+      echo "$SCHEMAS_DIR/replication-apply-report.v1.schema.json"
+      ;;
+    *.scoped-claim-request.json)
+      echo "$SCHEMAS_DIR/scoped-claim-request.v1.schema.json"
+      ;;
+    *.scoped-claim-presentation.json)
+      echo "$SCHEMAS_DIR/scoped-claim-presentation.v1.schema.json"
+      ;;
+    *.scoped-claim-type-registry.json)
+      echo "$SCHEMAS_DIR/scoped-claim-type-registry.v1.schema.json"
+      ;;
+    *.trace-event.json)
+      echo "$SCHEMAS_DIR/trace-event.v1.schema.json"
+      ;;
+    *.trace-link.json)
+      echo "$SCHEMAS_DIR/trace-link.v1.schema.json"
+      ;;
     *.interaction-broker-watch.json)
       echo "$SCHEMAS_DIR/interaction-broker-watch.v1.schema.json"
       ;;

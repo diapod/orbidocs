@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:scoped-claim-type-registry:v1",
+  "title": "ScopedClaimTypeRegistry v1",
+  "description": "Initial schema-gated registry surface for scoped-claim type definitions.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"],
+  "required": ["schema", "schema/v", "registry/id", "entries"],
+  "properties": {
+    "schema": { "const": "scoped-claim-type-registry.v1" },
+    "schema/v": { "const": 1 },
+    "registry/id": { "type": "string", "pattern": "^scoped-claim-type-registry:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim/type", "status", "predicates", "proof/suites", "description"],
+      "properties": {
+        "claim/type": { "type": "string", "enum": ["nym/certificate-current", "nym/context-authorized"] },
+        "status": { "type": "string", "enum": ["active", "reserved", "deprecated"] },
+        "predicates": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["equals", "present"] }
+        },
+        "proof/suites": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["orbiplex.nym-ed25519-cert.v1"] }
+        },
+        "description": { "type": "string", "minLength": 1, "maxLength": 1000 }
+      }
+    }
+  }
+}

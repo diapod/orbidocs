@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:scoped-claim-request:v1",
+  "title": "ScopedClaimRequest v1",
+  "description": "Verifier request for a bounded contextual nym claim proof.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"],
+  "required": ["schema", "schema/v", "request/id", "audience", "context/domain", "nonce", "claims/requested", "linkability/max", "issued/at", "expires/at"],
+  "properties": {
+    "schema": { "const": "scoped-claim-request.v1" },
+    "schema/v": { "const": 1 },
+    "request/id": { "type": "string", "pattern": "^scoped-claim-request:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "audience": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[A-Za-z0-9_.:@-]+$" },
+    "context/domain": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "nonce": { "type": "string", "pattern": "^base64url:[A-Za-z0-9_-]{16,}$", "maxLength": 256 },
+    "claims/requested": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/claim" }
+    },
+    "linkability/max": { "$ref": "#/$defs/linkability" },
+    "issued/at": { "type": "string", "format": "date-time" },
+    "expires/at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim/type", "predicate", "value"],
+      "properties": {
+        "claim/type": { "type": "string", "enum": ["nym/certificate-current", "nym/context-authorized"] },
+        "predicate": { "type": "string", "enum": ["equals", "present"] },
+        "value": { "type": ["boolean", "string", "number", "integer", "null"] }
+      }
+    },
+    "linkability": { "type": "string", "enum": ["one-shot", "group-scoped", "context-scoped"] }
+  }
+}

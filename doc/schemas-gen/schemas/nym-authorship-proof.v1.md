@@ -38,6 +38,8 @@ Inline-first proof that a nym-authored Agora record is signed by a certified app
 | [`proof/audience`](#field-proof-audience) | `yes` | enum: `agora-ingest` | Audience binding. Prevents reusing an application nym certificate proof as an unrelated protocol credential. |
 | [`proof/context`](#field-proof-context) | `yes` | object |  |
 | [`nym/certificate`](#field-nym-certificate) | `yes` | ref: `#/$defs/nymCertificate` |  |
+| [`scoped-claim/request`](#field-scoped-claim-request) | `no` | ref: `scoped-claim-request.v1.schema.json` | Optional P081 request binding this authorship evidence to one concrete Agora ingest candidate. It MUST appear together with scoped-claim/presentation. |
+| [`scoped-claim/presentation`](#field-scoped-claim-presentation) | `no` | ref: `scoped-claim-presentation.v1.schema.json` | Optional P081 presentation verified before Agora applies its independent local publish policy. It MUST appear together with scoped-claim/request. |
 
 ## Definitions
 
@@ -95,6 +97,22 @@ Audience binding. Prevents reusing an application nym certificate proof as an un
 
 - Required: `yes`
 - Shape: ref: `#/$defs/nymCertificate`
+
+<a id="field-scoped-claim-request"></a>
+## `scoped-claim/request`
+
+- Required: `no`
+- Shape: ref: `scoped-claim-request.v1.schema.json`
+
+Optional P081 request binding this authorship evidence to one concrete Agora ingest candidate. It MUST appear together with scoped-claim/presentation.
+
+<a id="field-scoped-claim-presentation"></a>
+## `scoped-claim/presentation`
+
+- Required: `no`
+- Shape: ref: `scoped-claim-presentation.v1.schema.json`
+
+Optional P081 presentation verified before Agora applies its independent local publish policy. It MUST appear together with scoped-claim/request.
 
 ## Definition Semantics
 

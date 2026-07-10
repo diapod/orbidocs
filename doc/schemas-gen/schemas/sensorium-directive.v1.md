@@ -35,6 +35,7 @@ Request envelope addressed to sensorium-core by a consumer module (e.g. Arca, Da
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`directive/id`](#field-directive-id) | `yes` | string | Opaque identifier assigned by the issuer; recommended to be ULID. Used to correlate the request, its outcome record, and any emitted observations. |
 | [`directive/issued_at`](#field-directive-issued-at) | `yes` | string | RFC 3339 timestamp at which the issuer produced this directive. |
+| [`causal/context`](#field-causal-context) | `no` | ref: `causal-context.v1.schema.json` | Optional upstream P081 causal context. Sensorium derives a host-owned directive operation context from this evidence. |
 | [`issuer`](#field-issuer) | `yes` | object | Identity of the invoking party. participant/did:key is the sovereign identity axis; module_id identifies the local module when applicable. At least one of participant/did:key or module_id MUST be present. |
 | [`idempotency/key`](#field-idempotency-key) | `no` | string | Optional caller-provided idempotency key. sensorium-core SHOULD use it together with issuer and action_id to make retries of async or retryable directives safe. |
 | [`action_id`](#field-action-id) | `yes` | string | Public, operator-allowlisted identifier of the action to perform (dotted notation recommended, e.g. os.process.spawn-read-only). Consumers MUST NOT select connector_id; action_id is the only public addressing handle. |
@@ -86,6 +87,14 @@ Opaque identifier assigned by the issuer; recommended to be ULID. Used to correl
 - Shape: string
 
 RFC 3339 timestamp at which the issuer produced this directive.
+
+<a id="field-causal-context"></a>
+## `causal/context`
+
+- Required: `no`
+- Shape: ref: `causal-context.v1.schema.json`
+
+Optional upstream P081 causal context. Sensorium derives a host-owned directive operation context from this evidence.
 
 <a id="field-issuer"></a>
 ## `issuer`

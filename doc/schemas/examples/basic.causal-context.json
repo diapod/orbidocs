@@ -1,0 +1,14 @@
+{
+  "schema": "causal-context.v1",
+  "schema/v": 1,
+  "context/id": "causal-context:01K081CTX",
+  "correlation/id": "corr:story011:fish-water",
+  "operation/id": "operation:01K081ROOT",
+  "causation/refs": [
+    "artifact:sha256:source-question"
+  ],
+  "origin/actor-ref": "component:arca",
+  "diagnostic/idempotency-digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "classification/ref": "classification:public",
+  "created/at": "2026-07-09T12:00:00Z"
+}

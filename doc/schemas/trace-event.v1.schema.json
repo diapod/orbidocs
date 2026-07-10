@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:trace-event:v1",
+  "title": "Trace Event v1",
+  "description": "Redacted P074 trace projection over an existing committed fact. The trace event is a read model, never a source of authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "trace/event-id",
+    "run/id",
+    "node/ref",
+    "source/store",
+    "component/id",
+    "event/time",
+    "event/kind",
+    "status",
+    "causal/context",
+    "detail/redacted"
+  ],
+  "properties": {
+    "schema": { "const": "trace-event.v1" },
+    "schema/v": { "const": 1 },
+    "trace/event-id": { "type": "string", "pattern": "^trace-event:[A-Za-z0-9_-]+$", "maxLength": 180 },
+    "run/id": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\s]+$" },
+    "node/ref": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\s]+$" },
+    "source/store": { "type": "string", "minLength": 1, "maxLength": 120, "pattern": "^[a-z][a-z0-9-]*$" },
+    "component/id": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[A-Za-z0-9_.:-]+$" },
+    "event/time": { "type": "string", "format": "date-time" },
+    "event/kind": { "type": "string", "minLength": 1, "maxLength": 120, "pattern": "^[a-z][a-z0-9-]*$" },
+    "status": { "type": "string", "minLength": 1, "maxLength": 120, "pattern": "^[a-z][a-z0-9-]*$" },
+    "causal/context": { "$ref": "causal-context.v1.schema.json" },
+    "receipt/ref": { "type": "string", "pattern": "^execution-receipt:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "effect/refs": { "type": "array", "maxItems": 16, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } },
+    "outcome/refs": { "type": "array", "maxItems": 16, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } },
+    "detail/redacted": {
+      "type": "object",
+      "additionalProperties": { "type": ["string", "number", "boolean", "null"] },
+      "maxProperties": 16
+    }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" }
+  }
+}

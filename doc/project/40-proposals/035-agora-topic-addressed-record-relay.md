@@ -1381,6 +1381,23 @@ Tradeoffs:
   running cache relays only SHOULD NOT be required to run a full Matrix
   homeserver.
 
+## P081 Scoped-Claim Ingest Path
+
+Agora now has an optional P081 path for nym-authored records. A
+`nym-authorship-proof.v1` may carry both `scoped-claim/request` and
+`scoped-claim/presentation`; either both are present or neither is. The service first
+verifies the complete signed Agora envelope, then binds the scoped request to a
+canonical digest of the exact ingest candidate with the nested scoped values removed
+to avoid a self-referential digest. Only after that check may the durable replay cache
+consume the nonce.
+
+The shared verifier returns evidence only. Agora still applies topic ACL, namespace,
+content-schema, disclosure, certificate-scope, and publish authority policy through
+its existing gates. Valid scoped evidence can therefore be denied, and a malformed or
+badly signed outer envelope cannot consume a valid presentation nonce. The path is
+disabled by default and fails closed unless trusted council issuers and fresh local
+revocation snapshot metadata are configured.
+
 ## Open Questions
 
 1. Should Agora topics have a lightweight per-topic policy document (for

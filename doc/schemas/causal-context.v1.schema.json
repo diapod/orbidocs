@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:causal-context:v1",
+  "title": "CausalContext v1",
+  "description": "Portable host-derived causal metadata for one operation. It is evidence, not authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"],
+  "required": [
+    "schema",
+    "schema/v",
+    "context/id",
+    "correlation/id",
+    "operation/id",
+    "causation/refs",
+    "origin/actor-ref",
+    "created/at"
+  ],
+  "properties": {
+    "schema": { "const": "causal-context.v1" },
+    "schema/v": { "const": 1 },
+    "context/id": { "type": "string", "pattern": "^causal-context:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "correlation/id": { "type": "string", "minLength": 1, "maxLength": 180 },
+    "operation/id": { "type": "string", "pattern": "^operation:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "parent/operation-id": { "type": "string", "pattern": "^operation:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "causation/refs": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    },
+    "origin/actor-ref": { "$ref": "#/$defs/ref" },
+    "diagnostic/idempotency-digest": { "$ref": "#/$defs/sha256_digest" },
+    "classification/ref": { "$ref": "#/$defs/ref" },
+    "created/at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "sha256_digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{32,}$", "maxLength": 128 }
+  }
+}

@@ -25,10 +25,11 @@ Based on:
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 - `doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md`
 - `doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md`
+- `doc/project/60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md`
 
 ## Status
 
-Proposed (Hard-MVP Blocker)
+Implemented (Hard-MVP Complete)
 
 ## Date
 
@@ -36,19 +37,20 @@ Proposed (Hard-MVP Blocker)
 
 ## Executive Summary
 
-Orbiplex has strong vertical components and host-owned runtime primitives, but three
-horizontal protocol gaps now recur across otherwise separate domains:
+At proposal time, Orbiplex had strong vertical components and host-owned runtime
+primitives, but three horizontal protocol gaps recurred across otherwise separate
+domains:
 
 1. causal identity and execution evidence are represented by several related but
    non-canonical fields and domain-specific outcomes;
 2. federated replay and convergence are implemented separately by Seed Directory,
    Contact Catalog, Agora, Room, Shared Offer Catalog, and adjacent stores;
-3. nyms can prove scoped authorship through certificates, but cannot yet present a
+3. nyms could prove scoped authorship through certificates, but could not present a
    reusable, suite-neutral proof of a contextual claim without disclosing a root
    participant identity.
 
-This proposal defines three small protocol families and their implementation
-boundaries:
+This proposal defines three small protocol families, now implemented for hard MVP,
+and their implementation boundaries:
 
 - `causal-context.v1` plus immutable `execution-receipt.v1` facts;
 - bounded replication summary/delta/apply contracts for signed immutable facts;
@@ -60,7 +62,8 @@ boundaries. This proposal is an umbrella contract, not permission to create one
 framework that owns workflow state, domain merge rules, identity policy, or
 authorization.
 
-The minimal slice defined under *Hard-MVP Scope* is a release blocker. Full
+The minimal slice defined under *Hard-MVP Scope* was a release blocker and is now
+implemented. Full
 cross-relay mesh replication, stronger anonymous-credential cryptography, universal
 consumer migration, and a global trace or transaction service are explicitly not
 hard-MVP requirements.
@@ -165,7 +168,7 @@ proof envelopes or expose the participant root as a shortcut.
 ### Shared Contract Conventions
 
 All JSON examples in this proposal are conceptual and illustrative. The normative
-definitions live in the accepted schema files once P081-002 lands. Implementors MUST
+definitions live in the accepted schema files. Implementors MUST
 NOT derive field cardinality, nullability, defaults, or closed/open object behavior
 from examples alone.
 
@@ -530,7 +533,8 @@ context can describe an unauthorized operation without authorizing it.
 
 ## Hard-MVP Scope
 
-P081 is a hard-MVP release blocker with the following bounded completion contract:
+P081 was treated as a hard-MVP release blocker with the following bounded completion
+contract, which the implementation now satisfies:
 
 | Area | Required for hard MVP | Explicitly deferred |
 |---|---|---|
@@ -693,22 +697,35 @@ deferred:
    or only when they leave a mutually authenticated session and local trace bundle.
 4. Whether claim-type lifecycle belongs in a dedicated registry or a checked policy
    sidecar after the first two claim types prove the boundary.
+5. Whether Inquirium operator-question and generated-operation authority boundaries
+   should adopt P081 causal contexts and execution receipts, and which exact effects
+   merit receipts. Adoption remains domain-by-domain rather than a blanket daemon
+   migration.
+6. Which host-owned boundary attests and verifies revocation snapshot signatures
+   before constructing a scoped-claim verifier: the Seed Directory replication lane,
+   the consuming runtime, or a dedicated evidence adapter; the decision must also
+   define how `revocation/evidence-ref` binds the signed snapshot bytes.
 
 Question 4 does not block P081-004. P081-004 creates the schema-gated claim-type
 registry surface needed for the first two claim types, but does not define lifecycle
 governance, deprecation, or policy-sidecar ownership for future claim types.
+Question 5 does not weaken current consumers: Inquirium has not yet been declared a
+P081 authority boundary. Question 6 preserves the hard-MVP trust boundary explicitly:
+the first certificate suite consumes a host-verified snapshot and does not claim to
+authenticate that snapshot itself.
 
-## Next Actions
+## Completed Implementation Sequence
 
-1. Add accepted schemas and positive/negative fixtures for the hard-MVP contract
+1. Added accepted schemas and positive/negative fixtures for the hard-MVP contract
    families.
-2. Mirror the schemas into Node protocol contracts and register all boundary uses in
+2. Mirrored the schemas into Node protocol contracts and registered all boundary uses in
    schema-gate.
-3. Implement the pure causal context, replication, and scoped-claim verification
+3. Implemented the pure causal context, replication, and scoped-claim verification
    cores before daemon integration.
-4. Migrate the named first consumers without changing their domain authority.
-5. Add the P081 multi-node acceptance pack and connect its trace output to P074.
-6. Synchronize every affected proposal row above as its implementation lands.
+4. Migrated the named first consumers without changing their domain authority.
+5. Added the P081 logical multi-node acceptance pack and connected its trace output
+   to P074.
+6. Synchronized every affected proposal row above as its implementation landed.
 
 ## Implementation Guidance
 
@@ -909,7 +926,9 @@ Runtime semantic validation additionally freezes at least these classes:
 causal/context-invalid
 causal/actor-spoofed
 causal/predecessor-limit-exceeded
+causal/causation-refs-not-canonical
 causal/operation-id-conflict
+receipt/invalid-id-component
 receipt/invalid-transition
 receipt/missing-domain-evidence
 receipt/unknown-effect-schema
@@ -933,6 +952,7 @@ claim/proof-invalid
 claim/revocation-stale
 claim/linkability-too-wide
 claim/participant-id-disallowed
+claim/nullifier-not-supported
 ```
 
 Retryability is part of the error value, not an operator guess. Runtime errors SHOULD
@@ -960,8 +980,11 @@ a changed input or policy.
   domain facts remain in domain-owned stores.
 - Nonce replay state is bounded by `expires/at` plus configured clock-skew and
   survives daemon restart for that proof window. The reference Node implementation
-  stores this in a daemon-owned bounded durable registry, backed by SQLite WAL, keyed
-  by `(audience, context/domain, nonce)` with TTL cleanup after the proof window.
+  stores it in a node-owned, consumer-local durable registry backed by SQLite WAL,
+  keyed by `(audience, context/domain, nonce)` with TTL cleanup after the proof
+  window. The shared runtime defines the semantics; consumers own separate stores
+  under their host-managed data directories rather than sharing a global replay
+  authority.
 - All arrays have explicit item caps; all artifacts have byte caps; all remote work
   has deadlines and bounded retries.
 - Trace exports redact proof material, credential bodies, private artifacts, and raw
@@ -978,8 +1001,10 @@ P081 acceptance uses named invariants so prose requirements map to concrete test
 - `inv-p081-no-participant-leak`: a scoped-claim presentation containing
   `participant:did:key:...` or any `participant:*` identifier at any depth is refused
   with `claim/participant-id-disallowed`.
-- `inv-p081-nullifier-domain-separated`: nullifiers are domain-separated by audience
-  and context; globally reusable nullifiers are invalid.
+- `inv-p081-nullifier-domain-separated`: the first certificate suite rejects every
+  nullifier with `claim/nullifier-not-supported`; any future suite that accepts one
+  must prove domain separation by audience and context, and globally reusable
+  nullifiers remain invalid.
 - `inv-p081-rollback-detected`: cursor rollback and epoch rollback are rejected
   before apply.
 - `inv-p081-retention-gap-typed`: a retention gap is reported as
@@ -995,7 +1020,8 @@ P081 acceptance uses named invariants so prose requirements map to concrete test
 
 ### Acceptance Shape
 
-The first repeatable acceptance profile should run at least two nodes and prove:
+The repeatable hard-MVP acceptance profile uses distinct logical source and target
+node identities and proves:
 
 1. a scheduler-launched deferred operation retains canonical context through one AD
    delivery and Sensorium outcome;
@@ -1017,22 +1043,23 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 | ID | Deliverable | Status | Done criteria / evidence |
 |---|---|---|---|
 | P081-001 | Freeze umbrella architecture, boundaries, hard-MVP scope, affected proposals, and implementation guidance | done | This proposal defines three separate primitives, explicit non-goals, initial contracts, first consumers, and blocker criteria. |
-| P081-002 | Add canonical causal-context and execution-receipt schemas with fixtures | todo | Positive fixtures plus negative multi-parent-limit, canonical causation-ref sort, operation-id conflict, actor-spoof, invalid-transition, missing-evidence, bodyless receipt, unknown effect/outcome ref, and unknown-field cases pass schema/semantic validation. |
-| P081-003 | Add replication summary, delta request, delta batch, and apply-report schemas with fixtures | todo | Bounded item/byte limits, `cursor:<scheme>:<opaque>` shape, opaque cursor equality, digest profile, tombstones, partial apply, retry advice, rollback, and retention-gap examples are covered. |
-| P081-004 | Add scoped-claim request and presentation schemas plus suite/claim registry surface seed | todo | Audience, context, nonce, expiry, linkability, proof suite, participant-id leak rejection, and the first two named claim types have schema plus semantic privacy-guard coverage; claim-type lifecycle governance remains deferred in Open Questions. |
-| P081-005 | Mirror all hard-MVP schemas into Node protocol contracts and register schema-gate boundaries | todo | Contract mirror tests and ingress/egress/import/export boundary tests pass; unsupported boundaries fail closed. |
-| P081-006 | Implement pure causal-context derivation, child, fan-in join, canonicalization, and receipt validation | todo | Substrate-free unit/property tests cover deterministic ids/digests, unordered parent equivalence, operation-id conflict, limits, bodyless receipts, known effect/outcome refs, and immutable transitions. |
-| P081-007 | Adopt causal context and receipts in Scheduler, Bounded Deferred Operations, Artifact Delivery, and Sensorium | todo | Context survives launch, continuation, retry, delivery, and outcome; actor binding is host-derived and no domain state machine is replaced. |
-| P081-008 | Align P074 trace schemas and first adapters with canonical causal context | todo | Adopted paths produce strong explicit links; trace export privacy tests pass; no global trace source of truth is introduced. |
-| P081-009 | Implement transport-neutral bounded replication core and profile traits | todo | Summary comparison, delta planning, partial apply reports, limits, loop prevention, rollback, digest mismatch, and retention gaps have focused tests. |
-| P081-010 | Adapt Contact Catalog trusted-provider sync to the shared replication contracts | todo | Existing privacy, provider trust, tombstone, cursor, high-water, and no-public-dump invariants remain green. |
-| P081-011 | Add Seed Directory capability/revocation replication profiles | todo | Signed fact batches, multi-directory source identity, rollback, revocation dominance, and restart replay are covered. |
-| P081-012 | Implement scoped-claim verifier registry and bounded durable nonce replay cache | todo | Unknown suites fail closed; nonce state is stored in a daemon-owned bounded durable registry keyed by `(audience, context/domain, nonce)` and survives restart for `expires/at + clock-skew`; verification returns evidence values, not authorization. |
-| P081-013 | Implement `orbiplex.nym-ed25519-cert.v1` scoped-claim adapter | todo | Adapter proves only allowlisted certificate-supported predicates and ships golden vectors: `certificate_fresh_accept`, `certificate_expired_reject`, `certificate_revoked_reject`, `signature_mismatch_reject`, `linkability_widened_reject`, and `audience_mismatch_reject`. |
-| P081-014 | Adopt scoped-claim verification in the nym-authored Agora ingest path and one Room admission path | todo | Both consumers call the same verifier core and then their own local policy; valid proof can still be denied by policy. |
-| P081-015 | Add repeatable multi-node P081 acceptance smoke and failure matrix | todo | Clean-profile runner covers the seven acceptance points and named invariants above, then emits a redacted trace bundle. |
-| P081-016 | Synchronize affected proposals, Node implementation ledger/MVP tracker, architecture map, and MVP readiness snapshot | todo | Every affected proposal records its adopted boundary; generated docs and cross-repo trackers are in sync with implementation evidence. |
-| P081-017 | Promote stable runtime ownership into solution components and capability sidecars | todo | Promotion creates separate causal-context, bounded-replication, and scoped-claims surfaces after at least two consumers prove each boundary; no speculative component shell. |
+| P081-002 | Add canonical causal-context and execution-receipt schemas with fixtures | done | Schemas and fixtures cover canonical contexts, bodyless receipts, unknown fields, predecessor overflow, inline payload refusal, actor spoof semantics, operation-id conflict, invalid transitions, missing evidence, and unknown effect/outcome ref families. |
+| P081-003 | Add replication summary, delta request, delta batch, and apply-report schemas with fixtures | done | Summary, delta request, delta batch, and apply-report schemas plus fixtures cover bounded limits, opaque cursors, canonical-sequence digests, tombstones, partial apply, retry advice, rollback, digest mismatch, and typed retention gaps. |
+| P081-004 | Add scoped-claim request and presentation schemas plus suite/claim registry surface seed | done | Request, presentation, and claim-type registry schemas are present; the first two named claim types are seeded; core tests cover audience, context binding, nonce replay, expiry, linkability widening, and participant-id leak rejection. Durable nonce storage and the concrete Ed25519 nym-certificate adapter remain separately tracked by P081-012/P081-013. |
+| P081-005 | Mirror all hard-MVP schemas into Node protocol contracts and register schema-gate boundaries | done | Node protocol mirrors exist for all hard-MVP schemas; schema-gate registers causal/receipt, replication, and scoped-claim families; contract tests validate positive fixtures, negative fixtures, and unsupported-boundary refusal. |
+| P081-006 | Implement pure causal-context derivation, child, fan-in join, canonicalization, and receipt validation | done | `orbiplex-node-horizontal-protocol-core` implements substrate-free root/child/join helpers, byte-canonical causation refs, deterministic digests, distinct non-canonical-ref and operation-conflict failures, an operation-context conflict registry, bounded predecessor validation, host-actor comparison, a one-way receipt transition graph, a shared component-domain-separated receipt-id builder, and known ref-family validation. Unit/property tests cover permutation invariance, conflicts, overflow, actor spoofing, receipt-id separation, invalid transitions, and missing/unknown evidence. |
+| P081-007 | Adopt causal context and receipts in Scheduler, Bounded Deferred Operations, Artifact Delivery, and Sensorium | done | All four consumers derive or preserve canonical context and append schema-gated receipt chains through the shared component-domain-separated receipt-id builder. Scheduler and Artifact Delivery preserve predecessor binding and exactly-once terminal restart/interruption facts; Sensorium outcomes and deferred status expose the canonical evidence without replacing their domain result contracts. |
+| P081-008 | Align P074 trace schemas and first adapters with canonical causal context | done | Canonical `trace-event.v1` and `trace-link.v1` schemas are mirrored and schema-gated. `trace-explorer-core` projects Scheduler, Artifact Delivery, and Sensorium receipts into redacted events and explicit strong links; privacy tests prove that payloads and receipt diagnostics are not exported, and no global trace source of truth is introduced. |
+| P081-009 | Implement transport-neutral bounded replication core and profile traits | done | `orbiplex-node-horizontal-protocol-core` implements cursor parsing, canonical ordered sequence digests, artifact-digest verification, summary comparison, rollback/digest/retention-gap decisions, profile and fact traits, bounded contiguous delta planning, pre-effect loop validation, and documented per-item partial apply reports. Mixed retention-window and arbitrary cursor tests preserve the opaque-cursor boundary. Contact Catalog and Seed Directory prove the shared boundary without moving domain merge authority into the core. |
+| P081-010 | Adapt Contact Catalog trusted-provider sync to the shared replication contracts | done | Trusted-provider claim and tombstone refresh constructs schema-gated P081 batches, enforces direct source/origin binding and bounded apply before the existing SQLite merge, and keeps provider auth, private lookup, cursor, high-water, tombstone, and no-public-dump invariants green. |
+| P081-011 | Add Seed Directory capability/revocation replication profiles | done | Capability and revocation lanes produce schema-gated summaries and bounded deltas, sign batches, verify source and every artifact independently, preserve revocation dominance, reject digest/source/rollback failures, and resume from persisted cursors after target restart. |
+| P081-012 | Implement scoped-claim verifier registry and bounded durable nonce replay cache | done | The shared runtime schema-gates raw request/presentation values, dispatches allowlisted suites, binds request validity to presentation validity, rejects participant leakage and widened linkability, and uses bounded SQLite replay state that survives restart, expires by request window plus skew, and never evicts a live nonce to admit another proof. Tests cover concurrent cache instances, disabled/expired windows, and `(audience, context, nonce)` key separation. |
+| P081-013 | Implement `orbiplex.nym-ed25519-cert.v1` scoped-claim adapter | done | The adapter verifies trusted council signatures, certified nym possession, freshness, request scope, linkability, and fresh local revocation evidence; golden tests cover fresh, expired, revoked, stale-revocation, signature-mismatch, widened-linkability, audience-mismatch, and unsupported-nullifier refusal. |
+| P081-014 | Adopt scoped-claim verification in the nym-authored Agora ingest path and one Room admission path | done | Agora optionally consumes paired scoped request/presentation values inside `author/nym-proof`, verifies the signed candidate before consuming the nonce, binds the proof to canonical candidate bytes, bounds configured clock skew to 300 seconds, and then applies its own publish policy. `room-service` exposes a schema-gated scoped-claim join path with typed verification errors that binds room, nym, and current-certificate evidence before its independent local policy and transport authorization. Tests prove valid evidence can still be denied and nonce state is audience-partitioned. |
+| P081-015 | Add repeatable multi-node P081 acceptance smoke and failure matrix | done | `node/tools/acceptance/p081-horizontal-protocol/run.py` executes 13 focused checks across one integrated Scheduler -> Artifact Delivery -> Sensorium causal chain, component receipts, Contact/Seed replication, restart resume, digest/source/rollback, audience/expiry/replay/revocation, and Agora/Room consumers. The Seed check uses distinct source/target node identities and durable stores, including target restart; this is a logical multi-node hard-MVP smoke, not a multi-process federation harness. The runner emits a metadata-only redacted `trace-event.v1` bundle under `target/`. |
+| P081-016 | Synchronize affected proposals, Node implementation ledger/MVP tracker, architecture map, and MVP readiness snapshot | done | P015/P025/P035/P054/P058/P070/P074, Node MVP/implementation ledger, generated solution capability matrix, Solution 043, and the MVP readiness snapshot record the implemented hard-MVP surfaces and keep deferred mesh/ZK/universal migration work explicit. |
+| P081-017 | Promote stable runtime ownership into solution components and capability sidecars | done | Solution 043 promotes separate causal-context, bounded-replication, and scoped-claims surfaces after each has at least two consumers; its sidecar keeps evidence mechanics distinct from domain authorization and merge authority. |
 | P081-018 | Add Agora cross-relay mesh and range/Merkle digest profiles | deferred | Post-MVP resilience layer after bounded canonical-sequence profile measurements. |
 | P081-019 | Add stronger anonymous-credential and non-revocation suites | deferred | Requires independent cryptographic review, conformance vectors, migration plan, and explicit privacy analysis. |
-| P081-020 | Migrate additional Room, Marketplace, Contact Catalog, Messaging, Reputation, Governance, and Memarium consumers | deferred | Domain-by-domain post-MVP adoption; no blanket migration. |
+| P081-020 | Migrate additional Room, Inquirium, Marketplace, Contact Catalog, Messaging, Reputation, Governance, and Memarium consumers | deferred | Domain-by-domain post-MVP adoption; no blanket migration. Inquirium adoption remains subject to Open Question 5. |
+| P081-021 | Define signed revocation-snapshot admission and attestation ownership | deferred | Post-MVP hardening after Open Question 6; the current certificate suite consumes host-verified snapshot state and does not authenticate the snapshot itself. |

@@ -151,6 +151,17 @@ SCHEMA_WHITELIST = (
     "local-recipient-mailbox-resolve.v1.schema.json",
     "service-ca-material.v1.schema.json",
     "service-ca-revocation.v1.schema.json",
+    "causal-context.v1.schema.json",
+    "execution-receipt.v1.schema.json",
+    "replication-summary.v1.schema.json",
+    "replication-delta-request.v1.schema.json",
+    "replication-delta-batch.v1.schema.json",
+    "replication-apply-report.v1.schema.json",
+    "scoped-claim-request.v1.schema.json",
+    "scoped-claim-presentation.v1.schema.json",
+    "scoped-claim-type-registry.v1.schema.json",
+    "trace-event.v1.schema.json",
+    "trace-link.v1.schema.json",
 )
 
 EXAMPLE_WHITELIST = (
@@ -293,6 +304,17 @@ EXAMPLE_WHITELIST = (
     "issued.messaging.passport-issued.json",
     "public-seed-directory.service-ca-material.json",
     "public-seed-directory.service-ca-revocation.json",
+    "basic.causal-context.json",
+    "completed.execution-receipt.json",
+    "revocations.replication-summary.json",
+    "revocations.replication-delta-request.json",
+    "revocations.replication-delta-batch.json",
+    "partial.replication-apply-report.json",
+    "room-membership.scoped-claim-request.json",
+    "room-membership.scoped-claim-presentation.json",
+    "initial.scoped-claim-type-registry.json",
+    "scheduler.trace-event.json",
+    "scheduler.trace-link.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
@@ -380,6 +402,10 @@ INVALID_EXAMPLE_WHITELIST = (
     "missing-endorser.federation-service-endorsement.json",
     "unsupported-artifact.capability-proof-presentation-batch.json",
     "missing-signature.seed-directory-query-attestation.json",
+    "too-many-parents.causal-context.json",
+    "unknown-field.causal-context.json",
+    "payload.execution-receipt.json",
+    "bad-cursor.replication-summary.json",
 )
 
 GOLDEN_WHITELIST = (

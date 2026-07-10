@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:execution-receipt:v1",
+  "title": "ExecutionReceipt v1",
+  "description": "Immutable host-observed transition receipt linking causal context to domain-owned effect and outcome refs.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"],
+  "required": [
+    "schema",
+    "schema/v",
+    "receipt/id",
+    "causal/context",
+    "operation/id",
+    "capability/id",
+    "transition/from",
+    "transition/to",
+    "attempt/no",
+    "recorded/by",
+    "recorded/at"
+  ],
+  "properties": {
+    "schema": { "const": "execution-receipt.v1" },
+    "schema/v": { "const": 1 },
+    "receipt/id": { "type": "string", "pattern": "^execution-receipt:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "causal/context": { "$ref": "causal-context.v1.schema.json" },
+    "operation/id": { "type": "string", "pattern": "^operation:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "capability/id": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[A-Za-z0-9_.:-]+$" },
+    "transition/from": { "$ref": "#/$defs/transition" },
+    "transition/to": { "$ref": "#/$defs/transition" },
+    "attempt/no": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+    "recorded/by": { "$ref": "#/$defs/ref" },
+    "recorded/at": { "type": "string", "format": "date-time" },
+    "policy/decision-ref": { "$ref": "#/$defs/ref" },
+    "effect/refs": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    },
+    "outcome/refs": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    },
+    "previous/receipt-ref": { "type": "string", "pattern": "^execution-receipt:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "diagnostics": {
+      "type": "object",
+      "maxProperties": 16,
+      "additionalProperties": { "type": "string", "maxLength": 256 }
+    }
+  },
+  "$defs": {
+    "transition": {
+      "type": "string",
+      "enum": ["proposed", "accepted", "rejected", "deferred", "running", "completed", "failed", "cancelled", "timed-out", "superseded"]
+    },
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" }
+  }
+}

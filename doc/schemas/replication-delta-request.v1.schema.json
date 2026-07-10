@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:replication-delta-request:v1",
+  "title": "ReplicationDeltaRequest v1",
+  "description": "Bounded request for a replication delta after an opaque profile-owned cursor.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"],
+  "required": ["schema", "schema/v", "request/id", "dataset/id", "known/summary-ref", "after/cursor", "limits", "include/tombstones", "causal/context"],
+  "properties": {
+    "schema": { "const": "replication-delta-request.v1" },
+    "schema/v": { "const": 1 },
+    "request/id": { "type": "string", "pattern": "^replication-request:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "dataset/id": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[^\\s]+$" },
+    "known/summary-ref": { "type": "string", "pattern": "^replication-summary:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "after/cursor": { "$ref": "#/$defs/cursor" },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max/items", "max/bytes"],
+      "properties": {
+        "max/items": { "type": "integer", "minimum": 1, "maximum": 1024 },
+        "max/bytes": { "type": "integer", "minimum": 1, "maximum": 10485760 }
+      }
+    },
+    "include/tombstones": { "type": "boolean" },
+    "causal/context": { "$ref": "causal-context.v1.schema.json" }
+  },
+  "$defs": {
+    "cursor": { "type": "string", "pattern": "^cursor:[a-z][a-z0-9-]{0,63}:[^\\s]+$", "maxLength": 600 }
+  }
+}

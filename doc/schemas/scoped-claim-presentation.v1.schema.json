@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:scoped-claim-presentation:v1",
+  "title": "ScopedClaimPresentation v1",
+  "description": "Suite-neutral bounded nym claim presentation. Verification yields evidence values, not authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"],
+  "required": ["schema", "schema/v", "presentation/id", "request/ref", "request/digest", "subject/kind", "subject/id", "audience", "context/domain", "nonce", "claims/proven", "proof/suite", "proof/material", "linkability/scope", "issued/at", "expires/at"],
+  "properties": {
+    "schema": { "const": "scoped-claim-presentation.v1" },
+    "schema/v": { "const": 1 },
+    "presentation/id": { "type": "string", "pattern": "^scoped-claim-presentation:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "request/ref": { "type": "string", "pattern": "^scoped-claim-request:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "request/digest": { "$ref": "#/$defs/sha256_digest" },
+    "subject/kind": { "const": "nym" },
+    "subject/id": { "type": "string", "pattern": "^nym:[^\\s]+$", "maxLength": 256 },
+    "audience": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[A-Za-z0-9_.:@-]+$" },
+    "context/domain": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "nonce": { "type": "string", "pattern": "^base64url:[A-Za-z0-9_-]{16,}$", "maxLength": 256 },
+    "claims/proven": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/claim" }
+    },
+    "proof/suite": { "type": "string", "enum": ["orbiplex.nym-ed25519-cert.v1"] },
+    "proof/material": { "type": "object", "additionalProperties": true },
+    "linkability/scope": { "$ref": "#/$defs/linkability" },
+    "nullifier": { "type": ["string", "null"], "maxLength": 256 },
+    "revocation/evidence-ref": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\s]+$" },
+    "issued/at": { "type": "string", "format": "date-time" },
+    "expires/at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim/type", "predicate", "value"],
+      "properties": {
+        "claim/type": { "type": "string", "enum": ["nym/certificate-current", "nym/context-authorized"] },
+        "predicate": { "type": "string", "enum": ["equals", "present"] },
+        "value": { "type": ["boolean", "string", "number", "integer", "null"] }
+      }
+    },
+    "linkability": { "type": "string", "enum": ["one-shot", "group-scoped", "context-scoped"] },
+    "sha256_digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{32,}$", "maxLength": 128 }
+  }
+}

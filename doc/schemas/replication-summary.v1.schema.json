@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:replication-summary:v1",
+  "title": "ReplicationSummary v1",
+  "description": "Bounded anti-entropy summary for one signed immutable fact dataset.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"],
+  "required": ["schema", "schema/v", "summary/id", "dataset/id", "dataset/epoch", "replication/profile-id", "source/node-id", "high-water/cursor", "records/count", "digest", "generated/at", "expires/at"],
+  "properties": {
+    "schema": { "const": "replication-summary.v1" },
+    "schema/v": { "const": 1 },
+    "summary/id": { "type": "string", "pattern": "^replication-summary:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "dataset/id": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[^\\s]+$" },
+    "dataset/epoch": { "type": "integer", "minimum": 0 },
+    "replication/profile-id": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[A-Za-z0-9_.:@-]+$" },
+    "source/node-id": { "type": "string", "pattern": "^node:[^\\s]+$", "maxLength": 256 },
+    "federation/id": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[A-Za-z0-9_.:-]+$" },
+    "high-water/cursor": { "$ref": "#/$defs/cursor" },
+    "retention/floor": { "$ref": "#/$defs/cursor" },
+    "records/count": { "type": "integer", "minimum": 0 },
+    "tombstones/high-water": { "$ref": "#/$defs/cursor" },
+    "digest": { "$ref": "#/$defs/digest_profile" },
+    "generated/at": { "type": "string", "format": "date-time" },
+    "expires/at": { "type": "string", "format": "date-time" },
+    "signature": { "type": "object", "additionalProperties": true }
+  },
+  "$defs": {
+    "cursor": { "type": "string", "pattern": "^cursor:[a-z][a-z0-9-]{0,63}:[^\\s]+$", "maxLength": 600 },
+    "digest_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile", "value"],
+      "properties": {
+        "profile": { "const": "canonical-sequence-sha256-v1" },
+        "value": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{32,}$", "maxLength": 128 }
+      }
+    }
+  }
+}

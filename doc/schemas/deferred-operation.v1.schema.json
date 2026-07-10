@@ -78,6 +78,10 @@
       "type": "string",
       "description": "Optional correlation id from the parent flow or workflow."
     },
+    "causal/context": {
+      "$ref": "causal-context.v1.schema.json",
+      "description": "Optional canonical P081 causal context preserved across the deferred operation boundary."
+    },
     "audit/outcome-ref": {
       "type": "string",
       "minLength": 1,

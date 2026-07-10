@@ -37,6 +37,7 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 | [`component/id`](#field-component-id) | `yes` | string |  |
 | [`artifact`](#field-artifact) | `yes` | ref: `#/$defs/artifact` |  |
 | [`classification`](#field-classification) | `no` | ref: `classification.v1.schema.json` |  |
+| [`causal/context`](#field-causal-context) | `no` | ref: `causal-context.v1.schema.json` | Optional upstream P081 causal context. The receiving host derives its own Artifact Delivery operation context from this evidence. |
 | [`delivery/plan`](#field-delivery-plan) | `yes` | ref: `#/$defs/deliveryPlan` |  |
 | [`policy`](#field-policy) | `no` | ref: `#/$defs/policy` |  |
 | [`idempotency/key`](#field-idempotency-key) | `no` | string |  |
@@ -77,6 +78,14 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 
 - Required: `no`
 - Shape: ref: `classification.v1.schema.json`
+
+<a id="field-causal-context"></a>
+## `causal/context`
+
+- Required: `no`
+- Shape: ref: `causal-context.v1.schema.json`
+
+Optional upstream P081 causal context. The receiving host derives its own Artifact Delivery operation context from this evidence.
 
 <a id="field-delivery-plan"></a>
 ## `delivery/plan`

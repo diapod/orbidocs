@@ -1,0 +1,29 @@
+{
+  "schema": "execution-receipt.v1",
+  "schema/v": 1,
+  "receipt/id": "execution-receipt:01K081DONE",
+  "causal/context": {
+    "schema": "causal-context.v1",
+    "schema/v": 1,
+    "context/id": "causal-context:01K081CTX",
+    "correlation/id": "corr:story011:fish-water",
+    "operation/id": "operation:01K081ROOT",
+    "causation/refs": ["execution-receipt:01K080PREV"],
+    "origin/actor-ref": "component:artifact-delivery",
+    "created/at": "2026-07-09T12:00:00Z"
+  },
+  "operation/id": "operation:01K081ROOT",
+  "capability/id": "artifact.delivery.send",
+  "transition/from": "running",
+  "transition/to": "completed",
+  "attempt/no": 1,
+  "recorded/by": "node:did:key:z6MkNodeExample",
+  "recorded/at": "2026-07-09T12:00:01Z",
+  "policy/decision-ref": "policy-decision:01K081ALLOW",
+  "effect/refs": ["delivery:01K081DELIVERY"],
+  "outcome/refs": ["artifact-delivery-outcome:01K081OUTCOME"],
+  "previous/receipt-ref": "execution-receipt:01K080PREV",
+  "diagnostics": {
+    "summary": "delivered through configured Artifact Delivery profile"
+  }
+}

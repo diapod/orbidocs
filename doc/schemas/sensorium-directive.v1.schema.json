@@ -40,6 +40,10 @@
       "format": "date-time",
       "description": "RFC 3339 timestamp at which the issuer produced this directive."
     },
+    "causal/context": {
+      "$ref": "causal-context.v1.schema.json",
+      "description": "Optional upstream P081 causal context. Sensorium derives a host-owned directive operation context from this evidence."
+    },
     "issuer": {
       "type": "object",
       "description": "Identity of the invoking party. participant/did:key is the sovereign identity axis; module_id identifies the local module when applicable. At least one of participant/did:key or module_id MUST be present.",

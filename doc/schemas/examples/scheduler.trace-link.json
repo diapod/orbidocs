@@ -1,0 +1,9 @@
+{
+  "schema": "trace-link.v1",
+  "schema/v": 1,
+  "from/event-id": "trace-event:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "to/event-id": "trace-event:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "relation": "continued-by",
+  "confidence": "strong",
+  "basis": ["previous/receipt-ref"]
+}

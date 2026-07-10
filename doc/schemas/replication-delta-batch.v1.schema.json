@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:replication-delta-batch:v1",
+  "title": "ReplicationDeltaBatch v1",
+  "description": "Bounded batch of replication candidate facts. Each item remains independently schema-gated and admitted by its domain.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"],
+  "required": ["schema", "schema/v", "batch/id", "request/ref", "dataset/id", "items", "complete", "batch/digest"],
+  "properties": {
+    "schema": { "const": "replication-delta-batch.v1" },
+    "schema/v": { "const": 1 },
+    "batch/id": { "type": "string", "pattern": "^replication-batch:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "request/ref": { "type": "string", "pattern": "^replication-request:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "dataset/id": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[^\\s]+$" },
+    "items": {
+      "type": "array",
+      "maxItems": 1024,
+      "items": { "$ref": "#/$defs/item" }
+    },
+    "next/cursor": { "$ref": "#/$defs/cursor" },
+    "complete": { "type": "boolean" },
+    "batch/digest": { "$ref": "#/$defs/sha256_digest" },
+    "signature": { "type": "object", "additionalProperties": true }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item/id", "item/kind", "artifact/schema", "artifact/digest", "origin/node-id", "sequence/ref", "artifact"],
+      "properties": {
+        "item/id": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\s]+$" },
+        "item/kind": { "type": "string", "enum": ["fact", "tombstone"] },
+        "artifact/schema": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[A-Za-z0-9_.-]+\\.v[0-9]+$" },
+        "artifact/digest": { "$ref": "#/$defs/sha256_digest" },
+        "origin/node-id": { "type": "string", "pattern": "^node:[^\\s]+$", "maxLength": 256 },
+        "sequence/ref": { "$ref": "#/$defs/cursor" },
+        "artifact": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "cursor": { "type": "string", "pattern": "^cursor:[a-z][a-z0-9-]{0,63}:[^\\s]+$", "maxLength": 600 },
+    "sha256_digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{32,}$", "maxLength": 128 }
+  }
+}

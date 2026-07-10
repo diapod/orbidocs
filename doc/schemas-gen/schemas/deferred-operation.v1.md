@@ -26,6 +26,7 @@ Initial 202 Accepted control payload for an explicitly opted-in deferred operati
 | [`cancel_href`](#field-cancel-href) | `no` | string | Optional local cancel endpoint. Absence means cancellation is unsupported for this operation kind. |
 | [`cancel/unavailable-reason`](#field-cancel-unavailable-reason) | `no` | string | Reason cancellation is not available for this operation. Exactly one of cancel_href or cancel/unavailable-reason MUST be present. |
 | [`correlation/id`](#field-correlation-id) | `no` | string | Optional correlation id from the parent flow or workflow. |
+| [`causal/context`](#field-causal-context) | `no` | ref: `causal-context.v1.schema.json` | Optional canonical P081 causal context preserved across the deferred operation boundary. |
 | [`audit/outcome-ref`](#field-audit-outcome-ref) | `no` | string | Optional reference to the host/runtime audit outcome that recorded acceptance of this deferred operation. |
 | [`continuation`](#field-continuation) | `no` | object | Explicit serializable continuation context. It is a host/runtime value, not a captured language stack. |
 | [`diagnostics`](#field-diagnostics) | `no` | array | Optional diagnostics for operator and caller visibility. |
@@ -127,6 +128,14 @@ Reason cancellation is not available for this operation. Exactly one of cancel_h
 - Shape: string
 
 Optional correlation id from the parent flow or workflow.
+
+<a id="field-causal-context"></a>
+## `causal/context`
+
+- Required: `no`
+- Shape: ref: `causal-context.v1.schema.json`
+
+Optional canonical P081 causal context preserved across the deferred operation boundary.
 
 <a id="field-audit-outcome-ref"></a>
 ## `audit/outcome-ref`

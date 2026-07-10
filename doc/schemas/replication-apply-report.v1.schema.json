@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:replication-apply-report:v1",
+  "title": "ReplicationApplyReport v1",
+  "description": "Redacted bounded apply report for a replication batch.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"],
+  "required": ["schema", "schema/v", "report/id", "batch/ref", "outcomes", "recorded/at"],
+  "properties": {
+    "schema": { "const": "replication-apply-report.v1" },
+    "schema/v": { "const": 1 },
+    "report/id": { "type": "string", "pattern": "^replication-apply-report:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "batch/ref": { "type": "string", "pattern": "^replication-batch:[A-Za-z0-9:_-]+$", "maxLength": 180 },
+    "outcomes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inserted", "replaced", "stale", "rejected"],
+      "properties": {
+        "inserted": { "type": "integer", "minimum": 0 },
+        "replaced": { "type": "integer", "minimum": 0 },
+        "stale": { "type": "integer", "minimum": 0 },
+        "rejected": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "refusals": {
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item/id", "reason/code"],
+        "properties": {
+          "item/id": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\s]+$" },
+          "reason/code": { "type": "string", "minLength": 1, "maxLength": 120, "pattern": "^[a-z0-9][a-z0-9/-]*$" },
+          "reason/ref": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\s]+$" }
+        }
+      }
+    },
+    "accepted/cursor": { "$ref": "#/$defs/cursor" },
+    "retry/advice": { "$ref": "#/$defs/retry_advice" },
+    "recorded/at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "cursor": { "type": "string", "pattern": "^cursor:[a-z][a-z0-9-]{0,63}:[^\\s]+$", "maxLength": 600 },
+    "retry_advice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retryable"],
+      "properties": {
+        "retryable": { "type": "boolean" },
+        "after": { "type": "string", "format": "date-time" },
+        "reason/code": { "type": "string", "minLength": 1, "maxLength": 120, "pattern": "^[a-z0-9][a-z0-9/-]*$" }
+      }
+    }
+  }
+}

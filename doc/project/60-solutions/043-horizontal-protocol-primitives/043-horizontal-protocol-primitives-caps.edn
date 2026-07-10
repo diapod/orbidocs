@@ -1,0 +1,134 @@
+{:component/id :orbiplex/horizontal-protocol-primitives
+ :component/title "Horizontal Protocol Primitives"
+ :component/type :protocol-primitives
+ :component/status :done
+
+ :summary
+ "Three separate evidence surfaces for canonical causality, bounded fact
+ replication, and scoped nym claims without centralizing domain authority."
+
+ :must-implement
+ [{:cap/id :canonical-causal-context
+   :title "Canonical Causal Context and Receipts"
+   :kind :protocol-evidence
+   :based-on ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"
+              "doc/project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md"]
+   :schemas ["causal-context.v1"
+             "execution-receipt.v1"
+             "trace-event.v1"
+             "trace-link.v1"]
+   :responsibilities
+   ["Derive deterministic root child and fan-in contexts"
+    "Keep correlation operation parent and causation identifiers distinct"
+    "Compute component-domain-separated deterministic receipt identifiers"
+    "Append immutable bodyless receipts at authority and effect boundaries"
+    "Project explicit receipt links into redacted trace read models"
+    "Keep causal evidence non-authoritative"]
+   :status :done
+   :status-detail "Scheduler, Bounded Deferred Operations, Artifact Delivery, and Sensorium consume one receipt-id contract; trace-explorer-core consumes their canonical receipts."}
+
+  {:cap/id :bounded-fact-replication
+   :title "Bounded Fact Replication"
+   :kind :replication-mechanics
+   :based-on ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"
+              "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"
+              "doc/project/40-proposals/054-user-maintained-federated-seed-directory.md"
+              "doc/project/40-proposals/058-contact-catalog.md"]
+   :schemas ["replication-summary.v1"
+             "replication-delta-request.v1"
+             "replication-delta-batch.v1"
+             "replication-apply-report.v1"]
+   :responsibilities
+   ["Plan bounded contiguous deltas over opaque cursors"
+    "Verify canonical artifact and ordered batch digests"
+    "Reject rollback retention gaps route loops and limit violations"
+    "Report partial apply without absorbing domain merge policy"
+    "Keep transport source distinct from fact authority"]
+   :status :done
+   :status-detail "Contact Catalog trusted-provider sync and Seed Directory capability/revocation lanes prove the shared boundary."}
+
+  {:cap/id :scoped-nym-claims
+   :title "Scoped Nym Claims"
+   :kind :privacy-evidence
+   :based-on ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"
+              "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/40-proposals/070-room-primitive.md"]
+   :schemas ["scoped-claim-request.v1"
+             "scoped-claim-presentation.v1"
+             "scoped-claim-type-registry.v1"
+             "nym-authorship-proof.v1"]
+   :responsibilities
+   ["Bind proof verification to audience context nonce digest and expiry"
+    "Dispatch only registered proof suites and claim predicates"
+    "Persist bounded nonce replay state through process restart"
+    "Verify trusted Ed25519 nym certificates and fresh revocation evidence"
+    "Reject nullifiers unsupported by the first suite"
+    "Return evidence to Agora and Room without granting local authorization"]
+   :status :done
+   :status-detail "The Ed25519 certificate suite, durable replay runtime, Agora ingest consumer, and Room admission consumer are implemented and refusal-tested."}
+
+  {:cap/id :p081-acceptance-trace
+   :title "P081 Acceptance and Redacted Trace"
+   :kind :acceptance
+   :based-on ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"
+              "doc/project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md"]
+   :schemas ["trace-event.v1"
+             "causal-context.v1"]
+   :responsibilities
+   ["Run the hard-MVP causal replication and scoped-claim failure matrix"
+    "Exercise restart resume digest mismatch replay expiry and stale revocation"
+    "Emit metadata-only trace events and output digests"
+    "Omit raw command output payloads secrets and local paths"]
+   :status :done
+   :status-detail "The repeatable 13-check acceptance runner includes one integrated Scheduler to Artifact Delivery to Sensorium causal chain, passes from clean test stores, and emits one redacted bundle per run."}]
+
+ :may-implement
+ [{:cap/id :advanced-replication-profiles
+   :title "Merkle and Cross-Relay Replication Profiles"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"]
+   :schemas []
+   :responsibilities
+   ["Add measured Merkle or range-digest profiles"
+    "Add Agora cross-relay anti-entropy without changing domain authority"]
+   :status :deferred}
+
+  {:cap/id :anonymous-credential-suites
+   :title "Stronger Anonymous-Credential Suites"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"]
+   :schemas ["scoped-claim-presentation.v1"]
+   :responsibilities
+   ["Add independently reviewed unlinkable proof suites"
+    "Define suite-specific non-revocation and nullifier contracts"]
+   :status :deferred}
+
+  {:cap/id :signed-revocation-snapshot-admission
+   :title "Signed Revocation Snapshot Admission"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/081-horizontal-protocol-primitives.md"]
+   :schemas []
+   :responsibilities
+   ["Choose the host-owned signature verification boundary"
+    "Bind revocation evidence refs to authenticated snapshot bytes"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Authorizing operations from causal metadata"
+  "Treating replication sources as fact authorities"
+  "Replacing domain merge policy with a generic framework"
+  "Marketing the first certificate suite as zero knowledge"
+  "Creating a global trace transaction or nonce service"]
+
+ :consumes
+ ["domain operations and receipts"
+  "signed Contact Catalog and Seed Directory facts"
+  "nym certificates and revocation evidence"
+  "domain-local admission policy"]
+
+ :produces
+ ["canonical causal evidence"
+  "bounded replication plans and apply reports"
+  "verified scoped-claim evidence"
+  "redacted acceptance trace bundles"]}

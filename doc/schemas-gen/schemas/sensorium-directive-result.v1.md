@@ -28,6 +28,8 @@ Response envelope returned by sensorium-core to the consumer that submitted a se
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Schema version. |
 | [`directive/id`](#field-directive-id) | `yes` | string | Echo of the directive/id from the originating sensorium-directive.v1. |
 | [`correlation/id`](#field-correlation-id) | `no` | string | Optional echo of the correlation/id from the directive, when present, so callers can confirm the response belongs to the expected workflow/thread without fetching the outcome record. |
+| [`causal/context`](#field-causal-context) | `no` | ref: `causal-context.v1.schema.json` | Host-derived P081 context echoed from the durable Sensorium outcome. |
+| [`execution/receipt-ref`](#field-execution-receipt-ref) | `no` | string | Reference to the immutable execution receipt stored in the Sensorium audit outcome. |
 | [`status`](#field-status) | `yes` | enum: `admitted`, `completed`, `failed`, `timed_out`, `rejected` | Final status for sync mode; initial status for async mode (typically admitted). rejected indicates the directive was refused at admission (policy, allowlist, or schema validation); in that case outcome/id is present and observation/ids is empty. |
 | [`result`](#field-result) | `no` | unspecified | Typed per action_id. Shape defined by the allowlist entry's result_schema. Absent or null for rejected responses and admitted/async responses. |
 | [`outcome/id`](#field-outcome-id) | `yes` | string | Identifier of the sensorium-directive-outcome.v1 audit record. Always present. Outcome records are audit-only and are NOT published to the local Agora bus; they are reachable only through host-owned audit capabilities. |
@@ -108,6 +110,22 @@ Echo of the directive/id from the originating sensorium-directive.v1.
 - Shape: string
 
 Optional echo of the correlation/id from the directive, when present, so callers can confirm the response belongs to the expected workflow/thread without fetching the outcome record.
+
+<a id="field-causal-context"></a>
+## `causal/context`
+
+- Required: `no`
+- Shape: ref: `causal-context.v1.schema.json`
+
+Host-derived P081 context echoed from the durable Sensorium outcome.
+
+<a id="field-execution-receipt-ref"></a>
+## `execution/receipt-ref`
+
+- Required: `no`
+- Shape: string
+
+Reference to the immutable execution receipt stored in the Sensorium audit outcome.
 
 <a id="field-status"></a>
 ## `status`

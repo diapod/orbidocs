@@ -43,6 +43,14 @@
       "type": "string",
       "description": "Optional opaque id threading this directive outcome through a higher-level plan or workflow."
     },
+    "causal/context": {
+      "$ref": "causal-context.v1.schema.json",
+      "description": "Host-derived P081 context for this Sensorium directive operation."
+    },
+    "execution/receipt": {
+      "$ref": "execution-receipt.v1.schema.json",
+      "description": "Immutable P081 receipt linking the directive effect to this outcome."
+    },
     "outcome/status": {
       "type": "string",
       "enum": [

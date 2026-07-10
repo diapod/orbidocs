@@ -1,0 +1,40 @@
+{
+  "schema": "replication-delta-batch.v1",
+  "schema/v": 1,
+  "batch/id": "replication-batch:01K081BATCH",
+  "request/ref": "replication-request:01K081REQ",
+  "dataset/id": "seed-directory:revocations",
+  "items": [
+    {
+      "item/id": "revocation:01K081REVOKE",
+      "item/kind": "fact",
+      "artifact/schema": "capability-passport-revocation.v1",
+      "artifact/digest": "sha256:ccccccccccccccccccccccccccccccccccccccccccc",
+      "origin/node-id": "node:did:key:z6MkSeedDirectory",
+      "sequence/ref": "cursor:opaque:revocations-00041",
+      "artifact": {
+        "schema/v": 1,
+        "revocation/id": "revocation:01K081REVOKE"
+      }
+    },
+    {
+      "item/id": "tombstone:01K081TOMB",
+      "item/kind": "tombstone",
+      "artifact/schema": "capability-passport-revocation.v1",
+      "artifact/digest": "sha256:ddddddddddddddddddddddddddddddddddddddddddd",
+      "origin/node-id": "node:did:key:z6MkSeedDirectory",
+      "sequence/ref": "cursor:opaque:revocations-00042",
+      "artifact": {
+        "schema/v": 1,
+        "tombstone/id": "tombstone:01K081TOMB"
+      }
+    }
+  ],
+  "next/cursor": "cursor:opaque:revocations-00042",
+  "complete": false,
+  "batch/digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "signature": {
+    "alg": "ed25519",
+    "value": "base64url:signature"
+  }
+}

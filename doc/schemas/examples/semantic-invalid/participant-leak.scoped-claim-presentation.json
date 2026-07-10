@@ -1,0 +1,27 @@
+{
+  "schema": "scoped-claim-presentation.v1",
+  "schema/v": 1,
+  "presentation/id": "scoped-claim-presentation:01K081CLAIMPRES",
+  "request/ref": "scoped-claim-request:01K081CLAIMREQ",
+  "request/digest": "sha256:fffffffffffffffffffffffffffffffffffffffffff",
+  "subject/kind": "nym",
+  "subject/id": "nym:did:key:z6MkNymExample",
+  "audience": "room-membership-admission",
+  "context/domain": "room:nym:z6MkAuthority:01JROOM",
+  "nonce": "base64url:aaaaaaaaaaaaaaaaaaaaaa",
+  "claims/proven": [
+    {
+      "claim/type": "nym/certificate-current",
+      "predicate": "equals",
+      "value": true
+    }
+  ],
+  "proof/suite": "orbiplex.nym-ed25519-cert.v1",
+  "proof/material": {
+    "debug/participant-ref": "participant:did:key:z6MkRootShouldNotLeak"
+  },
+  "linkability/scope": "group-scoped",
+  "nullifier": null,
+  "issued/at": "2026-07-09T12:00:03Z",
+  "expires/at": "2026-07-09T12:01:00Z"
+}

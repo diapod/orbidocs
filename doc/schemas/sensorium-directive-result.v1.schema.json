@@ -36,6 +36,15 @@
       "type": "string",
       "description": "Optional echo of the correlation/id from the directive, when present, so callers can confirm the response belongs to the expected workflow/thread without fetching the outcome record."
     },
+    "causal/context": {
+      "$ref": "causal-context.v1.schema.json",
+      "description": "Host-derived P081 context echoed from the durable Sensorium outcome."
+    },
+    "execution/receipt-ref": {
+      "type": "string",
+      "pattern": "^execution-receipt:[A-Za-z0-9:_-]+$",
+      "description": "Reference to the immutable execution receipt stored in the Sensorium audit outcome."
+    },
     "status": {
       "type": "string",
       "enum": [

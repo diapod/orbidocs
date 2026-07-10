@@ -1,0 +1,18 @@
+{
+  "schema": "scoped-claim-request.v1",
+  "schema/v": 1,
+  "request/id": "scoped-claim-request:01K081CLAIMREQ",
+  "audience": "room-membership-admission",
+  "context/domain": "room:nym:z6MkAuthority:01JROOM",
+  "nonce": "base64url:aaaaaaaaaaaaaaaaaaaaaa",
+  "claims/requested": [
+    {
+      "claim/type": "nym/certificate-current",
+      "predicate": "equals",
+      "value": true
+    }
+  ],
+  "linkability/max": "group-scoped",
+  "issued/at": "2026-07-09T12:00:00Z",
+  "expires/at": "2026-07-09T12:01:00Z"
+}

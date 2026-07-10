@@ -1,0 +1,25 @@
+{
+  "schema": "replication-apply-report.v1",
+  "schema/v": 1,
+  "report/id": "replication-apply-report:01K081REPORT",
+  "batch/ref": "replication-batch:01K081BATCH",
+  "outcomes": {
+    "inserted": 1,
+    "replaced": 0,
+    "stale": 0,
+    "rejected": 1
+  },
+  "refusals": [
+    {
+      "item/id": "revocation:01K081BAD",
+      "reason/code": "signature-invalid"
+    }
+  ],
+  "accepted/cursor": "cursor:opaque:revocations-00041",
+  "retry/advice": {
+    "retryable": true,
+    "after": "2026-07-09T12:01:00Z",
+    "reason/code": "replication/retention-gap"
+  },
+  "recorded/at": "2026-07-09T12:00:02Z"
+}

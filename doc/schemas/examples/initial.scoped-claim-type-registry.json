@@ -1,0 +1,21 @@
+{
+  "schema": "scoped-claim-type-registry.v1",
+  "schema/v": 1,
+  "registry/id": "scoped-claim-type-registry:p081-initial",
+  "entries": [
+    {
+      "claim/type": "nym/certificate-current",
+      "status": "active",
+      "predicates": ["equals"],
+      "proof/suites": ["orbiplex.nym-ed25519-cert.v1"],
+      "description": "The nym certificate is fresh under the configured issuer policy and the presenter controls the certified nym key."
+    },
+    {
+      "claim/type": "nym/context-authorized",
+      "status": "active",
+      "predicates": ["equals"],
+      "proof/suites": ["orbiplex.nym-ed25519-cert.v1"],
+      "description": "The existing nym-certificate scope covers the requested audience and context."
+    }
+  ]
+}

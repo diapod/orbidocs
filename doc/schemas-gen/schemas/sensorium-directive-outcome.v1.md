@@ -36,6 +36,8 @@ Audit-only outcome record for a sensorium-directive.v1. Exactly one outcome reco
 | [`outcome/id`](#field-outcome-id) | `yes` | string | Opaque audit outcome id assigned by sensorium-core; recommended to be ULID-prefixed. |
 | [`directive/id`](#field-directive-id) | `yes` | string | Identifier of the originating sensorium-directive.v1. |
 | [`correlation/id`](#field-correlation-id) | `no` | string | Optional opaque id threading this directive outcome through a higher-level plan or workflow. |
+| [`causal/context`](#field-causal-context) | `no` | ref: `causal-context.v1.schema.json` | Host-derived P081 context for this Sensorium directive operation. |
+| [`execution/receipt`](#field-execution-receipt) | `no` | ref: `execution-receipt.v1.schema.json` | Immutable P081 receipt linking the directive effect to this outcome. |
 | [`outcome/status`](#field-outcome-status) | `yes` | enum: `admitted`, `completed`, `failed`, `timed_out`, `rejected` | Directive outcome status. admitted is used for async acceptance before final execution result is known. |
 | [`outcome/recorded_at`](#field-outcome-recorded-at) | `yes` | string | RFC 3339 timestamp at which sensorium-core wrote the outcome record. |
 | [`directive/issued_at`](#field-directive-issued-at) | `no` | string | RFC 3339 timestamp copied from the directive when available. |
@@ -106,6 +108,22 @@ Identifier of the originating sensorium-directive.v1.
 - Shape: string
 
 Optional opaque id threading this directive outcome through a higher-level plan or workflow.
+
+<a id="field-causal-context"></a>
+## `causal/context`
+
+- Required: `no`
+- Shape: ref: `causal-context.v1.schema.json`
+
+Host-derived P081 context for this Sensorium directive operation.
+
+<a id="field-execution-receipt"></a>
+## `execution/receipt`
+
+- Required: `no`
+- Shape: ref: `execution-receipt.v1.schema.json`
+
+Immutable P081 receipt linking the directive effect to this outcome.
 
 <a id="field-outcome-status"></a>
 ## `outcome/status`

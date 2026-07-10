@@ -1,0 +1,28 @@
+{
+  "schema": "causal-context.v1",
+  "schema/v": 1,
+  "context/id": "causal-context:01K081OVERFLOW",
+  "correlation/id": "corr:story011:overflow",
+  "operation/id": "operation:01K081OVERFLOW",
+  "causation/refs": [
+    "execution-receipt:01K081P01",
+    "execution-receipt:01K081P02",
+    "execution-receipt:01K081P03",
+    "execution-receipt:01K081P04",
+    "execution-receipt:01K081P05",
+    "execution-receipt:01K081P06",
+    "execution-receipt:01K081P07",
+    "execution-receipt:01K081P08",
+    "execution-receipt:01K081P09",
+    "execution-receipt:01K081P10",
+    "execution-receipt:01K081P11",
+    "execution-receipt:01K081P12",
+    "execution-receipt:01K081P13",
+    "execution-receipt:01K081P14",
+    "execution-receipt:01K081P15",
+    "execution-receipt:01K081P16",
+    "execution-receipt:01K081P17"
+  ],
+  "origin/actor-ref": "component:arca",
+  "created/at": "2026-07-09T12:00:00Z"
+}

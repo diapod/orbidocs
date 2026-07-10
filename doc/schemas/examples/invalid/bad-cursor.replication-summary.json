@@ -1,0 +1,17 @@
+{
+  "schema": "replication-summary.v1",
+  "schema/v": 1,
+  "summary/id": "replication-summary:01K081SUMMARY",
+  "dataset/id": "seed-directory:revocations",
+  "dataset/epoch": 3,
+  "replication/profile-id": "seed-directory-revocations@v1",
+  "source/node-id": "node:did:key:z6MkSeedDirectory",
+  "high-water/cursor": "42",
+  "records/count": 42,
+  "digest": {
+    "profile": "canonical-sequence-sha256-v1",
+    "value": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "generated/at": "2026-07-09T12:00:00Z",
+  "expires/at": "2026-07-09T12:05:00Z"
+}
