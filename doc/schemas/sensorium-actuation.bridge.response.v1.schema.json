@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-actuation.bridge.response:v1",
+  "title": "Sensorium Actuation Bridge Response v1",
+  "description": "Fail-closed response from the sensorium-actuation-core companion process.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "status", "diagnostics"],
+  "properties": {
+    "schema": { "const": "sensorium-actuation.bridge.response.v1" },
+    "schema/v": { "const": 1 },
+    "status": { "enum": ["ok", "refused"] },
+    "result": { "type": "object" },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["level", "code", "message"],
+        "properties": {
+          "level": { "enum": ["error", "warning", "info"] },
+          "code": { "type": "string", "minLength": 1 },
+          "message": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "ok" } } },
+      "then": { "required": ["result"] }
+    },
+    {
+      "if": { "properties": { "status": { "const": "refused" } } },
+      "then": { "properties": { "diagnostics": { "minItems": 1 } } }
+    }
+  ]
+}

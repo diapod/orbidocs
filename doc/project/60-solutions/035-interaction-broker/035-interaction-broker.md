@@ -21,7 +21,7 @@ Related schemas:
 
 ## Status
 
-Partial foundation
+Implemented current provider foundation
 
 ## Date
 
@@ -57,8 +57,11 @@ Startup recovery now classifies interrupted broker resources as `expired`,
 `failed-retryable`, or `unknown`, idempotency replay can return recovered
 terminal outcomes, bounded retention preserves active work while pruning old
 terminal records/audit events, and local-control APIs can register/update
-dynamic non-Workbench source-provider metadata. Executable AD, Memarium,
-approval, and other non-Workbench source adapters remain incomplete.
+dynamic non-Workbench source-provider metadata. Native Artifact Delivery,
+operator approval/consent, and Memarium-query adapters now expose bounded
+snapshots, stable cursors, and executable wait/watch/probe behavior. The broker
+status aggregates provider health and remediation paths, and node-ui exposes
+that operator projection.
 
 ## Context And Problem Statement
 
@@ -257,9 +260,11 @@ Responsibilities:
 
 Status:
 
-- `partial`: `node:interaction-broker-core` exists and the daemon wires a first
-  runtime slice for wait/watch/probe admission, broker persistence, operator
-  read APIs, and deferred-operation-backed `OperationDone` waits.
+- `implemented`: `node:interaction-broker-core` validates the frozen broker
+  contracts, bounds provider outcomes, rejects cursor/source and scope
+  mismatches, and projects completed long waits through
+  `deferred-operation-status.v1`. The daemon exercises those contracts through
+  wait/watch/probe admission and provider conformance tests.
 
 ### Host Broker Runtime
 
@@ -284,7 +289,7 @@ Responsibilities:
 
 Status:
 
-- `partial`: the daemon owns an in-process broker runtime, SQLite broker store,
+- `implemented`: the daemon owns an in-process broker runtime, SQLite broker store,
   host capability dispatch, operator status/read APIs, and Bounded Deferred
   Operation registration/polling for broker-owned async waits. Broker-level
   capability readiness means the daemon can validate and dispatch broker
@@ -310,16 +315,16 @@ Responsibilities:
 
 Status:
 
-- `partial`: the daemon seeds source-provider registry rows for the
+- `implemented` for current source classes: the daemon seeds source-provider registry rows for the
   deferred-operation registry and Workbench terminal/file providers. The
   deferred-operation provider is executable for `OperationDone` waits, and the
   Workbench file-tree provider is live through the Workbench HTTP-local
   `interaction-broker.probe` and `interaction-broker.watch` handlers. The
   Workbench terminal provider is live through the same handlers for liveness and
-  progress probes, terminal waits, and terminal watch batches. Dynamic
-  non-Workbench provider registration/status APIs exist for bounded metadata
-  and readiness reporting; executable AD, Memarium, approval, and other
-  non-Workbench provider adapters remain incomplete.
+  progress probes, terminal waits, and terminal watch batches. Native Artifact
+  Delivery, approval/consent, and Memarium-query providers expose bounded
+  snapshots and stable cursors. Dynamic non-Workbench provider registration and
+  observed-state APIs remain the extension point for additional domains.
 
 ### Operator Surface
 
@@ -339,6 +344,8 @@ maintenance:
   dynamic provider status and returns `{provider_id, status, updated_at}`.
 - `POST /v1/interaction-broker/retention/run` runs the bounded retention sweep
   immediately and returns deleted resource/audit counts plus batch counts.
+- Node UI `/operator/interaction-broker` shows aggregate/provider health,
+  ownership, recent resources, and remediation paths.
 
 Dynamic provider ids must be `provider:<ascii-alnum-dot-underscore-dash>`.
 Built-in provider ids cannot be registered or status-updated through the
@@ -365,30 +372,27 @@ Status:
 
 - `deferred`.
 
-## Open Questions
+## Open Questions (Deferred)
 
-1. Which source provider should be the first runtime consumer after the
-   deferred-operation registry and Workbench terminal/file adapters: Artifact
-   Delivery artifact presence, approvals, or Memarium query state?
-2. Should broker watches use polling only in the first daemon runtime, or should
-   source providers be able to push events into the broker store?
-3. What is the smallest operator UI shape that makes pending waits useful
-   without exposing raw terminal or file content?
-4. What retry/backoff policy should broker-owned deferred waits expose after the
-   first daemon slice: fixed one-second retry hints, bounded exponential backoff,
-   or source-provider supplied retry advice?
-5. Should an `interaction-broker.wait` grant be sufficient for observing an
+1. Should broker watches add provider-pushed events beyond the current bounded
+   snapshot/cursor adapters?
+2. What retry/backoff policy should broker-owned deferred waits expose beyond
+   current bounded retry hints: fixed, bounded exponential, or source advice?
+3. Should an `interaction-broker.wait` grant be sufficient for observing an
    operation owned by another capability, or must the caller also hold an
    intersecting grant for the observed operation's source/effect domain?
-6. Should broker wait `deadline_at` remain a separate broker-resource admission
+4. Should broker wait `deadline_at` remain a separate broker-resource admission
    field beside deferred-operation `expires_at`, or should one timestamp become
    authoritative for async waits?
 
+Resolved for the current slice: Artifact Delivery, approval/consent, and
+Memarium-query providers all ship as native adapters; the first operator UI is
+implemented; provider adapters currently expose bounded snapshot-derived watch
+cursors rather than an unbounded push channel.
+
 ## Next Actions
 
-- Implement the first executable non-Workbench provider adapter, likely Artifact
-  Delivery artifact presence or approval-state observation.
-- Extend conformance tests from core-level schema validation and
-  deferred-operation-backed waits into provider recovery, watch cursors, grants,
-  retention, replay, dynamic provider registration, and Workbench adapter
-  failure behavior.
+- Add native adapters only when another domain has a concrete bounded
+  observation contract; use dynamic registration for experimental sources.
+- Add push delivery only if snapshot/cursor polling proves insufficient under
+  measured workloads, preserving the same retention and replay semantics.

@@ -1,0 +1,30 @@
+{
+  "schema": "sensorium-workbench-tool-request.v1",
+  "schema/v": 1,
+  "source": {
+    "source/kind": "agent",
+    "agent/id": "agent:local-test",
+    "proposal/ref": "agent-effect-proposal:local-test"
+  },
+  "directive": {
+    "schema": "sensorium-directive.v1",
+    "schema/v": 1,
+    "directive/id": "directive:workbench-tool-local-test",
+    "directive/issued_at": "2026-07-09T12:00:00Z",
+    "issuer": {
+      "module_id": "agent-adapter"
+    },
+    "action_id": "sensorium.workbench.file.read",
+    "parameters": {
+      "address": {
+        "workspace/ref": "workspace:local-test",
+        "root/ref": "root:repo",
+        "relative/path": "README.md"
+      }
+    },
+    "timing": {
+      "timeout_ms": 1000,
+      "mode": "sync"
+    }
+  }
+}

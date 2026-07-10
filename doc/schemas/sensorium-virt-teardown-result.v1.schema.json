@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-virt-teardown-result:v1",
+  "title": "Sensorium Virt Teardown Result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["status", "schema", "schema/v", "environment/ref", "lifecycle/status", "cleanup/status", "outcome", "diagnostics"],
+  "properties": {
+    "status": { "const": "ok" },
+    "schema": { "const": "sensorium-virt-teardown-result.v1" },
+    "schema/v": { "const": 1 },
+    "environment/ref": { "type": "string", "minLength": 1 },
+    "lifecycle/status": { "const": "closed" },
+    "cleanup/status": { "const": "completed" },
+    "outcome": { "$ref": "sensorium-workbench-outcome.v1.schema.json" },
+    "diagnostics": { "type": "array" }
+  }
+}

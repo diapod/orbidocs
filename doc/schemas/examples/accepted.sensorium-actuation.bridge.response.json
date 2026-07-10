@@ -1,0 +1,10 @@
+{
+  "schema": "sensorium-actuation.bridge.response.v1",
+  "schema/v": 1,
+  "status": "ok",
+  "result": {
+    "valid": true,
+    "relative/path": "src/main.rs"
+  },
+  "diagnostics": []
+}

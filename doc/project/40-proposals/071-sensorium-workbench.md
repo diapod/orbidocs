@@ -25,21 +25,24 @@ Based on:
 
 ## Status
 
-Accepted / partial implementation foundation.
+Accepted / implemented local foundation.
 
 The settled solution surface is promoted to
 `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`.
 This proposal remains the rationale, design history, resolved-decision log, and
 implementation tracker for Workbench. The promoted solution component owns the
-current solution-level responsibility boundary. The first host-owned operator
-consent spine is implemented for exact Workbench terminal commands: a pure
+current solution-level responsibility boundary. The host-owned operator
+consent spine is implemented for exact and bounded-prefix Workbench terminal
+commands: a pure
 `operator-consent-core` contract crate, daemon-owned consent registry and
 operator APIs, P066 notification/answer reuse, `operator-consent.request.v1`,
 `operator-consent-decision.v1`, `sensorium-workbench.consent-descriptor.v1`,
-and a Workbench exact-argv runtime admission/sidecar path with bounded sidecar
-refresh, active `node-operator-binding.v1` enforcement for answers and
-revocation, durable-grant grantability checks, and inactive-binding diagnostics
-in the effective sidecar projection.
+and Workbench exact-argv/prefix runtime admission with shared append-only sidecar
+merge, bounded refresh, active `node-operator-binding.v1` enforcement for
+answers and revocation, durable-grant grantability checks, inactive-binding
+diagnostics, and dedicated operator UI. Native broker providers, explicit
+artifact handoff, the Rust actuation bridge, a managed fixture-copy virtual
+executor, and Agent/Corpus/Room tool-request lineage are also implemented.
 
 ## Date
 
@@ -1197,6 +1200,12 @@ shape: `schema`, `source_tier`, `effective_tier`, `provenance`,
 | `sensorium-workbench-patch.v1` | Patch proposal artifact and metadata. |
 | `sensorium-workbench-patch-apply-result.v1` | Applied/rejected patch result with changed files and digests. |
 | `sensorium-workbench-outcome.v1` | Host audit fact linking directive id, grant, caller, session/environment refs, status, timing, byte counts, and artifacts. |
+| `sensorium-actuation.bridge.request.v1` | Bounded request from the Python connector to the Rust actuation validator. |
+| `sensorium-actuation.bridge.response.v1` | Fail-closed Rust validation result with typed diagnostics. |
+| `sensorium-virt-workspace-export.v1` | Bounded content bundle exported from a managed virtual workspace. |
+| `sensorium-virt-export-result.v1` | Artifact descriptor and counts produced by explicit virtual workspace export. |
+| `sensorium-virt-teardown-result.v1` | Terminal lifecycle and cleanup result for managed environment teardown. |
+| `sensorium-workbench-tool-request.v1` | Host-verified Agent, Corpus, or Room lineage around a Sensorium Workbench directive. |
 | `capability-authorization-policy.v1` | P072 Phase 4 sidecar for per-capability required grants, caller posture, approval mode, autonomy floor, and COI policy for Workbench and Interaction Broker capability ids. |
 
 Phase 0 schema ownership belongs to the Workbench implementation owner. The owner must
@@ -1344,16 +1353,17 @@ Phase 3A operator-consent slices.
 20. **Hard-MVP documentation visibility.** Workbench foundation appears in hard-MVP
    implementation docs as a planned post-MVP seed. This keeps the runtime boundary
    visible to implementers without claiming that Workbench itself is part of hard-MVP.
-21. **Shared actuation core adoption.** The first implementation keeps Python Sensorium
-   OS as a separately audited reference connector and lets Workbench consume
-   `sensorium-actuation-core` natively. The shared core is the contract plus golden
+21. **Shared actuation core adoption.** Python Sensorium OS remains a separately
+   audited reference connector, while Workbench consumes
+   `sensorium-actuation-core` through a bounded required companion process with
+   no Python validation fallback. The shared core is the contract plus golden
    vectors from day zero, not merely the Rust crate. Canonical rules for path
    canonicalization, symlink escape refusal, allowlists, command profiles, and
    classification must be expressed as data/reference rules with golden vectors. The
    Rust `sensorium-actuation-core` carries those vectors as the reference
-   implementation; Python Sensorium OS must run the same conformance vectors now,
-   without FFI. Direct Python consumption of the Rust core is a tracked later phase,
-   adopted only when the FFI/IPC cost is justified.
+   implementation; Python Sensorium OS must run the same conformance vectors.
+   Workbench uses `sensorium-actuation.bridge.{request,response}.v1` over a
+   64-KiB fail-closed process boundary rather than embedding Rust through FFI.
 22. **Capability registration.** The reserved capability ids are
     `sensorium.workbench.terminal`, `sensorium.workbench.file`,
     `sensorium.workbench.patch`, `sensorium.workbench.env`,
@@ -1391,12 +1401,11 @@ Phase 3A operator-consent slices.
     refuses empty paths, relative paths, duplicate `(workspace/ref, root/ref)`
     pairs, and the filesystem root itself. This does not make the connector a
     general filesystem broker; workspace roots remain operator-scoped grants.
-30. **Command profile validation source.** The Python Workbench connector keeps
-    a deliberately mirrored fail-closed validator in this slice, tightly coupled
-    to shared command-profile golden vectors also consumed by
-    `sensorium-actuation-core`. A Rust CLI/RPC/FFI validator remains a later
-    implementation option, adopted only when the runtime cost and packaging
-    surface are justified by evidence.
+30. **Command profile validation source.** The Python Workbench connector calls
+    the required `orbiplex-sensorium-actuation-contract` companion process for
+    command-profile and relative-path decisions. Missing, malformed, timed-out,
+    or refused responses fail readiness or the affected request closed. Shared
+    golden vectors remain the cross-language conformance layer.
 31. **Terminal capture authorization.** Terminal capture is a terminal read plus
     an artifact write. The session event read requires a
     `sensorium.workbench.terminal` grant scoped to the session, while the
@@ -1450,6 +1459,24 @@ Phase 3A operator-consent slices.
     implementation uses a bounded sidecar refresh TTL, validates the refreshed
     sidecar before use, and consumes the validated projection rather than
     treating a startup snapshot as final.
+37. **Bounded argv-prefix consent.** `remember-argv-prefix` is limited by host
+    caps for fixed prefix length and variable-prefix count. The effective
+    profile is bound to the exact workspace/root/path context reviewed by the
+    operator and may not widen egress, credential environment, timeout, or
+    output-byte policy. Arbitrary executable plus arbitrary argv remains denied.
+38. **First Sensorium Virt executor.** `fixture-copy.v1` is a managed-copy
+    executor, not a process sandbox. It copies a bounded symlink-free source
+    root under the Workbench data directory, permits approved writes only to the
+    managed copy, supports explicit bounded artifact export, and deletes only
+    the managed copy on operator-confirmed teardown. PTY stays unavailable until
+    a backend provides process isolation.
+39. **Product tool-request lineage.** Agent, Corpus, and Room use
+    `sensorium-workbench-tool-request.v1` as an optional request profile of
+    `sensorium.directive.invoke`, not as a direct connector route. The host
+    verifies the admitted effect proposal, active Corpus round, or current
+    execution-derived answer-room membership before stamping lineage and passing the ordinary directive to
+    Sensorium Core. One Agent effect proposal binds to one `directive/id` with
+    replay of that same directive allowed.
 
 ## Next Actions And Implementation Tracker
 
@@ -1466,12 +1493,10 @@ evidence) · `[!]` blocked/needs decision.
   defines Interaction Broker as a horizontal host primitive; the initial unwired
   Rust foundation exists in `node/interaction-broker-core`.
 - [x] Define the shared actuation core boundary consumed by Sensorium OS and
-  Workbench. Initial unwired Rust foundation exists in
-  `node/sensorium-actuation-core`. Decision for this slice: keep Python as a
-  deliberately mirrored validator, but bind it tightly to shared golden vectors.
-  Rust and the Python Workbench connector now both consume the relative-path and
-  command-profile golden vectors; direct FFI/RPC consumption remains a later
-  tracked stability step rather than the first boundary.
+  Workbench. `node/sensorium-actuation-core` owns the Rust reference rules and
+  golden vectors. Workbench invokes its bounded companion-process contract for
+  path and command-profile admission; Python Sensorium OS remains conformance-
+  bound without sharing Workbench process lifecycle.
 - [x] Define `sensorium-workbench-environment.v1`.
 - [x] Define terminal session/command/raw-input/event/snapshot schemas. The accepted
   terminal observation model is a bounded viewport snapshot with cursor and backlog
@@ -1508,26 +1533,30 @@ evidence) · `[!]` blocked/needs decision.
   wait outcome as the result projection, not as a parallel status model.
   `node/interaction-broker-core` contains the conversion helper and consumes the
   shared deferred-operation id validator. Wait outcomes are bounded by host
-  serialized byte/count caps before projection; host registry integration is
-  still not wired.
+  serialized byte/count caps before projection. The daemon broker registers
+  long waits in the host deferred-operation registry and projects their terminal
+  outcomes through the canonical status contract.
 - [x] Decide MVP policy for raw PTY input. Decision: operator-only in MVP.
 - [x] Decide MVP wait conditions and no-progress vocabulary. MVP waits cover process
   exit, stdout/stderr pattern, file exists/changes, and timeout; `maybe_hung` is
   diagnostic only.
-- [~] Define the adversarial actuator test matrix as a required acceptance
+- [x] Define the adversarial actuator test matrix as a required acceptance
   suite. The matrix is now specified as a refusal-first release gate and must be
-  encoded as `sensorium-actuation-core` golden vectors plus Python Sensorium OS
-  conformance tests before write/PTY runtime surfaces are enabled. Initial
+  encoded as `sensorium-actuation-core` golden vectors plus Python connector
+  conformance tests before write/PTY runtime surfaces are enabled. Published
   relative-path and command-profile golden vectors are published and consumed by
   Rust and the Python Workbench connector tests; they reject traversal, embedded
   current-directory components, trailing slash forms, backslash separators,
   missing fixed argv prefixes, disallowed executables, and variable argv atoms
   outside explicit allowlisted prefixes.
-- [~] Enforce the Phase Release Gates before Phase 1+ runtime work: frozen schemas for
+- [x] Enforce the Phase Release Gates before Phase 1+ runtime work: frozen schemas for
   exposed surfaces, registered capabilities, documented storage/recovery contract, and
   executable refusal-first golden vectors for the relevant effect classes.
-- [ ] Track later direct Python Sensorium OS consumption of `sensorium-actuation-core`
-  through binding/RPC only after the Rust core and conformance vectors prove stable.
+- [x] Bind Python Workbench decisions to `sensorium-actuation-core` through a
+  stable process boundary. The required bounded companion-process bridge owns
+  relative-path and command-profile decisions, and the connector fails closed
+  when the bridge is absent, unavailable, times out, or returns a malformed
+  response. Development and test profiles do not enable a Python fallback.
 
 ### Phase 1 - Local Workbench Connector
 
@@ -1537,13 +1566,12 @@ evidence) · `[!]` blocked/needs decision.
   factory config, and daemon factory/inventory coverage. It uses
   `seed_config: false` and remains disabled until an operator configures it.
 - [x] Consume the shared actuation core instead of reimplementing path,
-  command-profile, allowlist, classification, and argv rules. The current
-  connector follows the same conservative path/refusal semantics in Python and
-  is tested against shared relative-path and command-profile golden vectors plus
+  command-profile, allowlist, classification, and argv rules. The connector
+  calls the required Rust companion process for relative-path and command-
+  profile decisions and is tested against shared golden vectors plus
   traversal, root-self, symlink-traversal refusal, oversized reads, dangerous env
-  stripping, and command-profile denial. This is the accepted first implementation
-  shape: a mirrored Python validator tightly coupled to golden vectors; direct
-  binding/RPC to the Rust core remains a later stability step.
+  stripping, command-profile denial, bridge timeout/unavailability, and malformed
+  response refusal.
 - [x] Implement host-local allowlisted workspace environment. The connector
   exposes configured `workspace_roots` as
   `sensorium-workbench-environment.v1`; missing, unavailable, relative,
@@ -1561,11 +1589,13 @@ evidence) · `[!]` blocked/needs decision.
   explicit overload/refusal outcomes. Laptop defaults remain `2` sessions,
   `4` reader tasks, queue depth `256`, and event buffer `1000`; the connector
   also caps command timeout and output bytes.
-- [~] Implement watch cursors for terminal events and operation outcomes. The
+- [x] Implement watch cursors for terminal and generalized source events. The
   connector exposes bounded synthetic/local event cursors for environment/read/probe
-  events and per-session terminal event cursors; local deferred wait status is
-  visible through `/v1/workbench/operation/status`, while generalized operation
-  outcome watches remain tied to later host-broker runtime work.
+  events and per-session terminal event cursors; the host broker adds stable
+  snapshot cursors for file-tree, Artifact Delivery, approval/consent,
+  Memarium-query, and dynamically registered sources. Operation outcomes remain
+  in the canonical deferred-operation status/wait path instead of introducing a
+  second cursor-bearing lifecycle model.
 - [x] Implement short bounded waits for command done, terminal quiescence,
   environment ready, file exists, and artifact present. The connector now has a
   bounded wait path over probe conditions for each MVP condition. Short waits run
@@ -1578,15 +1608,15 @@ evidence) · `[!]` blocked/needs decision.
 - [x] Keep raw PTY input disabled or operator-only until an explicit policy is
   accepted. Raw PTY input is implemented only as an operator-confirmed grant
   path; model-driven raw input remains denied.
-- [~] Implement TTL, idle timeout, byte caps, process cleanup, and refusal
+- [x] Implement TTL, idle timeout, byte caps, process cleanup, and refusal
   diagnostics. Request body caps, file read byte caps, terminal command timeout,
   command output byte caps, session caps, process termination on close/timeout,
   startup orphan process signaling, event payload caps, SQLite retention cleanup,
   typed refusal diagnostics, and opt-in `terminal_idle_timeout_ms` idle cleanup
   for open non-running sessions on terminal admission paths exist. `/v1/status`
-  remains a read-only projection and does not close sessions. Running commands
-  remain governed by `command_timeout_ms`, explicit close, or operator signal
-  rather than idle sweep.
+  remains a read-only projection and does not close sessions. By policy,
+  running commands are governed by `command_timeout_ms`, explicit close, or
+  operator signal rather than an idle sweep.
 - [x] Implement file snapshot and bounded file read. Snapshot lists symlinks as
   metadata without following them; reads refuse symlink traversal and files over
   the host read cap.
@@ -1598,7 +1628,7 @@ evidence) · `[!]` blocked/needs decision.
   edits before applying them, rolls back previously applied structured writes
   on later write failure, records metadata-only outcomes, and uses the same
   workspace containment and symlink checks as reads.
-- [~] Use Bounded Deferred Operations for environment setup or command runs that
+- [x] Use Bounded Deferred Operations for environment setup or command runs that
   outlive one HTTP request. The current terminal command endpoint returns
   `202 accepted` and exposes event/wait polling. Async waits now return the
   canonical `deferred-operation.v1` / `deferred-operation-status.v1` shapes,
@@ -1618,8 +1648,8 @@ evidence) · `[!]` blocked/needs decision.
   `command.done` events now carry `signal_origin` so timeout-driven `SIGTERM`,
   operator cancel, and ordinary process exit remain distinguishable in the event
   stream.
-- [~] Run the adversarial actuator test matrix before enabling write or PTY
-  features by default. The current test slice covers traversal, root self,
+- [x] Run the adversarial actuator test matrix before enabling write or PTY
+  features by default. The executable conformance and acceptance suites cover traversal, root self,
   symlink traversal, oversized files, grant-required mediated read, command
   profile denial including variable argv beyond a fixed prefix, dangerous env
   override stripping, credential-like env override refusal before command start,
@@ -1635,10 +1665,10 @@ evidence) · `[!]` blocked/needs decision.
   terminal command/cancel/capture/artifact/patch effects, an executable PTY story
   smoke, a Python Workbench actuation conformance runner against shared golden
   vectors, and the daemon rule that Inquirium cannot directly invoke Sensorium
-  connectors. It now also covers a `virtualized-workspace` backend fixture that
-  keeps bounded file source-provider reads/probes adversarial while refusing
-  PTY, patch, and write effects fail-closed. Concrete virtualized executor
-  backends remain future work.
+  connectors. It now also covers the `fixture-virtual-workspace` managed-copy
+  executor: source-copy caps and symlink refusal, approved patching only in the
+  copy, bounded export, source immutability, persisted lifecycle, idempotent
+  teardown, and PTY refusal without process isolation.
 
 ### Phase 2 - Sensorium Integration
 
@@ -1646,7 +1676,7 @@ evidence) · `[!]` blocked/needs decision.
   connector exposes `/v1/sensorium/connector/invoke` and Workbench action ids
   for Sensorium Core mediated routing; Sensorium Core already dispatches
   allowlisted connector directives with directive metadata and idempotency.
-- [~] Route cross-source waits through the host interaction broker rather than
+- [x] Route cross-source waits through the host interaction broker rather than
   making Sensorium Core own AD, Memarium, approval, or deferred-operation joins.
   The daemon broker now owns grant-context admission for JSON-e/module
   wait/watch/probe calls through daemon-issued host-local HMAC grant material
@@ -1657,10 +1687,10 @@ evidence) · `[!]` blocked/needs decision.
   Dynamic non-Workbench provider registration/status APIs now exist with
   bounded observed-state joins for artifact, environment, approval, and
   Memarium-query providers, including `approval-state` and
-  `memarium-query-state` wait conditions. Domain-native AD, Memarium, approval,
-  and other non-Workbench provider adapters beyond this dynamic join surface
-  remain open.
-- [~] Add grant and policy checks for terminal command, terminal raw input,
+  `memarium-query-state` wait conditions. Domain-native Artifact Delivery,
+  approval/consent, and Memarium-query providers now expose bounded snapshots
+  and stable watch cursors; other domains join through dynamic registration.
+- [x] Add grant and policy checks for terminal command, terminal raw input,
   file snapshot, file read, and patch apply. The connector enforces explicit
   grant envelopes for mediated file/probe/watch/wait actions and terminal
   actions; raw input, resize, and signal additionally require operator
@@ -1674,30 +1704,33 @@ evidence) · `[!]` blocked/needs decision.
   now carries required grants, caller posture, approval mode, autonomy floor, and
   COI policy for the P071 Workbench and Interaction Broker capability ids; P072
   Phase 4 is marked landed against this contract.
-- [~] Record directive outcomes and metadata-only traces. Terminal runtime now
+- [x] Record directive outcomes and metadata-only traces. Terminal runtime now
   records sessions, commands, events, terminal captures, local artifacts,
   connector-local deferred waits, patch applications, idempotency replay
   records with bounded replay TTLs, startup recovery diagnostics, lifecycle
   diagnostics, and metadata-only outcomes durably in connector SQLite or bounded
-  in-process operator status. Host audit projection of those facts remains
-  future. Session refs are retired after first use to keep the audit trail
-  unambiguous.
+  in-process operator status. Host broker audit and explicit artifact handoff
+  audit are implemented. Session refs are retired after first use to keep the
+  audit trail unambiguous.
 - [x] Add operator status/control surfaces for active sessions and sandboxes.
   `/v1/status` reports terminal enablement, PTY caps, active session count,
   session summaries, startup recovery diagnostics, lifecycle diagnostics, and
   idle-closed session diagnostics when admission paths sweep sessions under
   configured `terminal_idle_timeout_ms`; the status endpoint itself stays
-  read-only. Session close is an explicit control surface. Sandboxes remain
-  future virtualized backend work.
-- [~] Expose active waits, watches, deadlines, and suspected no-progress states
+  read-only. Session close and managed virtual-environment teardown are explicit
+  control surfaces.
+- [x] Expose active waits, watches, deadlines, and suspected no-progress states
   in operator status. Event cursors, command status, connector-local active wait
-  count/status, no-progress probe diagnostics, and host-broker status/providers/
-  resource read APIs are exposed. Rich operator UX over host-broker state
-  remains future.
-- [~] Link captured outputs through Artifact Delivery or Memarium only under
+  count/status, no-progress probe diagnostics, host-broker status/providers/
+  resource read APIs, provider health, ownership, recent resources, and
+  remediation paths are exposed in node-ui.
+- [x] Link captured outputs through Artifact Delivery or Memarium only under
   explicit classification and retention policy. Terminal capture now writes a
-  bounded local artifact descriptor with classification and provenance; AD or
-  Memarium admission remains a separate explicit future handoff.
+  bounded local artifact descriptor with classification and provenance. The
+  daemon verifies bytes and descriptor digest/size before explicit idempotent
+  Artifact Delivery resolver and/or metadata-only Memarium handoff.
+  Handoff replay binds `idempotency/key` to both the normalized request and
+  `correlation/id`, preventing retries from being attributed to another trace.
 
 ### Phase 3 - Inquirium/JSON-e Flow Integration
 
@@ -1727,6 +1760,13 @@ evidence) · `[!]` blocked/needs decision.
   Python connector against shared relative-path and command-profile golden
   vectors plus runtime refusal invariants for command profile, no-egress, and
   credential-env denial.
+- [x] Add the shared Agent/Corpus/Room Workbench tool-request boundary.
+  `sensorium-workbench-tool-request.v1` wraps an ordinary
+  `sensorium.directive.invoke` request. The daemon verifies Agent proposal and
+  parameter digest, active Corpus round ownership, or current execution-derived
+  answer-room membership,
+  stamps host-owned lineage, and then uses Sensorium Core. It never exposes a
+  direct Workbench connector route to those products.
 
 ### Phase 3A - Host-Owned Operator Consent For Allowlist Deltas
 
@@ -1768,16 +1808,16 @@ evidence) · `[!]` blocked/needs decision.
   policy directly. The implemented exact-argv path performs active binding
   validation at answer time and fails closed for durable scopes whose
   capability is not grantable by host capability authorization policy.
-- [ ] Define Workbench consent scope choices. The first supported options are
+- [x] Define Workbench consent scope choices. The supported options are
   `deny`, `allow-once`, `remember-exact-argv`, and
   `remember-argv-prefix`. `remember-executable-any-args` is a high-risk
   optional policy extension and must remain disabled unless an explicit
   host policy/capability gate enables it; the gate must be registered before
   runtime implementation and the option must be hidden when the gate is absent.
-  `remember-argv-prefix` must have host-policy caps for maximum fixed prefix
-  length and maximum variable-prefix entries. Baseline runtime currently
-  renders and admits `deny`, `allow-once`, and `remember-exact-argv`; prefix
-  consent remains disabled until host caps are implemented.
+  `remember-argv-prefix` has host-policy caps for maximum fixed prefix length
+  and maximum variable-prefix entries. The runtime admits deny, allow-once,
+  exact argv, and workspace-bound bounded prefixes. It does not expose
+  arbitrary-executable consent.
 - [x] Implement the Workbench sidecar projection. A granted durable decision
   should append a command-profile delta scoped by workspace/root, cwd policy,
   argv exact/prefix data, allowed variable prefixes, environment policy,
@@ -1786,9 +1826,10 @@ evidence) · `[!]` blocked/needs decision.
   credential, workspace, timeout, or byte limits beyond the main policy.
   Its approval digest must cover capability id, operation digest,
   workspace/root refs, proposed argv scope, and safety caps, not just argv text.
-  The reviewed Workbench consent descriptor should be promoted to
-  `sensorium-workbench.consent-descriptor.v1`. The implemented projection is
-  intentionally exact-argv only, validates command-profile sidecar entry schema
+  The reviewed Workbench consent descriptor is published as
+  `sensorium-workbench.consent-descriptor.v1`. The implemented projection
+  supports exact argv and bounded workspace/root/path-bound argv prefixes,
+  validates command-profile sidecar entry schema
   ids, rejects inline decisions whose descriptor schema is not
   `sensorium-workbench.consent-descriptor.v1`, and refreshes the sidecar
   through a bounded TTL. The effective daemon projection filters entries whose
@@ -1797,8 +1838,7 @@ evidence) · `[!]` blocked/needs decision.
   `consent-operator-binding-inactive`, filters expired durable consent and
   reports `consent-expired`, filters capabilities no longer grantable for
   durable consent and reports `consent-capability-not-grantable`, and leaves
-  those diagnostics visible to the Workbench connector; argv-prefix sidecars
-  remain future work.
+  those diagnostics visible to the Workbench connector.
 - [x] Define the Sensorium OS action-catalog sidecar projection. A granted
   Sensorium OS decision should materialize a catalog delta shaped like P048
   action declarations: action class, executable or script root, argv shape,
@@ -1812,26 +1852,25 @@ evidence) · `[!]` blocked/needs decision.
   reuses the same effective durable filters as Workbench, and the connector
   loads append-only non-overriding deltas before running its existing
   action-catalog validator.
-- [ ] Add a shared sidecar merge primitive for adapter config deltas. It should
-  live beside the existing path/config utility strata, support append-only
-  allowlist deltas first, report the merge provenance, and require schema
+- [x] Add a shared sidecar merge primitive for adapter config deltas. It
+  lives beside the existing path/config utility strata, supports append-only
+  allowlist deltas first, reports merge provenance, and requires schema
   validation after `main config + sidecar` is composed. Avoid generic
   deep-override semantics for security-sensitive caps. Sidecar entries whose
   `operator/ref` points to a revoked or expired node-operator binding must be
-  inactive in the effective projection. The Workbench exact-argv projection and
-  Sensorium OS action-catalog projection now enforce that inactivity rule, omit
-  expired durable consent, and surface diagnostics; a reusable merge primitive,
-  deterministic cache invalidation across all adapter sidecars, and effective
-  projection hashes remain future shared infrastructure.
-- [ ] Add operator UI/API surfaces for consent visibility and revocation:
+  inactive in the effective projection. `node:config-sidecar-core` now owns the
+  append-only provenance-preserving merge and conflict semantics used by the
+  Workbench and Sensorium OS projections; both still validate the composed
+  adapter-specific schema before activation.
+- [x] Add operator UI/API surfaces for consent visibility and revocation:
   pending requests, answered decisions, durable sidecar entries, expiry,
   selected scope, operation digest, source component, operator ref, issued/at,
   expires/at, revocation/ref, delta/digest, and revoke/deny actions. Revocation
   uses `POST /v1/operator-consents/{approval_ref}/revoke`, not the
   operator-question answer endpoint. The UI should make it clear which entries
-  are one-shot, durable, expired, or revoked. The daemon API surface exists;
-  dedicated node-ui screens remain future UX work.
-- [ ] Add integration tests and fixtures. P066-owned primitives cover request
+  are one-shot, durable, expired, or revoked. The daemon API and dedicated
+  node-ui consent screen expose this state and revoke action.
+- [x] Add integration tests and fixtures. P066-owned primitives cover request
   deduplication, timeout fail-closed, widget contract validation, and duplicate
   answer replay metadata. P071-owned tests should cover deny, allow-once
   without sidecar mutation, remember-exact argv, remember-prefix, active
@@ -1844,14 +1883,22 @@ evidence) · `[!]` blocked/needs decision.
   exact-decision admission, consent-disabled denial, operator-read endpoint
   module-caller denial, active-binding revoke authority, expired durable
   projection filtering, sidecar schema validation, dynamic sidecar refresh,
-  imported sidecar diagnostics, and sidecar cap-refusal tests.
+  imported sidecar diagnostics, prefix workspace/root/path binding, shared merge
+  conflicts/provenance, and sidecar cap-refusal tests.
 
 ### Phase 4 - Virtualized Backends
 
-- [ ] Define `Sensorium Virt` backend contract for the same environment/session
-  abstractions.
-- [ ] Implement first disposable sandbox backend.
-- [ ] Add artifact export and teardown tests.
+- [x] Define the first `Sensorium Virt` backend contract for the same
+  environment, file, patch, artifact export, lifecycle, and teardown
+  abstractions. The synchronized environment/export/result schemas preserve the
+  boundary for later process-isolated executors.
+- [x] Implement the first managed virtual executor. `fixture-copy.v1` copies a
+  bounded symlink-free source tree under the Workbench data directory and
+  permits approved patching only against that copy. It is disposable but is not
+  described as a process sandbox; PTY stays unavailable.
+- [ ] Implement the first process-isolated container or microVM sandbox backend.
+- [x] Add artifact export and teardown tests, including source immutability,
+  idempotent replay, managed-root containment, and persisted lifecycle state.
 - [x] Add local-runtime policy tests for denied egress and denied credential
   env override access. Broader virtualized-backend policy tests remain tied to
   the future Sensorium Virt backend contract.

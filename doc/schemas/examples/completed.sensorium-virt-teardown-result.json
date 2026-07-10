@@ -1,0 +1,28 @@
+{
+  "status": "ok",
+  "schema": "sensorium-virt-teardown-result.v1",
+  "schema/v": 1,
+  "environment/ref": "environment:fixture-copy",
+  "lifecycle/status": "closed",
+  "cleanup/status": "completed",
+  "outcome": {
+    "schema": "sensorium-workbench-outcome.v1",
+    "schema/v": 1,
+    "outcome/ref": "workbench-outcome:fixture-teardown",
+    "directive/ref": "directive:fixture-teardown",
+    "status": "completed",
+    "artifact/refs": [],
+    "diagnostics": [],
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Personal",
+      "effective_tier": "Personal",
+      "provenance": {"kind": "local-space", "space": "Personal"},
+      "bound_subjects": {
+        "personal_or_community": [{"kind": "person", "id": "participant:fixture"}]
+      },
+      "declassify_trail": []
+    }
+  },
+  "diagnostics": []
+}

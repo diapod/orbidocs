@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-virt-workspace-export:v1",
+  "title": "Sensorium Virt Workspace Export v1",
+  "description": "Bounded content bundle exported explicitly from a managed Sensorium Virt workspace.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "environment/ref", "workspace/ref", "backend", "executor/kind", "files"],
+  "properties": {
+    "schema": { "const": "sensorium-virt-workspace-export.v1" },
+    "schema/v": { "const": 1 },
+    "environment/ref": { "$ref": "#/$defs/ref" },
+    "workspace/ref": { "$ref": "#/$defs/ref" },
+    "backend": { "enum": ["fixture-virtual-workspace", "container", "microvm"] },
+    "executor/kind": { "enum": ["fixture-copy.v1", "container", "microvm"] },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["root/ref", "relative/path", "size/bytes", "content/sha256", "content/base64"],
+        "properties": {
+          "root/ref": { "$ref": "#/$defs/ref" },
+          "relative/path": { "type": "string", "minLength": 1 },
+          "size/bytes": { "type": "integer", "minimum": 0 },
+          "content/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+          "content/base64": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+  }
+}

@@ -122,6 +122,24 @@ schema_for_file() {
     *.sensorium-workbench-outcome.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-outcome.v1.schema.json"
       ;;
+    *.sensorium-actuation.bridge.request.json)
+      echo "$SCHEMAS_DIR/sensorium-actuation.bridge.request.v1.schema.json"
+      ;;
+    *.sensorium-actuation.bridge.response.json)
+      echo "$SCHEMAS_DIR/sensorium-actuation.bridge.response.v1.schema.json"
+      ;;
+    *.sensorium-virt-workspace-export.json)
+      echo "$SCHEMAS_DIR/sensorium-virt-workspace-export.v1.schema.json"
+      ;;
+    *.sensorium-virt-export-result.json)
+      echo "$SCHEMAS_DIR/sensorium-virt-export-result.v1.schema.json"
+      ;;
+    *.sensorium-virt-teardown-result.json)
+      echo "$SCHEMAS_DIR/sensorium-virt-teardown-result.v1.schema.json"
+      ;;
+    *.sensorium-workbench-tool-request.json)
+      echo "$SCHEMAS_DIR/sensorium-workbench-tool-request.v1.schema.json"
+      ;;
     *.inac-control.json)
       echo "$SCHEMAS_DIR/inac-control.v1.schema.json"
       ;;

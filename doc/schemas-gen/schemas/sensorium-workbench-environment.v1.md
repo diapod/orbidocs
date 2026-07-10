@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/sensorium-workbench-environment.v1.schema.json`](../../schemas/sensorium-workbench-environment.v1.schema.json)
 
-Workbench environment descriptor for an allowlisted local workspace or later sandbox backend.
+Workbench environment descriptor for an allowlisted host-local workspace or managed virtual executor.
 
 ## Governing Basis
 
@@ -40,10 +40,13 @@ Workbench environment descriptor for an allowlisted local workspace or later san
 | [`roots`](#field-roots) | `yes` | array |  |
 | [`locality`](#field-locality) | `yes` | enum: `local-only`, `remote-sandbox` |  |
 | [`egress`](#field-egress) | `no` | enum: `none`, `allowlisted`, `unrestricted` |  |
-| [`status`](#field-status) | `yes` | enum: `created`, `ready`, `degraded`, `closing`, `closed`, `failed` |  |
+| [`status`](#field-status) | `yes` | enum: `allocating`, `ready`, `draining`, `closed`, `failed`, `expired` |  |
 | [`classification`](#field-classification) | `yes` | ref: `classification.v1.schema.json` |  |
 | [`limits`](#field-limits) | `no` | object |  |
 | [`cleanup/status`](#field-cleanup-status) | `no` | enum: `not-needed`, `pending`, `completed`, `failed`, `quarantined` |  |
+| [`executor`](#field-executor) | `yes` | object |  |
+| [`teardown/policy`](#field-teardown-policy) | `yes` | enum: `not-applicable`, `delete-managed-copy`, `provider-managed` |  |
+| [`artifact/export-policy`](#field-artifact-export-policy) | `yes` | enum: `unsupported`, `explicit` |  |
 
 ## Definitions
 
@@ -104,7 +107,7 @@ Workbench environment descriptor for an allowlisted local workspace or later san
 ## `status`
 
 - Required: `yes`
-- Shape: enum: `created`, `ready`, `degraded`, `closing`, `closed`, `failed`
+- Shape: enum: `allocating`, `ready`, `draining`, `closed`, `failed`, `expired`
 
 <a id="field-classification"></a>
 ## `classification`
@@ -123,6 +126,24 @@ Workbench environment descriptor for an allowlisted local workspace or later san
 
 - Required: `no`
 - Shape: enum: `not-needed`, `pending`, `completed`, `failed`, `quarantined`
+
+<a id="field-executor"></a>
+## `executor`
+
+- Required: `yes`
+- Shape: object
+
+<a id="field-teardown-policy"></a>
+## `teardown/policy`
+
+- Required: `yes`
+- Shape: enum: `not-applicable`, `delete-managed-copy`, `provider-managed`
+
+<a id="field-artifact-export-policy"></a>
+## `artifact/export-policy`
+
+- Required: `yes`
+- Shape: enum: `unsupported`, `explicit`
 
 ## Definition Semantics
 

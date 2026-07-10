@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-virt-export-result:v1",
+  "title": "Sensorium Virt Export Result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["status", "schema", "schema/v", "environment/ref", "artifact", "files/count", "bytes/count", "outcome", "diagnostics"],
+  "properties": {
+    "status": { "const": "ok" },
+    "schema": { "const": "sensorium-virt-export-result.v1" },
+    "schema/v": { "const": 1 },
+    "environment/ref": { "type": "string", "minLength": 1 },
+    "artifact": { "type": "object", "required": ["artifact/ref", "content/sha256", "size/bytes", "purpose"] },
+    "files/count": { "type": "integer", "minimum": 0 },
+    "bytes/count": { "type": "integer", "minimum": 0 },
+    "outcome": { "$ref": "sensorium-workbench-outcome.v1.schema.json" },
+    "diagnostics": { "type": "array" }
+  }
+}

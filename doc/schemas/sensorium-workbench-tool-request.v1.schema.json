@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-workbench-tool-request:v1",
+  "title": "Sensorium Workbench Tool Request v1",
+  "description": "Host-verified Agent, Corpus, or Room lineage around a Sensorium Workbench directive.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "source", "directive"],
+  "properties": {
+    "schema": { "const": "sensorium-workbench-tool-request.v1" },
+    "schema/v": { "const": 1 },
+    "source": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "agent/id", "proposal/ref"],
+          "properties": {
+            "source/kind": { "const": "agent" },
+            "agent/id": { "$ref": "#/$defs/ref" },
+            "proposal/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "query/id"],
+          "properties": {
+            "source/kind": { "const": "corpus" },
+            "query/id": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "room/id", "subject"],
+          "properties": {
+            "source/kind": { "const": "room" },
+            "room/id": { "$ref": "#/$defs/ref" },
+            "subject": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind", "id"],
+              "properties": {
+                "kind": { "enum": ["participant", "node"] },
+                "id": { "$ref": "#/$defs/ref" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "directive": {
+      "allOf": [
+        { "$ref": "sensorium-directive.v1.schema.json" },
+        {
+          "properties": {
+            "action_id": { "pattern": "^sensorium\\.workbench\\." }
+          },
+          "not": { "required": ["workbench/request"] }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "not": { "pattern": "\\u0000" } }
+  }
+}

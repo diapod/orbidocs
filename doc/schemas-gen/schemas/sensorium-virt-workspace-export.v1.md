@@ -1,6 +1,8 @@
-# Sensorium-workbench.consent-descriptor.v1
+# Sensorium Virt Workspace Export v1
 
-Source schema: [`doc/schemas/sensorium-workbench.consent-descriptor.v1.schema.json`](../../schemas/sensorium-workbench.consent-descriptor.v1.schema.json)
+Source schema: [`doc/schemas/sensorium-virt-workspace-export.v1.schema.json`](../../schemas/sensorium-virt-workspace-export.v1.schema.json)
+
+Bounded content bundle exported explicitly from a managed Sensorium Virt workspace.
 
 ## Governing Basis
 
@@ -30,34 +32,26 @@ Source schema: [`doc/schemas/sensorium-workbench.consent-descriptor.v1.schema.js
 
 | Field | Required | Shape | Description |
 |---|---|---|---|
-| [`schema`](#field-schema) | `yes` | const: `sensorium-workbench.consent-descriptor.v1` |  |
+| [`schema`](#field-schema) | `yes` | const: `sensorium-virt-workspace-export.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`reason/code`](#field-reason-code) | `yes` | ref: `#/$defs/token` |  |
+| [`environment/ref`](#field-environment-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`workspace/ref`](#field-workspace-ref) | `yes` | ref: `#/$defs/ref` |  |
-| [`root/ref`](#field-root-ref) | `yes` | ref: `#/$defs/ref` |  |
-| [`relative/path`](#field-relative-path) | `yes` | string |  |
-| [`argv`](#field-argv) | `yes` | array |  |
-| [`argv/prefix`](#field-argv-prefix) | `no` | array |  |
-| [`argv/allowed-variable-prefixes`](#field-argv-allowed-variable-prefixes) | `no` | array |  |
-| [`profile/ref`](#field-profile-ref) | `no` | ref: `#/$defs/ref` |  |
-| [`timeout_ms`](#field-timeout-ms) | `yes` | integer |  |
-| [`output/max-bytes`](#field-output-max-bytes) | `yes` | integer |  |
-| [`egress`](#field-egress) | `yes` | enum: `none`, `denied` |  |
-| [`credential/env`](#field-credential-env) | `yes` | enum: `none`, `denied` |  |
+| [`backend`](#field-backend) | `yes` | enum: `fixture-virtual-workspace`, `container`, `microvm` |  |
+| [`executor/kind`](#field-executor-kind) | `yes` | enum: `fixture-copy.v1`, `container`, `microvm` |  |
+| [`files`](#field-files) | `yes` | array |  |
 
 ## Definitions
 
 | Definition | Shape | Description |
 |---|---|---|
 | [`ref`](#def-ref) | string |  |
-| [`token`](#def-token) | string |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
 ## `schema`
 
 - Required: `yes`
-- Shape: const: `sensorium-workbench.consent-descriptor.v1`
+- Shape: const: `sensorium-virt-workspace-export.v1`
 
 <a id="field-schema-v"></a>
 ## `schema/v`
@@ -65,11 +59,11 @@ Source schema: [`doc/schemas/sensorium-workbench.consent-descriptor.v1.schema.js
 - Required: `yes`
 - Shape: const: `1`
 
-<a id="field-reason-code"></a>
-## `reason/code`
+<a id="field-environment-ref"></a>
+## `environment/ref`
 
 - Required: `yes`
-- Shape: ref: `#/$defs/token`
+- Shape: ref: `#/$defs/ref`
 
 <a id="field-workspace-ref"></a>
 ## `workspace/ref`
@@ -77,74 +71,27 @@ Source schema: [`doc/schemas/sensorium-workbench.consent-descriptor.v1.schema.js
 - Required: `yes`
 - Shape: ref: `#/$defs/ref`
 
-<a id="field-root-ref"></a>
-## `root/ref`
+<a id="field-backend"></a>
+## `backend`
 
 - Required: `yes`
-- Shape: ref: `#/$defs/ref`
+- Shape: enum: `fixture-virtual-workspace`, `container`, `microvm`
 
-<a id="field-relative-path"></a>
-## `relative/path`
+<a id="field-executor-kind"></a>
+## `executor/kind`
 
 - Required: `yes`
-- Shape: string
+- Shape: enum: `fixture-copy.v1`, `container`, `microvm`
 
-<a id="field-argv"></a>
-## `argv`
+<a id="field-files"></a>
+## `files`
 
 - Required: `yes`
 - Shape: array
-
-<a id="field-argv-prefix"></a>
-## `argv/prefix`
-
-- Required: `no`
-- Shape: array
-
-<a id="field-argv-allowed-variable-prefixes"></a>
-## `argv/allowed-variable-prefixes`
-
-- Required: `no`
-- Shape: array
-
-<a id="field-profile-ref"></a>
-## `profile/ref`
-
-- Required: `no`
-- Shape: ref: `#/$defs/ref`
-
-<a id="field-timeout-ms"></a>
-## `timeout_ms`
-
-- Required: `yes`
-- Shape: integer
-
-<a id="field-output-max-bytes"></a>
-## `output/max-bytes`
-
-- Required: `yes`
-- Shape: integer
-
-<a id="field-egress"></a>
-## `egress`
-
-- Required: `yes`
-- Shape: enum: `none`, `denied`
-
-<a id="field-credential-env"></a>
-## `credential/env`
-
-- Required: `yes`
-- Shape: enum: `none`, `denied`
 
 ## Definition Semantics
 
 <a id="def-ref"></a>
 ## `$defs.ref`
-
-- Shape: string
-
-<a id="def-token"></a>
-## `$defs.token`
 
 - Shape: string

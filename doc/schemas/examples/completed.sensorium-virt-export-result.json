@@ -1,0 +1,34 @@
+{
+  "status": "ok",
+  "schema": "sensorium-virt-export-result.v1",
+  "schema/v": 1,
+  "environment/ref": "environment:fixture-copy",
+  "artifact": {
+    "artifact/ref": "artifact:workbench:fixture-export",
+    "content/sha256": "sha256:YWJjMTIz",
+    "size/bytes": 512,
+    "purpose": "sensorium.virt.export"
+  },
+  "files/count": 1,
+  "bytes/count": 7,
+  "outcome": {
+    "schema": "sensorium-workbench-outcome.v1",
+    "schema/v": 1,
+    "outcome/ref": "workbench-outcome:fixture-export",
+    "directive/ref": "directive:fixture-export",
+    "status": "completed",
+    "artifact/refs": ["artifact:workbench:fixture-export"],
+    "diagnostics": [],
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Personal",
+      "effective_tier": "Personal",
+      "provenance": {"kind": "local-space", "space": "Personal"},
+      "bound_subjects": {
+        "personal_or_community": [{"kind": "person", "id": "participant:fixture"}]
+      },
+      "declassify_trail": []
+    }
+  },
+  "diagnostics": []
+}

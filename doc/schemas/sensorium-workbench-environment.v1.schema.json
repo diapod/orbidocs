@@ -2,13 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:sensorium-workbench-environment:v1",
   "title": "Sensorium Workbench Environment v1",
-  "description": "Workbench environment descriptor for an allowlisted local workspace or later sandbox backend.",
+  "description": "Workbench environment descriptor for an allowlisted host-local workspace or managed virtual executor.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
-  "required": ["schema", "schema/v", "environment/ref", "backend", "workspace/ref", "roots", "locality", "status", "classification"],
+  "required": ["schema", "schema/v", "environment/ref", "backend", "workspace/ref", "roots", "locality", "status", "classification", "executor", "teardown/policy", "artifact/export-policy"],
   "properties": {
     "schema": { "const": "sensorium-workbench-environment.v1" },
     "schema/v": { "const": 1 },
@@ -21,20 +21,37 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["root/ref", "mode"],
+        "required": ["root/ref", "mode", "backend"],
         "properties": {
           "root/ref": { "$ref": "#/$defs/ref" },
           "mode": { "enum": ["read-only", "read-write"] },
+          "backend": { "enum": ["host-local-workspace", "fixture-virtual-workspace", "container", "microvm"] },
           "classification": { "$ref": "classification.v1.schema.json" }
         }
       }
     },
     "locality": { "enum": ["local-only", "remote-sandbox"] },
     "egress": { "enum": ["none", "allowlisted", "unrestricted"], "default": "none" },
-    "status": { "enum": ["created", "ready", "degraded", "closing", "closed", "failed"] },
+    "status": { "enum": ["allocating", "ready", "draining", "closed", "failed", "expired"] },
     "classification": { "$ref": "classification.v1.schema.json" },
     "limits": { "type": "object", "additionalProperties": true },
-    "cleanup/status": { "enum": ["not-needed", "pending", "completed", "failed", "quarantined"] }
+    "cleanup/status": { "enum": ["not-needed", "pending", "completed", "failed", "quarantined"] },
+    "executor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "capabilities"],
+      "properties": {
+        "kind": { "enum": ["host-local", "fixture-copy.v1", "container", "microvm"] },
+        "capabilities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["file-read", "file-snapshot", "patch", "terminal", "artifact-export", "teardown"] }
+        },
+        "terminal": { "enum": ["supported", "unsupported-without-process-isolation"] }
+      }
+    },
+    "teardown/policy": { "enum": ["not-applicable", "delete-managed-copy", "provider-managed"] },
+    "artifact/export-policy": { "enum": ["unsupported", "explicit"] }
   },
   "$defs": {
     "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }

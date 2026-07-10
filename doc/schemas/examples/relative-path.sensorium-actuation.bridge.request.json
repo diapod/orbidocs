@@ -1,0 +1,8 @@
+{
+  "schema": "sensorium-actuation.bridge.request.v1",
+  "schema/v": 1,
+  "operation": "relative-path.validate",
+  "payload": {
+    "relative/path": "src/main.rs"
+  }
+}

@@ -7,12 +7,19 @@
   "roots": [
     {
       "root/ref": "root:repo",
-      "mode": "read-only"
+      "mode": "read-only",
+      "backend": "host-local-workspace"
     }
   ],
   "locality": "local-only",
   "egress": "none",
   "status": "ready",
+  "executor": {
+    "kind": "host-local",
+    "capabilities": ["file-read", "file-snapshot", "patch", "terminal"]
+  },
+  "teardown/policy": "not-applicable",
+  "artifact/export-policy": "unsupported",
   "classification": {
     "schema": "classification.v1",
     "source_tier": "Personal",

@@ -1,0 +1,17 @@
+{
+  "schema": "sensorium-virt-workspace-export.v1",
+  "schema/v": 1,
+  "environment/ref": "environment:fixture-copy",
+  "workspace/ref": "workspace:fixture-copy",
+  "backend": "fixture-virtual-workspace",
+  "executor/kind": "fixture-copy.v1",
+  "files": [
+    {
+      "root/ref": "root:repo",
+      "relative/path": "README.md",
+      "size/bytes": 7,
+      "content/sha256": "sha256:YWJjMTIz",
+      "content/base64": "Zml4dHVyZQ=="
+    }
+  ]
+}

@@ -26,6 +26,12 @@ Hard-MVP release-blocking proposals/contracts:
 
 Change basis: this refresh incorporates the current worktree state on 2026-07-09 and the latest P076/P025/P054 Seed Directory and federation-root implementation slices in both `node/` and `orbidocs/`. In addition to the previously reflected Story 000, Story 008, Story 010, Proposals 057-065, and Solutions 025-032 work, it accounts for the latest messaging EML/profile recovery and route-key hardening, Inquirium generate substrate, assistant-channel local-control slice and render-only UI affordance, P064 output-boundary hardening, Shared Offer Catalog extraction, Story-009 service-order dispatch over Artifact Delivery, pseudonym-vault/unlock hardening, Node UI security/audit hardening, Story-005 post-M4 Whisper/Inquirium productization contracts, Whisper outbound privacy preflight and association-room/public-gossip seed work, the new Proposal 066 / Proposal 067 / Solution 033 trackers, Proposal 069 Corpus, Story 011 Corpus fish acceptance, Proposal 071 Sensorium Workbench, Solution 034 API Surface Projection, Solution 035 Interaction Broker, the selected-responder P003/P011 schema-gated procurement closure, the P070 Phase 5 attestation-policy hardening from code review 89, the promotion of P070 to Solution 036 Room, the promotion of P072 to Solution 037 Capability Registry, the new Proposal 073 Agent orchestration organ plus the P064/P066 cross-document boundary updates that keep agent loops above Inquirium, including the direct local OpenAI-compatible baseline assistant target, the first node-local Agent `spawn/status/stop` implementation slice, per-agent Inquirium budget metering, and the first HIL-gated effect-proposal skeleton, the P076 federation-root runtime hardening that makes the bundled root fixture explicit opt-in rather than default trust, optional Seed Directory bootstrap TLS pins as source-aware transport hardening, production orbiplex-main ceremony profile checks, Proposal 077 Swarm Broadcast Assistance as a post-MVP assistance-choreography track, Proposal 078 Weak Signal Harvester as a post-MVP findings-directory intake track, Proposal 079 Cross-Federation Alliance as the canonical post-MVP `alliance-policy.v1` contract track that closes P076-008 at concept/schema level and now has a node-side one-half verifier plus active-alliance resolver while deferring distribution and consumer-specific admission enforcement, Solution 042 Sensorium Workbench as the promoted solution-level owner for the P071 local actuator foundation, the Interaction Broker grant-runtime, host-audit projection, Workbench terminal provider, Workbench file-tree provider, startup recovery/retention, dynamic source-provider registration slices, the Workbench exact-argv operator-consent spine, the P048 Sensorium OS action-class runtime, the `sensorium-os.consent-descriptor.v1` contract, Sensorium OS action-catalog consent sidecar projection, the latest P063/P066 tracker sync for Inquirium classify/rerank contracts plus operator-question timeout lifecycle hardening, and Proposal 081 as a new hard-MVP blocker for canonical causal context, bounded federated synchronization, and suite-neutral scoped nym claims.
 
+The Workbench refresh in this snapshot also includes native non-Workbench
+broker providers, explicit artifact handoff, bounded argv-prefix consent and
+operator UI, shared sidecar merge, the required Rust actuation bridge, the
+managed `fixture-copy.v1` Sensorium Virt executor, and host-verified
+Agent/Corpus/Room tool-request lineage.
+
 Recent component deltas:
 
 - Proposal 081 is a new hard-MVP release blocker. Its bounded closure contract is
@@ -48,12 +54,13 @@ Recent component deltas:
   and prefix `result_pointer_fields`, blocks C3/C4/C5 under emergency posture
   without an explicit host-policy exception, and fails closed for unavailable
   C3-C7 classes until their enforcement envelopes exist.
-- Proposal 071 / Solution 042 now have the first host-owned operator-consent
-  spine for exact Workbench terminal commands: typed request/decision schemas,
+- Proposal 071 / Solution 042 now have the host-owned operator-consent
+  spine for exact and bounded-prefix Workbench terminal commands: typed request/decision schemas,
   daemon persistence and submit/list/detail/revoke/projection APIs, P066-backed
   operator questions and durable notifications, Workbench
   `sensorium-workbench.consent-descriptor.v1`, matching `allow-once` admission,
-  and `remember-exact-argv` sidecar projection that refuses to loosen egress,
+  `remember-exact-argv`, and workspace-bound `remember-argv-prefix` sidecar
+  projection that refuses to loosen egress,
   credential, timeout, or output-byte caps. The latest hardening also makes
   operator-consent read/projection APIs reject module callers, replays duplicate
   consent requests by semantic request equality, validates Workbench consent
@@ -70,8 +77,10 @@ Recent component deltas:
   `sensorium-os.action-catalog-sidecar.v1`, materializes the sidecar into the
   Sensorium OS middleware config tree, publishes binding/delta/sidecar schemas,
   and the connector loads valid non-overriding deltas into its effective
-  catalog with a bounded TTL/mtime cache. Prefix grants, dedicated
-  node-ui screens, and virtualized executors remain post-hard-MVP work.
+  catalog with a bounded TTL/mtime cache. A shared append-only sidecar merge
+  core now owns conflict/provenance semantics, node-ui exposes consent
+  inspection/revocation, and `fixture-copy.v1` provides the first managed
+  virtual executor without claiming process isolation.
 - Raw Signal Access is now hard-MVP complete as both proposal and solution:
   hook-chain runtime and direct JSON-e-flow dispatch preserve raw context only
   in memory, expose it only to declaring executors, strip it from final
@@ -317,52 +326,35 @@ Recent component deltas:
   separate follow-up stream, and remaining product work belongs to consumers such as
   Corpus and richer collaborative answer-room products.
 - Sensorium Workbench is now tracked through Proposal 071 and promoted to
-  Solution 042 as a post-MVP actuator foundation. The current code contains
-  unwired Rust foundations for shared
-  relative-path syntax validation (`relative-path-core`), the shared Sensorium
-  actuation core (`sensorium-actuation-core`), and the host-owned interaction
-  broker (`interaction-broker-core`). The phase-0 contract layer now has JSON
-  Schemas, positive examples, traversal-negative examples, a published relative
-  path golden vector, shared deferred-operation id validation, and a dedicated
-  Interaction Broker solution. Node now also ships the first opt-in supervised
-  `sensorium-workbench` connector with `seed_config = false`, readiness/lifecycle
-  endpoints, allowlisted workspace environment status, bounded file
-  snapshot/read with capped request/read bodies and strict workspace-root
-  validation, local file/environment/process/terminal probes, synthetic/local
-  watch cursors, per-session terminal event cursors, a synchronous bounded wait
-  pilot over probe conditions, connector-mediated Sensorium action routing, a
-  connector-local SQLite store, operator status for active terminal sessions,
-  and an opt-in PTY/structured-command runtime guarded by grants and command
-  profiles. The runtime now hard-denies dangerous env overrides, refuses
-  variable argv beyond an admitted profile prefix, keeps raw PTY input, resize,
-  and signal operator-confirmed, retires session refs after use, records PID
-  metadata, limits event payloads, applies SQLite retention cleanup, and
-  best-effort signals remembered orphan process groups at startup. Patch apply is
-  now implemented as an artifact-backed, digest-verified, operator-confirmed path with
-  provenance and rollback for structured partial-write failures. The daemon
-  Interaction Broker now enforces JSON-e/module broker admission through
-  `bindings.host_grant_requests`, daemon-issued host-local HMAC grant material,
-  and metadata-only audit projection. It also wires Workbench file-tree and
-  terminal source providers for file probes, file waits, file-tree watch
-  batches, terminal liveness/progress probes, terminal waits, and terminal watch
-  batches. The broker also now recovers interrupted resources as `expired`,
-  `failed-retryable`, or `unknown`, runs bounded retention without deleting
-  active work, replays recovered terminal outcomes idempotently, and accepts
-  dynamic non-Workbench provider metadata/status registration. Workbench
-  terminal-command BDOs are now daemon-cancelable through a host-owned
-  operator-confirmed Workbench terminal command cancel action, with terminated
-  connector commands projected as canonical BDO `cancelled` status and
-  `command.done` payloads carrying `signal_origin` for timeout vs operator
-  cancel vs ordinary process exit. The latest
-  review hardening also rejects dynamic built-in provider mutation, validates
-  provider ids and capability declarations more strictly, runs broker retention
-  at startup and in bounded batches, keeps operator-consent read/projection APIs
-  operator-only, validates Workbench consent sidecar schemas, and refreshes the
-  Workbench sidecar projection through a bounded TTL. Sensorium OS
-  operator-consent sidecar materialization is now daemon-owned and schema-backed.
-  Readiness remains below MVP because AD/Memarium handoff for captured outputs,
-  virtualized backends, and executable
-  AD/Memarium/approval provider joins are not wired yet.
+  Solution 042 as a post-MVP actuator foundation. The opt-in supervised Python
+  connector now has a complete local foundation: allowlisted workspaces,
+  bounded file and artifact operations, PTY lifecycle, artifact-backed patching,
+  waits/probes/watches, replay/recovery, metadata-only audit, and explicit
+  operator controls. Path and command-profile admission crosses the required
+  bounded `sensorium-actuation.bridge.{request,response}.v1` companion-process
+  boundary into the Rust `sensorium-actuation-core`; unavailable or malformed
+  bridge behavior fails closed without a Python validation fallback. The
+  daemon-owned Interaction Broker enforces grant-context admission,
+  persistence, recovery, retention, provider health,
+  Workbench file/terminal adapters, dynamic providers, and native Artifact
+  Delivery, approval/consent, and Memarium-query adapters. Verified Workbench
+  artifacts can be handed off explicitly to Artifact Delivery resolution and/or
+  metadata-only Memarium provenance, with replay bound to the original
+  `correlation/id`. Consent supports allow-once, exact argv,
+  and bounded workspace-bound argv prefixes through shared append-only sidecar
+  merge; node-ui provides consent revoke and broker remediation screens. The
+  managed `fixture-copy.v1` Sensorium Virt executor copies a bounded symlink-free
+  tree, permits approved writes only in the copy, exports a bounded artifact,
+  persists lifecycle, and tears down only its managed root while refusing PTY
+  without process isolation. Agent, Corpus, and the current execution-derived
+  answer-room tool requests now use a
+  schema-backed host lineage wrapper around `sensorium.directive.invoke`, so no
+  product receives direct Workbench connector authority. Proposal 071 remains
+  outside hard MVP; production container/microVM executors and richer command-
+  BDO signal policy are post-MVP hardening rather than current blockers.
+  Interaction Broker is implementation-complete for its current provider
+  foundation; provider-pushed events and richer deferred-wait retry policy stay
+  deferred, so the component is not yet marked post-MVP ready.
 - Local Relationship Layer is now hard-MVP complete for the Node-owned slice: Proposal 065 and Solution 032 have contracts, pure core, vault-first daemon storage, sealed rebuildable SQLite projection, local control/host capabilities, operator class/membership/predicate/decision audit UI, package trust queue with approval history, canonical Messaging consumption, dynamic Artifact Delivery group resolution, repeatable Story-010 relationship acceptance runner with a local CI wrapper, projection replay/privacy regression gates, verified `remote-disclosed` node-operator-binding import through the identity control surface, durable revocation invalidation for imported binding evidence, registry-driven pairwise nym context-kind admission, and relationship-class retention profile inheritance. Public federated Local Relationship capability, richer multi-operator UX, hosted CI-provider wiring for the runner, and performance profiling under real relationship cardinalities remain post-MVP work.
 - Replay Scheduler M1 is now fully closed for the hard-MVP slice: the generic bounded scheduler, durable launch ledger, host-owned job-source merge, authority gate, cooperative shutdown, Agora projection replay action, and operator status/control surface are all documented as implemented. Richer Agora-domain panels and non-Agora maintenance jobs are post-M1 extensions.
 - Agora gained a generic encrypted-artifact Vault surface: `agora-vault-entry.v1` exposes only opaque artifact ids, kind, ciphertext, and cryptographic envelope metadata; supervised local routes are client-auth / daemon-dispatch gated, while remote provider deployments bind the same operations to the frozen `agora-vault@v1` passport profile.
@@ -487,7 +479,7 @@ Recent component deltas:
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
-| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `96` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `98` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `false` | `false` | `false` | `42` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
@@ -535,11 +527,11 @@ Recent component deltas:
 | [Local Relationship Layer](../60-solutions/032-local-relationship-layer/032-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Shared Offer Catalog](../60-solutions/033-shared-offer-catalog/033-shared-offer-catalog.md) | `true` | `true` | `false` | `100` |
 | [API Surface Projection](../60-solutions/034-api-surface-projection/034-api-surface-projection.md) | `false` | `true` | `true` | `100` |
-| [Interaction Broker](../60-solutions/035-interaction-broker/035-interaction-broker.md) | `false` | `false` | `false` | `80` |
+| [Interaction Broker](../60-solutions/035-interaction-broker/035-interaction-broker.md) | `false` | `false` | `false` | `100` |
 | [Room](../60-solutions/036-room/036-room.md) | `true` | `true` | `true` | `100` |
 | [Capability Registry](../60-solutions/037-capability-registry/037-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Corpus](../60-solutions/038-corpus/038-corpus.md) | `true` | `true` | `false` | `100` |
 | [Notifications](../60-solutions/039-notifications/039-notifications.md) | `true` | `true` | `false` | `90` |
 | [Capability-Limited Restrictions](../60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md) | `true` | `true` | `false` | `100` |
 | [Federation Root and Network Selector](../60-solutions/041-federation-root/041-federation-root.md) | `true` | `true` | `false` | `92` |
-| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `96` |
+| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `98` |

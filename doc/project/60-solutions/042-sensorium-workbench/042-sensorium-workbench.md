@@ -42,10 +42,16 @@ Related schemas:
 - `operator-consent-decision.v1`
 - `sensorium-workbench.consent-descriptor.v1`
 - `sensorium-os.consent-descriptor.v1`
+- `sensorium-actuation.bridge.request.v1`
+- `sensorium-actuation.bridge.response.v1`
+- `sensorium-virt-workspace-export.v1`
+- `sensorium-virt-export-result.v1`
+- `sensorium-virt-teardown-result.v1`
+- `sensorium-workbench-tool-request.v1`
 
 ## Status
 
-Partial implementation foundation.
+Implemented local foundation with post-MVP backend hardening remaining.
 
 The contract, schema, conformance-vector, capability-registration, opt-in local
 connector foundation, and daemon-owned Interaction Broker runtime slice exist.
@@ -56,8 +62,8 @@ providers are live through the broker for file probes, file waits, file-tree
 watch event batches, terminal liveness/progress probes, terminal waits, and
 terminal watch event batches. The daemon also projects admitted broker
 wait/watch/probe submissions into metadata-only audit events. The current
-implementation also covers virtualized-backend adversarial source-provider
-fixtures, daemon BDO registration/polling for long-running Workbench terminal
+implementation also covers a managed fixture-copy virtualized executor with
+explicit export/teardown, daemon BDO registration/polling for long-running Workbench terminal
 commands, broker projection of Workbench provider operator status, and dynamic
 observed-state joins for artifact, environment, approval, and Memarium-query
 providers. The first host-owned operator consent spine is also implemented for
@@ -79,11 +85,15 @@ its operator-visible config diagnostics. The same host-owned spine now also
 projects granted Sensorium OS `remember-action-catalog-entry` decisions into
 `sensorium-os.action-catalog-sidecar.v1`, writes that sidecar to the Sensorium
 OS middleware config tree, and the Sensorium OS connector loads valid
-non-overriding deltas into its effective action catalog. The remaining solution work is
-concrete virtualized executor backends, daemon cancel/signal semantics for
-command BDOs, domain-native AD/Memarium/approval adapters beyond dynamic
-observed-state joins, shared actuation-core binding for the Python connector,
-Workbench argv-prefix consent, and dedicated node-ui consent screens.
+non-overriding deltas into its effective action catalog. The daemon now also
+owns native Artifact Delivery, approval/consent, and Memarium-query broker
+providers, explicit Workbench artifact handoff, bounded argv-prefix consent,
+shared append-only sidecar merge, dedicated node-ui consent/broker screens, a
+required Rust actuation companion-process boundary without a Python validation
+fallback, and Agent/Corpus/Room tool request lineage admission through Sensorium
+Core. Remaining solution work is
+production-grade container or microVM executors and optional daemon command-BDO
+signal policy beyond the implemented `TERM` cancel path.
 
 ## Date
 
@@ -209,13 +219,13 @@ Responsibilities:
   `inquirium.operator-question.request.v1` projected through durable
   notifications for the prompt/answer state machine before any adapter-specific
   sidecar projection is materialized;
-- project exact-argv `remember-exact-argv` decisions into a Workbench
+- project exact-argv and bounded `remember-argv-prefix` decisions into a Workbench
   command-profile sidecar without loosening workspace, egress, credential,
   timeout, or output-byte caps.
 
 Status:
 
-- `partial`: capability ids and policy sidecars exist; JSON-e/module broker
+- `implemented`: capability ids and policy sidecars exist; JSON-e/module broker
   calls request host grants through `bindings.host_grant_requests`, and the
   daemon mints host-local HMAC grant material before dispatch. Exact-argv
   "ask and remember" command consent now reuses host-owned operator questions
@@ -223,9 +233,11 @@ Status:
   bounded exact-argv sidecar that the connector refreshes with a bounded TTL.
   The implemented exact-argv path enforces active node-operator-binding
   authority, durable-grant grantability policy, expired-consent filtering,
-  host-policy revalidation for effective durable sidecars, inactive-binding
-  sidecar diagnostics, and connector import of host sidecar diagnostics. Broader
-  prefix/executable consent and dedicated UI remain future work. Sensorium OS
+  host-policy revalidation for effective durable sidecars, workspace-bound
+  argv-prefix profiles that cannot widen egress/credential/time/output caps,
+  inactive-binding sidecar diagnostics, connector import of host sidecar
+  diagnostics, and dedicated operator consent inspection/revocation UI.
+  Arbitrary-executable consent remains intentionally unsupported. Sensorium OS
   action-catalog consent deltas also use this spine: granted durable decisions
   are projected into a host-authored sidecar, filtered by the same authority and
   grantability rules, and loaded by the Sensorium OS connector as append-only
@@ -244,6 +256,8 @@ Related schemas:
 - `sensorium-command-profile.v1`
 - `sensorium-command-intent.v1`
 - `sensorium-pty-resource-caps.v1`
+- `sensorium-actuation.bridge.request.v1`
+- `sensorium-actuation.bridge.response.v1`
 
 Responsibilities:
 
@@ -258,10 +272,12 @@ Responsibilities:
 
 Status:
 
-- `partial`: `node:sensorium-actuation-core`, `node:relative-path-core`,
-  schemas, examples, and initial golden vectors exist. Direct Python
-  consumption through FFI/RPC remains deferred; the current Python connector
-  mirrors the rules against shared vectors.
+- `implemented`: `node:sensorium-actuation-core`, `node:relative-path-core`,
+  schemas, examples, and golden vectors exist. The Python connector invokes the
+  required bounded `orbiplex-sensorium-actuation-contract` companion process
+  for relative-path and command-profile decisions and fails readiness or the
+  affected request closed when that bridge is absent, unavailable, or malformed;
+  no development profile enables a Python validation fallback.
 
 ### Local Workbench Connector Runtime
 
@@ -300,13 +316,13 @@ Responsibilities:
 
 Status:
 
-- `partial`: the opt-in Python connector exists with host-local workspace,
+- `implemented` for the local and managed fixture-copy scope: the opt-in Python connector exists with host-local workspace,
   file, probe, wait, watch, PTY, capture, idempotency replay with bounded TTLs,
-  idle-timeout, read-only status surfaces, and a `virtualized-workspace`
-  adversarial backend fixture that keeps bounded file source-provider
-  reads/probes available while PTY, patch, and write effects fail closed.
-  Concrete virtualized executor backends and shared actuation-core binding for
-  the Python connector remain incomplete.
+  idle-timeout, read-only status surfaces, and a `fixture-virtual-workspace`
+  backend. `fixture-copy.v1` copies a bounded symlink-free source tree into a
+  managed root, permits approved patching only there, supports explicit bounded
+  artifact export and teardown, and leaves the source untouched. PTY stays
+  fail-closed because the fixture executor does not provide process isolation.
 
 ### Patch and Artifact-Mediated Writes
 
@@ -333,9 +349,11 @@ Responsibilities:
 
 Status:
 
-- `partial`: artifact-backed patch apply exists in the opt-in connector behind
-  explicit grants and operator confirmation. Host Artifact Delivery or Memarium
-  admission remains a separate future handoff.
+- `implemented`: artifact-backed patch apply exists behind explicit grants and
+  operator confirmation. The daemon can hand verified Workbench artifacts to
+  the host object resolver and record explicit Artifact Delivery and/or
+  metadata-only Memarium destinations with idempotent audit. Handoff replay
+  binds its idempotency key to the normalized request and `correlation/id`.
 
 ### Interaction and Deferred Coordination
 
@@ -372,7 +390,7 @@ Responsibilities:
 
 Status:
 
-- `partial`: connector-local waits/probes/watches and deferred status
+- `implemented` for current provider classes: connector-local waits/probes/watches and deferred status
   projection exist. The daemon-owned Interaction Broker runtime now provides
   host capability dispatch, durable broker resource storage, seeded provider
   registry rows, operator read APIs, host Bounded Deferred Operation
@@ -386,8 +404,9 @@ Status:
   for artifact, environment, approval, and Memarium-query providers, broker
   startup recovery, bounded broker retention, Workbench provider operator-status
   projection, and daemon BDO polling/cancel for Workbench terminal commands are
-  now implemented. Domain-native AD, Memarium, approval, and other non-Workbench
-  provider adapters beyond dynamic observed-state joins remain future work.
+  now implemented. Domain-native Artifact Delivery, approval/consent, and
+  Memarium-query providers expose bounded snapshots and stable watch cursors;
+  additional domains can join through the dynamic provider contract.
 
 ### Storage, Recovery, and Operator Visibility
 
@@ -429,14 +448,13 @@ Responsibilities:
 
 Status:
 
-- `partial`: the connector has a metadata SQLite store, retention cleanup,
+- `implemented` for the current local runtime: the connector has a metadata SQLite store, retention cleanup,
   orphan signaling, session retirement, interrupted operation/command marking,
   failed-spawn command marking, idempotency replay records with bounded TTLs,
   idle-session cleanup on terminal admission paths, and connector-local
   recovery/lifecycle status diagnostics. The daemon broker status now projects
-  Workbench provider operator status from connector `/v1/status`; richer
-  operator UX and remediation controls over those diagnostics remain future
-  work.
+  Workbench provider operator status from connector `/v1/status`; node-ui
+  presents provider health, ownership, recent resources, and remediation paths.
 
 ### Adversarial Actuator Conformance
 
@@ -466,13 +484,15 @@ Responsibilities:
 
 Status:
 
-- `partial`: initial path, command-profile, patch, artifact, grant, raw-input,
+- `implemented` for exposed local/fixture-copy effects: path, command-profile, patch, artifact, grant, raw-input,
   idempotency, connector-local deferred wait, residual-child recovery,
   interrupted-command recovery, failed-spawn command replay, no-egress,
   operator-consent disabled-denial, dynamic sidecar-refresh, host sidecar
-  diagnostics import, credential-env refusal, local replay, replay TTL cleanup,
-  PTY story, and Python conformance vectors exist. Virtualized-backend vectors
-  remain broader runtime work.
+  diagnostics import, full workspace/root/path prefix-consent binding,
+  credential-env refusal, local replay, replay TTL cleanup,
+  PTY story, Rust bridge, managed-copy export/teardown, broker wait, replay, and
+  Python conformance vectors exist. Production container/microVM executor tests
+  remain coupled to those future backends.
 
 ## May Implement
 
@@ -486,6 +506,9 @@ Related schemas:
 
 - `sensorium-workbench-environment.v1`
 - `sensorium-terminal-session.v1`
+- `sensorium-virt-workspace-export.v1`
+- `sensorium-virt-export-result.v1`
+- `sensorium-virt-teardown-result.v1`
 
 Responsibilities:
 
@@ -498,9 +521,12 @@ Responsibilities:
 
 Status:
 
-- `deferred`.
+- `partial`: `fixture-copy.v1` is a concrete managed-copy executor with bounded
+  allocation, patch, export, SQLite lifecycle projection, and operator-confirmed
+  teardown tests. It intentionally refuses PTY. Container, microVM, emulator,
+  and remote disposable executors remain deferred.
 
-### Agent and Corpus Tool Use
+### Agent, Corpus, and Room Tool Use
 
 Based on:
 
@@ -512,6 +538,7 @@ Related schemas:
 
 - `sensorium-command-intent.v1`
 - `sensorium-workbench-outcome.v1`
+- `sensorium-workbench-tool-request.v1`
 
 Responsibilities:
 
@@ -523,7 +550,14 @@ Responsibilities:
 
 Status:
 
-- `deferred`.
+- `implemented` as the shared admission boundary: Agent, Corpus, and Room
+  requests wrap an ordinary Workbench directive in
+  `sensorium-workbench-tool-request.v1`; the daemon verifies an admitted Agent
+  proposal, active Corpus round, or current execution-derived answer-room
+  projection, stamps host-owned source metadata, and then invokes
+  Sensorium Core. Agent proposals bind to one `directive/id` with idempotent
+  replay. Product-specific workflow producers remain owned by Agent, Corpus,
+  and Room rather than Workbench.
 
 ## Out of Scope
 
