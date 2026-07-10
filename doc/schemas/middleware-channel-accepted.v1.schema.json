@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-accepted:v1",
+  "title": "Middleware Channel Accepted v1",
+  "description": "Host-authenticated session identity, epoch, contract version, and effective limits.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "session/id",
+    "session/epoch",
+    "contract/version",
+    "limits/effective"
+  ],
+  "properties": {
+    "schema": {"const": "middleware-channel-accepted.v1"},
+    "schema/v": {"const": 1},
+    "session/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "session/epoch": {"type": "integer", "minimum": 1, "maximum": 4294967295},
+    "contract/version": {"const": "v1"},
+    "limits/effective": {"$ref": "#/$defs/effectiveLimits"}
+  },
+  "$defs": {
+    "effectiveLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame/max-bytes",
+        "in-flight/host-to-module",
+        "in-flight/module-to-host",
+        "observer/queue-capacity",
+        "heartbeat/interval-ms",
+        "heartbeat/timeout-ms"
+      ],
+      "properties": {
+        "frame/max-bytes": {"type": "integer", "minimum": 4096, "maximum": 1048576},
+        "in-flight/host-to-module": {"type": "integer", "minimum": 1, "maximum": 1024},
+        "in-flight/module-to-host": {"type": "integer", "minimum": 1, "maximum": 1024},
+        "observer/queue-capacity": {"type": "integer", "minimum": 1, "maximum": 65536},
+        "heartbeat/interval-ms": {"type": "integer", "minimum": 100, "maximum": 60000},
+        "heartbeat/timeout-ms": {"type": "integer", "minimum": 100, "maximum": 300000}
+      }
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+  ]
+}

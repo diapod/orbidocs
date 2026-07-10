@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-host-capability-call:v1",
+  "title": "Middleware Channel Host Capability Call v1",
+  "description": "Module-authored request body for invoking one host-authorized capability through an authenticated channel session.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "capability/id", "request/schema", "request"],
+  "properties": {
+    "schema": {"const": "middleware-channel-host-capability-call.v1"},
+    "schema/v": {"const": 1},
+    "capability/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._/-]*$"
+    },
+    "request/schema": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "request": {"type": "object"},
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+  ]
+}

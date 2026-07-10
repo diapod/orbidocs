@@ -34,7 +34,7 @@ DAEMON_HOST_CAPABILITY_ROUTE_FILES = (
 )
 
 
-CONST_RE = re.compile(r'pub const ([A-Z0-9_]+): &str = "([^"]+)";')
+CONST_RE = re.compile(r'pub const ([A-Z0-9_]+): &str\s*=\s*"([^"]+)";')
 MAP_RE = re.compile(
     r"pub static CAPABILITY_ADVERTISEMENT_MAP: &\[\(&str, &str\)\] = &\[(.*?)\];",
     re.S,

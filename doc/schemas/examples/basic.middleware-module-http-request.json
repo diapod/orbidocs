@@ -1,0 +1,15 @@
+{
+  "schema": "middleware-module-http-request.v1",
+  "schema/v": 1,
+  "method": "GET",
+  "path": "/ui/runs/42",
+  "query": "tab=steps",
+  "headers": {
+    "accept": "text/html",
+    "hx-request": "true"
+  },
+  "body/encoding": "base64url",
+  "body": "",
+  "caller/scope": "operator",
+  "ui/mount": "/middleware/arca"
+}

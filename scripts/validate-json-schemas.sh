@@ -59,6 +59,36 @@ schema_for_file() {
     *.artifact-object-pointer.json)
       echo "$SCHEMAS_DIR/artifact-object-pointer.v1.schema.json"
       ;;
+    *.middleware-channel-hello.json)
+      echo "$SCHEMAS_DIR/middleware-channel-hello.v1.schema.json"
+      ;;
+    *.middleware-channel-accepted.json)
+      echo "$SCHEMAS_DIR/middleware-channel-accepted.v1.schema.json"
+      ;;
+    *.middleware-channel-frame.json)
+      echo "$SCHEMAS_DIR/middleware-channel-frame.v1.schema.json"
+      ;;
+    *.middleware-channel-host-capability-call.json)
+      echo "$SCHEMAS_DIR/middleware-channel-host-capability-call.v1.schema.json"
+      ;;
+    *.middleware-channel-call-result.json)
+      echo "$SCHEMAS_DIR/middleware-channel-call-result.v1.schema.json"
+      ;;
+    *.middleware-channel-request-cancel.json)
+      echo "$SCHEMAS_DIR/middleware-channel-request-cancel.v1.schema.json"
+      ;;
+    *.middleware-channel-heartbeat.json)
+      echo "$SCHEMAS_DIR/middleware-channel-heartbeat.v1.schema.json"
+      ;;
+    *.middleware-channel-session-shutdown.json)
+      echo "$SCHEMAS_DIR/middleware-channel-session-shutdown.v1.schema.json"
+      ;;
+    *.middleware-module-http-request.json)
+      echo "$SCHEMAS_DIR/middleware-module-http-request.v1.schema.json"
+      ;;
+    *.middleware-module-http-response.json)
+      echo "$SCHEMAS_DIR/middleware-module-http-response.v1.schema.json"
+      ;;
     *.deferred-operation.json)
       echo "$SCHEMAS_DIR/deferred-operation.v1.schema.json"
       ;;

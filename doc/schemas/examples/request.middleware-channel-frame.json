@@ -1,0 +1,21 @@
+{
+  "schema": "middleware-channel-frame.v1",
+  "schema/v": 1,
+  "session/id": "middleware-session:01JZP080SESSION",
+  "session/epoch": 1,
+  "frame/seq": 1,
+  "message/kind": "request",
+  "operation": "host-capability.invoke",
+  "request/id": "middleware-request:01JZP080REQUEST",
+  "deadline/at": "2026-07-10T12:00:05Z",
+  "trace/correlation-id": "correlation:01JZP080TRACE",
+  "payload/schema": "middleware-channel-host-capability-call.v1",
+  "payload": {
+    "schema": "middleware-channel-host-capability-call.v1",
+    "schema/v": 1,
+    "capability/id": "artifact.delivery.send",
+    "request/schema": "artifact-delivery-envelope.v1",
+    "request": {},
+    "idempotency/key": "artifact-send:01JZP080"
+  }
+}

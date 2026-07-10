@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-request-cancel:v1",
+  "title": "Middleware Channel Request Cancel v1",
+  "description": "Best-effort cancellation request bound to one request previously initiated by the control sender.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "cancel/target", "reason"],
+  "properties": {
+    "schema": {"const": "middleware-channel-request-cancel.v1"},
+    "schema/v": {"const": 1},
+    "cancel/target": {"$ref": "#/$defs/id"},
+    "reason": {"type": "string", "minLength": 1, "maxLength": 256}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+  ]
+}

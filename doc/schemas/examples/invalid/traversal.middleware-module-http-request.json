@@ -1,0 +1,12 @@
+{
+  "schema": "middleware-module-http-request.v1",
+  "schema/v": 1,
+  "method": "GET",
+  "path": "/ui/../../../etc/passwd",
+  "query": "",
+  "headers": {"accept": "text/html"},
+  "body/encoding": "base64url",
+  "body": "",
+  "caller/scope": "operator",
+  "ui/mount": "/middleware/arca"
+}

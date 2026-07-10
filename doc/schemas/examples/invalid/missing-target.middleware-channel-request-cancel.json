@@ -1,0 +1,5 @@
+{
+  "schema": "middleware-channel-request-cancel.v1",
+  "schema/v": 1,
+  "reason": "caller deadline expired"
+}

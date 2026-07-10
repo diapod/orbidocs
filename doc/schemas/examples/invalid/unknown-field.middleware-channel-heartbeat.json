@@ -1,0 +1,6 @@
+{
+  "schema": "middleware-channel-heartbeat.v1",
+  "schema/v": 1,
+  "sent/at": "2026-07-10T12:00:00Z",
+  "process/alive": true
+}

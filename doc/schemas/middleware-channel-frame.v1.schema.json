@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-frame:v1",
+  "title": "Middleware Channel Frame v1",
+  "description": "Strict outer application frame for one accepted middleware channel session.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "session/id",
+    "session/epoch",
+    "frame/seq",
+    "message/kind",
+    "operation",
+    "payload/schema",
+    "payload"
+  ],
+  "properties": {
+    "schema": {"const": "middleware-channel-frame.v1"},
+    "schema/v": {"const": 1},
+    "session/id": {"$ref": "#/$defs/id"},
+    "session/epoch": {"type": "integer", "minimum": 1, "maximum": 4294967295},
+    "frame/seq": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "message/kind": {
+      "type": "string",
+      "enum": ["request", "response", "event", "control"]
+    },
+    "operation": {
+      "type": "string",
+      "enum": [
+        "middleware.init",
+        "middleware.invoke",
+        "middleware.observe",
+        "module-http.invoke",
+        "request.cancel",
+        "host-capability.invoke",
+        "heartbeat",
+        "session.shutdown"
+      ]
+    },
+    "request/id": {"$ref": "#/$defs/id"},
+    "reply/to": {"$ref": "#/$defs/id"},
+    "deadline/at": {"type": "string", "format": "date-time", "maxLength": 64},
+    "trace/correlation-id": {"$ref": "#/$defs/id"},
+    "payload/schema": {"$ref": "#/$defs/schemaName"},
+    "payload": {"type": "object"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"message/kind": {"const": "request"}}, "required": ["message/kind"]},
+      "then": {
+        "required": ["request/id", "deadline/at"],
+        "not": {"required": ["reply/to"]},
+        "properties": {
+          "operation": {
+            "enum": ["middleware.init", "middleware.invoke", "module-http.invoke", "host-capability.invoke"]
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"message/kind": {"const": "response"}}, "required": ["message/kind"]},
+      "then": {
+        "required": ["reply/to"],
+        "not": {"anyOf": [{"required": ["request/id"]}, {"required": ["deadline/at"]}]},
+        "properties": {
+          "operation": {
+            "enum": ["middleware.init", "middleware.invoke", "module-http.invoke", "host-capability.invoke"]
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"message/kind": {"const": "event"}}, "required": ["message/kind"]},
+      "then": {
+        "not": {
+          "anyOf": [
+            {"required": ["request/id"]},
+            {"required": ["reply/to"]},
+            {"required": ["deadline/at"]}
+          ]
+        },
+        "properties": {"operation": {"const": "middleware.observe"}}
+      }
+    },
+    {
+      "if": {"properties": {"message/kind": {"const": "control"}}, "required": ["message/kind"]},
+      "then": {
+        "not": {
+          "anyOf": [
+            {"required": ["request/id"]},
+            {"required": ["reply/to"]},
+            {"required": ["deadline/at"]}
+          ]
+        },
+        "properties": {
+          "operation": {"enum": ["request.cancel", "heartbeat", "session.shutdown"]}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {"const": "request"},
+          "operation": {"const": "host-capability.invoke"}
+        },
+        "required": ["message/kind", "operation"]
+      },
+      "then": {"properties": {"payload/schema": {"const": "middleware-channel-host-capability-call.v1"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {"const": "response"},
+          "operation": {"const": "host-capability.invoke"}
+        },
+        "required": ["message/kind", "operation"]
+      },
+      "then": {"properties": {"payload/schema": {"const": "middleware-channel-call-result.v1"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {"const": "request"},
+          "operation": {"const": "module-http.invoke"}
+        },
+        "required": ["message/kind", "operation"]
+      },
+      "then": {"properties": {"payload/schema": {"const": "middleware-module-http-request.v1"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {"const": "response"},
+          "operation": {"const": "module-http.invoke"}
+        },
+        "required": ["message/kind", "operation"]
+      },
+      "then": {"properties": {"payload/schema": {"const": "middleware-module-http-response.v1"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {"const": "control"},
+          "operation": {"const": "request.cancel"}
+        },
+        "required": ["message/kind", "operation"]
+      },
+      "then": {"properties": {"payload/schema": {"const": "middleware-channel-request-cancel.v1"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {"const": "control"},
+          "operation": {"const": "heartbeat"}
+        },
+        "required": ["message/kind", "operation"]
+      },
+      "then": {"properties": {"payload/schema": {"const": "middleware-channel-heartbeat.v1"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {"const": "control"},
+          "operation": {"const": "session.shutdown"}
+        },
+        "required": ["message/kind", "operation"]
+      },
+      "then": {"properties": {"payload/schema": {"const": "middleware-channel-session-shutdown.v1"}}}
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "schemaName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+  ]
+}

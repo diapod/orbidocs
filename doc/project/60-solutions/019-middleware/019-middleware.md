@@ -59,9 +59,12 @@ by the current hard-MVP stories. New executor classes or richer module-specific
 operator products should be tracked by their owning proposals rather than
 holding the common Middleware solution below `done`.
 
-Post-MVP transport evolution is tracked by Proposal 080. It introduces the planned
-`channel_json` executor and migration from per-module host-only HTTP listeners; this
-does not reopen the completed hard-MVP middleware contract.
+Post-MVP transport evolution is tracked by Proposal 080. Its checked listener
+inventory, strict channel schemas, semantic golden vectors, schema-gated host
+boundaries, explicit cancel/heartbeat/shutdown control payloads, and pure Rust
+state/correlation core are implemented. The shared listener,
+supervisor integration, and module migration remain planned; this does not reopen the
+completed hard-MVP middleware contract.
 
 ## Purpose
 
@@ -374,7 +377,7 @@ alter dispatch.
 | `command_stdio` | Medium/high | One-shot command process with bounded input/output. |
 | `local_http_json` | High | Unmanaged loopback HTTP adapter. |
 | `http_local_json` | High | Supervised loopback HTTP service with readiness, restart, init/report, and module lifecycle. |
-| `channel_json` (planned) | High | Supervised module-initiated WebSocket session multiplexing host dispatch, host-capability calls, lifecycle control, and host-mediated module HTTP/UI requests over one shared listener. |
+| `channel_json` (foundation implemented) | High | Strict contracts and pure bounded session/correlation core exist; the planned supervised module-initiated WebSocket runtime will multiplex host dispatch, host-capability calls, lifecycle control, and host-mediated module HTTP/UI requests over one shared listener. |
 
 The executor class is not the authority boundary by itself. Authority comes
 from host-owned grants: module authtok, capability passport, local config,
@@ -382,7 +385,7 @@ dispatch gate, schema validation, timeout, size limits, and audit policy.
 
 ### Multiplexed Channel Direction
 
-Proposal 080 plans `channel_json` as a transport replacement for eligible
+Proposal 080 defines `channel_json` as a transport replacement for eligible
 `http_local_json` modules. One shared loopback WebSocket listener is host-owned;
 each supervised module initiates one authenticated session and receives independent
 logical calls correlated by request id. Existing invoke payloads, decisions, module
@@ -394,6 +397,12 @@ idempotency or Deferred Operation contracts. Public, peer-facing, browser-facing
 provider-facing service listeners remain outside this migration. Node UI reaches
 channel-backed `server-html` surfaces through a daemon-owned bridge rather than by
 learning module transport endpoints.
+
+The first implementation slice is deliberately transport-free:
+`middleware-channel-core` validates the synchronized contracts through the Node schema
+gate, negotiates the most restrictive limits, and enforces launch identity, direction,
+sequence, bounded request-id history, in-flight, duplicate-request, and unknown-reply
+invariants. WebSocket I/O and daemon lifecycle ownership begin with P080-005.
 
 ## Module Init And Report
 

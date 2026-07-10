@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-module-http-request:v1",
+  "title": "Middleware Module HTTP Request v1",
+  "description": "Filtered host-mediated request projection for one declared module-owned HTTP or server-html route.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "method",
+    "path",
+    "query",
+    "headers",
+    "body/encoding",
+    "body",
+    "caller/scope",
+    "ui/mount"
+  ],
+  "properties": {
+    "schema": {"const": "middleware-module-http-request.v1"},
+    "schema/v": {"const": 1},
+    "method": {"type": "string", "enum": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"]},
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048,
+      "pattern": "^/[^?#\\u0000-\\u001F\\u007F]*$",
+      "not": {"pattern": "(^|/)\\.\\.?(/|$)"}
+    },
+    "query": {
+      "type": "string",
+      "maxLength": 4096,
+      "pattern": "^[^#\\u0000-\\u001F\\u007F]*$"
+    },
+    "headers": {"$ref": "#/$defs/headers"},
+    "body/encoding": {"const": "base64url"},
+    "body": {"$ref": "#/$defs/body"},
+    "caller/scope": {
+      "type": "string",
+      "enum": ["public", "user", "pod-user", "operator", "host"]
+    },
+    "ui/mount": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^/[^?#\\u0000-\\u001F\\u007F]*$",
+      "not": {"pattern": "(^|/)\\.\\.?(/|$)"}
+    }
+  },
+  "$defs": {
+    "headers": {
+      "type": "object",
+      "maxProperties": 32,
+      "propertyNames": {
+        "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 2048,
+        "pattern": "^[^\\r\\n]*$"
+      }
+    },
+    "body": {
+      "type": "string",
+      "maxLength": 349526,
+      "pattern": "^[A-Za-z0-9_-]*$"
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+  ]
+}

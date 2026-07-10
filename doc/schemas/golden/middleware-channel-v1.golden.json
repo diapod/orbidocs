@@ -1,0 +1,465 @@
+{
+  "schema": "middleware-channel-conformance-vectors.v1",
+  "schema/v": 1,
+  "hello_cases": [
+    {
+      "name": "matching-launch-identity",
+      "configured": {
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO"
+      },
+      "hello": {
+        "schema": "middleware-channel-hello.v1",
+        "schema/v": 1,
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO",
+        "contract/versions": [
+          "v1"
+        ],
+        "channel/features": [
+          "bidirectional-rpc",
+          "cancellation",
+          "heartbeat"
+        ],
+        "limits/requested": {
+          "frame/max-bytes": 262144,
+          "in-flight/host-to-module": 32,
+          "in-flight/module-to-host": 16,
+          "observer/queue-capacity": 128
+        }
+      },
+      "expected": {
+        "decision": "accept"
+      }
+    },
+    {
+      "name": "executor-mismatch-only",
+      "configured": {
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO"
+      },
+      "hello": {
+        "schema": "middleware-channel-hello.v1",
+        "schema/v": 1,
+        "executor/id": "another-executor",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO",
+        "contract/versions": [
+          "v1"
+        ],
+        "channel/features": [
+          "bidirectional-rpc",
+          "cancellation",
+          "heartbeat"
+        ],
+        "limits/requested": {
+          "frame/max-bytes": 262144,
+          "in-flight/host-to-module": 32,
+          "in-flight/module-to-host": 16,
+          "observer/queue-capacity": 128
+        }
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "launch-identity-mismatch"
+      }
+    },
+    {
+      "name": "module-mismatch-only",
+      "configured": {
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO"
+      },
+      "hello": {
+        "schema": "middleware-channel-hello.v1",
+        "schema/v": 1,
+        "executor/id": "dator-channel",
+        "module/id": "another-module",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO",
+        "contract/versions": [
+          "v1"
+        ],
+        "channel/features": [
+          "bidirectional-rpc",
+          "cancellation",
+          "heartbeat"
+        ],
+        "limits/requested": {
+          "frame/max-bytes": 262144,
+          "in-flight/host-to-module": 32,
+          "in-flight/module-to-host": 16,
+          "observer/queue-capacity": 128
+        }
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "launch-identity-mismatch"
+      }
+    },
+    {
+      "name": "component-mismatch-only",
+      "configured": {
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO"
+      },
+      "hello": {
+        "schema": "middleware-channel-hello.v1",
+        "schema/v": 1,
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.another",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO",
+        "contract/versions": [
+          "v1"
+        ],
+        "channel/features": [
+          "bidirectional-rpc",
+          "cancellation",
+          "heartbeat"
+        ],
+        "limits/requested": {
+          "frame/max-bytes": 262144,
+          "in-flight/host-to-module": 32,
+          "in-flight/module-to-host": 16,
+          "observer/queue-capacity": 128
+        }
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "launch-identity-mismatch"
+      }
+    },
+    {
+      "name": "launch-instance-mismatch-only",
+      "configured": {
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO"
+      },
+      "hello": {
+        "schema": "middleware-channel-hello.v1",
+        "schema/v": 1,
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080OTHER",
+        "contract/versions": [
+          "v1"
+        ],
+        "channel/features": [
+          "bidirectional-rpc",
+          "cancellation",
+          "heartbeat"
+        ],
+        "limits/requested": {
+          "frame/max-bytes": 262144,
+          "in-flight/host-to-module": 32,
+          "in-flight/module-to-host": 16,
+          "observer/queue-capacity": 128
+        }
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "launch-identity-mismatch"
+      }
+    },
+    {
+      "name": "missing-bidirectional-rpc",
+      "configured": {
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO"
+      },
+      "hello": {
+        "schema": "middleware-channel-hello.v1",
+        "schema/v": 1,
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO",
+        "contract/versions": [
+          "v1"
+        ],
+        "channel/features": [
+          "cancellation",
+          "heartbeat"
+        ],
+        "limits/requested": {
+          "frame/max-bytes": 262144,
+          "in-flight/host-to-module": 32,
+          "in-flight/module-to-host": 16,
+          "observer/queue-capacity": 128
+        }
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "required-channel-feature-missing"
+      }
+    },
+    {
+      "name": "missing-heartbeat",
+      "configured": {
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO"
+      },
+      "hello": {
+        "schema": "middleware-channel-hello.v1",
+        "schema/v": 1,
+        "executor/id": "dator-channel",
+        "module/id": "dator",
+        "component/id": "middleware.dator",
+        "launch/instance-id": "middleware-launch:01JZP080HELLO",
+        "contract/versions": [
+          "v1"
+        ],
+        "channel/features": [
+          "bidirectional-rpc",
+          "cancellation"
+        ],
+        "limits/requested": {
+          "frame/max-bytes": 262144,
+          "in-flight/host-to-module": 32,
+          "in-flight/module-to-host": 16,
+          "observer/queue-capacity": 128
+        }
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "required-channel-feature-missing"
+      }
+    }
+  ],
+  "frame_cases": [
+    {
+      "name": "first-inbound-request",
+      "state": {
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/max-bytes": 262144,
+        "last-inbound-seq": null,
+        "pending-outbound-request-ids": [],
+        "seen-inbound-request-ids": []
+      },
+      "encoded/bytes": 512,
+      "frame": {
+        "schema": "middleware-channel-frame.v1",
+        "schema/v": 1,
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/seq": 1,
+        "message/kind": "request",
+        "operation": "host-capability.invoke",
+        "request/id": "middleware-request:inbound-1",
+        "deadline/at": "2026-07-10T12:00:05Z",
+        "payload/schema": "middleware-channel-host-capability-call.v1",
+        "payload": {
+          "schema": "middleware-channel-host-capability-call.v1",
+          "schema/v": 1,
+          "capability/id": "artifact.delivery.send",
+          "request/schema": "artifact-delivery-envelope.v1",
+          "request": {}
+        }
+      },
+      "expected": {
+        "decision": "accept"
+      }
+    },
+    {
+      "name": "oversized-frame",
+      "state": {
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/max-bytes": 262144,
+        "last-inbound-seq": null,
+        "pending-outbound-request-ids": [],
+        "seen-inbound-request-ids": []
+      },
+      "encoded/bytes": 262145,
+      "frame": {
+        "schema": "middleware-channel-frame.v1",
+        "schema/v": 1,
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/seq": 1,
+        "message/kind": "event",
+        "operation": "middleware.observe",
+        "payload/schema": "peer-message-observe.v1",
+        "payload": {}
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "frame-too-large"
+      }
+    },
+    {
+      "name": "duplicate-sequence",
+      "state": {
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/max-bytes": 262144,
+        "last-inbound-seq": 1,
+        "pending-outbound-request-ids": [],
+        "seen-inbound-request-ids": []
+      },
+      "encoded/bytes": 256,
+      "frame": {
+        "schema": "middleware-channel-frame.v1",
+        "schema/v": 1,
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/seq": 1,
+        "message/kind": "event",
+        "operation": "middleware.observe",
+        "payload/schema": "peer-message-observe.v1",
+        "payload": {}
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "frame-sequence-not-monotonic"
+      }
+    },
+    {
+      "name": "regressing-sequence",
+      "state": {
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/max-bytes": 262144,
+        "last-inbound-seq": 2,
+        "pending-outbound-request-ids": [],
+        "seen-inbound-request-ids": []
+      },
+      "encoded/bytes": 256,
+      "frame": {
+        "schema": "middleware-channel-frame.v1",
+        "schema/v": 1,
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/seq": 1,
+        "message/kind": "event",
+        "operation": "middleware.observe",
+        "payload/schema": "peer-message-observe.v1",
+        "payload": {}
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "frame-sequence-not-monotonic"
+      }
+    },
+    {
+      "name": "duplicate-request-id",
+      "state": {
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/max-bytes": 262144,
+        "last-inbound-seq": 1,
+        "pending-outbound-request-ids": [],
+        "seen-inbound-request-ids": [
+          "middleware-request:inbound-1"
+        ]
+      },
+      "encoded/bytes": 512,
+      "frame": {
+        "schema": "middleware-channel-frame.v1",
+        "schema/v": 1,
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/seq": 2,
+        "message/kind": "request",
+        "operation": "host-capability.invoke",
+        "request/id": "middleware-request:inbound-1",
+        "deadline/at": "2026-07-10T12:00:05Z",
+        "payload/schema": "middleware-channel-host-capability-call.v1",
+        "payload": {
+          "schema": "middleware-channel-host-capability-call.v1",
+          "schema/v": 1,
+          "capability/id": "artifact.delivery.send",
+          "request/schema": "artifact-delivery-envelope.v1",
+          "request": {}
+        }
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "duplicate-request-id"
+      }
+    },
+    {
+      "name": "unknown-reply",
+      "state": {
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/max-bytes": 262144,
+        "last-inbound-seq": null,
+        "pending-outbound-request-ids": [],
+        "seen-inbound-request-ids": []
+      },
+      "encoded/bytes": 512,
+      "frame": {
+        "schema": "middleware-channel-frame.v1",
+        "schema/v": 1,
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/seq": 1,
+        "message/kind": "response",
+        "operation": "middleware.invoke",
+        "reply/to": "middleware-request:not-pending",
+        "payload/schema": "middleware-decision-response.v1",
+        "payload": {
+          "decision": "allow",
+          "reason": "ok"
+        }
+      },
+      "expected": {
+        "decision": "refuse",
+        "code": "unknown-reply"
+      }
+    },
+    {
+      "name": "known-reply",
+      "state": {
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/max-bytes": 262144,
+        "last-inbound-seq": null,
+        "pending-outbound-request-ids": [
+          "middleware-request:pending-1"
+        ],
+        "seen-inbound-request-ids": []
+      },
+      "encoded/bytes": 512,
+      "frame": {
+        "schema": "middleware-channel-frame.v1",
+        "schema/v": 1,
+        "session/id": "middleware-session:01JZP080SESSION",
+        "session/epoch": 1,
+        "frame/seq": 1,
+        "message/kind": "response",
+        "operation": "middleware.invoke",
+        "reply/to": "middleware-request:pending-1",
+        "payload/schema": "middleware-decision-response.v1",
+        "payload": {
+          "decision": "allow",
+          "reason": "ok"
+        }
+      },
+      "expected": {
+        "decision": "accept"
+      }
+    }
+  ]
+}

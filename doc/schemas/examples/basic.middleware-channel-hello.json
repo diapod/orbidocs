@@ -1,0 +1,16 @@
+{
+  "schema": "middleware-channel-hello.v1",
+  "schema/v": 1,
+  "executor/id": "dator-channel",
+  "module/id": "dator",
+  "component/id": "middleware.dator",
+  "launch/instance-id": "middleware-launch:01JZP080HELLO",
+  "contract/versions": ["v1"],
+  "channel/features": ["bidirectional-rpc", "cancellation", "heartbeat"],
+  "limits/requested": {
+    "frame/max-bytes": 262144,
+    "in-flight/host-to-module": 32,
+    "in-flight/module-to-host": 16,
+    "observer/queue-capacity": 128
+  }
+}

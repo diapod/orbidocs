@@ -1,0 +1,8 @@
+{
+  "schema": "middleware-channel-host-capability-call.v1",
+  "schema/v": 1,
+  "capability/id": "artifact.delivery.send",
+  "request/schema": "artifact-delivery-envelope.v1",
+  "request": {},
+  "caller/module-id": "another-module"
+}

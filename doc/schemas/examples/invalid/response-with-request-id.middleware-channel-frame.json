@@ -1,0 +1,25 @@
+{
+  "schema": "middleware-channel-frame.v1",
+  "schema/v": 1,
+  "session/id": "middleware-session:01JZP080SESSION",
+  "session/epoch": 1,
+  "frame/seq": 2,
+  "message/kind": "response",
+  "operation": "host-capability.invoke",
+  "request/id": "middleware-request:new",
+  "reply/to": "middleware-request:01JZP080REQUEST",
+  "payload/schema": "middleware-channel-call-result.v1",
+  "payload": {
+    "schema": "middleware-channel-call-result.v1",
+    "schema/v": 1,
+    "outcome": "failed",
+    "result/schema": null,
+    "result": null,
+    "failure": {
+      "class": "retryable",
+      "code": "host-capability-unavailable",
+      "message": "temporarily unavailable",
+      "tracking/id": "error:01JZP080"
+    }
+  }
+}

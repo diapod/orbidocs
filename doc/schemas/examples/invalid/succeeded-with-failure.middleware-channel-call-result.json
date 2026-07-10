@@ -1,0 +1,13 @@
+{
+  "schema": "middleware-channel-call-result.v1",
+  "schema/v": 1,
+  "outcome": "succeeded",
+  "result/schema": "artifact-delivery-result.v1",
+  "result": {},
+  "failure": {
+    "class": "terminal",
+    "code": "contradictory-outcome",
+    "message": "success cannot carry a failure",
+    "tracking/id": "error:01JZP080"
+  }
+}

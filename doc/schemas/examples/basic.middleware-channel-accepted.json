@@ -1,0 +1,15 @@
+{
+  "schema": "middleware-channel-accepted.v1",
+  "schema/v": 1,
+  "session/id": "middleware-session:01JZP080SESSION",
+  "session/epoch": 1,
+  "contract/version": "v1",
+  "limits/effective": {
+    "frame/max-bytes": 262144,
+    "in-flight/host-to-module": 32,
+    "in-flight/module-to-host": 16,
+    "observer/queue-capacity": 128,
+    "heartbeat/interval-ms": 5000,
+    "heartbeat/timeout-ms": 15000
+  }
+}

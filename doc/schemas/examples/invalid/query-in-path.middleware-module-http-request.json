@@ -1,0 +1,12 @@
+{
+  "schema": "middleware-module-http-request.v1",
+  "schema/v": 1,
+  "method": "GET",
+  "path": "/ui/runs/42?tab=steps",
+  "query": "",
+  "headers": {},
+  "body/encoding": "base64url",
+  "body": "",
+  "caller/scope": "operator",
+  "ui/mount": "/middleware/arca"
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-session-shutdown:v1",
+  "title": "Middleware Channel Session Shutdown v1",
+  "description": "Host-issued bounded drain deadline and redacted reason for one channel session shutdown.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "deadline/at", "reason"],
+  "properties": {
+    "schema": {"const": "middleware-channel-session-shutdown.v1"},
+    "schema/v": {"const": 1},
+    "deadline/at": {"type": "string", "format": "date-time", "maxLength": 64},
+    "reason": {"type": "string", "minLength": 1, "maxLength": 256}
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+  ]
+}

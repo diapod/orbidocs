@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-hello:v1",
+  "title": "Middleware Channel Hello v1",
+  "description": "Module-supplied consistency assertions and requested limits for one authenticated channel launch.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "executor/id",
+    "module/id",
+    "component/id",
+    "launch/instance-id",
+    "contract/versions",
+    "channel/features",
+    "limits/requested"
+  ],
+  "properties": {
+    "schema": {"const": "middleware-channel-hello.v1"},
+    "schema/v": {"const": 1},
+    "executor/id": {"$ref": "#/$defs/id"},
+    "module/id": {"$ref": "#/$defs/id"},
+    "component/id": {"$ref": "#/$defs/id"},
+    "launch/instance-id": {"$ref": "#/$defs/id"},
+    "contract/versions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {"const": "v1"}
+    },
+    "channel/features": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["bidirectional-rpc", "cancellation", "heartbeat"]
+      }
+    },
+    "limits/requested": {"$ref": "#/$defs/requestedLimits"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "requestedLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame/max-bytes",
+        "in-flight/host-to-module",
+        "in-flight/module-to-host",
+        "observer/queue-capacity"
+      ],
+      "properties": {
+        "frame/max-bytes": {"type": "integer", "minimum": 4096, "maximum": 1048576},
+        "in-flight/host-to-module": {"type": "integer", "minimum": 1, "maximum": 1024},
+        "in-flight/module-to-host": {"type": "integer", "minimum": 1, "maximum": 1024},
+        "observer/queue-capacity": {"type": "integer", "minimum": 1, "maximum": 65536}
+      }
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+  ]
+}

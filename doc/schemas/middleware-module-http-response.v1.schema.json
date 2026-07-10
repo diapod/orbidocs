@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-module-http-response:v1",
+  "title": "Middleware Module HTTP Response v1",
+  "description": "Bounded module response projection returned through the host-mediated HTTP bridge.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "status", "headers", "body/encoding", "body"],
+  "properties": {
+    "schema": {"const": "middleware-module-http-response.v1"},
+    "schema/v": {"const": 1},
+    "status": {"type": "integer", "minimum": 100, "maximum": 599},
+    "headers": {
+      "type": "object",
+      "maxProperties": 32,
+      "propertyNames": {
+        "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 2048,
+        "pattern": "^[^\\r\\n]*$"
+      }
+    },
+    "body/encoding": {"const": "base64url"},
+    "body": {
+      "type": "string",
+      "maxLength": 349526,
+      "pattern": "^[A-Za-z0-9_-]*$"
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+  ]
+}

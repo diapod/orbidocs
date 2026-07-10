@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-call-result:v1",
+  "title": "Middleware Channel Call Result v1",
+  "description": "Redacted host-capability result with explicit retry and policy failure semantics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "outcome", "result/schema", "result", "failure"],
+  "properties": {
+    "schema": {"const": "middleware-channel-call-result.v1"},
+    "schema/v": {"const": 1},
+    "outcome": {"type": "string", "enum": ["succeeded", "refused", "failed"]},
+    "result/schema": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "result": true,
+    "failure": {
+      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/failure"}]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"outcome": {"const": "succeeded"}}, "required": ["outcome"]},
+      "then": {
+        "properties": {
+          "result/schema": {"type": "string"},
+          "result": {"not": {"type": "null"}},
+          "failure": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"outcome": {"const": "refused"}}, "required": ["outcome"]},
+      "then": {
+        "properties": {
+          "result/schema": {"type": "null"},
+          "result": {"type": "null"},
+          "failure": {
+            "allOf": [
+              {"$ref": "#/$defs/failure"},
+              {"properties": {"class": {"const": "policy-denied"}}}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"outcome": {"const": "failed"}}, "required": ["outcome"]},
+      "then": {
+        "properties": {
+          "result/schema": {"type": "null"},
+          "result": {"type": "null"},
+          "failure": {
+            "allOf": [
+              {"$ref": "#/$defs/failure"},
+              {"properties": {"class": {"enum": ["retryable", "terminal"]}}}
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class", "code", "message", "tracking/id"],
+      "properties": {
+        "class": {
+          "type": "string",
+          "enum": ["retryable", "terminal", "policy-denied"]
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$"
+        },
+        "message": {"type": "string", "minLength": 1, "maxLength": 512},
+        "tracking/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+        }
+      }
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+  ]
+}

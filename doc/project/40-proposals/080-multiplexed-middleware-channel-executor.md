@@ -16,7 +16,7 @@ Based on:
 
 ## Status
 
-Proposed (Draft)
+Accepted (Implementation in progress)
 
 ## Date
 
@@ -344,10 +344,10 @@ V1 operations are:
 | host -> module | `middleware.invoke` | existing workflow/peer/local/role request contract |
 | host -> module | `middleware.observe` | existing observer contract |
 | host -> module | `module-http.invoke` | `middleware-module-http-request.v1` |
-| either | `request.cancel` | request id and reason for a request initiated by that side |
+| either | `request.cancel` | `middleware-channel-request-cancel.v1` with the request id and reason for a request initiated by that side |
 | module -> host | `host-capability.invoke` | `middleware-channel-host-capability-call.v1` |
-| either | `heartbeat` | bounded heartbeat control body |
-| host -> module | `session.shutdown` | bounded shutdown deadline and reason |
+| either | `heartbeat` | `middleware-channel-heartbeat.v1` with a bounded sender timestamp |
+| host -> module | `session.shutdown` | `middleware-channel-session-shutdown.v1` with a bounded shutdown deadline and reason |
 
 The runtime derives traffic class from the operation. A module cannot mark its own
 request as control traffic.
@@ -468,6 +468,11 @@ Scheduling rules:
 - one slow module operation cannot occupy the reader loop,
 - cancellation is best-effort for already-running work and never implies rollback,
 - work that may legitimately outlive a request uses Bounded Deferred Operations.
+
+Per-direction request-id history is host-bounded and monotonic within one session
+epoch. Implementations MUST NOT evict old ids and silently permit their reuse. When
+the configured history capacity is exhausted, new RPC requests fail closed and the
+module must attach a new session epoch before issuing further requests.
 
 WebSocket still inherits TCP head-of-line behavior. V1 mitigates this by limiting
 frame size, disabling compression, and using artifact references for larger values.
@@ -642,6 +647,23 @@ operator status is a rebuildable read model. No second durable RPC queue is crea
   authorization fixtures.
 - Add capability/ledger mappings only if implementation introduces a new host
   capability. The transport itself is not a capability id.
+
+#### Listener Inventory Baseline
+
+The checked Node inventory lives at
+`node:docs/middleware-http-listener-inventory.v1.json`. Its repository checker
+compares the decision table with every bundled `middleware-modules/*/config/00-*.json`
+factory config, so a new factory listener cannot enter the tree without an explicit
+migration classification.
+
+The initial inventory contains 16 modules:
+
+- 6 host-only loopback listeners targeted for complete replacement by the shared
+  channel,
+- 6 mixed host/product listeners whose host control plane moves to the channel while
+  the product surface is retained or split,
+- 4 intentional network services whose service listeners are not channel migration
+  targets.
 
 ### Phase 1: Channel Primitive and Conformance Peer
 
@@ -859,9 +881,9 @@ share the same channel contract.
 | ID | Deliverable | Status | Notes |
 |---|---|---|---|
 | P080-001 | Document `channel_json` architecture, migration boundary, initial decisions, and acceptance criteria | done | This proposal records the implementation plan and frozen initial defaults. |
-| P080-002 | Inventory `http_local_json` listeners as host-only, mixed, or intentional network service surfaces | todo | Inventory must precede mechanical module conversion. |
-| P080-003 | Add canonical channel hello, accepted, frame, host-capability call/result, and module HTTP bridge schemas with fixtures | todo | Validate outer and embedded contracts; use strict security-boundary schemas. |
-| P080-004 | Add Rust channel contract/state/correlation core and schema-gate integration | todo | Keep WebSocket I/O and daemon policy outside the pure core. |
+| P080-002 | Inventory `http_local_json` listeners as host-only, mixed, or intentional network service surfaces | done | The checked Node inventory covers all 16 bundled factory modules and fails CI on missing, stale, duplicate, non-loopback, or contradictory entries. |
+| P080-003 | Add canonical channel hello, accepted, frame, control payload, host-capability call/result, and module HTTP bridge schemas with fixtures | done | Ten strict schemas, positive/negative fixtures, host-boundary schema-gate coverage, and cross-language semantic golden vectors are synchronized from Orbidocs into Node protocol contracts. Control frames bind explicit cancel, heartbeat, and shutdown payload contracts. |
+| P080-004 | Add Rust channel contract/state/correlation core and schema-gate integration | done | `middleware-channel-core` owns typed DTOs, schema-gated host boundaries, deterministic limit negotiation, direction checks, JSON-safe sequence bounds, bounded request-id history, and refusal-first correlation tests without WebSocket or supervisor dependencies. |
 | P080-005 | Add bounded shared WebSocket listener and session registry | todo | Reuse `tungstenite` and Bounded Local Server Runtime patterns. |
 | P080-006 | Add shared Python `channel_json` client/runtime and cross-language golden vectors | todo | One reader, bounded workers, bounded writer queues, no unbounded thread-per-request behavior. |
 | P080-007 | Add `channel_json` config projection, launch instance credentials, init/report attach, heartbeat, reconnect, and shutdown lifecycle | todo | Session readiness replaces per-module HTTP readiness polling. |
@@ -881,12 +903,13 @@ share the same channel contract.
 
 ## Next Actions
 
-1. Complete P080-002 and turn the listener inventory into a checked repository
-   artifact or test input.
-2. Freeze P080-003 schemas and golden vectors before writing WebSocket lifecycle
-   code.
-3. Implement the pure channel core and fixture peer before daemon integration.
-4. Add the shared listener/session registry and one end-to-end fixture.
+1. Keep the P080-002 inventory checker green as bundled factory modules are added or
+   their listener ownership changes.
+2. Keep the P080-003 schemas, fixtures, and semantic golden vectors synchronized
+   through the Orbidocs-to-Node mirror and schema gate.
+3. Build P080-005's bounded shared listener and session registry on the completed
+   pure channel core, then add one end-to-end fixture.
+4. Add the shared Python client/runtime and cross-language conformance checks.
 5. Refactor dispatch targets and host-capability invocation before migrating a real
    module.
 6. Migrate the three pilot behavior classes, review the resulting traces and failure

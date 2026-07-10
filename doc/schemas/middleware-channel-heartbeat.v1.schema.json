@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-heartbeat:v1",
+  "title": "Middleware Channel Heartbeat v1",
+  "description": "Bounded application-level liveness signal for one channel session.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "sent/at"],
+  "properties": {
+    "schema": {"const": "middleware-channel-heartbeat.v1"},
+    "schema/v": {"const": 1},
+    "sent/at": {"type": "string", "format": "date-time", "maxLength": 64}
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "schema": "middleware-channel-session-shutdown.v1",
+  "schema/v": 1,
+  "reason": "node shutdown"
+}

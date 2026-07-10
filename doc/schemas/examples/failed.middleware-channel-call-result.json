@@ -1,0 +1,13 @@
+{
+  "schema": "middleware-channel-call-result.v1",
+  "schema/v": 1,
+  "outcome": "failed",
+  "result/schema": null,
+  "result": null,
+  "failure": {
+    "class": "retryable",
+    "code": "host-capability-unavailable",
+    "message": "host capability is temporarily unavailable",
+    "tracking/id": "error:01JZP080"
+  }
+}
