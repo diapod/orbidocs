@@ -121,6 +121,9 @@ The listener MUST:
 - use the Bounded Local Server Runtime or a documented equivalent bounded adapter,
 - use a long-lived-session profile with a fixed worker/session ceiling rather than
   the ordinary short HTTP handler deadline,
+- keep the whole-connection handler timeout disabled for the long-lived WebSocket;
+  bound module-to-host work with the negotiated in-flight ceiling and return a
+  typed retryable overload result when that worker gate is exhausted,
 - cap concurrent sessions and handshake work,
 - refuse browser-originated connections by default,
 - disable WebSocket compression in v1,
@@ -868,18 +871,16 @@ are required before migrating modules that expose those surfaces.
 7. Node UI reaches module-owned server HTML through a daemon bridge.
 8. `local_http_json` remains the unmanaged-service adapter.
 9. Intentional network service listeners are not migration targets.
+10. `observer/queue-capacity` bounds ephemeral fire-and-forget observation traffic.
+    Pressure drops observations and increments counters; replay requires a separate
+    durable delivery contract outside the channel session.
 
 ## Open Questions
 
 No question blocks the implemented foundation. The following policy choices remain
 open for their owning later phases:
 
-1. Before P080-010, should `observer/queue-capacity` bound only fire-and-forget
-   `middleware.observe` traffic with drop-and-count overload semantics, or should
-   observers receive a distinct replayable delivery contract? The former keeps the
-   channel ephemeral; the latter would require a durable mechanism outside the
-   session queue.
-2. Before P080-012, should one long-lived launch credential remain valid until
+1. Before a later live-rotation phase, should one long-lived launch credential remain valid until
    process stop/restart, or should the host rotate it during a live launch? Live
    rotation requires an explicit re-authentication/rebind protocol; a wall-clock TTL
    without that protocol would break healthy long-lived sessions and bounded
@@ -902,11 +903,11 @@ later persistent-stdio adapter should share the same channel contract.
 | P080-007 | Add `channel_json` config projection, launch instance credentials, init/report attach, heartbeat, reconnect, and shutdown lifecycle | done | The shared supervisor launches a process with file-backed per-launch credentials, derives readiness from schema-gated init/report plus an application heartbeat, allows bounded same-launch reconnect, applies the existing restart policy, and escalates shutdown through graceful channel control, terminate, then kill. |
 | P080-008 | Introduce transport-neutral `MiddlewareDispatchTarget` and remove common `invoke_url` assumptions | done | Daemon config accepts `middleware_channel_services`; the daemon-owned supervisor starts and stops them beside HTTP middleware, resolves declared service types to an HTTP-or-channel sum type, and waits through cloned credential-free handles outside the supervisor lock. A daemon smoke test proves config -> attach -> channel dispatch. |
 | P080-009 | Factor host-capability dispatch beneath HTTP and channel adapters | done | Daemon composition supplies `HostCapabilityChannelInboundHandler`, provisions channel modules in host-capability admission bindings, and delegates authenticated calls to `HostCapabilitiesHost::dispatch_response`, preserving caller identity and the common authorization/revocation/scope/policy/audit path. |
-| P080-010 | Implement bounded multiplexing, per-direction in-flight limits, cancellation, fairness, overload, and typed failure semantics | todo | Implement the currently contract-only `request.cancel` path and give control, RPC, and `middleware.observe` traffic separate bounded treatment; resolve the observer-queue Open Question before marking done. |
-| P080-011 | Add daemon module HTTP/UI bridge and migrate Node UI away from direct module endpoints | todo | Required before migrating `server-html` modules. |
-| P080-012 | Add operator session status, metrics, redacted lifecycle facts, and component controls | todo | Session state is ephemeral; audit facts and module reports are durable. |
-| P080-013 | Add fixture/conformance suite for concurrency, refusal, reconnect, shutdown, and port inventory | todo | Extend the current daemon composition smoke and Python handshake/admission tests with reconnect epoch, old-session refusal, cancellation, observer overflow, oversized/binary frame, and concurrent-attachment cases. |
-| P080-014 | Pilot one observer, one host-capability caller, and one module HTTP/UI surface on `channel_json` | todo | Keep explicit rollback to `http_local_json` during pilot. |
+| P080-010 | Implement bounded multiplexing, per-direction in-flight limits, cancellation, fairness, overload, and typed failure semantics | done | Control, RPC, and ephemeral observer traffic use separately configurable bounded queues with control-first fair draining. Timeout cancellation is request-bound, RPC overload and timeout are typed, module-to-host workers retain negotiated concurrency permits for their full lifetime, and observer pressure is drop-and-count. |
+| P080-011 | Add daemon module HTTP/UI bridge and migrate Node UI away from direct module endpoints | done | The control-authenticated operator bridge enforces `caller/scope=operator`, canonicalizes percent-encoded paths before dispatch, resolves exactly one module executor and a declared method/path, dispatches `module-http.invoke` over a ready channel, and retains explicit HTTP fallback without exposing channel credentials. |
+| P080-012 | Add operator session status, metrics, redacted lifecycle facts, and component controls | done | Component details include the redacted ephemeral session and flow counters; start, stop, restart, healthcheck, and config validation cover channel services; initial ready, reconnect-ready, and operator-stop transitions append durable lifecycle facts and emit component-change events. |
+| P080-013 | Add fixture/conformance suite for concurrency, refusal, reconnect, shutdown, and port inventory | done | Rust and Python tests cover reconnect epochs, stale-session and concurrent-attach refusal, binary frames, bounded admission, canonical path refusal, cancellation, observer overflow and real observer dispatch, lifecycle events, shutdown, and the checked listener inventory. |
+| P080-014 | Pilot one observer, one host-capability caller, and one module HTTP/UI surface on `channel_json` | done | The supervised conformance peer exercises all three behavior classes over one session; transport-neutral resolution retains an explicit `http_local_json` fallback. |
 | P080-015 | Migrate Dator and Arca and pass Story-009 acceptance | todo | Covers role/workflow dispatch and host-capability use. |
 | P080-016 | Migrate eligible Inquirium and Sensorium modules | todo | Preserve external model-provider and OS actuation boundaries. |
 | P080-017 | Migrate eligible Contact Catalog, Attestation, Messaging, Offer Catalog, Whisper Intake, and related stateful modules | todo | Pass Story-010 and relevant focused tests. |
@@ -920,9 +921,7 @@ later persistent-stdio adapter should share the same channel contract.
    their listener ownership changes.
 2. Keep the P080-003 schemas, fixtures, and semantic golden vectors synchronized
    through the Orbidocs-to-Node mirror and schema gate.
-3. Complete bounded multiplexing, cancellation, fairness, overload, lifecycle facts,
-   metrics, and operator controls in P080-010 through P080-013.
-4. Add the daemon-owned module HTTP/UI bridge before migrating any module whose
-   product surface must remain HTTP-visible.
-5. Migrate the three pilot behavior classes, review the resulting traces and failure
-   modes, and only then move bundled module cohorts.
+3. Use the completed conformance and three-class pilot as the gate for P080-015
+   bundled-module cohort migrations.
+4. Keep the daemon bridge as the sole Node UI path to channel-owned server HTML.
+5. Preserve explicit HTTP rollback until each migrated cohort passes its story smoke.
