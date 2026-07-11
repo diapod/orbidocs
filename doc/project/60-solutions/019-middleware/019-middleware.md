@@ -377,7 +377,7 @@ alter dispatch.
 | `command_stdio` | Medium/high | One-shot command process with bounded input/output. |
 | `local_http_json` | High | Unmanaged loopback HTTP adapter. |
 | `http_local_json` | High | Supervised loopback HTTP service with readiness, restart, init/report, and module lifecycle. |
-| `channel_json` (runtime foundation implemented) | High | Strict contracts, bounded session/correlation core, shared WebSocket listener, supervised Python runtime, lifecycle attach/readiness/reconnect/shutdown, transport-neutral service dispatch, and common host-capability dispatch are implemented. Bounded fairness/cancellation, operator facts, module HTTP/UI bridging, and bundled-module migration remain in Proposal 080. |
+| `channel_json` (opt-in cohorts implemented) | High | Strict contracts, bounded session/correlation core, shared WebSocket listener, supervised Python runtime, lifecycle, fairness/cancellation, module HTTP/UI bridge, operator facts, and opt-in bundled cohorts are implemented. Default factory switching and the legacy HTTP policy remain in Proposal 080. |
 
 The executor class is not the authority boundary by itself. Authority comes
 from host-owned grants: module authtok, capability passport, local config,
@@ -407,9 +407,16 @@ client. The daemon consumes `middleware_channel_services`, owns the channel
 supervisor beside the HTTP supervisor, resolves declared service types to an
 HTTP-or-channel target, and provisions channel modules through the existing
 host-capability admission boundary. Channel host-capability calls delegate to the
-same host dispatcher used by HTTP. Later P080 phases still own observer semantics,
-fairness/cancellation hardening, operator lifecycle facts, module HTTP/UI bridging,
-and migration of bundled modules.
+same host dispatcher used by HTTP. The opt-in cohort now covers Dator, Arca,
+Inquirium adapters, Sensorium OS, Sensorium Workbench, and Offer Catalog through a
+shared Python transport adapter. Model-runtime can bind a `runtime/ref` to a channel
+module id and declared invoke path while retaining host-owned model selection,
+policy, and response validation; Story-005 verifies invocation plus
+stop/non-routable/restart without a per-adapter listener. Contact Catalog,
+Attestation, and Messaging retain
+intentional network listeners; Whisper Intake remains mixed until its product and
+host-control surfaces are explicitly split. P080-019 owns the default switch and
+host-only port removal, while P080-020 owns the legacy `http_local_json` policy.
 
 ## Module Init And Report
 
@@ -417,6 +424,10 @@ Supervised and attachable modules report themselves to the daemon after
 readiness. The report is the host's local registry input.
 
 The report may declare:
+
+- an optional descriptive `adapter_manifest` for model-runtime adapters; the
+  middleware schema admits the data, while Inquirium/model-runtime remains the
+  semantic validation authority,
 
 - module identity and description,
 - module role,

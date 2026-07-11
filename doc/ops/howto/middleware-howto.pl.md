@@ -2,6 +2,78 @@
 
 Ten HOWTO zachowuje operacyjny materiał referencyjny, szkice konfiguracji, przykłady hooków i wzorce implementacyjne. Krótszy [Middleware FAQ](../faq/middleware-faq.pl.md) jest wejściem koncepcyjnym.
 
+## Tworzenie middleware channel JSON
+
+Użyj standardowego adaptera Pythonowego z
+`middleware-modules/lib/channel_module.py`. Moduł dostarcza funkcje domenowe;
+adapter jest właścicielem hello/attach, ograniczonego framingu, korelacji,
+potwierdzeń observation, anulowania oraz mostu operatorskiego o kształcie HTTP.
+Minimalny entrypoint wygląda tak:
+
+```python
+from channel_module import channel_mode_enabled, run_channel_module
+
+if channel_mode_enabled():
+    run_channel_module(
+        module_report=middleware_init_payload,
+        middleware_invoke=middleware_invoke_payload,
+        http_dispatch=channel_http_dispatch,
+    )
+else:
+    run_legacy_http_server()
+```
+
+Daemon wstrzykuje `ORBIPLEX_MIDDLEWARE_CHANNEL_URL`, identyfikator uruchomienia i
+ścieżkę do pliku tokena. Nie utrwalaj, nie loguj ani nie wpisuj tych danych do
+konfiguracji paczki. Module report musi przejść standardowy schema gate. Route'y
+dostępne przez most deklaruj w `api/surface`, `operator_surfaces` albo rejestracji
+local routes; deklaracja jest opisowym claimem routingu, nie autoryzacją.
+
+Proces rejestruj pod `middleware_channel_services`, podając identyfikatory modułu i
+komponentu, middleware home, politykę launch/sandbox/restart oraz ograniczenia
+`channel`. Używaj ścieżek względnych wobec paczki. Moduł host-only nie powinien w
+trybie kanałowym uruchamiać listenera. Moduł mieszany może zachować listener
+produktowy, ale nie powinien opierać na nim lifecycle ani dispatchu hosta. Zachowaj
+jawną konfigurację rollbacku `http_local_json` do przejścia smoke'a cohortu; nigdy
+nie uruchamiaj obu executorów jako właścicieli tej samej semantycznej route'y.
+
+Adaptery Inquirium używają `run_channel_adapter(...)`, który zachowuje semantykę
+modelu i providera, wymieniając wyłącznie lokalny transport hosta. Obecny cohort
+opt-in obejmuje Dator, Arca, adaptery Inquirium, Sensorium OS, Sensorium Workbench i
+Offer Catalog. Contact Catalog, Attestation i Messaging zachowują intentional
+network listeners; Whisper Intake nadal wymaga rozdzielenia product/control plane.
+
+Dla kandydata runtime Inquirium ustaw transport instancji adaptera na `channel_json`,
+podając `module_id`, zadeklarowaną w raporcie ścieżkę `invoke_path` i ograniczony
+`timeout_ms`. Nie kopiuj nazwy modelu providera ani autoryzacji do konfiguracji
+transportu: model binding i politykę rozwiązuje host przed wywołaniem.
+
+### Checklista migracji na kanał
+
+1. Zbuduj jedną wartość `middleware-module-report.v1` i zwaliduj ją przez Node
+   schema gate. Deklaruj tylko route'y i capability rzeczywiście obsługiwane kanałem.
+2. Sklasyfikuj moduł jako channel-only, jawny produktowy HTTP plus kanał kontrolny
+   albo legacy HTTP. Oba executory nie mogą być właścicielami tej samej route'y.
+3. Odwzoruj istniejące endpointy host-facing przez `channel_http_dispatch`. Zachowuj
+   ograniczone query tylko wtedy, gdy jest wejściem domenowym; nie używaj go do
+   routingu ani autoryzacji. Endpointy produktowe pozostaw na jawnym listenerze.
+4. Zarejestruj ograniczone parametry launch, restart, timeout i flow-control pod
+   `middleware_channel_services`, a przed włączeniem cohortu uruchom testy
+   cross-language i supervised peer.
+
+Minimalny zestaw współdzielonych testów uruchamiany z repozytorium Node:
+
+```sh
+python3 tools/test_middleware_channel_python.py
+cargo test -p orbiplex-node-middleware-supervisor supervised_channel_peer_attaches_proves_readiness_and_cleans_runtime_files
+cargo test -p orbiplex-node-daemon daemon_starts_channel_middleware_and_resolves_transport_neutral_dispatch
+```
+
+Referencyjnym procesem bez zachowania domenowego jest
+`middleware-modules/channel-conformance-peer/service.py`. Realny moduł powinien
+używać tego samego adaptera transportowego, zastępując fixture handlers własnymi
+funkcjami domenowymi.
+
 ## Jakie są rodzaje middleware'u?
 
 Middleware Orbipleksu nie jest jednym webowym łańcuchem interceptorów. Jest

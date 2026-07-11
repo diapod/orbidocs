@@ -11,6 +11,26 @@ profile-distributed, or operator-installed regardless of execution type.
 For the detailed type descriptions, registration shapes, and examples, see [Middleware
 HOWTO](../howto/middleware-howto.en.md#what-are-middleware-types).
 
+## When should a module use `channel_json`?
+
+Use `channel_json` for an eligible supervised module whose loopback listener exists
+only so the Node host can attach, invoke, observe, or expose a host-mediated operator
+surface. The module initiates one authenticated session to the daemon's shared
+listener; it does not receive durable authority or a replay queue from that session.
+
+Keep an intentional product, peer, browser, or provider listener when it is part of
+the component contract. Mixed modules migrate only their host-control plane and keep
+the product listener explicit. Never register the same semantic route through both
+executors as an implicit fallback. Select `channel_json` or `http_local_json` in
+configuration and test rollback deliberately.
+
+Python modules should reuse the standard channel adapter instead of implementing
+WebSocket framing. See [Authoring a channel module](../howto/middleware-howto.en.md#authoring-a-channel-json-module).
+
+For Inquirium, the model-runtime catalog may select `channel_json` with a module id,
+declared invoke path, and timeout. This changes transport only: `runtime/ref`, model
+binding, policy, and response validation remain host-owned.
+
 ## What is Role Middleware?
 
 Role Middleware is not an execution type. It is a specialization pattern: a middleware

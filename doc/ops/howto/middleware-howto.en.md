@@ -2,6 +2,76 @@
 
 This HOWTO keeps the operational reference, configuration sketches, hook examples, and implementation patterns. The shorter [Middleware FAQ](../faq/middleware-faq.en.md) is the conceptual entry point.
 
+## Authoring a channel JSON module
+
+Use the standard Python adapter from `middleware-modules/lib/channel_module.py`.
+The module supplies domain callables; the adapter owns hello/attach, bounded framing,
+correlation, observation acknowledgement, cancellation, and the HTTP-shaped operator
+bridge. A minimal entrypoint is:
+
+```python
+from channel_module import channel_mode_enabled, run_channel_module
+
+if channel_mode_enabled():
+    run_channel_module(
+        module_report=middleware_init_payload,
+        middleware_invoke=middleware_invoke_payload,
+        http_dispatch=channel_http_dispatch,
+    )
+else:
+    run_legacy_http_server()
+```
+
+The daemon injects `ORBIPLEX_MIDDLEWARE_CHANNEL_URL`, the launch id, and a token-file
+path. Do not persist, log, or put those credentials in package configuration. The
+module report must pass the standard schema gate. Declare bridgeable routes through
+`api/surface`, `operator_surfaces`, or local route registrations; declarations are
+descriptive route claims, not authorization.
+
+Register the supervised process under `middleware_channel_services` with its module
+and component ids, middleware home, launch/sandbox/restart policy, and bounded
+`channel` limits. Use package-relative launch paths. Host-only modules must not start
+a listener in channel mode. Mixed modules may keep a product listener, but should
+remove host lifecycle and dispatch dependence on it. Keep explicit
+`http_local_json` rollback config until the cohort smoke passes; never run both as
+owners of the same semantic route.
+
+Bundled Inquirium adapters use `run_channel_adapter(...)`, which preserves model and
+provider semantics while replacing only local host transport. The current opt-in
+cohort is Dator, Arca, the bundled Inquirium adapters, Sensorium OS, Sensorium
+Workbench, and Offer Catalog. Contact Catalog, Attestation, and Messaging retain
+intentional network listeners; Whisper Intake still requires a product/control split.
+
+For an Inquirium runtime candidate, set its adapter-instance transport to
+`channel_json` with `module_id`, the report-declared `invoke_path`, and a bounded
+`timeout_ms`. Do not copy provider model names or authorization into the transport
+config: model binding and policy are resolved by the host before invocation.
+
+### Channel migration checklist
+
+1. Build one `middleware-module-report.v1` value and validate it through the Node
+   schema gate. Declare only routes and capabilities actually served on the channel.
+2. Classify the module as channel-only, intentional product HTTP plus channel
+   control, or legacy HTTP. Never let both executors own the same semantic route.
+3. Map existing host-facing endpoints through `channel_http_dispatch`. Preserve a
+   bounded query only when it is domain input; never use query text for routing or
+   authorization. Keep product-facing endpoints on their explicit listener.
+4. Register bounded launch, restart, timeout, and flow-control values under
+   `middleware_channel_services`, then run the cross-language and supervised peer
+   tests before enabling the cohort.
+
+From the Node repository, the minimum reusable checks are:
+
+```sh
+python3 tools/test_middleware_channel_python.py
+cargo test -p orbiplex-node-middleware-supervisor supervised_channel_peer_attaches_proves_readiness_and_cleans_runtime_files
+cargo test -p orbiplex-node-daemon daemon_starts_channel_middleware_and_resolves_transport_neutral_dispatch
+```
+
+The behavior-free reference process is
+`middleware-modules/channel-conformance-peer/service.py`. A real module should use
+the same transport adapter but replace fixture handlers with its domain callables.
+
 ## What are middleware types?
 
 Orbiplex middleware is not one web-style interceptor chain. It is a hosted

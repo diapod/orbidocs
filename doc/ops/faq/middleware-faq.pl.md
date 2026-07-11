@@ -12,6 +12,27 @@ operatora niezależnie od typu wykonania.
 Szczegółowe opisy typów, kształty rejestracji i przykłady są w [Middleware
 HOWTO](../howto/middleware-howto.pl.md).
 
+## Kiedy moduł powinien używać `channel_json`?
+
+Użyj `channel_json` dla kwalifikującego się nadzorowanego modułu, którego listener
+loopback istnieje wyłącznie po to, aby host Node'a mógł wykonać attach, invoke,
+observation albo wystawić powierzchnię operatorską przez własny most. Moduł inicjuje
+uwierzytelnioną sesję do wspólnego listenera daemona; sesja nie nadaje trwałej
+władzy ani nie jest kolejką replay.
+
+Zachowaj jawny listener produktowy, peerowy, przeglądarkowy lub providerowy, jeśli
+jest częścią kontraktu komponentu. Moduł mieszany migruje tylko host-control plane.
+Nie rejestruj tej samej semantycznej route'y w obu executorach jako niejawnego
+fallbacku. `channel_json` albo `http_local_json` wybiera konfiguracja, a rollback
+powinien być testowany świadomie.
+
+Moduły Pythonowe powinny używać wspólnego adaptera zamiast implementować framing
+WebSocket. Zobacz [Tworzenie middleware channel_json](../howto/middleware-howto.pl.md#tworzenie-middleware-channel-json).
+
+Dla Inquirium katalog model-runtime może wybrać `channel_json`, podając identyfikator
+modułu, zadeklarowaną ścieżkę invoke i timeout. Zmienia to wyłącznie transport:
+`runtime/ref`, model binding, polityka i walidacja odpowiedzi pozostają własnością hosta.
+
 ## Czym jest Role Middleware?
 
 Role Middleware nie jest typem wykonania. To wzorzec specjalizacji: komponent middleware
