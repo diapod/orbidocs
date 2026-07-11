@@ -874,23 +874,20 @@ are required before migrating modules that expose those surfaces.
 10. `observer/queue-capacity` bounds ephemeral fire-and-forget observation traffic.
     Pressure drops observations and increments counters; replay requires a separate
     durable delivery contract outside the channel session.
+11. A launch credential remains valid for the lifetime of one supervised process
+    launch, including bounded reconnects. Process stop or restart invalidates it and
+    provisions a new credential. V1 has no wall-clock expiry or live rotation.
+12. A persistent-stdio transport adapter is not implemented speculatively. It may be
+    proposed only for a concrete package that cannot reasonably use `channel_json`
+    or explicit `http_local_json`.
+13. `http_local_json` remains an explicit operator-selected compatibility adapter
+    until a separately announced migration removes it. It is never inferred from a
+    bundled module subtree or silently converted to `channel_json`.
 
 ## Open Questions
 
-No question blocks the implemented foundation. The following policy choices remain
-open for their owning later phases:
-
-1. Before a later live-rotation phase, should one long-lived launch credential remain valid until
-   process stop/restart, or should the host rotate it during a live launch? Live
-   rotation requires an explicit re-authentication/rebind protocol; a wall-clock TTL
-   without that protocol would break healthy long-lived sessions and bounded
-   reconnect.
-
-The legacy-package decision is closed: `http_local_json` remains an explicit,
-operator-selected compatibility adapter until a separately announced migration
-removes it. It is never inferred from a bundled module subtree and never silently
-converted to `channel_json`. Whether a later persistent-stdio adapter should share
-the channel contract remains open and requires a concrete package use case.
+None. Credential lifetime, persistent-stdio scope, and legacy-package compatibility
+are frozen above.
 
 ## Implementation Tracker
 
