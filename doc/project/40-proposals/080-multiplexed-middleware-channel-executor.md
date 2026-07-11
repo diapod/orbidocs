@@ -886,16 +886,18 @@ open for their owning later phases:
    without that protocol would break healthy long-lived sessions and bounded
    reconnect.
 
-Before final removal of bundled `http_local_json` defaults, the project should also
-decide how long operator-installed legacy packages remain supported and whether a
-later persistent-stdio adapter should share the same channel contract.
+The legacy-package decision is closed: `http_local_json` remains an explicit,
+operator-selected compatibility adapter until a separately announced migration
+removes it. It is never inferred from a bundled module subtree and never silently
+converted to `channel_json`. Whether a later persistent-stdio adapter should share
+the channel contract remains open and requires a concrete package use case.
 
 ## Implementation Tracker
 
 | ID | Deliverable | Status | Notes |
 |---|---|---|---|
 | P080-001 | Document `channel_json` architecture, migration boundary, initial decisions, and acceptance criteria | done | This proposal records the implementation plan and frozen initial defaults. |
-| P080-002 | Inventory `http_local_json` listeners as host-only, mixed, or intentional network service surfaces | done | The checked Node inventory covers all 16 bundled factory modules and fails CI on missing, stale, duplicate, non-loopback, or contradictory entries. |
+| P080-002 | Inventory `http_local_json` listeners as host-only, mixed, or intentional network service surfaces | done | The checked Node inventory covers all 16 bundled factory modules and fails CI on missing, stale, duplicate, non-loopback, or contradictory entries. Classification records pre-migration topology and intent; `default_executor` plus `product_listener_retained` record current runtime ownership. |
 | P080-003 | Add canonical channel hello, accepted, frame, control payload, host-capability call/result, and module HTTP bridge schemas with fixtures | done | Ten strict schemas, positive/negative fixtures, host-boundary schema-gate coverage, and cross-language semantic golden vectors are synchronized from Orbidocs into Node protocol contracts. Control frames bind explicit cancel, heartbeat, and shutdown payload contracts. |
 | P080-004 | Add Rust channel contract/state/correlation core and schema-gate integration | done | `middleware-channel-core` owns typed DTOs, schema-gated host boundaries, deterministic limit negotiation, direction checks, JSON-safe sequence bounds, bounded request-id history, and refusal-first correlation tests without WebSocket or supervisor dependencies. |
 | P080-005 | Add bounded shared WebSocket listener and session registry | done | `middleware-channel-transport` combines the Bounded Local Server Runtime with `tungstenite`, rejects non-loopback/origin/extensions/bad launch auth, and exposes credential-free session handles outside the registry lock. |
@@ -912,8 +914,8 @@ later persistent-stdio adapter should share the same channel contract.
 | P080-016 | Migrate eligible Inquirium and Sensorium modules | done | The three Python Inquirium adapters and Sensorium OS run without per-module listeners in channel mode; Sensorium Workbench routes its host-owned JSON surface directly over `module-http.invoke`. Model-runtime resolves a channel adapter by `runtime/ref`, module id, and declared invoke path while retaining the host-owned model binding. The full Story-005 smoke proves generation, caller-model override refusal, stop/non-routable, and restart. Provider egress and OS actuation policy remain unchanged. |
 | P080-017 | Migrate eligible Contact Catalog, Attestation, Messaging, Offer Catalog, Whisper Intake, and related stateful modules | done | Offer Catalog is channel-capable and covered by the cohort smoke. Contact Catalog, Attestation, and Messaging are retained as intentional network services; Whisper Intake is retained as mixed pending an explicit product/control split. Strict Story-010 passes unchanged at the domain boundary; its acceptance root refresh now attests the imported story participants without copying their private keys between nodes. |
 | P080-018 | Update implementation ledger, Middleware solution, FAQ/HOWTO, config docs, and package authoring guidance | done | Runtime ownership, model-runtime channel configuration, opt-in authoring, mixed-surface exceptions, cohort evidence, and the remaining P080-019/P080-020 work are synchronized. |
-| P080-019 | Make `channel_json` the default for eligible bundled modules and stop allocating their host-only ports/bind markers | todo | Intentional network listeners remain. Before changing Whisper Intake's default, classify and split its product endpoints from host-control/admission routes; only the latter are eligible for channel ownership. |
-| P080-020 | Decide and execute final `http_local_json` legacy-package support policy | todo | No silent config reinterpretation; removal requires an explicit compatibility decision. |
+| P080-019 | Make `channel_json` the default for eligible bundled modules and stop allocating their host-only ports/bind markers | done | Bundled factory configs declare `factory_executor` plus `product_listener_retained`; host-only modules project to `middleware_channel_services` without listen host/port/bind, while intentional and mixed product listeners remain explicit. Channel-owned Dator and Arca publish `bind` only for their live retained product endpoints and remove it on shutdown. Agora Verifier and Snooper gained the shared Python channel adapter. Whisper Intake remains deliberately HTTP because its classified mixed surface has not yet been split; it is not silently treated as eligible. |
+| P080-020 | Decide and execute final `http_local_json` legacy-package support policy | done | `http_local_json` remains an explicit operator-installed/rollback compatibility adapter. Node preserves explicit executor configs, exposes runtime executor and `explicit-http-local-json-legacy` inventory status, and rejects stale listener keys in channel-only bundled config rather than silently ignoring or converting them. Any future removal requires a separately announced migration. |
 
 ## Next Actions
 
@@ -921,7 +923,8 @@ later persistent-stdio adapter should share the same channel contract.
    their listener ownership changes.
 2. Keep the P080-003 schemas, fixtures, and semantic golden vectors synchronized
    through the Orbidocs-to-Node mirror and schema gate.
-3. Use the completed conformance, pilot, and bundled cohort smoke as the gate for
-   the P080-019 default switch.
+3. Keep factory executor ownership and retained-listener metadata aligned with the
+   checked inventory whenever a bundled module changes transport.
 4. Keep the daemon bridge as the sole Node UI path to channel-owned server HTML.
-5. Preserve explicit HTTP rollback until each migrated cohort passes its story smoke.
+5. Preserve explicit HTTP compatibility until a separately tracked removal policy
+   supplies package migration and operator notice.

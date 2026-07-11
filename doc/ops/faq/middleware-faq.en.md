@@ -24,6 +24,13 @@ the product listener explicit. Never register the same semantic route through bo
 executors as an implicit fallback. Select `channel_json` or `http_local_json` in
 configuration and test rollback deliberately.
 
+Bundled modules make this choice through `factory_executor` and
+`product_listener_retained`. A host-only `channel_json` module has no factory port.
+An operator-installed `http_local_json` package remains supported as an explicit
+legacy compatibility mode and is reported in middleware inventory; Node never
+silently converts that config. Conversely, stale listener keys in a channel-only
+bundled module subtree are rejected rather than ignored.
+
 Python modules should reuse the standard channel adapter instead of implementing
 WebSocket framing. See [Authoring a channel module](../howto/middleware-howto.en.md#authoring-a-channel-json-module).
 

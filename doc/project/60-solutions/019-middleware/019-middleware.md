@@ -413,10 +413,17 @@ shared Python transport adapter. Model-runtime can bind a `runtime/ref` to a cha
 module id and declared invoke path while retaining host-owned model selection,
 policy, and response validation; Story-005 verifies invocation plus
 stop/non-routable/restart without a per-adapter listener. Contact Catalog,
-Attestation, and Messaging retain
-intentional network listeners; Whisper Intake remains mixed until its product and
-host-control surfaces are explicitly split. P080-019 owns the default switch and
-host-only port removal, while P080-020 owns the legacy `http_local_json` policy.
+Attestation, and Messaging retain intentional network listeners; Whisper Intake
+remains an explicitly classified mixed surface until its product and host-control
+routes are split. Bundled factory data now names the executor and whether a product
+listener remains. Eligible host-only modules therefore default to `channel_json`
+without allocating ports, while mixed and intentional listeners remain explicit.
+Channel-owned mixed modules publish a `bind` marker only for a real retained product
+listener and remove it on shutdown; channel-only modules publish no bind marker.
+Operator-installed `http_local_json` packages remain supported as an explicit legacy
+compatibility mode: Node preserves the declared executor, reports the compatibility
+mode in inventory, and rejects stale listener keys under channel-only module config
+instead of silently reinterpreting them.
 
 ## Module Init And Report
 

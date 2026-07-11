@@ -36,11 +36,47 @@ remove host lifecycle and dispatch dependence on it. Keep explicit
 `http_local_json` rollback config until the cohort smoke passes; never run both as
 owners of the same semantic route.
 
+For a repository-bundled module, make ownership explicit in its factory config:
+
+```json
+{
+  "example_module": {
+    "seed_config": true,
+    "factory_executor": "channel_json",
+    "product_listener_retained": false,
+    "module_id": "example-module"
+  }
+}
+```
+
+A channel-only entry must not contain `listen_host` or `listen_port`. Set
+`product_listener_retained` to `true` only when the same module intentionally keeps
+a separately bounded product surface. Use `factory_executor = http_local_json` for
+an intentional network service that is not a channel migration target. The checked
+listener inventory must repeat and validate this ownership decision.
+Its `classification` describes the pre-migration surface topology and architectural
+intent; use `default_executor` and `product_listener_retained` as the facts about the
+current bundled runtime. A mixed entry that still selects `http_local_json` is an
+explicit non-migrated compatibility choice. Moving it requires a separately tracked
+product/control split or migration rather than reinterpretation of the inventory.
+In channel mode, a mixed Python module should use the shared
+`retained_product_listener_marker(...)` scope after its product socket binds. The
+scope writes the actual endpoint to `<middleware_home>/bind` and removes it during
+shutdown. Do not call it for a channel-only module.
+
+Operator-installed packages may continue to declare a complete executor under
+`middleware_http_local_services`. Node treats this as
+`explicit-http-local-json-legacy`, preserves it without conversion, and exposes the
+mode in middleware inventory. Do not put old listener keys in a channel-only bundled
+module subtree: config loading fails and asks for an explicit HTTP rollback instead.
+
 Bundled Inquirium adapters use `run_channel_adapter(...)`, which preserves model and
 provider semantics while replacing only local host transport. The current opt-in
-cohort is Dator, Arca, the bundled Inquirium adapters, Sensorium OS, Sensorium
-Workbench, and Offer Catalog. Contact Catalog, Attestation, and Messaging retain
-intentional network listeners; Whisper Intake still requires a product/control split.
+default cohort is Dator, Arca, Agora Verifier, Snooper, the bundled Inquirium adapters,
+Sensorium OS, Sensorium Workbench, and Offer Catalog. Contact Catalog, Attestation,
+Messaging, Agora service, Recovery, and Whisper Intake retain intentional or mixed
+listeners; Whisper Intake still requires a product/control split before it can become
+channel-owned.
 
 For an Inquirium runtime candidate, set its adapter-instance transport to
 `channel_json` with `module_id`, the report-declared `invoke_path`, and a bounded
@@ -59,6 +95,9 @@ config: model binding and policy are resolved by the host before invocation.
 4. Register bounded launch, restart, timeout, and flow-control values under
    `middleware_channel_services`, then run the cross-language and supervised peer
    tests before enabling the cohort.
+5. For a bundled module, set `factory_executor` and
+   `product_listener_retained`, update the checked listener inventory, and prove that
+   a channel-only config contains no listener allocation.
 
 From the Node repository, the minimum reusable checks are:
 
