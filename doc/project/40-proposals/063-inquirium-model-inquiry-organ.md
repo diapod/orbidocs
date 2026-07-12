@@ -1045,9 +1045,10 @@ explicit success criterion for retiring the Sensorium OS model actions.
    families and should repeat this vertical shape rather than bypass it.
 3. Continue assistant-channel hardening after the landed grant/resolver,
    transcript projection/blob/feedback, and operator-question transition
-   slices: Memarium retention execution, verified training-grant consumption,
-   non-dopamine UX invariants, and remote-egress policy when remote assistant
-   routing is introduced.
+   slices: semantic transcript tagging/cross-device migration, future
+   dataset-manifest and `train.adapt` consumption through the landed training
+   grant authority, automatic notification creation for sustained degradation,
+   and remote-egress policy when remote assistant routing is introduced.
 
 ## Tracking
 
