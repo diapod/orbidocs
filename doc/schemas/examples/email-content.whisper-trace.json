@@ -1,0 +1,18 @@
+{
+  "schema": "whisper-trace.v1",
+  "trace/kind": "artifact-dispatched",
+  "trace/occurred-at": "2026-07-13T12:00:00Z",
+  "artifact": {
+    "digest": "sha256:UkDBWROPZWv620yU5tPUP9w9K6FqYSuoRXkfBoCw5eY",
+    "size/bytes": 48,
+    "content/type": "message/rfc822",
+    "bytes/base64": "U3ViamVjdDogVHJhY2UgZXhhbXBsZQ0KDQpIZWxsbyBmcm9tIE9yYmlwbGV4Lg0K"
+  },
+  "disclosure/mode": "digest-and-content",
+  "disclosure/scope": "federation-scoped",
+  "consent/ref": "consent:disclosure:email-content-example",
+  "operation/ref": "smtp-send:example-1",
+  "routing/profile": "relayed",
+  "routing/failure-mode": "soft-fail",
+  "forwarding/max-hops": 1
+}

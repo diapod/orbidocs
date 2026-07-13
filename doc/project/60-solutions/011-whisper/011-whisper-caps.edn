@@ -49,7 +49,22 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :aggregate-topic-notices
+ [{:cap/id :artifact-trace-statements
+   :title "Artifact Trace Statements"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/013-whisper-social-signal-exchange.md"]
+   :schemas ["whisper-trace.v1"]
+   :responsibilities
+   ["Publish digest-only creation, dispatch, receipt, or possession assertions by default"
+    "Treat digest-only as data minimization rather than anonymity, with classification policy for guessable or cross-context-linkable content"
+    "Require sender-host consent validation before bounded inline content disclosure"
+    "Verify inline byte length and digest before signing or accepting a trace"
+    "Use a distinct `whisper-trace` Agora record kind so social-signal projections can exclude traces without inspecting content"
+    "Keep traces out of social-signal threshold and association projections"
+    "Reuse Agora and AD/INAC rather than introducing a trace-specific transport"]
+   :status :partial}
+
+  {:cap/id :aggregate-topic-notices
    :title "Aggregate Topic Notices"
    :kind :optional
    :based-on ["doc/project/20-memos/orbiplex-whisper.md"
@@ -72,6 +87,7 @@
 
  :produces
  ["whisper-signal.v1"
+  "whisper-trace.v1"
   "whisper-interest.v1"
   "whisper-threshold-reached.v1"
   "association-room-proposal.v1"]

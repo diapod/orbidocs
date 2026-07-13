@@ -206,6 +206,9 @@ schema_for_file() {
     *.inac-control.json)
       echo "$SCHEMAS_DIR/inac-control.v1.schema.json"
       ;;
+    *.inquirium.adapter.response.json)
+      echo "$SCHEMAS_DIR/inquirium.adapter.response.v1.schema.json"
+      ;;
     *.training-job.json)
       echo "$SCHEMAS_DIR/training-job.v1.schema.json"
       ;;
@@ -565,6 +568,9 @@ schema_for_file() {
       ;;
     *.whisper-signal.json)
       echo "$SCHEMAS_DIR/whisper-signal.v1.schema.json"
+      ;;
+    *.whisper-trace.json)
+      echo "$SCHEMAS_DIR/whisper-trace.v1.schema.json"
       ;;
     *.whisper-interest.json)
       echo "$SCHEMAS_DIR/whisper-interest.v1.schema.json"

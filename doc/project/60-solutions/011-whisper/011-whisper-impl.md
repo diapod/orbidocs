@@ -47,6 +47,9 @@ status is:
 - `whisper-signal.v1`, `whisper-threshold-reached.v1`, and
   `association-room-proposal.v1` are implemented for the Agora M4 public signal
   path.
+- `whisper-trace.v1` is defined as a strict content contract with positive and
+  negative fixtures. Runtime validation, sender-host consent resolution,
+  authoring, ingress registration, and carrier acceptance remain pending.
 - Public/federated Whisper records are carried as `agora-record.v1` envelopes
   with `content/schema = "whisper-signal.v1"`.
 - Public Whisper authorship is nym-authored at the envelope boundary:
@@ -311,9 +314,33 @@ selection are later hardening layers.
 | Refusal, withdrawal, and tombstone semantics | not-started | Required public-gossip lifecycle work. |
 | Acceptance proving threshold/proposal does not automatically emit public gossip | done | M4 smoke asserts threshold/proposal stops below public gossip. |
 
+### Artifact trace statements
+
+| Work item | Status | Evidence / remaining work |
+|---|---|---|
+| Separate `whisper-trace.v1` from `signal/polarity` | done | The trace is a separate content contract and record kind; `problem` and `idea` remain social-signal polarities. |
+| Digest-only and consent-bound inline shapes | done | Canonical schema and positive/negative examples cover dispatch, held-artifact, forbidden inline-without-consent, forbidden content in digest-only mode, and direct-routing hop bounds; inline content is capped at 32 KiB. |
+| Exact inline digest and byte-length verification | not-started | `whisper-core` should decode transiently and reject mismatched digest, size, or cap without retaining content in its read model. |
+| Digest privacy and classification preflight | not-started | Digest-only is data minimization, not anonymity. Authoring and ingress policy must account for guessable/low-entropy content and cross-context linkability. |
+| Agora ingress schema/disclosure gate | not-started | The schema mirror exists, but contract-family registration and public-ingress disclosure enforcement are runtime work. |
+| Sender-host consent authority | not-started | Presence of `consent/ref` is not authority. The authoring host must resolve an active consent/grant bound to the exact digest, disclosure scope, represented subject/authority, and validity window before signing or dispatching inline content. |
+| Operator/user trace authoring and inspection UI | not-started | Needs bounded digest-only default, explicit content opt-in, evidence-ref display, and redacted diagnostics. |
+| AD/INAC private trace acceptor smoke | not-started | Reuse the existing carriers; no trace-specific transport should be introduced. |
+
+Implementation order is contract-first and refusal-first:
+
+1. add pure base64 decode, decoded-size, and SHA-256 verification without I/O;
+2. resolve sender-host consent and classification policy for the exact candidate;
+3. register `record/kind = "whisper-trace"` and
+   `content/schema = "whisper-trace.v1"` at Agora authoring/ingress boundaries;
+4. add the metadata-only read model while keeping inline bytes transient;
+5. bind private/direct acceptance to the existing AD/INAC carrier;
+6. expose bounded authoring/inspection UI and run public plus private carrier
+   smoke tests.
+
 ## Architectural posture
 
-Whisper is **not** a transport; it is a **content kind plus an
+Whisper is **not** a transport; it is a **content family plus an
 authoring/reception pipeline** that rides on two distribution surfaces:
 
 1. **Agora** (proposal 035) — for `disclosure/scope` values other than

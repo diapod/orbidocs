@@ -1,6 +1,7 @@
 # Orbiplex Whisper
 
-`Orbiplex Whisper` could be a privacy-bounded social signal exchange layer attached to the Node.
+`Orbiplex Whisper` could be a privacy-bounded social signal and provenance
+exchange layer attached to the Node.
 
 The point is not generic chat between nodes. The point is to let nodes exchange weak signals in the form of "I heard that..." without prematurely treating them as confirmed facts. This would support early pattern correlation, social-signal detection, and safe association bootstrapping for people who may be experiencing the same problem without yet knowing about one another.
 
@@ -11,14 +12,18 @@ Examples of problem convergence include:
 - geographically distributed communities reporting the same emerging safety or dignity risk,
 - repeated emergency-health failures where an ambulance team refuses transport for severe abdominal pain and the affected person later experiences intestinal bleeding, suggesting a systemic triage or refusal problem rather than an isolated accident.
 
-Examples of inspiration convergence include:
+Examples of idea convergence include:
 
 - independent inventors in different countries discovering the same technical approach without prior contact,
 - artists or composers arriving at structurally similar works through separate creative paths,
 - practitioners in unrelated fields developing parallel methods to a shared problem class,
 - communities in different regions bootstrapping similar local solutions to unmet needs.
 
-The second class — inspiration convergence — is as important as the first. Two or more people who arrive at a similar idea independently, and who do not know each other yet, may benefit from being brought together to create jointly rather than in parallel. `Whisper` should therefore carry both polarities without conflating them.
+The second class — idea convergence — is as important as the first. Two or more
+people who arrive at a similar idea independently, and who do not know each other
+yet, may benefit from being brought together to create jointly rather than in
+parallel. `Whisper` should therefore carry both polarities without conflating
+them.
 
 `Whisper` should therefore operate on the level of:
 
@@ -29,6 +34,21 @@ The second class — inspiration convergence — is as important as the first. T
 
 It should not start as a raw fact bus.
 
+## Message classes
+
+The Whisper protocol family has two first-class message classes:
+
+- `whisper-signal.v1` carries a weak social signal with `problem` or `idea`
+  polarity and may participate in correlation, thresholding, and association
+  bootstrap;
+- `whisper-trace.v1` carries a bounded assertion that an artifact was created,
+  handed to a transport, received, or held. It does not participate in social
+  signal correlation or thresholding.
+
+`public-gossip.v1` is not a third Whisper message class. It remains a separate,
+explicit act of public publication. Neither a social signal nor a trace becomes
+public gossip automatically.
+
 ## Signal polarity
 
 A `whisper-signal` may carry one of two fundamental polarities:
@@ -36,7 +56,7 @@ A `whisper-signal` may carry one of two fundamental polarities:
 - **problem** — the signal describes a distributed harm, failure, or dignity risk. The
   goal is early correlation and, where critical mass is reached, collective response
   or protective action.
-- **inspiration** — the signal describes a convergent idea, creative discovery, or
+- **idea** — the signal describes a convergent idea, creative discovery, or
   emerging approach. The goal is to find co-creators or collaborators who arrived at
   a similar place independently, and to propose an association room oriented toward
   joint creation rather than crisis response.
@@ -45,14 +65,14 @@ The two polarities share the same lifecycle (`whisper-signal` → `whisper-inter
 `whisper-threshold-reached` → `association-room-proposal` → human opt-in) but differ
 in tone, urgency, and the nature of the resulting room:
 
-- problem signals use `signal/grade` as protective risk and urgency; inspiration
+- problem signals use `signal/grade` as protective risk and urgency; idea
   signals use `signal/grade` as convergence strength or co-creation potential and
-  never trigger emergency protocols solely by being inspirational.
-- problem signals protect the anonymity of affected people; inspiration signals may
+  never trigger emergency protocols solely by expressing an idea.
+- problem signals protect the anonymity of affected people; idea signals may
   still prefer privacy in early phases to avoid premature priority conflicts or
   attribution pressure, but do not carry the same protective urgency.
 - the association room proposed after a problem threshold is a support or coordination
-  space; the one proposed after an inspiration threshold is a co-creation or
+  space; the one proposed after an idea threshold is a co-creation or
   collaboration space.
 
 Both polarities must be first-class concepts in the signal schema.
@@ -68,9 +88,45 @@ For v1, keep anti-Sybil controls simpler than full semantic duplicate detection.
 
 Do not require hard semantic-equivalence checks for "the same rumor" yet. That path is likely expensive, ambiguous, and easy to get wrong early.
 
+## Trace statements
+
+`whisper-trace.v1` provides a deliberately weaker and cheaper provenance
+statement than a receipt or attestation. The enclosing signature identifies the
+author of the assertion; it does not prove that the asserted event happened, that
+the author possesses the artifact, that delivery succeeded, or that the content
+is true. Independently verifiable facts may be linked through bounded
+`evidence/refs` without being copied into the trace.
+
+The allowed v1 trace kinds are:
+
+- `artifact-created` — the author asserts that the artifact was created;
+- `artifact-dispatched` — the author asserts that it was handed to an outbound
+  transport, not that it reached a recipient;
+- `artifact-received` — the author asserts that it was received;
+- `artifact-held` — the author asserts that it held the artifact at
+  `trace/occurred-at`; the statement does not promise continued possession.
+
+The default disclosure mode is `digest-only`: SHA-256, byte length, and optional
+media type or content schema. This is data minimization, not anonymity. A digest
+of predictable or low-entropy content can still enable guessing and cross-context
+correlation, so classification and disclosure policy must apply even when no
+content bytes are present.
+
+`digest-and-content` additionally carries bounded inline bytes. It requires a
+sender-host-validated `consent/ref` bound to the exact artifact digest, disclosure
+scope, author or represented subject, and validity window. The v1 schema caps
+inline content at 32 KiB; local and federation policy may lower that cap but must
+not raise it above the wire maximum. Runtime validation must decode the bytes and
+verify both declared size and digest before signing, forwarding, or accepting the
+trace.
+
+Public or federation-scoped traces use the ordinary signed Agora envelope and the
+topic prefix `ai.orbiplex.whisper-traces/<trace-kind>`. Private or direct traces
+reuse Artifact Delivery and INAC. No trace-specific transport is needed.
+
 ## Candidate lifecycle
 
-One plausible lifecycle is:
+The social-signal lifecycle, which does not apply to trace statements, is:
 
 1. `whisper-signal`
 2. `whisper-interest`
@@ -230,6 +286,7 @@ than network publication.
 If promoted, this probably needs at least:
 
 - `whisper-signal.v1`
+- `whisper-trace.v1`
 - `whisper-interest.v1`
 - `whisper-threshold-reached.v1`
 - `association-room-proposal.v1`
@@ -245,5 +302,9 @@ If promoted, this probably needs at least:
 - no automatic human enrollment,
 - no default raw fact broadcast,
 - disclosure is policy-bounded and consent-aware.
+- trace statements remain assertions rather than receipts or attestations,
+- digest-only disclosure is not treated as anonymous or harmless,
+- inline trace content requires exact, sender-host-validated consent and bounded
+  integrity verification.
 
 Promote to: proposal when threshold policy, bootstrap mechanics, disclosure classes, and the first data contracts are specified.

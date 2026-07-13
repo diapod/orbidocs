@@ -1,6 +1,10 @@
 # Orbiplex Whisper
 
-`Orbiplex Whisper` is a Node-attached solution component for privacy-bounded social-signal exchange. It prepares rumor-style signals for publication, preserves their weaker epistemic status, and coordinates thresholded association bootstrap without silently escalating rumors into evidence.
+`Orbiplex Whisper` is a Node-attached solution component for privacy-bounded
+social-signal exchange and small provenance statements. It prepares rumor-style
+signals for publication, preserves their weaker epistemic status, coordinates
+thresholded association bootstrap, and may carry bounded `whisper-trace.v1`
+assertions without silently escalating either signals or traces into evidence.
 
 `Whisper` does not own transport anonymity. It only declares routing and privacy intent on outgoing artifacts and relies on Node egress to satisfy that intent through whatever outbound privacy capability is available.
 
@@ -42,6 +46,44 @@ It does not define:
 - final evidentiary case management,
 - automatic human enrollment into shared rooms,
 - semantic duplicate detection for rumors in v1.
+
+## Post-MVP Extensions
+
+### Artifact Trace Statements
+
+Related schema:
+- `whisper-trace.v1`
+
+Whisper trace statements provide a low-cost way to disclose that an artifact was
+created, handed to a transport, received, or held. They are signed assertions by
+the envelope author, not receipts, attestations, proof of possession, or proof
+that the artifact content is true.
+
+The default form contains only SHA-256, byte length, and optional content type or
+schema. Digest-only disclosure reduces transferred data but is not anonymous:
+predictable content may still be guessed or correlated by digest. Full inline
+bytes are allowed only under `digest-and-content`, with an explicit
+sender-host-validated `consent/ref`, a hard 32 KiB wire cap, and exact digest and
+length verification. The referenced decision must bind the digest, scope,
+subject/authority, and validity window; a reference string alone grants no
+authority. The ref is sender-local audit linkage, not a network-visible consent
+proof, and should not expose a participant id. A trace may reference
+`execution-receipt.v1`, an AD delivery fact, or another attestation through
+`evidence/refs`; those artifacts remain the evidence authorities.
+
+Trace authoring uses the ordinary signed envelope and existing carriers:
+
+- public or federated traces use `record/kind = "whisper-trace"` and
+  `content/schema = "whisper-trace.v1"` under
+  `ai.orbiplex.whisper-traces/<trace-kind>`;
+- private/direct traces use Artifact Delivery and INAC;
+- trace records are excluded from Whisper similarity, threshold, and association
+  projections.
+
+Status: `contract-defined`. The canonical schema and fixtures exist. Node-side
+schema-gate registration, transport-independent integrity validation,
+sender-host consent resolution, authoring surfaces, and carrier smoke tests are
+implementation work.
 
 ## Must Implement
 

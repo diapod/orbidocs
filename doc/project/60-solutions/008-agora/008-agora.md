@@ -541,6 +541,27 @@ Status:
   Story-009 Agora-primary smoke remains the regression guard for the existing
   Agora substrate.
 
+### Agora Post-MVP: Whisper Trace Carrier Contract
+
+Related schema:
+- `whisper-trace.v1`
+
+Agora may carry public or federation-scoped Whisper trace statements under:
+
+- `record/kind = "whisper-trace"`,
+- `content/schema = "whisper-trace.v1"`,
+- `topic/key = ai.orbiplex.whisper-traces/<trace-kind>`.
+
+Agora remains a signed record carrier and schema/disclosure gate. It does not
+turn a trace into a receipt, validate an opaque sender-local consent decision,
+or project trace statements into Whisper similarity and threshold state.
+Public ingress must reject `private-correlation` traces and must not infer that
+digest-only disclosure is anonymous or non-sensitive.
+
+Status: `contract-defined`. The canonical schema and fixtures exist; Agora
+record-kind registration, ingress policy, read-model handling, and carrier smoke
+tests are not implemented yet.
+
 ### Projection Authority for Derived Records
 
 Derived public records are signed by a projection authority. In M4 the authority

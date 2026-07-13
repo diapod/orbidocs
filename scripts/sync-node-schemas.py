@@ -53,6 +53,7 @@ SCHEMA_WHITELIST = (
     "room-attestation-audit.v1.schema.json",
     "whisper-interest.v1.schema.json",
     "whisper-signal.v1.schema.json",
+    "whisper-trace.v1.schema.json",
     "whisper-threshold-reached.v1.schema.json",
     "weak-signal-finding.v1.schema.json",
     "whisper-redaction-prepare-request.v1.schema.json",
@@ -259,6 +260,9 @@ EXAMPLE_WHITELIST = (
     "inline-note.memarium-blob.json",
     "basic.whisper-redaction-prepare-request.json",
     "draft-ready.whisper-redaction-prepare-response.json",
+    "email-dispatched.whisper-trace.json",
+    "email-content.whisper-trace.json",
+    "image-held.whisper-trace.json",
     "filesystem-retaliation.weak-signal-finding.json",
     "declassify.memarium-host-api.json",
     "revoked.memarium-host-api.json",
@@ -404,6 +408,9 @@ INVALID_EXAMPLE_WHITELIST = (
     "persistent-without-expires.classification.json",
     "public-with-full-subjects.classification.json",
     "success-without-draft.whisper-redaction-prepare-response.json",
+    "inline-without-consent.whisper-trace.json",
+    "digest-only-with-content.whisper-trace.json",
+    "direct-with-hops.whisper-trace.json",
     "raw-source.weak-signal-finding.json",
     "review-not-required.weak-signal-finding.json",
     "grant-without-grants.room-membership.json",
@@ -461,6 +468,7 @@ SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
     "room-membership-attestation.v1.schema.json",
     "room-membership-attestation-request.v1.schema.json",
     "room-attestation-audit.v1.schema.json",
+    "whisper-trace.v1.schema.json",
 )
 
 

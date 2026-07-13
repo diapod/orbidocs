@@ -35,6 +35,10 @@ The key decisions are:
 6. Onion-like or relay-based anonymity should live behind a separate outbound
    privacy capability and be requested by Whisper through routing intent rather
    than embedded into Whisper itself.
+7. Whisper also carries bounded `trace` statements about artifact creation,
+   dispatch, receipt, or possession. A trace defaults to digest-only disclosure;
+   inline content requires explicit consent and remains a claim rather than a
+   receipt or attestation.
 
 ## Context and Problem Statement
 
@@ -111,6 +115,59 @@ Transport anonymity remains a separate concern:
   fail.
 
 ## Proposed Model
+
+### Message classes
+
+The Whisper protocol family has two first-class message classes with different
+semantics:
+
+- **social signal** — `whisper-signal.v1`, whose `signal/polarity` is `problem`
+  or `idea`; it may participate in correlation, thresholding, and association
+  bootstrap;
+- **trace statement** — `whisper-trace.v1`, a bounded provenance assertion that
+  an artifact was created, handed to a transport, received, or held at a stated
+  time. It never participates in social-signal thresholding.
+
+`public-gossip.v1` remains a separate explicit public publication contract. It
+is not a Whisper message class and is not silently produced from either a signal
+or a trace.
+
+A trace is weaker than an `execution-receipt.v1`, delivery receipt, or
+attestation. Its enclosing signature identifies who made the assertion; it does
+not prove that the asserted event happened. An optional `evidence/refs` list may
+point to independently verifiable receipts or attestations without duplicating
+their payloads.
+
+Trace disclosure has two modes:
+
+- `digest-only` is the default and carries artifact digest, byte length, and
+  optional media/schema metadata;
+- `digest-and-content` additionally carries bounded base64 bytes and requires a
+  `consent/ref` validated by the authoring host before publication.
+
+Digest-only disclosure is data minimization, not anonymity. A digest of
+predictable or low-entropy material can still support guessing and
+cross-context correlation. Classification, recipient, and disclosure policy
+therefore apply to both modes, not only to inline content.
+
+For `digest-and-content`, the referenced consent or authorization fact must bind
+the exact artifact digest, disclosure scope, author or represented subject, and
+validity window. When content contains data about several people, local policy
+may require authority from all relevant subjects or refuse inline disclosure.
+The reference string alone grants no authority. The v1 wire cap is 32 KiB;
+host/federation policy may lower but not raise it.
+
+V1 deliberately does not define a network-visible consent artifact. The
+`consent/ref` is a sender-local audit handle and need not be remotely
+dereferenceable; it should not disclose a participant id or private policy
+record. A federation that later needs portable consent evidence must define a
+separate signed contract rather than reinterpret this opaque reference.
+
+The schema requires SHA-256 and a declared byte length. The implementation must
+decode inline bytes, enforce the host cap, and compare both byte length and digest
+before accepting or publishing the trace. A public relay can validate the
+contract and signature, but cannot infer that an opaque consent reference names a
+valid local decision; that authority remains on the sender's host.
 
 ### 0. Signal polarity
 
@@ -619,9 +676,10 @@ association room may later hire collective expertise.
 The likely first contract family is:
 
 1. `whisper-signal.v1`
-2. `whisper-interest.v1`
-3. `whisper-threshold-reached.v1`
-4. `association-room-proposal.v1`
+2. `whisper-trace.v1`
+3. `whisper-interest.v1`
+4. `whisper-threshold-reached.v1`
+5. `association-room-proposal.v1`
 
 `whisper-signal.v1` is a **content-body schema** for the Agora record
 envelope (proposal 035) and for the same envelope used in direct
@@ -650,6 +708,18 @@ inside the content body move to the enclosing envelope:
 This keeps `whisper-signal.v1` a small portable shape independent of
 whether the whisper travels on Agora or directly between nodes, and
 prevents the signing domain from being split across two artifacts.
+
+`whisper-trace.v1` uses the same envelope split. The content body carries the
+trace kind, author-asserted occurrence time, artifact descriptor, disclosure
+mode, consent reference when inline bytes are present, optional causal/evidence
+refs, and routing posture. Envelope identity, signature, publication time, and
+topic routing remain outside the body. Public/federated traces use
+`record/kind = "whisper-trace"`, `content/schema = "whisper-trace.v1"`, and the
+conventional topic prefix
+`ai.orbiplex.whisper-traces/<trace-kind>`; private/direct traces use Artifact
+Delivery and INAC rather than a public Agora topic. The separate record kind is
+intentional: Agora projections can exclude trace statements from social-signal
+similarity and threshold processing without inspecting the content body.
 
 `whisper-interest.v1` should not mirror that pattern. It remains a node-scoped
 local-interest declaration:
@@ -690,6 +760,11 @@ that should remain visible as well.
 5. Deterministic bootstrap vs central coordinator:
    - Benefit: more federated and less monopolistic.
    - Cost: more care needed in threshold and quorum design.
+6. Trace statements vs receipts:
+   - Benefit: nodes can cheaply disclose content-addressed provenance without
+     exposing content or requiring a full workflow receipt.
+   - Cost: consumers must preserve the distinction between a signed assertion
+     and independently verified evidence.
 
 ## Resolved Questions
 
@@ -718,6 +793,11 @@ that should remain visible as well.
    as a closed enum). No new opinion subtype is introduced. The default v1
    propagation policy suppresses after K independent trusted-peer spam verdicts,
    where K and trusted-peer scope are local policy parameters.
+8. Artifact traces use a separate `whisper-trace.v1` content contract rather
+   than a third `signal/polarity`. They are excluded from threshold and
+   association projections. Digest-only is the default; inline content requires
+   sender-host validation of `consent/ref`, a hard byte cap, and digest/size
+   verification.
 
 ## Open Questions
 
@@ -776,3 +856,11 @@ association-room lifecycle policy as post-MVP questions.
     text, `rumor/credibility: 2`) and one spam verdict
     (`rumor/rejection-reason: "spam"` plus short justification in
     `opinion/text`).
+12. Add a bounded `whisper-trace.v1` authoring path that validates consent before
+    `digest-and-content`, verifies the exact inline bytes against digest and
+    size, signs the ordinary envelope, and routes through Agora or AD/INAC by
+    disclosure posture. Keep trace records out of social-signal thresholding.
+    Implement in this order: pure decode/digest/size validation; sender-host
+    consent resolution; Agora kind/schema and disclosure admission; AD/INAC
+    private acceptance; operator/user authoring and inspection; carrier smoke
+    tests. No phase introduces a trace-specific transport.

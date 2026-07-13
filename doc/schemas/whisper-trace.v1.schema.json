@@ -1,0 +1,272 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-trace:v1",
+  "title": "WhisperTrace v1",
+  "description": "Content-body contract for a bounded Whisper provenance statement about creating, dispatching, receiving, or holding an artifact. A trace is a signed assertion by the enclosing envelope author, not by itself proof of delivery, possession, or truth. The default disclosure is digest-only; inline bytes require an explicit consent reference and remain subject to stricter host policy and byte limits.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md",
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
+    "doc/project/40-proposals/042-inter-node-artifact-channel.md",
+    "doc/project/40-proposals/081-horizontal-protocol-primitives.md",
+    "doc/project/60-solutions/011-whisper/011-whisper.md"
+  ],
+  "required": [
+    "schema",
+    "trace/kind",
+    "trace/occurred-at",
+    "artifact",
+    "disclosure/mode",
+    "disclosure/scope",
+    "routing/profile",
+    "routing/failure-mode",
+    "forwarding/max-hops"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-trace.v1"
+    },
+    "trace/kind": {
+      "type": "string",
+      "enum": [
+        "artifact-created",
+        "artifact-dispatched",
+        "artifact-received",
+        "artifact-held"
+      ],
+      "description": "The author's bounded assertion. `artifact-dispatched` means handed to an outbound transport, not delivered to the recipient. `artifact-received` and `artifact-held` remain claims unless strengthened by an independently verifiable evidence reference."
+    },
+    "trace/occurred-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Author-asserted event time. The enclosing signed record timestamp remains the publication time."
+    },
+    "artifact": {
+      "$ref": "#/$defs/artifact"
+    },
+    "disclosure/mode": {
+      "type": "string",
+      "enum": [
+        "digest-only",
+        "digest-and-content"
+      ],
+      "default": "digest-only",
+      "description": "Disclosure shape. `digest-only` minimizes transferred data but is not anonymous: a digest of predictable content may remain guessable and linkable. `digest-and-content` requires exact sender-host consent resolution and transient integrity validation."
+    },
+    "disclosure/scope": {
+      "type": "string",
+      "enum": [
+        "private-correlation",
+        "federation-scoped",
+        "cross-federation",
+        "public"
+      ],
+      "description": "Maximum disclosure surface for this trace. Public Agora deployments reject `private-correlation`; direct-only traces travel through AD/INAC."
+    },
+    "consent/ref": {
+      "$ref": "#/$defs/ref",
+      "description": "Opaque reference to the sender-side authorization or consent fact that permitted disclosure of inline content. Presence is not proof of valid consent; before publication the authoring host must resolve an active decision bound to the exact artifact digest, disclosure scope, represented subject or authority, and validity window."
+    },
+    "causal/context": {
+      "$ref": "causal-context.v1.schema.json",
+      "description": "Optional canonical causal context for the operation that produced this trace. Transport request ids and local sequence numbers do not belong here."
+    },
+    "operation/ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "delivery/ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "evidence/refs": {
+      "type": "array",
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/ref"
+      },
+      "description": "Optional refs to receipts, attestations, or other independently verifiable facts. Their presence may strengthen the assertion but does not change this artifact into a receipt."
+    },
+    "context/facets": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128,
+        "pattern": "^[a-z0-9][a-z0-9._/-]*$"
+      }
+    },
+    "routing/profile": {
+      "type": "string",
+      "enum": [
+        "direct",
+        "relayed",
+        "onion-relayed"
+      ]
+    },
+    "routing/failure-mode": {
+      "type": "string",
+      "enum": [
+        "soft-fail",
+        "hard-fail"
+      ]
+    },
+    "forwarding/max-hops": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "extensions": {
+      "type": "object",
+      "maxProperties": 16,
+      "additionalProperties": true,
+      "description": "Explicit extension namespace. Extensions may add advisory metadata but must not redefine trace kind, artifact identity, consent, disclosure, or routing semantics."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "disclosure/mode": {
+            "const": "digest-and-content"
+          }
+        },
+        "required": [
+          "disclosure/mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "consent/ref"
+        ],
+        "properties": {
+          "artifact": {
+            "required": [
+              "bytes/base64"
+            ],
+            "properties": {
+              "size/bytes": {
+                "maximum": 32768
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "consent/ref"
+              ]
+            },
+            {
+              "properties": {
+                "artifact": {
+                  "required": [
+                    "bytes/base64"
+                  ]
+                }
+              },
+              "required": [
+                "artifact"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "routing/profile": {
+            "const": "direct"
+          }
+        },
+        "required": [
+          "routing/profile"
+        ]
+      },
+      "then": {
+        "properties": {
+          "forwarding/max-hops": {
+            "const": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "routing/failure-mode": {
+            "const": "hard-fail"
+          }
+        },
+        "required": [
+          "routing/failure-mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "routing/profile": {
+            "enum": [
+              "relayed",
+              "onion-relayed"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "digest",
+        "size/bytes"
+      ],
+      "properties": {
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "description": "SHA-256 of the exact artifact bytes, encoded as `sha256:` plus unpadded base64url. Digest disclosure is content-addressable and may be correlatable or guessable."
+        },
+        "size/bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "content/type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^\\s/]+/[^\\s/]+$"
+        },
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+        },
+        "bytes/base64": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "maxLength": 43692,
+          "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+          "description": "Standard padded base64 for at most 32 KiB of decoded bytes. The runtime must decode transiently and verify decoded length and SHA-256 against the declared descriptor."
+        }
+      }
+    },
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s]+$"
+    }
+  }
+}

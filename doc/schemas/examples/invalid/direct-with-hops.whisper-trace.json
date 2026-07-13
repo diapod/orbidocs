@@ -1,0 +1,15 @@
+{
+  "schema": "whisper-trace.v1",
+  "trace/kind": "artifact-held",
+  "trace/occurred-at": "2026-07-13T12:05:00Z",
+  "artifact": {
+    "digest": "sha256:QxztaRaiohoVbjhwGv5Vu9f4iWn7v8Vtf-CZ1H8mVGA",
+    "size/bytes": 68,
+    "content/type": "image/png"
+  },
+  "disclosure/mode": "digest-only",
+  "disclosure/scope": "private-correlation",
+  "routing/profile": "direct",
+  "routing/failure-mode": "soft-fail",
+  "forwarding/max-hops": 1
+}

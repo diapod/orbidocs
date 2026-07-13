@@ -73,7 +73,8 @@ cross-reference each other:
 
 | Proposal | Convention used | Shape |
 |---|---|---|
-| 013 (Whisper) | `whispers/<topic-class>` | flat |
+| 013 (Whisper signals) | `whispers/<topic-class>` | flat |
+| 013 (Whisper traces) | `whisper-traces/<trace-kind>` | flat |
 | 026 (Resource opinions) | `opinions/<resource-kind>[/<resource-hash>]` | two-level |
 | 035 (examples) | `orbiplex/proposals/<id>`, `orbiplex/announcements`, `orbiplex/workflow-runs/<id>` | project-scoped |
 | 041 (Ingest attestation) | `opinions/*` glob matcher in policy | — |
@@ -355,13 +356,15 @@ Clients constructing `agora-record.v1` envelopes SHOULD:
 | `opinions/<resource-kind>` | `ai.orbiplex.opinions/<resource-kind>` |
 | `opinions/url/sha256:…` | `ai.orbiplex.opinions/url/sha256:…` |
 | `whispers/<topic-class>` | `ai.orbiplex.whispers/<topic-class>` |
+| `whisper-traces/<trace-kind>` | `ai.orbiplex.whisper-traces/<trace-kind>` |
 
 Updates needed:
 
 - Proposal 013 §Distribution and Next Actions — swap
   `whispers/<topic-class>` for `ai.orbiplex.whispers/<topic-class>`
-  and add `private/…` prefix requirement for
-  `disclosure/scope: private-correlation` whispers.
+  and use `ai.orbiplex.whisper-traces/<trace-kind>` for public/federated
+  `whisper-trace.v1` records; add the `private/…` prefix requirement for
+  `disclosure/scope: private-correlation` Whisper artifacts.
 - Proposal 026 — swap `opinions/<…>` examples for
   `ai.orbiplex.opinions/<…>`.
 - Proposal 035 §1.1 — add a one-paragraph non-normative pointer

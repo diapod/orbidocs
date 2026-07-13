@@ -239,8 +239,23 @@
    :responsibilities
    ["Expose `/v1/agora/status` with relay role, configured topics, backend health"
     "Report last sweep timestamp and outbound Matrix transport state"
-    "Remain cheap, cacheable, and suitable for operator inspection"]
-   :status :optional}]
+   "Remain cheap, cacheable, and suitable for operator inspection"]
+   :status :optional}
+
+  {:cap/id :whisper-trace-carrier
+   :title "Whisper Trace Carrier"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/013-whisper-social-signal-exchange.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/60-solutions/011-whisper/011-whisper.md"]
+   :schemas ["agora-record.v1"
+             "whisper-trace.v1"]
+   :responsibilities
+   ["Carry public/federated traces under record/kind whisper-trace and the ai.orbiplex.whisper-traces/<trace-kind> topic prefix"
+    "Validate the trace schema and public disclosure posture without treating an opaque consent reference as relay-verifiable authority"
+    "Exclude trace records from social-signal similarity, threshold, and association projections"
+    "Preserve the semantic boundary between trace assertions and independently verifiable receipts or attestations"]
+   :status :partial}]
 
  :out-of-scope
  ["Public rejection feed and public rejection oracle semantics in M2/M2b"
