@@ -48,3 +48,6 @@ nav:
   - "040-capability-limited-restrictions/040-capability-limited-restrictions.md"
   - "041-federation-root/041-federation-root.md"
   - "042-sensorium-workbench/042-sensorium-workbench.md"
+  - "043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md"
+  - "044-inquirium/044-inquirium.md"
+  - "045-inquirium-assistant-channel/045-inquirium-assistant-channel.md"

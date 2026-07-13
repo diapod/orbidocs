@@ -3,7 +3,7 @@
 Status: Living architecture map
 Scope: Root-level map of major Orbiplex components, host-owned primitives,
 protocol substrates, node-attached organs, and proposal-backed horizon areas.
-Last synchronized: 2026-06-30
+Last synchronized: 2026-07-13
 
 This diagram is intentionally not a runtime flow diagram. It shows broad
 component containment, attachment, and stratum membership. Edges mean
@@ -21,6 +21,7 @@ proposal-backed horizon box.
 flowchart TB
   subgraph AccessSurfaces["Access, Client, and Operator Surfaces"]
     UI["Node UI<br/>HTMX / Tauri-hosted shell"]
+    AssistantChannel["Inquirium Assistant Channel<br/>advise-first inquiry surface"]
     Control["Control CLI / API clients<br/>operator automation"]
     PodClients["Pod-backed thin clients<br/>hosted user access"]
     APIProjection["API Surface Projection<br/>aggregated OpenAPI + surface catalog"]
@@ -82,6 +83,7 @@ flowchart TB
     Whisper["Whisper<br/>social-signal intake + threshold bootstrap"]
     Anon["Anon<br/>nym / privacy surface"]
     Sensorium["Sensorium<br/>local enaction stratum + workbench"]
+    Inquirium["Inquirium<br/>bounded model inquiry organ"]
     Ferment["Ferment<br/>developer/tooling surface"]
   end
 
@@ -101,7 +103,6 @@ flowchart TB
   end
 
   subgraph ProposalHorizon["Proposal-Backed Horizon / Not Yet Root Runtime Components"]
-    Inquirium["Inquirium<br/>model inquiry organ + assistant channel"]
     AgentOrgan["Agent Orchestration Organ<br/>bounded stateful agents"]
     WorkflowCatalog["Workflow + Service Schema Catalogs<br/>templates, schemas, task types"]
     Reputation["Membership + Reputation Bootstrap<br/>public adjudication + sanctions"]
@@ -109,6 +110,8 @@ flowchart TB
   end
 
   UI --- Daemon
+  UI --- AssistantChannel
+  AssistantChannel --- Inquirium
   Control --- Daemon
   PodClients --- Daemon
   APIProjection --- Daemon
@@ -118,6 +121,7 @@ flowchart TB
   Daemon --- Gate
   Daemon --- Notifications
   Daemon --- InteractionBroker
+  Daemon --- Inquirium
 
   Daemon --- BoundedServer
   Daemon --- ModuleStore
@@ -209,10 +213,10 @@ flowchart TB
   classDef draft fill:#f3e5f5,stroke:#6a1b9a,color:#26102f
   classDef convention fill:#eceff1,stroke:#455a64,color:#102027
 
-  class Gate,CapabilityRegistry,Signer,Sealer,CapabilityAdvertisement,Memarium,AgoraLocal,Whisper,RawSignal,ModuleStore,BoundedServer,MiddlewareHost,Scheduler,Deferred,ArtifactDelivery,TemporalStorage,Relationship,SharedOfferCatalog,APIProjection,Room,Sensorium done
+  class Gate,CapabilityRegistry,Signer,Sealer,CapabilityAdvertisement,Memarium,AgoraLocal,Whisper,RawSignal,ModuleStore,BoundedServer,MiddlewareHost,Scheduler,Deferred,ArtifactDelivery,TemporalStorage,Relationship,SharedOfferCatalog,APIProjection,Room,Sensorium,Inquirium,AssistantChannel,Corpus done
   class Daemon,UI,Arca,Dator,INAC,KeyPassports,InteractionBroker partial
   class Monus,Anon,SemanticIndex planned
-  class Classification,AgoraAuthority,Inquirium,AgentOrgan,WorkflowCatalog,Reputation,Recovery,Corpus draft
+  class Classification,AgoraAuthority,AgentOrgan,WorkflowCatalog,Reputation,Recovery draft
   class TLS,SeedDirectory,ContactCatalog,PseudonymVault,Messaging mvp
   class TemporalStorage convention
 
@@ -221,7 +225,7 @@ flowchart TB
   click LocalReadiness "../../project/40-proposals/050-local-readiness-gate.md" "Local Readiness Gate"
   click CapabilityRegistry "../../project/60-solutions/037-capability-registry/037-capability-registry.md" "Capability Registry"
   click Gate "../../project/60-solutions/006-capability-binding/006-capability-binding.md" "Capability Binding"
-  click Notifications "../../project/40-proposals/057-user-and-operator-notifications.md" "User and Operator Notifications"
+  click Notifications "../../project/60-solutions/039-notifications/039-notifications.md" "User and Operator Notifications"
   click InteractionBroker "../../project/60-solutions/035-interaction-broker/035-interaction-broker.md" "Interaction Broker"
   click BoundedServer "../../project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md" "Bounded Local Server Runtime"
   click ModuleStore "../../project/60-solutions/015-host-owned-module-store/015-host-owned-module-store.md" "Host-Owned Module Store"
@@ -243,7 +247,7 @@ flowchart TB
   click ContactCatalog "../../project/60-solutions/025-contact-catalog/025-contact-catalog.md" "Contact Catalog"
   click Room "../../project/60-solutions/036-room/036-room.md" "Room"
   click SemanticIndex "../../project/60-solutions/022-semantic-index/022-semantic-index.md" "Semantic Index"
-  click Corpus "../../project/40-proposals/069-corpus.md" "Corpus"
+  click Corpus "../../project/60-solutions/038-corpus/038-corpus.md" "Corpus"
   click ArtifactDelivery "../../project/60-solutions/023-artifact-delivery/023-artifact-delivery.md" "Artifact Delivery"
   click INAC "../../project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md" "Inter-Node Artifact Channel"
   click Messaging "../../project/60-solutions/027-messaging-middleware/027-messaging-middleware.md" "Messaging Middleware"
@@ -267,7 +271,8 @@ flowchart TB
   click Agora "../../project/60-solutions/008-agora/008-agora.md" "Agora"
   click SharedCatalogNetwork "../../project/60-solutions/033-shared-offer-catalog/033-shared-offer-catalog.md" "Shared Offer Catalog"
   click Harness "../../project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md" "Multi-Node Federation Harness"
-  click Inquirium "../../project/40-proposals/063-inquirium-model-inquiry-organ.md" "Inquirium"
+  click Inquirium "../../project/60-solutions/044-inquirium/044-inquirium.md" "Inquirium"
+  click AssistantChannel "../../project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md" "Inquirium Assistant Channel"
   click AgentOrgan "../../project/40-proposals/073-agent-orchestration-organ.md" "Agent Orchestration Organ"
   click WorkflowCatalog "../../project/40-proposals/029-workflow-template-catalog.md" "Workflow Template Catalog"
   click Reputation "../../project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md" "Membership and Reputation Bootstrap"

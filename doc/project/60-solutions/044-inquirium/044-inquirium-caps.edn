@@ -1,0 +1,165 @@
+{:component/id :orbiplex/inquirium
+ :component/title "Inquirium"
+ :component/type :node-organ
+ :component/status :done
+
+ :summary
+ "Host-owned organ for bounded provider-neutral model inquiry, runtime selection,
+ adapter execution, policy enforcement, conformance, and typed outcomes without
+ granting models effect authority."
+
+ :must-implement
+ [{:cap/id :inquirium-semantic-operations
+   :title "Semantic Operation Contracts"
+   :kind :schema-contract
+   :based-on ["doc/project/40-proposals/063-inquirium-model-inquiry-organ.md"
+              "doc/project/40-proposals/064-inquirium-implementation-recommendations.md"]
+   :schemas ["inquirium.generate.request.v1"
+             "inquirium.generate.response.v1"
+             "inquirium.embed.request.v1"
+             "inquirium.embed.response.v1"
+             "inquirium.batch-embed.request.v1"
+             "inquirium.batch-embed.response.v1"
+             "inquirium.classify.request.v1"
+             "inquirium.classify.response.v1"
+             "inquirium.rerank.request.v1"
+             "inquirium.rerank.response.v1"
+             "inquirium.summarize.request.v1"
+             "inquirium.summarize.response.v1"
+             "inquirium.transform.request.v1"
+             "inquirium.transform.response.v1"
+             "inquirium.image-generate.request.v1"
+             "inquirium.image-edit.request.v1"
+             "inquirium.image.response.v1"
+             "inquirium.train-adapt.request.v1"]
+   :responsibilities
+   ["Expose bounded operation-specific provider-neutral request and response contracts"
+    "Validate inputs outputs parameters classification and stable references at the organ boundary"
+    "Represent denial invalid unsafe deferred and artifact outcomes as typed values"
+    "Keep provider-specific model identity and controls in host-owned bindings"]
+   :status :done}
+
+  {:cap/id :inquirium-runtime-adapter-execution
+   :title "Runtime Selection and Adapter Execution"
+   :kind :runtime-orchestration
+   :based-on ["doc/project/40-proposals/063-inquirium-model-inquiry-organ.md"
+              "doc/project/40-proposals/064-inquirium-implementation-recommendations.md"
+              "doc/project/60-solutions/019-middleware/019-middleware.md"]
+   :schemas ["model-runtime-catalog.v0.2.2"
+             "inquirium.adapter.manifest.v1"
+             "inquirium.adapter.response.v1"]
+   :responsibilities
+   ["Select only healthy routable policy-compatible runtime candidates"
+    "Separate adapter implementation instance model binding runtime candidate and runtime instance identities"
+    "Supervise local adapter processes by adapter instance and route semantic calls by runtime ref"
+    "Require signed manifests and explicit operator authorization for egress-capable adapters"]
+   :status :done}
+
+  {:cap/id :inquirium-prompt-context-output-policy
+   :title "Prompt Context and Output Policy"
+   :kind :policy-boundary
+   :based-on ["doc/project/40-proposals/064-inquirium-implementation-recommendations.md"
+              "doc/project/60-solutions/018-classification/018-classification.md"]
+   :schemas ["inquirium.generate.output-envelope.v1"
+             "inquirium.memory-policy.v1"
+             "inquirium.memory-projection.v1"
+             "inquirium.locale-policy.v1"
+             "inquirium.prompt-assembly.trace.v1"]
+   :responsibilities
+   ["Assemble monotone host-owned instruction layers before adapter invocation"
+    "Keep response locale independent from instruction locale"
+    "Project bounded session memory while leaving summary production to another component"
+    "Enforce classification egress structured-output and input/output rail policy"
+    "Admit only closed inert communication controls without executing them"]
+   :status :done}
+
+  {:cap/id :inquirium-conformance-observability
+   :title "Conformance and Operator Visibility"
+   :kind :conformance-suite
+   :based-on ["doc/project/40-proposals/064-inquirium-implementation-recommendations.md"]
+   :schemas ["inquirium.conformance.candidate-requirements.v1"]
+   :responsibilities
+   ["Persist host-owned fixture-digest-bound conformance reports"
+    "Keep required candidates non-routable without fresh passing evidence"
+    "Expose healthy and routable as separate operator states"
+    "Emit metadata-only host-keyed traces without protected model content"]
+   :status :done}
+
+  {:cap/id :inquirium-direct-data-plane
+   :title "Direct Data Plane and Artifact Outputs"
+   :kind :data-plane
+   :based-on ["doc/project/40-proposals/063-inquirium-model-inquiry-organ.md"
+              "doc/project/40-proposals/064-inquirium-implementation-recommendations.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+              "doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md"]
+   :schemas ["inquirium.batch-embed.request.v1"
+             "inquirium.batch-embed.response.v1"
+             "inquirium.training.dataset-manifest.v1"
+             "inquirium.train-adapt.request.v1"
+             "inquirium.artifact-output.intent.v1"]
+   :responsibilities
+   ["Issue bounded expiring operation-bound runtime-bound leases"
+    "Deny raw file leases to remote runtimes and validate canonical local containment"
+    "Use bounded deferred operations for batch embedding and model adaptation"
+    "Verify artifact digest size and provenance before object-store publication"]
+   :status :done}
+
+  {:cap/id :inquirium-budget-cache-effect-intents
+   :title "Budgets Cache and Effect Intents"
+   :kind :host-policy
+   :based-on ["doc/project/40-proposals/064-inquirium-implementation-recommendations.md"]
+   :schemas ["inquirium.effect-intent.v1"
+             "inquirium.trace-fact.intent.v1"
+             "inquirium.transcript-write.intent.v1"
+             "inquirium.budget-charge.intent.v1"
+             "inquirium.artifact-output.intent.v1"
+             "inquirium.candidate-plan.v1"
+             "inquirium.flow.v1"]
+   :responsibilities
+   ["Enforce token and cost budgets across all actual provider attempts"
+    "Admit opt-in deterministic caching only under stable model and policy snapshots"
+    "Return typed effect intents to the daemon composition root"
+    "Compile candidate plans into inert grant-checked Inquiry Flow values without scheduling"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :inquirium-additional-runtime-profiles
+   :title "Additional Runtime and Evaluator Profiles"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/064-inquirium-implementation-recommendations.md"]
+   :schemas ["inquirium.adapter.manifest.v1"]
+   :responsibilities
+   ["Add provider families deterministic operation caches and richer structured-output profiles"
+    "Preserve host authority conformance and classification-aware egress"]
+   :status :post-mvp}
+
+  {:cap/id :inquirium-production-trainer-backends
+   :title "Production Model Adaptation Backends"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/063-inquirium-model-inquiry-organ.md"
+              "doc/project/40-proposals/064-inquirium-implementation-recommendations.md"]
+   :schemas ["inquirium.train-adapt.request.v1"]
+   :responsibilities
+   ["Replace deterministic trainer behavior behind the existing bounded contract"
+    "Keep evaluation and artifact publication authority in the host"]
+   :status :post-mvp}]
+
+ :out-of-scope
+ ["Durable autonomous agent lifecycle and controller loops"
+  "Granting model-returned plans or tool calls effect authority"
+  "Replacing Sensorium Memarium Artifact Delivery Scheduler or Agent"
+  "Treating provider caches or sessions as authoritative Orbiplex memory"
+  "Making one provider API or implementation language the semantic contract"]
+
+ :consumes
+ ["authenticated host capability calls"
+  "inference grants and classification policy"
+  "model-runtime-catalog.v0.2.2"
+  "adapter manifests and conformance reports"
+  "classified context leases artifact refs and budget state"]
+
+ :produces
+ ["typed Inquirium operation responses and denials"
+  "verified artifact descriptors and deferred-operation refs"
+  "metadata-only trace and accounting intents"
+  "inert control proposals and Inquiry Flow values"]}

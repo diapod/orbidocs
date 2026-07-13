@@ -10,9 +10,13 @@ Based on:
 - `doc/normative/50-constitutional-ops/en/UNIVERSAL-BASIC-COMPUTE.en.md`
 - `doc/project/40-proposals/057-user-and-operator-notifications.md`
 
+Promoted to:
+
+- `doc/project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md`
+
 ## Status
 
-Draft
+`promoted`
 
 ## Date
 

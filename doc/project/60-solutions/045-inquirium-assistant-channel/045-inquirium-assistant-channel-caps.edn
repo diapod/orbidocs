@@ -1,0 +1,146 @@
+{:component/id :orbiplex/inquirium-assistant-channel
+ :component/title "Inquirium Assistant Channel"
+ :component/type :host-ui-service
+ :component/status :done
+
+ :summary
+ "Advise-first participant-facing channel over Inquirium with a local baseline,
+ classified granted context, durable transcript facts, operator questions,
+ feedback, and metadata-only observability without contact or messaging semantics."
+
+ :must-implement
+ [{:cap/id :assistant-turn-boundary
+   :title "Assistant Turn Boundary"
+   :kind :host-capability
+   :based-on ["doc/project/40-proposals/066-inquirium-assistant-channel.md"
+              "doc/project/60-solutions/044-inquirium/044-inquirium.md"]
+   :schemas ["inquirium.assistant.turn.request.v1"
+             "inquirium.assistant.turn.response.v1"]
+   :responsibilities
+   ["Expose bounded idempotent assistant turns through Inquirium"
+    "Bind principal and participant scope from authenticated host context"
+    "Cap completed output before transcript persistence"
+    "Keep model responses visibly non-authoritative and effect-free"]
+   :status :done}
+
+  {:cap/id :assistant-baseline-conformance
+   :title "Baseline Runtime and Conformance"
+   :kind :runtime-profile
+   :based-on ["doc/project/40-proposals/066-inquirium-assistant-channel.md"
+              "doc/project/40-proposals/064-inquirium-implementation-recommendations.md"]
+   :schemas ["inquirium.conformance.candidate-requirements.v1"]
+   :responsibilities
+   ["Require a local-only strict-local offline-capable baseline runtime"
+    "Gate baseline routing on fresh profile-scoped and host-class-scoped conformance"
+    "Expose readiness and remediation paths to the operator"
+    "Keep remote inference additive and explicitly admitted"]
+   :status :done}
+
+  {:cap/id :assistant-transcript-session-projection
+   :title "Transcript and Session Projection"
+   :kind :temporal-storage
+   :based-on ["doc/project/40-proposals/066-inquirium-assistant-channel.md"
+              "doc/project/60-solutions/002-memarium/002-memarium.md"]
+   :schemas ["inquirium.assistant.transcript.fact.v1"
+             "inquirium.assistant.transcript.bundle.v1"
+             "inquirium.memory-policy.v1"
+             "inquirium.memory-projection.v1"]
+   :responsibilities
+   ["Persist participant-scoped turn and result facts through a Memarium-first transcript port"
+    "Use a local non-federating fallback and object-store refs for large content"
+    "Preserve idempotent replay retention rebuild export import and audit-preserving excision"
+    "Project bounded memory while assigning summary production to another component"]
+   :status :done}
+
+  {:cap/id :assistant-granted-context
+   :title "Granted Context and Classification"
+   :kind :authority-boundary
+   :based-on ["doc/project/40-proposals/066-inquirium-assistant-channel.md"
+              "doc/project/60-solutions/018-classification/018-classification.md"]
+   :schemas ["inquirium.context-assembly.request.v1"
+             "inquirium.context-grant.issue.request.v1"
+             "inquirium.context-grant.revoke.request.v1"]
+   :responsibilities
+   ["Require durable participant session and source-bound context grants"
+    "Carry classification and provenance for every admitted context element"
+    "Fail closed when source resolution or acceptance policy fails"
+    "Require explicit remote model acceptance and protected-context egress acknowledgement"]
+   :status :done}
+
+  {:cap/id :assistant-operator-question-escalation
+   :title "Operator Questions and Escalation"
+   :kind :human-in-loop
+   :based-on ["doc/project/40-proposals/066-inquirium-assistant-channel.md"
+              "doc/project/60-solutions/039-notifications/039-notifications.md"]
+   :schemas ["inquirium.operator-question.request.v1"
+             "inquirium.operator-question.transition.request.v1"
+             "inquirium.crisis-candidate.v1"]
+   :responsibilities
+   ["Create questions only from registered host-owned widget kinds"
+    "Persist and validate answer timeout cancel and supersede transitions"
+    "Project pending questions into durable Notifications"
+    "Route classified crisis candidates to host review without self-authorizing a diagnosis"]
+   :status :done}
+
+  {:cap/id :assistant-feedback-training-admission
+   :title "Feedback and Training Admission"
+   :kind :governance-contract
+   :based-on ["doc/project/40-proposals/066-inquirium-assistant-channel.md"
+              "doc/project/60-solutions/044-inquirium/044-inquirium.md"]
+   :schemas ["inquirium.inquiry-feedback.v1"
+             "inquirium.training-grant.issue.request.v1"
+             "inquirium.training-grant.revoke.request.v1"
+             "inquirium.training.dataset-manifest.v1"]
+   :responsibilities
+   ["Record verified refuted and amended feedback as append-only classified facts"
+    "Require a separate live exact-bound training grant before candidate admission"
+    "Keep dataset construction adaptation evaluation and publication behind Inquirium gates"]
+   :status :done}
+
+  {:cap/id :assistant-observability-ui
+   :title "Observability and UI"
+   :kind :api-ui
+   :based-on ["doc/project/40-proposals/066-inquirium-assistant-channel.md"]
+   :schemas ["inquirium.assistant.turn.response.v1"]
+   :responsibilities
+   ["Expose a local read-only activity feed over metadata-only traces"
+    "Keep one-way trace refs free of prompt and response content"
+    "Render the assistant as an inquiry affordance rather than a contact"
+    "Avoid autonomous engagement and dopamine-oriented interaction patterns"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :assistant-agentic-effect-integration
+   :title "Agentic Effect Integration"
+   :kind :future-integration
+   :based-on ["doc/project/40-proposals/066-inquirium-assistant-channel.md"
+              "doc/project/40-proposals/073-agent-orchestration-organ.md"]
+   :schemas ["agent.binding.v1"
+             "agent.effect-proposal.v1"
+             "agent.effect-proposal-outcome.v1"]
+   :responsibilities
+   ["Bind the assistant explicitly to a bounded Agent"
+    "Keep lifecycle grants budgets and effect proposals in the Agent organ"
+    "Require human-in-loop and the owning capability gate for sensitive effects"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Representing the assistant as a contact nym peer or Messaging route"
+  "Autonomous initiation or engagement optimization"
+  "Direct relationship governance publication filesystem or network effects"
+  "Publishing transcript or activity data to the swarm by default"
+  "Letting model output define executable widgets grants or effect authority"]
+
+ :consumes
+ ["authenticated participant and operator context"
+  "inquirium.assistant.turn.request.v1"
+  "classified context grants and source projections"
+  "baseline runtime conformance state"
+  "notification transcript and object-store ports"]
+
+ :produces
+ ["inquirium.assistant.turn.response.v1"
+  "participant-scoped transcript facts and bundles"
+  "metadata-only activity and trace projections"
+  "registered operator questions and notification actions"
+  "classified feedback crisis candidates and training admissions"]}

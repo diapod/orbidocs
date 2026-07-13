@@ -246,9 +246,11 @@ Recent component deltas:
 - Node UI security readiness advanced: Solution 001 now documents and implements physically separate public/user/pod-user/operator router strata, participant-session enforcement for user-mode routes, header-first reflective CSRF without the legacy CSRF header alias, local user-action audit JSONL, `security-audit.v1.sqlite` query projection with 90-day retention, `/admin/audit/user-actions`, and optional best-effort Memarium `user-action.v1` mirroring. Proposal 052 now carries the same audit/redaction/retention contract for the Tauri-hosted shell. Node UI remains partial because richer desktop settings writes, external preview isolation, pod-user auth, and native integration hardening are still later product/runtime layers.
 - Contact Catalog hard-MVP is tracker-complete: Proposal 058 and Solution 025 now report the implemented route-set `contact-claim.v1` / `contact-lookup-result.v1` runtime, supervised service, local contact recovery, tombstone/revocation replay, PSI/blinded lookup, provider sync, provider trust controls, and contact-control-vs-identity wording as done for the hard-MVP slice.
 - Messaging hard-MVP is tracker-complete: Proposal 060 and Solution 027 now report supervised messaging runtime, daemon-mediated contactability provider discovery/challenge/redeem, Contact Catalog lookup/contact-request handoff, classification-bearing private-direct AD/INAC delivery, `messaging.flag.v1` read/unread replay, recorded-message lineage plus best-effort encrypted Agora Vault storage, Node UI controls, user-mode wizard readiness for pseudonymous-only or public-handle-draft messaging setup, and Story 010 strict `ad-smoke` as done for the hard-MVP slice. Latest hardening adds EML body/profile recovery, route-key normalization, mark-read routing fixes, readiness/routing retry gates, SSE mutation guards, and conversation diagnostics. Production privacy/federation expansion, receive-passport restoration matrices beyond the current sealed local recovery path, Maildir body encryption, richer per-recipient vault key wrapping, HTML rendering, group messaging, and live multi-device push remain post-MVP work.
-- Inquirium now has an MVP-capable bounded-inquiry slice rather than only a
-  runtime substrate.
-  Proposal 063 now has a first `generate` vertical through `inquirium-core`,
+- Inquirium is now promoted to Solution 044 as an MVP-capable bounded-inquiry
+  organ rather than only a runtime substrate. The Assistant Channel is promoted
+  separately to Solution 045 as the human-facing interaction surface over that
+  organ, while Proposal 064 remains their shared implementation recommendations.
+  The solution has a first `generate` vertical through `inquirium-core`,
   daemon `inquirium.generate`, JSON-e Flow ingress/preflight, NSE runtime
   selection, deterministic stub runtime, classification-aware request
   validation, metadata-only trace records, direct embedding, report-backed
@@ -300,12 +302,14 @@ Recent component deltas:
   adapter and selected runtime/model declarations, and host schema/rail checks
   still run. OpenAI direct embeddings use the same supervised adapter and
   runtime/model-binding policy boundary. Full schema ecosystem features such as dynamic
-  refs/recursion/combinators/grammar artifact caching, deterministic caches,
-  richer optional evaluator critics, Flow IR/Agent boundaries, and provider
-  packaging remain open. The current host boundary already has schema-owned
+  refs/recursion/combinators/grammar artifact caching, richer optional evaluator
+  critics, and provider packaging remain open. Deterministic embedding caching
+  and pure CandidatePlan-to-Inquiry-Flow compilation are implemented; durable
+  plan execution remains correctly owned by Agent and other effect strata. The
+  current host boundary already has schema-owned
   string redaction, bounded multi-violation diagnostics, explicit egress-class
   limits, complete repair-attempt accounting, live image execution, and a
-  durable evaluation-gated training worker. Proposal 066 has a local-only
+  durable evaluation-gated training worker. Solution 045 has a local-only
   assistant turn capability, host-capped assistant output, principal-scoped
   transcript fallback with local-control excision markers, Memarium-backed
   transcript fact attempts with local fallback/read-index, idempotent turn
@@ -341,9 +345,9 @@ Recent component deltas:
   content-addressed training manifests, and grant-rechecked local
   `train.adapt` admission and execution are implemented; training recovery is
   operation-kind/status scoped and paged, cancellation is compare-and-set, and
-  decoded model artifacts are capped at 96 MiB. P063's bounded organ
-  slice, P064's tracked implementation recommendations, and P066's assistant
-  slice are MVP-ready. Richer schema/evaluator profiles, provider-binary
+  decoded model artifacts are capped at 96 MiB. Solution 044's bounded organ,
+  P064's tracked implementation recommendations, and Solution 045's assistant
+  channel are MVP-ready. Richer schema/evaluator profiles, provider-binary
   packaging, optional scheduler-owned timeout surfacing, and Agent-owned effect
   governance remain additive later work rather than incomplete P064 tracker
   items.

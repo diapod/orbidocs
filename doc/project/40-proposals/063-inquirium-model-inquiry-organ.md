@@ -14,12 +14,15 @@ Refined by:
 - `doc/project/40-proposals/064-inquirium-implementation-recommendations.md`
 - `doc/project/40-proposals/066-inquirium-assistant-channel.md`
 
+Promoted to:
+- `doc/project/60-solutions/044-inquirium/044-inquirium.md`
+
 Related:
 - `doc/project/40-proposals/078-weak-signal-harvester.md`
 
 ## Status
 
-Accepted
+`promoted`
 
 ## Date
 

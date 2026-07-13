@@ -22,7 +22,7 @@ surface projection slice for the Node workspace.
 - `doc/project/60-solutions/000-node/000-node.md`
 - `doc/project/60-solutions/019-middleware/019-middleware.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
-- `doc/project/40-proposals/063-inquirium-model-inquiry-organ.md`
+- `doc/project/60-solutions/044-inquirium/044-inquirium.md`
 - `doc/project/40-proposals/064-inquirium-implementation-recommendations.md`
 
 ## Purpose

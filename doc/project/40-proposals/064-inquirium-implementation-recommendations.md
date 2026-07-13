@@ -4,9 +4,13 @@ Based on:
 - `doc/project/40-proposals/063-inquirium-model-inquiry-organ.md`
 - `node/DEV-GUIDELINES.md`
 
+Applies to:
+- `doc/project/60-solutions/044-inquirium/044-inquirium.md`
+- `doc/project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md`
+
 ## Status
 
-Draft
+Accepted implementation recommendations
 
 ## Date
 
@@ -14,11 +18,13 @@ Draft
 
 ## Executive Summary
 
-This proposal refines Proposal 063 into implementation recommendations for
-Inquirium. The goal is to keep Inquirium as a small, host-owned policy boundary
-for model-backed inquiry while allowing many replaceable runtime adapters,
-protocol gates, evaluators, tool bridges, agent bridges, and model adaptation
-artifacts to evolve around it.
+This proposal preserves the implementation recommendations behind Solution 044
+Inquirium, promoted from Proposal 063, and the shared invariants used by
+Solution 045 Inquirium Assistant Channel. It remains an implementation-guidance
+document, not a separate solution component. The goal is to keep Inquirium as a
+small, host-owned policy boundary for model-backed inquiry while allowing many
+replaceable runtime adapters, protocol gates, evaluators, tool bridges, agent
+bridges, and model adaptation artifacts to evolve around it.
 
 The core rule is:
 
