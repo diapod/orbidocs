@@ -1,0 +1,32 @@
+{
+  "schema": "inquirium.adapter.response.v1",
+  "provider": "simulator",
+  "provider_request_id": "response/example-1",
+  "model": "template-boundary-receipt",
+  "output": [
+    {
+      "type": "text",
+      "text": "The provider returned a bounded candidate response."
+    }
+  ],
+  "epistemic": {
+    "stance": "hypothesis",
+    "confidence": "medium",
+    "grounded-in": ["artifact/example-source"],
+    "caveats": ["Operator review remains required."]
+  },
+  "params": {
+    "language": "en"
+  },
+  "control": [
+    {
+      "kind": "degraded",
+      "payload": {
+        "reason/code": "runtime/degraded"
+      }
+    }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {},
+  "diagnostics": {}
+}

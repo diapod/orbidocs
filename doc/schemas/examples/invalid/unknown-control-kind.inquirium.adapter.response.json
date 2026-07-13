@@ -1,0 +1,21 @@
+{
+  "schema": "inquirium.adapter.response.v1",
+  "provider": "simulator",
+  "provider_request_id": "response/invalid-1",
+  "model": "template-boundary-receipt",
+  "output": [
+    {
+      "type": "text",
+      "text": "This control kind is not part of the closed vocabulary."
+    }
+  ],
+  "control": [
+    {
+      "kind": "execute_effect",
+      "payload": {}
+    }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {},
+  "diagnostics": {}
+}

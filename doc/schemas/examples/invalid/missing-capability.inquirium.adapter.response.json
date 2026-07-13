@@ -1,0 +1,27 @@
+{
+  "schema": "inquirium.adapter.response.v1",
+  "provider": "simulator",
+  "provider_request_id": "response/invalid-tool-1",
+  "model": "template-boundary-receipt",
+  "output": [
+    {
+      "type": "text",
+      "text": "The tool proposal is inert but still requires a capability reference."
+    }
+  ],
+  "control": [
+    {
+      "kind": "propose_tool_call",
+      "payload": {
+        "proposal/ref": "proposal/tool-call/example",
+        "arguments": {
+          "path": "README.md"
+        },
+        "reason/code": "proposal/inspect-file"
+      }
+    }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {},
+  "diagnostics": {}
+}

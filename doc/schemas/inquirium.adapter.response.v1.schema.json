@@ -21,6 +21,16 @@
       "type": "array",
       "items": { "$ref": "#/$defs/outputChunk" }
     },
+    "epistemic": { "$ref": "#/$defs/epistemicFrame" },
+    "params": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "control": {
+      "type": "array",
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/controlItem" }
+    },
     "stop_reason": {
       "type": ["string", "null"],
       "minLength": 1
@@ -30,12 +40,295 @@
   },
   "$defs": {
     "outputChunk": {
+      "oneOf": [
+        { "$ref": "#/$defs/textOutputChunk" },
+        { "$ref": "#/$defs/structuredOutputChunk" }
+      ]
+    },
+    "textOutputChunk": {
       "type": "object",
       "additionalProperties": true,
       "required": ["type", "text"],
       "properties": {
         "type": { "const": "text" },
         "text": { "type": "string" }
+      }
+    },
+    "structuredOutputChunk": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["type", "schema/ref", "value"],
+      "properties": {
+        "type": { "const": "structured" },
+        "schema/ref": { "type": "string", "minLength": 1 },
+        "value": true
+      }
+    },
+    "epistemicFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stance", "confidence"],
+      "properties": {
+        "stance": { "enum": ["advisory", "hypothesis"] },
+        "confidence": { "enum": ["unstated", "low", "medium", "high"] },
+        "grounded-in": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "caveats": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "controlItem": {
+      "oneOf": [
+        { "$ref": "#/$defs/recallSchemaControlItem" },
+        { "$ref": "#/$defs/recallGlossaryControlItem" },
+        { "$ref": "#/$defs/toolCallControlItem" },
+        { "$ref": "#/$defs/operatorQuestionControlItem" },
+        { "$ref": "#/$defs/reviseOutputControlItem" },
+        { "$ref": "#/$defs/crisisCandidateControlItem" },
+        { "$ref": "#/$defs/degradedControlItem" },
+        { "$ref": "#/$defs/refusalControlItem" }
+      ],
+      "unevaluatedProperties": false
+    },
+    "recallSchemaControlItem": {
+      "type": "object",
+      "required": ["kind", "payload"],
+      "properties": {
+        "kind": { "const": "recall_schema" },
+        "payload": { "$ref": "#/$defs/recallControlPayload" }
+      }
+    },
+    "recallGlossaryControlItem": {
+      "type": "object",
+      "required": ["kind", "payload"],
+      "properties": {
+        "kind": { "const": "recall_glossary" },
+        "payload": { "$ref": "#/$defs/recallControlPayload" }
+      }
+    },
+    "toolCallControlItem": {
+      "type": "object",
+      "required": ["kind", "capability/ref", "payload"],
+      "properties": {
+        "kind": { "const": "propose_tool_call" },
+        "capability/ref": { "type": "string", "minLength": 1 },
+        "payload": { "$ref": "#/$defs/toolCallPayload" }
+      }
+    },
+    "operatorQuestionControlItem": {
+      "type": "object",
+      "required": ["kind", "payload"],
+      "properties": {
+        "kind": { "const": "ask_operator" },
+        "payload": { "$ref": "#/$defs/operatorQuestionPayload" }
+      }
+    },
+    "reviseOutputControlItem": {
+      "type": "object",
+      "required": ["kind", "payload"],
+      "properties": {
+        "kind": { "const": "revise_output" },
+        "payload": { "$ref": "#/$defs/reviseOutputPayload" }
+      }
+    },
+    "crisisCandidateControlItem": {
+      "type": "object",
+      "required": ["kind", "payload"],
+      "properties": {
+        "kind": { "const": "crisis_candidate" },
+        "payload": { "$ref": "#/$defs/crisisCandidatePayload" }
+      }
+    },
+    "degradedControlItem": {
+      "type": "object",
+      "required": ["kind", "payload"],
+      "properties": {
+        "kind": { "const": "degraded" },
+        "payload": { "$ref": "#/$defs/controlReasonPayload" }
+      }
+    },
+    "refusalControlItem": {
+      "type": "object",
+      "required": ["kind", "payload"],
+      "properties": {
+        "kind": { "const": "refusal" },
+        "payload": { "$ref": "#/$defs/controlReasonPayload" }
+      }
+    },
+    "recallControlPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request/ref", "resource/ref"],
+      "properties": {
+        "request/ref": { "type": "string", "minLength": 1 },
+        "resource/ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "toolCallPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proposal/ref", "arguments", "reason/code"],
+      "properties": {
+        "proposal/ref": { "type": "string", "minLength": 1 },
+        "arguments": true,
+        "reason/code": { "type": "string", "minLength": 1 }
+      }
+    },
+    "reviseOutputPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["revision/ref", "reason/code"],
+      "properties": {
+        "revision/ref": { "type": "string", "minLength": 1 },
+        "reason/code": { "type": "string", "minLength": 1 },
+        "target/ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "controlReasonPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason/code"],
+      "properties": {
+        "reason/code": { "type": "string", "minLength": 1 }
+      }
+    },
+    "operatorQuestionPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "question/ref",
+        "operation/ref",
+        "recipient/class",
+        "reason/code",
+        "escalation/reason",
+        "escalation/level",
+        "prompt",
+        "widget/kind",
+        "widget/payload",
+        "default/on-timeout",
+        "expires/at",
+        "classification",
+        "subject",
+        "response",
+        "provenance",
+        "metadata"
+      ],
+      "properties": {
+        "schema": { "const": "inquirium.operator-question.request.v1" },
+        "question/ref": { "type": "string", "minLength": 1 },
+        "operation/ref": { "type": "string", "minLength": 1 },
+        "recipient/class": { "const": "operator" },
+        "reason/code": { "type": "string", "minLength": 1 },
+        "escalation/reason": {
+          "enum": [
+            "operator-decision-required",
+            "sustained-baseline-loss",
+            "boundary-risk",
+            "pre-egress-confirmation",
+            "crisis-candidate"
+          ]
+        },
+        "escalation/level": {
+          "enum": ["activity-feed", "notification", "operator-prompt"]
+        },
+        "prompt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "text"],
+          "properties": {
+            "kind": {
+              "enum": [
+                "confirm",
+                "single-choice",
+                "multi-choice",
+                "free-text-with-allowlist"
+              ]
+            },
+            "text": { "type": "string", "minLength": 1, "maxLength": 512 }
+          }
+        },
+        "widget/kind": {
+          "enum": [
+            "confirm",
+            "single-choice",
+            "multi-choice",
+            "free-text-with-allowlist"
+          ]
+        },
+        "widget/payload": { "type": "object" },
+        "default/on-timeout": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["answer", "reason/code"],
+          "properties": {
+            "answer": true,
+            "reason/code": { "type": "string", "minLength": 1 }
+          }
+        },
+        "expires/at": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "classification": { "$ref": "classification.v1.schema.json" },
+        "subject": { "type": "object" },
+        "response": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["target/ref", "method", "idempotency/key"],
+          "properties": {
+            "target/ref": { "type": "string", "minLength": 1 },
+            "method": { "const": "POST" },
+            "idempotency/key": { "type": "string", "minLength": 1 }
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/component", "requested/by", "reason/code"],
+          "properties": {
+            "source/component": { "type": "string", "minLength": 1 },
+            "requested/by": { "type": "string", "minLength": 1 },
+            "reason/code": { "type": "string", "minLength": 1 }
+          }
+        },
+        "metadata": { "type": "object" }
+      }
+    },
+    "crisisCandidatePayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "candidate/ref",
+        "turn/id",
+        "reason/code",
+        "evidence/refs",
+        "classification",
+        "metadata"
+      ],
+      "properties": {
+        "schema": { "const": "inquirium.crisis-candidate.v1" },
+        "candidate/ref": { "type": "string", "minLength": 1 },
+        "turn/id": { "type": "string", "minLength": 1 },
+        "reason/code": {
+          "enum": [
+            "immediate-danger",
+            "self-harm-risk",
+            "severe-distress",
+            "safety-boundary-uncertain"
+          ]
+        },
+        "evidence/refs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "classification": { "$ref": "classification.v1.schema.json" },
+        "metadata": { "type": "object" }
       }
     }
   }
