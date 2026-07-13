@@ -108,6 +108,35 @@ When:
 {
   "properties": {
     "routing/profile": {
+      "const": "onion-relayed"
+    }
+  },
+  "required": [
+    "routing/profile"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "forwarding/max-hops": {
+      "minimum": 1
+    }
+  }
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "routing/profile": {
       "const": "direct"
     }
   },
@@ -129,7 +158,7 @@ Then:
 }
 ```
 
-### Rule 3
+### Rule 4
 
 When:
 

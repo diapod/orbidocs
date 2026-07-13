@@ -255,7 +255,7 @@
     "Validate the trace schema and public disclosure posture without treating an opaque consent reference as relay-verifiable authority"
     "Exclude trace records from social-signal similarity, threshold, and association projections"
     "Preserve the semantic boundary between trace assertions and independently verifiable receipts or attestations"]
-   :status :partial}]
+   :status :done}]
 
  :out-of-scope
  ["Public rejection feed and public rejection oracle semantics in M2/M2b"

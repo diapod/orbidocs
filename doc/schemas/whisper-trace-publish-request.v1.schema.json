@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-trace-publish-request:v1",
+  "title": "Whisper Trace Publish Request v1",
+  "description": "Idempotent sender-local request to validate, sign, and dispatch one complete Whisper trace through Agora or AD/INAC according to its disclosure posture.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md",
+    "doc/project/60-solutions/011-whisper/011-whisper.md"
+  ],
+  "required": [
+    "schema",
+    "idempotency/key",
+    "subject/ref",
+    "trace"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-trace-publish-request.v1"
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s]+$"
+    },
+    "subject/ref": {
+      "$ref": "whisper-trace.v1.schema.json#/$defs/ref"
+    },
+    "trace": {
+      "$ref": "whisper-trace.v1.schema.json"
+    }
+  }
+}

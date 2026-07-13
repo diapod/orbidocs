@@ -1,0 +1,33 @@
+{
+  "schema": "whisper-trace-publish-result.v1",
+  "status": "accepted",
+  "record/id": "sha256:UkDBWROPZWv620yU5tPUP9w9K6FqYSuoRXkfBoCw5eY",
+  "delivery": {
+    "status": "accepted",
+    "delivery/id": "delivery:trace:example-1"
+  },
+  "trace/metadata": {
+    "trace-kind": "artifact-dispatched",
+    "trace-occurred-at": "2026-07-13T12:00:00Z",
+    "artifact-digest": "sha256:UkDBWROPZWv620yU5tPUP9w9K6FqYSuoRXkfBoCw5eY",
+    "artifact-size-bytes": 48,
+    "artifact-content-type": "message/rfc822",
+    "disclosure-mode": "digest-only",
+    "disclosure-scope": "federation-scoped",
+    "routing-profile": "relayed",
+    "routing-failure-mode": "soft-fail",
+    "forwarding-max-hops": 1,
+    "evidence-refs": [],
+    "context-facets": []
+  },
+  "privacy/findings": [
+    {
+      "code": "digest-linkable",
+      "blocking": false
+    },
+    {
+      "code": "digest-may-be-guessable",
+      "blocking": false
+    }
+  ]
+}

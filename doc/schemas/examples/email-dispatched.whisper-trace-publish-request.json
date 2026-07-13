@@ -1,0 +1,21 @@
+{
+  "schema": "whisper-trace-publish-request.v1",
+  "idempotency/key": "whisper-trace:email-dispatched:example-1",
+  "subject/ref": "participant:local-primary",
+  "trace": {
+    "schema": "whisper-trace.v1",
+    "trace/kind": "artifact-dispatched",
+    "trace/occurred-at": "2026-07-13T12:00:00Z",
+    "artifact": {
+      "digest": "sha256:UkDBWROPZWv620yU5tPUP9w9K6FqYSuoRXkfBoCw5eY",
+      "size/bytes": 48,
+      "content/type": "message/rfc822"
+    },
+    "disclosure/mode": "digest-only",
+    "disclosure/scope": "federation-scoped",
+    "operation/ref": "smtp-send:example-1",
+    "routing/profile": "relayed",
+    "routing/failure-mode": "soft-fail",
+    "forwarding/max-hops": 1
+  }
+}

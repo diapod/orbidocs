@@ -558,9 +558,11 @@ or project trace statements into Whisper similarity and threshold state.
 Public ingress must reject `private-correlation` traces and must not infer that
 digest-only disclosure is anonymous or non-sensitive.
 
-Status: `contract-defined`. The canonical schema and fixtures exist; Agora
-record-kind registration, ingress policy, read-model handling, and carrier smoke
-tests are not implemented yet.
+Status: `implemented`. Agora registers the trace record kind and schema, enforces
+the conventional public topic and disclosure posture at ingress, and exposes a
+metadata-only list/detail projection that is excluded from Whisper signal
+threshold and association state. Story-005 proves the public carrier together
+with a private AD/INAC trace using the same signed envelope family.
 
 ### Projection Authority for Derived Records
 

@@ -47,9 +47,10 @@ status is:
 - `whisper-signal.v1`, `whisper-threshold-reached.v1`, and
   `association-room-proposal.v1` are implemented for the Agora M4 public signal
   path.
-- `whisper-trace.v1` is defined as a strict content contract with positive and
-  negative fixtures. Runtime validation, sender-host consent resolution,
-  authoring, ingress registration, and carrier acceptance remain pending.
+- `whisper-trace.v1` is implemented as a strict content contract with positive
+  and negative fixtures, runtime validation, sender-host consent resolution,
+  authoring and inspection, ingress registration, metadata-only read models,
+  and public Agora plus private AD/INAC carrier acceptance.
 - Public/federated Whisper records are carried as `agora-record.v1` envelopes
   with `content/schema = "whisper-signal.v1"`.
 - Public Whisper authorship is nym-authored at the envelope boundary:
@@ -319,13 +320,14 @@ selection are later hardening layers.
 | Work item | Status | Evidence / remaining work |
 |---|---|---|
 | Separate `whisper-trace.v1` from `signal/polarity` | done | The trace is a separate content contract and record kind; `problem` and `idea` remain social-signal polarities. |
-| Digest-only and consent-bound inline shapes | done | Canonical schema and positive/negative examples cover dispatch, held-artifact, forbidden inline-without-consent, forbidden content in digest-only mode, and direct-routing hop bounds; inline content is capped at 32 KiB. |
-| Exact inline digest and byte-length verification | not-started | `whisper-core` should decode transiently and reject mismatched digest, size, or cap without retaining content in its read model. |
-| Digest privacy and classification preflight | not-started | Digest-only is data minimization, not anonymity. Authoring and ingress policy must account for guessable/low-entropy content and cross-context linkability. |
-| Agora ingress schema/disclosure gate | not-started | The schema mirror exists, but contract-family registration and public-ingress disclosure enforcement are runtime work. |
-| Sender-host consent authority | not-started | Presence of `consent/ref` is not authority. The authoring host must resolve an active consent/grant bound to the exact digest, disclosure scope, represented subject/authority, and validity window before signing or dispatching inline content. |
-| Operator/user trace authoring and inspection UI | not-started | Needs bounded digest-only default, explicit content opt-in, evidence-ref display, and redacted diagnostics. |
-| AD/INAC private trace acceptor smoke | not-started | Reuse the existing carriers; no trace-specific transport should be introduced. |
+| Digest-only and consent-bound inline shapes | done | Canonical schema and positive/negative examples cover dispatch, held-artifact, forbidden inline-without-consent, forbidden content in digest-only mode, and routing hop bounds; inline content is capped at 32 KiB, the extensions namespace at 8 KiB, and the full trace JSON at 128 KiB. |
+| Exact inline digest and byte-length verification | done | `whisper-core` transiently decodes bounded inline bytes, enforces the 32 KiB cap, and rejects digest or size mismatches before signing or admission; read models retain metadata only. |
+| Digest privacy and classification preflight | done | Pure validation emits stable `digest-linkable` and `digest-may-be-guessable` findings. Authoring and inspection surfaces expose those findings without treating digest-only disclosure as anonymity. |
+| Agora ingress schema/disclosure gate | done | `schema-gate` registers the trace family; Agora accepts only the conventional public topic and public/federated posture, rejects private traces, and projects metadata without feeding signal threshold/association state. |
+| Sender-host consent authority | done | Inline authoring resolves an active one-time operator consent bound to the exact canonical intent digest, subject, capability, requester, scope, and expiry; the opaque `consent/ref` alone grants no authority. |
+| Operator/user trace authoring and inspection UI | done | Whisper Intake exposes consent and publish forms with digest-only defaults plus bounded metadata list/detail views. Raw inline content is transient and absent from the read model. |
+| Idempotent authoring and bounded local retention | done | SQLite atomically reserves each `(idempotency/key, request digest)`, conflicts while a publish is active, replays completed results, permits retry only after failure, and prevents one-time consent reuse. Metadata-only trace rows are pruned under a 30-day default retention window at startup and on writes. |
+| AD/INAC private trace acceptor smoke | done | Story-005 sends a private/direct trace through the existing AD/INAC carrier, verifies the signed Agora envelope and exact topic/scope, asserts `inac-direct` rather than local fallback, and proves the private record is absent from the Agora projection. The public trace analogously asserts `agora-publish`; the same smoke guards the pre-existing private signal path. |
 
 Implementation order is contract-first and refusal-first:
 

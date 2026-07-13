@@ -569,6 +569,15 @@ schema_for_file() {
     *.whisper-signal.json)
       echo "$SCHEMAS_DIR/whisper-signal.v1.schema.json"
       ;;
+    *.whisper-trace-consent-request.json)
+      echo "$SCHEMAS_DIR/whisper-trace-consent-request.v1.schema.json"
+      ;;
+    *.whisper-trace-publish-request.json)
+      echo "$SCHEMAS_DIR/whisper-trace-publish-request.v1.schema.json"
+      ;;
+    *.whisper-trace-publish-result.json)
+      echo "$SCHEMAS_DIR/whisper-trace-publish-result.v1.schema.json"
+      ;;
     *.whisper-trace.json)
       echo "$SCHEMAS_DIR/whisper-trace.v1.schema.json"
       ;;

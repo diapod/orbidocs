@@ -64,7 +64,8 @@ schema. Digest-only disclosure reduces transferred data but is not anonymous:
 predictable content may still be guessed or correlated by digest. Full inline
 bytes are allowed only under `digest-and-content`, with an explicit
 sender-host-validated `consent/ref`, a hard 32 KiB wire cap, and exact digest and
-length verification. The referenced decision must bind the digest, scope,
+length verification. The full trace JSON is capped at 128 KiB and the explicit
+extension namespace at 8 KiB before signing or admission. The referenced decision must bind the digest, scope,
 subject/authority, and validity window; a reference string alone grants no
 authority. The ref is sender-local audit linkage, not a network-visible consent
 proof, and should not expose a participant id. A trace may reference
@@ -80,10 +81,14 @@ Trace authoring uses the ordinary signed envelope and existing carriers:
 - trace records are excluded from Whisper similarity, threshold, and association
   projections.
 
-Status: `contract-defined`. The canonical schema and fixtures exist. Node-side
-schema-gate registration, transport-independent integrity validation,
-sender-host consent resolution, authoring surfaces, and carrier smoke tests are
-implementation work.
+Status: `implemented`. The canonical schemas and fixtures, Node schema gate,
+transport-independent integrity validation, exact sender-host consent
+resolution, authoring and inspection surfaces, metadata-only local read model,
+and public Agora plus private AD/INAC carrier smoke are implemented. Trace
+publish retries use an atomic idempotency reservation: an active request returns
+conflict, a completed request replays its result, and only a failed request may
+be reserved again. The local read model applies a 30-day default retention
+sweep at startup and on writes; inline content is never retained there.
 
 ## Must Implement
 

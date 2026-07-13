@@ -864,3 +864,15 @@ association-room lifecycle policy as post-MVP questions.
     consent resolution; Agora kind/schema and disclosure admission; AD/INAC
     private acceptance; operator/user authoring and inspection; carrier smoke
     tests. No phase introduces a trace-specific transport.
+
+    **Completed on 2026-07-13.** The reference runtime now implements the pure
+    integrity/privacy rules, exact sender-host consent binding for inline
+    disclosure, strict Agora ingress and a metadata-only projection, private
+    AD/INAC acceptance, bounded authoring/inspection UI, and a Story-005 carrier
+    smoke covering public plus private traces. The runtime stores no inline trace
+    content in either Whisper or Agora trace read models. It also atomically
+    reserves idempotency keys, rejects concurrent duplicate side effects,
+    bounds full trace JSON and extensions independently of the 32 KiB inline
+    artifact cap, prunes the local metadata read model after 30 days by default,
+    and verifies in smoke that public and private traces use their declared
+    Agora and INAC carriers without private projection leakage.

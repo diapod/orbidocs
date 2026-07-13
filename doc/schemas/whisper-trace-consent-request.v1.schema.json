@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-trace-consent-request:v1",
+  "title": "Whisper Trace Consent Request v1",
+  "description": "Sender-local request for operator consent to disclose exact inline artifact bytes in a Whisper trace. It describes disclosure intent, not a publishable trace and not a granted consent fact.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md",
+    "doc/project/60-solutions/011-whisper/011-whisper.md"
+  ],
+  "required": [
+    "schema",
+    "subject/ref",
+    "trace/kind",
+    "artifact",
+    "disclosure/scope"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-trace-consent-request.v1"
+    },
+    "subject/ref": {
+      "$ref": "whisper-trace.v1.schema.json#/$defs/ref",
+      "description": "Participant, nym, or other locally authorized subject on whose behalf inline content would be disclosed."
+    },
+    "trace/kind": {
+      "$ref": "whisper-trace.v1.schema.json#/properties/trace~1kind"
+    },
+    "artifact": {
+      "$ref": "whisper-trace.v1.schema.json#/$defs/artifact"
+    },
+    "disclosure/scope": {
+      "$ref": "whisper-trace.v1.schema.json#/properties/disclosure~1scope"
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "artifact": {
+          "required": [
+            "bytes/base64"
+          ],
+          "properties": {
+            "size/bytes": {
+              "maximum": 32768
+            }
+          }
+        }
+      }
+    }
+  ]
+}

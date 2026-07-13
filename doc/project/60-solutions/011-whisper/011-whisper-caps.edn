@@ -62,7 +62,7 @@
     "Use a distinct `whisper-trace` Agora record kind so social-signal projections can exclude traces without inspecting content"
     "Keep traces out of social-signal threshold and association projections"
     "Reuse Agora and AD/INAC rather than introducing a trace-specific transport"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :aggregate-topic-notices
    :title "Aggregate Topic Notices"

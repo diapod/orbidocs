@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-trace-publish-result:v1",
+  "title": "Whisper Trace Publish Result v1",
+  "description": "Metadata-only result of an accepted Whisper trace publication. It deliberately excludes inline artifact bytes.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md",
+    "doc/project/60-solutions/011-whisper/011-whisper.md"
+  ],
+  "required": [
+    "schema",
+    "status",
+    "record/id",
+    "delivery",
+    "trace/metadata",
+    "privacy/findings"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-trace-publish-result.v1"
+    },
+    "status": {
+      "const": "accepted"
+    },
+    "record/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "delivery": {
+      "type": "object",
+      "description": "Transport-owned AD result. Consumers must not infer trace semantics from carrier diagnostics.",
+      "additionalProperties": true
+    },
+    "trace/metadata": {
+      "$ref": "#/$defs/trace_metadata"
+    },
+    "trace/view": {
+      "type": "object",
+      "description": "Optional sender-local metadata read model created after durable publication accounting.",
+      "additionalProperties": false,
+      "required": [
+        "record-id",
+        "direction",
+        "trace-kind",
+        "trace-occurred-at",
+        "artifact-digest",
+        "artifact-size-bytes",
+        "disclosure-mode",
+        "disclosure-scope",
+        "routing-profile",
+        "author-participant-id",
+        "authored-at",
+        "privacy-findings",
+        "recorded-at"
+      ],
+      "properties": {
+        "record-id": { "type": "string" },
+        "direction": { "enum": ["outbound", "inbound"] },
+        "source-peer": { "type": "string" },
+        "trace-kind": { "type": "string" },
+        "trace-occurred-at": { "type": "string", "format": "date-time" },
+        "artifact-digest": { "type": "string" },
+        "artifact-size-bytes": { "type": "integer", "minimum": 0 },
+        "artifact-content-type": { "type": "string" },
+        "artifact-schema": { "type": "string" },
+        "disclosure-mode": { "type": "string" },
+        "disclosure-scope": { "type": "string" },
+        "consent-ref": { "type": "string" },
+        "routing-profile": { "type": "string" },
+        "author-participant-id": { "type": "string" },
+        "authored-at": { "type": "string", "format": "date-time" },
+        "privacy-findings": { "type": "array", "items": { "type": "string" } },
+        "recorded-at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "privacy/findings": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "$ref": "#/$defs/privacy_finding"
+      }
+    }
+  },
+  "$defs": {
+    "privacy_finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "blocking"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "blocking": {
+          "type": "boolean"
+        }
+      }
+    },
+    "trace_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trace-kind",
+        "trace-occurred-at",
+        "artifact-digest",
+        "artifact-size-bytes",
+        "disclosure-mode",
+        "disclosure-scope",
+        "routing-profile",
+        "routing-failure-mode",
+        "forwarding-max-hops",
+        "evidence-refs",
+        "context-facets"
+      ],
+      "properties": {
+        "trace-kind": { "type": "string" },
+        "trace-occurred-at": { "type": "string", "format": "date-time" },
+        "artifact-digest": { "type": "string" },
+        "artifact-size-bytes": { "type": "integer", "minimum": 0 },
+        "artifact-content-type": { "type": "string" },
+        "artifact-schema": { "type": "string" },
+        "disclosure-mode": { "type": "string" },
+        "disclosure-scope": { "type": "string" },
+        "consent-ref": { "type": "string" },
+        "routing-profile": { "type": "string" },
+        "routing-failure-mode": { "type": "string" },
+        "forwarding-max-hops": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "evidence-refs": { "type": "array", "items": { "type": "string" } },
+        "context-facets": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

@@ -123,7 +123,27 @@
     "extensions": {
       "type": "object",
       "maxProperties": 16,
-      "additionalProperties": true,
+      "propertyNames": {
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "string",
+            "maxLength": 4096
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
       "description": "Explicit extension namespace. Extensions may add advisory metadata but must not redefine trace kind, artifact identity, consent, disclosure, or routing semantics."
     }
   },
@@ -177,6 +197,25 @@
               ]
             }
           ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "routing/profile": {
+            "const": "onion-relayed"
+          }
+        },
+        "required": [
+          "routing/profile"
+        ]
+      },
+      "then": {
+        "properties": {
+          "forwarding/max-hops": {
+            "minimum": 1
+          }
         }
       }
     },
