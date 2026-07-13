@@ -161,12 +161,14 @@
   {:cap/id :sensorium-cross-node-readthrough
    :title "Cross-Node Sensorium Read-Through"
    :kind :future-protocol
-   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"]
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"
+              "doc/project/20-memos/sensorium-interfaces.md"]
    :schemas []
    :responsibilities
    ["Define a future trusted-neighbor observation access protocol"
     "Preserve local consent and minimization rules"
-    "Avoid turning Sensorium into a general remote surveillance API"]
+    "Avoid turning Sensorium into a general remote surveillance API, where surveillance names an act (observing subjects without their knowledge or consent, or beyond consented scope), never the mere existence of a remote observation capability"
+    "Bind that guardrail to defaults and authorization, not capability: no ambient or default-on observation, source-side enumerability of active exposures and grant holders, scoped and audited grants with effective end-to-end revocation, classification carried for third-party subjects, and no narrowing of what a consenting operator may deliberately expose"]
    :status :deferred}]
 
  :out-of-scope

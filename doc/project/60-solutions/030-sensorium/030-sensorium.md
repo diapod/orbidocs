@@ -281,6 +281,7 @@ Status:
 
 Based on:
 - `doc/project/40-proposals/045-sensorium-local-enaction-stratum.md`
+- `doc/project/20-memos/sensorium-interfaces.md`
 
 Related schemas:
 - none frozen
@@ -288,7 +289,16 @@ Related schemas:
 Responsibilities:
 - define a future trusted-neighbor observation access protocol,
 - preserve local consent and minimization rules,
-- avoid turning Sensorium into a general remote surveillance API.
+- avoid turning Sensorium into a general remote surveillance API, where
+  "surveillance" names an act — observing subjects without their knowledge or
+  consent, or beyond the scope they consented to — never the mere existence of
+  a remote observation capability,
+- bind that guardrail to defaults and authorization, not capability: no
+  ambient or default-on observation, source-side enumerability of active
+  exposures and their grant holders, scoped and audited grants with effective
+  end-to-end revocation, and classification (`bound_subjects`) carried for
+  third-party subjects appearing in exposed representations — while never
+  narrowing what a consenting operator may deliberately expose.
 
 Status:
 - `deferred`
