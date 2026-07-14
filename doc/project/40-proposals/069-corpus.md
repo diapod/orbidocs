@@ -114,11 +114,12 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | Offer catalog + Dator offers (003/004/067) | MVP discovery | partial, usable |
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
 | **Room primitive (P070)** | live deliberation (post-MVP) | **partial: durable contracts, projection core, and Agora runtime projection adapter exist; live plane not built** |
-| **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **partial: the durable node-local lifecycle, bounded active controller, FlowNode binding, memory projection, Inquirium/child execution, effect proposals/dispatch, explicit module grants, Agent-owned lease lifecycle, and content-addressed outcome projection exist; the Room chair binding and Corpus answer-acceptance integration remain open** |
+| **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **runtime ready: the durable node-local lifecycle, bounded active controller, FlowNode and Assistant Channel bindings, memory projection, Inquirium/child execution, effect proposals/dispatch, explicit module grants, Agent-owned lease lifecycle, and content-addressed outcome projection exist; only the Corpus-specific Room chair binding and answer-acceptance integration remain open** |
 
 The MVP depends only on the first three rows. The live-deliberation layer is
-**blocked-by** P070's live plane/runtime integrations and the Agent organ (P073)
-runtime, stated explicitly rather than assuming a live room exists.
+**blocked-by** P070's live plane/runtime integrations and the concrete
+Room/Corpus-chair binding plus Corpus answer-acceptance integration. The general
+Agent runtime is no longer the blocker.
 
 Room is a generic swarm primitive, not a Corpus-owned subsystem. Corpus depends
 on Room; Room must not depend on Corpus or import Corpus reasoning semantics.
@@ -136,11 +137,12 @@ with a budget (`steps` / `deadline` / `tokens`), Memarium-backed session context
 and no self-authorization. Corpus should consume the Agent organ as its
 deliberation session — its deliberation `budget` maps directly onto the Agent
 budget/controller contract — rather than define a smaller Corpus-only LLM surface
-or a parallel "Inquirium thread/session runtime". The current Agent slice is
-enough to create, inspect, and stop a bounded node-local agent, but it is not yet
-the Corpus deliberation runtime: durable Memarium-backed state, fork/suspend/resume,
-Room chair binding, and effect-proposal routing remain post-MVP work. Until those
-parts land, only the MVP procurement slice is implementable.
+or a parallel "Inquirium thread/session runtime". The current Agent slice already
+supplies durable Memarium-backed state, fork/suspend/resume, bounded controller
+execution, effect-proposal routing, and consumer-owned outcome drafts. It is not
+yet the Corpus deliberation runtime only because Corpus still needs its
+Room-attested chair binding and chair-owned answer acceptance path. Until those
+domain joins land, only the MVP procurement slice is implementable.
 
 ## Proposed Model / Decision
 
@@ -1478,14 +1480,16 @@ runtime, no N-way settlement.
   integrations. Corpus contributes the transport requirements (low latency, no
   retention, small participant count) to P070's live-transport profile.
 
-#### Phase 6 — Agent organ reasoning session `[!] blocked-by: Agent organ (P073)`
+#### Phase 6 — Corpus chair over Agent `[!] blocked-by: Room/Corpus-chair integration (P070/P073)`
 
-- [!] Land the Agent organ (P073) reasoning session with tool support, budgets,
-  deadlines, context windows, and explicit draft boundaries. Corpus should consume that
-  runtime rather than define a smaller Corpus-only LLM session surface. The current
-  provider-local Inquirium slice proves only the lower boundary: a provider can ask
-  Inquirium for a draft answer, while durable orchestration, multi-turn coordination,
-  stop/resume, and chair authority stay above Inquirium in Agent/Room.
+- [x] Land the general Agent organ (P073) reasoning session with tool support,
+  budgets, deadlines, context windows, durable orchestration, stop/resume, and
+  explicit draft boundaries.
+- [!] Add the Corpus-specific binding that admits an Agent as a Room-attested
+  chair and accepts its content-addressed outcome through the chair-owned Corpus
+  answer-draft contract. Corpus must consume the existing Agent runtime rather
+  than define a smaller Corpus-only LLM session surface; the remaining work is a
+  domain integration, not another orchestration runtime.
 
 #### Phase 7 — Deliberation room policy + invite + join `[!] blocked-by: P070, Phase 6`
 

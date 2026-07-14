@@ -204,7 +204,36 @@ render it directly. Rendering remains a non-effecting projection. It does not
 authorize publication or any proposed effect, each of which retains its own
 capability and human-in-loop gate.
 
-Status: `deferred`; tracked by Proposal 073.
+The implemented boundary uses two host capabilities:
+
+- `agent.assistant.escalate` consumes an explicit
+  `agent.assistant-escalation.request.v1`, verifies caller-delegated Agent and
+  binding grants, and projects an expiring operator question. Approval creates
+  the exact node-local Agent and same-session binding; denial and timeout create
+  terminal decisions. An assistant control is only an inert proposal and cannot
+  invoke this capability ambiently. The host persists the terminal approval
+  before granting Agent or binding authority. Resolution consumes the durable
+  operator-question record as its typed authority, and recovery idempotently
+  completes an approved but interrupted materialization while rejecting any
+  Assistant Channel binding that has no matching durable approval.
+- `agent.assistant.draft.accept` is local-control-only. It joins the latest
+  content-addressed `agent.outcome.v1` to its Assistant Channel binding, validates
+  the product as a completed Inquirium response, persists a render-only
+  acceptance fact, and returns `agent.assistant-response-draft.v1` with
+  `publication-authorized = false`.
+
+The full causal path is therefore:
+
+`assistant turn -> inert escalation proposal -> operator question -> approved Agent binding -> bounded controller -> Inquirium/effect proposals -> agent.outcome.v1 -> local draft acceptance -> render-only assistant response`
+
+Durable escalation, decision, binding, outcome, and acceptance facts make exact
+replay and restart recovery explicit. Status and notification projections remain
+metadata-only and do not expose generated product content before acceptance. The
+binding's narrowed budget, including its wall-time deadline, is the effective
+limit used by controller execution, Inquirium accounting, leases, forks, reaping,
+and status projection.
+
+Status: `done`; implemented and tracked by Proposal 073.
 
 ## Trade-offs
 
@@ -233,17 +262,17 @@ without dependency on a provider or network path.
 
 ## Open Questions
 
-No unresolved question blocks the implemented MVP solution. Agentic effects are
-not an open Assistant Channel decision; they are a deferred integration with the
-Agent organ and the relevant effect-owning components.
+No unresolved question blocks the implemented MVP solution. Agentic escalation
+and render-only draft acceptance are implemented. Effects and publication remain
+separate integrations with their owning components and capability gates.
 
 ## Next Actions
 
 1. Preserve the local baseline and no-contact invariants as UI surfaces evolve.
 2. Productize local runtime installation and diagnosis for distributors and
    operators.
-3. Add Agent integration only after Proposal 073 supplies durable lifecycle,
-   effect admission, and human-in-loop outcomes.
+3. Preserve the process-level escalation/acceptance smoke as Agent, notification,
+   and local-control surfaces evolve.
 
 ## Out Of Scope
 
