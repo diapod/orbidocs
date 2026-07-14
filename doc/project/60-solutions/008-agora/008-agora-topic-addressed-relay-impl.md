@@ -153,6 +153,8 @@ experiments that do not need durability.
 ### `agora-matrix-client`
 
 - `HttpMatrixEventSink` — `/_matrix/client/v3/rooms/{room}/send/{type}/{txn}`,
+  using a bounded 8 MiB JSON response budget, a finite request timeout, and
+  redirect refusal so bearer credentials cannot cross origins,
   plus sync.
 - fails closed on non-2xx; retries are the caller's concern.
 

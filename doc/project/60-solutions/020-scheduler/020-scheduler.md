@@ -116,6 +116,13 @@ The scheduler must implement:
 - in-memory status snapshots backed by durable launch history,
 - operator-visible error classes.
 
+Registration is transactional at the scheduler boundary: an already registered
+`job_id` is rejected before the durable job row is inserted or replaced. A
+conflicting runtime registration therefore cannot mutate the persisted schedule.
+Execution deadlines remain cooperative for in-process `ScheduledJob`
+implementations; preemptive termination belongs only to process-backed runners
+owned by a supervisor, not to this generic scheduler primitive.
+
 The scheduler must not implement:
 
 - Agora record validation,

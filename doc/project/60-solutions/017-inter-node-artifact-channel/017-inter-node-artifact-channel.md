@@ -81,7 +81,8 @@ Implemented now:
 - Keep large payload bytes out of the main JSON control frame by using
   session-scoped, content-addressed stream chunks. The current stream path
   prefers `inac.stream.chunk.binary.v1` with per-chunk digest/offset/size
-  validation and retains the JSON/base64url chunk shape as compatibility
+  validation, rejects a single decoded chunk above 8 MiB before file append,
+  and retains the JSON/base64url chunk shape as compatibility
   fallback.
 
 ## Status

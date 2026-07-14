@@ -126,7 +126,9 @@ Implemented MVP endpoints:
 The bundled node config keeps the service disabled by default and injects the
 standard host capability bridge environment when enabled. Operator policy knobs
 include the default 5-attempt challenge limit, 24-hour TTL, pending-challenge
-quotas per handle and participant, the default-disabled `always_accept` local
+quotas per handle and participant (participant equality uses a canonical JCS
+subject digest, never substring matching over request JSON), the
+default-disabled `always_accept` local
 acceptance mode, and delivery audit retention. The runtime
 records delivery audit rows without storing raw OTP values in the durable
 challenge table.
