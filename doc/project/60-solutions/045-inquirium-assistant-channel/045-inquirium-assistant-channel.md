@@ -196,6 +196,14 @@ Agent owns lifecycle, controller steps, grants, budgets, and effect proposals.
 Relationship, governance, publication, and external actuation still require the
 owning capability gate and human-in-loop policy.
 
+Operator approval gates the escalation that creates or binds the Agent. It does
+not create a second approval ceremony for the resulting response draft: after the
+host validates the outcome's schema, digest, classification, binding,
+`session/ref`, and `output-sink/kind = assistant-response-draft`, the channel may
+render it directly. Rendering remains a non-effecting projection. It does not
+authorize publication or any proposed effect, each of which retains its own
+capability and human-in-loop gate.
+
 Status: `deferred`; tracked by Proposal 073.
 
 ## Trade-offs
