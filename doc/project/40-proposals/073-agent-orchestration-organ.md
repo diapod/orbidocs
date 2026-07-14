@@ -124,9 +124,11 @@ node-local slice registers `agent.spawn`, `agent.status`, `agent.stop`,
 host before an append-only lifecycle command/state fact is written. The command
 fact is the commit marker and authoritative replay record; the state fact is its
 rebuildable audit projection, so a partial multi-fact write cannot lose the
-idempotency decision. The current
-caller policy is deliberately local-control-only; module callers remain denied
-until a separate, explicit Agent lifecycle grant vocabulary exists.
+idempotency decision. Local control retains administrative authority. A module
+caller is admitted only when its JSON-e Flow configuration contains a separate,
+bounded `agent_grants` entry for the exact `agent.*` capability; `allowed_calls`
+alone is syntax, not authority. Request-size, Agent-id-prefix, profile, and
+delegated-capability bounds are checked before lifecycle or binding admission.
 
 ```text
 agent.spawn   { spec | template/ref, budget, grants }       -> Agent (pending)
@@ -148,10 +150,13 @@ exactly replayable from durable command facts: an exact retry returns the prior
 result while reuse of an idempotency key with a different request fails closed.
 `suspend` freezes the controller while preserving its fact projection; `resume`
 continues from the latest durable state rather than replaying a prompt. Terminal
-state and TTL reaping are durable. Cancellation of future in-flight
-Inquirium/Sensorium work, Agent-owned lease release, and return of unused child
-budget remain controller-runtime work because the current slice does not yet own
-such live resources.
+state and TTL reaping are durable. The current controller has no detached
+background step to cancel: suspend or stop prevents the next passage. Agent-owned
+leases are persisted in the existing model-runtime lease registry and released
+on synchronous effect completion, terminal controller state, explicit stop, TTL
+reaping, or startup reconciliation. A deferred effect retains its lease until a
+later exact passage observes completion, or until Agent termination or lease TTL.
+Returning unused child budget remains controller-runtime work.
 
 ### 3. Multiplication is monotone narrowing with bounded fan-out
 
@@ -309,10 +314,12 @@ restart when Memarium is enabled. Exact lifecycle retries rebuild their
 idempotency result from those facts. If Memarium is disabled, status reports an
 ephemeral, non-federating mode rather than pretending crash recovery exists.
 
-Active lifecycle capabilities remain local-control-only: module callers are
-denied until an explicit Agent lifecycle grant model exists. Local-control
-mutations are attributed as `local-control`; future module-authorized calls must
-preserve the concrete caller module id in lifecycle facts. The rebuilt
+Active lifecycle capabilities require explicit authority. Local control is the
+administrative path; module calls require one exact `agent_grants` entry in the
+calling JSON-e Flow configuration, and lifecycle operations are additionally
+restricted to Agents created by that module. Binding and effect-dispatch grants
+carry an explicit target-capability allowlist. Mutations preserve either
+`local-control` or the concrete caller module id in lifecycle facts. The rebuilt
 idempotency projection has a fail-closed bound: once its configured capacity is
 reached, new mutations are denied rather than evicting replay evidence and
 making duplicate execution possible.
@@ -372,6 +379,12 @@ from accreting daemon coupling, mirroring the Inquirium decoupling. Stratify as
 read-ports) → daemon (effects, persistence, budget metering), guarded by a
 dependency-direction lint.
 
+Step `0` is a durable bootstrap projection and does not consume runtime step
+budget. Explicit controller ticks start at `1`; each consumes exactly one step,
+checks the absolute wall-time deadline and remaining host-owned budget, and
+stops the bounded run on `await-human` or a terminal decision. A waiting Agent
+is never polled merely because scheduler time passed.
+
 Lifecycle requests carry an `idempotency/key`: a retried `spawn`/`fork` must
 replay the prior result, not create a second agent or a second child.
 
@@ -427,6 +440,11 @@ a new approval surface; durable facts use the `memarium.write` fact plane.
   runtime profile, creation command digest, actor, and expiry. Pinned facts,
   summary refs, and recall refs belong to the separate memory projection tracked
   below; they are not silently embedded in this lifecycle seed.
+- `agent.memory-policy.v1` — one immutable, digest-bound revision of the
+  host-owned `MemoryPolicy`. It carries bounded pinned facts, an optional summary
+  produced by a non-Agent component, and the recall-ref allowlist. Summary
+  production remains the responsibility of that external component or Flow;
+  neither Agent nor Inquirium silently summarizes its own history.
 - `agent.lifecycle-command.v1` — durable idempotency fact for lifecycle mutations,
   binding operation, request digest, actor, result state, and related child where
   applicable.
@@ -522,8 +540,9 @@ guardrail Agent adopts against each:
   self-authorization; the host is the only authority root.
 - **Orphaned agents / leaked leases.** Lifecycle is durable facts; `stop` is
   authoritative and idempotent; a bounded scheduler reaper records terminal
-  state for agents past TTL. Agent-owned lease tracking and release must be added
-  before controller actions can retain leases across steps.
+  state for agents past TTL. Agent-owned leases are operation-bound, persisted,
+  TTL-bounded, and released on completed effects, terminal state, reaping, or
+  startup reconciliation. Deferred effects retain leases while work is live.
 - **Cost blowup.** Enforced per-agent and per-tree budgets with typed
   `BudgetExceeded`; spend attributable in trace.
 - **Unbounded context growth.** `MemoryPolicy` (pinned + bounded summary +
@@ -582,6 +601,32 @@ durable/runtime slice:
    inference, forks, and effects must also pass current operator policy. A
    session that no longer passes becomes quarantined and must not prevent
    unrelated daemon services from starting.
+6. Quarantine follows authority lineage. If a recovered parent is quarantined,
+   every descendant is quarantined even when its narrower spec would pass the
+   current profile independently; a child cannot retain authority whose root no
+   longer has current admission.
+7. Rolling memory summaries are admitted only from explicit non-Agent component
+   refs in the operator/distributor Agent host configuration. The initial
+   allowlist is fail-closed; removing a producer quarantines affected recovered
+   sessions rather than blocking unrelated daemon services.
+8. Memarium lifecycle facts and the SQLite lease registry remain separate stores.
+   Their cleanup contract is compensating and idempotent, not falsely atomic:
+   terminal/expired state denies new lease admission, and startup reconciliation
+   releases stragglers after interrupted stop or reaper passages.
+9. Eligible rolling-summary producers will ultimately be derived from positive
+   Capability Registry declarations and narrowed by
+   `agent.host.summary_producer_refs`. Registry eligibility is necessary but not
+   sufficient: the effective authority set is the intersection of the registry
+   projection and the operator/distributor configuration. Until that integration
+   is implemented, the existing explicit configuration allowlist remains the
+   fail-closed authority source.
+10. Inactive Agent-owned lease audit rows use a configurable retention horizon
+    followed by audit-preserving compaction. The default horizon is 30 days after
+    expiry or release. After that horizon, detailed rows are replaced by minimal
+    tombstones retaining the lease and owner refs, scope digest, relevant
+    operation/runtime refs, lifecycle timestamps, and terminal reason. Distributor
+    and operator configuration may lengthen the horizon or disable compaction; no
+    implicit hard deletion is allowed.
 
 Deferred work that does not require a new decision is already tracked below:
 cross-node/federated agents require a separate proposal; a dedicated projection
@@ -591,7 +636,9 @@ above as the initial built-in profile.
 
 ## Open Questions
 
-No open questions remain for the first node-local durable runtime slice.
+No open questions remain for the current node-local durable runtime scope. New
+questions should be opened only when a later federated or cross-node slice requires
+policy that cannot be derived from the frozen decisions above.
 
 ## Implementation Tracker
 
@@ -602,47 +649,54 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 | `agent-core-crate` | Create thin `agent-core` contract crate with Agent/controller/budget/grant DTOs and the lifecycle state machine. | `done` | `node/agent-core` compiles as a substrate-free contract crate: `AgentSpec`/`AgentParams`/`AgentBudget`/`ControllerPolicy`/`TerminationCondition`/`CapabilityGrant` DTOs with `deny_unknown_fields` and `validate()`, fail-closed classification ceiling, conservative developer defaults, `idempotency/key` on spawn, `agent.step-decision.v1`, `agent.spawn.response.v1`, `agent.status.request.v1`, `agent.status.response.v1`, `agent.stop.response.v1`, the `AgentLifecycleState::apply` state machine, and the `validate_fork_from` monotone-narrowing validator. Evidence: `cargo test -p orbiplex-node-agent-core`, `cargo clippy -p orbiplex-node-agent-core -- -D warnings`, and `python3 tools/check-agent-core-deps.py` pass. Runtime budget metering, fork budget split, and durable wiring are tracked separately below. |
 | `agent-dep-direction-lint` | Add a dependency-direction lint so `agent-core` cannot import substrate. | `done` | `node/tools/check-agent-core-deps.py` mirrors the `inquirium-core` guard (bans daemon/model-runtime/HTTP/async/SQLite via `cargo tree`) and is wired into `.github/workflows/docs.yml`; the check passes for the current contract crate. An `xtask`-level lint may later replace the standalone script. |
 | `agent-inquirium-boundary-docs` | Document that the durable agent loop lives above Inquirium and that assistant agentic effects are realized through Agent. | `done` | Proposal 064 now has the *Agent Loop Lives Above Inquirium* boundary note, Proposal 066 Phase 3 points agentic effects at Proposal 073, and this proposal owns the lifecycle/controller/budget tracker. |
-| `agent-lifecycle-capabilities` | Add `agent.spawn/fork/suspend/resume/stop/status` host capabilities. | `in-progress` | All six node-local ids are active, host-local, non-passport-eligible capabilities with table-driven dispatch. Mutations write `agent.lifecycle-command.v1` plus state/session facts, preserve the local-control actor, replay exact idempotency keys after restart, and reject conflicting reuse. Remaining: explicit module lifecycle grants, cancellation of future in-flight controller work, and a process-level HTTP lifecycle smoke. |
+| `agent-lifecycle-capabilities` | Add `agent.spawn/fork/suspend/resume/stop/status` host capabilities. | `done` | All six node-local ids are active, host-local, non-passport-eligible capabilities with table-driven dispatch. Mutations write `agent.lifecycle-command.v1` plus state/session facts, preserve `local-control` or the authenticated module actor, replay exact idempotency keys after restart, and reject conflicting reuse. Module calls require bounded per-capability `agent_grants` and ownership of the Agent. A process-level smoke drives spawn/status, binding, one bounded controller passage, suspend/resume/fork/stop, kills the daemon without orderly shutdown, and confirms durable terminal-state recovery through real authenticated HTTP against Memarium. The current synchronous controller has no detached passage requiring a separate cancellation protocol. |
 | `agent-monotone-fork` | Enforce monotone narrowing and budget split on `fork`. | `done` | `AgentSpec::validate_fork_from` prevents widened grants, classification, trust, model selection, controller bounds, and budget; daemon fork admission requires a running parent, reserves the child's budget from parent remaining budget, prevents the child deadline from exceeding the parent's remaining absolute TTL, records lineage durably, and rejects a second child under the default fan-out profile. Core and daemon negative/recovery tests pass. |
-| `agent-bounded-fanout` | Enforce `max_steps/max_depth/max_children/max_concurrent/aggregate_budget` and mandatory `termination_condition`. | `in-progress` | Core/profile admission enforces bounded steps, depth, children, live descendants, per-agent and aggregate budget ceilings, and a mandatory terminator; daemon fork admission enforces depth/direct-child/root-concurrency limits; operator profiles are loaded from daemon config; and the TTL reaper is scheduler-owned. Remaining: applying these caps to a real concurrent controller executor and releasing/reconciling unused child reservations. |
+| `agent-bounded-fanout` | Enforce `max_steps/max_depth/max_children/max_concurrent/aggregate_budget` and mandatory `termination_condition`. | `in-progress` | Core/profile admission enforces bounded steps, depth, children, live descendants, per-agent and aggregate budget ceilings, and a mandatory terminator; daemon fork admission enforces depth/direct-child/root-concurrency limits; operator profiles are loaded from daemon config; the TTL reaper is scheduler-owned; and the real controller shell meters explicit runtime ticks against step and wall-time bounds without polling `await-human`. Remaining: releasing/reconciling unused child reservations and exercising concurrency once active child execution is enabled. |
 | `agent-durable-state` | Persist session context and lifecycle as Memarium-backed durable facts with replay/recovery. | `done` | The daemon persists validated `agent.session.v1`, `agent.state.v1`, `agent.lifecycle-command.v1`, initial step/trace, budget trace, and effect facts through a narrow `AgentFactStore` backed by Memarium Personal facts. The lifecycle command is the commit marker; recovery repairs missing state/initial-step projections and initial effect outcomes after a partial bundle. Startup rebuilds the disposable projection and lifecycle idempotency ledger through bounded pages over the ordered stream, with a fail-closed startup budget of 100,000 facts or 256 MiB of canonicalized fact JSON; exceeding it requires administrative compaction or snapshot recovery rather than unbounded allocation. Recovery caches parsed deadlines and repairs only the latest missing state projection so a late historical repair cannot regress current state. Memarium generic fact queries provide the append-only `as of` source. With Memarium disabled, status explicitly reports ephemeral durability. |
-| `agent-profile-recovery-policy` | Implement recovery when an admission profile is removed or tightened. | `todo` | Persist the admitted profile identity and canonical constraint snapshot, reconstruct historical facts purely against that immutable snapshot without consulting current policy or appending repairs from the projector, then apply current operator policy before resume/new inference/fork/effect transitions. Quarantine incompatible sessions in a separate post-replay decision/effect phase, and prove that one incompatible historical Agent cannot silently widen authority or prevent unrelated daemon services from starting. |
-| `agent-memory-projection` | Build the working set as a projection of durable Memarium facts via `MemoryPolicy`, with fail-closed degradation. | `todo` | Working set is rebuilt per step from facts (pinned + bounded summary + recall), kept off the hot Memarium path; only meaningful facts (turn/result/decision/observation) are written, never the KV cache; with Memarium disabled the agent runs on a local ephemeral working set plus a local non-federating fallback, and durability/audit/federation resume when Memarium returns. |
-| `agent-controller-step-records` | Persist each controller step as an auditable `agent.step.v1` fact. | `in-progress` | Spawn and fork write a durable initial `agent.step.v1`; durable budget traces preserve causal predecessors and charge refs/digests. Remaining: execute the real controller loop and record each inference/effect decision, evidence digest, and outcome as a completed step fact. |
-| `agent-effects-as-proposals` | Route effects through Sensorium/AD capability gates with human-in-loop for sensitive classes. | `in-progress` | Immutable proposals and separate outcomes are durable. Admission checks running state, Agent grants, step freshness, classification, and review policy. Proposal refs have one global Agent owner, question refs use a direct projection index, and each outcome history follows a bounded host-validated transition sequence. HIL proposals project to the existing operator-question lifecycle; Confirm answers normalize boolean and registered `yes`/`no` values, timeout transitions are audited, admitted Workbench requests must match the canonical proposal, and one Sensorium directive binding is persisted. Remaining: a generic Artifact Delivery execution bridge and broader capability-specific executors. |
-| `agent-budget-enforcement` | Reuse the enforced token/cost budget at agent and spawn-tree scope. | `in-progress` | Inquirium charges carrying `agent/ref` are preflighted against host-owned spend plus reservations, replayed exactly, persisted as prompt-free traces, and rebuilt after restart. Fork reserves rather than duplicates parent budget and root live-descendant caps are enforced. Remaining: live controller wall-time/step charging, unused child-budget reconciliation, and resource/lease costs. |
-| `agent-step-trace` | Add prompt-free `agent.step-trace.v1` with model snapshot, instruction hash, and decision. | `in-progress` | `agent.step-trace.v1` is a durable validated fact with decision, cumulative/delta budget, model/instruction slots, refs, predecessor, and timestamp; initial lifecycle traces and Inquirium budget-charge refs/digests survive recovery without prompt/output content. Remaining: populate model snapshot, instruction hash, and effect refs from real controller execution. |
-| `agent-reaper` | Add a TTL reaper for orphaned/stale agents that releases leases. | `in-progress` | A bounded Replay Scheduler job reaps expired non-terminal sessions in deterministic batches, writes idempotent `Reap` lifecycle/state facts, and recovers terminal state after restart. Agent-owned lease references do not exist in this slice; lease release becomes mandatory before such ownership is introduced. |
+| `agent-profile-recovery-policy` | Implement recovery when an admission profile is removed or tightened. | `done` | `agent.session.v1` carries a canonical-digest-bound immutable admission profile snapshot. Recovery is split into pure historical replay against that snapshot, an explicit repair phase, and current-policy reconciliation. Removed or tightened profiles produce a typed `current`/`quarantined` status projection without appending policy facts; quarantine cascades through descendants and denies resume, new inference charges, forks, effect proposals, admitted-effect lookup, and directive binding while status, stop, and unrelated daemon services remain available. Tests cover removed/tightened profiles, descendant cascade, digest mutation, no reconciliation writes, and isolation of a healthy session. |
+| `agent-memory-projection` | Build the working set as a projection of durable Memarium facts via `MemoryPolicy`, with fail-closed degradation. | `done` | Every session receives an explicit default `agent.memory-policy.v1`; later revisions are immutable, contiguous, canonical-digest-bound facts and recovery rejects revision overflow. Each controller tick rebuilds a bounded in-memory projection through the shared Inquirium `MemoryPolicy` projector from pinned facts, an externally produced summary, and the recall allowlist. Agent-authored and unregistered-producer summaries fail closed at admission; removing a configured producer quarantines only affected recovered sessions. Projection text never enters prompt-free step traces, and only its evidence digest is attached to the step. Memarium-backed recovery restores the latest policy; disabled Memarium retains the existing explicit ephemeral, non-federating mode. Summary production remains another component's responsibility. |
+| `agent-controller-step-records` | Persist each controller step as an auditable `agent.step.v1` fact. | `in-progress` | Spawn and fork write a durable bootstrap `agent.step.v1`. The daemon consumes pure `agent-host` decisions through a bounded explicit-input controller loop, records each runtime decision/result as `agent.step.v1` plus a prompt-free trace, meters one step per runtime tick, stops on passive/terminal actions, repairs partial step/trace/terminal-state bundles during recovery, and is exercised through the real process HTTP boundary after `agent.binding.create`. Remaining: execute admitted `CallInquirium`, `ProposeEffect`, and `SpawnChild` decisions through the same controller passage and attach their evidence refs. |
+| `agent-effects-as-proposals` | Route effects through Sensorium/AD capability gates with human-in-loop for sensitive classes. | `in-progress` | Immutable proposals and separate outcomes are durable. Admission checks running state, Agent grants, step freshness, classification, and review policy. Proposal refs have one global Agent owner, question refs use a direct projection index, and each outcome history follows a bounded host-validated transition sequence. HIL proposals project to the existing operator-question lifecycle; Confirm answers normalize boolean and registered `yes`/`no` values, and timeout transitions are audited. The generic `agent.effect.dispatch` bridge accepts only an exact admitted proposal, matching canonical payload digest and `effect/ref`, explicit module and binding target grants, active operation-bound leases, and a dispatchable target. It invokes Sensorium Core or Artifact Delivery through their official host surfaces, emits metadata-only admitted/failed/finished trace events, and fails closed rather than panicking if target dispatch and validation ever diverge; Workbench retains its stricter dedicated bridge. Synchronous completion releases leases, while deferred execution retains them. Remaining: broader capability-specific executors and execution from active controller decisions. |
+| `agent-budget-enforcement` | Reuse the enforced token/cost budget at agent and spawn-tree scope. | `in-progress` | Inquirium charges carrying `agent/ref` are preflighted against host-owned spend plus reservations, replayed exactly, persisted as prompt-free traces, and rebuilt after restart. Fork reserves rather than duplicates parent budget and root live-descendant caps are enforced. Runtime controller ticks now charge one daemon-owned step and fail closed after the absolute wall-time deadline. Remaining: unused child-budget reconciliation and resource/lease costs. |
+| `agent-step-trace` | Add prompt-free `agent.step-trace.v1` with model snapshot, instruction hash, and decision. | `in-progress` | `agent.step-trace.v1` is a durable validated fact with decision, cumulative/delta budget, model/instruction slots, refs, predecessor, and timestamp; bootstrap, real controller, and Inquirium budget-charge traces survive recovery without prompt/output content. Runtime controller traces populate the selected model/profile snapshot and instruction-profile hash. Remaining: attach admitted inference/effect refs and their evidence digests through active executors. |
+| `agent-reaper` | Add a TTL reaper for orphaned/stale agents that releases leases. | `done` | A bounded Replay Scheduler job reaps expired non-terminal sessions in deterministic batches, writes idempotent `Reap` lifecycle/state facts, releases Agent-owned leases, and recovers terminal state after restart. Lease admission also checks the Agent wall-time deadline, and startup reconciliation releases stragglers owned by terminal or already-expired non-terminal Agents. Stop, controller-terminal, reaper, and startup-reconciliation paths share the durable lease registry; tests cover owner binding, exact replay after successful release, TTL expiry, stop, reaping, expired-running recovery, and terminal recovery cleanup. |
+| `agent-summary-producer-registry-authority` | Derive eligible summary producers from the Capability Registry and intersect them with the host configuration allowlist. | `todo` | A positive registry declaration is necessary for producer eligibility; `agent.host.summary_producer_refs` can only narrow that set. Missing, stale, or malformed registry projections fail closed. Removing either source of authority quarantines only affected sessions, and tests cover startup, reload, and recovery behavior. |
+| `agent-lease-audit-compaction` | Compact inactive Agent-owned lease rows after a configurable audit horizon. | `todo` | Expired/released detailed rows remain for at least the 30-day default horizon, then become minimal audit tombstones without losing causal identity. Distributor/operator configuration may lengthen retention or disable compaction. The sweep is bounded, idempotent, restart-safe, and never deletes active or deferred-operation-bound leases. |
 | `agent-assistant-surface` | Let the assistant (P066) drive an Agent under explicit capability and human-in-loop. | `deferred` | Assistant stays advise-only baseline; agentic escalation requires capability + operator approval; no ambient initiation. |
 | `agent-host-stratum` | Add an `agent-host` service stratum so the controller step decision is a pure value and the daemon performs effects. | `done` | `node/agent-host` computes `agent.step-decision.v1` as a pure value over `agent-core` contracts, exposes the conservative developer profile, contains no storage/HTTP/async/runtime substrate, and is guarded by `node/tools/check-agent-host-deps.py` in CI. Evidence: `cargo test -p orbiplex-node-agent-core -p orbiplex-node-agent-host`, `cargo clippy -p orbiplex-node-agent-host -- -D warnings`, and agent core/host dependency checks pass. The daemon executes actions in later tracker items. |
-| `agent-binding-contract` | Add `agent.binding.v1` so consumers (Corpus chair, assistant, Flow node) drive an agent under narrowed grants. | `todo` | Binding carries `consumer/kind`, session-source, output-sink, monotone-narrowed grants, consumer budget, and optional Room `participant/ref`/attestation; grants ⊆ consumer; output is a content-addressed draft (`agent.outcome.v1`), never a self-published effect. |
-| `agent-effect-proposal` | Add an immutable `agent.effect-proposal.v1` plus a separate `agent.effect-proposal-outcome.v1` fact joined by `proposal/ref`, with operator-question human-in-loop. | `in-progress` | Core owns validated proposal/outcome DTOs; daemon persists them in Memarium, replays exact proposals, rejects conflicting bodies and cross-Agent proposal-ref reuse, caps and validates outcome transitions, projects deferred proposals to Confirm questions with fail-closed timeout defaults, joins validated boolean or registered `yes`/`no` answers as admitted/denied outcomes, audits timeout transitions, and binds admitted Workbench directives once. Remaining: generic AD dispatch and an operator-facing Agent proposal/status projection. |
+| `agent-binding-contract` | Add `agent.binding.v1` so consumers (Corpus chair, assistant, Flow node) drive an agent under narrowed grants. | `done` | `agent.binding.v1` and `agent.binding.create.{request,response}.v1` carry Flow-node consumer identity, session source, output sink, monotone-narrowed grants and budget, bounded `MemoryPolicy`, optional Room participant/attestation refs, HIL policy, request digest, actor, and idempotency identity. The first slice admits only a module-owned FlowNode or local control, persists and repairs binding plus memory facts, validates every capability-grant identifier, rejects grant/budget widening, and rejects a response whose projected pinned facts, summary, recall refs, or window limit diverges from the binding-owned memory policy. It uses optimistic `expected-step` on `agent.controller.run`. A checked-in JSON-e Flow fixture demonstrates separate spawn/binding/controller grants and delegated target capability allowlists. Content-addressed `agent.outcome.v1` publication remains a later consumer-output slice. |
+| `agent-effect-proposal` | Add an immutable `agent.effect-proposal.v1` plus a separate `agent.effect-proposal-outcome.v1` fact joined by `proposal/ref`, with operator-question human-in-loop. | `in-progress` | Core owns validated proposal/outcome and generic effect-dispatch DTOs; daemon persists them in Memarium, replays exact proposals, rejects conflicting bodies and cross-Agent proposal-ref reuse, caps and validates outcome transitions, projects deferred proposals to Confirm questions with fail-closed timeout defaults, joins validated boolean or registered `yes`/`no` answers as admitted/denied outcomes, audits timeout transitions, and binds each admitted proposal to exactly one `effect/ref`. Generic Sensorium and Artifact Delivery dispatch is implemented. Remaining: an operator-facing Agent proposal/status projection and additional target-specific policy adapters. |
 | `agent-corpus-chair` | Let Corpus (069) drive an Agent as the deliberation chair bound to a Room. | `deferred` | Chair Agent joins via `room-membership-attestation.v1`; its answer-draft feeds Corpus answer acceptance; blocked on the live-deliberation slice (P069/P070). |
 
 ## Next Actions
 
-1. Implement the frozen admission-snapshot/current-policy recovery rule and its
-   quarantine projection.
-2. Connect the pure `agent-host` step decision to a real bounded daemon
-   controller loop and persist every decision/result as `agent.step.v1` plus a
-   prompt-free trace.
-3. Implement `agent-memory-projection`: admitted pinned facts, externally
-   produced bounded summaries, and recall allowlists assembled from Memarium
-   without putting Memarium on the token-by-token hot path.
-4. Add `agent.binding.v1` for the first domain consumer, then add explicit module
-   lifecycle grants rather than weakening the current local-control-only gate.
-5. Complete generic admitted-effect execution through Sensorium/Artifact
-   Delivery and introduce Agent-owned lease accounting only together with
-   terminal/reaper release semantics.
+1. Extend the bounded controller executor from passive/terminal decisions to
+   admitted Inquirium calls, effect proposals, and child spawn, preserving one
+   durable step/trace fact bundle per passage.
+2. Reconcile unused child budget reservations and account for resource/lease
+   cost at Agent and spawn-tree scope.
+3. Add the operator-facing proposal/status projection and the content-addressed
+   `agent.outcome.v1` draft path for the first domain consumer.
+4. Replace config-only summary-producer admission with the Capability Registry
+   eligibility projection intersected with the existing narrowing allowlist.
+5. Add the bounded, restart-safe lease audit compactor with the frozen 30-day
+   default horizon and tombstone contract.
+6. Keep Corpus-chair and assistant bindings deferred until those consumers can
+   supply their Room/participant attestation and output-acceptance contracts.
 
 ## Related Capability Data
 
 - implemented capabilities: `agent.spawn`, `agent.fork`, `agent.suspend`,
-  `agent.resume`, `agent.stop`, `agent.status`, `agent.effect.propose`.
+  `agent.resume`, `agent.stop`, `agent.status`, `agent.effect.propose`,
+  `agent.binding.create`, `agent.controller.run`, `agent.effect.dispatch`.
 - schemas: `agent.spec.v1`, `agent.state.v1`, `agent.session.v1`,
   `agent.lifecycle-command.v1`, `agent.step.v1`, `agent.step-decision.v1`, `agent.spawn.request.v1`,
   `agent.spawn.response.v1`, `agent.fork.request.v1`, `agent.suspend.request.v1`,
   `agent.resume.request.v1`, `agent.stop.request.v1`, `agent.stop.response.v1`,
   `agent.status.request.v1`, `agent.status.response.v1`, `agent.step-trace.v1`,
-  `agent.binding.v1`, `agent.effect-proposal.v1`,
-  `agent.effect-proposal-outcome.v1`, `agent.outcome.v1`.
+  `agent.binding.v1`, `agent.binding.create.request.v1`,
+  `agent.binding.create.response.v1`, `agent.controller.run.request.v1`,
+  `agent.controller.run.response.v1`, `agent.memory-policy.v1`,
+  `agent.effect-proposal.v1`, `agent.effect-proposal-outcome.v1`,
+  `agent.effect.dispatch.request.v1`, `agent.effect.dispatch.response.v1`,
+  `agent.outcome.v1`.
