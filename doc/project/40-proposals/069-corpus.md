@@ -13,6 +13,7 @@ Based on:
 - `doc/project/40-proposals/066-inquirium-assistant-channel.md`
 - `doc/project/40-proposals/067-shared-offer-catalog-over-agora.md`
 - `doc/project/40-proposals/070-room-primitive.md`
+- `doc/project/40-proposals/082-sensorium-interfaces.md`
 - `doc/project/60-solutions/003-arca/003-arca.md`
 - `doc/project/60-solutions/004-dator/004-dator.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
@@ -115,12 +116,15 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
 | **Room primitive (P070 / Solution 036)** | live deliberation (post-MVP) | **runtime foundation ready: durable contracts, projection core, signed membership attestation, and behaviorally aligned bounded WSS/Matrix live transports exist; Corpus-specific room policy and chair integration remain open** |
 | **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **runtime and Corpus join ready: the durable node-local lifecycle, bounded active controller, Room-attested Corpus-chair binding, memory projection, Inquirium/child execution, effect proposals/dispatch, Agent-owned lease lifecycle, content-addressed outcome projection, and Corpus-owned inert answer-draft acceptance exist** |
+| **Sensorium Interfaces (P082) + Sensorium Workbench (Solution 042)** | optional shared terminal or enacted-environment views during live deliberation | **P082 architecture frozen, runtime not started; the planned WSS Room adapter exposes only a bounded `latest-state` projection and does not grant terminal control** |
 
 The MVP depends only on the first three rows. The generic Room live-plane runtime,
 the Agent runtime, and their Corpus-chair join are no longer blockers. The
 remaining live-deliberation work is the concrete Corpus room policy/invitation
 layer and the separately authorized conversion of inert chair drafts into signed
-Corpus answers.
+Corpus answers. Sensorium Interfaces is not a prerequisite for an ordinary live
+deliberation. It becomes a prerequisite only for a Corpus profile that explicitly
+shares a Workbench or Sensorium-backed view with room participants.
 
 Room is a generic swarm primitive, not a Corpus-owned subsystem. Corpus depends
 on Room; Room must not depend on Corpus or import Corpus reasoning semantics.
@@ -295,6 +299,30 @@ validated, classified, and budgeted before they enter the participant's prompt.
 This prevents coordinator-controlled prompt injection while still allowing the
 room to organize expert perspectives.
 
+**Shared enacted views through Sensorium Interfaces.** A Corpus deliberation MAY
+make a terminal viewport or another Sensorium/Workbench-backed representation
+visible to authorized room participants through a Sensorium Interface (P082). The
+source chain remains stratified:
+
+```text
+Workbench or Sensorium provider
+  -> bounded admitted projection
+  -> Sensorium Interface resource
+  -> participant-scoped interface grants
+  -> WSS-backed Room latest-state carrier
+  -> authorized room participants
+```
+
+The view is not embedded into Corpus chat and Room does not own the PTY, source
+cursor, interface lease, or source credentials. Room membership alone is never
+interface authority: every participant who may observe the view must receive a
+current resource-scoped interface grant. The first Room carrier exposes only the
+bounded visible `latest-state` viewport and refuses ordered terminal-event replay.
+A full transcript requires the existing explicit classified Workbench capture
+path. Terminal input, command execution, resize, signals, file mutation, and other
+actuation remain separate Workbench/Sensorium directive operations with their own
+grants and review policy; publication of a read interface never grants control.
+
 ### 6. Answer Contract (concrete, content-addressed, signed)
 
 Convergence yields one `corpus-reasoning-answer.v1`: `answer/id`, `query/id`, `room/id`,
@@ -425,6 +453,13 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
   for phase 2. **Corpus imposes specific transport requirements on P070**: low latency,
   no retention, and a small participant count. These belong in P070's live-transport
   profile as input requirements.
+- **Sensorium Interfaces (P082) + Sensorium Workbench (P071 / Solution 042)**:
+  optionally expose a bounded read-only terminal viewport or another enacted
+  representation to authorized deliberation participants. P082 owns publication,
+  grants, subscriptions, cursors, classification, revocation, and the WSS-backed
+  Room `latest-state` carrier. Corpus owns only the decision to request that view
+  for a deliberation. Room membership is not interface authority, and terminal
+  control remains on separately granted Workbench/Sensorium actuation paths.
 - **Question Envelope (P003)**: `corpus-reasoning-query.v1` decorates
   `question-envelope.v1`; Corpus does not create a parallel question primitive.
 - **Arca/Dator/offer-catalog (003/004/067)**: extended with `corpus/topics` indexing, not
@@ -449,6 +484,8 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
 | Inline answer tampered after signing | Forged answer | `content/digest` self-reference + canonical-json signatures. |
 | Replay of bids/invites | Duplicate work | Canonical idempotency keys + `correlation/id`/`query/id`. |
 | Chat treated as a shared fact | Reification / privacy leak | Protocol never persists chat (P070); capture is private, classified. |
+| Room membership treated as terminal-view authority | Unauthorized observation | Require a current participant-scoped P082 interface grant in addition to Room membership; the carrier grants no authority. |
+| Shared viewport treated as a transcript or control channel | Unintended retention or actuation | Room carries only bounded `latest-state`; full transcript capture and all Workbench/Sensorium commands use separate classified, explicitly granted paths. |
 
 ### Abuse model (LLM + marketplace)
 
@@ -1510,6 +1547,13 @@ runtime, no N-way settlement.
   `corpus-reasoning-room-invite.v1`.
 - [ ] Open rooms with access lists; deliver invites over AD; members join and signal
   ready.
+- [ ] For deliberation profiles that share a terminal or enacted-environment view,
+  publish a bounded read-only Workbench/Sensorium representation through P082,
+  issue a resource-scoped interface grant to every admitted observer, and project
+  it over the WSS-backed Room `latest-state` carrier. This optional integration is
+  blocked on the P082 runtime and Room carrier; it must not treat Room membership
+  as interface authority, expose ordered terminal replay, or grant terminal input
+  and other Workbench actuation.
 
 #### Phase 8 — Chair, then arbiter election
 
