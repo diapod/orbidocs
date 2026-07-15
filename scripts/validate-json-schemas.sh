@@ -362,6 +362,12 @@ schema_for_file() {
     *.corpus-reasoning-bid-state.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-bid-state.v1.schema.json"
       ;;
+    *.corpus-reasoning-room-policy.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-room-policy.v1.schema.json"
+      ;;
+    *.corpus-reasoning-room-invite.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-room-invite.v1.schema.json"
+      ;;
     *.service-offer-relay.json)
       echo "$SCHEMAS_DIR/service-offer-relay.v1.schema.json"
       ;;

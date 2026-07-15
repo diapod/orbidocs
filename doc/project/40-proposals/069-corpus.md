@@ -114,15 +114,15 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | AD deferred + fan-out + single-owner acceptors (023) | MVP procurement | partial, usable |
 | Offer catalog + Dator offers (003/004/067) | MVP discovery | partial, usable |
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
-| **Room primitive (P070 / Solution 036)** | live deliberation (post-MVP) | **runtime foundation ready: durable contracts, projection core, signed membership attestation, and behaviorally aligned bounded WSS/Matrix live transports exist; Corpus-specific room policy and chair integration remain open** |
+| **Room primitive (P070 / Solution 036)** | live deliberation (post-MVP) | **runtime foundation ready: durable contracts, projection core, signed membership attestation, and behaviorally aligned bounded WSS/Matrix live transports exist; the Corpus policy, signed-invite, admission, and local join/readiness control plane is implemented, while the live-carrier session hookup remains open** |
 | **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **runtime and Corpus join ready: the durable node-local lifecycle, bounded active controller, Room-attested Corpus-chair binding, memory projection, Inquirium/child execution, effect proposals/dispatch, Agent-owned lease lifecycle, content-addressed outcome projection, and Corpus-owned inert answer-draft acceptance exist** |
 | **Sensorium Interfaces (P082) + Sensorium Workbench (Solution 042)** | optional shared terminal or enacted-environment views during live deliberation | **P082 architecture frozen, runtime not started; the planned WSS Room adapter exposes only a bounded `latest-state` projection and does not grant terminal control** |
 
 The MVP depends only on the first three rows. The generic Room live-plane runtime,
 the Agent runtime, and their Corpus-chair join are no longer blockers. The
-remaining live-deliberation work is the concrete Corpus room policy/invitation
-layer and the separately authorized conversion of inert chair drafts into signed
-Corpus answers. Sensorium Interfaces is not a prerequisite for an ordinary live
+remaining live-deliberation work is the live Room carrier hookup and the
+separately authorized conversion of inert chair drafts into signed Corpus
+answers. Sensorium Interfaces is not a prerequisite for an ordinary live
 deliberation. It becomes a prerequisite only for a Corpus profile that explicitly
 shares a Workbench or Sensorium-backed view with room participants.
 
@@ -1540,13 +1540,40 @@ runtime, no N-way settlement.
   `publication/authorized` remains false. A separate Corpus transition must
   create and sign any final `corpus-reasoning-answer.v1`.
 
-#### Phase 7 — Deliberation room policy + invite + join `[ ] ready after Phase 6`
+#### Phase 7 — Deliberation room policy + invite + join `[~] control plane implemented`
 
-- [ ] Define `corpus-reasoning-room-policy.v1` (exposure enum bound to P009, acceptance
-  enum, chair credentials, quorum/tie-break/revocation, token budget) and
-  `corpus-reasoning-room-invite.v1`.
-- [ ] Open rooms with access lists; deliver invites over AD; members join and signal
-  ready.
+- [x] Define `corpus-reasoning-room-policy.v1` with the P009 exposure enum,
+  acceptance mode, accountable chair credentials, quorum/tie-break/revocation,
+  bounded time/step/token budget, sorted access list, and fail-closed rejection of
+  raw model/runtime subjects. Evidence: synchronized schemas/examples plus pure
+  `corpus-core` validation, canonical digest, and neutral `room-policy.v1`
+  projection.
+- [x] Define the content-addressed, node-signed
+  `corpus-reasoning-room-invite.v1`. The invite embeds the exact policy and signed
+  Room membership attestation, binds recipient/inviter nodes, transport, grants,
+  policy digest, source peer, and bounded lifetime, and fails closed on stale,
+  altered, or mismatched evidence.
+- [x] Add schema-gate ingress/egress validation and pure admission/join/readiness
+  projections over generic Room facts. The Corpus layer decorates Room state; it
+  does not introduce a second membership or attestation authority.
+- [x] Persist the control plane in the daemon's append-only
+  `storage/corpus-deliberation.sqlite`, expose operator-session room/invite/join/
+  readiness routes, and deliver invites through the ordinary AD node selector and
+  the single-owner `corpus.room-invite` acceptor. Exact invite retry reuses the
+  signed artifact and AD delivery identity; conflicting room policy fails closed.
+  Canonical Ed25519 key validation, exact Room grant projection, AD-owned
+  transport idempotency, Corpus-owned semantic replay by signed `invite/id`,
+  typed HTTP failure classes, configured remote sovereign-root verification, and
+  bounded SQLite contention handling are enforced at their owning boundaries.
+- [x] Cover the control plane with the three-node Story-011 process smoke: policy
+  mismatch and ambient model-binding admission are denied, the signed invite is
+  delivered and replayed idempotently, the recipient joins and signals local
+  readiness, the ready inbox projection survives restart, and a dispatch replay
+  after recipient restart preserves both `invite/id` and AD `delivery/id`.
+- [ ] Connect admitted participants to the concrete bounded Room live carrier and
+  propagate join/readiness observations to the room authority. The current first
+  slice deliberately proves the durable control plane only; it does not claim that
+  the placeholder WSS endpoint was dialed or that live deliberation messages flowed.
 - [ ] For deliberation profiles that share a terminal or enacted-environment view,
   publish a bounded read-only Workbench/Sensorium representation through P082,
   issue a resource-scoped interface grant to every admitted observer, and project

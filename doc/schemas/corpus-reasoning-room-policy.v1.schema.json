@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-room-policy:v1",
+  "title": "Corpus Reasoning Room Policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v",
+    "query/id",
+    "room/id",
+    "exposure",
+    "answer/acceptance",
+    "chair/mode",
+    "chair/nym",
+    "chair/credentials",
+    "quorum/required",
+    "tie-break",
+    "revocation-policy",
+    "budget",
+    "access/list",
+    "created-at",
+    "expires-at"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "query/id": { "type": "string", "pattern": "^query:[^\\s]+$", "maxLength": 512 },
+    "room/id": { "type": "string", "pattern": "^room:[^\\s]+$", "maxLength": 512 },
+    "exposure": {
+      "enum": ["private-to-swarm", "federation-local", "cross-federation", "global"]
+    },
+    "answer/acceptance": { "enum": ["chair-signed", "n-of-m", "unanimous"] },
+    "chair/mode": { "enum": ["requester-appointed", "elected"] },
+    "chair/nym": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "chair/credentials": {
+      "type": "string",
+      "pattern": "^capability-passport:[^\\s]+$",
+      "maxLength": 512
+    },
+    "chair/agent-ref": {
+      "type": "string",
+      "pattern": "^agent:[^\\s]+$",
+      "maxLength": 512
+    },
+    "quorum/required": { "type": "integer", "minimum": 1, "maximum": 16 },
+    "tie-break": { "enum": ["chair", "reject"] },
+    "revocation-policy": { "enum": ["chair-or-requester", "requester-only"] },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["time-ms", "steps", "tokens"],
+      "properties": {
+        "time-ms": { "type": "integer", "minimum": 1, "maximum": 86400000 },
+        "steps": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "tokens": { "type": "integer", "minimum": 1, "maximum": 10000000 }
+      }
+    },
+    "access/list": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/room-subject" }
+    },
+    "created-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "room-subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {
+          "enum": ["nym", "participant", "node", "routing-subject", "organization"]
+        },
+        "id": { "type": "string", "minLength": 1, "maxLength": 4096 }
+      }
+    }
+  },
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/60-solutions/036-room/036-room.md"
+  ]
+}

@@ -18,6 +18,8 @@ Related schemas:
 - `corpus-reasoning-bid.v1`
 - `corpus-reasoning-bid-state.v1`
 - `corpus-reasoning-answer.v1`
+- `corpus-reasoning-room-policy.v1`
+- `corpus-reasoning-room-invite.v1`
 - `service-offer.v1`
 - `procurement-offer.v1`
 - `procurement-contract.v1`
@@ -36,10 +38,16 @@ Related schemas:
 Implemented solution foundation.
 
 The hard-MVP procurement slice is implemented and accepted as the solution-level
-contract for topic-routed collaborative reasoning. Live deliberation on Room and
-its policy/invitation layer remain post-MVP. The bounded Agent-backed chair join
-and inert Corpus answer-draft acceptance are implemented foundations; they do not
-yet authorize final answer signing or publication.
+contract for topic-routed collaborative reasoning. The post-MVP live-deliberation
+control plane now has Corpus policy, signed invite, AD admission, local
+join/readiness, append-only persistence, typed failure mapping, AD-owned
+transport idempotency, Corpus-owned semantic replay by signed `invite/id`,
+canonical signer-key and exact-grant validation, configured remote
+trust-root verification, and stable invite/delivery replay after recipient
+restart. Connecting that control plane to a concrete bounded Room live-carrier
+session remains open. The bounded
+Agent-backed chair join and inert Corpus answer-draft acceptance are implemented
+foundations; they do not yet authorize final answer signing or publication.
 
 ## Date
 
@@ -243,7 +251,9 @@ Responsibilities:
 
 Status:
 
-- `post-MVP`
+- `in-progress`: policy, signed invite, AD delivery/admission, durable local
+  join/readiness projection, and process recovery are implemented; concrete Room
+  live-carrier join and authority-visible presence propagation remain post-MVP.
 
 ### Agent-Assisted Chairing
 
@@ -280,8 +290,8 @@ Responsibilities:
 Status:
 
 - `done` for the bounded chair binding and answer-draft acceptance foundation;
-  Room policy, invitations, remote authority trust, and final-answer
-  signing/publication remain post-MVP.
+  remote Room-authority trust and final-answer signing/publication remain
+  post-MVP.
 
 ## Out of Scope
 

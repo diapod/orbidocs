@@ -1,0 +1,75 @@
+{
+  "schema/v": 1,
+  "invite/id": "corpus-room-invite:sha256:HWPWARI5Il4Ek7mHaSXidv-BWnqtP06Dgg2aaq7ZRtg",
+  "query/id": "query:deliberation-test",
+  "room/id": "room:deliberation-test",
+  "subject": {
+    "kind": "nym",
+    "id": "did:key:zExpert"
+  },
+  "transport": {
+    "transport/kind": "wss-pubsub",
+    "transport/ref": "room-live:wss-pubsub",
+    "endpoint": "wss://room.example.test/v1/rooms/deliberation-test"
+  },
+  "room-policy": {
+    "schema/v": 1,
+    "query/id": "query:deliberation-test",
+    "room/id": "room:deliberation-test",
+    "exposure": "private-to-swarm",
+    "answer/acceptance": "chair-signed",
+    "chair/mode": "requester-appointed",
+    "chair/nym": "nym:did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG",
+    "chair/credentials": "capability-passport:chair",
+    "chair/agent-ref": "agent:chair",
+    "quorum/required": 2,
+    "tie-break": "chair",
+    "revocation-policy": "chair-or-requester",
+    "budget": {
+      "time-ms": 120000,
+      "steps": 12,
+      "tokens": 200000
+    },
+    "access/list": [
+      { "kind": "nym", "id": "did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG" },
+      { "kind": "nym", "id": "did:key:zExpert" }
+    ],
+    "created-at": "2026-07-15T10:00:00Z",
+    "expires-at": "2026-07-15T10:05:00Z"
+  },
+  "membership-attestation": {
+    "schema/v": 1,
+    "room/id": "room:deliberation-test",
+    "subject": { "kind": "nym", "id": "did:key:zExpert" },
+    "member": true,
+    "grants": ["answer", "observe", "speak"],
+    "high-water/seq-no": 2,
+    "source/refs": [
+      "sha256:hu_0zW8SWzXxN5roPTGdEY_rlxOSioeafb2yqcIIMA4",
+      "sha256:A7SFsH0T2AARwaQmY78ueyHgwmfIxWyZ3T7tWPpWr0I",
+      "sha256:4Q72zGPZt2tlLfgpNqsfqnXJXAZB1Lww5-E8rtLaPJM"
+    ],
+    "attested-at": "2026-07-15T10:00:01Z",
+    "expires-at": "2026-07-15T10:04:00Z",
+    "signer/ref": "nym:did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG",
+    "signature": {
+      "alg": "ed25519",
+      "value": "zmNY7OxNEK16XjUY0GJo2hktC2dry6hUo51Pj9zfx5bNSVdIEFNByvwwtVO1foAIGjuPuBJP8jauNJaljcm2Bw"
+    }
+  },
+  "policy/digest": "sha256:c6N7Khj3lcFym72pfnpAAyahAHFiyVNuEHrvqJKhFks",
+  "access/list": [
+    { "kind": "nym", "id": "did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG" },
+    { "kind": "nym", "id": "did:key:zExpert" }
+  ],
+  "grants": ["answer", "observe", "speak"],
+  "recipient/node-id": "node:did:key:z6MkCorpusExpert1111111111111111111111111111",
+  "inviter/node-id": "node:did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG",
+  "issued-at": "2026-07-15T10:00:01Z",
+  "expires-at": "2026-07-15T10:04:00Z",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "x31DCUz0qJFxMgpyGf373BzpAKuvGBOx1fC_t7vLAcypnd9YB6_ueD5ZR9HkDJ_Sp8DxtQqb3ZYqMEp36R7tBQ",
+    "key/public": "z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG"
+  }
+}

@@ -254,6 +254,8 @@ Related schemas:
 - `room.v1`
 - `room-policy.v1`
 - `room-live-message.v1`
+- `corpus-reasoning-room-policy.v1`
+- `corpus-reasoning-room-invite.v1`
 
 Responsibilities:
 
@@ -265,7 +267,10 @@ Responsibilities:
 
 Status:
 
-- `planned`
+- `in-progress`: Corpus policy, signed invitations, AD admission, and the durable
+  local join/readiness control plane are implemented. Connecting admitted
+  participants to a concrete bounded Room live-carrier session and propagating
+  authority-visible presence remain open.
 
 ## Out of Scope
 
