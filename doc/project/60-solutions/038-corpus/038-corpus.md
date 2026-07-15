@@ -43,11 +43,14 @@ control plane now has Corpus policy, signed invite, AD admission, local
 join/readiness, append-only persistence, typed failure mapping, AD-owned
 transport idempotency, Corpus-owned semantic replay by signed `invite/id`,
 canonical signer-key and exact-grant validation, configured remote
-trust-root verification, and stable invite/delivery replay after recipient
-restart. Connecting that control plane to a concrete bounded Room live-carrier
-session remains open. The bounded
-Agent-backed chair join and inert Corpus answer-draft acceptance are implemented
-foundations; they do not yet authorize final answer signing or publication.
+trust-root verification, stable invite/delivery replay after recipient restart,
+and a bounded node-local WSS Room carrier with authority-visible metadata-only
+observations. Stable authority bind, subject sequence checkpoints, exact send
+replay, and controlled session rejoin make the carrier restart-safe. The bounded
+Agent-backed chair join and inert Corpus answer-draft acceptance are implemented;
+a separate Corpus-owned local-control transition now validates ready quorum,
+room high-water, chair identity, evidence, and idempotency before signing and
+publishing the final answer. The Agent still has no publication authority.
 
 ## Date
 
@@ -67,7 +70,9 @@ or Agent. It composes them:
 - Shared Offer Catalog indexes Corpus-capable `service-offer.v1` records;
 - Artifact Delivery carries query/bid/answer envelopes;
 - procurement contracts settle selected work;
-- Room and Agent provide the later live deliberation surface.
+- Room and Agent provide the implemented node-local live deliberation surface;
+  federated transport, richer participant roles, and arbiter election remain
+  later extensions.
 
 The durable output of Corpus reasoning is the signed answer and its traceable
 provenance. Live room chatter is not a protocol fact unless another component
@@ -251,9 +256,11 @@ Responsibilities:
 
 Status:
 
-- `in-progress`: policy, signed invite, AD delivery/admission, durable local
-  join/readiness projection, and process recovery are implemented; concrete Room
-  live-carrier join and authority-visible presence propagation remain post-MVP.
+- `done` for the node-local live-deliberation slice: policy, signed invite, AD
+  delivery/admission, live WSS join/readiness/messages, metadata-only authority
+  projection, exact replay, fixed-high-water paged room recovery, validated
+  subject checkpoints, and authority/recipient process recovery are covered.
+  Federated WSS/TLS and homeserver-backed Matrix profiles remain post-MVP.
 
 ### Agent-Assisted Chairing
 
@@ -285,12 +292,16 @@ Responsibilities:
   answer draft through local-control authority, strict embedded-evidence schema
   validation, and actor-bound idempotent replay, with publication authority fixed
   false;
+- accept only text output blocks in the first publication profile and sign the
+  final answer under `corpus-reasoning-answer-signature.v1`, independently of
+  the artifact schema name;
 - route sensitive effects through host-owned human-in-loop gates.
 
 Status:
 
-- `done` for the bounded chair binding and answer-draft acceptance foundation;
-  remote Room-authority trust and final-answer signing/publication remain
+- `done` for the requester-appointed node-local Agent-chair path through inert
+  draft acceptance and separately authorized signed answer publication. Remote
+  Room-authority trust, richer participant roles, and arbiter election remain
   post-MVP.
 
 ## Out of Scope

@@ -114,15 +114,17 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | AD deferred + fan-out + single-owner acceptors (023) | MVP procurement | partial, usable |
 | Offer catalog + Dator offers (003/004/067) | MVP discovery | partial, usable |
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
-| **Room primitive (P070 / Solution 036)** | live deliberation (post-MVP) | **runtime foundation ready: durable contracts, projection core, signed membership attestation, and behaviorally aligned bounded WSS/Matrix live transports exist; the Corpus policy, signed-invite, admission, and local join/readiness control plane is implemented, while the live-carrier session hookup remains open** |
+| **Room primitive (P070 / Solution 036)** | live deliberation (post-MVP) | **ready for the node-local slice: durable contracts, projection core, signed membership attestation, behaviorally aligned bounded WSS/Matrix transports, Corpus policy/invite admission, live WSS join/readiness/message flow, metadata-only authority observations, and restart-safe endpoint/session/sequence recovery are implemented** |
 | **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **runtime and Corpus join ready: the durable node-local lifecycle, bounded active controller, Room-attested Corpus-chair binding, memory projection, Inquirium/child execution, effect proposals/dispatch, Agent-owned lease lifecycle, content-addressed outcome projection, and Corpus-owned inert answer-draft acceptance exist** |
 | **Sensorium Interfaces (P082) + Sensorium Workbench (Solution 042)** | optional shared terminal or enacted-environment views during live deliberation | **P082 architecture frozen, runtime not started; the planned WSS Room adapter exposes only a bounded `latest-state` projection and does not grant terminal control** |
 
 The MVP depends only on the first three rows. The generic Room live-plane runtime,
 the Agent runtime, and their Corpus-chair join are no longer blockers. The
-remaining live-deliberation work is the live Room carrier hookup and the
-separately authorized conversion of inert chair drafts into signed Corpus
-answers. Sensorium Interfaces is not a prerequisite for an ordinary live
+node-local live Room carrier hookup and the separately authorized conversion of
+inert chair drafts into signed Corpus answers are now implemented. Remaining
+work concerns federated transport profiles, richer participant coordination,
+arbiter election, and N-way settlement. Sensorium Interfaces is not a
+prerequisite for an ordinary live
 deliberation. It becomes a prerequisite only for a Corpus profile that explicitly
 shares a Workbench or Sensorium-backed view with room participants.
 
@@ -147,9 +149,15 @@ supplies durable Memarium-backed state, fork/suspend/resume, bounded controller
 execution, effect-proposal routing, and consumer-owned outcome drafts. It now
 supplies the Corpus deliberation execution substrate as well: a signed,
 fresh Room membership attestation admits one query- and room-bound chair, and
-Corpus can accept its content-addressed outcome as an inert answer draft. This
-does not authorize final signing, publication, settlement, or room-policy
-effects; those remain later Corpus-owned transitions.
+Corpus can accept its content-addressed outcome as an inert answer draft. A
+separate local-control Corpus transition may then validate the current ready
+quorum, exact room high-water, accountable chair participant, content-addressed
+Agent output, and idempotency before signing and publishing the final answer.
+The first publication profile accepts text output blocks only and signs the
+artifact under the dedicated `corpus-reasoning-answer-signature.v1` domain,
+not under the answer schema name.
+The Agent itself still cannot authorize signing, publication, settlement, or
+room-policy effects.
 
 ## Proposed Model / Decision
 
@@ -1540,7 +1548,7 @@ runtime, no N-way settlement.
   `publication/authorized` remains false. A separate Corpus transition must
   create and sign any final `corpus-reasoning-answer.v1`.
 
-#### Phase 7 — Deliberation room policy + invite + join `[~] control plane implemented`
+#### Phase 7 — Deliberation room policy + invite + join `[x] node-local live slice implemented`
 
 - [x] Define `corpus-reasoning-room-policy.v1` with the P009 exposure enum,
   acceptance mode, accountable chair credentials, quorum/tie-break/revocation,
@@ -1570,25 +1578,31 @@ runtime, no N-way settlement.
   delivered and replayed idempotently, the recipient joins and signals local
   readiness, the ready inbox projection survives restart, and a dispatch replay
   after recipient restart preserves both `invite/id` and AD `delivery/id`.
-- [ ] Connect admitted participants to the concrete bounded Room live carrier and
-  propagate join/readiness observations to the room authority. The current first
-  slice deliberately proves the durable control plane only; it does not claim that
-  the placeholder WSS endpoint was dialed or that live deliberation messages flowed.
-- [ ] For deliberation profiles that share a terminal or enacted-environment view,
-  publish a bounded read-only Workbench/Sensorium representation through P082,
-  issue a resource-scoped interface grant to every admitted observer, and project
-  it over the WSS-backed Room `latest-state` carrier. This optional integration is
-  blocked on the P082 runtime and Room carrier; it must not treat Room membership
-  as interface authority, expose ordered terminal replay, or grant terminal input
-  and other Workbench actuation.
-
+- [x] Connect admitted participants to the concrete bounded Room live carrier and
+  propagate join/readiness/message observations to the room authority. Evidence:
+  the daemon owns a bounded loopback WSS runtime, refreshes its neutral Room
+  projection after admission, narrows session grants, persists only metadata
+  observations and subject sequence checkpoints, acknowledges exact replay without
+  redelivery, validates checkpoints before append and restore, pages startup
+  recovery against one fixed SQLite high-water, retains a stable local bind
+  across authority restart, and performs a
+  typed controlled rejoin when only the ephemeral session was lost. Story-011 sends
+  real messages and proves both authority-side and recipient-side restart recovery.
 #### Phase 8 — Chair, then arbiter election
 
-- [ ] Requester-appointed chair resolves conflicts; signed `corpus-reasoning-answer.v1`
-  (content-addressed, classification, contributor/weights, attestation/evidence).
-- [ ] Support requester-owned Agent as `chair/agent-ref`, with host-owned budget,
+- [x] Requester-appointed chair resolves the first node-local Agent-chair path into
+  a signed `corpus-reasoning-answer.v1`. Publication is a separate local-control
+  transition that requires the current ready quorum, exact room high-water,
+  accountable participant, classification, content-addressed output and evidence,
+  text-only output blocks in the first profile, the dedicated
+  `corpus-reasoning-answer-signature.v1` domain, and actor-bound idempotency;
+  exact replay returns the same answer and conflicts fail closed.
+- [x] Support requester-owned Agent as `chair/agent-ref`, with host-owned budget,
   lifecycle, grants, and stop/resume controls; the Agent coordinates but does not
-  self-authorize publication, settlement, membership changes, or effects.
+  self-authorize publication, settlement, membership changes, or effects. Evidence:
+  the process smoke spans dirty restart, bounded controller execution, inert draft
+  recovery, absence of ambient publication, explicit Corpus publication, replay,
+  and conflict rejection.
 - [ ] Define `corpus-reasoning-role-assignment.v1` for task roles such as implementer,
   reviewer, adversarial critic, or summarizer, with local participant acceptance.
 - [ ] Define `corpus-reasoning-instruction-overlay.v1` for per-role/per-turn suggested
@@ -1596,6 +1610,16 @@ runtime, no N-way settlement.
   remote prompt injection.
 - [ ] Later: arbiter election (`corpus-reasoning-arbiter-nomination.v1` / `…-vote.v1`)
   with eligibility, COI, quorum, deadline, tie-break, revocation, fallback.
+
+#### Optional shared enacted views `[ ] blocked on P082 runtime`
+
+- [ ] For deliberation profiles that share a terminal or enacted-environment view,
+  publish a bounded read-only Workbench/Sensorium representation through P082,
+  issue a resource-scoped interface grant to every admitted observer, and project
+  it over the WSS-backed Room `latest-state` carrier. This optional integration
+  must not treat Room membership as interface authority, expose ordered terminal
+  replay, or grant terminal input and other Workbench actuation. It is not part of
+  Phase 7 closure.
 
 #### Phase 9 — N-way settlement
 

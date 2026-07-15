@@ -184,8 +184,13 @@ Responsibilities:
 
 Status:
 
-- `done` for the functional foundation; security hardening remains tracked in
-  CR-88/CR-89.
+- `done` for the functional foundation. The WSS carrier now returns explicit
+  accepted/replayed acknowledgements, suppresses exact replay redelivery, and can
+  restore validated subject-scoped sequence checkpoints after host restart. Its
+  parser enforces a bounded wire-message limit before JSON decoding, and Corpus
+  recovery consumes Room projections in fixed-high-water pages rather than an
+  unbounded or silently truncated startup read.
+  Security hardening remains tracked in CR-88/CR-89.
 
 ### Live Room Transport
 
@@ -267,10 +272,11 @@ Responsibilities:
 
 Status:
 
-- `in-progress`: Corpus policy, signed invitations, AD admission, and the durable
-  local join/readiness control plane are implemented. Connecting admitted
-  participants to a concrete bounded Room live-carrier session and propagating
-  authority-visible presence remain open.
+- `done` for the node-local Corpus composition: signed invitations admit narrowed
+  WSS sessions, readiness and message metadata reach the authority, exact replay
+  does not redeliver, and endpoint/session/sequence recovery is process-tested.
+  Advertised federated WSS/TLS and homeserver-backed Matrix deployment remain
+  transport-profile work, not a second Corpus room semantics.
 
 ## Out of Scope
 

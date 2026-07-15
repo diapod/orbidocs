@@ -124,7 +124,10 @@
       "additionalProperties": false,
       "required": ["alg", "value"],
       "properties": {
-        "alg": { "enum": ["ed25519", "ed25519+domain-v1"] },
+        "alg": {
+          "enum": ["ed25519", "ed25519+domain-v1"],
+          "description": "For ed25519+domain-v1, verification uses the corpus-reasoning-answer-signature.v1 domain. The schema name is not the signature domain."
+        },
         "value": {
           "type": "string",
           "minLength": 1
