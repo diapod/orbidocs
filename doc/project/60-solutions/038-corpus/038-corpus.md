@@ -287,6 +287,15 @@ Responsibilities:
 - require a pre-existing local Corpus round and signed, fresh Room evidence from
   that round's node-local authority, with a canonical Ed25519 `did:key` signer;
 - keep the accountable chair subject explicit in Room policy;
+- require local participant or local-policy acceptance before a role assignment
+  becomes effective, with the first slice resolving a closed host-owned policy
+  catalog;
+- keep per-turn instruction-overlay source text inert until a local prompt policy
+  accepts it and emits bounded `instruction/rendered`; verify that deterministic
+  rendering during recovery and immediately before passing it through Inquirium
+  host framing rather than caller metadata or direct adapter prompting;
+- persist role and overlay transitions as bounded append-only delta facts and
+  recover only sequential, semantically valid revisions;
 - let Agent/Inquirium assist reasoning without becoming the authority root;
 - admit the terminal Agent product only as an inert, content-addressed Corpus
   answer draft through local-control authority, strict embedded-evidence schema
@@ -299,10 +308,12 @@ Responsibilities:
 
 Status:
 
-- `done` for the requester-appointed node-local Agent-chair path through inert
-  draft acceptance and separately authorized signed answer publication. Remote
-  Room-authority trust, richer participant roles, and arbiter election remain
-  post-MVP.
+- `done` for the requester-appointed node-local Agent-chair path through locally
+  accepted role assignments and instruction overlays, restart-safe append-only
+  delta projection, registered policy evaluation, role-aware Inquirium
+  operation-scope prompt framing, inert draft acceptance, and separately
+  authorized signed answer publication. Remote Room-authority trust and arbiter
+  election remain post-MVP.
 
 ## Out of Scope
 

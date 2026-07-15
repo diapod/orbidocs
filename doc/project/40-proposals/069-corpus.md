@@ -295,17 +295,21 @@ memory, lifecycle, budget, stop/resume semantics, or accountability. A
 single-turn model response MAY be represented as a degenerate Agent profile with
 one step, no fork, no durable autonomous memory, and an explicit budget.
 
-**Participant roles and instruction overlays.** The chair MAY assign
-deliberation roles to participants (for example `cxx-implementer`,
-`code-reviewer`, `adversarial-critic`, `domain-summarizer`) through explicit
-room/Corpus policy facts. These roles are not ambient authority and do not
-override local node policy. They are task-shaping metadata consumed by each
-participant's local Inquirium prompt-assembly policy. The chair MAY also propose
-per-role or per-turn instruction overlays, but remote nodes treat them as
-suggestions or bounded instruction profiles that must be locally accepted,
-validated, classified, and budgeted before they enter the participant's prompt.
-This prevents coordinator-controlled prompt injection while still allowing the
-room to organize expert perspectives.
+**Participant roles and instruction overlays.** The chair MAY propose the closed
+task-role set `implementer`, `reviewer`, `adversarial-critic`, and `summarizer`
+through explicit Corpus policy facts. These roles are not ambient authority and
+do not override local node policy. They become effective only after acceptance
+by the participant or a registered node-local role policy. The chair MAY also
+propose a per-turn instruction overlay with one closed semantic kind:
+`task-guidance`, `review-criteria`, `adversarial-check`, or `summary-criteria`.
+The proposal text remains inert data. A registered local prompt policy must
+accept it and produce the bounded `instruction/rendered` value that Inquirium
+may consume. Recovery and prompt assembly MUST reproduce and verify that policy
+rendering rather than trusting persisted or remote text. `class/key` is a closed
+Public/Community/Personal minimum-tier selector for the local prompt layer, not
+a Room membership grant or a classification override. This prevents
+coordinator-controlled prompt injection while still allowing the room to
+organize expert perspectives.
 
 **Shared enacted views through Sensorium Interfaces.** A Corpus deliberation MAY
 make a terminal viewport or another Sensorium/Workbench-backed representation
@@ -1105,7 +1109,13 @@ participates in deliberation, it does so through the host-owned Agent organ (P07
 degenerate single-turn Agent profile, with explicit budget and accountability; the
 deliberation budget is the Agent budget/controller contract, not a Corpus-local one.
 Corpus instruction overlays are suggestions consumed by each participant's local Inquirium
-policy; they are not remote prompt injection.
+policy; they are not remote prompt injection. The first node-local slice resolves
+only a closed host-owned policy catalog. An accepted overlay carries both its inert
+source suggestion and the policy-produced `instruction/rendered`; the latter is the
+only value admitted into prompt assembly and is deterministically reverified during
+restart recovery and immediately before use. Corpus task roles remain a separate axis
+from Inquirium protocol roles: distinct fixed role-aware framing may still use the
+protocol-level `Developer` role without collapsing Corpus role semantics.
 
 ### Operator Status and Observability
 
@@ -1588,7 +1598,7 @@ runtime, no N-way settlement.
   across authority restart, and performs a
   typed controlled rejoin when only the ephemeral session was lost. Story-011 sends
   real messages and proves both authority-side and recipient-side restart recovery.
-#### Phase 8 — Chair, then arbiter election
+#### Phase 8 — Chair and local role overlays `[x] implemented`; arbiter deferred
 
 - [x] Requester-appointed chair resolves the first node-local Agent-chair path into
   a signed `corpus-reasoning-answer.v1`. Publication is a separate local-control
@@ -1603,11 +1613,26 @@ runtime, no N-way settlement.
   the process smoke spans dirty restart, bounded controller execution, inert draft
   recovery, absence of ambient publication, explicit Corpus publication, replay,
   and conflict rejection.
-- [ ] Define `corpus-reasoning-role-assignment.v1` for task roles such as implementer,
-  reviewer, adversarial critic, or summarizer, with local participant acceptance.
-- [ ] Define `corpus-reasoning-instruction-overlay.v1` for per-role/per-turn suggested
-  instructions consumed through local Inquirium prompt-assembly policy, never direct
-  remote prompt injection.
+- [x] Define and implement `corpus-reasoning-role-assignment.v1` for task roles such
+  as implementer, reviewer, adversarial critic, or summarizer, with local participant
+  or local-policy acceptance. Evidence: `corpus-core` owns the pure proposal and
+  decision transitions; the schema cannot carry grants or classification overrides;
+  the daemon resolves the registered `local-policy:corpus-roles`, exposes idempotent
+  operator-session APIs, and persists bounded append-only delta facts in the Corpus
+  round stream. Recovery requires sequential revisions and rejects malformed or
+  conflicting facts rather than constructing a partial authority view.
+- [x] Define and implement `corpus-reasoning-instruction-overlay.v1` for per-role and
+  per-turn suggested instructions. Evidence: an overlay is inert until accepted by
+  the registered local decision and prompt policies; accepted overlays are bound to
+  the exact Room, participant, role assignment, mandatory turn, closed semantic kind,
+  expiry, and closed class key. The prompt policy emits bounded
+  `instruction/rendered`; recovery and the read path reproduce and verify that value
+  before supplying it as a trusted operation-scope input to
+  `PromptAssemblyPolicyProvider`. The 16-layer operation cap fails closed instead of
+  silently discarding accepted deliberation semantics. The Corpus-chair process smoke
+  proves acceptance, decline, expiry filtering, exact replay and conflict, two dirty
+  restarts, bounded Agent execution, local host framing, and absence of ambient
+  publication.
 - [ ] Later: arbiter election (`corpus-reasoning-arbiter-nomination.v1` / `…-vote.v1`)
   with eligibility, COI, quorum, deadline, tie-break, revocation, fallback.
 

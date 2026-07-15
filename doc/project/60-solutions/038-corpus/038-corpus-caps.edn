@@ -87,7 +87,7 @@
 
   {:cap/id :corpus-agent-chairing
    :title "Agent-Assisted Chairing"
-   :kind :future-integration
+   :kind :integration
    :based-on ["doc/project/40-proposals/069-corpus.md"
               "doc/project/40-proposals/073-agent-orchestration-organ.md"]
    :schemas ["corpus-reasoning-role-assignment.v1"
@@ -96,9 +96,11 @@
    :responsibilities
    ["Allow the requester to appoint its own bounded Agent as chair delegate"
     "Keep the accountable chair subject explicit in Room policy"
+    "Require local acceptance before a chair role or instruction overlay becomes effective"
+    "Route accepted overlays through local Inquirium prompt assembly rather than adapter metadata"
     "Let Agent/Inquirium assist reasoning without becoming the authority root"
     "Route sensitive effects through host-owned human-in-loop gates"]
-   :status :deferred}]
+   :status :done}]
 
  :out-of-scope
  ["Owning the curated/training corpus-entry.v1 corpus"
@@ -120,4 +122,6 @@
  ["corpus-reasoning-query.v1"
   "corpus-reasoning-bid.v1"
   "corpus-reasoning-bid-state.v1"
+  "corpus-reasoning-role-assignment.v1"
+  "corpus-reasoning-instruction-overlay.v1"
   "corpus-reasoning-answer.v1"]}

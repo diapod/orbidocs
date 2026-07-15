@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-role-assignment:v1",
+  "title": "Corpus Reasoning Role Assignment v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v",
+    "assignment/id",
+    "query/id",
+    "room/id",
+    "participant",
+    "role",
+    "status",
+    "revision/no",
+    "proposed/by",
+    "proposed-at",
+    "expires-at",
+    "idempotency/key"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "assignment/id": {
+      "type": "string",
+      "pattern": "^corpus-role-assignment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "query/id": { "type": "string", "pattern": "^query:[^\\s]+$", "maxLength": 512 },
+    "room/id": { "type": "string", "pattern": "^room:[^\\s]+$", "maxLength": 512 },
+    "participant": { "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject" },
+    "role": { "enum": ["implementer", "reviewer", "adversarial-critic", "summarizer"] },
+    "status": { "enum": ["proposed", "accepted", "declined"] },
+    "revision/no": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+    "proposed/by": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "proposed-at": { "type": "string", "format": "date-time" },
+    "decision/by": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "decided-at": { "type": "string", "format": "date-time" },
+    "acceptance/mode": { "enum": ["local-participant", "local-policy"] },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "proposed" } } },
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["decision/by"] },
+            { "required": ["decided-at"] },
+            { "required": ["acceptance/mode"] }
+          ]
+        }
+      },
+      "else": { "required": ["decision/by", "decided-at", "acceptance/mode"] }
+    }
+  ],
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md"
+  ]
+}

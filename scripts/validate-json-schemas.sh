@@ -368,6 +368,12 @@ schema_for_file() {
     *.corpus-reasoning-room-invite.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-room-invite.v1.schema.json"
       ;;
+    *.corpus-reasoning-role-assignment.json|*corpus-reasoning-role-assignment-widening.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-role-assignment.v1.schema.json"
+      ;;
+    *.corpus-reasoning-instruction-overlay.json|*corpus-reasoning-instruction-overlay-ambient.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-instruction-overlay.v1.schema.json"
+      ;;
     *.service-offer-relay.json)
       echo "$SCHEMAS_DIR/service-offer-relay.v1.schema.json"
       ;;

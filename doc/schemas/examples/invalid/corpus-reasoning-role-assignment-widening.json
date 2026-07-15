@@ -1,0 +1,15 @@
+{
+  "schema/v": 1,
+  "assignment/id": "corpus-role-assignment:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "query/id": "query:deliberation-test",
+  "room/id": "room:deliberation-test",
+  "participant": { "kind": "nym", "id": "did:key:zExpert" },
+  "role": "reviewer",
+  "grants": ["moderate"],
+  "status": "proposed",
+  "revision/no": 1,
+  "proposed/by": "nym:did:key:zChair",
+  "proposed-at": "2026-07-15T10:00:00Z",
+  "expires-at": "2026-07-15T10:05:00Z",
+  "idempotency/key": "role-reviewer-expert-v1"
+}

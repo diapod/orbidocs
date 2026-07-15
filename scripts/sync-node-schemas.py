@@ -89,6 +89,8 @@ SCHEMA_WHITELIST = (
     "corpus-reasoning-bid-state.v1.schema.json",
     "corpus-reasoning-room-policy.v1.schema.json",
     "corpus-reasoning-room-invite.v1.schema.json",
+    "corpus-reasoning-role-assignment.v1.schema.json",
+    "corpus-reasoning-instruction-overlay.v1.schema.json",
     "service-order.v1.schema.json",
     "offer-catalog-fetch-request.schema.json",
     "offer-catalog-fetch-response.schema.json",
@@ -349,6 +351,8 @@ EXAMPLE_WHITELIST = (
     "initial.scoped-claim-type-registry.json",
     "scheduler.trace-event.json",
     "scheduler.trace-link.json",
+    "accepted.corpus-reasoning-role-assignment.json",
+    "accepted.corpus-reasoning-instruction-overlay.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
@@ -388,6 +392,8 @@ INVALID_EXAMPLE_WHITELIST = (
     "negative-price.procurement-offer.json",
     "no-confirmation-paid.procurement-contract.json",
     "settled-without-payee.procurement-receipt.json",
+    "corpus-reasoning-role-assignment-widening.json",
+    "corpus-reasoning-instruction-overlay-ambient.json",
     "gateway-policy-with-participant-operator.gateway-policy.json",
     "escrow-policy-without-operator.escrow-policy.json",
     "incident-without-basis.settlement-policy-disclosure.json",
