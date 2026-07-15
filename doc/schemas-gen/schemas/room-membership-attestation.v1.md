@@ -23,7 +23,7 @@ Short-lived signed projection answer for room membership and grant checks.
 | [`source/refs`](#field-source-refs) | `yes` | array |  |
 | [`attested-at`](#field-attested-at) | `yes` | string |  |
 | [`expires-at`](#field-expires-at) | `yes` | string |  |
-| [`signer/ref`](#field-signer-ref) | `yes` | string |  |
+| [`signer/ref`](#field-signer-ref) | `yes` | string | Canonical Room-authority subject reference carrying one base58btc Ed25519 did:key. Runtime verification additionally checks the multicodec prefix and decoded key length. |
 | [`signature`](#field-signature) | `yes` | object |  |
 | [`extensions`](#field-extensions) | `no` | ref: `room.v1.schema.json#/$defs/extensions` |  |
 ## Field Semantics
@@ -87,6 +87,8 @@ Short-lived signed projection answer for room membership and grant checks.
 
 - Required: `yes`
 - Shape: string
+
+Canonical Room-authority subject reference carrying one base58btc Ed25519 did:key. Runtime verification additionally checks the multicodec prefix and decoded key length.
 
 <a id="field-signature"></a>
 ## `signature`

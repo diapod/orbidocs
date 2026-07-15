@@ -42,7 +42,8 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 512,
-      "pattern": "^(nym|participant|node|routing-subject|organization):.+$"
+      "pattern": "^(nym|participant|node|routing-subject|organization):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Canonical Room-authority subject reference carrying one base58btc Ed25519 did:key. Runtime verification additionally checks the multicodec prefix and decoded key length."
     },
     "signature": {
       "type": "object",

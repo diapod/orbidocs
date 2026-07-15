@@ -423,6 +423,7 @@ agent.binding.v1 {
   budget                        # from the consumer policy (deliberation budget / assistant rigor)
   participant/ref?              # host-minted accountable principal; never model identity or model-supplied
   membership-attestation/ref?   # room-membership-attestation.v1 for corpus-chair
+  membership-attestation?       # inline create-time evidence; verified, never persisted in the binding
   human-in-loop                 # approval policy for effect proposals
 }
 ```
@@ -434,13 +435,18 @@ Invariants:
   (`validate_fork_from`). Corpus and the assistant narrow; they never widen.
 - **The agent is a Room participant, never a raw model adapter.** For
   `corpus-chair`, the agent joins the deliberation room through
-  `room-membership-attestation.v1` (Solution 036); its contributions are room facts
-  signed by its principal, satisfying Proposal 069's "no raw model adapters as room
-  participants".
+  `room-membership-attestation.v1` (Solution 036). Binding creation carries the
+  complete signed credential as boundary evidence; the host verifies its schema,
+  signature, freshness, room, participant, required grants, deadline, and issuer
+  authority, then persists only the content-addressed attestation ref. The
+  node-local first slice requires the signer to equal the local Corpus round
+  authority; later remote authorities must be admitted by explicit Room policy.
+  Its contributions are room facts signed by its principal, satisfying Proposal
+  069's "no raw model adapters as room participants".
 - **Output is a draft, not an effect.** The agent produces a content-addressed
-  product (`agent.outcome.v1`); the consumer admits it (Corpus answer acceptance is
-  chair-signed; the assistant surfaces a response draft). The agent never publishes
-  or settles on its own.
+  product (`agent.outcome.v1`); the consumer admits it (Corpus stores an inert
+  answer draft before any separately chair-signed final answer; the assistant
+  surfaces a response draft). The agent never publishes or settles on its own.
 - **Assistant escalation approval is not draft-render approval.** The operator's
   explicit approval authorizes creation or binding of the bounded Agent. Once that
   approved binding produces a valid `assistant-response-draft` for the same
@@ -581,9 +587,11 @@ fail-closed; identifiers are explicit and canonical.
 - **Corpus (069).** Corpus live deliberation drives an Agent as the host-owned
   reasoning **chair** bound to a Room (`agent.binding.v1`,
   `consumer/kind = corpus-chair`); the chair Agent participates via Room membership
-  attestation, and its answer-draft product feeds Corpus answer acceptance. Corpus
-  owns reasoning, chairing, and settlement semantics; the Agent owns the bounded
-  session.
+  attestation, and its answer-draft product feeds Corpus answer acceptance. Draft
+  acceptance revalidates the original signed evidence and yields an inert,
+  content-addressed Corpus projection with `publication/authorized = false`;
+  publication remains a separate Corpus-owned transition. Corpus owns reasoning,
+  chairing, and settlement semantics; the Agent owns the bounded session.
 - **Enforced budget (064 `inq-cost-budget-enforcement`).** Agent budgets reuse the
   same metering and `BudgetExceeded` contract at agent and spawn-tree scope.
 
@@ -728,10 +736,10 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 | `agent-lease-audit-compaction` | Compact inactive Agent-owned lease rows after a configurable audit horizon. | `done` | The Replay Scheduler runs an independently configurable bounded compaction job. Expired/released Agent-owned details remain for at least the 30-day default horizon, then one SQLite transaction writes `inquirium.model-runtime.lease-audit-tombstone.v1` and removes the detailed row. Tombstones retain lease/owner/operation/runtime/model-binding identity, lifecycle timestamps, terminal reason, and a canonical digest of scope plus access; local lease GET resolves both details and tombstones. Distributor/operator configuration may lengthen retention or disable compaction. A durable scan cursor prevents old live operations from starving later rows, active rows are only normalized to expired in their first passage, non-terminal deferred-operation bindings fail closed as retained details, and stored lease JSON is rejected above 64 KiB before parsing. Tests cover bounds, live-deferred exclusion, active-row preservation, oversized stored rows, idempotent cursor cycling, and reopen durability. |
 | `agent-assistant-surface` | Let the assistant (P066) drive an Agent under explicit capability and human-in-loop. | `done` | `inquirium.assistant.agent-escalation.proposal.v1` is an inert model control. `agent.assistant.escalate` requires explicit caller authority, records a durable host-authored escalation, and projects an expiring operator Confirm question. The terminal `Approved` fact is persisted before Agent or binding authority is materialized; its actor and timestamp come from the durable operator-question record through a typed internal authority. Recovery rejects a binding without matching approval and idempotently repairs an approved escalation interrupted after any partial spawn write. Denial and timeout remain terminal facts, and direct ambient binding is rejected. `agent.assistant.draft.accept` is local-control-only, bounded by the durable idempotency projection limit, emits prompt-free operational telemetry, and accepts only the latest content-addressed `agent.outcome.v1` for the same session and `assistant-response-draft` sink. It returns a validated render-only draft with `publication-authorized = false`. A real process smoke covers dirty restart with a pending question, exact replay, approval, denial, timeout, controller execution, outcome creation, explicit acceptance, and absence of generated content from status and notifications before acceptance; fault-injected unit coverage proves approval-first ordering and partial-materialization repair. |
 | `agent-host-stratum` | Add an `agent-host` service stratum so the controller step decision is a pure value and the daemon performs effects. | `done` | `node/agent-host` computes `agent.step-decision.v1` as a pure value over `agent-core` contracts, exposes the conservative developer profile, contains no storage/HTTP/async/runtime substrate, and is guarded by `node/tools/check-agent-host-deps.py` in CI. Evidence: `cargo test -p orbiplex-node-agent-core -p orbiplex-node-agent-host`, `cargo clippy -p orbiplex-node-agent-host -- -D warnings`, and agent core/host dependency checks pass. The daemon executes actions in later tracker items. |
-| `agent-binding-contract` | Add `agent.binding.v1` so consumers (Corpus chair, assistant, Flow node) drive an agent under narrowed grants. | `done` | `agent.binding.v1` and `agent.binding.create.{request,response}.v1` carry consumer identity, session source, output sink, monotone-narrowed grants and budget, bounded `MemoryPolicy`, optional Room participant/attestation refs, HIL policy, request digest, actor, and idempotency identity. FlowNode bindings remain module-owned or local-control. Assistant Channel bindings are node-local, same-session, strict-local, require a matching durable `Approved` escalation before admission and after replay, reject publication grants and incompatible sinks, and persist with their escalation and decision facts for restart recovery. Their narrowed budget becomes the runtime's effective budget and deadline. Every caller-delegated capability must cover both spawned-Agent and binding grants. The controller uses optimistic `expected-step`; a checked-in JSON-e Flow fixture demonstrates separate spawn/binding/controller grants and delegated target capability allowlists. Corpus-chair admission remains deferred behind Room attestation and Corpus answer acceptance. |
+| `agent-binding-contract` | Add `agent.binding.v1` so consumers (Corpus chair, assistant, Flow node) drive an agent under narrowed grants. | `done` | `agent.binding.v1` and `agent.binding.create.{request,response}.v1` carry consumer identity, session source, output sink, monotone-narrowed grants and budget, bounded `MemoryPolicy`, optional Room participant/attestation refs, HIL policy, request digest, actor, and idempotency identity. FlowNode bindings remain module-owned or local-control. Assistant Channel bindings are node-local, same-session, strict-local, require a matching durable `Approved` escalation before admission and after replay, reject publication grants and incompatible sinks, and persist with their escalation and decision facts for restart recovery. Corpus-chair creation requires complete inline `room-membership-attestation.v1` evidence; the host verifies schema, signature, freshness, trusted local round authority, exact query/room/participant binding, `answer`/`moderate`/`speak` grants, and deadline, while the recovered binding stores only the content-addressed attestation ref. Every caller-delegated capability must cover both spawned-Agent and binding grants. The controller uses optimistic `expected-step`; a checked-in JSON-e Flow fixture demonstrates separate spawn/binding/controller grants and delegated target capability allowlists. |
 | `agent-outcome-projection` | Publish a content-addressed terminal draft and bounded operator status projection without granting effect authority. | `done` | A completed bound Agent with a successful Inquirium product writes `agent.outcome.v1` to the durable fact stream. The generated response is canonicalized into the existing object store; the outcome carries only its content-addressed `product/ref`, classification, sink kind, binding, terminal state, budget, and prompt-free trace ref. The canonical outcome identity is revalidated during recovery, conflicting outcomes fail closed, and an interrupted append is repaired from the durable completed step. FlowNode consumes the draft through its own result path. Assistant Channel uses a separate durable same-session acceptance and receives a validated `assistant-response-draft` only after explicit local-control acceptance; Agent never renders or publishes it. Status exposes at most 64 metadata-only effect proposal projections plus a total count, while payloads and generated content remain outside the projection. |
 | `agent-effect-proposal` | Add an immutable `agent.effect-proposal.v1` plus a separate `agent.effect-proposal-outcome.v1` fact joined by `proposal/ref`, with operator-question human-in-loop. | `done` | Core owns validated proposal/outcome and generic effect-dispatch DTOs; daemon persists them in Memarium, replays exact proposals, rejects conflicting bodies and cross-Agent proposal-ref reuse, caps and validates outcome transitions, projects deferred proposals to Confirm questions with fail-closed timeout defaults, joins validated boolean or registered `yes`/`no` answers as admitted/denied outcomes, audits timeout transitions, and binds each admitted proposal to exactly one `effect/ref`. The outcome vocabulary distinguishes policy deferral from execution deferral and records bounded operation/result/lease evidence through terminal completion or failure. Generic Sensorium and Artifact Delivery policy adapters and dispatch are implemented, active controller decisions can create proposals, `agent.status` exposes a bounded metadata-only operator projection, and recovery reconstructs deferred reconciliation candidates without target reinvocation. |
-| `agent-corpus-chair` | Let Corpus (069) drive an Agent as the deliberation chair bound to a Room. | `deferred` | Chair Agent joins via `room-membership-attestation.v1`; its answer-draft feeds Corpus answer acceptance; blocked on the live-deliberation slice (P069/P070). Admission and durable recovery share an explicit fail-closed guard that names the missing Room attestation and answer-draft acceptance contracts. Tests prove an attempted corpus-chair binding appends no durable facts. |
+| `agent-corpus-chair` | Let Corpus (069) drive an Agent as the deliberation chair bound to a Room. | `done` | Corpus-chair admission consumes a signed and fresh `room-membership-attestation.v1`, verifies its canonical Ed25519 `did:key`, exact query/room/participant/grant/deadline binding, and rejects foreign, malformed, or expired evidence. The Corpus query must already exist, and the node-local first slice requires the signer to be its local round authority so an arbitrary self-signed credential is not admission authority. Recovery restores the durable binding without turning the discarded inline credential into ambient authority. A terminal `agent.outcome.v1` is accepted only by local control through a Corpus-owned idempotent contract into an inert answer draft; embedded evidence passes schema-gate again, exact replay remains bound to the original actor, conflicting replay fails closed, dirty restart restores both binding and draft, and no final Corpus answer is published without a separate authorized transition. A real process smoke covers unknown-query, untrusted-signer, foreign-room, expired-evidence, and unsigned-extension denial; exact and conflicting replay; two dirty restarts; bounded Inquirium controller execution; and absence of final publication. |
 
 ## Next Actions
 
@@ -741,8 +749,10 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 2. Preserve the Assistant Channel boundary: escalation remains explicit and
    human-approved, draft acceptance remains render-only, and publication remains
    a separately admitted effect.
-3. Keep the Corpus-chair binding deferred until Corpus supplies the Room
-   membership-attestation and answer-draft acceptance contracts.
+3. Build the next Corpus live-deliberation layer from its own room policy,
+   invitation, final-answer signing, and publication transitions; do not widen
+   the completed Agent binding or inert draft-acceptance contracts into ambient
+   Corpus authority.
 
 ## Related Capability Data
 
@@ -765,4 +775,6 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
   `agent.assistant-escalation.response.v1`,
   `agent.assistant-draft.accept.request.v1`,
   `agent.assistant-draft.acceptance.v1`,
-  `agent.assistant-response-draft.v1`.
+  `agent.assistant-response-draft.v1`, `corpus-chair-admission.v1`,
+  `corpus-agent-answer-draft.accept.request.v1`, and
+  `corpus-agent-answer-draft.v1`.

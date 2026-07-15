@@ -89,6 +89,11 @@ Membership query is an authorization surface. Runtime issuance uses
 `room-membership-attestation-request.v1` over POST and returns signed
 `room-membership-attestation.v1`; issue, refusal, deduplication, and rate-limit
 decisions emit `room-attestation-audit.v1` facts without leaking passport bodies.
+The attestation signer is represented as a canonical Room subject carrying one
+base58btc Ed25519 `did:key`; consumers validate the multicodec and key length
+before signature verification. Cryptographic validity proves possession only.
+The consuming composition root must still join `signer/ref` to its trusted Room
+authority policy before treating the attestation as admission authority.
 
 ### Federation Exposure Boundary
 
@@ -163,6 +168,12 @@ Responsibilities:
 - expose bounded authenticated room projection queries;
 - issue signed membership attestations for invitee first-join, member
   self-attestation, and authority roster attestation modes;
+- expose one shared consumer-side verifier for canonical signature-domain,
+  schema, grant uniqueness, TTL, clock-skew, and freshness checks, so higher
+  layers do not reimplement Room credential admission;
+- require each consumer to join that cryptographic verification with an
+  explicit trusted Room authority; a valid self-signature alone is not issuer
+  authorization;
 - enforce TTL caps, exposure-aware disclosure rules, deduplication, and
   per-requester/per-room rate limits;
 - record metadata-only audit facts for attestation issue and refusal;

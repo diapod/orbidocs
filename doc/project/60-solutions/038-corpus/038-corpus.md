@@ -23,6 +23,12 @@ Related schemas:
 - `procurement-contract.v1`
 - `room.v1`
 - `room-policy.v1`
+- `room-membership-attestation.v1`
+- `agent.binding.v1`
+- `agent.outcome.v1`
+- `corpus-chair-admission.v1`
+- `corpus-agent-answer-draft.accept.request.v1`
+- `corpus-agent-answer-draft.v1`
 - `classification.v1`
 
 ## Status
@@ -31,12 +37,13 @@ Implemented solution foundation.
 
 The hard-MVP procurement slice is implemented and accepted as the solution-level
 contract for topic-routed collaborative reasoning. Live deliberation on Room and
-Agent-backed chairing are solution responsibilities, but remain post-MVP
-extension layers.
+its policy/invitation layer remain post-MVP. The bounded Agent-backed chair join
+and inert Corpus answer-draft acceptance are implemented foundations; they do not
+yet authorize final answer signing or publication.
 
 ## Date
 
-2026-07-03
+2026-07-15
 
 ## Executive Summary
 
@@ -247,6 +254,12 @@ Based on:
 
 Related schemas:
 
+- `agent.binding.v1`
+- `agent.outcome.v1`
+- `room-membership-attestation.v1`
+- `corpus-chair-admission.v1`
+- `corpus-agent-answer-draft.accept.request.v1`
+- `corpus-agent-answer-draft.v1`
 - `corpus-reasoning-role-assignment.v1`
 - `corpus-reasoning-instruction-overlay.v1`
 - `corpus-reasoning-answer.v1`
@@ -254,13 +267,21 @@ Related schemas:
 Responsibilities:
 
 - allow the requester to appoint its own bounded Agent as chair delegate;
+- require a pre-existing local Corpus round and signed, fresh Room evidence from
+  that round's node-local authority, with a canonical Ed25519 `did:key` signer;
 - keep the accountable chair subject explicit in Room policy;
 - let Agent/Inquirium assist reasoning without becoming the authority root;
+- admit the terminal Agent product only as an inert, content-addressed Corpus
+  answer draft through local-control authority, strict embedded-evidence schema
+  validation, and actor-bound idempotent replay, with publication authority fixed
+  false;
 - route sensitive effects through host-owned human-in-loop gates.
 
 Status:
 
-- `deferred`
+- `done` for the bounded chair binding and answer-draft acceptance foundation;
+  Room policy, invitations, remote authority trust, and final-answer
+  signing/publication remain post-MVP.
 
 ## Out of Scope
 

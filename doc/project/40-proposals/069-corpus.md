@@ -113,13 +113,14 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | AD deferred + fan-out + single-owner acceptors (023) | MVP procurement | partial, usable |
 | Offer catalog + Dator offers (003/004/067) | MVP discovery | partial, usable |
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
-| **Room primitive (P070)** | live deliberation (post-MVP) | **partial: durable contracts, projection core, and Agora runtime projection adapter exist; live plane not built** |
-| **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **runtime ready: the durable node-local lifecycle, bounded active controller, FlowNode and Assistant Channel bindings, memory projection, Inquirium/child execution, effect proposals/dispatch, explicit module grants, Agent-owned lease lifecycle, and content-addressed outcome projection exist; only the Corpus-specific Room chair binding and answer-acceptance integration remain open** |
+| **Room primitive (P070 / Solution 036)** | live deliberation (post-MVP) | **runtime foundation ready: durable contracts, projection core, signed membership attestation, and behaviorally aligned bounded WSS/Matrix live transports exist; Corpus-specific room policy and chair integration remain open** |
+| **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **runtime and Corpus join ready: the durable node-local lifecycle, bounded active controller, Room-attested Corpus-chair binding, memory projection, Inquirium/child execution, effect proposals/dispatch, Agent-owned lease lifecycle, content-addressed outcome projection, and Corpus-owned inert answer-draft acceptance exist** |
 
-The MVP depends only on the first three rows. The live-deliberation layer is
-**blocked-by** P070's live plane/runtime integrations and the concrete
-Room/Corpus-chair binding plus Corpus answer-acceptance integration. The general
-Agent runtime is no longer the blocker.
+The MVP depends only on the first three rows. The generic Room live-plane runtime,
+the Agent runtime, and their Corpus-chair join are no longer blockers. The
+remaining live-deliberation work is the concrete Corpus room policy/invitation
+layer and the separately authorized conversion of inert chair drafts into signed
+Corpus answers.
 
 Room is a generic swarm primitive, not a Corpus-owned subsystem. Corpus depends
 on Room; Room must not depend on Corpus or import Corpus reasoning semantics.
@@ -139,10 +140,12 @@ deliberation session — its deliberation `budget` maps directly onto the Agent
 budget/controller contract — rather than define a smaller Corpus-only LLM surface
 or a parallel "Inquirium thread/session runtime". The current Agent slice already
 supplies durable Memarium-backed state, fork/suspend/resume, bounded controller
-execution, effect-proposal routing, and consumer-owned outcome drafts. It is not
-yet the Corpus deliberation runtime only because Corpus still needs its
-Room-attested chair binding and chair-owned answer acceptance path. Until those
-domain joins land, only the MVP procurement slice is implementable.
+execution, effect-proposal routing, and consumer-owned outcome drafts. It now
+supplies the Corpus deliberation execution substrate as well: a signed,
+fresh Room membership attestation admits one query- and room-bound chair, and
+Corpus can accept its content-addressed outcome as an inert answer draft. This
+does not authorize final signing, publication, settlement, or room-policy
+effects; those remain later Corpus-owned transitions.
 
 ## Proposed Model / Decision
 
@@ -1472,26 +1475,35 @@ runtime, no N-way settlement.
 
 ### Post-MVP — Live deliberation
 
-#### Phase 5 — Room consolidation `[~] partial P070 foundation`
+#### Phase 5 — Room consolidation `[x] Solution 036 foundation`
 
-- [~] Land the generic Room primitive (P070). Durable room schemas, the pure
-  projection core, and the Agora runtime projection adapter exist; Corpus live-room
-  code still waits for P070 live-plane runtime
-  integrations. Corpus contributes the transport requirements (low latency, no
-  retention, small participant count) to P070's live-transport profile.
+- [x] Land the generic Room primitive (P070 / Solution 036). Durable room
+  schemas, deterministic projection, signed membership attestation, and bounded
+  WSS/Matrix live transports satisfy one carrier-neutral contract. Corpus still
+  owns its room policy, invitations, chair admission, and answer semantics; it
+  must not add a third live transport.
 
-#### Phase 6 — Corpus chair over Agent `[!] blocked-by: Room/Corpus-chair integration (P070/P073)`
+#### Phase 6 — Corpus chair over Agent `[x] implemented foundation`
 
 - [x] Land the general Agent organ (P073) reasoning session with tool support,
   budgets, deadlines, context windows, durable orchestration, stop/resume, and
   explicit draft boundaries.
-- [!] Add the Corpus-specific binding that admits an Agent as a Room-attested
-  chair and accepts its content-addressed outcome through the chair-owned Corpus
-  answer-draft contract. Corpus must consume the existing Agent runtime rather
-  than define a smaller Corpus-only LLM session surface; the remaining work is a
-  domain integration, not another orchestration runtime.
+- [x] Admit a Corpus-chair Agent only from a schema-valid, signed, fresh Room
+  membership attestation bound to the exact query, room, participant, grants,
+  and Agent deadline. The node-local first slice also requires the attestation
+  signer to be the local Corpus round authority; future remote Room authorities
+  require explicit room-policy trust, never arbitrary self-signing. The signer
+  reference must carry one canonical Ed25519 `did:key`, and embedded evidence is
+  schema-gated again at answer-draft acceptance. Persist only the attestation's
+  content-addressed reference in the recovered binding.
+- [x] Accept a terminal `agent.outcome.v1` through the Corpus-owned,
+  content-addressed answer-draft contract. Exact retries replay, conflicting
+  retries and actor changes fail closed, only local control can perform this
+  first-slice acceptance, restart restores the draft, and
+  `publication/authorized` remains false. A separate Corpus transition must
+  create and sign any final `corpus-reasoning-answer.v1`.
 
-#### Phase 7 — Deliberation room policy + invite + join `[!] blocked-by: P070, Phase 6`
+#### Phase 7 — Deliberation room policy + invite + join `[ ] ready after Phase 6`
 
 - [ ] Define `corpus-reasoning-room-policy.v1` (exposure enum bound to P009, acceptance
   enum, chair credentials, quorum/tie-break/revocation, token budget) and
