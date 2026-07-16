@@ -53,6 +53,11 @@ material before dispatch, and writes metadata-only audit events for admitted
 wait/watch/probe calls. It wires live Workbench file-tree and terminal provider
 adapters for file probes, file waits, file-tree watch event batches, terminal
 liveness/progress probes, terminal waits, and terminal watch event batches.
+For module-owned `room-event` watches, the daemon additionally requires
+`bindings.host_grant_scopes["grant/interaction.watch"]["resource/refs"]` to
+contain the exact `room/ref`. Those refs are normalized and bound into the HMAC
+material; request-supplied `room/ref` and `participant/ref` remain selectors,
+not authority. Local control retains a separate administrative path.
 Startup recovery now classifies interrupted broker resources as `expired`,
 `failed-retryable`, or `unknown`, idempotency replay can return recovered
 terminal outcomes, bounded retention preserves active work while pruning old
@@ -227,6 +232,7 @@ Costs:
 | A wait extends authority beyond the caller grant. | Clamp wait lifetime to grant expiry and reject stale or scope-mismatched waits. |
 | A source-specific wait leaks into broker semantics. | Keep condition kinds small and promote only reusable conditions; source-specific detail stays in provider diagnostics. |
 | A watch cursor is replayed against the wrong source. | Cursor carries its source binding and fails closed on mismatch. |
+| A module watches a Room outside its authority. | Require daemon-issued `grant/interaction.watch` material bound to the exact `room/ref`, recheck the stored source on idempotent replay, and treat `participant/ref` only as a filter. |
 | A provider returns an oversized wait outcome. | Validate outcome schema shape and serialized byte/count caps before deferred-operation projection. |
 | Quiet terminal output is treated as a hang. | Keep `quiescent`, `waiting_for_input`, `no_progress`, `maybe_hung`, and `probe_failed` separate. |
 | Broker timeout kills a process. | Forbid broker-owned process termination; remediation is a connector/operator directive. |
@@ -298,7 +304,9 @@ Status:
   providers become `ready` when the Workbench HTTP-local probe/watch handlers
   are registered and ready. Grant-context admission is enforced for
   JSON-e/module broker dispatch through daemon-issued host-local HMAC grant
-  material requested by `bindings.host_grant_requests`; admitted submissions
+  material requested by `bindings.host_grant_requests`; `room-event` module
+  watches also require exact Room refs in `bindings.host_grant_scopes`, bound
+  into that material. Admitted submissions
   are projected into metadata-only audit events. Startup recovery classifies
   interrupted broker resources as `expired`, `failed-retryable`, or `unknown`,
   recovered terminal resources replay idempotently, and the retention sweep

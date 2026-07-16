@@ -55,7 +55,7 @@
       "approval/mode": "auto-with-grant",
       "autonomy/floor": "observation-only",
       "coi/policy": "not-applicable",
-      "notes": "Watch authority is scoped to observation source, cursor retention window, TTL, caps, and classification."
+      "notes": "Watch authority is scoped to observation source, cursor retention window, TTL, caps, and classification. Module watches over room-event additionally require daemon-issued grant material bound to the exact room/ref."
     },
     {
       "capability/id": "interaction-broker.probe",

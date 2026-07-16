@@ -20,6 +20,7 @@ Related schemas:
 - `corpus-reasoning-answer.v1`
 - `corpus-reasoning-room-policy.v1`
 - `corpus-reasoning-room-invite.v1`
+- `corpus-reasoning-turn-proposal.v1`
 - `service-offer.v1`
 - `procurement-offer.v1`
 - `procurement-contract.v1`
@@ -35,7 +36,7 @@ Related schemas:
 
 ## Status
 
-Implemented solution foundation.
+Hard-MVP solution implemented; node-local live-deliberation slice implemented.
 
 The hard-MVP procurement slice is implemented and accepted as the solution-level
 contract for topic-routed collaborative reasoning. The post-MVP live-deliberation
@@ -47,14 +48,21 @@ trust-root verification, stable invite/delivery replay after recipient restart,
 and a bounded node-local WSS Room carrier with authority-visible metadata-only
 observations. Stable authority bind, subject sequence checkpoints, exact send
 replay, and controlled session rejoin make the carrier restart-safe. The bounded
-Agent-backed chair join and inert Corpus answer-draft acceptance are implemented;
+Agent-backed chair and selected-participant joins are implemented. Participant
+turns remain inert until admitted through `corpus.room.turn`; the chair observes
+them through a bounded host-owned Interaction Broker Room source. Module watches
+require daemon-issued grant material bound to the exact Room, while local control
+retains an explicit administrative path. Turn expiry shares the Room membership
+clock-skew tolerance without widening Room lifetime. Transport `seq/no`, rather
+than a second ephemeral `turn/no` store, owns monotonic replay. Inert Corpus
+answer-draft acceptance is implemented;
 a separate Corpus-owned local-control transition now validates ready quorum,
 room high-water, chair identity, evidence, and idempotency before signing and
 publishing the final answer. The Agent still has no publication authority.
 
 ## Date
 
-2026-07-15
+2026-07-16
 
 ## Executive Summary
 
@@ -71,8 +79,8 @@ or Agent. It composes them:
 - Artifact Delivery carries query/bid/answer envelopes;
 - procurement contracts settle selected work;
 - Room and Agent provide the implemented node-local live deliberation surface;
-  federated transport, richer participant roles, and arbiter election remain
-  later extensions.
+  federated transport, remote Room-authority trust, arbiter election, and N-way
+  settlement remain later extensions.
 
 The durable output of Corpus reasoning is the signed answer and its traceable
 provenance. Live room chatter is not a protocol fact unless another component
@@ -119,6 +127,8 @@ selected participants
   -> room.v1 + corpus-reasoning-room-policy.v1
   -> live Room transport
   -> Agent/Inquirium-backed participant reasoning
+  -> corpus-reasoning-turn-proposal.v1 through corpus.room.turn
+  -> Interaction Broker room-event watch -> chair Agent
   -> corpus-reasoning-answer.v1
 ```
 

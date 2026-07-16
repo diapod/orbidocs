@@ -55,10 +55,12 @@ The flow has two phases of different nature and **different readiness**:
    signed final answer.
 
 Corpus is a thin role plus a small protocol that **composes** existing strata and adds
-a topic-taxonomy resolver, a topic field on offers, and a deliberation policy. It
-explicitly depends on two prerequisites not yet complete: the generic **Room** primitive
-(P070) and the **Agent organ** (P073) that provides the bounded reasoning session. The MVP needs
-neither.
+a topic-taxonomy resolver, a topic field on offers, and a deliberation policy. Its
+post-MVP live-deliberation layer composes the implemented node-local slices of the
+generic **Room** primitive (P070 / Solution 036) and the **Agent organ** (P073), which
+provides the bounded reasoning session. Federated Room transport and remote
+Room-authority trust remain later profiles. The hard-MVP procurement slice needs
+neither Room nor Agent.
 
 The live in-room chat is *reasoning*, not protocol facts: the protocol does not persist
 it; only the room skeleton and the final signed answer are durable. Any member MAY
@@ -115,14 +117,14 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | Offer catalog + Dator offers (003/004/067) | MVP discovery | partial, usable |
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
 | **Room primitive (P070 / Solution 036)** | live deliberation (post-MVP) | **ready for the node-local slice: durable contracts, projection core, signed membership attestation, behaviorally aligned bounded WSS/Matrix transports, Corpus policy/invite admission, live WSS join/readiness/message flow, metadata-only authority observations, and restart-safe endpoint/session/sequence recovery are implemented** |
-| **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **runtime and Corpus join ready: the durable node-local lifecycle, bounded active controller, Room-attested Corpus-chair binding, memory projection, Inquirium/child execution, effect proposals/dispatch, Agent-owned lease lifecycle, content-addressed outcome projection, and Corpus-owned inert answer-draft acceptance exist** |
+| **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **runtime and Corpus join ready: the durable node-local lifecycle, bounded active controller, Room-attested Corpus-chair and participant bindings, memory projection, Inquirium/child execution, effect proposals/dispatch including `corpus.room.turn`, Agent-owned lease lifecycle, content-addressed outcome projection, and Corpus-owned inert answer-draft acceptance exist** |
 | **Sensorium Interfaces (P082) + Sensorium Workbench (Solution 042)** | optional shared terminal or enacted-environment views during live deliberation | **P082 architecture frozen, runtime not started; the planned WSS Room adapter exposes only a bounded `latest-state` projection and does not grant terminal control** |
 
 The MVP depends only on the first three rows. The generic Room live-plane runtime,
 the Agent runtime, and their Corpus-chair join are no longer blockers. The
 node-local live Room carrier hookup and the separately authorized conversion of
 inert chair drafts into signed Corpus answers are now implemented. Remaining
-work concerns federated transport profiles, richer participant coordination,
+work concerns federated transport profiles, remote Room-authority trust,
 arbiter election, and N-way settlement. Sensorium Interfaces is not a
 prerequisite for an ordinary live
 deliberation. It becomes a prerequisite only for a Corpus profile that explicitly
@@ -1598,7 +1600,7 @@ runtime, no N-way settlement.
   across authority restart, and performs a
   typed controlled rejoin when only the ephemeral session was lost. Story-011 sends
   real messages and proves both authority-side and recipient-side restart recovery.
-#### Phase 8 — Chair and local role overlays `[x] implemented`; arbiter deferred
+#### Phase 8 — Chair, participants, and local role overlays `[x] implemented`; arbiter deferred
 
 - [x] Requester-appointed chair resolves the first node-local Agent-chair path into
   a signed `corpus-reasoning-answer.v1`. Publication is a separate local-control
@@ -1613,6 +1615,40 @@ runtime, no N-way settlement.
   the process smoke spans dirty restart, bounded controller execution, inert draft
   recovery, absence of ambient publication, explicit Corpus publication, replay,
   and conflict rejection.
+- [x] Admit selected providers as Room-attested `corpus-participant` Agents without
+  treating raw model runtimes or unselected bidders as Room subjects. Evidence:
+  `agent.binding.v1` requires the exact durable Corpus invite and signed, fresh
+  Room attestation, narrows grants and budget, stores only the evidence reference,
+  and recovers the binding after restart. Story-011 selects B while C remains a
+  competing bidder, and rejects altered membership evidence.
+- [x] Route participant reasoning turns as inert
+  `corpus-reasoning-turn-proposal.v1` values through the explicit
+  `corpus.room.turn` effect policy and ordinary HIL lifecycle. The Agent proposal
+  classification cannot exceed its ceiling, payload `class/key` must equal the
+  admitted proposal classification, and exact dispatch replay cannot redeliver
+  the Room turn. Positive and closed-schema negative fixtures cover required
+  fields, unknown fields, and the canonical `turn/id` prefix. Turn expiry uses
+  the same five-second clock-skew tolerance as Room membership admission but
+  never permits a turn to outlive the Room policy.
+- [x] Expose Room turns to the chair through the host-owned Interaction Broker
+  `room-event` watch source. Live delivery is bounded and may carry the ephemeral
+  turn; durable replay retains an explicit metadata allowlist only. Cursor epochs
+  include host entropy and bind watches to one ephemeral Room source instance, so
+  a cursor from before daemon restart fails closed instead of silently skipping or
+  replaying content. An explicit cursor older than the retained bounded event
+  window also fails closed rather than returning a misleading partial stream.
+  Module callers require daemon-issued `grant/interaction.watch` material bound
+  to the exact `room/ref`; local control is the explicit administrative path, and
+  `participant/ref` is only a filter. Idempotent replay rechecks authority against
+  the stored source. The authenticated Room transport `seq/no` remains the
+  first-slice monotonic replay guard; the ephemeral semantic `turn/no` does not
+  introduce a second, restart-ambiguous ordering store.
+- [x] Cover the first A-chair ↔ selected-B-expert exchange in Story-011. B invokes
+  Inquirium under the participant Agent's grants, sends one approved turn, A wakes
+  through Interaction Broker, runs its chair Agent, and Corpus accepts the result
+  only as an unpublished answer draft. Restart recovers both bindings and the
+  chair outcome, and exact draft acceptance replay returns the same durable draft;
+  C remains outside the selected exchange.
 - [x] Define and implement `corpus-reasoning-role-assignment.v1` for task roles such
   as implementer, reviewer, adversarial critic, or summarizer, with local participant
   or local-policy acceptance. Evidence: `corpus-core` owns the pure proposal and

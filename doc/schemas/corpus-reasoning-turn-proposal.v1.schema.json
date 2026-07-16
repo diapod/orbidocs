@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-turn-proposal:v1",
+  "title": "Corpus Reasoning Turn Proposal v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v",
+    "turn/id",
+    "query/id",
+    "room/id",
+    "participant",
+    "assignment/id",
+    "turn/no",
+    "kind",
+    "content/type",
+    "content",
+    "content/digest",
+    "class/key",
+    "proposed-at",
+    "expires-at",
+    "idempotency/key"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "turn/id": {
+      "type": "string",
+      "pattern": "^corpus-turn:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "query/id": { "type": "string", "pattern": "^query:[^\\s]+$", "maxLength": 512 },
+    "room/id": { "type": "string", "pattern": "^room:[^\\s]+$", "maxLength": 512 },
+    "participant": { "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject" },
+    "assignment/id": {
+      "type": "string",
+      "pattern": "^corpus-role-assignment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "turn/no": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+    "kind": {
+      "description": "Semantic role of the inert turn. The current Room-attested participant profile admits only expert-contribution; chair-prompt and chair-synthesis are reserved for a chair-specific dispatch path.",
+      "enum": ["chair-prompt", "expert-contribution", "chair-synthesis"]
+    },
+    "content/type": { "const": "text/plain" },
+    "content": { "type": "string", "minLength": 1, "maxLength": 16384 },
+    "content/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "class/key": { "enum": ["Public", "Community", "Personal"] },
+    "proposed-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 }
+  },
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/073-agent-orchestration-organ.md"
+  ]
+}

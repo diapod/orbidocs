@@ -83,7 +83,7 @@
     "Bind deliberation policy access list role assignments and answer acceptance to Room records"
     "Keep live chat ephemeral by default"
     "Emit a signed content-addressed answer as the durable reasoning artifact"]
-   :status :post-mvp}
+   :status :done}
 
   {:cap/id :corpus-agent-chairing
    :title "Agent-Assisted Chairing"
@@ -100,6 +100,24 @@
     "Route accepted overlays through local Inquirium prompt assembly rather than adapter metadata"
     "Let Agent/Inquirium assist reasoning without becoming the authority root"
     "Route sensitive effects through host-owned human-in-loop gates"]
+   :status :done}
+
+  {:cap/id :corpus-agent-participation
+   :title "Agent Participant Deliberation"
+   :kind :integration
+   :based-on ["doc/project/40-proposals/069-corpus.md"
+              "doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/036-room/036-room.md"
+              "doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md"]
+   :schemas ["agent.binding.v1"
+             "room-membership-attestation.v1"
+             "corpus-reasoning-turn-proposal.v1"]
+   :responsibilities
+   ["Admit selected model-backed providers as accountable Room-attested Agents rather than raw runtimes"
+    "Keep reasoning turns inert until explicit corpus.room.turn effect admission"
+    "Wake the chair through a bounded host-owned Room event source"
+    "Keep live content ephemeral and durable replay metadata-only"
+    "Recover bindings while rejecting stale source cursors and duplicate turn dispatch"]
    :status :done}]
 
  :out-of-scope
@@ -122,6 +140,7 @@
  ["corpus-reasoning-query.v1"
   "corpus-reasoning-bid.v1"
   "corpus-reasoning-bid-state.v1"
+  "corpus-reasoning-turn-proposal.v1"
   "corpus-reasoning-role-assignment.v1"
   "corpus-reasoning-instruction-overlay.v1"
   "corpus-reasoning-answer.v1"]}

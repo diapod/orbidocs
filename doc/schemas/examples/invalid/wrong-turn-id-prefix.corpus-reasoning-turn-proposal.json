@@ -1,0 +1,17 @@
+{
+  "schema/v": 1,
+  "turn/id": "turn:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "query/id": "query:deliberation-test",
+  "room/id": "room:deliberation-test",
+  "participant": { "kind": "nym", "id": "did:key:zExpert" },
+  "assignment/id": "corpus-role-assignment:sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "turn/no": 1,
+  "kind": "expert-contribution",
+  "content/type": "text/plain",
+  "content": "A bounded expert contribution for the chair.",
+  "content/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "class/key": "Community",
+  "proposed-at": "2026-07-16T10:00:00Z",
+  "expires-at": "2026-07-16T10:05:00Z",
+  "idempotency/key": "corpus-turn:expert:1"
+}

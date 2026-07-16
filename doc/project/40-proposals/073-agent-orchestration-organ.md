@@ -406,7 +406,7 @@ is never polled merely because scheduler time passed.
 Lifecycle requests carry an `idempotency/key`: a retried `spawn`/`fork` must
 replay the prior result, not create a second agent or a second child.
 
-### Consumer binding (Corpus chair, assistant, Flow node)
+### Consumer binding (Corpus chair/participant, assistant, Flow node)
 
 Agent is driven by domain consumers, not invoked bare. The recurring shape is one
 binding contract, `agent.binding.v1`, that attaches an agent to a consumer's
@@ -415,14 +415,14 @@ session and output sink under narrowed authority:
 ```text
 agent.binding.v1 {
   binding/id, agent/ref
-  consumer/kind                 # corpus-chair | assistant-channel | flow-node
+  consumer/kind                 # corpus-chair | corpus-participant | assistant-channel | flow-node
   consumer/ref                  # query/id (Corpus) | session/ref (assistant) | flow/node-ref
   session-source/ref            # room/ref | transcript/ref | dataset/ref  (ref vocabulary)
-  output-sink/kind              # corpus-answer-draft | assistant-response-draft | flow-result
+  output-sink/kind              # corpus-answer-draft | corpus-turn-draft | assistant-response-draft | flow-result
   grants[]                      # MUST be a subset of the consumer's own grants
   budget                        # from the consumer policy (deliberation budget / assistant rigor)
   participant/ref?              # host-minted accountable principal; never model identity or model-supplied
-  membership-attestation/ref?   # room-membership-attestation.v1 for corpus-chair
+  membership-attestation/ref?   # room-membership-attestation.v1 for Corpus bindings
   membership-attestation?       # inline create-time evidence; verified, never persisted in the binding
   human-in-loop                 # approval policy for effect proposals
 }
@@ -434,7 +434,7 @@ Invariants:
   agent more authority than it holds — the same discipline as `fork`
   (`validate_fork_from`). Corpus and the assistant narrow; they never widen.
 - **The agent is a Room participant, never a raw model adapter.** For
-  `corpus-chair`, the agent joins the deliberation room through
+  `corpus-chair` or `corpus-participant`, the agent joins the deliberation room through
   `room-membership-attestation.v1` (Solution 036). Binding creation carries the
   complete signed credential as boundary evidence; the host verifies its schema,
   signature, freshness, room, participant, required grants, deadline, and issuer
@@ -740,6 +740,7 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 | `agent-outcome-projection` | Publish a content-addressed terminal draft and bounded operator status projection without granting effect authority. | `done` | A completed bound Agent with a successful Inquirium product writes `agent.outcome.v1` to the durable fact stream. The generated response is canonicalized into the existing object store; the outcome carries only its content-addressed `product/ref`, classification, sink kind, binding, terminal state, budget, and prompt-free trace ref. The canonical outcome identity is revalidated during recovery, conflicting outcomes fail closed, and an interrupted append is repaired from the durable completed step. FlowNode consumes the draft through its own result path. Assistant Channel uses a separate durable same-session acceptance and receives a validated `assistant-response-draft` only after explicit local-control acceptance; Agent never renders or publishes it. Status exposes at most 64 metadata-only effect proposal projections plus a total count, while payloads and generated content remain outside the projection. |
 | `agent-effect-proposal` | Add an immutable `agent.effect-proposal.v1` plus a separate `agent.effect-proposal-outcome.v1` fact joined by `proposal/ref`, with operator-question human-in-loop. | `done` | Core owns validated proposal/outcome and generic effect-dispatch DTOs; daemon persists them in Memarium, replays exact proposals, rejects conflicting bodies and cross-Agent proposal-ref reuse, caps and validates outcome transitions, projects deferred proposals to Confirm questions with fail-closed timeout defaults, joins validated boolean or registered `yes`/`no` answers as admitted/denied outcomes, audits timeout transitions, and binds each admitted proposal to exactly one `effect/ref`. The outcome vocabulary distinguishes policy deferral from execution deferral and records bounded operation/result/lease evidence through terminal completion or failure. Generic Sensorium and Artifact Delivery policy adapters and dispatch are implemented, active controller decisions can create proposals, `agent.status` exposes a bounded metadata-only operator projection, and recovery reconstructs deferred reconciliation candidates without target reinvocation. |
 | `agent-corpus-chair` | Let Corpus (069) drive an Agent as the deliberation chair bound to a Room. | `done` | Corpus-chair admission consumes a signed and fresh `room-membership-attestation.v1`, verifies its canonical Ed25519 `did:key`, exact query/room/participant/grant/deadline binding, and rejects foreign, malformed, or expired evidence. The Corpus query must already exist, and the node-local first slice requires the signer to be its local round authority so an arbitrary self-signed credential is not admission authority. Recovery restores the durable binding without turning the discarded inline credential into ambient authority. A terminal `agent.outcome.v1` is accepted only by local control through a Corpus-owned idempotent contract into an inert answer draft; embedded evidence passes schema-gate again, exact replay remains bound to the original actor, conflicting replay fails closed, dirty restart restores both binding and draft, and no final Corpus answer is published without a separate authorized transition. A real process smoke covers unknown-query, untrusted-signer, foreign-room, expired-evidence, and unsigned-extension denial; exact and conflicting replay; two dirty restarts; bounded Inquirium controller execution; and absence of final publication. |
+| `agent-corpus-participant` | Let a selected Corpus provider participate through an Agent without exposing a raw model runtime as a Room subject. | `done` | `agent.binding.v1` admits `corpus-participant` only from the exact durable invite and signed, fresh Room evidence, with narrowed grants, budget, participant identity, and `corpus-turn-draft` sink; participant mismatch is denied before binding. The `corpus.room.turn` host policy keeps `corpus-reasoning-turn-proposal.v1` inert until ordinary effect/HIL admission; proposal classification cannot exceed the Agent ceiling and the dispatched payload cannot change class. A host-owned Interaction Broker `room-event` watch wakes the chair without connector-local polling; live content is ephemeral, durable replay uses an explicit metadata allowlist, and an entropy-bearing source epoch invalidates old cursors after restart. Story-011 proves selected B expert → A chair execution, C remaining only a competing bidder, restart recovery of the exact accepted draft, exact dispatch replay, and no ambient publication. |
 
 ## Next Actions
 

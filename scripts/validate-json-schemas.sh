@@ -368,6 +368,9 @@ schema_for_file() {
     *.corpus-reasoning-room-invite.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-room-invite.v1.schema.json"
       ;;
+    *.corpus-reasoning-turn-proposal.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-turn-proposal.v1.schema.json"
+      ;;
     *.corpus-reasoning-role-assignment.json|*corpus-reasoning-role-assignment-widening.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-role-assignment.v1.schema.json"
       ;;
