@@ -24,7 +24,7 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-076` / `federation-root.v1`
 - `proposal-081` / horizontal causal, replication, and scoped-nym-proof primitives
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-15. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038.
+Change basis: this refresh incorporates the current worktree state on 2026-07-16. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038.
 
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
@@ -38,6 +38,18 @@ Room projection pumps are capped at 64. The follow-up hardening rejects bare
 grantee ids, intersects Room authority only by canonical stable subject key,
 separates SSE and Room causal traces, distinguishes revoked Passport replay,
 checks tier-vocabulary drift in CI, and adds a negative frame fixture.
+The latest post-MVP extension replaces the closed source enum with a generic,
+bounded adapter registry, migrates all existing Sensorium and Workbench sources,
+adds an admitted Artifact Delivery pointer snapshot source, and exposes process-local
+operator read metrics with bounded source/carrier/delivery-kind dimensions, flat
+revoke-commit timing, and isolated source-registry, active-subscription,
+metric-accumulator, and Room partial-failure reporting. Daemon startup now requires
+all four built-in adapters, while the exact-name, fail-fast four-carrier conformance
+runner uses separate build/test timeouts and exercises bounded host load, signed
+direct-peer reads, SSE revocation, and Room projection revocation.
+These additions improve extensibility and evidence
+collection without changing the component's `100` readiness estimate or adding it
+to the hard-MVP blocker set.
 
 The same closure is now hardened with a uniform 32 MiB pre-read image-source
 limit, a 96 MiB decoded adapted-model artifact cap, operation-kind/status-scoped
@@ -115,7 +127,14 @@ Recent component deltas:
   exact local and Passport authority, revocation/restart coverage, direct-peer,
   SSE, and WSS Room adapters, and temperature plus collaborative Workbench
   acceptance tests. Canonical grantee refs prevent cross-kind Room identity
-  collisions, and carrier-specific traces preserve diagnostic provenance.
+  collisions, carrier-specific traces preserve diagnostic provenance, and the
+  bounded source registry now includes an admitted Artifact Delivery pointer
+  adapter and fails startup when any built-in adapter is absent. Host-local
+  aggregate read metrics separate delivery kinds, expose revoke transaction commit
+  duration without mislabeling it as enforcement lag, isolate every unavailable
+  operator section, reset explicitly on restart, and pair with the exact-name
+  four-carrier conformance runner and separate build/test timeouts to provide the
+  measurement boundary for the remaining evidence-gated decisions.
   Provider push, descriptor search, and split management authority remain
   evidence-gated post-V1 decisions.
 - Communication Protocol Baseline is now hard-MVP ready as a historical baseline:

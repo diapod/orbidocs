@@ -44,8 +44,9 @@ representation either:
 
 The interface is not a connector, a capability, a store, a transport, or a new
 organ. It is a resource governed by a small contract family. Capabilities authorize
-operations on that resource; Sensorium and Workbench providers produce domain
-values; the Interaction Broker supplies bounded probe/watch mechanics; and HTTP,
+operations on that resource; Sensorium, Workbench, and Artifact Delivery
+providers produce or admit domain values; the Interaction Broker supplies bounded
+probe/watch mechanics; and HTTP,
 `channel_json`, authenticated peer sessions, Room live transport, and Artifact
 Delivery remain interchangeable edge adapters with different delivery properties.
 
@@ -176,8 +177,9 @@ the host can enforce structural preconditions:
   operations, classification ceiling, expiry, and rate/volume limits; bare ids
   are invalid because they cannot distinguish principal kinds;
 - every emitted value passes source policy, redaction, and egress classification;
-- revocation stops new reads and emissions within a configured, tested maximum
-  enforcement lag;
+- revocation stops new reads and emissions within host-owned pull-loop and
+  revocation-view freshness budgets; tests prove refusal before the next
+  authorized emission without presenting durable-write latency as that bound;
 - data already delivered is outside technical revocation and must not be described
   as retractable;
 - representations involving third parties carry the appropriate
@@ -338,7 +340,12 @@ Illustrative core boundary:
 pub trait SensoriumInterfaceSource: Send + Sync {
     fn source_kind(&self) -> &'static str;
     fn ready(&self) -> bool;
-    fn next_batch(&self, request: &InterfaceBatchRequest)
+    fn validate_binding(
+        &self,
+        descriptor: &InterfaceDescriptor,
+        binding: &InterfaceSourceBinding,
+    ) -> Result<(), InterfaceSourceError>;
+    fn next_batch(&self, context: InterfaceSourceWatchContext)
         -> Result<SourceBatch, InterfaceSourceError>;
 }
 ```
@@ -358,6 +365,19 @@ Initial source adapters:
 | `workbench-terminal-screen` | Workbench terminal provider | `sensorium-terminal-screen-snapshot.v1` |
 | `workbench-terminal-events` | Workbench terminal provider | bounded `sensorium-terminal-event.v1` batch |
 | `artifact-snapshot` | Artifact Delivery object pointer | immutable by-reference payload |
+
+The implemented daemon persists a generic, closed `source/binding` value with a
+bounded private `source/config`, dispatches it through a registry of at most 64
+adapters, and revalidates the adapter and binding on every read after restart.
+Adding an adapter therefore extends the registry rather than a central source
+`match`. The initial four adapters above are registered through that boundary.
+Startup fails unless all four built-in adapters are registered. Unknown,
+duplicate, unavailable, malformed, or excess adapters fail closed. Registry
+`ready` state is a point-in-time operator signal; `next_batch` remains the
+authoritative operation and may still fail closed when source readiness changes
+after the snapshot. Registry snapshots clone adapter handles before invoking
+`ready()`, so neither provider readiness nor source I/O runs under the registry
+lock.
 
 #### Source Policy and Interface Authority Compose
 
@@ -920,6 +940,20 @@ delivery, or must be immutable and independently admitted. The interface frame
 carries an artifact ref and classification, while Artifact Delivery retains route,
 transport, and recipient admission semantics.
 
+The implemented `artifact-snapshot` adapter accepts only a read-only
+`latest-state` interface bound to an admitted `artifact-object-pointer.v1`. Each
+read pins the requested admission id to the returned accepted admission record,
+requires its artifact ref, and includes the admission schema, digest, receipt time,
+and source generation in cursor change detection. The interface publisher supplies
+the explicit frame classification, which is still checked against descriptor and
+current declassification constraints; the interface frame does not grant Artifact
+Delivery fetch authority. The private admission id is selected by the local
+`sensorium.interface.manage` publisher, not supplied by a reader. Publication is
+therefore an explicit local reprojection of an accepted pointer; Artifact Delivery
+does not need a second admission-to-interface binding, while consumers still need
+the exact interface grant and separate Artifact Delivery fetch authority where
+dereferencing is allowed.
+
 ### Temporal Storage and P081
 
 Append publication, grant, subscription, revocation, and terminal facts through the
@@ -1127,10 +1161,17 @@ encode that choice.
   dedicated Room projection carrier session with a typed reason; `no-change` does
   not close it, and the durable Room is not closed as a side effect.
 - `inv-sif-revocation-lag-bounded`: revocation prevents new source reads and carrier
-  emission within the configured maximum enforcement lag, without claiming to erase
-  previously delivered data.
+  emission within configured local pull-loop and peer revocation-freshness budgets,
+  without claiming that revoke transaction duration measures that lag or that
+  previously delivered data can be erased.
 - `inv-sif-registered-media-type`: every Orbiplex vendor media type used by a P082
   carrier has one unique checked-in binding to its schema and encoding.
+- `inv-sif-source-adapter-open`: source-specific validation and batch production
+  live behind the bounded adapter registry; persisted bindings are revalidated on
+  every read, and an unknown or unavailable adapter cannot be bypassed after restart.
+- `inv-sif-operator-evidence-bounded`: read metrics use only bounded source-kind,
+  carrier, and delivery-kind dimensions; flat revoke-commit and resource-count
+  metrics never carry caller, grant, subscription, or interface ids.
 
 ## Frozen Initial Decisions
 
@@ -1171,6 +1212,10 @@ The six initial design questions are resolved as of 2026-07-13:
 | P082-013 | Add local SSE and WSS-backed Room latest-state adapters | done | Loopback module-authenticated SSE and WSS Room projection use adapter-owned read-next loops with carrier-specific causal ids, current grant checks, typed close, ordered-event refusal, and no durable Room close. Room recipients match canonical stable subject keys only; the adapter caps active pumps at 64 and reaps terminal pump and carrier state together. |
 | P082-014 | Add named-invariant tests plus temperature and Workbench end-to-end acceptance flows | done | Focused core/runtime tests cover temperature one-shot and continuous flows, restart, revocation, concurrent and revoked Passport replay, canonical grantee refs, tier-vocabulary alignment, frame schema negatives, carrier-specific traces, and subscription lock isolation; peer, SSE, and real WSS tests cover signed remote target binding and collaborative terminal view. |
 | P082-015 | Synchronize P024, P042, P045, P047, P066, P070, P071, P072, P075, P080, P081, Solutions 030/035/042, Node ledgers, and applicable readiness tracking | done | Solution 046 owns the implemented boundary. P024/P045/P047/P069/P070/P071/P072/P081 and Solutions 030/035/036/042 carry the applicable explicit cross-links; P042/P066/P075/P080 were reviewed and retain non-competing owner semantics. Node MVP/implementation ledgers, capability registries, generated solution/schema views, and the readiness snapshot are synchronized. |
+| P082-016 | Replace the closed source-binding enum with an open, bounded source-adapter registry and migrate the Sensorium and Workbench adapters | done | Generic host-private bindings are shape-bounded and revalidated after restart; duplicate, unknown, unready, and excess adapters fail closed, daemon startup requires all four built-ins, and point-in-time readiness never replaces authoritative `next_batch` refusal. |
+| P082-017 | Add the Artifact Delivery-backed immutable snapshot adapter | done | `artifact-snapshot` emits only an accepted `artifact-object-pointer.v1` ref through a read-only latest-state interface, pins admission identity, redacts AD-host failures, preserves classification checks, and uses stable digest-bound cursor change detection; local manage authority deliberately selects the private admission binding. |
+| P082-018 | Expose bounded operator evidence for source readiness, carrier reads, occupancy, no-change, errors, active leases, Room pumps, and local revoke commit duration | done | The host-local manage `metrics` action reports no actor, interface, grant, or subscription identifiers; read dimensions are capped by 64 registered source kinds, four carrier classes, and two delivery kinds, while `revoke-commit-us` remains flat. Source-registry, active-subscription, metric-accumulator, and Room failures degrade independently; counters are process-local and reset on restart. |
+| P082-019 | Add and run the host/direct-peer/SSE/Room conformance and load harness, then synchronize solution and readiness artifacts | done | `node:tools/conformance/sensorium_interfaces_conformance.py` prebuilds once with a separate build timeout, uses exact full Rust test names with one test thread, fails fast by default, distinguishes build/test timeouts and unrecognized libtest output, emits only output digests on failure, and covers bounded host load, signed direct peer, SSE revocation, and Room projection revocation. |
 
 ## Open Questions
 
@@ -1185,8 +1230,11 @@ post-V1 questions require operational evidence rather than speculative answers:
 
 ## Next Actions
 
-1. Collect read-next latency, batch occupancy, no-change rate, and revocation-lag
-   evidence under representative deployments.
+1. Collect representative local and federated snapshots from the implemented
+   `metrics` action and compare read-next latency, occupancy, and no-change rate by
+   carrier, delivery kind, and source kind. Inspect the flat `revoke-commit-us`
+   cost separately; measure end-to-end enforcement at carrier and peer authority
+   boundaries rather than inferring it from durable-write latency.
 2. Add another producer adapter only through the implemented source-provider and
    classification contracts.
 3. Revisit provider push, searchable descriptor discovery, or split management
