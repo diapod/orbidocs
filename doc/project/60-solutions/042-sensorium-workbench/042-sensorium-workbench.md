@@ -102,6 +102,11 @@ collaborative WSS Room latest-state acceptance path. Remaining solution work is
 production-grade container or microVM executors and optional daemon command-BDO
 signal policy beyond the implemented `TERM` cancel path.
 
+Proposal 083 defines the accepted hard-MVP release-blocking path for separately
+granted terminal input, resize, and signal actuation. The current implementation
+remains operator-only and read-only for remote Sensorium Interface consumers until
+that proposal's fenced control-lease runtime is complete.
+
 ## Date
 
 2026-07-04

@@ -27,7 +27,8 @@ Implemented / promoted to Solution 046
 The frozen V1 contract is implemented in Node and promoted to
 [Solution 046: Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md).
 This proposal remains the rationale, decision record, named-invariant catalog,
-and implementation tracker.
+and implementation tracker. It is an explicit hard-MVP release blocker whose
+implementation gate is satisfied.
 
 ## Date
 
@@ -157,8 +158,10 @@ publication and subscription mechanics.
   truth.
 - Treating Room membership, Matrix membership, a transport session, or possession
   of an interface id as authorization.
-- Adding actuation commands to the read/subscribe contract. Commands remain in the
-  existing Sensorium directive and Workbench tool-request lanes.
+- Adding actuation commands to the read/subscribe contract. Commands remain in
+  separate Sensorium directive and Workbench tool-request lanes; their future
+  interface-level authority and coordination contract is defined separately by
+  [Proposal 083: Sensorium Interactive Interfaces](083-sensorium-interactive-interfaces.md).
 - Promising erasure of information already received by an authorized consumer.
 
 ## Surveillance Is a Relationship, Not an API Shape
@@ -1017,9 +1020,11 @@ policy; it does not silently perform unbounded external work.
    session without closing the durable Room; carrier eviction follows independently.
 ```
 
-Keyboard input is not sent through this stream. It remains a separately authorized
-`sensorium-workbench-tool-request.v1` directive, preserving the observation/action
-boundary.
+Keyboard input is not sent through this observation stream. It remains a separately
+authorized `sensorium-workbench-tool-request.v1` directive in the implemented V1
+path. [Proposal 083](083-sensorium-interactive-interfaces.md) preserves that
+observation/action boundary while defining a future, separately granted and fenced
+actuation interface for collaborative terminal control.
 
 ## Error Contract
 
@@ -1175,7 +1180,8 @@ encode that choice.
 
 ## Frozen Initial Decisions
 
-The six initial design questions are resolved as of 2026-07-13:
+The design questions are resolved as of 2026-07-17. Decisions 1-6 freeze the V1
+baseline; decisions 7-9 close the evidence-gated follow-up review:
 
 1. P082 is the dedicated home for Sensorium Interface semantics; P045 retains local
    Sensorium admission and actuation.
@@ -1192,6 +1198,24 @@ The six initial design questions are resolved as of 2026-07-13:
 6. V1 has one source-local `sensorium.interface.manage` capability with
    action-specific policy and distinct publish/grant/revoke/withdraw facts. It is
    never remotely delegated.
+7. Bounded pull-batch remains the only data-delivery protocol. No separately
+   acknowledged provider-push or push-hint profile is added. If operational evidence
+   later justifies readiness hints, P082 data readiness and P083 claim readiness must
+   reuse one authority-neutral, disclosure-bounded notification substrate rather than
+   define two push mechanisms. Each hint audience must pass the same current grant
+   and applicable collaboration-policy checks as the corresponding read or claim; a
+   hint neither confers authority nor reveals resource activity to an unauthorized
+   recipient.
+8. There is no searchable descriptor catalog. Listing resources already disclosed by
+   the caller's own current grants, invitations, or collaboration context is
+   authority inspection, not existence discovery, and must preserve leak-minimal
+   `not-found` behavior. A searchable inventory that reveals otherwise undisclosed
+   resources is a separate disclosure oracle and requires a new decision.
+9. `sensorium.interface.manage` remains one source-local, non-delegable capability.
+   Current runtime dispatch keeps a closed action vocabulary. Before P083 adds
+   `control.preempt`, the capability-authorization-policy entry must also enumerate
+   the allowed manage actions explicitly; wildcard or capability-only admission may
+   not acquire the expanded preemption authority.
 
 ## Implementation Tracker
 
@@ -1219,14 +1243,9 @@ The six initial design questions are resolved as of 2026-07-13:
 
 ## Open Questions
 
-No unresolved design question blocks the first implementation slice. These
-post-V1 questions require operational evidence rather than speculative answers:
-
-1. Does measured latency justify a separately acknowledged provider-push protocol?
-2. Does real federation use justify a searchable descriptor catalog with an explicit
-   disclosure policy?
-3. Do deployments delegate publication and grant administration to different local
-   principals often enough to split `sensorium.interface.manage`?
+No unresolved design questions remain. The former provider-push, descriptor-catalog,
+and management-capability questions are resolved by decisions 7-9. Any later change
+requires operational evidence and an explicit contract revision.
 
 ## Next Actions
 
@@ -1237,5 +1256,6 @@ post-V1 questions require operational evidence rather than speculative answers:
    boundaries rather than inferring it from durable-write latency.
 2. Add another producer adapter only through the implemented source-provider and
    classification contracts.
-3. Revisit provider push, searchable descriptor discovery, or split management
-   authority only when the post-V1 questions have operational evidence.
+3. Keep pull-batch, direct disclosure, and one source-local manage capability as the
+   baseline. Treat any future push, existence-discovery, or authority-split proposal
+   as an explicit contract revision with operational evidence.

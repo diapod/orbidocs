@@ -47,6 +47,7 @@ The runtime is refusal-tested for stale or revoked authority, cursor misuse,
 ordered-event Room projection, classification mismatch, and restart recovery.
 Host-local bounded metrics and a four-carrier conformance runner provide the
 operator evidence surface needed for post-V1 delivery decisions.
+This implementation satisfies the explicit P082 hard-MVP release blocker.
 
 ## Date
 
@@ -82,6 +83,14 @@ Room WSS are edge adapters and never become authority.
 The implemented V1 delivery contract is bounded cursor-based pull-batch.
 Provider push, global descriptor discovery, and automatic stream persistence are
 outside this solution's MVP boundary.
+
+[Proposal 083: Sensorium Interactive Interfaces](../../40-proposals/083-sensorium-interactive-interfaces.md)
+defines the hard-MVP release-blocking actuation extension with separate resources,
+grants, coordination, and fencing. It does not change this solution's implemented
+read-only status until its own tracker is complete and the resulting runtime is
+promoted. The proposal extends this component's existing core, authority runtime,
+store, admission, fact, receipt, classification, and carrier boundaries rather than
+introducing a parallel Sensorium Interface service.
 
 ## Context and Problem Statement
 
@@ -241,26 +250,34 @@ Status: `done`.
 
 ### Measured Provider-Push Profile
 
-A provider-push protocol may be added only if operational measurements show
-that bounded read-next cannot meet a concrete latency or cost requirement. It
-must be a separately acknowledged profile, not an implicit alternate meaning of
-the V1 contracts.
+The accepted baseline adds no provider-push or push-hint protocol. A future
+revision may reconsider one only if operational measurements show that bounded
+read-next cannot meet a concrete latency or cost requirement. It must be a
+separately acknowledged profile and share one authority-neutral,
+disclosure-bounded readiness-hint substrate with P083 rather than duplicate it.
+Each hint audience must pass the same current grant and applicable
+collaboration-policy checks as the corresponding read or claim, so notification
+leaks no unauthorized resource activity.
 
 Status: `deferred`.
 
 ### Searchable Descriptor Catalog
 
-A federation-scoped descriptor catalog may be added only with an explicit
-disclosure policy, query bounds, anti-enumeration posture, and revocation model.
-V1 descriptor disclosure remains direct-grant or authorized-collaboration only.
+The accepted baseline has no searchable descriptor catalog. Caller inspection of
+interfaces already disclosed by current authority is not discovery and preserves
+leak-minimal lookup. A future existence-discovery catalog is a separate disclosure
+oracle and requires an explicit policy, query bounds, anti-enumeration posture,
+revocation model, and contract revision.
 
 Status: `deferred`.
 
 ### Split Management Authorities
 
-Publication and grant administration may become separate local capabilities if
-deployment evidence shows that distinct principals routinely own them. The MVP
-keeps one source-local manage capability with action-specific policy.
+The accepted baseline keeps one source-local, non-delegable manage capability.
+Current runtime dispatch is closed by action; before P083 adds preemption, the
+authorization-policy entry must enumerate allowed manage actions explicitly. Any
+future capability split requires distinct-principal deployment evidence and a
+contract revision.
 
 Status: `deferred`.
 
@@ -304,14 +321,10 @@ Status: `deferred`.
 
 ## Open Questions
 
-No open question blocks the implemented MVP. Post-V1 decisions require measured
-deployment evidence:
-
-1. Does measured latency justify a separately negotiated provider-push profile?
-2. Does federation use justify a searchable descriptor catalog with an explicit
-   disclosure policy?
-3. Do deployments need separate publication and grant-administration
-   capabilities?
+No unresolved design questions remain. Proposal 082 decisions 7-9 retain bounded
+pull-batch, direct authority-scoped disclosure, and one source-local manage
+capability. The deferred sections above are reconsideration boundaries, not open
+implementation choices.
 
 ## Next Actions
 
@@ -322,5 +335,6 @@ deployment evidence:
    boundaries.
 2. Add another producer adapter only when it can reuse the same classification,
    cursor, and authority contracts without a source-specific escape hatch.
-3. Keep provider-push, descriptor search, and split management authority as
-   separate post-V1 decisions backed by operational evidence.
+3. Keep pull-batch, direct disclosure, and one source-local manage capability as
+   the baseline. Require an explicit evidence-backed contract revision for any
+   provider-push, existence-discovery, or management-authority split.
