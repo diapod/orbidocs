@@ -273,10 +273,49 @@ authorized — not a bare nym), `quorum/required`, `tie-break`, `revocation-poli
 budgets `budget/time-ms` + `budget/steps` + `budget/tokens` (tokens matter because the
 LLM cost is per-token, not only per-step).
 
+The future elected-chair extension adds
+`first-judgment/visibility = isolated-until-barrier`,
+`first-judgment/barrier = all-eligible | quorum-or-deadline`,
+`first-judgment/commitment = salted-sha256-jcs-v1`, and
+`disagreement/handling = preserve`. These fields are not retrofitted into the
+implemented requester-appointed profile until the elected-arbiter tracker item is
+implemented and schema-gated.
+
 **Chair before election.** For the first live layer the requester appoints a chair (or
 acts as chair); a fallback/revocation policy is required even for that case. Full arbiter
 **election** (eligibility, COI, quorum, deadline, tie-break, revocation, fallback) is a
 later layer.
+
+**First-judgment visibility is a protocol contract.** Fan-out topology and parallel
+execution do not by themselves guarantee independent first judgments once a chair or
+arbiter can observe submissions. A deliberation profile that claims this independence
+MUST declare `first-judgment/visibility = isolated-until-barrier`; the future
+`chair/mode = elected` profile requires it. Each eligible participant's initial
+judgment uses a dedicated commit/reveal value, not a reusable content digest. Its
+`commitment/digest` is SHA-256 over the canonical JCS object containing the domain
+`orbiplex.corpus.first-judgment-commitment.v1`, exact Room, round, participant,
+judgment body, and a fresh per-judgment 32-byte cryptographically random salt. Before
+the barrier,
+other participants and the chair/arbiter receive the digest and bounded commitment
+metadata, but neither the judgment body nor the salt. Barrier release reveals both;
+the host verifies the commitment before counting the judgment, and a missing or
+invalid reveal never counts as an independent first judgment. Distinct salts prevent
+equal low-entropy judgments from exposing agreement through equal commitments.
+
+Barrier release is an auditable transition that closes the first-judgment phase. A
+late first-judgment submission is refused as `first-judgment-closed`; the participant
+may contribute only through an explicit post-barrier or rebuttal lane whose
+provenance records `independent-first-judgment = false`, and that contribution does
+not enter the initial quorum or independent-judgment set. Raw judgments remain
+subject to their own classification and retention policy rather than becoming
+durable Room chat facts.
+
+**Disagreement is data, not failure.** Conflicting admitted judgments constitute a
+successful deliberation state. Synthesis may resolve, supersede, or preserve each
+bounded disagreement, but it must not erase it by forcing consensus. Draft/final
+provenance for profiles that preserve disagreement carries issue id, position refs,
+unresolved assumptions, and conditions that would change the decision; it does not
+copy raw private judgments into generic Room facts.
 
 **Agent as chair delegate.** The requester MAY appoint its own host-owned Agent
 (P073) as the chair delegate for the room, but this does not make the Agent a new
@@ -604,6 +643,14 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
     `1` and a superseding revision must be greater than the superseded revision. The
     counter is advisory for humans and diagnostics; append-only fact order plus the
     `supersedes` edge remains authoritative.
+23. **Independent judgment and disagreement.** Independence of an initial judgment is
+    a visibility-barrier property, not an implication of procurement fan-out or
+    parallel model execution. Any elected-arbiter profile must enforce
+    `isolated-until-barrier` with salted commit/reveal values. Barrier release closes
+    the first-judgment phase; later contributions carry explicit non-independent
+    provenance and do not enter the initial quorum. Admitted disagreement remains
+    bounded provenance data rather than a failed round or material silently flattened
+    by synthesis.
 
 ## Open Questions
 
@@ -1670,7 +1717,10 @@ runtime, no N-way settlement.
   restarts, bounded Agent execution, local host framing, and absence of ambient
   publication.
 - [ ] Later: arbiter election (`corpus-reasoning-arbiter-nomination.v1` / `…-vote.v1`)
-  with eligibility, COI, quorum, deadline, tie-break, revocation, fallback.
+  with eligibility, COI, quorum, deadline, tie-break, revocation, fallback,
+  host-enforced salted first-judgment commit/reveal, auditable barrier closure,
+  refused or explicitly non-independent late contributions, and bounded
+  disagreement-preserving answer provenance.
 
 #### Optional shared enacted views `[x] P082 runtime implemented`
 

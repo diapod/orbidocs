@@ -125,7 +125,9 @@ shared record substrate that already carries `association-room-proposal.v1`):
 - **Grant vocabulary**: MVP grants are the closed set `speak`, `vote`, `answer`,
   `observe`, `moderate`, and `delegate`. A Room implementation MUST treat any other
   grant as an extension requiring an explicit schema/policy extension; arbitrary
-  strings are not accepted at the security gate.
+  strings are not accepted at the security gate. P083 reserves `actuate` as one such
+  explicit extension grant for collaborative Sensorium actuation; it enters the
+  runtime vocabulary only with P083-009 and never replaces interface authority.
 - **Query attestation**: membership/authority queries return a signed
   `room-membership-attestation.v1` (subject, grants, lifecycle, signer, high-water
   `seq/no`, source record refs), not a bare boolean, so a relying party can audit why a
@@ -270,7 +272,9 @@ primitive instead of maintaining a compatibility projection first.
 6. **Grant vocabulary.** MVP room grants are a closed vocabulary:
    `speak`, `vote`, `answer`, `observe`, `moderate`, and `delegate`. Federations may
    introduce extension grants later only through an explicit schema/policy extension, not
-   by silently accepting arbitrary strings at the security gate.
+   by silently accepting arbitrary strings at the security gate. P083 reserves the
+   extension grant `actuate`; current Room implementations continue to reject it until
+   P083-009 extends the schema, policy, runtime vocabulary, and conformance tests.
 7. **Exposure vocabulary.** `room-policy.v1` uses the Room-level exposure vocabulary:
    `private-to-swarm`, `federation-local`, `cross-federation`, and `global`. P009
    `public-call-for-help` is a user-facing request label mapped at the P009->P070
