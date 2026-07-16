@@ -628,7 +628,9 @@ passport ties capability delegation to canonical participant and Node identity.
 Open as of 2026-07-01:
 
 1. Which additional capability-specific scope requirements should be frozen for
-   other infrastructure capabilities after `network-ledger`?
+   other infrastructure capabilities after `network-ledger`? Proposal 082 has
+   already frozen and implemented the separate `sensorium-interface@v1` profile;
+   this question now concerns the remaining profiles.
 2. What maximum staleness/TTL must a local revocation view satisfy before startup
    may trust it for `network-ledger` passport admission?
 3. If the revocation source is unavailable at startup, should `network-ledger`
@@ -661,6 +663,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P024-004 | Check network-ledger passport revocation at startup | done | `settlement.mode = network` now rejects a configured ledger passport when the local revocation view revokes its `passport_id`, `revocation_ref`, or inline issuer-delegation id. |
 | P024-005 | Define the full ledger scope model | todo | Post-MVP: richer account selectors, per-operation limits, maximum hold lifetime, accepted receipt classes, and settlement policy refs. |
 | P024-006 | Define multi-sig/custody issuance bundle for infrastructure passports | deferred | Resolved direction: separate endorsement/custody bundle attached to the passport, not multiple unrelated signatures on the passport payload itself. |
+| P024-007 | Reuse Capability Passport for exact-resource Sensorium Interface peer admission | done | P082 defines and Node implements `sensorium-interface@v1` scope over exact interface ids, remote node ids, read/subscribe operation, classification ceiling, batch/lease caps, and revocation freshness. |
 
 ## Post-MVP Todo
 

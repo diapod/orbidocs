@@ -1,0 +1,21 @@
+{
+  "schema": "sensorium-interface-descriptor.v1",
+  "schema/v": 1,
+  "interface/id": "sensorium-interface:invalid-latest-replay",
+  "interface/name": "invalid-latest-replay",
+  "publisher/node-ref": "node:did:key:z6MkSensoriumPublisher",
+  "output/schema-ref": "urn:orbiplex:schema:sensorium-observation:v1",
+  "delivery/semantics": "latest-state",
+  "access/modes": ["read"],
+  "classification/max-tier": "Personal",
+  "classification/topic-class": "sensorium-interface/invalid",
+  "limits": {
+    "frame/max-bytes": 65536,
+    "batch/max-frames": 1,
+    "batch/max-bytes": 131072,
+    "lease/max-seconds": 900,
+    "replay/max-frames": 10
+  },
+  "overflow/policy": "coalesce-latest",
+  "expires/at": "2027-07-16T12:00:00Z"
+}

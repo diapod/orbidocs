@@ -3,10 +3,12 @@
 Based on:
 
 - `doc/project/40-proposals/070-room-primitive.md`
+- `doc/project/40-proposals/082-sensorium-interfaces.md`
 - `doc/project/40-proposals/076-federation-identity-and-network-selector.md`
 - `doc/project/40-proposals/079-cross-federation-alliance.md`
 - `doc/project/60-solutions/008-agora/008-agora.md`
 - `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
+- `doc/project/60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 
 Related schemas:
@@ -213,12 +215,16 @@ Responsibilities:
 - drop revoked or expired participants;
 - support close/expiry cleanup and non-retention/redaction requirements;
 - keep bounded WebSocket and Matrix adapters behaviorally equivalent under
-  conformance tests.
+  conformance tests;
+- let P082 attach a dedicated read-only WSS `latest-state` projection whose
+  authority is the intersection of current Room `observe` rights and current
+  Sensorium Interface grants, without exposing source cursors or closing the
+  durable Room.
 
 Status:
 
-- `done` for the functional foundation; security hardening remains tracked in
-  CR-88/CR-89.
+- `done` for the functional foundation and the P082 latest-state projection;
+  security hardening remains tracked in CR-88/CR-89.
 
 ### Room Consolidation Surface
 

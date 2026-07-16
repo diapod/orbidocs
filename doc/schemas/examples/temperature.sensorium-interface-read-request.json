@@ -1,0 +1,22 @@
+{
+  "schema": "sensorium-interface-read-request.v1",
+  "schema/v": 1,
+  "interface/id": "sensorium-interface:temperature-office",
+  "delivery/kind": "one-shot",
+  "batch": {
+    "frames/max": 1,
+    "bytes/max": 131072,
+    "wait/max-ms": 5000
+  },
+  "deadline/at": "2026-07-16T12:00:05Z",
+  "causal/context": {
+    "schema": "causal-context.v1",
+    "schema/v": 1,
+    "context/id": "causal-context:sensorium-interface-read-001",
+    "correlation/id": "corr:sensorium-interface-read-001",
+    "operation/id": "operation:sensorium-interface-read-001",
+    "causation/refs": [],
+    "origin/actor-ref": "component:arca",
+    "created/at": "2026-07-16T12:00:00Z"
+  }
+}

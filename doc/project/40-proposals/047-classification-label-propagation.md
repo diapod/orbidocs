@@ -24,7 +24,9 @@ Current runtime consumers include Memarium classification fallback and
 declassification gates, archival export/backup preservation, Agora public
 publish guards for Memarium-derived content, Whisper disclosure-scope
 projection checks, INAC/private Artifact Delivery egress checks, and
-classification-bearing Inquirium/assistant boundaries. Full whole-program IFC,
+classification-bearing Inquirium/assistant boundaries. Proposal 082 additionally
+uses `Surface::Interface` with exact descriptor topic-class matching for every
+lowered Sensorium Interface frame. Full whole-program IFC,
 per-field labels, historical backfill of every pre-classification fact, and
 richer operator UI remain post-MVP work.
 
@@ -277,7 +279,7 @@ memarium.declassify {
     fact_id:           FactId,          // exact subject
     from:              Tier,            // must equal current effective_tier
     to:                Tier,            // must satisfy to < from in the lattice
-    surface:           Surface,         // "agora" | "whisper" | "inac" | "export" | "bus"
+    surface:           Surface,         // "agora" | "whisper" | "inac" | "export" | "bus" | "interface"
     topic_class:       String,          // the semantic class this declassification applies to
     mode:              OneShot
                        | PersistentForTopicClass { ttl: Duration },
@@ -379,6 +381,7 @@ can be staged.
 | Agora publish           | `effective_tier` must be `Public`; `bound_subjects` must be `public_projection` only. |
 | Whisper send            | `effective_tier` must project onto a `disclosure/scope` compatible with the posture.  |
 | INAC direct exchange    | `effective_tier` ≤ agreed peer tier (by trust class).                                 |
+| Sensorium Interface     | A lowered frame requires `surface = interface` and the descriptor's exact topic class. |
 | Bus publisher           | Consumers see `classification`; consumers self-filter by their own scope.             |
 | Export / backup         | Classification is preserved verbatim in the exported bundle.                          |
 
@@ -511,6 +514,9 @@ without breaking existing senders.
   attestation.
 - **042 (INAC).** Egress guard §7 is added to INAC direct exchange; INAC is
   the natural surface for `private-correlation` traffic.
+- **082 (Sensorium Interfaces).** Interface frames carry the full classification
+  value; lowering requires a current declassification fact bound to
+  `Surface::Interface` and the descriptor's exact topic class.
 - **039 (Crisis seed).** Crisis remains orthogonal per §1.
 
 ## Implementation Sketch

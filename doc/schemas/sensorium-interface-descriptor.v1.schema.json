@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-descriptor:v1",
+  "title": "Sensorium Interface Descriptor v1",
+  "description": "Immutable publication contract for one deliberately exposed Sensorium or Workbench projection.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "interface/id",
+    "interface/name",
+    "publisher/node-ref",
+    "output/schema-ref",
+    "delivery/semantics",
+    "access/modes",
+    "classification/max-tier",
+    "classification/topic-class",
+    "limits",
+    "overflow/policy",
+    "expires/at"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-interface-descriptor.v1", "description": "Contract discriminator." },
+    "schema/v": { "const": 1, "description": "Contract version." },
+    "interface/id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512, "description": "Stable resource identifier for this interface publication." },
+    "interface/name": { "type": "string", "minLength": 1, "maxLength": 128, "description": "Short operator-facing name; not an authority identifier." },
+    "publisher/node-ref": { "type": "string", "pattern": "^node:[^\\s]+$", "maxLength": 512, "description": "Node that owns publication and source-side policy." },
+    "output/schema-ref": { "type": "string", "minLength": 1, "maxLength": 512, "description": "Schema required for each data frame payload." },
+    "delivery/semantics": { "enum": ["latest-state", "ordered-events"], "description": "Whether the interface exposes one current snapshot or a bounded ordered event window." },
+    "access/modes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": { "enum": ["read", "subscribe"] },
+      "description": "Operations that may be granted for this interface."
+    },
+    "classification/max-tier": { "enum": ["Public", "Community", "Personal"], "description": "Most restrictive effective tier this interface accepts at egress." },
+    "classification/topic-class": { "type": "string", "minLength": 1, "maxLength": 256, "description": "Exact topic-class binding required for Interface declassification facts." },
+    "redaction/profile-ref": { "type": "string", "minLength": 1, "maxLength": 512, "description": "Optional source-owned redaction profile applied before frame creation." },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame/max-bytes", "batch/max-frames", "batch/max-bytes", "lease/max-seconds"],
+      "description": "Hard publication ceilings further narrowed by callers and host policy.",
+      "properties": {
+        "frame/max-bytes": { "type": "integer", "minimum": 1, "maximum": 1048576, "description": "Maximum serialized bytes of one frame." },
+        "batch/max-frames": { "type": "integer", "minimum": 1, "maximum": 256, "description": "Maximum frames in one read result." },
+        "batch/max-bytes": { "type": "integer", "minimum": 1, "maximum": 1048576, "description": "Maximum serialized bytes of one complete read result." },
+        "lease/max-seconds": { "type": "integer", "minimum": 1, "maximum": 86400, "description": "Maximum subscription lease granted at once." },
+        "replay/max-frames": { "type": "integer", "minimum": 1, "maximum": 4096, "description": "Maximum retained ordered-event frames; forbidden for latest-state." },
+        "replay/max-seconds": { "type": "integer", "minimum": 1, "maximum": 86400, "description": "Maximum ordered-event retention age; forbidden for latest-state." }
+      }
+    },
+    "overflow/policy": { "enum": ["coalesce-latest", "emit-gap", "close-subscription"], "description": "Explicit behavior when source state exceeds its delivery window." },
+    "expires/at": { "type": "string", "format": "date-time", "description": "Hard end of the publication lifetime." }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "delivery/semantics": { "const": "latest-state" } }, "required": ["delivery/semantics"] },
+      "then": {
+        "properties": {
+          "overflow/policy": { "const": "coalesce-latest" },
+          "limits": {
+            "not": {
+              "anyOf": [
+                { "required": ["replay/max-frames"] },
+                { "required": ["replay/max-seconds"] }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "delivery/semantics": { "const": "ordered-events" } }, "required": ["delivery/semantics"] },
+      "then": {
+        "properties": {
+          "overflow/policy": { "enum": ["emit-gap", "close-subscription"] },
+          "limits": { "required": ["replay/max-frames", "replay/max-seconds"] }
+        }
+      }
+    }
+  ]
+}

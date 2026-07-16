@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-read-request:v1",
+  "title": "Sensorium Interface Read Request v1",
+  "description": "Bounded one-shot or subscription read-next request.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "interface/id", "delivery/kind", "batch", "deadline/at", "causal/context"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-read-request.v1", "description": "Contract discriminator." },
+    "schema/v": { "const": 1, "description": "Contract version." },
+    "interface/id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512, "description": "Interface resource to read." },
+    "delivery/kind": { "enum": ["one-shot", "subscription"], "description": "Selects direct read or caller-bound leased read-next semantics." },
+    "subscription/id": { "type": "string", "pattern": "^sensorium-subscription:[^\\s]+$", "maxLength": 512, "description": "Required caller-bound lease for subscription delivery." },
+    "cursor/after": { "type": "string", "minLength": 1, "maxLength": 4096, "description": "Opaque interface- and source-generation-bound progress token." },
+    "batch": { "$ref": "#/$defs/BatchLimits", "description": "Caller-requested bounds narrowed by descriptor and host ceilings." },
+    "deadline/at": { "type": "string", "format": "date-time", "description": "Absolute deadline by which admission and bounded observation must complete." },
+    "causal/context": { "$ref": "causal-context.v1.schema.json", "description": "P081 context for traceability; never authority." }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "delivery/kind": { "const": "subscription" } }, "required": ["delivery/kind"] },
+      "then": { "required": ["subscription/id"] },
+      "else": { "not": { "required": ["subscription/id"] } }
+    }
+  ],
+  "$defs": {
+    "BatchLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frames/max", "bytes/max", "wait/max-ms"],
+      "description": "Independent frame-count, byte, and wait ceilings for one batch.",
+      "properties": {
+        "frames/max": { "type": "integer", "minimum": 1, "maximum": 256, "description": "Maximum requested frames." },
+        "bytes/max": { "type": "integer", "minimum": 1, "maximum": 1048576, "description": "Maximum serialized result bytes." },
+        "wait/max-ms": { "type": "integer", "minimum": 1, "maximum": 15000, "description": "Maximum long-poll wait before no-change." }
+      }
+    }
+  }
+}

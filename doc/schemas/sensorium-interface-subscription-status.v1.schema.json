@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-subscription-status:v1",
+  "title": "Sensorium Interface Subscription Status v1",
+  "description": "Durable host projection of one caller-bound Sensorium Interface lease.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "subscription/id",
+    "interface/id",
+    "lifecycle/status",
+    "health/status",
+    "lease/expires-at",
+    "status/at"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-interface-subscription-status.v1", "description": "Contract discriminator." },
+    "schema/v": { "const": 1, "description": "Contract version." },
+    "subscription/id": { "type": "string", "pattern": "^sensorium-subscription:[^\\s]+$", "maxLength": 512, "description": "Stable identifier of this lease." },
+    "interface/id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512, "description": "Interface resource bound to this lease." },
+    "lifecycle/status": { "enum": ["requested", "active", "closing", "closed"], "description": "Host-enforced lease lifecycle." },
+    "health/status": { "enum": ["ready", "degraded"], "description": "Current ability to serve read-next operations." },
+    "health/reason": { "type": "string", "minLength": 1, "maxLength": 256, "description": "Required bounded diagnostic when health is degraded." },
+    "lease/expires-at": { "type": "string", "format": "date-time", "description": "Hard expiry of the current lease grant." },
+    "cursor/current": { "type": "string", "minLength": 1, "maxLength": 4096, "description": "Last batch-level progress token committed for this lease." },
+    "terminal/reason": { "type": "string", "minLength": 1, "maxLength": 128, "description": "Immutable closure reason required for a closed lease." },
+    "status/at": { "type": "string", "format": "date-time", "description": "Time this status projection was recorded." }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "health/status": { "const": "degraded" } }, "required": ["health/status"] },
+      "then": { "required": ["health/reason"] },
+      "else": { "not": { "required": ["health/reason"] } }
+    },
+    {
+      "if": { "properties": { "lifecycle/status": { "const": "closed" } }, "required": ["lifecycle/status"] },
+      "then": { "required": ["terminal/reason"] },
+      "else": { "not": { "required": ["terminal/reason"] } }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-status:v1",
+  "title": "Sensorium Interface Status v1",
+  "description": "Current host projection of an interface publication lifecycle and health.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "interface/id", "lifecycle/status", "health/status", "status/at"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-status.v1", "description": "Contract discriminator." },
+    "schema/v": { "const": 1, "description": "Contract version." },
+    "interface/id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512, "description": "Interface resource described by this status." },
+    "lifecycle/status": { "enum": ["published", "suspended", "withdrawn", "expired"], "description": "Host-enforced publication lifecycle." },
+    "health/status": { "enum": ["ready", "degraded"], "description": "Current ability to serve admitted operations." },
+    "health/reason": { "type": "string", "minLength": 1, "maxLength": 256, "description": "Required bounded diagnostic when health is degraded." },
+    "status/at": { "type": "string", "format": "date-time", "description": "Time this status projection was recorded." }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "health/status": { "const": "degraded" } }, "required": ["health/status"] },
+      "then": { "required": ["health/reason"] },
+      "else": { "not": { "required": ["health/reason"] } }
+    }
+  ]
+}

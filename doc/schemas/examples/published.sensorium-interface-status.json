@@ -1,0 +1,8 @@
+{
+  "schema": "sensorium-interface-status.v1",
+  "schema/v": 1,
+  "interface/id": "sensorium-interface:temperature-office",
+  "lifecycle/status": "published",
+  "health/status": "ready",
+  "status/at": "2026-07-16T12:00:00Z"
+}

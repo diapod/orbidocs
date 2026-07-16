@@ -12,6 +12,7 @@ Based on:
 - `doc/project/40-proposals/066-inquirium-assistant-channel.md`
 - `doc/project/40-proposals/069-corpus.md`
 - `doc/project/40-proposals/070-room-primitive.md`
+- `doc/project/40-proposals/082-sensorium-interfaces.md`
 - `doc/project/60-solutions/015-host-owned-module-store/015-host-owned-module-store.md`
 - `doc/project/60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md`
 - `doc/project/60-solutions/019-middleware/019-middleware.md`
@@ -1902,3 +1903,16 @@ evidence) · `[!]` blocked/needs decision.
 - [x] Add local-runtime policy tests for denied egress and denied credential
   env override access. Broader virtualized-backend policy tests remain tied to
   the future Sensorium Virt backend contract.
+
+### Phase 5 - Sensorium Interface Source Projection
+
+- [x] Expose Workbench terminal screen snapshots as a P082 `latest-state`
+  source without granting terminal control.
+- [x] Expose Workbench terminal events as a separate P082 `ordered-events`
+  source with bounded replay and explicit gap semantics.
+- [x] Prove the collaborative read-only terminal view through the WSS Room
+  adapter, including current Room-plus-interface authority intersection,
+  cursor omission, grant-revocation close, and durable Room survival.
+- [x] Keep publication, grants, subscriptions, direct-peer admission, SSE, and
+  Room carrier semantics owned by Proposal 082 / Solution 046 rather than the
+  Workbench connector.

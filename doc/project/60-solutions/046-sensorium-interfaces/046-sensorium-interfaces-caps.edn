@@ -1,0 +1,144 @@
+{:component/id :orbiplex/sensorium-interfaces
+ :component/title "Sensorium Interfaces"
+ :component/type :node-attached-observation-runtime
+ :component/status :done
+
+ :summary
+ "Carrier-neutral publication, bounded pull-batch read and subscription runtime
+ for explicitly exposed Sensorium and Workbench representations with exact
+ resource authority, classification, revocation, and restart recovery."
+
+ :must-implement
+ [{:cap/id :sensorium-interface-contract-core
+   :title "Sensorium Interface Contract Core"
+   :kind :protocol-core
+   :based-on ["doc/project/40-proposals/082-sensorium-interfaces.md"
+              "doc/project/40-proposals/047-classification-label-propagation.md"]
+   :schemas ["sensorium-interface-descriptor.v1"
+             "sensorium-interface-status.v1"
+             "sensorium-interface-read-request.v1"
+             "sensorium-interface-read-result.v1"
+             "sensorium-interface-subscribe-request.v1"
+             "sensorium-interface-subscription-command.v1"
+             "sensorium-interface-subscription-status.v1"
+             "sensorium-interface-frame.v1"]
+   :responsibilities
+   ["Define one bounded cursor-based pull-batch delivery contract"
+    "Enforce lifecycle cursor terminal replay classification and byte-limit invariants"
+    "Validate exact interface declassification topic binding"
+    "Remain independent of daemon transport storage async runtime and providers"]
+   :status :done
+   :status-detail "The pure sensorium-interface-core crate, eight schemas, schema-gate families, and positive/negative fixtures implement the frozen P082 invariants."}
+
+  {:cap/id :sensorium-interface-source-adapters
+   :title "Sensorium Interface Source Adapters"
+   :kind :provider-integration
+   :based-on ["doc/project/40-proposals/045-sensorium-local-enaction-stratum.md"
+              "doc/project/40-proposals/071-sensorium-workbench.md"
+              "doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md"]
+   :schemas ["sensorium-observation.v1"
+             "sensorium-terminal-screen-snapshot.v1"
+             "sensorium-terminal-event.v1"]
+   :responsibilities
+   ["Register the sensorium-interface Interaction Broker source kind"
+    "Adapt admitted Sensorium observation latest state"
+    "Adapt Workbench screen latest state and ordered events as separate resources"
+    "Compose source authority with interface authority"]
+   :status :done
+   :status-detail "The daemon provider registry and source bindings expose Sensorium observations plus Workbench screen/event sources through broker-owned bounded reads."}
+
+  {:cap/id :sensorium-interface-authority-runtime
+   :title "Sensorium Interface Authority Runtime"
+   :kind :host-runtime
+   :based-on ["doc/project/40-proposals/082-sensorium-interfaces.md"
+              "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+              "doc/project/40-proposals/081-horizontal-protocol-primitives.md"]
+   :schemas ["capability-passport.v1"
+             "causal-context.v1"
+             "execution-receipt.v1"]
+   :responsibilities
+   ["Implement publication grant subscription revocation and inspection lifecycle"
+    "Bind every operation to authenticated actor exact interface lease and current authority"
+    "Persist immutable management facts and rebuild projections after restart"
+    "Keep cursors and carrier sessions non-authoritative"]
+   :status :done
+   :status-detail "Host manage/read/subscribe capabilities, durable SQLite facts and projections, idempotency, revocation freshness, causal context, and execution receipts are implemented."}
+
+  {:cap/id :sensorium-interface-carriers
+   :title "Sensorium Interface Carrier Adapters"
+   :kind :edge-adapters
+   :based-on ["doc/project/40-proposals/070-room-primitive.md"
+              "doc/project/40-proposals/082-sensorium-interfaces.md"]
+   :schemas ["sensorium-interface-read-result.v1"
+             "vendor-media-type-registry.v1"]
+   :responsibilities
+   ["Expose local host-capability and authenticated direct-peer pull-batch"
+    "Expose loopback-only module-authenticated SSE over admitted subscriptions"
+    "Project WSS Room latest state without source cursors"
+    "Refuse ordered Room projection and close only the projection carrier"]
+   :status :done
+   :status-detail "Direct-peer Passport admission, local SSE, and WSS Room latest-state projection are implemented with per-emission authority checks and generic external denials."}
+
+  {:cap/id :sensorium-interface-acceptance
+   :title "Sensorium Interface Acceptance"
+   :kind :acceptance
+   :based-on ["doc/project/40-proposals/082-sensorium-interfaces.md"]
+   :schemas ["sensorium-interface-read-result.v1"
+             "sensorium-interface-subscription-status.v1"]
+   :responsibilities
+   ["Exercise one-shot and continuous temperature paths"
+    "Exercise signed direct-peer Passport admission"
+    "Exercise local SSE revocation terminal close"
+    "Exercise collaborative Workbench Room view and durable Room survival"
+    "Exercise restart rebuild and named refusal invariants"]
+   :status :done
+   :status-detail "Focused core, runtime, peer-chain, SSE, Room WSS, classification, schema-gate, and restart tests cover the MVP paths and revocation failures."}]
+
+ :may-implement
+ [{:cap/id :sensorium-interface-provider-push
+   :title "Measured Provider Push Profile"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/082-sensorium-interfaces.md"]
+   :schemas []
+   :responsibilities
+   ["Add a separately negotiated push profile only when measured pull latency justifies it"]
+   :status :deferred}
+
+  {:cap/id :sensorium-interface-descriptor-catalog
+   :title "Federated Descriptor Catalog"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/082-sensorium-interfaces.md"]
+   :schemas []
+   :responsibilities
+   ["Define explicit disclosure anti-enumeration query-bound and revocation policy before searchable discovery"]
+   :status :deferred}
+
+  {:cap/id :sensorium-interface-split-management
+   :title "Split Interface Management Authorities"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/082-sensorium-interfaces.md"]
+   :schemas []
+   :responsibilities
+   ["Separate publication from grant administration only when deployment evidence requires distinct principals"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Direct consumer access to connectors devices or terminals"
+  "Global interface discovery"
+  "Actuation commands through the interface contract"
+  "Automatic stream persistence in Memarium"
+  "Provider push as an alternate meaning of V1"]
+
+ :consumes
+ ["admitted Sensorium observations"
+  "Workbench screen and event projections"
+  "Interaction Broker bounded source reads"
+  "Capability Passports and local grants"
+  "Room membership and observe-right projections"]
+
+ :produces
+ ["published Sensorium Interface descriptors and status"
+  "bounded read and subscription batches"
+  "typed subscription terminal status"
+  "direct-peer SSE and Room carrier projections"
+  "immutable management facts and execution receipts"]}

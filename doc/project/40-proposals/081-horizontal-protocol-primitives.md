@@ -20,6 +20,7 @@ Based on:
 - `doc/project/40-proposals/076-federation-identity-and-network-selector.md`
 - `doc/project/40-proposals/079-cross-federation-alliance.md`
 - `doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`
+- `doc/project/40-proposals/082-sensorium-interfaces.md`
 - `doc/project/60-solutions/006-capability-binding/006-capability-binding.md`
 - `doc/project/60-solutions/020-scheduler/020-scheduler.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
@@ -560,6 +561,7 @@ owned by that proposal.
 |---|---|
 | [P033](033-workflow-fan-out-and-temporal-orchestration.md) | Carry canonical causal context through fan-out and model fan-in with multiple `causation/refs`; append receipts without replacing `WorkflowStepDispatch`. |
 | [P045](045-sensorium-local-enaction-stratum.md), [P071](071-sensorium-workbench.md), [P073](073-agent-orchestration-organ.md) | Link directives, Workbench operations, agent steps, effect proposals, and domain outcomes through the causal context and execution receipts. |
+| [P082](082-sensorium-interfaces.md) | Preserve causal context on publication, grant, read, subscription, and revocation operations and append immutable execution receipts without treating either as interface authority. |
 | [P053](053-raw-signal-access.md), [P080](080-multiplexed-middleware-channel-executor.md) | Project current `causality_id`, `trace.causality_id`, and `trace/correlation-id` fields into the canonical context; keep transport-local sequence and request ids distinct. |
 | [P055](055-bounded-deferred-operation-contract.md), [P062](062-temporal-storage-convention.md) | Preserve context across continuation/recovery and map receipts into local temporal transactions without creating a global transaction registry. |
 | [P074](074-multi-node-federation-harness-and-trace-explorer.md) | Make `trace-event.v1` and `trace-link.v1` consume canonical context and classify adopted links as strong rather than heuristic. |

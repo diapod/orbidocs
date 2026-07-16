@@ -281,13 +281,20 @@ Status:
 
 Based on:
 - `doc/project/40-proposals/045-sensorium-local-enaction-stratum.md`
-- `doc/project/20-memos/sensorium-interfaces.md`
+- `doc/project/40-proposals/082-sensorium-interfaces.md`
+- `doc/project/60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md`
 
 Related schemas:
-- none frozen
+- `sensorium-interface-descriptor.v1`
+- `sensorium-interface-read-request.v1`
+- `sensorium-interface-read-result.v1`
+- `sensorium-interface-subscribe-request.v1`
+- `sensorium-interface-subscription-status.v1`
+- `sensorium-interface-frame.v1`
 
 Responsibilities:
-- define a future trusted-neighbor observation access protocol,
+- delegate trusted-neighbor observation access to the exact-resource Sensorium
+  Interface contract,
 - preserve local consent and minimization rules,
 - avoid turning Sensorium into a general remote surveillance API, where
   "surveillance" names an act — observing subjects without their knowledge or
@@ -301,7 +308,11 @@ Responsibilities:
   narrowing what a consenting operator may deliberately expose.
 
 Status:
-- `deferred`
+- `implemented` by Solution 046. Sensorium remains the owner of local observation
+  admission and source policy; the Sensorium Interfaces runtime owns explicit
+  publication, exact grants, pull-batch reads/subscriptions, direct-peer Passport
+  admission, revocation, and carrier adapters. Local Sensorium topics remain
+  non-federated.
 
 ## Out of Scope
 

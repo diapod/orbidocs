@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-subscribe-request:v1",
+  "title": "Sensorium Interface Subscribe Request v1",
+  "description": "Request to create a caller-bound, bounded Sensorium Interface lease.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "interface/id",
+    "lease/requested-seconds",
+    "batch",
+    "deadline/at",
+    "causal/context"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-interface-subscribe-request.v1", "description": "Contract discriminator." },
+    "schema/v": { "const": 1, "description": "Contract version." },
+    "interface/id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512, "description": "Interface resource to subscribe to." },
+    "cursor/after": { "type": "string", "minLength": 1, "maxLength": 4096, "description": "Optional resume point bound to this interface and source generation." },
+    "lease/requested-seconds": { "type": "integer", "minimum": 1, "maximum": 86400, "description": "Requested lease duration before descriptor, grant, and host narrowing." },
+    "batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frames/max", "bytes/max", "wait/max-ms"],
+      "description": "Default read-next bounds retained by the lease.",
+      "properties": {
+        "frames/max": { "type": "integer", "minimum": 1, "maximum": 256, "description": "Maximum requested frames per batch." },
+        "bytes/max": { "type": "integer", "minimum": 1, "maximum": 1048576, "description": "Maximum serialized bytes per result." },
+        "wait/max-ms": { "type": "integer", "minimum": 1, "maximum": 15000, "description": "Maximum long-poll wait before no-change." }
+      }
+    },
+    "deadline/at": { "type": "string", "format": "date-time", "description": "Absolute deadline for subscription admission." },
+    "causal/context": { "$ref": "causal-context.v1.schema.json", "description": "P081 context for traceability; never authority." }
+  }
+}

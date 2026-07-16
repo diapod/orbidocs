@@ -28,7 +28,10 @@ connector, action-catalog sidecar authorization, and deferred Sensorium actions.
 The remaining local Agora observation publication/subscription bus is a
 post-MVP integration layer. The runtime already records `publish_topics`
 metadata and exposes read surfaces; Sensorium MVP does not require Sensorium to
-become a public or federated publication authority.
+become a public or federated publication authority. Deliberate local and
+cross-node exposure of bounded enacted representations is implemented
+separately by Proposal 082 and Solution 046; it does not federate Sensorium's
+local observation topics.
 
 ## Date
 
@@ -972,8 +975,10 @@ Topic ACL, retention, and subscription policy MUST derive from the admitted
 observation's `admission.consumer_scopes`, sensitivity class, and connector
 class. Public release-feed observations and health/wearable observations should
 not share the same retention or ACL merely because both are Sensorium records.
-Local Sensorium topics MUST NOT be federated by default; cross-node Sensorium
-read-through or replication remains v2/open work.
+Local Sensorium topics MUST NOT be federated by default. Cross-node read-through
+is implemented by [Proposal 082](082-sensorium-interfaces.md) as an explicitly
+published, exact-resource Sensorium Interface over authenticated direct-peer
+pull-batch. It is not topic federation or observation replication.
 
 One shared `local/sensorium/observations` topic with subscriber-side filtering remains
 possible, but is not the recommended default because retention and policy differ
@@ -1591,8 +1596,10 @@ The following decisions close the v1 design questions:
 10. Rejected directive outcomes are reachable only through host-owned audit
     capabilities. No restricted internal-only Agora topic is introduced until a
     concrete consumer, such as emergency evaluation, requires it.
-11. Cross-node Sensorium read-through is not part of v1. A future design may add
-    a separate protocol and gateway for trusted-neighbor observation access.
+11. Cross-node Sensorium read-through is not part of this local-enaction v1
+    contract. Proposal 082 and Solution 046 now own the implemented, separate
+    Sensorium Interface resource and gateway for explicitly granted observation
+    and Workbench projections.
 12. Connector classes do not need a catalog in v1. Local module reports and
     grants are enough until federated connector interchange becomes real.
 13. The first production directive path should exercise a small OS action before
@@ -1641,6 +1648,8 @@ Phase 0:
   `sensorium-directive-outcome.v1`,
 - [x] adopt proposal 046 topic naming metadata for admitted observations:
   `local/sensorium/observations/{signal-kind}`.
+- [x] delegate deliberate local/cross-node enacted-representation exposure to
+  Proposal 082 / Solution 046 without federating local Sensorium topics.
 
 Phase 1:
 

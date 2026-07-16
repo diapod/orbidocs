@@ -8,6 +8,7 @@ Based on:
 - `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
 - `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
 - `doc/project/40-proposals/069-corpus.md`
+- `doc/project/40-proposals/082-sensorium-interfaces.md`
 - `doc/project/60-solutions/008-agora/008-agora.md`
 - `doc/project/60-solutions/011-whisper/011-whisper.md`
 - `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
@@ -805,6 +806,11 @@ evidence) · `[!]` blocked/needs decision.
   `agora-matrix-client` provides the Matrix carrier adapter over `MatrixEventSink`,
   including bounded subscriptions, oversized event refusal before JSON projection, and
   close/expiry redaction with idempotent cleanup.
+- [x] Expose the P082 WSS Room `latest-state` projection as a dedicated
+  read-only carrier session. The adapter intersects current Room `observe`
+  rights with current Sensorium Interface grantees, coalesces to one latest
+  snapshot, omits source cursors, refuses ordered-event interfaces, and closes
+  only the projection session on source or authority termination.
 
 ### Phase 3 — Access, exposure, lifecycle
 

@@ -115,6 +115,28 @@
             "source/kind": { "const": "memarium-query" },
             "query/ref": { "$ref": "#/$defs/ref" }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "room/ref"],
+          "properties": {
+            "source/kind": { "const": "room-event" },
+            "room/ref": { "$ref": "#/$defs/ref" },
+            "participant/ref": { "$ref": "#/$defs/ref" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source/kind", "interface/id"],
+          "properties": {
+            "source/kind": { "const": "sensorium-interface" },
+            "interface/id": {
+              "type": "string",
+              "pattern": "^sensorium-interface:.+$"
+            }
+          }
         }
       ]
     },

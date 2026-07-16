@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-07-14.
+Snapshot date: 2026-07-16.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -25,6 +25,19 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-081` / horizontal causal, replication, and scoped-nym-proof primitives
 
 Change basis: this refresh incorporates the current worktree state on 2026-07-15. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038.
+
+The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
+046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
+classification and Passport bindings, durable host lifecycle, Sensorium and
+Workbench source adapters, signed direct-peer reads, loopback SSE, and the WSS
+Room latest-state projection with current dual-authority checks. This remains a
+post-hard-MVP component whose own MVP slice is ready; it is not added to the
+release-blocking proposal list. Subscription reads serialize only per lease,
+Passport admission is atomic, direct-peer target binding is explicit, and active
+Room projection pumps are capped at 64. The follow-up hardening rejects bare
+grantee ids, intersects Room authority only by canonical stable subject key,
+separates SSE and Room causal traces, distinguishes revoked Passport replay,
+checks tier-vocabulary drift in CI, and adds a negative frame fixture.
 
 The same closure is now hardened with a uniform 32 MiB pre-read image-source
 limit, a 96 MiB decoded adapted-model artifact cap, operation-kind/status-scoped
@@ -97,6 +110,14 @@ Recent component deltas:
   passes and emits a metadata-only trace bundle. Stronger zero-knowledge suites,
   Agora cross-relay mesh, federated Memarium replication, and universal consumer
   migration remain explicitly post-MVP.
+- Proposal 082 / Solution 046 are MVP ready outside the hard-MVP release blocker
+  set. The implementation has one carrier-neutral bounded read-next contract,
+  exact local and Passport authority, revocation/restart coverage, direct-peer,
+  SSE, and WSS Room adapters, and temperature plus collaborative Workbench
+  acceptance tests. Canonical grantee refs prevent cross-kind Room identity
+  collisions, and carrier-specific traces preserve diagnostic provenance.
+  Provider push, descriptor search, and split management authority remain
+  evidence-gated post-V1 decisions.
 - Communication Protocol Baseline is now hard-MVP ready as a historical baseline:
   Proposal 002 explicitly maps its implemented or superseded areas to the current
   runtime owners (P014/Solution 000 transport, P056/Solution 024 TLS trust,
@@ -595,6 +616,7 @@ Recent component deltas:
 | [Proposal 079: Cross-Federation Alliance](../40-proposals/079-cross-federation-alliance.md) | `false` | `false` | `false` | `45` |
 | [Proposal 080: Multiplexed Middleware Channel Executor](../40-proposals/080-multiplexed-middleware-channel-executor.md) | `false` | `true` | `true` | `100` |
 | [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
+| [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `false` | `true` | `false` | `100` |
 
 ## Solutions
 
@@ -635,7 +657,7 @@ Recent component deltas:
 | [Local Relationship Layer](../60-solutions/032-local-relationship-layer/032-local-relationship-layer.md) | `true` | `true` | `false` | `100` |
 | [Shared Offer Catalog](../60-solutions/033-shared-offer-catalog/033-shared-offer-catalog.md) | `true` | `true` | `false` | `100` |
 | [API Surface Projection](../60-solutions/034-api-surface-projection/034-api-surface-projection.md) | `false` | `true` | `true` | `100` |
-| [Interaction Broker](../60-solutions/035-interaction-broker/035-interaction-broker.md) | `false` | `false` | `false` | `100` |
+| [Interaction Broker](../60-solutions/035-interaction-broker/035-interaction-broker.md) | `false` | `true` | `false` | `100` |
 | [Room](../60-solutions/036-room/036-room.md) | `true` | `true` | `true` | `100` |
 | [Capability Registry](../60-solutions/037-capability-registry/037-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Corpus](../60-solutions/038-corpus/038-corpus.md) | `true` | `true` | `false` | `100` |
@@ -644,3 +666,6 @@ Recent component deltas:
 | [Federation Root and Network Selector](../60-solutions/041-federation-root/041-federation-root.md) | `true` | `true` | `false` | `92` |
 | [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `98` |
 | [Horizontal Protocol Primitives](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
+| [Inquirium](../60-solutions/044-inquirium/044-inquirium.md) | `false` | `true` | `false` | `100` |
+| [Inquirium Assistant Channel](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
+| [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `false` | `true` | `false` | `100` |

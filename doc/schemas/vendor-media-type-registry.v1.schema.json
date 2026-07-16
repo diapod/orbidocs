@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:vendor-media-type-registry:v1",
+  "title": "Orbiplex Vendor Media Type Registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "entries"],
+  "properties": {
+    "schema": { "const": "vendor-media-type-registry.v1" },
+    "schema/v": { "const": 1 },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["media/type", "schema/ref", "encoding", "owner/ref", "status"],
+        "properties": {
+          "media/type": {
+            "type": "string",
+            "pattern": "^application/vnd\\.orbiplex\\.[a-z0-9]+(?:[a-z0-9.-]*[a-z0-9])?\\+json$"
+          },
+          "schema/ref": { "type": "string", "pattern": "^urn:orbiplex:schema:[a-z0-9-]+:v1$" },
+          "encoding": { "const": "canonical-json" },
+          "owner/ref": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "status": { "enum": ["active", "migration-pending"] }
+        }
+      }
+    }
+  }
+}

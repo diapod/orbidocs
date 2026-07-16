@@ -213,7 +213,7 @@
         },
         "surface": {
           "type": "string",
-          "enum": ["agora", "whisper", "inac", "export", "bus"],
+          "enum": ["agora", "whisper", "inac", "export", "bus", "interface"],
           "description": "The single egress surface this declassification binds to. A declassification for `whisper` does NOT permit `agora` publication."
         },
         "topic_class": {

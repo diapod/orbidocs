@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-read-result:v1",
+  "title": "Sensorium Interface Read Result v1",
+  "description": "Bounded delivery batch and its single cursor-advancement unit.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "interface/id",
+    "delivery/kind",
+    "batch/outcome",
+    "frames",
+    "delivery/diagnostics",
+    "causal/context"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-interface-read-result.v1", "description": "Contract discriminator." },
+    "schema/v": { "const": 1, "description": "Contract version." },
+    "interface/id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512, "description": "Interface resource that produced this batch." },
+    "delivery/kind": { "enum": ["one-shot", "subscription"], "description": "Delivery binding echoed from the admitted request." },
+    "subscription/id": { "type": "string", "pattern": "^sensorium-subscription:[^\\s]+$", "maxLength": 512, "description": "Caller-bound lease that owns cursor progress for subscription delivery." },
+    "batch/outcome": { "enum": ["data", "no-change", "terminal"], "description": "Successful data, bounded timeout without change, or final subscription outcome." },
+    "cursor/next": { "type": "string", "minLength": 1, "maxLength": 4096, "description": "Opaque resume point after accepting the complete batch." },
+    "frames": {
+      "type": "array",
+      "maxItems": 256,
+      "items": { "$ref": "sensorium-interface-frame.v1.schema.json" },
+      "description": "Ordered frames delivered atomically with cursor progress."
+    },
+    "delivery/diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["coalesced/count", "gap/count"],
+      "description": "Bounded delivery-loss and coalescing evidence for this result.",
+      "properties": {
+        "coalesced/count": { "type": "integer", "minimum": 0, "description": "Source values replaced while retaining latest state." },
+        "gap/count": { "type": "integer", "minimum": 0, "description": "Ordered-event intervals reported as unavailable." }
+      }
+    },
+    "causal/context": { "$ref": "causal-context.v1.schema.json", "description": "P081 batch context for traceability; never authority." }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "delivery/kind": { "const": "subscription" } }, "required": ["delivery/kind"] },
+      "then": { "required": ["subscription/id", "cursor/next"] },
+      "else": { "not": { "required": ["subscription/id"] } }
+    },
+    {
+      "if": { "properties": { "batch/outcome": { "const": "no-change" } }, "required": ["batch/outcome"] },
+      "then": { "properties": { "frames": { "maxItems": 0 } } }
+    },
+    {
+      "if": { "properties": { "batch/outcome": { "const": "data" } }, "required": ["batch/outcome"] },
+      "then": { "properties": { "frames": { "minItems": 1 } } }
+    },
+    {
+      "if": { "properties": { "batch/outcome": { "const": "terminal" } }, "required": ["batch/outcome"] },
+      "then": {
+        "properties": {
+          "delivery/kind": { "const": "subscription" },
+          "frames": {
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "allOf": [
+                { "$ref": "sensorium-interface-frame.v1.schema.json" },
+                { "properties": { "frame/kind": { "const": "end" } } }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

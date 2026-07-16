@@ -3,11 +3,13 @@
 Based on:
 
 - `doc/project/40-proposals/071-sensorium-workbench.md`
+- `doc/project/40-proposals/082-sensorium-interfaces.md`
 - `doc/project/40-proposals/045-sensorium-local-enaction-stratum.md`
 - `doc/project/40-proposals/048-sensorium-os-connector-action-classes.md`
 - `doc/project/40-proposals/055-bounded-deferred-operation-contract.md`
 - `doc/project/60-solutions/030-sensorium/030-sensorium.md`
 - `doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md`
+- `doc/project/60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md`
 - `doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md`
 - `node:sensorium-actuation-core`
 - `node:interaction-broker-core`
@@ -48,6 +50,9 @@ Related schemas:
 - `sensorium-virt-export-result.v1`
 - `sensorium-virt-teardown-result.v1`
 - `sensorium-workbench-tool-request.v1`
+- `sensorium-interface-descriptor.v1`
+- `sensorium-interface-frame.v1`
+- `sensorium-interface-read-result.v1`
 
 ## Status
 
@@ -91,7 +96,9 @@ providers, explicit Workbench artifact handoff, bounded argv-prefix consent,
 shared append-only sidecar merge, dedicated node-ui consent/broker screens, a
 required Rust actuation companion-process boundary without a Python validation
 fallback, and Agent/Corpus/Room tool request lineage admission through Sensorium
-Core. Remaining solution work is
+Core. Workbench screen snapshots and terminal events are now implemented as
+separate read-only Sensorium Interface source projections, including a
+collaborative WSS Room latest-state acceptance path. Remaining solution work is
 production-grade container or microVM executors and optional daemon command-BDO
 signal policy beyond the implemented `TERM` cancel path.
 
@@ -493,6 +500,37 @@ Status:
   PTY story, Rust bridge, managed-copy export/teardown, broker wait, replay, and
   Python conformance vectors exist. Production container/microVM executor tests
   remain coupled to those future backends.
+
+### Read-Only Sensorium Interface Sources
+
+Based on:
+
+- `doc/project/40-proposals/082-sensorium-interfaces.md`
+- `doc/project/60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md`
+
+Related schemas:
+
+- `sensorium-terminal-screen-snapshot.v1`
+- `sensorium-terminal-event.v1`
+- `sensorium-interface-descriptor.v1`
+- `sensorium-interface-frame.v1`
+
+Responsibilities:
+
+- expose terminal screen snapshots as one `latest-state` source;
+- expose terminal events as a separate `ordered-events` source;
+- preserve Workbench classification, workspace/session binding, and bounded
+  source semantics without granting terminal control;
+- let Solution 046 own publication, interface grants, subscriptions, direct-peer
+  admission, SSE, and Room carrier behavior.
+
+Status:
+
+- `implemented`: the daemon adapts both Workbench source classes through the
+  Interaction Broker. The WSS Room acceptance path projects a cursor-free latest
+  screen snapshot to the intersection of current Room observers and current
+  interface grantees, closes on interface-grant revocation, and leaves the
+  durable Room open. Ordered terminal events are refused by the MVP Room carrier.
 
 ## May Implement
 

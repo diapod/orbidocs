@@ -1,0 +1,18 @@
+{
+  "schema": "sensorium-interface-subscription-command.v1",
+  "schema/v": 1,
+  "subscription/id": "sensorium-subscription:temperature-office-001",
+  "action": "renew",
+  "lease/requested-seconds": 300,
+  "deadline/at": "2026-07-16T12:04:05Z",
+  "causal/context": {
+    "schema": "causal-context.v1",
+    "schema/v": 1,
+    "context/id": "causal-context:sensorium-interface-renew-001",
+    "correlation/id": "corr:sensorium-interface-subscribe-001",
+    "operation/id": "operation:sensorium-interface-renew-001",
+    "causation/refs": ["execution-receipt:sensorium-interface-subscribe-001"],
+    "origin/actor-ref": "component:arca",
+    "created/at": "2026-07-16T12:04:00Z"
+  }
+}

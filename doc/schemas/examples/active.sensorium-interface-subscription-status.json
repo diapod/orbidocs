@@ -1,0 +1,11 @@
+{
+  "schema": "sensorium-interface-subscription-status.v1",
+  "schema/v": 1,
+  "subscription/id": "sensorium-subscription:temperature-office-001",
+  "interface/id": "sensorium-interface:temperature-office",
+  "lifecycle/status": "active",
+  "health/status": "ready",
+  "lease/expires-at": "2026-07-16T12:05:00Z",
+  "cursor/current": "sifc1:temperature-office-current",
+  "status/at": "2026-07-16T12:00:00Z"
+}

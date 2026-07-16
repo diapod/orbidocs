@@ -1,0 +1,22 @@
+{
+  "schema": "sensorium-interface-read-result.v1",
+  "schema/v": 1,
+  "interface/id": "sensorium-interface:temperature-office",
+  "delivery/kind": "one-shot",
+  "batch/outcome": "terminal",
+  "frames": [],
+  "delivery/diagnostics": {
+    "coalesced/count": 0,
+    "gap/count": 0
+  },
+  "causal/context": {
+    "schema": "causal-context.v1",
+    "schema/v": 1,
+    "context/id": "causal-context:invalid-terminal",
+    "correlation/id": "corr:invalid-terminal",
+    "operation/id": "operation:invalid-terminal",
+    "causation/refs": [],
+    "origin/actor-ref": "node:did:key:z6MkSensoriumPublisher",
+    "created/at": "2026-07-16T12:00:00Z"
+  }
+}

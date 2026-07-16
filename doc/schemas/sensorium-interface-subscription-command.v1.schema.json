@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-subscription-command:v1",
+  "title": "Sensorium Interface Subscription Command v1",
+  "description": "Caller-bound renewal or explicit closure of a Sensorium Interface lease.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "subscription/id", "action", "deadline/at", "causal/context"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-subscription-command.v1", "description": "Contract discriminator." },
+    "schema/v": { "const": 1, "description": "Contract version." },
+    "subscription/id": { "type": "string", "pattern": "^sensorium-subscription:[^\\s]+$", "maxLength": 512, "description": "Caller-bound lease to mutate." },
+    "action": { "enum": ["renew", "close"], "description": "Requested lifecycle transition." },
+    "lease/requested-seconds": { "type": "integer", "minimum": 1, "maximum": 86400, "description": "New bounded duration required only for renewal." },
+    "deadline/at": { "type": "string", "format": "date-time", "description": "Absolute deadline for command admission." },
+    "causal/context": { "$ref": "causal-context.v1.schema.json", "description": "P081 context for traceability; never authority." }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "action": { "const": "renew" } }, "required": ["action"] },
+      "then": { "required": ["lease/requested-seconds"] },
+      "else": { "not": { "required": ["lease/requested-seconds"] } }
+    }
+  ]
+}

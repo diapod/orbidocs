@@ -3,6 +3,7 @@
 Based on:
 
 - `doc/project/40-proposals/071-sensorium-workbench.md`
+- `doc/project/40-proposals/082-sensorium-interfaces.md`
 - `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`
 - `doc/project/40-proposals/055-bounded-deferred-operation-contract.md`
 - `doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md`
@@ -63,7 +64,7 @@ Startup recovery now classifies interrupted broker resources as `expired`,
 terminal outcomes, bounded retention preserves active work while pruning old
 terminal records/audit events, and local-control APIs can register/update
 dynamic non-Workbench source-provider metadata. Native Artifact Delivery,
-operator approval/consent, and Memarium-query adapters now expose bounded
+operator approval/consent, Memarium-query, and Sensorium Interface adapters now expose bounded
 snapshots, stable cursors, and executable wait/watch/probe behavior. The broker
 status aggregates provider health and remediation paths, and node-ui exposes
 that operator projection.
@@ -176,6 +177,12 @@ Process termination is never broker-owned. If a wait or probe reports
 `maybe_hung`, `no_progress`, `waiting_for_input`, timeout, or probe failure, the
 result is diagnostic only. Killing, signaling, or closing a process remains a
 Workbench connector directive or operator action.
+
+Proposal 082 reuses this same source-provider boundary for carrier-neutral
+Sensorium Interface reads. The broker adapts admitted Sensorium observations,
+Workbench screen snapshots, and Workbench terminal event batches, but does not
+own interface publication, grants, subscriptions, classification, or carrier
+sessions. Those remain in Solution 046.
 
 ## Storage And Recovery
 
@@ -316,7 +323,7 @@ Status:
 
 Responsibilities:
 
-- let Workbench, Artifact Delivery, Memarium, approvals, and deferred-operation
+- let Workbench, Sensorium Interfaces, Artifact Delivery, Memarium, approvals, and deferred-operation
   registry register bounded source adapters,
 - keep each provider responsible for its own facts and concrete probes,
 - prevent the broker from reaching into component-private storage.
@@ -331,7 +338,10 @@ Status:
   Workbench terminal provider is live through the same handlers for liveness and
   progress probes, terminal waits, and terminal watch batches. Native Artifact
   Delivery, approval/consent, and Memarium-query providers expose bounded
-  snapshots and stable cursors. Dynamic non-Workbench provider registration and
+  snapshots and stable cursors. The built-in Sensorium Interface provider adapts
+  Sensorium observation latest state plus Workbench screen latest state and
+  ordered terminal events without creating a second watch engine. Dynamic
+  non-Workbench provider registration and
   observed-state APIs remain the extension point for additional domains.
 
 ### Operator Surface

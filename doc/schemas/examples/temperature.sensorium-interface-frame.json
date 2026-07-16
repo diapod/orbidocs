@@ -1,0 +1,27 @@
+{
+  "schema": "sensorium-interface-frame.v1",
+  "schema/v": 1,
+  "frame/kind": "snapshot",
+  "observed/at": "2026-07-16T12:00:00Z",
+  "emitted/at": "2026-07-16T12:00:01Z",
+  "payload/schema-ref": "urn:orbiplex:schema:sensorium-observation:v1",
+  "payload": {
+    "observation/id": "observation:temperature-office-001",
+    "signal/kind": "environment.temperature",
+    "value": 21.5,
+    "unit": "Cel"
+  },
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": {
+      "kind": "local-space",
+      "space": "Personal"
+    },
+    "bound_subjects": {
+      "personal_or_community": []
+    },
+    "declassify_trail": []
+  }
+}

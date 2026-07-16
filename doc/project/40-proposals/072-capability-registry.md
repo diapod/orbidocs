@@ -54,7 +54,7 @@ is a separate product decision" is only half true:
   read surface only.
 - **Policy/governance split.** Authorization-policy-as-data per capability is now
   represented as a checked sidecar (`capability-authorization-policy.v1`) for the P071
-  Workbench and Interaction Broker seed capabilities. Federation-extension governance
+  Workbench/Interaction Broker and P082 Sensorium Interface seed capabilities. Federation-extension governance
   (who may register federation-scoped capabilities, namespace allocation, revocation)
   remains a separate governance track.
 
@@ -207,7 +207,7 @@ is a separate product decision" is only half true:
 - Host policy keeps gating authorization at runtime; the sidecar supplies checked
   required-grant/posture/approval/autonomy/COI data for consumers and drift checks.
   It is not the runtime enforcement engine: the current implemented sidecar covers
-  the P071 Workbench and Interaction Broker seed set, and broader per-capability
+  the P071 Workbench/Interaction Broker and P082 Sensorium Interface seed sets, and broader per-capability
   enforcement remains owned by the consuming host-policy boundaries.
 
 ## Data Contracts
@@ -322,10 +322,10 @@ Implemented now:
   against the legacy Rust projection, including `advertisable` coverage, human EN/PL registry tables, and
   `capability-advertisement.v1`, `capability-passport-present.v1`,
   `seed-capability-registration.v1`, and `capability-authorization-policy.v1` fixtures
-  plus the P071 policy coverage sidecar. The sidecar is intentionally seed-scoped
+  plus the P071/P082 policy coverage sidecar. The sidecar is intentionally seed-scoped
   rather than complete over the whole registry: it covers the P071 Workbench and
-  Interaction Broker capabilities that need checked authorization metadata in this
-  phase.
+  Interaction Broker capabilities plus P082 Sensorium Interface operations that need
+  checked authorization metadata in this phase.
 
 Still out of P072 implementation scope:
 
@@ -377,16 +377,20 @@ Those are intentionally separate proposal tracks, as decided in §2.
   `capability-registry.v1` and covered by registry admission/drift gates.
 - [x] host `interaction-broker.wait` / `.watch` / `.probe` (P071). Registered in
   `capability-registry.v1` and covered by registry admission/drift gates.
+- [x] `sensorium.interface.read` / `.subscribe` / `.manage` (P082). Registered
+  with read/subscribe Passport eligibility, host-local non-Passportable manage,
+  and checked authorization-policy sidecar entries.
 
 ### Phase 4 — Authorization-policy-as-data `[x] policy sidecar landed`
 
 - [x] Express required grants / COI / autonomy levels as registry-consumable sidecar
   data. `node:capability/capability-authorization-policy.v1.json` carries the P071
-  Workbench/Interaction Broker seed policy; `orbiplex-node-capability` parses and
+  Workbench/Interaction Broker plus Sensorium Interface seed policy;
+  `orbiplex-node-capability` parses and
   validates it; daemon startup preflight now validates both registry and authorization
   policy; Orbidocs schema/examples are mirrored into node protocol contracts; and `make
   check-capability-registry` validates sidecar shape, registered capability refs, mirror
-  sync, and P071 seed coverage. Runtime enforcement of those sidecar grants remains a
+  sync, and P071/P082 seed coverage. Runtime enforcement of those sidecar grants remains a
   host-policy consumer responsibility, not an extra P072 registry gate.
 
 ### Phase 5 — Federation-extension governance `[d] separate proposal track`

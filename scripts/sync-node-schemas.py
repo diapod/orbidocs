@@ -141,6 +141,15 @@ SCHEMA_WHITELIST = (
     "sensorium-workbench-patch-apply-result.v1.schema.json",
     "sensorium-workbench-outcome.v1.schema.json",
     "sensorium-workbench-error-codes.v1.schema.json",
+    "sensorium-interface-descriptor.v1.schema.json",
+    "sensorium-interface-frame.v1.schema.json",
+    "sensorium-interface-read-request.v1.schema.json",
+    "sensorium-interface-read-result.v1.schema.json",
+    "sensorium-interface-status.v1.schema.json",
+    "sensorium-interface-subscribe-request.v1.schema.json",
+    "sensorium-interface-subscription-command.v1.schema.json",
+    "sensorium-interface-subscription-status.v1.schema.json",
+    "vendor-media-type-registry.v1.schema.json",
     "inac-control.v1.schema.json",
     "notification.v1.schema.json",
     "notification-create.v1.schema.json",
@@ -314,6 +323,14 @@ EXAMPLE_WHITELIST = (
     "unified.sensorium-workbench-patch.json",
     "applied.sensorium-workbench-patch-apply-result.json",
     "completed.sensorium-workbench-outcome.json",
+    "active.sensorium-interface-subscription-status.json",
+    "published.sensorium-interface-status.json",
+    "renew.sensorium-interface-subscription-command.json",
+    "temperature.sensorium-interface-descriptor.json",
+    "temperature.sensorium-interface-frame.json",
+    "temperature.sensorium-interface-read-request.json",
+    "temperature.sensorium-interface-read-result.json",
+    "temperature.sensorium-interface-subscribe-request.json",
     "push-inline.inac-control.json",
     "refused.inac-control.json",
     "invite-only.contact-claim.json",
@@ -454,6 +471,11 @@ INVALID_EXAMPLE_WHITELIST = (
     "header-injection.middleware-module-http-response.json",
     "traversal.interaction-broker-wait.request.json",
     "traversal.sensorium-relative-path-address.json",
+    "latest-state-replay.sensorium-interface-descriptor.json",
+    "one-shot-with-subscription.sensorium-interface-read-request.json",
+    "ready-with-reason.sensorium-interface-status.json",
+    "snapshot-with-payload-and-artifact.sensorium-interface-frame.json",
+    "terminal-one-shot.sensorium-interface-read-result.json",
     "invitation-without-route.contact-lookup-result.json",
     "missing-signature.message-envelope.json",
     "memarium-blob-without-signature.memarium-blob.json",
@@ -539,6 +561,10 @@ def main() -> int:
     copy_files(EXAMPLE_WHITELIST, EXAMPLES_DIR, example_target)
     copy_files(INVALID_EXAMPLE_WHITELIST, INVALID_EXAMPLES_DIR, invalid_target)
     copy_files(GOLDEN_WHITELIST, GOLDEN_DIR, golden_target)
+    shutil.copy2(
+        SCHEMAS_DIR / "registries" / "vendor-media-types.v1.json",
+        contracts_root / "vendor-media-types.v1.json",
+    )
 
     return 0
 

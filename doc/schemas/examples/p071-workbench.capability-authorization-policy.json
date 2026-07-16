@@ -40,6 +40,33 @@
       "notes": "Environment access is scoped to backend, workspace roots, teardown policy, and resource caps; egress and credentials stay denied unless separately granted."
     },
     {
+      "capability/id": "sensorium.interface.read",
+      "required/grants": ["grant/sensorium.interface.read"],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "auto-with-grant",
+      "autonomy/floor": "observation-only",
+      "coi/policy": "declaration-required",
+      "notes": "Each read is admitted against current interface lifecycle, resource-scoped authority, exact topic classification, deadline, and batch caps."
+    },
+    {
+      "capability/id": "sensorium.interface.subscribe",
+      "required/grants": ["grant/sensorium.interface.subscribe"],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "auto-with-grant",
+      "autonomy/floor": "observation-only",
+      "coi/policy": "declaration-required",
+      "notes": "Subscription authority creates a bounded caller-bound lease and does not imply arbitrary one-shot read authority."
+    },
+    {
+      "capability/id": "sensorium.interface.manage",
+      "required/grants": ["grant/sensorium.interface.manage"],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "proposed-effect",
+      "coi/policy": "operator-review-required",
+      "notes": "Source-local publication, suspension, withdrawal, grant, and revocation remain action-scoped host decisions and cannot be delegated through a Passport."
+    },
+    {
       "capability/id": "interaction-broker.wait",
       "required/grants": ["grant/interaction.wait"],
       "caller/posture": "host-broker-grant-required",

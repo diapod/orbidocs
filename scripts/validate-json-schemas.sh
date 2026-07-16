@@ -155,6 +155,30 @@ schema_for_file() {
     *.sensorium-workbench-environment.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-environment.v1.schema.json"
       ;;
+    *.sensorium-interface-descriptor.json)
+      echo "$SCHEMAS_DIR/sensorium-interface-descriptor.v1.schema.json"
+      ;;
+    *.sensorium-interface-status.json)
+      echo "$SCHEMAS_DIR/sensorium-interface-status.v1.schema.json"
+      ;;
+    *.sensorium-interface-frame.json)
+      echo "$SCHEMAS_DIR/sensorium-interface-frame.v1.schema.json"
+      ;;
+    *.sensorium-interface-read-request.json)
+      echo "$SCHEMAS_DIR/sensorium-interface-read-request.v1.schema.json"
+      ;;
+    *.sensorium-interface-read-result.json)
+      echo "$SCHEMAS_DIR/sensorium-interface-read-result.v1.schema.json"
+      ;;
+    *.sensorium-interface-subscribe-request.json)
+      echo "$SCHEMAS_DIR/sensorium-interface-subscribe-request.v1.schema.json"
+      ;;
+    *.sensorium-interface-subscription-status.json)
+      echo "$SCHEMAS_DIR/sensorium-interface-subscription-status.v1.schema.json"
+      ;;
+    *.sensorium-interface-subscription-command.json)
+      echo "$SCHEMAS_DIR/sensorium-interface-subscription-command.v1.schema.json"
+      ;;
     *.sensorium-terminal-session.json)
       echo "$SCHEMAS_DIR/sensorium-terminal-session.v1.schema.json"
       ;;

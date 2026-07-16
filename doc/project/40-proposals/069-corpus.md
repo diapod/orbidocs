@@ -118,7 +118,7 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
 | **Room primitive (P070 / Solution 036)** | live deliberation (post-MVP) | **ready for the node-local slice: durable contracts, projection core, signed membership attestation, behaviorally aligned bounded WSS/Matrix transports, Corpus policy/invite admission, live WSS join/readiness/message flow, metadata-only authority observations, and restart-safe endpoint/session/sequence recovery are implemented** |
 | **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **runtime and Corpus join ready: the durable node-local lifecycle, bounded active controller, Room-attested Corpus-chair and participant bindings, memory projection, Inquirium/child execution, effect proposals/dispatch including `corpus.room.turn`, Agent-owned lease lifecycle, content-addressed outcome projection, and Corpus-owned inert answer-draft acceptance exist** |
-| **Sensorium Interfaces (P082) + Sensorium Workbench (Solution 042)** | optional shared terminal or enacted-environment views during live deliberation | **P082 architecture frozen, runtime not started; the planned WSS Room adapter exposes only a bounded `latest-state` projection and does not grant terminal control** |
+| **Sensorium Interfaces (P082 / Solution 046) + Sensorium Workbench (Solution 042)** | optional shared terminal or enacted-environment views during live deliberation | **implemented: the WSS Room adapter exposes only a bounded `latest-state` projection, intersects Room observe rights with current interface grants, omits source cursors, and never grants terminal control** |
 
 The MVP depends only on the first three rows. The generic Room live-plane runtime,
 the Agent runtime, and their Corpus-chair join are no longer blockers. The
@@ -1672,10 +1672,11 @@ runtime, no N-way settlement.
 - [ ] Later: arbiter election (`corpus-reasoning-arbiter-nomination.v1` / `…-vote.v1`)
   with eligibility, COI, quorum, deadline, tie-break, revocation, fallback.
 
-#### Optional shared enacted views `[ ] blocked on P082 runtime`
+#### Optional shared enacted views `[x] P082 runtime implemented`
 
 - [ ] For deliberation profiles that share a terminal or enacted-environment view,
-  publish a bounded read-only Workbench/Sensorium representation through P082,
+  publish a bounded read-only Workbench/Sensorium representation through P082
+  and Solution 046,
   issue a resource-scoped interface grant to every admitted observer, and project
   it over the WSS-backed Room `latest-state` carrier. This optional integration
   must not treat Room membership as interface authority, expose ordered terminal

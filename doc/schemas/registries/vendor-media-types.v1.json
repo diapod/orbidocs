@@ -1,0 +1,41 @@
+{
+  "schema": "vendor-media-type-registry.v1",
+  "schema/v": 1,
+  "entries": [
+    {
+      "media/type": "application/vnd.orbiplex.corpus-reasoning-turn-proposal+json",
+      "schema/ref": "urn:orbiplex:schema:corpus-reasoning-turn-proposal:v1",
+      "encoding": "canonical-json",
+      "owner/ref": "P069",
+      "status": "active"
+    },
+    {
+      "media/type": "application/vnd.orbiplex.corpus-room-presence+json",
+      "schema/ref": "urn:orbiplex:schema:corpus-room-presence:v1",
+      "encoding": "canonical-json",
+      "owner/ref": "P069",
+      "status": "migration-pending"
+    },
+    {
+      "media/type": "application/vnd.orbiplex.inquirium-transcript-fact+json",
+      "schema/ref": "urn:orbiplex:schema:inquirium-assistant-transcript-fact:v1",
+      "encoding": "canonical-json",
+      "owner/ref": "Inquirium",
+      "status": "migration-pending"
+    },
+    {
+      "media/type": "application/vnd.orbiplex.sensorium-interface-read-result+json",
+      "schema/ref": "urn:orbiplex:schema:sensorium-interface-read-result:v1",
+      "encoding": "canonical-json",
+      "owner/ref": "P082",
+      "status": "active"
+    },
+    {
+      "media/type": "application/vnd.orbiplex.sensorium-virt-workspace-export+json",
+      "schema/ref": "urn:orbiplex:schema:sensorium-virt-workspace-export:v1",
+      "encoding": "canonical-json",
+      "owner/ref": "P071",
+      "status": "active"
+    }
+  ]
+}

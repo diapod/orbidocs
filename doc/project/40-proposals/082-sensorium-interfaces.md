@@ -22,11 +22,16 @@ Based on:
 
 ## Status
 
-Draft / architecture frozen; runtime not started
+Implemented / promoted to Solution 046
+
+The frozen V1 contract is implemented in Node and promoted to
+[Solution 046: Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md).
+This proposal remains the rationale, decision record, named-invariant catalog,
+and implementation tracker.
 
 ## Date
 
-2026-07-13
+2026-07-16
 
 ## Executive Summary
 
@@ -167,8 +172,9 @@ the host can enforce structural preconditions:
 - interfaces are local-only and undiscoverable by default;
 - the source operator can enumerate active interfaces, grants, subscriptions, and
   recent closures;
-- grants bind an authenticated subject, interface id, operations, classification
-  ceiling, expiry, and rate/volume limits;
+- grants bind a canonical namespaced authenticated subject ref, interface id,
+  operations, classification ceiling, expiry, and rate/volume limits; bare ids
+  are invalid because they cannot distinguish principal kinds;
 - every emitted value passes source policy, redaction, and egress classification;
 - revocation stops new reads and emissions within a configured, tested maximum
   enforcement lag;
@@ -546,7 +552,8 @@ Batch and frame rules:
   local context and preserves the accepted upstream context as evidence. Selective
   receipts describe read admission, delivered batches when they are external
   effects, and terminal transitions; the protocol does not emit a receipt or repeat
-  full context for every frame.
+  full context for every frame. Adapter-owned read-next operations identify their
+  actual carrier, such as SSE or Room projection, in correlation and operation ids.
 
 The result contains a bounded `frames[]`, `cursor/next`, a typed batch outcome,
 bounded delivery diagnostics, P081 context, and retry advice. A latest-state read
@@ -1134,7 +1141,9 @@ The six initial design questions are resolved as of 2026-07-13:
 2. Implementation order is authenticated direct pull-batch, then local SSE and
    WSS-backed Room latest-state projection. Provider push is not a V1 protocol.
 3. Cross-node authority reuses Capability Passport with interface-specific scope;
-   local grants remain host-owned runtime facts.
+   for direct pull, `node_id` names the authenticated remote consumer and
+   `issuer/node_id` names the local source node. Local grants remain host-owned
+   runtime facts.
 4. Remote descriptors are disclosed only through a direct grant/invitation or an
    authorized collaboration context. There is no federation-wide catalog in V1.
 5. Every frame carries `classification.v1`; a payload copy, when present, is
@@ -1148,20 +1157,20 @@ The six initial design questions are resolved as of 2026-07-13:
 | Id | Work item | Status | Acceptance boundary |
 |---|---|---|---|
 | P082-001 | Freeze the proposal architecture, V1 decisions, bounds, named invariants, and implementation order | done | This document records the frozen resource/capability split, one pull-batch contract, direct-only descriptor disclosure, Passport reuse, classification placement, and local management posture. |
-| P082-002 | Extend P047 and the shared classification core with `Surface::Interface` plus exact descriptor topic-class matching | todo | Must land before P082 schema freeze; tests reject facts for Agora, Whisper, INAC, export, or bus and reject topic mismatch, expiry, revocation, and consumed one-shot facts. |
-| P082-003 | Freeze descriptor/interface-status, read request/result, subscribe request/status/command, frame schemas, and typed errors | todo | Eight Sensorium schemas cover discriminator, terminal, latest-state no-replay, ordered replay bounds, byte caps, classification equality, unknown-field, and privacy-negative fixtures. |
-| P082-004 | Register `read`, `subscribe`, and local `manage` with the exact flags and authorization-policy posture frozen above | todo | Machine registry, Rust constants, human registry, and policy sidecar agree; generic support advertisement exposes no interface descriptor. |
-| P082-005 | Seed a shared checked-in Orbiplex vendor media-type inventory and register the P082 read-result type | todo | Unique media-type-to-schema binding is machine validated; existing Orbiplex vendor types are backfilled or explicitly migrated. |
-| P082-006 | Implement the pure lifecycle, batch-cursor binding, delivery-policy, classification, and limit core | todo | Core has no daemon, transport, SQLite, async-runtime, or concrete provider dependency and proves all named semantic invariants. |
-| P082-007 | Add schema-gate families and positive/negative fixtures | todo | Every public ingress/egress boundary validates its contract; unsupported boundaries and classification leaks fail closed. |
-| P082-008 | Add one Sensorium Interface source to Interaction Broker and its provider registry | todo | Reuses broker cursors, waits, deadlines, caps, and replay rather than creating a second watch engine. |
-| P082-009 | Adapt admitted Sensorium observations with conjunctive `sensorium.read.local` and interface authority checks | todo | Local source scope never becomes caller authority; latest-state temperature read and subscription pass. |
-| P082-010 | Adapt Workbench terminal screen snapshots and ordered event batches | todo | Screen and event projections remain separate resources with different classification and delivery semantics. |
-| P082-011 | Add host publication, grant, subscription, revocation, and inspection surfaces | todo | Authenticated caller binding, immutable facts, status projections, idempotency, revocation lag, and restart rebuild are covered. |
-| P082-012 | Add local host-capability and authenticated direct-peer pull-batch surfaces | todo | Direct peer flow verifies Passport scope and current local policy per batch; cursors are never bearer tokens. |
-| P082-013 | Add local SSE and WSS-backed Room latest-state adapters | todo | Adapter-owned loops, current grant checks, typed projection-session close, no durable-Room close, and ordered-event refusal are tested. |
-| P082-014 | Add named-invariant tests plus temperature and Workbench end-to-end acceptance flows | todo | One on-demand temperature read, one continuous temperature flow, and one collaborative terminal view cover happy path and terminal/revocation failures. |
-| P082-015 | Synchronize P024, P042, P045, P047, P066, P070, P071, P072, P075, P080, P081, Solutions 030/035/042, Node ledgers, and applicable readiness tracking | todo | No affected document or machine registry retains competing semantics. |
+| P082-002 | Extend P047 and the shared classification core with `Surface::Interface` plus exact descriptor topic-class matching | done | `orbiplex-node-classification` implements `Surface::Interface`; tests reject other surfaces, topic mismatch, expiry, revocation, and consumed one-shot facts. |
+| P082-003 | Freeze descriptor/interface-status, read request/result, subscribe request/status/command, frame schemas, and typed errors | done | Eight closed schemas plus core semantic validation cover terminal, latest-state no-replay, ordered replay bounds, byte caps, classification equality, conflicting frame payload sources, and unknown-field refusal. |
+| P082-004 | Register `read`, `subscribe`, and local `manage` with the exact flags and authorization-policy posture frozen above | done | Machine registry, Rust constants, policy sidecar, and human registry agree; only read/subscribe are Passport-eligible and generic advertisement exposes no descriptor. |
+| P082-005 | Seed a shared checked-in Orbiplex vendor media-type inventory and register the P082 read-result type | done | `vendor-media-types.v1` binds the P082 read-result media type uniquely and is validated by protocol/schema-gate tests. |
+| P082-006 | Implement the pure lifecycle, batch-cursor binding, delivery-policy, classification, and limit core | done | `sensorium-interface-core` has no daemon, transport, SQLite, async-runtime, or concrete provider dependency and proves the named semantic invariants. |
+| P082-007 | Add schema-gate families and positive/negative fixtures | done | Schema-gate embeds all eight schemas and validates positive, cross-field-negative, and unsupported-boundary fixtures. |
+| P082-008 | Add one Sensorium Interface source to Interaction Broker and its provider registry | done | The daemon registers the `sensorium-interface` source kind and reuses broker watch cursors, deadlines, and caps. |
+| P082-009 | Adapt admitted Sensorium observations with conjunctive `sensorium.read.local` and interface authority checks | done | Sensorium observation binding preserves source admission and independently checks interface authority; temperature one-shot and subscription tests pass. |
+| P082-010 | Adapt Workbench terminal screen snapshots and ordered event batches | done | Workbench screen latest-state and terminal ordered-events are separate source bindings with separate descriptor semantics. |
+| P082-011 | Add host publication, grant, subscription, revocation, and inspection surfaces | done | The daemon runtime persists immutable management facts, idempotency, grants, subscriptions, terminal states, and restart-rebuildable projections. Grants require canonical namespaced grantee refs; cursor advancement is serialized per subscription, while independent subscriptions may read concurrently; verified Passport admission is one immediate atomic transaction with explicit revoked-replay diagnostics. |
+| P082-012 | Add local host-capability and authenticated direct-peer pull-batch surfaces | done | Host dispatch and peer message-chain tests verify caller binding, signed `sensorium-interface@v1` Passport scope, exact remote target and local source issuer, resource limits, and current revocation. |
+| P082-013 | Add local SSE and WSS-backed Room latest-state adapters | done | Loopback module-authenticated SSE and WSS Room projection use adapter-owned read-next loops with carrier-specific causal ids, current grant checks, typed close, ordered-event refusal, and no durable Room close. Room recipients match canonical stable subject keys only; the adapter caps active pumps at 64 and reaps terminal pump and carrier state together. |
+| P082-014 | Add named-invariant tests plus temperature and Workbench end-to-end acceptance flows | done | Focused core/runtime tests cover temperature one-shot and continuous flows, restart, revocation, concurrent and revoked Passport replay, canonical grantee refs, tier-vocabulary alignment, frame schema negatives, carrier-specific traces, and subscription lock isolation; peer, SSE, and real WSS tests cover signed remote target binding and collaborative terminal view. |
+| P082-015 | Synchronize P024, P042, P045, P047, P066, P070, P071, P072, P075, P080, P081, Solutions 030/035/042, Node ledgers, and applicable readiness tracking | done | Solution 046 owns the implemented boundary. P024/P045/P047/P069/P070/P071/P072/P081 and Solutions 030/035/036/042 carry the applicable explicit cross-links; P042/P066/P075/P080 were reviewed and retain non-competing owner semantics. Node MVP/implementation ledgers, capability registries, generated solution/schema views, and the readiness snapshot are synchronized. |
 
 ## Open Questions
 
@@ -1176,12 +1185,9 @@ post-V1 questions require operational evidence rather than speculative answers:
 
 ## Next Actions
 
-1. Implement P082-002 so P047 can represent interface-specific declassification.
-2. Freeze the eight initial schemas, media-type binding, typed errors, and capability
-   registry posture.
-3. Implement the pure core and Interaction Broker provider before any carrier
-   adapter.
-4. Implement the local Sensorium observation and Workbench terminal adapters.
-5. Add direct peer pull-batch before local SSE and WSS-backed Room projection.
-6. Prove the contract with one on-demand temperature read, one continuous
-   temperature subscription, and one collaborative terminal-view acceptance flow.
+1. Collect read-next latency, batch occupancy, no-change rate, and revocation-lag
+   evidence under representative deployments.
+2. Add another producer adapter only through the implemented source-provider and
+   classification contracts.
+3. Revisit provider push, searchable descriptor discovery, or split management
+   authority only when the post-V1 questions have operational evidence.

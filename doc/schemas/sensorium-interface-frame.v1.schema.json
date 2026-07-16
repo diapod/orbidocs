@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-frame:v1",
+  "title": "Sensorium Interface Frame v1",
+  "description": "One bounded classified value or lifecycle marker inside a Sensorium Interface result batch.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "frame/kind",
+    "observed/at",
+    "emitted/at",
+    "classification"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-interface-frame.v1", "description": "Contract discriminator." },
+    "schema/v": { "const": 1, "description": "Contract version." },
+    "frame/kind": { "enum": ["snapshot", "event", "gap", "end"], "description": "Data or lifecycle shape of this frame." },
+    "observed/at": { "type": "string", "format": "date-time", "description": "Time represented by the source value or marker." },
+    "emitted/at": { "type": "string", "format": "date-time", "description": "Time the interface adapter emitted this frame." },
+    "payload/schema-ref": { "type": "string", "minLength": 1, "maxLength": 512, "description": "Schema of an inline or artifact-backed data payload; must equal the descriptor output schema." },
+    "payload": { "description": "Inline data value for a snapshot or event." },
+    "artifact/ref": { "type": "string", "minLength": 1, "maxLength": 512, "description": "Reference to an independently admitted Artifact Delivery value when data is not inline." },
+    "gap/from-cursor": { "type": "string", "minLength": 1, "maxLength": 4096, "description": "First cursor position in a lost or unavailable ordered-event interval." },
+    "gap/to-cursor": { "type": "string", "minLength": 1, "maxLength": 4096, "description": "Resume boundary after a lost or unavailable ordered-event interval." },
+    "terminal/reason": { "type": "string", "minLength": 1, "maxLength": 128, "description": "Typed reason carried only by the final end frame." },
+    "classification": { "$ref": "classification.v1.schema.json", "description": "Effective classification enforced for this emitted frame, including gap and terminal metadata." }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "frame/kind": { "enum": ["snapshot", "event"] } }, "required": ["frame/kind"] },
+      "then": {
+        "required": ["payload/schema-ref"],
+        "oneOf": [
+          { "required": ["payload"], "not": { "required": ["artifact/ref"] } },
+          { "required": ["artifact/ref"], "not": { "required": ["payload"] } }
+        ],
+        "not": {
+          "anyOf": [
+            { "required": ["gap/from-cursor"] },
+            { "required": ["gap/to-cursor"] },
+            { "required": ["terminal/reason"] }
+          ]
+        }
+      }
+    },
+    {
+      "if": { "properties": { "frame/kind": { "const": "gap" } }, "required": ["frame/kind"] },
+      "then": {
+        "required": ["gap/from-cursor", "gap/to-cursor"],
+        "not": {
+          "anyOf": [
+            { "required": ["payload/schema-ref"] },
+            { "required": ["payload"] },
+            { "required": ["artifact/ref"] },
+            { "required": ["terminal/reason"] }
+          ]
+        }
+      }
+    },
+    {
+      "if": { "properties": { "frame/kind": { "const": "end" } }, "required": ["frame/kind"] },
+      "then": {
+        "required": ["terminal/reason"],
+        "not": {
+          "anyOf": [
+            { "required": ["payload/schema-ref"] },
+            { "required": ["payload"] },
+            { "required": ["artifact/ref"] },
+            { "required": ["gap/from-cursor"] },
+            { "required": ["gap/to-cursor"] }
+          ]
+        }
+      }
+    }
+  ]
+}
