@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:room-event:v1",
   "title": "RoomEvent v1",
-  "description": "Durable room lifecycle or authority event payload carried by an Agora record envelope.",
+  "description": "Durable room lifecycle or scoped authority event payload carried by an Agora record envelope.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
@@ -27,9 +27,57 @@
     },
     "authority/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
     "subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "delegation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^room-delegation:"
+    },
+    "delegation/scopes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": { "type": "string", "enum": ["relay/manage"] }
+    },
+    "delegation/expires-at": { "type": "string", "format": "date-time" },
+    "delegation/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^room-delegation:"
+    },
     "seq/no": { "type": "integer", "minimum": 0 },
     "created-at": { "type": "string", "format": "date-time" },
     "reason/ref": { "type": "string", "minLength": 1 },
     "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "event": { "const": "delegated" } },
+        "required": ["event"]
+      },
+      "then": {
+        "required": ["subject", "delegation/id", "delegation/scopes", "delegation/expires-at"],
+        "not": { "required": ["delegation/ref"] }
+      }
+    },
+    {
+      "if": {
+        "properties": { "event": { "const": "delegation-revoked" } },
+        "required": ["event"]
+      },
+      "then": {
+        "required": ["delegation/ref"],
+        "not": {
+          "anyOf": [
+            { "required": ["delegation/id"] },
+            { "required": ["delegation/scopes"] },
+            { "required": ["delegation/expires-at"] }
+          ]
+        }
+      }
+    }
+  ]
 }

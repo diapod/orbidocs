@@ -10,6 +10,14 @@ short = "P009"
 path = "doc/project/40-proposals/070-room-primitive.md"
 short = "P070"
 
+[P082]
+path = "doc/project/40-proposals/082-sensorium-interfaces.md"
+short = "P082"
+
+[P083]
+path = "doc/project/40-proposals/083-sensorium-interactive-interfaces.md"
+short = "P083"
+
 [P051]
 path = "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
 short = "P051"

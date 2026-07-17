@@ -691,7 +691,7 @@ per-consumer acknowledgement. A WSS Room pump may coalesce intermediate snapshot
 the next complete snapshot repairs presentation without pretending that a dropped
 carrier event was delivered.
 
-P070's future relocatable relay does not change that semantic boundary. Its
+P070's implemented Phase 6A relocatable relay does not change that semantic boundary. Its
 `(relay/epoch, relay/seq-no)` cursor belongs to the carrier and may replay a bounded
 recent delivery or detect that the carrier window was lost. It is never the private
 Sensorium source cursor. After relay failover or `cursor-expired`, the P082 adapter
@@ -1246,7 +1246,7 @@ baseline; decisions 7-9 close the evidence-gated follow-up review:
 | P082-017 | Add the Artifact Delivery-backed immutable snapshot adapter | done | `artifact-snapshot` emits only an accepted `artifact-object-pointer.v1` ref through a read-only latest-state interface, pins admission identity, redacts AD-host failures, preserves classification checks, and uses stable digest-bound cursor change detection; local manage authority deliberately selects the private admission binding. |
 | P082-018 | Expose bounded operator evidence for source readiness, carrier reads, occupancy, no-change, errors, active leases, Room pumps, and local revoke commit duration | done | The host-local manage `metrics` action reports no actor, interface, grant, or subscription identifiers; read dimensions are capped by 64 registered source kinds, four carrier classes, and two delivery kinds, while `revoke-commit-us` remains flat. Source-registry, active-subscription, metric-accumulator, and Room failures degrade independently; counters are process-local and reset on restart. |
 | P082-019 | Add and run the host/direct-peer/SSE/Room conformance and load harness, then synchronize solution and readiness artifacts | done | `node:tools/conformance/sensorium_interfaces_conformance.py` prebuilds daemon/core plus the required Workbench contract bridge with a separate build timeout, uses exact full Rust test names with one test thread, fails fast by default, distinguishes build/test timeouts and unrecognized libtest output, emits only output digests on failure, and now extends the original bounded host, signed peer, SSE, and Room observation checks with the P083 load, restart, partial-failure, Room baton, and real Workbench PTY matrix. |
-| P082-020 | Make the Room latest-state adapter relay-epoch-aware after P070 Phase 6A | deferred post-MVP | Reconnect uses only `(relay/epoch, relay/seq-no)` carrier state, never a source cursor; epoch change or expired carrier replay refreshes one current complete snapshot after rechecking Room membership and interface grant. This item does not reopen or block the completed P082 hard-MVP contract. |
+| P082-020 | Make the Room latest-state adapter relay-epoch-aware after P070 Phase 6A | done | An active Room projection publishes schema-gated `sensorium-interface-frame.v1` latest-state frames into the current bounded relay epoch after rechecking Room and interface authority. Reconnect uses only `(relay/epoch, relay/seq-no)` carrier state, never a source cursor; epoch change or expired replay yields a typed refresh boundary and a fresh subscription returns the current bounded latest-state view. Relay publication failure closes the pump and records a payload-free degraded reason. |
 
 ## Open Questions
 
@@ -1266,5 +1266,5 @@ requires operational evidence and an explicit contract revision.
 3. Keep pull-batch, direct disclosure, and one source-local manage capability as the
    baseline. Treat any future push, existence-discovery, or authority-split proposal
    as an explicit contract revision with operational evidence.
-4. Implement P082-020 only through P070 Phase 6A; do not add an Interface-specific
-   relay, membership service, or failover protocol.
+4. Collect relay latency, cursor-expiry, and failover evidence through P070 Phase 6A;
+   do not add an Interface-specific relay, membership service, or failover protocol.

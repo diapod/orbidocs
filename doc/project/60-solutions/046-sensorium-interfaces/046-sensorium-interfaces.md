@@ -49,6 +49,7 @@ Related schemas:
 - `classification.v1`
 - `capability-passport.v1`
 - `vendor-media-type-registry.v1`
+- `room-relay-delivery.v1`
 
 ## Status
 
@@ -67,6 +68,9 @@ The P083 schema, capability, core, durable coordinator, LED, host/direct-peer,
 Workbench PTY, operator/Room collaboration, conformance, and synchronization slices
 are implemented and refusal-tested. P083-012 promotes that reviewed actuation
 extension into this solution and satisfies the P083 hard-MVP release blocker.
+P070 Phase 6A now also supplies the shared relay-epoch carrier used by the Room
+latest-state pump and the closed P083 status/claim/control/invoke/receipt classes;
+direct peer remains an optional latency path and owns no additional authority.
 
 ## Date
 
@@ -327,11 +331,12 @@ Status: `done`.
 
 ### Relocatable Room Relay Carrier
 
-After P070 Phase 6A, the authority-neutral Room relay should become the default
-firewall-proof carrier for collaborative latest-state and P083 interaction. The P082
-adapter keeps its source cursor private: `(relay/epoch, relay/seq-no)` is only carrier
-resume state, and failover or carrier cursor expiry triggers one current complete
-snapshot after current Room and interface authority are rechecked.
+P070 Phase 6A implements the authority-neutral Room relay as the default
+firewall-proof carrier contract for collaborative latest-state and P083 interaction
+whenever an active endpoint is projected. The P082 adapter keeps its source cursor
+private: `(relay/epoch, relay/seq-no)` is only carrier resume state, and failover or
+carrier cursor expiry triggers a fresh current-state read after current Room and
+interface authority are rechecked.
 
 P083 status, claim, control, invoke, and receipt use the same coordinator contracts and
 fencing over the relay. Authenticated direct peer remains an optional latency upgrade,
@@ -339,7 +344,9 @@ not a lease or correctness requirement. This work is owned by P070 Phase 6A plus
 P082-020/P083-013; it must not create a Sensorium-specific relay or NAT traversal
 protocol.
 
-Status: `deferred post-MVP`.
+Status: `done post-MVP` through P070 Phase 6A, P082-020, and P083-013. The relay
+transports typed requests and receipts but never executes an effect or supplies
+authority on behalf of the destination host.
 
 ### Measured Provider-Push Profile
 
@@ -415,7 +422,7 @@ Status: `deferred`.
 | Room membership is mistaken for actuation authority | A collaborator invokes an ungranted method or stale lease | Require current `actuate`, canonical session subject, exact active interface grant, grouped method, generation, and current lease fencing before dispatch. |
 | A Room bearer is projected or echoed | Another member can reuse a session identity | Keep the 256-bit random ref only in the joining client's admission envelopes and bind frame subjects outside payloads. |
 | Collaboration groups outlive their Room or occupy capacity after withdrawal | Process-local state becomes unusable or saturates | Remove withdrawals immediately; reap closed/terminal Room groups before access, management, and operator snapshots; clear all groups at daemon stop. |
-| Terminal input is sent as Room content | Raw keystrokes enter collaboration retention or replay | Keep Room WSS outbound observation-only; invoke Workbench through the host-local actuation adapter and persist only metadata/digests. |
+| Terminal input is sent as an ordinary Room live message | Raw keystrokes bypass typed actuation admission or enter the wrong collaboration semantics | Carry input only as a schema-gated P083 relay delivery; retain it only in the bounded ephemeral epoch window, recheck the exact interface grant and fencing at the host, and persist only metadata/digests. |
 | Relay or direct-peer upgrade is treated as control ownership | Carrier failover transfers or widens actuation authority | Keep grants and fenced leases in the host coordinator; carrier replacement changes transport only and must recheck current Room plus interface authority. |
 
 ## Open Questions
@@ -437,5 +444,6 @@ implementation choices.
 3. Keep pull-batch, direct disclosure, and one source-local manage capability as
    the baseline. Require an explicit evidence-backed contract revision for any
    provider-push, existence-discovery, or management-authority split.
-4. After P070 Phase 6A, complete P082-020 and P083-013 through the shared Room relay
-   contract rather than adding Sensorium-specific reachability or failover logic.
+4. Collect P082-020/P083-013 relay latency, cursor-expiry, and failover evidence through
+   the shared Room diagnostics rather than adding Sensorium-specific reachability or
+   failover logic.

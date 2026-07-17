@@ -213,10 +213,10 @@ flowchart TB
   classDef draft fill:#f3e5f5,stroke:#6a1b9a,color:#26102f
   classDef convention fill:#eceff1,stroke:#455a64,color:#102027
 
-  class Gate,CapabilityRegistry,Signer,Sealer,CapabilityAdvertisement,Memarium,AgoraLocal,Whisper,RawSignal,ModuleStore,BoundedServer,MiddlewareHost,Scheduler,Deferred,ArtifactDelivery,TemporalStorage,Relationship,SharedOfferCatalog,APIProjection,Room,Sensorium,Inquirium,AssistantChannel,Corpus done
+  class Gate,CapabilityRegistry,Signer,Sealer,CapabilityAdvertisement,Memarium,AgoraLocal,Whisper,RawSignal,ModuleStore,BoundedServer,MiddlewareHost,Scheduler,Deferred,ArtifactDelivery,TemporalStorage,Relationship,SharedOfferCatalog,APIProjection,Room,Sensorium,Inquirium,AssistantChannel,AgentOrgan,Corpus done
   class Daemon,UI,Arca,Dator,INAC,KeyPassports,InteractionBroker partial
   class Monus,Anon,SemanticIndex planned
-  class Classification,AgoraAuthority,AgentOrgan,WorkflowCatalog,Reputation,Recovery draft
+  class Classification,AgoraAuthority,WorkflowCatalog,Reputation,Recovery draft
   class TLS,SeedDirectory,ContactCatalog,PseudonymVault,Messaging mvp
   class TemporalStorage convention
 
@@ -273,7 +273,7 @@ flowchart TB
   click Harness "../../project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md" "Multi-Node Federation Harness"
   click Inquirium "../../project/60-solutions/044-inquirium/044-inquirium.md" "Inquirium"
   click AssistantChannel "../../project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md" "Inquirium Assistant Channel"
-  click AgentOrgan "../../project/40-proposals/073-agent-orchestration-organ.md" "Agent Orchestration Organ"
+  click AgentOrgan "../../project/60-solutions/047-agent/047-agent.md" "Agent"
   click WorkflowCatalog "../../project/40-proposals/029-workflow-template-catalog.md" "Workflow Template Catalog"
   click Reputation "../../project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md" "Membership and Reputation Bootstrap"
   click Recovery "../../project/40-proposals/030-identity-recovery-service.md" "Identity Recovery Service"
@@ -388,7 +388,7 @@ flowchart TB
 - [Seed Directory](../../project/60-solutions/031-seed-directory/031-seed-directory.md)
 - [Multi-Node Federation Harness and Trace Explorer](../../project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md)
 - [Inquirium](../../project/40-proposals/063-inquirium-model-inquiry-organ.md)
-- [Agent Orchestration Organ](../../project/40-proposals/073-agent-orchestration-organ.md)
+- [Agent](../../project/60-solutions/047-agent/047-agent.md)
 - [Workflow Template Catalog](../../project/40-proposals/029-workflow-template-catalog.md)
 - [Membership and Reputation Bootstrap](../../project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md)
 - [Identity Recovery Service](../../project/40-proposals/030-identity-recovery-service.md)

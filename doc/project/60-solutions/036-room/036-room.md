@@ -23,19 +23,19 @@ Related schemas:
 - `room-membership-attestation.v1`
 - `room-membership-attestation-request.v1`
 - `room-attestation-audit.v1`
-
-Planned post-MVP schema:
-
 - `room-relay-endpoint.v1`
+- `room-relay-delivery.v1`
 
 ## Status
 
-Implemented solution foundation.
+Implemented solution through the member-visible relocatable relay profile.
 
 This means the hard-MVP Room foundation is present: durable records,
 deterministic projection, membership attestation, and node-local live transport
-substrates. The relocatable federated WSS relay defined by P070 Phase 6A/6B is planned
-post-MVP work, so the solution is not yet complete for production multi-node liveness.
+substrates. The relocatable member-visible WSS relay defined by P070 Phase 6A is
+implemented; the Phase 6B non-member federation relay and its sealed-sender-key
+profile remain post-MVP work, so the solution is not yet complete for every
+all-members-behind-CGNAT deployment.
 The CR-88/CR-89 hardening stream remains the place for issues such as clock-skew
 tolerance review, subscription-count DoS limits, pre-validation sink behavior, and
 stricter `room/id` validation. Live session refs are already 256-bit CSPRNG bearer
@@ -291,9 +291,10 @@ Based on:
 - `doc/project/40-proposals/082-sensorium-interfaces.md`
 - `doc/project/40-proposals/083-sensorium-interactive-interfaces.md`
 
-Planned schema:
+Related schemas:
 
 - `room-relay-endpoint.v1`
+- `room-relay-delivery.v1`
 
 Responsibilities:
 
@@ -306,10 +307,13 @@ Responsibilities:
   than inventing a relay capability id;
 - require exact endpoint/subject/evidence matching plus host egress and Node Transport
   trust policy before dialing, so Room authority cannot authorize an arbitrary URL;
+  private, loopback, and link-local URLs remain schema-valid for local deployments but
+  receive no exemption from those dial-time gates;
 - expose the existing WSS runtime through host-owned TLS on TCP 443 with keepalive,
   jittered reconnect, bounded replay, and epoch-aware cursor resubscription;
 - distribute endpoint failover independently of the failed relay through Agora and
-  Artifact Delivery;
+  Artifact Delivery, rejecting unknown or unopened local Rooms without mailbox
+  buffering;
 - assign one total ephemeral order per epoch and never merge epochs;
 - treat carrier sequence as bounded gap/replay state rather than proof of complete
   delivery, and reject old-epoch frames after supersession;
@@ -320,10 +324,20 @@ Responsibilities:
 
 Status:
 
-- `planned post-MVP` through P070 Phase 6A/6B. The current node-local WSS server,
-  membership-attestation gate, bounded live runtime, Corpus recovery, P082 projection,
-  and P083 fencing are reusable foundations; public TLS placement, endpoint facts,
-  relay epochs, failover, and non-member encryption are not implemented.
+- `implemented` through P070 Phase 6A. Canonical endpoint and delivery contracts,
+  scoped relay delegation, deterministic selection and dial admission, daemon-owned
+  configuration, payload-free diagnostics, host TLS termination seam, persistent WSS
+  reconnect/resume with a hard per-Room connection cap and client-side epoch rollback
+  refusal, receiver-side canonical payload-digest validation before checkpoint
+  advancement, metadata-only checkpoints, Agora plus Artifact Delivery endpoint
+  ingress, P082/P083 payload classes, exact-schema visibility splitting for observation
+  versus actuation/control status, and the outbound three-node failover profile are present.
+  Endpoint projection uses an explicit trusted evaluation clock and bounded skew,
+  same-epoch conflict carries a typed relay-epoch discriminator and is recoverable only
+  through a strictly newer valid epoch, service refresh rechecks close/monotonic state
+  after transport I/O, degraded diagnostics use a closed vocabulary, and the
+  signature-verifying mailbox boundary is tested without a daemon. Phase 6B non-member
+  encryption remains planned post-MVP work.
 
 ## May Implement
 
@@ -355,9 +369,9 @@ Status:
 - `done` for the node-local Corpus composition: signed invitations admit narrowed
   WSS sessions, readiness and message metadata reach the authority, exact replay
   does not redeliver, and endpoint/session/sequence recovery is process-tested.
-  Relocatable federated WSS/TLS endpoint epochs remain P070 Phase 6A/6B work. Matrix is
-  an optional bridge profile, not a liveness dependency or second Corpus room
-  semantics.
+  P070 Phase 6A now supplies relocatable member-visible WSS/TLS endpoint epochs;
+  Phase 6B non-member federation relay encryption remains later work. Matrix is an
+  optional bridge profile, not a liveness dependency or second Corpus room semantics.
 
 ## Out of Scope
 
@@ -385,7 +399,7 @@ Status:
 - signed membership attestations;
 - metadata-only attestation audit facts;
 - bounded non-retentive live room messages;
-- after Phase 6A, one authority-selected WSS relay endpoint and relay epoch projection;
+- one authority-selected WSS relay endpoint and relay epoch projection;
 - Room projections for former answer-room and association-room flows.
 
 ## Related Capability Data

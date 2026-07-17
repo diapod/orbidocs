@@ -21,12 +21,13 @@ Hard-MVP release-blocking stories:
 Hard-MVP release-blocking proposals/contracts:
 
 - `proposal-048` / Sensorium OS action-class runtime
+- `proposal-073` / node-local Agent organ
 - `proposal-076` / `federation-root.v1`
 - `proposal-081` / horizontal causal, replication, and scoped-nym-proof primitives
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-17. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. The same refresh now counts P070 Phase 6A/6B as unfinished post-MVP scope: relocatable member-visible WSS relay epochs, outbound-only failover, dependent P082/P083 relay adapters, and the later non-member federation relay profile reduce Room's document-level estimate without reopening its completed hard-MVP foundation.
+Change basis: this refresh incorporates the current worktree state on 2026-07-17. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A is now implemented: authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and the dependent P082/P083 relay classes are refusal-tested. The review closure adds trusted-clock endpoint admission, strictly-newer-epoch conflict recovery, post-I/O Room close/rollback checks, closed degraded diagnostics, and pure mailbox boundary tests. Only the Phase 6B non-member federation relay encryption profile remains unfinished post-MVP Room scope; the hard-MVP verdict is unchanged.
 
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
@@ -54,6 +55,13 @@ These additions improve extensibility and evidence
 collection without changing the component's `100` readiness estimate. P082 is now
 listed as a hard-MVP blocker whose implementation gate is already satisfied.
 
+The 2026-07-17 Agent review promotes Proposal 073 to Solution 047 and makes the
+node-local Agent organ an explicit hard-MVP release blocker. Its complete
+tracker, stratified core/host crates, durable recovery, bounded controller,
+effect-admission boundary, lease reconciliation, and dirty-restart process
+smokes satisfy that gate now. Cross-node or federated Agent execution remains a
+separate future proposal and does not weaken the node-local hard-MVP contract.
+
 Proposal 083 is now a satisfied hard-MVP release blocker. P083-002 through P083-011
 implement the shared directional resource, exact Passport scope, pure coordinator,
 durable shared/exclusive state, adapters, direct-peer admission, and Workbench terminal
@@ -68,8 +76,8 @@ Workbench actuation and PTY story tests, including saturation, expiry/renewal,
 handoff, stale epoch, restart, partial failure, observer-only denial, and two real PTY
 controllers. P083-012 records the clean final authority and correctness review and
 promotes this actuation boundary into Solution 046. P083 and Solution 046 are therefore
-estimated at `100%` and ready for hard MVP; deferred P083-013 relay work does not
-reopen that verdict.
+estimated at `100%` and ready for hard MVP; completed post-MVP P083-013 relay work does
+not reopen that verdict.
 
 The Room collaboration boundary additionally mints 256-bit CSPRNG session bearers
 that never enter live frames, acknowledgements, fan-out, durable Room facts, shared
@@ -173,7 +181,8 @@ Recent component deltas:
   fencing and receipts, direct-peer and Workbench adapters, bounded operator/Room
   grouping with dual authority, and the load/restart/partial-failure/two-controller
   PTY conformance matrix. P083-012 records the clean final review and formal promotion
-  into Solution 046; runtime readiness is true, while P083-013 remains deferred.
+  into Solution 046; runtime readiness is true, and P083-013 now reuses the implemented
+  P070 Phase 6A relay without moving authority into the carrier.
 - Communication Protocol Baseline is now hard-MVP ready as a historical baseline:
   Proposal 002 explicitly maps its implemented or superseded areas to the current
   runtime owners (P014/Solution 000 transport, P056/Solution 024 TLS trust,
@@ -428,7 +437,7 @@ Recent component deltas:
   packaging, optional scheduler-owned timeout surfacing, and Agent-owned effect
   governance remain additive later work rather than incomplete P064 tracker
   items.
-- Proposal 073 introduces Agent as the bounded stateful orchestration organ above Inquirium. Its node-local FlowNode and Assistant Channel scopes are complete: `agent-core` owns substrate-free lifecycle, fork, step, memory, binding, outcome, Assistant escalation/acceptance, and effect contracts; `agent-host` owns pure step decisions, operator-profile admission, and the closed table-driven Sensorium/Artifact Delivery effect-policy registry; and the daemon exposes lifecycle, proposal, binding, bounded controller-run, Assistant escalation/draft-acceptance, and contextual effect-dispatch capabilities. Local control is administrative authority, while module calls require explicit bounded JSON-e Flow `agent_grants`, Agent ownership, and target-capability allowlists. Memarium Personal facts remain the source of truth; startup performs bounded replay, partial-bundle and interrupted-outcome repair, immutable admission-snapshot recovery, current-policy quarantine cascading through descendants, and terminal/expired-owner lease reconciliation. Assistant approval is durably recorded before Agent/binding authority, uses the durable operator-question record as typed authority, rejects unapproved bindings during replay, and idempotently completes interrupted materialization. The binding's narrowed budget and wall-time deadline are effective across controller, Inquirium, lease, fork, reaper, and status paths. The general real HTTP process smoke covers spawn/status/binding/controller/suspend/resume/controller-mediated fork/stop plus durable recovery after `SIGKILL`. A second process smoke covers Assistant turn, explicit escalation, pending-question restart, exact replay, approval, denial, timeout, bounded controller execution, content-addressed `agent.outcome.v1`, and render-only acceptance. Ambient Assistant binding is denied, generated content stays outside status and notifications before acceptance, and acceptance fixes publication authority to false. The active controller executes admitted Inquirium, inert effect-proposal, and child-spawn actions through their owning host strata; Inquirium remains constrained by classification, pinned profile, runtime allowlist, and grants. Effect dispatch consumes transport-independent host plans, persists bounded deferred/completed/failed execution outcomes, avoids target reinvocation on exact replay, and reconciles Deferred Operation Registry terminal state with lease release through a bounded scheduler job. Child reservations reconcile bottom-up, lease acquisition is charged, and old inactive lease details compact to restart-safe audit tombstones after the configurable 30-day default horizon. Summary-producer authority is the intersection of Capability Registry-eligible modules and the host allowlist. The post-MVP Corpus-chair extension is now implemented: signed and fresh Room evidence from the node-local round authority admits one exact query/room/participant binding, and Corpus durably accepts its `agent.outcome.v1` as an inert answer draft without publication authority. Corpus room policy, signed invitations, typed control-plane failures, AD-owned transport idempotency, Corpus-owned semantic replay by signed `invite/id`, configured remote trust-root verification, bounded live WSS join/readiness/messages, metadata-only authority observations, stable authority bind and subject-sequence recovery, controlled session rejoin, and recipient restart recovery are implemented. A separate local-control Corpus transition validates current quorum, room high-water, chair identity, evidence, output digest, and idempotency before signing and publishing the inert Agent draft; Agent authority remains non-publishing. Federated Room transport and remote Room-authority trust remain later work and do not change the hard-MVP verdict.
+- Proposal 073, promoted to Solution 047, defines Agent as the bounded stateful orchestration organ above Inquirium. Its node-local FlowNode and Assistant Channel scopes are complete: `agent-core` owns substrate-free lifecycle, fork, step, memory, binding, outcome, Assistant escalation/acceptance, and effect contracts; `agent-host` owns pure step decisions, operator-profile admission, and the closed table-driven Sensorium/Artifact Delivery effect-policy registry; and the daemon exposes lifecycle, proposal, binding, bounded controller-run, Assistant escalation/draft-acceptance, and contextual effect-dispatch capabilities. Local control is administrative authority, while module calls require explicit bounded JSON-e Flow `agent_grants`, Agent ownership, and target-capability allowlists. Memarium Personal facts remain the source of truth; startup performs bounded replay, partial-bundle and interrupted-outcome repair, immutable admission-snapshot recovery, current-policy quarantine cascading through descendants, and terminal/expired-owner lease reconciliation. Assistant approval is durably recorded before Agent/binding authority, uses the durable operator-question record as typed authority, rejects unapproved bindings during replay, and idempotently completes interrupted materialization. The binding's narrowed budget and wall-time deadline are effective across controller, Inquirium, lease, fork, reaper, and status paths. The general real HTTP process smoke covers spawn/status/binding/controller/suspend/resume/controller-mediated fork/stop plus durable recovery after `SIGKILL`. A second process smoke covers Assistant turn, explicit escalation, pending-question restart, exact replay, approval, denial, timeout, bounded controller execution, content-addressed `agent.outcome.v1`, and render-only acceptance. Ambient Assistant binding is denied, generated content stays outside status and notifications before acceptance, and acceptance fixes publication authority to false. The active controller executes admitted Inquirium, inert effect-proposal, and child-spawn actions through their owning host strata; Inquirium remains constrained by classification, pinned profile, runtime allowlist, and grants. Effect dispatch consumes transport-independent host plans, persists bounded deferred/completed/failed execution outcomes, avoids target reinvocation on exact replay, and reconciles Deferred Operation Registry terminal state with lease release through a bounded scheduler job. Child reservations reconcile bottom-up, lease acquisition is charged, and old inactive lease details compact to restart-safe audit tombstones after the configurable 30-day default horizon. Summary-producer authority is the intersection of Capability Registry-eligible modules and the host allowlist. The post-MVP Corpus-chair extension is now implemented: signed and fresh Room evidence from the node-local round authority admits one exact query/room/participant binding, and Corpus durably accepts its `agent.outcome.v1` as an inert answer draft without publication authority. Corpus room policy, signed invitations, typed control-plane failures, AD-owned transport idempotency, Corpus-owned semantic replay by signed `invite/id`, configured remote trust-root verification, bounded live WSS join/readiness/messages, metadata-only authority observations, stable authority bind and subject-sequence recovery, controlled session rejoin, and recipient restart recovery are implemented. A separate local-control Corpus transition validates current quorum, room high-water, chair identity, evidence, output digest, and idempotency before signing and publishing the inert Agent draft; Agent authority remains non-publishing. Federated Room transport and remote Room-authority trust remain later work and do not change the node-local hard-MVP verdict.
 - The latest post-MVP Agent/Corpus profile is also implemented without changing
   the hard-MVP verdict: Story-011 selects B while C remains a competing bidder,
   admits B as a Room-attested `corpus-participant` Agent, routes one inert
@@ -489,11 +498,11 @@ Recent component deltas:
   room-high-water, chair, evidence, output-digest, and idempotency validation;
   the first profile is text-only and uses the dedicated
   `corpus-reasoning-answer-signature.v1` domain.
-  Remaining post-MVP work is P070's relocatable federated WSS relay epoch,
-  remote Room-authority trust, arbiter election, multi-provider final answer
-  composition, and N-way settlement. Matrix is an optional bridge profile rather
-  than a Corpus or Room liveness dependency; Sensorium Interface views are already
-  available in the node-local Room slice.
+  Remaining post-MVP work includes P070 Phase 6B's non-member federation relay
+  encryption profile, remote Room-authority trust, arbiter election, multi-provider
+  final answer composition, and N-way settlement. Matrix is an optional bridge
+  profile rather than a Corpus or Room liveness dependency; Sensorium Interface views
+  are already available over the Room relay slice.
 - Room primitive is now tracked explicitly through Proposal 070 and Solution 036. The current code
   implements the durable Room skeleton, deterministic projection over Agora facts,
   signer-backed short-lived membership attestations, explicit POST attestation request
@@ -508,13 +517,13 @@ Recent component deltas:
   records audit facts with `exposure`, `ttl/requested`, and `ttl/granted` while schema
   tests reject raw payload and passport bodies. P070 is complete for its hard-MVP
   standalone Room foundation, including the node-local live plane required by Corpus.
-  It is no longer marked post-MVP complete because Phase 6A/6B now explicitly tracks
-  the production federation delta: one authority-signed relocatable WSS endpoint per
-  relay epoch, one ephemeral total order per epoch, failover through Agora/AD without
-  cross-epoch merge, outbound-TLS operation, keepalive/reconnect, relay-carried
-  P082/P083 adapters, and the later non-member relay encryption profile. Matrix is
-  retained only as an optional bridge profile. CR-88/CR-89 security hardening remains
-  a separate follow-up stream.
+  Phase 6A now closes the member-visible production federation delta: one
+  authority-signed relocatable WSS endpoint per relay epoch, one ephemeral total order
+  per epoch, failover through Agora/AD without cross-epoch merge, outbound-TLS
+  operation, keepalive/reconnect, and relay-carried P082/P083 classes. Phase 6B's
+  non-member relay encryption profile remains unfinished, so post-MVP readiness is
+  still false. Matrix is retained only as an optional bridge profile. CR-88/CR-89
+  security hardening remains a separate follow-up stream.
 - Sensorium Workbench is now tracked through Proposal 071 and promoted to
   Solution 042 as a post-MVP actuator foundation. The opt-in supervised Python
   connector now has a complete local foundation: allowlisted workspaces,
@@ -668,10 +677,10 @@ Recent component deltas:
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
-| [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `false` | `90` |
+| [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `false` | `95` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `98` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
-| [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `false` | `false` | `false` | `100` |
+| [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `true` | `true` | `false` | `100` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
 | [Proposal 077: Swarm Broadcast Assistance](../40-proposals/077-swarm-broadcast-assistance.md) | `false` | `false` | `false` | `15` |
 | [Proposal 078: Weak Signal Harvester](../40-proposals/078-weak-signal-harvester.md) | `false` | `true` | `false` | `68` |
@@ -721,7 +730,7 @@ Recent component deltas:
 | [Shared Offer Catalog](../60-solutions/033-shared-offer-catalog/033-shared-offer-catalog.md) | `true` | `true` | `false` | `100` |
 | [API Surface Projection](../60-solutions/034-api-surface-projection/034-api-surface-projection.md) | `false` | `true` | `true` | `100` |
 | [Interaction Broker](../60-solutions/035-interaction-broker/035-interaction-broker.md) | `false` | `true` | `false` | `100` |
-| [Room](../60-solutions/036-room/036-room.md) | `true` | `true` | `false` | `90` |
+| [Room](../60-solutions/036-room/036-room.md) | `true` | `true` | `false` | `95` |
 | [Capability Registry](../60-solutions/037-capability-registry/037-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Corpus](../60-solutions/038-corpus/038-corpus.md) | `true` | `true` | `false` | `100` |
 | [Notifications](../60-solutions/039-notifications/039-notifications.md) | `true` | `true` | `false` | `90` |
@@ -732,3 +741,4 @@ Recent component deltas:
 | [Inquirium](../60-solutions/044-inquirium/044-inquirium.md) | `false` | `true` | `false` | `100` |
 | [Inquirium Assistant Channel](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
 | [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `true` | `true` | `false` | `100` |
+| [Agent](../60-solutions/047-agent/047-agent.md) | `true` | `true` | `false` | `100` |

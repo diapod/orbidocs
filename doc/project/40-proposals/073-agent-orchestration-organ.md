@@ -1,8 +1,12 @@
 # Proposal 073: Agent — Bounded Stateful Orchestration Organ
 
+Promoted to:
+
+- `doc/project/60-solutions/047-agent/047-agent.md`
+
 ## Status
 
-Draft
+`promoted`
 
 ## Date
 

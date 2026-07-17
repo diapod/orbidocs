@@ -5,6 +5,7 @@ Based on:
 - `doc/project/40-proposals/066-inquirium-assistant-channel.md`
 - `doc/project/40-proposals/064-inquirium-implementation-recommendations.md`
 - `doc/project/60-solutions/044-inquirium/044-inquirium.md`
+- `doc/project/60-solutions/047-agent/047-agent.md`
 - `doc/project/60-solutions/018-classification/018-classification.md`
 - `doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md`
 - `doc/project/60-solutions/039-notifications/039-notifications.md`
@@ -233,7 +234,8 @@ binding's narrowed budget, including its wall-time deadline, is the effective
 limit used by controller execution, Inquirium accounting, leases, forks, reaping,
 and status projection.
 
-Status: `done`; implemented and tracked by Proposal 073.
+Status: `done`; implemented by Solution 047, with detailed evidence retained in
+Proposal 073.
 
 ## Trade-offs
 

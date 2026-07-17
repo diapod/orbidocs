@@ -1,0 +1,11 @@
+{
+  "schema/v": 1,
+  "room/id": "room:nym:did:key:z6MkrRoomAuthority:01JZRELAY",
+  "event": "delegated",
+  "authority/subject": { "kind": "nym", "id": "nym:did:key:z6MkrRoomAuthority" },
+  "subject": { "kind": "node", "id": "node:did:key:z6MkrRelayMember" },
+  "delegation/id": "room-delegation:relay-1",
+  "delegation/expires-at": "2026-07-17T12:05:00Z",
+  "seq/no": 17,
+  "created-at": "2026-07-17T12:00:00Z"
+}

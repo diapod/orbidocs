@@ -509,7 +509,7 @@ remain true:
 - host policy admits the claim or invoke.
 
 Ordinary Room live messages and the P082 observation pump remain presentation
-surfaces. The future P083 relay wrapper is a distinct typed carrier envelope over the
+surfaces. The implemented P083 relay wrapper is a distinct typed carrier envelope over the
 same WSS connection; it does not reinterpret chat or projection frames as invoke
 requests. Keyboard bytes are not published into the durable Room and are not accepted
 merely because they arrived through an ordinary Room frame.
@@ -1047,7 +1047,7 @@ tracked separately in the ordered `P083-*` work items under
 The design decisions are accepted as of 2026-07-17. Decisions 1-15 originated in
 the 2026-07-16 baseline; decisions 16-28 close the pre-P083-002 review, decision 29
 records the implemented direct-peer scope materialization boundary, and decision 30
-adopts P070's future relocatable relay without changing P083 authority:
+adopts P070's relocatable relay without changing P083 authority:
 
 1. Sensorium Interfaces may expose actuation, but observation and actuation remain
    separate directional resources and authority planes.
@@ -1081,7 +1081,7 @@ adopts P070's future relocatable relay without changing P083 authority:
     admission, Room-subject, metrics, and conformance machinery. Read subscriptions
     and actuation control leases remain deliberately separate state machines.
 15. P082 and P083 are explicit hard-MVP release blockers. Their implementation and
-    promotion gates are satisfied through P083-012; deferred P083-013 relay work does
+    promotion gates are satisfied through P083-013; the post-MVP relay carrier does
     not reopen the completed hard-MVP boundary.
 16. Each actuation method has its own exact closed input schema. The descriptor uses
     a method catalog, not one polymorphic interface-wide input schema.
@@ -1159,7 +1159,7 @@ P083-012 records the completed promotion and final hard-MVP closure.
 | P083-010 | Extend the P082 conformance harness with load, restart, partial-failure, and end-to-end terminal baton tests | done | The runner prebuilds daemon/core plus the required Rust Workbench contract bridge, executes 19 exact Rust checks and two external tests, and covers caller/interface backlog and claim-queue saturation, duplicate claims, expiry/renewal, handoff/stale epoch, cross-tenure idempotency, source replacement, restart, honest partial failure, observer-only denial, Room dual authority, and two Sensorium controllers writing through a real Workbench shell PTY. |
 | P083-011 | Synchronize P045/P047/P048/P070/P071/P072/P081/P082, Solutions 030/036/042/046, Node ledgers, capability registries, trackers, and readiness snapshot | done | The cross-document audit found no competing semantics in P045/P047/P048/P072/P081 or Solutions 030/036/042; P070, P071, P082, P083, Solutions 036/042/046, Room schemas, manage policy fixtures, Node ledgers/MVP checklist, generated views, and the readiness snapshot now describe the same P083-011 boundary. |
 | P083-012 | Promote the implemented contract into Solution 046's actuation boundary | done | P083-002 through P083-011 are complete; the final review found no unresolved correctness or authority blocker, and Solution 046 now owns the promoted actuation boundary without introducing a competing interface-authority component. |
-| P083-013 | Add the P070 Phase 6A relay carrier and optional direct-peer upgrade/fallback | deferred post-MVP | Status/claim/control/invoke/receipt use the active relay epoch by default; direct peer may replace only the carrier for latency and falls back without changing authority. Relay outage, endpoint failover, replayed old-epoch frames, and direct-upgrade failure are refusal/recovery-tested. This item does not reopen the completed P083-012 hard-MVP boundary. |
+| P083-013 | Add the P070 Phase 6A relay carrier and optional direct-peer upgrade/fallback | done | The closed relay delivery envelope carries status, claim, control, invoke, and receipt schemas over the active epoch and filters observation versus actuation visibility from current Room grants. Relay selection and failover never alter exact interface grants, generation, lease, epoch, operation sequence, idempotency, or host policy. The three-node acceptance profile covers old-epoch refusal, endpoint failover, egress/evidence denial, membership revocation, P082 latest-state, and P083 fenced invoke carriage; direct peer remains an optional latency path. This post-MVP item does not reopen the completed P083-012 hard-MVP boundary. |
 
 Runtime implementation evidence promoted by P083-012 is owned by
 `node:sensorium-interface-core/src/actuation.rs`,
@@ -1187,5 +1187,5 @@ optimization.
 
 1. Collect operational evidence before reopening provider push, descriptor
    discovery, shared parallelism, or split management authority.
-2. Implement P083-013 only after P070 Phase 6A freezes the endpoint and relay-delivery
-   contracts; do not add P083-specific NAT traversal or carrier authority.
+2. Measure relay and optional direct-peer latency against the same fenced requests;
+   do not add P083-specific NAT traversal or carrier authority.

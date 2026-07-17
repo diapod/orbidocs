@@ -112,9 +112,10 @@
  :may-implement
  [{:cap/id :assistant-agentic-effect-integration
    :title "Agentic Effect Integration"
-   :kind :future-integration
+   :kind :integration
    :based-on ["doc/project/40-proposals/066-inquirium-assistant-channel.md"
-              "doc/project/40-proposals/073-agent-orchestration-organ.md"]
+              "doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/047-agent/047-agent.md"]
    :schemas ["agent.binding.v1"
              "agent.effect-proposal.v1"
              "agent.effect-proposal-outcome.v1"]
@@ -122,7 +123,7 @@
    ["Bind the assistant explicitly to a bounded Agent"
     "Keep lifecycle grants budgets and effect proposals in the Agent organ"
     "Require human-in-loop and the owning capability gate for sensitive effects"]
-   :status :deferred}]
+   :status :done}]
 
  :out-of-scope
  ["Representing the assistant as a contact nym peer or Messaging route"

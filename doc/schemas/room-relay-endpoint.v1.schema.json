@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-relay-endpoint:v1",
+  "title": "RoomRelayEndpoint v1",
+  "description": "Durable, Agora-signed selection fact for a member-visible Room WSS relay. The fact carries no live payload and grants no authority by itself.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070"],
+  "required": [
+    "schema/v", "room/id", "seq/no", "relay/epoch", "relay/subject",
+    "relay/placement", "endpoint/url", "crypto/profile", "ordering/profile",
+    "selection/evidence-refs", "issued-at", "expires-at", "authority/subject"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "seq/no": { "type": "integer", "minimum": 1 },
+    "relay/epoch": { "type": "integer", "minimum": 1 },
+    "relay/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "relay/placement": {
+      "type": "string",
+      "enum": ["requester", "room-member", "federation-service"]
+    },
+    "endpoint/url": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 8,
+      "maxLength": 2048,
+      "pattern": "^wss://"
+    },
+    "crypto/profile": { "const": "member-visible-tls-v1" },
+    "ordering/profile": { "const": "relay-total-order-v1" },
+    "selection/evidence-refs": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^(node-advertisement|node-address-attestation):sha256:[A-Za-z0-9_-]+$"
+      },
+      "allOf": [
+        { "contains": { "pattern": "^node-advertisement:sha256:" }, "minContains": 1 },
+        { "contains": { "pattern": "^node-address-attestation:sha256:" }, "minContains": 1 }
+      ]
+    },
+    "issued-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "authority/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
+  }
+}

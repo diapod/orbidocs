@@ -23,9 +23,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | `30-stories` (Stories) | `16` | `1` |
 | `40-proposals` (Proposals) | `86` | `74` |
 | `50-requirements` (Requirements) | `17` | `15` |
-| `60-solutions` (Solutions) | `64` | `43` |
+| `60-solutions` (Solutions) | `65` | `44` |
 
-- Total project markdown files: `242`
+- Total project markdown files: `243`
 - Proposals referencing source material: `74` / `86`
 - Requirements referencing source material: `15` / `17`
 
@@ -205,12 +205,14 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`retrieval-request.v1.schema.json`](schemas-gen/schemas/retrieval-request.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`room-attestation-audit.v1.schema.json`](schemas-gen/schemas/room-attestation-audit.v1.md) | `17` | `4` | `yes` | `yes` | `2` | `0` |
-| [`room-event.v1.schema.json`](schemas-gen/schemas/room-event.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `0` |
+| [`room-event.v1.schema.json`](schemas-gen/schemas/room-event.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
 | [`room-live-message.v1.schema.json`](schemas-gen/schemas/room-live-message.v1.md) | `11` | `1` | `yes` | `yes` | `1` | `1` |
 | [`room-membership-attestation-request.v1.schema.json`](schemas-gen/schemas/room-membership-attestation-request.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `0` |
 | [`room-membership-attestation.v1.schema.json`](schemas-gen/schemas/room-membership-attestation.v1.md) | `12` | `1` | `yes` | `yes` | `1` | `0` |
 | [`room-membership.v1.schema.json`](schemas-gen/schemas/room-membership.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `1` |
 | [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
+| [`room-relay-delivery.v1.schema.json`](schemas-gen/schemas/room-relay-delivery.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `1` |
+| [`room-relay-endpoint.v1.schema.json`](schemas-gen/schemas/room-relay-endpoint.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `1` |
 | [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md) | `17` | `1` | `yes` | `yes` | `1` | `0` |
 | [`scoped-claim-presentation.v1.schema.json`](schemas-gen/schemas/scoped-claim-presentation.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `0` |
@@ -486,6 +488,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`room-membership-attestation.v1.schema.json`](schemas-gen/schemas/room-membership-attestation.v1.md) |  |  |
 | [`room-membership.v1.schema.json`](schemas-gen/schemas/room-membership.v1.md) |  |  |
 | [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) |  |  |
+| [`room-relay-delivery.v1.schema.json`](schemas-gen/schemas/room-relay-delivery.v1.md) |  |  |
+| [`room-relay-endpoint.v1.schema.json`](schemas-gen/schemas/room-relay-endpoint.v1.md) |  |  |
 | [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) |  |  |
 | [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md) |
 | [`scoped-claim-presentation.v1.schema.json`](schemas-gen/schemas/scoped-claim-presentation.v1.md) |  |  |
@@ -588,7 +592,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`P005`](project/40-proposals/005-operator-participation-room-policy-profiles.md) | [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) |
 | [`P009`](project/40-proposals/009-communication-exposure-modes.md) | [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) |
 | [`P051`](project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md) | [`membership-acceptance.v1.schema.json`](schemas-gen/schemas/membership-acceptance.v1.md), [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md), [`membership-invitation.v1.schema.json`](schemas-gen/schemas/membership-invitation.v1.md), [`membership-sponsorship.v1.schema.json`](schemas-gen/schemas/membership-sponsorship.v1.md) |
-| [`P070`](project/40-proposals/070-room-primitive.md) | [`room-attestation-audit.v1.schema.json`](schemas-gen/schemas/room-attestation-audit.v1.md), [`room-event.v1.schema.json`](schemas-gen/schemas/room-event.v1.md), [`room-live-message.v1.schema.json`](schemas-gen/schemas/room-live-message.v1.md), [`room-membership-attestation-request.v1.schema.json`](schemas-gen/schemas/room-membership-attestation-request.v1.md), [`room-membership-attestation.v1.schema.json`](schemas-gen/schemas/room-membership-attestation.v1.md), [`room-membership.v1.schema.json`](schemas-gen/schemas/room-membership.v1.md), [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md), [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) |
+| [`P070`](project/40-proposals/070-room-primitive.md) | [`room-attestation-audit.v1.schema.json`](schemas-gen/schemas/room-attestation-audit.v1.md), [`room-event.v1.schema.json`](schemas-gen/schemas/room-event.v1.md), [`room-live-message.v1.schema.json`](schemas-gen/schemas/room-live-message.v1.md), [`room-membership-attestation-request.v1.schema.json`](schemas-gen/schemas/room-membership-attestation-request.v1.md), [`room-membership-attestation.v1.schema.json`](schemas-gen/schemas/room-membership-attestation.v1.md), [`room-membership.v1.schema.json`](schemas-gen/schemas/room-membership.v1.md), [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md), [`room-relay-delivery.v1.schema.json`](schemas-gen/schemas/room-relay-delivery.v1.md), [`room-relay-endpoint.v1.schema.json`](schemas-gen/schemas/room-relay-endpoint.v1.md), [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) |
+| [`P082`](project/40-proposals/082-sensorium-interfaces.md) | [`room-relay-delivery.v1.schema.json`](schemas-gen/schemas/room-relay-delivery.v1.md) |
+| [`P083`](project/40-proposals/083-sensorium-interactive-interfaces.md) | [`room-relay-delivery.v1.schema.json`](schemas-gen/schemas/room-relay-delivery.v1.md) |
 | [`R009`](project/50-requirements/requirements-009-capability-limits.md) | [`participant-effective-limits.v1.schema.json`](schemas-gen/schemas/participant-effective-limits.v1.md) |
 | [`R015`](project/50-requirements/requirements-015-newcomer-surface-limits.md) | [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md), [`participant-effective-limits.v1.schema.json`](schemas-gen/schemas/participant-effective-limits.v1.md), [`participant-entry-profile.v1.schema.json`](schemas-gen/schemas/participant-entry-profile.v1.md), [`surface-access-policy.v1.schema.json`](schemas-gen/schemas/surface-access-policy.v1.md) |
 | [`doc/normative/40-constitution/pl/CONSTITUTION.pl.md`](normative/40-constitution/pl/CONSTITUTION.pl.md) | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md), [`signal-marker.v1.schema.json`](schemas-gen/schemas/signal-marker.v1.md), [`signal-transform-event.v1.schema.json`](schemas-gen/schemas/signal-transform-event.v1.md), [`ubc-allocation.v1.schema.json`](schemas-gen/schemas/ubc-allocation.v1.md), [`ubc-settlement.v1.schema.json`](schemas-gen/schemas/ubc-settlement.v1.md) |
@@ -717,7 +723,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/068-api-surface-projection.md`](project/40-proposals/068-api-surface-projection.md) | [`artifact-delivery-admission-response.v1.schema.json`](schemas-gen/schemas/artifact-delivery-admission-response.v1.md), [`middleware-decision-response.v1.schema.json`](schemas-gen/schemas/middleware-decision-response.v1.md), [`middleware-status-response.v1.schema.json`](schemas-gen/schemas/middleware-status-response.v1.md), [`offer-catalog-query-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-query-response.v1.md), [`offer-catalog-status-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-status-response.v1.md) |
 | [`doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`](project/40-proposals/080-multiplexed-middleware-channel-executor.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-call-result.v1.schema.json`](schemas-gen/schemas/middleware-channel-call-result.v1.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-heartbeat.v1.schema.json`](schemas-gen/schemas/middleware-channel-heartbeat.v1.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md), [`middleware-channel-host-capability-call.v1.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v1.md), [`middleware-channel-request-cancel.v1.schema.json`](schemas-gen/schemas/middleware-channel-request-cancel.v1.md), [`middleware-channel-session-shutdown.v1.schema.json`](schemas-gen/schemas/middleware-channel-session-shutdown.v1.md), [`middleware-module-http-request.v1.schema.json`](schemas-gen/schemas/middleware-module-http-request.v1.md), [`middleware-module-http-response.v1.schema.json`](schemas-gen/schemas/middleware-module-http-response.v1.md) |
 
-- Canonical schemas: `270`
-- Generated schema docs: `270`
-- Positive examples: `271`
-- Negative examples: `193`
+- Canonical schemas: `272`
+- Generated schema docs: `272`
+- Positive examples: `273`
+- Negative examples: `196`

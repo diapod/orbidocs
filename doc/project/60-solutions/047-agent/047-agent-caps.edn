@@ -1,0 +1,202 @@
+{:component/id :orbiplex/agent
+ :component/title "Agent"
+ :component/type :node-organ
+ :component/status :done
+
+ :summary
+ "Node-local durable and bounded multi-step orchestration above Inquirium, with
+ host-owned lifecycle, authority, memory projection, accounting, recovery, and
+ effect admission."
+
+ :must-implement
+ [{:cap/id :agent-contract-lifecycle
+   :title "Agent Contract and Lifecycle"
+   :kind :host-organ
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"]
+   :schemas ["agent.spec.v1"
+             "agent.session.v1"
+             "agent.state.v1"
+             "agent.lifecycle-command.v1"]
+   :responsibilities
+   ["Own substrate-free Agent values and lifecycle transitions"
+    "Expose node-local spawn fork suspend resume status and stop capabilities"
+    "Require authenticated local-control or explicit bounded module grants"
+    "Keep agent identifiers opaque and local to the host registry"]
+   :status :done}
+
+  {:cap/id :agent-durable-fact-runtime
+   :title "Durable Facts and Recovery"
+   :kind :temporal-runtime
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/002-memarium/002-memarium.md"]
+   :schemas ["agent.session.v1"
+             "agent.state.v1"
+             "agent.lifecycle-command.v1"
+             "agent.step.v1"
+             "agent.step-trace.v1"]
+   :responsibilities
+   ["Persist append-only Personal facts as the durable source of truth"
+    "Rebuild bounded disposable projections after restart"
+    "Repair recognized partial bundles using explicit commit markers"
+    "Quarantine sessions and descendants that fail current policy"]
+   :status :done}
+
+  {:cap/id :agent-bounded-controller-budget
+   :title "Bounded Controller and Budget"
+   :kind :controller
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/044-inquirium/044-inquirium.md"]
+   :schemas ["agent.step-decision.v1"
+             "agent.controller.run.request.v1"
+             "agent.controller.run.response.v1"]
+   :responsibilities
+   ["Separate pure step decisions from host-owned execution"
+    "Enforce step wall-time token cost depth child and concurrency bounds"
+    "Reserve child budgets from parents and reconcile them bottom-up"
+    "Require monotone narrowing and an explicit termination condition"]
+   :status :done}
+
+  {:cap/id :agent-memory-projection
+   :title "Bounded Memory Projection"
+   :kind :projection
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/002-memarium/002-memarium.md"]
+   :schemas ["agent.memory-policy.v1"]
+   :responsibilities
+   ["Project pinned facts external summaries and allowlisted recall refs"
+    "Keep hot memory ephemeral and bounded"
+    "Require positively admitted external summary producers"
+    "Keep prompt content outside durable step traces"]
+   :status :done}
+
+  {:cap/id :agent-effects-as-proposals
+   :title "Effects as Proposals"
+   :kind :authority-boundary
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+              "doc/project/60-solutions/030-sensorium/030-sensorium.md"]
+   :schemas ["agent.effect-proposal.v1"
+             "agent.effect-proposal-outcome.v1"
+             "agent.effect.dispatch.request.v1"
+             "agent.effect.dispatch.response.v1"]
+   :responsibilities
+   ["Keep model-proposed effects inert until host admission"
+    "Require human-in-loop decisions for configured sensitive effects"
+    "Compile admitted effects through a closed policy-adapter registry"
+    "Reconcile deferred execution and leases without target reinvocation"]
+   :status :done}
+
+  {:cap/id :agent-binding-outcome-boundary
+   :title "Bindings and Inert Outcomes"
+   :kind :integration-contract
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"]
+   :schemas ["agent.binding.v1"
+             "agent.binding.create.request.v1"
+             "agent.binding.create.response.v1"
+             "agent.outcome.v1"]
+   :responsibilities
+   ["Bind one consumer session grant budget and output sink"
+    "Produce content-addressed outcomes without publication authority"
+    "Require the consumer to own acceptance and publication transitions"
+    "Persist binding and outcome recovery state"]
+   :status :done}
+
+  {:cap/id :agent-operational-recovery
+   :title "Operational Recovery and Maintenance"
+   :kind :runtime-governance
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"]
+   :schemas ["agent.state.v1"
+             "agent.effect-proposal-outcome.v1"]
+   :responsibilities
+   ["Run bounded TTL reaping and deferred-effect reconciliation"
+    "Release expired or terminal Agent-owned leases"
+    "Compact inactive lease records into audit-preserving tombstones"
+    "Expose prompt-free bounded operator status"]
+   :status :done}
+
+  {:cap/id :agent-hard-mvp-acceptance
+   :title "Node-Local Hard-MVP Acceptance"
+   :kind :conformance
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"]
+   :schemas ["agent.spawn.request.v1"
+             "agent.spawn.response.v1"
+             "agent.status.request.v1"
+             "agent.status.response.v1"
+             "agent.stop.request.v1"
+             "agent.stop.response.v1"]
+   :responsibilities
+   ["Keep dependency-direction and schema checks blocking"
+    "Cover refusal and lifecycle semantics with unit tests"
+    "Cover dirty restart and real HTTP lifecycle in process smokes"
+    "Keep cross-node execution outside the node-local acceptance gate"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :agent-assistant-channel-integration
+   :title "Assistant Channel Integration"
+   :kind :integration
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md"]
+   :schemas ["agent.assistant-escalation.request.v1"
+             "agent.assistant-escalation.v1"
+             "agent.assistant-draft.acceptance.v1"
+             "agent.assistant-response-draft.v1"]
+   :responsibilities
+   ["Require explicit operator-approved same-session Agent escalation"
+    "Return a render-only draft with publication authority fixed false"]
+   :status :done}
+
+  {:cap/id :agent-flow-corpus-integration
+   :title "FlowNode and Corpus Integration"
+   :kind :integration
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/038-corpus/038-corpus.md"]
+   :schemas ["agent.binding.v1"
+             "corpus-chair-admission.v1"
+             "corpus-agent-answer-draft.v1"]
+   :responsibilities
+   ["Support explicit FlowNode Agent bindings and grants"
+    "Support Room-attested Corpus chair and participant bindings"
+    "Keep final Corpus publication in a separate Corpus-owned transition"]
+   :status :done}
+
+  {:cap/id :agent-additional-effect-policies
+   :title "Additional Effect Policies"
+   :kind :extension
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"]
+   :schemas []
+   :responsibilities
+   ["Add one closed validator and owning host target per concrete effect kind"
+    "Reject unknown effect capabilities without a generic fallback"]
+   :status :post-mvp}
+
+  {:cap/id :agent-federated-runtime
+   :title "Federated Agent Runtime"
+   :kind :future-solution
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"]
+   :schemas []
+   :responsibilities
+   ["Define remote identity authority migration lease and split-brain semantics"
+    "Use a separate proposal before changing the node-local trust boundary"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Cross-node or federated Agent execution in the node-local hard-MVP"
+  "Ambient autonomy or standing effect authority"
+  "Inference provider transport and model-selection internals"
+  "Direct publication or consumer-domain state transitions"
+  "Generic tool execution outside owning host surfaces"]
+
+ :consumes
+ ["operator Agent profiles and admission policy"
+  "authenticated local-control or bounded module grants"
+  "Inquirium inference and accounting evidence"
+  "Memarium facts and model-runtime leases"
+  "Sensorium Artifact Delivery and operator-question host surfaces"]
+
+ :produces
+ ["durable Agent lifecycle step memory effect and outcome facts"
+  "bounded node-local recovery and status projections"
+  "prompt-free causal and accounting traces"
+  "inert effect proposals and execution outcomes"
+  "content-addressed agent.outcome.v1 values"]}

@@ -592,6 +592,7 @@ Based on:
 
 - `doc/project/40-proposals/071-sensorium-workbench.md`
 - `doc/project/40-proposals/073-agent-orchestration-organ.md`
+- `doc/project/60-solutions/047-agent/047-agent.md`
 - `doc/project/60-solutions/038-corpus/038-corpus.md`
 
 Related schemas:

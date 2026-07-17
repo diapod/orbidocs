@@ -48,6 +48,8 @@ SCHEMA_WHITELIST = (
     "room-event.v1.schema.json",
     "room-policy.v1.schema.json",
     "room-live-message.v1.schema.json",
+    "room-relay-endpoint.v1.schema.json",
+    "room-relay-delivery.v1.schema.json",
     "room-membership-attestation.v1.schema.json",
     "room-membership-attestation-request.v1.schema.json",
     "room-attestation-audit.v1.schema.json",
@@ -350,6 +352,8 @@ EXAMPLE_WHITELIST = (
     "close.room-event.json",
     "closed-private.room-policy.json",
     "basic.room-live-message.json",
+    "member.room-relay-endpoint.json",
+    "basic.room-relay-delivery.json",
     "member.room-membership-attestation.json",
     "member-self.room-membership-attestation-request.json",
     "issued.room-attestation-audit.json",
@@ -375,6 +379,9 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "plain-ws.room-relay-endpoint.json",
+    "session-bearer.room-relay-delivery.json",
+    "unscoped-delegation.room-event.json",
     "missing-storage-ref.node-identity.json",
     "inline-secret.node-identity.json",
     "no-endpoints.node-advertisement.json",
@@ -511,6 +518,8 @@ SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
     "room-event.v1.schema.json",
     "room-policy.v1.schema.json",
     "room-live-message.v1.schema.json",
+    "room-relay-endpoint.v1.schema.json",
+    "room-relay-delivery.v1.schema.json",
     "room-membership-attestation.v1.schema.json",
     "room-membership-attestation-request.v1.schema.json",
     "room-attestation-audit.v1.schema.json",

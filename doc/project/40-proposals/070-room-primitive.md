@@ -203,22 +203,26 @@ only by a signed, append-only `room-relay-endpoint.v1` fact issued by the curren
 authority or a delegated authority whose durable delegation includes `relay/manage`.
 `relay/manage` is a closed Room authority-delegation scope carried by
 `room-event.v1`; it is not a membership grant, a relay readiness flag, or a host
-capability. Phase 6A must add typed delegation scopes, expiry, and revocation linkage to
-the Room event contract before delegated endpoint facts are accepted. If a callable
-host relay-management surface is introduced later, its capability id and ledger row
-must be registered before runtime code is added.
+capability. Phase 6A provides typed delegation scopes, expiry, and revocation linkage
+in the Room event contract and refuses endpoint facts outside that authority. If a
+callable host relay-management surface is introduced later, its capability id and
+ledger row must be registered before runtime code is added.
 
 The endpoint fact is necessary but not sufficient to authorize a dial. Every client
 still applies host-owned egress policy and Node Transport endpoint trust. The selected
 URL, relay subject, and placement must match the referenced advertisement, address
 attestation, or operator-admitted service evidence exactly. Room authority cannot turn
-an arbitrary URL into permitted host egress.
+an arbitrary URL into permitted host egress. The endpoint schema deliberately permits
+private, loopback, and link-local hosts because local and same-host relays are valid
+deployments; the dial-time egress and transport-trust gates, not schema shape, decide
+whether a concrete target is reachable from a given host.
 
 The fact binds at least:
 
 - `room/id` and durable Room `seq/no`;
 - positive monotonic `relay/epoch`;
-- `relay/subject` and `relay/placement = room-member | federation-service`;
+- `relay/subject` and
+  `relay/placement = requester | room-member | federation-service`;
 - canonical `endpoint/url`, restricted to `wss://` for this profile;
 - `crypto/profile`, `ordering/profile`, and issue/expiry; the signed Agora envelope
   owns optional `record/supersedes` lineage;
@@ -230,7 +234,10 @@ The fact binds at least:
 
 At most one endpoint fact is active for an epoch. A conflicting fact for the same
 `relay/epoch` is an authority conflict and fails closed. A newer valid epoch supersedes
-the old carrier binding; it does not reopen, replace, or fork the durable Room.
+the old carrier binding and resolves that relay-specific conflict. Generic durable
+record conflicts remain pending until their existing operator/policy path acts; only a
+strictly newer valid relay epoch may clear a same-epoch relay conflict. Supersession does
+not reopen, replace, or fork the durable Room.
 
 The relay assigns a positive monotonic `relay/seq-no` to every accepted ephemeral
 delivery in one epoch. Client resume cursors are the tuple
@@ -253,7 +260,9 @@ relay epoch.
 
 Endpoint discovery cannot depend on the failed relay. The endpoint fact is a durable
 Room/Agora record and may also be delivered through Artifact Delivery mailbox paths to
-known members. Artifact Delivery carries the control-plane fact, not live Room frames.
+known members. The mailbox accepts endpoint facts only for an already open local Room;
+unknown or unopened Rooms are rejected synchronously and are not buffered by the
+acceptor. Artifact Delivery carries the control-plane fact, not live Room frames.
 
 The relay's permitted decisions are deliberately narrow: validate the presented
 membership attestation, bind the authenticated subject to the session, enforce frame,
@@ -302,10 +311,10 @@ never become Room semantics or a fallback authority source.
 
 ### 3C. Sensorium Control Uses the Same Carrier, Not Its Authority
 
-After Phase 6A, P083 status, claim, control, invoke, and receipt messages use the active
-Room relay as their default firewall-proof carrier. Their exact interface grant, source
-generation, lease id, lease epoch, operation sequence, and host policy travel in the
-request and remain decisive. The relay is therefore only a pipe.
+With Phase 6A implemented, P083 status, claim, control, invoke, and receipt messages use
+the active Room relay as their default firewall-proof carrier. Their exact interface
+grant, source generation, lease id, lease epoch, operation sequence, and host policy
+travel in the request and remain decisive. The relay is therefore only a pipe.
 
 An authenticated direct chair-to-Workbench connection may replace the relay path as a
 latency optimization, especially for human terminal echo. It is never required for
@@ -388,8 +397,8 @@ primitive instead of maintaining a compatibility projection first.
 | `room-membership-attestation.v1` | new | Signed projection answering membership/authority queries (subject, grants, signer, high-water). |
 | `room-membership-attestation-request.v1` | new | Explicit request contract for runtime attestation issuance: request mode, requester, subject, requested grants, TTL, and room-scoped authorization. |
 | `room-attestation-audit.v1` | new | Metadata-only operator-visible audit fact for issued, refused, deduplicated, and rate-limited attestation requests. |
-| `room-relay-endpoint.v1` | planned Phase 6A | Durable Room payload inside a signed Agora record, selecting one active WSS endpoint, relay epoch, placement, crypto profile, and ordering profile. Agora owns supersession lineage. |
-| Room relay delivery envelope | planned Phase 6A | Ephemeral carrier header adding `relay/epoch` and `relay/seq-no` around an already validated Room live or projection payload; it is not a durable fact. |
+| `room-relay-endpoint.v1` | implemented Phase 6A | Durable Room payload inside a signed Agora record, selecting one active WSS endpoint, relay epoch, placement, crypto profile, and ordering profile. Agora owns supersession lineage. |
+| `room-relay-delivery.v1` | implemented Phase 6A | Ephemeral carrier header adding `relay/epoch` and `relay/seq-no` around an already validated Room live or projection payload; it is not a durable fact. |
 
 ## Relationship to Existing Mechanisms
 
@@ -492,6 +501,9 @@ primitive instead of maintaining a compatibility projection first.
     validity window is impossible under that tolerance are refused or quarantined;
     near-boundary records may be accepted only with degraded diagnostics and a
     refresh requirement. The recommended MVP default is a 5 second skew tolerance.
+    A relay endpoint's `issued-at` must not exceed the trusted evaluation clock plus
+    that tolerance. Scoped delegation authority is evaluated at the admitted fact's
+    issue time, preserving deterministic replay of facts that were valid when issued.
     Old but otherwise valid durable records are not rejected merely for age; retention
     policy and high-water replay rules decide whether they remain usable.
 17. **Firewall-proof relay baseline.** Room requires one reachable WSS/TLS endpoint per
@@ -529,7 +541,7 @@ the durable projection.
 Room domain records are payloads carried by the existing Agora envelope when they become
 durable/federated facts:
 
-- `room.v1`, `room-membership.v1`, `room-event.v1`, and the planned
+- `room.v1`, `room-membership.v1`, `room-event.v1`, and
   `room-relay-endpoint.v1` are `content/schema` values inside `agora-record.v1`, not
   replacements for the Agora envelope;
 - `record/id`, `record/kind`, `topic/key`, `author/participant-id`,
@@ -566,8 +578,9 @@ Room must reuse host-owned primitives instead of building a second control plane
   own membership or authority semantics.
 - **Capability Registry (P072)** is not extended merely because a node advertises relay
   readiness or appears in an endpoint fact. A new capability id is required only if
-  Phase 6A introduces a callable host surface; the data-plane relay role itself remains
-  governed by Room authority facts and admission evidence.
+  a later slice introduces a callable host-management surface. Phase 6A does not add
+  one; the data-plane relay role remains governed by Room authority facts and admission
+  evidence.
 - **TLS/WSS termination** belongs to the listener/transport layer. A Room WebSocket
   adapter may be tested as local `ws://` while still satisfying the Room live-plane
   contract; deployments that expose it off-host must place it behind the existing
@@ -610,6 +623,10 @@ Projection rules:
 - duplicate `seq/no` with different digest is a conflict and must not be silently merged;
 - conflicts enter a `pending-conflict` projection status until an operator/policy path
   chooses quarantine, rollback, or authoritative replay;
+- a same-epoch relay endpoint conflict is the narrow exception resolved by a strictly
+  newer valid relay epoch; its conflicting fact still consumes its durable `seq/no`,
+  and no unrelated next fact clears the conflict; the projection records the typed
+  `relay/conflict-epoch` discriminator instead of deriving state from diagnostic text;
 - gaps are buffered or refused according to local policy, never skipped;
 - expired rooms cannot accept new live joins or live frames;
 - revoked grants take effect in the projection before live transport authorization;
@@ -916,7 +933,7 @@ monotonic per-sender `seq/no` for ordering and replay suppression) and binds
 `from/subject` to the authenticated WSS session outside the payload. Validation is not
 persistence: accepted frames are never written to the durable skeleton.
 
-`room-relay-endpoint.v1` (planned durable Room payload; signed by the enclosing Agora
+`room-relay-endpoint.v1` (durable Room payload; signed by the enclosing Agora
 record):
 
 ```json
@@ -944,13 +961,15 @@ record):
 the carrier generation, while replacement lineage uses the enclosing Agora record's
 `record/supersedes`. The WSS delivery header separately adds `relay/seq-no`; it wraps
 the already validated payload and is never signed or persisted as a Room fact. The
-exact relay-delivery schema is a Phase 6A contract because it must cover ordinary live
+exact `room-relay-delivery.v1` schema covers ordinary live
 messages, P082 latest-state snapshots, and P083 control/receipt payloads without
-turning one payload family into another.
+turning one payload family into another. A receiver recomputes `payload/digest` from
+the canonical payload and validates the exact payload schema before advancing its
+relay checkpoint or exposing the delivery to a consumer.
 
 Agora topic key: `orbiplex/room/v1/<authority>/<room-id>`; record kinds `room.v1`,
-`room-membership.v1`, `room-event.v1`, and, after Phase 6A,
-`room-relay-endpoint.v1`; consumers fold them into a membership/lifecycle and carrier
+`room-membership.v1`, `room-event.v1`, and `room-relay-endpoint.v1`; consumers fold
+them into a membership/lifecycle and carrier
 endpoint projection keyed by `room/id` with a per-room high-water `seq/no`.
 
 `room-membership-attestation.v1` (signed query result):
@@ -1127,43 +1146,71 @@ as an authorization surface.
 This phase is post-MVP carrier work. It does not reopen the completed durable Room,
 membership, attestation, or node-local live-plane contracts.
 
-- [ ] Freeze `room-relay-endpoint.v1`, its positive/negative fixtures, Agora-envelope
+- [x] Freeze `room-relay-endpoint.v1`, its positive/negative fixtures, Agora-envelope
   signing profile, monotonic epoch and supersession rules, and the ephemeral relay
   delivery header carrying `(relay/epoch, relay/seq-no)`. Reuse
   `node-advertisement.v1` relay endpoints and `node-address-attestation.v1` as bounded
   selection evidence rather than registering an ambient relay capability. Extend
   `room-event.v1` with closed authority-delegation scopes including `relay/manage`,
   bounded expiry, and explicit revocation linkage; synchronize schema-gate, Node
-  mirrors, implementation ledger, and generated schema documentation.
-- [ ] Add a pure endpoint projection and selection evaluator. It must prefer requester,
+  mirrors, implementation ledger, and generated schema documentation. Implemented by
+  the canonical endpoint/delivery schemas, closed `relay/manage` delegation fields,
+  synchronized Node mirrors, and schema-gate ingress/egress checks.
+- [x] Add a pure endpoint projection and selection evaluator. It must prefer requester,
   relay-capable member, then federation service; reject same-epoch conflicts; and never
   treat reachability or presence as authority. It must also reject endpoint facts from
   an ordinary relay-capable member, an expired delegation, or a revoked delegation.
   Before dialing, it must require exact endpoint/subject/evidence matching plus
   host-owned egress and Node Transport trust admission. Within one candidate class it
   uses advertisement priority, canonical subject id, and canonical endpoint URL as
-  deterministic tie-breaks.
-- [ ] Add host-owned configuration and operator diagnostics for enabled placement
+  deterministic tie-breaks. `room-core` now owns this evaluator, same-epoch conflict
+  refusal and strictly-newer-epoch recovery, explicit trusted-clock evaluation with the
+  five-second default skew bound, canonical Room topic binding, and exact dial
+  admission. Durable Agora replay proves that a same-epoch conflict remains fail-closed
+  until a newer endpoint epoch restores an active projection.
+- [x] Add host-owned configuration and operator diagnostics for enabled placement
   classes, advertised endpoint, active epoch, crypto profile, connected-session count,
   bounded replay occupancy, reconnects, cursor expiry, last failover, and degraded
-  reason. Diagnostics contain no live payload or sealed key material.
-- [ ] Make the existing `room-wss` server deployable behind the host-owned TLS/WSS
+  reason. Diagnostics contain no live payload or sealed key material. Daemon
+  `room_relay` configuration materializes these bounded controls and Corpus status
+  exposes per-Room metadata-only relay diagnostics. The WSS adapter enforces and
+  reports a hard per-Room relay-connection cap even when one Room bearer is reused;
+  degraded reasons come from a closed runtime vocabulary rather than caller strings.
+- [x] Make the existing `room-wss` server deployable behind the host-owned TLS/WSS
   listener on TCP 443, with bounded approximately 25-second keepalive, jittered
   reconnect, epoch-aware cursor resubscription, replay-window caps, and current-state
-  refresh after `cursor-expired`.
-- [ ] Deliver newer endpoint facts independently of the old relay through Agora replay
+  refresh after `cursor-expired`. The adapter advertises the host-owned `wss://`
+  endpoint while retaining a bounded local handler behind TLS termination; its
+  persistent client implements keepalive, jittered reconnect, and typed resume. Client
+  admission rejects Room rebinding, cursor rollback, and every non-increasing
+  `epoch-changed` checkpoint before it can replace local resume state.
+- [x] Deliver newer endpoint facts independently of the old relay through Agora replay
   and Artifact Delivery mailbox fallback, then recover the selected epoch and relay
-  sequence checkpoint without restoring live payload content.
-- [ ] Add the P083 relay carrier for status, claim, control, invoke, and receipt messages
+  sequence checkpoint without restoring live payload content. Agora replay and the
+  dedicated Artifact Delivery `agora-record.v1` mailbox acceptor converge on one pure
+  projection; the acceptor verifies exact kind/schema, signature, and canonical topic,
+  rejects unknown or unopened Rooms without buffering, and has pure boundary tests.
+  Checkpoint storage is metadata-only and restored gaps force refresh. Room-service
+  rechecks close and monotonic projection state after transport I/O before committing
+  the refreshed projection and endpoint source.
+- [x] Add the P083 relay carrier for status, claim, control, invoke, and receipt messages
   without changing grant, source-generation, lease, epoch, sequence, idempotency, or
   host-policy checks. Keep authenticated direct peer as an optional latency upgrade.
-- [ ] Add an outbound-only three-node acceptance profile proving initial relay
+  `room-relay-delivery.v1` binds each class to its exact Sensorium schema and filters
+  observation versus actuation visibility from current Room grants. The shared
+  `sensorium-status` carrier class additionally distinguishes observation status from
+  actuation/control status by its exact schema ref, so `observe` cannot disclose P083
+  control state. P082 pumps emit validated latest-state frames into an active epoch
+  without exposing source cursors.
+- [x] Add an outbound-only three-node acceptance profile proving initial relay
   placement on the requester or another content-visible member, relay failure, endpoint
   update through AD, new-epoch recovery without cross-epoch merge, membership
   revocation, and P082 latest-state plus P083 fenced invocation over the same relay. It
   must also refuse an endpoint fact authored by an ordinary relay-capable member and by
   an expired or revoked `relay/manage` delegate, a mismatched evidence ref, a disallowed
-  egress target, and every old-epoch frame after failover.
+  egress target, and every old-epoch frame after failover. The `phase6a_relay`
+  acceptance target covers all listed positive and refusal paths over requester,
+  relay-member, and observer nodes.
 
 ### Phase 6B — Non-member federation relay profile
 
@@ -1188,9 +1235,10 @@ the relocatable relay baseline.
 
 ## Next Actions
 
-1. Implement the Phase 6A contract and pure endpoint projection before exposing a
-   non-loopback WSS listener.
-2. Reuse the current Room admission and bounded live runtime; do not create a second
-   membership, policy, or replay service inside the relay.
-3. Prove outbound-only failover and cursor recovery in Phase 6A before implementing the
-   Phase 6B non-member encrypted relay profile.
+1. Collect deployment evidence from Phase 6A host-owned TLS termination, reconnect,
+   cursor-expiry, and failover diagnostics before changing the operational bounds.
+2. Keep direct peer an optional latency adapter; do not move membership, grants,
+   leases, or source cursors into either carrier.
+3. Implement Phase 6B only when a non-member federation relay is required; preserve
+   the Phase 6A endpoint projection and epoch semantics while adding its separately
+   specified encrypted payload profile.

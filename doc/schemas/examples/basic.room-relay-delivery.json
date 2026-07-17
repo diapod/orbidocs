@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "room/id": "room:nym:did:key:z6MkrRoomAuthority:01JZRELAY",
+  "relay/epoch": 3,
+  "relay/seq-no": 41,
+  "sender/subject": { "kind": "participant", "id": "participant:did:key:z6MkrAlice" },
+  "payload/class": "sensorium-receipt",
+  "payload/schema": "sensorium-interface-invoke-receipt.v1",
+  "payload/digest": "sha256:YWJjZGVmZ2hpamtsbW5vcA",
+  "payload": { "schema/v": 1, "operation/id": "sii-operation:example" },
+  "accepted-at": "2026-07-17T12:00:01Z"
+}

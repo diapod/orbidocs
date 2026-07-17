@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-relay-delivery:v1",
+  "title": "RoomRelayDelivery v1",
+  "description": "Ephemeral relay header that binds a validated Room carrier payload to one relay epoch and total-order sequence. It carries no authority and MUST NOT contain session bearers.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070", "P082", "P083"],
+  "required": [
+    "schema/v", "room/id", "relay/epoch", "relay/seq-no", "sender/subject",
+    "payload/class", "payload/schema", "payload/digest", "payload", "accepted-at"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "relay/epoch": { "type": "integer", "minimum": 1 },
+    "relay/seq-no": { "type": "integer", "minimum": 1 },
+    "sender/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "payload/class": {
+      "type": "string",
+      "enum": [
+        "room-live", "sensorium-latest-state", "sensorium-status", "sensorium-claim",
+        "sensorium-control", "sensorium-invoke", "sensorium-receipt"
+      ]
+    },
+    "payload/schema": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 128,
+      "pattern": "^[a-z][a-z0-9.-]*\\.v[0-9]+$"
+    },
+    "payload/digest": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 128,
+      "pattern": "^sha256:[A-Za-z0-9_-]+$"
+    },
+    "payload": { "type": "object", "additionalProperties": true },
+    "accepted-at": { "type": "string", "format": "date-time" }
+  }
+}

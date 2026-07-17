@@ -89,7 +89,8 @@
    :title "Agent-Assisted Chairing"
    :kind :integration
    :based-on ["doc/project/40-proposals/069-corpus.md"
-              "doc/project/40-proposals/073-agent-orchestration-organ.md"]
+              "doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/047-agent/047-agent.md"]
    :schemas ["corpus-reasoning-role-assignment.v1"
              "corpus-reasoning-instruction-overlay.v1"
              "corpus-reasoning-answer.v1"]
@@ -107,6 +108,7 @@
    :kind :integration
    :based-on ["doc/project/40-proposals/069-corpus.md"
               "doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/60-solutions/047-agent/047-agent.md"
               "doc/project/60-solutions/036-room/036-room.md"
               "doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md"]
    :schemas ["agent.binding.v1"
