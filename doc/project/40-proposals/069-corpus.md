@@ -58,9 +58,10 @@ Corpus is a thin role plus a small protocol that **composes** existing strata an
 a topic-taxonomy resolver, a topic field on offers, and a deliberation policy. Its
 post-MVP live-deliberation layer composes the implemented node-local slices of the
 generic **Room** primitive (P070 / Solution 036) and the **Agent organ** (P073), which
-provides the bounded reasoning session. Federated Room transport and remote
-Room-authority trust remain later profiles. The hard-MVP procurement slice needs
-neither Room nor Agent.
+provides the bounded reasoning session. Federated Room transport now has one named
+owner and shape: P070 Phase 6A relocates the existing WSS runtime through signed relay
+endpoint epochs. Remote Room-authority trust remains a later Corpus admission profile.
+The hard-MVP procurement slice needs neither Room nor Agent.
 
 The live in-room chat is *reasoning*, not protocol facts: the protocol does not persist
 it; only the room skeleton and the final signed answer are durable. Any member MAY
@@ -116,7 +117,7 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 | AD deferred + fan-out + single-owner acceptors (023) | MVP procurement | partial, usable |
 | Offer catalog + Dator offers (003/004/067) | MVP discovery | partial, usable |
 | P011 procurement artifacts + P016 escrow | MVP settlement (single provider) | partial |
-| **Room primitive (P070 / Solution 036)** | live deliberation (post-MVP) | **ready for the node-local slice: durable contracts, projection core, signed membership attestation, behaviorally aligned bounded WSS/Matrix transports, Corpus policy/invite admission, live WSS join/readiness/message flow, metadata-only authority observations, and restart-safe endpoint/session/sequence recovery are implemented** |
+| **Room primitive (P070 / Solution 036)** | live deliberation (post-MVP) | **ready for the node-local slice: durable contracts, projection core, signed membership attestation, bounded WSS plus optional Matrix bridge, Corpus policy/invite admission, live WSS join/readiness/message flow, metadata-only authority observations, and restart-safe endpoint/session/sequence recovery are implemented; relocatable member-visible relay epochs are tracked by P070 Phase 6A and the non-member federation relay by Phase 6B** |
 | **Agent organ (P073)** — bounded reasoning session | live multi-turn reasoning (post-MVP) | **runtime and Corpus join ready: the durable node-local lifecycle, bounded active controller, Room-attested Corpus-chair and participant bindings, memory projection, Inquirium/child execution, effect proposals/dispatch including `corpus.room.turn`, Agent-owned lease lifecycle, content-addressed outcome projection, and Corpus-owned inert answer-draft acceptance exist** |
 | **Sensorium Interfaces (P082 / Solution 046) + Sensorium Workbench (Solution 042)** | optional shared terminal or enacted-environment views during live deliberation | **implemented: the WSS Room adapter exposes only a bounded `latest-state` projection, intersects Room observe rights with current interface grants, omits source cursors, and never grants terminal control** |
 
@@ -136,6 +137,11 @@ on Room; Room must not depend on Corpus or import Corpus reasoning semantics.
 Corpus may decorate room policy, invite, role, and answer facts, but membership,
 presence, live transport, lifecycle, attestations, and room projections remain
 owned by the Room layer.
+
+Corpus also does not select or operate the production relay. It consumes the active
+authority-signed P070 relay epoch. Requester placement is the default because the
+requester commonly chairs the deliberation, but relay failover, keepalive, cursor
+recovery, and optional non-member encryption remain Room responsibilities.
 
 ### Bounded reasoning session (Agent organ, P073)
 
@@ -1400,10 +1406,14 @@ Note the embedded offer's `question/id` equals the Corpus `query/id`, so a later
 ```json
 { "schema/v": 1,
   "room/id": "room:r1", "query/id": "query:q1",
-  "transport": { "kind": "live", "address": "wss://...", "session/ref": "room-session:s1" },
+  "transport": { "transport/kind": "wss-pubsub", "transport/ref": "room-live:r1", "endpoint": "wss://..." },
   "policy/digest": "sha256:...", "access/list": ["nym:did:key:zP1", "nym:did:key:zP3"],
   "signature": { "alg": "ed25519", "value": "..." } }
 ```
+
+The signed invite carries endpoint and membership-attestation material, never a live
+session bearer. The invitee obtains its private `session/ref` only from the Room join
+response and does not publish it back into Corpus observations.
 
 ```json
 { "schema/v": 1,
@@ -1583,9 +1593,11 @@ runtime, no N-way settlement.
 
 - [x] Land the generic Room primitive (P070 / Solution 036). Durable room
   schemas, deterministic projection, signed membership attestation, and bounded
-  WSS/Matrix live transports satisfy one carrier-neutral contract. Corpus still
+  WSS transport plus the optional Matrix bridge satisfy one carrier-neutral
+  authority contract. Corpus still
   owns its room policy, invitations, chair admission, and answer semantics; it
-  must not add a third live transport.
+  must not add a third live transport. Relocatable federated WSS endpoint epochs and
+  failover are tracked only by P070 Phase 6A/6B.
 
 #### Phase 6 — Corpus chair over Agent `[x] implemented foundation`
 

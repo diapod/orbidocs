@@ -11,7 +11,6 @@
   "required": [
     "schema/v",
     "room/id",
-    "session/ref",
     "from/subject",
     "seq/no",
     "nonce",
@@ -22,7 +21,6 @@
   "properties": {
     "schema/v": { "const": 1 },
     "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
-    "session/ref": { "type": "string", "pattern": "^room-session:[A-Za-z0-9._:-]+$" },
     "from/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
     "seq/no": { "type": "integer", "minimum": 0 },
     "nonce": {

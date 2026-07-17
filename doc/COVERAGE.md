@@ -206,7 +206,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`retrieval-response.v1.schema.json`](schemas-gen/schemas/retrieval-response.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`room-attestation-audit.v1.schema.json`](schemas-gen/schemas/room-attestation-audit.v1.md) | `17` | `4` | `yes` | `yes` | `2` | `0` |
 | [`room-event.v1.schema.json`](schemas-gen/schemas/room-event.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `0` |
-| [`room-live-message.v1.schema.json`](schemas-gen/schemas/room-live-message.v1.md) | `12` | `1` | `yes` | `yes` | `1` | `1` |
+| [`room-live-message.v1.schema.json`](schemas-gen/schemas/room-live-message.v1.md) | `11` | `1` | `yes` | `yes` | `1` | `1` |
 | [`room-membership-attestation-request.v1.schema.json`](schemas-gen/schemas/room-membership-attestation-request.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `0` |
 | [`room-membership-attestation.v1.schema.json`](schemas-gen/schemas/room-membership-attestation.v1.md) | `12` | `1` | `yes` | `yes` | `1` | `0` |
 | [`room-membership.v1.schema.json`](schemas-gen/schemas/room-membership.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `1` |

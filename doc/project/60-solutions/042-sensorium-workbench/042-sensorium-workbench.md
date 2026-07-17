@@ -107,14 +107,18 @@ production-grade container or microVM executors and optional daemon command-BDO
 signal policy beyond the implemented `TERM` cancel path.
 
 Proposal 083 defines the hard-MVP release-blocking path for separately granted
-terminal input, resize, and signal actuation. Its P083-002 through P083-008 runtime
-is now implemented: a remote caller reaches the existing Workbench PTY checks as a
-remote Sensorium Interface control authority carrying exact grant, generation,
-lease, epoch, sequence, method, deadline, and causal lineage. Workbench never
-relabels that caller as the operator, raw bytes are not retained by the generic
-interface runtime, and provider-confirmed terminal closure fences the source.
-Operator/Room collaboration UX and the complete real terminal baton E2E matrix
-remain P083-009 and P083-010.
+terminal input, resize, and signal actuation. Its P083-002 through P083-011 runtime
+and synchronization slices are now implemented: a remote caller reaches the existing
+Workbench PTY checks as a remote Sensorium Interface control authority carrying exact
+grant, generation, lease, epoch, sequence, method, deadline, and causal lineage.
+Workbench never relabels that caller as the operator, raw bytes are not retained by
+the generic interface runtime, and provider-confirmed terminal closure fences the
+source.
+The bounded Room grouping/status/control/invoke surface derives caller identity
+from a current `actuate` session and intersects it with exact interface authority.
+The conformance matrix proves two controllers against a real PTY while Rust proves
+queue, handoff, stale-epoch refusal, restart, saturation, and partial failure.
+Only formal P083-012 promotion into Solution 046 remains.
 
 ## Date
 
@@ -512,8 +516,11 @@ Status:
   diagnostics import, full workspace/root/path prefix-consent binding,
   credential-env refusal, local replay, replay TTL cleanup,
   PTY story, Rust bridge, managed-copy export/teardown, broker wait, replay, and
-  Python conformance vectors exist. Production container/microVM executor tests
-  remain coupled to those future backends.
+  Python conformance vectors exist. The extended Sensorium Interfaces runner also
+  proves two independently fenced controllers writing through one real
+  interactive Workbench shell PTY, including stale-holder refusal and bounded
+  terminal shutdown. Production container/microVM executor tests remain coupled
+  to those future backends.
 
 ### Read-Only Sensorium Interface Sources
 

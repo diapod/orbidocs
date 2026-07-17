@@ -26,7 +26,7 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-17. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038.
+Change basis: this refresh incorporates the current worktree state on 2026-07-17. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. The same refresh now counts P070 Phase 6A/6B as unfinished post-MVP scope: relocatable member-visible WSS relay epochs, outbound-only failover, dependent P082/P083 relay adapters, and the later non-member federation relay profile reduce Room's document-level estimate without reopening its completed hard-MVP foundation.
 
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
@@ -54,21 +54,28 @@ These additions improve extensibility and evidence
 collection without changing the component's `100` readiness estimate. P082 is now
 listed as a hard-MVP blocker whose implementation gate is already satisfied.
 
-Proposal 083 remains an open hard-MVP release blocker, but P083-002 through P083-008
-are now implemented. The Node has the shared directional resource and closed schema
-family, `sensorium.interface.invoke` plus exact Passport scope, a dependency-light
-pure coordinator, durable shared/exclusive state, bounded adapter registry and LED
-fixture, action-enumerated management and authenticated direct-peer admission, and
-the Workbench terminal input/resize/signal adapter. The runtime persists metadata
-and digests rather than raw input, fences source generation and lease epoch, reports
-honest unknown irreversible outcomes, keeps Workbench evidence refs opaque, and
-withdraws a provider-confirmed closed terminal source. Focused tests cover shared
-order, registry refusal, handoff/preemption/revocation/restart fencing, exact
-Passport replay scope, generic peer denial, and remote identity at the PTY boundary.
-P083 is therefore estimated at `70%`: P083-009 operator/Room collaboration,
-P083-010 load plus real two-controller PTY E2E, P083-011 final synchronization, and
-P083-012 promotion remain open. The implemented P082 observation verdict remains
-ready, but hard MVP cannot close until the P083 tracker does.
+Proposal 083 remains an open hard-MVP release blocker, but P083-002 through P083-011
+are now implemented. In addition to the shared directional resource, exact Passport
+scope, pure coordinator, durable shared/exclusive state, adapters, direct-peer
+admission, and Workbench terminal bridge, the Node now owns a bounded process-local
+Room collaboration registry and strict manage actions. Collaborative status/control/
+invoke derives the canonical caller and current `actuate` membership atomically from
+one live Room transport snapshot, then reuses exact interface grants, grouped
+methods, generation, lease, epoch, sequence, and host policy. Observation remains
+separately authorized and raw terminal input is never Room content. The expanded
+runner passes 19 exact Rust checks plus the
+Workbench actuation and PTY story tests, including saturation, expiry/renewal,
+handoff, stale epoch, restart, partial failure, observer-only denial, and two real PTY
+controllers. P083 is therefore estimated at `95%`: only P083-012 formal promotion
+into Solution 046 remains. The implemented P082 observation verdict remains ready,
+but hard MVP cannot close until that explicit promotion is complete.
+
+The Room collaboration boundary additionally mints 256-bit CSPRNG session bearers
+that never enter live frames, acknowledgements, fan-out, durable Room facts, shared
+Corpus observations, or collaboration-group state. Group withdrawal releases capacity
+immediately; closed or terminal Rooms are reaped at the next bounded group boundary,
+while one member-session disconnect correctly leaves the Room-scoped group available
+to other current members. This hardening changes no readiness percentage.
 
 The same closure is now hardened with a uniform 32 MiB pre-read image-source
 limit, a 96 MiB decoded adapted-model artifact cap, operation-kind/status-scoped
@@ -159,14 +166,13 @@ Recent component deltas:
   descriptor-search, and split-management questions are resolved against the
   current baseline: bounded pull-batch, direct authority-scoped disclosure, and one
   source-local manage capability remain in force.
-- Proposal 083 is a partially implemented hard-MVP release blocker. P083-002 through
-  P083-008 provide the separate `sensorium.interface.invoke` authority, per-method
-  input schemas, concurrent shared submission with one total serialized effect
-  order, independently bounded caller/interface backlogs, fenced exclusive control
-  leases, bounded unique-caller claims, metadata-only receipts, direct-peer
-  admission, and the Workbench terminal adapter. Runtime readiness remains false,
-  and hard MVP remains open, until operator/Room collaboration, load and real
-  two-controller PTY E2E, final synchronization, and Solution 046 promotion pass.
+- Proposal 083 is an implemented but not yet promoted hard-MVP release blocker.
+  P083-002 through P083-011 provide the separate `sensorium.interface.invoke`
+  authority, per-method schemas, bounded shared/exclusive coordination, durable
+  fencing and receipts, direct-peer and Workbench adapters, bounded operator/Room
+  grouping with dual authority, and the load/restart/partial-failure/two-controller
+  PTY conformance matrix. Runtime readiness remains false, and hard MVP remains open,
+  only until P083-012 formally promotes the reviewed boundary into Solution 046.
 - Communication Protocol Baseline is now hard-MVP ready as a historical baseline:
   Proposal 002 explicitly maps its implemented or superseded areas to the current
   runtime owners (P014/Solution 000 transport, P056/Solution 024 TLS trust,
@@ -482,9 +488,11 @@ Recent component deltas:
   room-high-water, chair, evidence, output-digest, and idempotency validation;
   the first profile is text-only and uses the dedicated
   `corpus-reasoning-answer-signature.v1` domain.
-  Remaining post-MVP work is federated WSS/TLS or a real Matrix homeserver,
+  Remaining post-MVP work is P070's relocatable federated WSS relay epoch,
   remote Room-authority trust, arbiter election, multi-provider final answer
-  composition, optional Sensorium Interface views, and N-way settlement.
+  composition, and N-way settlement. Matrix is an optional bridge profile rather
+  than a Corpus or Room liveness dependency; Sensorium Interface views are already
+  available in the node-local Room slice.
 - Room primitive is now tracked explicitly through Proposal 070 and Solution 036. The current code
   implements the durable Room skeleton, deterministic projection over Agora facts,
   signer-backed short-lived membership attestations, explicit POST attestation request
@@ -497,11 +505,15 @@ Recent component deltas:
   makes the attestation endpoint skew-tolerant for authorization expiry, rejects
   over-cap TTL instead of silently clamping it, scopes rate-limit buckets by room, and
   records audit facts with `exposure`, `ttl/requested`, and `ttl/granted` while schema
-  tests reject raw payload and passport bodies. P070 is now complete for
-  its functional standalone Room foundation, including the live plane required by
-  Corpus at the primitive layer. CR-88/CR-89 security hardening remains tracked as a
-  separate follow-up stream, and remaining product work belongs to consumers such as
-  Corpus and richer collaborative answer-room products.
+  tests reject raw payload and passport bodies. P070 is complete for its hard-MVP
+  standalone Room foundation, including the node-local live plane required by Corpus.
+  It is no longer marked post-MVP complete because Phase 6A/6B now explicitly tracks
+  the production federation delta: one authority-signed relocatable WSS endpoint per
+  relay epoch, one ephemeral total order per epoch, failover through Agora/AD without
+  cross-epoch merge, outbound-TLS operation, keepalive/reconnect, relay-carried
+  P082/P083 adapters, and the later non-member relay encryption profile. Matrix is
+  retained only as an optional bridge profile. CR-88/CR-89 security hardening remains
+  a separate follow-up stream.
 - Sensorium Workbench is now tracked through Proposal 071 and promoted to
   Solution 042 as a post-MVP actuator foundation. The opt-in supervised Python
   connector now has a complete local foundation: allowlisted workspaces,
@@ -655,7 +667,7 @@ Recent component deltas:
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
-| [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
+| [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `false` | `90` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `98` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `false` | `false` | `false` | `100` |
@@ -666,7 +678,7 @@ Recent component deltas:
 | [Proposal 080: Multiplexed Middleware Channel Executor](../40-proposals/080-multiplexed-middleware-channel-executor.md) | `false` | `true` | `true` | `100` |
 | [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `false` | `100` |
-| [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `false` | `false` | `70` |
+| [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `false` | `false` | `95` |
 
 ## Solutions
 
@@ -708,7 +720,7 @@ Recent component deltas:
 | [Shared Offer Catalog](../60-solutions/033-shared-offer-catalog/033-shared-offer-catalog.md) | `true` | `true` | `false` | `100` |
 | [API Surface Projection](../60-solutions/034-api-surface-projection/034-api-surface-projection.md) | `false` | `true` | `true` | `100` |
 | [Interaction Broker](../60-solutions/035-interaction-broker/035-interaction-broker.md) | `false` | `true` | `false` | `100` |
-| [Room](../60-solutions/036-room/036-room.md) | `true` | `true` | `true` | `100` |
+| [Room](../60-solutions/036-room/036-room.md) | `true` | `true` | `false` | `90` |
 | [Capability Registry](../60-solutions/037-capability-registry/037-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Corpus](../60-solutions/038-corpus/038-corpus.md) | `true` | `true` | `false` | `100` |
 | [Notifications](../60-solutions/039-notifications/039-notifications.md) | `true` | `true` | `false` | `90` |
@@ -718,4 +730,4 @@ Recent component deltas:
 | [Horizontal Protocol Primitives](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Inquirium](../60-solutions/044-inquirium/044-inquirium.md) | `false` | `true` | `false` | `100` |
 | [Inquirium Assistant Channel](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
-| [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `true` | `false` | `false` | `82` |
+| [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `true` | `false` | `false` | `95` |

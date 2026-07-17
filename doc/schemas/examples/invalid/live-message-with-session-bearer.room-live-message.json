@@ -1,6 +1,7 @@
 {
   "schema/v": 1,
   "room/id": "room:participant:did:key:z6MkAuthority:01JROOM",
+  "session/ref": "room-session:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
   "from/subject": {
     "kind": "nym",
     "id": "nym:did:key:z6MkMember"

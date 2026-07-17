@@ -452,6 +452,13 @@ Later transport layers may add:
 
 But those should not block MVP.
 
+This is a general Node Transport extension point, not a requirement inherited by
+every higher-level protocol. In particular, Proposal 070 Room deliberately uses one
+authority-selected reachable WSS relay endpoint per active relay epoch and does not
+depend on STUN/ICE, UDP, or hole punching for Room liveness. A later direct
+chair-to-provider optimization may use another transport adapter without changing
+Room or Sensorium authority.
+
 For the MVP baseline, `WSS` should be treated as a carrier transport layer, not
 as the primary identity protocol.
 

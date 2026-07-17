@@ -31,7 +31,8 @@ operational rules from separate documents:
 
 - Agora uses Matrix as a topic-addressed relay carrier for `agora-record.v1`.
 - Artifact Delivery can use Matrix as a mailbox-style store-and-forward carrier.
-- Room needs Matrix as one possible live transport substrate.
+- Room has an implemented Matrix bridge adapter, but its production liveness baseline
+  is the relocatable WSS relay defined by P070.
 - Story 011 preserves a Matrix room id as collaboration intent, while the real
   homeserver-backed live transport remains a post-MVP extension.
 - The multi-node harness needs an optional Matrix fixture profile for reproducible
@@ -107,6 +108,8 @@ This proposal creates one common operational contract for those consumers.
 - Not an identity authority for participants, nyms, nodes, or organizations.
 - Not a requirement that every Orbiplex node run a Matrix homeserver.
 - Not a hard-MVP requirement for Story 011's local Corpus acceptance pack.
+- Not a second Room ordering or history model. Matrix DAG merge, room state, history,
+  presence, and homeserver membership are never imported into Room Core.
 
 ## Proposed Model
 
@@ -163,6 +166,27 @@ For Artifact Delivery:
 - sealed Artifact Delivery / INAC envelopes remain the authority-bearing payload;
 - Matrix room/event metadata is a delivery carrier trace, not proof of sender or
   recipient authority.
+
+### 2A. Room Uses Matrix Only as a Bridge Profile
+
+P070 defines the Room production baseline as one relocatable WSS relay endpoint per
+active relay epoch. Matrix is optional infrastructure for deployments that already
+operate it or need a bridge into Matrix clients. The existing Matrix Room adapter may
+translate between Room live frames and Matrix events, but it does not become a second
+kind of Room.
+
+Consequently:
+
+- Room relay epoch and sender/domain sequences remain authoritative for their stated
+  scopes; Matrix event order is carrier provenance only;
+- Room failover starts a new relay epoch and never merges Matrix DAG branches into a
+  Room history;
+- Matrix state events do not open, close, grant, revoke, or elect Room authority;
+- Room remains usable without a homeserver, and a Matrix outage does not invalidate
+  durable Room facts;
+- behavior-equivalence tests cover admission, bounds, revocation, and cleanup at the
+  adapter boundary; they do not assert semantic equivalence between Matrix history and
+  the non-retentive WSS relay buffer.
 
 ### 3. Minimal Client-Server API Surface
 
@@ -280,8 +304,10 @@ event namespace:    ai.orbiplex.<component>.<event-kind>
 txn id:             canonical Orbiplex id or digest when available
 ```
 
-For Room live transport, session refs and carrier bindings should be derived from a
-canonical digest of `room/id`, not from a lossy path-safe rewrite of the room id.
+For Room live transport, non-secret carrier aliases and bindings should be derived
+from a canonical digest of `room/id`, not from a lossy path-safe rewrite. Session refs
+are different: P070 requires host-minted 256-bit CSPRNG bearer secrets that never enter
+Matrix events, aliases, state, or member-visible projections.
 
 ### 7. Payload and Sync Bounds
 
@@ -587,11 +613,12 @@ Authority Boundary (section 2) is respected:
 | P075-006 | Add matrix-smoke harness profile in P074 implementation | todo | Should start fixture, export env, run selected multi-node Matrix smoke. |
 | P075-007 | Add shared Matrix adapter diagnostic event names | todo | Align with trace/error vocabulary without making Matrix errors protocol errors. |
 | P075-008 | Add operator-facing Matrix posture/readiness surface | partial | Agora status and AD UI expose some Matrix posture; Room needs equivalent when implemented. |
-| P075-009 | Add retention/redaction conformance tests | partial | `room_live.rs` unit tests already cover redact-on-close, membership-projection-decisive-over-stale-passport, subscriber limits, and sink-failure-does-not-consume-sequence. Missing: the WSS/Matrix behavior-equivalence conformance suite implied by *Done When*, and any test for the P075-011 gap below. |
+| P075-009 | Add retention/redaction conformance tests | partial | `room_live.rs` unit tests already cover redact-on-close, membership-projection-decisive-over-stale-passport, subscriber limits, and sink-failure-does-not-consume-sequence. Missing: the shared WSS/Matrix admission, revocation, cleanup, and bounded-delivery conformance suite implied by *Done When*, and any test for the P075-011 gap below. The suite does not require equal carrier ordering or replay histories. |
 | P075-010 | Decide production deployment note for Conduit/Dendrite/Synapse | done | No production recommendation until operational evidence exists. Conduit remains the fixture/dev default only; production posture must be based on smoke, retention, reliability, and operator-maintenance data. |
 | P075-011 | Evict revoked members from the underlying Matrix room, not only local Room-core state | todo | `MatrixEventSink` has no kick/ban primitive; `drop_member` in `room_live.rs` only updates in-memory Room-core state today. A revoked-but-still-Matrix-joined member is not evicted and could keep receiving live frames sent after revocation. Required fix: add a Matrix `kick`/`ban` sink operation. Until it lands, Matrix-backed Room live transport remains restricted to exposure modes where that residual risk is acceptable; it must not be used for `PrivateToSwarm` or high-privacy live rooms. |
 | P075-012 | Promote Room Matrix payload/retention/backoff to configurable profile fields | todo | Replace the hardcoded `MATRIX_ROOM_LIVE_EVENT_MAX_BYTES` const and the minimal `MatrixRoomLiveConfig` with the section 8 profile shape, shared with `MatrixMailboxConfig` per *Reuse: Shared Matrix Carrier Primitive*. Keep component-local config paths, but use the shared semantic vocabulary. |
 | P075-013 | Add Agent/Inquirium/Corpus boundary tests for Matrix-carried Room content | todo | Cover: an Agent step terminates on its own budget even when the Matrix adapter is degraded/slow; no Matrix event content reaches Inquirium prompt assembly except through `inquirium.context-assembly.request.v1` grants; Corpus answer classification tier-to-object expansion is identical regardless of carrier. |
+| P075-014 | Freeze Matrix-backed Room as an optional bridge profile | done | P070 owns relocatable WSS relay epochs and Room liveness. Matrix carries already-authorized frames but contributes no Room DAG merge, durable history, membership, authority, or failover semantics. |
 
 ## Done When
 
@@ -599,8 +626,9 @@ Authority Boundary (section 2) is respected:
   carrier rules.
 - The local fixture can be started reproducibly by the multi-node harness.
 - Agora and Artifact Delivery Matrix adapters expose profile-compatible diagnostics.
-- Room Matrix live transport uses the profile and passes behavior-equivalence tests
-  against the WSS adapter.
+- Room Matrix live transport uses the profile and passes shared admission,
+  revocation, cleanup, and bounded-delivery conformance tests against the WSS
+  adapter without importing equal ordering or replay-history semantics.
 - `drop_member` evicts the underlying Matrix room membership, not only local
   Room-core authority state (P075-011).
 - Story 011 can opt into a homeserver-backed live collaboration fixture without
@@ -651,3 +679,10 @@ Resolved 2026-07-01:
    explicitly, e.g. `matrix.deployment/topology`.
    Rationale: this preserves deployment flexibility without hiding operational risk
    from policy and trust evaluation.
+
+7. **Room bridge boundary.**
+   Decision: P070's relocatable WSS relay is the production Room liveness baseline.
+   Matrix remains an optional bridge profile and never contributes DAG merge, Room
+   state, durable history, membership, authority, or failover semantics.
+   Rationale: this preserves the useful Matrix adapter without coupling the small Room
+   protocol to Matrix's larger distributed-state model.

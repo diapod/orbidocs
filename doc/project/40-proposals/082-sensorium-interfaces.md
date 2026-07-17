@@ -691,6 +691,13 @@ per-consumer acknowledgement. A WSS Room pump may coalesce intermediate snapshot
 the next complete snapshot repairs presentation without pretending that a dropped
 carrier event was delivered.
 
+P070's future relocatable relay does not change that semantic boundary. Its
+`(relay/epoch, relay/seq-no)` cursor belongs to the carrier and may replay a bounded
+recent delivery or detect that the carrier window was lost. It is never the private
+Sensorium source cursor. After relay failover or `cursor-expired`, the P082 adapter
+opens or continues its host-owned source subscription and emits the current complete
+latest-state snapshot; it does not claim ordered Sensorium replay.
+
 No v1 carrier is lossless. If lossless retention is a domain requirement, the source
 must create an explicit durable artifact or admitted fact under its own policy.
 
@@ -857,8 +864,8 @@ the adapter inventory does not become the acceptance scope accidentally.
 | host capability call | local read and pull-batch | core | authenticated module/actor binding comes from the host |
 | authenticated peer session | direct node-to-node read and pull-batch | core remote | remote context and actor claims remain evidence until locally bound |
 | HTTP long-poll or SSE | local UI projection | thin V1 adapter | adapter loops over read-next; SSE is not a second protocol |
-| WSS-backed Room | collaborative latest-state fan-out | first live adapter | membership plus interface grant; ordered events are refused |
-| Matrix-backed Room | optional Room carrier | deferred for private/high-sensitivity data | requires P075-011 carrier-side eviction before sensitive use |
+| WSS-backed Room | collaborative latest-state fan-out | first live adapter; relocatable relay is post-MVP P070 work | membership plus interface grant; ordered events are refused; relay cursor never exposes source cursor |
+| Matrix-backed Room | optional Room bridge | deferred for private/high-sensitivity data | requires P075-011 carrier-side eviction before sensitive use and imports no Matrix history/state semantics |
 | `channel_json` RPC | supervised middleware caller | reuse when needed | invokes the same host capability dispatch; attachment grants no interface authority |
 | `channel_json` event | source-side ingress hint | not an interface carrier | drop-and-count belongs to observation admission diagnostics |
 | Artifact Delivery | large immutable payload indirection | reuse by reference | not a stream and not interface authority |
@@ -1238,7 +1245,8 @@ baseline; decisions 7-9 close the evidence-gated follow-up review:
 | P082-016 | Replace the closed source-binding enum with an open, bounded source-adapter registry and migrate the Sensorium and Workbench adapters | done | Generic host-private bindings are shape-bounded and revalidated after restart; duplicate, unknown, unready, and excess adapters fail closed, daemon startup requires all four built-ins, and point-in-time readiness never replaces authoritative `next_batch` refusal. |
 | P082-017 | Add the Artifact Delivery-backed immutable snapshot adapter | done | `artifact-snapshot` emits only an accepted `artifact-object-pointer.v1` ref through a read-only latest-state interface, pins admission identity, redacts AD-host failures, preserves classification checks, and uses stable digest-bound cursor change detection; local manage authority deliberately selects the private admission binding. |
 | P082-018 | Expose bounded operator evidence for source readiness, carrier reads, occupancy, no-change, errors, active leases, Room pumps, and local revoke commit duration | done | The host-local manage `metrics` action reports no actor, interface, grant, or subscription identifiers; read dimensions are capped by 64 registered source kinds, four carrier classes, and two delivery kinds, while `revoke-commit-us` remains flat. Source-registry, active-subscription, metric-accumulator, and Room failures degrade independently; counters are process-local and reset on restart. |
-| P082-019 | Add and run the host/direct-peer/SSE/Room conformance and load harness, then synchronize solution and readiness artifacts | done | `node:tools/conformance/sensorium_interfaces_conformance.py` prebuilds once with a separate build timeout, uses exact full Rust test names with one test thread, fails fast by default, distinguishes build/test timeouts and unrecognized libtest output, emits only output digests on failure, and covers bounded host load, signed direct peer, SSE revocation, and Room projection revocation. |
+| P082-019 | Add and run the host/direct-peer/SSE/Room conformance and load harness, then synchronize solution and readiness artifacts | done | `node:tools/conformance/sensorium_interfaces_conformance.py` prebuilds daemon/core plus the required Workbench contract bridge with a separate build timeout, uses exact full Rust test names with one test thread, fails fast by default, distinguishes build/test timeouts and unrecognized libtest output, emits only output digests on failure, and now extends the original bounded host, signed peer, SSE, and Room observation checks with the P083 load, restart, partial-failure, Room baton, and real Workbench PTY matrix. |
+| P082-020 | Make the Room latest-state adapter relay-epoch-aware after P070 Phase 6A | deferred post-MVP | Reconnect uses only `(relay/epoch, relay/seq-no)` carrier state, never a source cursor; epoch change or expired carrier replay refreshes one current complete snapshot after rechecking Room membership and interface grant. This item does not reopen or block the completed P082 hard-MVP contract. |
 
 ## Open Questions
 
@@ -1258,3 +1266,5 @@ requires operational evidence and an explicit contract revision.
 3. Keep pull-batch, direct disclosure, and one source-local manage capability as the
    baseline. Treat any future push, existence-discovery, or authority-split proposal
    as an explicit contract revision with operational evidence.
+4. Implement P082-020 only through P070 Phase 6A; do not add an Interface-specific
+   relay, membership service, or failover protocol.

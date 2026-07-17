@@ -118,9 +118,11 @@
     "Coordinate bounded shared order and exclusive fenced control leases"
     "Persist grants claims leases receipts idempotency and restart fencing in the shared authority runtime"
     "Expose host-local and authenticated direct-peer actuation without carrier authority"
-    "Route Workbench terminal effects through exact remote-caller authority at the PTY boundary"]
+    "Route Workbench terminal effects through exact remote-caller authority at the PTY boundary"
+    "Intersect current Room actuate membership with exact interface and fenced control authority"
+    "Prove saturation restart partial failure handoff and two-controller real PTY behavior"]
    :status :partial
-   :status-detail "P083-002 through P083-008 are implemented. Operator and Room collaboration surfaces, the complete load and real terminal baton E2E matrix, final documentation closure, and formal promotion remain P083-009 through P083-012."}]
+   :status-detail "P083-002 through P083-011 are implemented and synchronized. Formal promotion into the Solution 046 actuation boundary remains P083-012."}]
 
  :may-implement
  [{:cap/id :sensorium-interface-provider-push

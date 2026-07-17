@@ -52,7 +52,7 @@ Related schemas:
 
 ## Status
 
-Implemented observation MVP solution; staged actuation foundation through P083-008.
+Implemented observation MVP solution; staged actuation implementation through P083-011.
 
 The carrier-neutral pull-batch core, durable host runtime, open bounded source
 adapter registry, Sensorium, Workbench, and Artifact Delivery source adapters,
@@ -63,9 +63,10 @@ ordered-event Room projection, classification mismatch, and restart recovery.
 Host-local bounded metrics and the extended conformance runner provide the
 operator evidence surface needed for post-V1 delivery decisions.
 This implementation satisfies the explicit P082 hard-MVP release blocker.
-The P083 schema, capability, core, durable coordinator, LED, host/direct-peer, and
-Workbench PTY slices are implemented and refusal-tested. P083-009 through P083-012
-remain open, so the hard-MVP actuation extension is not yet promoted or complete.
+The P083 schema, capability, core, durable coordinator, LED, host/direct-peer,
+Workbench PTY, operator/Room collaboration, conformance, and synchronization slices
+are implemented and refusal-tested. P083-012 formal promotion remains open, so the
+hard-MVP actuation extension is implemented but not yet part of this promoted solution.
 
 ## Date
 
@@ -107,9 +108,8 @@ outside this solution's MVP boundary.
 defines the hard-MVP release-blocking actuation extension with separate resources,
 grants, coordination, and fencing. Its implementation now reuses this component's
 core, authority runtime, store, admission, fact, receipt, classification, adapter,
-and carrier boundaries through P083-008. Operator/Room collaboration, the complete
-load and real PTY E2E matrix, final cross-document closure, and formal promotion
-remain P083-009 through P083-012.
+and carrier boundaries through P083-011. The remaining P083-012 transition is the
+explicit promotion of that reviewed actuation boundary into this solution.
 
 ## Context and Problem Statement
 
@@ -267,7 +267,7 @@ Status: `done`.
 
 ### Staged Actuation Foundation
 
-Responsibilities implemented through P083-008:
+Responsibilities implemented through P083-011:
 
 - extend the common resource envelope with closed per-method actuation descriptors,
   control leases, invoke requests/receipts, exact grant scopes, and Workbench input
@@ -291,11 +291,42 @@ Responsibilities implemented through P083-008:
   changes its opaque generation, and clears transient control;
 - persist metadata and digests rather than raw actuation payloads, report honest
   `unknown` outcomes for uncertain irreversible effects, and keep evidence refs
-  opaque from private Workbench session bindings.
+  opaque from private Workbench session bindings;
+- expose strict manage actions over a bounded process-local Room collaboration
+  group registry and reuse existing grant, inspection, and preemption surfaces;
+- keep P070's 256-bit Room session bearer outside messages, acknowledgements, shared
+  observations, collaboration-group state, and operator/member status;
+- derive collaborative callers and current `actuate` membership atomically from
+  one live Room transport snapshot, and intersect it with exact interface, method,
+  generation, lease, epoch, sequence, and host policy authority;
+- keep observation authority separate, expose bounded claim polling hints, lose
+  ephemeral groups fail-closed on restart, remove explicit withdrawals immediately,
+  reap closed/terminal Rooms before group access or inspection, preserve Room-scoped
+  groups across one member-session disconnect, and never relay terminal bytes as Room
+  messages;
+- run the expanded exact-name conformance matrix across load saturation, expiry,
+  renewal, handoff, stale epochs, restart, partial failure, Room dual authority,
+  and two controllers writing through a real Workbench PTY.
 
-Status: `implemented through P083-008; P083-009 through P083-012 pending`.
+Status: `implemented through P083-011; P083-012 formal promotion pending`.
 
 ## May Implement
+
+### Relocatable Room Relay Carrier
+
+After P070 Phase 6A, the authority-neutral Room relay should become the default
+firewall-proof carrier for collaborative latest-state and P083 interaction. The P082
+adapter keeps its source cursor private: `(relay/epoch, relay/seq-no)` is only carrier
+resume state, and failover or carrier cursor expiry triggers one current complete
+snapshot after current Room and interface authority are rechecked.
+
+P083 status, claim, control, invoke, and receipt use the same coordinator contracts and
+fencing over the relay. Authenticated direct peer remains an optional latency upgrade,
+not a lease or correctness requirement. This work is owned by P070 Phase 6A plus
+P082-020/P083-013; it must not create a Sensorium-specific relay or NAT traversal
+protocol.
+
+Status: `deferred post-MVP`.
 
 ### Measured Provider-Push Profile
 
@@ -368,6 +399,11 @@ Status: `deferred`.
 | Metrics acquire resource or caller identifiers | Unbounded cardinality or sensitive operational disclosure | Limit dimensions to at most 64 registered source kinds plus unresolved reads, four carriers, and two delivery kinds; expose only aggregate counters and timings. |
 | Revoke transaction duration is presented as end-to-end enforcement lag | Operators receive misleadingly optimistic evidence | Expose the flat measurement as `revoke-commit-us`; enforce local and peer bounds through pull-loop and revocation-freshness budgets, and measure those boundaries separately. |
 | One operator-snapshot source fails | Operator loses unrelated runtime evidence | Degrade source-registry, active-subscription, metric-accumulator, and Room sections independently to `unavailable`, log the local error, and keep core read paths independent from telemetry health. |
+| Room membership is mistaken for actuation authority | A collaborator invokes an ungranted method or stale lease | Require current `actuate`, canonical session subject, exact active interface grant, grouped method, generation, and current lease fencing before dispatch. |
+| A Room bearer is projected or echoed | Another member can reuse a session identity | Keep the 256-bit random ref only in the joining client's admission envelopes and bind frame subjects outside payloads. |
+| Collaboration groups outlive their Room or occupy capacity after withdrawal | Process-local state becomes unusable or saturates | Remove withdrawals immediately; reap closed/terminal Room groups before access, management, and operator snapshots; clear all groups at daemon stop. |
+| Terminal input is sent as Room content | Raw keystrokes enter collaboration retention or replay | Keep Room WSS outbound observation-only; invoke Workbench through the host-local actuation adapter and persist only metadata/digests. |
+| Relay or direct-peer upgrade is treated as control ownership | Carrier failover transfers or widens actuation authority | Keep grants and fenced leases in the host coordinator; carrier replacement changes transport only and must recheck current Room plus interface authority. |
 
 ## Open Questions
 
@@ -378,13 +414,18 @@ implementation choices.
 
 ## Next Actions
 
-1. Export representative snapshots from the implemented host-local `metrics`
+1. Complete P083-012 by promoting the implemented actuation contract into this
+   solution boundary after the final authority and conformance review; keep the
+   observation and actuation authorities separate during promotion.
+2. Export representative snapshots from the implemented host-local `metrics`
    action and compare read-next latency, no-change rate, and batch occupancy by
    carrier, delivery kind, and source kind. Inspect flat revoke commit cost
    separately and measure enforcement at local carrier and peer freshness
    boundaries.
-2. Add another producer adapter only when it can reuse the same classification,
+3. Add another producer adapter only when it can reuse the same classification,
    cursor, and authority contracts without a source-specific escape hatch.
-3. Keep pull-batch, direct disclosure, and one source-local manage capability as
+4. Keep pull-batch, direct disclosure, and one source-local manage capability as
    the baseline. Require an explicit evidence-backed contract revision for any
    provider-push, existence-discovery, or management-authority split.
+5. After P070 Phase 6A, complete P082-020 and P083-013 through the shared Room relay
+   contract rather than adding Sensorium-specific reachability or failover logic.

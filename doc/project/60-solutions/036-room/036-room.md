@@ -3,10 +3,12 @@
 Based on:
 
 - `doc/project/40-proposals/070-room-primitive.md`
+- `doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`
 - `doc/project/40-proposals/082-sensorium-interfaces.md`
 - `doc/project/40-proposals/076-federation-identity-and-network-selector.md`
 - `doc/project/40-proposals/079-cross-federation-alliance.md`
 - `doc/project/60-solutions/008-agora/008-agora.md`
+- `doc/project/60-solutions/000-node/000-node.md`
 - `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
 - `doc/project/60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
@@ -22,16 +24,23 @@ Related schemas:
 - `room-membership-attestation-request.v1`
 - `room-attestation-audit.v1`
 
+Planned post-MVP schema:
+
+- `room-relay-endpoint.v1`
+
 ## Status
 
 Implemented solution foundation.
 
-This means the functional Room foundation is present: durable records,
-deterministic projection, membership attestation, and live transport substrates.
-It does not mean the implementation has no known hardening follow-ups. The
-CR-88/CR-89 hardening stream remains the place for issues such as clock-skew
-tolerance review, session-ref collision checks, subscription-count DoS limits,
-pre-validation sink behavior, and stricter `room/id` validation.
+This means the hard-MVP Room foundation is present: durable records,
+deterministic projection, membership attestation, and node-local live transport
+substrates. The relocatable federated WSS relay defined by P070 Phase 6A/6B is planned
+post-MVP work, so the solution is not yet complete for production multi-node liveness.
+The CR-88/CR-89 hardening stream remains the place for issues such as clock-skew
+tolerance review, subscription-count DoS limits, pre-validation sink behavior, and
+stricter `room/id` validation. Live session refs are already 256-bit CSPRNG bearer
+secrets and are excluded from message payloads, acknowledgements, fan-out delivery,
+member-visible status, durable Room facts, and shared Corpus observations.
 
 ## Date
 
@@ -44,9 +53,10 @@ replaces bespoke answer-room and association-room shapes with one durable record
 family, one deterministic projection model, and one live transport contract.
 
 The durable plane is Agora-addressed and replayable. The live plane is
-non-retentive and carrier-agnostic: bounded WebSocket pub/sub and Matrix are
-implementation substrates of the same Room live contract, not separate room
-semantics.
+non-retentive and carrier-agnostic. Bounded WebSocket pub/sub is the production
+baseline once its endpoint becomes relocatable by signed relay epochs; Matrix is an
+optional bridge adapter under the same Room authority contract, not a separate room,
+ordering, or history semantics.
 
 Room is not a reasoning engine, procurement system, or chat transcript archive.
 It gives higher-level components a stable membership, policy, attestation,
@@ -84,6 +94,9 @@ The live plane carries bounded non-retentive messages:
 - `room-live-message.v1` is validated by the room live contract.
 - Join, send, drop, close, and cleanup are guarded by room-scoped passport or
   membership attestation.
+- The host returns a random bearer session ref only to the joining client; subsequent
+  carrier admission binds the payload's subject outside the frame, so no shared
+  projection needs or receives the bearer.
 - Durable projection membership remains decisive, so stale live credentials
   cannot override revoked or expired membership.
 
@@ -121,6 +134,19 @@ This keeps Room carrier-neutral: bounded WebSocket, Matrix, and future live
 substrates may carry room traffic, but they do not define Orbiplex federation
 authority. The active federation root defines the local authority context; Room
 policy decides how, and whether, another federation is admitted.
+
+### Relay Liveness Boundary
+
+Production Room liveness requires exactly one reachable WSS/TLS endpoint per active
+relay epoch, not one public listener per member. All participants may use outbound
+WSS over TCP 443. The authority selects requester, another relay-capable member, or a
+federation relay service through a signed `room-relay-endpoint.v1` fact.
+
+One relay epoch has one monotonic ephemeral carrier order. Failover starts a new
+epoch; clients refresh from durable Agora facts and domain read-models rather than
+merging carrier histories. The relay validates admission evidence and bounds only.
+It does not own membership, policy, grants, presence truth, Sensorium Interface
+authority, or P083 leases. Room remains durably open while no relay is reachable.
 
 ## Must Implement
 
@@ -214,16 +240,22 @@ Responsibilities:
 - enforce per-sender sequence duplicate suppression and bounded frame size;
 - drop revoked or expired participants;
 - support close/expiry cleanup and non-retention/redaction requirements;
-- keep bounded WebSocket and Matrix adapters behaviorally equivalent under
-  conformance tests;
+- keep bounded WebSocket and Matrix adapter admission, revocation, bounds, and cleanup
+  outcomes equivalent under conformance tests without merging carrier histories;
 - let P082 attach a dedicated read-only WSS `latest-state` projection whose
   authority is the intersection of current Room `observe` rights and current
   Sensorium Interface grants, without exposing source cursors or closing the
-  durable Room.
+  durable Room;
+- let P083 use the explicit `actuate` grant as collaboration policy for bounded
+  status/control/invoke wrappers, deriving session identity and current membership
+  atomically from one live-transport snapshot, while exact Sensorium Interface
+  grants and fenced leases remain independently mandatory; raw terminal bytes are
+  never Room content.
 
 Status:
 
-- `done` for the functional foundation and the P082 latest-state projection;
+- `done` for the functional foundation, the P082 latest-state projection, and the
+  bounded P083 `actuate` collaboration intersection;
   security hardening remains tracked in CR-88/CR-89.
 
 ### Room Consolidation Surface
@@ -250,6 +282,48 @@ Responsibilities:
 Status:
 
 - `done`
+
+### Relocatable Federated WSS Relay
+
+Based on:
+
+- `doc/project/40-proposals/070-room-primitive.md`
+- `doc/project/40-proposals/082-sensorium-interfaces.md`
+- `doc/project/40-proposals/083-sensorium-interactive-interfaces.md`
+
+Planned schema:
+
+- `room-relay-endpoint.v1`
+
+Responsibilities:
+
+- project the authority-signed active endpoint and monotonic relay epoch from Room
+  facts;
+- prefer requester, relay-capable member, then federation relay service without
+  treating readiness or presence as authority;
+- reuse `node-advertisement.v1` WSS relay endpoints plus optional
+  `node-address-attestation.v1` and current probe evidence for node candidacy, rather
+  than inventing a relay capability id;
+- require exact endpoint/subject/evidence matching plus host egress and Node Transport
+  trust policy before dialing, so Room authority cannot authorize an arbitrary URL;
+- expose the existing WSS runtime through host-owned TLS on TCP 443 with keepalive,
+  jittered reconnect, bounded replay, and epoch-aware cursor resubscription;
+- distribute endpoint failover independently of the failed relay through Agora and
+  Artifact Delivery;
+- assign one total ephemeral order per epoch and never merge epochs;
+- treat carrier sequence as bounded gap/replay state rather than proof of complete
+  delivery, and reject old-epoch frames after supersession;
+- support `member-visible-tls-v1` first, then the separately bounded
+  `sealed-sender-key-v1` profile for a non-member relay;
+- carry P082 latest-state and P083 fenced interaction through the same relay while
+  keeping direct peer an optional latency upgrade.
+
+Status:
+
+- `planned post-MVP` through P070 Phase 6A/6B. The current node-local WSS server,
+  membership-attestation gate, bounded live runtime, Corpus recovery, P082 projection,
+  and P083 fencing are reusable foundations; public TLS placement, endpoint facts,
+  relay epochs, failover, and non-member encryption are not implemented.
 
 ## May Implement
 
@@ -281,8 +355,9 @@ Status:
 - `done` for the node-local Corpus composition: signed invitations admit narrowed
   WSS sessions, readiness and message metadata reach the authority, exact replay
   does not redeliver, and endpoint/session/sequence recovery is process-tested.
-  Advertised federated WSS/TLS and homeserver-backed Matrix deployment remain
-  transport-profile work, not a second Corpus room semantics.
+  Relocatable federated WSS/TLS endpoint epochs remain P070 Phase 6A/6B work. Matrix is
+  an optional bridge profile, not a liveness dependency or second Corpus room
+  semantics.
 
 ## Out of Scope
 
@@ -290,11 +365,16 @@ Status:
 - owning procurement, settlement, contribution allocation, or payment;
 - treating live messages as archival facts by default;
 - bypassing durable room membership projection with live transport credentials;
+- making STUN/ICE, hole punching, UDP, QUIC, or Matrix homeserver reachability a Room
+  liveness requirement;
 - adding a third live transport semantics for a specific domain flow.
 
 ## Consumes
 
 - Agora durable record pages;
+- Node Transport public WSS/TLS ingress and endpoint reachability;
+- signed node advertisements, address attestations, and host egress policy for relay
+  candidate admission;
 - INAC or membership-attestation authorization material;
 - room policy profiles;
 - host signing for membership attestations.
@@ -305,6 +385,7 @@ Status:
 - signed membership attestations;
 - metadata-only attestation audit facts;
 - bounded non-retentive live room messages;
+- after Phase 6A, one authority-selected WSS relay endpoint and relay epoch projection;
 - Room projections for former answer-room and association-room flows.
 
 ## Related Capability Data

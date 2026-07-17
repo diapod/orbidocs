@@ -31,7 +31,7 @@ Durable room opening payload carried inside an Agora record envelope. The Agora 
 |---|---|---|
 | [`room_id`](#def-room-id) | string |  |
 | [`subject`](#def-subject) | object |  |
-| [`grant`](#def-grant) | enum: `speak`, `vote`, `answer`, `observe`, `moderate`, `delegate` |  |
+| [`grant`](#def-grant) | enum: `speak`, `vote`, `answer`, `observe`, `actuate`, `moderate`, `delegate` |  |
 | [`extensions`](#def-extensions) | object |  |
 ## Field Semantics
 
@@ -110,7 +110,7 @@ Durable room opening payload carried inside an Agora record envelope. The Agora 
 <a id="def-grant"></a>
 ## `$defs.grant`
 
-- Shape: enum: `speak`, `vote`, `answer`, `observe`, `moderate`, `delegate`
+- Shape: enum: `speak`, `vote`, `answer`, `observe`, `actuate`, `moderate`, `delegate`
 
 <a id="def-extensions"></a>
 ## `$defs.extensions`

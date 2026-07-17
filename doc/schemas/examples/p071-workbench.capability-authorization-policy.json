@@ -69,7 +69,7 @@
     {
       "capability/id": "sensorium.interface.manage",
       "required/grants": ["grant/sensorium.interface.manage"],
-      "allowed/actions": ["publish", "publish-actuation", "suspend", "resume", "withdraw", "grant", "grant-actuation", "revoke", "control.preempt", "room-project-start", "room-project-stop", "room-project-inspect", "metrics", "inspect"],
+      "allowed/actions": ["publish", "publish-actuation", "suspend", "resume", "withdraw", "grant", "grant-actuation", "revoke", "control.preempt", "room-project-start", "room-project-stop", "room-project-inspect", "room-collaboration-publish", "room-collaboration-withdraw", "room-collaboration-inspect", "metrics", "inspect"],
       "caller/posture": "host-grant-required",
       "approval/mode": "operator-approved-by-default",
       "autonomy/floor": "proposed-effect",

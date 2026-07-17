@@ -453,7 +453,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "review-not-required.weak-signal-finding.json",
     "grant-without-grants.room-membership.json",
     "mediated-policy-with-live.room-policy.json",
-    "live-message-without-session.room-live-message.json",
+    "live-message-with-session-bearer.room-live-message.json",
     "inac-push-missing-artifact.inac-control.json",
     "raw-handle.contact-lookup.artifact-delivery-envelope.json",
     "unsupported-mode.contact-lookup.artifact-delivery-envelope.json",

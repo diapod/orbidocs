@@ -49,7 +49,7 @@
     },
     "grant": {
       "type": "string",
-      "enum": ["speak", "vote", "answer", "observe", "moderate", "delegate"]
+      "enum": ["speak", "vote", "answer", "observe", "actuate", "moderate", "delegate"]
     },
     "extensions": {
       "type": "object",

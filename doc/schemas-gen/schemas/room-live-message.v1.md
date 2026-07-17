@@ -16,7 +16,6 @@ Ephemeral live-room frame. It is validated at the live transport boundary and is
 |---|---|---|---|
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`room/id`](#field-room-id) | `yes` | ref: `room.v1.schema.json#/$defs/room_id` |  |
-| [`session/ref`](#field-session-ref) | `yes` | string |  |
 | [`from/subject`](#field-from-subject) | `yes` | ref: `room.v1.schema.json#/$defs/subject` |  |
 | [`seq/no`](#field-seq-no) | `yes` | integer |  |
 | [`nonce`](#field-nonce) | `yes` | string | Base64url-encoded cryptographically random nonce, at least 128 bits before encoding. |
@@ -39,12 +38,6 @@ Ephemeral live-room frame. It is validated at the live transport boundary and is
 
 - Required: `yes`
 - Shape: ref: `room.v1.schema.json#/$defs/room_id`
-
-<a id="field-session-ref"></a>
-## `session/ref`
-
-- Required: `yes`
-- Shape: string
 
 <a id="field-from-subject"></a>
 ## `from/subject`

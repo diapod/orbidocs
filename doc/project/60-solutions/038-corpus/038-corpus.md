@@ -270,7 +270,9 @@ Status:
   delivery/admission, live WSS join/readiness/messages, metadata-only authority
   projection, exact replay, fixed-high-water paged room recovery, validated
   subject checkpoints, and authority/recipient process recovery are covered.
-  Federated WSS/TLS and homeserver-backed Matrix profiles remain post-MVP.
+  Relocatable federated WSS/TLS relay epochs and failover are owned by P070 Phase 6A/6B;
+  Matrix remains an optional Room bridge profile. Corpus adds no relay selection,
+  NAT traversal, ordering, or carrier authority of its own.
 
 ### Agent-Assisted Chairing
 

@@ -719,7 +719,7 @@ still required because loopback is not authority.
 |---|---|---|
 | terminal session create/read/close | `sensorium.workbench.terminal` | Explicit Workbench terminal grant; operator-approved by default. |
 | structured terminal command | `sensorium.workbench.terminal` | Directive grant plus command profile admission; generated commands use argv data, not shell interpolation. |
-| raw terminal input / signal / resize | `sensorium.workbench.terminal` | Local operator authority remains the default outside collaborative publication. The implemented P083-008 bridge accepts separately granted and fenced remote Sensorium Interface control without representing the caller as the operator; Room/operator collaboration UX remains P083-009. |
+| raw terminal input / signal / resize | `sensorium.workbench.terminal` | Local operator authority remains the default outside collaborative publication. The implemented P083-008 bridge accepts separately granted and fenced remote Sensorium Interface control without representing the caller as the operator. P083-009 adds Room collaboration through a separate current `actuate` grant, an exact interface grant, and the existing lease/generation fencing; Room observation remains separately authorized. |
 | terminal events / screen snapshots | `sensorium.workbench.terminal` | Read grant scoped to session ref and classification. |
 | terminal capture to artifact | `sensorium.workbench.terminal` + `sensorium.workbench.patch` | Terminal grant scoped to the session plus artifact-write grant; capture persists state and is not a read-only terminal action. |
 | file snapshot/read | `sensorium.workbench.file` | Bounded read grant scoped to workspace/root/path lease. |
@@ -1319,8 +1319,10 @@ Phase 3A operator-consent slices.
    command/file intents, while the implemented P083-008 bridge permits separately
    granted remote terminal bytes only under the exact exclusive lease, generation,
    epoch, sequence, method, deadline, and Workbench session checks defined by
-   [Proposal 083](083-sensorium-interactive-interfaces.md). Observation never turns
-   into command authority, and the remote caller is never represented as operator.
+   [Proposal 083](083-sensorium-interactive-interfaces.md). P083-009 now derives the
+   canonical remote caller from a current Room `actuate` session and still requires
+   the exact interface grant and fenced lease. Observation never turns into command
+   authority, and the remote caller is never represented as operator.
 9. **Command profile completeness.** The first implementation requires executable
    identity, argv schema, cwd policy, env policy, timeout, egress, and output capture
    policy before a command profile can be accepted.
@@ -1765,7 +1767,9 @@ evidence) · `[!]` blocked/needs decision.
   `node:tools/conformance/workbench_actuation_conformance.py`; it validates the
   Python connector against shared relative-path and command-profile golden
   vectors plus runtime refusal invariants for command profile, no-egress, and
-  credential-env denial.
+  credential-env denial. P083-010 extends it with a real interactive shell PTY,
+  two fenced Sensorium controller authority shapes, resize/input markers, signal,
+  and bounded process completion.
 - [x] Add the shared Agent/Corpus/Room Workbench tool-request boundary.
   `sensorium-workbench-tool-request.v1` wraps an ordinary
   `sensorium.directive.invoke` request. The daemon verifies Agent proposal and
