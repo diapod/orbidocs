@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-terminal-signal:v1",
+  "title": "Sensorium Interface Terminal Signal v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "terminal/session-ref", "signal"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-terminal-signal.v1" },
+    "schema/v": { "const": 1 },
+    "terminal/session-ref": { "$ref": "#/$defs/ref" },
+    "signal": { "enum": ["TERM", "INT", "KILL", "STOP", "CONT"] }
+  },
+  "$defs": { "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" } }
+}

@@ -46,23 +46,29 @@ adds an admitted Artifact Delivery pointer snapshot source, and exposes process-
 operator read metrics with bounded source/carrier/delivery-kind dimensions, flat
 revoke-commit timing, and isolated source-registry, active-subscription,
 metric-accumulator, and Room partial-failure reporting. Daemon startup now requires
-all four built-in adapters, while the exact-name, fail-fast four-carrier conformance
-runner uses separate build/test timeouts and exercises bounded host load, signed
-direct-peer reads, SSE revocation, and Room projection revocation.
+all four built-in observation adapters, while the exact-name, fail-fast conformance
+runner uses separate build/test timeouts and retains bounded host load, signed
+direct-peer reads, SSE revocation, and Room projection revocation beside the new
+actuation verticals.
 These additions improve extensibility and evidence
 collection without changing the component's `100` readiness estimate. P082 is now
 listed as a hard-MVP blocker whose implementation gate is already satisfied.
 
-The same refresh records Proposal 083 as the accepted hard-MVP release-blocking
-direction for interactive Sensorium Interfaces. It keeps P082 observation and P083
-actuation as separate directional resources, introduces `shared` and fenced
-`exclusive-lease` coordination, and makes Workbench terminal input an exact,
-short-lived control authority rather than a consequence of Room membership or an
-observation grant. Only the architecture item is complete: schemas, capability
-registration, runtime, adapters, carriers, and acceptance tests remain pending.
-P083 is therefore an open hard-MVP blocker at `15%`; hard MVP cannot close until its
-tracker and promotion into Solution 046 are complete. The implemented P082/Solution
-046 read-only verdict remains ready.
+Proposal 083 remains an open hard-MVP release blocker, but P083-002 through P083-008
+are now implemented. The Node has the shared directional resource and closed schema
+family, `sensorium.interface.invoke` plus exact Passport scope, a dependency-light
+pure coordinator, durable shared/exclusive state, bounded adapter registry and LED
+fixture, action-enumerated management and authenticated direct-peer admission, and
+the Workbench terminal input/resize/signal adapter. The runtime persists metadata
+and digests rather than raw input, fences source generation and lease epoch, reports
+honest unknown irreversible outcomes, keeps Workbench evidence refs opaque, and
+withdraws a provider-confirmed closed terminal source. Focused tests cover shared
+order, registry refusal, handoff/preemption/revocation/restart fencing, exact
+Passport replay scope, generic peer denial, and remote identity at the PTY boundary.
+P083 is therefore estimated at `70%`: P083-009 operator/Room collaboration,
+P083-010 load plus real two-controller PTY E2E, P083-011 final synchronization, and
+P083-012 promotion remain open. The implemented P082 observation verdict remains
+ready, but hard MVP cannot close until the P083 tracker does.
 
 The same closure is now hardened with a uniform 32 MiB pre-read image-source
 limit, a 96 MiB decoded adapted-model artifact cap, operation-kind/status-scoped
@@ -135,9 +141,9 @@ Recent component deltas:
   passes and emits a metadata-only trace bundle. Stronger zero-knowledge suites,
   Agora cross-relay mesh, federated Memarium replication, and universal consumer
   migration remain explicitly post-MVP.
-- Proposal 082 is an explicit hard-MVP release blocker whose implementation in
-  Solution 046 is ready. The implementation has one carrier-neutral bounded
-  read-next contract,
+- Proposal 082 is an explicit hard-MVP release blocker whose observation
+  implementation within Solution 046 is ready. The implementation has one
+  carrier-neutral bounded read-next contract,
   exact local and Passport authority, revocation/restart coverage, direct-peer,
   SSE, and WSS Room adapters, and temperature plus collaborative Workbench
   acceptance tests. Canonical grantee refs prevent cross-kind Room identity
@@ -147,21 +153,20 @@ Recent component deltas:
   aggregate read metrics separate delivery kinds, expose revoke transaction commit
   duration without mislabeling it as enforcement lag, isolate every unavailable
   operator section, reset explicitly on restart, and pair with the exact-name
-  four-carrier conformance runner and separate build/test timeouts to provide the
-  measurement boundary for future contract revisions. The former provider-push,
+  observation carrier checks in the extended conformance runner and separate
+  build/test timeouts to provide the measurement boundary for future contract
+  revisions. The former provider-push,
   descriptor-search, and split-management questions are resolved against the
   current baseline: bounded pull-batch, direct authority-scoped disclosure, and one
   source-local manage capability remain in force.
-- Proposal 083 is an accepted hard-MVP release blocker rather than an implemented
-  capability. It defines a separate `sensorium.interface.invoke`
-  authority, per-method input schemas, concurrent shared submission with one total
-  serialized effect order, independently bounded caller/interface backlogs, fenced
-  exclusive control leases, bounded unique-caller claims, metadata-only receipts,
-  and a Workbench terminal baton. Its initial open questions now resolve to the
-  conservative serialized, queue-first, polling, two-mode, adapter-opt-in baseline.
-  Runtime readiness remains false, and hard MVP remains open, until its schema,
-  core, host coordinator, provider/carrier adapters, and two-controller terminal
-  E2E tracker items pass.
+- Proposal 083 is a partially implemented hard-MVP release blocker. P083-002 through
+  P083-008 provide the separate `sensorium.interface.invoke` authority, per-method
+  input schemas, concurrent shared submission with one total serialized effect
+  order, independently bounded caller/interface backlogs, fenced exclusive control
+  leases, bounded unique-caller claims, metadata-only receipts, direct-peer
+  admission, and the Workbench terminal adapter. Runtime readiness remains false,
+  and hard MVP remains open, until operator/Room collaboration, load and real
+  two-controller PTY E2E, final synchronization, and Solution 046 promotion pass.
 - Communication Protocol Baseline is now hard-MVP ready as a historical baseline:
   Proposal 002 explicitly maps its implemented or superseded areas to the current
   runtime owners (P014/Solution 000 transport, P056/Solution 024 TLS trust,
@@ -661,7 +666,7 @@ Recent component deltas:
 | [Proposal 080: Multiplexed Middleware Channel Executor](../40-proposals/080-multiplexed-middleware-channel-executor.md) | `false` | `true` | `true` | `100` |
 | [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `false` | `100` |
-| [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `false` | `false` | `15` |
+| [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `false` | `false` | `70` |
 
 ## Solutions
 
@@ -713,4 +718,4 @@ Recent component deltas:
 | [Horizontal Protocol Primitives](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Inquirium](../60-solutions/044-inquirium/044-inquirium.md) | `false` | `true` | `false` | `100` |
 | [Inquirium Assistant Channel](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
-| [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `false` | `true` | `false` | `100` |
+| [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `true` | `false` | `false` | `82` |

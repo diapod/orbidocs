@@ -58,8 +58,18 @@
       "notes": "Subscription authority creates a bounded caller-bound lease and does not imply arbitrary one-shot read authority."
     },
     {
+      "capability/id": "sensorium.interface.invoke",
+      "required/grants": ["grant/sensorium.interface.invoke"],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "auto-with-grant",
+      "autonomy/floor": "bounded-auto",
+      "coi/policy": "declaration-required",
+      "notes": "Actuation status, control, and invoke remain resource-, method-, generation-, classification-, limit-, and lease-scoped; observation authority never implies effect authority."
+    },
+    {
       "capability/id": "sensorium.interface.manage",
       "required/grants": ["grant/sensorium.interface.manage"],
+      "allowed/actions": ["publish", "publish-actuation", "suspend", "resume", "withdraw", "grant", "grant-actuation", "revoke", "control.preempt", "room-project-start", "room-project-stop", "room-project-inspect", "metrics", "inspect"],
       "caller/posture": "host-grant-required",
       "approval/mode": "operator-approved-by-default",
       "autonomy/floor": "proposed-effect",

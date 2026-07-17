@@ -2,6 +2,7 @@
   "schema": "sensorium-interface-descriptor.v1",
   "schema/v": 1,
   "interface/id": "sensorium-interface:invalid-latest-replay",
+  "interface/kind": "observation",
   "interface/name": "invalid-latest-replay",
   "publisher/node-ref": "node:did:key:z6MkSensoriumPublisher",
   "output/schema-ref": "urn:orbiplex:schema:sensorium-observation:v1",
@@ -17,5 +18,6 @@
     "replay/max-frames": 10
   },
   "overflow/policy": "coalesce-latest",
+  "published/at": "2026-07-16T12:00:00Z",
   "expires/at": "2027-07-16T12:00:00Z"
 }

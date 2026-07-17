@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-control-status:v1",
+  "title": "Sensorium Interface Control Status v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "interface/id", "caller/ref", "source/generation-ref", "outcome", "status/at", "causal/context"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-control-status.v1" },
+    "schema/v": { "const": 1 },
+    "interface/id": { "$ref": "#/$defs/interface_ref" },
+    "caller/ref": { "$ref": "#/$defs/ref" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "outcome": { "enum": ["acquired", "queued", "cancelled", "renewed", "released", "handed-off", "refused", "expired", "preempted"] },
+    "claim/id": { "$ref": "#/$defs/claim_ref" },
+    "queue/position": { "type": "integer", "minimum": 1, "maximum": 16 },
+    "lease": { "$ref": "sensorium-interface-control-lease.v1.schema.json" },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "status/at": { "type": "string", "format": "date-time" },
+    "causal/context": { "$ref": "causal-context.v1.schema.json" }
+  },
+  "allOf": [
+    { "if": { "properties": { "outcome": { "enum": ["acquired", "renewed", "handed-off"] } }, "required": ["outcome"] }, "then": { "required": ["lease"] } },
+    { "if": { "properties": { "outcome": { "const": "queued" } }, "required": ["outcome"] }, "then": { "required": ["claim/id", "queue/position"] } },
+    { "if": { "properties": { "outcome": { "enum": ["refused", "expired", "preempted"] } }, "required": ["outcome"] }, "then": { "required": ["reason"] } }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "interface_ref": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512 },
+    "claim_ref": { "type": "string", "pattern": "^sensorium-control-claim:[^\\s]+$", "maxLength": 512 }
+  }
+}

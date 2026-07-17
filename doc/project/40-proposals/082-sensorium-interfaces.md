@@ -1212,10 +1212,9 @@ baseline; decisions 7-9 close the evidence-gated follow-up review:
    `not-found` behavior. A searchable inventory that reveals otherwise undisclosed
    resources is a separate disclosure oracle and requires a new decision.
 9. `sensorium.interface.manage` remains one source-local, non-delegable capability.
-   Current runtime dispatch keeps a closed action vocabulary. Before P083 adds
-   `control.preempt`, the capability-authorization-policy entry must also enumerate
-   the allowed manage actions explicitly; wildcard or capability-only admission may
-   not acquire the expanded preemption authority.
+   Current runtime dispatch and capability-authorization policy enumerate the closed
+   observation and P083 actuation action vocabulary, including `control.preempt`;
+   wildcard or capability-only admission cannot acquire preemption authority.
 
 ## Implementation Tracker
 

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-control-request:v1",
+  "title": "Sensorium Interface Control Request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "action", "interface/id", "caller/ref", "grant/id", "source/generation-ref", "deadline/at", "causal/context"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-control-request.v1" },
+    "schema/v": { "const": 1 },
+    "action": { "enum": ["claim", "cancel", "renew", "release", "handoff"] },
+    "interface/id": { "$ref": "#/$defs/interface_ref" },
+    "caller/ref": { "$ref": "#/$defs/ref" },
+    "grant/id": { "$ref": "#/$defs/ref" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "claim/id": { "$ref": "#/$defs/claim_ref" },
+    "handoff/accept": { "type": "boolean" },
+    "target/claim-id": { "$ref": "#/$defs/claim_ref" },
+    "lease/id": { "$ref": "#/$defs/lease_ref" },
+    "lease/epoch": { "type": "integer", "minimum": 1 },
+    "lease/requested-ms": { "type": "integer", "minimum": 1, "maximum": 900000 },
+    "deadline/at": { "type": "string", "format": "date-time" },
+    "causal/context": { "$ref": "causal-context.v1.schema.json" }
+  },
+  "allOf": [
+    { "if": { "properties": { "action": { "const": "claim" } }, "required": ["action"] }, "then": { "required": ["claim/id", "handoff/accept", "lease/requested-ms"], "not": { "anyOf": [{ "required": ["target/claim-id"] }, { "required": ["lease/id"] }, { "required": ["lease/epoch"] }] } } },
+    { "if": { "properties": { "action": { "const": "cancel" } }, "required": ["action"] }, "then": { "required": ["claim/id"], "not": { "anyOf": [{ "required": ["target/claim-id"] }, { "required": ["lease/id"] }, { "required": ["lease/epoch"] }, { "required": ["lease/requested-ms"] }] } } },
+    { "if": { "properties": { "action": { "enum": ["renew", "release", "handoff"] } }, "required": ["action"] }, "then": { "required": ["lease/id", "lease/epoch"] } },
+    { "if": { "properties": { "action": { "const": "renew" } }, "required": ["action"] }, "then": { "required": ["lease/requested-ms"] } },
+    { "if": { "properties": { "action": { "const": "handoff" } }, "required": ["action"] }, "then": { "required": ["target/claim-id"] } }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "interface_ref": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512 },
+    "claim_ref": { "type": "string", "pattern": "^sensorium-control-claim:[^\\s]+$", "maxLength": 512 },
+    "lease_ref": { "type": "string", "pattern": "^sensorium-control-lease:[^\\s]+$", "maxLength": 512 }
+  }
+}

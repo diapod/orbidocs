@@ -285,7 +285,7 @@
         "profile": {
           "type": "string",
           "minLength": 1,
-          "description": "Profile discriminator. Recognized values include `sealer-access@v1`, `memarium-space-access@v1`, `memarium-declassify@v1`, `community-key-access@v1`, and `sensorium-interface@v1`."
+          "description": "Profile discriminator. Recognized values include `sealer-access@v1`, `memarium-space-access@v1`, `memarium-declassify@v1`, `community-key-access@v1`, `sensorium-interface@v1`, and `sensorium-interface-actuation@v1`."
         }
       },
       "allOf": [
@@ -323,6 +323,13 @@
             "required": ["profile"]
           },
           "then": { "$ref": "#/$defs/sensoriumInterfaceProfileV1" }
+        },
+        {
+          "if": {
+            "properties": { "profile": { "const": "sensorium-interface-actuation@v1" } },
+            "required": ["profile"]
+          },
+          "then": { "$ref": "#/$defs/sensoriumInterfaceActuationProfileV1" }
         }
       ]
     },
@@ -521,6 +528,58 @@
         "batch_max_frames": { "type": "integer", "minimum": 1, "maximum": 1024 },
         "batch_max_bytes": { "type": "integer", "minimum": 1, "maximum": 67108864 },
         "lease_max_seconds": { "type": "integer", "minimum": 1, "maximum": 86400 },
+        "max_revocation_staleness_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 }
+      }
+    },
+    "sensoriumInterfaceActuationProfileV1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "interface_ids",
+        "remote_node_ids",
+        "methods",
+        "classification_max_tier",
+        "payload_max_bytes",
+        "rate_max_per_minute",
+        "outstanding_caller_max",
+        "deadline_max_ms",
+        "claim_wait_max_ms",
+        "lease_quantum_max_ms",
+        "lease_cumulative_max_ms",
+        "max_revocation_staleness_seconds"
+      ],
+      "properties": {
+        "profile": { "const": "sensorium-interface-actuation@v1" },
+        "interface_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^sensorium-interface:[A-Za-z0-9._:-]+$" }
+        },
+        "remote_node_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$" }
+        },
+        "methods": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9.-]{0,127}$" }
+        },
+        "classification_max_tier": { "enum": ["Public", "Community", "Personal"] },
+        "payload_max_bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "rate_max_per_minute": { "type": "integer", "minimum": 1, "maximum": 10000 },
+        "outstanding_caller_max": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "deadline_max_ms": { "type": "integer", "minimum": 1, "maximum": 60000 },
+        "claim_wait_max_ms": { "type": "integer", "minimum": 1, "maximum": 3600000 },
+        "lease_quantum_max_ms": { "type": "integer", "minimum": 1, "maximum": 900000 },
+        "lease_cumulative_max_ms": { "type": "integer", "minimum": 1, "maximum": 86400000 },
         "max_revocation_staleness_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 }
       }
     },

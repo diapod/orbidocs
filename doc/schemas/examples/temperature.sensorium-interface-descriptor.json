@@ -2,6 +2,7 @@
   "schema": "sensorium-interface-descriptor.v1",
   "schema/v": 1,
   "interface/id": "sensorium-interface:temperature-office",
+  "interface/kind": "observation",
   "interface/name": "office-temperature",
   "publisher/node-ref": "node:did:key:z6MkSensoriumPublisher",
   "output/schema-ref": "urn:orbiplex:schema:sensorium-observation:v1",
@@ -16,5 +17,6 @@
     "lease/max-seconds": 900
   },
   "overflow/policy": "coalesce-latest",
+  "published/at": "2026-07-16T12:00:00Z",
   "expires/at": "2027-07-16T12:00:00Z"
 }

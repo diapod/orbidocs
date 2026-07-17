@@ -18,12 +18,15 @@ Based on:
 
 ## Status
 
-Accepted design / implementation pending.
+Accepted design / implementation in progress through P083-008.
 
 This proposal is a hard-MVP release-blocking extension of the implemented read-only
-Sensorium Interfaces V1 contract. Proposal 082 and Solution 046 remain authoritative
-for the currently implemented observation surface until this proposal is implemented
-and promoted into Solution 046's actuation boundary.
+Sensorium Interfaces V1 contract. P083-002 through P083-008 now implement the shared
+resource and schema layer, capability and Passport scope, pure coordinator, durable
+host runtime, bounded LED adapter, host/direct-peer carrier boundary, and Workbench
+terminal adapter. P083-009 through P083-012 remain open, so Proposal 082 and Solution
+046 remain authoritative for the promoted observation surface while this staged
+actuation boundary is not yet the completed solution contract.
 
 ## Date
 
@@ -865,6 +868,8 @@ tracked separately in the ordered `P083-*` work items under
 - add source-local manage actions for publication, grant, preemption, queue and lease
   inspection;
 - require exact method scopes and current host-policy admission;
+- treat an empty `remote/node-ids` grant scope as exact host-local authority only;
+  federated Passport profiles require the authenticated remote node explicitly;
 - keep caller control operations under `invoke`, but enumerate `control.preempt`
   only in the closed source-local `manage` action policy.
 
@@ -890,6 +895,9 @@ tracked separately in the ordered `P083-*` work items under
   wait; a timed-out call yields `unknown`, never an assumed outcome;
 - enforce the independent per-caller, 64-operation per-interface, 16-claim queue,
   and one-live-claim-per-caller bounds before accepting work;
+- cap each serialized durable actuation-coordinator projection at 16 MiB on both
+  read and write; crossing the cap fails before provider dispatch rather than
+  creating an oversized SQLite authority record;
 - expose bounded status and aggregate metrics without unbounded actor or interface
   dimensions, and name each actuation latency for the boundary it actually measures;
   preemption and effect latency are elapsed-time measures at the enforcement
@@ -900,6 +908,9 @@ tracked separately in the ordered `P083-*` work items under
 - reuse the P082 bounded registry mechanics but define a separate small actuation
   adapter trait for readiness, input validation, final policy checks, effect
   application, and optional reconciliation;
+- treat adapter `ready` as a bounded health/admission hint rather than an atomic
+  effect guarantee; `apply` performs the authoritative provider-state check at the
+  effect boundary and reports source termination or an honest uncertain outcome;
 - make the reconciliation mechanism an explicit per-method adapter declaration with
   `none` as the default and no generic retry of irreversible streams;
 - emit the actual closed receipt evidence class separately from the declared
@@ -917,6 +928,10 @@ tracked separately in the ordered `P083-*` work items under
 - reuse `channel_json` only as a bounded caller transport, never as authority;
 - use bounded polling and Room presence hints for claim readiness; do not add a
   separate federated push protocol;
+- materialize exactly one complete matching `sensorium-interface-actuation@v1`
+  profile for an interface and authenticated peer in the first direct-peer runtime;
+  reject zero or multiple matches until a canonical, limit-preserving profile
+  intersection is specified;
 - add collaborative Room UI or a bidirectional live carrier only after the direct
   contract and fencing tests pass, and require the explicit Room extension grant
   `actuate` in addition to interface authority.
@@ -999,7 +1014,8 @@ tracked separately in the ordered `P083-*` work items under
 ## Frozen Initial Decisions
 
 The design decisions are accepted as of 2026-07-17. Decisions 1-15 originated in
-the 2026-07-16 baseline; decisions 16-28 close the pre-P083-002 review:
+the 2026-07-16 baseline; decisions 16-28 close the pre-P083-002 review, and decision
+29 records the implemented direct-peer scope materialization boundary:
 
 1. Sensorium Interfaces may expose actuation, but observation and actuation remain
    separate directional resources and authority planes.
@@ -1074,6 +1090,12 @@ the 2026-07-16 baseline; decisions 16-28 close the pre-P083-002 review:
 28. Migrating grants with actuation `scope_json` also extends grant idempotency and
     atomic Passport replay equality. A repeated Passport id with different method or
     limit scope is a conflict.
+29. The first direct-peer runtime admits exactly one complete matching
+    `sensorium-interface-actuation@v1` profile for the interface and authenticated
+    peer. Zero or multiple matching profiles fail closed rather than silently
+    unioning methods or widening independently bounded limits. Empty
+    `remote/node-ids` is reserved for exact host-local grant admission and is never
+    a federated wildcard.
 
 ## Implementation Tracker
 
@@ -1087,39 +1109,46 @@ P083-011 are `done`; P083-012 records the promotion and final closure.
 | Id | Work item | Status | Acceptance boundary |
 |---|---|---|---|
 | P083-001 | Freeze directional resources, invoke capability posture, shared/exclusive coordination, fencing, receipts, and implementation order | done | This document records the accepted contract, review-closure decisions, alternatives, named invariants, failure model, and first implementation sequence. |
-| P083-002 | Freeze the shared resource envelope plus per-method actuation descriptor, actuation status, control request/status/lease, invoke request/receipt, grant-scope, and Workbench input successor schemas | todo | Observation and actuation wire contracts reuse one resource envelope while remaining closed directional schemas; each method binds one canonical payload schema; the receipt has a closed evidence-class enum; semantic checks reject unknown fields, empty scopes, missing generation refs, stale fencing evidence, invalid transitions, incompatible outcome/evidence pairs, unbounded payloads, and classification mismatch. |
-| P083-003 | Register `sensorium.interface.invoke` and the exact `sensorium-interface-actuation@v1` Passport profile | todo | Machine registry, Rust constants, closed manage-action policy, human registries, and the existing Passport parsing/trust/caller/revocation machinery agree; the actuation scope evaluator is new, and canonical method/limit scope participates in atomic Passport replay equality. |
-| P083-004 | Extend `sensorium-interface-core` with pure shared-resource plus actuation coordination, grant-intersection, fencing, idempotency, and receipt logic | todo | The existing core crate gains direction-neutral resource primitives and a separate actuation module; it retains no daemon, SQLite, provider, carrier, or async-runtime dependency and proves per-method schemas, total shared order, both outstanding limits, one-live-claim uniqueness, generation fencing, epoch-scoped idempotency, receipt-evidence compatibility, and the other named invariants. |
-| P083-005 | Extend the existing store/runtime with durable claim queue, control lease, preemption, operation, receipt, restart, inspection, and bounded metrics state | todo | `SensoriumInterfaceRuntime` and `SensoriumInterfaceStore` remain the owners; publication/grant/fact/idempotency/revocation machinery is migrated with scoped replay equality and fenced effective idempotency keys; one coordinator enforces the 64-operation interface cap, 16-claim cap, one live claim per caller, and serialized authority/effects. |
-| P083-006 | Reuse the bounded registry mechanics for a separate actuation-adapter trait and bounded shared LED fixture | todo | Read-source and effect-adapter traits remain distinct; unknown, duplicate, unavailable, stale-generation, and over-cap adapters fail closed; concurrent LED tests prove sequence uniqueness, total order, observer agreement, content-bound idempotency, explicit reconciliation mechanisms, and the actual evidence class on each receipt without claiming reproducible arrival order. |
-| P083-007 | Extend existing host-local and authenticated direct-peer admission with claim/control/invoke surfaces | todo | Existing caller, node, Passport, deadline, revocation and error-redaction checks are reused; carrier attachment grants no authority; every shared/exclusive invoke checks exact method, classification, source-generation ref, and, where applicable, lease and epoch. |
-| P083-008 | Integrate Workbench terminal input/resize/signal through the actuation adapter | todo | A remote caller is never represented as the operator; each method has an exact schema and lineage reaches the PTY boundary; one preemption establishes the operator lease; stale-holder bytes, close, revoke, restart, handoff, and uncertain irreversible-stream retry are refusal-tested. |
+| P083-002 | Freeze the shared resource envelope plus per-method actuation descriptor, actuation status, control request/status/lease, invoke request/receipt, grant-scope, and Workbench input successor schemas | done | Observation and actuation wire contracts reuse one resource envelope while remaining closed directional schemas; each method binds one canonical payload schema; the receipt has a closed evidence-class enum; semantic checks reject unknown fields, empty scopes, missing generation refs, stale fencing evidence, invalid transitions, incompatible outcome/evidence pairs, unbounded payloads, and classification mismatch. |
+| P083-003 | Register `sensorium.interface.invoke` and the exact `sensorium-interface-actuation@v1` Passport profile | done | Machine registry, Rust constants, closed manage-action policy, human registries, and the existing Passport parsing/trust/caller/revocation machinery agree; the actuation scope evaluator is new, and canonical method/limit scope participates in atomic Passport replay equality. |
+| P083-004 | Extend `sensorium-interface-core` with pure shared-resource plus actuation coordination, grant-intersection, fencing, idempotency, and receipt logic | done | The existing core crate gains direction-neutral resource primitives and a separate actuation module; it retains no daemon, SQLite, provider, carrier, or async-runtime dependency and proves per-method schemas, total shared order, both outstanding limits, one-live-claim uniqueness, generation fencing, epoch-scoped idempotency, receipt-evidence compatibility, and the other named invariants. |
+| P083-005 | Extend the existing store/runtime with durable claim queue, control lease, preemption, operation, receipt, restart, inspection, and bounded metrics state | done | `SensoriumInterfaceRuntime` and `SensoriumInterfaceStore` remain the owners; publication/grant/fact/idempotency/revocation machinery is migrated with scoped replay equality and fenced effective idempotency keys; one coordinator enforces the 64-operation interface cap, 16-claim cap, one live claim per caller, and serialized authority/effects. |
+| P083-006 | Reuse the bounded registry mechanics for a separate actuation-adapter trait and bounded shared LED fixture | done | Read-source and effect-adapter traits remain distinct; unknown, duplicate, unavailable, stale-generation, and over-cap adapters fail closed; concurrent LED tests prove sequence uniqueness, total order, observer agreement, content-bound idempotency, explicit reconciliation mechanisms, and the actual evidence class on each receipt without claiming reproducible arrival order. |
+| P083-007 | Extend existing host-local and authenticated direct-peer admission with claim/control/invoke surfaces | done | Existing caller, node, Passport, deadline, revocation and error-redaction checks are reused; carrier attachment grants no authority; every shared/exclusive invoke checks exact method, classification, source-generation ref, and, where applicable, lease and epoch. |
+| P083-008 | Integrate Workbench terminal input/resize/signal through the actuation adapter | done | A remote caller is never represented as the operator; each method has an exact schema and lineage reaches the PTY boundary; one preemption establishes the operator lease; stale-holder bytes, close, revoke, restart, handoff, and uncertain irreversible-stream retry are refusal-tested. |
 | P083-009 | Extend operator and Room collaboration surfaces for grant, queue, holder, handoff, preemption, and grouped observation/control | todo | Existing manage policy, canonical Room subject keys, and Room-plus-interface authority intersection are reused; Room adds the explicit `actuate` extension grant, UI exposes separate observe/control authority, claim readiness uses bounded polling/presence hints, and raw terminal input is not persisted in Room. |
-| P083-010 | Extend the P082 conformance harness with load, restart, partial-failure, and end-to-end terminal baton tests | todo | The existing runner covers shared contention and interface backlog saturation, duplicate claims, queue caps, lease expiry/renewal, stale generation/epoch packets, cross-tenure idempotency, scoped Passport replay conflict, source replacement, outcome/evidence compatibility including `unknown` plus `none`, observer-only clients, and real Workbench PTY control. |
+| P083-010 | Extend the P082 conformance harness with load, restart, partial-failure, and end-to-end terminal baton tests | todo | The existing runner covers shared contention and interface backlog saturation, duplicate claims, queue caps, lease expiry/renewal, stale generation/epoch packets, cross-tenure idempotency, scoped Passport replay conflict, source replacement, active-lease plus accepted-operation restart fencing, outcome/evidence compatibility including `unknown` plus `none`, observer-only clients, and real Workbench PTY control. |
 | P083-011 | Synchronize P045/P047/P048/P070/P071/P072/P081/P082, Solutions 030/036/042/046, Node ledgers, capability registries, trackers, and readiness snapshot | todo | Proposal, code, schemas, generated views, solution ownership, acceptance stories, and readiness evidence describe the same implemented boundary before promotion. |
 | P083-012 | Promote the implemented contract into Solution 046's actuation boundary | todo | Promotion occurs only after P083-002 through P083-011 are done and the final review finds no unresolved correctness or authority blocker; no competing interface-authority component is introduced. |
+
+Implementation evidence through P083-008 is owned by
+`node:sensorium-interface-core/src/actuation.rs`,
+`node:daemon/src/sensorium_interface_runtime/actuation_runtime.rs`,
+`node:daemon/src/peer_runtime_host.rs`,
+`node:daemon/src/interaction_broker_file_tree_provider.rs`, and the Workbench
+service boundary. The focused tests cover schema families, Passport scope,
+shared total order, registry refusal, lease/handoff/preemption fencing, restart,
+unknown irreversible outcomes, direct-peer LED invocation, remote identity at the
+PTY authority boundary, provider-confirmed terminal close, and opaque evidence
+refs. The extended P082 conformance harness includes these verticals, while the
+larger load and real two-controller PTY matrix remains P083-010.
 
 ## Open Questions
 
 No unresolved design questions remain for the initial hard-MVP implementation. The
 former serialization, handoff, claim-notification, coordination-mode, and
-reconciliation questions are resolved by decisions 22-26. Any later relaxation
-requires operational evidence and an explicit contract change; it is not an
-implementation-local optimization.
+reconciliation questions are resolved by decisions 22-26, and direct-peer profile
+materialization is closed by decision 29. Any later relaxation requires operational
+evidence and an explicit contract change; it is not an implementation-local
+optimization.
 
 ## Next Actions
 
-1. Implement P083-002 and P083-003 together so schemas, grant scope, capability
-   posture, and human registries cannot drift.
-2. Implement P083-004 inside the existing `sensorium-interface-core` crate by first
-   extracting direction-neutral resource/authority values, then adding the separate
-   actuation state transitions and named-invariant tests.
-3. Build P083-005 and P083-006 by migrating the existing store/runtime and reusing
-   bounded registry mechanics; use the bounded LED fixture to prove shared total
-   order, queue bounds, fencing, and restart behavior without a parallel service.
-4. Add authenticated direct-peer invocation and prove that carrier identity,
-   observation authority, and Room membership cannot replace an invoke grant.
-5. Integrate Workbench last, carrying remote identity and lease evidence to the
-   final PTY boundary without weakening the existing operator path.
-6. Run terminal baton E2E tests with two clients and one observer before adding live
-   Room control UX.
+1. Implement P083-009 by extending the operator and Room collaboration surfaces
+   without making Room membership, observation, or carrier attachment authoritative.
+2. Complete P083-010 with backlog saturation, queue/expiry/renewal, cross-tenure,
+   source-replacement, observer-only, and real Workbench PTY E2E coverage.
+3. Complete the P083-011 cross-proposal, solution, ledger, registry, tracker, and
+   readiness audit after the operator/Room and E2E slices settle.
+4. Promote the completed actuation contract into Solution 046 only through
+   P083-012 after the final authority and correctness review is clean.

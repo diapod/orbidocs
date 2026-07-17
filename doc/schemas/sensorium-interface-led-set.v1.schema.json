@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-led-set:v1",
+  "title": "Sensorium Interface LED Set v1",
+  "description": "Convergent target-state payload used by the bounded P083 shared LED fixture.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "on"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-led-set.v1" },
+    "schema/v": { "const": 1 },
+    "on": { "type": "boolean" }
+  }
+}

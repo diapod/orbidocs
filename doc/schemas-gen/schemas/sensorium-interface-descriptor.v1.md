@@ -11,6 +11,7 @@ Immutable publication contract for one deliberately exposed Sensorium or Workben
 | [`schema`](#field-schema) | `yes` | const: `sensorium-interface-descriptor.v1` | Contract discriminator. |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Contract version. |
 | [`interface/id`](#field-interface-id) | `yes` | string | Stable resource identifier for this interface publication. |
+| [`interface/kind`](#field-interface-kind) | `yes` | const: `observation` | Directional resource kind. |
 | [`interface/name`](#field-interface-name) | `yes` | string | Short operator-facing name; not an authority identifier. |
 | [`publisher/node-ref`](#field-publisher-node-ref) | `yes` | string | Node that owns publication and source-side policy. |
 | [`output/schema-ref`](#field-output-schema-ref) | `yes` | string | Schema required for each data frame payload. |
@@ -21,6 +22,7 @@ Immutable publication contract for one deliberately exposed Sensorium or Workben
 | [`redaction/profile-ref`](#field-redaction-profile-ref) | `no` | string | Optional source-owned redaction profile applied before frame creation. |
 | [`limits`](#field-limits) | `yes` | object | Hard publication ceilings further narrowed by callers and host policy. |
 | [`overflow/policy`](#field-overflow-policy) | `yes` | enum: `coalesce-latest`, `emit-gap`, `close-subscription` | Explicit behavior when source state exceeds its delivery window. |
+| [`published/at`](#field-published-at) | `yes` | string | Publication creation time. |
 | [`expires/at`](#field-expires-at) | `yes` | string | Hard end of the publication lifetime. |
 
 ## Conditional Rules
@@ -134,6 +136,14 @@ Contract version.
 
 Stable resource identifier for this interface publication.
 
+<a id="field-interface-kind"></a>
+## `interface/kind`
+
+- Required: `yes`
+- Shape: const: `observation`
+
+Directional resource kind.
+
 <a id="field-interface-name"></a>
 ## `interface/name`
 
@@ -213,6 +223,14 @@ Hard publication ceilings further narrowed by callers and host policy.
 - Shape: enum: `coalesce-latest`, `emit-gap`, `close-subscription`
 
 Explicit behavior when source state exceeds its delivery window.
+
+<a id="field-published-at"></a>
+## `published/at`
+
+- Required: `yes`
+- Shape: string
+
+Publication creation time.
 
 <a id="field-expires-at"></a>
 ## `expires/at`

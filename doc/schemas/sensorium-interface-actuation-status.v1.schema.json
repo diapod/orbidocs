@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-actuation-status:v1",
+  "title": "Sensorium Interface Actuation Status v1",
+  "description": "Grant-gated, caller-relative status for one actuation interface.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "interface/id", "source/generation-ref", "coordination/mode", "lifecycle/status", "health/status", "control/state", "claim/state", "status/at"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-actuation-status.v1" },
+    "schema/v": { "const": 1 },
+    "interface/id": { "$ref": "#/$defs/interface_ref" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "coordination/mode": { "enum": ["shared", "exclusive-lease"] },
+    "lifecycle/status": { "enum": ["published", "suspended", "withdrawn", "expired"] },
+    "health/status": { "enum": ["ready", "degraded"] },
+    "health/reason": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "control/state": { "enum": ["not-applicable", "free", "held-by-caller", "held"] },
+    "claim/state": { "enum": ["not-applicable", "absent", "queued", "held"] },
+    "claim/id": { "$ref": "#/$defs/claim_ref" },
+    "queue/position": { "type": "integer", "minimum": 1, "maximum": 16 },
+    "lease": { "$ref": "sensorium-interface-control-lease.v1.schema.json" },
+    "status/at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    { "if": { "properties": { "health/status": { "const": "degraded" } }, "required": ["health/status"] }, "then": { "required": ["health/reason"] }, "else": { "not": { "required": ["health/reason"] } } },
+    { "if": { "properties": { "coordination/mode": { "const": "shared" } }, "required": ["coordination/mode"] }, "then": { "properties": { "control/state": { "const": "not-applicable" }, "claim/state": { "const": "not-applicable" } }, "not": { "anyOf": [{ "required": ["claim/id"] }, { "required": ["queue/position"] }, { "required": ["lease"] }] } } }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "interface_ref": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512 },
+    "claim_ref": { "type": "string", "pattern": "^sensorium-control-claim:[^\\s]+$", "maxLength": 512 }
+  }
+}

@@ -4,6 +4,7 @@ Based on:
 
 - `doc/project/40-proposals/071-sensorium-workbench.md`
 - `doc/project/40-proposals/082-sensorium-interfaces.md`
+- `doc/project/40-proposals/083-sensorium-interactive-interfaces.md`
 - `doc/project/40-proposals/045-sensorium-local-enaction-stratum.md`
 - `doc/project/40-proposals/048-sensorium-os-connector-action-classes.md`
 - `doc/project/40-proposals/055-bounded-deferred-operation-contract.md`
@@ -21,6 +22,9 @@ Related schemas:
 - `sensorium-terminal-session.v1`
 - `sensorium-terminal-command.v1`
 - `sensorium-terminal-input.v1`
+- `sensorium-interface-terminal-input.v1`
+- `sensorium-interface-terminal-resize.v1`
+- `sensorium-interface-terminal-signal.v1`
 - `sensorium-terminal-event.v1`
 - `sensorium-terminal-screen-snapshot.v1`
 - `sensorium-file-snapshot.v1`
@@ -102,10 +106,15 @@ collaborative WSS Room latest-state acceptance path. Remaining solution work is
 production-grade container or microVM executors and optional daemon command-BDO
 signal policy beyond the implemented `TERM` cancel path.
 
-Proposal 083 defines the accepted hard-MVP release-blocking path for separately
-granted terminal input, resize, and signal actuation. The current implementation
-remains operator-only and read-only for remote Sensorium Interface consumers until
-that proposal's fenced control-lease runtime is complete.
+Proposal 083 defines the hard-MVP release-blocking path for separately granted
+terminal input, resize, and signal actuation. Its P083-002 through P083-008 runtime
+is now implemented: a remote caller reaches the existing Workbench PTY checks as a
+remote Sensorium Interface control authority carrying exact grant, generation,
+lease, epoch, sequence, method, deadline, and causal lineage. Workbench never
+relabels that caller as the operator, raw bytes are not retained by the generic
+interface runtime, and provider-confirmed terminal closure fences the source.
+Operator/Room collaboration UX and the complete real terminal baton E2E matrix
+remain P083-009 and P083-010.
 
 ## Date
 

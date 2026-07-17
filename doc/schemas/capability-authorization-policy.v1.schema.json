@@ -74,6 +74,16 @@
             "operator-review-required"
           ]
         },
+        "allowed/actions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "maxLength": 128,
+            "pattern": "^[a-z][a-z0-9.-]*$"
+          },
+          "description": "Optional closed action allowlist enforced within a capability. Omission keeps action-level policy outside this entry."
+        },
         "notes": { "type": "string", "minLength": 1 }
       }
     }

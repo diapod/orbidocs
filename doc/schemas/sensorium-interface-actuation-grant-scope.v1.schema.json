@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-actuation-grant-scope:v1",
+  "title": "Sensorium Interface Actuation Grant Scope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "interface/id", "methods", "remote/node-ids", "classification/max-tier", "limits"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-actuation-grant-scope.v1" },
+    "schema/v": { "const": 1 },
+    "interface/id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512 },
+    "methods": { "type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z][a-z0-9.-]{0,127}$" } },
+    "remote/node-ids": { "type": "array", "maxItems": 32, "uniqueItems": true, "description": "Additional federated-node restriction. Empty is local-only by admission context, never a federated wildcard.", "items": { "type": "string", "pattern": "^node:[^\\s]+$", "maxLength": 512 } },
+    "classification/max-tier": { "enum": ["Public", "Community", "Personal"] },
+    "limits": { "$ref": "#/$defs/limits" }
+  },
+  "$defs": {
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload/max-bytes", "rate/max-per-minute", "outstanding/caller-max", "deadline/max-ms", "claim/wait-max-ms", "lease/quantum-max-ms", "lease/cumulative-max-ms"],
+      "properties": {
+        "payload/max-bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "rate/max-per-minute": { "type": "integer", "minimum": 1, "maximum": 10000 },
+        "outstanding/caller-max": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "deadline/max-ms": { "type": "integer", "minimum": 1, "maximum": 60000 },
+        "claim/wait-max-ms": { "type": "integer", "minimum": 1, "maximum": 3600000 },
+        "lease/quantum-max-ms": { "type": "integer", "minimum": 1, "maximum": 900000 },
+        "lease/cumulative-max-ms": { "type": "integer", "minimum": 1, "maximum": 86400000 }
+      }
+    }
+  }
+}

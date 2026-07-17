@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-actuation-descriptor:v1",
+  "title": "Sensorium Interface Actuation Descriptor v1",
+  "description": "Immutable publication contract for one effect-bearing Sensorium Interface.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "interface/id", "interface/kind", "interface/name", "publisher/node-ref", "methods", "receipt/schema-ref", "coordination/mode", "classification/max-tier", "classification/topic-class", "limits", "published/at", "expires/at"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-actuation-descriptor.v1" },
+    "schema/v": { "const": 1 },
+    "interface/id": { "$ref": "#/$defs/interface_ref" },
+    "interface/kind": { "const": "actuation" },
+    "interface/name": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "publisher/node-ref": { "type": "string", "pattern": "^node:[^\\s]+$", "maxLength": 512 },
+    "methods": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["method/name", "input/schema-ref", "reconciliation/mode", "effect/kind"],
+        "properties": {
+          "method/name": { "type": "string", "pattern": "^[a-z][a-z0-9.-]{0,127}$" },
+          "input/schema-ref": { "$ref": "#/$defs/ref" },
+          "reconciliation/mode": { "enum": ["none", "state-readback", "operation-status", "native-idempotent-retry"] },
+          "effect/kind": { "enum": ["convergent-state", "irreversible-stream"] }
+        }
+      }
+    },
+    "receipt/schema-ref": { "$ref": "#/$defs/ref" },
+    "coordination/mode": { "enum": ["shared", "exclusive-lease"] },
+    "classification/max-tier": { "enum": ["Public", "Community", "Personal"] },
+    "classification/topic-class": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "redaction/profile-ref": { "$ref": "#/$defs/ref" },
+    "limits": { "$ref": "#/$defs/limits" },
+    "published/at": { "type": "string", "format": "date-time" },
+    "expires/at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "coordination/mode": { "const": "exclusive-lease" } }, "required": ["coordination/mode"] },
+      "then": { "properties": { "limits": { "required": ["claim/queue-max", "claim/wait-max-ms", "lease/quantum-max-ms", "lease/cumulative-max-ms"] } } },
+      "else": { "properties": { "limits": { "not": { "anyOf": [{ "required": ["claim/queue-max"] }, { "required": ["claim/wait-max-ms"] }, { "required": ["lease/quantum-max-ms"] }, { "required": ["lease/cumulative-max-ms"] }] } } } }
+    }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "interface_ref": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512 },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload/max-bytes", "rate/max-per-minute", "outstanding/caller-max", "outstanding/interface-max", "deadline/max-ms", "idempotency/retention-seconds"],
+      "properties": {
+        "payload/max-bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "rate/max-per-minute": { "type": "integer", "minimum": 1, "maximum": 10000 },
+        "outstanding/caller-max": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "outstanding/interface-max": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "deadline/max-ms": { "type": "integer", "minimum": 1, "maximum": 60000 },
+        "idempotency/retention-seconds": { "type": "integer", "minimum": 1, "maximum": 604800 },
+        "claim/queue-max": { "type": "integer", "minimum": 1, "maximum": 16 },
+        "claim/wait-max-ms": { "type": "integer", "minimum": 1, "maximum": 3600000 },
+        "lease/quantum-max-ms": { "type": "integer", "minimum": 1, "maximum": 900000 },
+        "lease/cumulative-max-ms": { "type": "integer", "minimum": 1, "maximum": 86400000 }
+      }
+    }
+  }
+}

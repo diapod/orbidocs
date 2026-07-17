@@ -1,12 +1,12 @@
 {:component/id :orbiplex/sensorium-interfaces
  :component/title "Sensorium Interfaces"
- :component/type :node-attached-observation-runtime
- :component/status :done
+ :component/type :node-attached-directional-interface-runtime
+ :component/status :partial
 
  :summary
- "Carrier-neutral publication, bounded pull-batch read and subscription runtime
- for explicitly exposed Sensorium and Workbench representations with exact
- resource authority, classification, revocation, and restart recovery."
+ "Carrier-neutral publication, bounded observation, and staged actuation runtime
+ for explicitly exposed Sensorium and Workbench resources with exact authority,
+ classification, revocation, fencing, and restart recovery."
 
  :must-implement
  [{:cap/id :sensorium-interface-contract-core
@@ -92,7 +92,35 @@
     "Exercise collaborative Workbench Room view and durable Room survival"
     "Exercise restart rebuild and named refusal invariants"]
    :status :done
-   :status-detail "Focused core, runtime, peer-chain, SSE, Room WSS, classification, schema-gate, and restart tests cover the MVP paths and revocation failures."}]
+   :status-detail "Focused core, runtime, peer-chain, SSE, Room WSS, classification, schema-gate, and restart tests cover the observation MVP paths and revocation failures."}
+
+  {:cap/id :sensorium-interface-actuation-foundation
+   :title "Sensorium Interface Actuation Foundation"
+   :kind :host-runtime
+   :based-on ["doc/project/40-proposals/083-sensorium-interactive-interfaces.md"
+              "doc/project/40-proposals/071-sensorium-workbench.md"
+              "doc/project/40-proposals/081-horizontal-protocol-primitives.md"]
+   :schemas ["sensorium-interface-resource.v1"
+             "sensorium-interface-actuation-descriptor.v1"
+             "sensorium-interface-actuation-status.v1"
+             "sensorium-interface-actuation-grant-scope.v1"
+             "sensorium-interface-control-request.v1"
+             "sensorium-interface-control-status.v1"
+             "sensorium-interface-control-lease.v1"
+             "sensorium-interface-invoke-request.v1"
+             "sensorium-interface-invoke-receipt.v1"
+             "sensorium-interface-terminal-input.v1"
+             "sensorium-interface-terminal-resize.v1"
+             "sensorium-interface-terminal-signal.v1"
+             "sensorium-interface-led-set.v1"]
+   :responsibilities
+   ["Register exact actuation Passport and capability policy"
+    "Coordinate bounded shared order and exclusive fenced control leases"
+    "Persist grants claims leases receipts idempotency and restart fencing in the shared authority runtime"
+    "Expose host-local and authenticated direct-peer actuation without carrier authority"
+    "Route Workbench terminal effects through exact remote-caller authority at the PTY boundary"]
+   :status :partial
+   :status-detail "P083-002 through P083-008 are implemented. Operator and Room collaboration surfaces, the complete load and real terminal baton E2E matrix, final documentation closure, and formal promotion remain P083-009 through P083-012."}]
 
  :may-implement
  [{:cap/id :sensorium-interface-provider-push
@@ -125,13 +153,13 @@
  :out-of-scope
  ["Direct consumer access to connectors devices or terminals"
   "Global interface discovery"
-  "Actuation commands through the interface contract"
   "Automatic stream persistence in Memarium"
   "Provider push as an alternate meaning of V1"]
 
  :consumes
  ["admitted Sensorium observations"
   "Workbench screen and event projections"
+  "Workbench terminal effect boundary"
   "Interaction Broker bounded source reads"
   "Capability Passports and local grants"
   "Room membership and observe-right projections"]
@@ -139,6 +167,7 @@
  :produces
  ["published Sensorium Interface descriptors and status"
   "bounded read and subscription batches"
+  "fenced actuation control state and metadata-only receipts"
   "typed subscription terminal status"
   "direct-peer SSE and Room carrier projections"
   "immutable management facts and execution receipts"]}

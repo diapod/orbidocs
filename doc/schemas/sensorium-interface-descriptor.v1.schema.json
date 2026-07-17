@@ -9,6 +9,7 @@
     "schema",
     "schema/v",
     "interface/id",
+    "interface/kind",
     "interface/name",
     "publisher/node-ref",
     "output/schema-ref",
@@ -18,12 +19,14 @@
     "classification/topic-class",
     "limits",
     "overflow/policy",
+    "published/at",
     "expires/at"
   ],
   "properties": {
     "schema": { "const": "sensorium-interface-descriptor.v1", "description": "Contract discriminator." },
     "schema/v": { "const": 1, "description": "Contract version." },
     "interface/id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512, "description": "Stable resource identifier for this interface publication." },
+    "interface/kind": { "const": "observation", "description": "Directional resource kind." },
     "interface/name": { "type": "string", "minLength": 1, "maxLength": 128, "description": "Short operator-facing name; not an authority identifier." },
     "publisher/node-ref": { "type": "string", "pattern": "^node:[^\\s]+$", "maxLength": 512, "description": "Node that owns publication and source-side policy." },
     "output/schema-ref": { "type": "string", "minLength": 1, "maxLength": 512, "description": "Schema required for each data frame payload." },
@@ -54,6 +57,7 @@
       }
     },
     "overflow/policy": { "enum": ["coalesce-latest", "emit-gap", "close-subscription"], "description": "Explicit behavior when source state exceeds its delivery window." },
+    "published/at": { "type": "string", "format": "date-time", "description": "Publication creation time." },
     "expires/at": { "type": "string", "format": "date-time", "description": "Hard end of the publication lifetime." }
   },
   "allOf": [

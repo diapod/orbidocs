@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-invoke-receipt:v1",
+  "title": "Sensorium Interface Invoke Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "operation/id", "interface/id", "caller/ref", "grant/id", "source/generation-ref", "method/name", "input/schema-ref", "payload/digest", "outcome", "evidence/class", "accepted/at", "completed/at", "classification", "causal/context"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-invoke-receipt.v1" },
+    "schema/v": { "const": 1 },
+    "operation/id": { "type": "string", "pattern": "^sensorium-operation:[^\\s]+$", "maxLength": 512 },
+    "interface/id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512 },
+    "caller/ref": { "$ref": "#/$defs/ref" },
+    "grant/id": { "$ref": "#/$defs/ref" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "lease/id": { "type": "string", "pattern": "^sensorium-control-lease:[^\\s]+$", "maxLength": 512 },
+    "lease/epoch": { "type": "integer", "minimum": 1 },
+    "method/name": { "type": "string", "pattern": "^[a-z][a-z0-9.-]{0,127}$" },
+    "input/schema-ref": { "$ref": "#/$defs/ref" },
+    "payload/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{32,}$", "maxLength": 128 },
+    "accepted/sequence": { "type": "integer", "minimum": 1 },
+    "outcome": { "enum": ["applied", "refused", "failed", "unknown"] },
+    "evidence/class": { "enum": ["host-admission", "provider-ack", "operation-status", "state-readback", "none"] },
+    "evidence/ref": { "$ref": "#/$defs/ref" },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "accepted/at": { "type": "string", "format": "date-time" },
+    "completed/at": { "type": "string", "format": "date-time" },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "causal/context": { "$ref": "causal-context.v1.schema.json" }
+  },
+  "allOf": [
+    { "if": { "properties": { "outcome": { "const": "refused" } }, "required": ["outcome"] }, "then": { "properties": { "evidence/class": { "const": "host-admission" } }, "required": ["reason"] } },
+    { "if": { "properties": { "outcome": { "const": "unknown" } }, "required": ["outcome"] }, "then": { "properties": { "evidence/class": { "const": "none" } } } },
+    { "if": { "properties": { "outcome": { "const": "failed" } }, "required": ["outcome"] }, "then": { "properties": { "evidence/class": { "enum": ["provider-ack", "operation-status"] } }, "required": ["reason"] } },
+    { "if": { "properties": { "outcome": { "const": "applied" } }, "required": ["outcome"] }, "then": { "properties": { "evidence/class": { "enum": ["provider-ack", "operation-status", "state-readback"] } }, "required": ["accepted/sequence"] } }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" }
+  }
+}

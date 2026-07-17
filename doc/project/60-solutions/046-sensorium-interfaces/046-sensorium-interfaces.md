@@ -3,6 +3,7 @@
 Based on:
 
 - `doc/project/40-proposals/082-sensorium-interfaces.md`
+- `doc/project/40-proposals/083-sensorium-interactive-interfaces.md`
 - `doc/project/40-proposals/045-sensorium-local-enaction-stratum.md`
 - `doc/project/40-proposals/047-classification-label-propagation.md`
 - `doc/project/40-proposals/070-room-primitive.md`
@@ -15,6 +16,7 @@ Based on:
 - `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`
 - `node:sensorium-interface-core`
 - `node:daemon/src/sensorium_interface_runtime.rs`
+- `node:daemon/src/sensorium_interface_runtime/actuation_runtime.rs`
 - `node:daemon/src/sensorium_interface_room_projection.rs`
 - `node:daemon/src/peer_runtime_host.rs`
 - `node:daemon/src/host_capabilities_host.rs`
@@ -30,6 +32,19 @@ Related schemas:
 - `sensorium-interface-subscription-command.v1`
 - `sensorium-interface-subscription-status.v1`
 - `sensorium-interface-frame.v1`
+- `sensorium-interface-resource.v1`
+- `sensorium-interface-actuation-descriptor.v1`
+- `sensorium-interface-actuation-status.v1`
+- `sensorium-interface-actuation-grant-scope.v1`
+- `sensorium-interface-control-request.v1`
+- `sensorium-interface-control-status.v1`
+- `sensorium-interface-control-lease.v1`
+- `sensorium-interface-invoke-request.v1`
+- `sensorium-interface-invoke-receipt.v1`
+- `sensorium-interface-terminal-input.v1`
+- `sensorium-interface-terminal-resize.v1`
+- `sensorium-interface-terminal-signal.v1`
+- `sensorium-interface-led-set.v1`
 - `artifact-object-pointer.v1`
 - `classification.v1`
 - `capability-passport.v1`
@@ -37,7 +52,7 @@ Related schemas:
 
 ## Status
 
-Implemented MVP solution.
+Implemented observation MVP solution; staged actuation foundation through P083-008.
 
 The carrier-neutral pull-batch core, durable host runtime, open bounded source
 adapter registry, Sensorium, Workbench, and Artifact Delivery source adapters,
@@ -45,9 +60,12 @@ local host-capability surface, authenticated direct-peer surface, local SSE
 adapter, and WSS-backed Room `latest-state` projection are implemented.
 The runtime is refusal-tested for stale or revoked authority, cursor misuse,
 ordered-event Room projection, classification mismatch, and restart recovery.
-Host-local bounded metrics and a four-carrier conformance runner provide the
+Host-local bounded metrics and the extended conformance runner provide the
 operator evidence surface needed for post-V1 delivery decisions.
 This implementation satisfies the explicit P082 hard-MVP release blocker.
+The P083 schema, capability, core, durable coordinator, LED, host/direct-peer, and
+Workbench PTY slices are implemented and refusal-tested. P083-009 through P083-012
+remain open, so the hard-MVP actuation extension is not yet promoted or complete.
 
 ## Date
 
@@ -56,15 +74,16 @@ This implementation satisfies the explicit P082 hard-MVP release blocker.
 ## History
 
 This solution promotes the frozen and implemented Proposal 082 contract into a
-separate component. Proposal 082 remains the rationale, invariant catalog,
-resolved-decision record, and implementation tracker. This solution owns the
-current implementation boundary and its post-MVP extension points.
+separate component. Proposal 082 remains the observation rationale and tracker;
+Proposal 083 owns the staged actuation rationale, invariants, and remaining tracker.
+This solution owns the shared implementation boundary without introducing a second
+publication, grant, revocation, or authority service.
 
 ## Executive Summary
 
-A Sensorium Interface is a host-owned, explicitly published read-only projection
-of an enacted representation. It gives authorized local components or remote
-peers one bounded operation family:
+A Sensorium Interface is a host-owned, explicitly published directional projection
+of or input surface for an enacted representation. The promoted observation plane
+gives authorized local components or remote peers one bounded pull family:
 
 ```text
 publish source projection
@@ -86,11 +105,11 @@ outside this solution's MVP boundary.
 
 [Proposal 083: Sensorium Interactive Interfaces](../../40-proposals/083-sensorium-interactive-interfaces.md)
 defines the hard-MVP release-blocking actuation extension with separate resources,
-grants, coordination, and fencing. It does not change this solution's implemented
-read-only status until its own tracker is complete and the resulting runtime is
-promoted. The proposal extends this component's existing core, authority runtime,
-store, admission, fact, receipt, classification, and carrier boundaries rather than
-introducing a parallel Sensorium Interface service.
+grants, coordination, and fencing. Its implementation now reuses this component's
+core, authority runtime, store, admission, fact, receipt, classification, adapter,
+and carrier boundaries through P083-008. Operator/Room collaboration, the complete
+load and real PTY E2E matrix, final cross-document closure, and formal promotion
+remain P083-009 through P083-012.
 
 ## Context and Problem Statement
 
@@ -246,6 +265,36 @@ Responsibilities:
 
 Status: `done`.
 
+### Staged Actuation Foundation
+
+Responsibilities implemented through P083-008:
+
+- extend the common resource envelope with closed per-method actuation descriptors,
+  control leases, invoke requests/receipts, exact grant scopes, and Workbench input
+  schemas;
+- register Passport-eligible `sensorium.interface.invoke` with the exact
+  `sensorium-interface-actuation@v1` profile while keeping action-enumerated
+  `sensorium.interface.manage` source-local;
+- reuse the pure core and durable authority runtime for bounded shared ordering,
+  exclusive claims, lease epochs, handoff, preemption, generation fencing,
+  content-bound idempotency, restart, revocation, inspection, aggregate metrics,
+  and a symmetric 16 MiB read/write cap on each serialized coordinator projection;
+- keep read-source and effect-adapter traits separate while reusing bounded registry
+  mechanics, including fail-closed duplicate, unavailable, unknown, and over-cap
+  behavior; adapter readiness is a health hint, while effect-time provider state is
+  authoritatively checked by `apply`;
+- expose host-local and authenticated direct-peer actuation without deriving
+  authority from observation or carrier attachment;
+- route Workbench terminal input, resize, and signal through exact schemas and a
+  remote-caller control authority that reaches the PTY boundary without impersonating
+  the operator; provider-confirmed terminal closure withdraws the actuation source,
+  changes its opaque generation, and clears transient control;
+- persist metadata and digests rather than raw actuation payloads, report honest
+  `unknown` outcomes for uncertain irreversible effects, and keep evidence refs
+  opaque from private Workbench session bindings.
+
+Status: `implemented through P083-008; P083-009 through P083-012 pending`.
+
 ## May Implement
 
 ### Measured Provider-Push Profile
@@ -274,9 +323,10 @@ Status: `deferred`.
 ### Split Management Authorities
 
 The accepted baseline keeps one source-local, non-delegable manage capability.
-Current runtime dispatch is closed by action; before P083 adds preemption, the
-authorization-policy entry must enumerate allowed manage actions explicitly. Any
-future capability split requires distinct-principal deployment evidence and a
+Current runtime dispatch and authorization policy enumerate the closed observation
+and actuation action vocabulary, including `control.preempt`; preemption also
+requires an active exact invoke grant before it can establish an operator lease.
+Any future capability split requires distinct-principal deployment evidence and a
 contract revision.
 
 Status: `deferred`.

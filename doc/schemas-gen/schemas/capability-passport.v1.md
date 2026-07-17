@@ -63,6 +63,7 @@ Signed capability or consent artifact naming a capability profile for a target N
 | [`memariumSpaceAccessProfileV1`](#def-memariumspaceaccessprofilev1) | object | Authorizes Memarium space-level operations at a layer above Sealer. See proposal 038 §Profile `memarium-space-access@v1`. |
 | [`memariumDeclassifyProfileV1`](#def-memariumdeclassifyprofilev1) | object | Authorizes append-only Memarium declassification policy facts. This profile is deliberately separate from `memarium-space-access@v1`: declassification binds not only to a space, but also to surface, topic class, mode, and tier transition. |
 | [`sensoriumInterfaceProfileV1`](#def-sensoriuminterfaceprofilev1) | object |  |
+| [`sensoriumInterfaceActuationProfileV1`](#def-sensoriuminterfaceactuationprofilev1) | object |  |
 | [`communityKeyAccessProfileV1`](#def-communitykeyaccessprofilev1) | object | Authorizes community key material reception, rotation, and distribution decisions at a layer above Sealer. See proposal 038 §Profile `community-key-access@v1`. |
 
 ## Conditional Rules
@@ -330,6 +331,11 @@ Authorizes append-only Memarium declassification policy facts. This profile is d
 
 <a id="def-sensoriuminterfaceprofilev1"></a>
 ## `$defs.sensoriumInterfaceProfileV1`
+
+- Shape: object
+
+<a id="def-sensoriuminterfaceactuationprofilev1"></a>
+## `$defs.sensoriumInterfaceActuationProfileV1`
 
 - Shape: object
 

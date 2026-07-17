@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `45` | `11` |
 | `30-stories` (Stories) | `16` | `1` |
-| `40-proposals` (Proposals) | `85` | `73` |
+| `40-proposals` (Proposals) | `86` | `74` |
 | `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `64` | `43` |
 
-- Total project markdown files: `241`
-- Proposals referencing source material: `73` / `85`
+- Total project markdown files: `242`
+- Proposals referencing source material: `74` / `86`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
@@ -228,14 +228,27 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`sensorium-directive.v1.schema.json`](schemas-gen/schemas/sensorium-directive.v1.md) | `15` | `14` | `yes` | `yes` | `0` | `0` |
 | [`sensorium-file-read-result.v1.schema.json`](schemas-gen/schemas/sensorium-file-read-result.v1.md) | `11` | `0` | `yes` | `yes` | `1` | `0` |
 | [`sensorium-file-snapshot.v1.schema.json`](schemas-gen/schemas/sensorium-file-snapshot.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
-| [`sensorium-interface-descriptor.v1.schema.json`](schemas-gen/schemas/sensorium-interface-descriptor.v1.md) | `14` | `14` | `no` | `yes` | `1` | `1` |
+| [`sensorium-interface-actuation-descriptor.v1.schema.json`](schemas-gen/schemas/sensorium-interface-actuation-descriptor.v1.md) | `15` | `0` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-actuation-grant-scope.v1.schema.json`](schemas-gen/schemas/sensorium-interface-actuation-grant-scope.v1.md) | `7` | `1` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-actuation-status.v1.schema.json`](schemas-gen/schemas/sensorium-interface-actuation-status.v1.md) | `14` | `0` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-control-lease.v1.schema.json`](schemas-gen/schemas/sensorium-interface-control-lease.v1.md) | `16` | `0` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-control-request.v1.schema.json`](schemas-gen/schemas/sensorium-interface-control-request.v1.md) | `15` | `0` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-control-status.v1.schema.json`](schemas-gen/schemas/sensorium-interface-control-status.v1.md) | `12` | `0` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-descriptor.v1.schema.json`](schemas-gen/schemas/sensorium-interface-descriptor.v1.md) | `16` | `16` | `no` | `yes` | `1` | `1` |
 | [`sensorium-interface-frame.v1.schema.json`](schemas-gen/schemas/sensorium-interface-frame.v1.md) | `12` | `12` | `no` | `yes` | `1` | `1` |
+| [`sensorium-interface-invoke-receipt.v1.schema.json`](schemas-gen/schemas/sensorium-interface-invoke-receipt.v1.md) | `21` | `0` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-invoke-request.v1.schema.json`](schemas-gen/schemas/sensorium-interface-invoke-request.v1.md) | `18` | `0` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-led-set.v1.schema.json`](schemas-gen/schemas/sensorium-interface-led-set.v1.md) | `3` | `0` | `no` | `yes` | `0` | `0` |
 | [`sensorium-interface-read-request.v1.schema.json`](schemas-gen/schemas/sensorium-interface-read-request.v1.md) | `9` | `9` | `no` | `yes` | `1` | `1` |
 | [`sensorium-interface-read-result.v1.schema.json`](schemas-gen/schemas/sensorium-interface-read-result.v1.md) | `10` | `10` | `no` | `yes` | `1` | `1` |
+| [`sensorium-interface-resource.v1.schema.json`](schemas-gen/schemas/sensorium-interface-resource.v1.md) | `11` | `0` | `no` | `yes` | `0` | `0` |
 | [`sensorium-interface-status.v1.schema.json`](schemas-gen/schemas/sensorium-interface-status.v1.md) | `7` | `7` | `no` | `yes` | `1` | `1` |
 | [`sensorium-interface-subscribe-request.v1.schema.json`](schemas-gen/schemas/sensorium-interface-subscribe-request.v1.md) | `8` | `8` | `no` | `yes` | `1` | `0` |
 | [`sensorium-interface-subscription-command.v1.schema.json`](schemas-gen/schemas/sensorium-interface-subscription-command.v1.md) | `7` | `7` | `no` | `yes` | `1` | `0` |
 | [`sensorium-interface-subscription-status.v1.schema.json`](schemas-gen/schemas/sensorium-interface-subscription-status.v1.md) | `11` | `11` | `no` | `yes` | `1` | `0` |
+| [`sensorium-interface-terminal-input.v1.schema.json`](schemas-gen/schemas/sensorium-interface-terminal-input.v1.md) | `5` | `0` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-terminal-resize.v1.schema.json`](schemas-gen/schemas/sensorium-interface-terminal-resize.v1.md) | `5` | `0` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-terminal-signal.v1.schema.json`](schemas-gen/schemas/sensorium-interface-terminal-signal.v1.md) | `4` | `0` | `no` | `yes` | `0` | `0` |
 | [`sensorium-observation.v1.schema.json`](schemas-gen/schemas/sensorium-observation.v1.md) | `24` | `20` | `yes` | `yes` | `0` | `0` |
 | [`sensorium-os-error-codes.v1.schema.json`](schemas-gen/schemas/sensorium-os-error-codes.v1.md) | `0` | `0` | `yes` | `yes` | `0` | `0` |
 | [`sensorium-os.action-catalog-delta.v1.schema.json`](schemas-gen/schemas/sensorium-os.action-catalog-delta.v1.md) | `10` | `0` | `no` | `yes` | `0` | `0` |
@@ -490,14 +503,27 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`sensorium-directive.v1.schema.json`](schemas-gen/schemas/sensorium-directive.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`sensorium-file-read-result.v1.schema.json`](schemas-gen/schemas/sensorium-file-read-result.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`sensorium-file-snapshot.v1.schema.json`](schemas-gen/schemas/sensorium-file-snapshot.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
+| [`sensorium-interface-actuation-descriptor.v1.schema.json`](schemas-gen/schemas/sensorium-interface-actuation-descriptor.v1.md) |  |  |
+| [`sensorium-interface-actuation-grant-scope.v1.schema.json`](schemas-gen/schemas/sensorium-interface-actuation-grant-scope.v1.md) |  |  |
+| [`sensorium-interface-actuation-status.v1.schema.json`](schemas-gen/schemas/sensorium-interface-actuation-status.v1.md) |  |  |
+| [`sensorium-interface-control-lease.v1.schema.json`](schemas-gen/schemas/sensorium-interface-control-lease.v1.md) |  |  |
+| [`sensorium-interface-control-request.v1.schema.json`](schemas-gen/schemas/sensorium-interface-control-request.v1.md) |  |  |
+| [`sensorium-interface-control-status.v1.schema.json`](schemas-gen/schemas/sensorium-interface-control-status.v1.md) |  |  |
 | [`sensorium-interface-descriptor.v1.schema.json`](schemas-gen/schemas/sensorium-interface-descriptor.v1.md) |  |  |
 | [`sensorium-interface-frame.v1.schema.json`](schemas-gen/schemas/sensorium-interface-frame.v1.md) |  |  |
+| [`sensorium-interface-invoke-receipt.v1.schema.json`](schemas-gen/schemas/sensorium-interface-invoke-receipt.v1.md) |  |  |
+| [`sensorium-interface-invoke-request.v1.schema.json`](schemas-gen/schemas/sensorium-interface-invoke-request.v1.md) |  |  |
+| [`sensorium-interface-led-set.v1.schema.json`](schemas-gen/schemas/sensorium-interface-led-set.v1.md) |  |  |
 | [`sensorium-interface-read-request.v1.schema.json`](schemas-gen/schemas/sensorium-interface-read-request.v1.md) |  |  |
 | [`sensorium-interface-read-result.v1.schema.json`](schemas-gen/schemas/sensorium-interface-read-result.v1.md) |  |  |
+| [`sensorium-interface-resource.v1.schema.json`](schemas-gen/schemas/sensorium-interface-resource.v1.md) |  |  |
 | [`sensorium-interface-status.v1.schema.json`](schemas-gen/schemas/sensorium-interface-status.v1.md) |  |  |
 | [`sensorium-interface-subscribe-request.v1.schema.json`](schemas-gen/schemas/sensorium-interface-subscribe-request.v1.md) |  |  |
 | [`sensorium-interface-subscription-command.v1.schema.json`](schemas-gen/schemas/sensorium-interface-subscription-command.v1.md) |  |  |
 | [`sensorium-interface-subscription-status.v1.schema.json`](schemas-gen/schemas/sensorium-interface-subscription-status.v1.md) |  |  |
+| [`sensorium-interface-terminal-input.v1.schema.json`](schemas-gen/schemas/sensorium-interface-terminal-input.v1.md) |  |  |
+| [`sensorium-interface-terminal-resize.v1.schema.json`](schemas-gen/schemas/sensorium-interface-terminal-resize.v1.md) |  |  |
+| [`sensorium-interface-terminal-signal.v1.schema.json`](schemas-gen/schemas/sensorium-interface-terminal-signal.v1.md) |  |  |
 | [`sensorium-observation.v1.schema.json`](schemas-gen/schemas/sensorium-observation.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`sensorium-os-error-codes.v1.schema.json`](schemas-gen/schemas/sensorium-os-error-codes.v1.md) | [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md) | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`sensorium-os.action-catalog-delta.v1.schema.json`](schemas-gen/schemas/sensorium-os.action-catalog-delta.v1.md) |  |  |
@@ -691,7 +717,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/068-api-surface-projection.md`](project/40-proposals/068-api-surface-projection.md) | [`artifact-delivery-admission-response.v1.schema.json`](schemas-gen/schemas/artifact-delivery-admission-response.v1.md), [`middleware-decision-response.v1.schema.json`](schemas-gen/schemas/middleware-decision-response.v1.md), [`middleware-status-response.v1.schema.json`](schemas-gen/schemas/middleware-status-response.v1.md), [`offer-catalog-query-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-query-response.v1.md), [`offer-catalog-status-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-status-response.v1.md) |
 | [`doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`](project/40-proposals/080-multiplexed-middleware-channel-executor.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-call-result.v1.schema.json`](schemas-gen/schemas/middleware-channel-call-result.v1.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-heartbeat.v1.schema.json`](schemas-gen/schemas/middleware-channel-heartbeat.v1.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md), [`middleware-channel-host-capability-call.v1.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v1.md), [`middleware-channel-request-cancel.v1.schema.json`](schemas-gen/schemas/middleware-channel-request-cancel.v1.md), [`middleware-channel-session-shutdown.v1.schema.json`](schemas-gen/schemas/middleware-channel-session-shutdown.v1.md), [`middleware-module-http-request.v1.schema.json`](schemas-gen/schemas/middleware-module-http-request.v1.md), [`middleware-module-http-response.v1.schema.json`](schemas-gen/schemas/middleware-module-http-response.v1.md) |
 
-- Canonical schemas: `257`
-- Generated schema docs: `257`
+- Canonical schemas: `270`
+- Generated schema docs: `270`
 - Positive examples: `271`
 - Negative examples: `193`

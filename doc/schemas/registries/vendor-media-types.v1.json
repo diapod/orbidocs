@@ -31,6 +31,13 @@
       "status": "active"
     },
     {
+      "media/type": "application/vnd.orbiplex.sensorium-interface-invoke-receipt+json",
+      "schema/ref": "urn:orbiplex:schema:sensorium-interface-invoke-receipt:v1",
+      "encoding": "canonical-json",
+      "owner/ref": "P083",
+      "status": "active"
+    },
+    {
       "media/type": "application/vnd.orbiplex.sensorium-virt-workspace-export+json",
       "schema/ref": "urn:orbiplex:schema:sensorium-virt-workspace-export:v1",
       "encoding": "canonical-json",

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-terminal-input:v1",
+  "title": "Sensorium Interface Terminal Input v1",
+  "description": "Bounded raw PTY bytes. Invoke authority is carried by the enclosing P083 request, never by an operator flag.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "terminal/session-ref", "bytes/base64", "bytes/sha256"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-terminal-input.v1" },
+    "schema/v": { "const": 1 },
+    "terminal/session-ref": { "$ref": "#/$defs/ref" },
+    "bytes/base64": { "type": "string", "minLength": 1, "maxLength": 87384 },
+    "bytes/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{32,}$", "maxLength": 128 }
+  },
+  "$defs": { "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" } }
+}

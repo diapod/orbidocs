@@ -719,7 +719,7 @@ still required because loopback is not authority.
 |---|---|---|
 | terminal session create/read/close | `sensorium.workbench.terminal` | Explicit Workbench terminal grant; operator-approved by default. |
 | structured terminal command | `sensorium.workbench.terminal` | Directive grant plus command profile admission; generated commands use argv data, not shell interpolation. |
-| raw terminal input / signal / resize | `sensorium.workbench.terminal` | Operator-only in the implemented MVP; hard-MVP collaborative control uses the separately granted and fenced P083 actuation interface. |
+| raw terminal input / signal / resize | `sensorium.workbench.terminal` | Local operator authority remains the default outside collaborative publication. The implemented P083-008 bridge accepts separately granted and fenced remote Sensorium Interface control without representing the caller as the operator; Room/operator collaboration UX remains P083-009. |
 | terminal events / screen snapshots | `sensorium.workbench.terminal` | Read grant scoped to session ref and classification. |
 | terminal capture to artifact | `sensorium.workbench.terminal` + `sensorium.workbench.patch` | Terminal grant scoped to the session plus artifact-write grant; capture persists state and is not a read-only terminal action. |
 | file snapshot/read | `sensorium.workbench.file` | Bounded read grant scoped to workspace/root/path lease. |
@@ -1314,12 +1314,13 @@ Phase 3A operator-consent slices.
    implementations.
 7. **File tree exposure.** Workbench exposes file trees to models through query-style
    leases. A lease is narrower and easier to revoke than a full direct snapshot.
-8. **Raw PTY input.** Raw PTY input is operator-only in the implemented MVP.
-   Model-driven workflows use structured command/file intents, not arbitrary
-   terminal keystrokes. [Proposal 083](083-sensorium-interactive-interfaces.md)
-   defines the separate hard-MVP release-blocking authority, exclusive-lease, and
-   fencing contract for collaborative terminal control without turning observation
-   into command authority.
+8. **Raw PTY input.** Raw PTY input remains operator-only outside an explicitly
+   published actuation interface. Model-driven workflows normally use structured
+   command/file intents, while the implemented P083-008 bridge permits separately
+   granted remote terminal bytes only under the exact exclusive lease, generation,
+   epoch, sequence, method, deadline, and Workbench session checks defined by
+   [Proposal 083](083-sensorium-interactive-interfaces.md). Observation never turns
+   into command authority, and the remote caller is never represented as operator.
 9. **Command profile completeness.** The first implementation requires executable
    identity, argv schema, cwd policy, env policy, timeout, egress, and output capture
    policy before a command profile can be accepted.
