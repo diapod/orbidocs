@@ -118,7 +118,8 @@ The bounded Room grouping/status/control/invoke surface derives caller identity
 from a current `actuate` session and intersects it with exact interface authority.
 The conformance matrix proves two controllers against a real PTY while Rust proves
 queue, handoff, stale-epoch refusal, restart, saturation, and partial failure.
-Only formal P083-012 promotion into Solution 046 remains.
+P083-012 now promotes that reviewed actuation boundary into Solution 046; only the
+P083-013 relay carrier remains deferred until P070 Phase 6A.
 
 ## Date
 

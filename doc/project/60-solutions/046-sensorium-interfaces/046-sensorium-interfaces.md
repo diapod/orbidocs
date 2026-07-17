@@ -52,7 +52,7 @@ Related schemas:
 
 ## Status
 
-Implemented observation MVP solution; staged actuation implementation through P083-011.
+Implemented observation and actuation MVP solution.
 
 The carrier-neutral pull-batch core, durable host runtime, open bounded source
 adapter registry, Sensorium, Workbench, and Artifact Delivery source adapters,
@@ -65,20 +65,21 @@ operator evidence surface needed for post-V1 delivery decisions.
 This implementation satisfies the explicit P082 hard-MVP release blocker.
 The P083 schema, capability, core, durable coordinator, LED, host/direct-peer,
 Workbench PTY, operator/Room collaboration, conformance, and synchronization slices
-are implemented and refusal-tested. P083-012 formal promotion remains open, so the
-hard-MVP actuation extension is implemented but not yet part of this promoted solution.
+are implemented and refusal-tested. P083-012 promotes that reviewed actuation
+extension into this solution and satisfies the P083 hard-MVP release blocker.
 
 ## Date
 
-2026-07-16
+2026-07-17
 
 ## History
 
 This solution promotes the frozen and implemented Proposal 082 contract into a
 separate component. Proposal 082 remains the observation rationale and tracker;
-Proposal 083 owns the staged actuation rationale, invariants, and remaining tracker.
-This solution owns the shared implementation boundary without introducing a second
-publication, grant, revocation, or authority service.
+Proposal 083 remains the actuation rationale, invariants, and post-MVP tracker.
+P083-012 promotes its implemented hard-MVP boundary into this solution. This solution
+owns the combined implementation boundary without introducing a second publication,
+grant, revocation, or authority service.
 
 ## Executive Summary
 
@@ -104,12 +105,24 @@ The implemented V1 delivery contract is bounded cursor-based pull-batch.
 Provider push, global descriptor discovery, and automatic stream persistence are
 outside this solution's MVP boundary.
 
+The promoted actuation plane adds a separate bounded effect family:
+
+```text
+publish effect adapter
+  -> authorize exact interface methods
+  -> read grant-gated status and claim fenced control when required
+  -> invoke with current source generation and lease epoch
+  -> return a metadata-only evidence-classified receipt
+```
+
+Observation authority never implies actuation authority. A collaboration carrier,
+Room membership, or control lease cannot replace the exact active interface grant.
+
 [Proposal 083: Sensorium Interactive Interfaces](../../40-proposals/083-sensorium-interactive-interfaces.md)
-defines the hard-MVP release-blocking actuation extension with separate resources,
-grants, coordination, and fencing. Its implementation now reuses this component's
-core, authority runtime, store, admission, fact, receipt, classification, adapter,
-and carrier boundaries through P083-011. The remaining P083-012 transition is the
-explicit promotion of that reviewed actuation boundary into this solution.
+defines the promoted actuation rationale with separate resources, grants,
+coordination, and fencing. Its implementation reuses this component's core, authority
+runtime, store, admission, fact, receipt, classification, adapter, and carrier
+boundaries. P083-012 records the final review and promotion into this solution.
 
 ## Context and Problem Statement
 
@@ -265,9 +278,9 @@ Responsibilities:
 
 Status: `done`.
 
-### Staged Actuation Foundation
+### Actuation Foundation
 
-Responsibilities implemented through P083-011:
+Promoted responsibilities implemented through P083-011 and closed by P083-012:
 
 - extend the common resource envelope with closed per-method actuation descriptors,
   control leases, invoke requests/receipts, exact grant scopes, and Workbench input
@@ -308,7 +321,7 @@ Responsibilities implemented through P083-011:
   renewal, handoff, stale epochs, restart, partial failure, Room dual authority,
   and two controllers writing through a real Workbench PTY.
 
-Status: `implemented through P083-011; P083-012 formal promotion pending`.
+Status: `done`.
 
 ## May Implement
 
@@ -414,18 +427,15 @@ implementation choices.
 
 ## Next Actions
 
-1. Complete P083-012 by promoting the implemented actuation contract into this
-   solution boundary after the final authority and conformance review; keep the
-   observation and actuation authorities separate during promotion.
-2. Export representative snapshots from the implemented host-local `metrics`
+1. Export representative snapshots from the implemented host-local `metrics`
    action and compare read-next latency, no-change rate, and batch occupancy by
    carrier, delivery kind, and source kind. Inspect flat revoke commit cost
    separately and measure enforcement at local carrier and peer freshness
    boundaries.
-3. Add another producer adapter only when it can reuse the same classification,
+2. Add another producer adapter only when it can reuse the same classification,
    cursor, and authority contracts without a source-specific escape hatch.
-4. Keep pull-batch, direct disclosure, and one source-local manage capability as
+3. Keep pull-batch, direct disclosure, and one source-local manage capability as
    the baseline. Require an explicit evidence-backed contract revision for any
    provider-push, existence-discovery, or management-authority split.
-5. After P070 Phase 6A, complete P082-020 and P083-013 through the shared Room relay
+4. After P070 Phase 6A, complete P082-020 and P083-013 through the shared Room relay
    contract rather than adding Sensorium-specific reachability or failover logic.

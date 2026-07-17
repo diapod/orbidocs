@@ -1,10 +1,10 @@
 {:component/id :orbiplex/sensorium-interfaces
  :component/title "Sensorium Interfaces"
  :component/type :node-attached-directional-interface-runtime
- :component/status :partial
+ :component/status :done
 
  :summary
- "Carrier-neutral publication, bounded observation, and staged actuation runtime
+ "Carrier-neutral publication, bounded observation, and actuation runtime
  for explicitly exposed Sensorium and Workbench resources with exact authority,
  classification, revocation, fencing, and restart recovery."
 
@@ -121,11 +121,23 @@
     "Route Workbench terminal effects through exact remote-caller authority at the PTY boundary"
     "Intersect current Room actuate membership with exact interface and fenced control authority"
     "Prove saturation restart partial failure handoff and two-controller real PTY behavior"]
-   :status :partial
-   :status-detail "P083-002 through P083-011 are implemented and synchronized. Formal promotion into the Solution 046 actuation boundary remains P083-012."}]
+   :status :done
+   :status-detail "P083-002 through P083-011 are implemented and synchronized. P083-012 records the clean final review and promotes the actuation boundary into Solution 046."}]
 
  :may-implement
- [{:cap/id :sensorium-interface-provider-push
+ [{:cap/id :sensorium-interface-relocatable-room-relay
+   :title "Relocatable Room Relay Carrier"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/070-room-primitive.md"
+              "doc/project/40-proposals/082-sensorium-interfaces.md"
+              "doc/project/40-proposals/083-sensorium-interactive-interfaces.md"]
+   :schemas []
+   :responsibilities
+   ["Carry status claim control invoke and receipt over the active Room relay epoch"
+    "Keep direct peer as an optional latency upgrade without changing interface authority"]
+   :status :deferred}
+
+  {:cap/id :sensorium-interface-provider-push
    :title "Measured Provider Push Profile"
    :kind :post-mvp
    :based-on ["doc/project/40-proposals/082-sensorium-interfaces.md"]
@@ -164,7 +176,7 @@
   "Workbench terminal effect boundary"
   "Interaction Broker bounded source reads"
   "Capability Passports and local grants"
-  "Room membership and observe-right projections"]
+  "Room membership and observe/actuate-right projections"]
 
  :produces
  ["published Sensorium Interface descriptors and status"

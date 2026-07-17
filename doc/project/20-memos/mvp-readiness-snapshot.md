@@ -54,11 +54,11 @@ These additions improve extensibility and evidence
 collection without changing the component's `100` readiness estimate. P082 is now
 listed as a hard-MVP blocker whose implementation gate is already satisfied.
 
-Proposal 083 remains an open hard-MVP release blocker, but P083-002 through P083-011
-are now implemented. In addition to the shared directional resource, exact Passport
-scope, pure coordinator, durable shared/exclusive state, adapters, direct-peer
-admission, and Workbench terminal bridge, the Node now owns a bounded process-local
-Room collaboration registry and strict manage actions. Collaborative status/control/
+Proposal 083 is now a satisfied hard-MVP release blocker. P083-002 through P083-011
+implement the shared directional resource, exact Passport scope, pure coordinator,
+durable shared/exclusive state, adapters, direct-peer admission, and Workbench terminal
+bridge. The Node also owns a bounded process-local Room collaboration registry and
+strict manage actions. Collaborative status/control/
 invoke derives the canonical caller and current `actuate` membership atomically from
 one live Room transport snapshot, then reuses exact interface grants, grouped
 methods, generation, lease, epoch, sequence, and host policy. Observation remains
@@ -66,9 +66,10 @@ separately authorized and raw terminal input is never Room content. The expanded
 runner passes 19 exact Rust checks plus the
 Workbench actuation and PTY story tests, including saturation, expiry/renewal,
 handoff, stale epoch, restart, partial failure, observer-only denial, and two real PTY
-controllers. P083 is therefore estimated at `95%`: only P083-012 formal promotion
-into Solution 046 remains. The implemented P082 observation verdict remains ready,
-but hard MVP cannot close until that explicit promotion is complete.
+controllers. P083-012 records the clean final authority and correctness review and
+promotes this actuation boundary into Solution 046. P083 and Solution 046 are therefore
+estimated at `100%` and ready for hard MVP; deferred P083-013 relay work does not
+reopen that verdict.
 
 The Room collaboration boundary additionally mints 256-bit CSPRNG session bearers
 that never enter live frames, acknowledgements, fan-out, durable Room facts, shared
@@ -166,13 +167,13 @@ Recent component deltas:
   descriptor-search, and split-management questions are resolved against the
   current baseline: bounded pull-batch, direct authority-scoped disclosure, and one
   source-local manage capability remain in force.
-- Proposal 083 is an implemented but not yet promoted hard-MVP release blocker.
+- Proposal 083 is an implemented and promoted hard-MVP release blocker.
   P083-002 through P083-011 provide the separate `sensorium.interface.invoke`
   authority, per-method schemas, bounded shared/exclusive coordination, durable
   fencing and receipts, direct-peer and Workbench adapters, bounded operator/Room
   grouping with dual authority, and the load/restart/partial-failure/two-controller
-  PTY conformance matrix. Runtime readiness remains false, and hard MVP remains open,
-  only until P083-012 formally promotes the reviewed boundary into Solution 046.
+  PTY conformance matrix. P083-012 records the clean final review and formal promotion
+  into Solution 046; runtime readiness is true, while P083-013 remains deferred.
 - Communication Protocol Baseline is now hard-MVP ready as a historical baseline:
   Proposal 002 explicitly maps its implemented or superseded areas to the current
   runtime owners (P014/Solution 000 transport, P056/Solution 024 TLS trust,
@@ -678,7 +679,7 @@ Recent component deltas:
 | [Proposal 080: Multiplexed Middleware Channel Executor](../40-proposals/080-multiplexed-middleware-channel-executor.md) | `false` | `true` | `true` | `100` |
 | [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `false` | `100` |
-| [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `false` | `false` | `95` |
+| [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `false` | `100` |
 
 ## Solutions
 
@@ -730,4 +731,4 @@ Recent component deltas:
 | [Horizontal Protocol Primitives](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Inquirium](../60-solutions/044-inquirium/044-inquirium.md) | `false` | `true` | `false` | `100` |
 | [Inquirium Assistant Channel](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
-| [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `true` | `false` | `false` | `95` |
+| [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `true` | `true` | `false` | `100` |
