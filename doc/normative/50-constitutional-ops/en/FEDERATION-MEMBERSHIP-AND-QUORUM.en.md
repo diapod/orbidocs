@@ -6,7 +6,7 @@
 | :--- | :--- |
 | `policy-id` | `DIA-FED-001` |
 | `type` | Implementing act (Level 3 of the normative hierarchy) |
-| `version` | 0.1.0-draft |
+| `version` | 0.2.0-draft |
 | `basis` | Art. VI.6, VII.10, XIII.6, XV, XVI of the DIA Constitution; `ENTRENCHMENT-CLAUSE.en.md`; `NORMATIVE-HIERARCHY.en.md` |
 
 ---
@@ -49,6 +49,42 @@ rights.
     procedures, but they MUST NOT become a shortcut around inter-federation
     quorum, activity, common-control, or suspension rules.
 
+### 2.1. Operational Trust Anchoring
+
+1. A federation's common trust scope MUST be represented by a procedurally
+    established, versioned, and cryptographically verifiable **federation root**.
+    The Orbiplex reference implementation expresses it through
+    `federation-root.v1`; another implementation MAY use a semantically equivalent
+    internal representation if it preserves these invariants and can publish and
+    consume an explicit, interoperable root contract subject to independent
+    verification.
+2. The root's legitimacy derives from the adopted governance procedure and custody
+    policy. A cryptographic signature proves the integrity and authorization of a
+    specific decision; by itself it does not prove that the decision is true, just,
+    or consistent with the Constitution.
+3. The root identifies sovereign subjects and custody rules authorized to establish
+    the federation's foundational technical order. It IS NOT a complete membership
+    roster, a universal trust ranking, or a claim that every node possesses the root
+    subjects' keys.
+4. Authority derived from the root is purpose-scoped. A node or service does not
+    gain unlimited authority through infrastructure position, availability,
+    computing power, technical reputation, or assurance level. Official-service
+    status requires a separate, bounded, and revocable endorsement appropriate to
+    its purpose.
+5. Transport, mutual reachability, a shared relay, a Matrix server, a directory
+    entry, or the ability to route traffic do not establish federation membership,
+    trust, or authority.
+6. A federation identifier alone is neither proof of identity nor a global claim to
+    a name. Federation admission binds the identifier to a locally accepted root,
+    its sovereign subjects, and its succession trace.
+7. The root MUST have auditable procedures for establishment, rotation, succession,
+    revocation, appeal, rollback protection, and sunset. A valid root rotation does
+    not create a new federation when continuity has been demonstrated under the
+    applicable procedure.
+8. Every node locally verifies, at the point of use, an artifact's signatures,
+    scope, validity, revocations, and applicable policy. The root is a reference
+    point for that verification, not a substitute for verification.
+
 ---
 
 ## 3. Minimum Federation Record
@@ -59,6 +95,9 @@ least the following record:
 ```yaml
 federation_record:
   federation_id: "FED-[slug]"
+  federation_root_ref: "[URI or content-addressed reference]"
+  federation_root_digest: "[algorithm]:[digest]"
+  federation_root_pack_version: 1
   status: "candidate" # candidate | active | dormant | suspended | retired
   governance_endpoint: "[URI or channel for receiving formal decisions]"
   fallback_contact: "[backup channel]"
@@ -71,10 +110,23 @@ federation_record:
   effective_from: "[timestamp]"
   owner_roles: []
   status_reason: "[reason for the current status]"
+  signatures: []
 ```
 
 The minimum federation record is an audit object. Absence of a current record
 means there is no basis to retain `active` status.
+
+`federation_root_digest` pins the exact root artifact referenced by the record, while
+`federation_root_pack_version` denotes its monotonic operational version rather than
+the schema version. It is a projection name in the enclosing `federation_record`
+that maps without a semantic change to the referenced `federation-root.v1`
+artifact's `pack_version` field; the field inside the root pack remains named
+`pack_version`. `governance_keys` MAY overlap with root custody keys, but they are
+not presumed identical: voting keys and root-establishment keys serve distinct roles.
+The record itself MUST be signed by the proper governance role or roles under the
+federation's local policy; the record signature does not replace the signatures and
+verification of the referenced root. The digest algorithm is explicitly tagged and
+comes from the applicable cryptographic profile rather than being frozen in this act.
 
 ---
 
@@ -99,13 +151,16 @@ until it regains qualification.
 
 A federation obtains or retains `active` status only when it jointly:
 
-1. publishes a current federation record,
-2. has a functioning `governance_endpoint` and `fallback_contact`,
-3. has sent a valid heartbeat within the `heartbeat_ttl` window,
-4. has acknowledged at least one formal notice or performed at least one
+1. publishes a current, correctly signed federation record,
+2. makes available the current federation root referenced by the record, whose
+    signatures, version, continuity, and custody rules are cryptographically
+    verifiable under the applicable admission policy,
+3. has a functioning `governance_endpoint` and `fallback_contact`,
+4. has sent a valid heartbeat within the `heartbeat_ttl` window,
+5. has acknowledged at least one formal notice or performed at least one
     auditable governance action within the `activity_ttl` window,
-5. is not covered by an active procedural suspension,
-6. is not in an unresolved common-control dispute requiring aggregation of its
+6. is not covered by an active procedural suspension,
+7. is not in an unresolved common-control dispute requiring aggregation of its
     vote with another federation.
 
 A `candidate` status may be raised to `active` after all the above conditions are
@@ -119,10 +174,11 @@ met and the probation period `candidate_min_age` has ended.
 
 Transition occurs after:
 
-1. publishing the minimum federation record,
-2. at least one valid heartbeat,
-3. at least one acknowledgement of a formal notice,
-4. completion of the probation period.
+1. publishing the minimum, correctly signed federation record,
+2. accepting and verifying the referenced federation root,
+3. at least one valid heartbeat,
+4. at least one acknowledgement of a formal notice,
+5. completion of the probation period.
 
 ### 6.2. `active` -> `dormant`
 
@@ -134,8 +190,10 @@ following conditions appears:
     notices,
 3. `governance_endpoint` and `fallback_contact` are unavailable for the full
     notice window,
-4. the federation record is stale or inconsistent and was not repaired within the
-    remediation window.
+4. the referenced federation root is unavailable, unverifiable, rolled back, or
+    inconsistent with the record and was not repaired within the remediation window,
+5. the federation record is stale, unsigned, signature-invalid, or inconsistent and
+    was not repaired within the remediation window.
 
 ### 6.3. `active` or `dormant` -> `suspended`
 
@@ -150,11 +208,12 @@ Transition occurs when:
 
 Reactivation requires:
 
-1. a fresh federation record,
-2. a fresh heartbeat,
-3. confirmation of the ability to receive notices,
-4. removal of the cause of suspension or dormancy,
-5. a reactivation trace with `reason` and `effective_from`.
+1. a fresh, correctly signed federation record,
+2. a current, accepted, and verified federation root,
+3. a fresh heartbeat,
+4. confirmation of the ability to receive notices,
+5. removal of the cause of suspension or dormancy,
+6. a reactivation trace with `reason` and `effective_from`.
 
 ### 6.5. `dormant` -> `retired`
 
@@ -293,3 +352,7 @@ facades.
   toward unanimity and veto.
 - **`NORMATIVE-HIERARCHY.en.md`**: the federation membership and quorum policy is a
   Level 3 document.
+- **Proposal 076 and Solution 041**: define Orbiplex's current executable mapping
+  of the federation root and network selector. Their schemas and mechanisms
+  implement this act, but they are not the source of its normative legitimacy and
+  may not weaken the safeguards defined here.

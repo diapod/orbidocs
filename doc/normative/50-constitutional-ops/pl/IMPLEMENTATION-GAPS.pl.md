@@ -25,6 +25,7 @@ służy porządkowaniu kolejnych kroków implementacyjnych.
 
 Domknięto dnia `2026-03-10` przez dokument `DIA-FED-001`, który definiuje:
 
+- proceduralne i kryptograficzne umocowanie korzenia federacji,
 - status federacji aktywnej, uśpionej, zawieszonej i wygaszonej,
 - minimalne kryteria aktywności,
 - migawkę elektoratu, quorum i klasy decyzji,

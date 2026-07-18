@@ -87,8 +87,13 @@ kryzysu, sukcesu i degeneracji.
     generowania, klasyfikacji, osadzania, streszczania, ponownego porządkowania
     i innych aktów modelowych wykonywanych pod jawną polityką.
 
-7. `Federacja` oznacza zbiór węzłów współdzielących część polityk, reputacji
-    i interoperacyjności bez utraty prawa do wyjścia.
+7. `Federacja` oznacza zbiór autonomicznych węzłów współdzielących część polityk,
+    reputacji i interoperacyjności, których wspólny zakres zaufania wyraża
+    proceduralnie ustanowiony i kryptograficznie weryfikowalny korzeń federacji,
+    bez utraty prawa do wyjścia. Korzeń wskazuje podmioty uprawnione do ustanawiania
+    i poświadczania podstawowego ładu technicznego federacji; nie stanowi dowodu
+    prawdziwości poszczególnych informacji, nie zastępuje weryfikacji artefaktów ani
+    nie nadaje nieograniczonego autorytetu węzłom lub usługom.
 
 8. `Wyrocznia` oznacza proceduralne źródło rozstrzygnięcia lub pomiaru, które domyka
     pętlę predykcji i aktualizacji modeli.

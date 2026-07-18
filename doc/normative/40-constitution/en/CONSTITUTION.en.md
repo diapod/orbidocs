@@ -86,8 +86,13 @@ conditions of pressure, crisis, success, and degeneration.
     classification, embedding, summarization, reranking, and other model-backed
     acts performed under explicit policy.
 
-7. `Federation` means a set of nodes sharing part of their policies, reputation,
-    and interoperability without losing the right to exit.
+7. `Federation` means a set of autonomous nodes sharing part of their policies,
+    reputation, and interoperability, whose common trust scope is expressed by a
+    procedurally established and cryptographically verifiable federation root,
+    without losing the right to exit. The root identifies subjects authorized to
+    establish and attest the federation's foundational technical order; it is not
+    evidence that particular information is true, does not replace artifact
+    verification, and does not grant unlimited authority to nodes or services.
 
 8. `Oracle` means a procedural source of resolution or measurement that closes the
     loop of prediction and model updating.

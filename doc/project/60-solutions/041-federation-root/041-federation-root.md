@@ -2,6 +2,8 @@
 
 Based on:
 
+- `doc/normative/40-constitution/en/CONSTITUTION.en.md`
+- `doc/normative/50-constitutional-ops/en/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`
 - `doc/project/40-proposals/076-federation-identity-and-network-selector.md`
 - `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
 - `doc/project/40-proposals/054-user-maintained-federated-seed-directory.md`

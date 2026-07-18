@@ -74,8 +74,8 @@ Dokumenty operacyjne o mocy wiążącej w ramach federacji:
 - `ABUSE-DISCLOSURE-PROTOCOL.pl.md` - próg, zakres i procedura warunkowej jawności
   odpowiedzialności za nadużycia
 - `EXCEPTION-POLICY.pl.md` - procedura, model danych i monitoring wyjątków
-- `FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md` - definicja federacji uprawnionej do głosu,
-  statusów aktywności oraz reguł quorum i veta
+- `FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md` - operacyjne umocowanie korzenia zaufania,
+  definicja federacji uprawnionej do głosu, statusów aktywności oraz reguł quorum i veta
 - `ROOT-IDENTITY-AND-NYMS.pl.md` - model tożsamości pierwotnej, nymów,
   poziomów pewności i delegacji między urządzeniami
 - `IDENTITY-ATTESTATION-AND-RECOVERY.pl.md` - pierwsze poświadczenie,

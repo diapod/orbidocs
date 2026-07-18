@@ -6,7 +6,7 @@
 | :--- | :--- |
 | `policy-id` | `DIA-FED-001` |
 | `typ` | Ustawa wykonawcza (Poziom 3 hierarchii normatywnej) |
-| `wersja` | 0.1.0-draft |
+| `wersja` | 0.2.0-draft |
 | `podstawa` | Art. VI.6, VII.10, XIII.6, XV, XVI Konstytucji DIA; `ENTRENCHMENT-CLAUSE.pl.md`; `NORMATIVE-HIERARCHY.pl.md` |
 
 ---
@@ -49,6 +49,41 @@ i veta.
     aktywności, wspólnej kontroli albo zawieszenia w porządku
     międzyfederacyjnym.
 
+### 2.1. Operacyjne umocowanie zaufania
+
+1. Wspólny zakres zaufania federacji MUSI być reprezentowany przez proceduralnie
+    ustanowiony, wersjonowany i kryptograficznie weryfikowalny **korzeń federacji**.
+    Implementacja referencyjna Orbiplex wyraża go przez `federation-root.v1`; inna
+    implementacja MOŻE użyć semantycznie równoważnej reprezentacji wewnętrznej,
+    jeżeli zachowuje niniejsze inwarianty oraz potrafi publikować i konsumować jawny,
+    interoperacyjny kontrakt korzenia podlegający niezależnej weryfikacji.
+2. Legitymacja korzenia wynika z przyjętej procedury ładu organizacyjnego (ang.
+    governance) i polityki pieczy (ang. custody). Podpis kryptograficzny dowodzi
+    integralności oraz autoryzacji określonej decyzji; sam nie dowodzi jej
+    prawdziwości, słuszności ani zgodności z Konstytucją.
+3. Korzeń wskazuje suwerenne podmioty i reguły pieczy uprawnione do ustanawiania
+    podstawowego ładu technicznego federacji. NIE JEST pełnym rejestrem członków,
+    uniwersalnym rankingiem zaufania ani twierdzeniem, że każdy węzeł posiada klucze
+    podmiotów korzenia.
+4. Autorytet wynikający z korzenia jest zakresowy. Węzeł lub usługa nie uzyskują
+    nieograniczonego autorytetu przez pozycję infrastrukturalną, dostępność, moc
+    obliczeniową, reputację techniczną ani poziom atestacji. Status oficjalnej usługi
+    wymaga odrębnego, ograniczonego i odwoływalnego poświadczenia właściwego dla jej
+    celu.
+5. Transport, wzajemna osiągalność, wspólny relay, serwer Matrix, wpis katalogowy
+    albo zdolność routowania ruchu nie ustanawiają członkostwa, zaufania ani
+    autorytetu federacyjnego.
+6. Identyfikator federacji sam w sobie nie jest dowodem tożsamości ani globalnym
+    roszczeniem do nazwy. Przyjęcie federacji wiąże identyfikator z lokalnie
+    zaakceptowanym korzeniem, jego suwerennymi podmiotami i śladem następstwa.
+7. Korzeń MUSI mieć audytowalną procedurę ustanowienia, rotacji, sukcesji,
+    unieważnienia, odwołania od decyzji, ochrony przed cofnięciem wersji oraz
+    wygaszenia. Poprawna rotacja korzenia nie tworzy nowej federacji, jeżeli ciągłość
+    została wykazana zgodnie z obowiązującą procedurą.
+8. Każdy węzeł weryfikuje lokalnie, przy użyciu, podpisy, zakres, ważność,
+    odwołania i właściwą politykę artefaktu. Korzeń jest punktem odniesienia dla tej
+    weryfikacji, a nie substytutem weryfikacji.
+
 ---
 
 ## 3. Minimalny rekord federacji
@@ -59,6 +94,9 @@ publikować co najmniej następujący rekord:
 ```yaml
 federation_record:
   federation_id: "FED-[slug]"
+  federation_root_ref: "[URI lub odwołanie adresowane treścią]"
+  federation_root_digest: "[algorytm]:[digest]"
+  federation_root_pack_version: 1
   status: "candidate" # candidate | active | dormant | suspended | retired
   governance_endpoint: "[URI lub kanał odbioru decyzji formalnych]"
   fallback_contact: "[kanał zapasowy]"
@@ -71,10 +109,23 @@ federation_record:
   effective_from: "[timestamp]"
   owner_roles: []
   status_reason: "[powód bieżącego statusu]"
+  signatures: []
 ```
 
 Minimalny rekord federacji jest obiektem audytu. Brak aktualnego rekordu oznacza brak
 podstaw do utrzymania statusu `active`.
+
+`federation_root_digest` przypina dokładny artefakt korzenia wskazany przez rekord,
+a `federation_root_pack_version` oznacza jego monotoniczną wersję operacyjną, nie
+wersję schematu. Jest to nazwa projekcji w nadrzędnym `federation_record`, która bez
+zmiany semantyki odwzorowuje pole `pack_version` wskazanego artefaktu
+`federation-root.v1`; pole wewnątrz samego root-packa zachowuje nazwę
+`pack_version`. `governance_keys` MOGĄ pokrywać się z kluczami pieczy korzenia, ale
+nie są z nimi domyślnie utożsamiane: klucze głosowania i klucze ustanawiania korzenia
+pełnią odrębne role. Sam rekord MUSI być podpisany przez właściwą rolę lub role
+governance zgodnie z lokalną polityką federacji; podpis rekordu nie zastępuje
+podpisów i weryfikacji wskazanego korzenia. Algorytm digestu jest jawnie oznaczony i
+wynika z obowiązującego profilu kryptograficznego, zamiast być utrwalony w tym akcie.
 
 ---
 
@@ -98,14 +149,17 @@ uczestniczy w międzyfederacyjnym liczeniu głosów, dopóki nie odzyska kwalifi
 
 Federacja uzyskuje albo utrzymuje status `active` wyłącznie wtedy, gdy łącznie:
 
-1. publikuje aktualny rekord federacji,
-2. posiada działający `governance_endpoint` oraz `fallback_contact`,
-3. wysłała ważny heartbeat w oknie `heartbeat_ttl`,
-4. potwierdziła odbiór co najmniej jednego formalnego zawiadomienia lub wykonała
+1. publikuje aktualny, poprawnie podpisany rekord federacji,
+2. udostępnia wskazany w rekordzie aktualny korzeń federacji, którego podpisy,
+    wersja, ciągłość i reguły pieczy są kryptograficznie weryfikowalne zgodnie z
+    właściwą polityką przyjęcia,
+3. posiada działający `governance_endpoint` oraz `fallback_contact`,
+4. wysłała ważny heartbeat w oknie `heartbeat_ttl`,
+5. potwierdziła odbiór co najmniej jednego formalnego zawiadomienia lub wykonała
     co najmniej jedną audytowalną czynność dotyczącą ładu organizacyjnego (ang.
     governance) w oknie `activity_ttl`,
-5. nie jest objęta aktywnym zawieszeniem proceduralnym,
-6. nie pozostaje w nierozstrzygniętym sporze o wspólną kontrolę, który wymaga
+6. nie jest objęta aktywnym zawieszeniem proceduralnym,
+7. nie pozostaje w nierozstrzygniętym sporze o wspólną kontrolę, który wymaga
     agregacji głosu z inną federacją.
 
 Status `candidate` może zostać podniesiony do `active` po spełnieniu wszystkich
@@ -119,10 +173,11 @@ powyższych warunków oraz po zakończeniu okresu próbnego `candidate_min_age`.
 
 Przejście następuje po:
 
-1. opublikowaniu minimalnego rekordu federacji,
-2. co najmniej jednym poprawnym heartbeat,
-3. co najmniej jednym potwierdzeniu odbioru formalnego zawiadomienia,
-4. upływie okresu próbnego.
+1. opublikowaniu minimalnego, poprawnie podpisanego rekordu federacji,
+2. przyjęciu i zweryfikowaniu wskazanego korzenia federacji,
+3. co najmniej jednym poprawnym heartbeat,
+4. co najmniej jednym potwierdzeniu odbioru formalnego zawiadomienia,
+5. upływie okresu próbnego.
 
 ### 6.2. `active` -> `dormant`
 
@@ -134,8 +189,10 @@ warunków:
     zawiadomień,
 3. `governance_endpoint` i `fallback_contact` są niedostępne przez pełne okno
     zawiadomienia,
-4. rekord federacji jest nieaktualny albo niespójny i nie został naprawiony w oknie
-    naprawczym.
+4. wskazany korzeń federacji jest niedostępny, nieweryfikowalny, cofnięty albo
+    niespójny z rekordem i nie został naprawiony w oknie naprawczym,
+5. rekord federacji jest nieaktualny, niepodpisany, ma niepoprawny podpis albo jest
+    niespójny i nie został naprawiony w oknie naprawczym.
 
 ### 6.3. `active` lub `dormant` -> `suspended`
 
@@ -150,11 +207,12 @@ Przejście następuje, gdy:
 
 Reaktywacja wymaga:
 
-1. świeżego rekordu federacji,
-2. świeżego heartbeat,
-3. potwierdzenia zdolności odbioru zawiadomień,
-4. usunięcia przyczyny zawieszenia albo dormancji,
-5. pozostawienia śladu reaktywacji z `reason` i `effective_from`.
+1. świeżego, poprawnie podpisanego rekordu federacji,
+2. aktualnego, przyjętego i zweryfikowanego korzenia federacji,
+3. świeżego heartbeat,
+4. potwierdzenia zdolności odbioru zawiadomień,
+5. usunięcia przyczyny zawieszenia albo dormancji,
+6. pozostawienia śladu reaktywacji z `reason` i `effective_from`.
 
 ### 6.5. `dormant` -> `retired`
 
@@ -290,3 +348,7 @@ nie mógł kupić sobie dodatkowych głosów przez mnożenie fasad.
   do jednomyślności i veta.
 - **`NORMATIVE-HIERARCHY.pl.md`**: polityka członkostwa federacji i quorum jest
   dokumentem Poziomu 3.
+- **Proposal 076 i Solution 041**: definiują bieżące odwzorowanie wykonawcze
+  korzenia federacji i selektora sieciowego w Orbiplex. Ich schemy i mechanizmy
+  implementują niniejszy akt, ale nie są źródłem jego normatywnej legitymacji i nie
+  mogą osłabiać określonych tutaj zabezpieczeń.

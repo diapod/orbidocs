@@ -25,6 +25,7 @@ it serves to organize the next implementation steps.
 
 Closed on `2026-03-10` by document `DIA-FED-001`, which defines:
 
+- procedural and cryptographic anchoring of the federation root,
 - the statuses of active, dormant, suspended, and retired federations,
 - the minimum activity criteria,
 - electorate snapshot, quorum, and decision classes,
