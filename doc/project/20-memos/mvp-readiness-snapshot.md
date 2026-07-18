@@ -533,10 +533,16 @@ Recent component deltas:
   Phase 6A now closes the member-visible production federation delta: one
   authority-signed relocatable WSS endpoint per relay epoch, one ephemeral total order
   per epoch, failover through Agora/AD without cross-epoch merge, outbound-TLS
-  operation, keepalive/reconnect, and relay-carried P082/P083 classes. Phase 6B's
-  non-member relay encryption profile remains unfinished, so post-MVP readiness is
-  still false. Matrix is retained only as an optional bridge profile. CR-88/CR-89
-  security hardening remains a separate follow-up stream.
+  operation, keepalive/reconnect, and relay-carried P082/P083 classes. The follow-up
+  POSIX deployment-evidence profile now proves the host-owned TLS seam with separate relay,
+  publisher, and observer processes, per-config crypto-provider binding, terminator-owned
+  task cleanup, bounded cursor-expiry refresh, exact reconnect accounting, metadata-only
+  dirty restart, graceful checkpoint persistence, newer-epoch failover, active revocation,
+  payload-digest refusal, and session-bearer omission from relay deliveries and retained
+  evidence. It changes neither hard-MVP readiness nor the `95%` estimate:
+  Phase 6B's non-member relay encryption profile remains unfinished, so post-MVP
+  readiness is still false. Matrix is retained only as an optional bridge profile.
+  CR-88/CR-89 security hardening remains a separate follow-up stream.
 - Sensorium Workbench is now tracked through Proposal 071 and promoted to
   Solution 042 as a post-MVP actuator foundation. The opt-in supervised Python
   connector now has a complete local foundation: allowlisted workspaces,

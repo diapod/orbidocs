@@ -276,9 +276,13 @@ Operational defaults for this profile are:
 - ping/keepalive approximately every 25 seconds, configurable within a bounded local
   policy so common NAT idle timers do not silently remove sessions;
 - reconnect with exponential backoff and jitter;
-- resubscription with the last `(relay/epoch, relay/seq-no)` cursor;
+- resubscription with the last `(relay/epoch, relay/seq-no)` cursor and a closed
+  `resume/reason` of `recovery` or `reconnect`; only the latter increments reconnect
+  diagnostics;
 - one bounded in-memory replay window, with typed `cursor-expired` followed by current
-  snapshot/read-model refresh when the requested frame is no longer retained.
+  snapshot/read-model refresh when the requested frame is no longer retained. A client
+  commits the replacement checkpoint only after that refresh succeeds; failed refresh
+  leaves the prior checkpoint current and retryable.
 
 Room liveness belongs to the relay epoch, not to the Room. A Room remains open and its
 durable facts remain replayable while no relay endpoint is reachable.
@@ -1211,6 +1215,23 @@ membership, attestation, or node-local live-plane contracts.
   egress target, and every old-epoch frame after failover. The `phase6a_relay`
   acceptance target covers all listed positive and refusal paths over requester,
   relay-member, and observer nodes.
+- [x] Collect executable POSIX Phase 6A deployment evidence through an actual host-owned TLS
+  terminator and separate relay, publisher, and observer processes. The feature-gated
+  Node profile supplies its private trust root explicitly at the host boundary, carries
+  P082 latest-state and P083 invoke payloads over one WSS relay, and binds the crypto
+  provider per TLS config without changing process-global rustls state. The terminator
+  reaps completed connection tasks and aborts outstanding tasks at shutdown. The profile
+  forces bounded replay expiry followed by current-state refresh, distinguishes recovery
+  from a real reconnect in diagnostics, restores metadata-only checkpoints after an
+  unclean stop, separately proves graceful final-checkpoint persistence, performs
+  strictly-newer-epoch failover, revokes an active member session, and refuses a payload
+  whose canonical digest no longer matches. The networked publisher validates the
+  host-minted 256-bit bearer shape and refuses any delivered frame containing its
+  `session/ref`; the runner also rejects retained evidence containing a bearer key or
+  value. Its local report contains only
+  bounded timings, counters, and outcomes; fixture keys, attestations, session refs, and
+  payloads are deleted or omitted. The loopback smoke uses an ephemeral TLS port, while
+  the reference deployment terminates public WSS at the host listener on TCP 443.
 
 ### Phase 6B — Non-member federation relay profile
 
@@ -1235,8 +1256,10 @@ the relocatable relay baseline.
 
 ## Next Actions
 
-1. Collect deployment evidence from Phase 6A host-owned TLS termination, reconnect,
-   cursor-expiry, and failover diagnostics before changing the operational bounds.
+1. Accumulate evidence from non-loopback host-TLS deployments and compare repeated
+   reconnect, cursor-expiry, revocation, and failover observations before changing any
+   operational bound. The local POSIX deployment-evidence profile proves the mechanism; its
+   timings are not a production SLO or a reason to tune defaults from one machine.
 2. Keep direct peer an optional latency adapter; do not move membership, grants,
    leases, or source cursors into either carrier.
 3. Implement Phase 6B only when a non-member federation relay is required; preserve
