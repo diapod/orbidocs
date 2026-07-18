@@ -43,7 +43,7 @@ authority. Cross-node or federated Agent execution is not part of this solution.
 
 ## Date
 
-2026-07-17
+2026-07-18
 
 ## Executive Summary
 
@@ -163,6 +163,22 @@ reconciles interrupted leases and deferred effect outcomes. Scheduler-owned
 bounded jobs reap expired Agents, reconcile deferred effects, release stale
 leases, and compact old inactive lease details into audit-preserving tombstones.
 
+Operator control remains a separate host-local surface. A bounded paginated
+list exposes lifecycle, policy, budget, pending-work, lease, and outcome
+metadata without prompt or product bytes. Fixed-cardinality diagnostics report
+recovery repairs, quarantine, reaper backlog, active-controller latency, pending HIL
+and effects, leases, and projection capacity through stable reason codes. An
+inspect-first maintenance endpoint builds one pure bounded plan. Dry-run
+projects its counts and post-maintenance diagnostics without mutation; explicit
+operator execution applies the same policy-reconciliation, TTL-reaper, and
+terminal-lease cleanup plan. One exclusive cursor page bounds all three
+maintenance classes, and lease counts come from actual registry releases rather
+than global counter differences. Agent lifecycle facts remain authoritative for
+expiry, the lease registry durably owns release state and reason, and
+current-policy admission remains a disposable projection. Missing lineage and
+an existing quarantined ancestor remain distinct diagnostic states. Maintenance
+never rewrites durable history or duplicates another registry's state.
+
 ### Node-Local Hard-MVP Acceptance
 
 The hard-MVP gate requires all of the following:
@@ -175,7 +191,9 @@ The hard-MVP gate requires all of the following:
   lease/accounting reconciliation;
 - binding and outcome contracts that cannot self-publish;
 - metadata-only operator status and prompt-free causal traces;
-- unit, refusal, dirty-restart, and process-level HTTP lifecycle coverage.
+- bounded operator diagnostics and inspect-first maintenance;
+- unit, refusal, failpoint, dirty-restart, process-level HTTP, and sustained
+  short-session soak coverage.
 
 These conditions are implemented. Node-local Agent is therefore a hard-MVP
 component whose release gate is currently satisfied.
@@ -228,6 +246,13 @@ identity, distributed leases, clock, migration, and split-brain concerns.
   metadata, refs, and digests rather than prompts or generated product bytes.
 - **Lease survives Agent termination:** startup and scheduler reconciliation
   release stragglers and retain compact audit tombstones.
+- **Operational repair creates a second state machine:** maintenance reuses the
+  current-policy, durable reaper, and lease-registry paths through one pure
+  preview/apply plan; dry-run is non-mutating and deferred-effect reconciliation
+  remains scheduler-owned.
+- **Aggregate status leaks generated content:** operator list and diagnostics
+  expose fixed metadata and refs only, use bounded pagination/cardinality, and
+  remain unavailable to module-authenticated callers.
 
 ## Open Questions
 
@@ -241,8 +266,9 @@ an extension hidden inside this solution.
    process-level dirty-restart acceptance suite.
 2. Add effect-policy adapters only with a concrete consumer and owning host
    surface; unknown capabilities must continue to fail closed.
-3. Mature node-local operations and diagnostics before proposing cross-node or
-   federated Agent execution.
+3. Keep node-local operator list, diagnostics, maintenance, failpoint matrix,
+   and standalone process/soak pack on the Agent release gate before proposing
+   cross-node or federated execution.
 4. Keep detailed implementation evidence and future recommendations in Proposal
    073 rather than duplicating tracker prose here.
 
@@ -255,8 +281,10 @@ an extension hidden inside this solution.
 - host-authorized Inquirium calls and inert effect proposals;
 - closed Sensorium and Artifact Delivery effect-plan boundaries;
 - scheduler-owned reaping, deferred reconciliation, and lease cleanup;
-- prompt-free trace and bounded operator status;
-- hard-MVP unit, refusal, restart, and process smoke coverage.
+- prompt-free trace, bounded operator status, diagnostics, and inspect-first
+  maintenance;
+- hard-MVP unit, refusal, failpoint, restart, process smoke, and sustained
+  short-session soak coverage.
 
 ## May Implement
 

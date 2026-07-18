@@ -62,6 +62,19 @@ effect-admission boundary, lease reconciliation, and dirty-restart process
 smokes satisfy that gate now. Cross-node or federated Agent execution remains a
 separate future proposal and does not weaken the node-local hard-MVP contract.
 
+The 2026-07-18 operational hardening keeps that `100` readiness verdict and
+strengthens its release evidence. The host now exposes an operator-only,
+metadata-only paginated Agent list, fixed-cardinality diagnostics with stable
+reason codes, and inspect-first maintenance whose cursor and batch bound policy
+reconciliation, canonical expiry reaping, and terminal lease cleanup to one
+exclusive Agent page. Its dry-run projects the same bounded plan that execute
+applies, without mutating runtime state. A standalone acceptance pack drives
+deterministic local Inquirium, HIL effect admission, terminal outcome, operator
+projections, and `SIGKILL` recovery through authenticated HTTP. Deterministic
+fact-bundle failpoints and a 1000-session restart soak additionally prove repair
+and absence of live controller, effect-owner, HIL-routing, and pending-effect
+index residue.
+
 Proposal 083 is now a satisfied hard-MVP release blocker. P083-002 through P083-011
 implement the shared directional resource, exact Passport scope, pure coordinator,
 durable shared/exclusive state, adapters, direct-peer admission, and Workbench terminal

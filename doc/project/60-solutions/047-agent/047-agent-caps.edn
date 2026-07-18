@@ -111,7 +111,9 @@
    ["Run bounded TTL reaping and deferred-effect reconciliation"
     "Release expired or terminal Agent-owned leases"
     "Compact inactive lease records into audit-preserving tombstones"
-    "Expose prompt-free bounded operator status"]
+    "Expose prompt-free bounded paginated operator status"
+    "Expose fixed-cardinality readiness diagnostics with stable reason codes"
+    "Project one pure maintenance plan for dry-run and explicit bounded apply"]
    :status :done}
 
   {:cap/id :agent-hard-mvp-acceptance
@@ -127,7 +129,9 @@
    :responsibilities
    ["Keep dependency-direction and schema checks blocking"
     "Cover refusal and lifecycle semantics with unit tests"
-    "Cover dirty restart and real HTTP lifecycle in process smokes"
+    "Cover fact-bundle interruption with deterministic failpoints"
+    "Cover dirty restart inference HIL and outcomes through real HTTP"
+    "Recover 1000 durable short sessions with no live-index residue"
     "Keep cross-node execution outside the node-local acceptance gate"]
    :status :done}]
 
