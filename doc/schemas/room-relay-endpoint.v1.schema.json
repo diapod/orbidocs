@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:room-relay-endpoint:v1",
   "title": "RoomRelayEndpoint v1",
-  "description": "Durable, Agora-signed selection fact for a member-visible Room WSS relay. The fact carries no live payload and grants no authority by itself.",
+  "description": "Durable, Agora-signed selection fact for a Room WSS relay. The fact carries no live payload and grants no authority by itself. sealed-sender-key-v1 is valid only with federation-service placement.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
@@ -30,7 +30,10 @@
       "maxLength": 2048,
       "pattern": "^wss://"
     },
-    "crypto/profile": { "const": "member-visible-tls-v1" },
+    "crypto/profile": {
+      "type": "string",
+      "enum": ["member-visible-tls-v1", "sealed-sender-key-v1"]
+    },
     "ordering/profile": { "const": "relay-total-order-v1" },
     "selection/evidence-refs": {
       "type": "array",
@@ -52,5 +55,16 @@
     "expires-at": { "type": "string", "format": "date-time" },
     "authority/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
     "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "crypto/profile": { "const": "sealed-sender-key-v1" } },
+        "required": ["crypto/profile"]
+      },
+      "then": {
+        "properties": { "relay/placement": { "const": "federation-service" } }
+      }
+    }
+  ]
 }

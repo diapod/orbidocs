@@ -12,6 +12,10 @@ Based on:
 - `doc/project/60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md`
 - `doc/project/60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
+- `node:room-core/src/sealed_relay.rs`
+- `node:room-wss/src/lib.rs`
+- `node:room-service/tests/phase6b_relay.rs`
+- `node:tools/acceptance/p070-room-relay-phase6b/run.py`
 
 Related schemas:
 
@@ -25,22 +29,25 @@ Related schemas:
 - `room-attestation-audit.v1`
 - `room-relay-endpoint.v1`
 - `room-relay-delivery.v1`
+- `room-relay-sender-key-distribution.v1`
+- `room-relay-sealed-delivery.v1`
 
 ## Status
 
-Implemented solution through the member-visible relocatable relay profile.
+Implemented solution through both relocatable relay profiles.
 
 This means the hard-MVP Room foundation is present: durable records,
 deterministic projection, membership attestation, and node-local live transport
-substrates. The relocatable member-visible WSS relay defined by P070 Phase 6A is
-implemented and now has executable POSIX host-TLS deployment evidence; the Phase 6B
-non-member federation relay and its sealed-sender-key profile remain post-MVP work,
-so the solution is not yet complete for every all-members-behind-CGNAT deployment.
-The CR-88/CR-89 hardening stream remains the place for issues such as clock-skew
-tolerance review, subscription-count DoS limits, pre-validation sink behavior, and
-stricter `room/id` validation. Live session refs are already 256-bit CSPRNG bearer
-secrets and are excluded from message payloads, acknowledgements, fan-out delivery,
-member-visible status, durable Room facts, and shared Corpus observations.
+substrates. P070 Phase 6A provides the relocatable member-visible WSS relay and
+executable POSIX host-TLS deployment evidence. Phase 6B adds the non-member federation
+relay with signed pairwise sender-key distribution, authenticated encrypted deliveries,
+membership-high-water rotation, old-epoch fencing, metadata-only relay diagnostics,
+linearized membership/carrier transitions, a bounded metadata-only relay audit, and an
+executable 21-check multiprocess host-TLS acceptance profile. Together they cover the
+all-members-behind-CGNAT topology without granting the relay Room membership or content
+access. Live session refs remain 256-bit CSPRNG bearer secrets and are excluded from
+message payloads, acknowledgements, fan-out delivery, member-visible status, durable
+Room facts, and shared Corpus observations.
 
 ## Date
 
@@ -53,10 +60,10 @@ replaces bespoke answer-room and association-room shapes with one durable record
 family, one deterministic projection model, and one live transport contract.
 
 The durable plane is Agora-addressed and replayable. The live plane is
-non-retentive and carrier-agnostic. Bounded WebSocket pub/sub is the production
-baseline once its endpoint becomes relocatable by signed relay epochs; Matrix is an
-optional bridge adapter under the same Room authority contract, not a separate room,
-ordering, or history semantics.
+non-retentive and carrier-agnostic. Bounded WSS with authority-selected relay epochs is
+the production baseline for both content-visible member relays and sealed non-member
+federation relays; Matrix is an optional bridge adapter under the same Room authority
+contract, not a separate room, ordering, or history semantics.
 
 Room is not a reasoning engine, procurement system, or chat transcript archive.
 It gives higher-level components a stable membership, policy, attestation,
@@ -217,8 +224,9 @@ Status:
   restore validated subject-scoped sequence checkpoints after host restart. Its
   parser enforces a bounded wire-message limit before JSON decoding, and Corpus
   recovery consumes Room projections in fixed-high-water pages rather than an
-  unbounded or silently truncated startup read.
-  Security hardening remains tracked in CR-88/CR-89.
+  unbounded or silently truncated startup read. The former CR-88/CR-89 hardening
+  findings are closed by bounded clock skew, hard connection and subscription caps,
+  pre-validation admission, and strict Room identifier validation.
 
 ### Live Room Transport
 
@@ -255,8 +263,9 @@ Responsibilities:
 Status:
 
 - `done` for the functional foundation, the P082 latest-state projection, and the
-  bounded P083 `actuate` collaboration intersection;
-  security hardening remains tracked in CR-88/CR-89.
+  bounded P083 `actuate` collaboration intersection. Runtime limits, pre-validation
+  admission, strict identifiers, session-bearer redaction, and lifecycle cleanup are
+  covered by unit, integration, and deployment-evidence tests.
 
 ### Room Consolidation Surface
 
@@ -295,6 +304,8 @@ Related schemas:
 
 - `room-relay-endpoint.v1`
 - `room-relay-delivery.v1`
+- `room-relay-sender-key-distribution.v1`
+- `room-relay-sealed-delivery.v1`
 
 Responsibilities:
 
@@ -317,14 +328,14 @@ Responsibilities:
 - assign one total ephemeral order per epoch and never merge epochs;
 - treat carrier sequence as bounded gap/replay state rather than proof of complete
   delivery, and reject old-epoch frames after supersession;
-- support `member-visible-tls-v1` first, then the separately bounded
-  `sealed-sender-key-v1` profile for a non-member relay;
+- support `member-visible-tls-v1` for content-visible member relays and the separately
+  bounded `sealed-sender-key-v1` profile for a non-member federation relay;
 - carry P082 latest-state and P083 fenced interaction through the same relay while
   keeping direct peer an optional latency upgrade.
 
 Status:
 
-- `implemented` through P070 Phase 6A. Canonical endpoint and delivery contracts,
+- `implemented` through P070 Phase 6A and Phase 6B. Canonical endpoint and delivery contracts,
   scoped relay delegation, deterministic selection and dial admission, daemon-owned
   configuration, payload-free diagnostics, host TLS termination seam plus an explicit
   host-supplied trust connector with a per-config crypto provider, persistent WSS
@@ -347,7 +358,34 @@ Status:
   digest-refusal evidence. The publisher also verifies the 256-bit session-bearer shape
   and bearer omission from network deliveries, while the runner rejects retained evidence
   containing a session ref. Its local timings are conformance observations, not production
-  SLOs. Phase 6B non-member encryption remains planned post-MVP work.
+  SLOs. The non-member profile adds signed recipient-private sender-key packages,
+  sender-authenticated encrypted frames, monotonic membership-high-water rotation,
+  exact replay and old-epoch refusal, and sender-high-water plus checkpoint advancement
+  only after receiver authentication, payload opening, and plaintext schema admission.
+  Member-visible and sealed delivery contracts require distinct `delivery/kind` values,
+  the wire union dispatches on that discriminator, and a between-crate test keeps every
+  payload-class schema ref aligned with schema-gate.
+  Projection refresh, relay rotation, publication, resume, close, and cleanup share a
+  transition lock, preventing authorization and carrier-state changes from interleaving.
+  The common runtime boundary rejects a sealed profile with an absent or zero membership
+  epoch before state mutation. An accepted membership projection refreshes and fences
+  host relay state; each active sender owns fresh key generation and pairwise redistribution
+  from that same projection, keeping sender keys outside both the host relay and federation
+  relay.
+  The relay shares Phase 6A's bounded ordering, recovery, and endpoint epochs while
+  retaining only outer sender, sequence, epoch, timing, and size metadata. Phase 6B
+  has both an in-process contract scenario and a multiprocess deployment profile. The
+  latter runs two successive external-relay processes behind host-owned TLS, keeps every
+  member client outbound-only, and proves initial distribution, join/leave/revoke
+  rotation, sealed reconnect, stale membership and relay-epoch refusal,
+  revoked-session refusal, metadata-only checkpoint restart, and strictly newer-epoch
+  failover without replay merge. A separate 64-event relay audit contains only
+  transition kind, epochs, optional relay sequence, and timestamp. The harness first
+  checks closed status, audit, and report field allowlists, then scans recursively for
+  sensitive keys and private markers before deleting all private fixture and relay TLS
+  state.
+  The profile deliberately makes no MLS, forward-secrecy, or post-compromise-security
+  claim.
 
 ## May Implement
 
@@ -379,9 +417,9 @@ Status:
 - `done` for the node-local Corpus composition: signed invitations admit narrowed
   WSS sessions, readiness and message metadata reach the authority, exact replay
   does not redeliver, and endpoint/session/sequence recovery is process-tested.
-  P070 Phase 6A now supplies relocatable member-visible WSS/TLS endpoint epochs;
-  Phase 6B non-member federation relay encryption remains later work. Matrix is an
-  optional bridge profile, not a liveness dependency or second Corpus room semantics.
+  P070 Phase 6A supplies relocatable member-visible WSS/TLS endpoint epochs and Phase 6B
+  supplies the non-member sealed relay profile. Matrix is an optional bridge profile,
+  not a liveness dependency or second Corpus room semantics.
 
 ## Out of Scope
 
@@ -410,6 +448,8 @@ Status:
 - metadata-only attestation audit facts;
 - bounded non-retentive live room messages;
 - one authority-selected WSS relay endpoint and relay epoch projection;
+- signed pairwise sender-key distributions and authenticated encrypted relay deliveries
+  for non-member federation relays;
 - Room projections for former answer-room and association-room flows.
 
 ## Related Capability Data

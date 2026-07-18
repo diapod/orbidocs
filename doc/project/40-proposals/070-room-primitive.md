@@ -296,13 +296,26 @@ The endpoint fact carries an explicit crypto profile from the first implementati
   participant-to-relay hop. This profile does not claim end-to-end secrecy from the
   relay, forward secrecy, or post-compromise security. A federation relay service may
   use this profile only when it is admitted as such a content-visible member.
-- `sealed-sender-key-v1` is a later profile for a federation relay that is not a Room
-  member. Each active sender distributes sender-key material for the relay epoch through
-  existing pairwise sealed channels. Encrypted frames bind room, relay epoch, sender,
-  and sender sequence and carry sender authentication, so possession of another
-  member's decryption material does not grant impersonation. Membership change rotates
-  active sender-key material with bounded O(n) fan-out per active sender. The relay sees
-  connection, timing, and size metadata but not plaintext content.
+- `sealed-sender-key-v1` is the implemented profile for a federation relay that is not
+  a Room member. Each active sender distributes sender-key material for the relay and
+  membership epoch through recipient-private pairwise X25519/HKDF/XChaCha20-Poly1305
+  packages signed with Ed25519 domain separation. Encrypted frames bind room, relay
+  epoch, membership epoch, sender, sender sequence, ciphertext digest, and signer, so
+  possession of another member's decryption material does not grant impersonation.
+  Every membership fact advances a monotonic membership high-water; join, leave, grant,
+  or revoke therefore fences prior ciphertext and rotates active sender-key material
+  with bounded O(n) fan-out per active sender. Runtime relay transitions serialize
+  projection refresh, publication, resume, and lifecycle changes so a frame cannot be
+  admitted through an interleaving between membership authorization and carrier-state
+  rotation. The accepted durable membership projection is the rotation trigger: its
+  high-water refreshes and fences host relay state, while each active sender consumes
+  the same projection to generate and pairwise-distribute fresh sender-key material.
+  The host relay and federation relay never perform that redistribution because neither
+  is allowed to possess the sender key. The relay sees outer connection, sender, epoch,
+  sequence, timing, and size metadata, but not plaintext payload class, schema, content,
+  or key material. Receivers advance sender high-water and their durable relay checkpoint
+  only after the signed frame has been authenticated, its payload has been opened
+  successfully, and the plaintext class/schema contract has passed admission.
 
 MLS or another tree-based group protocol is not implicit in either profile. It may be
 specified later as a new profile only if long-lived, larger rooms make O(n) fan-out per
@@ -402,7 +415,9 @@ primitive instead of maintaining a compatibility projection first.
 | `room-membership-attestation-request.v1` | new | Explicit request contract for runtime attestation issuance: request mode, requester, subject, requested grants, TTL, and room-scoped authorization. |
 | `room-attestation-audit.v1` | new | Metadata-only operator-visible audit fact for issued, refused, deduplicated, and rate-limited attestation requests. |
 | `room-relay-endpoint.v1` | implemented Phase 6A | Durable Room payload inside a signed Agora record, selecting one active WSS endpoint, relay epoch, placement, crypto profile, and ordering profile. Agora owns supersession lineage. |
-| `room-relay-delivery.v1` | implemented Phase 6A | Ephemeral carrier header adding `relay/epoch` and `relay/seq-no` around an already validated Room live or projection payload; it is not a durable fact. |
+| `room-relay-delivery.v1` | implemented Phase 6A | Ephemeral member-visible carrier header with required `delivery/kind: member-visible`, adding `relay/epoch` and `relay/seq-no` around an already validated Room live or projection payload; it is not a durable fact. |
+| `room-relay-sender-key-distribution.v1` | implemented Phase 6B | Signed recipient-private sender-key package bound to Room, relay epoch, membership epoch, sender, and recipient. It is delivered through an existing pairwise sealed channel and is never relay fan-out content. |
+| `room-relay-sealed-delivery.v1` | implemented Phase 6B | Ephemeral relay delivery with required `delivery/kind: sealed`, carrying an authenticated encrypted sender frame plus relay ordering metadata. Plaintext payload metadata remains inside the ciphertext. |
 
 ## Relationship to Existing Mechanisms
 
@@ -1239,14 +1254,37 @@ This phase enables the all-members-behind-CGNAT case without admitting the relay
 service to Room content. It is intentionally sequenced after Phase 6A proves endpoint
 selection and failover independently of group encryption.
 
-- [ ] Implement `sealed-sender-key-v1` only for non-member federation relays, with
+- [x] Implement `sealed-sender-key-v1` only for non-member federation relays, with
   pairwise sealed sender-key distribution, sender-authenticated encrypted frames, O(n)
   membership-change fan-out per active sender, metadata-leakage disclosure, and no
-  forward-secrecy or PCS claim.
-- [ ] Extend the outbound-only acceptance profile with an external federation relay and
+  forward-secrecy or PCS claim. `room-core` now owns the pure distribution, frame,
+  replay, rotation, and fencing contracts; schema-gate validates both Phase 6B wire
+  families. Member-visible and sealed deliveries carry distinct required
+  `delivery/kind` values, so `room-wss` dispatches the opaque union by an explicit
+  discriminator rather than trial deserialization, without receiving keys. A
+  between-crate test also requires every payload-class schema ref accepted by
+  `room-core` to remain registered in schema-gate. A dedicated transition lock
+  linearizes projection refresh, relay rotation, publication, resume, close, and
+  cleanup across the membership/carrier state boundary. The common activation boundary
+  rejects `sealed-sender-key-v1` with an absent or zero membership epoch, and rejects a
+  membership epoch on `member-visible-tls-v1`, before it creates or mutates relay state.
+  A membership projection refresh is the host-side rotation trigger; sender clients then
+  own fresh key generation and recipient-private redistribution from that same projection.
+- [x] Extend the outbound-only acceptance profile with an external federation relay and
   no publicly reachable Room member. Prove initial key distribution, join/leave/revoke
   rotation, refusal of old-epoch ciphertext, bounded recovery, and that the relay audit
-  exposes metadata only and never plaintext or key material.
+  exposes metadata only and never plaintext or key material. The Phase 6B acceptance
+  now combines the exact in-process contract scenario with a separate multiprocess
+  deployment profile. Two successive non-member relay processes expose actual local
+  WebSocket endpoints behind host-owned TLS, while one-shot member processes connect
+  outbound. The profile proves initial distribution, join, `RoomMembershipOp::Leave`,
+  revoke, refusal after every stale membership epoch, revoked-session refusal, bounded
+  O(n) fan-out, sealed-client reconnect from an authenticated checkpoint, metadata-only
+  checkpoint restart, and failover to a strictly newer `relay/epoch` without cross-epoch
+  replay merge. It emits a 21-check redacted report plus a separate relay audit capped
+  at 64 transition records. Status, audit, and report must first match closed
+  metadata-only field allowlists; recursive sensitive-key and private-marker scanning
+  remains defense-in-depth evidence rather than the canonical redaction mechanism.
 
 ## Open Questions
 
@@ -1262,6 +1300,6 @@ the relocatable relay baseline.
    timings are not a production SLO or a reason to tune defaults from one machine.
 2. Keep direct peer an optional latency adapter; do not move membership, grants,
    leases, or source cursors into either carrier.
-3. Implement Phase 6B only when a non-member federation relay is required; preserve
-   the Phase 6A endpoint projection and epoch semantics while adding its separately
-   specified encrypted payload profile.
+3. Collect non-member relay observations at realistic Room sizes before replacing the
+   bounded O(n) sender-key distribution profile. MLS or another tree profile requires
+   measured pressure plus a separate contract, implementation, and security review.

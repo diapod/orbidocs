@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-relay-sender-key-distribution:v1",
+  "title": "RoomRelaySenderKeyDistribution v1",
+  "description": "Pairwise sealed and sender-authenticated distribution of one Room relay sender key. This artifact is recipient-private and MUST NOT be routed through or retained by the federation relay.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070"],
+  "required": [
+    "schema/v", "room/id", "relay/epoch", "membership/epoch", "sender/subject",
+    "recipient/subject", "sender/ephemeral-pub", "nonce", "ciphertext",
+    "ciphertext/digest", "signer/ref", "signature"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "relay/epoch": { "type": "integer", "minimum": 1 },
+    "membership/epoch": { "type": "integer", "minimum": 1 },
+    "sender/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "recipient/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "sender/ephemeral-pub": {
+      "type": "string",
+      "minLength": 43,
+      "maxLength": 43,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "nonce": {
+      "type": "string",
+      "minLength": 32,
+      "maxLength": 32,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "ciphertext": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "ciphertext/digest": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 128,
+      "pattern": "^sha256:[A-Za-z0-9_-]+$"
+    },
+    "signer/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": { "const": "ed25519" },
+        "value": {
+          "type": "string",
+          "minLength": 86,
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      }
+    }
+  }
+}

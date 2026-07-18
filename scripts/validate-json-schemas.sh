@@ -647,8 +647,17 @@ schema_for_file() {
     *.room-relay-endpoint.json)
       echo "$SCHEMAS_DIR/room-relay-endpoint.v1.schema.json"
       ;;
+    *.room-relay-sealed-endpoint.json)
+      echo "$SCHEMAS_DIR/room-relay-endpoint.v1.schema.json"
+      ;;
     *.room-relay-delivery.json)
       echo "$SCHEMAS_DIR/room-relay-delivery.v1.schema.json"
+      ;;
+    *.room-relay-sealed-delivery.json)
+      echo "$SCHEMAS_DIR/room-relay-sealed-delivery.v1.schema.json"
+      ;;
+    *.room-relay-sender-key-distribution.json)
+      echo "$SCHEMAS_DIR/room-relay-sender-key-distribution.v1.schema.json"
       ;;
     *.room-live-message.json)
       echo "$SCHEMAS_DIR/room-live-message.v1.schema.json"

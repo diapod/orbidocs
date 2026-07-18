@@ -1,0 +1,18 @@
+{
+  "schema/v": 1,
+  "room/id": "room:nym:did:key:z6MkrRoomAuthority:01JZSEALED",
+  "seq/no": 19,
+  "relay/epoch": 4,
+  "relay/subject": { "kind": "node", "id": "node:did:key:z6MkrRelayMember" },
+  "relay/placement": "room-member",
+  "endpoint/url": "wss://relay.example.org/room-live",
+  "crypto/profile": "sealed-sender-key-v1",
+  "ordering/profile": "relay-total-order-v1",
+  "selection/evidence-refs": [
+    "node-advertisement:sha256:YWJjZA",
+    "node-address-attestation:sha256:ZWZnaA"
+  ],
+  "issued-at": "2026-07-18T12:00:00Z",
+  "expires-at": "2026-07-18T12:05:00Z",
+  "authority/subject": { "kind": "nym", "id": "nym:did:key:z6MkrRoomAuthority" }
+}

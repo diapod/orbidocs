@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/room-relay-endpoint.v1.schema.json`](../../schemas/room-relay-endpoint.v1.schema.json)
 
-Durable, Agora-signed selection fact for a member-visible Room WSS relay. The fact carries no live payload and grants no authority by itself.
+Durable, Agora-signed selection fact for a Room WSS relay. The fact carries no live payload and grants no authority by itself. sealed-sender-key-v1 is valid only with federation-service placement.
 
 ## Governing Basis
 
@@ -21,13 +21,45 @@ Durable, Agora-signed selection fact for a member-visible Room WSS relay. The fa
 | [`relay/subject`](#field-relay-subject) | `yes` | ref: `room.v1.schema.json#/$defs/subject` |  |
 | [`relay/placement`](#field-relay-placement) | `yes` | enum: `requester`, `room-member`, `federation-service` |  |
 | [`endpoint/url`](#field-endpoint-url) | `yes` | string |  |
-| [`crypto/profile`](#field-crypto-profile) | `yes` | const: `member-visible-tls-v1` |  |
+| [`crypto/profile`](#field-crypto-profile) | `yes` | enum: `member-visible-tls-v1`, `sealed-sender-key-v1` |  |
 | [`ordering/profile`](#field-ordering-profile) | `yes` | const: `relay-total-order-v1` |  |
 | [`selection/evidence-refs`](#field-selection-evidence-refs) | `yes` | array |  |
 | [`issued-at`](#field-issued-at) | `yes` | string |  |
 | [`expires-at`](#field-expires-at) | `yes` | string |  |
 | [`authority/subject`](#field-authority-subject) | `yes` | ref: `room.v1.schema.json#/$defs/subject` |  |
 | [`extensions`](#field-extensions) | `no` | ref: `room.v1.schema.json#/$defs/extensions` |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "crypto/profile": {
+      "const": "sealed-sender-key-v1"
+    }
+  },
+  "required": [
+    "crypto/profile"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "relay/placement": {
+      "const": "federation-service"
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema-v"></a>
@@ -76,7 +108,7 @@ Durable, Agora-signed selection fact for a member-visible Room WSS relay. The fa
 ## `crypto/profile`
 
 - Required: `yes`
-- Shape: const: `member-visible-tls-v1`
+- Shape: enum: `member-visible-tls-v1`, `sealed-sender-key-v1`
 
 <a id="field-ordering-profile"></a>
 ## `ordering/profile`

@@ -1,0 +1,20 @@
+{
+  "schema/v": 1,
+  "delivery/kind": "sealed",
+  "crypto/profile": "sealed-sender-key-v1",
+  "room/id": "room:nym:did:key:z6MkrRoomAuthority:01JZSEALED",
+  "relay/epoch": 4,
+  "relay/seq-no": 42,
+  "membership/epoch": 8,
+  "sender/subject": { "kind": "participant", "id": "participant:did:key:z6MkrAlice" },
+  "sender/seq-no": 7,
+  "nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "ciphertext": "YWJjZGVmZ2hpamtsbW5vcA",
+  "ciphertext/digest": "sha256:YWJjZGVmZ2hpamtsbW5vcA",
+  "signer/ref": "participant:did:key:z6MkrAlice",
+  "signature": {
+    "alg": "ed25519",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "accepted-at": "2026-07-18T12:00:01Z"
+}

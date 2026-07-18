@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/room-relay-delivery.v1.schema.json`](../../schemas/room-relay-delivery.v1.schema.json)
 
-Ephemeral relay header that binds a validated Room carrier payload to one relay epoch and total-order sequence. It carries no authority and MUST NOT contain session bearers.
+Ephemeral member-visible relay delivery that binds a validated Room carrier payload to one relay epoch and total-order sequence. The explicit delivery/kind discriminator prevents ambiguity with encrypted deliveries. It carries no authority and MUST NOT contain session bearers.
 
 ## Governing Basis
 
@@ -17,6 +17,7 @@ Ephemeral relay header that binds a validated Room carrier payload to one relay 
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
+| [`delivery/kind`](#field-delivery-kind) | `yes` | const: `member-visible` |  |
 | [`room/id`](#field-room-id) | `yes` | ref: `room.v1.schema.json#/$defs/room_id` |  |
 | [`relay/epoch`](#field-relay-epoch) | `yes` | integer |  |
 | [`relay/seq-no`](#field-relay-seq-no) | `yes` | integer |  |
@@ -33,6 +34,12 @@ Ephemeral relay header that binds a validated Room carrier payload to one relay 
 
 - Required: `yes`
 - Shape: const: `1`
+
+<a id="field-delivery-kind"></a>
+## `delivery/kind`
+
+- Required: `yes`
+- Shape: const: `member-visible`
 
 <a id="field-room-id"></a>
 ## `room/id`

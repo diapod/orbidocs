@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-07-17.
+Snapshot date: 2026-07-18.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -27,7 +27,7 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-17. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A is now implemented: authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and the dependent P082/P083 relay classes are refusal-tested. The review closure adds trusted-clock endpoint admission, strictly-newer-epoch conflict recovery, post-I/O Room close/rollback checks, closed degraded diagnostics, and pure mailbox boundary tests. Only the Phase 6B non-member federation relay encryption profile remains unfinished post-MVP Room scope; the hard-MVP verdict is unchanged.
+Change basis: this refresh incorporates the current worktree state on 2026-07-18. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
 
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
@@ -511,9 +511,8 @@ Recent component deltas:
   room-high-water, chair, evidence, output-digest, and idempotency validation;
   the first profile is text-only and uses the dedicated
   `corpus-reasoning-answer-signature.v1` domain.
-  Remaining post-MVP work includes P070 Phase 6B's non-member federation relay
-  encryption profile, remote Room-authority trust, arbiter election, multi-provider
-  final answer composition, and N-way settlement. Matrix is an optional bridge
+  Remaining post-MVP work includes remote Room-authority trust, arbiter election,
+  multi-provider final answer composition, and N-way settlement. Matrix is an optional bridge
   profile rather than a Corpus or Room liveness dependency; Sensorium Interface views
   are already available over the Room relay slice.
 - Room primitive is now tracked explicitly through Proposal 070 and Solution 036. The current code
@@ -539,10 +538,15 @@ Recent component deltas:
   task cleanup, bounded cursor-expiry refresh, exact reconnect accounting, metadata-only
   dirty restart, graceful checkpoint persistence, newer-epoch failover, active revocation,
   payload-digest refusal, and session-bearer omission from relay deliveries and retained
-  evidence. It changes neither hard-MVP readiness nor the `95%` estimate:
-  Phase 6B's non-member relay encryption profile remains unfinished, so post-MVP
-  readiness is still false. Matrix is retained only as an optional bridge profile.
-  CR-88/CR-89 security hardening remains a separate follow-up stream.
+  evidence. Phase 6B now closes the remaining specified relay profile with
+  recipient-private signed sender-key packages, sender-authenticated encrypted frames,
+  monotonic membership-high-water rotation, stale-ciphertext refusal, delayed receiver
+  checkpoint commit, explicit member-visible versus sealed wire discriminators,
+  schema-ref registry coherence, sealed reconnect, a bounded metadata-only relay audit,
+  and a 21-check multiprocess host-TLS acceptance report with closed evidence shapes
+  covering leave rotation and sealed-profile failover. P070 is therefore at `100%` and
+  post-MVP ready for its declared Room scope. This changes neither the hard-MVP readiness
+  verdict nor Matrix's status as an optional bridge profile.
 - Sensorium Workbench is now tracked through Proposal 071 and promoted to
   Solution 042 as a post-MVP actuator foundation. The opt-in supervised Python
   connector now has a complete local foundation: allowlisted workspaces,
@@ -696,7 +700,7 @@ Recent component deltas:
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
-| [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `false` | `95` |
+| [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `98` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `true` | `true` | `false` | `100` |
@@ -749,7 +753,7 @@ Recent component deltas:
 | [Shared Offer Catalog](../60-solutions/033-shared-offer-catalog/033-shared-offer-catalog.md) | `true` | `true` | `false` | `100` |
 | [API Surface Projection](../60-solutions/034-api-surface-projection/034-api-surface-projection.md) | `false` | `true` | `true` | `100` |
 | [Interaction Broker](../60-solutions/035-interaction-broker/035-interaction-broker.md) | `false` | `true` | `false` | `100` |
-| [Room](../60-solutions/036-room/036-room.md) | `true` | `true` | `false` | `95` |
+| [Room](../60-solutions/036-room/036-room.md) | `true` | `true` | `true` | `100` |
 | [Capability Registry](../60-solutions/037-capability-registry/037-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Corpus](../60-solutions/038-corpus/038-corpus.md) | `true` | `true` | `false` | `100` |
 | [Notifications](../60-solutions/039-notifications/039-notifications.md) | `true` | `true` | `false` | `90` |

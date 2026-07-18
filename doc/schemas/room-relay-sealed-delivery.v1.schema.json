@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-relay-sealed-delivery:v1",
+  "title": "RoomRelaySealedDelivery v1",
+  "description": "Ephemeral sender-authenticated encrypted Room carrier frame for a non-member federation relay. The explicit delivery/kind discriminator prevents ambiguity with member-visible deliveries. The relay can validate and order the bounded envelope but cannot read the content payload.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["P070", "P082", "P083"],
+  "required": [
+    "schema/v", "delivery/kind", "crypto/profile", "room/id", "relay/epoch", "relay/seq-no",
+    "membership/epoch", "sender/subject", "sender/seq-no", "nonce", "ciphertext",
+    "ciphertext/digest", "signer/ref", "signature", "accepted-at"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "delivery/kind": { "const": "sealed" },
+    "crypto/profile": { "const": "sealed-sender-key-v1" },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "relay/epoch": { "type": "integer", "minimum": 1 },
+    "relay/seq-no": { "type": "integer", "minimum": 1 },
+    "membership/epoch": { "type": "integer", "minimum": 1 },
+    "sender/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "sender/seq-no": { "type": "integer", "minimum": 1 },
+    "nonce": {
+      "type": "string",
+      "minLength": 32,
+      "maxLength": 32,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "ciphertext": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 92843,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "ciphertext/digest": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 128,
+      "pattern": "^sha256:[A-Za-z0-9_-]+$"
+    },
+    "signer/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "value"],
+      "properties": {
+        "alg": { "const": "ed25519" },
+        "value": {
+          "type": "string",
+          "minLength": 86,
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      }
+    },
+    "accepted-at": { "type": "string", "format": "date-time" }
+  }
+}

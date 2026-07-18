@@ -1,0 +1,17 @@
+{
+  "schema/v": 1,
+  "room/id": "room:nym:did:key:z6MkrRoomAuthority:01JZSEALED",
+  "relay/epoch": 4,
+  "membership/epoch": 8,
+  "sender/subject": { "kind": "participant", "id": "participant:did:key:z6MkrAlice" },
+  "recipient/subject": { "kind": "participant", "id": "participant:did:key:z6MkrBob" },
+  "sender/ephemeral-pub": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "ciphertext": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "ciphertext/digest": "sha256:YWJjZGVmZ2hpamtsbW5vcA",
+  "signer/ref": "participant:did:key:z6MkrAlice",
+  "signature": {
+    "alg": "ed25519",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
+}

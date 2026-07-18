@@ -13,6 +13,7 @@
     "id": "nym:did:key:opener"
   },
   "high-water/seq-no": 1,
+  "membership/high-water-seq-no": 1,
   "members": {
     "nym:did:key:p1": {
       "subject": {

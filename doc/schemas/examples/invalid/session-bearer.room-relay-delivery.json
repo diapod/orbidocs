@@ -1,5 +1,6 @@
 {
   "schema/v": 1,
+  "delivery/kind": "member-visible",
   "room/id": "room:nym:did:key:z6MkrRoomAuthority:01JZRELAY",
   "relay/epoch": 3,
   "relay/seq-no": 41,
