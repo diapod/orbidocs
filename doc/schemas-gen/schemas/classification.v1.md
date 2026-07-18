@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/classification.v1.schema.json`](../../schemas/classification.v1.schema.json)
 
-Machine-readable schema for the Memarium classification label that travels with data across component boundaries. The label distinguishes the immutable `source_tier` (stamped once at first ingress or write) from the derived `effective_tier` (computed from `source_tier` and any currently-active `DeclassifyFact` in `declassify_trail`). Declassification never rewrites `source_tier`; it appends a fact to the trail. The lattice is intentionally small (Personal > Community > Public) with most-restrictive-wins semantics on merge.
+Machine-readable schema for the Memarium classification label that travels with data across component boundaries. The label distinguishes the immutable `source_tier` (stamped once at first ingress or write) from the derived `effective_tier`. A context-free read uses `source_tier`; a concrete egress boundary may derive a lower tier only from active `DeclassifyFact` values matching its surface and topic class under a current revocation view. Declassification never rewrites `source_tier`; it appends policy facts. The lattice is intentionally small (Personal > Community > Public) with most-restrictive-wins semantics on merge.
 
 ## Governing Basis
 
@@ -38,10 +38,10 @@ Machine-readable schema for the Memarium classification label that travels with 
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `classification.v1` | Content-level discriminator for consumers that inspect the label outside its enclosing envelope. |
 | [`source_tier`](#field-source-tier) | `yes` | ref: `#/$defs/Tier` | Immutable classification assigned at first stamping (write into Memarium, ingress from outside, or operator acceptance out of quarantine). Never rewritten. A request that attempts to change `source_tier` MUST be rejected with `reason: source_tier_immutable`. |
-| [`effective_tier`](#field-effective-tier) | `yes` | ref: `#/$defs/Tier` | Derived tier used by egress guards. Equals `source_tier` unless at least one `DeclassifyFact` in `declassify_trail` is currently active (TTL valid, not revoked, not consumed for one-shot, and whose `surface`/`topic_class` bind to the current request). Consumers MUST treat `effective_tier` as a cached derivation of `source_tier` and `declassify_trail` — it MUST NOT exceed `source_tier` in the lattice order (i.e. it is never more restrictive than the source). |
+| [`effective_tier`](#field-effective-tier) | `yes` | ref: `#/$defs/Tier` | Derived tier used by a concrete egress guard. Context-free Memarium reads set it to `source_tier`. A boundary may lower it only when a `DeclassifyFact` is active for the exact surface/topic/time, has a non-empty unrevoked anchor, and has not been consumed for one-shot mode. Consumers MUST treat a carried lower value as a cache, not authority, and recompute it with their boundary context. It MUST NOT exceed `source_tier` in the lattice order (i.e. it is never more restrictive than the source). |
 | [`provenance`](#field-provenance) | `yes` | ref: `#/$defs/SpaceOrigin` | Where the data first entered the system. For locally written facts: the target Memarium space. For ingress from a peer or import: the ingress origin. For derivations: a two-parent reference summarizing the joined inputs. |
 | [`bound_subjects`](#field-bound-subjects) | `yes` | ref: `#/$defs/BoundSubjects` | Tier-dependent projection of the subjects whose dignity interests attach to the fact. Egress to Public surfaces MUST carry only `public_projection` and MUST NOT carry `personal_or_community`. Violation is rejected with `reason: bound_subjects_not_public`. |
-| [`declassify_trail`](#field-declassify-trail) | `yes` | array | Append-only, time-ordered history of declassification acts. Possibly empty. Readers compute `effective_tier` from this trail; they MUST NOT infer classification from the trail alone without `source_tier`. Transformation facts may be referenced as evidence, but they do not lower classification by themselves in v1. |
+| [`declassify_trail`](#field-declassify-trail) | `yes` | array | Append-only, time-ordered history of declassification acts. Possibly empty. Context-free readers retain `source_tier`; concrete boundaries compute their projection from this trail plus exact surface/topic/time and revocation context. They MUST NOT infer authority from the trail alone. Transformation facts may be referenced as evidence, but they do not lower classification by themselves in v1. |
 | [`quarantine`](#field-quarantine) | `no` | ref: `#/$defs/QuarantineMarker` | Present iff the fact is currently in ingress quarantine (no operator acceptance yet). Guarded reads of a quarantined fact MUST be rejected with `reason: quarantined`. |
 
 ## Definitions
@@ -181,7 +181,7 @@ Immutable classification assigned at first stamping (write into Memarium, ingres
 - Required: `yes`
 - Shape: ref: `#/$defs/Tier`
 
-Derived tier used by egress guards. Equals `source_tier` unless at least one `DeclassifyFact` in `declassify_trail` is currently active (TTL valid, not revoked, not consumed for one-shot, and whose `surface`/`topic_class` bind to the current request). Consumers MUST treat `effective_tier` as a cached derivation of `source_tier` and `declassify_trail` — it MUST NOT exceed `source_tier` in the lattice order (i.e. it is never more restrictive than the source).
+Derived tier used by a concrete egress guard. Context-free Memarium reads set it to `source_tier`. A boundary may lower it only when a `DeclassifyFact` is active for the exact surface/topic/time, has a non-empty unrevoked anchor, and has not been consumed for one-shot mode. Consumers MUST treat a carried lower value as a cache, not authority, and recompute it with their boundary context. It MUST NOT exceed `source_tier` in the lattice order (i.e. it is never more restrictive than the source).
 
 <a id="field-provenance"></a>
 ## `provenance`
@@ -205,7 +205,7 @@ Tier-dependent projection of the subjects whose dignity interests attach to the 
 - Required: `yes`
 - Shape: array
 
-Append-only, time-ordered history of declassification acts. Possibly empty. Readers compute `effective_tier` from this trail; they MUST NOT infer classification from the trail alone without `source_tier`. Transformation facts may be referenced as evidence, but they do not lower classification by themselves in v1.
+Append-only, time-ordered history of declassification acts. Possibly empty. Context-free readers retain `source_tier`; concrete boundaries compute their projection from this trail plus exact surface/topic/time and revocation context. They MUST NOT infer authority from the trail alone. Transformation facts may be referenced as evidence, but they do not lower classification by themselves in v1.
 
 <a id="field-quarantine"></a>
 ## `quarantine`

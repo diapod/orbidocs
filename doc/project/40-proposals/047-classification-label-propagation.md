@@ -16,9 +16,10 @@ Accepted / hard-MVP implemented.
 
 The hard-MVP slice is implemented as the shared `classification.v1` data
 contract plus the `orbiplex-node-classification` crate. The crate owns the
-small `Public < Community < Personal` lattice, effective-tier derivation,
-projection-aware bound subjects, declassification-trail semantics, quarantine
-markers, stable denial codes, and the shared `authorize_egress` helper.
+small `Public < Community < Personal` lattice, boundary-specific effective-tier
+derivation, projection-aware bound subjects, declassification-trail semantics,
+append-only one-shot consumption claims, quarantine markers, stable denial
+codes, and the shared egress helpers.
 
 Current runtime consumers include Memarium classification fallback and
 declassification gates, archival export/backup preservation, Agora public
@@ -28,7 +29,10 @@ classification-bearing Inquirium/assistant boundaries. Proposal 082 additionally
 uses `Surface::Interface` with exact descriptor topic-class matching for every
 lowered Sensorium Interface frame. Full whole-program IFC,
 per-field labels, historical backfill of every pre-classification fact, and
-richer operator UI remain post-MVP work.
+richer operator UI remain post-MVP work. Detached adapters that cannot obtain a
+revocation view or durably claim a one-shot exception must deny scoped
+declassification rather than trust the cached `effective_tier` carried on a
+value.
 
 ## Date
 
@@ -188,20 +192,26 @@ The tier forms a **small boring lattice**:
 at ingress from outside, or by explicit operator stamping out of quarantine)
 and is never rewritten. This preserves the original dignity claim as a fact.
 
-**`effective_tier` is derived**, not stored as mutable state. At read time it
-is computed as:
+**`effective_tier` is derived**, not stored as mutable state. There is no single
+context-free lowered tier because a declassification is bound to one surface
+and topic class. A Memarium read without an egress context therefore returns
+the conservative `source_tier` as `effective_tier`, together with the complete
+append-only trail. At a concrete boundary it is computed as:
 
 ```
-effective_tier(c) = min_in_lattice(
+effective_tier(c, surface, topic_class, now, revocation_view) = min_in_lattice(
     c.source_tier,
-    latest_active(c.declassify_trail).to   // if any DeclassifyFact is still valid
+    ordered_active(c.declassify_trail, surface, topic_class,
+                   now, revocation_view).to
 )
 ```
 
 A `DeclassifyFact` is *active* when: (a) its TTL has not expired, (b) its
 scope constraints (surface, topic_class) match the current request, (c) it
-has not been revoked via the shared revocation feed, and (d) for one-shot
-mode, it has not yet been consumed.
+has a non-empty revocation anchor that has not been revoked via a shared,
+fresh-enough revocation view, and (d) for one-shot mode, it has not yet been
+consumed. A consumer that lacks the revocation view, or whose view exceeds its
+freshness budget, treats the exception as inactive.
 
 Declassification **never rewrites** `source_tier` or prior trail entries.
 This is the "facts, not overwriting state" discipline applied to
@@ -290,8 +300,11 @@ memarium.declassify {
 ```
 
 A `DeclassifyFact` appended to the trail mirrors this shape plus issuance
-time, expiry, revocation anchor, optional `evidence_ref`, and a `consumed_at`
-marker for one-shot mode.
+time, expiry, revocation anchor, and optional `evidence_ref`. Spending a
+one-shot exception appends a separate
+`classification-declassify-consumed` policy fact before the external effect.
+Read projections fold that fact into the projected `mode.consumed_at` marker;
+the original `DeclassifyFact` remains immutable.
 
 Authorization:
 
@@ -314,6 +327,14 @@ required.
 Every declassification appends a `DeclassifyFact` to the subject's
 `declassify_trail` and emits an audit entry with the same `correlation_id`
 discipline as other passport-gated calls.
+
+The pure classification layer exposes two deliberately different adapters:
+
+- `evaluate_egress` requires an explicit revocation predicate and returns any
+  one-shot use claims that the effect owner must persist before publication;
+- `authorize_egress` is a convenience for detached boundaries that have no
+  authority stores. It is fail-closed for scoped declassification and accepts
+  only a classification that needs no unverified exception.
 
 ### 5. `bound_subjects` as a Projection-Aware Field
 
@@ -432,6 +453,9 @@ the existing Memarium audit-decision discipline.
 - Phase M2.5: flip to `StrictRequired` only after `strict_not_before` and after
   the fallback metric is zero for the configured observation window. The
   reference daemon default is no earlier than 2026-06-30 plus seven zero days.
+  Authorization runs before fallback stamping, and accepted fallback markers
+  are reconstructed from durable Memarium records, so an unauthorized caller
+  or daemon restart cannot reset or postpone the ratchet.
 - Phase M3: activate egress guards on Agora / Whisper / INAC.
 - Phase M4: introduce `memarium.declassify` and wire the passport scope.
 - Phase M5: projection rule enforced at Whisper validator.
@@ -524,9 +548,9 @@ without breaking existing senders.
 1. New schema `orbidocs/doc/schemas/classification.v1.schema.json` defining
    `Classification`, `Tier`, `DeclassifyFact`, `BoundSubjects`,
    `PublicProjection`.
-2. Rust crate `classification` (or inline in `memarium`) exposing
-   `Classified<T>` at boundaries, `Join`, `DeclassifyFact`, and
-   `effective_tier()` as a derived function. `Tainted<T>` is deferred and
+2. Rust crate `classification` exposing `Classified<T>` at boundaries, `Join`,
+   `DeclassifyFact`, `DeclassificationConsumption`, and contextual
+   `evaluate_egress()` as derived functions. `Tainted<T>` is deferred and
    introduced per-module later (see §3 staging).
 3. Memarium envelope types extended with required `classification` field
    carrying both `source_tier` and `effective_tier`.
@@ -544,9 +568,9 @@ without breaking existing senders.
    subsection "Where labels live" enumerating the exact hook points:
    - `memarium.write` — stamps `source_tier` from the target space,
      initializes empty `declassify_trail`.
-   - `memarium.read` — computes `effective_tier` at response time, attaches
-     full `Classification` to the read envelope.
-   - `memarium.index` — carries `effective_tier` for index-time filtering;
+   - `memarium.read` — returns conservative `source_tier` as the context-free
+     `effective_tier` and attaches the complete policy trail to the envelope.
+   - `memarium.index` — carries the conservative tier for index-time filtering;
      index entries that would leak across tiers are partitioned per tier.
    - `memarium.cache` — cache key includes `effective_tier`; cross-tier cache
      hits are disallowed.
@@ -569,6 +593,10 @@ without breaking existing senders.
 - `memarium.declassify` host capability implemented with narrow grant binding
   (surface + topic_class + TTL + mode + caller + correlation_id), both
   one-shot and persistent-exception modes, audited, and subject to revocation.
+- One-shot use is consumed by an append-only policy fact before the effect;
+  retry reuses the same claim and a second distinct use is denied.
+- A surface-bound exception never lowers a context-free read or a different
+  surface/topic projection, and missing revocation authority fails closed.
 - A `memarium.declassify` request lacking any of the required bindings is
   rejected with `reason: declassification_scope_expired` or
   `classification_mismatch` as appropriate.

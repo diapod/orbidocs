@@ -46,7 +46,7 @@ Responsibilities:
 - record promotion provenance as append-only facts.
 
 Status:
-- `done` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Personal forget can be delegated through scoped passports, public forget tombstones, community forget accepts an explicit governance reference before erasure, and crisis forget remains restricted. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, the enforced strict-mode gate for classification fallback, a classification-aware archival export adapter for `archival-package.v1`, concrete Whisper and INAC/private AD classification egress adapters, contextual personal-space forget delegation, remote archivist handoff/retrieval control surfaces, and a SQLite derived read sidecar are now represented in code.
+- `done` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Personal forget can be delegated through scoped passports, public forget tombstones, community forget verifies an append-only governance approval fact referenced by `governance_ref` before erasure, and crisis forget remains restricted. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, the enforced strict-mode gate for classification fallback, a classification-aware archival export adapter for `archival-package.v1`, concrete Whisper and INAC/private AD classification egress adapters, contextual personal-space forget delegation, remote archivist handoff/retrieval control surfaces, and a SQLite derived read sidecar are now represented in code.
 
 ### Observer-Based Chain Integration
 
@@ -101,6 +101,8 @@ Related capabilities:
 - `memarium.promote`
 - `memarium.forget`
 - `memarium.declassify`
+- `memarium.quarantine` (passport grant used by quarantine operations on the
+  `memarium.declassify` endpoint)
 - `memarium.crisis_status`
 - `memarium.crisis_resolve`
 
@@ -112,12 +114,15 @@ Responsibilities:
 - expose `memarium.promote` (A0): cross-space promotion requiring operator approval,
 - expose `memarium.forget` (A0): right-to-forget requests subject to explicit operator approval and space forget policy,
 - expose `memarium.declassify` (A0): append-only policy facts lowering a fact by one classification tier for a bound surface/topic/mode,
+- expose quarantine list/accept/reject as A0 operations authorized by their own
+  space-scoped `memarium/quarantine` grant rather than by synthetic
+  declassification parameters,
 - expose `memarium.crisis_status` (A1): operator-visible crisis seed and active finding view,
 - expose `memarium.crisis_resolve` (A0): append-only operator force-resolution fact for a named detector,
 - register capabilities through the daemon's host capability binding mechanism,
 - serve in-process callers (agents, NSE hooks) through direct trait methods and out-of-process callers (middleware modules) through the host capability HTTP surface.
 
-All nine capabilities are exposed as `POST /v1/host/capabilities/memarium.<op>` endpoints and run through the same passport-gated dispatch as Sealer (`capability-binding::authorize`, six-step pipeline). Revocation is integrated against local, static-file, Seed Directory, and delegation-target-id sources. The operator-vocabulary target tag is `memarium:space:<space>[:community:<id>][:kind:<kind>][:entry:<id>]`; crisis status and resolve use the crisis space target. `memarium.declassify` uses a separate `memarium-declassify@v1` profile because authorization binds additional axes: surface, topic class, declassification mode, source tier, and target tier.
+The nine endpoint capabilities are exposed as `POST /v1/host/capabilities/memarium.<op>` endpoints and run through the same passport-gated dispatch as Sealer (`capability-binding::authorize`, six-step pipeline). Quarantine is an operation family under the existing `memarium.declassify` endpoint but has its own `memarium/quarantine` grant. Revocation is integrated against local, static-file, Seed Directory, and delegation-target-id sources. The operator-vocabulary target tag is `memarium:space:<space>[:community:<id>][:kind:<kind>][:entry:<id>]`; crisis status and resolve use the crisis space target. `memarium.declassify` uses a separate `memarium-declassify@v1` profile because authorization binds additional axes: surface, topic class, declassification mode, source tier, and target tier.
 
 #### Built-In Module Passport Bootstrap
 
@@ -193,19 +198,28 @@ The fallback counter is exported in runtime metrics under
 When `mode = "strict-required"`, the daemon now enforces this gate rather than
 only documenting it: unlabeled writes are rejected only after the configured
 date has passed and the configured consecutive-day zero-fallback window has
-been observed.
+been observed. Passport authorization runs before fallback stamping, and the
+counter is reconstructed from accepted, durable quarantine markers after
+restart. An unauthorized request therefore cannot postpone the strict-mode
+ratchet.
 All HTTP wire timestamp fields are RFC3339 strings; Rust `SystemTime`'s serde
 object shape is an implementation detail and is not part of the Memarium
 host-capability contract.
 
 Declassification never mutates the source fact. `memarium.declassify` appends a
-`classification-declassified` policy fact containing a `DeclassifyFact`; read
-paths compose active policy facts into `classification.declassify_trail` and
-derive the current `effective_tier`. Operator quarantine actions likewise write
-append-only policy facts (`classification-quarantine-accepted` /
+`classification-declassified` policy fact containing a `DeclassifyFact`.
+Context-free read/query paths compose the complete trail but retain
+`source_tier` as the conservative `effective_tier`; only a concrete egress
+adapter may derive a lower tier for its exact surface/topic/time under a current
+revocation view. A missing anchor or revocation view makes the exception inert.
+One-shot use appends `classification-declassify-consumed` before the effect, and
+read projections fold that policy fact into `mode.consumed_at` without mutating
+the original trail. Operator quarantine actions likewise write append-only
+policy facts (`classification-quarantine-accepted` /
 `classification-quarantine-rejected`), preserving the original ingress record.
 Accepted quarantine facts clear the read/query quarantine marker for the target
-fact; rejected facts remain visible as append-only audit evidence.
+entry or fact; rejected decisions remain append-only audit evidence. Decisions
+validate target existence, pending state, and terminal-decision idempotency.
 `TransformationFact` is evidence/provenance only in v1: it may be referenced
 from `DeclassifyFact.evidence_ref`, but every effective-tier lowering still
 requires an explicit, active `DeclassifyFact`.
@@ -302,7 +316,12 @@ Responsibilities:
 - serve as local cache for previously retrieved archival material to avoid redundant remote retrieval.
 
 Status:
-- `done` — the Memarium domain layer owns a thin archival export adapter around `archival-package.v1`, and the daemon exposes local operator backup plus remote handoff/retrieval control flows on top of it. `POST /v1/memarium/backups` prepares one bundle under `<data_dir>/memarium/backups/<backup_id>/`, materializes per-item payload snapshots plus `archival-package.v1` JSON files, and returns a manifest with metadata; `GET /v1/memarium/backups/{backup_id}` rehydrates that manifest for later inspection. `POST /v1/memarium/archival/handoffs` preflights every package, submits each item to Artifact Delivery for INAC/archivist transport, and records append-only `archival-handoff-requested`, then `archival-handoff-accepted` or `archival-handoff-failed` facts with partial-submit diagnostics when AD rejects a later item. `POST /v1/memarium/archival/retrievals` builds and submits `retrieval-request.v1` through Artifact Delivery, records `archival-retrieval-requested`, and records `archival-retrieval-unavailable` if the outbound request cannot be queued. Future retrieval-response acceptors may append `found`, `denied`, `unavailable`, or `tombstoned` facts and materialize returned entries/facts only through the ordinary Memarium write path. `GET /v1/memarium/archivists` reads cached `archivist-advertisement` facts. The adapter builds/stamps packages with RFC3339 `created-at`, preserves `classification` as first-class package data, normalizes export-bound `effective_tier` against `surface=export` + `topic_class`, and denies quarantined / malformed / not-yet-declassified public-vault packages before any handoff is submitted.
+- `done` — the Memarium domain layer owns a thin archival export adapter around `archival-package.v1`, and the daemon exposes authenticated local-operator backup plus remote handoff/retrieval control flows on top of it. `POST /v1/memarium/backups` prepares one staging bundle under `<data_dir>/memarium/backups/`, materializes per-item payload snapshots plus `archival-package.v1` JSON files, and atomically promotes the directory only after the complete manifest succeeds; package ids include the backup id and ordinal. `GET /v1/memarium/backups/{backup_id}` rehydrates that manifest for later inspection. `POST /v1/memarium/archival/handoffs` preflights every package, submits each item to Artifact Delivery for INAC/archivist transport, and records append-only `archival-handoff-requested`, then `archival-handoff-accepted` or `archival-handoff-failed` facts with partial-submit diagnostics when AD rejects a later item. `POST /v1/memarium/archival/retrievals` builds and submits `retrieval-request.v1` through Artifact Delivery, records `archival-retrieval-requested`, and records `archival-retrieval-unavailable` if the outbound request cannot be queued. Future retrieval-response acceptors may append `found`, `denied`, `unavailable`, or `tombstoned` facts and materialize returned entries/facts only through the ordinary Memarium write path. `GET /v1/memarium/archivists` reads cached `archivist-advertisement` facts. The adapter preserves `classification`, checks a fresh-enough revocation view for every declassification anchor, treats every exception as inactive when that view is stale, derives the exact export/topic projection, records one-shot consumption before bundle publication, and denies quarantined, malformed, revoked, consumed, or not-yet-declassified public-vault packages before handoff.
+
+Caller identity is explicit at the daemon/host boundary: the authenticated
+control router passes `AuthenticatedOperator`, while the module-capability
+router passes `Module`. Absence of a module authtok is never interpreted as
+operator authority inside Memarium.
 
 ### Crisis Space Management
 
@@ -320,7 +339,7 @@ Responsibilities:
 - support updates through explicit operator or federation action only.
 
 Status:
-- `done` — the crisis space enforces its policies like the other three spaces, and the daemon now applies the reviewed constitutional seed synchronously during startup after storage and the Node AEAD key are ready. Autonomous detector facts, `memarium.crisis_status`, and `memarium.crisis_resolve` provide the first operator-facing crisis management loop.
+- `done` — the crisis space enforces its policies like the other three spaces, and the daemon now applies the reviewed constitutional seed synchronously during startup after storage and the Node AEAD key are ready. Proposal 039 deliberately defines v1 as an unsigned compiled bundle: trust comes from the reviewed Node binary, while the pinned digest detects same-version drift; detached signature verification is reserved for a future file-loaded seed. Autonomous detector facts, `memarium.crisis_status`, and `memarium.crisis_resolve` provide the first operator-facing crisis management loop.
 
 ## May Implement
 
@@ -432,7 +451,7 @@ Implements a Solution 028-style derived SQLite read projection:
 - operator storage diagnostics: `/v1/operator/storage/profiles` reports the
   sidecar as a non-temporal read model with row counts and stream checkpoints
 
-It implements the runtime-side `MemariumReadProjection` hook. The sidecar is rebuildable from append-only storage and is not a semantic event log.
+It implements the runtime-side `MemariumReadProjection` hook. The sidecar is rebuildable from append-only storage and is not a semantic event log. Its single SQLite connection remains a correctness-first MVP implementation; batching fact-policy lookups or introducing a read pool is a measured performance follow-up, not a semantic contract change.
 
 ### `daemon` integration layer
 

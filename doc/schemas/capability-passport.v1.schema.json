@@ -384,7 +384,7 @@
             "minItems": 1,
             "items": { "type": "string", "minLength": 1 }
           },
-          "description": "Map of memarium grant-type -> target[]. Recognized grant types: `memarium/read`, `memarium/write`, `memarium/index`, `memarium/cache`, `memarium/promote`, `memarium/forget`, `memarium/crisis-status`, `memarium/crisis-resolve`. Target entries are Memarium space names or the wildcard `*`."
+          "description": "Map of memarium grant-type -> target[]. Recognized grant types: `memarium/read`, `memarium/write`, `memarium/index`, `memarium/cache`, `memarium/promote`, `memarium/forget`, `memarium/quarantine`, `memarium/crisis-status`, `memarium/crisis-resolve`. Target entries are Memarium space names or the wildcard `*`. `memarium/quarantine` is A0/operator-only in the reference host."
         },
         "spaces": {
           "type": "array",
@@ -446,7 +446,7 @@
         "surfaces": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string", "enum": ["agora", "whisper", "inac", "export", "bus"] }
+          "items": { "type": "string", "enum": ["agora", "whisper", "inac", "export", "bus", "interface"] }
         },
         "topic_classes": {
           "type": "array",

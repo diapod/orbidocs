@@ -1,7 +1,7 @@
 {:component/id :orbiplex/classification
  :component/title "Orbiplex Classification"
  :component/type :policy-data-layer
- :component/status :draft
+ :component/status :done
 
  :summary
  "Shared classification label and propagation contract for Memarium, Agora,
@@ -30,8 +30,9 @@
    :responsibilities
    ["Store labels with entries and facts"
     "Stamp legacy unlabeled Personal+quarantine data under strict-mode migration"
-    "Compose append-only declassification evidence into effective read views"]
-   :status :partial}
+    "Return conservative source-tier read views and compose append-only declassification and one-shot-consumption evidence into exact boundary projections"
+    "Treat a missing revocation view or revocation anchor as denial rather than authority"]
+   :status :done}
 
   {:cap/id :egress-guard
    :title "Classification Egress Guard"
@@ -46,7 +47,8 @@
              "artifact-delivery-envelope.v1"]
    :responsibilities
    ["Block public publication when effective classification forbids it"
-    "Reuse one helper across Agora, Whisper, INAC, and archival export"
+    "Reuse one pure contextual evaluator across Agora, Whisper, INAC, Interface, and archival export boundaries"
+    "Require effect owners to persist one-shot use claims before publication"
     "Keep edge enforcement at the publication/forwarding boundary"]
    :status :done}]
 

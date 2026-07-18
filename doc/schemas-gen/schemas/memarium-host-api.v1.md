@@ -22,6 +22,8 @@ Stable wire contract for daemon-level memarium.* host capability request and res
 | Definition | Shape | Description |
 |---|---|---|
 | [`OperationEnvelope`](#def-operationenvelope) | object |  |
+| [`QuarantineListRequest`](#def-quarantinelistrequest) | object |  |
+| [`QuarantineDecisionRequest`](#def-quarantinedecisionrequest) | object |  |
 | [`OkResponse`](#def-okresponse) | object |  |
 | [`ErrorResponse`](#def-errorresponse) | object |  |
 ## Field Semantics
@@ -30,6 +32,16 @@ Stable wire contract for daemon-level memarium.* host capability request and res
 
 <a id="def-operationenvelope"></a>
 ## `$defs.OperationEnvelope`
+
+- Shape: object
+
+<a id="def-quarantinelistrequest"></a>
+## `$defs.QuarantineListRequest`
+
+- Shape: object
+
+<a id="def-quarantinedecisionrequest"></a>
+## `$defs.QuarantineDecisionRequest`
 
 - Shape: object
 

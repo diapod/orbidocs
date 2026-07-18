@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:classification:v1",
   "title": "Classification v1",
-  "description": "Machine-readable schema for the Memarium classification label that travels with data across component boundaries. The label distinguishes the immutable `source_tier` (stamped once at first ingress or write) from the derived `effective_tier` (computed from `source_tier` and any currently-active `DeclassifyFact` in `declassify_trail`). Declassification never rewrites `source_tier`; it appends a fact to the trail. The lattice is intentionally small (Personal > Community > Public) with most-restrictive-wins semantics on merge.",
+  "description": "Machine-readable schema for the Memarium classification label that travels with data across component boundaries. The label distinguishes the immutable `source_tier` (stamped once at first ingress or write) from the derived `effective_tier`. A context-free read uses `source_tier`; a concrete egress boundary may derive a lower tier only from active `DeclassifyFact` values matching its surface and topic class under a current revocation view. Declassification never rewrites `source_tier`; it appends policy facts. The lattice is intentionally small (Personal > Community > Public) with most-restrictive-wins semantics on merge.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
-  "x-dia-status": "draft",
+  "x-dia-status": "accepted",
   "x-dia-basis": [
     "doc/project/40-proposals/047-classification-label-propagation.md",
     "doc/project/40-proposals/036-memarium.md",
@@ -34,7 +34,7 @@
     },
     "effective_tier": {
       "$ref": "#/$defs/Tier",
-      "description": "Derived tier used by egress guards. Equals `source_tier` unless at least one `DeclassifyFact` in `declassify_trail` is currently active (TTL valid, not revoked, not consumed for one-shot, and whose `surface`/`topic_class` bind to the current request). Consumers MUST treat `effective_tier` as a cached derivation of `source_tier` and `declassify_trail` — it MUST NOT exceed `source_tier` in the lattice order (i.e. it is never more restrictive than the source)."
+      "description": "Derived tier used by a concrete egress guard. Context-free Memarium reads set it to `source_tier`. A boundary may lower it only when a `DeclassifyFact` is active for the exact surface/topic/time, has a non-empty unrevoked anchor, and has not been consumed for one-shot mode. Consumers MUST treat a carried lower value as a cache, not authority, and recompute it with their boundary context. It MUST NOT exceed `source_tier` in the lattice order (i.e. it is never more restrictive than the source)."
     },
     "provenance": {
       "$ref": "#/$defs/SpaceOrigin",
@@ -47,7 +47,7 @@
     "declassify_trail": {
       "type": "array",
       "items": { "$ref": "#/$defs/DeclassifyFact" },
-      "description": "Append-only, time-ordered history of declassification acts. Possibly empty. Readers compute `effective_tier` from this trail; they MUST NOT infer classification from the trail alone without `source_tier`. Transformation facts may be referenced as evidence, but they do not lower classification by themselves in v1."
+      "description": "Append-only, time-ordered history of declassification acts. Possibly empty. Context-free readers retain `source_tier`; concrete boundaries compute their projection from this trail plus exact surface/topic/time and revocation context. They MUST NOT infer authority from the trail alone. Transformation facts may be referenced as evidence, but they do not lower classification by themselves in v1."
     },
     "quarantine": {
       "$ref": "#/$defs/QuarantineMarker",
@@ -232,7 +232,7 @@
                 "consumed_at": {
                   "type": "string",
                   "format": "date-time",
-                  "description": "Set when the single authorized egress has occurred. A one-shot fact with `consumed_at` set is no longer active."
+                  "description": "Projected marker from an append-only `classification-declassify-consumed` policy fact. The original DeclassifyFact is not mutated. A one-shot fact with `consumed_at` set is no longer active."
                 }
               }
             },
@@ -289,7 +289,7 @@
         "revocation_anchor": {
           "type": "string",
           "minLength": 1,
-          "description": "Anchor used by the shared revocation feed (local + static + seed-directory composite) to invalidate this fact ahead of schedule."
+          "description": "Anchor used by the shared revocation feed (local + static + seed-directory composite) to invalidate this fact ahead of schedule. A missing/empty anchor or unavailable revocation view makes the declassification inactive at guarded egress."
         },
         "evidence_ref": {
           "type": "string",

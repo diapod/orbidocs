@@ -5,7 +5,7 @@
   "description": "Stable wire contract for daemon-level memarium.* host capability request and response envelopes. Operations are selected by the endpoint plus the `op` field; clients MUST parse `status` programmatically and MUST NOT parse free-form `reason`.",
   "type": "object",
   "x-dia-workflow": "project",
-  "x-dia-status": "draft",
+  "x-dia-status": "accepted",
   "x-dia-basis": [
     "doc/project/40-proposals/036-memarium.md",
     "doc/project/40-proposals/047-classification-label-propagation.md",
@@ -49,7 +49,68 @@
         "request": {
           "type": "object"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "op": { "const": "quarantine_list" } }, "required": ["op"] },
+          "then": { "properties": { "request": { "$ref": "#/$defs/QuarantineListRequest" } } }
+        },
+        {
+          "if": { "properties": { "op": { "enum": ["quarantine_accept", "quarantine_reject"] } }, "required": ["op"] },
+          "then": { "properties": { "request": { "$ref": "#/$defs/QuarantineDecisionRequest" } } }
+        }
+      ]
+    },
+    "QuarantineListRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["space"],
+      "properties": {
+        "space": { "type": "string", "enum": ["personal", "community", "public", "crisis"] },
+        "community_id": { "type": "string", "minLength": 1 },
+        "entry_kind": { "type": "string", "minLength": 1 },
+        "limit": { "type": "integer", "minimum": 0 },
+        "entry_offset": { "type": "integer", "minimum": 0, "default": 0 },
+        "fact_offset": { "type": "integer", "minimum": 0, "default": 0 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "space": { "const": "community" } }, "required": ["space"] },
+          "then": { "required": ["community_id"] }
+        }
+      ]
+    },
+    "QuarantineDecisionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["space", "reason"],
+      "properties": {
+        "space": { "type": "string", "enum": ["personal", "community", "public", "crisis"] },
+        "community_id": { "type": "string", "minLength": 1 },
+        "target_kind": { "type": "string", "enum": ["entry", "fact"] },
+        "target_id": { "type": "string", "minLength": 1 },
+        "fact_id": { "type": "string", "minLength": 1, "description": "Deprecated compatibility alias for target_kind=fact plus target_id." },
+        "entry_kind": { "type": "string", "minLength": 1 },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 2048 }
+      },
+      "oneOf": [
+        { "required": ["target_kind", "target_id"], "not": { "required": ["fact_id"] } },
+        { "required": ["fact_id"], "not": { "anyOf": [{ "required": ["target_kind"] }, { "required": ["target_id"] }] } }
+      ],
+      "allOf": [
+        {
+          "if": { "properties": { "space": { "const": "community" } }, "required": ["space"] },
+          "then": { "required": ["community_id"] }
+        },
+        {
+          "if": { "properties": { "target_kind": { "const": "entry" } }, "required": ["target_kind"] },
+          "then": { "required": ["entry_kind"] }
+        },
+        {
+          "if": { "properties": { "target_kind": { "const": "fact" } }, "required": ["target_kind"] },
+          "then": { "not": { "required": ["entry_kind"] } }
+        }
+      ]
     },
     "OkResponse": {
       "type": "object",

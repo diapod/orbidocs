@@ -171,6 +171,10 @@ stable Memarium reason code such as `no_profile_matched`, `revoked`, or
 
 - `grants`: operation namespace to allowed spaces, for example
   `"memarium/write": ["community"]`;
+- `memarium/quarantine` is the dedicated A0 grant for the quarantine
+  `list`/`accept`/`reject` operations carried by the `memarium.declassify`
+  endpoint under the endpoint-plus-operation wire model; it is not implied by
+  `memarium/declassify`;
 - `spaces`: allowed Memarium spaces;
 - `community_ids`: optional, but required by HTTP target-bearing operations when
   `space == "community"`;

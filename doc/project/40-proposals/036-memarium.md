@@ -345,8 +345,10 @@ MemariumEntry {
 
 Entries are immutable facts. Updates are new entries with provenance links to
 prior entries. `classification.source_tier` is stamped at write/ingress time and
-is immutable; declassification is represented by append-only policy facts and a
-derived read view, not by rewriting the entry.
+is immutable; declassification is represented by append-only policy facts and
+an exact boundary projection, not by rewriting the entry. A context-free read
+returns the source tier plus the complete trail, because a surface/topic-bound
+exception cannot define one global lowered tier.
 
 The entry payload is normalized before storage:
 
@@ -445,6 +447,7 @@ daemon's host capability surface:
 | `memarium.promote` | A0 | Promote an entry from one space to another. Requires operator approval by default (A0) because it crosses policy boundaries. |
 | `memarium.forget` | contextual | Request right-to-forget on an entry. The required autonomy depends on space, outcome, and caller authority: personal immediate forget may be delegated through tightly scoped passports; public tombstone and shared-memory forget requests require operator approval or governed workflow; crisis forget is restricted. |
 | `memarium.declassify` | A0 | Append a declassification/quarantine policy fact. Declassification never rewrites the source fact; it is authorized through `memarium-declassify@v1`, bound by space, surface, topic class, mode, and tier transition. |
+| `memarium.quarantine` | A0 | List or append terminal accept/reject policy facts for pending quarantined entries and facts. It is a space-scoped grant used by operations on the `memarium.declassify` endpoint. |
 
 These capabilities are registered through the same host capability binding
 mechanism used by middleware modules (`/v1/host/capabilities/memarium.*`).
@@ -452,11 +455,11 @@ In-process callers (agents, NSE hooks) invoke them directly through trait
 methods; out-of-process callers (middleware modules) invoke them through the
 existing host capability HTTP surface.
 
-Point reads may use an O(n) scan as the MVP correctness fallback because the
-storage-layer `RecordId` is not the Memarium domain id. Write paths should
-stamp storage `idempotency_key` with `EntryId` / `FactId`, so a future
-addressable sidecar or `get_by_idempotency_key` hook can replace scans without
-changing the Memarium domain contract.
+Point reads retain an O(n) scan as the correctness fallback because the
+storage-layer `RecordId` is not the Memarium domain id. The default Node runtime
+now composes a rebuildable SQLite sidecar keyed by EntryId/FactId; write paths
+also stamp storage `idempotency_key`, so sidecar rebuild or replacement does
+not change the Memarium domain contract.
 
 For `memarium.forget`, "operator approval" may later be represented as a
 remembered operator decision rather than a one-click prompt for every request.
@@ -683,7 +686,7 @@ node/
 | Agora sync fact chain diverges from actual relay state | Node believes submission succeeded when it failed, or vice versa | Periodic reconciliation: agent may compare local sync facts against Agora relay query results and record correction facts. |
 | Post-chain observer adds latency to message pipeline | Degraded peer message throughput | Observers are fire-and-forget by design. Writes are asynchronous appends to the commit log. |
 | Observe rule extract path references a missing field | Fact recorded with incomplete fields | Extract paths that resolve to `null` are preserved as explicit `null` in the fact fields. Rule compilation validates path syntax at startup; missing runtime values are not errors. |
-| Middleware config declares observe rule for non-existent space | Rule rejected at startup | Observe rule compiler validates space ids against the known space set and rejects unknown spaces with a startup warning. |
+| Middleware config declares an invalid observe rule or non-existent space | Daemon would silently lose expected memory | Observe rule compilation fails startup/config activation; invalid rules are not skipped with a warning. |
 
 ## Resolved Decisions
 
@@ -691,7 +694,10 @@ node/
    keeps it disabled by default; any attached PreInput adapter may annotate but
    must not mutate, drop, or admit peer messages.
 2. The minimal crisis seed set is owned by Proposal 039 and applied
-   synchronously during daemon startup.
+   synchronously during daemon startup. Seed v1 is intentionally unsigned and
+   compiled into the reviewed Node binary; its pinned digest detects
+   same-version drift. A future file-loaded seed requires a separate signature
+   authority decision.
 3. Community group keys are managed outside Memarium. Memarium enforces sealed
    payload envelopes and records facts; it does not own group-key lifecycle.
 4. Agora sync fact reconciliation is append-only. Agora owns the semantic
@@ -711,9 +717,9 @@ node/
 
 ## Next Actions
 
-1. Keep deployment telemetry on read-sidecar p95 and per-space row counts; add a
-   lower-level projector only if startup/read catch-up exceeds the operator
-   budget.
+1. Keep deployment telemetry on read-sidecar p95 and per-space row counts;
+   batch fact-policy reads or add a SQLite read pool only if the single
+   correctness-first connection exceeds the operator budget.
 2. Continue production monitoring for the classification strict-mode gate:
    `StampThenWarn` remains until 2026-06-30 and seven consecutive zero-fallback
    days.

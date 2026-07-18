@@ -44,7 +44,7 @@
              "classification.v1"
              "memarium-host-api.v1"]
    :responsibilities
-   ["Expose passport-gated host capabilities for read, write, index, cache, promote, forget, declassify, crisis status, and crisis resolve"
+   ["Expose passport-gated host capabilities for read, write, index, cache, promote, forget, declassify, quarantine, crisis status, and crisis resolve"
     "Build structured Memarium authorization targets from space, community id, entry kind, and entry id"
     "Map dispatch-gate denials to stable wire status codes and audit decision strings"
     "Use revocation sources before accepting passport-authorized operations"
@@ -61,9 +61,10 @@
    :responsibilities
    ["Treat missing labels during the migration window as Personal plus ingress quarantine"
     "Support append-only declassification facts through the narrow memarium-declassify passport profile"
-    "Support operator quarantine accept and reject facts without mutating the source record"
-    "Derive effective tier and declassify trail on read/query paths"
-    "Reject egress/export attempts that violate effective tier, quarantine, or public bound-subject projection rules"]
+    "Support operator quarantine accept and reject facts through the space-scoped memarium/quarantine grant without mutating the source record"
+    "Return conservative source-tier read views and derive lowered tiers only for an exact egress surface/topic under a current revocation view"
+    "Record append-only one-shot consumption before an authorized effect"
+    "Reject egress/export attempts that violate effective tier, revocation, one-shot, quarantine, or public bound-subject projection rules"]
    :status :done}
 
   {:cap/id :crisis-space-loop
@@ -92,7 +93,7 @@
              "classification.v1"]
    :responsibilities
    ["Build local archival-package.v1 bundles from selected Memarium entries or facts"
-    "Preserve classification as package data and enforce export-bound classification guards"
+    "Preserve classification as package data and enforce export-bound classification, revocation, and one-shot-consumption guards"
     "Write bundles through a staging directory and publish only after all payloads, packages, and manifest data succeed"
     "Generate package ids scoped by backup id plus item ordinal so repeated backups of the same source do not collide"
     "Expose local control endpoints for create/list/detail inspection of backup bundles"
@@ -175,4 +176,5 @@
  :notes
  ["This catalog is solution-level. Concrete Rust crate boundaries and daemon route ownership live in the node implementation ledger."
   "Memarium host capabilities use dotted HTTP route names such as memarium.read; passport grants use namespaced-symbol vocabulary such as memarium/read."
-  "The local backup and remote archivist handoff flows are control endpoints, not passport-gated memarium.* host capabilities, because they are operator-local daemon lifecycle operations."]}
+  "The local backup and remote archivist handoff flows are authenticated local control endpoints, not passport-gated memarium.* host capabilities, because they are operator-local daemon lifecycle operations."
+  "Context-free Memarium reads preserve source-tier authority; only a concrete boundary projection may apply a surface/topic-scoped declassification."]}
