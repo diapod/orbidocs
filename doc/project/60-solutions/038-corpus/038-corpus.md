@@ -328,6 +328,22 @@ Status:
   authorized signed answer publication. Remote Room-authority trust and arbiter
   election remain post-MVP.
 
+### Optional Shared Enacted Views
+
+Corpus may compose a Room deliberation with an explicitly published Sensorium
+Interface, but it does not own the source, grant, projection, or observation
+runtime. Room membership and interface observation authority remain independent;
+the first terminal profile carries only a bounded cursor-free `latest-state`
+viewport and grants no terminal actuation.
+
+[Story 012](../../30-stories/story-012-agents-share-chair-terminal.md) defines the
+first concrete three-node profile. Its Workbench source, Room relay, and
+Sensorium Interface projection substrates are implemented. Execution remains
+blocked until the host can admit one exact received interface frame as ephemeral
+context for one exact Agent passage under dual Room/interface authority. The
+profile plan must not be represented as completed Corpus capability before that
+bridge and its refusal smoke exist.
+
 ## Out of Scope
 
 - owning the curated/training `corpus-entry.v1` corpus;

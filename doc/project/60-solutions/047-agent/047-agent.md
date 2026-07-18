@@ -271,6 +271,11 @@ an extension hidden inside this solution.
    cross-node or federated execution.
 4. Keep detailed implementation evidence and future recommendations in Proposal
    073 rather than duplicating tracker prose here.
+5. Implement the Story 012 Sensorium Interface observation boundary only as an
+   explicit host-owned Agent input adapter: bind one current frame to one Room
+   participant and Agent passage, keep content ephemeral, and deny every implicit
+   actuation or membership-derived authority. The checked-in profile remains
+   non-executable until that boundary has refusal and process evidence.
 
 ## Must Implement
 

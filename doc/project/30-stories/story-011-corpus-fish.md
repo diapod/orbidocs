@@ -64,6 +64,11 @@ round itself; a real Matrix homeserver-backed live collaboration transport is a
 post-MVP extension as long as the query and answer path preserve the Matrix room
 id as protocol intent.
 
+[Story 012](story-012-agents-share-chair-terminal.md) is the gated follow-on
+profile that composes this Agent-deliberation topology with a chair-owned,
+read-only Workbench terminal view. It is not part of Story 011 completion and
+must remain non-executable until its Agent observation-admission gate exists.
+
 ## Acceptance Pack
 
 The initial operator-facing pack lives in:

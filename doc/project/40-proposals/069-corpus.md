@@ -1736,6 +1736,14 @@ runtime, no N-way settlement.
 
 #### Optional shared enacted views `[x] P082 runtime implemented`
 
+- [x] Define Story 012 and a non-executable acceptance profile that composes the
+  existing Corpus/Agent Room topology with a chair-owned read-only Workbench
+  terminal view, keeps actuation local-control-only in the first profile, and
+  records explicit substrate gates before any smoke may run.
+- [ ] Add the host-owned observation-admission bridge that binds one admitted
+  Room-delivered Sensorium Interface `latest-state` frame to an exact participant
+  Agent passage under dual Room/interface authority, classification and byte
+  ceilings, ephemeral content lifetime, and prompt-free trace.
 - [ ] For deliberation profiles that share a terminal or enacted-environment view,
   publish a bounded read-only Workbench/Sensorium representation through P082
   and Solution 046,
@@ -1744,6 +1752,10 @@ runtime, no N-way settlement.
   must not treat Room membership as interface authority, expose ordered terminal
   replay, or grant terminal input and other Workbench actuation. It is not part of
   Phase 7 closure.
+- [ ] Complete and run the Story 012 three-node process smoke only after every
+  checked-in substrate gate is backed by executable evidence; prove revocation,
+  restart refresh, no ambient actuation, no terminal-content persistence, and an
+  unpublished Corpus answer draft.
 
 #### Phase 9 — N-way settlement
 
