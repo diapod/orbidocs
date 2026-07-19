@@ -126,6 +126,12 @@ make validate-schemas
 make check-capability-registry
 ```
 
+### Mermaid diagram link consistency
+
+```sh
+make check-mermaid-links
+```
+
 ### Regenerate human-facing schema pages
 
 ```sh

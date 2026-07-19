@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "doc/project/60-solutions/**"
+      - "doc/diagrams/**"
       - "doc/schemas/**"
       - "doc/schemas-gen/**"
       - "doc/COVERAGE.md"
@@ -23,6 +24,7 @@ on:
       - main
     paths:
       - "doc/project/60-solutions/**"
+      - "doc/diagrams/**"
       - "doc/schemas/**"
       - "doc/schemas-gen/**"
       - "doc/COVERAGE.md"
@@ -45,7 +47,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -59,6 +61,9 @@ jobs:
 
       - name: Verify documentation and source files do not contain local absolute paths
         run: make check-no-absolute-local-paths
+
+      - name: Verify Mermaid diagram links
+        run: make check-mermaid-links
 
       - name: Verify generated documentation artifacts
         run: |

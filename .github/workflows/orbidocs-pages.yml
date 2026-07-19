@@ -57,6 +57,9 @@ jobs:
       - name: Verify documentation and source files do not contain local absolute paths
         run: make check-no-absolute-local-paths
 
+      - name: Verify Mermaid diagram links
+        run: make check-mermaid-links
+
       - name: Verify generated documentation artifacts
         run: |
           make docs-gen
