@@ -312,6 +312,9 @@ Responsibilities:
 
 - project the authority-signed active endpoint and monotonic relay epoch from Room
   facts;
+- expose first-slice relay activation only through the registered local operator API,
+  deriving the signer from current Room authority rather than caller-supplied identity;
+  any module or remote management surface requires a separately registered capability;
 - prefer requester, relay-capable member, then federation relay service without
   treating readiness or presence as authority;
 - reuse `node-advertisement.v1` WSS relay endpoints plus optional
@@ -331,6 +334,10 @@ Responsibilities:
   delivery, and reject old-epoch frames after supersession;
 - support `member-visible-tls-v1` for content-visible member relays and the separately
   bounded `sealed-sender-key-v1` profile for a non-member federation relay;
+- treat the complete bounded audience array as explicit member-visible metadata: every
+  authorized recipient and the content-visible relay can inspect all recipient,
+  admission, membership-sequence, and expiry entries; sealed delivery omits that full
+  list but still has traffic-analysis leakage;
 - carry P082 latest-state and P083 fenced interaction through the same relay while
   keeping direct peer an optional latency upgrade.
 

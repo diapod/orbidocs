@@ -1172,6 +1172,8 @@ operator-readable: `recovered`, `terminated`, `quarantined`,
 | Event producer overwhelms a consumer. | Enforce byte/event caps, cursor windows, truncation markers, and backpressure/overload status. |
 | Wait outcome overwhelms deferred-operation consumers. | Bound `observed` and `diagnostics` by schema shape and by host-owned serialized byte/count caps before projection into `deferred-operation-status.v1`. |
 | Agent adapter bypasses Sensorium tools. | Reject adapters that own their own terminal/filesystem authority outside host grants. |
+| One adapter-level default labels test and production environments alike. | Pin operational context on the exact environment/resource; treat the adapter value only as an operator-configured candidate default. |
+| A read-only viewport is labeled less cautiously than the environment it observes. | Require every derived P082/P083 resource to inherit the environment class; host policy may raise but never lower it. |
 | An environment changes impact class while an old interface remains readable. | Advance or invalidate the source generation, publish an immutable replacement, withdraw the old interface as superseded, and let P082 refuse old-generation or superseded reads. |
 | Workbench grows into a second orchestration core. | Keep Workbench as an actuator: no policy selection, no model routing, no workflow ownership. |
 
@@ -1505,6 +1507,13 @@ Phase 3A operator-consent slices.
     execution-derived answer-room membership before stamping lineage and passing the ordinary directive to
     Sensorium Core. One Agent effect proposal binds to one `directive/id` with
     replay of that same directive allowed.
+40. **Operational impact belongs to the exact environment.** An adapter may define
+    a default `sensorium-operational-context.v1`, but each Workbench environment
+    pins its candidate class. Host policy may raise it, never lower it, and every
+    derived P082/P083 publication inherits the resulting value and source generation.
+    Read-only access does not reduce the class of a production or critical source.
+    Source-side correction uses a reasoned immutable replacement; it is not blocked
+    by the consumer-side monotonicity rule.
 
 ## Next Actions And Implementation Tracker
 

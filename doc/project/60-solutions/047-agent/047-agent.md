@@ -148,6 +148,12 @@ The process-local latest-state inbox refuses two different content digests at
 one relay epoch and sequence with a dedicated payload-free structured diagnostic.
 The conflicting delivery cannot replace the already admitted observation.
 
+The composed Story 012 process profile revokes C and waits for relay-audience
+convergence before repair, dirty-restarts recipient B, then proves a newer passing
+state for B while C remains refused. Its 16-entry refusal matrix names whether
+each claim is evidenced directly by the composed runner or by the owning
+P070/P082/P083 lower-stratum suite.
+
 The post-MVP operational-context extension remains source-owned by P082. Agent
 Core will carry only bounded generic qualifier refs and digests; the daemon will
 validate the exact source value, current generation, and effective publication,
@@ -336,9 +342,10 @@ an extension hidden inside this solution.
    source, bind the resolved read result and inline snapshot to one Room recipient
    and Agent passage, preserve its validated P081 causal context, keep content
    ephemeral, and deny dynamic wiring, implicit actuation, or membership-derived
-   authority. New sources extend daemon wiring, not `agent-core`.
-   The checked-in profile remains non-executable until the composed three-node
-   runner supplies cross-process refusal and restart evidence.
+   authority. New sources extend daemon wiring, not `agent-core`. Keep the
+   passing composed three-node runner on the release gate: it reuses Story 011's
+   bootstrap and proves distinct participant evidence, local repair observation,
+   observer revocation, dirty restart, and unpublished chair output.
 
 ## Must Implement
 

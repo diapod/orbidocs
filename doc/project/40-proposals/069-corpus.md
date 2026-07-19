@@ -1795,11 +1795,18 @@ runtime, no N-way settlement.
   replay, or grant terminal input and other Workbench actuation. It is not part of
   Phase 7 closure. The implemented carrier publishes a closed
   `sensorium-interface-read-result.v1` with one cursor-free inline snapshot into
-  the active relay epoch; Story 012 process composition remains separate.
-- [ ] Complete and run the Story 012 three-node process smoke only after every
-  checked-in substrate gate is backed by executable evidence; prove revocation,
-  restart refresh, no ambient actuation, no terminal-content persistence, and an
-  unpublished Corpus answer draft.
+  the active relay epoch. Story 012 composes this carrier through the shared
+  Story 011 three-node bootstrap without turning Corpus into a terminal owner.
+- [x] Complete and run the Story 012 three-node process smoke after every
+  checked-in substrate gate is backed by executable evidence. The runner proves
+  the failing chair terminal, independent B/C observations and HIL deliberation,
+  revocation of C before repair, convergence of the relay audience, dirty restart
+  of recipient B, local-only repair, a newer passing latest-state projection for B
+  while C remains refused, unchanged absence of ambient terminal actuation, and
+  Corpus acceptance of the chair result only as an unpublished answer draft. The
+  profile closes all 16 refusal claims through either direct composed-process
+  evidence or a named lower-stratum P070/P082/P083 owner. P070's separate host-TLS
+  pack remains the external relay deployment evidence.
 
 #### Phase 9 — N-way settlement
 

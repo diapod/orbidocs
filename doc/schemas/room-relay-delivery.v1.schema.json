@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:room-relay-delivery:v1",
   "title": "RoomRelayDelivery v1",
-  "description": "Ephemeral member-visible relay delivery that binds a validated Room carrier payload to one relay epoch and total-order sequence. The explicit delivery/kind discriminator prevents ambiguity with encrypted deliveries. It carries no authority and MUST NOT contain session bearers.",
+  "description": "Ephemeral member-visible relay delivery that binds a validated Room carrier payload to one relay epoch and total-order sequence. A bounded audience carries source-admission evidence for recipient-filtered payloads but grants no independent authority. The explicit delivery/kind discriminator prevents ambiguity with encrypted deliveries. It MUST NOT contain session bearers.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
@@ -10,7 +10,7 @@
   "x-dia-basis": ["P070", "P082", "P083"],
   "required": [
     "schema/v", "delivery/kind", "room/id", "relay/epoch", "relay/seq-no", "sender/subject",
-    "payload/class", "payload/schema", "payload/digest", "payload", "accepted-at"
+    "payload/class", "payload/schema", "payload/digest", "audience", "payload", "accepted-at"
   ],
   "properties": {
     "schema/v": { "const": 1 },
@@ -38,7 +38,32 @@
       "maxLength": 128,
       "pattern": "^sha256:[A-Za-z0-9_-]+$"
     },
+    "audience": {
+      "description": "Complete bounded recipient-admission set for this member-visible delivery. Every authorized recipient and the content-visible relay can inspect every entry; deployments requiring recipient-set confidentiality must use a sealed profile that does not expose this array.",
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "recipient/ref", "admission/ref", "room-membership/source-seq-no", "expires-at"
+        ],
+        "properties": {
+          "recipient/ref": { "type": "string", "minLength": 3, "maxLength": 512, "pattern": "^[^\\u0000-\\u001F\\u007F]+:[^\\u0000-\\u001F\\u007F]+$" },
+          "admission/ref": { "type": "string", "minLength": 3, "maxLength": 512, "pattern": "^[^\\u0000-\\u001F\\u007F]+:[^\\u0000-\\u001F\\u007F]+$" },
+          "room-membership/source-seq-no": { "type": "integer", "minimum": 1 },
+          "expires-at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
     "payload": { "type": "object", "additionalProperties": true },
     "accepted-at": { "type": "string", "format": "date-time" }
-  }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "payload/class": { "const": "sensorium-latest-state" } } },
+      "then": { "properties": { "audience": { "minItems": 1 } } }
+    }
+  ]
 }

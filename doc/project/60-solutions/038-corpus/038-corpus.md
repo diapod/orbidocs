@@ -342,10 +342,13 @@ Interface projection, substrate-neutral Agent observation port, static wiring,
 and daemon-owned Room/Sensorium resolver are implemented. Its composed process
 runner reuses Story 011's federation/bootstrap lifecycle and proves exact
 generic need/binding admission, resolver-private read-result authority,
-independent B/C observation and deliberation, local-only repair, passing-state
-refresh, one observer's revocation, dirty participant restart, and an
+independent B/C observation and deliberation, C revocation and audience
+convergence before repair, dirty restart and refreshed current-state admission on
+B, local-only repair, passing-state refresh for B with C still refused, and an
 unpublished Corpus answer draft. External host-TLS relay deployment remains
-separately evidenced by P070 rather than being simulated by Corpus.
+separately evidenced by P070 rather than being simulated by Corpus. The profile's
+closed refusal matrix distinguishes direct composed-process checks from named
+lower-stratum P070/P082/P083 evidence owners.
 
 The planned P082-021 operational-context extension remains owned by Sensorium
 Interfaces. Corpus will require the exact source context before admitting a

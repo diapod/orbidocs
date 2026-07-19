@@ -8,6 +8,7 @@
   "payload/class": "room-live",
   "payload/schema": "room-live-message.v1",
   "payload/digest": "sha256:YWJjZGVmZ2hpamtsbW5vcA",
+  "audience": [],
   "payload": {},
   "accepted-at": "2026-07-17T12:00:01Z",
   "session/ref": "secret-session-bearer"

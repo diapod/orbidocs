@@ -1,6 +1,6 @@
 # Story 012: Remote Agents Solve a Problem Through a Shared Chair Terminal
 
-Status: Observation admission implemented; execution blocked by the composed process runner
+Status: Implemented; composed three-node acceptance passes
 
 Related:
 
@@ -34,10 +34,10 @@ terminal, or collaboration runtime:
 - the destination daemon resolves a generic Agent observation need through
   Interaction Broker and the Room/Sensorium adapter.
 
-The profile is intentionally not executable yet. The host-owned observation
-admission boundary is implemented, but the profile remains fail-closed until a
-composed three-node process runner exercises it without duplicating Story 011's
-trust/bootstrap logic.
+The profile is executable. Its process runner reuses the extracted Story 011
+three-node federation/bootstrap layer, then composes the Workbench, Sensorium
+Interface, Room observation, Agent, and story fixture layers without creating a
+second trust bootstrap or collaboration runtime.
 
 ## Concrete Problem
 
@@ -135,10 +135,15 @@ remain local to node A.
 10. The chair Agent proposes a bounded next action. In the first profile, only
     local control on node A may enact terminal input, command execution, resize,
     signal, patch, or file mutation through Workbench.
-11. After the local operator applies the accepted change and reruns the fixture,
+11. The host revokes C's exact interface grant and waits until the source-side
+    projection reports the reduced recipient set. C is refused before any repaired
+    terminal state exists.
+12. Node B is dirty-restarted to prove durable Agent and invitation recovery without
+    retaining terminal content in the recipient process.
+13. After the local operator applies the accepted change and reruns the fixture,
     the latest-state projection shows the passing result to all still-authorized
-    participants.
-12. Corpus accepts the chair's `agent.outcome.v1` as an inert answer draft.
+    participants. B observes the new source version; C remains refused.
+14. Corpus accepts the chair's `agent.outcome.v1` as an inert answer draft.
     Rendering, publication, settlement, and durable terminal capture remain
     separate transitions.
 
@@ -209,9 +214,9 @@ snapshot, but it must not silently become a transcript store or summarizer.
 | Story 011 Corpus/Agent deliberation | available | selected participant and chair Agents deliberate over Room with restart-safe bindings and inert final draft |
 | Room Phase 6A relay | available | three-node member-visible WSS relay carries bounded Room and Sensorium Interface payloads with epoch fencing |
 | Workbench terminal source | available | isolated PTY, bounded visible-screen snapshot, local actuation authority, and classified explicit capture |
-| Sensorium Interface Room projection | available | exact grants, `latest-state`, recipient intersection, revocation, restart recovery, and no terminal control |
+| Sensorium Interface Room projection | available | exact grants, `latest-state`, recipient intersection, revocation, recipient-side restart recovery, and no terminal control; the source-host pump remains process-local and must be recreated after a source-host restart |
 | Agent observation admission | available | substrate-neutral need/binding/evidence in `agent-core`, preserved P081 source causality, static fail-closed JSON-e wiring, daemon-owned Room/Sensorium resolution, process-local revocable latest-state inbox, resource-bound Interaction Broker source, one-passage Inquirium layer, prompt-free trace, and restart/retention refusal tests |
-| Story 012 process runner | **missing** | a composed three-node runner extending the Story 011 topology without copying its trust/bootstrap logic |
+| Story 012 process runner | available | a composed three-node runner extends the shared Story 011 topology without copying its trust/bootstrap logic |
 
 The acceptance pack must refuse execution while any gate is missing. Marking a
 documentation row complete is not sufficient evidence; the runner must probe the
@@ -219,40 +224,50 @@ corresponding runtime surface or execute its refusal vector.
 
 ## Acceptance Profile
 
-The planned operator-facing pack lives in:
+The operator-facing pack lives in:
 
 ```text
 node/tools/acceptance/story-012-shared-chair-terminal/
 ```
 
-Its checked-in profile plan is non-executable. It records topology, authority,
-delivery mode, the remaining runner gate, and required assertions. A future runner should
-reuse Story 011's profile rendering and federation-root bootstrap as a lower
-stratum, then add only the Workbench, Sensorium Interface, Agent-observation, and
-story-specific fixture layers.
+Its checked-in profile is executable through `profile_plan.py smoke`. The shared
+`three_node_federation.py` layer owns profile rendering, federation-root
+bootstrap, process lifecycle, and dirty restart for both Stories 011 and 012.
+The Story 012 runner adds only Workbench, Sensorium Interface,
+Agent-observation, Room-deliberation, and deterministic fixture behavior.
 
-The eventual process smoke must prove:
+The smoke activates the local relay epoch through a reserved `.invalid`
+endpoint because it is proving composed authority and lifecycle behavior, not
+network deployment. P070's separate multi-process host-TLS acceptance remains
+the deployment evidence for the external relay boundary.
+
+The composed profile binds every required refusal to named executable evidence.
+The process smoke directly proves:
 
 - three distinct daemon identities and node-local Agents;
 - signed Room invite and membership admission for B and C;
 - no terminal view before the exact interface grant exists;
 - no view from Room membership alone or from an interface grant alone;
 - cursor-free bounded latest-state delivery over the active Room relay epoch;
-- exact generic need/binding plus resolver-private read-result/frame, authority,
-  and classification checks;
+- exact generic need/binding plus refusal of a binding belonging to another Agent;
 - refusal of unbound, dynamically interpolated, changed-schema, or widened source
   mappings before source I/O;
 - B and C can deliberate from the shared view but cannot invoke or manage it;
-- revocation stops one observer while the Room and other observer remain active;
-- restart restores durable Agent, Room, interface, and grant projections, while
-  stale relay or subscription state fails closed and refreshes from current
-  latest state;
-- two different content digests at one relay epoch and sequence are refused with
-  a payload-free diagnostic and cannot replace the previously admitted state;
+- C's revocation converges before repair, stops both the current read and the new
+  passing-state read, and leaves the Room plus B active;
+- dirty restart of recipient B restores its durable Agent and Room invitation while
+  its process-local observation inbox starts empty and refreshes from current state;
 - terminal bytes do not enter Room messages, Memarium Agent facts, status,
   notifications, or prompt-free traces;
 - the passing result is observed after local chair-side actuation; and
 - the chair outcome remains an unpublished Corpus answer draft.
+
+Lower-stratum suites named in `profile.json` prove wrong Room, interface and
+participant binding, conflicting relay-position digests, stale relay epochs,
+classification ceilings, ordered-event refusal, and remote actuation refusal. This
+keeps protocol conformance in P070/P082/P083 while making the Story-level evidence
+ownership closed and machine-validated instead of implying that one process runner
+duplicates every lower-layer test.
 
 The post-MVP operational-context extension tracked by P082, P064, P069, P071, and
 P073 must additionally prove that B and C receive the same source context and
@@ -291,13 +306,14 @@ bytes reach a model. P082 owns this freshness predicate; Story 012 adds no TTL.
 
 ## Done When
 
-- The story document and non-executable acceptance profile agree on topology,
+- [x] The story document and executable acceptance profile agree on topology,
   authority, data lifetime, and refusal behavior.
-- P069 and P073 track the substrate-neutral Agent observation port, daemon-owned
-  Room/Sensorium resolver, and remaining process smoke explicitly.
-- The profile validator rejects terminal actuation grants, membership-as-authority,
-  ordered-event delivery, durable terminal content, and premature execution.
-- Every substrate gate has executable evidence and is marked available.
-- Only then, a composed three-node smoke completes the concrete problem from
-  failing test through shared observation, deliberation, local repair, passing
-  test, and unpublished answer draft.
+- [x] P069 and P073 track the substrate-neutral Agent observation port,
+  daemon-owned Room/Sensorium resolver, and composed process evidence.
+- [x] The profile validator rejects terminal actuation grants,
+  membership-as-authority, ordered-event delivery, and durable terminal content.
+- [x] Every substrate gate has executable evidence and is marked available.
+- [x] The composed three-node smoke completes the concrete problem from failing
+  test through independent B/C deliberation, C revocation, dirty B restart, local
+  repair, passing-state observation by B plus continued refusal for C, and an
+  unpublished answer draft.

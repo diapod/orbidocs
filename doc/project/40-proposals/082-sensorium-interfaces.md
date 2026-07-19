@@ -413,13 +413,15 @@ profiles. Those profiles fail closed when it is absent, malformed, or inconsiste
 A later descriptor major version may make it universally required after migration.
 
 Every P082 data result from a context-bearing interface repeats the exact validated
-`operational/context` from its immutable descriptor. A Room adapter transports the
-complete read-result value unchanged; it does not interpret the class. A receiving
-host verifies structural equality with the disclosed descriptor when available and
-otherwise binds the value to the immutable `interface/id`. The optional
-`context/summary` is bounded, treated as untrusted data, and never promoted directly
-into a system or developer instruction. This gives downstream resolvers the class
-before they expose frame payloads while keeping the carrier authority-neutral.
+`source/generation-ref` and `operational/context` from its immutable descriptor. A
+Room adapter transports the complete read-result value unchanged; it does not
+interpret the class or decide freshness. A receiving host verifies structural
+equality with the disclosed descriptor, rejects a superseded publication or source-
+generation mismatch under the frozen predicate above, and otherwise binds the value
+to the immutable `interface/id`. The optional `context/summary` remains untrusted
+data and is never promoted directly into a system or developer instruction. This
+gives downstream resolvers the class before they expose frame payloads while keeping
+the carrier authority-neutral.
 
 ### 3. Source Binding Is Polymorphic and Host-Private
 
@@ -1303,7 +1305,7 @@ encode that choice.
 ## Frozen Initial Decisions
 
 The design questions are resolved as of 2026-07-17. Decisions 1-6 freeze the V1
-baseline; decisions 7-9 close the evidence-gated follow-up review:
+baseline; decisions 7-10 close the evidence-gated follow-up review:
 
 1. P082 is the dedicated home for Sensorium Interface semantics; P045 retains local
    Sensorium admission and actuation.
@@ -1363,7 +1365,7 @@ baseline; decisions 7-9 close the evidence-gated follow-up review:
 | P082-010 | Adapt Workbench terminal screen snapshots and ordered event batches | done | Workbench screen latest-state and terminal ordered-events are separate source bindings with separate descriptor semantics. |
 | P082-011 | Add host publication, grant, subscription, revocation, and inspection surfaces | done | The daemon runtime persists immutable management facts, idempotency, grants, subscriptions, terminal states, and restart-rebuildable projections. Grants require canonical namespaced grantee refs; cursor advancement is serialized per subscription, while independent subscriptions may read concurrently; verified Passport admission is one immediate atomic transaction with explicit revoked-replay diagnostics. |
 | P082-012 | Add local host-capability and authenticated direct-peer pull-batch surfaces | done | Host dispatch and peer message-chain tests verify caller binding, signed `sensorium-interface@v1` Passport scope, exact remote target and local source issuer, resource limits, and current revocation. |
-| P082-013 | Add local SSE and WSS-backed Room latest-state adapters | done | Loopback module-authenticated SSE and WSS Room projection use adapter-owned read-next loops with carrier-specific causal ids, current grant checks, typed close, ordered-event refusal, and no durable Room close. Room recipients match canonical stable subject keys only; the adapter caps active pumps at 64 and reaps terminal pump and carrier state together. |
+| P082-013 | Add local SSE and WSS-backed Room latest-state adapters | done | Loopback module-authenticated SSE and WSS Room projection use adapter-owned read-next loops with carrier-specific causal ids, current grant checks, typed close, ordered-event refusal, and no durable Room close. Room recipients match canonical stable subject keys only; the adapter caps active pumps at 64 and reaps terminal pump and carrier state together. Pump intent is process-local: a source-host restart requires the local authority to recreate the projection, while recipient restart refreshes from the relay's bounded current-state view. |
 | P082-014 | Add named-invariant tests plus temperature and Workbench end-to-end acceptance flows | done | Focused core/runtime tests cover temperature one-shot and continuous flows, restart, revocation, concurrent and revoked Passport replay, canonical grantee refs, tier-vocabulary alignment, frame schema negatives, carrier-specific traces, and subscription lock isolation; peer, SSE, and real WSS tests cover signed remote target binding and collaborative terminal view. |
 | P082-015 | Synchronize P024, P042, P045, P047, P066, P070, P071, P072, P075, P080, P081, Solutions 030/035/042, Node ledgers, and applicable readiness tracking | done | Solution 046 owns the implemented boundary. P024/P045/P047/P069/P070/P071/P072/P081 and Solutions 030/035/036/042 carry the applicable explicit cross-links; P042/P066/P075/P080 were reviewed and retain non-competing owner semantics. Node MVP/implementation ledgers, capability registries, generated solution/schema views, and the readiness snapshot are synchronized. |
 | P082-016 | Replace the closed source-binding enum with an open, bounded source-adapter registry and migrate the Sensorium and Workbench adapters | done | Generic host-private bindings are shape-bounded and revalidated after restart; duplicate, unknown, unready, and excess adapters fail closed, daemon startup requires all four built-ins, and point-in-time readiness never replaces authoritative `next_batch` refusal. |

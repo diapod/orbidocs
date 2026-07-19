@@ -248,7 +248,10 @@ Responsibilities:
 - omit source cursors from Room frames, refuse ordered-event interfaces, and
   close only the projection session on terminal or revoked authority;
 - cap active Room projection pumps at 64 and reap terminal pump and carrier
-  state together before admitting replacement work.
+  state together before admitting replacement work;
+- keep pump intent process-local: source-host restart requires an explicit local
+  projection restart, while recipient restart can refresh the relay's bounded
+  current latest-state delivery without durable Sensorium pump state.
 
 Status: `done`.
 
@@ -360,6 +363,12 @@ around the broker read. These Room/Sensorium axes remain private to the daemon;
 the horizontal P081 causal context without importing Sensorium semantics.
 Observation content remains process-local and passage-bounded; durable broker and
 Agent records retain no raw payload.
+
+Story 012 receives the delivery through an authenticated Room subscription and
+compares its epoch with the relay acknowledgement rather than deriving both sides
+from the local inbox. After the broker read it opens a fresh bounded subscription
+to recheck the current relay epoch and current Room invitation before admitting
+the Agent passage.
 
 ### Operational Impact Context
 

@@ -1278,6 +1278,31 @@ Different runtimes may receive different formats, but callers see stable
 semantics: which context was admitted and which part of the result may leave
 Inquirium.
 
+### Operational Caution Is a Host-Owned Prompt Layer
+
+When admitted context describes an enacted Sensorium resource, its owning source
+may publish `sensorium-operational-context.v1` through P082. Inquirium does not own
+that vocabulary and adapters do not interpret it. The daemon composition root first
+validates the exact context through the source-domain resolver, applies a local
+monotone policy floor, and gives `PromptAssemblyPolicyProvider` a host-authored
+operation layer derived from the closed impact class.
+
+The renderer is deterministic, versioned, and golden-tested. It may tell a model,
+for example, that a `production` source represents a live service and therefore
+diagnosis should prefer observation, reversible proposals, and explicit effect
+authorization. It must not copy a publisher-authored summary into a privileged
+instruction, infer grants, or claim that model caution replaces host enforcement.
+`critical` is stricter than `production`; lower layers and adapter-instance
+adjustments cannot remove or weaken either layer.
+
+Prompt assembly records the source context digest, local policy ref, selected class,
+rendered layer id, and resulting instruction hash without recording the source
+payload or free-text summary. If the operation depends on a collaborative live feed
+and the context is absent, stale, malformed, or inconsistent with the immutable
+interface publication, assembly fails closed before adapter invocation. For multiple
+feeds, the host renders the maximum class and retains all source qualifier refs in
+metadata. This is context shaping, not a new Inquirium capability or adapter field.
+
 Here `stale` has exactly the P082 meaning: the bound source generation is no longer
 current or the interface publication was superseded for its source/projection slot.
 Inquirium does not add a wall-clock TTL or another freshness heuristic. It consumes

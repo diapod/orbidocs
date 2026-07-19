@@ -62,9 +62,9 @@ effect-admission boundary, lease reconciliation, and dirty-restart process
 smokes satisfy that gate now. Cross-node or federated Agent execution remains a
 separate future proposal and does not weaken the node-local hard-MVP contract.
 
-The 2026-07-19 Story 012 follow-up implements the host-owned observation
-admission substrate without changing the hard-MVP blocker set or the `100`
-readiness estimates for P073, P082, and Solutions 046/047. `agent-core` now owns
+The 2026-07-19 Story 012 follow-up completes the composed acceptance profile
+without changing the hard-MVP blocker set or the `100` readiness estimates for
+P073, P082, and Solutions 046/047. `agent-core` owns
 only a substrate-neutral observation need, static binding, and prompt-free
 evidence contract. A positive dependency allowlist names pure `inquirium-core`
 DTOs as the sole vertical exception and rejects Room, Corpus, Memarium,
@@ -89,10 +89,13 @@ with a payload-free structured diagnostic without overwriting current state;
 restart drops ephemeral content. The executable Story 012 runner reuses the
 extracted Story 011 three-node federation/bootstrap lifecycle and proves a
 failing chair terminal, distinct B/C observations and HIL deliberation, local
-repair, newer passing source-version and content-digest evidence, observer
-revocation, dirty participant restart, and an unpublished Corpus draft. Story
-012 is therefore ready at `100%`; P070 retains separate ownership of external
-host-TLS relay deployment evidence.
+observer revocation and relay-audience convergence before repair, dirty restart
+of recipient B, local repair, newer passing source-version and content-digest
+evidence for B while C remains refused, and an unpublished Corpus draft. The
+closed 16-entry refusal matrix assigns every claim either to this composed process
+runner or to its named P070/P082/P083 lower-stratum evidence suite. Story 012 is
+therefore ready at `100%`; P070 retains separate ownership of external host-TLS
+relay deployment evidence.
 
 The planned operational-impact extension does not change those hard-MVP scores.
 P082-021 and P083-014 own the shared publication and interactive-resource contract,
@@ -683,7 +686,7 @@ Recent component deltas:
 | [Story 009: The magazine publishes itself — a three-node blogging pipeline about Bielik, conducted by Arca](../30-stories/story-009-bielik-blog-arca.md) | `false` | `false` | `false` | `90` |
 | [Story 010: Message to a Friend](../30-stories/story-010-message-to-a-friend.md) | `true` | `true` | `false` | `100` |
 | [Story 011: Corpus answers the fish-water question](../30-stories/story-011-corpus-fish.md) | `true` | `true` | `false` | `100` |
-| [Story 012: Remote Agents Solve a Problem Through a Shared Chair Terminal](../30-stories/story-012-agents-share-chair-terminal.md) | `false` | `false` | `false` | `90` |
+| [Story 012: Remote Agents Solve a Problem Through a Shared Chair Terminal](../30-stories/story-012-agents-share-chair-terminal.md) | `false` | `true` | `true` | `100` |
 
 ## Proposals
 

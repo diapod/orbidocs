@@ -204,9 +204,12 @@ authority or a delegated authority whose durable delegation includes `relay/mana
 `relay/manage` is a closed Room authority-delegation scope carried by
 `room-event.v1`; it is not a membership grant, a relay readiness flag, or a host
 capability. Phase 6A provides typed delegation scopes, expiry, and revocation linkage
-in the Room event contract and refuses endpoint facts outside that authority. If a
-callable host relay-management surface is introduced later, its capability id and
-ledger row must be registered before runtime code is added.
+in the Room event contract and refuses endpoint facts outside that authority. The
+first local activation surface is an operator-session action: it derives the signer
+from the current local Room authority and does not accept caller-selected authority.
+If relay management later becomes callable by a module or remote principal, its
+capability id and ledger row must be registered before that delegated surface is
+implemented.
 
 The endpoint fact is necessary but not sufficient to authorize a dial. Every client
 still applies host-owned egress policy and Node Transport endpoint trust. The selected
@@ -547,6 +550,21 @@ primitive instead of maintaining a compatibility projection first.
 23. **Relay fact signing.** `room-relay-endpoint.v1` is signed through its
     `agora-record.v1` envelope. It does not introduce an inner signature or a second
     content-addressing and supersession protocol.
+24. **Local relay activation.** The first daemon endpoint is registered as an
+    operator-only API action. The authenticated local operator may request activation,
+    but the runtime derives and verifies the current local Room authority and signs the
+    append-only endpoint fact with that authority. The request cannot supply a caller
+    subject, signer, delegation, or capability. A module-callable or remote variant is
+    a separate delegated host surface and requires prior Capability Registry and ledger
+    registration.
+25. **Member-visible audience disclosure.** A targeted `member-visible-tls-v1`
+    delivery carries the complete bounded `audience` evidence array. Every authorized
+    recipient of that delivery and the content-visible relay can therefore inspect the
+    other recipient refs, admission refs, membership source sequences, and expiries.
+    This metadata disclosure is an explicit property of the member-visible profile,
+    not authority. `sealed-sender-key-v1` does not expose a full recipient array in its
+    relay delivery; deployments requiring recipient-set confidentiality must use that
+    profile and still account for traffic-analysis leakage.
 
 ## Implementation Contract
 

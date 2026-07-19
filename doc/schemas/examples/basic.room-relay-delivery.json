@@ -8,6 +8,7 @@
   "payload/class": "sensorium-receipt",
   "payload/schema": "sensorium-interface-invoke-receipt.v1",
   "payload/digest": "sha256:YWJjZGVmZ2hpamtsbW5vcA",
+  "audience": [],
   "payload": { "schema/v": 1, "operation/id": "sii-operation:example" },
   "accepted-at": "2026-07-17T12:00:01Z"
 }

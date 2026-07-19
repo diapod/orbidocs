@@ -176,7 +176,7 @@ make terminal control last for the full grant lifetime.
   replaced or restarted such that prior control evidence is no longer valid;
 - **shared mode**: multiple callers may submit operations, while the host still
   serializes acceptance and establishes one effect order;
-- **exclusive mode**: exactly one current lease holder may submit effects.
+- **exclusive mode**: exactly one current lease holder may submit effects;
 - **operational impact**: a P082-owned ordered caution class attached to the exact
   enacted resource; it describes the consequences of interacting with the target,
   not caller authority or information sensitivity.

@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/room-relay-delivery.v1.schema.json`](../../schemas/room-relay-delivery.v1.schema.json)
 
-Ephemeral member-visible relay delivery that binds a validated Room carrier payload to one relay epoch and total-order sequence. The explicit delivery/kind discriminator prevents ambiguity with encrypted deliveries. It carries no authority and MUST NOT contain session bearers.
+Ephemeral member-visible relay delivery that binds a validated Room carrier payload to one relay epoch and total-order sequence. A bounded audience carries source-admission evidence for recipient-filtered payloads but grants no independent authority. The explicit delivery/kind discriminator prevents ambiguity with encrypted deliveries. It MUST NOT contain session bearers.
 
 ## Governing Basis
 
@@ -25,8 +25,38 @@ Ephemeral member-visible relay delivery that binds a validated Room carrier payl
 | [`payload/class`](#field-payload-class) | `yes` | enum: `room-live`, `sensorium-latest-state`, `sensorium-status`, `sensorium-claim`, `sensorium-control`, `sensorium-invoke`, `sensorium-receipt` |  |
 | [`payload/schema`](#field-payload-schema) | `yes` | string |  |
 | [`payload/digest`](#field-payload-digest) | `yes` | string |  |
+| [`audience`](#field-audience) | `yes` | array | Complete bounded recipient-admission set for this member-visible delivery. Every authorized recipient and the content-visible relay can inspect every entry; deployments requiring recipient-set confidentiality must use a sealed profile that does not expose this array. |
 | [`payload`](#field-payload) | `yes` | object |  |
 | [`accepted-at`](#field-accepted-at) | `yes` | string |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "payload/class": {
+      "const": "sensorium-latest-state"
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "audience": {
+      "minItems": 1
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema-v"></a>
@@ -82,6 +112,14 @@ Ephemeral member-visible relay delivery that binds a validated Room carrier payl
 
 - Required: `yes`
 - Shape: string
+
+<a id="field-audience"></a>
+## `audience`
+
+- Required: `yes`
+- Shape: array
+
+Complete bounded recipient-admission set for this member-visible delivery. Every authorized recipient and the content-visible relay can inspect every entry; deployments requiring recipient-set confidentiality must use a sealed profile that does not expose this array.
 
 <a id="field-payload"></a>
 ## `payload`

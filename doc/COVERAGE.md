@@ -211,7 +211,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`room-membership-attestation.v1.schema.json`](schemas-gen/schemas/room-membership-attestation.v1.md) | `12` | `1` | `yes` | `yes` | `1` | `0` |
 | [`room-membership.v1.schema.json`](schemas-gen/schemas/room-membership.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `1` |
 | [`room-policy.v1.schema.json`](schemas-gen/schemas/room-policy.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
-| [`room-relay-delivery.v1.schema.json`](schemas-gen/schemas/room-relay-delivery.v1.md) | `11` | `0` | `yes` | `yes` | `1` | `1` |
+| [`room-relay-delivery.v1.schema.json`](schemas-gen/schemas/room-relay-delivery.v1.md) | `12` | `1` | `yes` | `yes` | `1` | `1` |
 | [`room-relay-endpoint.v1.schema.json`](schemas-gen/schemas/room-relay-endpoint.v1.md) | `14` | `0` | `yes` | `yes` | `2` | `1` |
 | [`room-relay-sealed-delivery.v1.schema.json`](schemas-gen/schemas/room-relay-sealed-delivery.v1.md) | `15` | `0` | `yes` | `yes` | `1` | `0` |
 | [`room-relay-sender-key-distribution.v1.schema.json`](schemas-gen/schemas/room-relay-sender-key-distribution.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `0` |
