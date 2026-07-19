@@ -177,6 +177,9 @@ make terminal control last for the full grant lifetime.
 - **shared mode**: multiple callers may submit operations, while the host still
   serializes acceptance and establishes one effect order;
 - **exclusive mode**: exactly one current lease holder may submit effects.
+- **operational impact**: a P082-owned ordered caution class attached to the exact
+  enacted resource; it describes the consequences of interacting with the target,
+  not caller authority or information sensitivity.
 
 ## Proposed Model / Decision
 
@@ -206,6 +209,15 @@ One interface keeps one primary meaning:
 
 This preserves P082's resource/capability split and avoids conditional grants whose
 meaning changes with a request body.
+
+The directional resources for one enacted target inherit the same host-validated
+`sensorium-operational-context.v1` value unless local policy raises one direction.
+A read-only viewport over a production or critical system remains production or
+critical: access mode does not make the represented environment disposable. The
+actuation descriptor, status, invocation admission, and receipt projection must
+therefore retain that context. Host policy may use it to require stricter review,
+shorter leases, lower operation caps, or explicit operator confirmation, but the
+class itself never grants or denies authority without such an explicit policy.
 
 ### 2. `sensorium.interface.invoke` Is a Separate Capability
 
@@ -1160,6 +1172,7 @@ P083-012 records the completed promotion and final hard-MVP closure.
 | P083-011 | Synchronize P045/P047/P048/P070/P071/P072/P081/P082, Solutions 030/036/042/046, Node ledgers, capability registries, trackers, and readiness snapshot | done | The cross-document audit found no competing semantics in P045/P047/P048/P072/P081 or Solutions 030/036/042; P070, P071, P082, P083, Solutions 036/042/046, Room schemas, manage policy fixtures, Node ledgers/MVP checklist, generated views, and the readiness snapshot now describe the same P083-011 boundary. |
 | P083-012 | Promote the implemented contract into Solution 046's actuation boundary | done | P083-002 through P083-011 are complete; the final review found no unresolved correctness or authority blocker, and Solution 046 now owns the promoted actuation boundary without introducing a competing interface-authority component. |
 | P083-013 | Add the P070 Phase 6A relay carrier and optional direct-peer upgrade/fallback | done | The closed relay delivery envelope carries status, claim, control, invoke, and receipt schemas over the active epoch and filters observation versus actuation visibility from current Room grants. Relay selection and failover never alter exact interface grants, generation, lease, epoch, operation sequence, idempotency, or host policy. The three-node acceptance profile covers old-epoch refusal, endpoint failover, egress/evidence denial, membership revocation, P082 latest-state, and P083 fenced invoke carriage; direct peer remains an optional latency path. This post-MVP item does not reopen the completed P083-012 hard-MVP boundary. |
+| P083-014 | Apply P082 operational context to interactive resources and actuation policy | todo | Reuse `sensorium-operational-context.v1` in the common resource envelope; require it for collaborative or remote actuation; preserve it through status and receipts; reject descriptor/source drift; and add policy tests proving that higher-impact targets can only narrow autonomy, lease, operation, and review posture. Room and direct-peer carriers remain opaque and cannot lower the class or create authority. |
 
 Runtime implementation evidence promoted by P083-012 is owned by
 `node:sensorium-interface-core/src/actuation.rs`,

@@ -320,6 +320,63 @@ invariants are frozen now:
 - interface publication does not create Seed Directory, Agora, or federation-root
   advertisement state.
 
+### 2.1 Operational Impact Is Published Context, Not Authority
+
+A published interface may expose a representation of a disposable experiment, a
+test environment, a live production service, or safety-critical infrastructure.
+That property belongs to the enacted resource and its exact interface publication;
+it is not knowledge that Corpus, Room, Agent, or Inquirium should infer from natural
+language. The planned shared value is:
+
+```json
+{
+  "schema": "sensorium-operational-context.v1",
+  "schema/v": 1,
+  "impact/class": "test",
+  "context/summary": "Controlled mail-server fixture without customer data."
+}
+```
+
+`impact/class` is a closed, ordered vocabulary:
+
+| Class | Meaning of the enacted source |
+|---|---|
+| `research` | Detached exploratory material or a source with no intended live operational effect. |
+| `experimental` | A disposable or explicitly unstable environment in which failure is expected and contained. |
+| `test` | A controlled validation environment with no live users or production authority. |
+| `production` | A live service, live user workflow, or source representing real operational state. |
+| `critical` | A production environment whose disruption may cause safety, essential-service, major legal, or major economic harm. |
+
+The order above is a conservative caution lattice, not a reputation score. It is
+orthogonal to `classification.v1`: `classification` governs who may see data, while
+operational impact describes the consequences of acting on or reasoning about the
+represented environment. It is also orthogonal to read, subscribe, invoke, Room,
+and Passport authority. No class grants access or authorizes an effect.
+
+An adapter instance may provide an operator-configured default, but an exact source
+resource or environment pins the candidate value. This matters because one adapter
+may expose both test and production resources. The publishing host validates that
+candidate against local policy and may raise it, never lower it. Changing the
+published class creates a new immutable interface publication rather than mutating
+the meaning of an existing `interface/id`.
+
+The extension should add `operational/context` to the shared
+`sensorium-interface-resource.v1` envelope and both directional descriptors. To
+avoid a transition in which old consumers silently treat missing metadata as low
+risk, the field may remain wire-optional during the first additive rollout, but it
+is mandatory for Workbench-backed, collaborative-live, and remotely invokable
+profiles. Those profiles fail closed when it is absent, malformed, or inconsistent.
+A later descriptor major version may make it universally required after migration.
+
+Every P082 data result from a context-bearing interface repeats the exact validated
+`operational/context` from its immutable descriptor. A Room adapter transports the
+complete read-result value unchanged; it does not interpret the class. A receiving
+host verifies structural equality with the disclosed descriptor when available and
+otherwise binds the value to the immutable `interface/id`. The optional
+`context/summary` is bounded, treated as untrusted data, and never promoted directly
+into a system or developer instruction. This gives downstream resolvers the class
+before they expose frame payloads while keeping the carrier authority-neutral.
+
 ### 3. Source Binding Is Polymorphic and Host-Private
 
 The host binds an interface to a provider through data, then selects behavior through
@@ -1247,6 +1304,7 @@ baseline; decisions 7-9 close the evidence-gated follow-up review:
 | P082-018 | Expose bounded operator evidence for source readiness, carrier reads, occupancy, no-change, errors, active leases, Room pumps, and local revoke commit duration | done | The host-local manage `metrics` action reports no actor, interface, grant, or subscription identifiers; read dimensions are capped by 64 registered source kinds, four carrier classes, and two delivery kinds, while `revoke-commit-us` remains flat. Source-registry, active-subscription, metric-accumulator, and Room failures degrade independently; counters are process-local and reset on restart. |
 | P082-019 | Add and run the host/direct-peer/SSE/Room conformance and load harness, then synchronize solution and readiness artifacts | done | `node:tools/conformance/sensorium_interfaces_conformance.py` prebuilds daemon/core plus the required Workbench contract bridge with a separate build timeout, uses exact full Rust test names with one test thread, fails fast by default, distinguishes build/test timeouts and unrecognized libtest output, emits only output digests on failure, and now extends the original bounded host, signed peer, SSE, and Room observation checks with the P083 load, restart, partial-failure, Room baton, and real Workbench PTY matrix. |
 | P082-020 | Make the Room latest-state adapter relay-epoch-aware after P070 Phase 6A | done | An active Room projection publishes one schema-gated `sensorium-interface-read-result.v1` containing a single inline cursor-free latest-state snapshot into the current bounded relay epoch after rechecking Room and interface authority. Reconnect uses only `(relay/epoch, relay/seq-no)` carrier state, never a source cursor; epoch change or expired replay yields a typed refresh boundary and a fresh subscription returns the current bounded latest-state view. Relay publication failure closes the pump and records a payload-free degraded reason. The resource-bound result is also the ingress unit for the bounded Room Sensorium Interface Broker source consumed by Story 012's daemon-owned resolver. `agent-core` carries only an opaque observation source ref, generic bounds, and the horizontal P081 causal context preserved from the read result; it has no Sensorium Interface or Room semantics. |
+| P082-021 | Add operational-impact publication and propagation for enacted resources | todo | Freeze `sensorium-operational-context.v1`; extend the shared resource envelope, observation and actuation descriptors, P082 read results, schema-gate fixtures, source-adapter validation, operator inspection, and Room conformance. Workbench-backed and collaborative-live profiles must require the value, host policy may only raise the source class, every result must match its immutable publication, missing or stale context fails closed, and carriers must neither interpret nor downgrade it. |
 
 ## Open Questions
 

@@ -508,6 +508,13 @@ signals, Memarium facts, Agora records, workflow context, or user-provided
 messages. Its domain is not contact with the world; its domain is inference over
 given context.
 
+When a Sensorium Interface publishes operational-impact metadata, Inquirium still
+does not become its semantic owner. The host validates that source-owned context and
+may render a fixed caution layer before model invocation. The adapter receives the
+already assembled context, cannot lower the class, and cannot turn the class into
+effect authority. Proposal 064 owns the implementation contract for this prompt-
+assembly integration.
+
 ### Relationship to Middleware
 
 Inquirium should be exposed through host capabilities and stable request/result

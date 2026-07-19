@@ -665,6 +665,16 @@ The backend must declare:
 - artifact export policy;
 - resource limits.
 
+An environment also declares its operational impact through the P082-owned
+`sensorium-operational-context.v1` value. A connector or backend may supply an
+operator-configured default, but the exact `sensorium-workbench-environment.v1`
+instance pins the candidate class because one Workbench deployment may operate
+both disposable test workspaces and live production systems. Host policy may raise
+that class and records the effective value in every derived terminal-screen,
+terminal-event, or actuation-interface publication; it may never lower it. A
+read-only terminal over a production system remains `production` even though the
+published access mode is observation-only.
+
 ### 8. HTTP Is The Middleware Transport, Not The Domain
 
 Components communicate through the existing host/middleware style. Workbench may
@@ -1925,3 +1935,9 @@ evidence) · `[!]` blocked/needs decision.
 - [x] Keep publication, grants, subscriptions, direct-peer admission, SSE, and
   Room carrier semantics owned by Proposal 082 / Solution 046 rather than the
   Workbench connector.
+- [ ] Add operational-impact defaults and exact environment pinning. Extend the
+  environment contract and connector configuration with
+  `sensorium-operational-context.v1`, require an effective value before publishing
+  Workbench-backed collaborative or remotely invokable interfaces, inherit it into
+  every derived P082/P083 resource, and test mixed test/production resources under
+  one adapter, host-only raising, descriptor replacement, and missing-value refusal.
