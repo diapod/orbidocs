@@ -361,6 +361,26 @@ the horizontal P081 causal context without importing Sensorium semantics.
 Observation content remains process-local and passage-bounded; durable broker and
 Agent records retain no raw payload.
 
+### Operational Impact Context
+
+P082-021 and P083-014 track a post-MVP extension of this same component. It will
+publish the ordered `sensorium-operational-context.v1` value on an exact enacted
+resource, bind it to the current source generation, propagate both through P082
+results and P083 status/receipts, and let a consuming host raise but never lower the
+current source class. P082 defines stale solely as a generation mismatch or a
+superseded effective publication; impact changes and corrections use audited
+immutable replacement. Workbench-backed, collaborative-live, and remotely invokable
+profiles fail closed when the value is absent, malformed, oversized beyond the
+512-byte UTF-8 summary cap, inconsistent, or stale.
+
+Room remains an opaque carrier. Agent Core retains only generic qualifier refs and
+digests, while the daemon and P064 prompt-assembly boundary render a versioned,
+non-droppable caution layer before feed-dependent inference. The extension creates
+no capability, access grant, or effect authority and does not reopen the completed
+hard-MVP boundary.
+
+Status: `planned post-MVP`.
+
 ### Measured Provider-Push Profile
 
 The accepted baseline adds no provider-push or push-hint protocol. A future

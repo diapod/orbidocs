@@ -986,6 +986,16 @@ turning one payload family into another. A receiver recomputes `payload/digest` 
 the canonical payload and validates the exact payload schema before advancing its
 relay checkpoint or exposing the delivery to a consumer.
 
+When P082 adds `sensorium-operational-context.v1`, that value and its adjacent
+`source/generation-ref` remain part of the validated
+`sensorium-interface-read-result.v1` payload. The relay preserves them byte-for-byte
+under the delivery digest and exact payload schema. Room does not rank, aggregate,
+default, authorize from, or decide the freshness of the impact context; those
+operations belong to the source publication and the consuming P082 resolver. A relay
+that strips or rewrites either value produces a digest or schema mismatch and the
+receiver refuses the delivery. Supersession and source-generation changes are P082
+lifecycle facts, not Room relay epochs or Room-owned TTLs.
+
 Agora topic key: `orbiplex/room/v1/<authority>/<room-id>`; record kinds `room.v1`,
 `room-membership.v1`, `room-event.v1`, and `room-relay-endpoint.v1`; consumers fold
 them into a membership/lifecycle and carrier

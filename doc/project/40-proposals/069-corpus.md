@@ -384,6 +384,29 @@ path. Terminal input, command execution, resize, signals, file mutation, and oth
 actuation remain separate Workbench/Sensorium directive operations with their own
 grants and review policy; publication of a read interface never grants control.
 
+The exact interface publication also owns its P082
+`sensorium-operational-context.v1` value and `source/generation-ref`. Corpus and the
+chair may not lower or replace either. Room carries the complete P082 result without
+interpretation, and every participant node validates the context before admitting
+the shared view into an Agent passage. Validation uses P082's single freshness
+predicate: the source generation must still be current and the `interface/id` must
+still be the effective publication for its source/projection slot. Corpus defines no
+additional TTL. Its host then renders a local, versioned caution layer through P064
+before that Agent deliberates over the feed. This gives all collaborators the same
+source-declared operational posture pre-emptively while allowing a local host to be
+more conservative.
+
+An environment context change or correction is source-owned and produces a new
+immutable P082 publication. The superseded publication is no longer admissible to a
+Corpus passage, irrespective of whether the class was raised or corrected downward.
+
+The optional publisher summary remains observation data rather than an instruction,
+so this path cannot smuggle a remote system prompt through a Room. If several enacted
+views are admitted later, each source retains its own evidence ref and the host uses
+the highest impact class for caution framing. The class changes reasoning posture;
+it does not change Room membership, interface grants, Agent grants, chair authority,
+or effect admission.
+
 ### 6. Answer Contract (concrete, content-addressed, signed)
 
 Convergence yields one `corpus-reasoning-answer.v1`: `answer/id`, `query/id`, `room/id`,
@@ -547,6 +570,8 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
 | Chat treated as a shared fact | Reification / privacy leak | Protocol never persists chat (P070); capture is private, classified. |
 | Room membership treated as terminal-view authority | Unauthorized observation | Require a current participant-scoped P082 interface grant in addition to Room membership; the carrier grants no authority. |
 | Shared viewport treated as a transcript or control channel | Unintended retention or actuation | Room carries only bounded `latest-state`; full transcript capture and all Workbench/Sensorium commands use separate classified, explicitly granted paths. |
+| Shared enacted view omits, downgrades, or contradicts its source operational context | agents reason with an unsafe model of live-system impact | validate the exact P082 context and source generation before prompt assembly; missing or inconsistent evidence, a generation mismatch, or a superseded publication fails the collaborative-live turn closed without a Corpus-specific TTL. |
+| Publisher context summary is promoted to privileged prompt text | remote prompt injection through interface metadata | preserve it as inert retrieved data and render caution only from the closed impact class through host-owned P064 policy. |
 
 ### Abuse model (LLM + marketplace)
 
@@ -1738,7 +1763,16 @@ runtime, no N-way settlement.
 
 #### Optional shared enacted views `[x] P082 runtime implemented`
 
-- [x] Define Story 012 and a non-executable acceptance profile that composes the
+- [ ] Propagate P082 operational context and `source/generation-ref` from the exact
+  Workbench/Sensorium publication through the Room read-result carrier and daemon
+  observation resolver into a mandatory host-owned Inquirium caution layer before
+  every participant's first feed-dependent turn. Refuse missing, downgraded, or
+  inconsistent context and P082-stale evidence (generation mismatch or superseded
+  publication), without defining another TTL; preserve per-source refs for audit;
+  keep publisher summaries inert; and prove equal current source context plus
+  monotone local raising across the three Story 012 nodes.
+
+- [x] Define Story 012 and an executable acceptance profile that composes the
   existing Corpus/Agent Room topology with a chair-owned read-only Workbench
   terminal view, keeps actuation local-control-only in the first profile, and
   records explicit substrate gates before any smoke may run.

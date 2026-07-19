@@ -339,12 +339,21 @@ viewport and grants no terminal actuation.
 [Story 012](../../30-stories/story-012-agents-share-chair-terminal.md) defines the
 first concrete three-node profile. Its Workbench source, Room relay, Sensorium
 Interface projection, substrate-neutral Agent observation port, static wiring,
-and daemon-owned Room/Sensorium resolver are implemented. Execution remains
-blocked by the composed process runner that must exercise the exact generic
-need/binding plus resolver-private read-result authority, restart refresh, and
-retention refusals across three nodes. The profile plan must
-not be represented as completed Corpus capability before that process evidence
-exists.
+and daemon-owned Room/Sensorium resolver are implemented. Its composed process
+runner reuses Story 011's federation/bootstrap lifecycle and proves exact
+generic need/binding admission, resolver-private read-result authority,
+independent B/C observation and deliberation, local-only repair, passing-state
+refresh, one observer's revocation, dirty participant restart, and an
+unpublished Corpus answer draft. External host-TLS relay deployment remains
+separately evidenced by P070 rather than being simulated by Corpus.
+
+The planned P082-021 operational-context extension remains owned by Sensorium
+Interfaces. Corpus will require the exact source context before admitting a
+collaborative live view, preserve it with the current source generation through
+Room without reinterpretation, and let each participant host apply the P064 caution
+policy before inference. Generation mismatch or P082 publication supersession makes
+the view stale; Corpus adds no independent TTL. P069 tracks the Story 012 replacement
+proof; this metadata grants neither observation nor effect authority.
 
 ## Out of Scope
 

@@ -211,13 +211,21 @@ This preserves P082's resource/capability split and avoids conditional grants wh
 meaning changes with a request body.
 
 The directional resources for one enacted target inherit the same host-validated
-`sensorium-operational-context.v1` value unless local policy raises one direction.
-A read-only viewport over a production or critical system remains production or
-critical: access mode does not make the represented environment disposable. The
-actuation descriptor, status, invocation admission, and receipt projection must
-therefore retain that context. Host policy may use it to require stricter review,
-shorter leases, lower operation caps, or explicit operator confirmation, but the
-class itself never grants or denies authority without such an explicit policy.
+`sensorium-operational-context.v1` value and current `source/generation-ref` unless
+local policy raises one direction. A read-only viewport over a production or
+critical system remains production or critical: access mode does not make the
+represented environment disposable. The actuation descriptor, status, invocation
+admission, and receipt projection must therefore retain that context. Host policy
+may use it to require stricter review, shorter leases, lower operation caps, or
+explicit operator confirmation, but the class itself never grants or denies
+authority without such an explicit policy.
+
+When the source context or generation changes, every affected directional
+publication is replaced and the old publication becomes stale under P082's
+generation-or-supersession predicate. Neither the Room relay nor a direct-peer
+carrier may keep an old direction live. A source-side downward correction is an
+audited immutable replacement; consumer policy still may not lower the current
+source declaration.
 
 ### 2. `sensorium.interface.invoke` Is a Separate Capability
 
@@ -849,6 +857,9 @@ evidence testable. Accepted.
 | Handoff or preemption overtakes in-flight provider I/O | an old-holder effect completes under the new epoch | use bounded synchronous adapter calls and one authority/dispatch order; complete the transition only after return or a provider cancellation boundary |
 | Source restarts with persisted leases | stale baton controls replacement resource | change source generation and invalidate leases and claims during restart reconciliation |
 | Provider method widens P048 or Workbench policy | interface bypasses local safety | provider-local policy always narrows; unavailable or denied underlying action fails closed |
+| A read-only projection or permissive adapter publishes a lower operational-impact class than its environment | deliberators understate the consequences of observations or later control | inherit the exact environment/resource context for every derived interface; local policy may only raise it |
+| An old directional publication survives a source-context replacement | observations or effects proceed under obsolete assumptions | inherit the current source generation, withdraw every affected old direction as superseded, and reject it through P082 before read or invoke admission |
+| Operational-impact context is interpreted as actuation authority | a caution label becomes an implicit permission | continue to require the exact capability, grant, method, generation, lease, and epoch; context changes reasoning posture only |
 | Passport replay changes only method or limit scope | broader authority aliases an earlier grant id | include canonical `scope_json` or its digest in atomic Passport replay equality |
 | Room collaboration uses an unnamed action grant | implementations choose incompatible or ambient authority | reserve the explicit `actuate` extension grant and still intersect exact interface authority |
 | Room session bearer reaches a shared projection | another member can impersonate the session subject | mint 256 random bits at join and keep the ref only in the joining client's admission envelopes |
@@ -1058,8 +1069,9 @@ tracked separately in the ordered `P083-*` work items under
 
 The design decisions are accepted as of 2026-07-17. Decisions 1-15 originated in
 the 2026-07-16 baseline; decisions 16-28 close the pre-P083-002 review, decision 29
-records the implemented direct-peer scope materialization boundary, and decision 30
-adopts P070's relocatable relay without changing P083 authority:
+records the implemented direct-peer scope materialization boundary, decision 30
+adopts P070's relocatable relay without changing P083 authority, and decision 31
+records the post-MVP operational-context extension:
 
 1. Sensorium Interfaces may expose actuation, but observation and actuation remain
    separate directional resources and authority planes.
@@ -1147,6 +1159,12 @@ adopts P070's relocatable relay without changing P083 authority:
     selection never changes grants, source generation, lease, lease epoch,
     idempotency scope, or operation order, and Room remains independent of hole
     punching.
+31. Observation and actuation interfaces over one enacted target reuse P082's
+    `sensorium-operational-context.v1`. Access mode cannot lower the target class;
+    host policy may use a higher class to narrow autonomy and limits, but the class
+    is never grant, lease, membership, or effect authority. Currentness is the P082
+    source-generation plus effective-publication predicate, not a carrier or
+    wall-clock TTL; correction uses audited immutable replacement.
 
 ## Implementation Tracker
 
@@ -1172,7 +1190,7 @@ P083-012 records the completed promotion and final hard-MVP closure.
 | P083-011 | Synchronize P045/P047/P048/P070/P071/P072/P081/P082, Solutions 030/036/042/046, Node ledgers, capability registries, trackers, and readiness snapshot | done | The cross-document audit found no competing semantics in P045/P047/P048/P072/P081 or Solutions 030/036/042; P070, P071, P082, P083, Solutions 036/042/046, Room schemas, manage policy fixtures, Node ledgers/MVP checklist, generated views, and the readiness snapshot now describe the same P083-011 boundary. |
 | P083-012 | Promote the implemented contract into Solution 046's actuation boundary | done | P083-002 through P083-011 are complete; the final review found no unresolved correctness or authority blocker, and Solution 046 now owns the promoted actuation boundary without introducing a competing interface-authority component. |
 | P083-013 | Add the P070 Phase 6A relay carrier and optional direct-peer upgrade/fallback | done | The closed relay delivery envelope carries status, claim, control, invoke, and receipt schemas over the active epoch and filters observation versus actuation visibility from current Room grants. Relay selection and failover never alter exact interface grants, generation, lease, epoch, operation sequence, idempotency, or host policy. The three-node acceptance profile covers old-epoch refusal, endpoint failover, egress/evidence denial, membership revocation, P082 latest-state, and P083 fenced invoke carriage; direct peer remains an optional latency path. This post-MVP item does not reopen the completed P083-012 hard-MVP boundary. |
-| P083-014 | Apply P082 operational context to interactive resources and actuation policy | todo | Reuse `sensorium-operational-context.v1` in the common resource envelope; require it for collaborative or remote actuation; preserve it through status and receipts; reject descriptor/source drift; and add policy tests proving that higher-impact targets can only narrow autonomy, lease, operation, and review posture. Room and direct-peer carriers remain opaque and cannot lower the class or create authority. |
+| P083-014 | Apply P082 operational context to interactive resources and actuation policy | todo | Reuse `sensorium-operational-context.v1` plus `source/generation-ref` in the common resource envelope; require them for collaborative or remote actuation; preserve them through status and receipts; enforce the inherited 512-byte summary cap; reject descriptor/source drift, old generations, and superseded directional publications; and replace all affected directions when source context changes. Policy tests prove that higher-impact targets can only narrow autonomy, lease, operation, and review posture, while a reasoned source-side correction remains possible through immutable replacement. Room and direct-peer carriers remain opaque and cannot lower the class, decide freshness, or create authority. |
 
 Runtime implementation evidence promoted by P083-012 is owned by
 `node:sensorium-interface-core/src/actuation.rs`,

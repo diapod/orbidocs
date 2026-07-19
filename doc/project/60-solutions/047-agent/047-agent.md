@@ -148,6 +148,14 @@ The process-local latest-state inbox refuses two different content digests at
 one relay epoch and sequence with a dedicated payload-free structured diagnostic.
 The conflicting delivery cannot replace the already admitted observation.
 
+The post-MVP operational-context extension remains source-owned by P082. Agent
+Core will carry only bounded generic qualifier refs and digests; the daemon will
+validate the exact source value, current generation, and effective publication,
+compute a monotone local caution class, and pass the P064 host-authored layer to
+Inquirium before feed-dependent inference. Agent defines no freshness TTL and treats
+the P082-capped summary as inert data. This preserves the horizontal Agent port and
+creates no observation or effect authority.
+
 ### Lifecycle and Identity
 
 An Agent is node-local and addressable by an opaque `agent/id`. Its lifecycle is

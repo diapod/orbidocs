@@ -226,6 +226,20 @@ publication contract. A trainer does not receive publication authority.
 
 Status: `post-mvp`.
 
+### Operational Caution From Enacted Sources
+
+P064 tracks a post-MVP host prompt layer derived from daemon-validated P082
+operational-context evidence. The mapping from the closed impact class to caution
+text is deterministic, versioned, and non-droppable for feed-dependent passages;
+publisher-authored summary text remains inert context. This adds neither an
+Inquirium adapter field nor model authority, and missing or inconsistent context
+fails collaborative-live invocation closed. Staleness is decided only by P082's
+current source-generation and effective-publication predicate; Inquirium introduces
+no context TTL. The optional summary is capped by P082 at 512 UTF-8 bytes before it
+reaches prompt shaping.
+
+Status: `planned post-mvp`.
+
 ## Trade-offs
 
 The extra semantic layer adds explicit DTOs, manifests, catalog references, and

@@ -259,6 +259,11 @@ schema gate, and returns bounded inert context plus prompt-free
 `AgentObservationEvidence` carrying the source P081 `causal/context` plus distinct
 source-version and resolution references.
 
+`Stale` is not an Agent-owned timeout. It means exactly that P082 reports a source
+generation mismatch or a superseded interface publication. Agent Core neither reads
+source clocks nor derives freshness from passage age. The optional summary is
+already bounded by P082 to 512 UTF-8 bytes and remains untrusted observation data.
+
 A controller may also *propose* an effect. The agent never executes one directly
 and never chooses the provider or authorization path. The daemon maps the generic
 proposal to a closed host adapter such as Sensorium or Artifact Delivery and
@@ -784,6 +789,7 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
+| `agent-operational-context-framing` | Propagate source-owned operational impact into pre-inference Agent context without adding vertical vocabulary to `agent-core`. | `todo` | Add bounded generic qualifier refs/digests to observation evidence; validate P082 context, source generation, and current-publication status at the daemon resolver; fail collaborative-live admission closed on missing, invalid, generation-mismatched, superseded, or inconsistent metadata without an Agent-owned TTL; compute only a local monotone caution maximum; and pass a host-authored, versioned, non-droppable caution layer to Inquirium before the first feed-dependent passage. Multi-feed tests retain per-source evidence and use the highest class without granting effects or persisting the at-most-512-byte remote summary as an instruction. |
 | `agent-core-crate` | Create thin `agent-core` contract crate with Agent/controller/budget/grant DTOs and the lifecycle state machine. | `done` | `node/agent-core` compiles as a substrate-free contract crate: `AgentSpec`/`AgentParams`/`AgentBudget`/`ControllerPolicy`/`TerminationCondition`/`CapabilityGrant` DTOs with `deny_unknown_fields` and `validate()`, fail-closed classification ceiling, conservative developer defaults, `idempotency/key` on spawn, `agent.step-decision.v1`, `agent.spawn.response.v1`, `agent.status.request.v1`, `agent.status.response.v1`, `agent.stop.response.v1`, the `AgentLifecycleState::apply` state machine, and the `validate_fork_from` monotone-narrowing validator. Evidence: `cargo test -p orbiplex-node-agent-core`, `cargo clippy -p orbiplex-node-agent-core -- -D warnings`, and `python3 tools/check-agent-core-deps.py` pass. Runtime budget metering, fork budget split, and durable wiring are tracked separately below. |
 | `agent-dep-direction-lint` | Add a dependency-direction lint so `agent-core` cannot import substrate or another vertical domain. | `done` | `node/tools/check-agent-core-deps.py` uses a positive direct-dependency allowlist, names pure `inquirium-core` DTOs as the sole vertical exception, rejects daemon/model-runtime/HTTP/async/SQLite and vertical-domain packages through `cargo tree`, and rejects Room, Corpus, Memarium, Sensorium, Workbench, and other source/effect vocabulary in the core source. It is wired into `.github/workflows/docs.yml`, and the current check passes. An `xtask`-level lint may later replace the standalone script. |
 | `agent-inquirium-boundary-docs` | Document that the durable agent loop lives above Inquirium and that assistant agentic effects are realized through Agent. | `done` | Proposal 064 now has the *Agent Loop Lives Above Inquirium* boundary note, Proposal 066 Phase 3 points agentic effects at Proposal 073, and this proposal owns the lifecycle/controller/budget tracker. |

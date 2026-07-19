@@ -586,6 +586,18 @@ Status:
   teardown tests. It intentionally refuses PTY. Container, microVM, emulator,
   and remote disposable executors remain deferred.
 
+### Operational Impact Publication
+
+The post-MVP P082-021/P083-014 extension will require each exact Workbench
+environment to pin a `sensorium-operational-context.v1` candidate. An adapter may
+provide an operator-configured default, but environments sharing that adapter may
+still be `test`, `production`, or `critical`. Host policy may raise but never lower
+the current source class, and every derived observation or actuation interface
+inherits it with a host-owned source generation. Impact changes and operator
+corrections use audited immutable P082 replacement, making old generations and
+superseded publications unusable. Implementation remains tracked by P071 Phase 5
+and the P082/P083 trackers.
+
 ### Agent, Corpus, and Room Tool Use
 
 Based on:

@@ -109,7 +109,9 @@ remain local to node A.
    `collaborative-participant` Agent bindings. Node A creates the corresponding
    `collaborative-chair` binding.
 3. Node A creates an isolated Workbench terminal session under an allowlisted
-   story workspace and starts the deterministic failing fixture.
+   story workspace and starts the deterministic failing fixture. The P082-021
+   extension will additionally pin `sensorium-operational-context.v1` with
+   `impact/class = test` to that exact environment.
 4. Node A publishes only the visible terminal-screen representation as a
    `latest-state` Sensorium Interface. Ordered terminal-event replay is refused.
 5. The host issues exact, expiring `subscribe` grants for that interface to the
@@ -251,6 +253,17 @@ The eventual process smoke must prove:
   notifications, or prompt-free traces;
 - the passing result is observed after local chair-side actuation; and
 - the chair outcome remains an unpublished Corpus answer draft.
+
+The post-MVP operational-context extension tracked by P082, P064, P069, P071, and
+P073 must additionally prove that B and C receive the same source context and
+`source/generation-ref` before their first feed-dependent Inquirium call, that each
+host may only raise its local caution class, and that publisher summary text never
+becomes a privileged instruction. The fixture then changes `test -> production`,
+publishes a replacement, and proves that both nodes reject the old generation or
+superseded `interface/id` before admitting the new shared context. Missing,
+malformed, oversized, stripped, downgraded, generation-mismatched, or superseded
+context must fail the collaborative observation passage closed before terminal
+bytes reach a model. P082 owns this freshness predicate; Story 012 adds no TTL.
 
 ## Failure Modes and Mitigations
 

@@ -675,6 +675,15 @@ terminal-event, or actuation-interface publication; it may never lower it. A
 read-only terminal over a production system remains `production` even though the
 published access mode is observation-only.
 
+The environment also exposes a host-owned source generation reference. Replacement,
+recreation, or an operational-context change advances that generation or otherwise
+invalidates the old publication under P082's current-publication predicate. A change
+such as `test -> production` must serialize creation of a new interface publication
+and withdrawal of the old one as superseded. An operator may correct an erroneous
+overclassification such as `critical -> test` through the same audited replacement
+path with an explicit reason; consumer-side local policy still may only raise the
+current source declaration.
+
 ### 8. HTTP Is The Middleware Transport, Not The Domain
 
 Components communicate through the existing host/middleware style. Workbench may
@@ -1163,6 +1172,7 @@ operator-readable: `recovered`, `terminated`, `quarantined`,
 | Event producer overwhelms a consumer. | Enforce byte/event caps, cursor windows, truncation markers, and backpressure/overload status. |
 | Wait outcome overwhelms deferred-operation consumers. | Bound `observed` and `diagnostics` by schema shape and by host-owned serialized byte/count caps before projection into `deferred-operation-status.v1`. |
 | Agent adapter bypasses Sensorium tools. | Reject adapters that own their own terminal/filesystem authority outside host grants. |
+| An environment changes impact class while an old interface remains readable. | Advance or invalidate the source generation, publish an immutable replacement, withdraw the old interface as superseded, and let P082 refuse old-generation or superseded reads. |
 | Workbench grows into a second orchestration core. | Keep Workbench as an actuator: no policy selection, no model routing, no workflow ownership. |
 
 ## Adversarial Actuator Test Matrix
@@ -1938,6 +1948,10 @@ evidence) · `[!]` blocked/needs decision.
 - [ ] Add operational-impact defaults and exact environment pinning. Extend the
   environment contract and connector configuration with
   `sensorium-operational-context.v1`, require an effective value before publishing
-  Workbench-backed collaborative or remotely invokable interfaces, inherit it into
-  every derived P082/P083 resource, and test mixed test/production resources under
-  one adapter, host-only raising, descriptor replacement, and missing-value refusal.
+  Workbench-backed collaborative or remotely invokable interfaces, expose a
+  host-owned `source/generation-ref`, and inherit both into every derived P082/P083
+  resource. Serialize immutable replacement and old-publication withdrawal on impact
+  change; enforce P082's 512-byte UTF-8 summary cap; and test mixed test/production
+  resources under one adapter, host-only raising, reasoned `critical -> test`
+  correction, `test -> production` replacement, old-generation and superseded-id
+  refusal, and missing/oversized-value refusal.

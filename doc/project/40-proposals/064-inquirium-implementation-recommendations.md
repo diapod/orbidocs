@@ -1278,6 +1278,12 @@ Different runtimes may receive different formats, but callers see stable
 semantics: which context was admitted and which part of the result may leave
 Inquirium.
 
+Here `stale` has exactly the P082 meaning: the bound source generation is no longer
+current or the interface publication was superseded for its source/projection slot.
+Inquirium does not add a wall-clock TTL or another freshness heuristic. It consumes
+only source-domain-admitted evidence. The optional publisher summary remains bounded
+by P082 to 512 UTF-8 bytes and inert below the privileged instruction hierarchy.
+
 ## Configurable Prompt Assembly Policy
 
 The instruction hierarchy above defines *precedence*; this section defines
@@ -2558,6 +2564,7 @@ a migration event, not a tweak:
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
+| `inq-operational-context-prompt-framing` | Render admitted Sensorium operational impact as a pre-inference host-owned caution layer. | `todo` | Extend the prompt-content resolver and assembly metadata with a versioned closed class-to-caution mapping; accept only daemon-validated qualifier refs from the Agent observation resolver after P082 current-generation/current-publication validation; apply a monotone local floor and multi-feed maximum; keep the at-most-512-byte publisher summary below the instruction hierarchy; and golden-test ordering, instruction hashes, missing/invalid/stale-context refusal, non-droppable production/critical layers, adapter neutrality, and payload-free traces. Do not introduce an Inquirium-owned context TTL. |
 | `inq-runtime-catalog-v02` | Move the lower model-runtime catalog to adapter implementations, adapter instances, model bindings, runtime candidates, runtime profiles, and conformance fixtures. | `done` | `node/model-runtime` contract v0.2 validates cross references and rejects missing adapter/model/conformance references. |
 | `inq-http-adapter-instance-handles` | Key HTTP lifecycle handles by adapter instance while invoking by selected runtime candidate. | `done` | `node/model-runtime-http` accepts `RuntimeInvocationContext`, supports one HTTP adapter instance serving multiple runtime candidates, rejects caller override of host-owned model keys, and now maps neutral Inquirium generate requests directly to local OpenAI-compatible `/v1/chat/completions` servers through the built-in `openai_chat_completions` request/response mapping. HTTP mapping validation has two valid modes: both request/response mapping formats absent for provider-native passthrough, or both set to the same supported format for mapped mode; half-mapped and unsupported formats fail closed during adapter-instance config validation. Mapped provider responses are bounded before JSON parsing, and oversized bodies are rejected by stopping the bounded read instead of buffering the full response. Daemon `inquirium.generate` invokes HTTP adapter instances through this context, Story 005 verifies the path with the opt-in simulator runtime, and the baseline assistant E2E uses direct local chat-completions without a Python HTTP proxy. |
 | `inq-command-stdio-invocation-context` | Apply the same host-built runtime invocation context to command-stdio adapter instances. | `done` | `node/daemon` merges runtime defaults, model binding parameters, and caller body before stdin serialization; caller override of `model` fails closed in daemon lifecycle coverage. |

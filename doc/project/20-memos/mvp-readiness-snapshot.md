@@ -86,10 +86,24 @@ generic source-version/resolution refs and is pinned to the enclosing Agent,
 binding, and passage, while broker and Agent records retain no raw
 observation payload. A conflicting digest at one relay epoch/sequence is refused
 with a payload-free structured diagnostic without overwriting current state;
-restart drops ephemeral content. Story 012 itself remains
-not ready at `90%`: the only checked-in substrate gate still missing is the
-composed three-node process runner and its cross-process refusal, restart, and
-retention smoke.
+restart drops ephemeral content. The executable Story 012 runner reuses the
+extracted Story 011 three-node federation/bootstrap lifecycle and proves a
+failing chair terminal, distinct B/C observations and HIL deliberation, local
+repair, newer passing source-version and content-digest evidence, observer
+revocation, dirty participant restart, and an unpublished Corpus draft. Story
+012 is therefore ready at `100%`; P070 retains separate ownership of external
+host-TLS relay deployment evidence.
+
+The planned operational-impact extension does not change those hard-MVP scores.
+P082-021 and P083-014 own the shared publication and interactive-resource contract,
+including the 512-byte summary cap, source-generation/current-publication freshness
+predicate, and audited immutable replacement; P071 pins it to exact Workbench
+environments; P073 and P064 propagate only opaque evidence into a host-owned
+pre-inference caution layer; and P069 adds the
+three-participant Story 012 proof. These rows are explicitly post-MVP hardening:
+until implemented, collaborative feeds must not claim this additional operational-
+context guarantee, but the already passing authority, observation, restart, and
+retention acceptance remains valid.
 
 The 2026-07-18 operational hardening keeps that `100` readiness verdict and
 strengthens its release evidence. The host now exposes an operator-only,
