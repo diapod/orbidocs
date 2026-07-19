@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-07-18.
+Snapshot date: 2026-07-19.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -61,6 +61,35 @@ tracker, stratified core/host crates, durable recovery, bounded controller,
 effect-admission boundary, lease reconciliation, and dirty-restart process
 smokes satisfy that gate now. Cross-node or federated Agent execution remains a
 separate future proposal and does not weaken the node-local hard-MVP contract.
+
+The 2026-07-19 Story 012 follow-up implements the host-owned observation
+admission substrate without changing the hard-MVP blocker set or the `100`
+readiness estimates for P073, P082, and Solutions 046/047. `agent-core` now owns
+only a substrate-neutral observation need, static binding, and prompt-free
+evidence contract. A positive dependency allowlist names pure `inquirium-core`
+DTOs as the sole vertical exception and rejects Room, Corpus, Memarium,
+Sensorium, Workbench, and other source/effect-domain coupling. Operator-authored
+JSON-e Flow configuration imports the Agent-owned hard caps and may predeclare bounded
+need-to-source wiring, while rendered data can only select or narrow it. After
+caller-capability and ownership checks, binding admission resolves every exact
+source/schema pair before persistence and refuses absent, incompatible, or
+ambiguous registrations. Room
+relays a resource-bound `sensorium-interface-read-result.v1` containing one
+inline cursor-free snapshot. The destination daemon resolves the opaque source
+through its Room/Sensorium adapter, keeps a bounded process-local latest-state
+inbox, exposes it to Interaction Broker only under a typed Agent-host principal
+and exact resource
+context, and admits one schema-, authority-, classification-, freshness-, and
+byte-bounded observation into one Agent Inquirium passage. Durable Agent evidence
+preserves the exact-schema/version-validated source P081 `causal/context` plus
+generic source-version/resolution refs and is pinned to the enclosing Agent,
+binding, and passage, while broker and Agent records retain no raw
+observation payload. A conflicting digest at one relay epoch/sequence is refused
+with a payload-free structured diagnostic without overwriting current state;
+restart drops ephemeral content. Story 012 itself remains
+not ready at `90%`: the only checked-in substrate gate still missing is the
+composed three-node process runner and its cross-process refusal, restart, and
+retention smoke.
 
 The 2026-07-18 operational hardening keeps that `100` readiness verdict and
 strengthens its release evidence. The host now exposes an operator-only,
@@ -451,9 +480,23 @@ Recent component deltas:
   governance remain additive later work rather than incomplete P064 tracker
   items.
 - Proposal 073, promoted to Solution 047, defines Agent as the bounded stateful orchestration organ above Inquirium. Its node-local FlowNode and Assistant Channel scopes are complete: `agent-core` owns substrate-free lifecycle, fork, step, memory, binding, outcome, Assistant escalation/acceptance, and effect contracts; `agent-host` owns pure step decisions, operator-profile admission, and the closed table-driven Sensorium/Artifact Delivery effect-policy registry; and the daemon exposes lifecycle, proposal, binding, bounded controller-run, Assistant escalation/draft-acceptance, and contextual effect-dispatch capabilities. Local control is administrative authority, while module calls require explicit bounded JSON-e Flow `agent_grants`, Agent ownership, and target-capability allowlists. Memarium Personal facts remain the source of truth; startup performs bounded replay, partial-bundle and interrupted-outcome repair, immutable admission-snapshot recovery, current-policy quarantine cascading through descendants, and terminal/expired-owner lease reconciliation. Assistant approval is durably recorded before Agent/binding authority, uses the durable operator-question record as typed authority, rejects unapproved bindings during replay, and idempotently completes interrupted materialization. The binding's narrowed budget and wall-time deadline are effective across controller, Inquirium, lease, fork, reaper, and status paths. The general real HTTP process smoke covers spawn/status/binding/controller/suspend/resume/controller-mediated fork/stop plus durable recovery after `SIGKILL`. A second process smoke covers Assistant turn, explicit escalation, pending-question restart, exact replay, approval, denial, timeout, bounded controller execution, content-addressed `agent.outcome.v1`, and render-only acceptance. Ambient Assistant binding is denied, generated content stays outside status and notifications before acceptance, and acceptance fixes publication authority to false. The active controller executes admitted Inquirium, inert effect-proposal, and child-spawn actions through their owning host strata; Inquirium remains constrained by classification, pinned profile, runtime allowlist, and grants. Effect dispatch consumes transport-independent host plans, persists bounded deferred/completed/failed execution outcomes, avoids target reinvocation on exact replay, and reconciles Deferred Operation Registry terminal state with lease release through a bounded scheduler job. Child reservations reconcile bottom-up, lease acquisition is charged, and old inactive lease details compact to restart-safe audit tombstones after the configurable 30-day default horizon. Summary-producer authority is the intersection of Capability Registry-eligible modules and the host allowlist. The post-MVP Corpus-chair extension is now implemented: signed and fresh Room evidence from the node-local round authority admits one exact query/room/participant binding, and Corpus durably accepts its `agent.outcome.v1` as an inert answer draft without publication authority. Corpus room policy, signed invitations, typed control-plane failures, AD-owned transport idempotency, Corpus-owned semantic replay by signed `invite/id`, configured remote trust-root verification, bounded live WSS join/readiness/messages, metadata-only authority observations, stable authority bind and subject-sequence recovery, controlled session rejoin, and recipient restart recovery are implemented. A separate local-control Corpus transition validates current quorum, room high-water, chair identity, evidence, output digest, and idempotency before signing and publishing the inert Agent draft; Agent authority remains non-publishing. Federated Room transport and remote Room-authority trust remain later work and do not change the node-local hard-MVP verdict.
+- The Agent boundary now also makes the horizontal/vertical split executable:
+  `agent-core` owns only generic observation need/binding/evidence and effect
+  proposal values; static JSON-e wiring may select or narrow operator-authored
+  opaque source mappings; and the daemon composition root alone resolves those
+  refs through Room/Sensorium, Workbench, Artifact Delivery, or later domain
+  adapters while enforcing grants, schema, classification, leases, HIL, and
+  quarantine. A positive dependency allowlist names pure `inquirium-core` DTOs
+  as the sole vertical exception and rejects Room, Corpus, Memarium, Sensorium,
+  Workbench, and other source/effect-domain coupling in `agent-core`. JSON-e
+  imports the Agent-owned hard observation caps, and successful observation
+  resolution preserves the validated
+  source P081 `causal/context` plus prompt-free source-version/ref and
+  resolution/ref in the Agent trace.
 - The latest post-MVP Agent/Corpus profile is also implemented without changing
   the hard-MVP verdict: Story-011 selects B while C remains a competing bidder,
-  admits B as a Room-attested `corpus-participant` Agent, routes one inert
+  admits B as a Room-attested `collaborative-participant` Agent through the
+  Corpus adapter, routes one inert
   `corpus-reasoning-turn-proposal.v1` through HIL-gated `corpus.room.turn`, wakes
   A's chair Agent through an epoch-bound Interaction Broker `room-event` watch,
   and accepts the chair result only as an unpublished Corpus draft. Process
@@ -626,6 +669,7 @@ Recent component deltas:
 | [Story 009: The magazine publishes itself — a three-node blogging pipeline about Bielik, conducted by Arca](../30-stories/story-009-bielik-blog-arca.md) | `false` | `false` | `false` | `90` |
 | [Story 010: Message to a Friend](../30-stories/story-010-message-to-a-friend.md) | `true` | `true` | `false` | `100` |
 | [Story 011: Corpus answers the fish-water question](../30-stories/story-011-corpus-fish.md) | `true` | `true` | `false` | `100` |
+| [Story 012: Remote Agents Solve a Problem Through a Shared Chair Terminal](../30-stories/story-012-agents-share-chair-terminal.md) | `false` | `false` | `false` | `90` |
 
 ## Proposals
 

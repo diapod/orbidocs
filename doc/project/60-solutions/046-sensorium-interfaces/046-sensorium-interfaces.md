@@ -348,6 +348,19 @@ Status: `done post-MVP` through P070 Phase 6A, P082-020, and P083-013. The relay
 transports typed requests and receipts but never executes an effect or supplies
 authority on behalf of the destination host.
 
+P082 latest-state relay publication uses the closed
+`sensorium-interface-read-result.v1` resource envelope with one inline
+cursor-free snapshot, not a bare frame. The destination host may expose that
+resource through Interaction Broker only under an exact host-component context.
+The Story 012 daemon resolver maps a statically bound opaque Agent observation
+source to this adapter, then rechecks Room membership generation, relay epoch,
+exact interface authority, schema, classification, freshness, and byte bounds
+around the broker read. These Room/Sensorium axes remain private to the daemon;
+`agent-core` contains only the generic need/binding/evidence contract and reuses
+the horizontal P081 causal context without importing Sensorium semantics.
+Observation content remains process-local and passage-bounded; durable broker and
+Agent records retain no raw payload.
+
 ### Measured Provider-Push Profile
 
 The accepted baseline adds no provider-push or push-hint protocol. A future

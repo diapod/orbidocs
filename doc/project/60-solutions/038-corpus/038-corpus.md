@@ -337,12 +337,14 @@ the first terminal profile carries only a bounded cursor-free `latest-state`
 viewport and grants no terminal actuation.
 
 [Story 012](../../30-stories/story-012-agents-share-chair-terminal.md) defines the
-first concrete three-node profile. Its Workbench source, Room relay, and
-Sensorium Interface projection substrates are implemented. Execution remains
-blocked until the host can admit one exact received interface frame as ephemeral
-context for one exact Agent passage under dual Room/interface authority. The
-profile plan must not be represented as completed Corpus capability before that
-bridge and its refusal smoke exist.
+first concrete three-node profile. Its Workbench source, Room relay, Sensorium
+Interface projection, substrate-neutral Agent observation port, static wiring,
+and daemon-owned Room/Sensorium resolver are implemented. Execution remains
+blocked by the composed process runner that must exercise the exact generic
+need/binding plus resolver-private read-result authority, restart refresh, and
+retention refusals across three nodes. The profile plan must
+not be represented as completed Corpus capability before that process evidence
+exists.
 
 ## Out of Scope
 

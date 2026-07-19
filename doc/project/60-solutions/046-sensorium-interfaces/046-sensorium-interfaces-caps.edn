@@ -42,10 +42,11 @@
    :responsibilities
    ["Register the sensorium-interface Interaction Broker source kind"
     "Adapt admitted Sensorium observation latest state"
+    "Adapt resource-bound Room-relayed latest state under exact host-component context"
     "Adapt Workbench screen latest state and ordered events as separate resources"
     "Compose source authority with interface authority"]
    :status :done
-   :status-detail "The daemon provider registry and source bindings expose Sensorium observations plus Workbench screen/event sources through broker-owned bounded reads."}
+   :status-detail "The daemon provider registry and source bindings expose local Sensorium observations, resource-bound Room-relayed latest state, and Workbench screen/event sources through broker-owned bounded reads. Room-relayed durable outcomes are payload-free and Agent passage content remains process-local."}
 
   {:cap/id :sensorium-interface-authority-runtime
    :title "Sensorium Interface Authority Runtime"

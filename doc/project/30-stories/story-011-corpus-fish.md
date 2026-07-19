@@ -67,7 +67,8 @@ id as protocol intent.
 [Story 012](story-012-agents-share-chair-terminal.md) is the gated follow-on
 profile that composes this Agent-deliberation topology with a chair-owned,
 read-only Workbench terminal view. It is not part of Story 011 completion and
-must remain non-executable until its Agent observation-admission gate exists.
+now has its Agent observation-admission gate but remains non-executable until a
+composed three-node process runner supplies the required cross-process evidence.
 
 ## Acceptance Pack
 

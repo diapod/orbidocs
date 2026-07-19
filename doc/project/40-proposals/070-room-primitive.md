@@ -1219,8 +1219,9 @@ membership, attestation, or node-local live-plane contracts.
   observation versus actuation visibility from current Room grants. The shared
   `sensorium-status` carrier class additionally distinguishes observation status from
   actuation/control status by its exact schema ref, so `observe` cannot disclose P083
-  control state. P082 pumps emit validated latest-state frames into an active epoch
-  without exposing source cursors.
+  control state. P082 pumps emit a validated resource-bound
+  `sensorium-interface-read-result.v1` with one inline latest-state snapshot into
+  an active epoch without exposing source cursors.
 - [x] Add an outbound-only three-node acceptance profile proving initial relay
   placement on the requester or another content-visible member, relay failure, endpoint
   update through AD, new-epoch recovery without cross-epoch merge, membership

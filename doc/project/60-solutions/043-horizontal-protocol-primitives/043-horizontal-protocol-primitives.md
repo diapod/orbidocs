@@ -55,10 +55,11 @@ store, trust registry, domain merge authority, or authorization decision.
 ## Causal Context Surface
 
 `horizontal-protocol-core` owns deterministic root, child, and fan-in context
-derivation, canonical causation refs, operation-context conflict checks, actor
-binding, a distinct non-canonical-causation refusal, one-way receipt transitions,
-component-domain-separated deterministic receipt identifiers, and known
-effect/outcome ref families.
+derivation, canonical causation refs, exact schema and major-version admission,
+operation-context conflict checks, actor binding, distinct unknown-schema,
+unsupported-version and non-canonical-causation refusals, one-way receipt
+transitions, component-domain-separated deterministic receipt identifiers, and
+known effect/outcome ref families.
 Scheduler, Bounded Deferred Operations, Artifact Delivery, and Sensorium are the
 first consumers. `trace-explorer-core` projects their receipts into redacted
 P074 events and explicit strong links; committed domain facts remain the source

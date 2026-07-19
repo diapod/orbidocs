@@ -370,6 +370,8 @@ Workbench or Sensorium provider
   -> participant-scoped interface grants
   -> WSS-backed Room latest-state carrier
   -> authorized room participants
+  -> daemon Room/Sensorium resolver
+  -> opaque bounded Agent observation need
 ```
 
 The view is not embedded into Corpus chat and Room does not own the PTY, source
@@ -1740,18 +1742,26 @@ runtime, no N-way settlement.
   existing Corpus/Agent Room topology with a chair-owned read-only Workbench
   terminal view, keeps actuation local-control-only in the first profile, and
   records explicit substrate gates before any smoke may run.
-- [ ] Add the host-owned observation-admission bridge that binds one admitted
-  Room-delivered Sensorium Interface `latest-state` frame to an exact participant
-  Agent passage under dual Room/interface authority, classification and byte
-  ceilings, ephemeral content lifetime, and prompt-free trace.
-- [ ] For deliberation profiles that share a terminal or enacted-environment view,
+- [x] Add the host-owned observation-admission boundary: `agent-core` carries only
+  a generic need, static binding, and prompt-free resolution evidence; the daemon
+  resolver binds one Room-delivered Sensorium Interface `latest-state` result and
+  its single inline snapshot to an exact participant Agent passage under dual
+  Room/interface authority, classification and byte ceilings, relay and
+  Room-membership fencing, and ephemeral content lifetime. Evidence: static
+  fail-closed JSON-e wiring, the process-local revocable Room observation
+  registry, exact host-component Interaction Broker source, and Agent-to-Inquirium
+  passage integration reject unbound/widened needs and retain no observation
+  content across restart.
+- [x] For deliberation profiles that share a terminal or enacted-environment view,
   publish a bounded read-only Workbench/Sensorium representation through P082
   and Solution 046,
   issue a resource-scoped interface grant to every admitted observer, and project
   it over the WSS-backed Room `latest-state` carrier. This optional integration
   must not treat Room membership as interface authority, expose ordered terminal
   replay, or grant terminal input and other Workbench actuation. It is not part of
-  Phase 7 closure.
+  Phase 7 closure. The implemented carrier publishes a closed
+  `sensorium-interface-read-result.v1` with one cursor-free inline snapshot into
+  the active relay epoch; Story 012 process composition remains separate.
 - [ ] Complete and run the Story 012 three-node process smoke only after every
   checked-in substrate gate is backed by executable evidence; prove revocation,
   restart refresh, no ambient actuation, no terminal-content persistence, and an

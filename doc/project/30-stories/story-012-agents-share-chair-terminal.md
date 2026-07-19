@@ -1,6 +1,6 @@
 # Story 012: Remote Agents Solve a Problem Through a Shared Chair Terminal
 
-Status: Profile defined; execution blocked by substrate gates
+Status: Observation admission implemented; execution blocked by the composed process runner
 
 Related:
 
@@ -31,12 +31,13 @@ terminal, or collaboration runtime:
 - Room supplies membership and the network collaboration carrier;
 - Sensorium Workbench owns the chair-side PTY and command execution;
 - Sensorium Interfaces publishes its bounded visible viewport;
-- Interaction Broker admits the received view as an Agent observation source.
+- the destination daemon resolves a generic Agent observation need through
+  Interaction Broker and the Room/Sensorium adapter.
 
-The profile is intentionally not executable yet. It must remain fail-closed until
-the host can bind an admitted Room-delivered Sensorium Interface frame to one
-specific Agent passage without turning Room membership into interface authority
-or persisting terminal content as Agent memory by accident.
+The profile is intentionally not executable yet. The host-owned observation
+admission boundary is implemented, but the profile remains fail-closed until a
+composed three-node process runner exercises it without duplicating Story 011's
+trust/bootstrap logic.
 
 ## Concrete Problem
 
@@ -95,17 +96,18 @@ Node A Workbench PTY
 ```
 
 The terminal screen is not a Room message and is not appended to the Corpus
-transcript. Room carries a cursor-free, coalesced `latest-state` projection. The
-source cursor, PTY handle, source credentials, and Workbench lease remain local
-to node A.
+transcript. Room carries a cursor-free, coalesced
+`sensorium-interface-read-result.v1` containing one inline `latest-state`
+snapshot. The source cursor, PTY handle, source credentials, and Workbench lease
+remain local to node A.
 
 ## Flow
 
 1. Node A creates the Corpus query and opens a bounded Room under the same policy
    and invite model used by Story 011.
 2. Nodes B and C accept signed Room invitations and create narrowed
-   `corpus-participant` Agent bindings. Node A creates the corresponding chair
-   binding.
+   `collaborative-participant` Agent bindings. Node A creates the corresponding
+   `collaborative-chair` binding.
 3. Node A creates an isolated Workbench terminal session under an allowlisted
    story workspace and starts the deterministic failing fixture.
 4. Node A publishes only the visible terminal-screen representation as a
@@ -116,9 +118,12 @@ to node A.
    `read` grant.
 6. The active Room relay projects the view only to recipients in the intersection
    of current Room observation rights and current Sensorium Interface grantees.
-7. Each recipient host validates the interface frame, room, relay epoch,
-   participant, Agent binding, classification ceiling, byte cap, and freshness
-   before producing an ephemeral Agent observation input.
+7. Each Agent binding fixes a generic need, opaque source ref, payload schema,
+   freshness, and byte bound. The recipient daemon resolves that need through its
+   Room/Sensorium adapter and validates the read result, inline interface frame,
+   Room, relay epoch, Room membership source sequence, recipient, Agent binding,
+   classification ceiling, byte cap, and freshness before producing ephemeral
+   inert context.
 8. The Agent controller uses the accepted latest state in one bounded passage.
    The durable step trace contains only schema, refs, classification, policy
    digest, and content digest; it contains no terminal bytes or prompt text.
@@ -158,22 +163,37 @@ Neither authority implies the other. In particular:
 
 ## Observation-To-Agent Boundary
 
-Before this profile may run, the host must provide one explicit admission path
-from a received Sensorium Interface frame to an Agent controller passage. That
-path must:
+The Agent contract is horizontal. `agent-core` carries only a bounded
+`AgentObservationNeed`, a durable `AgentObservationBinding`, and prompt-free
+resolution evidence. Their source refs are opaque; the core neither imports nor
+interprets Sensorium, Workbench, Room, or provider types.
 
-- bind the frame to the exact interface, Room, relay epoch, recipient subject,
-  Agent, and Agent binding;
-- recheck both Room and interface authority at admission time;
-- admit only the declared terminal-screen snapshot schema and `latest-state`
+Operator-authored JSON-e Flow configuration may predeclare a bounded mapping from
+`need/ref` to `source/ref`, payload schema, freshness, and byte limits, together
+with separate grant requests. The configuration is schema-validated and
+digest-pinned. Rendered flow data may select or narrow a predeclared mapping but
+must not construct or widen one, and Agent/model/observation data never
+interpolates an authority-significant wiring field.
+
+The destination daemon is the composition root. For this story it selects the
+Room/Sensorium resolver, which:
+
+- binds the read result and its single inline snapshot to the exact interface,
+  Room, relay epoch, Room membership source sequence, recipient subject, Agent,
+  durable Agent binding, and generic observation need;
+- rejects unbound, dynamically selected, changed-schema, or widened-bound needs
+  before source I/O;
+- rechecks both Room and interface authority before and after the broker read;
+- admits only the declared terminal-screen snapshot schema and `latest-state`
   delivery profile;
-- enforce classification, age, item-count, and byte ceilings before prompt
+- enforces classification, age, item-count, and byte ceilings before prompt
   assembly;
-- coalesce superseded snapshots rather than replay terminal history;
-- expose the accepted observation as inert context, never as an effect request;
-- record only prompt-free metadata and a host-keyed content digest in durable
-  Agent trace; and
-- discard terminal bytes after the bounded passage unless local control performs
+- coalesces superseded snapshots rather than replaying terminal history;
+- exposes the accepted observation as inert context, never as an effect request;
+- records only prompt-free generic metadata, the validated source
+  `causal/context`, source-version/ref, resolution/ref, policy evidence, and a
+  host-keyed content digest in durable Agent trace; and
+- discards terminal bytes after the bounded passage unless local control performs
   a separate classified Workbench capture.
 
 Responsibility for summarizing terminal content belongs to a separately
@@ -188,7 +208,7 @@ snapshot, but it must not silently become a transcript store or summarizer.
 | Room Phase 6A relay | available | three-node member-visible WSS relay carries bounded Room and Sensorium Interface payloads with epoch fencing |
 | Workbench terminal source | available | isolated PTY, bounded visible-screen snapshot, local actuation authority, and classified explicit capture |
 | Sensorium Interface Room projection | available | exact grants, `latest-state`, recipient intersection, revocation, restart recovery, and no terminal control |
-| Agent observation admission | **missing** | one host-owned, dual-authority, classification-aware frame-to-passage adapter with prompt-free trace |
+| Agent observation admission | available | substrate-neutral need/binding/evidence in `agent-core`, preserved P081 source causality, static fail-closed JSON-e wiring, daemon-owned Room/Sensorium resolution, process-local revocable latest-state inbox, resource-bound Interaction Broker source, one-passage Inquirium layer, prompt-free trace, and restart/retention refusal tests |
 | Story 012 process runner | **missing** | a composed three-node runner extending the Story 011 topology without copying its trust/bootstrap logic |
 
 The acceptance pack must refuse execution while any gate is missing. Marking a
@@ -204,7 +224,7 @@ node/tools/acceptance/story-012-shared-chair-terminal/
 ```
 
 Its checked-in profile plan is non-executable. It records topology, authority,
-delivery mode, missing gates, and required assertions. A future runner should
+delivery mode, the remaining runner gate, and required assertions. A future runner should
 reuse Story 011's profile rendering and federation-root bootstrap as a lower
 stratum, then add only the Workbench, Sensorium Interface, Agent-observation, and
 story-specific fixture layers.
@@ -216,12 +236,17 @@ The eventual process smoke must prove:
 - no terminal view before the exact interface grant exists;
 - no view from Room membership alone or from an interface grant alone;
 - cursor-free bounded latest-state delivery over the active Room relay epoch;
-- exact frame-to-Agent binding and classification checks;
+- exact generic need/binding plus resolver-private read-result/frame, authority,
+  and classification checks;
+- refusal of unbound, dynamically interpolated, changed-schema, or widened source
+  mappings before source I/O;
 - B and C can deliberate from the shared view but cannot invoke or manage it;
 - revocation stops one observer while the Room and other observer remain active;
 - restart restores durable Agent, Room, interface, and grant projections, while
   stale relay or subscription state fails closed and refreshes from current
   latest state;
+- two different content digests at one relay epoch and sequence are refused with
+  a payload-free diagnostic and cannot replace the previously admitted state;
 - terminal bytes do not enter Room messages, Memarium Agent facts, status,
   notifications, or prompt-free traces;
 - the passing result is observed after local chair-side actuation; and
@@ -237,6 +262,7 @@ The eventual process smoke must prove:
 | Terminal bytes enter durable Agent memory | credential or source leakage | retain only refs, classification, policy digest, and host-keyed content digest |
 | Revocation closes the Room | collaboration state is lost with one view | close only the projection/subscription and preserve the durable Room |
 | Restart silently widens authority | stale grants or relay epochs revive | rebuild from durable facts, recheck revocation, and require a fresh current-state delivery |
+| Agent or observed data changes source wiring | confused deputy selects an authority-bearing source | accept only operator-authored, digest-pinned static mappings; rendered flow data may select or narrow but never create or widen them |
 | Story runner duplicates Story 011 trust logic | two drifting federation bootstraps | compose or extract the existing topology/bootstrap helper before implementing the runner |
 | Chair Agent becomes terminal operator by implication | observation and effect authority are complected | keep first-profile actuation local-control-only and require a later explicit effect profile for Agent-driven commands |
 
@@ -254,8 +280,8 @@ The eventual process smoke must prove:
 
 - The story document and non-executable acceptance profile agree on topology,
   authority, data lifetime, and refusal behavior.
-- P069 and P073 track the missing Agent observation bridge and the eventual
-  process smoke explicitly.
+- P069 and P073 track the substrate-neutral Agent observation port, daemon-owned
+  Room/Sensorium resolver, and remaining process smoke explicitly.
 - The profile validator rejects terminal actuation grants, membership-as-authority,
   ordered-event delivery, durable terminal content, and premature execution.
 - Every substrate gate has executable evidence and is marked available.

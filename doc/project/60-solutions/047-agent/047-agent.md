@@ -10,6 +10,7 @@ Based on:
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 - `doc/project/60-solutions/030-sensorium/030-sensorium.md`
 - `doc/project/60-solutions/037-capability-registry/037-capability-registry.md`
+- `doc/project/60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md`
 - `doc/project/60-solutions/044-inquirium/044-inquirium.md`
 - `doc/project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md`
 
@@ -29,6 +30,7 @@ Related schemas:
 - `agent.effect.dispatch.request.v1`
 - `agent.effect.dispatch.response.v1`
 - `agent.outcome.v1`
+- `causal-context.v1`
 
 ## Status
 
@@ -55,9 +57,9 @@ session. The host owns admission, authority, accounting, and recovery.
 ```text
 Agent orchestrates under host authority.
 Inquirium answers.
-Sensorium acts.
 Memarium remembers.
-Artifact Delivery moves admitted products.
+Agent declares observation needs and proposes effects.
+The host resolves both through the owning domains and admits every transition.
 ```
 
 An Agent may propose work, call admitted inference, fork within a narrowed
@@ -85,7 +87,9 @@ rather than acquiring their privileges or storage responsibilities.
 The implementation is divided by meaning:
 
 1. `agent-core` owns substrate-free values, validation, lifecycle transitions,
-   monotone fork rules, memory policy, binding, effect, and outcome contracts.
+   monotone fork rules, memory policy, generic observation need/binding/evidence,
+   effect proposal, and outcome contracts. It has no Sensorium or Workbench
+   vocabulary or dependency.
 2. `agent-host` owns pure controller decisions, operator-profile admission, and
    the closed registry that compiles admitted effect intents into
    transport-independent execution plans.
@@ -96,7 +100,53 @@ The implementation is divided by meaning:
    The Agent itself has no publication authority.
 
 Dependency-direction checks keep the semantic crates independent from daemon,
-transport, database, and provider-runtime details.
+transport, database, and provider-runtime details. `agent-core` has one named
+vertical exception: it reuses the pure bounded-inference request/result DTOs
+from `inquirium-core`, because inference is constitutive to an Agent session.
+The exception includes no Inquirium host, provider, runtime, or authority code;
+a positive direct-dependency allowlist makes every additional dependency an
+explicit review event. Room, Corpus, Memarium, Sensorium, Workbench, and other
+source/effect domains remain forbidden in the core vocabulary and dependency
+graph.
+
+### Horizontal Ports and the Composition Root
+
+Agent describes **what it needs**, not which vertical subsystem should satisfy
+it. An `AgentObservationNeed` carries an opaque `source/ref`, expected
+`payload/schema-ref`, and freshness/byte bounds. The durable Agent binding fixes a
+consumer-authorized `AgentObservationBinding`; successful resolution produces
+prompt-free `AgentObservationEvidence` with the validated source P081
+`causal/context` plus source-version and resolution refs.
+Neither value names Room, Sensorium Interfaces, Workbench, or a provider.
+
+The daemon is the composition root. It resolves an admitted need through a
+registered domain adapter, validates the returned payload at schema-gate, and
+rechecks the owning domain's grants and current authority. The Story 012 adapter
+therefore knows the exact Room, relay, membership, recipient, and Sensorium
+Interface rules while `agent-core` remains unchanged. Effects follow the same
+shape in the other direction: Agent emits a generic immutable proposal and the
+daemon compiles it through a closed, capability-specific adapter before policy,
+lease, HIL, and execution admission.
+
+JSON-e Flow supplies declarative wiring only. Operator-authored, digest-pinned
+configuration predeclares bounded need-to-source mappings and grant requests;
+rendered flow data may select or narrow those mappings but cannot create, widen,
+or interpolate authority-significant refs. Its validator imports the Agent-owned
+hard item, age, byte, and reference caps instead of maintaining parallel limits.
+After caller-capability and ownership checks, binding admission requires exactly
+one registered resolver for each source/schema pair before persistence; missing,
+incompatible, and ambiguous registrations fail closed. Authorization,
+classification, and payload interpretation remain compiled host semantics. The
+Room/Sensorium path enters Interaction Broker under a typed internal Agent-host
+principal rather than caller-controlled kind/module strings. The validated source
+`causal/context` preserves causality, while the separate resolution ref makes the
+selected wiring auditable without retaining the observation payload. Durable step
+facts and traces additionally pin each evidence item to the enclosing Agent,
+binding, and canonical passage identity.
+
+The process-local latest-state inbox refuses two different content digests at
+one relay epoch and sequence with a dedicated payload-free structured diagnostic.
+The conflicting delivery cannot replace the already admitted observation.
 
 ### Lifecycle and Identity
 
@@ -184,6 +234,7 @@ never rewrites durable history or duplicates another registry's state.
 The hard-MVP gate requires all of the following:
 
 - substrate-free core and host strata with dependency-direction checks;
+- a substrate-neutral observation/effect port with static, fail-closed wiring;
 - durable lifecycle, facts, idempotency, bounded recovery, and quarantine;
 - enforced controller, budget, fork, fan-out, deadline, and termination bounds;
 - bounded memory projection with externally governed summaries;
@@ -207,7 +258,8 @@ authorized caller
   -> agent.binding.create (consumer + session + output sink)
   -> agent.controller.run (expected step)
   -> pure step decision
-     -> admitted Inquirium call, or
+     -> observation need -> daemon resolver -> bounded inert context
+        -> admitted Inquirium call, or
      -> inert effect proposal -> policy/HIL -> owning host surface, or
      -> monotone child fork, or
      -> terminal outcome
@@ -271,11 +323,14 @@ an extension hidden inside this solution.
    cross-node or federated execution.
 4. Keep detailed implementation evidence and future recommendations in Proposal
    073 rather than duplicating tracker prose here.
-5. Implement the Story 012 Sensorium Interface observation boundary only as an
-   explicit host-owned Agent input adapter: bind one current frame to one Room
-   participant and Agent passage, keep content ephemeral, and deny every implicit
-   actuation or membership-derived authority. The checked-in profile remains
-   non-executable until that boundary has refusal and process evidence.
+5. Keep the implemented Story 012 path as a daemon-owned Sensorium resolver for
+   the generic Agent observation port: statically bind one need to one opaque
+   source, bind the resolved read result and inline snapshot to one Room recipient
+   and Agent passage, preserve its validated P081 causal context, keep content
+   ephemeral, and deny dynamic wiring, implicit actuation, or membership-derived
+   authority. New sources extend daemon wiring, not `agent-core`.
+   The checked-in profile remains non-executable until the composed three-node
+   runner supplies cross-process refusal and restart evidence.
 
 ## Must Implement
 
@@ -284,6 +339,8 @@ an extension hidden inside this solution.
 - durable fact storage, bounded recovery, quarantine, and idempotency;
 - monotone fork, aggregate budget, deadline, fan-out, and termination controls;
 - host-authorized Inquirium calls and inert effect proposals;
+- generic observation needs, durable static bindings, prompt-free resolution
+  evidence preserving P081 causal context, and daemon-owned source resolvers;
 - closed Sensorium and Artifact Delivery effect-plan boundaries;
 - scheduler-owned reaping, deferred reconciliation, and lease cleanup;
 - prompt-free trace, bounded operator status, diagnostics, and inspect-first
@@ -294,7 +351,7 @@ an extension hidden inside this solution.
 ## May Implement
 
 - Assistant Channel escalation and render-only outcome acceptance;
-- FlowNode bindings and JSON-e Flow Agent grants;
+- FlowNode bindings, JSON-e Flow Agent grants, and static observation wiring;
 - Corpus chair and selected-participant bindings;
 - additional capability-specific effect-policy adapters;
 - specialized projection caches justified by measured workload.
@@ -317,7 +374,8 @@ the Agent organ because their owning components may be absent from a deployment.
 - authenticated local-control or module capability context;
 - Inquirium inference capabilities and usage evidence;
 - Memarium fact append/query surfaces;
-- Sensorium and Artifact Delivery host plans;
+- operator-authored static observation wiring and separately admitted grants;
+- daemon-owned Sensorium and Artifact Delivery host adapters and plans;
 - operator-question decisions and model-runtime leases.
 
 ## Produces
@@ -325,6 +383,8 @@ the Agent organ because their owning components may be absent from a deployment.
 - durable Agent lifecycle, step, memory, effect, and outcome facts;
 - bounded node-local status and recovery projections;
 - prompt-free causal and accounting traces;
+- bounded observation evidence with validated P081 causal context and opaque
+  source-version and resolution refs;
 - inert effect proposals and execution outcomes;
 - content-addressed `agent.outcome.v1` values for consumer-owned acceptance.
 

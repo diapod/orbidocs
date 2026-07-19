@@ -252,8 +252,9 @@ Responsibilities:
   outcomes equivalent under conformance tests without merging carrier histories;
 - let P082 attach a dedicated read-only WSS `latest-state` projection whose
   authority is the intersection of current Room `observe` rights and current
-  Sensorium Interface grants, without exposing source cursors or closing the
-  durable Room;
+  Sensorium Interface grants, carrying one resource-bound
+  `sensorium-interface-read-result.v1` with a single inline snapshot without
+  exposing source cursors or closing the durable Room;
 - let P083 use the explicit `actuate` grant as collaboration policy for bounded
   status/control/invoke wrappers, deriving session identity and current membership
   atomically from one live-transport snapshot, while exact Sensorium Interface

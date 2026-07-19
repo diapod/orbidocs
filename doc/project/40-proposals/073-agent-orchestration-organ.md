@@ -21,8 +21,10 @@ context, parameters, a budget, and a bounded controller loop, with an explicit
 lifecycle: `spawn`, `fork`, `suspend`, `resume`, `stop`.
 
 An Agent **composes** other organs and owns none of them. It calls Inquirium for
-inference, Sensorium for effects, and Memarium for durable memory (not the
-agent's hot working/KV memory); the host owns authority, budget, and lifecycle. This realizes the agentic mode — an entity with
+inference, declares bounded observation needs and effect proposals through
+horizontal contracts, and uses Memarium-backed durable memory (not the agent's
+hot working/KV memory). The host resolves those ports through the owning domains
+and owns authority, budget, and lifecycle. This realizes the agentic mode — an entity with
 an attached model, remembered context, and parameters, plus actions that
 multiply or stop agents — that Inquirium deliberately excludes:
 
@@ -35,8 +37,9 @@ The governing rule is:
 
 ```text
 Agent is the bounded controller with identity, memory, and a lifecycle.
-Inquirium answers; Sensorium acts; Memarium remembers; the host authorizes.
-The agent proposes and orchestrates; it never self-authorizes an effect.
+Inquirium answers; Memarium remembers; the host resolves observations and effects.
+The agent declares needs, proposes effects, and orchestrates; it never selects an
+authority path or self-authorizes an effect.
 ```
 
 ## Context and Problem Statement
@@ -66,8 +69,10 @@ lifecycle and authority that is bounded by construction.
   controller.
 - Explicit lifecycle operations `spawn`, `fork` (multiply), `suspend`, `resume`,
   `stop` as host capabilities — budget-metered, ledgered, fail-closed.
-- Strict stratification: Agent consumes Inquirium, Sensorium, Memarium, and host
-  authority; it owns none of them, and those organs hold no knowledge of agents.
+- Strict stratification: Agent uses horizontal inference, observation, effect,
+  memory, and causal contracts; the host composes them with Inquirium, Sensorium,
+  Workbench, Memarium, and other vertical domains. Neither side acquires the
+  other's authority or implementation vocabulary.
 - Bounded by construction: monotone narrowing on fork, bounded fan-out, enforced
   budget, mandatory termination, no self-authorizing agents.
 - Full causal trace: every step, spawn, effect proposal, and lifecycle transition
@@ -242,32 +247,66 @@ By memory type: the working set is **working memory** (KV-like, ephemeral);
 Memarium holds **episodic** (this session) and **semantic/long-term** (across
 sessions) memory; procedural memory lives in grants and templates, not Memarium.
 
-### 5. Effects are proposals; inference is evidence
+### 5. Observations are needs; effects are proposals; inference is evidence
 
-A controller step calls Inquirium for inference, routes the (evidence-only)
-output back into the loop, and may *propose* an effect. The agent never executes
-an effect directly. Effects flow through Sensorium / Artifact Delivery as
-capability-gated operations; sensitive classes (relationship, governance,
-external publication, egress) require human-in-the-loop approval, inheriting
-Proposal 066's Phase 3 contract. An Inquirium `Plan` return remains a
-`CandidatePlan` the host compiles or rejects (Proposal 064); the agent is the
-durable, addressable form of that same host-first orchestration, not an escape
-hatch around it.
+A controller step may declare an `AgentObservationNeed` containing an opaque
+`source/ref`, expected `payload/schema-ref`, and age/byte bounds. A durable
+`AgentObservationBinding` fixes which need and source a consumer-authorized Agent
+may use. `agent-core` does not know whether that source is a Sensorium Interface,
+Room projection, Workbench view, or a future domain. The daemon composition root
+selects the resolver, rechecks its domain authority, validates the payload at the
+schema gate, and returns bounded inert context plus prompt-free
+`AgentObservationEvidence` carrying the source P081 `causal/context` plus distinct
+source-version and resolution references.
+
+A controller may also *propose* an effect. The agent never executes one directly
+and never chooses the provider or authorization path. The daemon maps the generic
+proposal to a closed host adapter such as Sensorium or Artifact Delivery and
+enforces grants, leases, classification, quarantine, and human-in-the-loop policy.
+Sensitive classes (relationship, governance, external publication, egress)
+require operator approval, inheriting Proposal 066's Phase 3 contract. An
+Inquirium `Plan` return remains a `CandidatePlan` the host compiles or rejects
+(Proposal 064); the agent is the durable, addressable form of that same host-first
+orchestration, not an escape hatch around it.
+
+JSON-e Flow may define only **static declarative wiring**: an operator-authored,
+schema-validated, digest-pinned mapping from `need/ref` to opaque `source/ref`,
+schema, and bounds, plus separately admitted grant requests. Rendered flow data
+may select or narrow a predeclared mapping but cannot create or widen one. Agent,
+model, or observation output must never interpolate an authority-significant
+wiring field. After caller-capability and ownership checks, the daemon must prove
+that every exact `source/ref` plus `payload/schema-ref` pair has one registered
+resolver before persisting a binding; absent, incompatible, and ambiguous pairs
+fail closed. Authorization, classification, source interpretation, and effect
+semantics remain compiled host code. Every successful resolution emits a stable
+`resolution/ref` and preserves the validated source `causal/context` in the Agent
+trace. Step facts and traces bind that evidence to the enclosing `agent/id`,
+`binding/ref`, and canonical passage ref. The resolution ref makes the selected
+binding auditable; the causal context preserves the source chain without retaining
+payload bytes.
 
 ### 6. Stratification and crates
 
 ```text
 agent-core (thin contract crate)
   - Agent / controller / budget / grant DTOs
+  - substrate-neutral observation need/binding/evidence and effect-proposal DTOs
   - lifecycle state machine + monotone-narrowing validator
-  - depends only on: classification, inquirium-core contracts, serde/error
+  - depends on horizontal P081, classification, serde/error, plus one explicit
+    vertical exception: pure inquirium-core request/result DTOs for the Agent's
+    constitutive bounded-inference operation
+  - the Inquirium exception carries no host, provider, runtime, or authority code
+  - MUST NOT import Room, Corpus, Memarium, Sensorium, Workbench, or other
+    provider-specific source/effect types
   - MUST NOT depend on substrate (daemon, model-runtime, HTTP, async, SQLite),
-    enforced by a dependency-direction lint mirroring inquirium-core
+    enforced by a positive direct-dependency allowlist plus vertical dependency
+    and vocabulary checks
 
 daemon (substrate)
   - agent.* host capabilities and the bounded controller runtime
+  - composition-root resolvers from opaque observation/effect refs to owning domains
   - durable agent/session store (Memarium-backed) + spawn-tree budget metering
-  - capability gating, lease lifecycle, decision ledger, trace
+  - schema-gate validation, capability/HIL gating, lease lifecycle, decision ledger, trace
 ```
 
 ## Implementation Recommendations
@@ -283,8 +322,9 @@ plans to be one of the things an agent executes.
 Build the implementation in layers:
 
 1. Keep `agent-core` as the substrate-free contract crate: DTOs, validation,
-   lifecycle state machine, monotone fork validator, and schema constants only.
-   It must not gain daemon, model-runtime, HTTP, async runtime, SQLite, or store
+   lifecycle state machine, monotone fork validator, generic observation/effect
+   port values, and schema constants only. It must not gain Sensorium, Workbench,
+   provider, daemon, model-runtime, HTTP, async runtime, SQLite, or store
    dependencies.
 2. Add the daemon host facade and local-control surfaces for the smallest useful
    lifecycle: `agent.spawn`, `agent.status`, and `agent.stop`. `fork`,
@@ -297,9 +337,12 @@ Build the implementation in layers:
 4. Add budget/fan-out enforcement before enabling `fork` or effect proposal
    routing. A fork without budget split and monotone narrowing is not an agent
    feature; it is a fork bomb waiting for policy.
-5. Route effects only as proposals through Sensorium / Artifact Delivery and
+5. Route effects only as generic proposals through closed daemon adapters and
    existing host capabilities. Agent output may ask for an effect; the host and
    operator remain the authority that admits, denies, delays, or scopes it.
+6. Keep JSON-e Flow at the wiring layer. Static, digest-pinned configuration may
+   map a need to an opaque source and declare grant requests; it must not evaluate
+   authorization, classification, source semantics, or agent-generated wiring.
 
 The first implementation slice is **node-local only**. Cross-node or federated
 agents are explicitly deferred to a later proposal and must not leak into the
@@ -361,7 +404,11 @@ Minimum test matrix for the first slices:
 - unknown fields and missing termination condition fail closed;
 - classification ceiling defaults fail closed;
 - no ambient capability: an agent without a grant cannot invoke Inquirium or
-  propose Sensorium/AD effects;
+  propose effects;
+- no vertical-domain dependency or vocabulary in the Agent observation/effect
+  port, and no dynamically interpolated observation binding;
+- binding admission refuses absent, schema-incompatible, or ambiguous resolvers,
+  and observation evidence cannot be moved across Agent, binding, or passage;
 - monotone fork denial for widened grants, classification, autonomy, tool set,
   or budget once `fork` is enabled;
 - bounded fan-out defaults prevent more than the configured children/concurrency;
@@ -378,7 +425,8 @@ daemon performs the effects. Each tick produces an `agent.step-decision.v1`:
 ```text
 agent.step-decision.v1 {
   step/no
-  action            # call-inquirium {request-ref} | propose-effect {proposal-ref}
+  action            # call-inquirium {request-ref, observation-need?}
+                    #   | propose-effect {proposal-ref}
                     #   | spawn-child {child-spec-ref} | await-human | complete | fail
   budget-charge
   termination-satisfied
@@ -410,7 +458,7 @@ is never polled merely because scheduler time passed.
 Lifecycle requests carry an `idempotency/key`: a retried `spawn`/`fork` must
 replay the prior result, not create a second agent or a second child.
 
-### Consumer binding (Corpus chair/participant, assistant, Flow node)
+### Consumer binding (collaborative chair/participant, assistant, Flow node)
 
 Agent is driven by domain consumers, not invoked bare. The recurring shape is one
 binding contract, `agent.binding.v1`, that attaches an agent to a consumer's
@@ -419,10 +467,10 @@ session and output sink under narrowed authority:
 ```text
 agent.binding.v1 {
   binding/id, agent/ref
-  consumer/kind                 # corpus-chair | corpus-participant | assistant-channel | flow-node
+  consumer/kind                 # collaborative-chair | collaborative-participant | assistant-channel | flow-node
   consumer/ref                  # query/id (Corpus) | session/ref (assistant) | flow/node-ref
   session-source/ref            # room/ref | transcript/ref | dataset/ref  (ref vocabulary)
-  output-sink/kind              # corpus-answer-draft | corpus-turn-draft | assistant-response-draft | flow-result
+  output-sink/kind              # collaborative-answer-draft | collaborative-turn-draft | assistant-response-draft | flow-result
   grants[]                      # MUST be a subset of the consumer's own grants
   budget                        # from the consumer policy (deliberation budget / assistant rigor)
   participant/ref?              # host-minted accountable principal; never model identity or model-supplied
@@ -438,7 +486,8 @@ Invariants:
   agent more authority than it holds — the same discipline as `fork`
   (`validate_fork_from`). Corpus and the assistant narrow; they never widen.
 - **The agent is a Room participant, never a raw model adapter.** For
-  `corpus-chair` or `corpus-participant`, the agent joins the deliberation room through
+  `collaborative-chair` or `collaborative-participant`, the Corpus adapter joins
+  the agent to the deliberation room through
   `room-membership-attestation.v1` (Solution 036). Binding creation carries the
   complete signed credential as boundary evidence; the host verifies its schema,
   signature, freshness, room, participant, required grants, deadline, and issuer
@@ -576,9 +625,15 @@ fail-closed; identifiers are explicit and canonical.
 - **Flow IR (064) / workflow orchestration (033).** Complementary: Flow is a
   declarative DAG of steps; an Agent is a stateful controller with memory and a
   lifecycle that may compile and run Flows, and a Flow node may spawn an Agent.
-- **Sensorium (045).** All agent effects route through Sensorium / Artifact
-  Delivery under capability gates; the agent proposes, the host/operator
-  authorizes.
+- **Horizontal Protocol Primitives (081 / Solution 043).** Agent reuses
+  `causal-context.v1` as a horizontal evidence contract. Observation resolution
+  preserves the validated source context and adds a separate `resolution/ref`;
+  this dependency carries causality, not Sensorium or provider semantics.
+- **Sensorium (045) / Sensorium Interfaces (082/083).** Agent carries only opaque
+  observation needs and generic effect proposals. A daemon-owned adapter may
+  resolve them through Sensorium after checking the exact resource, grant,
+  collaboration, lease, classification, and HIL contracts. Sensorium vocabulary
+  and authority never enter `agent-core`.
 - **Memarium (036).** Session context and lifecycle are durable facts; Agent adds
   no second memory store.
 - **Capability Registry (072).** `agent.spawn/fork/suspend/resume/stop/status`
@@ -590,7 +645,7 @@ fail-closed; identifiers are explicit and canonical.
   itself.
 - **Corpus (069).** Corpus live deliberation drives an Agent as the host-owned
   reasoning **chair** bound to a Room (`agent.binding.v1`,
-  `consumer/kind = corpus-chair`); the chair Agent participates via Room membership
+  `consumer/kind = collaborative-chair`); the chair Agent participates via Room membership
   attestation, and its answer-draft product feeds Corpus answer acceptance. Draft
   acceptance revalidates the original signed evidence and yields an inert,
   content-addressed Corpus projection with `publication/authorized = false`;
@@ -633,6 +688,13 @@ guardrail Agent adopts against each:
 - Authority is **host-owned**; agents never self-authorize and fork only narrows.
 - Agent state is **durable facts** (Memarium), not mutated objects.
 - The contract lives in a thin `agent-core` crate guarded by a dependency lint.
+- `inquirium-core` is the sole explicit vertical dependency exception in
+  `agent-core`: only its pure bounded-inference DTOs are reused. A positive
+  direct-dependency allowlist prevents this exception from becoming precedent
+  for another organ or runtime dependency.
+- Agent observation and effect ports are **horizontal contracts**. Vertical-domain
+  resolution, including Sensorium and Workbench, belongs to the daemon composition
+  root; configuration may only select and narrow statically admitted wiring.
 - The first controller runtime is **daemon-owned** and may use Flow IR for
   bounded sub-steps; Flow IR is not the lifecycle owner.
 - The first runtime slice is **node-local only**; cross-node/federated agents are
@@ -723,7 +785,7 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
 | `agent-core-crate` | Create thin `agent-core` contract crate with Agent/controller/budget/grant DTOs and the lifecycle state machine. | `done` | `node/agent-core` compiles as a substrate-free contract crate: `AgentSpec`/`AgentParams`/`AgentBudget`/`ControllerPolicy`/`TerminationCondition`/`CapabilityGrant` DTOs with `deny_unknown_fields` and `validate()`, fail-closed classification ceiling, conservative developer defaults, `idempotency/key` on spawn, `agent.step-decision.v1`, `agent.spawn.response.v1`, `agent.status.request.v1`, `agent.status.response.v1`, `agent.stop.response.v1`, the `AgentLifecycleState::apply` state machine, and the `validate_fork_from` monotone-narrowing validator. Evidence: `cargo test -p orbiplex-node-agent-core`, `cargo clippy -p orbiplex-node-agent-core -- -D warnings`, and `python3 tools/check-agent-core-deps.py` pass. Runtime budget metering, fork budget split, and durable wiring are tracked separately below. |
-| `agent-dep-direction-lint` | Add a dependency-direction lint so `agent-core` cannot import substrate. | `done` | `node/tools/check-agent-core-deps.py` mirrors the `inquirium-core` guard (bans daemon/model-runtime/HTTP/async/SQLite via `cargo tree`) and is wired into `.github/workflows/docs.yml`; the check passes for the current contract crate. An `xtask`-level lint may later replace the standalone script. |
+| `agent-dep-direction-lint` | Add a dependency-direction lint so `agent-core` cannot import substrate or another vertical domain. | `done` | `node/tools/check-agent-core-deps.py` uses a positive direct-dependency allowlist, names pure `inquirium-core` DTOs as the sole vertical exception, rejects daemon/model-runtime/HTTP/async/SQLite and vertical-domain packages through `cargo tree`, and rejects Room, Corpus, Memarium, Sensorium, Workbench, and other source/effect vocabulary in the core source. It is wired into `.github/workflows/docs.yml`, and the current check passes. An `xtask`-level lint may later replace the standalone script. |
 | `agent-inquirium-boundary-docs` | Document that the durable agent loop lives above Inquirium and that assistant agentic effects are realized through Agent. | `done` | Proposal 064 now has the *Agent Loop Lives Above Inquirium* boundary note, Proposal 066 Phase 3 points agentic effects at Proposal 073, and this proposal owns the lifecycle/controller/budget tracker. |
 | `agent-lifecycle-capabilities` | Add `agent.spawn/fork/suspend/resume/stop/status` host capabilities. | `done` | All six node-local ids are active, host-local, non-passport-eligible capabilities with table-driven dispatch. Mutations write `agent.lifecycle-command.v1` plus state/session facts, preserve `local-control` or the authenticated module actor, replay exact idempotency keys after restart, and reject conflicting reuse. Module calls require bounded per-capability `agent_grants` and ownership of the Agent. A process-level smoke drives spawn/status, binding, passive and active controller passages, suspend/resume/controller-mediated fork/stop, kills the daemon without orderly shutdown, and confirms durable terminal-state recovery through real authenticated HTTP against Memarium. The current synchronous controller has no detached passage requiring a separate cancellation protocol. |
 | `agent-monotone-fork` | Enforce monotone narrowing and budget split on `fork`. | `done` | `AgentSpec::validate_fork_from` prevents widened grants, classification, trust, model selection, controller bounds, and budget; daemon fork admission requires a running parent, reserves the child's budget from parent remaining budget, prevents the child deadline from exceeding the parent's remaining absolute TTL, records lineage durably, and rejects a second child under the default fan-out profile. Core and daemon negative/recovery tests pass. |
@@ -743,9 +805,9 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 | `agent-binding-contract` | Add `agent.binding.v1` so consumers (Corpus chair, assistant, Flow node) drive an agent under narrowed grants. | `done` | `agent.binding.v1` and `agent.binding.create.{request,response}.v1` carry consumer identity, session source, output sink, monotone-narrowed grants and budget, bounded `MemoryPolicy`, optional Room participant/attestation refs, HIL policy, request digest, actor, and idempotency identity. FlowNode bindings remain module-owned or local-control. Assistant Channel bindings are node-local, same-session, strict-local, require a matching durable `Approved` escalation before admission and after replay, reject publication grants and incompatible sinks, and persist with their escalation and decision facts for restart recovery. Corpus-chair creation requires complete inline `room-membership-attestation.v1` evidence; the host verifies schema, signature, freshness, trusted local round authority, exact query/room/participant binding, `answer`/`moderate`/`speak` grants, and deadline, while the recovered binding stores only the content-addressed attestation ref. Every caller-delegated capability must cover both spawned-Agent and binding grants. The controller uses optimistic `expected-step`; a checked-in JSON-e Flow fixture demonstrates separate spawn/binding/controller grants and delegated target capability allowlists. |
 | `agent-outcome-projection` | Publish a content-addressed terminal draft and bounded operator status projection without granting effect authority. | `done` | A completed bound Agent with a successful Inquirium product writes `agent.outcome.v1` to the durable fact stream. The generated response is canonicalized into the existing object store; the outcome carries only its content-addressed `product/ref`, classification, sink kind, binding, terminal state, budget, and prompt-free trace ref. The canonical outcome identity is revalidated during recovery, conflicting outcomes fail closed, and an interrupted append is repaired from the durable completed step. FlowNode consumes the draft through its own result path. Assistant Channel uses a separate durable same-session acceptance and receives a validated `assistant-response-draft` only after explicit local-control acceptance; Agent never renders or publishes it. Status exposes at most 64 metadata-only effect proposal projections plus a total count, while payloads and generated content remain outside the projection. |
 | `agent-effect-proposal` | Add an immutable `agent.effect-proposal.v1` plus a separate `agent.effect-proposal-outcome.v1` fact joined by `proposal/ref`, with operator-question human-in-loop. | `done` | Core owns validated proposal/outcome and generic effect-dispatch DTOs; daemon persists them in Memarium, replays exact proposals, rejects conflicting bodies and cross-Agent proposal-ref reuse, caps and validates outcome transitions, projects deferred proposals to Confirm questions with fail-closed timeout defaults, joins validated boolean or registered `yes`/`no` answers as admitted/denied outcomes, audits timeout transitions, and binds each admitted proposal to exactly one `effect/ref`. The outcome vocabulary distinguishes policy deferral from execution deferral and records bounded operation/result/lease evidence through terminal completion or failure. Generic Sensorium and Artifact Delivery policy adapters and dispatch are implemented, active controller decisions can create proposals, `agent.status` exposes a bounded metadata-only operator projection, and recovery reconstructs deferred reconciliation candidates without target reinvocation. |
-| `agent-corpus-chair` | Let Corpus (069) drive an Agent as the deliberation chair bound to a Room. | `done` | Corpus-chair admission consumes a signed and fresh `room-membership-attestation.v1`, verifies its canonical Ed25519 `did:key`, exact query/room/participant/grant/deadline binding, and rejects foreign, malformed, or expired evidence. The Corpus query must already exist, and the node-local first slice requires the signer to be its local round authority so an arbitrary self-signed credential is not admission authority. Recovery restores the durable binding without turning the discarded inline credential into ambient authority. A terminal `agent.outcome.v1` is accepted only by local control through a Corpus-owned idempotent contract into an inert answer draft; embedded evidence passes schema-gate again, exact replay remains bound to the original actor, conflicting replay fails closed, dirty restart restores both binding and draft, and no final Corpus answer is published without a separate authorized transition. A real process smoke covers unknown-query, untrusted-signer, foreign-room, expired-evidence, and unsigned-extension denial; exact and conflicting replay; two dirty restarts; bounded Inquirium controller execution; and absence of final publication. |
-| `agent-corpus-participant` | Let a selected Corpus provider participate through an Agent without exposing a raw model runtime as a Room subject. | `done` | `agent.binding.v1` admits `corpus-participant` only from the exact durable invite and signed, fresh Room evidence, with narrowed grants, budget, participant identity, and `corpus-turn-draft` sink; participant mismatch is denied before binding. The `corpus.room.turn` host policy keeps `corpus-reasoning-turn-proposal.v1` inert until ordinary effect/HIL admission; proposal classification cannot exceed the Agent ceiling and the dispatched payload cannot change class. A host-owned Interaction Broker `room-event` watch wakes the chair without connector-local polling; live content is ephemeral, durable replay uses an explicit metadata allowlist, and an entropy-bearing source epoch invalidates old cursors after restart. Story-011 proves selected B expert → A chair execution, C remaining only a competing bidder, restart recovery of the exact accepted draft, exact dispatch replay, and no ambient publication. |
-| `agent-sensorium-interface-observation` | Admit a Room-delivered Sensorium Interface latest-state view as bounded context for one exact Agent passage. | `todo` | Story 012 defines the required boundary. The host must bind interface, Room, relay epoch, recipient subject, Agent and binding; recheck separate Room and exact interface authority; enforce schema, classification, age and byte caps; coalesce latest state; keep content ephemeral; and persist only prompt-free refs plus a host-keyed digest. Room membership alone, ordered terminal replay, implicit summarization, and every actuation capability fail closed. |
+| `agent-corpus-chair` | Let Corpus (069) drive an Agent as the deliberation chair bound to a Room. | `done` | The Corpus adapter maps its chair into the horizontal `collaborative-chair` role with a `collaborative-answer-draft` sink, then consumes a signed and fresh `room-membership-attestation.v1`, verifies its canonical Ed25519 `did:key`, exact query/room/participant/grant/deadline binding, and rejects foreign, malformed, or expired evidence. The Corpus query must already exist, and the node-local first slice requires the signer to be its local round authority so an arbitrary self-signed credential is not admission authority. Recovery restores the durable binding without turning the discarded inline credential into ambient authority. A terminal `agent.outcome.v1` is accepted only by local control through a Corpus-owned idempotent contract into an inert answer draft; embedded evidence passes schema-gate again, exact replay remains bound to the original actor, conflicting replay fails closed, dirty restart restores both binding and draft, and no final Corpus answer is published without a separate authorized transition. A real process smoke covers unknown-query, untrusted-signer, foreign-room, expired-evidence, and unsigned-extension denial; exact and conflicting replay; two dirty restarts; bounded Inquirium controller execution; and absence of final publication. |
+| `agent-corpus-participant` | Let a selected Corpus provider participate through an Agent without exposing a raw model runtime as a Room subject. | `done` | `agent.binding.v1` admits the horizontal `collaborative-participant` role only after the Corpus adapter validates the exact durable invite and signed, fresh Room evidence, with narrowed grants, budget, participant identity, and `collaborative-turn-draft` sink; participant mismatch is denied before binding. The `corpus.room.turn` host policy keeps `corpus-reasoning-turn-proposal.v1` inert until ordinary effect/HIL admission; proposal classification cannot exceed the Agent ceiling and the dispatched payload cannot change class. A host-owned Interaction Broker `room-event` watch wakes the chair without connector-local polling; live content is ephemeral, durable replay uses an explicit metadata allowlist, and an entropy-bearing source epoch invalidates old cursors after restart. Story-011 proves selected B expert → A chair execution, C remaining only a competing bidder, restart recovery of the exact accepted draft, exact dispatch replay, and no ambient publication. |
+| `agent-observation-port-and-sensorium-adapter` | Admit one statically bound observation need as bounded context for an exact Agent passage, with Story 012 supplied by a daemon-owned Room/Sensorium resolver. | `done` | `agent-core` owns only generic `AgentObservationNeed`, `AgentObservationBinding`, and prompt-free evidence values; its only observation-evidence dependency is the horizontal P081 causal-context contract, while its positive dependency allowlist and vocabulary lint reject Room, Corpus, Memarium, Sensorium, Workbench, and other source/effect-domain coupling. Operator-authored JSON-e Flow configuration declares bounded static need-to-source mappings and imports the Agent-owned hard age, byte, reference, and item caps; rendered data may only select or narrow them, and dynamic interpolation of authority-significant refs fails closed. After caller-capability and ownership admission, the daemon proves that every exact source/schema pair has one resolver before persisting the durable binding; absent, incompatible, and ambiguous registrations fail closed with bounded pair-specific diagnostics. The resolver privately binds interface, Room, relay epoch, Room-membership source sequence, and recipient; rechecks separate current Room and exact interface authority around one exact typed Agent-host Broker principal read; schema-gates and bounds the terminal-screen snapshot; and preserves the exact-schema/version-validated source `causal/context` alongside source-version and resolution refs in generic Agent trace. Step facts and traces require matching Agent, binding, and canonical passage identities for every attached observation evidence item. A conflicting digest at one relay epoch/sequence is a dedicated refusal with a payload-free structured diagnostic and cannot overwrite the admitted latest state. Broker durable replay is payload-free, restart drops observation content, and unbound or widened needs, Room membership alone, stale epochs or membership generations, ordered terminal replay, implicit summarization, and every actuation capability fail closed. The remaining Story 012 gate is the composed three-node process runner. |
 | `agent-operator-status` | Expose a bounded, metadata-only operator projection over all node-local Agent sessions. | `done` | Operator-authenticated `GET /v1/operator/agents` provides stable exclusive-cursor pagination capped at 100 items. Each item reports lifecycle, durability, profile and current-policy admission, deadline, spent/remaining budget, latest step/outcome refs, pending effect/HIL counts, active leases, and controller claim without prompt or generated-product content. Unknown query parameters and invalid limits fail closed; module-authenticated requests cannot enter the operator route set. Unit tests cover ordering, pagination, caps, and metadata-only defaults. |
 | `agent-doctor-maintenance` | Add inspect-first Agent doctor output and explicit bounded remediation. | `done` | `POST /v1/operator/agents/maintenance` accepts only `agent.maintenance.request.v1`, `dry_run|execute`, and a batch limit of 1..1000. Both modes consume one pure maintenance plan: dry-run returns projected counts and a projected `after` diagnostic snapshot without mutation, while execute applies that same plan. Current-policy reconciliation, canonical durable TTL reaping, and terminal lease release remain limited to the same lexicographically ordered page after the exclusive `after/agent-id` cursor; the response reports exact lease-registry release counts, never edits facts in place, and leaves deferred-effect reconciliation with its existing scheduler owner. Lease release remains durably owned by the model-runtime lease registry, while policy admission remains a restart-recomputed disposable projection over immutable Agent history. Missing lineage records produce `ancestor-absent`, distinct from an existing quarantined ancestor. Tests prove preview/apply parity, cursor-scoped durable reaping, invalid-bound denial, distinct lineage diagnostics, and stable terminal state. |
 | `agent-runtime-diagnostics` | Publish bounded-cardinality Agent readiness and operational metrics. | `done` | Operator-authenticated `GET /v1/operator/agents/diagnostics` emits `agent.runtime-diagnostics.v1` with fixed lifecycle, quarantine, expired/reaper-backlog, pending effect/HIL, controller-claim, active-lease, recovery scan/repair, active-controller latency, and idempotency capacity counters. Degradation uses a closed stable reason-code set and no Agent id as a metric dimension. Recovery repair facts are counted only while replay repair is active; completed active controller passages record bounded aggregate latency. Targeted daemon tests and warning-clean clippy pass. |
@@ -764,6 +826,11 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
    matrix, and standalone process/soak pack on the Agent release gate. A later
    cross-node or federated runtime must begin in a separate proposal and must
    not widen these host-local surfaces into network authority.
+4. Preserve the horizontal observation/effect port: new vertical domains extend
+   the daemon resolver/adapter registries and static wiring, never `agent-core`.
+   Every binding remains operator-authored, schema-gated, digest-pinned, and
+   represented by a prompt-free resolution reference while preserving the
+   validated P081 causal context in trace.
 
 ## Related Capability Data
 
