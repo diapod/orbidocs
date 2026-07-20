@@ -66,9 +66,8 @@ id as protocol intent.
 
 [Story 012](story-012-agents-share-chair-terminal.md) is the gated follow-on
 profile that composes this Agent-deliberation topology with a chair-owned,
-read-only Workbench terminal view. It is not part of Story 011 completion and
-now has its Agent observation-admission gate but remains non-executable until a
-composed three-node process runner supplies the required cross-process evidence.
+read-only Workbench terminal view. It is not part of Story 011 completion; its
+composed three-node process runner and cross-process evidence are now executable.
 
 ## Acceptance Pack
 
@@ -77,6 +76,21 @@ The initial operator-facing pack lives in:
 ```text
 node/tools/acceptance/story-011-corpus-fish/
 ```
+
+The executable pack is a **multi-address single-host** profile. A/B/C bind to
+`127.0.0.1`, `127.0.0.2`, and `127.0.0.3`; peer certificates bind the exact
+address in their IP SAN, and Node B's Seed Directory binds to B's address. This
+proves distinct TCP/WSS process endpoints and node-specific addressing, but not
+separate hosts, public reachability, NAT traversal, independent failure domains,
+or production federation-relay deployment. On macOS the shared acceptance helper
+adds the explicit `.2` and `.3` aliases; runners validate them and never invoke
+privileged setup implicitly.
+
+For unattended execution, the pack exposes an explicit
+`single-address-single-host` profile. It binds all three daemons to
+`127.0.0.1`, isolates them by port, and records the lower evidence strength in
+the result. It is never an automatic fallback and does not prove
+address-distinct routing.
 
 It renders three local daemon profiles, imports Corpus-capable offers for B and
 C, creates the A-side query, asks B and C for provider bids, registers those bids

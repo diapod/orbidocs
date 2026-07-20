@@ -350,6 +350,14 @@ separately evidenced by P070 rather than being simulated by Corpus. The profile'
 closed refusal matrix distinguishes direct composed-process checks from named
 lower-stratum P070/P082/P083 evidence owners.
 
+The shared runner assigns A/B/C distinct loopback addresses and exact peer
+certificate IP SANs. This is intentionally multi-address single-host evidence:
+it tests real process and network boundaries without presenting one kernel and
+failure domain as a true multi-host federation deployment.
+The acceptance pack also exposes a deliberately weaker single-address profile
+for unattended execution without privileged alias setup; it preserves distinct
+ports and reports its evidence class explicitly.
+
 The implemented P082-021 operational-context extension remains owned by Sensorium
 Interfaces. Corpus requires the exact source context before admitting a
 collaborative live view, preserves it with the current source generation through

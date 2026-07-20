@@ -1679,7 +1679,13 @@ runtime, no N-way settlement.
   mismatch and ambient model-binding admission are denied, the signed invite is
   delivered and replayed idempotently, the recipient joins and signals local
   readiness, the ready inbox projection survives restart, and a dispatch replay
-  after recipient restart preserves both `invite/id` and AD `delivery/id`.
+  after recipient restart preserves both `invite/id` and AD `delivery/id`. The
+  shared Story 011/012 topology assigns A/B/C distinct loopback addresses and
+  address-specific peer TLS identities, while naming the evidence honestly as
+  multi-address single-host rather than multi-host federation. An explicit
+  single-address fallback supports unattended execution without silently
+  weakening the default profile; its result is marked as port-isolated
+  single-host evidence.
 - [x] Connect admitted participants to the concrete bounded Room live carrier and
   propagate join/readiness/message observations to the room authority. Evidence:
   the daemon owns a bounded loopback WSS runtime, refreshes its neutral Room

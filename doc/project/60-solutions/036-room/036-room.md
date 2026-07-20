@@ -362,6 +362,11 @@ Status:
   checkpoints, Agora plus Artifact Delivery endpoint ingress, P082/P083 payload classes,
   exact-schema visibility splitting for observation versus actuation/control status, and
   the logical outbound three-node failover profile are present.
+  Story 011/012 additionally exercise three address-specific loopback endpoints
+  and TLS identities on one host. That profile is named multi-address single-host
+  and does not substitute for the separate host-TLS deployment evidence.
+  An explicit single-address mode exists only as an unattended, port-isolated
+  fallback and is labelled as weaker evidence.
   Endpoint projection uses an explicit trusted evaluation clock and bounded skew,
   same-epoch conflict carries a typed relay-epoch discriminator and is recoverable only
   through a strictly newer valid epoch, service refresh rechecks close/monotonic state

@@ -104,7 +104,13 @@ failing chair terminal, distinct B/C observations and HIL deliberation, local
 observer revocation and relay-audience convergence before repair, dirty restart
 of recipient B, local repair, newer passing source-version and content-digest
 evidence for B while C remains refused, and an unpublished Corpus draft. The
-closed 17-entry refusal matrix assigns every claim either to this composed process
+shared runner now binds A/B/C to distinct loopback addresses with exact peer TLS
+IP identities. This is multi-address single-host evidence, not a claim of
+multi-host deployment or public relay reachability, so readiness percentages do
+not change. A separately selected single-address profile enables unattended
+port-isolated smoke runs without privileged alias setup, but is recorded as
+weaker evidence and likewise changes no readiness percentage. The closed
+17-entry refusal matrix assigns every claim either to this composed process
 runner or to its named P070/P082/P083 lower-stratum evidence suite. Story 012 is
 therefore ready at `100%`; P070 retains separate ownership of external host-TLS
 relay deployment evidence.

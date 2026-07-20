@@ -39,6 +39,17 @@ three-node federation/bootstrap layer, then composes the Workbench, Sensorium
 Interface, Room observation, Agent, and story fixture layers without creating a
 second trust bootstrap or collaboration runtime.
 
+The three node processes use distinct loopback addresses on one host. This is
+explicitly multi-address single-host acceptance: it strengthens HTTP/WSS process
+and TLS-identity evidence, but does not claim multi-host deployment, public relay
+reachability, NAT traversal, or independent host failure domains. Those remain
+owned by the P070 deployment profiles.
+
+An explicit `single-address-single-host` fallback allows unattended execution
+without privileged loopback aliases. It preserves process and port isolation
+but is intentionally weaker than the default address-distinct profile and is
+reported as such.
+
 ## Concrete Problem
 
 The chair node owns a small fixture whose deterministic manifest test fails

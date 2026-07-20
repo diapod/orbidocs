@@ -1275,6 +1275,14 @@ membership, attestation, or node-local live-plane contracts.
   egress target, and every old-epoch frame after failover. The `phase6a_relay`
   acceptance target covers all listed positive and refusal paths over requester,
   relay-member, and observer nodes.
+- [x] Keep composed Story 011/012 evidence below the deployment boundary explicit:
+  their A/B/C daemons use distinct `127.0.0.1/2/3` endpoints and exact IP SANs,
+  but remain a multi-address single-host profile. This proves process separation
+  and real TCP/WSS routing without claiming public reachability, NAT behavior,
+  host independence, or replacing the dedicated Phase 6A/6B deployment evidence.
+  The same pack may explicitly select a port-isolated single-address fallback
+  for unattended runs; it is a weaker evidence class and never an implicit
+  degradation of the default profile.
 - [x] Collect executable POSIX Phase 6A deployment evidence through an actual host-owned TLS
   terminator and separate relay, publisher, and observer processes. The feature-gated
   Node profile supplies its private trust root explicitly at the host boundary, carries
