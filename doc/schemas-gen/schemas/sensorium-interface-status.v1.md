@@ -14,6 +14,7 @@ Current host projection of an interface publication lifecycle and health.
 | [`lifecycle/status`](#field-lifecycle-status) | `yes` | enum: `published`, `suspended`, `withdrawn`, `expired` | Host-enforced publication lifecycle. |
 | [`health/status`](#field-health-status) | `yes` | enum: `ready`, `degraded` | Current ability to serve admitted operations. |
 | [`health/reason`](#field-health-reason) | `no` | string | Required bounded diagnostic when health is degraded. |
+| [`replacement/interface-id`](#field-replacement-interface-id) | `no` | string | Current replacement, present only after an atomic supersession. |
 | [`status/at`](#field-status-at) | `yes` | string | Time this status projection was recorded. |
 
 ## Conditional Rules
@@ -42,6 +43,30 @@ Then:
   "required": [
     "health/reason"
   ]
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "required": [
+    "replacement/interface-id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "lifecycle/status": {
+      "const": "withdrawn"
+    }
+  }
 }
 ```
 
@@ -94,6 +119,14 @@ Current ability to serve admitted operations.
 - Shape: string
 
 Required bounded diagnostic when health is degraded.
+
+<a id="field-replacement-interface-id"></a>
+## `replacement/interface-id`
+
+- Required: `no`
+- Shape: string
+
+Current replacement, present only after an atomic supersession.
 
 <a id="field-status-at"></a>
 ## `status/at`

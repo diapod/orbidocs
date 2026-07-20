@@ -1,0 +1,5 @@
+{
+  "schema": "sensorium-operational-context.v1",
+  "schema/v": 1,
+  "impact/class": "staging"
+}

@@ -5,12 +5,14 @@
   "description": "Grant-gated, caller-relative status for one actuation interface.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "schema/v", "interface/id", "source/generation-ref", "coordination/mode", "lifecycle/status", "health/status", "control/state", "claim/state", "status/at"],
+  "required": ["schema", "schema/v", "interface/id", "source/generation-ref", "operational/context", "coordination/mode", "lifecycle/status", "health/status", "control/state", "claim/state", "status/at"],
   "properties": {
     "schema": { "const": "sensorium-interface-actuation-status.v1" },
     "schema/v": { "const": 1 },
     "interface/id": { "$ref": "#/$defs/interface_ref" },
     "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" },
+    "replacement/interface-id": { "$ref": "#/$defs/interface_ref" },
     "coordination/mode": { "enum": ["shared", "exclusive-lease"] },
     "lifecycle/status": { "enum": ["published", "suspended", "withdrawn", "expired"] },
     "health/status": { "enum": ["ready", "degraded"] },
@@ -24,7 +26,8 @@
   },
   "allOf": [
     { "if": { "properties": { "health/status": { "const": "degraded" } }, "required": ["health/status"] }, "then": { "required": ["health/reason"] }, "else": { "not": { "required": ["health/reason"] } } },
-    { "if": { "properties": { "coordination/mode": { "const": "shared" } }, "required": ["coordination/mode"] }, "then": { "properties": { "control/state": { "const": "not-applicable" }, "claim/state": { "const": "not-applicable" } }, "not": { "anyOf": [{ "required": ["claim/id"] }, { "required": ["queue/position"] }, { "required": ["lease"] }] } } }
+    { "if": { "properties": { "coordination/mode": { "const": "shared" } }, "required": ["coordination/mode"] }, "then": { "properties": { "control/state": { "const": "not-applicable" }, "claim/state": { "const": "not-applicable" } }, "not": { "anyOf": [{ "required": ["claim/id"] }, { "required": ["queue/position"] }, { "required": ["lease"] }] } } },
+    { "if": { "required": ["replacement/interface-id"] }, "then": { "properties": { "lifecycle/status": { "const": "withdrawn" } } } }
   ],
   "$defs": {
     "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },

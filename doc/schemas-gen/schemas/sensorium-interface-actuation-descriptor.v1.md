@@ -20,6 +20,9 @@ Immutable publication contract for one effect-bearing Sensorium Interface.
 | [`classification/max-tier`](#field-classification-max-tier) | `yes` | enum: `Public`, `Community`, `Personal` |  |
 | [`classification/topic-class`](#field-classification-topic-class) | `yes` | string |  |
 | [`redaction/profile-ref`](#field-redaction-profile-ref) | `no` | ref: `#/$defs/ref` |  |
+| [`source/generation-ref`](#field-source-generation-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`operational/context`](#field-operational-context) | `yes` | ref: `sensorium-operational-context.v1.schema.json` |  |
+| [`supersedes/interface-id`](#field-supersedes-interface-id) | `no` | ref: `#/$defs/interface_ref` |  |
 | [`limits`](#field-limits) | `yes` | ref: `#/$defs/limits` |  |
 | [`published/at`](#field-published-at) | `yes` | string |  |
 | [`expires/at`](#field-expires-at) | `yes` | string |  |
@@ -141,6 +144,24 @@ Then:
 
 - Required: `no`
 - Shape: ref: `#/$defs/ref`
+
+<a id="field-source-generation-ref"></a>
+## `source/generation-ref`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/ref`
+
+<a id="field-operational-context"></a>
+## `operational/context`
+
+- Required: `yes`
+- Shape: ref: `sensorium-operational-context.v1.schema.json`
+
+<a id="field-supersedes-interface-id"></a>
+## `supersedes/interface-id`
+
+- Required: `no`
+- Shape: ref: `#/$defs/interface_ref`
 
 <a id="field-limits"></a>
 ## `limits`

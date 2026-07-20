@@ -24,6 +24,7 @@ Based on:
 
 Related schemas:
 
+- `sensorium-operational-context.v1`
 - `sensorium-interface-descriptor.v1`
 - `sensorium-interface-status.v1`
 - `sensorium-interface-read-request.v1`
@@ -372,23 +373,39 @@ the Agent passage.
 
 ### Operational Impact Context
 
-P082-021 and P083-014 track a post-MVP extension of this same component. It will
-publish the ordered `sensorium-operational-context.v1` value on an exact enacted
-resource, bind it to the current source generation, propagate both through P082
-results and P083 status/receipts, and let a consuming host raise but never lower the
+P082-021 and P083-014 implement a post-MVP extension of this same component. It
+publishes the ordered `sensorium-operational-context.v1` value on an exact enacted
+resource, binds it to the current source generation, propagates both through P082
+results and P083 status/receipts, and lets a consuming host raise but never lower the
 current source class. P082 defines stale solely as a generation mismatch or a
 superseded effective publication; impact changes and corrections use audited
 immutable replacement. Workbench-backed, collaborative-live, and remotely invokable
-profiles fail closed when the value is absent, malformed, oversized beyond the
-512-byte UTF-8 summary cap, inconsistent, or stale.
+profiles are not special cases: the V1 resource envelope requires the value for every
+publication. The earlier wire-optional rollout path was deliberately not used. Every
+profile therefore fails closed when the value is absent, malformed, oversized beyond
+the 512-byte UTF-8 summary cap, inconsistent, or stale.
 
-Room remains an opaque carrier. Agent Core retains only generic qualifier refs and
-digests, while the daemon and P064 prompt-assembly boundary render a versioned,
-non-droppable caution layer before feed-dependent inference. The extension creates
-no capability, access grant, or effect authority and does not reopen the completed
-hard-MVP boundary.
+Room remains an opaque carrier. Agent Core retains only bounded generic qualifier refs
+and strict digests, while the daemon and P064 prompt-assembly boundary render a versioned,
+non-droppable caution layer before feed-dependent inference. Host-owned request metadata
+and the durable Inquirium trace pair each source class with its context digest and record
+the local policy ref, floor, and selected class. The trace consumes that composition-root
+projection directly, so local elevation remains auditable without entering Agent Core. The
+extension creates no capability, access grant, or effect authority and does not reopen
+the completed hard-MVP boundary.
 
-Status: `planned post-MVP`.
+The normalized publication slot is indexed by source kind/ref, projection profile,
+and direction. Replacement is serialized with read and effect admission, closes old
+subscriptions, requires a non-empty trimmed NUL-free reason capped at 512 UTF-8
+bytes, emits bounded metadata-only correction facts, and makes stale generations
+and superseded ids typed refusals. Workbench environment generation and authority
+are exact; Story 012 exercises the collaborative replacement path. A Room
+pump that encounters generation or context drift publishes a recipient-filtered,
+transient `suspended` / `degraded` status before close without rewriting the durable
+publication. Revoking the last observer clears the transport audience before close,
+preventing bounded replay of the prior latest-state result.
+
+Status: `done post-MVP`.
 
 ### Measured Provider-Push Profile
 

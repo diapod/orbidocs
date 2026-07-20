@@ -21,14 +21,16 @@ Based on:
 Accepted design / implementation complete and promoted to Solution 046.
 
 This proposal is the completed hard-MVP release-blocking extension of the implemented
-read-only Sensorium Interfaces V1 contract. P083-002 through P083-011 implement the shared
+read-only Sensorium Interfaces V1 contract. P083-002 through P083-014 implement the shared
 resource and schema layer, capability and Passport scope, pure coordinator, durable
 host runtime, bounded LED adapter, host/direct-peer carrier boundary, and Workbench
 terminal adapter, bounded operator/Room collaboration surface, full load/restart/
 partial-failure/real-PTY conformance, and cross-document synchronization. P083-012
-records the clean final authority and correctness review and promotes that actuation
-boundary into Solution 046. Proposals 082 and 083 remain the observation and actuation
-rationales; Solution 046 owns their combined implementation boundary.
+records the clean hard-MVP authority and correctness review and promotes that actuation
+boundary into Solution 046; P083-013 and P083-014 add the relay and operational-context
+extensions without changing authority semantics. Proposals 082 and 083 remain the
+observation and actuation rationales; Solution 046 owns their combined implementation
+boundary.
 
 ## Date
 
@@ -1190,7 +1192,7 @@ P083-012 records the completed promotion and final hard-MVP closure.
 | P083-011 | Synchronize P045/P047/P048/P070/P071/P072/P081/P082, Solutions 030/036/042/046, Node ledgers, capability registries, trackers, and readiness snapshot | done | The cross-document audit found no competing semantics in P045/P047/P048/P072/P081 or Solutions 030/036/042; P070, P071, P082, P083, Solutions 036/042/046, Room schemas, manage policy fixtures, Node ledgers/MVP checklist, generated views, and the readiness snapshot now describe the same P083-011 boundary. |
 | P083-012 | Promote the implemented contract into Solution 046's actuation boundary | done | P083-002 through P083-011 are complete; the final review found no unresolved correctness or authority blocker, and Solution 046 now owns the promoted actuation boundary without introducing a competing interface-authority component. |
 | P083-013 | Add the P070 Phase 6A relay carrier and optional direct-peer upgrade/fallback | done | The closed relay delivery envelope carries status, claim, control, invoke, and receipt schemas over the active epoch and filters observation versus actuation visibility from current Room grants. Relay selection and failover never alter exact interface grants, generation, lease, epoch, operation sequence, idempotency, or host policy. The three-node acceptance profile covers old-epoch refusal, endpoint failover, egress/evidence denial, membership revocation, P082 latest-state, and P083 fenced invoke carriage; direct peer remains an optional latency path. This post-MVP item does not reopen the completed P083-012 hard-MVP boundary. |
-| P083-014 | Apply P082 operational context to interactive resources and actuation policy | todo | Reuse `sensorium-operational-context.v1` plus `source/generation-ref` in the common resource envelope; require them for collaborative or remote actuation; preserve them through status and receipts; enforce the inherited 512-byte summary cap; reject descriptor/source drift, old generations, and superseded directional publications; and replace all affected directions when source context changes. Policy tests prove that higher-impact targets can only narrow autonomy, lease, operation, and review posture, while a reasoned source-side correction remains possible through immutable replacement. Room and direct-peer carriers remain opaque and cannot lower the class, decide freshness, or create authority. |
+| P083-014 | Apply P082 operational context to interactive resources and actuation policy | done | Actuation descriptors, status, invoke admission, and receipts reuse the exact P082 `sensorium-operational-context.v1` plus `source/generation-ref`; the shared validator enforces the 512-byte UTF-8 cap. Replacement obtains the per-interface command lock, rechecks the current source slot, and fences in-flight effects before withdrawing the old direction. Workbench authority is pinned to the exact environment and current generation; stale or superseded requests fail with typed errors before dispatch. Host policy may only raise impact, while source-side correction remains an audited immutable replacement. Race, stale-generation, receipt-propagation, Workbench-authority, direct-peer, and Room tests prove that carriers neither reinterpret context nor create authority. |
 
 Runtime implementation evidence promoted by P083-012 is owned by
 `node:sensorium-interface-core/src/actuation.rs`,

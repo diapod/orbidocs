@@ -12,6 +12,8 @@ Grant-gated, caller-relative status for one actuation interface.
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`interface/id`](#field-interface-id) | `yes` | ref: `#/$defs/interface_ref` |  |
 | [`source/generation-ref`](#field-source-generation-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`operational/context`](#field-operational-context) | `yes` | ref: `sensorium-operational-context.v1.schema.json` |  |
+| [`replacement/interface-id`](#field-replacement-interface-id) | `no` | ref: `#/$defs/interface_ref` |  |
 | [`coordination/mode`](#field-coordination-mode) | `yes` | enum: `shared`, `exclusive-lease` |  |
 | [`lifecycle/status`](#field-lifecycle-status) | `yes` | enum: `published`, `suspended`, `withdrawn`, `expired` |  |
 | [`health/status`](#field-health-status) | `yes` | enum: `ready`, `degraded` |  |
@@ -111,6 +113,30 @@ Then:
 }
 ```
 
+### Rule 3
+
+When:
+
+```json
+{
+  "required": [
+    "replacement/interface-id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "lifecycle/status": {
+      "const": "withdrawn"
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -136,6 +162,18 @@ Then:
 
 - Required: `yes`
 - Shape: ref: `#/$defs/ref`
+
+<a id="field-operational-context"></a>
+## `operational/context`
+
+- Required: `yes`
+- Shape: ref: `sensorium-operational-context.v1.schema.json`
+
+<a id="field-replacement-interface-id"></a>
+## `replacement/interface-id`
+
+- Required: `no`
+- Shape: ref: `#/$defs/interface_ref`
 
 <a id="field-coordination-mode"></a>
 ## `coordination/mode`

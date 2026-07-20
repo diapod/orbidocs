@@ -399,6 +399,10 @@ more conservative.
 An environment context change or correction is source-owned and produces a new
 immutable P082 publication. The superseded publication is no longer admissible to a
 Corpus passage, irrespective of whether the class was raised or corrected downward.
+Relay sequence resolves temporary availability, not immutable identity: a newer
+latest-state result may resume a `suspended` publication, while any `withdrawn` or
+`expired` status is terminal for that `interface/id`. A contradictory later snapshot
+for the same terminal publication fails closed and cannot reactivate it.
 
 The optional publisher summary remains observation data rather than an instruction,
 so this path cannot smuggle a remote system prompt through a Room. If several enacted
@@ -1763,14 +1767,18 @@ runtime, no N-way settlement.
 
 #### Optional shared enacted views `[x] P082 runtime implemented`
 
-- [ ] Propagate P082 operational context and `source/generation-ref` from the exact
+- [x] Propagate P082 operational context and `source/generation-ref` from the exact
   Workbench/Sensorium publication through the Room read-result carrier and daemon
   observation resolver into a mandatory host-owned Inquirium caution layer before
   every participant's first feed-dependent turn. Refuse missing, downgraded, or
   inconsistent context and P082-stale evidence (generation mismatch or superseded
   publication), without defining another TTL; preserve per-source refs for audit;
   keep publisher summaries inert; and prove equal current source context plus
-  monotone local raising across the three Story 012 nodes.
+  monotone local raising across the three Story 012 nodes. The Room carrier now
+  preserves the complete read result, the participant resolver rejects terminal
+  non-published status and stale generations before inference, and Story 012 proves
+  equal source qualifiers for B/C, host-owned monotone caution, immutable
+  `test -> production` replacement, and refusal of the old publication.
 
 - [x] Define Story 012 and an executable acceptance profile that composes the
   existing Corpus/Agent Room topology with a chair-owned read-only Workbench

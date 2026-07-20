@@ -109,9 +109,9 @@ remain local to node A.
    `collaborative-participant` Agent bindings. Node A creates the corresponding
    `collaborative-chair` binding.
 3. Node A creates an isolated Workbench terminal session under an allowlisted
-   story workspace and starts the deterministic failing fixture. The P082-021
-   extension will additionally pin `sensorium-operational-context.v1` with
-   `impact/class = test` to that exact environment.
+   story workspace, pins `sensorium-operational-context.v1` with
+   `impact/class = test` to that exact environment, and starts the deterministic
+   failing fixture.
 4. Node A publishes only the visible terminal-screen representation as a
    `latest-state` Sensorium Interface. Ordered terminal-event replay is refused.
 5. The host issues exact, expiring `subscribe` grants for that interface to the
@@ -124,8 +124,8 @@ remain local to node A.
    freshness, and byte bound. The recipient daemon resolves that need through its
    Room/Sensorium adapter and validates the read result, inline interface frame,
    Room, relay epoch, Room membership source sequence, recipient, Agent binding,
-   classification ceiling, byte cap, and freshness before producing ephemeral
-   inert context.
+   classification ceiling, byte cap, exact source generation, operational context,
+   effective publication, and freshness before producing ephemeral inert context.
 8. The Agent controller uses the accepted latest state in one bounded passage.
    The durable step trace contains only schema, refs, classification, policy
    digest, and content digest; it contains no terminal bytes or prompt text.
@@ -213,9 +213,9 @@ snapshot, but it must not silently become a transcript store or summarizer.
 |---|---|---|
 | Story 011 Corpus/Agent deliberation | available | selected participant and chair Agents deliberate over Room with restart-safe bindings and inert final draft |
 | Room Phase 6A relay | available | three-node member-visible WSS relay carries bounded Room and Sensorium Interface payloads with epoch fencing |
-| Workbench terminal source | available | isolated PTY, bounded visible-screen snapshot, local actuation authority, and classified explicit capture |
-| Sensorium Interface Room projection | available | exact grants, `latest-state`, recipient intersection, revocation, recipient-side restart recovery, and no terminal control; the source-host pump remains process-local and must be recreated after a source-host restart |
-| Agent observation admission | available | substrate-neutral need/binding/evidence in `agent-core`, preserved P081 source causality, static fail-closed JSON-e wiring, daemon-owned Room/Sensorium resolution, process-local revocable latest-state inbox, resource-bound Interaction Broker source, one-passage Inquirium layer, prompt-free trace, and restart/retention refusal tests |
+| Workbench terminal source | available | isolated PTY, bounded visible-screen snapshot, exact environment generation/context, local actuation authority, and classified explicit capture |
+| Sensorium Interface Room projection | available | exact grants, complete context-bearing `latest-state`, recipient intersection, host-only terminal status, supersession, revocation, recipient-side restart recovery, and no terminal control; the source-host pump remains process-local and must be recreated after a source-host restart |
+| Agent observation admission | available | substrate-neutral need/binding/evidence in `agent-core`, bounded neutral context qualifiers, preserved P081 source causality, static fail-closed JSON-e wiring, daemon-owned Room/Sensorium resolution, process-local revocable latest-state inbox, resource-bound Interaction Broker source, host-owned pre-inference caution, prompt-free trace, and restart/retention refusal tests |
 | Story 012 process runner | available | a composed three-node runner extends the shared Story 011 topology without copying its trust/bootstrap logic |
 
 The acceptance pack must refuse execution while any gate is missing. Marking a
@@ -253,12 +253,17 @@ The process smoke directly proves:
 - refusal of unbound, dynamically interpolated, changed-schema, or widened source
   mappings before source I/O;
 - B and C can deliberate from the shared view but cannot invoke or manage it;
+- B and C receive the same source-owned `test` operational-context qualifier before
+  their first feed-dependent turn, while publisher summary text remains unprivileged;
 - C's revocation converges before repair, stops both the current read and the new
   passing-state read, and leaves the Room plus B active;
 - dirty restart of recipient B restores its durable Agent and Room invitation while
   its process-local observation inbox starts empty and refreshes from current state;
 - terminal bytes do not enter Room messages, Memarium Agent facts, status,
   notifications, or prompt-free traces;
+- A raises the effective context to `production` through an immutable replacement;
+  B's old statically bound Agent refuses the superseded publication and a new exact
+  binding admits the replacement, while C remains refused;
 - the passing result is observed after local chair-side actuation; and
 - the chair outcome remains an unpublished Corpus answer draft.
 
@@ -270,15 +275,16 @@ ownership closed and machine-validated instead of implying that one process runn
 duplicates every lower-layer test.
 
 The post-MVP operational-context extension tracked by P082, P064, P069, P071, and
-P073 must additionally prove that B and C receive the same source context and
-`source/generation-ref` before their first feed-dependent Inquirium call, that each
-host may only raise its local caution class, and that publisher summary text never
-becomes a privileged instruction. The fixture then changes `test -> production`,
-publishes a replacement, and proves that both nodes reject the old generation or
-superseded `interface/id` before admitting the new shared context. Missing,
-malformed, oversized, stripped, downgraded, generation-mismatched, or superseded
-context must fail the collaborative observation passage closed before terminal
-bytes reach a model. P082 owns this freshness predicate; Story 012 adds no TTL.
+P073 is implemented. The composed smoke proves that B and C receive the same source
+context qualifier before their first feed-dependent Inquirium call, that publisher
+summary text is not retained as privileged instruction evidence, and that a monotone
+`test -> production` host floor is published only through immutable replacement. The
+old Agent binding refuses the superseded `interface/id`; the replacement requires a
+new exact binding and current grant. Missing, malformed, oversized, stripped,
+downgraded, generation-mismatched, or superseded context fails the collaborative
+observation passage closed before terminal bytes reach a model, with lower-stratum
+P064/P071/P082 tests owning the vectors that the composed story does not duplicate.
+P082 owns this freshness predicate; Story 012 adds no TTL.
 
 ## Failure Modes and Mitigations
 

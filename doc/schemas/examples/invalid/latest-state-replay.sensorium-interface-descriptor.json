@@ -10,6 +10,13 @@
   "access/modes": ["read"],
   "classification/max-tier": "Personal",
   "classification/topic-class": "sensorium-interface/invalid",
+  "source/generation-ref": "source-generation:temperature-office-v1",
+  "operational/context": {
+    "schema": "sensorium-operational-context.v1",
+    "schema/v": 1,
+    "impact/class": "production",
+    "context/summary": "Office environmental telemetry"
+  },
   "limits": {
     "frame/max-bytes": 65536,
     "batch/max-frames": 1,

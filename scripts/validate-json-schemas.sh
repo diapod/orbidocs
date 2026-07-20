@@ -155,6 +155,9 @@ schema_for_file() {
     *.sensorium-workbench-environment.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-environment.v1.schema.json"
       ;;
+    *.sensorium-operational-context.json)
+      echo "$SCHEMAS_DIR/sensorium-operational-context.v1.schema.json"
+      ;;
     *.sensorium-interface-descriptor.json)
       echo "$SCHEMAS_DIR/sensorium-interface-descriptor.v1.schema.json"
       ;;
@@ -770,6 +773,25 @@ validate_with_ajv() {
   esac
 }
 
+validate_contract_semantics() {
+  schema_file=$1
+  data_file=$2
+
+  case "$schema_file" in
+    *sensorium-operational-context.v1.schema.json)
+      # JSON Schema maxLength counts code points, while the wire contract is
+      # bounded by encoded bytes so providers cannot bypass the 512-byte cap.
+      jq -e '
+        (."context/summary"? // null) as $summary
+        | ($summary == null or (($summary | utf8bytelength) <= 512))
+      ' "$data_file" >/dev/null
+      ;;
+    *)
+      return 0
+      ;;
+  esac
+}
+
 validate_file() {
   validator=$1
   data_file=$2
@@ -782,13 +804,15 @@ validate_file() {
   fi
 
   if [ "$validator" = "check-jsonschema" ]; then
-    if validate_with_check_jsonschema "$schema_file" "$data_file"; then
+    if validate_with_check_jsonschema "$schema_file" "$data_file" \
+      && validate_contract_semantics "$schema_file" "$data_file"; then
       status=pass
     else
       status=fail
     fi
   else
-    if validate_with_ajv "$schema_file" "$data_file"; then
+    if validate_with_ajv "$schema_file" "$data_file" \
+      && validate_contract_semantics "$schema_file" "$data_file"; then
       status=pass
     else
       status=fail

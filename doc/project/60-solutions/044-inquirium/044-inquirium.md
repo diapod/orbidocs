@@ -228,7 +228,7 @@ Status: `post-mvp`.
 
 ### Operational Caution From Enacted Sources
 
-P064 tracks a post-MVP host prompt layer derived from daemon-validated P082
+P064 implements a post-MVP host prompt layer derived from daemon-validated P082
 operational-context evidence. The mapping from the closed impact class to caution
 text is deterministic, versioned, and non-droppable for feed-dependent passages;
 publisher-authored summary text remains inert context. This adds neither an
@@ -238,7 +238,17 @@ current source-generation and effective-publication predicate; Inquirium introdu
 no context TTL. The optional summary is capped by P082 at 512 UTF-8 bytes before it
 reaches prompt shaping.
 
-Status: `planned post-mvp`.
+Golden tests pin layer ordering and the instruction hash, while refusal and
+monotonicity tests prove that local floors and multiple feeds cannot drop a
+`production` or `critical` caution. The publisher summary is never interpolated into
+the host-authored layer. Host-owned request metadata and the durable Inquirium trace
+carry deterministic selection provenance: local policy ref, local floor, selected
+class, and every source class paired with its exact operational-context digest. The
+composition root passes that bounded trace projection directly instead of deriving it
+from caller metadata or provider output. An audit can therefore distinguish a source
+declaration from a stricter local elevation.
+
+Status: `done post-mvp`.
 
 ## Trade-offs
 

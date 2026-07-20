@@ -4,7 +4,7 @@
   "title": "Sensorium Interface Invoke Request v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "schema/v", "operation/id", "idempotency/key", "interface/id", "caller/ref", "grant/id", "source/generation-ref", "coordination/mode", "method/name", "input/schema-ref", "payload", "deadline/at", "classification", "causal/context"],
+  "required": ["schema", "schema/v", "operation/id", "idempotency/key", "interface/id", "caller/ref", "grant/id", "source/generation-ref", "operational/context", "coordination/mode", "method/name", "input/schema-ref", "payload", "deadline/at", "classification", "causal/context"],
   "properties": {
     "schema": { "const": "sensorium-interface-invoke-request.v1" },
     "schema/v": { "const": 1 },
@@ -14,6 +14,7 @@
     "caller/ref": { "$ref": "#/$defs/ref" },
     "grant/id": { "$ref": "#/$defs/ref" },
     "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" },
     "coordination/mode": { "enum": ["shared", "exclusive-lease"] },
     "lease/id": { "type": "string", "pattern": "^sensorium-control-lease:[^\\s]+$", "maxLength": 512 },
     "lease/epoch": { "type": "integer", "minimum": 1 },

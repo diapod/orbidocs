@@ -8,11 +8,13 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
-  "required": ["schema", "schema/v", "environment/ref", "backend", "workspace/ref", "roots", "locality", "status", "classification", "executor", "teardown/policy", "artifact/export-policy"],
+  "required": ["schema", "schema/v", "environment/ref", "source/generation-ref", "operational/context", "backend", "workspace/ref", "roots", "locality", "status", "classification", "executor", "teardown/policy", "artifact/export-policy"],
   "properties": {
     "schema": { "const": "sensorium-workbench-environment.v1" },
     "schema/v": { "const": 1 },
     "environment/ref": { "$ref": "#/$defs/ref" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" },
     "workspace/ref": { "$ref": "#/$defs/ref" },
     "backend": { "enum": ["host-local-workspace", "fixture-virtual-workspace", "container", "microvm"] },
     "roots": {
@@ -26,6 +28,7 @@
           "root/ref": { "$ref": "#/$defs/ref" },
           "mode": { "enum": ["read-only", "read-write"] },
           "backend": { "enum": ["host-local-workspace", "fixture-virtual-workspace", "container", "microvm"] },
+          "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" },
           "classification": { "$ref": "classification.v1.schema.json" }
         }
       }

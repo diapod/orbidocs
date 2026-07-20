@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-operational-context:v1",
+  "title": "Sensorium Operational Context v1",
+  "description": "Bounded, non-authoritative operational impact metadata for an enacted Sensorium resource.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "impact/class"],
+  "properties": {
+    "schema": { "const": "sensorium-operational-context.v1" },
+    "schema/v": { "const": 1 },
+    "impact/class": { "enum": ["research", "experimental", "test", "production", "critical"] },
+    "context/summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Untrusted operator-facing context. Implementations additionally enforce a 512 UTF-8 byte cap and reject non-whitespace control characters."
+    }
+  }
+}

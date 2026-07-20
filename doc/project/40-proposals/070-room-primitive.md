@@ -1004,7 +1004,7 @@ turning one payload family into another. A receiver recomputes `payload/digest` 
 the canonical payload and validates the exact payload schema before advancing its
 relay checkpoint or exposing the delivery to a consumer.
 
-When P082 adds `sensorium-operational-context.v1`, that value and its adjacent
+P082's `sensorium-operational-context.v1` value and its adjacent
 `source/generation-ref` remain part of the validated
 `sensorium-interface-read-result.v1` payload. The relay preserves them byte-for-byte
 under the delivery digest and exact payload schema. Room does not rank, aggregate,
@@ -1013,6 +1013,22 @@ operations belong to the source publication and the consuming P082 resolver. A r
 that strips or rewrites either value produces a digest or schema mismatch and the
 receiver refuses the delivery. Supersession and source-generation changes are P082
 lifecycle facts, not Room relay epochs or Room-owned TTLs.
+
+The authenticated subscription acknowledgement also reports only the bounded count
+of immediately following replay or recovery-control frames visible to that subscriber,
+so a consumer can drain the exact initial window without guessing from Room-wide
+sequence numbers or dropping `cursor-expired` / `epoch-changed`. Authoritative
+`sensorium-interface-status.v1` and `sensorium-interface-read-result.v1` publication
+is host-only: network members cannot forge either family. When an active source is
+withdrawn or replaced, the source-host projection publishes a recipient-filtered
+terminal non-published status; consumers compare its relay sequence with candidate
+results and reject any older publication. If source-generation or operational-context
+validation fails before replacement commits, the source host instead projects an
+equally recipient-filtered transient `suspended` / `degraded` status carrying the
+typed P082 reason. Room still transports and validates the complete payload but does
+not interpret impact class, source freshness, or whether the status is durable or
+transient. Removing the last authorized recipient clears the projection audience
+before close, so bounded relay replay cannot retain an authorized latest-state view.
 
 Agora topic key: `orbiplex/room/v1/<authority>/<room-id>`; record kinds `room.v1`,
 `room-membership.v1`, `room-event.v1`, and `room-relay-endpoint.v1`; consumers fold

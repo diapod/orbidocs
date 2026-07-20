@@ -1954,7 +1954,7 @@ evidence) · `[!]` blocked/needs decision.
 - [x] Keep publication, grants, subscriptions, direct-peer admission, SSE, and
   Room carrier semantics owned by Proposal 082 / Solution 046 rather than the
   Workbench connector.
-- [ ] Add operational-impact defaults and exact environment pinning. Extend the
+- [x] Add operational-impact defaults and exact environment pinning. Extend the
   environment contract and connector configuration with
   `sensorium-operational-context.v1`, require an effective value before publishing
   Workbench-backed collaborative or remotely invokable interfaces, expose a
@@ -1963,4 +1963,9 @@ evidence) · `[!]` blocked/needs decision.
   change; enforce P082's 512-byte UTF-8 summary cap; and test mixed test/production
   resources under one adapter, host-only raising, reasoned `critical -> test`
   correction, `test -> production` replacement, old-generation and superseded-id
-  refusal, and missing/oversized-value refusal.
+  refusal, and missing/oversized-value refusal. The environment schema and bundled
+  connector now require exact root- and environment-level context, derive a
+  process-epoch-bound generation from the complete environment projection, pin
+  actuation grants to both environment ref and current generation, and refuse stale
+  authority. Runtime replacement/race tests plus Workbench mixed-context and
+  summary-provenance tests provide the Phase 5 evidence.

@@ -255,6 +255,12 @@ Responsibilities:
   Sensorium Interface grants, carrying one resource-bound
   `sensorium-interface-read-result.v1` with a single inline snapshot without
   exposing source cursors or closing the durable Room;
+- report the exact bounded count of immediately following replay or recovery-control
+  frames visible to each authenticated subscriber,
+  carry the complete P082 result unchanged, and allow only the source-host projection
+  to publish authoritative interface status/result families; a terminal
+  non-published status may fence an older result without Room interpreting source
+  generation, operational impact, or freshness;
 - let P083 use the explicit `actuate` grant as collaboration policy for bounded
   status/control/invoke wrappers, deriving session identity and current membership
   atomically from one live-transport snapshot, while exact Sensorium Interface
@@ -339,7 +345,9 @@ Responsibilities:
   admission, membership-sequence, and expiry entries; sealed delivery omits that full
   list but still has traffic-analysis leakage;
 - carry P082 latest-state and P083 fenced interaction through the same relay while
-  keeping direct peer an optional latency upgrade.
+  keeping direct peer an optional latency upgrade; the relay validates and preserves
+  P082 operational context byte-for-byte but never ranks it or decides whether a
+  publication is current.
 
 Status:
 

@@ -92,21 +92,24 @@ failing chair terminal, distinct B/C observations and HIL deliberation, local
 observer revocation and relay-audience convergence before repair, dirty restart
 of recipient B, local repair, newer passing source-version and content-digest
 evidence for B while C remains refused, and an unpublished Corpus draft. The
-closed 16-entry refusal matrix assigns every claim either to this composed process
+closed 17-entry refusal matrix assigns every claim either to this composed process
 runner or to its named P070/P082/P083 lower-stratum evidence suite. Story 012 is
 therefore ready at `100%`; P070 retains separate ownership of external host-TLS
 relay deployment evidence.
 
-The planned operational-impact extension does not change those hard-MVP scores.
+The completed operational-impact extension does not change those hard-MVP scores.
 P082-021 and P083-014 own the shared publication and interactive-resource contract,
 including the 512-byte summary cap, source-generation/current-publication freshness
 predicate, and audited immutable replacement; P071 pins it to exact Workbench
 environments; P073 and P064 propagate only opaque evidence into a host-owned
-pre-inference caution layer; and P069 adds the
-three-participant Story 012 proof. These rows are explicitly post-MVP hardening:
-until implemented, collaborative feeds must not claim this additional operational-
-context guarantee, but the already passing authority, observation, restart, and
-retention acceptance remains valid.
+pre-inference caution layer; and P069 adds the three-participant Story 012 proof.
+The composed runner now verifies equal B/C source-owned qualifiers, an immutable
+monotone `test -> production` replacement, refusal of the superseded static binding,
+admission of the replacement under a new exact binding, continued C revocation, and
+an unpublished draft. Lower-stratum tests cover generation drift,
+malformed/oversized context, Workbench process generations, multi-feed caution
+maxima, and non-droppable production/critical framing. These rows remain post-MVP
+hardening and add no new authority or freshness TTL.
 
 The 2026-07-18 operational hardening keeps that `100` readiness verdict and
 strengthens its release evidence. The host now exposes an operator-only,
@@ -771,8 +774,8 @@ Recent component deltas:
 | [Proposal 079: Cross-Federation Alliance](../40-proposals/079-cross-federation-alliance.md) | `false` | `false` | `false` | `45` |
 | [Proposal 080: Multiplexed Middleware Channel Executor](../40-proposals/080-multiplexed-middleware-channel-executor.md) | `false` | `true` | `true` | `100` |
 | [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
-| [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `false` | `100` |
-| [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `false` | `100` |
+| [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
+| [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 
 ## Solutions
 
@@ -824,5 +827,5 @@ Recent component deltas:
 | [Horizontal Protocol Primitives](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Inquirium](../60-solutions/044-inquirium/044-inquirium.md) | `false` | `true` | `false` | `100` |
 | [Inquirium Assistant Channel](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
-| [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `true` | `true` | `false` | `100` |
+| [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Agent](../60-solutions/047-agent/047-agent.md) | `true` | `true` | `false` | `100` |

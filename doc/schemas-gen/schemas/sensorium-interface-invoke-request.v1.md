@@ -14,6 +14,7 @@ Source schema: [`doc/schemas/sensorium-interface-invoke-request.v1.schema.json`]
 | [`caller/ref`](#field-caller-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`grant/id`](#field-grant-id) | `yes` | ref: `#/$defs/ref` |  |
 | [`source/generation-ref`](#field-source-generation-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`operational/context`](#field-operational-context) | `yes` | ref: `sensorium-operational-context.v1.schema.json` |  |
 | [`coordination/mode`](#field-coordination-mode) | `yes` | enum: `shared`, `exclusive-lease` |  |
 | [`lease/id`](#field-lease-id) | `no` | string |  |
 | [`lease/epoch`](#field-lease-epoch) | `no` | integer |  |
@@ -111,6 +112,12 @@ Then:
 
 - Required: `yes`
 - Shape: ref: `#/$defs/ref`
+
+<a id="field-operational-context"></a>
+## `operational/context`
+
+- Required: `yes`
+- Shape: ref: `sensorium-operational-context.v1.schema.json`
 
 <a id="field-coordination-mode"></a>
 ## `coordination/mode`

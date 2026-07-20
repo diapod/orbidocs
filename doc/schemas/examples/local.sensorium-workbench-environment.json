@@ -2,6 +2,13 @@
   "schema": "sensorium-workbench-environment.v1",
   "schema/v": 1,
   "environment/ref": "environment:story009-local",
+  "source/generation-ref": "source-generation:story009-local-v1",
+  "operational/context": {
+    "schema": "sensorium-operational-context.v1",
+    "schema/v": 1,
+    "impact/class": "test",
+    "context/summary": "Story 009 local fixture"
+  },
   "backend": "host-local-workspace",
   "workspace/ref": "workspace:story009-local",
   "roots": [

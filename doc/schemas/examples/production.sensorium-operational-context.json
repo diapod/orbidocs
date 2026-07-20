@@ -1,0 +1,6 @@
+{
+  "schema": "sensorium-operational-context.v1",
+  "schema/v": 1,
+  "impact/class": "production",
+  "context/summary": "Operator-facing production environment"
+}

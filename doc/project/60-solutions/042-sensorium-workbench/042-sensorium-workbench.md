@@ -588,15 +588,21 @@ Status:
 
 ### Operational Impact Publication
 
-The post-MVP P082-021/P083-014 extension will require each exact Workbench
+The implemented P082-021/P083-014 extension requires each exact Workbench
 environment to pin a `sensorium-operational-context.v1` candidate. An adapter may
 provide an operator-configured default, but environments sharing that adapter may
 still be `test`, `production`, or `critical`. Host policy may raise but never lower
 the current source class, and every derived observation or actuation interface
 inherits it with a host-owned source generation. Impact changes and operator
 corrections use audited immutable P082 replacement, making old generations and
-superseded publications unusable. Implementation remains tracked by P071 Phase 5
-and the P082/P083 trackers.
+superseded publications unusable. The bundled connector derives a process-epoch-bound
+generation from the complete environment projection, preserves source summary only
+when all highest-impact roots agree on the exact context, and requires actuation
+authority to match both environment ref and current generation. P071 Phase 5 and the
+P082/P083 trackers contain the runtime and refusal evidence.
+
+Status: `done post-MVP`; the separate process-isolated container or microVM backend
+remains the only incomplete P071 Phase 4 item.
 
 ### Agent, Corpus, and Room Tool Use
 

@@ -17,6 +17,8 @@
     "access/modes",
     "classification/max-tier",
     "classification/topic-class",
+    "source/generation-ref",
+    "operational/context",
     "limits",
     "overflow/policy",
     "published/at",
@@ -42,6 +44,9 @@
     "classification/max-tier": { "enum": ["Public", "Community", "Personal"], "description": "Most restrictive effective tier this interface accepts at egress." },
     "classification/topic-class": { "type": "string", "minLength": 1, "maxLength": 256, "description": "Exact topic-class binding required for Interface declassification facts." },
     "redaction/profile-ref": { "type": "string", "minLength": 1, "maxLength": 512, "description": "Optional source-owned redaction profile applied before frame creation." },
+    "source/generation-ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$", "description": "Opaque host-derived identity of the concrete source generation." },
+    "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" },
+    "supersedes/interface-id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512, "description": "Prior publication atomically replaced by this publication." },
     "limits": {
       "type": "object",
       "additionalProperties": false,

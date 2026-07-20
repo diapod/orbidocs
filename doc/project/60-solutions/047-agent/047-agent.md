@@ -150,17 +150,22 @@ The conflicting delivery cannot replace the already admitted observation.
 
 The composed Story 012 process profile revokes C and waits for relay-audience
 convergence before repair, dirty-restarts recipient B, then proves a newer passing
-state for B while C remains refused. Its 16-entry refusal matrix names whether
+state for B while C remains refused. Its 17-entry refusal matrix names whether
 each claim is evidenced directly by the composed runner or by the owning
 P070/P082/P083 lower-stratum suite.
 
-The post-MVP operational-context extension remains source-owned by P082. Agent
-Core will carry only bounded generic qualifier refs and digests; the daemon will
-validate the exact source value, current generation, and effective publication,
-compute a monotone local caution class, and pass the P064 host-authored layer to
+The implemented post-MVP operational-context extension remains source-owned by P082.
+Agent Core carries only bounded generic qualifier refs and strict digests; the daemon
+validates the exact source value, current generation, and effective publication,
+computes a monotone local caution class, and passes the P064 host-authored layer to
 Inquirium before feed-dependent inference. Agent defines no freshness TTL and treats
 the P082-capped summary as inert data. This preserves the horizontal Agent port and
-creates no observation or effect authority.
+creates no observation or effect authority. Multi-feed, local-floor, stale-result,
+qualifier-digest, provenance, and golden prompt-layer tests pin the boundary. The
+daemon-owned provenance records the local policy ref and floor, selected class, and
+each source class paired with its qualifier digest in request metadata and the durable
+Inquirium trace. The composition root supplies the trace projection directly;
+`agent-core` does not interpret or persist that vertical vocabulary.
 
 ### Lifecycle and Identity
 

@@ -350,13 +350,18 @@ separately evidenced by P070 rather than being simulated by Corpus. The profile'
 closed refusal matrix distinguishes direct composed-process checks from named
 lower-stratum P070/P082/P083 evidence owners.
 
-The planned P082-021 operational-context extension remains owned by Sensorium
-Interfaces. Corpus will require the exact source context before admitting a
-collaborative live view, preserve it with the current source generation through
-Room without reinterpretation, and let each participant host apply the P064 caution
+The implemented P082-021 operational-context extension remains owned by Sensorium
+Interfaces. Corpus requires the exact source context before admitting a
+collaborative live view, preserves it with the current source generation through
+Room without reinterpretation, and lets each participant host apply the P064 caution
 policy before inference. Generation mismatch or P082 publication supersession makes
 the view stale; Corpus adds no independent TTL. P069 tracks the Story 012 replacement
-proof; this metadata grants neither observation nor effect authority.
+proof. The consumer examines the complete initial replay window, rejects a candidate
+result while a newer host-authenticated `suspended` status remains unresolved, and
+accepts a still newer latest-state result as resumption. Any `withdrawn` or `expired`
+status is terminal for that immutable `interface/id`, even if the replay contains a
+contradictory later snapshot. The consumer retains the full validated result unchanged
+for the daemon resolver. This metadata grants neither observation nor effect authority.
 
 ## Out of Scope
 

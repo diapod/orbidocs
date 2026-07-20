@@ -20,6 +20,9 @@ Immutable publication contract for one deliberately exposed Sensorium or Workben
 | [`classification/max-tier`](#field-classification-max-tier) | `yes` | enum: `Public`, `Community`, `Personal` | Most restrictive effective tier this interface accepts at egress. |
 | [`classification/topic-class`](#field-classification-topic-class) | `yes` | string | Exact topic-class binding required for Interface declassification facts. |
 | [`redaction/profile-ref`](#field-redaction-profile-ref) | `no` | string | Optional source-owned redaction profile applied before frame creation. |
+| [`source/generation-ref`](#field-source-generation-ref) | `yes` | string | Opaque host-derived identity of the concrete source generation. |
+| [`operational/context`](#field-operational-context) | `yes` | ref: `sensorium-operational-context.v1.schema.json` |  |
+| [`supersedes/interface-id`](#field-supersedes-interface-id) | `no` | string | Prior publication atomically replaced by this publication. |
 | [`limits`](#field-limits) | `yes` | object | Hard publication ceilings further narrowed by callers and host policy. |
 | [`overflow/policy`](#field-overflow-policy) | `yes` | enum: `coalesce-latest`, `emit-gap`, `close-subscription` | Explicit behavior when source state exceeds its delivery window. |
 | [`published/at`](#field-published-at) | `yes` | string | Publication creation time. |
@@ -207,6 +210,28 @@ Exact topic-class binding required for Interface declassification facts.
 - Shape: string
 
 Optional source-owned redaction profile applied before frame creation.
+
+<a id="field-source-generation-ref"></a>
+## `source/generation-ref`
+
+- Required: `yes`
+- Shape: string
+
+Opaque host-derived identity of the concrete source generation.
+
+<a id="field-operational-context"></a>
+## `operational/context`
+
+- Required: `yes`
+- Shape: ref: `sensorium-operational-context.v1.schema.json`
+
+<a id="field-supersedes-interface-id"></a>
+## `supersedes/interface-id`
+
+- Required: `no`
+- Shape: string
+
+Prior publication atomically replaced by this publication.
 
 <a id="field-limits"></a>
 ## `limits`

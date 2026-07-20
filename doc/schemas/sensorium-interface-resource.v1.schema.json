@@ -2,10 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:sensorium-interface-resource:v1",
   "title": "Sensorium Interface Resource v1",
-  "description": "Direction-neutral identity, ownership, classification, and lifetime fields shared by observation and actuation descriptors.",
+  "description": "Direction-neutral identity, ownership, classification, source generation, operational context, and lifetime fields shared by observation and actuation descriptors.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "schema/v", "interface/id", "interface/kind", "interface/name", "publisher/node-ref", "classification/max-tier", "classification/topic-class", "published/at", "expires/at"],
+  "required": ["schema", "schema/v", "interface/id", "interface/kind", "interface/name", "publisher/node-ref", "classification/max-tier", "classification/topic-class", "source/generation-ref", "operational/context", "published/at", "expires/at"],
   "properties": {
     "schema": { "const": "sensorium-interface-resource.v1" },
     "schema/v": { "const": 1 },
@@ -16,6 +16,9 @@
     "classification/max-tier": { "enum": ["Public", "Community", "Personal"] },
     "classification/topic-class": { "type": "string", "minLength": 1, "maxLength": 256 },
     "redaction/profile-ref": { "$ref": "#/$defs/ref" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" },
+    "supersedes/interface-id": { "$ref": "#/$defs/interface_ref" },
     "published/at": { "type": "string", "format": "date-time" },
     "expires/at": { "type": "string", "format": "date-time" }
   },

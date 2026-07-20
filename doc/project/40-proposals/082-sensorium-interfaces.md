@@ -393,10 +393,18 @@ When an environment's candidate context changes, including `test -> production`,
 the source host serializes publication replacement: it activates the new immutable
 descriptor and terminally withdraws the old one as superseded, recording
 `supersedes/interface-id` on the replacement and `replacement/interface-id` on the
-old publication status. Existing subscriptions to the old publication close. If
-the source generation or current context changes before replacement commits, the
-old publication is immediately stale and reads fail closed; temporary
-unavailability is safer than continuing under the old class.
+old publication status. Every replacement requires an operator-facing
+`replacement/reason` that is non-empty, trimmed, NUL-free, and limited to 512 UTF-8
+bytes; an initial publication refuses that field rather than silently discarding it.
+Existing subscriptions to the old publication close. If the source generation or
+current context changes before replacement commits, the old publication is
+immediately stale and reads fail closed; temporary
+unavailability is safer than continuing under the old class. A running Room
+projection that observes this refusal emits a recipient-filtered, transient
+`suspended` / `degraded` interface status with the exact typed generation or
+context error before closing. This carrier evidence does not mutate the durable
+publication lifecycle; immutable replacement remains the only operation that
+changes the effective publication identity.
 
 The same auditable replacement path corrects an accidentally overclassified source,
 for example `critical -> test`. "Raise, never lower" means that one consuming host's
@@ -404,13 +412,13 @@ effective class may never be below the **current source publication**; it does n
 make historical source declarations or local policy overlays irreversible. A lower
 replacement requires explicit operator action and a reason in the publication audit.
 
-The extension should add `operational/context` to the shared
-`sensorium-interface-resource.v1` envelope and both directional descriptors. To
-avoid a transition in which old consumers silently treat missing metadata as low
-risk, the field may remain wire-optional during the first additive rollout, but it
-is mandatory for Workbench-backed, collaborative-live, and remotely invokable
-profiles. Those profiles fail closed when it is absent, malformed, or inconsistent.
-A later descriptor major version may make it universally required after migration.
+The extension adds `operational/context` to the shared
+`sensorium-interface-resource.v1` envelope and both directional descriptors as a
+universally required V1 field. The earlier additive-rollout option that would have
+kept it wire-optional was deliberately not used: every profile fails closed when the
+value is absent, malformed, or inconsistent. Implementations must not reintroduce
+wire optionality as compatibility behavior, because missing metadata must never be
+interpreted as low risk.
 
 Every P082 data result from a context-bearing interface repeats the exact validated
 `source/generation-ref` and `operational/context` from its immutable descriptor. A
@@ -1152,13 +1160,16 @@ This proposal freezes a small transport-neutral error vocabulary:
 | `interface/cursor-mismatch` | cursor belongs to another interface/source epoch | no; caller must discard cursor |
 | `interface/overloaded` | bounded admission or worker capacity is full | retry after supplied delay |
 | `interface/schema-mismatch` | provider output violates declared schema | no automatic retry; operator fault |
-| `interface/operational-context-invalid` | required context is absent, malformed, oversized, or differs from the immutable descriptor | no automatic retry; repair or replace the publication |
-| `interface/operational-context-stale` | source generation changed or a newer publication superseded this interface | resolve and authorize the current publication; never reuse the old result |
+| `interface/operational-context-invalid` | required context is absent, malformed, or oversized | no automatic retry; repair or replace the publication |
+| `interface/operational-context-stale` | the current source context differs from the immutable descriptor or request | resolve and authorize a replacement publication; never reuse the old result |
+| `interface/source-generation-mismatch` | the current source generation differs from the descriptor, request, or result | resolve the current generation and replacement publication; never reuse the old result |
+| `interface/superseded` | a newer immutable publication replaced this `interface/id` in its source slot | resolve and authorize `replacement/interface-id`; do not retry against the old id |
 | `interface/revoked` | grant or collaboration authority was withdrawn | no without new grant |
 | `interface/subscription-closed` | the lease is terminal and its immutable status is available | no; create a new subscription when authorized |
 
 These detailed reasons are internal machine and audit vocabulary. A remote boundary
-may project `not-published` or `operational-context-stale` to `not-found`, and
+may project `not-published`, `operational-context-stale`,
+`source-generation-mismatch`, or `superseded` to `not-found`, and
 `classification-denied` or `revoked` to `unauthorized`, when disclosure would reveal
 protected state. The trace retains the detailed local reason. Carrier failures are
 normalized separately and never replace domain errors.
@@ -1293,10 +1304,9 @@ encode that choice.
 - `inv-sif-operator-evidence-bounded`: read metrics use only bounded source-kind,
   carrier, and delivery-kind dimensions; flat revoke-commit and resource-count
   metrics never carry caller, grant, subscription, or interface ids.
-- `inv-sif-operational-context-monotone` (P082-021): Workbench-backed and
-  collaborative-live publications carry one exact operational-context value; source,
-  descriptor, and result agree, while host policy and downstream consumers may only
-  raise the current source caution class.
+- `inv-sif-operational-context-monotone` (P082-021): every publication carries one
+  exact operational-context value; source, descriptor, and result agree, while host
+  policy and downstream consumers may only raise the current source caution class.
 - `inv-sif-operational-context-current` (P082-021): a context-bearing result is
   admissible only while its source generation is current and its `interface/id` is
   the effective publication for the host-private source/projection/direction slot;
@@ -1373,7 +1383,7 @@ baseline; decisions 7-10 close the evidence-gated follow-up review:
 | P082-018 | Expose bounded operator evidence for source readiness, carrier reads, occupancy, no-change, errors, active leases, Room pumps, and local revoke commit duration | done | The host-local manage `metrics` action reports no actor, interface, grant, or subscription identifiers; read dimensions are capped by 64 registered source kinds, four carrier classes, and two delivery kinds, while `revoke-commit-us` remains flat. Source-registry, active-subscription, metric-accumulator, and Room failures degrade independently; counters are process-local and reset on restart. |
 | P082-019 | Add and run the host/direct-peer/SSE/Room conformance and load harness, then synchronize solution and readiness artifacts | done | `node:tools/conformance/sensorium_interfaces_conformance.py` prebuilds daemon/core plus the required Workbench contract bridge with a separate build timeout, uses exact full Rust test names with one test thread, fails fast by default, distinguishes build/test timeouts and unrecognized libtest output, emits only output digests on failure, and now extends the original bounded host, signed peer, SSE, and Room observation checks with the P083 load, restart, partial-failure, Room baton, and real Workbench PTY matrix. |
 | P082-020 | Make the Room latest-state adapter relay-epoch-aware after P070 Phase 6A | done | An active Room projection publishes one schema-gated `sensorium-interface-read-result.v1` containing a single inline cursor-free latest-state snapshot into the current bounded relay epoch after rechecking Room and interface authority. Reconnect uses only `(relay/epoch, relay/seq-no)` carrier state, never a source cursor; epoch change or expired replay yields a typed refresh boundary and a fresh subscription returns the current bounded latest-state view. Relay publication failure closes the pump and records a payload-free degraded reason. The resource-bound result is also the ingress unit for the bounded Room Sensorium Interface Broker source consumed by Story 012's daemon-owned resolver. `agent-core` carries only an opaque observation source ref, generic bounds, and the horizontal P081 causal context preserved from the read result; it has no Sensorium Interface or Room semantics. |
-| P082-021 | Add operational-impact publication and propagation for enacted resources | todo | Freeze `sensorium-operational-context.v1` with the 512-byte UTF-8 summary cap; add `source/generation-ref`, `operational/context`, optional `supersedes/interface-id`, replacement status/audit refs, and typed invalid/stale failures to the shared resource, directional descriptors, and read results. Source adapters must maintain one current publication per private source/projection/direction slot, serialize replacement, close old subscriptions, and refuse generation mismatch or superseded ids without a duration heuristic. Workbench-backed and collaborative-live profiles require the value; host policy may only raise the current source class; carriers neither interpret nor downgrade it. Positive and negative fixtures cover replacement in both directions, multibyte overflow, missing context, old-generation replay, superseded publication, descriptor/result mismatch, and operator-visible correction reasons. |
+| P082-021 | Add operational-impact publication and propagation for enacted resources | done | `sensorium-operational-context.v1` is schema-gated with a 512-byte UTF-8 summary cap and is universally required beside `source/generation-ref` in the common resource, observation descriptors, and read results; the proposed wire-optional rollout was not used. P083 reuses the same pair in actuation descriptors, statuses, invoke admission, and receipts. The observation lifecycle status remains a metadata-only publication signal rather than duplicating the descriptor context. The daemon maintains one current publication per normalized source/projection/direction slot, serializes immutable replacement with actuation and read admission, requires a bounded trimmed replacement reason, withdraws the prior publication, closes its subscriptions, and returns typed invalid-context, generation-mismatch, and superseded-publication failures without a TTL heuristic. Host policy can only raise the class while preserving source-owned summary provenance. Bounded operator inspection exposes replacement reasons and counts. Core, schema-gate, runtime race, multibyte, stale-generation, supersession, terminal relay-ordering, and Story 012 tests cover the positive and refusal paths. |
 
 ## Open Questions
 

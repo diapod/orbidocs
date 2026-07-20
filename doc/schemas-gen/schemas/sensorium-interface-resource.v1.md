@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/sensorium-interface-resource.v1.schema.json`](../../schemas/sensorium-interface-resource.v1.schema.json)
 
-Direction-neutral identity, ownership, classification, and lifetime fields shared by observation and actuation descriptors.
+Direction-neutral identity, ownership, classification, source generation, operational context, and lifetime fields shared by observation and actuation descriptors.
 
 ## Fields
 
@@ -17,6 +17,9 @@ Direction-neutral identity, ownership, classification, and lifetime fields share
 | [`classification/max-tier`](#field-classification-max-tier) | `yes` | enum: `Public`, `Community`, `Personal` |  |
 | [`classification/topic-class`](#field-classification-topic-class) | `yes` | string |  |
 | [`redaction/profile-ref`](#field-redaction-profile-ref) | `no` | ref: `#/$defs/ref` |  |
+| [`source/generation-ref`](#field-source-generation-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`operational/context`](#field-operational-context) | `yes` | ref: `sensorium-operational-context.v1.schema.json` |  |
+| [`supersedes/interface-id`](#field-supersedes-interface-id) | `no` | ref: `#/$defs/interface_ref` |  |
 | [`published/at`](#field-published-at) | `yes` | string |  |
 | [`expires/at`](#field-expires-at) | `yes` | string |  |
 
@@ -81,6 +84,24 @@ Direction-neutral identity, ownership, classification, and lifetime fields share
 
 - Required: `no`
 - Shape: ref: `#/$defs/ref`
+
+<a id="field-source-generation-ref"></a>
+## `source/generation-ref`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/ref`
+
+<a id="field-operational-context"></a>
+## `operational/context`
+
+- Required: `yes`
+- Shape: ref: `sensorium-operational-context.v1.schema.json`
+
+<a id="field-supersedes-interface-id"></a>
+## `supersedes/interface-id`
+
+- Required: `no`
+- Shape: ref: `#/$defs/interface_ref`
 
 <a id="field-published-at"></a>
 ## `published/at`

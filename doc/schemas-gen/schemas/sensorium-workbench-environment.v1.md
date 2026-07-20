@@ -35,6 +35,8 @@ Workbench environment descriptor for an allowlisted host-local workspace or mana
 | [`schema`](#field-schema) | `yes` | const: `sensorium-workbench-environment.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`environment/ref`](#field-environment-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`source/generation-ref`](#field-source-generation-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`operational/context`](#field-operational-context) | `yes` | ref: `sensorium-operational-context.v1.schema.json` |  |
 | [`workspace/ref`](#field-workspace-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`backend`](#field-backend) | `yes` | enum: `host-local-workspace`, `fixture-virtual-workspace`, `container`, `microvm` |  |
 | [`roots`](#field-roots) | `yes` | array |  |
@@ -72,6 +74,18 @@ Workbench environment descriptor for an allowlisted host-local workspace or mana
 
 - Required: `yes`
 - Shape: ref: `#/$defs/ref`
+
+<a id="field-source-generation-ref"></a>
+## `source/generation-ref`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/ref`
+
+<a id="field-operational-context"></a>
+## `operational/context`
+
+- Required: `yes`
+- Shape: ref: `sensorium-operational-context.v1.schema.json`
 
 <a id="field-workspace-ref"></a>
 ## `workspace/ref`

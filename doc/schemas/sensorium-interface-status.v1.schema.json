@@ -13,6 +13,7 @@
     "lifecycle/status": { "enum": ["published", "suspended", "withdrawn", "expired"], "description": "Host-enforced publication lifecycle." },
     "health/status": { "enum": ["ready", "degraded"], "description": "Current ability to serve admitted operations." },
     "health/reason": { "type": "string", "minLength": 1, "maxLength": 256, "description": "Required bounded diagnostic when health is degraded." },
+    "replacement/interface-id": { "type": "string", "pattern": "^sensorium-interface:[^\\s]+$", "maxLength": 512, "description": "Current replacement, present only after an atomic supersession." },
     "status/at": { "type": "string", "format": "date-time", "description": "Time this status projection was recorded." }
   },
   "allOf": [
@@ -20,6 +21,10 @@
       "if": { "properties": { "health/status": { "const": "degraded" } }, "required": ["health/status"] },
       "then": { "required": ["health/reason"] },
       "else": { "not": { "required": ["health/reason"] } }
+    },
+    {
+      "if": { "required": ["replacement/interface-id"] },
+      "then": { "properties": { "lifecycle/status": { "const": "withdrawn" } } }
     }
   ]
 }

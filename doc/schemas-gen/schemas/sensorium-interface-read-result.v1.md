@@ -11,6 +11,8 @@ Bounded delivery batch and its single cursor-advancement unit.
 | [`schema`](#field-schema) | `yes` | const: `sensorium-interface-read-result.v1` | Contract discriminator. |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` | Contract version. |
 | [`interface/id`](#field-interface-id) | `yes` | string | Interface resource that produced this batch. |
+| [`source/generation-ref`](#field-source-generation-ref) | `yes` | string | Exact source generation repeated from the current descriptor. |
+| [`operational/context`](#field-operational-context) | `yes` | ref: `sensorium-operational-context.v1.schema.json` |  |
 | [`delivery/kind`](#field-delivery-kind) | `yes` | enum: `one-shot`, `subscription` | Delivery binding echoed from the admitted request. |
 | [`subscription/id`](#field-subscription-id) | `no` | string | Caller-bound lease that owns cursor progress for subscription delivery. |
 | [`batch/outcome`](#field-batch-outcome) | `yes` | enum: `data`, `no-change`, `terminal` | Successful data, bounded timeout without change, or final subscription outcome. |
@@ -179,6 +181,20 @@ Contract version.
 - Shape: string
 
 Interface resource that produced this batch.
+
+<a id="field-source-generation-ref"></a>
+## `source/generation-ref`
+
+- Required: `yes`
+- Shape: string
+
+Exact source generation repeated from the current descriptor.
+
+<a id="field-operational-context"></a>
+## `operational/context`
+
+- Required: `yes`
+- Shape: ref: `sensorium-operational-context.v1.schema.json`
 
 <a id="field-delivery-kind"></a>
 ## `delivery/kind`
