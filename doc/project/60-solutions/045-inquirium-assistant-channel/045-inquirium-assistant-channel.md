@@ -94,6 +94,13 @@ minimum. Remote candidates are additive and require explicit model acceptance,
 classification-compatible egress policy, and acknowledgement of the concrete
 context release. They are never a silent fallback for the local baseline.
 
+The post-MVP production package uses a managed `llama-server`-class runtime over
+the same loopback OpenAI-compatible contract. macOS arm64 additionally evaluates
+an MLX-family companion server against the same conformance suite; provider
+specifics do not enter the Assistant Channel contract. Package manifests,
+operator-owned model endorsements, source trust, atomic activation, and rollback
+are governed by Proposal 066 Decision 8.5.1.
+
 ## Must Implement
 
 ### Assistant Turn Boundary
@@ -271,8 +278,9 @@ separate integrations with their owning components and capability gates.
 ## Next Actions
 
 1. Preserve the local baseline and no-contact invariants as UI surfaces evolve.
-2. Productize local runtime installation and diagnosis for distributors and
-   operators.
+2. Implement the post-MVP local-model packaging tracker in Proposal 066:
+   distributor manifests, operator-endorsed imports, the host-owned asset store,
+   atomic activation/rollback, and the macOS/Linux release profiles.
 3. Preserve the process-level escalation/acceptance smoke as Agent, notification,
    and local-control surfaces evolve.
 

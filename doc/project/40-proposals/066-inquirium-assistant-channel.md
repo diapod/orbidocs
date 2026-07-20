@@ -482,6 +482,96 @@ definition is deployment/constitutional surface: an operator may disable a
 broken runtime candidate, but removing the `baseline-assistant` profile itself
 requires the same level of change control as other universal-minimum guarantees.
 
+### 8.5.1 Production Local Model Packaging Profile
+
+The following post-MVP productization decisions are frozen as of 2026-07-20.
+They define how a distributor may turn the implemented baseline profile renderer
+into a production installation path without changing Inquirium semantics.
+
+1. **Canonical managed runtime.** The production baseline is a supervised
+   `llama-server`-class process exposing the existing OpenAI-compatible
+   chat-completions contract over loopback HTTP. Ollama remains a supported
+   operator-managed compatibility path; it is not the canonical packaged
+   runtime.
+2. **Apple Silicon companion candidate.** The macOS arm64 profile should evaluate
+   an MLX-family server in parallel. The selected implementation must be the
+   closest practical match to the `llama-server` operational contract: a
+   supervised loopback service, OpenAI-compatible request/response mapping,
+   offline operation, no undeclared telemetry, and the same baseline conformance
+   gate. MLX-specific provider semantics must not leak into Inquirium. Until that
+   candidate passes the shared suite and release gate, `llama-server` remains the
+   required baseline on Apple Silicon as well.
+3. **Initial platform set.** Production profile v1 targets macOS arm64 with Metal
+   and Linux x86_64 with CPU execution. CUDA, ROCm, other architectures, and
+   further acceleration profiles are additive release profiles rather than
+   assumptions of the baseline contract.
+4. **Manifest-driven model delivery.** Model weights are not silently bundled.
+   Installation uses an explicit operator-approved download or offline import
+   described by a signed package manifest. Each release names one pinned
+   reference model profile; the concrete model family, quantization, context
+   size, digest, size, resource requirements, source, license, and model-card
+   reference are release data, not permanent proposal constants.
+5. **Dedicated host-owned asset store.** Runtime and model artifacts live in an
+   immutable, content-addressed store under the node data directory. Active
+   profiles and rollback candidates refer to digests. This store is separate
+   from middleware modules and from the transport-oriented object store; it owns
+   quotas, references, interrupted-stage cleanup, and bounded garbage
+   collection.
+6. **Explicit update authority.** Discovery of a newer signed manifest may be
+   automatic, but installation and activation require an operator decision.
+   There is no silent model replacement and no remote fallback. Updates retain
+   the previously active verified profile for rollback.
+7. **Distributor trust.** Official artifacts require a distributor-signed
+   manifest plus verification of every declared digest. The manifest binds the
+   runtime, model, platform/backend, license and provenance as one installable
+   profile rather than treating independent checksums as a complete trust root.
+   Verification reuses the repository's canonical JSON and Ed25519 signature
+   profile. Distributor release keys form a dedicated local trust set with key
+   identifiers, rotation, and revocation; federation authority is not implicitly
+   package-distribution authority.
+8. **Operator-owned models.** An operator may import a model outside the
+   distributor catalog. The host computes its bounded canonical manifest and
+   digest first, then projects a registered operator question through the
+   notification surface. Approval creates a detached signature with
+   operator-held signing authority over that exact manifest. The signature means
+   "approved for this node/profile"; it is not a claim that the model is safe,
+   truthful, federation-endorsed, or equivalent to an Orbiplex release. Changed
+   bytes or security-relevant metadata require a new approval. Without a usable
+   operator signer, the artifact remains staged and unroutable.
+9. **Scoped source trust.** The operator may approve a new HTTPS origin or a
+   canonical local path root from the same host-owned interaction flow. Durable
+   trust is represented by a detached operator signature, scoped to local-model
+   provisioning, auditable, revocable, and may be narrower than the origin/root.
+   HTTPS redirects are bounded by an explicit domain allowlist; local paths use
+   canonical containment and reject symlink escape. Source trust permits fetching
+   or importing bytes, but activation still requires digest verification and an
+   accepted package manifest.
+10. **Backend selection.** The host detects available CPU/Metal support and
+    proposes a compatible profile; the operator confirms it before activation.
+    Detection does not authorize a download or silently switch the active
+    backend.
+11. **Atomic lifecycle.** The operator path is `plan -> install -> verify ->
+    activate`, with explicit `status`, `rollback`, and `remove` operations.
+    Staging and activation are crash-safe; a failed verification cannot alter the
+    active profile.
+12. **Release gate.** Contract conformance, source and digest verification,
+    loopback-only binding, offline guarantees, and negative security tests are
+    hard release gates. Performance and resource measurements are operator- and
+    NSE-visible diagnostics in v1, not universal correctness thresholds.
+
+The corresponding host-local contract family should distinguish package
+manifest, source trust, operator endorsement, installation receipt, and active
+profile projection. A signature over a digest-bearing manifest is the authority
+boundary; neither a mutable path nor a provider model name is sufficient
+identity.
+
+Alternatives not selected for v1 are Ollama as the canonical managed package,
+silently bundled model weights, reuse of middleware-module or transport-object
+storage, provider-specific MLX semantics, unattended activation, and universal
+performance thresholds. They remain possible distributor or later-profile
+choices only where they preserve the authority, conformance, and lifecycle
+boundaries above.
+
 **8.6 Non-dopamine UX (schema, not convention).** The assistant surface must not
 use engagement-maximizing patterns: no unsolicited initiation, no streak/nudge/
 re-open mechanics, advisory framing, and a clear separation of "the assistant
@@ -1282,7 +1372,9 @@ No unresolved questions remain for this proposal's current contract.
    `llama.cpp`/`llama-server`-class runtime (minimal footprint for constrained
    devices), reachable over the same `http_local` + OpenAI-compatible path. The
    concrete model is catalog/`select-llm-model` configuration, not part of this
-   proposal.
+   proposal. This records the first landed compatibility target; Decision 8.5.1
+   separately makes managed `llama-server` the canonical production package and
+   treats Ollama as operator-managed compatibility.
 5. ~~What is the minimum useful trace shape for assistant turns without exposing
    prompt content?~~ **Resolved in Decision 10:** operational trace goes to the
    `trace/inquirium-assistant-turns` storage stream with record type
@@ -1332,7 +1424,9 @@ No unresolved questions remain for this proposal's current contract.
    hardened generate substrate rather than creating a parallel runner path.
 2. Build distributor packaging and real operator installation UX around the
    landed baseline profile renderer; the tool records artifact lifecycle data
-   but intentionally does not install binaries or model weights.
+   but intentionally does not install binaries or model weights. Follow the
+   frozen production packaging profile in Decision 8.5.1 and the post-MVP
+   productization tracker below.
 3. Keep the `inquirium-core` dependency-direction gate in CI as the vocabulary
    grows across summarize/transform/image and future audio/training contracts.
 4. Add broader tests proving no Messaging dispatch, no relationship record
@@ -1413,3 +1507,19 @@ That advisory remains only a working note; this table is the canonical backlog.
 | `assistant-agentic-effects` | Add opt-in action capability surface. | `done` | The channel emits only an inert `inquirium.assistant.agent-escalation.proposal.v1`. `agent.assistant.escalate` requires explicit caller grants plus an operator Confirm decision before it creates the exact strict-local, same-session Agent and Assistant Channel binding. The durable approval precedes materialization, derives actor/time from the durable question record, and drives idempotent recovery of interrupted materialization; replay rejects bindings without approval. The bounded Agent owns controller steps, the binding's effective narrowed budget and deadline, effect proposals, and effect dispatch. Direct ambient binding is rejected, and bounded `agent.assistant.draft.accept` returns only a render-only draft whose publication authority is fixed false. Process coverage proves restart recovery, denial, timeout, exact replay, outcome creation, and no generated-content projection before acceptance; fault-injected coverage proves decision-first recovery. |
 | `assistant-human-in-loop-governance` | Keep relationship, governance, and egress actions human-in-the-loop. | `done` | Operator approval is mandatory for Assistant-to-Agent escalation, while every Agent effect still follows its capability-specific review policy and operator-question lifecycle. The Assistant binding cannot carry `artifact.delivery.send`; draft acceptance is local-control-only and grants neither publication nor effect authority. Relationship, governance, egress, and external publication therefore remain separately admitted effects rather than consequences of rendering a response. |
 | `assistant-feed-intervention-controls` | Add approve/revoke controls from the Activity feed only through the agentic gate. | `deferred` | Feed intervention creates capability-gated operations with audit records; the read-only feed itself never mutates state. |
+
+## Post-MVP Local Model Packaging Tracking
+
+These items productize an already complete hard-MVP semantic/runtime contract.
+They are intentionally excluded from the MVP readiness percentage.
+
+| ID | Work item | Status | Done criteria / evidence |
+| :--- | :--- | :--- | :--- |
+| `assistant-model-package-contracts` | Freeze host-local package manifest, source-trust, operator-endorsement, install-receipt, and active-profile contracts. | `todo` | Schemas bind canonical digests, sizes, platform/backend, model card, license, provenance, source policy, operator signature, lifecycle state, and rollback refs; unknown security-sensitive fields fail closed. |
+| `assistant-model-asset-store` | Add a dedicated content-addressed runtime/model asset store under `data-dir`. | `todo` | Immutable staged artifacts, quotas, reference-aware GC, partial-download cleanup, active/rollback pinning, explicit migrations, WAL, `busy_timeout`, and crash recovery are covered by tests. |
+| `assistant-model-package-installer` | Implement `plan -> install -> verify -> activate`, status, rollback, and remove. | `todo` | The installer accepts signed distributor manifests or operator-endorsed imports, never mutates the active profile before verification, and preserves the previous verified profile for rollback. |
+| `assistant-model-source-trust` | Add operator-managed HTTPS-origin and canonical-local-root trust. | `todo` | Notification/operator-question approval can grant one-shot or durable provisioning-only trust; rules are revocable, auditable, symlink-safe, redirect-bounded, and never bypass final digest/manifest admission. |
+| `assistant-model-operator-endorsement` | Permit operator-owned models through detached manifest signatures. | `todo` | The host computes the manifest and digest, renders bounded review data, requires a fresh operator-bound decision and signer, records the detached signature and audit fact, and keeps unapproved or changed artifacts unroutable. |
+| `assistant-model-llama-server-package` | Ship the canonical managed `llama-server` profile for macOS arm64/Metal and Linux x86_64/CPU. | `todo` | Distributor manifests, supervised lifecycle, loopback binding, resource diagnostics, installation fixtures, and baseline conformance pass on both supported profiles. |
+| `assistant-model-mlx-profile` | Evaluate and, if conformant, ship an MLX-family Apple Silicon companion profile. | `todo` | Selection evidence compares operational/API parity with `llama-server`; the chosen server uses the same OpenAI-compatible adapter and conformance suite without adding MLX semantics to Inquirium. Failure to qualify does not block the canonical `llama-server` package. |
+| `assistant-model-package-release-gate` | Add supply-chain, rollback, security, and platform acceptance gates. | `todo` | Signed-manifest and digest failures, untrusted sources, redirects, path escape, partial installs, stale approvals, non-loopback binding, restart recovery, rollback, and offline operation are tested; performance remains diagnostic in v1. |

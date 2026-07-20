@@ -44,6 +44,13 @@ answers and revocation, durable-grant grantability checks, inactive-binding
 diagnostics, and dedicated operator UI. Native broker providers, explicit
 artifact handoff, the Rust actuation bridge, a managed fixture-copy virtual
 executor, and Agent/Corpus/Room tool-request lineage are also implemented.
+The property-attested process-isolated backend architecture is frozen, with
+vfkit as the first Apple Silicon implementation slice, but the new capability,
+normalized-plan, image, recovery, and guest-frame contracts, host broker, guest
+agent, runtime, and deployment evidence remain unimplemented. The freeze now also
+requires closed capability vocabularies, plan-bound operational context and policy
+floors, evidence-based logical image equivalence, and sanitized classified serial
+diagnostics. The existing Workbench environment/export contracts remain landed.
 
 ## Date
 
@@ -665,15 +672,389 @@ The backend must declare:
 - artifact export policy;
 - resource limits.
 
+#### 7.1 Backend Capability Admission
+
+A backend id selects an implementation; it is not evidence of isolation. Before a
+process-isolated environment is allocated, the host must compare a normalized
+environment requirement with a host-attested backend capability descriptor. The
+minimum descriptor vocabulary is:
+
+```text
+backend/id
+backend/provider
+backend/version
+backend/binary-digest
+platform/ref
+locality
+host/architecture
+guest/architecture
+isolation/class
+system/fidelity
+control/transport
+control/guest-endpoint
+control/host-endpoint
+control/channel-binding
+boot/mode
+storage/formats
+device/classes
+console/mode
+network/profiles
+host-filesystem-sharing/mode
+credential-injection/mode
+resource-enforcement/classes
+lifecycle/operations
+```
+
+`sensorium-virt-backend-capabilities.v1` is a closed contract, not an open map of
+backend claims. `additionalProperties` is false; supported-value collections are
+bounded sets with unique items; and every semantic value is selected from a
+versioned enum. The initial V1 vocabulary is:
+
+| Dimension | Closed V1 values |
+| --- | --- |
+| `locality` | `local-only`, `remote-sandbox` |
+| `host/architecture`, `guest/architecture` | `x86_64`, `arm64` |
+| `isolation/class` | `none`, `process-sandbox`, `shared-kernel-container`, `hardware-vm` |
+| `system/fidelity` | `filesystem-view`, `process-runtime`, `shared-kernel-linux`, `full-system-linux` |
+| `control/transport` | `none`, `local-process`, `virtio-vsock` |
+| `control/guest-endpoint` | `none`, `af-vsock` |
+| `control/host-endpoint` | `none`, `af-vsock`, `unix-domain-socket` |
+| `control/channel-binding` | `none`, `environment-generation-boot-nonce` |
+| `boot/mode` | `none`, `efi`, `direct-kernel` |
+| `storage/formats` | `directory-copy`, `raw`, `kernel-initrd-rootfs` |
+| `device/classes` | `virtio-block`, `virtio-vsock`, `virtio-rng`, `diagnostic-serial`, `virtio-net` |
+| `console/mode` | `none`, `diagnostic-output-only` |
+| `network/profiles` | `none`, `isolated`, `egress-allowlisted` |
+| `host-filesystem-sharing/mode` | `denied`, `read-only`, `read-write` |
+| `credential-injection/mode` | `denied`, `explicit-scoped` |
+| `resource-enforcement/classes` | `host-cpu`, `host-memory`, `host-process`, `host-storage`, `host-io`, `guest-vcpu`, `guest-memory`, `guest-pids`, `guest-storage`, `channel-bounds` |
+| `lifecycle/operations` | `allocate`, `start`, `inspect`, `drain`, `teardown`, `recover` |
+
+`backend/id`, `backend/provider`, and `platform/ref` resolve through bounded host
+registries rather than semantic enums; an unknown identity is denied before
+matching. Adding a new semantic value requires a schema/registry revision and
+conformance evidence. Host
+policy may select or equate only values already admitted by that version, so policy
+configuration cannot turn an arbitrary string into evidence.
+Plural descriptor fields such as `network/profiles` and `device/classes` contain
+supported sets; the normalized plan records one selected scalar such as
+`network/profile` and an exact selected device set. Locality remains a separate
+requirement and never masquerades as an isolation class.
+
+The host, not the backend adapter, owns this attestation. A backend may report raw
+facts, but a Rust validator maps the pinned binary, platform, enabled device set,
+and host controls to the effective descriptor. Unknown, missing, or unverified
+properties do not match a requirement.
+
+Matching is conjunctive and property-based. `hardware-vm` is not a magic synonym
+for every stronger-looking backend name, and the property dimensions do not form
+one universal scalar ordering. A full-system proof can require, for example:
+
+```text
+isolation/class = hardware-vm
+system/fidelity = full-system-linux
+control/transport = virtio-vsock
+control/channel-binding = environment-generation-boot-nonce
+host-filesystem-sharing/mode = denied
+network/profile = none
+```
+
+Host policy may admit an explicit set of equivalent values on one dimension, but
+it must not infer equivalence from marketing labels such as container, sandbox,
+or microVM. The selected descriptor, normalized environment plan, policy ref,
+image manifest, and their digests become one immutable allocation input. Replay
+with the same idempotency key and plan digest returns the same environment; the
+same key with a different digest is a conflict.
+
+The normalized plan also requires the exact effective
+`sensorium-operational-context.v1` value. The host derives it before allocation
+from the environment candidate, the selected resource context, and a policy floor;
+the backend adapter may neither default nor rewrite it after normalization. The
+plan digest binds the source candidate digest, effective context, and policy ref.
+The initial policy floor is `test` when `network/profile != none` or
+`host-filesystem-sharing/mode != denied`. Any reachable network target or shared
+host resource contributes its own context, and the effective class is the maximum
+of the candidate, the floor, and those attached-resource classes. Missing target
+context fails admission closed. A stricter deployment may raise this floor, but
+none may lower a production or critical target to `test`. Raising the class does
+not authorize the host to rewrite the candidate's untrusted `context/summary`;
+the policy ref and candidate digest explain the raise. The reference full-system
+configuration proof uses `test`. A disposable offline VM may use `experimental`,
+while `hardware-vm` by itself never chooses an impact class.
+
+The current `sensorium-workbench-environment.v1` `backend` and `executor.kind`
+fields remain useful projections, but they are too coarse to serve as isolation
+evidence. Phase 4 must add a companion capability descriptor and normalized-plan
+contract before enabling a process-isolated PTY.
+
+#### 7.2 Reference Full-System Profiles
+
+The first implementation target is split by host platform rather than pretending
+that one VMM is portable across macOS and Linux:
+
+| Profile | Role | Required substrate | Initial posture |
+| --- | --- | --- | --- |
+| `vfkit-system.v1` on `macos-vz-arm64.v1` | first developer reference backend and first implementation slice | Apple Silicon, Apple Virtualization Framework, pinned vfkit binary | full GNU/Linux arm64 system; EFI boot; raw working disk and per-environment EFI variable store; `virtio-blk`, `virtio-vsock`, `virtio-rng`, bounded diagnostic serial; no NIC |
+| `cloud-hypervisor-system.v1` on `linux-kvm-x86_64.v1` | first Linux full-system deployment backend | Linux/KVM, cgroup v2, pinned Cloud Hypervisor binary, host filesystem confinement | full GNU/Linux x86_64 system; firmware boot from an explicit raw image; block, vsock, entropy, bounded diagnostic serial; no NIC by default |
+| `firecracker-system.v1` on a compatible `linux-kvm-*.v1` platform | second Linux backend and hardened minimal-device profile | Linux/KVM and a jailer-equivalent launch boundary | introduced after the guest protocol and image manifest are stable; only the common block, vsock, entropy, console, resource, and teardown substrate is portable |
+
+`vfkit-system.v1` is selected first because the primary developer platform is
+macOS on Apple Silicon and vfkit can boot a normal EFI disk image while exposing
+bounded lifecycle inspection and control. Its host endpoint for a guest
+virtio-vsock port is a dedicated Unix-domain socket. The domain contract still
+names `virtio-vsock`; the UDS translation is private backend mechanics:
+
+```text
+control/transport:       virtio-vsock
+control/guest-endpoint:  af-vsock
+control/host-endpoint:   unix-domain-socket
+```
+
+The allowed vfkit device profile is closed. `virtio-fs`, Rosetta shares, host
+directory mounts, host block-device passthrough, credentials, arbitrary host
+sockets, graphics/input devices, and network devices are denied. The only host
+socket exceptions are the exact broker-allocated VMM-administration and guest-
+control sockets; the administration socket remains broker-private. For every
+backend, diagnostic serial is output-only and bounded, never an interactive console or second input
+path. Its bytes are untrusted guest data: ordinary status and logs retain only
+metadata, while an explicitly admitted diagnostic capture inherits the environment
+classification and operational context, has byte/time caps plus a digest and
+truncation marker, and is subject to configured redaction. Operator presentation
+uses a sanitized rendering that escapes control bytes and strips terminal-control
+sequences, including ANSI CSI, OSC, and DCS; raw bytes are never written directly
+to an operator terminal. Allocation creates an APFS copy-on-write clone of the
+pinned raw base disk and a private EFI variable store; the base image remains
+immutable. The process
+is launched headlessly with an operator-pinned version and binary digest. An Intel
+Mac profile may be registered later as `macos-vz-x86_64.v1`, but only after
+separate image and conformance evidence; architecture substitution is not implicit.
+
+`cloud-hypervisor-system.v1` is the first Linux profile because its local REST
+API maps cleanly to full-system lifecycle mechanics and it supports firmware boot
+of ordinary raw Linux images. Orbiplex uses only a closed subset of the VMM:
+`virtio-block`, `virtio-vsock`, `virtio-rng`, optional future isolated
+`virtio-net`, and bounded serial diagnostics. `virtio-fs`, VFIO, vhost-user
+devices, host directory mounts, arbitrary hotplug, live migration, and durable
+memory snapshots are denied. Serial diagnostics follow the same bounded, classified,
+sanitized output-only policy. Disk format is
+explicit; format autodetection and backing-file chains are not admitted.
+The Linux host broker runs the VMM under a dedicated unprivileged identity,
+cgroup v2 limits, seccomp, and a file allowlist enforced by Landlock where the
+pinned host/VMM combination supports it or by an equally explicit host wrapper.
+If the selected profile requires one of these controls and the host cannot prove
+it, allocation fails closed.
+
+Firecracker follows as a separate backend because its smaller device model and
+jailer are valuable hardening, while its kernel/rootfs preparation and full-system
+shutdown mechanics should not define the first Workbench contract. This is a
+sequencing decision for the full GNU/Linux configuration proof, not a universal
+security ranking of VMMs.
+
+OCI may distribute a signed and digest-pinned logical image artifact containing
+backend variants, the guest-agent binary, SBOM, provenance, and minimum guest
+protocol. An OCI runtime does not own Workbench allocation, lifecycle, recovery,
+or authority.
+
+Implementation-source basis, verified on 2026-07-20: the official
+[vfkit usage contract](https://github.com/crc-org/vfkit/blob/main/doc/usage.md)
+documents EFI boot, raw/APFS clone-backed disks, optional devices, Unix-socket
+REST control, and guest-vsock-to-host-UDS mapping; the official
+[Cloud Hypervisor README](https://github.com/cloud-hypervisor/cloud-hypervisor)
+and [API contract](https://github.com/cloud-hypervisor/cloud-hypervisor/blob/main/docs/api.md)
+document firmware boot and Unix-socket lifecycle control; the official
+[Firecracker design](https://github.com/firecracker-microvm/firecracker/blob/main/docs/design.md),
+[jailer](https://github.com/firecracker-microvm/firecracker/blob/main/docs/jailer.md),
+and [vsock](https://github.com/firecracker-microvm/firecracker/blob/main/docs/vsock.md)
+documents define the later minimal-device profile. Version numbers remain
+operator-pinned deployment data rather than proposal constants.
+
+#### 7.3 Two Ports And Three Ownership Layers
+
+VMM lifecycle and guest Workbench mechanics are separate ports:
+
+```text
+EnvironmentBackend
+  allocate start inspect drain teardown recover
+
+GuestWorkbenchChannel
+  handshake spawn_process open_pty
+  terminal_input terminal_resize terminal_signal
+  file_snapshot file_read patch_stage artifact_export
+  quiesce shutdown
+```
+
+The ports are logical contracts; they need not be one Rust trait across a process
+boundary. Cloud Hypervisor, vfkit, and Firecracker differ behind
+`EnvironmentBackend`. The same bounded guest protocol implements
+`GuestWorkbenchChannel`, so SSH, a network interface, or a host-shared filesystem
+never becomes public Workbench semantics.
+
+Ownership is stratified:
+
+- `sensorium-virt-core` is a pure Rust contract layer for backend capabilities,
+  requirement matching, normalized plans, limits, lifecycle transitions,
+  image compatibility, plan digests, recovery identity, and network/device/host-
+  path refusal. A bounded companion process may expose these decisions to Python;
+  absence, timeout, or malformed output fails closed.
+- the daemon-owned `virt-host-broker` is the host authority for working disks,
+  process identities, VMM launch, exact API/control sockets, platform resource
+  controls, optional Linux cgroups and network namespaces, resource enumeration,
+  quarantine, and teardown. A concrete implementation may use a different module
+  name without changing this ownership boundary.
+- the Python Workbench adapter owns connector mechanics: mapping an already
+  normalized plan to bounded backend request data, readiness waits, bounded guest
+  RPC, SQLite projections, Interaction Broker observations, and typed diagnostics.
+  It receives broker-allocated identities and the exact guest-channel handle; the
+  host broker retains the VMM administrative socket and mediates its narrow
+  lifecycle operations. The adapter must not gain ambient authority to launch
+  arbitrary VMM processes, open arbitrary host paths, create host network devices,
+  or widen the normalized plan.
+
+This preserves the current rule: Python runs connector mechanics; Rust owns
+semantic validation and host authority.
+
+#### 7.4 Guest Agent Contract
+
+The reference image contains a small Rust process named
+`orbiplex-workbench-guest`. It communicates only over virtio-vsock, without IP or
+SSH. The initial handshake binds at least:
+
+```text
+environment/ref
+source/generation-ref
+normalized-plan/digest
+image/digest
+guest-agent/protocol-version
+guest/cid
+boot/nonce
+```
+
+`boot/nonce` is generated for every start and must match the host recovery record.
+A backend supplies it through a dedicated ephemeral read-only boot/config input or
+an equivalently bound channel established by the host broker. It is a freshness
+and channel-binding control, not cryptographic attestation that the guest is honest.
+A stale agent, restored guest, old control socket, or previous source generation
+is refused before any command is dispatched. Operation frames additionally bind
+the environment, generation, operation id, sequence, deadline, payload length,
+chunk count, and digest. Queues and reassembly buffers have hard byte, frame,
+chunk, and time caps.
+
+The guest agent owns no authorization policy. It executes only normalized,
+already-admitted mechanics and returns untrusted observations. Root inside the
+guest can compromise the agent and falsify guest state; it must not thereby gain
+host paths, credentials, sockets, or ambient network access. Guest cgroups,
+including per-command PID limits, are useful defense in depth and conformance
+controls, but they are not a host security boundary against compromised guest
+root. Host-side CPU, memory, storage, process, and I/O limits remain mandatory.
+
+#### 7.5 Images, Resources, And Network
+
+The logical image manifest pins the full-system image, architecture, boot
+variant, guest protocol, guest-agent digest, SBOM, provenance, and backend-
+specific artifacts. The initial vfkit variant contains an arm64 raw disk plus an
+EFI variable-store template. The initial Cloud Hypervisor variant contains an
+x86_64 raw disk plus pinned firmware. A later Firecracker variant may contain a
+kernel, initrd, and rootfs while preserving the same logical image ref where its
+userspace and protocol provenance are equivalent. Equivalence is manifest evidence,
+not a publisher assertion: variants under one logical image ref must share the
+canonical userspace/rootfs content digest, SBOM digest, build-provenance ref and
+digest, exact guest-agent binary digest, and guest-protocol/schema-set digest.
+Variant-specific kernel, initrd, firmware, disk-layout, and boot-artifact refs and
+digests remain separate. A mismatch or missing equivalence field requires a distinct
+logical image ref. Sharing the logical ref states common userspace and control-
+protocol lineage; it does not claim byte-identical boot artifacts or replace
+per-variant conformance. A consumer that requires an exact kernel or firmware pins
+the variant ref and digest as well as the logical image ref.
+
+The reference guest is intentionally ordinary: a full GNU/Linux distribution,
+`systemd` as PID 1, distribution kernel and initramfs, required `virtio_*`
+drivers, harmless test modules such as `dummy` or `loop`, the Workbench guest
+agent, no `sshd`, no user keys, no cloud credentials, no host mounts, and no
+default NIC. Package tests use a pinned read-only repository artifact or disk;
+they do not require Internet egress.
+
+Limits are enforced at both strata where meaningful:
+
+- vCPU and guest RAM are fixed by the normalized VMM plan and bounded again by
+  host policy;
+- working-disk virtual size and a node-wide physical-storage reservation prevent
+  sparse images or many concurrent clones from exhausting the host; a native
+  quota is used where the platform provides one;
+- guest per-command CPU, PID, timeout, output, and filesystem limits are enforced
+  by the guest supervisor as defense in depth;
+- platform-available host process, memory, CPU, I/O, control-socket, console, and
+  storage budgets contain a faulty or hostile guest independently of guest
+  cooperation; unavailable controls remain explicit non-capabilities rather than
+  implied guarantees;
+- serial and vsock channels use bounded ring buffers and backpressure.
+
+The initial reference network profile is `none`: no virtual network device is
+attached. A later `isolated` profile may attach a NIC to an explicitly isolated
+backend-specific network with no uplink, NAT, or default route. A future
+`egress-allowlisted` profile requires its own grant and bounded DNS/proxy/firewall
+contract. Linux `netns`/TAP/nftables and macOS user-mode networking are different
+mechanisms and must produce separate platform evidence rather than share an
+implementation-shaped promise.
+
+#### 7.6 Recovery And Conformance
+
+Process-isolated recovery extends the existing Workbench startup sweep. The
+host-private recovery record binds the pinned backend and binary digest,
+environment and plan digests, image digest, process identity plus a reuse-safe
+start marker, API/control socket identity, boot nonce, working disk identity,
+resource-control identities, source generation, and any network resources.
+Linux-specific fields such as cgroup, netns, TAP, UID/GID, and `/proc` start time
+are present only for Linux profiles; macOS records equivalent process, socket,
+disk, and launch identities without pretending that Linux primitives exist.
+
+Before accepting new environment requests, the broker compares durable records
+with live processes, sockets, disks, and platform resource controls; inspects the
+VMM; performs the guest handshake; and recovers only an exact plan, image, nonce,
+and generation match. Unknown, partial, or contradictory resources are
+quarantined and then torn down. A previous-process `running` value is never
+authoritative.
+
+`drain` is monotonic and stops new sessions. `teardown` becomes terminal only
+after the VMM is gone, control sockets and host resources are removed, retained
+storage follows policy, and any requested export is durable. Memory snapshots
+and live migration are outside v1 recovery; v1 either recovers the exact live VM
+or safely tears it down and recreates from pinned image/storage policy.
+An exact live-boot recovery preserves its source generation. Any recreated or new
+guest boot advances the generation even when policy preserves the working disk.
+
+The first backend is complete only when deployment evidence covers:
+
+- full boot to `systemd` and a generation/nonce-bound guest-agent handshake;
+- harmless kernel module, mount namespace, tmpfs/loop mount, and local package
+  repository operations without host effects;
+- absence of NIC, host paths, host environment, SSH agent, keychain, host
+  credentials, and unallocated sockets;
+- file, patch, explicit export, immutable-base-image, and deterministic teardown
+  behavior;
+- the P083 two-controller fenced PTY conformance suite against the real guest;
+- CPU/RAM, guest PID, disk, serial, vsock, queue, timeout, and output exhaustion;
+- crash/restart at every allocate/start/drain/teardown boundary, stale boot nonce,
+  stale generation, and idempotent replay conflicts;
+- bounded `allocate -> agent ready`, PTY round-trip, file/patch/export, physical
+  disk amplification, teardown, and reconciliation measurements.
+
+A future full-system Story 012 profile may reuse the existing three-node Room,
+Corpus, Agent, and shared-terminal topology to prove collaborative GNU/Linux
+service configuration. It is an additive post-MVP acceptance profile; it does
+not retroactively change the completed Story 012 gate.
+
 An environment also declares its operational impact through the P082-owned
 `sensorium-operational-context.v1` value. A connector or backend may supply an
-operator-configured default, but the exact `sensorium-workbench-environment.v1`
-instance pins the candidate class because one Workbench deployment may operate
-both disposable test workspaces and live production systems. Host policy may raise
-that class and records the effective value in every derived terminal-screen,
-terminal-event, or actuation-interface publication; it may never lower it. A
-read-only terminal over a production system remains `production` even though the
-published access mode is observation-only.
+operator-configured candidate default, but the exact normalized plan pins the
+host-effective value before allocation and the resulting
+`sensorium-workbench-environment.v1` repeats it. One Workbench deployment may
+operate both disposable test workspaces and live production systems. Host policy
+may raise the candidate and records the effective value in every derived terminal-
+screen, terminal-event, or actuation-interface publication; it may never lower it.
+A read-only terminal over a production system remains `production` even though the
+published access mode is observation-only. The selected network and host-share
+profiles participate only as conservative policy floors; they do not replace the
+actual context of a reachable or shared resource.
 
 The environment also exposes a host-owned source generation reference. Replacement,
 recreation, or an operational-context change advances that generation or otherwise
@@ -1152,6 +1533,10 @@ operator-readable: `recovered`, `terminated`, `quarantined`,
 | Host-owned brokered waits, watches, and probes | Makes interactive coordination visible, bounded, replayable, and testable across components without coupling Sensorium to every domain source. | Adds a small temporal contract layer before richer agent loops feel natural. |
 | Shared actuation core for OS and Workbench | Reduces traversal, argv injection, allowlist, and classification drift. | Requires extracting safety primitives instead of copying code into the new connector. |
 | Host-local first slice | Delivers useful developer workflows quickly. | Does not yet isolate arbitrary code as strongly as containers or VMs. |
+| Property-attested backend admission | Lets one requirement select different substrates without treating names as security claims. | Adds descriptor, normalization, policy, digest, and per-platform evidence contracts. |
+| vfkit first on macOS; Cloud Hypervisor first on Linux | Makes the first full-system proof executable on the primary developer host while retaining a direct KVM deployment path. | Requires two lifecycle adapters and separate host-containment evidence instead of one nominally portable VMM. |
+| One bounded guest agent instead of SSH or host shares | Keeps PTY, file, patch, and export semantics common across VMMs and removes credential-shaped control. | The image must carry and update the agent, and all guest-returned state remains untrusted. |
+| No memory snapshots in recovery v1 | Keeps boot freshness, source generation, and grant expiry reasoned from live facts. | Recovery may require a slower full boot or teardown/recreate path. |
 | Metadata traces by default | Reduces prompt, terminal, secret, and source-code leakage. | Debugging deep agent failures may require explicit capture artifacts. |
 | Reuse host-owned primitives | Keeps lifecycle, artifacts, and deferred work consistent across components. | Workbench implementation must integrate with existing registries instead of inventing local shortcuts. |
 
@@ -1175,6 +1560,16 @@ operator-readable: `recovered`, `terminated`, `quarantined`,
 | One adapter-level default labels test and production environments alike. | Pin operational context on the exact environment/resource; treat the adapter value only as an operator-configured candidate default. |
 | A read-only viewport is labeled less cautiously than the environment it observes. | Require every derived P082/P083 resource to inherit the environment class; host policy may raise but never lower it. |
 | An environment changes impact class while an old interface remains readable. | Advance or invalidate the source generation, publish an immutable replacement, withdraw the old interface as superseded, and let P082 refuse old-generation or superseded reads. |
+| A backend name is accepted as proof of isolation or system fidelity. | Match exact host-attested capability properties against a normalized requirement; unknown or unverified properties fail closed. |
+| Policy treats an unknown capability string as a new equivalent property. | Use closed, versioned enums for every semantic descriptor dimension and registry-bound backend/platform refs; require schema and conformance changes before a new value can match. |
+| A network or host-share profile is added without raising operational caution or inheriting the target context. | Resolve the effective operational context in the normalized plan, apply at least the `test` floor, inherit higher attached-resource classes, and deny unknown target context. |
+| Backend-specific image variants share one logical ref without comparable provenance. | Require common userspace, SBOM, build provenance, guest-agent, and protocol/schema-set digests; otherwise issue distinct logical refs and retain exact variant digests. |
+| Python gains an administrative VMM socket or arbitrary host process-launch authority. | Keep VMM launch, resource allocation, exact sockets, and teardown in the daemon-owned host broker; provide the adapter only normalized plans and broker-allocated handles. |
+| A previous guest boot or restored VM reconnects under current authority. | Bind every handshake and operation to environment, source generation, image/plan digests, and a per-boot nonce; reject stale or contradictory recovery state. |
+| Guest root disables guest-agent or guest-cgroup controls. | Treat all guest output as untrusted and retain independent host CPU, memory, storage, process, I/O, socket, and network containment. |
+| Guest serial output injects terminal controls or sensitive content into operator diagnostics. | Keep ordinary logs metadata-only; bound and classify explicit captures; sanitize ANSI/control sequences at presentation; apply configured redaction without treating it as complete secret detection. |
+| Sparse disks or many APFS clones exhaust host storage. | Combine a fixed virtual-disk maximum with node-wide physical-storage reservation/accounting and a native quota where available. |
+| A memory snapshot silently revives expired grants, nonces, or source generations. | Exclude memory snapshots and live migration from v1 recovery; recover only the exact live VM or recreate from pinned image/storage policy. |
 | Workbench grows into a second orchestration core. | Keep Workbench as an actuator: no policy selection, no model routing, no workflow ownership. |
 
 ## Adversarial Actuator Test Matrix
@@ -1208,6 +1603,11 @@ shape: `schema`, `source_tier`, `effective_tier`, `provenance`,
 | Schema | Purpose |
 | --- | --- |
 | `sensorium-workbench-environment.v1` | Declares workspace/sandbox backend, roots, locality, egress, credentials, teardown. |
+| `sensorium-virt-backend-capabilities.v1` | Closed host-attested backend/platform refs and versioned enum sets for locality, architecture, isolation, fidelity, transport, device, network, lifecycle, and resource enforcement. |
+| `sensorium-virt-environment-plan.v1` | Canonical requirement, selected profile, exact P082 operational context and policy floor, attached-resource context, policy ref, resource plan, image ref, and allocation-idempotency digests. |
+| `sensorium-virt-image-manifest.v1` | Logical full-system image whose shared userspace/SBOM/provenance/agent/protocol digests prove variant equivalence while exact boot artifacts remain variant-specific. |
+| `sensorium-virt-recovery-record.v1` | Host-private identity for VMM process, sockets, working storage, boot nonce, source generation, platform resources, and reconciliation status. |
+| `sensorium-virt-guest-frame.v1` | Bounded handshake and operation envelope for the guest channel, including environment/generation binding, sequence, deadline, chunk caps, and payload digest. |
 | `sensorium-terminal-session.v1` | Session descriptor: command profile, workspace, classification, limits, status. |
 | `sensorium-terminal-command.v1` | Structured command intent with command profile, argv data, idempotency key, and normalized argv digest. |
 | `sensorium-terminal-input.v1` | Bounded raw input event to an existing session. |
@@ -1252,6 +1652,17 @@ remain in-process and unwired.
 - Clipboard access, keychain access, SSH agent access, browser profile access,
   desktop automation, and GUI event injection are denied by default and require
   separate future capability contracts.
+- A backend id is never accepted as isolation evidence without a matching
+  host-attested capability descriptor and normalized plan digest.
+- The reference full-system profile has no NIC, SSH service, host share,
+  credential injection, or arbitrary host socket.
+- VMM lifecycle authority, working-storage allocation, platform resource controls,
+  and recovery remain daemon-owned; the Python adapter receives only exact
+  broker-allocated handles.
+- Every guest boot has a fresh nonce bound to environment, image, plan, source
+  generation, and the dedicated control endpoint.
+- Guest-agent output is untrusted; guest-side cgroups and supervisors do not
+  replace independent host resource containment.
 - Every accepted directive has exactly one outcome record.
 - Every wait/watch/probe has explicit scope, deadline or TTL, caps, and final
   lifecycle status.
@@ -1312,8 +1723,11 @@ watch/wait/probe replay semantics are backed by bounded retention.
 
 ## Open Questions
 
-No unresolved questions remain for the current local Workbench foundation and
-Phase 3A operator-consent slices.
+No unresolved questions remain for the current local Workbench foundation,
+Phase 3A operator-consent slices, or the frozen Phase 4 full-system backend
+architecture. Backend-specific implementation findings may reopen only a
+bounded property or profile decision; they must not be hidden as adapter-local
+behavior.
 
 ## Resolved Decisions
 
@@ -1514,6 +1928,72 @@ Phase 3A operator-consent slices.
     Read-only access does not reduce the class of a production or critical source.
     Source-side correction uses a reasoned immutable replacement; it is not blocked
     by the consumer-side monotonicity rule.
+41. **Backend properties, not backend names, prove suitability.** Process-isolated
+    allocation requires a host-attested backend capability descriptor matched
+    conjunctively against a normalized environment requirement. Missing or
+    unverified isolation, fidelity, transport, device, network, host-share, or
+    resource-enforcement properties fail closed. The selected plan and image are
+    digest-bound to idempotency and recovery.
+42. **Reference full-system backend sequence.** `vfkit-system.v1` on
+    `macos-vz-arm64.v1` is the first developer reference and first implementation
+    slice. `cloud-hypervisor-system.v1` on `linux-kvm-x86_64.v1` is the first Linux
+    deployment profile. `firecracker-system.v1` follows after the guest protocol
+    and image manifest stabilize as the smaller-device hardened Linux profile.
+    This ordering serves the GNU/Linux configuration proof and is not a universal
+    VMM security ranking.
+43. **VMM lifecycle and guest mechanics are separate ports.**
+    `EnvironmentBackend` owns allocate/start/inspect/drain/teardown/recover
+    mechanics. `GuestWorkbenchChannel` owns bounded process, PTY, file, patch,
+    export, quiesce, and shutdown mechanics over one shared guest protocol. SSH,
+    a network interface, and host filesystem sharing are not Workbench semantics.
+44. **Rust owns validation and host authority; Python owns connector mechanics.**
+    A pure `sensorium-virt-core` validates capabilities and plans. A daemon-owned
+    host broker allocates storage and platform resources, launches and reconciles
+    VMMs, and issues exact control handles. The Python Workbench adapter maps
+    normalized plans to bounded broker requests and guest-channel RPC without a
+    validation fallback, VMM administrative socket, or ambient host authority.
+45. **Guest control uses a bounded virtio-vsock agent.** The reference image runs
+    `orbiplex-workbench-guest` without IP or SSH. Every boot uses a fresh nonce;
+    handshake and operations bind environment, source generation, plan/image
+    digests, sequence, deadlines, byte/chunk caps, and payload digests. The guest
+    owns no policy and all returned state remains untrusted.
+46. **Default VM posture is no-device network and no host sharing.** The initial
+    vfkit and Cloud Hypervisor profiles attach only block, vsock, entropy, and
+    bounded diagnostic serial devices. vfkit maps guest AF_VSOCK to one broker-
+    allocated host Unix socket. OCI may distribute pinned image artifacts but
+    does not own lifecycle. Isolated networking is a later, separately evidenced
+    platform profile.
+47. **Recovery v1 does not use memory snapshots.** Startup reconciliation binds
+    exact process/socket/storage identities, boot nonce, plan/image digests, and
+    source generation. It recovers only an exact live match; partial or unknown
+    resources are quarantined and torn down. Memory snapshots and live migration
+    remain excluded until freshness and authority semantics receive a separate
+    contract.
+48. **Operational context is part of the normalized VM plan.** The host resolves
+    the exact P082 context before allocation and binds the candidate digest,
+    effective value, and policy ref into the plan digest. Non-`none` networking or
+    non-denied host sharing has a minimum `test` floor, then inherits any higher
+    reachable/shared-resource class. Missing target context denies allocation. Every
+    guest observation and actuation interface inherits the resulting context and
+    source generation without backend or carrier reinterpretation. The reference
+    full-system configuration proof is `test`; a contained offline disposable VM may
+    remain `experimental`, because isolation class and operational impact are
+    orthogonal.
+49. **Logical image equivalence requires comparable provenance.** Backend variants
+    share one logical image ref only when the manifest proves identical canonical
+    userspace/rootfs, SBOM, build provenance, guest-agent binary, and guest-protocol/
+    schema-set digests. Kernel, initrd, firmware, disk layout, and boot artifact
+    identities remain variant-specific and independently conformance-tested.
+50. **Backend capability semantics use closed versioned vocabularies.** Semantic
+    dimensions in `sensorium-virt-backend-capabilities.v1` are enums and bounded
+    enum sets with no additional properties. Backend and platform identities resolve
+    through host registries. New values require a schema/registry revision and
+    evidence; policy cannot bless an unknown string as equivalent.
+51. **Diagnostic serial is an untrusted output artifact.** It is output-only and
+    bounded, absent from ordinary content logs, and never rendered raw. Explicit
+    captures inherit environment classification and operational context, carry
+    digest/truncation metadata, pass configured redaction, and are sanitized against
+    ANSI and other control-sequence injection at the operator presentation boundary.
 
 ## Next Actions And Implementation Tracker
 
@@ -1935,7 +2415,57 @@ evidence) · `[!]` blocked/needs decision.
   bounded symlink-free source tree under the Workbench data directory and
   permits approved patching only against that copy. It is disposable but is not
   described as a process sandbox; PTY stays unavailable.
-- [ ] Implement the first process-isolated container or microVM sandbox backend.
+- [x] Freeze process-isolated backend admission as a conjunction of host-attested
+  properties rather than a backend-name allowlist. The selected reference sequence
+  is `vfkit-system.v1` on `macos-vz-arm64.v1`, then
+  `cloud-hypervisor-system.v1` on `linux-kvm-x86_64.v1`, followed by a separately
+  hardened Firecracker profile.
+- [ ] Publish `sensorium-virt-backend-capabilities.v1`,
+  `sensorium-virt-environment-plan.v1`, `sensorium-virt-image-manifest.v1`,
+  `sensorium-virt-recovery-record.v1`, and `sensorium-virt-guest-frame.v1` with
+  positive and refusal fixtures. Capability dimensions must use the closed V1
+  vocabularies above and refuse unknown enum values and unregistered backend or
+  platform refs. The normalized plan must bind the exact P082 operational context,
+  its candidate digest, policy ref, selected network/host-share floor, and attached-
+  resource context. The image manifest must prove logical-variant equivalence from
+  common userspace, SBOM, provenance, guest-agent, and protocol/schema-set digests.
+  Evolve the environment projection to carry only exact refs/digests from those
+  host-owned contracts rather than backend claims.
+- [ ] Implement `sensorium-virt-core` capability/plan/image/lifecycle/recovery
+  validation plus a bounded fail-closed companion surface for the Python adapter.
+- [ ] Implement the daemon-owned host broker for exact working-storage allocation,
+  VMM process launch, API/control socket allocation, platform resource controls,
+  authoritative startup enumeration, quarantine, and deterministic teardown. Do
+  not delegate arbitrary process, host-path, network-device, or VMM-admin authority
+  to the Python connector.
+- [ ] Implement and package `orbiplex-workbench-guest` with generation/plan/image/
+  nonce-bound virtio-vsock handshake, bounded process and PTY control, chunked
+  file/patch/export frames, defense-in-depth guest resource limits, quiesce, and
+  shutdown.
+- [ ] Implement `vfkit-system.v1` as the first process-isolated backend on
+  `macos-vz-arm64.v1`: pinned binary, EFI full-system GNU/Linux arm64 image, APFS
+  working-disk clone, private EFI variable store, dedicated vsock-to-UDS control
+  socket, closed block/vsock/rng/serial device set, and no NIC, host share, Rosetta,
+  SSH, credential injection, or memory snapshots.
+- [ ] Run vfkit deployment evidence for systemd/PID 1, harmless kernel and mount
+  operations, local package installation, host non-interference, no-secret/no-
+  network posture, P083 two-controller PTY fencing, file/patch/export behavior,
+  resource exhaustion, stale nonce/generation refusal, crash-point recovery,
+  idempotency conflicts, teardown, unknown capability and image-equivalence refusal,
+  operational-context floor/inheritance, serial ANSI/control injection sanitization,
+  explicit-capture classification, and bounded performance measurements. Add the
+  resulting full-system collaborative scenario as an additive Story 012 profile,
+  not a reinterpretation of the completed story.
+- [ ] Implement `cloud-hypervisor-system.v1` as the first Linux deployment profile
+  after the backend-neutral vfkit slice proves the contracts. Require an explicit
+  raw image, pinned firmware/VMM digest, dedicated unprivileged identity, cgroup v2,
+  host filesystem confinement, closed devices, no default NIC, and the same guest
+  protocol and conformance suite.
+- [ ] Implement `firecracker-system.v1` only after the guest protocol and image
+  manifest stabilize; require the same backend-neutral conformance plus a
+  jailer-equivalent host profile. Keep Incus, crosvm, OCI-to-VM runtimes, Kata,
+  containers, gVisor, and Wasm as separately classified optional backends rather
+  than substitutes for the full-system hardware-VM proof.
 - [x] Add artifact export and teardown tests, including source immutability,
   idempotent replay, managed-root containment, and persisted lifecycle state.
 - [x] Add local-runtime policy tests for denied egress and denied credential

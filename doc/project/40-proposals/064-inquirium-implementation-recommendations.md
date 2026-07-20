@@ -2426,6 +2426,47 @@ This improves post-failure reasoning. After restart, the host can distinguish
 complete artifacts from temporary leftovers, and the operator can see what is
 safe to remove.
 
+## Production Local Model Provisioning
+
+Proposal 066 Decision 8.5.1 is the policy source of truth for production local
+model packaging. Implement it as a host-owned provisioning pipeline around the
+existing baseline profile renderer, not as provider-specific logic inside
+Inquirium Core:
+
+1. Parse and schema-gate a bounded package manifest before network, filesystem,
+   process, or profile effects.
+2. Resolve source authority separately from artifact authority. A trusted HTTPS
+   origin or canonical local root permits staging only; it never substitutes for
+   the expected digest, package signature, or operator endorsement.
+3. Stage runtime/model bytes into a dedicated content-addressed asset store.
+   Streams are size-bounded, resumable only under an exact manifest identity,
+   verified before commit, and cleaned after interrupted or failed installs.
+4. Admit either a distributor-signed manifest or a host-computed manifest with a
+   detached operator signature. Operator approval is projected through the
+   existing registered operator-question and notification path; the model may
+   not author the question shape or approval scope.
+5. Render the selected `llama-server` or conformant MLX candidate into the
+   existing runtime catalog and profile format. Packaging does not create a
+   parallel invocation protocol or supervisor.
+6. Run the existing `BaselineAssistantProfile` conformance suite against the
+   exact runtime/model/backend digest tuple. Installation success alone never
+   makes a candidate routable.
+7. Activate the verified profile atomically and retain the prior verified
+   activation as the rollback target. Recovery derives one authoritative state
+   from the asset store, install receipts, and active-profile projection.
+8. Expose operator-visible source, signer, model card, license, size, backend,
+   conformance, active/rollback refs, and failure diagnostics without exposing
+   secrets or raw signing material.
+9. Feed measured latency, memory, throughput, and context capability to status
+   and NSE diagnostics. These measurements inform selection but are not v1
+   correctness gates.
+
+The first release matrix is macOS arm64/Metal and Linux x86_64/CPU. A parallel
+MLX-family evaluation on Apple Silicon must choose a supervised loopback server
+that speaks the same OpenAI-compatible contract as the managed
+`llama-server` path. Shared conformance vectors, rather than provider branding,
+decide whether it qualifies.
+
 ## Open Questions
 
 No unresolved questions remain in this section for the current slice. The

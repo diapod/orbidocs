@@ -150,17 +150,31 @@
    :title "Sensorium Virt Backends"
    :kind :future-backend
    :based-on ["doc/project/40-proposals/071-sensorium-workbench.md"]
-   :schemas ["sensorium-workbench-environment.v1"
+   :schemas ["sensorium-operational-context.v1"
+             "sensorium-workbench-environment.v1"
              "sensorium-terminal-session.v1"
              "sensorium-virt-workspace-export.v1"
              "sensorium-virt-export-result.v1"
-             "sensorium-virt-teardown-result.v1"]
+             "sensorium-virt-teardown-result.v1"
+             "sensorium-virt-backend-capabilities.v1"
+             "sensorium-virt-environment-plan.v1"
+             "sensorium-virt-image-manifest.v1"
+             "sensorium-virt-recovery-record.v1"
+             "sensorium-virt-guest-frame.v1"]
    :responsibilities
    ["Interpret the same environment terminal file artifact and teardown contracts over virtualized backends"
-    "Declare locality network policy filesystem roots credential policy teardown policy artifact export policy and resource limits"
+    "Match normalized environment requirements against host-attested locality isolation fidelity transport device network host-share lifecycle and resource properties"
+    "Use closed versioned semantic capability vocabularies and refuse unknown backend or platform refs"
+    "Bind effective P082 operational context policy floors and attached-resource context into the normalized plan"
+    "Prove logical image equivalence from common userspace SBOM provenance guest-agent and protocol schema-set digests"
+    "Separate EnvironmentBackend lifecycle mechanics from the bounded GuestWorkbenchChannel protocol"
+    "Keep capability and plan validation plus VMM launch recovery and teardown authority in Rust and the daemon-owned host broker"
+    "Use vfkit-system.v1 on macos-vz-arm64.v1 as the first implementation slice and Cloud Hypervisor as the first Linux deployment profile"
+    "Require a nonce and generation bound virtio-vsock guest agent without SSH IP host shares or ambient credentials"
+    "Treat diagnostic serial as bounded classified untrusted bytes and sanitize operator presentation"
     "Preserve Workbench contracts across backend changes"]
    :status :partial
-   :status-detail "fixture-copy.v1 implements bounded managed-copy allocation, patch, export, lifecycle projection, and teardown while refusing PTY; process-isolated container and microVM backends remain deferred."}
+   :status-detail "fixture-copy.v1 implements bounded managed-copy allocation, patch, export, lifecycle projection, and teardown while refusing PTY. The property-based backend model, closed capability vocabularies, plan-bound operational context and floors, evidence-based logical image equivalence, sanitized diagnostic serial, vfkit-first reference sequence, separate VMM and guest ports, no-snapshot recovery posture, and conformance gate are frozen; the new capability/plan/image/recovery/guest-frame contracts, host broker, guest agent, vfkit runtime/evidence, and later Linux backends remain unimplemented."}
 
   {:cap/id :sensorium-workbench-agent-corpus-tool-use
    :title "Agent Corpus and Room Tool Use"

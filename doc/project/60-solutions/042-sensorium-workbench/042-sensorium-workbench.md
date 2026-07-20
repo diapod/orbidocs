@@ -18,6 +18,7 @@ Based on:
 
 Related schemas:
 
+- `sensorium-operational-context.v1`
 - `sensorium-workbench-environment.v1`
 - `sensorium-terminal-session.v1`
 - `sensorium-terminal-command.v1`
@@ -53,6 +54,11 @@ Related schemas:
 - `sensorium-virt-workspace-export.v1`
 - `sensorium-virt-export-result.v1`
 - `sensorium-virt-teardown-result.v1`
+- `sensorium-virt-backend-capabilities.v1` (planned)
+- `sensorium-virt-environment-plan.v1` (planned)
+- `sensorium-virt-image-manifest.v1` (planned)
+- `sensorium-virt-recovery-record.v1` (planned)
+- `sensorium-virt-guest-frame.v1` (planned)
 - `sensorium-workbench-tool-request.v1`
 - `sensorium-interface-descriptor.v1`
 - `sensorium-interface-frame.v1`
@@ -103,8 +109,11 @@ fallback, and Agent/Corpus/Room tool request lineage admission through Sensorium
 Core. Workbench screen snapshots and terminal events are now implemented as
 separate read-only Sensorium Interface source projections, including a
 collaborative WSS Room latest-state acceptance path. Remaining solution work is
-production-grade container or microVM executors and optional daemon command-BDO
-signal policy beyond the implemented `TERM` cancel path.
+the property-attested process-isolated backend runtime and optional daemon
+command-BDO signal policy beyond the implemented `TERM` cancel path. That
+architecture is now frozen around separate VMM-lifecycle and guest-channel ports,
+`vfkit-system.v1` as the first Apple Silicon implementation slice, and Cloud
+Hypervisor as the first Linux deployment profile.
 
 Proposal 083 defines the hard-MVP release-blocking path for separately granted
 terminal input, resize, and signal actuation. Its P083-002 through P083-011 runtime
@@ -315,6 +324,7 @@ Based on:
 
 Related schemas:
 
+- `sensorium-operational-context.v1`
 - `sensorium-workbench-environment.v1`
 - `sensorium-terminal-session.v1`
 - `sensorium-terminal-command.v1`
@@ -520,8 +530,9 @@ Status:
   Python conformance vectors exist. The extended Sensorium Interfaces runner also
   proves two independently fenced controllers writing through one real
   interactive Workbench shell PTY, including stale-holder refusal and bounded
-  terminal shutdown. Production container/microVM executor tests remain coupled
-  to those future backends.
+  terminal shutdown. The same suite must run against the future vfkit, Cloud
+  Hypervisor, and Firecracker profiles together with each profile's separate
+  recovery, resource, and host-containment evidence.
 
 ### Read-Only Sensorium Interface Sources
 
@@ -564,27 +575,81 @@ Based on:
 
 Related schemas:
 
+- `sensorium-operational-context.v1`
 - `sensorium-workbench-environment.v1`
 - `sensorium-terminal-session.v1`
 - `sensorium-virt-workspace-export.v1`
 - `sensorium-virt-export-result.v1`
 - `sensorium-virt-teardown-result.v1`
+- `sensorium-virt-backend-capabilities.v1` (planned)
+- `sensorium-virt-environment-plan.v1` (planned)
+- `sensorium-virt-image-manifest.v1` (planned)
+- `sensorium-virt-recovery-record.v1` (planned)
+- `sensorium-virt-guest-frame.v1` (planned)
 
 Responsibilities:
 
 - interpret the same environment, terminal, file, artifact, and teardown
   contracts over fixture-only virtual workspaces, containers, microVMs,
   emulators, or remote disposable machines;
-- declare locality, network policy, filesystem roots, credential policy,
-  teardown policy, artifact export policy, and resource limits;
+- match normalized environment requirements against host-attested backend,
+  platform, locality, architecture, isolation, system-fidelity, transport, device,
+  network, host-share, lifecycle, and resource-enforcement properties;
+- keep every semantic capability dimension on a closed versioned vocabulary and
+  deny unknown backend/platform refs before property matching;
+- pin the effective P082 operational context in the normalized plan, including
+  policy floors and higher contexts inherited from reachable or shared resources;
+- prove logical image-variant equivalence from common userspace, SBOM, build-
+  provenance, guest-agent, and protocol/schema-set digests while retaining exact
+  variant boot-artifact identities;
+- separate `EnvironmentBackend` lifecycle mechanics from the bounded
+  `GuestWorkbenchChannel` process, PTY, file, patch, export, quiesce, and
+  shutdown protocol;
+- keep backend/plan/image validation and VMM launch/recovery authority in Rust
+  and the daemon-owned host broker while the Python connector owns bounded
+  adapter and guest-RPC mechanics;
 - preserve Workbench contracts across backend changes.
 
 Status:
 
 - `partial`: `fixture-copy.v1` is a concrete managed-copy executor with bounded
   allocation, patch, export, SQLite lifecycle projection, and operator-confirmed
-  teardown tests. It intentionally refuses PTY. Container, microVM, emulator,
-  and remote disposable executors remain deferred.
+  teardown tests. It intentionally refuses PTY;
+- `design frozen, runtime pending`: backend names are not isolation evidence.
+  Phase 4 requires a host-attested capability descriptor, normalized plan and
+  image digests, closed semantic vocabularies, plan-bound operational context,
+  evidence-based image-variant equivalence, fail-closed Rust validation, a daemon-
+  owned host broker, and a nonce/generation-bound guest agent before virtualized
+  PTY is enabled.
+
+Frozen reference sequence:
+
+| Profile | Role | Boundary |
+| --- | --- | --- |
+| `vfkit-system.v1` / `macos-vz-arm64.v1` | first developer reference and first process-isolated implementation slice | pinned vfkit over Apple Virtualization Framework; EFI full GNU/Linux arm64 image; APFS raw-disk clone; dedicated virtio-vsock-to-UDS control channel; block/vsock/rng/bounded serial only; no NIC, SSH, host share, Rosetta, credentials, or snapshots |
+| `cloud-hypervisor-system.v1` / `linux-kvm-x86_64.v1` | first Linux deployment profile | pinned Cloud Hypervisor and firmware; explicit raw image; unprivileged identity, cgroup v2, host filesystem confinement, closed devices, no NIC by default, and the same guest protocol |
+| `firecracker-system.v1` / compatible Linux KVM profile | subsequent minimal-device hardening backend | introduced after the image manifest and guest protocol stabilize; must pass the same backend-neutral conformance suite under a jailer-equivalent host boundary |
+
+VMM administration sockets remain private to the host broker. Diagnostic serial
+is output-only; it is not a second interactive control path. Serial bytes are
+untrusted guest data: ordinary logs remain metadata-only, explicit captures are
+bounded and inherit environment classification plus operational context, and
+operator rendering strips terminal-control sequences and escapes control bytes
+rather than writing raw data to a terminal.
+
+The reference guest runs `orbiplex-workbench-guest` over virtio-vsock without IP
+or SSH. Every boot advances source generation unless an exact live boot is being
+recovered, and binds environment, plan/image digests, a fresh boot nonce, bounded
+operation frames, and the dedicated control endpoint. Guest output remains
+untrusted; host resource containment does not depend on guest cooperation.
+
+OCI may distribute signed, digest-pinned image variants, SBOM, provenance, and
+guest-agent artifacts, but an OCI runtime does not own Workbench lifecycle or
+authority. Variants share one logical image ref only when their canonical
+userspace/rootfs, SBOM, build provenance, guest-agent binary, and guest-protocol/
+schema-set digests match; kernel, initrd, firmware, disk layout, and boot artifacts
+remain variant-specific and require independent conformance. Memory snapshots and
+live migration are outside the v1 recovery contract.
 
 ### Operational Impact Publication
 
@@ -592,17 +657,23 @@ The implemented P082-021/P083-014 extension requires each exact Workbench
 environment to pin a `sensorium-operational-context.v1` candidate. An adapter may
 provide an operator-configured default, but environments sharing that adapter may
 still be `test`, `production`, or `critical`. Host policy may raise but never lower
-the current source class, and every derived observation or actuation interface
-inherits it with a host-owned source generation. Impact changes and operator
-corrections use audited immutable P082 replacement, making old generations and
-superseded publications unusable. The bundled connector derives a process-epoch-bound
-generation from the complete environment projection, preserves source summary only
+the current source class. A process-isolated normalized plan pins the effective
+context before allocation; non-`none` networking or non-denied host sharing has at
+least a `test` floor, and a higher reachable/shared-resource class is inherited.
+Unknown target context fails closed. The reference full-system configuration proof
+uses `test`; a contained offline disposable VM may remain `experimental`, because
+`hardware-vm` is not an impact class. Every derived observation or actuation
+interface inherits the result with a host-owned source generation. Impact changes
+and operator corrections use audited immutable P082 replacement, making old
+generations and superseded publications unusable. The bundled connector derives a
+process-epoch-bound generation from the complete environment projection, preserves source summary only
 when all highest-impact roots agree on the exact context, and requires actuation
 authority to match both environment ref and current generation. P071 Phase 5 and the
 P082/P083 trackers contain the runtime and refusal evidence.
 
-Status: `done post-MVP`; the separate process-isolated container or microVM backend
-remains the only incomplete P071 Phase 4 item.
+Status: `done post-MVP` for operational-impact publication; the property-attested
+Sensorium Virt contracts, host broker, guest agent, vfkit runtime/evidence, and
+subsequent Linux profiles remain the incomplete P071 Phase 4 work.
 
 ### Agent, Corpus, and Room Tool Use
 

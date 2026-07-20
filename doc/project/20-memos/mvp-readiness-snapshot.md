@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-07-19.
+Snapshot date: 2026-07-20.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -27,7 +27,19 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-18. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
+Change basis: this refresh incorporates the current worktree state on 2026-07-20. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
+
+The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
+without counting documentation as runtime readiness. Backend selection is now
+property-based and host-attested; VMM lifecycle and guest Workbench mechanics are
+separate ports; vfkit on Apple Silicon is the first implementation slice; Cloud
+Hypervisor is the first Linux deployment profile; and Firecracker is the subsequent
+minimal-device profile. The contract freeze also covers closed semantic vocabularies,
+plan-bound operational context and policy floors, digest-proven logical image
+equivalence, and classified control-sequence-safe serial diagnostics. P071 and
+Solution 042 remain at `98%` until the new
+capability/plan/image/recovery/guest-frame contracts, Rust validator and host broker,
+guest agent, vfkit runtime, and deployment evidence exist.
 
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
@@ -635,8 +647,21 @@ Recent component deltas:
   answer-room tool requests now use a
   schema-backed host lineage wrapper around `sensorium.directive.invoke`, so no
   product receives direct Workbench connector authority. Proposal 071 remains
-  outside hard MVP; production container/microVM executors and richer command-
-  BDO signal policy are post-MVP hardening rather than current blockers.
+  outside hard MVP. Its process-isolated Phase 4 architecture is now frozen:
+  suitability is matched from host-attested properties rather than backend
+  names; VMM lifecycle and guest mechanics are separate ports; Rust and the
+  daemon own validation and host launch/recovery authority; the Python connector
+  owns bounded adapter mechanics; `vfkit-system.v1` on `macos-vz-arm64.v1` is the
+  first implementation slice; Cloud Hypervisor is the first Linux deployment
+  profile; and Firecracker follows after the image manifest and guest protocol
+  stabilize. The frozen contracts additionally require closed versioned capability
+  values, a normalized-plan-bound P082 operational context with conservative
+  network/host-share floors, digest-proven logical image equivalence, and classified
+  control-sequence-safe serial diagnostics. The required capability/plan/image/recovery/guest-frame contracts,
+  host broker, nonce/generation-bound guest agent, vfkit runtime, and deployment
+  evidence are not implemented, so Proposal
+  071 and Solution 042 remain at `98%`. Richer command-BDO signal policy is also
+  post-MVP hardening rather than a current blocker.
   Interaction Broker is implementation-complete for its current provider
   foundation; provider-pushed events and richer deferred-wait retry policy stay
   deferred, so the component is not yet marked post-MVP ready.

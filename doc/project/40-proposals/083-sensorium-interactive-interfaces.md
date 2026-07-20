@@ -607,7 +607,19 @@ Process isolation remains a separate P071 concern. P083 provides no additional
 filesystem, credential, or network containment for a host-local shell. The same
 actuation contract may front a host-local, container, or microVM Workbench backend,
 but the descriptor must not imply stronger isolation than the selected environment
-actually enforces.
+actually enforces. A backend id alone is not isolation evidence: P071 requires a
+host-attested capability descriptor and normalized environment-plan digest. P083
+does not carry VMM mechanics or independently attest those properties. Its exact
+opaque environment and source-generation bindings let the host resolver select the
+current plan, backend profile, and guest boot. For a guest-backed target, the
+descriptor, status, invoke request, and receipt must repeat the exact effective
+`operational/context` pinned by that plan under P071 and P082; the adapter cannot
+derive a weaker context from terminal access mode. Carriers and providers do not
+interpret or upgrade these values. Invoke admission must fail before guest dispatch
+when the resolver finds a stale binding, a context mismatch, or a current host-
+attested profile that no longer satisfies the environment requirement. Every
+process-isolated backend must rerun the existing P083 two-controller fenced-PTY
+conformance suite without adding backend-specific actuation semantics.
 
 ### 12. Sensorium Device Actuation Reuses Provider Policy
 
@@ -1166,7 +1178,12 @@ records the post-MVP operational-context extension:
     host policy may use a higher class to narrow autonomy and limits, but the class
     is never grant, lease, membership, or effect authority. Currentness is the P082
     source-generation plus effective-publication predicate, not a carrier or
-    wall-clock TTL; correction uses audited immutable replacement.
+    wall-clock TTL; correction uses audited immutable replacement. For P071 virtual
+    environments, the host resolves this value in the normalized environment plan
+    before allocation. Every guest PTY observation and actuation publication then
+    inherits that exact plan context and generation; a non-`none` network profile or
+    non-denied host share applies P071's minimum caution floor and any higher target-
+    resource class before P083 admission.
 
 ## Implementation Tracker
 

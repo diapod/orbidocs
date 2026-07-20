@@ -286,8 +286,9 @@ own proposal or an explicit revision of the implementation recommendations.
 
 1. Preserve the dependency-direction and conformance gates as new operations
    and adapters are added.
-2. Productize local model provisioning and concrete trainer deployments without
-   changing the semantic contracts.
+2. Productize local model provisioning according to Proposal 066 Decision 8.5.1
+   and its post-MVP tracker, without changing the semantic contracts; concrete
+   trainer deployments remain a separate product integration.
 3. Implement durable agent loops in the Agent organ rather than extending
    Inquirium into an orchestration authority.
 

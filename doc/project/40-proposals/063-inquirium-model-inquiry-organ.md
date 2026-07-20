@@ -1046,7 +1046,8 @@ explicit success criterion for retiring the Sensorium OS model actions.
    `node/config/examples/60-inquirium-baseline-ollama.json` is validated as a
    real daemon override (see Proposal 064 `inq-conformance-runner`, Proposal 066
    `assistant-local-runtime-target`). The remaining productization is
-   packaging/deployment-profile work, tracked as Proposal 066 Next Action 2.
+   packaging/deployment-profile work, governed by Proposal 066 Decision 8.5.1
+   and its post-MVP local-model packaging tracker.
 2. ~~Add broader operation wrappers beyond `generate`/`embed`, starting with
    `classify` and `rerank`.~~ **Landed** — both operations now have host
    capabilities, inference grants, runtime selection, deterministic and local
