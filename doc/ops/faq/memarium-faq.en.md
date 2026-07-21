@@ -1,19 +1,141 @@
 # Memarium FAQ
 
-## Why does Memarium need a passport?
+Memarium is the Node's local memory organ, not a general database interface.
+The answers below concentrate on boundaries: what is a fact, what is a
+projection, who may cause an effect, and when missing authority must end in a
+refusal.
 
-1. **Because Memarium is a constitutional organ, not a CRUD service.** Memarium is not "a database with a module's data". It is the node's shared memory with four spaces under distinct constitutional policies (Personal/Community/Public/Crisis). Every entry into Memarium is a political act: "who is allowed to write to Community memory? who may read another module's Personal? who may declare a crisis?". Such an act needs a single, explicit, auditable decision point. A passport is exactly that: an externalized representation of authority that enters through the door together with the request, rather than being hidden in "who called the function in the same process". Without a passport we would have *ambient authority* — "if the code runs in the node, it has access" — a classical anti-pattern (*confused deputy*).
+Operator procedures are documented in the [Memarium HOWTO](../howto/memarium-howto.en.md).
 
-2. **Because the operator ↔ module ↔ delegate role separation must be structural, not conventional.** A passport carries fields that are vehicles for three disjoint semantics: **A0 (operator)** — human / node administration, wide scope, accountable as a person; **A1 (local module)** — Monus, Sensorium, Agora; narrow scope, accountable per module; **A2 (delegate via nym)** — a pseudonymous agent, accountable through the delegation chain. If we did this with a local ACL, we would have to prove on every call that "this really is Monus, not an impersonator". A signed passport bound to caller-identity shifts that proof to issuance time, while the *dispatch-gate* only verifies — it does not establish. The same difference as between "every room has its own lock with a key we copy by hand" and "the door checks a passport issued by a single authority".
+## How is Memarium different from an ordinary document store?
 
-3. **Because revocable delegation is a domain requirement, not decoration.** Memarium must allow: "Monus may delegate, for 24 hours, to a sub-agent the right to append to Personal for topic-class X only". Without a passport this requires either copying credentials (which cannot be revoked) or keeping per-delegation entries in a local table (which does not carry between nodes and breaks stratification). With a passport: the nym issues a delegation cert with a TTL, the target-id provides the seed for revocation, and the revocation feed (local + static + seed-directory) — the same one we already have — performs the invalidation. One mechanism across the whole node, zero duplication.
+A store primarily answers "where should these bytes be saved?". Memarium
+answers a harder question: "in which memory space may this fact be retained,
+under which classification, retention, forgetting rule, and audit trail?".
 
-4. **Because the audit-time decision must be captured at the decision point, not reconstructed post hoc.** `audit_decision()` returns `"denied:binding-mismatch"` at the gate, not at log-analysis time. This means the accounting fact shares its cause with the wire response (`reason: "binding_mismatch"`), the `correlation_id` links request ↔ denial ↔ ledger entry, and a future analysis of "why was Monus denied 412 times in April" is a data query, not forensics over traces. The passport is the artefact that carries context into the decision point (*caller*, *grant*, *target*, *scope*, *nonce*) — without it this context is only heuristically recoverable.
+Memarium therefore does not grant ambient authority merely because code runs
+inside the Node process. Writes, reads, promotions, forgetting, and
+declassification cross explicit contracts and policy gates.
 
-5. **Because stratification requires thin, stable gates.** Dispatch-gate (daemon) → engine (*memarium-service*). The engine trusts that the gate has already authorized; the engine knows no notion of "operator", "module", "delegation". This is exactly the separation we use in Sealer (*gate authorization* + *engine policy* = *allow-all-as-invariant*). The passport is the gate's interface: one entry, one contract, one representation. Without a passport, every engine would have to know about all classes of caller-identity — i.e. *complecting* of layers in a style we actively avoid. Additionally: the same gate will serve the future *community-key service* and further organs — without changes in the Memarium engine. The passport scales as a concept, not as code.
+## How should I choose a memory space?
 
-6. **Because portability across deployments requires concepts, not configuration.** A node may run as a single-person pod, a federation relay, a server container, or a test instance. In each case "who is the operator and who is a module" is different. A passport-as-data carries between these contexts; an ACL-as-local-config-table carries nowhere. This is consistent with the principle "data as the common language, logic at the edges": the passport is data, and the policy at the gate is edge logic.
+- **Personal** holds the Node owner's memory. It is encrypted and does not
+  leave the Node without an explicit export.
+- **Community** holds shared community knowledge. It requires a `community_id`,
+  a community key, and governance appropriate to that community.
+- **Public** holds material intended for public use or publication. A public
+  space does not remove classification or provenance requirements.
+- **Crisis** holds emergency material. It has a constitutional retention
+  minimum and separate rules for resolving an active finding.
 
-7. **Because Crisis requires authorization that cannot be forged from the inside.** `memarium.crisis_resolve` is an operation in which a module tells the node "you may return to Running". This is a classic escalation vector: a malicious/damaged module announces "all clear", the node lifts degradation, and the constitution is breached. A passport with *operator-only scope* on `crisis_resolve` makes a hard distinction here: a module may report a signal (`crisis-detected` via the bus, per-module), but cannot close the episode. Without a passport this distinction requires process separation (separate UIDs, sandboxes) — costly and unavailable in deployments where everything lives in a single process.
+A space is a policy envelope, not a separate database. Moving material between
+spaces is a new, auditable transition rather than a label change on an existing
+record.
 
-8. **In one sentence.** A passport is an externalized, auditable, delegable, and revocable representation of authority that lets us stratify authorization (gate) from execution (engine), preserve the A0/A1/A2 role separation, and carry the same pattern to further constitutional organs of the node. Everything else — the reason dictionary, HTTP statuses, `denied:*` in the ledger — are consequences of this decision, not its causes. Removing the passport would mean either *ambient authority* (constitutionally unacceptable) or scattering authorization logic across engines (craftsmanship-wise unacceptable).
+## Why does Memarium require a passport?
+
+A passport is an external, signed, and revocable representation of authority.
+It binds a caller to a capability, memory space, artifact class, and – where
+needed – a community id or egress surface.
+
+Without a passport, the daemon would either trust code merely because it runs
+"inside", or duplicate operator, module, and delegate recognition in every
+domain engine. The first choice creates ambient authority; the second
+complects layers. Memarium uses a third arrangement: the gate authorizes and
+the engine executes.
+
+The complete architectural rationale, including A0/A1/A2 separation, revocable
+delegation, causal audit, and Crisis authority, is retained in
+[Solution 002](../../project/60-solutions/002-memarium/002-memarium.md#why-the-passport-gate-is-architectural).
+
+## Does the HTTP token replace the passport?
+
+No. The token authenticates the channel and lets the host identify the caller.
+The passport answers a different question: whether that caller may perform this
+operation over this scope. Valid authentication without a matching passport
+ends in `passport_lookup_failed` or a more specific refusal.
+
+## Is classification part of the payload?
+
+Classification is a separate first-class `classification.v1` contract. It
+must not be hidden in `attributes`, `fields`, or document prose. This lets an
+egress adapter derive the permitted projection for an exact surface, topic,
+and time without guessing the producer's intent.
+
+A missing required classification does not mean "public". In strict mode it
+means refusal. A controlled migration mode may stamp Personal and quarantine
+the record, but that exception is measured and has explicit retirement gates.
+
+## Does declassification modify the stored fact?
+
+No. `memarium.declassify` appends a separate policy fact. The source tier,
+payload, and history stay immutable. A declassification is bound to a surface,
+topic class, use mode, time, and current revocation view.
+
+Consequently, "this fact may be published to Agora" does not mean "the fact is
+public everywhere". A one-shot grant is consumed before the effect, and a
+missing fresh revocation view makes the exception inert.
+
+## How do `forget`, quarantine, and declassification differ?
+
+- **Forget** removes availability according to the space policy. Personal may
+  permit immediate forgetting, Community requires a governance ref, Public
+  leaves a tombstone, and Crisis is restricted.
+- **Quarantine** prevents use until an operator decides. Acceptance and
+  rejection are separate facts and do not rewrite history.
+- **Declassification** permits narrower use on a named surface. It is neither
+  deletion nor a general lowering of the source tier.
+
+## Can a Memarium observer block a message?
+
+No. Post-chain and phase observers are observational paths: they can see the
+effective payload and dispatch result, but cannot change the decision, payload,
+or outcome. An observation write failure may degrade diagnostics, but does not
+become a hidden second admission system.
+
+When an effect requires an authoritative write before execution, the caller
+must invoke explicit `memarium.write` rather than rely on an observer.
+
+## Is the SQLite sidecar the source of truth?
+
+No. Append-only entry and fact streams remain authoritative. The SQLite
+sidecar is a rebuildable projection that accelerates point reads and policy
+views. Startup performs catch-up, while stream scanning remains the correctness
+path when the sidecar is disabled or requires rebuilding.
+
+Do not repair Memarium by editing the sidecar directly. Such a change creates
+no fact, crosses no policy gate, and disappears on rebuild.
+
+## Does Memarium replicate automatically between Nodes?
+
+Not as a general mechanism. Public artifacts may be carried through Agora and
+archival material through Artifact Delivery, but those are explicit handoffs
+with classification and provenance. Community material does not cross a
+federation boundary merely because the parties share a Room or group.
+
+Full automatic federated Memarium replication remains outside the v1 contract.
+The carrier does not become the owner of memory policy.
+
+## Who may resolve a Crisis-space finding?
+
+A detector may append `crisis-detected` and an automatic `crisis-resolved` when
+the condition actually clears. Forced resolution through
+`memarium.crisis_resolve` is an operator action, requires a reason, and does not
+erase finding history.
+
+Clicking "resolved" does not repair the underlying condition. The operator
+should first verify the condition described by the
+[detector runbook](../runbooks/crisis-detectors.md), then append an explicit
+resolution fact.
+
+## Where should I look for the cause of a refusal?
+
+Clients should interpret the stable `status` field, not parse the human
+`reason`. Common classes include missing or invalid passports, a stale
+revocation view, a space policy violation, quarantine, absent
+declassification, and storage failure. The response and audit decision share
+one cause and correlation id; diagnostics should not be reconstructed from
+loose logs.
+
+The complete closed status vocabulary belongs to
+[Solution 002](../../project/60-solutions/002-memarium/002-memarium.md).

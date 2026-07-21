@@ -1,5 +1,10 @@
 # Federation Root Ceremony HOWTO
 
+This document covers only the ceremony that creates and signs a root pack.
+Installation, Seed Directory bootstrap, endorsements, TLS evidence, rotation,
+and running-Node diagnostics are covered by the broader
+[Federation Bootstrap and Trust HOWTO](federation-bootstrap-and-trust-howto.en.md).
+
 This HOWTO describes the key-generation path for a federation-root ceremony:
 each custodian generates a fresh ceremony key with
 `tools/federation-root-ceremony/federation_root_ceremony.py keygen`. It does

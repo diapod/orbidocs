@@ -1,5 +1,10 @@
 # Federation Root Ceremony HOWTO
 
+Ten dokument opisuje wyłącznie ceremonię utworzenia i podpisania root packa.
+Instalację, Seed Directory bootstrap, endorsements, TLS evidence, rotację i
+diagnostykę uruchomionego węzła opisuje nadrzędny
+[Federation Bootstrap and Trust HOWTO](federation-bootstrap-and-trust-howto.pl.md).
+
 Ten HOWTO opisuje ścieżkę ceremonii federation-root, w której każdy kustosz
 generuje świeży klucz narzędziem
 `tools/federation-root-ceremony/federation_root_ceremony.py keygen`. Nie opisuje

@@ -1,19 +1,143 @@
 # Memarium FAQ
 
-## Po co Memarium potrzebuje paszportu?
+Memarium jest lokalnym organem pamięci węzła, a nie ogólnym interfejsem do
+bazy danych. Poniższe odpowiedzi wyjaśniają przede wszystkim granice:
+co jest faktem, co projekcją, kto może wywołać skutek oraz kiedy brak
+autorytetu musi zakończyć się odmową.
 
-1. **Bo Memarium jest organem konstytucyjnym, nie usługą CRUD.** Memarium nie jest „bazą z danymi modułu". To wspólna pamięć węzła z czterema przestrzeniami o różnych politykach konstytucyjnych (Personal/Community/Public/Crisis). Każde wejście do Memarium jest aktem politycznym: „kto ma prawo coś zapisać w pamięci Community? kto może odczytać Personal innego modułu? kto może ogłosić kryzys?". Taki akt musi mieć pojedynczy, jawny, audytowalny punkt decyzji. Paszport to właśnie to: uzewnętrzniona reprezentacja uprawnienia, która wchodzi przez drzwi razem z żądaniem, zamiast być ukrytą w „kto wywołał funkcję w tym samym procesie". Bez paszportu mielibyśmy *ambient authority* — „jeżeli kod działa w węźle, to ma dostęp" — co jest klasycznym anty-wzorcem (*confused deputy*).
+Procedury operatorskie znajdują się w [Memarium HOWTO](../howto/memarium-howto.pl.md).
 
-2. **Bo separacja ról operator ↔ moduł ↔ delegat musi być strukturalna, nie umowna.** Paszport nosi w sobie pola, które są nośnikami trzech rozłącznych semantyk: **A0 (operator)** — człowiek/administracja węzła, szeroki zakres, rozliczany osobowo; **A1 (moduł lokalny)** — Monus, Sensorium, Agora; wąski zakres, rozliczany per moduł; **A2 (delegat przez nym)** — pseudonimowy agent, rozliczany przez ścieżkę delegacji. Gdybyśmy to zrobili lokalnym ACL-em, musielibyśmy w każdym wywołaniu ręcznie udowadniać „to naprawdę Monus, a nie ktoś podszywający się". Paszport podpisany i związany z *caller-identity* przesuwa ten dowód na moment wystawienia, a *dispatch-gate* tylko weryfikuje, nie ustanawia. To jest ta sama różnica co między „każdy pokój ma własny zamek z własnym kluczem, który kopiujemy ręcznie" a „drzwi sprawdzają paszport wystawiony przez jeden urząd".
+## Czym Memarium różni się od zwykłego magazynu dokumentów?
 
-3. **Bo delegacja z cofnięciem jest wymaganiem dziedzinowym, nie ozdobą.** Memarium musi umożliwić: „Monus może przez 24h delegować do pod-agenta prawo dopisywania do Personal tylko dla *topic-class* X". Bez paszportu to wymaga albo kopiowania poświadczeń (które nie dają się cofnąć), albo trzymania per-delegacja wpisów w lokalnej tabeli (co nie przenosi się między węzłami i łamie stratyfikację). Z paszportem: nym wystawia cert delegacji z TTL, *target-id* daje ziarno do cofnięcia, a feed rewokacji (lokalny + statyczny + *seed-directory*) — ten sam, który już mamy — realizuje unieważnienie. Jeden mechanizm na całym węźle, zero duplikacji.
+Magazyn odpowiada przede wszystkim na pytanie "gdzie zapisać bajty?". Memarium
+odpowiada na trudniejsze pytanie: "w jakiej przestrzeni pamięci wolno utrwalić
+ten fakt, pod jaką klasyfikacją, z jaką retencją, możliwością zapomnienia i
+ścieżką audytu?".
 
-4. **Bo *audit-time decision* musi być uchwycony w momencie decyzji, nie rekonstruowany post hoc.** `audit_decision()` zwraca `"denied:binding-mismatch"` w momencie bramy, nie w momencie analizy logów. To oznacza, że fakt rozliczeniowy ma tę samą przyczynę, co odpowiedź sieciowa (`reason: "binding_mismatch"`), `correlation_id` spina żądanie ↔ *denial* ↔ wpis w ledgerze, a przyszła analiza „dlaczego Monusowi odmówiono 412 razy w kwietniu" jest rozpytaniem po danych, nie detektywistyką po tracach. Paszport jest artefaktem wprowadzającym kontekst do momentu decyzji (*caller*, *grant*, *target*, *scope*, *nonce*) — bez niego strata ta jest odtwarzalna tylko heurystycznie.
+Dlatego Memarium nie udostępnia ambient authority wynikającego z samego faktu,
+że kod działa w procesie węzła. Zapis, odczyt, promocja, zapomnienie i
+deklasyfikacja przechodzą przez jawne kontrakty oraz policy gates.
 
-5. **Bo stratyfikacja wymaga cienkich, stabilnych bram.** *Dispatch-gate* (daemon) → engine (*memarium-service*). Engine ufa, że bramka już zautoryzowała; engine nie zna pojęcia „operator", „moduł", „delegacja". To jest dokładnie ta separacja, którą stosujemy w Sealer (*gate authorization* + *engine policy* = *allow-all-as-invariant*). Paszport jest interfejsem bramki: jedno wejście, jeden kontrakt, jedna reprezentacja. Gdyby nie paszport, każdy engine musiałby wiedzieć o wszystkich klasach *caller-identity* — czyli *complecting* warstw w stylu, od którego uciekamy. Dodatkowo: ta sama bramka obsłuży przyszły *community-key service* i kolejne organy — bez zmian w enginie Memarium. Paszport skaluje się jako koncept, nie jako kod.
+## Jak wybrać przestrzeń pamięci?
 
-6. **Bo *portability* między deploymentami wymaga pojęć, nie konfiguracji.** Węzeł może biec jako jednoosobowy pod, federacyjny relay, kontener serwerowy albo instancja testowa. W każdym z tych przypadków „kto jest operatorem, a kto modułem" jest inne. Paszport jako struktura danych przenosi się między tymi kontekstami; ACL jako lokalna tabela w konfigu nie przenosi się nigdzie. To zgodne z zasadą „dane jako wspólny język, logika na brzegach": paszport to dane, a polityka w bramce to logika brzegowa.
+- **Personal** przechowuje pamięć właściciela węzła. Jest szyfrowana i nie
+  opuszcza węzła bez jawnego eksportu.
+- **Community** przechowuje wiedzę wspólnoty. Wymaga `community_id`, klucza
+  wspólnoty i procedur zarządczych właściwych tej wspólnocie.
+- **Public** przechowuje treści przeznaczone do jawnego wykorzystania lub
+  publikacji. Publiczna przestrzeń nie znosi wymogu klasyfikacji ani
+  pochodzenia danych.
+- **Crisis** przechowuje materiały potrzebne w sytuacjach awaryjnych. Ma
+  konstytucyjne minimum retencji i odrębne reguły rozwiązania aktywnego alarmu.
 
-7. **Bo Crisis wymaga autoryzacji, której nie można sfałszować z wewnątrz.** `memarium.crisis_resolve` jest operacją, w której moduł mówi węzłowi „możesz wrócić do Running". To jest klasyczny wektor eskalacji: złośliwy/uszkodzony moduł ogłasza „wszystko ok", węzeł zdejmuje degradację, konstytucja zostaje naruszona. Paszport z *operator-only scope* na `crisis_resolve` realizuje tu twarde rozróżnienie: moduł może zaraportować sygnał (`crisis-detected` przez bus, per-module), ale nie może zamknąć epizodu. Bez paszportu to rozróżnienie wymaga procesowej separacji (osobne UID-y, sandboxy) — kosztownej i niedostępnej w deploymentach, gdzie wszystko żyje w jednym procesie.
+Przestrzeń jest policy envelope, nie osobną bazą. Przeniesienie treści między
+przestrzeniami jest nowym, audytowalnym przejściem, a nie zmianą etykiety na
+istniejącym rekordzie.
 
-8. **Krótko, w jednym zdaniu.** Paszport to uzewnętrzniona, audytowalna, delegowalna i cofalna reprezentacja uprawnienia, która pozwala stratyfikować autoryzację (brama) od wykonania (engine), zachować rozdział ról A0/A1/A2, i przenieść ten sam wzorzec na kolejne organy konstytucyjne węzła. Wszystko inne — *reason dictionary*, HTTP statusy, `denied:*` w ledgerze — to konsekwencje tej decyzji, nie jej przyczyny. Usunięcie paszportu oznaczałoby albo *ambient authority* (niedopuszczalne konstytucyjnie), albo rozsianie logiki autoryzacji po enginach (niedopuszczalne rzemieślniczo).
+## Dlaczego Memarium wymaga passportu?
+
+Passport jest zewnętrzną, podpisaną i odwoływalną reprezentacją autorytetu.
+Wiąże wywołującego z capability, przestrzenią, klasą artefaktu i – tam, gdzie
+to potrzebne – identyfikatorem wspólnoty albo powierzchnią egress.
+
+Bez passportu daemon musiałby uznawać, że kod uruchomiony "wewnątrz" jest
+zaufany, albo powielać rozpoznawanie operatora, modułu i delegata w każdym
+silniku domenowym. Pierwsza możliwość tworzy ambient authority, druga splątuje
+warstwy. Memarium stosuje trzeci wariant: bramka autoryzuje, silnik wykonuje.
+
+Pełne uzasadnienie architektoniczne, obejmujące rozdzielenie A0/A1/A2,
+odwoływalną delegację, audyt przyczynowy i authority Crisis, zachowuje
+[Solution 002](../../project/60-solutions/002-memarium/002-memarium.md#why-the-passport-gate-is-architectural).
+
+## Czy token HTTP zastępuje passport?
+
+Nie. Token uwierzytelnia kanał i pozwala hostowi rozpoznać wywołującego.
+Passport odpowiada na inne pytanie: czy ten wywołujący może wykonać konkretną
+operację na konkretnym zakresie. Poprawne uwierzytelnienie bez pasującego
+passportu kończy się `passport_lookup_failed` albo inną dokładniejszą odmową.
+
+## Czy klasyfikacja jest częścią payloadu?
+
+Klasyfikacja jest osobnym, pierwszoklasowym kontraktem `classification.v1`.
+Nie należy ukrywać jej w `attributes`, `fields` ani tekście dokumentu. Dzięki
+temu adapter egress może wyliczyć dopuszczalną projekcję dla dokładnej
+powierzchni, tematu i chwili, nie zgadując intencji producenta.
+
+Brak wymaganej klasyfikacji nie oznacza "publiczne". W trybie ścisłym oznacza
+odmowę. W kontrolowanym trybie migracyjnym może oznaczać oznaczenie jako
+Personal oraz kwarantannę, lecz ten wyjątek jest mierzony i ma warunki
+wygaszenia.
+
+## Czy deklasyfikacja zmienia zapisany fakt?
+
+Nie. `memarium.declassify` dopisuje osobny fakt polityki. Źródłowy tier,
+payload i historia pozostają niezmienne. Deklasyfikacja jest związana z
+powierzchnią, klasą tematu, trybem użycia, czasem oraz aktualnym widokiem
+odwołań.
+
+Dlatego "można opublikować ten fakt w Agora" nie znaczy "fakt stał się
+publiczny wszędzie". Jednorazowa zgoda jest konsumowana przed skutkiem, a
+brak świeżego widoku revocation czyni wyjątek nieaktywnym.
+
+## Czym różnią się `forget`, kwarantanna i deklasyfikacja?
+
+- **Forget** usuwa dostępność danych zgodnie z polityką przestrzeni. Personal
+  może dopuścić natychmiastowe zapomnienie, Community wymaga governance ref,
+  Public pozostawia tombstone, a Crisis jest restrykcyjne.
+- **Kwarantanna** zatrzymuje wykorzystanie rekordu do czasu decyzji operatora.
+  Akceptacja albo odrzucenie są osobnymi faktami i nie przepisują historii.
+- **Deklasyfikacja** dopuszcza węższe użycie danych na określonej powierzchni.
+  Nie jest usunięciem ani ogólnym obniżeniem tieru źródłowego.
+
+## Czy obserwator Memarium może zablokować wiadomość?
+
+Nie. Post-chain i phase observers są ścieżką obserwacyjną: widzą efektywny
+payload i wynik dispatchu, lecz nie mogą zmienić decyzji, payloadu ani wyniku.
+Awaria zapisu obserwacyjnego może pogorszyć diagnostykę, ale nie staje się
+ukrytym drugim systemem admission.
+
+Jeżeli dana operacja wymaga autorytatywnego zapisu przed skutkiem, wywołujący
+powinien użyć jawnego `memarium.write`, a nie polegać na obserwatorze.
+
+## Czy SQLite sidecar jest źródłem prawdy?
+
+Nie. Źródłem prawdy pozostają append-only streams wpisów i faktów. SQLite
+sidecar jest odbudowywalną projekcją przyspieszającą point reads i odczyty
+polityki. Startup wykonuje catch-up, a skan strumieni pozostaje ścieżką
+poprawności, gdy sidecar jest wyłączony lub wymaga odbudowy.
+
+Nie należy naprawiać Memarium przez ręczną edycję sidecaru. Taka zmiana nie
+tworzy faktu, nie przechodzi policy gate i zniknie przy odbudowie.
+
+## Czy Memarium replikuje się automatycznie między węzłami?
+
+Nie jako ogólny mechanizm. Publiczne artefakty mogą być przekazywane przez
+Agora, a materiały archiwalne przez Artifact Delivery, lecz są to jawne
+handoffs z klasyfikacją i provenance. Community nie przekracza granicy
+federacji przez samo członkostwo w Roomie lub grupie.
+
+Pełna, automatyczna federacyjna replikacja Memarium pozostaje poza kontraktem
+v1. Carrier nie staje się przez to właścicielem polityki pamięci.
+
+## Kto może rozwiązać alarm w przestrzeni Crisis?
+
+Detektor może dopisać `crisis-detected` i automatyczne `crisis-resolved`, gdy
+warunek faktycznie ustąpi. Wymuszone rozwiązanie przez
+`memarium.crisis_resolve` jest operacją operatorską, wymaga reason i nie usuwa
+historii alarmu.
+
+Samo kliknięcie "resolved" nie naprawia źródła problemu. Operator powinien
+najpierw sprawdzić warunek opisany w
+[runbooku detektorów](../runbooks/crisis-detectors.md), a dopiero potem dopisać
+jawny fakt rozstrzygnięcia.
+
+## Gdzie szukać przyczyny odmowy?
+
+Klient powinien interpretować stabilne pole `status`, nie tekst `reason`.
+Najczęstsze klasy to brak lub nieważność passportu, nieświeży revocation view,
+naruszenie polityki przestrzeni, kwarantanna, brak deklasyfikacji oraz awaria
+storage. Odpowiedź i audit decision mają wspólną przyczynę oraz correlation id;
+diagnostyka nie powinna być rekonstruowana z luźnych logów.
+
+Pełny zamknięty słownik statusów należy do
+[Solution 002](../../project/60-solutions/002-memarium/002-memarium.md).

@@ -124,6 +124,32 @@ Responsibilities:
 
 The nine endpoint capabilities are exposed as `POST /v1/host/capabilities/memarium.<op>` endpoints and run through the same passport-gated dispatch as Sealer (`capability-binding::authorize`, six-step pipeline). Quarantine is an operation family under the existing `memarium.declassify` endpoint but has its own `memarium/quarantine` grant. Revocation is integrated against local, static-file, Seed Directory, and delegation-target-id sources. The operator-vocabulary target tag is `memarium:space:<space>[:community:<id>][:kind:<kind>][:entry:<id>]`; crisis status and resolve use the crisis space target. `memarium.declassify` uses a separate `memarium-declassify@v1` profile because authorization binds additional axes: surface, topic class, declassification mode, source tier, and target tier.
 
+#### Why the Passport Gate Is Architectural
+
+Memarium is a constitutional memory organ rather than a CRUD service. Code running
+inside the daemon therefore receives no ambient authority over memory. A signed
+passport externalizes the decision and binds the caller, capability, target, scope,
+validity window, and revocation handle at the admission boundary. This prevents the
+daemon from becoming a confused deputy merely because a module shares its process.
+
+The gate also keeps A0 operator authority, A1 module authority, and A2 delegated nym
+authority structurally distinct. Delegation can be narrow, time-bounded, and revoked
+without copying credentials or teaching every domain engine how to recognize every
+caller class. The dispatch gate verifies authority; the Memarium engine executes an
+already-authorized operation and remains independent of deployment-specific identity
+mechanics.
+
+The same boundary makes audit causal rather than forensic. A refusal, its stable
+status, correlation id, caller binding, grant, target, and audit decision are produced
+from one decision point instead of reconstructed later from unrelated logs. This is
+especially important for Crisis: a detector may report a condition, but only explicit
+operator authority may force `memarium.crisis_resolve`.
+
+Removing the passport gate would therefore require either ambient in-process trust or
+duplicated authorization inside Memarium and every future constitutional organ. Both
+would break the intended stratification; the passport is the portable data contract
+that keeps authorization at the edge and execution in the engine.
+
 #### Built-In Module Passport Bootstrap
 
 Built-in modules MAY ship publisher-signed templates describing the Memarium
